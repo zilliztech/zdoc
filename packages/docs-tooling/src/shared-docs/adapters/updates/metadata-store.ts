@@ -173,20 +173,22 @@ export function createLocalMetadataInspector(dependencies: LocalMetadataDependen
       if ((await command(['for-each-ref', '--format=%(refname)', 'refs/replace'], 4096)).length) fail('INCOMPLETE_OR_REWRITTEN_HISTORY')
       reader = new ObjectReader(context.gitBinary, dependencies.repository, Math.max(1, METADATA_LIMITS.verificationMilliseconds - (performance.now() - started)))
       type TreeEntry = { mode: string; name: string; oid: string }
-      const treeObjects = new Map<string, TreeEntry[]>(); let treeBytes = 0
+      const treeObjects = new Map<string, TreeEntry[]>(); let treeBytes = 0, expandedLeaves = 0
       const treeObject = async (oid: string) => {
         checkTime()
         if (treeObjects.has(oid)) return treeObjects.get(oid)!
         const raw = await reader.read(oid, 'tree', 32 * 1024 * 1024)
         treeBytes += raw.length
         if (treeBytes > 32 * 1024 * 1024) fail('GIT_TREE_SIZE_LIMIT')
-        const entries: TreeEntry[] = []; let at = 0
+        const entries: TreeEntry[] = [], names = new Set<string>(); let at = 0
         while (at < raw.length) {
+          checkTime()
           const space = raw.indexOf(32, at), nul = raw.indexOf(0, space + 1)
           if (space < at || nul < space || nul + 21 > raw.length) fail('GIT_TREE_INVALID')
           const mode = raw.subarray(at, space).toString('utf8')
           const name = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(raw.subarray(space + 1, nul))
-          if (!['40000', '100644', '100755', '120000', '160000'].includes(mode) || name.includes('/') || !RepoPathSchema.safeParse(name).success || entries.some(entry => entry.name === name)) fail('GIT_TREE_INVALID')
+          if (!['40000', '100644', '100755', '120000', '160000'].includes(mode) || name.includes('/') || !RepoPathSchema.safeParse(name).success || names.has(name)) fail('GIT_TREE_INVALID')
+          names.add(name)
           entries.push({ mode, name, oid: raw.subarray(nul + 1, nul + 21).toString('hex') }); at = nul + 21
         }
         treeObjects.set(oid, entries); return entries
@@ -198,9 +200,10 @@ export function createLocalMetadataInspector(dependencies: LocalMetadataDependen
         while (pending.length) {
           checkTime(); const { oid, prefix } = pending.pop()!
           for (const entry of await treeObject(oid)) {
+            checkTime()
             const path = prefix + entry.name
             if (entry.mode === '40000') pending.push({oid:entry.oid,prefix:path+'/'})
-            else { if (files.has(path) || files.size >= 100_000) fail('GIT_TREE_SIZE_LIMIT'); files.set(path, {mode:entry.mode,oid:entry.oid}) }
+            else { if (files.has(path) || expandedLeaves >= 100_000) fail('GIT_TREE_SIZE_LIMIT'); expandedLeaves++; files.set(path, {mode:entry.mode,oid:entry.oid}) }
           }
         }
         trees.set(root, files); return files

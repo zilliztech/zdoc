@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { execFileSync } from 'node:child_process'
+import { writeFileSync } from 'node:fs'
 import { mkdtemp, writeFile, mkdir } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -19,14 +20,22 @@ it('never upgrades remote-looking PR metadata into remote verification', async (
 const sourceOld = 'a'.repeat(40), sourceNext = 'c'.repeat(40), hash = 'b'.repeat(64)
 const subject = { kind: 'sdk-manual' as const, group: 'rust', manualId: 'rust' }, lockPath = 'shared-docs/rust/lock.yaml'
 const lock = (next = sourceOld) => `# repeated ${sourceOld}\r\nschema_version: 1\r\ncurrent: ${sourceOld}\r\nnext: '${next}' # ${sourceOld}\r\n`
-async function fixture(baselineCount = 1) {
+async function fixture(baselineCount = 1, bulkLeaves = 0) {
   const root = await mkdtemp(join(tmpdir(), 'metadata-store-')), repository = join(root, 'repo.git')
   let serial = 0
   const gitBytes = (args: string[], input?: string | Uint8Array) => execFileSync('/usr/bin/git', ['--no-replace-objects', '-C', repository, ...args], {
     env: { PATH: '/usr/bin:/bin', GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null', GIT_AUTHOR_NAME: 'Local fixture', GIT_AUTHOR_EMAIL: 'fixture@example.test',
-      GIT_COMMITTER_NAME: 'Local fixture', GIT_COMMITTER_EMAIL: 'fixture@example.test', GIT_AUTHOR_DATE: '2001-01-01T00:00:00Z', GIT_COMMITTER_DATE: '2001-01-01T00:00:00Z' }, input })
+      GIT_COMMITTER_NAME: 'Local fixture', GIT_COMMITTER_EMAIL: 'fixture@example.test', GIT_AUTHOR_DATE: '2001-01-01T00:00:00Z', GIT_COMMITTER_DATE: '2001-01-01T00:00:00Z' }, input,
+    stdio: [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'], timeout: 5_000 })
   const git = (args: string[], input?: string | Uint8Array) => gitBytes(args, input).toString('utf8').trim()
   await mkdir(repository); git(['init', '--bare', '-q'])
+  let bulk: string
+  if(bulkLeaves) {
+    const blob=git(['hash-object','-w','--stdin'],'shared fixture bytes\n')
+    const leaf=(i:number)=>`100644 blob ${blob}\tf${String(i).padStart(6,'0')}\n`
+    const block=git(['mktree'],Array.from({length:500},(_,i)=>leaf(i)).join(''))
+    bulk=git(['mktree'],Array.from({length:Math.floor(bulkLeaves/500)},(_,i)=>`040000 tree ${block}\td${String(i).padStart(3,'0')}\n`).join('')+Array.from({length:bulkLeaves%500},(_,i)=>leaf(i)).join(''))
+  }
   const makeTree = (text: string, files: Record<string,string> = {}) => {
     const entries: Record<string, string> = { ...files, [lockPath]: text }
     const build = (prefix: string): string => {
@@ -38,10 +47,17 @@ async function fixture(baselineCount = 1) {
       }
       return git(['mktree'], [...immediate].map(([name,entry])=>`${entry.type==='tree'?'040000':'100644'} ${entry.type} ${entry.oid}\t${name}\n`).join(''))
     }
-    return build('')
+    const tree=build('')
+    return bulk ? git(['mktree'],`040000 tree ${bulk}\tbulk\n`+gitBytes(['ls-tree',tree]).toString()) : tree
   }
-  const commit = (tree: string, parents: string[], message = 'human\n') => git(['commit-tree', tree, ...parents.flatMap(parent=>['-p',parent])], `${message.replace(/\n?$/, '\n')}\nfixture-${serial++}\n`)
-  const exactCommit = (tree: string, parents: string[], message: string) => git(['commit-tree',tree,...parents.flatMap(parent=>['-p',parent])],message)
+  const exactCommit = (tree: string, parents: string[], message: string) => {
+    // Retain exact message bytes, avoiding a synchronous large stdin/EOF transport.
+    // A stuck fixture child is bounded independently of product verification limits.
+    const file = join(root, `commit-message-${serial++}.txt`)
+    writeFileSync(file, message, {flag:'wx',mode:0o600})
+    return git(['commit-tree',tree,...parents.flatMap(parent=>['-p',parent]),'-F',file])
+  }
+  const commit = (tree: string, parents: string[], message = 'human\n') => exactCommit(tree, parents, `${message.replace(/\n?$/, '\n')}\nfixture-${serial++}\n`)
   const baseTree = makeTree(lock()), accepted: string[] = []
   for (let i=0;i<baselineCount;i++) accepted.push(commit(baseTree, accepted.length ? [accepted.at(-1)!] : [], `baseline-${i}\n`))
   const baseline = accepted.at(-1)!
@@ -104,6 +120,14 @@ it('excludes 320 accepted baseline messages, visits both short merge arms and re
   expect(resumed.status,resumed.reasons.join('\n')).toBe('local-consistent')
   expect(resumed.revision?.commit).toBe(k2.oid)
   expect(resumed.counts.metadataCommits).toBe(5)
+})
+it('round trips complete large fixture messages across the pipe boundary with a bounded file transport', async () => {
+  const f=await fixture()
+  for(const bytes of [65_535,65_536,67_584,67_585]) {
+    const message='x'.repeat(bytes-1)+'\n', oid=f.exactCommit(f.baseTree,[f.baseline],message)
+    const raw=f.gitBytes(['cat-file','commit',oid]), at=raw.indexOf('\n\n')
+    expect(raw.subarray(at+2)).toEqual(Buffer.from(message))
+  }
 })
 it('treats baseline trailers as historical data and requires local journal proof for existing origins', async () => {
   const f = await fixture(), k = await f.bot(), before = f.git(['show-ref'])
@@ -227,6 +251,21 @@ it('independently hashes P/K tree objects instead of trusting a plausible raw Gi
   const raw=f.gitBytes(['cat-file','commit',k.oid]).toString().replace(`tree ${k.tree}`,`tree ${counterfeit}`)
   const forged=f.git(['hash-object','-t','commit','-w','--stdin'],raw)
   expect((await f.inspect({master:f.baseline,head:forged})).reasons).toContain('GIT_OBJECT_HASH_MISMATCH')
+})
+it('bounds expanded leaves globally across cached shared subtrees at exactly 100,000 and one pair over', async () => {
+  const at=await fixture(1,49_999), k=await at.bot()
+  const accepted=await at.inspect({master:at.baseline,head:k.oid})
+  expect(accepted.status,accepted.reasons.join('\n')).toBe('local-consistent')
+  const over=await fixture(1,50_000), overK=await over.bot()
+  const held=await over.inspect({master:over.baseline,head:overK.oid})
+  expect(held.reasons).toContain('GIT_TREE_SIZE_LIMIT'); expect(over.revalidateJournal).not.toHaveBeenCalled()
+})
+it('rejects duplicate raw tree names with a bounded set-based parser', async () => {
+  const f=await fixture(), raw=f.gitBytes(['cat-file','tree',f.baseTree])
+  const tree=f.git(['hash-object','--literally','-t','tree','-w','--stdin'],Buffer.concat([raw,raw]))
+  const baseline=f.exactCommit(tree,[f.baseline],'duplicate names\n')
+  const inspect=createLocalMetadataInspector({repository:f.repository,evidence:f.evidence,trustedContext:async()=>({...f.context,baseline,baselineTree:tree,trustedTools:baseline})})
+  expect((await inspect({master:baseline})).reasons).toContain('GIT_TREE_INVALID')
 })
 it('stops incomplete verification on the real deadline and header-count guard', async () => {
   const f=await fixture(), k=await f.bot()
