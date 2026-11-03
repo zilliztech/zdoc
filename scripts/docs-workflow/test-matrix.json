@@ -261,14 +261,18 @@
         "packages/docs-tooling/src/reference/rest/conformance/**"
       ],
       "focusedTests": [
-        "node --test packages/docs-tooling/src/reference/rest/conformance/reports/2026-11-01/archive.test.js"
+        "node --test packages/docs-tooling/src/reference/rest/conformance/reports/2026-11-01/archive.test.js",
+        "node --test packages/docs-tooling/src/reference/rest/conformance/inventory/inventory.test.mjs",
+        "node --test packages/docs-tooling/src/reference/rest/conformance/suites/cases-integrity.test.mjs",
+        "node --test packages/docs-tooling/src/reference/rest/conformance/diff/diff.test.mjs",
+        "node --test packages/docs-tooling/src/reference/rest/conformance/lib/case-runner.test.mjs"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "The conformance directory hosts versioned suites, runners, and per-round evidence under reports/<date>; it backs the weekly self-hosted/UAT verification program for the weekly self-hosted/UAT verification program. reports/2026-11-01 freezes the first round (2026-11-01) (130 param-level cases from the PR #1005 fragments pin 5f7e112 vs Milvus v2.6.26 on milvus-cell): the integrity test pins artifact parseability, the recorded verdict counts, and the two upstream route skeletons (89/113 operations from internal/distributed/proxy/httpserver), so evidence cannot drift silently."
+      "reason": "The conformance directory backs the REST reference live-verification program: shared case catalogs (first round 130 cases + admin families), four suites (milvus-2.6.26 / milvus-3.0.5 / uat-dataplane / uat-controlplane) with per-suite overrides, the generic case runner (plain/capture/verify with golden shape freeze), the fragment-derived schema inventory (regeneration must stay byte-identical), M/Z diff and cross-track tools, and lifecycle-managed milvus-cell/UAT3 runners. Live rounds are out of CI scope (they need real credentials); the hermetic gates above pin catalog integrity, inventory drift, diff semantics, and runner contract. for the weekly self-hosted/UAT verification program. reports/2026-11-01 freezes the first round (2026-11-01) (130 param-level cases from the PR #1005 fragments pin 5f7e112 vs Milvus v2.6.26 on milvus-cell): the integrity test pins artifact parseability, the recorded verdict counts, and the two upstream route skeletons (89/113 operations from internal/distributed/proxy/httpserver), so evidence cannot drift silently."
     },
     {
       "id": "reference-navigation-validation",

@@ -1,0 +1,10 @@
+{
+  "name": "uat-dataplane",
+  "track": "zilliz-cloud",
+  "anchor": "uat3",
+  "prefix": "uatdp",
+  "dim": 8,
+  "auth": { "mode": "bearer", "env": "ZILLIZ_UAT3_API_KEY" },
+  "volatileFields": ["cost"],
+  "notes": "Same catalog as the milvus suites, run against the Zilliz Cloud UAT3 dataplane. Verdict/shape diffs vs milvus = M/Z incompatibility list (diff/mz-diff.mjs). Base URL discovered by runner/uat_round.sh via the control plane."
+}
