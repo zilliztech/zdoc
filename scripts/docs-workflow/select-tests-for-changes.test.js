@@ -54,6 +54,19 @@ test('path matching supports exact, prefix-star, and recursive directory entries
   assert.equal(matchesPattern('README.md', 'README.md'), true)
 })
 
+test('grouped Vitest support maps every new path to its contract and both complete gates', () => {
+  for (const input of ['package.json', 'scripts/testing/run-vitest-groups.mjs', 'scripts/testing/vitest-stop-reporter.mjs', 'scripts/testing/run-vitest-groups.test.mjs']) {
+    const selected = selectTests([input])
+    for (const command of ['pnpm test:vitest-groups', 'pnpm test:shared-docs', 'pnpm test:frontend', 'pnpm test:workflow-matrix', 'git diff --check']) {
+      assert.equal(selected.commands.includes(command), true, `${input}: ${command}`)
+    }
+    assert.equal(branchPolicy(input).targetBranch, 'master')
+  }
+  const scripts = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8')).scripts
+  assert.equal(scripts['test:shared-docs'], 'node scripts/testing/run-vitest-groups.mjs --scope shared-docs')
+  assert.equal(scripts['test:frontend'], 'node scripts/testing/run-vitest-groups.mjs --scope all')
+})
+
 test('diff-mode selector input drops paths deleted on the head side', () => {
   const tree = headTreeFiles('HEAD')
   assert.equal(tree.has('package.json'), true)
@@ -211,7 +224,7 @@ test('selector maps dependency manifests and the lockfile to the replay toolchai
 
 test('workflow and replay infrastructure changes select structural and aggregate gates', () => {
   const selected = selectTests(['.github/workflows/replay-tests.yml', 'package.json'])
-  assert.deepEqual(selected.areas.map(area => area.id), ['workflow-yaml', 'replay-infrastructure'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['workflow-yaml', 'replay-infrastructure', 'grouped-vitest-harness'])
   assert.equal(selected.commands.includes('pnpm test:replay:all'), true)
   assert.equal(selected.commands.includes('node --test deploy/contracts/fetch-translation-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/master-tooling-sync-workflow.test.mjs'), true)
 })

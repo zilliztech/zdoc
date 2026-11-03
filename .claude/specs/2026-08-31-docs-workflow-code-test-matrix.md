@@ -1,5 +1,28 @@
 # Docs workflow code-to-test matrix
 
+The `grouped-vitest-harness` entry covers `package.json` and the three exact
+`scripts/testing/{run-vitest-groups.mjs,vitest-stop-reporter.mjs,run-vitest-groups.test.mjs}`
+paths. Its focused command is `pnpm test:vitest-groups`; both complete
+`pnpm test:shared-docs` and `pnpm test:frontend` gates, workflow matrix and diff
+checks are required. Existing package/replay-infrastructure requirements still
+apply, including replay:all and workflow policy.
+
+These gates discover and validate an exhaustive file manifest, run ordinary files
+with normal parallelism, then run the complete local-update transactions and runner
+files in separate sequential forks with one worker. Existing testcase deadlines
+and normal runIf skips remain. A private run-correlated reporter and owned-process
+supervisor fail closed on errors, incomplete/mismatched results or surviving
+children; later groups are not launched and unrun files are not normal skips.
+Both entrypoints have a 15-minute outer ceiling. macOS/Linux temporary roots are
+new owned0700 children of the user's dedicated Library/Caches/zdoc-vitest (macOS)
+or .cache/zdoc-vitest (Linux), or explicit ZDOC_TEST_TMP_PARENT, outside the checkout
+and actual Git/common directories, object stores/alternates and aggregate output.
+Overlapping paths and symlink/case aliases are rejected before creation. Existing
+parents must already be owned0700 and are not chmodded or cleaned. Ancestor
+identity/cardinality is retained and identities revalidated across phases; no equivalence to historical
+fixture performance is assumed. The CI tooling job remains at its existing 20-minute total limit and
+requires separate Linux/Node22 whole-job timing evidence.
+
 This is the living development map for Fetch, Translation, publication, recovery, and replay changes. Its machine-readable source is [`scripts/docs-workflow/test-matrix.json`](../../scripts/docs-workflow/test-matrix.json). Keep both representations aligned in the same change.
 
 ## How an Agent uses the matrix

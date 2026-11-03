@@ -41,6 +41,43 @@ pnpm start:zh-CN
 pnpm build:zh-CN
 ```
 
+`pnpm test:shared-docs` and `pnpm test:frontend` discover their complete Vitest
+file selection, run ordinary files in parallel, then run the complete local-update
+transaction and runner test files sequentially in separate, isolated single-worker
+processes. Case deadlines and normal platform-dependent skips are unchanged.
+Heavy phases override an inherited `VITEST_MAX_WORKERS` to one; ordinary files
+retain their usual worker configuration. Use `pnpm test:vitest-groups` for the
+supervisor's selection, reporting and actual child-process failure contracts.
+
+Each complete gate has a 15-minute outer infrastructure limit, including discovery.
+A failed test/module, invalid or incomplete report, nonzero exit, or surviving
+owned process fails the gate and prevents later phases. Failed heavy work is
+terminated only within that invocation's process group; tests left unrun after
+failure are not ordinary skips. The CI tooling job's existing 20-minute total
+limit, which also includes installation, Translation and replay tests, is unchanged.
+
+The supervisor supports macOS and Linux. Its dedicated default parent is
+`~/Library/Caches/zdoc-vitest` on macOS and `~/.cache/zdoc-vitest` on Linux;
+`ZDOC_TEST_TMP_PARENT` can select an absolute parent. The parent must be owned by
+the current user, mode 0700, and free of symlink/case aliases. Canonical paths must
+not overlap or contain the checkout, actual Git/common directories, object stores
+(including alternates), or the requested aggregate output. Missing directories are created privately; existing directories are
+never chmodded or cleaned. Each gate gets a fresh owned0700 root and each phase a
+separate temporary directory. Ancestor identities and entry counts are retained;
+directory identities are checked before and after creation and phase execution.
+neither a crowded system temporary directory nor this layout is presumed equivalent
+in performance to an older fixture. Global environment/permissions and older tool
+proofs remain untouched.
+
+The printed evidence directory retains discovery, raw phase logs/reports,
+run-correlated reporter events, process-group receipts and the final aggregate.
+`--reporter=default`, `--reporter=json`, and a fresh
+`--outputFile.json=/absolute/path/result.json` are supported. An aggregate passes
+only when all discovered files are accounted for, every terminal report is complete,
+and every owned group has exited. Narrowing options, retries and deadline overrides
+are rejected by these complete gates; use direct `pnpm exec vitest run ...` for
+explicit focused diagnostics, which do not qualify the complete selection.
+
 Build output is written to `build/en` and `build/zh-CN`.
 
 ## Content ownership
