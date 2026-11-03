@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename, chown } from 'node:fs/promises'
+import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename, chown, readdir } from 'node:fs/promises'
 import { load as loadYaml } from 'js-yaml'
 import { tmpdir, release } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -25,6 +25,114 @@ async function fixture() {
   return { root, commit, cwd: root, environment: {}, flags: [] }
 }
 const commitAll = (root: string) => { git(root, 'add', '.'); git(root, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'candidate'); return git(root, 'rev-parse', 'HEAD') }
+async function loaderFixture() {
+  const a=await fixture(), installed=await realpath(join(process.cwd(),'apps/docs/node_modules/jiti'))
+  const version=JSON.parse(await readFile(join(installed,'package.json'),'utf8')).version
+  const lockData=loadYaml(await readFile(join(process.cwd(),'pnpm-lock.yaml'),'utf8')) as any
+  await cp(installed,join(a.root,`node_modules/.pnpm/jiti@${version}/node_modules/jiti`),{recursive:true,verbatimSymlinks:true})
+  const lock=await readFile(join(a.root,'pnpm-lock.yaml'),'utf8')
+  await put(a.root,'pnpm-lock.yaml',lock.replace('jiti: {specifier: 1.0.0, version: 1.0.0}',`jiti: {specifier: ${version}, version: ${version}}`).replace('snapshots:',`  jiti@${version}:\n    resolution: {integrity: ${lockData.packages[`jiti@${version}`].resolution.integrity}}\nsnapshots:`)+`  jiti@${version}: {}\n`)
+  await unlink(join(a.root,'apps/docs/node_modules/jiti')); await symlink(`../../../node_modules/.pnpm/jiti@${version}/node_modules/jiti`,join(a.root,'apps/docs/node_modules/jiti'))
+  for(const path of ['scripts/lib/load-typescript.js','packages/docs-tooling/src/shared-docs/core/updates/canonical.ts'])await put(a.root,path,await readFile(join(process.cwd(),path),'utf8'))
+  return a
+}
+async function poisonJitiCache(cache: string) {
+  const directory=join(cache,'node-jiti'), names=await readdir(directory)
+  for(const name of names) {const file=join(directory,name), text=await readFile(file,'utf8'), suffix=/ \/\* v7-[a-f0-9]+ \*\/$/.exec(text)?.[0]; if(!suffix)throw Error('Expected actual jiti cache suffix'); await writeFile(file,'module.exports={marker:"CACHE_POISON",collectGuidesWorker:()=>({marker:"CACHE_POISON"})};'+suffix)}
+  return names.length
+}
+describe('fix1 executable discovery regressions',()=>{
+  it('ignores poisoned actual jiti cache on generic child launches',async()=>{
+    const a=await loaderFixture(), cache=await realpath(await mkdtemp(join(tmpdir(),'jiti-private-cache-')))
+    await put(a.root,'scripts/cache-target.ts','export const marker="SOURCE"')
+    await put(a.root,'scripts/cache-probe.cjs',`process.env.TMPDIR=${JSON.stringify(cache)};console.log(JSON.stringify(require('./lib/load-typescript.js').loadTypeScript(__dirname+'/cache-target.ts')))`)
+    a.commit=commitAll(a.root);const capture=await captureTrustedToolset(a), store=await initializeEvidence({root:join(a.root,'.claude','evidence'),repositories:[a.root],owner:'cache'}), launcher=await prepareTrustedLauncher(capture,store)
+    execFileSync(process.execPath,[join(a.root,'scripts/cache-probe.cjs')],{env:{...process.env,JITI_CACHE:'true'},encoding:'utf8'})
+    expect(await poisonJitiCache(cache)).toBeGreaterThan(0)
+    const before=git(a.root,'show-ref')+git(a.root,'count-objects','-v'), result=await launcher.run('scripts/cache-probe.cjs',[])
+    expect(result.stdout).toContain('SOURCE');expect(result.stdout).not.toContain('CACHE_POISON')
+    expect(git(a.root,'show-ref')+git(a.root,'count-objects','-v')).toBe(before)
+  },60000)
+  it('isolates fixed Guides loader temporaries and ignores a poisoned actual cache',async()=>{
+    const a=await loaderFixture();await put(a.root,'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts','export function collectGuidesWorker(){return {marker:"SOURCE"}}');a.commit=commitAll(a.root)
+    const capture=await captureTrustedToolset(a), store=await initializeEvidence({root:join(a.root,'.claude','evidence'),repositories:[a.root],owner:'cache'}), launcher=await prepareTrustedLauncher(capture,store)
+    expect(launcher.environment.TMPDIR).toBeTypeOf('string')
+    const script=`const load=require(${JSON.stringify(join(a.root,'scripts/lib/load-typescript.js'))}).loadTypeScript;load(${JSON.stringify(join(a.root,'packages/docs-tooling/src/shared-docs/core/updates/canonical.ts'))});load(${JSON.stringify(join(a.root,'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts'))});`
+    execFileSync(process.execPath,['-e',script],{env:{...process.env,TMPDIR:launcher.environment.TMPDIR,JITI_CACHE:'true'},encoding:'utf8'})
+    expect(await poisonJitiCache(launcher.environment.TMPDIR!)).toBeGreaterThan(0)
+    expect((await launcher.runGuidesCollector({})).value).toEqual({marker:'SOURCE'})
+  },60000)
+  it('loads measured ESM graphs and declared packages through both guarded child APIs',async()=>{
+    const a=await loaderFixture()
+    await put(a.root,'apps/docs/scripts/leaf.mjs','export const marker="MEASURED_ESM"')
+    const manifest=JSON.parse(await readFile(join(a.root,'package.json'),'utf8'));manifest.imports={'#local':'./apps/docs/scripts/leaf.mjs'};await put(a.root,'package.json',JSON.stringify(manifest))
+    await put(a.root,'apps/docs/scripts/entry.mjs',`import jiti from 'jiti';import {marker} from './leaf.mjs';console.log(marker,typeof jiti)`)
+    await put(a.root,'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts',`export async function collectGuidesWorker(){const value=await import('#local');return {marker:value.marker}}`)
+    a.commit=commitAll(a.root);const capture=await captureTrustedToolset(a),store=await initializeEvidence({root:join(a.root,'.claude','evidence'),repositories:[a.root],owner:'esm'}),launcher=await prepareTrustedLauncher(capture,store)
+    expect((await launcher.run('apps/docs/scripts/entry.mjs',[])).stdout).toContain('MEASURED_ESM function')
+    expect((await launcher.runGuidesCollector({environment:{JITI_CACHE:'true'}})).value).toEqual({marker:'MEASURED_ESM'})
+    launcher.environment.JITI_CACHE='true';expect((await launcher.runGuidesCollector({})).value).toEqual({marker:'MEASURED_ESM'})
+  },60000)
+  it.each([['cjs',false],['mjs',false],['cjs',true],['mjs',true]] as const)('rejects external ancestor fallback in %s (measured alias %s) and Guides',async(extension,measured)=>{
+    const a=await loaderFixture(), parent=await realpath(await mkdtemp(join(tmpdir(),'fallback-parent-'))), root=join(parent,'repo')
+    await rename(a.root,root);a.root=root;a.cwd=root
+    const sentinel=join(parent,'executed')
+    const request=measured?'jiti':'outside'
+    if(measured){await mkdir(join(parent,'node_modules'),{recursive:true});await symlink(await realpath(join(root,'apps/docs/node_modules/jiti')),join(parent,'node_modules/jiti'))}
+    await put(parent,'node_modules/outside/package.json','{"name":"outside","main":"index.js"}')
+    await put(parent,'node_modules/outside/index.js',`require('node:fs').writeFileSync(${JSON.stringify(sentinel)},'executed');module.exports={marker:'OUTSIDE'}`)
+    await put(root,`scripts/fallback.${extension}`,extension==='cjs'?`console.log(require('${request}'))`:`import value from '${request}';console.log(value)`)
+    await put(root,'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts',`export async function collectGuidesWorker(){return await import('${request}')}`);a.commit=commitAll(root)
+    const capture=await captureTrustedToolset(a),store=await initializeEvidence({root:join(root,'.claude','evidence'),repositories:[root],owner:'fallback'}),launcher=await prepareTrustedLauncher(capture,store)
+    await expect(launcher.run(`scripts/fallback.${extension}`,[])).rejects.toThrow(/Unmeasured|scope|fallback/)
+    await expect(launcher.runGuidesCollector({})).rejects.toThrow(/Unmeasured|scope|fallback|Cannot find/)
+    await expect(readFile(sentinel)).rejects.toThrow()
+  },60000)
+  it('rejects legacy deep-path fallback even when the external link targets measured package bytes',async()=>{
+    const a=await fixture(), parent=await realpath(await mkdtemp(join(tmpdir(),'deep-fallback-'))), root=join(parent,'repo')
+    await rename(a.root,root);a.root=root;a.cwd=root
+    await put(root,'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js',`module.exports={marker:'MEASURED_ALIAS_EXECUTED'}`)
+    await put(root,'apps/docs/scripts/deep.cjs',`console.log(require('jiti/missing.js').marker)`)
+    await mkdir(join(parent,'node_modules/jiti'),{recursive:true});await symlink(join(root,'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js'),join(parent,'node_modules/jiti/missing.js'))
+    a.commit=commitAll(root);const capture=await captureTrustedToolset(a),store=await initializeEvidence({root:join(root,'.claude','evidence'),repositories:[root],owner:'deep'}),launcher=await prepareTrustedLauncher(capture,store)
+    await expect(launcher.run('apps/docs/scripts/deep.cjs',[])).rejects.toThrow(/scope|fallback|Cannot find/)
+  },30000)
+  it('rejects nonlocal package-import aliases that fall back to external metadata',async()=>{
+    const a=await fixture(), parent=await realpath(await mkdtemp(join(tmpdir(),'imports-fallback-'))),root=join(parent,'repo')
+    await rename(a.root,root);a.root=root;a.cwd=root
+    const manifest=JSON.parse(await readFile(join(root,'package.json'),'utf8'));manifest.imports={'#escape':'outside'};await put(root,'package.json',JSON.stringify(manifest))
+    await put(root,'scripts/target.cjs',`module.exports={marker:'IMPORTS_ALIAS_EXECUTED'}`);await put(root,'scripts/imports.cjs',`console.log(require('#escape').marker)`)
+    await put(parent,'node_modules/outside/package.json','{"name":"outside","main":"index.js"}');await symlink(join(root,'scripts/target.cjs'),join(parent,'node_modules/outside/index.js'))
+    a.commit=commitAll(root);const capture=await captureTrustedToolset(a),store=await initializeEvidence({root:join(root,'.claude','evidence'),repositories:[root],owner:'imports'}),launcher=await prepareTrustedLauncher(capture,store)
+    await expect(launcher.run('scripts/imports.cjs',[])).rejects.toThrow(/import|fallback|scope/i)
+  },30000)
+  it('holds an untracked ancestor package config that changes a captured source module format',async()=>{
+    const a=await fixture();await put(a.root,'extensions/task/probe.js',`console.log(typeof require)`);a.commit=commitAll(a.root)
+    const capture=await captureTrustedToolset(a),store=await initializeEvidence({root:join(a.root,'.claude','evidence'),repositories:[a.root],owner:'config'}),launcher=await prepareTrustedLauncher(capture,store)
+    await put(a.root,'extensions/task/package.json','{"type":"module"}')
+    await expect(launcher.run('extensions/task/probe.js',[])).rejects.toThrow(/config|scope|changed/i)
+  },30000)
+  it('holds an undeclared escaped entry in an otherwise approved workspace scope',async()=>{
+    const a=await loaderFixture(), outside=await realpath(await mkdtemp(join(tmpdir(),'scope-escape-')));a.commit=commitAll(a.root)
+    const capture=await captureTrustedToolset(a)
+    await put(outside,'index.js',`throw Error('UNMEASURED')`);await symlink(outside,join(a.root,'apps/docs/node_modules/unknown'))
+    await expect(verifyTrustedToolset(capture)).rejects.toThrow(/escape|discovery|Unmeasured/i)
+  },30000)
+  it.each(['directory','escaped-link'])('holds post-capture nested %s before generic or Guides code executes',async(kind)=>{
+    const a=await loaderFixture(), outside=await realpath(await mkdtemp(join(tmpdir(),'shadow-package-')))
+    await put(a.root,'apps/docs/scripts/probe.cjs',`console.log(require('jiti').reviewMarker||'TRUSTED')`)
+    await put(a.root,'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts',`export function collectGuidesWorker(){return {marker:'TRUSTED'}}`);a.commit=commitAll(a.root)
+    const capture=await captureTrustedToolset(a),store=await initializeEvidence({root:join(a.root,'.claude','evidence'),repositories:[a.root],owner:'shadow'}),launcher=await prepareTrustedLauncher(capture,store)
+    await put(outside,'package.json','{"name":"jiti","main":"index.js"}');await put(outside,'index.js',`console.log('SHADOW_EXECUTED');exports.reviewMarker='SHADOW'`)
+    const nested=join(a.root,'apps/docs/scripts/node_modules/jiti');await mkdir(dirname(nested),{recursive:true})
+    if(kind==='directory')await cp(outside,nested,{recursive:true});else await symlink(outside,nested)
+    const before=git(a.root,'show-ref')+git(a.root,'count-objects','-v')
+    await expect(launcher.run('apps/docs/scripts/probe.cjs',[])).rejects.toThrow(/scope|discovery|unmeasured|changed/i)
+    await expect(launcher.runGuidesCollector({})).rejects.toThrow(/scope|discovery|unmeasured|changed/i)
+    expect(git(a.root,'show-ref')+git(a.root,'count-objects','-v')).toBe(before)
+  },60000)
+})
+
 describe('trusted closure capture', () => {
   it('captures actual committed bytes, app-local pnpm files and runtime; survives relocation; detects dependency tamper', async () => {
     const a = await fixture(), b = await fixture()

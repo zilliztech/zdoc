@@ -52,7 +52,7 @@ export function validateClosure(value: unknown): ExecutableClosure {
       if (!entry.path.startsWith('repo/') || entry.linkTextBase64 === null || Buffer.from(entry.linkTextBase64, 'base64').toString('base64') !== entry.linkTextBase64) throw new Error('Invalid literal symlink')
       const literal = new TextDecoder('utf8', { fatal: true }).decode(Buffer.from(entry.linkTextBase64, 'base64'))
       if (isAbsolute(literal) || /[\\\0\r\n]/.test(literal) || posix.normalize(posix.join(posix.dirname(entry.path), literal)) !== entry.target || !entry.target.startsWith('repo/')) throw new Error('Escaped literal symlink')
-    } else if (!(entry.path.startsWith('deps/') || entry.path.startsWith('runtime/python-stdlib/')) || entry.linkTextBase64 !== null) throw new Error('Invalid installed symlink')
+    } else if (!(entry.path.startsWith('deps/') || entry.path.startsWith('runtime/python-stdlib/') || entry.path.startsWith('runtime/lookup-scopes/')) || entry.linkTextBase64 !== null) throw new Error('Invalid installed symlink')
     const seen = new Set([entry.path]); let target = entries.get(entry.target)
     while (target?.state === 'symlink') { if (seen.has(target.path)) throw new Error('Symlink cycle'); seen.add(target.path); target = entries.get(target.target) }
     if (!target || target.state === 'absent') throw new Error('Unmeasured symlink target')
@@ -102,11 +102,13 @@ export async function trustedLauncherEnvironment(root: string, cwd: string, envi
     if (name === 'PNPM_PACKAGE_NAME' && /^(?:@[A-Za-z0-9._-]+\/)?[A-Za-z0-9][A-Za-z0-9._-]*$/.test(value)) continue
     if (Object.hasOwn(defaults, name) && defaults[name] !== null && value === defaults[name]) continue
     if (name === 'GIT_PAGER' && value === 'cat') continue
+    if (name === 'JITI_CACHE' && value === 'false') continue
+    if (/^JITI_/i.test(name)) throw new Error(`Forbidden ambient loader setting: ${name}`)
     if (/^(NODE_OPTIONS|NODE_PATH|LD_|DYLD_|PYTHON|DEVELOPER_DIR|SDKROOT|GIT_)/i.test(name) || /^(npm_config_|pnpm_)/i.test(name)) throw new Error(`Forbidden ambient execution setting: ${name}`)
   }
   if (flags.some(f => !flagSet.has(f))) throw new Error('Forbidden Node execution flag')
   // Deliberately neither read .env nor inherit HOME/PATH/package-manager settings.
-  return { LANG: 'C', LC_ALL: 'C', TZ: 'UTC', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0' }
+  return { LANG: 'C', LC_ALL: 'C', TZ: 'UTC', JITI_CACHE: 'false', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0' }
 }
 const exec = promisify(execFile)
 const limit = 512 * 1024 * 1024
@@ -418,7 +420,8 @@ export interface CaptureOptions {
 export interface TrustedToolsetCapture extends ReturnType<typeof bindClosure> {
   readonly root: string
 }
-type CapturePrivate = { access: AccessEvidence; rootIdentity: { dev: number; ino: number }; gitVersion: string; flags: string[]; sha256: string; closure: ExecutableClosure; hostExclusions: string[]; options: CaptureOptions; git: string; environment: NodeJS.ProcessEnv; tree: Map<string, TreeEntry>; physical: Map<string, string> }
+type LookupState = { scopes: Map<string, Map<string, string>>; packages: {physical:string;logical:string;name:string}[] }
+type CapturePrivate = { lookup: LookupState; access: AccessEvidence; rootIdentity: { dev: number; ino: number }; gitVersion: string; flags: string[]; sha256: string; closure: ExecutableClosure; hostExclusions: string[]; options: CaptureOptions; git: string; environment: NodeJS.ProcessEnv; tree: Map<string, TreeEntry>; physical: Map<string, string> }
 const captures = new WeakMap<TrustedToolsetCapture, CapturePrivate>()
 async function captureRepository(root: string, commit: string, git: string, env: NodeJS.ProcessEnv, entries: Map<string, ClosureEntry>, physical: Map<string, string>) {
   const all = await tree(git, root, commit, env), selected = [...all.values()].filter(e => protectedToolsetPath(e.path)), blobs = await blobObjects(git, root, selected, env)
@@ -449,7 +452,10 @@ async function captureRepository(root: string, commit: string, git: string, env:
       entries.set(`repo/${prefix}`, { path: `repo/${prefix}`, state: 'directory', mode: '040000' })
       await walk(join(root, prefix), async (suffix, stat) => {
         const path = `${prefix}/${suffix}`
-        if (basename(path) === 'node_modules') return false
+        if (basename(path) === 'node_modules') {
+          if (!/^(?:apps|packages)\/[^/]+\/node_modules$/.test(path) || !all.has(`${dirname(path)}/package.json`)) throw new Error(`Unknown dependency discovery scope: ${path}`)
+          return false
+        }
         if (!stat.isDirectory() && !all.has(path)) throw new Error(`Untracked executable material: ${path}`)
       })
     } catch (e) { if (!absent(e)) throw e }
@@ -539,8 +545,74 @@ async function captureDependencies(root: string, all: Map<string, TreeEntry>, en
       resolutions.push({ from: workspace ? `repo/${pkg.key.slice(10) === '.' ? '' : pkg.key.slice(10) + '/'}package.json` : `${pkg.logical}/package.json`, specifier: name, kind: 'require', conditions: ['node', 'require', 'default'], target: destination.logical })
     }
   }
-  return { locators, mapPhysical, nativeTargets }
+  const lookup = await captureLookupScopes(root, packages, entries, physical, resolutions, mapPhysical)
+  for(const locator of locators)if(locator.root==='repo'||locator.root.startsWith('repo/')) {const inventory=[...entries.values()].filter(entry=>entry.path.startsWith(`${locator.root}/`)).sort((a,b)=>compareUtf8(a.path,b.path));locator.integrity=`sha256-${Buffer.from(rawSha256(canonicalBytes(inventory)),'hex').toString('base64')}`}
+  return { locators, mapPhysical, nativeTargets, lookup }
 }
+async function captureLookupScopes(root: string, packages: LookupState['packages'], entries: Map<string,ClosureEntry>, physical: Map<string,string>, resolutions: ExecutableClosure['resolutions'], mapPhysical: (path:string)=>string): Promise<LookupState> {
+  const scopes = new Map<string,Map<string,string>>(), pending = new Map<string,string>()
+  for (const pkg of packages) {
+    const workspace=pkg.logical==='repo'||pkg.logical.startsWith('repo/')
+    const directory=workspace?join(pkg.physical,'node_modules'):pkg.physical.slice(0,pkg.physical.length-pkg.name.length-1)
+    pending.set(directory,`runtime/lookup-scopes/${workspace?pkg.logical:`store/${pkg.logical.slice(5)}`}`)
+  }
+  pending.set(join(root,'node_modules/.pnpm/node_modules'),'runtime/lookup-scopes/hoisted')
+  // Bundled package scopes are covered by their containing installed package's complete bytes.
+  for (const [full,logical] of physical) if (logical.startsWith('deps/') && basename(full)==='node_modules') pending.set(full,`runtime/lookup-scopes/bundled/${logical.slice(5)}`)
+  const checked=new Set<string>()
+  for(const [file,name] of physical) if(name.startsWith('repo/')) for(let directory=dirname(file);contains(root,directory);directory=dirname(directory)) {
+    if(checked.has(directory))break;checked.add(directory);const scope=join(directory,'node_modules')
+    const manifest=join(directory,'package.json'),manifestPath=`repo/${relative(root,manifest).split(sep).join('/')}`,present=await lstat(manifest).catch(error=>{if(absent(error))return null;throw error})
+    if(present&&!entries.has(manifestPath))throw new Error('Untracked ancestor package configuration')
+    if(!present&&!entries.has(manifestPath))entries.set(manifestPath,{path:manifestPath,state:'absent'})
+    if(!pending.has(scope)&&await lstat(scope).catch(error=>{if(absent(error))return null;throw error}))throw new Error('Unknown source dependency discovery scope')
+    if(directory===root)break
+  }
+  const packageAt=new Map(packages.map(pkg=>[pkg.physical,pkg]))
+  for (const [directory,logical] of pending) {
+    const stat=await lstat(directory).catch(error=>{if(absent(error))return null;throw error})
+    if (!stat) { entries.set(logical,{path:logical,state:'absent'}); continue }
+    if (!stat.isDirectory()||stat.isSymbolicLink()||await realpath(directory)!==directory) throw new Error('Aliased dependency discovery scope')
+    entries.set(logical,{path:logical,state:'directory',mode:'040000'}); addDirectories(entries,logical); if(!physical.has(directory))physical.set(directory,logical)
+    const scope=new Map<string,string>();scopes.set(directory,scope)
+    async function bindFile(full:string,path:string) {
+      const old=physical.get(full); if(old)return old
+      const stat=await lstat(full)
+      if(stat.isSymbolicLink()) {const target=mapPhysical(await realpath(full));entries.set(path,{path,state:'symlink',mode:'120000',policy:'installed-logical',linkTextBase64:null,target});physical.set(full,path);return path}
+      const content=await fileBytes(full);entries.set(path,fileEntry(path,content.bytes,content.mode));addDirectories(entries,path);physical.set(full,path);return path
+    }
+    for(const name of (await readdir(directory)).sort(compareUtf8)) {
+      const full=join(directory,name)
+      if(name==='.bin') {
+        const stat=await lstat(full);if(!stat.isDirectory()||stat.isSymbolicLink())throw new Error('Unsafe installed bin scope');entries.set(`${logical}/.bin`,{path:`${logical}/.bin`,state:'directory',mode:'040000'})
+        for(const child of (await readdir(full)).sort(compareUtf8)) {RepoPathSchema.parse(child);const target=await bindFile(join(full,child),`${logical}/.bin/${child}`);resolutions.push({from:logical,specifier:`.bin/${child}`,kind:'binary',conditions:['installed'],target})}
+        continue
+      }
+      if(directory===join(root,'node_modules') && name==='.pnpm')continue
+      // Vite's unused cache is not an executable target in this launcher; child file guards deny it.
+      if(directory===join(root,'node_modules') && name==='.vite') {const st=await lstat(full);if(!st.isDirectory()||st.isSymbolicLink())throw new Error('Unsafe non-loadable cache');continue}
+      if(directory===join(root,'node_modules') && ['.modules.yaml','.pnpm-workspace-state-v1.json'].includes(name)) {await bindFile(full,`${logical}/${name}`);continue}
+      if(name==='.pnpm'&&logical.startsWith('runtime/lookup-scopes/bundled/'))continue // Its full bundled bytes and nested scopes were captured above.
+      if(name.startsWith('.'))throw new Error(`Unknown dependency discovery entry: ${name}`)
+      const names=name.startsWith('@')?(await readdir(full)).sort(compareUtf8).map(child=>`${name}/${child}`):[name]
+      if(name.startsWith('@')) {const st=await lstat(full);if(!st.isDirectory()||st.isSymbolicLink())throw new Error('Aliased package scope')}
+      for(const request of names) {
+        RepoPathSchema.parse(request);const source=join(directory,request), target=await realpath(source), mapped=mapPhysical(target)
+        if(!entries.has(mapped))throw new Error('Unmeasured dependency discovery target')
+        const bundled=logical.startsWith('runtime/lookup-scopes/bundled/')
+        if(!bundled&&!packageAt.has(target))throw new Error('Unknown dependency discovery package')
+        scope.set(request,target)
+        resolutions.push({from:logical,specifier:request,kind:'require',conditions:['node','lookup'],target:mapped})
+        const st=await lstat(source)
+        if(st.isSymbolicLink()&&!physical.has(source)) {const path=`${logical}/${request}`;entries.set(path,{path,state:'symlink',mode:'120000',policy:'installed-logical',linkTextBase64:null,target:mapped});physical.set(source,path)}
+      }
+    }
+  }
+  const installedLock=join(root,'node_modules/.pnpm/lock.yaml')
+  try {const content=await fileBytes(installedLock),path='runtime/lookup-scopes/installed-lock.yaml';entries.set(path,fileEntry(path,content.bytes,content.mode));physical.set(installedLock,path)} catch(error){if(!absent(error))throw error;entries.set('runtime/lookup-scopes/installed-lock.yaml',{path:'runtime/lookup-scopes/installed-lock.yaml',state:'absent'})}
+  return {scopes,packages}
+}
+
 export async function captureTrustedToolset(options: CaptureOptions): Promise<TrustedToolsetCapture> {
   const root = await realpath(options.root), flags = options.flags ?? process.execArgv, environment = await trustedLauncherEnvironment(root, options.cwd ?? process.cwd(), options.environment ?? process.env, flags)
   const rootIdentity = await lstat(root)
@@ -548,7 +620,7 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
   const { git, resolutions: runtimeResolutions, hostExclusions, accessPaths } = await captureRuntime(entries, physical, environment)
   const { all } = await captureRepository(root, options.commit, git, environment, entries, physical)
   const resolutions: ExecutableClosure['resolutions'] = runtimeResolutions
-  const { locators, mapPhysical, nativeTargets } = await captureDependencies(root, all, entries, physical, resolutions)
+  const { locators, mapPhysical, nativeTargets, lookup } = await captureDependencies(root, all, entries, physical, resolutions)
   const helpers = options.helpers ?? [...(all.has('packages/docs-tooling/src/shared-docs/adapters/updates/github.ts') ? ['gh'] : []), ...(all.has('packages/docs-tooling/src/shared-docs/adapters/updates/lifecycle.ts') ? ['python3'] : [])]
   for (const helper of helpers) {
     if (helper === 'python3') {
@@ -578,6 +650,7 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
     if (entries.get(target)?.state !== 'file') throw new Error('Unmeasured loader target')
     resolutions.push({ ...request, target })
   }
+  for (const [name,bytes] of guardFiles) { const path=`runtime/launch/${name}`; entries.set(path,fileEntry(path,bytes,'100644')); addDirectories(entries,path); resolutions.push({from:'runtime/node',specifier:`fixed-child-policy/${name}`,kind:'loader',conditions:['node'],target:path}) }
   entries.set('runtime/launch/guides-worker.cjs', fileEntry('runtime/launch/guides-worker.cjs', guidesWorker, '100644')); addDirectories(entries, 'runtime/launch/guides-worker.cjs')
   if (!all.has(guidesWorkerModule)) entries.set(`repo/${guidesWorkerModule}`, { path: `repo/${guidesWorkerModule}`, state: 'absent' })
   else for (const target of ['scripts/lib/load-typescript.js', 'packages/docs-tooling/src/shared-docs/core/updates/canonical.ts', guidesWorkerModule]) {
@@ -587,12 +660,12 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
   const mergedResolutions = new Map<string, ExecutableClosure['resolutions'][number]>()
   for (const edge of resolutions) { const key = Buffer.from(canonicalBytes(resolutionKey(edge))).toString('utf8'); const prior = mergedResolutions.get(key); if (prior && prior.target !== edge.target) throw new Error('Conflicting executable resolution'); mergedResolutions.set(key, edge) }
   const closure: ExecutableClosure = { kind: 'shared-update-executable-closure', schemaVersion: 1, hostTcb: { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }, entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), packageLocators: locators.sort((a, b) => compareUtf8(a.root, b.root)), resolutions: [...mergedResolutions.values()].sort((a, b) => tupleCompare(resolutionKey(a), resolutionKey(b))) }
-  const result = { ...bindClosure(closure, { kind: 'shared-update-toolset', schemaVersion: 1, runtime: { name: 'node', version: process.version, platform: process.platform, architecture: process.arch }, flags: [...flags], environment: ['LANG', 'LC_ALL', 'TZ'].map(name => ({ name, value: environment[name]! })), dependencies: locators.map(p => ({ name: p.name, version: p.version, integrity: p.integrity, resolvedPath: p.root })).sort((a, b) => compareUtf8(a.resolvedPath, b.resolvedPath)) }), root }
+  const result = { ...bindClosure(closure, { kind: 'shared-update-toolset', schemaVersion: 1, runtime: { name: 'node', version: process.version, platform: process.platform, architecture: process.arch }, flags: [...flags], environment: ['JITI_CACHE', 'LANG', 'LC_ALL', 'TZ'].map(name => ({ name, value: environment[name]! })), dependencies: locators.map(p => ({ name: p.name, version: p.version, integrity: p.integrity, resolvedPath: p.root })).sort((a, b) => compareUtf8(a.resolvedPath, b.resolvedPath)) }), root }
   const currentRoot = await lstat(root)
   if (!currentRoot.isDirectory() || currentRoot.ino !== rootIdentity.ino || currentRoot.dev !== rootIdentity.dev) throw new Error('Trusted root identity changed during capture')
   const access = await inspectAccess(new Map([...physical, ...[...accessPaths, ...native.accessPaths].map(path => [path, 'resolution'] as [string, string])]), environment)
   const gitVersion = (await exec(git, ['--version'], { env: environment, timeout: 10000 })).stdout.trim()
-  captures.set(result, { access, rootIdentity: { dev: rootIdentity.dev, ino: rootIdentity.ino }, gitVersion, flags: [...flags], sha256: result.toolsetSha256, closure: validateClosure(result.closure), hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
+  captures.set(result, { lookup, access, rootIdentity: { dev: rootIdentity.dev, ino: rootIdentity.ino }, gitVersion, flags: [...flags], sha256: result.toolsetSha256, closure: validateClosure(result.closure), hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
 }
 function captured(value: TrustedToolsetCapture) { const state = captures.get(value); if (!state) throw new Error('Missing independently captured trusted toolset'); return state }
 /** Recollect immediately before K or any new compiler load. Serialized manifests cannot authorize this. */
@@ -825,7 +898,7 @@ async function capturePython(entries: Map<string, ClosureEntry>, physical: Map<s
 
 /** Launch existing consumers in a separate process; never mutate the parent environment. */
 export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evidence: EvidenceStore) {
-  const state = captured(value), owned = await createOwnedDirectory(evidence), targets = new Map<string, string>()
+  const state = captured(value), owned = await createOwnedDirectory(evidence), temporary = await createOwnedDirectory(evidence), targets = new Map<string, string>()
   for (const [full, path] of state.physical) if (['runtime/node', 'runtime/git', 'runtime/gh', 'runtime/python3'].includes(path)) targets.set(path, full)
   const links = new Map<string, string>()
   for (const [name, logical] of [['node', 'runtime/node'], ['git', 'runtime/git'], ['gh', 'runtime/gh'], ['python-real', 'runtime/python3']] as const) {
@@ -834,11 +907,22 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
   }
   if (targets.has('runtime/python3')) { await owned.verify(); await writeFile(join(owned.root, 'python3'), pythonWrapper, { flag: 'wx', mode: 0o700 }); await owned.verify() }
   await owned.verify(); await writeFile(join(owned.root, 'guides-worker.cjs'), guidesWorker, { flag: 'wx', mode: 0o600 }); await owned.verify()
-  const environment = { ...state.environment, PATH: owned.root }
+  const files: Record<string,{sha256:string;bytes:number;mode:string}>=Object.create(null)
+  const byLogical=new Map(state.closure.entries.map(entry=>[entry.path,entry]))
+  for(const [path,logical] of state.physical) {const entry=byLogical.get(logical);if(entry?.state==='file')files[path]={sha256:entry.sha256,bytes:entry.bytes,mode:entry.mode}}
+  for(const [name,bytes] of [...guardFiles,['guides-worker.cjs',guidesWorker] as [string,Buffer]]) {
+    const path=join(owned.root,name);files[path]={sha256:rawSha256(bytes),bytes:bytes.length,mode:'100644'}
+    if(name!=='guides-worker.cjs') {await owned.verify();await writeFile(path,bytes,{flag:'wx',mode:0o600})}
+  }
+  const mapBytes=canonicalBytes({root:state.options.root,files,scopes:Object.fromEntries([...state.lookup.scopes].map(([path,scope])=>[path,Object.fromEntries(scope)])),packages:state.lookup.packages.map(pkg=>({root:pkg.physical,name:pkg.name})).sort((a,b)=>b.root.length-a.root.length)})
+  await owned.verify();await writeFile(join(owned.root,'resolution-map.json'),mapBytes,{flag:'wx',mode:0o600})
+  const environment: NodeJS.ProcessEnv = { ...state.environment, PATH: owned.root, TMPDIR: temporary.root, TMP: temporary.root, TEMP: temporary.root }
+  const guardedFlags=[...state.flags,'--require',join(owned.root,'resolution-bootstrap.cjs')]
   async function verifyLauncher() {
-    await owned.verify()
-    const expected = ['guides-worker.cjs', ...links.keys(), ...(targets.has('runtime/python3') ? ['python3'] : [])].sort(compareUtf8)
+    await owned.verify();await temporary.verify()
+    const expected = ['guides-worker.cjs', 'resolution-map.json', ...guardFiles.keys(), ...links.keys(), ...(targets.has('runtime/python3') ? ['python3'] : [])].sort(compareUtf8)
     if ((await readdir(owned.root)).sort(compareUtf8).join('\0') !== expected.join('\0')) throw new Error('Launcher inventory changed')
+    for(const [name,bytes] of [...guardFiles,['resolution-map.json',Buffer.from(mapBytes)] as [string,Buffer]]) {const current=await fileBytes(join(owned.root,name));if(current.mode!=='100644'||!Buffer.from(current.bytes).equals(bytes))throw new Error('Launcher resolution policy changed')}
     const worker = await fileBytes(join(owned.root, 'guides-worker.cjs')); if (worker.mode !== '100644' || !Buffer.from(worker.bytes).equals(guidesWorker)) throw new Error('Launcher worker changed')
     for (const [name, target] of links) if (await readlink(join(owned.root, name)) !== target || await realpath(join(owned.root, name)) !== target) throw new Error('Launcher target changed')
     if (targets.has('runtime/python3')) { const actual = await fileBytes(join(owned.root, 'python3')); if (actual.mode !== '100755' || !Buffer.from(actual.bytes).equals(pythonWrapper)) throw new Error('Launcher wrapper changed') }
@@ -853,19 +937,81 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
       const input = canonicalBytes(data)
       if (input.length > workerLimit) throw new Error('Guides worker input exceeds byte bound')
       await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher()
-      return invokeGuidesWorker(targets.get('runtime/node')!, [...state.flags, join(owned.root, 'guides-worker.cjs'), state.options.root], state.options.root, { ...environment, ...secrets }, input)
+      return invokeGuidesWorker(targets.get('runtime/node')!, [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root], state.options.root, { ...environment, ...secrets }, input)
     },
     async run(script: string, args: string[], secrets: { GH_TOKEN?: string } = {}) {
       RepoPathSchema.parse(script)
       if (Object.keys(secrets).some(name => name !== 'GH_TOKEN')) throw new Error('Unsupported child credential setting')
       if (state.closure.entries.find(e => e.path === `repo/${script}`)?.state !== 'file' || !/\.[cm]?js$/.test(script)) throw new Error('Child entry is not captured trusted JavaScript')
       await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher()
-      return exec(targets.get('runtime/node')!, [...state.flags, join(state.options.root, script), ...args], { cwd: state.options.root,
+      return exec(targets.get('runtime/node')!, [...guardedFlags, join(state.options.root, script), ...args], { cwd: state.options.root,
         env: { ...environment, ...secrets }, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: 120_000 })
     },
   }
 }
 
+
+// Fixed child policies: neither module/export choices nor the physical allow-map come from requests.
+const resolutionPolicy=Buffer.from(String.raw`'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),url=require('node:url'),mod=require('node:module');
+module.exports=function createPolicy(data){
+ const within=(root,file)=>{const r=path.relative(root,file);return r===''||r!=='..'&&!r.startsWith('..'+path.sep)&&!path.isAbsolute(r)};
+ const owner=file=>data.packages.find(pkg=>within(pkg.root,file));
+ return function check(request,parent,target,esm=false){
+  if(mod.isBuiltin(request)||target.startsWith('node:'))return;
+  const file=target.startsWith('file:')?url.fileURLToPath(target):target;
+  if(!path.isAbsolute(file))throw Error('Unmeasured executable URL');
+  const real=fs.realpathSync(file),entry=data.files[real];if(!entry)throw Error('Unmeasured executable target');
+  const from=parent&&(parent.startsWith('file:')?url.fileURLToPath(parent):parent);
+  const relative=request.startsWith('./')||request.startsWith('../');
+  if(request.startsWith('#')) {
+   const pkg=from&&owner(from);if(!pkg||!within(pkg.root,real))throw Error('Unsupported package import escape');
+   const manifest=path.join(pkg.root,'package.json'),bound=data.files[manifest];if(!bound)throw Error('Unmeasured package import configuration');
+   const bytes=fs.readFileSync(manifest,{flag:fs.constants.O_RDONLY|fs.constants.O_NOFOLLOW});if(crypto.createHash('sha256').update(bytes).digest('hex')!==bound.sha256)throw Error('Package import configuration changed');
+   const imports=JSON.parse(bytes).imports;if(!imports||typeof imports!=='object')throw Error('Missing package import map');
+   const definitions=Object.hasOwn(imports,request)?[imports[request]]:Object.entries(imports).filter(([key])=>{const parts=key.split('*');return parts.length===2&&request.startsWith(parts[0])&&request.endsWith(parts[1])}).map(([,value])=>value);
+   const local=value=>value===null||typeof value==='string'&&value.startsWith('./')&&!value.includes('%')&&!value.includes('\\')&&!value.split('/').includes('..')||Array.isArray(value)&&value.every(local)||value&&typeof value==='object'&&Object.values(value).every(local);
+   if(!definitions.length||!definitions.every(local))throw Error('Unsupported nonlocal package import map');
+  }
+  else if(!relative&&!path.isAbsolute(request)&&!request.startsWith('file:')) {
+   if(!from||!data.files[from])throw Error('Unknown executable parent');
+   const parts=request.split('/'),name=request.startsWith('@')?parts.slice(0,2).join('/'):parts[0];
+   if(!/^(?:@[A-Za-z0-9._-]+\/)?[A-Za-z0-9][A-Za-z0-9._-]*$/.test(name))throw Error('Unknown executable package specifier');
+   const self=owner(from);let expected=self&&self.name===name?self.root:null;
+   for(let directory=path.dirname(from);within(data.root,directory);directory=path.dirname(directory)) {
+    const scopePath=path.join(directory,'node_modules'),scope=data.scopes[scopePath];
+    if(fs.existsSync(scopePath)&&!scope)throw Error('Unknown executable lookup scope');
+    if(scope) {const candidate=path.join(scopePath,name);if(fs.existsSync(candidate)&&!Object.hasOwn(scope,name))throw Error('Unknown executable lookup entry');if(!expected&&Object.hasOwn(scope,name)){expected=scope[name];if(fs.realpathSync(candidate)!==expected)throw Error('Executable scope target changed')}}
+    if(directory===data.root)break;
+   }
+   if(!expected||!within(expected,real)||esm&&!fs.statSync(expected).isDirectory())throw Error('Unknown executable lookup scope or fallback');
+  } else {
+   const lexical=request.startsWith('file:')?url.fileURLToPath(request):path.resolve(from?path.dirname(from):data.root,request);
+   if(!within(data.root,lexical)&&!data.files[lexical])throw Error('Executable path escapes trusted discovery roots');
+  }
+  const st=fs.lstatSync(real);if(!st.isFile()||st.isSymbolicLink()||st.size!==entry.bytes||(st.mode&0o111?'100755':'100644')!==entry.mode)throw Error('Executable target changed');
+  const bytes=fs.readFileSync(real,{flag:fs.constants.O_RDONLY|fs.constants.O_NOFOLLOW});
+  if(crypto.createHash('sha256').update(bytes).digest('hex')!==entry.sha256)throw Error('Executable bytes changed');
+ };
+};
+`)
+const resolutionBootstrap=Buffer.from(`'use strict';
+const fs=require('node:fs'),path=require('node:path'),url=require('node:url'),mod=require('node:module');
+if(process.env.JITI_CACHE!=='false')throw Error('Fixed loader cache policy missing');
+const data=JSON.parse(fs.readFileSync(path.join(__dirname,'resolution-map.json'),'utf8'));
+const check=require('./resolution-policy.cjs')(data),original=mod._resolveFilename,lookup=mod._resolveLookupPaths;
+if(typeof lookup!=='function')throw Error('Unsupported trusted CommonJS lookup hooks');
+mod._resolveLookupPaths=function(request,parent){const paths=Reflect.apply(lookup,this,[request,parent]);if(mod.isBuiltin(request)||request.startsWith('.')||request.startsWith('#')||path.isAbsolute(request))return paths;return paths.filter(scope=>Object.hasOwn(data.scopes,scope))};
+mod._resolveFilename=function(request,parent,...rest){const target=Reflect.apply(original,this,[request,parent,...rest]);check(request,parent&&parent.filename,target);return target};
+if(typeof mod.register!=='function')throw Error('Unsupported trusted Node loader hooks');
+mod.register(url.pathToFileURL(path.join(__dirname,'resolution-loader.mjs')),{data});
+`)
+const resolutionLoader=Buffer.from(`import createPolicy from './resolution-policy.cjs';
+let check;
+export function initialize(data){check=createPolicy(data)}
+export async function resolve(specifier,context,nextResolve){const result=await nextResolve(specifier,context);check(specifier,context.parentURL,result.url,true);return result}
+`)
+const guardFiles=new Map<string,Buffer>([['resolution-policy.cjs',resolutionPolicy],['resolution-bootstrap.cjs',resolutionBootstrap],['resolution-loader.mjs',resolutionLoader]])
 
 const workerLimit = 32 * 1024 * 1024
 const guidesWorkerModule = 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts'
