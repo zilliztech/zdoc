@@ -143,17 +143,19 @@
       "paths": [
         "packages/docs-ui/src/shared/theme/Heading/**",
         "packages/docs-ui/src/shared/components/DocTag/**",
-        "packages/docs-ui/src/shared/utils/docHeadingTags*"
+        "packages/docs-ui/src/shared/utils/docHeadingTags*",
+        "src/test/HeadingInitStub.tsx",
+        "src/test/LinkStub.tsx"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-ui/src/shared/theme/Heading/tagLinks.test.ts packages/docs-ui/src/shared/utils/docHeadingTags.test.ts"
+        "pnpm vitest run packages/docs-ui/src/shared/theme/Heading packages/docs-ui/src/shared/utils/docHeadingTags.test.ts"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Heading beta tags and the TOC Contact Sales CTA must split the CONTACT SALES link by site language while the PUBLIC/PRIVATE preview tags link to the site-local feature-availability page, with the ja-JP locale prefix preserved on the English site; ON REQUEST links to the site-language support center, and the TOC heading-tag stripper must drop every registered suffix."
+      "reason": "Heading beta tags and the TOC Contact Sales CTA must split the CONTACT SALES link by site language while the PUBLIC/PRIVATE preview tags link to the site-local feature-availability page, with the ja-JP locale prefix preserved on the English site; ON REQUEST links to the site-language support center, and the TOC heading-tag stripper must drop every registered suffix. The Heading wrapper's doc-path gate must match locale-prefixed routes (ja-JP) via the parsed route, or ja heading tags render as literal '| TAG' text; the two src/test stubs stand in for @theme-init/Heading and @docusaurus/Link in its component test."
     },
     {
       "id": "docs-ui-analytics",

@@ -20,6 +20,8 @@ export default defineConfig({
       '@docusaurus/ErrorBoundary': path.resolve(__dirname, 'node_modules/@docusaurus/core/lib/client/exports/ErrorBoundary.js'),
       '@docusaurus/useGlobalData': path.resolve(__dirname, 'node_modules/@docusaurus/core/lib/client/exports/useGlobalData.js'),
       '@theme/Admonition': path.resolve(__dirname, 'src/test/AdmonitionStub.tsx'),
+      '@theme-init/Heading': path.resolve(__dirname, 'src/test/HeadingInitStub.tsx'),
+      '@docusaurus/Link': path.resolve(__dirname, 'src/test/LinkStub.tsx'),
       '@site/src/components': path.resolve(__dirname, 'packages/docs-ui/src/shared/components'),
       '@site/src/theme': path.resolve(__dirname, 'packages/docs-ui/src/shared/theme'),
       '@site/src/utils': path.resolve(__dirname, 'packages/docs-ui/src/shared/utils'),
