@@ -1,6 +1,8 @@
 // @vitest-environment node
 import { readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
+import { execFileSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import { expect, it } from 'vitest'
 import { canonicalBytes, digest } from '../../core/updates/canonical'
 import * as contract from '../../core/updates/envelope'
@@ -262,4 +264,20 @@ it('matches each edit to its exact report subject in a multi-subject unit', () =
     semanticInputSha256: digest('unit-semantic', reports.map(r => ({ subject: r.subject, semanticInputSha256: r.semanticInputSha256 }))),
     nextEdits: [edit(), { ...edit(), subject: other, before: { ...edit().before, path: otherProjection.lockSchema.path, current: otherSource.current, next: otherSource.oldNext }, target: otherSource.target }] }
   expect(contract.validateUnitReports(value, reports)).toEqual(value)
+})
+
+it('loads and validates envelopes through the actual app-local TypeScript launcher', () => {
+  const launcher = fileURLToPath(new URL('../../../../../../scripts/lib/load-typescript.js', import.meta.url))
+  const envelope = fileURLToPath(new URL('../../core/updates/envelope.ts', import.meta.url))
+  const output = execFileSync(process.execPath, ['-e', `
+    const assert = require('node:assert/strict')
+    const { loadTypeScript } = require(process.argv[1])
+    const envelope = loadTypeScript(process.argv[2])
+    const value = JSON.parse(process.argv[3])
+    assert.deepEqual(envelope.parseUpdateReportEnvelope(Buffer.from(process.argv[3])), value)
+    assert.equal(envelope.BlobRefSchema.safeParse(value.detail.file).success, true)
+    assert.equal(envelope.BlobRefSchema.safeParse({ ...value.detail.file, extra: true }).success, false)
+    process.stdout.write('app-local-loader-ok')
+  `, launcher, envelope, JSON.stringify(report())], { encoding: 'utf8', timeout: 30_000 })
+  expect(output).toBe('app-local-loader-ok')
 })

@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { z } from 'zod'
+import * as z from 'zod'
 import { canonicalBytes, compareUtf8, digest, isValidUnicode, parseStrictJson } from './canonical'
 
 /** Structural validity is not authority. Adapters authenticate objects, paths and retained bytes. */
