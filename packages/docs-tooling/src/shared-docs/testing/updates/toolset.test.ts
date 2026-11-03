@@ -33,6 +33,15 @@ describe('trusted closure capture', () => {
     await put(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js', 'tampered')
     await expect(verifyTrustedToolset(first)).rejects.toThrow(/changed|drift/i)
   }, 30000)
+  it('resolves pnpm npm-alias dependencies to their locked package locator', async () => {
+    const a = await fixture()
+    const lock = await readFile(join(a.root, 'pnpm-lock.yaml'), 'utf8')
+    await put(a.root, 'pnpm-lock.yaml', lock.replace('jiti: {specifier: 1.0.0, version: 1.0.0}', 'jiti: {specifier: 1.0.0, version: 1.0.0}\n      alias: {specifier: npm:jiti@1.0.0, version: jiti@1.0.0}'))
+    await symlink('../../../node_modules/.pnpm/jiti@1.0.0/node_modules/jiti', join(a.root, 'apps/docs/node_modules/alias'))
+    a.commit = commitAll(a.root)
+    const capture = await captureTrustedToolset(a)
+    expect(capture.closure.resolutions.some(r => r.specifier === 'alias' && r.target.startsWith('deps/'))).toBe(true)
+  })
   it('binds modes, repository literal links and absent-to-empty config transitions', async () => {
     const a = await fixture(); const baseline = await captureTrustedToolset(a)
     await chmod(join(a.root, 'scripts/docs-tooling.js'), 0o755); a.commit = commitAll(a.root)

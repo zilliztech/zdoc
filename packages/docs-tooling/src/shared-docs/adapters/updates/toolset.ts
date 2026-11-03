@@ -288,7 +288,10 @@ async function captureDependencies(root: string, all: Map<string, TreeEntry>, en
       try { target = await realpath(lookup) } catch (e) { if (absent(e) && Object.hasOwn(record.optionalDependencies ?? {}, name)) continue; throw e }
       const destination = packageAt.get(target)
       if (!destination) throw new Error('Dependency resolution escapes captured packages')
-      if (typeof specification !== 'string' || !specification.startsWith('link:') && destination.key !== `${name}@${specification}`) throw new Error('Installed dependency resolution differs from lock')
+      if (typeof specification !== 'string') throw new Error('Invalid lock dependency locator')
+      const expectedTarget = specification.startsWith('link:') ? resolve(pkg.physical, specification.slice(5)) : null
+      const expectedKey = lock.snapshots[specification] ? specification : `${name}@${specification}`
+      if (expectedTarget ? target !== expectedTarget : destination.key !== expectedKey) throw new Error(`Installed dependency resolution differs from lock: ${pkg.key} -> ${name}`)
       resolutions.push({ from: workspace ? `repo/${pkg.key.slice(10) === '.' ? '' : pkg.key.slice(10) + '/'}package.json` : `${pkg.logical}/package.json`, specifier: name, kind: 'require', conditions: ['node', 'require', 'default'], target: destination.logical })
     }
   }
