@@ -421,3 +421,46 @@ observations or explicitly failed content generation; it does not mean every
 page built successfully or authorize a mutation. Inspect per-page statuses and
 reasons. Current and old-next/target observations remain distinct, including
 source changes hidden by Cloud replacements and image-byte changes.
+
+### Plan and prepare a local shared-docs update
+
+Run the local commands from the trusted tooling checkout at the exact committed
+implementation you intend to use. They validate the launcher before reading any
+`.env`; unsupported Node/Git/package-manager overrides are rejected. Inputs must
+be already acquired local repositories. Supply a strict JSON request with exact
+master/dev/source commits and complete subjects; see the
+[request and evidence contract](packages/docs-tooling/src/shared-docs/README.md#local-update-commands).
+The request's master must match the independently captured tooling HEAD.
+
+```bash
+pnpm docs-tooling shared-docs update-plan \
+  --request /absolute/request.json --out /absolute/new-plan
+pnpm docs-tooling shared-docs update-prepare \
+  --request /absolute/request.json --plan /absolute/new-plan \
+  --unit '<unitKey from the plan>' --out /absolute/new-candidate
+```
+
+Inspect `result.json`, `reports/` and `units/` before choosing a unit. Planning
+may construct an isolated prepared base; preparation rechecks the plan, source,
+configuration, authority and toolset, and creates at most one local candidate
+that changes only the selected next locks. Scratch Git objects, journals and
+proofs stay in the owned output. Input refs and repositories remain unchanged.
+SDK subjects currently return `PROVIDER_NOT_INSTALLED`; incomplete Guides
+authority remains held. Neither is permission to bypass an eligibility check.
+
+Use absent/empty, absolute canonical output directories outside input data,
+Git metadata and prior evidence; a dedicated `.claude/` directory is suitable.
+Ordinary invocations never overwrite evidence. To resume an interrupted prepare,
+repeat its exact command with `--resume`; only the matching owned journal is
+accepted and all bindings are revalidated. For `PLAN_CHANGED`, generate a fresh
+plan and use a new output. Preserve conflict/hold evidence and resolve the
+reported input problem; do not reset, force-push or delete arbitrary directories.
+
+Exit 2 means invalid arguments/request/output; exit 1 means infrastructure or
+acquisition failure, retaining only safely owned partial evidence. Exit 0 means
+a completed observation: inspect `status` (`planned`, `held`, `prepared`,
+`reused`), `disposition` and `reasons`. A `draft-failure` candidate is not
+publishable. Holds contain no candidate/proof. The result is also printed as
+JSON to stdout; a hold before output ownership exists only there, with no
+`result.json` or fabricated pins. External `operations` is always empty.
+These commands do not publish, push, create PRs or authorize production actions.

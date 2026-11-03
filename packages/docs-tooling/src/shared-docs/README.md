@@ -603,3 +603,65 @@ Output protection resolves each participating repository's actual Git directory
 and common directory, covering bare repositories, separate Git directories and
 linked worktrees. Metadata overlap is rejected with exit 2 before writes;
 disjoint `.claude/` report destinations remain supported.
+
+### Local update commands
+
+`shared-docs update-plan` and `shared-docs update-prepare` are thin command
+adapters over `createLocalUpdateRunner`. Their strict options reject unknown,
+duplicate and missing flags. Only prepare accepts `--resume`. They use a
+separate pre-dotenv dispatch path; legacy `shared-docs update` keeps its parser,
+report detail serialization, four filenames and empty operations unchanged.
+
+The request file is bounded to 1 MiB and parsed by `parseLocalUpdateRequest`:
+
+```ts
+{
+  kind: 'shared-update-local-request'; schemaVersion: 1;
+  repository: string; devRepository: string; sourceRepository: string;
+  master: string; dev: string; sourceTarget: string;
+  comparisonConfig: string | null;
+  subjects: (
+    | {kind: 'guides-page'; group: 'guides'; pageId: string}
+    | {kind: 'sdk-manual'; group: string; manualId: string}
+  )[];
+  existing: null | {head: string; donorHeads: string[]; localEvidence: string[]};
+  lifecycle: null | {runId: number; archive: string | null};
+}
+```
+
+Use canonical absolute paths and exact lowercase SHA-1 commits. The current
+schema permits 1–64 unique complete subjects, up to 8 distinct donors and 256
+prior local evidence roots. Unknown and duplicate JSON keys are errors. There
+is no page subset within a manual, public provider module, authority override,
+clock, writer or trusted-toolset argument. `existing.localEvidence` names owned
+local outputs whose journals, objects and proofs are independently verified;
+copied evidence never supplies fresh remote identity or access authority.
+
+The implementation root is derived from the executing command module. Canonical
+cwd must match it. Bootstrap reads bounded, no-follow files to resolve HEAD in
+ordinary or linked-worktree SHA-1 files-backend checkouts, including loose and
+packed branch refs. Unborn, malformed, cyclic, unsafe or unsupported metadata
+fails closed. The independently observed commit goes to `captureTrustedToolset`;
+HEAD is rechecked afterward. The request's master is never a fallback. Current
+launcher/access policy still governs the actual Node/Git/helpers/dependencies
+and fixed Guides worker. `GH_TOKEN` is a separate secret input, never semantic
+material. Host/access observations remain private evidence.
+
+Owned outputs contain normalized `request.json`, `pins.json`, `snapshot.json`,
+`reports/<hash>.json`, `units/<hash>.json`, referenced `blobs/<sha256>`,
+`result.json` and `scratch.git/`. Subject/unit identities live inside the JSON,
+not arbitrary filenames. Prepare adds `journal.json` and, only after validated
+candidate creation, `proof.json`. `LocalRunResult` carries status, selected unit,
+disposition, plan digest, candidate, reasons, validation/proof references and
+`operations: []`. A pre-ownership `LocalTransactionHold` is emitted only to
+stdout, with null candidate/proof/pins-dependent fields; no output is invented
+by the command's exception handler. Only `LocalInputError` maps to exit 2 and
+only explicit transaction holds map to completed exit 0; other failures exit 1.
+
+`LocalCommandDependencies` is an internal library seam for tests. Production
+always uses the fixed factory and registry; no CLI option selects dependencies.
+Command tests exercise the actual local runner with isolated Git fixtures,
+including next-only candidates, stale plans, output protection and resume.
+Those synthetic fixtures do not establish measured production-worker or SDK
+integration qualification. Operator commands and recovery rules are in the
+repository README.
