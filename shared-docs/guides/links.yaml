@@ -6,6 +6,7 @@ basic-vector-search-with-structarray.md: search-with-struct-array
 basic-operators.md: basic-filtering-operators
 bitmap.md: bitmap-index-type
 boolean.md: filtering-overview
+clustering-compaction.md: https://milvus.io/docs/clustering-compaction.md
 create-collection.md: manage-collections-sdks
 create-structarray-field.md: create-struct-array
 decay-ranker-overview.md: decay-ranker-oveview
@@ -20,7 +21,12 @@ index-structarray-fields.md: index-struct-array
 insert-data-into-structarray-fields.md: insert-struct-array
 inverted.md: inverted-index-type
 json-operators.md: json-filtering-operators
+keyword-match.md: https://milvus.io/docs/keyword-match.md
+load-and-release.md: https://milvus.io/docs/load-and-release.md
+manage-file-resources.md: https://milvus.io/docs/manage-file-resources.md
 metric.md: search-metrics-explained
+mmap.md: use-mmap
+model-ranker-overview.md: https://milvus.io/docs/model-ranker-overview.md
 modify-collection.md: https://milvus.io/docs/modify-collection.md
 multi-vector-search.md: hybrid-search
 ngram.md: ngram-index-type
@@ -35,5 +41,8 @@ stl-sort.md: slt-sort-index-type
 struct-array-operators.md: struct-array-filtering
 structarray-limits.md: struct-array-limits
 text.md: use-text-field
+timestamptz-field.md: use-timestamptz-field
 tutorial-implement-a-time-based-ranking-in-milvus.md: tutorial-implement-time-based-ranking
 upsert-entities.md: https://milvus.io/docs/upsert-entities.md
+
+use-json-fields.md: https://milvus.io/docs/use-json-fields.md

@@ -1,0 +1,29 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/json-shredding.md
+
+# The source carries Milvus's `beta: Milvus 2.6.2+` badge; Zilliz Cloud publishes
+# JSON shredding without a beta tag.
+metadata:
+  beta: FALSE
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/json-fields/json-shredding
+  - manual: guides-byoc
+    path: tutorials/development/schema/json-fields/json-shredding
+
+# JSON shredding is configured through the self-managed milvus.yaml and verified
+# with Birdwatcher, neither of which exists on Zilliz Cloud. Remove those two
+# sections and the two operations FAQ items for both channels.
+transforms:
+  - operation: remove
+    target:
+      block: json-shredding-enable
+  - operation: remove
+    target:
+      block: json-shredding-parameter-tuning
+  - operation: remove
+    target:
+      block: json-shredding-faq-operations

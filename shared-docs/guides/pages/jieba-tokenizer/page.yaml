@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/analyzer/tokenizer/jieba-tokenizer.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer
+  - manual: guides-byoc
+    path: tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer
