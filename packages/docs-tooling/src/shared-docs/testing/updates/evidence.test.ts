@@ -28,6 +28,12 @@ describe('owned evidence bytes', () => {
     const resumed = await initializeEvidence({ root: out, repositories: [repo], owner: 'transaction-1', resume: true })
     await resumed.writeJournal('journal.json', Buffer.from('first')); await resumed.writeJournal('journal.json', Buffer.from('second'))
     expect(await readFile(join(out, 'journal.json'), 'utf8')).toBe('second')
+    const nextResume = await initializeEvidence({ root: out, repositories: [repo], owner: 'transaction-1', resume: true })
+    await expect(nextResume.writeJournal('journal.json', Buffer.from('third'))).rejects.toThrow()
+    const journal = Buffer.from('second')
+    await nextResume.readJournal({ path: 'journal.json', sha256: createHash('sha256').update(journal).digest('hex'), bytes: journal.length })
+    await nextResume.writeJournal('journal.json', Buffer.from('third'))
+    expect(await readFile(join(out, 'journal.json'), 'utf8')).toBe('third')
   })
   it('allows disjoint task-owned .claude output but rejects empty/existing unowned roots', async () => {
     const { root, repo } = await fixture(); await mkdir(join(repo, '.claude'))

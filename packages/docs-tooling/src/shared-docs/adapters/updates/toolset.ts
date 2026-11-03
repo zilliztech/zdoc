@@ -4,6 +4,7 @@ import { basename, dirname, isAbsolute, join, posix, relative, resolve, sep } fr
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
 import { release } from 'node:os'
+import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
 import * as z from 'zod'
 import { load as loadYaml } from 'js-yaml'
@@ -118,16 +119,26 @@ type TreeEntry = { path: string; mode: string; type: string; oid: string }
 async function tree(binary: string, root: string, commit: string, env: NodeJS.ProcessEnv) {
   GitShaSchema.parse(commit)
   if ((await gitBytes(binary, root, ['cat-file', '-t', commit], env)).toString().trim() !== 'commit') throw new Error('Expected exact commit object')
-  const bytes = await gitBytes(binary, root, ['ls-tree', '-r', '-z', commit], env)
+  const commitBytes = await gitBytes(binary, root, ['cat-file', 'commit', commit], env)
+  requireObjectHash(commit, 'commit', commitBytes)
+  const rootTree = /^tree ([a-f0-9]{40})\n/.exec(commitBytes.toString('utf8'))?.[1]
+  if (!rootTree) throw new Error('Invalid commit tree')
+  const treeObjects: TreeEntry[] = [{ path: '', mode: '040000', type: 'tree', oid: rootTree }]
+  const bytes = await gitBytes(binary, root, ['ls-tree', '-r', '-t', '-z', commit], env)
   const result = new Map<string, TreeEntry>(), aliases = new Set<string>()
   for (const line of bytes.toString('utf8').split('\0').filter(Boolean)) {
     const match = /^(\d+) (\w+) ([a-f0-9]{40})\t(.+)$/.exec(line); if (!match) throw new Error('Invalid tree record')
     const [, mode, type, oid, path] = match; RepoPathSchema.parse(path)
     const folded = path.toLowerCase(); if (aliases.has(folded)) throw new Error('Case alias in Git tree'); aliases.add(folded)
+    if (mode === '040000' && type === 'tree') { treeObjects.push({ path, mode, type, oid }); continue }
     if (!['100644', '100755', '120000'].includes(mode) || type !== 'blob') throw new Error('Unsupported Git special/submodule mode')
     result.set(path, { path, mode, type, oid })
   }
+  await blobObjects(binary, root, treeObjects, env)
   return result
+}
+function requireObjectHash(oid: string, type: string, bytes: Uint8Array) {
+  if (createHash('sha1').update(`${type} ${bytes.length}\0`).update(bytes).digest('hex') !== oid) throw new Error('Git object hash mismatch')
 }
 const protectedRoots = ['packages', 'apps', 'scripts', '.github', 'deploy', 'patches']
 const optional = ['.npmrc', '.env', '.pnpmfile.cjs', '.pnpmfile.js', 'pnpmfile.cjs', '.node-version', '.nvmrc', '.tool-versions', '.pnp.cjs', '.pnp.loader.mjs', 'bunfig.toml', '.yarnrc', '.yarnrc.yml', 'deno.json', 'deno.jsonc']
@@ -138,11 +149,11 @@ async function blobObjects(binary: string, root: string, entries: TreeEntry[], e
   const values = new Map<string, Uint8Array>(); if (!entries.length) return values
   const oids = [...new Set(entries.map(e => e.oid))], bytes = await gitBytes(binary, root, ['cat-file', '--batch'], env, oids.join('\n') + '\n'); let offset = 0
   for (const oid of oids) {
-    const end = bytes.indexOf(10, offset), line = bytes.subarray(offset, end).toString(), match = /^([a-f0-9]{40}) blob (\d+)$/.exec(line)
-    if (!match || match[1] !== oid || Number(match[2]) > limit) throw new Error('Invalid bounded Git blob')
-    const length = Number(match[2]); offset = end + 1
+    const end = bytes.indexOf(10, offset), line = bytes.subarray(offset, end).toString(), match = /^([a-f0-9]{40}) (blob|tree) (\d+)$/.exec(line)
+    if (!match || match[1] !== oid || match[2] !== entries.find(e => e.oid === oid)!.type || Number(match[3]) > limit) throw new Error('Invalid bounded Git blob')
+    const length = Number(match[3]); offset = end + 1
     if (offset + length >= bytes.length || bytes[offset + length] !== 10) throw new Error('Truncated Git batch')
-    values.set(oid, Uint8Array.from(bytes.subarray(offset, offset + length))); offset += length + 1
+    requireObjectHash(oid, match[2], bytes.subarray(offset, offset + length)); values.set(oid, Uint8Array.from(bytes.subarray(offset, offset + length))); offset += length + 1
   }
   if (offset !== bytes.length) throw new Error('Extra Git batch bytes'); return values
 }
@@ -406,8 +417,8 @@ export function nativeDependencies(input: Uint8Array, platform = process.platfor
   if (!load) throw new Error('Missing ELF string table'); const base = load.offset + table - load.address
   return { needed: neededOffsets.map(o => string(base + o, base + size)), rpaths: pathOffsets.flatMap(o => string(base + o, base + size).split(':')) }
 }
-const darwinSystemLibraries = new Set(['libSystem.B.dylib', 'libc++.1.dylib', 'libz.1.dylib', 'libiconv.2.dylib', 'libobjc.A.dylib', 'libresolv.9.dylib', 'libncurses.5.4.dylib', 'libsqlite3.dylib', 'libxml2.2.dylib', 'libxcselect.dylib'])
-const darwinFrameworks = new Set(['CoreFoundation', 'CoreServices', 'Security', 'Foundation', 'SystemConfiguration', 'ApplicationServices', 'AppKit', 'IOKit'])
+const darwinSystemLibraries = new Set(['libSystem.B.dylib', 'libc++.1.dylib', 'libz.1.dylib', 'libiconv.2.dylib', 'libobjc.A.dylib', 'libresolv.9.dylib', 'libncurses.5.4.dylib', 'libsqlite3.dylib', 'libxml2.2.dylib', 'libxcselect.dylib', 'libbz2.1.0.dylib', 'liblzma.5.dylib'])
+const darwinFrameworks = new Set(['CoreFoundation', 'CoreServices', 'Security', 'Foundation', 'SystemConfiguration', 'ApplicationServices', 'AppKit', 'IOKit', 'CFNetwork', 'CoreGraphics', 'CoreText'])
 function systemLibrary(path: string) {
   if (process.platform === 'darwin') {
     if (dirname(path) === '/usr/lib' && darwinSystemLibraries.has(basename(path))) return true
@@ -460,7 +471,7 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
       for (const choice of choices) {
         if (!isAbsolute(choice)) throw new Error('Unresolved runtime search path')
         if (systemLibrary(choice)) {
-          try { const actual = await realpath(choice); if (!systemLibrary(actual)) throw new Error('System-library alias escape'); const stat = await lstat(actual); if (stat.uid !== 0 || stat.mode & 0o022) throw new Error('Unsafe system library') } catch (e) { if (!absent(e) || process.platform !== 'darwin') throw e }
+          try { const actual = await realpath(choice); if (!systemLibrary(actual)) throw new Error('System-library alias escape'); const stat = await lstat(actual); if (stat.uid !== 0 || stat.mode & 0o022) throw new Error('Unsafe system library') } catch (e) { if (!absent(e)) throw e; if (process.platform !== 'darwin') continue }
           trustedSystem = true; break
         }
         try { resolved = await realpath(choice); break } catch (e) { if (!absent(e)) throw e }

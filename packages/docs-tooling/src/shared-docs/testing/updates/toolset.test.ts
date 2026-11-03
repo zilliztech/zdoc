@@ -2,9 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink } from 'node:fs/promises'
 import { tmpdir, release } from 'node:os'
 import { dirname, join } from 'node:path'
+import { deflateSync } from 'node:zlib'
 import { execFileSync } from 'node:child_process'
 import { canonicalBytes } from '../../core/updates/canonical'
-import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, captureTrustedNativeFiles, nativeDependencies } from '../../adapters/updates/toolset'
+import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, captureTrustedNativeFiles, nativeDependencies } from '../../adapters/updates/toolset'
 import { rawSha256 } from '../../adapters/updates/evidence'
 const hostTcb = { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
@@ -41,6 +42,23 @@ describe('trusted closure capture', () => {
     a.commit = commitAll(a.root)
     const capture = await captureTrustedToolset(a)
     expect(capture.closure.resolutions.some(r => r.specifier === 'alias' && r.target.startsWith('deps/'))).toBe(true)
+  })
+  it('rejects corrupted Git blob objects rather than trusting their named SHA', async () => {
+    const a = await fixture(), path = 'scripts/docs-tooling.js', oid = git(a.root, 'rev-parse', `${a.commit}:${path}`)
+    const data = Buffer.from('corrupted-but-same-object-name')
+    await writeFile(join(a.root, path), data)
+    await chmod(join(a.root, '.git/objects', oid.slice(0, 2), oid.slice(2)), 0o600)
+    await writeFile(join(a.root, '.git/objects', oid.slice(0, 2), oid.slice(2)), deflateSync(Buffer.concat([Buffer.from(`blob ${data.length}\0`), data])))
+    await expect(captureTrustedToolset(a)).rejects.toThrow(/object|hash/i)
+  })
+  it('keeps capture capabilities private and verifies an exact loader edge before use', async () => {
+    const a = await fixture(), value = await captureTrustedToolset(a)
+    const edge = value.closure.resolutions.find(r => r.kind === 'loader')!, target = join(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js')
+    await authorizeTrustedResolution(value, edge, target)
+    await expect(authorizeTrustedResolution({ ...value }, edge, target)).rejects.toThrow(/independently/)
+    await expect(authorizeTrustedResolution(value, { ...edge, specifier: 'unknown' }, target)).rejects.toThrow(/Unknown/)
+    await put(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti/index.js', 'altered')
+    await expect(authorizeTrustedResolution(value, edge, target)).rejects.toThrow(/changed/)
   })
   it('binds modes, repository literal links and absent-to-empty config transitions', async () => {
     const a = await fixture(); const baseline = await captureTrustedToolset(a)
@@ -123,6 +141,7 @@ describe('manifest and launcher contract', () => {
     const two = await captureTrustedNativeFiles([{ name: 'runtime/test-native', path: entry }])
     expect(canonicalBytes(one.entries)).not.toEqual(canonicalBytes(two.entries))
     await unlink(library); await expect(captureTrustedNativeFiles([{ name: 'runtime/test-native', path: entry }])).rejects.toThrow(/Missing/)
+    await writeFile(entry, macho(['/usr/lib/not-a-system-library.dylib'])); await expect(captureTrustedNativeFiles([{ name: 'runtime/test-native', path: entry }])).rejects.toThrow(/Missing/)
     await writeFile(entry, macho(['unresolved.dylib'])); await expect(captureTrustedNativeFiles([{ name: 'runtime/test-native', path: entry }])).rejects.toThrow(/Unknown/)
     expect(() => nativeDependencies(Buffer.from('cffaedfe', 'hex'))).toThrow()
   })

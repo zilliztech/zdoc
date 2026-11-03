@@ -66,6 +66,7 @@ export interface EvidenceStore {
   readBlob(ref: BlobRef): Promise<Uint8Array>
   writeBlob(bytes: Uint8Array): Promise<BlobRef>
   writeJournal(path: string, bytes: Uint8Array): Promise<void>
+  readJournal(ref: BlobRef): Promise<Uint8Array>
   readMaterial(material: { path: string; sha256: string; bytes: number }, ref: BlobRef): Promise<Uint8Array>
 }
 async function protect(options: EvidenceOptions) {
@@ -132,6 +133,13 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
   }
   return {
     root, readBlob,
+    async readJournal(ref) {
+      RepoPathSchema.parse(ref.path)
+      if (ref.path.includes('/') || ref.path === '.owner.json' || ref.path === 'blobs') throw new Error('Invalid journal path')
+      const full = join(root, ref.path), before = await lstat(full), bytes = await readBlob(ref), after = await lstat(full)
+      if (!same(before, after) || !after.isFile() || after.nlink !== 1) throw new Error('Journal changed during resume')
+      ownedJournals.set(ref.path, { dev: after.dev, ino: after.ino }); return bytes
+    },
     async writeBlob(bytes) {
       const ref = { path: `blobs/${rawSha256(bytes)}`, sha256: rawSha256(bytes), bytes: bytes.byteLength }
       try { await writeExclusive(join(root, ref.path), bytes) }
