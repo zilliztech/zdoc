@@ -1,0 +1,31 @@
+{
+ "code": 0,
+ "data": [
+  {
+   "cloudId": "aws",
+   "regionId": "aws-us-west-2",
+   "domain": "api.cloud-uat3.zilliz.com",
+   "supportedClusterTypes": [
+    "dedicated"
+   ]
+  },
+  {
+   "cloudId": "gcp",
+   "regionId": "gcp-us-west1",
+   "domain": "api.cloud-uat3.zilliz.com",
+   "supportedClusterTypes": [
+    "free",
+    "serverless",
+    "dedicated"
+   ]
+  },
+  {
+   "cloudId": "azure",
+   "regionId": "az-westus3",
+   "domain": "api.cloud-uat3.zilliz.com",
+   "supportedClusterTypes": [
+    "dedicated"
+   ]
+  }
+ ]
+}

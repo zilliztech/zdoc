@@ -1,0 +1,127 @@
+{
+ "aggTopks": [
+  4
+ ],
+ "code": 0,
+ "data": [
+  {
+   "buckets": [
+    {
+     "count": 2,
+     "hits": [
+      {
+       "distance": 0.2727273,
+       "id": 53,
+       "price": 1
+      },
+      {
+       "distance": 0.2727273,
+       "id": 51,
+       "price": 3
+      }
+     ],
+     "key": [
+      {
+       "fieldId": 106,
+       "fieldName": "grp",
+       "value": "g1"
+      }
+     ],
+     "metrics": {
+      "avg": 2,
+      "max": 3,
+      "min": 1,
+      "n": 2,
+      "total": 4
+     },
+     "subGroups": []
+    },
+    {
+     "count": 1,
+     "hits": [
+      {
+       "distance": 0.2727273,
+       "id": 6,
+       "price": 60
+      }
+     ],
+     "key": [
+      {
+       "fieldId": 106,
+       "fieldName": "grp",
+       "value": "g2"
+      }
+     ],
+     "metrics": {
+      "avg": 60,
+      "max": 60,
+      "min": 60,
+      "n": 1,
+      "total": 60
+     },
+     "subGroups": []
+    },
+    {
+     "count": 2,
+     "hits": [
+      {
+       "distance": 0.2727273,
+       "id": 22,
+       "price": 5
+      },
+      {
+       "distance": 1,
+       "id": 8,
+       "price": 80
+      }
+     ],
+     "key": [
+      {
+       "fieldId": 106,
+       "fieldName": "grp",
+       "value": "g3"
+      }
+     ],
+     "metrics": {
+      "avg": 42.5,
+      "max": 80,
+      "min": 5,
+      "n": 2,
+      "total": 85
+     },
+     "subGroups": []
+    },
+    {
+     "count": 2,
+     "hits": [
+      {
+       "distance": 1,
+       "id": 100,
+       "price": 1
+      },
+      {
+       "distance": 1,
+       "id": 104,
+       "price": 1
+      }
+     ],
+     "key": [
+      {
+       "fieldId": 106,
+       "fieldName": "grp",
+       "value": "gx"
+      }
+     ],
+     "metrics": {
+      "avg": 1,
+      "max": 1,
+      "min": 1,
+      "n": 2,
+      "total": 2
+     },
+     "subGroups": []
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "code": 0,
+ "data": {
+  "compactionID": 0,
+  "completedPlanNumber": 0,
+  "executingPlanNumber": 0,
+  "state": "Completed",
+  "timeoutPlanNumber": 0
+ }
+}

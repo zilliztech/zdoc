@@ -1,0 +1,16 @@
+{
+ "code": 0,
+ "data": {
+  "volumes": [
+   {
+    "volumeName": "my_volume",
+    "description": null,
+    "type": "EXTERNAL",
+    "regionId": "aws-us-west-2"
+   }
+  ],
+  "count": 1,
+  "currentPage": 1,
+  "pageSize": 10
+ }
+}

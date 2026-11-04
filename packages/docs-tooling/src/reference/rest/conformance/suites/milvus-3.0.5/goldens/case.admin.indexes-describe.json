@@ -1,0 +1,35 @@
+{
+ "code": 0,
+ "data": [
+  {
+   "failReason": "",
+   "fieldName": "vector",
+   "indexName": "vec_hnsw",
+   "indexParams": [
+    {
+     "key": "index_type",
+     "value": "HNSW"
+    },
+    {
+     "key": "metric_type",
+     "value": "COSINE"
+    },
+    {
+     "key": "params",
+     "value": "{\"M\":16,\"efConstruction\":200}"
+    }
+   ],
+   "indexState": "Finished",
+   "indexType": "HNSW",
+   "indexedRows": 36,
+   "indexoffsetcache.enabled": "",
+   "maxIndexVersion": -2147483648,
+   "metricType": "COSINE",
+   "minIndexVersion": 2147483647,
+   "mmap.enabled": "",
+   "pendingRows": 0,
+   "totalRows": 36,
+   "warmup": ""
+  }
+ ]
+}

@@ -1,0 +1,1033 @@
+{
+ "schemaVersion": 1,
+ "declaredOps": 102,
+ "trackGuessTally": {
+  "both": 86,
+  "3.0-only(+master)": 16
+ },
+ "milvusSuite": "milvus-2.6.26",
+ "uatSuite": "uat-dataplane",
+ "note": "trackGuess from upstream route skeletons only; live columns carry the observed verdicts from the latest round.",
+ "rows": [
+  {
+   "op": "POST /v2/vectordb/entities/delete",
+   "summary": "Delete",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.delete.filter=PASS-EFFECT; case.delete.filter-missing=REJECTED; case.delete.id-only=REJECTED(record); case.delete.id-plus-filter=PASS-EFFECT; case.delete.partitionName=PASS-EFFECT; case.delete.exprParams=PASS-EFFECT; case.delete.dbName=PASS-EFFECT; case.delete.filter-emptyString=REJECTED(record)",
+   "liveUat": "case.delete.filter=PASS-EFFECT; case.delete.filter-missing=REJECTED; case.delete.id-only=REJECTED(record); case.delete.id-plus-filter=PASS-EFFECT; case.delete.partitionName=PASS-EFFECT; case.delete.exprParams=PASS-EFFECT; case.delete.dbName=PASS-EFFECT; case.delete.filter-emptyString=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/entities/insert",
+   "summary": "Insert",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.insert.collectionName=PASS-EFFECT; case.insert.collectionName-missing=REJECTED; case.insert.collectionName-unknown=REJECTED; case.insert.dbName=PASS-EFFECT; case.insert.dbName-unknown=REJECTED; case.insert.data-array=PASS-EFFECT; case.insert.partial-no-flag=REJECTED(record); case.insert.data-objectForm=REJECTED(record); case.insert.data-missing=REJECTED; case.insert.data-wrongDim=REJECTED; case.insert.partitionName=PASS-EFFECT; case.insert.partitionName-unknown=REJECTED; case.insert.partialUpdate-subset=REJECTED(record); case.insert.partialUpdate-existing=REJECTED(record); case.insert.fieldOps-REPLACE=PASS-EFFECT; case.insert.fieldOps-ARRAY_APPEND=PASS-EFFECT; case.insert.fieldOps-ARRAY_REMOVE=PASS-EFFECT; case.insert.fieldOps-PATH_REPLACE=PASS-EFFECT; case.insert.fieldOps-unknownOp=REJECTED; case.insert.fieldOps-without-partialUpdate=REJECTED(record)",
+   "liveUat": "case.insert.collectionName=PASS-EFFECT; case.insert.collectionName-missing=REJECTED; case.insert.collectionName-unknown=REJECTED; case.insert.dbName=PASS-EFFECT; case.insert.dbName-unknown=REJECTED; case.insert.data-array=PASS-EFFECT; case.insert.partial-no-flag=REJECTED(record); case.insert.data-objectForm=REJECTED(record); case.insert.data-missing=REJECTED; case.insert.data-wrongDim=REJECTED; case.insert.partitionName=PASS-EFFECT; case.insert.partitionName-unknown=REJECTED; case.insert.partialUpdate-subset=REJECTED(record); case.insert.partialUpdate-existing=REJECTED(record); case.insert.fieldOps-REPLACE=PASS-EFFECT; case.insert.fieldOps-ARRAY_APPEND=PASS-EFFECT; case.insert.fieldOps-ARRAY_REMOVE=PASS-EFFECT; case.insert.fieldOps-PATH_REPLACE=PASS-EFFECT; case.insert.fieldOps-unknownOp=REJECTED; case.insert.fieldOps-without-partialUpdate=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/entities/upsert",
+   "summary": "Upsert",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.upsert.data-arrayForm=PASS-EFFECT; case.upsert.data-objectForm=REJECTED(record); case.upsert.data-missing=REJECTED; case.upsert.partitionName=PASS-EFFECT; case.upsert.partialUpdate-subset=REJECTED(record); case.upsert.fieldOps-REPLACE=PASS-EFFECT; case.upsert.fieldOps-ARRAY_APPEND=PASS-EFFECT; case.upsert.fieldOps-ARRAY_REMOVE=PASS-EFFECT; case.upsert.fieldOps-PATH_REPLACE=REJECTED(record); case.upsert.fieldOps-fieldName-missing=REJECTED; case.upsert.fieldOps-unknownOp=REJECTED; case.upsert.default-overwrite=REJECTED(record)",
+   "liveUat": "case.upsert.data-arrayForm=PASS-EFFECT; case.upsert.data-objectForm=REJECTED(record); case.upsert.data-missing=REJECTED; case.upsert.partitionName=PASS-EFFECT; case.upsert.partialUpdate-subset=REJECTED(record); case.upsert.fieldOps-REPLACE=PASS-EFFECT; case.upsert.fieldOps-ARRAY_APPEND=PASS-EFFECT; case.upsert.fieldOps-ARRAY_REMOVE=PASS-EFFECT; case.upsert.fieldOps-PATH_REPLACE=REJECTED(record); case.upsert.fieldOps-fieldName-missing=REJECTED; case.upsert.fieldOps-unknownOp=REJECTED; case.upsert.default-overwrite=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/entities/query",
+   "summary": "Query",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.query.filter=PASS-EFFECT; case.query.filter-omitted=PASS-EFFECT; case.query.outputFields-star=PASS-EFFECT; case.query.limit-offset=PASS-EFFECT; case.query.orderByFields-paging=PASS-EFFECT; case.query.limit-0=PASS-EFFECT; case.query.partitionNames=PASS-EFFECT; case.query.exprParams=PASS-EFFECT; case.query.consistencyLevel-Strong=PASS; case.query.consistencyLevel-Session=PASS; case.query.consistencyLevel-Bounded=PASS; case.query.consistencyLevel-Eventually=PASS; case.query.orderByFields-desc=PASS-EFFECT; case.query.orderByFields-asc=PASS-EFFECT; case.query.orderByFields-badField=PASS-EFFECT; case.query.groupByFields-agg=REJECTED(record); case.query.groupByFields-countOnly=PASS-EFFECT; case.query.groupByFields-noAgg=PASS-EFFECT; case.query.filter-jsonPath=PASS-EFFECT; case.query.filter-arrayContains=PASS-EFFECT; case.query.dbName=PASS-EFFECT",
+   "liveUat": "case.query.filter=PASS-EFFECT; case.query.filter-omitted=PASS-EFFECT; case.query.outputFields-star=PASS-EFFECT; case.query.limit-offset=PASS-EFFECT; case.query.orderByFields-paging=PASS-EFFECT; case.query.limit-0=PASS-EFFECT; case.query.partitionNames=PASS-EFFECT; case.query.exprParams=PASS-EFFECT; case.query.consistencyLevel-Strong=PASS; case.query.consistencyLevel-Session=PASS; case.query.consistencyLevel-Bounded=PASS; case.query.consistencyLevel-Eventually=PASS; case.query.orderByFields-desc=PASS-EFFECT; case.query.orderByFields-asc=PASS-EFFECT; case.query.orderByFields-badField=PASS-EFFECT; case.query.groupByFields-agg=REJECTED(record); case.query.groupByFields-countOnly=PASS-EFFECT; case.query.groupByFields-noAgg=PASS-EFFECT; case.query.filter-jsonPath=PASS-EFFECT; case.query.filter-arrayContains=PASS-EFFECT; case.query.dbName=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/entities/search",
+   "summary": "Search",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.search.data-batch=PASS-EFFECT; case.search.data-missing=REJECTED; case.search.ids=PASS-EFFECT; case.search.ids-data-mutual=REJECTED(record); case.search.annsField-omitted=PASS; case.search.filter=PASS-EFFECT; case.search.limit-offset=PASS-EFFECT; case.search.metricType-match=PASS; case.search.metricType-mismatch=PASS-EFFECT; case.search.radius-rangeFilter=PASS-EFFECT; case.search.params-topLevel=RECORDED; case.search.searchParams-flat-ef=PASS; case.search.groupingField=PASS-EFFECT; case.search.strictGroupSize=RECORDED; case.search.partitionNames=PASS-EFFECT; case.search.consistencyLevel-Strong=PASS; case.search.consistencyLevel-Session=PASS; case.search.consistencyLevel-Bounded=PASS; case.search.consistencyLevel-Eventually=PASS; case.search.exprParams=PASS-EFFECT; case.search.functionScore-decay=PASS; case.search.functionScore-boost=PASS-EFFECT; case.search.fs-fc-mutual=PASS-EFFECT; case.search.functionChains-L2=PASS-EFFECT; case.search.functionChains-limit=PASS-EFFECT; case.search.functionChains-badStage=PASS-EFFECT; case.search.searchAggregation-full=PASS-EFFECT; case.search.searchAggregation-ids=REJECTED; case.search.searchAggregation-offset=PASS-EFFECT; case.search.orderByFields-desc=PASS-EFFECT; case.search.dbName=PASS",
+   "liveUat": "case.search.data-batch=PASS-EFFECT; case.search.data-missing=REJECTED; case.search.ids=PASS-EFFECT; case.search.ids-data-mutual=REJECTED(record); case.search.annsField-omitted=PASS; case.search.filter=PASS-EFFECT; case.search.limit-offset=PASS-EFFECT; case.search.metricType-match=PASS; case.search.metricType-mismatch=PASS-EFFECT; case.search.radius-rangeFilter=PASS-EFFECT; case.search.params-topLevel=RECORDED; case.search.searchParams-flat-ef=PASS; case.search.groupingField=PASS-EFFECT; case.search.strictGroupSize=RECORDED; case.search.partitionNames=PASS-EFFECT; case.search.consistencyLevel-Strong=PASS; case.search.consistencyLevel-Session=PASS; case.search.consistencyLevel-Bounded=PASS; case.search.consistencyLevel-Eventually=PASS; case.search.exprParams=PASS-EFFECT; case.search.functionScore-decay=PASS; case.search.functionScore-boost=PASS-EFFECT; case.search.fs-fc-mutual=PASS-EFFECT; case.search.functionChains-L2=PASS-EFFECT; case.search.functionChains-limit=PASS-EFFECT; case.search.functionChains-badStage=PASS-EFFECT; case.search.searchAggregation-full=PASS-EFFECT; case.search.searchAggregation-ids=REJECTED; case.search.searchAggregation-offset=PASS-EFFECT; case.search.orderByFields-desc=PASS-EFFECT; case.search.dbName=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "summary": "Hybrid Search",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.hybrid_search.search-minimal=PASS-EFFECT; case.hybrid_search.search-filter=PASS-EFFECT; case.hybrid_search.rerank-weighted=PASS; case.hybrid_search.rerank-omitted=REJECTED(record); case.hybrid_search.limit-offset=PASS-EFFECT; case.hybrid_search.partitionNames=PASS-EFFECT; case.hybrid_search.consistencyLevel-Strong=PASS; case.hybrid_search.consistencyLevel-Session=PASS; case.hybrid_search.consistencyLevel-Bounded=PASS; case.hybrid_search.consistencyLevel-Eventually=PASS; case.hybrid_search.radius-rangeFilter=PASS; case.hybrid_search.metricType-mismatch=PASS-EFFECT; case.hybrid_search.ignoreGrowing=PASS-EFFECT; case.hybrid_search.functionScore-decay=PASS; case.hybrid_search.functionChains-merge=REJECTED(record); case.hybrid_search.grouping=RECORDED; case.hybrid_search.dbName=PASS; case.hybrid_search.search-missing=REJECTED",
+   "liveUat": "case.hybrid_search.search-minimal=PASS-EFFECT; case.hybrid_search.search-filter=PASS-EFFECT; case.hybrid_search.rerank-weighted=PASS; case.hybrid_search.rerank-omitted=REJECTED(record); case.hybrid_search.limit-offset=PASS-EFFECT; case.hybrid_search.partitionNames=PASS-EFFECT; case.hybrid_search.consistencyLevel-Strong=PASS; case.hybrid_search.consistencyLevel-Session=PASS; case.hybrid_search.consistencyLevel-Bounded=PASS; case.hybrid_search.consistencyLevel-Eventually=PASS; case.hybrid_search.radius-rangeFilter=PASS; case.hybrid_search.metricType-mismatch=PASS-EFFECT; case.hybrid_search.ignoreGrowing=PASS-EFFECT; case.hybrid_search.functionScore-decay=PASS; case.hybrid_search.functionChains-merge=REJECTED(record); case.hybrid_search.grouping=RECORDED; case.hybrid_search.dbName=PASS; case.hybrid_search.search-missing=REJECTED"
+  },
+  {
+   "op": "POST /v2/vectordb/entities/get",
+   "summary": "Get",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.get.id-array=PASS-EFFECT; case.get.id-scalar=PASS-EFFECT; case.get.id-objectForm=REJECTED(record); case.get.id-missing=REJECTED; case.get.outputFields-specific=PASS-EFFECT; case.get.outputFields-star=PASS-EFFECT; case.get.partitionNames=PASS-EFFECT; case.get.partitionNames-unknown=REJECTED; case.get.partitionName-singular=RECORDED; case.get.consistencyLevel-Strong=PASS; case.get.consistencyLevel-Session=PASS; case.get.consistencyLevel-Bounded=PASS; case.get.consistencyLevel-Eventually=PASS",
+   "liveUat": "case.get.id-array=PASS-EFFECT; case.get.id-scalar=PASS-EFFECT; case.get.id-objectForm=REJECTED(record); case.get.id-missing=REJECTED; case.get.outputFields-specific=PASS-EFFECT; case.get.outputFields-star=PASS-EFFECT; case.get.partitionNames=PASS-EFFECT; case.get.partitionNames-unknown=REJECTED; case.get.partitionName-singular=RECORDED; case.get.consistencyLevel-Strong=PASS; case.get.consistencyLevel-Session=PASS; case.get.consistencyLevel-Bounded=PASS; case.get.consistencyLevel-Eventually=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/list",
+   "summary": "List Collections",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-list=PASS-EFFECT",
+   "liveUat": "case.admin.collections-list=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/create",
+   "summary": "Create Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "setup.setup.collections-create=RECORDED; setup.admin.collections-rename-create=RECORDED",
+   "liveUat": "setup.setup.collections-create=REJECTED(record); setup.admin.collections-rename-create=RECORDED"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/flush",
+   "summary": "Flush Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-flush=PASS",
+   "liveUat": "case.admin.collections-flush=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/compact",
+   "summary": "Compact Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-compact=PASS",
+   "liveUat": "case.admin.collections-compact=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/get_compaction_state",
+   "summary": "Get Compaction State",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-get_compaction_state=PASS",
+   "liveUat": "case.admin.collections-get_compaction_state=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/describe",
+   "summary": "Describe Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": null,
+   "liveUat": null
+  },
+  {
+   "op": "POST /v2/vectordb/collections/drop",
+   "summary": "Drop Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": null,
+   "liveUat": null
+  },
+  {
+   "op": "POST /v2/vectordb/collections/truncate",
+   "summary": "Truncate Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-truncate=PASS",
+   "liveUat": "case.admin.collections-truncate=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/has",
+   "summary": "Has Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": null,
+   "liveUat": null
+  },
+  {
+   "op": "POST /v2/vectordb/collections/get_stats",
+   "summary": "Get Collection Stats",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-get_stats=PASS-EFFECT",
+   "liveUat": "case.admin.collections-get_stats=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/refresh_load",
+   "summary": "Refresh Load",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-refresh_load=REJECTED(record)",
+   "liveUat": "case.admin.collections-refresh_load=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/alter_properties",
+   "summary": "Alter Collection Properties",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-alter_properties=RECORDED",
+   "liveUat": "case.admin.collections-alter_properties=RECORDED"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/drop_properties",
+   "summary": "Drop Collection Properties",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-drop_properties=RECORDED",
+   "liveUat": "case.admin.collections-drop_properties=RECORDED"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/fields/add",
+   "summary": "Add Collection Field",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-fields-add=REJECTED(record)",
+   "liveUat": "case.admin.collections-fields-add=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/fields/alter_properties",
+   "summary": "Alter Field Properties",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": null,
+   "liveUat": null
+  },
+  {
+   "op": "POST /v2/vectordb/collections/rename",
+   "summary": "Rename Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-rename=PASS-EFFECT",
+   "liveUat": "case.admin.collections-rename=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/load",
+   "summary": "Load Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": null,
+   "liveUat": null
+  },
+  {
+   "op": "POST /v2/vectordb/collections/release",
+   "summary": "Release Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-release-reload=PASS-EFFECT",
+   "liveUat": "case.admin.collections-release-reload=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/get_load_state",
+   "summary": "Get Collection Load State",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-get_load_state=PASS-EFFECT",
+   "liveUat": "case.admin.collections-get_load_state=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/add_function",
+   "summary": "Add Function to Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-add_function=REJECTED(record)",
+   "liveUat": "case.admin.collections-add_function=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/alter_function",
+   "summary": "Alter Function in Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-alter_function=REJECTED(record)",
+   "liveUat": "case.admin.collections-alter_function=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/drop_function",
+   "summary": "Drop Function from Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.collections-drop_function=RECORDED",
+   "liveUat": "case.admin.collections-drop_function=RECORDED"
+  },
+  {
+   "op": "POST /v2/vectordb/common/run_analyzer",
+   "summary": "Run Analyzer",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.common-run_analyzer=REJECTED(record)",
+   "liveUat": "case.admin.common-run_analyzer=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/external_collection/refresh",
+   "summary": "Refresh External Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.jobs-external-refresh=REJECTED(record)",
+   "liveUat": "case.admin.jobs-external-refresh=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/external_collection/describe",
+   "summary": "Describe External Collection Refresh Job",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.jobs-external-describe=REJECTED(record)",
+   "liveUat": "case.admin.jobs-external-describe=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/external_collection/list",
+   "summary": "List External Collection Refresh Jobs",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.jobs-external-list=REJECTED(record)",
+   "liveUat": "case.admin.jobs-external-list=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/add_function_field",
+   "summary": "Add Function Field to Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.collections-add_function_field=REJECTED(record)",
+   "liveUat": "case.admin.collections-add_function_field=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/drop_function_field",
+   "summary": "Drop Function Field from Collection",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.collections-drop_function_field=REJECTED(record)",
+   "liveUat": "case.admin.collections-drop_function_field=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/fields/drop",
+   "summary": "Drop Collection Field",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.collections-fields-drop=REJECTED(record)",
+   "liveUat": "case.admin.collections-fields-drop=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/collections/struct_fields/add",
+   "summary": "Add Collection Struct Field",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.collections-struct_fields-add=REJECTED(record)",
+   "liveUat": "case.admin.collections-struct_fields-add=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/databases/create",
+   "summary": "Create Database",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "setup.setup.databases-create=RECORDED",
+   "liveUat": "setup.setup.databases-create=RECORDED"
+  },
+  {
+   "op": "POST /v2/vectordb/databases/list",
+   "summary": "List Databases",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.databases-list=PASS-EFFECT",
+   "liveUat": "case.admin.databases-list=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/databases/describe",
+   "summary": "Describe Database",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.databases-describe=PASS",
+   "liveUat": "case.admin.databases-describe=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/databases/alter",
+   "summary": "Alter Database Properties",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.databases-alter=RECORDED",
+   "liveUat": "case.admin.databases-alter=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/databases/drop_properties",
+   "summary": "Drop Database Properties",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.databases-drop_properties=RECORDED",
+   "liveUat": "case.admin.databases-drop_properties=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/databases/drop",
+   "summary": "Drop Database",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": null,
+   "liveUat": null
+  },
+  {
+   "op": "POST /v2/vectordb/databases/alter_properties",
+   "summary": "Alter Database Properties (Compatibility Alias)",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.databases-alter_properties=RECORDED",
+   "liveUat": "case.admin.databases-alter_properties=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/indexes/create",
+   "summary": "Create Index",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "setup.setup.indexes-create=RECORDED",
+   "liveUat": "setup.setup.indexes-create=RECORDED"
+  },
+  {
+   "op": "POST /v2/vectordb/indexes/describe",
+   "summary": "Describe Index",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.indexes-describe=PASS-EFFECT",
+   "liveUat": "case.admin.indexes-describe=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/indexes/alter_properties",
+   "summary": "Alter Index Properties",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.indexes-alter_properties=REJECTED(record)",
+   "liveUat": "case.admin.indexes-alter_properties=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/indexes/drop_properties",
+   "summary": "Drop Index Properties",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.indexes-drop_properties=REJECTED(record)",
+   "liveUat": "case.admin.indexes-drop_properties=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/indexes/drop",
+   "summary": "Drop Index",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": null,
+   "liveUat": null
+  },
+  {
+   "op": "POST /v2/vectordb/indexes/list",
+   "summary": "List Indexes",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.indexes-list=PASS-EFFECT",
+   "liveUat": "case.admin.indexes-list=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/partitions/list",
+   "summary": "List Partitions",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.partitions-list=PASS-EFFECT",
+   "liveUat": "case.admin.partitions-list=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/partitions/create",
+   "summary": "Create Partition",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "setup.setup.partitions-create-p1=RECORDED; setup.setup.partitions-create-p2=RECORDED; setup.setup.partitions-create-p3=RECORDED; setup.admin.partitions-drop-create=RECORDED",
+   "liveUat": "setup.setup.partitions-create-p1=RECORDED; setup.setup.partitions-create-p2=RECORDED; setup.setup.partitions-create-p3=RECORDED; setup.admin.partitions-drop-create=RECORDED"
+  },
+  {
+   "op": "POST /v2/vectordb/partitions/load",
+   "summary": "Load Partitions",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.partitions-load=PASS",
+   "liveUat": "case.admin.partitions-load=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/partitions/release",
+   "summary": "Release Partitions",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.partitions-release=PASS",
+   "liveUat": "case.admin.partitions-release=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/partitions/has",
+   "summary": "Has Partition",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "setup.setup.partitions-has=PASS-EFFECT",
+   "liveUat": "setup.setup.partitions-has=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/partitions/get_stats",
+   "summary": "Get Partition Statistics",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.partitions-get_stats=PASS",
+   "liveUat": "case.admin.partitions-get_stats=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/partitions/drop",
+   "summary": "Drop Partition",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": null,
+   "liveUat": null
+  },
+  {
+   "op": "POST /v2/vectordb/roles/list",
+   "summary": "List Roles",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.roles-list=PASS-EFFECT",
+   "liveUat": "case.admin.roles-list=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/roles/describe",
+   "summary": "Describe Role",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.roles-describe=PASS",
+   "liveUat": "case.admin.roles-describe=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/roles/create",
+   "summary": "Create Role",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.roles-create=PASS",
+   "liveUat": "case.admin.roles-create=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/roles/grant_privilege",
+   "summary": "Grant Object Privilege To Role",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.roles-grant_privilege=REJECTED(record)",
+   "liveUat": "case.admin.roles-grant_privilege=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/roles/revoke_privilege",
+   "summary": "Revoke Object Privilege From Role",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.roles-revoke_privilege=REJECTED(record)",
+   "liveUat": "case.admin.roles-revoke_privilege=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/roles/drop",
+   "summary": "Drop Role",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.roles-drop=PASS",
+   "liveUat": "case.admin.roles-drop=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/roles/grant_privilege_v2",
+   "summary": "Grant Privilege To Role",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.roles-grant_privilege_v2=REJECTED(record)",
+   "liveUat": "case.admin.roles-grant_privilege_v2=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/roles/revoke_privilege_v2",
+   "summary": "Revoke Privilege From Role",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.roles-revoke_privilege_v2=REJECTED(record)",
+   "liveUat": "case.admin.roles-revoke_privilege_v2=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/roles/alter",
+   "summary": "Alter Role",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.roles-alter=RECORDED",
+   "liveUat": "case.admin.roles-alter=RECORDED"
+  },
+  {
+   "op": "POST /v2/vectordb/resource_groups/create",
+   "summary": "Create Resource Group",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.resource_groups-create=RECORDED",
+   "liveUat": "case.admin.resource_groups-create=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/resource_groups/alter",
+   "summary": "Update Resource Group",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.resource_groups-alter=REJECTED(record)",
+   "liveUat": "case.admin.resource_groups-alter=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/resource_groups/describe",
+   "summary": "Describe Resource Group",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.resource_groups-describe=REJECTED(record)",
+   "liveUat": "case.admin.resource_groups-describe=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/resource_groups/list",
+   "summary": "List Resource Groups",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.resource_groups-list=PASS",
+   "liveUat": "case.admin.resource_groups-list=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/resource_groups/drop",
+   "summary": "Drop Resource Group",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.resource_groups-drop=RECORDED",
+   "liveUat": "case.admin.resource_groups-drop=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/resource_groups/transfer_replica",
+   "summary": "Transfer Collection Replica",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.resource_groups-transfer_replica=REJECTED(record)",
+   "liveUat": "case.admin.resource_groups-transfer_replica=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/import/create",
+   "summary": "Create Import Jobs",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.import-create=REJECTED(record)",
+   "liveUat": "case.admin.import-create=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/import/list",
+   "summary": "List Import Jobs",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.import-list=PASS",
+   "liveUat": "case.admin.import-list=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/import/get_progress",
+   "summary": "Get Import Job Progress",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.import-get_progress=REJECTED(record)",
+   "liveUat": "case.admin.import-get_progress=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/import/describe",
+   "summary": "Get Import Job Progress",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.import-describe=REJECTED(record)",
+   "liveUat": "case.admin.import-describe=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/import/abort",
+   "summary": "Abort Import Job",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.import-abort=REJECTED(record)",
+   "liveUat": "case.admin.import-abort=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/import/commit",
+   "summary": "Commit Import Job",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.import-commit=REJECTED(record)",
+   "liveUat": "case.admin.import-commit=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/aliases/list",
+   "summary": "List Aliases",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.aliases-list=PASS-EFFECT",
+   "liveUat": "case.admin.aliases-list=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/aliases/describe",
+   "summary": "Describe Alias",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.aliases-describe=PASS-EFFECT",
+   "liveUat": "case.admin.aliases-describe=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/aliases/alter",
+   "summary": "Alter Alias",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.aliases-alter=RECORDED",
+   "liveUat": "case.admin.aliases-alter=RECORDED"
+  },
+  {
+   "op": "POST /v2/vectordb/aliases/drop",
+   "summary": "Drop Alias",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.aliases-drop=PASS-EFFECT",
+   "liveUat": "case.admin.aliases-drop=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/aliases/create",
+   "summary": "Create Alias",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.aliases-create=PASS",
+   "liveUat": "case.admin.aliases-create=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/users/create",
+   "summary": "Create User",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.users-create=PASS",
+   "liveUat": "case.admin.users-create=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/users/describe",
+   "summary": "Describe User",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.users-describe=PASS",
+   "liveUat": "case.admin.users-describe=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/users/list",
+   "summary": "List Users",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.users-list=PASS-EFFECT",
+   "liveUat": "case.admin.users-list=PASS-EFFECT"
+  },
+  {
+   "op": "POST /v2/vectordb/users/drop",
+   "summary": "Drop User",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.users-drop=PASS",
+   "liveUat": "case.admin.users-drop=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/users/update_password",
+   "summary": "Update User",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.users-update_password=PASS",
+   "liveUat": "case.admin.users-update_password=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/users/grant_role",
+   "summary": "Grant Role To User",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.users-grant_role=PASS",
+   "liveUat": "case.admin.users-grant_role=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/users/revoke_role",
+   "summary": "Revoke Role From User",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.users-revoke_role=PASS",
+   "liveUat": "case.admin.users-revoke_role=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/privilege_groups/create",
+   "summary": "Create Privilege Group",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.privilege_groups-create=PASS",
+   "liveUat": "case.admin.privilege_groups-create=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/privilege_groups/drop",
+   "summary": "Drop Privilege Group",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.privilege_groups-drop=PASS",
+   "liveUat": "case.admin.privilege_groups-drop=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/privilege_groups/list",
+   "summary": "List Privilege Groups",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.privilege_groups-list=PASS",
+   "liveUat": "case.admin.privilege_groups-list=PASS"
+  },
+  {
+   "op": "POST /v2/vectordb/privilege_groups/add_privileges_to_group",
+   "summary": "Add Privileges to Group",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.privilege_groups-add=REJECTED(record)",
+   "liveUat": "case.admin.privilege_groups-add=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/privilege_groups/remove_privileges_from_group",
+   "summary": "Remove Privileges from Group",
+   "declaredInFragments": true,
+   "inSkeleton2626": true,
+   "inSkeleton305": true,
+   "trackGuess": "both",
+   "liveMilvus": "case.admin.privilege_groups-remove=REJECTED(record)",
+   "liveUat": "case.admin.privilege_groups-remove=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/file_resources/add",
+   "summary": "Add File Resource",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.file_resources-add=REJECTED(record)",
+   "liveUat": "case.admin.file_resources-add=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/file_resources/list",
+   "summary": "List File Resources",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.file_resources-list=REJECTED(record)",
+   "liveUat": "case.admin.file_resources-list=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/file_resources/remove",
+   "summary": "Remove File Resource",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.file_resources-remove=REJECTED(record)",
+   "liveUat": "case.admin.file_resources-remove=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/snapshot/describe",
+   "summary": "Get Restore Snapshot Job State",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.jobs-snapshot-describe=REJECTED(record)",
+   "liveUat": "case.admin.jobs-snapshot-describe=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/snapshot/export",
+   "summary": "Export Snapshot",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.jobs-snapshot-export=REJECTED(record)",
+   "liveUat": "case.admin.jobs-snapshot-export=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/snapshot/list",
+   "summary": "List Restore Snapshot Jobs",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.jobs-snapshot-list=REJECTED(record)",
+   "liveUat": "case.admin.jobs-snapshot-list=REJECTED(record)"
+  },
+  {
+   "op": "POST /v2/vectordb/jobs/snapshot/restore_external",
+   "summary": "Restore External Snapshot",
+   "declaredInFragments": true,
+   "inSkeleton2626": false,
+   "inSkeleton305": true,
+   "trackGuess": "3.0-only(+master)",
+   "liveMilvus": "case.admin.jobs-snapshot-restore=REJECTED(record)",
+   "liveUat": "case.admin.jobs-snapshot-restore=REJECTED(record)"
+  }
+ ]
+}
