@@ -127,6 +127,20 @@ node scripts/docs-workflow/replay-shared-pages.js \
 
 The long-form evidence procedures live in [runbook/replay-harnesses.md](runbook/replay-harnesses.md): the semantics of the `--legacy-baseline`/`--comparison-baseline-sha`/`--site` flags above, the retained-artifact recovery replay through `replay-recovery-plan.js` (snapshot-root contract, safe roots, evidence to preserve), and the step-by-step requested Guides replay against real retained artifacts.
 
+### Diagnose shared Guides fallback failures
+
+When a shared page cannot be generated or activated, the source job logs a
+`[shared-fallback]` JSON line with its Base record ID, page, error code, reason,
+and retained paths before canonical-link auditing. Start with that reason even
+if the source job later fails before uploading its source artifact.
+
+Fallback keeps the exact pinned dev record and file bytes. Explicit snapshot
+`output_paths` remain authoritative; legacy Feishu records with empty paths use
+that same baseline's navigation and Git inventory to resolve their historical
+files. Current Base edits or cached source paths cannot expand the retained set.
+Source-bundle and final-publication validation use the same rule and still check
+file hashes. A partial fallback run is not eligible for successful cache promotion.
+
 ### Start and monitor a publication
 
 For a normal full release, dispatch `fetch lark docs` with:

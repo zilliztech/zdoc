@@ -4,7 +4,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
-const {digest, regularBytes, pendingSourceSnapshot, git, snapshotPath} = require('./sharedPageFetch')
+const {digest, regularBytes, pendingSourceSnapshot, git, snapshotPath, baselineOutputPaths} = require('./sharedPageFetch')
 const {validateSharedReceipt, validateSharedSnapshotRecord, validateActiveState} = require('./sharedPageRouting')
 const hashSnapshot = snapshot => require('./sourceCompleteness').hashSnapshot(snapshot)
 const MANIFEST = 'generated/en/manifests/shared-pages/guides'
@@ -173,10 +173,11 @@ function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = nul
       const pinned = git(workspace, ['show', `${authority.dev_commit}:${snapshotPath}`]).toString('utf8')
       check(pinned === authority.baseline_snapshot, 'fallback snapshot is not pinned baseline')
       const previous = JSON.parse(pinned)
+      const baselineFiles = git(workspace, ['ls-tree', '-r', '--name-only', '-z', authority.dev_commit, '--', 'content/en/guides', 'content/en/byoc']).toString().split('\0').filter(Boolean)
       for (const fallback of authority.fallbacks) {
         const old = previous.records.find(row => row.record_id === fallback.record.record_id)
         check(old && equal(old, fallback.record) && equal(old, snapshot.records.find(row => row.record_id === old.record_id)), 'fallback canonical record mismatch')
-        check(equal([...old.output_paths].sort(), fallback.outputs.map(o => o.path).sort()), 'fallback output set mismatch')
+        check(equal(baselineOutputPaths(previous, old.record_id, baselineFiles), fallback.outputs.map(o => o.path).sort()), `fallback output set mismatch: ${old.record_id}`)
         for (const output of fallback.outputs) {
           check(digest(git(workspace, ['show', `${authority.dev_commit}:${output.path}`])) === output.sha256, 'fallback is not pinned baseline bytes')
           if (verifyFiles) check(digest(read(workspace, output.path)) === output.sha256, 'published fallback bytes mismatch')

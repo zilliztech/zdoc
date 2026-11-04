@@ -116,9 +116,9 @@ function validateBundle(files, expected = {}) {
         activations.pages.push(entry)
       }
     } else if (outcome.status === 'fallback') {
-      const prior = prep.previous_snapshot?.records?.find(record => record.record_id === outcome.record_id)
+      const expectedPaths = require('./sharedPageFetch').baselineOutputPaths(prep.previous_snapshot, outcome.record_id, [...inventory.keys()])
       descriptors = outcome.baseline.outputs
-      if (!Array.isArray(descriptors) || !equal([...descriptors.map(o => o.path)].sort(), [...(prior?.output_paths || [])].sort())) fail('incomplete baseline outputs')
+      if (!Array.isArray(descriptors) || !equal([...descriptors.map(o => o.path)].sort(), expectedPaths)) fail(`incomplete baseline outputs for ${outcome.record_id}: expected ${JSON.stringify(expectedPaths)}, received ${JSON.stringify(Array.isArray(descriptors) ? descriptors.map(o => o.path) : descriptors)}`)
       const active = bundle.baseline_active.pages.find(entry => entry.record === outcome.record_id) || null
       if (!equal(active, outcome.baseline.active)) fail('fallback activation')
       const receipt = outcome.baseline.receipt

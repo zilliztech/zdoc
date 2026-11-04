@@ -147,13 +147,19 @@ test('generation resolves the record-id ambiguity while the legacy docx source s
   assert.equal(bundle.outcomes[0].status, 'success', JSON.stringify(bundle.outcomes))
 })
 
-test('fallback derives retained baselines from the legacy source when snapshot output_paths are absent', {timeout: 120000}, async t => {
+test('legacy fallback with empty snapshot paths survives source and publication authentication', {timeout: 120000}, async t => {
   const options = await fixture(t)
   await write(options.sourceDir, 'reader.json', JSON.stringify(inbound))
   await injectLegacySource(options)
   options.candidate.records.push({record_id: 'reader', source_file: 'reader.json', table_id: 'reader-table'})
-  // Production snapshots never populate record output_paths.
-  options.preparation.previous_snapshot.records[0].output_paths = []
+  // Pin a real legacy snapshot rather than mutating only the in-memory evidence.
+  const prior = JSON.parse(fs.readFileSync(path.join(options.baselineRoot, adapter.snapshotPath)))
+  prior.records[0].output_paths = []
+  await write(options.baselineRoot, adapter.snapshotPath, JSON.stringify(prior))
+  await git(options.baselineRoot, 'add', '.'); await git(options.baselineRoot, 'commit', '--quiet', '-m', 'Legacy snapshot without output paths')
+  options.devCommit = await git(options.baselineRoot, 'rev-parse', 'HEAD')
+  options.preparation = adapter.prepareSharedSources({...options, devCommit: options.devCommit}).data
+  options.candidate.records.find(row => row.record_id === 'rec0').shared_page = options.preparation.inputs.rec0.identity
   const bundle = await generateSharedSources(options, {fetchOld: async () => {throw new Error('old doc unavailable')}})
   const outcome = bundle.outcomes[0]
   assert.equal(outcome.status, 'fallback')
@@ -163,6 +169,43 @@ test('fallback derives retained baselines from the legacy source when snapshot o
   for (const output of outcome.baseline.outputs) {
     assert.deepEqual(fs.readFileSync(path.join(options.out, output.file)), fs.readFileSync(path.join(options.baselineRoot, output.path)))
   }
+  const handoff = require('../../packages/docs-tooling/src/lark/sharedPageBundle').loadBundle(options.out)
+  await git(options.repositoryRoot, 'fetch', options.baselineRoot, options.devCommit)
+  for (const output of outcome.baseline.outputs) await write(options.repositoryRoot, output.path, handoff.files.get(output.file))
+  const api = require('../../packages/docs-tooling/src/lark/sharedPagePublication')
+  const result = api.finalizePublication({workspace: options.repositoryRoot, handoff, candidate: options.candidate})
+  assert.equal(result.publication.cache_eligible, false)
+  assert.deepEqual(result.snapshot.records.find(row => row.record_id === 'rec0'), prior.records[0])
+  assert.deepEqual([...api.publishedEvidence(options.repositoryRoot, result.snapshot).fallbackIds], ['rec0'])
+  const {validateBundle} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const changed = structuredClone(bundle), files = new Map(handoff.files)
+  changed.outcomes[0].baseline.outputs.pop()
+  files.set('bundle.json', Buffer.from(JSON.stringify(changed)))
+  assert.throws(() => validateBundle(files), /incomplete baseline outputs for rec0: expected/)
+  const authorityFile = path.join(options.repositoryRoot, api.MANIFEST, '_publication.json')
+  const authority = JSON.parse(fs.readFileSync(authorityFile)); authority.fallbacks[0].outputs.pop()
+  fs.writeFileSync(authorityFile, JSON.stringify(authority))
+  assert.throws(() => api.publishedEvidence(options.repositoryRoot, result.snapshot), /fallback output set mismatch: rec0/)
+})
+
+test('baseline output resolution uses historical targets, ancestors and category landings', () => {
+  const snapshot = {records: [{record_id: 'page', output_paths: []}], navigation_records: [
+    {record_id: 'parent', slug: 'old-parent', parent_record_ids: []},
+    {record_id: 'page', slug: 'old-page', table_name: 'Manage Data', parent_record_ids: ['parent'], targets: ['zilliz.saas']},
+    {record_id: 'child', slug: 'child', parent_record_ids: ['page']},
+  ]}
+  const retained = 'content/en/guides/tutorials/manage-data/old-parent/old-page/old-page.md'
+  const files = [retained, retained.replace('/guides/', '/byoc/'), 'content/en/guides/tutorials/new-table/new-page.md', 'content/en/guides/unrelated.md']
+  assert.deepEqual(adapter.baselineOutputPaths(snapshot, 'page', files), [retained])
+  assert.deepEqual(adapter.baselineOutputPaths(snapshot, 'new-record', files), [])
+  assert.throws(() => adapter.baselineOutputPaths(snapshot, 'page', [...files, retained.replace(/\.md$/, '.mdx')]), /Ambiguous baseline outputs/)
+  snapshot.records[0].output_paths = ['content/en/byoc/tutorials/historical/explicit.mdx']
+  assert.deepEqual(adapter.baselineOutputPaths(snapshot, 'page', files), snapshot.records[0].output_paths)
+  snapshot.records[0].output_paths = []
+  snapshot.navigation_records[0].parent_record_ids = ['page']
+  assert.throws(() => adapter.baselineOutputPaths(snapshot, 'page', files), /Cyclic baseline navigation/)
+  snapshot.navigation_records[0].parent_record_ids = ['missing']
+  assert.throws(() => adapter.baselineOutputPaths(snapshot, 'page', files), /Invalid baseline parents/)
 })
 
 test('cold cache old-document failure preserves both manual baselines while a sibling succeeds', {timeout: 120000}, async t => {
@@ -536,6 +579,7 @@ test('source image orchestration reuses accepted scratch across pages and reject
 })
 test('authenticated fallback preserves exactly the historical target set, including a legitimate one-target page', {timeout: 120000}, async t => {
   const options = await fixture(t, {singleTarget: true})
+  await injectLegacySource(options) // A cached second target must not expand the declared historical set.
   await write(options.sourceDir, 'reader.json', JSON.stringify(inbound))
   options.candidate.records.push({record_id: 'reader', source_file: 'reader.json', table_id: 'reader-table'})
   const bundle = await generateSharedSources(options, {fetchOld: async () => {throw Error('unavailable')}})
