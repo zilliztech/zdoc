@@ -1,0 +1,266 @@
+{
+ "code": 0,
+ "data": {
+  "count": 8,
+  "currentPage": 1,
+  "pageSize": 10,
+  "alertRules": [
+   {
+    "id": "e646f64beee341d0ab7fbda353316ab1",
+    "orgId": "org-oyesngcnbexuketrearipy",
+    "projectId": "proj-40c503b4d73e5ff56bbf50",
+    "enabled": false,
+    "sendResolved": false,
+    "level": "WARNING",
+    "ruleName": "P99 Query Latency",
+    "metricName": "REQ_QUERY_LATENCY_P99",
+    "metricUnit": "millisecond",
+    "windowSize": "10",
+    "threshold": "1000",
+    "comparisonMethod": "GREATER_THAN",
+    "targetInstanceIds": [],
+    "actions": [
+     {
+      "type": "EMAIL",
+      "config": {
+       "recipients": {
+        "members": [],
+        "orgRoles": [
+         "OWNER"
+        ],
+        "projectRoles": [
+         "OWNER"
+        ]
+       }
+      }
+     }
+    ],
+    "repeatIntervalSeconds": null
+   },
+   {
+    "id": "e85ac41c73e245a3917bc83386fc97cc",
+    "orgId": "org-oyesngcnbexuketrearipy",
+    "projectId": "proj-40c503b4d73e5ff56bbf50",
+    "enabled": false,
+    "sendResolved": false,
+    "level": "WARNING",
+    "ruleName": "P99 Search Latency",
+    "metricName": "REQ_SEARCH_LATENCY_P99",
+    "metricUnit": "millisecond",
+    "windowSize": "10",
+    "threshold": "1000",
+    "comparisonMethod": "GREATER_THAN",
+    "targetInstanceIds": [],
+    "actions": [
+     {
+      "type": "EMAIL",
+      "config": {
+       "recipients": {
+        "members": [],
+        "orgRoles": [
+         "OWNER"
+        ],
+        "projectRoles": [
+         "OWNER"
+        ]
+       }
+      }
+     }
+    ],
+    "repeatIntervalSeconds": null
+   },
+   {
+    "id": "24bba2ede1b045a9bd98814fd73fd02d",
+    "orgId": "org-oyesngcnbexuketrearipy",
+    "projectId": "proj-40c503b4d73e5ff56bbf50",
+    "enabled": false,
+    "sendResolved": false,
+    "level": "WARNING",
+    "ruleName": "Query QPS",
+    "metricName": "REQ_QUERY_COUNT",
+    "metricUnit": "qps",
+    "windowSize": "10",
+    "threshold": "50",
+    "comparisonMethod": "GREATER_THAN",
+    "targetInstanceIds": [],
+    "actions": [
+     {
+      "type": "EMAIL",
+      "config": {
+       "recipients": {
+        "members": [],
+        "orgRoles": [
+         "OWNER"
+        ],
+        "projectRoles": [
+         "OWNER"
+        ]
+       }
+      }
+     }
+    ],
+    "repeatIntervalSeconds": null
+   },
+   {
+    "id": "fddee28dbe2344c187864e6b3e4c9377",
+    "orgId": "org-oyesngcnbexuketrearipy",
+    "projectId": "proj-40c503b4d73e5ff56bbf50",
+    "enabled": false,
+    "sendResolved": false,
+    "level": "WARNING",
+    "ruleName": "Search QPS",
+    "metricName": "REQ_SEARCH_COUNT",
+    "metricUnit": "qps",
+    "windowSize": "10",
+    "threshold": "50",
+    "comparisonMethod": "GREATER_THAN",
+    "targetInstanceIds": [],
+    "actions": [
+     {
+      "type": "EMAIL",
+      "config": {
+       "recipients": {
+        "members": [],
+        "orgRoles": [
+         "OWNER"
+        ],
+        "projectRoles": [
+         "OWNER"
+        ]
+       }
+      }
+     }
+    ],
+    "repeatIntervalSeconds": null
+   },
+   {
+    "id": "61cbc2ec62464b64a37828b874ea6867",
+    "orgId": "org-oyesngcnbexuketrearipy",
+    "projectId": "proj-40c503b4d73e5ff56bbf50",
+    "enabled": true,
+    "sendResolved": false,
+    "level": "CRITICAL",
+    "ruleName": "CU Capacity",
+    "metricName": "CU_CAPACITY",
+    "metricUnit": "percent",
+    "windowSize": "10",
+    "threshold": "90",
+    "comparisonMethod": "GREATER_THAN",
+    "targetInstanceIds": [],
+    "actions": [
+     {
+      "type": "EMAIL",
+      "config": {
+       "recipients": {
+        "members": [],
+        "orgRoles": [
+         "OWNER"
+        ],
+        "projectRoles": [
+         "OWNER"
+        ]
+       }
+      }
+     }
+    ],
+    "repeatIntervalSeconds": null
+   },
+   {
+    "id": "23a80520ff9e451487d02137c1715dd1",
+    "orgId": "org-oyesngcnbexuketrearipy",
+    "projectId": "proj-40c503b4d73e5ff56bbf50",
+    "enabled": true,
+    "sendResolved": false,
+    "level": "WARNING",
+    "ruleName": "CU Capacity",
+    "metricName": "CU_CAPACITY",
+    "metricUnit": "percent",
+    "windowSize": "10",
+    "threshold": "70",
+    "comparisonMethod": "GREATER_THAN",
+    "targetInstanceIds": [],
+    "actions": [
+     {
+      "type": "EMAIL",
+      "config": {
+       "recipients": {
+        "members": [],
+        "orgRoles": [
+         "OWNER"
+        ],
+        "projectRoles": [
+         "OWNER"
+        ]
+       }
+      }
+     }
+    ],
+    "repeatIntervalSeconds": null
+   },
+   {
+    "id": "34d8097f33714302b86a2af0df84e3f9",
+    "orgId": "org-oyesngcnbexuketrearipy",
+    "projectId": "proj-40c503b4d73e5ff56bbf50",
+    "enabled": true,
+    "sendResolved": false,
+    "level": "CRITICAL",
+    "ruleName": "CU Computation",
+    "metricName": "CU_COMPUTATION",
+    "metricUnit": "percent",
+    "windowSize": "10",
+    "threshold": "90",
+    "comparisonMethod": "GREATER_THAN",
+    "targetInstanceIds": [],
+    "actions": [
+     {
+      "type": "EMAIL",
+      "config": {
+       "recipients": {
+        "members": [],
+        "orgRoles": [
+         "OWNER"
+        ],
+        "projectRoles": [
+         "OWNER"
+        ]
+       }
+      }
+     }
+    ],
+    "repeatIntervalSeconds": null
+   },
+   {
+    "id": "3ff1d1de0f294287b6712e3679dabc16",
+    "orgId": "org-oyesngcnbexuketrearipy",
+    "projectId": "proj-40c503b4d73e5ff56bbf50",
+    "enabled": true,
+    "sendResolved": false,
+    "level": "WARNING",
+    "ruleName": "CU Computation",
+    "metricName": "CU_COMPUTATION",
+    "metricUnit": "percent",
+    "windowSize": "10",
+    "threshold": "70",
+    "comparisonMethod": "GREATER_THAN",
+    "targetInstanceIds": [],
+    "actions": [
+     {
+      "type": "EMAIL",
+      "config": {
+       "recipients": {
+        "members": [],
+        "orgRoles": [
+         "OWNER"
+        ],
+        "projectRoles": [
+         "OWNER"
+        ]
+       }
+      }
+     }
+    ],
+    "repeatIntervalSeconds": null
+   }
+  ]
+ }
+}

@@ -1222,6 +1222,15 @@ export function buildSuite(ctx, call) {
   push({ id: "admin.import-abort", family: "import", op: "/jobs/import/abort", kind: "observe", expect: "record", param: "jobId", intent: "abort with unknown id", body: { jobId: "none" } })
   push({ id: "admin.import-commit", family: "import", op: "/jobs/import/commit", kind: "observe", expect: "record", param: "(unknown shape)", intent: "commit probe (3.0-era route)", body: {} })
 
+  // file resources + snapshot jobs (37/38 fragments, 3.0-era routes)
+  push({ id: "admin.file_resources-add", family: "file_resources", op: "/file_resources/add", kind: "observe", expect: "record", param: "(3.0-only)", intent: "file resource add probe (3.0-era route; needs real object storage)", body: {} })
+  push({ id: "admin.file_resources-list", family: "file_resources", op: "/file_resources/list", kind: "observe", expect: "record", param: "(3.0-only)", intent: "file resource list probe", body: {} })
+  push({ id: "admin.file_resources-remove", family: "file_resources", op: "/file_resources/remove", kind: "observe", expect: "record", param: "(3.0-only)", intent: "file resource remove probe", body: {} })
+  push({ id: "admin.jobs-snapshot-describe", family: "snapshots", op: "/jobs/snapshot/describe", kind: "observe", expect: "record", param: "(3.0-only)", intent: "snapshot restore-job describe probe", body: { jobId: "none" } })
+  push({ id: "admin.jobs-snapshot-list", family: "snapshots", op: "/jobs/snapshot/list", kind: "observe", expect: "record", param: "(3.0-only)", intent: "snapshot restore-job list probe", body: {} })
+  push({ id: "admin.jobs-snapshot-export", family: "snapshots", op: "/jobs/snapshot/export", kind: "observe", expect: "record", param: "(3.0-only)", intent: "snapshot export probe (needs snapshot fixture)", body: {} })
+  push({ id: "admin.jobs-snapshot-restore", family: "snapshots", op: "/jobs/snapshot/restore_external", kind: "observe", expect: "record", param: "(3.0-only)", intent: "external snapshot restore probe", body: {} })
+
   // import v1 (absolute paths; 01 fragment)
   push({ id: "admin.importv1-create", family: "import_v1", op: "/v1/vector/collections/import", kind: "observe", expect: "record", param: "(v1 API)", intent: "v1 import create", body: (hh) => ({ collectionName: hh.DB2_COLL, dbName: hh.DB2 }) })
   push({ id: "admin.importv1-get", family: "import_v1", op: "/v1/vector/collections/import/get", kind: "observe", expect: "record", param: "(v1 API)", intent: "v1 import get", body: { jobId: "none" } })

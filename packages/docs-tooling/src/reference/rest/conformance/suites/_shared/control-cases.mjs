@@ -4,7 +4,8 @@
 // the round's cleanup, and stale prefixed leftovers are swept at start.
 // Read cases on pre-existing resources are read-only and never mutate them.
 
-import fs from "node:fs"
+
+import { buildExtraCases } from "./control-cases-extra.mjs"
 
 export function buildControlSuite(ctx, call) {
   const P = ctx.prefix
@@ -12,7 +13,7 @@ export function buildControlSuite(ctx, call) {
   if (!PROJECT) throw new Error(`env ${ctx.projectEnv || "ZILLIZ_UAT3_PROJECT"} not set`)
   const state = {} // createdIds: {cluster, apiKey, project}, regionId, integrationId
 
-  const j = (p) => JSON.stringify(p).slice(0, 160)
+    const j = (p) => JSON.stringify(p).slice(0, 160)
 
   async function sweep() {
     // residual cleanup: any run- prefixed clusters/api-keys/projects from
@@ -83,10 +84,10 @@ export function buildControlSuite(ctx, call) {
   push({
     id: "projects.create-run", family: "projects", op: "/v2/projects", method: "POST", kind: "observe", expect: "record",
     param: "name", intent: "project lifecycle: create disposable run- project",
-    body: { name: `${P}_proj_${Date.now() % 100000}` },
+    body: () => ({ projectName: `${P}_proj_legacy_${Date.now() % 100000}`, plan: "Enterprise", regionIds: [state.serverlessRegionId] }),
     effect: (hh, res) => {
-      const d = (res.json && res.json.data) || {}
-      state.projectId = d.projectId || d.id
+      const d = (res.json && res.json.data)
+      state.projectId = typeof d === "string" ? d : (d && (d.projectId || d.id))
       return { ok: !!state.projectId, detail: "projectId=" + (state.projectId || "none") }
     },
   })
@@ -289,5 +290,5 @@ export function buildControlSuite(ctx, call) {
     try { await sweep() } catch (e) { console.error("# cleanup sweep failed:", e && e.message) }
   }
 
-  return { h: { state, PROJECT }, prepare: async () => {}, setupCases, finalize: async () => {}, cases, cleanup }
+  return { h: { state, PROJECT }, prepare: async () => {}, setupCases, finalize: async () => {}, cases: cases.concat(buildExtraCases({ prefix: P }, call, state)), cleanup }
 }

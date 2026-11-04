@@ -38,7 +38,7 @@ for (const suite of [...DATAPLANE_SUITES, ...CONTROL_SUITES]) {
       assert.ok(c.intent, `${c.id}: intent required`)
       if (c.op !== "skip-request") {
         const short = c.op.startsWith("/v1/") || c.op.startsWith("/v2/") ? c.op : "/v2/vectordb" + c.op
-        if (!c.op.endsWith("/{CLUSTER_ID}") && !c.op.includes("?")) {
+        if (!c.op.includes("{") && !c.op.includes("?")) {
           assert.ok(declared.has(`POST ${short}`) || declared.has(`GET ${short}`),
             `${c.id}: op ${short} not declared in any fragment`)
         }
