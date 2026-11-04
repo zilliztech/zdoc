@@ -40,3 +40,7 @@ allow:
   - '**Behavior change in Milvus 3.0**. In earlier versions, `AUTOINDEX` on JSON paths always built an `INVERTED` index. From Milvus 3.0, `AUTOINDEX` picks between `BITMAP` and `STL_SORT` for scalar cast types. For `JSON`, `AUTOINDEX` still uses `INVERTED`, although whole-object JSON indexing is deprecated. For array cast types and text-match queries, specify `INVERTED` explicitly.'
   - '| `JSON` | An entire JSON object or sub-object with automatic type inference and flattening. Deprecated starting in Milvus 3.0.0. | any nested object | Yes (deprecated) | Yes (deprecated) | No | No |'
   - '- You''re maintaining an existing whole-object JSON index. Both `INVERTED` and `AUTOINDEX` remain supported for compatibility, but whole-object JSON indexing is deprecated starting in Milvus 3.0.0.'
+  # Scalar index pages: SDK client comment, 3-gram sample word, engine-version note.
+  - "// Initialize Milvus client"
+  - "\"Milvus\"* is split into 3-grams"
+  - "**Milvus v2.6.x**"

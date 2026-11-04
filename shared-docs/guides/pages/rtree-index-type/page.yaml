@@ -1,0 +1,17 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/indexes/scalar/rtree.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/scalar-index/rtree-index-type
+  - manual: guides-byoc
+    path: tutorials/development/scalar-index/rtree-index-type
+
+transforms:
+  - operation: replace
+    target:
+      block: rtree-drop-note
+    content:
+      file: cloud-drop-note.md
