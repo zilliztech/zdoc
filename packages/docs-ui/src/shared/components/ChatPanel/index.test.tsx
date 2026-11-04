@@ -64,4 +64,21 @@ describe('chat composer and reading position', () => {
     view.rerender(panel());
     expect(messages.scrollTop).toBe(180);
   });
+  it('uses server busy for initial and trailing phases, hiding loading immediately on text/wait', () => {
+    state.current.messages = [{role: 'user', text: 'Question'}, {role: 'assistant', text: '', status: 'calculating', busy: true}];
+    state.current.isStreaming = true;
+    const view = render(panel());
+    expect(screen.getByRole('status').textContent).toBe('Calculating…');
+    state.current.messages[1] = {role: 'assistant', text: '', status: 'waiting_for_input', busy: false};
+    view.rerender(panel());
+    expect(screen.queryByRole('status')).toBeNull();
+    state.current.messages[1] = {role: 'assistant', text: 'Partial answer', status: 'answering', busy: true};
+    view.rerender(panel());
+    expect(screen.getByText('Partial answer')).toBeTruthy();
+    expect(screen.getByRole('status').textContent).toBe('Answering…');
+    state.current.messages[1] = {role: 'assistant', text: 'Resumed answer', busy: false};
+    view.rerender(panel());
+    expect(screen.queryByRole('status')).toBeNull();
+  });
+
 });
