@@ -1,0 +1,35 @@
+{
+ "code": 0,
+ "data": {
+  "clusterId": "in05-857e1b7322ebb50",
+  "clusterName": "cpz_sv_36318",
+  "projectId": "proj-40c503b4d73e5ff56bbf50",
+  "description": "",
+  "regionId": "gcp-us-west1",
+  "cuType": "",
+  "plan": "Serverless",
+  "status": "CREATING",
+  "connectAddress": "",
+  "privateLinkAddress": "",
+  "publicAddressEnabled": true,
+  "createTime": "2026-11-04T02:03:57Z",
+  "replica": 1,
+  "cuSize": 0,
+  "storageSize": 0,
+  "snapshotNumber": 0,
+  "createProgress": 13,
+  "deploymentOption": "Serverless",
+  "autoscaling": {
+   "cu": {
+    "min": null,
+    "max": null,
+    "schedules": null
+   },
+   "replica": {
+    "min": null,
+    "max": null,
+    "schedules": null
+   }
+  }
+ }
+}

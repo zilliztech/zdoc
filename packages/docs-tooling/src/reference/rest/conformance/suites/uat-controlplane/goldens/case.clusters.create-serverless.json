@@ -1,0 +1,9 @@
+{
+ "code": 0,
+ "data": {
+  "clusterId": "in05-857e1b7322ebb50",
+  "prompt": "Successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified.",
+  "username": "db_857e1b7322ebb50",
+  "password": "Yz5]Zpx<Zbnk[y7+"
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "code": 0,
+ "data": {
+  "regionGroups": [
+   [
+    "gcp-us-west1",
+    "gcp-us-east4",
+    "gcp-us-central1"
+   ],
+   [
+    "aws-us-west-2",
+    "aws-auto-test1",
+    "aws-eu-west-2",
+    "aws-us-west-3",
+    "aws-us-east-2",
+    "aws-ca-central-1",
+    "aws-us-east-1"
+   ]
+  ]
+ }
+}

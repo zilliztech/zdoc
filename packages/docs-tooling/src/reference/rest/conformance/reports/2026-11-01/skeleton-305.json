@@ -1,0 +1,2872 @@
+{
+  "schemaVersion": "1.0",
+  "extractedFrom": {
+    "repository": "milvus-io/milvus",
+    "sourceDir": "internal/distributed/proxy/httpserver",
+    "mountPrefix": "/v2/vectordb"
+  },
+  "operations": [
+    {
+      "path": "/v2/vectordb/aliases/alter",
+      "method": "post",
+      "handler": "alterAlias",
+      "requestStruct": "AliasCollectionReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/AliasCollectionReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/aliases/create",
+      "method": "post",
+      "handler": "createAlias",
+      "requestStruct": "AliasCollectionReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/AliasCollectionReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/aliases/describe",
+      "method": "post",
+      "handler": "describeAlias",
+      "requestStruct": "AliasReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/AliasReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/aliases/drop",
+      "method": "post",
+      "handler": "dropAlias",
+      "requestStruct": "AliasReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/AliasReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/aliases/list",
+      "method": "post",
+      "handler": "listAlias",
+      "requestStruct": "OptionalCollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/OptionalCollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/add_function",
+      "method": "post",
+      "handler": "addCollectionFunction",
+      "requestStruct": "CollectionAddFunction",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionAddFunction"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/add_function_field",
+      "method": "post",
+      "handler": "addCollectionFunctionField",
+      "requestStruct": "CollectionAddFunctionField",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionAddFunctionField"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/alter_function",
+      "method": "post",
+      "handler": "alterCollectionFunction",
+      "requestStruct": "CollectionAlterFunction",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionAlterFunction"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/alter_properties",
+      "method": "post",
+      "handler": "alterCollectionProperties",
+      "requestStruct": "CollectionReqWithProperties",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionReqWithProperties"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/compact",
+      "method": "post",
+      "handler": "compact",
+      "requestStruct": "CompactReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CompactReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/create",
+      "method": "post",
+      "handler": "createCollection",
+      "requestStruct": "CollectionReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/describe",
+      "method": "post",
+      "handler": "getCollectionDetails",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/drop",
+      "method": "post",
+      "handler": "dropCollection",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/drop_function",
+      "method": "post",
+      "handler": "dropCollectionFunction",
+      "requestStruct": "CollectionDropFunction",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionDropFunction"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/drop_function_field",
+      "method": "post",
+      "handler": "dropCollectionFunctionField",
+      "requestStruct": "CollectionDropFunctionField",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionDropFunctionField"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/drop_properties",
+      "method": "post",
+      "handler": "dropCollectionProperties",
+      "requestStruct": "DropCollectionPropertiesReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DropCollectionPropertiesReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/fields/add",
+      "method": "post",
+      "handler": "addCollectionField",
+      "requestStruct": "CollectionFieldReqWithSchema",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionFieldReqWithSchema"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/fields/alter_properties",
+      "method": "post",
+      "handler": "alterCollectionFieldProperties",
+      "requestStruct": "CollectionFieldReqWithParams",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionFieldReqWithParams"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/fields/drop",
+      "method": "post",
+      "handler": "dropCollectionField",
+      "requestStruct": "CollectionDropField",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionDropField"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/flush",
+      "method": "post",
+      "handler": "flush",
+      "requestStruct": "FlushReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/FlushReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/get_compaction_state",
+      "method": "post",
+      "handler": "getcompactionState",
+      "requestStruct": "GetCompactionStateReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/GetCompactionStateReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/get_load_state",
+      "method": "post",
+      "handler": "getCollectionLoadState",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/get_stats",
+      "method": "post",
+      "handler": "getCollectionStats",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/has",
+      "method": "post",
+      "handler": "hasCollection",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/list",
+      "method": "post",
+      "handler": "listCollections",
+      "requestStruct": "DatabaseReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DatabaseReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/load",
+      "method": "post",
+      "handler": "loadCollection",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/refresh_load",
+      "method": "post",
+      "handler": "refreshLoadCollection",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/release",
+      "method": "post",
+      "handler": "releaseCollection",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/rename",
+      "method": "post",
+      "handler": "renameCollection",
+      "requestStruct": "RenameCollectionReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RenameCollectionReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/struct_fields/add",
+      "method": "post",
+      "handler": "addCollectionStructField",
+      "requestStruct": "CollectionFieldReqWithSchema",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionFieldReqWithSchema"
+      }
+    },
+    {
+      "path": "/v2/vectordb/collections/truncate",
+      "method": "post",
+      "handler": "truncateCollection",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/common/run_analyzer",
+      "method": "post",
+      "handler": "runAnalyzer",
+      "requestStruct": "RunAnalyzerReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RunAnalyzerReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/databases/alter",
+      "method": "post",
+      "handler": "alterDatabase",
+      "requestStruct": "DatabaseReqWithProperties",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DatabaseReqWithProperties"
+      }
+    },
+    {
+      "path": "/v2/vectordb/databases/alter_properties",
+      "method": "post",
+      "handler": "alterDatabase",
+      "requestStruct": "DatabaseReqWithProperties",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DatabaseReqWithProperties"
+      }
+    },
+    {
+      "path": "/v2/vectordb/databases/create",
+      "method": "post",
+      "handler": "createDatabase",
+      "requestStruct": "DatabaseReqWithProperties",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DatabaseReqWithProperties"
+      }
+    },
+    {
+      "path": "/v2/vectordb/databases/describe",
+      "method": "post",
+      "handler": "describeDatabase",
+      "requestStruct": "DatabaseReqRequiredName",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DatabaseReqRequiredName"
+      }
+    },
+    {
+      "path": "/v2/vectordb/databases/drop",
+      "method": "post",
+      "handler": "dropDatabase",
+      "requestStruct": "DatabaseReqRequiredName",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DatabaseReqRequiredName"
+      }
+    },
+    {
+      "path": "/v2/vectordb/databases/drop_properties",
+      "method": "post",
+      "handler": "dropDatabaseProperties",
+      "requestStruct": "DropDatabasePropertiesReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DropDatabasePropertiesReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/databases/list",
+      "method": "post",
+      "handler": "listDatabases",
+      "requestStruct": "EmptyReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/EmptyReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/entities/advanced_search",
+      "method": "post",
+      "handler": "advancedSearch",
+      "requestStruct": "HybridSearchReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/HybridSearchReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/entities/delete",
+      "method": "post",
+      "handler": "delete",
+      "requestStruct": "CollectionFilterReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionFilterReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/entities/get",
+      "method": "post",
+      "handler": "get",
+      "requestStruct": "CollectionIDReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionIDReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/entities/hybrid_search",
+      "method": "post",
+      "handler": "advancedSearch",
+      "requestStruct": "HybridSearchReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/HybridSearchReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/entities/insert",
+      "method": "post",
+      "handler": "insert",
+      "requestStruct": "CollectionDataReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionDataReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/entities/query",
+      "method": "post",
+      "handler": "query",
+      "requestStruct": "QueryReqV2",
+      "requestSchema": {
+        "$ref": "#/components/schemas/QueryReqV2"
+      }
+    },
+    {
+      "path": "/v2/vectordb/entities/search",
+      "method": "post",
+      "handler": "search",
+      "requestStruct": "SearchReqV2",
+      "requestSchema": {
+        "$ref": "#/components/schemas/SearchReqV2"
+      }
+    },
+    {
+      "path": "/v2/vectordb/entities/upsert",
+      "method": "post",
+      "handler": "upsert",
+      "requestStruct": "CollectionDataReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionDataReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/file_resources/add",
+      "method": "post",
+      "handler": "addFileResource",
+      "requestStruct": "FileResourceReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/FileResourceReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/file_resources/list",
+      "method": "post",
+      "handler": "listFileResources",
+      "requestStruct": "EmptyReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/EmptyReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/file_resources/remove",
+      "method": "post",
+      "handler": "removeFileResource",
+      "requestStruct": "FileResourceNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/FileResourceNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/indexes/alter_properties",
+      "method": "post",
+      "handler": "alterIndexProperties",
+      "requestStruct": "IndexReqWithProperties",
+      "requestSchema": {
+        "$ref": "#/components/schemas/IndexReqWithProperties"
+      }
+    },
+    {
+      "path": "/v2/vectordb/indexes/create",
+      "method": "post",
+      "handler": "createIndex",
+      "requestStruct": "IndexParamReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/IndexParamReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/indexes/describe",
+      "method": "post",
+      "handler": "describeIndex",
+      "requestStruct": "IndexReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/IndexReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/indexes/drop",
+      "method": "post",
+      "handler": "dropIndex",
+      "requestStruct": "IndexReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/IndexReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/indexes/drop_properties",
+      "method": "post",
+      "handler": "dropIndexProperties",
+      "requestStruct": "DropIndexPropertiesReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DropIndexPropertiesReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/indexes/list",
+      "method": "post",
+      "handler": "listIndexes",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/external_collection/describe",
+      "method": "post",
+      "handler": "getRefreshExternalCollectionProgress",
+      "requestStruct": "RefreshExternalCollectionProgressReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RefreshExternalCollectionProgressReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/external_collection/list",
+      "method": "post",
+      "handler": "listRefreshExternalCollectionJobs",
+      "requestStruct": "OptionalCollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/OptionalCollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/external_collection/refresh",
+      "method": "post",
+      "handler": "refreshExternalCollection",
+      "requestStruct": "RefreshExternalCollectionReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RefreshExternalCollectionReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/import/abort",
+      "method": "post",
+      "handler": "abortImportJob",
+      "requestStruct": "JobIDReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/JobIDReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/import/commit",
+      "method": "post",
+      "handler": "commitImportJob",
+      "requestStruct": "JobIDReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/JobIDReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/import/create",
+      "method": "post",
+      "handler": "createImportJob",
+      "requestStruct": "ImportReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/ImportReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/import/describe",
+      "method": "post",
+      "handler": "getImportJobProcess",
+      "requestStruct": "JobIDReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/JobIDReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/import/get_progress",
+      "method": "post",
+      "handler": "getImportJobProcess",
+      "requestStruct": "JobIDReq",
+      "deprecated": true,
+      "requestSchema": {
+        "$ref": "#/components/schemas/JobIDReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/import/list",
+      "method": "post",
+      "handler": "listImportJob",
+      "requestStruct": "OptionalCollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/OptionalCollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/snapshot/describe",
+      "method": "post",
+      "handler": "getRestoreSnapshotState",
+      "requestStruct": "JobIDReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/JobIDReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/snapshot/export",
+      "method": "post",
+      "handler": "exportSnapshot",
+      "requestStruct": "ExportSnapshotReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/ExportSnapshotReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/snapshot/export/describe",
+      "method": "post",
+      "handler": "getExportSnapshotState",
+      "requestStruct": "JobIDReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/JobIDReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/snapshot/list",
+      "method": "post",
+      "handler": "listRestoreSnapshotJobs",
+      "requestStruct": "OptionalCollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/OptionalCollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/jobs/snapshot/restore_external",
+      "method": "post",
+      "handler": "restoreExternalSnapshot",
+      "requestStruct": "RestoreExternalSnapshotReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RestoreExternalSnapshotReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/partitions/create",
+      "method": "post",
+      "handler": "createPartition",
+      "requestStruct": "PartitionReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PartitionReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/partitions/drop",
+      "method": "post",
+      "handler": "dropPartition",
+      "requestStruct": "PartitionReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PartitionReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/partitions/get_stats",
+      "method": "post",
+      "handler": "statsPartition",
+      "requestStruct": "PartitionReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PartitionReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/partitions/has",
+      "method": "post",
+      "handler": "hasPartitions",
+      "requestStruct": "PartitionReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PartitionReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/partitions/list",
+      "method": "post",
+      "handler": "listPartitions",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/partitions/load",
+      "method": "post",
+      "handler": "loadPartitions",
+      "requestStruct": "PartitionsReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PartitionsReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/partitions/release",
+      "method": "post",
+      "handler": "releasePartitions",
+      "requestStruct": "PartitionsReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PartitionsReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/privilege_groups/add_privileges_to_group",
+      "method": "post",
+      "handler": "addPrivilegesToGroup",
+      "requestStruct": "PrivilegeGroupReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PrivilegeGroupReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/privilege_groups/create",
+      "method": "post",
+      "handler": "createPrivilegeGroup",
+      "requestStruct": "PrivilegeGroupReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PrivilegeGroupReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/privilege_groups/drop",
+      "method": "post",
+      "handler": "dropPrivilegeGroup",
+      "requestStruct": "PrivilegeGroupReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PrivilegeGroupReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/privilege_groups/list",
+      "method": "post",
+      "handler": "listPrivilegeGroups",
+      "requestStruct": "DatabaseReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DatabaseReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/privilege_groups/remove_privileges_from_group",
+      "method": "post",
+      "handler": "removePrivilegesFromGroup",
+      "requestStruct": "PrivilegeGroupReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PrivilegeGroupReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/quotacenter/describe",
+      "method": "post",
+      "handler": "getQuotaMetrics",
+      "requestStruct": "GetQuotaMetricsReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/GetQuotaMetricsReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/resource_groups/alter",
+      "method": "post",
+      "handler": "updateResourceGroup",
+      "requestStruct": "UpdateResourceGroupReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/UpdateResourceGroupReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/resource_groups/create",
+      "method": "post",
+      "handler": "createResourceGroup",
+      "requestStruct": "ResourceGroupReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/ResourceGroupReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/resource_groups/describe",
+      "method": "post",
+      "handler": "describeResourceGroup",
+      "requestStruct": "ResourceGroupReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/ResourceGroupReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/resource_groups/drop",
+      "method": "post",
+      "handler": "dropResourceGroup",
+      "requestStruct": "ResourceGroupReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/ResourceGroupReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/resource_groups/list",
+      "method": "post",
+      "handler": "listResourceGroups",
+      "requestStruct": "EmptyReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/EmptyReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/resource_groups/transfer_replica",
+      "method": "post",
+      "handler": "transferReplica",
+      "requestStruct": "TransferReplicaReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/TransferReplicaReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/roles/alter",
+      "method": "post",
+      "handler": "alterRole",
+      "requestStruct": "RoleReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RoleReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/roles/create",
+      "method": "post",
+      "handler": "createRole",
+      "requestStruct": "RoleReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RoleReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/roles/describe",
+      "method": "post",
+      "handler": "describeRole",
+      "requestStruct": "RoleReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RoleReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/roles/drop",
+      "method": "post",
+      "handler": "dropRole",
+      "requestStruct": "RoleReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RoleReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/roles/grant_privilege",
+      "method": "post",
+      "handler": "addPrivilegeToRole",
+      "requestStruct": "GrantReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/GrantReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/roles/grant_privilege_v2",
+      "method": "post",
+      "handler": "grantV2",
+      "requestStruct": "GrantV2Req",
+      "requestSchema": {
+        "$ref": "#/components/schemas/GrantV2Req"
+      }
+    },
+    {
+      "path": "/v2/vectordb/roles/list",
+      "method": "post",
+      "handler": "listRoles",
+      "requestStruct": "DatabaseReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DatabaseReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/roles/revoke_privilege",
+      "method": "post",
+      "handler": "removePrivilegeFromRole",
+      "requestStruct": "GrantReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/GrantReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/roles/revoke_privilege_v2",
+      "method": "post",
+      "handler": "revokeV2",
+      "requestStruct": "GrantV2Req",
+      "requestSchema": {
+        "$ref": "#/components/schemas/GrantV2Req"
+      }
+    },
+    {
+      "path": "/v2/vectordb/segments/describe",
+      "method": "post",
+      "handler": "getSegmentsInfo",
+      "requestStruct": "GetSegmentsInfoReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/GetSegmentsInfoReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/snapshots/create",
+      "method": "post",
+      "handler": "createSnapshot",
+      "requestStruct": "CreateSnapshotReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CreateSnapshotReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/snapshots/describe",
+      "method": "post",
+      "handler": "describeSnapshot",
+      "requestStruct": "SnapshotReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/SnapshotReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/snapshots/drop",
+      "method": "post",
+      "handler": "dropSnapshot",
+      "requestStruct": "SnapshotReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/SnapshotReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/snapshots/list",
+      "method": "post",
+      "handler": "listSnapshots",
+      "requestStruct": "CollectionNameReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/CollectionNameReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/snapshots/pin",
+      "method": "post",
+      "handler": "pinSnapshotData",
+      "requestStruct": "PinSnapshotDataReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PinSnapshotDataReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/snapshots/restore",
+      "method": "post",
+      "handler": "restoreSnapshot",
+      "requestStruct": "RestoreSnapshotReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/RestoreSnapshotReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/snapshots/unpin",
+      "method": "post",
+      "handler": "unpinSnapshotData",
+      "requestStruct": "UnpinSnapshotDataReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/UnpinSnapshotDataReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/users/create",
+      "method": "post",
+      "handler": "createUser",
+      "requestStruct": "PasswordReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/PasswordReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/users/describe",
+      "method": "post",
+      "handler": "describeUser",
+      "requestStruct": "UserReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/UserReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/users/drop",
+      "method": "post",
+      "handler": "dropUser",
+      "requestStruct": "UserReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/UserReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/users/grant_role",
+      "method": "post",
+      "handler": "addRoleToUser",
+      "requestStruct": "UserRoleReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/UserRoleReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/users/list",
+      "method": "post",
+      "handler": "listUsers",
+      "requestStruct": "DatabaseReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/DatabaseReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/users/revoke_role",
+      "method": "post",
+      "handler": "removeRoleFromUser",
+      "requestStruct": "UserRoleReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/UserRoleReq"
+      }
+    },
+    {
+      "path": "/v2/vectordb/users/update_password",
+      "method": "post",
+      "handler": "updateUser",
+      "requestStruct": "NewPasswordReq",
+      "requestSchema": {
+        "$ref": "#/components/schemas/NewPasswordReq"
+      }
+    }
+  ],
+  "components": {
+    "schemas": {
+      "AggregationOrderReq": {
+        "type": "object",
+        "properties": {
+          "direction": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          }
+        }
+      },
+      "AggregationSortReq": {
+        "type": "object",
+        "properties": {
+          "direction": {
+            "type": "string"
+          },
+          "fieldName": {
+            "type": "string"
+          }
+        }
+      },
+      "AliasCollectionReq": {
+        "type": "object",
+        "properties": {
+          "aliasName": {
+            "type": "string"
+          },
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "aliasName",
+          "collectionName"
+        ]
+      },
+      "AliasReq": {
+        "type": "object",
+        "properties": {
+          "aliasName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "aliasName"
+        ]
+      },
+      "CollectionAddFunction": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "function": {
+            "$ref": "#/components/schemas/FunctionSchema"
+          }
+        },
+        "required": [
+          "collectionName",
+          "function"
+        ]
+      },
+      "CollectionAddFunctionField": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "function": {
+            "$ref": "#/components/schemas/FunctionSchema"
+          },
+          "indexParams": {
+            "$ref": "#/components/schemas/IndexParam"
+          },
+          "outputField": {
+            "$ref": "#/components/schemas/FieldSchema"
+          }
+        },
+        "required": [
+          "collectionName",
+          "function",
+          "outputField"
+        ]
+      },
+      "CollectionAlterFunction": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "function": {
+            "$ref": "#/components/schemas/FunctionSchema"
+          },
+          "functionName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "function",
+          "functionName"
+        ]
+      },
+      "CollectionDataReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "x-milvus-opaque": true
+            }
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "fieldOps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldPartialUpdateOpReq"
+            }
+          },
+          "partialUpdate": {
+            "type": "boolean"
+          },
+          "partitionName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "CollectionDropField": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "fieldId": {
+            "type": "integer"
+          },
+          "fieldName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "CollectionDropFunction": {
+        "type": "object",
+        "properties": {
+          "FunctionName": {
+            "type": "string"
+          },
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "FunctionName",
+          "collectionName"
+        ]
+      },
+      "CollectionDropFunctionField": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "functionName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "functionName"
+        ]
+      },
+      "CollectionFieldReqWithParams": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "fieldName": {
+            "type": "string"
+          },
+          "fieldParams": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        },
+        "required": [
+          "collectionName",
+          "fieldName"
+        ]
+      },
+      "CollectionFieldReqWithSchema": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "schema": {
+            "$ref": "#/components/schemas/FieldSchema"
+          }
+        },
+        "required": [
+          "collectionName",
+          "schema"
+        ]
+      },
+      "CollectionFilterReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "exprParams": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "filter": {
+            "type": "string"
+          },
+          "partitionName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "filter"
+        ]
+      },
+      "CollectionIDReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "consistencyLevel": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "id": {
+            "x-milvus-opaque": true
+          },
+          "outputFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "partitionName": {
+            "type": "string"
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "collectionName",
+          "id"
+        ]
+      },
+      "CollectionNameReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "CollectionReq": {
+        "type": "object",
+        "properties": {
+          "autoID": {
+            "type": "boolean"
+          },
+          "collectionName": {
+            "type": "string"
+          },
+          "consistencyLevel": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dimension": {
+            "type": "integer"
+          },
+          "externalSource": {
+            "type": "string"
+          },
+          "externalSpec": {
+            "type": "string"
+          },
+          "idType": {
+            "type": "string"
+          },
+          "indexParams": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IndexParam"
+            }
+          },
+          "metricType": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "primaryFieldName": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "schema": {
+            "$ref": "#/components/schemas/CollectionSchema"
+          },
+          "vectorFieldName": {
+            "type": "string"
+          },
+          "vectorFieldType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "CollectionReqWithProperties": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "CollectionSchema": {
+        "type": "object",
+        "properties": {
+          "autoID": {
+            "type": "boolean"
+          },
+          "enableDynamicField": {
+            "type": "boolean"
+          },
+          "externalSource": {
+            "type": "string"
+          },
+          "externalSpec": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldSchema"
+            }
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FunctionSchema"
+            }
+          },
+          "structFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StructArrayFieldSchema"
+            }
+          }
+        }
+      },
+      "CompactReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "isClustering": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "CreateSnapshotReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "compactionProtectionSeconds": {
+            "type": "integer"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "snapshotName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "snapshotName"
+        ]
+      },
+      "DatabaseReq": {
+        "type": "object",
+        "properties": {
+          "dbName": {
+            "type": "string"
+          }
+        }
+      },
+      "DatabaseReqRequiredName": {
+        "type": "object",
+        "properties": {
+          "dbName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "dbName"
+        ]
+      },
+      "DatabaseReqWithProperties": {
+        "type": "object",
+        "properties": {
+          "dbName": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        },
+        "required": [
+          "dbName"
+        ]
+      },
+      "DropCollectionPropertiesReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "propertyKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "DropDatabasePropertiesReq": {
+        "type": "object",
+        "properties": {
+          "dbName": {
+            "type": "string"
+          },
+          "propertyKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "dbName"
+        ]
+      },
+      "DropIndexPropertiesReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "indexName": {
+            "type": "string"
+          },
+          "propertyKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "collectionName",
+          "indexName"
+        ]
+      },
+      "EmptyReq": {
+        "type": "object"
+      },
+      "ExportSnapshotReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "externalSpec": {
+            "type": "string"
+          },
+          "snapshotName": {
+            "type": "string"
+          },
+          "targetS3Path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "snapshotName",
+          "targetS3Path"
+        ]
+      },
+      "FieldPartialUpdateOpReq": {
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "op": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      },
+      "FieldSchema": {
+        "type": "object",
+        "properties": {
+          "dataType": {
+            "type": "string"
+          },
+          "defaultValue": {
+            "x-milvus-opaque": true
+          },
+          "description": {
+            "type": "string"
+          },
+          "elementDataType": {
+            "type": "string"
+          },
+          "elementTypeParams": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "externalField": {
+            "type": "string"
+          },
+          "fieldName": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldSchema"
+            }
+          },
+          "isClusteringKey": {
+            "type": "boolean"
+          },
+          "isPartitionKey": {
+            "type": "boolean"
+          },
+          "isPrimary": {
+            "type": "boolean"
+          },
+          "nullable": {
+            "type": "boolean"
+          },
+          "typeParams": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        },
+        "required": [
+          "dataType",
+          "fieldName"
+        ]
+      },
+      "FileResourceNameReq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "FileResourceReq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "path"
+        ]
+      },
+      "FlushReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "FunctionChainExprArgReq": {
+        "type": "object",
+        "properties": {
+          "column": {
+            "type": "string"
+          },
+          "literal": {
+            "x-milvus-opaque": true
+          }
+        }
+      },
+      "FunctionChainExprReq": {
+        "type": "object",
+        "properties": {
+          "args": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FunctionChainExprArgReq"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        }
+      },
+      "FunctionChainOpReq": {
+        "type": "object",
+        "properties": {
+          "expr": {
+            "$ref": "#/components/schemas/FunctionChainExprReq"
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "op": {
+            "type": "string"
+          },
+          "outputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "params": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        }
+      },
+      "FunctionChainReq": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "ops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FunctionChainOpReq"
+            }
+          },
+          "stage": {
+            "type": "string"
+          }
+        }
+      },
+      "FunctionSchema": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "inputFieldNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "outputFieldNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "params": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "inputFieldNames",
+          "name",
+          "outputFieldNames",
+          "type"
+        ]
+      },
+      "FunctionScore": {
+        "type": "object",
+        "properties": {
+          "functions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FunctionSchema"
+            }
+          },
+          "params": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        }
+      },
+      "GetCompactionStateReq": {
+        "type": "object",
+        "properties": {
+          "jobID": {
+            "type": "integer"
+          }
+        }
+      },
+      "GetQuotaMetricsReq": {
+        "type": "object"
+      },
+      "GetSegmentsInfoReq": {
+        "type": "object",
+        "properties": {
+          "collectionID": {
+            "type": "integer"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "segmentIDs": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "GrantReq": {
+        "type": "object",
+        "properties": {
+          "dbName": {
+            "type": "string"
+          },
+          "objectName": {
+            "type": "string"
+          },
+          "objectType": {
+            "type": "string"
+          },
+          "privilege": {
+            "type": "string"
+          },
+          "roleName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "objectName",
+          "objectType",
+          "privilege",
+          "roleName"
+        ]
+      },
+      "GrantV2Req": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "privilege": {
+            "type": "string"
+          },
+          "roleName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "privilege",
+          "roleName"
+        ]
+      },
+      "HybridSearchReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "consistencyLevel": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "functionChains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FunctionChainReq"
+            }
+          },
+          "functionScore": {
+            "$ref": "#/components/schemas/FunctionScore"
+          },
+          "groupSize": {
+            "type": "integer"
+          },
+          "groupingField": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "offset": {
+            "type": "integer"
+          },
+          "outputFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rerank": {
+            "$ref": "#/components/schemas/Rand"
+          },
+          "search": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubSearchReq"
+            }
+          },
+          "searchAggregation": {
+            "$ref": "#/components/schemas/SearchAggregationReq"
+          },
+          "strictGroupSize": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "ImportReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "options": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "partitionName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "files"
+        ]
+      },
+      "IndexParam": {
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "indexName": {
+            "type": "string"
+          },
+          "indexType": {
+            "type": "string"
+          },
+          "metricType": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        },
+        "required": [
+          "fieldName"
+        ]
+      },
+      "IndexParamReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "indexParams": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IndexParam"
+            }
+          }
+        },
+        "required": [
+          "collectionName",
+          "indexParams"
+        ]
+      },
+      "IndexReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "indexName": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "collectionName",
+          "indexName"
+        ]
+      },
+      "IndexReqWithProperties": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "indexName": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        },
+        "required": [
+          "collectionName",
+          "indexName"
+        ]
+      },
+      "JobIDReq": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jobId"
+        ]
+      },
+      "NewPasswordReq": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userName"
+        ]
+      },
+      "OptionalCollectionNameReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          }
+        }
+      },
+      "PartitionReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "partitionName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "partitionName"
+        ]
+      },
+      "PartitionsReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "collectionName",
+          "partitionNames"
+        ]
+      },
+      "PasswordReq": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "password",
+          "userName"
+        ]
+      },
+      "PinSnapshotDataReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "snapshotName": {
+            "type": "string"
+          },
+          "ttlSeconds": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "collectionName",
+          "snapshotName"
+        ]
+      },
+      "PrivilegeGroupReq": {
+        "type": "object",
+        "properties": {
+          "privilegeGroupName": {
+            "type": "string"
+          },
+          "privileges": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "privilegeGroupName"
+        ]
+      },
+      "QueryReqV2": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "consistencyLevel": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "exprParams": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "filter": {
+            "type": "string"
+          },
+          "groupByFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "offset": {
+            "type": "integer"
+          },
+          "orderByFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "Rand": {
+        "type": "object",
+        "properties": {
+          "params": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "strategy": {
+            "type": "string"
+          }
+        }
+      },
+      "RefreshExternalCollectionProgressReq": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "jobId"
+        ]
+      },
+      "RefreshExternalCollectionReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "externalSource": {
+            "type": "string"
+          },
+          "externalSpec": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "RenameCollectionReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "newCollectionName": {
+            "type": "string"
+          },
+          "newDbName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "newCollectionName"
+        ]
+      },
+      "ResourceGroupConfig": {
+        "type": "object",
+        "properties": {
+          "limits": {
+            "$ref": "#/components/schemas/ResourceGroupLimit"
+          },
+          "node_filter": {
+            "$ref": "#/components/schemas/ResourceGroupNodeFilter"
+          },
+          "requests": {
+            "$ref": "#/components/schemas/ResourceGroupLimit"
+          },
+          "transfer_from": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourceGroupTransfer"
+            }
+          },
+          "transfer_to": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourceGroupTransfer"
+            }
+          }
+        },
+        "required": [
+          "limits",
+          "requests"
+        ]
+      },
+      "ResourceGroupLimit": {
+        "type": "object",
+        "properties": {
+          "node_num": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "node_num"
+        ]
+      },
+      "ResourceGroupNodeFilter": {
+        "type": "object",
+        "properties": {
+          "node_labels": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        },
+        "required": [
+          "node_labels"
+        ]
+      },
+      "ResourceGroupReq": {
+        "type": "object",
+        "properties": {
+          "config": {
+            "$ref": "#/components/schemas/ResourceGroupConfig"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "ResourceGroupTransfer": {
+        "type": "object",
+        "properties": {
+          "resource_group": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource_group"
+        ]
+      },
+      "RestoreExternalSnapshotReq": {
+        "type": "object",
+        "properties": {
+          "dbName": {
+            "type": "string"
+          },
+          "externalSpec": {
+            "type": "string"
+          },
+          "snapshotMetadataURI": {
+            "type": "string"
+          },
+          "targetCollectionName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "snapshotMetadataURI",
+          "targetCollectionName"
+        ]
+      },
+      "RestoreSnapshotReq": {
+        "type": "object",
+        "properties": {
+          "snapshotName": {
+            "type": "string"
+          },
+          "sourceCollectionName": {
+            "type": "string"
+          },
+          "sourceDbName": {
+            "type": "string"
+          },
+          "targetCollectionName": {
+            "type": "string"
+          },
+          "targetDbName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "snapshotName",
+          "sourceCollectionName",
+          "targetCollectionName"
+        ]
+      },
+      "RoleReq": {
+        "type": "object",
+        "properties": {
+          "dbName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "roleName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "roleName"
+        ]
+      },
+      "RunAnalyzerReq": {
+        "type": "object",
+        "properties": {
+          "analyzerNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "analyzerParams": {
+            "type": "string"
+          },
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "fieldName": {
+            "type": "string"
+          },
+          "text": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "withDetail": {
+            "type": "boolean"
+          },
+          "withHash": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "SearchAggregationReq": {
+        "type": "object",
+        "properties": {
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "metrics": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "order": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AggregationOrderReq"
+            }
+          },
+          "searchSize": {
+            "type": "integer"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "subAggregation": {
+            "$ref": "#/components/schemas/SearchAggregationReq"
+          },
+          "topHits": {
+            "$ref": "#/components/schemas/TopHitsReq"
+          }
+        }
+      },
+      "SearchReqV2": {
+        "type": "object",
+        "properties": {
+          "annsField": {
+            "type": "string"
+          },
+          "collectionName": {
+            "type": "string"
+          },
+          "consistencyLevel": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "x-milvus-opaque": true
+            }
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "exprParams": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "filter": {
+            "type": "string"
+          },
+          "functionChains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FunctionChainReq"
+            }
+          },
+          "functionScore": {
+            "$ref": "#/components/schemas/FunctionScore"
+          },
+          "groupSize": {
+            "type": "integer"
+          },
+          "groupingField": {
+            "type": "string"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "x-milvus-opaque": true
+            }
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "offset": {
+            "type": "integer"
+          },
+          "orderByFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "params": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "partitionNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "searchAggregation": {
+            "$ref": "#/components/schemas/SearchAggregationReq"
+          },
+          "searchParams": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "strictGroupSize": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "collectionName"
+        ]
+      },
+      "SnapshotReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "dbName": {
+            "type": "string"
+          },
+          "snapshotName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "snapshotName"
+        ]
+      },
+      "StructArrayFieldSchema": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "fieldName": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldSchema"
+            }
+          },
+          "nullable": {
+            "type": "boolean"
+          },
+          "typeParams": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        },
+        "required": [
+          "fieldName",
+          "fields"
+        ]
+      },
+      "SubSearchReq": {
+        "type": "object",
+        "properties": {
+          "annsField": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "x-milvus-opaque": true
+            }
+          },
+          "exprParams": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "filter": {
+            "type": "string"
+          },
+          "functionChains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FunctionChainReq"
+            }
+          },
+          "groupingField": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "metricType": {
+            "type": "string"
+          },
+          "offset": {
+            "type": "integer"
+          },
+          "params": {
+            "type": "object",
+            "x-milvus-opaque": true
+          },
+          "searchAggregation": {
+            "$ref": "#/components/schemas/SearchAggregationReq"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "TopHitsReq": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "integer"
+          },
+          "sort": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AggregationSortReq"
+            }
+          }
+        }
+      },
+      "TransferReplicaReq": {
+        "type": "object",
+        "properties": {
+          "collectionName": {
+            "type": "string"
+          },
+          "replicaNum": {
+            "type": "integer"
+          },
+          "sourceRgName": {
+            "type": "string"
+          },
+          "targetRgName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "collectionName",
+          "replicaNum",
+          "sourceRgName",
+          "targetRgName"
+        ]
+      },
+      "UnpinSnapshotDataReq": {
+        "type": "object",
+        "properties": {
+          "pinId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pinId"
+        ]
+      },
+      "UpdateResourceGroupReq": {
+        "type": "object",
+        "properties": {
+          "resource_groups": {
+            "type": "object",
+            "x-milvus-opaque": true
+          }
+        },
+        "required": [
+          "resource_groups"
+        ]
+      },
+      "UserReq": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userName"
+        ]
+      },
+      "UserRoleReq": {
+        "type": "object",
+        "properties": {
+          "roleName": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "roleName",
+          "userName"
+        ]
+      }
+    }
+  }
+}

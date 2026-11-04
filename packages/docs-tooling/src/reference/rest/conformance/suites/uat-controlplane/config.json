@@ -1,0 +1,10 @@
+{
+  "name": "uat-controlplane",
+  "track": "zilliz-cloud",
+  "anchor": "uat3-control",
+  "prefix": "cpz",
+  "auth": { "mode": "bearer", "env": "ZILLIZ_UAT3_API_KEY" },
+  "projectEnv": "ZILLIZ_UAT3_PROJECT",
+  "volatileFields": ["cost"],
+  "notes": "Cloud-track control plane on UAT3. Full lifecycle authorized (2026-11-03, no tiering): run- prefixed resources are created and deleted within a round; pre-existing resources are only ever read, never mutated."
+}

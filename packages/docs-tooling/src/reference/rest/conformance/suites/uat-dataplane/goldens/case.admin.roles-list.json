@@ -1,0 +1,9 @@
+{
+ "code": 0,
+ "data": [
+  "db_admin",
+  "db_ro",
+  "db_rw",
+  "uatdp_role"
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "code": 0,
+ "data": {
+  "privilegeGroups": [
+   {
+    "privilegeGroupName": "m305_pg",
+    "privileges": ""
+   },
+   {
+    "privilegeGroupName": "ClusterReadOnly",
+    "privileges": "ListDatabases,SelectOwnership,SelectUser,DescribeResourceGroup,ListResourceGroups,ListPrivilegeGroups,GetReplicateConfiguration,ListFileResources"
+   },
+   {
+    "privilegeGroupName": "ClusterReadWrite",
+    "privileges": "ListDatabases,SelectOwnership,SelectUser,DescribeResourceGroup,ListResourceGroups,ListPrivilegeGroups,GetReplicateConfiguration,ListFileResources,FlushAll,TransferNode,TransferReplica,UpdateResourceGroups,AddFileResource,RemoveFileResource,PinSnapshotData,UnpinSnapshotData"
+   },
+   {
+    "privilegeGroupName": "ClusterAdmin",
+    "privileges": "ListDatabases,SelectOwnership,SelectUser,DescribeResourceGroup,ListResourceGroups,ListPrivilegeGroups,GetReplicateConfiguration,ListFileResources,FlushAll,TransferNode,TransferReplica,UpdateResourceGroups,AddFileResource,RemoveFileResource,PinSnapshotData,UnpinSnapshotData,BackupRBAC,RestoreRBAC,CreateDatabase,DropDatabase,CreateOwnership,DropOwnership,ManageOwnership,CreateResourceGroup,DropResourceGroup,UpdateUser,CreatePrivilegeGroup,DropPrivilegeGroup,OperatePrivilegeGroup,UpdateReplicateConfiguration,Expr,RestoreExternalSnapshot,ExportSnapshot,ImportBinlog"
+   },
+   {
+    "privilegeGroupName": "DatabaseReadOnly",
+    "privileges": "ShowCollections,DescribeDatabase"
+   },
+   {
+    "privilegeGroupName": "DatabaseReadWrite",
+    "privileges": "ShowCollections,DescribeDatabase,AlterDatabase"
+   },
+   {
+    "privilegeGroupName": "DatabaseAdmin",
+    "privileges": "ShowCollections,DescribeDatabase,AlterDatabase,CreateCollection,DropCollection,RenameCollection"
+   },
+   {
+    "privilegeGroupName": "CollectionReadOnly",
+    "privileges": "Query,Search,IndexDetail,GetFlushState,GetLoadState,GetLoadingProgress,HasPartition,ShowPartitions,DescribeCollection,DescribeAlias,GetStatistics,ListAliases,GetImportProgress,ListImport,DescribeSnapshot,ListSnapshots"
+   },
+   {
+    "privilegeGroupName": "CollectionReadWrite",
+    "privileges": "Query,Search,IndexDetail,GetFlushState,GetLoadState,GetLoadingProgress,HasPartition,ShowPartitions,DescribeCollection,DescribeAlias,GetStatistics,ListAliases,GetImportProgress,ListImport,DescribeSnapshot,ListSnapshots,Load,Release,Insert,Delete,Upsert,Import,Flush,Compaction,LoadBalance,CreateIndex,DropIndex,CreatePartition,DropPartition,AddCollectionField,AlterCollectionSchema,RefreshExternalCollection,CreateSnapshot,DropSnapshot"
+   },
+   {
+    "privilegeGroupName": "CollectionAdmin",
+    "privileges": "Query,Search,IndexDetail,GetFlushState,GetLoadState,GetLoadingProgress,HasPartition,ShowPartitions,DescribeCollection,DescribeAlias,GetStatistics,ListAliases,GetImportProgress,ListImport,DescribeSnapshot,ListSnapshots,Load,Release,Insert,Delete,Upsert,Import,Flush,Compaction,LoadBalance,CreateIndex,DropIndex,CreatePartition,DropPartition,AddCollectionField,AlterCollectionSchema,RefreshExternalCollection,CreateSnapshot,DropSnapshot,CreateAlias,DropAlias,RestoreSnapshot"
+   }
+  ]
+ }
+}
