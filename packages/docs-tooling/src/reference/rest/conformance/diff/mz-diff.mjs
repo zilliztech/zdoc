@@ -62,7 +62,7 @@ const report = {
   comparedCases: [...M.keys()].filter((k) => U.has(k)).length,
   incompatibilities: rows.length,
   byCategory: byCat,
-  note: "acceptance-diff = one side accepts (code 0) while the other rejects; effect-diff = accepted on both but observable behavior differs; shape-diff = response shape deviates from the frozen milvus golden.",
+  note: "acceptance-diff = one side accepts (code 0) while the other rejects; effect-diff = accepted on both but observable behavior differs; shape-diff = response shape deviates from the frozen milvus golden. Attribution note (user-clarified 2026-11-04): the UAT3 API key IS privileged at the org/project level — PermissionDenied rows on the dataplane reflect the cluster-RBAC layer (role bindings on the target cluster), not key-level authorization; re-test on a dedicated cluster endpoint before escalating.",
   rows,
 }
 fs.mkdirSync(path.dirname(args.out), { recursive: true })

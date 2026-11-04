@@ -42,7 +42,8 @@
    "createTime": "2026-05-06T00:24:54Z",
    "plan": "Enterprise",
    "regionIds": [
-    "aws-us-west-2"
+    "aws-us-west-2",
+    "gcp-us-west1"
    ],
    "orgType": null
   },
@@ -51,8 +52,8 @@
    "projectId": "proj-03b45fcdd7d4f3784e6dd0",
    "description": null,
    "createdBy": "usr-korapiuxeopjimllogyvni",
-   "instanceCount": 1,
-   "servingInstanceCount": 1,
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
    "queryClusterCount": 0,
    "createTime": "2023-05-25T09:27:47Z",
    "plan": "Enterprise",

@@ -1,8 +1,8 @@
 {
  "code": 0,
  "data": {
-  "clusterId": "in01-dcfb4a9af46088e",
-  "clusterName": "cpz_cl_90975",
+  "clusterId": "in01-ca5474c5720adb5",
+  "clusterName": "cpz_cl_9407",
   "projectId": "proj-40c503b4d73e5ff56bbf50",
   "description": "",
   "regionId": "aws-us-west-2",
@@ -12,7 +12,7 @@
   "connectAddress": "",
   "privateLinkAddress": "",
   "publicAddressEnabled": false,
-  "createTime": "2026-11-03T17:21:31Z",
+  "createTime": "2026-11-04T00:55:10Z",
   "replica": 1,
   "cuSize": 1,
   "storageSize": 0,

@@ -11,7 +11,8 @@
   "createTime": "2026-05-06T00:24:54Z",
   "plan": "Enterprise",
   "regionIds": [
-   "aws-us-west-2"
+   "aws-us-west-2",
+   "gcp-us-west1"
   ],
   "orgType": "SAAS"
  }

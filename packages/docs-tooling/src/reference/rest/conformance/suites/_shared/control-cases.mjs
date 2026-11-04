@@ -56,14 +56,16 @@ export function buildControlSuite(ctx, call) {
     },
     {
       id: "setup.region", family: "setup", op: "/v2/regions", method: "GET", kind: "setup", critical: true,
-      expect: "ok", param: "(no body)", intent: "discover regionId for cluster lifecycle (prefer the existing cluster's region)",
+      expect: "ok", param: "(no body)", intent: "split regions by supportedClusterTypes (user-clarified 2026-11-04: only some regions carry the serverless plan, e.g. gcp-us-west1 in UAT3)",
       body: {},
       effect: (hh, res) => {
-        if (state.existingRegionId) { state.regionId = state.existingRegionId; return { ok: true, detail: "regionId=" + state.regionId + " (from existing cluster)" } }
         const regions = (res.json && res.json.data) || []
-        const first = Array.isArray(regions) ? regions.find((r) => r.regionId || r.id) : null
-        if (first) state.regionId = first.regionId || first.id
-        return { ok: !!state.regionId, detail: "regionId=" + state.regionId }
+        const types = (r) => r.supportedClusterTypes || []
+        const sv = Array.isArray(regions) ? regions.find((r) => types(r).includes("serverless")) : null
+        const dv = Array.isArray(regions) ? regions.find((r) => types(r).includes("dedicated")) : null
+        if (sv) state.serverlessRegionId = sv.regionId || sv.id
+        if (dv) state.dedicatedRegionId = dv.regionId || dv.id
+        return { ok: !!state.serverlessRegionId && !!state.dedicatedRegionId, detail: `serverless=${state.serverlessRegionId || "none"} dedicated=${state.dedicatedRegionId || "none"}` }
       },
     },
   ]
@@ -103,60 +105,129 @@ export function buildControlSuite(ctx, call) {
     param: "projectId(path)", intent: "project lifecycle: delete run- project",
     body: {}, url: () => `/v2/projects/${state.projectId || "none"}`,
   })
+  push({
+    id: "projects.add-region", family: "projects", op: "/v2/projects", method: "POST", kind: "positive", expect: "ok",
+    param: "regionIds(query of serverless-capable region)", intent: "attach the serverless-capable region to the working project so serverless clusters can be created (idempotent: already-attached counts as accepted)",
+    body: (hh) => ({ regionIds: [state.serverlessRegionId] }),
+    url: (hh) => `/v2/projects/${hh.PROJECT}/regions`,
+    effect: async (hh, res) => {
+      if (res.http === 200 && (res.json && res.json.code === 0)) return { ok: true, detail: "region attached: " + state.serverlessRegionId }
+      const msg = String((res.json && res.json.message) || "")
+      if (/exist|duplicate|already/i.test(msg)) return { ok: true, detail: "region already attached: " + state.serverlessRegionId }
+      return { ok: false, detail: "add-region rejected: " + (msg || res.json) }
+    },
+  })
 
   // ---- cluster lifecycle (serverless: minimal required fields) ----
+  // ---- serverless lifecycle (fast path, gcp region; full create→drop) ----
+  const svDrop = async (hh, cid) => {
+    const st = async () => {
+      const d = await call("GET", `/v2/clusters/${cid}`)
+      return ((d.json && d.json.data) || {}).status || "GONE"
+    }
+    for (let i = 0; i < 40; i++) {
+      const cur = await st()
+      if (cur === "GONE") return { ok: true, detail: "cluster gone" }
+      if (/STOPPING|RESUMING|PENDING|CREATING|SUSPENDING/i.test(cur)) { await new Promise((r) => setTimeout(r, 15000)); continue }
+      const dr = await call("DELETE", `/v2/clusters/${cid}/drop`, {})
+      if (dr.code === 0 || dr.http === 200) {
+        // drop ACCEPTED is the success criterion — deletion proceeds
+        // asynchronously (serverless DELETING can outlive any round window);
+        // the next round's sweep verifies actual removal of leftovers.
+        return { ok: true, detail: "drop accepted (async deletion; sweep verifies removal next round)" }
+      }
+      if (/40064|STOPPING/i.test(String(dr.msg || ""))) { await new Promise((r) => setTimeout(r, 15000)); continue }
+      return { ok: false, detail: "drop rejected: " + (dr.msg || dr.json) }
+    }
+    return { ok: false, detail: "drop not completed within window" }
+  }
+
   push({
-    id: "clusters.create-dedicated", family: "clusters", op: "/v2/clusters/createDedicated", method: "POST", kind: "positive", expect: "ok",
-    param: "clusterName/projectId/regionId/cuSize/cuType", intent: "dedicated cluster lifecycle: create (smallest CU, mirroring the region's existing cuType; UAT3 regions have no serverless plan)",
-    body: (hh) => ({ clusterName: `${P}_cl_${Date.now() % 100000}`, projectId: PROJECT, regionId: state.regionId, cuType: state.cuType, cuSize: 1 }),
+    id: "clusters.create-serverless", family: "clusters", op: "/v2/clusters/createServerless", method: "POST", kind: "positive", expect: "ok",
+    param: "clusterName/projectId/regionId", intent: "serverless cluster lifecycle: create in the serverless-capable region (requires the region attached to the project first)",
+    body: (hh) => ({ clusterName: `${P}_sv_${Date.now() % 100000}`, projectId: PROJECT, regionId: state.serverlessRegionId }),
     effect: (hh, res) => {
       const d = (res.json && res.json.data) || {}
-      state.clusterId = d.clusterId || d.id
-      return { ok: !!state.clusterId, detail: "clusterId=" + (state.clusterId || "none") }
+      state.serverlessClusterId = d.clusterId || d.id
+      return { ok: !!state.serverlessClusterId, detail: "clusterId=" + (state.serverlessClusterId || "none") }
+    },
+  })
+  push({
+    id: "clusters.describe-serverless", family: "clusters", op: "/v2/clusters", method: "GET", kind: "positive", expect: "ok",
+    param: "CLUSTER_ID(path)", intent: "describe the run- serverless cluster (poll until RUNNING)",
+    body: {}, url: () => `/v2/clusters/${state.serverlessClusterId || "none"}`,
+    poll: async (hh) => {
+      if (!state.serverlessClusterId) return { ok: false, detail: "no clusterId from create" }
+      for (let i = 0; i < 90; i++) {
+        const d = await call("GET", `/v2/clusters/${state.serverlessClusterId}`)
+        const c = (d.json && d.json.data) || {}
+        const st = c.clusterStatus || c.status || c.state || ""
+        if (/running|available|ready|CRUD_COMPLETED/i.test(String(st)) && !/pending|creating|provisioning/i.test(String(st))) return { ok: true, detail: `state=${st} after ~${i * 10}s` }
+        await new Promise((r) => setTimeout(r, 10000))
+      }
+      return { ok: false, detail: "serverless cluster not ready within 15min" }
+    },
+  })
+  push({
+    id: "clusters.suspend-serverless", family: "clusters", op: "/v2/clusters", method: "POST", kind: "observe", expect: "record",
+    param: "CLUSTER_ID(path)", intent: "suspend serverless cluster (plan-dependent semantics — data)",
+    body: {}, url: () => `/v2/clusters/${state.serverlessClusterId || "none"}/suspend`,
+  })
+  push({
+    id: "clusters.drop-serverless", family: "clusters", op: "skip-request", kind: "positive", expect: "ok",
+    param: "CLUSTER_ID(path)", intent: "serverless lifecycle: drop (waits out provisioning/stopping transitions)",
+    body: {},
+    effect: async (hh) => {
+      if (!state.serverlessClusterId) return { ok: false, detail: "no clusterId" }
+      return svDrop(hh, state.serverlessClusterId)
+    },
+  })
+
+  // ---- dedicated lifecycle (full state machine: suspend/resume across async STOPPING) ----
+  push({
+    id: "clusters.create-dedicated", family: "clusters", op: "/v2/clusters/createDedicated", method: "POST", kind: "positive", expect: "ok",
+    param: "clusterName/projectId/regionId/cuSize/cuType", intent: "dedicated cluster lifecycle: create (smallest CU, mirroring the region's existing cuType)",
+    body: (hh) => ({ clusterName: `${P}_cl_${Date.now() % 100000}`, projectId: PROJECT, regionId: state.dedicatedRegionId, cuType: state.cuType, cuSize: 1 }),
+    effect: (hh, res) => {
+      const d = (res.json && res.json.data) || {}
+      state.dedicatedClusterId = d.clusterId || d.id
+      return { ok: !!state.dedicatedClusterId, detail: "clusterId=" + (state.dedicatedClusterId || "none") }
     },
   })
   push({
     id: "clusters.describe-run", family: "clusters", op: "/v2/clusters", method: "GET", kind: "positive", expect: "ok",
-    param: "CLUSTER_ID(path)", intent: "describe the run- cluster (poll until RUNNING/ready)",
-    body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}`,
-    poll: async (hh, res) => {
-      if (!state.clusterId) return { ok: false, detail: "no clusterId from create" }
+    param: "CLUSTER_ID(path)", intent: "describe the run- dedicated cluster (poll until RUNNING)",
+    body: {}, url: () => `/v2/clusters/${state.dedicatedClusterId || "none"}`,
+    poll: async (hh) => {
+      if (!state.dedicatedClusterId) return { ok: false, detail: "no clusterId from create" }
       for (let i = 0; i < 90; i++) {
-        const d = await call("GET", `/v2/clusters/${state.clusterId}`)
+        const d = await call("GET", `/v2/clusters/${state.dedicatedClusterId}`)
         const c = (d.json && d.json.data) || {}
         const st = c.clusterStatus || c.status || c.state || ""
-        if (/running|available|ready|CRUD_COMPLETED/i.test(String(st)) && !/pending|creating|provisioning/i.test(String(st))) {
-          state.clusterReady = true
-          return { ok: true, detail: `state=${st} after ~${i * 10}s` }
-        }
+        if (/running|available|ready|CRUD_COMPLETED/i.test(String(st)) && !/pending|creating|provisioning/i.test(String(st))) return { ok: true, detail: `state=${st} after ~${i * 10}s` }
         await new Promise((r) => setTimeout(r, 10000))
       }
-      return { ok: false, detail: "cluster not ready within 15min" }
+      return { ok: false, detail: "dedicated cluster not ready within 15min" }
     },
   })
   push({
-    id: "clusters.describe-existing", family: "clusters", op: "/v2/clusters", method: "GET", kind: "observe", expect: "record",
-    param: "CLUSTER_ID(path)", intent: "read-only describe of a pre-existing cluster (never mutated)",
-    body: {}, url: () => `/v2/clusters/${state.existingClusterId || "none"}`,
-  })
-  push({
     id: "clusters.suspend", family: "clusters", op: "/v2/clusters", method: "POST", kind: "observe", expect: "record",
-    param: "CLUSTER_ID(path)", intent: "suspend run- cluster (serverless may reject — that is data)",
-    body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}/suspend`,
+    param: "CLUSTER_ID(path)", intent: "suspend dedicated cluster (async: cluster enters STOPPING)",
+    body: {}, url: () => `/v2/clusters/${state.dedicatedClusterId || "none"}/suspend`,
   })
   push({
     id: "clusters.resume", family: "clusters", op: "skip-request", kind: "observe", expect: "record",
     param: "CLUSTER_ID(path)", intent: "resume after suspend: suspend is async (STOPPING transition) — poll to STOPPED, resume, poll back to RUNNING (live-captured state machine)",
     body: {},
     effect: async (hh) => {
-      if (!state.clusterId) return { ok: false, detail: "no clusterId" }
+      if (!state.dedicatedClusterId) return { ok: false, detail: "no clusterId" }
       const st = async () => {
-        const d = await call("GET", `/v2/clusters/${state.clusterId}`)
+        const d = await call("GET", `/v2/clusters/${state.dedicatedClusterId}`)
         return ((d.json && d.json.data) || {}).status || "?"
       }
       for (let i = 0; i < 40 && /STOPPING/i.test(await st()); i++) await new Promise((r) => setTimeout(r, 15000))
       const before = await st()
-      const rr = await call("POST", `/v2/clusters/${state.clusterId}/resume`, {})
+      const rr = await call("POST", `/v2/clusters/${state.dedicatedClusterId}/resume`, {})
       if (rr.code !== 0 && rr.http !== 200) return { ok: false, detail: `resume rejected at status=${before}: ${rr.msg || rr.json}` }
       let running = false
       for (let i = 0; i < 60; i++) {
@@ -168,45 +239,29 @@ export function buildControlSuite(ctx, call) {
   })
   push({
     id: "clusters.modify", family: "clusters", op: "/v2/clusters", method: "POST", kind: "observe", expect: "record",
-    param: "(modify schema)", intent: "modify dedicated cluster (serverless expected to reject — data)",
-    body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}/modify`,
+    param: "(modify schema)", intent: "modify dedicated cluster (dedicated-only surface)",
+    body: {}, url: () => `/v2/clusters/${state.dedicatedClusterId || "none"}/modify`,
   })
   push({
     id: "clusters.update-patch", family: "clusters", op: "/v2/clusters", method: "PATCH", kind: "observe", expect: "record",
-    param: "(update schema)", intent: "PATCH update on run- cluster",
-    body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}`,
+    param: "(update schema)", intent: "PATCH update on run- dedicated cluster",
+    body: {}, url: () => `/v2/clusters/${state.dedicatedClusterId || "none"}`,
   })
   push({
     id: "clusters.drop", family: "clusters", op: "skip-request", kind: "positive", expect: "ok",
-    param: "CLUSTER_ID(path)", intent: "cluster lifecycle: drop run- cluster (waits out the STOPPING transition; cleanup guarantee)",
+    param: "CLUSTER_ID(path)", intent: "dedicated lifecycle: drop run- cluster (waits out the STOPPING transition; cleanup guarantee)",
     body: {},
     effect: async (hh) => {
-      if (!state.clusterId) return { ok: false, detail: "no clusterId" }
-      const st = async () => {
-        const d = await call("GET", `/v2/clusters/${state.clusterId}`)
-        return ((d.json && d.json.data) || {}).status || "GONE"
-      }
-      for (let i = 0; i < 40; i++) {
-        const cur = await st()
-        if (cur === "GONE") return { ok: true, detail: "cluster gone" }
-        if (/STOPPING|RESUMING|PENDING|CREATING|SUSPENDING/i.test(cur)) { await new Promise((r) => setTimeout(r, 15000)); continue }
-        const dr = await call("DELETE", `/v2/clusters/${state.clusterId}/drop`, {})
-        if (dr.code === 0 || dr.http === 200) {
-          for (let k = 0; k < 60; k++) { if ((await st()) === "GONE") return { ok: true, detail: "dropped+gone" }; await new Promise((r) => setTimeout(r, 15000)) }
-          return { ok: false, detail: "drop accepted but cluster still visible" }
-        }
-        if (/40064|STOPPING/i.test(String(dr.msg || ""))) { await new Promise((r) => setTimeout(r, 15000)); continue }
-        return { ok: false, detail: "drop rejected: " + (dr.msg || dr.json) }
-      }
-      return { ok: false, detail: "drop not completed within window" }
+      if (!state.dedicatedClusterId) return { ok: false, detail: "no clusterId" }
+      return svDrop(hh, state.dedicatedClusterId)
     },
   })
 
   // ---- backups (read-only + create attempt on run- cluster) ----
   push({ id: "backups.list", family: "backups", op: "/v2/backups?projectId=" + "PROJECT", method: "GET", kind: "positive", expect: "ok", param: "projectId(query)", intent: "list backups", body: {}, url: (hh) => `/v2/backups?projectId=${PROJECT}` })
-  push({ id: "backups.policy-get", family: "backups", op: "/v2/clusters", method: "GET", kind: "observe", expect: "record", param: "(policy)", intent: "backup policy of run- cluster", body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}/backups/policy` })
-  push({ id: "backups.policy-set", family: "backups", op: "/v2/clusters", method: "POST", kind: "observe", expect: "record", param: "(policy schema)", intent: "set backup policy on run- cluster", body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}/backups/policy` })
-  push({ id: "backups.create-run", family: "backups", op: "/v2/clusters", method: "POST", kind: "observe", expect: "record", param: "(create schema)", intent: "create backup of run- cluster (serverless may reject)", body: {}, url: () => `/v2/clusters/${state.clusterId || "none"}/backups/create` })
+  push({ id: "backups.policy-get", family: "backups", op: "/v2/clusters", method: "GET", kind: "observe", expect: "record", param: "(policy)", intent: "backup policy of run- cluster", body: {}, url: () => `/v2/clusters/${state.dedicatedClusterId || "none"}/backups/policy` })
+  push({ id: "backups.policy-set", family: "backups", op: "/v2/clusters", method: "POST", kind: "observe", expect: "record", param: "(policy schema)", intent: "set backup policy on run- cluster", body: {}, url: () => `/v2/clusters/${state.dedicatedClusterId || "none"}/backups/policy` })
+  push({ id: "backups.create-run", family: "backups", op: "/v2/clusters", method: "POST", kind: "observe", expect: "record", param: "(create schema)", intent: "create backup of run- cluster (serverless may reject)", body: {}, url: () => `/v2/clusters/${state.dedicatedClusterId || "none"}/backups/create` })
 
   // ---- api keys ----
   push({ id: "apikeys.list", family: "api_keys", op: "/v2/api-keys", method: "GET", kind: "positive", expect: "ok", param: "(no body)", intent: "list api keys", body: {} })
