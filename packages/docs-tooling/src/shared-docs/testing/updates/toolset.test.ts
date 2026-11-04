@@ -1,10 +1,13 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename, chown, readdir } from 'node:fs/promises'
+import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename, chown, readdir, lstat } from 'node:fs/promises'
 import { load as loadYaml } from 'js-yaml'
 import { tmpdir, release } from 'node:os'
 import { dirname, join } from 'node:path'
 import { deflateSync } from 'node:zlib'
+import { createRequire } from 'node:module'
+import { pathToFileURL } from 'node:url'
+import { createServer } from 'node:net'
 import { execFileSync } from 'node:child_process'
 import { toMdx } from '../../adapters/mdx'
 import { canonicalBytes } from '../../core/updates/canonical'
@@ -153,6 +156,154 @@ describe.sequential('fixed Guides FD3 result capacity', () => {
     await expect(launcher.runGuidesCollector({})).rejects.toThrow('Launcher worker changed')
   }, 30000)
 })
+describe.sequential('empty Vite config directory compatibility', () => {
+  const logical = 'runtime/lookup-scopes/repo/.vite-temp'
+  const cachePath = (root: string) => join(root, 'node_modules/.vite-temp')
+  async function assertWorkerStopped(pid: number) {
+    const deadline = performance.now() + 5000
+    for (;;) {
+      let alive = false
+      for (const target of [pid, -pid]) {
+        try { process.kill(target, 0); alive = true } catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ESRCH') throw error }
+      }
+      if (!alive) return
+      if (performance.now() >= deadline) throw Error(`Fixture worker/group ${pid} did not exit`)
+      await new Promise(resolve => setTimeout(resolve, 25))
+    }
+  }
+  it('accepts the empty directory left by an installed Vite ESM config process through both child APIs', async () => {
+    const a = await loaderFixture()
+    await put(a.root, 'vite.config.mjs', 'export default {define:{CACHE_CONFIG:"settled"}}')
+    await put(a.root, 'scripts/probe.cjs', 'console.log("CACHE_CONFIG_OK")')
+    await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', 'export function collectGuidesWorker(){return {marker:"CACHE_CONFIG_OK",pid:process.pid}}')
+    a.commit = commitAll(a.root)
+    const resolver = createRequire(join(process.cwd(), 'package.json'))
+    const viteRoot = dirname(createRequire(resolver.resolve('vitest/package.json')).resolve('vite/package.json'))
+    // Run the installed loader normally. Waiting for process exit also waits for
+    // its asynchronous unlink; resolving loadConfigFromFile alone is insufficient.
+    const output = execFileSync(process.execPath, ['--input-type=module', '-e', `
+      const {loadConfigFromFile}=await import(${JSON.stringify(pathToFileURL(join(viteRoot, 'dist/node/index.js')).href)});
+      const result=await loadConfigFromFile({command:'build',mode:'test'},'vite.config.mjs',process.cwd());
+      if(result?.config.define.CACHE_CONFIG!=='settled')throw Error('Config was not loaded');
+      console.log('VITE_CONFIG_LOADED');
+    `], {cwd: a.root, env: {...process.env, JITI_CACHE: 'false'}, encoding: 'utf8', timeout: 15000})
+    expect(output).toContain('VITE_CONFIG_LOADED')
+    const cache = cachePath(a.root), state = await lstat(cache)
+    expect(state.isDirectory() && !state.isSymbolicLink()).toBe(true)
+    expect(await realpath(cache)).toBe(cache)
+    expect(await readdir(cache)).toEqual([])
+    const capture = await captureTrustedToolset(a)
+    expect(capture.closure.entries.find(entry => entry.path === logical)).toEqual({path: logical, state: 'directory', mode: '040000'})
+    const store = await initializeEvidence({root: join(a.root, '.claude/evidence'), repositories: [a.root], owner: 'vite'})
+    const launcher = await prepareTrustedLauncher(capture, store)
+    const map = JSON.parse(await readFile(join(launcher.bin, 'resolution-map.json'), 'utf8'))
+    expect(map.files[cache]).toBeUndefined()
+    expect(map.scopes[join(a.root, 'node_modules')]['.vite-temp']).toBeUndefined()
+    expect((await launcher.run('scripts/probe.cjs', [])).stdout).toContain('CACHE_CONFIG_OK')
+    const result = (await launcher.runGuidesCollector({})).value as {marker: string; pid: number}
+    expect(result.marker).toBe('CACHE_CONFIG_OK')
+    await assertWorkerStopped(result.pid)
+  }, 60000)
+  it('binds distinct absent and empty states and rejects their persistent transitions', async () => {
+    const a = await fixture(), absent = await captureTrustedToolset(a), cache = cachePath(a.root)
+    expect(absent.closure.entries.find(entry => entry.path === logical)).toEqual({path: logical, state: 'absent'})
+    await mkdir(cache)
+    await expect(verifyTrustedToolset(absent)).rejects.toThrow(/changed/)
+    const present = await captureTrustedToolset(a)
+    expect(present.toolsetSha256).not.toBe(absent.toolsetSha256)
+    await rename(cache, join(a.root, '.claude-saved-cache'))
+    await expect(verifyTrustedToolset(present)).rejects.toThrow()
+  }, 30000)
+  it.each(['content', 'identity', 'mode'] as const)('rejects persistent cache %s changes before either child API runs', async kind => {
+    const a = await loaderFixture(), cache = cachePath(a.root), sentinel = join(a.root, '.claude/SENTINEL')
+    await mkdir(cache)
+    await put(a.root, 'scripts/probe.cjs', `require('node:fs').writeFileSync(${JSON.stringify(sentinel)},'executed')`)
+    await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `export function collectGuidesWorker(){require('node:fs').writeFileSync(${JSON.stringify(sentinel)},'executed');return {}}`)
+    a.commit = commitAll(a.root)
+    const capture = await captureTrustedToolset(a), store = await initializeEvidence({root: join(a.root, '.claude/evidence'), repositories: [a.root], owner: 'change'})
+    const launcher = await prepareTrustedLauncher(capture, store)
+    if (kind === 'content') await writeFile(join(cache, 'unexpected.mjs'), 'throw Error("UNMEASURED")')
+    if (kind === 'identity') { await rename(cache, join(a.root, '.claude/saved-cache')); await mkdir(cache) }
+    if (kind === 'mode') await chmod(cache, 0o777)
+    await expect(launcher.run('scripts/probe.cjs', [])).rejects.toThrow(/empty|identity|access|Unsafe/i)
+    await expect(launcher.runGuidesCollector({})).rejects.toThrow(/empty|identity|access|Unsafe/i)
+    await expect(lstat(sentinel)).rejects.toMatchObject({code: 'ENOENT'})
+  }, 30000)
+  it.each(['file', 'symlink', 'case-alias', 'content', 'child-directory', 'child-symlink', 'other-dot', 'package-local'] as const)('refuses unsafe or out-of-scope cache shape %s', async kind => {
+    const a = await fixture(), cache = cachePath(a.root)
+    if (kind === 'file') await writeFile(cache, '')
+    else if (kind === 'symlink') { const target = join(a.root, 'empty-target'); await mkdir(target); await symlink(target, cache) }
+    else if (kind === 'case-alias') await mkdir(join(a.root, 'node_modules/.VITE-temp'))
+    else if (kind === 'other-dot') await mkdir(join(a.root, 'node_modules/.unexpected-cache'))
+    else if (kind === 'package-local') await mkdir(join(a.root, 'apps/docs/node_modules/.vite-temp'))
+    else {
+      await mkdir(cache)
+      if (kind === 'content') await writeFile(join(cache, 'file.mjs'), '')
+      if (kind === 'child-directory') await mkdir(join(cache, 'child'))
+      if (kind === 'child-symlink') await symlink('missing', join(cache, 'child'))
+    }
+    await expect(captureTrustedToolset(a)).rejects.toThrow(/empty|unaliased|discovery/i)
+  }, 30000)
+  it('refuses a socket at the exact cache path', async () => {
+    const a = await fixture(), server = createServer()
+    await new Promise<void>((resolve, reject) => { server.once('error', reject); server.listen(cachePath(a.root), resolve) })
+    try { await expect(captureTrustedToolset(a)).rejects.toThrow(/empty|unaliased/) }
+    finally { await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve())) }
+  }, 30000)
+  it.skipIf(process.platform !== 'darwin')('applies existing ACL checks to a present empty cache and its reuse', async () => {
+    const a = await fixture(), cache = cachePath(a.root)
+    await mkdir(cache)
+    const capture = await captureTrustedToolset(a)
+    execFileSync('/bin/chmod', ['+a', 'everyone allow write', cache])
+    await expect(verifyTrustedToolset(capture)).rejects.toThrow(/Unsupported ACL access/)
+    await expect(captureTrustedToolset(a)).rejects.toThrow(/Unsupported ACL access/)
+  }, 30000)
+  it.each(['generic', 'guides'] as const)('refuses late CJS and ESM cache loads through the %s API without executing sentinels', async api => {
+    // Trusted fixture code creates each cache file only AFTER launch verification.
+    // This tests load refusal, not detection of every unused/transient mutation.
+    const a = await loaderFixture(), cache = cachePath(a.root), sentinel = join(a.root, '.claude/SENTINEL')
+    await mkdir(cache)
+    const source = `
+      import {writeFileSync,unlinkSync} from 'node:fs';
+      import {createRequire} from 'node:module';
+      const require=createRequire(import.meta.url);
+      export async function probe(){
+        const results=[];
+        for(const extension of ['cjs','mjs']){
+          const target=${JSON.stringify(cache)}+'/sentinel.'+extension;
+          writeFileSync(target,extension==='cjs'
+            ? 'require("node:fs").writeFileSync('+${JSON.stringify(JSON.stringify(sentinel))}+',"executed");module.exports={};'
+            : 'import {writeFileSync} from "node:fs";writeFileSync('+${JSON.stringify(JSON.stringify(sentinel))}+',"executed");export default {};');
+          for(const request of ['../node_modules/.vite-temp/sentinel.'+extension,target,'.vite-temp/sentinel.'+extension]){
+            let message='';try{if(extension==='cjs')require(request);else await import(request)}catch(error){message=String(error)}
+            results.push({extension,request,message});
+          }
+          unlinkSync(target);
+        }
+        return {results,pid:process.pid};
+      }
+    `
+    await put(a.root, 'scripts/cache-probe.mjs', source)
+    await put(a.root, 'scripts/native-import.cjs', 'module.exports=file=>import(file)')
+    await put(a.root, 'scripts/probe.mjs', `import {probe} from './cache-probe.mjs';console.log(JSON.stringify(await probe()))`)
+    await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `export async function collectGuidesWorker(){const load=require('node:module').createRequire(__filename)(${JSON.stringify(join(a.root, 'scripts/native-import.cjs'))});return (await load(${JSON.stringify(join(a.root, 'scripts/cache-probe.mjs'))})).probe()}`)
+    a.commit = commitAll(a.root)
+    const capture = await captureTrustedToolset(a), store = await initializeEvidence({root: join(a.root, '.claude/evidence'), repositories: [a.root], owner: 'sentinel'})
+    const launcher = await prepareTrustedLauncher(capture, store)
+    const result = api === 'generic' ? JSON.parse((await launcher.run('scripts/probe.mjs', [])).stdout) : (await launcher.runGuidesCollector({})).value as any
+    expect(result.results).toHaveLength(6)
+    for (const outcome of result.results) {
+      // Native ESM rejects dot-prefixed bare package names before load hooks.
+      // Both relative and absolute imports must reach the unmeasured-file guard.
+      const nativeBare = outcome.extension === 'mjs' && outcome.request.startsWith('.vite-temp/')
+      expect(outcome.message).toMatch(nativeBare ? /Invalid module.*valid package name/ : /Unmeasured executable target/)
+    }
+    await expect(lstat(sentinel)).rejects.toMatchObject({code: 'ENOENT'})
+    expect(await readdir(cache)).toEqual([])
+    if (api === 'guides') await assertWorkerStopped(result.pid)
+  }, 60000)
+})
+
 describe('fix1 executable discovery regressions',()=>{
   it('ignores poisoned actual jiti cache on generic child launches',async()=>{
     const a=await loaderFixture(), cache=await realpath(await mkdtemp(join(tmpdir(),'jiti-private-cache-')))

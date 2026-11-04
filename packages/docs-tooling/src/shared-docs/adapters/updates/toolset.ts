@@ -580,6 +580,18 @@ async function captureLookupScopes(root: string, packages: LookupState['packages
       if(stat.isSymbolicLink()) {const target=mapPhysical(await realpath(full));entries.set(path,{path,state:'symlink',mode:'120000',policy:'installed-logical',linkTextBase64:null,target});physical.set(full,path);return path}
       const content=await fileBytes(full);entries.set(path,fileEntry(path,content.bytes,content.mode));addDirectories(entries,path);physical.set(full,path);return path
     }
+    // A completed Vite ESM config load leaves this exact empty directory behind.
+    // Bind its absence/presence and inspect access; never authorize cached code.
+    if (directory === join(root, 'node_modules')) {
+      const cache = join(directory, '.vite-temp'), cachePath = `${logical}/.vite-temp`
+      const stat = await lstat(cache).catch(error => { if (absent(error)) return null; throw error })
+      if (!stat) entries.set(cachePath, { path: cachePath, state: 'absent' })
+      else {
+        if (!stat.isDirectory() || stat.isSymbolicLink() || await realpath(cache) !== cache || (await readdir(cache)).length)
+          throw new Error('Expected an empty, unaliased Vite config directory after Vite exits')
+        entries.set(cachePath, { path: cachePath, state: 'directory', mode: '040000' }); physical.set(cache, cachePath)
+      }
+    }
     for(const name of (await readdir(directory)).sort(compareUtf8)) {
       const full=join(directory,name)
       if(name==='.bin') {
@@ -588,6 +600,7 @@ async function captureLookupScopes(root: string, packages: LookupState['packages
         continue
       }
       if(directory===join(root,'node_modules') && name==='.pnpm')continue
+      if(directory===join(root,'node_modules') && name==='.vite-temp')continue // Empty/absent state was bound above.
       // Vite's unused cache is not an executable target in this launcher; child file guards deny it.
       if(directory===join(root,'node_modules') && name==='.vite') {const st=await lstat(full);if(!st.isDirectory()||st.isSymbolicLink())throw new Error('Unsafe non-loadable cache');continue}
       if(directory===join(root,'node_modules') && ['.modules.yaml','.pnpm-workspace-state-v1.json'].includes(name)) {await bindFile(full,`${logical}/${name}`);continue}

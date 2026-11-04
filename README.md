@@ -437,6 +437,17 @@ master/dev/source commits and complete subjects; see the
 [request and evidence contract](packages/docs-tooling/src/shared-docs/README.md#local-update-commands).
 The request's master must match the independently captured tooling HEAD.
 
+Before capturing a toolset after Vite/Vitest, wait for the owning command process
+to exit: ESM config loading can unlink its temporary file asynchronously. The
+checkout's exact root `node_modules/.vite-temp` must be absent or an ordinary,
+canonical, empty directory with safe access; symlinks, aliases and contents are
+rejected. If it remains nonempty, stop and inspect the reported paths without
+deleting or ignoring them to pass validation. Capture and pre-launch verification
+bind the observed directory state and access identity. Persistent changes observed
+on revalidation require a fresh capture; these checks are not an atomic snapshot
+or continuous monitor. Child load guards refuse unmeasured executable files,
+including files introduced after verification.
+
 ```bash
 pnpm docs-tooling shared-docs update-plan \
   --request /absolute/request.json --out /absolute/new-plan
