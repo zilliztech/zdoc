@@ -1,6 +1,6 @@
 const {isDeepStrictEqual} = require('node:util')
 const {attachLifecycleSuggestion, assertLifecycleSource, parseTrack} = require('./lifecycle')
-const {apiProjection, resolveSchemaDeep, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints} = require('./mirror')
+const {apiProjection, resolveSchemaDeep, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments} = require('./mirror')
 
 // Branch-aware diff between a pinned upstream spec and the zdoc fragments.
 // Truth assignment (2026-10-30 merge model): STRUCTURE follows upstream
@@ -179,6 +179,37 @@ function makeEntry(parts) {
     return entry
 }
 
+// The deep view for one mirror candidate: both subtrees resolved against
+// their own documents (so nested $ref-vs-inline asymmetries and referenced
+// component content are visible to the comparison and the retirement
+// walkers), the fragment's content overlaid below opaque boundaries
+// (extractor blind spots — generic maps forwarded to gRPC — where the
+// fragment's hand-authored documentation is the authority), and the value
+// stripped of blind-spot markers so no tooling marker rides into a fragment.
+// `fragmentDocument`/`fragmentNode` are null for additions, where no local
+// subtree exists yet. A recursive subtree on either side has no finite
+// inlined value: the caller flags the entry for human follow-up instead of
+// failing the whole diff.
+function resolveMirrorSubtree(upstreamDocument, node, fragmentDocument = null, fragmentNode = null) {
+    try {
+        const resolvedUpstream = resolveSchemaDeep(upstreamDocument, node)
+        const resolvedLocal = fragmentDocument ? resolveSchemaDeep(fragmentDocument, fragmentNode) : null
+        const comparableUpstream = overlayOpaque(resolvedUpstream, resolvedLocal)
+        return {resolvedUpstream, resolvedLocal, comparableUpstream,
+            after: stripOpaqueMarkers(comparableUpstream),
+            // Grounding evidence (the extractor's captured Go field comments),
+            // harvested off the subtree before the marker is stripped: the
+            // describe stage reads it at the entry level, fragments never see
+            // the key. Empty for comment-less sources so the default diff
+            // output stays byte-identical.
+            upstreamComments: harvestUpstreamComments(comparableUpstream),
+            unresolvableSubtree: false}
+    } catch (error) {
+        if (!error.message.startsWith('REST_UPSTREAM_MIRROR_REF_CYCLE:')) throw error
+        return {after: null, unresolvableSubtree: true}
+    }
+}
+
 // Design §6.3: data-plane refreshes carry lifecycle suggestions on the diff
 // entries so neither the agent nor a human has to invent track values. No-op
 // unless a track was supplied (the default diff output stays byte-identical).
@@ -229,22 +260,36 @@ function diffSchemaPair(context) {
         // extractor vocabulary cannot speak to scalar constraints) compare
         // with those keys stripped AND keep the fragment's extrapolated
         // constraints in the merged value — absent upstream there means
-        // unseen, not deleted.
+        // unseen, not deleted. Opaque upstream nodes (extractor blind spots —
+        // generic maps forwarded to gRPC) are wildcards: the fragment's
+        // hand-authored content is the authority below them, so the overlay
+        // feeds the comparison, the retirement walkers, and the mirror value.
+        // The comparison runs on the deep-resolved pair so nested $ref-vs-
+        // inline asymmetries don't fabricate drift; only a pair that is
+        // shallow-unequal AND too recursive to resolve stays a flagged entry.
+        const mirrorPair = resolveMirrorSubtree(upstreamDocument, upstreamProperty, fragmentDocument, fragmentProperty)
+        const comparableUpstream = mirrorPair.unresolvableSubtree ? upstreamProperty : mirrorPair.comparableUpstream
+        const localView = mirrorPair.unresolvableSubtree ? fragmentProperty : mirrorPair.resolvedLocal
         const mirrorProjection = schema => apiProjection(context.structureOnly ? stripScalarConstraints(schema) : schema)
-        if (!isDeepStrictEqual(mirrorProjection(fragmentProperty), mirrorProjection(upstreamProperty))) {
+        if (!isDeepStrictEqual(mirrorProjection(localView), mirrorProjection(comparableUpstream))) {
             const localHadRequired = Array.isArray(fragmentRequired) && fragmentRequired.includes(name)
             const requiredMembership = upstreamRequired === null ? null : upstreamRequired.includes(name)
-            const droppedLocalFields = [
-                ...droppedLocalFieldPaths(upstreamProperty, fragmentProperty),
+            // A flagged entry writes nothing (the assembler diverts it to the
+            // human-review list), so it retires nothing either: the retirement
+            // walkers only run for entries that will actually mirror.
+            const droppedLocalFields = mirrorPair.unresolvableSubtree ? [] : [
+                ...droppedLocalFieldPaths(comparableUpstream, localView),
                 // structure-only keeps these keys, so they are not retired
-                ...(context.structureOnly ? [] : droppedLocalKeys(upstreamProperty, fragmentProperty)),
+                ...(context.structureOnly ? [] : droppedLocalKeys(comparableUpstream, localView)),
                 // a nested required member the upstream dropped is a relaxation
-                ...relaxedRequiredMembers(upstreamProperty, fragmentProperty),
+                ...relaxedRequiredMembers(comparableUpstream, localView),
             ]
-            const nestedRelaxation = relaxedRequiredMembers(upstreamProperty, fragmentProperty)
+            const nestedRelaxation = mirrorPair.unresolvableSubtree ? [] : relaxedRequiredMembers(comparableUpstream, localView)
             const entry = makeEntry({...context.meta, category: 'upstream-modified', scope: context.scope, branch: context.branch, field: name,
-                change: {kind: 'schema', key: 'mirror', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperty)},
+                change: {kind: 'schema', key: 'mirror', before: null, after: mirrorPair.unresolvableSubtree ? null : mirrorPair.after},
+                ...(mirrorPair.upstreamComments && Object.keys(mirrorPair.upstreamComments).length > 0 ? {upstreamComments: mirrorPair.upstreamComments} : {}),
                 requiredMembership,
+                ...(mirrorPair.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
                 ...(context.structureOnly ? {preserveLocalScalarConstraints: true} : {}),
                 droppedLocalFields,
                 evidence: context.upstreamEvidencePath,
@@ -261,7 +306,7 @@ function diffSchemaPair(context) {
             entries.push(entry)
             continue
         }
-        for (const [key, after] of constraintPairs(upstreamDocument, upstreamProperty)) {
+        for (const [key, after] of constraintPairs(upstreamDocument, comparableUpstream)) {
             if (isDeepStrictEqual(fragmentProperty[key], after)) continue
             const entry = makeEntry({...context.meta, category: 'upstream-modified', scope: context.scope, branch: context.branch, field: name,
                 change: {kind: 'constraint', key, before: fragmentProperty[key] === undefined ? null : fragmentProperty[key], after},
@@ -270,7 +315,7 @@ function diffSchemaPair(context) {
             entries.push(entry)
         }
         for (const key of CONSTRAINT_KEYS) {
-            if (key in fragmentProperty && !(key in upstreamProperty)) {
+            if (key in fragmentProperty && !(key in comparableUpstream)) {
                 entries.push(makeEntry({...context.meta, category: 'zdoc-only', scope: context.scope, branch: context.branch, field: name,
                     change: {kind: 'constraint', key, before: fragmentProperty[key], after: null}, evidence: context.upstreamEvidencePath}))
             }
@@ -298,11 +343,14 @@ function diffSchemaPair(context) {
     if (!context.suppressUpstreamOnlyFields) {
         for (const name of Object.keys(upstreamProperties)) {
             if (denylisted(ruleset, name) || name in fragmentProperties) continue
+            const addedSubtree = resolveMirrorSubtree(upstreamDocument, upstreamProperties[name])
             const entry = makeEntry({...context.meta, category: 'upstream-added-field', scope: context.scope, branch: context.branch, field: name,
                 // The resolved upstream subtree rides the entry: the addition
                 // lane (assembler/applier) copies structure from the diff, so
                 // no downstream step ever needs the upstream spec again.
-                change: {kind: 'field-uncovered', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperties[name])},
+                change: {kind: 'field-uncovered', before: null, after: addedSubtree.after},
+                ...(addedSubtree.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
+                ...(addedSubtree.upstreamComments && Object.keys(addedSubtree.upstreamComments).length > 0 ? {upstreamComments: addedSubtree.upstreamComments} : {}),
                 requiredMembership: upstreamRequired === null ? null : upstreamRequired.includes(name),
                 evidence: context.upstreamEvidencePath})
             suggestLifecycle(entry, context.lifecycle, null, upstreamProperties[name])
@@ -372,8 +420,11 @@ function diffBodied(context, fragmentContent, upstreamContent, scope) {
     const uncoveredCategory = scope === 'requestBody' ? 'unattributed' : 'upstream-added-field'
     for (const name of Object.keys(upstreamUnionProperties)) {
         if (denylisted(ruleset, name) || coveredNames.has(name)) continue
+        const addedSubtree = resolveMirrorSubtree(upstreamDocument, upstreamUnionProperties[name])
         const entry = makeEntry({...context.meta, category: uncoveredCategory, scope, field: name,
-            change: {kind: 'field-uncovered', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamUnionProperties[name])},
+            change: {kind: 'field-uncovered', before: null, after: addedSubtree.after},
+            ...(addedSubtree.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
+            ...(addedSubtree.upstreamComments && Object.keys(addedSubtree.upstreamComments).length > 0 ? {upstreamComments: addedSubtree.upstreamComments} : {}),
             requiredMembership: upstreamUnionRequired === null ? null : upstreamUnionRequired.includes(name),
             evidence: context.upstreamEvidencePath})
         if (uncoveredCategory === 'upstream-added-field') suggestLifecycle(entry, context.lifecycle, null, upstreamUnionProperties[name])
@@ -455,8 +506,11 @@ function diffResponses(context) {
             }
             for (const name of Object.keys(upstreamProperties)) {
                 if (denylisted(context.ruleset, name) || coveredNames.has(name)) continue
+                const addedSubtree = resolveMirrorSubtree(upstreamDocument, upstreamProperties[name])
                 const entry = makeEntry({...statusContext.meta, category: 'upstream-added-field', scope: 'response', field: name,
-                    change: {kind: 'field-uncovered', before: null, after: resolveSchemaDeep(upstreamDocument, upstreamProperties[name])},
+                    change: {kind: 'field-uncovered', before: null, after: addedSubtree.after},
+                    ...(addedSubtree.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
+                    ...(addedSubtree.upstreamComments && Object.keys(addedSubtree.upstreamComments).length > 0 ? {upstreamComments: addedSubtree.upstreamComments} : {}),
                     requiredMembership: upstreamRequired === null ? null : upstreamRequired.includes(name),
                     evidence: context.upstreamEvidencePath})
                 suggestLifecycle(entry, context.lifecycle, null, upstreamProperties[name])

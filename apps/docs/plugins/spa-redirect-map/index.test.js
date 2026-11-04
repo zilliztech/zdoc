@@ -9,8 +9,8 @@ const spaRedirectMapPlugin = require('./index');
 
 const REPO_ROOT = path.join(__dirname, '..', '..', '..', '..');
 
-function buildPlugin(rules, context = {}) {
-  return spaRedirectMapPlugin(context, {rules});
+function buildPlugin(rules, context = {}, options = {}) {
+  return spaRedirectMapPlugin(context, {rules, ...options});
 }
 
 const EN_JA_I18N = {currentLocale: 'en', defaultLocale: 'en', locales: ['en', 'ja-JP']};
@@ -82,6 +82,22 @@ test('fails the build when a target route is not served', async () => {
   const plugin = buildPlugin([{from: '/docs/old', to: '/docs/retired-target'}]);
   await assert.rejects(
     () => plugin.postBuild({routesPaths: ['/docs/home'], baseUrl: '/'}),
+    /targets a route the site does not serve/,
+  );
+});
+
+test('a target in the production route snapshot warns instead of failing the build', async () => {
+  // dev-owned generated content regenerates on the publication branch, so a
+  // master PR's build inventory can lag production. The snapshot (the same
+  // source the nginx redirect-target lint validates against) proves the page
+  // is live; nginx owns the full-page-load hop, so this is a warning, not a
+  // bad map entry — while a target in NEITHER inventory still fails the build.
+  const productionRoutes = ['/docs/retired-target'];
+  const plugin = buildPlugin([{from: '/docs/old', to: '/docs/retired-target'}], {}, {productionRoutes});
+  await plugin.postBuild({routesPaths: ['/docs/home'], baseUrl: '/'});
+  await assert.rejects(
+    () => buildPlugin([{from: '/docs/old', to: '/docs/still-unknown'}], {}, {productionRoutes})
+      .postBuild({routesPaths: ['/docs/home'], baseUrl: '/'}),
     /targets a route the site does not serve/,
   );
 });

@@ -1,0 +1,15 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/primary-field.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/primary-field-auto-id
+  - manual: guides-byoc
+    path: tutorials/development/schema/primary-field-auto-id
+
+transforms:
+  - operation: remove
+    target:
+      block: autoid-cluster-config

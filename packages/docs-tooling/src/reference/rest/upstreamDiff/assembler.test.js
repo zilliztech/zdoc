@@ -160,6 +160,72 @@ test('mirrors are auto lanes: the value merges the upstream structure with the l
     assert.match(mirror.evidence, /schema mirrored to upstream structure/)
 })
 
+test('unresolvable recursive subtrees are a report lane: nothing is assembled for them', () => {
+    // diff.js flags entries whose upstream subtree is self-referential
+    // (mirror value would be infinite); the assembler must divert them to a
+    // human-review list and write nothing, instead of failing or mirroring.
+    const diff = diffDocument()
+    const mirrorEntry = diff.entries.find(entry => entry.change.kind === 'schema')
+    mirrorEntry.unresolvableSubtree = true
+    mirrorEntry.change.after = null
+    const addedEntry = diff.entries.find(entry => entry.change.kind === 'field-uncovered' && entry.category === 'upstream-added-field')
+    addedEntry.unresolvableSubtree = true
+    addedEntry.change.after = null
+    const {changeSet, reports} = assembleChangeSet({diffDocument: diff, decisions: [], fragmentLoader})
+    const flagged = new Set([mirrorEntry.id, addedEntry.id])
+    assert.deepEqual(changeSet.entries.filter(entry => flagged.has(entry.diffEntryId)), [])
+    assert.deepEqual(reports.unresolvableSubtrees.map(entry => [entry.id, entry.category]).sort(), [
+        ['upstream-added-field|delete /v2/things/{ID}|01-things-v2.json|response||200|data|field-uncovered|', 'upstream-added-field'],
+        ['upstream-modified|post /v2/things|01-things-v2.json|requestBody|||dbName|schema|mirror', 'upstream-modified'],
+    ].sort())
+})
+
+
+test('a $ref request schema translates mirror and branch loci into the component', () => {
+    // milvus create/alter_properties shape: the requestBody itself is a $ref
+    // (branches or plain properties live in the component), so every write
+    // locus must translate into the component definition.
+    const fragment = {
+        openapi: '3.0.1', info: {title: 'REST', version: 'v2'},
+        paths: {
+            '/v2/things/describe': {post: {requestBody: {content: {'application/json': {schema: {$ref: '#/components/schemas/DescribeReq'}}}}}},
+            '/v2/things/create': {post: {requestBody: {content: {'application/json': {schema: {$ref: '#/components/schemas/CreateReq'}}}}}},
+        },
+        components: {schemas: {
+            DescribeReq: {type: 'object', properties: {dbName: {type: 'string', description: 'local prose'}}},
+            CreateReq: {oneOf: [{$ref: '#/components/schemas/QuickThing'}, {$ref: '#/components/schemas/CustomThing'}]},
+            QuickThing: {'x-tab-label': 'quick', type: 'object', properties: {dimension: {type: 'integer'}}},
+            CustomThing: {'x-tab-label': 'custom', type: 'object', properties: {schema: {type: 'object'}}},
+        }},
+    }
+    const loader = fileName => {
+        if (fileName !== '01-things-v2.json') throw new Error(`fixture missing fragment ${fileName}`)
+        return fragment
+    }
+    const mirrorId = 'upstream-modified|post /v2/things/describe|01-things-v2.json|requestBody|||dbName|schema|mirror'
+    const addedId = 'upstream-added-field|post /v2/things/create|01-things-v2.json|requestBody|||consistencyLevel|field-uncovered|'
+    const diff = {source: 'milvus-data-plane', entries: [
+        {id: mirrorId, category: 'upstream-modified', opKey: 'post /v2/things/describe', fragment: '01-things-v2.json', scope: 'requestBody',
+            branch: '', responseStatus: '', field: 'dbName',
+            change: {kind: 'schema', key: 'mirror', before: null, after: {type: 'string'}}, requiredMembership: null, droppedLocalFields: [], evidence: ''},
+        {id: addedId, category: 'upstream-added-field', opKey: 'post /v2/things/create', fragment: '01-things-v2.json', scope: 'requestBody',
+            branch: '', responseStatus: '', field: 'consistencyLevel',
+            change: {kind: 'field-uncovered', before: null, after: {type: 'string'}}, requiredMembership: false, evidence: ''},
+    ]}
+    // diff.js labels $ref members positionally (branch-N): the raw oneOf
+    // member carries no x-tab-label, so branch-1 is the offered label and the
+    // container translation resolves it to the first component.
+    const branchPlan = {placements: [{diffEntryId: addedId, targets: ['branch-1']}], reorganizations: []}
+    const {changeSet, reports} = assembleChangeSet({diffDocument: diff, decisions: [], fragmentLoader: loader, branchPlan})
+    const mirror = changeSet.entries.find(entry => entry.kind === 'mirror')
+    assert.equal(mirror.opPath, '/components/schemas/DescribeReq/properties/dbName')
+    assert.deepEqual(mirror.value, {type: 'string', description: 'local prose'})
+    const addition = changeSet.entries.find(entry => entry.kind === 'addition')
+    assert.equal(addition.opPath, '/components/schemas/QuickThing/properties')
+    assert.deepEqual(addition.value, {consistencyLevel: {type: 'string'}})
+    assert.deepEqual(reports.unplaced, [])
+    assert.deepEqual(reports.rejectedPlacements, [])
+})
 
 test('a structure-only mirror change set survives the real parse/contract path', () => {
     // P1-A regression: the preserve flag lives on the DIFF entry only; the
@@ -391,4 +457,17 @@ test('loadDecisions reads a JSONL file from disk', () => {
     } finally {
         fs.rmSync(dir, {recursive: true, force: true})
     }
+})
+
+test('Step-0 lane: assembled mirrors/additions report their prose-less schema nodes', () => {
+    const {changeSet, reports} = assembleChangeSet({diffDocument: diffDocument(), decisions: [], fragmentLoader: name => FRAGMENTS.get(name)})
+    // dbName keeps its local prose through the mirror (not reported); the
+    // branched `data` addition is unplaced here and already rides
+    // reports.unplaced; the unbranched `result` addition is assembled with a
+    // prose-less root and is reported; the described pageSize parameter is not.
+    assert.deepEqual(reports.missingDescriptions.map(item => item.field), ['result'])
+    assert.deepEqual(reports.missingDescriptions[0].paths, ['(root)'])
+    // the assembled addition value itself is untouched by the report lane
+    const addition = changeSet.entries.find(entry => entry.diffEntryId.endsWith('result|field-uncovered|'))
+    assert.equal(addition.value.result.description, undefined)
 })

@@ -320,7 +320,11 @@ function DocRootLayoutInner({children}: Props): ReactNode {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
   // The Docs Home landing page renders full-width (no left sidebar).
-  const isHomePage = pathname.replace(/\/$/, '') === '/docs/home';
+  // endsWith, not equality: localized builds serve /ja-JP/docs/home, and a
+  // strict match silently drops the `docs-home` wrapper class there, leaving
+  // the regular doc-page column caps in force (the ja home read as a fixed
+  // ~1024px column instead of filling the viewport).
+  const isHomePage = pathname.replace(/\/$/, '').endsWith('/docs/home');
   const [hiddenSidebarContainer, setHiddenSidebarContainerState] = useState(persistedHiddenContainer);
   const [hiddenSidebar, setHiddenSidebarState] = useState(persistedHidden);
   const [isChatOpen, setIsChatOpen] = useState(false);

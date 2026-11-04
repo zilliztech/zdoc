@@ -435,7 +435,21 @@ function applyFragmentEntry(document, entry, cited, denylist, normalizations, ex
             const createdContainer = parent[leaf] === undefined
             if (parent[leaf] === undefined) parent[leaf] = {}
             if (!isPlainObject(parent[leaf])) fail('REST_UPSTREAM_APPLY_TARGET_INVALID', `${label}: ${entry.opPath} is not a properties container`)
-            if (cited.field in parent[leaf]) fail('REST_UPSTREAM_APPLY_TARGET_EXISTS', `${label}: field "${cited.field}" already exists at ${entry.opPath}`)
+            if (cited.field in parent[leaf]) {
+                // Shared-component additions: several operations may $ref one
+                // component, so their per-op additions collapse onto a single
+                // properties container (milvus CollectionCommons carries
+                // partitionNames for ten operations at once). An existing
+                // field carrying the same upstream value (translations aside)
+                // is an idempotent skip, not a conflict; a different value is
+                // a real conflict and stays fail-closed.
+                if (!mirrorValueMatches(cited.change.after, parent[leaf][cited.field])) {
+                    fail('REST_UPSTREAM_APPLY_TARGET_EXISTS', `${label}: field "${cited.field}" already exists at ${entry.opPath} with a different value`)
+                }
+                // Idempotent skip: the caller logs the entry as applied, so
+                // the diff reconcile stays addressed.
+                return
+            }
             parent[leaf][cited.field] = structuredClone(entry.value[cited.field])
             // opPath ends at the properties container; the owning schema is one token up.
             applyRequiredMembership(document, entry, decodePointer(entry.opPath).slice(0, -1), cited.field)

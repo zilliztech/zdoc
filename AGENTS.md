@@ -4,7 +4,7 @@
 
 These instructions apply to the repository rooted at `/Users/anthony/Documents/projects/zdoc`.
 
-- Read `README.md` before changing publication, build, or recovery behavior. It contains the operator-facing release runbook.
+- Read `README.md` before changing publication, build, or recovery behavior. It contains the operator-facing release runbook and indexes the deep-dive reference pages under `runbook/`.
 - Treat the current workflow files, publication contracts, tests, and retained-artifact tooling as the implementation source of truth. Do not infer behavior from historical run IDs or old plans without live verification.
 - Keep plans and specifications in `.claude/`; create temporary worktrees only below `.claude/worktrees/`.
 
@@ -139,4 +139,4 @@ The PR-based master-tooling sync remains the normal tooling path. Do not replace
 
 ## Documentation changes
 
-Keep operator procedures in `README.md` when they describe repository-wide publication, verification, or recovery. Put package-internal implementation details next to the relevant package only when they are not useful to release operators. Prefer commands and links that exist in the current repository; do not document historical or hypothetical workflow inputs as if they were supported.
+Keep the operator runbook — repository-wide publication, verification, and recovery procedures — in `README.md`, and move deep-dive reference material into `runbook/` pages linked from the README instead of growing the runbook itself. Put package-internal implementation details next to the relevant package only when they are not useful to release operators. Prefer commands and links that exist in the current repository; do not document historical or hypothetical workflow inputs as if they were supported.

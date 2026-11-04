@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/dense-vector.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/use-dense-vector
+  - manual: guides-byoc
+    path: tutorials/development/schema/use-dense-vector

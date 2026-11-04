@@ -420,6 +420,130 @@ test('structure-only sources still report operation presence, deprecation, shape
     ])
 })
 
+test('recursive upstream subtrees are flagged for human follow-up instead of failing the diff', () => {
+    // The real milvus skeleton self-references FieldSchema (nested struct
+    // fields) and SearchAggregationReq (sub-aggregations); no finite inlined
+    // mirror value exists for either.
+    const upstream = treeUpstream()
+    upstream.components.schemas.SearchAggregationReq = {type: 'object', properties: {
+        fields: {type: 'array', items: {type: 'string'}},
+        subAggregation: {$ref: '#/components/schemas/SearchAggregationReq'},
+    }}
+    upstream.components.schemas.CollectionNameReq.properties.searchAggregation = {$ref: '#/components/schemas/SearchAggregationReq'}
+    const fragment = treeFragment()
+    fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema.properties.searchAggregation = {
+        type: 'object', properties: {fields: {type: 'array', items: {type: 'string'}}},
+    }
+    const result = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    const mirror = result.entries.find(entry => entry.field === 'searchAggregation' && entry.change.kind === 'schema')
+    assert.ok(mirror, 'expected a searchAggregation mirror entry')
+    assert.equal(mirror.unresolvableSubtree, true)
+    assert.equal(mirror.change.after, null)
+    // the flag is conditional: unaffected entries carry no residue
+    assert.ok(result.entries.filter(entry => entry.field !== 'searchAggregation').every(entry => entry.unresolvableSubtree === undefined))
+
+    // a recursive ADDED field is flagged the same way and carries no subtree
+    upstream.components.schemas.CollectionNameReq.properties.nestedAggregation = {$ref: '#/components/schemas/SearchAggregationReq'}
+    const added = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    }).entries.find(entry => entry.field === 'nestedAggregation' && entry.change.kind === 'field-uncovered')
+    assert.ok(added, 'expected a nestedAggregation added-field entry')
+    assert.equal(added.unresolvableSubtree, true)
+    assert.equal(added.change.after, null)
+})
+
+test('opaque pass-through maps are local-authority: hand-authored params are never retired', () => {
+    // The real retirement that must never happen again: the skeleton sees
+    // `params map[string]interface{}` as a bare object, while the fragment
+    // documents the pass-through parameters (enableDynamicField arrives in
+    // the params map and is forwarded to gRPC; max_length rides elementType-
+    // Params). The mirror must keep the fragment content and stay silent.
+    const upstream = treeUpstream()
+    upstream.components.schemas.CollectionNameReq.properties.params = {type: 'object', 'x-milvus-opaque': true}
+    const fragment = treeFragment()
+    fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema.properties.params = {
+        type: 'object', description: 'Extra parameters.',
+        properties: {enableDynamicField: {type: 'boolean', description: 'Whether to enable dynamic field.'}},
+    }
+    const result = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    assert.deepEqual(result.entries.filter(entry => entry.field === 'params'), [])
+    // a genuinely new sibling field next to the blind spot still mirrors,
+    // and its value keeps the local content below the blind spot while
+    // stripping the tooling marker
+    upstream.components.schemas.CollectionNameReq.properties.extraParams = {type: 'object', 'x-milvus-opaque': true}
+    upstream.components.schemas.CollectionNameReq.properties.partitionNames = {type: 'array', items: {type: 'string'}}
+    const withDrift = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    const addedPlain = withDrift.entries.find(entry => entry.field === 'partitionNames' && entry.change.kind === 'field-uncovered')
+    assert.ok(addedPlain, 'expected the plain added field')
+    assert.deepEqual(addedPlain.change.after, {type: 'array', items: {type: 'string'}})
+    const addedOpaque = withDrift.entries.find(entry => entry.field === 'extraParams' && entry.change.kind === 'field-uncovered')
+    assert.ok(addedOpaque, 'expected the opaque added field')
+    assert.deepEqual(addedOpaque.change.after, {type: 'object'})
+    assert.equal(addedOpaque.change.after['x-milvus-opaque'], undefined)
+    // a mirror whose subtree holds a blind spot carries the fragment content
+    // below the boundary and no marker: the struct gains a VISIBLE field the
+    // extractor can see, while the map field inside stays fragment-authored
+    upstream.components.schemas.CollectionNameReq.properties.params = {type: 'object', properties: {
+        allowInsertNonBM25: {type: 'boolean'},
+        extra: {type: 'object', 'x-milvus-opaque': true},
+    }}
+    fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema.properties.params = {
+        type: 'object', description: 'Extra parameters.',
+        properties: {
+            allowInsertNonBM25: {type: 'boolean', description: 'Whether to allow it.'},
+            extra: {type: 'object', properties: {enableDynamicField: {type: 'boolean', description: 'Whether to enable dynamic field.'}}},
+        },
+    }
+    upstream.components.schemas.CollectionNameReq.properties.params.properties.newVisibleField = {type: 'string'}
+    const mirrorEntry = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', fragment]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    }).entries.find(entry => entry.field === 'params' && entry.change.kind === 'schema')
+    assert.ok(mirrorEntry, 'expected a params mirror for the visible-field addition')
+    // the after value carries upstream structure; doc-owned prose at VISIBLE
+    // nodes is merged back at assemble time — but the fragment content below
+    // the opaque boundary rides the value whole (descriptions included)
+    assert.deepEqual(mirrorEntry.change.after, {
+        type: 'object',
+        properties: {
+            allowInsertNonBM25: {type: 'boolean'},
+            newVisibleField: {type: 'string'},
+            extra: {type: 'object', properties: {enableDynamicField: {type: 'boolean', description: 'Whether to enable dynamic field.'}}},
+        },
+    })
+    assert.deepEqual(mirrorEntry.droppedLocalFields, [])
+})
+
 test('unattributed fields work for structure-only branched bodies', () => {
     const fragment = treeFragment()
     fragment.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema = {oneOf: [
@@ -651,4 +775,28 @@ test('lifecycle tracks reject control-plane sources and malformed values', () =>
         () => lifecycleRun({lifecycleTrack: TRACK, source: SOURCE}),
         /REST_UPSTREAM_LIFECYCLE_TRACK_REJECTED/,
     )
+})
+
+test('upstream Go comments are harvested onto entries and never ride change.after', () => {
+    const upstream = treeUpstream()
+    upstream.components.schemas.CollectionNameReq.properties.dbName['x-upstream-comment'] = 'DbName selects the database scope.'
+    upstream.components.schemas.CollectionNameReq.properties.newField = {type: 'string', 'x-upstream-comment': 'NewField toggles the fast path.'}
+    const result = diffSpecifications({
+        source: TREE_SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', treeFragment()]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    const added = result.entries.find(entry => entry.field === 'newField')
+    assert.ok(added, 'the uncovered field is reported')
+    assert.deepEqual(added.upstreamComments, {'': 'NewField toggles the fast path.'})
+    assert.equal(JSON.stringify(added.change.after).includes('x-upstream-comment'), false)
+    // The existing dbName mirror carries its harvested comment keyed by root path
+    const mirror = result.entries.find(entry => entry.field === 'dbName')
+    assert.equal(JSON.stringify(mirror.change.after).includes('x-upstream-comment'), false)
+    // Entries without comments carry no upstreamComments key at all (byte-stable output)
+    const uncommented = result.entries.filter(entry => !('upstreamComments' in entry))
+    assert.ok(uncommented.length > 0, 'some entries carry no comment key at all')
 })

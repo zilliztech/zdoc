@@ -1,5 +1,8 @@
 const CONTACT_SALES_EN_URL = 'https://zilliz.com/contact-sales';
 const CONTACT_SALES_ZH_URL = 'https://zilliz.com.cn/contact-sales';
+// The marketing site's Japanese contact form; unlike the support center
+// (supportUrl), a ja-JP mirror of the contact-sales page exists.
+const CONTACT_SALES_JA_URL = 'https://zilliz.com/jp/contact-sales';
 // ON REQUEST points at the support center so readers can ask for the feature
 // to be enabled, instead of the feature-availability lifecycle page.
 const SUPPORT_EN_URL = 'https://support.zilliz.com/hc/en-us';
@@ -8,7 +11,10 @@ const SUPPORT_ZH_URL = 'https://support.zilliz.com.cn/hc/zh-cn';
 // English site's ja-JP pages get their locale prefix prepended below.
 const FEATURE_AVAILABILITY_PATH = '/docs/feature-availability';
 
-export function contactSalesUrl(site: unknown): string {
+export function contactSalesUrl(site: unknown, pathname?: string): string {
+  // ja-JP pages of the English site sell to a Japanese audience, so send them
+  // to the Japanese contact form rather than the English one.
+  if (pathname?.startsWith('/ja-JP/')) return CONTACT_SALES_JA_URL;
   return site === 'zh-CN' ? CONTACT_SALES_ZH_URL : CONTACT_SALES_EN_URL;
 }
 
@@ -17,7 +23,7 @@ export function supportUrl(site: unknown): string {
 }
 
 export function resolveTagLink(tagType: string, pathname: string, site: unknown): string | undefined {
-  if (tagType === 'CONTACT SALES') return contactSalesUrl(site);
+  if (tagType === 'CONTACT SALES') return contactSalesUrl(site, pathname);
   if (tagType === 'ON REQUEST') return supportUrl(site);
   if (tagType === 'PUBLIC' || tagType === 'PRIVATE') {
     return pathname.startsWith('/ja-JP/') ? `/ja-JP${FEATURE_AVAILABILITY_PATH}` : FEATURE_AVAILABILITY_PATH;

@@ -24,6 +24,62 @@ function isPlainObject(value) {
 const DOC_OWNED_KEYS = new Set(['description', 'example', 'summary'])
 const isDocOwnedKey = key => DOC_OWNED_KEYS.has(key) || key.startsWith('x-')
 
+// Opaque containers (the Go extractor's x-milvus-opaque marker) are extractor
+// blind spots: generic maps forward their entries to gRPC verbatim (params.
+// enableDynamicField, elementTypeParams.max_length) and interface{}/
+// json.RawMessage accept arbitrary JSON, so the skeleton asserts nothing
+// about their content. The fragment's hand-authored documentation is the
+// authority below an opaque node — a mirror must never retire it as
+// upstream-deleted. overlayOpaque substitutes the local subtree wherever the
+// upstream is blind: comparisons see equal content below the boundary, the
+// retirement walkers stop there, and produced mirror values carry the local
+// documentation. Subtree positions the local side does not have keep the
+// upstream shape (the marker is stripped before a value rides into a
+// fragment).
+const OPAQUE_KEY = 'x-milvus-opaque'
+// Grounding-evidence marker (the extractor's captured Go field comment): the
+// diff harvests it onto its entries before anything else sees the subtree, and
+// stripOpaqueMarkers keeps stripping it defensively so no tooling marker ever
+// rides into a fragment even if a future caller forgets to harvest first.
+const UPSTREAM_COMMENT_KEY = 'x-upstream-comment'
+
+function overlayOpaque(upstreamNode, localNode) {
+    if (Array.isArray(upstreamNode)) {
+        return upstreamNode.map((member, index) => overlayOpaque(member, Array.isArray(localNode) ? localNode[index] : undefined))
+    }
+    if (!isPlainObject(upstreamNode)) return upstreamNode
+    if (upstreamNode[OPAQUE_KEY] === true) {
+        return isPlainObject(localNode) ? structuredClone(localNode) : structuredClone(upstreamNode)
+    }
+    const result = {}
+    for (const [key, child] of Object.entries(upstreamNode)) {
+        if (key === 'properties' && isPlainObject(child)) {
+            const localProperties = isPlainObject(localNode?.properties) ? localNode.properties : {}
+            result[key] = Object.fromEntries(Object.entries(child).map(([name, property]) => [name, overlayOpaque(property, localProperties[name])]))
+        } else if ((key === 'items' || key === 'additionalProperties') && isPlainObject(child)) {
+            const localChild = isPlainObject(localNode?.[key]) ? localNode[key] : undefined
+            result[key] = overlayOpaque(child, localChild)
+        } else if ((key === 'oneOf' || key === 'anyOf' || key === 'prefixItems' || key === 'allOf') && Array.isArray(child)) {
+            const localMembers = Array.isArray(localNode?.[key]) ? localNode[key] : []
+            result[key] = child.map((member, index) => overlayOpaque(member, localMembers[index]))
+        } else {
+            result[key] = child
+        }
+    }
+    return result
+}
+
+function stripOpaqueMarkers(node) {
+    if (Array.isArray(node)) return node.map(stripOpaqueMarkers)
+    if (!isPlainObject(node)) return node
+    const result = {}
+    for (const [key, child] of Object.entries(node)) {
+        if (key === OPAQUE_KEY || key === UPSTREAM_COMMENT_KEY) continue
+        result[key] = stripOpaqueMarkers(child)
+    }
+    return result
+}
+
 // API-truth projection: the subtree with every doc-owned key stripped at every
 // depth. Two properties with equal projections carry identical structure and
 // constraints; any difference (a type, a nested items/properties swap, a new
@@ -41,14 +97,20 @@ function apiProjection(value) {
 
 // Deep-resolve $ref (and allOf merges) at every node of a subtree so a mirror
 // value is self-contained: it must survive copy into a fragment without
-// dragging upstream component references along. Cycles fail closed.
-function resolveSchemaDeep(document, schema, depth = 0) {
+// dragging upstream component references along. Recursive upstream shapes
+// (self-referential components — milvus nested struct fields, sub-aggregations)
+// have no finite inlined form, so a reference that re-enters its own resolution
+// path fails closed deterministically; the depth limit stays as the backstop
+// for pathological finite chains.
+function resolveSchemaDeep(document, schema, depth = 0, resolving = new Set()) {
     if (depth > 16) fail('REST_UPSTREAM_MIRROR_REF_CYCLE', 'mirror subtree exceeds the reference depth limit')
-    if (Array.isArray(schema)) return schema.map(item => resolveSchemaDeep(document, item, depth + 1))
+    if (Array.isArray(schema)) return schema.map(item => resolveSchemaDeep(document, item, depth + 1, resolving))
     if (!isPlainObject(schema)) return schema
     let effective = schema
+    let onPath = false
     if (typeof schema.$ref === 'string') {
         if (!schema.$ref.startsWith('#/')) fail('REST_UPSTREAM_MIRROR_REF_UNSUPPORTED', schema.$ref)
+        if (resolving.has(schema.$ref)) fail('REST_UPSTREAM_MIRROR_REF_CYCLE', `recursive reference ${schema.$ref} cannot be inlined into a self-contained mirror value`)
         let target = document
         for (const token of schema.$ref.slice(2).split('/').map(token => token.replace(/~1/g, '/').replace(/~0/g, '~'))) {
             target = target === null || typeof target !== 'object' ? undefined : Array.isArray(target) ? target[Number(token)] : target[token]
@@ -56,39 +118,45 @@ function resolveSchemaDeep(document, schema, depth = 0) {
         if (target === undefined) fail('REST_UPSTREAM_MIRROR_REF_DANGLING', schema.$ref)
         const {$ref, ...siblings} = schema
         effective = {...(isPlainObject(target) ? target : {}), ...siblings}
+        resolving.add(schema.$ref)
+        onPath = true
     }
-    if (Array.isArray(effective.allOf)) {
-        const merged = {...effective}
-        delete merged.allOf
-        for (const member of effective.allOf) {
-            const resolvedMember = resolveSchemaDeep(document, member, depth + 1)
-            if (!isPlainObject(resolvedMember)) continue
-            for (const [key, value] of Object.entries(resolvedMember)) {
-                if (key === 'properties' && isPlainObject(merged.properties) && isPlainObject(value)) {
-                    merged.properties = {...value, ...merged.properties}
-                } else if (key === 'required' && Array.isArray(merged.required) && Array.isArray(value)) {
-                    merged.required = [...new Set([...value, ...merged.required])]
-                } else if (!(key in merged)) {
-                    merged[key] = value
+    try {
+        if (Array.isArray(effective.allOf)) {
+            const merged = {...effective}
+            delete merged.allOf
+            for (const member of effective.allOf) {
+                const resolvedMember = resolveSchemaDeep(document, member, depth + 1, resolving)
+                if (!isPlainObject(resolvedMember)) continue
+                for (const [key, value] of Object.entries(resolvedMember)) {
+                    if (key === 'properties' && isPlainObject(merged.properties) && isPlainObject(value)) {
+                        merged.properties = {...value, ...merged.properties}
+                    } else if (key === 'required' && Array.isArray(merged.required) && Array.isArray(value)) {
+                        merged.required = [...new Set([...value, ...merged.required])]
+                    } else if (!(key in merged)) {
+                        merged[key] = value
+                    }
                 }
             }
+            effective = merged
         }
-        effective = merged
-    }
-    const result = {}
-    for (const [key, child] of Object.entries(effective)) {
-        if (key === 'allOf') continue
-        if (key === 'properties' && isPlainObject(child)) {
-            result[key] = Object.fromEntries(Object.entries(child).map(([name, property]) => [name, resolveSchemaDeep(document, property, depth + 1)]))
-        } else if ((key === 'items' || key === 'additionalProperties') && isPlainObject(child)) {
-            result[key] = resolveSchemaDeep(document, child, depth + 1)
-        } else if ((key === 'oneOf' || key === 'anyOf' || key === 'prefixItems') && Array.isArray(child)) {
-            result[key] = child.map(member => resolveSchemaDeep(document, member, depth + 1))
-        } else {
-            result[key] = child
+        const result = {}
+        for (const [key, child] of Object.entries(effective)) {
+            if (key === 'allOf') continue
+            if (key === 'properties' && isPlainObject(child)) {
+                result[key] = Object.fromEntries(Object.entries(child).map(([name, property]) => [name, resolveSchemaDeep(document, property, depth + 1, resolving)]))
+            } else if ((key === 'items' || key === 'additionalProperties') && isPlainObject(child)) {
+                result[key] = resolveSchemaDeep(document, child, depth + 1, resolving)
+            } else if ((key === 'oneOf' || key === 'anyOf' || key === 'prefixItems') && Array.isArray(child)) {
+                result[key] = child.map(member => resolveSchemaDeep(document, member, depth + 1, resolving))
+            } else {
+                result[key] = child
+            }
         }
+        return result
+    } finally {
+        if (onPath) resolving.delete(schema.$ref)
     }
-    return result
 }
 
 // The mirror merge: upstream structure with the fragment's doc-owned keys
@@ -254,11 +322,16 @@ function relaxedRequiredMembers(upstreamNode, localNode, prefix = '') {
 }
 
 // The applier recomputes the merge from the live fragment and requires the
-// change-set value to match it exactly — with ONE sanctioned overlay: the
-// translation stage may add x-i18n {zh-CN, ja-JP} descriptions on
-// description-bearing nodes where the merged subtree had none (local prose the
-// fragments never translated). Anything else — a changed constraint, a dropped
-// or added property, a rewritten description — refuses the value.
+// change-set value to match it exactly — with TWO sanctioned overlays, both
+// additive-only on prose the merge itself could not supply:
+//   - the describe stage may add `description` on schema nodes where the
+//     merged subtree carried none (fields fresh from an upstream that has no
+//     prose — the Go extractor's structural skeleton);
+//   - the translation stage may add x-i18n {zh-CN, ja-JP} descriptions on
+//     description-bearing nodes where the merged subtree had none (local
+//     prose the fragments never translated).
+// Anything else — a changed constraint, a dropped or added property, a
+// rewritten description — refuses the value.
 function isTranslationOverlay(node) {
     if (!isPlainObject(node)) return false
     return Object.entries(node).every(([lang, entry]) => ['zh-CN', 'ja-JP'].includes(lang)
@@ -266,6 +339,14 @@ function isTranslationOverlay(node) {
         && typeof entry.description === 'string'
         && Object.keys(entry).every(key => key === 'description' || key.startsWith('x-')))
 }
+
+const hasDescription = node => typeof node?.description === 'string' && node.description.trim().length > 0
+
+// The describe overlay: `description` added on a node the merge left
+// prose-less. Only ADDITIONS are sanctioned — a node the merge DID describe
+// (upstream or local prose) must keep that text verbatim.
+const isDescribeOverlay = (expected, description) =>
+    !hasDescription(expected) && typeof description === 'string' && description.trim().length > 0
 
 function mirrorValueMatches(expected, value) {
     if (isDeepStrictEqual(expected, value)) return true
@@ -284,11 +365,17 @@ function mirrorValueMatches(expected, value) {
             if (!isTranslationSuperset(expectedChild, value[key])) return false
             continue
         }
+        // Expected prose that is empty may have been filled by the describe
+        // overlay (the fill lives in `value`, checked as an extra below);
+        // non-empty prose falls through to the verbatim comparison.
+        if (key === 'description' && isDescribeOverlay(expected, value[key])) continue
         if (!mirrorValueMatches(expectedChild, value[key])) return false
     }
     for (const [key, valueChild] of Object.entries(value)) {
         if (key in expected) continue
-        if (key !== 'x-i18n' || typeof expected.description !== 'string' || !isTranslationOverlay(valueChild)) return false
+        if (key === 'x-i18n' && isTranslationOverlay(valueChild) && (typeof expected.description === 'string' || hasDescription(value))) continue
+        if (key === 'description' && isDescribeOverlay(expected, valueChild)) continue
+        return false
     }
     return true
 }
@@ -340,6 +427,79 @@ function proseNodes(value) {
 
 const hasLanguage = (node, lang) => Boolean((node['x-i18n']?.[lang]?.description ?? '').trim())
 
+// Collect the extractor's grounding comments off an upstream subtree into a
+// path-keyed map, using EXACTLY the path grammar of undescribedNodes so the
+// describe stage can correlate a change-set node with its upstream comment by
+// construction. The subtree itself is expected to still carry the markers (the
+// diff harvests before stripOpaqueMarkers removes them).
+function harvestUpstreamComments(node) {
+    const comments = {}
+    const walk = (current, path) => {
+        if (Array.isArray(current)) {
+            current.forEach(member => walk(member, path))
+            return
+        }
+        if (!isPlainObject(current)) return
+        if (typeof current[UPSTREAM_COMMENT_KEY] === 'string' && current[UPSTREAM_COMMENT_KEY].trim()) {
+            comments[path] = current[UPSTREAM_COMMENT_KEY].trim()
+        }
+        for (const [key, child] of Object.entries(current)) {
+            if (key.startsWith('x-')) continue
+            if (key === 'properties' && isPlainObject(child)) {
+                for (const [name, property] of Object.entries(child)) walk(property, path ? `${path}.${name}` : name)
+            } else if (key === 'items' && isPlainObject(child)) {
+                walk(child, `${path}[]`)
+            } else if (key === 'additionalProperties' && isPlainObject(child)) {
+                walk(child, `${path}{}`)
+            } else if ((key === 'oneOf' || key === 'anyOf') && Array.isArray(child)) {
+                child.forEach(member => walk(member, `${path}/${key}[]`))
+            } else if (isPlainObject(child) || Array.isArray(child)) {
+                walk(child, path)
+            }
+        }
+    }
+    walk(node, '')
+    return comments
+}
+
+// The inverse of proseNodes for the describe stage and the assembler's
+// missing-description report lane: every ADDRESSABLE schema node of a
+// change-set value that carries no description. Addressability follows the
+// documentation shape — a node is addressable when reached through the schema
+// vocabulary (properties members, items, oneOf/anyOf members, the value root
+// itself), not by key sniffing, so opaque `{}` properties and enum-only leaves
+// count too. Parameter objects (name+in) are one addressable row whose inner
+// schema is only the type label and is never descended.
+function undescribedNodes(value) {
+    const nodes = []
+    const walk = (node, path, addressable) => {
+        if (Array.isArray(node)) {
+            node.forEach(member => walk(member, path, addressable))
+            return
+        }
+        if (!isPlainObject(node)) return
+        const isParameter = typeof node.name === 'string' && typeof node.in === 'string'
+        if (addressable && !hasDescription(node)) nodes.push({node, path})
+        if (isParameter) return
+        for (const [key, child] of Object.entries(node)) {
+            if (key.startsWith('x-')) continue
+            if (key === 'properties' && isPlainObject(child)) {
+                for (const [name, property] of Object.entries(child)) walk(property, path ? `${path}.${name}` : name, true)
+            } else if (key === 'items' && isPlainObject(child)) {
+                walk(child, `${path}[]`, true)
+            } else if (key === 'additionalProperties' && isPlainObject(child)) {
+                walk(child, `${path}{}`, true)
+            } else if ((key === 'oneOf' || key === 'anyOf') && Array.isArray(child)) {
+                child.forEach(member => walk(member, `${path}/${key}[]`, true))
+            } else if (isPlainObject(child) || Array.isArray(child)) {
+                walk(child, path, false)
+            }
+        }
+    }
+    walk(value, '', true)
+    return nodes
+}
+
 // The three-locale invariant (PR #964 review): any prose a mirror/addition
 // introduces must carry zh-CN AND ja-JP before the applier touches a fragment.
 function isTranslationComplete(value) {
@@ -389,4 +549,4 @@ function stripScalarConstraints(value) {
     return result
 }
 
-module.exports = {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, isTranslationComplete, assertSchemaShape}
+module.exports = {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, undescribedNodes, hasDescription, isTranslationComplete, assertSchemaShape}

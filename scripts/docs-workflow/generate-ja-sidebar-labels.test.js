@@ -137,6 +137,29 @@ test('loadDictionary returns the labels map', () => {
   assert.deepEqual(loadDictionary('/repo', fsImpl), { 'category:a': 'あ' })
 })
 
+test('loadDictionary rejects a label that glues Latin text to Japanese text (style guide R7.7)', () => {
+  const fsImpl = makeFsImpl({
+    '/repo/config/translation/ja-JP-sidebar-labels.json': JSON.stringify({ labels: { 'category:deploy': 'AWSでデプロイ' } }),
+  })
+  assert.throws(() => loadDictionary('/repo', fsImpl), /violates style guide R7\.7/)
+})
+
+test('loadDictionary accepts R7.7-compliant labels, including unspaced digits per the corpus', () => {
+  const labels = { 'category:a': 'AWS でデプロイ', 'category:b': 'これら3つのレベル', 'category:c': 'リリースノート' }
+  const fsImpl = makeFsImpl({
+    '/repo/config/translation/ja-JP-sidebar-labels.json': JSON.stringify({ labels }),
+  })
+  assert.deepEqual(loadDictionary('/repo', fsImpl), labels)
+})
+
+test('the committed dictionary satisfies style guide R7.7', () => {
+  const nodePath = require('node:path')
+  const workspace = nodePath.resolve(__dirname, '../..')
+  // Uses the real repository file: if loadDictionary returns, every curated
+  // label keeps R7.7 spacing between Latin words and Japanese text.
+  loadDictionary(workspace)
+})
+
 test('generateJaSidebarLabels writes sorted current.json files for every configured target', () => {
   const dictionary = { labels: { 'category:a': 'あ', 'link:b': 'い' } }
   const fsImpl = makeFsImpl({

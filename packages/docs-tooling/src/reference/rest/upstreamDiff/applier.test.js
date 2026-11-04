@@ -665,6 +665,47 @@ function additionFragment() {
 
 const TRANSLATED = {'x-i18n': {'zh-CN': {description: '中'}, 'ja-JP': {description: '日'}}}
 
+test('additions onto a shared $ref component are idempotent for equal values, fail-closed otherwise', () => {
+    // milvus CollectionCommons shape: ten operations $ref one component, so
+    // their per-op additions collapse onto a single properties container.
+    const fragment = {openapi: '3.0.1', paths: {
+        '/v2/things/drop': {post: {responses: {'200': {content: {'application/json': {schema: {$ref: '#/components/schemas/CommonDto'}}}}}}},
+        '/v2/things/has': {post: {responses: {'200': {content: {'application/json': {schema: {$ref: '#/components/schemas/CommonDto'}}}}}}},
+    }, components: {schemas: {CommonDto: {type: 'object', properties: {code: {type: 'integer'}}}}}}
+    const diff = {schemaVersion: '1.0', source: SOURCE.id, publicationTarget: 'milvus', upstreamPin: SHA, summary: {},
+        entries: [
+            {opKey: 'post /v2/things/drop', fragment: '01-things-v2.json', category: 'upstream-added-field', scope: 'response', field: 'partitionNames',
+                change: {kind: 'field-uncovered', before: null, after: {type: 'array', items: {type: 'string'}}},
+                requiredMembership: false, evidence: '/paths/x/post',
+                id: 'upstream-added-field|post /v2/things/drop|01-things-v2.json|response||200|partitionNames|field-uncovered|'},
+            {opKey: 'post /v2/things/has', fragment: '01-things-v2.json', category: 'upstream-added-field', scope: 'response', field: 'partitionNames',
+                change: {kind: 'field-uncovered', before: null, after: {type: 'array', items: {type: 'string'}}},
+                requiredMembership: false, evidence: '/paths/x/post',
+                id: 'upstream-added-field|post /v2/things/has|01-things-v2.json|response||200|partitionNames|field-uncovered|'},
+        ]}
+    const sharedPath = '/components/schemas/CommonDto/properties'
+    const apply = entries => applyChangeSet({
+        documents: new Map([['01-things-v2.json', structuredClone(fragment)]]),
+        changeSet: changeSet(entries.map(entry => ({...entry, kind: 'addition', targetFragment: '01-things-v2.json', opPath: sharedPath,
+            value: {partitionNames: entry.value}}), diff), diff), diff, ruleset: RULESET})
+    const sameValue = {type: 'array', items: {type: 'string'}}
+    const ok = apply([{id: diff.entries[0].id, value: sameValue}, {id: diff.entries[1].id, value: sameValue}])
+    const props = ok.documents.get('01-things-v2.json').components.schemas.CommonDto.properties
+    assert.deepEqual(props.partitionNames, sameValue)
+    // both entries reconcile as addressed (the second was an idempotent skip)
+    assert.deepEqual(ok.appliedLog.filter(entry => entry.kind === 'addition').length, 2)
+    // a conflicting value for the already-present field stays fail-closed:
+    // the fragment already carries the field with a different shape than the
+    // diff's upstream subtree
+    const seeded = structuredClone(fragment)
+    seeded.components.schemas.CommonDto.properties.partitionNames = {type: 'string'}
+    assert.throws(() => applyChangeSet({
+        documents: new Map([['01-things-v2.json', seeded]]),
+        changeSet: changeSet([{id: diff.entries[0].id, kind: 'addition', targetFragment: '01-things-v2.json', opPath: sharedPath,
+            value: {partitionNames: sameValue}}], diff), diff, ruleset: RULESET}),
+        /REST_UPSTREAM_APPLY_TARGET_EXISTS.*different value/)
+})
+
 function withTranslations(subtree) {
     const clone = structuredClone(subtree)
     const visit = node => {

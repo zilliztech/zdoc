@@ -47,7 +47,16 @@
         "items": {"$ref": "#/$defs/schema"},
         "properties": {"type": "object", "additionalProperties": {"$ref": "#/$defs/schema"}},
         "required": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
-        "$ref": {"type": "string", "pattern": "^#/components/schemas/[A-Za-z][A-Za-z0-9_]*$"}
+        "$ref": {"type": "string", "pattern": "^#/components/schemas/[A-Za-z][A-Za-z0-9_]*$"},
+        "x-milvus-opaque": {
+          "description": "Extractor blind spot: the container's JSON content is not enumerable from the route-table structs (generic maps forwarded to gRPC, interface{}/json.RawMessage). The fragment's hand-authored documentation is the authority below this node.",
+          "const": true
+        },
+        "x-upstream-comment": {
+          "description": "Grounding evidence only: the Go doc/trailing comment of the struct field this property came from. The diff harvests these onto its entries (upstreamComments) and strips the marker, so it never rides into a fragment.",
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "components": {

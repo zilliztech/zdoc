@@ -28,11 +28,15 @@ test('committed lock, ledger, and ruleset parse and pin real upstream sources', 
     // import/create branch attribution candidates); the milvus bootstrap
     // (2026-10-29, doc-team reviewed) adds 13 external v1 operations,
     // 9 confirmed-public + 2 field-attribution deferred, and 2 rejected
-    // internal endpoints.
-    assert.equal(ledger.entries.length, 80)
-    assert.equal(ledger.entries.filter(entry => entry.classification === 'external').length, 64)
-    assert.equal(ledger.entries.filter(entry => entry.classification === 'rejected').length, 2)
-    assert.equal(ledger.entries.filter(entry => entry.source === 'milvus-data-plane').length, 26)
+    // internal endpoints. The ledger keeps growing: every refresh PR lands
+    // model-proposed drafts as deferred entries and human review adopts or
+    // reclassifies them, so the suite pins the bootstrap floor, not exact
+    // counts (this suite also runs on refresh branches whose tree already
+    // carries the landed drafts).
+    assert.ok(ledger.entries.length >= 80, `ledger entries ${ledger.entries.length}`)
+    assert.ok(ledger.entries.filter(entry => entry.classification === 'external').length >= 64)
+    assert.ok(ledger.entries.filter(entry => entry.classification === 'rejected').length >= 2)
+    assert.ok(ledger.entries.filter(entry => entry.source === 'milvus-data-plane').length >= 26)
     const ruleset = loadRuleset(DEFAULTS.rules)
     assert.deepEqual(ruleset.internalFieldDenylist, ['accessKey', 'secretKey', 'token', 'innerCall'])
     assert.ok(ruleset.policies.some(policy => policy.id === 'doc-design-zdoc'))
@@ -41,7 +45,9 @@ test('committed lock, ledger, and ruleset parse and pin real upstream sources', 
 test('rest-upstream-lock lists sources and rest-upstream-format reports canonical fragments', () => {
     const lock = runCli(['rest-upstream-lock'])
     assert.equal(lock.status, 0, lock.stderr)
-    assert.match(lock.stdout, /zilliz-cloud-control-plane\tzilliztech\/zilliz-cloud@e64f3bd7/)
+    // Pin identity moves with every merged refresh; the listing only has to
+    // show the source rows with a commit-shaped pin.
+    assert.match(lock.stdout, /zilliz-cloud-control-plane\tzilliztech\/zilliz-cloud@[0-9a-f]{40}/)
 
     const format = runCli(['rest-upstream-format'])
     assert.equal(format.status, 0, format.stderr)
@@ -99,12 +105,14 @@ test('diff then apply round trip through the CLI against a YAML upstream spec', 
             '',
         ].join('\n'))
         const outDir = path.join(dir, 'diff')
+        // The pin must come from the flag, not the repo's live lock: this
+        // suite also runs on refresh branches where the lock pin has moved.
         const diff = runCli(['rest-upstream-diff', '--source', 'zilliz-cloud-control-plane', '--spec', path.join(dir, 'upstream.yaml'),
-            '--fragments', fragmentsDir, '--out', outDir])
+            '--upstream-commit', 'f'.repeat(40), '--fragments', fragmentsDir, '--out', outDir])
         assert.equal(diff.status, 0, diff.stderr)
         assert.match(diff.stdout, /upstream-modified: 2/)
         const diffDocument = JSON.parse(fs.readFileSync(path.join(outDir, 'diff.json'), 'utf8'))
-        assert.equal(diffDocument.upstreamPin, 'e64f3bd77c94971d2352ca61eb86d1a1f11bf2cb')
+        assert.equal(diffDocument.upstreamPin, 'f'.repeat(40))
         assert.match(fs.readFileSync(path.join(outDir, 'diff.md'), 'utf8'), /## `post \/v2\/projects` \(21-project-operations-v2.json\)/)
 
         const summaryId = 'upstream-modified|post /v2/projects|21-project-operations-v2.json|operation||||summary|'
@@ -515,13 +523,13 @@ test('diff and prepare accept a source-tree skeleton for milvus-data-plane', () 
 
         const outDir = path.join(dir, 'diff')
         const diff = runCli(['rest-upstream-diff', '--source', 'milvus-data-plane', '--skeleton', path.join(dir, 'skeleton.json'),
-            '--fragments', fragmentsDir, '--out', outDir])
+            '--upstream-commit', 'e'.repeat(40), '--fragments', fragmentsDir, '--out', outDir])
         assert.equal(diff.status, 0, diff.stderr)
         // Structure-only: the Authorization header and the maxLength stay doc
         // design (zdoc-only); no prose/response/parameter drift is reportable.
         assert.match(diff.stdout, /zdoc-only: 1/)
         const diffDocument = JSON.parse(fs.readFileSync(path.join(outDir, 'diff.json'), 'utf8'))
-        assert.equal(diffDocument.upstreamPin, '6d833a672807e7c75c490c9383f68a42ed1142ea')
+        assert.equal(diffDocument.upstreamPin, 'e'.repeat(40))
 
         fs.writeFileSync(path.join(dir, 'titles.json'), '{\n  "list-collections": "list-collections"\n}\n')
         const staging = path.join(dir, 'staging')

@@ -29,7 +29,7 @@
     "reconciliation-card-action-consumer": "node scripts/docs-workflow/reconciliation-card-action-consumer.js",
     "test:architecture": "node --test scripts/migration/check-profile-env.test.mjs && node scripts/migration/check-profile-env.mjs",
     "test:retirement": "node --test scripts/architecture/verify-retired-layout.test.mjs && node scripts/architecture/verify-retired-layout.mjs",
-    "test:rest-publication-contract": "node scripts/verify-rest-fragment-migration.mjs && node scripts/verify-rest-lifecycle-evidence.mjs && node scripts/verify-integrated-rest-publication.mjs && node --test packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js",
+    "test:rest-publication-contract": "node scripts/verify-rest-fragment-migration.mjs && node scripts/verify-rest-lifecycle-evidence.mjs && node scripts/verify-integrated-rest-publication.mjs && node --test packages/docs-tooling/src/reference/rest/refGen.route-scope.test.js packages/docs-tooling/src/reference/rest/dualTargetStructure.contract.test.js && node packages/docs-tooling/src/reference/rest/refGen.plane.test.js && node packages/docs-tooling/src/reference/rest/refGen.lang-filter.test.js && node --test scripts/rest-upstream/assert-track-projection.test.js",
     "test:rest-upstream": "node --test packages/docs-tooling/src/reference/rest/upstreamDiff/*.test.js",
     "test:replay": "pnpm run test:replay:contract && pnpm run test:workflow-matrix && pnpm run test:replay:fetch && pnpm run test:replay:recovery && pnpm run test:replay:requested && pnpm run test:replay:shared-pages",
     "test:replay:contract": "node --test scripts/docs-workflow/replay-harness-contract.test.js",
@@ -54,7 +54,8 @@
     "test:doc-publish-bot": "node --test scripts/doc-publish-bot/*.test.js",
     "test:all": "pnpm test:frontend",
     "test:replay:requested": "node --test scripts/docs-workflow/replay-requested-guides.test.js",
-    "test:replay:shared-pages": "node --test scripts/docs-workflow/replay-shared-pages.test.js"
+    "test:replay:shared-pages": "node --test scripts/docs-workflow/replay-shared-pages.test.js",
+    "rest:availability": "node packages/docs-tooling/src/reference/rest/index.js rest-availability --base http://127.0.0.1:19530 --label milvus-dev --out tmp/rest-availability"
   },
   "dependencies": {
     "@actions/artifact": "6.2.1",

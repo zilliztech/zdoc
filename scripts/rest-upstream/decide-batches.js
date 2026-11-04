@@ -270,4 +270,4 @@ if (require.main === module) {
     })
 }
 
-module.exports = {decideBatches, parseModelContent, acceptDecisionLine, decisionSystemPrompt, chatCompletionsUrl, DEFAULT_MIN_COVERAGE}
+module.exports = {decideBatches, parseModelContent, acceptDecisionLine, decisionSystemPrompt, chatCompletionsUrl, parseArgs, DEFAULT_MIN_COVERAGE}

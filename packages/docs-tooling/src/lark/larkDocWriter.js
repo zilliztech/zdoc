@@ -5,6 +5,7 @@ const {
     createFencedCodeBlock,
 } = require('../mdx/validate.cjs')
 const { filterCodeVariants } = require('./codeVariantFilter')
+const { matchFilterTags, resolveIncludeSpans } = require('../reference/rest/includeSpans')
 const Downloader = require('./larkImageDownloader.js')
 const slugify = require('slugify')
 const fs = require('node:fs')
@@ -1300,30 +1301,18 @@ class larkDocWriter {
 
     }
 
+    // Include/exclude span resolution delegates to the shared build-side
+    // resolver (reference/rest/includeSpans.js) — the third hand-kept copy of
+    // this algorithm retired here. The reserved-channel guard and the
+    // presentation cleanups below stay writer-local. One intentional behavior
+    // change rides the shared module: an unclosed span now throws
+    // REST_INCLUDE_SPAN_UNCLOSED instead of warn-and-garbling the tail.
     __filter_content (markdown, targets) {
-        const matches = this.__match_filter_tags(markdown)
-        this.__reject_reserved_channel_targets(matches)
+        const text = typeof markdown === 'string' ? markdown : ''
+        this.__reject_reserved_channel_targets(matchFilterTags(text))
 
-        if (matches.length > 0) {
-            var preText = markdown.slice(0, matches[0].startIndex)
-            var matchText = markdown.slice(matches[0].startIndex, matches[0].endIndex)
-            var postText = markdown.slice(matches[0].endIndex)
-            var isTargetValid = targets.split('.').includes(matches[0].target.trim())
-            var startTagLength = `<${matches[0].tag} target="${matches[0].target}">`.length
-            var endTagLength = `</${matches[0].tag}>`.length
-
-            if (matches[0].tag == 'include' && isTargetValid || matches[0].tag == 'exclude' && !isTargetValid) {
-                matchText = matchText.slice(startTagLength, -endTagLength)
-            }
-
-            if (matches[0].tag == 'include' && !isTargetValid || matches[0].tag == 'exclude' &&  isTargetValid) {
-                matchText = ""
-            }
- 
-            markdown = this.__filter_content(preText + matchText + postText, targets)
-        }
-
-        return markdown.replace(/(\s*\n){3,}/g, '\n\n')
+        const resolved = resolveIncludeSpans(text, targets)
+        return resolved.replace(/(\s*\n){3,}/g, '\n\n')
             .replace(/<br>/g, '<br/>')
             .replace(/(<br\/>){2,}/, "<br/>")
             .replace("<br\/></p>", "</p>")
@@ -1423,48 +1412,6 @@ class larkDocWriter {
             }
             if (active) throw new Error(`Unclosed channel code region "${active}" at the end of a code block`)
         }
-    }
-
-    __match_filter_tags(markdown) {
-        const startTagRegex = /<(include|exclude) target="(.+?)"/gmi
-        const endTagRegex = /<\/(include|exclude)>/gmi
-        const matches = [... markdown.matchAll(startTagRegex)]
-        var returns = []
-
-        matches.forEach(match => {
-            var tag = match[1].toLowerCase()
-            var target = match[2].trim()
-            var rest = markdown.slice(match.index)
-            
-            var closeTagRegex = new RegExp(`</${tag}>`, 'gmi')
-            var closeTagMatch = [... rest.matchAll(closeTagRegex)]
-            
-            var startIndex = match.index
-            var endIndex = -1
-            
-            for (let i = 0; i < closeTagMatch.length; i++) {
-                var t = markdown.slice(startIndex, startIndex+closeTagMatch[i].index+closeTagMatch[i][0].length)
-            
-                var startCount = t.match(startTagRegex) ? t.match(startTagRegex).length : 0
-                var endCount = t.match(endTagRegex) ? t.match(endTagRegex).length : 0
-        
-                if (startCount === endCount) {
-                    endIndex = startIndex + closeTagMatch[i].index + closeTagMatch[i][0].length
-                    break
-                }
-            }
-
-            if (endIndex === -1) console.warn(`No matching end tag for ${tag} tag at index ${match.index}`)
-
-            returns.push({
-                tag: tag,
-                target: target,
-                startIndex: startIndex,
-                endIndex: endIndex
-            })           
-        })
-
-        return returns
     }
 
     __extract_description(markdown) {

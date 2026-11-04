@@ -25,6 +25,8 @@ These attributes live inside the OpenAPI JSON files (`meta/openapi/*.json`) and 
 | `x-added-at` | Milvus data-plane operations and public contract elements | Yes | — | First managed minor track in which the element exists. Format: `major.minor.x`. |
 | `x-last-modified` | Milvus data-plane operations and public contract elements | Yes | — | Most recent managed minor track in which the element changed. Audit-only; never controls visibility. |
 | `x-deprecated-since` | Milvus data-plane operations and public contract elements | Yes | — | First managed minor track in which the element is deprecated; `null` means not deprecated. |
+| `x-next-channel` | Operations, parameters, schema properties | Yes | — | Stages the element for the NEXT release channel; mirrors the `<NextChannel>` authoring tag. Values: `include` \| `exclude`. |
+| `x-zilliz-cluster-types` | Operations, parameters, schema properties | Yes | — | Restricts the element to the listed Zilliz cluster types (CU categories). Absent ⇒ all types. Values below. |
 
 *Build-time stripping in `s3Uploader.js` preserves `x-i18n` only when generating the `zh-CN` S3 artifact.
 
@@ -62,6 +64,52 @@ Usage locations:
 - **Operations**: Skip individual endpoints.
 - **Parameters / Properties**: Hide fields in the `RestSpecs` UI.
 - **Examples**: Hide request/response examples.
+- **`x-admonition` entries**: Scope a single callout to one target (entries
+  are filtered individually at build time).
+- **`components.x-base-urls` entries**: Scope endpoint-picker metadata.
+
+Any prose that mentions Zilliz-only concepts (Zilliz Cloud, serving/on-demand
+clusters, serverless deployments, …) inside a node that is published to both
+targets must be scoped with this attribute or with the inline
+`<include target="zilliz">…</include>` span. `milvusTargetHygiene.test.js`
+guards the milvus-target projection against unscoped zilliz-only vocabulary.
+The guard is one-way by design: it protects the milvus target only, and there
+is no equivalent scan for milvus-only concepts on the zilliz target.
+
+**Same-endpoint dual-implementation modeling rules** (contract; enforced by
+`dualTargetStructure.contract.test.js` and the target-survival gate in
+`scripts/verify-rest-lifecycle-evidence.mjs`). When one route is implemented
+by both publication targets with divergent payloads — the import family is
+the canonical case: the open-source Milvus data plane implements
+`files`+`options` bulk import while the Zilliz Cloud control plane implements
+volume- and object-storage-based import behind the same paths — the
+divergence is modeled inside the single operation instead of pretending it is
+one API:
+
+- The `oneOf`/`anyOf` branch axis is the **implementation**; branches of
+  different implementations each carry an explicit `x-include-target` and are
+  never merged through field-level marks. One implementation's internal
+  variants (deployment options, protocol shapes) stay inside branches already
+  scoped to that implementation.
+- A branch without `x-include-target` counts as shared and must not contain
+  fields whose target sets are disjoint.
+- An operation pinned to one target must not contain nodes of the other
+  target; where implementations use different routes, keep separate
+  operations with operation-level `x-include-target` (for example
+  `describe` versus `get_progress`), and an alias route stays attached to the
+  target whose code registers it.
+- Visibility is `x-include-target`'s job; availability on a target is the job
+  of `x-beta` / `x-zilliz-cluster-types`. Never hide
+  a field a target's API actually accepts by marking it for the other target.
+- Lifecycle keys (`x-added-at`/`x-last-modified`/`x-deprecated-since`) and
+  their evidence rows are Milvus-track attestations: they belong only on
+  nodes that survive the milvus target filter, and the target-survival gate
+  fails any evidence pointer the filter removes. A shared surface attested
+  against milvus-io/milvus upstream commits therefore needs no target scope
+  on its tag — fragment 38 (snapshots) is the standing example: its elements
+  are attested against milvus v3.0.0 commits, so it publishes to both
+  targets and its 2.6.x/3.0.x visibility comes from the lifecycle stamps
+  alone.
 
 ### 1.2.1 `x-include-langs`
 
@@ -93,7 +141,9 @@ Controls the visibility badge shown on API reference pages. The effective value 
 }
 ```
 
-Valid values: `DEPRECATED`, `FALSE`, `PRIVATE`, `PUBLIC`.
+Valid values: `DEPRECATED`, `FALSE`, `PRIVATE`, `PUBLIC`, `ON REQUEST`. `ON REQUEST` marks contact-to-enable features (release-notes tier of the same name); it is valid at operation and tag level — the `Snapshot Operations (V2)` tag in `38-snapshot-operations-v2.json` is the in-tree example.
+
+**Target scoping.** Only `FALSE` and `DEPRECATED` are target-neutral; every other value is a Zilliz Cloud release-notes tier and badges zdoc sites only. The milvus publication target resolves tier values as if they were unset — at operation level, tag level, and in `CONFIG.betaOverrides` alike — so the chain falls back to `CONFIG.betaDefaults` (`v2` → `FALSE`). `DEPRECATED` survives because the kernel deprecation it reports applies to Milvus as well. `betaTier.js` owns this vocabulary (an allowlist, so future zilliz tiers cannot leak to milvus.io by default); `filterSelection` strips the tiers from the milvus projection, and `milvusTargetHygiene.test.js` gates the enum surface that the string token scan cannot see.
 
 ### 1.4 `x-admonition`
 
@@ -368,6 +418,80 @@ Lifecycle enforcement is staged:
 2. **Bootstrap migration:** all managed Milvus data-plane operations and fields are populated.
 3. **Post-bootstrap:** missing lifecycle metadata is a hard validation failure.
 
+
+### 1.12 `x-next-channel`
+
+Registers an operation, parameter, or schema property for the **NEXT release
+channel** — the staged-for-next-release registry, behaviorally aligned with the
+`<NextChannel action="include|exclude">` authoring tag and the
+`current` / `next` / `retire-in-next` channel vocabulary used across the docs
+(`releaseChannel.ts`, page frontmatter `channel`, sidebar `customProps.channel`).
+
+```json
+{
+  "x-next-channel": "include"
+}
+```
+
+| Value | Meaning | Operation-level rendering |
+|-------|---------|---------------------------|
+| `include` | Ships in the NEXT release; hidden on CURRENT production | generated page gets frontmatter `channel: next` and `sidebar_custom_props.channel: next` — hidden wherever the runtime `RELEASE_CHANNEL` is unknown or `current` (fail-closed, exactly like guides NEXT pages) |
+| `exclude` | Retires in the NEXT release; CURRENT keeps the final wording | generated page gets `channel: retire-in-next` — stays served on CURRENT, ships its final wording, and is removed wholesale in NEXT |
+
+Placement scope matches `x-include-target`: operations, parameters, and schema
+properties. Operation-level marks drive page rendering today (`refGen.js`
+`resolveNextChannel`); parameter/property-level marks are registry-only for now
+and feed the availability matrices until per-field rendering lands.
+
+Relationship to the other attributes:
+
+- Orthogonal to the Milvus lifecycle triple: `x-added-at` records the release
+  **track** an element belongs to; `x-next-channel` records the **site channel**
+  staging decision. A staged element may carry both (`x-added-at: "3.0.x"` +
+  `x-next-channel: "include"`).
+- When the staged release ships, remove `x-next-channel` in the same change
+  that publishes the content, leaving the lifecycle triple as the record.
+- Complements `x-beta`: `x-beta` communicates maturity (GA / preview tiers) of
+  **published** content; `x-next-channel` gates **unpublished** content.
+
+Like all internal `x-*` keys, it is stripped from public generated specs.
+
+
+### 1.13 `x-zilliz-cluster-types`
+
+Records which Zilliz Cloud cluster types (CU categories) an operation,
+parameter, or schema property applies to. Zilliz does not version its REST
+surface; availability varies by cluster type instead, and this attribute is
+the registry the availability program writes into (marks land through
+reviewed PRs backed by live-matrix evidence — never auto-written).
+
+```json
+{
+  "x-zilliz-cluster-types": ["memory", "disk", "tiered", "byoc-memory", "byoc-disk", "byoc-tiered"]
+}
+```
+
+| Value | Console name (zilliz-cloud-config manifests) |
+|-------|----------------------------------------------|
+| `serverless` | Serverless |
+| `memory` | Performance-optimized |
+| `disk` | Cost-optimized |
+| `tiered` | Capacity-optimized |
+| `byoc-memory` / `byoc-disk` / `byoc-tiered` | the BYOC equivalents (no BYOC serverless exists) |
+
+Semantics: whitelist array mirroring `x-include-target`; **absent ⇒ available
+on all cluster types** (fail-open). Zilliz-only (ignored for
+`target === 'milvus'`, like `x-base-urls`). Placement scope matches
+`x-include-target`. Phase 1 (current): machine-readable — consumed by the
+availability matrices and `rest-zilliz-priors`; rendering is a separate
+decision. Stripped from public specs with all internal `x-*` keys.
+
+First evidence-backed mark: `databases/create` carries the six dedicated
+types — the UAT3 serverless matrix proved `databases/create` is
+platform-denied on serverless (PrivilegeCreateDatabase, even for the cluster
+admin account), while dedicated clusters create databases normally; BYOC
+shares the dedicated data plane.
+
 ---
 
 ## 2. Generated MDX Frontmatter
@@ -572,7 +696,7 @@ Includes the wrapped text **only if** the current target does **not** match.
 
 ### Processing
 
-- Build time: `refGen.js` → `__filter_content()` → `__match_filter_tags()`
+- Build time: `refGen.js` → `__filter_content()` → `includeSpans.js` (`resolveIncludeSpans()`)
 - Runtime: `RestSpecs/utils.js` → `textFilter()`
 
 Both processors strip the tags and return the inner text if the condition is satisfied, or remove the entire block if it is not.

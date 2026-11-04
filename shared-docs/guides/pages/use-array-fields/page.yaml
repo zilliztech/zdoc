@@ -1,0 +1,17 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/array_data_type.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/use-array-fields
+  - manual: guides-byoc
+    path: tutorials/development/schema/use-array-fields
+
+transforms:
+  - operation: replace
+    target:
+      block: array-partial-update-note
+    content:
+      file: cloud-array-partial-update-note.md

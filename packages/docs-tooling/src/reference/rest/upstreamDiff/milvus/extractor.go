@@ -61,12 +61,26 @@ type schema struct {
 	Properties map[string]*schema `json:"properties,omitempty"`
 	Required   []string           `json:"required,omitempty"`
 	Ref        string             `json:"$ref,omitempty"`
+	// Opaque marks containers whose JSON content the route-table structs
+	// cannot enumerate: generic maps (map[string]…) forward their entries to
+	// gRPC verbatim (e.g. params.enableDynamicField, elementTypeParams.
+	// max_length), and interface{}/json.RawMessage accept arbitrary JSON.
+	// Downstream, the fragment's hand-authored documentation is the authority
+	// below an opaque node; the mirror must never retire it as upstream-deleted.
+	Opaque bool `json:"x-milvus-opaque,omitempty"`
+	// Comment carries the Go doc/trailing comment of the struct field this
+	// property came from. It is grounding evidence for the describe stage
+	// only: the diff harvests it onto the entry (upstreamComments) and strips
+	// the marker before the subtree rides anywhere else, so it never reaches
+	// a fragment.
+	Comment string `json:"x-upstream-comment,omitempty"`
 }
 
 type fieldDef struct {
 	jsonName string
 	required bool
 	goType   ast.Expr
+	comment  string
 }
 
 type structDef struct {
@@ -164,16 +178,19 @@ func (ex *extractor) collectDeclarations(file *ast.File) {
 						def.fields = append(def.fields, fieldDef{goType: field.Type})
 						continue
 					}
-					if jsonName == "" {
-						// encoding/json marshals untagged fields under their
-						// exact Go field name.
-						jsonName = field.Names[0].Name
-					}
-					def.fields = append(def.fields, fieldDef{
-						jsonName: jsonName,
-						required: required,
-						goType:   field.Type,
-					})
+				if jsonName == "" {
+					// encoding/json marshals untagged fields under their
+					// exact Go field name.
+					jsonName = field.Names[0].Name
+				}
+				def.fields = append(def.fields, fieldDef{
+					jsonName: jsonName,
+					required: required,
+					goType:   field.Type,
+					// Comment groups keep their line breaks; grounding evidence
+					// reads best as one line, so collapse all whitespace runs.
+					comment: strings.Join(strings.Fields(commentText(field.Doc)+" "+commentText(field.Comment)), " "),
+				})
 				}
 				ex.structs[typed.Name.Name] = def
 			}
@@ -251,11 +268,12 @@ func (ex *extractor) structSchema(name string, depth int) (*schema, error) {
 			required = append(required, embedded.Required...)
 			continue
 		}
-		fieldSchema, err := ex.typeSchema(field.goType, depth+1)
-		if err != nil {
-			return nil, fmt.Errorf("field %s.%s: %w", name, field.jsonName, err)
-		}
-		properties[field.jsonName] = fieldSchema
+			fieldSchema, err := ex.typeSchema(field.goType, depth+1)
+			if err != nil {
+				return nil, fmt.Errorf("field %s.%s: %w", name, field.jsonName, err)
+			}
+			fieldSchema.Comment = field.comment
+			properties[field.jsonName] = fieldSchema
 		if field.required {
 			required = append(required, field.jsonName)
 		}
@@ -295,11 +313,11 @@ func (ex *extractor) typeSchema(expr ast.Expr, depth int) (*schema, error) {
 		return ex.namedSchema(typed.Name, depth)
 	case *ast.SelectorExpr:
 		if pkg, ok := typed.X.(*ast.Ident); ok && pkg.Name == "json" && typed.Sel.Name == "RawMessage" {
-			return &schema{}, nil
+			return &schema{Opaque: true}, nil
 		}
 		return nil, fail("REST_UPSTREAM_EXTRACT_EXTERNAL_TYPE", "%s: external package types carry no extractable JSON contract", goTypeName(expr))
 	case *ast.InterfaceType:
-		return &schema{}, nil
+		return &schema{Opaque: true}, nil
 	case *ast.ArrayType:
 		if typed.Len != nil {
 			return nil, fail("REST_UPSTREAM_EXTRACT_TYPE_UNSUPPORTED", "%s: fixed-length arrays are not JSON shapes", goTypeName(expr))
@@ -313,7 +331,10 @@ func (ex *extractor) typeSchema(expr ast.Expr, depth int) (*schema, error) {
 		if keyIdent, ok := typed.Key.(*ast.Ident); !ok || keyIdent.Name != "string" {
 			return nil, fail("REST_UPSTREAM_EXTRACT_TYPE_UNSUPPORTED", "%s: only map[string]… maps to JSON objects", goTypeName(expr))
 		}
-		return &schema{Type: "object"}, nil
+		// Uniformly opaque, even when the value type is a known struct: the
+		// map keys are dynamic (metric names, parameter names), so the JSON
+		// shape is not enumerable from the struct declaration alone.
+		return &schema{Type: "object", Opaque: true}, nil
 	default:
 		return nil, fail("REST_UPSTREAM_EXTRACT_TYPE_UNSUPPORTED", "%s", goTypeName(expr))
 	}

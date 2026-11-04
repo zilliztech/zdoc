@@ -84,6 +84,23 @@ function buildPluginTranslations(sidebarsConfig, labels, pluginLabel) {
   return { entries, missing }
 }
 
+// Style guide R7.7 (.github/prompts/codex-style-guide.ja-JP.md): a half-width
+// space separates Latin-letter runs from Japanese text. The curated dictionary
+// labels render next to translated doc labels that follow that rule, so a
+// spacing drift here shows up as an inconsistent sidebar. Digits are excluded
+// on purpose: the style guide's own corpus keeps e.g. これら3つの unspaced.
+const UNSPACED_LATIN_JAPANESE = /[A-Za-z][ぁ-ゖァ-ヺ一-鿿々]|[ぁ-ゖァ-ヺ一-鿿々][A-Za-z]/
+
+function assertLabelsSpaced(labels) {
+  for (const [key, label] of Object.entries(labels)) {
+    if (typeof label === 'string' && UNSPACED_LATIN_JAPANESE.test(label)) {
+      throw new Error(
+        `${DICTIONARY_PATH} labels["${key}"] = "${label}" violates style guide R7.7: a half-width space must separate Latin words and Japanese text`,
+      )
+    }
+  }
+}
+
 function loadDictionary(workspace, fsImpl = fs) {
   const dictionaryPath = path.join(workspace, DICTIONARY_PATH)
   const raw = fsImpl.readFileSync(dictionaryPath, 'utf8')
@@ -91,6 +108,7 @@ function loadDictionary(workspace, fsImpl = fs) {
   if (!parsed || typeof parsed.labels !== 'object' || parsed.labels === null) {
     throw new Error(`${DICTIONARY_PATH} must define a "labels" object`)
   }
+  assertLabelsSpaced(parsed.labels)
   return parsed.labels
 }
 

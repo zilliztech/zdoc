@@ -255,15 +255,114 @@ function testIgnoresCanonicalFragmentIdentityDuringLegacyMerge() {
     });
 }
 
+function testResolveRefsStopsAtReEnteredSelfReference() {
+    // SearchAggregationRequest.subAggregation references the component itself.
+    // Before the ref stack this unrolled maxRefDepth copies; now the second
+    // visit of the same ref on one branch stays a plain $ref leaf with its
+    // wrapper metadata, and non-recursive refs still expand in full.
+    const spec = {
+        components: {
+            schemas: {
+                Metric: { type: 'object', properties: { name: { type: 'string' } } },
+                Aggregation: {
+                    type: 'object',
+                    properties: {
+                        fields: { type: 'array', items: { type: 'string' } },
+                        metric: { $ref: '#/components/schemas/Metric' },
+                        subAggregation: {
+                            $ref: '#/components/schemas/Aggregation',
+                            'x-added-at': '3.0.x',
+                        },
+                    },
+                },
+            },
+        },
+    };
+
+    const resolved = resolveRefs({ $ref: '#/components/schemas/Aggregation' }, spec, new Set(), 0, { silentUnresolved: true });
+
+    assert.deepEqual(resolved.properties.metric, { type: 'object', properties: { name: { type: 'string' } } });
+    assert.deepEqual(resolved.properties.subAggregation, {
+        $ref: '#/components/schemas/Aggregation',
+        'x-added-at': '3.0.x',
+    });
+    assert.equal(JSON.stringify(resolved).split('subAggregation').length - 1, 1);
+
+    // The same ref on two sibling branches is not a cycle: both expand.
+    const siblings = resolveRefs({
+        type: 'object',
+        properties: {
+            a: { $ref: '#/components/schemas/Metric' },
+            b: { $ref: '#/components/schemas/Metric' },
+        },
+    }, spec, new Set(), 0, { silentUnresolved: true });
+    assert.deepEqual(siblings.properties.a, siblings.properties.b);
+    assert.equal(siblings.properties.a.type, 'object');
+}
+
+function testDescriptionKeyedSchemaPropertySurvivesTheMergeAsAnObject() {
+    // A request property named "description" is a schema, not display text.
+    // The loader used to stringify object-valued description keys that carry
+    // no .description/.value sub-key, which corrupted exactly these nodes
+    // (milvus-io/web-content#1250 regenerated pages with a JSON blob).
+    const descriptionProperty = {
+        type: 'string',
+        'x-added-at': '2.6.x',
+        'x-last-modified': '2.6.x',
+        'x-deprecated-since': null,
+    };
+    const merged = resolveRefs({
+        type: 'object',
+        properties: {description: {...descriptionProperty}},
+        required: ['description'],
+    }, {components: {schemas: {}}}, new Set(), 0, {silentUnresolved: true});
+
+    assert.deepEqual(merged.properties.description, descriptionProperty);
+
+    withTempDir(dir => {
+        fs.writeFileSync(path.join(dir, '01-roles.json'), JSON.stringify({
+            openapi: '3.0.1',
+            info: {title: 'roles', version: '1.0.0'},
+            tags: [{name: 'roles'}],
+            paths: {
+                '/v2/vectordb/roles/describe': {
+                    post: {
+                        summary: 'Describe Role',
+                        tags: ['roles'],
+                        requestBody: {
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {description: {...descriptionProperty}},
+                                        required: ['description'],
+                                    },
+                                },
+                            },
+                        },
+                        responses: {},
+                    },
+                },
+            },
+        }, null, 2));
+
+        const spec = loadSpecifications(dir);
+        const schema = spec.paths['/v2/vectordb/roles/describe'].post.requestBody.content['application/json'].schema;
+        assert.deepEqual(schema.properties.description, descriptionProperty);
+    });
+}
+
 function run() {
     testPathRefsResolveAgainstTheirSourceFileBeforeMerge();
     testPreResolutionLeavesCrossFileRefsForMergedResolutionWithoutWarning();
     testResolveRefsPreservesSiblingMetadataOnRefWrapper();
+    testResolveRefsStopsAtReEnteredSelfReference();
     testPreservesAndMergesCompleteTopLevelObjects();
     testDeduplicatesTagsByName();
     testRejectsConflictingOpenApiVersion();
     testRejectsIncompatibleInfoVersion();
     testIgnoresCanonicalFragmentIdentityDuringLegacyMerge();
+    testDescriptionKeyedSchemaPropertySurvivesTheMergeAsAnObject();
     console.log('apifox spec loader tests passed');
 }
 

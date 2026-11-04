@@ -150,7 +150,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Bootstrap: upstream field(s) not covered by any scenario branch of a branched operation (milvus-data-plane spec at the pinned commit). Branch attribution is a human decision; this entry only records that the delta is known.",
+      "reason": "Bootstrap: upstream field(s) not covered by any scenario branch of a branched operation (milvus-data-plane spec at the pinned commit). Branch attribution is a human decision; this entry only records that the delta is known. Release-track attribution (2026-11-01): the operation itself is 2.6.x floor; the deferral is about scenario-branch field coverage, not version availability.",
       "owner": "rest-upstream-bootstrap",
       "decidedAt": "2026-10-28",
       "fragment": "05-collection-operations-v2.json"
@@ -161,7 +161,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Bootstrap: upstream field(s) not covered by any scenario branch of a branched operation (milvus-data-plane spec at the pinned commit). Branch attribution is a human decision; this entry only records that the delta is known.",
+      "reason": "Bootstrap: upstream field(s) not covered by any scenario branch of a branched operation (milvus-data-plane spec at the pinned commit). Branch attribution is a human decision; this entry only records that the delta is known. Release-track attribution (2026-11-01, source-verified): the operation is 3.0.x (route introduced in v3.0.0, absent through v2.6.26).",
       "owner": "rest-upstream-bootstrap",
       "decidedAt": "2026-10-28",
       "fragment": "05-collection-operations-v2.json"
@@ -172,7 +172,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document.",
+      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): no released track yet — route absent in v2.6.26 and v3.0.0-v3.0.5; exists only on master at the pinned commit. Re-check before writing the fragment.",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
     },
@@ -182,7 +182,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document.",
+      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): 3.0.x — introduced in v3.0.1 (absent through v3.0.0 and the whole 2.6.x line; present from v3.0.1).",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
     },
@@ -212,7 +212,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document.",
+      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): 3.0.x — introduced in v3.0.1 (absent through v3.0.0 and the whole 2.6.x line; present from v3.0.1).",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
     },
@@ -222,7 +222,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document.",
+      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): 3.0.x — introduced in v3.0.1 (absent through v3.0.0 and the whole 2.6.x line; present from v3.0.1).",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
     },
@@ -232,7 +232,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document.",
+      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): 3.0.x — introduced in v3.0.1 (absent through v3.0.0 and the whole 2.6.x line; present from v3.0.1).",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
     },
@@ -242,7 +242,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document.",
+      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): 3.0.x — introduced in v3.0.1 (absent through v3.0.0 and the whole 2.6.x line; present from v3.0.1).",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
     },
@@ -252,7 +252,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document.",
+      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): 3.0.x — introduced in v3.0.1 (absent through v3.0.0 and the whole 2.6.x line; present from v3.0.1).",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
     },
@@ -262,7 +262,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document.",
+      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): 3.0.x — introduced in v3.0.1 (absent through v3.0.0 and the whole 2.6.x line; present from v3.0.1).",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
     },
@@ -272,7 +272,7 @@
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
       "firstSeenAt": "2026-10-28",
       "classification": "deferred",
-      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document.",
+      "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): 3.0.x — introduced in v3.0.1 (absent through v3.0.0 and the whole 2.6.x line; present from v3.0.1).",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
     },
