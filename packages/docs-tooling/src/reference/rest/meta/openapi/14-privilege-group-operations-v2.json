@@ -572,15 +572,14 @@
                     "x-target-response": "OPTION 1",
                     "value": {
                       "code": 0,
-                      "data": [
-                        {
-                          "privilegeGroupName": "my_priv_group",
-                          "privileges": [
-                            "Insert",
-                            "Search"
-                          ]
-                        }
-                      ]
+                      "data": {
+                        "privilegeGroups": [
+                          {
+                            "privilegeGroupName": "my_priv_group",
+                            "privileges": "Insert,Search"
+                          }
+                        ]
+                      }
                     }
                   },
                   "2": {
