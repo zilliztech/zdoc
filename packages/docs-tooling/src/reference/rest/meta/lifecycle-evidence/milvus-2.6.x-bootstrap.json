@@ -12,7 +12,7 @@
   },
   "summary": {
     "fragments": 16,
-    "elements": 2394,
+    "elements": 2395,
     "highConfidenceIncremental": 294,
     "managedFloor": 2048,
     "modified": 9,
@@ -36214,7 +36214,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/failReason",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/failReason",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36240,7 +36240,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/fieldName",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/fieldName",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36266,7 +36266,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/indexName",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/indexName",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36292,7 +36292,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/indexParams",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/indexParams",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36318,7 +36318,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/indexParams/items",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/indexParams/items",
       "elementType": "items-schema",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36344,7 +36344,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/indexParams/items/properties/key",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/indexParams/items/properties/key",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36370,7 +36370,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/indexParams/items/properties/value",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/indexParams/items/properties/value",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36396,7 +36396,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/indexState",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/indexState",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36422,7 +36422,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/indexType",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/indexType",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36448,7 +36448,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/indexedRows",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/indexedRows",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36474,7 +36474,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/indexoffsetcache.enabled",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/indexoffsetcache.enabled",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36500,7 +36500,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/maxIndexVersion",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/maxIndexVersion",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36526,7 +36526,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/metricType",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/metricType",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36552,7 +36552,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/minIndexVersion",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/minIndexVersion",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36578,7 +36578,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/mmap.enabled",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/mmap.enabled",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36604,7 +36604,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/pendingRows",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/pendingRows",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36630,7 +36630,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/totalRows",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/totalRows",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -36656,7 +36656,7 @@
     },
     {
       "fragment": "07-index-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/warmup",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items/properties/warmup",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -58392,7 +58392,7 @@
     },
     {
       "fragment": "14-privilege-group-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1list/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/items",
+      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1list/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/privilegeGroups/items",
       "elementType": "items-schema",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -58418,7 +58418,7 @@
     },
     {
       "fragment": "14-privilege-group-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1list/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/items/properties/privilegeGroupName",
+      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1list/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/privilegeGroups/items/properties/privilegeGroupName",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -58444,34 +58444,8 @@
     },
     {
       "fragment": "14-privilege-group-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1list/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/items/properties/privileges",
+      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1list/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/privilegeGroups/items/properties/privileges",
       "elementType": "schema-property",
-      "change": "baseline-floor",
-      "releaseTrack": "2.6.x",
-      "lifecycle": {
-        "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
-      },
-      "previousLifecycle": {},
-      "source": {
-        "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "file": "internal/distributed/proxy/httpserver",
-        "symbol": null
-      },
-      "confidence": "managed-floor",
-      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
-    },
-    {
-      "fragment": "14-privilege-group-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1list/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/items/properties/privileges/items",
-      "elementType": "items-schema",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
       "lifecycle": {
@@ -61901,6 +61875,58 @@
       },
       "confidence": "high",
       "rationale": "Milvus 3.0 adds the REST v2 restore external snapshot snapshot route."
+    },
+    {
+      "fragment": "07-index-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1indexes~1describe/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/items",
+      "elementType": "items-schema",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "14-privilege-group-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1privilege_groups~1list/post/responses/200/content/application~1json/schema/anyOf/0/properties/data/properties/privilegeGroups",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
     }
   ],
   "managedFloorPolicy": {
@@ -61911,7 +61937,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "acb73d78577e26d8c48ef5d6f6e944d17486b7b337bd11c824b2f7b33e2b1ea5",
+    "fragmentInventorySha256": "1122f9852aed3abfaebd66b69de27d7ed4764c7aee81b1473c98b1757bf09714",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",
