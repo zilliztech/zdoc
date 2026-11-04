@@ -55,8 +55,9 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='python'>
 
     ```python
-    # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
+    
+    # Initiate a volume manager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -88,6 +89,12 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
     import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
+    import com.google.gson.Gson;
+    import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
+    import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
+    import io.milvus.bulkwriter.request.volume.DescribeVolumeRequest;
+    import io.milvus.bulkwriter.response.volume.VolumeInfo;
+    import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
     
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
@@ -257,7 +264,6 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -279,12 +285,6 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='java'>
 
     ```java
-    import com.google.gson.Gson;
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
-    import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-    
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
             .withCloudEndpoint("https://api.cloud.zilliz.com")
             .withApiKey("YOUR_API_KEY")
@@ -329,8 +329,6 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"

@@ -1016,19 +1016,19 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/delete-entities.md",
-      "sha256": "4b4974fb7ee4eeec5180b95f8b5124bf778bc27736ae90ea311cda3b1ee001e2",
+      "sha256": "9aa8ac22985eda6df7de207fe65f6cc2adf9673cf67e978731742370fec21ab6",
       "docToken": "J7kywlJIki4aG3kUSj8cErcynnf",
       "revisionId": "565"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/insert-entities.md",
-      "sha256": "2078774ca578ebabd402c4f5df206512277d8491fe26045f0f531fe6c6919733",
+      "sha256": "4a0d7637b361a89e755e3435df6670c3157041f9a96ca400f7be4b9476cfb256",
       "docToken": "WzdvwWV9tiM4lRkhg3JcMPv3ngb",
       "revisionId": "1037"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/upsert-entities.md",
-      "sha256": "97427937fe8f5349710f7f58af0ea354081e8ebbdf07b76770a3e86177853b83",
+      "sha256": "2aa64f377c3265ddf8edc833e4043118ea680e0bf0814ff16bdc928c9d47c260",
       "docToken": "PIvfwBrhRimh41kWjB1cFj21nqf",
       "revisionId": "1242"
     },
@@ -1310,7 +1310,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/get-and-scalar-query.md",
-      "sha256": "da3d4fffbdafaaa7cdc006a6b6f36198ca26fda2b8a336d04ed342b58ca2454b",
+      "sha256": "e5bdd90232251c4f5b01d70200e46590e7b3dd0a13195f76cff022cc879cc967",
       "docToken": "GMOpwnUH0iYRN1kbRidcET0cnKg",
       "revisionId": "2052"
     },
@@ -1322,7 +1322,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/hybrid-search.md",
-      "sha256": "92c2c342d372e9e2802c8ebb6265b8f7c1223f061b1ce92cda0d9c2421ce9d19",
+      "sha256": "0f54121d63f15f0aa1975fc73f1cb01e0221edbf86c7a683a695bd077a2a65b8",
       "docToken": "SU1DwjEeii0p2ik3odJcQ55Unbf",
       "revisionId": "3112"
     },
@@ -1358,7 +1358,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/single-vector-search.md",
-      "sha256": "760b71d8baf898c3e3e35ad3059b1b6d98211d01bf409be0478e91061b0132f4",
+      "sha256": "9f6b9eafbb32adf728405beee70716711829a3fb02306e156a8d674c6ef9c4dd",
       "docToken": "HtzdwrGPZi4bvnksR75ccetInrf",
       "revisionId": "5522"
     },
@@ -1424,7 +1424,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/use-partition-key.md",
-      "sha256": "215b5665199595be95e8616509da27909a1414648eb5ab115393e7fc757fe161",
+      "sha256": "8a1329b6639d527de13eb2f854cf7e60d269f697f78e6fb7ab8d84a3c5ee4e96",
       "docToken": "QT2Vw3FvJiuwzBkeZvicRBlsnae",
       "revisionId": "2906"
     },
@@ -1702,7 +1702,7 @@
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/payment-billing.md",
       "sha256": "1bd1b848fd7475643e2b95d70f55d14eb68df74851bb2626333d484834903e32",
       "docToken": "Uj7IwJpneijPROkAZN7cJRLInrc",
-      "revisionId": "307"
+      "revisionId": "319"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/set-up-payment-method/aliyun-marketplace.md",
@@ -1718,9 +1718,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/set-up-payment-method/cash-recharge.md",
-      "sha256": "e81c106aca9e0ba3210f5a89f3b87e51c39cef4ff4f9079115ba6b773d709c2e",
+      "sha256": "445911fdfeb359b2a413556028d8c198a253013389ea73f6f45dcefccad55fa3",
       "docToken": "JZqrwH8V8i6a3jktSQgcyXAEnAg",
-      "revisionId": "1006"
+      "revisionId": "1034"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/set-up-payment-method/enterprise-verification.md",
@@ -1742,9 +1742,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/view-invoice.md",
-      "sha256": "e9ccc2e84283a4f50853cd78620dcbfd329205d8efd2558c27d0af9b3a39a94d",
+      "sha256": "5d5eb573b9716260013687a227638d6753803ff3d5aff1f2368f8b080da5204b",
       "docToken": "NhbHwPiL2i4KWskrcO4cDrSNnzh",
-      "revisionId": "3462"
+      "revisionId": "3561"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
@@ -2558,19 +2558,19 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/delete-entities.md",
-      "sha256": "7c839fcc07fe02a816d12bee9eaf3ff3a16bab9130321369d90966f5d64c3374",
+      "sha256": "c53997f3a13916a9da916906b098b5c72f40a63eb18ebb9312bb3e640cf7bcf8",
       "docToken": "J7kywlJIki4aG3kUSj8cErcynnf",
       "revisionId": "565"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/insert-entities.md",
-      "sha256": "9bec83d48f446dd23dcea5bd197385e02c4863791141407445d21a425bd589a7",
+      "sha256": "0414dd2b97acd61114f2c6a17d8fe16887ec9274a26efd766033978c4cbdd79a",
       "docToken": "WzdvwWV9tiM4lRkhg3JcMPv3ngb",
       "revisionId": "1037"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/upsert-entities.md",
-      "sha256": "205727b44c953ddc808526b5019a206084481e5a42fd2499f88c4882a5458d70",
+      "sha256": "ea6c07ad302529b9d81e4842d1420ec00f112242bd9fcec9072803521dc2038d",
       "docToken": "PIvfwBrhRimh41kWjB1cFj21nqf",
       "revisionId": "1242"
     },
@@ -2858,7 +2858,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/get-and-scalar-query.md",
-      "sha256": "2353b5bef1cec7cbeb9e04d13e1ba411d3c1665ff70c0a3305ddd65111da9b22",
+      "sha256": "55c7b19ba894036d55c50e94598ae0ef2a41c6d1664b5454b8488e5b834d4027",
       "docToken": "GMOpwnUH0iYRN1kbRidcET0cnKg",
       "revisionId": "2052"
     },
@@ -2870,7 +2870,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/hybrid-search.md",
-      "sha256": "307699e93dee47bfbce3c80aa29c2f72fdfdd297bfd6535e6d79528a63eb1290",
+      "sha256": "dd243330ee5a7a050a3086aa598a4d400127395061496a5c0ee010e2473fcf1d",
       "docToken": "SU1DwjEeii0p2ik3odJcQ55Unbf",
       "revisionId": "3112"
     },
@@ -2906,7 +2906,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/single-vector-search.md",
-      "sha256": "88cf21f149a0be35c07d9210d38f3b8cc7d65ca869372cdd9cb67c892354c75f",
+      "sha256": "e51c3a3dd8c8e42f9dd98df6591dccd714deebab655eae6ebd3440a400ddc5db",
       "docToken": "HtzdwrGPZi4bvnksR75ccetInrf",
       "revisionId": "5522"
     },
@@ -2972,7 +2972,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/use-partition-key.md",
-      "sha256": "6dd4d2d098402a699c116830bc9eaf84902782c30306075af794fabbc702dffe",
+      "sha256": "216ff2480dddad89e64784ebdf2a1a19ab7084f058d7b488167905e141dcacd4",
       "docToken": "QT2Vw3FvJiuwzBkeZvicRBlsnae",
       "revisionId": "2906"
     },
@@ -3056,13 +3056,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/external-volume.md",
-      "sha256": "01acae1329cdb6039a20b20c5bcf2133818adf6581ca8d58b8235c558148aa51",
+      "sha256": "44783c62fbb06cd983c8c281f4a015e6cd6d6ed754bd86c51e88c5c679d54f13",
       "docToken": "E9QNwMMUbiVDvtkJQKUcuHR0nxc",
       "revisionId": "575"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/managed-volume.md",
-      "sha256": "9d9212be1b618442dd0caf56d06f08a9fa35f3fdd16b3be49c1e336fa2a5189d",
+      "sha256": "3c7f375d3e70011e4172aa9862e5b57ad714465d523ed0c87509619cd7443cbd",
       "docToken": "JVtGwoZ0Ni6ZEmkTZvyc58kAnjc",
       "revisionId": "866"
     },
@@ -3556,7 +3556,7 @@
       "path": "content/zh-CN/guides/tutorials/management/billing-management/manage-orders.md",
       "sha256": "8df29a5f160417abdb2665e8d481df0b9ff106811f8d225a92712138f804d5e4",
       "docToken": "FJU5wklQuiAJASkHAFlcQShDn9e",
-      "revisionId": "168"
+      "revisionId": "183"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/monitor-billing-alerts.md",
@@ -3574,13 +3574,13 @@
       "path": "content/zh-CN/guides/tutorials/management/billing-management/payment-billing.md",
       "sha256": "2ed4b320ec6183f07bd36125a20e47caec92898cb39d96ceea93b91fab40ffb7",
       "docToken": "Uj7IwJpneijPROkAZN7cJRLInrc",
-      "revisionId": "307"
+      "revisionId": "319"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/renew-annual-subscription.md",
       "sha256": "40f8fa4e65c028583785801926fc0eec94c555319d437ca1d7fdc9a63ea5c356",
       "docToken": "BMzFwP8BbiUeAbkZ0abcDIHlnle",
-      "revisionId": "726"
+      "revisionId": "742"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/set-up-payment-method/aliyun-marketplace.md",
@@ -3596,9 +3596,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/set-up-payment-method/cash-recharge.md",
-      "sha256": "687872fad1540a8be7fb7a0d1f4572e444d0b7c44ac8ac78d08b3646ba382205",
+      "sha256": "71de86fb6068f720c0385fb53f14553a6af6dc16f4a5004d63420b56f9a46765",
       "docToken": "JZqrwH8V8i6a3jktSQgcyXAEnAg",
-      "revisionId": "1006"
+      "revisionId": "1034"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/set-up-payment-method/enterprise-verification.md",
@@ -3614,9 +3614,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/view-invoice.md",
-      "sha256": "55dad628b0966c0392d8c25c5b772073ca9aae23374218a2534ff66f99205505",
+      "sha256": "28a412164e04980b943b162bd1586db96ce65040a42e85048fd671c095fd0744",
       "docToken": "NhbHwPiL2i4KWskrcO4cDrSNnzh",
-      "revisionId": "3462"
+      "revisionId": "3561"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
@@ -3776,9 +3776,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md",
-      "sha256": "78cc0ccef8d8f28f385ea72c931318739a13c7730dab8cec8507aea0789690d9",
+      "sha256": "b937d0848e2c3cfe8098cb438c62505934905309636ba4300ed541ca30d94242",
       "docToken": "MfZawdBV9iFGi4k7HRbcyyj2nCh",
-      "revisionId": "371"
+      "revisionId": "378"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/understand-cost/storage-cost.md",

@@ -107,7 +107,11 @@ for hits in res:
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.OrderByField;
+import io.milvus.v2.service.vector.request.data.BaseVector;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
 
@@ -117,7 +121,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
-    
+
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
@@ -152,6 +156,7 @@ import (
     "context"
     "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/column"
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -196,6 +201,7 @@ for _, resultSet := range resultSets {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
@@ -477,11 +483,6 @@ for hits in res:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.BaseVector;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 List<BaseVector> queryVectors = Arrays.asList(
         new FloatVec(new float[]{0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f}),
         new FloatVec(new float[]{0.0039737443f, 0.003020432f, -0.0006188639f, 0.03913546f, -0.00089768134f})
@@ -518,13 +519,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVectors := []entity.Vector{
     entity.FloatVector([]float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}),
     entity.FloatVector([]float32{0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104}),
@@ -552,8 +546,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // 7. Search with multiple vectors
 // 7.1. Prepare query vectors
 let query_vectors = vec![
@@ -653,9 +645,6 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 // 7. Search with multiple vectors
 // 7.1. Prepare query vectors
 var queryVectors = new[]
@@ -793,11 +782,6 @@ for hits in res:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
         .annsField("vector")
@@ -817,13 +801,6 @@ System.out.println(searchResp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryIDs := column.NewColumnInt64("id", []int64{551, 296, 43})
 resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
     "quick_setup", // collectionName
@@ -847,8 +824,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let response = client
     .search(
         SearchRequest::builder()
@@ -919,9 +894,6 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -1024,10 +996,6 @@ for hits in res:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
@@ -1058,13 +1026,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -1090,8 +1051,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // 4. Single vector search
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 let response = client
@@ -1172,9 +1131,6 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
@@ -1285,10 +1241,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
@@ -1319,13 +1271,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -1352,8 +1297,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // 4. Single vector search
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 let response = client
@@ -1436,9 +1379,6 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
@@ -1556,14 +1496,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.aggregation.AggDirection;
-import io.milvus.v2.service.vector.request.aggregation.OrderByField;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("product_catalog")
@@ -1590,13 +1522,6 @@ System.out.println(searchResp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "product_catalog", // collectionName
@@ -1621,8 +1546,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let query_vector = vec![0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385];
 let response = client
     .search(
@@ -1702,9 +1625,6 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
 var res = await client.SearchAsync(new SearchReq
 {
@@ -1786,14 +1706,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.aggregation.AggDirection;
-import io.milvus.v2.service.vector.request.aggregation.OrderByField;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("product_catalog")
@@ -1824,13 +1736,6 @@ System.out.println(searchResp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "product_catalog", // collectionName
@@ -1856,8 +1761,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let query_vector = vec![0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385];
 let response = client
     .search(
@@ -1945,9 +1848,6 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
 var res = await client.SearchAsync(new SearchReq
 {
@@ -2047,10 +1947,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
@@ -2081,13 +1977,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -2113,8 +2002,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // 4. Single vector search
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 let response = client
@@ -2186,9 +2073,6 @@ res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
@@ -2288,10 +2172,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 Map<String, Object> params = new HashMap<>();
 params.put("level", 10);
@@ -2324,13 +2204,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -2356,9 +2229,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 // 4. Single vector search
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 let response = client
@@ -2434,9 +2304,6 @@ res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
@@ -2544,10 +2411,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 Map<String, Object> params = new HashMap<>();
 params.put("level", 10);
@@ -2581,13 +2444,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -2613,9 +2469,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 // 4. Single vector search
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 let response = client
@@ -2696,9 +2549,6 @@ res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
@@ -2782,12 +2632,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Collections;
-
 FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
@@ -2808,13 +2652,6 @@ System.out.println(searchResp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "quick_setup", // collectionName
@@ -2840,8 +2677,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let query_vector = vec![0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385];
 let response = client
     .search(
@@ -2916,9 +2751,6 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {

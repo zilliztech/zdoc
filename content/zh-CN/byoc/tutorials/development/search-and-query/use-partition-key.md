@@ -54,6 +54,7 @@ Partition Key 是一种搜索优化解决方案，通过作为 Collection 的 Na
 
 ```python
 from pymilvus import (
+
     MilvusClient, DataType
 )
 
@@ -67,7 +68,7 @@ schema = client.create_schema()
 schema.add_field(field_name="id",
     datatype=DataType.INT64,
     is_primary=True)
-    
+
 schema.add_field(field_name="vector",
     datatype=DataType.FLOAT_VECTOR,
     dim=5)
@@ -92,6 +93,8 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.HashMap;
+import java.util.Map;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -112,7 +115,7 @@ schema.addField(AddFieldReq.builder()
         .dataType(DataType.FloatVector)
         .dimension(5)
         .build());
-        
+
 // Add the partition key
 schema.addField(AddFieldReq.builder()
         .fieldName("my_varchar")
@@ -173,6 +176,7 @@ schema.WithField(entity.NewField().
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
 let config = ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
@@ -207,6 +211,7 @@ let schema = CollectionSchema::new()
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -262,6 +267,7 @@ const fields = [
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
 
 var config = new ConnectConfig
 {
@@ -353,8 +359,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
                 .collectionName("my_collection")
                 .collectionSchema(schema)
@@ -368,12 +372,6 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithNumPartitions(128))
@@ -388,8 +386,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -405,9 +401,6 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("my_collection")
                                       .WithCollectionSchema(schema)
@@ -434,8 +427,6 @@ await client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "my_collection",
@@ -624,10 +615,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, String> properties = new HashMap<>();
 properties.put("partitionkey.isolation", "true");
 
@@ -644,12 +631,6 @@ client.createCollection(createCollectionReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithProperty("partitionkey.isolation", true))
@@ -664,9 +645,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -685,9 +663,6 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("my_collection")
                                       .WithCollectionSchema(schema)
@@ -716,8 +691,6 @@ await client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "my_collection",
