@@ -549,7 +549,9 @@ async function guidesFixture(failure=false,authorityState:AuthorityObservation['
               reasons:observed.state==='eligible-to-propose'?[]:['SYNTHETIC_AUTHORITY_UNAVAILABLE']}
           }}})
         await writeFile(join(root,`collection-${launches}.json`),canonicalBytes(value))
-        await mark(`collector.${launches}.complete`);return {value,stdout:'',stderr:''}
+        await mark(`collector.${launches}.complete`)
+        // Synthetic adapter fixture: no real worker/group settlement is claimed.
+        return {value,stdout:'',stderr:'',settlement:{pid:null,born:false,close:null,group:'unknown' as const,signals:[],cleanupErrors:[]}}
       }}
   })
   const request:LocalUpdateRequest={kind:'shared-update-local-request',schemaVersion:1,repository,devRepository:d.dev,sourceRepository:d.repo,

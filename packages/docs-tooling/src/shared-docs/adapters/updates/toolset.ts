@@ -943,13 +943,15 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
   }
   return {
     bin: owned.root, cwd: state.options.root, environment: { ...environment },
-    async runGuidesCollector(data: unknown, secrets: { GH_TOKEN?: string } = {}) {
+    async runGuidesCollector(data: unknown, secrets: { GH_TOKEN?: string } = {}, signal?: AbortSignal) {
+      signal?.throwIfAborted()
       if (state.closure.entries.find(e => e.path === `repo/${guidesWorkerModule}`)?.state !== 'file') throw new Error('Fixed Guides worker module is missing')
       if (Object.keys(secrets).some(name => name !== 'GH_TOKEN')) throw new Error('Unsupported child credential setting')
       const input = canonicalBytes(data)
       if (input.length > workerLimit) throw new Error('Guides worker input exceeds byte bound')
       await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher()
-      return invokeGuidesWorker(targets.get('runtime/node')!, [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root], state.options.root, { ...environment, ...secrets }, input)
+      signal?.throwIfAborted()
+      return invokeGuidesWorker(targets.get('runtime/node')!, [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root], state.options.root, { ...environment, ...secrets }, input, signal)
     },
     async run(script: string, args: string[], secrets: { GH_TOKEN?: string } = {}) {
       RepoPathSchema.parse(script)
@@ -1046,22 +1048,124 @@ const fs=require('node:fs'),path=require('node:path');
   fs.writeFileSync(3,result);
 })().catch(error=>{console.error(String(error));process.exitCode=1});
 `)
-function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv, input: Uint8Array): Promise<{ value: unknown; stdout: string; stderr: string }> {
-  return new Promise((yes, no) => {
-    const child = spawn(binary, args, { cwd, env: environment, stdio: ['pipe', 'pipe', 'pipe', 'pipe'], detached: true })
-    const output: Buffer[][] = [[], [], []], sizes = [0, 0, 0]; let settled = false
-    const fail = (error: Error) => { if (settled) return; settled = true; clearTimeout(timer); if (child.pid) { try { process.kill(-child.pid, 'SIGKILL') } catch {} } no(error) }
-    const timer = setTimeout(() => fail(new Error('Guides worker timeout')), 600_000)
-    for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('data', (bytes: Buffer) => {
-      sizes[i] += bytes.length; if (sizes[i] > (i === 2 ? workerResultLimit : workerLimit)) fail(new Error('Guides worker output exceeds byte bound')); else output[i].push(bytes)
-    })
-    child.on('error', fail); child.stdin.on('error', fail)
-    child.on('close', code => {
-      if (settled) return
-      clearTimeout(timer); settled = true
-      if (code !== 0) { no(new Error(`Guides worker failed: ${Buffer.concat(output[1]).toString('utf8').slice(0, 4096)}`)); return }
-      try { yes({ value: parseStrictJson(Uint8Array.from(Buffer.concat(output[2]))), stdout: Buffer.concat(output[0]).toString('utf8'), stderr: Buffer.concat(output[1]).toString('utf8') }) } catch (error) { no(error) }
-    })
-    child.stdin.end(input)
-  })
+export interface GuidesWorkerSettlement {
+  pid: number | null
+  born: boolean
+  close: {code: number | null; signal: NodeJS.Signals | null} | null
+  group: 'absent' | 'unknown'
+  signals: {signal: NodeJS.Signals; at: number}[]
+  cleanupErrors: {operation: string; code: string | null; message: string}[]
+}
+/** Own only the group born from this actual handle; a parent cannot clean up after
+ * its own fatal death, or certify descendants that deliberately leave the group. */
+async function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv,
+  input: Uint8Array, signal?: AbortSignal): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
+  signal?.throwIfAborted()
+  const child = spawn(binary, args, {cwd, env: environment, stdio: ['pipe', 'pipe', 'pipe', 'pipe'], detached: true})
+  const receipt: GuidesWorkerSettlement = {pid: child.pid ?? null, born: false, close: null, group: 'unknown', signals: [], cleanupErrors: []}
+  const output: Buffer[][] = [[], [], []], sizes = [0, 0, 0]
+  let primary: Error | null = null, exitFailure: Error | null = null, terminal = false
+  let birthDone!: () => void, closeDone!: () => void, finishRequested!: () => void
+  const birth = new Promise<void>(resolve => {birthDone = resolve}), closed = new Promise<void>(resolve => {closeDone = resolve})
+  const requested = new Promise<void>(resolve => {finishRequested = resolve})
+  const timers = new Set<ReturnType<typeof setTimeout>>()
+  const errorOf = (value: unknown) => value instanceof Error ? value : new Error(String(value))
+  const latch = (value: unknown) => { primary ??= errorOf(value) }
+  const diagnostic = (operation: string, error: unknown) => {
+    const value = errorOf(error)
+    receipt.cleanupErrors.push({operation, code: (error as NodeJS.ErrnoException)?.code ?? null, message: value.message})
+  }
+  const fail = (error: unknown) => { latch(error); finishRequested() }
+  const guarded = <T extends unknown[]>(fn: (...args: T) => void) => (...args: T) => { if (terminal) return; try {fn(...args)} catch (error) {fail(error)} }
+  const abort = () => fail(signal?.reason ?? new Error('Guides worker cancelled'))
+  const interrupt = () => fail(new Error('Guides worker interrupted: SIGINT'))
+  const terminate = () => fail(new Error('Guides worker interrupted: SIGTERM'))
+  const later = (fn: () => void, ms: number) => { const timer = setTimeout(fn, ms); timers.add(timer); return timer }
+  const bounded = async (promise: Promise<void>) => {
+    let timer: ReturnType<typeof setTimeout> | undefined
+    try { await Promise.race([promise, new Promise<void>(resolve => {timer = later(resolve, 1000)})]) }
+    finally { if (timer) {clearTimeout(timer); timers.delete(timer)} }
+  }
+  const probe = (): boolean | null => {
+    if (!receipt.born) return receipt.pid === null ? false : null
+    if (receipt.pid === null) return null
+    try { process.kill(-receipt.pid, 0); return true } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'ESRCH') return false
+      diagnostic('probe', error); return null
+    }
+  }
+  const grace = async () => {
+    const deadline = performance.now() + 1000
+    while (performance.now() < deadline) await new Promise<void>(resolve => later(resolve, Math.min(25, deadline - performance.now())))
+  }
+  let timer: ReturnType<typeof setTimeout> | undefined
+  let response: {value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement} | undefined
+  try {
+    child.on('spawn', guarded(() => { receipt.born = true; birthDone(); if (!primary) child.stdin.end(input) }))
+    child.on('error', guarded(error => {birthDone(); fail(error)}))
+    child.stdin.on('error', guarded(fail))
+    for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('error', guarded(fail)).on('data', guarded((bytes: Buffer) => {
+      // exit can precede final stderr data. Retain bounded diagnostics through
+      // close even after a failure, but stop accumulating result/stdout bytes.
+      if (primary && i !== 1) return
+      sizes[i] += bytes.length
+      if (sizes[i] > (i === 2 ? workerResultLimit : workerLimit)) fail(new Error('Guides worker output exceeds byte bound'))
+      else output[i].push(bytes)
+    }))
+    child.on('exit', guarded((code: number | null) => {
+      if (code !== 0 && !primary) {exitFailure = new Error('Guides worker failed:'); latch(exitFailure)}
+      // A descendant can retain pipes after leader exit; do not wait600s for close.
+      finishRequested()
+    }))
+    child.on('close', guarded((code: number | null, killedBy: NodeJS.Signals | null) => {
+      receipt.close = {code, signal: killedBy}; closeDone(); finishRequested()
+    }))
+    timer = later(() => fail(new Error('Guides worker timeout')), 600_000)
+    signal?.addEventListener('abort', abort, {once: true})
+    process.on('SIGINT', interrupt); process.on('SIGTERM', terminate)
+    if (signal?.aborted) abort()
+    await requested
+  } catch (error) { latch(error) }
+  // One awaited finalizer owns every terminal path. Its errors cannot strand an
+  // unobserved promise or bypass listener/timer cleanup.
+  try {
+    try {
+      await bounded(birth)
+      if (!receipt.born && receipt.pid !== null) diagnostic('birth', new Error('Child birth was not acknowledged'))
+      if (timer) clearTimeout(timer)
+      let alive = probe()
+      if (alive === true && !primary) latch(new Error('Guides worker left a surviving process group'))
+      if (alive === null) latch(new Error('Guides worker group settlement is unknown'))
+      if (alive === true) for (const command of ['SIGTERM', 'SIGKILL'] as const) {
+        try { process.kill(-receipt.pid!, command); receipt.signals.push({signal: command, at: performance.now()}) }
+        catch (error) {
+          if ((error as NodeJS.ErrnoException).code === 'ESRCH') {alive = false; break}
+          diagnostic('signal:' + command, error); alive = null; break
+        }
+        await grace()
+        alive = probe()
+        if (alive !== true) break
+      }
+      receipt.group = alive === false ? 'absent' : 'unknown'
+    } catch (error) { diagnostic('settle-group', error); latch(error) }
+    try { await bounded(closed) } catch (error) { diagnostic('join-close', error); latch(error) }
+    if (!receipt.close) diagnostic('join-close', new Error('Guides worker close was not observed within settlement allowance'))
+    if (receipt.group !== 'absent' || !receipt.close) latch(new Error('Guides worker settlement is unknown'))
+    try {
+      const stderr = Buffer.concat(output[1]).toString('utf8')
+      if (exitFailure && primary === exitFailure) exitFailure.message += ` ${stderr.slice(0, 4096)}`
+      if (!primary) response = {value: parseStrictJson(Uint8Array.from(Buffer.concat(output[2]))),
+        stdout: Buffer.concat(output[0]).toString('utf8'), stderr, settlement: receipt}
+    } catch (error) { diagnostic('finalize-output', error); latch(error) }
+  } catch (error) { diagnostic('finalize', error); latch(error) }
+  finally {
+    const cleanup = (operation: string, fn: () => void) => { try {fn()} catch (error) {diagnostic(operation, error); latch(error)} }
+    cleanup('remove-abort', () => signal?.removeEventListener('abort', abort))
+    cleanup('remove-SIGINT', () => {process.removeListener('SIGINT', interrupt)})
+    cleanup('remove-SIGTERM', () => {process.removeListener('SIGTERM', terminate)})
+    for (const timer of timers) cleanup('clear-timer', () => clearTimeout(timer))
+    terminal = true
+  }
+  if (primary) throw Object.assign(new Error((primary as Error).message, {cause: primary}), {settlement: receipt})
+  return response!
 }

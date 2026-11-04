@@ -308,3 +308,97 @@ it.each(['remove-sibling', 'change-sibling-content'])('compares only consumed co
     }
   } finally { await f.dispose() }
 }, 120_000)
+
+import { describe, vi, afterEach } from 'vitest'
+import * as toolsetApi from '../../adapters/updates/toolset'
+import * as evidenceApi from '../../adapters/updates/evidence'
+import * as materialApi from '../../core/updates/unit-plan'
+import { fixtureMaterial } from './fixtures/manual-provider'
+/** Controlled adapter awaits only; actual worker ownership is tested in toolset.test. */
+describe.sequential('Guides provider cancellation checkpoints', () => {
+  afterEach(() => vi.restoreAllMocks())
+  async function controlled(stage: string) {
+    const root = await mkdtemp(join(tmpdir(), 'provider-cancel-')), controller = new AbortController(), reason = new Error(`CANCEL_${stage}`)
+    const store = await initializeEvidence({root: join(root, 'evidence'), repositories: [], owner: 'cancel'})
+    const context = fixtureMaterial({subject: {kind: 'guides-page', group: 'guides', pageId: 'fixture'}, members: [{logicalId: 'fixture', manualId: 'guides', token: 'shared-fixture', outputPath: 'content/en/guides/fixture.md', origin: 'upstream', current: true, next: true}]})
+    const next = context.lock.preparedNext!
+    await store.writeBlob(Buffer.from(next.text))
+    const detail = Object.fromEntries(['pins.json', 'plan.json', 'report.json', 'report.md'].map(name => [`guides-impact-v1/${name}`, 'synthetic detail\n']))
+    const collection = {kind: 'guides-collected', schemaVersion: 1, inventory: [], holds: [], grouping: {}, detail,
+      detailFiles: Object.entries(detail).map(([path, text]) => ({path, blob: fixtureBlob(text)})),
+      blobs: ['first blob', 'second blob'].map(text => ({blob: fixtureBlob(text), base64: Buffer.from(text).toString('base64')})),
+      pages: [{report: context.collectedReport, context}]}
+    const settlement = {pid: null, born: false, close: {code: 0, signal: null}, group: 'absent', signals: [], cleanupErrors: []} as const
+    const run = vi.fn(async (_request: unknown, _secrets?: {GH_TOKEN?: string}, _signal?: AbortSignal) => {if (stage === 'worker') controller.abort(reason); return {value: collection, stdout: '', stderr: '', settlement}})
+    const describe = vi.spyOn(toolsetApi, 'describeTrustedToolset').mockReturnValue({commit: '3'.repeat(40)} as any)
+    const prepare = vi.spyOn(toolsetApi, 'prepareTrustedLauncher').mockImplementation(async () => {
+      await Promise.resolve(); if (stage === 'launcher') controller.abort(reason)
+      return {runGuidesCollector: run} as any
+    })
+    const retain = vi.spyOn(toolsetApi, 'retainTrustedAccessEvidence').mockImplementation(async () => {
+      await Promise.resolve(); if (stage === 'access') controller.abort(reason)
+      return fixtureBlob('access')
+    })
+    const originalWrite = evidenceApi.writeOwnedBlob
+    let completedWrites = 0, startedWrites = 0
+    const writes = vi.spyOn(evidenceApi, 'writeOwnedBlob').mockImplementation(async (evidence, bytes) => {
+      const writing = originalWrite(evidence, bytes); startedWrites++
+      if (stage === 'blob-write' || stage === 'report-write' && startedWrites === 3) controller.abort(reason)
+      const result = await writing; completedWrites++; return result
+    })
+    const originalRead = store.readBlob.bind(store)
+    const reads = vi.spyOn(store, 'readBlob').mockImplementation(async ref => {
+      const bytes = await originalRead(ref)
+      if (stage === 'detail-read' && ref.path.endsWith('/pins.json') || stage === 'prepared-read' && ref.sha256 === next.blob.sha256) {
+        controller.abort(reason)
+        // Cancellation must win before further validation/result construction.
+        return Buffer.from('would fail validation without the immediate checkpoint')
+      }
+      return bytes
+    })
+    const prepareNext = vi.fn(async () => {if (stage === 'prepare-next') controller.abort(reason); return next})
+    const options = {capture: {toolsetSha256: 'a'.repeat(64)} as any, evidence: store, signal: controller.signal, prepareNext,
+      request: {kind: 'guides-collection' as const, schemaVersion: 1 as const, repositoryRoot: root, sourceRepository: root, devRepository: root,
+        master: '3'.repeat(40), configSnapshot: '3'.repeat(40), dev: '3'.repeat(40), pages: [], comparisonConfig: null, target: null, evidenceRun: null, evidenceZip: null}}
+    return {options, controller, reason, run, describe, prepare, retain, writes, reads, prepareNext, settlement,
+      get completedWrites() {return completedWrites}, dispose: () => rm(root, {recursive: true, force: true})}
+  }
+  it('stops an already-aborted factory before describing or preparing a launcher', async () => {
+    const f = await controlled('before')
+    try {f.controller.abort(f.reason); await expect(createGuidesProvider(f.options)).rejects.toBe(f.reason); expect(f.describe).not.toHaveBeenCalled(); expect(f.prepare).not.toHaveBeenCalled()}
+    finally {await f.dispose()}
+  })
+  it('checks cancellation immediately after awaited launcher preparation', async () => {
+    const f = await controlled('launcher')
+    try {await expect(createGuidesProvider(f.options)).rejects.toBe(f.reason); expect(f.retain).not.toHaveBeenCalled(); expect(f.run).not.toHaveBeenCalled()}
+    finally {await f.dispose()}
+  })
+  it.each(['access', 'worker', 'blob-write', 'detail-read', 'report-write', 'prepare-next', 'prepared-read'])('stops after the in-flight %s await without subsequent work', async stage => {
+    const f = await controlled(stage)
+    try {
+      const provider = await createGuidesProvider(f.options), material = vi.spyOn(materialApi, 'captureUnitMaterial')
+      await expect(provider.collectAll()).rejects.toBe(f.reason)
+      if (stage === 'access') expect(f.run).not.toHaveBeenCalled()
+      if (stage === 'worker' || stage === 'access') expect(f.writes).not.toHaveBeenCalled()
+      if (stage === 'blob-write') {expect(f.writes).toHaveBeenCalledTimes(1); expect(f.completedWrites).toBe(1)}
+      if (stage === 'report-write') {expect(f.completedWrites).toBe(3); expect(material).not.toHaveBeenCalled(); expect(f.prepareNext).not.toHaveBeenCalled()}
+      if (stage === 'detail-read') {expect(f.reads).toHaveBeenCalledTimes(1); expect(f.prepareNext).not.toHaveBeenCalled()}
+      if (stage === 'prepare-next') expect(f.reads).toHaveBeenCalledTimes(4)
+      if (stage === 'prepared-read') expect(f.reads).toHaveBeenCalledTimes(5)
+      const count = f.writes.mock.calls.length
+      expect(() => provider.planAll()).toThrow(f.reason); expect(() => provider.planNext({} as any)).toThrow(f.reason)
+      expect(() => provider.collectAll()).toThrow(f.reason); expect(f.writes).toHaveBeenCalledTimes(count)
+    } finally {await f.dispose()}
+  })
+  it('retains private settlement separately from unchanged report and request authority', async () => {
+    const f = await controlled('normal')
+    try {
+      const provider = await createGuidesProvider(f.options), result = await provider.collectAll()
+      expect(result.workerSettlement).toEqual(f.settlement); expect(result.collection.pages).toHaveLength(1)
+      expect(result.collection).not.toHaveProperty('workerSettlement')
+      expect(f.run.mock.calls[0][2]).toBe(f.controller.signal)
+      expect(f.run.mock.calls[0][0]).not.toHaveProperty('signal')
+      expect(provider.planAll()).toHaveLength(1)
+    } finally {await f.dispose()}
+  })
+})

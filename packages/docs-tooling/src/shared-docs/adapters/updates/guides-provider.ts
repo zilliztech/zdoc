@@ -18,7 +18,7 @@ import { finalizeFetchFrontMatter } from '../../core/site/front-matter'
 import type { UpdateDependencies } from './runner'
 import { exportTree, gitRead, resolveCommit, sourceEndpoints } from './git'
 import { rawSha256, writeOwnedBlob, createOwnedDirectory, type EvidenceStore } from './evidence'
-import { prepareTrustedLauncher, retainTrustedAccessEvidence, describeTrustedToolset, type TrustedToolsetCapture } from './toolset'
+import { prepareTrustedLauncher, retainTrustedAccessEvidence, describeTrustedToolset, type TrustedToolsetCapture, type GuidesWorkerSettlement } from './toolset'
 import { HttpImageFetcher } from '../images'
 import type { UpdateConfiguration } from '../update-inputs'
 import { isMilvusPagePath, milvusPageMetadata } from '../links-input'
@@ -327,71 +327,96 @@ export interface GuidesProviderOptions {
   /** Task 4's lossless patcher consumes independently read before bytes and returns retained after bytes.
    * Internal wiring only; no authority or arbitrary patch path is accepted from CLI/request JSON. */
   prepareNext?: (context: UnitMaterialContext) => Promise<LockBytes>
+  /** Internal cancellation only; never deserialized from a collection request. */
+  signal?: AbortSignal
   secrets?: { GH_TOKEN?: string }
 }
 /** Actual collection always crosses Task 2's measured isolated child boundary. */
 export async function createGuidesProvider(options: GuidesProviderOptions): Promise<UpdateProvider & {
-  collectAll(): Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef }>
+  collectAll(): Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement }>
   planAll(): ReturnType<typeof planUpdateBatch>
 }> {
+  const checkpoint = () => options.signal?.throwIfAborted()
+  checkpoint()
   const provenance = describeTrustedToolset(options.capture)
   const request = GuidesCollectionRequestSchema.parse({ ...options.request, trustedTools: provenance.commit, toolsetSha256: options.capture.toolsetSha256 })
   const launcher = await prepareTrustedLauncher(options.capture, options.evidence)
-  let collected: { collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef } | undefined
-  let collecting: Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef }> | undefined
+  checkpoint()
+  let collected: { collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement } | undefined
+  let collecting: Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement }> | undefined
   function collectAll() {
+    checkpoint()
     collecting ??= collectOnce()
     return collecting
   }
   async function collectOnce() {
+    checkpoint()
     const privateAccess = await retainTrustedAccessEvidence(options.capture, options.evidence)
-    const child = await launcher.runGuidesCollector(request, options.secrets)
+    checkpoint()
+    const child = await launcher.runGuidesCollector(request, options.secrets, options.signal)
+    checkpoint()
     // Validate the fixed child's result before use. Canonical roundtrip is already enforced by FD3.
     const collection = child.value as GuidesCollectionResult
     if (collection?.kind !== 'guides-collected' || collection.schemaVersion !== 1 || !Array.isArray(collection.pages) || !Array.isArray(collection.blobs)) throw new Error('Invalid fixed collector result')
     for (const item of collection.blobs) {
+      checkpoint()
       const bytes = Buffer.from(item.base64, 'base64'); validateBlobBytes(item.blob, bytes)
-      if (!equal(await writeOwnedBlob(options.evidence, bytes), item.blob)) throw new Error('Retained collector blob binding mismatch')
+      const written = await writeOwnedBlob(options.evidence, bytes); checkpoint()
+      if (!equal(written, item.blob)) throw new Error('Retained collector blob binding mismatch')
     }
+    checkpoint()
     const detailDirectory = await createOwnedDirectory(options.evidence)
-    await detailDirectory.verify(); await mkdir(join(detailDirectory.root, 'guides-impact-v1'), { mode: 0o700 })
+    checkpoint()
+    await detailDirectory.verify(); checkpoint(); await mkdir(join(detailDirectory.root, 'guides-impact-v1'), { mode: 0o700 }); checkpoint()
     const detailFiles: GuidesCollectionResult['detailFiles'] = []
     for (const path of ['guides-impact-v1/pins.json', 'guides-impact-v1/plan.json', 'guides-impact-v1/report.json', 'guides-impact-v1/report.md']) {
+      checkpoint()
       if (typeof collection.detail[path] !== 'string') throw new Error('Fixed collector detail file unavailable')
       const bytes = Buffer.from(collection.detail[path]), original = collection.detailFiles.find(file => file.path === path)
       if (!original) throw new Error('Fixed collector detail binding unavailable')
       validateBlobBytes(original.blob, bytes)
-      await detailDirectory.verify(); await writeFile(join(detailDirectory.root, path), bytes, { flag: 'wx', mode: 0o600 }); await detailDirectory.verify()
+      await detailDirectory.verify(); checkpoint(); await writeFile(join(detailDirectory.root, path), bytes, { flag: 'wx', mode: 0o600 }); checkpoint(); await detailDirectory.verify(); checkpoint()
       const blob = { ...original.blob, path: `${relative(options.evidence.root, detailDirectory.root)}/${path}` }
-      validateBlobBytes(blob, await options.evidence.readBlob(blob)); detailFiles.push({ path, blob })
+      const retained = await options.evidence.readBlob(blob); checkpoint()
+      validateBlobBytes(blob, retained); detailFiles.push({ path, blob })
     }
     const contexts: UnitMaterialContext[] = []
     const retainedPages: GuidesCollectionResult['pages'] = []
     for (const item of collection.pages) {
+      checkpoint()
       validateUpdateReportEnvelope(item.report)
       if (!equal(item.context.collectedReport, item.report)) throw new Error('Collector report/context mismatch')
       const report = validateUpdateReportEnvelope({ ...item.report, detail: { ...item.report.detail, file: detailFiles.find(file => file.path === 'guides-impact-v1/report.json')!.blob } })
-      const context = captureUnitMaterial({ ...item.context, collectedReport: report, reportBlob: await writeOwnedBlob(options.evidence, canonicalBytes(report)) })
+      const reportBlob = await writeOwnedBlob(options.evidence, canonicalBytes(report)); checkpoint()
+      const context = captureUnitMaterial({ ...item.context, collectedReport: report, reportBlob })
       const sourceGate = report.authority.updateState === 'eligible-to-propose' && report.semanticProjection !== null && context.holdReasons.length === 0
         && report.pins.source.target !== report.pins.source.oldNext && context.relevantSource !== null && !equal(context.relevantSource.oldNext, context.relevantSource.target)
       const preparedNext = options.prepareNext && sourceGate ? await options.prepareNext(context) : null
-      if (preparedNext) validateBlobBytes(preparedNext.blob, await options.evidence.readBlob(preparedNext.blob))
+      checkpoint()
+      if (preparedNext) {
+        const retained = await options.evidence.readBlob(preparedNext.blob); checkpoint()
+        validateBlobBytes(preparedNext.blob, retained)
+      }
       const preparedContext = captureUnitMaterial({ ...context, lock: { ...context.lock, preparedNext } })
       contexts.push(preparedContext); retainedPages.push({ report, context: preparedContext })
     }
-    collected = immutable({ collection: { ...collection, detailFiles, pages: retainedPages }, contexts, privateAccess }); return collected
+    checkpoint()
+    collected = immutable({ collection: { ...collection, detailFiles, pages: retainedPages }, contexts, privateAccess, workerSettlement: child.settlement }); return collected
   }
   return {
     kind: 'guides-page', collectAll,
     async collect(subjectValue, pinsValue) {
+      checkpoint()
       const subject = SubjectSchema.parse(subjectValue), pins = ExecutionPinsSchema.parse(pinsValue)
       const { collection } = await collectAll()
+      checkpoint()
       const found = collection.pages.find(item => equal(item.report.subject, subject))
       if (!found) throw new GuidesCollectionHold(subject, collection.holds)
       if (!equal(found.report.pins, pins)) throw new Error('Requested pins differ from independently collected execution pins')
       return found.report
     },
     planNext(report) {
+      checkpoint()
       if (!collected) throw new Error('Collection material context is required before planning')
       const context = collected.contexts.find(context => equal(context.subject, report.subject))
       if (!context) throw new Error('Report has no collected material context')
@@ -400,7 +425,7 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
       if (!equal(report, context.collectedReport)) throw new Error('Report differs from collected context')
       return plan
     },
-    planAll() { if (!collected) throw new Error('Collection material context is required before planning'); return planUpdateBatch(collected.contexts, collected.collection.grouping) },
+    planAll() { checkpoint(); if (!collected) throw new Error('Collection material context is required before planning'); return planUpdateBatch(collected.contexts, collected.collection.grouping) },
   }
 }
 export class GuidesCollectionHold extends Error {

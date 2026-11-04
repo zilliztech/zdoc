@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi, afterEach } from 'vitest'
 import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename, chown, readdir, lstat } from 'node:fs/promises'
 import { load as loadYaml } from 'js-yaml'
 import { tmpdir, release } from 'node:os'
@@ -8,7 +8,10 @@ import { deflateSync } from 'node:zlib'
 import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
 import { createServer } from 'node:net'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, execFile, spawn } from 'node:child_process'
+import { promisify } from 'node:util'
+import { EventEmitter } from 'node:events'
+import { PassThrough } from 'node:stream'
 import { toMdx } from '../../adapters/mdx'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess } from '../../adapters/updates/toolset'
@@ -673,4 +676,210 @@ describe('trusted local identity policy', () => {
       expect(() => validateLocalIdentity(input,[80]),variant).toThrow()
     }
   })
+})
+
+// Keep process fault dispatch private to tests; ordinary calls use real spawn.
+vi.mock('node:child_process', async importOriginal => {
+  const actual = await importOriginal<typeof import('node:child_process')>()
+  return {...actual, spawn: vi.fn(actual.spawn)}
+})
+async function ownerFixture() {
+  const a = await loaderFixture(), marker = join(a.root, '.claude/owned-worker.json')
+  a.flags.push('--no-warnings')
+  await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `
+    import {writeFileSync} from 'node:fs';import {spawn} from 'node:child_process';
+    export async function collectGuidesWorker(data){
+      let descendant=null;
+      if(data.mode==='leftover'||data.mode==='ignore'){
+        const code=(data.mode==='ignore'?'process.on("SIGTERM",()=>{});':'')+'process.stdout.write("DESCENDANT_READY");setInterval(()=>{},1000)';
+        const child=spawn(process.execPath,['-e',code],{stdio:['ignore','pipe','inherit']});
+        await new Promise(resolve=>child.stdout.once('data',resolve));
+        child.stdout.pipe(process.stdout);child.unref();child.stdout.unref();descendant=child.pid;
+      }
+      writeFileSync(${JSON.stringify(marker)},JSON.stringify({pid:process.pid,descendant}));
+      if(data.mode==='ignore')process.on('SIGTERM',()=>{});
+      if(data.mode==='signal')process.kill(process.ppid,data.signal);
+      if(['wait','ignore','signal'].includes(data.mode)){setInterval(()=>{},1000);await new Promise(()=>{});}
+      if(data.mode==='nonzero'){process.stderr.write('FINAL_STDERR_DIAGNOSTIC',()=>process.exit(7));await new Promise(()=>{});}
+      if(data.mode==='assembly')process.stdout.write('ASSEMBLY_FAULT');
+      return {ok:true,pid:process.pid,descendant};
+    }
+  `)
+  a.commit = commitAll(a.root)
+  const capture = await captureTrustedToolset(a), store = await initializeEvidence({root: join(a.root, '.claude/owner'), repositories: [a.root], owner: 'owner'})
+  const launcher = await prepareTrustedLauncher(capture, store)
+  return {a, marker, launcher: {...launcher, async runGuidesCollector(...args: Parameters<typeof launcher.runGuidesCollector>) {
+    let result: Awaited<ReturnType<typeof launcher.runGuidesCollector>> | undefined, failure: any
+    try {result = await launcher.runGuidesCollector(...args)} catch (error) {failure = error}
+    await writeFile(join(a.root, '.claude/owner-observation.json'), JSON.stringify({
+      test: expect.getState().currentTestName, scope: 'test owner return; controlled-event/probe cases are identified by the test name',
+      outcome: failure ? 'rejected' : 'returned', primary: failure?.message ?? null,
+      settlement: failure?.settlement ?? result?.settlement ?? null,
+    }, null, 2) + '\n', {flag: 'wx'})
+    if (failure) throw failure
+    return result!
+  }}}
+}
+async function ownerMarker(path: string) {
+  const deadline = performance.now() + 10000
+  for (;;) {
+    try {return JSON.parse(await readFile(path, 'utf8')) as {pid: number; descendant: number | null}} catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+      if (performance.now() >= deadline) throw Error('Fixture worker birth was not observed')
+      await new Promise(resolve => setTimeout(resolve, 20))
+    }
+  }
+}
+async function assertOwnedGone(pid: number, descendant?: number | null) {
+  expect(Number.isSafeInteger(pid) && pid > 1).toBe(true)
+  const deadline = performance.now() + 5000
+  for (;;) {
+    let alive = false
+    for (const id of [pid, -pid, ...(descendant ? [descendant] : [])]) {
+      try {process.kill(id, 0); alive = true} catch (error) {if ((error as NodeJS.ErrnoException).code !== 'ESRCH') throw error}
+    }
+    if (!alive) return
+    if (performance.now() >= deadline) throw Error(`Owned fixture ${pid} remains alive`)
+    await new Promise(resolve => setTimeout(resolve, 20))
+  }
+}
+const ownerOutcome = <T>(promise: Promise<T>) => promise.then(value => ({value, error: null as any}), error => ({value: null, error}))
+describe.sequential('Guides worker owned settlement', () => {
+  afterEach(async () => {
+    vi.restoreAllMocks()
+    vi.mocked(spawn).mockReset().mockImplementation((await vi.importActual<typeof import('node:child_process')>('node:child_process')).spawn)
+  })
+  it('returns an actual normal close and absent owned group', async () => {
+    const f = await ownerFixture(), result = await f.launcher.runGuidesCollector({})
+    expect(result.settlement).toMatchObject({born: true, close: {code: 0, signal: null}, group: 'absent', signals: [], cleanupErrors: []})
+    await assertOwnedGone(result.settlement.pid!)
+  }, 30000)
+  it('rejects an already-aborted invocation before spawning', async () => {
+    const f = await ownerFixture(), controller = new AbortController(), reason = new Error('BEFORE_BIRTH')
+    controller.abort(reason); vi.mocked(spawn).mockClear()
+    await expect(f.launcher.runGuidesCollector({}, {}, controller.signal)).rejects.toBe(reason)
+    expect(spawn).not.toHaveBeenCalled(); await expect(lstat(f.marker)).rejects.toMatchObject({code: 'ENOENT'})
+  }, 30000)
+  it.each(['wait', 'ignore'] as const)('cancels the real born %s worker and joins its group with full signal grace', async mode => {
+    const f = await ownerFixture(), controller = new AbortController(), reason = new Error('OWNER_ABORT')
+    const pending = ownerOutcome(f.launcher.runGuidesCollector({mode}, {}, controller.signal)), actor = await ownerMarker(f.marker)
+    controller.abort(reason); const {error} = await pending, receipt = error.settlement
+    expect(error.cause).toBe(reason); expect(receipt).toMatchObject({pid: actor.pid, born: true, group: 'absent', cleanupErrors: []})
+    expect(receipt.close).not.toBeNull(); expect(receipt.signals.map(item => item.signal)).toEqual(mode === 'ignore' ? ['SIGTERM', 'SIGKILL'] : ['SIGTERM'])
+    if (mode === 'ignore') expect(receipt.signals[1].at - receipt.signals[0].at).toBeGreaterThanOrEqual(1000)
+    expect(performance.now() - receipt.signals.at(-1).at).toBeGreaterThanOrEqual(1000)
+    await assertOwnedGone(actor.pid, actor.descendant)
+  }, 30000)
+  it('fails normal leader exit with a remaining inherited-pipe descendant and settles both', async () => {
+    const f = await ownerFixture(), {error} = await ownerOutcome(f.launcher.runGuidesCollector({mode: 'leftover'}))
+    const actor = await ownerMarker(f.marker)
+    expect(error.message).toContain('surviving process group'); expect(error.settlement).toMatchObject({close: {code: 0}, group: 'absent', cleanupErrors: []})
+    expect(error.settlement.signals[0].signal).toBe('SIGTERM'); await assertOwnedGone(actor.pid, actor.descendant)
+  }, 30000)
+  it('retains nonzero stderr with the accepted failure prefix and real close', async () => {
+    const f = await ownerFixture(), {error} = await ownerOutcome(f.launcher.runGuidesCollector({mode: 'nonzero'}))
+    expect(error.message).toBe('Guides worker failed: FINAL_STDERR_DIAGNOSTIC')
+    expect(error.settlement).toMatchObject({close: {code: 7, signal: null}, group: 'absent'}); await assertOwnedGone(error.settlement.pid)
+  }, 30000)
+  it.each(['SIGINT', 'SIGTERM'] as const)('handles ordinary %s in an isolated living launcher parent', async signal => {
+    const f = await ownerFixture(), project = process.cwd()
+    const script = `const load=require(${JSON.stringify(join(project, 'scripts/lib/load-typescript.js'))}).loadTypeScript;
+      const api=load(${JSON.stringify(join(project, 'packages/docs-tooling/src/shared-docs/adapters/updates/toolset.ts'))});
+      const evidence=load(${JSON.stringify(join(project, 'packages/docs-tooling/src/shared-docs/adapters/updates/evidence.ts'))});
+      (async()=>{const before=[process.listenerCount('SIGINT'),process.listenerCount('SIGTERM')];
+        const capture=await api.captureTrustedToolset(${JSON.stringify(f.a)});
+        const store=await evidence.initializeEvidence({root:${JSON.stringify(join(f.a.root, '.claude/signal-parent'))},repositories:[${JSON.stringify(f.a.root)}],owner:'signal'});
+        const launcher=await api.prepareTrustedLauncher(capture,store);
+        try{await launcher.runGuidesCollector({mode:'signal',signal:${JSON.stringify(signal)}});throw Error('Unexpected success')}
+        catch(error){console.log(JSON.stringify({message:error.message,settlement:error.settlement,before,after:[process.listenerCount('SIGINT'),process.listenerCount('SIGTERM')]}))}
+      })().catch(error=>{console.error(error);process.exitCode=1});`
+    const result = await promisify(execFile)(process.execPath, ['-e', script], {env: {...process.env, JITI_CACHE: 'false'}, timeout: 20000, maxBuffer: 1024 * 1024})
+    await writeFile(join(f.a.root, '.claude/signal-owner-observation.json'), result.stdout, {flag: 'wx'})
+    const outcome = JSON.parse(result.stdout)
+    expect(outcome.message).toBe(`Guides worker interrupted: ${signal}`); expect(outcome.settlement.group).toBe('absent'); expect(outcome.after).toEqual(outcome.before)
+    await assertOwnedGone(outcome.settlement.pid)
+  }, 30000)
+  it.each(['timeout', 'stream'] as const)('routes controlled %s dispatch through an actual born worker owner', async kind => {
+    const f = await ownerFixture(), realSpawn = (await vi.importActual<typeof import('node:child_process')>('node:child_process')).spawn
+    let child: ReturnType<typeof spawn> | undefined, timeout: (() => void) | undefined
+    vi.mocked(spawn).mockImplementation(((...args: any[]) => {
+      const value = (realSpawn as any)(...args)
+      if (args[1]?.some((arg: string) => arg.endsWith('/guides-worker.cjs'))) child = value
+      return value
+    }) as typeof spawn)
+    const original = globalThis.setTimeout
+    vi.spyOn(globalThis, 'setTimeout').mockImplementation(((fn: () => void, ms: number, ...args: any[]) => {
+      if (ms === 600_000) timeout = fn
+      return original(fn, ms, ...args)
+    }) as typeof setTimeout)
+    const pending = ownerOutcome(f.launcher.runGuidesCollector({mode: 'wait'})), actor = await ownerMarker(f.marker)
+    if (kind === 'timeout') {expect(timeout).toBeTypeOf('function'); timeout!()} else child!.stdin!.emit('error', new Error('CONTROLLED_STDIN_ERROR'))
+    const {error} = await pending
+    expect(error.message).toBe(kind === 'timeout' ? 'Guides worker timeout' : 'CONTROLLED_STDIN_ERROR')
+    expect(error.settlement.group).toBe('absent'); await assertOwnedGone(actor.pid)
+  }, 30000)
+  it.each(['normal', 'nonzero'])('reports denied group observation for %s without replacing the first failure', async mode => {
+    const f = await ownerFixture(), realSpawn = (await vi.importActual<typeof import('node:child_process')>('node:child_process')).spawn
+    let pid: number | undefined
+    vi.mocked(spawn).mockImplementation(((...args: any[]) => {
+      const child = (realSpawn as any)(...args)
+      if (args[1]?.some((arg: string) => arg.endsWith('/guides-worker.cjs'))) pid = child.pid
+      return child
+    }) as typeof spawn)
+    const kill = process.kill.bind(process)
+    const spy = vi.spyOn(process, 'kill').mockImplementation((id, signal) => {
+      if (pid && id === -pid && signal === 0) throw Object.assign(new Error('CONTROLLED_PROBE_DENIED'), {code: 'EPERM'})
+      return kill(id, signal)
+    })
+    const {error} = await ownerOutcome(f.launcher.runGuidesCollector({mode}))
+    spy.mockRestore()
+    if (mode === 'normal') expect(error.message).toContain('unknown')
+    else expect(error.message).toBe('Guides worker failed: FINAL_STDERR_DIAGNOSTIC')
+    expect(error.settlement).toMatchObject({group: 'unknown', close: {code: mode === 'normal' ? 0 : 7}})
+    expect(error.settlement.cleanupErrors).toContainEqual(expect.objectContaining({operation: 'probe', code: 'EPERM'}))
+    await assertOwnedGone(pid!)
+  }, 30000)
+  it.each(['assembly', 'nonzero'] as const)('rejects a finalizer exception after %s without losing primary or invocation listeners', async mode => {
+    const f = await ownerFixture(), before = [process.listenerCount('SIGINT'), process.listenerCount('SIGTERM')], unhandled: unknown[] = []
+    const listener = (error: unknown) => unhandled.push(error); process.on('unhandledRejection', listener)
+    const concat = Buffer.concat, fault = new Error('CONTROLLED_FINALIZER_FAILURE')
+    vi.spyOn(Buffer, 'concat').mockImplementation((list, ...args) => {
+      if (list.some(bytes => Buffer.from(bytes).toString() === (mode === 'assembly' ? 'ASSEMBLY_FAULT' : 'FINAL_STDERR_DIAGNOSTIC'))) throw fault
+      return concat(list, ...args)
+    })
+    try {
+      const {error} = await ownerOutcome(f.launcher.runGuidesCollector({mode}))
+      if (mode === 'assembly') expect(error.cause).toBe(fault)
+      else {expect(error.cause).not.toBe(fault); expect(error.cause.message).toBe('Guides worker failed:')}
+      expect(error.message).toBe(mode === 'assembly' ? 'CONTROLLED_FINALIZER_FAILURE' : 'Guides worker failed:')
+      expect(error.settlement.cleanupErrors).toContainEqual(expect.objectContaining({operation: 'finalize-output', message: fault.message}))
+      expect(error.settlement.group).toBe('absent'); await assertOwnedGone(error.settlement.pid)
+      expect([process.listenerCount('SIGINT'), process.listenerCount('SIGTERM')]).toEqual(before)
+      await new Promise(resolve => setTimeout(resolve, 20)); expect(unhandled).toEqual([])
+    } finally {process.removeListener('unhandledRejection', listener)}
+  }, 30000)
+  it.each([true, false])('bounds controlled late stderr/close delivery (close arrives: %s)', async closeArrives => {
+    const f = await ownerFixture(), realSpawn = (await vi.importActual<typeof import('node:child_process')>('node:child_process')).spawn
+    const fake = Object.assign(new EventEmitter(), {pid: 987654321, stdin: new PassThrough(), stdout: new PassThrough(), stderr: new PassThrough(), stdio: [] as any[]})
+    fake.stdio = [fake.stdin, fake.stdout, fake.stderr, new PassThrough()]
+    vi.mocked(spawn).mockImplementation(((...args: any[]) => {
+      if (!args[1]?.some((arg: string) => arg.endsWith('/guides-worker.cjs'))) return (realSpawn as any)(...args)
+      setImmediate(() => {fake.emit('spawn'); fake.emit('exit', 7, null); setTimeout(() => {fake.stderr.emit('data', Buffer.from('AFTER_EXIT')); if (closeArrives) fake.emit('close', 7, null)}, 20)})
+      return fake
+    }) as typeof spawn)
+    const kill = process.kill.bind(process)
+    vi.spyOn(process, 'kill').mockImplementation((id, signal) => {
+      if (id === -fake.pid) throw Object.assign(new Error('controlled group absence'), {code: 'ESRCH'})
+      return kill(id, signal)
+    })
+    const {error} = await ownerOutcome(f.launcher.runGuidesCollector({}))
+    expect(error.message).toBe('Guides worker failed: AFTER_EXIT'); expect(error.cause.message).toBe(error.message)
+    expect(error.settlement).toMatchObject({close: closeArrives ? {code: 7} : null, group: 'absent'})
+    if (!closeArrives) {
+      expect(error.settlement.cleanupErrors).toContainEqual(expect.objectContaining({operation: 'join-close'}))
+      fake.emit('close', 7, null)
+      expect(error.settlement.close).toBeNull() // A late event cannot rewrite the terminal observation.
+    }
+    // This event-order control is synthetic. Real settlement is tested above.
+  }, 30000)
 })
