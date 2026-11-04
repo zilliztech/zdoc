@@ -768,6 +768,7 @@
                                   }
                                 },
                                 "enum": [
+                                  "",
                                   "sync",
                                   "async",
                                   "disable"

@@ -45,12 +45,17 @@ function resolver(spec) {
 }
 
 function fieldTable(schema, spec, depth = 0) {
-  if (!schema || typeof schema !== "object" || depth > 6) return null
+  if (!schema || typeof schema !== "object" || depth > 8) return null
   const resolve = resolver(spec)
   const s = resolve(schema)
   if (s.$circular || s.$unresolved) return { refProblem: s.$circular || s.$unresolved }
   if (s.type === "object" || s.properties) {
     const fields = []
+    // additionalProperties marks payloads whose keys are caller-dependent
+    // (e.g. search result items carry the collection's output fields) —
+    // schema-verify treats undeclared observed keys under such objects as
+    // dynamic fields, not conflicts.
+    const dynamic = s.additionalProperties === true || (s.additionalProperties && typeof s.additionalProperties === "object") ? true : undefined
     for (const [name, p] of Object.entries(s.properties || {})) {
       const rp = resolve(p)
       const entry = {
@@ -74,6 +79,7 @@ function fieldTable(schema, spec, depth = 0) {
         if (nested.items) entry.items = nested.items
         if (nested.branches) entry.branches = nested.branches
         if (nested.required) entry.required = nested.required
+        if (nested.dynamic) entry.dynamic = nested.dynamic
         // A oneOf/anyOf property whose branches all model the same JSON type
         // (e.g. two object alternatives of one payload) presents a single
         // type to verifiers — "oneOf" vs observed "object" would be a
@@ -85,7 +91,7 @@ function fieldTable(schema, spec, depth = 0) {
       }
       fields.push(entry)
     }
-    return { type: "object", fields, required: s.required || [] }
+    return { type: "object", fields, required: s.required || [], ...(dynamic ? { dynamic } : {}) }
   }
   if (s.type === "array") return { type: "array", items: fieldTable(s.items, spec, depth + 1) }
   if (s.oneOf || s.anyOf) return { type: s.oneOf ? "oneOf" : "anyOf", branches: (s.oneOf || s.anyOf).map((b) => fieldTable(b, spec, depth + 1)) }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "6f0609e0bc9644752d5190c9690112e2bdb28d5c",
+  "sourceCommit": "d38ce8b3b02cc68c4df4cff93e6f7b4227d78bf0",
   "records": [
     {
       "manual": "cli",
@@ -6780,7 +6780,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/describe-role-v2.mdx",
-      "sourceHash": "e2ff7125867d93a0b7eb134a0b966766ad571aabae6182dd9feeb77b8f7b5a69"
+      "sourceHash": "dba9ad72f8638f38841e02997bfb61a42a5b6db752b92fe6cf21066bee803a1b"
     },
     {
       "manual": "rest",
@@ -6945,7 +6945,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/get-collection-load-state-v2.mdx",
-      "sourceHash": "f0732ba932c65ce5ce43ec1c85a2f69676f8d3621fb0148780313c8678aaab48"
+      "sourceHash": "6185c3adbde2e008ce52a6c947b66c36207288cc0a9de13902a63ca2b51b5317"
     },
     {
       "manual": "rest",
@@ -7065,7 +7065,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/index-operations-v2/describe-index-v2.mdx",
-      "sourceHash": "1788c3cfc54533061916470b7867f2a657f4ba4197629eb31e2f83ea7e7a1a13"
+      "sourceHash": "afda5be04708417a2ec24ca72ecdafe01c5f1fa22c3bb0409d1b8c3f01b4e6bd"
     },
     {
       "manual": "rest",
@@ -7110,7 +7110,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/partition-operations-v2/list-partitions-v2.mdx",
-      "sourceHash": "1edf1200566a55d640a5cf0e52267af2f9c9e0bcafd39790d663065c438ad2dd"
+      "sourceHash": "bb8a4b4e4f974b56d066bdf78b783b48500fda142dd76db358f0a5adba271ca9"
     },
     {
       "manual": "rest",
@@ -7185,37 +7185,37 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/delete-v2.mdx",
-      "sourceHash": "924a2d115a15691ce40831c2cbc6183a47f7d683affddd74e90535c08b1d2315"
+      "sourceHash": "46c2dab207c62d0fa257dc4effad2744ddf7b89bacd96f5afadae230e8d5be4e"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/get-v2.mdx",
-      "sourceHash": "f86211e7a63b78d3e316da9e30c9b325dd03dfe89def89a2316101578055e24a"
+      "sourceHash": "35182b74c4d8295879e686911bd82050c976d02da20051b6e30e87af7ea7dc44"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/hybrid-search-v2.mdx",
-      "sourceHash": "9dfbe577bf86c20214c8329d666c859d850fac7de6ab0a13788bf3762be484d6"
+      "sourceHash": "80229efa5cfcb4789afac5a3bf707457755f730d76d73fc5f85dd3b631071bd3"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/insert-v2.mdx",
-      "sourceHash": "99ec017febdd5badee67350a2976640d803b80e93a654c3c54892c4223d71bcd"
+      "sourceHash": "d0bbe7a8c7692b69d97f3af8b71d2caa4e6d0217c7b5079d2fa457a3943741c5"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/query-v2.mdx",
-      "sourceHash": "ae77095a80c18048537b9ad0f81a72ff30a3bea42ee2a875962c1d75adcfb0b3"
+      "sourceHash": "db9d9a98836ffc864f790b9defa562fd62d365cc0fa279128b3c022e6d9e6fa9"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/search-v2.mdx",
-      "sourceHash": "b25fcc9d13c75bcb32e2657010e0198d7392d022043635f0498f7c6b7593dbe7"
+      "sourceHash": "efafc93a719e870b4727ba5a9ce6e467da2b7ff36504a6967a7835195bbc265f"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/upsert-v2.mdx",
-      "sourceHash": "3cf77be2d5ceb5f9c3649b2e583ae9ebabf459d681ce33a8216ca85fff39a591"
+      "sourceHash": "fad41d7cba138436867ea058110ec56cfd5cf9fb53bf3a337abfd41b73a5e820"
     },
     {
       "manual": "rest",
