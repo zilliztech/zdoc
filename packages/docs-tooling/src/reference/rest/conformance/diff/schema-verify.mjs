@@ -61,7 +61,14 @@ function flattenDeclared(schema, prefix = "$", out = {}, depth = 0) {
       if (schema.properties && schema.properties[f.name]) flattenDeclared(schema.properties[f.name], fp, out, depth + 1)
     }
   } else if (schema.type === "array" && (schema.items || schema.itemsSchema)) {
-    flattenDeclared(schema.items || schema.itemsSchema, `${prefix}[]`, out, depth + 1)
+    const items = schema.items || schema.itemsSchema
+    // Declare the element node itself: flattenObserved always emits the
+    // element path (prefix + "[]"), so a list-of-strings response would
+    // otherwise never find its own structure documented and every
+    // array payload would show a phantom undocumented/observed-undeclared
+    // verdict (batch 2, 2026-11-04).
+    out[`${prefix}[]`] = { type: oaType(items.type), enum: items.enum || null, required: false }
+    flattenDeclared(items, `${prefix}[]`, out, depth + 1)
   }
   return out
 }
@@ -130,7 +137,11 @@ for (const f of goldenFiles) {
   const dataObserved = observed["$.data"]
   const dataChildren = Object.keys(observed).filter((k) => k.startsWith("$.data.") || k.startsWith("$.data[]"))
   const structureDocumented = dataChildren.some((k) => k in declared)
-  if (dataObserved && !structureDocumented) {
+  // An empty observed payload (data === {}) has no structure to document at
+  // all — envelope-only declaration is already complete, so the undocumented
+  // verdict can never clear and would fire forever (same false-positive
+  // family as the $.message error branch, pinned 2026-11-04 batch 2).
+  if (dataObserved && dataChildren.length > 0 && !structureDocumented) {
     fields.push({
       path: "$.data", verdict: "response-structure-undocumented",
       observed: dataObserved,
@@ -176,6 +187,33 @@ for (const f of goldenFiles) {
     if (parent !== "$" && !(parent in declared) && !((parent + "[]") in declared)) continue
     if (structureDocumented) {
       fields.push({ path: p, verdict: "observed-undeclared", observed: t, sample: samples[p] })
+      conflicts++
+    }
+  }
+  // Example-vs-schema cross-check: the response examples embedded in the
+  // fragments are rendered verbatim in the docs, so a value that contradicts
+  // the declared schema (or shows a field the schema never declares) is a doc
+  // bug of its own — batch 2, 2026-11-04. The indexes/describe and invoices
+  // conflicts were exactly this shape: examples had led the schemas.
+  for (const ex of inv.response?.examples || []) {
+    if (!ex.value || typeof ex.value !== "object" || Array.isArray(ex.value)) continue
+    const { out: exObserved, samples: exSamples } = flattenObserved(ex.value)
+    for (const [p, meta] of Object.entries(declared)) {
+      if (p === "$") continue
+      if (p === "$.message" || p === "$.cost" || p.startsWith("$.cost.")) continue
+      if (p in exObserved) {
+        const tOk = exObserved[p] === meta.type || exObserved[p] === "null" || meta.type === "?"
+        if (!tOk) {
+          fields.push({ path: p, verdict: "example-type-mismatch", example: ex.summary, declared: meta.type, exampleObserved: exObserved[p] })
+          conflicts++
+        }
+      }
+    }
+    for (const [p, t] of Object.entries(exObserved)) {
+      if (p === "$" || p in declared) continue
+      const parent = p.split(".").slice(0, -1).join(".")
+      if (parent !== "$" && !(parent in declared) && !((parent + "[]") in declared)) continue
+      fields.push({ path: p, verdict: "example-undeclared", example: ex.summary, exampleObserved: t, sample: exSamples[p] })
       conflicts++
     }
   }
@@ -246,7 +284,7 @@ if (args.md) {
     "",
     conflictsAll.length ? "| Op | Case | Verdict | Detail |" : "(none — every declared field checked so far is corroborated)",
     conflictsAll.length ? "|---|---|---|---|" : "",
-    ...conflictsAll.slice(0, 200).map((c) => `| ${c.op} | ${c.caseId} | ${c.verdict} | ${JSON.stringify({ declared: c.declared, observed: c.observed, sample: c.sample, required: c.required, declaredEnum: c.declaredEnum, detail: c.detail, param: c.param }).slice(0, 140)} |`),
+    ...conflictsAll.slice(0, 200).map((c) => `| ${c.op} | ${c.caseId} | ${c.verdict} | ${JSON.stringify({ declared: c.declared, observed: c.observed, sample: c.sample, required: c.required, declaredEnum: c.declaredEnum, example: c.example, exampleObserved: c.exampleObserved, detail: c.detail, param: c.param }).slice(0, 140)} |`),
     "",
     `## Corroborated fields: ${corroboratedFields}`,
     "",

@@ -852,7 +852,7 @@
                                 "x-deprecated-since": null
                               },
                               "minIndexVersion": {
-                                "type": "string",
+                                "type": "integer",
                                 "description": "The minimum version of the index.",
                                 "x-i18n": {
                                   "zh-CN": {
@@ -864,10 +864,11 @@
                                 },
                                 "x-added-at": "2.6.x",
                                 "x-last-modified": "2.6.x",
-                                "x-deprecated-since": null
+                                "x-deprecated-since": null,
+                                "format": "int32"
                               },
                               "maxIndexVersion": {
-                                "type": "string",
+                                "type": "integer",
                                 "description": "The maximum version of the index.",
                                 "x-i18n": {
                                   "zh-CN": {
@@ -879,7 +880,8 @@
                                 },
                                 "x-added-at": "2.6.x",
                                 "x-last-modified": "2.6.x",
-                                "x-deprecated-since": null
+                                "x-deprecated-since": null,
+                                "format": "int32"
                               },
                               "indexParams": {
                                 "type": "array",

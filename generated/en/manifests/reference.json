@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "0d8873ceeb03ce83bdecf1524ca6a4174f261f61",
+  "sourceCommit": "6f0609e0bc9644752d5190c9690112e2bdb28d5c",
   "records": [
     {
       "manual": "cli",
@@ -6440,7 +6440,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/import-operations-v2/list-import-jobs-v2.mdx",
-      "sourceHash": "1fc7925b9b1cfcbf5e6c45d15d2739c1539ffb28c86b1626bc1ee692a98595ee"
+      "sourceHash": "7fb202c379f6de0afe32f2c9589c8878dac65ef0f38db2f6575d006ec8425fa5"
     },
     {
       "manual": "rest",
@@ -6895,7 +6895,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/compact-collection-v2.mdx",
-      "sourceHash": "17e1ad03a7c825f5f6ecdcc2947024fdfc0abb9fab0cc88cf021c48e7321f541"
+      "sourceHash": "778d9d68d35b45b53bd213bdab64afea6a5ebda1d5d293688ae82f7c4f22ef5b"
     },
     {
       "manual": "rest",
@@ -6955,7 +6955,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/get-compaction-state-v2.mdx",
-      "sourceHash": "080324f287ecfde573371de0538a49c6628a0fc0e2440147dec71752de6fe0bb"
+      "sourceHash": "7d4aab961a11b839f40d2996fa0eba6ff792cbe5ebfac27c66798761aa442e1c"
     },
     {
       "manual": "rest",
@@ -7065,7 +7065,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/index-operations-v2/describe-index-v2.mdx",
-      "sourceHash": "8ebc5d5ad0022a5b976f28504b397ffa6a678cbe8fbb5642a185dfe628a75a39"
+      "sourceHash": "1788c3cfc54533061916470b7867f2a657f4ba4197629eb31e2f83ea7e7a1a13"
     },
     {
       "manual": "rest",
@@ -7185,7 +7185,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/delete-v2.mdx",
-      "sourceHash": "efaee1de7988856360f4309477d38afa1236b76ca456c06ff336943a9b466afc"
+      "sourceHash": "924a2d115a15691ce40831c2cbc6183a47f7d683affddd74e90535c08b1d2315"
     },
     {
       "manual": "rest",
