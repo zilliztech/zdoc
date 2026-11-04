@@ -8,13 +8,15 @@ export interface AgentStreamState {
   contentSource: 'stream-event' | 'chunk' | null;
   blockTypes: Record<number, string>;
   toolCallCount: number;
+  lastSequence: number;
+  ended: boolean;
 }
 
 export type AgentStreamUpdate =
   | {type: 'session'; sessionId: string}
   | {type: 'text'; text: string}
   | {type: 'agent'; name: string; agentType?: AgentType}
-  | {type: 'status'; status: string}
+  | {type: 'status'; status: string; busy: boolean}
   | {type: 'tool-call'; count: number}
   | {type: 'sources'; sources: Source[]}
   | {type: 'grounding'; citations: GroundingCitation[]}
@@ -23,7 +25,7 @@ export type AgentStreamUpdate =
   | {type: 'done'};
 
 export function createAgentStreamState(): AgentStreamState {
-  return {contentSource: null, blockTypes: {}, toolCallCount: 0};
+  return {contentSource: null, blockTypes: {}, toolCallCount: 0, lastSequence: 0, ended: false};
 }
 
 function stringValue(value: unknown): string | undefined {
@@ -32,7 +34,8 @@ function stringValue(value: unknown): string | undefined {
 
 function displayError(payload: Record<string, unknown>): string {
   const value = payload.error ?? payload.content ?? payload.message;
-  return typeof value === 'string' && /session not found or inactive/i.test(value)
+  return typeof value === 'string' &&
+    (value === SESSION_EXPIRED_ERROR || /session not found or inactive/i.test(value))
     ? SESSION_EXPIRED_ERROR
     : GENERIC_ERROR;
 }
@@ -50,7 +53,10 @@ export function parseAgentStreamEvent(
   raw: string,
   state: AgentStreamState,
 ): AgentStreamUpdate[] {
-  if (raw === '[DONE]') return [{type: 'done'}];
+  if (raw === '[DONE]') {
+    state.ended = true;
+    return [{type: 'done'}];
+  }
 
   let payload: Record<string, any>;
   try {
@@ -60,6 +66,15 @@ export function parseAgentStreamEvent(
   }
 
   const eventType = eventName || stringValue(payload.type) || '';
+  if (['done', 'complete', 'completed', 'interrupted'].includes(eventType)) {
+    state.ended = true;
+    return [{type: 'done'}];
+  }
+  if (eventType === 'error') {
+    state.ended = true;
+    return [{type: 'error', message: displayError(payload)}];
+  }
+  if (state.ended && !['sources', 'grounding', 'confidence'].includes(eventType)) return [];
 
   if (['session', 'session_id', 'connected'].includes(eventType)) {
     const sessionId = stringValue(payload.sessionId) || stringValue(payload.session_id);
@@ -121,11 +136,18 @@ export function parseAgentStreamEvent(
     }];
   }
   if (eventType === 'status') {
-    const status =
-      stringValue(payload.phase) ||
-      stringValue(payload.status) ||
-      stringValue(payload.message);
-    return status ? [{type: 'status', status}] : [];
+    if (typeof payload.sequence === 'number') {
+      if (payload.sequence <= state.lastSequence) return [];
+      state.lastSequence = payload.sequence;
+    }
+    const phase = stringValue(payload.phase) || 'working';
+    if (['completed', 'failed', 'cancelled'].includes(phase)) {
+      state.ended = true;
+      return [{type: 'done'}];
+    }
+    const status = ['preparing', 'analyzing', 'retrieving', 'calculating', 'working', 'generating', 'answering', 'waiting_for_input'].includes(phase)
+      ? phase : 'working';
+    return [{type: 'status', status, busy: payload.busy === true}];
   }
   if (eventType === 'tool-call') {
     const count = typeof payload.count === 'number' ? payload.count : state.toolCallCount + 1;
@@ -141,7 +163,5 @@ export function parseAgentStreamEvent(
   if (eventType === 'confidence' && isConfidenceLevel(payload.level)) {
     return [{type: 'confidence', level: payload.level}];
   }
-  if (eventType === 'error') return [{type: 'error', message: displayError(payload)}];
-  if (['done', 'complete', 'completed'].includes(eventType)) return [{type: 'done'}];
   return [];
 }
