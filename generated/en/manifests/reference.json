@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "66c37206bd5ef405fe5b42315651192640c9af80",
+  "sourceCommit": "0d8873ceeb03ce83bdecf1524ca6a4174f261f61",
   "records": [
     {
       "manual": "cli",
@@ -6455,7 +6455,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/invoices-v2/list-invoices-v2.mdx",
-      "sourceHash": "528050b80ba9051aa5455b8c86aa28382be460964b5c3512493c2b803a75ad30"
+      "sourceHash": "cb1463b967e4f24466d24a824e552f0f4df91ecc6ebed4815fb483ac98452e73"
     },
     {
       "manual": "rest",
@@ -7065,7 +7065,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/index-operations-v2/describe-index-v2.mdx",
-      "sourceHash": "c12ef0a07579d380bc49dbcafd9bdce39ee5b9bfceb29a50f45bfcaead70c39f"
+      "sourceHash": "8ebc5d5ad0022a5b976f28504b397ffa6a678cbe8fbb5642a185dfe628a75a39"
     },
     {
       "manual": "rest",
@@ -7145,7 +7145,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/privilege-group-operations-v2/list-privilege-groups-v2.mdx",
-      "sourceHash": "6453d0c85cc049fc724890fb5d33aa5acd109f2e73ba913cdd7010941610a350"
+      "sourceHash": "1b7c5e911975a8a3965f1358ae5eb5b079f002e6c93889682b10d55b842f3307"
     },
     {
       "manual": "rest",
