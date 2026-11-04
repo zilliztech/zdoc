@@ -1782,6 +1782,96 @@ async function testDirectDocxFallbackDoesNotMaskSourceFailures() {
   }
 }
 
+async function testReferencedSyncedSharedAliasSourceSkipsReplacementAndWarns() {
+  const Scraper = require('./larkDocScraper');
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'refsync-alias-'));
+  const warnings = [];
+  const originalWarn = console.warn;
+  console.warn = message => warnings.push(String(message));
+  try {
+    const scraper = new Scraper('', '', 'wiki', tempDir);
+    scraper.routingContext = { aliasesByToken: new Map([['alias-docx-token', 'rec-shared-1']]) };
+    const fetchedTokens = [];
+    scraper.__fetch_blocks = async node => { fetchedTokens.push(node.obj_token); };
+
+    fs.writeFileSync(path.join(tempDir, 'alias-embed.json'), JSON.stringify({
+      obj_type: 'docx',
+      token: 'alias-embed',
+      title: 'Embedding doc',
+      blocks: {
+        items: [
+          { block_id: 'blk-page', block_type: 1, children: ['blk-embed'] },
+          {
+            block_id: 'blk-embed',
+            block_type: 50,
+            parent_id: 'blk-page',
+            reference_synced: { source_document_id: 'alias-docx-token', source_block_id: 'blk-src' },
+          },
+        ],
+      },
+    }));
+
+    // Before the shared-alias guard this crashed with
+    // "Cannot read properties of undefined (reading 'items')": __fetch_blocks
+    // skips activated aliases, leaving node.blocks undefined.
+    await scraper.__replace_reference_synced_blocks();
+
+    assert.deepEqual(fetchedTokens, [], 'Activated shared aliases must never be refetched from Feishu');
+    const saved = JSON.parse(fs.readFileSync(path.join(tempDir, 'alias-embed.json'), 'utf8'));
+    const block = saved.blocks.items.find(item => item.block_id === 'blk-embed');
+    assert.equal(block.block_type, 50);
+    assert.deepEqual(block.reference_synced, { source_document_id: 'alias-docx-token', source_block_id: 'blk-src' });
+    assert.equal(warnings.filter(message => message.includes('[shared-alias]')
+      && message.includes('alias-embed.json')
+      && message.includes('alias-docx-token')
+      && message.includes('rec-shared-1')).length, 1);
+  } finally {
+    console.warn = originalWarn;
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
+async function testReferencedSyncedLiveSourceStillReplaced() {
+  const Scraper = require('./larkDocScraper');
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'refsync-live-'));
+  try {
+    const scraper = new Scraper('', '', 'wiki', tempDir);
+    scraper.routingContext = { aliasesByToken: new Map([['alias-docx-token', 'rec-shared-1']]) };
+    scraper.__fetch_blocks = async node => {
+      node.blocks = { items: [{ block_id: 'blk-src', block_type: 2, parent_id: 'src-page', text: { elements: [] } }], counts: 1 };
+    };
+
+    fs.writeFileSync(path.join(tempDir, 'live-embed.json'), JSON.stringify({
+      obj_type: 'docx',
+      token: 'live-embed',
+      title: 'Live embedding doc',
+      blocks: {
+        items: [
+          { block_id: 'blk-page', block_type: 1, children: ['blk-live'] },
+          {
+            block_id: 'blk-live',
+            block_type: 50,
+            parent_id: 'blk-page',
+            reference_synced: { source_document_id: 'live-docx-token', source_block_id: 'blk-src' },
+          },
+        ],
+      },
+    }));
+
+    await scraper.__replace_reference_synced_blocks();
+
+    const saved = JSON.parse(fs.readFileSync(path.join(tempDir, 'live-embed.json'), 'utf8'));
+    const replaced = saved.blocks.items.find(item => item.block_id === 'blk-src');
+    assert.ok(replaced, 'reference_synced block must be replaced by the source block');
+    assert.equal(replaced.block_type, 2);
+    assert.equal(replaced.parent_id, 'blk-page');
+    const page = saved.blocks.items.find(item => item.block_id === 'blk-page');
+    assert.deepEqual(page.children, ['blk-src'], 'parent children must be repointed at the source block');
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function run() {
   await testFeishuJsonFetchesAreThrottled();
   await testWikiRootFetchRetriesPrematureClose();
@@ -1815,6 +1905,8 @@ async function run() {
   await testDriveBaseFolderRoutesReachTheRealWriter();
   await testGuidesSourceReplacementOutsideWikiFailsClosed();
   await testGuidesDirectDocxSourceReplacement();
+  await testReferencedSyncedSharedAliasSourceSkipsReplacementAndWarns();
+  await testReferencedSyncedLiveSourceStillReplaced();
   await testDirectDocxFallbackDoesNotMaskSourceFailures();
   console.log('lark-docs scraper tests passed');
 }
