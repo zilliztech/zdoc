@@ -54,6 +54,3 @@ allow:
   - "highlights `\"Milvus\"` in its result set"
   - "[\"test\", \"Milvus\"]"
   - "Query 'Milvus':"
-  - "// Initialize Milvus client"
-  - "\"Milvus\"* is split into 3-grams"
-  - "**Milvus v2.6.x**"
