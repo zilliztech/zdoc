@@ -198,6 +198,9 @@ test('baseline output resolution uses historical targets, ancestors and category
   const files = [retained, retained.replace('/guides/', '/byoc/'), 'content/en/guides/tutorials/new-table/new-page.md', 'content/en/guides/unrelated.md']
   assert.deepEqual(adapter.baselineOutputPaths(snapshot, 'page', files), [retained])
   assert.deepEqual(adapter.baselineOutputPaths(snapshot, 'new-record', files), [])
+  snapshot.navigation_records[1].targets = [] // The legacy writer treats an empty target list as both sites.
+  assert.deepEqual(adapter.baselineOutputPaths(snapshot, 'page', files), [retained.replace('/guides/', '/byoc/'), retained])
+  snapshot.navigation_records[1].targets = ['zilliz.saas']
   assert.throws(() => adapter.baselineOutputPaths(snapshot, 'page', [...files, retained.replace(/\.md$/, '.mdx')]), /Ambiguous baseline outputs/)
   snapshot.records[0].output_paths = ['content/en/byoc/tutorials/historical/explicit.mdx']
   assert.deepEqual(adapter.baselineOutputPaths(snapshot, 'page', files), snapshot.records[0].output_paths)

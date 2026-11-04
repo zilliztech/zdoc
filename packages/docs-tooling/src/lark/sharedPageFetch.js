@@ -84,9 +84,9 @@ function baselineOutputPaths(snapshot, recordId, filePaths) {
   }
   const table = require('./guidesTableSlugs').guidesTableSlug('en', leaf.table_name || leaf.table_id)
   const relative = ['tutorials', table, ...segments].join('/')
-  const inventory = new Set(filePaths), outputs = []
+  const inventory = new Set(filePaths), outputs = [], targets = guidesRecordPublishTargets(leaf)
   for (const [target, physical] of [['zilliz.saas', 'guides'], ['zilliz.paas', 'byoc']]) {
-    if (!(leaf.targets || []).map(value => value.toLowerCase()).includes(target)) continue
+    if (targets.length && !targets.includes(target)) continue
     // Canonical category landings repeat their slug. Check both shapes in the
     // pinned inventory, but refuse ambiguity rather than choosing a new path.
     const ids = [relative]
