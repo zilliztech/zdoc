@@ -44,9 +44,3 @@ allow:
   - "// Initialize Milvus client"
   - "\"Milvus\"* is split into 3-grams"
   - "**Milvus v2.6.x**"
-  # BM25 Function page: the quoted analyzer sample corpus. These two strings are
-  # input data for the analyzer example (the token list below each one is derived
-  # from it), not a product claim, and the current Cloud page and its translations
-  # carry the same text verbatim.
-  - 'We are loving Milvus!'
-  - 'who loves Milvus?'
