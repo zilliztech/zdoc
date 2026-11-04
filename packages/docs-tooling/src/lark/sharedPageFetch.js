@@ -15,6 +15,7 @@ const aliases = require('./sharedPageAliases')
 const SourceIndex = require('./larkSourceIndex')
 const {resolveManualPublication} = loadTypeScript(path.resolve(__dirname, '../manuals/registry.ts'))
 const {analysisMarkdown} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/links/anchors.ts'))
+const publicationPath = 'generated/en/manifests/shared-pages/guides/_publication.json'
 const snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
 function git(root, args, options = {}) {
@@ -57,6 +58,66 @@ function regularBytes(root, relative) {
 }
 function assertInventory(root, inventory) {
   for (const file of inventory) if (digest(regularBytes(root, file.path)) !== file.sha256) throw new Error(`Pinned input drift: ${file.path}`)
+}
+/** Resolve retained outputs from pinned evidence, never the current Base/source cache.
+ * Shared receipts and older explicit inventories remain exact. Legacy Feishu
+ * snapshots have empty output_paths; their historical navigation supplies the
+ * document id and the pinned Git inventory supplies its extension/target set.
+ */
+function baselineOutputPaths(snapshot, recordId, fileInventory, publication = null) {
+  const record = snapshot?.records?.find(row => row.record_id === recordId)
+  if (!record) return []
+  if (record.output_paths?.length || record.source_kind === 'shared-page') return [...(record.output_paths || [])].sort()
+  const inventory = new Map(fileInventory.map(file => typeof file === 'string' ? [file, null] : [file.path, file.sha256]))
+  // A previous fallback already authenticated its historical paths. Ancestors in
+  // the effective snapshot may since have moved or disappeared; do not derive
+  // those paths again from the mixed current/historical navigation projection.
+  if (publication) {
+    if (publication.schema_version !== 1 || publication.effective_sha256 !== require('./sourceCompleteness').hashSnapshot(snapshot)
+      || !Array.isArray(publication.fallbacks)) throw new Error(`Invalid baseline publication: ${recordId}`)
+    const retained = publication.fallbacks.filter(row => row.record?.record_id === recordId)
+    if (retained.length > 1) throw new Error(`Duplicate baseline publication fallback: ${recordId}`)
+    if (retained.length) {
+      const fallback = retained[0]
+      if (JSON.stringify(fallback.record) !== JSON.stringify(record) || !Array.isArray(fallback.outputs)
+        || fallback.outputs.some(output => !routing.safeHandoffPath(output.path)
+          || !/^content\/en\/(guides|byoc)\/tutorials\/[^/]+\/.+\.mdx?$/.test(output.path)
+          || !/^[a-f0-9]{64}$/.test(output.sha256) || inventory.get(output.path) !== output.sha256)
+        || new Set(fallback.outputs.map(output => output.path)).size !== fallback.outputs.length) {
+        throw new Error(`Invalid baseline publication outputs: ${recordId}`)
+      }
+      return fallback.outputs.map(output => output.path).sort()
+    }
+  }
+  const rows = snapshot.navigation_records || [], byId = new Map(rows.map(row => [row.record_id, row]))
+  const leaf = byId.get(recordId)
+  if (!leaf) throw new Error(`Missing baseline navigation: ${recordId}`)
+  const segments = [], seen = new Set()
+  let row = leaf
+  while (row) {
+    if (seen.has(row.record_id)) throw new Error(`Cyclic baseline navigation: ${recordId}`)
+    seen.add(row.record_id)
+    const slug = row.slug || require('slugify')(row.title || '', {lower: true, strict: true})
+    if (!slug || !routing.safeHandoffPath(slug)) throw new Error(`Unsafe baseline slug: ${recordId}`)
+    segments.unshift(slug)
+    const parents = row.parent_record_ids || []
+    if (parents.length > 1 || parents.some(id => !byId.has(id))) throw new Error(`Invalid baseline parents: ${recordId}`)
+    row = byId.get(parents[0])
+  }
+  const table = require('./guidesTableSlugs').guidesTableSlug('en', leaf.table_name || leaf.table_id)
+  const relative = ['tutorials', table, ...segments].join('/')
+  const outputs = [], targets = guidesRecordPublishTargets(leaf)
+  for (const [target, physical] of [['zilliz.saas', 'guides'], ['zilliz.paas', 'byoc']]) {
+    if (targets.length && !targets.includes(target)) continue
+    // Canonical category landings repeat their slug. Check both shapes in the
+    // pinned inventory, but refuse ambiguity rather than choosing a new path.
+    const ids = [relative]
+    if (rows.some(child => (child.parent_record_ids || []).includes(recordId))) ids.push(`${relative}/${segments.at(-1)}`)
+    const matches = ids.flatMap(id => ['.mdx', '.md'].map(extension => `content/en/${physical}/${id}${extension}`)).filter(file => inventory.has(file))
+    if (matches.length > 1) throw new Error(`Ambiguous baseline outputs: ${recordId} (${physical})`)
+    outputs.push(...matches)
+  }
+  return outputs.sort()
 }
 function prepareSharedSources({records, repositoryRoot, baselineRoot, masterCommit, devCommit, sourceDir, rootToken, site = 'en'}) {
   if (site !== 'en') return null
@@ -222,5 +283,5 @@ async function activationDraft({record, page, active, previousSnapshot, currentS
     throw Object.assign(new Error(`ACTIVATE_CHECK_FAILED: ${error.message}`), {code: 'ACTIVATE_CHECK_FAILED', detail: {old_token: token, links: references, reason: error.message}})
   }
 }
-module.exports = {digest, gitInventory, regularBytes, assertInventory, pinnedCommit, prepareSharedSources, restoreRouting, initializeSharedScraper, writerAdapter,
-  planFetchTargets, activationDraft, fetchActivationHeadings, snapshotPath, git, pendingSourceSnapshot}
+module.exports = {baselineOutputPaths, digest, gitInventory, regularBytes, assertInventory, pinnedCommit, prepareSharedSources, restoreRouting, initializeSharedScraper, writerAdapter,
+  planFetchTargets, activationDraft, fetchActivationHeadings, snapshotPath, publicationPath, git, pendingSourceSnapshot}
