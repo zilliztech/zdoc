@@ -410,4 +410,133 @@ describe('ChatProvider request debugging', () => {
     });
     expect(result.current.messages.at(-1)?.status).toBeUndefined();
   });
+  it('coalesces progress, ignores old sequences, and immediately resumes text', async () => {
+    const controlled = controlledRawSseResponse();
+    routeChatFetch([controlled.response]);
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    let sending: Promise<void>;
+    act(() => { sending = result.current.send('cost question'); });
+    await waitFor(() => expect(result.current.messages.at(-1)?.status).toBe('preparing'));
+    await act(async () => {
+      controlled.enqueue({type: 'status', phase: 'retrieving', busy: true, sequence: 1});
+      controlled.enqueue({type: 'status', phase: 'calculating', busy: true, sequence: 2});
+      await new Promise(resolve => setTimeout(resolve, 180));
+    });
+    expect(result.current.messages.at(-1)).toMatchObject({status: 'calculating', busy: true});
+    await act(async () => {
+      controlled.enqueue({type: 'status', phase: 'working', busy: true, sequence: 1});
+      controlled.enqueue({type: 'status', phase: 'answering', busy: false, sequence: 3});
+      controlled.enqueue({type: 'chunk', data: {type: 'text', text: 'Which region?'}});
+    });
+    expect(result.current.isStreaming).toBe(true);
+    expect(result.current.messages.at(-1)).toMatchObject({text: 'Which region?', busy: false});
+    await act(async () => {
+      controlled.enqueue({type: 'status', phase: 'answering', busy: false, sequence: 4});
+      controlled.enqueue({type: 'status', phase: 'answering', busy: true, sequence: 5});
+      await new Promise(resolve => setTimeout(resolve, 180));
+    });
+    expect(result.current.messages.at(-1)).toMatchObject({text: 'Which region?', status: 'answering', busy: true});
+    expect(result.current.chatHistory.at(-1)?.messages.at(-1)).not.toHaveProperty('status');
+    expect(result.current.chatHistory.at(-1)?.messages.at(-1)).not.toHaveProperty('busy');
+    await act(async () => {
+      controlled.enqueue({type: 'status', phase: 'generating', busy: true, sequence: 6});
+      controlled.enqueue({type: 'chunk', data: {type: 'text', text: ' Resumed.'}});
+      await new Promise(resolve => setTimeout(resolve, 180));
+    });
+    expect(result.current.messages.at(-1)).toMatchObject({text: 'Which region? Resumed.', busy: false});
+    await act(async () => { controlled.enqueue({type: 'completed'}); });
+    expect(result.current.isStreaming).toBe(false);
+    await act(async () => { controlled.close(); await sending!; });
+  });
+
+  it.each(['en', 'zh-CN'])('preserves session expiry through duplicate done on %s', async site => {
+    siteState.current = site;
+    const expired = 'Your session has been disconnected due to inactivity. Please refresh the page to start a new conversation.';
+    routeChatFetch([sseResponse([
+      {type: 'error', data: {error: expired}},
+      {type: 'done', data: {}}, {type: 'done', data: {}},
+    ])]);
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    await act(async () => result.current.send('expired session'));
+    expect(result.current.messages.at(-1)).toMatchObject({text: expired, busy: false});
+    expect(result.current.isStreaming).toBe(false);
+  });
+
+  it('cancels a pending phase on stop and rejects late events from the old request', async () => {
+    const old = controlledRawSseResponse();
+    const next = controlledRawSseResponse();
+    routeChatFetch([old.response, next.response]);
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    let first: Promise<void>;
+    act(() => { first = result.current.send('first'); });
+    await waitFor(() => expect(result.current.messages.at(-1)?.status).toBe('preparing'));
+    await act(async () => { old.enqueue({type: 'status', phase: 'calculating', busy: true, sequence: 99}); });
+    act(() => result.current.stop());
+    let second: Promise<void>;
+    act(() => { second = result.current.send('second'); });
+    await waitFor(() => expect(result.current.messages.at(-1)?.status).toBe('preparing'));
+    await act(async () => {
+      old.enqueue({type: 'chunk', data: {type: 'text', text: 'late old answer'}});
+      old.close();
+      next.enqueue({type: 'status', phase: 'retrieving', busy: true, sequence: 1});
+      await new Promise(resolve => setTimeout(resolve, 180));
+    });
+    expect(result.current.messages.at(-1)).toMatchObject({text: '', status: 'retrieving', busy: true});
+    await act(async () => { next.close(); await Promise.all([first!, second!]); });
+    expect(result.current.messages.at(-1)).toMatchObject({busy: false});
+    expect(result.current.isStreaming).toBe(false);
+  });
+
+  it('aborts and cancels pending phase updates on unmount', async () => {
+    const controlled = controlledRawSseResponse();
+    routeChatFetch([controlled.response]);
+    const {result, unmount} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    let sending: Promise<void>;
+    act(() => { sending = result.current.send('unmount'); });
+    await waitFor(() => expect(result.current.messages.at(-1)?.status).toBe('preparing'));
+    await act(async () => { controlled.enqueue({type: 'status', phase: 'calculating', busy: true, sequence: 1}); });
+    const signal = (vi.mocked(fetch).mock.calls.find(([url]) => url === '/api/chat')?.[1] as RequestInit).signal;
+    unmount();
+    expect(signal?.aborted).toBe(true);
+    controlled.close();
+    await sending!;
+    await new Promise(resolve => setTimeout(resolve, 180));
+  });
+
+  it.each(['completed', 'failed', 'cancelled', 'interrupted', 'error', 'eof'])('clears pending progress on %s without waiting for stream close', async terminal => {
+    const controlled = controlledRawSseResponse();
+    routeChatFetch([controlled.response]);
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    let sending: Promise<void>;
+    act(() => { sending = result.current.send('terminal'); });
+    await waitFor(() => expect(result.current.messages.at(-1)?.status).toBe('preparing'));
+    await act(async () => {
+      controlled.enqueue({type: 'status', phase: 'calculating', busy: true, sequence: 1});
+      if (terminal === 'eof') controlled.close();
+      else if (terminal === 'interrupted' || terminal === 'error') controlled.enqueue({type: terminal, error: 'failure'});
+      else controlled.enqueue({type: 'status', phase: terminal, busy: false, sequence: 2});
+    });
+    expect(result.current.isStreaming).toBe(false);
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 180));
+      if (terminal !== 'eof') controlled.close();
+      await sending!;
+    });
+    expect(result.current.messages.at(-1)?.busy).toBe(false);
+    expect(result.current.messages.at(-1)?.status).toBeUndefined();
+  });
+
+  it.each(['http', 'network'])('clears the preparing placeholder after a %s failure', async failure => {
+    vi.mocked(fetch).mockImplementation(input => {
+      if (isMarkdownUrl(input)) return Promise.resolve(markdownResponse());
+      if (failure === 'network') return Promise.reject(new Error('offline'));
+      return Promise.resolve(new Response(JSON.stringify({error: 'unavailable'}), {status: 502}));
+    });
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    await act(async () => result.current.send('failure'));
+    expect(result.current.isStreaming).toBe(false);
+    expect(result.current.messages.some(message => message.busy)).toBe(false);
+    expect(result.current.messages.at(-1)?.text).toBeTruthy();
+  });
+
 });

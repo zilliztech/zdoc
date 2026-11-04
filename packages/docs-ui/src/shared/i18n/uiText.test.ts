@@ -66,4 +66,20 @@ describe('docs UI localization', () => {
     expect(localizeSearchSection('Reference', text)).toBe('リファレンス');
     expect(localizeSearchSection('Community', text)).toBe('Community');
   });
+  it('maps public loading phases to English and Chinese copy', () => {
+    for (const [phase, en, zh] of [
+      ['preparing', 'Preparing…', '准备中…'],
+      ['analyzing', 'Understanding your question…', '正在理解你的问题…'],
+      ['retrieving', 'Checking documentation…', '正在查阅资料…'],
+      ['calculating', 'Calculating…', '正在计算…'],
+      ['working', 'Working on your request…', '正在处理你的问题…'],
+      ['generating', 'Preparing your answer…', '正在组织回答…'],
+      ['answering', 'Answering…', '正在回答…'],
+      ['waiting_for_input', 'Waiting for your confirmation…', '等待你的确认…'],
+    ]) {
+      expect(localizeChatStatus(phase, getDocsUiText('en'))).toBe(en);
+      expect(localizeChatStatus(phase, getDocsUiText('zh-CN'))).toBe(zh);
+    }
+  });
+
 });
