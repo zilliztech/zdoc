@@ -1,0 +1,27 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/indexes/scalar/inverted.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/scalar-index/inverted-index-type
+  - manual: guides-byoc
+    path: tutorials/development/scalar-index/inverted-index-type
+
+transforms:
+  - operation: replace
+    target:
+      block: inverted-json-heading
+    content:
+      file: cloud-json-heading.md
+  - operation: replace
+    target:
+      block: inverted-drop-note
+    content:
+      file: cloud-drop-note.md
+  - operation: replace
+    target:
+      block: inverted-next-steps
+    content:
+      file: cloud-next-steps.md
