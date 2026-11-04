@@ -8,14 +8,14 @@
   "04-vector-operations-v2.json": "c6abbfca9d1d",
   "05-collection-operations-v2.json": "e9ee3f3511a6",
   "06-database-operations-v2.json": "0f026fcf2914",
-  "07-index-operations-v2.json": "72f325df99b2",
+  "07-index-operations-v2.json": "7cb3da52e7dc",
   "08-partition-operations-v2.json": "1341130aa6ec",
   "09-role-operations-v2.json": "285ed260136d",
   "10-resource-group-v2.json": "f3d4eac72970",
   "11-import-operations-v2.json": "b1135d4ad890",
   "12-alias-operations-v2.json": "d1bebc1a999e",
   "13-user-operations-v2.json": "10756aa34d80",
-  "14-privilege-group-operations-v2.json": "1d3589ea8d21",
+  "14-privilege-group-operations-v2.json": "2aca2b67906a",
   "15-cloud-meta.json": "1596c95f7dc7",
   "16-cluster-operations.json": "916016983ec0",
   "17-pipeline-operations.json": "e4786d64b14d",
@@ -28,7 +28,7 @@
   "24-backup-and-restore-v2.json": "d4b3581905cd",
   "25-metrics-and-alerts-v2.json": "24a4d182a131",
   "26-cloud-job-v2.json": "2d899a439d19",
-  "27-invoices-v2.json": "3f469b916fc8",
+  "27-invoices-v2.json": "464fadcfbed1",
   "28-usage-v2.json": "95d192d4f400",
   "29-on-demand-compute-v2.json": "55839a0c702e",
   "30-global-clusters.json": "11f1989613df",
@@ -5984,7 +5984,7 @@
         {
          "name": "data",
          "in": "body",
-         "type": "object",
+         "type": "array",
          "required": false
         }
        ],
@@ -10471,7 +10471,7 @@
         {
          "name": "data",
          "in": "body",
-         "type": "array",
+         "type": "object",
          "required": false
         }
        ],
@@ -16622,7 +16622,7 @@
         {
          "name": "data",
          "in": "body",
-         "type": "array",
+         "type": "object",
          "required": false
         }
        ],
