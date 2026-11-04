@@ -1,0 +1,180 @@
+{
+ "code": 0,
+ "data": {
+  "results": [
+   {
+    "intervalStart": "2026-10-28T02:15:03Z",
+    "intervalEnd": "2026-10-29T02:15:03Z",
+    "total": 0,
+    "currency": "USD",
+    "items": []
+   },
+   {
+    "intervalStart": "2026-10-29T02:15:03Z",
+    "intervalEnd": "2026-10-30T02:15:03Z",
+    "total": 0,
+    "currency": "USD",
+    "items": []
+   },
+   {
+    "intervalStart": "2026-10-30T02:15:03Z",
+    "intervalEnd": "2026-10-31T02:15:03Z",
+    "total": 0,
+    "currency": "USD",
+    "items": []
+   },
+   {
+    "intervalStart": "2026-10-31T02:15:03Z",
+    "intervalEnd": "2026-11-01T02:15:03Z",
+    "total": 0,
+    "currency": "USD",
+    "items": []
+   },
+   {
+    "intervalStart": "2026-11-01T00:00:00Z",
+    "intervalEnd": "2026-11-02T00:00:00Z",
+    "total": 322.4,
+    "currency": "USD",
+    "items": [
+     {
+      "costType": "compute",
+      "quantity": 13,
+      "amount": 322.4,
+      "unit": "hour",
+      "listPrice": {
+       "unitPrice": 24.8
+      },
+      "price": {
+       "unitPrice": 24.8
+      },
+      "properties": {
+       "projectId": "proj-40c503b4d73e5ff56bbf50",
+       "regionId": "aws-us-west-2",
+       "cuType": "Capacity-optimized",
+       "plan": "Enterprise",
+       "clusterId": "in01-f93145f52dca837",
+       "resourceType": null,
+       "resourceId": null,
+       "volumeName": null,
+       "requestClass": null
+      }
+     }
+    ]
+   },
+   {
+    "intervalStart": "2026-11-01T02:15:03Z",
+    "intervalEnd": "2026-11-02T02:15:03Z",
+    "total": 0,
+    "currency": "USD",
+    "items": []
+   },
+   {
+    "intervalStart": "2026-11-02T00:00:00Z",
+    "intervalEnd": "2026-11-03T00:00:00Z",
+    "total": 595.2,
+    "currency": "USD",
+    "items": [
+     {
+      "costType": "compute",
+      "quantity": 24,
+      "amount": 595.2,
+      "unit": "hour",
+      "listPrice": {
+       "unitPrice": 24.8
+      },
+      "price": {
+       "unitPrice": 24.8
+      },
+      "properties": {
+       "projectId": "proj-40c503b4d73e5ff56bbf50",
+       "regionId": "aws-us-west-2",
+       "cuType": "Capacity-optimized",
+       "plan": "Enterprise",
+       "clusterId": "in01-f93145f52dca837",
+       "resourceType": null,
+       "resourceId": null,
+       "volumeName": null,
+       "requestClass": null
+      }
+     }
+    ]
+   },
+   {
+    "intervalStart": "2026-11-02T02:15:03Z",
+    "intervalEnd": "2026-11-03T02:15:03Z",
+    "total": 0,
+    "currency": "USD",
+    "items": []
+   },
+   {
+    "intervalStart": "2026-11-03T00:00:00Z",
+    "intervalEnd": "2026-11-04T00:00:00Z",
+    "total": 595.2,
+    "currency": "USD",
+    "items": [
+     {
+      "costType": "compute",
+      "quantity": 24,
+      "amount": 595.2,
+      "unit": "hour",
+      "listPrice": {
+       "unitPrice": 24.8
+      },
+      "price": {
+       "unitPrice": 24.8
+      },
+      "properties": {
+       "projectId": "proj-40c503b4d73e5ff56bbf50",
+       "regionId": "aws-us-west-2",
+       "cuType": "Capacity-optimized",
+       "plan": "Enterprise",
+       "clusterId": "in01-f93145f52dca837",
+       "resourceType": null,
+       "resourceId": null,
+       "volumeName": null,
+       "requestClass": null
+      }
+     }
+    ]
+   },
+   {
+    "intervalStart": "2026-11-03T02:15:03Z",
+    "intervalEnd": "2026-11-04T02:15:03Z",
+    "total": 0,
+    "currency": "USD",
+    "items": []
+   },
+   {
+    "intervalStart": "2026-11-04T00:00:00Z",
+    "intervalEnd": "2026-11-05T00:00:00Z",
+    "total": 12.4,
+    "currency": "USD",
+    "items": [
+     {
+      "costType": "compute",
+      "quantity": 0.5,
+      "amount": 12.4,
+      "unit": "hour",
+      "listPrice": {
+       "unitPrice": 24.8
+      },
+      "price": {
+       "unitPrice": 24.8
+      },
+      "properties": {
+       "projectId": "proj-40c503b4d73e5ff56bbf50",
+       "regionId": "aws-us-west-2",
+       "cuType": "Capacity-optimized",
+       "plan": "Enterprise",
+       "clusterId": "in01-f93145f52dca837",
+       "resourceType": null,
+       "resourceId": null,
+       "volumeName": null,
+       "requestClass": null
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

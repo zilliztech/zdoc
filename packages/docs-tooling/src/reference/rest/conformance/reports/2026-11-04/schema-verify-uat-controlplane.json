@@ -1,0 +1,1107 @@
+{
+ "schemaVersion": 1,
+ "suite": "uat-controlplane",
+ "opsVerified": 29,
+ "requiredProbes": 0,
+ "tally": {
+  "response-structure-undocumented": 29,
+  "corroborated": 45,
+  "type-mismatch": 11,
+  "error-branch-not-exercised": 28,
+  "declared-not-observed": 5
+ },
+ "note": "declared = fragment/OpenAPI claims ($refs expanded); observed = frozen accepted responses (goldens) + negative-probe verdicts. This report is the doc-fix worklist: every conflict names the field and the evidence.",
+ "operations": [
+  {
+   "suite": "uat-controlplane",
+   "caseId": "backups.policy-get",
+   "op": "GET /v2/clusters",
+   "golden": "case.backups.policy-get",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.clusterId",
+      "$.data.status",
+      "$.data.startTime",
+      "$.data.frequency",
+      "$.data.retentionDays",
+      "$.data.crossRegionPolicies"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "array",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "backups.policy-set",
+   "op": "GET /v2/clusters",
+   "golden": "case.backups.policy-set",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.clusterId",
+      "$.data.status"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "array",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "clusters.create-dedicated",
+   "op": "POST /v2/clusters/createDedicated",
+   "golden": "case.clusters.create-dedicated",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.clusterId",
+      "$.data.prompt",
+      "$.data.username",
+      "$.data.password"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "clusters.create-serverless",
+   "op": "POST /v2/clusters/createServerless",
+   "golden": "case.clusters.create-serverless",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.clusterId",
+      "$.data.prompt",
+      "$.data.username",
+      "$.data.password"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "clusters.describe-run",
+   "op": "GET /v2/clusters",
+   "golden": "case.clusters.describe-run",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.clusterId",
+      "$.data.clusterName",
+      "$.data.projectId",
+      "$.data.description",
+      "$.data.regionId",
+      "$.data.cuType",
+      "$.data.plan",
+      "$.data.status",
+      "$.data.connectAddress",
+      "$.data.privateLinkAddress",
+      "$.data.publicAddressEnabled",
+      "$.data.createTime"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "array",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "clusters.describe-serverless",
+   "op": "GET /v2/clusters",
+   "golden": "case.clusters.describe-serverless",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.clusterId",
+      "$.data.clusterName",
+      "$.data.projectId",
+      "$.data.description",
+      "$.data.regionId",
+      "$.data.cuType",
+      "$.data.plan",
+      "$.data.status",
+      "$.data.connectAddress",
+      "$.data.privateLinkAddress",
+      "$.data.publicAddressEnabled",
+      "$.data.createTime"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "array",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "clusters.modify",
+   "op": "GET /v2/clusters",
+   "golden": "case.clusters.modify",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.clusterId",
+      "$.data.prompt"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "array",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "clusters.suspend",
+   "op": "GET /v2/clusters",
+   "golden": "case.clusters.suspend",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.clusterId",
+      "$.data.prompt"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "array",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.ac.group-roles",
+   "op": "GET /v2/groups/{groupId}/roles",
+   "golden": "case.extra.ac.group-roles",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.orgRoles",
+      "$.data.projectRoles"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.ac.groups-list",
+   "op": "GET /v2/groups",
+   "golden": "case.extra.ac.groups-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.count",
+      "$.data.currentPage",
+      "$.data.pageSize",
+      "$.data.groups"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.alertRules.list",
+   "op": "POST /v2/alertRules",
+   "golden": "case.extra.alertRules.list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.count",
+      "$.data.currentPage",
+      "$.data.pageSize",
+      "$.data.alertRules"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.clusters.modifyReplica",
+   "op": "POST /v2/clusters/{CLUSTER_ID}/modifyReplica",
+   "golden": "case.extra.clusters.modifyReplica",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.clusterId",
+      "$.data.prompt"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.gc.availableRegions",
+   "op": "GET /v2/globalClusters/availableRegions",
+   "golden": "case.extra.gc.availableRegions",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.regionGroups",
+      "$.data.regionGroups[]"
+     ]
+    },
+    {
+     "path": "$.regionGroups",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.gc.list",
+   "op": "GET /v2/globalClusters",
+   "golden": "case.extra.gc.list",
+   "declaredFields": 5,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.count",
+      "$.data.currentPage",
+      "$.data.pageSize",
+      "$.data.globalClusters"
+     ]
+    },
+    {
+     "path": "$.count",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.currentPage",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.pageSize",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.globalClusters",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.invoices.list",
+   "op": "GET /v2/invoices",
+   "golden": "case.extra.invoices.list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.count",
+      "$.data.currentPage",
+      "$.data.pageSize",
+      "$.data.invoices"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "array",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.odclusters.list",
+   "op": "GET /v2/clusters/onDemandClusters",
+   "golden": "case.extra.odclusters.list",
+   "declaredFields": 1,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.onDemandClusters",
+      "$.data.count"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.ondemand.describe",
+   "op": "GET /v2/on-demand-compute",
+   "golden": "case.extra.ondemand.describe",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.projectId",
+      "$.data.regionId",
+      "$.data.status"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.pe.list",
+   "op": "POST /v2/projects/{projectId}/privateEndpoints",
+   "golden": "case.extra.pe.list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.endpoints",
+      "$.data.currentPage",
+      "$.data.pageSize",
+      "$.data.count"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.pe.services",
+   "op": "GET /v2/privateEndpointServices",
+   "golden": "case.extra.pe.services",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.endpointServices",
+      "$.data.currentPage",
+      "$.data.pageSize",
+      "$.data.count"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.projects.create-full",
+   "op": "POST /v2/projects",
+   "golden": "case.extra.projects.create-full",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "string",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "object",
+     "observed": "string",
+     "sample": "proj-e317f93845739563fae7ce"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.usage.query",
+   "op": "POST /v2/usage/query",
+   "golden": "case.extra.usage.query",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.results"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "extra.volumes.list",
+   "op": "GET /v2/volumes",
+   "golden": "case.extra.volumes.list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.volumes",
+      "$.data.count",
+      "$.data.currentPage",
+      "$.data.pageSize"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "meta.clouds",
+   "op": "GET /v2/clouds",
+   "golden": "case.meta.clouds",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].cloudId",
+      "$.data[].description"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "meta.regions",
+   "op": "GET /v2/regions",
+   "golden": "case.meta.regions",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].cloudId",
+      "$.data[].regionId",
+      "$.data[].domain",
+      "$.data[].supportedClusterTypes"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "projects.add-region",
+   "op": "POST /v2/projects",
+   "golden": "case.projects.add-region",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "object",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "projects.create-run",
+   "op": "POST /v2/projects",
+   "golden": "case.projects.create-run",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "string",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "object",
+     "observed": "string",
+     "sample": "proj-640c503be4d5697f365e11"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "projects.describe",
+   "op": "POST /v2/projects",
+   "golden": "case.projects.describe",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.projectName",
+      "$.data.projectId",
+      "$.data.description",
+      "$.data.createdBy",
+      "$.data.instanceCount",
+      "$.data.servingInstanceCount",
+      "$.data.queryClusterCount",
+      "$.data.createTime",
+      "$.data.plan",
+      "$.data.regionIds",
+      "$.data.orgType"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "projects.list",
+   "op": "POST /v2/projects",
+   "golden": "case.projects.list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].projectName",
+      "$.data[].projectId",
+      "$.data[].description",
+      "$.data[].createdBy",
+      "$.data[].instanceCount",
+      "$.data[].servingInstanceCount",
+      "$.data[].queryClusterCount",
+      "$.data[].createTime",
+      "$.data[].plan",
+      "$.data[].regionIds",
+      "$.data[].orgType"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "object",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "uat-controlplane",
+   "caseId": "storageint.list",
+   "op": "POST /v2/storageIntegrations",
+   "golden": "case.storageint.list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.storageIntegrations",
+      "$.data.count",
+      "$.data.currentPage",
+      "$.data.pageSize"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  }
+ ],
+ "requestEvidence": []
+}

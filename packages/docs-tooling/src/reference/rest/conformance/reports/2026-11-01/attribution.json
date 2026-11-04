@@ -1,0 +1,530 @@
+[
+ {
+  "p": "//v2/vectordb/entities/insert/fieldOps",
+  "op": "post /v2/vectordb/entities/insert",
+  "rest": "/fieldOps",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/entities/insert/fieldOps[]/fieldName",
+  "op": "post /v2/vectordb/entities/insert",
+  "rest": "/fieldOps[]/fieldName",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/insert/fieldOps[]/op",
+  "op": "post /v2/vectordb/entities/insert",
+  "rest": "/fieldOps[]/op",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/insert/fieldOps[]/path",
+  "op": "post /v2/vectordb/entities/insert",
+  "rest": "/fieldOps[]/path",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/query/groupByFields",
+  "op": "post /v2/vectordb/entities/query",
+  "rest": "/groupByFields",
+  "verdict": "3.0-ONLY"
+ },
+ {
+  "p": "//v2/vectordb/entities/search/functionScore/functions",
+  "op": "post /v2/vectordb/entities/search",
+  "rest": "/functionScore/functions",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/search/functionScore/functions[]/description",
+  "op": "post /v2/vectordb/entities/search",
+  "rest": "/functionScore/functions[]/description",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/search/functionScore/functions[]/inputFieldNames",
+  "op": "post /v2/vectordb/entities/search",
+  "rest": "/functionScore/functions[]/inputFieldNames",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/search/functionScore/functions[]/name",
+  "op": "post /v2/vectordb/entities/search",
+  "rest": "/functionScore/functions[]/name",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/search/functionScore/functions[]/outputFieldNames",
+  "op": "post /v2/vectordb/entities/search",
+  "rest": "/functionScore/functions[]/outputFieldNames",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/search/functionScore/functions[]/params",
+  "op": "post /v2/vectordb/entities/search",
+  "rest": "/functionScore/functions[]/params",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/search/functionScore/functions[]/type",
+  "op": "post /v2/vectordb/entities/search",
+  "rest": "/functionScore/functions[]/type",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/search/orderByFields",
+  "op": "post /v2/vectordb/entities/search",
+  "rest": "/orderByFields",
+  "verdict": "3.0-ONLY"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionScore/functions",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionScore/functions",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionScore/functions[]/description",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionScore/functions[]/description",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionScore/functions[]/inputFieldNames",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionScore/functions[]/inputFieldNames",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionScore/functions[]/name",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionScore/functions[]/name",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionScore/functions[]/outputFieldNames",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionScore/functions[]/outputFieldNames",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionScore/functions[]/params",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionScore/functions[]/params",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionScore/functions[]/type",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionScore/functions[]/type",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains",
+  "verdict": "3.0-ONLY"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/name",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/name",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/expr",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/expr",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/expr/args",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/expr/args",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/expr/args[]/column",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/expr/args[]/column",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/expr/args[]/literal",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/expr/args[]/literal",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/expr/name",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/expr/name",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/expr/params",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/expr/params",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/inputs",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/inputs",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/op",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/op",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/outputs",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/outputs",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/ops[]/params",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/ops[]/params",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/entities/hybrid_search/functionChains[]/stage",
+  "op": "post /v2/vectordb/entities/hybrid_search",
+  "rest": "/functionChains[]/stage",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/refresh_load/partitionNames",
+  "op": "post /v2/vectordb/collections/refresh_load",
+  "rest": "/partitionNames",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/collections/load/partitionNames",
+  "op": "post /v2/vectordb/collections/load",
+  "rest": "/partitionNames",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/collections/release/partitionNames",
+  "op": "post /v2/vectordb/collections/release",
+  "rest": "/partitionNames",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function/function/description",
+  "op": "post /v2/vectordb/collections/add_function",
+  "rest": "/function/description",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function/function/inputFieldNames",
+  "op": "post /v2/vectordb/collections/add_function",
+  "rest": "/function/inputFieldNames",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function/function/name",
+  "op": "post /v2/vectordb/collections/add_function",
+  "rest": "/function/name",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function/function/outputFieldNames",
+  "op": "post /v2/vectordb/collections/add_function",
+  "rest": "/function/outputFieldNames",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function/function/params",
+  "op": "post /v2/vectordb/collections/add_function",
+  "rest": "/function/params",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function/function/type",
+  "op": "post /v2/vectordb/collections/add_function",
+  "rest": "/function/type",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/alter_function/function/description",
+  "op": "post /v2/vectordb/collections/alter_function",
+  "rest": "/function/description",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/alter_function/function/inputFieldNames",
+  "op": "post /v2/vectordb/collections/alter_function",
+  "rest": "/function/inputFieldNames",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/alter_function/function/name",
+  "op": "post /v2/vectordb/collections/alter_function",
+  "rest": "/function/name",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/alter_function/function/outputFieldNames",
+  "op": "post /v2/vectordb/collections/alter_function",
+  "rest": "/function/outputFieldNames",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/alter_function/function/params",
+  "op": "post /v2/vectordb/collections/alter_function",
+  "rest": "/function/params",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/alter_function/function/type",
+  "op": "post /v2/vectordb/collections/alter_function",
+  "rest": "/function/type",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function_field/function/description",
+  "op": "post /v2/vectordb/collections/add_function_field",
+  "rest": "/function/description",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function_field/function/inputFieldNames",
+  "op": "post /v2/vectordb/collections/add_function_field",
+  "rest": "/function/inputFieldNames",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function_field/function/name",
+  "op": "post /v2/vectordb/collections/add_function_field",
+  "rest": "/function/name",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function_field/function/outputFieldNames",
+  "op": "post /v2/vectordb/collections/add_function_field",
+  "rest": "/function/outputFieldNames",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function_field/function/params",
+  "op": "post /v2/vectordb/collections/add_function_field",
+  "rest": "/function/params",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/collections/add_function_field/function/type",
+  "op": "post /v2/vectordb/collections/add_function_field",
+  "rest": "/function/type",
+  "verdict": "3.0-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/indexes/describe/timestamp",
+  "op": "post /v2/vectordb/indexes/describe",
+  "rest": "/timestamp",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/indexes/drop/timestamp",
+  "op": "post /v2/vectordb/indexes/drop",
+  "rest": "/timestamp",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/indexes/list/partitionNames",
+  "op": "post /v2/vectordb/indexes/list",
+  "rest": "/partitionNames",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/partitions/list/partitionNames",
+  "op": "post /v2/vectordb/partitions/list",
+  "rest": "/partitionNames",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/roles/describe/description",
+  "op": "post /v2/vectordb/roles/describe",
+  "rest": "/description",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/roles/drop/description",
+  "op": "post /v2/vectordb/roles/drop",
+  "rest": "/description",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/create/config/node_filter",
+  "op": "post /v2/vectordb/resource_groups/create",
+  "rest": "/config/node_filter",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/create/config/node_filter/node_labels",
+  "op": "post /v2/vectordb/resource_groups/create",
+  "rest": "/config/node_filter/node_labels",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/limits",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/limits",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/limits/node_num",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/limits/node_num",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/node_filter",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/node_filter",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/node_filter/node_labels",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/node_filter/node_labels",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/requests",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/requests",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/requests/node_num",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/requests/node_num",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/transfer_from",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/transfer_from",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/transfer_from[]/resource_group",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/transfer_from[]/resource_group",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/transfer_to",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/transfer_to",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/describe/config/transfer_to[]/resource_group",
+  "op": "post /v2/vectordb/resource_groups/describe",
+  "rest": "/config/transfer_to[]/resource_group",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/limits",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/limits",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/limits/node_num",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/limits/node_num",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/node_filter",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/node_filter",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/node_filter/node_labels",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/node_filter/node_labels",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/requests",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/requests",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/requests/node_num",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/requests/node_num",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/transfer_from",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/transfer_from",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/transfer_from[]/resource_group",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/transfer_from[]/resource_group",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/transfer_to",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/transfer_to",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/resource_groups/drop/config/transfer_to[]/resource_group",
+  "op": "post /v2/vectordb/resource_groups/drop",
+  "rest": "/config/transfer_to[]/resource_group",
+  "verdict": "2.6-OPAQUE"
+ },
+ {
+  "p": "//v2/vectordb/jobs/import/list/collectionName",
+  "op": "post /v2/vectordb/jobs/import/list",
+  "rest": "/collectionName",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/users/list/dbName",
+  "op": "post /v2/vectordb/users/list",
+  "rest": "/dbName",
+  "verdict": "BOTH-2.6+"
+ },
+ {
+  "p": "//v2/vectordb/privilege_groups/drop/privileges",
+  "op": "post /v2/vectordb/privilege_groups/drop",
+  "rest": "/privileges",
+  "verdict": "BOTH-2.6+"
+ }
+]

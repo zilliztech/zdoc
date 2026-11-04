@@ -1,0 +1,33 @@
+{
+ "code": 0,
+ "data": [
+  {
+   "dyn_flag": "yes",
+   "grp": "g2",
+   "id": 6,
+   "meta": "{\"cat\":\"x\",\"n\":6}",
+   "price": 60,
+   "tags": {
+    "Data": {
+     "StringData": {
+      "data": [
+       "a",
+       "b"
+      ]
+     }
+    }
+   },
+   "title": "alpha-6",
+   "vector": [
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.9,
+    0.1
+   ]
+  }
+ ]
+}

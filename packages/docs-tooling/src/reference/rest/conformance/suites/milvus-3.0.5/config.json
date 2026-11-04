@@ -1,0 +1,10 @@
+{
+  "name": "milvus-3.0.5",
+  "track": "milvus",
+  "anchor": "v3.0.5",
+  "prefix": "m305",
+  "dim": 8,
+  "auth": { "mode": "none" },
+  "volatileFields": ["cost"],
+  "notes": "Same catalog as milvus-2.6.26; overrides.json pins known v3.0 divergences. Goldens per #3801: int64 renders as numbers by default on GA."
+}
