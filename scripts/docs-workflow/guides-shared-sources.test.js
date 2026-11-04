@@ -188,6 +188,83 @@ test('legacy fallback with empty snapshot paths survives source and publication 
   assert.throws(() => api.publishedEvidence(options.repositoryRoot, result.snapshot), /fallback output set mismatch: rec0/)
 })
 
+test('consecutive legacy fallbacks retain authenticated paths after ancestor rename or removal', {timeout: 120000}, async t => {
+  for (const change of ['rename', 'remove']) await t.test(change, async t => {
+    const options = await fixture(t)
+    const api = require('../../packages/docs-tooling/src/lark/sharedPagePublication')
+    const bundles = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+    await write(options.sourceDir, 'reader.json', JSON.stringify(inbound))
+    await injectLegacySource(options)
+    options.candidate.records.push({record_id: 'reader', source_file: 'reader.json', table_id: 'reader-table'})
+    const prior = JSON.parse(fs.readFileSync(path.join(options.baselineRoot, adapter.snapshotPath)))
+    const paths = prior.records[0].output_paths.map(file => file.replace('/sample.', '/old-parent/sample.'))
+    for (const [i, file] of paths.entries()) {
+      await write(options.baselineRoot, file, fs.readFileSync(path.join(options.baselineRoot, prior.records[0].output_paths[i])))
+      fs.unlinkSync(path.join(options.baselineRoot, prior.records[0].output_paths[i]))
+    }
+    prior.records[0].output_paths = []
+    prior.navigation_records[0].parent_record_ids = ['parent']
+    const parent = {...prior.navigation_records[0], record_id: 'parent', slug: 'old-parent', parent_record_ids: [], order: -1}
+    prior.navigation_records.push(parent)
+    await write(options.baselineRoot, adapter.snapshotPath, JSON.stringify(prior))
+    await git(options.baselineRoot, 'add', '.'); await git(options.baselineRoot, 'commit', '--quiet', '-m', 'Nested legacy baseline')
+    for (let round = 0; round < 2; round++) {
+      options.devCommit = await git(options.baselineRoot, 'rev-parse', 'HEAD')
+      options.preparation = adapter.prepareSharedSources({...options, devCommit: options.devCommit}).data
+      options.candidate.records.find(row => row.record_id === 'rec0').shared_page = options.preparation.inputs.rec0.identity
+      options.out = path.join(options.root, `bundle-${round}`)
+      const bundle = await generateSharedSources(options, {fetchOld: async () => {throw new Error('old doc unavailable')}})
+      assert.equal(bundle.outcomes[0].status, 'fallback')
+      assert.deepEqual(bundle.outcomes[0].baseline.outputs.map(output => output.path).sort(), [...paths].sort())
+      const handoff = bundles.loadBundle(options.out)
+      if (change === 'rename') options.candidate.navigation_records.push({...parent, slug: 'new-parent'})
+      const result = api.finalizePublication({workspace: options.baselineRoot, handoff, candidate: options.candidate})
+      assert.deepEqual(result.snapshot.records.find(row => row.record_id === 'rec0'), prior.records[0])
+      assert.equal(result.publication.cache_eligible, false)
+      assert.deepEqual([...api.publishedEvidence(options.baselineRoot, result.snapshot).fallbackIds], ['rec0'])
+      if (round === 1) {
+        const missingProof = new Map(handoff.files)
+        missingProof.delete('baseline/publication.json')
+        assert.throws(() => bundles.validateBundle(missingProof), /baseline publication/)
+        const tampered = new Map(handoff.files)
+        const proof = JSON.parse(tampered.get('baseline/publication.json'))
+        proof.fallbacks[0].outputs.pop()
+        tampered.set('baseline/publication.json', Buffer.from(JSON.stringify(proof)))
+        assert.throws(() => bundles.validateBundle(tampered), /baseline byte binding/)
+      }
+      await write(options.baselineRoot, adapter.snapshotPath, JSON.stringify(result.snapshot))
+      await git(options.baselineRoot, 'add', '.'); await git(options.baselineRoot, 'commit', '--quiet', '-m', `Fallback round ${round}`)
+    }
+  })
+})
+
+test('retained fallback authority binds the snapshot, record and pinned file hashes', () => {
+  const snapshot = {records: [{record_id: 'page', output_paths: []}], navigation_records: []}
+  const file = {path: 'content/en/guides/tutorials/manage-data/old/page.md', sha256: adapter.digest('old')}
+  const publication = {schema_version: 1, effective_sha256: require('../../packages/docs-tooling/src/lark/sourceCompleteness').hashSnapshot(snapshot),
+    fallbacks: [{record: structuredClone(snapshot.records[0]), outputs: [file]}]}
+  assert.deepEqual(adapter.baselineOutputPaths(snapshot, 'page', [file], publication), [file.path])
+  for (const mutate of [value => {value.effective_sha256 = '0'.repeat(64)},
+    value => {value.fallbacks[0].record.slug = 'changed'}, value => {value.fallbacks[0].outputs[0].sha256 = '0'.repeat(64)},
+    value => {value.fallbacks[0].outputs.push(file)}, value => {value.fallbacks.push(value.fallbacks[0])}]) {
+    const changed = structuredClone(publication); mutate(changed)
+    assert.throws(() => adapter.baselineOutputPaths(snapshot, 'page', [file], changed), /baseline publication/)
+  }
+  assert.throws(() => adapter.baselineOutputPaths(snapshot, 'page', [], publication), /baseline publication outputs/)
+})
+
+test('legacy fallback accepts safe multi-segment slugs and rejects traversal', () => {
+  const snapshot = {records: [{record_id: 'page', output_paths: []}], navigation_records: [
+    {record_id: 'page', slug: 'nested/page', table_name: 'Manage Data', parent_record_ids: [], targets: ['zilliz.saas']},
+  ]}
+  const file = 'content/en/guides/tutorials/manage-data/nested/page.md'
+  assert.deepEqual(adapter.baselineOutputPaths(snapshot, 'page', [file]), [file])
+  for (const slug of ['../page', 'nested/../page', '/nested/page', 'nested//page', './page', 'nested\\page']) {
+    snapshot.navigation_records[0].slug = slug
+    assert.throws(() => adapter.baselineOutputPaths(snapshot, 'page', [file]), /Unsafe baseline slug/)
+  }
+})
+
 test('baseline output resolution uses historical targets, ancestors and category landings', () => {
   const snapshot = {records: [{record_id: 'page', output_paths: []}], navigation_records: [
     {record_id: 'parent', slug: 'old-parent', parent_record_ids: []},

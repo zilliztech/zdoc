@@ -88,7 +88,14 @@ function readCurrentSources(sourceDir, candidate) {
 function baselineFallback(data, recordId, baselineRoot, out) {
   const active = data.active.pages.find(entry => entry.record === recordId) || null
   const outputs = []
-  const paths = fetch.baselineOutputPaths(data.previous_snapshot, recordId, data.dev_files.map(row => row.path))
+  const record = data.previous_snapshot?.records?.find(row => row.record_id === recordId)
+  let publication = null
+  if (record && record.source_kind !== 'shared-page' && !record.output_paths?.length && data.dev_files.some(row => row.path === fetch.publicationPath)) {
+    const bytes = fetch.regularBytes(baselineRoot, fetch.publicationPath)
+    write(out, 'baseline/publication.json', bytes)
+    publication = JSON.parse(bytes)
+  }
+  const paths = fetch.baselineOutputPaths(data.previous_snapshot, recordId, data.dev_files, publication)
   for (const file of paths) {
     if (!safeHandoffPath(file)) throw new Error('Unsafe baseline fallback path')
     const bytes = fetch.regularBytes(baselineRoot, file)

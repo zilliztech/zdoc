@@ -136,10 +136,20 @@ if the source job later fails before uploading its source artifact.
 
 Fallback keeps the exact pinned dev record and file bytes. Explicit snapshot
 `output_paths` remain authoritative; legacy Feishu records with empty paths use
-that same baseline's navigation and Git inventory to resolve their historical
-files. Current Base edits or cached source paths cannot expand the retained set.
+the pinned publication authority's retained paths when available, with snapshot
+and file-hash binding. Only the first fallback derives paths from the baseline's
+navigation and Git inventory. This keeps consecutive fallbacks stable when an
+ancestor is renamed or removed; safe multi-segment Slugs remain supported. Current Base edits or cached source paths cannot expand the retained set.
 Source-bundle and final-publication validation use the same rule and still check
 file hashes. A partial fallback run is not eligible for successful cache promotion.
+
+A retained source bundle with a legacy empty-path fallback must include
+`baseline/publication.json` if its pinned inventory contains the publication
+authority. Older bundles missing that proof fail with `missing baseline
+publication`; do not remove the inventory entry or bypass validation. Inspect
+and regenerate the source artifact from its pinned inputs before reusing it.
+Success-only bundles and explicit-path or shared-page fallbacks do not acquire
+this new proof requirement.
 
 ### Start and monitor a publication
 
