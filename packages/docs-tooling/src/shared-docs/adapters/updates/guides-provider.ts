@@ -1,5 +1,3 @@
-import { execFile } from 'node:child_process'
-import { promisify } from 'node:util'
 import { mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { isAbsolute, join, relative } from 'node:path'
@@ -10,7 +8,7 @@ import { ExecutionPinsSchema, GitShaSchema, DigestSchema, SubjectSchema, compare
   validateUpdateReportEnvelope, validateBlobBytes, type AuthorityObservation, type BlobRef, type ContentMember,
   type ExecutionPins, type MaterialFile, type MaterialTree, type SemanticInput, type Subject, type UpdateProvider,
   type UpdateReportEnvelope } from '../../core/updates/envelope'
-import { captureUnitMaterial, planUpdateBatch, type LockBytes, type PlanningGroups, type UnitMaterialContext, type CommitParents } from '../../core/updates/unit-plan'
+import { captureUnitMaterial, planUpdateBatch, type LockBytes, type PlanningGroups, type UnitMaterialContext } from '../../core/updates/unit-plan'
 import { immutable, type PageObservation } from '../../core/updates/types'
 import { parseSourceConfig } from '../../core/config'
 import { parseLock } from '../../core/lock'
@@ -21,9 +19,8 @@ import { rawSha256, writeOwnedBlob, createOwnedDirectory, type EvidenceStore } f
 import { prepareTrustedLauncher, retainTrustedAccessEvidence, describeTrustedToolset, type TrustedToolsetCapture, type GuidesWorkerSettlement } from './toolset'
 import { HttpImageFetcher } from '../images'
 import type { UpdateConfiguration } from '../update-inputs'
-import { isMilvusPagePath, milvusPageMetadata } from '../links-input'
+import { createGuidesReadSession, type GitFile } from './guides-read-session'
 
-const exec = promisify(execFile)
 const toolingRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
 const localPath = z.string().min(1).max(4096).refine(value => isAbsolute(value) && !/[\x00-\x1f\x7f]/.test(value), 'Expected an absolute local path')
 const pageId = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
@@ -66,47 +63,6 @@ function diagnostics(values: UpdateReportEnvelope['diagnostics']): UpdateReportE
   const unique = new Map(values.map(value => [JSON.stringify(value), value]))
   return [...unique.values()].sort((a, b) => compareUtf8(a.code, b.code) || compareUtf8(a.file ?? '', b.file ?? '') || (a.line ?? 0) - (b.line ?? 0) || compareUtf8(a.message, b.message))
 }
-/** Preserve raw bytes: the B1 gitRead convenience helper trims text and is not a blob reader. */
-async function gitBytes(repository: string, args: string[]): Promise<Buffer> {
-  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')))
-  return (await exec('git', ['--no-replace-objects', '-C', repository, ...args], { env: { ...env, GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0', GIT_OPTIONAL_LOCKS: '0' },
-    encoding: 'buffer', timeout: 30_000, maxBuffer: 32 * 1024 * 1024 })).stdout
-}
-interface GitFile { path: string; oid: string; mode: string }
-async function inventory(repository: string, commit: string, roots: string[]): Promise<GitFile[]> {
-  await resolveCommit(repository, commit)
-  const entries = (await gitBytes(repository, ['ls-tree', '-r', '-z', commit, '--', ...roots])).toString('utf8').split('\0').filter(Boolean)
-  return entries.map(entry => {
-    const match = /^(100644|100755) blob ([a-f0-9]{40})\t([^\0]+)$/.exec(entry)
-    if (!match || /[\\\t\r\n]/.test(match[3]) || match[3].split('/').some(part => !part || part === '.' || part === '..')) throw new Error('Unsupported or unsafe committed input')
-    return { mode: match[1], oid: match[2], path: match[3] }
-  }).sort((a, b) => compareUtf8(a.path, b.path))
-}
-async function readCommitted(repository: string, entries: GitFile[], path: string): Promise<Buffer | null> {
-  const entry = entries.find(entry => entry.path === path)
-  return entry ? gitBytes(repository, ['cat-file', 'blob', entry.oid]) : null
-}
-async function history(repository: string, head: string, stops: string[]): Promise<CommitParents[]> {
-  const pending = [head], seen = new Map<string, CommitParents>()
-  while (pending.length) {
-    const oid = pending.pop()!
-    if (seen.has(oid)) continue
-    if (seen.size >= 50000) throw new Error('Source ancestry exceeds local bound')
-    await resolveCommit(repository, oid)
-    const bytes = await gitBytes(repository, ['cat-file', 'commit', oid])
-    const header = bytes.toString('utf8').split('\n\n')[0]
-    const parents = [...header.matchAll(/^parent ([a-f0-9]{40})$/gm)].map(match => match[1])
-    seen.set(oid, { oid, parents })
-    if (!stops.includes(oid)) pending.push(...parents)
-  }
-  // Stops are independently verified commits even when a non-forward graph cannot reach them.
-  for (const oid of stops) if (!seen.has(oid)) {
-    await resolveCommit(repository, oid)
-    const header = (await gitBytes(repository, ['cat-file', 'commit', oid])).toString('utf8').split('\n\n')[0]
-    seen.set(oid, { oid, parents: [...header.matchAll(/^parent ([a-f0-9]{40})$/gm)].map(match => match[1]) })
-  }
-  return [...seen.values()].sort((a, b) => compareUtf8(a.oid, b.oid))
-}
 /** Internal ordinary-call seam for authenticated fixture adapters. Never accepted by worker JSON or CLI. */
 export interface GuidesCollectionDependencies {
   b1?: UpdateDependencies
@@ -144,13 +100,14 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
   const result: GuidesCollectionResult = { kind: 'guides-collected', schemaVersion: 1, inventory: clean(b1.report.pages), detail, detailFiles, blobs: [], pages: [], holds: [], grouping: {} }
   const temporary = await mkdtemp(join(tmpdir(), 'common-guides-'))
   const operationHold = (subject: Subject | null, message: string) => result.holds.push({ subject, disposition: 'hold', diagnostics: [{ code: 'GUIDES_INPUT_UNAVAILABLE', message, file: null, line: null }] })
+  const reads = createGuidesReadSession(retain)
   try {
     await resolveCommit(request.repositoryRoot, request.master); await resolveCommit(request.repositoryRoot, request.configSnapshot)
     await resolveCommit(request.devRepository, request.dev)
     if (await resolveCommit(toolingRoot) !== request.trustedTools) throw new Error('Trusted tools pin differs from executing committed checkout')
     if (b1.pins.master !== request.configSnapshot || b1.pins.dev !== request.dev) throw new Error('B1 execution pins unavailable or mismatched')
     await exportTree(request.repositoryRoot, request.configSnapshot, ['shared-docs/guides'], temporary)
-    const configFiles = await inventory(request.repositoryRoot, request.configSnapshot, ['shared-docs/guides'])
+    const configFiles = await reads.inventory(request.repositoryRoot, request.configSnapshot, ['shared-docs/guides'])
     const ids = sorted(configFiles.map(file => /^shared-docs\/guides\/pages\/([^/]+)\//.exec(file.path)?.[1]).filter((id): id is string => !!id))
     for (const requested of request.pages.filter(page => !ids.includes(page))) operationHold({ kind: 'guides-page', group: 'guides', pageId: requested }, 'Requested page is absent from the committed configured inventory')
     const loaded = await readReportConfiguration(join(temporary, 'shared-docs/guides'), temporary, ids)
@@ -159,7 +116,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
     let comparisonFiles: GitFile[] = [], comparisonIds: string[] = []
     if (request.comparisonConfig !== null) {
       const directory = join(temporary, 'comparison')
-      comparisonFiles = await inventory(request.repositoryRoot, request.comparisonConfig, ['shared-docs/guides'])
+      comparisonFiles = await reads.inventory(request.repositoryRoot, request.comparisonConfig, ['shared-docs/guides'])
       comparisonIds = sorted(comparisonFiles.map(file => /^shared-docs\/guides\/pages\/([^/]+)\//.exec(file.path)?.[1]).filter((id): id is string => !!id))
       await exportTree(request.repositoryRoot, request.comparisonConfig, ['shared-docs/guides'], directory)
       const previous = await readReportConfiguration(join(directory, 'shared-docs/guides'), directory, comparisonIds)
@@ -170,7 +127,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
     if ('errors' in source) throw new Error('Committed source identity unavailable')
     const endpoints = await sourceEndpoints(request.sourceRepository, source.config.repository, source.config.track, request.target ?? undefined)
     if (b1.pins.source?.repository !== source.config.repository || b1.pins.source?.track !== source.config.track || b1.pins.source?.target !== endpoints.target || b1.pins.source?.head !== endpoints.head) throw new Error('Source identity/head changed during collection')
-    const devFiles = await inventory(request.devRepository, request.dev, ['content/en/guides', 'content/en/byoc'])
+    const devFiles = await reads.inventory(request.devRepository, request.dev, ['content/en/guides', 'content/en/byoc'])
     const configTreeOid = await gitRead(request.repositoryRoot, ['rev-parse', '--verify', `${request.configSnapshot}^{tree}`])
     if (await gitRead(request.repositoryRoot, ['cat-file', '-t', configTreeOid]) !== 'tree') throw new Error('Configuration tree object unavailable')
     for (const id of ids) {
@@ -182,7 +139,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
         const impact = b1.report.impact?.pages.find(page => page.pageId === id)
         const leaf = b1.report.pages.find(page => page.pageId === id)
         if (!page || !fixed || !impact || !leaf) throw new Error('Minimum known observation/configuration envelope unavailable; full inventory retained')
-        const lockPath = expectedLockPath(subject), lockBytes = await readCommitted(request.repositoryRoot, configFiles, lockPath)
+        const lockPath = expectedLockPath(subject), lockBytes = await reads.readCommitted(request.repositoryRoot, configFiles, lockPath)
         if (lockBytes === null) throw new Error('Committed page lock unavailable')
         const lockText = new TextDecoder('utf8', { fatal: true }).decode(lockBytes), parsed = parseLock(lockText)
         if ('errors' in parsed) throw new Error('Committed page lock invalid')
@@ -206,23 +163,14 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
         const paths = sorted(observations.flatMap(observation => [observation.sourceFile, ...observation.files.map(file => file.file)]).filter(path => path.startsWith('site/en/')))
         const sourceMaterial: MaterialTree[] = [], rawSourceMaterial: MaterialTree[] = [], sourceInventories: UnitMaterialContext['sourceInventories'] = []
         for (const observation of observations) {
-          const entries = await inventory(request.sourceRepository, observation.commit, ['site/en'])
+          const snapshot = await reads.sourceSnapshot(request.sourceRepository, observation.commit)
+          const entries = snapshot.entries, discoveryRef = snapshot.discovery
           const materials: MaterialFile[] = []
           // A retained complete inventory proves absence. It is evidence, never an empty successful read.
-          const listing = canonicalBytes(entries)
-          const inventoryRef = retain(listing), treeOid = await gitRead(request.sourceRepository, ['rev-parse', '--verify', `${observation.commit}^{tree}`])
-          if (await gitRead(request.sourceRepository, ['cat-file', '-t', treeOid]) !== 'tree') throw new Error('Source tree object unavailable')
-          sourceInventories.push({ commit: observation.commit, treeOid, inventory: inventoryRef, absentPaths: paths.filter(path => !entries.some(entry => entry.path === path)) })
-          const discovered: { path: string; metadata: { id: string; title: string } | null }[] = []
-          for (const entry of entries.filter(entry => isMilvusPagePath(entry.path))) {
-            const bytes = (await readCommitted(request.sourceRepository, entries, entry.path))!
-            retain(bytes)
-            discovered.push({ path: entry.path, metadata: milvusPageMetadata(entry.path, new TextDecoder('utf8', { fatal: true }).decode(bytes)) ?? null })
-          }
-          const discovery = canonicalBytes(discovered)
-          const discoveryRef = retain(discovery)
+          sourceInventories.push({ commit: observation.commit, treeOid: snapshot.treeOid, inventory: snapshot.inventory,
+            absentPaths: paths.filter(path => !entries.some(entry => entry.path === path)) })
           for (const path of paths) {
-            const bytes = await readCommitted(request.sourceRepository, entries, path)
+            const bytes = await reads.readCommitted(request.sourceRepository, entries, path)
             const declared = observation.files.find(file => file.file === path)
             if (bytes !== null) {
               const blob = retain(bytes)
@@ -237,7 +185,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
         const relevantConfig: MaterialFile[] = []
         const consumedConfig = consumedConfigurationPaths(id, ids, page.contentFiles?.keys() ?? [])
         for (const file of configFiles.filter(file => consumedConfig.has(file.path))) {
-          const bytes = (await readCommitted(request.repositoryRoot, configFiles, file.path))!, ref = retain(bytes)
+          const bytes = (await reads.readCommitted(request.repositoryRoot, configFiles, file.path))!, ref = retain(bytes)
           relevantConfig.push({ path: file.path, sha256: ref.sha256, bytes: ref.bytes })
         }
         const config = tree(relevantConfig)
@@ -254,8 +202,8 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
           for (const image of observation.images) {
             let bytes = image.observed ? seenImages.get(image.observed.sha256) : undefined
             if (image.origin.kind === 'repository' && image.observed) {
-              const files = await inventory(request.sourceRepository, observation.commit, [image.origin.path])
-              bytes = await readCommitted(request.sourceRepository, files, image.origin.path) ?? undefined
+              const files = await reads.inventory(request.sourceRepository, observation.commit, [image.origin.path])
+              bytes = await reads.readCommitted(request.sourceRepository, files, image.origin.path) ?? undefined
             }
             if (!bytes || !image.observed || rawSha256(bytes) !== image.observed.sha256 || bytes.length !== image.observed.bytes || image.emitted.sha256 !== image.observed.sha256) { incomplete = true; continue }
             retain(bytes)
@@ -269,7 +217,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
           const previousPage = comparisonConfiguration.sharedDocs.pages.get(id)
           const previousConsumed = consumedConfigurationPaths(id, comparisonIds, previousPage?.contentFiles?.keys() ?? [])
           for (const path of sorted([...consumedConfig, ...previousConsumed])) {
-            const before = await readCommitted(request.repositoryRoot, comparisonFiles, path), after = await readCommitted(request.repositoryRoot, configFiles, path)
+            const before = await reads.readCommitted(request.repositoryRoot, comparisonFiles, path), after = await reads.readCommitted(request.repositoryRoot, configFiles, path)
             if (before === null && after === null) continue
             if (before === null || after === null || !before.equals(after)) configurationChanges.push({ path, before: before === null ? null : retain(before), after: after === null ? null : retain(after) })
           }
@@ -286,7 +234,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
           semanticProjection: incomplete ? null : semantic, semanticInputSha256: incomplete ? null : digest('semantic', semantic) })
         const context = captureUnitMaterial({ subject, reportBlob: retain(canonicalBytes(report)), collectedReport: report, members,
           lock: { path: lockPath, before: { blob: retain(lockBytes), text: lockText }, preparedNext: null },
-          history: await history(request.sourceRepository, endpoints.head, [parsed.lock.current]), sourceInventories,
+          history: await reads.history(request.sourceRepository, endpoints.head, [parsed.lock.current]), sourceInventories,
           relevantSource: { current: rawSourceMaterial[0], oldNext: rawSourceMaterial[1], target: rawSourceMaterial[2] },
           reportingChanges: sorted([...configurationChanges.map(change => change.path), ...impact.sourceImpact.changes.filter(change => change.kind === 'image' || change.kind === 'variable').map(change => `${change.kind}:${change.identity}`),
             ...(equal(sourceMaterial[1], sourceMaterial[2]) ? [] : equal(rawSourceMaterial[1], rawSourceMaterial[2]) ? ['source-discovery'] : [])]), holdReasons: [] })
@@ -314,7 +262,7 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
       result.grouping = { dependencies }
     }
   } catch (error) { operationHold(null, String(error)) }
-  finally { await rm(temporary, { recursive: true, force: true }) }
+  finally { reads.dispose(); await rm(temporary, { recursive: true, force: true }) }
   result.pages.sort((a, b) => compareSubjects(a.report.subject, b.report.subject))
   result.blobs = [...blobs.values()].sort((a, b) => compareUtf8(a.blob.path, b.blob.path))
   return immutable(clean(result))
