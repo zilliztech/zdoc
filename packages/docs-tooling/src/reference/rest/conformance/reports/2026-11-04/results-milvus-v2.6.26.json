@@ -1,15 +1,15 @@
 {
- "base": "http://127.0.0.1:30003",
+ "base": "http://127.0.0.1:32032",
  "suite": "milvus-2.6.26",
  "anchor": "v2.6.26",
  "mode": "capture",
- "startedAt": "2026-11-03T17:13:53.985Z",
- "durationMs": 55505,
+ "startedAt": "2026-11-04T03:20:46.062Z",
+ "durationMs": 50662,
  "counts": {
-  "RECORDED": 23,
+  "RECORDED": 22,
   "PASS-EFFECT": 79,
   "REJECTED": 16,
-  "REJECTED(record)": 47,
+  "REJECTED(record)": 54,
   "PASS": 48
  },
  "results": [
@@ -124,19 +124,6 @@
    "op": "/partitions/create",
    "param": "(drop fixture)",
    "intent": "disposable partition for the drop probe",
-   "kind": "setup",
-   "expect": "record",
-   "verdict": "RECORDED",
-   "code": 0,
-   "http": 200,
-   "msg": ""
-  },
-  {
-   "id": "setup.admin.indexes-drop-create",
-   "family": "indexes",
-   "op": "/indexes/create",
-   "param": "(drop fixture)",
-   "intent": "disposable scalar index for the drop probe",
    "kind": "setup",
    "expect": "record",
    "verdict": "RECORDED",
@@ -1945,7 +1932,7 @@
    "verdict": "REJECTED(record)",
    "code": 101,
    "http": 200,
-   "msg": "collection not fully loaded: collection not loaded[collection=470214490864748084]"
+   "msg": "collection not fully loaded: collection not loaded[collection=470224039842416105]"
   },
   {
    "id": "case.admin.collections-rename",
@@ -2216,7 +2203,7 @@
    "code": 0,
    "http": 200,
    "msg": "",
-   "effect": "[\"vec_hnsw\",\"m2626_tmp_idx\"]"
+   "effect": "[\"vec_hnsw\"]"
   },
   {
    "id": "case.admin.indexes-alter_properties",
@@ -2247,16 +2234,16 @@
   {
    "id": "case.admin.indexes-drop",
    "family": "indexes",
-   "op": "/indexes/drop",
+   "op": "skip-request",
    "param": "indexName",
-   "intent": "create→drop scalar index lifecycle",
+   "intent": "create→drop scalar index lifecycle (index type falls back STL_SORT→AUTOINDEX: cloud accepts AUTOINDEX only)",
    "kind": "positive",
    "expect": "ok",
    "verdict": "PASS-EFFECT",
    "code": 0,
-   "http": 200,
+   "http": 0,
    "msg": "",
-   "effect": "gone from list"
+   "effect": "created+dropped, gone from list"
   },
   {
    "id": "case.admin.aliases-create",
@@ -2814,6 +2801,90 @@
    "op": "/jobs/import/commit",
    "param": "(unknown shape)",
    "intent": "commit probe (3.0-era route)",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "http": 404,
+   "msg": "http 404"
+  },
+  {
+   "id": "case.admin.file_resources-add",
+   "family": "file_resources",
+   "op": "/file_resources/add",
+   "param": "(3.0-only)",
+   "intent": "file resource add probe (3.0-era route; needs real object storage)",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "http": 404,
+   "msg": "http 404"
+  },
+  {
+   "id": "case.admin.file_resources-list",
+   "family": "file_resources",
+   "op": "/file_resources/list",
+   "param": "(3.0-only)",
+   "intent": "file resource list probe",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "http": 404,
+   "msg": "http 404"
+  },
+  {
+   "id": "case.admin.file_resources-remove",
+   "family": "file_resources",
+   "op": "/file_resources/remove",
+   "param": "(3.0-only)",
+   "intent": "file resource remove probe",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "http": 404,
+   "msg": "http 404"
+  },
+  {
+   "id": "case.admin.jobs-snapshot-describe",
+   "family": "snapshots",
+   "op": "/jobs/snapshot/describe",
+   "param": "(3.0-only)",
+   "intent": "snapshot restore-job describe probe",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "http": 404,
+   "msg": "http 404"
+  },
+  {
+   "id": "case.admin.jobs-snapshot-list",
+   "family": "snapshots",
+   "op": "/jobs/snapshot/list",
+   "param": "(3.0-only)",
+   "intent": "snapshot restore-job list probe",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "http": 404,
+   "msg": "http 404"
+  },
+  {
+   "id": "case.admin.jobs-snapshot-export",
+   "family": "snapshots",
+   "op": "/jobs/snapshot/export",
+   "param": "(3.0-only)",
+   "intent": "snapshot export probe (needs snapshot fixture)",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "http": 404,
+   "msg": "http 404"
+  },
+  {
+   "id": "case.admin.jobs-snapshot-restore",
+   "family": "snapshots",
+   "op": "/jobs/snapshot/restore_external",
+   "param": "(3.0-only)",
+   "intent": "external snapshot restore probe",
    "kind": "observe",
    "expect": "record",
    "verdict": "REJECTED(record)",

@@ -1,8 +1,8 @@
 # Schema verification — milvus-3.0.5
 
-Ops with accepted-response evidence: **136**; field verdicts: {"response-structure-undocumented":136,"corroborated":311,"error-branch-not-exercised":136,"type-mismatch":2,"declared-not-observed":252,"required-corroborated":16,"ghost-observed":2}
+Ops with accepted-response evidence: **137**; field verdicts: {"response-structure-undocumented":137,"corroborated":313,"error-branch-not-exercised":137,"type-mismatch":2,"declared-not-observed":252,"required-corroborated":16,"ghost-observed":2}
 
-## Conflicts (526) — the doc-fix worklist
+## Conflicts (528) — the doc-fix worklist
 
 | Op | Case | Verdict | Detail |
 |---|---|---|---|
@@ -48,17 +48,19 @@ Ops with accepted-response evidence: **136**; field verdicts: {"response-structu
 | POST /v2/vectordb/databases/drop_properties | admin.databases-drop_properties | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/databases/list | admin.databases-list | response-structure-undocumented | {"observed":"array"} |
 | POST /v2/vectordb/databases/list | admin.databases-list | error-branch-not-exercised | {"declared":"string"} |
+| POST /v2/vectordb/file_resources/list | admin.file_resources-list | response-structure-undocumented | {"observed":"array"} |
+| POST /v2/vectordb/file_resources/list | admin.file_resources-list | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/jobs/import/list | admin.import-list | response-structure-undocumented | {"observed":"object"} |
 | POST /v2/vectordb/jobs/import/list | admin.import-list | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/indexes/describe | admin.indexes-describe | response-structure-undocumented | {"observed":"array"} |
 | POST /v2/vectordb/indexes/describe | admin.indexes-describe | type-mismatch | {"declared":"object","observed":"array"} |
 | POST /v2/vectordb/indexes/describe | admin.indexes-describe | error-branch-not-exercised | {"declared":"string"} |
-| POST /v2/vectordb/indexes/drop | admin.indexes-drop | response-structure-undocumented | {"observed":"object"} |
-| POST /v2/vectordb/indexes/drop | admin.indexes-drop | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/indexes/list | admin.indexes-list | response-structure-undocumented | {"observed":"array"} |
 | POST /v2/vectordb/indexes/list | admin.indexes-list | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/jobs/external_collection/list | admin.jobs-external-list | response-structure-undocumented | {"observed":"object"} |
 | POST /v2/vectordb/jobs/external_collection/list | admin.jobs-external-list | error-branch-not-exercised | {"declared":"string"} |
+| POST /v2/vectordb/jobs/snapshot/list | admin.jobs-snapshot-list | response-structure-undocumented | {"observed":"object"} |
+| POST /v2/vectordb/jobs/snapshot/list | admin.jobs-snapshot-list | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/partitions/get_stats | admin.partitions-get_stats | response-structure-undocumented | {"observed":"object"} |
 | POST /v2/vectordb/partitions/get_stats | admin.partitions-get_stats | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/partitions/list | admin.partitions-list | response-structure-undocumented | {"observed":"array"} |
@@ -204,10 +206,8 @@ Ops with accepted-response evidence: **136**; field verdicts: {"response-structu
 | POST /v2/vectordb/entities/hybrid_search | hybrid_search.grouping | declared-not-observed | {"declared":"number","required":false} |
 | POST /v2/vectordb/entities/hybrid_search | hybrid_search.grouping | declared-not-observed | {"declared":"number","required":false} |
 | POST /v2/vectordb/entities/hybrid_search | hybrid_search.grouping | error-branch-not-exercised | {"declared":"string"} |
-| POST /v2/vectordb/entities/hybrid_search | hybrid_search.ignoreGrowing | response-structure-undocumented | {"observed":"array"} |
-| POST /v2/vectordb/entities/hybrid_search | hybrid_search.ignoreGrowing | declared-not-observed | {"declared":"number","required":false} |
 
-## Corroborated fields: 311
+## Corroborated fields: 313
 
 ## Required-param probes: 18
 

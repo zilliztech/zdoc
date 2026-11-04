@@ -2,14 +2,14 @@
  "code": 0,
  "data": [
   {
-   "count(*)": 6,
-   "grp": "g1",
-   "sum(price)": 37
-  },
-  {
    "count(*)": 13,
    "grp": "gx",
    "sum(price)": 14
+  },
+  {
+   "count(*)": 9,
+   "grp": "g3",
+   "sum(price)": 518
   },
   {
    "count(*)": 3,
@@ -17,9 +17,9 @@
    "sum(price)": 150
   },
   {
-   "count(*)": 9,
-   "grp": "g3",
-   "sum(price)": 518
+   "count(*)": 6,
+   "grp": "g1",
+   "sum(price)": 37
   }
  ]
 }

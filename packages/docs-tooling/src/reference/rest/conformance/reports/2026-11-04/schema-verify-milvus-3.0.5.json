@@ -1,12 +1,12 @@
 {
  "schemaVersion": 1,
  "suite": "milvus-3.0.5",
- "opsVerified": 136,
+ "opsVerified": 137,
  "requiredProbes": 18,
  "tally": {
-  "response-structure-undocumented": 136,
-  "corroborated": 311,
-  "error-branch-not-exercised": 136,
+  "response-structure-undocumented": 137,
+  "corroborated": 313,
+  "error-branch-not-exercised": 137,
   "type-mismatch": 2,
   "declared-not-observed": 252,
   "required-corroborated": 16,
@@ -715,6 +715,38 @@
   },
   {
    "suite": "milvus-3.0.5",
+   "caseId": "admin.file_resources-list",
+   "op": "POST /v2/vectordb/file_resources/list",
+   "golden": "case.admin.file_resources-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-3.0.5",
    "caseId": "admin.import-list",
    "op": "POST /v2/vectordb/jobs/import/list",
    "golden": "case.admin.import-list",
@@ -794,38 +826,6 @@
   },
   {
    "suite": "milvus-3.0.5",
-   "caseId": "admin.indexes-drop",
-   "op": "POST /v2/vectordb/indexes/drop",
-   "golden": "case.admin.indexes-drop",
-   "declaredFields": 2,
-   "verdicts": [
-    {
-     "path": "$.data",
-     "verdict": "response-structure-undocumented",
-     "observed": "object",
-     "observedTopLevelKeys": []
-    },
-    {
-     "path": "$.code",
-     "verdict": "corroborated",
-     "declared": "number",
-     "observed": "number"
-    },
-    {
-     "path": "$.data",
-     "verdict": "corroborated",
-     "declared": "object",
-     "observed": "object"
-    },
-    {
-     "path": "$.message",
-     "verdict": "error-branch-not-exercised",
-     "declared": "string"
-    }
-   ]
-  },
-  {
-   "suite": "milvus-3.0.5",
    "caseId": "admin.indexes-list",
    "op": "POST /v2/vectordb/indexes/list",
    "golden": "case.admin.indexes-list",
@@ -863,6 +863,40 @@
    "caseId": "admin.jobs-external-list",
    "op": "POST /v2/vectordb/jobs/external_collection/list",
    "golden": "case.admin.jobs-external-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.records"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-3.0.5",
+   "caseId": "admin.jobs-snapshot-list",
+   "op": "POST /v2/vectordb/jobs/snapshot/list",
+   "golden": "case.admin.jobs-snapshot-list",
    "declaredFields": 2,
    "verdicts": [
     {

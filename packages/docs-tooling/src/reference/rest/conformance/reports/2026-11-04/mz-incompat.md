@@ -1,9 +1,10 @@
 # M/Z incompatibility report — milvus-2.6.26 vs uat-dataplane
 
-Compared 213 cases; **8 incompatibilities** ({"acceptance-diff":8}).
+Compared 219 cases; **9 incompatibilities** ({"acceptance-diff":9}).
 
 | Case | Category | Milvus | UAT | Detail |
 |---|---|---|---|---|
+| setup.setup.collections-create | acceptance-diff | RECORDED | REJECTED(record) | create duplicate collection with different parameters, collection: uatdp_basic:  |
 | case.admin.privilege_groups-create | acceptance-diff | PASS | REJECTED(record) | rpc error: code = PermissionDenied desc = PrivilegeCreatePrivilegeGroup: permiss |
 | case.admin.privilege_groups-drop | acceptance-diff | PASS | REJECTED(record) | rpc error: code = PermissionDenied desc = PrivilegeDropPrivilegeGroup: permissio |
 | case.admin.resource_groups-create | acceptance-diff | RECORDED | REJECTED(record) | rpc error: code = PermissionDenied desc = PrivilegeCreateResourceGroup: permissi |

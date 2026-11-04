@@ -1,15 +1,15 @@
 {
- "base": "http://127.0.0.1:38870",
+ "base": "http://127.0.0.1:30640",
  "suite": "milvus-3.0.5",
  "anchor": "v3.0.5",
  "mode": "capture",
- "startedAt": "2026-11-03T17:17:05.050Z",
- "durationMs": 62663,
+ "startedAt": "2026-11-04T03:24:02.659Z",
+ "durationMs": 50521,
  "counts": {
-  "RECORDED": 23,
+  "RECORDED": 24,
   "PASS-EFFECT": 76,
   "REJECTED": 16,
-  "REJECTED(record)": 50,
+  "REJECTED(record)": 55,
   "PASS": 48
  },
  "results": [
@@ -124,19 +124,6 @@
    "op": "/partitions/create",
    "param": "(drop fixture)",
    "intent": "disposable partition for the drop probe",
-   "kind": "setup",
-   "expect": "record",
-   "verdict": "RECORDED",
-   "code": 0,
-   "http": 200,
-   "msg": ""
-  },
-  {
-   "id": "setup.admin.indexes-drop-create",
-   "family": "indexes",
-   "op": "/indexes/create",
-   "param": "(drop fixture)",
-   "intent": "disposable scalar index for the drop probe",
    "kind": "setup",
    "expect": "record",
    "verdict": "RECORDED",
@@ -1080,7 +1067,7 @@
    "code": 0,
    "http": 200,
    "msg": "",
-   "effect": "[{\"count(*)\":6,\"grp\":\"g1\",\"sum(price)\":37},{\"count(*)\":13,\"grp\":\"gx\",\"sum(price)\":14},{\"count(*)\":3,\"grp\":\"g2\",\"sum(price)\":150},{\"count(*)\":9,\"grp\":\"g3\",\"sum(price)\":518}]"
+   "effect": "[{\"count(*)\":13,\"grp\":\"gx\",\"sum(price)\":14},{\"count(*)\":9,\"grp\":\"g3\",\"sum(price)\":518},{\"count(*)\":3,\"grp\":\"g2\",\"sum(price)\":150},{\"count(*)\":6,\"grp\":\"g1\",\"sum(price)\":37}]"
   },
   {
    "id": "case.query.groupByFields-countOnly",
@@ -1094,7 +1081,7 @@
    "code": 0,
    "http": 200,
    "msg": "",
-   "effect": "[{\"count(*)\":6},{\"count(*)\":13},{\"count(*)\":9},{\"count(*)\":3}]"
+   "effect": "[{\"count(*)\":6},{\"count(*)\":3},{\"count(*)\":13},{\"count(*)\":9}]"
   },
   {
    "id": "case.query.groupByFields-noAgg",
@@ -1945,7 +1932,7 @@
    "verdict": "REJECTED(record)",
    "code": 101,
    "http": 200,
-   "msg": "collection not fully loaded: collection not loaded[collection=470214543012005296]"
+   "msg": "collection not fully loaded: collection not loaded[collection=470224091359479273]"
   },
   {
    "id": "case.admin.collections-rename",
@@ -2223,7 +2210,7 @@
    "code": 0,
    "http": 200,
    "msg": "",
-   "effect": "[\"vec_hnsw\",\"m305_tmp_idx\"]"
+   "effect": "[\"vec_hnsw\"]"
   },
   {
    "id": "case.admin.indexes-alter_properties",
@@ -2254,16 +2241,16 @@
   {
    "id": "case.admin.indexes-drop",
    "family": "indexes",
-   "op": "/indexes/drop",
+   "op": "skip-request",
    "param": "indexName",
-   "intent": "create→drop scalar index lifecycle",
+   "intent": "create→drop scalar index lifecycle (index type falls back STL_SORT→AUTOINDEX: cloud accepts AUTOINDEX only)",
    "kind": "positive",
    "expect": "ok",
    "verdict": "PASS-EFFECT",
    "code": 0,
-   "http": 200,
+   "http": 0,
    "msg": "",
-   "effect": "gone from list"
+   "effect": "created+dropped, gone from list"
   },
   {
    "id": "case.admin.aliases-create",
@@ -2828,6 +2815,97 @@
    "code": 1802,
    "http": 200,
    "msg": "missing required parameters, error: Key: 'JobIDReq.JobID' Error:Field validation for 'JobID' failed on the 'required' tag"
+  },
+  {
+   "id": "case.admin.file_resources-add",
+   "family": "file_resources",
+   "op": "/file_resources/add",
+   "param": "(3.0-only)",
+   "intent": "file resource add probe (3.0-era route; needs real object storage)",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "code": 1802,
+   "http": 200,
+   "msg": "missing required parameters, error: Key: 'FileResourceReq.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'FileResourceReq.Path' Error:Field validation for 'Path' failed on the 'required' tag"
+  },
+  {
+   "id": "case.admin.file_resources-list",
+   "family": "file_resources",
+   "op": "/file_resources/list",
+   "param": "(3.0-only)",
+   "intent": "file resource list probe",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "RECORDED",
+   "code": 0,
+   "http": 200,
+   "msg": ""
+  },
+  {
+   "id": "case.admin.file_resources-remove",
+   "family": "file_resources",
+   "op": "/file_resources/remove",
+   "param": "(3.0-only)",
+   "intent": "file resource remove probe",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "code": 1802,
+   "http": 200,
+   "msg": "missing required parameters, error: Key: 'FileResourceNameReq.Name' Error:Field validation for 'Name' failed on the 'required' tag"
+  },
+  {
+   "id": "case.admin.jobs-snapshot-describe",
+   "family": "snapshots",
+   "op": "/jobs/snapshot/describe",
+   "param": "(3.0-only)",
+   "intent": "snapshot restore-job describe probe",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "code": 1100,
+   "http": 200,
+   "msg": "strconv.ParseInt: parsing \"none\": invalid syntax: invalid parameter[expected=int64 jobId][actual=none]"
+  },
+  {
+   "id": "case.admin.jobs-snapshot-list",
+   "family": "snapshots",
+   "op": "/jobs/snapshot/list",
+   "param": "(3.0-only)",
+   "intent": "snapshot restore-job list probe",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "RECORDED",
+   "code": 0,
+   "http": 200,
+   "msg": ""
+  },
+  {
+   "id": "case.admin.jobs-snapshot-export",
+   "family": "snapshots",
+   "op": "/jobs/snapshot/export",
+   "param": "(3.0-only)",
+   "intent": "snapshot export probe (needs snapshot fixture)",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "code": 1802,
+   "http": 200,
+   "msg": "missing required parameters, error: Key: 'ExportSnapshotReq.CollectionName' Error:Field validation for 'CollectionName' failed on the 'required' tag\nKey: 'ExportSnapshotReq.Name' Error:Field validation for 'Name' failed "
+  },
+  {
+   "id": "case.admin.jobs-snapshot-restore",
+   "family": "snapshots",
+   "op": "/jobs/snapshot/restore_external",
+   "param": "(3.0-only)",
+   "intent": "external snapshot restore probe",
+   "kind": "observe",
+   "expect": "record",
+   "verdict": "REJECTED(record)",
+   "code": 1802,
+   "http": 200,
+   "msg": "missing required parameters, error: Key: 'RestoreExternalSnapshotReq.TargetCollectionName' Error:Field validation for 'TargetCollectionName' failed on the 'required' tag\nKey: 'RestoreExternalSnapshotReq.SnapshotMetadataU"
   },
   {
    "id": "case.admin.importv1-create",

@@ -75,11 +75,25 @@ for ver in "${ANCHOR_LIST[@]}"; do
   rel="m-$(echo "$ver" | tr -d .)"
   echo "== [$ver] helm install (ns=$ns)"
   kubectl create ns "$ns" --dry-run=client -o yaml | kubectl apply -f - >/dev/null
-  helm upgrade --install "$rel" milvus/milvus -n "$ns" \
-    --set cluster.enabled=false --set etcd.replicaCount=1 \
-    --set minio.mode=standalone --set pulsar.enabled=false --set pulsarv3.enabled=false \
-    --set image.all.repository=milvusdb/milvus --set image.all.tag="$ver" \
-    --set proxy.http.enabled=true --wait --timeout 15m >/dev/null
+  # helm install with one retry: host-cluster pod provisioning is flaky
+  # (minio/etcd Progress-deadline-exceeded); a clean reinstall after 90s
+  # usually clears it.
+  helm_ok=0
+  for attempt in 1 2; do
+    if helm upgrade --install "$rel" milvus/milvus -n "$ns" \
+      --set cluster.enabled=false --set etcd.replicaCount=1 \
+      --set minio.mode=standalone --set pulsar.enabled=false --set pulsarv3.enabled=false \
+      --set image.all.repository=milvusdb/milvus --set image.all.tag="$ver" \
+      --set proxy.http.enabled=true --wait --timeout 15m >/dev/null 2>&1; then
+      helm_ok=1; break
+    fi
+    echo "== [$ver] helm install attempt $attempt failed — cleaning and retrying in 90s"
+    helm uninstall "$rel" -n "$ns" >/dev/null 2>&1 || true
+    kubectl delete ns "$ns" --ignore-not-found >/dev/null 2>&1 || true
+    [ "$attempt" = "1" ] && sleep 90
+  done
+  [ "$helm_ok" = "1" ] || { echo "== [$ver] helm install failed twice — host cluster unhealthy, aborting" >&2; exit 1; }
+  kubectl create ns "$ns" --dry-run=client -o yaml | kubectl apply -f - >/dev/null 2>&1 || true
   INSTALLED+=("$rel")
   kubectl rollout status deployment/"$rel"-milvus-standalone -n "$ns" --timeout=10m >/dev/null
 

@@ -1,8 +1,8 @@
 # Schema verification — milvus-2.6.26
 
-Ops with accepted-response evidence: **139**; field verdicts: {"response-structure-undocumented":139,"corroborated":320,"error-branch-not-exercised":139,"type-mismatch":2,"declared-not-observed":263,"required-corroborated":16,"ghost-observed":2}
+Ops with accepted-response evidence: **138**; field verdicts: {"response-structure-undocumented":138,"corroborated":318,"error-branch-not-exercised":138,"type-mismatch":2,"declared-not-observed":263,"required-corroborated":16,"ghost-observed":2}
 
-## Conflicts (543) — the doc-fix worklist
+## Conflicts (541) — the doc-fix worklist
 
 | Op | Case | Verdict | Detail |
 |---|---|---|---|
@@ -55,8 +55,6 @@ Ops with accepted-response evidence: **139**; field verdicts: {"response-structu
 | POST /v2/vectordb/indexes/describe | admin.indexes-describe | response-structure-undocumented | {"observed":"array"} |
 | POST /v2/vectordb/indexes/describe | admin.indexes-describe | type-mismatch | {"declared":"object","observed":"array"} |
 | POST /v2/vectordb/indexes/describe | admin.indexes-describe | error-branch-not-exercised | {"declared":"string"} |
-| POST /v2/vectordb/indexes/drop | admin.indexes-drop | response-structure-undocumented | {"observed":"object"} |
-| POST /v2/vectordb/indexes/drop | admin.indexes-drop | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/indexes/list | admin.indexes-list | response-structure-undocumented | {"observed":"array"} |
 | POST /v2/vectordb/indexes/list | admin.indexes-list | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/partitions/get_stats | admin.partitions-get_stats | response-structure-undocumented | {"observed":"object"} |
@@ -206,8 +204,10 @@ Ops with accepted-response evidence: **139**; field verdicts: {"response-structu
 | POST /v2/vectordb/entities/hybrid_search | hybrid_search.ignoreGrowing | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/entities/hybrid_search | hybrid_search.limit-offset | response-structure-undocumented | {"observed":"array"} |
 | POST /v2/vectordb/entities/hybrid_search | hybrid_search.limit-offset | declared-not-observed | {"declared":"number","required":false} |
+| POST /v2/vectordb/entities/hybrid_search | hybrid_search.limit-offset | declared-not-observed | {"declared":"number","required":false} |
+| POST /v2/vectordb/entities/hybrid_search | hybrid_search.limit-offset | declared-not-observed | {"declared":"number","required":false} |
 
-## Corroborated fields: 320
+## Corroborated fields: 318
 
 ## Required-param probes: 18
 

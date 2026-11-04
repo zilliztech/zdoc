@@ -1,12 +1,12 @@
 {
  "schemaVersion": 1,
  "suite": "milvus-2.6.26",
- "opsVerified": 139,
+ "opsVerified": 138,
  "requiredProbes": 18,
  "tally": {
-  "response-structure-undocumented": 139,
-  "corroborated": 320,
-  "error-branch-not-exercised": 139,
+  "response-structure-undocumented": 138,
+  "corroborated": 318,
+  "error-branch-not-exercised": 138,
   "type-mismatch": 2,
   "declared-not-observed": 263,
   "required-corroborated": 16,
@@ -816,38 +816,6 @@
      "verdict": "type-mismatch",
      "declared": "object",
      "observed": "array"
-    },
-    {
-     "path": "$.message",
-     "verdict": "error-branch-not-exercised",
-     "declared": "string"
-    }
-   ]
-  },
-  {
-   "suite": "milvus-2.6.26",
-   "caseId": "admin.indexes-drop",
-   "op": "POST /v2/vectordb/indexes/drop",
-   "golden": "case.admin.indexes-drop",
-   "declaredFields": 2,
-   "verdicts": [
-    {
-     "path": "$.data",
-     "verdict": "response-structure-undocumented",
-     "observed": "object",
-     "observedTopLevelKeys": []
-    },
-    {
-     "path": "$.code",
-     "verdict": "corroborated",
-     "declared": "number",
-     "observed": "number"
-    },
-    {
-     "path": "$.data",
-     "verdict": "corroborated",
-     "declared": "object",
-     "observed": "object"
     },
     {
      "path": "$.message",

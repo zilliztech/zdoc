@@ -97,7 +97,7 @@
    "inSkeleton305": true,
    "trackGuess": "both",
    "liveMilvus": "setup.setup.collections-create=RECORDED; setup.admin.collections-rename-create=RECORDED",
-   "liveUat": "setup.setup.collections-create=RECORDED; setup.admin.collections-rename-create=RECORDED"
+   "liveUat": "setup.setup.collections-create=REJECTED(record); setup.admin.collections-rename-create=RECORDED"
   },
   {
    "op": "POST /v2/vectordb/collections/flush",
@@ -456,8 +456,8 @@
    "inSkeleton2626": true,
    "inSkeleton305": true,
    "trackGuess": "both",
-   "liveMilvus": "setup.setup.indexes-create=RECORDED; setup.admin.indexes-drop-create=RECORDED",
-   "liveUat": "setup.setup.indexes-create=RECORDED; setup.admin.indexes-drop-create=RECORDED"
+   "liveMilvus": "setup.setup.indexes-create=RECORDED",
+   "liveUat": "setup.setup.indexes-create=RECORDED"
   },
   {
    "op": "POST /v2/vectordb/indexes/describe",
@@ -496,8 +496,8 @@
    "inSkeleton2626": true,
    "inSkeleton305": true,
    "trackGuess": "both",
-   "liveMilvus": "case.admin.indexes-drop=PASS-EFFECT",
-   "liveUat": "case.admin.indexes-drop=PASS-EFFECT"
+   "liveMilvus": null,
+   "liveUat": null
   },
   {
    "op": "POST /v2/vectordb/indexes/list",
@@ -966,8 +966,8 @@
    "inSkeleton2626": false,
    "inSkeleton305": true,
    "trackGuess": "3.0-only(+master)",
-   "liveMilvus": null,
-   "liveUat": null
+   "liveMilvus": "case.admin.file_resources-add=REJECTED(record)",
+   "liveUat": "case.admin.file_resources-add=REJECTED(record)"
   },
   {
    "op": "POST /v2/vectordb/file_resources/list",
@@ -976,8 +976,8 @@
    "inSkeleton2626": false,
    "inSkeleton305": true,
    "trackGuess": "3.0-only(+master)",
-   "liveMilvus": null,
-   "liveUat": null
+   "liveMilvus": "case.admin.file_resources-list=REJECTED(record)",
+   "liveUat": "case.admin.file_resources-list=REJECTED(record)"
   },
   {
    "op": "POST /v2/vectordb/file_resources/remove",
@@ -986,8 +986,8 @@
    "inSkeleton2626": false,
    "inSkeleton305": true,
    "trackGuess": "3.0-only(+master)",
-   "liveMilvus": null,
-   "liveUat": null
+   "liveMilvus": "case.admin.file_resources-remove=REJECTED(record)",
+   "liveUat": "case.admin.file_resources-remove=REJECTED(record)"
   },
   {
    "op": "POST /v2/vectordb/jobs/snapshot/describe",
@@ -996,8 +996,8 @@
    "inSkeleton2626": false,
    "inSkeleton305": true,
    "trackGuess": "3.0-only(+master)",
-   "liveMilvus": null,
-   "liveUat": null
+   "liveMilvus": "case.admin.jobs-snapshot-describe=REJECTED(record)",
+   "liveUat": "case.admin.jobs-snapshot-describe=REJECTED(record)"
   },
   {
    "op": "POST /v2/vectordb/jobs/snapshot/export",
@@ -1006,8 +1006,8 @@
    "inSkeleton2626": false,
    "inSkeleton305": true,
    "trackGuess": "3.0-only(+master)",
-   "liveMilvus": null,
-   "liveUat": null
+   "liveMilvus": "case.admin.jobs-snapshot-export=REJECTED(record)",
+   "liveUat": "case.admin.jobs-snapshot-export=REJECTED(record)"
   },
   {
    "op": "POST /v2/vectordb/jobs/snapshot/list",
@@ -1016,8 +1016,8 @@
    "inSkeleton2626": false,
    "inSkeleton305": true,
    "trackGuess": "3.0-only(+master)",
-   "liveMilvus": null,
-   "liveUat": null
+   "liveMilvus": "case.admin.jobs-snapshot-list=REJECTED(record)",
+   "liveUat": "case.admin.jobs-snapshot-list=REJECTED(record)"
   },
   {
    "op": "POST /v2/vectordb/jobs/snapshot/restore_external",
@@ -1026,8 +1026,8 @@
    "inSkeleton2626": false,
    "inSkeleton305": true,
    "trackGuess": "3.0-only(+master)",
-   "liveMilvus": null,
-   "liveUat": null
+   "liveMilvus": "case.admin.jobs-snapshot-restore=REJECTED(record)",
+   "liveUat": "case.admin.jobs-snapshot-restore=REJECTED(record)"
   }
  ]
 }
