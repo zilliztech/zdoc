@@ -1013,12 +1013,15 @@ export async function resolve(specifier,context,nextResolve){const result=await 
 const guardFiles=new Map<string,Buffer>([['resolution-policy.cjs',resolutionPolicy],['resolution-bootstrap.cjs',resolutionBootstrap],['resolution-loader.mjs',resolutionLoader]])
 
 const workerLimit = 32 * 1024 * 1024
+// The complete Guides result includes both base64 blobs and original detail text.
+// Keep its fixed capacity separate from request and diagnostic stream limits.
+const workerResultLimit = 128 * 1024 * 1024
 const guidesWorkerModule = 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts'
 // The executable text and every module/export choice are fixed policy, never request data.
 const guidesWorker = Buffer.from(`'use strict';
 const fs=require('node:fs'),path=require('node:path');
 (async()=>{
-  const root=process.argv[2],limit=33554432,chunks=[];let total=0;
+  const root=process.argv[2],limit=33554432,resultLimit=${workerResultLimit},chunks=[];let total=0;
   for(;;){const chunk=Buffer.alloc(65536),count=fs.readSync(0,chunk,0,chunk.length,null);if(!count)break;total+=count;if(total>limit)throw Error('Guides worker input exceeds byte bound');chunks.push(chunk.subarray(0,count));}
   const load=require(path.join(root,'scripts/lib/load-typescript.js')).loadTypeScript;
   const common=load(path.join(root,'packages/docs-tooling/src/shared-docs/core/updates/canonical.ts'));
@@ -1026,7 +1029,7 @@ const fs=require('node:fs'),path=require('node:path');
   const provider=load(path.join(root,'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts'));
   if(typeof provider.collectGuidesWorker!=='function')throw Error('Fixed Guides worker export is unavailable');
   const result=common.canonicalBytes(await provider.collectGuidesWorker(data));
-  if(result.length>limit)throw Error('Guides worker result exceeds byte bound');
+  if(result.length>resultLimit)throw Error('Guides worker result exceeds byte bound');
   fs.writeFileSync(3,result);
 })().catch(error=>{console.error(String(error));process.exitCode=1});
 `)
@@ -1037,7 +1040,7 @@ function invokeGuidesWorker(binary: string, args: string[], cwd: string, environ
     const fail = (error: Error) => { if (settled) return; settled = true; clearTimeout(timer); if (child.pid) { try { process.kill(-child.pid, 'SIGKILL') } catch {} } no(error) }
     const timer = setTimeout(() => fail(new Error('Guides worker timeout')), 600_000)
     for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('data', (bytes: Buffer) => {
-      sizes[i] += bytes.length; if (sizes[i] > workerLimit) fail(new Error('Guides worker output exceeds byte bound')); else output[i].push(bytes)
+      sizes[i] += bytes.length; if (sizes[i] > (i === 2 ? workerResultLimit : workerLimit)) fail(new Error('Guides worker output exceeds byte bound')); else output[i].push(bytes)
     })
     child.on('error', fail); child.stdin.on('error', fail)
     child.on('close', code => {

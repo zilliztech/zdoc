@@ -41,6 +41,118 @@ async function poisonJitiCache(cache: string) {
   for(const name of names) {const file=join(directory,name), text=await readFile(file,'utf8'), suffix=/ \/\* v7-[a-f0-9]+ \*\/$/.exec(text)?.[0]; if(!suffix)throw Error('Expected actual jiti cache suffix'); await writeFile(file,'module.exports={marker:"CACHE_POISON",collectGuidesWorker:()=>({marker:"CACHE_POISON"})};'+suffix)}
   return names.length
 }
+
+// Exercise the real fixed launcher with a captured test provider, not a product
+// transport override. Large bytes stay in pipes/memory, never evidence blobs.
+async function transportFixture() {
+  const a = await loaderFixture(), pidFile = join(a.root, '.claude', 'transport-worker.pid')
+  // This existing allowlisted flag is captured in the fixture's toolset. Keep
+  // Node-version loader warnings out of exact stdout/stderr boundary assertions.
+  a.flags.push('--no-warnings')
+  await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `
+import {writeFileSync, writeSync} from 'node:fs'
+export async function collectGuidesWorker(data) {
+  writeFileSync(${JSON.stringify(pidFile)}, String(process.pid))
+  if (typeof data === 'string') return {receivedLength: data.length}
+  const write = (fd, bytes) => {
+    const chunk = Buffer.alloc(Math.min(bytes, 1024 * 1024), 120)
+    for (let left = bytes; left > 0;) left -= writeSync(fd, chunk, 0, Math.min(left, chunk.length))
+  }
+  if (data.mode === 'result') return 'x'.repeat(data.bytes - 2)
+  if (data.mode === 'direct-result') {
+    writeFileSync(3, '"'); write(3, data.bytes - 2); writeFileSync(3, '"'); process.exit(0)
+  }
+  if (data.mode === 'log') {
+    const stream = data.fd === 1 ? process.stdout : process.stderr
+    const chunk = Buffer.alloc(1024 * 1024, 120)
+    for (let left = data.bytes; left > 0;) {
+      const bytes = Math.min(left, chunk.length)
+      await new Promise((resolve, reject) => stream.write(chunk.subarray(0, bytes), error => error ? reject(error) : resolve()))
+      left -= bytes
+    }
+    return {logged: data.bytes}
+  }
+  if (data.mode === 'malformed') {writeFileSync(3, data.text); process.exit(0)}
+  if (data.mode === 'throw') throw Error('FIXTURE_COLLECTOR_ERROR')
+  if (data.mode === 'exit') process.exit(7)
+  return {ok: true}
+}
+`)
+  a.commit = commitAll(a.root)
+  const capture = await captureTrustedToolset(a)
+  const store = await initializeEvidence({root: join(a.root, '.claude', 'transport'), repositories: [a.root], owner: 'transport'})
+  const launcher = await prepareTrustedLauncher(capture, store)
+  async function stopped() {
+    const pid = Number(await readFile(pidFile, 'utf8'))
+    expect(Number.isSafeInteger(pid) && pid > 1).toBe(true)
+    const exists = (id: number) => {
+      try { process.kill(id, 0); return true } catch (error) { if ((error as NodeJS.ErrnoException).code === 'ESRCH') return false; throw error }
+    }
+    const deadline = performance.now() + 5000
+    while (exists(pid) || exists(-pid)) {
+      if (performance.now() >= deadline) throw Error(`Fixture worker/group ${pid} did not exit`)
+      await new Promise(resolve => setTimeout(resolve, 25))
+    }
+  }
+  async function run(data: unknown) {
+    // Remove only this fixture's previous PID marker; a missing new marker must
+    // fail the settlement assertion rather than checking a previous invocation.
+    await unlink(pidFile).catch(error => { if (error.code !== 'ENOENT') throw error })
+    try { return await launcher.runGuidesCollector(data) } finally { await stopped() }
+  }
+  return {capture, launcher, pidFile, run}
+}
+
+describe.sequential('fixed Guides FD3 result capacity', () => {
+  const resultLimit = 128 * 1024 * 1024, requestAndLogLimit = 32 * 1024 * 1024
+  it('accepts the exact 128 MiB result boundary through the real generated worker and receiver', async () => {
+    const {run} = await transportFixture()
+    const result = await run({mode: 'result', bytes: resultLimit})
+    expect(typeof result.value).toBe('string')
+    const text = result.value as string
+    expect(text.length + 2).toBe(resultLimit)
+    expect(text[0]).toBe('x'); expect(text.at(-1)).toBe('x')
+    expect(result.stdout.length).toBe(0); expect(result.stderr.length).toBe(0)
+  }, 60000)
+  it('rejects one byte over 128 MiB in the producer before FD3 publication', async () => {
+    const {run} = await transportFixture()
+    await expect(run({mode: 'result', bytes: resultLimit + 1})).rejects.toThrow(/Guides worker failed: Error: Guides worker result exceeds byte bound/)
+  }, 60000)
+  it('independently rejects one byte over 128 MiB written directly to FD3', async () => {
+    const {run} = await transportFixture()
+    await expect(run({mode: 'direct-result', bytes: resultLimit + 1})).rejects.toThrow('Guides worker output exceeds byte bound')
+  }, 60000)
+  it('retains the exact 32 MiB request boundary and rejects one extra byte before starting a worker', async () => {
+    const {run, launcher, pidFile} = await transportFixture()
+    expect((await run('x'.repeat(requestAndLogLimit - 2))).value).toEqual({receivedLength: requestAndLogLimit - 2})
+    await unlink(pidFile)
+    await expect(launcher.runGuidesCollector('x'.repeat(requestAndLogLimit - 1))).rejects.toThrow('Guides worker input exceeds byte bound')
+    await expect(readFile(pidFile)).rejects.toMatchObject({code: 'ENOENT'})
+  }, 60000)
+  it.each([['stdout', 1], ['stderr', 2]] as const)('retains the exact 32 MiB %s boundary and rejects one extra byte', async (stream, fd) => {
+    const {run} = await transportFixture()
+    const result = await run({mode: 'log', fd, bytes: requestAndLogLimit})
+    expect(result.value).toEqual({logged: requestAndLogLimit})
+    expect(result[stream].length).toBe(requestAndLogLimit)
+    await expect(run({mode: 'log', fd, bytes: requestAndLogLimit + 1})).rejects.toThrow('Guides worker output exceeds byte bound')
+  }, 60000)
+  it.each([['{"a":1,"a":2}', /Duplicate JSON key/], ['{"a":', /Expected JSON value/]] as const)('rejects malformed FD3 JSON %s after worker exit', async (text, error) => {
+    const {run} = await transportFixture()
+    await expect(run({mode: 'malformed', text})).rejects.toThrow(error)
+  }, 30000)
+  it.each([['throw', /FIXTURE_COLLECTOR_ERROR/], ['exit', /Guides worker failed/]] as const)('retains collector %s failure and settles the worker group', async (mode, error) => {
+    const {run} = await transportFixture()
+    await expect(run({mode})).rejects.toThrow(error)
+  }, 30000)
+  it('binds the generated result policy in the executable closure and refuses a changed limit', async () => {
+    const {capture, launcher} = await transportFixture(), path = join(launcher.bin, 'guides-worker.cjs'), bytes = await readFile(path)
+    expect(capture.closure.entries.find(entry => entry.path === 'runtime/launch/guides-worker.cjs')).toMatchObject({state: 'file', bytes: bytes.length, sha256: rawSha256(bytes)})
+    const changed = bytes.toString().replace('resultLimit=134217728', 'resultLimit=134217729')
+    expect(changed).not.toBe(bytes.toString())
+    await writeFile(path, changed)
+    await expect(launcher.runGuidesCollector({})).rejects.toThrow('Launcher worker changed')
+  }, 30000)
+})
 describe('fix1 executable discovery regressions',()=>{
   it('ignores poisoned actual jiti cache on generic child launches',async()=>{
     const a=await loaderFixture(), cache=await realpath(await mkdtemp(join(tmpdir(),'jiti-private-cache-')))
