@@ -43,7 +43,7 @@ structarray-limits.md: struct-array-limits
 text.md: use-text-field
 timestamptz-field.md: use-timestamptz-field
 tutorial-implement-a-time-based-ranking-in-milvus.md: tutorial-implement-time-based-ranking
-upsert-entities.md: upsert-entities
+upsert-entities.md: https://milvus.io/docs/upsert-entities.md
 
 use-json-fields.md: https://milvus.io/docs/use-json-fields.md
 
