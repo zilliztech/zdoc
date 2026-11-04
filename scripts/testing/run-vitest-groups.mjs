@@ -148,7 +148,7 @@ function groupAlive(pid,errors) {
     errors.push(cleanupError('probe',0,pid,error));return null
   }
 }
-async function stopGroup(pid,signals,graceMs,errors,waitForLeaderExit) {
+async function stopGroup(pid,signals,graceMs,errors) {
   const initial=groupAlive(pid,errors)
   if(initial!==true)return initial===false
   for(const signal of ['SIGTERM','SIGKILL']) {
@@ -156,14 +156,16 @@ async function stopGroup(pid,signals,graceMs,errors,waitForLeaderExit) {
       if(error.code==='ESRCH')return true
       errors.push(cleanupError('signal',signal,pid,error));return false
     }
-    const until=Date.now()+graceMs
-    await waitForLeaderExit(until)
+    // Leader exit may precede group teardown. Wait the full monotonic grace,
+    // rechecking early timers, before probing or escalating this signal round.
+    const until=performance.now()+graceMs
     while(true) {
-      const state=groupAlive(pid,errors)
-      if(state!==true)return state===false
-      if(Date.now()>=until)break
-      await pause(25)
+      const remaining=until-performance.now()
+      if(remaining<=0)break
+      await pause(Math.min(25,remaining))
     }
+    const state=groupAlive(pid,errors)
+    if(state!==true)return state===false
   }
   return false
 }
@@ -177,15 +179,7 @@ export async function supervise({argv,cwd,env,directory,deadline,protocol=null,g
   const stdout=await open(join(directory,'stdout'),'wx',0o600),stderr=await open(join(directory,'stderr'),'wx',0o600)
   const started=Date.now(),signals=[],cleanupErrors=[],persistenceErrors=[]
   let child,owner,stopping,exit=null,reason=null,spawnError=null,observed=null,settled=false,supervisorError=null
-  let notifyExit
-  const leaderExited=new Promise(resolve=>{notifyExit=resolve})
-  const waitForLeaderExit=async until=>{
-    if(exit!==null||Date.now()>=until)return
-    let timer
-    try{await Promise.race([leaderExited,new Promise(resolve=>{timer=setTimeout(resolve,Math.max(0,until-Date.now()))})])}
-    finally{clearTimeout(timer)}
-  }
-  const stopOwned=()=>stopping??=(cleanupErrors.length?Promise.resolve(false):child?.pid?stopGroup(child.pid,signals,graceMs,cleanupErrors,waitForLeaderExit):Promise.resolve(true))
+  const stopOwned=()=>stopping??=(cleanupErrors.length?Promise.resolve(false):child?.pid?stopGroup(child.pid,signals,graceMs,cleanupErrors):Promise.resolve(true))
   const persistError=(operation,error)=>{persistenceErrors.push({operation,code:error.code??null,message:error.message,at:Date.now()})}
   const interrupt=signal=>{reason??=`Supervisor interrupted: ${signal}`}
   const onInt=()=>interrupt('SIGINT'),onTerm=()=>interrupt('SIGTERM')
@@ -195,7 +189,7 @@ export async function supervise({argv,cwd,env,directory,deadline,protocol=null,g
     child=spawn(argv[0],argv.slice(1),{cwd,env,detached:true,stdio:['ignore',stdout.fd,stderr.fd]})
     owner={pid:child.pid,directory,stop:stopOwned,cleanupErrors,signals,get exit(){return exit},get observedFailure(){return observed?.failure??null}};if(child.pid)budget?.register(owner)
     child.once('error',e=>{spawnError=e;reason??=`Spawn failed: ${e.message}`;exit={code:null,signal:null}})
-    child.once('exit',(code,signal)=>{exit={code,signal};notifyExit()})
+    child.once('exit',(code,signal)=>{exit={code,signal}})
     await jsonWrite(join(directory,'owner.json'),{pid:child.pid??null,processGroup:child.pid??null,started,argv,cwd})
     while(true) {
       if(protocol) {

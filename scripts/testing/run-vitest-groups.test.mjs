@@ -1,4 +1,6 @@
 import test from 'node:test'
+import {runInNewContext} from 'node:vm'
+import {EventEmitter} from 'node:events'
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 import {readFileSync} from 'node:fs'
@@ -180,6 +182,100 @@ test('real reporter writes its protocol and retains errors before terminal',asyn
     for(const [key,value] of [['ZDOC_TEST_RUN_ID',old.id],['ZDOC_TEST_EVENTS',old.path]])if(value===undefined)delete process.env[key];else process.env[key]=value
   }
 })
+// Run the current private function bodies with synthetic dependencies, without
+// exporting a production injection seam or sending any real process signal.
+const supervisorSource=readFileSync(new URL('./run-vitest-groups.mjs',import.meta.url),'utf8')
+const cleanupStart=supervisorSource.indexOf('function cleanupError(')
+const cleanupEnd=supervisorSource.indexOf('\nexport function validateRawReport(',cleanupStart)
+assert.ok(cleanupStart>=0&&cleanupEnd>cleanupStart)
+const cleanupSource=supervisorSource.slice(cleanupStart,cleanupEnd)
+function syntheticCleanup({operation=()=>null,early=false,wallStep=null}={}) {
+  let mono=0,wall=100000,timerCount=0
+  const operations=[],sent=[],errors=[],files=new Map(),child=new EventEmitter(),process=new EventEmitter()
+  child.pid=12345;process.platform='darwin'
+  process.kill=(pid,signal)=>{
+    assert.equal(pid,-child.pid)
+    const event={pid,signal,at:mono};operations.push(event)
+    const code=operation(signal,sent,mono,operations)
+    if(code){event.error=code;throw Object.assign(new Error(`injected ${code}`),{code})}
+    if(signal!==0){sent.push(event);child.emit('exit',null,signal)}
+  }
+  const bindings={process,performance:{now:()=>mono},Date:{now:()=>wall},join,
+    pause:async ms=>{
+      assert.ok(++timerCount<=200,'cleanup must remain bounded with early timers and moving wall time')
+      assert.ok(ms>0&&ms<=25)
+      const elapsed=early?Math.max(0.25,ms/2):ms
+      mono+=elapsed;wall+=wallStep??elapsed
+    },mkdir:async()=>{},open:async()=>({fd:1,close:async()=>{}}),spawn:()=>child,
+    jsonWrite:async(path,value)=>{assert.equal(files.has(path),false);files.set(path,value)},
+    stat:async()=>({size:1}),readFile:async()=>'',
+    inspectEvents:()=>({failure:{name:'original business failure'}}),console}
+  const actual=runInNewContext(cleanupSource.replace('export async function supervise','async function supervise')+
+    '\n;({stopGroup,supervise})',bindings,{timeout:1000})
+  return {operations,sent,errors,files,get elapsed(){return mono},get wall(){return wall},
+    // An already-exited leader resolves immediately in the original implementation.
+    stop:()=>actual.stopGroup(child.pid,[],1000,errors,async()=>{}),
+    supervise:()=>actual.supervise({argv:['synthetic'],cwd:'/synthetic',env:{},directory:'/synthetic/run',
+      deadline:wall+10000,protocol:{},graceMs:1000})}
+}
+function noOperationsAfterDenial(fixture) {
+  const denied=fixture.operations.filter(o=>o.error==='EPERM')
+  assert.equal(denied.length,1)
+  assert.equal(fixture.operations.at(-1),denied[0])
+}
+function fullGraceBeforeProbes(fixture) {
+  let sentAt=null
+  for(const operation of fixture.operations) {
+    if(operation.signal!==0&&!operation.error)sentAt=operation.at
+    if(operation.signal===0&&sentAt!==null)assert.ok(operation.at-sentAt>=1000)
+  }
+}
+test('monotonic cleanup waits full grace after immediate leader exit before its first probe',async()=>{
+  const fixture=syntheticCleanup({operation:(signal,sent,at)=>signal===0&&sent.length?(at<1000?'EPERM':'ESRCH'):null})
+  assert.equal(await fixture.stop(),true)
+  assert.deepEqual(fixture.errors,[])
+  assert.deepEqual(fixture.operations.map(o=>[o.signal,o.at]),[[0,0],['SIGTERM',0],[0,1000]])
+})
+for(const wallStep of [-5000,5000])test(`monotonic cleanup rechecks early timers despite wall movement ${wallStep}`,async()=>{
+  const fixture=syntheticCleanup({early:true,wallStep,operation:(signal,sent,at)=>signal===0&&sent.length?(at<1000?'EPERM':'ESRCH'):null})
+  assert.equal(await fixture.stop(),true)
+  assert.equal(fixture.errors.length,0);fullGraceBeforeProbes(fixture)
+  assert.ok(fixture.elapsed>=1000&&fixture.elapsed<1001)
+  assert.ok(wallStep<0?fixture.wall<0:fixture.wall>200000)
+})
+for(const [stage,denied] of [
+  ['initial probe',(signal,sent)=>signal===0&&!sent.length],
+  ['TERM',(signal)=>signal==='SIGTERM'],
+  ['post-TERM probe',(signal,sent)=>signal===0&&sent.length===1],
+  ['KILL',(signal)=>signal==='SIGKILL'],
+  ['post-KILL probe',(signal,sent)=>signal===0&&sent.length===2],
+])for(const code of ['EPERM','ESRCH'])test(`monotonic cleanup ${stage} ${code} preserves stop semantics`,async()=>{
+  const fixture=syntheticCleanup({operation:(signal,sent)=>denied(signal,sent)?code:null})
+  assert.equal(await fixture.stop(),code==='ESRCH')
+  assert.equal(fixture.errors.length,code==='ESRCH'?0:1)
+  assert.equal(fixture.operations.at(-1).error,code)
+  if(code==='EPERM'){noOperationsAfterDenial(fixture);assert.equal(fixture.errors[0].code,'EPERM')}
+  fullGraceBeforeProbes(fixture);assert.ok(fixture.elapsed<=2000)
+})
+for(const survivesKill of [false,true])test(`monotonic cleanup bounds both signal rounds, survives KILL ${survivesKill}`,async()=>{
+  const fixture=syntheticCleanup({operation:(signal,sent)=>!survivesKill&&signal===0&&sent.length===2?'ESRCH':null})
+  assert.equal(await fixture.stop(),!survivesKill);assert.equal(fixture.errors.length,0)
+  assert.deepEqual(fixture.operations.map(o=>[o.signal,o.at]),[[0,0],['SIGTERM',0],[0,1000],['SIGKILL',1000],[0,2000]])
+  assert.equal(fixture.elapsed,2000)
+})
+test('monotonic cleanup post-grace denial retains actual supervisor primary failure and stops all operations',async()=>{
+  const fixture=syntheticCleanup({operation:(signal,sent)=>signal===0&&sent.length?'EPERM':null})
+  const receipt=await fixture.supervise()
+  assert.equal(receipt.reason,'Reported test/module failure')
+  assert.equal(receipt.observed.failure.name,'original business failure')
+  assert.equal(receipt.settled,false);assert.equal(receipt.success,false);assert.equal(receipt.cleanupStatus,'unknown')
+  assert.equal(receipt.receiptPersistence,'confirmed');assert.equal(receipt.cleanupErrors.length,1)
+  assert.equal(receipt.cleanupErrors[0].code,'EPERM')
+  assert.equal(fixture.files.get('/synthetic/run/receipt.json').observed.failure.name,'original business failure')
+  noOperationsAfterDenial(fixture);fullGraceBeforeProbes(fixture)
+  assert.deepEqual(fixture.operations.map(o=>[o.signal,o.at]),[[0,0],['SIGTERM',0],[0,1000]])
+})
+
 test('real child success requires terminal, zero exit and a settled group',async()=>{
   const root=await fixture(),result=await invoke(root)
   assert.equal(result.success,true);assert.equal(result.exitCode,0);assert.equal(result.settled,true)
