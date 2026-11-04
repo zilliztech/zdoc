@@ -238,6 +238,36 @@ test('consecutive legacy fallbacks retain authenticated paths after ancestor ren
   })
 })
 
+test('multiple legacy fallbacks share one publication proof across consecutive source bundles', {timeout: 120000}, async t => {
+  const options = await fixture(t, {pages: ['sample', 'sibling']})
+  const api = require('../../packages/docs-tooling/src/lark/sharedPagePublication')
+  const bundles = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const prior = JSON.parse(fs.readFileSync(path.join(options.baselineRoot, adapter.snapshotPath)))
+  const expectedPaths = prior.records.flatMap(record => record.output_paths).sort()
+  for (const record of prior.records) record.output_paths = []
+  await write(options.baselineRoot, adapter.snapshotPath, JSON.stringify(prior))
+  await git(options.baselineRoot, 'add', '.'); await git(options.baselineRoot, 'commit', '--quiet', '-m', 'Multiple legacy records without paths')
+  for (let round = 0; round < 2; round++) {
+    options.devCommit = await git(options.baselineRoot, 'rev-parse', 'HEAD')
+    options.preparation = adapter.prepareSharedSources({...options, devCommit: options.devCommit}).data
+    for (const record of options.candidate.records) record.shared_page = options.preparation.inputs[record.record_id].identity
+    options.out = path.join(options.root, `multiple-bundle-${round}`)
+    options.scratch = path.join(options.root, `multiple-scratch-${round}`)
+    const bundle = await generateSharedSources({...options, upstreamStatus: {status: 'unavailable', code: 'SHARED_UPSTREAM_REF_MISSING', message: 'Pinned upstream ref unavailable'}})
+    assert.deepEqual(bundle.outcomes.map(row => row.status), ['fallback', 'fallback'])
+    assert.deepEqual(bundle.outcomes.flatMap(row => row.baseline.outputs.map(output => output.path)).sort(), expectedPaths)
+    const handoff = bundles.loadBundle(options.out)
+    assert.equal(handoff.files.has('baseline/publication.json'), round === 1)
+    if (round === 1) assert.deepEqual(handoff.files.get('baseline/publication.json'), fs.readFileSync(path.join(options.baselineRoot, adapter.publicationPath)))
+    const result = api.finalizePublication({workspace: options.baselineRoot, handoff, candidate: options.candidate})
+    assert.deepEqual(result.snapshot.records, prior.records)
+    assert.equal(result.publication.cache_eligible, false)
+    assert.deepEqual([...api.publishedEvidence(options.baselineRoot, result.snapshot).fallbackIds].sort(), ['rec0', 'rec1'])
+    await write(options.baselineRoot, adapter.snapshotPath, JSON.stringify(result.snapshot))
+    await git(options.baselineRoot, 'add', '.'); await git(options.baselineRoot, 'commit', '--quiet', '-m', `Multiple fallback round ${round}`)
+  }
+})
+
 test('retained fallback authority binds the snapshot, record and pinned file hashes', () => {
   const snapshot = {records: [{record_id: 'page', output_paths: []}], navigation_records: []}
   const file = {path: 'content/en/guides/tutorials/manage-data/old/page.md', sha256: adapter.digest('old')}

@@ -92,7 +92,6 @@ function baselineFallback(data, recordId, baselineRoot, out) {
   let publication = null
   if (record && record.source_kind !== 'shared-page' && !record.output_paths?.length && data.dev_files.some(row => row.path === fetch.publicationPath)) {
     const bytes = fetch.regularBytes(baselineRoot, fetch.publicationPath)
-    write(out, 'baseline/publication.json', bytes)
     publication = JSON.parse(bytes)
   }
   const paths = fetch.baselineOutputPaths(data.previous_snapshot, recordId, data.dev_files, publication)
@@ -297,6 +296,10 @@ async function generateSharedSources(options, dependencies = {}) {
   }
   const previousSnapshotFile = data.previous_snapshot ? 'baseline/snapshot.json' : null
   if (previousSnapshotFile) write(out, previousSnapshotFile, fetch.regularBytes(baselineRoot, fetch.snapshotPath))
+  // Publication authority is run-global evidence, shared by every fallback page.
+  if (outcomes.some(row => row.status === 'fallback') && data.dev_files.some(row => row.path === fetch.publicationPath)) {
+    write(out, 'baseline/publication.json', fetch.regularBytes(baselineRoot, fetch.publicationPath))
+  }
   const bundle = {preparation: structuredClone(data), previous_snapshot_file: previousSnapshotFile, baseline_active_file: baselineActiveFile, schema_version: 1, master_commit: data.master_commit, dev_commit: data.dev_commit, navigation: data.navigation,
     baseline_active: data.active, effective_active: effectiveActive, outcomes, referring_tables: [...referringTables].sort()}
   // Refresh the observed source projection before the artifact step freezes it.
