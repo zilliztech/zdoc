@@ -36,4 +36,39 @@ struct-array-operators.md: struct-array-filtering
 structarray-limits.md: struct-array-limits
 text.md: use-text-field
 tutorial-implement-a-time-based-ranking-in-milvus.md: tutorial-implement-time-based-ranking
-upsert-entities.md: https://milvus.io/docs/upsert-entities.md
+upsert-entities.md: upsert-entities
+
+# Shared-docs pages onboarded in the collection, database/partition, text search and scalar index batches.
+schema.md: schema-explained   # batch P
+keyword-match.md: text-match   # batch P/R
+mmap.md: use-mmap   # batch P/S
+tune_consistency.md: consistency-level   # batch P
+timestamptz-field.md: use-timestamptz-field   # batch P/S
+index-vector-fields.md: https://milvus.io/docs/index-vector-fields.md   # batch P
+index-scalar-fields.md: https://milvus.io/docs/index-scalar-fields.md   # batch P
+clustering-compaction.md: https://milvus.io/docs/clustering-compaction.md   # batch P
+manage_databases.md: database   # batch Q
+manage-partitions.md: manage-partitions   # batch Q
+use-partition-key.md: use-partition-key   # batch Q
+multi_tenancy.md: multi-tenancy   # batch Q
+manage-collections.md: manage-collections   # batch Q
+delete-entities.md: delete-entities   # batch Q
+get-and-scalar-query.md: get-and-scalar-query   # batch Q
+single-vector-search.md: single-vector-search   # batch Q
+limitations.md: limits   # batch Q
+rbac.md: access-control-overview   # batch Q
+database-concept.md: database-concept   # batch Q
+on-demand-database.md: on-demand-database   # batch Q
+insert-update-delete.md: insert-entities   # batch Q
+sparse_vector.md: use-sparse-vector   # batch R
+analyzer-overview.md: analyzer-overview   # batch R
+standard-analyzer.md: standard-analyzer   # batch R
+full-text-search.md: full-text-search   # batch R
+phrase-match.md: phrase-match   # batch R
+text-highlighter.md: text-highlighter   # batch R
+json-indexing.md: json-indexing   # batch S
+geometry-operators.md: geometry-operators   # batch S
+geometry-field.md: use-geometry-field   # batch S
+number.md: use-number-field   # batch S
+string.md: use-string-field   # batch S
+rtree.md: rtree-index-type   # batch S

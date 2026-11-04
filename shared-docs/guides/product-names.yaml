@@ -26,3 +26,20 @@ allow:
   - Available in Milvus v2.6.17 and later.
   # Preserve the C# connection credentials used by the Random Sampling examples.
   - 'Password = "Milvus"'
+  # Shared-docs sample data and engine-version statements (collection, text search and scalar index batches).
+  - "loving Milvus!"
+  - "who loves Milvus?"
+  - "In Milvus 3.0.x,"
+  - "| Milvus 3.0.0+"
+  - "Milvus supports full text search."
+  - "works in Milvus."
+  - "Milvus is an open-source vector database"
+  - "{Milvus} is an open-source vector database"
+  - "query searches for `\"Milvus\"` and"
+  - "data=[\"Milvus\"],  # Query term to highlight"
+  - "highlights `\"Milvus\"` in its result set"
+  - "[\"test\", \"Milvus\"]"
+  - "Query 'Milvus':"
+  - "// Initialize Milvus client"
+  - "\"Milvus\"* is split into 3-grams"
+  - "**Milvus v2.6.x**"
