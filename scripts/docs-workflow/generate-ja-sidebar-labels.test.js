@@ -160,6 +160,49 @@ test('the committed dictionary satisfies style guide R7.7', () => {
   loadDictionary(workspace)
 })
 
+test('the committed dictionary covers every link-shaped key the publication lane emits', () => {
+  const nodePath = require('node:path')
+  const workspace = nodePath.resolve(__dirname, '../..')
+  const labels = loadDictionary(workspace)
+  // The publication lane (generated/en/sidebars/guides[-byoc].sidebar.js on
+  // dev) shapes cross-references as `type: 'link'` items keyed `ref:<path>`
+  // pointing at their canonical docs. Master's own generated sidebar still
+  // carries these as doc items, so the en build on master never walks them and
+  // a missing dictionary key only surfaces as a console warning on dev builds.
+  // This fixture pins the lane's link keys: when the lane adds one, extend it
+  // here and add the dictionary entry in the same change. The guides-byoc tree
+  // reuses a subset of these keys, so covering guides covers both plugins.
+  const linkItems = [
+    { type: 'link', key: 'link:tutorials/client-libraries/cpp', label: 'C++', href: '/reference/cpp' },
+    { type: 'link', key: 'link:tutorials/client-libraries/go', label: 'Go', href: '/reference/go' },
+    { type: 'link', key: 'link:tutorials/client-libraries/java', label: 'Java', href: '/reference/java' },
+    { type: 'link', key: 'link:tutorials/client-libraries/nodejs', label: 'Node.js', href: '/reference/nodejs' },
+    { type: 'link', key: 'link:tutorials/client-libraries/python', label: 'Python', href: '/reference/python' },
+    { type: 'link', key: 'link:tutorials/client-libraries/restful-api', label: 'RESTful API', href: '/reference/restful' },
+    { type: 'link', key: 'link:tutorials/tools/zilliz-cli', label: 'Zilliz CLI', href: '/reference/cli/cli/overview' },
+    { type: 'link', key: 'ref:tutorials/ai-models/reranking-models/cohere-model-ranker', label: 'Cohere Ranker', href: '/docs/cohere-model-ranker' },
+    { type: 'link', key: 'ref:tutorials/ai-models/reranking-models/hugging-face-ranker', label: 'Hugging Face Ranker', href: '/docs/hugging-face-ranker' },
+    { type: 'link', key: 'ref:tutorials/ai-models/reranking-models/voyage-ai-model-ranker', label: 'Voyage AI Ranker', href: '/docs/voyage-ai-model-ranker' },
+    { type: 'link', key: 'ref:tutorials/ai-models/text-embedding-models/cohere', label: 'Cohere', href: '/docs/cohere' },
+    { type: 'link', key: 'ref:tutorials/ai-models/text-embedding-models/hugging-face', label: 'Hugging Face', href: '/docs/hugging-face' },
+    { type: 'link', key: 'ref:tutorials/ai-models/text-embedding-models/openai', label: 'OpenAI', href: '/docs/openai' },
+    { type: 'link', key: 'ref:tutorials/ai-models/text-embedding-models/voyage-ai', label: 'Voyage AI', href: '/docs/voyage-ai' },
+    { type: 'link', key: 'ref:tutorials/management/clusters/dedicated-cluster/database', label: 'Database in Serving Clusters', href: '/docs/database' },
+    { type: 'link', key: 'ref:tutorials/management/clusters/on-demand-compute/connect-for-on-demand-search', label: 'Connect for On-Demand Search', href: '/docs/connect-for-on-demand-search' },
+    { type: 'link', key: 'ref:tutorials/management/clusters/on-demand-compute/on-demand-database', label: 'Database for On-Demand Search', href: '/docs/on-demand-database' },
+    { type: 'link', key: 'ref:tutorials/management/volume/external-volume', label: 'External Volumes', href: '/docs/external-volume' },
+    { type: 'link', key: 'ref:tutorials/management/volume/managed-volume', label: 'Managed Volumes', href: '/docs/managed-volume' },
+    { type: 'link', key: 'ref:tutorials/management/volume/storage-integrations/integrate-with-aws-s3', label: 'Integrate with AWS S3', href: '/docs/integrate-with-aws-s3' },
+    { type: 'link', key: 'ref:tutorials/management/volume/storage-integrations/integrate-with-azure-blob-storage', label: 'Integrate with Azure Blob Storage', href: '/docs/integrate-with-azure-blob-storage' },
+    { type: 'link', key: 'ref:tutorials/management/volume/storage-integrations/integrate-with-gcp', label: 'Integrate with Google Cloud Storage', href: '/docs/integrate-with-gcp' },
+  ]
+  const sidebarsConfig = { default: linkItems, tutorialSidebar: linkItems }
+
+  const { missing } = buildPluginTranslations(sidebarsConfig, labels, 'guides')
+
+  assert.deepEqual(missing, [])
+})
+
 test('generateJaSidebarLabels writes sorted current.json files for every configured target', () => {
   const dictionary = { labels: { 'category:a': 'あ', 'link:b': 'い' } }
   const fsImpl = makeFsImpl({
