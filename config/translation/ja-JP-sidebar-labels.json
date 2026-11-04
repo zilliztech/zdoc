@@ -120,6 +120,21 @@
     "link:tutorials/client-libraries/nodejs": "Node.js",
     "link:tutorials/client-libraries/python": "Python",
     "link:tutorials/client-libraries/restful-api": "RESTful API",
-    "link:tutorials/tools/zilliz-cli": "Zilliz CLI"
+    "link:tutorials/tools/zilliz-cli": "Zilliz CLI",
+    "ref:tutorials/ai-models/reranking-models/cohere-model-ranker": "Cohere Ranker",
+    "ref:tutorials/ai-models/reranking-models/hugging-face-ranker": "Hugging Face Ranker",
+    "ref:tutorials/ai-models/reranking-models/voyage-ai-model-ranker": "Voyage AI Ranker",
+    "ref:tutorials/ai-models/text-embedding-models/cohere": "Cohere",
+    "ref:tutorials/ai-models/text-embedding-models/hugging-face": "Hugging Face",
+    "ref:tutorials/ai-models/text-embedding-models/openai": "OpenAI",
+    "ref:tutorials/ai-models/text-embedding-models/voyage-ai": "Voyage AI",
+    "ref:tutorials/management/clusters/dedicated-cluster/database": "Serving クラスターのデータベース",
+    "ref:tutorials/management/clusters/on-demand-compute/connect-for-on-demand-search": "オンデマンド検索のための接続",
+    "ref:tutorials/management/clusters/on-demand-compute/on-demand-database": "オンデマンド検索用データベース",
+    "ref:tutorials/management/volume/external-volume": "外部ボリューム",
+    "ref:tutorials/management/volume/managed-volume": "マネージドボリューム",
+    "ref:tutorials/management/volume/storage-integrations/integrate-with-aws-s3": "AWS S3 との連携",
+    "ref:tutorials/management/volume/storage-integrations/integrate-with-azure-blob-storage": "Azure Blob Storage との連携",
+    "ref:tutorials/management/volume/storage-integrations/integrate-with-gcp": "Google Cloud Storage との連携"
   }
 }
