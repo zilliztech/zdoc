@@ -46,3 +46,11 @@ tutorial-implement-a-time-based-ranking-in-milvus.md: tutorial-implement-time-ba
 upsert-entities.md: https://milvus.io/docs/upsert-entities.md
 
 use-json-fields.md: https://milvus.io/docs/use-json-fields.md
+
+# Scalar index pages onboarded with this change.
+json-indexing.md: json-indexing
+geometry-operators.md: geometry-operators
+geometry-field.md: use-geometry-field
+number.md: use-number-field
+string.md: use-string-field
+rtree.md: rtree-index-type
