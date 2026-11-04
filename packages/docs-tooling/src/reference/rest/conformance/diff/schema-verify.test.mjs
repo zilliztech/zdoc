@@ -58,6 +58,20 @@ test("schema-verify: field verdicts and required evidence on synthetic suite", a
           data: { type: "object", properties: {} },
         } } },
       },
+      {
+        fragment: "f", path: "/v2/vectordb/search", method: "post", summary: "s",
+        response: { shape: { type: "object", properties: {
+          code: { type: "integer" },
+          data: { type: "array", items: {
+            type: "object",
+            additionalProperties: true,
+            properties: {
+              id: { oneOf: [{ type: "integer" }, { type: "string" }] },
+              distance: { type: "number" },
+            },
+          } },
+        } } },
+      },
     ],
   }))
 
@@ -71,6 +85,7 @@ export default (ctx, call) => ({
   cases: [
     { id: "pos.echo", family: "pos", op: "/echo", kind: "positive", expect: "ok", param: "p", intent: "i", body: {} },
     { id: "pos.flush", family: "pos", op: "/flush", kind: "positive", expect: "ok", param: "p", intent: "i", body: {} },
+    { id: "pos.search", family: "pos", op: "/search", kind: "positive", expect: "ok", param: "p", intent: "i", body: {} },
     { id: "neg.req", family: "neg", op: "/echo", kind: "negative", expect: "err", param: "required probe", intent: "i", body: {} },
     { id: "ghost.id", family: "ghost", op: "/echo", kind: "ghost", expect: "record", param: "id(only)", intent: "i", body: {} },
   ],
@@ -84,6 +99,12 @@ export default (ctx, call) => ({
   }))
   fs.writeFileSync(path.join(suiteDir, "goldens", "case.pos.flush.json"), JSON.stringify({
     code: 0, data: {},
+  }))
+  // search item: id is a union-typed PK (observed number — oneOf accepts it),
+  // distance corroborates, color is a collection output field under
+  // additionalProperties → dynamic-corroborated, never a conflict
+  fs.writeFileSync(path.join(suiteDir, "goldens", "case.pos.search.json"), JSON.stringify({
+    code: 0, data: [{ id: 8, distance: 1, color: "red" }],
   }))
   const results = path.join(tmp, "r.json")
   fs.writeFileSync(results, JSON.stringify({
@@ -119,4 +140,14 @@ export default (ctx, call) => ({
   // declared types and shows a field the schema never declares
   assert.ok(byVerdict("example-type-mismatch").some((x) => x.path.endsWith("insertCount") && x.declared === "number" && x.exampleObserved === "string"))
   assert.ok(byVerdict("example-undeclared").some((x) => x.path.endsWith("exampleExtra")))
+
+  // search op: union-typed PK id accepts the observed number, and keys under
+  // the additionalProperties items object are dynamic, not conflicts
+  const searchOp = report.operations.find((op) => op.op.endsWith("/search"))
+  assert.ok(searchOp, "search op verified")
+  assert.ok(searchOp.verdicts.some((v) => v.path === "$.data[].id" && v.verdict === "corroborated" && v.observed === "number"))
+  assert.ok(searchOp.verdicts.some((v) => v.path === "$.data[].distance" && v.verdict === "corroborated"))
+  assert.ok(searchOp.verdicts.some((v) => v.path === "$.data[].color" && v.verdict === "dynamic-corroborated"))
+  assert.ok(!searchOp.verdicts.some((v) => v.verdict === "observed-undeclared"))
+  assert.ok(!searchOp.verdicts.some((v) => v.verdict === "response-structure-undocumented"))
 })
