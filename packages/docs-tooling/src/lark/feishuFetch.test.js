@@ -315,6 +315,62 @@ async function testNonTransientFeishuErrorsAreNotRetried() {
   });
 }
 
+async function testAbortErrorIsRetryable() {
+  let attempts = 0;
+
+  await withMockedFetch(async () => {
+    attempts += 1;
+    if (attempts === 1) {
+      const err = new Error('The user aborted a request.');
+      err.name = 'AbortError';
+      err.type = 'aborted';
+      throw err;
+    }
+
+    return {
+      status: 200,
+      headers: { get: () => null },
+      text: async () => '{"ok":true}',
+    };
+  }, async ({ fetchJsonWithRetry }) => {
+    const json = await fetchJsonWithRetry('https://open.feishu.cn/media', {}, 'download media');
+
+    assert.equal(attempts, 2);
+    assert.equal(json.ok, true);
+  });
+}
+
+async function testTimeoutMsBoundsEachAttemptWithFreshSignal() {
+  const signals = [];
+
+  await withMockedFetch(async (url, options) => {
+    signals.push(options.signal);
+    if (signals.length === 1) {
+      return await new Promise((resolve, reject) => {
+        options.signal.addEventListener('abort', () => {
+          const err = new Error('The user aborted a request.');
+          err.name = 'AbortError';
+          err.type = 'aborted';
+          reject(err);
+        });
+      });
+    }
+
+    return {
+      status: 200,
+      headers: { get: () => null },
+      text: async () => '{"ok":true}',
+    };
+  }, async ({ fetchJsonWithRetry }) => {
+    const json = await fetchJsonWithRetry('https://api.figma.com/v1/files/a', { timeoutMs: 20 }, 'fetch figma json');
+
+    assert.equal(json.ok, true);
+    assert.equal(signals.length, 2);
+    assert.equal(signals[0].aborted, true);
+    assert.equal(signals[1].aborted, false);
+  });
+}
+
 async function run() {
   await testFetchFeishuBufferRetriesPrematureCloseWhileReadingBody();
   await testFetchJsonRetriesPrematureCloseWhileReadingBody();
@@ -325,6 +381,8 @@ async function run() {
   await testFeishuDataNotReadyStopsAfterBoundedRetries();
   await testFeishuGenericBitableFailRetriesUntilSuccess();
   await testNonTransientFeishuErrorsAreNotRetried();
+  await testAbortErrorIsRetryable();
+  await testTimeoutMsBoundsEachAttemptWithFreshSignal();
   console.log('feishuFetch tests passed');
 }
 
