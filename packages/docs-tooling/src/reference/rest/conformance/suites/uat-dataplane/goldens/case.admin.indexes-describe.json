@@ -21,14 +21,14 @@
    ],
    "indexState": "Finished",
    "indexType": "HNSW",
-   "indexedRows": 36,
+   "indexedRows": 68,
    "indexoffsetcache.enabled": "",
    "maxIndexVersion": 0,
    "metricType": "COSINE",
    "minIndexVersion": 0,
    "mmap.enabled": "",
    "pendingRows": 0,
-   "totalRows": 36,
+   "totalRows": 68,
    "warmup": ""
   }
  ]

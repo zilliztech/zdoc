@@ -1,7 +1,6 @@
 {
  "code": 0,
  "data": [
-  "vec_hnsw",
-  "uatdp_tmp_idx"
+  "vec_hnsw"
  ]
 }

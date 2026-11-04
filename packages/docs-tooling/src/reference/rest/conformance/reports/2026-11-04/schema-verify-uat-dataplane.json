@@ -1,14 +1,16 @@
 {
  "schemaVersion": 1,
  "suite": "uat-dataplane",
- "opsVerified": 131,
- "requiredProbes": 0,
+ "opsVerified": 130,
+ "requiredProbes": 18,
  "tally": {
-  "response-structure-undocumented": 131,
-  "corroborated": 304,
-  "error-branch-not-exercised": 131,
+  "response-structure-undocumented": 130,
+  "corroborated": 302,
+  "error-branch-not-exercised": 130,
   "type-mismatch": 2,
-  "declared-not-observed": 263
+  "declared-not-observed": 263,
+  "required-corroborated": 16,
+  "ghost-observed": 2
  },
  "note": "declared = fragment/OpenAPI claims ($refs expanded); observed = frozen accepted responses (goldens) + negative-probe verdicts. This report is the doc-fix worklist: every conflict names the field and the evidence.",
  "operations": [
@@ -718,38 +720,6 @@
      "verdict": "type-mismatch",
      "declared": "object",
      "observed": "array"
-    },
-    {
-     "path": "$.message",
-     "verdict": "error-branch-not-exercised",
-     "declared": "string"
-    }
-   ]
-  },
-  {
-   "suite": "uat-dataplane",
-   "caseId": "admin.indexes-drop",
-   "op": "POST /v2/vectordb/indexes/drop",
-   "golden": "case.admin.indexes-drop",
-   "declaredFields": 2,
-   "verdicts": [
-    {
-     "path": "$.data",
-     "verdict": "response-structure-undocumented",
-     "observed": "object",
-     "observedTopLevelKeys": []
-    },
-    {
-     "path": "$.code",
-     "verdict": "corroborated",
-     "declared": "number",
-     "observed": "number"
-    },
-    {
-     "path": "$.data",
-     "verdict": "corroborated",
-     "declared": "object",
-     "observed": "object"
     },
     {
      "path": "$.message",
@@ -6459,5 +6429,150 @@
    ]
   }
  ],
- "requestEvidence": []
+ "requestEvidence": [
+  {
+   "caseId": "case.insert.collectionName-missing",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "collectionName(missing)",
+   "intent": "doc marks collectionName required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionDataReq.CollectionName' Error:Field validation for 'CollectionName' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.insert.collectionName-unknown",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "collectionName(unknown)",
+   "intent": "nonexistent collection rejected",
+   "verdict": "required-corroborated",
+   "detail": "can't find collection[database=default][collection=no_such_coll_zz]"
+  },
+  {
+   "caseId": "case.insert.dbName-unknown",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "dbName(unknown)",
+   "intent": "nonexistent db rejected",
+   "verdict": "required-corroborated",
+   "detail": "database not found[database=no_such_db_zz]"
+  },
+  {
+   "caseId": "case.insert.data-missing",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "data(missing)",
+   "intent": "doc marks data required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionDataReq.Data' Error:Field validation for 'Data' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.insert.data-wrongDim",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "data(wrongDim)",
+   "intent": "dimension mismatch must be rejected (data is actually validated)",
+   "verdict": "required-corroborated",
+   "detail": "fail to deal the insert data, error: \"Syntax error no sources available, the input json is empty: errors.SyntaxError{Pos:0, Src:\\\"\\\", Code:0x0, Msg:\\\"invalid ch"
+  },
+  {
+   "caseId": "case.insert.partitionName-unknown",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "partitionName(unknown)",
+   "intent": "nonexistent partition rejected",
+   "verdict": "required-corroborated",
+   "detail": "fail to deal the insert data, error: \"Syntax error no sources available, the input json is empty: errors.SyntaxError{Pos:0, Src:\\\"\\\", Code:0x0, Msg:\\\"invalid ch"
+  },
+  {
+   "caseId": "case.insert.fieldOps-unknownOp",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "fieldOps(unknownOp)",
+   "intent": "unsupported op must be rejected",
+   "verdict": "required-corroborated",
+   "detail": "fail to deal the insert data, error: missing vector field: vector: invalid parameter[expected=FloatVector][actual=]"
+  },
+  {
+   "caseId": "case.upsert.data-missing",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "param": "data(missing)",
+   "intent": "doc marks data required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionDataReq.Data' Error:Field validation for 'Data' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.upsert.fieldOps-fieldName-missing",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "param": "fieldOps.fieldName(missing)",
+   "intent": "upstream binding required on fieldName",
+   "verdict": "required-corroborated",
+   "detail": "FieldPartialUpdateOp.field_name is required: missing parameter"
+  },
+  {
+   "caseId": "case.upsert.fieldOps-unknownOp",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "param": "fieldOps.op(unknown)",
+   "intent": "unsupported op rejected",
+   "verdict": "required-corroborated",
+   "detail": "unsupported partial update op: NO_SUCH_OP: invalid parameter"
+  },
+  {
+   "caseId": "case.delete.filter-missing",
+   "op": "POST /v2/vectordb/entities/delete",
+   "param": "filter(missing)",
+   "intent": "doc+upstream binding mark filter required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionFilterReq.Filter' Error:Field validation for 'Filter' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.delete.id-only",
+   "op": "POST /v2/vectordb/entities/delete",
+   "param": "id(only)",
+   "intent": "fragment documents id as filter replacement; upstream DeleteReq has no id field",
+   "verdict": "ghost-observed",
+   "detail": "missing required parameters, error: Key: 'CollectionFilterReq.Filter' Error:Field validation for 'Filter' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.delete.id-plus-filter",
+   "op": "POST /v2/vectordb/entities/delete",
+   "param": "id(+filter)",
+   "intent": "id points elsewhere; only filter target should be deleted (ghost-param probe)",
+   "verdict": "ghost-observed",
+   "detail": "deleteCount=1 id7=0 id2=1 => id param ignored (no-op)"
+  },
+  {
+   "caseId": "case.get.id-missing",
+   "op": "POST /v2/vectordb/entities/get",
+   "param": "id(missing)",
+   "intent": "doc+binding mark id required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionIDReq.ID' Error:Field validation for 'ID' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.get.partitionNames-unknown",
+   "op": "POST /v2/vectordb/entities/get",
+   "param": "partitionNames(unknown)",
+   "intent": "nonexistent partition rejected",
+   "verdict": "required-corroborated",
+   "detail": "request is rejected by limiter, error: partition not found[partition=no_such_p]"
+  },
+  {
+   "caseId": "case.search.data-missing",
+   "op": "POST /v2/vectordb/entities/search",
+   "param": "data(missing)",
+   "intent": "doc+binding mark data required",
+   "verdict": "required-corroborated",
+   "detail": "either 'ids' (for primary key search) or 'data' (for vector search) must be provided"
+  },
+  {
+   "caseId": "case.search.searchAggregation-ids",
+   "op": "POST /v2/vectordb/entities/search",
+   "param": "searchAggregation(+ids)",
+   "intent": "mutual exclusion with ids",
+   "verdict": "required-corroborated",
+   "detail": "primary keys (ids) and query vectors (data) are mutually exclusive. Please provide either 'ids' or 'data', not both"
+  },
+  {
+   "caseId": "case.hybrid_search.search-missing",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "param": "search(missing)",
+   "intent": "doc marks search required",
+   "verdict": "required-corroborated",
+   "detail": "nq [0] is invalid, nq (number of search vector per search request) should be in range [1, 16384], but got 0: invalid parameter: invalid parameter"
+  }
+ ]
 }

@@ -182,10 +182,11 @@ async function runCase(c, phase) {
   // Critical (setup) discipline: business rejections (already-exists etc.) are
   // tolerated for expect=record, but route-absent / not-accepted outcomes abort
   // the round — the suite cannot run on a broken fixture world.
+  const routeAbsent = res.http === 404 || [1800, 1801].includes(res.code)
   const criticalBroken =
     (c.critical && ["FAIL", "NO-EFFECT", "??"].includes(verdict)) ||
     (c.critical && c.expect === "ok" && !["PASS", "PASS-EFFECT"].includes(verdict)) ||
-    (c.critical && c.expect === "record" && verdict === "REJECTED(record)")
+    (c.critical && c.expect === "record" && verdict === "REJECTED(record)" && routeAbsent)
   if (criticalBroken) fatal = `critical setup case failed: ${id} verdict=${verdict}`
 }
 

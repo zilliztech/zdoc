@@ -1,8 +1,8 @@
 # Schema verification — uat-dataplane
 
-Ops with accepted-response evidence: **131**; field verdicts: {"response-structure-undocumented":131,"corroborated":304,"error-branch-not-exercised":131,"type-mismatch":2,"declared-not-observed":263}
+Ops with accepted-response evidence: **130**; field verdicts: {"response-structure-undocumented":130,"corroborated":302,"error-branch-not-exercised":130,"type-mismatch":2,"declared-not-observed":263,"required-corroborated":16,"ghost-observed":2}
 
-## Conflicts (527) — the doc-fix worklist
+## Conflicts (525) — the doc-fix worklist
 
 | Op | Case | Verdict | Detail |
 |---|---|---|---|
@@ -49,8 +49,6 @@ Ops with accepted-response evidence: **131**; field verdicts: {"response-structu
 | POST /v2/vectordb/indexes/describe | admin.indexes-describe | response-structure-undocumented | {"observed":"array"} |
 | POST /v2/vectordb/indexes/describe | admin.indexes-describe | type-mismatch | {"declared":"object","observed":"array"} |
 | POST /v2/vectordb/indexes/describe | admin.indexes-describe | error-branch-not-exercised | {"declared":"string"} |
-| POST /v2/vectordb/indexes/drop | admin.indexes-drop | response-structure-undocumented | {"observed":"object"} |
-| POST /v2/vectordb/indexes/drop | admin.indexes-drop | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/indexes/list | admin.indexes-list | response-structure-undocumented | {"observed":"array"} |
 | POST /v2/vectordb/indexes/list | admin.indexes-list | error-branch-not-exercised | {"declared":"string"} |
 | POST /v2/vectordb/partitions/get_stats | admin.partitions-get_stats | response-structure-undocumented | {"observed":"object"} |
@@ -206,10 +204,30 @@ Ops with accepted-response evidence: **131**; field verdicts: {"response-structu
 | POST /v2/vectordb/entities/hybrid_search | hybrid_search.radius-rangeFilter | response-structure-undocumented | {"observed":"array"} |
 | POST /v2/vectordb/entities/hybrid_search | hybrid_search.radius-rangeFilter | declared-not-observed | {"declared":"number","required":false} |
 | POST /v2/vectordb/entities/hybrid_search | hybrid_search.radius-rangeFilter | declared-not-observed | {"declared":"number","required":false} |
+| POST /v2/vectordb/entities/hybrid_search | hybrid_search.radius-rangeFilter | declared-not-observed | {"declared":"number","required":false} |
+| POST /v2/vectordb/entities/hybrid_search | hybrid_search.radius-rangeFilter | error-branch-not-exercised | {"declared":"string"} |
 
-## Corroborated fields: 304
+## Corroborated fields: 302
 
-## Required-param probes: 0
+## Required-param probes: 18
 
 | Case | Op | Param | Verdict |
 |---|---|---|---|
+| case.insert.collectionName-missing | POST /v2/vectordb/entities/insert | collectionName(missing) | required-corroborated |
+| case.insert.collectionName-unknown | POST /v2/vectordb/entities/insert | collectionName(unknown) | required-corroborated |
+| case.insert.dbName-unknown | POST /v2/vectordb/entities/insert | dbName(unknown) | required-corroborated |
+| case.insert.data-missing | POST /v2/vectordb/entities/insert | data(missing) | required-corroborated |
+| case.insert.data-wrongDim | POST /v2/vectordb/entities/insert | data(wrongDim) | required-corroborated |
+| case.insert.partitionName-unknown | POST /v2/vectordb/entities/insert | partitionName(unknown) | required-corroborated |
+| case.insert.fieldOps-unknownOp | POST /v2/vectordb/entities/insert | fieldOps(unknownOp) | required-corroborated |
+| case.upsert.data-missing | POST /v2/vectordb/entities/upsert | data(missing) | required-corroborated |
+| case.upsert.fieldOps-fieldName-missing | POST /v2/vectordb/entities/upsert | fieldOps.fieldName(missing) | required-corroborated |
+| case.upsert.fieldOps-unknownOp | POST /v2/vectordb/entities/upsert | fieldOps.op(unknown) | required-corroborated |
+| case.delete.filter-missing | POST /v2/vectordb/entities/delete | filter(missing) | required-corroborated |
+| case.delete.id-only | POST /v2/vectordb/entities/delete | id(only) | ghost-observed |
+| case.delete.id-plus-filter | POST /v2/vectordb/entities/delete | id(+filter) | ghost-observed |
+| case.get.id-missing | POST /v2/vectordb/entities/get | id(missing) | required-corroborated |
+| case.get.partitionNames-unknown | POST /v2/vectordb/entities/get | partitionNames(unknown) | required-corroborated |
+| case.search.data-missing | POST /v2/vectordb/entities/search | data(missing) | required-corroborated |
+| case.search.searchAggregation-ids | POST /v2/vectordb/entities/search | searchAggregation(+ids) | required-corroborated |
+| case.hybrid_search.search-missing | POST /v2/vectordb/entities/hybrid_search | search(missing) | required-corroborated |

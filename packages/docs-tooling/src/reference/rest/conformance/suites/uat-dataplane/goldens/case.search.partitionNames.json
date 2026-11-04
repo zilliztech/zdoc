@@ -33,22 +33,22 @@
   },
   {
    "distance": 0.27272728,
+   "id": 51,
+   "price": 3
+  },
+  {
+   "distance": 0.27272728,
+   "id": 57,
+   "price": 2
+  },
+  {
+   "distance": 0.27272728,
    "id": 100,
    "price": 1
   },
   {
    "distance": 0.27272728,
    "id": 101,
-   "price": 1
-  },
-  {
-   "distance": 0.27272728,
-   "id": 102,
-   "price": 1
-  },
-  {
-   "distance": 0.27272728,
-   "id": 103,
    "price": 1
   }
  ],

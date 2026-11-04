@@ -73,11 +73,6 @@ export function buildSuite(ctx, call) {
       param: "(drop fixture)", intent: "disposable partition for the drop probe",
       body: (hh) => ({ collectionName: hh.BASIC, partitionName: `${P}_tmp_p` }),
     },
-    {
-      id: "admin.indexes-drop-create", family: "indexes", op: "/indexes/create", kind: "setup", critical: true, expect: "record",
-      param: "(drop fixture)", intent: "disposable scalar index for the drop probe",
-      body: (hh) => ({ collectionName: hh.BASIC, indexParams: [{ fieldName: "price", indexName: `${P}_tmp_idx`, indexType: "STL_SORT" }] }),
-    },
   ].map((c) => ({ ...c, critical: true }))
 
   // ---- the 130-case port (insert/upsert/delete/get/query/search/hybrid) ----
@@ -1126,13 +1121,18 @@ export function buildSuite(ctx, call) {
   push({ id: "admin.indexes-alter_properties", family: "indexes", op: "/indexes/alter_properties", kind: "observe", expect: "record", param: "extraParams", intent: "index property write", body: (hh) => ({ collectionName: hh.BASIC, indexName: "vec_hnsw", properties: { "index.probe": "v1" } }) })
   push({ id: "admin.indexes-drop_properties", family: "indexes", op: "/indexes/drop_properties", kind: "observe", expect: "record", param: "propertyKeys", intent: "index property delete", body: (hh) => ({ collectionName: hh.BASIC, indexName: "vec_hnsw", propertyKeys: ["index.probe"] }) })
   push({
-    id: "admin.indexes-drop", family: "indexes", op: "/indexes/drop", kind: "positive", expect: "ok",
-    param: "indexName", intent: "create→drop scalar index lifecycle",
-    body: (hh) => ({ collectionName: hh.BASIC, indexName: `${P}_tmp_idx` }),
-    effect: async (hh, res) => {
-      if (res.code !== 0) return { ok: false, detail: "drop failed: " + res.msg }
+    id: "admin.indexes-drop", family: "indexes", op: "skip-request", kind: "positive", expect: "ok",
+    param: "indexName", intent: "create→drop scalar index lifecycle (index type falls back STL_SORT→AUTOINDEX: cloud accepts AUTOINDEX only)",
+    body: {},
+    effect: async (hh) => {
+      const mk = (indexType) => hh.call("/indexes/create", { collectionName: hh.BASIC, indexParams: [{ fieldName: "price", indexName: `${P}_tmp_idx`, indexType }] })
+      let r = await mk("STL_SORT")
+      if (r.code !== 0) r = await mk("AUTOINDEX")
+      if (r.code !== 0) return { ok: false, detail: "create failed both types: " + r.msg }
+      const d = await hh.call("/indexes/drop", { collectionName: hh.BASIC, indexName: `${P}_tmp_idx` })
+      if (d.code !== 0) return { ok: false, detail: "drop failed: " + d.msg }
       const l = await hh.call("/indexes/list", { collectionName: hh.BASIC })
-      return { ok: !(l.data || []).includes(`${P}_tmp_idx`), detail: "gone from list" }
+      return { ok: !(l.data || []).includes(`${P}_tmp_idx`), detail: "created+dropped, gone from list" }
     },
   })
 
