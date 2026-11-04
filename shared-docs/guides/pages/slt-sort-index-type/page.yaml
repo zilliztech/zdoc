@@ -1,0 +1,17 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/indexes/scalar/stl-sort.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/scalar-index/slt-sort-index-type
+  - manual: guides-byoc
+    path: tutorials/development/scalar-index/slt-sort-index-type
+
+transforms:
+  - operation: replace
+    target:
+      block: stl-sort-drop-note
+    content:
+      file: cloud-drop-note.md
