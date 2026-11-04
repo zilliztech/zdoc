@@ -12,7 +12,7 @@
   },
   "summary": {
     "fragments": 16,
-    "elements": 2395,
+    "elements": 2400,
     "highConfidenceIncremental": 294,
     "managedFloor": 2048,
     "modified": 9,
@@ -61927,6 +61927,136 @@
       },
       "confidence": "managed-floor",
       "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CompactResponse",
+      "elementType": "reusable-parameter",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CompactResponse/properties/code",
+      "elementType": "reusable-parameter",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CompactResponse/properties/data",
+      "elementType": "reusable-parameter",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CompactResponse/properties/data/properties/compactionID",
+      "elementType": "reusable-parameter",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1delete/post/responses/200/content/application~1json/schema/oneOf/0/properties/data/properties/deleteCount",
+      "elementType": "reusable-parameter",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
     }
   ],
   "managedFloorPolicy": {
@@ -61937,7 +62067,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "1122f9852aed3abfaebd66b69de27d7ed4764c7aee81b1473c98b1757bf09714",
+    "fragmentInventorySha256": "ffc7863c1584343cbf79526cdc65ea451d12900f9c52e0c3c00e0dfa4d39c276",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",

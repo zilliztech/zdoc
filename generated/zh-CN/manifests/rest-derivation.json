@@ -3,14 +3,14 @@
     "01-import-operations.json": "f60830d79ab12bad520d12e984676cc3f7b7d23c4ad61964234da0eea08bf669",
     "02-collection-operations.json": "ae8c57b09ca4891a59093be41c7ba417393a47a0b5572a0a68b00445789c6306",
     "03-vector-operations.json": "27bc31e809dd503fdb59fbb0e34e928f1e4345f8e8c866bdb7d5baef03ff21f2",
-    "04-vector-operations-v2.json": "c6abbfca9d1d7e325cd3094c47e6ffdf205d54795139a1d7d29f10fd4906dbb0",
-    "05-collection-operations-v2.json": "e9ee3f3511a64ec247e2c1048bace5aa2242a7e1a33ab275b0920599a53f116f",
+    "04-vector-operations-v2.json": "afed54fd5b99faeb6e09fef7b630ed9372f20991f9d912ac0cd512327d18d49e",
+    "05-collection-operations-v2.json": "c28eb58cdb8b7a384c3f3bafc97f41029679f73e3d76127052438c2eaadd7f91",
     "06-database-operations-v2.json": "0f026fcf29141ed7654db86e08d1d382cab1e1c23dcb3a542c50739f5548e276",
-    "07-index-operations-v2.json": "7cb3da52e7dcd6dcd44032bf71463dabce653f9cb9bc0a2a9265b79a61061af1",
+    "07-index-operations-v2.json": "db4d9bf1ce6d72cbf3af5bdb32a7fa546e6c2af845af74e879f4368874bf7f9d",
     "08-partition-operations-v2.json": "1341130aa6ec28591247b063ec5476857a74b1055545787fa2f5818788657cf7",
     "09-role-operations-v2.json": "285ed260136dcfb169201af7617c949a361edeb5f4fcbd56087165147f49b64a",
     "10-resource-group-v2.json": "f3d4eac7297051bbef158599a68ab0b1025a53b430e5584238aed9b5bc63a143",
-    "11-import-operations-v2.json": "b1135d4ad89013cc9d6f2a989da5c600e9b53884f563349e982b4bb4b0576c49",
+    "11-import-operations-v2.json": "d16f272e78fe09fcc1b3674e8902c18c9e0fbb72af750933ab35ea548e70e83e",
     "12-alias-operations-v2.json": "d1bebc1a999ee919d99a2de2b2b1fd9268167a18a2644538061d6f46d8727f5a",
     "13-user-operations-v2.json": "10756aa34d80213352dda4fc6764e93d3970d2dae0ed120a62b898fb5ef26796",
     "14-privilege-group-operations-v2.json": "49dca49765a511ca7bef376e00a552388a20bc7f272181bcb21309c1c83b89a7",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "5b866390ddf0a1d3ecb711017d987aa30aa2cff848b86e5089c30e4e440834a4",
     "38-snapshot-operations-v2.json": "077c94dfdc8d2e4297fa00528dedfa9a772e20f5c3819044554a09a6ad25adf7"
   },
-  "generatedAt": "2026-11-04T06:16:07.523Z",
+  "generatedAt": "2026-11-04T06:35:45.759Z",
   "locale": "zh-CN",
   "schemaVersion": 1,
-  "toolingSha": "5242297f787736128dc2d01a71154879720c324a"
+  "toolingSha": "211de65ea9a52f34a64881ea131dba819e4494f9"
 }

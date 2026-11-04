@@ -230,16 +230,32 @@
                         },
                         "data": {
                           "type": "object",
-                          "description": "Response payload which is an empty object.",
+                          "description": "Response payload containing the number of entities deleted.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，为空对象。"
                             },
                             "ja-JP": {
-                              "description": "空のオブジェクトであるレスポンスペイロード。"
+                              "description": "削除されたエンティティの数を含むレスポンスペイロード。"
                             }
                           },
-                          "properties": {},
+                          "properties": {
+                            "deleteCount": {
+                              "type": "integer",
+                              "description": "The number of entities removed by the request.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "请求删除的实体数量。"
+                                },
+                                "ja-JP": {
+                                  "description": "リクエストによって削除されたエンティティの数。"
+                                }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            }
+                          },
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
                           "x-deprecated-since": null
@@ -330,7 +346,9 @@
                     "value": {
                       "code": 0,
                       "cost": 0,
-                      "data": {}
+                      "data": {
+                        "deleteCount": 1
+                      }
                     }
                   },
                   "2": {
