@@ -48,6 +48,7 @@ export interface DocsUiText {
     thinking: string;
     searching: string;
     readingPage: string;
+    phaseLabels: Record<string, string>;
     today: string;
     previousSevenDays: string;
     older: string;
@@ -210,6 +211,17 @@ const english: DocsUiText = {
     thinking: 'Thinking',
     searching: 'Searching',
     readingPage: 'Reading page...',
+    phaseLabels: {
+      preparing: 'Preparing…',
+      analyzing: 'Understanding your question…',
+      retrieving: 'Checking documentation…',
+      calculating: 'Calculating…',
+      working: 'Working on your request…',
+      generating: 'Preparing your answer…',
+      answering: 'Answering…',
+      waiting_for_input: 'Waiting for your confirmation…',
+      completed: '', failed: '', cancelled: '',
+    },
     today: 'Today',
     previousSevenDays: 'Previous 7 days',
     older: 'Older',
@@ -405,6 +417,17 @@ const chinese: DocsUiText = {
     thinking: '思考中',
     searching: '搜索中',
     readingPage: '正在读取页面...',
+    phaseLabels: {
+      preparing: '准备中…',
+      analyzing: '正在理解你的问题…',
+      retrieving: '正在查阅资料…',
+      calculating: '正在计算…',
+      working: '正在处理你的问题…',
+      generating: '正在组织回答…',
+      answering: '正在回答…',
+      waiting_for_input: '等待你的确认…',
+      completed: '', failed: '', cancelled: '',
+    },
     today: '今天',
     previousSevenDays: '过去 7 天',
     older: '更早',
@@ -603,6 +626,17 @@ const japanese: DocsUiText = {
     thinking: '考え中',
     searching: '検索中',
     readingPage: 'ページを読み込み中...',
+    phaseLabels: {
+      preparing: '準備中…',
+      analyzing: '質問を確認しています…',
+      retrieving: 'ドキュメントを確認しています…',
+      calculating: '計算中…',
+      working: 'リクエストを処理しています…',
+      generating: '回答を準備しています…',
+      answering: '回答中…',
+      waiting_for_input: '確認を待っています…',
+      completed: '', failed: '', cancelled: '',
+    },
     today: '今日',
     previousSevenDays: '過去 7 日間',
     older: 'それ以前',
@@ -769,7 +803,9 @@ export function useDocsUiText(): DocsUiText {
 }
 
 export function localizeChatStatus(status: string | undefined, text: DocsUiText): string | undefined {
-  if (!status || text === english) return status;
+  if (!status) return status;
+  if (Object.prototype.hasOwnProperty.call(text.chat.phaseLabels, status)) return text.chat.phaseLabels[status];
+  if (text === english) return status;
   const normalized = status.trim().toLowerCase();
   if (/search|retriev|lookup|document/.test(normalized)) return text.chat.searching;
   if (/think|reason|analy|plan|process/.test(normalized)) return text.chat.thinking;

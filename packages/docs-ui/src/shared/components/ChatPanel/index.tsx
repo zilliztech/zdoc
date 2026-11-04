@@ -100,13 +100,15 @@ function ThinkingGlyph() {
 
 function ThinkingText({label, ariaLabel}: {label: string; ariaLabel: string}): React.ReactElement {
   return (
-    <span className={styles.thinkingText} aria-label={ariaLabel}>
+    <span className={styles.thinkingText} aria-label={ariaLabel} role="status">
       <span className={styles.thinkingLabel}>{label}</span>
-      <span className={styles.thinkingDots} aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </span>
+      {!/(…|\.\.\.)$/.test(label) && (
+        <span className={styles.thinkingDots} aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </span>
+      )}
     </span>
   );
 }
@@ -246,9 +248,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
   const latestQuestionRef = useRef<HTMLDivElement>(null);
   const latestQuestionIndex = messages.reduce((last, message, index) => message.role === 'user' ? index : last, -1);
   const latestQuestion = messages[latestQuestionIndex];
-  const streamPauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
-  const [showStreamPauseIndicator, setShowStreamPauseIndicator] = useState(false);
   const [showJumpToLatest, setShowJumpToLatest] = useState(false);
 
   const scrollToBottom = () => {
@@ -328,36 +328,9 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
     el.addEventListener('scroll', update, {passive: true});
     update();
     return () => el.removeEventListener('scroll', update);
-  }, [messages, isStreaming, showStreamPauseIndicator, isExpanded]);
+  }, [messages, isStreaming, isExpanded]);
 
   const hasMessages = messages.length > 0;
-  const lastMessage = messages[messages.length - 1];
-  const lastAssistantText = lastMessage?.role === 'assistant' ? lastMessage.text : '';
-
-  useEffect(() => {
-    if (streamPauseTimerRef.current) {
-      clearTimeout(streamPauseTimerRef.current);
-      streamPauseTimerRef.current = null;
-    }
-
-    setShowStreamPauseIndicator(false);
-
-    if (!isStreaming || lastMessage?.role !== 'assistant' || !lastAssistantText) {
-      return undefined;
-    }
-
-    streamPauseTimerRef.current = setTimeout(() => {
-      setShowStreamPauseIndicator(true);
-    }, 850);
-
-    return () => {
-      if (streamPauseTimerRef.current) {
-        clearTimeout(streamPauseTimerRef.current);
-        streamPauseTimerRef.current = null;
-      }
-    };
-  }, [isStreaming, lastMessage?.role, lastAssistantText]);
-
   const focusInputFromBox = (event: React.MouseEvent<HTMLDivElement>, inputRef: React.RefObject<HTMLTextAreaElement>) => {
     const target = event.target as HTMLElement;
     if (target.closest('button') || target.tagName === 'TEXTAREA') return;
@@ -434,13 +407,14 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                 ref={i === latestQuestionIndex ? latestQuestionRef : undefined}
                 style={msg.role === 'assistant' && i === latestQuestionIndex + 1 ? {minHeight: 'var(--chat-answer-min-height, 0px)'} : undefined}
                 className={`${styles.messageBubble} ${msg.role === 'user' ? styles.userMessage : styles.assistantMessage}`}>
-                <div className={msg.role === 'assistant' ? styles.markdownContent : undefined}>
+                <div className={msg.role === 'assistant' ? styles.markdownContent : undefined}
+                  aria-busy={Boolean(msg.role === 'assistant' && msg.busy && isStreaming && i === messages.length - 1)}>
                   {/* Agent label */}
                   {msg.role === 'assistant' && msg.agent && (
                     <span className={isStreaming && i === messages.length - 1 ? styles.agentLabelStreaming : styles.agentLabel}>{msg.agent}</span>
                   )}
                   {msg.role === 'assistant' ? (
-                    isStreaming && i === messages.length - 1 && !msg.text ? (
+                    isStreaming && i === messages.length - 1 && msg.busy && !msg.text ? (
                       <span className={styles.thinkingRow}>
                         <ThinkingGlyph />
                         <ThinkingText
@@ -456,7 +430,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                         grounding={msg.grounding}
                         onCitationClick={(si, url) => url && trackAiSourceClick(url, si)}
                       />
-                      {isStreaming && i === messages.length - 1 && showStreamPauseIndicator && msg.text && (
+                      {isStreaming && i === messages.length - 1 && msg.busy && msg.text && (
                         <span className={`${styles.thinkingRow} ${styles.trailingThinkingRow}`}>
                           <ThinkingGlyph />
                           <ThinkingText

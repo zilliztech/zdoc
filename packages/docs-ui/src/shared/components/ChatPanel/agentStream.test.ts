@@ -49,8 +49,8 @@ describe('parseAgentStreamEvent', () => {
     expect(parseAgentStreamEvent('agent', JSON.stringify({type: 'general', name: 'Docs Agent'}), state)).toEqual([
       {type: 'agent', name: 'Docs Agent', agentType: 'general'},
     ]);
-    expect(parseAgentStreamEvent('status', JSON.stringify({phase: 'Searching docs'}), state)).toEqual([
-      {type: 'status', status: 'Searching docs'},
+    expect(parseAgentStreamEvent('status', JSON.stringify({phase: 'retrieving', busy: true, sequence: 1}), state)).toEqual([
+      {type: 'status', status: 'retrieving', busy: true},
     ]);
     expect(parseAgentStreamEvent('tool-call', JSON.stringify({tool: 'search', count: 2}), state)).toEqual([
       {type: 'tool-call', count: 2},
@@ -78,4 +78,30 @@ describe('parseAgentStreamEvent', () => {
     expect(parseAgentStreamEvent('', '[DONE]', state)).toEqual([{type: 'done'}]);
     expect(parseAgentStreamEvent('delta', '{bad json', state)).toEqual([]);
   });
+  it('orders status within each request and tolerates legacy and unknown phases', () => {
+    const state = createAgentStreamState();
+    const status = (payload: object) => parseAgentStreamEvent('status', JSON.stringify(payload), state);
+    expect(status({phase: 'calculating', busy: true, sequence: 3})).toEqual([{type: 'status', status: 'calculating', busy: true}]);
+    expect(status({phase: 'retrieving', busy: true, sequence: 2})).toEqual([]);
+    expect(status({phase: 'generating', busy: true, sequence: 3})).toEqual([]);
+    expect(status({phase: 'answering', busy: false, sequence: 4})).toEqual([{type: 'status', status: 'answering', busy: false}]);
+    expect(state.ended).toBe(false);
+    expect(status({busy: true})).toEqual([{type: 'status', status: 'working', busy: true}]);
+    expect(status({phase: 'internal_tool_name', busy: true})).toEqual([{type: 'status', status: 'working', busy: true}]);
+    expect(parseAgentStreamEvent('status', JSON.stringify({phase: 'preparing', busy: true, sequence: 1}), createAgentStreamState())).toHaveLength(1);
+  });
+
+  it.each(['completed', 'failed', 'cancelled'])('ends loading on terminal phase %s and ignores late text/status', phase => {
+    const state = createAgentStreamState();
+    expect(parseAgentStreamEvent('status', JSON.stringify({phase, busy: false, sequence: 1}), state)).toEqual([{type: 'done'}]);
+    expect(parseAgentStreamEvent('status', JSON.stringify({phase: 'working', busy: true, sequence: 2}), state)).toEqual([]);
+    expect(parseAgentStreamEvent('delta', JSON.stringify({text: 'late text'}), state)).toEqual([]);
+  });
+
+  it('recognizes normalized session expiry and keeps other errors generic', () => {
+    const expired = 'Your session has been disconnected due to inactivity. Please refresh the page to start a new conversation.';
+    expect(parseAgentStreamEvent('error', JSON.stringify({error: expired}), createAgentStreamState())).toEqual([{type: 'error', message: expired}]);
+    expect(parseAgentStreamEvent('error', JSON.stringify({error: 'internal detail'}), createAgentStreamState())).toEqual([{type: 'error', message: 'Something went wrong. Please refresh the page and try again.'}]);
+  });
+
 });

@@ -1,4 +1,8 @@
-import type {ChatMessage} from '@zdoc/chat-ui';
+import type {ChatMessage as BaseChatMessage} from '@zdoc/chat-ui';
+
+export interface ChatMessage extends BaseChatMessage {
+  busy?: boolean;
+}
 
 export type {
   Source,
@@ -6,7 +10,6 @@ export type {
   ConfidenceLevel,
   AgentType,
   GroundingCitation,
-  ChatMessage,
 } from '@zdoc/chat-ui';
 
 export interface ChatHistoryEntry {
