@@ -256,6 +256,60 @@ it('detects a same-inode top-level Git pointer retarget instead of returning a w
   await expect(session.history(linked, g.H, [g.B])).rejects.toThrow()
   await expect(oracle.history(linked, g.H, [g.B])).rejects.toThrow(); session.dispose()
 }, 30000)
+it('returns from a real no-writer FIFO pointer race and falls back without outer cancellation', async () => {
+  const g = await graph(), linked = join(root, 'linked')
+  await git(root, 'worktree', 'add', '--detach', linked, g.H)
+  const pointer = join(await git(linked, 'rev-parse', '--absolute-git-dir'), 'commondir')
+  const repoRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
+  const harnessPath = new URL('../../../../../../scripts/testing/run-vitest-groups.mjs', import.meta.url).href
+  const {supervise} = await import(/* @vite-ignore */ harnessPath)
+  const actor = join(root, 'fifo-actor.cjs'), swapped = join(root, 'fifo-swapped'), completed = join(root, 'fifo-completed')
+  // Patch only the actor's fs boundary. The real open receives the actual no-writer FIFO.
+  // Restore the pathname after open returns so original Git fallback never reads a FIFO.
+  const script = `const fs=require('node:fs'),fsp=require('node:fs/promises'),cp=require('node:child_process'),{promisify}=require('node:util');
+const assert=require('node:assert/strict'),originalOpen=fsp.open,originalExec=cp.execFile,run=promisify(originalExec);
+const pointer=${JSON.stringify(pointer)},swapped=${JSON.stringify(swapped)},completed=${JSON.stringify(completed)};
+let armed=false,swaps=0,commits=0,openedMs=null,handleWasFifo=false;
+const wrapped=(...args)=>originalExec(...args);
+Object.defineProperty(wrapped,promisify.custom,{value:async(...args)=>{if(args[0]==='git'&&args[1].includes('cat-file')&&args[1].includes('commit'))commits++;return run(...args)}});cp.execFile=wrapped;
+fsp.open=async(...args)=>{
+ if(!armed||args[0]!==pointer)return originalOpen(...args);
+ armed=false;swaps++;assert.equal(fs.lstatSync(pointer).isFile(),true);const bytes=fs.readFileSync(pointer);
+ fs.unlinkSync(pointer);cp.execFileSync('mkfifo',[pointer]);assert.equal(fs.lstatSync(pointer).isFIFO(),true);
+ fs.writeFileSync(swapped,JSON.stringify({kind:'fifo',flags:args[1],writers:0}));const start=performance.now();
+ const handle=await originalOpen(...args);openedMs=performance.now()-start;
+ handleWasFifo=(await handle.stat()).isFIFO();assert.equal(handleWasFifo,true);
+ fs.unlinkSync(pointer);fs.writeFileSync(pointer,bytes);return handle;
+};
+const {loadTypeScript}=require(${JSON.stringify(join(repoRoot, 'scripts/lib/load-typescript.js'))});
+const {createGuidesReadSession}=loadTypeScript(${JSON.stringify(join(repoRoot, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-read-session.ts'))});
+(async()=>{const session=createGuidesReadSession(()=>{throw Error('unused retain')});
+ const query=()=>session.history(${JSON.stringify(linked)},${JSON.stringify(g.H)},[${JSON.stringify(g.B)}]);
+ const expected=await query(),cold=commits;await query();assert.equal(commits,cold);
+ armed=true;const start=performance.now();assert.deepEqual(await query(),expected);const fallback=commits-cold;
+ assert.equal(swaps,1);assert.equal(fallback,cold);assert.ok(openedMs<5000);
+ const before=commits;assert.deepEqual(await query(),expected);assert.equal(commits-before,cold);session.dispose();
+ fs.writeFileSync(completed,JSON.stringify({swaps,cold,fallback,disabledNext:commits-before,openedMs,elapsedMs:performance.now()-start,handleWasFifo}));
+})().catch(error=>{console.error(error);process.exitCode=1});`
+  await writeFile(actor, script)
+  let expired = false, stopped = false, swapTime: number | null = null
+  const deadline = Date.now() + 15000, budget = {check() {}, get expired() {return expired}, register() {}, release() {}}
+  const polling = (async () => {while (!stopped && Date.now() < deadline) {
+    if (swapTime === null && await readFile(swapped).then(() => true, () => false)) swapTime = Date.now()
+    if (swapTime !== null && Date.now() - swapTime >= 5000) {expired = true; return}
+    await new Promise(resolve => setTimeout(resolve, 10))
+  }})()
+  const directory = join(root, 'fifo-receipt')
+  const receipt = await supervise({argv: [process.execPath, actor], cwd: repoRoot, env: {...process.env, JITI_CACHE: 'false'}, directory, deadline, budget, graceMs: 1000})
+  stopped = true; await polling
+  const outcome = await readFile(completed, 'utf8').then(JSON.parse, () => null)
+  await evidence('fifo-race', {script, receipt, raw: JSON.parse(await readFile(join(directory, 'receipt.json'), 'utf8')),
+    swapped: await readFile(swapped, 'utf8').then(JSON.parse, () => null), outcome, watchdogExpired: expired,
+    stdout: await readFile(join(directory, 'stdout'), 'utf8'), stderr: await readFile(join(directory, 'stderr'), 'utf8')})
+  expect(receipt.settled).toBe(true); expect(receipt.cleanupErrors).toEqual([]); expect(receipt.receiptPersistence).toBe('confirmed')
+  expect(receipt.success).toBe(true); expect(receipt.signals).toEqual([]); expect(expired).toBe(false)
+  expect(outcome).toMatchObject({swaps: 1, cold: 5, fallback: 5, disabledNext: 5, handleWasFifo: true})
+}, 30000)
 it('joins an owned helper actor cancelled during repeated warm traversal without a completed result', async () => {
   const g = await graph(), repoRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
   const harnessPath = new URL('../../../../../../scripts/testing/run-vitest-groups.mjs', import.meta.url).href

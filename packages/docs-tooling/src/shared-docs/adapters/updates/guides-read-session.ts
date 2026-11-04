@@ -53,10 +53,11 @@ async function pointer(path: string) {
   if (!s) return {kind: 'absent', path} as const
   if (s.isDirectory() && !s.isSymbolicLink()) return {kind: 'directory', path, identity: await directory(path)} as const
   if (!s.isFile() || s.isSymbolicLink() || s.size > 4096) throw new Error('Uncacheable Git pointer')
-  const h = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW)
+  const h = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK)
   try {
     const stamp = (v: typeof s) => JSON.stringify([identity(v), v.size, v.mtimeMs, v.ctimeMs])
-    if (stamp(await h.stat()) !== stamp(s)) throw new Error('Git pointer changed')
+    const opened = await h.stat()
+    if (!opened.isFile() || stamp(opened) !== stamp(s)) throw new Error('Git pointer changed')
     const bytes = Buffer.alloc(4097); let length = 0
     while (length < bytes.length) {const r = await h.read(bytes, length, bytes.length - length, length); if (!r.bytesRead) break; length += r.bytesRead}
     if (length !== s.size || length > 4096 || stamp(await h.stat()) !== stamp(s) || stamp(await lstat(path)) !== stamp(s)) throw new Error('Git pointer changed')
