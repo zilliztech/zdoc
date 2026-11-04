@@ -1,0 +1,6864 @@
+{
+ "schemaVersion": 1,
+ "suite": "milvus-2.6.26",
+ "opsVerified": 139,
+ "requiredProbes": 18,
+ "tally": {
+  "response-structure-undocumented": 139,
+  "corroborated": 320,
+  "error-branch-not-exercised": 139,
+  "type-mismatch": 2,
+  "declared-not-observed": 263,
+  "required-corroborated": 16,
+  "ghost-observed": 2
+ },
+ "note": "declared = fragment/OpenAPI claims ($refs expanded); observed = frozen accepted responses (goldens) + negative-probe verdicts. This report is the doc-fix worklist: every conflict names the field and the evidence.",
+ "operations": [
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.aliases-alter",
+   "op": "POST /v2/vectordb/aliases/alter",
+   "golden": "case.admin.aliases-alter",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.aliases-create",
+   "op": "POST /v2/vectordb/aliases/create",
+   "golden": "case.admin.aliases-create",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.aliases-describe",
+   "op": "POST /v2/vectordb/aliases/describe",
+   "golden": "case.admin.aliases-describe",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.aliasName",
+      "$.data.collectionName",
+      "$.data.dbName"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.aliases-drop",
+   "op": "POST /v2/vectordb/aliases/drop",
+   "golden": "case.admin.aliases-drop",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.aliases-list",
+   "op": "POST /v2/vectordb/aliases/list",
+   "golden": "case.admin.aliases-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-alter_properties",
+   "op": "POST /v2/vectordb/collections/alter_properties",
+   "golden": "case.admin.collections-alter_properties",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-compact",
+   "op": "POST /v2/vectordb/collections/compact",
+   "golden": "case.admin.collections-compact",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.compactionID"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-drop_function",
+   "op": "POST /v2/vectordb/collections/drop_function",
+   "golden": "case.admin.collections-drop_function",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-drop_properties",
+   "op": "POST /v2/vectordb/collections/drop_properties",
+   "golden": "case.admin.collections-drop_properties",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-flush",
+   "op": "POST /v2/vectordb/collections/flush",
+   "golden": "case.admin.collections-flush",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-get_compaction_state",
+   "op": "POST /v2/vectordb/collections/get_compaction_state",
+   "golden": "case.admin.collections-get_compaction_state",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.compactionID",
+      "$.data.completedPlanNumber",
+      "$.data.executingPlanNumber",
+      "$.data.state",
+      "$.data.timeoutPlanNumber"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-get_load_state",
+   "op": "POST /v2/vectordb/collections/get_load_state",
+   "golden": "case.admin.collections-get_load_state",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.loadProgress",
+      "$.data.loadState"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-get_stats",
+   "op": "POST /v2/vectordb/collections/get_stats",
+   "golden": "case.admin.collections-get_stats",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.rowCount"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-list",
+   "op": "POST /v2/vectordb/collections/list",
+   "golden": "case.admin.collections-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-release-reload",
+   "op": "POST /v2/vectordb/collections/release",
+   "golden": "case.admin.collections-release-reload",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-rename",
+   "op": "POST /v2/vectordb/collections/rename",
+   "golden": "case.admin.collections-rename",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.collections-truncate",
+   "op": "POST /v2/vectordb/collections/truncate",
+   "golden": "case.admin.collections-truncate",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.databases-alter",
+   "op": "POST /v2/vectordb/databases/alter",
+   "golden": "case.admin.databases-alter",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.databases-alter_properties",
+   "op": "POST /v2/vectordb/databases/alter_properties",
+   "golden": "case.admin.databases-alter_properties",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.databases-describe",
+   "op": "POST /v2/vectordb/databases/describe",
+   "golden": "case.admin.databases-describe",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.dbID",
+      "$.data.dbName",
+      "$.data.properties"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.databases-drop_properties",
+   "op": "POST /v2/vectordb/databases/drop_properties",
+   "golden": "case.admin.databases-drop_properties",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.databases-list",
+   "op": "POST /v2/vectordb/databases/list",
+   "golden": "case.admin.databases-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.import-list",
+   "op": "POST /v2/vectordb/jobs/import/list",
+   "golden": "case.admin.import-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.records"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.indexes-describe",
+   "op": "POST /v2/vectordb/indexes/describe",
+   "golden": "case.admin.indexes-describe",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].failReason",
+      "$.data[].fieldName",
+      "$.data[].indexName",
+      "$.data[].indexParams",
+      "$.data[].indexState",
+      "$.data[].indexType",
+      "$.data[].indexedRows",
+      "$.data[].indexoffsetcache",
+      "$.data[].maxIndexVersion",
+      "$.data[].metricType",
+      "$.data[].minIndexVersion"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "object",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.indexes-drop",
+   "op": "POST /v2/vectordb/indexes/drop",
+   "golden": "case.admin.indexes-drop",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.indexes-list",
+   "op": "POST /v2/vectordb/indexes/list",
+   "golden": "case.admin.indexes-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.partitions-get_stats",
+   "op": "POST /v2/vectordb/partitions/get_stats",
+   "golden": "case.admin.partitions-get_stats",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.rowCount"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.partitions-list",
+   "op": "POST /v2/vectordb/partitions/list",
+   "golden": "case.admin.partitions-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.partitions-load",
+   "op": "POST /v2/vectordb/partitions/load",
+   "golden": "case.admin.partitions-load",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.partitions-release",
+   "op": "POST /v2/vectordb/partitions/release",
+   "golden": "case.admin.partitions-release",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.privilege_groups-create",
+   "op": "POST /v2/vectordb/privilege_groups/create",
+   "golden": "case.admin.privilege_groups-create",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.privilege_groups-drop",
+   "op": "POST /v2/vectordb/privilege_groups/drop",
+   "golden": "case.admin.privilege_groups-drop",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.privilege_groups-list",
+   "op": "POST /v2/vectordb/privilege_groups/list",
+   "golden": "case.admin.privilege_groups-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.privilegeGroups"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "type-mismatch",
+     "declared": "array",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.resource_groups-create",
+   "op": "POST /v2/vectordb/resource_groups/create",
+   "golden": "case.admin.resource_groups-create",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.resource_groups-drop",
+   "op": "POST /v2/vectordb/resource_groups/drop",
+   "golden": "case.admin.resource_groups-drop",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.resource_groups-list",
+   "op": "POST /v2/vectordb/resource_groups/list",
+   "golden": "case.admin.resource_groups-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.roles-alter",
+   "op": "POST /v2/vectordb/roles/alter",
+   "golden": "case.admin.roles-alter",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.roles-create",
+   "op": "POST /v2/vectordb/roles/create",
+   "golden": "case.admin.roles-create",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.roles-describe",
+   "op": "POST /v2/vectordb/roles/describe",
+   "golden": "case.admin.roles-describe",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.description",
+     "verdict": "corroborated",
+     "declared": "string",
+     "observed": "string"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.roles-drop",
+   "op": "POST /v2/vectordb/roles/drop",
+   "golden": "case.admin.roles-drop",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.roles-list",
+   "op": "POST /v2/vectordb/roles/list",
+   "golden": "case.admin.roles-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.users-create",
+   "op": "POST /v2/vectordb/users/create",
+   "golden": "case.admin.users-create",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.users-describe",
+   "op": "POST /v2/vectordb/users/describe",
+   "golden": "case.admin.users-describe",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.description",
+     "verdict": "corroborated",
+     "declared": "string",
+     "observed": "string"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.users-drop",
+   "op": "POST /v2/vectordb/users/drop",
+   "golden": "case.admin.users-drop",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.users-grant_role",
+   "op": "POST /v2/vectordb/users/grant_role",
+   "golden": "case.admin.users-grant_role",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.users-list",
+   "op": "POST /v2/vectordb/users/list",
+   "golden": "case.admin.users-list",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.users-revoke_role",
+   "op": "POST /v2/vectordb/users/revoke_role",
+   "golden": "case.admin.users-revoke_role",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "admin.users-update_password",
+   "op": "POST /v2/vectordb/users/update_password",
+   "golden": "case.admin.users-update_password",
+   "declaredFields": 2,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "delete.dbName",
+   "op": "POST /v2/vectordb/entities/delete",
+   "golden": "case.delete.dbName",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.deleteCount"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "delete.exprParams",
+   "op": "POST /v2/vectordb/entities/delete",
+   "golden": "case.delete.exprParams",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.deleteCount"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "delete.filter",
+   "op": "POST /v2/vectordb/entities/delete",
+   "golden": "case.delete.filter",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.deleteCount"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "delete.id-plus-filter",
+   "op": "POST /v2/vectordb/entities/delete",
+   "golden": "case.delete.id-plus-filter",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.deleteCount"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "delete.partitionName",
+   "op": "POST /v2/vectordb/entities/delete",
+   "golden": "case.delete.partitionName",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.deleteCount"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.consistencyLevel-Bounded",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.consistencyLevel-Bounded",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.consistencyLevel-Eventually",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.consistencyLevel-Eventually",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.consistencyLevel-Session",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.consistencyLevel-Session",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.consistencyLevel-Strong",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.consistencyLevel-Strong",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.id-array",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.id-array",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id",
+      "$.data[].title"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.id-scalar",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.id-scalar",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.outputFields-specific",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.outputFields-specific",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id",
+      "$.data[].title"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.outputFields-star",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.outputFields-star",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].dyn_flag",
+      "$.data[].grp",
+      "$.data[].id",
+      "$.data[].meta",
+      "$.data[].price",
+      "$.data[].tags",
+      "$.data[].title",
+      "$.data[].vector"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.partitionName-singular",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.partitionName-singular",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "get.partitionNames",
+   "op": "POST /v2/vectordb/entities/get",
+   "golden": "case.get.partitionNames",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.consistencyLevel-Bounded",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.consistencyLevel-Bounded",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.consistencyLevel-Eventually",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.consistencyLevel-Eventually",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.consistencyLevel-Session",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.consistencyLevel-Session",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.consistencyLevel-Strong",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.consistencyLevel-Strong",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.dbName",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.dbName",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.functionScore-decay",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.functionScore-decay",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.grouping",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.grouping",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].grp",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.ignoreGrowing",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.ignoreGrowing",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.limit-offset",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.limit-offset",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.metricType-mismatch",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.metricType-mismatch",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.partitionNames",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.partitionNames",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.radius-rangeFilter",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.radius-rangeFilter",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.rerank-weighted",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.rerank-weighted",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.search-filter",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.search-filter",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "hybrid_search.search-minimal",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "golden": "case.hybrid_search.search-minimal",
+   "declaredFields": 7,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].grp",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "insert.collectionName",
+   "op": "POST /v2/vectordb/entities/insert",
+   "golden": "case.insert.collectionName",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.insertCount",
+      "$.data.insertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "insert.data-array",
+   "op": "POST /v2/vectordb/entities/insert",
+   "golden": "case.insert.data-array",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.insertCount",
+      "$.data.insertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "insert.dbName",
+   "op": "POST /v2/vectordb/entities/insert",
+   "golden": "case.insert.dbName",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.insertCount",
+      "$.data.insertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "insert.fieldOps-ARRAY_APPEND",
+   "op": "POST /v2/vectordb/entities/insert",
+   "golden": "case.insert.fieldOps-ARRAY_APPEND",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.insertCount",
+      "$.data.insertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "insert.fieldOps-ARRAY_REMOVE",
+   "op": "POST /v2/vectordb/entities/insert",
+   "golden": "case.insert.fieldOps-ARRAY_REMOVE",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.insertCount",
+      "$.data.insertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "insert.fieldOps-PATH_REPLACE",
+   "op": "POST /v2/vectordb/entities/insert",
+   "golden": "case.insert.fieldOps-PATH_REPLACE",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.insertCount",
+      "$.data.insertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "insert.fieldOps-REPLACE",
+   "op": "POST /v2/vectordb/entities/insert",
+   "golden": "case.insert.fieldOps-REPLACE",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.insertCount",
+      "$.data.insertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "insert.partitionName",
+   "op": "POST /v2/vectordb/entities/insert",
+   "golden": "case.insert.partitionName",
+   "declaredFields": 3,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.insertCount",
+      "$.data.insertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.consistencyLevel-Bounded",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.consistencyLevel-Bounded",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.consistencyLevel-Eventually",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.consistencyLevel-Eventually",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.consistencyLevel-Session",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.consistencyLevel-Session",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.consistencyLevel-Strong",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.consistencyLevel-Strong",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.dbName",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.dbName",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.exprParams",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.exprParams",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.filter-arrayContains",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.filter-arrayContains",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.filter-jsonPath",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.filter-jsonPath",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id",
+      "$.data[].meta"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.filter-omitted",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.filter-omitted",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.filter",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.filter",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.groupByFields-countOnly",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.groupByFields-countOnly",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].count(*)"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.groupByFields-noAgg",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.groupByFields-noAgg",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].grp",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.limit-0",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.limit-0",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.limit-offset",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.limit-offset",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.orderByFields-asc",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.orderByFields-asc",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.orderByFields-badField",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.orderByFields-badField",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.orderByFields-desc",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.orderByFields-desc",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.orderByFields-paging",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.orderByFields-paging",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.outputFields-star",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.outputFields-star",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].grp",
+      "$.data[].id",
+      "$.data[].meta",
+      "$.data[].price",
+      "$.data[].tags",
+      "$.data[].title",
+      "$.data[].vector"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "query.partitionNames",
+   "op": "POST /v2/vectordb/entities/query",
+   "golden": "case.query.partitionNames",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.annsField-omitted",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.annsField-omitted",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.consistencyLevel-Bounded",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.consistencyLevel-Bounded",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.consistencyLevel-Eventually",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.consistencyLevel-Eventually",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.consistencyLevel-Session",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.consistencyLevel-Session",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.consistencyLevel-Strong",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.consistencyLevel-Strong",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.data-batch",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.data-batch",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.dbName",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.dbName",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.exprParams",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.exprParams",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.filter",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.filter",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.fs-fc-mutual",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.fs-fc-mutual",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.functionChains-L2",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.functionChains-L2",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.functionChains-badStage",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.functionChains-badStage",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.functionChains-limit",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.functionChains-limit",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.functionScore-boost",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.functionScore-boost",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.functionScore-decay",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.functionScore-decay",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.groupingField",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.groupingField",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.ids",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.ids",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.limit-offset",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.limit-offset",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.metricType-match",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.metricType-match",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.metricType-mismatch",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.metricType-mismatch",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.orderByFields-desc",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.orderByFields-desc",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.params-topLevel",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.params-topLevel",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.partitionNames",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.partitionNames",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.radius-rangeFilter",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.radius-rangeFilter",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": []
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.searchAggregation-full",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.searchAggregation-full",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.searchAggregation-offset",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.searchAggregation-offset",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.searchParams-flat-ef",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.searchParams-flat-ef",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "search.strictGroupSize",
+   "op": "POST /v2/vectordb/entities/search",
+   "golden": "case.search.strictGroupSize",
+   "declaredFields": 8,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "array",
+     "observedTopLevelKeys": [
+      "$.data",
+      "$.data[].distance",
+      "$.data[].id",
+      "$.data[].price"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.recalls",
+     "verdict": "declared-not-observed",
+     "declared": "array",
+     "required": false
+    },
+    {
+     "path": "$.topks",
+     "verdict": "corroborated",
+     "declared": "array",
+     "observed": "array"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "upsert.data-arrayForm",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "golden": "case.upsert.data-arrayForm",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.upsertCount",
+      "$.data.upsertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "upsert.fieldOps-ARRAY_APPEND",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "golden": "case.upsert.fieldOps-ARRAY_APPEND",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.upsertCount",
+      "$.data.upsertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "upsert.fieldOps-ARRAY_REMOVE",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "golden": "case.upsert.fieldOps-ARRAY_REMOVE",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.upsertCount",
+      "$.data.upsertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "upsert.fieldOps-REPLACE",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "golden": "case.upsert.fieldOps-REPLACE",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.upsertCount",
+      "$.data.upsertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  },
+  {
+   "suite": "milvus-2.6.26",
+   "caseId": "upsert.partitionName",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "golden": "case.upsert.partitionName",
+   "declaredFields": 6,
+   "verdicts": [
+    {
+     "path": "$.data",
+     "verdict": "response-structure-undocumented",
+     "observed": "object",
+     "observedTopLevelKeys": [
+      "$.data.upsertCount",
+      "$.data.upsertIds"
+     ]
+    },
+    {
+     "path": "$.code",
+     "verdict": "corroborated",
+     "declared": "number",
+     "observed": "number"
+    },
+    {
+     "path": "$.data",
+     "verdict": "corroborated",
+     "declared": "object",
+     "observed": "object"
+    },
+    {
+     "path": "$.scanned_remote_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.scanned_total_bytes",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.cache_hit_ratio",
+     "verdict": "declared-not-observed",
+     "declared": "number",
+     "required": false
+    },
+    {
+     "path": "$.message",
+     "verdict": "error-branch-not-exercised",
+     "declared": "string"
+    }
+   ]
+  }
+ ],
+ "requestEvidence": [
+  {
+   "caseId": "case.insert.collectionName-missing",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "collectionName(missing)",
+   "intent": "doc marks collectionName required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionDataReq.CollectionName' Error:Field validation for 'CollectionName' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.insert.collectionName-unknown",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "collectionName(unknown)",
+   "intent": "nonexistent collection rejected",
+   "verdict": "required-corroborated",
+   "detail": "can't find collection[database=default][collection=no_such_coll_zz]"
+  },
+  {
+   "caseId": "case.insert.dbName-unknown",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "dbName(unknown)",
+   "intent": "nonexistent db rejected",
+   "verdict": "required-corroborated",
+   "detail": "database not found[database=no_such_db_zz]"
+  },
+  {
+   "caseId": "case.insert.data-missing",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "data(missing)",
+   "intent": "doc marks data required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionDataReq.Data' Error:Field validation for 'Data' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.insert.data-wrongDim",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "data(wrongDim)",
+   "intent": "dimension mismatch must be rejected (data is actually validated)",
+   "verdict": "required-corroborated",
+   "detail": "fail to deal the insert data, error: \"Syntax error no sources available, the input json is empty: errors.SyntaxError{Pos:0, Src:\\\"\\\", Code:0x1, Msg:\\\"\\\"}\": inva"
+  },
+  {
+   "caseId": "case.insert.partitionName-unknown",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "partitionName(unknown)",
+   "intent": "nonexistent partition rejected",
+   "verdict": "required-corroborated",
+   "detail": "fail to deal the insert data, error: \"Syntax error no sources available, the input json is empty: errors.SyntaxError{Pos:0, Src:\\\"\\\", Code:0x1, Msg:\\\"\\\"}\": inva"
+  },
+  {
+   "caseId": "case.insert.fieldOps-unknownOp",
+   "op": "POST /v2/vectordb/entities/insert",
+   "param": "fieldOps(unknownOp)",
+   "intent": "unsupported op must be rejected",
+   "verdict": "required-corroborated",
+   "detail": "fail to deal the insert data, error: missing vector field: vector: invalid parameter[expected=FloatVector][actual=]"
+  },
+  {
+   "caseId": "case.upsert.data-missing",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "param": "data(missing)",
+   "intent": "doc marks data required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionDataReq.Data' Error:Field validation for 'Data' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.upsert.fieldOps-fieldName-missing",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "param": "fieldOps.fieldName(missing)",
+   "intent": "upstream binding required on fieldName",
+   "verdict": "required-corroborated",
+   "detail": "FieldPartialUpdateOp.field_name is required: missing parameter"
+  },
+  {
+   "caseId": "case.upsert.fieldOps-unknownOp",
+   "op": "POST /v2/vectordb/entities/upsert",
+   "param": "fieldOps.op(unknown)",
+   "intent": "unsupported op rejected",
+   "verdict": "required-corroborated",
+   "detail": "unsupported partial update op: NO_SUCH_OP: invalid parameter"
+  },
+  {
+   "caseId": "case.delete.filter-missing",
+   "op": "POST /v2/vectordb/entities/delete",
+   "param": "filter(missing)",
+   "intent": "doc+upstream binding mark filter required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionFilterReq.Filter' Error:Field validation for 'Filter' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.delete.id-only",
+   "op": "POST /v2/vectordb/entities/delete",
+   "param": "id(only)",
+   "intent": "fragment documents id as filter replacement; upstream DeleteReq has no id field",
+   "verdict": "ghost-observed",
+   "detail": "missing required parameters, error: Key: 'CollectionFilterReq.Filter' Error:Field validation for 'Filter' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.delete.id-plus-filter",
+   "op": "POST /v2/vectordb/entities/delete",
+   "param": "id(+filter)",
+   "intent": "id points elsewhere; only filter target should be deleted (ghost-param probe)",
+   "verdict": "ghost-observed",
+   "detail": "deleteCount=1 id7=0 id2=1 => id param ignored (no-op)"
+  },
+  {
+   "caseId": "case.get.id-missing",
+   "op": "POST /v2/vectordb/entities/get",
+   "param": "id(missing)",
+   "intent": "doc+binding mark id required",
+   "verdict": "required-corroborated",
+   "detail": "missing required parameters, error: Key: 'CollectionIDReq.ID' Error:Field validation for 'ID' failed on the 'required' tag"
+  },
+  {
+   "caseId": "case.get.partitionNames-unknown",
+   "op": "POST /v2/vectordb/entities/get",
+   "param": "partitionNames(unknown)",
+   "intent": "nonexistent partition rejected",
+   "verdict": "required-corroborated",
+   "detail": "request is rejected by limiter, error: partition not found[partition=no_such_p]"
+  },
+  {
+   "caseId": "case.search.data-missing",
+   "op": "POST /v2/vectordb/entities/search",
+   "param": "data(missing)",
+   "intent": "doc+binding mark data required",
+   "verdict": "required-corroborated",
+   "detail": "either 'ids' (for primary key search) or 'data' (for vector search) must be provided"
+  },
+  {
+   "caseId": "case.search.searchAggregation-ids",
+   "op": "POST /v2/vectordb/entities/search",
+   "param": "searchAggregation(+ids)",
+   "intent": "mutual exclusion with ids",
+   "verdict": "required-corroborated",
+   "detail": "primary keys (ids) and query vectors (data) are mutually exclusive. Please provide either 'ids' or 'data', not both"
+  },
+  {
+   "caseId": "case.hybrid_search.search-missing",
+   "op": "POST /v2/vectordb/entities/hybrid_search",
+   "param": "search(missing)",
+   "intent": "doc marks search required",
+   "verdict": "required-corroborated",
+   "detail": "nq [0] is invalid, nq (number of search vector per search request) should be in range [1, 16384], but got 0: invalid parameter: invalid parameter"
+  }
+ ]
+}

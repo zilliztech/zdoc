@@ -266,7 +266,8 @@
         "node --test packages/docs-tooling/src/reference/rest/conformance/suites/cases-integrity.test.mjs",
         "node --test packages/docs-tooling/src/reference/rest/conformance/diff/diff.test.mjs",
         "node --test packages/docs-tooling/src/reference/rest/conformance/lib/case-runner.test.mjs",
-        "node --test packages/docs-tooling/src/reference/rest/conformance/suites/goldens-integrity.test.mjs"
+        "node --test packages/docs-tooling/src/reference/rest/conformance/suites/goldens-integrity.test.mjs",
+        "node --test packages/docs-tooling/src/reference/rest/conformance/diff/schema-verify.test.mjs"
       ],
       "harnesses": [],
       "gates": [

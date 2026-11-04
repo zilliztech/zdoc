@@ -20,6 +20,7 @@ source code.
 | `lib/case-runner.mjs` | Generic executor: `plain` / `capture` (freeze goldens) / `verify` (assert frozen shapes); ghost-param detection; effect checks with retry; volatile-field stripping |
 | `inventory/` | `generate-inventory.mjs` → `schema-inventory.json`: per-operation parameter/field attribution + request/response shape tables generated from the fragments (committed; regeneration must be byte-identical) |
 | `diff/mz-diff.mjs` | M/Z incompatibility report from a milvus round vs a uat-dataplane round |
+| `diff/schema-verify.mjs` | **Doc-schema corroboration**: compares fragment-declared request/response schemas (inventory) against frozen accepted responses and negative-probe verdicts, field by field. Outputs the doc-fix worklist: type-mismatch / enum-conflict / declared-not-observed (docs declare what GA never returns — version-track ledger material) / observed-undeclared / response-structure-undocumented (envelope-only declarations, with the observed payload structure as ready-made fragment material) / required-corroborated / required-conflict / ghost-observed. Error-branch ($.message) and the volatile cost subtree are exempted |
 | `diff/cross-track.mjs` | fragments vs v2.6.26/v3.0.5 route skeletons vs live verdicts (feeds the version-track decision) |
 | `runner/cell_round.sh` | One round on milvus-cell: create-per-round → helm per anchor → probe → **delete-after** (no idle). User's own vCluster is only woken, never deleted |
 | `runner/uat_round.sh` | One round on UAT3 from `.env` `ZILLIZ_UAT3_*` (control plane + dataplane with endpoint discovery + stale sweep) |
@@ -66,7 +67,20 @@ diff/cross-track.mjs --inventory inventory/schema-inventory.json \
   --skeleton-305 reports/2026-11-01/skeleton-305.json \
   --milvus-results reports/<date>/results-milvus-v2.6.26.json \
   --out reports/<date>/cross-track.json --md reports/<date>/cross-track.md
+
+# Doc-schema corroboration (declared vs observed, per field)
+diff/schema-verify.mjs --inventory inventory/schema-inventory.json \
+  --suite suites/milvus-2.6.26 --results reports/<date>/results-milvus-v2.6.26.json \
+  --out reports/<date>/schema-verify-milvus-2.6.26.json --md reports/<date>/schema-verify-milvus-2.6.26.md
 ```
+
+Doc-follow loop: the schema-verify conflict list (plus golden-drift and M/Z
+rows) feeds the weekly report triaged into — (A) doc wrong → fix the FRAGMENT
+(en+ja; zh per deliberate-divergence policy) → generator rebuilds pages → next
+verify round turns green; (B) version-track → cross-track ledger; (C) server
+quirk → upstream. Goldens themselves are re-captured only after a capture
+round is human-reviewed; they follow the environment, the fragments follow the
+review decisions.
 
 Schedule: weekly full round (Tuesday) + a daily check that runs affected
 families for any open PR touching `meta/openapi/**` fragments (see the
