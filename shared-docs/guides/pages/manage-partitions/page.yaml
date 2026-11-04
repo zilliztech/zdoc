@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/collections/manage-partitions.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/collection/manage-partitions
+  - manual: guides-byoc
+    path: tutorials/development/collection/manage-partitions
