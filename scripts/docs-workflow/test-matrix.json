@@ -143,17 +143,19 @@
       "paths": [
         "packages/docs-ui/src/shared/theme/Heading/**",
         "packages/docs-ui/src/shared/components/DocTag/**",
-        "packages/docs-ui/src/shared/utils/docHeadingTags*"
+        "packages/docs-ui/src/shared/utils/docHeadingTags*",
+        "src/test/HeadingInitStub.tsx",
+        "src/test/LinkStub.tsx"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-ui/src/shared/theme/Heading/tagLinks.test.ts packages/docs-ui/src/shared/utils/docHeadingTags.test.ts"
+        "pnpm vitest run packages/docs-ui/src/shared/theme/Heading packages/docs-ui/src/shared/utils/docHeadingTags.test.ts"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Heading beta tags and the TOC Contact Sales CTA must split the CONTACT SALES link by site language while the PUBLIC/PRIVATE preview tags link to the site-local feature-availability page, with the ja-JP locale prefix preserved on the English site; ON REQUEST links to the site-language support center, and the TOC heading-tag stripper must drop every registered suffix."
+      "reason": "Heading beta tags and the TOC Contact Sales CTA must split the CONTACT SALES link by site language while the PUBLIC/PRIVATE preview tags link to the site-local feature-availability page, with the ja-JP locale prefix preserved on the English site; ON REQUEST links to the site-language support center, and the TOC heading-tag stripper must drop every registered suffix. The Heading wrapper's doc-path gate must match locale-prefixed routes (ja-JP) via the parsed route, or ja heading tags render as literal '| TAG' text; the two src/test stubs stand in for @theme-init/Heading and @docusaurus/Link in its component test."
     },
     {
       "id": "docs-ui-analytics",
@@ -1310,7 +1312,8 @@
         "packages/site-config/package.json"
       ],
       "focusedTests": [
-        "pnpm test:replay:contract"
+        "pnpm test:replay:contract",
+        "pnpm vitest run packages/docs-tooling/src/runtime-contract.test.ts"
       ],
       "harnesses": [
         "pnpm test:replay:all"
@@ -1319,7 +1322,22 @@
         "pnpm test:workflow-policy",
         "git diff --check"
       ],
-      "reason": "Workspace dependency manifests and the shared lockfile can shift every workflow tooling runtime (overrides, transitive upgrades, engine constraints); the replay harnesses must prove the installed toolchain still passes."
+      "reason": "Workspace dependency manifests and the shared lockfile can shift every workflow tooling runtime (overrides, transitive upgrades, engine constraints); the replay harnesses must prove the installed toolchain still passes. The docs-tooling runtime contract runs here because a manifest edit is exactly the change that can break it (the @zilliz/mdtomd drift)."
+    },
+    {
+      "id": "docs-tooling-runtime-contract",
+      "paths": [
+        "packages/docs-tooling/src/runtime-contract*"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/runtime-contract.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "The docs-tooling runtime contract pins the package manifest dependency list and proves every statically or dynamically imported runtime package is declared. It previously had no matrix row or CI consumer, so the @zilliz/mdtomd manifest addition and two scanner false positives (regex-literal @theme escapes, vitest imports in test-support modules) stayed red on master."
     },
     {
       "id": "frontend-test-harness",

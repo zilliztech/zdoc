@@ -1,0 +1,18 @@
+# Follows the onboarded filtered-search/page.yaml shape: the Cloud CLI panel is
+# added as a new language, which needs no position because the language does not
+# exist in the Milvus source.
+schema_version: 1
+source:
+  file: site/en/userGuide/search-query-get/range-search.md
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/range-search
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/range-search
+transforms:
+  - operation: add
+    target:
+      block: range-search-examples
+      language: shell
+    content:
+      file: cloud-cli.md

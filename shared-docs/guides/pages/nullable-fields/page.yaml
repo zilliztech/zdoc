@@ -1,0 +1,24 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/nullable-and-default.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/nullable-fields
+  - manual: guides-byoc
+    path: tutorials/development/schema/nullable-fields
+
+# Nullable StructArray support is a cluster-tier capability on Zilliz Cloud
+# (On-Demand only), which the Milvus Limits section cannot state.
+transforms:
+  - operation: replace
+    target:
+      block: nullable-limits
+    content:
+      file: cloud-limits.md
+  - operation: replace
+    target:
+      block: nullable-structarray-scope
+    content:
+      file: cloud-structarray-scope.md

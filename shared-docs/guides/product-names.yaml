@@ -26,6 +26,20 @@ allow:
   - Available in Milvus v2.6.17 and later.
   # Preserve the C# connection credentials used by the Random Sampling examples.
   - 'Password = "Milvus"'
+  # Preserve analyzer sample text and expected tokens used by the analyzer pages.
+  - Milvus is a vector database built for scale!
+  - Milvus 是一个高性能、可扩展的向量数据库！
+  - '[''Milvus'', ''是'', ''一个'', ''高性'', ''性能'', ''高性能'', ''可'', ''扩展'', ''的'', ''向量'', ''数据'', ''据库'', ''数据库'']'
+  - Milvus 向量数据库专为大规模应用而设计
+  # Preserve engine-version statements on the JSON indexing pages; the version names the engine, not the product.
+  - Starting in Milvus 3.0.0, whole-object JSON indexing (`json_cast_type="JSON"`), also known as JSON flat indexing, is deprecated. Existing indexes and new index-creation requests remain supported for compatibility, but this mode is no longer recommended for new workloads.
+  - '| `JSON` | An entire JSON object or sub-object. Whole-object JSON indexing is deprecated starting in Milvus 3.0.0. | `{"supplier": {"country": "USA"}}` |'
+  - When in doubt, start with `AUTOINDEX` for scalar paths. Use `INVERTED` explicitly for array cast types and text-match queries. Whole-object JSON indexing with either `INVERTED` or `AUTOINDEX` remains supported, but it is deprecated starting in Milvus 3.0.0.
+  - '`AUTOINDEX` behavior depends on the `json_cast_type` you specify. In Milvus 3.0, `AUTOINDEX` no longer always resolves to `INVERTED` for JSON path indexes.'
+  - '| `JSON` | Uses `INVERTED` for whole-object or sub-object indexing. This mode is deprecated starting in Milvus 3.0.0. |'
+  - '**Behavior change in Milvus 3.0**. In earlier versions, `AUTOINDEX` on JSON paths always built an `INVERTED` index. From Milvus 3.0, `AUTOINDEX` picks between `BITMAP` and `STL_SORT` for scalar cast types. For `JSON`, `AUTOINDEX` still uses `INVERTED`, although whole-object JSON indexing is deprecated. For array cast types and text-match queries, specify `INVERTED` explicitly.'
+  - '| `JSON` | An entire JSON object or sub-object with automatic type inference and flattening. Deprecated starting in Milvus 3.0.0. | any nested object | Yes (deprecated) | Yes (deprecated) | No | No |'
+  - '- You''re maintaining an existing whole-object JSON index. Both `INVERTED` and `AUTOINDEX` remain supported for compatibility, but whole-object JSON indexing is deprecated starting in Milvus 3.0.0.'
   # Shared-docs sample data and engine-version statements (collection, text search and scalar index batches).
   - "loving Milvus!"
   - "who loves Milvus?"
