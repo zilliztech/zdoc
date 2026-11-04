@@ -2965,8 +2965,7 @@
                       "code": 0,
                       "data": {
                         "loadProgress": 100,
-                        "loadState": "LoadStateLoaded",
-                        "message": ""
+                        "loadState": "LoadStateLoaded"
                       }
                     }
                   },

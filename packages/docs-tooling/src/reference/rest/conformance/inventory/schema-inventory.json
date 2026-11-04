@@ -5,12 +5,12 @@
   "01-import-operations.json": "f60830d79ab1",
   "02-collection-operations.json": "ae8c57b09ca4",
   "03-vector-operations.json": "27bc31e809dd",
-  "04-vector-operations-v2.json": "afed54fd5b99",
-  "05-collection-operations-v2.json": "c28eb58cdb8b",
+  "04-vector-operations-v2.json": "72961ffb54c9",
+  "05-collection-operations-v2.json": "4f2a415f14c0",
   "06-database-operations-v2.json": "0f026fcf2914",
-  "07-index-operations-v2.json": "db4d9bf1ce6d",
-  "08-partition-operations-v2.json": "1341130aa6ec",
-  "09-role-operations-v2.json": "285ed260136d",
+  "07-index-operations-v2.json": "f12180fd9514",
+  "08-partition-operations-v2.json": "77c60f81b12a",
+  "09-role-operations-v2.json": "7930c706c338",
   "10-resource-group-v2.json": "f3d4eac72970",
   "11-import-operations-v2.json": "d16f272e78fe",
   "12-alias-operations-v2.json": "d1bebc1a999e",
@@ -2359,7 +2359,15 @@
            "type": "array",
            "required": false,
            "items": {
-            "type": "string"
+            "type": "oneOf",
+            "branches": [
+             {
+              "type": "integer"
+             },
+             {
+              "type": "string"
+             }
+            ]
            }
           }
          ]
@@ -2457,7 +2465,8 @@
        "in": "body",
        "type": "object",
        "required": [],
-       "fields": []
+       "fields": [],
+       "dynamic": true
       },
       {
        "name": "partialUpdate",
@@ -2541,7 +2550,15 @@
            "type": "array",
            "required": false,
            "items": {
-            "type": "string"
+            "type": "oneOf",
+            "branches": [
+             {
+              "type": "integer"
+             },
+             {
+              "type": "string"
+             }
+            ]
            }
           }
          ]
@@ -2757,8 +2774,36 @@
          "required": false,
          "items": {
           "type": "object",
-          "fields": [],
-          "required": []
+          "fields": [
+           {
+            "name": "id",
+            "in": "body",
+            "type": "oneOf",
+            "required": false,
+            "branches": [
+             {
+              "type": "integer"
+             },
+             {
+              "type": "string"
+             }
+            ]
+           },
+           {
+            "name": "grp",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "count(*)",
+            "in": "body",
+            "type": "number",
+            "required": false
+           }
+          ],
+          "required": [],
+          "dynamic": true
          }
         },
         {
@@ -3153,14 +3198,33 @@
                "name": "args",
                "in": "body",
                "type": "array",
-               "required": false
+               "required": false,
+               "items": {
+                "type": "object",
+                "fields": [
+                 {
+                  "name": "column",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "literal",
+                  "in": "body",
+                  "type": "ref",
+                  "required": false
+                 }
+                ],
+                "required": []
+               }
               },
               {
                "name": "params",
                "in": "body",
                "type": "object",
                "required": [],
-               "fields": []
+               "fields": [],
+               "dynamic": true
               }
              ]
             },
@@ -3187,7 +3251,8 @@
              "in": "body",
              "type": "object",
              "required": [],
-             "fields": []
+             "fields": [],
+             "dynamic": true
             }
            ],
            "required": [
@@ -3237,7 +3302,8 @@
          "in": "body",
          "type": "object",
          "required": [],
-         "fields": []
+         "fields": [],
+         "dynamic": true
         },
         {
          "name": "order",
@@ -3367,8 +3433,141 @@
          "required": false,
          "items": {
           "type": "object",
-          "fields": [],
-          "required": []
+          "fields": [
+           {
+            "name": "id",
+            "in": "body",
+            "type": "oneOf",
+            "required": false,
+            "branches": [
+             {
+              "type": "integer"
+             },
+             {
+              "type": "string"
+             }
+            ]
+           },
+           {
+            "name": "distance",
+            "in": "body",
+            "type": "number",
+            "required": false
+           },
+           {
+            "name": "grp",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "buckets",
+            "in": "body",
+            "type": "array",
+            "required": false,
+            "items": {
+             "type": "object",
+             "fields": [
+              {
+               "name": "count",
+               "in": "body",
+               "type": "number",
+               "required": false
+              },
+              {
+               "name": "hits",
+               "in": "body",
+               "type": "array",
+               "required": false,
+               "items": {
+                "type": "object",
+                "fields": [],
+                "required": [],
+                "dynamic": true
+               }
+              },
+              {
+               "name": "key",
+               "in": "body",
+               "type": "array",
+               "required": false,
+               "items": {
+                "type": "object",
+                "fields": [
+                 {
+                  "name": "fieldId",
+                  "in": "body",
+                  "type": "integer",
+                  "required": false
+                 },
+                 {
+                  "name": "fieldName",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 }
+                ],
+                "required": [],
+                "dynamic": true
+               }
+              },
+              {
+               "name": "metrics",
+               "in": "body",
+               "type": "object",
+               "required": [],
+               "fields": [
+                {
+                 "name": "avg",
+                 "in": "body",
+                 "type": "number",
+                 "required": false
+                },
+                {
+                 "name": "max",
+                 "in": "body",
+                 "type": "number",
+                 "required": false
+                },
+                {
+                 "name": "min",
+                 "in": "body",
+                 "type": "number",
+                 "required": false
+                },
+                {
+                 "name": "n",
+                 "in": "body",
+                 "type": "number",
+                 "required": false
+                },
+                {
+                 "name": "total",
+                 "in": "body",
+                 "type": "number",
+                 "required": false
+                }
+               ]
+              },
+              {
+               "name": "subGroups",
+               "in": "body",
+               "type": "array",
+               "required": false,
+               "items": {
+                "type": "object",
+                "fields": [],
+                "required": [],
+                "dynamic": true
+               }
+              }
+             ],
+             "required": []
+            }
+           }
+          ],
+          "required": [],
+          "dynamic": true
          }
         },
         {
@@ -3406,6 +3605,15 @@
          "in": "body",
          "type": "number",
          "required": false
+        },
+        {
+         "name": "aggTopks",
+         "in": "body",
+         "type": "array",
+         "required": false,
+         "items": {
+          "type": "number"
+         }
         }
        ],
        "required": []
@@ -3811,7 +4019,25 @@
                "name": "args",
                "in": "body",
                "type": "array",
-               "required": false
+               "required": false,
+               "items": {
+                "type": "object",
+                "fields": [
+                 {
+                  "name": "column",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "literal",
+                  "in": "body",
+                  "type": "ref",
+                  "required": false
+                 }
+                ],
+                "required": []
+               }
               },
               {
                "name": "name",
@@ -3906,8 +4132,36 @@
          "required": false,
          "items": {
           "type": "object",
-          "fields": [],
-          "required": []
+          "fields": [
+           {
+            "name": "id",
+            "in": "body",
+            "type": "oneOf",
+            "required": false,
+            "branches": [
+             {
+              "type": "integer"
+             },
+             {
+              "type": "string"
+             }
+            ]
+           },
+           {
+            "name": "distance",
+            "in": "body",
+            "type": "number",
+            "required": false
+           },
+           {
+            "name": "grp",
+            "in": "body",
+            "type": "string",
+            "required": false
+           }
+          ],
+          "required": [],
+          "dynamic": true
          }
         },
         {
@@ -4034,7 +4288,8 @@
        "in": "body",
        "type": "object",
        "required": [],
-       "fields": []
+       "fields": [],
+       "dynamic": true
       },
       {
        "name": "outputFields",
@@ -4106,8 +4361,24 @@
          "required": false,
          "items": {
           "type": "object",
-          "fields": [],
-          "required": []
+          "fields": [
+           {
+            "name": "id",
+            "in": "body",
+            "type": "oneOf",
+            "required": false,
+            "branches": [
+             {
+              "type": "integer"
+             },
+             {
+              "type": "string"
+             }
+            ]
+           }
+          ],
+          "required": [],
+          "dynamic": true
          }
         },
         {
@@ -5762,7 +6033,25 @@
                  "name": "params",
                  "in": "body",
                  "type": "array",
-                 "required": false
+                 "required": false,
+                 "items": {
+                  "type": "object",
+                  "fields": [
+                   {
+                    "name": "key",
+                    "in": "body",
+                    "type": "string",
+                    "required": false
+                   },
+                   {
+                    "name": "value",
+                    "in": "body",
+                    "type": "string",
+                    "required": false
+                   }
+                  ],
+                  "required": []
+                 }
                 }
                ],
                "required": []
@@ -7708,8 +7997,7 @@
        "code": 0,
        "data": {
         "loadProgress": 100,
-        "loadState": "LoadStateLoaded",
-        "message": ""
+        "loadState": "LoadStateLoaded"
        }
       }
      },
@@ -9106,7 +9394,8 @@
            "type": "string",
            "required": false
           }
-         ]
+         ],
+         "dynamic": true
         }
        ]
       }
@@ -9535,7 +9824,8 @@
            "type": "integer",
            "required": false
           }
-         ]
+         ],
+         "dynamic": true
         },
         {
          "name": "nullable",
@@ -10822,6 +11112,7 @@
             "type": "string",
             "required": false,
             "enum": [
+             "",
              "sync",
              "async",
              "disable"
@@ -11598,11 +11889,8 @@
       "key": "2",
       "summary": "failure",
       "value": {
-       "summary": "failure",
-       "value": {
-        "code": 1800,
-        "message": "User hasn't authenticated"
-       }
+       "code": 1800,
+       "message": "User hasn't authenticated"
       }
      }
     ]
@@ -12540,11 +12828,11 @@
        "code": 0,
        "data": [
         {
-         "dbName": "*",
+         "db_name": "*",
          "grantor": "root",
-         "objectName": "*",
-         "objectType": "Collection",
-         "privilege": "IndexDetail"
+         "object_name": "*",
+         "object_type": "Global",
+         "privilege": "ShowCollections"
         }
        ],
        "description": "Grants read-only access to analytics collections."
@@ -12557,11 +12845,11 @@
        "code": 0,
        "data": [
         {
-         "dbName": "*",
+         "db_name": "*",
          "grantor": "db_admin",
-         "objectName": "*",
-         "objectType": "Collection",
-         "privilege": "IndexDetail"
+         "object_name": "*",
+         "object_type": "Global",
+         "privilege": "ShowCollections"
         }
        ],
        "description": "Grants read-only access to analytics collections."
@@ -19776,7 +20064,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": true
+                "required": true,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "langauge",
@@ -19869,7 +20160,10 @@
                 "name": "splitBy",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": [
@@ -19899,7 +20193,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": true
+                "required": true,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "embedding",
@@ -20081,7 +20378,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "embedding",
@@ -20165,7 +20465,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -20216,7 +20519,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -20267,7 +20573,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -20631,7 +20940,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": true
+                "required": true,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "langauge",
@@ -20724,7 +21036,10 @@
                 "name": "splitBy",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": [
@@ -20754,7 +21069,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": true
+                "required": true,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "embedding",
@@ -20936,7 +21254,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "embedding",
@@ -21020,7 +21341,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -21071,7 +21395,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -21122,7 +21449,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -22176,7 +22506,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "langauge",
@@ -22263,7 +22596,10 @@
                 "name": "splitBy",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -22287,7 +22623,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "embedding",
@@ -22464,7 +22803,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "embedding",
@@ -22548,7 +22890,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -22599,7 +22944,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -22650,7 +22998,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -22741,7 +23092,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -22797,7 +23151,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -23236,7 +23593,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "langauge",
@@ -23323,7 +23683,10 @@
                 "name": "splitBy",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -23347,7 +23710,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "embedding",
@@ -23524,7 +23890,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                },
                {
                 "name": "embedding",
@@ -23608,7 +23977,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -23659,7 +24031,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -23710,7 +24085,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -23801,7 +24179,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -23857,7 +24238,10 @@
                 "name": "inputFields",
                 "in": "body",
                 "type": "array",
-                "required": false
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
                }
               ],
               "required": []
@@ -27489,7 +27873,8 @@
        "in": "body",
        "type": "object",
        "required": [],
-       "fields": []
+       "fields": [],
+       "dynamic": true
       },
       {
        "name": "bucketInfo",
@@ -31663,7 +32048,59 @@
                  "name": "config",
                  "in": "body",
                  "type": "object",
-                 "required": false
+                 "required": [],
+                 "fields": [
+                  {
+                   "name": "recipients",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "members",
+                     "in": "body",
+                     "type": "array",
+                     "required": false
+                    },
+                    {
+                     "name": "orgRoles",
+                     "in": "body",
+                     "type": "array",
+                     "required": false
+                    },
+                    {
+                     "name": "projectRoles",
+                     "in": "body",
+                     "type": "array",
+                     "required": false
+                    }
+                   ]
+                  },
+                  {
+                   "name": "url",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "webhookUrl",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "region",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "apiKey",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  }
+                 ]
                 }
                ],
                "required": []
@@ -32110,19 +32547,28 @@
                   "name": "members",
                   "in": "body",
                   "type": "array",
-                  "required": false
+                  "required": false,
+                  "items": {
+                   "type": "string"
+                  }
                  },
                  {
                   "name": "orgRoles",
                   "in": "body",
                   "type": "array",
-                  "required": false
+                  "required": false,
+                  "items": {
+                   "type": "string"
+                  }
                  },
                  {
                   "name": "projectRoles",
                   "in": "body",
                   "type": "array",
-                  "required": false
+                  "required": false,
+                  "items": {
+                   "type": "string"
+                  }
                  }
                 ]
                },
@@ -32582,19 +33028,28 @@
                   "name": "members",
                   "in": "body",
                   "type": "array",
-                  "required": false
+                  "required": false,
+                  "items": {
+                   "type": "string"
+                  }
                  },
                  {
                   "name": "orgRoles",
                   "in": "body",
                   "type": "array",
-                  "required": false
+                  "required": false,
+                  "items": {
+                   "type": "string"
+                  }
                  },
                  {
                   "name": "projectRoles",
                   "in": "body",
                   "type": "array",
-                  "required": false
+                  "required": false,
+                  "items": {
+                   "type": "string"
+                  }
                  }
                 ]
                },
@@ -33826,7 +34281,63 @@
                  "name": "properties",
                  "in": "body",
                  "type": "object",
-                 "required": false
+                 "required": [],
+                 "fields": [
+                  {
+                   "name": "projectId",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "regionId",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "cuType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "plan",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "clusterId",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "resourceType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "resourceId",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "volumeName",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "requestClass",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  }
+                 ]
                 },
                 {
                  "name": "quantity",
@@ -33844,13 +34355,29 @@
                  "name": "listPrice",
                  "in": "body",
                  "type": "object",
-                 "required": false
+                 "required": [],
+                 "fields": [
+                  {
+                   "name": "unitPrice",
+                   "in": "body",
+                   "type": "number",
+                   "required": false
+                  }
+                 ]
                 },
                 {
                  "name": "price",
                  "in": "body",
                  "type": "object",
-                 "required": false
+                 "required": [],
+                 "fields": [
+                  {
+                   "name": "unitPrice",
+                   "in": "body",
+                   "type": "number",
+                   "required": false
+                  }
+                 ]
                 },
                 {
                  "name": "amount",
@@ -37592,7 +38119,8 @@
              "in": "body",
              "type": "object",
              "required": [],
-             "fields": []
+             "fields": [],
+             "dynamic": true
             },
             {
              "name": "mode",
@@ -37678,7 +38206,8 @@
              "in": "body",
              "type": "object",
              "required": [],
-             "fields": []
+             "fields": [],
+             "dynamic": true
             },
             {
              "name": "requiredSourceColumns",
@@ -38081,14 +38610,16 @@
        "in": "body",
        "type": "object",
        "required": [],
-       "fields": []
+       "fields": [],
+       "dynamic": true
       },
       {
        "name": "sparkConf",
        "in": "body",
        "type": "object",
        "required": [],
-       "fields": []
+       "fields": [],
+       "dynamic": true
       }
      ],
      "required": [
@@ -38980,7 +39511,8 @@
        "in": "body",
        "type": "object",
        "required": [],
-       "fields": []
+       "fields": [],
+       "dynamic": true
       },
       {
        "name": "mode",
@@ -39090,7 +39622,8 @@
        "in": "body",
        "type": "object",
        "required": [],
-       "fields": []
+       "fields": [],
+       "dynamic": true
       },
       {
        "name": "resourceSize",
@@ -40116,19 +40649,27 @@
                  "name": "privileges",
                  "in": "body",
                  "type": "array",
-                 "required": true
+                 "required": true,
+                 "items": {
+                  "type": "string"
+                 }
                 },
                 {
                  "name": "resources",
                  "in": "body",
                  "type": "array",
-                 "required": false
+                 "required": false,
+                 "items": {
+                  "type": "string"
+                 }
                 },
                 {
                  "name": "scope",
                  "in": "body",
                  "type": "object",
-                 "required": false
+                 "required": [],
+                 "fields": [],
+                 "dynamic": true
                 }
                ],
                "required": [
@@ -40314,7 +40855,8 @@
           "in": "body",
           "type": "object",
           "required": [],
-          "fields": []
+          "fields": [],
+          "dynamic": true
          }
         ],
         "required": [
@@ -40461,7 +41003,8 @@
               "in": "body",
               "type": "object",
               "required": [],
-              "fields": []
+              "fields": [],
+              "dynamic": true
              }
             ],
             "required": [
@@ -40690,7 +41233,8 @@
               "in": "body",
               "type": "object",
               "required": [],
-              "fields": []
+              "fields": [],
+              "dynamic": true
              }
             ],
             "required": [
@@ -40877,7 +41421,8 @@
           "in": "body",
           "type": "object",
           "required": [],
-          "fields": []
+          "fields": [],
+          "dynamic": true
          }
         ],
         "required": [
@@ -41021,7 +41566,8 @@
               "in": "body",
               "type": "object",
               "required": [],
-              "fields": []
+              "fields": [],
+              "dynamic": true
              }
             ],
             "required": [
@@ -42894,7 +43440,28 @@
                  "name": "clusters",
                  "in": "body",
                  "type": "array",
-                 "required": false
+                 "required": false,
+                 "items": {
+                  "type": "object",
+                  "fields": [
+                   {
+                    "name": "clusterId",
+                    "in": "body",
+                    "type": "string",
+                    "required": true
+                   },
+                   {
+                    "name": "clusterName",
+                    "in": "body",
+                    "type": "string",
+                    "required": true
+                   }
+                  ],
+                  "required": [
+                   "clusterId",
+                   "clusterName"
+                  ]
+                 }
                 },
                 {
                  "name": "allVolume",
@@ -42906,7 +43473,28 @@
                  "name": "volumes",
                  "in": "body",
                  "type": "array",
-                 "required": false
+                 "required": false,
+                 "items": {
+                  "type": "object",
+                  "fields": [
+                   {
+                    "name": "volumeId",
+                    "in": "body",
+                    "type": "string",
+                    "required": true
+                   },
+                   {
+                    "name": "volumeName",
+                    "in": "body",
+                    "type": "string",
+                    "required": true
+                   }
+                  ],
+                  "required": [
+                   "volumeId",
+                   "volumeName"
+                  ]
+                 }
                 }
                ],
                "required": [

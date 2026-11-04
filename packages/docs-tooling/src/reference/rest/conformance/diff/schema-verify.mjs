@@ -53,6 +53,13 @@ function flattenDeclared(schema, prefix = "$", out = {}, depth = 0) {
     return out
   }
   if (schema.type === "object" || schema.properties || schema.fields) {
+    // additionalProperties (raw OpenAPI) or its `dynamic` marker (inventory
+    // fieldTable) means the object legitimately carries caller-dependent
+    // keys — record it so undeclared observed keys can be classified as
+    // dynamic instead of conflicts.
+    if ((schema.additionalProperties || schema.dynamic) && prefix !== "$") {
+      out[prefix] = { ...(out[prefix] || {}), type: oaType(schema.type || "object"), dynamic: true }
+    }
     const fields = schema.fields || Object.entries(schema.properties || {}).map(([name, p]) => ({ name, ...p }))
     for (const f of fields) {
       const fp = `${prefix}.${f.name}`
@@ -160,7 +167,10 @@ for (const f of goldenFiles) {
       continue
     }
     if (p in observed) {
-      const tOk = observed[p] === meta.type || observed[p] === "null" || meta.type === "?"
+      // Union-typed leaves (oneOf/anyOf of scalar branches, e.g. PK ids that
+      // may be Int64 or VarChar per collection schema) accept any observed
+      // scalar type — the branch walk below covers the alternatives.
+      const tOk = observed[p] === meta.type || observed[p] === "null" || meta.type === "?" || meta.type === "oneOf" || meta.type === "anyOf"
       let enumOk = true
       if (meta.enum && samples[p] !== undefined) enumOk = meta.enum.includes(samples[p])
       if (!tOk) {
@@ -185,6 +195,13 @@ for (const f of goldenFiles) {
     if (p === "$" || p in declared) continue
     const parent = p.split(".").slice(0, -1).join(".")
     if (parent !== "$" && !(parent in declared) && !((parent + "[]") in declared)) continue
+    // keys under an additionalProperties object are caller-dependent output
+    // fields (e.g. collection schema fields echoed in result items)
+    const parentMeta = declared[parent] || declared[parent + "[]"]
+    if (parentMeta?.dynamic) {
+      fields.push({ path: p, verdict: "dynamic-corroborated", observed: t, sample: samples[p] })
+      continue
+    }
     if (structureDocumented) {
       fields.push({ path: p, verdict: "observed-undeclared", observed: t, sample: samples[p] })
       conflicts++
@@ -202,7 +219,7 @@ for (const f of goldenFiles) {
       if (p === "$") continue
       if (p === "$.message" || p === "$.cost" || p.startsWith("$.cost.")) continue
       if (p in exObserved) {
-        const tOk = exObserved[p] === meta.type || exObserved[p] === "null" || meta.type === "?"
+        const tOk = exObserved[p] === meta.type || exObserved[p] === "null" || meta.type === "?" || meta.type === "oneOf" || meta.type === "anyOf"
         if (!tOk) {
           fields.push({ path: p, verdict: "example-type-mismatch", example: ex.summary, declared: meta.type, exampleObserved: exObserved[p] })
           conflicts++
@@ -210,9 +227,11 @@ for (const f of goldenFiles) {
       }
     }
     for (const [p, t] of Object.entries(exObserved)) {
-      if (p === "$" || p in declared) continue
+      if (p === "$" || p === "$.cost" || p.startsWith("$.cost.") || p in declared) continue
       const parent = p.split(".").slice(0, -1).join(".")
       if (parent !== "$" && !(parent in declared) && !((parent + "[]") in declared)) continue
+      const parentMeta = declared[parent] || declared[parent + "[]"]
+      if (parentMeta?.dynamic) continue
       fields.push({ path: p, verdict: "example-undeclared", example: ex.summary, exampleObserved: t, sample: exSamples[p] })
       conflicts++
     }
