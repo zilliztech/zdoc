@@ -1,0 +1,36 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/collections/create-collection.md
+
+metadata:
+  description: "You can create a collection by defining its schema, index parameters, metric type, and whether to load it upon creation. This page introduces how to create a collection from scratch."
+
+publish:
+  - manual: guides
+    path: tutorials/development/collection/manage-collections-sdks
+  - manual: guides-byoc
+    path: tutorials/development/collection/manage-collections-sdks
+
+transforms:
+  # Cloud-only multi-tenancy guidance and the collection-count limit.
+  - operation: add
+    target:
+      block: page-intro
+    position: after
+    content:
+      file: cloud-multi-tenancy-note.md
+  # Cloud data-plane RESTful API authentication note.
+  - operation: add
+    target:
+      block: create-schema-examples
+    position: after
+    content:
+      file: cloud-rest-auth-note.md
+  # Cloud reference for indexing an existing collection.
+  - operation: add
+    target:
+      block: create-without-index-note
+    position: after
+    content:
+      file: cloud-autoindex-link.md
