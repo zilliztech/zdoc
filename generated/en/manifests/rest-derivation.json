@@ -6,14 +6,14 @@
     "04-vector-operations-v2.json": "c6abbfca9d1d7e325cd3094c47e6ffdf205d54795139a1d7d29f10fd4906dbb0",
     "05-collection-operations-v2.json": "e9ee3f3511a64ec247e2c1048bace5aa2242a7e1a33ab275b0920599a53f116f",
     "06-database-operations-v2.json": "0f026fcf29141ed7654db86e08d1d382cab1e1c23dcb3a542c50739f5548e276",
-    "07-index-operations-v2.json": "72f325df99b2f9553b139dbefc0844826ff3bf0399ef494927c561f7da19e7dd",
+    "07-index-operations-v2.json": "7cb3da52e7dcd6dcd44032bf71463dabce653f9cb9bc0a2a9265b79a61061af1",
     "08-partition-operations-v2.json": "1341130aa6ec28591247b063ec5476857a74b1055545787fa2f5818788657cf7",
     "09-role-operations-v2.json": "285ed260136dcfb169201af7617c949a361edeb5f4fcbd56087165147f49b64a",
     "10-resource-group-v2.json": "f3d4eac7297051bbef158599a68ab0b1025a53b430e5584238aed9b5bc63a143",
     "11-import-operations-v2.json": "b1135d4ad89013cc9d6f2a989da5c600e9b53884f563349e982b4bb4b0576c49",
     "12-alias-operations-v2.json": "d1bebc1a999ee919d99a2de2b2b1fd9268167a18a2644538061d6f46d8727f5a",
     "13-user-operations-v2.json": "10756aa34d80213352dda4fc6764e93d3970d2dae0ed120a62b898fb5ef26796",
-    "14-privilege-group-operations-v2.json": "1d3589ea8d2157a40cd7c492493694bd590b3da1061770db2fb8f5d87644670f",
+    "14-privilege-group-operations-v2.json": "49dca49765a511ca7bef376e00a552388a20bc7f272181bcb21309c1c83b89a7",
     "15-cloud-meta.json": "1596c95f7dc70cc08657b1320a3275efa82314f4976f2c9e2688cbf633ddf81a",
     "16-cluster-operations.json": "916016983ec04e58ee8779a406fbc322e9479eaac1fb8ffbac729d9e51d2b8ef",
     "17-pipeline-operations.json": "e4786d64b14d7678189a08b942fbf21a78669d62887e02dc409d68db8f3757a6",
@@ -26,7 +26,7 @@
     "24-backup-and-restore-v2.json": "d4b3581905cd0af41549a7491e344b2bd5254db1601c008d0342e3434fd4c076",
     "25-metrics-and-alerts-v2.json": "24a4d182a131695e5058108e138de935556570aa8967abc16e18fe6ae7557714",
     "26-cloud-job-v2.json": "2d899a439d1906b64f31c261434eadb38c21ef261e66684f1305c8b14f99a2e7",
-    "27-invoices-v2.json": "3f469b916fc8bda2bd2329cbf55f9969195b9c1a2b926b25d69750d956a71a34",
+    "27-invoices-v2.json": "464fadcfbed13b7915c349ebe34bb5318d57adbd17f8ee4eeb8cd3fc5352e4ef",
     "28-usage-v2.json": "95d192d4f4007a6658b2455b4dce4d3a757c781289548fc2bbc3217f3db4bd51",
     "29-on-demand-compute-v2.json": "55839a0c702e95f44636a7af608f14192e4b5f1d6bd055f95f7eb2ce4ba6ad93",
     "30-global-clusters.json": "11f1989613dfb471f353b7f06382f0d5cfdd4ea0b1e21a918f2ac3fb1e5c1608",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "5b866390ddf0a1d3ecb711017d987aa30aa2cff848b86e5089c30e4e440834a4",
     "38-snapshot-operations-v2.json": "077c94dfdc8d2e4297fa00528dedfa9a772e20f5c3819044554a09a6ad25adf7"
   },
-  "generatedAt": "2026-11-04T04:47:00.410Z",
+  "generatedAt": "2026-11-04T06:03:07.338Z",
   "locale": "en",
   "schemaVersion": 1,
-  "toolingSha": "d9db5b7d5a3dfd4857711fad53a0b8b46ce6beea"
+  "toolingSha": "30970af84dc9d010cca253aa8439ef492d4d289d"
 }
