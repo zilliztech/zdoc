@@ -626,7 +626,7 @@
       ],
       "harnesses": [],
       "gates": [],
-      "reason": "Japanese sidebar label dictionary and its generator produce the ja-JP guides/guides-byoc sidebar translation JSON; keep ordering, missing-key, and literal-label edge cases deterministic."
+      "reason": "Japanese sidebar label dictionary and its generator produce the ja-JP guides/guides-byoc sidebar translation JSON; keep ordering, missing-key, and literal-label edge cases deterministic, and keep the committed dictionary covering every link-shaped key the publication lane emits (dev shapes cross-references as type:'link' items keyed ref:<path>, which master's generated sidebar does not expose, so only the fixture pins them)."
     },
     {
       "id": "reconciliation-review-and-policy",
