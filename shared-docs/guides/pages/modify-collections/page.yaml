@@ -1,0 +1,35 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/collections/modify-collection.md
+
+metadata:
+  description: "You can rename a collection or change its settings. This page focuses on how to modify a collection."
+
+publish:
+  # The "managed collections" note below exists only on the guides page today, and the
+  # transform framework cannot scope content per manual, so the BYOC page keeps its
+  # current content until BYOC publishes that concept too.
+  - manual: guides
+    path: tutorials/development/collection/modify-collections
+
+transforms:
+  # Cloud restricts the listed properties to managed collections.
+  - operation: add
+    target:
+      block: set-properties-intro
+    position: after
+    content:
+      file: cloud-managed-properties-note.md
+  # Cloud wording for mmap; Milvus keeps its own self-hosted description.
+  - operation: replace
+    target:
+      block: supported-properties
+    content:
+      file: cloud-supported-properties.md
+  # Cloud badges entity-level TTL as PUBLIC rather than Milvus 3.0.x.
+  - operation: replace
+    target:
+      block: entity-ttl-example-heading
+    content:
+      file: cloud-entity-ttl-heading.md

@@ -1,0 +1,33 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/collections/load-and-release.md
+
+metadata:
+  description: "Loading a collection is a prerequisite for conducting similarity searches and queries within it. This page focuses on the procedures for loading and releasing a collection."
+
+publish:
+  - manual: guides
+    path: tutorials/development/collection/load-release-collections
+  - manual: guides-byoc
+    path: tutorials/development/collection/load-release-collections
+
+transforms:
+  # Cloud serving clusters index managed collections differently from external collections
+  # on standalone databases, so the prerequisite list differs.
+  - operation: replace
+    target:
+      block: load-prerequisites
+    content:
+      file: cloud-load-prerequisites.md
+  # Cloud-only loading-behaviour table for managed versus external collections.
+  - operation: add
+    target:
+      block: load-collection-heading
+    position: before
+    content:
+      file: cloud-loading-behaviors.md
+  # Cloud does not label partial loading as beta. Confirm product status before publishing.
+  - operation: remove
+    target:
+      block: partial-load-beta-note
