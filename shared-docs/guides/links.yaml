@@ -69,3 +69,9 @@ rbac.md: access-control-overview
 database-concept.md: database-concept
 on-demand-database.md: on-demand-database
 insert-update-delete.md: insert-entities
+
+# Collection lifecycle pages onboarded with this change.
+schema.md: schema-explained
+tune_consistency.md: consistency-level
+index-vector-fields.md: https://milvus.io/docs/index-vector-fields.md
+index-scalar-fields.md: https://milvus.io/docs/index-scalar-fields.md
