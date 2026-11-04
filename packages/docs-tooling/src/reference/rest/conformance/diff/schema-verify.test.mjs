@@ -27,22 +27,38 @@ test("schema-verify: field verdicts and required evidence on synthetic suite", a
   fs.mkdirSync(path.join(suiteDir, "goldens"), { recursive: true })
 
   // inventory declares an op whose response schema mismatches the golden in
-  // four ways + one corroborated field
+  // four ways + one corroborated field, plus a success example that
+  // contradicts the schema (string where integer is declared) and shows a
+  // field the schema never declares — and a second op whose golden payload
+  // is empty (data === {}), which must NOT be flagged undocumented: there is
+  // no structure to document, the envelope declaration is already complete.
   const inv = path.join(tmp, "inv.json")
   fs.writeFileSync(inv, JSON.stringify({
-    operations: [{
-      fragment: "f", path: "/v2/vectordb/echo", method: "post", summary: "s",
-      response: { shape: { type: "object", properties: {
-        code: { type: "integer" },
-        data: { type: "object", properties: {
-          insertCount: { type: "integer" },
-          missingField: { type: "string" },
-          wrongType: { type: "boolean" },
-          color: { type: "string", enum: ["red", "green"] },
-          extra: { type: "string" },
-        }, required: ["insertCount"] },
-      } } },
-    }],
+    operations: [
+      {
+        fragment: "f", path: "/v2/vectordb/echo", method: "post", summary: "s",
+        response: {
+          shape: { type: "object", properties: {
+            code: { type: "integer" },
+            data: { type: "object", properties: {
+              insertCount: { type: "integer" },
+              missingField: { type: "string" },
+              wrongType: { type: "boolean" },
+              color: { type: "string", enum: ["red", "green"] },
+              extra: { type: "string" },
+            }, required: ["insertCount"] },
+          } },
+          examples: [{ key: "1", summary: "success", value: { code: 0, data: { insertCount: "one", exampleExtra: "e" } } }],
+        },
+      },
+      {
+        fragment: "f", path: "/v2/vectordb/flush", method: "post", summary: "s",
+        response: { shape: { type: "object", properties: {
+          code: { type: "integer" },
+          data: { type: "object", properties: {} },
+        } } },
+      },
+    ],
   }))
 
   fs.writeFileSync(path.join(suiteDir, "config.json"), JSON.stringify({ name: "stub", prefix: "t", auth: { mode: "none" }, volatileFields: [] }))
@@ -54,6 +70,7 @@ export default (ctx, call) => ({
   finalize: async () => {},
   cases: [
     { id: "pos.echo", family: "pos", op: "/echo", kind: "positive", expect: "ok", param: "p", intent: "i", body: {} },
+    { id: "pos.flush", family: "pos", op: "/flush", kind: "positive", expect: "ok", param: "p", intent: "i", body: {} },
     { id: "neg.req", family: "neg", op: "/echo", kind: "negative", expect: "err", param: "required probe", intent: "i", body: {} },
     { id: "ghost.id", family: "ghost", op: "/echo", kind: "ghost", expect: "record", param: "id(only)", intent: "i", body: {} },
   ],
@@ -64,6 +81,9 @@ export default (ctx, call) => ({
   // declared-not-observed + type can't mismatch when absent
   fs.writeFileSync(path.join(suiteDir, "goldens", "case.pos.echo.json"), JSON.stringify({
     code: 0, data: { insertCount: 1, color: "blue", surprise: "x" },
+  }))
+  fs.writeFileSync(path.join(suiteDir, "goldens", "case.pos.flush.json"), JSON.stringify({
+    code: 0, data: {},
   }))
   const results = path.join(tmp, "r.json")
   fs.writeFileSync(results, JSON.stringify({
@@ -88,4 +108,15 @@ export default (ctx, call) => ({
   assert.ok(report.requestEvidence.find((x) => x.caseId === "case.ghost.id" && x.verdict === "ghost-observed"))
   assert.ok(fs.existsSync(md))
   assert.match(fs.readFileSync(md, "utf8"), /Conflicts/)
+
+  // empty observed payload (data === {}) must not fire the undocumented
+  // verdict — envelope-only declaration is already complete for it
+  const flushOp = report.operations.find((op) => op.op.endsWith("/flush"))
+  assert.ok(flushOp, "flush op verified")
+  assert.ok(!flushOp.verdicts.some((v) => v.verdict === "response-structure-undocumented"))
+
+  // example-vs-schema cross-check: the success example contradicts the
+  // declared types and shows a field the schema never declares
+  assert.ok(byVerdict("example-type-mismatch").some((x) => x.path.endsWith("insertCount") && x.declared === "number" && x.exampleObserved === "string"))
+  assert.ok(byVerdict("example-undeclared").some((x) => x.path.endsWith("exampleExtra")))
 })
