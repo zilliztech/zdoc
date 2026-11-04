@@ -2,44 +2,44 @@
  "schemaVersion": 1,
  "generatedAt": "committed (see inventory.test.mjs — regeneration must be byte-identical)",
  "fragments": {
-  "01-import-operations.json": "8ee465afdbca",
-  "02-collection-operations.json": "b1322559a1df",
-  "03-vector-operations.json": "a3103bf1afdc",
-  "04-vector-operations-v2.json": "17b9aac04654",
-  "05-collection-operations-v2.json": "d2ac529dd74d",
-  "06-database-operations-v2.json": "ea6f9ecacd7c",
-  "07-index-operations-v2.json": "2ea2cbb9a3fd",
-  "08-partition-operations-v2.json": "dde93cd733ec",
-  "09-role-operations-v2.json": "38debdd45dfc",
-  "10-resource-group-v2.json": "cc3497b7f561",
-  "11-import-operations-v2.json": "9bcc2f8825cb",
-  "12-alias-operations-v2.json": "2f39d2e660f4",
-  "13-user-operations-v2.json": "42b042cf9282",
-  "14-privilege-group-operations-v2.json": "5c83def43b7d",
-  "15-cloud-meta.json": "91bb5a4fdd9f",
-  "16-cluster-operations.json": "83fd53a685f7",
-  "17-pipeline-operations.json": "97101224cbd3",
-  "18-cloud-meta-v2.json": "609c133e649e",
-  "19-extract-load-and-transform-v2.json": "c810ea38198b",
-  "20-volume-operations-v2.json": "1f75cd29ea11",
-  "21-project-operations-v2.json": "86834972500e",
-  "22-cluster-operations-v2.json": "b09008bbc301",
-  "23-cloud-migration-v2.json": "0c955f38f578",
-  "24-backup-and-restore-v2.json": "b6aa8c8680ba",
-  "25-metrics-and-alerts-v2.json": "de199ae58b78",
-  "26-cloud-job-v2.json": "b70c40aaed4e",
-  "27-invoices-v2.json": "02abbfa50385",
-  "28-usage-v2.json": "51056b261a6a",
-  "29-on-demand-compute-v2.json": "6e84721ed0ad",
-  "30-global-clusters.json": "f83d2d57e9d9",
-  "31-storage-integration-v2.json": "6fee998964b6",
-  "32-spark-job-v2.json": "f78a157a6145",
-  "33-on-demand-cluster-operations-v2.json": "f70a2f9473dc",
-  "34-cloud-access-control-operations-v2.json": "edba0e39a4db",
-  "35-cloud-api-key-operations-v2.json": "f900ad3aa066",
-  "36-private-endpoint-operations-v2.json": "142740e95ce9",
-  "37-file-resource-operations-v2.json": "d755fd130770",
-  "38-snapshot-operations-v2.json": "5b2da4866372"
+  "01-import-operations.json": "f60830d79ab1",
+  "02-collection-operations.json": "ae8c57b09ca4",
+  "03-vector-operations.json": "27bc31e809dd",
+  "04-vector-operations-v2.json": "c6abbfca9d1d",
+  "05-collection-operations-v2.json": "e9ee3f3511a6",
+  "06-database-operations-v2.json": "0f026fcf2914",
+  "07-index-operations-v2.json": "72f325df99b2",
+  "08-partition-operations-v2.json": "1341130aa6ec",
+  "09-role-operations-v2.json": "285ed260136d",
+  "10-resource-group-v2.json": "f3d4eac72970",
+  "11-import-operations-v2.json": "b1135d4ad890",
+  "12-alias-operations-v2.json": "d1bebc1a999e",
+  "13-user-operations-v2.json": "10756aa34d80",
+  "14-privilege-group-operations-v2.json": "1d3589ea8d21",
+  "15-cloud-meta.json": "1596c95f7dc7",
+  "16-cluster-operations.json": "916016983ec0",
+  "17-pipeline-operations.json": "e4786d64b14d",
+  "18-cloud-meta-v2.json": "0fe52cea27b7",
+  "19-extract-load-and-transform-v2.json": "0a71e9134a24",
+  "20-volume-operations-v2.json": "c5889bf89aaf",
+  "21-project-operations-v2.json": "ddde21cce2db",
+  "22-cluster-operations-v2.json": "479b11d743b6",
+  "23-cloud-migration-v2.json": "4b4eb060b28e",
+  "24-backup-and-restore-v2.json": "d4b3581905cd",
+  "25-metrics-and-alerts-v2.json": "24a4d182a131",
+  "26-cloud-job-v2.json": "2d899a439d19",
+  "27-invoices-v2.json": "3f469b916fc8",
+  "28-usage-v2.json": "95d192d4f400",
+  "29-on-demand-compute-v2.json": "55839a0c702e",
+  "30-global-clusters.json": "11f1989613df",
+  "31-storage-integration-v2.json": "c2b6ac27c029",
+  "32-spark-job-v2.json": "3210aec9fc54",
+  "33-on-demand-cluster-operations-v2.json": "02e70b133942",
+  "34-cloud-access-control-operations-v2.json": "9d46b9a7d0e3",
+  "35-cloud-api-key-operations-v2.json": "3b79107fdc4e",
+  "36-private-endpoint-operations-v2.json": "4397375081f7",
+  "37-file-resource-operations-v2.json": "5b866390ddf0",
+  "38-snapshot-operations-v2.json": "077c94dfdc8d"
  },
  "operationCount": 240,
  "operations": [
@@ -1315,7 +1315,7 @@
        "name": "filter",
        "in": "body",
        "type": "string",
-       "required": false
+       "required": true
       },
       {
        "name": "partitionName",
@@ -1337,7 +1337,8 @@
       }
      ],
      "required": [
-      "collectionName"
+      "collectionName",
+      "filter"
      ]
     }
    },
@@ -1441,6 +1442,12 @@
        "name": "partialUpdate",
        "in": "body",
        "type": "boolean",
+       "required": false
+      },
+      {
+       "name": "fieldOps",
+       "in": "body",
+       "type": "array",
        "required": false
       }
      ],
@@ -1726,6 +1733,12 @@
        "in": "body",
        "type": "array",
        "required": false
+      },
+      {
+       "name": "groupByFields",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -1955,6 +1968,12 @@
        "in": "body",
        "type": "object",
        "required": false
+      },
+      {
+       "name": "orderByFields",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -2154,6 +2173,12 @@
        "name": "groupingField",
        "in": "body",
        "type": "string",
+       "required": false
+      },
+      {
+       "name": "functionChains",
+       "in": "body",
+       "type": "array",
        "required": false
       }
      ],
@@ -2565,6 +2590,30 @@
          "in": "body",
          "type": "object",
          "required": false
+        },
+        {
+         "name": "consistencyLevel",
+         "in": "body",
+         "type": "string",
+         "required": false,
+         "enum": [
+          "Strong",
+          "Eventually",
+          "<include target=\"milvus\">Session</include>",
+          "Bounded"
+         ]
+        },
+        {
+         "name": "properties",
+         "in": "body",
+         "type": "object",
+         "required": false
+        },
+        {
+         "name": "vectorFieldType",
+         "in": "body",
+         "type": "string",
+         "required": false
         }
        ],
        "required": [
@@ -2585,7 +2634,7 @@
          "name": "collectionName",
          "in": "body",
          "type": "string",
-         "required": false
+         "required": true
         },
         {
          "name": "schema",
@@ -2610,9 +2659,29 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "consistencyLevel",
+         "in": "body",
+         "type": "string",
+         "required": false,
+         "enum": [
+          "Strong",
+          "Eventually",
+          "<include target=\"milvus\">Session</include>",
+          "Bounded"
+         ]
+        },
+        {
+         "name": "properties",
+         "in": "body",
+         "type": "object",
+         "required": false
         }
        ],
-       "required": []
+       "required": [
+        "collectionName"
+       ]
       },
       {
        "type": "object",
@@ -2627,7 +2696,7 @@
          "name": "collectionName",
          "in": "body",
          "type": "string",
-         "required": false
+         "required": true
         },
         {
          "name": "schema",
@@ -2652,9 +2721,29 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "consistencyLevel",
+         "in": "body",
+         "type": "string",
+         "required": false,
+         "enum": [
+          "Strong",
+          "Eventually",
+          "<include target=\"milvus\">Session</include>",
+          "Bounded"
+         ]
+        },
+        {
+         "name": "properties",
+         "in": "body",
+         "type": "object",
+         "required": false
         }
        ],
-       "required": []
+       "required": [
+        "collectionName"
+       ]
       }
      ]
     }
@@ -2733,6 +2822,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -2974,6 +3069,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -3055,6 +3156,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -3136,6 +3243,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -3217,6 +3330,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -3298,6 +3417,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -3379,6 +3504,12 @@
        "in": "body",
        "type": "unresolved",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -3912,6 +4043,12 @@
        "in": "body",
        "type": "unresolved",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -3993,6 +4130,12 @@
        "in": "body",
        "type": "unresolved",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -5811,6 +5954,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "timestamp",
+       "in": "body",
+       "type": "integer",
+       "required": false
       }
      ],
      "required": [
@@ -6095,6 +6244,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "timestamp",
+       "in": "body",
+       "type": "integer",
+       "required": false
       }
      ],
      "required": [
@@ -6180,6 +6335,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -6264,6 +6425,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "partitionNames",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -6971,6 +7138,12 @@
        "in": "body",
        "type": "string",
        "required": false
+      },
+      {
+       "name": "description",
+       "in": "body",
+       "type": "string",
+       "required": false
       }
      ],
      "required": [
@@ -7358,6 +7531,12 @@
       },
       {
        "name": "dbName",
+       "in": "body",
+       "type": "string",
+       "required": false
+      },
+      {
+       "name": "description",
        "in": "body",
        "type": "string",
        "required": false
@@ -7879,6 +8058,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "config",
+       "in": "body",
+       "type": "object",
+       "required": false
       }
      ],
      "required": [
@@ -8026,6 +8211,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "config",
+       "in": "body",
+       "type": "object",
+       "required": false
       }
      ],
      "required": [
@@ -8320,12 +8511,6 @@
          "required": false
         },
         {
-         "name": "files",
-         "in": "body",
-         "type": "array",
-         "required": false
-        },
-        {
          "name": "options",
          "in": "body",
          "type": "object",
@@ -8400,12 +8585,6 @@
          "required": false
         },
         {
-         "name": "files",
-         "in": "body",
-         "type": "array",
-         "required": false
-        },
-        {
          "name": "options",
          "in": "body",
          "type": "object",
@@ -8444,6 +8623,45 @@
        ],
        "required": [
         "collectionName"
+       ]
+      },
+      {
+       "type": "object",
+       "fields": [
+        {
+         "name": "dbName",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "collectionName",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "partitionName",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "files",
+         "in": "body",
+         "type": "array",
+         "required": true
+        },
+        {
+         "name": "options",
+         "in": "body",
+         "type": "object",
+         "required": false
+        }
+       ],
+       "required": [
+        "collectionName",
+        "files"
        ]
       }
      ]
@@ -8519,35 +8737,70 @@
    "requestBody": {
     "required": true,
     "shape": {
-     "type": "object",
-     "fields": [
+     "type": "oneOf",
+     "branches": [
       {
-       "name": "clusterId",
-       "in": "body",
-       "type": "string",
-       "required": true
+       "type": "object",
+       "fields": [
+        {
+         "name": "clusterId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "projectId",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "regionId",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "pageSize",
+         "in": "body",
+         "type": "integer",
+         "required": false
+        },
+        {
+         "name": "currentPage",
+         "in": "body",
+         "type": "integer",
+         "required": false
+        },
+        {
+         "name": "dbName",
+         "in": "body",
+         "type": "string",
+         "required": false
+        }
+       ],
+       "required": [
+        "clusterId"
+       ]
       },
       {
-       "name": "pageSize",
-       "in": "body",
-       "type": "integer",
-       "required": false
-      },
-      {
-       "name": "currentPage",
-       "in": "body",
-       "type": "integer",
-       "required": false
-      },
-      {
-       "name": "dbName",
-       "in": "body",
-       "type": "string",
-       "required": false
+       "type": "object",
+       "fields": [
+        {
+         "name": "dbName",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "collectionName",
+         "in": "body",
+         "type": "string",
+         "required": false
+        }
+       ],
+       "required": []
       }
-     ],
-     "required": [
-      "clusterId"
      ]
     }
    },
@@ -8567,7 +8820,7 @@
         {
          "name": "data",
          "in": "body",
-         "type": "object",
+         "type": "object|object",
          "required": false
         }
        ],
@@ -8600,7 +8853,7 @@
    "fragment": "11-import-operations-v2.json",
    "path": "/v2/vectordb/jobs/import/get_progress",
    "method": "post",
-   "summary": "Get Import Job Progress",
+   "summary": "Get Import Job Progress Alias",
    "tags": [
     "Import Operations (V2)"
    ],
@@ -8621,57 +8874,17 @@
    "requestBody": {
     "required": true,
     "shape": {
-     "type": "oneOf",
-     "branches": [
+     "type": "object",
+     "fields": [
       {
-       "type": "object",
-       "fields": [
-        {
-         "name": "jobId",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "clusterId",
-         "in": "body",
-         "type": "string",
-         "required": true
-        }
-       ],
-       "required": [
-        "jobId",
-        "clusterId"
-       ]
-      },
-      {
-       "type": "object",
-       "fields": [
-        {
-         "name": "jobId",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "projectId",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "regionId",
-         "in": "body",
-         "type": "string",
-         "required": true
-        }
-       ],
-       "required": [
-        "jobId",
-        "projectId",
-        "regionId"
-       ]
+       "name": "jobId",
+       "in": "body",
+       "type": "string",
+       "required": true
       }
+     ],
+     "required": [
+      "jobId"
      ]
     }
    },
@@ -8739,30 +8952,71 @@
    "requestBody": {
     "required": true,
     "shape": {
-     "type": "object",
-     "fields": [
+     "type": "oneOf",
+     "branches": [
       {
-       "name": "clusterId",
-       "in": "body",
-       "type": "string",
-       "required": false
+       "type": "object",
+       "fields": [
+        {
+         "name": "jobId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "clusterId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        }
+       ],
+       "required": [
+        "jobId",
+        "clusterId"
+       ]
       },
       {
-       "name": "dbName",
-       "in": "body",
-       "type": "string",
-       "required": false,
-       "default": "default"
+       "type": "object",
+       "fields": [
+        {
+         "name": "jobId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "projectId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "regionId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        }
+       ],
+       "required": [
+        "jobId",
+        "projectId",
+        "regionId"
+       ]
       },
       {
-       "name": "jobId",
-       "in": "body",
-       "type": "string",
-       "required": true
+       "type": "object",
+       "fields": [
+        {
+         "name": "jobId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        }
+       ],
+       "required": [
+        "jobId"
+       ]
       }
-     ],
-     "required": [
-      "jobId"
      ]
     }
    },
@@ -9609,7 +9863,14 @@
     "required": true,
     "shape": {
      "type": "object",
-     "fields": [],
+     "fields": [
+      {
+       "name": "dbName",
+       "in": "body",
+       "type": "string",
+       "required": false
+      }
+     ],
      "required": []
     }
    },
@@ -10108,6 +10369,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "privileges",
+       "in": "body",
+       "type": "array",
+       "required": false
       }
      ],
      "required": [
@@ -12002,8 +12269,7 @@
         }
        ],
        "required": [
-        "data",
-        "code"
+        "data"
        ]
       }
      ]
