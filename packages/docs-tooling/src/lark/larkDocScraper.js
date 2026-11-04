@@ -261,6 +261,10 @@ class larkDocScraper {
             throw new Error(`[fetch] ${incomplete.length} docx source file(s) are missing blocks. Re-run the fetch to retry:\n${incomplete.join('\n')}`)
         }
 
+        await this.__replace_reference_synced_blocks()
+    }
+
+    async __replace_reference_synced_blocks() {
         // fetch blocks of all referenced_synced blocks
         const jsons = fs.readdirSync(this.doc_source_dir).filter(file => file.endsWith('.json'))
 
@@ -273,6 +277,12 @@ class larkDocScraper {
                     if (block.block_type === 50 && block.reference_synced) {
                         const { source_document_id, source_block_id } = block.reference_synced
                         const node = { "obj_type": "docx", obj_token: source_document_id }
+                        // The source docx of an activated shared record is frozen legacy state:
+                        // routing never refetches it, so it cannot hydrate the replacement.
+                        if (this.__is_shared_alias_source(node)) {
+                            console.warn(`[shared-alias] Skipped reference_synced replacement in ${json}: source document ${source_document_id} (record ${this.routingContext?.aliasesByToken.get(source_document_id) ?? 'unknown'}) is an activated shared-docs alias; its frozen legacy body is never refetched, so block ${source_block_id} stays unreplaced`)
+                            continue
+                        }
                         await this.__fetch_blocks(node)
                         const source_block = node.blocks.items.find(b => b.block_id == source_block_id)
                         if (source_block) {
@@ -316,10 +326,10 @@ class larkDocScraper {
                 }
                 console.log(`8. Replaced ${replacements.length} reference_synced blocks in ${json}`)
                 fs.writeFileSync(`${this.doc_source_dir}/${json}`, JSON.stringify(source, null, 2))
-            }   
+            }
         }
-    } 
-    
+    }
+
     __fetch_block_children(block, node) {
         let children = [];
         if (block.children) {
