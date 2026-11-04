@@ -54,3 +54,18 @@ geometry-field.md: use-geometry-field
 number.md: use-number-field
 string.md: use-string-field
 rtree.md: rtree-index-type
+
+# Database, partition and multi-tenancy pages onboarded with this change.
+manage_databases.md: database
+manage-partitions.md: manage-partitions
+use-partition-key.md: use-partition-key
+multi_tenancy.md: multi-tenancy
+manage-collections.md: manage-collections
+delete-entities.md: delete-entities
+get-and-scalar-query.md: get-and-scalar-query
+single-vector-search.md: single-vector-search
+limitations.md: limits
+rbac.md: access-control-overview
+database-concept.md: database-concept
+on-demand-database.md: on-demand-database
+insert-update-delete.md: insert-entities

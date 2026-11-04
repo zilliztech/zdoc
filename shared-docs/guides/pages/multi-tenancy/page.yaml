@@ -1,0 +1,32 @@
+schema_version: 1
+
+source:
+  file: site/en/reference/multi_tenancy.md
+
+publish:
+  - manual: guides
+    path: tutorials/architecture/best-practices/multi-tenancy
+  - manual: guides-byoc
+    path: tutorials/architecture/best-practices/multi-tenancy
+
+transforms:
+  - operation: replace
+    target:
+      block: multi-tenancy-database-level
+    content:
+      file: cloud-database-level.md
+  - operation: replace
+    target:
+      block: multi-tenancy-collection-level
+    content:
+      file: cloud-collection-level.md
+  - operation: replace
+    target:
+      block: multi-tenancy-comparison-table
+    content:
+      file: cloud-comparison-table.md
+  - operation: replace
+    target:
+      block: multi-tenancy-choosing-factors
+    content:
+      file: cloud-choosing-factors.md
