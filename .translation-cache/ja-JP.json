@@ -286,9 +286,9 @@
       "translatedAt": "2026-09-19T13:47:07.007Z"
     },
     "content/en/byoc/tutorials/development/collection/create-external-collection/create-external-collection.md": {
-      "sourceHash": "2cdb1c49824571f2fdf6eb79bc569e4b0de9c6c5239f6beafb0677271a0662bc",
+      "sourceHash": "d64f2716da73b050b92ffa2a64eeaffaeca8bb8553f186b644fcd17246b48dcb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "translatedAt": "2026-11-05T10:46:45.050Z"
+      "translatedAt": "2026-11-05T20:41:59.139Z"
     },
     "content/en/byoc/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md": {
       "sourceHash": "fc9219ebb887045e658c8d5120a989757951c1374aabf3e266e468b27cc86a8b",
@@ -671,9 +671,9 @@
       "translatedAt": "2026-11-05T12:48:14.916Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "142b5bcde11b5b1031f02c50aa59d9676ae0a5b41af1cc711b2928704874239f",
+      "sourceHash": "d99237e3dbc95ebf9415f7c578ca25b647cc3f966b07335baf4c87366a25bb98",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-11-05T11:10:44.843Z"
+      "translatedAt": "2026-11-05T20:41:59.139Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "319b545c3a1191a8bb9b2318a395a94164d745cde2c62539735c6bfc9e9f6479",
@@ -1596,9 +1596,9 @@
       "translatedAt": "2026-09-19T14:04:43.571Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md": {
-      "sourceHash": "703138f7befff591a28741803cd57aaac0e44cd9f55fa5445c3c96537f22e434",
+      "sourceHash": "e1dfb00368746cebe38a43c418bdb0d5da2cbcd396470b624ad8665d6c800f35",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "translatedAt": "2026-11-05T11:40:45.651Z"
+      "translatedAt": "2026-11-05T20:41:59.139Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md": {
       "sourceHash": "04e47164f78bb2d0c9d9a87e1fe73adf1ee4ccb2a2f7e037ef8e4abf3a4d4446",
@@ -2021,9 +2021,9 @@
       "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "342113de1a1e08fc8ce0c223693e2ef215b0990be4df0f4af7ff3fe4d3ce0aa3",
+      "sourceHash": "b5f5d1fd1d30fb9aa9add66401a4a8141f746b289d30c3443906e571342af581",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-11-05T13:58:33.841Z"
+      "translatedAt": "2026-11-05T20:41:59.139Z"
     },
     "content/en/guides/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "b840f0ca7c1236d0f15dc8881054539385068c2f71e720fe365a2d734c4d81e1",

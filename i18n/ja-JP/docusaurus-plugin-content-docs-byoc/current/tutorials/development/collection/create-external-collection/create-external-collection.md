@@ -408,8 +408,8 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         .token("YOUR_API_KEY")
         .build();
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
+client.useDatabase("my_database");
 CreateCollectionReq createReq = CreateCollectionReq.builder()
-        .databaseName("my_database")
         .collectionName("test_collection")
         .collectionSchema(schema)
         .build();
@@ -530,6 +530,8 @@ await client.createCollection({
 
 ```bash
 export PROJECT_ENDPOINT='https://{project-id}.{region}.vectordb.zillizcloud.com'
+export TOKEN='YOUR_API_KEY'
+
 curl --request POST \
 --url "${PROJECT_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -688,16 +690,17 @@ client.createIndex({
 export indexParams='[
         {
             "fieldName": "embedding",
-            "indexName": "my_vector",
+            "metricType": "COSINE",
+            "indexName": "embedding",
             "indexType": "AUTOINDEX"
         },
         {
             "fieldName": "product_name",
-            "indexName": "my_id",
+            "indexName": "product_name",
             "indexType": "AUTOINDEX"
         }
     ]'
-    
+
 curl --request POST \
 --url "${PROJECT_ENDPOINT}/v2/vectordb/indexes/create" \
 --header "Authorization: Bearer ${TOKEN}" \
