@@ -282,6 +282,7 @@ export interface GuidesProviderOptions {
 /** Actual collection always crosses Task 2's measured isolated child boundary. */
 export async function createGuidesProvider(options: GuidesProviderOptions): Promise<UpdateProvider & {
   collectAll(): Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement }>
+  getWorkerSettlement(): Readonly<GuidesWorkerSettlement> | null
   planAll(): ReturnType<typeof planUpdateBatch>
 }> {
   const checkpoint = () => options.signal?.throwIfAborted()
@@ -292,6 +293,7 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
   checkpoint()
   let collected: { collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement } | undefined
   let collecting: Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement }> | undefined
+  let workerSettlement: Readonly<GuidesWorkerSettlement> | null = null
   function collectAll() {
     checkpoint()
     collecting ??= collectOnce()
@@ -302,6 +304,8 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
     const privateAccess = await retainTrustedAccessEvidence(options.capture, options.evidence)
     checkpoint()
     const child = await launcher.runGuidesCollector(request, options.secrets, options.signal)
+    // Preserve observed worker facts before cancellation or postprocessing can reject.
+    workerSettlement = immutable(structuredClone(child.settlement))
     checkpoint()
     // Validate the fixed child's result before use. Canonical roundtrip is already enforced by FD3.
     const collection = child.value as GuidesCollectionResult
@@ -353,6 +357,7 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
   }
   return {
     kind: 'guides-page', collectAll,
+    getWorkerSettlement: () => workerSettlement,
     async collect(subjectValue, pinsValue) {
       checkpoint()
       const subject = SubjectSchema.parse(subjectValue), pins = ExecutionPinsSchema.parse(pinsValue)

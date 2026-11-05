@@ -317,8 +317,8 @@ import { fixtureMaterial } from './fixtures/manual-provider'
 /** Controlled adapter awaits only; actual worker ownership is tested in toolset.test. */
 describe.sequential('Guides provider cancellation checkpoints', () => {
   afterEach(() => vi.restoreAllMocks())
-  async function controlled(stage: string) {
-    const root = await mkdtemp(join(tmpdir(), 'provider-cancel-')), controller = new AbortController(), reason = new Error(`CANCEL_${stage}`)
+  async function controlled(stage: string, reason: unknown = new Error(`CANCEL_${stage}`)) {
+    const root = await mkdtemp(join(tmpdir(), 'provider-cancel-')), controller = new AbortController()
     const store = await initializeEvidence({root: join(root, 'evidence'), repositories: [], owner: 'cancel'})
     const context = fixtureMaterial({subject: {kind: 'guides-page', group: 'guides', pageId: 'fixture'}, members: [{logicalId: 'fixture', manualId: 'guides', token: 'shared-fixture', outputPath: 'content/en/guides/fixture.md', origin: 'upstream', current: true, next: true}]})
     const next = context.lock.preparedNext!
@@ -328,7 +328,7 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
       detailFiles: Object.entries(detail).map(([path, text]) => ({path, blob: fixtureBlob(text)})),
       blobs: ['first blob', 'second blob'].map(text => ({blob: fixtureBlob(text), base64: Buffer.from(text).toString('base64')})),
       pages: [{report: context.collectedReport, context}]}
-    const settlement = {pid: null, born: false, close: {code: 0, signal: null}, group: 'absent', signals: [], cleanupErrors: []} as const
+    const settlement: toolsetApi.GuidesWorkerSettlement = {pid: null, born: false, close: {code: 0, signal: null}, group: 'absent', signals: [], cleanupErrors: []}
     const run = vi.fn(async (_request: unknown, _secrets?: {GH_TOKEN?: string}, _signal?: AbortSignal) => {if (stage === 'worker') controller.abort(reason); return {value: collection, stdout: '', stderr: '', settlement}})
     const describe = vi.spyOn(toolsetApi, 'describeTrustedToolset').mockReturnValue({commit: '3'.repeat(40)} as any)
     const prepare = vi.spyOn(toolsetApi, 'prepareTrustedLauncher').mockImplementation(async () => {
@@ -360,7 +360,7 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
     const options = {capture: {toolsetSha256: 'a'.repeat(64)} as any, evidence: store, signal: controller.signal, prepareNext,
       request: {kind: 'guides-collection' as const, schemaVersion: 1 as const, repositoryRoot: root, sourceRepository: root, devRepository: root,
         master: '3'.repeat(40), configSnapshot: '3'.repeat(40), dev: '3'.repeat(40), pages: [], comparisonConfig: null, target: null, evidenceRun: null, evidenceZip: null}}
-    return {options, controller, reason, run, describe, prepare, retain, writes, reads, prepareNext, settlement,
+    return {options, controller, reason, run, describe, prepare, retain, writes, reads, prepareNext, settlement, collection,
       get completedWrites() {return completedWrites}, dispose: () => rm(root, {recursive: true, force: true})}
   }
   it('stops an already-aborted factory before describing or preparing a launcher', async () => {
@@ -377,7 +377,9 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
     const f = await controlled(stage)
     try {
       const provider = await createGuidesProvider(f.options), material = vi.spyOn(materialApi, 'captureUnitMaterial')
+      expect(provider.getWorkerSettlement()).toBeNull()
       await expect(provider.collectAll()).rejects.toBe(f.reason)
+      expect(provider.getWorkerSettlement()).toEqual(stage === 'access' ? null : f.settlement)
       if (stage === 'access') expect(f.run).not.toHaveBeenCalled()
       if (stage === 'worker' || stage === 'access') expect(f.writes).not.toHaveBeenCalled()
       if (stage === 'blob-write') {expect(f.writes).toHaveBeenCalledTimes(1); expect(f.completedWrites).toBe(1)}
@@ -386,18 +388,105 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
       if (stage === 'prepare-next') expect(f.reads).toHaveBeenCalledTimes(4)
       if (stage === 'prepared-read') expect(f.reads).toHaveBeenCalledTimes(5)
       const count = f.writes.mock.calls.length
-      expect(() => provider.planAll()).toThrow(f.reason); expect(() => provider.planNext({} as any)).toThrow(f.reason)
-      expect(() => provider.collectAll()).toThrow(f.reason); expect(f.writes).toHaveBeenCalledTimes(count)
+      expect(() => provider.planAll()).toThrow(f.reason as Error); expect(() => provider.planNext({} as any)).toThrow(f.reason as Error)
+      expect(() => provider.collectAll()).toThrow(f.reason as Error); expect(f.writes).toHaveBeenCalledTimes(count)
+    } finally {await f.dispose()}
+  })
+  it.each([
+    ['frozen error', Object.freeze(new Error('frozen cancellation'))],
+    ['non-extensible error', Object.preventExtensions(new Error('sealed cancellation'))],
+    ['string', 'primitive cancellation'], ['number', 17], ['null', null],
+  ])('preserves the identical %s abort reason and observed receipt', async (_name, reason) => {
+    const f = await controlled('worker', reason)
+    try {
+      const before = reason instanceof Error ? Object.getOwnPropertyDescriptors(reason) : null
+      const provider = await createGuidesProvider(f.options)
+      await expect(provider.collectAll()).rejects.toBe(reason)
+      expect(provider.getWorkerSettlement()).toEqual(f.settlement)
+      if (reason instanceof Error) expect(Object.getOwnPropertyDescriptors(reason)).toEqual(before)
+      expect(f.writes).not.toHaveBeenCalled()
+    } finally {await f.dispose()}
+  })
+  it('keeps an owner rejection and its attached receipt intact without inventing a fulfilled observation', async () => {
+    const f = await controlled('normal')
+    try {
+      const receipt = {...f.settlement, group: 'unknown' as const, close: null}
+      const reason = Object.freeze(Object.assign(new Error('worker rejected'), {settlement: receipt}))
+      f.run.mockRejectedValueOnce(reason)
+      const provider = await createGuidesProvider(f.options)
+      await expect(provider.collectAll()).rejects.toBe(reason)
+      expect(reason.settlement).toBe(receipt)
+      expect(provider.getWorkerSettlement()).toBeNull()
+      expect(f.writes).not.toHaveBeenCalled()
+      await expect(provider.collectAll()).rejects.toBe(reason)
+      expect(f.run).toHaveBeenCalledTimes(1)
+    } finally {await f.dispose()}
+  })
+  it('retains the observed receipt when fixed result validation rejects', async () => {
+    const f = await controlled('normal')
+    try {
+      f.collection.kind = 'invalid-collector-result'
+      const provider = await createGuidesProvider(f.options)
+      await expect(provider.collectAll()).rejects.toThrow('Invalid fixed collector result')
+      expect(provider.getWorkerSettlement()).toEqual(f.settlement)
+      expect(f.writes).not.toHaveBeenCalled()
+    } finally {await f.dispose()}
+  })
+  it('retains the observed receipt and original IO error without restarting a failed collection', async () => {
+    const f = await controlled('normal')
+    try {
+      const reason = Object.freeze(new Error('evidence write failed'))
+      f.writes.mockRejectedValueOnce(reason)
+      const provider = await createGuidesProvider(f.options)
+      await expect(provider.collectAll()).rejects.toBe(reason)
+      expect(provider.getWorkerSettlement()).toEqual(f.settlement)
+      await expect(provider.collectAll()).rejects.toBe(reason)
+      expect(f.run).toHaveBeenCalledTimes(1)
+      expect(f.writes).toHaveBeenCalledTimes(1)
+    } finally {await f.dispose()}
+  })
+  it('exposes an independent deeply immutable snapshot after cancellation without checking the signal or doing work', async () => {
+    const f = await controlled('worker')
+    try {
+      Object.assign(f.settlement, {pid: 1234, born: true, close: {code: null, signal: 'SIGTERM'}, group: 'unknown',
+        signals: [{signal: 'SIGTERM', at: 123}], cleanupErrors: [{operation: 'probe', code: 'EACCES', message: 'denied'}]})
+      const expected = structuredClone(f.settlement), provider = await createGuidesProvider(f.options)
+      expect(provider.getWorkerSettlement()).toBeNull()
+      expect(f.run).not.toHaveBeenCalled()
+      await expect(provider.collectAll()).rejects.toBe(f.reason)
+      const checkpoint = vi.spyOn(f.controller.signal, 'throwIfAborted')
+      const snapshot = provider.getWorkerSettlement()!
+      expect(snapshot).toEqual(expected)
+      expect(snapshot).not.toBe(f.settlement)
+      expect(Reflect.set(snapshot, 'pid', 999)).toBe(false)
+      expect(Reflect.set(snapshot.close!, 'signal', null)).toBe(false)
+      expect(Reflect.set(snapshot.signals[0], 'at', 999)).toBe(false)
+      expect(Reflect.set(snapshot.cleanupErrors[0], 'message', 'changed')).toBe(false)
+      expect(() => snapshot.signals.push({signal: 'SIGKILL', at: 999})).toThrow(TypeError)
+      expect(() => snapshot.cleanupErrors.pop()).toThrow(TypeError)
+      f.settlement.close!.signal = null
+      f.settlement.signals[0].at = 999
+      f.settlement.cleanupErrors[0].message = 'changed at source'
+      expect(provider.getWorkerSettlement()).toEqual(expected)
+      expect(checkpoint).not.toHaveBeenCalled()
+      expect(f.run).toHaveBeenCalledTimes(1)
+      expect(f.writes).not.toHaveBeenCalled()
+      expect(f.reads).not.toHaveBeenCalled()
     } finally {await f.dispose()}
   })
   it('retains private settlement separately from unchanged report and request authority', async () => {
     const f = await controlled('normal')
     try {
-      const provider = await createGuidesProvider(f.options), result = await provider.collectAll()
+      const provider = await createGuidesProvider(f.options)
+      const [result, concurrent] = await Promise.all([provider.collectAll(), provider.collectAll()])
+      expect(concurrent).toBe(result); expect(f.run).toHaveBeenCalledTimes(1)
+      expect(provider.getWorkerSettlement()).toEqual(result.workerSettlement)
       expect(result.workerSettlement).toEqual(f.settlement); expect(result.collection.pages).toHaveLength(1)
       expect(result.collection).not.toHaveProperty('workerSettlement')
+      expect(result.collection.pages[0].report).not.toHaveProperty('workerSettlement')
       expect(f.run.mock.calls[0][2]).toBe(f.controller.signal)
       expect(f.run.mock.calls[0][0]).not.toHaveProperty('signal')
+      expect(f.run.mock.calls[0][0]).not.toHaveProperty('workerSettlement')
       expect(provider.planAll()).toHaveLength(1)
     } finally {await f.dispose()}
   })
