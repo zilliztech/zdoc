@@ -12,6 +12,18 @@ const { fetchBufferWithRetry, fetchFeishuBufferWithRetry, fetchJsonWithRetry } =
 
 require('dotenv/config')
 
+// Bounds one fetch attempt (headers plus body read) for Feishu media and Figma
+// media-API calls. A timed-out attempt retries inside feishuFetch's retry loop
+// with a fresh window instead of hanging the serial Figma queue for minutes.
+// A malformed override must fail fast rather than silently disabling the cap.
+const parsedFetchTimeoutMs = process.env.GUIDES_MEDIA_FETCH_TIMEOUT_MS === undefined
+    ? 30000
+    : parseInt(process.env.GUIDES_MEDIA_FETCH_TIMEOUT_MS, 10)
+if (!Number.isFinite(parsedFetchTimeoutMs) || parsedFetchTimeoutMs <= 0) {
+    throw new Error(`GUIDES_MEDIA_FETCH_TIMEOUT_MS must be a positive integer, got: ${process.env.GUIDES_MEDIA_FETCH_TIMEOUT_MS}`)
+}
+const FETCH_TIMEOUT_MS = parsedFetchTimeoutMs
+
 class larkImageDownloader {
     constructor(docs, target_path, limiterOptions = {}) {
         this.docs = docs;
@@ -151,17 +163,11 @@ class larkImageDownloader {
             await fetcher.fetchToken()
             const token = await fetcher.token()
 
-            const controller = new AbortController()
-            const timeout = setTimeout(() => controller.abort(), 30000)
-            try {
-                return await fetchFeishuBufferWithRetry(
-                    `${process.env.FEISHU_HOST}/open-apis/drive/v1/medias/${image_token}/download`,
-                    { method: 'GET', headers: { Authorization: `Bearer ${token}` }, signal: controller.signal },
-                    `download image ${image_token}`
-                )
-            } finally {
-                clearTimeout(timeout)
-            }
+            return await fetchFeishuBufferWithRetry(
+                `${process.env.FEISHU_HOST}/open-apis/drive/v1/medias/${image_token}/download`,
+                { method: 'GET', headers: { Authorization: `Bearer ${token}` }, timeoutMs: FETCH_TIMEOUT_MS },
+                `download image ${image_token}`
+            )
         })
     }
 
@@ -172,17 +178,11 @@ class larkImageDownloader {
             await fetcher.fetchToken()
             const token = await fetcher.token()
 
-            const controller = new AbortController()
-            const timeout = setTimeout(() => controller.abort(), 30000)
-            try {
-                return await fetchFeishuBufferWithRetry(
-                    `${process.env.FEISHU_HOST}/open-apis/board/v1/whiteboards/${board_token}/download_as_image`,
-                    { method: 'GET', headers: { Authorization: `Bearer ${token}` }, signal: controller.signal },
-                    `download board preview ${board_token}`
-                )
-            } finally {
-                clearTimeout(timeout)
-            }
+            return await fetchFeishuBufferWithRetry(
+                `${process.env.FEISHU_HOST}/open-apis/board/v1/whiteboards/${board_token}/download_as_image`,
+                { method: 'GET', headers: { Authorization: `Bearer ${token}` }, timeoutMs: FETCH_TIMEOUT_MS },
+                `download board preview ${board_token}`
+            )
         })
     }
 
@@ -192,8 +192,9 @@ class larkImageDownloader {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
-                'X-Figma-Token': process.env.FIGMA_API_KEY                
+                'X-Figma-Token': process.env.FIGMA_API_KEY
             },
+            timeoutMs: FETCH_TIMEOUT_MS,
         }
 
         return await this.__scheduleFigmaApi(async () => {
@@ -213,7 +214,8 @@ class larkImageDownloader {
                 headers: {
                     'Accept': 'application/json',
                     'X-Figma-Token': process.env.FIGMA_API_KEY
-                }
+                },
+                timeoutMs: FETCH_TIMEOUT_MS,
             }, `fetch Figma image URL ${key}:${node}`)
         })
         const url = imageJson.images[node]
@@ -221,9 +223,10 @@ class larkImageDownloader {
             method: 'GET',
             headers: {
                 'Connection': 'keep-alive',
-                'X-Figma-Token': process.env.FIGMA_API_KEY                
+                'X-Figma-Token': process.env.FIGMA_API_KEY
             },
-            agent: new https.Agent({ keepAlive: true, maxSockets: 10 })
+            agent: new https.Agent({ keepAlive: true, maxSockets: 10 }),
+            timeoutMs: FETCH_TIMEOUT_MS,
         }, `download Figma image ${key}:${node}`)
     }
 

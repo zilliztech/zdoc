@@ -354,6 +354,9 @@ jobs:
           IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}
           GUIDES_FIGMA_MAX_CONCURRENT: '1'
           GUIDES_FIGMA_MIN_TIME_MS: '1000'
+          # Media fetches cap each attempt (GUIDES_MEDIA_FETCH_TIMEOUT_MS, default
+          # 30s); the larger attempt budget rides out upstream 5xx windows.
+          FEISHU_RETRY_ATTEMPTS: '8'
       - name: Upload accepted shared Guides images
         if: ${{ inputs.site == 'en' }}
         run: |
