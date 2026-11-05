@@ -1,17 +1,18 @@
 ---
 title: "ARRAY 演算子 | Cloud"
 slug: /array-filtering-operators
-sidebar_label: "ARRAY"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、ARRAY フィールドのフィルタリングと ARRAY フィールド値の部分更新のための ARRAY 演算子を提供します。 | Cloud"
+description: "Zilliz Cloud は、ARRAY フィールドのフィルタリングと ARRAY フィールド値の部分更新に使用する ARRAY 演算子を提供します。 | Cloud"
 type: origin
-token: MaWywRYCniq6vwkJsT7c2wAyn0f
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-array-filtering-operators
+sidebar_label: "配列"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/array-operators.md"
 
 ---
 
@@ -21,36 +22,40 @@ import TabItem from '@theme/TabItem';
 
 # ARRAY 演算子
 
-Zilliz Cloud は、ARRAY フィールドのフィルタリングと ARRAY フィールド値の部分更新のための ARRAY 演算子を提供します。
+Zilliz Cloud は、ARRAY フィールドのフィルタリングと ARRAY フィールド値の部分更新に使用する ARRAY 演算子を提供します。
 
-注記：配列内のすべての要素は同じ型である必要があり、配列内のネスト構造はプレーン文字列として扱われます。したがって、ARRAY フィールドを扱う場合は、過度に深いネストを避け、最適なパフォーマンスを得るためにデータ構造を可能な限りフラットに保つことをお勧めします。
+<Admonition type="info" icon="📘" title="Notes">
 
-Zilliz Cloud の ARRAY 演算子は、次の 2 つの使用シナリオを対象としています。
+配列内のすべての要素は同じ型である必要があり、配列内のネストされた構造はプレーン文字列として扱われます。したがって、ARRAY フィールドを扱う際は、過度に深いネストを避け、最適なパフォーマンスを得るためにデータ構造をできるだけフラットにすることをお勧めします。
+
+</Admonition>
+
+Zilliz Cloud の ARRAY 演算子は、次の 2 つの使用シナリオに対応しています：
 
 - クエリおよび検索用のフィルター式。
 
 - `upsert` リクエストでの部分更新。
 
-## 使用可能な ARRAY 演算子\{#available-array-operators}
+## 利用可能な ARRAY 演算子\{#available-array-operators}
 
-次の表に、Zilliz Cloud で使用可能な ARRAY 演算子を示します。
+次の表に、Zilliz Cloud で利用可能な ARRAY 演算子を示します。
 
-| **演算子** | **使用場所** | **説明** |
+| 演算子 | 使用場所 | 説明 |
 | --- | --- | --- |
-| [ARRAY_CONTAINS(identifier, expr)](./array-filtering-operators#arraycontains) | フィルター式 | 特定の要素が ARRAY フィールドに存在するかどうかを確認します。 |
-| [ARRAY_CONTAINS_ALL(identifier, expr)](./array-filtering-operators#arraycontainsall) | フィルター式 | 指定されたリスト内のすべての要素が ARRAY フィールドに存在するかどうかを確認します。 |
-| [ARRAY_CONTAINS_ANY(identifier, expr)](./array-filtering-operators#arraycontainsany) | フィルター式 | 指定されたリスト内のいずれかの要素が ARRAY フィールドに存在するかどうかを確認します。 |
-| [ARRAY_LENGTH(identifier)](./array-filtering-operators#arraylength) | フィルター式 | ARRAY フィールド内の要素数を返します。フィルタリングのために比較演算子と組み合わせることができます。 |
-| [ARRAY_APPEND](./array-filtering-operators#arrayappend) | `field_ops` を使用した `upsert` | 既存の ARRAY フィールドにペイロード要素を追加します。 |
-| [ARRAY_REMOVE](./array-filtering-operators#arrayremove) | `field_ops` を使用した `upsert` | リクエストペイロード内の値に一致するすべての要素を、既存の ARRAY フィールドから削除します。 |
+| [ARRAY_CONTAINS(identifier, expr)](#arraycontains) | フィルター式 | ARRAY フィールドに特定の要素が存在するかどうかを確認します。 |
+| [ARRAY_CONTAINS_ALL(identifier, expr)](#arraycontainsall) | フィルター式 | 指定したリストのすべての要素が ARRAY フィールドに存在するかどうかを確認します。 |
+| [ARRAY_CONTAINS_ANY(identifier, expr)](#arraycontainsany) | フィルター式 | 指定したリスト内のいずれかの要素が ARRAY フィールドに存在するかどうかを確認します。 |
+| [ARRAY_LENGTH(identifier)](#arraylength) | フィルター式 | ARRAY フィールド内の要素数を返します。フィルタリング時に比較演算子と組み合わせることができます。 |
+| [ARRAY_APPEND](#arrayappend) | `field_ops` を使用した `upsert` | 既存の ARRAY フィールドにペイロードの要素を追加します。Milvus v2.6.17 以降で利用できます。 |
+| [ARRAY_REMOVE](#arrayremove) | `field_ops` を使用した `upsert` | リクエストペイロード内の値に一致するすべての要素を、既存の ARRAY フィールドから削除します。Milvus v2.6.17 以降で利用できます。 |
 
 ## ARRAY_CONTAINS\{#arraycontains}
 
-`ARRAY_CONTAINS` 演算子は、特定の要素が配列フィールドに存在するかどうかを確認します。これは、指定された要素が配列内に存在するエンティティを検索する場合に便利です。
+`ARRAY_CONTAINS` 演算子は、配列フィールドに特定の要素が存在するかどうかを確認します。配列内に特定の要素が存在するエンティティを検索する場合に便利です。
 
 **例**
 
-ここで、さまざまな年の記録された最低気温を含む配列フィールド `history_temperatures` があるとします。配列に値 `23` が含まれるすべてのエンティティを検索するには、次のフィルター式を使用できます。
+`history_temperatures` という配列フィールドがあり、さまざまな年の記録された最低気温が格納されているとします。配列に値 `23` が含まれるすべてのエンティティを検索するには、次のフィルター式を使用できます：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -117,17 +122,18 @@ filter='ARRAY_CONTAINS(history_temperatures, 23)'
 ```
 
 </TabItem>
+
 </Tabs>
 
-これは、`history_temperatures` 配列に値 `23` が含まれるすべてのエンティティを返します。
+これにより、`history_temperatures` 配列に値 `23` が含まれるすべてのエンティティが返されます。
 
 ## ARRAY_CONTAINS_ALL\{#arraycontainsall}
 
-`ARRAY_CONTAINS_ALL` 演算子は、指定されたリストのすべての要素が配列フィールドに存在することを保証します。この演算子は、配列内に複数の値を含むエンティティを照合する場合に便利です。
+`ARRAY_CONTAINS_ALL` 演算子は、指定したリストのすべての要素が配列フィールドに存在することを確認します。配列内に複数の値が含まれるエンティティを一致させたい場合に便利です。
 
 **例**
 
-`history_temperatures` 配列に `23` と `24` の両方が含まれるすべてのエンティティを検索する場合は、次のようにします。
+`history_temperatures` 配列に `23` と `24` の両方が含まれるすべてのエンティティを検索するには、次のようにします：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -194,17 +200,18 @@ filter='ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 ```
 
 </TabItem>
+
 </Tabs>
 
-これは、`history_temperatures` 配列に指定された値の両方が含まれるすべてのエンティティを返します。
+これにより、`history_temperatures` 配列に指定した両方の値が含まれるすべてのエンティティが返されます。
 
 ## ARRAY_CONTAINS_ANY\{#arraycontainsany}
 
-`ARRAY_CONTAINS_ANY` 演算子は、指定されたリストのいずれかの要素が配列フィールドに存在するかどうかを確認します。これは、配列内に指定された値の少なくとも 1 つを含むエンティティを照合する場合に便利です。
+`ARRAY_CONTAINS_ANY` 演算子は、指定したリスト内のいずれかの要素が配列フィールドに存在するかどうかを確認します。配列内に指定した値の少なくとも 1 つが含まれるエンティティを一致させたい場合に便利です。
 
 **例**
 
-`history_temperatures` 配列に `23` または `24` のいずれかが含まれるすべてのエンティティを検索するには、次のようにします。
+`history_temperatures` 配列に `23` または `24` のいずれかが含まれるすべてのエンティティを検索するには、次のようにします：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -271,17 +278,18 @@ filter='ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 ```
 
 </TabItem>
+
 </Tabs>
 
-これは、`history_temperatures` 配列に値 `23` または `24` の少なくとも 1 つが含まれるすべてのエンティティを返します。
+これにより、`history_temperatures` 配列に `23` または `24` の値のうち少なくとも 1 つが含まれるすべてのエンティティが返されます。
 
 ## ARRAY_LENGTH\{#arraylength}
 
-`ARRAY_LENGTH` は、配列フィールドの長さ（要素数）を返します。受け取るパラメーターは 1 つだけで、配列フィールドの識別子です。
+`ARRAY_LENGTH` は、配列フィールドの長さ（要素数）を返します。パラメーターは 1 つだけ受け取り、配列フィールドの識別子を指定します。
 
 **例**
 
-`history_temperatures` 配列の要素数が 10 未満であるすべてのエンティティを検索するには、次のようにします。
+`history_temperatures` 配列の要素数が 10 未満のすべてのエンティティを検索するには、次のようにします：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -348,15 +356,16 @@ filter='ARRAY_LENGTH(history_temperatures) < 10'
 ```
 
 </TabItem>
+
 </Tabs>
 
-これは、`history_temperatures` 配列の要素数が 10 未満であるすべてのエンティティを返します。
+これにより、`history_temperatures` 配列の要素数が 10 未満のすべてのエンティティが返されます。
 
 ## ARRAY_APPEND\{#arrayappend}
 
-`ARRAY_APPEND` 演算子は、`upsert` リクエスト中に既存の ARRAY フィールドにペイロード要素を追加します。これはフィルター式ではありません。現在の配列値を先にクエリすることなく配列に値を追加したい場合に使用します。
+`ARRAY_APPEND` 演算子は、`upsert` リクエスト中に既存の ARRAY フィールドへペイロードの要素を追加します。これはフィルター式ではありません。現在の配列値を先にクエリせずに配列へ値を追加する場合に使用します。
 
-次の例では、主キーが `1` であるエンティティの `tags` ARRAY フィールドに `"premium"` を追加します。
+次の例では、主キーが `1` のエンティティの `tags` ARRAY フィールドに `"premium"` を追加します：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -515,15 +524,16 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-`field_ops` を通じてフィールドに `ARRAY_APPEND` を付加すると、そのフィールドの部分更新セマンティクスが有効になります。ワークフロー全体、サポートされている要素型、および制限については、[Upsert ARRAY fields in merge mode](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode) を参照してください。
+`field_ops` を通じて `ARRAY_APPEND` をフィールドに適用すると、そのフィールドの部分更新セマンティクスが有効になります。ワークフロー全体、サポートされる要素型、制限事項については、[Upsert ARRAY fields in merge mode](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode) を参照してください。
 
 ## ARRAY_REMOVE\{#arrayremove}
 
-`ARRAY_REMOVE` 演算子は、`upsert` リクエスト中に、リクエストペイロード内の値に一致するすべての要素を既存の ARRAY フィールドから削除します。これはフィルター式ではありません。現在の配列値を先にクエリすることなく、一致する値を配列から削除したい場合に使用します。
+`ARRAY_REMOVE` 演算子は、`upsert` リクエスト中に、リクエストペイロード内の値に一致するすべての要素を既存の ARRAY フィールドから削除します。これはフィルター式ではありません。現在の配列値を先にクエリせずに、一致する値を配列から削除する場合に使用します。
 
-次の例では、主キーが `1` であるエンティティの `tags` ARRAY フィールドから `"trial"` を削除します。
+次の例では、主キーが `1` のエンティティの `tags` ARRAY フィールドから `"trial"` を削除します：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -682,6 +692,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-`field_ops` を通じてフィールドに `ARRAY_REMOVE` を付加すると、そのフィールドの部分更新セマンティクスが有効になります。ワークフロー全体、サポートされている要素型、および制限については、[Upsert ARRAY fields in merge mode](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode) を参照してください。
+`field_ops` を通じて `ARRAY_REMOVE` をフィールドに適用すると、そのフィールドの部分更新セマンティクスが有効になります。ワークフロー全体、サポートされる要素型、制限事項については、[Upsert ARRAY fields in merge mode](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode) を参照してください。

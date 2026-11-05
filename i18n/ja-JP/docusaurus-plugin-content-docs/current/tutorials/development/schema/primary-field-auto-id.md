@@ -1,17 +1,18 @@
 ---
 title: "プライマリフィールドと AutoID | Cloud"
 slug: /primary-field-auto-id
-sidebar_label: "プライマリフィールド"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティをあいまいさなく挿入、更新、クエリ、削除できます。 | Cloud"
+description: "Milvus のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティを曖昧さなく挿入、更新、クエリ、削除できます。 | Cloud"
 type: origin
-token: D2ctwKZhNilLY0ke1vpcHL62n5G
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-primary-field-auto-id
+sidebar_label: "プライマリフィールド"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/primary-field.md"
 
 ---
 
@@ -21,17 +22,17 @@ import TabItem from '@theme/TabItem';
 
 # プライマリフィールドと AutoID
 
-Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティをあいまいさなく挿入、更新、クエリ、削除できます。
+Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティを曖昧さなく挿入、更新、クエリ、削除できます。
 
 ユースケースに応じて、Zilliz Cloud に ID を自動生成させる（AutoID）か、独自の ID を手動で割り当てることができます。
 
-## プライマリフィールドとは？\{#what-is-a-primary-field}
+## プライマリフィールドとは\{#what-is-a-primary-field}
 
-プライマリフィールドは、従来のデータベースの主キーと同様に、コレクション内の各エンティティの一意キーとして機能します。Zilliz Cloud は、挿入、アップサート、削除、クエリの各操作でエンティティを管理するためにプライマリフィールドを使用します。
+プライマリフィールドは、従来のデータベースの主キーと同様に、コレクション内の各エンティティの一意キーとして機能します。Zilliz Cloud は、挿入、upsert、削除、クエリの各操作でプライマリフィールドを使用してエンティティを管理します。
 
-主な要件は次のとおりです。
+主な要件：
 
-- 各コレクションには、プライマリフィールドが **正確に 1 つ** 必要です。
+- 各コレクションには、プライマリフィールドが **正確に 1 つ**必要です。
 
 - プライマリフィールドの値は null にできません。
 
@@ -41,35 +42,58 @@ Zilliz Cloud のすべてのコレクションには、各エンティティを�
 
 プライマリフィールドには、エンティティを一意に識別できるサポート対象のスカラーデータ型を使用する必要があります。
 
-| データ型 | 説明 |
-| --- | --- |
-| `INT64` | 64 ビット整数型で、通常は AutoID と組み合わせて使用します。ほとんどのユースケースで推奨されるオプションです。 |
-| `VARCHAR` | 可変長文字列型です。エンティティ識別子が外部システム（例：製品コードやユーザー ID）に由来する場合に使用します。値ごとに許容される最大バイト数を定義するには、`max_length` プロパティが必要です。 |
+<table>
+   <tr>
+     <th><p>データ型</p></th>
+     <th><p>説明</p></th>
+   </tr>
+   <tr>
+     <td><p><code>INT64</code></p></td>
+     <td><p>64 ビット整数型で、AutoID でよく使用されます。ほとんどのユースケースで推奨されるオプションです。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>VARCHAR</code></p></td>
+     <td><p>可変長文字列型です。エンティティ識別子が外部システム（製品コードやユーザー ID など）から取得される場合に使用します。値ごとに許可される最大バイト数を定義する <code>max_length</code> プロパティが必要です。</p></td>
+   </tr>
+</table>
 
-## AutoID と手動 ID の選択\{#choose-between-autoid-and-manual-ids}
+## AutoID と手動 ID のどちらかを選択する\{#choose-between-autoid-and-manual-ids}
 
 Zilliz Cloud では、主キー値を割り当てる 2 つのモードをサポートしています。
 
-| モード | 説明 | 推奨される用途 |
-| --- | --- | --- |
-| AutoID | Zilliz Cloud が、挿入またはインポートされたエンティティの一意の識別子を自動的に生成します。 | ID を手動で管理する必要がないほとんどのシナリオ。 |
-| Manual ID | データを挿入またはインポートするときに、一意の ID を自分で指定します。 | ID を外部システムや既存のデータセットと一致させる必要がある場合。 |
+<table>
+   <tr>
+     <th><p>モード</p></th>
+     <th><p>説明</p></th>
+     <th><p>推奨用途</p></th>
+   </tr>
+   <tr>
+     <td><p>AutoID</p></td>
+     <td><p>Zilliz Cloud は、挿入またはインポートされたエンティティの一意の識別子を自動的に生成します。</p></td>
+     <td><p>ID を手動で管理する必要がないほとんどのシナリオ。</p></td>
+   </tr>
+   <tr>
+     <td><p>手動 ID</p></td>
+     <td><p>データを挿入またはインポートするときに、一意の ID を自分で指定します。</p></td>
+     <td><p>ID を外部システムまたは既存のデータセットと一致させる必要がある場合。</p></td>
+   </tr>
+</table>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-- どちらのモードを選択するかわからない場合は、取り込みを簡素化し、一意性を保証するために [AutoID から始める](./primary-field-auto-id#quickstart-use-autoid) ことをお勧めします。
+- どのモードを選択すべきかわからない場合は、よりシンプルな取り込みと一意性の保証のために [AutoID から始める](./primary-field-auto-id#quickstart-use-autoid) ことをお勧めします。
 
-- 主キーの手動設定が有益な場合を除き、すべての場合で `autoId` を使用することをお勧めします。
+- 主キーを手動で設定することが有益でない限り、すべての場合で `autoId` に依存することをお勧めします。
 
 </Admonition>
 
 ## クイックスタート：AutoID を使用する\{#quickstart-use-autoid}
 
-Zilliz Cloud に ID 生成を自動的に処理させることができます。
+Zilliz Cloud に ID の生成を自動で処理させることができます。
 
 ### ステップ 1: AutoID を使用してコレクションを作成する\{#step-1-create-a-collection-with-autoid}
 
-プライマリフィールドの定義で `auto_id=True` を有効にします。Zilliz Cloud が ID 生成を自動的に処理します。
+プライマリフィールドの定義で `auto_id=True` を有効にします。Zilliz Cloud が ID の生成を自動的に処理します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -86,7 +110,7 @@ schema = client.create_schema()
 schema.add_field(
     field_name="id", # Primary field name
     is_primary=True,
-    auto_id=True,  # Milvus generates IDs automatically; Defaults to False
+    auto_id=True,  # Zilliz Cloud generates IDs automatically; Defaults to False
     datatype=DataType.INT64
 )
 # highlight-end
@@ -152,7 +176,6 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-// go
 import (
     "context"
     "fmt"
@@ -195,7 +218,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 let client = ClientV2::new(
@@ -306,7 +328,7 @@ const schema = [
     description: "Primary field",
     data_type: DataType.Int64,
     is_primary_key: true,
-    autoID: true, // Milvus generates IDs automatically
+    autoID: true, // Zilliz Cloud generates IDs automatically
   },
   {
     name: "embedding",
@@ -349,7 +371,7 @@ var schema = new CollectionSchema
 {
     Fields =
     {
-        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true), // Milvus generates IDs automatically
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true), // Zilliz Cloud generates IDs automatically
         FieldSchema.CreateFloatVector("embedding", dimension: 4), // Vector field
         FieldSchema.CreateVarchar("category", maxLength: 1000) // Scalar field of the VARCHAR type
     }
@@ -411,11 +433,12 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-**重要：** データにプライマリフィールド列を含めないでください。Zilliz Cloud が ID を自動的に生成します。
+**重要：** データにプライマリフィールドの列を含めないでください。Zilliz Cloud が ID を自動生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -468,7 +491,6 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 <TabItem value='go'>
 
 ```go
-// go
 import (
     "fmt"
     "log"
@@ -496,7 +518,6 @@ for i := 0; i < result.IDs.Len(); i++ {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 client
@@ -610,19 +631,20 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-重複 ID エラーを回避するため、既存のエンティティを扱うときは `insert()` ではなく `upsert()` を使用してください。
+既存のエンティティを扱う場合は、ID の重複エラーを回避するために `insert()` ではなく `upsert()` を使用してください。
 
 </Admonition>
 
 ## 手動 ID を使用する\{#use-manual-ids}
 
-ID を手動で制御する必要がある場合は、AutoID を無効にし、独自の値を指定してください。
+ID を手動で制御する必要がある場合は、AutoID を無効にして独自の値を指定します。
 
-### ステップ 1: AutoID なしでコレクションを作成する\{#step-1-create-a-collection-without-autoid}
+### ステップ 1: AutoID を使用せずにコレクションを作成する\{#step-1-create-a-collection-without-autoid}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -707,8 +729,8 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-// go
 import (
+    "context"
     "fmt"
     "log"
 
@@ -716,7 +738,18 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-schema = &entity.Schema{
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+        Address: "YOUR_CLUSTER_ENDPOINT",
+        APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+        log.Fatal("failed to connect:", err)
+}
+defer cli.Close(ctx)
+
+schema := &entity.Schema{
         CollectionName: "demo_manual_ids",
         Fields: []*entity.Field{
                 entity.NewField().WithName("product_id").WithDataType(entity.FieldTypeVarChar).WithIsPrimaryKey(true).WithMaxLength(100),
@@ -738,7 +771,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 let client = ClientV2::new(
@@ -952,11 +984,12 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 ```
 
 </TabItem>
+
 </Tabs>
 
-### ステップ 2: 自分の ID でデータを挿入する\{#step-2-insert-data-with-your-ids}
+### ステップ 2: 独自の ID を使用してデータを挿入する\{#step-2-insert-data-with-your-ids}
 
-すべての挿入操作にプライマリフィールド列を含める必要があります。
+すべての挿入操作にプライマリフィールドの列を含める必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1012,7 +1045,6 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 <TabItem value='go'>
 
 ```go
-// go
 import (
     "fmt"
     "log"
@@ -1040,7 +1072,6 @@ for i := 0; i < result.IDs.Len(); i++ {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 client
@@ -1160,13 +1191,60 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 ```
 
 </TabItem>
+
 </Tabs>
 
-ご自身で行う必要があること：
+お客様の責任：
 
-- すべてのエンティティ間で、すべての ID が一意であることを確認してください。
+- すべてのエンティティで ID が一意であることを確認してください。
 
-- すべての insert/import 操作にプライマリフィールドを含めてください。
+- すべての挿入/import 操作にプライマリフィールドを含めてください。
 
-- ID の競合と重複検出はご自身で処理してください。
+- ID の競合と重複の検出はご自身で処理してください。
 
+## 高度な使用方法\{#advanced-usage}
+
+### 既存の AutoID を含むデータを移行する\{#migrate-data-with-existing-autoids}
+
+データ移行中に既存の ID を保持するには、`alter_collection_properties` 呼び出しを実行して `allow_insert_auto_id` プロパティを有効にします。true に設定すると、AutoID が有効であっても、Zilliz Cloud はユーザーが指定した ID を受け入れます。
+
+構成の詳細については、[Modify コレクション](https://milvus.io/docs/modify-collection.md#Example-6-Enable-allowinsertautoid) を参照してください。
+
+## リファレンス：AutoID の仕組み\{#reference-how-autoid-works}
+
+AutoID が内部で一意の識別子を生成する仕組みを理解すると、[クラスター ID の構成](./primary-field-auto-id#ensure-global-autoid-uniqueness-across-clusters) を正しく行い、ID 関連の問題をトラブルシューティングするのに役立ちます。
+
+AutoID は、一意性を保証するために構造化された 64 ビット形式を使用します：
+
+```plaintext
+[sign_bit][cluster_id][physical_ts][logical_ts]
+```
+
+<table>
+   <tr>
+     <th><p>セグメント</p></th>
+     <th><p>説明</p></th>
+   </tr>
+   <tr>
+     <td><p><code>sign_bit</code></p></td>
+     <td><p>内部使用のために予約されています。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>cluster_id</code></p></td>
+     <td><p>ID を生成したクラスターを識別します（値の範囲：0-7）。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>physical_ts</code></p></td>
+     <td><p>ID が生成された時点のタイムスタンプをミリ秒単位で示します。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>logical_ts</code></p></td>
+     <td><p>同じミリ秒内に作成された ID を区別するためのカウンターです。</p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+`VARCHAR` をデータ型として AutoID を有効にした場合でも、Zilliz Cloud は数値 ID を生成します。これらの ID は、最大 20 文字の数値文字列として保存されます（uint64 の範囲）。
+
+</Admonition>

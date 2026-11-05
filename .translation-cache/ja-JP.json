@@ -1911,14 +1911,14 @@
       "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/json-fields/json-indexing.md": {
-      "sourceHash": "e22499f66839749bac2f91b28be482991585f9951e00b0f82e819f9e8688fbdf",
+      "sourceHash": "c99375f31db484e37e97384892254c5f7536eeb2656d2cbed114ece7e6495c8c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-fields/json-indexing.md",
-      "translatedAt": "2026-10-28T03:29:32.772Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/json-fields/json-shredding.md": {
-      "sourceHash": "b865db63411ab6cdedfff2342e86904e685997213dadb887bd3b030c67f3da76",
+      "sourceHash": "157c20cae656d17507a36a69676d0178afaa45de7787af585c50285a059fce33",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-fields/json-shredding.md",
-      "translatedAt": "2026-08-04T05:08:42.113Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/nullable-fields.md": {
       "sourceHash": "889c9a815c5ec31825792fe774b4999224898a4bb8e7418148466f074a82c11f",
@@ -1926,9 +1926,9 @@
       "translatedAt": "2026-10-25T10:10:23.617Z"
     },
     "content/en/guides/tutorials/development/schema/primary-field-auto-id.md": {
-      "sourceHash": "c5d5d35ee136973f6ed481202b7cc38cf016ed45e1206e6354bbd9fe2c2913fe",
+      "sourceHash": "cb2e8e9291e8ffb186465337b27b1593a05ef973c565c3f01417cc00f497f91c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/primary-field-auto-id.md",
-      "translatedAt": "2026-10-30T19:44:10.283Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
       "sourceHash": "bce6ec0e151cbf76cb5487fa2886f0d8960d34d6ae2f2bf7b988ce972b810dd1",
@@ -1936,9 +1936,9 @@
       "translatedAt": "2026-08-04T05:07:59.067Z"
     },
     "content/en/guides/tutorials/development/schema/schema-best-practices/schema-design-hands-on.md": {
-      "sourceHash": "a9fd1cf194163fa0e1d5e3015afc00262347828683a35dc79384069cae354135",
+      "sourceHash": "4326e6d6b6cc3dba39027a6b3146d4a816db1ab98fbfeae7fc4991da6b9845c4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/schema-best-practices/schema-design-hands-on.md",
-      "translatedAt": "2026-10-25T05:16:53.988Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md": {
       "sourceHash": "6126a04f6499076ad8050830b8150585d6c0838302fba23a0121eb03849157bf",
@@ -1946,9 +1946,9 @@
       "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/schema-explained.md": {
-      "sourceHash": "78ea8dc0b5f8717604c0487a6a47e68dbcddd7e48935b5219d537b7a773e2ab9",
+      "sourceHash": "f8ba4f9d4f2db857ec16bd881f91f9923c5a1d461b6fcc24508302587c404056",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/schema-explained.md",
-      "translatedAt": "2026-10-25T10:10:23.617Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md": {
       "sourceHash": "b22ad6b2fc05e2832c4adcabd971224124f02157a2a25a840ed84ce62878ba3b",
@@ -1976,9 +1976,9 @@
       "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/schema/use-array-fields.md": {
-      "sourceHash": "bf3341954e1e6390701908dab068b9078778f5c4fced9cfc540fc0b9518bee38",
+      "sourceHash": "5a1b0c0bbb39f040709458f8cbd63bd1bcc5038a5c62f6402e42794c7463616f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-array-fields.md",
-      "translatedAt": "2026-10-31T03:41:25.271Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/use-binary-vector.md": {
       "sourceHash": "9e54ce228e8bbdf685ed4d6a01b48165cc87b85373aa8113a435dd2414302b10",
@@ -1996,9 +1996,9 @@
       "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/use-number-field.md": {
-      "sourceHash": "44023bd67145ab2ff598b6533932eb6bedf4a1f914ca286b342377f7753b9afe",
+      "sourceHash": "6ee59d16f9926ad1d0d3363ffa45b7e4e70c482fa644d9551c75ceffbdde3bdc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-number-field.md",
-      "translatedAt": "2026-10-31T03:41:25.271Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/use-sparse-vector.md": {
       "sourceHash": "eb9572ef36de5468d99606a9877157c52b49244c36613ea604b8b5c7d77e6bcc",
@@ -2021,19 +2021,19 @@
       "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "79bd32c7754c5c4f535ddb7329df3dcd05059f2fa8759fb2e356136ec0e94bac",
+      "sourceHash": "342113de1a1e08fc8ce0c223693e2ef215b0990be4df0f4af7ff3fe4d3ce0aa3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-10-30T19:44:10.283Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
-      "sourceHash": "7b5794cfede465d577de40f2ba346914dffd23699ff61061c8a1c19ae233e0e2",
+      "sourceHash": "b840f0ca7c1236d0f15dc8881054539385068c2f71e720fe365a2d734c4d81e1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/dql-sessions-external-collection.md",
-      "translatedAt": "2026-10-28T03:29:32.772Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/elasticsearch-queries-to-milvus.md": {
-      "sourceHash": "b42e88210ceedd7fc929503d633347ff67496518ae44397b4dc27610129b8f80",
+      "sourceHash": "73684fdcbe10046ac4fcd5e81c6621b6ffa16fe3c44d731a452cae419ba162d3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/elasticsearch-queries-to-milvus.md",
-      "translatedAt": "2026-10-25T05:16:53.988Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtered-search.md": {
       "sourceHash": "5b04ed8bb4c2ef949e5bc78cb43a13cbeff555ec0f4f79af80f406e1936be44e",
@@ -2041,9 +2041,9 @@
       "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/array-filtering-operators.md": {
-      "sourceHash": "b54519661d885254cefb08dfdf051c464a0c511ba32d9032114d4e284056f625",
+      "sourceHash": "6065fe1964cb4ec1cbed224a8fa7046a51860466af154a21a1b209a149c6b2f5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/array-filtering-operators.md",
-      "translatedAt": "2026-10-25T05:16:53.988Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/basic-filtering-operators.md": {
       "sourceHash": "3e65de6acab49cff0d96203f7b2cd853ebc67062d65bd1c84afc683ffd227114",
@@ -2051,14 +2051,14 @@
       "translatedAt": "2026-10-25T10:11:36.432Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/filtering-overview.md": {
-      "sourceHash": "191c0f887feff27b3f8cdf4b6eca859f412f7da4740af6eaa769b4b39273b9b8",
+      "sourceHash": "38739ad39edd085cdad99def6c8eb1ff92c582da41a16a36961f5e09a6b1e8e6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/filtering-overview.md",
-      "translatedAt": "2026-10-25T10:11:36.432Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/filtering-templating.md": {
-      "sourceHash": "2ee50f1659d6b070e182299d75ca417a87386f14788851d618d41f92b36d3f5d",
+      "sourceHash": "84cf0ea11adcaaddf3dc305fbe2305c39f871ef20a394199d0aa18aa8856e255",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/filtering-templating.md",
-      "translatedAt": "2026-10-25T05:16:53.988Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/geometry-operators.md": {
       "sourceHash": "85f82db54a59245ce49fc88ed06921c55660483ff3ede792608d982ca6f1aed0",
@@ -2066,9 +2066,9 @@
       "translatedAt": "2026-10-25T05:16:53.988Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/json-filtering-operators.md": {
-      "sourceHash": "113a7774201b7f7c12270be90f44c1cab3db95fcfe6eb761a827002904470788",
+      "sourceHash": "acf64ac465496ff1eb668a6118560be404b4d3636a223291afee32fd5b0a5815",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/json-filtering-operators.md",
-      "translatedAt": "2026-10-25T05:16:53.988Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/membership-match.md": {
       "sourceHash": "a1992efe7b2876bd35ca08858d1241c1aaafeb5794dcdf3a684d274d59b54bd8",
@@ -2076,9 +2076,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/pattern-match.md": {
-      "sourceHash": "909066acec68c2c6459c4e0ec9fd01e20dc3473dd9a329cd890f14fc6af6fb03",
+      "sourceHash": "6534b8e084ef446463f7045acd2c310025de39ea011219c24176c3a6839cc3d1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/pattern-match.md",
-      "translatedAt": "2026-10-29T12:55:32.070Z"
+      "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/ramdom-sampling.md": {
       "sourceHash": "98c8f3bd4f9bace9473bbfb417ac9368f338dbd824d4dde62fd6e34c9459cf1f",

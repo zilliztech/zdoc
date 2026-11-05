@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Apache Lucene を基盤とする Elasticsearch は、主要なオープンソース検索エンジンです。しかし、更新コストの高さ、リアルタイム性能の低さ、非効率なシャード管理、クラウドネイティブではない設計、過剰なリソース需要など、現代の AI アプリケーションでは課題に直面します。クラウドネイティブのベクトルデータベースである Milvus は、ストレージとコンピューティングの分離、高次元データ向けの効率的なインデックス作成、最新インフラストラクチャとのシームレスな統合によって、これらの課題を克服します。AI ワークロード向けに優れたパフォーマンスとスケーラビリティを提供します。 | Cloud"
+description: "Apache Lucene を基盤とする Elasticsearch は、主要なオープンソース検索エンジンです。しかし、更新コストの高さ、リアルタイム性能の低さ、非効率なシャード管理、クラウドネイティブでない設計、過剰なリソース需要など、現代の AI アプリケーションでは課題に直面しています。クラウドネイティブのベクトルデータベースである Milvus は、ストレージとコンピューティングの分離、高次元データの効率的なインデックス作成、最新インフラストラクチャとのシームレスな統合により、これらの課題を克服します。AI ワークロード向けに優れたパフォーマンスとスケーラビリティを提供します。 | Cloud"
 type: origin
 token: OFl9wHXpriM8aEkoONScpU1lnIf
 sidebar_position: 17
@@ -21,62 +21,62 @@ import TabItem from '@theme/TabItem';
 
 # Elasticsearch クエリから Milvus へ
 
-Apache Lucene を基盤とする Elasticsearch は、主要なオープンソース検索エンジンです。しかし、更新コストの高さ、リアルタイム性能の低さ、非効率なシャード管理、クラウドネイティブではない設計、過剰なリソース需要など、現代の AI アプリケーションでは課題に直面します。クラウドネイティブのベクトルデータベースである Milvus は、ストレージとコンピューティングの分離、高次元データ向けの効率的なインデックス作成、最新インフラストラクチャとのシームレスな統合によって、これらの課題を克服します。AI ワークロード向けに優れたパフォーマンスとスケーラビリティを提供します。
+Apache Lucene を基盤とする Elasticsearch は、主要なオープンソース検索エンジンです。しかし、更新コストの高さ、リアルタイム性能の低さ、非効率なシャード管理、クラウドネイティブでない設計、過剰なリソース需要など、現代の AI アプリケーションでは課題に直面しています。クラウドネイティブのベクトルデータベースである Milvus は、ストレージとコンピューティングの分離、高次元データの効率的なインデックス作成、最新インフラストラクチャとのシームレスな統合により、これらの課題を克服します。AI ワークロード向けに優れたパフォーマンスとスケーラビリティを提供します。
 
 この記事では、コードベースを Elasticsearch から Milvus へ移行しやすくするため、両者の間でクエリを変換するさまざまな例を紹介します。
 
 ## 概要\{#overview}
 
-Elasticsearch では、クエリコンテキストの操作は関連性スコアを生成しますが、フィルターコンテキストの操作は生成しません。同様に、Milvus の検索は類似度スコアを生成しますが、フィルターに類するクエリは生成しません。コードベースを Elasticsearch から Milvus へ移行する際の基本原則は、Elasticsearch のクエリコンテキストで使用するフィールドを、類似度スコアを生成できるベクトルフィールドに変換することです。
+Elasticsearch では、クエリコンテキストの操作は関連性スコアを生成しますが、フィルターコンテキストの操作は生成しません。同様に、Milvus の検索は類似度スコアを生成しますが、フィルターに類するクエリは生成しません。コードベースを Elasticsearch から Milvus へ移行する際の重要な原則は、Elasticsearch のクエリコンテキストで使用されるフィールドをベクトルフィールドに変換し、類似度スコアを生成できるようにすることです。
 
-次の表に、Elasticsearch のいくつかのクエリパターンと、Milvus における対応する機能を示します。
+次の表は、一部の Elasticsearch クエリパターンと、対応する Milvus の同等機能を示しています。
 
 <table>
    <tr>
      <th><p>Elasticsearch クエリ</p></th>
-     <th><p>Milvus の対応機能</p></th>
+     <th><p>Milvus の同等機能</p></th>
      <th><p>備考</p></th>
    </tr>
    <tr>
      <td colspan="3"><p><strong>全文クエリ</strong></p></td>
    </tr>
    <tr>
-     <td><p><a href="./elasticsearch-queries-to-milvus#match-query">マッチクエリ</a></p></td>
+     <td><p><a href="./elasticsearch-queries-to-milvus#match-query">Match クエリ</a></p></td>
      <td><p>全文検索</p></td>
      <td><p>どちらも同様の機能セットを提供します。</p></td>
    </tr>
    <tr>
-     <td colspan="3"><p><strong>タームレベルクエリ</strong></p></td>
+     <td colspan="3"><p><strong>タームレベルのクエリ</strong></p></td>
    </tr>
    <tr>
      <td><p><a href="./elasticsearch-queries-to-milvus#ids">ID</a></p></td>
      <td><p><code>in</code> 演算子</p></td>
-     <td rowspan="6"><p>これらの Elasticsearch クエリをフィルターコンテキストで使用する場合、どちらも同一または同様の機能セットを提供します。</p></td>
+     <td rowspan="6"><p>これらの Elasticsearch クエリをフィルターコンテキストで使用すると、どちらも同一または同様の機能セットを提供します。</p></td>
    </tr>
    <tr>
-     <td><p><a href="./elasticsearch-queries-to-milvus#prefix-query">プレフィックスクエリ</a></p></td>
+     <td><p><a href="./elasticsearch-queries-to-milvus#prefix-query">Prefix クエリ</a></p></td>
      <td><p><code>like</code> 演算子</p></td>
    </tr>
    <tr>
-     <td><p><a href="./elasticsearch-queries-to-milvus#range-query">レンジクエリ</a></p></td>
+     <td><p><a href="./elasticsearch-queries-to-milvus#range-query">Range クエリ</a></p></td>
      <td><p><code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code> などの比較演算子</p></td>
    </tr>
    <tr>
-     <td><p><a href="./elasticsearch-queries-to-milvus#term-query">タームクエリ</a></p></td>
+     <td><p><a href="./elasticsearch-queries-to-milvus#term-query">Term クエリ</a></p></td>
      <td><p><code>==</code> などの比較演算子</p></td>
    </tr>
    <tr>
-     <td><p><a href="./elasticsearch-queries-to-milvus#terms-query">タームズクエリ</a></p></td>
+     <td><p><a href="./elasticsearch-queries-to-milvus#terms-query">Terms クエリ</a></p></td>
      <td><p><code>in</code> 演算子</p></td>
    </tr>
    <tr>
-     <td><p><a href="./elasticsearch-queries-to-milvus#wildcard-query">ワイルドカードクエリ</a></p></td>
+     <td><p><a href="./elasticsearch-queries-to-milvus#wildcard-query">Wildcard クエリ</a></p></td>
      <td><p><code>like</code> 演算子</p></td>
    </tr>
    <tr>
-     <td><p><a href="./elasticsearch-queries-to-milvus#boolean-query">ブールクエリ</a></p></td>
+     <td><p><a href="./elasticsearch-queries-to-milvus#boolean-query">Boolean クエリ</a></p></td>
      <td><p><code>AND</code> などの論理演算子</p></td>
-     <td><p>フィルターコンテキストで使用する場合、どちらも同様の機能セットを提供します。</p></td>
+     <td><p>フィルターコンテキストで使用すると、どちらも同様の機能セットを提供します。</p></td>
    </tr>
    <tr>
      <td colspan="3"><p><strong>ベクトルクエリ</strong></p></td>
@@ -89,21 +89,23 @@ Elasticsearch では、クエリコンテキストの操作は関連性スコア
    <tr>
      <td><p><a href="./elasticsearch-queries-to-milvus#reciprocal-rank-fusion">Reciprocal Rank Fusion</a></p></td>
      <td><p>ハイブリッド検索</p></td>
-     <td><p>Milvus は複数の再ランキング戦略をサポートします。</p></td>
+     <td><p>Milvus は複数の再ランキング戦略をサポートしています。</p></td>
    </tr>
 </table>
 
 ## 全文クエリ\{#full-text-queries}
 
-Elasticsearch では、全文クエリを使用して、メール本文など分析済みのテキストフィールドを検索できます。クエリ文字列は、インデックス作成時にそのフィールドに適用されたものと同じアナライザーを使用して処理されます。
+Elasticsearch では、全文クエリを使用すると、メール本文などの解析済みテキストフィールドを検索できます。クエリ文字列は、インデックス作成時にそのフィールドに適用されたものと同じアナライザーを使用して処理されます。
 
-### マッチクエリ\{#match-query}
+### Match クエリ\{#match-query}
 
-Elasticsearch では、マッチクエリは、指定したテキスト、数値、日付、またはブール値に一致するドキュメントを返します。指定したテキストは、照合の前に分析されます。
+Elasticsearch では、Match クエリは、指定されたテキスト、数値、日付、またはブール値に一致するドキュメントを返します。指定されたテキストは、照合前に解析されます。
 
-以下は、マッチクエリを使用した Elasticsearch 検索リクエストの例です。
+以下は、Match クエリを使用した Elasticsearch 検索リクエストの例です。
 
 ```python
+from pymilvus import AnnSearchRequest, RRFRanker
+
 resp = client.search(
     query={
         "match": {
@@ -115,7 +117,7 @@ resp = client.search(
 )
 ```
 
-Milvus は、全文検索機能によって同じ機能を提供します。上記の Elasticsearch クエリは、次のように Milvus に変換できます。
+Milvus は、全文検索機能を通じて同じ機能を提供します。上記の Elasticsearch クエリは、次のように Milvus に変換できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -139,6 +141,12 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import java.util.*;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.request.ranker.RRFRanker;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
@@ -160,6 +168,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/entity"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
 )
 
 client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{entity.Text("How is the weather in Jamaica?")}).
@@ -207,6 +216,8 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient, RRFRanker } from "@zilliz/milvus2-sdk-node";
+
 const res = await client.search({
     collection_name: "my_collection",
     data: ["How is the weather in Jamaica?"],
@@ -257,13 +268,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記の例では、`message_sparse` は `message` という名前の VarChar フィールドから派生したスパースベクトルフィールドです。Milvus は BM25 埋め込みモデルを使用して、`message` フィールドの値をスパースベクトル埋め込みに変換し、`message_sparse` フィールドに保存します。検索リクエストを受信すると、Milvus は同じ BM25 モデルを使用してプレーンテキストのクエリペイロードを埋め込み、スパースベクトル検索を実行して、`output_fields` パラメーターで指定された `id` および `message` フィールドを、対応する類似度スコアとともに返します。
+上記の例では、`message_sparse` は、`message` という名前の VarChar フィールドから派生したスパースベクトルフィールドです。Milvus は BM25 埋め込みモデルを使用して、`message` フィールドの値をスパースベクトル埋め込みに変換し、`message_sparse` フィールドに格納します。検索リクエストを受信すると、Milvus は同じ BM25 モデルを使用してプレーンテキストのクエリペイロードを埋め込み、スパースベクトル検索を実行し、`id` フィールドと `message` フィールド（`output_fields` パラメーターで指定）を、対応する類似度スコアとともに返します。
 
 この機能を使用するには、`message` フィールドでアナライザーを有効にし、そこから `message_sparse` フィールドを派生させる関数を定義する必要があります。Milvus でアナライザーを有効にして派生関数を作成する詳細な手順については、[Full Text Search](./full-text-search) を参照してください。
 
-## タームレベルクエリ\{#term-level-queries}
+## タームレベルのクエリ\{#term-level-queries}
 
-Elasticsearch では、タームレベルクエリは、日付範囲、IP アドレス、価格、商品 ID など、構造化データ内の正確な値に基づいてドキュメントを検索するために使用されます。このセクションでは、Elasticsearch の一部のタームレベルクエリに対応する可能性のある Milvus の機能を説明します。このセクションのすべての例は、Milvus の機能に合わせてフィルターコンテキスト内で動作するように調整されています。
+Elasticsearch では、タームレベルのクエリは、日付範囲、IP アドレス、価格、製品 ID など、構造化データ内の正確な値に基づいてドキュメントを検索するために使用されます。このセクションでは、一部の Elasticsearch タームレベルクエリに対応する可能性のある Milvus の機能について説明します。このセクションのすべての例は、Milvus の機能に合わせてフィルターコンテキスト内で動作するように調整されています。
 
 ### ID\{#ids}
 
@@ -313,11 +324,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 // Use the filter parameter
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
@@ -340,12 +346,6 @@ queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/column"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // Use the filter parameter
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("id in [1, 4, 100]").
@@ -362,8 +362,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // Use the filter parameter
 client
     .query(
@@ -437,13 +435,6 @@ const res2 = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Use the filter parameter
 var res = await client.QueryAsync(new QueryReq
 {
@@ -479,11 +470,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html) にあります。Milvus のクエリおよび取得リクエストとフィルター式の詳細については、[Query](./get-and-scalar-query) および [Filtering Explained](./filtering-overview) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html)で確認できます。Milvus のクエリ、取得リクエスト、およびフィルター式の詳細については、[Query](./get-and-scalar-query) と [Filtering Explained](./filtering-overview) を参照してください。
 
-### プレフィックスクエリ\{#prefix-query}
+### Prefix クエリ\{#prefix-query}
 
-Elasticsearch では、次のようにフィルターコンテキストで、指定したフィールドに特定のプレフィックスを含むドキュメントを検索できます。
+Elasticsearch では、次のようにフィルターコンテキストで、指定されたフィールドに特定のプレフィックスを含むドキュメントを検索できます。
 
 ```python
 resp = client.search(
@@ -501,7 +492,7 @@ resp = client.search(
 )
 ```
 
-Milvus では、次のように値が指定したプレフィックスで始まるエンティティを検索できます。
+Milvus では、次のように、値が指定されたプレフィックスで始まるエンティティを検索できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -519,11 +510,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("user like \"ki%\"")
@@ -537,8 +523,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("user like \"ki%\"").
     WithOutputFields("id", "user"))
@@ -549,8 +533,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .query(
         QueryRequest::builder()
@@ -594,13 +576,6 @@ const res = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
@@ -628,11 +603,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html) にあります。Milvus の `like` 演算子の詳細については、[Using ](./basic-filtering-operators)[`LIKE`](./basic-filtering-operators)[ for Pattern Matching](./basic-filtering-operators) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html)で確認できます。Milvus の `like` 演算子の詳細については、[パターンマッチングでの ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[`LIKE`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[ の使用](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)を参照してください。
 
-### レンジクエリ\{#range-query}
+### Range クエリ\{#range-query}
 
-Elasticsearch では、次のように、指定した範囲内のタームを含むドキュメントを検索できます。
+Elasticsearch では、次のように、指定された範囲内のタームを含むドキュメントを検索できます。
 
 ```python
 resp = client.search(
@@ -651,7 +626,7 @@ resp = client.search(
 )
 ```
 
-Milvus では、次のように、特定のフィールドの値が指定した範囲内にあるエンティティを検索できます。
+Milvus では、次のように、特定のフィールドの値が指定された範囲内にあるエンティティを検索できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -669,11 +644,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("10 <= age <= 20")
@@ -687,8 +657,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("10 <= age <= 20").
     WithOutputFields("id", "user", "age"))
@@ -699,8 +667,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .query(
         QueryRequest::builder()
@@ -745,13 +711,6 @@ const res = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
@@ -779,11 +738,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html) にあります。Milvus の比較演算子の詳細については、[Comparison operators](./basic-filtering-operators#comparison-operators) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html)で確認できます。Milvus の比較演算子の詳細については、[Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph) を参照してください。
 
-### タームクエリ\{#term-query}
+### Term クエリ\{#term-query}
 
-Elasticsearch では、次のように、指定したフィールドに **exact** タームを含むドキュメントを検索できます。
+Elasticsearch では、次のように、指定されたフィールドに**完全一致**するタームを含むドキュメントを検索できます。
 
 ```python
 resp = client.search(
@@ -801,7 +760,7 @@ resp = client.search(
 )
 ```
 
-Milvus では、次のように、指定したフィールドの値が指定したタームに完全一致するエンティティを検索できます。
+Milvus では、次のように、指定されたフィールドの値が指定されたタームと完全に一致するエンティティを検索できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -827,11 +786,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 // use ==
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
@@ -854,8 +808,6 @@ queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 // use ==
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("status==\"retired\"").
@@ -872,8 +824,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // use ==
 client
     .query(
@@ -949,13 +899,6 @@ const res2 = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // use ==
 var res = await client.QueryAsync(new QueryReq
 {
@@ -1004,11 +947,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html) にあります。Milvus の比較演算子の詳細については、[Comparison operators](./basic-filtering-operators#comparison-operators) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html)で確認できます。Milvus の比較演算子の詳細については、[Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph) を参照してください。
 
-### タームズクエリ\{#terms-query}
+### Terms クエリ\{#terms-query}
 
-Elasticsearch では、次のように、指定したフィールドに 1 つ以上の **exact** タームを含むドキュメントを検索できます。
+Elasticsearch では、次のように、指定されたフィールドに 1 つ以上の**完全一致**するタームを含むドキュメントを検索できます。
 
 ```python
 resp = client.search(
@@ -1027,7 +970,7 @@ resp = client.search(
 )
 ```
 
-Milvus には、これに完全に相当する機能はありません。ただし、次のように、指定したフィールドの値が指定したタームのいずれかであるエンティティを検索できます。
+Milvus には、これに完全に対応する機能はありません。ただし、次のように、指定されたフィールドの値が指定されたタームのいずれかであるエンティティを検索できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1053,11 +996,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 // use in
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
@@ -1080,8 +1018,6 @@ queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 // use in
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("degree in [\"graduate\", \"post-graduate\"]").
@@ -1098,8 +1034,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // use in
 client
     .query(
@@ -1175,13 +1109,6 @@ const res2 = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // use in
 var res = await client.QueryAsync(new QueryReq
 {
@@ -1230,9 +1157,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html) にあります。Milvus の範囲演算子の詳細については、[Range operators](./basic-filtering-operators) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html)で確認できます。Milvus の範囲演算子の詳細については、[Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg) を参照してください。
 
-### ワイルドカードクエリ\{#wildcard-query}
+### Wildcard クエリ\{#wildcard-query}
 
 Elasticsearch では、次のように、ワイルドカードパターンに一致するタームを含むドキュメントを検索できます。
 
@@ -1270,11 +1197,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("user like \"ki%\" AND user like \"%y\"")
@@ -1288,8 +1210,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("user like \"ki%\" AND user like \"%y\"").
     WithOutputFields("id", "user"))
@@ -1300,8 +1220,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .query(
         QueryRequest::builder()
@@ -1345,13 +1263,6 @@ const res = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
@@ -1379,13 +1290,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html) にあります。Milvus の範囲演算子の詳細については、[Range operators](./basic-filtering-operators) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html)で確認できます。Milvus の範囲演算子の詳細については、[Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg) を参照してください。
 
-## ブールクエリ\{#boolean-query}
+## Boolean クエリ\{#boolean-query}
 
-Elasticsearch では、ブールクエリは、他のクエリのブール結合に一致するドキュメントを照合するクエリです。
+Elasticsearch では、Boolean クエリは、他のクエリのブール値の組み合わせに一致するドキュメントに一致するクエリです。
 
-次の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-bool-query.html) の Elasticsearch ドキュメントの例を基にしています。このクエリは、名前に `kimchy` を含み、`production` タグを持つユーザーを返します。
+次の例は、Elasticsearch ドキュメントの[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-bool-query.html)にある例を基にしています。このクエリは、名前に `kimchy` を含み、`production` タグを持つユーザーを返します。
 
 ```python
 resp = client.search(
@@ -1406,7 +1317,7 @@ resp = client.search(
 )
 ```
 
-Milvus では、次のように同様のことができます。
+Milvus では、次のように同様の操作を実行できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1424,11 +1335,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("user like \"%kimchy%\" AND ARRAY_CONTAINS(tags, \"production\")")
@@ -1442,8 +1348,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("user like \"%kimchy%\" AND ARRAY_CONTAINS(tags, \"production\")").
     WithOutputFields("id", "user", "age", "tags"))
@@ -1454,8 +1358,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .query(
         QueryRequest::builder()
@@ -1501,13 +1403,6 @@ const res = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
@@ -1535,15 +1430,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記の例では、対象のコレクションに **VarChar** 型の `user` フィールドと **Array** 型の `tags` フィールドがあることを前提としています。このクエリは、名前に `kimchy` を含み、`production` タグを持つユーザーを返します。
+上記の例は、対象のコレクションに **VarChar** 型の `user` フィールドと **Array** 型の `tags` フィールドがあることを前提としています。このクエリは、名前に `kimchy` を含み、`production` タグを持つユーザーを返します。
 
 ## ベクトルクエリ\{#vector-queries}
 
-Elasticsearch では、ベクトルクエリは、ベクトルフィールドを対象として効率的にセマンティック検索を実行するための専用クエリです。
+Elasticsearch では、ベクトルクエリは、ベクトルフィールドを操作してセマンティック検索を効率的に実行するための専用クエリです。
 
 ### kNN クエリ\{#knn-query}
 
-Elasticsearch は、近似 kNN クエリと、正確な総当たり kNN クエリの両方をサポートしています。次のように、どちらの方法でも、類似度メトリックで測定して、クエリベクトルに最も近い *k* 個のベクトルを検索できます。
+Elasticsearch は、近似 kNN クエリと、正確な総当たり kNN クエリの両方をサポートしています。次のように、どちらの方法でも、類似度メトリクスで測定された、クエリベクトルに最も近い *k* 個のベクトルを検索できます。
 
 ```python
 resp = client.search(
@@ -1563,9 +1458,9 @@ resp = client.search(
 )
 ```
 
-Milvus, as a specialized ベクトル データベース, uses インデックス types to optimize ベクトル searches. Typically, it prioritizes approximate nearest neighbor (ANN) search for high-dimensional vector data. While brute-force kNN search with the FLAT インデックス type delivers precise results, it is both time-consuming and resource-intensive. In contrast, ANN search using AUTOINDEX or other index types balances speed and accuracy, offering significantly faster and more resource-efficient performance than kNN. For details on index types and AUTOINDEX, you can read [Indexes](./indexes) and [AUTOINDEX Explained](./autoindex-explained).
+専用のベクトルデータベースである Milvus は、インデックスタイプを使用してベクトル検索を最適化します。通常、高次元のベクトルデータには近似最近傍（ANN）検索を優先します。FLAT インデックスタイプを使用した総当たり kNN 検索は正確な結果を提供しますが、時間とリソースの両方を大量に消費します。これに対して、AUTOINDEX やその他のインデックスタイプを使用した ANN 検索は速度と精度のバランスを取るため、kNN よりも大幅に高速でリソース効率に優れたパフォーマンスを提供します。インデックスタイプと AUTOINDEX の詳細については、[Indexes](./indexes) と [AUTOINDEX Explained](./autoindex-explained) を参照してください。
 
-上記のベクトルクエリに相当する Milvus の同様の例は、次のとおりです。
+上記のベクトルクエリに対応する Milvus の同様の機能は、次のとおりです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1584,12 +1479,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new FloatVec(new float[]{-5, 9, -12})))
@@ -1605,12 +1494,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{entity.FloatVector{-5, 9, -12}}).
     WithANNSField("image_vector"))
 ```
@@ -1620,8 +1503,6 @@ client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Ve
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .search(
         SearchRequest::builder()
@@ -1667,13 +1548,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
@@ -1703,13 +1577,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は、[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-knn-query.html) にあります。Milvus の ANN 検索の詳細については、[Basic ANN Search](./single-vector-search) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-knn-query.html)で確認できます。Milvus の ANN 検索の詳細については、[Basic ANN Search](./single-vector-search) を参照してください。
 
 ### Reciprocal Rank Fusion\{#reciprocal-rank-fusion}
 
-Elasticsearch は、異なる関連性指標を持つ複数の結果セットを 1 つのランク付けされた結果セットに結合する Reciprocal Rank Fusion（RRF）を提供しています。
+Elasticsearch は、異なる関連性指標を持つ複数の結果セットを単一のランク付けされた結果セットに統合する Reciprocal Rank Fusion（RRF）を提供しています。
 
-次の例は、検索の関連性を高めるために、従来のタームベースの検索と k 近傍法（kNN）ベクトル検索を組み合わせる方法を示しています。
+次の例では、従来のタームベースの検索と k 最近傍（kNN）ベクトル検索を組み合わせて検索の関連性を高める方法を示します。
 
 ```python
 client.search(
@@ -1745,24 +1619,22 @@ client.search(
 )
 ```
 
-この例では、RRF が 2 つのレトリーバーの結果を結合します。
+この例では、RRF は 2 つのレトリーバーの結果を組み合わせます。
 
-- `text` フィールドに `"shoes"` というタームを含むドキュメントを対象とする、標準的なタームベースの検索。
+- `"shoes"` というタームを `text` フィールドに含むドキュメントを対象とする、標準的なタームベースの検索。
 
-- 指定したクエリベクトルを使用した、`vector` フィールドに対する kNN 検索。
+- 指定されたクエリベクトルを使用した、`vector` フィールドに対する kNN 検索。
 
 各レトリーバーは最大 50 件の上位一致を提供し、それらは RRF によって再ランキングされ、最終的な上位 10 件の結果が返されます。
 
-Milvus では、複数のベクトルフィールドに対する検索を組み合わせ、再ランキング戦略を適用し、結合されたリストから上位 K 件の結果を取得することで、同様のハイブリッド検索を実現できます。Milvus は RRF と重み付き再ランキングの両方の戦略をサポートしています。詳細については、[Weighted Ranker](./reranking-weighted-reranker) およびその関連ページを参照してください。
+Milvus では、複数のベクトルフィールドにまたがる検索を組み合わせ、再ランキング戦略を適用し、統合されたリストから上位 K 件の結果を取得することで、同様のハイブリッド検索を実現できます。Milvus は RRF と重み付き再ランカー戦略の両方をサポートしています。詳細については、[Weighted Ranker](./reranking-weighted-reranker) とその関連ページを参照してください。
 
-以下は、上記の Elasticsearch の例に完全には相当しない Milvus の例です。
+以下は、上記の Elasticsearch の例に厳密には対応しない、Milvus での同等例です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import AnnSearchRequest, RRFRanker
-
 search_params_dense = {
     "data": [[1.25, 2, 3.5]],
     "anns_field": "vector",
@@ -1794,15 +1666,6 @@ res = client.hybrid_search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.HybridSearchReq;
-import io.milvus.v2.service.vector.request.ranker.RRFRanker;
-import io.milvus.v2.service.vector.request.AnnSearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
-
 List<AnnSearchReq> searchRequests = new ArrayList<>();
 searchRequests.add(AnnSearchReq.builder()
         .vectors(Collections.singletonList(new FloatVec(new float[]{1.25f, 2.0f, 3.5f})))
@@ -1830,12 +1693,6 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     "my_collection",
     10,
@@ -1849,8 +1706,6 @@ client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client
     .hybrid_search(
         HybridSearchRequest::builder()
@@ -1906,8 +1761,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, RRFRanker } from "@zilliz/milvus2-sdk-node";
-
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 const res = await client.hybridSearch({
@@ -1926,13 +1779,6 @@ const res = await client.hybridSearch({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var reqDense = new AnnSearchReq
 {
     VectorFieldName = "vector",
@@ -1981,16 +1827,16 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例は、次を組み合わせた Milvus のハイブリッド検索を示しています。
+この例では、次を組み合わせた Milvus のハイブリッド検索を示します。
 
-1. **密ベクトル検索**: `vector` フィールドで近似最近傍（ANN）検索を行うために、内積（IP）メトリックを使用します。
+1. **高密度ベクトル検索**: `vector` フィールドに対する近似最近傍（ANN）検索に内積（IP）メトリクスを使用します。
 
-1. **スパースベクトル検索**: `text_sparse` フィールドで BM25 類似度メトリックを使用します。
+1. **スパースベクトル検索**: `text_sparse` フィールドに対する BM25 類似度メトリクスを使用します。
 
-これらの検索の結果は個別に実行され、結合された後、Reciprocal Rank Fusion（RRF）ランカーを使用して再ランキングされます。ハイブリッド検索は、再ランキングされたリストから上位 10 件のエンティティを返します。
+これらの検索の結果は個別に実行され、統合された後、Reciprocal Rank Fusion（RRF）ランカーを使用して再ランキングされます。ハイブリッド検索は、再ランキングされたリストから上位 10 件のエンティティを返します。
 
-標準的なテキストベースのクエリと kNN 検索の結果を統合する Elasticsearch の RRF ランキングとは異なり、Milvus はスパースベクトル検索と密ベクトル検索の結果を組み合わせ、マルチモーダルデータに最適化された独自のハイブリッド検索機能を提供します。
+標準的なテキストベースのクエリと kNN 検索の結果を統合する Elasticsearch の RRF ランキングとは異なり、Milvus はスパースベクトル検索と高密度ベクトル検索の結果を組み合わせ、マルチモーダルデータ向けに最適化された独自のハイブリッド検索機能を提供します。
 
 ## まとめ\{#recap}
 
-この記事では、タームレベルクエリ、ブールクエリ、全文クエリ、ベクトルクエリなど、一般的な Elasticsearch クエリを Milvus の対応機能に変換する方法を説明しました。他の Elasticsearch クエリの変換についてさらにご質問がある場合は、お気軽にお問い合わせください。
+この記事では、タームレベルのクエリ、Boolean クエリ、全文クエリ、ベクトルクエリなど、一般的な Elasticsearch クエリを Milvus の同等機能に変換する方法について説明しました。他の Elasticsearch クエリの変換についてさらにご質問がある場合は、お気軽にお問い合わせください。

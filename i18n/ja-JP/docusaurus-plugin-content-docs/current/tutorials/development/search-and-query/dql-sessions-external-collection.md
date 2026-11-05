@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "オンデマンドコンピューティングのためのコレクション内の DQL 操作（検索、クエリ、取得、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。 | Cloud"
+description: "オンデマンドコンピューティングを目的としたコレクション内の DQL 操作（検索、クエリ、取得、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。 | Cloud"
 type: origin
 token: BcjLwmXTni1fiMkkyx9ct5iWngc
 sidebar_position: 2
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # オンデマンド DQL 操作
 
-オンデマンドコンピューティングのためのコレクション内の DQL 操作（検索、クエリ、取得、ハイブリッド検索など）では、オンデマンドクラスターのコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。
+コレクション内のオンデマンドコンピューティング向け DQL 操作（検索、クエリ、取得、ハイブリッド検索など）では、オンデマンドクラスターからコンピューティングリソースをアタッチする必要があります。Zilliz Cloud では、オンデマンドのコンピューティングニーズを満たすセッションを作成できます。
 
-この記事は、プロジェクトエンドポイントを使用してデータベースにコレクションを作成済みであることを前提としています。詳細については、[外部コレクションの作成](./create-external-collection) を参照してください。
+この記事では、プロジェクトエンドポイントを使用してデータベース内にコレクションを作成済みであることを前提としています。詳細は、[外部コレクションの作成](./create-external-collection) を参照してください。
 
-## プロジェクトエンドポイントに接続する\{#connect-to-a-project-endpoint}
+## プロジェクトエンドポイントへの接続\{#connect-to-a-project-endpoint}
 
-プロジェクトエンドポイントは、オンデマンドのコンピューティングリソースへのアクセスを提供するために設計されています。これを使用して、オンデマンドクラスターとデータベースを管理し、コレクションに保存されたデータを操作できます。
+プロジェクトエンドポイントは、オンデマンドコンピューティングリソースへのアクセスを提供するように設計されています。これを使用して、オンデマンドクラスターとデータベースを管理し、コレクションに保存されたデータを操作できます。
 
-以下のコード例は、デフォルトデータベース内に `my_collection` という名前の外部コレクションがあることを前提としています。また、接続を設定する際は、十分な権限を持つ有効な API キーを常に使用してください。
+次のコード例では、デフォルトデータベース内に `my_collection` という名前の外部コレクションがあることを前提としています。また、接続を確立する際は、十分な権限を持つ有効な API キーを常に使用してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -53,6 +53,11 @@ client.has_collection(
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.client.MilvusClientV2Session;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
@@ -156,11 +161,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## セッションを作成する\{#create-a-session}
+## セッションの作成\{#create-a-session}
 
-プロジェクトエンドポイントへの接続を設定したら、指定したオンデマンドクラスターのコンピューティングリソースをアタッチするセッションを作成します。
+プロジェクトエンドポイントへの接続を確立したら、指定したオンデマンドクラスターからコンピューティングリソースをアタッチするセッションを作成します。
 
-次の例は、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターをすでに作成済みであることを前提としています。
+次の例では、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターをすでに作成していることを前提としています。
 
 <Admonition type="info" title="Notes">
 
@@ -182,8 +187,6 @@ session = client.session(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2Session;
-
 MilvusClientV2Session session = client.session("inxx-xxxxxxxxxxxxxxxxx");
 ```
 
@@ -239,9 +242,9 @@ export CLUSTER_ID="inxx-xxxxxxxxxxxxxxxxx"
 </TabItem>
 </Tabs>
 
-## DQL 操作を実行する\{#conduct-dql-operations}
+## DQL 操作の実行\{#conduct-dql-operations}
 
-セッションの準備ができたら、検索を実行できます。次の例では、基本的なベクトル検索を例に示します。これは、クエリ、取得、ハイブリッド検索にも適用されます。
+セッションの準備ができたら、検索を実行できます。次の例では、基本的なベクトル検索を例として使用しています。これは、クエリ、取得、ハイブリッド検索にも当てはまります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -263,11 +266,6 @@ res = session.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
-
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 
 SearchReq searchReq = SearchReq.builder()
@@ -295,8 +293,6 @@ SearchResp searchResp = session.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 
 let res = session
@@ -396,13 +392,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## セッションを閉じる\{#close-a-session}
+## セッションの終了\{#close-a-session}
 
-オンデマンドのコンピューティングタスクが完了したら、セッションを閉じることができます。閉じたセッションは、以降の DQL 操作には使用できません。
+オンデマンドのコンピューティングタスクが完了したら、セッションを終了できます。終了したセッションは、以降の DQL 操作には使用できません。
 
 <Admonition type="info" title="Notes">
 
-RESTful 呼び出しでは、この操作は不要です。
+RESTful 呼び出しでは、これは必要ありません。
 
 </Admonition>
 
@@ -471,4 +467,3 @@ session.close();
 
 </TabItem>
 </Tabs>
-

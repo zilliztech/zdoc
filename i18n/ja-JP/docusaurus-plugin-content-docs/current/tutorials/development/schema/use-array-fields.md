@@ -1,17 +1,18 @@
 ---
-title: "ARRAY フィールド | Cloud"
+title: "Array フィールド | Cloud"
 slug: /use-array-fields
-sidebar_label: "ARRAY"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ARRAY フィールドは、同じデータ型の要素からなる順序付きリストを格納します。 | Cloud"
+description: "ARRAY フィールドは、同じデータ型の要素を順序付きで格納します。ARRAY フィールドによるデータの格納例を次に示します。 | Cloud"
 type: origin
-token: N0RmwUtmqinQvokWdYLc3yV5nJh
-sidebar_position: 10
 displayed_sidebar: default
+token: shared-use-array-fields
+sidebar_label: "Array"
+sidebar_position: 10
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/array_data_type.md"
 
 ---
 
@@ -19,11 +20,11 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# ARRAY フィールド
+# Array フィールド
 
-ARRAY フィールドは、同じデータ型の要素からなる順序付きリストを格納します。
+ARRAY フィールドは、同じデータ型の要素を順序付きリストとして格納します。
 
-ARRAY フィールドがデータを格納する方法の例は次のとおりです。
+ARRAY フィールドによるデータの格納例を次に示します。
 
 ```json
 {
@@ -34,29 +35,29 @@ ARRAY フィールドがデータを格納する方法の例は次のとおり�
 
 ## 制限\{#limits}
 
-- **デフォルト値**: ARRAY フィールドはデフォルト値をサポートしていません。ただし、`nullable` 属性を `True` に設定すると、null 値を使用できます。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
+- **デフォルト値**: ARRAY フィールドはデフォルト値をサポートしていません。ただし、`nullable` 属性を `True` に設定すると、null 値を許可できます。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
 
-- <strong>データ型:</strong> ARRAY フィールド内のすべての要素は、`element_type` パラメーターで定義される同じデータ型である必要があります。`element_type` を `VARCHAR` に設定する場合は、配列要素の `max_length` も指定する必要があります。`element_type` は、任意のスカラーデータ型、`JSON`、`STRUCT` を受け入れます。
+- <strong>データ型:</strong> ARRAY フィールド内のすべての要素は、`element_type` パラメーターで定義される同じデータ型である必要があります。`element_type` に `VARCHAR` を設定する場合は、各配列要素に許可される最大バイト数を定義する `max_length` も指定する必要があります。`element_type` には、`JSON` を除く、Zilliz Cloud がサポートする任意のスカラーデータ型を指定できます。`element_type=STRUCT` の場合は、StructArray フィールドを使用し、`struct_schema` を指定します。詳細は、[StructArray](./create-struct-array) を参照してください。
 
-- **配列の容量**: ARRAY フィールドの要素数は、ARRAY の作成時に定義された最大容量以下である必要があり、この値は `max_capacity` で指定します。値は **1** から **4096** までの範囲の整数である必要があります。
+- **配列の容量**: ARRAY フィールド内の要素数は、`max_capacity` で指定された、Array の作成時に定義される最大容量以下である必要があります。値は、**1** から **4096** の範囲の整数である必要があります。
 
-- **文字列の扱い**: ARRAY フィールドの文字列値は、意味的なエスケープや変換を行わずにそのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"` は入力どおりに格納されますが、`'a'b'` と `"a"b"` は無効な値と見なされます。
+- **文字列の処理**: Array フィールド内の文字列値は、意味的なエスケープや変換を行わずに、そのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"` は入力どおりに格納され、`'a'b'` と `"a"b"` は無効な値と見なされます。
 
 ## ARRAY フィールドを追加する\{#add-array-field}
 
-Zilliz Cloud クラスターで ARRAY フィールドを使用するには、コレクションスキーマの作成時に関連するフィールド型を定義します。このプロセスには次のものが含まれます。
+Zilliz Cloud クラスターで ARRAY フィールドを使用するには、コレクションスキーマの作成時に該当するフィールド型を定義します。このプロセスには、以下の手順が含まれます。
 
-1. `datatype` を、サポートされている ARRAY データ型 `ARRAY` に設定します。
+1. `datatype` を、サポートされている Array データ型である `ARRAY` に設定します。
 
 1. `element_type` パラメーターを使用して、配列内の要素のデータ型を指定します。同じ配列内のすべての要素は、同じデータ型である必要があります。
 
-1. `max_capacity` パラメーターを使用して、配列の最大容量、つまり配列に含めることができる要素の最大数を定義します。
+1. `max_capacity` パラメーターを使用して、配列の最大容量、つまり配列に格納できる要素の最大数を定義します。
 
-ARRAY フィールドを含むコレクションスキーマを定義する方法は次のとおりです。
+ARRAY フィールドを含むコレクションスキーマを定義する方法は、以下の通りです。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-スキーマの定義時に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では、事前に定義されていないスカラーフィールドを挿入できます。ただし、クエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
+スキーマを定義する際に `enable_dynamic_field=True` を設定すると、Zilliz Cloud では、事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
@@ -310,8 +311,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Define the collection schema
@@ -382,13 +382,14 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## インデックスパラメーターを設定する\{#set-index-params}
 
-インデックス作成は、検索およびクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
+インデックスは、検索とクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドのインデックス作成は任意です。
 
-次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` にインデックスを作成し、どちらも `AUTOINDEX` インデックスタイプを使用します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
+次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` にインデックスを作成します。どちらも `AUTOINDEX` インデックスタイプを使用します。このタイプでは、Zilliz Cloud がデータ型に基づいて最適なインデックスを自動的に選択します。各フィールドのインデックスタイプとパラメーターはカスタマイズすることもできます。詳細は、[Index Explained](./indexes) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -537,6 +538,7 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## コレクションを作成する\{#create-collection}
@@ -716,6 +718,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## データを挿入する\{#insert-data}
@@ -948,11 +951,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-`ARRAY` フィールドは、配列全体を挿入するだけでなく、`upsert` API で `ARRAY_APPEND` および `ARRAY_REMOVE` の部分更新演算子もサポートしています。これらを使用すると、既存の配列の現在の値を取得せずに、要素を追加したり、一致する要素を削除したりできるため、クライアント側の読み取り・変更・書き込みパターンを回避できます。詳細は、[Upsert array fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
+配列全体を挿入するだけでなく、`ARRAY` フィールドは `upsert` API の `ARRAY_APPEND` および `ARRAY_REMOVE` 部分更新演算子もサポートしています。これらを使用すると、既存の配列の現在値を先に取得することなく、配列に要素を追加したり、一致する要素を削除したりできます。これにより、クライアント側の読み取り・変更・書き込みのパターンを回避できます。詳細は、[Upsert array fields in merge mode](https://milvus.io/docs/upsert-entities.md) を参照してください。
 
 </Admonition>
 
@@ -1115,6 +1119,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `ratings` の最初の要素の値が 4 より大きいエンティティを取得するには、次のようにします。
@@ -1272,11 +1277,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## フィルター式を使用したベクトル検索\{#vector-search-with-filter-expressions}
 
-基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似検索とスカラーフィールドフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索にスカラーフィールドフィルターを追加する方法を示しています。
+基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似検索とスカラーフィールドのフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索にスカラーフィールドのフィルターを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1478,6 +1484,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-さらに、Zilliz Cloud は `ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` などの高度な ARRAY フィルタリング演算子をサポートし、クエリ機能をさらに強化します。詳細は、[ARRAY Operators](./array-filtering-operators) を参照してください。
+さらに、Zilliz Cloud は、クエリ機能をさらに強化するために、`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` などの高度な Array フィルタリング演算子をサポートしています。詳細は、[ARRAY Operators](./array-filtering-operators) を参照してください。
