@@ -371,6 +371,24 @@ async function testTimeoutMsBoundsEachAttemptWithFreshSignal() {
   });
 }
 
+async function testSignalAndTimeoutMsCannotBeCombined() {
+  let fetchCalls = 0;
+
+  await withMockedFetch(async () => {
+    fetchCalls += 1;
+    throw new Error('fetch must not be called');
+  }, async ({ fetchJsonWithRetry }) => {
+    const controller = new AbortController();
+
+    await assert.rejects(
+      () => fetchJsonWithRetry('https://example.com', { signal: controller.signal, timeoutMs: 10 }, 'label'),
+      /options\.signal cannot be combined with options\.timeoutMs/,
+    );
+
+    assert.equal(fetchCalls, 0);
+  });
+}
+
 async function run() {
   await testFetchFeishuBufferRetriesPrematureCloseWhileReadingBody();
   await testFetchJsonRetriesPrematureCloseWhileReadingBody();
@@ -383,6 +401,7 @@ async function run() {
   await testNonTransientFeishuErrorsAreNotRetried();
   await testAbortErrorIsRetryable();
   await testTimeoutMsBoundsEachAttemptWithFreshSignal();
+  await testSignalAndTimeoutMsCannotBeCombined();
   console.log('feishuFetch tests passed');
 }
 

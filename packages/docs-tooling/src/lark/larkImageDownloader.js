@@ -15,7 +15,14 @@ require('dotenv/config')
 // Bounds one fetch attempt (headers plus body read) for Feishu media and Figma
 // media-API calls. A timed-out attempt retries inside feishuFetch's retry loop
 // with a fresh window instead of hanging the serial Figma queue for minutes.
-const FETCH_TIMEOUT_MS = parseInt(process.env.GUIDES_MEDIA_FETCH_TIMEOUT_MS || '30000', 10)
+// A malformed override must fail fast rather than silently disabling the cap.
+const parsedFetchTimeoutMs = process.env.GUIDES_MEDIA_FETCH_TIMEOUT_MS === undefined
+    ? 30000
+    : parseInt(process.env.GUIDES_MEDIA_FETCH_TIMEOUT_MS, 10)
+if (!Number.isFinite(parsedFetchTimeoutMs) || parsedFetchTimeoutMs <= 0) {
+    throw new Error(`GUIDES_MEDIA_FETCH_TIMEOUT_MS must be a positive integer, got: ${process.env.GUIDES_MEDIA_FETCH_TIMEOUT_MS}`)
+}
+const FETCH_TIMEOUT_MS = parsedFetchTimeoutMs
 
 class larkImageDownloader {
     constructor(docs, target_path, limiterOptions = {}) {

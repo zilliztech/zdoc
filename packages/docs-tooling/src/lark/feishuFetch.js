@@ -99,6 +99,9 @@ function responsePreview(body) {
 }
 
 async function retryFetchBody(url, options, label, readBody, shouldRetryResult=() => false) {
+    if (options?.signal && options?.timeoutMs) {
+        throw new Error('options.signal cannot be combined with options.timeoutMs; the per-attempt timeout owns the abort signal')
+    }
     let lastError
 
     for (let attempt = 1; attempt <= FEISHU_RETRY_ATTEMPTS; attempt++) {
@@ -120,6 +123,9 @@ async function retryFetchBody(url, options, label, readBody, shouldRetryResult=(
             return body
         } catch (err) {
             lastError = err
+            // The attempt is over: retire its window before the backoff wait so
+            // the timer cannot fire into the retry delay.
+            if (timer) clearTimeout(timer)
             const retryable = err.retryDelayMs !== undefined || isRetryableFetchError(err)
 
             if (!retryable || attempt === FEISHU_RETRY_ATTEMPTS) {
