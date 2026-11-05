@@ -1227,6 +1227,13 @@ class larkDocScraper {
         const recordsById = new Map(this.records.map(record => [record.record_id, record]))
         const recordsByDocToken = new Map()
         for (const record of this.records) {
+            // Only document-owning records index their Docs token. A ref/link row's
+            // Docs cell names its navigation target, so indexing it lets the row
+            // shadow the target's canonical row (or resolve as its own target when
+            // the target moved to a shared page) and the ref slug degrades to the
+            // slugified ref title.
+            const placementType = this.__placement_type(record)
+            if (placementType === 'ref' || placementType === 'link') continue
             const docToken = this.__doc_token(this.__doc_field(record.fields))
             if (docToken) recordsByDocToken.set(docToken, record)
         }
