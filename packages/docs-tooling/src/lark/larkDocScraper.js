@@ -1274,9 +1274,14 @@ class larkDocScraper {
                     title,
                     // Mirror the source-contract validator (record slug || target slug ||
                     // slugified title) so both sides derive the same ref navigation key
-                    // even when the Base ref row leaves its Slug empty.
-                    slug: this.__plain_value(record.fields.Slug) || targetSource?.slug
-                        || (targetRecord ? this.__record_slug(targetRecord) : null) || slug,
+                    // even when the Base ref row leaves its Slug empty. The target slug
+                    // comes from the Base record, never from the sources directory: the
+                    // directory can still hold a legacy source restored from the cross-run
+                    // cache whose slug predates the current Base slug (or the shared-page
+                    // onboarding), and the contract validator only ever reads the record.
+                    slug: this.__plain_value(record.fields.Slug)
+                        || (targetRecord ? this.__record_slug(targetRecord) : null)
+                        || targetSource?.slug || slug,
                     children: [],
                 })
                 source.base_nav_ref = true
