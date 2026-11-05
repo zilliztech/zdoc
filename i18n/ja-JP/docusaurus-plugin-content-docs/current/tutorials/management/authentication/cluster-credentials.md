@@ -1,13 +1,13 @@
 ---
-title: "クラスターの認証情報 | Cloud"
+title: "クラスター認証情報 | Cloud"
 slug: /cluster-credentials
-sidebar_label: "クラスターの認証情報"
+sidebar_label: "クラスター認証情報"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud はトークンを使用して ID を認証します。トークンにはクラスターの認証情報または API キーを使用できます。このガイドでは、クラスターの認証情報を使用した認証について説明します。 | Cloud"
+description: "Zilliz Cloud はトークンを使用して ID を認証します。トークンには、クラスター認証情報または API キーのいずれかを使用できます。このガイドでは、クラスター認証情報を使用した認証について説明します。 | Cloud"
 type: origin
 token: YmsVwIzOBinv4OklCfmc2nyznAe
 sidebar_position: 3
@@ -19,23 +19,23 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# クラスターの認証情報
+# クラスター認証情報
 
-Zilliz Cloud はトークンを使用して ID を認証します。トークンにはクラスターの認証情報または API キーを使用できます。このガイドでは、クラスターの認証情報を使用した認証について説明します。
+Zilliz Cloud はトークンを使用して ID を認証します。トークンには、クラスター認証情報または API キーのいずれかを使用できます。このガイドでは、クラスター認証情報を使用した認証について説明します。
 
-クラスターの認証情報はユーザー名とパスワードのペア（`user:password`）で構成され、クラスターを操作するリクエストの認証と認可に使用されます。
+クラスター認証情報は、ユーザー名とパスワードのペア（`user:password`）で構成され、クラスターとのやり取りに対するリクエストの認証と認可に使用されます。
 
-クラスターを設定すると、Zilliz Cloud は `Admin` ロールを持つデフォルトのクラスターユーザー `db_admin` を作成し、クラスターへのフルアクセス権を付与します。デフォルトユーザーのパスワードはクラスターの作成時に一度だけ表示されるため、必ず控えて適切な場所に安全に保管してください。
+クラスターを設定すると、Zilliz Cloud は `Admin` ロールを持つデフォルトのクラスターユーザー `db_admin` を作成し、クラスターへのフルアクセスを付与します。デフォルトユーザーのパスワードはクラスター作成時に一度だけ表示されるため、必ず控えて、適切な場所に安全に保管することが重要です。
 
-デフォルトの `db_admin` ユーザーに加えて、[クラスターユーザーを作成](./cluster-users#create-a-cluster-user)し、認証用のパスワードをそれぞれ設定することもできます。
+デフォルトの `db_admin` ユーザーに加えて、認証用の対応するパスワードを持つクラスターユーザーをさらに[作成](./cluster-users#create-a-cluster-user)することもできます。
 
-## パスワードのリセット\{#reset-password}
+## パスワードをリセットする\{#reset-password}
 
 ユーザーのパスワードを忘れた場合、またはパスワードが漏えいした疑いがある場合は、パスワードをリセットできます。
 
 - **コンソールでユーザーパスワードをリセットする**
 
-    ![reset-クラスター-user-password](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "reset-クラスター-user-password")
+    ![クラスターユーザーのパスワードをリセットする](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "クラスターユーザーのパスワードをリセットする")
 
 - **プログラムでユーザーパスワードをリセットする**
 
@@ -46,6 +46,7 @@ Zilliz Cloud はトークンを使用して ID を認証します。トークン
 
     ```python
     from pymilvus import MilvusClient
+    
     client = MilvusClient(
         uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
         token="user:password"
@@ -64,6 +65,7 @@ Zilliz Cloud はトークンを使用して ID を認証します。トークン
 
     ```java
     import io.milvus.v2.service.rbac.request.UpdatePasswordReq;
+    
     UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
             .userName("user_1")
             .password("P@ssw0rd")

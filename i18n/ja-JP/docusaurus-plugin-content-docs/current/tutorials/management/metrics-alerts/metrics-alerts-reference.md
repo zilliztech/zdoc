@@ -30,7 +30,7 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
 
 <Admonition type="info" title="Notes">
 
-ほとんどのメトリクスはアラートに対応しています。アラートは、ある時間枠においてメトリクスを条件（演算子 + しきい値）に照らして評価し、条件を満たしたときに通知します。設定については、[組織アラートの管理](./manage-organization-alerts) および [プロジェクトアラートの管理](./manage-project-alerts) を参照してください。
+ほとんどのメトリクスはアラートをサポートしています。アラートは、時間枠内でメトリクスを条件（演算子 + しきい値）に照らして評価し、条件を満たすと通知します。設定については、[組織アラートの管理](./manage-organization-alerts) および [プロジェクトアラートの管理](./manage-project-alerts) を参照してください。
 
 </Admonition>
 
@@ -43,7 +43,7 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
 | Usage Amount in the Past Day (&#36;) | 過去 1 日間に発生した累積の使用料金。 | 予算と比較して監視し、必要に応じて使用量を最適化するか予算を調整します。 |
 | Credit Validity (day) | 無料クレジットの有効期限が切れるまでの残り日数。 | 有効期限が切れる前にクレジットを使用するか延長します。 |
 | Remaining Credits (&#36;) | 無料クレジットの残高。 | アカウントの機能を維持するため、残高が少なくなったら補充します。 |
-| Credit Card Validity (day) | 保存されたカードの有効期限が切れるまでの日数。 | 支払いの失敗を避けるため、有効期限が切れる前にカードを更新または交換します。 |
+| Credit Card Validity (day) | 保存されているカードの有効期限が切れるまでの日数。 | 支払いの失敗を避けるため、有効期限が切れる前にカードを更新または交換します。 |
 | Advance Pay Balance (&#36;) | 前払い済み資金の残高。 | サービスの中断を防ぐため、残高が少なくなったら資金を追加します。 |
 
 ## クラスターとコレクションのメトリクス\{#cluster-and-collection-metrics}
@@ -52,9 +52,9 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
 
 <Admonition type="info" title="Notes">
 
-**利用可否** 列には、各メトリクスをサポートするコンピュートリソースが示されています。
+**Available** 列には、各メトリクスをサポートするコンピュートリソースが示されています。
 
-- **Serving クラスターのみ**: このメトリクスは、Serving クラスターでのみ利用できます。この値には、サポートされる Serving クラスターのデプロイオプションが示されます。**All** は、すべての Serving クラスターのデプロイオプションを意味します。詳細については、[デプロイとプランの比較](./select-zilliz-cloud-service-plans) を参照してください。
+- **Serving クラスターのみ**: このメトリクスは、Serving クラスターでのみ利用できます。値には、サポートされる Serving クラスターのデプロイオプションが一覧表示されます。**All** は、すべての Serving クラスターのデプロイオプションを意味します。詳細については、[デプロイとプランの比較](./select-zilliz-cloud-service-plans) を参照してください。
 
 - **On-Demand Compute データベース**: 利用できるのは、コレクションレベルのメトリクスの一部のみです。サポートされるメトリクスには、**QPS (Read)**、**Search NQ per Second**、**Latency (Read)**、**Request Failure Rate (Read)**、**Entity Count** が含まれます。これらのメトリクスは Console で利用できます。このリリースでは、On-Demand Compute データベースのメトリクスに対する Prometheus エクスポートはサポートされていません。
 
@@ -64,11 +64,11 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
 
 | メトリクス | 説明 | 利用可否 | 推奨アクション |
 | --- | --- | --- | --- |
-| Read vCUs (count) | 検索およびクエリ操作で消費される vCU の指標です。<br/>注: このメトリクスはアラートをサポートしていません。 | **Serving クラスターのみ**: Free / Serverless | 読み取りのコスト/throughput. を把握するために傾向を監視します。 |
-| Write vCUs (count) | 挿入、削除、および upsert 操作で消費される vCU の指標です。<br/>注: このメトリクスはアラートをサポートしていません。 | **Serving クラスターのみ**: Free / Serverless | 書き込みのコスト/throughput. を把握するために傾向を監視します。 |
-| Query CU Computation (%) | クエリ実行が CPU リソースをどの程度使用しているかを測定します。QueryNode の CPU 使用率とその CPU 上限との比率から算出されます。 | **Serving クラスターのみ**: Dedicated / BYOC | 高い値が継続する場合は、クエリ実行が CPU バウンドであることを意味します。Zilliz Cloud は、並列クエリ処理能力を高めるために [レプリカをスケールアウト](./plan-cluster-scaling) することがあります。 |
-| Query CU Capacity (%) | 現在の Query CU が容量上限にどの程度近づいているかを測定します。ロード済みデータが使用するメモリと、クラスターのストレージクォータに対する保存データサイズという 2 つのシグナルのうち、高い方の値を使用します。 | **Serving クラスターのみ**: Dedicated / BYOC | 高い値が継続する場合は、現在の Query CU サイズでは容量が不足している可能性があります。オートスケーリングが有効な場合、Zilliz Cloud は容量を増やすために [Query CU をスケールアップ](./plan-cluster-scaling) することがあります。 |
-| Total Query CU (count) | 現在のクラスターにおける Query CU の合計です。クラスターの Query CU 数とレプリカ数の積として計算されます。（例: クラスターに 2 つの Query CU と 2 つのレプリカがある場合、ここに表示される Total Query CU は 4 です。） | **Serving クラスターのみ**: Dedicated / BYOC | Query CU のスケーリングイベントを特定するために追跡します。 |
+| Read vCUs (count) | 検索操作およびクエリ操作で消費される vCU の指標です。<br/>注：このメトリクスはアラートをサポートしていません。 | **Serving クラスターのみ**: Free / Serverless | 読み取りコスト/throughput. を把握するために傾向を監視します。 |
+| Write vCUs (count) | insert、delete、upsert 操作で消費される vCU の指標です。<br/>注：このメトリクスはアラートをサポートしていません。 | **Serving クラスターのみ**: Free / Serverless | 書き込みコスト/throughput. を把握するために傾向を監視します。 |
+| Query CU Computation (%) | クエリ実行で CPU リソースがどの程度使用されているかを測定します。QueryNode の CPU 使用率を CPU 上限と比較して算出されます。 | **Serving クラスターのみ**: Dedicated / BYOC | 値が高い状態が続く場合は、クエリ実行が CPU バウンドであることを示します。Zilliz Cloud は、並列クエリ処理能力を高めるために [レプリカをスケールアウト](./plan-cluster-scaling) することがあります。 |
+| Query CU Capacity (%) | 現在の Query CU が容量上限にどの程度近いかを測定します。ロード済みデータが使用するメモリと、クラスターのストレージクォータに対する保存データサイズという 2 つのシグナルのうち、高い方の値を使用します。 | **Serving クラスターのみ**: Dedicated / BYOC | 値が高い状態が続く場合は、現在の Query CU サイズでは容量が不足している可能性があります。オートスケーリングが有効な場合、Zilliz Cloud は容量を増やすために [Query CU をスケールアップ](./plan-cluster-scaling) することがあります。 |
+| Total Query CU (count) | 現在のクラスターの Query CU 合計です。クラスターの Query CU 数とレプリカ数の積として計算されます。（例：クラスターに 2 つの Query CU と 2 つのレプリカがある場合、ここに表示される Total Query CU は 4 です。） | **Serving クラスターのみ**: Dedicated / BYOC | Query CU のスケーリングイベントを特定するために追跡します。 |
 | Replica (count) | クラスターのレプリカ数。 | **Serving クラスターのみ**: Dedicated / BYOC | レプリカのスケーリングイベントを特定するために追跡します。 |
 | Storage (GB) | データとインデックスが消費する永続ストレージの総量。 | **Serving クラスターのみ**: All | ストレージ使用量を監視するために [アラートを設定](./manage-project-alerts) します。 |
 
@@ -83,37 +83,37 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
    </tr>
    <tr>
      <td><p>QPS (Read) ✦</p></td>
-     <td><p>1 秒あたりの読み取りリクエスト（search および query）の数。</p></td>
+     <td><p>1 秒あたりの読み取りリクエスト（検索およびクエリ）数。</p></td>
      <td><ul><li><p><strong>Serving クラスター</strong>: All</p></li><li><p><strong>On-Demand Compute データベース</strong>: マネージドコレクション、外部コレクション</p></li></ul></td>
-     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> を参照してください。</p></td>
+     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">ベンチマーク</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p>QPS (Write) ✦</p></td>
-     <td><p>1 秒あたりの書き込みリクエスト（insert、bulk insert、upsert、および delete）の数。</p></td>
+     <td><p>1 秒あたりの書き込みリクエスト（insert、bulk insert、upsert、delete）数。</p></td>
      <td><p><strong>Serving クラスターのみ</strong>: All</p></td>
-     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> を参照してください。</p></td>
+     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">ベンチマーク</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p>Search NQ per Second ✦</p></td>
-     <td><p>各検索リクエストが 1 秒あたりに含むクエリベクトルの数。</p></td>
+     <td><p>各検索リクエストが 1 秒あたりに含むクエリベクトル数。</p></td>
      <td><ul><li><p><strong>Serving クラスター</strong>: All</p></li><li><p><strong>On-Demand Compute データベース</strong>: マネージドコレクション、外部コレクション</p></li></ul></td>
-     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> を参照してください。</p></td>
+     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">ベンチマーク</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p>Write Throughput (Entities/sec) ✦</p></td>
-     <td><p>すべての書き込み操作（insert、upsert、bulk insert、および delete）を通じて 1 秒あたりに書き込まれるエンティティ数を測定します。</p></td>
+     <td><p>すべての書き込み操作（insert、upsert、bulk insert、delete）を通じて 1 秒あたりに書き込まれるエンティティ数を測定します。</p></td>
      <td><p><strong>Serving クラスターのみ</strong>: All</p></td>
-     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> を参照してください。</p></td>
+     <td><p>システムパフォーマンスの監視については、<a href="https://zilliz.com/vector-database-benchmark-tool">ベンチマーク</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p>Latency (Read) (ms) ✦</p></td>
-     <td><p>クライアントが読み取りリクエスト（search および query リクエスト）をサーバーに送信してから、クライアントが応答を受信するまでの経過時間です。平均レイテンシと P99 レイテンシが含まれます。</p></td>
+     <td><p>クライアントが読み取りリクエスト（検索およびクエリリクエスト）をサーバーに送信してから、応答を受信するまでの経過時間です。平均レイテンシと P99 レイテンシが含まれます。</p></td>
      <td><ul><li><p><strong>Serving クラスター</strong>: All</p></li><li><p><strong>On-Demand Compute データベース</strong>: マネージドコレクション、外部コレクション</p></li></ul></td>
      <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>Latency (Write) (ms) ✦</p></td>
-     <td><p>クライアントが書き込みリクエスト（insert および upsert リクエスト）をサーバーに送信してから、クライアントが応答を受信するまでの経過時間です。平均レイテンシと P99 レイテンシが含まれます。</p></td>
+     <td><p>クライアントが書き込みリクエスト（insert および upsert リクエスト）をサーバーに送信してから、応答を受信するまでの経過時間です。平均レイテンシと P99 レイテンシが含まれます。</p></td>
      <td><p><strong>Serving クラスターのみ</strong>: All</p></td>
      <td><ul><li></li></ul></td>
    </tr>
@@ -131,25 +131,25 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
    </tr>
    <tr>
      <td><p>Slow Query Count (counts/min) ✦</p></td>
-     <td><p>実行に異常に長い時間がかかるクエリの数。</p><p>デフォルトでは、レイテンシが 5 秒を超えるクエリはスロークエリと見なされます。</p></td>
+     <td><p>実行に異常に長い時間がかかるクエリの数。</p><p>デフォルトでは、レイテンシが 5 秒を超えるクエリをスロークエリと見なします。</p></td>
      <td><p><strong>Serving クラスターのみ</strong>: Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
      <td><p>問題のあるクエリを特定し、必要に応じてクラスター構成を調整してパフォーマンスをチューニングします。</p></td>
    </tr>
    <tr>
      <td><p>クラスター Write Performance Capacity (%)</p></td>
-     <td><p>クラスターの書き込みパフォーマンス容量 = 現在の書き込み操作レート/write レート上限。80% を超える場合は、書き込み操作（insert および upsert）のレートを下げることを推奨します。</p></td>
+     <td><p>クラスターの書き込みパフォーマンス容量 = 現在の書き込み操作/write レート上限。80% を超える場合は、書き込み操作（insert および upsert）のレートを下げることを推奨します。</p></td>
      <td><p><strong>Serving クラスターのみ</strong>: Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
      <td><p>現在のレートが高すぎる場合（80% を超えている場合）、書き込みレートを下げることを推奨します。</p></td>
    </tr>
    <tr>
      <td><p>Number of Flush Operations (counts/min)</p></td>
-     <td><p>クラスターにおける flush 操作の数。</p></td>
+     <td><p>クラスターでの flush 操作の数。</p></td>
      <td><p><strong>Serving クラスターのみ</strong>: Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
      <td><p>flush 操作を頻繁に実行しすぎると、クラスター全体のパフォーマンスに悪影響を及ぼす可能性があります。詳細については、<a href="./limits#flush">Zilliz Cloud の制限事項</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p>Cache Hit Rate (%)</p></td>
-     <td><p>クラスター内のすべてのクエリにおける平均キャッシュヒット率。計算式: クエリごとのキャッシュヒット率 = (総スキャンデータ − コールドデータのスキャン量) / 総スキャンデータ。</p></td>
+     <td><p>クラスター内のすべてのクエリの平均キャッシュヒット率。計算式：クエリごとのキャッシュヒット率 = (総スキャンデータ − コールドデータのスキャン量) / 総スキャンデータ。</p></td>
      <td><p><strong>Serving クラスターのみ</strong>: Dedicated (Tiered-storage) / BYOC</p><p><em>&ast;このメトリクスは、Milvus 2.6.x と互換性のある tiered-storage クラスターでのみ利用できます。このメトリクスにアクセスするには、クラスターの Milvus バージョンをアップグレードするため、<a href="http://support.zilliz.com">お問い合わせください</a>。</em></p></td>
      <td><p>クラスターのクエリパフォーマンスを把握するために追跡します。</p></td>
    </tr>
@@ -172,7 +172,7 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
    </tr>
    <tr>
      <td><p>Entity Count ✦</p></td>
-     <td><p>単一の insert と bulk insert の両方を含め、クラスターまたはコレクションに挿入されたエンティティの総数。</p></td>
+     <td><p>単一の insert と bulk insert の両方を含む、クラスターまたはコレクションに挿入されたエンティティの総数。</p></td>
      <td><ul><li><p><strong>Serving クラスター</strong>: All</p></li><li><p><strong>On-Demand Compute データベース</strong>: マネージドコレクション、外部コレクション</p></li></ul></td>
      <td><p>想定外の増加を調査し、ストレージとインデックス作成を計画します。</p></td>
    </tr>
@@ -180,11 +180,11 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
      <td><p>Loaded Entities (Approx.) ✦</p></td>
      <td><p>ロード済み（アクティブに提供中）のエンティティの概算数。</p></td>
      <td><p><strong>Serving クラスターのみ</strong>: Dedicated / BYOC</p></td>
-     <td><p>より正確でリアルタイムな値については、コレクション概要ページの「Loaded Entities」の値を参照するか、<a href="./single-vector-search">count(&ast;)</a> を使用してください。</p></td>
+     <td><p>より正確でリアルタイムな値については、コレクション概要ページの「Loaded Entities」の値を参照するか、<a href="https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#RODmdMHPloOXv8xsPJCcvLdOnce">count(&ast;)</a> を使用してください。</p></td>
    </tr>
    <tr>
      <td><p>Number of Unloaded コレクション</p></td>
-     <td><p>クラスター内のアンロードされたコレクションの数。</p></td>
+     <td><p>クラスター内のアンロード済みコレクションの数。</p></td>
      <td><p><strong>Serving クラスターのみ</strong>: Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
      <td><p>重要なコレクションをロードし、メモリの余裕を確認します。</p></td>
    </tr>
@@ -194,9 +194,9 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
 
 | メトリクス | 説明 | 利用可否 | 推奨アクション |
 | --- | --- | --- | --- |
-| クラスター is Abnormal | 対象クラスターのステータスが異常である場合。 | **Serving クラスターのみ**: Dedicated (Enterprise or  Business Critical) / BYOC | クラスターのステータスを調査し、それに応じた対策を講じます。 |
+| クラスター is Abnormal | 対象クラスターのステータスが異常な場合。 | **Serving クラスターのみ**: Dedicated (Enterprise or  Business Critical) / BYOC | クラスターのステータスを調査し、それに応じた対策を講じます。 |
 | CMEK is Unavailable | Zilliz Cloud に追加した KMS キーのいずれかが利用できなくなった場合。 | **Serving クラスターのみ**: Dedicated (Enterprise or  Business Critical) / BYOC | 報告されたキーが引き続き利用可能かどうかを確認するため、KMS キーを確認します。 |
-| Writes to クラスター Are Disabled | エラーまたは保護メカニズムにより、対象クラスターへの書き込みが無効化された場合。 | **Serving クラスターのみ**: Dedicated (Enterprise or  Business Critical) / BYOC | クラスターのステータス、最近の設定変更やメンテナンス操作、関連するアラートを確認し、根本原因を解決して書き込み機能を復旧します。 |
+| Writes to クラスター Are Disabled | エラーまたは保護メカニズムにより、対象クラスターへの書き込みが無効になっている場合。 | **Serving クラスターのみ**: Dedicated (Enterprise or  Business Critical) / BYOC | クラスターのステータス、最近の設定変更やメンテナンス操作、関連するアラートを確認し、根本原因を解決して書き込み機能を復旧します。 |
 | Access Logs Forwarding is Abnormal | アクセスログを設定済みのストレージ統合に正常に転送できない場合。 | **Serving クラスターのみ**: Dedicated (Enterprise or  Business Critical) | ログ転送の設定、転送先サービスのステータス、ネットワーク接続、関連する認証情報や権限を確認し、問題を解決してログ転送が再開することを確認します。 |
 | Audit Logs Forwarding is Abnormal | 監査ログを設定済みのストレージ統合に正常に転送できない場合。 | **Serving クラスターのみ**: Dedicated (Enterprise or  Business Critical) | ログ転送の設定、転送先サービスのステータス、ネットワーク接続、関連する認証情報や権限を確認し、問題を解決してログ転送が再開することを確認します。 |
 
@@ -207,4 +207,3 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
 - [組織アラートの管理](./manage-organization-alerts)
 
 - [プロジェクトアラートの管理](./manage-project-alerts)
-

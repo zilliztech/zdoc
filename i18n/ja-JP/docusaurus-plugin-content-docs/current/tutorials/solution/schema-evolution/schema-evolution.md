@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "スキーマエボリューションでは、既存のコレクションを再構築したり、本番トラフィックを停止したりすることなく、フィールドを追加できます。ただし、フィールドを追加しても変更されるのはコレクションスキーマのみです。既存のエンティティに新しいフィールドの値が自動的に設定されることはなく、移行中も新規エンティティや更新されたエンティティが到着し続ける場合があります。 | Cloud"
+description: "スキーマエボリューションを使用すると、コレクションを再構築したり本番トラフィックを停止したりせずに、既存のコレクションへフィールドを追加できます。ただし、フィールドを追加しても変更されるのはコレクションスキーマのみです。既存のエンティティには新しいフィールドの値が自動的に設定されません。一方、移行中も新規エンティティや更新されたエンティティが到着し続ける場合があります。 | Cloud"
 type: origin
 token: P5q7wCCk5i3rlEkceyjcQMi0nSc
 sidebar_position: 1
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # スキーマエボリューション
 
-スキーマエボリューションでは、既存のコレクションを再構築したり、本番トラフィックを停止したりすることなく、フィールドを追加できます。ただし、フィールドを追加しても変更されるのはコレクションスキーマのみです。既存のエンティティに新しいフィールドの値が自動的に設定されることはなく、移行中も新規エンティティや更新されたエンティティが到着し続ける場合があります。
+スキーマエボリューションを使用すると、コレクションを再構築したり本番トラフィックを停止したりせずに、既存のコレクションへフィールドを追加できます。ただし、フィールドを追加しても変更されるのはコレクションスキーマのみです。既存のエンティティには新しいフィールドの値が自動的に設定されません。一方、移行中も新規エンティティや更新されたエンティティが到着し続ける場合があります。
 
-本記事では、スキーマエボリューションの一般的な手順を示します。
+この記事では、スキーマエボリューションの一般的な手順を説明します。
 
 ## ワークフローを理解する\{#understand-the-workflow}
 
-稼働中のコレクションのスキーマを安全に進化させるには、調整済みの一連の手順に従います。
+稼働中のコレクションのスキーマを安全に進化させるには、次の順序に従ってください。
 
 ![OQbQwegIUhOoBXbDgfAcMfw0n5e](https://zdoc-images.s3.us-west-2.amazonaws.com/OQbQwegIUhOoBXbDgfAcMfw0n5e.png)
 
@@ -35,15 +35,15 @@ import TabItem from '@theme/TabItem';
 
 1. **[リーダーとライターを準備する](./schema-evolution#step-1-prepare-readers-and-writers)。** 
 
-    アプリケーションが新しいフィールドへの書き込みと新しいフィールドからの読み取りに対応していることを確認します。
+    アプリケーションが新しいフィールドへの書き込みと読み取りに対応できることを確認します。
 
 1. **[新しいフィールドを追加する](./schema-evolution#step-2-add-the-new-fields)。** 
 
-    必要なフィールドでコレクションスキーマを拡張します。 
+    必要なフィールドを追加してコレクションスキーマを拡張します。 
 
 1. **[書き込みを切り替える](./schema-evolution#step-3-switch-writes)。** 
 
-    新規および更新されたすべてのエンティティが新しいフィールドに値を設定するようにします。 
+    新規および更新されたすべてのエンティティに新しいフィールドの値が設定されるようにします。 
 
 1. **[既存のエンティティをバックフィルする](./schema-evolution#step-4-backfill-existing-entities)。** 
 
@@ -57,13 +57,13 @@ import TabItem from '@theme/TabItem';
 
     本番の読み取りで新しいフィールドの使用を開始します。
 
-順序が重要です。バックフィルを開始する前にアプリケーションの書き込みを切り替えることで、移行中に作成または更新されたエンティティにも新しいフィールドの値がすでに含まれるようにします。バックフィルが完了したら、読み取りを新しいフィールドに切り替える前に、履歴データと新しく書き込まれたデータの両方を検証します。
+順序が重要です。バックフィルを開始する前にアプリケーションの書き込みを切り替えることで、移行中に作成または更新されたエンティティに新しいフィールドの値がすでに含まれるようにします。バックフィルが完了したら、読み取りを新しいフィールドに切り替える前に、履歴データと新しく書き込まれたデータの両方を検証します。
 
 ## 事前準備\{#before-you-start}
 
-稼働中のコレクションのスキーマを進化させる前に、以下を満たしていることを確認してください。
+稼働中のコレクションのスキーマを進化させる前に、次の条件を満たしていることを確認してください。
 
-- アプリケーションを更新して、新しいフィールドからの読み取りと新しいフィールドへの書き込みができること。
+- アプリケーションを更新して、新しいフィールドへの読み取りと書き込みに対応できること。
 
 - 既存のエンティティの新しいフィールドに値を設定するために必要なソースデータが利用可能であること。
 
@@ -73,9 +73,9 @@ import TabItem from '@theme/TabItem';
 
 ## ステップ 1: リーダーとライターを準備する\{#step-1-prepare-readers-and-writers}
 
-コレクションスキーマを変更する前に、新しいフィールドからの読み取りと新しいフィールドへの書き込みができるようにアプリケーションを準備します。これらの変更は構成またはフィーチャーフラグの背後にデプロイしますが、新しいフィールドがコレクションに追加されるまでは無効にしておきます。
+コレクションスキーマを変更する前に、新しいフィールドの読み取りと書き込みに対応するようアプリケーションを準備します。これらの変更は構成または機能フラグの背後にデプロイしますが、新しいフィールドがコレクションに追加されるまでは無効のままにします。
 
-たとえば、`category` フィールドを追加する予定であるとします。新しいスキーマが有効になったときにこのフィールドを含めるようにライターを準備できます。
+たとえば、`category` フィールドを追加する予定であるとします。新しいスキーマが有効になったときにフィールドを含めるよう、ライターを準備できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
@@ -100,8 +100,6 @@ def build_entity(document, use_new_schema=False):
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-
 private static JsonObject buildEntity(JsonObject document, boolean useNewSchema) {
     JsonObject entity = new JsonObject();
     entity.add("id", document.get("id"));
@@ -220,7 +218,7 @@ Dictionary<string, object?> buildEntity(Dictionary<string, object?> document, bo
 </TabItem>
 </Tabs>
 
-移行が検証された後に新しいフィールドを使用できるように、同じ方法でリーダーを準備します。
+移行が検証された後に新しいフィールドを利用できるよう、同様の方法でリーダーを準備します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
@@ -241,10 +239,6 @@ def get_output_fields(use_new_schema=False):
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 private static List<String> getOutputFields(boolean useNewSchema) {
     List<String> fields = new ArrayList<>(Arrays.asList("id", "text"));
 
@@ -341,13 +335,13 @@ List<string> getOutputFields(bool useNewSchema)
 </TabItem>
 </Tabs>
 
-この段階では、両方の切り替えを無効にしておきます。新しいフィールドが追加されるまで、本番の読み取りと書き込みでは引き続き既存のスキーマを使用する必要があります。
+この段階では、両方のスイッチを無効のままにします。新しいフィールドがコレクションに追加されるまで、本番の読み取りと書き込みでは引き続き既存のスキーマを使用してください。
 
 ## ステップ 2: 新しいフィールドを追加する\{#step-2-add-the-new-fields}
 
-更新されたリーダーとライターの準備ができたら、必要なフィールドを既存のコレクションスキーマに追加します。この時点では、新しいアプリケーションパスを無効にしておきます。
+更新されたリーダーとライターの準備ができたら、必要なフィールドを既存のコレクションスキーマに追加します。この時点では、新しいアプリケーションパスは無効のままにします。
 
-次のコードは、NULL を許容する `category` フィールドを追加する例です。
+たとえば、次のコードは NULL を許容する `category` フィールドを追加します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -369,10 +363,25 @@ client.add_collection_field(
 <TabItem value='java'>
 
 ```java
+import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Collections;
+import com.google.gson.Gson;
+import io.milvus.v2.service.vector.request.UpsertReq;
+import io.milvus.v2.service.snapshot.request.CreateSnapshotReq;
+import io.milvus.v2.service.snapshot.request.DescribeSnapshotReq;
+import io.milvus.v2.service.snapshot.response.DescribeSnapshotResp;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -396,9 +405,9 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 import (
     "context"
     "fmt"
-
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -432,6 +441,7 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 let config = ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
@@ -462,6 +472,8 @@ client
 #include <iostream>
 #include <utility>
 #include "milvus/MilvusClientV2.h"
+#include <vector>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
@@ -505,6 +517,12 @@ await client.addCollectionField({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Snapshot;
+using Milvus.Client.V2.Responses.Snapshot;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -549,15 +567,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-フィールドを追加しても変更されるのはコレクションスキーマのみです。既存のエンティティは書き換えられず、移行の後半でフィールドに値が設定されるまで、新しいフィールドには `NULL` が格納されます。
+フィールドを追加しても変更されるのはコレクションスキーマのみです。既存のエンティティは書き換えられず、移行の後半でフィールドに値が設定されるまで、新しいフィールドには `NULL` が含まれます。
 
-スキーマの変更が成功したら、新しく挿入または更新されたすべてのエンティティが新しいフィールドに値を設定するように、アプリケーションの書き込みの切り替えに進みます。
+スキーマ変更が成功したら、新しく挿入または更新されるすべてのエンティティに新しいフィールドの値が設定されるよう、アプリケーションの書き込みの切り替えに進みます。
 
 ## ステップ 3: 書き込みを切り替える\{#step-3-switch-writes}
 
-新しいフィールドがコレクションスキーマで利用可能になったら、新しいすべての挿入と全行アップサートでそれらのフィールドに値が設定されるように、更新されたライターを有効にします。
+新しいフィールドがコレクションスキーマで利用可能になったら、更新されたライターを有効にして、新しい挿入と全行 upsert のすべてでそれらのフィールドに値が設定されるようにします。
 
-たとえば、先ほど準備した書き込みパスを有効にします。
+たとえば、先ほど準備したライターのパスを有効にします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -578,10 +596,6 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.Collections;
-
 boolean USE_NEW_SCHEMA = true;
 JsonObject entity = buildEntity(document, USE_NEW_SCHEMA);
 
@@ -695,7 +709,7 @@ curl --request POST \\
 </TabItem>
 </Tabs>
 
-全行アップサートの場合は、ペイロードにも新しいフィールドを含めます。
+全行 upsert の場合は、新しいフィールドをペイロードにも含めます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -717,18 +731,6 @@ client.upsert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.UpsertReq;
-import java.util.Collections;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 JsonObject entity = new JsonObject();
 entity.addProperty("id", 1001);
 entity.addProperty("text", "example text");
@@ -746,26 +748,6 @@ client.upsert(UpsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 _, err = client.Upsert(ctx, milvusclient.NewRowBasedInsertOption("documents",
     map[string]any{
         "id":        int64(1001),
@@ -784,14 +766,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let config = ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
 client
     .upsert(
         UpsertRequest::builder()
@@ -818,16 +795,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <vector>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::UpsertResponse upsertResponse;
 status = client->Upsert(milvus::UpsertRequest()
     .WithCollectionName("documents")
@@ -842,10 +809,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 await client.upsert({
     collection_name: "documents",
     data: [{
@@ -862,8 +825,6 @@ await client.upsert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 await client.UpsertAsync(new UpsertReq
 {
     CollectionName = "documents",
@@ -903,17 +864,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-バックフィルを開始する前にライターの切り替えを完了します。この時点以降、新しく挿入または更新されたエンティティには新しいフィールドの値がすでに含まれていますが、既存のエンティティはバックフィルによって値が設定されます。この順序により、移行中に行われた書き込みがどちらのパスからも漏れるギャップを防ぎます。
+バックフィルを開始する前に、ライターの切り替えを完了します。この時点以降、新しく挿入または更新されたエンティティには新しいフィールドの値がすでに含まれ、既存のエンティティはバックフィルによって値が設定されます。この順序により、移行中に行われた書き込みがどちらのパスからも漏れるギャップを防ぎます。
 
-バックフィルが完了し、移行が検証されるまで、本番の読み取りでは既存のフィールドを使用し続けます。
+バックフィルが完了し、移行が検証されるまで、本番の読み取りは既存のフィールドのままにします。
 
 ## ステップ 4: 既存のエンティティをバックフィルする\{#step-4-backfill-existing-entities}
 
 すべてのアプリケーションライターが新しいスキーマに切り替わったら、切り替え前に存在していたエンティティの新しいフィールドをバックフィルします。
 
-主キーと新しいフィールドに書き込む値を含むデータファイルを準備します。オンライン移行では、`coalesce` を使用して、アプリケーションによってすでに書き込まれた値を保持しながら、履歴エンティティの欠落値を設定します。
+主キーと、新しいフィールドに書き込む値を含むデータファイルを準備します。オンライン移行では、`coalesce` を使用して、履歴エンティティの不足値を設定しながら、アプリケーションによってすでに書き込まれた値を保持します。
 
-Zilliz Cloud では、データバックフィルジョブを送信します。Zilliz Cloud は、コレクションスナップショット、Spark の実行、バックフィルのコミットをジョブの一部として管理します。
+Zilliz Cloud でデータバックフィルジョブを送信します。Zilliz Cloud は、ジョブの一部としてコレクションスナップショット、Spark 実行、バックフィルコミットを管理します。
 
 バックフィルを送信する前に、必要に応じて事前チェックを実行し、入力データとフィールドマッピングを検証できます。
 
@@ -951,9 +912,9 @@ curl --request POST \
 
 ## ステップ 5: 移行を検証する\{#step-5-validate-migration}
 
-バックフィルが完了したら、本番の読み取りを新しいフィールドに切り替える前に、新しいフィールドに値が正しく設定されていることを確認します。
+バックフィルが完了したら、本番の読み取りを新しいフィールドに切り替える前に、新しいフィールドに正しく値が設定されていることを確認します。
 
-まず、バックフィルによって処理された履歴エンティティと、ライターの切り替え後に挿入または更新されたエンティティの両方を含む、代表的なエンティティセットをクエリします。
+まず、バックフィルで処理された履歴エンティティと、ライターの切り替え後に挿入または更新されたエンティティの両方を含む、代表的なエンティティセットをクエリします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -974,17 +935,6 @@ for result in results:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 QueryResp queryResp = client.query(QueryReq.builder()
         .collectionName("documents")
         .filter("id in [1001, 1002, 1003]")
@@ -1001,26 +951,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 results, err := client.Query(ctx, milvusclient.NewQueryOption("documents").
     WithFilter("id in [1001, 1002, 1003]").
     WithOutputFields("id", "category"))
@@ -1035,13 +965,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let config = ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
 let results = client
     .query(
         QueryRequest::builder()
@@ -1058,15 +984,6 @@ let results = client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::QueryResponse queryResponse;
 status = client->Query(milvus::QueryRequest()
     .WithCollectionName("documents")
@@ -1082,10 +999,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 const results = await client.query({
     collection_name: "documents",
     filter: "id in [1001, 1002, 1003]",
@@ -1098,10 +1011,6 @@ const results = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 QueryResp results = await client.QueryAsync(new QueryReq
 {
     CollectionName = "documents",
@@ -1133,23 +1042,23 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下を確認します。
+次の点を確認してください。
 
-- 履歴エンティティの新しいフィールドに期待どおりの値が含まれていることを確認します。
+- 履歴エンティティの新しいフィールドに期待どおりの値が含まれていること。
 
-- ライターの切り替え後に書き込まれたエンティティにも有効な値が含まれていることを確認します。
+- ライターの切り替え後に書き込まれたエンティティにも有効な値が含まれていること。
 
-- 提供する予定の母集団に、予期しない `NULL` 値や不一致が残っていないことを確認します。
+- 提供する予定のデータセットに、予期しない `NULL` 値や不一致が残っていないこと。
 
-大規模なコレクションでは、少数のサンプルエンティティだけに依存するのではなく、全体的なカバレッジと、代表的なデータセグメントまたはアプリケーションコホートの両方を検証します。
+大規模なコレクションの場合は、少数のサンプルエンティティだけに依存するのではなく、全体的なカバレッジと代表的なデータセグメントまたはアプリケーションコホートの両方を検証します。
 
 新しいフィールドがアプリケーションの要件を満たしてから、本番の読み取りの切り替えに進みます。
 
 ## ステップ 6: 読み取りを切り替える\{#step-6-switch-reads}
 
-移行が検証されたら、新しいフィールドを使用するようにアプリケーションのリーダーを更新します。
+移行が検証されたら、新しいフィールドを使用するようアプリケーションのリーダーを更新します。
 
-たとえば、先ほど準備した読み取りパスを有効にします。
+たとえば、先ほど準備したリーダーのパスを有効にします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1169,11 +1078,6 @@ results = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-
 boolean USE_NEW_SCHEMA = true;
 
 QueryResp queryResp = client.query(QueryReq.builder()
@@ -1208,8 +1112,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let use_new_schema = true;
 
 let results = client
@@ -1228,9 +1130,6 @@ let results = client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 bool USE_NEW_SCHEMA = true;
 
 milvus::QueryResponse queryResponse;
@@ -1262,10 +1161,6 @@ const results = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 bool USE_NEW_SCHEMA = true;
 QueryParameters parameters = new QueryParameters();
 foreach (var field in getOutputFields(USE_NEW_SCHEMA))
@@ -1304,30 +1199,30 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-新しいフィールドが検索動作を変更する場合（新しいベクトルフィールドを別の埋め込みモデルで使用する場合など）は、クエリモデル、対象フィールド、関連する検索構成を含め、読み取りパス全体をまとめて切り替えます。
+新しいベクトルフィールドを別の埋め込みモデルで使用する場合など、新しいフィールドによって検索動作が変わる場合は、クエリモデル、対象フィールド、関連する検索構成を含め、読み取りパス全体をまとめて切り替えます。
 
-可能な場合は変更を段階的にロールアウトし、ロールバック期間が終了するまで以前の読み取りパスを利用可能な状態に保ちます。
+可能な場合は変更を段階的に展開し、ロールバック期間が終了するまで以前の読み取りパスを利用可能にしておきます。
 
-## 障害処理とロールバック\{#failure-handling-and-rollback}
+## 失敗時の対応とロールバック\{#failure-handling-and-rollback}
 
-移行が検証され、ロールバック期間が終了するまで、既存のフィールドと読み取りパスを利用可能な状態に保ちます。問題が発生した場合は、移行の進行を停止し、現在のステージから復旧します。
+移行が検証され、ロールバック期間が終了するまで、既存のフィールドと読み取りパスを利用可能にしておきます。問題が発生した場合は、移行の進行を停止し、現在の段階から復旧します。
 
-| **ステージ** | **推奨アクション** |
+| **段階** | **推奨される対応** |
 | --- | --- |
-| ライターの切り替えに失敗した場合 | 本番の読み取りでは既存のフィールドを使用し続け、バックフィルを開始する前にライターのロールアウトを完了します。 |
-| 事前チェックに失敗した場合 | バックフィルを開始しないでください。ステージングされたデータまたは構成を修正してから、事前チェックを再実行します。 |
-| バックフィルに失敗した場合 | 本番の読み取りでは既存のフィールドを使用し続け、問題を修正してバックフィルを再試行します。 |
-| 移行の検証に失敗した場合 | 読み取りを切り替えないでください。欠落した値、古い値、または不正確な値を修正してから、再度検証します。 |
-| 新しい読み取りパスでリグレッションが発生した場合 | 新しいフィールドとバックフィル済みデータをそのまま保持しながら、本番の読み取りを既存のフィールドに戻します。 |
-| 移行が成功した場合 | 合意したロールバック期間が終了するまで既存のフィールドを保持します。新しいパスが安定していることを確認してから、古いフィールド、インデックス、アプリケーションロジックを削除します。 |
+| ライターの切り替えに失敗 | 本番の読み取りは既存のフィールドのままにし、バックフィルを開始する前にライターの展開を完了します。 |
+| 事前チェックに失敗 | バックフィルを開始しないでください。ステージングされたデータまたは構成を修正してから、事前チェックを再実行します。 |
+| バックフィルに失敗 | 本番の読み取りは既存のフィールドのままにし、問題を修正してバックフィルを再試行します。 |
+| 検証に失敗 | 読み取りを切り替えないでください。欠落している値、古い値、または正しくない値を修復してから、再度検証します。 |
+| 新しい読み取りパスのリグレッション | 新しいフィールドとバックフィル済みデータをそのまま保持した状態で、本番の読み取りを既存のフィールドに戻します。 |
+| 移行の成功 | 合意したロールバック期間中は既存のフィールドを保持します。新しいパスが安定して動作し続けた後にのみ、古いフィールド、インデックス、アプリケーションロジックを削除します。 |
 
-新しい埋め込みモデルや検索表現への移行など、検索動作を変更する移行では、可能な場合は読み取りを段階的にロールアウトします。
+新しい埋め込みモデルや検索表現への移行など、検索動作を変更する移行では、可能な場合は段階的な読み取りの展開を使用します。
 
-バックフィルに失敗しても、本番の読み取りでは引き続き既存のフィールドが使用されるため、通常はデータのロールバックは必要ありません。主なロールバックポイントは読み取りの切り替え後であり、最も安全な復旧方法は通常、新しいデータを削除するのではなく、トラフィックを古いフィールドに戻すことです。
+バックフィルに失敗しても、本番の読み取りは引き続き既存のフィールドを使用するため、通常はデータのロールバックは不要です。主なロールバックポイントは読み取りの切り替え後であり、最も安全な復旧方法は通常、新しいデータを削除するのではなく、トラフィックを古いフィールドに戻すことです。
 
 ## 次のステップ\{#next-steps}
 
-このワークフローを、より具体的なスキーマエボリューションのシナリオの基礎として使用します。次のランブックでは、ベクトル検索アプリケーションでよくある変更に同じ移行シーケンスを適用します。
+このワークフローを基盤として、より具体的なスキーマエボリューションのシナリオに適用してください。次のランブックでは、ベクトル検索アプリケーションで一般的な変更に同じ移行シーケンスを適用します：
 
 
 

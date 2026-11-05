@@ -1,13 +1,13 @@
 ---
-title: "グローバルクラスターに接続 | Cloud"
+title: "グローバルクラスターへの接続 | Cloud"
 slug: /connect-to-global-cluster
-sidebar_label: "グローバルクラスターに接続"
+sidebar_label: "グローバルクラスターへの接続"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "グローバルクラスターが稼働したら、エンドポイントと認証トークンを使用して接続します。このページでは、2 種類のエンドポイント、それぞれの使用場面、およびスイッチオーバーとフェイルオーバー時のルーティング動作について説明します。 | Cloud"
+description: "グローバルクラスターが稼働したら、エンドポイントと認証トークンを使用して接続します。このページでは、2 種類のエンドポイント、それぞれの使い分け、およびスイッチオーバーとフェイルオーバー中のルーティング動作について説明します。 | Cloud"
 type: origin
 token: DknbwaLS3iAAiUk9ifPc1Vmvnze
 sidebar_position: 3
@@ -21,43 +21,43 @@ import TabItem from '@theme/TabItem';
 
 import Procedures from '@site/src/components/Procedures';
 
-# グローバルクラスターに接続
+# グローバルクラスターへの接続
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-この機能は、Business Critical（SaaS）および BYOC デプロイでのみ利用できます。
+この機能は、Business Critical（SaaS）および BYOC デプロイメントでのみ使用できます。
 
 </FeatureNote>
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、サポートされているすべての AWS リージョンで利用できます。また、リクエストに応じて Google Cloud の `us-central1` および `us-east4` リージョンでも利用できます。この機能は Microsoft Azure では利用できません。
+この機能は、サポートされているすべての AWS リージョンで使用できます。Google Cloud の `us-central1` および `us-east4` リージョンでも、リクエストに応じて使用できます。この機能は Microsoft Azure では使用できません。
 
 </FeatureNote>
 
-グローバルクラスターが稼働したら、エンドポイントと認証トークンを使用して接続します。このページでは、2 種類のエンドポイント、それぞれの使用場面、およびスイッチオーバーとフェイルオーバー時のルーティング動作について説明します。
+グローバルクラスターが稼働したら、エンドポイントと認証トークンを使用して接続します。このページでは、2 種類のエンドポイント、それぞれの使い分け、およびスイッチオーバーとフェイルオーバー中のルーティング動作について説明します。
 
-## エンドポイントタイプを選択する\{#choose-an-endpoint-type}
+## エンドポイントの種類を選択する\{#choose-an-endpoint-type}
 
-グローバルクラスターには、2 つの接続方法があります。
+グローバルクラスターでは、次の 2 つの方法で接続できます。
 
-- **グローバルエンドポイント**を使用する
+- **グローバルエンドポイント**経由
 
-- グローバルクラスター内のプライマリクラスターまたはセカンダリクラスターの **パブリックエンドポイントまたはプライベートエンドポイント**を使用する
+- グローバルクラスター内のプライマリクラスターまたはセカンダリクラスターの**パブリックエンドポイントまたはプライベートエンドポイント**経由
 
-次の表では、2 つの接続エンドポイントを比較します。
+次の表では、2 つの接続エンドポイントを比較しています。
 
 |  | **グローバルエンドポイント** | **プライマリクラスターまたはセカンダリクラスターのエンドポイント** |
 | --- | --- | --- |
-| **書き込みルーティング** | プライマリクラスターに自動的にルーティングされます | 書き込みを受け付けるのはプライマリのパブリックエンドポイントのみです |
-| **読み取りルーティング** | プライマリクラスターにルーティングされます<br/>（レイテンシに基づいて利用可能な最も近いクラスターにインテリジェントにルーティングする機能は、近日中にサポートされる予定です。） | 読み取りは、接続先の特定のクラスターに送信されます |
-| **スイッチオーバー / フェイルオーバー** | 自動的に再ルーティングされます。コードの変更は不要です。 | 新しいプライマリを指すように接続を更新する必要があります |
-| **Private Link** | サポートされていません（パブリックインターネットが必要です） | サポートされています。 |
-| **最適な用途** | 自動フェイルオーバーとレイテンシに基づくルーティングを必要とする本番アプリケーション | 特定のクラスターへの直接アクセス（環境のレプリケーション、テスト、デバッグなど） |
+| **書き込みルーティング** | プライマリクラスターに自動的にルーティングされます | プライマリのパブリックエンドポイントのみが書き込みを受け付けます |
+| **読み取りルーティング** | プライマリクラスターにルーティングされます<br/>（レイテンシーに基づき、使用可能な最も近いクラスターへのインテリジェントルーティングが近日中にサポートされる予定です。） | 読み取りは、接続先の特定のクラスターに送られます |
+| **スイッチオーバー / フェイルオーバー** | 自動的に再ルーティングされます。コードの変更は必要ありません | 新しいプライマリを指すように接続を更新する必要があります |
+| **Private Link** | サポートされません（パブリックインターネットが必要です） | サポートされています。 |
+| **最適な用途** | 自動フェイルオーバーとレイテンシーベースのルーティングが必要な本番アプリケーション | 特定のクラスターへの直接アクセス（環境のレプリケーション、テスト、デバッグなど） |
 
 <Admonition type="info" title="Notes">
 
-本番ワークロードには、グローバルエンドポイントの使用をお勧めします。これにより、スイッチオーバーまたはフェイルオーバー時に、アプリケーションコードでエンドポイントの変更を処理する必要がなくなります。
+本番ワークロードには、グローバルエンドポイントの使用を推奨します。これにより、スイッチオーバーまたはフェイルオーバー中にアプリケーションコードでエンドポイントの変更を処理する必要がなくなります。
 
 </Admonition>
 
@@ -67,15 +67,15 @@ import Procedures from '@site/src/components/Procedures';
 
 1. グローバルクラスターまたはターゲットクラスターに移動します。
 
-    - **グローバル** **エンドポイント**の場合: **Global** **Cluster** ページに移動します。
+    - **グローバルエンドポイント**の場合: **Global** **Cluster** ページに移動します。
 
-    - **パブリック** **エンドポイント**の場合: 特定のプライマリクラスターまたはセカンダリクラスターの **Cluster** **Details** ページに移動します。
+    - **パブリックエンドポイント**の場合: 特定のプライマリクラスターまたはセカンダリクラスターの **Cluster** **Details** ページに移動します。
 
 1. Connect カードで、**Global Endpoint** または **Public Endpoint** をコピーします。
 
     ![OPCTbMaYIoUXHKxDf0ycdMNBnze](https://zdoc-images.s3.us-west-2.amazonaws.com/opctbmayiouxhkxdf0ycdmnbnze.png "OPCTbMaYIoUXHKxDf0ycdMNBnze")
 
-1. 認証トークンを準備します。これは、[API キー](./manage-api-keys) または [クラスター認証情報](./cluster-credentials)（`username:password`）のいずれかです。
+1. 認証トークンを準備します。これは [API キー](./manage-api-keys) または [クラスター認証情報](./cluster-credentials)（`username:password`）のいずれかです。
 
 </Procedures>
 
@@ -83,32 +83,32 @@ import Procedures from '@site/src/components/Procedures';
 
 グローバルエンドポイントは、グローバルクラスター内の現在のプライマリクラスターに常にリクエストをルーティングする単一の URL です。
 
-スイッチオーバーまたはフェイルオーバーが発生すると、Zilliz Cloud はグローバルエンドポイントを自動的に更新し、新しいプライマリクラスターを指すようにします。これにより、アプリケーションはクラスター URI を手動で変更することなく、同じエンドポイントを使い続けることができます。
+スイッチオーバーまたはフェイルオーバーが発生すると、Zilliz Cloud はグローバルエンドポイントを自動的に更新して新しいプライマリクラスターを指すようにします。これにより、アプリケーションはクラスター URI を手動で変更することなく、同じエンドポイントを引き続き使用できます。
 
-Zilliz Cloud では、SDK と RESTful API の両方を介してグローバルエンドポイントに接続できます。本番アプリケーションでは、SDK クライアントの使用をお勧めします。
+Zilliz Cloud では、SDK と RESTful API の両方を使用してグローバルエンドポイントに接続できます。本番アプリケーションには、SDK クライアントの使用を推奨します。
 
 <details>
 
-<summary>RESTful API 接続ではなく SDK 接続が推奨されるのはなぜですか？</summary>
+<summary>RESTful API 接続よりも SDK 接続が推奨されるのはなぜですか？</summary>
 
-SDK クライアントは、エンドポイントの一覧、プライマリおよびセカンダリのロール、クラスターの正常性など、グローバルクラスターのトポロジーを取得できます。この情報により、SDK クライアントはプライマリクラスターが変更されたときに迅速に対応できます。SDK クライアントは今後、read/write 分割もサポートする予定です。読み取り/書き込みの分割では、書き込みリクエストはプライマリクラスターにルーティングされ、対象となる読み取りリクエストはグローバルクラスターのトポロジーに基づいてルーティングされます。
+SDK クライアントは、エンドポイント一覧、プライマリおよびセカンダリのロール、クラスターのヘルスを含むグローバルクラスタートポロジーを取得できます。この情報により、SDK クライアントはプライマリクラスターが変更されたときに迅速に対応できます。SDK クライアントは将来、read/write 分割もサポートする予定です。この機能では、書き込みリクエストはプライマリクラスターにルーティングされ、条件を満たす読み取りリクエストはグローバルクラスタートポロジーに基づいてルーティングされます。
 
-ただし、RESTful API 接続はグローバルクラスターのトポロジー情報を保持しません。そのため、RESTful API 接続では、スイッチオーバーまたはフェイルオーバー後に新しいプライマリクラスターへの切り替えに時間がかかる場合があります。同じ理由で、RESTful API 接続は read/write 分割をサポートできません。
+ただし、RESTful API 接続はグローバルクラスタートポロジー情報を保持しません。そのため、スイッチオーバーまたはフェイルオーバー後に新しいプライマリクラスターへの切り替えに時間がかかる場合があります。同じ理由で、RESTful API 接続は read/write 分割をサポートできません。
 
-次の表では、SDK 接続と RESTful API 接続を比較します。
+次の表では、SDK 接続と RESTful API 接続を比較しています。
 
 | **項目** | **SDK 接続** | **RESTful API 接続** |
 | --- | --- | --- |
-| 最適な用途 | ロール変更時の迅速な復旧と将来の read/write 分割を必要とする本番アプリケーション。 | 軽量なスクリプト、シンプルな REST 統合、および単発の管理操作。 |
-| トポロジーの認識 | エンドポイントの一覧、プライマリおよびセカンダリのロール、クラスターの正常性など、グローバルクラスターのトポロジーを取得します。 | グローバルクラスターのトポロジー情報を保持しません。 |
-| プライマリ変更時の処理 | スイッチオーバーまたはフェイルオーバー後にプライマリクラスターが変更された場合、通常は数秒以内に迅速に対応できます。 | クライアントがトポロジー情報を保持しないため、新しいプライマリへの切り替えに通常は数分かかる場合があります。 |
+| 最適な用途 | ロール変更時の迅速な復旧と将来の read/write 分割を必要とする本番アプリケーション。 | 軽量なスクリプト、シンプルな REST 統合、単発の管理操作。 |
+| トポロジーの認識 | エンドポイント一覧、プライマリおよびセカンダリのロール、クラスターのヘルスを含むグローバルクラスタートポロジーを取得します。 | グローバルクラスタートポロジー情報を保持しません。 |
+| プライマリ変更時の処理 | スイッチオーバーまたはフェイルオーバー後にプライマリクラスターが変更された場合、通常は数秒以内により迅速に対応できます。 | クライアントがトポロジー情報を保持しないため、新しいプライマリへの切り替えに通常は数分かかる場合があります。 |
 | read/write 分割 | ✅ 近日中にサポートされる予定です。 | ❌ サポートされていません |
 
 </details>
 
 ### SDK バージョンを確認する\{#check-sdk-version}
 
-開始する前に、SDK を[インストール](./install-sdks)済みであること、および SDK が最小バージョン要件を満たしていることを確認してください。
+開始する前に、[SDK をインストール](./install-sdks)済みであること、および SDK が最小バージョン要件を満たしていることを確認してください。
 
 | SDK | 最小バージョン |
 | --- | --- |
@@ -155,7 +155,6 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 import (
     "context"
     "log"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -249,19 +248,13 @@ curl --request POST \
 
 ## パブリックエンドポイントを使用して接続する\{#connect-using-a-public-endpoint}
 
-グローバルクラスター内の各クラスターには、それぞれ独自のパブリックエンドポイントがあります。特定のクラスターを直接対象にする必要がある場合に使用します。
+グローバルクラスター内の各クラスターには、それぞれ独自のパブリックエンドポイントがあります。特定のクラスターを直接対象とする場合に使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 # Connect directly to a specific cluster
-client = MilvusClient(
-    uri="YOUR_CLUSTER_PUBLIC_ENDPOINT",  # Public endpoint of a specific cluster
-    token="YOUR_CLUSTER_TOKEN" # API key or username:password
-)
 ```
 
 </TabItem>
@@ -269,16 +262,7 @@ client = MilvusClient(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.client.ConnectConfig;
-
 // Connect directly to a specific cluster
-ConnectConfig connectConfig = ConnectConfig.builder()
-    .uri("YOUR_CLUSTER_PUBLIC_ENDPOINT")  // Public endpoint of a specific cluster
-    .token("YOUR_CLUSTER_TOKEN")  // API key or username:password
-    .build();
-
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
 </TabItem>
@@ -286,15 +270,8 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // Connect directly to a specific cluster
-client, err := milvusclient.New(context.Background(), &milvusclient.ClientConfig{
+, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_PUBLIC_ENDPOINT", // Public endpoint of a specific cluster
     APIKey:  "YOUR_CLUSTER_TOKEN",           // API key or username:password
 })
@@ -308,12 +285,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
 // Connect directly to a specific cluster
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_PUBLIC_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
 ```
 
 </TabItem>
@@ -321,15 +294,7 @@ let client = ClientV2::new(&config).await?;
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 // Connect directly to a specific cluster
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_PUBLIC_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -337,13 +302,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
-
 // Connect directly to a specific cluster
-const client = new MilvusClient({
-    address: "YOUR_CLUSTER_PUBLIC_ENDPOINT",  // Public endpoint of a specific cluster
-    token: "YOUR_CLUSTER_TOKEN"  // API key or username:password
-})
 ```
 
 </TabItem>
@@ -351,19 +310,7 @@ const client = new MilvusClient({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Connect directly to a specific cluster
-var client = new MilvusClientV2(new ConnectConfig
-{
-    Uri = "YOUR_CLUSTER_PUBLIC_ENDPOINT",  // Public endpoint of a specific cluster
-    Username = "YOUR_CLUSTER_TOKEN"        // API key or username:password
-});
 ```
 
 </TabItem>
@@ -383,27 +330,27 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-パブリックエンドポイントを使用する場合、書き込み操作を受け付けるのはプライマリクラスターのパブリックエンドポイントのみです。セカンダリクラスターのパブリックエンドポイントに書き込むと失敗します。
+パブリックエンドポイントを使用する場合、書き込み操作を受け付けるのはプライマリクラスターのパブリックエンドポイントのみです。セカンダリクラスターのパブリックエンドポイントへの書き込みは失敗します。
 
 </Admonition>
 
-## ルーティング動作\{#routing-behavior}
+## ルーティングの動作\{#routing-behavior}
 
 ### 通常運用時\{#during-normal-operation}
 
-| **リクエストタイプ** | **グローバルエンドポイント** | **パブリックエンドポイント** |
+| **リクエストの種類** | **グローバルエンドポイント** | **パブリックエンドポイント** |
 | --- | --- | --- |
 | 書き込み（insert、upsert、delete） | プライマリクラスターにルーティングされます | プライマリクラスターのエンドポイントでのみ受け付けられます |
-| 読み取り（search、query） | プライマリクラスターにルーティングされます<br/>（レイテンシに基づいて利用可能な最も近いクラスターにインテリジェントにルーティングする機能は、近日中にサポートされる予定です。） | 接続先の特定のクラスターによって処理されます |
+| 読み取り（search、query） | プライマリクラスターにルーティングされます<br/>（レイテンシーに基づき、使用可能な最も近いクラスターへのインテリジェントルーティングが近日中にサポートされる予定です。） | 接続先の特定のクラスターによって処理されます |
 
-### スイッチオーバー / フェイルオーバー中およびその後\{#during-and-after-switchover-failover}
+### スイッチオーバー / フェイルオーバー中および完了後\{#during-and-after-switchover-failover}
 
 | **シナリオ** | **グローバルエンドポイント** | **パブリックエンドポイント** |
 | --- | --- | --- |
-| スイッチオーバー実行中 | 書き込みは一時停止し、その後新しいプライマリで再開します。読み取りは継続します。 | エンドポイントは変更されません。以前のプライマリはセカンダリになります。 |
-| フェイルオーバー実行中 | 新しいプライマリが昇格するまで書き込みは利用できません。読み取りはセカンダリで継続します。 | 以前のプライマリのエンドポイントは到達不能になります。 |
+| スイッチオーバーの進行中 | 書き込みは一時的に停止し、その後新しいプライマリで再開します。読み取りは継続します。 | エンドポイントは変更されません。以前のプライマリはセカンダリになります。 |
+| フェイルオーバーの進行中 | 新しいプライマリが昇格するまで書き込みは使用できません。読み取りはセカンダリで継続します。 | 以前のプライマリのエンドポイントに到達できなくなります。 |
 | 完了後 | 新しいプライマリに自動的にルーティングされます。コードの変更は不要です。 | 書き込みには新しいプライマリのパブリックエンドポイントを使用するようにコードを更新してください。 |
 
 ### SDK の自動再接続\{#sdk-automatic-reconnection}
 
-グローバルエンドポイントを使用する場合、Zilliz Cloud SDK はスイッチオーバーおよびフェイルオーバー中のエンドポイントの再ルーティングを処理します。アプリケーションでルーティング変更自体の再試行ロジックを実装する必要はありません。ただし、切り替えの瞬間に実行中だった書き込みは一時的なエラーを受け取る場合があります。このような場合は、アプリケーションの標準の再試行ロジックによって処理されます。
+グローバルエンドポイントを使用する場合、Zilliz Cloud SDK はスイッチオーバーおよびフェイルオーバー中のエンドポイントの再ルーティングを処理します。アプリケーションで、ルーティング変更自体に対する再試行ロジックを実装する必要はありません。ただし、切り替えの瞬間に実行中だった書き込みでは一時的なエラーが発生する可能性があります。このような場合は、アプリケーションの標準的な再試行ロジックで処理されます。

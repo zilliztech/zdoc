@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義することで、データセキュリティを実現できます。 | Cloud"
+description: "Zilliz Cloud では、クラスターユーザーを作成してクラスターロールを割り当て、権限を定義することで、データのセキュリティを実現できます。 | Cloud"
 type: origin
 token: I2CHwfDHKilTMukoZ13cR2M4nzb
 sidebar_position: 2
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # クラスターユーザーの管理（SDK）
 
-Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義することで、データセキュリティを実現できます。
+Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて権限を定義することで、データのセキュリティを実現できます。
 
-このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、最後にユーザーを削除する方法を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
+このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、最後にユーザーの削除までの手順を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
 
 ## ユーザーを作成する\{#create-a-user}
 
-次の例では、ユーザー名 `user_1`、パスワード `P@ssw0rd` のユーザーを作成する方法を示します。ユーザーのユーザー名とパスワードは、次のルールに従う必要があります。
+次の例では、ユーザー名 `user_1`、パスワード `P@ssw0rd` のユーザーを作成する方法を示します。ユーザーのユーザー名とパスワードは、次のルールに従う必要があります：
 
-- ユーザー名：英字で始まり、大文字または小文字の英字、数字、およびアンダースコアのみを含めることができます。
+- ユーザー名：英字で始まり、大文字と小文字の英字、数字、アンダースコアのみを含めることができます。
 
-- パスワード：8-64 文字で、大文字、小文字、数字、および特殊文字のうち 3 種類を含める必要があります。
+- パスワード：8～64 文字で、大文字、小文字、数字、特殊文字のうち 3 種類を含める必要があります。
 
-- （任意）説明：最大 1024（UTF-8 バイト）です。
+- （任意）説明：最大 1024（UTF-8 バイト単位）。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -57,6 +57,12 @@ client.create_user(user_name="user_1", password="P@ssw0rd", description="a new u
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.CreateUserReq;
+import java.util.List;
+import io.milvus.v2.service.rbac.request.GrantRoleReq;
+import io.milvus.v2.service.rbac.request.DescribeUserReq;
+import io.milvus.v2.service.rbac.response.DescribeUserResp;
+import io.milvus.v2.service.rbac.request.RevokeRoleReq;
+import io.milvus.v2.service.rbac.request.DropUserReq;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -82,7 +88,6 @@ client.createUser(createUserReq);
 import (
     "context"
     "fmt"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -181,7 +186,6 @@ using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
-
 using Milvus.Client.V2.Requests.Rbac;
 
 var client = new MilvusClientV2(new ConnectConfig
@@ -229,8 +233,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.list_users()
 ```
 
@@ -239,8 +241,6 @@ client.list_users()
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
 List<String> resp = client.listUsers();
 ```
 
@@ -249,12 +249,6 @@ List<String> resp = client.listUsers();
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 users, err := client.ListUsers(ctx, milvusclient.NewListUserOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -267,8 +261,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-
 let users = client.list_users(
     sdk::request::rbac::ListUsersRequest::builder().build()?,
 ).await?;
@@ -300,15 +292,6 @@ await client.listUsers();
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Rbac;
-
 var resp = await client.ListUsersAsync(new ListUsersReq());
 ```
 
@@ -327,7 +310,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。`root` は自動生成されるデフォルトユーザーです。`user_1` は作成したばかりの新しいユーザーです。
+出力例は以下の通りです。`root` は自動的に生成されるデフォルトユーザーです。`user_1` は作成したばかりの新しいユーザーです。
 
 ```bash
 ['root', 'user_1']
@@ -341,13 +324,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 client.grant_role(user_name="user_1", role_name="role_a")
 ```
 
@@ -356,10 +332,6 @@ client.grant_role(user_name="user_1", role_name="role_a")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.rbac.request.GrantRoleReq;
-
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
@@ -367,8 +339,6 @@ ConnectConfig connectConfig = ConnectConfig.builder()
     .uri(CLUSTER_ENDPOINT)
     .token(TOKEN)
     .build();
-
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 GrantRoleReq grantRoleReq = GrantRoleReq.builder()
         .roleName("role_a")
@@ -382,24 +352,6 @@ client.grantRole(grantRoleReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 err = client.GrantRole(ctx, milvusclient.NewGrantRoleOption("user_1", "role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -412,16 +364,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(
-    &ConnectConfig::new()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN"),
-).await?;
-
 client.grant_role(
     sdk::request::rbac::GrantRoleRequest::builder()
         .username("user_1")
@@ -435,15 +377,6 @@ client.grant_role(
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 status = client->GrantRole(milvus::GrantRoleRequest()
                                .WithUserName("user_1")
                                .WithRoleName("role_a"));
@@ -459,10 +392,6 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.grantRole({
    username: 'user_1',
    roleName: 'role_a'
@@ -474,22 +403,6 @@ await client.grantRole({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Rbac;
-
-var client = new MilvusClientV2(new ConnectConfig
-{
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-});
-
 await client.GrantRoleAsync(new GrantRoleReq
 {
     UserName = "user_1",
@@ -520,7 +433,7 @@ curl --request POST \
 
 ## ユーザーの詳細を表示する\{#describe-user}
 
-ユーザーにロールを付与した後、`describe_user()` メソッドを使用して、付与操作が成功したかどうかを確認できます。
+ユーザーにロールを付与した後、`describe_user()` メソッドを使用して付与操作が成功したかどうかを確認できます。
 
 次の例では、ユーザー `user_1` のロールを確認する方法を示します。
 
@@ -528,8 +441,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.describe_user(user_name="user_1")
 ```
 
@@ -538,9 +449,6 @@ client.describe_user(user_name="user_1")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.DescribeUserReq;
-import io.milvus.v2.service.rbac.response.DescribeUserResp;
-
 DescribeUserReq describeUserReq = DescribeUserReq.builder()
         .userName("user_1")
         .build();
@@ -552,12 +460,6 @@ DescribeUserResp describeUserResp = client.describeUser(describeUserReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 user, err := client.DescribeUser(ctx, milvusclient.NewDescribeUserOption("user_1"))
 if err != nil {
     fmt.Println(err.Error())
@@ -570,8 +472,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-
 let user = client.describe_user(
     sdk::request::rbac::DescribeUserRequest::builder()
         .username("user_1")
@@ -605,15 +505,6 @@ await client.describeUser({username: 'user_1'});
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Rbac;
-
 var resp = await client.DescribeUserAsync(new DescribeUserReq
 {
     UserName = "user_1"
@@ -637,7 +528,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。
+出力例は以下の通りです。
 
 ```bash
 {'user_name': 'user_1', 'description':'a new user in the developers team', 'roles': 'role_a'}
@@ -645,7 +536,7 @@ curl --request POST \
 
 ## ロールを取り消す\{#revoke-a-role}
 
-ユーザーに割り当てられたロールを取り消すこともできます。
+ユーザーに割り当て済みのロールを取り消すこともできます。
 
 次の例では、ユーザー `user_1` に割り当てられたロール `role_a` を取り消す方法を示します。
 
@@ -653,8 +544,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.revoke_role(
     user_name='user_1',
     role_name='role_a'
@@ -666,8 +555,6 @@ client.revoke_role(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.RevokeRoleReq;
-
 client.revokeRole(RevokeRoleReq.builder()
         .userName("user_1")
         .roleName("role_a")
@@ -679,12 +566,6 @@ client.revokeRole(RevokeRoleReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.RevokeRole(ctx, milvusclient.NewRevokeRoleOption("user_1", "role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -697,8 +578,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-
 client.revoke_role(
     sdk::request::rbac::RevokeRoleRequest::builder()
         .username("user_1")
@@ -736,15 +615,6 @@ await client.revokeRole({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Rbac;
-
 await client.RevokeRoleAsync(new RevokeRoleReq
 {
     UserName = "user_1",
@@ -772,7 +642,7 @@ curl --request POST \
 
 ## ユーザーを削除する\{#drop-user}
 
-次の例では、ユーザー `user_1` を削除する方法を示します。
+次の例では、ユーザー `user_1` を削除する方法を示します。 
 
 <Admonition type="info" title="Notes">
 
@@ -784,13 +654,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 # drop the user
 client.drop_user(user_name="user_1")
 ```
@@ -800,17 +663,6 @@ client.drop_user(user_name="user_1")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.rbac.request.DropUserReq;
-
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
 DropUserReq dropUserReq = DropUserReq.builder()
         .userName("user_1")
         .build();
@@ -822,24 +674,6 @@ client.dropUser(dropUserReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 err = client.DropUser(ctx, milvusclient.NewDropUserOption("user_1"))
 if err != nil {
     fmt.Println(err.Error())
@@ -852,16 +686,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(
-    &ConnectConfig::new()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN"),
-).await?;
-
 client.drop_user(
     sdk::request::rbac::DropUserRequest::builder()
         .username("user_1")
@@ -874,15 +698,6 @@ client.drop_user(
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 status = client->DropUser(milvus::DropUserRequest().WithUserName("user_1"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -896,10 +711,6 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.deleteUser({
     username: 'user_1'
 });
@@ -910,22 +721,6 @@ await client.deleteUser({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Rbac;
-
-var client = new MilvusClientV2(new ConnectConfig
-{
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-});
-
 // Drop the user
 await client.DropUserAsync(new DropUserReq { UserName = "user_1" });
 ```
@@ -950,14 +745,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ユーザーを削除した後、既存のすべてのユーザーを一覧表示して、削除操作が成功したかどうかを確認できます。
+ユーザーを削除した後、既存のすべてのユーザーを一覧表示して、削除操作が成功したかどうかを確認できます。 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.list_users()
 ```
 
@@ -966,8 +759,6 @@ client.list_users()
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
 List<String> resp = client.listUsers();
 ```
 
@@ -976,12 +767,6 @@ List<String> resp = client.listUsers();
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 users, err := client.ListUsers(ctx, milvusclient.NewListUserOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -994,8 +779,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-
 let users = client.list_users(
     sdk::request::rbac::ListUsersRequest::builder().build()?,
 ).await?;
@@ -1027,15 +810,6 @@ await client.listUsers();
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Rbac;
-
 var resp = await client.ListUsersAsync(new ListUsersReq());
 ```
 
@@ -1054,9 +828,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。一覧に `user_1` が含まれていません。削除操作は成功しています。
+出力例は以下の通りです。一覧に `user_1` がありません。削除操作は成功しています。
 
 ```bash
 ['root']
 ```
-

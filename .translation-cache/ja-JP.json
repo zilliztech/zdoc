@@ -2631,9 +2631,9 @@
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/guides/tutorials/management/authentication/cluster-credentials.md": {
-      "sourceHash": "cc9e1bec136532afc5a360e4f7fc83022a3daada7faea63251054abaaf557fc7",
+      "sourceHash": "1ff594ae08137c738973c66de290ec60ff1e50951e89deb2fd1d9ddac7d81a65",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/cluster-credentials.md",
-      "translatedAt": "2026-10-19T17:49:29.775Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/authentication/email-accounts.md": {
       "sourceHash": "ffe94cf86e07310c5e72b9920304fc58a301a9dfe6b00cb897f36bd0f39f2f2e",
@@ -2826,9 +2826,9 @@
       "translatedAt": "2026-10-29T12:57:57.824Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "4ba559f8d941e1af23dcebd2dff921d9833f394985bfb49a9e8ee6e79a4559f0",
+      "sourceHash": "d38f7832bc970d5c25b8b0c1652864b251848e2a4007ffc518783f7e71c85e05",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-10-28T03:40:58.002Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "8eb13c856cf31804a819b8e32e8c11413b875c8291fa6e41df12766f7eb716ac",
@@ -2871,19 +2871,19 @@
       "translatedAt": "2026-10-29T12:57:57.824Z"
     },
     "content/en/guides/tutorials/management/cmek/aws-kms.md": {
-      "sourceHash": "78cc66af47d14f33eb539b9b1339d50ad6f5a3f8bd21b184dccb450c9c5946e2",
+      "sourceHash": "eb364d4fe53af08b3701383e6f2d8b688713d4e36db0c03aba583d91075299a1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/aws-kms.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/cmek/cmek.md": {
-      "sourceHash": "f69eba143e42c4ad45f83a943e0531b769c6aa9a62fde4bfe40df089fe88805f",
+      "sourceHash": "0da9c6f631bfaceef81b79931e718a78dc4707ca17bfc3d55e38835d524a7ee5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/cmek.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/cmek/gcp-kms.md": {
-      "sourceHash": "b416c35c3e36e3a2485ab9aac0d12f793300b3ddfce41637e643ee8910f8ade3",
+      "sourceHash": "ef680f013d6869317cdffbd0c8786026106d04e00b7c7b0223b7eccf7827d397",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/gcp-kms.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
       "sourceHash": "2cda731e4fcb3f1bab3768e86cbdbd16a9d5a06291dc893cd832ec5e345cd41d",
@@ -2911,9 +2911,9 @@
       "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md": {
-      "sourceHash": "da527f97aa3d9a000d3a30942c3033597b0f5522c4f25204a61ddce32bd7c35b",
+      "sourceHash": "3daaa9fdbb6ce742ba4f80655e9c66dbd5053a8549b2b01f2c58f3518ca6aa45",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md",
-      "translatedAt": "2026-10-23T14:58:51.793Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/storage-cost.md": {
       "sourceHash": "11920a546c5efd57293d878bc6072c095f4f518d7ed4c60202e02b5d2941b89b",
@@ -2931,9 +2931,9 @@
       "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md": {
-      "sourceHash": "eeffd61611847e1f0711f97355ce6ac6d87be467cdc75065f14be95b5cc97804",
+      "sourceHash": "34f6e8ddee9e9f1733da5c49d1a49f8b7062c6fcc944bae4fb289825219e8ec4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
-      "translatedAt": "2026-10-28T03:40:58.002Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
       "sourceHash": "b1a4de18294531848bb53b75363887cb530a95df95da74d36c828cd8e7c1711f",
@@ -3036,9 +3036,9 @@
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "bc8fcf3432af176aa1b35b4e29f483ba9e5266df96d5a914e0c805b91783841e",
+      "sourceHash": "195776113d71e40d64c1216207c0f53aeb128c7ebf02a61ba17a903e57628428",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-09-19T14:24:19.670Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog.md": {
       "sourceHash": "ad5f0d5c118aea2e638fe9e583c93786f36cefdbb98c60eb8aa2d5093ce4ede2",
@@ -3096,19 +3096,19 @@
       "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md": {
-      "sourceHash": "85c2a1d18d9c603ff5f416ef21b50822427e5baff829a9c9ccedbb6b6b10d127",
+      "sourceHash": "d3486c5476dd36f46e7b398ac1237de3ce92fa115a6de88141a428a00d993376",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md": {
-      "sourceHash": "82395fa4535276bf5b8f057a04c102c656928208c0277abb2ec3698992488682",
+      "sourceHash": "dbc85c279c6aba10092dfc929a2550debd16a371dbaacfccc1f2b967cee7e10b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md": {
-      "sourceHash": "3ef12d276ff1481376c9efd0824952892d725c3807c87d2cf291742be9fd6781",
+      "sourceHash": "ebaaa5bd523055eac220af63898b4643a1342dae0878d7c0f1a1e859ed99e67c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "6f2ad87056a2a439cf0fc70a39efbfff5a6b77961380148c33cfba7feb2a122a",
@@ -3181,9 +3181,9 @@
       "translatedAt": "2026-10-19T15:32:03.235Z"
     },
     "content/en/guides/tutorials/solution/schema-evolution/schema-evolution.md": {
-      "sourceHash": "17586d8b8b8f46bfdffee37e6050710bf3ae20abe1c14f6ad2bace5fec743173",
+      "sourceHash": "e100b378f50ba1aab5f7b4e6ceba2a063b80ffcf82558c3449895c493de8b7d5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/solution/schema-evolution/schema-evolution.md",
-      "translatedAt": "2026-10-28T03:40:58.002Z"
+      "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md": {
       "sourceHash": "e881131f6ef8ca6416f7b01dfbb37ece2cd0d7fef7a5ea54342ebcf2eb80c5a6",
