@@ -163,14 +163,14 @@ import (
 )
 
 ctx := context.Background()
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "your_uri",
     APIKey:  "your_token",
 })
 if err != nil {
     panic(err)
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 
 schema := entity.NewSchema().
     WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
@@ -178,7 +178,7 @@ schema := entity.NewSchema().
     WithField(entity.NewField().WithName("title").WithDataType(entity.FieldTypeVarChar).WithMaxLength(128)).
     WithField(entity.NewField().WithName("vector").WithDataType(entity.FieldTypeFloatVector).WithDim(4))
 
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("scenarios_corpus", schema).
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("scenarios_corpus", schema).
     WithIndexOptions(milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx")).
     WithProperty("query_mode", "large_topk"))
 if err != nil {
@@ -407,21 +407,21 @@ if err != nil {
     panic(err)
 }
 // 1. Enable Large TopK
-err = cli.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("scenarios_corpus").
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("scenarios_corpus").
     WithProperty("query_mode", "large_topk"))
 if err != nil {
     panic(err)
 }
 
 // 2. Create the vector index and load the collection
-indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx"))
+indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx"))
 if err != nil {
     panic(err)
 }
 if err = indexTask.Await(ctx); err != nil {
     panic(err)
 }
-loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("scenarios_corpus"))
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("scenarios_corpus"))
 if err != nil {
     panic(err)
 }
@@ -621,28 +621,28 @@ if err != nil {
     panic(err)
 }
 // 1. Release and drop the existing index
-if err := cli.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("scenarios_corpus")); err != nil {
+if err := client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("scenarios_corpus")); err != nil {
     panic(err)
 }
-if err := cli.DropIndex(ctx, milvusclient.NewDropIndexOption("scenarios_corpus", "vector_idx")); err != nil {
+if err := client.DropIndex(ctx, milvusclient.NewDropIndexOption("scenarios_corpus", "vector_idx")); err != nil {
     panic(err)
 }
 
 // 2. Enable Large TopK
-if err := cli.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("scenarios_corpus").
+if err := client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("scenarios_corpus").
     WithProperty("query_mode", "large_topk")); err != nil {
     panic(err)
 }
 
 // 3. Recreate the index and load the collection
-indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx"))
+indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx"))
 if err != nil {
     panic(err)
 }
 if err = indexTask.Await(ctx); err != nil {
     panic(err)
 }
-loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("scenarios_corpus"))
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("scenarios_corpus"))
 if err != nil {
     panic(err)
 }
@@ -824,7 +824,7 @@ ctx := context.Background()
 if err != nil {
     panic(err)
 }
-info, err := cli.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("scenarios_corpus"))
+info, err := client.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("scenarios_corpus"))
 if err != nil {
     panic(err)
 }
@@ -962,27 +962,27 @@ if err != nil {
     panic(err)
 }
 // 1. Release and drop the existing index
-if err := cli.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("scenarios_corpus")); err != nil {
+if err := client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("scenarios_corpus")); err != nil {
     panic(err)
 }
-if err := cli.DropIndex(ctx, milvusclient.NewDropIndexOption("scenarios_corpus", "vector_idx")); err != nil {
+if err := client.DropIndex(ctx, milvusclient.NewDropIndexOption("scenarios_corpus", "vector_idx")); err != nil {
     panic(err)
 }
 
 // 2. Drop query_mode to return to the default mode
-if err := cli.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("scenarios_corpus", "query_mode")); err != nil {
+if err := client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("scenarios_corpus", "query_mode")); err != nil {
     panic(err)
 }
 
 // 3. Recreate the index and load the collection
-indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx"))
+indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx"))
 if err != nil {
     panic(err)
 }
 if err = indexTask.Await(ctx); err != nil {
     panic(err)
 }
-loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("scenarios_corpus"))
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("scenarios_corpus"))
 if err != nil {
     panic(err)
 }
@@ -1179,7 +1179,7 @@ if err != nil {
     panic(err)
 }
 queryVector := entity.FloatVector([]float32{0.1, 0.2, 0.3, 0.4})
-resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "scenarios_serving", 500000, []entity.Vector{queryVector}))
 if err != nil {
     panic(err)
@@ -1303,7 +1303,7 @@ if err != nil {
     panic(err)
 }
 queryVector := entity.FloatVector([]float32{0.1, 0.2, 0.3, 0.4})
-resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "scenarios_corpus", 500000, []entity.Vector{queryVector}))
 if err != nil {
     panic(err)

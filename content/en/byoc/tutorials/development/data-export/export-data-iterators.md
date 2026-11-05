@@ -136,7 +136,7 @@ ctx := context.Background()
 const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 const TOKEN = "YOUR_CLUSTER_TOKEN"
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: CLUSTER_ENDPOINT,
     APIKey:  TOKEN,
 })
@@ -144,7 +144,7 @@ if err != nil {
     log.Fatal(err)
 }
 
-err = cli.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions("quick_setup", 5))
+err = client.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions("quick_setup", 5))
 if err != nil {
     log.Fatal(err)
 }
@@ -388,7 +388,7 @@ for i := 0; i < 10000; i++ {
     })
 }
 
-result, err := cli.Insert(ctx, milvusclient.NewRowBasedInsertOption(COLLECTION_NAME, rows...))
+result, err := client.Insert(ctx, milvusclient.NewRowBasedInsertOption(COLLECTION_NAME, rows...))
 if err != nil {
     log.Fatal(err)
 }
@@ -647,7 +647,7 @@ if err != nil {
     log.Fatal(err)
 }
 
-it, err := cli.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(COLLECTION_NAME).
+it, err := client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(COLLECTION_NAME).
     WithBatchSize(50).
     WithFilter("color_tag like \"brown_8%\"").
     WithOutputFields("color_tag", "vector"))

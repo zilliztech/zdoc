@@ -301,16 +301,16 @@ ctx := context.Background()
 
 const COLLECTION_NAME = "text_bm25_collection"
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
 })
 if err != nil {
     log.Fatal(err)
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 
-if has, _ := cli.HasCollection(ctx, milvusclient.NewHasCollectionOption(COLLECTION_NAME)); has {
-    _ = cli.DropCollection(ctx, milvusclient.NewDropCollectionOption(COLLECTION_NAME))
+if has, _ := client.HasCollection(ctx, milvusclient.NewHasCollectionOption(COLLECTION_NAME)); has {
+    _ = client.DropCollection(ctx, milvusclient.NewDropCollectionOption(COLLECTION_NAME))
 }
 
 schema := entity.NewSchema().WithDynamicFieldEnabled(false).
@@ -604,7 +604,7 @@ sparseIndex := milvusclient.NewCreateIndexOption("text_bm25_collection", "sparse
         "bm25_b":               "0.75",
     })).WithIndexName("sparse_bm25_index")
 
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("text_bm25_collection", schema).
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("text_bm25_collection", schema).
     WithIndexOptions(sparseIndex))
 if err != nil {
     fmt.Println(err.Error())
@@ -812,7 +812,7 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-_, err = cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("text_bm25_collection").
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("text_bm25_collection").
     WithInt64Column("id", []int64{1, 2, 3}).
     WithColumns(column.NewColumnText("content", []string{
         "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications.",
@@ -824,7 +824,7 @@ if err != nil {
     // handle error
 }
 
-_, err = cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("text_bm25_collection"))
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("text_bm25_collection"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -1016,7 +1016,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
-resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "text_bm25_collection",
     2,
     []entity.Vector{entity.Text("how does Milvus store source text for retrieval")},

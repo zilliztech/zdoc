@@ -269,7 +269,7 @@ import (
 
 ctx := context.Background()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
@@ -277,12 +277,12 @@ if err != nil {
     log.Fatal("failed to connect to milvus server: ", err.Error())
 }
 
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "category", index.NewBitmapIndex()).WithIndexName("idx_category"))
+_, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "category", index.NewBitmapIndex()).WithIndexName("idx_category"))
 if err != nil {
     log.Fatal("failed to create index: ", err.Error())
 }
 
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "timestamp", index.NewBitmapIndex()).WithIndexName("idx_timestamp"))
+_, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "timestamp", index.NewBitmapIndex()).WithIndexName("idx_timestamp"))
 if err != nil {
     log.Fatal("failed to create index: ", err.Error())
 }

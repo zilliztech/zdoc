@@ -197,24 +197,24 @@ import (
 )
 
 ctx := context.Background()
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal(err)
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 
 const collectionName = "timestamptz_test123"
 
 // Drop the collection if it already exists
-has, err := cli.HasCollection(ctx, milvusclient.NewHasCollectionOption(collectionName))
+has, err := client.HasCollection(ctx, milvusclient.NewHasCollectionOption(collectionName))
 if err != nil {
     log.Fatal(err)
 }
 if has {
-    err = cli.DropCollection(ctx, milvusclient.NewDropCollectionOption(collectionName))
+    err = client.DropCollection(ctx, milvusclient.NewDropCollectionOption(collectionName))
     if err != nil {
         log.Fatal(err)
     }
@@ -225,7 +225,7 @@ schema := entity.NewSchema().
     WithField(entity.NewField().WithName("tsz").WithDataType(entity.FieldTypeTimestamptz).WithNullable(true)).
     WithField(entity.NewField().WithName("vec").WithDataType(entity.FieldTypeFloatVector).WithDim(4))
 
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithConsistencyLevel(entity.ClSession))
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithConsistencyLevel(entity.ClSession))
 if err != nil {
     log.Fatal(err)
 }
@@ -509,7 +509,7 @@ for i := 0; i < dataSize; i++ {
     vecs[i] = []float32{v, v, v, v}
 }
 
-_, err = cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName,
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName,
     column.NewColumnInt64("id", ids),
     column.NewColumnTimestamptzIsoString("tsz", tszs),
     column.NewColumnFloatVector("vec", 4, vecs),
@@ -728,13 +728,13 @@ client.loadCollection(LoadCollectionReq.builder()
 const collectionName = "timestamptz_test123"
 
 // 1. Create an index on the vector field
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "vec", index.NewAutoIndex(entity.COSINE)).WithIndexName("vec_index"))
+_, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "vec", index.NewAutoIndex(entity.COSINE)).WithIndexName("vec_index"))
 if err != nil {
     log.Fatal(err)
 }
 
 // 2. Load the collection
-_, err = cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
 if err != nil {
     log.Fatal(err)
 }
@@ -903,7 +903,7 @@ const collectionName = "timestamptz_test123"
 
 filter := "tsz != ISO '2025-01-03T00:00:00+08:00'"
 
-res, err := cli.Query(ctx, milvusclient.NewQueryOption(collectionName).
+res, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).
     WithFilter(filter).
     WithOutputFields("id", "tsz").
     WithLimit(10))
@@ -1077,7 +1077,7 @@ const collectionName = "timestamptz_test123"
 
 filter := "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'"
 
-res, err := cli.Query(ctx, milvusclient.NewQueryOption(collectionName).
+res, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).
     WithFilter(filter).
     WithOutputFields("id", "tsz").
     WithLimit(10))
@@ -1263,7 +1263,7 @@ const collectionName = "timestamptz_test123"
 
 filter := "tsz > ISO '2025-01-05T00:00:00+08:00'"
 
-results, err := cli.Search(ctx, milvusclient.NewSearchOption(collectionName, 5,
+results, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 5,
     []entity.Vector{entity.FloatVector{0.1, 0.2, 0.3, 0.4}}).
     WithFilter(filter).
     WithOutputFields("id", "tsz"))

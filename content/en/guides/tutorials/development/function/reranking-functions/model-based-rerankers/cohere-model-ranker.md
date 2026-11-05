@@ -207,7 +207,7 @@ import (
 
 ctx := context.Background()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_ZILLIZ_CLOUD_URI",
     APIKey:  "YOUR_ZILLIZ_CLOUD_TOKEN",
 })
@@ -227,7 +227,7 @@ schema := entity.NewSchema().WithName(collectionName).WithField(
 )
 
 // Configure index and create collection
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithIndexOptions(
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithIndexOptions(
     milvusclient.NewCreateIndexOption(collectionName, "dense", index.NewAutoIndex(entity.COSINE)),
 ))
 if err != nil {
@@ -235,13 +235,13 @@ if err != nil {
 }
 
 // Load collection
-_, err = cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
 if err != nil {
     panic(err)
 }
 
 // Insert sample data
-_, err = cli.Insert(ctx, milvusclient.NewRowBasedInsertOption(collectionName,
+_, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption(collectionName,
     map[string]any{"id": int64(1), "document": "Recent renewable energy developments include improved solar efficiency.", "dense": []float32{0.10, 0.20, 0.30, 0.40}},
     map[string]any{"id": int64(2), "document": "Climate policy and carbon markets have evolved rapidly in recent years.", "dense": []float32{0.11, 0.19, 0.28, 0.39}},
     map[string]any{"id": int64(3), "document": "New battery technology helps stabilize wind and solar power generation.", "dense": []float32{0.90, 0.10, 0.05, 0.02}},
@@ -717,7 +717,7 @@ cohere_ranker := entity.NewFunction().
     WithParam("queries", []string{"renewable energy developments"})
 cohere_ranker.WithParam("integration_id", "YOUR_INTEGRATION_ID")
 
-results, err := cli.Search(ctx, milvusclient.NewSearchOption(collectionName, 3, []entity.Vector{entity.FloatVector{0.12, 0.21, 0.29, 0.41}}).
+results, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 3, []entity.Vector{entity.FloatVector{0.12, 0.21, 0.29, 0.41}}).
     WithANNSField("dense").
     WithOutputFields("document").
     // highlight-next-line

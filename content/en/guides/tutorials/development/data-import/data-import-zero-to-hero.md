@@ -447,7 +447,7 @@ String API_KEY = "";
 String COLLECTION_NAME = "zero_to_hero";
 
 // 1. Set up a Milvus client
-MilvusClientV2 milvusClient = new MilvusClientV2(ConnectConfig.builder()
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(API_KEY)
         .build());
@@ -487,7 +487,7 @@ CreateCollectionReq request = CreateCollectionReq.builder()
         .collectionSchema(schema)
         .indexParams(indexParamList)
         .build();
-milvusClient.createCollection(request);
+client.createCollection(request);
 ```
 
 </TabItem>

@@ -392,7 +392,7 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     
     ctx := context.Background()
     
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
         Address: "YOUR_CLUSTER_ENDPOINT",
         APIKey:  "YOUR_CLUSTER_TOKEN",
     })
@@ -1155,7 +1155,7 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-err = cli.CreateCollection(ctx,
+err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("covla_dataset", schema).
         WithIndexOptions(indexes...))
 if err != nil {
@@ -1412,7 +1412,7 @@ vector := func() []float32 {
     return v
 }
 
-ins, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("covla_dataset").
+ins, err := client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("covla_dataset").
     WithColumns(
         column.NewColumnVarChar("video_id", []string{"0a0fc7a5db365174"}),
         column.NewColumnVarChar("video_url", []string{"https://your-storage.com/0a0fc7a5db365174"}),

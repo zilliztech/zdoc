@@ -141,7 +141,7 @@ SERVING_CLUSTER_ENDPOINT := "https://{cluster-id}.{region}.vectordb.zillizcloud.
 TOKEN := "YOUR_ZILLIZ_API_KEY"
 
 ctx := context.Background()
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: SERVING_CLUSTER_ENDPOINT,
     APIKey:  TOKEN,
 })
@@ -277,7 +277,7 @@ client.createDatabase(CreateDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
-err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
+err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
 if err != nil {
     panic(err)
 }
@@ -545,12 +545,12 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
+err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
     panic(err)
 }
 
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("prod_collection", schema))
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("prod_collection", schema))
 if err != nil {
     panic(err)
 }
@@ -697,7 +697,7 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
-task, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
+task, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
     "prod_collection",
     "embedding",
     index.NewAutoIndex(entity.COSINE),
@@ -709,7 +709,7 @@ if err = task.Await(ctx); err != nil {
     panic(err)
 }
 
-task, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
+task, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
     "prod_collection",
     "product_name",
     index.NewAutoIndex(entity.COSINE),
@@ -865,7 +865,7 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("prod_collection"))
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("prod_collection"))
 if err != nil {
     panic(err)
 }
@@ -1314,7 +1314,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 ```go
 queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385 /* ...remaining dims */}
-resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "prod_collection",
     3,
     []entity.Vector{entity.FloatVector(queryVector)},

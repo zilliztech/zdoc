@@ -172,7 +172,7 @@ import (
 )
 
 ctx := context.Background()
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
 })
 if err != nil {
@@ -184,7 +184,7 @@ newField := entity.NewField().
     WithDataType(entity.FieldTypeVarChar).
     WithNullable(true).
     WithMaxLength(128)
-err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
+err = client.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
 if err != nil {
     log.Fatal("failed to add field: ", err.Error())
 }
@@ -356,7 +356,7 @@ newField := entity.NewField().
     WithNullable(true).
     WithMaxLength(32).
     WithDefaultValueString("unreviewed")
-err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
+err = client.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
 if err != nil {
     log.Fatal("failed to add field: ", err.Error())
 }
@@ -557,7 +557,7 @@ newField := entity.NewField().
     WithNullable(true).
     WithMaxCapacity(1024).
     WithStructSchema(structSchema)
-err = cli.AddCollectionStructField(ctx, milvusclient.NewAddCollectionStructFieldOption("books", newField))
+err = client.AddCollectionStructField(ctx, milvusclient.NewAddCollectionStructFieldOption("books", newField))
 if err != nil {
     log.Fatal("failed to add struct field: ", err.Error())
 }
@@ -755,7 +755,7 @@ newField := entity.NewField().
     WithDataType(entity.FieldTypeFloatVector).
     WithNullable(true).
     WithDim(768)
-err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
+err = client.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
 if err != nil {
     log.Fatal("failed to add field: ", err.Error())
 }
@@ -898,7 +898,7 @@ client.createIndex(CreateIndexReq.builder()
 
 ```go
 indexOpt := milvusclient.NewCreateIndexOption("product_catalog", "embedding_v2", index.NewAutoIndex(entity.COSINE))
-_, err = cli.CreateIndex(ctx, indexOpt)
+_, err = client.CreateIndex(ctx, indexOpt)
 if err != nil {
     log.Fatal("failed to create index: ", err.Error())
 }
@@ -1101,7 +1101,7 @@ function := entity.NewFunction().
     WithInputFields("text").
     WithOutputFields("text_sparse")
 boundIndex := index.NewSparseInvertedIndex(entity.BM25, 0.2)
-err = cli.AddFunctionField(ctx, milvusclient.NewAddFunctionFieldOption("product_catalog", field, function, boundIndex))
+err = client.AddFunctionField(ctx, milvusclient.NewAddFunctionFieldOption("product_catalog", field, function, boundIndex))
 if err != nil {
     log.Fatal("failed to add function field: ", err.Error())
 }
@@ -1300,7 +1300,7 @@ client.dropCollectionField(DropCollectionFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("product_catalog", "experiment_tag"))
+err = client.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("product_catalog", "experiment_tag"))
 if err != nil {
     log.Fatal("failed to drop field: ", err.Error())
 }
@@ -1402,7 +1402,7 @@ client.dropCollectionField(DropCollectionFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("my_collection", "chunks"))
+err = client.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("my_collection", "chunks"))
 if err != nil {
     log.Fatal("failed to drop field: ", err.Error())
 }
@@ -1504,7 +1504,7 @@ client.dropCollectionField(DropCollectionFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("hybrid_catalog", "image_vector"))
+err = client.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("hybrid_catalog", "image_vector"))
 if err != nil {
     log.Fatal("failed to drop field: ", err.Error())
 }
@@ -1612,7 +1612,7 @@ client.dropFunctionField(DropFunctionFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-err = cli.DropFunctionField(ctx, milvusclient.NewDropFunctionFieldOption("product_catalog", "text_bm25"))
+err = client.DropFunctionField(ctx, milvusclient.NewDropFunctionFieldOption("product_catalog", "text_bm25"))
 if err != nil {
     log.Fatal("failed to drop function field: ", err.Error())
 }
