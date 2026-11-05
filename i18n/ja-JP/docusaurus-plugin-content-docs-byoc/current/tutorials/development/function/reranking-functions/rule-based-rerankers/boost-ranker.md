@@ -1,7 +1,6 @@
 ---
 title: "Boost Ranker | BYOC"
 slug: /boost-ranker
-sidebar_label: "Boost Ranker"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "ベクトル距離に基づいて計算されるセマンティック類似度のみに依存するのではなく、Boost Ranker を使用すると、検索結果に有意義な影響を及ぼすことができます。メタデータフィルタリングを使用して検索結果をすばやく調整するのに適しています。 | BYOC"
 type: origin
-token: Qa60w2vDuiqNk0kclKLcZ0uQnkg
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-boost-ranker
+sidebar_label: "Boost Ranker"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/boost-ranker.md"
 
 ---
 
@@ -23,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 ベクトル距離に基づく意味的類似度だけに依存するのではなく、Boost Ranker を使うことで検索結果に意図した影響を与えられます。メタデータフィルタリングを用いて検索結果を素早く調整したい場合に最適です。
 
-検索リクエストに Boost Ranker 関数が含まれる場合、Milvus は関数内の任意のフィルタリング条件を使用して検索結果の候補から一致するものを特定し、指定された重みを適用してそれらのスコアをブーストすることで、最終結果における一致したエンティティの順位を上げ下げします。
+検索リクエストに Boost Ranker 関数が含まれている場合、Zilliz Cloud は関数内の任意のフィルタリング条件を使用して検索結果の候補の中から一致するものを見つけ、指定された重みを適用して一致した候補のスコアを引き上げます。これにより、最終結果で一致したエンティティのランキングを上げたり下げたりできます。
 
 ## Boost Ranker の使用場面\{#when-to-use-boost-ranker}
 
@@ -52,17 +53,17 @@ import TabItem from '@theme/TabItem';
 
 次の図は、Boost Ranker の主なワークフローを示しています。
 
-![Hq0awfjC7h0Ty3bvsUEcasOHncb](https://zdoc-images.s3.us-west-2.amazonaws.com/Hq0awfjC7h0Ty3bvsUEcasOHncb.png)
+![Boost Ranker の仕組み](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/13de86105cb1246c210e64045ffad69412da8b921ab9329558d099e0c04708c3.png)
 
-データを挿入すると、Zilliz Cloud はそれをセグメント全体に分散します。検索時には、各セグメントが候補セットを返し、Zilliz Cloud がすべてのセグメントの候補をランク付けして最終結果を生成します。検索リクエストに Boost Ranker が含まれる場合、Zilliz Cloud は潜在的な精度低下を防ぎ再現率を向上させるため、各セグメントの候補結果に Boost Ranker を適用します。
+データを挿入すると、Zilliz Cloud はデータをセグメントに分散します。検索時には各セグメントが候補セットを返し、Zilliz Cloud がすべてのセグメントの候補をランク付けして最終結果を生成します。検索リクエストに Boost Ranker が含まれている場合、Zilliz Cloud は各セグメントの候補結果にそれを適用し、潜在的な精度の低下を防ぎ、再現率を向上させます。
 
-結果を確定する前に、Milvus は Boost Ranker を使用してこれらの候補を次のように処理します。
+最終結果を確定する前に、Zilliz Cloud は Boost Ranker を使用してこれらの候補を次のように処理します。
 
 1. Boost Ranker で指定された任意のフィルタリング式を適用し、その式に一致するエンティティを特定します。
 
 1. Boost Ranker で指定された重みを適用し、特定されたエンティティのスコアをブーストします。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Boost Ranker はマルチベクトルハイブリッド検索では使用できません。
 
@@ -74,56 +75,268 @@ Boost Ranker はマルチベクトルハイブリッド検索では使用でき�
 
 1. **セグメント内の検索結果候補を収集します。**
 
-    以下の表では、Milvus がエンティティを 2 つのセグメント（**0001** と **0002**）に分散し、各セグメントが 5 つの候補を返すことを想定しています。
+    次の表では、Zilliz Cloud がエンティティを 2 つのセグメント（**0001** と **0002**）に分散し、各セグメントが 5 つの候補を返すことを想定しています。
 
-    | ID | DocType | スコア | ランク | セグメント |
-    | --- | --- | --- | --- | --- |
-    | 117 | abstract | 0.344 | 1 | 0001 |
-    | 89 | abstract | 0.456 | 2 | 0001 |
-    | 257 | body | 0.578 | 3 | 0001 |
-    | 358 | title | 0.788 | 4 | 0001 |
-    | 168 | body | 0.899 | 5 | 0001 |
-    | 46 | body | 0.189 | 1 | 0002 |
-    | 48 | body | 0265 | 2 | 0002 |
-    | 561 | abstract | 0.366 | 3 | 0002 |
-    | 344 | abstract | 0.444 | 4 | 0002 |
-    | 276 | abstract | 0.845 | 5 | 0002 |
+    <table>
+       <tr>
+         <th><p>ID</p></th>
+         <th><p>DocType</p></th>
+         <th><p>スコア</p></th>
+         <th><p>ランク</p></th>
+         <th><p>セグメント</p></th>
+       </tr>
+       <tr>
+         <td><p>117</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.344</p></td>
+         <td><p>1</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>89</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.456</p></td>
+         <td><p>2</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>257</p></td>
+         <td><p>body</p></td>
+         <td><p>0.578</p></td>
+         <td><p>3</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>358</p></td>
+         <td><p>title</p></td>
+         <td><p>0.788</p></td>
+         <td><p>4</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>168</p></td>
+         <td><p>body</p></td>
+         <td><p>0.899</p></td>
+         <td><p>5</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>46</p></td>
+         <td><p>body</p></td>
+         <td><p>0.189</p></td>
+         <td><p>1</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>48</p></td>
+         <td><p>body</p></td>
+         <td><p>0265</p></td>
+         <td><p>2</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>561</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.366</p></td>
+         <td><p>3</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>344</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.444</p></td>
+         <td><p>4</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>276</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.845</p></td>
+         <td><p>5</p></td>
+         <td><p>0002</p></td>
+       </tr>
+    </table>
 
 1. **Boost Ranker で指定されたフィルタリング式を適用します**（`doctype='abstract'`）。
 
-    以下の表の `DocType` フィールドに示されるように、Milvus は `doctype` が `abstract` に設定されているすべてのエンティティを以降の処理対象としてマークします。
+    次の表の `DocType` フィールドに示すように、Zilliz Cloud は `doctype` が `abstract` に設定されているすべてのエンティティを後続の処理対象としてマークします。
 
-    | ID | DocType | スコア | ランク | セグメント |
-    | --- | --- | --- | --- | --- |
-    | **117** | **abstract** | **0.344** | **1** | **0001** |
-    | **89** | **abstract** | **0.456** | **2** | **0001** |
-    | 257 | body | 0.578 | 3 | 0001 |
-    | 358 | title | 0.788 | 4 | 0001 |
-    | 168 | body | 0.899 | 5 | 0001 |
-    | 46 | body | 0.189 | 1 | 0002 |
-    | 48 | body | 0265 | 2 | 0002 |
-    | **561** | **abstract** | **0.366** | **3** | **0002** |
-    | **344** | **abstract** | **0.444** | **4** | **0002** |
-    | **276** | **abstract** | **0.845** | **5** | **0002** |
+    <table>
+       <tr>
+         <th><p>ID</p></th>
+         <th><p>DocType</p></th>
+         <th><p>スコア</p></th>
+         <th><p>ランク</p></th>
+         <th><p>セグメント</p></th>
+       </tr>
+       <tr>
+         <td><p><strong>117</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.344</strong></p></td>
+         <td><p><strong>1</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>89</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.456</strong></p></td>
+         <td><p><strong>2</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>257</p></td>
+         <td><p>body</p></td>
+         <td><p>0.578</p></td>
+         <td><p>3</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>358</p></td>
+         <td><p>title</p></td>
+         <td><p>0.788</p></td>
+         <td><p>4</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>168</p></td>
+         <td><p>body</p></td>
+         <td><p>0.899</p></td>
+         <td><p>5</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>46</p></td>
+         <td><p>body</p></td>
+         <td><p>0.189</p></td>
+         <td><p>1</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>48</p></td>
+         <td><p>body</p></td>
+         <td><p>0265</p></td>
+         <td><p>2</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>561</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.366</strong></p></td>
+         <td><p><strong>3</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>344</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.444</strong></p></td>
+         <td><p><strong>4</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>276</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.845</strong></p></td>
+         <td><p><strong>5</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+    </table>
 
 1. **Boost Ranker で指定された重みを適用します**（`weight=0.5`）。
 
-    前のステップで特定されたすべてのエンティティには、Boost Ranker で指定された重みが乗算され、その結果、ランクが変化します。
+    前の手順で特定されたすべてのエンティティに、Boost Ranker で指定された重みが乗算され、ランクが変化します。
 
-    | ID | DocType | スコア | 重み付きスコア<br/>（= スコア × 重み） | ランク | セグメント |
-    | --- | --- | --- | --- | --- | --- |
-    | **117** | **abstract** | **0.344** | **0.172** | **1** | **0001** |
-    | **89** | **abstract** | **0.456** | **0.228** | **2** | **0001** |
-    | 257 | body | 0.578 | 0.578 | 3 | 0001 |
-    | 358 | title | 0.788 | 0.788 | 4 | 0001 |
-    | 168 | body | 0.899 | 0.899 | 5 | 0001 |
-    | **561** | **abstract** | **0.366** | **0.183** | **1** | **0002** |
-    | 46 | body | 0.189 | 0.189 | 2 | 0002 |
-    | **344** | **abstract** | **0.444** | **0.222** | **3** | **0002** |
-    | 48 | body | 0.265 | 0.265 | 4 | 0002 |
-    | **276** | **abstract** | **0.845** | **0.423** | **5** | **0002** |
+    <table>
+       <tr>
+         <th><p>ID</p></th>
+         <th><p>DocType</p></th>
+         <th><p>スコア</p></th>
+         <th><p>重み付きスコア </p><p>（= スコア × 重み）</p></th>
+         <th><p>ランク</p></th>
+         <th><p>セグメント</p></th>
+       </tr>
+       <tr>
+         <td><p><strong>117</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.344</strong></p></td>
+         <td><p><strong>0.172</strong></p></td>
+         <td><p><strong>1</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>89</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.456</strong></p></td>
+         <td><p><strong>0.228</strong></p></td>
+         <td><p><strong>2</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>257</p></td>
+         <td><p>body</p></td>
+         <td><p>0.578</p></td>
+         <td><p>0.578</p></td>
+         <td><p>3</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>358</p></td>
+         <td><p>title</p></td>
+         <td><p>0.788</p></td>
+         <td><p>0.788</p></td>
+         <td><p>4</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>168</p></td>
+         <td><p>body</p></td>
+         <td><p>0.899</p></td>
+         <td><p>0.899</p></td>
+         <td><p>5</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>561</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.366</strong></p></td>
+         <td><p><strong>0.183</strong></p></td>
+         <td><p><strong>1</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>46</p></td>
+         <td><p>body</p></td>
+         <td><p>0.189</p></td>
+         <td><p>0.189</p></td>
+         <td><p>2</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>344</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.444</strong></p></td>
+         <td><p><strong>0.222</strong></p></td>
+         <td><p><strong>3</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>48</p></td>
+         <td><p>body</p></td>
+         <td><p>0.265</p></td>
+         <td><p>0.265</p></td>
+         <td><p>4</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>276</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.845</strong></p></td>
+         <td><p><strong>0.423</strong></p></td>
+         <td><p><strong>5</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+    </table>
 
-    <Admonition type="info" title="Notes">
+    <Admonition type="info" icon="📘" title="Notes">
 
     重みは自由に選択できる浮動小数点数である必要があります。上記の例のようにスコアが小さいほど関連性が高い場合は、**1** より小さい重みを使用します。それ以外の場合は、**1** より大きい重みを使用します。
 
@@ -131,13 +344,56 @@ Boost Ranker はマルチベクトルハイブリッド検索では使用でき�
 
 1. **重み付きスコアに基づいてすべてのセグメントの候補を集約し、最終結果を確定します。**
 
-    | ID | DocType | スコア | 重み付きスコア | ランク | セグメント |
-    | --- | --- | --- | --- | --- | --- |
-    | **117** | **abstract** | **0.344** | **0.172** | **1** | **0001** |
-    | **561** | **abstract** | **0.366** | **0.183** | **2** | **0002** |
-    | 46 | body | 0.189 | 0.189 | 3 | 0002 |
-    | **344** | **abstract** | **0.444** | **0.222** | **4** | **0002** |
-    | **89** | **abstract** | **0.456** | **0.228** | **5** | **0001** |
+    <table>
+       <tr>
+         <th><p>ID</p></th>
+         <th><p>DocType</p></th>
+         <th><p>スコア</p></th>
+         <th><p>重み付きスコア</p></th>
+         <th><p>ランク</p></th>
+         <th><p>セグメント</p></th>
+       </tr>
+       <tr>
+         <td><p><strong>117</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.344</strong></p></td>
+         <td><p><strong>0.172</strong></p></td>
+         <td><p><strong>1</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>561</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.366</strong></p></td>
+         <td><p><strong>0.183</strong></p></td>
+         <td><p><strong>2</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>46</p></td>
+         <td><p>body</p></td>
+         <td><p>0.189</p></td>
+         <td><p>0.189</p></td>
+         <td><p>3</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>344</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.444</strong></p></td>
+         <td><p><strong>0.222</strong></p></td>
+         <td><p><strong>4</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>89</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.456</strong></p></td>
+         <td><p><strong>0.228</strong></p></td>
+         <td><p><strong>5</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+    </table>
 
 ## Boost Ranker の使用方法\{#usage-of-boost-ranker}
 
@@ -160,7 +416,7 @@ rerank = Function(
     params={
         "reranker": "boost",
         "filter": "doctype == 'abstract'",
-        "random_score": { 
+        "random_score": {
             "seed": 126,
             "field": "id"
         },
@@ -222,6 +478,9 @@ let rerank = Function::new()
 <TabItem value='c++'>
 
 ```c++
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
 auto rerank = std::make_shared<milvus::BoostRerank>("boost");
 rerank->SetFilter("doctype == 'abstract'");
 rerank->SetWeight(0.5);
@@ -274,6 +533,7 @@ export RANKER='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 <table>
@@ -286,8 +546,8 @@ export RANKER='{
    <tr>
      <td><p><code>name</code></p></td>
      <td><p>はい</p></td>
-     <td><p>この Function の一意の識別子</p></td>
-     <td><p><code>&quot;boost&quot;</code></p></td>
+     <td><p>この Function の一意の識別子です。</p></td>
+     <td><p><code>"boost"</code></p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
@@ -304,26 +564,26 @@ export RANKER='{
    <tr>
      <td><p><code>params.reranker</code></p></td>
      <td><p>はい</p></td>
-     <td><p>reranker のタイプを指定します。</p><p>Boost Ranker を使用するには <code>boost</code> に設定する必要があります。</p></td>
-     <td><p><code>&quot;boost&quot;</code></p></td>
+     <td><p>再ランカーのタイプを指定します。</p><p>Boost Ranker を使用するには、<code>boost</code> に設定する必要があります。</p></td>
+     <td><p><code>"boost"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.weight</code></p></td>
      <td><p>はい</p></td>
-     <td><p>生の検索結果において、一致するエンティティのスコアに乗算される重みを指定します。</p><p>値は浮動小数点数である必要があります。</p><ul><li><p>一致するエンティティの重要性を高めるには、スコアを大きくする値を設定します。</p></li><li><p>一致するエンティティの優先度を下げるには、スコアを小さくする値を指定します。</p></li></ul></td>
+     <td><p>生の検索結果で一致するエンティティのスコアに乗算される重みを指定します。</p><p>値は浮動小数点数である必要があります。</p><ul><li><p>一致するエンティティの重要度を強調するには、スコアを引き上げる値を設定します。</p></li><li><p>一致するエンティティを降格するには、スコアを下げる値をこのパラメーターに割り当てます。</p></li></ul></td>
      <td><p><code>1</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.filter</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p>検索結果のエンティティの中から一致するものを特定するために使用するフィルター式を指定します。<a href="./filtering-overview">フィルタリングの説明</a> に記載されている任意の有効な基本フィルター式を使用できます。</p><p><strong>注</strong>：使用できるのは <code>==</code>、<code>&gt;</code>、<code>&lt;</code> などの基本演算子だけです。<code>text_match</code> や <code>phrase_match</code> などの高度な演算子を使用すると、検索パフォーマンスが低下します。</p></td>
-     <td><p><code>&quot;doctype == 'abstract'&quot;</code></p></td>
+     <td><p>検索結果のエンティティの中から一致するものを特定するために使用するフィルター式を指定します。<a href="./filtering-overview">Filtering Explained</a> に記載されている任意の有効な基本フィルター式を使用できます。</p><p><strong>注意</strong>：<code>==</code>、<code>&gt;</code>、<code>&lt;</code> などの基本演算子のみを使用してください。<code>text_match</code> や <code>phrase_match</code> などの高度な演算子を使用すると、検索パフォーマンスが低下します。</p></td>
+     <td><p><code>"doctype == 'abstract'"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.random_score</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p><code>0</code> から <code>1</code> の範囲の値をランダムに生成する関数を指定します。以下の 2 つのオプション引数があります。</p><ul><li><p><code>seed</code>（number）疑似乱数生成器（PRNG）を開始するために使用される初期値を指定します。</p></li><li><p><code>field</code>（string）乱数の生成時にランダム因子として使用されるフィールド名を指定します。一意の値を持つフィールドであれば問題ありません。</p></li></ul><p>同じシードとフィールド値を使用して生成ごとの一貫性を確保するため、<code>seed</code> と <code>field</code> の両方を設定することを推奨します。</p></td>
-     <td><p><code>\{&quot;seed&quot;: 126, &quot;field&quot;: &quot;id&quot;\}</code></p></td>
+     <td><p><code>0</code> から <code>1</code> の間の値をランダムに生成するランダム関数を指定します。次の 2 つのオプション引数があります。</p><ul><li><p><code>seed</code>（数値）は、疑似乱数生成器（PRNG）を開始するために使用する初期値を指定します。</p></li><li><p><code>field</code>（文字列）は、乱数の生成時にランダム要素として値が使用されるフィールドの名前を指定します。一意の値を持つフィールドで十分です。</p><p>同じシードとフィールド値を使用して生成間の一貫性を確保するために、<code>seed</code> と <code>field</code> の両方を設定することをお勧めします。</p></li></ul></td>
+     <td><p><code>\{"seed": 126, "field": "id"\}</code></p></td>
    </tr>
 </table>
 
@@ -337,7 +597,7 @@ Boost Ranker 関数の準備ができたら、検索リクエストでそれを�
 ```python
 from pymilvus import MilvusClient
 
-# Connect to the Milvus server
+# Connect to your cluster
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
@@ -441,9 +701,10 @@ println!("{:?}", response);
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
 #include <iostream>
+#include <memory>
 #include <vector>
+#include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -479,7 +740,7 @@ if (!status.IsOk()) {
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-// Connect to the Milvus server
+// Connect to your cluster
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
   token: 'YOUR_CLUSTER_TOKEN'
@@ -506,13 +767,14 @@ console.log('Search results:', searchResults);
 
 ```bash
 # restful
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export MILVUS_TOKEN="YOUR_CLUSTER_TOKEN"
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
-  -H "Content-Type: application/json" \
-  -H "Request-Timeout: 10" \
-  -H "Authorization: Bearer ${MILVUS_TOKEN}" \
-  -d '{
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--header "Authorization: Bearer ${TOKEN}" \
+-d '{
     "collectionName": "my_collection",
     "data": [[-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]],
     "annsField": "vector",
@@ -534,17 +796,18 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
             }
         ]
     }
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 複数の Boost Ranker を使用した検索\{#search-with-multiple-boost-rankers}
 
 1 回の検索で複数の Boost Ranker を組み合わせて、検索結果に影響を与えることができます。そのためには、複数の Boost Ranker を作成し、それらを **FunctionScore** インスタンスで参照し、その **FunctionScore** インスタンスを検索リクエストの ranker として使用します。
 
-以下の例では、**0.8** から **1.2** の間の重みを適用して、特定されたすべてのエンティティのスコアを変更する方法を示します。
+次の例は、**0.8** から **1.2** の間の重みを適用して、特定されたすべてのエンティティのスコアを変更する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -580,7 +843,7 @@ random_weight_ranker = Function(
 # Create a Function Score
 ranker = FunctionScore(
     functions=[
-        fix_weight_ranker, 
+        fix_weight_ranker,
         random_weight_ranker
     ],
     params={
@@ -743,6 +1006,7 @@ println!("{:?}", response);
 
 ```c++
 #include <iostream>
+#include <memory>
 #include <vector>
 
 auto fix_weight_ranker = std::make_shared<milvus::BoostRerank>("boost");
@@ -828,13 +1092,14 @@ await client.search({
 
 ```bash
 # restful
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export MILVUS_TOKEN="YOUR_CLUSTER_TOKEN"
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
-  -H "Content-Type: application/json" \
-  -H "Request-Timeout: 10" \
-  -H "Authorization: Bearer ${MILVUS_TOKEN}" \
-  -d '{
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--header "Authorization: Bearer ${TOKEN}" \
+-d '{
     "collectionName": "my_collection",
     "data": [[-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]],
     "annsField": "vector",
@@ -869,13 +1134,14 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
             "function_mode": "Sum"
         }
     }
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
-具体的には、2 つの Boost Ranker があります。一方は検出されたすべてのエンティティに固定の重みを適用し、もう一方はそれらにランダムな重みを割り当てます。次に、これら 2 つの ranker を **FunctionScore** で参照します。この **FunctionScore** では、重みが検出されたエンティティのスコアにどのように影響するかも定義します。
+具体的には、2 つの Boost Ranker があります。1 つは見つかったすべてのエンティティに固定の重みを適用し、もう 1 つはそれらにランダムな重みを割り当てます。次に、これら 2 つのランカーを **FunctionScore** で参照します。**FunctionScore** は、重みが見つかったエンティティのスコアにどのように影響するかも定義します。
 
 以下の表に、**FunctionScore** インスタンスの作成に必要なパラメーターを示します。
 
@@ -890,18 +1156,18 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
      <td><p><code>functions</code></p></td>
      <td><p>はい</p></td>
      <td><p>対象のランカーの名前をリストで指定します。</p></td>
-     <td><p><code>[&quot;fix_weight_ranker&quot;, &quot;random_weight_ranker&quot;]</code></p></td>
+     <td><p><code>["fix_weight_ranker", "random_weight_ranker"]</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.boost_mode</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p>指定された重みが一致するエンティティのスコアにどのように影響するかを指定します。</p><p>指定できる値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>重み付きの値が、一致するエンティティの元のスコアに指定された重みを乗算した値と等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>重み付きの値が、一致するエンティティの元のスコアと指定された重みの合計と等しいことを示します。</p></li></ul></td>
-     <td><p><code>&quot;Sum&quot;</code></p></td>
+     <td><p>指定された重みが一致するエンティティのスコアにどのように影響するかを指定します。</p><p>使用可能な値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>重み付きの値が、一致するエンティティの元のスコアに指定された重みを乗算した値と等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>重み付きの値が、一致するエンティティの元のスコアと指定された重みの合計と等しいことを示します。</p></li></ul></td>
+     <td><p><code>"Sum"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function_mode</code></p></td>
      <td><p>いいえ</p></td>
-     <td><p>複数の Boost Ranker からの重み付き値をどのように処理するかを指定します。</p><p>指定できる値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>一致するエンティティの最終スコアが、すべての Boost Ranker からの重み付き値の積と等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>一致するエンティティの最終スコアが、すべての Boost Ranker からの重み付き値の合計と等しいことを示します。</p></li></ul></td>
-     <td><p><code>&quot;Sum&quot;</code></p></td>
+     <td><p>さまざまな Boost Ranker からの重み付き値がどのように処理されるかを指定します。</p><p>使用可能な値は次のとおりです。</p><ul><li><p><code>Multiply</code></p><p>一致するエンティティの最終スコアが、すべての Boost Ranker からの重み付き値の積と等しいことを示します。</p><p>これがデフォルト値です。</p></li><li><p><code>Sum</code></p><p>一致するエンティティの最終スコアが、すべての Boost Ranker からの重み付き値の合計と等しいことを示します。</p></li></ul></td>
+     <td><p><code>"Sum"</code></p></td>
    </tr>
 </table>

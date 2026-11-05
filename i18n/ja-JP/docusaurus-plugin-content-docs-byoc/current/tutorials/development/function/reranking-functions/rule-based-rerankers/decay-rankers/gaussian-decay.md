@@ -1,7 +1,6 @@
 ---
 title: "ガウス減衰 | BYOC"
 slug: /gaussian-decay
-sidebar_label: "ガウス減衰"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "ガウス減衰（正規減衰とも呼ばれます）は、検索結果に対して最も自然な感覚の調整を実現します。距離に応じて徐々にぼやける人間の視覚と同様に、ガウス減衰は滑らかな釣鐘型の曲線を作成し、アイテムが理想的な地点から離れるにつれて関連性を穏やかに低下させます。このアプローチは、優先範囲のすぐ外にあるアイテムに厳しいペナルティを与えず、遠くにあるアイテムの関連性は大幅に低下させる、バランスの取れた減衰が必要な場合に最適です。 | BYOC"
 type: origin
-token: G39mw621Yi3iICkv69JcQ0J5nHf
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-gaussian-decay
+sidebar_label: "ガウス減衰"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/gaussian-decay.md"
 
 ---
 
@@ -35,12 +36,33 @@ import TabItem from '@theme/TabItem';
 
 ガウス減衰は、次のような場面で特に効果を発揮します。
 
-| ユースケース | 例 | ガウス減衰が適している理由 |
-| --- | --- | --- |
-| 位置情報に基づく検索 | レストラン検索アプリ、店舗ロケーター | 距離の関連性に対する人間の自然な知覚を模倣します。 |
-| コンテンツレコメンデーション | 記事の公開日時に基づく提案 | コンテンツの経過時間に応じて関連性が徐々に低下します。 |
-| 商品リスト | 目標価格に近い価格のアイテム | 価格が目標値から外れるにつれて関連性が滑らかに低下します。 |
-| 専門知識のマッチング | 関連する経験を持つ専門家の検索 | 経験の関連性をバランスよく評価します。 |
+<table>
+   <tr>
+     <th><p>ユースケース</p></th>
+     <th><p>例</p></th>
+     <th><p>ガウス減衰が適している理由</p></th>
+   </tr>
+   <tr>
+     <td><p>位置情報に基づく検索</p></td>
+     <td><p>レストラン検索、店舗検索ツール</p></td>
+     <td><p>距離と関連性に対する人間の自然な知覚を模倣します。</p></td>
+   </tr>
+   <tr>
+     <td><p>コンテンツのレコメンデーション</p></td>
+     <td><p>公開日に基づく記事の提案</p></td>
+     <td><p>コンテンツの経過時間に伴い、関連性が徐々に低下します。</p></td>
+   </tr>
+   <tr>
+     <td><p>商品一覧</p></td>
+     <td><p>目標価格に近い商品</p></td>
+     <td><p>価格が目標から外れるにつれて、関連性が滑らかに低下します。</p></td>
+   </tr>
+   <tr>
+     <td><p>専門性のマッチング</p></td>
+     <td><p>関連する経験を持つ専門家の検索</p></td>
+     <td><p>経験の関連性をバランスよく評価します。</p></td>
+   </tr>
+</table>
 
 アプリケーションで、厳しいペナルティや厳格なカットオフなしに、関連性が自然に低下する感覚が必要な場合、ガウス減衰が最適な選択肢となる可能性があります。
 
@@ -48,7 +70,7 @@ import TabItem from '@theme/TabItem';
 
 ガウス減衰は、理想的な地点からの距離が増すにつれて関連性を徐々に低下させる、滑らかな釣鐘型の曲線を作成します。数学者カール・フリードリヒ・ガウスにちなんで名付けられたこの分布は、自然界や統計で頻繁に見られるため、人間の知覚にとって非常に直感的に感じられる理由が説明できます。
 
-![DP1AbcqZPoyfqhxpJ2icptjQnfc](https://zdoc-images.s3.us-west-2.amazonaws.com/dp1abcqzpoyfqhxpj2icptjqnfc.png "DP1AbcqZPoyfqhxpJ2icptjQnfc")
+![ガウス減衰](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a6ca4cf8682b134738bccdd41e3f763d629ec3d4132b9d5bd118f80b57334ab5.png)
 
 上のグラフは、モバイル検索アプリでガウス減衰がレストランのランキングにどのように影響するかを示しています。
 
@@ -80,25 +102,25 @@ $$
 
 これを平易な言葉で分解すると、次のようになります。
 
-1. フィールド値が原点からどれだけ離れているかを計算します:  $|fieldvalue_{doc} - origin|$
+1. フィールド値が原点からどれだけ離れているかを計算します: $|fieldvalue_{doc} - origin|$
 
-1. オフセットがある場合はそれを減算しますが、ゼロを下回らないようにします: $\max(0, distance - offset)$
+2. オフセットがある場合はそれを減算しますが、ゼロを下回らないようにします: $\max(0, distance - offset)$
 
-1. この調整済み距離を二乗します: $(adjusted\_distance)^2$
+3. この調整済み距離を二乗します: $(adjusted\_distance)^2$
 
-1. スケールと減衰パラメーターから計算される &#36;2\sigma^2$ で除算します。
+4. スケールと減衰パラメーターから計算される &#36;2\sigma^2$ で除算します。
 
-1. 負の指数を取ると、0 から 1 の間の値が得られます: $\exp(-value)$
+5. 負の指数を取ると、0 から 1 の間の値が得られます: $\exp(-value)$
 
-$\sigma^2$ の計算では、スケールと減衰パラメーターがガウス分布の標準偏差の二乗に変換されます。これにより、この関数に特徴的な釣鐘型の形状が与えられます。
+$\sigma^{2}$ の計算により、スケールパラメーターと減衰パラメーターがガウス分布の標準偏差の二乗に変換されます。これが、この関数に特徴的な釣鐘型の形状を与えています。
 
 ## ガウス減衰を使用する\{#use-gaussian-decay}
 
 ガウス減衰は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方に適用できます。以下は、この機能を実装するための主要なコードスニペットです。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-減衰関数を使用する前に、まず減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を含むコレクションを作成する必要があります。コレクションの設定、スキーマ定義、データ挿入を含む完全な動作例については、[チュートリアル: Milvus での時間ベースのランキングの実装](./tutorial-implement-time-based-ranking) を参照してください。
+減衰関数を使用する前に、まず、減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を含むコレクションを作成する必要があります。コレクションの設定、スキーマの定義、データの挿入を含む完全な動作例については、[チュートリアル: Zilliz Cloud で時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
@@ -255,10 +277,11 @@ rerank='{
     "decay": 0.5,
     "scale": 2000
   }
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 標準ベクトル検索に適用する\{#apply-to-standard-vector-search}
@@ -409,8 +432,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 float[] queryVector = [0.1f, 0.2f, 0.3f, 0.4f]; // Replace with your query vector
@@ -460,8 +482,9 @@ curl --request POST \
         ]
     },
     "consistencyLevel": "Strong"
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>

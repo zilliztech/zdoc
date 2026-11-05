@@ -133,7 +133,7 @@ Zilliz Cloud は、強整合性クエリで既存のエンティティを取得�
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
+from pymilvus import MilvusClient, FieldOp, DataType
 
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
@@ -182,6 +182,18 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.UpsertReq;
 import io.milvus.v2.service.vector.response.UpsertResp;
 import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Collections;
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import com.google.gson.JsonArray;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
@@ -230,6 +242,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/column"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx := context.Background()
@@ -342,6 +356,7 @@ client
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -489,13 +504,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.UpsertReq;
-import io.milvus.v2.service.vector.response.UpsertResp;
-import java.util.Arrays;
-import java.util.List;
-
 Gson gson = new Gson();
 
 List<JsonObject> data = Arrays.asList(
@@ -531,30 +539,6 @@ System.out.println(upsertResp);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
-
-if err != nil {
-    fmt.Println(err.Error())
-
-    // handle error
-}
-
-defer client.Close(ctx)
-
 titleColumn := column.NewColumnVarChar("title", []string{
     "Layour Design Reference", "Doraemon and His Friends", "Pikkachu and Pokemon",
 })
@@ -590,12 +574,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-
-let client = ClientV2::new(&config).await?;
-
 client
 
     .upsert(
@@ -652,19 +630,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-
-auto status = client->Connect(connect_param);
-
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::EntityRows data = {
     {{"id", 10}, {"vector", std::vector<float>{0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576}}, {"title", "Layour Design Reference"}, {"issue", "vol.34"}},
     {{"id", 11}, {"vector", std::vector<float>{0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531}}, {"title", "Doraemon and His Friends"}, {"issue", "vol.2"}},
@@ -692,8 +657,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 // 6. Upsert data in partitions
 const data = [
     {id: 10, vector: [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576], title: "Layour Design Reference", issue: "vol.34"},
@@ -802,11 +765,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.UpsertReq;
-import io.milvus.v2.service.vector.response.UpsertResp;
-import java.util.Arrays;
-
 JsonObject row1 = new JsonObject();
 
 row1.addProperty("id", 1);
@@ -845,30 +803,6 @@ System.out.println(upsertResp);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
-
-if err != nil {
-    fmt.Println(err.Error())
-
-    // handle error
-}
-
-defer client.Close(ctx)
-
 pkColumn := column.NewColumnInt64("id", []int64{1, 2})
 
 issueColumn := column.NewColumnVarChar("issue", []string{
@@ -894,12 +828,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-
-let client = ClientV2::new(&config).await?;
-
 client
 
     .upsert(
@@ -940,19 +868,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-
-auto status = client->Connect(connect_param);
-
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::EntityRows data = {{{"id", 1}, {"issue", "vol.14"}},
                            {{"id", 2}, {"issue", "vol.7"}}};
 
@@ -1071,12 +986,6 @@ client.upsert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.UpsertReq;
-import java.util.Collections;
-import java.util.List;
-import com.google.gson.Gson;
-
 Gson gson = new Gson();
 
 List<JsonObject> replacementData = Collections.singletonList(
@@ -1104,30 +1013,6 @@ client.upsert(UpsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
-
-if err != nil {
-    fmt.Println(err.Error())
-
-    // handle error
-}
-
-defer client.Close(ctx)
-
 _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
 
     WithInt64Column("pk", []int64{1}).
@@ -1149,12 +1034,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-
-let client = ClientV2::new(&config).await?;
-
 client
 
     .upsert(
@@ -1195,19 +1074,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-
-auto status = client->Connect(connect_param);
-
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"new", "trial", "premium"}}}};
 
 milvus::UpsertResponse resp_upsert;
@@ -1231,14 +1097,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-
-const token = "YOUR_CLUSTER_TOKEN";
-
-const client = new MilvusClient({address, token});
-
 await client.upsert({
     collection_name: "users",
     data: [{pk: 1, tags: ["new", "trial", "premium"]}],
@@ -1293,8 +1151,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import FieldOp
-
 client.upsert(
 
     collection_name="users",
@@ -1308,12 +1164,6 @@ client.upsert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.UpsertReq;
-import java.util.Collections;
-import java.util.List;
-import com.google.gson.Gson;
-
 Gson gson = new Gson();
 
 List<JsonObject> appendData = Collections.singletonList(
@@ -1349,30 +1199,6 @@ client.upsert(UpsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
-
-if err != nil {
-    fmt.Println(err.Error())
-
-    // handle error
-}
-
-defer client.Close(ctx)
-
 _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
 
     WithInt64Column("pk", []int64{1}).
@@ -1394,12 +1220,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-
-let client = ClientV2::new(&config).await?;
-
 client
 
     .upsert(
@@ -1447,19 +1267,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-
-auto status = client->Connect(connect_param);
-
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"premium"}}}};
 
 milvus::UpsertResponse resp_upsert;
@@ -1483,14 +1290,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-
-const token = "YOUR_CLUSTER_TOKEN";
-
-const client = new MilvusClient({address, token});
-
 await client.upsert({
     collection_name: "users",
     data: [{pk: 1, tags: ["premium"]}],
@@ -1535,13 +1334,6 @@ await client.upsert({
 <TabItem value='python'>
 
 ```python
-from pymilvus import DataType, FieldOp, MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 # 1. Create a collection with an ARRAY<VARCHAR> field
 schema = client.create_schema(enable_dynamic_field=False)
 schema.add_field("pk", DataType.INT64, is_primary=True)
@@ -1632,27 +1424,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.vector.request.InsertReq;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.request.UpsertReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
 Gson gson = new Gson();
 
 // 1. Create a collection with an ARRAY<VARCHAR> field
@@ -1774,23 +1545,54 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
+// 1. Create a collection with an ARRAY<VARCHAR> field
 
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
+schema := entity.NewSchema().WithDynamicFieldEnabled(false).
 
-ctx := context.Background()
+    WithField(entity.NewField().WithName("pk").WithIsPrimaryKey(true).WithDataType(entity.FieldTypeInt64)).
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+    WithField(entity.NewField().WithName("embedding").WithDataType(entity.FieldTypeFloatVector).WithDim(5)).
 
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
+    WithField(entity.NewField().WithName("tags").WithDataType(entity.FieldTypeArray).
+
+        WithElementType(entity.FieldTypeVarChar).WithMaxCapacity(8).WithMaxLength(32))
+
+if err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("users", schema).WithIndexOptions(
+
+    milvusclient.NewCreateIndexOption("users", "embedding", index.NewAutoIndex(entity.L2)))); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+// 2. Seed two entities
+
+if _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("users").
+
+    WithInt64Column("pk", []int64{1, 2}).
+
+    WithFloatVectorColumn("embedding", 5, [][]float32{{0.1, 0.2, 0.3, 0.4, 0.5}, {0.6, 0.7, 0.8, 0.9, 1.0}}).
+
+    WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"new"}, {"new", "trial"}}))); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+// 3. Append tags without reading the existing ARRAY values
+
+if _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
+
+    WithInt64Column("pk", []int64{1, 2}).
+
+    WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"premium", "vip"}, {"premium"}})).
+
+    WithArrayAppend("tags")); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("users"))
+
+res, err := client.Query(ctx, milvusclient.NewQueryOption("users").WithFilter("pk in [1, 2]").WithOutputFields("pk", "tags"))
 
 if err != nil {
     fmt.Println(err.Error())
@@ -1798,101 +1600,42 @@ if err != nil {
     // handle error
 }
 
-defer client.Close(ctx)
+fmt.Println(res)
 
-    // 1. Create a collection with an ARRAY<VARCHAR> field
+// Example output:
 
-    schema := entity.NewSchema().WithDynamicFieldEnabled(false).
+// pk 1: tags [new premium vip]
 
-        WithField(entity.NewField().WithName("pk").WithIsPrimaryKey(true).WithDataType(entity.FieldTypeInt64)).
+// pk 2: tags [new trial premium]
 
-        WithField(entity.NewField().WithName("embedding").WithDataType(entity.FieldTypeFloatVector).WithDim(5)).
+// 4. Remove matching tags without replacing the full ARRAY field
 
-        WithField(entity.NewField().WithName("tags").WithDataType(entity.FieldTypeArray).
+if _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
 
-            WithElementType(entity.FieldTypeVarChar).WithMaxCapacity(8).WithMaxLength(32))
+    WithInt64Column("pk", []int64{1, 2}).
 
-    if err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("users", schema).WithIndexOptions(
+    WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"new"}, {"trial"}})).
 
-        milvusclient.NewCreateIndexOption("users", "embedding", index.NewAutoIndex(entity.L2)))); err != nil {
-        fmt.Println(err.Error())
-        // handle error
-    }
+    WithArrayRemove("tags")); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 
-    // 2. Seed two entities
+res, err = client.Query(ctx, milvusclient.NewQueryOption("users").WithFilter("pk in [1, 2]").WithOutputFields("pk", "tags"))
 
-    if _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("users").
+if err != nil {
+    fmt.Println(err.Error())
 
-        WithInt64Column("pk", []int64{1, 2}).
+    // handle error
+}
 
-        WithFloatVectorColumn("embedding", 5, [][]float32{{0.1, 0.2, 0.3, 0.4, 0.5}, {0.6, 0.7, 0.8, 0.9, 1.0}}).
+fmt.Println(res)
 
-        WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"new"}, {"new", "trial"}}))); err != nil {
-        fmt.Println(err.Error())
-        // handle error
-    }
+// Example output:
 
-    // 3. Append tags without reading the existing ARRAY values
+// pk 1: tags [premium vip]
 
-    if _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
-
-        WithInt64Column("pk", []int64{1, 2}).
-
-        WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"premium", "vip"}, {"premium"}})).
-
-        WithArrayAppend("tags")); err != nil {
-        fmt.Println(err.Error())
-        // handle error
-    }
-
-    client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("users"))
-
-    res, err := client.Query(ctx, milvusclient.NewQueryOption("users").WithFilter("pk in [1, 2]").WithOutputFields("pk", "tags"))
-
-    if err != nil {
-        fmt.Println(err.Error())
-
-        // handle error
-
-    }
-
-    fmt.Println(res)
-
-    // Example output:
-
-    // pk 1: tags [new premium vip]
-
-    // pk 2: tags [new trial premium]
-
-    // 4. Remove matching tags without replacing the full ARRAY field
-
-    if _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
-
-        WithInt64Column("pk", []int64{1, 2}).
-
-        WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"new"}, {"trial"}})).
-
-        WithArrayRemove("tags")); err != nil {
-        fmt.Println(err.Error())
-        // handle error
-    }
-
-    res, err = client.Query(ctx, milvusclient.NewQueryOption("users").WithFilter("pk in [1, 2]").WithOutputFields("pk", "tags"))
-
-    if err != nil {
-        fmt.Println(err.Error())
-
-        // handle error
-
-    }
-
-    fmt.Println(res)
-
-    // Example output:
-
-    // pk 1: tags [premium vip]
-
-    // pk 2: tags [new premium]
+// pk 2: tags [new premium]
 ```
 
 </TabItem>
@@ -1900,241 +1643,235 @@ defer client.Close(ctx)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
+// 1. Create a collection with an ARRAY<VARCHAR> field
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let schema = CollectionSchema::new()
 
-let client = ClientV2::new(&config).await?;
+    .add_field(FieldSchema::new().name("pk").data_type(DataType::Int64).primary_key(true))
 
-    // 1. Create a collection with an ARRAY<VARCHAR> field
+    .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(5))
 
-    let schema = CollectionSchema::new()
+    .add_field(
 
-        .add_field(FieldSchema::new().name("pk").data_type(DataType::Int64).primary_key(true))
+        FieldSchema::new()
 
-        .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(5))
+            .name("tags")
 
-        .add_field(
+            .data_type(DataType::Array)
 
-            FieldSchema::new()
+            .element_type(DataType::VarChar)
 
-                .name("tags")
+            .max_capacity(8)
 
-                .data_type(DataType::Array)
+            .max_length(32),
+    );
 
-                .element_type(DataType::VarChar)
+client
 
-                .max_capacity(8)
+    .create_collection(
 
-                .max_length(32),
-        );
+        CreateCollectionRequest::builder().collection_name("users").schema(schema).build()?,
+    )
 
-    client
+    .await?;
 
-        .create_collection(
+client
 
-            CreateCollectionRequest::builder().collection_name("users").schema(schema).build()?,
-        )
+    .create_index(
 
-        .await?;
+        CreateIndexRequest::builder()
 
-    client
+            .collection_name("users")
 
-        .create_index(
+            .index_param(
 
-            CreateIndexRequest::builder()
+                IndexParam::new()
 
-                .collection_name("users")
+                    .field_name("embedding")
 
-                .index_param(
+                    .index_type(IndexType::AutoIndex)
 
-                    IndexParam::new()
+                    .metric_type(MetricType::L2),
+            )
 
-                        .field_name("embedding")
+            .build()?,
+    )
 
-                        .index_type(IndexType::AutoIndex)
+    .await?;
 
-                        .metric_type(MetricType::L2),
-                )
+client
+    .load_collection(LoadCollectionRequest::builder().collection_name("users").build()?)
+    .await?;
 
-                .build()?,
-        )
+// 2. Seed two entities
 
-        .await?;
+client
 
-    client
-        .load_collection(LoadCollectionRequest::builder().collection_name("users").build()?)
-        .await?;
+    .insert(
 
-    // 2. Seed two entities
+        InsertRequest::builder()
 
-    client
+            .collection_name("users")
 
-        .insert(
+            .columns(vec![
 
-            InsertRequest::builder()
+                FieldData::Int64 {
+                    name: "pk".into(),
+                    values: vec![1i64, 2],
+                },
+                FieldData::FloatVector {
+                    name: "embedding".into(),
+                    values: vec![vec![0.1, 0.2, 0.3, 0.4, 0.5], vec![0.6, 0.7, 0.8, 0.9, 1.0]],
+                },
+                FieldData::ArrayVarChar {
+                    name: "tags".into(),
+                    values: vec![vec!["new".to_string()], vec!["new".to_string(), "trial".to_string()]],
+                },
+            ])
 
-                .collection_name("users")
+            .build()?,
+    )
 
-                .columns(vec![
+    .await?;
 
-                    FieldData::Int64 {
-                        name: "pk".into(),
-                        values: vec![1i64, 2],
-                    },
-                    FieldData::FloatVector {
-                        name: "embedding".into(),
-                        values: vec![vec![0.1, 0.2, 0.3, 0.4, 0.5], vec![0.6, 0.7, 0.8, 0.9, 1.0]],
-                    },
-                    FieldData::ArrayVarChar {
-                        name: "tags".into(),
-                        values: vec![vec!["new".to_string()], vec!["new".to_string(), "trial".to_string()]],
-                    },
-                ])
+// 3. Append tags without reading the existing ARRAY values
 
-                .build()?,
-        )
+client
 
-        .await?;
+    .upsert(
 
-    // 3. Append tags without reading the existing ARRAY values
+        UpsertRequest::builder()
 
-    client
+            .insert(
 
-        .upsert(
+                InsertRequest::builder()
 
-            UpsertRequest::builder()
+                    .collection_name("users")
 
-                .insert(
+                    .columns(vec![
 
-                    InsertRequest::builder()
+                        FieldData::Int64 {
+                            name: "pk".into(),
+                            values: vec![1i64, 2],
+                        },
+                        FieldData::ArrayVarChar {
+                            name: "tags".into(),
+                            values: vec![
+                                vec!["premium".to_string(), "vip".to_string()],
+                                vec!["premium".to_string()],
+                            ],
+                        },
+                    ])
 
-                        .collection_name("users")
+                    .build()?,
+            )
 
-                        .columns(vec![
+            .field_ops(vec![
 
-                            FieldData::Int64 {
-                                name: "pk".into(),
-                                values: vec![1i64, 2],
-                            },
-                            FieldData::ArrayVarChar {
-                                name: "tags".into(),
-                                values: vec![
-                                    vec!["premium".to_string(), "vip".to_string()],
-                                    vec!["premium".to_string()],
-                                ],
-                            },
-                        ])
+                FieldPartialUpdateOp::new()
 
-                        .build()?,
-                )
+                    .field_name("tags")
 
-                .field_ops(vec![
+                    .op_type(FieldPartialUpdateOpType::ArrayAppend),
+            ])
 
-                    FieldPartialUpdateOp::new()
+            .build()?,
+    )
 
-                        .field_name("tags")
+    .await?;
 
-                        .op_type(FieldPartialUpdateOpType::ArrayAppend),
-                ])
+let res = client
 
-                .build()?,
-        )
+    .query(
 
-        .await?;
+        QueryRequest::builder()
 
-    let res = client
+            .collection_name("users")
 
-        .query(
+            .filter("pk in [1, 2]")
 
-            QueryRequest::builder()
+            .output_fields(vec!["pk".to_string(), "tags".to_string()])
 
-                .collection_name("users")
+            .build()?,
+    )
 
-                .filter("pk in [1, 2]")
+    .await?;
 
-                .output_fields(vec!["pk".to_string(), "tags".to_string()])
+println!("{res:?}");
 
-                .build()?,
-        )
+// Example output:
 
-        .await?;
+// pk 1: tags [new premium vip]
 
-    println!("{res:?}");
+// pk 2: tags [new trial premium]
 
-    // Example output:
+// 4. Remove matching tags without replacing the full ARRAY field
 
-    // pk 1: tags [new premium vip]
+client
 
-    // pk 2: tags [new trial premium]
+    .upsert(
 
-    // 4. Remove matching tags without replacing the full ARRAY field
+        UpsertRequest::builder()
 
-    client
+            .insert(
 
-        .upsert(
+                InsertRequest::builder()
 
-            UpsertRequest::builder()
+                    .collection_name("users")
 
-                .insert(
+                    .columns(vec![
 
-                    InsertRequest::builder()
+                        FieldData::Int64 {
+                            name: "pk".into(),
+                            values: vec![1i64, 2],
+                        },
+                        FieldData::ArrayVarChar {
+                            name: "tags".into(),
+                            values: vec![vec!["new".to_string()], vec!["trial".to_string()]],
+                        },
+                    ])
 
-                        .collection_name("users")
+                    .build()?,
+            )
 
-                        .columns(vec![
+            .field_ops(vec![
 
-                            FieldData::Int64 {
-                                name: "pk".into(),
-                                values: vec![1i64, 2],
-                            },
-                            FieldData::ArrayVarChar {
-                                name: "tags".into(),
-                                values: vec![vec!["new".to_string()], vec!["trial".to_string()]],
-                            },
-                        ])
+                FieldPartialUpdateOp::new()
 
-                        .build()?,
-                )
+                    .field_name("tags")
 
-                .field_ops(vec![
+                    .op_type(FieldPartialUpdateOpType::ArrayRemove),
+            ])
 
-                    FieldPartialUpdateOp::new()
+            .build()?,
+    )
 
-                        .field_name("tags")
+    .await?;
 
-                        .op_type(FieldPartialUpdateOpType::ArrayRemove),
-                ])
+let res = client
 
-                .build()?,
-        )
+    .query(
 
-        .await?;
+        QueryRequest::builder()
 
-    let res = client
+            .collection_name("users")
 
-        .query(
+            .filter("pk in [1, 2]")
 
-            QueryRequest::builder()
+            .output_fields(vec!["pk".to_string(), "tags".to_string()])
 
-                .collection_name("users")
+            .build()?,
+    )
 
-                .filter("pk in [1, 2]")
+    .await?;
 
-                .output_fields(vec!["pk".to_string(), "tags".to_string()])
+println!("{res:?}");
 
-                .build()?,
-        )
+// Example output:
 
-        .await?;
+// pk 1: tags [premium vip]
 
-    println!("{res:?}");
-
-    // Example output:
-
-    // pk 1: tags [premium vip]
-
-    // pk 2: tags [new premium]
+// pk 2: tags [new premium]
 ```
 
 </TabItem>
@@ -2142,17 +1879,6 @@ let client = ClientV2::new(&config).await?;
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
-
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 // 1. Create a collection with an ARRAY<VARCHAR> field
 
 milvus::CollectionSchema schema;
@@ -2235,10 +1961,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 // 1. Create a collection with an ARRAY<VARCHAR> field
 
 await client.createCollection({
@@ -2359,12 +2081,6 @@ client.upsert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.UpsertReq;
-import java.util.Collections;
-import com.google.gson.Gson;
-
 Gson gson = new Gson();
 
 // Build the StructArray value with all subfields
@@ -2425,30 +2141,6 @@ client.upsert(UpsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
-
-if err != nil {
-    fmt.Println(err.Error())
-
-    // handle error
-}
-
-defer client.Close(ctx)
-
 // Build the StructArray column with all subfields
 
 chunksColumn := column.NewColumnStructArray("chunks", []column.Column{
@@ -2481,12 +2173,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-
-let client = ClientV2::new(&config).await?;
-
 let chunks: Vec<Vec<StructValue>> = vec![vec![
 
     serde_json::from_value::<StructValue>(serde_json::json!({
@@ -2547,19 +2233,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-
-auto status = client->Connect(connect_param);
-
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 // Build the StructArray value with all subfields
 
 milvus::EntityRows data = {
@@ -2592,14 +2265,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-
-const token = "YOUR_CLUSTER_TOKEN";
-
-const client = new MilvusClient({address, token});
-
 await client.upsert({
     collection_name: "books",
     data: [
@@ -2644,7 +2309,6 @@ curl --request POST \
                 {"text": "Range search returns vectors within a distance boundary.", "section": "search", "page": 2, "quality_score": 0.86, "has_code": false, "emb_list_vector": [0.18, 0.23, 0.29, 0.36]}
             ]
         }
-
     ],
     "partialUpdate": true
 

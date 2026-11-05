@@ -1,17 +1,18 @@
 ---
 title: "INVERTED | BYOC"
 slug: /inverted-index-type
-sidebar_label: "INVERTED"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "データに対してフィルタークエリを頻繁に実行する必要がある場合、`INVERTED` インデックスはクエリパフォーマンスを大幅に向上させることができます。すべてのドキュメントをスキャンする代わりに、Zilliz Cloud は転置インデックスを使用して、フィルター条件に一致する正確なレコードを迅速に特定します。 | BYOC"
+description: "データに対してフィルタークエリを頻繁に実行する必要がある場合、INVERTED インデックスはクエリパフォーマンスを大幅に向上させることができます。すべてのドキュメントをスキャンする代わりに、転置インデックスはフィルター条件に一致する正確なレコードを迅速に特定します。 | BYOC"
 type: origin
-token: YNczwtWpFiN0CckMvDVcn0pvnEb
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-inverted-index-type
+sidebar_label: "INVERTED"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/inverted.md"
 
 ---
 
@@ -47,7 +48,7 @@ Zilliz Cloud の **INVERTED インデックス**は、各一意のフィール�
 
 たとえば、値 **"electronics"** は ID **1** と **3** にマッピングされ、**"books"** は ID **2** と **5** にマッピングされます。
 
-![A19NwPlGIh1YrGbSBZKcNKz0nhd](https://zdoc-images.s3.us-west-2.amazonaws.com/A19NwPlGIh1YrGbSBZKcNKz0nhd.png)
+![INVERTED インデックスの仕組み](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/b051da6520dabc1f7e1295a22f7a971ac076899887c806655dc8a8088b15c291.png)
 
 特定の値（例: `category == "electronics"`）でフィルターする場合、Zilliz Cloud はインデックス内のタームをルックアップし、一致する ID を直接取得します。これによりデータセット全体のスキャンが回避され、特にカテゴリ型の値や繰り返し出現する値に対して高速なフィルタリングが可能になります。
 
@@ -64,9 +65,9 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     ```python
     from pymilvus import MilvusClient
-    
+
     client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT") # Replace with your server address
-    
+
     # Create an empty index parameter object
     index_params = client.prepare_index_params()
     ```
@@ -78,7 +79,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
     ```java
     import io.milvus.v2.client.ConnectConfig;
     import io.milvus.v2.client.MilvusClientV2;
-    
+
     // Initialize Milvus client
     MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
             .uri("YOUR_CLUSTER_ENDPOINT") // Replace with your server address
@@ -93,13 +94,13 @@ JSON 以外のフィールドにインデックスを作成するには、次の
     import (
         "context"
         "fmt"
-    
+
         "github.com/milvus-io/milvus/client/v3/milvusclient"
     )
-    
+
     ctx, cancel := context.WithCancel(context.Background())
     defer cancel()
-    
+
     // Initialize Milvus client
     client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
         Address: "YOUR_CLUSTER_ENDPOINT", // Replace with your server address
@@ -116,7 +117,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     ```rust
     use milvus::v2::prelude::*;
-    
+
     // Initialize Milvus client
     let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT"); // Replace with your server address
     let client = ClientV2::new(&config).await?;
@@ -128,7 +129,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     ```c++
     #include "milvus/MilvusClientV2.h"
-    
+
     // Initialize Milvus client
     auto client = milvus::MilvusClientV2::Create();
     auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT")); // Replace with your server address
@@ -143,7 +144,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     ```javascript
     import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-    
+
     // Initialize Milvus client
     const client = new MilvusClient({
         address: "YOUR_CLUSTER_ENDPOINT", // Replace with your server address
@@ -155,11 +156,12 @@ JSON 以外のフィールドにインデックスを作成するには、次の
     <TabItem value='bash'>
 
     ```bash
-    export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Replace with your server address
+    export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
     export TOKEN="YOUR_CLUSTER_TOKEN"
     ```
 
     </TabItem>
+
     </Tabs>
 
 1. `INVERTED` インデックスを追加します。
@@ -182,7 +184,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     ```java
     import io.milvus.v2.common.IndexParam;
-    
+
     // Add the INVERTED index
     IndexParam indexParam = IndexParam.builder()
             .fieldName("category") // Name of the field to index
@@ -197,7 +199,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     ```go
     import "github.com/milvus-io/milvus/client/v3/index"
-    
+
     // Add the INVERTED index
     idx := index.NewInvertedIndex() // Specify INVERTED index type
     ```
@@ -231,7 +233,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     ```javascript
     import { IndexType } from "@zilliz/milvus2-sdk-node";
-    
+
     // Add the INVERTED index
     const indexParams = {
         field_name: "category", // Name of the field to index
@@ -248,16 +250,15 @@ JSON 以外のフィールドにインデックスを作成するには、次の
     # Add the INVERTED index
     export indexParams='[
         {
-            "fieldName": "category", # Name of the field to index
-            "indexName": "category_index", # Give your index a name
-            "params": {
-                "index_type": "INVERTED" # Specify INVERTED index type
-            }
+            "fieldName": "category",
+            "indexName": "category_index",
+            "indexType": "INVERTED"
         }
     ]'
     ```
 
     </TabItem>
+
     </Tabs>
 
 1. インデックスを作成します。
@@ -279,7 +280,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
     ```java
     import io.milvus.v2.service.index.request.CreateIndexReq;
     import java.util.Collections;
-    
+
     // Create the index
     client.createIndex(CreateIndexReq.builder()
             .collectionName("my_collection") // Replace with your collection name
@@ -294,10 +295,10 @@ JSON 以外のフィールドにインデックスを作成するには、次の
     ```go
     import (
         "fmt"
-    
+
         "github.com/milvus-io/milvus/client/v3/milvusclient"
     )
-    
+
     // Create the index
     _, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "category", idx).
         WithIndexName("category_index")) // Replace with your collection name
@@ -361,13 +362,15 @@ JSON 以外のフィールドにインデックスを作成するには、次の
     --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json" \
+    --header "Request-Timeout: 10" \
     -d "{
-        \"collectionName\": \"my_collection\", # Replace with your collection name
+        \"collectionName\": \"my_collection\",
         \"indexParams\": $indexParams
     }"
     ```
 
     </TabItem>
+
     </Tabs>
 
 ## JSON フィールドにインデックスを作成する\{#create-indexes-on-json-fields}
@@ -532,16 +535,17 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection", # Replace with your collection name
+    "collectionName": "my_collection",
     "indexParams": [
         {
-            "fieldName": "metadata", # JSON field name
+            "fieldName": "metadata",
             "indexName": "metadata_category_index",
+            "indexType": "INVERTED",
             "params": {
-                "index_type": "INVERTED",
-                "json_path": "metadata[\"category\"]", # Path to the JSON key
-                "json_cast_type": "varchar" # Data type to cast to during indexing
+                "json_path": "metadata[\"category\"]",
+                "json_cast_type": "varchar"
             }
         }
     ]
@@ -549,6 +553,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 サポートされるパス、データ型、制限事項など、JSON フィールドのインデックス作成の詳細については、[JSON Indexing](./json-indexing) を参照してください。
@@ -557,7 +562,7 @@ curl --request POST \
 
 コレクションから既存のインデックスを削除するには、`drop_index()` メソッドを使用します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、スカラーインデックスが不要になったら、コレクションを先にリリースする必要なく、直接削除できます。
 
@@ -683,6 +688,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "collectionName": "my_collection",
     "indexName": "category_index"
@@ -690,6 +696,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## ベストプラクティス\{#best-practices}

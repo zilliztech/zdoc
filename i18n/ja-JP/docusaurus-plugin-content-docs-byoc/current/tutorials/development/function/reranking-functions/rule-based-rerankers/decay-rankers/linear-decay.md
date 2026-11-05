@@ -1,7 +1,6 @@
 ---
 title: "Linear Decay | BYOC"
 slug: /linear-decay
-sidebar_label: "Linear Decay"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Linear decay は、検索結果内で絶対的なゼロ地点に達して終了する直線的な減少を作成します。今後開催されるイベントのカウントダウンのように、イベントが終了するまで関連性が徐々に薄れていくのと同様に、Linear decay は、アイテムが理想的な地点から離れるにつれて、関連性を予測可能かつ一定の割合で低下させ、完全に消えるまで続けます。このアプローチは、明確なカットオフを伴う一貫した減衰率が必要な場合に適しており、特定の境界を超えたアイテムが結果から完全に除外されることを保証します。 | BYOC"
 type: origin
-token: M7xHwZSIuiAP4Fkfm67cBU7Pn8g
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-linear-decay
+sidebar_label: "Linear Decay"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/linear-decay.md"
 
 ---
 
@@ -35,12 +36,33 @@ Linear decay は明確な終点を一意に作り出すため、自然な境界�
 
 Linear decay は、次のような場合に特に効果を発揮します。
 
-| ユースケース | 例 | Linear が効果的な理由 |
-| --- | --- | --- |
-| イベント一覧 | コンサートチケットプラットフォーム | 将来あまりに先のイベントに対して明確なカットオフを作成します。 |
-| 期間限定オファー | フラッシュセール、プロモーション | 期限切れまたはまもなく期限切れになるオファーが表示されないようにします。 |
-| 配達範囲 | フードデリバリー、宅配サービス | 厳格な地理的境界を適用します。 |
-| 年齢制限コンテンツ | マッチングプラットフォーム、メディアサービス | 厳格な年齢しきい値を設定します。 |
+<table>
+   <tr>
+     <th><p>ユースケース</p></th>
+     <th><p>例</p></th>
+     <th><p>Linear が適している理由</p></th>
+   </tr>
+   <tr>
+     <td><p>イベント一覧</p></td>
+     <td><p>コンサートチケットプラットフォーム</p></td>
+     <td><p>将来あまりに先のイベントに対して明確なカットオフを作成します。</p></td>
+   </tr>
+   <tr>
+     <td><p>期間限定オファー</p></td>
+     <td><p>フラッシュセール、プロモーション</p></td>
+     <td><p>期限切れまたはまもなく期限切れになるオファーが表示されないようにします。</p></td>
+   </tr>
+   <tr>
+     <td><p>配達範囲</p></td>
+     <td><p>フードデリバリー、宅配サービス</p></td>
+     <td><p>地理的な厳格な境界を適用します。</p></td>
+   </tr>
+   <tr>
+     <td><p>年齢制限コンテンツ</p></td>
+     <td><p>マッチングプラットフォーム、メディアサービス</p></td>
+     <td><p>年齢の厳格なしきい値を設定します。</p></td>
+   </tr>
+</table>
 
 次のような場合は Linear decay を選択してください。
 
@@ -56,13 +78,13 @@ Linear decay は、次のような場合に特に効果を発揮します。
 
 Linear decay は、一定の割合で低下し、正確にゼロに達するまで続く直線的な低下を作成します。このパターンは、カウントダウンタイマー、在庫の減少、締め切りの接近など、関連性に明確な有効期限がある多くの日常的なシナリオに見られます。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 すべての時間パラメーター（`origin`、`offset`、`scale`）は、コレクションデータと同じ単位を使用する必要があります。コレクションがタイムスタンプを異なる単位（ミリ秒、マイクロ秒）で保存している場合は、すべてのパラメーターをそれに応じて調整してください。
 
 </Admonition>
 
-![LNwQbV5FYo7OYbxaA1VcetPgnUh](https://zdoc-images.s3.us-west-2.amazonaws.com/lnwqbv5fyo7oybxaa1vcetpgnuh.png "LNwQbV5FYo7OYbxaA1VcetPgnUh")
+![Linear decay のグラフ](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/9c58cf91e1e7d4bc7abfc6bddeb113a25006d18e54c7b0596c682350d6a4282d.png)
 
 上のグラフは、Linear decay がチケット販売プラットフォームのイベント一覧にどのように影響するかを示しています。
 
@@ -89,20 +111,20 @@ $$
 ここで、
 
 $$
-s = \frac {scale}{(1.0 - decay)}
+s = \frac{scale}{(1.0 - decay)}
 $$
 
 これを平易な言葉で説明すると、次のようになります。
 
-1. フィールド値が origin からどれだけ離れているかを計算します：$|fieldvalue_{doc} - origin|$。
+1. フィールド値が origin からどれだけ離れているかを計算します：$|fieldvalue_{doc} - origin|$
 
-1. offset（存在する場合）を差し引きますが、ゼロ未満にはしません：$\max(0, distance - offset)$。
+2. オフセットを減算します（存在する場合）が、値がゼロを下回らないようにします：$\max(0, distance - offset)$
 
-1. scale と decay の値からパラメーター $s$ を求めます。
+3. scale と decay の値からパラメーター $s$ を求めます。
 
-1. 調整後の距離を $s$ から差し引き、その結果を $s$ で割ります。
+4. $s$ から調整済みの距離を減算し、$s$ で除算します。
 
-1. 結果がゼロ未満にならないようにします：$\max(result, 0)$。
+5. 結果がゼロを下回らないようにします：$\max(result, 0)$
 
 $s$ の計算では、scale と decay のパラメーターを、スコアがゼロに達する地点に変換します。たとえば、decay=0.5 かつ scale=7 の場合、スコアは distance=14（scale 値の 2 倍）で正確にゼロに達します。
 
@@ -110,7 +132,7 @@ $s$ の計算では、scale と decay のパラメーターを、スコアがゼ
 
 Linear decay は、Zilliz Cloud の標準的なベクトル検索とハイブリッド検索の両方の操作に適用できます。以下は、この機能を実装するための主要なコードスニペットです。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 decay 関数を使用する前に、まず decay 計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker Tutorial](./tutorial-implement-time-based-ranking) を参照してください。
 
@@ -120,7 +142,7 @@ decay 関数を使用する前に、まず decay 計算に使用する適切な�
 
 数値フィールド（この例では、現在からの秒数としての `event_date`）を使ってコレクションをセットアップした後、Linear decay ranker を作成します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **時間単位の一貫性**：時間ベースの decay を使用する場合、`origin`、`scale`、`offset` の各パラメーターがコレクションデータと同じ時間単位を使用していることを確認してください。コレクションがタイムスタンプを秒で保存している場合は、すべてのパラメーターに秒を使用してください。ミリ秒を使用している場合は、すべてのパラメーターにミリ秒を使用してください。
 
@@ -165,10 +187,10 @@ DecayRanker rerank = DecayRanker.builder()
         .name("event_relevance")
         .inputFieldNames(Collections.singletonList("event_date"))
         .function("linear")
-        .origin(System.currentTimeMillis())
-        .offset(12 * 60 * 60)
-        .decay(0.5)
-        .scale(7 * 24 * 60 * 60)
+        .origin(System.currentTimeMillis() / 1000)  // Current time (seconds, matching collection data)
+        .offset(12 * 60 * 60)            // 12 hour immediate events window (seconds)
+        .decay(0.5)                      // Half score at scale distance
+        .scale(7 * 24 * 60 * 60)         // 7 days (in seconds, matching collection data)
         .build();
 ```
 
@@ -248,7 +270,7 @@ const rerank = {
   params: {
     reranker: "decay",
     function: "linear",
-    origin: new Date(2025, 1, 15).getTime(),
+    origin: Math.floor(Date.now() / 1000), // Current time (seconds)
     offset: 12 * 60 * 60,
     decay: 0.5,
     scale: 7 * 24 * 60 * 60,
@@ -286,6 +308,7 @@ var rerank = new DecayRerank("event_relevance") // Function identifier
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 標準のベクトル検索に適用する\{#apply-to-standard-vector-search}
@@ -370,16 +393,16 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-    let function_score = FunctionScore::new().add_function(rerank);
-    let request = SearchRequest::builder()
-        .collection_name(collection_name)
-        .vectors(SearchVectors::Float(vec![your_query_vector]))
-        .vector_field("dense")
-        .limit(10)
-        .output_fields(vec!["title", "venue", "event_date"])
-        .rerank(function_score)
-        .build()?;
-    let resp = client.search(request).await?;
+let function_score = FunctionScore::new().add_function(rerank);
+let request = SearchRequest::builder()
+    .collection_name(collection_name)
+    .vectors(SearchVectors::Float(vec![your_query_vector]))
+    .vector_field("dense")
+    .limit(10)
+    .output_fields(vec!["title", "venue", "event_date"])
+    .rerank(function_score)
+    .build()?;
+let resp = client.search(request).await?;
 ```
 
 </TabItem>
@@ -457,4 +480,5 @@ var result = await client.SearchAsync(new SearchReq
 ```
 
 </TabItem>
+
 </Tabs>

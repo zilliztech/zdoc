@@ -1,17 +1,18 @@
 ---
 title: "RTREE | BYOC"
 slug: /rtree-index-type
-sidebar_label: "RTREE"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`RTREE` インデックスは、Zilliz Cloud の `GEOMETRY` フィールドに対するクエリを高速化するツリー構造のデータ構造です。コレクションが点、線、ポリゴンなどのジオメトリオブジェクトを Well-known text（WKT）形式で格納していて、空間フィルタリングを高速化したい場合は、`RTREE` が理想的な選択肢です。 | BYOC"
+description: "RTREE インデックスは、GEOMETRY フィールドに対するクエリを高速化するツリーベースのデータ構造です。コレクションに点、線、ポリゴンなどの幾何学オブジェクトが Well-known text（WKT）形式で格納されており、空間フィルタリングを高速化したい場合、RTREE は理想的な選択肢です。 | BYOC"
 type: origin
-token: RlY2wylVQiZswikT0G2cBHVznTf
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-rtree-index-type
+sidebar_label: "RTREE"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/rtree.md"
 
 ---
 
@@ -21,7 +22,7 @@ import TabItem from '@theme/TabItem';
 
 # RTREE
 
-`RTREE` インデックスは、Zilliz Cloud の `GEOMETRY` フィールドに対するクエリを高速化するツリー構造のデータ構造です。コレクションが点、線、ポリゴンなどのジオメトリオブジェクトを [Well-known text（WKT）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で格納していて、空間フィルタリングを高速化したい場合は、`RTREE` が理想的な選択肢です。
+`RTREE` インデックスは、Zilliz Cloud の `GEOMETRY` フィールドに対するクエリを高速化するツリーベースのデータ構造です。コレクションに点、線、ポリゴンなどの幾何学オブジェクトが [Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で格納されており、空間フィルタリングを高速化したい場合、`RTREE` は理想的な選択肢です。
 
 ## 仕組み\{#how-it-works}
 
@@ -35,7 +36,7 @@ Zilliz Cloud は `RTREE` インデックスを使用して、2 段階のプロ�
 
 1. **ルートノードを追加する:** すべての内部グループを MBR が覆うルートノードを追加し、高さのバランスが取れたツリー構造を形成します。
 
-![Asy8w0umqh9jJ1biNUHcialonfd](https://zdoc-images.s3.us-west-2.amazonaws.com/Asy8w0umqh9jJ1biNUHcialonfd.png)
+![RTREE の仕組み](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/3c531355142535757c91cd396b45f80beb23425dd634f801adf07460bf9d3a54.png)
 
 ### フェーズ 2: クエリを高速化する\{#phase-2-accelerate-queries}
 
@@ -260,14 +261,14 @@ curl --request POST \
             "fieldName": "geo",
             "indexName": "rtree_geo",
             "indexType": "RTREE",
-            "metricType": "",
             "params": {}
         }
     ]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## RTREE を使用したクエリ\{#query-with-rtree}
@@ -440,6 +441,7 @@ EOF
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 例 2: ベクトル検索 + 空間フィルター\{#example-2-vector-search-spatial-filter}
@@ -632,6 +634,7 @@ EOF
 ```
 
 </TabItem>
+
 </Tabs>
 
 `GEOMETRY` フィールドの使用方法の詳細については、[ジオメトリフィールド](./use-geometry-field) を参照してください。
@@ -640,7 +643,7 @@ EOF
 
 `drop_index()` メソッドを使用して、コレクションから既存のインデックスを削除します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。コレクションを先にリリースする必要はありません。
 
@@ -755,8 +758,9 @@ curl --request POST \
 -d '{
     "collectionName": "geo_demo",
     "indexName": "rtree_geo"
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
