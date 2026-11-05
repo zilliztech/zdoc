@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は AWS で利用できます。Google Cloud および Microsoft Azure では利用できません。
+この機能は AWS および Google Cloud で利用できます。Microsoft Azure では利用できません。
 
 </FeatureNote>
 

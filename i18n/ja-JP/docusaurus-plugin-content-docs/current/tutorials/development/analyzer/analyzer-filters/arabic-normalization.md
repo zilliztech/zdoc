@@ -48,10 +48,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("arabic_normalization"));
@@ -103,13 +99,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "standard",
@@ -169,10 +158,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("arabic_normalization"));
@@ -224,13 +209,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "standard",
@@ -281,7 +259,10 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -421,7 +402,7 @@ using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
-
+using System.Collections.Generic;
 using Milvus.Client.V2.Requests.Utility;
 
 var client = new MilvusClientV2(new ConnectConfig

@@ -30,7 +30,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は AWS で利用できます。Google Cloud および Microsoft Azure では利用できません。
+この機能は AWS および Google Cloud で利用できます。Microsoft Azure では利用できません。
 
 </FeatureNote>
 
@@ -77,9 +77,9 @@ AWS Key Management Service（KMS）は、データの暗号化と署名に使用
         <Admonition type="info" title="Notes">
 
         暗号化された Zilliz Cloud クラスターをあるクラウドリージョンから別のクラウドリージョンにバックアップした後、ターゲットリージョンでバックアップを復号するには、元のクラスターを暗号化したのと同じキーを使用する必要があります。
-
+        
         この場合、キーをバックアップをホストするリージョンにレプリケートし、既存の IAM ロールを使用して Zilliz Cloud に送信できます。
-
+        
         マルチリージョンレプリカキーの作成の詳細については、AWS ドキュメントの [このページ](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-replicate.html) を参照してください。
 
         </Admonition>
@@ -154,7 +154,7 @@ KMS キーを追加すると、次のように暗号化されたクラスター�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみを選択できます。
 
-1. サマリーを確認し、**Create Cluster** をクリックします。
+1. 概要を確認してから、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
@@ -175,3 +175,4 @@ KMS キーを追加すると、次のように暗号化されたクラスター�
 - このオプションを有効にすると、復元後に作成されるクラスターは、以下で指定する KMS キーを使用して暗号化されます。
 
 - このオプションを無効にすると、復元後に作成されるクラスターは暗号化されません。
+

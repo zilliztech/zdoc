@@ -224,7 +224,7 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
      <td><p>Loaded Entities (Approx.) ✦</p></td>
      <td><p>ロード済み（アクティブに提供中）のエンティティの概算数。</p></td>
      <td><p><strong>Serving クラスター only</strong>: Dedicated / BYOC</p></td>
-     <td><p>より正確でリアルタイムな値については、コレクション概要ページの「Loaded Entities」の値を参照するか、<a href="./single-vector-search">count(&ast;)</a> を使用してください。</p></td>
+     <td><p>For a more accurate and real-time value, please refer to the 'Loaded Entities' value on the コレクション overview page or use <a href="https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#RODmdMHPloOXv8xsPJCcvLdOnce">count(&ast;)</a>.</p></td>
    </tr>
    <tr>
      <td><p>Number of Unloaded コレクション</p></td>

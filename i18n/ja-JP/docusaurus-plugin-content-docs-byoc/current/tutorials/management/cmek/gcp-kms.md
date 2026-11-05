@@ -30,7 +30,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は AWS で利用できます。Google Cloud と Microsoft Azure では利用できません。
+この機能は AWS および Google Cloud で利用できます。Microsoft Azure では利用できません。
 
 </FeatureNote>
 
@@ -122,7 +122,7 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみ選択できます。
 
-1. Review the summary, then click **Create Cluster**.
+1. 概要を確認してから、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
@@ -143,4 +143,3 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 - このオプションを有効にすると、復元後に作成されるクラスターは、以下で指定する KMS キーを使用して暗号化されます。
 
 - このオプションを無効にすると、復元後に作成されるクラスターは暗号化されません。
-

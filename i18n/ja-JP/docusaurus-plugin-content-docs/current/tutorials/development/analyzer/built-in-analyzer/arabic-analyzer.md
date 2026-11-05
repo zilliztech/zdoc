@@ -43,9 +43,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "arabic");
 ```
@@ -93,8 +90,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["type"] = "arabic"
@@ -138,10 +133,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "arabic");
 analyzerParams.put("stop_words", Collections.singletonList("ميلفوس"));
@@ -193,8 +184,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["type"] = "arabic",
@@ -250,11 +239,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Arrays.asList(
@@ -339,8 +323,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "standard",
@@ -416,9 +398,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "arabic");
 ```
@@ -466,8 +445,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["type"] = "arabic"
@@ -509,6 +486,10 @@ print(result)
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Collections;
+import java.util.Arrays;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
@@ -641,6 +622,7 @@ console.log(res);
 <TabItem value='csharp'>
 
 ```csharp
+using System.Collections.Generic;
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
 
