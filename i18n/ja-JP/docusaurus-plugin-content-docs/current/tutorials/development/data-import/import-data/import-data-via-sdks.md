@@ -92,6 +92,11 @@ implementation 'io.minio:minio:8.5.9'
 
 ```python
 from minio import Minio
+from pymilvus import MilvusClient, DataType
+from pymilvus.bulk_writer import bulk_import
+import json
+from pymilvus.bulk_writer import get_import_progress
+from pymilvus.bulk_writer import list_import_jobs
 
 # Third-party constants
 ACCESS_KEY = "YOUR_ACCESS_KEY"
@@ -133,12 +138,6 @@ print([obj.object_name for obj in objects])
 <TabItem value='java'>
 
 ```java
-import io.minio.MinioClient;
-import io.minio.Result;
-import io.minio.ListObjectsArgs;
-import io.minio.messages.Item;
-import java.util.Iterator;
-
 // Third-party constants
 String ACCESS_KEY = "YOUR_ACCESS_KEY";
 String SECRET_KEY = "YOUR_SECRET_KEY";
@@ -177,8 +176,6 @@ for (Result<Item> result : results) {
 <TabItem value='python'>
 
 ```python
-from pymilvus.bulk_writer import bulk_import
-
 # The value of the URL is fixed.
 url = "https://api.cloud.zilliz.com"
 api_key = ""
@@ -240,8 +237,6 @@ System.out.println("Create a bulkImport task, job id: " + jobId);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // The value of the URL is fixed.
 let config = BulkImportConfig::new()
     .url("https://api.cloud.zilliz.com")
@@ -282,15 +277,6 @@ println!("{:?}", resp.job_id());
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Utility;
-
 // The value of the URL is fixed.
 string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
 string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
@@ -348,8 +334,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus.bulk_writer import bulk_import
-
 # Bulk-import your data from the prepared data files
 CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
 CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
@@ -416,16 +400,6 @@ System.out.println("Create a bulkImport task, job id: " + jobId);
 <TabItem value='go'>
 
 ```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/bulkwriter"
-)
-
 ctx := context.Background()
 
 opt := bulkwriter.NewCloudBulkImportOption(
@@ -449,8 +423,6 @@ fmt.Println(resp.Data.JobID)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // The value of the URL is fixed.
 let config = BulkImportConfig::new()
     .url("https://api.cloud.zilliz.com")
@@ -492,15 +464,6 @@ println!("{:?}", resp.job_id());
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Utility;
-
 // Bulk-import your data from the prepared data files
 string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
 string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
@@ -564,9 +527,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-import json
-from pymilvus.bulk_writer import get_import_progress
-
 ## Zilliz Cloud constants
 CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
 CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
@@ -609,16 +569,6 @@ System.out.println("Get import progress, result: " + getImportProgressResult);
 <TabItem value='go'>
 
 ```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/bulkwriter"
-)
-
 ctx := context.Background()
 
 opt := bulkwriter.NewCloudGetImportProgressOption(
@@ -639,8 +589,6 @@ fmt.Printf("%+v\n", resp.Data)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // The value of the URL is fixed.
 let config = BulkImportConfig::new()
     .url("https://api.cloud.zilliz.com")
@@ -678,15 +626,6 @@ println!("{:?}", resp);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Utility;
-
 // Zilliz Cloud constants
 string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
 string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
@@ -735,9 +674,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-import json
-from pymilvus.bulk_writer import list_import_jobs
-
 ## Zilliz Cloud constants
 CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
 CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
@@ -776,16 +712,6 @@ System.out.println(listImportJobsResult);
 <TabItem value='go'>
 
 ```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/bulkwriter"
-)
-
 ctx := context.Background()
 
 opt := bulkwriter.NewListImportJobsOption("https://api.cloud.zilliz.com", "")
@@ -804,8 +730,6 @@ fmt.Println(resp.Data.Records)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // The value of the URL is fixed.
 let config = BulkImportConfig::new()
     .url("https://api.cloud.zilliz.com")
@@ -842,15 +766,6 @@ println!("{:?}", resp);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Utility;
-
 // Zilliz Cloud constants
 string CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
 string CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
@@ -908,3 +823,4 @@ curl --request POST \
 - [RESTful API 経由でデータをインポートする](./import-data-via-restful-api)
 
 - [ゼロから学ぶデータインポート](./data-import-zero-to-hero) 
+

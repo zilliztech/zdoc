@@ -1,7 +1,6 @@
 ---
 title: "Weighted Ranker | Cloud"
 slug: /reranking-weighted-reranker
-sidebar_label: "Weighted Ranker"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,13 +8,14 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Weighted Ranker は、複数の検索パスからの結果にそれぞれ異なる重要度の重みを割り当てることで、それらの結果をインテリジェントに統合して優先順位を付けます。熟練したシェフが複数の食材のバランスを取って完璧な料理を作るのと同じように、Weighted Ranker は異なる検索結果のバランスを取り、最も関連性の高い統合結果を提供します。このアプローチは、複数のベクトルフィールドまたはモダリティを横断して検索し、特定のフィールドを最終ランキングにより大きく寄与させる必要がある場合に最適です。 | Cloud"
 type: origin
-token: Oyy6w5DYJiVCMYkdduEc6eD9nZg
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-reranking-weighted-reranker
+sidebar_label: "Weighted Ranker"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/weighted-ranker.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -27,11 +27,28 @@ Weighted Ranker は、複数の検索パスからの結果にそれぞれ異な�
 
 Weighted Ranker は、複数のベクトル検索パスからの結果を統合する必要があるハイブリッド検索のシナリオ向けに特別に設計されています。次のような場合に特に効果を発揮します。
 
-| ユースケース | 例 | Weighted Ranker が適している理由 |
-| --- | --- | --- |
-| EC 検索 | 画像の類似性とテキスト説明を組み合わせた商品検索 | 小売業者が、ファッション商品では視覚的な類似性を優先し、技術製品ではテキスト説明を重視できるようにします。 |
-| メディアコンテンツ検索 | 視覚的特徴と音声文字起こしの両方を使用した動画検索 | クエリの意図に基づいて、視覚的コンテンツと会話音声の重要度のバランスを取ります。 |
-| ドキュメント検索 | セクションごとに複数の埋め込みを使用した企業ドキュメント検索 | タイトルと要約の埋め込みに高い重みを与えながら、全文の埋め込みも引き続き考慮します。 |
+<table>
+   <tr>
+     <th><p>ユースケース</p></th>
+     <th><p>例</p></th>
+     <th><p>Weighted Ranker が効果を発揮する理由</p></th>
+   </tr>
+   <tr>
+     <td><p>Eコマース検索</p></td>
+     <td><p>画像の類似性とテキストの説明を組み合わせた商品検索</p></td>
+     <td><p>ファッション商品では視覚的な類似性を優先し、技術製品ではテキストの説明を重視できるようにします。</p></td>
+   </tr>
+   <tr>
+     <td><p>メディアコンテンツ検索</p></td>
+     <td><p>視覚的特徴と音声トランスクリプトの両方を使用した動画検索</p></td>
+     <td><p>クエリの意図に応じて、視覚コンテンツと発話内容の重要度のバランスを取ります。</p></td>
+   </tr>
+   <tr>
+     <td><p>ドキュメント検索</p></td>
+     <td><p>セクションごとに複数の埋め込みを使用する企業向けドキュメント検索</p></td>
+     <td><p>タイトルと要約の埋め込みにより高い重みを与えながら、全文の埋め込みも考慮します。</p></td>
+   </tr>
+</table>
 
 ハイブリッド検索アプリケーションで、複数の検索パスの相対的な重要度を制御しながら統合する必要がある場合は、Weighted Ranker が最適な選択肢です。
 
@@ -47,7 +64,7 @@ WeightedRanker 戦略の主なワークフローは次のとおりです。
 
 1. **スコアの統合**: 重み付きスコア（score_1_weighted、score_2_weighted）を高い順にランク付けし、最終的なスコアセット（score_final）を生成します。
 
-![GdmNwbkN8haZO8bpQkOc2NIWnqF](https://zdoc-images.s3.us-west-2.amazonaws.com/GdmNwbkN8haZO8bpQkOc2NIWnqF.png)
+![Weighted Ranker のワークフロー](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/885f24cf88b4130d0900efce1a2e141d0536b934b8a5cf806b3b43eab4b73b26.png)
 
 ## Weighted Ranker の例\{#example-of-weighted-ranker}
 
@@ -55,45 +72,149 @@ WeightedRanker 戦略の主なワークフローは次のとおりです。
 
 - 画像に対する ANN 検索の結果（topK=5）：
 
-    | **ID** | **スコア（画像）** |
-    | --- | --- |
-    | 101 | 0.92 |
-    | 203 | 0.88 |
-    | 150 | 0.85 |
-    | 198 | 0.83 |
-    | 175 | 0.8 |
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>スコア（画像）</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>0.92</p></td>
+       </tr>
+       <tr>
+         <td><p>203</p></td>
+         <td><p>0.88</p></td>
+       </tr>
+       <tr>
+         <td><p>150</p></td>
+         <td><p>0.85</p></td>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>0.83</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>0.8</p></td>
+       </tr>
+    </table>
 
 - テキストに対する ANN 検索の結果（topK=5）：
 
-    | **ID** | **スコア（テキスト）** |
-    | --- | --- |
-    | 198 | 0.91 |
-    | 101 | 0.87 |
-    | 110 | 0.85 |
-    | 175 | 0.82 |
-    | 250 | 0.78 |
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>スコア（テキスト）</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>0.91</p></td>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>0.87</p></td>
+       </tr>
+       <tr>
+         <td><p>110</p></td>
+         <td><p>0.85</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>0.82</p></td>
+       </tr>
+       <tr>
+         <td><p>250</p></td>
+         <td><p>0.78</p></td>
+       </tr>
+    </table>
 
 - WeightedRanker を使用して、画像とテキストの検索結果に重みを割り当てます。画像 ANN 検索の重みが 0.6、テキスト検索の重みが 0.4 であるとします。
 
-    | **ID** | **スコア（画像）** | **スコア（テキスト）** | **重み付きスコア** |
-    | --- | --- | --- | --- |
-    | 101 | 0.92 | 0.87 | 0.6×0.92+0.4×0.87=0.90 |
-    | 203 | 0.88 | N/A | 0.6×0.88+0.4×0=0.528 |
-    | 150 | 0.85 | N/A | 0.6×0.85+0.4×0=0.51 |
-    | 198 | 0.83 | 0.91 | 0.6×0.83+0.4×0.91=0.86 |
-    | 175 | 0.80 | 0.82 | 0.6×0.80+0.4×0.82=0.81 |
-    | 110 | 画像に含まれない | 0.85 | 0.6×0+0.4×0.85=0.34 |
-    | 250 | 画像に含まれない | 0.78 | 0.6×0+0.4×0.78=0.312 |
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>スコア（画像）</strong></p></th>
+         <th><p><strong>スコア（テキスト）</strong></p></th>
+         <th><p><strong>重み付きスコア</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>0.92</p></td>
+         <td><p>0.87</p></td>
+         <td><p>0.6×0.92+0.4×0.87=0.90</p></td>
+       </tr>
+       <tr>
+         <td><p>203</p></td>
+         <td><p>0.88</p></td>
+         <td><p>N/A</p></td>
+         <td><p>0.6×0.88+0.4×0=0.528</p></td>
+       </tr>
+       <tr>
+         <td><p>150</p></td>
+         <td><p>0.85</p></td>
+         <td><p>N/A</p></td>
+         <td><p>0.6×0.85+0.4×0=0.51</p></td>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>0.83</p></td>
+         <td><p>0.91</p></td>
+         <td><p>0.6×0.83+0.4×0.91=0.86</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>0.80</p></td>
+         <td><p>0.82</p></td>
+         <td><p>0.6×0.80+0.4×0.82=0.81</p></td>
+       </tr>
+       <tr>
+         <td><p>110</p></td>
+         <td><p>画像に含まれない</p></td>
+         <td><p>0.85</p></td>
+         <td><p>0.6×0+0.4×0.85=0.34</p></td>
+       </tr>
+       <tr>
+         <td><p>250</p></td>
+         <td><p>画像に含まれない</p></td>
+         <td><p>0.78</p></td>
+         <td><p>0.6×0+0.4×0.78=0.312</p></td>
+       </tr>
+    </table>
 
 - 再ランク付け後の最終結果（topK=5）：
 
-    | **順位** | **ID** | **最終スコア** |
-    | --- | --- | --- |
-    | 1 | 101 | 0.90 |
-    | 2 | 198 | 0.86 |
-    | 3 | 175 | 0.81 |
-    | 4 | 203 | 0.528 |
-    | 5 | 150 | 0.51 |
+    <table>
+       <tr>
+         <th><p><strong>順位</strong></p></th>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>最終スコア</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>1</p></td>
+         <td><p>101</p></td>
+         <td><p>0.90</p></td>
+       </tr>
+       <tr>
+         <td><p>2</p></td>
+         <td><p>198</p></td>
+         <td><p>0.86</p></td>
+       </tr>
+       <tr>
+         <td><p>3</p></td>
+         <td><p>175</p></td>
+         <td><p>0.81</p></td>
+       </tr>
+       <tr>
+         <td><p>4</p></td>
+         <td><p>203</p></td>
+         <td><p>0.528</p></td>
+       </tr>
+       <tr>
+         <td><p>5</p></td>
+         <td><p>150</p></td>
+         <td><p>0.51</p></td>
+       </tr>
+    </table>
 
 ## Weighted Ranker の使用方法\{#usage-of-weighted-ranker}
 
@@ -143,9 +264,7 @@ CreateCollectionReq.Function rerank = CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
+import "github.com/milvus-io/milvus/client/v3/entity"
 
 rerank := entity.NewFunction().
     WithName("weight").
@@ -180,6 +299,9 @@ let rerank = Function::new()
 <TabItem value='c++'>
 
 ```c++
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
 auto rerank = std::make_shared<milvus::Function>("weight", milvus::FunctionType::RERANK);
 rerank->AddParam("reranker", "weighted");
 rerank->AddParam("weights", "[0.1, 0.9]");
@@ -236,16 +358,53 @@ export rerank='{
 ```
 
 </TabItem>
+
 </Tabs>
 
-| パラメーター | 必須 | 説明 | 値/Example |
-| --- | --- | --- | --- |
-| `name` | はい | この Function の一意の識別子です。 | `"weight"` |
-| `input_field_names` | はい | 関数を適用するベクトルフィールドのリストです（Weighted Ranker では空にする必要があります）。 | [] |
-| `function_type` | はい | 呼び出す Function の種類です。再ランク付け戦略を指定するには `RERANK` を使用します。 | `FunctionType.RERANK` |
-| `params.reranker` | はい | 使用する再ランク付け方法を指定します。<br/>Weighted Ranker を使用するには `weighted` に設定する必要があります。 | `"weighted"` |
-| `params.weights` | はい | 各検索パスに対応する重みの配列です。値 ∈ [0,1]。<br/>詳細は、[Weighted Ranker の仕組み](./reranking-weighted-reranker#mechanism-of-weighted-ranker) を参照してください。 | `[0.1, 0.9]` |
-| `params.norm_score` | いいえ | 重み付けの前に生のスコアを正規化するかどうか（arctan を使用）。<br/>詳細は、[Weighted Ranker の仕組み](./reranking-weighted-reranker#mechanism-of-weighted-ranker) を参照してください。 | `True` |
+<table>
+   <tr>
+     <th><p>パラメーター</p></th>
+     <th><p>必須</p></th>
+     <th><p>説明</p></th>
+     <th><p>Value/Example</p></th>
+   </tr>
+   <tr>
+     <td><p><code>name</code></p></td>
+     <td><p>はい</p></td>
+     <td><p>この Function の一意の識別子です。</p></td>
+     <td><p><code>"weight"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>input_field_names</code></p></td>
+     <td><p>はい</p></td>
+     <td><p>Function を適用するベクトルフィールドのリストです（Weighted Ranker では空にする必要があります）。</p></td>
+     <td><p>[]</p></td>
+   </tr>
+   <tr>
+     <td><p><code>function_type</code></p></td>
+     <td><p>はい</p></td>
+     <td><p>呼び出す Function の種類です。<code>RERANK</code> を使用して、再ランキング戦略を指定します。</p></td>
+     <td><p><code>FunctionType.RERANK</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.reranker</code></p></td>
+     <td><p>はい</p></td>
+     <td><p>使用する再ランキング方法を指定します。</p><p>Weighted Ranker を使用するには、<code>weighted</code> に設定する必要があります。</p></td>
+     <td><p><code>"weighted"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.weights</code></p></td>
+     <td><p>はい</p></td>
+     <td><p>各検索パスに対応する重みの配列です。値の範囲は [0,1] です。</p><p>詳細は、<a href="./reranking-weighted-reranker#mechanism-of-weighted-ranker">Weighted Ranker の仕組み</a>を参照してください。</p></td>
+     <td><p><code>[0.1, 0.9]</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.norm_score</code></p></td>
+     <td><p>いいえ</p></td>
+     <td><p>重み付けの前に生のスコアを（arctan を使用して）正規化するかどうかです。</p><p>詳細は、<a href="./reranking-weighted-reranker#mechanism-of-weighted-ranker">Weighted Ranker の仕組み</a>を参照してください。</p></td>
+     <td><p><code>True</code></p></td>
+   </tr>
+</table>
 
 ### ハイブリッド検索に適用する\{#apply-to-hybrid-search}
 
@@ -257,7 +416,7 @@ Weighted Ranker は、複数のベクトルフィールドを組み合わせる�
 ```python
 from pymilvus import MilvusClient, AnnSearchRequest
 
-# Connect to Milvus server
+# Connect to your cluster
 milvus_client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
@@ -305,6 +464,10 @@ import io.milvus.v2.service.vector.request.HybridSearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -324,11 +487,12 @@ searchRequests.add(AnnSearchReq.builder()
         .build());
 
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
-        .collectionName(COLLECTION_NAME)
-        .searchRequests(searchRequests)
-        .ranker(rerank)
-        .limit(10)
-        .build();
+                .collectionName(COLLECTION_NAME)
+                .searchRequests(searchRequests)
+                .ranker(rerank)
+                .limit(10)
+                .outputFields(Arrays.asList("product_name", "price", "category"))
+                .build();
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 ```
 
@@ -404,6 +568,11 @@ let response = client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <memory>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 auto text_search = milvus::SubSearchRequest()
                     .WithLimit(10)
                     .WithAnnsField("text_vector")
@@ -438,9 +607,9 @@ if (!status.IsOk()) {
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
-const milvusClient = new MilvusClient({ 
-    address: "YOUR_CLUSTER_ENDPOINT",
-    token: "YOUR_CLUSTER_TOKEN"
+const milvusClient = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
 const text_search = {
@@ -479,8 +648,7 @@ using Milvus.Client.V2.Types;
 var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Define text vector search request
@@ -517,6 +685,9 @@ var hybridResults = await client.HybridSearchAsync(new HybridSearchReq
 
 ```bash
 # restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -545,6 +716,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ハイブリッド検索の詳細については、[Multi-ベクトル Hybrid Search](./hybrid-search) を参照してください。

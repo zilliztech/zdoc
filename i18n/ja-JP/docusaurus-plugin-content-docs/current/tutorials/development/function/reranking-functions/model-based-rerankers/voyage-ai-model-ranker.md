@@ -69,7 +69,7 @@ rerank 関数は検索時に定義および適用されるため、クエリご�
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
+from pymilvus import MilvusClient, DataType, Function, FunctionType
 
 client = MilvusClient(
     uri="YOUR_ZILLIZ_CLOUD_URI",
@@ -135,14 +135,21 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.common.IndexParam;
+import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_ZILLIZ_CLOUD_URI")
@@ -207,6 +214,7 @@ client.insert(InsertReq.builder().collectionName(collectionName).data(data).buil
 ```go
 import (
     "context"
+    "fmt"
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
@@ -364,7 +372,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
   address: "YOUR_ZILLIZ_CLOUD_URI",
@@ -410,7 +418,11 @@ await client.insert({ collection_name, data });
 
 ```csharp
 using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
 using Milvus.Client.V2.Types;
+using System;
+using System.Collections.Generic;
 
 var config = new ConnectConfig
 {
@@ -482,8 +494,6 @@ rerank 関数では、次の項目を指定します。
 <TabItem value='python'>
 
 ```python
-from pymilvus import Function, FunctionType
-
 voyage_ranker = Function(
     name="voyage_semantic_ranker",
     input_field_names=["document"],
@@ -504,13 +514,6 @@ voyage_ranker = Function(
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, String> params = new HashMap<>();
 params.put("reranker", "model");
 params.put("provider", "voyageai");
@@ -532,8 +535,6 @@ CreateCollectionReq.Function voyage_ranker = CreateCollectionReq.Function.builde
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 voyage_ranker := entity.NewFunction().
     WithName("voyage_semantic_ranker").
     WithType(entity.FunctionTypeRerank).
@@ -551,8 +552,6 @@ voyage_ranker := entity.NewFunction().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let voyage_ranker = Function::new()
     .name("voyage_semantic_ranker")
     .function_type(FunctionType::Rerank)
@@ -586,8 +585,6 @@ voyage_ranker->AddParam("integration_id", "YOUR_INTEGRATION_ID");
 <TabItem value='javascript'>
 
 ```javascript
-import { FunctionType } from "@zilliz/milvus2-sdk-node";
-
 const voyage_ranker = {
   name: "voyage_semantic_ranker",
   type: FunctionType.RERANK,
@@ -656,13 +653,6 @@ print(results)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
-import java.util.Arrays;
-import java.util.Collections;
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName(collectionName)
         .data(Collections.singletonList(new FloatVec(Arrays.asList(0.12f, 0.21f, 0.29f, 0.41f))))
@@ -681,13 +671,6 @@ System.out.println(results.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 results, err := cli.Search(ctx, milvusclient.NewSearchOption("voyage_rerank_demo", 3,
     []entity.Vector{entity.FloatVector{0.12, 0.21, 0.29, 0.41}}).
     WithANNSField("dense").
@@ -705,8 +688,6 @@ fmt.Println(results)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let query_vector = vec![0.12, 0.21, 0.29, 0.41];
 
 let results = client
@@ -772,10 +753,6 @@ console.log(results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 var voyageRanker = new ModelRerank("voyage_semantic_ranker")
     .WithProvider("voyageai")
     .WithQueries(new[] { "renewable energy developments" });

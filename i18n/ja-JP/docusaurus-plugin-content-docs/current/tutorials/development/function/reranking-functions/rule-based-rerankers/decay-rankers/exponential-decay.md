@@ -1,7 +1,6 @@
 ---
 title: "指数減衰 | Cloud"
 slug: /exponential-decay
-sidebar_label: "指数減衰"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "指数減衰では、検索結果の最初に急激な低下が生じ、その後に長いテールが続きます。関連性が最初は急速に低下しながら、一部の記事は時間の経過とともに重要性を保ち続ける速報ニュースサイクルのように、指数減衰は理想的な範囲をわずかに超えたアイテムに強いペナルティを課しながら、遠くのアイテムも引き続き見つけられるようにします。このアプローチは、近接性や新しさを大きく優先しつつ、より遠くの選択肢を完全には排除したくない場合に最適です。 | Cloud"
 type: origin
-token: FbVmwmuaei9WkIkIWJmcs3ManEd
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-exponential-decay
+sidebar_label: "指数減衰"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/exponential-decay.md"
 
 ---
 
@@ -35,12 +36,33 @@ import TabItem from '@theme/TabItem';
 
 指数減衰は、次のような用途で特に効果を発揮します。
 
-| ユースケース | 例 | 指数減衰が適している理由 |
-| --- | --- | --- |
-| ニュースフィード | 速報ニュースポータル | 古いニュースの関連性をすばやく下げながら、数日前の重要な記事も引き続き表示します。 |
-| ソーシャルメディアのタイムライン | アクティビティフィード、ステータス更新 | 新しいコンテンツを重視しつつ、過去に拡散したコンテンツも表示できるようにします。 |
-| 通知システム | アラートの優先順位付け | 最近のアラートに緊急性を持たせながら、重要なアラートの表示も維持します。 |
-| フラッシュセール | 期間限定オファー | 期限が近づくにつれて表示されやすさを急速に下げます。 |
+<table>
+   <tr>
+     <th><p>ユースケース</p></th>
+     <th><p>例</p></th>
+     <th><p>指数減衰が適している理由</p></th>
+   </tr>
+   <tr>
+     <td><p>ニュースフィード</p></td>
+     <td><p>速報ニュースポータル</p></td>
+     <td><p>古いニュースの関連性を迅速に下げながら、数日前の重要な記事も引き続き表示します。</p></td>
+   </tr>
+   <tr>
+     <td><p>ソーシャルメディアのタイムライン</p></td>
+     <td><p>アクティビティフィード、ステータス更新</p></td>
+     <td><p>新しいコンテンツを強調しながら、古いバイラルコンテンツも浮上できるようにします。</p></td>
+   </tr>
+   <tr>
+     <td><p>通知システム</p></td>
+     <td><p>アラートの優先順位付け</p></td>
+     <td><p>最近のアラートに緊急性を持たせながら、重要なアラートの可視性を維持します。</p></td>
+   </tr>
+   <tr>
+     <td><p>フラッシュセール</p></td>
+     <td><p>期間限定オファー</p></td>
+     <td><p>期限が近づくにつれて可視性を急速に低下させます。</p></td>
+   </tr>
+</table>
 
 次のような場合は、指数減衰を選択します。
 
@@ -54,13 +76,13 @@ import TabItem from '@theme/TabItem';
 
 指数減衰では、最初は急速に低下し、その後は徐々に平坦になってゼロに近づくものの決してゼロには達しないロングテールへと変化する曲線が描かれます。この数学的パターンは、放射性崩壊、人口減少、時間の経過に伴う情報の関連性といった自然現象に頻繁に現れます。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 すべての時間パラメーター（`origin`、`offset`、`scale`）は、コレクションのデータと同じ単位を使用する必要があります。コレクションがタイムスタンプを別の単位（ミリ秒、マイクロ秒）で保存している場合は、すべてのパラメーターをそれに合わせて調整してください。
 
 </Admonition>
 
-![YaRsbolv9oqomcxrFe5cXBa4nNg](https://zdoc-images.s3.us-west-2.amazonaws.com/yarsbolv9oqomcxrfe5cxba4nng.png "YaRsbolv9oqomcxrFe5cXBa4nNg")
+![指数減衰](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/17e0fb079e5353926c926314b0f310a5a8652a2161346bc9fc6a410a2be7a717.png)
 
 上のグラフは、デジタルニュースプラットフォームのニュース記事ランキングに指数減衰が与える影響を示しています。
 
@@ -94,11 +116,11 @@ $$
 
 1. フィールド値が原点からどれだけ離れているかを計算します：$|fieldvalue_{doc} - origin|$。
 
-1. オフセットがある場合は減算しますが、ゼロを下回らないようにします：$\max(0, distance - offset)$。
+2. オフセットがある場合は減算しますが、ゼロを下回らないようにします：$\max(0, distance - offset)$。
 
-1. スケールと減衰パラメーターから計算される $\lambda$ を掛けます。
+3. スケールと減衰パラメーターから計算される $\lambda$ を掛けます。
 
-1. 指数を計算すると、0 から 1 の間の値が得られます：$\exp(\lambda \cdot value)$。
+4. 指数を計算すると、0 から 1 の間の値が得られます：$\exp(\lambda \cdot value)$。
 
 $\lambda$ の計算では、スケールと減衰パラメーターを指数関数のレートパラメーターに変換します。$\lambda$ がより負の値になると、初期の低下が急峻になります。
 
@@ -106,7 +128,7 @@ $\lambda$ の計算では、スケールと減衰パラメーターを指数関�
 
 指数減衰は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方の操作に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 減衰関数を使用する前に、まず、減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を含むコレクションを作成する必要があります。コレクションの設定、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker チュートリアル](./tutorial-implement-time-based-ranking) を参照してください。
 
@@ -116,7 +138,7 @@ $\lambda$ の計算では、スケールと減衰パラメーターを指数関�
 
 コレクションに数値フィールド（この例では `publish_time`）を設定したら、指数減衰ランカーを作成します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **時間単位の統一**：時間ベースの減衰を使用する場合は、`origin`、`scale`、`offset` パラメーターがコレクションデータと同じ時間単位を使用していることを確認してください。コレクションがタイムスタンプを秒単位で保存している場合は、すべてのパラメーターに秒を使用します。ミリ秒単位で保存している場合は、すべてのパラメーターにミリ秒を使用します。
 
@@ -222,6 +244,7 @@ let rerank = {
 
 ```c++
 #include <ctime>
+#include <memory>
 #include "milvus/MilvusClientV2.h"
 
 auto rerank = std::make_shared<milvus::DecayRerank>("news_recency");
@@ -289,6 +312,7 @@ var rerank = new DecayRerank("news_recency")  // Function identifier
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 標準ベクトル検索に適用する\{#apply-to-standard-vector-search}
@@ -394,6 +418,7 @@ let response = client.search(
 
 ```c++
 #include <iostream>
+#include <memory>
 #include "milvus/MilvusClientV2.h"
 
 auto function_score = std::make_shared<milvus::FunctionScore>();
@@ -500,4 +525,5 @@ curl -s YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search \
 ```
 
 </TabItem>
+
 </Tabs>

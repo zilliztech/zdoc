@@ -75,11 +75,14 @@ compile 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10'
 
 以下のコードは、使用可能なすべてのデータ型を含むコレクションスキーマを作成します。さらに、このスキーマではプライマリフィールドの自動インクリメントを無効にし、動的フィールドを有効にしています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient, DataType
+from pymilvus.bulk_writer import LocalBulkWriter, RemoteBulkWriter, BulkFileType
+import random, string, json
+import numpy as np
 
 # You need to work out a collection schema out of your dataset.
 schema = MilvusClient.create_schema(
@@ -120,108 +123,103 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import java.nio.ByteBuffer;
 import java.util.Random;
+import io.milvus.bulkwriter.LocalBulkWriter;
+import io.milvus.bulkwriter.LocalBulkWriterParam;
+import io.milvus.bulkwriter.common.clientenum.BulkFileType;
+import io.milvus.bulkwriter.connect.S3ConnectParam;
+import io.milvus.bulkwriter.connect.StorageConnectParam;
+import io.milvus.bulkwriter.connect.AzureConnectParam;
+import io.milvus.bulkwriter.RemoteBulkWriter;
+import io.milvus.bulkwriter.RemoteBulkWriterParam;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.common.utils.Float16Utils;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 private static final int DIM = 512;
 
-private static CreateCollectionReq.CollectionSchema createSchema() {
-    CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
-        .enableDynamicField(true)
-        .build();
-    schema.addField(AddFieldReq.builder()
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
+    .enableDynamicField(true)
+    .build();
+schema.addField(AddFieldReq.builder()
             .fieldName("id")
             .dataType(DataType.Int64)
             .isPrimaryKey(Boolean.TRUE)
             .autoID(false)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("bool")
             .dataType(DataType.Bool)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("int8")
             .dataType(DataType.Int8)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("int16")
             .dataType(DataType.Int16)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("int32")
             .dataType(DataType.Int32)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("int64")
             .dataType(DataType.Int64)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("float")
             .dataType(DataType.Float)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("double")
             .dataType(DataType.Double)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("varchar")
             .dataType(DataType.VarChar)
             .maxLength(512)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("json")
             .dataType(DataType.JSON)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("array_int")
             .dataType(DataType.Array)
             .maxCapacity(100)
             .elementType(DataType.Int64)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("array_str")
             .dataType(DataType.Array)
             .maxCapacity(100)
             .elementType(DataType.VarChar)
             .maxLength(128)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("float_vector")
             .dataType(DataType.FloatVector)
             .dimension(DIM)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("binary_vector")
             .dataType(DataType.BinaryVector)
             .dimension(DIM)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("float16_vector")
             .dataType(DataType.Float16Vector)
             .dimension(DIM)
             .build());
-    schema.addField(AddFieldReq.builder()
+schema.addField(AddFieldReq.builder()
             .fieldName("sparse_vector")
             .dataType(DataType.SparseFloatVector)
             .build());
-    return schema;
-}
-
-private static byte[] genBinaryVector() {
-    Random ran = new Random();
-    int byteCount = DIM / 8;
-    ByteBuffer vector = ByteBuffer.allocate(byteCount);
-    for (int i = 0; i < byteCount; ++i) {
-        vector.put((byte) ran.nextInt(Byte.MAX_VALUE));
-    }
-    return vector.array();
-}
-```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-// Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
 ```
 
 </TabItem>
@@ -240,7 +238,6 @@ private static byte[] genBinaryVector() {
     <TabItem value='python'>
 
     ```python
-    from pymilvus.bulk_writer import LocalBulkWriter, BulkFileType
     # Use `from pymilvus import LocalBulkWriter, BulkFileType` 
     # when you use pymilvus earlier than 2.4.2 
     
@@ -277,10 +274,6 @@ private static byte[] genBinaryVector() {
     <TabItem value='java'>
 
     ```java
-    import io.milvus.bulkwriter.LocalBulkWriter;
-    import io.milvus.bulkwriter.LocalBulkWriterParam;
-    import io.milvus.bulkwriter.common.clientenum.BulkFileType;
-    
     LocalBulkWriterParam localBulkWriterParam = LocalBulkWriterParam.newBuilder()
         .withCollectionSchema(schema)
         .withLocalPath(".")
@@ -288,7 +281,7 @@ private static byte[] genBinaryVector() {
         .withFileType(BulkFileType.PARQUET)
         .build();
     
-    LocalBulkWriter localBulkWriter = new LocalBulkWriter(localBulkWriterParam);
+    LocalBulkWriter writer = new LocalBulkWriter(localBulkWriterParam);
     ```
 
     **LocalBulkWriter** を作成する際は、以下を行ってください。 
@@ -319,11 +312,10 @@ private static byte[] genBinaryVector() {
 
     <TabItem value="aws">
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
 
     ```python
-    from pymilvus.bulk_writer import RemoteBulkWriter
     # Use `from pymilvus import RemoteBulkWriter` 
     # when you use pymilvus earlier than 2.4.2 
     
@@ -343,7 +335,6 @@ private static byte[] genBinaryVector() {
         region=REGION_NAME
     )
     
-    from pymilvus.bulk_writer import BulkFileType
     # Use `from pymilvus import BulkFileType` 
     # when you use pymilvus earlier than 2.4.2 
     
@@ -362,9 +353,6 @@ private static byte[] genBinaryVector() {
     <TabItem value='java'>
 
     ```java
-    import io.milvus.bulkwriter.connect.S3ConnectParam;
-    import io.milvus.bulkwriter.connect.StorageConnectParam;
-    
     // Configs for remote bucket
     String ACCESS_KEY = "";
     String SECRET_KEY = "";
@@ -376,21 +364,25 @@ private static byte[] genBinaryVector() {
     
     // Create a remote bucket writer.
     StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
-            .withEndpoint("storage.googleapis.com")
+            .withEndpoint("s3.amazonaws.com")
             .withBucketName(BUCKET_NAME)
             .withAccessKey(ACCESS_KEY)
             .withSecretKey(SECRET_KEY)
             .withCloudName(CLOUD_NAME)
             .withRegion(REGION_NAME)
             .build();
-    ```
-
-    </TabItem>
-
-    <TabItem value='csharp'>
-
-    ```csharp
-    // Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+    
+    // Note: The `secure=True` option of pymilvus has no counterpart in
+    // milvus-sdk-java; HTTPS is always used.
+    RemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()
+            .withCollectionSchema(schema)
+            .withRemotePath("/")
+            .withConnectParam(storageConnectParam)
+            .withFileType(BulkFileType.PARQUET)
+            .build();
+    
+    @SuppressWarnings("resource")
+    RemoteBulkWriter writer = new RemoteBulkWriter(remoteBulkWriterParam);
     ```
 
     </TabItem>
@@ -400,11 +392,10 @@ private static byte[] genBinaryVector() {
 
     <TabItem value="azure">
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
 
     ```python
-    from pymilvus.bulk_writer import RemoteBulkWriter
     # Use `from pymilvus import RemoteBulkWriter` 
     # when you use pymilvus earlier than 2.4.2 
     
@@ -435,9 +426,6 @@ private static byte[] genBinaryVector() {
     <TabItem value='java'>
 
     ```java
-    import io.milvus.bulkwriter.connect.AzureConnectParam;
-    import io.milvus.bulkwriter.connect.StorageConnectParam;
-    
     String AZURE_CONNECT_STRING = "";
     String AZURE_CONTAINER = "";
     
@@ -445,14 +433,17 @@ private static byte[] genBinaryVector() {
             .withConnStr(AZURE_CONNECT_STRING)
             .withContainerName(AZURE_CONTAINER)
             .build();
-    ```
-
-    </TabItem>
-
-    <TabItem value='csharp'>
-
-    ```csharp
-    // Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+    
+    // or
+    String AZURE_ACCOUNT_URL = "";
+    // Note: The `credential` parameter of pymilvus maps to a
+    // com.azure.core.credential.TokenCredential in milvus-sdk-java;
+    // build one from your account access key via the Azure Identity SDK.
+    storageConnectParam = AzureConnectParam.newBuilder()
+            .withConnStr(AZURE_CONNECT_STRING)
+            .withAccountUrl(AZURE_ACCOUNT_URL)
+            .withContainerName(AZURE_CONTAINER)
+            .build();
     ```
 
     </TabItem>
@@ -464,11 +455,10 @@ private static byte[] genBinaryVector() {
 
     接続パラメーターの準備ができたら、以下のように **RemoteBulkWriter** で参照できます。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
 
     ```python
-    from pymilvus.bulk_writer import RemoteBulkWriter
     # Use `from pymilvus import RemoteBulkWriter` 
     # when you use pymilvus earlier than 2.4.2 
     
@@ -485,27 +475,14 @@ private static byte[] genBinaryVector() {
     <TabItem value='java'>
 
     ```java
-    import io.milvus.bulkwriter.RemoteBulkWriter;
-    import io.milvus.bulkwriter.RemoteBulkWriterParam;
-    import io.milvus.bulkwriter.common.clientenum.BulkFileType;
-    
     RemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()
             .withCollectionSchema(schema)
             .withRemotePath("/")
-            .withChunkSize(1024 * 1024 * 1024)
             .withConnectParam(storageConnectParam)
             .withFileType(BulkFileType.PARQUET)
             .build();
     
-    RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
-    ```
-
-    </TabItem>
-
-    <TabItem value='csharp'>
-
-    ```csharp
-    // Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
+    RemoteBulkWriter writer = new RemoteBulkWriter(remoteBulkWriterParam);
     ```
 
     </TabItem>
@@ -524,9 +501,6 @@ private static byte[] genBinaryVector() {
 デモ用として、以下のコードではランダムに生成したデータを追加します。
 
 ```python
-import random, string, json
-import numpy as np
-
 def generate_random_str(length=5):
     letters = string.ascii_uppercase
     digits = string.digits
@@ -617,61 +591,9 @@ for i in range(10000):
 
 デモ用として、以下のコードではランダムに生成したデータを追加します。
 
-<Tabs groupId="java" defaultValue='java' values={[{"label":"Main","value":"java"},{"label":"Random data generators","value":"java_1"}]}>
-<TabItem value='java'>
-
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.common.utils.Float16Utils;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 private static final Gson GSON_INSTANCE = new Gson();
 
-private static List<List<String>> uploadData() throws Exception {
-    CreateCollectionReq.CollectionSchema collectionSchema = createSchema();
-    try (RemoteBulkWriter remoteBulkWriter = createRemoteBulkWriter(collectionSchema)) {
-        for (int i = 0; i < 10000; ++i) {
-            JsonObject rowObject = new JsonObject();
-            rowObject.addProperty("id", i);
-            rowObject.addProperty("bool", i % 3 == 0);
-            rowObject.addProperty("int8", i % 128);
-            rowObject.addProperty("int16", i % 1000);
-            rowObject.addProperty("int32", i % 100000);
-            rowObject.addProperty("int64", i);
-            rowObject.addProperty("float", i / 3);
-            rowObject.addProperty("double", i / 7);
-            rowObject.addProperty("varchar", "varchar_" + i);
-            rowObject.addProperty("json", String.format("{\"dummy\": %s, \"ok\": \"name_%s\"}", i, i));
-            rowObject.add("array_str", GSON_INSTANCE.toJsonTree(genStringArray(5)));
-            rowObject.add("array_int", GSON_INSTANCE.toJsonTree(genIntArray(10)));
-            rowObject.add("float_vector", GSON_INSTANCE.toJsonTree(genFloatVector()));
-            rowObject.add("binary_vector", GSON_INSTANCE.toJsonTree(genBinaryVector()));
-            rowObject.add("float16_vector", GSON_INSTANCE.toJsonTree(genFloat16Vector()));
-            rowObject.add("sparse_vector", GSON_INSTANCE.toJsonTree(genSparseVector()));
-            rowObject.addProperty("dynamic", "dynamic_" + i);
-            remoteBulkWriter.appendRow(rowObject);
-            if ((i+1)%1000 == 0) {
-                remoteBulkWriter.commit(false);
-            }
-        }
-
-        List<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();
-        System.out.println(batchFiles);
-        return batchFiles;
-    } catch (Exception e) {
-        throw e;
-    }
-}
-```
-
-</TabItem>
-<TabItem value='java_1'>
-
-```java
 private static byte[] genBinaryVector() {
     Random ran = new Random();
     int byteCount = DIM / 8;
@@ -721,10 +643,32 @@ private static List<Long> genIntArray(int length) {
     }
     return arr;
 }
-```
 
-</TabItem>
-</Tabs>
+for (int i = 0; i < 10000; ++i) {
+    JsonObject rowObject = new JsonObject();
+    rowObject.addProperty("id", i);
+    rowObject.addProperty("bool", i % 3 == 0);
+    rowObject.addProperty("int8", i % 128);
+    rowObject.addProperty("int16", i % 1000);
+    rowObject.addProperty("int32", i % 100000);
+    rowObject.addProperty("int64", i);
+    rowObject.addProperty("float", i / 3);
+    rowObject.addProperty("double", i / 7);
+    rowObject.addProperty("varchar", "varchar_" + i);
+    rowObject.addProperty("json", String.format("{\"dummy\": %s, \"ok\": \"name_%s\"}", i, i));
+    rowObject.add("array_str", GSON_INSTANCE.toJsonTree(genStringArray(5)));
+    rowObject.add("array_int", GSON_INSTANCE.toJsonTree(genIntArray(10)));
+    rowObject.add("float_vector", GSON_INSTANCE.toJsonTree(genFloatVector()));
+    rowObject.add("binary_vector", GSON_INSTANCE.toJsonTree(genBinaryVector()));
+    rowObject.add("float16_vector", GSON_INSTANCE.toJsonTree(genFloat16Vector()));
+    rowObject.add("sparse_vector", GSON_INSTANCE.toJsonTree(genSparseVector()));
+    rowObject.addProperty("dynamic", "dynamic_" + i);
+    writer.appendRow(rowObject);
+    if ((i+1)%1000 == 0) {
+        writer.commit(false);
+    }
+}
+```
 
 <Admonition type="info" title="Notes">
 
@@ -742,13 +686,10 @@ private static List<Long> genIntArray(int length) {
 
 デモ用として、以下のコードではランダムに生成したデータを追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
-import random
-import string
-
 def generate_random_string(length=5):
     letters = string.ascii_uppercase
     digits = string.digits
@@ -774,12 +715,6 @@ writer.commit()
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 private static final Gson GSON_INSTANCE = new Gson();
 
 for (int i = 0; i < 10000; i++) {
@@ -788,10 +723,10 @@ for (int i = 0; i < 10000; i++) {
     row.add("vector", GSON_INSTANCE.toJsonTree(generateFloatVectors(768)));
     row.addProperty("dynamic_field_1", new Random().nextBoolean());
     row.addProperty("dynamic_field_2", new Random().nextInt(100));
-    remoteBulkWriter.appendRow(row);
+    writer.appendRow(row);
 }
 
-remoteBulkWriter.commit(false);
+writer.commit(false);
 ```
 
 </TabItem>
@@ -816,21 +751,13 @@ private static String generateString(int length) {
 </TabItem>
 </Tabs>
 </TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-// Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
-```
-
-</TabItem>
 </Tabs>
 
 ## 結果を確認する\{#verify-the-result}
 
 結果を確認するには、ライターの **data_path** プロパティを出力して実際の出力パスを取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
@@ -844,20 +771,10 @@ print(writer.data_path)
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
 List<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();
 System.out.println(batchFiles);
 
 // [["/5868ba87-743e-4d9e-8fa6-e07b39229425/1.parquet"]]
-```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-// Note: BulkWriter is not supported in milvus-sdk-csharp as of v3.0.0.
 ```
 
 </TabItem>

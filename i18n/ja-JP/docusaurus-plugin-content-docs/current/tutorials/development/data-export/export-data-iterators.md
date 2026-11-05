@@ -54,6 +54,8 @@ Milvus の Python SDK と Java SDK はどちらも、メモリ効率の高い方
 
 ```python
 from pymilvus import MilvusClient
+import random
+import json
 
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 TOKEN = "YOUR_CLUSTER_TOKEN"
@@ -79,6 +81,22 @@ client.create_collection(
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.response.InsertResp;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import com.google.gson.reflect.TypeToken;
+import io.milvus.orm.iterator.QueryIterator;
+import io.milvus.response.QueryResultsWrapper;
+import io.milvus.v2.service.vector.request.QueryIteratorReq;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -101,13 +119,16 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-package main
-
 import (
     "context"
     "log"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "fmt"
+    "math/rand"
+    "encoding/json"
+    "errors"
+    "io"
+    "os"
 )
 
 ctx := context.Background()
@@ -135,6 +156,7 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
@@ -156,6 +178,9 @@ client
 ```c++
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
+#include <random>
+#include <string>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
@@ -203,6 +228,8 @@ await client.createCollection({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
 
 // 1. Set up a Milvus client
 MilvusClientV2 client = new(new ConnectConfig
@@ -230,16 +257,12 @@ await client.CreateCollectionAsync(new CreateSimpleCollectionReq
 </TabItem>
 </Tabs>
 
-
 ### ステップ 2: ランダムに生成されたエンティティを挿入する\{#step-2-insert-randomly-generated-entities}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-import random
-from pymilvus import MilvusClient
-
 # 3. Insert randomly generated vectors
 colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"]
 data = []
@@ -305,15 +328,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import io.milvus.v2.service.vector.response.InsertResp;
-
 // 3. Insert randomly generated vectors into the collection
 List<String> colors = Arrays.asList("green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey");
 List<JsonObject> data = new ArrayList<>();
@@ -350,27 +364,12 @@ System.out.println(resp.getInsertCnt());
 <TabItem value='go'>
 
 ```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "log"
-    "math/rand"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 ctx := context.Background()
 
 const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 const TOKEN = "YOUR_CLUSTER_TOKEN"
 const COLLECTION_NAME = "quick_setup"
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: CLUSTER_ENDPOINT,
-    APIKey:  TOKEN,
-})
 if err != nil {
     log.Fatal(err)
 }
@@ -401,12 +400,7 @@ fmt.Println(result.InsertCount)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
 let colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"];
 let mut rows = Vec::new();
 for i in 0..10000 {
@@ -437,19 +431,6 @@ println!("insert count: {}", resp.insert_count());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <random>
-#include <string>
-#include <vector>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-    return 1;
-}
-
 std::vector<std::string> colors = {"green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"};
 std::mt19937 rng(42);
 std::uniform_int_distribution<int> color_dist(0, (int)colors.size() - 1);
@@ -483,16 +464,9 @@ std::cout << "insert count: " << response.Results().InsertCount() << std::endl;
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
 const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 const TOKEN = "YOUR_CLUSTER_TOKEN";
 const COLLECTION_NAME = "quick_setup";
-
-const client = new MilvusClient({
-  address: CLUSTER_ENDPOINT,
-  token: TOKEN,
-});
 
 const colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"];
 const data = [];
@@ -519,8 +493,6 @@ await client.insert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 // 3. Insert randomly generated vectors
 string[] colors = { "green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey" };
 Random random = new();
@@ -574,13 +546,8 @@ await client.InsertAsync(new InsertReq { CollectionName = "quick_setup", RowsDat
 <TabItem value='python'>
 
 ```python
-import json
-from pymilvus import MilvusClient
-
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 TOKEN = "YOUR_CLUSTER_TOKEN"
-
-client = MilvusClient(uri=CLUSTER_ENDPOINT, token=TOKEN)
 
 # 6. Query with iterator
 
@@ -616,20 +583,6 @@ while True:
 <TabItem value='java'>
 
 ```java
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import io.milvus.orm.iterator.QueryIterator;
-import io.milvus.response.QueryResultsWrapper;
-import io.milvus.v2.service.vector.request.QueryIteratorReq;
-
 // 6. Query with iterators
 
 try {
@@ -684,29 +637,12 @@ while (true) {
 <TabItem value='go'>
 
 ```go
-package main
-
-import (
-    "context"
-    "encoding/json"
-    "errors"
-    "io"
-    "log"
-    "os"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 ctx := context.Background()
 
 const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 const TOKEN = "YOUR_CLUSTER_TOKEN"
 const COLLECTION_NAME = "quick_setup"
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: CLUSTER_ENDPOINT,
-    APIKey:  TOKEN,
-})
 if err != nil {
     log.Fatal(err)
 }
@@ -749,11 +685,7 @@ os.WriteFile("results.json", data, 0644)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
 let mut iterator = client
     .query_iterator(
         QueryIteratorRequest::builder()
@@ -783,16 +715,6 @@ println!("exported {} rows", count);
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-    return 1;
-}
-
 milvus::QueryIteratorRequest request;
 request.WithCollectionName("quick_setup")
        .WithFilter("color_tag like \"brown_8%\"")
@@ -826,16 +748,9 @@ std::cout << "exported " << count << " rows" << std::endl;
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
 const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 const TOKEN = "YOUR_CLUSTER_TOKEN";
 const COLLECTION_NAME = "quick_setup";
-
-const client = new MilvusClient({
-  address: CLUSTER_ENDPOINT,
-  token: TOKEN,
-});
 
 const iterator = await client.queryIterator({
   collection_name: COLLECTION_NAME,
@@ -857,9 +772,6 @@ console.log("exported " + count + " rows");
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 // 6. Query with iterator
 int count = 0;
 await foreach (IReadOnlyList<FieldData> batch in client.QueryIteratorAsync(new QueryIteratorReq
@@ -886,3 +798,4 @@ Console.WriteLine($"exported {count} rows");
 
 </TabItem>
 </Tabs>
+

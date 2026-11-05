@@ -67,7 +67,7 @@ Cohere Ranker は検索時に定義および適用されるため、クエリご
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
+from pymilvus import MilvusClient, DataType, Function, FunctionType
 
 client = MilvusClient(
     uri="YOUR_ZILLIZ_CLOUD_URI",
@@ -131,6 +131,7 @@ client.insert(collection_name, data)
 <TabItem value='java'>
 
 ```java
+import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
@@ -138,6 +139,9 @@ import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.util.Arrays;
@@ -194,6 +198,7 @@ client.insert(InsertReq.builder()
 ```go
 import (
     "context"
+    "fmt"
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
@@ -253,6 +258,7 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json;
 
 let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_ZILLIZ_CLOUD_URI").token("YOUR_ZILLIZ_CLOUD_TOKEN")).await?;
 
@@ -511,8 +517,6 @@ rerank 関数では、次の項目を指定します。
 <TabItem value='python'>
 
 ```python
-from pymilvus import Function, FunctionType
-
 cohere_ranker = Function(
     name="cohere_semantic_ranker",
     input_field_names=["document"],
@@ -533,10 +537,6 @@ cohere_ranker = Function(
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.Collections;
-
 CreateCollectionReq.Function cohere_ranker = CreateCollectionReq.Function.builder()
         .name("cohere_semantic_ranker")
         .functionType(FunctionType.RERANK)
@@ -554,10 +554,6 @@ CreateCollectionReq.Function cohere_ranker = CreateCollectionReq.Function.builde
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
-
 cohere_ranker := entity.NewFunction().
     WithName("cohere_semantic_ranker").
     WithType(entity.FunctionTypeRerank).
@@ -574,8 +570,6 @@ cohere_ranker.WithParam("integration_id", "YOUR_INTEGRATION_ID")
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let cohere_ranker = FunctionScore::new().add_function(
     Function::new()
         .name("cohere_semantic_ranker")
@@ -594,8 +588,6 @@ let cohere_ranker = FunctionScore::new().add_function(
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-
 auto cohere_ranker = std::make_shared<milvus::FunctionScore>();
 auto cohere_function = std::make_shared<milvus::Function>("cohere_semantic_ranker", milvus::FunctionType::RERANK);
 cohere_function->AddInputFieldName("document");
@@ -612,8 +604,6 @@ cohere_ranker->AddFunction(cohere_function);
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
-
 const cohere_ranker = {
     name: "cohere_semantic_ranker",
     type: FunctionType.RERANK,
@@ -633,8 +623,6 @@ const cohere_ranker = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-
 // Note: model rerank functions with provider-specific params (provider/model_name/
 // credential/integration_id) are not yet supported in milvus-sdk-csharp as of v3.0.0
 // (FunctionSchema.Params cannot be populated externally).
@@ -684,15 +672,6 @@ print(results)
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 String collectionName = "cohere_rerank_demo";
 
 CreateCollectionReq.Function cohere_ranker = CreateCollectionReq.Function.builder()
@@ -726,13 +705,6 @@ System.out.println(searchResp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 collectionName := "cohere_rerank_demo"
 
 cohere_ranker := entity.NewFunction().
@@ -764,8 +736,6 @@ for _, result := range results {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let collection_name = "cohere_rerank_demo";
 
 let cohere_ranker = FunctionScore::new().add_function(
@@ -802,10 +772,6 @@ println!("{:?}", response);
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <vector>
-#include "milvus/MilvusClientV2.h"
-
 std::string collection_name = "cohere_rerank_demo";
 
 auto cohere_ranker = std::make_shared<milvus::FunctionScore>();
@@ -847,10 +813,6 @@ for (const auto& row : output_rows) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({ address: "YOUR_ZILLIZ_CLOUD_URI", token: "YOUR_ZILLIZ_CLOUD_TOKEN" });
-
 const collection_name = "cohere_rerank_demo";
 
 const cohere_ranker = {
@@ -886,8 +848,6 @@ console.log(results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-
 // Note: searching with a model rerank function is not yet supported in
 // milvus-sdk-csharp as of v3.0.0 (FunctionSchema.Params cannot be populated externally).
 ```
@@ -945,5 +905,5 @@ Cohere Ranker はハイブリッド検索でも使用できます。
 
 どちらの場合も、検索時に `ranker` パラメーターを介して rerank 関数を渡します。
 
-
 詳細については、[マルチベクトルハイブリッド検索](./hybrid-search) を参照してください。
+
