@@ -1,5 +1,5 @@
 ---
-title: "ユースケースに適したアナライザーを選択する | Cloud"
+title: "ユースケースに適したアナライザーの選択 | Cloud"
 slug: /choose-the-right-analyzer-for-your-use-case
 sidebar_label: "ベストプラクティス"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud のテキストコンテンツに最適なアナライザーを選択して構成する方法を説明します。 | Cloud"
+description: "このガイドでは、Zilliz Cloud のテキストコンテンツに最適なアナライザーを選択して構成する方法について説明します。 | Cloud"
 type: origin
 token: Pulhw06e5iXJTFkidFXcGbylnod
 sidebar_position: 6
@@ -21,21 +21,21 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
-# ユースケースに適したアナライザーを選択する
+# ユースケースに適したアナライザーの選択
 
-このガイドでは、Zilliz Cloud のテキストコンテンツに最適な**アナライザー**を選択して構成する方法を説明します。
+このガイドでは、Zilliz Cloud のテキストコンテンツに最適な **アナライザー** を選択して構成する方法について説明します。
 
-**実践的な意思決定**に焦点を当て、使用するアナライザー、カスタマイズするタイミング、構成の検証方法について説明します。アナライザーのコンポーネントとパラメーターの背景については、[アナライザーの概要](./analyzer-overview) を参照してください。
+**実践的な意思決定** に焦点を当て、どのアナライザーを使用するか、いつカスタマイズするか、構成をどのように検証するかについて説明します。アナライザーのコンポーネントとパラメーターの背景については、[アナライザーの概要](./analyzer-overview) を参照してください。
 
-## クイックコンセプト：アナライザーの仕組み\{#quick-concept-how-analyzers-work}
+## 概要：アナライザーの動作\{#quick-concept-how-analyzers-work}
 
 アナライザーはテキストデータを処理し、[全文検索](./full-text-search)（BM25 ベース）、[フレーズマッチ](./phrase-match)、[テキストマッチ](./text-match) などの機能で検索できるようにします。2 段階のパイプラインを通じて、生のテキストを個別の検索可能なトークンに変換します。
 
 ![JwMZwIYUwhbSZ4bjhxcc1PfNnvx](https://zdoc-images.s3.us-west-2.amazonaws.com/JwMZwIYUwhbSZ4bjhxcc1PfNnvx.png)
 
-1. **トークン化（必須）：** この初期段階では、**トークナイザー**を適用して、連続するテキスト文字列をトークンと呼ばれる個別の意味のある単位に分割します。トークン化の方法は、言語やコンテンツタイプによって大きく異なる場合があります。
+1. **トークン化（必須）:** この最初の段階では、**トークナイザー** を適用して、連続するテキスト文字列をトークンと呼ばれる個別の意味のある単位に分割します。トークン化の方法は、言語やコンテンツタイプによって大きく異なる場合があります。
 
-1. **トークンフィルタリング（任意）：** トークン化後、**フィルター**を適用してトークンを変更、削除、または絞り込みます。これらの操作には、すべてのトークンを小文字に変換する、一般的な無意味な語（ストップワードなど）を削除する、単語を語幹に還元する（ステミング）などがあります。
+1. **トークンフィルタリング（オプション）:** トークン化の後、**フィルター** を適用してトークンを変更、削除、または絞り込みます。これらの操作には、すべてのトークンを小文字に変換する、一般的な意味のない単語（ストップワードなど）を削除する、単語を語根形に還元する（ステミング）などがあります。
 
 例：
 
@@ -47,9 +47,9 @@ Input: "Hello World!"
 
 ## アナライザーの選択が重要な理由\{#why-the-choice-of-analyzer-matters}
 
-選択するアナライザーは、**検索品質と関連性**に直接影響します。
+選択するアナライザーは、**検索品質と関連性** に直接影響します。
 
-不適切なアナライザーは、トークン化不足または過剰、用語の欠落、無関係な結果を引き起こす可能性があります。
+不適切なアナライザーは、トークン化の不足や過剰、用語の欠落、無関係な結果を引き起こす可能性があります。
 
 <table>
    <tr>
@@ -60,44 +60,46 @@ Input: "Hello World!"
      <th><p>解決策（適切なアナライザー）</p></th>
    </tr>
    <tr>
-     <td><p>トークン化過剰</p></td>
-     <td><p>技術用語、識別子、URL が不適切に分割される</p></td>
+     <td><p>トークン化の過剰</p></td>
+     <td><p>技術用語、識別子、URL が正しく分割されない</p></td>
      <td><ul><li><p><code>&quot;user_id&quot;</code> → <code>['user', 'id']</code></p></li><li><p><code>&quot;C++&quot;</code> → <code>['c']</code></p></li></ul></td>
      <td><p><a href="./standard-analyzer"><code>standard</code></a> アナライザー</p></td>
      <td><p><a href="./whitespace-tokenizer"><code>whitespace</code></a> トークナイザーを使用し、<a href="./alphanumonly-filter"><code>alphanumonly</code></a> フィルターと組み合わせます。</p></td>
    </tr>
    <tr>
-     <td><p>トークン化不足</p></td>
-     <td><p>複数語のフレーズが 1 つのトークンとして扱われる</p></td>
+     <td><p>トークン化の不足</p></td>
+     <td><p>複数単語のフレーズが 1 つのトークンとして扱われる</p></td>
      <td><p><code>&quot;state-of-the-art&quot;</code> → <code>['state-of-the-art']</code></p></td>
      <td><p><a href="./whitespace-tokenizer"><code>whitespace</code></a> トークナイザーを使用するアナライザー</p></td>
-     <td><p>句読点とスペースで分割する <a href="./standard-tokenizer"><code>standard</code></a> トークナイザーを使用します。カスタム <a href="./regex-filter">regex</a> フィルターを使用します。</p></td>
+     <td><p><a href="./standard-tokenizer"><code>standard</code></a> トークナイザーを使用して句読点とスペースで分割し、カスタムの <a href="./regex-filter">regex</a> フィルターを使用します。</p></td>
    </tr>
    <tr>
      <td><p>言語の不一致</p></td>
-     <td><p>外国語の結果が無意味になる</p></td>
-     <td><p>中国語テキスト：<code>&quot;机器学习&quot;</code> → <code>['机器学习']</code>（1 トークン）</p></td>
+     <td><p>外国語の結果が意味をなさない</p></td>
+     <td><p>中国語テキスト：<code>&quot;机器学习&quot;</code> → <code>['机器学习']</code>（1 つのトークン）</p></td>
      <td><p><a href="./english-analyzer"><code>english</code></a> アナライザー</p></td>
-     <td><p><a href="./chinese-analyzer"><code>chinese</code></a> など、言語固有のアナライザーを使用します。</p></td>
+     <td><p><a href="./chinese-analyzer"><code>chinese</code></a> などの言語固有のアナライザーを使用します。</p></td>
    </tr>
    <tr>
-     <td><p>入力方式の不一致</p></td>
-     <td><p>ユーザーはピンインで入力するが、インデックスされるテキストは漢字です。</p></td>
+     <td><p>入力方法の不一致</p></td>
+     <td><p>ユーザーはピンインを入力しますが、インデックス付きテキストでは漢字が使用されています。</p></td>
      <td><p>中国語テキスト：<code>&quot;足球&quot;</code>、クエリテキスト：<code>&quot;zuqiu&quot;</code></p></td>
-     <td><p>中国語文字のトークンのみを出力するアナライザー</p></td>
-     <td><p><a href="./jieba-tokenizer"><code>jieba</code></a> トークナイザーと <a href="./pinyin-filter"><code>pinyin</code></a> フィルターを使用するカスタムアナライザーを使用します。</p></td>
+     <td><p>漢字のトークンのみを出力するアナライザー</p></td>
+     <td><p><a href="./jieba-tokenizer"><code>jieba</code></a> トークナイザーと <a href="./pinyin-filter"><code>pinyin</code></a> フィルターを備えたカスタムアナライザーを使用します。</p></td>
    </tr>
 </table>
 
-## ステップ 1：アナライザーを選択する必要がありますか？\{#step-1-do-you-need-to-choose-an-analyzer}
+## ステップ 1：アナライザーを選択する必要があるか\{#step-1-do-you-need-to-choose-an-analyzer}
 
-テキスト検索機能（**全文検索**、**フレーズマッチ**、**テキストマッチ** など）を使用しているが、**アナライザーを明示的に指定していない**場合、Zilliz Cloud は [標準アナライザー](./standard-analyzer) を自動的に適用します。
+テキスト検索機能（**全文検索**、**フレーズマッチ**、**テキストマッチ** など）を使用しているものの、**アナライザーを明示的に指定していない** 場合、
 
-**標準アナライザーの動作**：
+Zilliz Cloud は自動的に [standard アナライザー](./standard-analyzer) を適用します。
 
-- スペースと句読点でテキストを分割します
+**standard アナライザーの動作**：
 
-- すべてのトークンを小文字に変換します
+- テキストをスペースと句読点で分割します。
+
+- すべてのトークンを小文字に変換します。
 
 **変換例**：
 
@@ -106,29 +108,29 @@ Input:  "The Milvus vector database is built for scale!"
 Output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
 ```
 
-## ステップ 2：標準アナライザーでニーズを満たせるか確認する\{#step-2-check-if-the-standard-analyzer-meets-your-needs}
+## ステップ 2：standard アナライザーが必要な要件を満たすか確認する\{#step-2-check-if-the-standard-analyzer-meets-your-needs}
 
-この表を使用して、デフォルトの [`standard`](./standard-analyzer) [アナライザー](./standard-analyzer) でニーズを満たせるかどうかをすばやく判断します。満たせない場合は、[別のパスを選択](./choose-the-right-analyzer-for-your-use-case#step-3-choose-your-path) する必要があります。
+この表を使用して、デフォルトの [`standard`](./standard-analyzer)[ アナライザー](./standard-analyzer) が必要な要件を満たすかどうかをすばやく判断してください。満たさない場合は、[別のパスを選択](./choose-the-right-analyzer-for-your-use-case#step-3-choose-your-path) する必要があります。
 
-| コンテンツ | 標準アナライザーで対応可能か？ | 理由 | 必要な対応 |
+| コンテンツ | standard アナライザーで問題ないか | 理由 | 必要な対応 |
 | --- | --- | --- | --- |
-| 英語のブログ記事 | ✅ はい | デフォルトの動作で十分です。 | デフォルトを使用します（構成は不要です）。 |
-| 中国語のドキュメント | ❌ いいえ | 中国語の単語にはスペースがなく、1 つのトークンとして扱われます。 | 組み込みの [`chinese`](./chinese-analyzer) アナライザーを使用します。 |
-| 技術ドキュメント | ❌ いいえ | `C++` などの用語から句読点が削除されます。 | [`whitespace`](./whitespace-tokenizer) トークナイザーと [`alphanumonly`](./alphanumonly-filter) フィルターを使用するカスタムアナライザーを作成します。 |
-| フランス語/Spanish テキストなど、スペース区切りの言語 | ⚠️ 場合による | アクセント付き文字（`café` と `cafe`）が一致しない場合があります。 | より良い結果を得るには、[`asciifolding`](./ascii-folding-filter) を含むカスタムアナライザーをお勧めします。 |
-| 多言語または不明な言語 | ❌ いいえ | `standard` アナライザーには、異なる文字セットとトークン化規則を処理するために必要な言語固有のロジックがありません。 | unicode 対応のトークン化には、[`icu`](./icu-tokenizer) トークナイザーを使用するカスタムアナライザーを使用します。<br/>または、多言語コンテンツをより正確に処理するために、[多言語アナライザー](./multi-language-analyzers) または [言語識別子](./language-identifier-tokenizer) の構成を検討してください。 |
+| 英語のブログ投稿 | ✅ はい | デフォルトの動作で十分です。 | デフォルトを使用します（構成は不要です）。 |
+| 中国語のドキュメント | ❌ いいえ | 中国語の単語にはスペースがないため、1 つのトークンとして扱われます。 | 組み込みの [`chinese`](./chinese-analyzer) アナライザーを使用します。 |
+| 技術ドキュメント | ❌ いいえ | `C++` などの用語から句読点が削除されます。 | [`whitespace`](./whitespace-tokenizer) トークナイザーと [`alphanumonly`](./alphanumonly-filter) フィルターを使用してカスタムアナライザーを作成します。 |
+| フランス語/Spanish などのスペース区切り言語のテキスト | ⚠️ 場合による | アクセント付き文字（`café` と `cafe`）が一致しない可能性があります。 | より良い結果を得るには、[`asciifolding`](./ascii-folding-filter) を備えたカスタムアナライザーをお勧めします。 |
+| 多言語または不明な言語 | ❌ いいえ | `standard` アナライザーには、異なる文字セットとトークン化ルールを処理するために必要な言語固有のロジックがありません。 | Unicode 対応のトークン化には、[`icu`](./icu-tokenizer) トークナイザーを備えたカスタムアナライザーを使用します。<br/>または、多言語コンテンツをより正確に処理するために、[多言語アナライザー](./multi-language-analyzers) または [言語識別子](./language-identifier-tokenizer) の構成を検討してください。 |
 
 ## ステップ 3：パスを選択する\{#step-3-choose-your-path}
 
-デフォルトの [標準アナライザー](./standard-analyzer) で不十分な場合は、次の 2 つのパスのいずれかを選択します：
+デフォルトの [standard アナライザー](./standard-analyzer) では不十分な場合は、次の 2 つのパスのいずれかを選択します。
 
-- **パス A – 組み込みアナライザーを使用する**（すぐに使用でき、言語固有）
+- **パス A – 組み込みアナライザーを使用する**（すぐに使用可能、言語固有）
 
-- **パス B – カスタムアナライザーを作成する**（トークナイザーと一連のフィルターを手動で定義する）
+- **パス B – カスタムアナライザーを作成する**（トークナイザーと一連のフィルターを手動で定義）
 
 ### パス A：組み込みアナライザーを使用する\{#path-a-use-built-in-analyzers}
 
-組み込みアナライザーは、一般的な言語向けに事前構成されたソリューションです。デフォルトの標準アナライザーが完全に適合しない場合に、最も簡単に始められる方法です。
+組み込みアナライザーは、一般的な言語向けに事前構成されたソリューションです。デフォルトの standard アナライザーが完全には適合しない場合に、最も簡単に始められる方法です。
 
 #### 利用可能な組み込みアナライザー\{#available-built-in-analyzers}
 
@@ -141,21 +143,21 @@ Output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
    </tr>
    <tr>
      <td><p><a href="./standard-analyzer"><code>standard</code></a></p></td>
-     <td><p>ほとんどのスペース区切り言語（英語、フランス語、ドイツ語、スペイン語など）</p></td>
+     <td><p>スペースで区切るほとんどの言語（英語、フランス語、ドイツ語、スペイン語など）</p></td>
      <td><ul><li><p>トークナイザー：<code>standard</code></p></li><li><p>フィルター：<code>lowercase</code></p></li></ul></td>
      <td><p>初期のテキスト処理向けの汎用アナライザーです。単一言語のシナリオでは、<code>english</code> などの言語固有のアナライザーの方が優れたパフォーマンスを提供します。</p></td>
    </tr>
    <tr>
      <td><p><a href="./english-analyzer"><code>english</code></a></p></td>
-     <td><p>Dedicated アナライザーは英語専用で、英語の意味マッチングを改善するためにステミングとストップワードの削除を適用します</p></td>
-     <td><ul><li><p>トークナイザー：<code>standard</code></p></li><li><p>フィルター：<code>lowercase</code>、<code>stemmer</code>、<code>stop</code></p></li></ul></td>
+     <td><p>Dedicated アナライザーは英語専用で、ステミングとストップワードの削除を適用し、英語のセマンティックマッチングを改善します。</p></td>
+     <td><ul><li><p>トークナイザー：<code>standard</code></p></li><li><p>フィルター：<code>lowercase</code>, <code>stemmer</code>, <code>stop</code></p></li></ul></td>
      <td><p>英語のみのコンテンツには、<code>standard</code> よりも推奨されます。</p></td>
    </tr>
    <tr>
      <td><p><a href="./chinese-analyzer"><code>chinese</code></a></p></td>
      <td><p>中国語</p></td>
      <td><ul><li><p>トークナイザー：<code>jieba</code></p></li><li><p>フィルター：<code>cnalphanumonly</code></p></li></ul></td>
-     <td><p>現在はデフォルトで簡体字中国語の辞書を使用します。</p></td>
+     <td><p>現在、デフォルトでは簡体字中国語の辞書を使用します。</p></td>
    </tr>
 </table>
 
@@ -188,11 +190,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 
@@ -210,8 +207,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 analyzerParams := map[string]any{"type": "english"}
 
 schema.WithField(entity.NewField().
@@ -227,9 +222,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let analyzer_params = serde_json::json!({"type": "english"});
 let schema = CollectionSchema::new().add_field(FieldSchema::new()
     .name("text")
@@ -256,8 +248,6 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 const analyzer_params = { type: "english" };
 
 const schema = [
@@ -276,8 +266,6 @@ const schema = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 // Using built-in English analyzer
 Dictionary<string, object> analyzerParams = new()
 {
@@ -315,15 +303,15 @@ export textField='{
 
 ### パス B：カスタムアナライザーを作成する\{#path-b-create-a-custom-analyzer}
 
-[組み込み](./choose-the-right-analyzer-for-your-use-case#available-built-in-analyzers)[オプション](./choose-the-right-analyzer-for-your-use-case#available-built-in-analyzers)がニーズを満たさない場合は、トークナイザーと一連のフィルターを組み合わせてカスタムアナライザーを作成できます。これにより、テキスト処理パイプラインを完全に制御できます。
+[組み込み](./choose-the-right-analyzer-for-your-use-case#available-built-in-analyzers)[オプション](./choose-the-right-analyzer-for-your-use-case#available-built-in-analyzers) が要件を満たさない場合は、トークナイザーと一連のフィルターを組み合わせてカスタムアナライザーを作成できます。これにより、テキスト処理パイプラインを完全に制御できます。
 
 #### ステップ 1：言語に基づいてトークナイザーを選択する\{#step-1-select-the-tokenizer-based-on-language}
 
-コンテンツの主要言語に基づいてトークナイザーを選択します：
+コンテンツの主要言語に基づいてトークナイザーを選択してください：
 
-##### 西洋言語\{#western-languages}
+##### 西欧言語\{#western-languages}
 
-スペース区切りの言語では、次のオプションを使用できます：
+スペースで区切る言語には、次のオプションがあります：
 
 <table>
    <tr>
@@ -341,7 +329,7 @@ export textField='{
    <tr>
      <td><p><a href="./whitespace-tokenizer"><code>whitespace</code></a></p></td>
      <td><p>空白文字のみで分割します</p></td>
-     <td><p>前処理済みのコンテンツ、ユーザーが整形したテキスト</p></td>
+     <td><p>前処理済みのコンテンツ、ユーザーが書式設定したテキスト</p></td>
      <td><ul><li><p>入力：<code>&quot;user_id = get_user_data()&quot;</code></p></li><li><p>出力：<code>['user_id', '=', 'get_user_data()']</code></p></li></ul></td>
    </tr>
 </table>
@@ -361,7 +349,7 @@ export textField='{
    </tr>
    <tr>
      <td><p><a href="./jieba-tokenizer"><code>jieba</code></a></p></td>
-     <td><p>インテリジェントアルゴリズムによる中国語辞書ベースの分割</p></td>
+     <td><p>インテリジェントアルゴリズムを使用した中国語辞書ベースの分割</p></td>
      <td><p><strong>中国語コンテンツに推奨</strong> - 辞書とインテリジェントアルゴリズムを組み合わせ、中国語向けに特別に設計されています</p></td>
      <td><ul><li><p>入力：<code>&quot;机器学习是人工智能的一个分支&quot;</code></p></li><li><p>出力：<code>['机器', '学习', '是', '人工', '智能', '人工智能', '的', '一个', '分支']</code></p></li></ul></td>
    </tr>
@@ -386,7 +374,7 @@ export textField='{
    <tr>
      <td><p>日本語</p></td>
      <td><p><a href="./lindera-tokenizer"><code>lindera</code></a></p></td>
-     <td><p><a href="https://taku910.github.io/mecab/">ipadic</a>（汎用）、<a href="https://github.com/neologd/mecab-ipadic-neologd">ipadic-neologd</a>（現代の用語）、<a href="https://clrd.ninjal.ac.jp/unidic/">unidic</a>（学術）</p></td>
+     <td><p><a href="https://taku910.github.io/mecab/">ipadic</a>（汎用）、<a href="https://github.com/neologd/mecab-ipadic-neologd">ipadic-neologd</a>（現代用語）、<a href="https://clrd.ninjal.ac.jp/unidic/">unidic</a>（学術）</p></td>
      <td><p>固有名詞を処理する形態素解析</p></td>
      <td><ul><li><p>入力：<code>&quot;東京都渋谷区&quot;</code></p></li><li><p>出力：<code>[&quot;東京&quot;, &quot;都&quot;, &quot;渋谷&quot;, &quot;区&quot;]</code></p></li></ul></td>
    </tr>
@@ -420,21 +408,21 @@ export textField='{
 
 **`icu` を使用する場合**：
 
-- 言語の識別が現実的でない混在言語。
+- 言語の識別が現実的でない混在言語の場合です。
 
-- [多言語アナライザー](./multi-language-analyzers) または [言語識別子](./language-identifier-tokenizer) のオーバーヘッドを避けたい場合。
+- [多言語アナライザー](./multi-language-analyzers) や [言語識別子](./language-identifier-tokenizer) のオーバーヘッドを避けたい場合です。
 
-- コンテンツに主要言語があり、全体的な意味にほとんど寄与しない外国語の単語が時々含まれる場合（例：英語のテキストに、日本語やフランス語のブランド名や技術用語が散発的に含まれる場合）。
+- 全体の意味にほとんど寄与しない外来語が時々含まれる主要言語のコンテンツの場合です（例：日本語やフランス語のブランド名や技術用語が散在する英語テキスト）。
 
 **代替アプローチ**：多言語コンテンツをより正確に処理するには、多言語アナライザーまたは言語識別子の使用を検討してください。詳細については、[多言語アナライザー](./multi-language-analyzers) または [言語識別子](./language-identifier-tokenizer) を参照してください。
 
-#### ステップ 2：精度向上のためにフィルターを追加する\{#step-2-add-filters-for-precision}
+#### ステップ 2：精度を高めるフィルターを追加する\{#step-2-add-filters-for-precision}
 
-[トークナイザーを選択](./choose-the-right-analyzer-for-your-use-case#step-1-select-the-tokenizer-based-on-language) した後、具体的な検索要件とコンテンツの特性に基づいてフィルターを適用します。
+[トークナイザーを選択](./choose-the-right-analyzer-for-your-use-case#step-1-select-the-tokenizer-based-on-language) した後、特定の検索要件とコンテンツの特性に基づいてフィルターを適用します。
 
 ##### 一般的に使用されるフィルター\{#commonly-used-filters}
 
-これらのフィルターは、ほとんどのスペース区切り言語の構成（英語、フランス語、ドイツ語、スペイン語など）に不可欠であり、検索品質を大幅に向上させます：
+これらのフィルターは、スペースで区切るほとんどの言語構成（英語、フランス語、ドイツ語、スペイン語など）に不可欠であり、検索品質を大幅に向上させます：
 
 <table>
    <tr>
@@ -451,27 +439,27 @@ export textField='{
    </tr>
    <tr>
      <td><p><a href="./stemmer-filter"><code>stemmer</code></a></p></td>
-     <td><p>単語を語幹の形に還元します</p></td>
-     <td><p>単語の活用がある言語（英語、フランス語、ドイツ語など）</p></td>
+     <td><p>単語を語根形に還元します</p></td>
+     <td><p>単語の屈折がある言語（英語、フランス語、ドイツ語など）</p></td>
      <td><p>英語の場合：</p><ul><li><p>入力：<code>[&quot;running&quot;, &quot;runs&quot;, &quot;ran&quot;]</code></p></li><li><p>出力：<code>[['run'], ['run'], ['ran']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./stop-filter"><code>stop</code></a></p></td>
-     <td><p>一般的な無意味な語を削除します</p></td>
-     <td><p>ほとんどの言語 - スペース区切り言語に特に有効です</p></td>
+     <td><p>一般的な意味のない単語を削除します</p></td>
+     <td><p>ほとんどの言語 - 特にスペースで区切る言語に効果的です</p></td>
      <td><ul><li><p>入力：<code>[&quot;the&quot;, &quot;quick&quot;, &quot;brown&quot;, &quot;fox&quot;]</code></p></li><li><p>出力：<code>[[], ['quick'], ['brown'], ['fox']]</code></p></li></ul></td>
    </tr>
 </table>
 
 <Admonition type="info" title="Notes">
 
-東アジア言語（中国語、日本語、韓国語など）の場合は、代わりに [言語固有のフィルター](./choose-the-right-analyzer-for-your-use-case#language-specific-filters) に注目してください。これらの言語は通常、テキスト処理に異なるアプローチを使用しており、ステミングによる大きな効果が得られない場合があります。
+東アジア言語（中国語、日本語、韓国語など）の場合は、代わりに [言語固有のフィルター](./choose-the-right-analyzer-for-your-use-case#language-specific-filters) に注目してください。これらの言語は通常、テキスト処理に異なるアプローチを使用し、ステミングによる大きな効果が得られない場合があります。
 
 </Admonition>
 
 ##### テキスト正規化フィルター\{#text-normalization-filters}
 
-これらのフィルターはテキストのばらつきを標準化し、マッチングの一貫性を向上させます：
+これらのフィルターはテキストのバリエーションを標準化して、マッチングの一貫性を向上させます：
 
 <table>
    <tr>
@@ -482,7 +470,7 @@ export textField='{
    </tr>
    <tr>
      <td><p><a href="./ascii-folding-filter"><code>asciifolding</code></a></p></td>
-     <td><p>アクセント付き文字を ASCII 相当の文字に変換します</p></td>
+     <td><p>アクセント付き文字を ASCII の同等文字に変換します</p></td>
      <td><p>国際的なコンテンツ、ユーザー生成コンテンツ</p></td>
      <td><ul><li><p>入力：<code>[&quot;café&quot;, &quot;naïve&quot;, &quot;résumé&quot;]</code></p></li><li><p>出力：<code>[['cafe'], ['naive'], ['resume']]</code></p></li></ul></td>
    </tr>
@@ -508,7 +496,7 @@ export textField='{
    <tr>
      <td><p><a href="./alphanumonly-filter"><code>alphanumonly</code></a></p></td>
      <td><p>文字と数字のみを保持します</p></td>
-     <td><p>技術コンテンツ、クリーンなテキスト処理</p></td>
+     <td><p>技術的なコンテンツ、クリーンなテキスト処理</p></td>
      <td><ul><li><p>入力：<code>[&quot;user123&quot;, &quot;test@email.com&quot;]</code></p></li><li><p>出力：<code>[['user123'], ['test', 'email', 'com']]</code></p></li></ul></td>
    </tr>
    <tr>
@@ -527,7 +515,7 @@ export textField='{
 
 ##### 言語固有のフィルター\{#language-specific-filters}
 
-これらのフィルターは、特定の言語の特性を処理します：
+これらのフィルターは特定の言語特性を処理します：
 
 <table>
    <tr>
@@ -545,26 +533,26 @@ export textField='{
    <tr>
      <td><p><a href="./cnalphanumonly-filter">cnalphanumonly</a></p></td>
      <td><p>中国語</p></td>
-     <td><p>中国語の文字と英数字を保持します</p></td>
+     <td><p>漢字 + 英数字を保持します</p></td>
      <td><ul><li><p>入力：<code>[&quot;Hello&quot;, &quot;世界&quot;, &quot;123&quot;, &quot;!@#&quot;]</code></p></li><li><p>出力：<code>[['Hello'], ['世界'], ['123'], []]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./cncharonly-filter"><code>cncharonly</code></a></p></td>
      <td><p>中国語</p></td>
-     <td><p>中国語の文字のみを保持します</p></td>
+     <td><p>漢字のみを保持します</p></td>
      <td><ul><li><p>入力：<code>[&quot;Hello&quot;, &quot;世界&quot;, &quot;123&quot;]</code></p></li><li><p>出力：<code>[[], ['世界'], []]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./pinyin-filter"><code>pinyin</code></a></p></td>
      <td><p>中国語</p></td>
-     <td><p>中国語のトークンに対してピンイン形式のトークンを出力します</p></td>
+     <td><p>中国語トークンに対してピンインのトークン形式を出力します</p></td>
      <td><ul><li><p>入力：<code>[&quot;中文&quot;]</code></p></li><li><p>出力：<code>[['中文', 'zhong', 'wen']]</code></p></li></ul></td>
    </tr>
 </table>
 
 #### ステップ 3：組み合わせて実装する\{#step-3-combine-and-implement}
 
-カスタムアナライザーを作成するには、`analyzer_params` ディクショナリでトークナイザーとフィルターのリストを定義します。フィルターはリストに記載された順序で適用されます。
+カスタムアナライザーを作成するには、`analyzer_params` ディクショナリでトークナイザーとフィルターのリストを定義します。フィルターはリストされている順序で適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -592,12 +580,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "whitespace");
 analyzerParams.put("filter", Arrays.asList("lowercase", "alphanumonly"));
@@ -616,8 +598,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 analyzerParams := map[string]any{
     "tokenizer": "whitespace",
     "filter": []any{"lowercase", "alphanumonly"},
@@ -636,9 +616,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let analyzer_params = serde_json::json!({
     "tokenizer": "whitespace",
     "filter": ["lowercase", "alphanumonly"]
@@ -671,8 +648,6 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 const analyzer_params = {
   tokenizer: "whitespace",
   filter: ["lowercase", "alphanumonly"],
@@ -694,8 +669,6 @@ const schema = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 // Example: A custom analyzer for technical content
 Dictionary<string, object> analyzerParams = new()
 {
@@ -747,6 +720,11 @@ print("Analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Arrays;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
@@ -776,6 +754,7 @@ import (
     "encoding/json"
     "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -810,6 +789,7 @@ for _, r := range result {
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
         .texts(vec!["The Milvus vector database is built for scale!"])
@@ -842,7 +822,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+import { DataType, MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -858,10 +838,11 @@ console.log(result.results);
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Responses.Utility;
-using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -903,15 +884,15 @@ curl --request POST \
 
 確認すべき一般的な問題：
 
-- **トークン化過剰**：技術用語が不適切に分割される
+- **トークン化の過剰**：技術用語が正しく分割されません。
 
-- **トークン化不足**：フレーズが適切に分割されない
+- **トークン化の不足**：フレーズが適切に分離されません。
 
-- **トークンの欠落**：重要な用語がフィルタリングされる
+- **欠落したトークン**：重要な用語がフィルターで除外されます。
 
 詳細な使用方法については、[run_analyzer](https://milvus.io/api-reference/pymilvus/v2.6.x/MilvusClient/CollectionSchema/run_analyzer.md) を参照してください。
 
-## ユースケース別クイックレシピ\{#quick-recipes-by-use-case}
+## ユースケース別のクイックレシピ\{#quick-recipes-by-use-case}
 
 このセクションでは、Zilliz Cloud でアナライザーを使用する際の一般的なユースケース向けに、推奨されるトークナイザーとフィルターの構成を提供します。コンテンツタイプと検索要件に最も適した組み合わせを選択してください。
 
@@ -1165,7 +1146,7 @@ curl --request POST \
 }
 ```
 
-### 混在または多言語のコンテンツ\{#mixed-or-multilingual-content}
+### 混在言語または多言語コンテンツ\{#mixed-or-multilingual-content}
 
 複数の言語にまたがるコンテンツや、文字体系が予測できないコンテンツを扱う場合は、`icu` アナライザーから始めてください。この Unicode 対応アナライザーは、混在した文字体系と記号を効果的に処理します。
 
@@ -1186,10 +1167,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "icu");
 analyzerParams.put("filter", Arrays.asList("lowercase", "asciifolding"));
@@ -1211,8 +1188,6 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = serde_json::json!({
     "tokenizer": "icu",
     "filter": ["lowercase", "asciifolding"]
@@ -1246,8 +1221,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 Dictionary<string, object> analyzerParams = new()
 {
     ["tokenizer"] = "icu",
@@ -1271,14 +1244,15 @@ export analyzerParams='{
 
 **高度な多言語処理**：
 
-異なる言語間でトークンの動作をより細かく制御するには：
+言語ごとのトークンの動作をより細かく制御するには：
 
-- **多言語アナライザー**の構成を使用します。詳細については、[多言語アナライザー](./multi-language-analyzers) を参照してください。
+- **多言語アナライザー** 構成を使用します。詳細については、[多言語アナライザー](./multi-language-analyzers) を参照してください。
 
-- コンテンツに**言語識別子**を実装します。詳細については、[言語識別子](./language-identifier-tokenizer) を参照してください。
+- コンテンツに **言語識別子** を実装します。詳細については、[言語識別子](./language-identifier-tokenizer) を参照してください。
 
 ## Zilliz Cloud でアナライザーを構成してプレビューする\{#configure-and-preview-analyzers-in-zilliz-cloud}
 
 Zilliz Cloud では、コードを記述せずに、[Zilliz Cloud](https://cloud.zilliz.com/) [コンソール](https://cloud.zilliz.com/) から直接テキストアナライザーを構成してテストできます。
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
+

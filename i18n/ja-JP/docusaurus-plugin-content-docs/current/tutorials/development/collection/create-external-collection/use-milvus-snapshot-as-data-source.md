@@ -76,6 +76,11 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.snapshot.request.DescribeSnapshotReq;
 import io.milvus.v2.service.snapshot.response.DescribeSnapshotResp;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -100,8 +105,8 @@ import (
     "context"
     "fmt"
     "log"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
 )
 
 ctx := context.Background()
@@ -154,8 +159,9 @@ println!("External source: {external_source}");
 #include <iostream>
 #include <stdexcept>
 #include <string>
-
 #include "milvus/MilvusClientV2.h"
+#include <memory>
+#include <milvus/thirdparty/nlohmann/json.hpp>
 
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
@@ -278,12 +284,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 // The snapshot metadata path obtained in Step 1
 String externalSource = "s3://bucket/snapshots/{source_collection_id}/metadata/{snapshot_id}.json";
 
@@ -307,25 +307,11 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 ctx := context.Background()
 
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     log.Fatal("failed to connect to milvus: ", err.Error())
 }
-defer client.Close(ctx)
-
 // The snapshot metadata path obtained in Step 1
 externalSource := "s3://bucket/snapshots/{source_collection_id}/metadata/{snapshot_id}.json"
 
@@ -354,10 +340,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
-
 // The snapshot metadata path obtained in Step 1
 let external_source = "s3://bucket/snapshots/{source_collection_id}/metadata/{snapshot_id}.json";
 
@@ -391,21 +373,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <memory>
-#include <stdexcept>
-#include <string>
-
-#include "milvus/MilvusClientV2.h"
-#include <milvus/thirdparty/nlohmann/json.hpp>
-
-auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    throw std::runtime_error(status.Message());
-}
-
 // The snapshot metadata path obtained in Step 1
 std::string external_source = "s3://bucket/snapshots/{source_collection_id}/metadata/{snapshot_id}.json";
 
@@ -437,10 +404,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 // The snapshot metadata path obtained in Step 1
 const externalSource = "s3://bucket/snapshots/{source_collection_id}/metadata/{snapshot_id}.json";
 

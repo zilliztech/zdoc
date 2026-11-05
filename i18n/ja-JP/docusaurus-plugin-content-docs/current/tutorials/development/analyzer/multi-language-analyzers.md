@@ -204,13 +204,6 @@ const multi_analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var multiAnalyzerParams = new Dictionary<string, object>
 {
     // Define language-specific analyzers
@@ -261,7 +254,7 @@ export multi_analyzer_params='{
 
 <table>
    <tr>
-    <th><p>パラメーター</p></th>
+     <th><p>パラメーター</p></th>
     <th><p>必須</p></th>
     <th><p>説明</p></th>
     <th><p>ルール</p></th>
@@ -461,15 +454,13 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-    let schema = CollectionSchema::new()
-        .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
-        .add_field(FieldSchema::new().name("language").data_type(DataType::VarChar).max_length(255))
-        .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(8192)
-            .enable_analyzer(true)
-            .multi_analyzer_params(multi_analyzer_params.clone()))
-        .add_field(FieldSchema::new().name("sparse").data_type(DataType::SparseFloatVector));
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
+    .add_field(FieldSchema::new().name("language").data_type(DataType::VarChar).max_length(255))
+    .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(8192)
+        .enable_analyzer(true)
+        .multi_analyzer_params(multi_analyzer_params.clone()))
+    .add_field(FieldSchema::new().name("sparse").data_type(DataType::SparseFloatVector));
 ```
 
 </TabItem>
@@ -545,13 +536,6 @@ const schema = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Add fields: id (primary key), language (analyzer selection), text (multi-language analysis), sparse (BM25 output)
 var text = FieldSchema.CreateVarchar("text", maxLength: 8192, enableAnalyzer: true);
 text.MultiAnalyzerParams = multiAnalyzerParams;
@@ -636,10 +620,6 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.Collections;
-
 CreateCollectionReq.Function function = CreateCollectionReq.Function.builder()
         .functionType(FunctionType.BM25)
         .name("text_to_vector")
@@ -654,8 +634,6 @@ collectionSchema.addFunction(function);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 function := entity.NewFunction()
 schema.WithFunction(function.WithName("text_to_vector").
     WithType(entity.FunctionTypeBM25).
@@ -668,14 +646,12 @@ schema.WithFunction(function.WithName("text_to_vector").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-    let function = Function::new()
-        .name("text_to_vector")
-        .function_type(FunctionType::Bm25)
-        .input_fields(["text"])
-        .output_fields(["sparse"]);
-    let schema = schema.add_function(function);
+let function = Function::new()
+    .name("text_to_vector")
+    .function_type(FunctionType::Bm25)
+    .input_fields(["text"])
+    .output_fields(["sparse"]);
+let schema = schema.add_function(function);
 ```
 
 </TabItem>
@@ -711,13 +687,6 @@ const functions = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Create the BM25 function and add it to the schema
 schema.Functions.Add(FunctionSchema.CreateBm25("text_to_vector", "text", "sparse"));
 ```
@@ -778,10 +747,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import java.util.ArrayList;
-import java.util.List;
-
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("sparse")
@@ -795,12 +760,6 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 idx := index.NewAutoIndex(index.MetricType(entity.BM25))
 indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "sparse", idx)
 ```
@@ -810,12 +769,10 @@ indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "spar
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-    let index_params = vec![IndexParam::new()
-        .field_name("sparse")
-        .index_type(IndexType::AutoIndex)
-        .metric_type(MetricType::Bm25)];
+let index_params = vec![IndexParam::new()
+    .field_name("sparse")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::Bm25)];
 ```
 
 </TabItem>
@@ -843,13 +800,6 @@ const index_params = [{
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Configure index parameters: add index for the sparse vector field
 var indexParams = new[]
 {
@@ -915,10 +865,6 @@ client.load_collection(COLLECTION_NAME)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.collection.request.DropCollectionReq;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-
 client.dropCollection(DropCollectionReq.builder()
         .collectionName("multilingual_documents")
         .build());
@@ -939,12 +885,6 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("multilingual_documents", schema).
         WithIndexOptions(indexOption))
@@ -965,17 +905,15 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-    let _ = client.drop_collection(DropCollectionRequest::builder()
-        .collection_name("multilingual_documents").build()?).await;
-    client.create_collection(CreateCollectionRequest::builder()
-        .collection_name("multilingual_documents")
-        .schema(schema)
-        .index_params(index_params)
-        .build()?).await?;
-    client.load_collection(LoadCollectionRequest::builder()
-        .collection_name("multilingual_documents").build()?).await?;
+let _ = client.drop_collection(DropCollectionRequest::builder()
+    .collection_name("multilingual_documents").build()?).await;
+client.create_collection(CreateCollectionRequest::builder()
+    .collection_name("multilingual_documents")
+    .schema(schema)
+    .index_params(index_params)
+    .build()?).await?;
+client.load_collection(LoadCollectionRequest::builder()
+    .collection_name("multilingual_documents").build()?).await?;
 ```
 
 </TabItem>
@@ -1028,6 +966,7 @@ using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 const string collectionName = "multilingual_documents";
 
@@ -1122,12 +1061,6 @@ print("Documents by language: 2 English, 2 Chinese")
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 List<String> texts = Arrays.asList(
         "Artificial intelligence is transforming technology",
         "Machine learning models require large datasets",
@@ -1180,19 +1113,17 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-    let documents = vec![
-        serde_json::json!({"text": "Artificial intelligence is transforming technology", "language": "english"}),
-        serde_json::json!({"text": "Machine learning models require large datasets", "language": "en"}),
-        serde_json::json!({"text": "人工智能正在改变技术领域", "language": "chinese"}),
-        serde_json::json!({"text": "机器学习模型需要大型数据集", "language": "cn"}),
-    ];
-    let resp = client.insert(InsertRequest::builder()
-        .collection_name("multilingual_documents")
-        .rows(documents)
-        .build()?).await?;
-    println!("inserted: {}", resp.insert_count());
+let documents = vec![
+    serde_json::json!({"text": "Artificial intelligence is transforming technology", "language": "english"}),
+    serde_json::json!({"text": "Machine learning models require large datasets", "language": "en"}),
+    serde_json::json!({"text": "人工智能正在改变技术领域", "language": "chinese"}),
+    serde_json::json!({"text": "机器学习模型需要大型数据集", "language": "cn"}),
+];
+let resp = client.insert(InsertRequest::builder()
+    .collection_name("multilingual_documents")
+    .rows(documents)
+    .build()?).await?;
+println!("inserted: {}", resp.insert_count());
 ```
 
 </TabItem>
@@ -1267,13 +1198,6 @@ console.log("Documents by language: 2 English, 2 Chinese");
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 const string collectionName = "multilingual_documents";
 
 // Prepare multilingual documents
@@ -1393,11 +1317,6 @@ for i, hit in enumerate(english_results[0]):
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
-
 Map<String,Object> searchParams = new HashMap<>();
 searchParams.put("metric_type", "BM25");
 searchParams.put("analyzer_name", "english");
@@ -1425,13 +1344,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "multilingual_documents", // collectionName
     3,                        // limit
@@ -1460,25 +1372,22 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
-    let request = SearchRequest::builder()
-        .collection_name("multilingual_documents")
-        .vectors(SearchVectors::EmbeddedText(vec!["artificial intelligence".to_string()]))
-        .vector_field("sparse")
-        .limit(3)
-        .output_fields(vec!["text", "language"])
-        .metric_type(MetricType::Bm25)
-        .extra_params(HashMap::from([
-            ("analyzer_name".to_string(), "english".to_string()),
-            ("drop_ratio_search".to_string(), "0".to_string()),
-        ]))
-        .build()?;
-    let resp = client.search(request).await?;
-    for result in resp.results().iter() {
-        println!("score: {:?}", result.get_scores());
-    }
+let request = SearchRequest::builder()
+    .collection_name("multilingual_documents")
+    .vectors(SearchVectors::EmbeddedText(vec!["artificial intelligence".to_string()]))
+    .vector_field("sparse")
+    .limit(3)
+    .output_fields(vec!["text", "language"])
+    .metric_type(MetricType::Bm25)
+    .extra_params(HashMap::from([
+        ("analyzer_name".to_string(), "english".to_string()),
+        ("drop_ratio_search".to_string(), "0".to_string()),
+    ]))
+    .build()?;
+let resp = client.search(request).await?;
+for result in resp.results().iter() {
+    println!("score: {:?}", result.get_scores());
+}
 ```
 
 </TabItem>
@@ -1543,13 +1452,6 @@ english_results.results.forEach((hit, i) => {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 const string collectionName = "multilingual_documents";
 
 // Configure search parameters
@@ -1687,22 +1589,22 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-    let request = SearchRequest::builder()
-        .collection_name("multilingual_documents")
-        .vectors(SearchVectors::EmbeddedText(vec!["人工智能".to_string()]))
-        .vector_field("sparse")
-        .limit(3)
-        .output_fields(vec!["text", "language"])
-        .metric_type(MetricType::Bm25)
-        .extra_params(HashMap::from([
-            ("analyzer_name".to_string(), "cn".to_string()),
-            ("drop_ratio_search".to_string(), "0".to_string()),
-        ]))
-        .build()?;
-    let resp = client.search(request).await?;
-    for result in resp.results().iter() {
-        println!("score: {:?}", result.get_scores());
-    }
+let request = SearchRequest::builder()
+    .collection_name("multilingual_documents")
+    .vectors(SearchVectors::EmbeddedText(vec!["人工智能".to_string()]))
+    .vector_field("sparse")
+    .limit(3)
+    .output_fields(vec!["text", "language"])
+    .metric_type(MetricType::Bm25)
+    .extra_params(HashMap::from([
+        ("analyzer_name".to_string(), "cn".to_string()),
+        ("drop_ratio_search".to_string(), "0".to_string()),
+    ]))
+    .build()?;
+let resp = client.search(request).await?;
+for result in resp.results().iter() {
+    println!("score: {:?}", result.get_scores());
+}
 ```
 
 </TabItem>
@@ -1767,13 +1669,6 @@ cn_results.results.forEach((hit, i) => {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 searchParams.AnalyzerName = "cn";
 
 // Execute the search
