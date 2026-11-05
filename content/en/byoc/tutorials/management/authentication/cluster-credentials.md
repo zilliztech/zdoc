@@ -46,6 +46,7 @@ If you forget a user's password or suspect it has been leaked, you can reset the
 
     ```python
     from pymilvus import MilvusClient
+    
     client = MilvusClient(
         uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
         token="user:password"
@@ -64,6 +65,7 @@ If you forget a user's password or suspect it has been leaked, you can reset the
 
     ```java
     import io.milvus.v2.service.rbac.request.UpdatePasswordReq;
+    
     UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
             .userName("user_1")
             .password("P@ssw0rd")

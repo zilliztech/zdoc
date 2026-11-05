@@ -1,7 +1,6 @@
 ---
 title: "Database in Serving Clusters | Cloud"
 slug: /database
-sidebar_label: "Database in Serving Clusters"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "A database in a serving cluster is a logical container for collections hosted by a Dedicated serving cluster. Use this page to create, view, configure, use, and drop databases through a serving cluster endpoint. | Cloud"
 type: origin
-token: DtLVw8EUyi6MqMkXh3Cc3rfZnic
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-database
+sidebar_label: "Database in Serving Clusters"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/manage_databases.md"
 
 ---
 
@@ -21,15 +22,15 @@ import TabItem from '@theme/TabItem';
 
 # Database in Serving Clusters
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+A database in a serving cluster is a logical container for collections hosted by a Dedicated serving cluster. Use this page to create, view, configure, use, and drop databases through a serving cluster endpoint.
+
+<Admonition type="info" icon="📘" title="Notes">
 
 This feature is available only with the Enterprise plan or higher.
 
-</FeatureNote>
+</Admonition>
 
-A database in a serving cluster is a logical container for collections hosted by a Dedicated serving cluster. Use this page to create, view, configure, use, and drop databases through a serving cluster endpoint.
-
-<Admonition type="info" title="Note">
+<Admonition type="info" icon="📘" title="Notes">
 
 This page is for databases in serving clusters. For project-level databases queried with on-demand compute, see [Database for On-Demand Search](./on-demand-database). For a comparison of database models, see [Database Explained](./database-concept).
 
@@ -51,7 +52,7 @@ When a Dedicated cluster is created, a default database is created automatically
 
 ## Create database\{#create-database}
 
-You can create a database from the Zilliz Cloud console or programmatically.
+You can use the Zilliz Cloud RESTful API or SDKs to create a database programmatically.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -61,11 +62,11 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
 client.create_database(
-    db_name="my_database_1",
+    db_name="my_database_1"
 )
 ```
 
@@ -74,22 +75,20 @@ client.create_database(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.database.request.CreateDatabaseReq;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.service.database.request.*;
 
 ConnectConfig config = ConnectConfig.builder()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")
-    .build();
-
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
-CreateDatabaseReq request = CreateDatabaseReq.builder()
-    .databaseName("my_database_1")
-    .build();
-
-client.createDatabase(request);
+CreateDatabaseReq createDatabaseReq = CreateDatabaseReq.builder()
+        .databaseName("my_database_1")
+        .build();
+client.createDatabase(createDatabaseReq);
 ```
 
 </TabItem>
@@ -105,17 +104,17 @@ import (
 
 ctx := context.Background()
 
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
-    // handle error
+    // handle err
 }
 
-err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_1"))
+err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_1"))
 if err != nil {
-    // handle error
+    // handle err
 }
 ```
 
@@ -168,16 +167,15 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
+import {MilvusClient} from '@zilliz/milvus2-sdk-node';
 const client = new MilvusClient({
-  address: "YOUR_CLUSTER_ENDPOINT",
-  token: "YOUR_CLUSTER_TOKEN",
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: 'YOUR_CLUSTER_TOKEN'
 });
 
 await client.createDatabase({
-  db_name: "my_database_1",
-});
+    db_name: "my_database_1"
+ });
 ```
 
 </TabItem>
@@ -206,19 +204,25 @@ await client.CreateDatabaseAsync(new CreateDatabaseReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/create" \
-  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
     "dbName": "my_database_1"
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
-You can also set properties when creating a database. The following example sets the number of replicas.
+
+You can also set properties for the database when you create it. The following example sets the number of replicas of the database.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -227,8 +231,8 @@ You can also set properties when creating a database. The following example sets
 client.create_database(
     db_name="my_database_2",
     properties={
-        "database.replica.number": 3,
-    },
+        "database.replica.number": 3
+    }
 )
 ```
 
@@ -237,19 +241,13 @@ client.create_database(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.CreateDatabaseReq;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, String> properties = new HashMap<>();
 properties.put("database.replica.number", "3");
-
-CreateDatabaseReq request = CreateDatabaseReq.builder()
-    .databaseName("my_database_2")
-    .properties(properties)
-    .build();
-
-client.createDatabase(request);
+CreateDatabaseReq createDatabaseReq = CreateDatabaseReq.builder()
+        .databaseName("my_database_2")
+        .properties(properties)
+        .build();
+client.createDatabase(createDatabaseReq);
 ```
 
 </TabItem>
@@ -257,15 +255,9 @@ client.createDatabase(request);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
-err = client.CreateDatabase(
-    ctx,
-    milvusclient.NewCreateDatabaseOption("my_database_2").
-        WithProperty("database.replica.number", 3),
-)
+err := cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_2").WithProperty("database.replica.number", 3))
 if err != nil {
-    // handle error
+    // handle err
 }
 ```
 
@@ -309,10 +301,10 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.createDatabase({
-  db_name: "my_database_2",
-  properties: {
-    "database.replica.number": 3,
-  },
+    db_name: "my_database_2",
+    properties: {
+        "database.replica.number": 3
+    }
 });
 ```
 
@@ -338,36 +330,48 @@ await client.CreateDatabaseAsync(new CreateDatabaseReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/create" \
-  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
     "dbName": "my_database_2",
     "properties": {
-      "database.replica.number": 3
+        "database.replica.number": 3
     }
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
+
 
 ## View databases\{#view-databases}
 
-List databases or describe a specific database.
+You can use the Zilliz Cloud RESTful API or SDKs to list all existing databases and view their details.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-databases = client.list_databases()
-print(databases)
+# List all existing databases
+client.list_databases()
 
-database = client.describe_database(
-    db_name="default",
+# Output
+# ['default', 'my_database_1', 'my_database_2']
+
+# Check database details
+client.describe_database(
+    db_name="default"
 )
-print(database)
+
+# Output
+# {"name": "default"}
 ```
 
 </TabItem>
@@ -375,17 +379,13 @@ print(database)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.DescribeDatabaseReq;
-import io.milvus.v2.service.database.response.DescribeDatabaseResp;
-import io.milvus.v2.service.database.response.ListDatabasesResp;
+import io.milvus.v2.service.database.response.*;
 
-ListDatabasesResp databases = client.listDatabases();
+ListDatabasesResp listDatabasesResp = client.listDatabases();
 
-DescribeDatabaseResp database = client.describeDatabase(
-    DescribeDatabaseReq.builder()
+DescribeDatabaseResp descDBResp = client.describeDatabase(DescribeDatabaseReq.builder()
         .databaseName("default")
-        .build()
-);
+        .build());
 ```
 
 </TabItem>
@@ -393,23 +393,18 @@ DescribeDatabaseResp database = client.describeDatabase(
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-databases, err := client.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
+// List all existing databases
+databases, err := cli.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
 if err != nil {
-    // handle error
+    // handle err
 }
 log.Println(databases)
 
-database, err := client.DescribeDatabase(ctx, milvusclient.NewDescribeDatabaseOption("default"))
+db, err := cli.DescribeDatabase(ctx, milvusclient.NewDescribeDatabaseOption("default"))
 if err != nil {
-    // handle error
+    // handle err
 }
-log.Println(database)
+log.Println(db)
 ```
 
 </TabItem>
@@ -459,13 +454,9 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const databases = await client.listDatabases();
-console.log(databases);
-
-const database = await client.describeDatabase({
-  db_name: "default",
+await client.describeDatabase({
+    db_name: 'default'
 });
-console.log(database);
 ```
 
 </TabItem>
@@ -491,19 +482,27 @@ Console.WriteLine(database.DatabaseName);
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/describe" \
-  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/describe" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
     "dbName": "default"
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
+
 ## Manage database properties\{#manage-database-properties}
+
+Each database has its own properties, you can set the properties of a database when you create the database as described in [Create database](./database#create-database) or you can alter and drop the properties of any existing database.
 
 The following database properties can be configured for databases in serving clusters.
 
@@ -516,7 +515,7 @@ The following database properties can be configured for databases in serving clu
 
 ### Alter database properties\{#alter-database-properties}
 
-The following example limits the number of collections that can be created in a database.
+You can alter the properties of an existing database as follows. The following example limits the number of collections you can create in the database.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -525,8 +524,8 @@ The following example limits the number of collections that can be created in a 
 client.alter_database_properties(
     db_name="my_database_1",
     properties={
-        "database.max.collections": 10,
-    },
+        "database.max.collections": 10
+    }
 )
 ```
 
@@ -537,12 +536,10 @@ client.alter_database_properties(
 ```java
 import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
 
-client.alterDatabaseProperties(
-    AlterDatabasePropertiesReq.builder()
+client.alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
         .databaseName("my_database_1")
         .property("database.max.collections", "10")
-        .build()
-);
+        .build());
 ```
 
 </TabItem>
@@ -550,15 +547,10 @@ client.alterDatabaseProperties(
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
-err = client.AlterDatabaseProperties(
-    ctx,
-    milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
-        WithProperty("database.max.collections", 10),
-)
+err := cli.AlterDatabaseProperties(ctx, milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
+    WithProperty("database.max.collections", 10))
 if err != nil {
-    // handle error
+    // handle err
 }
 ```
 
@@ -603,7 +595,7 @@ await client.alterDatabaseProperties({
   properties: {
     "database.max.collections": 10,
   },
-});
+})
 ```
 
 </TabItem>
@@ -628,24 +620,30 @@ await client.AlterDatabasePropertiesAsync(new AlterDatabasePropertiesReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/alter" \
-  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/alter" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
     "dbName": "my_database_1",
     "properties": {
-      "database.max.collections": 10
+        "database.max.collections": 10
     }
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
+
 
 ### Drop database properties\{#drop-database-properties}
 
-The following example removes the collection limit from a database.
+You can also reset a database property by dropping it as follows. The following example removes the limit on the number of collections you can create in the database.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -654,8 +652,8 @@ The following example removes the collection limit from a database.
 client.drop_database_properties(
     db_name="my_database_1",
     property_keys=[
-        "database.max.collections",
-    ],
+        "database.max.collections"
+    ]
 )
 ```
 
@@ -667,12 +665,10 @@ client.drop_database_properties(
 import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
 import java.util.Collections;
 
-client.dropDatabaseProperties(
-    DropDatabasePropertiesReq.builder()
+client.dropDatabaseProperties(DropDatabasePropertiesReq.builder()
         .databaseName("my_database_1")
         .propertyKeys(Collections.singletonList("database.max.collections"))
-        .build()
-);
+        .build());
 ```
 
 </TabItem>
@@ -680,14 +676,9 @@ client.dropDatabaseProperties(
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
-err = client.DropDatabaseProperties(
-    ctx,
-    milvusclient.NewDropDatabasePropertiesOption("my_database_1", "database.max.collections"),
-)
+err := cli.DropDatabaseProperties(ctx, milvusclient.NewDropDatabasePropertiesOption("my_database_1", "database.max.collections"))
 if err != nil {
-    // handle error
+    // handle err
 }
 ```
 
@@ -752,28 +743,34 @@ await client.DropDatabasePropertiesAsync(new DropDatabasePropertiesReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/alter" \
-  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/alter" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
     "dbName": "my_database_1",
     "propertyKeys": [
-      "database.max.collections"
+        "database.max.collections"
     ]
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
+
 
 ## Use database\{#use-database}
 
-You can switch from one database to another without reconnecting when using an SDK.
+You can switch from one database to another without disconnecting from Zilliz Cloud.
 
-<Admonition type="info" title="Note">
+<Admonition type="info" icon="📘" title="Notes">
 
-RESTful API does not support switching databases on a persistent connection. For RESTful API requests, specify the target database in each request body when the operation supports dbName.
+RESTful API does not support switching databases on a persistent connection. For RESTful API requests, specify the target database in each request body when the operation supports `dbName`.
 
 </Admonition>
 
@@ -782,7 +779,7 @@ RESTful API does not support switching databases on a persistent connection. For
 
 ```python
 client.use_database(
-    db_name="my_database_2",
+    db_name="my_database_2"
 )
 ```
 
@@ -799,11 +796,9 @@ client.useDatabase("my_database_2");
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
-err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
+err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
 if err != nil {
-    // handle error
+    // handle err
 }
 ```
 
@@ -854,23 +849,31 @@ await client.UseDatabaseAsync(new UseDatabaseReq
 <TabItem value='bash'>
 
 ```bash
-# RESTful API does not provide a persistent connection to switch.
-# Specify "dbName" in the request body of each operation when supported.
+# This operation is unsupported because RESTful does not provide a persistent connection.
+# As a workaround, initiate the required request again with the target database.
 ```
 
 </TabItem>
+
 </Tabs>
+
 
 ## Drop database\{#drop-database}
 
-Default databases cannot be dropped. Before dropping a database, drop all collections in the database first.
+Once a database is no longer needed, you can drop the database. Note that:
+
+- Default databases cannot be dropped.
+
+- Before dropping a database, you need to drop all collections in the database first.
+
+You can use the Zilliz Cloud RESTful API or SDKs to drop a database programmatically.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.drop_database(
-    db_name="my_database_2",
+    db_name="my_database_2"
 )
 ```
 
@@ -879,13 +882,9 @@ client.drop_database(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.DropDatabaseReq;
-
-client.dropDatabase(
-    DropDatabaseReq.builder()
+client.dropDatabase(DropDatabaseReq.builder()
         .databaseName("my_database_2")
-        .build()
-);
+        .build());
 ```
 
 </TabItem>
@@ -893,11 +892,9 @@ client.dropDatabase(
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
-err = client.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
+err = cli.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
 if err != nil {
-    // handle error
+    // handle err
 }
 ```
 
@@ -957,21 +954,36 @@ await client.DropDatabaseAsync(new DropDatabaseReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/drop" \
-  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/databases/drop" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
     "dbName": "my_database_2"
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
+
+
+## FAQ\{#faq}
+
+### How do I manage permissions for a database?\{#how-do-i-manage-permissions-for-a-database}
+
+Zilliz Cloud uses Role-Based Access Control (RBAC) to manage permissions. You can create roles with specific privileges and assign them to users, thus controlling their access to different databases. For more details, refer to the [RBAC documentation](./access-control-overview).
+
+### Are there any quota limitations for a database?\{#are-there-any-quota-limitations-for-a-database}
+
+Yes, Zilliz Cloud allows you to set quota limitations for a database, such as the maximum number of collections. For a comprehensive list of limitations, please refer to the [Zilliz Cloud Limits documentation](./limits).
 
 ## Next steps\{#next-steps}
 
 - [Database Explained](./database-concept)
 
 - [Database for On-Demand Search](./on-demand-database)
-

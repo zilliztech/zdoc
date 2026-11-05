@@ -161,10 +161,16 @@ import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 import java.util.*;
-
-import java.util.*;
+import io.milvus.v2.service.index.request.AlterIndexPropertiesReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -219,7 +225,6 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 import (
     "context"
     "fmt"
-
     "github.com/milvus-io/milvus/client/v3/common"
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
@@ -321,7 +326,6 @@ client
 #include <memory>
 #include <string>
 #include <utility>
-
 #include "milvus/MilvusClientV2.h"
 
 const std::string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
@@ -411,6 +415,7 @@ await client.alterCollectionFieldProperties({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Index;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -558,17 +563,6 @@ client.alter_index_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.Constant;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.index.request.AlterIndexPropertiesReq;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 schema.addField(AddFieldReq.builder()
         .fieldName("title")
         .dataType(DataType.VarChar)
@@ -602,15 +596,6 @@ client.alterIndexProperties(AlterIndexPropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 schema.WithField(entity.NewField().
     WithName("title").
     WithDataType(entity.FieldTypeVarChar).
@@ -640,9 +625,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let schema = schema.add_field(
     FieldSchema::new().name("title").data_type(DataType::VarChar).max_length(512),
 );
@@ -724,9 +706,6 @@ await client.alterIndexProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Create index on the varchar field with mmap settings
 await client.CreateIndexAsync(new CreateIndexReq
 {
@@ -813,9 +792,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.Constant;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 CreateCollectionReq req = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -829,13 +805,6 @@ client.createCollection(req);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithProperty(common.MmapEnabledKey, "false"))
@@ -850,9 +819,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -895,8 +861,6 @@ await client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 // Disable mmap when creating a collection
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
@@ -955,11 +919,6 @@ client.load_collection("my_collection")
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.Constant;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
-
 client.releaseCollection(ReleaseCollectionReq.builder()
         .collectionName("my_collection")
         .build());
@@ -979,13 +938,6 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1011,9 +963,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 client.release_collection(ReleaseCollectionRequest::builder().collection_name("my_collection").build()?).await?;
 
 client
@@ -1083,8 +1032,6 @@ await client.loadCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 // Release collection before change mmap settings
 await client.ReleaseCollectionAsync(new ReleaseCollectionReq
 {

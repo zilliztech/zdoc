@@ -1,7 +1,6 @@
 ---
 title: "Search Iterator | Cloud"
 slug: /with-iterators
-sidebar_label: "Search Iterator"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,13 +8,14 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "The ANN Search has a maximum limit on the number of entities that can be recalled in a single query, and simply using basic ANN Search may not meet the demands of large-scale retrieval. For ANN Search requests where topK exceeds 16,384, it is advisable to consider using the SearchIterator. This section will introduce how to use the SearchIterator and related considerations. | Cloud"
 type: origin
-token: QVTnwVz2aifvSAkgomAc9KWRnHb
-sidebar_position: 18
 displayed_sidebar: default
+token: shared-with-iterators
+sidebar_label: "Search Iterator"
+sidebar_position: 18
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/with-iterators.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -43,9 +43,9 @@ The following code snippet demonstrates how to create a SearchIterator.
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
+from pymilvus import connections, Collection
 
-client = MilvusClient(
+connections.connect(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
 )
@@ -54,10 +54,12 @@ client = MilvusClient(
 query_vectors = [
     [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]]
 
-iterator = client.search_iterator(
-    collection_name="iterator_collection",
+collection = Collection("iterator_collection")
+
+iterator = collection.search_iterator(
     data=query_vectors,
     anns_field="vector",
+    param={"metric_type": "L2", "params": {"nprobe": 16}},
     # highlight-next-line
     batch_size=50,
     output_fields=["color"],
@@ -74,11 +76,11 @@ iterator = client.search_iterator(
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.orm.iterator.SearchIterator;
-import io.milvus.v2.common.IndexParam.MetricType;
+import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.vector.request.SearchIteratorReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+
 import java.util.Collections;
-import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -90,10 +92,10 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
         .collectionName("iterator_collection")
         .vectors(Collections.singletonList(queryVector))
         .vectorFieldName("vector")
-        .metricType(MetricType.L2)
         .batchSize(500L)
         .outputFields(Collections.singletonList("color"))
         .topK(20000)
+        .metricType(IndexParam.MetricType.L2)
         .build());
 ```
 
@@ -111,24 +113,32 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx := context.Background()
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-c, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
+    // handle error
 }
+defer client.Close(ctx)
 
-vec := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
-iter, err := c.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("iterator_collection", entity.FloatVector(vec)).
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+// create iterator
+iterator, err := client.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("iterator_collection", entity.FloatVector(queryVector)).
     WithANNSField("vector").
     WithAnnParam(index.NewIvfAnnParam(16)).
+    // highlight-next-line
     WithBatchSize(50).
     WithOutputFields("color").
+    // highlight-next-line
     WithIteratorLimit(20000))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 ```
@@ -166,31 +176,41 @@ let iterator = client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <vector>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Failed to connect: " << status.Message() << std::endl;
+    return;
 }
+
+// create iterator
+std::vector<float> queryVector = {
+    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
+};
 
 milvus::SearchIteratorRequest request;
 request.SetCollectionName("iterator_collection");
-request.SetBatchSize(50);
-request.SetLimit(20000);
 request.SetAnnsField("vector");
-request.AddOutputField("color");
 request.SetMetricType(milvus::MetricType::L2);
-
-std::vector<float> vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-request.AddFloatVector(vector);
+request.AddExtraParam("nprobe", "16");
+// highlight-next-line
+request.SetBatchSize(50);
+request.AddOutputField("color");
+// highlight-next-line
+request.SetLimit(20000);
+// SearchIterator only accepts one vector
+request.AddFloatVector(queryVector);
 
 milvus::SearchIteratorPtr iterator;
-auto status = client->SearchIterator(request, iterator);
+status = client->SearchIterator(request, iterator);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Failed to create search iterator: " << status.Message() << std::endl;
+    return;
 }
 ```
 
@@ -215,10 +235,12 @@ const iterator = await milvusClient.searchIterator({
     collection_name: collectionName,
     vectors: queryVectors,
     anns_field: 'vector',
-    batchSize: 50,
+    params: { metric_type: 'L2', params: { nprobe: 16 } },
+    batch_size: 50,
     output_fields: ['color'],
     limit: 20000,
 });
+
 ```
 
 </TabItem>
@@ -294,6 +316,7 @@ zilliz collection search --collection-name my_collection --vector-field vector -
 ```
 
 </TabItem>
+
 </Tabs>
 
 In the above examples, you have set the number of entities to return per search (**batch_size**/**batchSize**) to 50, and the total number of entities to return (**topK**) to 20,000.
@@ -306,6 +329,8 @@ Once the SearchIterator is ready, you can call its next() method to get the sear
 <TabItem value='python'>
 
 ```python
+results = []
+
 while True:
     # highlight-next-line
     result = iterator.next()
@@ -313,9 +338,9 @@ while True:
         # highlight-next-line
         iterator.close()
         break
-    
-    for res in result:
-        print(res)
+
+    for hit in result:
+        results.append(hit.to_dict())
 ```
 
 </TabItem>
@@ -324,6 +349,8 @@ while True:
 
 ```java
 import io.milvus.response.QueryResultsWrapper;
+
+import java.util.List;
 
 while (true) {
     List<QueryResultsWrapper.RowRecord> res = searchIterator.next();
@@ -343,22 +370,16 @@ while (true) {
 <TabItem value='go'>
 
 ```go
-import (
-    "errors"
-    "fmt"
-    "io"
-)
-
 for {
-    rs, err := iter.Next(ctx)
-    // end of iterator
-    if errors.Is(err, io.EOF) {
+    // highlight-next-line
+    resultSet, err := iterator.Next(ctx)
+    if err != nil {
+        // io.EOF marks the end of the iterator
         break
     }
-    if err != nil {
-        // handler error
-    }
-    fmt.Println(rs)
+
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
 }
 ```
 
@@ -386,20 +407,25 @@ loop {
 
 ```c++
 while (true) {
-    milvus::SingleResult batch_results;
-    auto status = iterator->Next(batch_results);
+    milvus::SingleResult result;
+    // highlight-next-line
+    status = iterator->Next(result);
     if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
+        std::cerr << "Iterator next failed: " << status.Message() << std::endl;
         break;
     }
-
-    if (batch_results.GetRowCount() == 0) {
-        std::cout << "search iteration finished" << std::endl;
+    if (result.GetRowCount() == 0) {
+        // highlight-next-line
         break;
     }
 
     milvus::EntityRows rows;
-    status = batch_results.OutputRows(rows);
+    status = result.OutputRows(rows);
+    if (!status.IsOk()) {
+        std::cerr << "Failed to get output rows: " << status.Message() << std::endl;
+        break;
+    }
+
     for (const auto& row : rows) {
         std::cout << row.dump() << std::endl;
     }
@@ -500,6 +526,7 @@ zilliz collection search --collection-name my_collection --vector-field vector -
 ```
 
 </TabItem>
+
 </Tabs>
 
 In the above code examples, you have created an infinite loop and called the **next()** method in the loop to store the search results in a variable and closed the iterator when the **next()** returns nothing.

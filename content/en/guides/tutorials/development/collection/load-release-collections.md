@@ -1,7 +1,6 @@
 ---
 title: "Load & Release | Cloud"
 slug: /load-release-collections
-sidebar_label: "Load & Release"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,19 +8,20 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Loading a collection is a prerequisite for conducting similarity searches and queries within it. This page focuses on the procedures for loading and releasing a collection. | Cloud"
 type: origin
-token: CemEwKryciMUepkgYWZcOw6wncb
-sidebar_position: 8
 displayed_sidebar: default
+token: shared-load-release-collections
+sidebar_label: "Load & Release"
+sidebar_position: 8
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/load-and-release.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Load & Release
 
-Loading a collection is a prerequisite for conducting similarity searches and queries within it. This page focuses on the procedures for loading and releasing a collection.
+Loading a collection is the prerequisite to conducting similarity searches and queries in collections. This page focuses on the procedures for loading and releasing a collection.
 
 ## Prerequisites\{#prerequisites}
 
@@ -38,7 +38,7 @@ Although the same load request applies to both external and managed collections,
 | Environment | Memory Behavior | Execution Detail |
 | --- | --- | --- |
 | Managed collections in serving clusters | Full load | Loads all indexes and data (vector and scalar fields) directly into memory for high-performance access. |
-| External collections in standalone databases | Index-only Load | Loads only the indexes into memory. Raw data is retrieved from disk on demand during active searches or queries. |
+| External collections in standalone databases | Index-only load | Loads only the indexes into memory. Raw data is retrieved from disk on demand during active searches or queries. |
 
 ## Load Collection\{#load-collection}
 
@@ -88,7 +88,7 @@ import io.milvus.v2.client.MilvusClientV2;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Connect to Zilliz Cloud
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -123,26 +123,30 @@ System.out.println(res);
 import (
     "context"
     "fmt"
-    
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
+    APIKey:  token,
 })
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
 defer client.Close(ctx)
-    
+
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
-    // handle err
+    // handle error
 }
 
 // sync wait collection to be loaded
@@ -157,7 +161,7 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-fmt.Println(state)
+fmt.Println(state.State)
 ```
 
 </TabItem>
@@ -219,7 +223,7 @@ if (!status.IsOk()) {
 
 milvus::GetLoadStateResponse response;
 status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection"),
+                                  .WithCollectionName("my_collection"),
                               response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -232,7 +236,7 @@ std::cout << std::to_string(response.State()) << std::endl;
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
@@ -246,9 +250,9 @@ let res = await client.loadCollection({
 console.log(res.error_code)
 
 // Output
-// 
+//
 // Success
-// 
+//
 
 res = await client.getLoadState({
     collection_name: "my_collection"
@@ -257,9 +261,9 @@ res = await client.getLoadState({
 console.log(res.state)
 
 // Output
-// 
+//
 // LoadStateLoaded
-// 
+//
 ```
 
 </TabItem>
@@ -272,9 +276,11 @@ using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Responses.Collection;
 using Milvus.Client.V2.Types;
 
-var client = new MilvusClientV2(new ConnectConfig
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+
+using var client = new MilvusClientV2(new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Uri = CLUSTER_ENDPOINT,
     ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 await client.ConnectAsync();
@@ -335,6 +341,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Load Specific Fields\{#load-specific-fields}
@@ -406,8 +413,8 @@ import (
 )
 
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection").
-        WithLoadFields("my_id", "my_vector").
-        WithSkipLoadDynamicField(true))
+    WithLoadFields("my_id", "my_vector").
+    WithSkipLoadDynamicField(true))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -425,7 +432,7 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-fmt.Println(state)
+fmt.Println(state.State)
 ```
 
 </TabItem>
@@ -472,7 +479,7 @@ if (!status.IsOk()) {
 
 milvus::GetLoadStateResponse response;
 status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection"),
+                                  .WithCollectionName("my_collection"),
                               response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -498,6 +505,7 @@ const res = await client.getLoadState({
 console.log(res.state);
 
 // Output
+//
 // LoadStateLoaded
 ```
 
@@ -506,7 +514,6 @@ console.log(res.state);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Responses.Collection;
 using Milvus.Client.V2.Types;
@@ -532,16 +539,16 @@ Console.WriteLine(res.State);
 <TabItem value='bash'>
 
 ```bash
-# REST
-# Not supported yet
+# The RESTful API does not expose partial collection loading.
 ```
 
 </TabItem>
+
 </Tabs>
 
 If you choose to load specific fields, it is worth noting that only the fields included in `load_fields` can be used as filters and output fields in searches and queries. You should always include the names of the primary field and at least one vector field in `load_fields`.
 
-You can also use `skip_load_dynamic_field` to determine whether to load the dynamic field. The dynamic field is a reserved JSON field named **\&#36;meta** and saves all non-schema-defined fields and their values in key-value pairs. When loading the dynamic field, all keys in the fields are loaded and available for filtering and output. If all keys in the dynamic field are not involved in metadata filtering and output, set `skip_load_dynamic_field` to `True`.
+You can also use `skip_load_dynamic_field` to determine whether to load the dynamic field. The dynamic field is a reserved JSON field named **\$meta** and saves all non-schema-defined fields and their values in key-value pairs. When loading the dynamic field, all keys in the fields are loaded and available for filtering and output. If all keys in the dynamic field are not involved in metadata filtering and output, set `skip_load_dynamic_field` to `True`.
 
 To load more fields after the collection load, you need to release the collection first to avoid possible errors prompted because of index changes.
 
@@ -620,7 +627,7 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-fmt.Println(state)
+fmt.Println(state.State)
 ```
 
 </TabItem>
@@ -663,7 +670,7 @@ if (!status.IsOk()) {
 
 milvus::GetLoadStateResponse response;
 status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection"),
+                                  .WithCollectionName("my_collection"),
                               response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -684,9 +691,9 @@ let res = await client.releaseCollection({
 console.log(res.error_code)
 
 // Output
-// 
+//
 // Success
-// 
+//
 
 res = await client.getLoadState({
     collection_name: "my_collection"
@@ -695,9 +702,9 @@ res = await client.getLoadState({
 console.log(res.state)
 
 // Output
-// 
+//
 // LoadStateNotLoad
-// 
+//
 ```
 
 </TabItem>
@@ -705,7 +712,6 @@ console.log(res.state)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Responses.Collection;
 using Milvus.Client.V2.Types;
@@ -764,5 +770,6 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 

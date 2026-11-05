@@ -1,7 +1,6 @@
 ---
 title: "JSON Operators | Cloud"
 slug: /json-filtering-operators
-sidebar_label: "JSON"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports advanced operators for querying and filtering JSON fields, making them perfect for managing complex, structured data. These operators enable highly effective querying of JSON documents, allowing you to retrieve entities based on specific elements, values, or conditions within the JSON fields. This section will guide you through using JSON-specific operators in Zilliz Cloud, providing practical examples to illustrate their functionality. | Cloud"
 type: origin
-token: Py6zwu6r4iPMqVkKAYXcUYLEnXg
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-json-filtering-operators
+sidebar_label: "JSON"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/json-operators.md"
 
 ---
 
@@ -23,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud supports advanced operators for querying and filtering JSON fields, making them perfect for managing complex, structured data. These operators enable highly effective querying of JSON documents, allowing you to retrieve entities based on specific elements, values, or conditions within the JSON fields. This section will guide you through using JSON-specific operators in Zilliz Cloud, providing practical examples to illustrate their functionality.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 JSON fields cannot deal with complex, nested structures and treats all nested structures as plain strings. Therefore, when working with JSON fields, it is advisable to avoid excessively deep nesting and ensure that your data structures are as flat as possible for optimal performance.
 
@@ -33,11 +34,11 @@ JSON fields cannot deal with complex, nested structures and treats all nested st
 
 Zilliz Cloud provides several powerful JSON operators that help filter and query JSON data, and these operators are:
 
-- [`JSON_CONTAINS(identifier, expr)`](./json-filtering-operators#jsoncontains): Filters entities where the specified JSON expression is found within the field.
+- [`JSON_CONTAINS(identifier, expr)`](#jsoncontains): Filters entities where the specified JSON expression is found within the field.
 
-- [`JSON_CONTAINS_ALL(identifier, expr)`](./json-filtering-operators#jsoncontainsall): Ensures that all elements of the specified JSON expression are present in the field.
+- [`JSON_CONTAINS_ALL(identifier, expr)`](#jsoncontainsall): Ensures that all elements of the specified JSON expression are present in the field.
 
-- [`JSON_CONTAINS_ANY(identifier, expr)`](./json-filtering-operators#jsoncontainsany): Filters entities where at least one member of the JSON expression exists within the field.
+- [`JSON_CONTAINS_ANY(identifier, expr)`](#jsoncontainsany): Filters entities where at least one member of the JSON expression exists within the field.
 
 Let’s explore these operators with examples to see how they can be applied in real-world scenarios.
 
@@ -121,6 +122,7 @@ filter='json_contains(product["tags"], "sale")'
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, Zilliz Cloud will return all products where the `tags` field contains the element `"sale"`.
@@ -205,6 +207,7 @@ filter='json_contains_all(product["tags"], ["electronics", "sale", "new"])'
 ```
 
 </TabItem>
+
 </Tabs>
 
 This query will return all products where the `tags` array contains all three specified elements: `"electronics"`, `"sale"`, and `"new"`.
@@ -289,6 +292,7 @@ filter='json_contains_any(product["tags"], ["electronics", "new", "clearance"])'
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this case, Zilliz Cloud will return all products that have at least one of the tags in the list `["electronics", "new", "clearance"]`. Even if a product only has one of these tags, it will be included in the result.

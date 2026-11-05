@@ -1,7 +1,6 @@
 ---
 title: "JSON Field Overview | Cloud"
 slug: /json-field-overview
-sidebar_label: "Overview"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "When building applications like product catalogs, content management systems, or user preference engines, you often need to store flexible metadata alongside your vector embeddings. Product attributes vary by category, user preferences evolve over time, and document properties have complex nested structures. JSON fields in Zilliz Cloud solve this challenge by allowing you to store and query flexible structured data without sacrificing performance. | Cloud"
 type: origin
-token: Neq4wR0EdiXokRkhXwbcMPfanCd
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-json-field-overview
+sidebar_label: "Overview"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/json-field-overview.md"
 
 ---
 
@@ -52,7 +53,7 @@ Example JSON field structure:
 
 In this example, `metadata` is a single JSON field that contains a mix of flat values (e.g. `category`, `in_stock`), arrays (`tags`), and nested objects (`supplier`).
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **Naming convention:** Use only letters, numbers, and underscores in JSON keys. Avoid special characters, spaces, or dots as they may cause parsing issues in queries.
 
@@ -64,12 +65,33 @@ A common point of confusion is the difference between a JSON field and the [dyna
 
 The table below summarizes the key differences between a JSON field and the dynamic field:
 
-| Feature | JSON Field | Dynamic Field |
-| --- | --- | --- |
-| Schema definition | A scalar field that must be explicitly declared in the collection schema with the `DataType.JSON` type. | A hidden JSON field (named `$meta`) that automatically stores undeclared fields. |
-| Use case | Stores structured data where the schema is known and consistent. | Stores flexible, evolving, or semi-structured data that doesn't fit a fixed schema. |
-| Control | You control the field name and structure. | System-managed for undefined fields. |
-| Querying | Query using your field name or target key inside the JSON field: `metadata["key"]`. | Query directly using the dynamic field key: `"dynamic_key"` or via `$meta`: `$meta["dynamic_key"]` |
+<table>
+   <tr>
+     <th><p>Feature</p></th>
+     <th><p>JSON Field</p></th>
+     <th><p>Dynamic Field</p></th>
+   </tr>
+   <tr>
+     <td><p>Schema definition</p></td>
+     <td><p>A scalar field that must be explicitly declared in the collection schema with the <code>DataType.JSON</code> type.</p></td>
+     <td><p>A hidden JSON field (named <code>$meta</code>) that automatically stores undeclared fields.</p></td>
+   </tr>
+   <tr>
+     <td><p>Use case</p></td>
+     <td><p>Stores structured data where the schema is known and consistent.</p></td>
+     <td><p>Stores flexible, evolving, or semi-structured data that doesn't fit a fixed schema.</p></td>
+   </tr>
+   <tr>
+     <td><p>Control</p></td>
+     <td><p>You control the field name and structure.</p></td>
+     <td><p>System-managed for undefined fields.</p></td>
+   </tr>
+   <tr>
+     <td><p>Querying</p></td>
+     <td><p>Query using your field name or target key inside the JSON field: <code>metadata["key"]</code>.</p></td>
+     <td><p>Query directly using the dynamic field key: <code>"dynamic_key"</code> or via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>
+   </tr>
+</table>
 
 ## Basic operations\{#basic-operations}
 
@@ -85,14 +107,7 @@ To use a JSON field, explicitly define it in your collection schema when creatin
 ```python
 from pymilvus import MilvusClient, DataType
 
-CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
-TOKEN = "YOUR_CLUSTER_TOKEN" 
-
-# Set up a Milvus client
-client = MilvusClient(
-    uri=CLUSTER_ENDPOINT,
-    token=TOKEN 
-)
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Create schema
 schema = client.create_schema(auto_id=False, enable_dynamic_field=True)
@@ -123,7 +138,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -160,7 +175,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 ctx := context.Background()
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -193,7 +208,7 @@ if err := cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("prod
 ```rust
 use milvus::v2::prelude::*;
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 let client = ClientV2::new(
     &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
 )
@@ -242,7 +257,7 @@ client
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
@@ -278,7 +293,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 const TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 const client = new MilvusClient({ address: CLUSTER_ENDPOINT, token: TOKEN });
 
 // Create schema
@@ -318,7 +333,7 @@ using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
@@ -350,6 +365,9 @@ await client.CreateCollectionAsync(new CreateCollectionReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
   --header "Authorization: Bearer ${TOKEN}" \
@@ -384,9 +402,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 In this example, the JSON field defined in the collection schema allows null values with `nullable=True`. For details, refer to [Nullable & Default](./nullable-fields).
 
@@ -696,6 +715,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Filtering operations\{#filtering-operations}
@@ -708,7 +728,7 @@ Before you can perform filtering operations on JSON fields, make sure:
 
 <details>
 
-<summary>Show example code</summary>
+<summary>Show code</summary>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -925,6 +945,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 </details>
@@ -1121,6 +1142,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 To filter for entities where the nested key `supplier["country"]` is `"USA"`:
@@ -1311,6 +1333,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 #### Filtering with JSON-specific operators\{#filtering-with-json-specific-operators}
@@ -1511,6 +1534,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 To find a product that has at least one of the `"electronics"`, `"new"`, or `"clearance"` values under the `tags` key:
@@ -1701,6 +1725,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 For more information about JSON-specific operators, refer to [JSON Operators](./json-filtering-operators).
@@ -1709,7 +1734,7 @@ For more information about JSON-specific operators, refer to [JSON Operators](./
 
 By default, queries on JSON fields without acceleration will perform a full scan of all rows, which can be slow on large datasets. To speed up JSON queries, Zilliz Cloud provides advanced indexing and storage optimization features.
 
-<Admonition type="warning" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Starting in Milvus 3.0.0, whole-object JSON indexing (`json_cast_type="JSON"`), also known as JSON flat indexing, is deprecated. Existing indexes and new index-creation requests remain supported for compatibility, but this mode is no longer recommended for new workloads. Use JSON path indexing for known query paths, or consider [JSON Shredding](./json-shredding) for broad query acceleration across complex or evolving documents.
 
@@ -1717,11 +1742,32 @@ Starting in Milvus 3.0.0, whole-object JSON indexing (`json_cast_type="JSON"`), 
 
 The table below summarizes their differences and best-use scenarios:
 
-| Technique | Best For | Arrays Acceleration | Notes |
-| --- | --- | --- | --- |
-| JSON Indexing | Small set of frequently accessed keys, arrays on a specific array key | Yes (on indexed array key) | Must preselect keys, maintenance needed if schema evolves |
-| JSON Shredding | General speed-up across many keys, flexible for varied queries | Yes (slightly accelerates array values compared to brute-force queries) | Extra storage config, arrays still need per-key index |
-| NGRAM Index | Wildcard searches, substring matching in text fields | N/A | Not for numeric/range filters |
+<table>
+   <tr>
+     <th><p>Technique</p></th>
+     <th><p>Best For</p></th>
+     <th><p>Arrays Acceleration</p></th>
+     <th><p>Notes</p></th>
+   </tr>
+   <tr>
+     <td><p>JSON Indexing</p></td>
+     <td><p>Small set of frequently accessed keys, arrays on a specific array key</p></td>
+     <td><p>Yes (on indexed array key)</p></td>
+     <td><p>Must preselect keys, maintenance needed if schema evolves</p></td>
+   </tr>
+   <tr>
+     <td><p>JSON Shredding</p></td>
+     <td><p>General speed-up across many keys, flexible for varied queries</p></td>
+     <td><p>No (does not accelerate values inside arrays)</p></td>
+     <td><p>Extra storage config, arrays still need per-key index</p></td>
+   </tr>
+   <tr>
+     <td><p>NGRAM Index</p></td>
+     <td><p>Wildcard searches, substring matching in text fields</p></td>
+     <td><p>N/A</p></td>
+     <td><p>Not for numeric/range filters</p></td>
+   </tr>
+</table>
 
 **Tip:** You can combine these approaches—for example, use JSON shredding for broad query acceleration, JSON indexing for high-frequency array keys, and NGRAM indexing for flexible text search.
 

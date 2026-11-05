@@ -1,7 +1,6 @@
 ---
 title: "ARRAY Operators | BYOC"
 slug: /array-filtering-operators
-sidebar_label: "Array"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides ARRAY operators for filtering ARRAY fields and partially updating ARRAY field values. | BYOC"
 type: origin
-token: MaWywRYCniq6vwkJsT7c2wAyn0f
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-array-filtering-operators
+sidebar_label: "Array"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/array-operators.md"
 
 ---
 
@@ -23,7 +24,11 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud provides ARRAY operators for filtering ARRAY fields and partially updating ARRAY field values.
 
-Note: All elements within an array must be the same type, and nested structures within arrays are treated as plain strings. Therefore, when working with ARRAY fields, it is advisable to avoid excessively deep nesting and ensure that your data structures are as flat as possible for optimal performance.
+<Admonition type="info" icon="📘" title="Notes">
+
+All elements within an array must be the same type, and nested structures within arrays are treated as plain strings. Therefore, when working with ARRAY fields, it is advisable to avoid excessively deep nesting and ensure that your data structures are as flat as possible for optimal performance.
+
+</Admonition>
 
 ARRAY operators in Zilliz Cloud cover two usage scenarios:
 
@@ -35,14 +40,14 @@ ARRAY operators in Zilliz Cloud cover two usage scenarios:
 
 The following table lists ARRAY operators available in Zilliz Cloud.
 
-| **Operator** | **Use in** | **Description** |
+| Operator | Use in | Description |
 | --- | --- | --- |
-| [ARRAY_CONTAINS(identifier, expr)](./array-filtering-operators#arraycontains) | Filter expression | Checks whether a specific element exists in an ARRAY field. |
-| [ARRAY_CONTAINS_ALL(identifier, expr)](./array-filtering-operators#arraycontainsall) | Filter expression | Checks whether all elements in a specified list exist in an ARRAY field. |
-| [ARRAY_CONTAINS_ANY(identifier, expr)](./array-filtering-operators#arraycontainsany) | Filter expression | Checks whether any element in a specified list exists in an ARRAY field. |
-| [ARRAY_LENGTH(identifier)](./array-filtering-operators#arraylength) | Filter expression | Returns the number of elements in an ARRAY field and can be combined with comparison operators for filtering. |
-| [ARRAY_APPEND](./array-filtering-operators#arrayappend) | `upsert` with `field_ops` | Appends payload elements to an existing ARRAY field. |
-| [ARRAY_REMOVE](./array-filtering-operators#arrayremove) | `upsert` with `field_ops` | Removes every element from an existing ARRAY field that matches a value in the request payload. |
+| [ARRAY_CONTAINS(identifier, expr)](#arraycontains) | Filter expression | Checks whether a specific element exists in an ARRAY field. |
+| [ARRAY_CONTAINS_ALL(identifier, expr)](#arraycontainsall) | Filter expression | Checks whether all elements in a specified list exist in an ARRAY field. |
+| [ARRAY_CONTAINS_ANY(identifier, expr)](#arraycontainsany) | Filter expression | Checks whether any element in a specified list exists in an ARRAY field. |
+| [ARRAY_LENGTH(identifier)](#arraylength) | Filter expression | Returns the number of elements in an ARRAY field and can be combined with comparison operators for filtering. |
+| [ARRAY_APPEND](#arrayappend) | `upsert` with `field_ops` | Appends payload elements to an existing ARRAY field. Available in Milvus v2.6.17 and later. |
+| [ARRAY_REMOVE](#arrayremove) | `upsert` with `field_ops` | Removes every element from an existing ARRAY field that matches a value in the request payload. Available in Milvus v2.6.17 and later. |
 
 ## ARRAY_CONTAINS\{#arraycontains}
 
@@ -117,6 +122,7 @@ filter='ARRAY_CONTAINS(history_temperatures, 23)'
 ```
 
 </TabItem>
+
 </Tabs>
 
 This will return all entities where the `history_temperatures` array contains the value `23`.
@@ -194,6 +200,7 @@ filter='ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 ```
 
 </TabItem>
+
 </Tabs>
 
 This will return all entities where the `history_temperatures` array contains both of the specified values.
@@ -271,6 +278,7 @@ filter='ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 ```
 
 </TabItem>
+
 </Tabs>
 
 This will return all entities where the `history_temperatures` array contains at least one of the values `23` or `24`.
@@ -348,6 +356,7 @@ filter='ARRAY_LENGTH(history_temperatures) < 10'
 ```
 
 </TabItem>
+
 </Tabs>
 
 This will return all entities where the `history_temperatures` array has fewer than 10 elements.
@@ -515,6 +524,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Attaching `ARRAY_APPEND` to a field through `field_ops` enables partial-update semantics for that field. For the full workflow, supported element types, and limits, refer to [Upsert ARRAY fields in merge mode](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode).
@@ -682,6 +692,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Attaching `ARRAY_REMOVE` to a field through `field_ops` enables partial-update semantics for that field. For the full workflow, supported element types, and limits, refer to [Upsert ARRAY fields in merge mode](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode).

@@ -1,17 +1,18 @@
 ---
 title: "NGRAM | Cloud"
 slug: /ngram-index-type
-sidebar_label: "NGRAM"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `NGRAM` index in Zilliz Cloud accelerates `LIKE` queries and eligible regex filters on `VARCHAR` fields or specific JSON paths within `JSON` fields. Before building the index, Zilliz Cloud splits text into short, overlapping substrings of a fixed length n, known as n-grams. For example, with n = 3, the word \"Milvus\" is split into 3-grams \"Mil\", \"ilv\", \"lvu\", and \"vus\". These n-grams are then stored in an inverted index that maps each gram to the document IDs in which it appears. At query time, this index allows Zilliz Cloud to quickly narrow the search to a small set of candidates before verifying the original filter condition. | Cloud"
+description: "The NGRAM index accelerates LIKE queries and eligible regex filters on VARCHAR fields or specific JSON paths within JSON fields. Before building the index, text is split into short, overlapping substrings of a fixed length n, known as n-grams. At query time, these n-grams narrow the candidate entities before the original filter condition is verified. | Cloud"
 type: origin
-token: Q0wpw4xZiimaUsk4GvScAg2un1d
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-ngram-index-type
+sidebar_label: "NGRAM"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/ngram.md"
 
 ---
 
@@ -35,7 +36,7 @@ Use it when you need fast prefix, suffix, infix, wildcard, or eligible regex fil
 
 - `url =~ "/api/v[0-9]+/users"`
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 For details on `LIKE` and regex filter expression syntax, refer to [Pattern Matching](./pattern-match).
 
@@ -63,43 +64,49 @@ During data ingestion, Zilliz Cloud builds the NGRAM index by performing two mai
 
     - `max_gram`: The longest n-gram to generate. At query time, it is also used as the maximum window size when splitting long query strings.
 
-        For example, with `min_gram=2` and `max_gram=3`, the string `"AI database"` is broken down as follows:
+    For example, with `min_gram=2` and `max_gram=3`, the string `"AI database"` is broken down as follows:
 
-        ![W35aw6aMph7nSobJeFlcXVH8neb](https://zdoc-images.s3.us-west-2.amazonaws.com/W35aw6aMph7nSobJeFlcXVH8neb.png)
+    ![Build Ngram Index](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/1233d6b8942d7f570e157fc900a95d2ef0aa7b0c37297920f13df407919ba546.png)
 
-        - **2-grams:** `AI`, `I_`, `_d`, `da`, `at`, ...
+    - **2-grams:** `AI`, `I_`, `_d`, `da`, `at`, ...
 
-        - **3-grams:** `AI_`, `I_d`, `_da`, `dat`, `ata`, ...
+    - **3-grams:** `AI_`, `I_d`, `_da`, `dat`, `ata`, ...
 
-        <Admonition type="info" title="Notes">
+    <Admonition type="info" icon="📘" title="Notes">
 
-        - For a range `[min_gram, max_gram]`, Zilliz Cloud generates all n-grams for every length between the two values (inclusive). For example, with `[2,4]` and the word `"text"`, Zilliz Cloud generates:
-        
-        - **2-grams:** `te`, `ex`, `xt`
-        
-        - **3-grams:** `tex`, `ext`
-        
-        - **4-grams:** `text`
-        
-        - N-gram decomposition is character-based and language-agnostic. For example, in Chinese, `"向量数据库"` with `min_gram = 2` is decomposed into: `"向量"`, `"量数"`, `"数据"`, `"据库"`.
-        
-        - Spaces and punctuation are treated as characters during decomposition.
-        
-        - Decomposition preserves original case, and matching is case-sensitive. For example, `"Database"` and `"database"` will generate different n-grams and require exact case matching during queries.
+    - For a range `[min_gram, max_gram]`, Zilliz Cloud generates all n-grams for every length between the two values (inclusive). For example, with `[2,4]` and the word `"text"`, Zilliz Cloud generates:
 
-        </Admonition>
+    - **2-grams:** `te`, `ex`, `xt`
+
+    - **3-grams:** `tex`, `ext`
+
+    - **4-grams:** `text`
+
+    - N-gram decomposition is character-based and language-agnostic. For example, in Chinese, `"向量数据库"` with `min_gram = 2` is decomposed into: `"向量"`, `"量数"`, `"数据"`, `"据库"`.
+
+    - Spaces and punctuation are treated as characters during decomposition.
+
+    - Decomposition preserves original case, and matching is case-sensitive. For example, `"Database"` and `"database"` will generate different n-grams and require exact case matching during queries.
+
+    </Admonition>
 
 1. **Build an inverted index**: An **inverted index** is created that maps each generated n-gram to a list of the document IDs containing it.
 
     For instance, if the 2-gram `"AI"` appears in documents with IDs 1, 5, 6, 8, and 9, the index records `{"AI": [1, 5, 6, 8, 9]}`. This index is then used at query time to quickly narrow the search scope.
 
-    ![MJ1OwnzmthWaPYbt7YncrlUznPo](https://zdoc-images.s3.us-west-2.amazonaws.com/MJ1OwnzmthWaPYbt7YncrlUznPo.png)
+    ![Build Ngram Index 2](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/7c8832f6f355e47375246d45eed5aeaf57742ee073fd37cf212140d3e3246f99.png)
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    A wider `[min_gram, max_gram]` range creates more grams and larger mapping lists. If memory is tight, consider mmap mode for very large posting lists. For details, refer to [Use mmap](./use-mmap).
+
+    </Admonition>
 
 ### Phase 2: Accelerate queries\{#phase-2-accelerate-queries}
 
 When a `LIKE` filter or an eligible regex filter is executed, Zilliz Cloud uses the NGRAM index to accelerate the query in the following steps:
 
-![C7Iawzee9hrag7b0LCecWHSunsc](https://zdoc-images.s3.us-west-2.amazonaws.com/C7Iawzee9hrag7b0LCecWHSunsc.png)
+![Accelerate Queries](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a0a7061a61ff0d6d451a94679ce9f75dedb8946288c90f4894fc88ed210a6418.png)
 
 1. **Extract the query term:** The contiguous substring without wildcards is extracted from the `LIKE` expression (e.g., `"%database%"` becomes `"database"`). For regex filters, Zilliz Cloud extracts fixed literal substrings from the regex pattern when possible. For example, `message =~ "error.*timeout"` contains the literals `error` and `timeout`.
 
@@ -321,6 +328,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 This configuration generates 2-grams and 3-grams for each string in `text` and stores them in the inverted index.
@@ -503,6 +511,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example:
@@ -533,7 +542,7 @@ Supported query types:
     <TabItem value='python'>
 
     ```python
-    # Match any string that starts with the substring "database" 
+    # Match any string that starts with the substring "database"
     filter = 'text LIKE "database%"'
     ```
 
@@ -593,6 +602,7 @@ Supported query types:
     ```
 
     </TabItem>
+
     </Tabs>
 
 - **Suffix match**
@@ -601,7 +611,7 @@ Supported query types:
     <TabItem value='python'>
 
     ```python
-    # Match any string that ends with the substring "database" 
+    # Match any string that ends with the substring "database"
     filter = 'text LIKE "%database"'
     ```
 
@@ -661,6 +671,7 @@ Supported query types:
     ```
 
     </TabItem>
+
     </Tabs>
 
 - **Infix match**
@@ -669,7 +680,7 @@ Supported query types:
     <TabItem value='python'>
 
     ```python
-    # Match any string that contains the substring "database" anywhere 
+    # Match any string that contains the substring "database" anywhere
     filter = 'text LIKE "%database%"'
     ```
 
@@ -729,15 +740,18 @@ Supported query types:
     ```
 
     </TabItem>
+
     </Tabs>
 
 - **Wildcard match**
+
+    Zilliz Cloud supports both `%` (zero or more characters) and `_` (exactly one character).
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
-    # Match any string where "st" appears first, and "um" appears later in the text 
+    # Match any string where "st" appears first, and "um" appears later in the text
     filter = 'text LIKE "%st%um%"'
     ```
 
@@ -797,6 +811,7 @@ Supported query types:
     ```
 
     </TabItem>
+
     </Tabs>
 
 - **JSON path queries**
@@ -858,6 +873,7 @@ Supported query types:
     ```
 
     </TabItem>
+
     </Tabs>
 
 - **Regex filter**
@@ -866,7 +882,7 @@ Supported query types:
     <TabItem value='python'>
 
     ```python
-    # Match log messages that contain "error" followed later by "timeout" 
+    # Match log messages that contain "error" followed later by "timeout"
     filter = 'text =~ "error.*timeout"'
     ```
 
@@ -926,6 +942,7 @@ Supported query types:
     ```
 
     </TabItem>
+
     </Tabs>
 
 - **Regex filter on a JSON path**
@@ -987,6 +1004,7 @@ Supported query types:
     ```
 
     </TabItem>
+
     </Tabs>
 
 For more information on filter expression syntax, refer to [Pattern Matching](./pattern-match).
@@ -995,7 +1013,7 @@ For more information on filter expression syntax, refer to [Pattern Matching](./
 
 Use the `drop_index()` method to remove an existing index from a collection.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
@@ -1092,6 +1110,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Usage notes\{#usage-notes}
@@ -1127,4 +1146,3 @@ curl --request POST \
 - **Normalize consistently**
 
     Apply the same normalization to ingested text and query literals (e.g., lowercasing, trimming) if your use case needs it.
-

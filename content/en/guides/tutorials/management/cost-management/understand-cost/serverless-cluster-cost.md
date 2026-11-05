@@ -121,7 +121,7 @@ The table below provides examples of vCU usage and costs for 1 million read requ
 
 | **Scan Data Size (&ast;)** | **Read vCU Usage (million)** | **Read Cost** |
 | --- | --- | --- |
-| 1 million 128-dim vectors | 5 | &#36;20 |
+| 1 million 128-dim vectors | 5 | **&#36;24**<br/>(*&ast;Each request uses 5 vCUs but is billed at the minimum of 6 vCUs, totaling 6 million billable vCUs for 1 million requests.*) |
 | 1 million 768-dim vectors | 15 | &#36;60 |
 | 5 million 768-dim vectors | 35 | &#36;140 |
 | 10 million 768-dim vectors | 55 | &#36;220 |

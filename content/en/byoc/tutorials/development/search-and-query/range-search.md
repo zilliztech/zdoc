@@ -1,7 +1,6 @@
 ---
 title: "Range Search | BYOC"
 slug: /range-search
-sidebar_label: "Range Search"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "A range search improves search result relevancy by restricting the distance or score of the returned entities within a specific range. This page helps you understand what range search is and the procedures to conduct a range search. | BYOC"
 type: origin
-token: GnvtwMeQWi8iRCk7dGccCBQZnOh
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-range-search
+sidebar_label: "Range Search"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/range-search.md"
 
 ---
 
@@ -27,7 +28,7 @@ A range search improves search result relevancy by restricting the distance or s
 
 When executing a Range Search request, Zilliz Cloud uses the most similar vectors to the query vector from the ANN Search results as the center, with the **radius** specified in the Search request as the outer circle's radius, and the **range_filter** as the inner circle's radius to draw two concentric circles. All vectors with similarity scores that fall within the annular region formed by these two concentric circles will be returned. Here, the **range_filter** can be set to **0**, indicating that all entities within the specified similarity score (radius) will be returned.
 
-![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.s3.us-west-2.amazonaws.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
+![Range Search](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a1262835b1dccdb74db1547db60c502babdba94fd63814728b1e38ad140ebc9f.png)
 
 The above diagram shows that a range search request carries two parameters: **radius** and **range_filter**. Upon receiving a range search request, Zilliz Cloud does the following:
 
@@ -39,19 +40,45 @@ The above diagram shows that a range search request carries two parameters: **ra
 
 The way to set **radius** and **range_filter** varies with the metric type of the search. The following table lists the requirements for setting these two parameters with different metric types.
 
-| Metric Type | Denotations | Requirements for Setting radius and range_filter |
-| --- | --- | --- |
-| `L2` | A smaller L2 distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`range_filter` &lt;= distance < `radius` |
-| `IP` | A greater IP distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`radius` < distance &lt;= `range_filter` |
-| `COSINE` | A greater COSINE distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`radius` < distance &lt;= `range_filter` |
-| `JACCARD` | A smaller Jaccard distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`range_filter` &lt;= distance < `radius` |
-| `HAMMING` | A smaller Hamming distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`range_filter` &lt;= distance < `radius` |
+<table>
+   <tr>
+     <th><p>Metric Type</p></th>
+     <th><p>Denotations</p></th>
+     <th><p>Requirements for Setting radius and range_filter</p></th>
+   </tr>
+   <tr>
+     <td><p><code>L2</code></p></td>
+     <td><p>A smaller L2 distance indicates a higher similarity.</p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>IP</code></p></td>
+     <td><p>A greater IP distance indicates a higher similarity.</p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>COSINE</code></p></td>
+     <td><p>A greater COSINE distance indicates a higher similarity.</p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>JACCARD</code></p></td>
+     <td><p>A smaller Jaccard distance indicates a higher similarity.</p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>HAMMING</code></p></td>
+     <td><p>A smaller Hamming distance indicates a higher similarity.</p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+   </tr>
+</table>
 
 ## Examples\{#examples}
 
 This section demonstrates how to conduct a range search. The search requests in the following code snippets do not carry a metric type, indicating the default metric type **COSINE** applies. In this case, ensure that the **radius** value is smaller than the **range_filter** value.
 
 In the following code snippets, set `radius` to `0.4` and `range_filter` to `0.6` so that Zilliz Cloud returns all entities whose distances or scores to the query vector fall within **0.4** to **0.6**.
+
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -142,9 +169,9 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -190,9 +217,11 @@ for _, resultSet := range resultSets {
 ```rust
 use milvus::v2::prelude::*;
 
-let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
 let response = client
     .search(
         SearchRequest::builder()
@@ -219,37 +248,41 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <vector>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Failed to connect: " << status.Message() << std::endl;
+    return;
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("my_collection")
-                   .AddFloatVector(query_vector)
-                   .WithLimit(5)
-                   .WithAnnsField("vector")
-                   .WithRadius(0.4)
-                   .WithRangeFilter(0.6);
+std::vector<float> queryVector = {
+    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
+};
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("my_collection")
+                         .WithAnnsField("vector")
+                         .WithLimit(5)
+                         .WithRadius(0.4)
+                         .WithRangeFilter(0.6)
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
 ```
@@ -267,7 +300,7 @@ const client = new MilvusClient({address, token});
 
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
-const res = await client.search({
+res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
     limit: 5,
@@ -289,36 +322,30 @@ using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Types;
 
-using var client = new MilvusClientV2(new ConnectConfig
+MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
     ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 await client.ConnectAsync();
 
-var queryVector = new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f });
+float[] queryVector = [0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f];
 
-var res = await client.SearchAsync(new SearchReq
+SearchResp res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
     VectorFieldName = "vector",
-    Vectors = new[] { queryVector },
-    Limit = 3,
+    Vectors = [queryVector],
+    Limit = 5,
     Parameters = new SearchParameters
     {
+        // highlight-start
         Radius = "0.4",
-        RangeFilter = "0.6"
+        RangeFilter = "0.6",
+        // highlight-end
+        OutputFields = { "color" }
     }
 });
-
-var single = res.SingleResults?.FirstOrDefault();
-if (single is not null)
-{
-    for (int i = 0; i < single.Scores.Count; i++)
-    {
-        Console.WriteLine($"id={single.Ids.LongIds?[i]}, score={single.Scores[i]}");
-    }
-}
 ```
 
 </TabItem>
@@ -384,9 +411,11 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+
+<Admonition type="info" icon="📘" title="Notes">
 
 If the query vectors already exist in the target collection, consider using `ids` instead of retrieving them before searches. For details, refer to [Primary-Key Search](./primary-key-search).
 

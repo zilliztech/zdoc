@@ -100,8 +100,6 @@ def build_entity(document, use_new_schema=False):
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-
 private static JsonObject buildEntity(JsonObject document, boolean useNewSchema) {
     JsonObject entity = new JsonObject();
     entity.add("id", document.get("id"));
@@ -241,10 +239,6 @@ def get_output_fields(use_new_schema=False):
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 private static List<String> getOutputFields(boolean useNewSchema) {
     List<String> fields = new ArrayList<>(Arrays.asList("id", "text"));
 
@@ -369,10 +363,25 @@ client.add_collection_field(
 <TabItem value='java'>
 
 ```java
+import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Collections;
+import com.google.gson.Gson;
+import io.milvus.v2.service.vector.request.UpsertReq;
+import io.milvus.v2.service.snapshot.request.CreateSnapshotReq;
+import io.milvus.v2.service.snapshot.request.DescribeSnapshotReq;
+import io.milvus.v2.service.snapshot.response.DescribeSnapshotResp;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -396,9 +405,9 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 import (
     "context"
     "fmt"
-
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -432,6 +441,7 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 let config = ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
@@ -462,6 +472,8 @@ client
 #include <iostream>
 #include <utility>
 #include "milvus/MilvusClientV2.h"
+#include <vector>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
@@ -505,6 +517,12 @@ await client.addCollectionField({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Snapshot;
+using Milvus.Client.V2.Responses.Snapshot;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -578,10 +596,6 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.Collections;
-
 boolean USE_NEW_SCHEMA = true;
 JsonObject entity = buildEntity(document, USE_NEW_SCHEMA);
 
@@ -717,18 +731,6 @@ client.upsert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.UpsertReq;
-import java.util.Collections;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 JsonObject entity = new JsonObject();
 entity.addProperty("id", 1001);
 entity.addProperty("text", "example text");
@@ -746,26 +748,6 @@ client.upsert(UpsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 _, err = client.Upsert(ctx, milvusclient.NewRowBasedInsertOption("documents",
     map[string]any{
         "id":        int64(1001),
@@ -784,14 +766,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let config = ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
 client
     .upsert(
         UpsertRequest::builder()
@@ -818,16 +795,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <vector>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::UpsertResponse upsertResponse;
 status = client->Upsert(milvus::UpsertRequest()
     .WithCollectionName("documents")
@@ -842,10 +809,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 await client.upsert({
     collection_name: "documents",
     data: [{
@@ -862,8 +825,6 @@ await client.upsert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 await client.UpsertAsync(new UpsertReq
 {
     CollectionName = "documents",
@@ -974,17 +935,6 @@ for result in results:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 QueryResp queryResp = client.query(QueryReq.builder()
         .collectionName("documents")
         .filter("id in [1001, 1002, 1003]")
@@ -1001,26 +951,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 results, err := client.Query(ctx, milvusclient.NewQueryOption("documents").
     WithFilter("id in [1001, 1002, 1003]").
     WithOutputFields("id", "category"))
@@ -1035,13 +965,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let config = ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
 let results = client
     .query(
         QueryRequest::builder()
@@ -1058,15 +984,6 @@ let results = client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::QueryResponse queryResponse;
 status = client->Query(milvus::QueryRequest()
     .WithCollectionName("documents")
@@ -1082,10 +999,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 const results = await client.query({
     collection_name: "documents",
     filter: "id in [1001, 1002, 1003]",
@@ -1098,10 +1011,6 @@ const results = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 QueryResp results = await client.QueryAsync(new QueryReq
 {
     CollectionName = "documents",
@@ -1169,11 +1078,6 @@ results = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-
 boolean USE_NEW_SCHEMA = true;
 
 QueryResp queryResp = client.query(QueryReq.builder()
@@ -1208,8 +1112,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let use_new_schema = true;
 
 let results = client
@@ -1228,9 +1130,6 @@ let results = client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 bool USE_NEW_SCHEMA = true;
 
 milvus::QueryResponse queryResponse;
@@ -1262,10 +1161,6 @@ const results = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 bool USE_NEW_SCHEMA = true;
 QueryParameters parameters = new QueryParameters();
 foreach (var field in getOutputFields(USE_NEW_SCHEMA))

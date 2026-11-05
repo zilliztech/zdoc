@@ -1,17 +1,18 @@
 ---
 title: "Array Field | BYOC"
 slug: /use-array-fields
-sidebar_label: "Array"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "An ARRAY field stores an ordered list of elements of the same data type. | BYOC"
+description: "An ARRAY field stores an ordered set of elements of the same data type. Here's an example of how ARRAY fields store data: | BYOC"
 type: origin
-token: N0RmwUtmqinQvokWdYLc3yV5nJh
-sidebar_position: 10
 displayed_sidebar: default
+token: shared-use-array-fields
+sidebar_label: "Array"
+sidebar_position: 10
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/array_data_type.md"
 
 ---
 
@@ -21,7 +22,7 @@ import TabItem from '@theme/TabItem';
 
 # Array Field
 
-An ARRAY field stores an ordered list of elements of the same data type. 
+An ARRAY field stores an ordered list of elements of the same data type.
 
 Here's an example of how ARRAY fields store data:
 
@@ -36,7 +37,7 @@ Here's an example of how ARRAY fields store data:
 
 - **Default Values**: ARRAY fields do not support default values. However, you can set the `nullable` attribute to `True` to allow null values. For details, refer to [Nullable & Default](./nullable-fields).
 
-- <strong>Data Type:</strong> All elements in an ARRAY field must share the same data type, which is defined by the `element_type` parameter. When `element_type` is set to `VARCHAR`, you must also specify the `max_length` for array elements. The `element_type` accepts any scalar data type, `JSON`, and `STRUCT`.
+- <strong>Data Type:</strong> All elements in an ARRAY field must share the same data type, which is defined by the `element_type` parameter. When `element_type` is set to `VARCHAR`, you must also specify `max_length`, which defines the maximum number of bytes allowed for each array element. The `element_type` accepts any scalar data type supported by Zilliz Cloud, with the exception of `JSON`. For `element_type=STRUCT`, use a StructArray field and provide a `struct_schema`; for details, refer to [StructArray](./create-struct-array).
 
 - **Array Capacity**: The number of elements in an ARRAY field must be less than or equal to the maximum capacity defined when the Array was created, as specified by `max_capacity`. The value should be an integer within the range from **1** to **4096**.
 
@@ -54,9 +55,9 @@ To use ARRAY fields in Zilliz Cloud clusters, define the relevant field type whe
 
 Here’s how to define a collection schema that includes ARRAY fields:
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+If you set `enable_dynamic_field=True` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
 
 </Admonition>
 
@@ -310,8 +311,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Define the collection schema
@@ -382,13 +382,14 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Set index params\{#set-index-params}
 
 Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
 
-The following example creates indexes on the vector field `embedding` and the ARRAY field `tags`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.
+The following example creates indexes on the vector field `embedding` and the ARRAY field `tags`, both using the `AUTOINDEX` index type. With this type, Zilliz Cloud automatically selects the most suitable index based on the data type. You can also customize the index type and params for each field. For details, refer to [Index Explained](./indexes).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -537,6 +538,7 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Create collection\{#create-collection}
@@ -716,6 +718,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Insert data\{#insert-data}
@@ -948,11 +951,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-Beyond inserting full arrays, `ARRAY` fields also support the `ARRAY_APPEND` and `ARRAY_REMOVE` partial-update operators on the `upsert` API. These let you append elements to or remove matching elements from an existing array without first retrieving its current value, which avoids the client-side read-modify-write pattern. For details, see [Upsert array fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode).
+Beyond inserting full arrays, `ARRAY` fields also support the `ARRAY_APPEND` and `ARRAY_REMOVE` partial-update operators on the `upsert` API. These let you append elements to or remove matching elements from an existing array without first retrieving its current value, which avoids the client-side read-modify-write pattern. For details, see [Upsert array fields in merge mode](https://milvus.io/docs/upsert-entities.md).
 
 </Admonition>
 
@@ -1115,6 +1119,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 To retrieve entities where the value of the first element of `ratings` is greater than 4:
@@ -1272,6 +1277,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Vector search with filter expressions\{#vector-search-with-filter-expressions}
@@ -1478,6 +1484,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Additionally, Zilliz Cloud supports advanced Array filtering operators like `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ALL`, `ARRAY_CONTAINS_ANY`, and `ARRAY_LENGTH` to further enhance query capabilities. For more details, refer to [ARRAY Operators](./array-filtering-operators).

@@ -1,7 +1,6 @@
 ---
 title: "Implement Multi-tenancy | Cloud"
 slug: /multi-tenancy
-sidebar_label: "Implement Multi-tenancy"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,32 +8,33 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, multi-tenancy means multiple customers or teams—referred to as tenants— share the same cluster while maintaining isolated data environments. | Cloud"
 type: origin
-token: R8amwM1K6iBDLuk0KcEcHJxtnhb
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-multi-tenancy
+sidebar_label: "Implement Multi-tenancy"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/reference/multi_tenancy.md"
 
 ---
 
 import Admonition from '@theme/Admonition';
 
-
 # Implement Multi-tenancy
 
-In Zilliz Cloud, multi-tenancy means multiple customers or teams—referred to as **tenants**— share the same cluster while maintaining isolated data environments. 
+In Zilliz Cloud, multi-tenancy means multiple customers or teams—referred to as **tenants**— share the same cluster while maintaining isolated data environments.
 
 Zilliz Cloud supports four multi-tenancy strategies, each offering a different trade-off between scalability, data isolation, and flexibility. This guide walks you through each option, helping you choose the most suitable strategy for your use case.
 
 ## Multi-tenancy strategies\{#multi-tenancy-strategies}
 
-Zilliz Cloud supports multi-tenancy at four levels: **Database**, **Collection**, **Partition**, and **Partition Key**. 
+Zilliz Cloud supports multi-tenancy at four levels: **Database**, **Collection**, **Partition**, and **Partition Key**.
 
 ### Database-level multi-tenancy\{#database-level-multi-tenancy}
 
-With database-level multi-tenancy, each tenant receives a corresponding [database](./database-concept) containing one or more collections. 
+With database-level multi-tenancy, each tenant receives a corresponding [database](./database) containing one or more collections. 
 
-![NVV9w0w49hZJ61bNzG4cdi9gn6C](https://zdoc-images.s3.us-west-2.amazonaws.com/NVV9w0w49hZJ61bNzG4cdi9gn6C.png)
+![Database Level Multi Tenancy](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/5e160e02b4609ea88f0b5ddc1b94cef71eab2fdd2d2a44b94c54b43f2a26e6ee.png)
 
-- **Scalability**: The database-level multi-tenancy strategy is only available to Zilliz Cloud’s Dedicated clusters and supports a maximum of 1,024 tenants .
+- **Scalability**: The database-level multi-tenancy strategy is only available to Zilliz Cloud's Dedicated clusters and supports a maximum of 1,024 tenants.
 
 - **Data isolation**: The data in each database is fully separated, offering enterprise-grade data isolation ideal for regulated environments or customers with strict compliance needs.
 
@@ -46,9 +46,9 @@ With database-level multi-tenancy, each tenant receives a corresponding [databas
 
 With collection-level multi-tenancy, each tenant is assigned a [collection](./manage-collections), offering strong data isolation. 
 
-![SNxNwi64ChMFdubYKmrcGOH5ncg](https://zdoc-images.s3.us-west-2.amazonaws.com/SNxNwi64ChMFdubYKmrcGOH5ncg.png)
+![Collection Level Multi Tenancy](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/9ebdafe5b77fdefa9db6a44518e54032bb8d678efd2b6911df642c923a4e112e.png)
 
-- **Scalability**: Since a cluster can hold up to 16,384 collections , this strategy can accommodate the same number of tenants within the cluster.
+- **Scalability**: Since a cluster can hold up to 16,384 collections, this strategy can accommodate the same number of tenants within the cluster.
 
 - **Data isolation**: Collections are physically isolated from one another. This strategy provides strong data isolation.
 
@@ -60,7 +60,7 @@ With collection-level multi-tenancy, each tenant is assigned a [collection](./ma
 
 In partition-level multi-tenancy, each tenant is assigned to a manually created [partition](./manage-partitions) within a shared collection. 
 
-![D5cawfOk0hKkJmbJwHwc54a5n4f](https://zdoc-images.s3.us-west-2.amazonaws.com/D5cawfOk0hKkJmbJwHwc54a5n4f.png)
+![Partition Level Multi Tenancy](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/20f1479b0799d159f7e0a6979848f37e8c1a992059588c7fafbf3500a0e625e4.png)
 
 - **Scalability**: A collection can hold up to 1,024 partitions per collection, allowing for the same number of tenants within it.
 
@@ -74,7 +74,7 @@ In partition-level multi-tenancy, each tenant is assigned to a manually created 
 
 With this strategy, all tenants share a single collection and schema, but each tenant's data is automatically routed into 16 physically isolated partitions based on the [partition key](./use-partition-key) value. Although each physical partition can contain multiple tenants, the data from different tenants remains logically separated. 
 
-![GzOrwUHnEhaPGybcp7ActPwsnMh](https://zdoc-images.s3.us-west-2.amazonaws.com/GzOrwUHnEhaPGybcp7ActPwsnMh.png)
+![Partition Key Level Multi Tenancy](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/2dbd52b037230b8e201b27f3ed0f96a1513f7a28d54dc1964d8e2061fc799908.png)
 
 - **Scalability**: The partition key-level strategy offers the most scalable approach, supporting millions of tenants.
 
@@ -84,6 +84,12 @@ With this strategy, all tenants share a single collection and schema, but each t
 
 - **Others**: RBAC is not supported on the partition-key level. Tenants can be queried either individually or across multiple partitions, which makes this approach well-suited for scenarios involving aggregated queries or analytics across tenant segments.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+We recommend that you create a scalar index on the partition key field. Because each physical partition holds multiple tenants, Zilliz Cloud evaluates the tenant filter against every entity in the searched partitions, and without an index this is a full scan. For details, refer to [Index Partition Key](./use-partition-key#index-partition-key).
+
+</Admonition>
+
 ## Choosing the right multi-tenancy strategy\{#choosing-the-right-multi-tenancy-strategy}
 
 The table below offers a comprehensive comparison between the four levels of multi-tenancy strategies.
@@ -92,7 +98,7 @@ The table below offers a comprehensive comparison between the four levels of mul
 | --- | --- | --- | --- | --- |
 | **Cluster deployment option** | Dedicated only | All deployment options | All deployment options | All deployment options |
 | **Data Isolation** | Physical | Physical | Physical | Physical + Logical |
-| **Max. number of tenants** | 1024 | Up to 16,384 depending on the cluster deployment option and project plan.<br/>See [Zilliz Cloud Limits](./limits#collections) | Up to 1,024 per collection depending on the cluster deployment option and project plan.<br/>See [Zilliz Cloud Limits](./limits) | Millions |
+| **Max. number of tenants** | 1,024 | Up to 16,384 depending on the cluster deployment option and project plan.<br/>See [Zilliz Cloud Limits](./limits) | Up to 1,024 per collection depending on the cluster deployment option and project plan.<br/>See [Zilliz Cloud Limits](./limits) | Millions |
 | **Data schema flexibility** | High | Medium | Low | Low |
 | **RBAC support** | Yes | Yes | No | No |
 | **Search performance** | Strong | Strong | Medium | Medium |
@@ -115,9 +121,8 @@ There are several factors to consider when you choose the multi-tenancy strategy
 
 1. **Others**
 
-    1. <strong>Performance:</strong> Search performance is determined by various factors, including indexes, search parameters, and machine configurations. Zilliz Cloud also support performance-tuning. It is recommended to test the actual performance before you select a multi-tenancy strategy.
+    1. **Performance:** Search performance is determined by various factors, including indexes, search parameters, and machine configurations. Zilliz Cloud also support performance-tuning. It is recommended to test the actual performance before you select a multi-tenancy strategy.
 
     1. **Effective handling of hot and cold data**: Currently, the database-level, collection-level, and partition-level strategies all support hot and cold data handling. For those who want to choose the partition key-level strategy but require hot and cold data handling, please [contact us](https://zilliz.com/contact-sales).
 
     1. **Cross-tenant searches**: Only the partition-level and partition-key-level strategies support cross-tenant queries.
-

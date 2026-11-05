@@ -2637,15 +2637,15 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "0df0b97ba18ae88c44f94c853678a4af7e250dc6",
+      "commit": "0c2b25235ab6ba06ba2047f7815081f79b6aca96",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
-          "sha256": "c10c4a7dd3c7ead1d173afe11511fd2578aadea134a0658d35201b5dc14b2a25"
+          "sha256": "011d948e83b7f0d71c963ae87e5c1aad74781b300c915e668e25222773567d76"
         },
         {
           "path": "shared-docs/guides/links.yaml",
-          "sha256": "b50dabcfd0db8dd7f187b05366fd566a9b12765111e6ae338542aa20c4b0348f"
+          "sha256": "3930ae94e9409626981aeccd8f520c3ed4cb1ddbfc79bdca0556b8493c414f4b"
         },
         {
           "path": "shared-docs/guides/pages/alphanumonly-filter/lock.yaml",
@@ -2664,12 +2664,72 @@
           "sha256": "4cea31c415a2a021e7572a8ceddadc0b9af02e2524cb61cdaa2f4e1d7b300130"
         },
         {
+          "path": "shared-docs/guides/pages/array-filtering-operators/cloud-array-append-heading.md",
+          "sha256": "5a7f80f35a2844d827702cb1136d835ed5f5c98cc13df86a870c39e9d7096a09"
+        },
+        {
+          "path": "shared-docs/guides/pages/array-filtering-operators/cloud-array-remove-heading.md",
+          "sha256": "5bdefb3fed9d160d139ca370361485ba0d0dd6c6247b7f63876e3c4a6cc49b49"
+        },
+        {
+          "path": "shared-docs/guides/pages/array-filtering-operators/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/array-filtering-operators/page.yaml",
+          "sha256": "e9474513fa99593e99f3443e6899c963be2669c0d6669aa9699a72d3142f5925"
+        },
+        {
           "path": "shared-docs/guides/pages/ascii-folding-filter/lock.yaml",
           "sha256": "ad0120a57b59ccc84a0ba638428fc7e7981b8c7c29b195544a00a97ea271104e"
         },
         {
           "path": "shared-docs/guides/pages/ascii-folding-filter/page.yaml",
           "sha256": "8c49e38dad7bbd982e3a86732dbd10ab0483f062ffe0425c99af02cfbe59eebe"
+        },
+        {
+          "path": "shared-docs/guides/pages/basic-filtering-operators/cloud-bitwise-heading.md",
+          "sha256": "7f9d366379a8832ef92d1ce3ffa6887488d10f6508b83aca1ea27a54fe838014"
+        },
+        {
+          "path": "shared-docs/guides/pages/basic-filtering-operators/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/basic-filtering-operators/page.yaml",
+          "sha256": "97a8405d231e0d4189c1660f909c0f18488ec2930a92fd53592fceac2e8aa156"
+        },
+        {
+          "path": "shared-docs/guides/pages/bitmap-index-type/cloud-drop-note.md",
+          "sha256": "b6ff1de7c399fcc95cfb38d6facef9fc19d3ed0aa6e410f44d83e0fd1d5c6f85"
+        },
+        {
+          "path": "shared-docs/guides/pages/bitmap-index-type/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/bitmap-index-type/page.yaml",
+          "sha256": "de509a25199227dcc8d5bc186ec731cc116d62ab9b184ee431528857a0b7d707"
+        },
+        {
+          "path": "shared-docs/guides/pages/boost-ranker/cloud-hybrid-note.md",
+          "sha256": "8febac610af409de09bf9da104977163c842282cb72b3ae1570312273b211e64"
+        },
+        {
+          "path": "shared-docs/guides/pages/boost-ranker/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/boost-ranker/page.yaml",
+          "sha256": "6990cdc70d456bfe392bb63637268f002b8ee5356bf30c026b9aeefe7176fdcf"
+        },
+        {
+          "path": "shared-docs/guides/pages/chinese-analyzer/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/chinese-analyzer/page.yaml",
+          "sha256": "ba5b005785af8245e5d27a1e3185b96cf665b5cbcb41ef7e7e726fde4c45cecc"
         },
         {
           "path": "shared-docs/guides/pages/cnalphanumonly-filter/lock.yaml",
@@ -2700,6 +2760,30 @@
           "sha256": "05c7506395789edcf936bcae2c10a668a5bf8753b7bd6ec6c65f81f919bf2944"
         },
         {
+          "path": "shared-docs/guides/pages/database/cloud-heading.md",
+          "sha256": "08d0559037b03832f1dfe15caa6534b399414ac1b3ff6eaf9ac5e15301dd1ff1"
+        },
+        {
+          "path": "shared-docs/guides/pages/database/cloud-introduction.md",
+          "sha256": "413c1d5523e12533bf55392bd85a0728949ec5cfcb9dd09292a25094f4877b5b"
+        },
+        {
+          "path": "shared-docs/guides/pages/database/cloud-next-steps.md",
+          "sha256": "fad8f4e3e13901ff0129c1f532bc213cab6e82b7620d24fbb508f506813c9350"
+        },
+        {
+          "path": "shared-docs/guides/pages/database/cloud-properties-table.md",
+          "sha256": "024e9f3e8efd1c4fa155c553a76fe7463bf17cd7fe57a5269c77f23b710fe88e"
+        },
+        {
+          "path": "shared-docs/guides/pages/database/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/database/page.yaml",
+          "sha256": "57ae68ccb18b549eea5de2b7f67875a8d996fcc732f81cb8a802bfa1d5f23a82"
+        },
+        {
           "path": "shared-docs/guides/pages/decay-ranker-oveview/lock.yaml",
           "sha256": "b16bae88ce10873a7bb2a537dbcff26ca5defc45c1362483412ce7824d19852e"
         },
@@ -2716,6 +2800,14 @@
           "sha256": "23e73f99b18302729c5ed95a5c4f06bbe5ef6e62cea05142834eb1a31dc44a9d"
         },
         {
+          "path": "shared-docs/guides/pages/default-fields/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/default-fields/page.yaml",
+          "sha256": "70f9a10d0b123a914dcdb75031a8d325a90ab68c18941b770683175f66e74aa9"
+        },
+        {
           "path": "shared-docs/guides/pages/delete-entities/lock.yaml",
           "sha256": "599f5b6167cc155d7032bb2b66729d120c82bd1adcfc5c9f3dbc5d859d0869b2"
         },
@@ -2730,6 +2822,38 @@
         {
           "path": "shared-docs/guides/pages/drop-collection/page.yaml",
           "sha256": "98fc7a5eabb1edb8ebe14f41499df122449e36facdd1f6d33ec4950e419aaf90"
+        },
+        {
+          "path": "shared-docs/guides/pages/enable-dynamic-field/cloud-cast-function-heading.md",
+          "sha256": "7d4940898b2fbedf38fc53ad500c23caa3cb4844bf0c9f24cf41b1b26bcce12d"
+        },
+        {
+          "path": "shared-docs/guides/pages/enable-dynamic-field/cloud-indexing-heading.md",
+          "sha256": "c2ce947881f1931624b98f164ea53dd173eb52da5731ce59a1a4e291d94dc39f"
+        },
+        {
+          "path": "shared-docs/guides/pages/enable-dynamic-field/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/enable-dynamic-field/page.yaml",
+          "sha256": "5dd1960ecaa1a995f5627c5f61abe9bc4401b624e3e3c727a580ec946d38af46"
+        },
+        {
+          "path": "shared-docs/guides/pages/english-analyzer/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/english-analyzer/page.yaml",
+          "sha256": "c2c853dc98d66bb5b3deadeec6eeb6fa6d84a2060bd6dfc40cd160b50390f889"
+        },
+        {
+          "path": "shared-docs/guides/pages/exponential-decay/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/exponential-decay/page.yaml",
+          "sha256": "ae266a0d7754d28a5c6e3726284695ca3cef42fac04e571df2d2957e5429c2b2"
         },
         {
           "path": "shared-docs/guides/pages/filtered-search-with-struct-arrays/lock.yaml",
@@ -2756,12 +2880,80 @@
           "sha256": "a48d8d850bf08945c4335407ca86a299592c8dbec5894c7da5bab9b877f6f1c1"
         },
         {
+          "path": "shared-docs/guides/pages/filtering-templating/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/filtering-templating/page.yaml",
+          "sha256": "3bbcbcd36842ede03ef226993d56769843a83a14a0b96037bc1524cdef6cd0ce"
+        },
+        {
+          "path": "shared-docs/guides/pages/gaussian-decay/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/gaussian-decay/page.yaml",
+          "sha256": "bfc3efd2a309c6985f0f1f4c11fb5cb2c54ad0963f364d313a5c52a5fe7f18d5"
+        },
+        {
+          "path": "shared-docs/guides/pages/get-and-scalar-query/cloud-aggregate-query-results-heading.md",
+          "sha256": "cd335b40fa16715c95ac0ce6a95f6d923dd200ec98f44a7bcd6dde4f41cd6d69"
+        },
+        {
+          "path": "shared-docs/guides/pages/get-and-scalar-query/cloud-sort-query-results-heading.md",
+          "sha256": "270b8ed80da0c9833e18b8e92120bbe40b67927d345692fd3aa8d07ad23b8953"
+        },
+        {
+          "path": "shared-docs/guides/pages/get-and-scalar-query/cloud-timezone-rest.md",
+          "sha256": "20903eb46a6e3cbcfa064cca57d08fd35644f3483c497daf0c5a690b53e62835"
+        },
+        {
+          "path": "shared-docs/guides/pages/get-and-scalar-query/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/get-and-scalar-query/page.yaml",
+          "sha256": "7dc4ccd2fdbd3dafe23b5cd736e5c79c5aacbd2f4e6b3a44be1887ea51ef8106"
+        },
+        {
           "path": "shared-docs/guides/pages/grouping-search-with-struct-array/lock.yaml",
           "sha256": "26931d25561a2ab7174864d20642d4a4b49b831f926f2d6f9a1d164263bd4d52"
         },
         {
           "path": "shared-docs/guides/pages/grouping-search-with-struct-array/page.yaml",
           "sha256": "5d526bb52b9746d10efe52444d669e862d0c4632e6ccb832d8ccae38be39d28c"
+        },
+        {
+          "path": "shared-docs/guides/pages/grouping-search/cloud-cli-group-size.md",
+          "sha256": "6da26da8743f2f574b12afff2421ee81edbc84d46486e3e5116f3b9748a81e27"
+        },
+        {
+          "path": "shared-docs/guides/pages/grouping-search/cloud-cli-order.md",
+          "sha256": "46350861910485b336ed3f2c9dfd8ffdcd99f552cc46f6c775f556771b286598"
+        },
+        {
+          "path": "shared-docs/guides/pages/grouping-search/cloud-cli-perform.md",
+          "sha256": "e52a94a368ff4bd942fdb0504fcfec01d506cb3af9e17ac17c70393c77ad6003"
+        },
+        {
+          "path": "shared-docs/guides/pages/grouping-search/cloud-order-csharp.md",
+          "sha256": "e976849ec691494400794ebddfba478544545286fa0d11f7fcf71d76c7be9783"
+        },
+        {
+          "path": "shared-docs/guides/pages/grouping-search/cloud-order-heading.md",
+          "sha256": "2be86877b9c01968435c738feaa0e2ca578dbba3d39e86519840128cd388c586"
+        },
+        {
+          "path": "shared-docs/guides/pages/grouping-search/cloud-order-rust.md",
+          "sha256": "674ec2a170a92e5afe4239cffadea48b1604061686321d9142b86affc8350e65"
+        },
+        {
+          "path": "shared-docs/guides/pages/grouping-search/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/grouping-search/page.yaml",
+          "sha256": "07e1db49e4e2789f734d5f6cddd5b9c30d3023cd30f3da90368b01669be154d6"
         },
         {
           "path": "shared-docs/guides/pages/hybrid-search-with-struct-array/lock.yaml",
@@ -2820,6 +3012,74 @@
           "sha256": "0b793c1b186ab6fcf182e8d6aae62f78d5b58f63575dbb84fa3e56ea2503198f"
         },
         {
+          "path": "shared-docs/guides/pages/inverted-index-type/cloud-drop-note.md",
+          "sha256": "b6ff1de7c399fcc95cfb38d6facef9fc19d3ed0aa6e410f44d83e0fd1d5c6f85"
+        },
+        {
+          "path": "shared-docs/guides/pages/inverted-index-type/cloud-json-heading.md",
+          "sha256": "0055806cf0ece82f1c690fa539e889b44580a9552b53934af3f17507fe059be6"
+        },
+        {
+          "path": "shared-docs/guides/pages/inverted-index-type/cloud-next-steps.md",
+          "sha256": "777263a576a99afe3828172af3020cf7eed7a1d0ce9761b90954306479f1c551"
+        },
+        {
+          "path": "shared-docs/guides/pages/inverted-index-type/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/inverted-index-type/page.yaml",
+          "sha256": "b7e4d129fab1323a70d421cd82f195819555b8a4478d63aa16cc06654f7e1d09"
+        },
+        {
+          "path": "shared-docs/guides/pages/jieba-tokenizer/lock.yaml",
+          "sha256": "5539e4510174ec97e0c3b93207e772547bf0fe044fa9df6aa28e3c487ba339ff"
+        },
+        {
+          "path": "shared-docs/guides/pages/jieba-tokenizer/page.yaml",
+          "sha256": "ba5b74cf1e035cc80a1b65323b570a34ba2cc15c44eca27f69b6dc6133b3194a"
+        },
+        {
+          "path": "shared-docs/guides/pages/json-field-overview/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/json-field-overview/page.yaml",
+          "sha256": "d2cea91853c2c9f7c3a1dc2a568cb74d4681da68a91f78004c248facb4699cbd"
+        },
+        {
+          "path": "shared-docs/guides/pages/json-filtering-operators/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/json-filtering-operators/page.yaml",
+          "sha256": "c0b34f20b7e1ee42c6ea13105131f2635cf1a56c42172362828a1217c42c63cb"
+        },
+        {
+          "path": "shared-docs/guides/pages/json-indexing/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/json-indexing/page.yaml",
+          "sha256": "fe26ff0c67ade0fa674ac0ebdf0976e6c735ce7929a2769693d9b7e30cbdd1df"
+        },
+        {
+          "path": "shared-docs/guides/pages/json-shredding/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/json-shredding/page.yaml",
+          "sha256": "1dd1595d7374a438429b0859d921c7c43d755494bd0ee4356b140b6022b4e990"
+        },
+        {
+          "path": "shared-docs/guides/pages/language-identifier-tokenizer/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/language-identifier-tokenizer/page.yaml",
+          "sha256": "ca3ad65134ffb41918ed50f1c981d7d418087dd521da3ee0049105e015fb908e"
+        },
+        {
           "path": "shared-docs/guides/pages/length-filter/lock.yaml",
           "sha256": "9d4f180d60f80ca4f53a01537e06b0b524401c8d4c184d45aab2f0e70091e4cf"
         },
@@ -2836,12 +3096,200 @@
           "sha256": "99832dfbc008495663709f4f8d7b2f0ab6711c87e91d3d58efed1b9941b83fb0"
         },
         {
+          "path": "shared-docs/guides/pages/linear-decay/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/linear-decay/page.yaml",
+          "sha256": "1ddeb9ea5bb51a0dde3d41a5239136796ed92d7f062ac266999a2652229bc77b"
+        },
+        {
+          "path": "shared-docs/guides/pages/load-release-collections/cloud-load-prerequisites.md",
+          "sha256": "05e8e0f3fe57ae3d4165ca7bdbf4b31017b45f7b5063760c94ed99d6fc60af4b"
+        },
+        {
+          "path": "shared-docs/guides/pages/load-release-collections/cloud-loading-behaviors.md",
+          "sha256": "a40d4cb82905542248075f594ea7658e8024f623be029fcee31ba2a3cbfd85df"
+        },
+        {
+          "path": "shared-docs/guides/pages/load-release-collections/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/load-release-collections/page.yaml",
+          "sha256": "e70b4f04be34d5a66236ae89c89246f3c29cb162d6ba6a316fcf511b6736564f"
+        },
+        {
           "path": "shared-docs/guides/pages/lowercase-filter/lock.yaml",
           "sha256": "ad0120a57b59ccc84a0ba638428fc7e7981b8c7c29b195544a00a97ea271104e"
         },
         {
           "path": "shared-docs/guides/pages/lowercase-filter/page.yaml",
           "sha256": "12281712e864b404e9d754c4b76b7235386c88019f410a145f92d813d4098145"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-aliases/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-aliases/page.yaml",
+          "sha256": "ae0fff706eb555748affb841e4d81559750f3ac9c84b1c552a15ff880cbb7d78"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-collections-sdks/cloud-autoindex-link.md",
+          "sha256": "2429300946140aac0aaa0355656f0cb7554c40ec41962fc920c2e79e378ef63c"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-collections-sdks/cloud-multi-tenancy-note.md",
+          "sha256": "b50ec3808b0a87970550af1ecbdf888562863123838dab99dd0a8a64c021af30"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-collections-sdks/cloud-rest-auth-note.md",
+          "sha256": "93e283a18d9aca5c23becb593b4e66b5f147b3d1153cabe0d2e8c1b0fcaf816b"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-collections-sdks/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-collections-sdks/page.yaml",
+          "sha256": "65b1fc3246919fa74f7d2a6344ce0bb3f2c06c2da4f35c22526f68d28c5b1c47"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-collections/cloud-autoindex-note.md",
+          "sha256": "5297ac7bde769a7a1e19098797e30ae85c646163d5728228168dec5f63d3fb63"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-collections/cloud-limits-section.md",
+          "sha256": "5bc459d92d2f1b504b9c00481a5c000f309e7392db0c6546792897463ac91bbe"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-collections/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-collections/page.yaml",
+          "sha256": "9fb6fc5eb92c163c233d7a58e8fe12954e6d6b83138aedb3c4392008b8c06f87"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-partitions/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/manage-partitions/page.yaml",
+          "sha256": "c2078e4a0fbabcad52bd4481c8cd61ff5fe2819ab0173b52747095c474067291"
+        },
+        {
+          "path": "shared-docs/guides/pages/modify-collections/cloud-entity-ttl-heading.md",
+          "sha256": "425af0bdbe9043d81acd27a3241fe6ff34c9c947021850d73688b26e50a0608b"
+        },
+        {
+          "path": "shared-docs/guides/pages/modify-collections/cloud-managed-properties-note.md",
+          "sha256": "f8b59e6123b6cf3c9961acce7dbcc35b5eaf15d8ad42f6e9e5545f9d99760a76"
+        },
+        {
+          "path": "shared-docs/guides/pages/modify-collections/cloud-supported-properties.md",
+          "sha256": "959862ca1ffcb43931a6589e07a9d8f45803725478c13c19f482783bb8888288"
+        },
+        {
+          "path": "shared-docs/guides/pages/modify-collections/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/modify-collections/page.yaml",
+          "sha256": "2cd5815bf5a8be1e6ce179062976ce9439d83477eb91811e5bdc89545425b167"
+        },
+        {
+          "path": "shared-docs/guides/pages/multi-tenancy/cloud-choosing-factors.md",
+          "sha256": "7293fb6b147d73b9f348a328ff55c1910e97d1e7c96f75205c87176abf5a8c42"
+        },
+        {
+          "path": "shared-docs/guides/pages/multi-tenancy/cloud-collection-level.md",
+          "sha256": "a43d8276fe7377675d9bb6ed9217699152c7d59978d7c30057873111ce6326fe"
+        },
+        {
+          "path": "shared-docs/guides/pages/multi-tenancy/cloud-comparison-table.md",
+          "sha256": "a75316911e897662e00a1ff1019b5c9aa037bc8e104bc087d14820ecdf87067a"
+        },
+        {
+          "path": "shared-docs/guides/pages/multi-tenancy/cloud-database-level.md",
+          "sha256": "5f73353b51949b0b78fb18548fcc6033ef272f0f33480ae20c9c5bda93452d86"
+        },
+        {
+          "path": "shared-docs/guides/pages/multi-tenancy/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/multi-tenancy/page.yaml",
+          "sha256": "a887c44c009c2b82abf2d17e1866b5c9b6619c8e622ffb82f14f32ce655ba315"
+        },
+        {
+          "path": "shared-docs/guides/pages/ngram-index-type/cloud-drop-note.md",
+          "sha256": "b6ff1de7c399fcc95cfb38d6facef9fc19d3ed0aa6e410f44d83e0fd1d5c6f85"
+        },
+        {
+          "path": "shared-docs/guides/pages/ngram-index-type/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/ngram-index-type/page.yaml",
+          "sha256": "a02fcc4ccee286cc4707b9d97c01ecf785b105abc84ff1994286138b2aa7c312"
+        },
+        {
+          "path": "shared-docs/guides/pages/nullable-fields/cloud-limits.md",
+          "sha256": "44143db32660168bc6aa3d6a0261878d5f9b9447155da0d41fbada08762d46be"
+        },
+        {
+          "path": "shared-docs/guides/pages/nullable-fields/cloud-structarray-scope.md",
+          "sha256": "8f299ba47458679b3217ee18621d30e478ba9d289f1793b5a3eabe65903f45a3"
+        },
+        {
+          "path": "shared-docs/guides/pages/nullable-fields/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/nullable-fields/page.yaml",
+          "sha256": "d58a326ee4ee0f3409c1f2761d2c7f449a37c878413d7398625623c500ab7d7c"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/cloud-cli-alternation.md",
+          "sha256": "37d3f81e229f3f5e8549046b02d1f9ad1e9bf455499a9ccbf0d9ad6f81f0373e"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/cloud-cli-anchors.md",
+          "sha256": "e8fe541ec59bc4b0ce89563beacea7ac5f34089509e99bf822394c24df2e5c84"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/cloud-cli-escape.md",
+          "sha256": "102d81092d5b026b7351491c75dab89706df10355b3af78eac9b0127bdf31b3a"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/cloud-cli-null.md",
+          "sha256": "37b51d2b566fa8bbd5ecdca7f091cef6ef1d1505a68cf84c85fd12c15b37738d"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/cloud-cli-query.md",
+          "sha256": "c1829984b10b0facb1155b796092a8464284e2aeb9bd3cb7e1604dff59e6df30"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/cloud-cli-raw-string.md",
+          "sha256": "086c86193a1de7007280bb132a7dcbedf6b87a4497a75a36d7ec45599b558cab"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/cloud-cli-substring.md",
+          "sha256": "c1829984b10b0facb1155b796092a8464284e2aeb9bd3cb7e1604dff59e6df30"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/cloud-regex-heading.md",
+          "sha256": "11d4d6ce307844f643fe7f4eeeb8b98880eb48bc240aac22880ec8f84b285bb3"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/pattern-match/page.yaml",
+          "sha256": "4081fcd11ad8c0d0870e4eaaef0fde16d62f58e59bdf8a455c0334e3ff40adcd"
         },
         {
           "path": "shared-docs/guides/pages/pinyin-filter/lock.yaml",
@@ -2852,12 +3300,40 @@
           "sha256": "5941ec7331c5c402a78097a03ca9bd559ec49a33bdcbbbc8ddc9c6957645364f"
         },
         {
+          "path": "shared-docs/guides/pages/primary-field-auto-id/lock.yaml",
+          "sha256": "d73b006c2d702f4ec276da98eda9620c3678e3dda0296f01f66bd712d74b6ad2"
+        },
+        {
+          "path": "shared-docs/guides/pages/primary-field-auto-id/page.yaml",
+          "sha256": "dc49515fd6a55db7ccd1c0e34d1f1b4a5fde4ddf1a5f537d17287d86f4f0b9a1"
+        },
+        {
+          "path": "shared-docs/guides/pages/ramdom-sampling/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/ramdom-sampling/page.yaml",
+          "sha256": "286db9678fabf9e20821232b6e53ac85b92063a9ae48f5002f269bc1fbe64afb"
+        },
+        {
           "path": "shared-docs/guides/pages/range-search-with-struct-arrays/lock.yaml",
           "sha256": "26931d25561a2ab7174864d20642d4a4b49b831f926f2d6f9a1d164263bd4d52"
         },
         {
           "path": "shared-docs/guides/pages/range-search-with-struct-arrays/page.yaml",
           "sha256": "d29908e7fd1f093c11c364137cd7ffc729c7cc3acd9528942cbfadb8ed686ae4"
+        },
+        {
+          "path": "shared-docs/guides/pages/range-search/cloud-cli.md",
+          "sha256": "a25b289da7a958781613b8987cc00fed38f3649a8c915d0881b7073ea04b3551"
+        },
+        {
+          "path": "shared-docs/guides/pages/range-search/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/range-search/page.yaml",
+          "sha256": "337bf3a4946ce52519e7c340e7ab394f1f62a8ebfbdda48ed57e010b1a1cbc1d"
         },
         {
           "path": "shared-docs/guides/pages/regex-filter/lock.yaml",
@@ -2884,12 +3360,132 @@
           "sha256": "4c052230e9cea72c9e4f99a61f4bbe02a51aec12fb9845c199adc4bf4602ab53"
         },
         {
+          "path": "shared-docs/guides/pages/reranking-weighted-reranker/lock.yaml",
+          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+        },
+        {
+          "path": "shared-docs/guides/pages/reranking-weighted-reranker/page.yaml",
+          "sha256": "4cfdf4766d3e1897a35c103705f96ca4b0afa7144c986032599bbe602727d938"
+        },
+        {
+          "path": "shared-docs/guides/pages/rtree-index-type/cloud-drop-note.md",
+          "sha256": "b6ff1de7c399fcc95cfb38d6facef9fc19d3ed0aa6e410f44d83e0fd1d5c6f85"
+        },
+        {
+          "path": "shared-docs/guides/pages/rtree-index-type/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/rtree-index-type/page.yaml",
+          "sha256": "5d1bab494d3bbc8daa47cdb19c60f9bde411b26a70c4c068d0c82fcb912efb21"
+        },
+        {
           "path": "shared-docs/guides/pages/search-with-struct-array/lock.yaml",
           "sha256": "0e35b171f542dc28e080754f4c694e66bd8cf1d39389a6ed1c1b835f5eb5ec32"
         },
         {
           "path": "shared-docs/guides/pages/search-with-struct-array/page.yaml",
           "sha256": "c14169f73abee4f6d1a7bbad142c2900ed4428f08000dc840202fbaa1316fd04"
+        },
+        {
+          "path": "shared-docs/guides/pages/set-collection-ttl/cloud-entity-ttl-heading.md",
+          "sha256": "74473a8915221aa4c88c8c9099a474a4d6e51f7996f3215567b5950f1b6c97cf"
+        },
+        {
+          "path": "shared-docs/guides/pages/set-collection-ttl/cloud-faq-tail.md",
+          "sha256": "b1ccfe134864fa3c95d837b708f91c274e961cfb9f0ffbebab45f7da61a5ebad"
+        },
+        {
+          "path": "shared-docs/guides/pages/set-collection-ttl/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/set-collection-ttl/page.yaml",
+          "sha256": "0a1e3aa66bd6a8d613ff44623f190c322c3ceaa86995fa42c1105e662dfec5c7"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-cli-bulk.md",
+          "sha256": "4935763864dd18a3e389451b6be35505c2b0147722f4f812babe6d06f7beba3e"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-cli-limit-offset.md",
+          "sha256": "a949cbf6196417f798c9504113f0ae57831da6236ed5c40146618e5a3cd49250"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-cli-output-fields.md",
+          "sha256": "bd38f7768e79195800dc02b6a0eb4f6f5270ea807e1f7f68ba6dc39aa3e8287f"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-cli-partition.md",
+          "sha256": "7711c346b8d507dff5e63fab4ffa8f0ab634b1497988d042ba4073e76e418f35"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-cli-primary-key.md",
+          "sha256": "15306384e08026d48fa3e1ec1f75d6db8b74532354b7606c850a7ce5d47bba91"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-cli-single.md",
+          "sha256": "d21be1350a5e441d9cf023dbeebb6df63baaaec34fb5c1dd76010dd2dae6eee0"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-cli-sort-multi.md",
+          "sha256": "0d78740d91ce67b258665653273a50a4c5c665114ed6f514f72ab50ad4f20de7"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-cli-sort-single.md",
+          "sha256": "1d6bd508d747760cdd062992e87245db248599859b2ddf20714a78cf9e118b59"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-cli-timezone.md",
+          "sha256": "eccb6540ff57970a61b52fb55a141add24086b67e935257cb31c0a046b887066"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-get-recall-rate.md",
+          "sha256": "ac0d9a04596ee209fdcfeb081acb0d87c0f3f6da258095e685e7f4b52cede2e1"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-primary-key-heading.md",
+          "sha256": "b2c66c799aab50dd4c67cff380374e006c767a5b7ae09688e043089339cce6df"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-sort-heading.md",
+          "sha256": "6e7bde767e71efae8e95c9ed85621986f5184a4e8cf246c4182fb1434f5b27ab"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-toc.md",
+          "sha256": "c36ca52fbea0c12631d78ca0babf6d9b5da55b9363f8d261ccc950d76f28db05"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/cloud-use-level.md",
+          "sha256": "4f2e23639eda6582da83b5f1216d1e6df4f9dc7a0ead813f7965fdaa5118be62"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/single-vector-search/page.yaml",
+          "sha256": "e58c06781d43f9935bd514a1f45f6e6eb2277adba5ba3d3c81007c7bef48972d"
+        },
+        {
+          "path": "shared-docs/guides/pages/slt-sort-index-type/cloud-drop-note.md",
+          "sha256": "b6ff1de7c399fcc95cfb38d6facef9fc19d3ed0aa6e410f44d83e0fd1d5c6f85"
+        },
+        {
+          "path": "shared-docs/guides/pages/slt-sort-index-type/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/slt-sort-index-type/page.yaml",
+          "sha256": "0550d9014e846fb912cbe13972ec6b8aad56b19e400069ebd0be54606d907d1f"
+        },
+        {
+          "path": "shared-docs/guides/pages/standard-analyzer/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/standard-analyzer/page.yaml",
+          "sha256": "bd4bab5c2db2b8ad5348e3ab0e7f4f71781a65980a2f623c085c3582b3857de9"
         },
         {
           "path": "shared-docs/guides/pages/standard-tokenizer/lock.yaml",
@@ -2956,12 +3552,68 @@
           "sha256": "6e4fe8697b1f30736009801ae1acbdc9a1baa8f934ddc4fe9617ab9af307bb80"
         },
         {
+          "path": "shared-docs/guides/pages/use-array-fields/cloud-array-partial-update-note.md",
+          "sha256": "64737e578aa412e303044c2b5538c8694332e86321cae64fbfefaf6d601234eb"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-array-fields/lock.yaml",
+          "sha256": "9ba45f513fc2a2ef06ff7e6409d062bb5c4c6d557ac86b189204409a609050c4"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-array-fields/page.yaml",
+          "sha256": "07feacbb58a91e3476c3c48a81d6f797c1f5b8d1c4dbbd75a3c32d0488754183"
+        },
+        {
           "path": "shared-docs/guides/pages/use-array-of-structs/lock.yaml",
           "sha256": "77472607dee4ba9e1a2f50626213cf2550c6ddd1ce0c935f99fa823760c27522"
         },
         {
           "path": "shared-docs/guides/pages/use-array-of-structs/page.yaml",
           "sha256": "7b2ed20eb2871a4f3e19402bc964338357bebf1d262799188e5ff4ed1eb503e1"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-binary-vector/lock.yaml",
+          "sha256": "9ba45f513fc2a2ef06ff7e6409d062bb5c4c6d557ac86b189204409a609050c4"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-binary-vector/page.yaml",
+          "sha256": "ab5f9b29d1673effd9fa4914c20332bdf1053a66f48c44b4ab63cb25ca6e10c6"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-dense-vector/lock.yaml",
+          "sha256": "9ba45f513fc2a2ef06ff7e6409d062bb5c4c6d557ac86b189204409a609050c4"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-dense-vector/page.yaml",
+          "sha256": "bfd1ff3c7df0ef59a31604f236d991b69337368c7d18c99de5257d18e623f045"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-number-field/lock.yaml",
+          "sha256": "9ba45f513fc2a2ef06ff7e6409d062bb5c4c6d557ac86b189204409a609050c4"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-number-field/page.yaml",
+          "sha256": "dd9b358f58e6b4c924edae1ed6ba0f87243567961ecea5f3b2016f1cf1c3aa43"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-partition-key/cloud-introduction.md",
+          "sha256": "b5ca5959a6e8095b01a5b8dfa58ecc444598430d9ed69f693da428fb5324665a"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-partition-key/lock.yaml",
+          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-partition-key/page.yaml",
+          "sha256": "77415f50a2b8f6f462c59c485443bd51bddd5f412e30c3c0e9ad3f9f172155b7"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-sparse-vector/lock.yaml",
+          "sha256": "9ba45f513fc2a2ef06ff7e6409d062bb5c4c6d557ac86b189204409a609050c4"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-sparse-vector/page.yaml",
+          "sha256": "f8cdc121fcfd8c5fbde3df7245aae52b2dd23ac3a9b47016b50c01d7f1352ef0"
         },
         {
           "path": "shared-docs/guides/pages/use-string-field/lock.yaml",
@@ -2992,12 +3644,28 @@
           "sha256": "be80e1cdb36e505b69ab0a6e770d633baa38f59e1930e48c5bd71fb8f8a08d46"
         },
         {
+          "path": "shared-docs/guides/pages/with-iterators/cloud-cli-create.md",
+          "sha256": "b95108565da91990460313b53be38fae1454d10f196b0391e63806cf7c56c4f0"
+        },
+        {
+          "path": "shared-docs/guides/pages/with-iterators/cloud-cli-use.md",
+          "sha256": "878e0b17a78834d8bedbaba8efbc6df3760fd0358bbc4fae7662f155923c4106"
+        },
+        {
+          "path": "shared-docs/guides/pages/with-iterators/lock.yaml",
+          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+        },
+        {
+          "path": "shared-docs/guides/pages/with-iterators/page.yaml",
+          "sha256": "fa9b0771861f78a7534045784a218a1668d459175d4e7afdbec026dd2399b886"
+        },
+        {
           "path": "shared-docs/guides/presentation/cloud-sdk-tabs.yaml",
           "sha256": "933cee506db4c72a44e911ecfe82fe9cf5f41cb406289a3f7f45af45a5dd98a0"
         },
         {
           "path": "shared-docs/guides/product-names.yaml",
-          "sha256": "03122a0eb183c622dff47e96adc1b2acb1153910327edc96f50789a38a7188c4"
+          "sha256": "aaead63803d464d86e93f412d5d94774b1c354307029558bd428926cd5f18186"
         },
         {
           "path": "shared-docs/guides/source.yaml",
@@ -3006,7 +3674,7 @@
       ]
     },
     "dev": {
-      "commit": "a1dffc8b4e54659e2e3d4ffccfeff6a38bb5707e",
+      "commit": "74c2937a7a185f44ad19df8331ebc2e9856e735e",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -5834,7 +6502,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "007c355cc9561e20aba9629270588370802e0b7fdf122d005c52b67e933da9e8"
+          "sha256": "92b07f1b84f42ab21fb9d4206f403c26ca6de35e35283f82edb16d968e737efe"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -5842,155 +6510,155 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
-          "sha256": "f5c510257dfaadb800d4226346e3c49cb8021e687d70dbe7ddf404d629a1f63d"
+          "sha256": "a17f457409a56c84e137150e66c99e45466acba6fac8c52284af782a92b8e824"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "f46b4ac5078b0c8abff84e01c89e7d48ed259216911e09c21937a5b304faec7d"
+          "sha256": "78a236de0afaa32a5adc38d76eadd4a99a8957a7b033308f45d30d9d01a79a6e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json",
-          "sha256": "b352c321f6faba0fce3625e6f09b3d952c1cbbec97a593d22a92ee3cb6acd020"
+          "sha256": "207f2e8f819597b4ee84f5b39afb90602a2ee437f481636729bee1b255bb51ac"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/cnalphanumonly-filter.json",
-          "sha256": "39caa14c605c53aaf0a2776a29a29c7364d5ac75a95415ea828242dd40de044b"
+          "sha256": "3e8f8b248b221b2ac64623801df40fb92f64210d380aa99f0f4e7c498c289d50"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/cncharonly-filter.json",
-          "sha256": "a41dc76730c09be3935e0e2f1e0cf24c8552831f5d292bb39dbc3dbf4d0a58bc"
+          "sha256": "c5ba093830f4f08565c7d393df68e6b5e94872fa09b65bfaea23184050507227"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/create-struct-array.json",
-          "sha256": "27c28532cda995b66158d813035f7f2a7c968418923fa6d140c8b29cc186ea02"
+          "sha256": "a71a5e72037ba581073d5cd758b1483ad0fb097e0dddb34f0bbd9351b8946dbf"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "59fa3740910bb3b8dac89753c118eec63fbd347d1253c44a1187812ec6bad0fa"
+          "sha256": "cb43c775283a4c2074b08557b795bc62ed8cfa08a2615ebca6cf85803ef46688"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "b93e8370788be79dd756b18f9f27efd447e9307be2de7dc6531629830c2dded2"
+          "sha256": "3afeb59b3940a254b4cf8c4d9844c505ff75006bfee64f64a3fa53f96afc0de5"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "db1a0a95c785a18dc58861d4cffc2a3bc21173f6381eb3fdf14629c480ed2826"
+          "sha256": "020fb2db2dda2d00411e87dbe7632f738687ec55e4daa8c63cf58b90f111c896"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "d7cc26ed9135789676dd72063a1880f84921c39ea0af1c52e1f6f03be41cd523"
+          "sha256": "ddd87b60a92cf8b71856c1007ed1c4486128b0216b619ffd34912db7b1c2d112"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json",
-          "sha256": "a29cc87425967159b2ca28b4ed2025afa88420671d5606157666b44f81311e01"
+          "sha256": "2c6885cda715a2ed96b9fdf05cc8c750a889cdab5ae66cdca2be2d998aa06e51"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search.json",
-          "sha256": "06c5c8c0c0e412350d95ded8146159380417e6e36ce7ca809e2b82f28e022199"
+          "sha256": "7c74217998e54214264caab9eecb1ee2b31dbc81bf3585dd196d47000002f749"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json",
-          "sha256": "20f60fed8fb92af1621f805f862cb4dc1d7af5d9834dc07f2d2afa4d0872cda8"
+          "sha256": "a8104a4afecdcaa46c8dc3d91ff720c8ecffe4cbf1790b86a0d0f8b7b31c2c0d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json",
-          "sha256": "75836efd8740fbb11e2250b3c2b0687dd179623b56257e66dffbfc75a7755520"
+          "sha256": "08178f7556664cad71bace452eb459e1a9c2ffb7f273c3034cb7ac0af2d11e6b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "b5e8a9175a12c5d2019210e8361cf846b18d340a2ad463bb917e1a5611866f73"
+          "sha256": "5908bec7008d49bb3dd5789aaa909e23877c2d277b1fe2c44cde885fe3c4cf58"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/index-struct-array.json",
-          "sha256": "9dbb3006073e1633d7818606e56b1ea64cd4876792957823d8fa5a370608a1b4"
+          "sha256": "7e6d79b4c8f960e9cc24b8e0cb6637acc9cec1686f0f4bc44ce616b34f1a7188"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "482f91b4c2257eda7710fb03d2701956333093d2ad7b21ad69aa8c2c9d7f17c2"
+          "sha256": "a500bfbb4bffbbbe2fb654c184e3f469413a390864d6e016f2dfdec1f18e1a5a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-struct-array.json",
-          "sha256": "f40dd8e93802af038c13a492b6939216ee395a8e1714453fdc88e76f245c2c19"
+          "sha256": "1cac4424a2454c65577eadd9a7a4dfc8a350d57df14bde60e5d3ffdf864781f7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/length-filter.json",
-          "sha256": "74cb51b895f51bc7981177eca56764012e23c56db21f728c3ba5174e633589ea"
+          "sha256": "aff975f0f1d3ca3c36ace293c3a1627115d1b6239c2be0cc9c9cefd30f9b6786"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "ad152ba9df40cb525a4ffe0d401530b920999347021e272d65a2969afa4790a9"
+          "sha256": "30c17390fc73b89a4cbefd2c60b21096d1f4d3008720b502093f3a6958ad3f47"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lowercase-filter.json",
-          "sha256": "1c1aae48f070eb0cf62e8a4e8b09a20a80b6b9b668d79688ca45bcd329668114"
+          "sha256": "c29cdc3dbea261d9797aabb8c3a4e9c440179cb746da67bc5829756178794f9d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/pinyin-filter.json",
-          "sha256": "ebdc209ac49f1f392ef69318158e1274013c501f120c4808bdfa1778f0647451"
+          "sha256": "83d56e9cb03cc191c66d9bc9171292f965695ee895e4f51c77e0c81c4d8945d0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json",
-          "sha256": "52b19fddbb01e1c0098a33ec4efe72c4ed76177cd2163d1562a6f2beabb816a6"
+          "sha256": "3426a08d3ecb7701efede8e60a92a0b743008bdb8f06109d75beb745a8df0c83"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "9707db9aa8f91e2b607ec1820b6904f5d521f2731a0bf02179ec79ab851318f2"
+          "sha256": "72731bdb8c3ce37672e99b0588db04875551bb3ba6fc0f59982a082588d5f3e4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "4bce0c202404b44dbee3942756e1b69f4d9da0c49e6cedb484fde4bbe8f19bc1"
+          "sha256": "c959eebeaaa297d4793b7fc3001727f1c9cb300e6f60540898d821363f97de1c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-rrf.json",
-          "sha256": "fa829617034dd4ff11b2681ca2bf3c926e1067b1c556ea69a9ebff4377f894d4"
+          "sha256": "7fa8282331aa071a13ddc6000dfa0eae7f4f7b371f9020c649927fda7d12dd11"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json",
-          "sha256": "3d8a665c78b61fae302b89e58f7563de697205a9db85d6e18bf354078a77eee1"
+          "sha256": "37eb75280a86ce33fd7bf709df41e17df9d2f586ba3dd21fc8818d392e37bc3f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "03a90843b7f5894cb2e021e5f90d5302da5a07309b4489dca0a9e07aad564c78"
+          "sha256": "93a01c6b1e5bb8e5fc043f1e41e5696773cdbd549188d9d84c6d46e2424cc498"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stemmer-filter.json",
-          "sha256": "eac5be27bc3d0334431a40fddd59cc95e4f3827b561aa31576e554d61b1c3ae3"
+          "sha256": "a9dc3c8b9f251967dca408c89912bf4ac39a2e0c1d091fce7de18f706981c4f4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "f9e4987aec727e0bf57bc63392451643a90e634710e6ea1b67d964d7183a2570"
+          "sha256": "562ecab3529be98c5e04a1c16f88616c3dcf84c3638a5bee42c257b813c07dc7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json",
-          "sha256": "5b9e33c7a9bd7194dfcccded08a05d272017141e0c65ca389cae3535a97d5174"
+          "sha256": "2edb66bed0f982515ac05a6d1e5745c9d2ca7299add962cc2a9ff70e6f6c126a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-limits.json",
-          "sha256": "87aa980fc87c4b2df189dcd7b8532480664679318ef07930d1bb334902e7dce3"
+          "sha256": "f57dd8465ba7b798593e7da8d4fe76e3180e9db3ab968b15be4e35405f8a0646"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json",
-          "sha256": "77f5c19859662d4ae67f44b6acec29d06abeb68e5971f07db9032e21d3454fb1"
+          "sha256": "043753e55a6251ddf4bf734b297c6c3260e95c36bb57ca58d15073bcc63137f2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "e379e0c67a5deb400818d29d626741d172813d9e66191c5d085f32723d6b4ed5"
+          "sha256": "2df5d770dbb9b53f59c29a8715fcbfd0d0cb391a01455710573ad371cef5afad"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "01621574502895a221c3ccbe8f63a1b9134f98e90ecb5c98b6c45f5131845d5a"
+          "sha256": "b69746b4e78f664a9e2046b59050024be4d69dd129cb752086162fcb14d0812b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "ca97aea33b400cfbd1ffbd52829f7a479c51fee618d1703cdba4b554927a9afc"
+          "sha256": "8063e45fe53f097f480b14070f7f8865ae0b486522dc8f5a12738b9aa28087fe"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json",
-          "sha256": "76e584e1a1567d0095dc5c6bc8ffbdb25ab5f0c1dea823bbee8ce8c3ed30ab23"
+          "sha256": "54a49fdf7d5a78b0e882d2bcb097b9c73a7f5157f2c0c758062e5d2502a013d5"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "2761c222999fef977f06b28a2ee3fb24d7ec41623ae2e54a248ab0abb0b48fe1"
+          "sha256": "50f0c8b326e729a8c1675271b4d2ffd0ba318168a21a6ec977d68f14fd456b88"
         }
       ]
     },
@@ -7593,11 +8261,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "R8amwM1K6iBDLuk0KcEcHJxtnhb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/R8amwM1K6iBDLuk0KcEcHJxtnhb",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/multi-tenancy",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "multi-tenancy"
+            }
           },
           {
             "record_id": "recvm2llPcQKpN",
@@ -8749,11 +9422,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "BaGlwzDmyiyVvVk6NurcFclInCd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/single-vector-search",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "single-vector-search"
+            }
           },
           {
             "record_id": "recvlPqVRsdBRM",
@@ -8846,11 +9524,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "GnvtwMeQWi8iRCk7dGccCBQZnOh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/GnvtwMeQWi8iRCk7dGccCBQZnOh",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/range-search",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "range-search"
+            }
           },
           {
             "record_id": "recvlPp6ZPf0yY",
@@ -8869,11 +9552,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "JWZGw89MBiUDBNkhtGfcyyUcnsd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/JWZGw89MBiUDBNkhtGfcyyUcnsd",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/grouping-search",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "grouping-search"
+            }
           },
           {
             "record_id": "recvqUTMkZiY2l",
@@ -8961,11 +9649,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/get-and-scalar-query",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "get-and-scalar-query"
+            }
           },
           {
             "record_id": "recvlPpiVhOkjx",
@@ -9027,11 +9720,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "LBbUwOGcwi1UMak3eE2cM1gvnUe",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/basic-filtering-operators",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "basic-filtering-operators"
+            }
           },
           {
             "record_id": "recvlPpp7XvPZS",
@@ -9050,11 +9748,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/PFbNwB7Mli18n6k6VWScGcpWndc",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/pattern-match",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "pattern-match"
+            }
           },
           {
             "record_id": "recvlPpqLltfoK",
@@ -9073,11 +9776,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "TumJwDYrhiDYcUkKsUIcuSnbnCf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/TumJwDYrhiDYcUkKsUIcuSnbnCf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/filtering-templating",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "filtering-templating"
+            }
           },
           {
             "record_id": "recvlPpsbFNmVH",
@@ -9096,11 +9804,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Py6zwu6r4iPMqVkKAYXcUYLEnXg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Py6zwu6r4iPMqVkKAYXcUYLEnXg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/json-filtering-operators",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "json-filtering-operators"
+            }
           },
           {
             "record_id": "recvlPptQJZwue",
@@ -9119,11 +9832,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "MaWywRYCniq6vwkJsT7c2wAyn0f",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/MaWywRYCniq6vwkJsT7c2wAyn0f",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/array-filtering-operators",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "array-filtering-operators"
+            }
           },
           {
             "record_id": "recvlPpvCPSjHn",
@@ -9170,11 +9888,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "ByJbwcpoCiBkDckR3VCcC4LTneg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/ByJbwcpoCiBkDckR3VCcC4LTneg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/ramdom-sampling",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "ramdom-sampling"
+            }
           },
           {
             "record_id": "recvlPqcKatSkR",
@@ -9542,11 +10265,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "QVTnwVz2aifvSAkgomAc9KWRnHb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/QVTnwVz2aifvSAkgomAc9KWRnHb",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/with-iterators",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "with-iterators"
+            }
           },
           {
             "record_id": "recvlPrgAAOJzT",
@@ -9565,11 +10293,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "QWqiwrgJViA5AJkv64VcgQX2nKd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/QWqiwrgJViA5AJkv64VcgQX2nKd",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-partition-key",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "use-partition-key"
+            }
           },
           {
             "record_id": "recvlPriYLnOoh",
@@ -9698,11 +10431,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "DtLVw8EUyi6MqMkXh3Cc3rfZnic",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/DtLVw8EUyi6MqMkXh3Cc3rfZnic",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/database",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "database"
+            }
           },
           {
             "record_id": "recvlPqqbOUNjn",
@@ -9762,11 +10500,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Z9AMwNkVLiog0jkXxNscuMpJnjL",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Z9AMwNkVLiog0jkXxNscuMpJnjL",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/manage-collections",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "manage-collections"
+            }
           },
           {
             "record_id": "recvlPs1hp3qSc",
@@ -9785,11 +10528,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "EmcowmwYpiFbWgkmnqfcMf3knVc",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/EmcowmwYpiFbWgkmnqfcMf3knVc",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/manage-collections-sdks",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "manage-collections-sdks"
+            }
           },
           {
             "record_id": "recvlPs65wqwyk",
@@ -9882,11 +10630,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "WMh8w3tbKiBhukk3ICMc4ctznEg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/modify-collections",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "modify-collections"
+            }
           },
           {
             "record_id": "recvlPsbs7JQy4",
@@ -9905,11 +10658,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "GthGwnrpEiGpClkV5JXcgWUgn8c",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/GthGwnrpEiGpClkV5JXcgWUgn8c",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/set-collection-ttl",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "set-collection-ttl"
+            }
           },
           {
             "record_id": "recvlPse1fBhGM",
@@ -9950,11 +10708,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "CemEwKryciMUepkgYWZcOw6wncb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/CemEwKryciMUepkgYWZcOw6wncb",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/load-release-collections",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "load-release-collections"
+            }
           },
           {
             "record_id": "recvlPsisxHlZC",
@@ -9973,11 +10736,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "JCMPwIyVciCT4Hk4O20c96MEnch",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/JCMPwIyVciCT4Hk4O20c96MEnch",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/manage-partitions",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "manage-partitions"
+            }
           },
           {
             "record_id": "recvlPsksPcET1",
@@ -9996,11 +10764,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "OLn1wMgW0iceBlkuey2cBD91neb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/OLn1wMgW0iceBlkuey2cBD91neb",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/manage-aliases",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "manage-aliases"
+            }
           },
           {
             "record_id": "recvlPsme8E56N",
@@ -10415,11 +11188,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "D2ctwKZhNilLY0ke1vpcHL62n5G",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/D2ctwKZhNilLY0ke1vpcHL62n5G",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/primary-field-auto-id",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "primary-field-auto-id"
+            }
           },
           {
             "record_id": "recvlPt0fX4m9U",
@@ -10438,11 +11216,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "ARalwpaVDiCwDZkoSHtcPNgXnRg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/ARalwpaVDiCwDZkoSHtcPNgXnRg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-dense-vector",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "use-dense-vector"
+            }
           },
           {
             "record_id": "recvlPt1KuBotc",
@@ -10461,11 +11244,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "NTwawtvYdiXTkukbss7ccw2RnXc",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/NTwawtvYdiXTkukbss7ccw2RnXc",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-binary-vector",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "use-binary-vector"
+            }
           },
           {
             "record_id": "recvlPt3BHiutO",
@@ -10484,11 +11272,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "JbPDwHqd0iZZSuk5tYicGqKbn9c",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/JbPDwHqd0iZZSuk5tYicGqKbn9c",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-sparse-vector",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "use-sparse-vector"
+            }
           },
           {
             "record_id": "recvlPt5P3vHmN",
@@ -10558,11 +11351,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "EwArwXCOPip15hkSvvpciAMJnSe",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/EwArwXCOPip15hkSvvpciAMJnSe",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-number-field",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "use-number-field"
+            }
           },
           {
             "record_id": "recvlPtcx5rI2g",
@@ -10601,11 +11399,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Neq4wR0EdiXokRkhXwbcMPfanCd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Neq4wR0EdiXokRkhXwbcMPfanCd",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/json-field-overview",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "json-field-overview"
+            }
           },
           {
             "record_id": "recvlPtf0BFNBS",
@@ -10624,11 +11427,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "MBVVww2Zii8k6Bk77GJcXbZJnpf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/MBVVww2Zii8k6Bk77GJcXbZJnpf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/json-indexing",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "json-indexing"
+            }
           },
           {
             "record_id": "recvlPtgwWsj2G",
@@ -10647,11 +11455,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Dh8MwFuZliYf9Wkhee3c1FhUnGd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Dh8MwFuZliYf9Wkhee3c1FhUnGd",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/json-shredding",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "json-shredding"
+            }
           },
           {
             "record_id": "recvlPtinkuviw",
@@ -10670,11 +11483,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "N0RmwUtmqinQvokWdYLc3yV5nJh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/N0RmwUtmqinQvokWdYLc3yV5nJh",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-array-fields",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "use-array-fields"
+            }
           },
           {
             "record_id": "recvlPtk8BZ2aP",
@@ -10899,11 +11717,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "OVxRwZWxNi4pYrkdKxCcOuY2nf1",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/OVxRwZWxNi4pYrkdKxCcOuY2nf1",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/enable-dynamic-field",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "enable-dynamic-field"
+            }
           },
           {
             "record_id": "recvlPtyEujTZ1",
@@ -10922,11 +11745,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "DjROwgK6ziCf7Rkoji6ccyEUnsg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/nullable-fields",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "nullable-fields"
+            }
           },
           {
             "record_id": "recvlPtz1y4ReX",
@@ -10945,11 +11773,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "SsGkwyGJDirNDwk170rcHbUjnVe",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/SsGkwyGJDirNDwk170rcHbUjnVe",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/default-fields",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "default-fields"
+            }
           },
           {
             "record_id": "recvlPtzpXFjxH",
@@ -11216,11 +12049,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "SkJtwgkCDiGYeOkakIgcLT46nee",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/SkJtwgkCDiGYeOkakIgcLT46nee",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/bitmap-index-type",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "bitmap-index-type"
+            }
           },
           {
             "record_id": "recvlPuxIa4nK7",
@@ -11239,11 +12077,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "YNczwtWpFiN0CckMvDVcn0pvnEb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/YNczwtWpFiN0CckMvDVcn0pvnEb",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/inverted-index-type",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "inverted-index-type"
+            }
           },
           {
             "record_id": "recvlPuAMvtXHT",
@@ -11262,11 +12105,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Q0wpw4xZiimaUsk4GvScAg2un1d",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Q0wpw4xZiimaUsk4GvScAg2un1d",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/ngram-index-type",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "ngram-index-type"
+            }
           },
           {
             "record_id": "recvlPuEqbVGK6",
@@ -11285,11 +12133,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "RlY2wylVQiZswikT0G2cBHVznTf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/RlY2wylVQiZswikT0G2cBHVznTf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/rtree-index-type",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "rtree-index-type"
+            }
           },
           {
             "record_id": "recvlPuHlCSNKs",
@@ -11308,11 +12161,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "YBYmwvx68iMKFRknytJccwk0nPf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/YBYmwvx68iMKFRknytJccwk0nPf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/slt-sort-index-type",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "slt-sort-index-type"
+            }
           },
           {
             "record_id": "recvlPnzHpvWyr",
@@ -12217,11 +13075,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Oyy6w5DYJiVCMYkdduEc6eD9nZg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Oyy6w5DYJiVCMYkdduEc6eD9nZg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/reranking-weighted-reranker",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "reranking-weighted-reranker"
+            }
           },
           {
             "record_id": "recvlUWzUlvYoV",
@@ -12288,11 +13151,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Qa60w2vDuiqNk0kclKLcZ0uQnkg",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Qa60w2vDuiqNk0kclKLcZ0uQnkg",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/boost-ranker",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "boost-ranker"
+            }
           },
           {
             "record_id": "recvlUWDF9fLUJ",
@@ -12359,11 +13227,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "G39mw621Yi3iICkv69JcQ0J5nHf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/G39mw621Yi3iICkv69JcQ0J5nHf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/gaussian-decay",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "gaussian-decay"
+            }
           },
           {
             "record_id": "recvlUWT2D8Gjx",
@@ -12382,11 +13255,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "FbVmwmuaei9WkIkIWJmcs3ManEd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/FbVmwmuaei9WkIkIWJmcs3ManEd",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/exponential-decay",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "exponential-decay"
+            }
           },
           {
             "record_id": "recvlUWUQGODld",
@@ -12405,11 +13283,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "M7xHwZSIuiAP4Fkfm67cBU7Pn8g",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/M7xHwZSIuiAP4Fkfm67cBU7Pn8g",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/linear-decay",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "linear-decay"
+            }
           },
           {
             "record_id": "recvlUWWIq0ItQ",
@@ -12598,11 +13481,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "WMSvwXXz4iR7mZkGmUscF3Y1nxs",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/WMSvwXXz4iR7mZkGmUscF3Y1nxs",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/standard-analyzer",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "standard-analyzer"
+            }
           },
           {
             "record_id": "recvlPvdszHqaO",
@@ -12621,11 +13509,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "W0WhwqRyciRMRLklcsdca1U2nae",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/W0WhwqRyciRMRLklcsdca1U2nae",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/english-analyzer",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "english-analyzer"
+            }
           },
           {
             "record_id": "recvlPvgjcQdII",
@@ -12644,11 +13537,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Of8PwuunCihBfxksNJJcSCRYnsf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Of8PwuunCihBfxksNJJcSCRYnsf",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/chinese-analyzer",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "chinese-analyzer"
+            }
           },
           {
             "record_id": "recvxDfoe6su81",
@@ -12789,11 +13687,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "JGURwBQNOijp2DkspFFctbAGnLh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/JGURwBQNOijp2DkspFFctbAGnLh",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/jieba-tokenizer",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "jieba-tokenizer"
+            }
           },
           {
             "record_id": "recvlPvni6z12G",
@@ -12868,11 +13771,16 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "X6wiwFkuFiF8nekse05cnBIPnic",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/X6wiwFkuFiF8nekse05cnBIPnic",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/language-identifier-tokenizer",
             "ref_target": null,
             "ref_target_token": null,
-            "ref_target_anchor": null
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "language-identifier-tokenizer"
+            }
           },
           {
             "record_id": "recvxDgarHTGQ1",
@@ -17072,10 +17980,10 @@
           "tblb929onfgAPW90": "fe4ab9929269c9609f1058670285a0a5f485003bae665597ad8d80d9406ec322",
           "tblbIuN0ns3QWcQR": "f2afa8aabef9a603601d353eedfa8eee4f785b1f814087b0314267c46dcc6463",
           "tblgHPdSvZP8gUz6": "33fc47a02240b6fdf9ba7739a886843bca0b258b8b27d9e85e66f99191896d6d",
-          "tblh7utKxg0dgdTo": "40e474ddcd6ad1cde66796d0a41f0d9ffd2d8cdc6a779ec8991091b9ce71168a",
+          "tblh7utKxg0dgdTo": "6b07e5f75af5c936da0fd7d9dde0a65af5e40cf24e24ab24d900dc79bb603c9b",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "88c1ec75f06bd8e0f8d2b384cd6224a138574ce8b96213bde87db7b110077ccc",
+          "tblWv7PjNDsexddH": "2be8aecaf0be4ca7370aadcd3173352b7806eef5a1cc9310247fd2a560995e46",
           "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327"
         }
       },
@@ -17107,7 +18015,7 @@
       }
     },
     "tools": {
-      "zdoc": "0df0b97ba18ae88c44f94c853678a4af7e250dc6",
+      "zdoc": "0c2b25235ab6ba06ba2047f7815081f79b6aca96",
       "md2md": "1.3.0"
     },
     "images": [

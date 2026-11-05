@@ -23,12 +23,6 @@ import TabItem from '@theme/TabItem';
 
 Truncating a collection removes all entities while preserving the collection's schema, constraints, and indexes. It is more efficient than deleting entities because it hides all entities flushed before the current timestamp from searches and queries and drops them in the background.
 
-<Admonition type="info" title="Notes">
-
-This feature applies only to managed collections.
-
-</Admonition>
-
 ## Overview\{#overview}
 
 Collection truncation is a high-performance operation that removes all entities from a collection while fully preserving its structural definition, including schema, constraints, and indexes. This keeps the collection immediately ready for new data ingestion without requiring reconfiguration or index rebuilding.
@@ -97,7 +91,6 @@ client.close();
 
 ```go
 // go
-package main
 
 import (
     "context"

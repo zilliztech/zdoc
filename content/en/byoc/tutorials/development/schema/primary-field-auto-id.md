@@ -1,17 +1,18 @@
 ---
 title: "Primary Field & AutoID | BYOC"
 slug: /primary-field-auto-id
-sidebar_label: "Primary Field"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Every collection in Zilliz Cloud must have a primary field to uniquely identify each entity. This field ensures that every entity can be inserted, updated, queried, or deleted without ambiguity. | BYOC"
+description: "Every collection in Milvus must have a primary field to uniquely identify each entity. This field ensures that every entity can be inserted, updated, queried, or deleted without ambiguity. | BYOC"
 type: origin
-token: D2ctwKZhNilLY0ke1vpcHL62n5G
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-primary-field-auto-id
+sidebar_label: "Primary Field"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/primary-field.md"
 
 ---
 
@@ -41,21 +42,44 @@ Key requirements:
 
 The primary field must use a supported scalar data type that can uniquely identify entities.
 
-| Data Type | Description |
-| --- | --- |
-| `INT64` | 64-bit integer type, commonly used with AutoID. This is the recommended option for most use cases. |
-| `VARCHAR` | Variable-length string type. Use this when entity identifiers come from external systems (for example, product codes or user IDs). Requires the `max_length` property to define the maximum number of bytes allowed per value. |
+<table>
+   <tr>
+     <th><p>Data Type</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p><code>INT64</code></p></td>
+     <td><p>64-bit integer type, commonly used with AutoID. This is the recommended option for most use cases.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>VARCHAR</code></p></td>
+     <td><p>Variable-length string type. Use this when entity identifiers come from external systems (for example, product codes or user IDs). Requires the <code>max_length</code> property to define the maximum number of bytes allowed per value.</p></td>
+   </tr>
+</table>
 
 ## Choose between AutoID and Manual IDs\{#choose-between-autoid-and-manual-ids}
 
 Zilliz Cloud supports two modes for assigning primary key values.
 
-| Mode | Description | Recommended For |
-| --- | --- | --- |
-| AutoID | Zilliz Cloud automatically generates unique identifiers for inserted or imported entities. | Most scenarios where you don’t need to manage IDs manually. |
-| Manual ID | You provide unique IDs yourself when inserting or importing data. | When IDs must align with external systems or pre-existing datasets. |
+<table>
+   <tr>
+     <th><p>Mode</p></th>
+     <th><p>Description</p></th>
+     <th><p>Recommended For</p></th>
+   </tr>
+   <tr>
+     <td><p>AutoID</p></td>
+     <td><p>Zilliz Cloud automatically generates unique identifiers for inserted or imported entities.</p></td>
+     <td><p>Most scenarios where you don’t need to manage IDs manually.</p></td>
+   </tr>
+   <tr>
+     <td><p>Manual ID</p></td>
+     <td><p>You provide unique IDs yourself when inserting or importing data.</p></td>
+     <td><p>When IDs must align with external systems or pre-existing datasets.</p></td>
+   </tr>
+</table>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 - If you are unsure which mode to choose, [start with AutoID](./primary-field-auto-id#quickstart-use-autoid) for simpler ingestion and guaranteed uniqueness.
 
@@ -86,7 +110,7 @@ schema = client.create_schema()
 schema.add_field(
     field_name="id", # Primary field name
     is_primary=True,
-    auto_id=True,  # Milvus generates IDs automatically; Defaults to False
+    auto_id=True,  # Zilliz Cloud generates IDs automatically; Defaults to False
     datatype=DataType.INT64
 )
 # highlight-end
@@ -152,7 +176,6 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-// go
 import (
     "context"
     "fmt"
@@ -195,7 +218,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 let client = ClientV2::new(
@@ -306,7 +328,7 @@ const schema = [
     description: "Primary field",
     data_type: DataType.Int64,
     is_primary_key: true,
-    autoID: true, // Milvus generates IDs automatically
+    autoID: true, // Zilliz Cloud generates IDs automatically
   },
   {
     name: "embedding",
@@ -349,7 +371,7 @@ var schema = new CollectionSchema
 {
     Fields =
     {
-        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true), // Milvus generates IDs automatically
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true), // Zilliz Cloud generates IDs automatically
         FieldSchema.CreateFloatVector("embedding", dimension: 4), // Vector field
         FieldSchema.CreateVarchar("category", maxLength: 1000) // Scalar field of the VARCHAR type
     }
@@ -411,6 +433,7 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Step 2: Insert Data\{#step-2-insert-data}
@@ -468,7 +491,6 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 <TabItem value='go'>
 
 ```go
-// go
 import (
     "fmt"
     "log"
@@ -496,7 +518,6 @@ for i := 0; i < result.IDs.Len(); i++ {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 client
@@ -610,9 +631,10 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Use `upsert()` instead of `insert()` when working with existing entities to avoid duplicate ID errors.
 
@@ -707,8 +729,8 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-// go
 import (
+    "context"
     "fmt"
     "log"
 
@@ -716,7 +738,18 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-schema = &entity.Schema{
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+        Address: "YOUR_CLUSTER_ENDPOINT",
+        APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+        log.Fatal("failed to connect:", err)
+}
+defer cli.Close(ctx)
+
+schema := &entity.Schema{
         CollectionName: "demo_manual_ids",
         Fields: []*entity.Field{
                 entity.NewField().WithName("product_id").WithDataType(entity.FieldTypeVarChar).WithIsPrimaryKey(true).WithMaxLength(100),
@@ -738,7 +771,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 let client = ClientV2::new(
@@ -952,6 +984,7 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Step 2: Insert data with your IDs\{#step-2-insert-data-with-your-ids}
@@ -1012,7 +1045,6 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 <TabItem value='go'>
 
 ```go
-// go
 import (
     "fmt"
     "log"
@@ -1040,7 +1072,6 @@ for i := 0; i < result.IDs.Len(); i++ {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 client
@@ -1160,6 +1191,7 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Your responsibilities:
@@ -1169,4 +1201,51 @@ Your responsibilities:
 - Include the primary field in every insert/import operation
 
 - Handle ID conflicts and duplicate detection yourself
+
+## Advanced usage\{#advanced-usage}
+
+### Migrate data with existing AutoIDs\{#migrate-data-with-existing-autoids}
+
+To preserve existing IDs during data migration, enable the `allow_insert_auto_id` property by making the `alter_collection_properties` call. When set to true, Zilliz Cloud accepts user-provided IDs even if AutoID is enabled.
+
+For configuration details, refer to [Modify Collection](https://milvus.io/docs/modify-collection.md#Example-6-Enable-allowinsertautoid).
+
+## Reference: How AutoID works\{#reference-how-autoid-works}
+
+Understanding how AutoID generates unique identifiers internally can help you [configure cluster IDs](./primary-field-auto-id#ensure-global-autoid-uniqueness-across-clusters) correctly and troubleshoot ID-related issues.
+
+AutoID uses a structured 64-bit format to guarantee uniqueness:
+
+```plaintext
+[sign_bit][cluster_id][physical_ts][logical_ts]
+```
+
+<table>
+   <tr>
+     <th><p>Segment</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p><code>sign_bit</code></p></td>
+     <td><p>Reserved for internal use</p></td>
+   </tr>
+   <tr>
+     <td><p><code>cluster_id</code></p></td>
+     <td><p>Identifies which cluster generated the ID (value range: 0-7)</p></td>
+   </tr>
+   <tr>
+     <td><p><code>physical_ts</code></p></td>
+     <td><p>Timestamp in milliseconds when the ID was generated</p></td>
+   </tr>
+   <tr>
+     <td><p><code>logical_ts</code></p></td>
+     <td><p>Counter to distinguish IDs created in the same millisecond</p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Even when AutoID is enabled with `VARCHAR` as the data type, Zilliz Cloud still generates numeric IDs. These are stored as numeric strings with a maximum length of 20 characters (uint64 range).
+
+</Admonition>
 

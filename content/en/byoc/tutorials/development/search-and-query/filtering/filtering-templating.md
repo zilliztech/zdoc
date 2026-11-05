@@ -1,7 +1,6 @@
 ---
 title: "Filter Templating | BYOC"
 slug: /filtering-templating
-sidebar_label: "Template"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations. | BYOC"
 type: origin
-token: TumJwDYrhiDYcUkKsUIcuSnbnCf
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-filtering-templating
+sidebar_label: "Template"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/filtering-templating.md"
 
 ---
 
@@ -23,9 +24,9 @@ import TabItem from '@theme/TabItem';
 
 In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-The literal on the left-hand side of a filtering expression can either be a collection field name, such as `age`, `city`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] > {var}'`. 
+The literal on the left-hand side of a filtering expression can either be a collection field name, such as `age`, `city`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] > {var}'`.
 
 For details on scalar filtering in a StructArray field, refer to [StructArray Operators](./struct-array-filtering).
 
@@ -133,6 +134,7 @@ filter_params='{"age": 25, "city": ["北京", "上海"]}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 Here, `{age}` and `{city}` are placeholders that will be replaced with the actual values in `filter_params` when the query is executed.
@@ -336,6 +338,7 @@ SearchResp res = await client.SearchAsync(new SearchReq
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="age > {age} AND city IN {city}"
 filter_params='{"age": 25, "city": ["北京", "上海"]}'
 
@@ -355,6 +358,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, Zilliz Cloud will dynamically replace `{age}` with `25` and `{city}` with `["北京", "上海"]` when executing the search.
@@ -525,6 +529,7 @@ QueryResp res = await client.QueryAsync(new QueryReq
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="age > {age} AND city IN {city}"
 filter_params='{"age": 25, "city": ["北京", "上海"]}'
 
@@ -541,6 +546,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 By using `filter_params`, Zilliz Cloud efficiently handles the dynamic insertion of values, improving the speed of query execution.
@@ -700,6 +706,7 @@ await client.DeleteAsync(new DeleteReq
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="age > {age} AND city IN {city}"
 filter_params='{"age": 25, "city": ["北京", "上海"]}'
 
@@ -715,6 +722,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 This approach improves the performance of delete operations, especially when dealing with complex filter conditions.
@@ -879,6 +887,7 @@ QueryResp res = await client.QueryAsync(new QueryReq
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="message =~ {pattern}"
 filter_params='{"pattern": "E[0-9]{4}"}'
 
@@ -895,6 +904,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 You can also use template parameters with `!~`:
@@ -981,11 +991,13 @@ var filterParams = new Dictionary<string, object>
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="message !~ {pattern}"
 filter_params='{"pattern": "^DEBUG"}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 The template value must be a string containing a valid RE2 regex pattern. Zilliz Cloud validates the pattern before executing the filter.

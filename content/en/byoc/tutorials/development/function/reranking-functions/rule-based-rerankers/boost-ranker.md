@@ -1,7 +1,6 @@
 ---
 title: "Boost Ranker | BYOC"
 slug: /boost-ranker
-sidebar_label: "Boost Ranker"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Instead of relying solely on semantic similarity calculated based on vector distances, Boost Rankers allow you to influence search results in a meaningful way. It is ideal for quickly adjusting search results using metadata filtering. | BYOC"
 type: origin
-token: Qa60w2vDuiqNk0kclKLcZ0uQnkg
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-boost-ranker
+sidebar_label: "Boost Ranker"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/boost-ranker.md"
 
 ---
 
@@ -23,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 Instead of relying solely on semantic similarity calculated based on vector distances, Boost Rankers allow you to influence search results in a meaningful way. It is ideal for quickly adjusting search results using metadata filtering.
 
-When a search request includes a Boost Ranker function, Milvus uses the optional filtering condition within the function to find matches among search result candidates and boosts the scores of those matches by applying the specified weight, helping promote or demote the rankings of the matched entities in the final result. 
+When a search request includes a Boost Ranker function, Zilliz Cloud uses the optional filtering condition within the function to find matches among search result candidates and boosts the scores of those matches by applying the specified weight, helping promote or demote the rankings of the matched entities in the final result.
 
 ## When to use Boost Ranker\{#when-to-use-boost-ranker}
 
@@ -52,17 +53,17 @@ You can also combine multiple Boost Rankers to implement a more dynamic and robu
 
 The following diagram illustrates the main workflow of Boost Rankers.
 
-![Hq0awfjC7h0Ty3bvsUEcasOHncb](https://zdoc-images.s3.us-west-2.amazonaws.com/Hq0awfjC7h0Ty3bvsUEcasOHncb.png)
+![Boost Ranker Mechanism](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/13de86105cb1246c210e64045ffad69412da8b921ab9329558d099e0c04708c3.png)
 
-When you insert data, Zilliz Cloud distributes it across segments. During a search, each segment returns a set of candidates, and Zilliz Cloud ranks these candidates from all segments to produce the final results. When a search request includes a Boost Ranker, Zilliz Cloud applies it to the candidate results from each segment to prevent potential precision loss and improve recall. 
+When you insert data, Zilliz Cloud distributes it across segments. During a search, each segment returns a set of candidates, and Zilliz Cloud ranks these candidates from all segments to produce the final results. When a search request includes a Boost Ranker, Zilliz Cloud applies it to the candidate results from each segment to prevent potential precision loss and improve recall.
 
-Before finalizing the results, Milvus processes these candidates with the Boost Ranker as follows:
+Before finalizing the results, Zilliz Cloud processes these candidates with the Boost Ranker as follows:
 
 1. Applies the optional filtering expression specified in the Boost Ranker to identify the entities that match the expression.
 
 1. Applies the weight specified in the Boost Ranker to boost the scores of the identified entities.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Boost Ranker cannot be used in multi-vector hybrid search.
 
@@ -72,58 +73,270 @@ Boost Ranker cannot be used in multi-vector hybrid search.
 
 The following example illustrates the use of a Boost Ranker in a single-vector search that requires returning the top five most relevant entities and adding weights to the scores of entities with the abstract doc type.
 
-1. **Collect search result candidates in segments.** 
+1. **Collect search result candidates in segments.**
 
-    The following table assumes Milvus distributes entities into two segments (**0001** and **0002**), with each segment returning five candidates.
+    The following table assumes Zilliz Cloud distributes entities into two segments (**0001** and **0002**), with each segment returning five candidates.
 
-    | ID | DocType | Score | Rank | segment |
-    | --- | --- | --- | --- | --- |
-    | 117 | abstract | 0.344 | 1 | 0001 |
-    | 89 | abstract | 0.456 | 2 | 0001 |
-    | 257 | body | 0.578 | 3 | 0001 |
-    | 358 | title | 0.788 | 4 | 0001 |
-    | 168 | body | 0.899 | 5 | 0001 |
-    | 46 | body | 0.189 | 1 | 0002 |
-    | 48 | body | 0265 | 2 | 0002 |
-    | 561 | abstract | 0.366 | 3 | 0002 |
-    | 344 | abstract | 0.444 | 4 | 0002 |
-    | 276 | abstract | 0.845 | 5 | 0002 |
+    <table>
+       <tr>
+         <th><p>ID</p></th>
+         <th><p>DocType</p></th>
+         <th><p>Score</p></th>
+         <th><p>Rank</p></th>
+         <th><p>segment</p></th>
+       </tr>
+       <tr>
+         <td><p>117</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.344</p></td>
+         <td><p>1</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>89</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.456</p></td>
+         <td><p>2</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>257</p></td>
+         <td><p>body</p></td>
+         <td><p>0.578</p></td>
+         <td><p>3</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>358</p></td>
+         <td><p>title</p></td>
+         <td><p>0.788</p></td>
+         <td><p>4</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>168</p></td>
+         <td><p>body</p></td>
+         <td><p>0.899</p></td>
+         <td><p>5</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>46</p></td>
+         <td><p>body</p></td>
+         <td><p>0.189</p></td>
+         <td><p>1</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>48</p></td>
+         <td><p>body</p></td>
+         <td><p>0265</p></td>
+         <td><p>2</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>561</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.366</p></td>
+         <td><p>3</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>344</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.444</p></td>
+         <td><p>4</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>276</p></td>
+         <td><p>abstract</p></td>
+         <td><p>0.845</p></td>
+         <td><p>5</p></td>
+         <td><p>0002</p></td>
+       </tr>
+    </table>
 
 1. **Apply the filtering expression specified in the Boost Ranker** (`doctype='abstract'`).
 
-    As denoted by the `DocType` field in the following table, Milvus will mark all entities with their `doctype` set to `abstract` for further processing.
+    As denoted by the `DocType` field in the following table, Zilliz Cloud will mark all entities with their `doctype` set to `abstract` for further processing.
 
-    | ID | DocType | Score | Rank | segment |
-    | --- | --- | --- | --- | --- |
-    | **117** | **abstract** | **0.344** | **1** | **0001** |
-    | **89** | **abstract** | **0.456** | **2** | **0001** |
-    | 257 | body | 0.578 | 3 | 0001 |
-    | 358 | title | 0.788 | 4 | 0001 |
-    | 168 | body | 0.899 | 5 | 0001 |
-    | 46 | body | 0.189 | 1 | 0002 |
-    | 48 | body | 0265 | 2 | 0002 |
-    | **561** | **abstract** | **0.366** | **3** | **0002** |
-    | **344** | **abstract** | **0.444** | **4** | **0002** |
-    | **276** | **abstract** | **0.845** | **5** | **0002** |
+    <table>
+       <tr>
+         <th><p>ID</p></th>
+         <th><p>DocType</p></th>
+         <th><p>Score</p></th>
+         <th><p>Rank</p></th>
+         <th><p>segment</p></th>
+       </tr>
+       <tr>
+         <td><p><strong>117</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.344</strong></p></td>
+         <td><p><strong>1</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>89</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.456</strong></p></td>
+         <td><p><strong>2</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>257</p></td>
+         <td><p>body</p></td>
+         <td><p>0.578</p></td>
+         <td><p>3</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>358</p></td>
+         <td><p>title</p></td>
+         <td><p>0.788</p></td>
+         <td><p>4</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>168</p></td>
+         <td><p>body</p></td>
+         <td><p>0.899</p></td>
+         <td><p>5</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>46</p></td>
+         <td><p>body</p></td>
+         <td><p>0.189</p></td>
+         <td><p>1</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p>48</p></td>
+         <td><p>body</p></td>
+         <td><p>0265</p></td>
+         <td><p>2</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>561</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.366</strong></p></td>
+         <td><p><strong>3</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>344</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.444</strong></p></td>
+         <td><p><strong>4</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>276</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.845</strong></p></td>
+         <td><p><strong>5</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+    </table>
 
 1. **Apply the weight specified in the Boost Ranker** (`weight=0.5`).
 
-    All identified entities in the previous step will be multiplied by the weight specified in the Boost Ranker, resulting in changes in their ranks. 
+    All identified entities in the previous step will be multiplied by the weight specified in the Boost Ranker, resulting in changes in their ranks.
 
-    | ID | DocType | Score | Weighted Score<br/>(= score x weight) | Rank | segment |
-    | --- | --- | --- | --- | --- | --- |
-    | **117** | **abstract** | **0.344** | **0.172** | **1** | **0001** |
-    | **89** | **abstract** | **0.456** | **0.228** | **2** | **0001** |
-    | 257 | body | 0.578 | 0.578 | 3 | 0001 |
-    | 358 | title | 0.788 | 0.788 | 4 | 0001 |
-    | 168 | body | 0.899 | 0.899 | 5 | 0001 |
-    | **561** | **abstract** | **0.366** | **0.183** | **1** | **0002** |
-    | 46 | body | 0.189 | 0.189 | 2 | 0002 |
-    | **344** | **abstract** | **0.444** | **0.222** | **3** | **0002** |
-    | 48 | body | 0.265 | 0.265 | 4 | 0002 |
-    | **276** | **abstract** | **0.845** | **0.423** | **5** | **0002** |
+    <table>
+       <tr>
+         <th><p>ID</p></th>
+         <th><p>DocType</p></th>
+         <th><p>Score</p></th>
+         <th><p>Weighted Score </p><p>(= score x weight)</p></th>
+         <th><p>Rank</p></th>
+         <th><p>segment</p></th>
+       </tr>
+       <tr>
+         <td><p><strong>117</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.344</strong></p></td>
+         <td><p><strong>0.172</strong></p></td>
+         <td><p><strong>1</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>89</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.456</strong></p></td>
+         <td><p><strong>0.228</strong></p></td>
+         <td><p><strong>2</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>257</p></td>
+         <td><p>body</p></td>
+         <td><p>0.578</p></td>
+         <td><p>0.578</p></td>
+         <td><p>3</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>358</p></td>
+         <td><p>title</p></td>
+         <td><p>0.788</p></td>
+         <td><p>0.788</p></td>
+         <td><p>4</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p>168</p></td>
+         <td><p>body</p></td>
+         <td><p>0.899</p></td>
+         <td><p>0.899</p></td>
+         <td><p>5</p></td>
+         <td><p>0001</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>561</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.366</strong></p></td>
+         <td><p><strong>0.183</strong></p></td>
+         <td><p><strong>1</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>46</p></td>
+         <td><p>body</p></td>
+         <td><p>0.189</p></td>
+         <td><p>0.189</p></td>
+         <td><p>2</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>344</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.444</strong></p></td>
+         <td><p><strong>0.222</strong></p></td>
+         <td><p><strong>3</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>48</p></td>
+         <td><p>body</p></td>
+         <td><p>0.265</p></td>
+         <td><p>0.265</p></td>
+         <td><p>4</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>276</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.845</strong></p></td>
+         <td><p><strong>0.423</strong></p></td>
+         <td><p><strong>5</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+    </table>
 
-    <Admonition type="info" title="Notes">
+    <Admonition type="info" icon="📘" title="Notes">
 
     The weight must be a floating-point number that you choose. In cases like the above example, where a smaller score indicates greater relevance, use a weight less than **1**. Otherwise, use a weight greater than **1**.
 
@@ -131,13 +344,56 @@ The following example illustrates the use of a Boost Ranker in a single-vector s
 
 1. **Aggregate the candidates from all segments based on the weighted scores to finalize the results.**
 
-    | ID | DocType | Score | Weighted Score | Rank | segment |
-    | --- | --- | --- | --- | --- | --- |
-    | **117** | **abstract** | **0.344** | **0.172** | **1** | **0001** |
-    | **561** | **abstract** | **0.366** | **0.183** | **2** | **0002** |
-    | 46 | body | 0.189 | 0.189 | 3 | 0002 |
-    | **344** | **abstract** | **0.444** | **0.222** | **4** | **0002** |
-    | **89** | **abstract** | **0.456** | **0.228** | **5** | **0001** |
+    <table>
+       <tr>
+         <th><p>ID</p></th>
+         <th><p>DocType</p></th>
+         <th><p>Score</p></th>
+         <th><p>Weighted Score</p></th>
+         <th><p>Rank</p></th>
+         <th><p>segment</p></th>
+       </tr>
+       <tr>
+         <td><p><strong>117</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.344</strong></p></td>
+         <td><p><strong>0.172</strong></p></td>
+         <td><p><strong>1</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>561</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.366</strong></p></td>
+         <td><p><strong>0.183</strong></p></td>
+         <td><p><strong>2</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>46</p></td>
+         <td><p>body</p></td>
+         <td><p>0.189</p></td>
+         <td><p>0.189</p></td>
+         <td><p>3</p></td>
+         <td><p>0002</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>344</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.444</strong></p></td>
+         <td><p><strong>0.222</strong></p></td>
+         <td><p><strong>4</strong></p></td>
+         <td><p><strong>0002</strong></p></td>
+       </tr>
+       <tr>
+         <td><p><strong>89</strong></p></td>
+         <td><p><strong>abstract</strong></p></td>
+         <td><p><strong>0.456</strong></p></td>
+         <td><p><strong>0.228</strong></p></td>
+         <td><p><strong>5</strong></p></td>
+         <td><p><strong>0001</strong></p></td>
+       </tr>
+    </table>
 
 ## Usage of Boost Ranker\{#usage-of-boost-ranker}
 
@@ -160,7 +416,7 @@ rerank = Function(
     params={
         "reranker": "boost",
         "filter": "doctype == 'abstract'",
-        "random_score": { 
+        "random_score": {
             "seed": 126,
             "field": "id"
         },
@@ -222,6 +478,9 @@ let rerank = Function::new()
 <TabItem value='c++'>
 
 ```c++
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
 auto rerank = std::make_shared<milvus::BoostRerank>("boost");
 rerank->SetFilter("doctype == 'abstract'");
 rerank->SetWeight(0.5);
@@ -274,6 +533,7 @@ export RANKER='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 <table>
@@ -287,7 +547,7 @@ export RANKER='{
      <td><p><code>name</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Unique identifier for this Function</p></td>
-     <td><p><code>&quot;boost&quot;</code></p></td>
+     <td><p><code>"boost"</code></p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
@@ -305,25 +565,25 @@ export RANKER='{
      <td><p><code>params.reranker</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Specifies the type of the reranker.</p><p>Must be set to <code>boost</code> to use Boost Ranker.</p></td>
-     <td><p><code>&quot;boost&quot;</code></p></td>
+     <td><p><code>"boost"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.weight</code></p></td>
      <td><p>Yes</p></td>
-     <td><p>Specifies the weight that will be multiplied by the scores of any matching entities in the raw search results.</p><p>The value should be a floating-point number.</p><ul><li><p>To emphasize the importance of matching entities, set it to a value that boosts the scores.</p></li><li><p>To demote matching entities, assign this parameter a value that lowers their scores.</p></li></ul></td>
+     <td><p>Specifies the weight that will be multiplied by the scores of any matching entities in the raw search results.</p><p>The value should be a floating-point number. </p><ul><li><p>To emphasize the importance of matching entities, set it to a value that boosts the scores.</p></li><li><p>To demote matching entities, assign this parameter a value that lowers their scores.</p></li></ul></td>
      <td><p><code>1</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.filter</code></p></td>
      <td><p>No</p></td>
      <td><p>Specifies the filter expression that will be used to match entities among search result entities. It can be any valid basic filter expression mentioned in <a href="./filtering-overview">Filtering Explained</a>.</p><p><strong>Note</strong>: Only use basic operators, such as <code>==</code>, <code>&gt;</code>, or <code>&lt;</code>. Using advanced operators, such as <code>text_match</code> or <code>phrase_match</code>, will degrade search performance.</p></td>
-     <td><p><code>&quot;doctype == 'abstract'&quot;</code></p></td>
+     <td><p><code>"doctype == 'abstract'"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.random_score</code></p></td>
      <td><p>No</p></td>
-     <td><p>Specifies the random function that generates a value between <code>0</code> and <code>1</code> randomly. It has the following two optional arguments:</p><ul><li><p><code>seed</code> (number) Specifies an initial value used to start a pseudorandom number generator (PRNG).</p></li><li><p><code>field</code> (string) Specifies the name of a field whose value will be used as a random factor in generating the random number. A field with unique values will suffice.</p></li></ul><p>You are advised to set both <code>seed</code> and <code>field</code> to ensure consistency across generations by using the same seed and field values.</p></td>
-     <td><p><code>\{&quot;seed&quot;: 126, &quot;field&quot;: &quot;id&quot;\}</code></p></td>
+     <td><p>Specifies the random function that generates a value between <code>0</code> and <code>1</code> randomly. It has the following two optional arguments:</p><ul><li><p><code>seed</code> (number) Specifies an initial value used to start a pseudorandom number generator (PRNG).</p></li><li><p><code>field</code> (string) Specifies the name of a field whose value will be used as a random factor in generating the random number. A field with unique values will suffice.</p><p>You are advised to set both <code>seed</code> and <code>field</code> to ensure consistency across generations by using the same seed and field values.</p></li></ul></td>
+     <td><p><code>\{"seed": 126, "field": "id"\}</code></p></td>
    </tr>
 </table>
 
@@ -337,7 +597,7 @@ Once the Boost Ranker function is ready, you can reference it in a search reques
 ```python
 from pymilvus import MilvusClient
 
-# Connect to the Milvus server
+# Connect to your cluster
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
@@ -441,9 +701,10 @@ println!("{:?}", response);
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
 #include <iostream>
+#include <memory>
 #include <vector>
+#include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -479,7 +740,7 @@ if (!status.IsOk()) {
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-// Connect to the Milvus server
+// Connect to your cluster
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
   token: 'YOUR_CLUSTER_TOKEN'
@@ -506,13 +767,14 @@ console.log('Search results:', searchResults);
 
 ```bash
 # restful
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export MILVUS_TOKEN="YOUR_CLUSTER_TOKEN"
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
-  -H "Content-Type: application/json" \
-  -H "Request-Timeout: 10" \
-  -H "Authorization: Bearer ${MILVUS_TOKEN}" \
-  -d '{
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--header "Authorization: Bearer ${TOKEN}" \
+-d '{
     "collectionName": "my_collection",
     "data": [[-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]],
     "annsField": "vector",
@@ -534,17 +796,18 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
             }
         ]
     }
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Search with multiple Boost Rankers\{#search-with-multiple-boost-rankers}
 
 You can combine multiple Boost Rankers in a single search to influence the search results. To do so, create several Boost Rankers, reference them in a **FunctionScore** instance, and use the **FunctionScore** instance as the ranker in the search request.
 
-The following example shows how to modify the scores of all identified entities by applying a weight between **0.8** and **1.2**. 
+The following example shows how to modify the scores of all identified entities by applying a weight between **0.8** and **1.2**.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -580,7 +843,7 @@ random_weight_ranker = Function(
 # Create a Function Score
 ranker = FunctionScore(
     functions=[
-        fix_weight_ranker, 
+        fix_weight_ranker,
         random_weight_ranker
     ],
     params={
@@ -743,6 +1006,7 @@ println!("{:?}", response);
 
 ```c++
 #include <iostream>
+#include <memory>
 #include <vector>
 
 auto fix_weight_ranker = std::make_shared<milvus::BoostRerank>("boost");
@@ -828,13 +1092,14 @@ await client.search({
 
 ```bash
 # restful
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export MILVUS_TOKEN="YOUR_CLUSTER_TOKEN"
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
-  -H "Content-Type: application/json" \
-  -H "Request-Timeout: 10" \
-  -H "Authorization: Bearer ${MILVUS_TOKEN}" \
-  -d '{
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--header "Authorization: Bearer ${TOKEN}" \
+-d '{
     "collectionName": "my_collection",
     "data": [[-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]],
     "annsField": "vector",
@@ -869,13 +1134,14 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
             "function_mode": "Sum"
         }
     }
-  }'
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
-Specifically, there are two Boost Rankers: one applies a fixed weight to all found entities, while the other assigns a random weight to them. Then, we reference these two rankers in a **FunctionScore**, which also defines how the weights influence the scores of the found entities. 
+Specifically, there are two Boost Rankers: one applies a fixed weight to all found entities, while the other assigns a random weight to them. Then, we reference these two rankers in a **FunctionScore**, which also defines how the weights influence the scores of the found entities.
 
 The following table lists the parameters required to create a **FunctionScore** instance.
 
@@ -890,19 +1156,19 @@ The following table lists the parameters required to create a **FunctionScore** 
      <td><p><code>functions</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Specifies the names of the target rankers in a list.</p></td>
-     <td><p><code>[&quot;fix_weight_ranker&quot;, &quot;random_weight_ranker&quot;]</code></p></td>
+     <td><p><code>["fix_weight_ranker", "random_weight_ranker"]</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.boost_mode</code></p></td>
      <td><p>No</p></td>
-     <td><p>Specifies how the specified weights influence the scores of any matching entities.</p><p>Possible values are:</p><ul><li><p><code>Multiply</code></p><p>Indicates that the weighted value is equal to the original score of a matching entity multiplied by the specified weight.</p><p>This is the default value.</p></li><li><p><code>Sum</code></p><p>Indicates that the weighted value is equal to the sum of the original score of a matching entity and the specified weight</p></li></ul></td>
-     <td><p><code>&quot;Sum&quot;</code></p></td>
+     <td><p>Specifies how the specified weights influence the scores of any matching entities.</p><p>Possible values are:</p><ul><li><p><code>Multiply</code></p><p>Indicates that the weighted value is equal to the original score of a matching entity multiplied by the specified weight. </p><p>This is the default value.</p></li><li><p><code>Sum</code></p><p>Indicates that the weighted value is equal to the sum of the original score of a matching entity and the specified weight</p></li></ul></td>
+     <td><p><code>"Sum"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function_mode</code></p></td>
      <td><p>No</p></td>
      <td><p>Specifies how the weighted values from various Boost Rankers are processed.</p><p>Possible values are:</p><ul><li><p><code>Multiply</code></p><p>Indicates that the final score of a matching entity is equal to the product of the weighted values from all Boost Rankers.</p><p>This is the default value.</p></li><li><p><code>Sum</code></p><p>Indicates that the final score of a matching entity is equal to the sum of the weighted values from all Boost Rankers.</p></li></ul></td>
-     <td><p><code>&quot;Sum&quot;</code></p></td>
+     <td><p><code>"Sum"</code></p></td>
    </tr>
 </table>
 

@@ -1,17 +1,18 @@
 ---
 title: "INVERTED | BYOC"
 slug: /inverted-index-type
-sidebar_label: "INVERTED"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "When you need to perform frequent filter queries on your data, `INVERTED` indexes can dramatically improve query performance. Instead of scanning through all documents, Zilliz Cloud uses inverted indexes to quickly locate the exact records that match your filter conditions. | BYOC"
+description: "When you need to perform frequent filter queries on your data, INVERTED indexes can dramatically improve query performance. Instead of scanning through all documents, an inverted index quickly locates the exact records that match your filter conditions. | BYOC"
 type: origin
-token: YNczwtWpFiN0CckMvDVcn0pvnEb
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-inverted-index-type
+sidebar_label: "INVERTED"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/inverted.md"
 
 ---
 
@@ -47,7 +48,7 @@ As shown in the diagram, the process works in two steps:
 
 For example, the value **"electronics"** maps to IDs **1** and **3**, while **"books"** maps to IDs **2** and **5**.
 
-![A19NwPlGIh1YrGbSBZKcNKz0nhd](https://zdoc-images.s3.us-west-2.amazonaws.com/A19NwPlGIh1YrGbSBZKcNKz0nhd.png)
+![How Inverted Index Works](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/b051da6520dabc1f7e1295a22f7a971ac076899887c806655dc8a8088b15c291.png)
 
 When you filter for a specific value (e.g., `category == "electronics"`), Zilliz Cloud simply looks up the term in the index and retrieves the matching IDs directly. This avoids scanning the full dataset and enables fast filtering, especially for categorical or repeated values.
 
@@ -64,9 +65,9 @@ To create an index on a non-JSON field, follow these steps:
 
     ```python
     from pymilvus import MilvusClient
-    
+
     client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT") # Replace with your server address
-    
+
     # Create an empty index parameter object
     index_params = client.prepare_index_params()
     ```
@@ -78,7 +79,7 @@ To create an index on a non-JSON field, follow these steps:
     ```java
     import io.milvus.v2.client.ConnectConfig;
     import io.milvus.v2.client.MilvusClientV2;
-    
+
     // Initialize Milvus client
     MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
             .uri("YOUR_CLUSTER_ENDPOINT") // Replace with your server address
@@ -93,13 +94,13 @@ To create an index on a non-JSON field, follow these steps:
     import (
         "context"
         "fmt"
-    
+
         "github.com/milvus-io/milvus/client/v3/milvusclient"
     )
-    
+
     ctx, cancel := context.WithCancel(context.Background())
     defer cancel()
-    
+
     // Initialize Milvus client
     client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
         Address: "YOUR_CLUSTER_ENDPOINT", // Replace with your server address
@@ -116,7 +117,7 @@ To create an index on a non-JSON field, follow these steps:
 
     ```rust
     use milvus::v2::prelude::*;
-    
+
     // Initialize Milvus client
     let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT"); // Replace with your server address
     let client = ClientV2::new(&config).await?;
@@ -128,7 +129,7 @@ To create an index on a non-JSON field, follow these steps:
 
     ```c++
     #include "milvus/MilvusClientV2.h"
-    
+
     // Initialize Milvus client
     auto client = milvus::MilvusClientV2::Create();
     auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT")); // Replace with your server address
@@ -143,7 +144,7 @@ To create an index on a non-JSON field, follow these steps:
 
     ```javascript
     import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-    
+
     // Initialize Milvus client
     const client = new MilvusClient({
         address: "YOUR_CLUSTER_ENDPOINT", // Replace with your server address
@@ -155,11 +156,12 @@ To create an index on a non-JSON field, follow these steps:
     <TabItem value='bash'>
 
     ```bash
-    export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT" # Replace with your server address
+    export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
     export TOKEN="YOUR_CLUSTER_TOKEN"
     ```
 
     </TabItem>
+
     </Tabs>
 
 1. Add the `INVERTED` index:
@@ -182,7 +184,7 @@ To create an index on a non-JSON field, follow these steps:
 
     ```java
     import io.milvus.v2.common.IndexParam;
-    
+
     // Add the INVERTED index
     IndexParam indexParam = IndexParam.builder()
             .fieldName("category") // Name of the field to index
@@ -197,7 +199,7 @@ To create an index on a non-JSON field, follow these steps:
 
     ```go
     import "github.com/milvus-io/milvus/client/v3/index"
-    
+
     // Add the INVERTED index
     idx := index.NewInvertedIndex() // Specify INVERTED index type
     ```
@@ -231,7 +233,7 @@ To create an index on a non-JSON field, follow these steps:
 
     ```javascript
     import { IndexType } from "@zilliz/milvus2-sdk-node";
-    
+
     // Add the INVERTED index
     const indexParams = {
         field_name: "category", // Name of the field to index
@@ -248,16 +250,15 @@ To create an index on a non-JSON field, follow these steps:
     # Add the INVERTED index
     export indexParams='[
         {
-            "fieldName": "category", # Name of the field to index
-            "indexName": "category_index", # Give your index a name
-            "params": {
-                "index_type": "INVERTED" # Specify INVERTED index type
-            }
+            "fieldName": "category",
+            "indexName": "category_index",
+            "indexType": "INVERTED"
         }
     ]'
     ```
 
     </TabItem>
+
     </Tabs>
 
 1. Create the index:
@@ -279,7 +280,7 @@ To create an index on a non-JSON field, follow these steps:
     ```java
     import io.milvus.v2.service.index.request.CreateIndexReq;
     import java.util.Collections;
-    
+
     // Create the index
     client.createIndex(CreateIndexReq.builder()
             .collectionName("my_collection") // Replace with your collection name
@@ -294,10 +295,10 @@ To create an index on a non-JSON field, follow these steps:
     ```go
     import (
         "fmt"
-    
+
         "github.com/milvus-io/milvus/client/v3/milvusclient"
     )
-    
+
     // Create the index
     _, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "category", idx).
         WithIndexName("category_index")) // Replace with your collection name
@@ -361,13 +362,15 @@ To create an index on a non-JSON field, follow these steps:
     --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json" \
+    --header "Request-Timeout: 10" \
     -d "{
-        \"collectionName\": \"my_collection\", # Replace with your collection name
+        \"collectionName\": \"my_collection\",
         \"indexParams\": $indexParams
     }"
     ```
 
     </TabItem>
+
     </Tabs>
 
 ## Create indexes on JSON fields\{#create-indexes-on-json-fields}
@@ -532,16 +535,17 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection", # Replace with your collection name
+    "collectionName": "my_collection",
     "indexParams": [
         {
-            "fieldName": "metadata", # JSON field name
+            "fieldName": "metadata",
             "indexName": "metadata_category_index",
+            "indexType": "INVERTED",
             "params": {
-                "index_type": "INVERTED",
-                "json_path": "metadata[\"category\"]", # Path to the JSON key
-                "json_cast_type": "varchar" # Data type to cast to during indexing
+                "json_path": "metadata[\"category\"]",
+                "json_cast_type": "varchar"
             }
         }
     ]
@@ -549,6 +553,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 For detailed information about JSON field indexing, including supported paths, data types, and limitations, refer to [JSON Indexing](./json-indexing).
@@ -557,7 +562,7 @@ For detailed information about JSON field indexing, including supported paths, d
 
 Use the `drop_index()` method to remove an existing index from a collection.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
@@ -683,6 +688,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "collectionName": "my_collection",
     "indexName": "category_index"
@@ -690,6 +696,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Best practices\{#best-practices}
@@ -707,4 +714,3 @@ curl --request POST \
 - Learn about [AUTOINDEX](./autoindex-explained).
 
 - See [JSON Indexing](./json-indexing) for advanced JSON indexing scenarios
-

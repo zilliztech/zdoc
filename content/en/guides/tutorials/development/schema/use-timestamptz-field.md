@@ -112,6 +112,27 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Collections;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -168,7 +189,11 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "fmt"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx := context.Background()
@@ -276,6 +301,8 @@ println!("Collection '{COLLECTION_NAME}' with a TimestampTz field created succes
 #include <string>
 #include <vector>
 #include "milvus/MilvusClientV2.h"
+#include <iomanip>
+#include <sstream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -436,17 +463,6 @@ print("Data inserted successfully.")
 <TabItem value='java'>
 
 ```java
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-
 String collectionName = "timestamptz_test123";
 
 int rowCount = 10;
@@ -479,14 +495,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 const dataSize = 10
@@ -548,12 +556,6 @@ println!("Data inserted successfully.");
 <TabItem value='c++'>
 
 ```c++
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
-
 const std::string collection_name = "timestamptz_test123";
 
 auto pad = [](int num, int width) {
@@ -594,8 +596,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
 const dataSize = 10;
 
@@ -622,8 +622,6 @@ for (let i = 0; i < dataSize; i++) {
     vec: [v, v, v, v],
   });
 }
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 await client.insert({
   collection_name: collectionName,
@@ -700,12 +698,6 @@ print(f"Collection '{collection_name}' loaded successfully.")
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.List;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-
 String collectionName = "timestamptz_test123";
 
 // 1. Create an index on the vector field
@@ -733,14 +725,6 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 // 1. Create an index on the vector field
@@ -817,11 +801,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 // 1. Create an index on the vector field
 await client.createIndex({
@@ -860,7 +840,7 @@ curl --request POST \
 
 #### Query with timestamp filtering\{#query-with-timestamp-filtering}
 
-Use arithmetic operators like `==`, `!=`, `<`, `>`, `<=`, `>=`. For a full list of arithmetic operators available in Zilliz Cloud, refer to [Arithmetic Operators](./basic-filtering-operators#arithmetic-operators).
+Use arithmetic operators like `==`, `!=`, `<`, `>`, `<=`, `>=`. For a full list of arithmetic operators available in Zilliz Cloud, refer to [Arithmetic Operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#L44AdQ2VIou67ZxyiJSc5IIsnNg).
 
 <Admonition type="info" title="Notes">
 
@@ -898,11 +878,6 @@ print("Query result: ", results)
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.List;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-
 String collectionName = "timestamptz_test123";
 
 String filter = "tsz != ISO '2025-01-03T00:00:00+08:00'";
@@ -924,13 +899,6 @@ for (QueryResp.QueryResult record : records) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 filter := "tsz != ISO '2025-01-03T00:00:00+08:00'"
@@ -983,9 +951,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <string>
-
 const std::string collection_name = "timestamptz_test123";
 
 std::string filter = "tsz != ISO '2025-01-03T00:00:00+08:00'";
@@ -1014,8 +979,6 @@ for (const auto& row : output_rows) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
 
 const expr = "tsz != ISO '2025-01-03T00:00:00+08:00'"
@@ -1089,11 +1052,6 @@ print("Query result: ", results)
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.List;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-
 String collectionName = "timestamptz_test123";
 
 String filter = "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'";
@@ -1115,13 +1073,6 @@ for (QueryResp.QueryResult record : records) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 filter := "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'"
@@ -1174,9 +1125,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <string>
-
 const std::string collection_name = "timestamptz_test123";
 
 std::string filter = "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'";
@@ -1205,8 +1153,6 @@ for (const auto& row : output_rows) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
 
 const expr = "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'";
@@ -1290,13 +1236,6 @@ print("Search result: ", res)
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 String collectionName = "timestamptz_test123";
 
 String filter = "tsz > ISO '2025-01-05T00:00:00+08:00'";
@@ -1320,14 +1259,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 filter := "tsz > ISO '2025-01-05T00:00:00+08:00'"
@@ -1385,10 +1316,6 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <string>
-#include <vector>
-
 const std::string collection_name = "timestamptz_test123";
 
 std::string filter = "tsz > ISO '2025-01-05T00:00:00+08:00'";
@@ -1422,8 +1349,6 @@ for (auto& result : search_results.Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
 
 const expr = "tsz > ISO '2025-01-05T00:00:00+08:00'";
@@ -1481,11 +1406,11 @@ You can control the time zone for `TIMESTAMPTZ` fields at the **collection** or 
 
 For step-by-step instructions and code samples, refer to the dedicated pages:
 
-- [Modify Collection](./modify-collections#example-7-set-collection-time-zone)
+- [Modify Collection](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#S7WCdAXGrofhq1xU20vc2XVwnRg)
 
-- [Query](./get-and-scalar-query#temporarily-set-a-timezone-for-a-query)
+- [Query](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#OGyUdivlLosfGGxbgn9cN2kbnpf)
 
-- [Basic Vector Search](./single-vector-search#temporarily-set-a-timezone-for-a-search)
+- [Basic Vector Search](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#JFY4dwlbhoUGiOxybpDcQeFZnDd)
 
 - [Multi-Vector Hybrid Search](./hybrid-search)
 

@@ -110,8 +110,6 @@ analyzerParams := map[string]any{"type": "standard", "stop_words": []string{"a",
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let analyzer_params = serde_json::json!({
     "type": "standard",
     "stop_words": ["a", "an", "for"]
@@ -145,8 +143,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["type"] = "standard", // Uses the standard built-in analyzer
@@ -174,6 +170,8 @@ To check the execution result of an analyzer, use the `run_analyzer` method:
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient, DataType
+
 # Sample text to analyze
 text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
 
@@ -191,6 +189,18 @@ result = client.run_analyzer(
 ```java
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Arrays;
 
 List<String> texts = new ArrayList<>();
 texts.add("An efficient system relies on a robust analyzer to correctly process text for various applications.");
@@ -212,6 +222,8 @@ import (
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 texts := []string{"An efficient system relies on a robust analyzer to correctly process text for various applications."}
@@ -230,8 +242,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let sample_text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
 let response = client
     .run_analyzer(
@@ -249,6 +259,8 @@ println!("{:?}", response);
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+
 std::string text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
 
 auto request = milvus::RunAnalyzerRequest()
@@ -267,6 +279,9 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 // Sample text to analyze
 const text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
 
@@ -282,7 +297,12 @@ const result = await client.runAnalyzer({
 <TabItem value='csharp'>
 
 ```csharp
+using System.Collections.Generic;
 using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
 
 // Sample text to analyze
 var text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
@@ -412,8 +432,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "standard",
@@ -532,8 +550,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "whitespace"
@@ -643,8 +659,6 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
     <TabItem value='csharp'>
 
     ```csharp
-    using System.Collections.Generic;
-    
     var analyzerParams = new Dictionary<string, object>
     {
         ["tokenizer"] = "standard", // Mandatory: Specifies tokenizer
@@ -760,8 +774,6 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
     <TabItem value='csharp'>
 
     ```csharp
-    using System.Collections.Generic;
-    
     var analyzerParams = new Dictionary<string, object>
     {
         ["tokenizer"] = "standard", // Mandatory: Specifies tokenizer
@@ -817,8 +829,6 @@ Begin by setting up the Milvus client and creating a new schema.
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
-
 # Set up a Milvus client
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
@@ -834,14 +844,6 @@ schema = client.create_schema(auto_id=True, enable_dynamic_field=False)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.*;
-
 // Set up a Milvus client
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -860,14 +862,6 @@ CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSche
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
@@ -900,8 +894,6 @@ let schema = CollectionSchema::new().enable_dynamic_field(false);
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-
 auto client = milvus::MilvusClientV2::Create();
 
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
@@ -919,8 +911,6 @@ schema->SetEnableDynamicField(false);
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 // Set up a Milvus client
 const client = new MilvusClient({
     address: "YOUR_CLUSTER_ENDPOINT",
@@ -933,9 +923,6 @@ const client = new MilvusClient({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Types;
-
 // Set up a Milvus client
 using var client = new MilvusClientV2(new ConnectConfig
 {
@@ -1003,13 +990,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='java'>
 
     ```java
-    import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-    import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-    import java.util.ArrayList;
-    import java.util.HashMap;
-    import java.util.List;
-    import java.util.Map;
-    
     Map<String, Object> analyzerParamsBuiltin = new HashMap<>();
     analyzerParamsBuiltin.put("type", "english");
     
@@ -1028,12 +1008,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='go'>
 
     ```go
-    import (
-        "fmt"
-    
-        "github.com/milvus-io/milvus/client/v3/milvusclient"
-    )
-    
     analyzerParamsBuiltin := map[string]any{"type": "english"}
     
     texts := []string{"Milvus simplifies text analysis for search."}
@@ -1052,8 +1026,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='rust'>
 
     ```rust
-    use milvus::v2::prelude::*;
-    
     let analyzer_params_built_in = serde_json::json!({"type": "english"});
     let sample_text = "Milvus simplifies text analysis for search.";
     let response = client
@@ -1110,8 +1082,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='csharp'>
 
     ```csharp
-    using Milvus.Client.V2.Requests.Utility;
-    
     // Built-in analyzer configuration for English text processing
     var analyzerParamsBuiltIn = new Dictionary<string, object>
     {
@@ -1188,14 +1158,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='java'>
 
     ```java
-    import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-    import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-    import java.util.ArrayList;
-    import java.util.Arrays;
-    import java.util.HashMap;
-    import java.util.List;
-    import java.util.Map;
-    
     // Configure a custom analyzer
     Map<String, Object> analyzerParamsCustom = new HashMap<>();
     analyzerParamsCustom.put("tokenizer", "standard");
@@ -1227,12 +1189,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='go'>
 
     ```go
-    import (
-        "fmt"
-    
-        "github.com/milvus-io/milvus/client/v3/milvusclient"
-    )
-    
     analyzerParamsCustom := map[string]any{"tokenizer": "standard",
         "filter": []any{"lowercase",
             map[string]any{
@@ -1260,8 +1216,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='rust'>
 
     ```rust
-    use milvus::v2::prelude::*;
-    
     let analyzer_params_custom = serde_json::json!({
         "tokenizer": "standard",
         "filter": ["lowercase", {"type": "length", "max": 40}, {"type": "stop", "stop_words": ["of", "for"]}]
@@ -1339,8 +1293,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='csharp'>
 
     ```csharp
-    using Milvus.Client.V2.Requests.Utility;
-    
     // Custom analyzer configuration with a standard tokenizer and custom filters
     var analyzerParamsCustom = new Dictionary<string, object>
     {
@@ -1432,9 +1384,6 @@ schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-
 schema.addField(AddFieldReq.builder()
         .fieldName("title_en")
         .dataType(DataType.VarChar)
@@ -1473,8 +1422,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 schema.WithField(entity.NewField().
     WithName("id").
     WithDataType(entity.FieldTypeInt64).
@@ -1506,8 +1453,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = schema
     .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
     .add_field(FieldSchema::new().name("title_en").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true).enable_match(true).analyzer_params(analyzer_params_built_in))
@@ -1533,8 +1478,6 @@ schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 // Create schema
 const schema = [
   {
@@ -1572,8 +1515,6 @@ const schema = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 // Add VARCHAR field 'title_en' using the built-in analyzer configuration
 schema.Fields.Add(FieldSchema.CreateVarchar("title_en", maxLength: 1000, enableAnalyzer: true, analyzerParams: analyzerParamsBuiltIn, enableMatch: true));
 
@@ -1659,11 +1600,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.ArrayList;
-import java.util.List;
-
 // Set up index params for vector field
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -1686,14 +1622,6 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 idx := index.NewAutoIndex(entity.COSINE)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "embedding", idx)
 
@@ -1711,8 +1639,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -1776,10 +1702,6 @@ console.log("Collection created successfully!");
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Set up index parameters for the vector field
 await client.CreateCollectionAsync(new CreateCollectionReq
 {

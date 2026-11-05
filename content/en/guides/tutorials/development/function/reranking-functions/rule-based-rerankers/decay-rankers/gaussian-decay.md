@@ -1,7 +1,6 @@
 ---
 title: "Gaussian Decay | Cloud"
 slug: /gaussian-decay
-sidebar_label: "Gaussian Decay"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Gaussian decay, also known as normal decay, creates the most natural-feeling adjustment to your search results. Like human vision that gradually blurs with distance, Gaussian decay creates a smooth, bell-shaped curve that gently reduces relevance as items move away from your ideal point. This approach is ideal when you want a balanced decay that doesn't harshly penalize items just outside your preferred range but still significantly reduces the relevance of distant items. | Cloud"
 type: origin
-token: G39mw621Yi3iICkv69JcQ0J5nHf
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-gaussian-decay
+sidebar_label: "Gaussian Decay"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/gaussian-decay.md"
 
 ---
 
@@ -35,12 +36,33 @@ Gaussian decay provides a more balanced, intuitive approach that feels natural t
 
 Gaussian decay is particularly effective for:
 
-| Use Case | Example | Why Gaussian Works Well |
-| --- | --- | --- |
-| Location-based searches | Restaurant finders, store locators | Mimics natural human perception of distance relevance |
-| Content recommendations | Article suggestions based on publication date | Gradual decline in relevance as content ages |
-| Product listings | Items priced near a target | Smooth relevance decline as prices deviate from target |
-| Expertise matching | Finding professionals with relevant experience | Balanced assessment of experience relevance |
+<table>
+   <tr>
+     <th><p>Use Case</p></th>
+     <th><p>Example</p></th>
+     <th><p>Why Gaussian Works Well</p></th>
+   </tr>
+   <tr>
+     <td><p>Location-based searches</p></td>
+     <td><p>Restaurant finders, store locators</p></td>
+     <td><p>Mimics natural human perception of distance relevance</p></td>
+   </tr>
+   <tr>
+     <td><p>Content recommendations</p></td>
+     <td><p>Article suggestions based on publication date</p></td>
+     <td><p>Gradual decline in relevance as content ages</p></td>
+   </tr>
+   <tr>
+     <td><p>Product listings</p></td>
+     <td><p>Items priced near a target</p></td>
+     <td><p>Smooth relevance decline as prices deviate from target</p></td>
+   </tr>
+   <tr>
+     <td><p>Expertise matching</p></td>
+     <td><p>Finding professionals with relevant experience</p></td>
+     <td><p>Balanced assessment of experience relevance</p></td>
+   </tr>
+</table>
 
 If your application requires a natural feeling of declining relevance without harsh penalties or strict cutoffs, Gaussian decay is likely your best choice.
 
@@ -48,7 +70,7 @@ If your application requires a natural feeling of declining relevance without ha
 
 Gaussian decay creates a smooth, bell-shaped curve that gradually reduces relevance as distance increases from an ideal point. Named after mathematician Carl Friedrich Gauss, this distribution appears frequently in nature and statistics, which explains why it feels so intuitive to human perception.
 
-![DP1AbcqZPoyfqhxpJ2icptjQnfc](https://zdoc-images.s3.us-west-2.amazonaws.com/dp1abcqzpoyfqhxpj2icptjqnfc.png "DP1AbcqZPoyfqhxpJ2icptjQnfc")
+![Gaussian Decay](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a6ca4cf8682b134738bccdd41e3f763d629ec3d4132b9d5bd118f80b57334ab5.png)
 
 The graph above shows how Gaussian decay would affect restaurant rankings in a mobile search app:
 
@@ -80,25 +102,25 @@ $$
 
 Breaking this down in plain language:
 
-1. Calculate how far the field value is from the origin:  $|fieldvalue_{doc} - origin|$
+1. Calculate how far the field value is from the origin: $|fieldvalue_{doc} - origin|$
 
-1. Subtract the offset (if any) but never go below zero: $\max(0, distance - offset)$
+2. Subtract the offset (if any) but never go below zero: $\max(0, distance - offset)$
 
-1. Square this adjusted distance: $(adjusted\_distance)^2$
+3. Square this adjusted distance: $(adjusted\_distance)^2$
 
-1. Divide by &#36;2\sigma^2$, which is calculated from your scale and decay parameters
+4. Divide by &#36;2\sigma^2$, which is calculated from your scale and decay parameters
 
-1. Take the negative exponent, which gives you a value between 0 and 1: $\exp(-value)$
+5. Take the negative exponent, which gives you a value between 0 and 1: $\exp(-value)$
 
-The $\sigma^2$ calculation converts your scale and decay parameters into the standard deviation squared for the Gaussian distribution. This is what gives the function its characteristic bell shape.
+The $\sigma^{2}$ calculation converts your scale and decay parameters into the standard deviation squared for the Gaussian distribution. This is what gives the function its characteristic bell shape.
 
 ## Use Gaussian decay\{#use-gaussian-decay}
 
 Gaussian decay can be applied to both standard vector search and hybrid search operations in Zilliz Cloud. Below are the key code snippets for implementing this feature.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Tutorial: Implement Time-based Ranking in Milvus](./tutorial-implement-time-based-ranking).
+Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Tutorial: Implement Time-based Ranking in Zilliz Cloud](./tutorial-implement-time-based-ranking).
 
 </Admonition>
 
@@ -255,10 +277,11 @@ rerank='{
     "decay": 0.5,
     "scale": 2000
   }
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Apply to standard vector search\{#apply-to-standard-vector-search}
@@ -409,8 +432,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 float[] queryVector = [0.1f, 0.2f, 0.3f, 0.4f]; // Replace with your query vector
@@ -460,8 +482,9 @@ curl --request POST \
         ]
     },
     "consistencyLevel": "Strong"
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>

@@ -1,7 +1,6 @@
 ---
-title: "Create a Collection | BYOC"
+title: "Create Collection | BYOC"
 slug: /manage-collections-sdks
-sidebar_label: "Managed Collection"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "You can create a collection by defining its schema, index parameters, metric type, and whether to load it upon creation. This page introduces how to create a collection from scratch. | BYOC"
 type: origin
-token: EmcowmwYpiFbWgkmnqfcMf3knVc
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-manage-collections-sdks
+sidebar_label: "Managed Collection"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/create-collection.md"
 
 ---
 
@@ -19,15 +20,16 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create a Collection
+# Create Collection
+
 
 You can create a collection by defining its schema, index parameters, metric type, and whether to load it upon creation. This page introduces how to create a collection from scratch.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 If you need strong data isolation and manage only a small number of tenants, you can create a separate collection for each tenant.
 
-However, you can only create a maximum of 16,384 collections depending on your [project plan and cluster deployment option](./limits). Therefore, for large-scale multi-tenancy, consider using alternative strategies such as partition-based or partition-key-based multi-tenancy, depending on your use case. For details, see [Implement Multi-tenancy](./multi-tenancy).
+However, you can create a maximum of 16,384 collections depending on your [project plan and cluster deployment option](./limits). Therefore, for large-scale multi-tenancy, consider alternative strategies such as partition-based or partition-key-based multi-tenancy, depending on your use case. For details, see [Implement Multi-tenancy](./multi-tenancy).
 
 </Admonition>
 
@@ -51,11 +53,12 @@ A schema defines the data structure of a collection. When creating a collection,
 
 The following code snippets create a schema with the enabled dynamic field and three mandatory fields named `my_id`, `my_vector`, and `my_varchar`.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 You can set default values for any scalar field and make it nullable. For details, refer to  [Nullable & Default](./nullable-fields).
 
 </Admonition>
+
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -95,7 +98,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Connect to Zilliz Cloud
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -107,6 +110,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 3.1 Create schema
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
+schema.setEnableDynamicField(true);
 
 // 3.2 Add fields to schema
 schema.addField(AddFieldReq.builder()
@@ -138,9 +142,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/common"
     "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -161,9 +163,9 @@ if err != nil {
 defer client.Close(ctx)
 
 schema := entity.NewSchema().WithDynamicFieldEnabled(true).
-        WithField(entity.NewField().WithName("my_id").WithIsAutoID(false).WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
-        WithField(entity.NewField().WithName("my_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5)).
-        WithField(entity.NewField().WithName("my_varchar").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512))
+    WithField(entity.NewField().WithName("my_id").WithIsAutoID(false).WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+    WithField(entity.NewField().WithName("my_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5)).
+    WithField(entity.NewField().WithName("my_varchar").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512))
 ```
 
 </TabItem>
@@ -174,16 +176,35 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
 use milvus::v2::prelude::*;
 
 // 3. Create a collection in customized setup mode
-// 3.1 + 3.2 Create schema and add fields
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
 
+// 3.1 + 3.2 Create schema and add fields
 let schema = CollectionSchema::new()
     .enable_dynamic_field(true)
-    .add_field(FieldSchema::new().name("my_id").description("my id").data_type(DataType::Int64).primary_key(true).auto_id(false))
-    .add_field(FieldSchema::new().name("my_vector").data_type(DataType::FloatVector).dimension(5))
-    .add_field(FieldSchema::new().name("my_varchar").data_type(DataType::VarChar).max_length(512));
+    .add_field(
+        FieldSchema::new()
+            .name("my_id")
+            .data_type(DataType::Int64)
+            .primary_key(true)
+            .auto_id(false),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("my_vector")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("my_varchar")
+            .data_type(DataType::VarChar)
+            .max_length(512),
+    );
 ```
 
 </TabItem>
@@ -192,16 +213,20 @@ let schema = CollectionSchema::new()
 
 ```c++
 #include <iostream>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->SetEnableDynamicField(true);
-schema->AddField(milvus::FieldSchema("my_id", milvus::DataType::INT64, "my id", true, false));
+schema->AddField(milvus::FieldSchema("my_id", milvus::DataType::INT64, "", true, false));
 schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
 schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).WithMaxLength(512));
 ```
@@ -247,9 +272,11 @@ const fields = [
 using Milvus.Client.V2;
 using Milvus.Client.V2.Types;
 
-var client = new MilvusClientV2(new ConnectConfig
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+
+using var client = new MilvusClientV2(new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Uri = CLUSTER_ENDPOINT,
     ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 await client.ConnectAsync();
@@ -299,9 +326,10 @@ export schema='{
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Use a colon-separated username and password of the target cluster, like `username:password`, as the authentication token when calling data-plane RESTful API endpoints.
 
@@ -315,7 +343,7 @@ On Zilliz Cloud, you can use `AUTOINDEX` as the index type for all vector fields
 
 As demonstrated in the above code snippet, you need to set both the index type and metric type for vector fields and only the index type for the scalar fields. Indexes are mandatory for vector fields, and you are advised to create indexes on scalar fields frequently used in filtering conditions.
 
-For details, refer to [Indexes](./indexes).
+For details, refer to [Index Vector Fields](https://milvus.io/docs/index-vector-fields.md) and [Index Scalar Fields](https://milvus.io/docs/index-scalar-fields.md).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -345,7 +373,7 @@ index_params.add_index(
 import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
-// 3.3 + 3.4 Prepare index parameters and add indexes
+// 3.3 Prepare index parameters
 IndexParam indexParamForIdField = IndexParam.builder()
         .fieldName("my_id")
         .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -369,7 +397,6 @@ indexParams.add(indexParamForVectorField);
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
-
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -390,8 +417,13 @@ use milvus::v2::prelude::*;
 
 // 3.3 + 3.4 Prepare and add index parameters
 let index_params = vec![
-    IndexParam::new().field_name("my_vector").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine),
-    IndexParam::new().field_name("my_id").index_type(IndexType::AutoIndex),
+    IndexParam::new()
+        .field_name("my_id")
+        .index_type(IndexType::AutoIndex),
+    IndexParam::new()
+        .field_name("my_vector")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Cosine),
 ];
 ```
 
@@ -400,11 +432,9 @@ let index_params = vec![
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-
 std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("my_vector", "my_vector", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE),
-    milvus::IndexDesc("my_id", "my_id", milvus::IndexType::AUTOINDEX)};
+    milvus::IndexDesc("my_id", "my_id", milvus::IndexType::AUTOINDEX),
+    milvus::IndexDesc("my_vector", "my_vector", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)};
 ```
 
 </TabItem>
@@ -428,12 +458,11 @@ const index_params = [{
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Types;
 
 var indexParams = new[]
 {
-    new IndexParam("my_id", "my_id", IndexType.AutoIndex, null),
+    new IndexParam("my_id", "my_id", IndexType.AutoIndex),
     new IndexParam("my_vector", "my_vector", IndexType.AutoIndex, MetricType.Cosine)
 };
 ```
@@ -459,6 +488,7 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Create a Collection\{#create-a-collection}
@@ -517,7 +547,7 @@ Boolean loaded = client.getLoadState(customSetupLoadStateReq1);
 System.out.println(loaded);
 
 // Output:
-// false
+// true
 ```
 
 </TabItem>
@@ -538,6 +568,13 @@ if err != nil {
     // handle error
 }
 fmt.Println("collection created")
+
+state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("customized_setup_1"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(state.State)
 ```
 
 </TabItem>
@@ -548,15 +585,24 @@ fmt.Println("collection created")
 use milvus::v2::prelude::*;
 
 // 3.5 Create a collection with the index loaded simultaneously
-client.create_collection(CreateCollectionRequest::builder()
-    .collection_name("customized_setup_1")
-    .schema(schema.clone())
-    .index_params(index_params.clone())
-    .build()?).await?;
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("customized_setup_1")
+            .schema(schema.clone())
+            .index_params(index_params.clone())
+            .build()?,
+    )
+    .await?;
 
-let res = client.get_load_state(GetLoadStateRequest::builder()
-    .collection_name("customized_setup_1")
-    .build()?).await?;
+let res = client
+    .get_load_state(
+        GetLoadStateRequest::builder()
+            .collection_name("customized_setup_1")
+            .build()?,
+    )
+    .await?;
+
 println!("{:?}", res.state());
 ```
 
@@ -566,17 +612,20 @@ println!("{:?}", res.state());
 
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("customized_setup_1")
-                                        .WithCollectionSchema(schema)
-                                        .WithIndexes(std::move(indexes)));
+                                           .WithCollectionName("customized_setup_1")
+                                           .WithCollectionSchema(schema)
+                                           .WithIndexes(std::move(indexes)));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
 milvus::GetLoadStateResponse response;
 status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("customized_setup_1"),
+                                  .WithCollectionName("customized_setup_1"),
                               response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 std::cout << std::to_string(response.State()) << std::endl;
 ```
 
@@ -617,7 +666,6 @@ console.log(res.state)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
@@ -627,6 +675,12 @@ await client.CreateCollectionAsync(new CreateCollectionReq
     Schema = schema,
     Indexes = indexParams
 });
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "customized_setup_1"
+});
+Console.WriteLine(res.State);
 ```
 
 </TabItem>
@@ -647,12 +701,34 @@ curl --request POST \
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "customized_setup_1"
+}'
+
+# {
+#     "code": 0,
+#     "data": {
+#         "loadProgress": 100,
+#         "loadState": "LoadStateLoaded",
+#         "message": ""
+#     }
+# }
 ```
 
 </TabItem>
+
 </Tabs>
 
-You can also create a collection without any index parameters and add them afterward. In this case, Zilliz Cloud does not load the collection upon its creation. For details on how to create indexes for an existing collection, refer to [AUTOINDEX Explained](./autoindex-explained).
+
+You can also create a collection without any index parameters and add them afterward. In this case, Zilliz Cloud does not load the collection upon its creation.
+
+For details on how to create indexes for an existing collection, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 The following code snippet demonstrates how to create a collection without an index, and the load status of the collection remains unloaded upon creation.
 
@@ -740,14 +816,23 @@ fmt.Println(state.State)
 use milvus::v2::prelude::*;
 
 // 3.6 Create a collection and index it separately
-client.create_collection(CreateCollectionRequest::builder()
-    .collection_name("customized_setup_2")
-    .schema(schema.clone())
-    .build()?).await?;
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("customized_setup_2")
+            .schema(schema.clone())
+            .build()?,
+    )
+    .await?;
 
-let res = client.get_load_state(GetLoadStateRequest::builder()
-    .collection_name("customized_setup_2")
-    .build()?).await?;
+let res = client
+    .get_load_state(
+        GetLoadStateRequest::builder()
+            .collection_name("customized_setup_2")
+            .build()?,
+    )
+    .await?;
+
 println!("{:?}", res.state());
 ```
 
@@ -757,16 +842,19 @@ println!("{:?}", res.state());
 
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("customized_setup_2")
-                                        .WithCollectionSchema(schema));
+                                           .WithCollectionName("customized_setup_2")
+                                           .WithCollectionSchema(schema));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
 milvus::GetLoadStateResponse response;
 status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("customized_setup_2"),
+                                  .WithCollectionName("customized_setup_2"),
                               response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 std::cout << std::to_string(response.State()) << std::endl;
 ```
 
@@ -806,7 +894,6 @@ console.log(res.state)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
@@ -815,6 +902,12 @@ await client.CreateCollectionAsync(new CreateCollectionReq
     CollectionName = "customized_setup_2",
     Schema = schema
 });
+
+var res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "customized_setup_2"
+});
+Console.WriteLine(res.State);
 ```
 
 </TabItem>
@@ -840,12 +933,22 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
--d "{
-    \"collectionName\": \"customized_setup_2\"
-}"
+-d '{
+    "collectionName": "customized_setup_2"
+}'
+
+# {
+#     "code": 0,
+#     "data": {
+#         "loadProgress": 0,
+#         "loadState": "LoadStateNotLoad",
+#         "message": ""
+#     }
+# }
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Set Collection Properties\{#set-collection-properties}
@@ -857,8 +960,8 @@ You can set properties for the collection to create to make it fit into your ser
 Shards are horizontal slices of a collection, and each shard corresponds to a data input channel. By default, every collection has one shard. You can specify the number of shards when creating a collection to better suit your data volume and workload.
 
 As a general guideline, consider the following when setting the number of shards:
-
 - **Data size:** A common practice is to have one shard for every 200 million entities. You can also estimate based on the total data size, for example, adding one shard for every 100 GB of data you plan to insert.
+- **Stream node utilization:** If your Zilliz Cloud instance has multiple stream nodes, using multiple shards is recommended. This ensures that the data insertion workload is distributed across all available stream nodes, preventing some from being idle while others are overloaded.
 
 The following code snippet demonstrates how to set the shard number when you create a collection.
 
@@ -919,11 +1022,15 @@ fmt.Println("collection created")
 use milvus::v2::prelude::*;
 
 // With shard number
-client.create_collection(CreateCollectionRequest::builder()
-    .collection_name("customized_setup_3")
-    .schema(schema.clone())
-    .num_shards(1)
-    .build()?).await?;
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("customized_setup_3")
+            .schema(schema.clone())
+            .num_shards(1)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -952,7 +1059,8 @@ const createCollectionReq = {
     // highlight-next-line
     shards_num: 1
 }
-client.createCollection(createCollectionReq);
+
+await client.createCollection(createCollectionReq);
 ```
 
 </TabItem>
@@ -960,7 +1068,6 @@ client.createCollection(createCollectionReq);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
@@ -997,11 +1104,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Enable mmap\{#enable-mmap}
 
-Zilliz Cloud enables mmap on all collections by default, allowing Zilliz Cloud to map raw field data into memory instead of fully loading them. This reduces memory footprints and increases collection capacity. For details on mmap, refer to [Use mmap](./use-mmap).
+Zilliz Cloud enables mmap on all collections by default, allowing Zilliz Cloud to map raw field data into memory instead of fully loading them. This reduces memory footprints and increases collection capacity. The following example turns mmap off for a single collection; for details on mmap, refer to [Use mmap](./use-mmap).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1063,11 +1171,18 @@ fmt.Println("collection created")
 use milvus::v2::prelude::*;
 
 // With mmap
-client.create_collection(CreateCollectionRequest::builder()
-    .collection_name("customized_setup_4")
-    .schema(schema.clone())
-    .properties(std::collections::HashMap::from([("mmap.enabled".to_string(), "false".to_string())]))
-    .build()?).await?;
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("customized_setup_4")
+            .schema(schema.clone())
+            .properties(std::collections::HashMap::from([(
+                "mmap.enabled".to_string(),
+                "false".to_string(),
+            )]))
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1089,10 +1204,11 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-client.createCollection({
+await client.createCollection({
     collection_name: "customized_setup_4",
     fields: fields,
     enable_dynamic_field: true,
+    // highlight-next-line
     properties: {
         'mmap.enabled': false,
     },
@@ -1104,7 +1220,6 @@ client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
@@ -1144,6 +1259,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Set Collection TTL\{#set-collection-ttl}
@@ -1215,11 +1331,18 @@ fmt.Println("collection created")
 use milvus::v2::prelude::*;
 
 // With TTL
-client.create_collection(CreateCollectionRequest::builder()
-    .collection_name("customized_setup_5")
-    .schema(schema.clone())
-    .properties(std::collections::HashMap::from([("collection.ttl.seconds".to_string(), "86400".to_string())]))
-    .build()?).await?;
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("customized_setup_5")
+            .schema(schema.clone())
+            .properties(std::collections::HashMap::from([(
+                "collection.ttl.seconds".to_string(),
+                "86400".to_string(),
+            )]))
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1251,7 +1374,8 @@ const createCollectionReq = {
     }
     // highlight-end
 }
-client.createCollection(createCollectionReq);
+
+await client.createCollection(createCollectionReq);
 ```
 
 </TabItem>
@@ -1259,7 +1383,6 @@ client.createCollection(createCollectionReq);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
@@ -1299,6 +1422,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Set Consistency Level\{#set-consistency-level}
@@ -1365,11 +1489,15 @@ fmt.Println("collection created")
 use milvus::v2::prelude::*;
 
 // With consistency level
-client.create_collection(CreateCollectionRequest::builder()
-    .collection_name("customized_setup_6")
-    .schema(schema.clone())
-    .consistency_level(ConsistencyLevel::Bounded)
-    .build()?).await?;
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("customized_setup_6")
+            .schema(schema.clone())
+            .consistency_level(ConsistencyLevel::Bounded)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1399,7 +1527,7 @@ const createCollectionReq = {
     consistency_level: "Bounded",
 }
 
-client.createCollection(createCollectionReq);
+await client.createCollection(createCollectionReq);
 ```
 
 </TabItem>
@@ -1407,7 +1535,6 @@ client.createCollection(createCollectionReq);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
@@ -1444,12 +1571,13 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 For more on consistency levels, see [Consistency Level](./consistency-level).
 
 ### Enable Dynamic Field\{#enable-dynamic-field}
 
-The dynamic field in a collection is a reserved JavaScript Object Notation (JSON) field named **\&#36;meta**. Once you have enabled this field, Zilliz Cloud saves all non-schema-defined fields carried in each entity and their values as key-value pairs in the reserved field.
+The dynamic field in a collection is a reserved JavaScript Object Notation (JSON) field named **\$meta**. Once you have enabled this field, Zilliz Cloud saves all non-schema-defined fields carried in each entity and their values as key-value pairs in the reserved field.
 
 For details on how to use the dynamic field, refer to [Dynamic Field](./enable-dynamic-field).

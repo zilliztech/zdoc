@@ -139,8 +139,9 @@ You can create a volume on the web console or via SDK.
     <TabItem value='python'>
 
     ```python
-    # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
+    
+    # Initiate a volume manager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -169,6 +170,10 @@ You can create a volume on the web console or via SDK.
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
     import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
+    import com.google.gson.Gson;
+    import io.milvus.bulkwriter.request.volume.DescribeVolumeRequest;
+    import io.milvus.bulkwriter.response.volume.VolumeInfo;
+    import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
     
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
@@ -346,7 +351,6 @@ You can view all existing volumes in a project.
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -368,12 +372,6 @@ You can view all existing volumes in a project.
     <TabItem value='java'>
 
     ```java
-    import com.google.gson.Gson;
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
-    import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-    
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
             .withCloudEndpoint("https://api.cloud.zilliz.com")
             .withApiKey("YOUR_API_KEY")
@@ -418,8 +416,6 @@ You can view all existing volumes in a project.
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"
@@ -474,7 +470,6 @@ You can also check the details of a specific managed volume.
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -505,12 +500,6 @@ You can also check the details of a specific managed volume.
     <TabItem value='java'>
 
     ```java
-    import com.google.gson.Gson;
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.DescribeVolumeRequest;
-    import io.milvus.bulkwriter.response.volume.VolumeInfo;
-    
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
     String volumeName = "managed_volume";
@@ -566,8 +555,6 @@ You can also check the details of a specific managed volume.
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"
@@ -1230,7 +1217,6 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -1254,10 +1240,6 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
     <TabItem value='java'>
 
     ```java
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
-    
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
     String volumeName = "managed_volume";
@@ -1307,8 +1289,6 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"

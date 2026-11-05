@@ -182,13 +182,6 @@ The following example adds a dense vector field named `image_embedding_v2`.
 <TabItem value='python'>
 
 ```python
-from pymilvus import DataType, MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN",
-)
-
 client.add_collection_field(
     collection_name="product_embeddings",
     field_name="image_embedding_v2",
@@ -225,16 +218,6 @@ client.add_collection_field(
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(
-    &ConnectConfig::new()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN"),
-).await?;
-
 client.add_collection_field(
     sdk::request::collection::AddCollectionFieldRequest::builder()
         .collection_name("product_embeddings")
@@ -265,12 +248,6 @@ client.add_collection_field(
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.addCollectionField({
    collection_name: 'product_embeddings',
    field: {
@@ -336,6 +313,8 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.index.request.CreateIndexReq;
 import java.util.Collections;
+import io.milvus.v2.service.utility.request.RefreshExternalCollectionReq;
+import io.milvus.v2.service.utility.response.RefreshExternalCollectionResp;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -393,16 +372,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(
-    &ConnectConfig::new()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN"),
-).await?;
-
 client.create_index(
     sdk::request::index::CreateIndexRequest::builder()
         .collection_name("product_embeddings")
@@ -444,12 +413,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.createIndex({
    collection_name: 'product_embeddings',
    field_name: 'image_embedding_v2',
@@ -466,6 +429,8 @@ await client.createIndex({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -529,17 +494,6 @@ client.refresh_external_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.utility.request.RefreshExternalCollectionReq;
-import io.milvus.v2.service.utility.response.RefreshExternalCollectionResp;
-
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
 RefreshExternalCollectionResp resp = client.refreshExternalCollection(
         RefreshExternalCollectionReq.builder()
                 .collectionName("product_embeddings")
@@ -551,24 +505,6 @@ RefreshExternalCollectionResp resp = client.refreshExternalCollection(
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 res, err := client.RefreshExternalCollection(ctx, milvusclient.NewRefreshExternalCollectionOption("product_embeddings"))
 if err != nil {
     fmt.Println(err.Error())
@@ -581,16 +517,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(
-    &ConnectConfig::new()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN"),
-).await?;
-
 let response = client.refresh_external_collection(
     sdk::request::utility::RefreshExternalCollectionRequest::builder()
         .collection_name("product_embeddings")
@@ -604,15 +530,6 @@ println!("job_id: {}", response.job_id());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::RefreshExternalCollectionRequest request;
 request.WithCollectionName("product_embeddings");
 milvus::RefreshExternalCollectionResponse response;
@@ -627,12 +544,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.refreshExternalCollection({
    collection_name: 'product_embeddings',
  });
@@ -643,18 +554,6 @@ await client.refreshExternalCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Utility;
-using Milvus.Client.V2.Responses.Utility;
-using Milvus.Client.V2.Types;
-
-MilvusClientV2 client = new(new ConnectConfig
-{
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-});
-
 RefreshExternalCollectionResp resp = await client.RefreshExternalCollectionAsync(
     new RefreshExternalCollectionReq
     {

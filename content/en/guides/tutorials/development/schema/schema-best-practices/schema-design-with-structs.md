@@ -162,6 +162,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
     ```python
     from pymilvus import MilvusClient, DataType
+    import json
+    from openai import OpenAI
     
     client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
     
@@ -307,6 +309,13 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     import io.milvus.v2.common.DataType;
     import io.milvus.v2.service.collection.request.CreateCollectionReq;
     import java.util.Arrays;
+    import io.milvus.v2.common.IndexParam;
+    import java.util.List;
+    import com.google.gson.Gson;
+    import com.google.gson.JsonArray;
+    import com.google.gson.JsonObject;
+    import io.milvus.v2.service.vector.request.InsertReq;
+    import java.util.Collections;
     
     ConnectConfig connectConfig = ConnectConfig.builder()
             .uri("YOUR_CLUSTER_ENDPOINT")
@@ -372,9 +381,13 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     import (
         "context"
         "log"
+        "encoding/json"
+        "fmt"
     
         "github.com/milvus-io/milvus/client/v3/entity"
         "github.com/milvus-io/milvus/client/v3/milvusclient"
+        "github.com/milvus-io/milvus/client/v3/index"
+        "github.com/milvus-io/milvus/client/v3/column"
     )
     
     ctx := context.Background()
@@ -437,6 +450,7 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
     ```rust
     use milvus::v2::prelude::*;
+    use serde_json;
     
         let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
         let client = ClientV2::new(&config).await?;
@@ -569,8 +583,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='csharp'>
 
     ```csharp
-    using Milvus.Client.V2.Types;
-    
     // create the schema for the caption struct
     var schemaForCaption = new StructFieldSchema("captions", "captions for the current video")
     {
@@ -658,10 +670,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='java'>
 
     ```java
-    import io.milvus.v2.common.DataType;
-    import io.milvus.v2.service.collection.request.CreateCollectionReq;
-    import java.util.Arrays;
-    
     // create the schema for the front car struct
     CreateCollectionReq.StructFieldSchema schemaForFrontCar = CreateCollectionReq.StructFieldSchema.builder()
             .name("front_cars")
@@ -691,8 +699,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='go'>
 
     ```go
-    import "github.com/milvus-io/milvus/client/v3/entity"
-    
     // create the schema for the front car struct
     frontCarSchema := entity.NewStructSchema().
         WithField(entity.NewField().WithName("frame_id").WithDataType(entity.FieldTypeInt64).
@@ -716,8 +722,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='rust'>
 
     ```rust
-    use milvus::v2::prelude::*;
-    
         // create the schema for the front car struct
         let front_car_schema = StructFieldSchema::new()
             .name("front_cars")
@@ -764,8 +768,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='javascript'>
 
     ```javascript
-    import { DataType } from "@zilliz/milvus2-sdk-node";
-    
     // create the schema for the front car struct
     const frontCarStructFields = [
         { name: "frame_id", data_type: DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs" },
@@ -783,8 +785,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='csharp'>
 
     ```csharp
-    using Milvus.Client.V2.Types;
-    
     // create the schema for the front car struct
     var schemaForFrontCar = new StructFieldSchema("front_cars", "frame-specific leading cars identified in the current video")
     {
@@ -861,10 +861,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='java'>
 
     ```java
-    import io.milvus.v2.common.DataType;
-    import io.milvus.v2.service.collection.request.CreateCollectionReq;
-    import java.util.Arrays;
-    
     CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
             .fieldSchemaList(Arrays.asList(
                     CreateCollectionReq.FieldSchema.builder().name("video_id").dataType(DataType.VarChar)
@@ -882,8 +878,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='go'>
 
     ```go
-    import "github.com/milvus-io/milvus/client/v3/entity"
-    
     schema := entity.NewSchema().
         WithField(entity.NewField().WithName("video_id").WithDataType(entity.FieldTypeVarChar).WithMaxLength(16).
             WithIsPrimaryKey(true).WithIsAutoID(false).WithDescription("primary key")).
@@ -910,17 +904,15 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='rust'>
 
     ```rust
-    use milvus::v2::prelude::*;
-    
-        let schema = CollectionSchema::new()
-            .add_field(FieldSchema::new().name("video_id").data_type(DataType::VarChar).max_length(16)
-                .primary_key(true).auto_id(false).description("primary key"))
-            .add_field(FieldSchema::new().name("video_url").data_type(DataType::VarChar).max_length(512)
-                .description("URL of the video"))
-            .add_struct_field(caption_schema)
-            .add_field(FieldSchema::new().name("traffic_lights").data_type(DataType::Json)
-                .description("frame-specific traffic lights identified in the current video"))
-            .add_struct_field(front_car_schema);
+    let schema = CollectionSchema::new()
+        .add_field(FieldSchema::new().name("video_id").data_type(DataType::VarChar).max_length(16)
+            .primary_key(true).auto_id(false).description("primary key"))
+        .add_field(FieldSchema::new().name("video_url").data_type(DataType::VarChar).max_length(512)
+            .description("URL of the video"))
+        .add_struct_field(caption_schema)
+        .add_field(FieldSchema::new().name("traffic_lights").data_type(DataType::Json)
+            .description("frame-specific traffic lights identified in the current video"))
+        .add_struct_field(front_car_schema);
     ```
 
     </TabItem>
@@ -944,8 +936,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='javascript'>
 
     ```javascript
-    import { DataType } from "@zilliz/milvus2-sdk-node";
-    
     const schema = [
         { name: "video_id", data_type: DataType.VarChar, is_primary_key: true, autoID: false,
           max_length: 16, description: "primary key" },
@@ -965,8 +955,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='csharp'>
 
     ```csharp
-    using Milvus.Client.V2.Types;
-    
     var schema = new CollectionSchema
     {
         Fields =
@@ -1027,10 +1015,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import java.util.Arrays;
-import java.util.List;
-
 List<IndexParam> indexParams = Arrays.asList(
         IndexParam.builder().fieldName("captions[plain_cap_vector]")
                 .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -1054,12 +1038,6 @@ List<IndexParam> indexParams = Arrays.asList(
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 indexes := []milvusclient.CreateIndexOption{
     milvusclient.NewCreateIndexOption("covla_dataset", "captions[plain_cap_vector]", index.NewAutoIndex(entity.MaxSimCosine)).
         WithIndexName("captions_plain_cap_vector_idx"),
@@ -1075,22 +1053,20 @@ indexes := []milvusclient.CreateIndexOption{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-    let index_params = vec![
-        IndexParam::new().field_name("captions[plain_cap_vector]")
-            .index_name("captions_plain_cap_vector_idx")
-            .index_type(IndexType::AutoIndex)
-            .metric_type(MetricType::MaxSimCosine),
-        IndexParam::new().field_name("captions[rich_cap_vector]")
-            .index_name("captions_rich_cap_vector_idx")
-            .index_type(IndexType::AutoIndex)
-            .metric_type(MetricType::MaxSimCosine),
-        IndexParam::new().field_name("captions[risk_vector]")
-            .index_name("captions_risk_vector_idx")
-            .index_type(IndexType::AutoIndex)
-            .metric_type(MetricType::MaxSimCosine),
-    ];
+let index_params = vec![
+    IndexParam::new().field_name("captions[plain_cap_vector]")
+        .index_name("captions_plain_cap_vector_idx")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::MaxSimCosine),
+    IndexParam::new().field_name("captions[rich_cap_vector]")
+        .index_name("captions_rich_cap_vector_idx")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::MaxSimCosine),
+    IndexParam::new().field_name("captions[risk_vector]")
+        .index_name("captions_risk_vector_idx")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::MaxSimCosine),
+];
 ```
 
 </TabItem>
@@ -1126,8 +1102,6 @@ const indexParams = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 IndexParam[] indexParams =
 [
     new("captions[plain_cap_vector]", "captions_plain_cap_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine),
@@ -1169,8 +1143,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 client.createCollection(CreateCollectionReq.builder()
         .collectionName("covla_dataset")
         .collectionSchema(schema)
@@ -1183,12 +1155,6 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = cli.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("covla_dataset", schema).
         WithIndexOptions(indexes...))
@@ -1202,14 +1168,12 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-    let request = CreateCollectionRequest::builder()
-        .collection_name("covla_dataset")
-        .schema(schema)
-        .index_params(index_params)
-        .build()?;
-    client.create_collection(request).await?;
+let request = CreateCollectionRequest::builder()
+    .collection_name("covla_dataset")
+    .schema(schema)
+    .index_params(index_params)
+    .build()?;
+client.create_collection(request).await?;
 ```
 
 </TabItem>
@@ -1245,7 +1209,9 @@ await client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
+using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
 
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
@@ -1273,9 +1239,6 @@ Turing Motos organizes the CoVLA dataset in multiple files, including raw video 
 You need to merge the data pieces for each video clip from these files and insert the data. The following is the script to merge the data pieces for a specific video clip.
 
 ```python
-import json
-from openai import OpenAI
-
 openai_client = OpenAI(
     api_key='YOUR_OPENAI_API_KEY',
 )
@@ -1369,14 +1332,6 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 List<Float> vector = Collections.nCopies(768, 0.1f); // placeholder vectors
 
 JsonObject data = new JsonObject();
@@ -1440,14 +1395,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "encoding/json"
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
 trafficLights, err := json.Marshal([]map[string]any{
     {"index": 0, "class": "red", "bbox": []float32{1, 2, 3, 4}},
     {"index": 1, "class": "green", "bbox": []float32{5, 6, 7, 8}},
@@ -1517,71 +1464,68 @@ fmt.Println("insert OK, ids:", ins.IDs)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json;
-
-    let request = InsertRequest::builder()
-        .collection_name("covla_dataset")
-        .columns(vec![
-            FieldData::VarChar {
-                name: "video_id".into(),
-                values: vec!["0a0fc7a5db365174".to_string()],
-            },
-            FieldData::VarChar {
-                name: "video_url".into(),
-                values: vec!["https://your-storage.com/0a0fc7a5db365174".to_string()],
-            },
-            FieldData::Json {
-                name: "traffic_lights".into(),
-                values: vec![serde_json::json!([
-                    {"index": 0, "class": "red", "bbox": [1.0, 2.0, 3.0, 4.0]},
-                    {"index": 1, "class": "green", "bbox": [5.0, 6.0, 7.0, 8.0]}
-                ])],
-            },
-            FieldData::Struct {
-                name: "captions".into(),
-                values: vec![vec![
-                    serde_json::json!({
-                        "frame_id": 0,
-                        "plain_caption": "Merge left while yielding to oncoming traffic",
-                        "plain_cap_vector": vec![0.1f32; 768],
-                        "rich_caption": "Merge left while yielding to oncoming traffic on a sunny highway",
-                        "rich_cap_vector": vec![0.1f32; 768],
-                        "risk": "Potential collision with the leading vehicle",
-                        "risk_vector": vec![0.1f32; 768],
-                        "risk_correct": true,
-                        "risk_yes_rate": 0.8,
-                        "weather": "sunny",
-                        "weather_rate": 0.9,
-                        "road": "highway",
-                        "road_rate": 0.7,
-                        "is_tunnel": false,
-                        "is_tunnel_yes_rate": 0.1,
-                        "is_highway": true,
-                        "is_highway_yes_rate": 0.9,
-                        "has_pedestrian": true,
-                        "has_pedestrian_yes_rate": 0.6,
-                        "has_carrier_car": false,
-                    }).as_object().cloned().expect("caption object"),
-                ]],
-            },
-            FieldData::Struct {
-                name: "front_cars".into(),
-                values: vec![vec![
-                    serde_json::json!({
-                        "frame_id": 0,
-                        "has_lead": true,
-                        "lead_prob": 0.9,
-                        "lead_x": 1.5,
-                        "lead_y": 0.5,
-                        "lead_speed_kmh": 60.0,
-                        "lead_a": 0.2,
-                    }).as_object().cloned().expect("front car object"),
-                ]],
-            },
-        ])
-        .build()?;
-    client.insert(request).await?;
+let request = InsertRequest::builder()
+    .collection_name("covla_dataset")
+    .columns(vec![
+        FieldData::VarChar {
+            name: "video_id".into(),
+            values: vec!["0a0fc7a5db365174".to_string()],
+        },
+        FieldData::VarChar {
+            name: "video_url".into(),
+            values: vec!["https://your-storage.com/0a0fc7a5db365174".to_string()],
+        },
+        FieldData::Json {
+            name: "traffic_lights".into(),
+            values: vec![serde_json::json!([
+                {"index": 0, "class": "red", "bbox": [1.0, 2.0, 3.0, 4.0]},
+                {"index": 1, "class": "green", "bbox": [5.0, 6.0, 7.0, 8.0]}
+            ])],
+        },
+        FieldData::Struct {
+            name: "captions".into(),
+            values: vec![vec![
+                serde_json::json!({
+                    "frame_id": 0,
+                    "plain_caption": "Merge left while yielding to oncoming traffic",
+                    "plain_cap_vector": vec![0.1f32; 768],
+                    "rich_caption": "Merge left while yielding to oncoming traffic on a sunny highway",
+                    "rich_cap_vector": vec![0.1f32; 768],
+                    "risk": "Potential collision with the leading vehicle",
+                    "risk_vector": vec![0.1f32; 768],
+                    "risk_correct": true,
+                    "risk_yes_rate": 0.8,
+                    "weather": "sunny",
+                    "weather_rate": 0.9,
+                    "road": "highway",
+                    "road_rate": 0.7,
+                    "is_tunnel": false,
+                    "is_tunnel_yes_rate": 0.1,
+                    "is_highway": true,
+                    "is_highway_yes_rate": 0.9,
+                    "has_pedestrian": true,
+                    "has_pedestrian_yes_rate": 0.6,
+                    "has_carrier_car": false,
+                }).as_object().cloned().expect("caption object"),
+            ]],
+        },
+        FieldData::Struct {
+            name: "front_cars".into(),
+            values: vec![vec![
+                serde_json::json!({
+                    "frame_id": 0,
+                    "has_lead": true,
+                    "lead_prob": 0.9,
+                    "lead_x": 1.5,
+                    "lead_y": 0.5,
+                    "lead_speed_kmh": 60.0,
+                    "lead_a": 0.2,
+                }).as_object().cloned().expect("front car object"),
+            ]],
+        },
+    ])
+    .build()?;
+client.insert(request).await?;
 ```
 
 </TabItem>
@@ -1696,8 +1640,6 @@ await client.insert({ collection_name: "covla_dataset", data: [data] });
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 var vector768 = Enumerable.Repeat(0.1f, 768).ToArray();
 
 await client.InsertAsync(new InsertReq

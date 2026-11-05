@@ -37,7 +37,7 @@ Zilliz Cloud supports several basic operators for filtering data:
 
 - **Logical Operators**: `AND`, `OR`, and `NOT` combine multiple conditions into complex expressions.
 
-- **IS NULL and IS NOT NULL Operators**: Use `IS NULL` to select entities whose field value is NULL, or `IS NOT NULL` to select entities whose field value is non-NULL. These operators support scalar fields.  For supported types, syntax, and examples, refer to [IS NULL and IS NOT NULL operators](./basic-filtering-operators#is-null-and-is-not-null-operators).
+- **IS NULL and IS NOT NULL Operators**: Use `IS NULL` to select entities whose field value is NULL, or `IS NOT NULL` to select entities whose field value is non-NULL. These operators support scalar fields.  For supported types, syntax, and examples, refer to [IS NULL and IS NOT NULL operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#HfandwuQloKsmcx8iAjcMjqnnQb).
 
 ### Example: Filtering by Color\{#example-filtering-by-color}
 

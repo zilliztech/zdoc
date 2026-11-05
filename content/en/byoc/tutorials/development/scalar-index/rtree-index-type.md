@@ -1,17 +1,18 @@
 ---
 title: "RTREE | BYOC"
 slug: /rtree-index-type
-sidebar_label: "RTREE"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `RTREE` index is a tree-based data structure that accelerates queries on `GEOMETRY` fields in Zilliz Cloud. If your collection stores geometric objects such as points, lines, or polygans in Well-known text (WKT) format and you want to accelerate spatial filtering, `RTREE` is an ideal choice. | BYOC"
+description: "The RTREE index is a tree-based data structure that accelerates queries on GEOMETRY fields. If your collection stores geometric objects such as points, lines, or polygons in Well-known text (WKT) format and you want to accelerate spatial filtering, RTREE is an ideal choice. | BYOC"
 type: origin
-token: RlY2wylVQiZswikT0G2cBHVznTf
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-rtree-index-type
+sidebar_label: "RTREE"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/rtree.md"
 
 ---
 
@@ -21,7 +22,7 @@ import TabItem from '@theme/TabItem';
 
 # RTREE
 
-The `RTREE` index is a tree-based data structure that accelerates queries on `GEOMETRY` fields in Zilliz Cloud. If your collection stores geometric objects such as points, lines, or polygans in [Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) format and you want to accelerate spatial filtering, `RTREE` is an ideal choice.
+The `RTREE` index is a tree-based data structure that accelerates queries on `GEOMETRY` fields in Zilliz Cloud. If your collection stores geometric objects such as points, lines, or polygons in [Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) format and you want to accelerate spatial filtering, `RTREE` is an ideal choice.
 
 ## How it works\{#how-it-works}
 
@@ -35,7 +36,7 @@ Zilliz Cloud uses an `RTREE` index to efficiently organize and filter geometry d
 
 1. **Add the root node:** Add a root node whose MBR covers all internal groups, resulting in a height-balanced tree structure.
 
-![Asy8w0umqh9jJ1biNUHcialonfd](https://zdoc-images.s3.us-west-2.amazonaws.com/Asy8w0umqh9jJ1biNUHcialonfd.png)
+![How Retree Works](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/3c531355142535757c91cd396b45f80beb23425dd634f801adf07460bf9d3a54.png)
 
 ### Phase 2: Accelerate queries\{#phase-2-accelerate-queries}
 
@@ -260,14 +261,14 @@ curl --request POST \
             "fieldName": "geo",
             "indexName": "rtree_geo",
             "indexType": "RTREE",
-            "metricType": "",
             "params": {}
         }
     ]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Query with RTREE\{#query-with-rtree}
@@ -440,6 +441,7 @@ EOF
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Example 2: Vector search + spatial filter\{#example-2-vector-search-spatial-filter}
@@ -632,6 +634,7 @@ EOF
 ```
 
 </TabItem>
+
 </Tabs>
 
 For more information on how to use a `GEOMETRY` field, refer to [Geometry Field](./use-geometry-field).
@@ -640,7 +643,7 @@ For more information on how to use a `GEOMETRY` field, refer to [Geometry Field]
 
 Use the `drop_index()` method to remove an existing index from a collection.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
@@ -755,8 +758,9 @@ curl --request POST \
 -d '{
     "collectionName": "geo_demo",
     "indexName": "rtree_geo"
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>

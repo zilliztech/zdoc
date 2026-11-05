@@ -88,6 +88,7 @@ The following setup creates a collection with three fields: `id` as the primary 
 
 ```python
 from pymilvus import DataType, MilvusClient
+from pymilvus import Function, FunctionType
 
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
@@ -159,6 +160,11 @@ import io.milvus.v2.service.vector.response.InsertResp;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.*;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -229,7 +235,6 @@ InsertResp insertResp = client.insert(InsertReq.builder()
 import (
     "context"
     "log"
-
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
@@ -334,6 +339,7 @@ client.insert(
 ```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
@@ -388,6 +394,7 @@ if (!status.IsOk()) {
 
 ```javascript
 import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+import { FunctionType } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
@@ -442,6 +449,8 @@ using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -540,8 +549,6 @@ Define a `RERANK` function that uses the text stored in `document` to rerank the
 <TabItem value='python'>
 
 ```python
-from pymilvus import Function, FunctionType
-
 hugging_face_ranker = Function(
     name="hugging_face_semantic_ranker",
     # Use the text stored in the "document" VARCHAR field for reranking.
@@ -565,10 +572,6 @@ hugging_face_ranker = Function(
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.*;
-
 CreateCollectionReq.Function huggingFaceRanker = CreateCollectionReq.Function.builder()
         .functionType(FunctionType.RERANK)
         .name("hugging_face_semantic_ranker")
@@ -588,8 +591,6 @@ CreateCollectionReq.Function huggingFaceRanker = CreateCollectionReq.Function.bu
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 huggingFaceRanker := entity.NewFunction().
     WithName("hugging_face_semantic_ranker").
     // Use the text stored in the "document" VARCHAR field for reranking.
@@ -608,8 +609,6 @@ huggingFaceRanker := entity.NewFunction().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let hugging_face_ranker = Function::new()
     .name("hugging_face_semantic_ranker")
     // Use the text stored in the "document" VARCHAR field for reranking.
@@ -628,9 +627,6 @@ let hugging_face_ranker = Function::new()
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <vector>
-
 auto hugging_face_ranker = std::make_shared<milvus::ModelRerank>("hugging_face_semantic_ranker");
 hugging_face_ranker->AddInputFieldName("document");
 // Use the text stored in the "document" VARCHAR field for reranking.
@@ -646,8 +642,6 @@ hugging_face_ranker->AddParam("max_client_batch_size", "32");
 <TabItem value='javascript'>
 
 ```javascript
-import { FunctionType } from '@zilliz/milvus2-sdk-node';
-
 const huggingFaceRanker = {
   name: 'hugging_face_semantic_ranker',
   // Use the text stored in the "document" VARCHAR field for reranking.
@@ -669,8 +663,6 @@ const huggingFaceRanker = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 ModelRerank huggingFaceRanker = new ModelRerank("hugging_face_semantic_ranker")
     // Use the text stored in the "document" VARCHAR field for reranking.
     .WithProvider("huggingface")
@@ -749,11 +741,6 @@ print(results)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Collections;
-
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName(collectionName)
         .data(Collections.singletonList(new FloatVec(new float[]{0.12f, 0.21f, 0.29f, 0.41f})))
@@ -769,13 +756,6 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 resultSet, err := cli.Search(ctx, milvusclient.NewSearchOption(collectionName, 3, []entity.Vector{
     entity.FloatVector{0.12, 0.21, 0.29, 0.41},
 }).
@@ -792,8 +772,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let query_vector = vec![0.12, 0.21, 0.29, 0.41];
 
 let response = client
@@ -859,10 +837,6 @@ console.log(results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 float[] queryVector = [0.12f, 0.21f, 0.29f, 0.41f];
 
 SearchResp results = await client.SearchAsync(new SearchReq

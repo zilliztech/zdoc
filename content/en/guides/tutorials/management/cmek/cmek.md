@@ -28,7 +28,7 @@ This feature is available only on Business Critical (SaaS) and BYOC deployments.
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-This feature is available in AWS. It is not available on Google Cloud and Microsoft Azure.
+This feature is available in AWS and Google Cloud. It is not available on Microsoft Azure.
 
 </FeatureNote>
 

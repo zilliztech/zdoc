@@ -153,7 +153,7 @@ import Grid from '@site/src/components/Grid';
 
         ## Enhancements\{#enhancements}
 
-        - **Collection TTL and AutoID Settings**: You can now monitor and modify the collection TTL and Allow insert AutoID settings directly from the Collection Overview GUI. For details, refer to [Set Collection TTL](./set-collection-ttl) and [Modify Collection](./modify-collections).
+        - **Collection TTL and AutoID Settings**: You can now monitor and modify the collection TTL and Allow insert AutoID settings directly from the Collection Overview GUI. For details, refer to [Set Collection TTL](./set-collection-ttl) and [Modify Collection](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#share-RspvdjdanoUqAMxRiiJcMcWcnTe).
 
         - **Data Import**: Support for JSON lines format (.JSONL and .NDJSON extensions) is now available. For details, refer to [Import from a JSON/JSON Lines File](./data-import-json).
 

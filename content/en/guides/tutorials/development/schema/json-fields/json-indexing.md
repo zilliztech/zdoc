@@ -1,17 +1,18 @@
 ---
 title: "JSON Indexing | Cloud"
 slug: /json-indexing
-sidebar_label: "Indexing"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "JSON fields provide a flexible way to store structured metadata in Zilliz Cloud. Without indexing, queries on JSON fields require full collection scans, which become slow as your dataset grows. JSON indexing creates an index on a specific path within your JSON data so equality, range, and other filter queries on that path run fast. | Cloud"
+description: "JSON fields provide a flexible way to store structured metadata in Zilliz Cloud. Without indexing, queries on JSON fields require full collection scans, which become slow as your dataset grows. JSON indexing creates indexes on specific paths within your JSON data so equality, range, and other filter queries on those paths run fast. | Cloud"
 type: origin
-token: MBVVww2Zii8k6Bk77GJcXbZJnpf
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-json-indexing
+sidebar_label: "Indexing"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/json-indexing.md"
 
 ---
 
@@ -73,7 +74,7 @@ When in doubt, start with `AUTOINDEX` for scalar paths. Use `INVERTED` explicitl
 
 ### AUTOINDEX\{#autoindex}
 
-`AUTOINDEX` behavior depends on the `json_cast_type` you specify. 
+`AUTOINDEX` behavior depends on the `json_cast_type` you specify. In Milvus 3.0, `AUTOINDEX` no longer always resolves to `INVERTED` for JSON path indexes.
 
 | Cast type | `AUTOINDEX` behavior |
 | --- | --- |
@@ -89,7 +90,13 @@ Based on cardinality, Zilliz Cloud chooses one of two internal layouts:
 
 - **High cardinality**: Most values are distinct, such as `metadata["price"]`, `metadata["created_at"]`, or `metadata["product_id"]`. Zilliz Cloud builds an `STL_SORT` index internally for fast range filters such as `>`, `<`, `>=`, and `<=`.
 
-The default `BITMAP`-vs-`STL_SORT` threshold is **100 distinct values**. You can tune this threshold with `bitmap_cardinality_limit`; see [How do I tune AUTOINDEX's BITMAP-vs-STL_SORT threshold](./json-indexing#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold)[?](./json-indexing#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold)
+The default `BITMAP`-vs-`STL_SORT` threshold is **100 distinct values**. You can tune this threshold with `bitmap_cardinality_limit`; see [How do I tune AUTOINDEX's BITMAP-vs-STL_SORT threshold?](./json-indexing#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+**Behavior change in Milvus 3.0**. In earlier versions, `AUTOINDEX` on JSON paths always built an `INVERTED` index. From Milvus 3.0, `AUTOINDEX` picks between `BITMAP` and `STL_SORT` for scalar cast types. For `JSON`, `AUTOINDEX` still uses `INVERTED`, although whole-object JSON indexing is deprecated. For array cast types and text-match queries, specify `INVERTED` explicitly.
+
+</Admonition>
 
 ### INVERTED\{#inverted}
 
@@ -105,7 +112,7 @@ Specify `INVERTED` explicitly when:
 
 For existing indexes on entire JSON objects (`json_cast_type="JSON"`), you can continue to use either `INVERTED` or `AUTOINDEX`. `AUTOINDEX` uses `INVERTED` for this cast type. Whole-object JSON indexing is no longer recommended for new workloads.
 
-For details, see [INVERTED](./inverted-index-type).
+For details, refer to [INVERTED](./inverted-index-type).
 
 ### STL_SORT\{#stlsort}
 
@@ -121,7 +128,7 @@ For details, see [INVERTED](./inverted-index-type).
 
 `STL_SORT` does not support `BOOL`, `ARRAY_*`, or `JSON` cast types. Use `INVERTED` for arrays. Existing whole-object indexes can continue to use `INVERTED` or `AUTOINDEX`, but whole-object JSON indexing is deprecated.
 
-For details, see [STL_SORT](./slt-sort-index-type).
+For details, refer to [STL_SORT](./slt-sort-index-type).
 
 ### BITMAP\{#bitmap}
 
@@ -137,7 +144,7 @@ For details, see [STL_SORT](./slt-sort-index-type).
 
 `BITMAP` does not support `DOUBLE`, `ARRAY_*`, or `JSON` cast types. For numeric values, use `AUTOINDEX`, `STL_SORT`, or `INVERTED` instead.
 
-For details, see [BITMAP](./bitmap-index-type).
+For details, refer to [BITMAP](./bitmap-index-type).
 
 ### Compatibility reference\{#compatibility-reference}
 
@@ -145,15 +152,15 @@ Use the following matrix as a quick reference for supported `(cast type, index t
 
 | Cast type | Description | Example value | AUTOINDEX | INVERTED | STL_SORT | BITMAP |
 | --- | --- | --- | --- | --- | --- | --- |
-| `BOOL` | Boolean values (`true`/`false`). | `true` | ✓ | ✓ | — | ✓ |
-| `DOUBLE` | Numeric values (integers or floats). | `99.99` | ✓ | ✓ | ✓ | — |
-| `VARCHAR` | String values. | `"electronics"` | ✓ | ✓ | ✓ | ✓ |
-| `ARRAY_BOOL` | Array of booleans. | `[true, false]` | — | ✓ | — | — |
-| `ARRAY_DOUBLE` | Array of numbers. | `[1.2, 3.14]` | — | ✓ | — | — |
-| `ARRAY_VARCHAR` | Array of strings. | `["tag1", "tag2"]` | — | ✓ | — | — |
-| `JSON` | An entire JSON object or sub-object with automatic type inference and flattening. Deprecated starting in Milvus 3.0.0. | any nested object | Yes (deprecated) | Yes (deprecated) | — | — |
+| `BOOL` | Boolean values (`true`/`false`). | `true` | Yes | Yes | No | Yes |
+| `DOUBLE` | Numeric values (integers or floats). | `99.99` | Yes | Yes | Yes | No |
+| `VARCHAR` | String values. | `"electronics"` | Yes | Yes | Yes | Yes |
+| `ARRAY_BOOL` | Array of booleans. | `[true, false]` | No | Yes | No | No |
+| `ARRAY_DOUBLE` | Array of numbers. | `[1.2, 3.14]` | No | Yes | No | No |
+| `ARRAY_VARCHAR` | Array of strings. | `["tag1", "tag2"]` | No | Yes | No | No |
+| `JSON` | An entire JSON object or sub-object with automatic type inference and flattening. Deprecated starting in Milvus 3.0.0. | any nested object | Yes (deprecated) | Yes (deprecated) | No | No |
 
-For cells marked `—`, Zilliz Cloud rejects the request at index-creation time. For array cast types, use `INVERTED` explicitly (`AUTOINDEX` does not cover arrays).
+For cells marked `No`, Zilliz Cloud rejects the request at index-creation time. For array cast types, use `INVERTED` explicitly (`AUTOINDEX` does not cover arrays).
 
 ## Create a JSON index\{#create-a-json-index}
 
@@ -196,7 +203,7 @@ The examples below assume you have a `MilvusClient` named `client` connected to 
 ```python
 from pymilvus import DataType, MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Define a schema with a JSON field
 schema = client.create_schema(enable_dynamic_field=False)
@@ -258,6 +265,7 @@ import java.util.*;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
@@ -332,6 +340,7 @@ ctx := context.Background()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal(err)
@@ -388,7 +397,7 @@ log.Printf("inserted %d rows", result.InsertCount)
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
 
 // Define a schema with a JSON field
@@ -644,6 +653,9 @@ await client.InsertAsync(new InsertReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
   --header "Authorization: Bearer ${TOKEN}" \
@@ -666,6 +678,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 </details>
@@ -739,9 +752,10 @@ export indexParams="[]"
 ```
 
 </TabItem>
+
 </Tabs>
 
-Each example that follows shows one `index_params.add_index(...)` call. Pick the ones that match your data and call them on the same `index_params` object — then apply everything in a single `client.create_index(...)` call at the end (see Apply the index).
+Each example that follows shows one `index_params.add_index(...)` call. Pick the ones that match your data and call them on the same `index_params` object. Then apply everything in a single `client.create_index(...)` call at the end. For details, see [Apply the index](./json-indexing#apply-the-index).
 
 ### Example 1: Index a top-level key with AUTOINDEX\{#example-1-index-a-top-level-key-with-autoindex}
 
@@ -756,10 +770,12 @@ index_params.add_index(
     # highlight-next-line
     index_type="AUTOINDEX",
     index_name="category_index",
+    # highlight-start
     params={
         "json_path": 'metadata["category"]',
         "json_cast_type": "VARCHAR",
     }
+    # highlight-end
 )
 ```
 
@@ -885,6 +901,7 @@ export categoryIndex='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Example 2: Index a nested key\{#example-2-index-a-nested-key}
@@ -900,10 +917,12 @@ index_params.add_index(
     # highlight-next-line
     index_type="AUTOINDEX",
     index_name="email_index",
+    # highlight-start
     params={
         "json_path": 'metadata["supplier"]["contact"]["email"]',
         "json_cast_type": "VARCHAR",
     }
+    # highlight-end
 )
 ```
 
@@ -1029,6 +1048,7 @@ export emailIndex='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Example 3: Range queries with STL_SORT\{#example-3-range-queries-with-stlsort}
@@ -1173,13 +1193,14 @@ export priceIndex='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 After indexing, range queries like `metadata["price"] > 50 AND metadata["price"] < 100` use binary search instead of a full scan.
 
 ### Example 4: Equality queries with BITMAP\{#example-4-equality-queries-with-bitmap}
 
-For low-cardinality keys — status codes, booleans, enum-like strings — pick `BITMAP` directly. Equality and `IN` queries become bitmap operations.
+For low-cardinality keys, such as status codes, booleans, or enum-like strings, pick `BITMAP` directly. Equality and `IN` queries become bitmap operations.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1319,6 +1340,7 @@ export inStockIndex='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `BITMAP` is also a strong fit for fields like a `status` column with a handful of distinct string values.
@@ -1475,13 +1497,14 @@ export stringToDoubleIndex='{
 ```
 
 </TabItem>
+
 </Tabs>
 
-If conversion fails for a row (e.g., a non-numeric string like `"invalid"`), that row is skipped during indexing.
+If conversion fails for a row (for example, a non-numeric string like `"invalid"`), that row is skipped during indexing.
 
 ### Example 6: Index entire JSON objects\{#example-6-index-entire-json-objects}
 
-<Admonition type="warning" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Starting in Milvus 3.0.0, whole-object JSON indexing (`json_cast_type="JSON"`), also known as JSON flat indexing, is deprecated. Existing indexes and new index-creation requests remain supported for compatibility, but this mode is no longer recommended for new workloads. Create JSON path indexes for known query paths. For complex or evolving JSON documents with broad query patterns, consider [JSON Shredding](./json-shredding). JSON shredding does not accelerate values inside arrays; use JSON path indexes with array cast types for those queries.
 
@@ -1503,8 +1526,10 @@ index_params.add_index(
     index_type="AUTOINDEX",
     index_name="metadata_full_index",
     params={
+        # highlight-start
         "json_path": "metadata",
         "json_cast_type": "JSON",
+        # highlight-end
     }
 )
 ```
@@ -1631,9 +1656,10 @@ export metadataFullIndex='{
 ```
 
 </TabItem>
+
 </Tabs>
 
-Or index a sub-object — for example, all `supplier` information:
+Or index a sub-object, such as all `supplier` information:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1645,8 +1671,10 @@ index_params.add_index(
     index_type="AUTOINDEX",
     index_name="supplier_index",
     params={
+        # highlight-start
         "json_path": 'metadata["supplier"]',
         "json_cast_type": "JSON",
+        # highlight-end
     }
 )
 ```
@@ -1773,6 +1801,7 @@ export supplierIndex='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 Indexing entire objects increases index size. For new workloads with deeply nested documents and diverse query patterns, use path-specific indexes or consider [JSON Shredding](./json-shredding).
@@ -1901,9 +1930,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-Index builds run asynchronously. Use `client.describe_index(...)` to check the build state of a specific index — the `state` field shows `Finished` once the build is done, and `total_rows` / `indexed_rows` / `pending_index_rows` show progress along the way.
+Index builds run asynchronously. Use `client.describe_index(...)` to check the build state of a specific index. The `state` field shows `Finished` once the build is done, and `total_rows`, `indexed_rows`, and `pending_index_rows` show progress along the way.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2022,6 +2052,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 Sample response:
@@ -2042,7 +2073,7 @@ Sample response:
 
 Once `state` reports `Finished`, queries against the indexed path use the new index automatically.
 
-For `AUTOINDEX` entries, the `index_type` field in this response is reported as `AUTOINDEX` — Zilliz Cloud does not currently expose which underlying layout (`BITMAP` or `STL_SORT`) was chosen at build time. Treat the choice as an internal optimization: equality, `IN`, and range queries against the path will work regardless of which layout was selected.
+For `AUTOINDEX` entries, the `index_type` field in this response is reported as `AUTOINDEX`. Zilliz Cloud does not expose which underlying layout (`BITMAP` or `STL_SORT`) was chosen at build time. Treat the choice as an internal optimization: equality, `IN`, and range queries against the path will work regardless of which layout was selected.
 
 ## FAQ\{#faq}
 
@@ -2050,9 +2081,9 @@ For `AUTOINDEX` entries, the `index_type` field in this response is reported as 
 
 Start with `AUTOINDEX`. It picks the right layout from your data's cardinality, and it covers most equality, `IN`, and range queries on JSON paths. Pick an explicit type when:
 
-- You know your query pattern (e.g., always range → `STL_SORT`; always equality on low-cardinality → `BITMAP`) and want to skip cardinality measurement.
+- You know your query pattern (for example, always range queries use `STL_SORT`, and always equality queries on low-cardinality values use `BITMAP`) and want to skip cardinality measurement.
 
-- You need text-match or substring queries → `INVERTED`.
+- You need text-match or substring queries. Use `INVERTED`.
 
 - You're indexing array cast types. Use `INVERTED` explicitly.
 
@@ -2068,11 +2099,11 @@ Inconsistent types can lead to **partial indexing**. For example, if `metadata["
 
 ### Can I create multiple indexes on the same JSON key?\{#can-i-create-multiple-indexes-on-the-same-json-key}
 
-No. Zilliz Cloud allows at most one index per `(field, json_path)` pair, regardless of cast type or index type. You cannot create both an `INVERTED` and a `BITMAP` index on the same path, or two indexes on the same path with different cast types. You can, however, create an index on the entire JSON object and a separate index on a nested key within that object — those are different paths.
+No. Zilliz Cloud allows at most one index per `(field, json_path)` pair, regardless of cast type or index type. You cannot create both an `INVERTED` and a `BITMAP` index on the same path, or two indexes on the same path with different cast types. You can, however, create an index on the entire JSON object and a separate index on a nested key within that object because those are different paths.
 
 ### How do I tune AUTOINDEX's BITMAP-vs-STL_SORT threshold?\{#how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold}
 
-By default, `AUTOINDEX` picks `BITMAP` when the indexed values have **100 or fewer distinct values** and `STL_SORT` otherwise. You can override this threshold by adding `"bitmap_cardinality_limit"` to your index parameters (range: 1–1000):
+By default, `AUTOINDEX` picks `BITMAP` when the indexed values have **100 or fewer distinct values** and `STL_SORT` otherwise. You can override this threshold by adding `"bitmap_cardinality_limit"` to your index parameters (range: 1-1000):
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2221,6 +2252,7 @@ export categoryLimitIndex='{
 ```
 
 </TabItem>
+
 </Tabs>
 
-Most users don't need to tune this. Raise it if you have a moderately-cardinal field you'd prefer bitmapped; lower it to push `AUTOINDEX` toward `STL_SORT` sooner. The setting is ignored when you specify `INVERTED`, `STL_SORT`, or `BITMAP` explicitly.
+Most users don't need to tune this. Raise it if you have a moderate-cardinality field you'd prefer bitmapped; lower it to push `AUTOINDEX` toward `STL_SORT` sooner. The setting is ignored when you specify `INVERTED`, `STL_SORT`, or `BITMAP` explicitly.

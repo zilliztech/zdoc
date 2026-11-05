@@ -1,7 +1,6 @@
 ---
 title: "Exponential Decay | BYOC"
 slug: /exponential-decay
-sidebar_label: "Exponential Decay"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Exponential decay creates a steep initial drop followed by a long tail in your search results. Like a breaking news cycle where relevance diminishes rapidly at first but some stories retain importance over time, exponential decay applies a sharp penalty to items just beyond your ideal range while still keeping distant items discoverable. This approach is ideal when you want to heavily prioritize proximity or recency but don't want to completely eliminate more distant options. | BYOC"
 type: origin
-token: FbVmwmuaei9WkIkIWJmcs3ManEd
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-exponential-decay
+sidebar_label: "Exponential Decay"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/exponential-decay.md"
 
 ---
 
@@ -35,12 +36,33 @@ Exponential decay uniquely "frontloads" the penalty, applying most of the releva
 
 Exponential decay is particularly effective for:
 
-| Use Case | Example | Why Exponential Works Well |
-| --- | --- | --- |
-| News feeds | Breaking news portals | Quickly reduces relevance of older news while still showing important stories from days ago |
-| Social media timelines | Activity feeds, status updates | Emphasizes fresh content but allows viral older content to surface |
-| Notification systems | Alert prioritization | Creates urgency for recent alerts while maintaining visibility for important ones |
-| Flash sales | Limited-time offers | Rapidly decreases visibility as deadline approaches |
+<table>
+   <tr>
+     <th><p>Use Case</p></th>
+     <th><p>Example</p></th>
+     <th><p>Why Exponential Works Well</p></th>
+   </tr>
+   <tr>
+     <td><p>News feeds</p></td>
+     <td><p>Breaking news portals</p></td>
+     <td><p>Quickly reduces relevance of older news while still showing important stories from days ago</p></td>
+   </tr>
+   <tr>
+     <td><p>Social media timelines</p></td>
+     <td><p>Activity feeds, status updates</p></td>
+     <td><p>Emphasizes fresh content but allows viral older content to surface</p></td>
+   </tr>
+   <tr>
+     <td><p>Notification systems</p></td>
+     <td><p>Alert prioritization</p></td>
+     <td><p>Creates urgency for recent alerts while maintaining visibility for important ones</p></td>
+   </tr>
+   <tr>
+     <td><p>Flash sales</p></td>
+     <td><p>Limited-time offers</p></td>
+     <td><p>Rapidly decreases visibility as deadline approaches</p></td>
+   </tr>
+</table>
 
 Choose exponential decay when:
 
@@ -54,13 +76,13 @@ Choose exponential decay when:
 
 Exponential decay creates a curve that drops quickly at first, then gradually flattens into a long tail that approaches but never reaches zero. This mathematical pattern appears frequently in natural phenomena like radioactive decay, population decline, and information relevance over time.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 All time parameters (`origin`, `offset`, `scale`) must use the same unit as the collection data. If your collection stores timestamps in a different unit (milliseconds, microseconds), adjust all parameters accordingly.
 
 </Admonition>
 
-![YaRsbolv9oqomcxrFe5cXBa4nNg](https://zdoc-images.s3.us-west-2.amazonaws.com/yarsbolv9oqomcxrfe5cxba4nng.png "YaRsbolv9oqomcxrFe5cXBa4nNg")
+![Exp Decay](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/17e0fb079e5353926c926314b0f310a5a8652a2161346bc9fc6a410a2be7a717.png)
 
 The graph above shows how exponential decay would affect news article rankings in a digital news platform:
 
@@ -94,11 +116,11 @@ Breaking this down in plain language:
 
 1. Calculate how far the field value is from the origin: $|fieldvalue_{doc} - origin|$.
 
-1. Subtract the offset (if any) but never go below zero: $\max(0, distance - offset)$.
+2. Subtract the offset (if any) but never go below zero: $\max(0, distance - offset)$.
 
-1. Multiply by $\lambda$, which is calculated from your scale and decay parameters.
+3. Multiply by $\lambda$, which is calculated from your scale and decay parameters.
 
-1. Take the exponent, which gives you a value between 0 and 1: $\exp(\lambda \cdot value)$.
+4. Take the exponent, which gives you a value between 0 and 1: $\exp(\lambda \cdot value)$.
 
 The $\lambda$ calculation converts your scale and decay parameters into the rate parameter for the exponential function. A more negative $\lambda$ creates a steeper initial drop.
 
@@ -106,7 +128,7 @@ The $\lambda$ calculation converts your scale and decay parameters into the rate
 
 Exponential decay can be applied to both standard vector search and hybrid search operations in Zilliz Cloud. Below are the key code snippets for implementing this feature.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Decay Ranker Tutorial](./tutorial-implement-time-based-ranking).
 
@@ -116,7 +138,7 @@ Before using decay functions, you must first create a collection with appropriat
 
 After your collection is set up with a numeric field (in this example, `publish_time`), create an exponential decay ranker:
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **Time unit consistency**: When using time-based decay, ensure that `origin`, `scale`, and `offset` parameters use the same time unit as your collection data. If your collection stores timestamps in seconds, use seconds for all parameters. If it uses milliseconds, use milliseconds for all parameters.
 
@@ -222,6 +244,7 @@ let rerank = {
 
 ```c++
 #include <ctime>
+#include <memory>
 #include "milvus/MilvusClientV2.h"
 
 auto rerank = std::make_shared<milvus::DecayRerank>("news_recency");
@@ -289,6 +312,7 @@ var rerank = new DecayRerank("news_recency")  // Function identifier
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Apply to standard vector search\{#apply-to-standard-vector-search}
@@ -394,6 +418,7 @@ let response = client.search(
 
 ```c++
 #include <iostream>
+#include <memory>
 #include "milvus/MilvusClientV2.h"
 
 auto function_score = std::make_shared<milvus::FunctionScore>();
@@ -500,4 +525,5 @@ curl -s YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search \
 ```
 
 </TabItem>
+
 </Tabs>

@@ -1,7 +1,6 @@
 ---
 title: "Boolean & Number | BYOC"
 slug: /use-number-field
-sidebar_label: "Boolean & Number"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "A boolean or number field is a scalar field that stores boolean or numeric values. These values can be one of two possible values or whole numbers (integers) and decimal numbers (floating-point numbers). They are typically used to represent quantities, measurements, or any data that needs to be logically or mathematically processed. | BYOC"
 type: origin
-token: EwArwXCOPip15hkSvvpciAMJnSe
-sidebar_position: 8
 displayed_sidebar: default
+token: shared-use-number-field
+sidebar_label: "Boolean & Number"
+sidebar_position: 8
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/number.md"
 
 ---
 
@@ -37,7 +38,7 @@ The table below describes the data types of number fields available in Zilliz Cl
 
 To declare a boolean field, simply set `datatype` to `BOOL`. To declare a number field, simply set that to one of the available numeric data types. For example, `DataType.INT64` for an integer field or `DataType.FLOAT` for a floating-point field.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Zilliz Cloud supports null values and default values for boolean and number fields. To enable these features, set `nullable` to `True` and `default_value` to a numeric value. For details, refer to [Nullable & Default](./nullable-fields).
 
@@ -53,9 +54,9 @@ To store boolean or numeric data, define corresponding types of fields in your c
 
 - `price`: stores float data, allows null values, but does not have a default value.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+If you set `enable_dynamic_field=True` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
 
 </Admonition>
 
@@ -75,7 +76,7 @@ client = MilvusClient(uri=SERVER_ADDR)
 # Define the collection schema
 schema = client.create_schema(
     auto_id=False,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 # Add an INT64 field `age` that supports null values with default value 18
@@ -377,13 +378,14 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Set index params\{#set-index-params}
 
 Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
 
-The following example creates indexes on the vector field `embedding` and the scalar field `age`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.For details, refer to [AUTOINDEX Explained](./autoindex-explained).
+The following example creates indexes on the vector field `embedding` and the scalar field `age`, both using the `AUTOINDEX` index type. With this type, Zilliz Cloud automatically selects the most suitable index based on the data type. For details, refer to [Index Explained](./indexes).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -539,6 +541,7 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Create collection\{#create-collection}
@@ -685,6 +688,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Insert data\{#insert-data}
@@ -914,6 +918,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Query with filter expressions\{#query-with-filter-expressions}
@@ -1105,6 +1110,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 To retrieve entities where the `price` is null:
@@ -1289,6 +1295,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 To retrieve entities where `age` has the value `18`, use the following expression below. As the default value of `age` is `18`, the expected result should include entities with `age` explicitly set to `18` or with `age` set to null.
@@ -1476,6 +1483,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Vector search with filter expressions\{#vector-search-with-filter-expressions}
@@ -1708,6 +1716,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, we first define a query vector and add a filter condition `25 <= age <= 35` during the search. This ensures that the search results are not only similar to the query vector but also meet the specified age range. For more information, refer to [Filtering Explained](./filtering-overview).

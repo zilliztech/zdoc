@@ -288,9 +288,6 @@ search_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 // On Milvus
 Map<String, Object> searchParams = new HashMap<>();
 Map<String, Object> milvusParams = new HashMap<>();
@@ -325,8 +322,6 @@ searchParams = map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 // On Milvus
 let search_params = json!({
     "params": { "nprobe": 10 }

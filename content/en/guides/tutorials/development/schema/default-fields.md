@@ -1,21 +1,21 @@
 ---
 title: "Default Values | Cloud"
 slug: /default-fields
-sidebar_label: "Default Values"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud allows you to set default values for scalar fields (excluding the primary field). When a field has a default value configured, Zilliz Cloud automatically applies this value if no data is provided during insertion. | Cloud"
+description: "Set default values for scalar fields so Zilliz Cloud fills missing values during entity insertion. | Cloud"
 type: origin
-token: SsGkwyGJDirNDwk170rcHbUjnVe
-sidebar_position: 16
 displayed_sidebar: default
+token: shared-default-fields
+sidebar_label: "Default Values"
+sidebar_position: 16
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/default-values.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -45,7 +45,7 @@ The following example creates a collection with two scalar fields that have defa
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri='YOUR_CLUSTER_ENDPOINT')
+client = MilvusClient(uri='YOUR_CLUSTER_ENDPOINT', token='YOUR_CLUSTER_TOKEN')
 
 # Drop the collection if it already exists
 if client.has_collection("my_collection"):
@@ -94,6 +94,7 @@ import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 String collectionName = "my_collection";
@@ -169,6 +170,7 @@ ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal(err)
@@ -235,7 +237,11 @@ if err := loadTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 const COLLECTION_NAME: &str = "my_collection";
 
@@ -375,6 +381,7 @@ import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 const collectionName = 'my_collection';
@@ -438,7 +445,8 @@ using Milvus.Client.V2.Types;
 
 var config = new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT"
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -517,7 +525,7 @@ curl --request POST \
           "fieldName": "vector",
           "dataType": "FloatVector",
           "elementTypeParams": {
-            "dim": "5"
+            "dim": 5
           }
         },
         {
@@ -530,7 +538,7 @@ curl --request POST \
           "dataType": "VarChar",
           "defaultValue": "active",
           "elementTypeParams": {
-            "max_length": "10"
+            "max_length": 10
           }
         }
       ]
@@ -555,6 +563,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Insert entities\{#insert-entities}
@@ -887,6 +896,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Search and query with default values\{#search-and-query-with-default-values}
@@ -1132,6 +1142,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 <details>
@@ -1452,6 +1463,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 <details>
@@ -1474,13 +1486,44 @@ Query results (status == 'active'):
 
 When both `nullable` and `default_value` are configured for a field, the following rules determine how Zilliz Cloud handles NULL input or missing field values during insertion.
 
-| Nullable | Default Value | User Input | Result |
-| --- | --- | --- | --- |
-| ✅ | ✅ (non-NULL) | NULL or omitted | Uses the default value |
-| ✅ | ❌ | NULL or omitted | Stored as NULL |
-| ❌ | ✅ (non-NULL) | NULL or omitted | Uses the default value |
-| ❌ | ❌ | NULL or omitted | Throws an error |
-| ❌ | ✅ (NULL) | NULL or omitted | Throws an error |
+<table>
+   <tr>
+     <th><p>Nullable</p></th>
+     <th><p>Default Value</p></th>
+     <th><p>User Input</p></th>
+     <th><p>Result</p></th>
+   </tr>
+   <tr>
+     <td><p>✅</p></td>
+     <td><p>✅ (non-NULL)</p></td>
+     <td><p>NULL or omitted</p></td>
+     <td><p>Uses the default value</p></td>
+   </tr>
+   <tr>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>NULL or omitted</p></td>
+     <td><p>Stored as NULL</p></td>
+   </tr>
+   <tr>
+     <td><p>❌</p></td>
+     <td><p>✅ (non-NULL)</p></td>
+     <td><p>NULL or omitted</p></td>
+     <td><p>Uses the default value</p></td>
+   </tr>
+   <tr>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>NULL or omitted</p></td>
+     <td><p>Throws an error</p></td>
+   </tr>
+   <tr>
+     <td><p>❌</p></td>
+     <td><p>✅ (NULL)</p></td>
+     <td><p>NULL or omitted</p></td>
+     <td><p>Throws an error</p></td>
+   </tr>
+</table>
 
 **Key takeaways:**
 
@@ -1491,4 +1534,3 @@ When both `nullable` and `default_value` are configured for a field, the followi
 - When `nullable=False` and no default value is set, insertion fails with an error.
 
 - Setting a NULL default value on a non-nullable field is invalid and causes an error.
-

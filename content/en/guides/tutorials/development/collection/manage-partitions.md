@@ -1,7 +1,6 @@
 ---
 title: "Manage Partitions | Cloud"
 slug: /manage-partitions
-sidebar_label: "Partitions"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions. | Cloud"
 type: origin
-token: JCMPwIyVciCT4Hk4O20c96MEnch
-sidebar_position: 9
 displayed_sidebar: default
+token: shared-manage-partitions
+sidebar_label: "Partitions"
+sidebar_position: 9
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/manage-partitions.md"
 
 ---
 
@@ -23,12 +24,6 @@ import TabItem from '@theme/TabItem';
 
 A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions.
 
-<Admonition type="info" title="Notes">
-
-This feature applies only to managed collections.
-
-</Admonition>
-
 ## Overview\{#overview}
 
 When creating a collection, Zilliz Cloud also creates a partition named **_default** in the collection. If you are not going to add any other partitions, all entities inserted into the collection go into the default partition, and all searches and queries are also carried out within the default partition.
@@ -37,7 +32,7 @@ You can add more partitions and insert entities into them based on certain crite
 
 A collection can have a maximum of 1,024 partitions.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 The **Partition Key** feature is a search optimization based on partitions and allows Zilliz Cloud to distribute entities into different partitions based on the values in a specific scalar field. This feature helps implement partition-oriented multi-tenancy and improves search performance.
 
@@ -85,7 +80,7 @@ import java.util.*;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Connect to Zilliz Cloud
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -111,9 +106,8 @@ System.out.println(partitionNames);
 ```go
 import (
     "context"
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+    
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -123,7 +117,6 @@ milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -138,10 +131,6 @@ if err != nil {
 }
 
 fmt.Println(partitionNames)
-
-// Output
-//
-// ["_default"]
 ```
 
 </TabItem>
@@ -274,7 +263,9 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
 
 ## Create Partition\{#create-partition}
 
@@ -306,8 +297,6 @@ print(res)
 
 ```java
 import io.milvus.v2.service.partition.request.CreatePartitionReq;
-import io.milvus.v2.service.partition.request.ListPartitionsReq;
-import java.util.List;
 
 CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
         .collectionName("my_collection")
@@ -334,9 +323,12 @@ System.out.println(partitionNames);
 ```go
 import (
     "fmt"
-
+    
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
 err = client.CreatePartition(ctx, milvusclient.NewCreatePartitionOption("my_collection", "partitionA"))
 if err != nil {
@@ -493,7 +485,9 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
 
 ## Check for a Specific Partition\{#check-for-a-specific-partition}
 
@@ -539,12 +533,6 @@ System.out.println(hasPartitionRes);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 result, err := client.HasPartition(ctx, milvusclient.NewHasPartitionOption("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -589,6 +577,9 @@ auto status = client->HasPartition(milvus::HasPartitionRequest()
                                     .WithCollectionName("my_collection")
                                     .WithPartitionName("partitionA"),
                                    response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 std::cout << response.Has() << std::endl;
 ```
 
@@ -650,7 +641,9 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
 
 ## Load and Release Partitions\{#load-and-release-partitions}
 
@@ -689,7 +682,6 @@ print(res)
 ```java
 import io.milvus.v2.service.partition.request.LoadPartitionsReq;
 import io.milvus.v2.service.collection.request.GetLoadStateReq;
-import java.util.Collections;
 
 LoadPartitionsReq loadPartitionsReq = LoadPartitionsReq.builder()
         .collectionName("my_collection")
@@ -714,12 +706,6 @@ System.out.println(getLoadStateRes);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 task, err := client.LoadPartitions(ctx, milvusclient.NewLoadPartitionsOption("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -792,7 +778,7 @@ status = client->GetLoadState(milvus::GetLoadStateRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
-std::cout << std::to_string(response.State()) << std::endl;
+std::cout << milvus::to_string(response.State()) << std::endl;
 ```
 
 </TabItem>
@@ -807,7 +793,7 @@ await client.loadPartitions({
 
 res = await client.getLoadState({
     collection_name: "my_collection",
-    partition_names: ["partitionA"]
+    partition_name: "partitionA"
 })
 
 console.log(res)
@@ -884,7 +870,9 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
 
 ### Release Partitions\{#release-partitions}
 
@@ -909,7 +897,7 @@ print(res)
 # Output
 #
 # {
-#     "state": "<LoadState: NotLoad>"
+#     "state": "<LoadState: NotLoaded>"
 # }
 ```
 
@@ -919,8 +907,6 @@ print(res)
 
 ```java
 import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
-import io.milvus.v2.service.collection.request.GetLoadStateReq;
-import java.util.Collections;
 
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("my_collection")
@@ -945,12 +931,6 @@ System.out.println(getLoadStateRes);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1016,7 +996,7 @@ status = client->GetLoadState(milvus::GetLoadStateRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
-std::cout << std::to_string(response.State()) << std::endl;
+std::cout << milvus::to_string(response.State()) << std::endl;
 ```
 
 </TabItem>
@@ -1031,15 +1011,15 @@ await client.releasePartitions({
 
 res = await client.getLoadState({
     collection_name: "my_collection",
-    partition_names: ["partitionA"]
+    partition_name: "partitionA"
 })
 
 console.log(res)
 
 // Output
-//
-// LoadStateNotLoad
-//
+// 
+// LoadStateNotLoaded
+// 
 ```
 
 </TabItem>
@@ -1101,14 +1081,16 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "loadProgress": 0,
-#         "loadState": "LoadStateNotLoad",
+#         "loadState": "LoadStateNotLoaded",
 #         "message": ""
 #     }
 # }
 ```
 
 </TabItem>
+
 </Tabs>
+
 
 ## Data Operations Within Partitions\{#data-operations-within-partitions}
 
@@ -1118,7 +1100,7 @@ You can perform insert, upsert, and delete operations in specific operations. Fo
 
 - [Insert Entities into Partition](./insert-entities#insert-entities-into-a-partition)
 
-- [Upsert Entities into Partition](./upsert-entities#upsert-entities-in-a-partition)
+- [Upsert Entities into Partition](https://milvus.io/docs/upsert-entities.md#Upsert-Entities-in-a-Partition)
 
 - [Delete Entities from Partition](./delete-entities#delete-entities-from-partitions)
 
@@ -1165,8 +1147,6 @@ print(res)
 import io.milvus.v2.service.partition.request.DropPartitionReq;
 import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
 import io.milvus.v2.service.partition.request.ListPartitionsReq;
-import java.util.Collections;
-import java.util.List;
 
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("my_collection")
@@ -1198,12 +1178,6 @@ System.out.println(partitionNames);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1405,4 +1379,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

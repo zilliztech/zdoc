@@ -28,7 +28,7 @@ Entities in a collection are data records that share the same set of fields. Fie
 
 - **Fields added after collection creation**: If you add new fields to a collection after creation and do not specify values during insertion, Zilliz Cloud automatically populates them with defined default values or `NULL` if no defaults are set. For details, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
-- **Duplicate handling**: The standard `insert` operation does not check for duplicate primary keys. Inserting data with an existing primary key creates a new entity with the same key, leading to data duplication and potential application issues. To update existing entities or avoid duplicates, use the **`upsert`** operation instead. For more information, refer to [Upsert Entities](./upsert-entities).
+- **Duplicate handling**: The standard `insert` operation does not check for duplicate primary keys. Inserting data with an existing primary key creates a new entity with the same key, leading to data duplication and potential application issues. To update existing entities or avoid duplicates, use the **`upsert`** operation instead. For more information, refer to [Upsert Entities](https://milvus.io/docs/upsert-entities.md).
 
 </Admonition>
 

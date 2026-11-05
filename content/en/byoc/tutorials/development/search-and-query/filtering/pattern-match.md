@@ -1,17 +1,18 @@
 ---
 title: "Pattern Matching | BYOC"
 slug: /pattern-match
-sidebar_label: "Pattern Matching"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "In agentic search applications, vector search and grep-style pattern matching often complement each other. Vector search retrieves entities that are semantically relevant, while pattern matching narrows those results by exact string structures, such as error codes, log prefixes, email domains, URL paths, or identifiers. | BYOC"
+description: "Zilliz Cloud supports string pattern matching with LIKE wildcard patterns and RE2 regular expressions. Use pattern filters to match prefixes, suffixes, substrings, structured codes, email domains, URL paths, and other string patterns in VARCHAR fields, JSON string paths, or ARRAY elements. | BYOC"
 type: origin
-token: PFbNwB7Mli18n6k6VWScGcpWndc
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-pattern-match
+sidebar_label: "Pattern Matching"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/pattern-matching.md"
 
 ---
 
@@ -25,9 +26,9 @@ In agentic search applications, vector search and grep-style pattern matching of
 
 In Zilliz Cloud, you can express these pattern constraints in scalar filters with `LIKE` for simple wildcard matching, and `=~` or `!~` for [RE2](https://github.com/google/re2/wiki/syntax) regular expressions. You can combine these filters with `query`, `search`, or hybrid search.
 
-<Admonition type="info" title="Note">
+<Admonition type="info" icon="📘" title="Notes">
 
-This page describes pattern matching in scalar filter expressions used by query, search, and hybrid search. These expressions evaluate field values and do not change the tokens produced by an analyzer. To filter tokens during text analysis, refer to [Regex Analyzer Filter](./regex-filter).
+This page describes pattern matching in scalar filter expressions used by `query`, `search`, and hybrid search. These expressions evaluate field values and do not change the tokens produced by an analyzer. To filter tokens during text analysis, refer to [Regex Analyzer Filter](./regex-filter).
 
 </Admonition>
 
@@ -132,7 +133,28 @@ for row in res.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-// cpp
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("log_events")
+                   .WithFilter(R"(message =~ "E[0-9]{4}")")
+                   .AddOutputField("message")
+                   .AddOutputField("severity");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -216,13 +238,14 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 ```
 
 </TabItem>
+
 </Tabs>
 
 The examples on this page focus on the expression assigned to `filter`. You can use the same filter expression syntax in Zilliz Cloud operations that accept a scalar filter, such as `query`, `search`, and hybrid search.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-The literal on the left-hand side of a filtering expression can either be a collection field name, such as `message`, `email`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] =~ "E[0-9]{4}"'`. 
+The literal on the left-hand side of a filtering expression can either be a collection field name, such as `message`, `email`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] =~ "E[0-9]{4}"'`.
 
 For details on scalar filtering in a StructArray field, refer to [StructArray Operators](./struct-array-filtering).
 
@@ -232,7 +255,7 @@ For details on scalar filtering in a StructArray field, refer to [StructArray Op
 
 Pattern matching is available for string values.
 
-| Target | `LIKE` | Regex `=&#126;` / `!&#126;` | Notes |
+| Target | `LIKE` | Regex `=~` / `!~` | Notes |
 | --- | --- | --- | --- |
 | `VARCHAR` field | Yes | Yes | Typical target for pattern matching on string fields. |
 | `JSON` path with `VARCHAR` cast type | Yes | Yes | The JSON path value must be a string for positive matches. If you create an index on the JSON path for acceleration, set `json_cast_type="varchar"`. |
@@ -251,9 +274,9 @@ If you need an exact string match, we recommend you use `==` instead of pattern 
 | Simple prefix match | `LIKE` | `name LIKE "Prod%"` | Matches strings that start with `Prod`. |
 | Simple suffix match | `LIKE` | `filename LIKE "%.json"` | Matches strings that end with `.json`. |
 | Simple contains match | `LIKE` | `description LIKE "%vector database%"` | Matches values that contain `vector database` anywhere in the string. |
-| Match a structured code or fixed-length pattern | `=&#126;` | `code =&#126; "E[0-9]{4}"` | Matches strings that case-sensitively contain `E` followed by four digits, such as `E1001`. |
-| Case-insensitive pattern matching | `=&#126;` with `(?i)` | `message =&#126; "(?i)error"` | Matches `error`, `ERROR`, or other case variants. |
-| Exclude values that match a regex pattern | `!&#126;` | `message !&#126; "^DEBUG"` | Excludes strings that start with `DEBUG`. |
+| Match a structured code or fixed-length pattern | `=~` | `code =~ "E[0-9]{4}"` | Matches strings that case-sensitively contain `E` followed by four digits, such as `E1001`. |
+| Case-insensitive pattern matching | `=~` with `(?i)` | `message =~ "(?i)error"` | Matches `error`, `ERROR`, or other case variants. |
+| Exclude values that match a regex pattern | `!~` | `message !~ "^DEBUG"` | Excludes strings that start with `DEBUG`. |
 
 Use `LIKE` for simple wildcard matching. Use regex when the pattern needs character classes, repetition, alternation such as `error|failed`, anchors, or case-insensitive matching.
 
@@ -285,12 +308,10 @@ Use `==` for exact full-string equality. Use `LIKE` only when the filter needs w
 
 ### Escaping wildcards in a LIKE pattern\{#escaping-wildcards-in-a-like-pattern}
 
-In a `LIKE` patterns, `%` matches any number of characters and `_` matches one character. To match `%`, `_`, or `\` literally, escape the character with a backslash (`\`):
+In `LIKE` patterns, `%` matches zero or more characters and `_` matches exactly one character. To match `%`, `_`, or `\` literally, escape the character with a backslash (`\`):
 
 - `name LIKE r"\%"` matches the literal value `%`.
-
 - `name LIKE r"\_%"` matches values that start with a literal `_`.
-
 - `name LIKE r"\\%"` matches values that start with a literal backslash.
 
 Raw string literals, written as `r"..."` or `r'...'`, keep backslashes verbatim in Zilliz Cloud filter expressions. They are recommended for `LIKE` and regex patterns that contain backslashes. Without a raw string, ordinary string literals still process escape sequences before the pattern is evaluated, so more backslashes may be required.
@@ -303,8 +324,8 @@ The right side of `=~` or `!~` must be a string literal.
 
 | Operator | Meaning | Example |
 | --- | --- | --- |
-| `=&#126;` | Matches values that satisfy the regex pattern. | `filter = 'message =&#126; "E[0-9]{4}"'` |
-| `!&#126;` | Excludes values that satisfy the regex pattern. | `filter = 'message !&#126; "^DEBUG"'` |
+| `=~` | Matches values that satisfy the regex pattern. | `filter = 'message =~ "E[0-9]{4}"'` |
+| `!~` | Excludes values that satisfy the regex pattern. | `filter = 'message !~ "^DEBUG"'` |
 
 ### Using raw string literals\{#using-raw-string-literals}
 
@@ -316,7 +337,7 @@ For example:
 <TabItem value='python'>
 
 ```python
-filter = 'message =~ r"\d{4}-\d{2}-\d{2}"'
+filter = r'filename =~ r"\.json$"'
 ```
 
 </TabItem>
@@ -340,7 +361,7 @@ filter := `filename =~ r"\.json$"`
 <TabItem value='rust'>
 
 ```rust
-let filter = r#"message =~ r"\d{4}-\d{2}-\d{2}""#;
+let filter = r#"filename =~ r"\.json$""#;
 ```
 
 </TabItem>
@@ -348,7 +369,7 @@ let filter = r#"message =~ r"\d{4}-\d{2}-\d{2}""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(filename =~ r"\.json$")";
 ```
 
 </TabItem>
@@ -364,7 +385,7 @@ const filter = 'filename =~ r"\\.json$"';
 <TabItem value='csharp'>
 
 ```csharp
-string filter = "message =~ \"\\d{4}-\\d{2}-\\d{2}\"";
+string filter = "filename =~ r\"\\.json$\"";
 ```
 
 </TabItem>
@@ -384,11 +405,12 @@ zilliz vector query --collection my_collection --filter 'filename =~ r"\.json$"'
 ```
 
 </TabItem>
+
 </Tabs>
 
-This matches strings that contain a date-like value such as `2026-07-01`.
+This matches strings that end with `.json`, such as `report.json`.
 
-Without a raw string, ordinary string literals process escape sequences before the regex pattern is evaluated, so patterns such as `\d`, `\s`, or escaped literal characters may require additional backslashes.
+Without a raw string in the Zilliz Cloud filter expression, ordinary string literals process escape sequences before the regex pattern is evaluated. Escaped literal characters may therefore require additional backslashes in the host-language string.
 
 ### Common regex patterns\{#common-regex-patterns}
 
@@ -396,14 +418,14 @@ The following examples use common RE2 syntax in Zilliz Cloud filter expressions.
 
 | Requirement | Pattern | Filter example |
 | --- | --- | --- |
-| Contains literal text | `error` | `filter = 'message =&#126; "error"'` |
-| Starts with a prefix | `^ERR` | `filter = 'code =&#126; "^ERR"'` |
-| Ends with a suffix | `\.json$` | `filter = 'filename =&#126; "\\.json$"'` |
-| Matches a digit sequence | `[0-9]+` | `filter = 'message =&#126; "[0-9]+"'` |
-| Matches a fixed number of digits | `[0-9]{4}` | `filter = 'code =&#126; "[0-9]{4}"'` |
-| Matches an email domain | `@example\.com$` | `filter = 'email =&#126; "@example\\.com$"'` |
-| Matches case-insensitively | `(?i)error` | `filter = 'message =&#126; "(?i)error"'` |
-| Matches the full string | `^prod-[0-9]+$` | `filter = 'name =&#126; "^prod-[0-9]+$"'` |
+| Contains literal text | `error` | `filter = 'message =~ "error"'` |
+| Starts with a prefix | `^ERR` | `filter = 'code =~ "^ERR"'` |
+| Ends with a suffix | `\.json$` | `filter = 'filename =~ "\\.json$"'` |
+| Matches a digit sequence | `[0-9]+` | `filter = 'message =~ "[0-9]+"'` |
+| Matches a fixed number of digits | `[0-9]{4}` | `filter = 'code =~ "[0-9]{4}"'` |
+| Matches an email domain | `@example\.com$` | `filter = 'email =~ "@example\\.com$"'` |
+| Matches case-insensitively | `(?i)error` | `filter = 'message =~ "(?i)error"'` |
+| Matches the full string | `^prod-[0-9]+$` | `filter = 'name =~ "^prod-[0-9]+$"'` |
 
 To match one of several words, use alternation with `|`:
 
@@ -443,7 +465,7 @@ let filter = r#"message =~ "error|failed|timeout""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message =~ "error|failed|timeout")";
 ```
 
 </TabItem>
@@ -479,9 +501,10 @@ zilliz vector query --collection my_collection --filter 'message =~ "error|faile
 ```
 
 </TabItem>
+
 </Tabs>
 
-When matching regex metacharacters literally, escape them in the regex pattern. For example, to match a literal dot (`\.` in regex), write `\\.` in a Python filter string:
+When matching regex metacharacters literally, escape them in the regex pattern. For example, to match a literal dot (`\.` in regex), write `\\.` in a Python, Java, Go, or Node.js source string:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -519,7 +542,7 @@ let filter = r#"email =~ "@gmail\.com$""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(email =~ "@gmail\\.com$")";
 ```
 
 </TabItem>
@@ -555,6 +578,7 @@ zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$
 ```
 
 </TabItem>
+
 </Tabs>
 
 Note: Zilliz Cloud regex filters follow RE2 syntax. If a regex pattern uses syntax that RE2 does not support or is otherwise invalid, Zilliz Cloud rejects the filter expression. For details about regex metacharacters, flags, and matching behavior, refer to the [RE2 syntax](https://github.com/google/re2/wiki/syntax) reference.
@@ -601,7 +625,7 @@ let filter = r#"message =~ "E[0-9]{4}""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message =~ "E[0-9]{4}")";
 ```
 
 </TabItem>
@@ -637,6 +661,7 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 ```
 
 </TabItem>
+
 </Tabs>
 
 To match the entire field value, use the `^` and `$` anchors:
@@ -681,7 +706,7 @@ let filter = r#"code =~ "^E[0-9]{4}$""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(code =~ "^E[0-9]{4}$")";
 ```
 
 </TabItem>
@@ -707,6 +732,7 @@ string filter = "code =~ \"^E[0-9]{4}$\"";
 <TabItem value='bash'>
 
 ```bash
+# Match only values that are exactly E followed by four digits
 filter='code =~ "^E[0-9]{4}$"'
 ```
 
@@ -719,6 +745,7 @@ zilliz vector query --collection my_collection --filter 'code =~ "^E[0-9]{4}$"' 
 ```
 
 </TabItem>
+
 </Tabs>
 
 **Nullable VARCHAR fields**
@@ -761,7 +788,7 @@ let filter = r#"message !~ "^DEBUG" OR message IS NULL"#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message !~ "^DEBUG" OR message IS NULL)";
 ```
 
 </TabItem>
@@ -797,6 +824,7 @@ zilliz vector query --collection log_events --filter 'message !~ "^DEBUG" OR mes
 ```
 
 </TabItem>
+
 </Tabs>
 
 **JSON paths**
@@ -805,8 +833,8 @@ For JSON paths, regex filters behave differently when the path is missing, null,
 
 | Filter | Includes missing/null/non-string values? | Notes |
 | --- | --- | --- |
-| `json_field["path"] =&#126; "pattern"` | No | Matches only string values that satisfy the regex pattern. |
-| `json_field["path"] !&#126; "pattern"` | Yes | Returns entities where the path is missing, null, non-string, or a string that does not match the regex pattern. |
+| `json_field["path"] =~ "pattern"` | No | Matches only string values that satisfy the regex pattern. |
+| `json_field["path"] !~ "pattern"` | Yes | Returns entities where the path is missing, null, non-string, or a string that does not match the regex pattern. |
 
 ## Accelerate pattern matching with indexes\{#accelerate-pattern-matching-with-indexes}
 
@@ -818,6 +846,6 @@ Use the following table as a starting point, then benchmark with your own worklo
 
 | Pattern or data characteristic | Index to consider | Notes |
 | --- | --- | --- |
-| Contains fixed literal substrings, such as `message =&#126; "error.*timeout"` or `message LIKE "%database%"` | `NGRAM` | Helps when Zilliz Cloud can extract meaningful literal substrings from the pattern. For details, refer to [NGRAM](./ngram-index-type). |
+| Contains fixed literal substrings, such as `message =~ "error.*timeout"` or `message LIKE "%database%"` | `NGRAM` | Helps when Zilliz Cloud can extract meaningful literal substrings from the pattern. For details, refer to [NGRAM](./ngram-index-type). |
 | Prefix, exact, or equality-like string filters, especially on fields with low to moderate cardinality | `STL_SORT`, `INVERTED`, or `BITMAP` | May be more effective when the field has repeated values or when the filter is close to exact matching. For details, refer to [STL_SORT](./slt-sort-index-type), [INVERTED](./inverted-index-type), and [BITMAP](./bitmap-index-type). |
 | Regex patterns without fixed literals, or patterns dominated by character classes, short tokens, or wildcards | Benchmark before relying on index acceleration | These patterns may provide limited index selectivity and can fall back to broader scans. |

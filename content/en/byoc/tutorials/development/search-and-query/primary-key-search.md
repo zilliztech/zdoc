@@ -93,12 +93,13 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.SearchReq
 import io.milvus.v2.service.vector.response.SearchResp
+import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
-        
+
 List<Object> ids = Arrays.asList(551L, 296L, 43L);
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -125,6 +126,7 @@ import (
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -192,6 +194,10 @@ for result in res.results() {
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("my_collection")
                          .WithAnnsField("vector")
@@ -247,6 +253,7 @@ console.log(res.results);
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 using var client = new MilvusClientV2(new ConnectConfig
 {
@@ -386,8 +393,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -464,9 +469,6 @@ console.log(res.results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
@@ -609,8 +611,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -689,9 +689,6 @@ console.log(res.results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
@@ -830,8 +827,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -907,9 +902,6 @@ console.log(res.results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",

@@ -1,17 +1,18 @@
 ---
 title: "Chinese | BYOC"
 slug: /chinese-analyzer
-sidebar_label: "Chinese"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `chinese` analyzer is designed specifically to handle Chinese text, providing effective segmentation and tokenization. | BYOC"
+description: "The chinese analyzer is designed specifically to handle Chinese text, providing effective segmentation and tokenization. | BYOC"
 type: origin
-token: Of8PwuunCihBfxksNJJcSCRYnsf
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-chinese-analyzer
+sidebar_label: "Chinese"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/analyzer/chinese-analyzer.md"
 
 ---
 
@@ -23,19 +24,19 @@ import TabItem from '@theme/TabItem';
 
 The `chinese` analyzer is designed specifically to handle Chinese text, providing effective segmentation and tokenization.
 
-### Definition\{#definition}
+## Definition\{#definition}
 
 The `chinese` analyzer consists of:
 
 - **Tokenizer**: Uses the `jieba` tokenizer to segment Chinese text into tokens based on vocabulary and context. For more information, refer to [Jieba](./jieba-tokenizer).
 
-- **Filter**: Uses the `cnalphanumonly` filter to remove tokens that contain any non-Chinese characters. For more information, refer to [Cnalphanumonly](./cnalphanumonly-filter).
+- **Filter**: Uses the `cnalphanumonly` filter to remove tokens that contain any characters other than Chinese characters, English letters, or digits. For more information, refer to [Cnalphanumonly](./cnalphanumonly-filter).
 
 The functionality of the `chinese` analyzer is equivalent to the following custom analyzer configuration:
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-The built-in `chinese` analyzer does not emit Pinyin tokens. To match Chinese text with Pinyin query terms, use a custom analyzer with the `jieba` tokenizer and the [Pinyin filter](./pinyin-filter).
+The built-in `chinese` analyzer does not emit Pinyin tokens. To match Chinese text with Pinyin query terms, use a custom analyzer with the `jieba` tokenizer and the [`pinyin`](./pinyin-filter) filter.
 
 </Admonition>
 
@@ -100,7 +101,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-let analyzer_params = {
+const analyzer_params = {
     "tokenizer": "jieba",
     "filter": ["cnalphanumonly"]
 };
@@ -113,10 +114,10 @@ let analyzer_params = {
 ```csharp
 using System.Collections.Generic;
 
-Dictionary<string, object> analyzerParams = new()
+var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "jieba",
-    ["filter"] = new List<object> { "cnalphanumonly" }
+    ["filter"] = new[] { "cnalphanumonly" }
 };
 ```
 
@@ -135,9 +136,10 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
-### Configuration\{#configuration}
+## Configuration\{#configuration}
 
 To apply the `chinese` analyzer to a field, simply set `type` to `chinese` in `analyzer_params`.
 
@@ -155,9 +157,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "chinese");
 ```
@@ -197,9 +196,9 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     "type": "chinese",
-}
+};
 ```
 
 </TabItem>
@@ -207,9 +206,7 @@ analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
-Dictionary<string, object> analyzerParams = new()
+var analyzerParams = new Dictionary<string, object>
 {
     ["type"] = "chinese"
 };
@@ -227,9 +224,10 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 The `chinese` analyzer does not accept any optional parameters.
 
@@ -255,9 +253,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "chinese");
 ```
@@ -297,9 +292,9 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     "type": "chinese",
-}
+};
 ```
 
 </TabItem>
@@ -307,9 +302,7 @@ analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
-Dictionary<string, object> analyzerParams = new()
+var analyzerParams = new Dictionary<string, object>
 {
     ["type"] = "chinese"
 };
@@ -321,10 +314,13 @@ Dictionary<string, object> analyzerParams = new()
 
 ```bash
 # restful
-analyzerParams='{"type": "chinese"}'
+analyzerParams='{
+  "type": "chinese"
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
@@ -345,7 +341,7 @@ client = MilvusClient(
 # Sample text to analyze
 sample_text = "Milvus 是一个高性能、可扩展的向量数据库！"
 
-# Run the Chinese analyzer with the defined configuration
+# Run the chinese analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
 print("Chinese analyzer output:", result)
 ```
@@ -355,8 +351,7 @@ print("Chinese analyzer output:", result)
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
@@ -376,6 +371,12 @@ RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
         .analyzerParams(analyzerParams)
         .build());
 List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
+
+for (RunAnalyzerResp.AnalyzerResult result : results) {
+    for (RunAnalyzerResp.AnalyzerToken token : result.getTokens()) {
+        System.out.println("Chinese analyzer output: " + token.getToken());
+    }
+}
 ```
 
 </TabItem>
@@ -410,6 +411,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Chinese analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -418,22 +425,22 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
-use serde_json::json;
 
-let text = "Milvus 是一个高性能、可扩展的向量数据库！";
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 let response = client
     .run_analyzer(
         RunAnalyzerRequest::builder()
-            .texts([text])
-            .analyzer_params(json!({"type": "chinese"}))
+            .texts(["Milvus 是一个高性能、可扩展的向量数据库！"])
+            .analyzer_params(analyzer_params)
             .build()?,
     )
     .await?;
 
 for result in response.results() {
     for token in result.get_tokens() {
-        println!("{}", token.get_text());
+        println!("Chinese analyzer output: {}", token.get_text());
     }
 }
 ```
@@ -444,6 +451,8 @@ for result in response.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -463,6 +472,12 @@ status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+for (const auto& result : response.Results()) {
+    for (const auto& token : result.Tokens()) {
+        std::cout << "Chinese analyzer output: " << token.token_ << std::endl;
+    }
+}
 ```
 
 </TabItem>
@@ -470,18 +485,20 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const sampleText = "Milvus 是一个高性能、可扩展的向量数据库！";
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
-  address: "YOUR_CLUSTER_ENDPOINT",
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
+const sample_text = 'Milvus 是一个高性能、可扩展的向量数据库！';
 const result = await client.runAnalyzer({
-  analyzer_params: analyzer_params,
-  text: sampleText,
+  text: sample_text,
+  analyzer_params,
 });
+const tokens = result.results.flatMap(r => r.tokens.map(t => t.token));
+console.log('Chinese analyzer output:', tokens);
 ```
 
 </TabItem>
@@ -494,26 +511,29 @@ using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Responses.Utility;
 using Milvus.Client.V2.Types;
 
-MilvusClientV2 client = new(new ConnectConfig
+using var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
+await client.ConnectAsync();
 
 // Sample text to analyze
-string sampleText = "Milvus 是一个高性能、可扩展的向量数据库！";
+var sampleText = "Milvus 是一个高性能、可扩展的向量数据库！";
 
-// Run the Chinese analyzer with the defined configuration
+// Run the chinese analyzer with the defined configuration
 RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
     AnalyzerParams = analyzerParams,
-    Texts = [sampleText]
+    Texts = new[] { sampleText }
 });
 
-foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+foreach (AnalyzerResult r in result.Results)
 {
-    Console.WriteLine(t.Token);
+    foreach (AnalyzerToken t in r.Tokens)
+    {
+        Console.WriteLine($"Chinese analyzer output: {t.Token}");
+    }
 }
 ```
 
@@ -522,22 +542,24 @@ foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
 <TabItem value='bash'>
 
 ```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  -d '{
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
     "analyzerParams": "{\"type\": \"chinese\"}",
     "text": ["Milvus 是一个高性能、可扩展的向量数据库！"]
   }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Expected output\{#expected-output}
 
-```plaintext
-Chinese analyzer output: ['Milvus', '是', '一个', '高性', '性能', '高性能', '可', '扩展', '的', '向量', '数据', '据库', '数据库']
-```
+For the sample text, the analyzer produces the following tokens in order. SDK response objects and printed formatting vary by language; the REST response contains these tokens at `data.results[].tokens[].token`.
 
+```plaintext
+['Milvus', '是', '一个', '高性', '性能', '高性能', '可', '扩展', '的', '向量', '数据', '据库', '数据库']
+```

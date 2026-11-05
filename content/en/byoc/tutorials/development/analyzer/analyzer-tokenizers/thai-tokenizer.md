@@ -47,9 +47,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "thai");
 ```
@@ -97,8 +94,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 Dictionary<string, object> analyzerParams = new()
 {
     ["tokenizer"] = "thai"
@@ -141,10 +136,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "thai");
 analyzerParams.put("filter", Arrays.asList("lowercase", "decimaldigit"));
@@ -196,8 +187,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 Dictionary<string, object> analyzerParams = new()
 {
     ["tokenizer"] = "thai",
@@ -259,9 +248,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "thai");
 ```
@@ -309,8 +295,6 @@ const analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 Dictionary<string, object> analyzerParams = new()
 {
     ["tokenizer"] = "thai"
@@ -357,7 +341,10 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -488,6 +475,7 @@ using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Responses.Utility;
 using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 MilvusClientV2 client = new(new ConnectConfig
 {

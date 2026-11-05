@@ -136,7 +136,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Query / Search Order By** — Multi-field ordering for search and query results, with per-field ASC / DESC, pushed down into the kernel. No more over-fetching and client-side re-sorting for composite ranking.
 
-            For details, refer to [Basic Vector Search](./single-vector-search), [Grouping Search](./grouping-search), and [Query](./get-and-scalar-query).
+            For details, refer to [Basic Vector Search](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#J302dXJq8oDOOdxA9EYc86Kmnof), [Grouping Search](https://zilliverse.feishu.cn/wiki/JWZGw89MBiUDBNkhtGfcyyUcnsd#Ijm0dJ8Y0o1pZWxOX3UcVzhMnVf), and [Query](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#VhCFdfqkooVQMHxxVTyceCyKngg).
 
         **Data lifecycle and operations**
 
@@ -146,7 +146,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Entity TTL (Row-level TTL)** — Per-row expiration via a `Timestamptz` TTL field. Expired rows are reclaimed automatically, covering retention compliance, session data, and conversation history — no application-side cleanup needed.
 
-             For details, refer to [Set Collection TTL](./set-collection-ttl)
+             For details, refer to [Set Collection TTL](https://zilliverse.feishu.cn/wiki/GthGwnrpEiGpClkV5JXcgWUgn8c#GfP0dKAmyolahMxQkg7canKKnsb.)
 
         - **Force Merge** — Explicitly triggers segment compaction during off-peak windows (synchronous or asynchronous), reducing query-latency jitter and storage overhead from segment fragmentation.
 

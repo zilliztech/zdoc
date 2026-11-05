@@ -55,8 +55,9 @@ Before creating an external volume, you need to integrate your [Amazon S3 bucket
     <TabItem value='python'>
 
     ```python
-    # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
+    
+    # Initiate a volume manager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -88,6 +89,12 @@ Before creating an external volume, you need to integrate your [Amazon S3 bucket
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
     import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
+    import com.google.gson.Gson;
+    import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
+    import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
+    import io.milvus.bulkwriter.request.volume.DescribeVolumeRequest;
+    import io.milvus.bulkwriter.response.volume.VolumeInfo;
+    import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
     
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
@@ -257,7 +264,6 @@ You can view all existing volumes in a project.
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -279,12 +285,6 @@ You can view all existing volumes in a project.
     <TabItem value='java'>
 
     ```java
-    import com.google.gson.Gson;
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
-    import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-    
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
             .withCloudEndpoint("https://api.cloud.zilliz.com")
             .withApiKey("YOUR_API_KEY")
@@ -329,8 +329,6 @@ You can view all existing volumes in a project.
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"
@@ -385,7 +383,6 @@ You can check the details of a specific volume.
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -407,12 +404,6 @@ You can check the details of a specific volume.
     <TabItem value='java'>
 
     ```java
-    import com.google.gson.Gson;
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.DescribeVolumeRequest;
-    import io.milvus.bulkwriter.response.volume.VolumeInfo;
-    
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
     String volumeName = "external_volume";
@@ -459,8 +450,6 @@ You can check the details of a specific volume.
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"
@@ -529,7 +518,6 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -551,10 +539,6 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     <TabItem value='java'>
 
     ```java
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
-    
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
     String volumeName = "external_volume";
@@ -602,8 +586,6 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"

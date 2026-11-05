@@ -1,7 +1,6 @@
 ---
 title: "Manage Aliases | BYOC"
 slug: /manage-aliases
-sidebar_label: "Aliases"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,13 +8,14 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, an alias is a secondary, mutable name for a collection. Using aliases provides a layer of abstraction that allows you to dynamically switch between collections without modifying your application code. This is particularly useful in production environments for seamless data updates, A/B testing, and other operational tasks. | BYOC"
 type: origin
-token: OLn1wMgW0iceBlkuey2cBD91neb
-sidebar_position: 10
 displayed_sidebar: default
+token: shared-manage-aliases
+sidebar_label: "Aliases"
+sidebar_position: 10
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/manage-aliases.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -25,26 +25,21 @@ In Zilliz Cloud, an alias is a secondary, mutable name for a collection. Using a
 
 This page demonstrates how to create, list, reassign, and drop collection aliases.
 
-## Why Use an Alias\{#why-use-an-alias}
+## Why Use an Alias?\{#why-use-an-alias}
 
 The primary benefit of using an alias is to decouple your client application from a specific, physical collection name.
 
-Imagine you have a live application that queries a collection with an alias named `prod_data`. When you need to update the underlying data, you can perform the update without any service interruption. The workflow would be:
+Imagine you have a live application that queries a collection through an alias named `prod_data`. When you need to update the underlying data, you can perform the update without any service interruption. The workflow would be:
 
-1. **Create a New Collection**: Create a new collection, for instance, `prod_data_v2`.
-
-1. **Prepare Data**: Index and load the new data in `prod_data_v2`.
-
-1. **Switch the Alias**: Once the new collection is ready for service, atomically reassign the alias `prod_data` from the old collection to `prod_data_v2`.
+1.  **Create a New Collection**: Create a new collection, for instance, `prod_data_v2`.
+2.  **Prepare Data**: Index and load the new data in `prod_data_v2`.
+3.  **Switch the Alias**: Once the new collection is ready for service, atomically reassign the alias `prod_data` from the old collection to `prod_data_v2`.
 
 Your application continues to send requests to the alias `prod_data`, experiencing zero downtime. This mechanism enables seamless updates and simplifies operations like blue-green deployments for your vector search service.
 
 **Key Properties of Aliases:**
-
 - A collection can have multiple aliases.
-
 - An alias can only point to one collection at a time.
-
 - When processing a request, Zilliz Cloud first checks if a collection with the provided name exists. If not, it then checks if the name is an alias for a collection.
 
 ## Create Alias\{#create-alias}
@@ -87,7 +82,7 @@ import io.milvus.v2.client.MilvusClientV2;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Connect to Zilliz Cloud
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -122,16 +117,18 @@ import (
     "context"
     "fmt"
 
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey:  "YOUR_CLUSTER_TOKEN",
+    APIKey:  token,
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -159,11 +156,14 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-let config = ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
 
+// 9.1 Create aliases
 client
     .create_alias(
         CreateAliasRequest::builder()
@@ -189,6 +189,7 @@ client
 
 ```c++
 #include <iostream>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -200,15 +201,15 @@ if (!status.IsOk()) {
 }
 
 status = client->CreateAlias(milvus::CreateAliasRequest()
-                                .WithCollectionName("my_collection_1")
-                                .WithAlias("bob"));
+                                 .WithCollectionName("my_collection_1")
+                                 .WithAlias("bob"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
 status = client->CreateAlias(milvus::CreateAliasRequest()
-                                .WithCollectionName("my_collection_1")
-                                .WithAlias("alice"));
+                                 .WithCollectionName("my_collection_1")
+                                 .WithAlias("alice"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -219,16 +220,14 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
-var res;
 
-// 9. Manage aliases
 // 9.1 Create aliases
-res = await client.createAlias({
+let res = await client.createAlias({
     collection_name: "my_collection_1",
     alias: "bob"
 })
@@ -236,9 +235,9 @@ res = await client.createAlias({
 console.log(res.error_code)
 
 // Output
-// 
+//
 // Success
-// 
+//
 
 res = await client.createAlias({
     collection_name: "my_collection_1",
@@ -248,9 +247,9 @@ res = await client.createAlias({
 console.log(res.error_code)
 
 // Output
-// 
+//
 // Success
-// 
+//
 ```
 
 </TabItem>
@@ -259,25 +258,30 @@ console.log(res.error_code)
 
 ```csharp
 using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Types;
 
-using Milvus.Client.V2.Requests.Aliases;
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 
-var client = new MilvusClientV2(new ConnectConfig
+using var client = new MilvusClientV2(new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// 9.1 Create aliases
+await client.CreateAliasAsync(new CreateAliasReq
+{
+    CollectionName = "my_collection_1",
+    Alias = "bob"
 });
 
-// 9. Manage aliases
-// 9.1 Create alias
-await client.CreateAliasAsync(new CreateAliasReq { CollectionName = "my_collection_1", Alias = "bob" });
-await client.CreateAliasAsync(new CreateAliasReq { CollectionName = "my_collection_1", Alias = "alice" });
+await client.CreateAliasAsync(new CreateAliasReq
+{
+    CollectionName = "my_collection_1",
+    Alias = "alice"
+});
 ```
 
 </TabItem>
@@ -320,6 +324,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## List Aliases\{#list-aliases}
@@ -375,12 +380,6 @@ System.out.println(listAliasRes.getAlias());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
 if err != nil {
     fmt.Println(err.Error())
@@ -396,14 +395,16 @@ fmt.Println(aliases)
 ```rust
 use milvus::v2::prelude::*;
 
-let aliases = client
+// 9.2 List aliases
+let res = client
     .list_aliases(
         ListAliasesRequest::builder()
             .collection_name("my_collection_1")
             .build()?,
     )
     .await?;
-println!("{:?}", aliases.aliases());
+
+println!("{:?}", res.aliases());
 ```
 
 </TabItem>
@@ -413,13 +414,13 @@ println!("{:?}", aliases.aliases());
 ```c++
 milvus::ListAliasesResponse response;
 auto status = client->ListAliases(milvus::ListAliasesRequest()
-                                    .WithCollectionName("my_collection_1"),
+                                      .WithCollectionName("my_collection_1"),
                                   response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
-for (auto alias : response.Aliases()) {
-    std::cout << "\t" << alias << std::endl;
+for (const auto& alias : response.Aliases()) {
+    std::cout << alias << std::endl;
 }
 ```
 
@@ -429,16 +430,16 @@ for (auto alias : response.Aliases()) {
 
 ```javascript
 // 9.2 List aliases
-res = await client.listAliases({
+const listRes = await client.listAliases({
     collection_name: "my_collection_1"
 })
 
-console.log(res.aliases)
+console.log(listRes.aliases)
 
 // Output
-// 
+//
 // [ 'bob', 'alice' ]
-// 
+//
 ```
 
 </TabItem>
@@ -446,18 +447,15 @@ console.log(res.aliases)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Aliases;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
 
 // 9.2 List aliases
-var res = await client.ListAliasesAsync(new ListAliasesReq { CollectionName = "my_collection_1" });
-Console.WriteLine(res);
+var listRes = await client.ListAliasesAsync(new ListAliasesReq
+{
+    CollectionName = "my_collection_1"
+});
+Console.WriteLine(string.Join(", ", listRes.Aliases));
 ```
 
 </TabItem>
@@ -487,6 +485,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Describe Alias\{#describe-alias}
@@ -531,7 +530,7 @@ DescribeAliasResp describeAliasRes = client.describeAlias(describeAliasReq);
 System.out.println(describeAliasRes);
 
 // Output:
-// DescribeAliasResp(databaseName=default, collectionName=my_collection_1, alias=bob)
+// DescribeAliasResp(collectionName=my_collection_1, alias=bob)
 ```
 
 </TabItem>
@@ -539,12 +538,6 @@ System.out.println(describeAliasRes);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 alias, err := client.DescribeAlias(ctx, milvusclient.NewDescribeAliasOption("bob"))
 if err != nil {
     fmt.Println(err.Error())
@@ -560,14 +553,14 @@ fmt.Println(alias)
 ```rust
 use milvus::v2::prelude::*;
 
-let alias = client
+// 9.3 Describe alias
+let res = client
     .describe_alias(
-        DescribeAliasRequest::builder()
-            .alias("bob")
-            .build()?,
+        DescribeAliasRequest::builder().alias("bob").build()?,
     )
     .await?;
-println!("{:?}", alias);
+
+println!("{:?}", res);
 ```
 
 </TabItem>
@@ -576,13 +569,13 @@ println!("{:?}", alias);
 
 ```c++
 milvus::DescribeAliasResponse response;
-auto status = client->DescribeAlias(milvus::DescribeAliasRequest().WithAlias("bob"),
+auto status = client->DescribeAlias(milvus::DescribeAliasRequest()
+                                        .WithAlias("bob"),
                                     response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
-std::cout << "Collection name: " << response.Desc().CollectionName() << std::endl;
-std::cout << "Database name: " << response.Desc().DatabaseName() << std::endl;
+std::cout << response.Desc().CollectionName() << std::endl;
 ```
 
 </TabItem>
@@ -590,16 +583,16 @@ std::cout << "Database name: " << response.Desc().DatabaseName() << std::endl;
 <TabItem value='javascript'>
 
 ```javascript
-// 9.3 Describe aliases
-res = await client.describeAlias({
+// 9.3 Describe alias
+const describeRes = await client.describeAlias({
     collection_name: "my_collection_1",
     alias: "bob"
 })
 
-console.log(res)
+console.log(describeRes)
 
 // Output
-// 
+//
 // {
 //   status: {
 //     extra_info: {},
@@ -613,7 +606,7 @@ console.log(res)
 //   alias: 'bob',
 //   collection: 'my_collection_1'
 // }
-// 
+//
 ```
 
 </TabItem>
@@ -621,18 +614,15 @@ console.log(res)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Aliases;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
 
 // 9.3 Describe alias
-var describeResp = await client.DescribeAliasAsync(new DescribeAliasReq { Alias = "bob" });
-Console.WriteLine(describeResp);
+var describeRes = await client.DescribeAliasAsync(new DescribeAliasReq
+{
+    Alias = "bob"
+});
+Console.WriteLine(describeRes.CollectionName);
 ```
 
 </TabItem>
@@ -663,6 +653,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Alter Alias\{#alter-alias}
@@ -718,8 +709,6 @@ print(res)
 
 ```java
 import io.milvus.v2.service.utility.request.AlterAliasReq;
-import io.milvus.v2.service.utility.request.ListAliasesReq;
-import io.milvus.v2.service.utility.response.ListAliasResp;
 
 // 9.4 Reassign alias to other collections
 AlterAliasReq alterAliasReq = AlterAliasReq.builder()
@@ -737,6 +726,9 @@ ListAliasResp listAliasRes = client.listAliases(listAliasesReq);
 
 System.out.println(listAliasRes.getAlias());
 
+// Output:
+// [alice]
+
 listAliasesReq = ListAliasesReq.builder()
         .collectionName("my_collection_1")
         .build();
@@ -746,7 +738,6 @@ listAliasRes = client.listAliases(listAliasesReq);
 System.out.println(listAliasRes.getAlias());
 
 // Output:
-// [alice]
 // [bob]
 ```
 
@@ -755,12 +746,6 @@ System.out.println(listAliasRes.getAlias());
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "my_collection_2"))
 if err != nil {
     fmt.Println(err.Error())
@@ -789,6 +774,7 @@ fmt.Println(aliases)
 ```rust
 use milvus::v2::prelude::*;
 
+// 9.4 Reassign an alias to another collection
 client
     .alter_alias(
         AlterAliasRequest::builder()
@@ -798,23 +784,14 @@ client
     )
     .await?;
 
-let mut aliases = client
+let res = client
     .list_aliases(
         ListAliasesRequest::builder()
             .collection_name("my_collection_2")
             .build()?,
     )
     .await?;
-println!("{:?}", aliases.aliases());
-
-aliases = client
-    .list_aliases(
-        ListAliasesRequest::builder()
-            .collection_name("my_collection_1")
-            .build()?,
-    )
-    .await?;
-println!("{:?}", aliases.aliases());
+println!("{:?}", res.aliases());
 ```
 
 </TabItem>
@@ -823,33 +800,21 @@ println!("{:?}", aliases.aliases());
 
 ```c++
 auto status = client->AlterAlias(milvus::AlterAliasRequest()
-                                    .WithAlias("alice")
-                                    .WithCollectionName("my_collection_2"));
+                                     .WithCollectionName("my_collection_2")
+                                     .WithAlias("alice"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
 milvus::ListAliasesResponse response;
 status = client->ListAliases(milvus::ListAliasesRequest()
-                                .WithCollectionName("my_collection_2"),
+                                 .WithCollectionName("my_collection_2"),
                              response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
-std::cout << "aliases of my_collection_2" << std::endl;
-for (auto alias : response.Aliases()) {
-    std::cout << "\t" << alias << std::endl;
-}
-
-status = client->ListAliases(milvus::ListAliasesRequest()
-                                .WithCollectionName("my_collection_1"),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-std::cout << "aliases of my_collection_1" << std::endl;
-for (auto alias : response.Aliases()) {
-    std::cout << "\t" << alias << std::endl;
+for (const auto& alias : response.Aliases()) {
+    std::cout << alias << std::endl;
 }
 ```
 
@@ -859,7 +824,7 @@ for (auto alias : response.Aliases()) {
 
 ```javascript
 // 9.4 Reassign aliases to other collections
-res = await client.alterAlias({
+let res = await client.alterAlias({
     collection_name: "my_collection_2",
     alias: "alice"
 })
@@ -867,9 +832,9 @@ res = await client.alterAlias({
 console.log(res.error_code)
 
 // Output
-// 
+//
 // Success
-// 
+//
 
 res = await client.listAliases({
     collection_name: "my_collection_2"
@@ -878,9 +843,9 @@ res = await client.listAliases({
 console.log(res.aliases)
 
 // Output
-// 
+//
 // [ 'alice' ]
-// 
+//
 
 res = await client.listAliases({
     collection_name: "my_collection_1"
@@ -889,9 +854,9 @@ res = await client.listAliases({
 console.log(res.aliases)
 
 // Output
-// 
+//
 // [ 'bob' ]
-// 
+//
 ```
 
 </TabItem>
@@ -899,23 +864,21 @@ console.log(res.aliases)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Types;
 
-using Milvus.Client.V2.Requests.Aliases;
+// 9.4 Reassign the alias to another collection
+await client.AlterAliasAsync(new AlterAliasReq
+{
+    CollectionName = "my_collection_2",
+    Alias = "alice"
+});
 
-// 9.4 Reassign alias to other collections
-await client.AlterAliasAsync(new AlterAliasReq { CollectionName = "my_collection_2", Alias = "alice" });
-
-var res = await client.ListAliasesAsync(new ListAliasesReq { CollectionName = "my_collection_2" });
-Console.WriteLine(res);
-
-res = await client.ListAliasesAsync(new ListAliasesReq { CollectionName = "my_collection_1" });
-Console.WriteLine(res);
+var listRes = await client.ListAliasesAsync(new ListAliasesReq
+{
+    CollectionName = "my_collection_2"
+});
+Console.WriteLine(string.Join(", ", listRes.Aliases));
 ```
 
 </TabItem>
@@ -942,39 +905,44 @@ curl --request POST \
 # }
 
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/list" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/describe" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection_2"
+    "aliasName": "alice"
 }'
 
 # {
 #     "code": 0,
-#     "data": [
-#         "alice"
-#     ]
+#     "data": {
+#         "aliasName": "alice",
+#         "collectionName": "my_collection_2",
+#         "dbName": "default"
+#     }
 # }
 
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/list" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/describe" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection_1"
+    "aliasName": "bob"
 }'
 
 # {
 #     "code": 0,
-#     "data": [
-#         "bob"
-#     ]
+#     "data": {
+#         "aliasName": "bob",
+#         "collectionName": "my_collection_1",
+#         "dbName": "default"
+#     }
 # }
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Drop Alias\{#drop-alias}
@@ -1021,12 +989,6 @@ client.dropAlias(dropAliasReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("bob"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1047,20 +1009,13 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
+// 9.5 Drop aliases
 client
-    .drop_alias(
-        DropAliasRequest::builder()
-            .alias("bob")
-            .build()?,
-    )
+    .drop_alias(DropAliasRequest::builder().alias("bob").build()?)
     .await?;
 
 client
-    .drop_alias(
-        DropAliasRequest::builder()
-            .alias("alice")
-            .build()?,
-    )
+    .drop_alias(DropAliasRequest::builder().alias("alice").build()?)
     .await?;
 ```
 
@@ -1086,16 +1041,16 @@ if (!status.IsOk()) {
 
 ```javascript
 // 9.5 Drop aliases
-res = await client.dropAlias({
+let res = await client.dropAlias({
     alias: "bob"
 })
 
 console.log(res.error_code)
 
 // Output
-// 
+//
 // Success
-// 
+//
 
 res = await client.dropAlias({
     alias: "alice"
@@ -1104,9 +1059,9 @@ res = await client.dropAlias({
 console.log(res.error_code)
 
 // Output
-// 
+//
 // Success
-// 
+//
 ```
 
 </TabItem>
@@ -1114,16 +1069,10 @@ console.log(res.error_code)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Types;
 
-using Milvus.Client.V2.Requests.Aliases;
-
-// 9.5 Drop alias
+// 9.5 Drop aliases
 await client.DropAliasAsync(new DropAliasReq { Alias = "bob" });
 await client.DropAliasAsync(new DropAliasReq { Alias = "alice" });
 ```
@@ -1166,4 +1115,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

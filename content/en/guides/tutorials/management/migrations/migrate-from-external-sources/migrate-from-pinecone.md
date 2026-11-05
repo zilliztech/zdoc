@@ -84,9 +84,9 @@ When converting metadata to fixed fields:
 
 For metadata fields converted to fixed fields, you can configure additional attributes:
 
-- **Nullable**: Decide whether a field can accept null values. This feature is enabled by default. For details, refer to [Nullable attribute](./nullable-fields).
+- **Nullable**: Decide whether a field can accept null values. This feature is enabled by default. For details, refer to [Nullable attribute](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#JjRFd3ubBoht7Ex3N9IcAkrRnOc).
 
-- **Default Value**: Set fallback values when data is missing. For details, refer to [Default values](./nullable-fields).
+- **Default Value**: Set fallback values when data is missing. For details, refer to [Default values](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#LuoQdz5asouWjbxkKbscpywSnaf).
 
 ## Pinecone-specific handling rules\{#pinecone-specific-handling-rules}
 

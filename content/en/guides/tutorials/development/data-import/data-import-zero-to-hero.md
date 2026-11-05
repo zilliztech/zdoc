@@ -183,8 +183,6 @@ In the following demo, we will include the first four fields in the pre-defined 
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
-
 # You need to work out a collection schema out of your dataset.
 schema = MilvusClient.create_schema(
     auto_id=False,
@@ -265,6 +263,19 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import com.google.common.collect.Lists;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.List;
+import io.milvus.bulkwriter.connect.AzureConnectParam;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import io.milvus.bulkwriter.request.import_.CloudImportRequest;
+import io.milvus.bulkwriter.restful.BulkImportUtils;
+import io.milvus.bulkwriter.request.describe.CloudDescribeImportRequest;
+import io.milvus.bulkwriter.request.list.CloudListImportJobsRequest;
 
 private static final String STORAGE_ENDPOINT = CloudStorage.AWS.getEndpoint();
 private static final String BUCKET_NAME = "a-bucket";
@@ -375,7 +386,15 @@ Once the schema is set, you can create the target collection as follows:
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient, DataType
 from pymilvus import MilvusClient
+from pymilvus.bulk_writer import RemoteBulkWriter, BulkFileType
+import random, string, json
+import numpy as np
+from pymilvus.bulk_writer import bulk_import
+import time
+from pymilvus.bulk_writer import get_import_progress
+from pymilvus.bulk_writer import list_import_jobs
 
 # 1. Set up a Milvus client
 client = MilvusClient(
@@ -423,13 +442,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import com.google.common.collect.Lists;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.List;
-
 String CLUSTER_ENDPOINT = "";
 String API_KEY = "";
 String COLLECTION_NAME = "zero_to_hero";
@@ -496,7 +508,6 @@ Once the schema is ready, you can use the schema to create a **RemoteBulkWriter*
 <TabItem value='python'>
 
 ```python
-from pymilvus.bulk_writer import RemoteBulkWriter, BulkFileType
 # Use `from pymilvus import RemoteBulkWriter, BulkFileType`
 # if your pymilvus version is earlier than 2.4.2 
 
@@ -546,9 +557,6 @@ conn = RemoteBulkWriter.AzureConnectParam(
 <TabItem value='java'>
 
 ```java
-import io.milvus.bulkwriter.connect.S3ConnectParam;
-import io.milvus.bulkwriter.connect.StorageConnectParam;
-
 String BUCKET_NAME = "";
 String ACCESS_KEY = "";
 String SECRET_KEY = "";
@@ -566,8 +574,6 @@ StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
 <TabItem value='java_1'>
 
 ```java
-import io.milvus.bulkwriter.connect.StorageConnectParam;
-
 String AZURE_CONNECT_STRING = "";
 String AZURE_CONTAINER = "";
 storageConnectParam = AzureConnectParam.newBuilder()
@@ -613,8 +619,10 @@ writer = RemoteBulkWriter(
 )
 
 # Possible file types:
-# - BulkFileType.JSON, 
-# - BulkFileType.NPY, and 
+# - BulkFileType.JSON
+# - BulkFileType.JSONL
+# - BulkFileType.CSV
+# - BulkFileType.NPY
 # - BulkFileType.PARQUET
 ```
 
@@ -632,6 +640,10 @@ The above writer generates files in JSON format and uploads them to the root fol
 
     - **BulkFileType.JSON**
 
+    - **BulkFileType.JSONL**
+
+    - **BulkFileType.CSV**
+
     - **BulkFileType.PARQUET**
 
     - **BulkFileType.NPY**
@@ -645,10 +657,6 @@ The above writer generates files in JSON format and uploads them to the root fol
 <TabItem value='java'>
 
 ```java
-import io.milvus.bulkwriter.RemoteBulkWriter;
-import io.milvus.bulkwriter.RemoteBulkWriterParam;
-import io.milvus.bulkwriter.common.clientenum.BulkFileType;
-
 RemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()
         .withCollectionSchema(schema)
         .withRemotePath("/")
@@ -658,10 +666,12 @@ RemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()
         .build();
 
 @SuppressWarnings("resource")
-RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
+RemoteBulkWriter writer = new RemoteBulkWriter(remoteBulkWriterParam);
 
 // Possible file types:
 // - BulkFileType.PARQUET
+// - BulkFileType.JSON
+// - BulkFileType.CSV
 ```
 
 The above writer generates files in Parquet format and uploads them to the root folder of the specified bucket.
@@ -674,7 +684,13 @@ The above writer generates files in Parquet format and uploads them to the root 
 
 - `withFileType(BulkFileType.PARQUET)`
 
-    This determines the type of generated files. Currently, only **PARQUET** is available.
+    This determines the type of generated files. Possible values are as follows:
+
+    - **BulkFileType.PARQUET**
+
+    - **BulkFileType.JSON**
+
+    - **BulkFileType.CSV**
 
 - `withChunkSize(1024*1024*1024)`
 
@@ -690,13 +706,10 @@ A writer has two methods: one is for appending rows from the source dataset, and
 
 You can append rows from the source dataset as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"CSharp","value":"csharp"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
-import random, string, json
-import numpy as np
-
 def generate_random_str(length=5):
     letters = string.ascii_uppercase
     digits = string.digits
@@ -786,27 +799,6 @@ print(writer.batch_files)
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.bulkwriter.RemoteBulkWriter;
-import io.milvus.bulkwriter.RemoteBulkWriterParam;
-import io.milvus.bulkwriter.common.clientenum.BulkFileType;
-import io.milvus.bulkwriter.connect.S3ConnectParam;
-import io.milvus.bulkwriter.connect.StorageConnectParam;
-import io.milvus.common.utils.Float16Utils;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-String BUCKET_NAME = "";
-String ACCESS_KEY = "";
-String SECRET_KEY = "";
-String STORAGE_ENDPOINT = "s3.amazonaws.com";
-
 private static byte[] genBinaryVector() {
     Random ran = new Random();
     int byteCount = DIM / 8;
@@ -816,6 +808,7 @@ private static byte[] genBinaryVector() {
     }
     return vector.array();
 }
+
 private static List<Float> genFloatVector() {
     Random ran = new Random();
     List<Float> vector = new ArrayList<>();
@@ -824,10 +817,12 @@ private static List<Float> genFloatVector() {
     }
     return vector;
 }
+
 private static byte[] genFloat16Vector() {
     List<Float> originalVector = genFloatVector();
     return Float16Utils.f32VectorToFp16Buffer(originalVector).array();
 }
+
 private static SortedMap<Long, Float> genSparseVector() {
     Random ran = new Random();
     SortedMap<Long, Float> sparse = new TreeMap<>();
@@ -837,6 +832,7 @@ private static SortedMap<Long, Float> genSparseVector() {
     }
     return sparse;
 }
+
 private static List<String> genStringArray(int length) {
     List<String> arr = new ArrayList<>();
     for (int i = 0; i < length; i++) {
@@ -844,6 +840,7 @@ private static List<String> genStringArray(int length) {
     }
     return arr;
 }
+
 private static List<Long> genIntArray(int length) {
     List<Long> arr = new ArrayList<>();
     for (long i = 0; i < length; i++) {
@@ -851,67 +848,31 @@ private static List<Long> genIntArray(int length) {
     }
     return arr;
 }
-private static RemoteBulkWriter createRemoteBulkWriter(CreateCollectionReq.CollectionSchema collectionSchema) throws IOException {
-    StorageConnectParam connectParam = S3ConnectParam.newBuilder()
-            .withEndpoint(STORAGE_ENDPOINT)
-            .withBucketName(BUCKET_NAME)
-            .withAccessKey(ACCESS_KEY)
-            .withSecretKey(SECRET_KEY)
-            .build();
-    RemoteBulkWriterParam bulkWriterParam = RemoteBulkWriterParam.newBuilder()
-            .withCollectionSchema(collectionSchema)
-            .withRemotePath("/")
-            .withChunkSize(1024 * 1024 * 1024)
-            .withConnectParam(connectParam)
-            .withFileType(BulkFileType.PARQUET)
-            .build();
-    return new RemoteBulkWriter(bulkWriterParam);
-}
-private static List<List<String>> uploadData() throws Exception {
-    CreateCollectionReq.CollectionSchema collectionSchema = createSchema();
-    try (RemoteBulkWriter remoteBulkWriter = createRemoteBulkWriter(collectionSchema)) {
-        for (int i = 0; i < 2000; ++i) {
-            JsonObject rowObject = new JsonObject();
-            rowObject.addProperty("id", i);
-            rowObject.addProperty("bool", i % 3 == 0);
-            rowObject.addProperty("int8", i % 128);
-            rowObject.addProperty("int16", i % 1000);
-            rowObject.addProperty("int32", i % 100000);
-            rowObject.addProperty("int64", i);
-            rowObject.addProperty("float", i / 3);
-            rowObject.addProperty("double", i / 7);
-            rowObject.addProperty("varchar", "varchar_" + i);
-            rowObject.addProperty("json", String.format("{\"dummy\": %s, \"ok\": \"name_%s\"}", i, i));
-            rowObject.add("array_str", GSON_INSTANCE.toJsonTree(genStringArray(5)));
-            rowObject.add("array_int", GSON_INSTANCE.toJsonTree(genIntArray(10)));
-            rowObject.add("float_vector", GSON_INSTANCE.toJsonTree(genFloatVector()));
-            rowObject.add("binary_vector", GSON_INSTANCE.toJsonTree(genBinaryVector()));
-            rowObject.add("float16_vector", GSON_INSTANCE.toJsonTree(genFloat16Vector()));
-            rowObject.add("sparse_vector", GSON_INSTANCE.toJsonTree(genSparseVector()));
-            rowObject.addProperty("dynamic", "dynamic_" + i);
-            remoteBulkWriter.appendRow(rowObject);
-            if ((i+1)%1000 == 0) {
-                remoteBulkWriter.commit(false);
-            }
-        }
-        List<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();
-        System.out.println(batchFiles);
-        return batchFiles;
-    } catch (Exception e) {
-        throw e;
+
+for (int i = 0; i < 2000; ++i) {
+    JsonObject rowObject = new JsonObject();
+    rowObject.addProperty("id", i);
+    rowObject.addProperty("bool", i % 3 == 0);
+    rowObject.addProperty("int8", i % 128);
+    rowObject.addProperty("int16", i % 1000);
+    rowObject.addProperty("int32", i % 100000);
+    rowObject.addProperty("int64", i);
+    rowObject.addProperty("float", i / 3);
+    rowObject.addProperty("double", i / 7);
+    rowObject.addProperty("varchar", "varchar_" + i);
+    rowObject.addProperty("json", String.format("{\"dummy\": %s, \"ok\": \"name_%s\"}", i, i));
+    rowObject.add("array_str", GSON_INSTANCE.toJsonTree(genStringArray(5)));
+    rowObject.add("array_int", GSON_INSTANCE.toJsonTree(genIntArray(10)));
+    rowObject.add("float_vector", GSON_INSTANCE.toJsonTree(genFloatVector()));
+    rowObject.add("binary_vector", GSON_INSTANCE.toJsonTree(genBinaryVector()));
+    rowObject.add("float16_vector", GSON_INSTANCE.toJsonTree(genFloat16Vector()));
+    rowObject.add("sparse_vector", GSON_INSTANCE.toJsonTree(genSparseVector()));
+    rowObject.addProperty("dynamic", "dynamic_" + i);
+    writer.appendRow(rowObject);
+    if ((i+1)%1000 == 0) {
+        writer.commit(false);
     }
 }
-```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-
-// Note: milvus-sdk-csharp does not provide a RemoteBulkWriter as of v3.0.0.
-// Write and upload your data files with your own tooling, then import them with BulkImport.
 ```
 
 </TabItem>
@@ -959,9 +920,7 @@ print(writer.data_path)
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
-List<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();
+List<List<String>> batchFiles = writer.getBatchFiles();
 System.out.println(batchFiles);
 
 // [["/5868ba87-743e-4d9e-8fa6-e07b39229425/1.parquet"]]
@@ -990,8 +949,6 @@ To import the prepared source data, you need to call the **bulk_import()** funct
 <TabItem value='python'>
 
 ```python
-from pymilvus.bulk_writer import bulk_import
-
 # Publicly accessible URL for the prepared data in the remote bucket
 object_url = "s3://{0}/{1}/".format(BUCKET_NAME, str(writer.data_path)[1:])
 # Change `s3` to `gs` for Google Cloud Storage
@@ -1017,9 +974,6 @@ print(job_id)
 <TabItem value='java'>
 
 ```java
-import io.milvus.bulkwriter.request.import_.CloudImportRequest;
-import io.milvus.bulkwriter.restful.BulkImportUtils;
-
 String BUCKET_NAME = "";
 String API_KEY = "";
 String CLUSTER_ID = "";
@@ -1065,9 +1019,6 @@ The following code checks the bulk-import progress every 5 seconds and outputs t
 <TabItem value='python'>
 
 ```python
-import time
-from pymilvus.bulk_writer import get_import_progress
-
 job_id = res.json()['data']['jobId']
 
 res = get_import_progress(
@@ -1103,9 +1054,6 @@ while res.json()["data"]["progress"] < 100:
 <TabItem value='java'>
 
 ```java
-import io.milvus.bulkwriter.request.describe.CloudDescribeImportRequest;
-import io.milvus.bulkwriter.restful.BulkImportUtils;
-
 String API_KEY = "";
 String CLUSTER_ID = "";
 String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
@@ -1153,8 +1101,6 @@ You can list all bulk-import jobs as follows:
 <TabItem value='python'>
 
 ```python
-from pymilvus.bulk_writer import list_import_jobs
-
 res = list_import_jobs(
     api_key=API_KEY,
     # highlight-next-line
@@ -1186,9 +1132,6 @@ print(res.json())
 <TabItem value='java'>
 
 ```java
-import io.milvus.bulkwriter.request.list.CloudListImportJobsRequest;
-import io.milvus.bulkwriter.restful.BulkImportUtils;
-
 String API_KEY = "";
 String CLUSTER_ID = "";
 String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";

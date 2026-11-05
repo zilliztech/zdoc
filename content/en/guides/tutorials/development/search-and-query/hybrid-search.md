@@ -70,8 +70,9 @@ Since we will use the built-in BM25 algorithm to perform a full-text search on t
 
 ```python
 from pymilvus import (
-    MilvusClient, DataType, Function, FunctionType
+    MilvusClient, DataType, Function, FunctionType, AnnSearchRequest
 )
+import random
 
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
@@ -110,7 +111,18 @@ import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
+import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.data.BaseVector;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.data.SparseFloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -224,6 +236,9 @@ schema.WithField(entity.NewField().
 
 ```rust
 use milvus::v2::prelude::*;
+use rand::Rng;
+use serde_json::json;
+use std::collections::HashMap;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
@@ -281,6 +296,9 @@ let schema = CollectionSchema::new()
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <random>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -363,6 +381,11 @@ const functions = [
 
 ```csharp
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using System.Collections.Generic;
 
 CollectionSchema schema = new()
 {
@@ -509,9 +532,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 Map<String, Object> denseParams = new HashMap<>();
 
 IndexParam indexParamForTextDense = IndexParam.builder()
@@ -563,9 +583,6 @@ indexOption3 := milvusclient.NewCreateIndexOption("my_collection", "image_dense"
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 // Prepare index parameters
 let index_params = vec![
     IndexParam::new()
@@ -630,8 +647,6 @@ const index_params = [{
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 IndexParam[] indexes =
 [
     new("text_dense", "text_dense_index", IndexType.AutoIndex, MetricType.Ip),
@@ -733,8 +748,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -776,8 +789,6 @@ const res = await client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "my_collection",
@@ -862,8 +873,6 @@ Since this example uses the built-in BM25 function to generate sparse embeddings
 <TabItem value='python'>
 
 ```python
-import random
-
 # Generate example vectors
 def generate_dense_vector(dim):
     return [random.random() for _ in range(dim)]
@@ -900,10 +909,6 @@ res = client.insert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-
 Gson gson = new Gson();
 JsonObject row1 = new JsonObject();
 row1.addProperty("id", 0);
@@ -965,13 +970,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 // Generate example vectors
 fn generate_dense_vector(dim: usize) -> Vec<f32> {
-    use rand::Rng;
-
     let mut rng = rand::thread_rng();
     (0..dim).map(|_| rng.gen_range(0.0f32..1.0f32)).collect()
 }
@@ -1011,8 +1011,6 @@ let res = client.insert(
 <TabItem value='c++'>
 
 ```c++
-#include <random>
-
 std::vector<float>
 GenerateFloatVector(int dimension) {
     std::random_device rd;
@@ -1046,8 +1044,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 var data = [
     {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */], image_dense: [0.6366019600530924, -0.09323198122475052 /* ...remaining dims */]},
     {id: 1, text: "Wireless noise-cancelling over-ear headphones" , text_dense: [0.19886812562848388, 0.06023560599112088, 0.6976963061752597 /* ...remaining dims */], image_dense: [0.6414180010301553, 0.8976979978567611 /* ...remaining dims */]},
@@ -1065,8 +1061,6 @@ var res = await client.insert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 var textDense = Enumerable.Repeat(0.1f, 768).ToArray();
 var imageDense = Enumerable.Repeat(0.1f, 512).ToArray();
 
@@ -1140,8 +1134,6 @@ To demonstrate the capabilities of various search vector fields, we will constru
 <TabItem value='python'>
 
 ```python
-from pymilvus import AnnSearchRequest
-
 query_text = "white headphones, quiet and comfortable"
 query_dense_vector = generate_dense_vector(768)
 query_multimodal_vector = generate_dense_vector(512)
@@ -1181,12 +1173,6 @@ reqs = [request_1, request_2, request_3]
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.AnnSearchReq;
-import io.milvus.v2.service.vector.request.data.BaseVector;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.request.data.SparseFloatVec;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-
 float[] queryDense = new float[]{-0.0475336798f,  0.0521207601f,  0.0904406682f, ...};
 float[] queryMultimodal = new float[]{0.0158298651f, 0.5264158340f, ...}
 
@@ -1238,8 +1224,6 @@ request3 := milvusclient.NewAnnRequest("image_dense", 2, entity.FloatVector(quer
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let query_text = "white headphones, quiet and comfortable";
 let query_dense_vector = generate_dense_vector(768);
 let query_multimodal_vector = generate_dense_vector(512);
@@ -1326,9 +1310,6 @@ const search_param_3 = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 float[] queryDenseVector = Enumerable.Repeat(0.1f, 768).ToArray();
 float[] queryMultimodalVector = Enumerable.Repeat(0.1f, 512).ToArray();
 
@@ -1429,9 +1410,6 @@ ranker = Function(
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-
 Function ranker = Function.builder()
         .name("rrf")
         .functionType(FunctionType.RERANK)
@@ -1445,10 +1423,6 @@ Function ranker = Function.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
-
 ranker := entity.NewFunction().
     WithName("rrf").
     WithType(entity.FunctionTypeRerank).
@@ -1461,8 +1435,6 @@ ranker := entity.NewFunction().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let ranker = RRFRerank::new().k(100);
 ```
 
@@ -1496,8 +1468,6 @@ const ranker = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 RrfReranker ranker = new(100);
 ```
 
@@ -1561,10 +1531,6 @@ for hits in res:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.service.vector.request.HybridSearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
         .collectionName("my_collection")
         .searchRequests(searchRequests)
@@ -1603,8 +1569,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.hybrid_search(
     HybridSearchRequest::builder()
         .collection_name("my_collection")
@@ -1657,8 +1621,6 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 await client.loadCollection({
     collection_name: "my_collection"
 })
@@ -1676,10 +1638,6 @@ const search = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 SearchResp res = await client.HybridSearchAsync(new HybridSearchReq
 {
     CollectionName = "my_collection",

@@ -1,7 +1,6 @@
 ---
 title: "BITMAP | BYOC"
 slug: /bitmap-index-type
-sidebar_label: "BITMAP"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Bitmap indexing is an efficient indexing technique designed to improve query performance on low-cardinality scalar fields. Cardinality refers to the number of distinct values in a field. Fields with fewer distinct elements are considered low-cardinality. | BYOC"
 type: origin
-token: SkJtwgkCDiGYeOkakIgcLT46nee
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-bitmap-index-type
+sidebar_label: "BITMAP"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/bitmap.md"
 
 ---
 
@@ -33,7 +34,7 @@ A bitmap index consists of two main components: bitmaps and keys. Keys represent
 
 Consider a collection of documents with fields **Category** and **Public**. We want to retrieve documents that fall into the **Tech** category and are open to the **Public**. In this case, the keys for our bitmap indexes are **Tech** and **Public**.
 
-![S5cHwsXsPhOLfQb3Tatc4jqAn9e](https://zdoc-images.s3.us-west-2.amazonaws.com/S5cHwsXsPhOLfQb3Tatc4jqAn9e.png)
+![Bitmap](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/cb98c77741e110603c84b20f34c1273ba3b902680d68767bc8990d0fc27d8c3d.png)
 
 As shown in the figure, the bitmap indexes for **Category** and **Public** are:
 
@@ -58,22 +59,18 @@ To create a bitmap index in Zilliz Cloud, use the `create_index()` method and se
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-
     uri="YOUR_CLUSTER_ENDPOINT",
 )
 
-index_params = client.prepare_index_params()
-
+index_params = client.prepare_index_params() # Prepare an empty IndexParams object, without having to specify any index parameters
 index_params.add_index(
-
-    field_name="category",
-    index_type="BITMAP",
-    index_name="category_bitmap_index"
+    field_name="category", # Name of the scalar field to be indexed
+    index_type="BITMAP", # Type of index to be created
+    index_name="category_bitmap_index" # Name of the index to be created
 )
 
 client.create_index(
-
-    collection_name="my_collection",
+    collection_name="my_collection", # Specify the collection name
     index_params=index_params
 )
 ```
@@ -90,25 +87,16 @@ import io.milvus.v2.service.index.request.CreateIndexReq;
 import java.util.Collections;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-
         .uri("YOUR_CLUSTER_ENDPOINT")
-
         .build());
 
 client.createIndex(CreateIndexReq.builder()
-
         .collectionName("my_collection")
-
         .indexParams(Collections.singletonList(IndexParam.builder()
-
                 .fieldName("category")
-
                 .indexType(IndexParam.IndexType.BITMAP)
-
                 .indexName("category_bitmap_index")
-
                 .build()))
-
         .build());
 ```
 
@@ -154,27 +142,17 @@ let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
 let client = ClientV2::new(&config).await?;
 
 client
-
     .create_index(
-
         CreateIndexRequest::builder()
-
             .collection_name("my_collection")
-
             .index_param(
-
                 IndexParam::new()
-
                     .field_name("category")
-
                     .index_type(IndexType::Bitmap)
-
                     .index_name("category_bitmap_index"),
             )
-
             .build()?,
     )
-
     .await?;
 ```
 
@@ -195,8 +173,7 @@ if (!status.IsOk()) {
 }
 
 status = client->CreateIndex(milvus::CreateIndexRequest().WithCollectionName("my_collection")
-
-        .AddIndex(milvus::IndexDesc("category", "category_bitmap_index", milvus::IndexType::BITMAP, milvus::MetricType::L2)));
+        .AddIndex(milvus::IndexDesc("category", "category_bitmap_index", milvus::IndexType::BITMAP)));
 
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -255,19 +232,13 @@ await client.CreateIndexAsync(new CreateIndexReq
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
-
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
-
 --header "Authorization: Bearer ${TOKEN}" \
-
 --header "Content-Type: application/json" \
-
 --header "Request-Timeout: 10" \
-
 -d '{
     "collectionName": "my_collection",
     "indexParams": [
@@ -286,6 +257,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, we create a bitmap index on the `category` field of the `my_collection` collection. The `add_index()` method is used to specify the field name, index type, and index name.
@@ -296,7 +268,7 @@ Once the bitmap index is created, you can use the `filter` parameter in query op
 
 Use the `drop_index()` method to remove an existing index from a collection.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
@@ -322,17 +294,12 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.index.request.DropIndexReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-
         .uri("YOUR_CLUSTER_ENDPOINT")
-
         .build());
 
 client.dropIndex(DropIndexReq.builder()
-
         .collectionName("my_collection")
-
         .indexName("category_bitmap_index")
-
         .build());
 ```
 
@@ -377,18 +344,12 @@ let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
 let client = ClientV2::new(&config).await?;
 
 client
-
     .drop_index(
-
         DropIndexRequest::builder()
-
             .collection_name("my_collection")
-
             .index_name("category_bitmap_index")
-
             .build()?,
     )
-
     .await?;
 ```
 
@@ -409,9 +370,7 @@ if (!status.IsOk()) {
 }
 
 status = client->DropIndex(milvus::DropIndexRequest()
-
         .WithCollectionName("my_collection")
-
         .WithIndexName("category_bitmap_index"));
 
 if (!status.IsOk()) {
@@ -454,19 +413,13 @@ await client.DropIndexAsync(new DropIndexReq
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
-
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop" \
-
 --header "Authorization: Bearer ${TOKEN}" \
-
 --header "Content-Type: application/json" \
-
 --header "Request-Timeout: 10" \
-
 -d '{
     "collectionName": "my_collection",
     "indexName": "category_bitmap_index"
@@ -479,6 +432,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Limits\{#limits}
@@ -504,4 +458,3 @@ curl --request POST \
     - When the cardinality increases beyond this threshold, the performance benefits of bitmap indexes diminish, and the storage overhead becomes significant.
 
     - For high-cardinality fields, consider using alternative indexing techniques such as inverted indexes, depending on your specific use case and query requirements.
-

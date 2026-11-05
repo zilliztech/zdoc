@@ -73,8 +73,6 @@ To solve this problem, please follow the steps below.
 1. Initialize the client with the channelOptions.
 
     ```javascript
-    import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-    
     new MilvusClient({
       address: 'your-zilliz-cloud-address',
       ssl: true,

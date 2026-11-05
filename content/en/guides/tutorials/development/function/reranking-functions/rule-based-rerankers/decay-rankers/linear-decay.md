@@ -1,7 +1,6 @@
 ---
 title: "Linear Decay | Cloud"
 slug: /linear-decay
-sidebar_label: "Linear Decay"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Linear decay creates a straight-line decline that terminates at an absolute zero point in your search results. Like an upcoming event countdown where relevance gradually fades until the event has passed, linear decay applies a predictable, steady reduction in relevance as items move away from your ideal point until they completely disappear. This approach is ideal when you want a consistent decay rate with a clear cutoff, ensuring that items beyond a certain boundary are completely excluded from results. | Cloud"
 type: origin
-token: M7xHwZSIuiAP4Fkfm67cBU7Pn8g
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-linear-decay
+sidebar_label: "Linear Decay"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/reranking/linear-decay.md"
 
 ---
 
@@ -35,12 +36,33 @@ Linear decay uniquely creates a definitive endpoint, making it particularly effe
 
 Linear decay is particularly effective for:
 
-| Use Case | Example | Why Linear Works Well |
-| --- | --- | --- |
-| Event listings | Concert ticket platforms | Creates a clear cutoff for events too far in the future |
-| Limited-time offers | Flash sales, promotions | Ensures expired or soon-to-expire offers don't appear |
-| Delivery radius | Food delivery, courier services | Enforces hard geographical boundaries |
-| Age-restricted content | Dating platforms, media services | Establishes firm age thresholds |
+<table>
+   <tr>
+     <th><p>Use Case</p></th>
+     <th><p>Example</p></th>
+     <th><p>Why Linear Works Well</p></th>
+   </tr>
+   <tr>
+     <td><p>Event listings</p></td>
+     <td><p>Concert ticket platforms</p></td>
+     <td><p>Creates a clear cutoff for events too far in the future</p></td>
+   </tr>
+   <tr>
+     <td><p>Limited-time offers</p></td>
+     <td><p>Flash sales, promotions</p></td>
+     <td><p>Ensures expired or soon-to-expire offers don't appear</p></td>
+   </tr>
+   <tr>
+     <td><p>Delivery radius</p></td>
+     <td><p>Food delivery, courier services</p></td>
+     <td><p>Enforces hard geographical boundaries</p></td>
+   </tr>
+   <tr>
+     <td><p>Age-restricted content</p></td>
+     <td><p>Dating platforms, media services</p></td>
+     <td><p>Establishes firm age thresholds</p></td>
+   </tr>
+</table>
 
 Choose linear decay when:
 
@@ -56,13 +78,13 @@ Choose linear decay when:
 
 Linear decay creates a straight-line drop that decreases at a constant rate until reaching exactly zero. This pattern appears in many everyday scenarios like countdown timers, inventory depletion, and deadline approaches where relevance has a clear expiration point.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 All time parameters (`origin`, `offset`, `scale`) must use the same unit as the collection data. If your collection stores timestamps in a different unit (milliseconds, microseconds), adjust all parameters accordingly.
 
 </Admonition>
 
-![LNwQbV5FYo7OYbxaA1VcetPgnUh](https://zdoc-images.s3.us-west-2.amazonaws.com/lnwqbv5fyo7oybxaa1vcetpgnuh.png "LNwQbV5FYo7OYbxaA1VcetPgnUh")
+![Linear Decay](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/9c58cf91e1e7d4bc7abfc6bddeb113a25006d18e54c7b0596c682350d6a4282d.png)
 
 The graph above shows how linear decay would affect event listings on a ticketing platform:
 
@@ -89,20 +111,20 @@ $$
 Where:
 
 $$
-s = \frac {scale}{(1.0 - decay)}
+s = \frac{scale}{(1.0 - decay)}
 $$
 
 Breaking this down in plain language:
 
-1. Calculate how far the field value is from the origin: $|fieldvalue_{doc} - origin|$.
+1. Calculate how far the field value is from the origin: $|fieldvalue_{doc} - origin|$
 
-1. Subtract the offset (if any) but never go below zero: $\max(0, distance - offset)$.
+2. Subtract the offset (if any) but never go below zero: $\max(0, distance - offset)$
 
-1. Determine the parameter $s$ from your scale and decay values.
+3. Determine the parameter $s$ from your scale and decay values.
 
-1. Subtract the adjusted distance from $s$ and divide by $s$.
+4. Subtract the adjusted distance from $s$ and divide by $s$
 
-1. Ensure the result never goes below zero: $\max(result, 0)$.
+5. Ensure the result never goes below zero: $\max(result, 0)$
 
 The $s$ calculation transforms your scale and decay parameters into the point where the score reaches zero. For example, with decay=0.5 and scale=7, the score will reach exactly zero at distance=14 (twice the scale value).
 
@@ -110,7 +132,7 @@ The $s$ calculation transforms your scale and decay parameters into the point wh
 
 Linear decay can be applied to both standard vector search and hybrid search operations in Zilliz Cloud. Below are the key code snippets for implementing this feature.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Decay Ranker Tutorial](./tutorial-implement-time-based-ranking).
 
@@ -120,7 +142,7 @@ Before using decay functions, you must first create a collection with appropriat
 
 After your collection is set up with a numeric field (in this example, `event_date` as seconds from now), create a linear decay ranker:
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **Time unit consistency**: When using time-based decay, ensure that `origin`, `scale`, and `offset` parameters use the same time unit as your collection data. If your collection stores timestamps in seconds, use seconds for all parameters. If it uses milliseconds, use milliseconds for all parameters.
 
@@ -165,10 +187,10 @@ DecayRanker rerank = DecayRanker.builder()
         .name("event_relevance")
         .inputFieldNames(Collections.singletonList("event_date"))
         .function("linear")
-        .origin(System.currentTimeMillis())
-        .offset(12 * 60 * 60)
-        .decay(0.5)
-        .scale(7 * 24 * 60 * 60)
+        .origin(System.currentTimeMillis() / 1000)  // Current time (seconds, matching collection data)
+        .offset(12 * 60 * 60)            // 12 hour immediate events window (seconds)
+        .decay(0.5)                      // Half score at scale distance
+        .scale(7 * 24 * 60 * 60)         // 7 days (in seconds, matching collection data)
         .build();
 ```
 
@@ -248,7 +270,7 @@ const rerank = {
   params: {
     reranker: "decay",
     function: "linear",
-    origin: new Date(2025, 1, 15).getTime(),
+    origin: Math.floor(Date.now() / 1000), // Current time (seconds)
     offset: 12 * 60 * 60,
     decay: 0.5,
     scale: 7 * 24 * 60 * 60,
@@ -286,6 +308,7 @@ var rerank = new DecayRerank("event_relevance") // Function identifier
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Apply to standard vector search\{#apply-to-standard-vector-search}
@@ -370,16 +393,16 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-    let function_score = FunctionScore::new().add_function(rerank);
-    let request = SearchRequest::builder()
-        .collection_name(collection_name)
-        .vectors(SearchVectors::Float(vec![your_query_vector]))
-        .vector_field("dense")
-        .limit(10)
-        .output_fields(vec!["title", "venue", "event_date"])
-        .rerank(function_score)
-        .build()?;
-    let resp = client.search(request).await?;
+let function_score = FunctionScore::new().add_function(rerank);
+let request = SearchRequest::builder()
+    .collection_name(collection_name)
+    .vectors(SearchVectors::Float(vec![your_query_vector]))
+    .vector_field("dense")
+    .limit(10)
+    .output_fields(vec!["title", "venue", "event_date"])
+    .rerank(function_score)
+    .build()?;
+let resp = client.search(request).await?;
 ```
 
 </TabItem>
@@ -457,4 +480,5 @@ var result = await client.SearchAsync(new SearchReq
 ```
 
 </TabItem>
+
 </Tabs>
