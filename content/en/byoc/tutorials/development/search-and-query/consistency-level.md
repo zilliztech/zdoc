@@ -399,7 +399,7 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 
 export schema='{
     "autoId": false,
-    "enabledDynamicField": false,
+    "enableDynamicField": false,
     "fields": [
         {
             "fieldName": "id",
@@ -423,6 +423,15 @@ export schema='{
     ]
 }'
 
+export indexParams='[
+        {
+            "fieldName": "vector",
+            "metricType": "COSINE",
+            "indexName": "vector",
+            "indexType": "AUTOINDEX"
+        }
+    ]'
+
 export params='{
     "consistencyLevel": "Bounded"
 }'
@@ -434,6 +443,7 @@ curl --request POST \
 -d "{
     \"collectionName\": \"my_collection\",
     \"schema\": $schema,
+    \"indexParams\": $indexParams,
     \"params\": $params
 }"
 ```
