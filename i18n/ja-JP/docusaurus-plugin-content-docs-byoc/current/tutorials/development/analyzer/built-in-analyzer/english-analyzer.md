@@ -1,21 +1,21 @@
 ---
 title: "英語 | BYOC"
 slug: /english-analyzer
-sidebar_label: "英語"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の `english` アナライザーは、英語のテキストを処理するように設計されており、トークン化とフィルタリングに言語固有のルールを適用します。 | BYOC"
+description: "Zilliz Cloud の english アナライザーは、英語のテキストを処理するように設計されており、トークン化とフィルタリングに言語固有のルールを適用します。 | BYOC"
 type: origin
-token: W0WhwqRyciRMRLklcsdca1U2nae
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-english-analyzer
+sidebar_label: "英語"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/analyzer/english-analyzer.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -27,7 +27,7 @@ Zilliz Cloud の `english` アナライザーは、英語のテキストを処�
 
 `english` アナライザーは、次のコンポーネントを使用します。
 
-- **トークナイザー**：テキストを個別の単語単位に分割するために、[`standard`](./standard-tokenizer)[ トークナイザー](./standard-tokenizer)を使用します。
+- **トークナイザー**：[`standard` トークナイザー](./standard-tokenizer) を使用して、テキストを個別の単語単位に分割します。
 
 - **フィルター**：包括的なテキスト処理のための複数のフィルターが含まれています。
 
@@ -44,17 +44,18 @@ Zilliz Cloud の `english` アナライザーは、英語のテキストを処�
 
 ```python
 analyzer_params = {
-        "tokenizer": "standard",
-        "filter": [
-                "lowercase",
-                {
-                        "type": "stemmer",
-                        "language": "english"
-                }, {
-                        "type": "stop",
-                        "stop_words": ["_english_"]
-                }
-        ]
+    "tokenizer": "standard",
+    "filter": [
+        "lowercase",
+        {
+            "type": "stemmer",
+            "language": "english"
+        },
+        {
+            "type": "stop",
+            "stop_words": ["_english_"]
+        }
+    ]
 }
 ```
 
@@ -136,14 +137,14 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-let analyzer_params = {
+const analyzer_params = {
     "tokenizer": "standard",
     "filter": [
         "lowercase",
         { "type": "stemmer", "language": "english" },
         { "type": "stop", "stop_words": ["_english_"] }
     ]
-}
+};
 ```
 
 </TabItem>
@@ -198,6 +199,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## 構成\{#configuration}
@@ -218,9 +220,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 ```
@@ -260,9 +259,9 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     "type": "english",
-}
+};
 ```
 
 </TabItem>
@@ -270,8 +269,6 @@ analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["type"] = "english"
@@ -290,13 +287,21 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `english` アナライザーは、次のオプションパラメーターを受け入れます。
 
-| パラメーター | 説明 |
-| --- | --- |
-| `stop_words` | トークン化から削除するストップワードのリストを含む配列です。デフォルトは `_english_` で、一般的な英語のストップワードの組み込みセットです。 |
+<table>
+   <tr>
+     <th><p>パラメーター</p></th>
+     <th><p>説明</p></th>
+   </tr>
+   <tr>
+     <td><p><code>stop_words</code></p></td>
+     <td><p>トークン化の際に削除されるストップワードのリストを含む配列です。デフォルトは、一般的な英語のストップワードの組み込みセットである <code>_english_</code> です。</p></td>
+   </tr>
+</table>
 
 カスタムストップワードを使用した構成例は次のとおりです。
 
@@ -315,10 +320,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
@@ -361,10 +362,10 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     "type": "english",
     "stop_words": ["a", "an", "the"]
-}
+};
 ```
 
 </TabItem>
@@ -372,8 +373,6 @@ analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
     ["type"] = "english",
@@ -398,6 +397,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `analyzer_params` を定義したら、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
@@ -413,8 +413,7 @@ analyzerParams='{
 
 ```python
 analyzer_params = {
-    "type": "english",
-    "stop_words": ["a", "an", "the"]
+    "type": "english", # Uses the default `_english_` stop-word list
 }
 ```
 
@@ -423,13 +422,8 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
-analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
 ```
 
 </TabItem>
@@ -437,7 +431,7 @@ analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
 <TabItem value='go'>
 
 ```go
-analyzerParams := map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
+analyzerParams := map[string]any{"type": "english"}
 ```
 
 </TabItem>
@@ -448,8 +442,7 @@ analyzerParams := map[string]any{"type": "english", "stop_words": []string{"a", 
 use serde_json::json;
 
 let analyzer_params = json!({
-    "type": "english",
-    "stop_words": ["a", "an", "the"]
+    "type": "english"
 });
 ```
 
@@ -459,8 +452,7 @@ let analyzer_params = json!({
 
 ```c++
 nlohmann::json analyzer_params = {
-    {"type", "english"},
-    {"stop_words", {"a", "an", "the"}}
+    {"type", "english"}
 };
 ```
 
@@ -469,10 +461,9 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
-    "type": "english",
-    "stop_words": ["a", "an", "the"]
-}
+const analyzer_params = {
+    "type": "english", // Uses the default `_english_` stop-word list
+};
 ```
 
 </TabItem>
@@ -480,12 +471,9 @@ analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
-using System.Collections.Generic;
-
 var analyzerParams = new Dictionary<string, object>
 {
-    ["type"] = "english",
-    ["stop_words"] = new[] { "a", "an", "the" }
+    ["type"] = "english" // Uses the default `_english_` stop-word list
 };
 ```
 
@@ -496,16 +484,12 @@ var analyzerParams = new Dictionary<string, object>
 ```bash
 # restful
 analyzerParams='{
-  "type": "english",
-  "stop_words": [
-    "a",
-    "an",
-    "the"
-  ]
+  "type": "english"
 }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
@@ -526,7 +510,7 @@ client = MilvusClient(
 # Sample text to analyze
 sample_text = "Milvus is a vector database built for scale!"
 
-# Run the standard analyzer with the defined configuration
+# Run the english analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
 print("English analyzer output:", result)
 ```
@@ -536,15 +520,11 @@ print("English analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.*;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -560,6 +540,12 @@ RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
         .analyzerParams(analyzerParams)
         .build());
 List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
+
+for (RunAnalyzerResp.AnalyzerResult result : results) {
+    for (RunAnalyzerResp.AnalyzerToken token : result.getTokens()) {
+        System.out.println("English analyzer output: " + token.getToken());
+    }
+}
 ```
 
 </TabItem>
@@ -607,16 +593,10 @@ for _, r := range result {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
-
-let analyzer_params = serde_json::json!({
-    "type": "english",
-    "stop_words": ["a", "an", "the"]
-});
 
 let response = client
     .run_analyzer(
@@ -661,6 +641,12 @@ status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+for (const auto& result : response.Results()) {
+    for (const auto& token : result.Tokens()) {
+        std::cout << "English analyzer output: " << token.token_ << std::endl;
+    }
+}
 ```
 
 </TabItem>
@@ -691,6 +677,7 @@ console.log('English analyzer output:', tokens);
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
 using Milvus.Client.V2.Types;
 
 using var client = new MilvusClientV2(new ConnectConfig
@@ -703,13 +690,20 @@ await client.ConnectAsync();
 // Sample text to analyze
 var sampleText = "Milvus is a vector database built for scale!";
 
-// Run the standard analyzer with the defined configuration
-var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+// Run the english analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
     AnalyzerParams = analyzerParams,
     Texts = new[] { sampleText }
 });
-Console.WriteLine("English analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens.Select(t => t.Token))));
+
+foreach (AnalyzerResult r in result.Results)
+{
+    foreach (AnalyzerToken t in r.Tokens)
+    {
+        Console.WriteLine($"English analyzer output: {t.Token}");
+    }
+}
 ```
 
 </TabItem>
@@ -722,17 +716,19 @@ curl --request POST \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
   --data-raw '{
-    "analyzerParams": "{\"type\": \"english\", \"stop_words\": [\"a\", \"an\", \"the\"]}",
+    "analyzerParams": "{\"type\": \"english\"}",
     "text": ["Milvus is a vector database built for scale!"]
-  }' 
+  }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```plaintext
-English analyzer output: ['milvus', 'vector', 'databas', 'built', 'scale']
-```
+サンプルテキストの場合、アナライザーは次のトークンを順番に生成します。SDK のレスポンスオブジェクトと出力の書式は言語によって異なります。REST レスポンスでは、これらのトークンが `data.results[].tokens[].token` に含まれます。
 
+```plaintext
+['milvus', 'vector', 'databas', 'built', 'scale']
+```

@@ -1,17 +1,18 @@
 ---
 title: "Standard Analyzer | BYOC"
 slug: /standard-analyzer
-sidebar_label: "Standard"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合はテキストフィールドに自動的に適用されます。標準の tokenizer と lowercase filter を組み合わせたものです。 | BYOC"
+description: "standard analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合はテキストフィールドに自動的に適用されます。標準の tokenizer と lowercase filter を組み合わせたものです。 | BYOC"
 type: origin
-token: WMSvwXXz4iR7mZkGmUscF3Y1nxs
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-standard-analyzer
+sidebar_label: "Standard"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/analyzer/analyzer/standard-analyzer.md"
 
 ---
 
@@ -23,9 +24,9 @@ import TabItem from '@theme/TabItem';
 
 `standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合はテキストフィールドに自動的に適用されます。標準の tokenizer と lowercase filter を組み合わせたものです。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-`standard` analyzer は、単語境界に区切り文字（スペースや句読点など）を使用する言語に適しています。ただし、中国語、日本語、韓国語のような言語では辞書ベースの tokenization が必要です。そのような場合は、正確な tokenization とより良い検索結果を実現するために、[`chinese`](./chinese-analyzer) のような言語固有の analyzer、または専用の tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）と filter を組み合わせたカスタム analyzer の使用を強く推奨します。
+`standard` analyzer は、単語境界を区切るために区切り文字（スペースや句読点など）に依存する言語に適しています。ただし、中国語、アラビア語、タイ語、日本語、韓国語などの言語では、言語固有のトークン化または正規化が必要です。そのような場合は、[`chinese`](./chinese-analyzer)、[`arabic`](./arabic-analyzer)、[`thai`](./thai-analyzer) などの言語固有の analyzer、または [`lindera`](./lindera-tokenizer) や [`icu`](./icu-tokenizer) などの専用 tokenizer を備えたカスタム analyzer を使用してください。
 
 </Admonition>
 
@@ -33,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
 `standard` analyzer は、次のコンポーネントで構成されます。
 
-- **Tokenizer**: `standard` tokenizer を使用して、連続する Unicode の文字と数字を token に含め、それ以外の文字で分割します。正確な文字のルールについては、[Standard Tokenizer](./standard-tokenizer) を参照してください。
+- **Tokenizer**: `standard` tokenizer を使用して、連続する Unicode の文字と数字を token に保持し、その他の文字で分割します。正確な文字ルールについては、[Standard Tokenizer](./standard-tokenizer#tokenization-rules) を参照してください。
 
 - **Filter**: `lowercase` filter を使用して、すべての token を小文字に変換し、大文字と小文字を区別しない検索を可能にします。詳細については、[Lowercase](./lowercase-filter) を参照してください。
 
@@ -76,7 +77,9 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 <TabItem value='rust'>
 
 ```rust
-let analyzer_params = serde_json::json!({
+use serde_json::json;
+
+let analyzer_params = json!({
     "tokenizer": "standard",
     "filter": ["lowercase"]
 });
@@ -87,9 +90,11 @@ let analyzer_params = serde_json::json!({
 <TabItem value='c++'>
 
 ```c++
+#include <milvus/thirdparty/nlohmann/json.hpp>
+
 nlohmann::json analyzer_params = {
     {"tokenizer", "standard"},
-    {"filter", {"lowercase"}},
+    {"filter", {"lowercase"}}
 };
 ```
 
@@ -98,7 +103,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-let analyzer_params = {
+const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"]
 };
@@ -109,6 +114,8 @@ let analyzer_params = {
 <TabItem value='csharp'>
 
 ```csharp
+using System.Collections.Generic;
+
 var analyzerParams = new Dictionary<string, object>
 {
     ["tokenizer"] = "standard",
@@ -131,6 +138,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## 設定\{#configuration}
@@ -151,9 +159,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
 ```
@@ -163,7 +168,7 @@ analyzerParams.put("type", "standard");
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "standard"}
+analyzerParams := map[string]any{"type": "standard"}
 ```
 
 </TabItem>
@@ -171,7 +176,9 @@ analyzerParams = map[string]any{"type": "standard"}
 <TabItem value='rust'>
 
 ```rust
-let analyzer_params = serde_json::json!({
+use serde_json::json;
+
+let analyzer_params = json!({
     "type": "standard"
 });
 ```
@@ -182,7 +189,7 @@ let analyzer_params = serde_json::json!({
 
 ```c++
 nlohmann::json analyzer_params = {
-    {"type", "standard"},
+    {"type", "standard"}
 };
 ```
 
@@ -191,9 +198,9 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
-}
+};
 ```
 
 </TabItem>
@@ -219,13 +226,21 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `standard` analyzer は、次のオプションのパラメーターを受け付けます。
 
-| パラメーター | 説明 |
-| --- | --- |
-| `stop_words` | tokenization から削除される stop word のリストを含む配列です。 |
+<table>
+   <tr>
+     <th><p>パラメーター</p></th>
+     <th><p>説明</p></th>
+   </tr>
+   <tr>
+     <td><p><code>stop_words</code></p></td>
+     <td><p>トークン化から削除される stop word のリストを含む配列です。使用可能な値については、<a href="./stop-filter">Stop</a> を参照してください。</p></td>
+   </tr>
+</table>
 
 カスタム stop word の設定例：
 
@@ -244,10 +259,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
 analyzerParams.put("stop_words", Collections.singletonList("of"));
@@ -258,7 +269,7 @@ analyzerParams.put("stop_words", Collections.singletonList("of"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"of"}}
+analyzerParams := map[string]any{"type": "standard", "stop_words": []string{"of"}}
 ```
 
 </TabItem>
@@ -266,7 +277,9 @@ analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"of"}
 <TabItem value='rust'>
 
 ```rust
-let analyzer_params = serde_json::json!({
+use serde_json::json;
+
+let analyzer_params = json!({
     "type": "standard",
     "stop_words": ["of"]
 });
@@ -279,7 +292,7 @@ let analyzer_params = serde_json::json!({
 ```c++
 nlohmann::json analyzer_params = {
     {"type", "standard"},
-    {"stop_words", {"of"}},
+    {"stop_words", {"of"}}
 };
 ```
 
@@ -288,10 +301,10 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-analyzer_params = {
+const analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
     "stop_words": ["of"] // Optional: List of words to exclude from tokenization
-}
+};
 ```
 
 </TabItem>
@@ -321,6 +334,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 `analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
@@ -346,10 +360,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
 analyzerParams.put("stop_words", Collections.singletonList("for"));
@@ -360,7 +370,7 @@ analyzerParams.put("stop_words", Collections.singletonList("for"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"for"}}
+analyzerParams := map[string]any{"type": "standard", "stop_words": []string{"for"}}
 ```
 
 </TabItem>
@@ -368,7 +378,9 @@ analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"for"
 <TabItem value='rust'>
 
 ```rust
-let analyzer_params = serde_json::json!({
+use serde_json::json;
+
+let analyzer_params = json!({
     "type": "standard",
     "stop_words": ["for"]
 });
@@ -381,7 +393,7 @@ let analyzer_params = serde_json::json!({
 ```c++
 nlohmann::json analyzer_params = {
     {"type", "standard"},
-    {"stop_words", {"for"}},
+    {"stop_words", {"for"}}
 };
 ```
 
@@ -390,11 +402,10 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-// javascript
-analyzer_params = {
-    "type": "standard", // Specifies the standard analyzer type
-    "stop_words": ["for"] // Optional: List of words to exclude from tokenization
-}
+const analyzer_params = {
+    "type": "standard", // Standard analyzer configuration
+    "stop_words": ["for"] // Optional: Custom stop words parameter
+};
 ```
 
 </TabItem>
@@ -424,6 +435,7 @@ analyzerParams='{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
@@ -454,14 +466,11 @@ print("Standard analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.*;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -477,6 +486,12 @@ RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
         .analyzerParams(analyzerParams)
         .build());
 List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
+
+for (RunAnalyzerResp.AnalyzerResult result : results) {
+    for (RunAnalyzerResp.AnalyzerToken token : result.getTokens()) {
+        System.out.println("Standard analyzer output: " + token.getToken());
+    }
+}
 ```
 
 </TabItem>
@@ -486,7 +501,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
@@ -503,15 +517,20 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"The Milvus vector database is built for scale!"}
 option := milvusclient.NewRunAnalyzerOption(texts...).
-    WithAnalyzerParamsStr(string(bs))
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
     fmt.Println(err.Error())
     // handle error
+}
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Standard analyzer output:", token.Text)
+    }
 }
 ```
 
@@ -520,26 +539,25 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
 
-let texts = ["The Milvus vector database is built for scale!".to_string()];
-let analyzer_params = serde_json::json!({
-    "type": "standard",
-    "stop_words": ["for"]
-});
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(["The Milvus vector database is built for scale!"])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 
-let result = client.run_analyzer(
-    RunAnalyzerRequest::builder()
-        .texts(texts)
-        .analyzer_params(analyzer_params)
-        .build()?,
-).await?;
-
-println!("{:?}", result.results());
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("Standard analyzer output: {}", token.get_text());
+    }
+}
 ```
 
 </TabItem>
@@ -569,6 +587,12 @@ status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+for (const auto& result : response.Results()) {
+    for (const auto& token : result.Tokens()) {
+        std::cout << "Standard analyzer output: " << token.token_ << std::endl;
+    }
+}
 ```
 
 </TabItem>
@@ -583,12 +607,13 @@ const client = new MilvusClient({
   token: 'YOUR_CLUSTER_TOKEN',
 });
 
-const res = await client.runAnalyzer({
-    text: 'The Milvus vector database is built for scale!',
-    analyzer_params: analyzer_params
+const sample_text = 'The Milvus vector database is built for scale!';
+const result = await client.runAnalyzer({
+  text: sample_text,
+  analyzer_params,
 });
-
-console.log(res);
+const tokens = result.results.flatMap(r => r.tokens.map(t => t.token));
+console.log('Standard analyzer output:', tokens);
 ```
 
 </TabItem>
@@ -599,26 +624,32 @@ console.log(res);
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Utility;
 using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
 
-var config = new ConnectConfig
+using var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-};
-using var client = new MilvusClientV2(config);
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
 await client.ConnectAsync();
 
 // Sample text to analyze
-string sampleText = "The Milvus vector database is built for scale!";
+var sampleText = "The Milvus vector database is built for scale!";
 
 // Run the standard analyzer with the defined configuration
 RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
 {
-    Texts = [sampleText],
-    AnalyzerParams = analyzerParams
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
 });
-Console.WriteLine($"Standard analyzer output: {result}");
+
+foreach (AnalyzerResult r in result.Results)
+{
+    foreach (AnalyzerToken t in r.Tokens)
+    {
+        Console.WriteLine($"Standard analyzer output: {t.Token}");
+    }
+}
 ```
 
 </TabItem>
@@ -626,22 +657,24 @@ Console.WriteLine($"Standard analyzer output: {result}");
 <TabItem value='bash'>
 
 ```bash
-# restful
 curl --request POST \
-  --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
-  --header "Authorization: Bearer ${TOKEN}" \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
-  --data '{
-    "analyzerParams": "{\"type\":\"standard\",\"stop_words\":[\"for\"]}",
+  --data-raw '{
+    "analyzerParams": "{\"type\": \"standard\", \"stop_words\": [\"for\"]}",
     "text": ["The Milvus vector database is built for scale!"]
   }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```sql
-Standard analyzer output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
+サンプルテキストの場合、analyzer は次の token を順番に生成します。SDK のレスポンスオブジェクトと出力形式は言語によって異なり、REST レスポンスでは、これらの token は `data.results[].tokens[].token` に含まれます。
+
+```plaintext
+['the', 'milvus', 'vector', 'database', 'is', 'built', 'scale']
 ```
