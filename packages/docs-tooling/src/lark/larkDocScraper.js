@@ -1259,20 +1259,29 @@ class larkDocScraper {
             if (placementType === 'ref') {
                 const targetToken = this.__field_token(record.fields['Ref Target Doc'])
                 const targetSource = targetToken ? sourcesByToken().get(targetToken) : null
-                if (!targetSource) {
+                // A shared page's Feishu source is no longer written into the sources
+                // directory once activated; its Base row is still reachable through the
+                // routing aliases recorded when the page was onboarded.
+                const targetRecord = targetToken ? (recordsByDocToken.get(targetToken)
+                    || this.records.find(row => this.routingContext?.aliasesByToken?.get(targetToken) === row.record_id)
+                    || null) : null
+                if (!targetSource && !targetRecord) {
                     console.warn(`[base-nav] Ref target not found for "${title}" (${record.record_id}): ${targetToken || 'empty Ref Target Doc'}`)
                 }
                 source = this.__virtual_source({
                     nodeToken: this.__nav_token(record),
                     parentToken,
                     title,
-                    slug: targetSource?.slug || slug,
+                    // Mirror the source-contract validator (record slug || target slug ||
+                    // slugified title) so both sides derive the same ref navigation key
+                    // even when the Base ref row leaves its Slug empty.
+                    slug: this.__plain_value(record.fields.Slug) || targetSource?.slug
+                        || (targetRecord ? this.__record_slug(targetRecord) : null) || slug,
                     children: [],
                 })
                 source.base_nav_ref = true
                 source.base_nav_ref_target_token = targetToken
                 source.base_nav_ref_target_anchor = this.__field_anchor(record.fields['Ref Target Doc'])
-                const targetRecord = targetToken ? recordsByDocToken.get(targetToken) : null
                 source.base_nav_ref_target_title = targetSource?.title || targetSource?.name || (targetRecord ? this.__record_title(targetRecord) : null)
             } else if (placementType === 'link') {
                 source = this.__virtual_source({
