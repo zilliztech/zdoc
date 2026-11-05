@@ -315,6 +315,31 @@ test('incremental prefetch fails clearly when neither prior nor fresh media cove
   assert.equal(fs.existsSync(output), false)
 })
 
+test('a resolution failure stops workers from pulling further media', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-stop-'))
+  const sourceDir = path.join(root, 'sources')
+  const output = path.join(root, 'guides.json')
+  const tokens = ['aa', 'ab', 'ac', 'ad', 'ae', 'af', 'ag', 'ah']
+  writeSource(sourceDir, 'a.json', tokens.map(token => ({ image: { token, caption: { content: token.toUpperCase() } } })))
+  const calls = []
+  const downloader = {
+    async __downloadImage(token) {
+      calls.push(token)
+      if (token === 'aa') throw new Error('upstream media outage')
+      await new Promise(resolve => setTimeout(resolve, 10))
+      return Buffer.from(token)
+    },
+    async __uploadToS3() {},
+  }
+
+  await assert.rejects(
+    () => prefetchGuidesMedia({ sourceDir, output, downloader, trimBoard: async buffer => buffer, concurrency: 4, canonicalSourceFiles: ['a.json'] }),
+    /upstream media outage/,
+  )
+  assert.equal(calls[0], 'aa')
+  assert.ok(calls.length < tokens.length, `expected workers to stop after the failure, pulled ${calls.length}/${tokens.length}`)
+})
+
 test('prefetches every unique media reference once with bounded concurrency', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-prefetch-'))
   const sourceDir = path.join(root, 'sources')
