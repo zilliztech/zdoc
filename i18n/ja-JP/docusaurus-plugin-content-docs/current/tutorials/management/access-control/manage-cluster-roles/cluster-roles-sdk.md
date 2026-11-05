@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールはクラスター、データベース、およびコレクションレベルでクラスターユーザーの権限を制御します。 | Cloud"
+description: "クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスター、データベース、コレクションレベルでのクラスターユーザーの権限を制御します。 | Cloud"
 type: origin
 token: PBZwwNqWjiikeYkXgHPcGhLznTh
 sidebar_position: 2
@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # クラスターロールの管理（SDK）
 
-クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールはクラスター、データベース、およびコレクションレベルでクラスターユーザーの権限を制御します。
+クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスター、データベース、コレクションレベルでのクラスターユーザーの権限を制御します。
 
-このガイドでは、ロールの作成、ロールへの組み込み権限グループの付与、ロールからの権限グループの取り消し、およびロールの削除の手順を説明します。組み込み権限グループの詳細については、[権限](./cluster-privileges#built-in-privilege-groups) を参照してください。
+このガイドでは、ロールの作成、組み込み権限グループのロールへの付与、ロールからの権限グループの取り消し、最後にロールの削除という一連の手順を説明します。組み込み権限グループの詳細については、[権限](./cluster-privileges#built-in-privilege-groups) を参照してください。
 
 <Admonition type="info" title="Notes">
 
@@ -31,11 +31,11 @@ import TabItem from '@theme/TabItem';
 
 </Admonition>
 
-## ロールの作成\{#create-a-role}
+## ロールを作成する\{#create-a-role}
 
-次の例では、`role_a` という名前のロールを作成する方法を示します。 
+次の例では、`role_a` という名前のロールを作成する方法を示します。
 
-ロール名は文字で始まり、大文字または小文字の英字、数字、およびアンダースコアのみを含めることができます。
+ロール名は英字で始まる必要があり、大文字または小文字の英字、数字、アンダースコアのみを含めることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -52,6 +52,12 @@ client.create_role(role_name="role_a", description="a cluster read only role")
 
 ```java
 import io.milvus.v2.service.rbac.request.CreateRoleReq;
+import java.util.List;
+import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2;
+import io.milvus.v2.service.rbac.request.DescribeRoleReq;
+import io.milvus.v2.service.rbac.response.DescribeRoleResp;
+import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2;
+import io.milvus.v2.service.rbac.request.DropRoleReq;
 
 CreateRoleReq createRoleReq = CreateRoleReq.builder()
         .roleName("role_a")
@@ -69,7 +75,6 @@ client.createRole(createRoleReq);
 import (
     "context"
     "fmt"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -149,6 +154,7 @@ await client.createRole({
 
 ```csharp
 using Milvus.Client.V2.Requests.Rbac;
+using Milvus.Client.V2.Responses.Rbac;
 
 await client.CreateRoleAsync(new CreateRoleReq
 {
@@ -178,7 +184,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ロールの一覧表示\{#list-roles}
+## ロールを一覧表示する\{#list-roles}
 
 複数のロールを作成した後、既存のすべてのロールを一覧表示して確認できます。
 
@@ -186,8 +192,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.list_roles()
 ```
 
@@ -196,8 +200,6 @@ client.list_roles()
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
 List<String> roles = client.listRoles();
 ```
 
@@ -206,25 +208,6 @@ List<String> roles = client.listRoles();
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 roles, err := client.ListRoles(ctx, milvusclient.NewListRoleOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -238,8 +221,6 @@ fmt.Println(roles)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let roles = client
     .list_roles(ListRolesRequest::builder().build()?)
     .await?;
@@ -251,9 +232,6 @@ println!("{:?}", roles.role_names());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::ListRolesResponse resp;
 auto status = client->ListRoles(milvus::ListRolesRequest(), resp);
 if (!status.IsOk()) {
@@ -266,13 +244,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 const roles = await client.listRoles();
 console.log(roles);
 ```
@@ -282,9 +253,6 @@ console.log(roles);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-using Milvus.Client.V2.Responses.Rbac;
-
 ListRolesResp resp = await client.ListRolesAsync(new ListRolesReq());
 foreach (RoleResult role in resp.Roles)
 {
@@ -310,25 +278,25 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。`role_a` は、作成したばかりの新しいロールです。
+出力例は以下の通りです。`role_a` は、先ほど作成した新しいロールです。
 
 ```bash
 ['role_a']
 ```
 
-## ロールへの権限グループの付与\{#grant-a-privilege-group-to-a-role}
+## ロールに権限グループを付与する\{#grant-a-privilege-group-to-a-role}
 
-Zilliz Cloud では、ロールに次のものを付与できます：
+Zilliz Cloud では、ロールに次のものを付与できます。
 
-- **組み込み権限グループ:** Zilliz Cloud は9つの組み込み権限グループを提供しています。各組み込み権限グループに含まれる具体的な権限の詳細については、[組み込み権限グループ](./cluster-privileges#built-in-privilege-groups) を参照してください。
+- **組み込み権限グループ:** Zilliz Cloud は 9つの組み込み権限グループを提供しています。各組み込み権限グループに含まれる具体的な権限の詳細については、[組み込み権限グループ](./cluster-privileges#built-in-privilege-groups) を参照してください。
 
-- **カスタム権限グループ:** 組み込み権限でニーズを満たせない場合は、さまざまな権限を組み合わせて独自のカスタム権限グループを作成できます。詳細については、[カスタム権限グループ](./cluster-privileges#custom-privilege-groups) を参照してください。
+- **カスタム権限グループ:** 組み込み権限がニーズを満たさない場合は、異なる権限を組み合わせて独自のカスタム権限グループを作成できます。詳細については、[カスタム権限グループ](./cluster-privileges#custom-privilege-groups) を参照してください。
 
 <Admonition type="info" title="Notes">
 
-- ロールにカスタム権限グループを付与する必要がある場合は、[サポートチケットを作成](http://support.zilliz.com) して、この機能を有効化できるようお知らせください。
+- ロールにカスタム権限グループを付与する必要がある場合は、この機能を有効にできるよう、[サポートチケットを作成](http://support.zilliz.com) してください。
 
-- Milvus 2.5.x 以降を実行しているクラスターでは、個別の権限はサポートされなくなりました。
+- Milvus 2.5.x 以降を実行しているクラスターでは、個々の権限はサポートされなくなりました。
 
 </Admonition>
 
@@ -338,8 +306,6 @@ Zilliz Cloud では、ロールに次のものを付与できます：
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.grant_privilege_v2(
     role_name="role_a",
     privilege="privilege_group_1",
@@ -360,8 +326,6 @@ client.grant_privilege_v2(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2;
-
 client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
         .roleName("role_a")
         .privilege("privilege_group_1")
@@ -382,25 +346,6 @@ client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "privilege_group_1", "default", "collection_01"))
 if err != nil {
     fmt.Println(err.Error())
@@ -419,8 +364,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .grant_privilege(
         GrantPrivilegeRequest::builder()
@@ -449,9 +392,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::GrantPrivilegeV2Request grant_req;
 grant_req.WithRoleName("role_a")
          .WithPrivilege("privilege_group_1")
@@ -468,13 +408,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 await client.grantPrivilegeV2({
   role: 'role_a',
   privilege: 'privilege_group_1',
@@ -495,8 +428,6 @@ await client.grantPrivilegeV2({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-
 await client.GrantPrivilegeV2Async(new GrantPrivilegeReqV2
 {
     RoleName = "role_a",
@@ -548,13 +479,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は、パラメーターと対応する説明です。
+以下にパラメーターと対応する説明を示します。
 
 - **role_name:** 権限グループを付与する対象ロールの名前です。
 
 - **privilege**: ロールに付与する権限グループです。使用可能なオプションについては、[権限と権限グループ](./cluster-privileges) を参照してください。
 
-- **Resource**: 権限グループの対象リソースです。特定のクラスター、データベース、またはコレクションを指定できます。 
+- **Resource**: 権限グループの対象リソースです。特定のクラスター、データベース、またはコレクションを指定できます。
 
     次の表では、リソースの指定方法について説明します。
 
@@ -572,39 +503,37 @@ curl --request POST \
          <td><p>対象コレクションの名前と、対象コレクションが属するデータベースの名前を入力します。</p></td>
        </tr>
        <tr>
-         <td><p>特定のデータベース配下のすべてのコレクション</p></td>
+         <td><p>特定のデータベース下のすべてのコレクション</p></td>
          <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;CollectionAdmin&quot;,     collection_name=&quot;&ast;&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
-         <td><p>対象データベースの名前と、コレクション名としてワイルドカード <code>&ast;</code> を入力します。</p></td>
+         <td><p>対象データベースの名前を入力し、コレクション名としてワイルドカード <code>&ast;</code> を指定します。</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p><strong>データベース</strong></p></td>
          <td><p>特定のデータベース</p></td>
          <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;DatabaseAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
-         <td><p>対象データベースの名前と、コレクション名としてワイルドカード <code>&ast;</code> を入力します。</p></td>
+         <td><p>対象データベースの名前を入力し、コレクション名としてワイルドカード <code>&ast;</code> を指定します。</p></td>
        </tr>
        <tr>
-         <td><p>現在のインスタンス配下のすべてのデータベース</p></td>
+         <td><p>現在のインスタンス下のすべてのデータベース</p></td>
          <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;DatabaseAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;&ast;&quot; )</code></pre></td>
-         <td><p>データベース名として <code>&ast;</code>、コレクション名として <code>&ast;</code> を入力します。</p></td>
+         <td><p>データベース名に <code>&ast;</code> を、コレクション名に <code>&ast;</code> を指定します。</p></td>
        </tr>
        <tr>
          <td><p><strong>インスタンス</strong></p></td>
          <td><p>現在のインスタンス</p></td>
          <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;ClusterAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;&ast;&quot; )</code></pre></td>
-         <td><p>データベース名として <code>&ast;</code>、コレクション名として <code>&ast;</code> を入力します。</p></td>
+         <td><p>データベース名に <code>&ast;</code> を、コレクション名に <code>&ast;</code> を指定します。</p></td>
        </tr>
     </table>
 
-## ロールの説明\{#describe-a-role}
+## ロールを詳細表示する\{#describe-a-role}
 
-次の例では、`describe_role` メソッドを使用して、ロール `role_a` に付与されている権限を表示する方法を示します。
+次の例では、`describe_role` メソッドを使用して、`role_a` ロールに付与されている権限を表示する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.describe_role(role_name="role_a")
 ```
 
@@ -613,10 +542,6 @@ client.describe_role(role_name="role_a")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.DescribeRoleReq;
-import io.milvus.v2.service.rbac.response.DescribeRoleResp;
-import java.util.List;
-
 DescribeRoleReq describeRoleReq = DescribeRoleReq.builder()
         .roleName("role_a")
         .build();
@@ -629,25 +554,6 @@ List<DescribeRoleResp.GrantInfo> infos = resp.getGrantInfos();
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 role, err := client.DescribeRole(ctx, milvusclient.NewDescribeRoleOption("role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -661,8 +567,6 @@ fmt.Println(role)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let role = client
     .describe_role(
         DescribeRoleRequest::builder()
@@ -678,9 +582,6 @@ println!("{:?}", role.description().get_role_name());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::DescribeRoleResponse resp;
 auto status = client->DescribeRole(milvus::DescribeRoleRequest().WithRoleName("role_a"), resp);
 if (!status.IsOk()) {
@@ -693,13 +594,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 const role = await client.describeRole({ roleName: 'role_a' });
 console.log(role);
 ```
@@ -709,9 +603,6 @@ console.log(role);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-using Milvus.Client.V2.Responses.Rbac;
-
 DescribeRoleResp resp = await client.DescribeRoleAsync(new DescribeRoleReq { RoleName = "role_a" });
 Console.WriteLine($"Description: {resp.Description}");
 ```
@@ -736,7 +627,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。 
+出力例は以下の通りです。
 
 ```python
 {
@@ -746,9 +637,9 @@ curl --request POST \
 }
 ```
 
-## ロールからの権限グループの取り消し\{#revoke-a-privilege-group-from-a-role}
+## ロールから権限グループを取り消す\{#revoke-a-privilege-group-from-a-role}
 
-次の例では、ロール `role_a` に付与されているカスタム権限グループ `privilege_group_1` と組み込み権限グループ `ClusterReadOnly` を取り消す方法を示します。
+次の例では、`role_a` ロールに付与されているカスタム権限グループ `privilege_group_1` と組み込み権限グループ `ClusterReadOnly` を取り消す方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -774,8 +665,6 @@ client.revoke_privilege_v2(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2;
-
 client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
         .roleName("role_a")
         .privilege("privilege_group_1")
@@ -796,12 +685,6 @@ client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "privilege_group_1", "collection_01").
     WithDbName("default"))
 if err != nil {
@@ -822,8 +705,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .revoke_privilege(
         RevokePrivilegeRequest::builder()
@@ -852,9 +733,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::RevokePrivilegeV2Request revoke_req;
 revoke_req.WithRoleName("role_a")
            .WithPrivilege("privilege_group_1")
@@ -871,13 +749,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 await client.revokePrivilegeV2({
   role: 'role_a',
   privilege: 'privilege_group_1',
@@ -898,8 +769,6 @@ await client.revokePrivilegeV2({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-
 await client.RevokePrivilegeV2Async(new RevokePrivilegeReqV2
 {
     RoleName = "role_a",
@@ -951,9 +820,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ロールの削除\{#drop-a-role}
+## ロールを削除する\{#drop-a-role}
 
-次の例では、ロール `role_a` を削除する方法を示します。
+次の例では、`role_a` ロールを削除する方法を示します。
 
 <Admonition type="info" title="Notes">
 
@@ -965,8 +834,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.drop_role(role_name="role_a")
 ```
 
@@ -975,8 +842,6 @@ client.drop_role(role_name="role_a")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.DropRoleReq;
-
 DropRoleReq dropRoleReq = DropRoleReq.builder()
         .roleName("role_a")
         .build();
@@ -988,12 +853,6 @@ client.dropRole(dropRoleReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.DropRole(ctx, milvusclient.NewDropRoleOption("role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1006,8 +865,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .drop_role(
         DropRoleRequest::builder()
@@ -1022,9 +879,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 auto status = client->DropRole(milvus::DropRoleRequest().WithRoleName("role_a"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -1036,13 +890,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 await client.dropRole({ roleName: 'role_a' });
 ```
 
@@ -1051,8 +898,6 @@ await client.dropRole({ roleName: 'role_a' });
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-
 await client.DropRoleAsync(new DropRoleReq { RoleName = "role_a" });
 ```
 
@@ -1076,14 +921,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ロールを削除した後、既存のすべてのロールを一覧表示して、削除操作が成功したかどうかを確認できます。 
+ロールを削除したら、既存のすべてのロールを一覧表示して、削除操作が成功したかどうかを確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.list_roles()
 ```
 
@@ -1092,8 +935,6 @@ client.list_roles()
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
 List<String> resp = client.listRoles();
 ```
 
@@ -1102,25 +943,6 @@ List<String> resp = client.listRoles();
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 roles, err := client.ListRoles(ctx, milvusclient.NewListRoleOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -1134,8 +956,6 @@ fmt.Println(roles)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let roles = client
     .list_roles(ListRolesRequest::builder().build()?)
     .await?;
@@ -1147,9 +967,6 @@ println!("{:?}", roles.role_names());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::ListRolesResponse resp;
 auto status = client->ListRoles(milvus::ListRolesRequest(), resp);
 if (!status.IsOk()) {
@@ -1162,13 +979,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 const roles = await client.listRoles();
 console.log(roles);
 ```
@@ -1178,9 +988,6 @@ console.log(roles);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-using Milvus.Client.V2.Responses.Rbac;
-
 ListRolesResp resp = await client.ListRolesAsync(new ListRolesReq());
 foreach (RoleResult role in resp.Roles)
 {
@@ -1206,9 +1013,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。リストに `role_a` はありません。削除操作は成功しました。
+出力例は以下の通りです。一覧に `role_a` が含まれていません。削除操作は成功しています。
 
 ```bash
 ['admin']
 ```
-

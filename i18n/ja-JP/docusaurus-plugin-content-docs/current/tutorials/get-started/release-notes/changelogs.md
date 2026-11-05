@@ -320,7 +320,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash 関数](./minhash-function)
 
-            - [検索](./single-vector-search)と[クエリ](./get-and-scalar-query)の並べ替え
+            - [検索](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#J302dXJq8oDOOdxA9EYc86Kmnof)と[クエリ](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#VhCFdfqkooVQMHxxVTyceCyKngg)の並べ替え
 
             - [スナップショット](./snapshots)
 
@@ -534,7 +534,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⏰  繰り返し通知を抑制するために[通知間隔](./manage-project-alerts#alert-settings)をカスタマイズできます。
 
-        - 🔧  コレクションを再作成せずに[既存のコレクションで動的フィールドを有効化](./modify-collections#example-5-enable-dynamic-field)できます。
+        - 🔧  コレクションを再作成せずに[既存のコレクションで動的フィールドを有効化](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#BY0MdhhdqoQY2Cxl8TNcYtCwn0d)できます。
 
         - 💳  サブスクリプションプランはプロジェクトレベルに移行され、クラスターには複数のデプロイオプションが用意されています。詳細については、[プランの詳細比較](./select-zilliz-cloud-service-plans)を参照してください。
 
@@ -878,7 +878,7 @@ import Grid from '@site/src/components/Grid';
 
             - [マルチベクトルハイブリッド検索](./hybrid-search)
 
-            - [転置インデックス](./inverted-index-type)と[あいまい一致](./basic-filtering-operators)
+            - [転置インデックス](./inverted-index-type)と[あいまい一致](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)
 
             - [グループ化検索](./grouping-search)
 
