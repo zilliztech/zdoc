@@ -45,7 +45,7 @@ Zilliz Cloud では、クラスターをホストしているクラウドプロ�
 
 - クラスターをまだ作成していない場合は、[クラスターを作成](./create-cluster) してください。
 
-- 次の詳細を収集してください：**クラスター Endpoint**、**API Key**、**Cluster ID**。
+- Gather these details: **クラスター Endpoint**, **API Key**, **Cluster ID**.
 
 ### 依存関係のインストール\{#install-dependencies}
 
@@ -447,7 +447,7 @@ String API_KEY = "";
 String COLLECTION_NAME = "zero_to_hero";
 
 // 1. Set up a Milvus client
-MilvusClientV2 milvusClient = new MilvusClientV2(ConnectConfig.builder()
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(API_KEY)
         .build());
@@ -487,7 +487,7 @@ CreateCollectionReq request = CreateCollectionReq.builder()
         .collectionSchema(schema)
         .indexParams(indexParamList)
         .build();
-milvusClient.createCollection(request);
+client.createCollection(request);
 ```
 
 </TabItem>
@@ -1160,3 +1160,4 @@ System.out.println(listImportJobsResult);
     - すべての行を追加した後、**commit()** を呼び出すことを忘れないでください。
 
 - **bulk_import()** を使用する場合は、準備したデータをホストしているクラウドプロバイダーのエンドポイントと、ライターから返されたデータパスを連結してオブジェクト URL を構築します。
+

@@ -174,12 +174,12 @@ std::cout << "collection truncated successfully" << std::endl;
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
-const milvusClient = new MilvusClient({
+const client = new MilvusClient({
     address: "YOUR_CLUSTER_ENDPOINT",
     token: "YOUR_CLUSTER_TOKEN"
 });
 
-const res = await milvusClient.truncateCollection({
+const res = await client.truncateCollection({
     collection_name: "my_collection"
 });
 ```

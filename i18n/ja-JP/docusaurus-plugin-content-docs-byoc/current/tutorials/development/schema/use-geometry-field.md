@@ -73,17 +73,17 @@ from pymilvus import MilvusClient, DataType
 
 dim = 8
 collection_name = "geo_collection"
-milvus_client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
 
 # Create schema with a GEOMETRY field
-schema = milvus_client.create_schema(enable_dynamic_field=True)
+schema = client.create_schema(enable_dynamic_field=True)
 schema.add_field("id", DataType.INT64, is_primary=True)
 schema.add_field("embeddings", DataType.FLOAT_VECTOR, dim=dim)
 # highlight-next-line
 schema.add_field("geo", DataType.GEOMETRY, nullable=True)
 schema.add_field("name", DataType.VARCHAR, max_length=128)
 
-milvus_client.create_collection(collection_name, schema=schema, consistency_level="Strong")
+client.create_collection(collection_name, schema=schema, consistency_level="Strong")
 ```
 
 </TabItem>
@@ -170,14 +170,14 @@ import (
 
 ctx := context.Background()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal(err)
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 
 collectionName := "geo_collection"
 
@@ -188,7 +188,7 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
     WithField(entity.NewField().WithName("geo").WithDataType(entity.FieldTypeGeometry).WithNullable(true)).
     WithField(entity.NewField().WithName("name").WithDataType(entity.FieldTypeVarChar).WithMaxLength(128))
 
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithConsistencyLevel(entity.ClStrong))
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithConsistencyLevel(entity.ClStrong))
 if err != nil {
     log.Fatal(err)
 }
@@ -403,7 +403,7 @@ rows = [
     {"id": 6, "name": "Shop F", "embeddings": [0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2, 0.3], "geo": geo_points[5]},
 ]
 
-insert_result = milvus_client.insert(collection_name, rows)
+insert_result = client.insert(collection_name, rows)
 print(insert_result)
 
 # Expected output:
@@ -481,7 +481,7 @@ vectors := [][]float32{
 }
 ids := []int64{1, 2, 3, 4, 5, 6}
 
-result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName).
+result, err := client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName).
     WithInt64Column("id", ids).
     WithVarcharColumn("name", names).
     WithFloatVectorColumn("embeddings", 8, vectors).
@@ -712,11 +712,11 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-index_params = milvus_client.prepare_index_params()
+index_params = client.prepare_index_params()
 index_params.add_index(field_name="embeddings", metric_type="L2")
 
-milvus_client.create_index(collection_name, index_params)
-milvus_client.load_collection(collection_name)
+client.create_index(collection_name, index_params)
+client.load_collection(collection_name)
 ```
 
 </TabItem>
@@ -749,7 +749,7 @@ client.loadCollection(LoadCollectionReq.builder()
 ```go
 collectionName := "geo_collection"
 
-task, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "embeddings", index.NewAutoIndex(entity.L2)).WithIndexName("embeddings_index"))
+task, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "embeddings", index.NewAutoIndex(entity.L2)).WithIndexName("embeddings_index"))
 if err != nil {
     log.Fatal(err)
 }
@@ -757,7 +757,7 @@ if err = task.Await(ctx); err != nil {
     log.Fatal(err)
 }
 
-loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
 if err != nil {
     log.Fatal(err)
 }
@@ -933,7 +933,7 @@ top_left_lon, top_left_lat = 13.403683, 52.520711
 bottom_right_lon, bottom_right_lat = 13.455868, 52.495862
 bounding_box_wkt = f"POLYGON(({top_left_lon} {top_left_lat}, {bottom_right_lon} {top_left_lat}, {bottom_right_lon} {bottom_right_lat}, {top_left_lon} {bottom_right_lat}, {top_left_lon} {top_left_lat}))"
 
-query_results = milvus_client.query(
+query_results = client.query(
     collection_name,
     # highlight-next-line
     filter=f"st_within(geo, '{bounding_box_wkt}')",
@@ -986,7 +986,7 @@ boundingBoxWkt := "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 
 
 filter := "st_within(geo, '" + boundingBoxWkt + "')"
 
-rs, err := cli.Query(ctx, milvusclient.NewQueryOption(collectionName).
+rs, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).
     WithFilter(filter).
     WithOutputFields("id", "name", "geo"))
 if err != nil {
@@ -1136,7 +1136,7 @@ center_point_lon, center_point_lat = 13.403683, 52.520711
 radius_meters = 1000.0
 central_point_wkt = f"POINT({center_point_lon} {center_point_lat})"
 
-query_results = milvus_client.query(
+query_results = client.query(
     collection_name,
     # highlight-next-line
     filter=f"st_dwithin(geo, '{central_point_wkt}', {radius_meters})",
@@ -1189,7 +1189,7 @@ centralPointWkt := "POINT(13.403683 52.520711)"
 
 filter := "st_dwithin(geo, '" + centralPointWkt + "', 1000.0)"
 
-rs, err := cli.Query(ctx, milvusclient.NewQueryOption(collectionName).
+rs, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).
     WithFilter(filter).
     WithOutputFields("id", "name", "geo"))
 if err != nil {
@@ -1334,7 +1334,7 @@ curl --request POST \
 
 ```python
 vectors_to_search = [[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]]
-result = milvus_client.search(
+result = client.search(
     collection_name,
     vectors_to_search,
     limit=3,
@@ -1389,7 +1389,7 @@ boundingBoxWkt := "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 
 
 filter := "st_within(geo, '" + boundingBoxWkt + "')"
 
-resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(collectionName, 3, []entity.Vector{entity.FloatVector(queryVector)}).
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 3, []entity.Vector{entity.FloatVector(queryVector)}).
     WithFilter(filter).
     WithOutputFields("id", "name", "geo"))
 if err != nil {

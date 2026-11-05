@@ -303,13 +303,13 @@ import (
 
 ctx := context.Background()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
 })
 if err != nil {
     log.Fatal(err)
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 ```
 
 </TabItem>
@@ -580,7 +580,7 @@ idx := index.NewMinHashLSHIndex(entity.MHJACCARD, 16).
     WithElementBitWidth(64).
     WithRawData(true)
 
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("minhash_demo", schema).
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("minhash_demo", schema).
     WithIndexOptions(milvusclient.NewCreateIndexOption("minhash_demo", "minhash_signature", idx)))
 if err != nil {
     log.Fatal(err)
@@ -786,7 +786,7 @@ tokenSets := []string{
 }
 signatures := [][]byte{signature0, signature1}
 
-result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("minhash_demo").
+result, err := client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("minhash_demo").
     WithInt64Column("doc_id", []int64{0, 1}).
     WithColumns(
         column.NewColumnBinaryVector("minhash_signature", 16384, signatures),
@@ -1119,7 +1119,7 @@ for (SearchResp.SearchResult hit : approxResp.getSearchResults().get(0)) {
 
 ```go
 // Approximate search (LSH-only): uses only MinHash signatures and LSH.
-resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("minhash_demo", 3, []entity.Vector{entity.BinaryVector(querySignature)}).
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption("minhash_demo", 3, []entity.Vector{entity.BinaryVector(querySignature)}).
     WithANNSField("minhash_signature").
     WithAnnParam(index.NewMinHashLSHAnnParam()).
     WithOutputFields("doc_id", "document"))
@@ -1330,7 +1330,7 @@ for (SearchResp.SearchResult hit : refinedResp.getSearchResults().get(0)) {
 
 ```go
 // Refined search: re-computes the exact Jaccard similarity on the candidates.
-resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("minhash_demo", 3, []entity.Vector{entity.BinaryVector(querySignature)}).
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption("minhash_demo", 3, []entity.Vector{entity.BinaryVector(querySignature)}).
     WithANNSField("minhash_signature").
     WithSearchParam("params", `{"mh_search_with_jaccard":true,"refine_k":5}`).
     WithOutputFields("doc_id", "document"))

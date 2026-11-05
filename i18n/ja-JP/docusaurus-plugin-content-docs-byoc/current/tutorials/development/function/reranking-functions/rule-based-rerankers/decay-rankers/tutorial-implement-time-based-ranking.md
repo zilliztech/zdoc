@@ -57,13 +57,13 @@ from pymilvus import (
 )
 
 # Create connection to Milvus
-milvus_client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
 
 # Define collection name
 collection_name = "news_articles_tutorial"
 
 # Clean up any existing collection with the same name
-milvus_client.drop_collection(collection_name)
+client.drop_collection(collection_name)
 ```
 
 </TabItem>
@@ -247,7 +247,7 @@ curl --request POST \
 
 ```python
 # Create schema with fields for content and temporal information
-schema = milvus_client.create_schema(enable_dynamic_field=False, auto_id=True)
+schema = client.create_schema(enable_dynamic_field=False, auto_id=True)
 schema.add_field("id", DataType.INT64, is_primary=True)
 schema.add_field("headline", DataType.VARCHAR, max_length=200, enable_analyzer=True)
 schema.add_field("content", DataType.VARCHAR, max_length=2000, enable_analyzer=True)
@@ -558,7 +558,7 @@ functions='[
 
 ```python
 # Set up indexes for fast search
-index_params = milvus_client.prepare_index_params()
+index_params = client.prepare_index_params()
 
 # Dense vector index
 index_params.add_index(field_name="dense", index_type="AUTOINDEX", metric_type="L2")
@@ -572,7 +572,7 @@ index_params.add_index(
 )
 
 # Create the collection with our schema and indexes
-milvus_client.create_collection(
+client.create_collection(
     collection_name,
     schema=schema,
     index_params=index_params,
@@ -807,7 +807,7 @@ articles = [
 ]
 
 # Insert articles into the collection
-milvus_client.insert(collection_name, articles)
+client.insert(collection_name, articles)
 print(f"Inserted {len(articles)} articles into the collection")
 ```
 
@@ -1641,7 +1641,7 @@ print_search_results() {
 query = "artificial intelligence advancements"
 
 # 1. Search without decay ranking (purely based on semantic relevance)
-standard_results = milvus_client.search(
+standard_results = client.search(
     collection_name,
     data=[query],
     anns_field="dense",
@@ -1658,7 +1658,7 @@ for hit in standard_results[0]:
 
 # 2. Search with each decay function
 # Gaussian decay
-gaussian_results = milvus_client.search(
+gaussian_results = client.search(
     collection_name,
     data=[query],
     anns_field="dense",
@@ -1670,7 +1670,7 @@ gaussian_results = milvus_client.search(
 print_search_results(gaussian_results, "SEARCH RESULTS WITH GAUSSIAN DECAY RANKING")
 
 # Exponential decay
-exponential_results = milvus_client.search(
+exponential_results = client.search(
     collection_name,
     data=[query],
     anns_field="dense",
@@ -1682,7 +1682,7 @@ exponential_results = milvus_client.search(
 print_search_results(exponential_results, "SEARCH RESULTS WITH EXPONENTIAL DECAY RANKING")
 
 # Linear decay
-linear_results = milvus_client.search(
+linear_results = client.search(
     collection_name,
     data=[query],
     anns_field="dense",
@@ -2327,7 +2327,7 @@ sparse_search = AnnSearchRequest(
 
 # Execute hybrid search with each decay function
 # Gaussian decay
-hybrid_gaussian_results = milvus_client.hybrid_search(
+hybrid_gaussian_results = client.hybrid_search(
     collection_name,
     [dense_search, sparse_search],
     ranker=gaussian_ranker,
@@ -2337,7 +2337,7 @@ hybrid_gaussian_results = milvus_client.hybrid_search(
 print_search_results(hybrid_gaussian_results, "HYBRID SEARCH RESULTS WITH GAUSSIAN DECAY RANKING")
 
 # Exponential decay
-hybrid_exponential_results = milvus_client.hybrid_search(
+hybrid_exponential_results = client.hybrid_search(
     collection_name,
     [dense_search, sparse_search],
     ranker=exponential_ranker,
@@ -2629,7 +2629,7 @@ for scale_days in [7, 14, 30]:
     )
 
     # Get results
-    scale_results = milvus_client.search(
+    scale_results = client.search(
         collection_name,
         data=[query],
         anns_field="dense",
@@ -2928,7 +2928,7 @@ foreach (int scaleDays in new[] { 7, 14, 30 })
 # Try different queries with Gaussian decay
 for test_query in ["machine learning", "neural networks", "ethics in AI"]:
     print(f"\n=== TESTING QUERY: '{test_query}' WITH GAUSSIAN DECAY ===")
-    test_results = milvus_client.search(
+    test_results = client.search(
         collection_name,
         data=[test_query],
         anns_field="dense",
