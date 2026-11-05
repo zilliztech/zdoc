@@ -71,9 +71,31 @@ milvus_client.drop_collection(collection_name)
 <TabItem value='java'>
 
 ```java
+import com.google.gson.JsonObject;
+import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
+import io.milvus.v2.service.vector.request.FunctionScore;
+import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.request.ranker.DecayRanker;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 String collectionName = "news_articles_tutorial";
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -90,8 +112,13 @@ client.dropCollection(DropCollectionReq.builder().collectionName(collectionName)
 ```go
 import (
     "context"
+    "fmt"
     "log"
+    "math"
+    "time"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -113,7 +140,10 @@ _ = client.DropCollection(ctx, milvusclient.NewDropCollectionOption(collectionNa
 <TabItem value='rust'>
 
 ```rust
+use chrono::{DateTime, Utc};
 use milvus::v2::prelude::*;
+use serde_json::json;
+use std::collections::HashMap;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
 let client = ClientV2::new(&config).await?;
@@ -128,7 +158,13 @@ client.drop_collection(DropCollectionRequest::builder().collection_name(collecti
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <cmath>
+#include <ctime>
+#include <iomanip>
 #include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
@@ -149,7 +185,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+import { DataType, FunctionType, IndexType, MetricType, MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 const collection_name = "news_articles_tutorial";
@@ -164,6 +200,11 @@ await client.dropCollection({ collection_name });
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 using var client = new MilvusClientV2(new ConnectConfig
 {
@@ -220,10 +261,6 @@ schema.add_field("publish_date", DataType.INT64)  # Timestamp for decay ranking
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
 schema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(true).autoID(true).build());
 schema.addField(AddFieldReq.builder().fieldName("headline").dataType(DataType.VarChar).maxLength(200).enableAnalyzer(true).build());
@@ -238,8 +275,6 @@ schema.addField(AddFieldReq.builder().fieldName("publish_date").dataType(DataTyp
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 schema := entity.NewSchema().
     WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(true)).
     WithField(entity.NewField().WithName("headline").WithDataType(entity.FieldTypeVarChar).WithMaxLength(200).WithEnableAnalyzer(true)).
@@ -254,8 +289,6 @@ schema := entity.NewSchema().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = CollectionSchema::new()
     .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
     .add_field(FieldSchema::new().name("headline").data_type(DataType::VarChar).max_length(200).enable_analyzer(true))
@@ -284,8 +317,6 @@ schema->AddField(milvus::FieldSchema("publish_date", milvus::DataType::INT64));
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 const fields = [
   { name: "id", data_type: DataType.Int64, is_primary_key: true, autoID: true },
   { name: "headline", data_type: DataType.VarChar, max_length: 200, enable_analyzer: true },
@@ -301,8 +332,6 @@ const fields = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 // Create schema with fields for content and temporal information
 var schema = new CollectionSchema
 {
@@ -373,10 +402,6 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.Collections;
-
 schema.addFunction(CreateCollectionReq.Function.builder()
         .name("siliconflow_embedding")
         .functionType(FunctionType.TEXTEMBEDDING)
@@ -400,8 +425,6 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 textEmbeddingFunction := entity.NewFunction().
     WithName("siliconflow_embedding").
     WithType(entity.FunctionTypeTextEmbedding).
@@ -427,9 +450,6 @@ schema = schema.WithFunction(bm25Function)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let schema = schema.add_function(
     Function::new()
         .name("siliconflow_embedding")
@@ -474,8 +494,6 @@ schema->AddFunction(bm25_function);
 <TabItem value='javascript'>
 
 ```javascript
-import { FunctionType } from "@zilliz/milvus2-sdk-node";
-
 const functions = [
   {
     name: "siliconflow_embedding",
@@ -499,8 +517,6 @@ const functions = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 // Create BM25 function for keyword search
 schema.Functions.Add(FunctionSchema.CreateBm25("bm25", "content", "sparse_vector"));
 
@@ -569,11 +585,6 @@ milvus_client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.Arrays;
-
 IndexParam denseIndex = IndexParam.builder()
         .fieldName("dense")
         .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -600,14 +611,6 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 denseIndex := milvusclient.NewCreateIndexOption(collectionName, "dense", index.NewAutoIndex(entity.L2)).
     WithIndexName("dense")
 
@@ -627,8 +630,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let index_params = vec![
     IndexParam::new().field_name("dense").index_type(IndexType::AutoIndex).metric_type(MetricType::L2),
     IndexParam::new().field_name("sparse_vector").index_name("sparse_inverted_index").index_type(IndexType::AutoIndex).metric_type(MetricType::Bm25),
@@ -669,8 +670,6 @@ if (!status.IsOk()) { std::cout << status.Message() << std::endl; }
 <TabItem value='javascript'>
 
 ```javascript
-import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
-
 const denseIndex = {
   field_name: "dense",
   index_type: IndexType.AUTOINDEX,
@@ -698,9 +697,6 @@ await client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 // Set up indexes for fast search and create the collection
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
@@ -820,11 +816,6 @@ print(f"Inserted {len(articles)} articles into the collection")
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.ArrayList;
-import java.util.List;
-
 long currentTime = System.currentTimeMillis() / 1000;
 
 List<JsonObject> data = new ArrayList<>();
@@ -846,13 +837,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-    "time"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 currentTime := time.Now().Unix()
 
 articles := []any{
@@ -904,10 +888,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use chrono::Utc;
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let current_time = Utc::now().timestamp();
 
 let articles = vec![
@@ -927,8 +907,6 @@ client.insert(insert_req).await?;
 <TabItem value='c++'>
 
 ```c++
-#include <ctime>
-
 auto current_time = std::time(nullptr);
 
 milvus::EntityRows rows;
@@ -969,8 +947,6 @@ await client.insert({ collection_name, data });
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 // Get current time
 long currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 DateTimeOffset currentDate = DateTimeOffset.FromUnixTimeSeconds(currentTime);
@@ -1088,9 +1064,6 @@ linear_ranker = Function(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.ranker.DecayRanker;
-import java.util.Collections;
-
 long currentTime = System.currentTimeMillis() / 1000;
 
 DecayRanker gaussianRanker = DecayRanker.builder()
@@ -1129,12 +1102,6 @@ DecayRanker linearRanker = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
-
 gaussianRanker := entity.NewFunction().
     WithName("time_decay_gaussian").
     WithType(entity.FunctionTypeRerank).
@@ -1174,9 +1141,6 @@ linearRanker := entity.NewFunction().
 <TabItem value='rust'>
 
 ```rust
-use chrono::Utc;
-use milvus::v2::prelude::*;
-
 let current_time = Utc::now().timestamp();
 
 let gaussian_ranker = Function::new()
@@ -1218,8 +1182,6 @@ let linear_ranker = Function::new()
 <TabItem value='c++'>
 
 ```c++
-#include <ctime>
-
 auto current_time = std::time(nullptr);
 
 auto gaussian_ranker = std::make_shared<milvus::DecayRerank>("time_decay_gaussian");
@@ -1252,8 +1214,6 @@ linear_ranker->SetScale(14 * 24 * 60 * 60);
 <TabItem value='javascript'>
 
 ```javascript
-import { FunctionType } from "@zilliz/milvus2-sdk-node";
-
 const current_time = Math.floor(Date.now() / 1000);
 
 const gaussian_ranker = {
@@ -1292,8 +1252,6 @@ const linear_ranker = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 // Use current time as reference point
 Console.WriteLine("Using current time as reference point");
 
@@ -1501,10 +1459,6 @@ def print_search_results(results, title):
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 private static void printSearchResults(SearchResp resp, String title) {
     System.out.println("\n=== " + title + " ===");
     long currentTime = System.currentTimeMillis() / 1000;
@@ -1526,13 +1480,6 @@ private static void printSearchResults(SearchResp resp, String title) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "time"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 func printSearchResults(results []milvusclient.ResultSet, title string) {
     fmt.Printf("\n=== %s ===\n", title)
     currentTime := time.Now().Unix()
@@ -1555,8 +1502,6 @@ func printSearchResults(results []milvusclient.ResultSet, title string) {
 <TabItem value='rust'>
 
 ```rust
-use chrono::{DateTime, Utc};
-
 fn print_search_results(results: &[SingleResult], title: &str) {
     println!("\n=== {} ===", title);
     let current_time = Utc::now().timestamp();
@@ -1585,11 +1530,6 @@ fn print_search_results(results: &[SingleResult], title: &str) {
 <TabItem value='c++'>
 
 ```c++
-#include <ctime>
-#include <iomanip>
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 void PrintSearchResults(const milvus::SearchResponse& resp, const std::string& title) {
     std::cout << "\n=== " << title << " ===\n";
     std::time_t current_time = std::time(nullptr);
@@ -1637,9 +1577,6 @@ function printSearchResults(results, title) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Responses.Dql;
-
 // Helper function to format search results with dates and scores
 static void PrintSearchResults(SearchResp results, string title)
 {
@@ -1762,16 +1699,6 @@ print_search_results(linear_results, "SEARCH RESULTS WITH LINEAR DECAY RANKING")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.vector.request.FunctionScore;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-
 String query = "artificial intelligence advancements";
 
 // 1. Search without decay ranking
@@ -1823,13 +1750,6 @@ SearchResp linear = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 query := "artificial intelligence advancements"
 
 // 1. Search without decay ranking
@@ -1873,8 +1793,6 @@ printSearchResults(linear, "SEARCH RESULTS WITH LINEAR DECAY RANKING")
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let query = "artificial intelligence advancements";
 
 let search_req = |ranker: Function| {
@@ -1970,9 +1888,6 @@ const linear = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 // Define our search query
 string query = "artificial intelligence advancements";
 
@@ -2249,12 +2164,6 @@ System.out.println("Expected final score = Original x Decay: " + expectedScore);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "math"
-    "time"
-)
-
 // Collect the original relevance scores from the standard search results
 originalScores := make(map[string]float32)
 for _, rs := range standard {
@@ -2443,14 +2352,6 @@ print_search_results(hybrid_exponential_results, "HYBRID SEARCH RESULTS WITH EXP
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.AnnSearchReq;
-import io.milvus.v2.service.vector.request.FunctionScore;
-import io.milvus.v2.service.vector.request.HybridSearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 HybridSearchReq hybridReq = HybridSearchReq.builder()
         .collectionName(collectionName)
         .searchRequests(Arrays.asList(
@@ -2470,13 +2371,6 @@ SearchResp hybridResp = client.hybridSearch(hybridReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // Set up hybrid search (combining dense and sparse vectors)
 hybridGaussian, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     collectionName, 7,
@@ -2505,8 +2399,6 @@ printSearchResults(hybridExponential, "HYBRID SEARCH RESULTS WITH EXPONENTIAL DE
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let hybrid_req = HybridSearchRequest::builder()
     .collection_name(collection_name)
     .sub_requests(vec![
@@ -2579,9 +2471,6 @@ const hybrid = await client.hybridSearch({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 // Set up hybrid search (combining dense and sparse vectors)
 var denseSearch = new AnnSearchReq
 {
@@ -2758,14 +2647,6 @@ for scale_days in [7, 14, 30]:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.FunctionScore;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.request.ranker.DecayRanker;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 for (int scaleDays : new int[]{7, 14, 30}) {
     DecayRanker scaledRanker = DecayRanker.builder()
             .name("time_decay_gaussian_" + scaleDays)
@@ -2793,14 +2674,6 @@ for (int scaleDays : new int[]{7, 14, 30}) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 for _, scaleDays := range []int{7, 14, 30} {
     scaledRanker := entity.NewFunction().
         WithName(fmt.Sprintf("time_decay_gaussian_%d", scaleDays)).
@@ -2827,8 +2700,6 @@ for _, scaleDays := range []int{7, 14, 30} {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 for scale_days in [7, 14, 30] {
     let scaled_ranker = Function::new()
         .name(format!("time_decay_gaussian_{}", scale_days))
@@ -2890,8 +2761,6 @@ for (int scale_days : {7, 14, 30}) {
 <TabItem value='javascript'>
 
 ```javascript
-import { FunctionType } from "@zilliz/milvus2-sdk-node";
-
 for (const scale_days of [7, 14, 30]) {
   const scaled_ranker = {
     name: `time_decay_gaussian_${scale_days}`,
@@ -2915,9 +2784,6 @@ for (const scale_days of [7, 14, 30]) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 // Create variations of the Gaussian decay function with different scale parameters
 Console.WriteLine("\n=== PARAMETER VARIATION EXPERIMENT: SCALE ===");
 foreach (int scaleDays in new[] { 7, 14, 30 })
@@ -3079,13 +2945,6 @@ for test_query in ["machine learning", "neural networks", "ethics in AI"]:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.FunctionScore;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 for (String testQuery : Arrays.asList("machine learning", "neural networks", "ethics in AI")) {
     SearchResp resp = client.search(SearchReq.builder()
             .collectionName(collectionName)
@@ -3107,14 +2966,6 @@ for (String testQuery : Arrays.asList("machine learning", "neural networks", "et
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 for _, testQuery := range []string{"machine learning", "neural networks", "ethics in AI"} {
     results, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 4, []entity.Vector{entity.Text(testQuery)}).
         WithANNSField("dense").
@@ -3133,8 +2984,6 @@ for _, testQuery := range []string{"machine learning", "neural networks", "ethic
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 for test_query in ["machine learning", "neural networks", "ethics in AI"] {
     let res = client.search(SearchRequest::builder()
         .collection_name(collection_name)
@@ -3191,9 +3040,6 @@ for (const test_query of ["machine learning", "neural networks", "ethics in AI"]
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 // Try different queries with Gaussian decay
 foreach (string testQuery in new[] { "machine learning", "neural networks", "ethics in AI" })
 {

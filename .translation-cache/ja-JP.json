@@ -1811,34 +1811,34 @@
       "translatedAt": "2026-11-05T11:54:01.635Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md": {
-      "sourceHash": "36d024cb97f5f5e68702e8ef4fb9894570adf7259c93d4041de033f5d7b03d6a",
+      "sourceHash": "1e82a5a6f23957b6d9c017416afbe03acdbfab6aec0dc774efaf878036676532",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md",
-      "translatedAt": "2026-10-25T10:10:23.617Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/cohere.md": {
-      "sourceHash": "3013e0f67d10d1b3ce5a540aced1f78d4f3ae37c5b908078048d211a5566c1e5",
+      "sourceHash": "e78d448a5c0aa02f935b699fdc1ed4776cbc55d32dece56e7087caaa06016260",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/cohere.md",
-      "translatedAt": "2026-10-25T05:12:48.532Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/hugging-face.md": {
-      "sourceHash": "a3243fbf6d3acd3b364f154add3acc666e531b8ad94423ab90fff4e226d52439",
+      "sourceHash": "c7e66d41f49ee1b3fea6a43a203fe601f6e1d73f261ea81af5bec01ad84f50e0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/hugging-face.md",
-      "translatedAt": "2026-10-29T12:55:32.070Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/openai.md": {
-      "sourceHash": "9eab213cbeb6ff455739159206df39586462925cfdf657568e7cfe5a86b02b7e",
+      "sourceHash": "2e4593f41c2d7a482cf998524c1f4c4e7a75661bae8b422b77d08edf662b13aa",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/openai.md",
-      "translatedAt": "2026-10-26T11:53:44.014Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/voyage-ai.md": {
-      "sourceHash": "664280b91ac4db301996099513801a04c3955c9535adda9e3b227138aa0002b5",
+      "sourceHash": "7e0f209ffcffa75a526e2a015b6bd09253ee8ec43dc2658764a4369f6433ceff",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/text-embedding-funcs/voyage-ai.md",
-      "translatedAt": "2026-10-25T10:10:23.617Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/count-entities.md": {
-      "sourceHash": "5ae10bbf04feee14bea36ccce61f97b0ea86a4325d7a1176ffb41aa55b288225",
+      "sourceHash": "d487a04ef4df3c8e5ff97a784d8cd2a86ad9c108c96b1349e328a2d371763f78",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/count-entities.md",
-      "translatedAt": "2026-10-25T05:12:48.532Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/delete-entities.md": {
       "sourceHash": "b541378da2c95f61017d8b8e0439487a5220ea8b1ac95a47a1d26291e8bc0e50",
@@ -1846,44 +1846,44 @@
       "translatedAt": "2026-10-28T03:29:32.772Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/insert-entities.md": {
-      "sourceHash": "6828a999ee7c819154d5dfe9861545bcd7410388b9769718686ae105c430b3cc",
+      "sourceHash": "f57110e53b1f9bdddd768b03f29befff570e658efa96207527784dfa915f1f7a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/insert-entities.md",
-      "translatedAt": "2026-10-28T15:48:53.927Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/upsert-entities.md": {
-      "sourceHash": "1d024f3dbda5a35968033e415f86a30e235aaf757de6290baef7718310b77984",
+      "sourceHash": "eb674eb8c0f52ebc716c7f372263057b193683aa884001ae93b377879e938950",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/upsert-entities.md",
-      "translatedAt": "2026-10-10T05:24:59.064Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/scalar-index/bitmap-index-type.md": {
-      "sourceHash": "d07d9b3f5b04f0a7a4cdc20f93441bcdf064c3c86a68652d5a1a9aa873c2fdfb",
+      "sourceHash": "99d9e6ba9c22001fea53e3655ab199dc1334bbce373271b462a93ddec980ce08",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/scalar-index/bitmap-index-type.md",
-      "translatedAt": "2026-10-25T05:12:48.532Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/scalar-index/inverted-index-type.md": {
-      "sourceHash": "9e8bc93b72f86309b60e2953d3deede5dfca8e127590c24c98a3d8d1eee9d715",
+      "sourceHash": "5efba5ec88298ceb93f1b79c2e5403ba9e20310a82ced3c4a5c70b3e8d29a9c8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/scalar-index/inverted-index-type.md",
-      "translatedAt": "2026-10-19T17:21:29.382Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/scalar-index/ngram-index-type.md": {
-      "sourceHash": "f90a6014314080d7d604b92519c7d8818477868f4caf7a4d36b54449c25be277",
+      "sourceHash": "8b3a9e218800567478b68a4d22b5b8f43e9a927ba2b56fc1c849d1fc2010792b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/scalar-index/ngram-index-type.md",
-      "translatedAt": "2026-10-28T03:29:32.772Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/scalar-index/rtree-index-type.md": {
-      "sourceHash": "a8a83f72848a505ee0b22bb189f29ca48f4ae4def2ecf359cf39ebe303e82911",
+      "sourceHash": "c29b0e27c89eaad19f835c9f223fc0aec2516d6cf39858815d0fddc209840599",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/scalar-index/rtree-index-type.md",
-      "translatedAt": "2026-10-25T05:12:48.532Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/scalar-index/slt-sort-index-type.md": {
-      "sourceHash": "95a2556af59503a0ee0d45df7fda72a6dc004132fc3b0a0c42ce6e406ba3c791",
+      "sourceHash": "752fcdd8a6e27fa4048196612a69047d4176efc4957fc371fcf6a7c586a40fca",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/scalar-index/slt-sort-index-type.md",
-      "translatedAt": "2026-10-10T05:53:05.021Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md": {
-      "sourceHash": "e752c8c0291d0083a32e3190b354810b29c1a03db4b0f26ae1e8b4f9c937c8df",
+      "sourceHash": "03fd3f5424716794b15b60784a57d6169daf76f869c05238858434f09e9d2b7d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "translatedAt": "2026-10-26T07:34:58.623Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/schema/alter-collection-field.md": {
       "sourceHash": "a0ade1ddb464cf08c006e56b7a713d96473477ad2b200554296f6bb64e4f6e38",
@@ -1891,9 +1891,9 @@
       "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/schema/alter-external-collection-schema.md": {
-      "sourceHash": "5d26b5405d86b7aa4fa739f610d851ce68ff3e981f8f5b902f785de6dff8f338",
+      "sourceHash": "73e08b35b77ed238327407609ee02255e96e03c86e083b9719333a23714889ab",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/alter-external-collection-schema.md",
-      "translatedAt": "2026-10-24T04:09:25.569Z"
+      "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/schema/default-fields.md": {
       "sourceHash": "df9387406883de05196b85ad6f046d41b8a97d38949d5e45490fb17050698604",

@@ -1,17 +1,18 @@
 ---
 title: "STL_SORT | クラウド"
 slug: /slt-sort-index-type
-sidebar_label: "STL_SORT"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`STLSORT` インデックスは、データをソートされた順序で整理することで、Zilliz Cloud 内の数値フィールド（INT8、INT16 など）、`VARCHAR` フィールド、または `TIMESTAMPTZ` フィールドのクエリパフォーマンスを向上させるために特別に設計されたインデックスタイプです。 | クラウド"
+description: "STL_SORT インデックスは、データをソートされた順序で整理することで、数値フィールド（INT8、INT16 など）、VARCHAR フィールド、または TIMESTAMPTZ フィールドのクエリパフォーマンスを向上させるために特別に設計されたインデックスタイプです。 | クラウド"
 type: origin
-token: YBYmwvx68iMKFRknytJccwk0nPf
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-slt-sort-index-type
+sidebar_label: "STL_SORT"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/stl-sort.md"
 
 ---
 
@@ -27,7 +28,7 @@ import TabItem from '@theme/TabItem';
 
 - `==`、`!=`、`>`、`<`、`>=`、`<=` 演算子を使用した比較フィルタリング
 
-- `IN` 演算子と `LIKE` 演算子を使用した範囲フィルタリング
+-  `IN` 演算子と `LIKE` 演算子を使用した範囲フィルタリング
 
 ## サポートされるデータ型\{#supported-data-types}
 
@@ -78,23 +79,20 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 # Assume you have defined a TIMESTAMPTZ field named "tsz" in your collection schema
 
 # Prepare index parameters
-
 index_params = client.prepare_index_params()
 
 # Add STL_SORT index on the "tsz" field
-
+# highlight-start
 index_params.add_index(
-
     field_name="tsz",
-    index_type="STL_SORT",
-    index_name="tsz_index",
-    params={}
+    index_type="STL_SORT",   # Index for TIMESTAMPTZ
+    index_name="tsz_index",  # Optional, name your index
+    params={}                # No extra params needed
 )
+# highlight-end
 
 # Create the index on the collection
-
 client.create_index(
-
     collection_name="tsz_demo",
     index_params=index_params
 )
@@ -112,25 +110,16 @@ import io.milvus.v2.service.index.request.CreateIndexReq;
 import java.util.Collections;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-
         .uri("YOUR_CLUSTER_ENDPOINT")
-
         .build());
 
 client.createIndex(CreateIndexReq.builder()
-
         .collectionName("tsz_demo")
-
         .indexParams(Collections.singletonList(IndexParam.builder()
-
                 .fieldName("tsz")
-
                 .indexType(IndexParam.IndexType.STL_SORT)
-
                 .indexName("tsz_index")
-
                 .build()))
-
         .build());
 ```
 
@@ -176,27 +165,17 @@ let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
 let client = ClientV2::new(&config).await?;
 
 client
-
     .create_index(
-
         CreateIndexRequest::builder()
-
             .collection_name("tsz_demo")
-
             .index_param(
-
                 IndexParam::new()
-
                     .field_name("tsz")
-
                     .index_type(IndexType::StlSort)
-
                     .index_name("tsz_index"),
             )
-
             .build()?,
     )
-
     .await?;
 ```
 
@@ -217,8 +196,7 @@ if (!status.IsOk()) {
 }
 
 status = client->CreateIndex(milvus::CreateIndexRequest().WithCollectionName("tsz_demo")
-
-        .AddIndex(milvus::IndexDesc("tsz", "tsz_index", milvus::IndexType::STL_SORT, milvus::MetricType::L2)));
+        .AddIndex(milvus::IndexDesc("tsz", "tsz_index", milvus::IndexType::STL_SORT)));
 
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -248,19 +226,13 @@ await client.createIndex({
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
-
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
-
 --header "Authorization: Bearer ${TOKEN}" \
-
 --header "Content-Type: application/json" \
-
 --header "Request-Timeout: 10" \
-
 -d '{
     "collectionName": "tsz_demo",
     "indexParams": [
@@ -279,13 +251,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## インデックスを削除する\{#drop-an-index}
 
 コレクションから既存のインデックスを削除するには、`drop_index()` メソッドを使用します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。コレクションを先にリリースする必要はありません。
 
@@ -296,9 +269,8 @@ curl --request POST \
 
 ```python
 client.drop_index(
-
-    collection_name="tsz_demo",
-    index_name="tsz_index"
+    collection_name="tsz_demo",   # Name of the collection
+    index_name="tsz_index" # Name of the index to drop
 )
 ```
 
@@ -312,17 +284,12 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.index.request.DropIndexReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-
         .uri("YOUR_CLUSTER_ENDPOINT")
-
         .build());
 
 client.dropIndex(DropIndexReq.builder()
-
         .collectionName("tsz_demo")
-
         .indexName("tsz_index")
-
         .build());
 ```
 
@@ -367,18 +334,12 @@ let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
 let client = ClientV2::new(&config).await?;
 
 client
-
     .drop_index(
-
         DropIndexRequest::builder()
-
             .collection_name("tsz_demo")
-
             .index_name("tsz_index")
-
             .build()?,
     )
-
     .await?;
 ```
 
@@ -399,9 +360,7 @@ if (!status.IsOk()) {
 }
 
 status = client->DropIndex(milvus::DropIndexRequest()
-
         .WithCollectionName("tsz_demo")
-
         .WithIndexName("tsz_index"));
 
 if (!status.IsOk()) {
@@ -430,19 +389,13 @@ await client.dropIndex({
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
-
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop" \
-
 --header "Authorization: Bearer ${TOKEN}" \
-
 --header "Content-Type: application/json" \
-
 --header "Request-Timeout: 10" \
-
 -d '{
     "collectionName": "tsz_demo",
     "indexName": "tsz_index"
@@ -455,6 +408,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## 使用上の注意\{#usage-notes}

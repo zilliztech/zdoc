@@ -116,6 +116,9 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
+import java.util.Collections;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -253,8 +256,9 @@ schema->AddField(milvus::FieldSchema("dense", milvus::DataType::FLOAT_VECTOR).Wi
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
+
 // nodejs
-import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
@@ -386,10 +390,6 @@ schema.add_function(text_embedding_function)
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-import java.util.Collections;
-
 Function function = Function.builder()
         .functionType(FunctionType.TEXTEMBEDDING)
         .name("voya")
@@ -408,7 +408,6 @@ schema.addFunction(function);
 
 ```go
 // go
-import "github.com/milvus-io/milvus/client/v3/entity"
 
 function := entity.NewFunction().
     WithName("voya").
@@ -427,8 +426,6 @@ schema.WithFunction(function)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let function = Function::new()
     .name("voya")
     .function_type(FunctionType::TextEmbedding)
@@ -462,7 +459,6 @@ schema->AddFunction(function);
 
 ```javascript
 // nodejs
-import { FunctionType } from '@zilliz/milvus2-sdk-node';
 
 const functions = [{
   name: 'voya',
@@ -536,10 +532,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import java.util.ArrayList;
-import java.util.List;
-
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("dense")
@@ -553,13 +545,6 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 indexOption := milvusclient.NewCreateIndexOption("demo", "dense", index.NewAutoIndex(entity.COSINE))
 ```
 
@@ -568,8 +553,6 @@ indexOption := milvusclient.NewCreateIndexOption("demo", "dense", index.NewAutoI
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let index_params = vec![
     IndexParam::new()
         .field_name("dense")
@@ -606,13 +589,6 @@ const indexParams = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Prepare index parameters
 var indexParams = new[]
 {
@@ -658,8 +634,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("demo")
         .collectionSchema(schema)
@@ -675,7 +649,10 @@ client.createCollection(requestCreate);
 ```go
 import (
     "log"
+    "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -691,6 +668,8 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
+use serde_json::json;
 
 client
     .create_collection(
@@ -740,13 +719,6 @@ await client.createIndex({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Create collection named "demo"
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
@@ -821,12 +793,6 @@ client.insert('demo', [
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.Arrays;
-import java.util.List;
-
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"id\": 0, \"document\": \"Milvus simplifies semantic search through embeddings.\"}", JsonObject.class),
@@ -845,12 +811,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo",
     map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
     map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
@@ -866,9 +826,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let rows = vec![
     json!({"id": 1, "document": "Milvus simplifies semantic search through embeddings."}),
     json!({"id": 2, "document": "Vector embeddings convert text into searchable numeric data."}),
@@ -926,13 +883,6 @@ await client.insert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Insert sample documents
 var rows = new List<IDictionary<string, object?>>
 {
@@ -995,12 +945,6 @@ print(results)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Collections;
-import java.util.List;
-
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("demo")
         .data(Collections.singletonList(new EmbeddedText("How does Milvus handle semantic search?")))
@@ -1020,14 +964,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 searchResults, err := client.Search(ctx, milvusclient.NewSearchOption(
     "demo",
     1,
@@ -1048,8 +984,6 @@ for _, rs := range searchResults {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let response = client
     .search(
         SearchRequest::builder()
@@ -1102,13 +1036,6 @@ console.log(results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Perform semantic search
 var results = await client.SearchAsync(new SearchReq
 {
