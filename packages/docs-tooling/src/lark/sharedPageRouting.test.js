@@ -392,3 +392,40 @@ test('active state I/O distinguishes absent authority from corrupt or symlink au
   fs.symlinkSync(path.join(root, 'missing.json'), file)
   assert.throws(() => readActiveState(root), /symlink/)
 })
+test('[base-nav] an empty-Slug ref row derives its navigation slug from the shared target Base slug', async t => {
+  const Scraper = require('./larkDocScraper')
+  const sharedRow = row()
+  sharedRow.fields.Slug = 'example-page'
+  const refRow = {record_id: 'rec-ref', base_table_id: 'tbl', base_table_name: 'Development', fields: {
+    Labels: 'Database in Serving Clusters', 'Placement Type': 'ref', Slug: '',
+    'Ref Target Doc': {text: 'Example', link: 'https://zilliverse.feishu.cn/wiki/old'}}}
+  const missingRow = {record_id: 'rec-missing-ref', base_table_id: 'tbl', base_table_name: 'Development', fields: {
+    Labels: 'Ghost Ref Entry', 'Placement Type': 'ref', Slug: '',
+    'Ref Target Doc': {text: 'Ghost', link: 'https://zilliverse.feishu.cn/wiki/ghost-token'}}}
+  const records = [sharedRow, refRow, missingRow]
+  const routingContext = context(records, {active: {schema_version: 1,
+    pages: [{page: 'example', record: 'rec-shared', feishu_token: 'old', anchors: {}, activated_in: '123'}]}})
+  const scraper = new Scraper('root', 'base:*', 'wiki', temporary(t))
+  scraper.records = records
+  scraper.base_tables = [{table_id: 'tbl', name: 'Development'}]
+  scraper.routingContext = routingContext
+  const warnings = []
+  const originalWarn = console.warn
+  console.warn = message => { warnings.push(String(message)) }
+  try {
+    await scraper.__apply_base_navigation()
+  } finally {
+    console.warn = originalWarn
+  }
+  const sources = require('./larkSourceIndex').load(scraper.doc_source_dir)
+  const refSource = sources.find('base_record_id', 'rec-ref')
+  // The source-contract validator derives the ref key as record.slug || canonical
+  // target slug: the shared target's Base slug must win over the slugified ref row
+  // title once the activated page's Feishu source has left the sources directory.
+  assert.equal(refSource.slug, 'example-page')
+  assert.equal(refSource.base_nav_ref_target_token, 'old')
+  assert.equal(warnings.some(message => message.includes('Ref target not found') && message.includes('(rec-ref)')), false)
+  const missingSource = sources.find('base_record_id', 'rec-missing-ref')
+  assert.equal(missingSource.slug, 'ghost-ref-entry')
+  assert.equal(warnings.some(message => message.includes('Ref target not found') && message.includes('ghost-token')), true)
+})
