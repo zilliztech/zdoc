@@ -1,7 +1,6 @@
 ---
 title: "範囲検索 | BYOC"
 slug: /range-search
-sidebar_label: "範囲検索"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "範囲検索は、返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させます。このページでは、範囲検索とは何か、および範囲検索を実行する手順について説明します。 | BYOC"
 type: origin
-token: GnvtwMeQWi8iRCk7dGccCBQZnOh
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-range-search
+sidebar_label: "範囲検索"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/range-search.md"
 
 ---
 
@@ -27,7 +28,7 @@ import TabItem from '@theme/TabItem';
 
 範囲検索リクエストを実行するとき、Zilliz Cloud は ANN 検索結果からクエリベクトルに最も類似したベクトルを中心とし、検索リクエストで指定された **radius** を外側の円の半径、**range_filter** を内側の円の半径として、2 つの同心円を描きます。これら 2 つの同心円によって形成される環状領域内に類似度スコアが収まるすべてのベクトルが返されます。ここで、**range_filter** は **0** に設定することもでき、指定された類似度スコア（radius）内のすべてのエンティティが返されることを示します。
 
-![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.s3.us-west-2.amazonaws.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
+![範囲検索](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a1262835b1dccdb74db1547db60c502babdba94fd63814728b1e38ad140ebc9f.png)
 
 上の図が示すように、範囲検索リクエストには **radius** と **range_filter** の 2 つのパラメータが含まれます。範囲検索リクエストを受信すると、Zilliz Cloud は次の処理を行います。
 
@@ -39,19 +40,45 @@ import TabItem from '@theme/TabItem';
 
 **radius** と **range_filter** の設定方法は、検索のメトリクスタイプによって異なります。次の表は、異なるメトリクスタイプでこれら 2 つのパラメータを設定する際の要件をまとめたものです。
 
-| メトリクスタイプ | 意味 | radius と range_filter の設定要件 |
-| --- | --- | --- |
-| `L2` | L2 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
-| `IP` | IP 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください。 |
-| `COSINE` | COSINE 距離が大きいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`radius` < distance &lt;= `range_filter` を満たしてください。 |
-| `JACCARD` | Jaccard 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
-| `HAMMING` | Hamming 距離が小さいほど類似度が高いことを示します。 | 最も類似したベクトル埋め込みを無視するには、<br/>`range_filter` &lt;= distance < `radius` を満たしてください。 |
+<table>
+   <tr>
+     <th><p>メトリクスタイプ</p></th>
+     <th><p>距離の意味</p></th>
+     <th><p>radius と range_filter を設定する際の要件</p></th>
+   </tr>
+   <tr>
+     <td><p><code>L2</code></p></td>
+     <td><p>L2 距離が小さいほど、類似度が高くなります。</p></td>
+     <td><p>最も類似したベクトル埋め込みを除外するには、次の条件を満たすようにしてください。</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>IP</code></p></td>
+     <td><p>IP 距離が大きいほど、類似度が高くなります。</p></td>
+     <td><p>最も類似したベクトル埋め込みを除外するには、次の条件を満たすようにしてください。</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>COSINE</code></p></td>
+     <td><p>COSINE 距離が大きいほど、類似度が高くなります。</p></td>
+     <td><p>最も類似したベクトル埋め込みを除外するには、次の条件を満たすようにしてください。</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>JACCARD</code></p></td>
+     <td><p>Jaccard 距離が小さいほど、類似度が高くなります。</p></td>
+     <td><p>最も類似したベクトル埋め込みを除外するには、次の条件を満たすようにしてください。</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>HAMMING</code></p></td>
+     <td><p>Hamming 距離が小さいほど、類似度が高くなります。</p></td>
+     <td><p>最も類似したベクトル埋め込みを除外するには、次の条件を満たすようにしてください。</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+   </tr>
+</table>
 
 ## 例\{#examples}
 
 このセクションでは、範囲検索を実行する方法を説明します。以下のコードスニペットの検索リクエストにはメトリクスタイプが指定されていないため、デフォルトのメトリクスタイプである **COSINE** が適用されます。この場合、**radius** の値が **range_filter** の値より小さくなるようにしてください。
 
 以下のコードスニペットでは、クエリベクトルに対する距離またはスコアが **0.4** から **0.6** の範囲に収まるすべてのエンティティを Zilliz Cloud が返すように、`radius` を `0.4`、`range_filter` を `0.6` に設定しています。
+
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -142,9 +169,9 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -190,9 +217,11 @@ for _, resultSet := range resultSets {
 ```rust
 use milvus::v2::prelude::*;
 
-let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
 let response = client
     .search(
         SearchRequest::builder()
@@ -219,37 +248,41 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <vector>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Failed to connect: " << status.Message() << std::endl;
+    return;
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("my_collection")
-                   .AddFloatVector(query_vector)
-                   .WithLimit(5)
-                   .WithAnnsField("vector")
-                   .WithRadius(0.4)
-                   .WithRangeFilter(0.6);
+std::vector<float> queryVector = {
+    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
+};
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("my_collection")
+                         .WithAnnsField("vector")
+                         .WithLimit(5)
+                         .WithRadius(0.4)
+                         .WithRangeFilter(0.6)
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
 ```
@@ -267,7 +300,7 @@ const client = new MilvusClient({address, token});
 
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
-const res = await client.search({
+res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
     limit: 5,
@@ -289,36 +322,30 @@ using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Types;
 
-using var client = new MilvusClientV2(new ConnectConfig
+MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
     ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 await client.ConnectAsync();
 
-var queryVector = new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f });
+float[] queryVector = [0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f];
 
-var res = await client.SearchAsync(new SearchReq
+SearchResp res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
     VectorFieldName = "vector",
-    Vectors = new[] { queryVector },
-    Limit = 3,
+    Vectors = [queryVector],
+    Limit = 5,
     Parameters = new SearchParameters
     {
+        // highlight-start
         Radius = "0.4",
-        RangeFilter = "0.6"
+        RangeFilter = "0.6",
+        // highlight-end
+        OutputFields = { "color" }
     }
 });
-
-var single = res.SingleResults?.FirstOrDefault();
-if (single is not null)
-{
-    for (int i = 0; i < single.Scores.Count; i++)
-    {
-        Console.WriteLine($"id={single.Ids.LongIds?[i]}, score={single.Scores[i]}");
-    }
-}
 ```
 
 </TabItem>
@@ -384,9 +411,11 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+
+<Admonition type="info" icon="📘" title="Notes">
 
 クエリベクトルがすでに対象のコレクションに存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
 

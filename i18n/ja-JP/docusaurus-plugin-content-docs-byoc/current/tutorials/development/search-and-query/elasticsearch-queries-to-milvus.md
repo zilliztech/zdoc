@@ -104,6 +104,8 @@ Elasticsearch では、マッチクエリは、指定されたテキスト、数
 以下は、マッチクエリを使用した Elasticsearch 検索リクエストの例です。
 
 ```python
+from pymilvus import AnnSearchRequest, RRFRanker
+
 resp = client.search(
     query={
         "match": {
@@ -139,6 +141,12 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import java.util.*;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.request.ranker.RRFRanker;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
@@ -160,6 +168,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/entity"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
 )
 
 client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{entity.Text("How is the weather in Jamaica?")}).
@@ -207,6 +216,8 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient, RRFRanker } from "@zilliz/milvus2-sdk-node";
+
 const res = await client.search({
     collection_name: "my_collection",
     data: ["How is the weather in Jamaica?"],
@@ -313,11 +324,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 // Use the filter parameter
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
@@ -340,12 +346,6 @@ queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/column"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // Use the filter parameter
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("id in [1, 4, 100]").
@@ -362,8 +362,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // Use the filter parameter
 client
     .query(
@@ -437,13 +435,6 @@ const res2 = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // Use the filter parameter
 var res = await client.QueryAsync(new QueryReq
 {
@@ -519,11 +510,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("user like \"ki%\"")
@@ -537,8 +523,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("user like \"ki%\"").
     WithOutputFields("id", "user"))
@@ -549,8 +533,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .query(
         QueryRequest::builder()
@@ -594,13 +576,6 @@ const res = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
@@ -628,7 +603,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html) にあります。Milvus の `like` 演算子の詳細については、[パターンマッチングでの ](./basic-filtering-operators)[`LIKE`](./basic-filtering-operators)[ の使用](./basic-filtering-operators) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html) にあります。Milvus の `like` 演算子の詳細については、[Using ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[`LIKE`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[ for Pattern Matching](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb) を参照してください。
 
 ### レンジクエリ\{#range-query}
 
@@ -669,11 +644,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("10 <= age <= 20")
@@ -687,8 +657,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("10 <= age <= 20").
     WithOutputFields("id", "user", "age"))
@@ -699,8 +667,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .query(
         QueryRequest::builder()
@@ -745,13 +711,6 @@ const res = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
@@ -779,7 +738,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html) にあります。Milvus の比較演算子の詳細については、[比較演算子](./basic-filtering-operators#comparison-operators) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html) にあります。Milvus の比較演算子の詳細については、[Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph) を参照してください。
 
 ### タームクエリ\{#term-query}
 
@@ -827,11 +786,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 // use ==
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
@@ -854,8 +808,6 @@ queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 // use ==
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("status==\"retired\"").
@@ -872,8 +824,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // use ==
 client
     .query(
@@ -949,13 +899,6 @@ const res2 = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // use ==
 var res = await client.QueryAsync(new QueryReq
 {
@@ -1004,7 +947,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html) にあります。Milvus の比較演算子の詳細については、[比較演算子](./basic-filtering-operators#comparison-operators) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html) にあります。Milvus の比較演算子の詳細については、[Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph) を参照してください。
 
 ### タームズクエリ\{#terms-query}
 
@@ -1053,11 +996,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 // use in
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
@@ -1080,8 +1018,6 @@ queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 // use in
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("degree in [\"graduate\", \"post-graduate\"]").
@@ -1098,8 +1034,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // use in
 client
     .query(
@@ -1175,13 +1109,6 @@ const res2 = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 // use in
 var res = await client.QueryAsync(new QueryReq
 {
@@ -1230,7 +1157,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html) にあります。Milvus の範囲演算子の詳細については、[範囲演算子](./basic-filtering-operators) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html) にあります。Milvus の範囲演算子の詳細については、[Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg) を参照してください。
 
 ### ワイルドカードクエリ\{#wildcard-query}
 
@@ -1270,11 +1197,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("user like \"ki%\" AND user like \"%y\"")
@@ -1288,8 +1210,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("user like \"ki%\" AND user like \"%y\"").
     WithOutputFields("id", "user"))
@@ -1300,8 +1220,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .query(
         QueryRequest::builder()
@@ -1345,13 +1263,6 @@ const res = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
@@ -1379,7 +1290,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html) にあります。Milvus の範囲演算子の詳細については、[範囲演算子](./basic-filtering-operators) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html) にあります。Milvus の範囲演算子の詳細については、[Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg) を参照してください。
 
 ## ブールクエリ\{#boolean-query}
 
@@ -1424,11 +1335,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("user like \"%kimchy%\" AND ARRAY_CONTAINS(tags, \"production\")")
@@ -1442,8 +1348,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("user like \"%kimchy%\" AND ARRAY_CONTAINS(tags, \"production\")").
     WithOutputFields("id", "user", "age", "tags"))
@@ -1454,8 +1358,6 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .query(
         QueryRequest::builder()
@@ -1501,13 +1403,6 @@ const res = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
@@ -1584,12 +1479,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new FloatVec(new float[]{-5, 9, -12})))
@@ -1605,12 +1494,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{entity.FloatVector{-5, 9, -12}}).
     WithANNSField("image_vector"))
 ```
@@ -1620,8 +1503,6 @@ client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Ve
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .search(
         SearchRequest::builder()
@@ -1667,13 +1548,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
@@ -1761,8 +1635,6 @@ Milvus では、複数のベクトルフィールドにわたる検索を組み�
 <TabItem value='python'>
 
 ```python
-from pymilvus import AnnSearchRequest, RRFRanker
-
 search_params_dense = {
     "data": [[1.25, 2, 3.5]],
     "anns_field": "vector",
@@ -1794,15 +1666,6 @@ res = client.hybrid_search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.HybridSearchReq;
-import io.milvus.v2.service.vector.request.ranker.RRFRanker;
-import io.milvus.v2.service.vector.request.AnnSearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
-
 List<AnnSearchReq> searchRequests = new ArrayList<>();
 searchRequests.add(AnnSearchReq.builder()
         .vectors(Collections.singletonList(new FloatVec(new float[]{1.25f, 2.0f, 3.5f})))
@@ -1830,12 +1693,6 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     "my_collection",
     10,
@@ -1849,8 +1706,6 @@ client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client
     .hybrid_search(
         HybridSearchRequest::builder()
@@ -1906,8 +1761,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, RRFRanker } from "@zilliz/milvus2-sdk-node";
-
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 const res = await client.hybridSearch({
@@ -1926,13 +1779,6 @@ const res = await client.hybridSearch({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var reqDense = new AnnSearchReq
 {
     VectorFieldName = "vector",

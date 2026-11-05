@@ -1,7 +1,6 @@
 ---
 title: "フィルターのテンプレート化 | BYOC"
 slug: /filtering-templating
-sidebar_label: "テンプレート"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud では、要素の多い複雑なフィルター式、特に CJK 文字などの非 ASCII 文字を含む式がクエリパフォーマンスに大きく影響する可能性があります。この課題に対処するため、Zilliz Cloud は、複雑な式の解析に費やす時間を削減して効率を高めるフィルター式のテンプレート化メカニズムを導入しています。このページでは、検索、クエリ、削除の各操作でフィルター式のテンプレート化を使用する方法を説明します。 | BYOC"
 type: origin
-token: TumJwDYrhiDYcUkKsUIcuSnbnCf
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-filtering-templating
+sidebar_label: "テンプレート"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/filtering-templating.md"
 
 ---
 
@@ -23,9 +24,9 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud では、要素の多い複雑なフィルター式、特に CJK 文字などの非 ASCII 文字を含む式がクエリパフォーマンスに大きく影響する可能性があります。この課題に対処するため、Zilliz Cloud は、複雑な式の解析に費やす時間を削減して効率を高めるフィルター式のテンプレート化メカニズムを導入しています。このページでは、検索、クエリ、削除の各操作でフィルター式のテンプレート化を使用する方法を説明します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-フィルター式の左辺のリテラルには、以下の例で使用されている `age`、`city` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > {var}'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。
+フィルター式の左辺のリテラルには、以下の例で使用されている `age`、`city` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > {var}'` のように、特定の要素インデックスの StructArray サブフィールド名を指定できます。
 
 StructArray フィールドでのスカラーフィルタリングの詳細については、[StructArray Operators](./struct-array-filtering) を参照してください。
 
@@ -133,6 +134,7 @@ filter_params='{"age": 25, "city": ["北京", "上海"]}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ここで、`{age}` と `{city}` はプレースホルダーであり、クエリの実行時に `filter_params` の実際の値に置き換えられます。
@@ -336,6 +338,7 @@ SearchResp res = await client.SearchAsync(new SearchReq
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="age > {age} AND city IN {city}"
 filter_params='{"age": 25, "city": ["北京", "上海"]}'
 
@@ -355,6 +358,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、Zilliz Cloud は検索の実行時に `{age}` を `25` に、`{city}` を `["北京", "上海"]` に動的に置き換えます。
@@ -525,6 +529,7 @@ QueryResp res = await client.QueryAsync(new QueryReq
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="age > {age} AND city IN {city}"
 filter_params='{"age": 25, "city": ["北京", "上海"]}'
 
@@ -541,6 +546,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `filter_params` を使用すると、Zilliz Cloud は値の動的な挿入を効率的に処理し、クエリの実行速度を向上させます。
@@ -700,6 +706,7 @@ await client.DeleteAsync(new DeleteReq
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="age > {age} AND city IN {city}"
 filter_params='{"age": 25, "city": ["北京", "上海"]}'
 
@@ -715,6 +722,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 この方法により、特に複雑なフィルター条件を扱う場合に、削除操作のパフォーマンスが向上します。
@@ -879,6 +887,7 @@ QueryResp res = await client.QueryAsync(new QueryReq
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="message =~ {pattern}"
 filter_params='{"pattern": "E[0-9]{4}"}'
 
@@ -895,6 +904,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `!~` でテンプレートパラメーターを使用することもできます。
@@ -981,11 +991,13 @@ var filterParams = new Dictionary<string, object>
 <TabItem value='bash'>
 
 ```bash
+# restful
 filter="message !~ {pattern}"
 filter_params='{"pattern": "^DEBUG"}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 テンプレートの値は、有効な RE2 正規表現パターンを含む文字列である必要があります。Zilliz Cloud は、フィルターを実行する前にパターンを検証します。

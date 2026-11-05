@@ -61,8 +61,6 @@ BM25 全文検索で検索語句をハイライトするには、`LexicalHighlig
 <TabItem value='python'>
 
 ```python
-from pymilvus import LexicalHighlighter
-
 highlighter = LexicalHighlighter(
     pre_tags=["{"],              # Tag inserted before each highlighted term
     post_tags=["}"],             # Tag inserted after each highlighted term
@@ -75,9 +73,6 @@ highlighter = LexicalHighlighter(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import java.util.*;
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -98,8 +93,6 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -122,8 +115,6 @@ highlighter->WithHighlightSearchText(true);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -137,13 +128,6 @@ const highlighter = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var highlighter = new SearchParameters
 {
     HighlightType = HighlightType.Lexical,
@@ -201,13 +185,6 @@ results = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -240,8 +217,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -289,8 +264,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -313,13 +286,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -407,8 +373,6 @@ This document explains how text filtering works in Milvus.
 <TabItem value='python'>
 
 ```python
-from pymilvus import LexicalHighlighter
-
 highlighter = LexicalHighlighter(
     pre_tags=["{"],              # Tag inserted before each highlighted term
     post_tags=["}"],             # Tag inserted after each highlighted term
@@ -425,9 +389,6 @@ highlighter = LexicalHighlighter(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import java.util.*;
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -448,8 +409,6 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -475,8 +434,6 @@ highlighter->AddHighlightQuery("TextMatch", "text", "text filtering");
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -492,13 +449,6 @@ const highlighter = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var highlighter = new SearchParameters
 {
     HighlightType = HighlightType.Lexical,
@@ -557,13 +507,6 @@ results = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -597,8 +540,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -651,8 +592,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -678,13 +617,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -765,8 +697,6 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 <TabItem value='python'>
 
 ```python
-from pymilvus import LexicalHighlighter
-
 highlighter = LexicalHighlighter(
     pre_tags=["{"],
     post_tags=["}"],
@@ -782,9 +712,6 @@ highlighter = LexicalHighlighter(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import java.util.*;
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -808,8 +735,6 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -838,8 +763,6 @@ highlighter->WithNumOfFragments(1);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -856,13 +779,6 @@ const highlighter = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var highlighter = new SearchParameters
 {
     HighlightType = HighlightType.Lexical,
@@ -925,13 +841,6 @@ results = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -964,8 +873,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -1013,8 +920,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -1037,13 +942,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -1208,6 +1106,10 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
 import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
 import com.google.gson.JsonObject;
 import java.util.*;
 
@@ -1360,7 +1262,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType, HighlightType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 const COLLECTION_NAME = "highlighter_demo";
@@ -1416,6 +1318,7 @@ using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT" });
 const string collectionName = "highlighter_demo";
@@ -1521,13 +1424,6 @@ print()
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1562,8 +1458,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -1613,7 +1507,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
 const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
@@ -1638,13 +1531,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -1748,13 +1634,6 @@ print()
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1790,8 +1669,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -1846,7 +1723,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
 const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
@@ -1874,13 +1750,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -1985,13 +1854,6 @@ print()
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -2028,8 +1890,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -2083,7 +1943,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
 const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
@@ -2110,13 +1969,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2220,13 +2072,6 @@ print()
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -2261,8 +2106,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["{"])
     .post_tags(["}"])
@@ -2313,7 +2156,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
 const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
@@ -2338,13 +2180,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2441,13 +2276,6 @@ print()
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -2482,8 +2310,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let highlighter = LexicalHighlighter::new()
     .pre_tags(["<mark>"])
     .post_tags(["</mark>"])
@@ -2533,7 +2359,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-import { HighlightType } from "@zilliz/milvus2-sdk-node";
 const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
@@ -2558,13 +2383,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 const string collectionName = "highlighter_demo";
 
 var highlighter = new SearchParameters
@@ -2619,3 +2437,4 @@ var results = await client.SearchAsync(new SearchReq
 ```
 
 </details>
+

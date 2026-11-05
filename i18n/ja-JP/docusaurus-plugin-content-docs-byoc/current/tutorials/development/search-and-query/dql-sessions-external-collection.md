@@ -53,6 +53,11 @@ client.has_collection(
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.client.MilvusClientV2Session;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
@@ -182,8 +187,6 @@ session = client.session(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2Session;
-
 MilvusClientV2Session session = client.session("inxx-xxxxxxxxxxxxxxxxx");
 ```
 
@@ -263,11 +266,6 @@ res = session.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
-
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 
 SearchReq searchReq = SearchReq.builder()
@@ -295,8 +293,6 @@ SearchResp searchResp = session.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 
 let res = session

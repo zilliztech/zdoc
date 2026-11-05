@@ -1,7 +1,6 @@
 ---
 title: "JSON 演算子 | BYOC"
 slug: /json-filtering-operators
-sidebar_label: "JSON"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud は、JSON フィールドのクエリとフィルタリングのための高度な演算子をサポートしており、複雑で構造化されたデータの管理に最適です。これらの演算子により、JSON ドキュメントを非常に効率的にクエリでき、JSON フィールド内の特定の要素、値、条件に基づいてエンティティを取得できます。このセクションでは、Zilliz Cloud で JSON 固有の演算子を使用する方法を、実際の例を交えて説明します。 | BYOC"
 type: origin
-token: Py6zwu6r4iPMqVkKAYXcUYLEnXg
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-json-filtering-operators
+sidebar_label: "JSON"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/json-operators.md"
 
 ---
 
@@ -23,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud は、JSON フィールドのクエリとフィルタリングのための高度な演算子をサポートしており、複雑で構造化されたデータの管理に最適です。これらの演算子により、JSON ドキュメントを非常に効率的にクエリでき、JSON フィールド内の特定の要素、値、条件に基づいてエンティティを取得できます。このセクションでは、Zilliz Cloud で JSON 固有の演算子を使用する方法を、実際の例を交えて説明します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 JSON フィールドは複雑でネストされた構造を扱うことができず、すべてのネストされた構造を単なる文字列として扱います。そのため、JSON フィールドを扱う際は、過度に深いネストを避け、最適なパフォーマンスを得るためにデータ構造をできるだけフラットに保つことをお勧めします。
 
@@ -33,11 +34,11 @@ JSON フィールドは複雑でネストされた構造を扱うことができ
 
 Zilliz Cloud は、JSON データのフィルタリングとクエリに役立つ強力な JSON 演算子をいくつか提供しています。これらの演算子は次のとおりです。
 
-- [`JSON_CONTAINS(identifier, expr)`](./json-filtering-operators#jsoncontains): 指定した JSON 式がフィールド内に見つかったエンティティをフィルタリングします。
+- [`JSON_CONTAINS(identifier, expr)`](#jsoncontains): 指定された JSON 式がフィールド内に見つかるエンティティをフィルタリングします。
 
-- [`JSON_CONTAINS_ALL(identifier, expr)`](./json-filtering-operators#jsoncontainsall): 指定した JSON 式のすべての要素がフィールド内に存在することを保証します。
+- [`JSON_CONTAINS_ALL(identifier, expr)`](#jsoncontainsall): 指定された JSON 式のすべての要素がフィールド内に存在することを保証します。
 
-- [`JSON_CONTAINS_ANY(identifier, expr)`](./json-filtering-operators#jsoncontainsany): JSON 式の少なくとも 1 つのメンバーがフィールド内に存在するエンティティをフィルタリングします。
+- [`JSON_CONTAINS_ANY(identifier, expr)`](#jsoncontainsany): JSON 式の少なくとも 1 つのメンバーがフィールド内に存在するエンティティをフィルタリングします。
 
 それでは、実際のシナリオでどのように適用できるかを、例を交えてこれらの演算子を見ていきましょう。
 
@@ -121,6 +122,7 @@ filter='json_contains(product["tags"], "sale")'
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、Zilliz Cloud は `tags` フィールドに要素 `"sale"` を含むすべての製品を返します。
@@ -205,6 +207,7 @@ filter='json_contains_all(product["tags"], ["electronics", "sale", "new"])'
 ```
 
 </TabItem>
+
 </Tabs>
 
 このクエリは、`tags` 配列が指定された 3 つの要素 `"electronics"`、`"sale"`、`"new"` をすべて含むすべての製品を返します。
@@ -289,6 +292,7 @@ filter='json_contains_any(product["tags"], ["electronics", "new", "clearance"])'
 ```
 
 </TabItem>
+
 </Tabs>
 
 この場合、Zilliz Cloud はリスト `["electronics", "new", "clearance"]` 内のタグの少なくとも 1 つを持つすべての製品を返します。製品がこれらのタグのうち 1 つだけを持つ場合でも、結果に含まれます。

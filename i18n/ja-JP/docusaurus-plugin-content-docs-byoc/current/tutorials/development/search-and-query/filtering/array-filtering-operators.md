@@ -1,7 +1,6 @@
 ---
 title: "ARRAY 演算子 | BYOC"
 slug: /array-filtering-operators
-sidebar_label: "Array"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud は、ARRAY フィールドのフィルタリングや値の部分更新に使用できる ARRAY 演算子を提供します。 | BYOC"
 type: origin
-token: MaWywRYCniq6vwkJsT7c2wAyn0f
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-array-filtering-operators
+sidebar_label: "Array"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/array-operators.md"
 
 ---
 
@@ -23,7 +24,11 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud は、ARRAY フィールドのフィルタリングと、ARRAY フィールド値の部分更新を行うための ARRAY 演算子を提供します。
 
-注意: 配列内のすべての要素は同じ型である必要があり、配列内のネストされた構造はプレーンな文字列として扱われます。そのため、ARRAY フィールドを扱う場合は、過度に深いネストを避け、最適なパフォーマンスを得るためにデータ構造を可能な限りフラットに保つことを推奨します。
+<Admonition type="info" icon="📘" title="Notes">
+
+配列内のすべての要素は同じ型である必要があり、配列内のネストされた構造はプレーンな文字列として扱われます。そのため、ARRAY フィールドを扱う場合は、過度に深いネストを避け、最適なパフォーマンスが得られるようデータ構造を可能な限りフラットにすることを推奨します。
+
+</Admonition>
 
 Zilliz Cloud の ARRAY 演算子は、次の 2 つの用途に対応します。
 
@@ -35,14 +40,14 @@ Zilliz Cloud の ARRAY 演算子は、次の 2 つの用途に対応します。
 
 次の表に、Zilliz Cloud で利用可能な ARRAY 演算子を示します。
 
-| **演算子** | **用途** | **説明** |
+| 演算子 | 使用場所 | 説明 |
 | --- | --- | --- |
-| [ARRAY_CONTAINS(identifier, expr)](./array-filtering-operators#arraycontains) | フィルタ式 | ARRAY フィールド内に特定の要素が存在するかどうかを確認します。 |
-| [ARRAY_CONTAINS_ALL(identifier, expr)](./array-filtering-operators#arraycontainsall) | フィルタ式 | 指定したリストのすべての要素が ARRAY フィールド内に存在するかどうかを確認します。 |
-| [ARRAY_CONTAINS_ANY(identifier, expr)](./array-filtering-operators#arraycontainsany) | フィルタ式 | 指定したリスト内のいずれかの要素が ARRAY フィールド内に存在するかどうかを確認します。 |
-| [ARRAY_LENGTH(identifier)](./array-filtering-operators#arraylength) | フィルタ式 | ARRAY フィールドの要素数を返します。比較演算子と組み合わせてフィルタリングに使用できます。 |
-| [ARRAY_APPEND](./array-filtering-operators#arrayappend) | `upsert` と `field_ops` | 既存の ARRAY フィールドにペイロードの要素を追加します。 |
-| [ARRAY_REMOVE](./array-filtering-operators#arrayremove) | `upsert` と `field_ops` | リクエストペイロード内の値に一致するすべての要素を、既存の ARRAY フィールドから削除します。 |
+| [ARRAY_CONTAINS(identifier, expr)](#arraycontains) | フィルタ式 | ARRAY フィールド内に特定の要素が存在するかどうかを確認します。 |
+| [ARRAY_CONTAINS_ALL(identifier, expr)](#arraycontainsall) | フィルタ式 | 指定したリストのすべての要素が ARRAY フィールド内に存在するかどうかを確認します。 |
+| [ARRAY_CONTAINS_ANY(identifier, expr)](#arraycontainsany) | フィルタ式 | 指定したリスト内のいずれかの要素が ARRAY フィールド内に存在するかどうかを確認します。 |
+| [ARRAY_LENGTH(identifier)](#arraylength) | フィルタ式 | ARRAY フィールドの要素数を返します。比較演算子と組み合わせてフィルタリングに使用できます。 |
+| [ARRAY_APPEND](#arrayappend) | `upsert` と `field_ops` | 既存の ARRAY フィールドにペイロードの要素を追加します。Milvus v2.6.17 以降で利用できます。 |
+| [ARRAY_REMOVE](#arrayremove) | `upsert` と `field_ops` | リクエストペイロード内の値に一致するすべての要素を、既存の ARRAY フィールドから削除します。Milvus v2.6.17 以降で利用できます。 |
 
 ## ARRAY_CONTAINS\{#arraycontains}
 
@@ -117,6 +122,7 @@ filter='ARRAY_CONTAINS(history_temperatures, 23)'
 ```
 
 </TabItem>
+
 </Tabs>
 
 これにより、`history_temperatures` 配列に値 `23` が含まれるすべてのエンティティが返されます。
@@ -194,6 +200,7 @@ filter='ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 ```
 
 </TabItem>
+
 </Tabs>
 
 これにより、`history_temperatures` 配列に指定した両方の値が含まれるすべてのエンティティが返されます。
@@ -271,6 +278,7 @@ filter='ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 ```
 
 </TabItem>
+
 </Tabs>
 
 これにより、`history_temperatures` 配列に値 `23` または `24` の少なくとも 1 つが含まれるすべてのエンティティが返されます。
@@ -348,6 +356,7 @@ filter='ARRAY_LENGTH(history_temperatures) < 10'
 ```
 
 </TabItem>
+
 </Tabs>
 
 これにより、`history_temperatures` 配列の要素数が 10 未満であるすべてのエンティティが返されます。
@@ -515,6 +524,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `field_ops` を通じてフィールドに `ARRAY_APPEND` を指定すると、そのフィールドで部分更新セマンティクスが有効になります。ワークフロー全体、サポートされる要素型、制限事項については、[マージモードでの ARRAY フィールドのアップサート](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode) を参照してください。
@@ -682,6 +692,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `field_ops` を通じてフィールドに `ARRAY_REMOVE` を指定すると、そのフィールドで部分更新セマンティクスが有効になります。ワークフロー全体、サポートされる要素型、制限事項については、[マージモードでの ARRAY フィールドのアップサート](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode) を参照してください。

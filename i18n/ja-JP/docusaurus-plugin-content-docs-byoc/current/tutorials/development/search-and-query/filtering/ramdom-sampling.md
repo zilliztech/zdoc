@@ -1,7 +1,6 @@
 ---
 title: "ランダムサンプリング | BYOC"
 slug: /ramdom-sampling
-sidebar_label: "ランダムサンプリング"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,13 +8,14 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "大規模なデータセットを扱う場合、インサイトを得たりフィルタリングロジックをテストしたりするために、すべてのデータを処理する必要はありません。ランダムサンプリングを使用すると、データの統計的に代表的なサブセットを扱えるため、クエリ時間とリソース消費を大幅に削減できます。 | BYOC"
 type: origin
-token: ByJbwcpoCiBkDckR3VCcC4LTneg
-sidebar_position: 8
 displayed_sidebar: default
+token: shared-ramdom-sampling
+sidebar_label: "ランダムサンプリング"
+sidebar_position: 8
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/random-sampling.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -100,6 +100,7 @@ export filterRandomSample='RANDOM_SAMPLE(sampling_factor)'
 ```
 
 </TabItem>
+
 </Tabs>
 
 **パラメーター:**
@@ -114,7 +115,7 @@ export filterRandomSample='RANDOM_SAMPLE(sampling_factor)'
 
 ## 他のフィルターとの組み合わせ\{#combine-with-other-filters}
 
-ランダムサンプリング演算子は、論理 `AND` を使用して他のフィルタリング式と組み合わせる必要があります。フィルターを組み合わせると、Milvus はまず他の条件を適用し、次に結果セットに対してランダムサンプリングを実行します。
+ランダムサンプリング演算子は、論理 `AND` を使用して他のフィルタリング式と組み合わせる必要があります。フィルターを組み合わせる場合、Zilliz Cloud は最初に他の条件を適用し、その後、結果セットに対してランダムサンプリングを実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -223,6 +224,7 @@ export filterSampleIncorrect='color == "red" OR RANDOM_SAMPLE(0.001)'  # ❌ Inv
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## 例\{#examples}
@@ -449,6 +451,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 例 2: ランダムサンプリングとの複合フィルタリング\{#example-2-combined-filtering-with-random-sampling}
@@ -633,6 +636,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 例 3: クイック分析\{#example-3-quick-analytics}
@@ -661,7 +665,7 @@ if result:
 
     print(f"Sample size: {len(result)}")
     print(f"Average purchase amount: ${average_purchase:.2f}")
-    print(f"Average satisfaction score: ${average_satisfaction:.2f}")
+    print(f"Average satisfaction score: {average_satisfaction:.2f}")
 ```
 
 </TabItem>
@@ -833,6 +837,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 例 4: ベクトル検索との組み合わせ\{#example-4-combined-with-vector-search}
@@ -1048,10 +1053,11 @@ curl --request POST \
   "limit": 10,
   "filter": "category == \"books\" AND RANDOM_SAMPLE(0.01)",
   "outputFields": ["title", "author", "price"]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## ベストプラクティス\{#best-practices}
@@ -1063,4 +1069,3 @@ curl --request POST \
 - **統計的妥当性**: サンプルが大きいほど、より正確な統計的表現が得られます。
 
 - **パフォーマンステスト**: クエリのパフォーマンスを監視し、必要に応じてサンプリング係数を調整します。
-

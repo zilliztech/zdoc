@@ -1,17 +1,18 @@
 ---
 title: "パターンマッチング | BYOC"
 slug: /pattern-match
-sidebar_label: "パターンマッチング"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "エージェント型検索アプリケーションでは、ベクトル検索と grep 形式のパターンマッチングがしばしば互いを補完します。ベクトル検索は意味的に関連するエンティティを取得し、パターンマッチングはエラーコード、ログプレフィックス、メールドメイン、URL パス、識別子などの正確な文字列構造によってその結果を絞り込みます。 | BYOC"
+description: "Zilliz Cloud は、LIKE ワイルドカードパターンと RE2 正規表現による文字列パターンマッチングをサポートしています。パターンフィルターを使用して、VARCHAR フィールド、JSON 文字列パス、ARRAY 要素内のプレフィックス、サフィックス、部分文字列、構造化コード、メールドメイン、URL パス、その他の文字列パターンに一致させます。 | BYOC"
 type: origin
-token: PFbNwB7Mli18n6k6VWScGcpWndc
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-pattern-match
+sidebar_label: "パターンマッチング"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/pattern-matching.md"
 
 ---
 
@@ -25,9 +26,9 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud では、これらのパターン制約をスカラーフィルターで表現できます。単純なワイルドカードマッチングには `LIKE` を、[RE2](https://github.com/google/re2/wiki/syntax) 正規表現には `=~` または `!~` を使用します。これらのフィルターは `query`、`search`、ハイブリッド検索と組み合わせることができます。
 
-<Admonition type="info" title="Note">
+<Admonition type="info" icon="📘" title="Notes">
 
-このページでは、query、search、ハイブリッド検索で使用されるスカラーフィルター式におけるパターンマッチングについて説明します。これらの式はフィールド値を評価するものであり、アナライザーが生成するトークンを変更するものではありません。テキスト分析中にトークンをフィルタリングするには、[Regex Analyzer Filter](./regex-filter) を参照してください。
+このページでは、`query`、`search`、ハイブリッド検索で使用されるスカラーフィルター式でのパターンマッチングについて説明します。これらの式はフィールド値を評価し、アナライザーが生成するトークンを変更しません。テキスト分析中にトークンをフィルタリングする場合は、[Regex Analyzer Filter](./regex-filter) を参照してください。
 
 </Admonition>
 
@@ -132,7 +133,28 @@ for row in res.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-// cpp
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("log_events")
+                   .WithFilter(R"(message =~ "E[0-9]{4}")")
+                   .AddOutputField("message")
+                   .AddOutputField("severity");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -216,13 +238,14 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 ```
 
 </TabItem>
+
 </Tabs>
 
 このページの例では、`filter` に割り当てる式に焦点を当てています。`query`、`search`、ハイブリッド検索など、スカラーフィルターを受け入れる Zilliz Cloud の操作では、同じフィルター式構文を使用できます。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-フィルタリング式の左辺のリテラルには、以下の例で使用されている `message`、`email` などのコレクションフィールド名、または `filter = 'struct[0][subfield] =~ "E[0-9]{4}"'` のように、特定の要素インデックスにある StructArray サブフィールド名を指定できます。
+フィルター式の左辺のリテラルには、以下の例で使用されている `message`、`email` などのコレクションフィールド名、または `filter = 'struct[0][subfield] =~ "E[0-9]{4}"'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。
 
 StructArray フィールドでのスカラーフィルタリングの詳細は、[StructArray Operators](./struct-array-filtering) を参照してください。
 
@@ -232,7 +255,7 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 
 パターンマッチングは文字列値で利用できます。
 
-| 対象 | `LIKE` | 正規表現 `=&#126;` / `!&#126;` | 備考 |
+| 対象 | `LIKE` | 正規表現 `=~` / `!~` | 備考 |
 | --- | --- | --- | --- |
 | `VARCHAR` フィールド | はい | はい | 文字列フィールドに対するパターンマッチングの一般的な対象です。 |
 | `VARCHAR` キャスト型の `JSON` パス | はい | はい | 肯定的な一致には、JSON パスの値が文字列である必要があります。高速化のために JSON パスにインデックスを作成する場合は、`json_cast_type="varchar"` を設定します。 |
@@ -251,9 +274,9 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 | 単純な前方一致 | `LIKE` | `name LIKE "Prod%"` | `Prod` で始まる文字列に一致します。 |
 | 単純な後方一致 | `LIKE` | `filename LIKE "%.json"` | `.json` で終わる文字列に一致します。 |
 | 単純な部分一致 | `LIKE` | `description LIKE "%vector database%"` | 文字列内の任意の位置に `vector database` を含む値に一致します。 |
-| 構造化されたコードまたは固定長パターンとの一致 | `=&#126;` | `code =&#126; "E[0-9]{4}"` | `E1001` など、`E` の後に 4 桁の数字が続く文字列に大文字と小文字を区別して一致します。 |
-| 大文字と小文字を区別しないパターンマッチング | `(?i)` を指定した `=&#126;` | `message =&#126; "(?i)error"` | `error`、`ERROR`、その他の大文字と小文字のバリエーションに一致します。 |
-| 正規表現パターンに一致する値を除外 | `!&#126;` | `message !&#126; "^DEBUG"` | `DEBUG` で始まる文字列を除外します。 |
+| 構造化されたコードまたは固定長パターンとの一致 | `=~` | `code =~ "E[0-9]{4}"` | `E1001` など、`E` の後に 4 桁の数字が続く文字列に大文字と小文字を区別して一致します。 |
+| 大文字と小文字を区別しないパターンマッチング | `=~` と `(?i)` | `message =~ "(?i)error"` | `error`、`ERROR`、その他の大文字と小文字のバリエーションに一致します。 |
+| 正規表現パターンに一致する値を除外 | `!~` | `message !~ "^DEBUG"` | `DEBUG` で始まる文字列を除外します。 |
 
 単純なワイルドカードマッチングには `LIKE` を使用します。パターンに文字クラス、繰り返し、`error|failed` などの選択、アンカー、または大文字と小文字を区別しないマッチングが必要な場合は、正規表現を使用します。
 
@@ -285,12 +308,10 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 
 ### LIKE パターンでのワイルドカードのエスケープ\{#escaping-wildcards-in-a-like-pattern}
 
-`LIKE` パターンでは、`%` は任意の数の文字に一致し、`_` は 1 文字に一致します。`%`、`_`、または `\` をリテラルとして一致させるには、バックスラッシュ（`\`）で文字をエスケープします：
+`LIKE` パターンでは、`%` は 0 文字以上に一致し、`_` はちょうど 1 文字に一致します。`%`、`_`、または `\` をリテラルとして一致させるには、バックスラッシュ（`\`）でその文字をエスケープします：
 
 - `name LIKE r"\%"` はリテラル値 `%` に一致します。
-
 - `name LIKE r"\_%"` はリテラル `_` で始まる値に一致します。
-
 - `name LIKE r"\\%"` はリテラルのバックスラッシュで始まる値に一致します。
 
 `r"..."` または `r'...'` と記述する raw 文字列リテラルでは、Zilliz Cloud のフィルター式内でバックスラッシュがそのまま保持されます。バックスラッシュを含む `LIKE` および正規表現パターンには、これらの使用をお勧めします。raw 文字列を使用しない場合、通常の文字列リテラルはパターンが評価される前にエスケープシーケンスを処理するため、より多くのバックスラッシュが必要になることがあります。
@@ -303,8 +324,8 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 
 | 演算子 | 意味 | 例 |
 | --- | --- | --- |
-| `=&#126;` | 正規表現パターンを満たす値に一致します。 | `filter = 'message =&#126; "E[0-9]{4}"'` |
-| `!&#126;` | 正規表現パターンを満たす値を除外します。 | `filter = 'message !&#126; "^DEBUG"'` |
+| `=~` | 正規表現パターンを満たす値に一致します。 | `filter = 'message =~ "E[0-9]{4}"'` |
+| `!~` | 正規表現パターンを満たす値を除外します。 | `filter = 'message !~ "^DEBUG"'` |
 
 ### raw 文字列リテラルの使用\{#using-raw-string-literals}
 
@@ -316,7 +337,7 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 <TabItem value='python'>
 
 ```python
-filter = 'message =~ r"\d{4}-\d{2}-\d{2}"'
+filter = r'filename =~ r"\.json$"'
 ```
 
 </TabItem>
@@ -340,7 +361,7 @@ filter := `filename =~ r"\.json$"`
 <TabItem value='rust'>
 
 ```rust
-let filter = r#"message =~ r"\d{4}-\d{2}-\d{2}""#;
+let filter = r#"filename =~ r"\.json$""#;
 ```
 
 </TabItem>
@@ -348,7 +369,7 @@ let filter = r#"message =~ r"\d{4}-\d{2}-\d{2}""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(filename =~ r"\.json$")";
 ```
 
 </TabItem>
@@ -364,7 +385,7 @@ const filter = 'filename =~ r"\\.json$"';
 <TabItem value='csharp'>
 
 ```csharp
-string filter = "message =~ \"\\d{4}-\\d{2}-\\d{2}\"";
+string filter = "filename =~ r\"\\.json$\"";
 ```
 
 </TabItem>
@@ -384,11 +405,12 @@ zilliz vector query --collection my_collection --filter 'filename =~ r"\.json$"'
 ```
 
 </TabItem>
+
 </Tabs>
 
-これは、`2026-07-01` のような日付形式の値を含む文字列に一致します。
+これは、`.json` で終わる文字列（`report.json` など）に一致します。
 
-raw 文字列を使用しない場合、通常の文字列リテラルは正規表現パターンが評価される前にエスケープシーケンスを処理するため、`\d`、`\s`、またはエスケープされたリテラル文字などのパターンでは、追加のバックスラッシュが必要になることがあります。
+Zilliz Cloud のフィルター式で raw 文字列を使用しない場合、通常の文字列リテラルは正規表現パターンが評価される前にエスケープシーケンスを処理します。そのため、エスケープされたリテラル文字は、ホスト言語の文字列で追加のバックスラッシュが必要になる場合があります。
 
 ### 一般的な正規表現パターン\{#common-regex-patterns}
 
@@ -396,14 +418,14 @@ raw 文字列を使用しない場合、通常の文字列リテラルは正規�
 
 | 要件 | パターン | フィルターの例 |
 | --- | --- | --- |
-| リテラルテキストを含む | `error` | `filter = 'message =&#126; "error"'` |
-| プレフィックスで始まる | `^ERR` | `filter = 'code =&#126; "^ERR"'` |
-| サフィックスで終わる | `\.json$` | `filter = 'filename =&#126; "\\.json$"'` |
-| 数字のシーケンスに一致する | `[0-9]+` | `filter = 'message =&#126; "[0-9]+"'` |
-| 固定桁数の数字に一致する | `[0-9]{4}` | `filter = 'code =&#126; "[0-9]{4}"'` |
-| メールドメインに一致する | `@example\.com$` | `filter = 'email =&#126; "@example\\.com$"'` |
-| 大文字と小文字を区別せずに一致する | `(?i)error` | `filter = 'message =&#126; "(?i)error"'` |
-| 文字列全体に一致する | `^prod-[0-9]+$` | `filter = 'name =&#126; "^prod-[0-9]+$"'` |
+| リテラルテキストを含む | `error` | `filter = 'message =~ "error"'` |
+| プレフィックスで始まる | `^ERR` | `filter = 'code =~ "^ERR"'` |
+| サフィックスで終わる | `\.json$` | `filter = 'filename =~ "\\.json$"'` |
+| 数字のシーケンスに一致する | `[0-9]+` | `filter = 'message =~ "[0-9]+"'` |
+| 固定桁数の数字に一致する | `[0-9]{4}` | `filter = 'code =~ "[0-9]{4}"'` |
+| メールドメインに一致する | `@example\.com$` | `filter = 'email =~ "@example\\.com$"'` |
+| 大文字と小文字を区別せずに一致する | `(?i)error` | `filter = 'message =~ "(?i)error"'` |
+| 文字列全体に一致する | `^prod-[0-9]+$` | `filter = 'name =~ "^prod-[0-9]+$"'` |
 
 複数の単語のいずれかに一致させるには、`|` による選択を使用します：
 
@@ -443,7 +465,7 @@ let filter = r#"message =~ "error|failed|timeout""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message =~ "error|failed|timeout")";
 ```
 
 </TabItem>
@@ -479,9 +501,10 @@ zilliz vector query --collection my_collection --filter 'message =~ "error|faile
 ```
 
 </TabItem>
+
 </Tabs>
 
-正規表現のメタ文字をリテラルとして一致させる場合は、正規表現パターン内でそれらをエスケープします。たとえば、リテラルのドット（正規表現では `\.`）に一致させるには、Python のフィルター文字列に `\\.` と記述します：
+正規表現のメタ文字をリテラルとして一致させる場合は、正規表現パターン内でそれらをエスケープします。たとえば、リテラルのドット（正規表現では `\.`）に一致させるには、Python、Java、Go、または Node.js のソース文字列で `\\.` と記述します：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -519,7 +542,7 @@ let filter = r#"email =~ "@gmail\.com$""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(email =~ "@gmail\\.com$")";
 ```
 
 </TabItem>
@@ -555,6 +578,7 @@ zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$
 ```
 
 </TabItem>
+
 </Tabs>
 
 注記：Zilliz Cloud の正規表現フィルターは RE2 構文に従います。正規表現パターンが RE2 でサポートされていない構文を使用している場合、またはその他の理由で無効な場合、Zilliz Cloud はフィルター式を拒否します。正規表現のメタ文字、フラグ、マッチング動作の詳細については、[RE2 構文](https://github.com/google/re2/wiki/syntax)リファレンスを参照してください。
@@ -601,7 +625,7 @@ let filter = r#"message =~ "E[0-9]{4}""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message =~ "E[0-9]{4}")";
 ```
 
 </TabItem>
@@ -637,6 +661,7 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 ```
 
 </TabItem>
+
 </Tabs>
 
 フィールド値全体に一致させるには、`^` と `$` のアンカーを使用します：
@@ -681,7 +706,7 @@ let filter = r#"code =~ "^E[0-9]{4}$""#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(code =~ "^E[0-9]{4}$")";
 ```
 
 </TabItem>
@@ -707,6 +732,7 @@ string filter = "code =~ \"^E[0-9]{4}$\"";
 <TabItem value='bash'>
 
 ```bash
+# Match only values that are exactly E followed by four digits
 filter='code =~ "^E[0-9]{4}$"'
 ```
 
@@ -719,6 +745,7 @@ zilliz vector query --collection my_collection --filter 'code =~ "^E[0-9]{4}$"' 
 ```
 
 </TabItem>
+
 </Tabs>
 
 **Nullable な VARCHAR フィールド**
@@ -761,7 +788,7 @@ let filter = r#"message !~ "^DEBUG" OR message IS NULL"#;
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message !~ "^DEBUG" OR message IS NULL)";
 ```
 
 </TabItem>
@@ -797,6 +824,7 @@ zilliz vector query --collection log_events --filter 'message !~ "^DEBUG" OR mes
 ```
 
 </TabItem>
+
 </Tabs>
 
 **JSON パス**
@@ -805,8 +833,8 @@ JSON パスでは、パスが存在しない場合、null の場合、または�
 
 | フィルター | 欠落/null/non-string 値を含むか | 備考 |
 | --- | --- | --- |
-| `json_field["path"] =&#126; "pattern"` | いいえ | 正規表現パターンを満たす文字列値にのみ一致します。 |
-| `json_field["path"] !&#126; "pattern"` | はい | パスが欠落している、null である、文字列以外である、または正規表現パターンに一致しない文字列であるエンティティを返します。 |
+| `json_field["path"] =~ "pattern"` | いいえ | 正規表現パターンを満たす文字列値にのみ一致します。 |
+| `json_field["path"] !~ "pattern"` | はい | パスが欠落している、null である、文字列以外である、または正規表現パターンに一致しない文字列であるエンティティを返します。 |
 
 ## インデックスによるパターンマッチングの高速化\{#accelerate-pattern-matching-with-indexes}
 
@@ -818,6 +846,6 @@ Zilliz Cloud は、`VARCHAR` フィールドまたは JSON 文字列パスに対
 
 | パターンまたはデータ特性 | 検討するインデックス | 備考 |
 | --- | --- | --- |
-| `message =&#126; "error.*timeout"` や `message LIKE "%database%"` など、固定のリテラル部分文字列を含む | `NGRAM` | Zilliz Cloud がパターンから意味のあるリテラル部分文字列を抽出できる場合に役立ちます。詳細は、[NGRAM](./ngram-index-type) を参照してください。 |
+| `message =~ "error.*timeout"` や `message LIKE "%database%"` など、固定のリテラル部分文字列を含む | `NGRAM` | Zilliz Cloud がパターンから意味のあるリテラル部分文字列を抽出できる場合に役立ちます。詳細は、[NGRAM](./ngram-index-type) を参照してください。 |
 | 前方一致、完全一致、または等価に近い文字列フィルター。特にカーディナリティが低から中程度のフィールド | `STL_SORT`、`INVERTED`、または `BITMAP` | フィールドに重複する値がある場合、またはフィルターが完全一致に近い場合に、より効果的となることがあります。詳細は、[STL_SORT](./slt-sort-index-type)、[INVERTED](./inverted-index-type)、および [BITMAP](./bitmap-index-type) を参照してください。 |
 | 固定リテラルを含まない正規表現パターン、または文字クラス、短いトークン、ワイルドカードが中心のパターン | インデックスによる高速化に依存する前にベンチマークする | これらのパターンはインデックスの選択性が限定的であり、より広範なスキャンにフォールバックする可能性があります。 |
