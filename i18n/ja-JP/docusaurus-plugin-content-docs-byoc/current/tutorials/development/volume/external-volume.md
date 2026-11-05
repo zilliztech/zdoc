@@ -55,8 +55,9 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='python'>
 
     ```python
-    # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
+    
+    # Initiate a volume manager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -88,6 +89,12 @@ import Procedures from '@site/src/components/Procedures';
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
     import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
+    import com.google.gson.Gson;
+    import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
+    import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
+    import io.milvus.bulkwriter.request.volume.DescribeVolumeRequest;
+    import io.milvus.bulkwriter.response.volume.VolumeInfo;
+    import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
     
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
@@ -257,7 +264,6 @@ import Procedures from '@site/src/components/Procedures';
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -279,12 +285,6 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='java'>
 
     ```java
-    import com.google.gson.Gson;
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
-    import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-    
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
             .withCloudEndpoint("https://api.cloud.zilliz.com")
             .withApiKey("YOUR_API_KEY")
@@ -329,8 +329,6 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"
@@ -385,7 +383,6 @@ import Procedures from '@site/src/components/Procedures';
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -407,12 +404,6 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='java'>
 
     ```java
-    import com.google.gson.Gson;
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.DescribeVolumeRequest;
-    import io.milvus.bulkwriter.response.volume.VolumeInfo;
-    
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
     String volumeName = "external_volume";
@@ -459,8 +450,6 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"
@@ -529,7 +518,6 @@ import Procedures from '@site/src/components/Procedures';
 
     ```python
     # Initiate a volume manager
-    from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
@@ -551,10 +539,6 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='java'>
 
     ```java
-    import io.milvus.bulkwriter.VolumeManager;
-    import io.milvus.bulkwriter.VolumeManagerParam;
-    import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
-    
     String cloudEndpoint = "https://api.cloud.zilliz.com";
     String apiKey = "YOUR_API_KEY";
     String volumeName = "external_volume";
@@ -602,8 +586,6 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='javascript'>
 
     ```javascript
-    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
-    
     const volumeManager = new VolumeManager({
         cloudEndpoint: "https://api.cloud.zilliz.com",
         apiKey: "YOUR_API_KEY"
@@ -713,3 +695,4 @@ import Procedures from '@site/src/components/Procedures';
      <td><p>ストレージ統合の検証に失敗しました。構成を確認して、再試行してください。</p><p>適用可能なストレージ統合は次のとおりです。</p><ul><li><a href="./integrate-with-aws-s3">AWS S3 バケット</a></li></ul></td>
    </tr>
 </table>
+

@@ -73,8 +73,6 @@ displayed_sidebar: default
 1. channelOptions を指定してクライアントを初期化します。
 
     ```javascript
-    import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-    
     new MilvusClient({
       address: 'your-zilliz-cloud-address',
       ssl: true,

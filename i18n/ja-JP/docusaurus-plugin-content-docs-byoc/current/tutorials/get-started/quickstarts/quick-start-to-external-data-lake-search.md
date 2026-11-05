@@ -49,6 +49,8 @@ import TabItem from '@theme/TabItem';
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient, DataType
+
 # connect to database
 client = MilvusClient(
     # a project-specific on-demand compute endpoint
@@ -64,6 +66,22 @@ client = MilvusClient(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.database.request.CreateDatabaseReq;
+import com.google.gson.JsonObject;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.*;
+import io.milvus.v2.service.utility.request.RefreshExternalCollectionReq;
+import io.milvus.v2.service.utility.response.RefreshExternalCollectionResp;
+import io.milvus.v2.service.utility.request.GetRefreshExternalCollectionProgressReq;
+import io.milvus.v2.service.utility.response.GetRefreshExternalCollectionProgressResp;
+import io.milvus.v2.client.MilvusClientV2Session;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("https://{project-id}.{region}.api.zillizcloud.com")
@@ -79,8 +97,9 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```go
 import (
     "context"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -101,6 +120,7 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 let config = ConnectConfig::new()
     .uri("https://{project-id}.{region}.api.zillizcloud.com")
@@ -130,6 +150,7 @@ if (!status.IsOk()) {
 
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+import { DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
     address: "https://{project-id}.{region}.api.zillizcloud.com",
@@ -142,8 +163,6 @@ const client = new MilvusClient({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-
 // Note: connecting to a project-specific on-demand compute endpoint with
 // on-demand cluster routing is not yet supported in milvus-sdk-csharp as of v3.0.0.
 ```
@@ -178,8 +197,6 @@ client.create_database(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.CreateDatabaseReq;
-
 client.createDatabase(CreateDatabaseReq.builder()
         .databaseName("my_database")
         .build());
@@ -190,8 +207,6 @@ client.createDatabase(CreateDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
 if err != nil {
     // handle error
@@ -203,8 +218,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .create_database(CreateDatabaseRequest::builder()
         .database_name("my_database")
@@ -242,8 +255,8 @@ using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
-
 using Milvus.Client.V2.Requests.Database;
+using Milvus.Client.V2.Requests.Utility;
 
 await client.CreateDatabaseAsync(new CreateDatabaseReq
 {
@@ -280,8 +293,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
-
 schema = MilvusClient.create_schema(
     external_source='volume://my_volume/iceberg/metadata/00001-xxx.metadata.json',
     external_spec='{"format": "iceberg-table", "snapshot_id": "1234567890123456789"}'
@@ -352,11 +363,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 JsonObject externalSpec = new JsonObject();
 externalSpec.addProperty("format", "iceberg-table");
 externalSpec.addProperty("snapshot_id", "1234567890123456789");
@@ -424,10 +430,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
-
 schema := entity.NewSchema().
     WithExternalSource("volume://my_volume/iceberg/metadata/00001-xxx.metadata.json").
     WithExternalSpec(`{"format": "iceberg-table", "snapshot_id": "1234567890123456789"}`).
@@ -476,9 +478,6 @@ schema := entity.NewSchema().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let schema = CollectionSchema::new()
     .external_source("volume://my_volume/iceberg/metadata/00001-xxx.metadata.json")
     .external_spec(json!({
@@ -499,8 +498,6 @@ let schema = CollectionSchema::new()
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->WithExternalSource("volume://my_volume/iceberg/metadata/00001-xxx.metadata.json");
 schema->WithExternalSpec({
@@ -553,8 +550,6 @@ schema->AddField(milvus::FieldSchema()
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 const schema = [
     {
         name: "vector",
@@ -609,8 +604,6 @@ const schema = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-
 // Note: external collections are not yet supported in milvus-sdk-csharp as of v3.0.0
 // (FieldSchema does not expose the external_field mapping).
 ```
@@ -706,8 +699,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 client.useDatabase("my_database");
 
 CreateCollectionReq createReq = CreateCollectionReq.builder()
@@ -722,8 +713,6 @@ client.createCollection(createReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
     // handle error
@@ -740,8 +729,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client.use_database("my_database").await?;
 
 client
@@ -793,8 +780,6 @@ await client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-
 // Note: creating an external collection is not yet supported in milvus-sdk-csharp as of v3.0.0
 // (FieldSchema does not expose the external_field mapping).
 ```
@@ -852,10 +837,6 @@ client.create_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import java.util.*;
-
 IndexParam vectorIndex = IndexParam.builder()
         .fieldName("vector")
         .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -878,13 +859,6 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 vectorIndex := index.NewAutoIndex(entity.COSINE)
 categoryIndex := index.NewGenericIndex("main_category", map[string]string{
     index.IndexTypeKey: string(index.AUTOINDEX),
@@ -914,8 +888,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .create_index(CreateIndexRequest::builder()
         .collection_name("my_collection")
@@ -968,15 +940,6 @@ await client.createIndex([
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Database;
-
 // Add indexes
 await client.CreateIndexAsync(new CreateIndexReq
 {
@@ -1040,9 +1003,6 @@ job_id = client.refresh_external_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.utility.request.RefreshExternalCollectionReq;
-import io.milvus.v2.service.utility.response.RefreshExternalCollectionResp;
-
 RefreshExternalCollectionResp refreshResp = client.refreshExternalCollection(
         RefreshExternalCollectionReq.builder()
                 .collectionName("my_collection")
@@ -1055,8 +1015,6 @@ long jobId = refreshResp.getJobId();
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 refreshResult, err := client.RefreshExternalCollection(ctx,
     milvusclient.NewRefreshExternalCollectionOption("my_collection"))
 if err != nil {
@@ -1070,8 +1028,6 @@ jobID := refreshResult.JobID
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let resp = client
     .refresh_external_collection(RefreshExternalCollectionRequest::builder()
         .collection_name("my_collection")
@@ -1109,15 +1065,6 @@ const jobId = resp.job_id;
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Utility;
-
 // Refresh the external collection
 var refreshResp = await client.RefreshExternalCollectionAsync(new RefreshExternalCollectionReq
 {
@@ -1161,9 +1108,6 @@ progress = client.get_refresh_external_collection_progress(job_id=job_id)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.utility.request.GetRefreshExternalCollectionProgressReq;
-import io.milvus.v2.service.utility.response.GetRefreshExternalCollectionProgressResp;
-
 GetRefreshExternalCollectionProgressResp progressResp = client.getRefreshExternalCollectionProgress(
         GetRefreshExternalCollectionProgressReq.builder()
                 .jobId(jobId)
@@ -1175,8 +1119,6 @@ GetRefreshExternalCollectionProgressResp progressResp = client.getRefreshExterna
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 progress, err := client.GetRefreshExternalCollectionProgress(ctx,
     milvusclient.NewGetRefreshExternalCollectionProgressOption(jobID))
 if err != nil {
@@ -1189,8 +1131,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let progress = client
     .get_refresh_external_collection_progress(GetRefreshExternalCollectionProgressRequest::builder()
         .job_id(job_id)
@@ -1225,15 +1165,6 @@ const progress = await client.getRefreshExternalCollectionProgress({ job_id: job
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
-using Milvus.Client.V2.Requests.Utility;
-
 var progressResp = await client.GetRefreshExternalCollectionProgressAsync(new GetRefreshExternalCollectionProgressReq
 {
     JobId = jobId
@@ -1312,12 +1243,6 @@ res = session.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2Session;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
-
 MilvusClientV2Session session = client.session("inxx-xxxxxxxxxxxxx");
 
 FloatVec queryVector = new FloatVec(Arrays.asList(
@@ -1351,8 +1276,6 @@ SearchResp searchResp = session.search(SearchReq.builder()
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let session = client.session("inxx-xxxxxxxxxxxxx")?;
 
 let query_vector = vec![
@@ -1430,8 +1353,6 @@ const res = await session.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-
 // Note: searching through an on-demand cluster session (client.session(clusterId))
 // is not yet supported in milvus-sdk-csharp as of v3.0.0.
 ```

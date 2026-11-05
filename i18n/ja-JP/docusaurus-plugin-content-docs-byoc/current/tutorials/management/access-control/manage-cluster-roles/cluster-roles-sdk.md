@@ -52,6 +52,12 @@ client.create_role(role_name="role_a", description="a cluster read only role")
 
 ```java
 import io.milvus.v2.service.rbac.request.CreateRoleReq;
+import java.util.List;
+import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2;
+import io.milvus.v2.service.rbac.request.DescribeRoleReq;
+import io.milvus.v2.service.rbac.response.DescribeRoleResp;
+import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2;
+import io.milvus.v2.service.rbac.request.DropRoleReq;
 
 CreateRoleReq createRoleReq = CreateRoleReq.builder()
         .roleName("role_a")
@@ -69,7 +75,6 @@ client.createRole(createRoleReq);
 import (
     "context"
     "fmt"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -149,6 +154,7 @@ await client.createRole({
 
 ```csharp
 using Milvus.Client.V2.Requests.Rbac;
+using Milvus.Client.V2.Responses.Rbac;
 
 await client.CreateRoleAsync(new CreateRoleReq
 {
@@ -186,8 +192,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.list_roles()
 ```
 
@@ -196,8 +200,6 @@ client.list_roles()
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
 List<String> roles = client.listRoles();
 ```
 
@@ -206,25 +208,6 @@ List<String> roles = client.listRoles();
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 roles, err := client.ListRoles(ctx, milvusclient.NewListRoleOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -238,8 +221,6 @@ fmt.Println(roles)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let roles = client
     .list_roles(ListRolesRequest::builder().build()?)
     .await?;
@@ -251,9 +232,6 @@ println!("{:?}", roles.role_names());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::ListRolesResponse resp;
 auto status = client->ListRoles(milvus::ListRolesRequest(), resp);
 if (!status.IsOk()) {
@@ -266,13 +244,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 const roles = await client.listRoles();
 console.log(roles);
 ```
@@ -282,9 +253,6 @@ console.log(roles);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-using Milvus.Client.V2.Responses.Rbac;
-
 ListRolesResp resp = await client.ListRolesAsync(new ListRolesReq());
 foreach (RoleResult role in resp.Roles)
 {
@@ -338,8 +306,6 @@ Zilliz Cloud では、ロールに次のものを付与できます。
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.grant_privilege_v2(
     role_name="role_a",
     privilege="privilege_group_1",
@@ -360,8 +326,6 @@ client.grant_privilege_v2(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2;
-
 client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
         .roleName("role_a")
         .privilege("privilege_group_1")
@@ -382,25 +346,6 @@ client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "privilege_group_1", "default", "collection_01"))
 if err != nil {
     fmt.Println(err.Error())
@@ -419,8 +364,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .grant_privilege(
         GrantPrivilegeRequest::builder()
@@ -449,9 +392,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::GrantPrivilegeV2Request grant_req;
 grant_req.WithRoleName("role_a")
          .WithPrivilege("privilege_group_1")
@@ -468,13 +408,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 await client.grantPrivilegeV2({
   role: 'role_a',
   privilege: 'privilege_group_1',
@@ -495,8 +428,6 @@ await client.grantPrivilegeV2({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-
 await client.GrantPrivilegeV2Async(new GrantPrivilegeReqV2
 {
     RoleName = "role_a",
@@ -603,8 +534,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.describe_role(role_name="role_a")
 ```
 
@@ -613,10 +542,6 @@ client.describe_role(role_name="role_a")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.DescribeRoleReq;
-import io.milvus.v2.service.rbac.response.DescribeRoleResp;
-import java.util.List;
-
 DescribeRoleReq describeRoleReq = DescribeRoleReq.builder()
         .roleName("role_a")
         .build();
@@ -629,25 +554,6 @@ List<DescribeRoleResp.GrantInfo> infos = resp.getGrantInfos();
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 role, err := client.DescribeRole(ctx, milvusclient.NewDescribeRoleOption("role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -661,8 +567,6 @@ fmt.Println(role)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let role = client
     .describe_role(
         DescribeRoleRequest::builder()
@@ -678,9 +582,6 @@ println!("{:?}", role.description().get_role_name());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::DescribeRoleResponse resp;
 auto status = client->DescribeRole(milvus::DescribeRoleRequest().WithRoleName("role_a"), resp);
 if (!status.IsOk()) {
@@ -693,13 +594,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 const role = await client.describeRole({ roleName: 'role_a' });
 console.log(role);
 ```
@@ -709,9 +603,6 @@ console.log(role);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-using Milvus.Client.V2.Responses.Rbac;
-
 DescribeRoleResp resp = await client.DescribeRoleAsync(new DescribeRoleReq { RoleName = "role_a" });
 Console.WriteLine($"Description: {resp.Description}");
 ```
@@ -774,8 +665,6 @@ client.revoke_privilege_v2(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2;
-
 client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
         .roleName("role_a")
         .privilege("privilege_group_1")
@@ -796,12 +685,6 @@ client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "privilege_group_1", "collection_01").
     WithDbName("default"))
 if err != nil {
@@ -822,8 +705,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .revoke_privilege(
         RevokePrivilegeRequest::builder()
@@ -852,9 +733,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::RevokePrivilegeV2Request revoke_req;
 revoke_req.WithRoleName("role_a")
            .WithPrivilege("privilege_group_1")
@@ -871,13 +749,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 await client.revokePrivilegeV2({
   role: 'role_a',
   privilege: 'privilege_group_1',
@@ -898,8 +769,6 @@ await client.revokePrivilegeV2({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-
 await client.RevokePrivilegeV2Async(new RevokePrivilegeReqV2
 {
     RoleName = "role_a",
@@ -965,8 +834,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.drop_role(role_name="role_a")
 ```
 
@@ -975,8 +842,6 @@ client.drop_role(role_name="role_a")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.DropRoleReq;
-
 DropRoleReq dropRoleReq = DropRoleReq.builder()
         .roleName("role_a")
         .build();
@@ -988,12 +853,6 @@ client.dropRole(dropRoleReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.DropRole(ctx, milvusclient.NewDropRoleOption("role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1006,8 +865,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .drop_role(
         DropRoleRequest::builder()
@@ -1022,9 +879,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 auto status = client->DropRole(milvus::DropRoleRequest().WithRoleName("role_a"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -1036,13 +890,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 await client.dropRole({ roleName: 'role_a' });
 ```
 
@@ -1051,8 +898,6 @@ await client.dropRole({ roleName: 'role_a' });
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-
 await client.DropRoleAsync(new DropRoleReq { RoleName = "role_a" });
 ```
 
@@ -1082,8 +927,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.list_roles()
 ```
 
@@ -1092,8 +935,6 @@ client.list_roles()
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
 List<String> resp = client.listRoles();
 ```
 
@@ -1102,25 +943,6 @@ List<String> resp = client.listRoles();
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 roles, err := client.ListRoles(ctx, milvusclient.NewListRoleOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -1134,8 +956,6 @@ fmt.Println(roles)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let roles = client
     .list_roles(ListRolesRequest::builder().build()?)
     .await?;
@@ -1147,9 +967,6 @@ println!("{:?}", roles.role_names());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::ListRolesResponse resp;
 auto status = client->ListRoles(milvus::ListRolesRequest(), resp);
 if (!status.IsOk()) {
@@ -1162,13 +979,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN',
-});
-
 const roles = await client.listRoles();
 console.log(roles);
 ```
@@ -1178,9 +988,6 @@ console.log(roles);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Rbac;
-using Milvus.Client.V2.Responses.Rbac;
-
 ListRolesResp resp = await client.ListRolesAsync(new ListRolesReq());
 foreach (RoleResult role in resp.Roles)
 {

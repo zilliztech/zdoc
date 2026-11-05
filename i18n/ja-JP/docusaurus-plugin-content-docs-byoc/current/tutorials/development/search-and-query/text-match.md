@@ -86,6 +86,14 @@ schema.add_field(
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .enableDynamicField(false)
@@ -115,7 +123,10 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "context"
+import "fmt"
 import "github.com/milvus-io/milvus/client/v3/entity"
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
 
 schema := entity.NewSchema().WithDynamicFieldEnabled(false)
 schema.WithField(entity.NewField().
@@ -142,6 +153,7 @@ schema.WithField(entity.NewField().
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 let schema = CollectionSchema::new()
     .enable_dynamic_field(false)
@@ -174,7 +186,10 @@ let schema = CollectionSchema::new()
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 #include <memory>
+#include <string>
+#include <vector>
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->AddField({"id", milvus::DataType::INT64, "", true, true});
@@ -187,6 +202,8 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
 const schema = [
   {
     name: "id",
@@ -313,10 +330,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 schema.addField(AddFieldReq.builder()
@@ -350,8 +363,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let analyzer_params = serde_json::json!({"type": "english"});
 
 let schema = CollectionSchema::new()
@@ -385,9 +396,6 @@ let schema = CollectionSchema::new()
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <memory>
-
 nlohmann::json analyzer_params = {{"type", "english"}};
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
@@ -793,8 +801,6 @@ let filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
 <TabItem value='c++'>
 
 ```c++
-#include <string>
-
 std::string filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
 ```
 
@@ -856,11 +862,6 @@ result = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 String filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -899,16 +900,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
-
 // Match entities with `keyword1` or `keyword2`
 let filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
@@ -934,10 +925,6 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-#include <vector>
-
 const auto filter = R"(TEXT_MATCH(text, 'keyword1 keyword2'))";
 std::vector<float> query_vector = {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104};
 auto request = milvus::SearchRequest()
@@ -1048,10 +1035,6 @@ result = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-
 String filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 QueryResp queryResp = client.query(QueryReq.builder()
@@ -1083,16 +1066,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
-
 // Match entities with both `keyword1` and `keyword2`
 let filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
@@ -1112,9 +1085,6 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const auto filter = R"(TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2'))";
 
 auto request = milvus::QueryRequest()
@@ -1198,3 +1168,4 @@ zilliz collection search --collection-name my_collection --vector-field embeddin
     - 文字列定数が単一引用符で囲まれている場合、定数内の単一引用符は `\\'` で表す必要がありますが、二重引用符は `"` または `\\"` のいずれかで表すことができます。例：`'It\\'s milvus'`。
 
     - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` で表す必要がありますが、単一引用符は `'` または `\\'` のいずれかで表すことができます。例：`"He said \\"Hi\\""`。
+

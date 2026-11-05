@@ -41,7 +41,10 @@ Zilliz Cloud はオンデマンドのコンピューティングリソースを�
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
+from pymilvus import MilvusClient, DataType
+from pymilvus.bulk_writer import bulk_import
+import json
+from pymilvus.bulk_writer import get_import_progress
 
 # connect to database
 client = MilvusClient(
@@ -58,6 +61,22 @@ client = MilvusClient(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.database.request.CreateDatabaseReq;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Arrays;
+import java.util.List;
+import io.milvus.bulkwriter.request.import_.CloudImportRequest;
+import io.milvus.bulkwriter.restful.BulkImportUtils;
+import java.util.Collections;
+import io.milvus.bulkwriter.request.describe.CloudDescribeImportRequest;
+import io.milvus.v2.client.MilvusClientV2Session;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
     .uri("https://{project-id}.{region}.api.zillizcloud.com")
@@ -73,8 +92,9 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 import (
     "context"
     "log"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx := context.Background()
@@ -94,6 +114,8 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use milvus::v2::bulk_import::{BulkImport, BulkImportConfig, BulkImportRequest};
+use milvus::v2::bulk_import::GetImportProgressRequest;
 
 // connect to database
 let config = ConnectConfig::new()
@@ -108,6 +130,11 @@ let client = ClientV2::new(&config).await?;
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <memory>
+#include "milvus/BulkImport.h"
+#include <utility>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param(
@@ -127,6 +154,8 @@ if (!status.IsOk()) {
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+import { DataType } from '@zilliz/milvus2-sdk-node';
+import { HttpClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'https://{project-id}.{region}.api.zillizcloud.com',
@@ -166,8 +195,6 @@ client.create_database(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.CreateDatabaseReq;
-
 client.createDatabase(CreateDatabaseReq.builder()
     .databaseName("my_database")
     .build());
@@ -178,12 +205,6 @@ client.createDatabase(CreateDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
 if err != nil {
     log.Fatal(err)
@@ -195,8 +216,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .create_database(
         CreateDatabaseRequest::builder()
@@ -211,9 +230,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::CreateDatabaseRequest request;
 request.WithDatabaseName("my_database");
 
@@ -268,8 +284,6 @@ zilliz database create --name my_database
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
-
 schema = MilvusClient.create_schema()
 
 schema.add_field(
@@ -296,10 +310,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 
 schema.addField(AddFieldReq.builder()
@@ -326,8 +336,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 schema := entity.NewSchema().
     WithField(entity.NewField().
         WithName("product_id").
@@ -348,8 +356,6 @@ schema := entity.NewSchema().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = CollectionSchema::new()
     .add_field(
         FieldSchema::new()
@@ -376,9 +382,6 @@ let schema = CollectionSchema::new()
 <TabItem value='c++'>
 
 ```c++
-#include <memory>
-#include "milvus/MilvusClientV2.h"
-
 auto schema = std::make_shared<milvus::CollectionSchema>();
 
 schema->AddField(milvus::FieldSchema("product_id", milvus::DataType::INT64)
@@ -394,8 +397,6 @@ schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from '@zilliz/milvus2-sdk-node';
-
 const schema = [
   {
     name: 'product_id',
@@ -502,8 +503,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 client.useDatabase("my_database");
 
 client.createCollection(CreateCollectionReq.builder()
@@ -517,12 +516,6 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
     log.Fatal(err)
@@ -540,8 +533,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .use_database("my_database")
     .await?;
@@ -561,9 +552,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 auto status = client->UseDatabase("my_database");
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -658,12 +646,6 @@ client.create_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-
-import java.util.Arrays;
-import java.util.List;
-
 List<IndexParam> indexParams = Arrays.asList(
     IndexParam.builder()
         .fieldName("embedding")
@@ -690,14 +672,6 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 vectorIndex := index.NewAutoIndex(entity.COSINE)
 vectorIndexTask, err := client.CreateIndex(ctx,
     milvusclient.NewCreateIndexOption("prod_collection", "embedding", vectorIndex).
@@ -725,8 +699,6 @@ if err := scalarIndexTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .create_index(
         CreateIndexRequest::builder()
@@ -750,8 +722,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-
 milvus::CreateIndexRequest request;
 request.WithDatabaseName("my_database")
        .WithCollectionName("prod_collection")
@@ -844,8 +814,6 @@ zilliz index create \
 <TabItem value='python'>
 
 ```python
-from pymilvus.bulk_writer import bulk_import
-
 # The path should be relative to the root
 # of a zilliz cloud volume or an external storage
 OBJECT_URLS = [[
@@ -874,12 +842,6 @@ res = bulk_import(
 <TabItem value='java'>
 
 ```java
-import io.milvus.bulkwriter.request.import_.CloudImportRequest;
-import io.milvus.bulkwriter.restful.BulkImportUtils;
-
-import java.util.Collections;
-import java.util.List;
-
 String cloudEndpoint = "https://api.cloud.zilliz.com";
 
 List<List<String>> objectUrls = Collections.singletonList(
@@ -919,8 +881,6 @@ System.out.println(res);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::bulk_import::{BulkImport, BulkImportConfig, BulkImportRequest};
-
 let import_client = BulkImport::new(
     &BulkImportConfig::new()
         .url("https://api.cloud.zilliz.com")
@@ -946,8 +906,6 @@ let resp = import_client.bulk_import(request).await?;
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/BulkImport.h"
-
 nlohmann::json res = milvus::BulkImport::CreateImportJobs(
     "https://api.cloud.zilliz.com",             // url
     "prod_collection",                          // collection_name
@@ -968,14 +926,12 @@ nlohmann::json res = milvus::BulkImport::CreateImportJobs(
 <TabItem value='javascript'>
 
 ```javascript
-import { HttpClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new HttpClient({
+const httpClient = new HttpClient({
   endpoint: 'https://api.cloud.zilliz.com',
   token: 'YOUR_ZILLIZ_API_KEY',
 });
 
-const res = await client.createImportJobs({
+const res = await httpClient.createImportJobs({
   projectId: 'proj-xxxxxxxxxxxxxxxxxxx',
   regionId: 'aws-us-west-2',
   dbName: 'my_database',
@@ -1037,9 +993,6 @@ zilliz import start \
 <TabItem value='python'>
 
 ```python
-import json
-from pymilvus.bulk_writer import get_import_progress
-
 # Get bulk-insert job progress
 resp = get_import_progress(
     api_key="YOUR_ZILLIZ_API_KEY",
@@ -1057,9 +1010,6 @@ print(json.dumps(resp.json(), indent=4))
 <TabItem value='java'>
 
 ```java
-import io.milvus.bulkwriter.request.describe.CloudDescribeImportRequest;
-import io.milvus.bulkwriter.restful.BulkImportUtils;
-
 String cloudEndpoint = "https://api.cloud.zilliz.com";
 
 CloudDescribeImportRequest request = CloudDescribeImportRequest.builder()
@@ -1087,8 +1037,6 @@ System.out.println(resp);
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::bulk_import::GetImportProgressRequest;
-
 let request = GetImportProgressRequest::builder()
     .database_name("my_database")
     .project_id("proj-xxxxxxxxxxxxxxxxxxx")
@@ -1116,14 +1064,12 @@ nlohmann::json progress = milvus::BulkImport::GetImportJobProgress(
 <TabItem value='javascript'>
 
 ```javascript
-import { HttpClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new HttpClient({
+const httpClient = new HttpClient({
   endpoint: 'https://api.cloud.zilliz.com',
   token: 'YOUR_ZILLIZ_API_KEY',
 });
 
-const resp = await client.getImportJobProgress({
+const resp = await httpClient.getImportJobProgress({
   projectId: 'proj-xxxxxxxxxxxxxxxxxxx',
   regionId: 'aws-us-west-2',
   jobId: 'job-xxxxxxxxxxxxxxxxxxxxx',
@@ -1137,17 +1083,17 @@ console.log(JSON.stringify(resp, null, 2));
 <TabItem value='bash'>
 
 ```bash
-  # Use jobId returned from create API
-  curl --request POST \
-    --url "${CLOUD_PLATFORM_ENDPOINT}/v2/vectordb/jobs/import/get_progress" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Accept: application/json" \
-    --header "Content-Type: application/json" \
-    -d '{
-      "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
-      "regionId": "aws-us-west-2",
-      "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
-    }'
+# Use jobId returned from create API
+curl --request POST \
+  --url "${CLOUD_PLATFORM_ENDPOINT}/v2/vectordb/jobs/import/get_progress" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Accept: application/json" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
+  }'
 ```
 
 </TabItem>
@@ -1195,18 +1141,11 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient                         
-                                                                                                                               
-client = MilvusClient(                                                                                                       
-    uri="https://{project-id}.{region}.api.zillizcloud.com",                                                                 
-    token="YOUR_API_KEY"                                                                                                     
-)                                                                                                                            
-                                                                                                                               
 session = client.session(cluster_id="inxx-xxxxxxxxxxxxxxx")                                                                  
-                                                                                                                               
+
 # Must match collection vector dimension (example: 768)                                                                      
 query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, ..., 0.9029438446296592]                                
-                                                                                                                               
+
 res = session.search(                                                                                                        
     db_name="my_database",                                                                                                   
     collection_name="prod_collection",                                                                                       
@@ -1214,7 +1153,7 @@ res = session.search(
     data=[query_vector],                                                                                                     
     limit=3,                                                                                                                 
     output_fields=["product_id", "product_name"]                                                                                
-) 
+)
 ```
 
 </TabItem>
@@ -1222,14 +1161,6 @@ res = session.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2Session;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
-import java.util.Arrays;
-import java.util.Collections;
-
 MilvusClientV2Session session = client.session("inxx-xxxxxxxxxxxxxxx");
 
 // Must match collection vector dimension (example: 768)
@@ -1252,13 +1183,6 @@ SearchResp res = session.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // Note: on-demand sessions (client.session) are not supported in
 // milvus-sdk-go as of client/v3.0.0; the search below runs on the
 // default connection of the client.
@@ -1280,8 +1204,6 @@ _ = resultSets
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let session = client.session("inxx-xxxxxxxxxxxxxxx")?;
 
 let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592 /* ...remaining dims */];
@@ -1304,11 +1226,6 @@ let search = session
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <utility>
-#include <vector>
-#include "milvus/MilvusClientV2.h"
-
 milvus::MilvusClientV2SessionPtr session;
 auto status = client->Session("inxx-xxxxxxxxxxxxxxx", session);
 if (!status.IsOk()) {
@@ -1339,8 +1256,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
 const session = client.session('inxx-xxxxxxxxxxxxxxx');
 
 // Must match collection vector dimension (example: 768)
@@ -1425,3 +1340,4 @@ zilliz vector search \
 </Tabs>
 
 その後、データを探索して、最も価値のあるサブセットを見つけることができます。次に、サービングクラスターに接続し、そのクラスターにデータをインポートして、本番環境で提供できます。
+

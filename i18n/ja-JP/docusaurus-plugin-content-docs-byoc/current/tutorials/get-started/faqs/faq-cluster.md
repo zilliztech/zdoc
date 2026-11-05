@@ -103,6 +103,8 @@ Node.js SDK で Zilliz Cloud に接続できない場合は、次を試してく
 1. クライアントが正しく初期化されていることを確認します。
 
     ```javascript
+    import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+    
     const client = new MilvusClient('https://your-db-address-with-port', true, 'your-db-user', 'your-db-pasword');
     ```
 

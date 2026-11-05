@@ -210,9 +210,6 @@ pip install pymilvus datasketch numpy
 256 次元の MinHash シグネチャを生成します。各ハッシュ値は 64 ビット整数で表されます。これは、`MINHASH_LSH` で想定されるベクトル形式と一致します。
 
 ```python
-from datasketch import MinHash
-import numpy as np
-
 MINHASH_DIM = 256
 HASH_BIT_WIDTH = 64
 
@@ -255,7 +252,9 @@ MinHash ベクトルと元のトークンセットを準備したら、Zilliz Cl
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
+from pymilvus import MilvusClient, DataType
+from datasketch import MinHash
+import numpy as np
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")  # Update if your URI is different
 ```
@@ -267,6 +266,19 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")  # Update if your URI is diff
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.BinaryVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -283,6 +295,9 @@ import (
     "context"
     "log"
 
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -303,6 +318,8 @@ defer cli.Close(ctx)
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
+use std::collections::HashMap;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
 let client = ClientV2::new(&config).await?;
@@ -330,7 +347,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
 ```
@@ -342,6 +359,10 @@ const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -379,8 +400,6 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 <TabItem value='python'>
 
 ```python
-from pymilvus import DataType
-
 VECTOR_DIM = MINHASH_DIM * HASH_BIT_WIDTH  # 256 × 64 = 16384 bits
 
 schema = client.create_schema(auto_id=False, enable_dynamic_field=False)
@@ -395,10 +414,6 @@ schema.add_field("document", DataType.VARCHAR, max_length=1000)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 int VECTOR_DIM = 256 * 64;  // 256 × 64 = 16384 bits
 
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
@@ -419,10 +434,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
-
 // 256 × 64 = 16384 bits
 schema := entity.NewSchema().
     WithField(entity.NewField().WithName("doc_id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
@@ -436,8 +447,6 @@ schema := entity.NewSchema().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // 256 × 64 = 16384 bits
 let schema = CollectionSchema::new()
     .enable_dynamic_field(false)
@@ -466,8 +475,6 @@ schema->AddField(milvus::FieldSchema("document", milvus::DataType::VARCHAR).With
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from '@zilliz/milvus2-sdk-node';
-
 const VECTOR_DIM = 256 * 64; // 256 × 64 = 16384 bits
 
 const schema = [
@@ -483,8 +490,6 @@ const schema = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 // 256 × 64 = 16384 bits
 int vectorDim = 256 * 64;
 
@@ -548,10 +553,6 @@ client.create_collection("minhash_demo", schema=schema, index_params=index_param
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.Collections;
-
 IndexParam indexParam = IndexParam.builder()
         .fieldName("minhash_signature")
         .indexType(IndexParam.IndexType.MINHASH_LSH)
@@ -575,13 +576,6 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 idx := index.NewMinHashLSHIndex(entity.MHJACCARD, 16).
     WithElementBitWidth(64).
     WithRawData(true)
@@ -598,9 +592,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let index_param = IndexParam::new()
     .field_name("minhash_signature")
     .index_type(IndexType::MinhashLsh)
@@ -663,9 +654,6 @@ await client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 IndexParam indexParam = new("minhash_signature", "vector_index", IndexType.MinHashLsh, MetricType.MhJaccard)
 {
     ExtraParams =
@@ -752,12 +740,6 @@ client.flush("minhash_demo")
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.ArrayList;
-import java.util.List;
-
 // MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
 // `signatures[i]` corresponds to `documents[i]`.
 String[] documents = {
@@ -792,12 +774,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/column"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
 // `signatures[i]` corresponds to `documents[i]`.
 documents := []string{
@@ -828,9 +804,6 @@ log.Println("insert count:", result.InsertCount)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 // MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
 // `signatures[i]` corresponds to `documents[i]`.
 let documents = [
@@ -923,9 +896,6 @@ await client.insert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Types;
-
 // MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
 // `signatures[i]` corresponds to `documents[i]`.
 string[] documents =
@@ -1126,12 +1096,6 @@ for i, hit in enumerate(approx_results[0]):
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.BinaryVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Collections;
-
 // Approximate search (LSH-only): uses only MinHash signatures and LSH.
 SearchResp approxResp = client.search(SearchReq.builder()
         .collectionName("minhash_demo")
@@ -1154,13 +1118,6 @@ for (SearchResp.SearchResult hit : approxResp.getSearchResults().get(0)) {
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // Approximate search (LSH-only): uses only MinHash signatures and LSH.
 resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("minhash_demo", 3, []entity.Vector{entity.BinaryVector(querySignature)}).
     WithANNSField("minhash_signature").
@@ -1264,10 +1221,6 @@ for (const hit of approx_results.results) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 // Approximate search (LSH-only): uses only MinHash signatures and LSH.
 SearchResp resp = await client.SearchAsync(new SearchReq
 {
@@ -1351,12 +1304,6 @@ for i, hit in enumerate(refined_results[0]):
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.BinaryVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Collections;
-
 // Refined search: re-computes the exact Jaccard similarity on the candidates.
 SearchResp refinedResp = client.search(SearchReq.builder()
         .collectionName("minhash_demo")
@@ -1382,13 +1329,6 @@ for (SearchResp.SearchResult hit : refinedResp.getSearchResults().get(0)) {
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // Refined search: re-computes the exact Jaccard similarity on the candidates.
 resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("minhash_demo", 3, []entity.Vector{entity.BinaryVector(querySignature)}).
     WithANNSField("minhash_signature").
