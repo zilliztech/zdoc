@@ -69,13 +69,37 @@ Zilliz Cloud は、デフォルトの整合性レベルとして Bounded Stalene
 
 コレクションを作成するときに、そのコレクション内での検索およびクエリの整合性レベルを設定できます。以下のコード例では、整合性レベルを **Bounded** に設定しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient, DataType
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+schema = client.create_schema(
+    auto_id=False,
+    enable_dynamic_field=False,
+)
+
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=5)
+schema.add_field(field_name="color", datatype=DataType.VARCHAR, max_length=512)
+
+index_params = client.prepare_index_params()
+index_params.add_index(
+    field_name="vector",
+    index_type="AUTOINDEX",
+    metric_type="COSINE"
+)
+
 client.create_collection(
     collection_name="my_collection",
     schema=schema,
+    index_params=index_params,
     # highlight-next-line
     consistency_level="Bounded",
 )
@@ -86,15 +110,63 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.Arrays;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String TOKEN = "YOUR_CLUSTER_TOKEN";
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+    .uri(CLUSTER_ENDPOINT)
+    .token(TOKEN)
+    .build();
+
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .autoID(false)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("vector")
+        .dataType(DataType.FloatVector)
+        .dimension(5)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("color")
+        .dataType(DataType.VarChar)
+        .maxLength(512)
+        .build());
+
+IndexParam indexParam = IndexParam.builder()
+        .fieldName("vector")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.COSINE)
+        .build();
 
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
+        .indexParams(Arrays.asList(indexParam))
         // highlight-next-line
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
+
 client.createCollection(createCollectionReq);
 ```
 
@@ -104,14 +176,42 @@ client.createCollection(createCollectionReq);
 
 ```go
 import (
+    "context"
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+    APIKey:  token,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema().
+    WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
+    WithField(entity.NewField().WithName("vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5)).
+    WithField(entity.NewField().WithName("color").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512))
+
+indexOptions := []milvusclient.CreateIndexOption{
+    milvusclient.NewCreateIndexOption("my_collection", "vector", index.NewAutoIndex(entity.COSINE)),
+}
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOptions...).
         WithConsistencyLevel(entity.ClBounded))
 if err != nil {
     fmt.Println(err.Error())
@@ -126,10 +226,41 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("vector")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("color")
+            .data_type(DataType::VarChar)
+            .max_length(512),
+    );
+
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
         .schema(schema)
+        .index_param(
+            IndexParam::new()
+                .field_name("vector")
+                .index_type(IndexType::AutoIndex)
+                .metric_type(MetricType::Cosine),
+        )
         .consistency_level(ConsistencyLevel::Bounded)
         .build()?,
 )
@@ -141,10 +272,30 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                          .WithCollectionName("my_collection")
-                                          .WithCollectionSchema(schema)
-                                          .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED));
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr collection_schema = std::make_shared<milvus::CollectionSchema>();
+collection_schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, false));
+collection_schema->AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR, "").WithDimension(5));
+collection_schema->AddField(milvus::FieldSchema("color", milvus::DataType::VARCHAR, "").WithMaxLength(512));
+
+milvus::IndexParam index_vector{"vector", "vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE};
+
+status = client->CreateCollection(
+    milvus::CreateCollectionRequest()
+        .WithCollectionName("my_collection")
+        .WithCollectionSchema(collection_schema)
+        .AddIndexParam(std::move(index_vector))
+        .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -198,35 +349,79 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateFloatVector("vector", dimension: 5),
+        FieldSchema.CreateVarchar("color", maxLength: 512)
+    }
+};
+
+var indexParam = new IndexParam("vector", null, IndexType.AutoIndex, MetricType.Cosine);
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = new[] { indexParam },
+    // highlight-next-line
+    ConsistencyLevel = ConsistencyLevel.Bounded
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 export schema='{
-        "autoId": true,
-        "enabledDynamicField": false,
-        "fields": [
-            {
-                "fieldName": "id",
-                "dataType": "Int64",
-                "isPrimary": true
-            },
-            {
-                "fieldName": "vector",
-                "dataType": "FloatVector",
-                "elementTypeParams": {
-                    "dim": "5"
-                }
-            },
-            {
-                "fieldName": "my_varchar",
-                "dataType": "VarChar",
-                "isClusteringKey": true,
-                "elementTypeParams": {
-                    "max_length": 512
-                }
+    "autoId": false,
+    "enabledDynamicField": false,
+    "fields": [
+        {
+            "fieldName": "id",
+            "dataType": "Int64",
+            "isPrimary": true
+        },
+        {
+            "fieldName": "vector",
+            "dataType": "FloatVector",
+            "elementTypeParams": {
+                "dim": "5"
             }
-        ]
-    }'
+        },
+        {
+            "fieldName": "color",
+            "dataType": "VarChar",
+            "elementTypeParams": {
+                "max_length": 512
+            }
+        }
+    ]
+}'
 
 export params='{
     "consistencyLevel": "Bounded"
@@ -252,7 +447,7 @@ curl --request POST \
 
 特定の検索について、整合性レベルはいつでも変更できます。以下のコード例では、整合性レベルを **Bounded** に戻しています。変更は現在の Search リクエストにのみ適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -271,12 +466,6 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Collections;
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new FloatVec(queryVector)))
@@ -292,13 +481,6 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
     3,               // limit
@@ -316,8 +498,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -364,6 +544,27 @@ const res = await client.search({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var queryVector = new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f });
+
+SearchResp resp = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    VectorFieldName = "vector",
+    Vectors = new[] { queryVector },
+    Limit = 3,
+    MetricType = MetricType.Cosine,
+    Parameters = new SearchParameters
+    {
+        ConsistencyLevel = ConsistencyLevel.Bounded
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -390,7 +591,7 @@ curl --request POST \
 
 特定の検索について、整合性レベルはいつでも変更できます。以下のコード例では、整合性レベルを **Eventually** に設定しています。設定は現在のクエリリクエストにのみ適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -400,7 +601,7 @@ res = client.query(
     output_fields=["vector", "color"],
     limit=3,
     # highlight-start
-    consistency_level="Bounded",
+    consistency_level="Eventually",
     # highlight-next
 )
 ```
@@ -410,17 +611,12 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("color like \"red%\"")
         .outputFields(Arrays.asList("vector", "color"))
         .limit(3)
-        .consistencyLevel(ConsistencyLevel.BOUNDED)
+        .consistencyLevel(ConsistencyLevel.EVENTUALLY)
         .build();
 
 QueryResp getResp = client.query(queryReq);
@@ -431,18 +627,11 @@ QueryResp getResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("color like \"red%\"").
     WithOutputFields("vector", "color").
     WithLimit(3).
-    WithConsistencyLevel(entity.ClBounded))
+    WithConsistencyLevel(entity.ClEventually))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -454,15 +643,13 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
         .filter(r#"color like "red%""#)
         .output_fields(["vector", "color"])
         .limit(3)
-        .consistency_level(ConsistencyLevel::Bounded)
+        .consistency_level(ConsistencyLevel::Eventually)
         .build()?,
 )
 .await?;
@@ -478,7 +665,7 @@ auto request = milvus::QueryRequest()
                        .WithFilter(R"(color like "red%")")
                        .WithOutputFields({"vector", "color"})
                        .WithLimit(3)
-                       .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED);
+                       .WithConsistencyLevel(milvus::ConsistencyLevel::EVENTUALLY);
 
 milvus::QueryResponse response;
 auto status = client->Query(request, response);
@@ -497,7 +684,25 @@ const res = await client.query({
     filter: 'color like "red%"',
     output_fields: ["vector", "color"],
     limit: 3,
-    consistency_level: "Bounded",
+    consistency_level: "Eventually",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+QueryResp resp = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "color like \"red%\"",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "vector", "color" },
+        Limit = 3,
+        ConsistencyLevel = ConsistencyLevel.Eventually
+    }
 });
 ```
 
@@ -514,7 +719,7 @@ curl --request POST \
     "collectionName": "my_collection",
     "filter": "color like \"red%\"",
     "outputFields": ["vector", "color"],
-    "consistencyLevel": "Bounded",
+    "consistencyLevel": "Eventually",
     "limit": 3
 }'
 ```

@@ -97,6 +97,21 @@ import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
 
 String COLLECTION_NAME = "geo_collection";
 int DIM = 8;
@@ -149,6 +164,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx := context.Background()
@@ -266,6 +283,9 @@ await client.createCollection({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Requests.Dql;
 
 const string COLLECTION_NAME = "geo_collection";
 const int DIM = 8;
@@ -395,13 +415,6 @@ print(insert_result)
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 
 List<String> geoPoints = Arrays.asList(
@@ -447,25 +460,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
 geoPoints := []string{
@@ -549,9 +543,6 @@ for i in 0..6 {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 milvus::EntityRows data = {{{"id", 1}, {"name", "Shop A"}, {"embeddings", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}}, {"geo", "POINT(13.399710 52.518010)"}},
@@ -606,8 +597,6 @@ console.log(insert_result);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 const string COLLECTION_NAME = "geo_collection";
 
 var geoPoints = new[]
@@ -735,12 +724,6 @@ milvus_client.load_collection(collection_name)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import java.util.ArrayList;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 
 List<IndexParam> indexParams = new ArrayList<>();
@@ -764,26 +747,6 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
 task, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "embeddings", index.NewAutoIndex(entity.L2)).WithIndexName("embeddings_index"))
@@ -840,9 +803,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 milvus::IndexDesc index_vector("embeddings", "", milvus::IndexType::IVF_FLAT, milvus::MetricType::L2);
@@ -886,10 +846,6 @@ await client.loadCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 const string COLLECTION_NAME = "geo_collection";
 
 await client.CreateIndexAsync(new CreateIndexReq
@@ -996,11 +952,6 @@ for ret in query_results:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 
 float topLeftLon = 13.403683f;
@@ -1029,24 +980,6 @@ for (QueryResp.QueryResult result : queryResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
 boundingBoxWkt := "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))"
@@ -1103,9 +1036,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 std::string filter = "st_within(geo, 'POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))')";
@@ -1155,9 +1085,6 @@ for (const ret of query_results.data) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 const string COLLECTION_NAME = "geo_collection";
 
 float topLeftLon = 13.403683f;
@@ -1232,11 +1159,6 @@ for ret in query_results:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 
 float centerPointLon = 13.403683f;
@@ -1261,24 +1183,6 @@ for (QueryResp.QueryResult result : queryResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
 centralPointWkt := "POINT(13.403683 52.520711)"
@@ -1335,9 +1239,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 std::string filter = "st_dwithin(geo, 'POINT(13.403683 52.520711)', 1000.0)";
@@ -1386,9 +1287,6 @@ for (const ret of query_results_dwithin.data) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 const string COLLECTION_NAME = "geo_collection";
 
 float centerPointLon = 13.403683f;
@@ -1458,13 +1356,6 @@ for hits in result:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 String boundingBoxWkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
 
@@ -1491,25 +1382,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
 queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}
@@ -1574,9 +1446,6 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
@@ -1631,9 +1500,6 @@ for (const hit of search_results.results) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 const string COLLECTION_NAME = "geo_collection";
 string boundingBoxWkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
 

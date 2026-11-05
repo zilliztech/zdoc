@@ -144,7 +144,7 @@ Zilliz Cloud では、スキーマの一部として組み込み関数を定義�
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
+from pymilvus import MilvusClient, DataType, Function, FunctionType
 
 schema = MilvusClient.create_schema()
 ```
@@ -157,6 +157,11 @@ schema = MilvusClient.create_schema()
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
+import java.util.*;
 
 // 1. Connect to Milvus server
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -175,7 +180,9 @@ CreateCollectionReq.CollectionSchema schema = client.createSchema();
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
 
 schema := entity.NewSchema()
 ```
@@ -214,7 +221,7 @@ milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>(
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
 
 //Skip this step using JavaScript
 ```
@@ -248,8 +255,6 @@ CollectionSchema schema = new();
 <TabItem value='python'>
 
 ```python
-from pymilvus import DataType
-
 schema.add_field(field_name="article_id", datatype=DataType.INT64, is_primary=True, auto_id=True, description="article id")
 schema.add_field(field_name="title", datatype=DataType.VARCHAR, enable_analyzer=True, enable_match=True, max_length=200, description="article title")
 schema.add_field(field_name="timestamp", datatype=DataType.INT32, description="publish date")
@@ -263,9 +268,6 @@ schema.add_field(field_name="text_sparse_vector", datatype=DataType.SPARSE_FLOAT
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-
 schema.addField(AddFieldReq.builder()
         .fieldName("article_id")
         .dataType(DataType.Int64)
@@ -305,8 +307,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 schema.WithField(entity.NewField().
     WithName("article_id").
     WithDataType(entity.FieldTypeInt64).
@@ -347,8 +347,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = schema
     .add_field(FieldSchema::new()
         .name("article_id")
@@ -404,8 +402,6 @@ schema->AddField(milvus::FieldSchema("text_sparse_vector", milvus::DataType::SPA
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 const fields = [
     {
         name: "article_id",
@@ -447,8 +443,6 @@ const fields = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 schema.Fields.Add(new FieldSchema("article_id", DataType.Int64, isPrimaryKey: true, autoId: true, description: "article id"));
 schema.Fields.Add(FieldSchema.CreateVarchar("title", 200, description: "article title", enableAnalyzer: true, enableMatch: true));
 schema.Fields.Add(new FieldSchema("timestamp", DataType.Int32, description: "publish date"));
@@ -527,8 +521,6 @@ export schema="{
 <TabItem value='python'>
 
 ```python
-from pymilvus import Function, FunctionType
-
 bm25_function = Function(
     name="text_bm25",
     input_field_names=["text"],
@@ -544,10 +536,6 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-import java.util.*;
-
 schema.addFunction(Function.builder()
         .functionType(FunctionType.BM25)
         .name("text_bm25")
@@ -561,8 +549,6 @@ schema.addFunction(Function.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 function := entity.NewFunction().
     WithName("text_bm25").
     WithInputFields("text").
@@ -576,8 +562,6 @@ schema.WithFunction(function)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = schema.add_function(
     Function::new()
         .name("text_bm25")
@@ -603,8 +587,6 @@ schema->AddFunction(function);
 <TabItem value='javascript'>
 
 ```javascript
-import { FunctionType } from "@zilliz/milvus2-sdk-node";
-
 const functions = [
     {
       name: 'text_bm25',
@@ -622,8 +604,6 @@ const functions = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 FunctionSchema bm25Function = FunctionSchema.CreateBm25("text_bm25", "text", "text_sparse_vector", "bm25 function");
 schema.Functions.Add(bm25Function);
 ```

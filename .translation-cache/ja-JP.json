@@ -546,29 +546,29 @@
       "translatedAt": "2026-11-05T11:01:10.275Z"
     },
     "content/en/byoc/tutorials/development/schema/default-fields.md": {
-      "sourceHash": "693228f9f2e22217a772f9250ce1ffecbd9fdb9c462d97a75323f38aa70b00cc",
+      "sourceHash": "e3aedbe1292f87f321cd1e5969394a0cd7a2c63ec6c7ef0ce6a20706886c41d7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/default-fields.md",
-      "translatedAt": "2026-10-25T05:01:21.841Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/enable-dynamic-field.md": {
-      "sourceHash": "16af43d7a7c65ec448f18e6d8828c1eccd4cccf5d2da342665060c305dcd5118",
+      "sourceHash": "5310b05d231d3438c5e92804354f2e7e148fb1d97a68b7131f115d6b044f6c7e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/enable-dynamic-field.md",
-      "translatedAt": "2026-10-25T05:01:21.841Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/json-fields/json-field-overview.md": {
-      "sourceHash": "e3db82dd49907adcae3e8bf2c70e00f02fd44d2dd989b1c76f9a94ac31cc950f",
+      "sourceHash": "c88c4af4c17fc3ac5de2a70356636a2a9c7c262e70beb6d265f99a982accbbcb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-fields/json-field-overview.md",
-      "translatedAt": "2026-10-28T15:45:32.623Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/json-fields/json-indexing.md": {
-      "sourceHash": "443623d67d4b5253030cb7cd3f3d4eb351e819ff947c21e738c0f96064b2cce7",
+      "sourceHash": "a0a5df096345e71cca9487f43cc863ea8fac1c7839b2b7bb79c570a1ada70690",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-fields/json-indexing.md",
-      "translatedAt": "2026-10-28T03:00:26.017Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/json-fields/json-shredding.md": {
-      "sourceHash": "261e70e7621ce1aa4286752c9e9960c23fa85a0506c251a5c79ed0b4f3c9eb73",
+      "sourceHash": "4699b081a3fa3b243e760b995a46d120dd09620e0a66802467b87191a0c74606",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-fields/json-shredding.md",
-      "translatedAt": "2026-08-04T05:11:12.195Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/nullable-fields.md": {
       "sourceHash": "f72f32d7cabb5ed9656ae8f11e82d9d16e790603377e46a15c72a2f35eba8b57",
@@ -576,9 +576,9 @@
       "translatedAt": "2026-10-25T05:47:48.541Z"
     },
     "content/en/byoc/tutorials/development/schema/primary-field-auto-id.md": {
-      "sourceHash": "d7cf6946b9066290a0f9cefed252f57cf1c35e607c884b6755e2bd39ac8ba1c3",
+      "sourceHash": "8f1a0b5fa6194ab60377e8381ec2430ca64b0da71ce1f3f618b8d38d94c91965",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/primary-field-auto-id.md",
-      "translatedAt": "2026-10-30T19:44:10.283Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
       "sourceHash": "6c226920701a6d630c4140a3ce22d759cb874bdc4f95b5ec1ce5f7877829ec7e",
@@ -586,19 +586,19 @@
       "translatedAt": "2026-08-04T05:11:19.322Z"
     },
     "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-design-hands-on.md": {
-      "sourceHash": "1c2cdf1392989fdc364fe600ab4f8e6ec05900fe11e9be15b7d85779a891d9e6",
+      "sourceHash": "c9e71ab52cbde2c47383ddd6e1a6262af1859497dd69acc4c9f7be576f7aa87e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/schema-best-practices/schema-design-hands-on.md",
-      "translatedAt": "2026-10-25T05:01:21.841Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md": {
-      "sourceHash": "9bf9bde910c8d98bac7378c62426d20b2d1c0fab3629974b52862bc831e6bd31",
+      "sourceHash": "87b8a2d7878cb4eb7c5ae77618ccd3bc0199d2dbc2768a3421bb2f8edef48709",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-      "translatedAt": "2026-10-29T12:55:32.070Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/schema-explained.md": {
-      "sourceHash": "7b8ef735dbd7d355cb9d48f8e58d95a300983f766adf89f690c7b47d9a8df31d",
+      "sourceHash": "89c9f727c7fedb75ae07cf4ec9ab27bc556309e52cef35e161b8c232540c96a6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/schema-explained.md",
-      "translatedAt": "2026-10-25T05:47:48.541Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/create-struct-array.md": {
       "sourceHash": "aacc43fca4aea2083d84b3d7bad410367f98b98d8d46fb9e01ed434dd23d5ff2",
@@ -626,9 +626,9 @@
       "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/byoc/tutorials/development/schema/use-array-fields.md": {
-      "sourceHash": "25192ca0de000db589a6e8ddc89f30b3f54d176933b1f12b5759c4d64ea7f145",
+      "sourceHash": "3e074ef3e736f975786b04c3881c299104602533f87c32fcc5e2cd148410351e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-array-fields.md",
-      "translatedAt": "2026-10-31T03:41:25.271Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/use-binary-vector.md": {
       "sourceHash": "72e294e3bb1dfc2e99ee3efbd258a37ee084971077a17fdf47e43d44552f8962",
@@ -641,14 +641,14 @@
       "translatedAt": "2026-10-28T15:45:32.623Z"
     },
     "content/en/byoc/tutorials/development/schema/use-geometry-field.md": {
-      "sourceHash": "a7626b5077276d37e4b8defde9b65dd67c5c9604f9afce48af8eb47727e4a136",
+      "sourceHash": "0436e7b8a2be8c066bfa7b0e3619634190c361871f095182f33a8468ed21fafc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-geometry-field.md",
-      "translatedAt": "2026-10-25T05:47:48.541Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/use-number-field.md": {
-      "sourceHash": "9b300ca477a590cdbea8437f54ad0b1cbcec5deb3b802146237088ad587b03e9",
+      "sourceHash": "3fec1bf3db34271a01330b9880e63881f21a7d265a1c86f7a313191484f14ec2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-number-field.md",
-      "translatedAt": "2026-10-31T03:41:25.271Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/use-sparse-vector.md": {
       "sourceHash": "e40b75d9e6b94033d4405cb2f53adc4d4304163ab950f606013b94d137c9b70d",
@@ -661,19 +661,19 @@
       "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/byoc/tutorials/development/schema/use-text-field.md": {
-      "sourceHash": "318e2ff35ce30fdeb32268b8df24140e11f73a7e3ace54033afeaeae3df1a2f2",
+      "sourceHash": "8d7464bda8a209252195722dba4a4d17b77d5499415754970fed6162e0963a2d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-text-field.md",
-      "translatedAt": "2026-10-31T03:41:25.271Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/use-timestamptz-field.md": {
-      "sourceHash": "fc3b158d50e0a704b1164ce390114c19ee21d3ecd5e5f10ea36a1cfec6eeb8a4",
+      "sourceHash": "3c4edb57f2547afc14530d9a8e7846d0709945e046bfa1487d04ba0da52e4efd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-timestamptz-field.md",
-      "translatedAt": "2026-10-10T05:46:29.774Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "3a9bbec9d55a8a8d80123e8bbcb3c683cb7b0792e5a37fe80780989a8cb23f76",
+      "sourceHash": "142b5bcde11b5b1031f02c50aa59d9676ae0a5b41af1cc711b2928704874239f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-10-30T19:44:10.283Z"
+      "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "3770a3c32ca2eea586bff1f8f17132d1a4ef03b1cf231ccaa638532fe19761c8",

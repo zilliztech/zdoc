@@ -1,7 +1,6 @@
 ---
 title: "Boolean と数値 | BYOC"
 slug: /use-number-field
-sidebar_label: "Boolean と数値"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Boolean フィールドまたは数値フィールドは、Boolean 値または数値を格納するスカラー型フィールドです。これらの値は、2 つの取りうる値のいずれか、または整数（整数値）および小数（浮動小数点数）です。通常、数量、測定値、または論理的もしくは数学的に処理する必要のあるデータを表すために使用されます。 | BYOC"
 type: origin
-token: EwArwXCOPip15hkSvvpciAMJnSe
-sidebar_position: 8
 displayed_sidebar: default
+token: shared-use-number-field
+sidebar_label: "Boolean と数値"
+sidebar_position: 8
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/number.md"
 
 ---
 
@@ -37,7 +38,7 @@ Boolean フィールドまたは数値フィールドは、Boolean 値または�
 
 Boolean フィールドを宣言するには、`datatype` を `BOOL` に設定するだけです。数値フィールドを宣言するには、使用可能な数値データ型のいずれかに設定するだけです。たとえば、整数フィールドには `DataType.INT64`、浮動小数点フィールドには `DataType.FLOAT` を指定します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Zilliz Cloud では、Boolean フィールドと数値フィールドの null 値およびデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を数値に設定します。詳細は、[Nullable とデフォルト](./nullable-fields) を参照してください。
 
@@ -53,9 +54,9 @@ Boolean データまたは数値データを格納するには、コレクショ
 
 - `price`: 浮動小数点データを格納し、null 値を許可しますが、デフォルト値はありません。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-スキーマを定義するときに `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[動的フィールド](./enable-dynamic-field) を参照してください。
+スキーマを定義するときに `enable_dynamic_field=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できます。ただし、クエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
@@ -75,7 +76,7 @@ client = MilvusClient(uri=SERVER_ADDR)
 # Define the collection schema
 schema = client.create_schema(
     auto_id=False,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 # Add an INT64 field `age` that supports null values with default value 18
@@ -377,13 +378,14 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## インデックスパラメーターを設定する\{#set-index-params}
 
 インデックス作成は、検索とクエリのパフォーマンス向上に役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
 
-次の例では、ベクトルフィールド `embedding` とスカラーフィールド `age` に、どちらも `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。詳細は、[AUTOINDEX の説明](./autoindex-explained) を参照してください。
+次の例では、ベクトルフィールド `embedding` とスカラーフィールド `age` の両方に `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Zilliz Cloud がデータ型に基づいて最適なインデックスを自動的に選択します。詳細は、[Index Explained](./indexes) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -539,6 +541,7 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## コレクションを作成する\{#create-collection}
@@ -685,6 +688,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## データを挿入する\{#insert-data}
@@ -914,6 +918,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## フィルター式を使用したクエリ\{#query-with-filter-expressions}
@@ -1105,6 +1110,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `price` が null のエンティティを取得するには、次のようにします。
@@ -1289,6 +1295,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `age` の値が `18` であるエンティティを取得するには、次の式を使用します。`age` のデフォルト値は `18` であるため、期待される結果には、`age` が明示的に `18` に設定されたエンティティ、または `age` が null に設定されたエンティティが含まれるはずです。
@@ -1476,6 +1483,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## フィルター式を使用したベクトル検索\{#vector-search-with-filter-expressions}
@@ -1708,6 +1716,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、まずクエリベクトルを定義し、検索時にフィルター条件 `25 <= age <= 35` を追加します。これにより、検索結果がクエリベクトルに類似しているだけでなく、指定された年齢範囲も満たすことが保証されます。詳細は、[フィルタリングの概要](./filtering-overview) を参照してください。

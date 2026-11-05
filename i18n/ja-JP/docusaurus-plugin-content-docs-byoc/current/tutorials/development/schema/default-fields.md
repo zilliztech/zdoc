@@ -1,21 +1,21 @@
 ---
 title: "デフォルト値 | BYOC"
 slug: /default-fields
-sidebar_label: "デフォルト値"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、スカラーフィールド（プライマリーフィールドを除く）にデフォルト値を設定できます。フィールドにデフォルト値が設定されている場合、挿入時にデータが指定されなければ、Zilliz Cloud が自動的にこの値を適用します。 | BYOC"
+description: "エンティティの挿入時に Zilliz Cloud が欠落値を補完するよう、スカラーフィールドのデフォルト値を設定します。 | BYOC"
 type: origin
-token: SsGkwyGJDirNDwk170rcHbUjnVe
-sidebar_position: 16
 displayed_sidebar: default
+token: shared-default-fields
+sidebar_label: "デフォルト値"
+sidebar_position: 16
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/default-values.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -45,7 +45,7 @@ Zilliz Cloud では、スカラーフィールド（プライマリーフィー�
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri='YOUR_CLUSTER_ENDPOINT')
+client = MilvusClient(uri='YOUR_CLUSTER_ENDPOINT', token='YOUR_CLUSTER_TOKEN')
 
 # Drop the collection if it already exists
 if client.has_collection("my_collection"):
@@ -94,6 +94,7 @@ import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 String collectionName = "my_collection";
@@ -169,6 +170,7 @@ ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal(err)
@@ -235,7 +237,11 @@ if err := loadTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 const COLLECTION_NAME: &str = "my_collection";
 
@@ -375,6 +381,7 @@ import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 const collectionName = 'my_collection';
@@ -438,7 +445,8 @@ using Milvus.Client.V2.Types;
 
 var config = new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT"
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -517,7 +525,7 @@ curl --request POST \
           "fieldName": "vector",
           "dataType": "FloatVector",
           "elementTypeParams": {
-            "dim": "5"
+            "dim": 5
           }
         },
         {
@@ -530,7 +538,7 @@ curl --request POST \
           "dataType": "VarChar",
           "defaultValue": "active",
           "elementTypeParams": {
-            "max_length": "10"
+            "max_length": 10
           }
         }
       ]
@@ -555,6 +563,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## エンティティを挿入する\{#insert-entities}
@@ -887,6 +896,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## デフォルト値を使用した検索とクエリ\{#search-and-query-with-default-values}
@@ -1132,6 +1142,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 <details>
@@ -1452,6 +1463,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 <details>
@@ -1474,13 +1486,44 @@ Query results (status == 'active'):
 
 フィールドに `nullable` と `default_value` の両方が設定されている場合、挿入時に NULL が入力されたとき、またはフィールド値が欠落したときに Zilliz Cloud がどのように処理するかは、次のルールで決まります。
 
-| Null 許容 | デフォルト値 | ユーザー入力 | 結果 |
-| --- | --- | --- | --- |
-| ✅ | ✅（NULL 以外） | NULL または省略 | デフォルト値を使用します。 |
-| ✅ | ❌ | NULL または省略 | NULL として保存されます。 |
-| ❌ | ✅（NULL 以外） | NULL または省略 | デフォルト値を使用します。 |
-| ❌ | ❌ | NULL または省略 | エラーが発生します。 |
-| ❌ | ✅（NULL） | NULL または省略 | エラーが発生します。 |
+<table>
+   <tr>
+     <th><p>NULL 許容</p></th>
+     <th><p>デフォルト値</p></th>
+     <th><p>ユーザー入力</p></th>
+     <th><p>結果</p></th>
+   </tr>
+   <tr>
+     <td><p>✅</p></td>
+     <td><p>✅（NULL 以外）</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>デフォルト値を使用します。</p></td>
+   </tr>
+   <tr>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>NULL として保存されます。</p></td>
+   </tr>
+   <tr>
+     <td><p>❌</p></td>
+     <td><p>✅（NULL 以外）</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>デフォルト値を使用します。</p></td>
+   </tr>
+   <tr>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>エラーが発生します。</p></td>
+   </tr>
+   <tr>
+     <td><p>❌</p></td>
+     <td><p>✅（NULL）</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>エラーが発生します。</p></td>
+   </tr>
+</table>
 
 **主なポイント:**
 
@@ -1491,4 +1534,3 @@ Query results (status == 'active'):
 - `nullable=False` でデフォルト値が設定されていない場合、挿入はエラーで失敗します。
 
 - Null 許容でないフィールドに NULL のデフォルト値を設定することは無効で、エラーが発生します。
-

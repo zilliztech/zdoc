@@ -1,7 +1,6 @@
 ---
 title: "JSON フィールドの概要 | BYOC"
 slug: /json-field-overview
-sidebar_label: "概要"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "製品カタログ、コンテンツ管理システム、ユーザー設定エンジンなどのアプリケーションを構築する場合、ベクトル埋め込みとともに柔軟なメタデータを保存する必要がよくあります。製品属性はカテゴリによって異なり、ユーザー設定は時間の経過とともに変化し、ドキュメントのプロパティには複雑なネスト構造があります。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データを保存およびクエリできるようにすることで、この課題を解決します。 | BYOC"
 type: origin
-token: Neq4wR0EdiXokRkhXwbcMPfanCd
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-json-field-overview
+sidebar_label: "概要"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/json-field-overview.md"
 
 ---
 
@@ -52,7 +53,7 @@ JSON フィールド構造の例：
 
 この例では、`metadata` は単一の JSON フィールドであり、フラットな値（例：`category`、`in_stock`）、配列（`tags`）、ネストされたオブジェクト（`supplier`）が混在しています。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 **命名規則：** JSON キーには英字、数字、アンダースコアのみを使用してください。特殊文字、スペース、ドットはクエリの解析の問題を引き起こす可能性があるため、使用しないでください。
 
@@ -64,12 +65,33 @@ JSON フィールド構造の例：
 
 次の表に、JSON フィールドと動的フィールドの主な違いをまとめます。
 
-| 機能 | JSON フィールド | 動的フィールド |
-| --- | --- | --- |
-| スキーマ定義 | コレクションスキーマで `DataType.JSON` 型として明示的に宣言する必要があるスカラーフィールドです。 | 宣言されていないフィールドを自動的に保存する、非表示の JSON フィールド（`$meta` という名前）です。 |
-| ユースケース | スキーマが既知で一貫している構造化データを保存します。 | 固定スキーマに適合しない、柔軟で進化する半構造化データを保存します。 |
-| 制御 | フィールド名と構造を制御できます。 | 未定義のフィールドはシステムによって管理されます。 |
-| クエリ | フィールド名または JSON フィールド内の対象キーを使用してクエリします：`metadata["key"]`。 | 動的フィールドのキーを使用して直接クエリします：`"dynamic_key"`。または `$meta` を介してクエリします：`$meta["dynamic_key"]` |
+<table>
+   <tr>
+     <th><p>機能</p></th>
+     <th><p>JSON フィールド</p></th>
+     <th><p>動的フィールド</p></th>
+   </tr>
+   <tr>
+     <td><p>スキーマ定義</p></td>
+     <td><p>コレクションスキーマで <code>DataType.JSON</code> 型として明示的に宣言する必要があるスカラーフィールドです。</p></td>
+     <td><p>宣言されていないフィールドを自動的に保存する、非表示の JSON フィールド（<code>$meta</code> という名前）です。</p></td>
+   </tr>
+   <tr>
+     <td><p>ユースケース</p></td>
+     <td><p>スキーマが既知で一貫している構造化データを保存します。</p></td>
+     <td><p>固定スキーマに適合しない、柔軟で進化する半構造化データを保存します。</p></td>
+   </tr>
+   <tr>
+     <td><p>制御</p></td>
+     <td><p>フィールド名と構造を制御できます。</p></td>
+     <td><p>未定義のフィールドはシステムによって管理されます。</p></td>
+   </tr>
+   <tr>
+     <td><p>クエリ</p></td>
+     <td><p>JSON フィールド内のフィールド名またはターゲットキーを使用してクエリします：<code>metadata["key"]</code>。</p></td>
+     <td><p>動的フィールドキーを使用して直接クエリします：<code>"dynamic_key"</code>、または <code>$meta</code> 経由でクエリします：<code>$meta["dynamic_key"]</code></p></td>
+   </tr>
+</table>
 
 ## 基本的な操作\{#basic-operations}
 
@@ -85,14 +107,7 @@ JSON フィールドを使用するには、コレクションの作成時にコ
 ```python
 from pymilvus import MilvusClient, DataType
 
-CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
-TOKEN = "YOUR_CLUSTER_TOKEN" 
-
-# Set up a Milvus client
-client = MilvusClient(
-    uri=CLUSTER_ENDPOINT,
-    token=TOKEN 
-)
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Create schema
 schema = client.create_schema(auto_id=False, enable_dynamic_field=True)
@@ -123,7 +138,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -160,7 +175,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 ctx := context.Background()
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -193,7 +208,7 @@ if err := cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("prod
 ```rust
 use milvus::v2::prelude::*;
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 let client = ClientV2::new(
     &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
 )
@@ -242,7 +257,7 @@ client
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
@@ -278,7 +293,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 const TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 const client = new MilvusClient({ address: CLUSTER_ENDPOINT, token: TOKEN });
 
 // Create schema
@@ -318,7 +333,7 @@ using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
@@ -350,6 +365,9 @@ await client.CreateCollectionAsync(new CreateCollectionReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
   --header "Authorization: Bearer ${TOKEN}" \
@@ -384,9 +402,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 この例では、コレクションスキーマで定義された JSON フィールドは、`nullable=True` により null 値を許可します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
@@ -696,6 +715,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### フィルタリング操作\{#filtering-operations}
@@ -708,7 +728,7 @@ JSON フィールドでフィルタリング操作を実行する前に、次の
 
 <details>
 
-<summary>サンプルコードを表示</summary>
+<summary>コードを表示</summary>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -925,6 +945,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 </details>
@@ -1121,6 +1142,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ネストされたキー `supplier["country"]` が `"USA"` であるエンティティをフィルタリングするには：
@@ -1311,6 +1333,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 #### JSON 固有の演算子を使用したフィルタリング\{#filtering-with-json-specific-operators}
@@ -1511,6 +1534,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `tags` キーの下に `"electronics"`、`"new"`、`"clearance"` の値のうち少なくとも 1 つを持つ製品を検索するには：
@@ -1701,6 +1725,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 JSON 固有の演算子の詳細については、[JSON Operators](./json-filtering-operators) を参照してください。
@@ -1709,7 +1734,7 @@ JSON 固有の演算子の詳細については、[JSON Operators](./json-filter
 
 デフォルトでは、高速化されていない JSON フィールドのクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは遅くなる可能性があります。JSON クエリを高速化するために、Zilliz Cloud は高度なインデックス作成とストレージ最適化の機能を提供しています。
 
-<Admonition type="warning" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Milvus 3.0.0 以降、JSON フラットインデックスとしても知られるオブジェクト全体の JSON インデックス作成（`json_cast_type="JSON"`）は非推奨です。既存のインデックスと新しいインデックス作成リクエストは互換性のために引き続きサポートされますが、このモードは新しいワークロードには推奨されなくなりました。既知のクエリパスには JSON パスインデックスを使用するか、複雑または進化するドキュメント全体のクエリを幅広く高速化するには [JSON Shredding](./json-shredding) の使用を検討してください。
 
@@ -1717,11 +1742,32 @@ Milvus 3.0.0 以降、JSON フラットインデックスとしても知られ�
 
 次の表に、それぞれの違いと最適な使用シナリオをまとめます：
 
-| 手法 | 最適な用途 | 配列の高速化 | 注意 |
-| --- | --- | --- | --- |
-| JSON Indexing | 頻繁にアクセスされる少数のキー、特定の配列キー上の配列 | はい（インデックス付きの配列キー上） | キーを事前に選択する必要があり、スキーマが進化する場合はメンテナンスが必要です |
-| JSON Shredding | 多数のキーにわたる一般的な高速化、多様なクエリへの柔軟な対応 | はい（ブルートフォースクエリと比較して配列値をわずかに高速化します） | 追加のストレージ設定が必要で、配列には引き続きキーごとのインデックスが必要です |
-| NGRAM Index | ワイルドカード検索、テキストフィールド内の部分文字列一致 | N/A（該当なし） | 数値/range フィルターには使用できません |
+<table>
+   <tr>
+     <th><p>手法</p></th>
+     <th><p>最適な用途</p></th>
+     <th><p>配列の高速化</p></th>
+     <th><p>注記</p></th>
+   </tr>
+   <tr>
+     <td><p>JSON インデックス作成</p></td>
+     <td><p>頻繁にアクセスされる少数のキー、特定の配列キー上の配列</p></td>
+     <td><p>はい（インデックス化された配列キー上）</p></td>
+     <td><p>キーを事前に選択する必要があり、スキーマが変更される場合はメンテナンスが必要です。</p></td>
+   </tr>
+   <tr>
+     <td><p>JSON Shredding</p></td>
+     <td><p>多数のキーにわたる一般的な高速化、多様なクエリへの柔軟な対応</p></td>
+     <td><p>いいえ（配列内の値は高速化されません）</p></td>
+     <td><p>追加のストレージ設定が必要で、配列には引き続きキーごとのインデックスが必要です。</p></td>
+   </tr>
+   <tr>
+     <td><p>NGRAM インデックス</p></td>
+     <td><p>ワイルドカード検索、テキストフィールド内の部分文字列一致</p></td>
+     <td><p>N/A（該当なし）</p></td>
+     <td><p>数値/range フィルターには使用できません。</p></td>
+   </tr>
+</table>
 
 **ヒント：** これらのアプローチを組み合わせることができます。たとえば、幅広いクエリの高速化には JSON Shredding、高頻度の配列キーには JSON Indexing、柔軟なテキスト検索には NGRAM Indexing を使用します。
 
@@ -1770,4 +1816,3 @@ Zilliz Cloud は、文字列値を JSON 入力に表示されるとおりに正�
 ```plaintext
 'a"b', 'a\'b'
 ```
-
