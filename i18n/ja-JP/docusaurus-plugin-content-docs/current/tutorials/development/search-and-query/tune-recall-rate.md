@@ -1,13 +1,13 @@
 ---
-title: "再現率を調整する | Cloud"
+title: "再現率の調整 | Cloud"
 slug: /tune-recall-rate
-sidebar_label: "再現率を調整する"
+sidebar_label: "再現率の調整"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、検索の再現率とパフォーマンスのバランスを取れるようにする検索パラメーター `level` を導入しています。また、現在の検索の推定再現率を取得するための別の検索パラメーター `enablerecallcalculation` も提供しています。これら 2 つのパラメーターを組み合わせることで、ベクトル検索の再現率を調整できます。 | Cloud"
+description: "Zilliz Cloud は、検索の再現率とパフォーマンスのバランスを取るための検索パラメーター `level` を提供しています。また、現在の検索の推定再現率を取得するための別の検索パラメーター `enablerecallcalculation` も提供しています。これら 2 つのパラメーターを組み合わせて、ベクトル検索の再現率を調整できます。 | Cloud"
 type: origin
 token: Fz9swr5WwixkH8kKHircWCejnye
 sidebar_position: 3
@@ -19,29 +19,29 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 再現率を調整する
+# 再現率の調整
 
-Zilliz Cloud は、検索の再現率とパフォーマンスのバランスを取れるようにする検索パラメーター `level` を導入しています。また、現在の検索の推定再現率をユーザーに提供するために、別の検索パラメーター `enable_recall_calculation` も提供しています。これら 2 つのパラメーターを組み合わせることで、ベクトル検索の再現率を調整できます。
+Zilliz Cloud は、検索の再現率とパフォーマンスのバランスを取るための検索パラメーター `level` を提供しています。また、現在の検索の推定再現率を取得するための別の検索パラメーター `enable_recall_calculation` も提供しています。これら 2 つのパラメーターを組み合わせて、ベクトル検索の再現率を調整できます。
 
 <Admonition type="info" title="Notes">
 
-これは、基本的なベクトル検索、フィルタリング検索、範囲検索、グループ化検索、ハイブリッド検索、検索イテレーターなど、すべての検索に適用されます。
+これは、基本的なベクトル検索、フィルター付き検索、範囲検索、グループ化検索、ハイブリッド検索、検索イテレーターなど、すべての検索に適用されます。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-Zilliz Cloud における再現率とは、通常、検索によって正常に取得された関連結果の割合を指します。これは、システムがコレクションからすべての関連項目を取得する能力を測るものです。
+Zilliz Cloud の再現率とは通常、検索によって正常に取得された関連結果の割合を指します。これは、コレクションからすべての関連項目を取得するシステムの能力を測るものです。
 
 ![OdMnbeHYOoAEqKxNEEnc9SwNnmf](https://zdoc-images.s3.us-west-2.amazonaws.com/odmnbehyooaeqkxneenc9swnnmf.png "OdMnbeHYOoAEqKxNEEnc9SwNnmf")
 
-検索の再現率を計算するには、取得された関連項目の数を、取得すべき該当項目の総数で割ります。たとえば、検索が 100 件の関連項目のうち 90 件を取得した場合、再現率は **0.9** または **90%** になります。
+検索の再現率を計算するには、取得された関連項目の数を、取得すべき該当項目の総数で割ります。たとえば、100 個の関連項目のうち 90 個が検索で取得された場合、再現率は **0.9** または **90%** です。
 
-再現率が高いと、通常はより精度の高い検索結果が得られますが、時間がかかることがあります。ベクトル検索の精度と効率のバランスを取るために、再現率を調整するとよいでしょう。
+再現率が高いほど通常は検索結果の精度が高くなりますが、処理に時間がかかる場合があります。ベクトル検索の精度と効率のバランスを取るために、再現率を調整できます。
 
-## 検索リクエストを設定する\{#set-up-a-search-request}
+## 検索リクエストの設定\{#set-up-a-search-request}
 
-再現率を調整可能な検索リクエストを設定するには、次のように、検索パラメーター内に `level` パラメーターを含める必要があります。
+再現率を調整可能な検索リクエストを設定するには、次のように検索パラメーター内に `level` パラメーターを含める必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -79,7 +79,6 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -113,7 +112,6 @@ System.out.println(searchResp.getSearchResults());
 import (
     "context"
     "fmt"
-
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -187,7 +185,6 @@ println!("{:?}", res.results());
 ```c++
 #include <iostream>
 #include <vector>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -306,31 +303,24 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`level` パラメーターの範囲は `1` から `10` で、デフォルト値は `1` です。デフォルト値では再現率が 90% となり、通常はほとんどのユースケースで十分です。
+`level` パラメーターの範囲は `1` から `10` で、デフォルトは `1` です。デフォルト値では再現率が 90% になり、通常はほとんどのユースケースで十分です。
 
-高い再現率（**99%** 以上）が必要なシナリオでは、`level` パラメーターを `6` から `10` までの整数に設定してみてください。検索効率を気にしない場合は、このパラメーターを `10` に設定すると、最も精度の高い結果を得られます。
+高い再現率（**99%** 以上）が必要なシナリオでは、`level` パラメーターを `6` から `10` の整数に設定してみてください。検索効率を気にする必要がない場合は、このパラメーターを `10` に設定すると、最も精度の高い結果を得られます。
 
 <Admonition type="info" title="Notes">
 
-最上位の level 設定でもまだ不十分な場合は、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) にお問い合わせください。
+最上位のレベル設定でも不十分な場合は、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) にお問い合わせください。
 
 </Admonition>
 
-## 再現率を調整する\{#tune-recall-rate}
+## 再現率の調整\{#tune-recall-rate}
 
-Zilliz Cloud は、調整プロセスを容易にするために、`enable_recall_calculation` という別の検索パラメーターも導入しています。このパラメーターを `True` に設定すると、Zilliz Cloud が現在の検索の再現率を推定し、その推定値を検索結果とともに返すようになります。
+Zilliz Cloud は、調整プロセスを容易にするために、`enable_recall_calculation` という別の検索パラメーターも提供しています。このパラメーターを `True` に設定すると、Zilliz Cloud は現在の検索の再現率を推定し、その推定値を検索結果とともに返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
 res = client.search(
@@ -354,19 +344,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
-import java.util.*;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 
 Map<String, Object> searchParams = new HashMap<>();
@@ -392,20 +369,8 @@ System.out.println(searchResp.getRecalls());
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 ctx := context.Background()
 
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -437,16 +402,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
-let client = ClientV2::new(
-    &ConnectConfig::new()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN"),
-)
-.await?;
-
 let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 
 let res = client
@@ -473,18 +428,6 @@ println!("recalls: {:?}", res.results().get_recalls());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <vector>
-
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cerr << "Failed to connect: " << status.Message() << std::endl;
-    return;
-}
-
 std::vector<float> queryVector = {
     0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
 };
@@ -520,10 +463,6 @@ for (const auto& recall : searchResponse.Results().Recalls()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 const queryVector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 
 const res = await client.search({
@@ -545,11 +484,6 @@ console.log(res.recalls);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
@@ -604,7 +538,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記の検索リクエストを使用すると、次のように、現在の検索の推定再現率を取得できます。
+上記の検索リクエストを使用すると、次のように現在の検索の推定再現率を取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -672,22 +606,22 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-推定プロセスでは、Zilliz Cloud は次のことを行います。
+推定プロセスでは、Zilliz Cloud は次の処理を行います。
 
-1. ユーザー定義の値に設定された `level` パラメーターを使用して検索を実行し、
+1. `level` パラメーターをユーザー定義の値に設定して検索します。
 
-1. 内部の高精度モードで別の検索を実行します。
+1. 内部の高精度モードでもう一度検索します。
 
 1. 2 回目の検索をグラウンドトゥルースとして使用し、再現率を推定します。
 
-`enable_recall_calculation` を `True` に設定したうえで、`level` パラメーターの値を調整すると、複数の再現率を取得できます。これらの推定値と各検索の所要時間を考慮することで、適切な level 設定を大まかに見積もることができます。
+`enable_recall_calculation` を `True` に設定した状態で `level` パラメーターの値を調整すると、複数の再現率を取得できます。これらの推定値と各検索の所要時間を考慮することで、適切な level 設定を概算できます。
 
 <Admonition type="info" title="Notes">
 
-`enable_recall_calculation` を有効にすると、検索パフォーマンスに影響を与える可能性があるため、本番環境での使用は推奨されません。
+`enable_recall_calculation` を有効にすると検索パフォーマンスに影響する可能性があるため、本番環境では推奨されません。
 
 </Admonition>
 
 ## 制限事項\{#limits}
 
-現在、この機能は Zilliz Cloud クラスターの基本的なベクトル検索、フィルタリング検索、範囲検索でのみ利用できます。
+現在、この機能は Zilliz Cloud クラスターの基本的なベクトル検索、フィルター付き検索、範囲検索でのみ利用できます。

@@ -1,37 +1,37 @@
 ---
 title: "ランダムサンプリング | Cloud"
 slug: /ramdom-sampling
-sidebar_label: "ランダムサンプリング"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "大規模なデータセットを扱う場合、インサイトを得たりフィルタリングロジックをテストしたりするために、すべてのデータを処理する必要は通常ありません。ランダムサンプリングは、統計的に代表的なデータのサブセットを扱えるようにすることで解決策を提供し、クエリ時間とリソース消費を大幅に削減します。 | Cloud"
+description: "大規模なデータセットを扱う場合、インサイトを得たりフィルタリングロジックをテストしたりするために、すべてのデータを処理する必要は必ずしもありません。ランダムサンプリングを使用すると、統計的に代表的なデータのサブセットを扱うことができ、クエリ時間とリソース消費を大幅に削減できます。 | Cloud"
 type: origin
-token: ByJbwcpoCiBkDckR3VCcC4LTneg
-sidebar_position: 8
 displayed_sidebar: default
+token: shared-ramdom-sampling
+sidebar_label: "ランダムサンプリング"
+sidebar_position: 8
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/random-sampling.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # ランダムサンプリング
 
-大規模なデータセットを扱う場合、インサイトを得たりフィルタリングロジックをテストしたりするために、すべてのデータを処理する必要は通常ありません。ランダムサンプリングは、統計的に代表的なデータのサブセットを扱えるようにすることで解決策を提供し、クエリ時間とリソース消費を大幅に削減します。
+大規模なデータセットを扱う場合、インサイトを得たりフィルタリングロジックをテストしたりするために、すべてのデータを処理する必要は必ずしもありません。ランダムサンプリングを使用すると、統計的に代表的なデータのサブセットを扱うことができ、クエリ時間とリソース消費を大幅に削減できます。
 
-ランダムサンプリングはセグメントレベルで動作し、効率的なパフォーマンスを確保しながら、コレクションのデータ分布全体でサンプルのランダム性を維持します。
+ランダムサンプリングはセグメントレベルで動作し、コレクションのデータ分布全体にわたってサンプルのランダム性を維持しながら、効率的なパフォーマンスを実現します。
 
 **主なユースケース：**
 
-- **データ探索**：最小限のリソース使用量でコレクションの構造と内容をすばやくプレビューできます
+- **データ探索**: 最小限のリソース使用量で、コレクションの構造とコンテンツをすばやくプレビューします。
 
-- **開発時のテスト**：完全にデプロイする前に、扱いやすいデータサンプルで複雑なフィルタリングロジックをテストできます
+- **開発テスト**: 本番環境に完全にデプロイする前に、管理可能なデータサンプルで複雑なフィルタリングロジックをテストします。
 
-- **リソースの最適化**：探索的クエリと統計分析の計算コストを削減できます
+- **リソース最適化**: 探索的なクエリや統計分析にかかる計算コストを削減します。
 
 ## 構文\{#syntax}
 
@@ -100,21 +100,22 @@ export filterRandomSample='RANDOM_SAMPLE(sampling_factor)'
 ```
 
 </TabItem>
+
 </Tabs>
 
 **パラメーター：**
 
-- `sampling_factor`: （0, 1）の範囲（境界値を除く）のサンプリング係数です。たとえば、`RANDOM_SAMPLE(0.001)` は結果の約 0.1% を選択します。
+- `sampling_factor`: 境界を除く（0, 1）の範囲のサンプリング係数です。たとえば、`RANDOM_SAMPLE(0.001)` は結果の約 0.1% を選択します。
 
 **重要なルール：**
 
-- 式では大文字と小文字が区別されません（`RANDOM_SAMPLE` または `random_sample`）
+- 式では大文字と小文字が区別されません（`RANDOM_SAMPLE` または `random_sample`）。
 
-- サンプリング係数は（0, 1）の範囲（境界値を除く）に指定する必要があります
+- サンプリング係数は、境界を除く（0, 1）の範囲内である必要があります。
 
 ## 他のフィルターとの組み合わせ\{#combine-with-other-filters}
 
-ランダムサンプリング演算子は、論理 `AND` を使用して他のフィルタリング式と組み合わせる必要があります。フィルターを組み合わせる場合、Milvus は最初に他の条件を適用し、その後で結果セットに対してランダムサンプリングを実行します。
+ランダムサンプリング演算子は、論理演算子 `AND` を使用して他のフィルタリング式と組み合わせる必要があります。フィルターを組み合わせる場合、Zilliz Cloud は最初に他の条件を適用し、その後で結果セットに対してランダムサンプリングを実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -223,13 +224,14 @@ export filterSampleIncorrect='color == "red" OR RANDOM_SAMPLE(0.001)'  # ❌ Inv
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## 例\{#examples}
 
-### 例 1：データ探索\{#example-1-data-exploration}
+### 例 1: データ探索\{#example-1-data-exploration}
 
-コレクションの構造をすばやくプレビューします：
+コレクションの構造をすばやくプレビューします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -449,11 +451,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 2：ランダムサンプリングによるフィルターの組み合わせ\{#example-2-combined-filtering-with-random-sampling}
+### 例 2: ランダムサンプリングと他のフィルターの組み合わせ\{#example-2-combined-filtering-with-random-sampling}
 
-扱いやすいサブセットでフィルタリングロジックをテストします：
+管理可能なサブセットでフィルタリングロジックをテストします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -633,11 +636,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 3：クイック分析\{#example-3-quick-analytics}
+### 例 3: クイック分析\{#example-3-quick-analytics}
 
-フィルタリングされたデータに対して迅速な統計分析を実行します：
+フィルター処理されたデータに対して迅速な統計分析を実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -661,7 +665,7 @@ if result:
 
     print(f"Sample size: {len(result)}")
     print(f"Average purchase amount: ${average_purchase:.2f}")
-    print(f"Average satisfaction score: ${average_satisfaction:.2f}")
+    print(f"Average satisfaction score: {average_satisfaction:.2f}")
 ```
 
 </TabItem>
@@ -833,11 +837,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 4：ベクトル検索との組み合わせ\{#example-4-combined-with-vector-search}
+### 例 4: ベクトル検索との組み合わせ\{#example-4-combined-with-vector-search}
 
-フィルター付き検索のシナリオでランダムサンプリングを使用します：
+フィルター付き検索のシナリオでランダムサンプリングを使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1048,19 +1053,19 @@ curl --request POST \
   "limit": 10,
   "filter": "category == \"books\" AND RANDOM_SAMPLE(0.01)",
   "outputFields": ["title", "author", "price"]
-}' 
+}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## ベストプラクティス\{#best-practices}
 
-- **小規模から始める**：最初の探索には、より小さいサンプリング係数（0.001-0.01）を使用します
+- **小さく始める**: 初期の探索では、より小さいサンプリング係数（0.001-0.01）から始めます。
 
-- **開発ワークフロー**：開発中はサンプリングを使用し、本番環境のクエリではサンプリングを削除します
+- **開発ワークフロー**: 開発中はサンプリングを使用し、本番クエリではサンプリングを外します。
 
-- **統計的な妥当性**：サンプルが大きいほど、より正確な統計的表現が得られます
+- **統計的妥当性**: サンプルが大きいほど、より正確な統計的表現が得られます。
 
-- **パフォーマンステスト**：クエリのパフォーマンスを監視し、必要に応じてサンプリング係数を調整します
-
+- **パフォーマンステスト**: クエリのパフォーマンスを監視し、必要に応じてサンプリング係数を調整します。

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "類似検索を実行する際は、クエリベクトルがすでに対象のコレクションに存在していても、1 つ以上のクエリベクトルを指定する必要があります。検索前にベクトルを取得しないようにするには、代わりに主キーを使用できます。 | Cloud"
+description: "類似性検索を実行する際は、クエリベクトルが対象コレクションにすでに存在している場合でも、常に 1 つ以上のクエリベクトルを指定する必要があります。検索前にベクトルを取得することを避けるには、代わりに主キーを使用できます。 | Cloud"
 type: origin
 token: U7OvwHP3AiUWlckzIEKclLQQnPr
 sidebar_position: 8
@@ -21,37 +21,37 @@ import TabItem from '@theme/TabItem';
 
 # 主キー検索
 
-類似検索を実行する際は、クエリベクトルがすでに対象のコレクションに存在していても、常に 1 つ以上のクエリベクトルを指定する必要があります。検索前にベクトルを取得しないようにするには、代わりに主キーを使用できます。
+類似性検索を実行する際は、クエリベクトルが対象コレクションにすでに存在している場合でも、常に 1 つ以上のクエリベクトルを指定する必要があります。検索前にベクトルを取得することを避けるには、代わりに主キーを使用できます。
 
 ## 概要\{#overview}
 
-E コマースプラットフォームでは、ユーザーがキーワードを入力すると、それに一致する商品を取得できます。ユーザーが商品詳細ページを表示すると、プラットフォームは、比較したいユーザー向けに、ページ下部に類似商品の一覧も表示します。
+E コマースプラットフォームでは、ユーザーがキーワードを入力すると、そのキーワードに一致する商品を取得できます。ユーザーが商品の詳細ページを表示すると、比較したいユーザーのために、プラットフォームはページ下部に類似商品の一覧も表示します。
 
-レコメンデーションは、キーワードまたは現在の商品との類似度に基づいて並べ替えられます。これを実現するには、プラットフォームの開発者が、実際の類似検索の前に、キーワードまたは現在の商品のベクトル表現を Milvus から取得する必要があります。これにより、プラットフォームと Milvus の間の往復回数が増え、その結果、多数の高次元 float 値がネットワーク越しに送信されることになります。
+おすすめ商品は、キーワードまたは現在の商品との類似度によって並べ替えられます。これを実現するには、プラットフォームの開発者が実際の類似性検索の前に Milvus からキーワードまたは現在の商品のベクトル表現を取得する必要があります。これにより、プラットフォームと Milvus 間のラウンドトリップが増加し、大量の高次元浮動小数点数がネットワーク上で送信されることになります。
 
-アプリケーションと Milvus の間のやり取りのロジックを簡素化し、往復回数を減らし、大量の高次元浮動小数点値がネットワーク越しに送信されるのを避けるには、主キー検索の使用を検討してください。
+アプリケーションと Milvus 間のインタラクションロジックを簡素化し、ラウンドトリップの回数を減らし、大量の高次元浮動小数点値のネットワーク送信を避けるには、主キー検索の使用を検討してください。
 
-主キー検索では、クエリベクトルを指定する必要はありません。代わりに、クエリベクトルを含むエンティティの主キー（`ids`）を指定します。
+主キー検索では、クエリベクトルを指定する必要はありません。代わりに、クエリベクトルを含むエンティティの主キー（`ids`）を指定します。 
 
-## 制限事項\{#limits-and-restrictions}
+## 制限と制約\{#limits-and-restrictions}
 
-- 主キーを使用した検索は、BM25 関数のように VarChar フィールドから派生した疎ベクトルフィールドを除き、すべてのベクトルデータ型に適用されます。
+- 主キーを使用する検索は、BM25 関数のように VarChar フィールドから派生したスパースベクトルフィールドを除き、すべてのベクトルデータ型に適用されます。
 
-- フィルタ付き検索、範囲検索、グループ化検索では、必要に応じてページネーションを有効にしたうえで、クエリベクトルの代わりに主キーを使用できます。ただし、この機能はハイブリッド検索と検索イテレーターには適用されません。
+- フィルター検索、範囲検索、グループ化検索では、必要に応じてページネーションを有効にした状態で、クエリベクトルの代わりに主キーを使用できます。ただし、この機能はハイブリッド検索と検索イテレーターには適用されません。
 
-- 埋め込みリストを使用する類似検索では、引き続きクエリベクトルを取得して埋め込みリストにまとめ、検索を実行する必要があります。
+- 埋め込みリストを含む類似性検索では、引き続きクエリベクトルを取得し、埋め込みリストに整理してから検索を実行する必要があります。
 
-- 存在しない主キーや形式が正しくない主キーに対しては、Milvus がエラーを返します。
+- 存在しない主キーや形式が正しくない主キーについては、Milvus がエラーを通知します。
 
-- 主キーとクエリベクトルは相互排他的です。両方を指定した場合もエラーになります。
+- 主キーとクエリベクトルは相互に排他的です。両方を指定した場合もエラーになります。
 
 ## 例\{#examples}
 
-以下の例では、指定したすべての Int64 ID が対象のコレクション内に存在することを前提としています。
+次の例では、指定したすべての Int64 ID が対象コレクション内に存在することを前提としています。
 
 <Admonition type="info" title="Notes">
 
-主キーはフィルタリングには使用されません。ベクトルの取得にのみ使用されます。
+主キーはフィルタリングには使用されず、ベクトルの取得にのみ使用されます。
 
 </Admonition>
 
@@ -93,12 +93,13 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.SearchReq
 import io.milvus.v2.service.vector.response.SearchResp
+import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
-        
+
 List<Object> ids = Arrays.asList(551L, 296L, 43L);
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -125,6 +126,7 @@ import (
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -192,6 +194,10 @@ for result in res.results() {
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("my_collection")
                          .WithAnnsField("vector")
@@ -247,6 +253,7 @@ console.log(res.results);
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 using var client = new MilvusClientV2(new ConnectConfig
 {
@@ -313,9 +320,9 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-### 例 2: 主キーを使用したフィルタ付き検索\{#example-2-filtered-search-using-primary-keys}
+### 例 2: 主キーを使用したフィルター検索\{#example-2-filtered-search-using-primary-keys}
 
-以下の例では、`color` と `likes` が対象のコレクションでスキーマ定義された 2 つのフィールドであることを前提としています。
+次の例では、`color` と `likes` が対象コレクションでスキーマ定義された 2 つのフィールドであることを前提としています。 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -386,8 +393,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -464,9 +469,6 @@ console.log(res.results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
@@ -609,8 +611,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -689,9 +689,6 @@ console.log(res.results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
@@ -760,7 +757,7 @@ zilliz vector search \
 
 ### 例 4: 主キーを使用したグループ化検索\{#example-4-grouping-search-using-primary-keys}
 
-以下の例では、`docId` が対象のコレクションでスキーマ定義されたフィールドであることを前提としています。
+次の例では、`docId` が対象コレクションでスキーマ定義されたフィールドであることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -830,8 +827,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -907,9 +902,6 @@ console.log(res.results);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
@@ -967,3 +959,4 @@ zilliz vector search \
 
 </TabItem>
 </Tabs>
+

@@ -23,19 +23,19 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud は、さまざまな構成で動作するクラスターを提供しています。これらのクラスターでインデックスを構築するには、それぞれ異なるアプローチが必要です。インデックスパラメーターのチューニングや調整に手間をかけずに済むよう、**AUTOINDEX** が役立ちます。
 
-**AUTOINDEX** は、Zilliz Cloud で利用できる独自のインデックスタイプであり、より優れた検索パフォーマンスを実現するのに役立ちます。Zilliz Cloud 上のコレクションでベクトルフィールドまたはスカラーフィールドにインデックスを作成する場合は、常に **AUTOINDEX** が適用されます。
+**AUTOINDEX** は、Zilliz Cloud で利用できる独自のインデックスタイプであり、より優れた検索パフォーマンスの実現に役立ちます。Zilliz Cloud 上のコレクションでベクトルフィールドまたはスカラーフィールドにインデックスを作成する場合は、常に **AUTOINDEX** が適用されます。
 
 ## 機能と利点\{#features-and-benefits}
 
-ベクトルフィールドの場合、**AUTOINDEX** はオープンソースの Milvus と比べて大幅なパフォーマンス上の優位性をもたらし、特定のデータセットでは最大 3 倍の QPS を実現します。AUTOINDEX を使用すると、Zilliz Cloud のクラスターがサポートするすべてのフィールドタイプ（[Dense ベクトル](./use-dense-vector)、[Binary ベクトル](./use-binary-vector)、[Binary ベクトル](./use-binary-vector) など）にインデックスを作成できます。
+ベクトルフィールドの場合、**AUTOINDEX** はオープンソースの Milvus と比べて大幅なパフォーマンス上の優位性をもたらし、特定のデータセットでは最大 3 倍の QPS を実現します。AUTOINDEX を使用すると、Zilliz Cloud のクラスターがサポートするすべてのフィールドタイプ（[密ベクトル](./use-dense-vector)、[バイナリベクトル](./use-binary-vector)、[バイナリベクトル](./use-binary-vector) など）にインデックスを作成できます。
 
-スカラーフィールドの場合、**AUTOINDEX** はフィールドタイプと最適なスカラーインデックスタイプの間の効率的なマッピングを提供します。
+スカラーフィールドの場合、**AUTOINDEX** はフィールドタイプと最適なスカラーインデックスタイプとの効率的なマッピングを提供します。
 
 | フィールドタイプ | AUTOINDEX の解決先 | 説明 |
 | --- | --- | --- |
 | `VARCHAR` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | 文字列データ型です。詳細については、[String Field](./use-string-field) を参照してください。 |
 | `INT8`, `INT16`, `INT32`, `INT64` | **BITMAP** (C < 100) / **STL_SORT** (C ≥ 100) | 整数です。詳細については、[Boolean & Number](./use-number-field) を参照してください。 |
-| `FLOAT`, `DOUBLE` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | 浮動小数点です。詳細については、[Boolean & Number](./use-number-field) を参照してください。 |
+| `FLOAT`, `DOUBLE` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | 浮動小数点数です。詳細については、[Boolean & Number](./use-number-field) を参照してください。 |
 | `BOOL` | **BITMAP** | 真偽値です。詳細については、[Boolean & Number](./use-number-field) を参照してください。 |
 | `ARRAY` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | スカラー値の同種配列です。詳細については、[Array Field](./use-array-fields) を参照してください。 |
 | `GEOMETRY` | **RTREE** | 空間情報を格納する幾何データです。詳細については、[Geometry Field](./use-geometry-field) を参照してください。 |
@@ -45,7 +45,7 @@ Zilliz Cloud は、さまざまな構成で動作するクラスターを提供�
 
 カーディナリティ（上記の表の C）は、コレクション全体にわたるフィールド内の一意な値の数を示します。たとえば、float フィールドのカーディナリティは、そのフィールド内の異なる float 値の数です。
 
-配列フィールドの場合、カーディナリティはセグメント内のすべての配列にわたる **異なる要素値**の数です。たとえば、次のとおりです。
+配列フィールドの場合、カーディナリティはセグメント内のすべての配列にわたる **異なる要素値** の数です。たとえば、次のとおりです。
 
 ```plaintext
 [1, 2, 3]
@@ -53,7 +53,7 @@ Zilliz Cloud は、さまざまな構成で動作するクラスターを提供�
 [1, 4, 5]
 ```
 
-異なる要素値は `{1, 2, 3, 4, 5}` → カーディナリティ = **5** です。すべての配列からすべての要素を平坦化してから一意な値を数えます — 異なる配列の数や配列の長さではありません。
+異なる要素値は `{1, 2, 3, 4, 5}` → カーディナリティ = **5** です。すべての配列のすべての要素を平坦化してから一意な値を数えます。数えるのは異なる配列の数や配列の長さではありません。
 
 </Admonition>
 
@@ -85,7 +85,7 @@ Milvus のコードベースを Zilliz Cloud に移行する場合、使用す�
 
 インデックスを構築するプロセスでは、結果をより迅速に取得できるように、コレクション内のエンティティを特定の順序で並べ替えます。
 
-Zilliz Cloud で浮動小数点ベクトルにインデックスを作成するのは難しくありません。インデックスタイプを **`AUTOINDEX`** に設定し、メトリックタイプを選択するだけで、Zilliz Cloud がインデックス構築プロセスと検索プロセスに最適な構成を決定します。メトリックタイプはベクトル間の距離の測定方法を決定し、これが唯一考慮すべき点です。
+Zilliz Cloud で浮動小数点ベクトルにインデックスを作成するのは難しくありません。インデックスタイプを **`AUTOINDEX`** に設定し、メトリクスタイプを選択するだけで、Zilliz Cloud がインデックス構築プロセスと検索プロセスに最適な構成を決定します。メトリクスタイプはベクトル間の距離の測定方法を決定し、これが唯一考慮すべき点です。
 
 Milvus と Zilliz Cloud のインデックス構築設定の違いを以下に示します。
 
@@ -288,9 +288,6 @@ search_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 // On Milvus
 Map<String, Object> searchParams = new HashMap<>();
 Map<String, Object> milvusParams = new HashMap<>();
@@ -325,8 +322,6 @@ searchParams = map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 // On Milvus
 let search_params = json!({
     "params": { "nprobe": 10 }
