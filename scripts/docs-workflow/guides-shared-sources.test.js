@@ -1041,6 +1041,44 @@ test('clean source-to-table-to-assembly handoff restores an active fallback rece
   assert.deepEqual([...api.publishedEvidence(assembly, result.snapshot).fallbackIds], ['rec0'])
 })
 
+test('shared Base refs without an explicit slug use the activated canonical navigation key', {timeout: 120000}, async t => {
+  const options = await fixture(t)
+  const ref = {record_id: 'ref-default-slug', base_table_id: 'ref-table', base_table_name: 'References', base_record_index: 0,
+    fields: {Docs: {text: 'A different navigation title', link: 'https://example.feishu.cn/wiki/old'},
+      'Placement Type': 'ref', 'Ref Target Doc': 'old'}}
+  options.records.push(ref)
+  const prepared = adapter.prepareSharedSources(options)
+  options.preparation = prepared.data
+  const scraper = new Scraper(rootToken, 'base:*', 'wiki', options.sourceDir)
+  scraper.records = options.records
+  scraper.base_tables = [{table_id: 'table', name: 'Manage Data'}, {table_id: 'ref-table', name: 'References'}]
+  scraper.routingContext = prepared.context
+  await scraper.__apply_base_navigation()
+  options.candidate = createSourceSnapshot({manualName: 'guides', buildEnv: 'uat', docSourceDir: options.sourceDir,
+    baseAppToken: 'base', records: options.records, routingContext: prepared.context})
+  const bundle = await generateSharedSources(options, {fetchOld: async () => ({blocks: {items: [heading]}})})
+  assert.equal(bundle.outcomes[0].status, 'success', JSON.stringify(bundle.outcomes))
+  const handoff = require('../../packages/docs-tooling/src/lark/sharedPageBundle').loadBundle(options.out)
+  for (const output of bundle.outcomes[0].outputs) await write(options.repositoryRoot, output.path, handoff.files.get(output.file))
+  const result = require('../../packages/docs-tooling/src/lark/sharedPagePublication').finalizePublication({
+    workspace: options.repositoryRoot, handoff, candidate: options.candidate})
+  const Writer = require('../../packages/docs-tooling/src/lark/larkDocWriter')
+  const {collectSidebarEntries, validateGuidesSourceContract} = require('../validate-guides-source-contract')
+  for (const [target, physical, prefix] of [['zilliz.saas', 'guides', '/docs'], ['zilliz.paas', 'byoc', '/docs/byoc']]) {
+    const writer = new Writer(rootToken, 'base:*', 'default', options.sourceDir, null, target, true, false)
+    writer.sharedBundle = handoff
+    writer.sourceIndex = require('../../packages/docs-tooling/src/lark/larkSourceIndex').load(options.sourceDir)
+    try {
+      const sidebar = await writer.generate_sidebar(`content/en/${physical}/tutorials`, `content/en/${physical}`)
+      const link = collectSidebarEntries(sidebar).find(row => row.type === 'link' && row.href === `${prefix}/sample`)
+      assert.ok(link, 'the legacy token must resolve to the shared page')
+      assert.equal(link.key, 'ref:tutorials/references/sample')
+      validateGuidesSourceContract({snapshot: result.snapshot, target,
+        outputDir: path.join(options.repositoryRoot, 'content/en', physical, 'tutorials'), sidebar, activeState: bundle.effective_active})
+    } finally { writer.destroy() }
+  }
+})
+
 test('Base ref-only anchors gate first activation and survive actual sidebar plus final source validation', {timeout: 120000}, async t => {
   const options = await fixture(t)
   const ref = {record_id: 'ref-only', base_table_id: 'ref-table', base_table_name: 'References', base_record_index: 0,

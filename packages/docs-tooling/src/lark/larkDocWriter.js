@@ -296,11 +296,20 @@ class larkDocWriter {
                     console.warn(`[sidebar] Cannot resolve ref target for "${child.title}" (${childSource.node_token})`)
                     continue
                 }
+                // The source projection predates shared-page activation, so its
+                // inferred slug may still come from the old title. Resolve the
+                // key from the same authenticated canonical used for the href,
+                // while preserving an explicitly configured reference slug.
+                const activeRef = this.sharedBundle?.bundle.effective_active.pages.find(entry =>
+                    entry.record === targetSource.base_record_id &&
+                    require('./sharedPageAliases').matches(entry, childSource.base_nav_ref_target_token))
+                const reference = activeRef && this.sharedBundle.bundle.navigation.navigationRecords.find(row => row.record_id === childSource.base_record_id)
+                const refSlug = reference ? (reference.slug || targetSource.slug) : child.slug
                 items.push({
                     type: 'link',
                     href,
                     label: meta.labels || child.title,
-                    key: this.__sidebar_key('ref', currentPath, contentRoot, child.slug, child.title),
+                    key: this.__sidebar_key('ref', currentPath, contentRoot, refSlug, child.title),
                     ...channel_sidebar_props(targetMeta.channel),
                 })
                 continue
