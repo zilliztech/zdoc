@@ -424,7 +424,7 @@ test('[base-nav] an empty-Slug ref row derives its navigation slug from the shar
   // title once the activated page's Feishu source has left the sources directory.
   assert.equal(refSource.slug, 'example-page')
   assert.equal(refSource.base_nav_ref_target_token, 'old')
-  assert.equal(warnings.some(message => message.includes('Ref target not found') && message.includes('rec-ref')), false)
+  assert.equal(warnings.some(message => message.includes('Ref target not found') && message.includes('(rec-ref)')), false)
   const missingSource = sources.find('base_record_id', 'rec-missing-ref')
   assert.equal(missingSource.slug, 'ghost-ref-entry')
   assert.equal(warnings.some(message => message.includes('Ref target not found') && message.includes('ghost-token')), true)
