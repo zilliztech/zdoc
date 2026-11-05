@@ -200,7 +200,11 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
       const hrefMatches = active ? item?.href === `${expectedHref}${mappedAnchor ? `#${mappedAnchor}` : ''}` : record.ref_target_anchor
         ? item?.href?.startsWith(`${expectedHref}#`) && item.href.length > expectedHref.length + 1
         : item?.href === expectedHref
-      if (!hrefMatches) errors.push(`ref ${record.record_id} target mismatch: ${targetToken || '(missing)'}`)
+      if (!hrefMatches) {
+        const expectedHrefWithAnchor = `${expectedHref}${mappedAnchor ? `#${mappedAnchor}` : ''}`
+        const found = item ? `${item.href} at ${item.key}` : `no link entry at ${refKey}`
+        errors.push(`ref ${record.record_id} target mismatch (${record.title || 'untitled ref row'}) for ${targetToken || '(missing)'}: expected ${expectedHrefWithAnchor} via ${refKey}, found ${found}`)
+      }
     }
   }
 
