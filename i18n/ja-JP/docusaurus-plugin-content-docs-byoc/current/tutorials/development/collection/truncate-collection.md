@@ -91,7 +91,6 @@ client.close();
 
 ```go
 // go
-package main
 
 import (
     "context"

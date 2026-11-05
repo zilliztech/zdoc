@@ -291,9 +291,9 @@
       "translatedAt": "2026-11-05T10:46:45.050Z"
     },
     "content/en/byoc/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md": {
-      "sourceHash": "2b43e98c468eac51625014924c3df90a340910fb52ddfbaa03748740eab6617f",
+      "sourceHash": "fc9219ebb887045e658c8d5120a989757951c1374aabf3e266e468b27cc86a8b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md",
-      "translatedAt": "2026-10-25T04:59:38.132Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/collection/drop-collection.md": {
       "sourceHash": "ca1ad485ca4675ab821305fb65cab24aaafb0afc7ed43536b967b2d26926eadd",
@@ -306,24 +306,24 @@
       "translatedAt": "2026-09-19T13:47:07.007Z"
     },
     "content/en/byoc/tutorials/development/collection/load-release-collections.md": {
-      "sourceHash": "0850164fda8943f2519757acbffeb929fbd53d7d9c134785e3ddd1cdf8f6d622",
+      "sourceHash": "d70e7652b22ed3937054163d360a3751243f851344883ef5e63734e772b2b215",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/load-release-collections.md",
-      "translatedAt": "2026-10-25T05:33:29.889Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/collection/manage-aliases.md": {
-      "sourceHash": "b96d168b401e0b73792dabb18f58806c086d43417f30826366daf3b00bdf24d6",
+      "sourceHash": "854a6580bf08a1ed4ee9562ebc913ac3ed8c7f13fab62179265bb17aa6edd6e6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/manage-aliases.md",
-      "translatedAt": "2026-10-30T19:44:10.283Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/collection/manage-collections-sdks.md": {
-      "sourceHash": "170ea4bd3fbca177cdc234205dc71cb56e56fb9e71c6f6b4df68b3eb124748cf",
+      "sourceHash": "397658c175e6de20edef153d6c3c482df720b43e3f7a04769644e407baf59789",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/manage-collections-sdks.md",
-      "translatedAt": "2026-10-26T11:53:44.014Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/collection/manage-partitions.md": {
-      "sourceHash": "88fd10395f2e281d382ec19fa036f33e5f303026b4c0024dc09c845d45b7cf75",
+      "sourceHash": "0b418e9a753c5031b4a6ffe192a7faae0e72fe328dcbae6b2b846a597b3c7dd7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/manage-partitions.md",
-      "translatedAt": "2026-10-30T19:44:10.283Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/collection/modify-collections.md": {
       "sourceHash": "3ba3a855bd9c68ef4f3e15301f195ede74cde476ff7f7f99e16ffb5cf3459a76",
@@ -336,9 +336,9 @@
       "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/collection/truncate-collection.md": {
-      "sourceHash": "92058b94584dc5338d02cae0fa6bc30af3e3e5b5cf5a65d7fb231348b8fe23c1",
+      "sourceHash": "8a6b5bfc8b0cd94e5db76ebc608562883e6a2a9df2d86798e645f05738f2ad9c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/truncate-collection.md",
-      "translatedAt": "2026-10-28T03:00:26.017Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/collection/view-collections.md": {
       "sourceHash": "940996db464bc012830a431c8c87b44c314268b4bba682c586d4eb7cf8b29300",
@@ -346,9 +346,9 @@
       "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/byoc/tutorials/development/connect-for-on-demand-search.md": {
-      "sourceHash": "2f9e9e6770d15c94c723925809aaad45f24400d93de5650ce6379d2f5bc825dc",
+      "sourceHash": "49c832830ccf09e7dbca0331aeb404feea2ccf7059a1c41fd7543964a449c990",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/connect-for-on-demand-search.md",
-      "translatedAt": "2026-10-25T05:33:29.889Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/connect-to-serving-cluster.md": {
       "sourceHash": "c1d1b0130ed9d690549b07f9b758c1cda3954b1ed906bb2093fda29fb011f9ea",
@@ -356,9 +356,9 @@
       "translatedAt": "2026-10-28T03:00:26.017Z"
     },
     "content/en/byoc/tutorials/development/data-export/export-data-iterators.md": {
-      "sourceHash": "6eb8aeed7c2bf4c72896c217303867e83ebe2c5a8d4262ad13e9ebc21d0523cf",
+      "sourceHash": "e9e21453c8b30e27ae6900032d6372c0f5192dee54c350a1a58115bcb0d0d8d5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-export/export-data-iterators.md",
-      "translatedAt": "2026-10-28T03:00:26.017Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/data-import/data-import-format-options/data-import-format-options.md": {
       "sourceHash": "cdf87f5843d3b025245195c3dddcc10719b969809c9e3fbdebe3bf47bd733244",
@@ -401,9 +401,9 @@
       "translatedAt": "2026-10-10T05:43:58.386Z"
     },
     "content/en/byoc/tutorials/development/data-import/import-data/import-data-via-sdks.md": {
-      "sourceHash": "a179f0b3f8c408f0bace70db1546591124278af9f9a62bb8c83db4bedb3a1773",
+      "sourceHash": "4ea8f1591fa6ed947e08ec8e8760f4272185f697f000aafe54bb51c5373c758c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/import-data/import-data-via-sdks.md",
-      "translatedAt": "2026-10-28T03:00:26.017Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/data-import/import-data/import-data.md": {
       "sourceHash": "33e9babafad491f63b4ecd530714bbb5870ac1223753274cc703a205f5d32acd",
@@ -416,9 +416,9 @@
       "translatedAt": "2026-08-04T05:09:21.576Z"
     },
     "content/en/byoc/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md": {
-      "sourceHash": "d9cf21cc7c4349947965cdd7469f6f8d4cd954d29bb1de4368ded44145bc1b67",
+      "sourceHash": "dbfd84c42c35952e46e34349ae7cbddda10c91e14e4b46be2f8fbeaac7736cdd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md",
-      "translatedAt": "2026-10-25T04:59:38.132Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/database/database-concept.md": {
       "sourceHash": "f5d461b70c86458de4ef1a17c58f6f086b322fb087780d34e76f9a39f11d30f3",
@@ -426,9 +426,9 @@
       "translatedAt": "2026-09-19T13:48:36.176Z"
     },
     "content/en/byoc/tutorials/development/database/database.md": {
-      "sourceHash": "305c367eaa1c34caadaa4c787cc8f16cabe34fc55c0565ce7fa0806ead419b32",
+      "sourceHash": "e115a3a23ab5742c1cb8bfda94ad0b6d610887ad634d61ccd8dd88242c08aaf6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/database/database.md",
-      "translatedAt": "2026-10-28T03:00:26.017Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/database/on-demand-database.md": {
       "sourceHash": "8ac20ec958f718abea029e0cf9b7621c6d878ffc03813dcd617a36e4cf1e9d9a",
@@ -436,14 +436,14 @@
       "translatedAt": "2026-09-19T13:48:36.176Z"
     },
     "content/en/byoc/tutorials/development/function/bm25-function.md": {
-      "sourceHash": "088169379d87f391f2301e27d7bb10caa88a3de880e5885bacff894babe61f66",
+      "sourceHash": "ea063af7302b5ea22cd33d1a7e0fcb68c2a938b1813d070792a21b8ca0d7e644",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/bm25-function.md",
-      "translatedAt": "2026-10-10T04:37:34.328Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/function/minhash-function.md": {
-      "sourceHash": "5c1562e40c82661b676200379222f1171580e3e5113c4726a64ec01a354a6a38",
+      "sourceHash": "92df123e696d2c729c0f77fc8856778cc6bfd97909a7438dd681be9901cae3ea",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/minhash-function.md",
-      "translatedAt": "2026-10-29T12:55:32.070Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf.md": {
       "sourceHash": "8152e9e8e2e2f00095d18c4f95adfa43c6ea277bdb6b4535664033f162021c98",
@@ -451,9 +451,9 @@
       "translatedAt": "2026-10-29T19:43:59.613Z"
     },
     "content/en/byoc/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker.md": {
-      "sourceHash": "d0cbb5d27e0a57fe383fb6df1c4d276ca6eaf0e024cd1e69285b05baac2175ee",
+      "sourceHash": "9cda0a32729a9cd7b56826c2a8046b562b3435e7e63c6352ddf2d680e7687f97",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker.md",
-      "translatedAt": "2026-10-25T05:01:21.841Z"
+      "translatedAt": "2026-11-05T10:54:37.821Z"
     },
     "content/en/byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md": {
       "sourceHash": "05bdf2409170b0c1bad72b41917f819d6d2c376d9cee77fe657642bc85ecaa24",

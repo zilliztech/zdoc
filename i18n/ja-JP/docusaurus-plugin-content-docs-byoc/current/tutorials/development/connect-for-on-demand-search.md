@@ -68,6 +68,12 @@ client = MilvusClient(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.client.MilvusClientV2Session;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
     .uri("https://{project-id}.{region}.api.zillizcloud.com")
@@ -107,6 +113,7 @@ let client = ClientV2::new(&config).await?;
 ```c++
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("https://{project-id}.{region}.api.zillizcloud.com").WithToken("YOUR_API_KEY"));
@@ -169,8 +176,6 @@ session = client.session(cluster_id="inxx-xxxxxxxxxxxxxxx")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2Session;
-
 MilvusClientV2Session session = client.session("inxx-xxxxxxxxxxxxxxx");
 ```
 
@@ -252,12 +257,6 @@ print(results)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 SearchReq searchReq = SearchReq.builder()
     .collectionName("my_collection")
     .data(Collections.singletonList(new FloatVec(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f))))
@@ -282,8 +281,6 @@ System.out.println(results.getSearchResults());
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let results = session
     .search(SearchRequest::builder()
         .collection_name("my_collection")
@@ -301,8 +298,6 @@ println!("{results:?}");
 <TabItem value='c++'>
 
 ```c++
-#include <vector>
-
 milvus::SearchRequest request;
 request.WithCollectionName("my_collection").WithLimit(10).WithAnnsField("vector");
 request.AddFloatVector(std::vector<float>{0.1f, 0.2f, 0.3f, 0.4f});

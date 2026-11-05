@@ -1,7 +1,6 @@
 ---
 title: "ロードとリリース | BYOC"
 slug: /load-release-collections
-sidebar_label: "ロードとリリース"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,13 +8,14 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "コレクションをロードすることは、そのコレクション内で類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードとリリースの手順について説明します。 | BYOC"
 type: origin
-token: CemEwKryciMUepkgYWZcOw6wncb
-sidebar_position: 8
 displayed_sidebar: default
+token: shared-load-release-collections
+sidebar_label: "ロードとリリース"
+sidebar_position: 8
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/load-and-release.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -88,7 +88,7 @@ import io.milvus.v2.client.MilvusClientV2;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Connect to Zilliz Cloud
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -123,26 +123,30 @@ System.out.println(res);
 import (
     "context"
     "fmt"
-    
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
+    APIKey:  token,
 })
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
 defer client.Close(ctx)
-    
+
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
-    // handle err
+    // handle error
 }
 
 // sync wait collection to be loaded
@@ -157,7 +161,7 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-fmt.Println(state)
+fmt.Println(state.State)
 ```
 
 </TabItem>
@@ -219,7 +223,7 @@ if (!status.IsOk()) {
 
 milvus::GetLoadStateResponse response;
 status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection"),
+                                  .WithCollectionName("my_collection"),
                               response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -232,7 +236,7 @@ std::cout << std::to_string(response.State()) << std::endl;
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
@@ -246,9 +250,9 @@ let res = await client.loadCollection({
 console.log(res.error_code)
 
 // Output
-// 
+//
 // Success
-// 
+//
 
 res = await client.getLoadState({
     collection_name: "my_collection"
@@ -257,9 +261,9 @@ res = await client.getLoadState({
 console.log(res.state)
 
 // Output
-// 
+//
 // LoadStateLoaded
-// 
+//
 ```
 
 </TabItem>
@@ -272,9 +276,11 @@ using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Responses.Collection;
 using Milvus.Client.V2.Types;
 
-var client = new MilvusClientV2(new ConnectConfig
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+
+using var client = new MilvusClientV2(new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Uri = CLUSTER_ENDPOINT,
     ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 await client.ConnectAsync();
@@ -335,6 +341,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## 特定のフィールドをロードする\{#load-specific-fields}
@@ -406,8 +413,8 @@ import (
 )
 
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection").
-        WithLoadFields("my_id", "my_vector").
-        WithSkipLoadDynamicField(true))
+    WithLoadFields("my_id", "my_vector").
+    WithSkipLoadDynamicField(true))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -425,7 +432,7 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-fmt.Println(state)
+fmt.Println(state.State)
 ```
 
 </TabItem>
@@ -472,7 +479,7 @@ if (!status.IsOk()) {
 
 milvus::GetLoadStateResponse response;
 status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection"),
+                                  .WithCollectionName("my_collection"),
                               response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -498,6 +505,7 @@ const res = await client.getLoadState({
 console.log(res.state);
 
 // Output
+//
 // LoadStateLoaded
 ```
 
@@ -506,7 +514,6 @@ console.log(res.state);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Responses.Collection;
 using Milvus.Client.V2.Types;
@@ -532,16 +539,16 @@ Console.WriteLine(res.State);
 <TabItem value='bash'>
 
 ```bash
-# REST
-# Not supported yet
+# The RESTful API does not expose partial collection loading.
 ```
 
 </TabItem>
+
 </Tabs>
 
 特定のフィールドをロードする場合、検索やクエリでフィルターおよび出力フィールドとして使用できるのは、`load_fields` に含まれるフィールドのみであることに注意してください。`load_fields` には、プライマリフィールドの名前と少なくとも 1 つのベクトルフィールドの名前を常に含める必要があります。
 
-`skip_load_dynamic_field` を使用して、動的フィールドをロードするかどうかを指定することもできます。動的フィールドは **\&#36;meta** という名前の予約済み JSON フィールドであり、スキーマで定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、そのフィールド内のすべてのキーがロードされ、フィルタリングや出力に使用できるようになります。動的フィールド内のすべてのキーがメタデータのフィルタリングや出力に関与しない場合は、`skip_load_dynamic_field` を `True` に設定します。
+`skip_load_dynamic_field` を使用して、動的フィールドをロードするかどうかを決定することもできます。動的フィールドは **\$meta** という名前の予約済み JSON フィールドで、スキーマで定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、そのフィールド内のすべてのキーがロードされ、フィルタリングと出力に使用できます。動的フィールドのすべてのキーがメタデータのフィルタリングと出力で使用されない場合は、`skip_load_dynamic_field` を `True` に設定します。
 
 コレクションのロード後にさらにフィールドをロードするには、インデックスの変更によって発生する可能性のあるエラーを避けるため、まずコレクションをリリースする必要があります。
 
@@ -620,7 +627,7 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-fmt.Println(state)
+fmt.Println(state.State)
 ```
 
 </TabItem>
@@ -663,7 +670,7 @@ if (!status.IsOk()) {
 
 milvus::GetLoadStateResponse response;
 status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection"),
+                                  .WithCollectionName("my_collection"),
                               response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -684,9 +691,9 @@ let res = await client.releaseCollection({
 console.log(res.error_code)
 
 // Output
-// 
+//
 // Success
-// 
+//
 
 res = await client.getLoadState({
     collection_name: "my_collection"
@@ -695,9 +702,9 @@ res = await client.getLoadState({
 console.log(res.state)
 
 // Output
-// 
+//
 // LoadStateNotLoad
-// 
+//
 ```
 
 </TabItem>
@@ -705,7 +712,6 @@ console.log(res.state)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Responses.Collection;
 using Milvus.Client.V2.Types;
@@ -764,4 +770,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
