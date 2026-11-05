@@ -409,6 +409,12 @@ test('[base-nav] an empty-Slug ref row derives its navigation slug from the shar
   scraper.records = records
   scraper.base_tables = [{table_id: 'tbl', name: 'Development'}]
   scraper.routingContext = routingContext
+  // A legacy wiki source restored from the cross-run source cache can still sit in
+  // the sources directory with a stale title-era slug after the record moved to a
+  // shared page; the ref slug must come from the Base record, not this file.
+  fs.writeFileSync(path.join(scraper.doc_source_dir, 'old.json'), JSON.stringify({
+    obj_type: 'docx', node_token: 'old', origin_node_token: 'old', obj_token: 'old-object',
+    title: 'Example', slug: 'stale-legacy-example', blocks: {items: [], counts: 0}}))
   const warnings = []
   const originalWarn = console.warn
   console.warn = message => { warnings.push(String(message)) }
@@ -421,8 +427,9 @@ test('[base-nav] an empty-Slug ref row derives its navigation slug from the shar
   const refSource = sources.find('base_record_id', 'rec-ref')
   // The source-contract validator derives the ref key as record.slug || canonical
   // target slug: the shared target's Base slug must win over the slugified ref row
-  // title once the activated page's Feishu source has left the sources directory.
+  // title and over any stale slug a cache-restored legacy source still carries.
   assert.equal(refSource.slug, 'example-page')
+  assert.notEqual(refSource.slug, 'stale-legacy-example')
   assert.equal(refSource.base_nav_ref_target_token, 'old')
   assert.equal(warnings.some(message => message.includes('Ref target not found') && message.includes('(rec-ref)')), false)
   const missingSource = sources.find('base_record_id', 'rec-missing-ref')
