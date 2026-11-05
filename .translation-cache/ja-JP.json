@@ -1771,19 +1771,19 @@
       "translatedAt": "2026-11-05T11:54:01.635Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker.md": {
-      "sourceHash": "3fda2b69dc49801b6711ba4abc679fe5ebee689244536edcc1e0ddd006832eb1",
+      "sourceHash": "c82777cddcf54cfb48d9f6ef557c3cba60379ce3c8ed23d08ebd9fd0b1f17ca6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker.md",
-      "translatedAt": "2026-11-05T11:54:01.635Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker.md": {
-      "sourceHash": "0ae5ba4a311e176361ec051954791f8eb23bc70a6cb0e2e7c71002c8dd6b146c",
+      "sourceHash": "b6abd5894cef9f29f757fc47e99a84de637a4eb744e502e5d6bc31d50338cf65",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker.md",
-      "translatedAt": "2026-11-05T11:54:01.635Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker.md": {
-      "sourceHash": "02bdb41a22eb639f60432c249a0d13c2268095ca318471bf963ffabf7f4c1102",
+      "sourceHash": "49819330cac7d6268fcaeb456fe022b64f6752e9c47fea1ef4b1658724464313",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker.md",
-      "translatedAt": "2026-11-05T11:54:01.635Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md": {
       "sourceHash": "a38773fd29d34e83bba78349ba3318517a754cdab4b2506e4a9a0ffc0ded4b5b",
@@ -1811,9 +1811,9 @@
       "translatedAt": "2026-11-05T11:54:01.635Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md": {
-      "sourceHash": "1e82a5a6f23957b6d9c017416afbe03acdbfab6aec0dc774efaf878036676532",
+      "sourceHash": "1ef17a3667383b2f1bc9a8b2c7bf036e66ad3794e9c3dd26eea6bdc0c7b77a5b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md",
-      "translatedAt": "2026-11-05T11:57:36.168Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/function/text-embedding-funcs/cohere.md": {
       "sourceHash": "e78d448a5c0aa02f935b699fdc1ed4776cbc55d32dece56e7087caaa06016260",
@@ -1881,9 +1881,9 @@
       "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md": {
-      "sourceHash": "03fd3f5424716794b15b60784a57d6169daf76f869c05238858434f09e9d2b7d",
+      "sourceHash": "d063a95c0571fd9d404b19938bc06462523ab7ab350e31c19265d77c87eb1f84",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "translatedAt": "2026-11-05T11:57:36.168Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/alter-collection-field.md": {
       "sourceHash": "a0ade1ddb464cf08c006e56b7a713d96473477ad2b200554296f6bb64e4f6e38",
@@ -1896,19 +1896,19 @@
       "translatedAt": "2026-11-05T11:57:36.168Z"
     },
     "content/en/guides/tutorials/development/schema/default-fields.md": {
-      "sourceHash": "df9387406883de05196b85ad6f046d41b8a97d38949d5e45490fb17050698604",
+      "sourceHash": "87635ca2ad086ea679b084f7db5c6a3fd7129ad752210ee28fffcfed8b48bb4c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/default-fields.md",
-      "translatedAt": "2026-10-25T05:16:53.988Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/enable-dynamic-field.md": {
-      "sourceHash": "0ae4be1cdcb6a4cf495c85513fd6b4a7c3021ae3f511b604fc50de33b9285134",
+      "sourceHash": "e630f0c8f6995ec1c9bfb0df8945e34cac1de7d30ddeb5ae90759b23643395c5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/enable-dynamic-field.md",
-      "translatedAt": "2026-10-25T05:16:53.988Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/json-fields/json-field-overview.md": {
-      "sourceHash": "c5148b4c8f8ccdf51ed3c8714dde1fdf21e50889166fd8a496a2b5edfe0eebca",
+      "sourceHash": "ed87935d46af14997dd4006bdf159d5e6b9760109775e963e8e4269ad46cb80f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-fields/json-field-overview.md",
-      "translatedAt": "2026-10-28T15:48:53.927Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/json-fields/json-indexing.md": {
       "sourceHash": "e22499f66839749bac2f91b28be482991585f9951e00b0f82e819f9e8688fbdf",
@@ -1941,9 +1941,9 @@
       "translatedAt": "2026-10-25T05:16:53.988Z"
     },
     "content/en/guides/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md": {
-      "sourceHash": "3db8cb8a84e5fa6c0d473001ecbaf3daad5819889e569207c8b9ff126589e947",
+      "sourceHash": "6126a04f6499076ad8050830b8150585d6c0838302fba23a0121eb03849157bf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-      "translatedAt": "2026-10-29T12:55:32.070Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/schema-explained.md": {
       "sourceHash": "78ea8dc0b5f8717604c0487a6a47e68dbcddd7e48935b5219d537b7a773e2ab9",
@@ -1991,9 +1991,9 @@
       "translatedAt": "2026-10-28T15:48:53.927Z"
     },
     "content/en/guides/tutorials/development/schema/use-geometry-field.md": {
-      "sourceHash": "73c2e23503c420338a9f31d827e1adc24546568407d37dda54da788a2d81b76c",
+      "sourceHash": "df870f1b28ad2954490ff1b4d481fd2d0990571a4d2c575bbee1400e962c5721",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-geometry-field.md",
-      "translatedAt": "2026-10-25T10:11:36.432Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/use-number-field.md": {
       "sourceHash": "44023bd67145ab2ff598b6533932eb6bedf4a1f914ca286b342377f7753b9afe",
@@ -2011,14 +2011,14 @@
       "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/schema/use-text-field.md": {
-      "sourceHash": "32897bed0277e62517dadedfa8dd4b0c3997d53662c28f81019f5ac4dfbba17e",
+      "sourceHash": "f9efdb7532e1bb6ac40a3fb9c849f4244958f7363a3d1e3e10f8ee5a85d4cf6c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-text-field.md",
-      "translatedAt": "2026-10-31T03:41:25.271Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/use-timestamptz-field.md": {
-      "sourceHash": "943a7210b8c2535dfb7303fc4559d97b2cf1c61b7633e88ecb2585ea1d9ce82c",
+      "sourceHash": "ef39f4ecbfc5ee465aeec2996d63205668e675b601a9858712698a7fb00bb4b9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-timestamptz-field.md",
-      "translatedAt": "2026-10-10T05:54:19.895Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/search-and-query/consistency-level.md": {
       "sourceHash": "79bd32c7754c5c4f535ddb7329df3dcd05059f2fa8759fb2e356136ec0e94bac",
@@ -2251,9 +2251,9 @@
       "translatedAt": "2026-10-24T04:09:25.569Z"
     },
     "content/en/guides/tutorials/development/vector-index/minhash-lsh.md": {
-      "sourceHash": "3b18eda9b11a598a9b8d675b02a76b868b5e67222ba10617362f9391cc484edb",
+      "sourceHash": "ed87b1121cec12e9e5b82f070da1682e5bf5cd3fe8a398d2c1e63f2b4c93e6bd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/minhash-lsh.md",
-      "translatedAt": "2026-10-24T04:09:25.569Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/vector-index/tune-index-build-level.md": {
       "sourceHash": "bedcb7d2bc909946ef0a3d6a3b3362764175bc603bf79087eaabe005fe150098",
@@ -2351,9 +2351,9 @@
       "translatedAt": "2026-10-19T17:49:29.775Z"
     },
     "content/en/guides/tutorials/get-started/quickstarts/quick-start.md": {
-      "sourceHash": "125911ab72379ba2a0af07dc5c16a71c8bd86acac429026babebf69c9094aa85",
+      "sourceHash": "f913e2864fe1721a16a1c6e574fb54b9191fb1e509fbd814cbbaa3327917993d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/quickstarts/quick-start.md",
-      "translatedAt": "2026-10-25T10:12:57.207Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/get-started/register-with-zilliz-cloud.md": {
       "sourceHash": "786f02741e230b48039dd88fb377534de37d56e09ccdb23fba4a9a701e5fb25a",
@@ -2891,9 +2891,9 @@
       "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
-      "sourceHash": "fcd0c59adbe5d374dafd0fdb94fa8b43cd08c9e458ecbeb983ddb43ddf84983d",
+      "sourceHash": "6e91a2b96ab4ab66c268cb3e74910f26029b3b6e2031258be9364fd48d5e4e04",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/cost-optimization.md",
-      "translatedAt": "2026-10-25T10:12:57.207Z"
+      "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md": {
       "sourceHash": "30f26524e99ee48815d5043c870e2e9c79261f25656bf0a1af68f48d2c6e65e7",

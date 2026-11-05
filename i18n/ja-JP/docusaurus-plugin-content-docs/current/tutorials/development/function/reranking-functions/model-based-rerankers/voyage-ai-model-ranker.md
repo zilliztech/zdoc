@@ -223,31 +223,31 @@ import (
 
 ctx := context.Background()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_ZILLIZ_CLOUD_URI",
     APIKey:  "YOUR_ZILLIZ_CLOUD_TOKEN",
 })
 if err != nil {
     // handle err
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 
 schema := &entity.Schema{}
 schema.WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false))
 schema.WithField(entity.NewField().WithName("document").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1000))
 schema.WithField(entity.NewField().WithName("dense").WithDataType(entity.FieldTypeFloatVector).WithDim(4))
 
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("voyage_rerank_demo", schema))
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("voyage_rerank_demo", schema))
 if err != nil {
     // handle err
 }
 
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("voyage_rerank_demo", "dense", index.NewAutoIndex(entity.COSINE)))
+_, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("voyage_rerank_demo", "dense", index.NewAutoIndex(entity.COSINE)))
 if err != nil {
     // handle err
 }
 
-_, err = cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("voyage_rerank_demo").
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("voyage_rerank_demo").
     WithInt64Column("id", []int64{1, 2, 3, 4}).
     WithVarcharColumn("document", []string{
         "Recent renewable energy developments include improved solar efficiency.",
@@ -671,7 +671,7 @@ System.out.println(results.getSearchResults());
 <TabItem value='go'>
 
 ```go
-results, err := cli.Search(ctx, milvusclient.NewSearchOption("voyage_rerank_demo", 3,
+results, err := client.Search(ctx, milvusclient.NewSearchOption("voyage_rerank_demo", 3,
     []entity.Vector{entity.FloatVector{0.12, 0.21, 0.29, 0.41}}).
     WithANNSField("dense").
     WithOutputFields("document").

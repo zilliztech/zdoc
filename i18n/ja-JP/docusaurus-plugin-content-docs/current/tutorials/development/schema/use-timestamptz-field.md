@@ -1,13 +1,13 @@
 ---
 title: "TIMESTAMPTZ フィールド | Cloud"
 slug: /use-timestamptz-field
-sidebar_label: "TIMESTAMPTZ フィールド"
+sidebar_label: "TIMSTAMPTZ"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "リージョン間で時間を追跡するアプリケーション（eコマースシステム、コラボレーションツール、分散ログなど）では、タイムゾーン付きのタイムスタンプを正確に扱う必要があります。Zilliz Cloud の `TIMESTAMPTZ` データ型は、タイムスタンプを関連するタイムゾーンとともに保存することでこの機能を提供します。 | Cloud"
+description: "電子商取引システム、コラボレーションツール、分散ロギングなど、地域をまたいで時間を追跡するアプリケーションでは、タイムゾーン付きタイムスタンプを正確に処理する必要があります。Zilliz Cloud の `TIMESTAMPTZ` データ型は、タイムスタンプを関連付けられたタイムゾーンとともに保存することで、この機能を提供します。 | Cloud"
 type: origin
 token: RxUiwJ77WiFKZGkC8rEcLeopnTf
 sidebar_position: 13
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # TIMESTAMPTZ フィールド
 
-リージョン間で時間を追跡するアプリケーション（eコマースシステム、コラボレーションツール、分散ログなど）では、タイムゾーン付きのタイムスタンプを正確に扱う必要があります。Zilliz Cloud の `TIMESTAMPTZ` データ型は、タイムスタンプを関連するタイムゾーンとともに保存することでこの機能を提供します。
+電子商取引システム、コラボレーションツール、分散ロギングなど、地域をまたいで時間を追跡するアプリケーションでは、タイムゾーン付きタイムスタンプを正確に処理する必要があります。Zilliz Cloud の `TIMESTAMPTZ` データ型は、タイムスタンプを関連付けられたタイムゾーンとともに保存することで、この機能を提供します。
 
-## TIMESTAMPTZ フィールドとは何か？\{#what-is-a-timestamptz-field}
+## TIMESTAMPTZ フィールドとは\{#what-is-a-timestamptz-field}
 
-`TIMESTAMPTZ` フィールドは、Zilliz Cloud におけるスキーマ定義のデータ型（`DataType.TIMESTAMPTZ`）であり、タイムゾーンを考慮した入力処理を行い、すべての時点を内部的に UTC の絶対時刻として保存します:
+`TIMESTAMPTZ` フィールドは、Zilliz Cloud のスキーマ定義データ型（`DataType.TIMESTAMPTZ`）であり、タイムゾーンを考慮した入力を受け付けて、すべての時点を内部的に UTC の絶対時刻として保存します：
 
-- **受け付けられる入力形式**: `TIMESTAMPTZ` フィールドは、次を含む [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 互換のタイムスタンプ文字列を受け付けます:
+- **受け入れられる入力形式**：`TIMESTAMPTZ` フィールドは、次を含む [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 互換のタイムスタンプ文字列を受け入れます：
 
     - `"2024-12-31 22:00:00"`
 
@@ -37,37 +37,37 @@ import TabItem from '@theme/TabItem';
 
     - `"2024-12-31T22:00:00Z"`
 
-- **タイムスタンプの解析ルール**: タイムスタンプの解釈方法は、入力文字列でタイムゾーンが明示的に指定されているかどうかによって異なります:
+- **タイムスタンプ解析ルール**：タイムスタンプの解釈方法は、入力文字列がタイムゾーンを明示的に指定しているかどうかによって異なります：
 
-    - 入力にタイムゾーンオフセット（たとえば **+08:00** または **Z**）が含まれている場合、その入力は絶対的な時点として扱われます。
+    - 入力にタイムゾーンオフセット（**+08:00** や **Z** など）が含まれている場合は、絶対的な時点として扱われます。
 
-    - 入力にタイムゾーンオフセットが含まれていない場合、コレクションに設定されたタイムゾーンを使用して解釈されます。たとえば、コレクションのタイムゾーンが **Asia/Shanghai**:
+    - 入力にタイムゾーンオフセットが含まれていない場合は、コレクションに設定されたタイムゾーンを使用して解釈されます。たとえば、コレクションのタイムゾーンが **Asia/Shanghai**: である場合、次のようになります。
 
         - `"2024-12-31 22:00:00"` は **2024-12-31T22:00:00+08:00** として解釈されます
 
-        - `"2024-12-31T22:00:00"` は **2024-12-31T22:00:00Z** として解釈され、これは **2025-01-01T06:00:00+08:00** に相当します
+        - `"2024-12-31T22:00:00"` は **2024-12-31T22:00:00Z** として解釈され、**2025-01-01T06:00:00+08:00** に相当します
 
-- **内部ストレージ**: すべての `TIMESTAMPTZ` 値は正規化され、[協定世界時](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)（UTC）として保存されます。
+- **内部ストレージ**：すべての `TIMESTAMPTZ` 値は正規化され、[Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)（UTC）で保存されます。
 
-- **比較とフィルタリング**: TIMESTAMPTZ フィールドに対するすべての比較、フィルタリング、並べ替え操作は、UTC に正規化された値に対して実行されるため、異なるタイムゾーン間でも一貫した動作が保証されます。
+- **比較とフィルタリング**：TIMESTAMPTZ フィールドに対するすべての比較、フィルタリング、並べ替え操作は UTC に正規化された値に対して実行され、異なるタイムゾーン間で一貫した動作を保証します。
 
 <Admonition type="info" title="Notes">
 
 - `TIMESTAMPTZ` フィールドに `nullable=True` を設定すると、欠損値を許可できます。
 
-- [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 形式で `default_value` 属性を使用して、デフォルトのタイムスタンプ値を指定できます。
+- [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 形式の `default_value` 属性を使用して、デフォルトのタイムスタンプ値を指定できます。
 
 詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
 
-## 基本的な操作\{#basic-operations}
+## 基本操作\{#basic-operations}
 
-`TIMESTAMPTZ` フィールドを使用する基本的な流れは、Zilliz Cloud の他のスカラーフィールドと同じです。フィールドを定義する → データを挿入する → query/filter. という流れになります。
+`TIMESTAMPTZ` フィールドを使用する基本的なワークフローは、Zilliz Cloud の他のスカラーフィールドと同じです：フィールドを定義 → データを挿入 → query/filter.
 
 ### ステップ 1: TIMESTAMPTZ フィールドを定義する\{#step-1-define-a-timestamptz-field}
 
-`TIMESTAMPTZ` フィールドを使用するには、コレクションを作成する際にコレクションスキーマで明示的に定義します。次の例では、`DataType.TIMESTAMPTZ` 型の `tsz` フィールドを持つコレクションを作成する方法を示します。
+`TIMESTAMPTZ` フィールドを使用するには、コレクションの作成時にコレクションのスキーマで明示的に定義します。次の例では、`DataType.TIMESTAMPTZ` 型の `tsz` フィールドを持つコレクションを作成する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -112,6 +112,27 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Collections;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -168,28 +189,32 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "fmt"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx := context.Background()
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal(err)
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 
 const collectionName = "timestamptz_test123"
 
 // Drop the collection if it already exists
-has, err := cli.HasCollection(ctx, milvusclient.NewHasCollectionOption(collectionName))
+has, err := client.HasCollection(ctx, milvusclient.NewHasCollectionOption(collectionName))
 if err != nil {
     log.Fatal(err)
 }
 if has {
-    err = cli.DropCollection(ctx, milvusclient.NewDropCollectionOption(collectionName))
+    err = client.DropCollection(ctx, milvusclient.NewDropCollectionOption(collectionName))
     if err != nil {
         log.Fatal(err)
     }
@@ -200,7 +225,7 @@ schema := entity.NewSchema().
     WithField(entity.NewField().WithName("tsz").WithDataType(entity.FieldTypeTimestamptz).WithNullable(true)).
     WithField(entity.NewField().WithName("vec").WithDataType(entity.FieldTypeFloatVector).WithDim(4))
 
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithConsistencyLevel(entity.ClSession))
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithConsistencyLevel(entity.ClSession))
 if err != nil {
     log.Fatal(err)
 }
@@ -276,6 +301,8 @@ println!("Collection '{COLLECTION_NAME}' with a TimestampTz field created succes
 #include <string>
 #include <vector>
 #include "milvus/MilvusClientV2.h"
+#include <iomanip>
+#include <sstream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -390,15 +417,15 @@ curl --request POST \
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-タイムゾーンオフセットを含む ISO 8601 文字列を持つエンティティを挿入します。
+タイムゾーンオフセットを含む ISO 8601 文字列を含むエンティティを挿入します。
 
-次の例では、8,193 行のサンプルデータをコレクションに挿入します。各行には次のものが含まれます:
+次の例では、8,193 行のサンプルデータをコレクションに挿入します。各行には次が含まれます：
 
 - 一意の ID
 
 - タイムゾーンを考慮したタイムスタンプ（上海時間）
 
-- シンプルな 4 次元ベクトル
+- 単純な 4 次元ベクトル
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -436,17 +463,6 @@ print("Data inserted successfully.")
 <TabItem value='java'>
 
 ```java
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-
 String collectionName = "timestamptz_test123";
 
 int rowCount = 10;
@@ -479,14 +495,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 const dataSize = 10
@@ -501,7 +509,7 @@ for i := 0; i < dataSize; i++ {
     vecs[i] = []float32{v, v, v, v}
 }
 
-_, err = cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName,
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName,
     column.NewColumnInt64("id", ids),
     column.NewColumnTimestamptzIsoString("tsz", tszs),
     column.NewColumnFloatVector("vec", 4, vecs),
@@ -548,12 +556,6 @@ println!("Data inserted successfully.");
 <TabItem value='c++'>
 
 ```c++
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
-
 const std::string collection_name = "timestamptz_test123";
 
 auto pad = [](int num, int width) {
@@ -594,8 +596,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
 const dataSize = 10;
 
@@ -622,8 +622,6 @@ for (let i = 0; i < dataSize; i++) {
     vec: [v, v, v, v],
   });
 }
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 await client.insert({
   collection_name: collectionName,
@@ -663,9 +661,9 @@ curl --request POST \
 
 ### ステップ 3: フィルタリング操作\{#step-3-filtering-operations}
 
-`TIMESTAMPTZ` は、スカラー比較、インターバル演算、時間コンポーネントの抽出をサポートしています。
+`TIMESTAMPTZ` は、スカラー比較、間隔演算、および時間コンポーネントの抽出をサポートします。
 
-`TIMESTAMPTZ` フィールドでフィルタリング操作を実行する前に、次の点を確認してください:
+`TIMESTAMPTZ` フィールドに対するフィルタリング操作を実行する前に、次のことを確認してください：
 
 - 各ベクトルフィールドにインデックスを作成していること。
 
@@ -700,12 +698,6 @@ print(f"Collection '{collection_name}' loaded successfully.")
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.List;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-
 String collectionName = "timestamptz_test123";
 
 // 1. Create an index on the vector field
@@ -733,24 +725,16 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 // 1. Create an index on the vector field
-_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "vec", index.NewAutoIndex(entity.COSINE)).WithIndexName("vec_index"))
+_, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "vec", index.NewAutoIndex(entity.COSINE)).WithIndexName("vec_index"))
 if err != nil {
     log.Fatal(err)
 }
 
 // 2. Load the collection
-_, err = cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
 if err != nil {
     log.Fatal(err)
 }
@@ -817,11 +801,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 // 1. Create an index on the vector field
 await client.createIndex({
@@ -860,17 +840,17 @@ curl --request POST \
 
 #### タイムスタンプフィルタリングを使用したクエリ\{#query-with-timestamp-filtering}
 
-`==`、`!=`、`<`、`>`、`<=`、`>=` などの算術演算子を使用します。Zilliz Cloud で使用可能な算術演算子の完全な一覧については、[Arithmetic Operators](./basic-filtering-operators#arithmetic-operators) を参照してください。
+`==`、`!=`、`<`、`>`、`<=`、`>=` などの算術演算子を使用します。Zilliz Cloud で使用できる算術演算子の完全なリストについては、[Arithmetic Operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#L44AdQ2VIou67ZxyiJSc5IIsnNg) を参照してください。
 
 <Admonition type="info" title="Notes">
 
-連鎖した範囲式（たとえば `lower_bound < tsz < upper_bound`）はサポートされていません。
+連鎖した範囲式（たとえば、`lower_bound < tsz < upper_bound`）はサポートされていません。
 
-代わりに論理積を使用してください: `tsz > lower_bound AND tsz < upper_bound`。
+代わりに論理積を使用してください：`tsz > lower_bound AND tsz < upper_bound`。
 
 </Admonition>
 
-次の例では、タイムスタンプ（`tsz`）が **2025-01-03T00:00:00+08:00** と等しくないエンティティをフィルタリングします:
+次の例では、タイムスタンプ（`tsz`）が **2025-01-03T00:00:00+08:00** と等しくないエンティティをフィルタリングします：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -898,11 +878,6 @@ print("Query result: ", results)
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.List;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-
 String collectionName = "timestamptz_test123";
 
 String filter = "tsz != ISO '2025-01-03T00:00:00+08:00'";
@@ -924,18 +899,11 @@ for (QueryResp.QueryResult record : records) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 filter := "tsz != ISO '2025-01-03T00:00:00+08:00'"
 
-res, err := cli.Query(ctx, milvusclient.NewQueryOption(collectionName).
+res, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).
     WithFilter(filter).
     WithOutputFields("id", "tsz").
     WithLimit(10))
@@ -983,9 +951,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <string>
-
 const std::string collection_name = "timestamptz_test123";
 
 std::string filter = "tsz != ISO '2025-01-03T00:00:00+08:00'";
@@ -1014,8 +979,6 @@ for (const auto& row : output_rows) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
 
 const expr = "tsz != ISO '2025-01-03T00:00:00+08:00'"
@@ -1050,19 +1013,19 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記の例では、
+上記の例について説明します。
 
-- `tsz` は、スキーマで定義された `TIMESTAMPTZ` フィールドの名前です。
+- `tsz` は、スキーマで定義された `TIMESTAMPTZ` フィールド名です。
 
 - `ISO '2025-01-03T00:00:00+08:00'` は、タイムゾーンオフセットを含む [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 形式のタイムスタンプリテラルです。
 
-- `!=` は、フィールド値をそのリテラルと比較します。その他にサポートされている演算子には、`==`、`<`、`<=`、`>`、`>=` があります。
+- `!=` はフィールド値をそのリテラルと比較します。サポートされている他の演算子には、`==`、`<`、`<=`、`>`、`>=` があります。
 
-#### インターバル演算\{#interval-operations}
+#### 間隔演算\{#interval-operations}
 
-[ISO 8601 の期間形式](https://en.wikipedia.org/wiki/ISO_8601#Durations)の **INTERVAL** 値を使用して、`TIMESTAMPTZ` フィールドに対して算術演算を実行できます。これにより、データをフィルタリングする際に、タイムスタンプに対して日、時間、分などの期間を加算または減算できます。
+[ISO 8601 期間形式](https://en.wikipedia.org/wiki/ISO_8601#Durations)の **INTERVAL** 値を使用して、`TIMESTAMPTZ` フィールドに対して算術演算を実行できます。これにより、データのフィルタリング時に、タイムスタンプから日、時間、分などの期間を加算または減算できます。
 
-たとえば、次のクエリは、タイムスタンプ（`tsz`）に 0 日を加算した値が **2025-01-03T00:00:00+08:00** と **等しくない** エンティティをフィルタリングします:
+たとえば、次のクエリは、タイムスタンプ（`tsz`）に 0 日を加算した値が **2025-01-03T00:00:00+08:00** と**等しくない**エンティティをフィルタリングします：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1089,11 +1052,6 @@ print("Query result: ", results)
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.List;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-
 String collectionName = "timestamptz_test123";
 
 String filter = "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'";
@@ -1115,18 +1073,11 @@ for (QueryResp.QueryResult record : records) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 filter := "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'"
 
-res, err := cli.Query(ctx, milvusclient.NewQueryOption(collectionName).
+res, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).
     WithFilter(filter).
     WithOutputFields("id", "tsz").
     WithLimit(10))
@@ -1174,9 +1125,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <string>
-
 const std::string collection_name = "timestamptz_test123";
 
 std::string filter = "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'";
@@ -1205,8 +1153,6 @@ for (const auto& row : output_rows) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
 
 const expr = "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'";
@@ -1243,7 +1189,7 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-`INTERVAL` 値は [ISO 8601 の期間構文](https://www.w3.org/TR/xmlschema-2/#duration)に従います。例:
+`INTERVAL` 値は [ISO 8601 期間構文](https://www.w3.org/TR/xmlschema-2/#duration)に従います。例：
 
 - `P1D` → 1 日
 
@@ -1251,11 +1197,11 @@ curl --request POST \
 
 - `P2DT6H` → 2 日と 6 時間
 
-`INTERVAL` 演算は、次のようにフィルター式で直接使用できます:
+次のように、フィルター式内で `INTERVAL` 演算を直接使用できます：
 
-- `tsz + INTERVAL 'P3D'` → 3 日を加算します
+- `tsz + INTERVAL 'P3D'` → 3 日を加算する
 
-- `tsz - INTERVAL 'PT2H'` → 2 時間を減算します
+- `tsz - INTERVAL 'PT2H'` → 2 時間を減算する
 
 </Admonition>
 
@@ -1290,13 +1236,6 @@ print("Search result: ", res)
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 String collectionName = "timestamptz_test123";
 
 String filter = "tsz > ISO '2025-01-05T00:00:00+08:00'";
@@ -1320,19 +1259,11 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 const collectionName = "timestamptz_test123"
 
 filter := "tsz > ISO '2025-01-05T00:00:00+08:00'"
 
-results, err := cli.Search(ctx, milvusclient.NewSearchOption(collectionName, 5,
+results, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 5,
     []entity.Vector{entity.FloatVector{0.1, 0.2, 0.3, 0.4}}).
     WithFilter(filter).
     WithOutputFields("id", "tsz"))
@@ -1385,10 +1316,6 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <string>
-#include <vector>
-
 const std::string collection_name = "timestamptz_test123";
 
 std::string filter = "tsz > ISO '2025-01-05T00:00:00+08:00'";
@@ -1422,8 +1349,6 @@ for (auto& result : search_results.Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const collectionName = "timestamptz_test123";
 
 const expr = "tsz > ISO '2025-01-05T00:00:00+08:00'";
@@ -1462,35 +1387,35 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-コレクションに 2 つ以上のベクトルフィールドがある場合、タイムスタンプフィルタリングを使用したハイブリッド検索操作を実行できます。詳細については、[Multi-ベクトル Hybrid Search](./hybrid-search) を参照してください。
+コレクションに 2 つ以上のベクトルフィールドがある場合は、タイムスタンプフィルタリングを使用したハイブリッド検索操作を実行できます。詳細については、[Multi-ベクトル Hybrid Search](./hybrid-search) を参照してください。
 
 </Admonition>
 
-## 高度な使用法\{#advanced-usage}
+## 高度な使用方法\{#advanced-usage}
 
-高度な使用法として、さまざまなレベル（データベース、コレクション、クエリなど）でタイムゾーンを管理したり、インデックスを使用して `TIMESTAMPTZ` フィールドのクエリを高速化したりできます。
+高度な使用方法として、さまざまなレベル（データベース、コレクション、クエリなど）でタイムゾーンを管理したり、インデックスを使用して `TIMESTAMPTZ` フィールドのクエリを高速化したりできます。
 
 ### さまざまなレベルでタイムゾーンを管理する\{#manage-time-zones-at-different-levels}
 
-`TIMESTAMPTZ` フィールドのタイムゾーンは、**コレクション** レベルまたは **query/search** レベルで制御できます。
+`TIMESTAMPTZ` フィールドのタイムゾーンは、**コレクション**レベルまたは**query/search** レベルで制御できます。
 
 | レベル | パラメーター | スコープ | 優先度 |
 | --- | --- | --- | --- |
-| コレクション | `timezone` | そのコレクションのデータベースのデフォルトタイムゾーン設定を上書きします。 | 中 |
-| Query/search/hybrid search | `timezone` | 特定の 1 回の操作に対する一時的な上書き | 最高 |
+| コレクション | `timezone` | そのコレクションのデータベースデフォルトタイムゾーン設定を上書きします | 中 |
+| Query/search/hybrid search | `timezone` | 特定の 1 回の操作に対する一時的な上書きです | 最高 |
 
-手順とコードサンプルについては、専用のページを参照してください:
+手順とコードサンプルについては、専用のページを参照してください：
 
-- [Modify コレクション](./modify-collections#example-7-set-collection-time-zone)
+- [Modify コレクション](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#S7WCdAXGrofhq1xU20vc2XVwnRg)
 
-- [Query](./get-and-scalar-query#temporarily-set-a-timezone-for-a-query)
+- [Query](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#OGyUdivlLosfGGxbgn9cN2kbnpf)
 
-- [Basic ベクトル Search](./single-vector-search#temporarily-set-a-timezone-for-a-search)
+- [Basic ベクトル Search](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#JFY4dwlbhoUGiOxybpDcQeFZnDd)
 
 - [Multi-ベクトル Hybrid Search](./hybrid-search)
 
 ### クエリを高速化する\{#accelerate-queries}
 
-デフォルトでは、インデックスのない `TIMESTAMPTZ` フィールドに対するクエリはすべての行をフルスキャンするため、大規模なデータセットでは遅くなる可能性があります。タイムスタンプのクエリを高速化するには、`TIMESTAMPTZ` フィールドに AUTOINDEX インデックスを作成します。
+デフォルトでは、インデックスのない `TIMESTAMPTZ` フィールドに対するクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは遅くなる可能性があります。タイムスタンプクエリを高速化するには、`TIMESTAMPTZ` フィールドに AUTOINDEX インデックスを作成します。
 
 詳細については、[STL_SORT](./slt-sort-index-type) を参照してください。

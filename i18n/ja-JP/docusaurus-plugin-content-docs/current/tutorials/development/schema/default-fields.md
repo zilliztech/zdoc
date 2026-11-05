@@ -1,43 +1,43 @@
 ---
 title: "デフォルト値 | Cloud"
 slug: /default-fields
-sidebar_label: "デフォルト値"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、スカラーフィールド（プライマリーフィールドを除く）にデフォルト値を設定できます。フィールドにデフォルト値が設定されている場合、挿入時にデータが指定されなければ、Zilliz Cloud によってこの値が自動的に適用されます。 | Cloud"
+description: "スカラーフィールドにデフォルト値を設定し、エンティティ挿入時に Zilliz Cloud が不足値を補完できるようにします。 | Cloud"
 type: origin
-token: SsGkwyGJDirNDwk170rcHbUjnVe
-sidebar_position: 16
 displayed_sidebar: default
+token: shared-default-fields
+sidebar_label: "デフォルト値"
+sidebar_position: 16
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/default-values.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # デフォルト値
 
-Zilliz Cloud では、スカラーフィールド（プライマリーフィールドを除く）にデフォルト値を設定できます。フィールドにデフォルト値が設定されている場合、挿入時にデータが指定されなければ、Zilliz Cloud によってこの値が自動的に適用されます。
+Zilliz Cloud では、スカラーフィールド（プライマリフィールドを除く）にデフォルト値を設定できます。フィールドにデフォルト値が設定されている場合、挿入時にデータが指定されていなければ、Zilliz Cloud はこの値を自動的に適用します。
 
-デフォルト値は、既存のデフォルト値設定を維持することで、他のデータベースシステムから Zilliz Cloud へのデータ移行を簡素化します。また、挿入時点で値が確定していない可能性があるフィールドにもデフォルト値を使用できます。
+デフォルト値を使用すると、既存のデフォルト値設定が保持されるため、他のデータベースシステムから Zilliz Cloud へのデータ移行が簡素化されます。また、挿入時点で値が確定していない可能性があるフィールドにもデフォルト値を使用できます。
 
 ## 制限事項\{#limits}
 
-- デフォルト値をサポートするのはスカラーフィールドのみです。プライマリーフィールドおよびベクトルフィールドにはデフォルト値を設定できません。
+- デフォルト値はスカラーフィールドでのみサポートされます。プライマリフィールドとベクトルフィールドにはデフォルト値を設定できません。
 
-- `JSON` および `ARRAY` フィールドはデフォルト値をサポートしていません。
+- `JSON` フィールドと `ARRAY` フィールドはデフォルト値をサポートしていません。
 
-- デフォルト値はコレクションの作成時にのみ設定でき、後から変更することはできません。
+- デフォルト値はコレクションの作成時にのみ設定でき、作成後に変更することはできません。
 
 ## デフォルト値を設定する\{#set-default-values}
 
-コレクションを作成する際は、`add_field()` の `default_value` パラメーターを使用して、フィールドのデフォルト値を定義します。
+コレクションを作成する際は、`add_field()` の `default_value` パラメーターを使用してフィールドのデフォルト値を定義します。
 
-次の例では、デフォルト値を持つ2つのスカラーフィールドを含むコレクションを作成します。`age` のデフォルト値は `18`、`status` のデフォルト値は `"active"` です。
+次の例では、デフォルト値を持つ 2 つのスカラーフィールドを含むコレクションを作成します。`age` のデフォルト値は `18`、`status` のデフォルト値は `"active"` です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -45,7 +45,7 @@ Zilliz Cloud では、スカラーフィールド（プライマリーフィー�
 ```python
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri='YOUR_CLUSTER_ENDPOINT')
+client = MilvusClient(uri='YOUR_CLUSTER_ENDPOINT', token='YOUR_CLUSTER_TOKEN')
 
 # Drop the collection if it already exists
 if client.has_collection("my_collection"):
@@ -94,6 +94,7 @@ import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
 
 String collectionName = "my_collection";
@@ -169,6 +170,7 @@ ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal(err)
@@ -235,7 +237,11 @@ if err := loadTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 const COLLECTION_NAME: &str = "my_collection";
 
@@ -375,6 +381,7 @@ import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 const collectionName = 'my_collection';
@@ -438,7 +445,8 @@ using Milvus.Client.V2.Types;
 
 var config = new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT"
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -517,7 +525,7 @@ curl --request POST \
           "fieldName": "vector",
           "dataType": "FloatVector",
           "elementTypeParams": {
-            "dim": "5"
+            "dim": 5
           }
         },
         {
@@ -530,7 +538,7 @@ curl --request POST \
           "dataType": "VarChar",
           "defaultValue": "active",
           "elementTypeParams": {
-            "max_length": "10"
+            "max_length": 10
           }
         }
       ]
@@ -555,11 +563,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## エンティティを挿入する\{#insert-entities}
 
-データを挿入する際、デフォルト値が設定されたフィールドを省略するか、明示的に NULL に設定すると、Zilliz Cloud は設定済みのデフォルト値を自動的に使用します。
+データを挿入する際に、デフォルト値を持つフィールドを省略するか、その値を明示的に NULL に設定すると、Zilliz Cloud は設定されているデフォルト値を自動的に使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -887,11 +896,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## デフォルト値を使用した検索とクエリ\{#search-and-query-with-default-values}
 
-デフォルト値を含むエンティティは、ベクトル検索およびスカラーフィルタリング中、他のエンティティと同じように動作します。`search` と `query` の両方の操作で、デフォルト値によるフィルタリングが可能です。
+デフォルト値を含むエンティティは、ベクトル検索およびスカラーフィルタリング中に、他のエンティティと同じように動作します。`search` 操作と `query` 操作の両方で、デフォルト値によるフィルタリングが可能です。
 
 次の例では、`age` がデフォルト値 `18` と等しいエンティティを検索します。
 
@@ -1132,11 +1142,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 <details>
 
-<summary>期待される出力</summary>
+<summary>想定される出力</summary>
 
 ```plaintext
 Output:
@@ -1147,7 +1158,7 @@ Search results (age == 18):
 
 </details>
 
-デフォルト値を直接照合してエンティティをクエリすることもできます。
+デフォルト値に直接一致するエンティティをクエリすることもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1452,11 +1463,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 <details>
 
-<summary>期待される出力</summary>
+<summary>想定される出力</summary>
 
 ```plaintext
 Query results (age == 18):
@@ -1472,23 +1484,53 @@ Query results (status == 'active'):
 
 ## 適用されるルール\{#applicable-rules}
 
-フィールドに `nullable` と `default_value` の両方が設定されている場合、挿入時に NULL 入力または欠落したフィールド値を Zilliz Cloud がどのように処理するかは、次のルールで決まります。
+フィールドに `nullable` と `default_value` の両方が設定されている場合、挿入時の NULL 入力または欠落したフィールド値を Zilliz Cloud がどのように処理するかは、次のルールで決まります。
 
-| Nullable | デフォルト値 | ユーザー入力 | 結果 |
-| --- | --- | --- | --- |
-| ✅ | ✅（NULL 以外） | NULL または省略 | デフォルト値を使用します。 |
-| ✅ | ❌ | NULL または省略 | NULL として保存されます。 |
-| ❌ | ✅（NULL 以外） | NULL または省略 | デフォルト値を使用します。 |
-| ❌ | ❌ | NULL または省略 | エラーがスローされます。 |
-| ❌ | ✅（NULL） | NULL または省略 | エラーがスローされます。 |
+<table>
+   <tr>
+     <th><p>Null 許容</p></th>
+     <th><p>デフォルト値</p></th>
+     <th><p>ユーザー入力</p></th>
+     <th><p>結果</p></th>
+   </tr>
+   <tr>
+     <td><p>✅</p></td>
+     <td><p>✅（NULL 以外）</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>デフォルト値を使用します。</p></td>
+   </tr>
+   <tr>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>NULL として保存されます。</p></td>
+   </tr>
+   <tr>
+     <td><p>❌</p></td>
+     <td><p>✅（NULL 以外）</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>デフォルト値を使用します。</p></td>
+   </tr>
+   <tr>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>エラーが発生します。</p></td>
+   </tr>
+   <tr>
+     <td><p>❌</p></td>
+     <td><p>✅（NULL）</p></td>
+     <td><p>NULL または省略</p></td>
+     <td><p>エラーが発生します。</p></td>
+   </tr>
+</table>
 
 **主なポイント：**
 
-- フィールドに NULL 以外のデフォルト値が設定されている場合、`nullable` が有効かどうかに関係なく、その値が使用されます。
+- フィールドに NULL 以外のデフォルト値がある場合、`nullable` が有効かどうかに関係なく、その値が使用されます。
 
-- `nullable=True` であってもデフォルト値が設定されていない場合、フィールドには NULL が保存されます。
+- `nullable=True` でデフォルト値が設定されていない場合、フィールドには NULL が保存されます。
 
 - `nullable=False` でデフォルト値が設定されていない場合、挿入はエラーで失敗します。
 
-- NULL を許容しないフィールドに NULL のデフォルト値を設定することは無効であり、エラーが発生します。
-
+- NULL を許容しないフィールドに NULL のデフォルト値を設定すると、無効となりエラーが発生します。

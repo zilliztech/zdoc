@@ -1,17 +1,18 @@
 ---
 title: "JSON フィールドの概要 | Cloud"
 slug: /json-field-overview
-sidebar_label: "概要"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "商品カタログ、コンテンツ管理システム、ユーザー嗜好エンジンなどのアプリケーションを構築する場合、ベクトル埋め込みとともに柔軟なメタデータを保存する必要がよくあります。商品属性はカテゴリによって異なり、ユーザーの嗜好は時間の経過とともに変化し、ドキュメントのプロパティには複雑なネスト構造があります。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データを保存およびクエリできるようにすることで、この課題を解決します。 | Cloud"
+description: "商品カタログ、コンテンツ管理システム、ユーザー嗜好エンジンなどのアプリケーションを構築する際、ベクトル埋め込みと併せて柔軟なメタデータを保存する必要がよくあります。商品属性はカテゴリごとに異なり、ユーザーの嗜好は時間とともに変化し、ドキュメントのプロパティには複雑なネスト構造があります。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データを保存してクエリできるようにすることで、この課題を解決します。 | Cloud"
 type: origin
-token: Neq4wR0EdiXokRkhXwbcMPfanCd
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-json-field-overview
+sidebar_label: "概要"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/json-field-overview.md"
 
 ---
 
@@ -21,13 +22,13 @@ import TabItem from '@theme/TabItem';
 
 # JSON フィールドの概要
 
-商品カタログ、コンテンツ管理システム、ユーザー嗜好エンジンなどのアプリケーションを構築する場合、ベクトル埋め込みとともに柔軟なメタデータを保存する必要がよくあります。商品属性はカテゴリによって異なり、ユーザーの嗜好は時間の経過とともに変化し、ドキュメントのプロパティには複雑なネスト構造があります。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データを保存およびクエリできるようにすることで、この課題を解決します。
+商品カタログ、コンテンツ管理システム、ユーザー嗜好エンジンなどのアプリケーションを構築する際、ベクトル埋め込みと併せて柔軟なメタデータを保存する必要がよくあります。商品属性はカテゴリごとに異なり、ユーザーの嗜好は時間とともに変化し、ドキュメントのプロパティには複雑なネスト構造があります。Zilliz Cloud の JSON フィールドは、パフォーマンスを犠牲にすることなく、柔軟な構造化データを保存してクエリできるようにすることで、この課題を解決します。
 
-## JSON フィールドとは何か？\{#what-is-a-json-field}
+## JSON フィールドとは？\{#what-is-a-json-field}
 
-JSON フィールドは、Zilliz Cloud のスキーマ定義されたデータ型（`DataType.JSON`）で、構造化されたキーと値のデータを保存します。従来の硬直したデータベース列とは異なり、JSON フィールドはネストされたオブジェクト、配列、混在したデータ型に対応し、高速なクエリのための複数のインデックス作成オプションを提供します。
+JSON フィールドは、Zilliz Cloud のスキーマ定義済みデータ型（`DataType.JSON`）で、構造化されたキーと値のデータを保存します。従来の固定されたデータベース列とは異なり、JSON フィールドはネストされたオブジェクト、配列、混在したデータ型に対応し、高速なクエリのための複数のインデックス作成オプションを提供します。
 
-JSON フィールドの構造例は以下の通りです。
+JSON フィールドの構造例:
 
 ```json
 {
@@ -50,34 +51,55 @@ JSON フィールドの構造例は以下の通りです。
 }
 ```
 
-この例では、`metadata` は1つの JSON フィールドであり、フラットな値（`category`、`in_stock` など）、配列（`tags`）、ネストされたオブジェクト（`supplier`）が混在しています。
+この例では、`metadata` はフラットな値（例: `category`、`in_stock`）、配列（`tags`）、ネストされたオブジェクト（`supplier`）を組み合わせて含む単一の JSON フィールドです。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-**命名規則：** JSON キーには英字、数字、アンダースコアのみを使用してください。特殊文字、スペース、ドットはクエリの解析で問題を引き起こす可能性があるため、使用しないでください。
+**命名規則:** JSON キーには英字、数字、アンダースコアのみを使用してください。特殊文字、スペース、ドットはクエリの解析問題を引き起こす可能性があるため、使用しないでください。
 
 </Admonition>
 
-## JSON フィールドと動的フィールドの違い\{#json-field-vs-dynamic-field}
+## JSON フィールドと動的フィールド\{#json-field-vs-dynamic-field}
 
-JSON フィールドと[動的フィールド](./enable-dynamic-field)の違いは、よく混同されるポイントです。どちらも JSON に関連していますが、目的は異なります。
+JSON フィールドと [動的フィールド](./enable-dynamic-field) の違いは、よく混乱される点です。どちらも JSON に関連していますが、目的は異なります。
 
-次の表は、JSON フィールドと動的フィールドの主な違いをまとめたものです。
+次の表は、JSON フィールドと動的フィールドの主な違いをまとめたものです:
 
-| 機能 | JSON フィールド | 動的フィールド |
-| --- | --- | --- |
-| スキーマ定義 | コレクションスキーマで `DataType.JSON` 型を指定して明示的に宣言する必要があるスカラーフィールドです。 | 宣言されていないフィールドを自動的に保存する非表示の JSON フィールド（`$meta` という名前）です。 |
-| 用途 | スキーマが既知で一貫している構造化データを保存します。 | 固定スキーマに適合しない、柔軟で変化する半構造化データを保存します。 |
-| 制御 | フィールド名と構造はユーザーが制御します。 | 宣言されていないフィールドについてはシステムが管理します。 |
-| クエリ | JSON フィールド内のフィールド名または対象キーを使用してクエリします（例：`metadata["key"]`）。 | 動的フィールドキーを直接使用してクエリします（`"dynamic_key"`）。または `$meta` を介してクエリします（`$meta["dynamic_key"]`）。 |
+<table>
+   <tr>
+     <th><p>機能</p></th>
+     <th><p>JSON フィールド</p></th>
+     <th><p>動的フィールド</p></th>
+   </tr>
+   <tr>
+     <td><p>スキーマ定義</p></td>
+     <td><p>コレクションスキーマで <code>DataType.JSON</code> 型として明示的に宣言する必要があるスカラーフィールドです。</p></td>
+     <td><p>宣言されていないフィールドを自動的に保存する隠し JSON フィールド（<code>$meta</code> という名前）です。</p></td>
+   </tr>
+   <tr>
+     <td><p>ユースケース</p></td>
+     <td><p>スキーマが既知で一貫している構造化データを保存します。</p></td>
+     <td><p>固定スキーマに適合しない、柔軟で進化するデータや半構造化データを保存します。</p></td>
+   </tr>
+   <tr>
+     <td><p>制御</p></td>
+     <td><p>フィールド名と構造はユーザーが制御します。</p></td>
+     <td><p>未定義のフィールドはシステムによって管理されます。</p></td>
+   </tr>
+   <tr>
+     <td><p>クエリ</p></td>
+     <td><p>JSON フィールド内のフィールド名または対象キー（<code>metadata["key"]</code>）を使用してクエリします。</p></td>
+     <td><p>動的フィールドキー（<code>"dynamic_key"</code>）を使用するか、<code>$meta</code> 経由（<code>$meta["dynamic_key"]</code>）で直接クエリします。</p></td>
+   </tr>
+</table>
 
-## 基本操作\{#basic-operations}
+## 基本的な操作\{#basic-operations}
 
-JSON フィールドを使用する基本的なワークフローは、スキーマでフィールドを定義し、データを挿入してから、特定のフィルター式を使用してデータをクエリするという流れです。
+JSON フィールドを使用する基本的なワークフローは、スキーマで定義し、データを挿入してから、特定のフィルター式を使用してデータをクエリするという流れです。
 
 ### JSON フィールドを定義する\{#define-a-json-field}
 
-JSON フィールドを使用するには、コレクションを作成するときにコレクションスキーマで明示的に定義します。次の例では、`DataType.JSON` 型の `metadata` フィールドを持つコレクションを作成する方法を示します。
+JSON フィールドを使用するには、コレクションの作成時にコレクションスキーマで明示的に定義します。次の例は、`DataType.JSON` 型の `metadata` フィールドを持つコレクションを作成する方法を示しています:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -85,14 +107,7 @@ JSON フィールドを使用するには、コレクションを作成すると
 ```python
 from pymilvus import MilvusClient, DataType
 
-CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
-TOKEN = "YOUR_CLUSTER_TOKEN" 
-
-# Set up a Milvus client
-client = MilvusClient(
-    uri=CLUSTER_ENDPOINT,
-    token=TOKEN 
-)
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # Create schema
 schema = client.create_schema(auto_id=False, enable_dynamic_field=True)
@@ -123,7 +138,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -160,7 +175,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 ctx := context.Background()
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -193,7 +208,7 @@ if err := cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("prod
 ```rust
 use milvus::v2::prelude::*;
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 let client = ClientV2::new(
     &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
 )
@@ -242,7 +257,7 @@ client
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
@@ -278,7 +293,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 const TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 const client = new MilvusClient({ address: CLUSTER_ENDPOINT, token: TOKEN });
 
 // Create schema
@@ -318,7 +333,7 @@ using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
-// Set up a Milvus client
+// Set up a Zilliz Cloud client
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
@@ -350,6 +365,9 @@ await client.CreateCollectionAsync(new CreateCollectionReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
   --header "Authorization: Bearer ${TOKEN}" \
@@ -384,11 +402,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-この例では、コレクションスキーマで定義された JSON フィールドは、`nullable=True` により null 値を許可します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
+この例では、コレクションスキーマで定義された JSON フィールドは、`nullable=True` により null 値を許可します。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
 
@@ -696,11 +715,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### フィルタリング操作\{#filtering-operations}
 
-JSON フィールドでフィルタリング操作を実行する前に、次の条件を満たしていることを確認してください：
+JSON フィールドでフィルタリング操作を実行する前に、次のことを確認してください:
 
 - 各ベクトルフィールドにインデックスを作成していること。
 
@@ -708,7 +728,7 @@ JSON フィールドでフィルタリング操作を実行する前に、次の
 
 <details>
 
-<summary>サンプルコードを表示</summary>
+<summary>Show code</summary>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -925,6 +945,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 </details>
@@ -933,9 +954,9 @@ curl --request POST \
 
 #### JSON パス構文によるフィルタリング\{#filtering-with-json-path-syntax}
 
-特定のキーをクエリするには、ブラケット記法を使用して JSON キーにアクセスします：`json_field_name["key"]`。ネストされたキーの場合は、`json_field_name["key1"]["key2"]` のように連結します。
+特定のキーをクエリするには、ブラケット記法を使用して JSON キーにアクセスします: `json_field_name["key"]`。ネストされたキーの場合は、`json_field_name["key1"]["key2"]` のように連結します。
 
-`category` が `"electronics"` であるエンティティをフィルタリングするには、次の式を使用します。
+`category` が `"electronics"` であるエンティティをフィルタリングするには:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1121,9 +1142,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-ネストされたキー `supplier["country"]` が `"USA"` であるエンティティをフィルタリングするには、次の式を使用します。
+ネストされたキー `supplier["country"]` が `"USA"` であるエンティティをフィルタリングするには:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1311,19 +1333,20 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 #### JSON 固有の演算子によるフィルタリング\{#filtering-with-json-specific-operators}
 
-Zilliz Cloud では、特定の JSON フィールドキーで配列値をクエリするための特別な演算子も提供しています。例を次に示します。
+Zilliz Cloud では、特定の JSON フィールドキーで配列値をクエリするための特別な演算子も提供しています。例:
 
-- `json_contains(identifier, expr)`: JSON 配列内に特定の要素またはサブ配列が存在するかどうかを確認します
+- `json_contains(identifier, expr)`: JSON 配列内に特定の要素またはサブ配列が存在するかどうかを確認します。
 
-- `json_contains_all(identifier, expr)`: 指定された JSON 式のすべての要素がフィールド内に存在することを確認します
+- `json_contains_all(identifier, expr)`: 指定した JSON 式のすべての要素がフィールドに存在することを確認します。
 
-- `json_contains_any(identifier, expr)`: JSON 式の少なくとも1つのメンバーがフィールド内に存在するエンティティをフィルタリングします
+- `json_contains_any(identifier, expr)`: JSON 式の少なくとも 1 つのメンバーがフィールド内に存在するエンティティをフィルタリングします。
 
-`tags` キーの下に `"summer_sale"` 値を持つ商品を検索するには、次の式を使用します。
+`tags` キーの下に `"summer_sale"` 値を持つ商品を検索するには:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1511,9 +1534,10 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-`tags` キーの下に `"electronics"`、`"new"`、`"clearance"` の少なくとも1つの値を持つ商品を検索するには、次の式を使用します。
+`tags` キーの下に `"electronics"`、`"new"`、`"clearance"` のいずれかの値を持つ商品を検索するには:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1701,39 +1725,61 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-JSON 固有の演算子の詳細については、[JSON Operators](./json-filtering-operators) を参照してください。
+JSON 固有の演算子の詳細は、[JSON Operators](./json-filtering-operators) を参照してください。
 
-## 次へ：JSON クエリを高速化する\{#next-accelerate-json-queries}
+## 次に: JSON クエリを高速化する\{#next-accelerate-json-queries}
 
-デフォルトでは、高速化されていない JSON フィールドのクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは遅くなる可能性があります。JSON クエリを高速化するために、Zilliz Cloud は高度なインデックス作成とストレージ最適化の機能を提供しています。
+デフォルトでは、高速化されていない JSON フィールドに対するクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは遅くなる可能性があります。JSON クエリを高速化するために、Zilliz Cloud は高度なインデックス作成機能とストレージ最適化機能を提供しています。
 
-<Admonition type="warning" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
-Milvus 3.0.0 以降、JSON フラットインデックスとも呼ばれるオブジェクト全体の JSON インデックス作成（`json_cast_type="JSON"`）は非推奨です。既存のインデックスと新しいインデックス作成リクエストは互換性のために引き続きサポートされますが、このモードは新しいワークロードには推奨されません。既知のクエリパスには JSON パスインデックスを使用するか、複雑または変化するドキュメント全体のクエリ高速化には [JSON Shredding](./json-shredding) の使用を検討してください。
+Milvus 3.0.0 以降、JSON フラットインデックスとも呼ばれるオブジェクト全体の JSON インデックス（`json_cast_type="JSON"`）は非推奨です。既存のインデックスと新しいインデックス作成リクエストは互換性のために引き続きサポートされますが、このモードは新しいワークロードには推奨されません。既知のクエリパスには JSON パスインデックスを使用するか、複雑または進化するドキュメント全体の幅広いクエリ高速化には [JSON Shredding](./json-shredding) を検討してください。
 
 </Admonition>
 
-次の表は、それらの違いと最適な使用シナリオをまとめたものです。
+次の表は、それぞれの違いと最適なユースケースをまとめたものです:
 
-| 手法 | 最適な用途 | 配列の高速化 | 備考 |
-| --- | --- | --- | --- |
-| JSON インデックス作成 | 頻繁にアクセスされる少数のキー、特定の配列キー上の配列 | はい（インデックス付き配列キーに対して） | キーを事前に選択する必要があり、スキーマが変化した場合はメンテナンスが必要です |
-| JSON Shredding | 多数のキーにわたる一般的な高速化、多様なクエリに対応 | はい（ブルートフォースクエリと比較して配列値をわずかに高速化） | 追加のストレージ設定が必要で、配列には引き続きキーごとのインデックスが必要です |
-| NGRAM インデックス | テキストフィールドでのワイルドカード検索、部分文字列一致 | N/A | 数値や範囲（numeric/range）フィルターには使用できません |
+<table>
+   <tr>
+     <th><p>手法</p></th>
+     <th><p>最適な用途</p></th>
+     <th><p>配列の高速化</p></th>
+     <th><p>注記</p></th>
+   </tr>
+   <tr>
+     <td><p>JSON インデックス</p></td>
+     <td><p>頻繁にアクセスされる少数のキー、特定の配列キー上の配列</p></td>
+     <td><p>はい（インデックス付き配列キー上）</p></td>
+     <td><p>キーを事前に選択する必要があり、スキーマが進化した場合はメンテナンスが必要です</p></td>
+   </tr>
+   <tr>
+     <td><p>JSON Shredding</p></td>
+     <td><p>多くのキーにわたる一般的な高速化、さまざまなクエリへの柔軟な対応</p></td>
+     <td><p>いいえ（配列内の値は高速化されません）</p></td>
+     <td><p>追加のストレージ設定が必要で、配列には引き続きキーごとのインデックスが必要です</p></td>
+   </tr>
+   <tr>
+     <td><p>NGRAM インデックス</p></td>
+     <td><p>ワイルドカード検索、テキストフィールド内の部分文字列一致</p></td>
+     <td><p>N/A</p></td>
+     <td><p>numeric/range フィルターには使用できません</p></td>
+   </tr>
+</table>
 
-**ヒント：** これらのアプローチを組み合わせることができます。たとえば、広範なクエリの高速化には JSON Shredding、高頻度の配列キーには JSON インデックス作成、柔軟なテキスト検索には NGRAM インデックス作成を使用します。
+**ヒント:** これらのアプローチは組み合わせることができます。たとえば、幅広いクエリ高速化には JSON Shredding、高頻度の配列キーには JSON インデックス、柔軟なテキスト検索には NGRAM インデックスを使用します。
 
-実装の詳細については、以下を参照してください。
+実装の詳細は、次を参照してください:
 
--  [JSON インデックス作成](./json-indexing)
+-  [JSON Indexing](./json-indexing)
 
 - [JSON Shredding](./json-shredding)
 
-- [NGRAM インデックス](./ngram-index-type)
+- [NGRAM](./ngram-index-type)
 
-## FAQ\{#faq}
+## よくある質問\{#faq}
 
 ### JSON フィールドのサイズに制限はありますか？\{#are-there-any-limitations-on-the-size-of-a-json-field}
 
@@ -1741,33 +1787,32 @@ Milvus 3.0.0 以降、JSON フラットインデックスとも呼ばれるオ�
 
 ### JSON フィールドはデフォルト値の設定をサポートしていますか？\{#does-a-json-field-support-setting-a-default-value}
 
-いいえ。JSON フィールドはデフォルト値をサポートしていません。ただし、フィールドを定義するときに `nullable=True` を設定すると、空のエントリを許可できます。
+いいえ、JSON フィールドはデフォルト値をサポートしていません。ただし、フィールドの定義時に `nullable=True` を設定すると、空のエントリを許可できます。
 
-詳細については、[Nullable & Default](./nullable-fields) を参照してください。
+詳細は、[Nullable & Default](./nullable-fields) を参照してください。
 
-### JSON フィールドキーの命名規則はありますか？\{#are-there-any-naming-conventions-for-json-field-keys}
+### JSON フィールドのキーに命名規則はありますか？\{#are-there-any-naming-conventions-for-json-field-keys}
 
-はい。クエリおよびインデックス作成との互換性を確保するには、次の点に注意してください：
+はい。クエリおよびインデックス作成との互換性を確保するには、次のようにします:
 
-- JSON キーには英字、数字、アンダースコアのみを使用してください。
+- JSON キーには英字、数字、アンダースコアのみを使用します。
 
-- 特殊文字、スペース、ドット（`.`、`/` など）を使用しないでください。
+- 特殊文字、スペース、ドット（`.`、`/` など）の使用は避けます。
 
-- 互換性のないキーは、フィルター式の解析で問題を引き起こす可能性があります。
+- 互換性のないキーは、フィルター式の解析問題を引き起こす可能性があります。
 
 ### Zilliz Cloud は JSON フィールドの文字列値をどのように処理しますか？\{#how-does-zilliz-cloud-handle-string-values-in-json-fields}
 
-Zilliz Cloud は文字列値を JSON 入力に表示されるそのままの形式で、意味的な変換を行わずに保存します。引用符が不適切な文字列は、解析中にエラーになる可能性があります。
+Zilliz Cloud は文字列値を、JSON 入力に現れるとおりに、意味的な変換を行わずに保存します。引用符が不適切な文字列は、解析中にエラーになる可能性があります。
 
-**有効な文字列の例**：
+**有効な文字列の例**:
 
 ```plaintext
 "a\"b", "a'b", "a\\b"
 ```
 
-**無効な文字列の例**：
+**無効な文字列の例**:
 
 ```plaintext
 'a"b', 'a\'b'
 ```
-

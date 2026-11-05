@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "地理情報システム（GIS）、マッピングツール、位置情報サービスのようなアプリケーションを構築する場合、幾何データを保存およびクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データをネイティブに保存およびクエリする方法を提供することで、この課題を解決します。 | Cloud"
+description: "Geographic Information Systems（GIS）、マッピングツール、位置情報サービスのようなアプリケーションを構築する場合、幾何データを保存およびクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データを保存およびクエリするネイティブな方法を提供することで、この課題を解決します。 | Cloud"
 type: origin
 token: H2GHwE8umiuP6WkwjxPcQOfGn0e
 sidebar_position: 12
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # ジオメトリフィールド
 
-地理情報システム（GIS）、マッピングツール、位置情報サービスのようなアプリケーションを構築する場合、幾何データを保存およびクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データをネイティブに保存およびクエリする方法を提供することで、この課題を解決します。
+Geographic Information Systems（GIS）、マッピングツール、位置情報サービスのようなアプリケーションを構築する場合、幾何データを保存およびクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データを保存およびクエリするネイティブな方法を提供することで、この課題を解決します。
 
-ベクトルの類似性と空間制約を組み合わせる必要がある場合は、GEOMETRY フィールドを使用します。例は以下の通りです：
+ベクトル類似性と空間制約を組み合わせる必要がある場合は、GEOMETRY フィールドを使用します。たとえば、次のとおりです：
 
-- 位置情報サービス（LBS）：「この街区**内**にある類似の POI を検索する」
+- Location-Base Service（LBS）：「この街区**内**で類似する POI を検索する」
 
-- マルチモーダル検索：「この地点から **1km 以内**にある類似の写真を取得する」
+- マルチモーダル検索：「この地点から **1km 以内**で類似する写真を取得する」
 
-- 地図と物流：「地域**内**の資産」または「パスと**交差する**ルート」
+- 地図および物流：「リージョン**内**のアセット」または「パスと**交差する**ルート」
 
 <Admonition type="info" title="Notes">
 
@@ -37,33 +37,33 @@ GEOMETRY フィールドを使用するには、SDK を最新バージョンに�
 
 </Admonition>
 
-## GEOMETRY フィールドとは何か\{#what-is-a-geometry-field}
+## GEOMETRY フィールドとは\{#what-is-a-geometry-field}
 
-GEOMETRY フィールドは、Zilliz Cloud のスキーマ定義済みデータ型（`DataType.GEOMETRY`）で、幾何データを保存します。ジオメトリフィールドを扱う場合、データの挿入とクエリの両方に使用される人間が読める形式である [Well-Known Text（WKT）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式を使用してデータを操作します。内部では、Zilliz Cloud が効率的な保存と処理のために WKT を [Well-Known Binary（WKB）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) に変換しますが、WKB を直接扱う必要はありません。
+GEOMETRY フィールドは、Zilliz Cloud でスキーマ定義されたデータ型（`DataType.GEOMETRY`）であり、幾何データを格納します。ジオメトリフィールドを扱う場合、データの挿入とクエリの両方に使用される人間が読める形式である [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式でデータを操作します。内部的には、Zilliz Cloud は効率的な保存と処理のために WKT を [Well-Known Binary (WKB)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) に変換しますが、WKB を直接扱う必要はありません。
 
-`GEOMETRY` データ型は、以下の幾何オブジェクトをサポートしています：
+`GEOMETRY` データ型は、次の幾何オブジェクトをサポートします：
 
-- **POINT**：`POINT (x y)`。例：`POINT (13.403683 52.520711)`（`x` は経度、`y` は緯度）
+- **POINT**: `POINT (x y)`、たとえば `POINT (13.403683 52.520711)`。ここで、`x` は経度、`y` は緯度です
 
-- **LINESTRING**：`LINESTRING (x1 y1, x2 y2, …)`。例：`LINESTRING (13.40 52.52, 13.41 52.51)`
+- **LINESTRING**: `LINESTRING (x1 y1, x2 y2, …)`、たとえば `LINESTRING (13.40 52.52, 13.41 52.51)`
 
-- **POLYGON**：`POLYGON ((x1 y1, x2 y2, x3 y3, x1 y1))`。例：`POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))`
+- **POLYGON**: `POLYGON ((x1 y1, x2 y2, x3 y3, x1 y1))`、たとえば `POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))`
 
-- **MULTIPOINT**：`MULTIPOINT ((x1 y1), (x2 y2), …)`。例：`MULTIPOINT ((10 40), (40 30), (20 20), (30 10))`
+- **MULTIPOINT**: `MULTIPOINT ((x1 y1), (x2 y2), …)`、たとえば `MULTIPOINT ((10 40), (40 30), (20 20), (30 10))`
 
-- **MULTILINESTRING**：`MULTILINESTRING ((x1 y1, …), (xk yk, …))`。例：`MULTILINESTRING ((10 10, 20 20, 10 40), (40 40, 30 30, 40 20, 30 10))`
+- **MULTILINESTRING**: `MULTILINESTRING ((x1 y1, …), (xk yk, …))`、たとえば `MULTILINESTRING ((10 10, 20 20, 10 40), (40 40, 30 30, 40 20, 30 10))`
 
-- **MULTIPOLYGON**：`MULTIPOLYGON (((outer ring ...)), ((outer ring ...)))`。例：`MULTIPOLYGON (((30 20, 45 40, 10 40, 30 20)), ((15 5, 40 10, 10 20, 5 10, 15 5)))`
+- **MULTIPOLYGON**: `MULTIPOLYGON (((outer ring ...)), ((outer ring ...)))`、たとえば `MULTIPOLYGON (((30 20, 45 40, 10 40, 30 20)), ((15 5, 40 10, 10 20, 5 10, 15 5)))`
 
-- **GEOMETRYCOLLECTION**：`GEOMETRYCOLLECTION(POINT(x y), LINESTRING(x1 y1, x2 y2), ...)`。例：`GEOMETRYCOLLECTION (POINT (40 10), LINESTRING (10 10, 20 20, 10 40), POLYGON ((40 40, 20 45, 45 30, 40 40)))`
+- **GEOMETRYCOLLECTION**: `GEOMETRYCOLLECTION(POINT(x y), LINESTRING(x1 y1, x2 y2), ...)`、たとえば `GEOMETRYCOLLECTION (POINT (40 10), LINESTRING (10 10, 20 20, 10 40), POLYGON ((40 40, 20 45, 45 30, 40 40)))`
 
-## 基本操作\{#basic-operations}
+## 基本的な操作\{#basic-operations}
 
-`GEOMETRY` フィールドを使用するワークフローでは、コレクションスキーマでフィールドを定義し、幾何データを挿入してから、特定のフィルター式を使用してデータをクエリします。
+`GEOMETRY` フィールドを使用するワークフローは、コレクションスキーマでフィールドを定義し、幾何データを挿入してから、特定のフィルター式を使用してデータをクエリするという流れです。
 
 ### ステップ 1: GEOMETRY フィールドを定義する\{#step-1-define-a-geometry-field}
 
-`GEOMETRY` フィールドを使用するには、コレクションを作成するときに、コレクションスキーマで明示的に定義します。以下の例では、`DataType.GEOMETRY` 型の `geo` フィールドを持つコレクションを作成する方法を示します。
+`GEOMETRY` フィールドを使用するには、コレクションの作成時にコレクションスキーマで明示的に定義します。次の例では、`DataType.GEOMETRY` 型の `geo` フィールドを持つコレクションを作成する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -73,17 +73,17 @@ from pymilvus import MilvusClient, DataType
 
 dim = 8
 collection_name = "geo_collection"
-milvus_client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
 
 # Create schema with a GEOMETRY field
-schema = milvus_client.create_schema(enable_dynamic_field=True)
+schema = client.create_schema(enable_dynamic_field=True)
 schema.add_field("id", DataType.INT64, is_primary=True)
 schema.add_field("embeddings", DataType.FLOAT_VECTOR, dim=dim)
 # highlight-next-line
 schema.add_field("geo", DataType.GEOMETRY, nullable=True)
 schema.add_field("name", DataType.VARCHAR, max_length=128)
 
-milvus_client.create_collection(collection_name, schema=schema, consistency_level="Strong")
+client.create_collection(collection_name, schema=schema, consistency_level="Strong")
 ```
 
 </TabItem>
@@ -97,6 +97,21 @@ import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
 
 String COLLECTION_NAME = "geo_collection";
 int DIM = 8;
@@ -149,18 +164,20 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx := context.Background()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal(err)
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 
 collectionName := "geo_collection"
 
@@ -171,7 +188,7 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
     WithField(entity.NewField().WithName("geo").WithDataType(entity.FieldTypeGeometry).WithNullable(true)).
     WithField(entity.NewField().WithName("name").WithDataType(entity.FieldTypeVarChar).WithMaxLength(128))
 
-err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithConsistencyLevel(entity.ClStrong))
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption(collectionName, schema).WithConsistencyLevel(entity.ClStrong))
 if err != nil {
     log.Fatal(err)
 }
@@ -266,6 +283,9 @@ await client.createCollection({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Requests.Dql;
 
 const string COLLECTION_NAME = "geo_collection";
 const int DIM = 8;
@@ -353,13 +373,13 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-この例では、コレクションスキーマで定義された `GEOMETRY` フィールドは、`nullable=True` により null 値を許可します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
+この例では、コレクションスキーマで定義された `GEOMETRY` フィールドは、`nullable=True` によって null 値を許可します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-[WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式の幾何データを持つエンティティを挿入します。以下は、複数の地理ポイントを使用した例です：
+[WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式の幾何データを持つエンティティを挿入します。次に、いくつかの地理ポイントを使用した例を示します：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -383,7 +403,7 @@ rows = [
     {"id": 6, "name": "Shop F", "embeddings": [0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2, 0.3], "geo": geo_points[5]},
 ]
 
-insert_result = milvus_client.insert(collection_name, rows)
+insert_result = client.insert(collection_name, rows)
 print(insert_result)
 
 # Expected output:
@@ -395,13 +415,6 @@ print(insert_result)
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 
 List<String> geoPoints = Arrays.asList(
@@ -447,25 +460,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
 geoPoints := []string{
@@ -487,7 +481,7 @@ vectors := [][]float32{
 }
 ids := []int64{1, 2, 3, 4, 5, 6}
 
-result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName).
+result, err := client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName).
     WithInt64Column("id", ids).
     WithVarcharColumn("name", names).
     WithFloatVectorColumn("embeddings", 8, vectors).
@@ -549,9 +543,6 @@ for i in 0..6 {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 milvus::EntityRows data = {{{"id", 1}, {"name", "Shop A"}, {"embeddings", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}}, {"geo", "POINT(13.399710 52.518010)"}},
@@ -606,8 +597,6 @@ console.log(insert_result);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 const string COLLECTION_NAME = "geo_collection";
 
 var geoPoints = new[]
@@ -709,7 +698,7 @@ curl --request POST \
 
 ### ステップ 3: フィルタリング操作\{#step-3-filtering-operations}
 
-`GEOMETRY` フィールドでフィルタリング操作を実行する前に、以下を確認してください：
+`GEOMETRY` フィールドでフィルタリング操作を実行する前に、次の条件を満たしていることを確認してください：
 
 - 各ベクトルフィールドにインデックスを作成していること。
 
@@ -723,11 +712,11 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-index_params = milvus_client.prepare_index_params()
+index_params = client.prepare_index_params()
 index_params.add_index(field_name="embeddings", metric_type="L2")
 
-milvus_client.create_index(collection_name, index_params)
-milvus_client.load_collection(collection_name)
+client.create_index(collection_name, index_params)
+client.load_collection(collection_name)
 ```
 
 </TabItem>
@@ -735,12 +724,6 @@ milvus_client.load_collection(collection_name)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import java.util.ArrayList;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 
 List<IndexParam> indexParams = new ArrayList<>();
@@ -764,29 +747,9 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
-task, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "embeddings", index.NewAutoIndex(entity.L2)).WithIndexName("embeddings_index"))
+task, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "embeddings", index.NewAutoIndex(entity.L2)).WithIndexName("embeddings_index"))
 if err != nil {
     log.Fatal(err)
 }
@@ -794,7 +757,7 @@ if err = task.Await(ctx); err != nil {
     log.Fatal(err)
 }
 
-loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
 if err != nil {
     log.Fatal(err)
 }
@@ -840,9 +803,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 milvus::IndexDesc index_vector("embeddings", "", milvus::IndexType::IVF_FLAT, milvus::MetricType::L2);
@@ -886,10 +846,6 @@ await client.loadCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 const string COLLECTION_NAME = "geo_collection";
 
 await client.CreateIndexAsync(new CreateIndexReq
@@ -945,29 +901,29 @@ sleep 3
 
 </details>
 
-これらの要件が満たされると、専用のジオメトリ演算子を含む式を使用して、幾何値に基づいてコレクションをフィルタリングできます。
+これらの要件を満たすと、専用のジオメトリ演算子を含む式を使用して、幾何値に基づいてコレクションをフィルターできます。
 
 #### フィルター式を定義する\{#define-filter-expressions}
 
-`GEOMETRY` フィールドをフィルタリングするには、式でジオメトリ演算子を使用します：
+`GEOMETRY` フィールドでフィルターするには、式でジオメトリ演算子を使用します：
 
 - 一般：`{operator}(geo_field, '{wkt}')`
 
 - 距離ベース：`ST_DWITHIN(geo_field, '{wkt}', distance)`
 
-各要素は以下の通りです：
+各要素は次のとおりです：
 
-- `operator` は、サポートされているジオメトリ演算子（例：`ST_CONTAINS`、`ST_INTERSECTS`）のいずれかです。演算子名は、すべて大文字またはすべて小文字で指定する必要があります。サポートされている演算子の一覧については、[サポートされているジオメトリ演算子](./geometry-operators) を参照してください。
+- `operator` は、サポートされているジオメトリ演算子（`ST_CONTAINS`、`ST_INTERSECTS` など）のいずれかです。演算子名はすべて大文字またはすべて小文字にする必要があります。サポートされている演算子の一覧については、[サポートされているジオメトリ演算子](./geometry-operators) を参照してください。
 
 - `geo_field` は、`GEOMETRY` フィールドの名前です。
 
 - `'{wkt}'` は、クエリするジオメトリの WKT 表現です。
 
-- `distance` は、`ST_DWITHIN` 専用のしきい値です。
+- `distance` は、特に `ST_DWITHIN` のしきい値です。
 
-以下の例では、フィルター式でさまざまなジオメトリ固有の演算子を使用する方法を示します：
+次の例では、フィルター式でさまざまなジオメトリ固有の演算子を使用する方法を示します：
 
-#### 例 1: 長方形領域内のエンティティを検索する\{#example-1-find-entities-within-a-rectangular-area}
+#### 例 1: 矩形領域内のエンティティを検索する\{#example-1-find-entities-within-a-rectangular-area}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -977,7 +933,7 @@ top_left_lon, top_left_lat = 13.403683, 52.520711
 bottom_right_lon, bottom_right_lat = 13.455868, 52.495862
 bounding_box_wkt = f"POLYGON(({top_left_lon} {top_left_lat}, {bottom_right_lon} {top_left_lat}, {bottom_right_lon} {bottom_right_lat}, {top_left_lon} {bottom_right_lat}, {top_left_lon} {top_left_lat}))"
 
-query_results = milvus_client.query(
+query_results = client.query(
     collection_name,
     # highlight-next-line
     filter=f"st_within(geo, '{bounding_box_wkt}')",
@@ -996,11 +952,6 @@ for ret in query_results:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 
 float topLeftLon = 13.403683f;
@@ -1029,31 +980,13 @@ for (QueryResp.QueryResult result : queryResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
 boundingBoxWkt := "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))"
 
 filter := "st_within(geo, '" + boundingBoxWkt + "')"
 
-rs, err := cli.Query(ctx, milvusclient.NewQueryOption(collectionName).
+rs, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).
     WithFilter(filter).
     WithOutputFields("id", "name", "geo"))
 if err != nil {
@@ -1103,9 +1036,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 std::string filter = "st_within(geo, 'POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))')";
@@ -1155,9 +1085,6 @@ for (const ret of query_results.data) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 const string COLLECTION_NAME = "geo_collection";
 
 float topLeftLon = 13.403683f;
@@ -1209,7 +1136,7 @@ center_point_lon, center_point_lat = 13.403683, 52.520711
 radius_meters = 1000.0
 central_point_wkt = f"POINT({center_point_lon} {center_point_lat})"
 
-query_results = milvus_client.query(
+query_results = client.query(
     collection_name,
     # highlight-next-line
     filter=f"st_dwithin(geo, '{central_point_wkt}', {radius_meters})",
@@ -1232,11 +1159,6 @@ for ret in query_results:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 
 float centerPointLon = 13.403683f;
@@ -1261,31 +1183,13 @@ for (QueryResp.QueryResult result : queryResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
 centralPointWkt := "POINT(13.403683 52.520711)"
 
 filter := "st_dwithin(geo, '" + centralPointWkt + "', 1000.0)"
 
-rs, err := cli.Query(ctx, milvusclient.NewQueryOption(collectionName).
+rs, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).
     WithFilter(filter).
     WithOutputFields("id", "name", "geo"))
 if err != nil {
@@ -1335,9 +1239,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 std::string filter = "st_dwithin(geo, 'POINT(13.403683 52.520711)', 1000.0)";
@@ -1386,9 +1287,6 @@ for (const ret of query_results_dwithin.data) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 const string COLLECTION_NAME = "geo_collection";
 
 float centerPointLon = 13.403683f;
@@ -1429,14 +1327,14 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-#### 例 3: ベクトルの類似性と空間フィルターを組み合わせる\{#example-3-combine-vector-similarity-with-a-spatial-filter}
+#### 例 3: ベクトル類似性と空間フィルターを組み合わせる\{#example-3-combine-vector-similarity-with-a-spatial-filter}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 vectors_to_search = [[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]]
-result = milvus_client.search(
+result = client.search(
     collection_name,
     vectors_to_search,
     limit=3,
@@ -1458,13 +1356,6 @@ for hits in result:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 String COLLECTION_NAME = "geo_collection";
 String boundingBoxWkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
 
@@ -1491,25 +1382,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    log.Fatal(err)
-}
-defer cli.Close(ctx)
-
 collectionName := "geo_collection"
 
 queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}
@@ -1517,7 +1389,7 @@ boundingBoxWkt := "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 
 
 filter := "st_within(geo, '" + boundingBoxWkt + "')"
 
-resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(collectionName, 3, []entity.Vector{entity.FloatVector(queryVector)}).
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 3, []entity.Vector{entity.FloatVector(queryVector)}).
     WithFilter(filter).
     WithOutputFields("id", "name", "geo"))
 if err != nil {
@@ -1574,9 +1446,6 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const std::string collection_name = "geo_collection";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
@@ -1631,9 +1500,6 @@ for (const hit of search_results.results) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
 const string COLLECTION_NAME = "geo_collection";
 string boundingBoxWkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
 
@@ -1688,22 +1554,22 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 次のステップ: クエリを高速化する\{#next-accelerate-queries}
+## 次へ: クエリを高速化する\{#next-accelerate-queries}
 
-デフォルトでは、インデックスのない `GEOMETRY` フィールドに対するクエリはすべての行をフルスキャンするため、大規模なデータセットでは遅くなる可能性があります。ジオメトリクエリを高速化するには、GEOMETRY フィールドに `AUTOINDEX` インデックスを作成します。
+デフォルトでは、インデックスのない `GEOMETRY` フィールドに対するクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは遅くなる可能性があります。ジオメトリクエリを高速化するには、GEOMETRY フィールドに `AUTOINDEX` インデックスを作成します。
 
-詳細は、[RTREE](./rtree-index-type) を参照してください。
+詳細については、[RTREE](./rtree-index-type) を参照してください。
 
 ## FAQ\{#faq}
 
 ### コレクションで動的フィールド機能を有効にしている場合、動的フィールドキーに幾何データを挿入できますか？\{#if-ive-enabled-the-dynamic-field-feature-for-my-collection-can-i-insert-geometric-data-into-a-dynamic-field-key}
 
-いいえ、幾何データを動的フィールドに挿入することはできません。幾何データを挿入する前に、コレクションスキーマで `GEOMETRY` フィールドが明示的に定義されていることを確認してください。
+いいえ、幾何データを動的フィールドに挿入することはできません。幾何データを挿入する前に、`GEOMETRY` フィールドがコレクションスキーマで明示的に定義されていることを確認してください。
 
 ### GEOMETRY フィールドは mmap 機能をサポートしていますか？\{#does-the-geometry-field-support-the-mmap-feature}
 
-はい、`GEOMETRY` フィールドは mmap をサポートしています。詳細については、[mmap の使用](./use-mmap) を参照してください。
+はい、`GEOMETRY` フィールドは mmap をサポートしています。詳細については、[Use mmap](./use-mmap) を参照してください。
 
-### GEOMETRY フィールドを null 許容として定義したり、デフォルト値を設定したりできますか？\{#can-i-define-the-geometry-field-as-nullable-or-set-a-default-value}
+### GEOMETRY フィールドを nullable として定義したり、デフォルト値を設定したりできますか？\{#can-i-define-the-geometry-field-as-nullable-or-set-a-default-value}
 
 はい、GEOMETRY フィールドは `nullable` 属性と WKT 形式のデフォルト値をサポートしています。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
