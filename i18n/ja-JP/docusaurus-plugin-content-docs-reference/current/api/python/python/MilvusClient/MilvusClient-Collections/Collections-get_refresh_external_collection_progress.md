@@ -66,6 +66,19 @@ def get_refresh_external_collection_progress(
 
 指定した外部コレクションのリフレッシュジョブの詳細を記録する RefreshExternalCollectionJobInfo オブジェクトです。
 
+```python
+{
+    'job_id': 4325693842392,
+    'collection_name': 'test_collection',
+    'state': 'RefreshInProgress',
+    'progress': 67,
+    'reason': ''
+    'external_source': 'volume://<my_volume>/<bucket>/' 
+    'start_time': 1776470400000
+    'end_time': 1776470434567    
+}
+```
+
 **パラメーター:**
 
 - **job_id** (*int*) -
@@ -78,7 +91,7 @@ def get_refresh_external_collection_progress(
 
 - **state** (*string*) -
 
-    指定したジョブの現在の状態です。使用できる値は次のとおりです。
+    指定したジョブの現在の状態です。リフレッシュジョブは `RefreshInProgress` から `RefreshCompleted` または `RefreshFailed` に遷移します。指定できる値は次のとおりです：
 
     - RefreshPending
 
@@ -171,4 +184,3 @@ while True:
 
     time.sleep(2)
 ```
-

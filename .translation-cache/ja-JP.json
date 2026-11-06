@@ -7221,9 +7221,9 @@
       "translatedAt": "2026-10-25T13:03:00.792Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md": {
-      "sourceHash": "2824e2f1fd381942b2574a9160d1ebf65c1e29bedc8ca5aaa67d04634d19e66a",
+      "sourceHash": "43a69945fe3ca095e8439f71756e8cb204bf9c1c0d15e8744d51476a3091612b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md",
-      "translatedAt": "2026-10-25T13:03:00.792Z"
+      "translatedAt": "2026-11-06T19:42:50.648Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-DataType.md": {
       "sourceHash": "75668a9183c7d6739864a369ed1f13a562fe300246b5c4f2177e9793c18032bd",
@@ -7286,9 +7286,9 @@
       "translatedAt": "2026-10-28T01:04:19.233Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md": {
-      "sourceHash": "00ea269c832b2db9123d0647399948fe81edbc173086aa3afe03003b6dd7e6cc",
+      "sourceHash": "af0a3467a5988ab1ace7ca72563b93504345c4294a9390d9b50122f2261d6c78",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md",
-      "translatedAt": "2026-10-25T13:03:00.792Z"
+      "translatedAt": "2026-11-06T19:42:50.648Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-describe_alias.md": {
       "sourceHash": "da0db7b6a93f07e66f3c0de9970ec31e34cb1cdfd61df5fd0574e96d4706974b",
@@ -7331,9 +7331,9 @@
       "translatedAt": "2026-10-25T13:03:00.792Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress.md": {
-      "sourceHash": "0bc6101137bb96a93e3146e9572276d535f1939165756f2670684f24a075e4b5",
+      "sourceHash": "9e3c9d720eedf1ad95654f0b0f931dd8bd3f03ed65030336d2332b87180c6980",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress.md",
-      "translatedAt": "2026-10-25T13:03:00.792Z"
+      "translatedAt": "2026-11-06T19:42:50.648Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-has_collection.md": {
       "sourceHash": "c14c2399c794ba8bd515b866595ee66d5b924be47a417112887b2aa3443ef8bc",
@@ -7351,14 +7351,14 @@
       "translatedAt": "2026-10-25T13:03:00.792Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_refresh_external_collection_jobs.md": {
-      "sourceHash": "a7966b87b503ff5a90776916fbc0fda68f1ad1e56bbc7752008077d17d194c58",
+      "sourceHash": "bd59544504b3a1b23b06d3c140e72ec326975b09b276dada836fa19443a9e86d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_refresh_external_collection_jobs.md",
-      "translatedAt": "2026-10-25T13:03:00.792Z"
+      "translatedAt": "2026-11-06T19:42:50.648Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md": {
-      "sourceHash": "63019b4b205f435754ecca373b171e28a0a25b14d39f4a58f50c765481eefafe",
+      "sourceHash": "834a444e28f7048cd0b98071d9ece62a1c4b1c2367b813c3a2c24ee96a62ff34",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md",
-      "translatedAt": "2026-10-25T13:03:00.792Z"
+      "translatedAt": "2026-11-06T19:42:50.648Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-rename_collection.md": {
       "sourceHash": "20060fa20c7d598a162d2613d16817219d598a69012c1d1a384d7ab99183ea8a",
