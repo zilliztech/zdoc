@@ -53,15 +53,13 @@ import TabItem from '@theme/TabItem';
 
 ### 事前準備\{#preparation}
 
-- オンデマンドコンピューティング用のデータベースで外部コレクションを作成するために十分な権限を持つ API キーを取得していること。
+- 十分な権限を持つ **API キー** を取得していること。ユーザー名:パスワード形式のトークンは受け付けられません。
 
     詳細については、[API キー](./manage-api-keys) を参照してください。
 
-- オブジェクトストレージバケットを Zilliz Cloud と統合していること。
+- データファイルソース（parquet、iceberg-table、lance-table、vortex）の場合、オブジェクトストレージバケットを統合し、対象のデータファイルを含む外部ボリュームを作成していること。
 
     詳細については、[AWS](./integrate-with-aws-s3)、[GCP](./integrate-with-gcp)、[Azure](./integrate-with-azure-blob-storage) の各ドキュメントを参照してください。
-
-- バケット統合から外部ボリュームを作成していること。そのボリュームに対象のデータファイルが含まれていることを確認してください。
 
     詳細については、[外部ボリューム](./external-volume) を参照してください。
 
@@ -91,10 +89,6 @@ Zilliz Cloud は次のデータソースをサポートしています。選択�
         "snapshot_id": "473984310232959286"
     }
     ```
-
-- `milvus-table`
-
-    `external_source` には、具体的な Milvus スナップショットメタデータ JSON ファイルを設定します。詳細については、[スナップショットをデータソースとして使用する](./use-milvus-snapshot-as-data-source) を参照してください。
 
 ### スキーマを設定する\{#set-up-schema}
 
@@ -905,6 +899,8 @@ curl --request POST \
 </Tabs>
 
 更新操作は非同期で実行されるため、進行状況を監視するループを設定する必要があります。
+
+RESTful API を使用する場合は、[Describe External コレクション Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2) で更新ジョブの進行状況を確認するか、[List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2) で更新ジョブを一覧表示してください。
 
 <Admonition type="info" title="Notes">
 

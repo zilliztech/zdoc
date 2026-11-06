@@ -803,6 +803,152 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+### サービングクラスターのコレクションをデータソースとして使用する\{#use-a-collection-from-a-serving-cluster-as-the-data-source}
+
+上記の手順では、外部ボリューム上のデータファイルから外部コレクションを作成します。別のサービングクラスター上のコレクションをデータソースとして使用することもできます。その場合、スキーマの作成時に、`external_source` をソースコレクションの `milvus://` URI に設定します。
+
+Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョン内にある Milvus v3.0.x 互換の別のサービングクラスター上のコレクションを指します。スキームは小文字で指定する必要があり、データベース名として `default` を指定する場合も含め、3 つのセグメントはすべて必須です。末尾のスラッシュは 1 つまで許容されます。
+
+- ソースは、ターゲットと**同じプロジェクトおよびリージョン**にある **Milvus v3.0.x 互換のサービングクラスター**上の通常のコレクション（別の外部コレクションではありません）です。
+
+- API キーとクエリクラスター ID を使用して、プロジェクトエンドポイントに接続します（Python の場合は `option={"cluster_id": "<query cluster id>"}`）。
+
+- クラスター間ソース（`milvus://`）は、現在のリリースでは SDK および RESTful API を介してのみ利用できます。コンソールはこのソースタイプをサポートしていません。クラウドプロバイダー：**AWS と Azure がサポートされています。**
+
+通常どおりスキーマを使用してコレクションを作成します。各フィールドについて、`external_field` をソースコレクション内の対応するフィールドの名前に設定します。`milvus://` ソースの形式はデフォルトで `milvus-table` になるため、`external_spec` は省略できます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient, DataType
+
+# Connect to the project endpoint with an API key and the query cluster ID
+client = MilvusClient(
+    uri="https://{project-id}.{region}.api.zillizcloud.com",
+    token="YOUR_API_KEY",
+    db_name="my_database",
+    option={"cluster_id": "<query cluster id>"}
+)
+
+# Point the schema to the source collection; external_spec is omitted
+schema = MilvusClient.create_schema(
+    external_source="milvus://in01-xxxxxxxxxxxxxxx/default/products"
+)
+
+# Map each field to the corresponding field in the source collection
+schema.add_field(
+    field_name="vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=1536,
+    external_field="embedding"
+)
+
+schema.add_field(
+    field_name="product_id",
+    datatype=DataType.VARCHAR,
+    max_length=32,
+    external_field="product_id"
+)
+
+schema.add_field(
+    field_name="title",
+    datatype=DataType.VARCHAR,
+    max_length=512,
+    external_field="title"
+)
+
+# Create the collection
+client.create_collection(
+    collection_name="my_collection",
+    schema=schema
+)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${PROJECT_ENDPOINT}/v2/vectordb/collections/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "dbName": "my_database",
+    "collectionName": "my_collection",
+    "schema": {
+        "externalSource": "milvus://in01-xxxxxxxxxxxxxxx/default/products",
+        "fields": [
+            {
+                "fieldName": "vector",
+                "dataType": "FloatVector",
+                "elementTypeParams": {
+                    "dim": "1536"
+                },
+                "externalField": "embedding"
+            },
+            {
+                "fieldName": "product_id",
+                "dataType": "VarChar",
+                "elementTypeParams": {
+                    "max_length": "32"
+                },
+                "externalField": "product_id"
+            },
+            {
+                "fieldName": "title",
+                "dataType": "VarChar",
+                "elementTypeParams": {
+                    "max_length": "512"
+                },
+                "externalField": "title"
+            }
+        ]
+    }
+}'
+```
+
+</TabItem>
+</Tabs>
+
+ステップ 4 の説明に従ってインデックスを作成し、コレクションを更新します。別のサービングクラスター上のコレクション（`milvus://`）から作成した外部コレクションの場合は、以下のとおりです。
+
+refresh を実行すると、外部コレクションがリクエストで渡された `external_source` に再バインドされ、最新のデータが同期されます。すべての refresh リクエストで `external_source` を渡す必要があります。これを省略すると、コレクションは以前に同期されたデータを提供し続けます。
+
+refresh ジョブは `RefreshInProgress` から `RefreshCompleted` または `RefreshFailed` に遷移します。進行中に送信された 2 つ目の refresh は拒否されます。refresh はインデックスの構築が完了するまで待機するため、その所要時間はデータサイズに応じて変動し、大規模なコレクションでは数秒から数時間になります。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+job_id = client.refresh_external_collection(
+    collection_name="my_collection",
+    external_source="milvus://in01-xxxxxxxxxxxxxxx/default/products"
+)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${PROJECT_ENDPOINT}/v2/vectordb/jobs/external_collection/refresh" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "dbName": "my_database",
+    "collectionName": "my_collection",
+    "externalSource": "milvus://in01-xxxxxxxxxxxxxxx/default/products"
+}'
+```
+
+</TabItem>
+</Tabs>
+
+refresh が完了したら、ステップ 5 とステップ 6 の説明に従ってオンデマンドクラスターを作成し、検索を実行します。詳細は、[サービングクラスターのコレクションをデータソースとして使用する](./use-collection-from-a-serving-cluster-as-data-source) を参照してください。
+
 ## ステップ 4: インデックスを作成してコレクションを更新する\{#step-4-create-indexes-and-refresh-the-collection}
 
 外部データベースでは、マネージドコレクションの場合と同じようにインデックスを作成できます。すべてのベクトルフィールドにインデックスを作成する必要があり、高速なメタデータフィルタリングのために一部のスカラーフィールドを選択してインデックスを作成できます。ただし、インデックスを構築するには、refresh を呼び出す必要があります。

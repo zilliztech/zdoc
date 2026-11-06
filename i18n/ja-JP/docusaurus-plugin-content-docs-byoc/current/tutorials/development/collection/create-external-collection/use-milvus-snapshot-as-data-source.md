@@ -2,11 +2,14 @@
 title: "スナップショットをデータソースとして使用する | BYOC"
 slug: /use-milvus-snapshot-as-data-source
 sidebar_label: "スナップショットをソースとして使用"
-beta: PUBLIC
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
+channel: retire-in-next
+sidebar_custom_props:
+  channel: retire-in-next
 description: "スナップショットメタデータの JSON パスを `externalsource` として使用し、`externalspec.format` を `\"milvus-table\"` に設定することで、Milvus スナップショットから外部コレクションを作成できます。 | BYOC"
 type: origin
 token: JfJvwdGz0iD9LpkrCMccZ2ypn0g
@@ -470,3 +473,4 @@ curl 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 ## データを更新する\{#refresh-data}
 
 コレクションの準備ができたら、それを更新して、データのメタデータとインデックスを作成します。詳細は、[Create an External コレクション](./create-external-collection#step-5-refresh-data) を参照してください。
+
