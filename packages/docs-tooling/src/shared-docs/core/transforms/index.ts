@@ -2,6 +2,7 @@ import { codeGroupAt, fencesIn, markdownLines } from '../blocks'
 import { collectReferences } from '../links/references'
 import { yamlLine } from '../yaml'
 import type { NamedBlock, SharedDocsError, Transform } from '../types'
+import { isRecognizedContentTag } from '../site/components'
 import { codeLines } from './schema'
 import { filterContent } from './filter'
 import { normalizeBlockSeparators } from './spacing'
@@ -38,9 +39,26 @@ export function planTransforms(input: TransformInput): PlanResult {
     if (!content) { fail(index, 'TRANSFORM_CONTENT_NOT_FOUND', `Content file is unavailable: ${rule.content.file}`, ['content', 'file']); continue }
     const rows = codeLines(content.text).map((text, i) => ({ text, origin: { kind: 'content-file' as const, file: content.file, line: i + 1, transformIndex: index } }))
     const invalid = new Set<number>()
-    rows.forEach((line, i) => { if (/doc:block:|<\/?(?:Tabs|TabItem|Admonition)\b/.test(line.text)) invalid.add(i) })
+    const contentLines = rows.map(row => row.text)
+    const fenced = new Set<number>()
+    for (const [start, fence] of fencesIn(content.text, contentLines)) for (let i = start; i <= fence.end; i++) fenced.add(i)
+    // Named markers and local images keep their line-based rejection. Authored
+    // component tags and import statements are only rejected outside fenced
+    // example blocks; registered components (Tabs, TabItem, Admonition,
+    // Supademo) are allowed and their imports are emitted by the generator.
+    const componentTag = /<\/?([A-Z][A-Za-z0-9]*)(?=[\s/>])/
+    const authoredImport = /^import [A-Za-z_$][\w$]* from ['"][^'"]+['"];\s*$/
+    rows.forEach((line, i) => {
+      if (/doc:block:/.test(line.text)) invalid.add(i)
+      else if (fenced.has(i)) return
+      else {
+        const tag = componentTag.exec(line.text)
+        if (tag && !isRecognizedContentTag(tag[1])) invalid.add(i)
+        else if (authoredImport.test(line.text.trim())) invalid.add(i)
+      }
+    })
     for (const image of collectReferences(content.text).images) if (!/^https?:\/\//i.test(image.url)) invalid.add(image.line - 1)
-    for (const i of invalid) fail(index, 'TRANSFORM_CONTENT_MARKUP', 'Cloud content cannot contain named markers, authored Cloud components, or local images; use an external image URL', [], rows[i].origin)
+    for (const i of invalid) fail(index, 'TRANSFORM_CONTENT_MARKUP', 'Cloud content cannot contain named markers, authored imports, local images, or components the generator cannot import; use an external image URL', [], rows[i].origin)
     const filtered = filterContent(rows, 'zilliz.saas')
     if ('errors' in filtered) errors.push(...filtered.errors.map(error => ({ ...error, page: input.page, channel })))
     loaded.set(index, rows)
