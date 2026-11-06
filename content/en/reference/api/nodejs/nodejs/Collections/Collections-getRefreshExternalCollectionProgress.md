@@ -84,7 +84,7 @@ This method returns a promise that resolves to a **GetRefreshExternalCollectionP
 
     - **state** (*RefreshExternalCollectionState*) -
 
-        The current job state. Possible values are **RefreshPending**, **RefreshInProgress**, **RefreshCompleted**, and **RefreshFailed**.
+        The current job state. Possible values are **RefreshPending**, **RefreshInProgress**, **RefreshCompleted**, and **RefreshFailed**. A refresh job transitions from **RefreshInProgress** to **RefreshCompleted** or **RefreshFailed**.
 
     - **progress** (*string*) -
 

@@ -56,10 +56,10 @@ await milvusClient.refreshExternalCollection({
   The name of the external collection to refresh.
 
 - **external_source** (*string*) -<br/>
-  Optional new external source path. If provided, the collection will be refreshed from this new source.
+  Optional new external source path. If provided, the collection will be refreshed from this new source. Provide `external_source` and `external_spec` together, or omit both; when both are omitted, the refresh reuses the persisted source and spec. <NextChannel action="include">On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. For a `volume://` URI, the rule above applies. For a `milvus://` source, you must pass `external_source` in every refresh request; omitting it leaves the collection serving the previously synced data.</NextChannel>
 
 - **external_spec** (*string*) -<br/>
-  Optional new external spec configuration. If provided, the collection will use this new spec.
+  Optional new external spec configuration. If provided, the collection will use this new spec. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`. <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
 
 - **db_name** (*string*) -<br/>
   The name of the database. Optional.
