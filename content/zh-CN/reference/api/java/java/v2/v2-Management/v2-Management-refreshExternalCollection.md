@@ -62,11 +62,17 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
 - `externalSource(String externalSource)` -
 
-    外部数据源标识符（例如 `"s3"`、`"oss"`）。
+    外部源 URI。
+
+    请同时提供 `externalSource` 和 `externalSpec`，或两者都省略；如果两者都省略，刷新操作会重用已持久化的源和规范。
+
+    <NextChannel action="include">在 Zilliz Cloud 上，`externalSource` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传递 `externalSource`；如果省略该参数，Collection 将继续提供先前同步的数据。</NextChannel>
 
 - `externalSpec(JsonObject externalSpec)` -
 
-    描述外部存储配置的 JSON 对象。其字段取决于 `externalSource`（通常包括 `endpoint`、`bucket`、`path` 和凭据）。
+    一个 JSON 对象，包含外部源规范，例如 `format`。`format` 的可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
+
+    <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案搭配使用；对于 `milvus://` 源，可以省略 `format`，其默认值为 `milvus-table`。</NextChannel>
 
 **返回类型：**
 

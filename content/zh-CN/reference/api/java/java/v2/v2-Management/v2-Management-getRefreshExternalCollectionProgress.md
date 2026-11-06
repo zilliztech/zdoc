@@ -77,7 +77,7 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
     - **state** （*String*） -
 
-        当前任务状态（例如 `"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
+        当前任务状态。可能取值为 `RefreshPending`、`RefreshInProgress`、`RefreshCompleted` 和 `RefreshFailed`。刷新任务会从 `RefreshInProgress` 转换为 `RefreshCompleted` 或 `RefreshFailed`。
 
     - **progress** （*int*） -
 
@@ -85,7 +85,7 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
     - **reason** （*String*） -
 
-        如果任务状态为 `"FAILED"`，则为失败原因；否则为空。
+        如果任务状态为 `RefreshFailed`，则为失败原因；否则为空。
 
     - **externalSource** （*String*） -
 

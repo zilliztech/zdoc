@@ -4622,11 +4622,11 @@
     },
     {
       "manual": "java",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "646294fd4de87021ec1764378abd3281543886ba18fa072f4bd2b710d749d77c",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "13831261c97106dad96a9ef06714f17013bf33c92169f9f0a4b432e171ab3279",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md",
       "status": "translated",
-      "targetHash": "b461aa3e57b012570298a85d0af2e77ef5aad8c087efa5810154a2ad0dca72d7",
+      "targetHash": "c16b5c474c7187785753bd530a178f3315e0e7852af269d7726d7e6fafdcda0f",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md"
     },
     {
@@ -4640,11 +4640,11 @@
     },
     {
       "manual": "java",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "a62b53694a305b9c19b28f69ca0c93d6f2a5d05b6acec0c22428b4c3a1c2620c",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "5d6d7062f338c5534dd19e4b55589e55c5965667472fc6444277858f963a8cd7",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
       "status": "translated",
-      "targetHash": "fa893b1623bc800cc37b366286d0a569b2960e9876b973df75436637b4d81209",
+      "targetHash": "c3eae60d9a02b3bdbf1d7d9067e8073f3038ec736eae1a5463b75e05263d9c48",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md"
     },
     {
@@ -5561,11 +5561,11 @@
     },
     {
       "manual": "java",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "39c2d5825ebb78399f669937237acd8b6f8dea57492b5e6d1ea301b3d70e35d4",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "57f206bbc746279d89be087ee47baadc94a20cb2f17493ef04344c836aa75655",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
       "status": "translated",
-      "targetHash": "ac858680c85a8a4745916144d8674717ae34e329fcf64c5989c4ebeaabbc70dc",
+      "targetHash": "6cc455509e29faa3bfe2c760a11debbe55b4bd80124cbfc2ef1448bc8dcc0d06",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md"
     },
     {
@@ -5588,11 +5588,11 @@
     },
     {
       "manual": "java",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "a8800b93f45e9faae8b1e8b6cf00e1c0a22ce4d54f525ad5f03fc5349ca5ce5a",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "c81e6773487ebbbe72b55a3700e646bce6dfb9c7c12f7d59af3aa00c5ca57dcb",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md",
       "status": "translated",
-      "targetHash": "972d0077db0455517b90e3ccb13631f3e9ea1755bbab96fd618f2f55715fac55",
+      "targetHash": "75e0c8640ba91da7bb1fdb7fe25a6bdbe39785c45c1b55bbee82f34e37da57a8",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md"
     },
     {
@@ -5615,11 +5615,11 @@
     },
     {
       "manual": "java",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "05b543b777bae17b57557b5ad7d3c5cacdefc7a409089149969ecb2a1aae7cf4",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "856419007ec2ad9aa85b8744815c3b8cfefbc5216f613dddb1e52bb076c6bc3e",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "531b950334028b672aeaeb462f8f8d18e47a59339477c322137008ba7643fb45",
+      "targetHash": "5c5a0f19c66d5825cafb8996f1424d65345cd0cd19b82c2094b7464c37b41f84",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md"
     },
     {

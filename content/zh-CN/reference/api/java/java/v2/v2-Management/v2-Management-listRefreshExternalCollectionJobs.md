@@ -80,7 +80,7 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 
     - **state** (*String*) -
 
-        当前作业状态（例如 `"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
+        当前作业状态。可选值为 `RefreshPending`、`RefreshInProgress`、`RefreshCompleted` 和 `RefreshFailed`。刷新作业会从 `RefreshInProgress` 转换为 `RefreshCompleted` 或 `RefreshFailed`。
 
     - **progress** (*int*) -
 
@@ -88,7 +88,7 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 
     - **reason** (*String*) -
 
-        如果作业状态为 `"FAILED"`，则为失败原因；否则为空。
+        如果作业状态为 `RefreshFailed`，则为失败原因；否则为空。
 
     - **externalSource** (*String*) -
 
