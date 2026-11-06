@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
 const {loadTypeScript} = require('../lib/load-typescript')
-const {digest, git, gitInventory, regularBytes, snapshotPath} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
+const {digest, git, gitBlobs, gitInventory, regularBytes, snapshotPath} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
 const {validateSharedReceipt} = require('../../packages/docs-tooling/src/lark/sharedPageRouting')
 const {validateImageBaseUrl} = require('../../packages/docs-tooling/src/lark/sharedImageUploader')
 const {runBuild} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/commands/build.ts'))
@@ -47,10 +47,13 @@ function assertToolIdentity(tools, {root = path.resolve(__dirname, '../..')} = {
     'packages/docs-ui/src/shared/utils/docHeadingTags.ts', 'packages/docs-tooling/package.json', 'package.json', 'pnpm-lock.yaml']
   const inventory = gitInventory(root, tools.zdoc, roots)
   for (const file of inventory) if (digest(regularBytes(root, file.path)) !== file.sha256) throw Error(`Executing tooling drift: ${file.path}`)
-  for (const [file] of Object.entries(require.cache)) if (file.startsWith(`${root}/packages/docs-tooling/src/lark/`) && !file.includes('/meta/')) {
-    const relative = path.relative(root, file)
-    if (!git(root, ['show', `${tools.zdoc}:${relative}`]).equals(fs.readFileSync(file))) throw Error(`Executing tooling drift: ${relative}`)
-  }
+  // Loaded lark modules are re-checked against Git every call: the working tree is
+  // live and must be allowed to drift between two calls of identical inputs.
+  const modules = Object.keys(require.cache)
+    .filter(file => file.startsWith(`${root}/packages/docs-tooling/src/lark/`) && !file.includes('/meta/'))
+    .map(file => path.relative(root, file)).sort()
+  const committed = gitBlobs(root, tools.zdoc, modules)
+  for (const [index, relative] of modules.entries()) if (!committed[index].equals(fs.readFileSync(path.join(root, relative)))) throw Error(`Executing tooling drift: ${relative}`)
 }
 function verifyInventory(repository, commit, roots, expected, receipt) {
   const actual = gitInventory(repository, commit, roots).map(({path, sha256}) => ({path, sha256}))
@@ -59,13 +62,17 @@ function verifyInventory(repository, commit, roots, expected, receipt) {
   const ordered = files => [...files].sort((a, b) => a.path.localeCompare(b.path))
   requireEqual(ordered(actual), ordered(expected), receipt, roots.join(','), 'Pinned input inventory is incomplete')
 }
+/** Materialize the pinned tree through one batched Git read instead of one process
+ *  spawn per file; per-file fail-closed digest checks against the receipt inventory
+ *  remain, and outputs stay write-exclusive. */
 function hydrate(repository, commit, inventory, destination, receipt) {
   fs.mkdirSync(destination, {recursive: true})
-  for (const file of inventory) {
-    const bytes = git(repository, ['show', `${commit}:${file.path}`])
-    if (digest(bytes) !== file.sha256) throw mismatch(receipt.page, file.path, file.sha256, digest(bytes))
+  const blobs = gitBlobs(repository, commit, inventory.map(file => file.path))
+  for (const [index, file] of inventory.entries()) {
+    const sha = digest(blobs[index])
+    if (sha !== file.sha256) throw mismatch(receipt.page, file.path, file.sha256, sha)
     const target = path.join(destination, file.path)
-    fs.mkdirSync(path.dirname(target), {recursive: true}); fs.writeFileSync(target, bytes, {flag: 'wx'})
+    fs.mkdirSync(path.dirname(target), {recursive: true}); fs.writeFileSync(target, blobs[index], {flag: 'wx'})
   }
 }
 function compareOutputs(receipt, candidate, rebuilt) {
@@ -154,4 +161,4 @@ async function regenerateReceipt(options, dependencies = {}) {
     throw mismatch(receipt.page, `shared-docs/guides/pages/${receipt.page}/page.yaml`, 'verified receipt replay', error.message)
   } finally { if (fresh) fs.rmSync(fresh, {recursive: true, force: true}) }
 }
-module.exports = {regenerateReceipt, validateRegenerationEvidence, rewriteImageDestinations, assertToolIdentity}
+module.exports = {regenerateReceipt, validateRegenerationEvidence, rewriteImageDestinations, assertToolIdentity, hydrate}
