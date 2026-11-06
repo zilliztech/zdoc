@@ -1,6 +1,6 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const {buildCandidateLines, serializeCandidateLines} = require('./candidates')
+const {buildCandidateLines, buildCandidateRecords, serializeCandidateLines, UNFRAGMENTED_OPERATIONS_BUCKET} = require('./candidates')
 
 // Hand-built diff documents shaped exactly like diff.js output (id layout:
 // category|opKey|fragment|scope|branch|responseStatus|field|changeKind|changeKey).
@@ -30,8 +30,11 @@ function diffDocument() {
             {id: 'unattributed|post /v2/etl/merge|02-etl-v2.json|requestBody|||onError|field-uncovered|',
                 category: 'unattributed', opKey: 'post /v2/etl/merge', fragment: '02-etl-v2.json', scope: 'requestBody',
                 branch: '', responseStatus: '', field: 'onError', change: {kind: 'field-uncovered', key: '', before: null, after: null}, evidence: ''},
-            {id: 'upstream-added|post /v2/snapshots|03-snapshots-v2.json|operation|||||',
-                category: 'upstream-added', opKey: 'post /v2/snapshots', fragment: '03-snapshots-v2.json', scope: 'operation',
+            // Operation-level additions exist in no fragment yet — the id's
+            // fragment slot is empty and the entry carries no fragment field
+            // (real shape: run 42156237729's exactSearch entry).
+            {id: 'upstream-added|post /v2/snapshots||operation||||operation-absent-in-fragments|',
+                category: 'upstream-added', opKey: 'post /v2/snapshots', scope: 'operation',
                 branch: '', responseStatus: '', field: '', change: {kind: 'operation-absent-in-fragments', key: '', before: null, after: null}, evidence: ''},
             {id: 'fragment-only|post /v2/legacy|04-legacy-v2.json|operation|||||',
                 category: 'fragment-only', opKey: 'post /v2/legacy', fragment: '04-legacy-v2.json', scope: 'operation',
@@ -53,7 +56,7 @@ test('candidates list every stanceable, unclassified diff entry as a compact sta
         'upstream-modified|post /v2/gadgets|01-things-v2.json|operation||||deprecated|',
         'upstream-modified|put /v2/things/{ID}|01-things-v2.json|parameter|||projectId:query|required|',
         'unattributed|post /v2/etl/merge|02-etl-v2.json|requestBody|||onError|field-uncovered|',
-        'upstream-added|post /v2/snapshots|03-snapshots-v2.json|operation|||||',
+        'upstream-added|post /v2/snapshots||operation||||operation-absent-in-fragments|',
     ])
     // requiresConfirmation rides the summary so a relaxation can never be
     // adopted by mistake.
@@ -64,6 +67,19 @@ test('candidates honor the fragment batch filter', () => {
     const lines = buildCandidateLines(diffDocument(), {fragmentFilter: '01-things-v2.json'})
     assert.equal(lines.length, 2)
     assert.ok(lines.every(line => line.d.includes('|01-things-v2.json|')))
+    // A fragment batch must not swallow the fragment-less operation rows.
+    assert.ok(lines.every(line => !line.d.includes('post /v2/snapshots')))
+})
+
+test('fragment-less upstream-added operations ride the synthetic operations bucket with a stance expected', () => {
+    const records = buildCandidateRecords(diffDocument(), {fragmentFilter: UNFRAGMENTED_OPERATIONS_BUCKET})
+    assert.deepEqual(records.map(record => record.d), [
+        'upstream-added|post /v2/snapshots||operation||||operation-absent-in-fragments|',
+    ])
+    // The T4 accounting gate refuses to land a refresh while a pending
+    // upstream-added operation is unledgered, so the decision stage must be
+    // expected to take a stance here.
+    assert.equal(records[0].stanceExpected, true)
 })
 
 test('candidate serialization is one JSON object per line with a trailing newline', () => {
