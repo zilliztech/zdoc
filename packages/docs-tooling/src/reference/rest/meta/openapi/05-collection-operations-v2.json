@@ -4247,15 +4247,15 @@
       "post": {
         "summary": "Refresh External Collection",
         "deprecated": false,
-        "description": "This operation triggers an asynchronous data refresh job for an existing external collection, re-syncing the collection's data from its underlying external source. For a `milvus://` source, you must pass `externalSource` in every refresh request; omitting it leaves the refresh ineffective and the collection serving the previously synced data. For a `volume://` source, `externalSource` and `externalSpec` must be both provided or both omitted; when both are omitted, the collection's previously persisted source and spec are reused.",
+        "description": "This operation triggers an asynchronous data refresh job for an existing external collection, re-syncing the collection's data from its underlying external source. `externalSource` and `externalSpec` must be both provided or both omitted; when both are omitted, the collection's previously persisted source and spec are reused.<include target=\"zilliz\"> For a `milvus://` source, you must pass `externalSource` in every refresh request; omitting it leaves the refresh ineffective and the collection serving the previously synced data.</include>",
         "x-i18n": {
           "zh-CN": {
             "summary": "刷新外部 Collection",
-            "description": "本接口为已存在的外部 Collection 触发一次异步刷新任务，从底层外部数据源重新同步数据。对于 `milvus://` 源，每次 refresh 都必须传入 `externalSource`，省略该参数时本次刷新不生效，集合仍对外提供此前同步的数据；对于 `volume://` 卷源，`externalSource` 与 `externalSpec` 需同时提供或同时省略，同时省略时将复用此前已持久化的 source 与 spec 配置。"
+            "description": "本接口为已存在的外部 Collection 触发一次异步刷新任务，从底层外部数据源重新同步数据。`externalSource` 与 `externalSpec` 必须同时提供或同时省略；同时省略时，将复用此前已持久化的 source 与 spec 配置。<include target=\"zilliz\">对于 `milvus://` 源，每次 refresh 都必须传入 `externalSource`，省略该参数时本次刷新不生效，集合仍对外提供此前同步的数据。</include>"
           },
           "ja-JP": {
             "summary": "外部コレクションを更新",
-            "description": "この操作は、既存の外部コレクションに対して非同期のデータ更新ジョブを開始し、基盤となる外部ソースからコレクションのデータを再同期します。`milvus://` ソースの場合、すべての refresh リクエストで `externalSource` を指定する必要があります。省略した場合、このリフレッシュは有効にならず、コレクションは以前に同期されたデータを提供し続けます。`volume://` ボリュームソースの場合、`externalSource` と `externalSpec` は両方を指定するか、両方を省略する必要があります。両方を省略した場合は、コレクションに以前保存された source と spec の設定が再利用されます。"
+            "description": "この操作は、既存の外部コレクションに対して非同期のデータ更新ジョブを開始し、基盤となる外部ソースからコレクションのデータを再同期します。`externalSource` と `externalSpec` は両方を指定するか、両方を省略する必要があります。両方を省略した場合は、コレクションに以前保存された source と spec の設定が再利用されます。<include target=\"zilliz\">`milvus://` ソースの場合、すべての refresh リクエストで `externalSource` を指定する必要があります。省略した場合、このリフレッシュは有効にならず、コレクションは以前に同期されたデータを提供し続けます。</include>"
           }
         },
         "tags": [
@@ -8129,13 +8129,13 @@
           },
           "externalSource": {
             "type": "string",
-            "description": "The external data source identifier. <include target=\"milvus\">An object url in an S3 bucket applies.</include><include target=\"zilliz\">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on a cluster compatible with Milvus v3.0.x in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.</include> Required when creating an external collection.",
+            "description": "The external data source identifier. <include target=\"milvus\">An object url in an S3 bucket applies.</include><include target=\"zilliz\">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another cluster compatible with Milvus v3.0.x in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.</include> Required when creating an external collection.",
             "x-i18n": {
               "zh-CN": {
-                "description": "外部数据源标识符。<include target=\"milvus\">S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">在 Zilliz Cloud 上，`externalSource` 支持两种格式：`volume://<volume_name>/<path>` 与 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 指向与目标集群同项目、同地域的兼容 Milvus v3.0.x 的集群上的集合。前缀必须小写；三段（实例/数据库/集合）缺一不可，数据库为 `default` 时也须写明；末尾允许多一个 `/`。</include> 创建外部集合时必填。"
+                "description": "外部数据源标识符。<include target=\"milvus\">S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">在 Zilliz Cloud 上，`externalSource` 支持两种格式：`volume://<volume_name>/<path>` 与 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 指向与目标集群同项目、同地域的另一集群（兼容 Milvus v3.0.x）上的集合。前缀必须小写；三段（实例/数据库/集合）缺一不可，数据库为 `default` 时也须写明；末尾允许多一个 `/`。</include> 创建外部集合时必填。"
               },
               "ja-JP": {
-                "description": "外部データソース識別子です。<include target=\"milvus\">S3 bucket 内の object url を指定します。</include><include target=\"zilliz\">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョン内の Milvus v3.0.x 互換のクラスター上のコレクションを指します。スキームは小文字でなければならず、3 つのセグメント（データベース名としての `default` を含む）はすべて必須で、末尾に 1 つの `/` は許容されます。</include> external collection を作成する場合に必須です。"
+                "description": "外部データソース識別子です。<include target=\"milvus\">S3 bucket 内の object url を指定します。</include><include target=\"zilliz\">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョン内の別の Milvus v3.0.x 互換のクラスター上のコレクションを指します。スキームは小文字でなければならず、3 つのセグメント（データベース名としての `default` を含む）はすべて必須で、末尾に 1 つの `/` は許容されます。</include> external collection を作成する場合に必須です。"
               }
             },
             "x-added-at": "2.6.x",
@@ -8144,13 +8144,13 @@
           },
           "externalSpec": {
             "type": "string",
-            "description": "A JSON-encoded string describing the connection parameters for the external source. Optional when creating an external collection; for a `milvus://` source, omitting it defaults `format` to `milvus-table`.",
+            "description": "A JSON-encoded string describing the connection parameters for the external source. The `format` key accepts `parquet`, `vortex`, `lance-table`, `iceberg-table`, and `milvus-table`.<include target=\"milvus\"> Required when creating an external collection. For `milvus-table`, set `externalSource` to a Milvus snapshot metadata JSON path, for example `s3://bucket/snapshots/{collection_id}/metadata/{snapshot_id}.json`.</include><include target=\"zilliz\"> Optional when creating an external collection; for a `milvus://` source, omitting it defaults `format` to `milvus-table`.</include>",
             "x-i18n": {
               "zh-CN": {
-                "description": "描述外部数据源连接参数的 JSON 字符串。创建外部集合时可省略；对于 `milvus://` 源，省略时 `format` 默认为 `milvus-table`。"
+                "description": "描述外部数据源连接参数的 JSON 字符串。`format` 键接受 `parquet`、`vortex`、`lance-table`、`iceberg-table` 与 `milvus-table`。<include target=\"milvus\">创建外部集合时必填。使用 `milvus-table` 时，请将 `externalSource` 指向 Milvus snapshot metadata JSON 路径，例如 `s3://bucket/snapshots/{collection_id}/metadata/{snapshot_id}.json`。</include><include target=\"zilliz\">创建外部集合时可省略；对于 `milvus://` 源，省略时 `format` 默认为 `milvus-table`。</include>"
               },
               "ja-JP": {
-                "description": "外部ソースの接続パラメータを記述する JSON エンコード文字列です。external collection の作成時には省略可能です。`milvus://` ソースの場合、省略すると `format` はデフォルトの `milvus-table` になります。"
+                "description": "外部ソースの接続パラメータを記述する JSON エンコード文字列です。`format` キーは `parquet`、`vortex`、`lance-table`、`iceberg-table`、および `milvus-table` を受け付けます。<include target=\"milvus\">external collection の作成時に必須です。`milvus-table` を使用する場合は、`externalSource` に Milvus snapshot metadata JSON パス（例: `s3://bucket/snapshots/{collection_id}/metadata/{snapshot_id}.json`）を指定します。</include><include target=\"zilliz\">external collection の作成時には省略可能です。`milvus://` ソースの場合、省略すると `format` はデフォルトの `milvus-table` になります。</include>"
               }
             },
             "x-added-at": "2.6.x",
@@ -8365,13 +8365,13 @@
             "x-deprecated-since": null
           },
           "schema": {
-            "description": "The schema for an external collection. Must include fields with externalField mappings, plus externalSource. `externalSpec` is optional; for a `milvus://` source, omitting it defaults `format` to `milvus-table`.",
+            "description": "The schema for an external collection. Must include fields with externalField mappings, plus externalSource.<include target=\"milvus\"> `externalSpec` is required when creating an external collection.</include><include target=\"zilliz\"> `externalSpec` is optional; for a `milvus://` source, omitting it defaults `format` to `milvus-table`.</include>",
             "x-i18n": {
               "zh-CN": {
-                "description": "外部集合的 Schema。必须包含带有 externalField 映射的字段以及 externalSource。`externalSpec` 可省略；对于 `milvus://` 源，省略时 `format` 默认为 `milvus-table`。"
+                "description": "外部集合的 Schema。必须包含带有 externalField 映射的字段以及 externalSource。<include target=\"milvus\">创建外部集合时必须包含 `externalSpec`。</include><include target=\"zilliz\">`externalSpec` 可省略；对于 `milvus://` 源，省略时 `format` 默认为 `milvus-table`。</include>"
               },
               "ja-JP": {
-                "description": "external collection 用のスキーマです。externalField マッピングを持つフィールドに加えて、externalSource を含める必要があります。`externalSpec` は省略可能です。`milvus://` ソースの場合、省略すると `format` はデフォルトの `milvus-table` になります。"
+                "description": "external collection 用のスキーマです。externalField マッピングを持つフィールドに加えて、externalSource を含める必要があります。<include target=\"milvus\">external collection の作成時には `externalSpec` が必須です。</include><include target=\"zilliz\">`externalSpec` は省略可能です。`milvus://` ソースの場合、省略すると `format` はデフォルトの `milvus-table` になります。</include>"
               }
             },
             "allOf": [
@@ -10975,13 +10975,13 @@
           },
           "externalSource": {
             "type": "string",
-            "description": "JSON-encoded specification of the external data source. For a `milvus://` source, you must pass `externalSource` in every refresh request; omitting it leaves the refresh ineffective and the collection serving the previously synced data. For a `volume://` source, `externalSource` and `externalSpec` must be both provided or both omitted; when both are omitted, the collection's previously persisted source configuration is reused. <include target=\"milvus\">An object url in an S3 bucket applies.</include><include target=\"zilliz\">An object url in a Zilliz Cloud volume applies.</include>",
+            "description": "JSON-encoded specification of the external data source.<include target=\"milvus\"> When provided, `externalSpec` must also be provided. When omitted, the collection's persisted source is reused. An object url in an S3 bucket applies.</include><include target=\"zilliz\"> For a `milvus://` source, you must pass `externalSource` in every refresh request; omitting it leaves the refresh ineffective and the collection serving the previously synced data. For a `volume://` source, `externalSource` and `externalSpec` must be both provided or both omitted; when both are omitted, the collection's previously persisted source configuration is reused. An object url in a Zilliz Cloud volume applies.</include>",
             "x-i18n": {
               "zh-CN": {
-                "description": "外部数据源的 JSON 配置。对于 `milvus://` 源，每次 refresh 都必须传入 `externalSource`，省略该参数时本次刷新不生效，集合仍对外提供此前同步的数据；对于 `volume://` 卷源，`externalSource` 与 `externalSpec` 需同时提供或同时省略，省略时将复用 Collection 此前已持久化的 source 配置。<include target=\"milvus\">S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">Zilliz Cloud Volume 中的对象 URL 适用。</include>"
+                "description": "外部数据源的 JSON 配置。<include target=\"milvus\">提供该字段时必须同时提供 `externalSpec`；省略时将复用 Collection 此前已持久化的 source 配置。S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">对于 `milvus://` 源，每次 refresh 都必须传入 `externalSource`，省略该参数时本次刷新不生效，集合仍对外提供此前同步的数据；对于 `volume://` 卷源，`externalSource` 与 `externalSpec` 需同时提供或同时省略，省略时将复用 Collection 此前已持久化的 source 配置。Zilliz Cloud Volume 中的对象 URL 适用。</include>"
               },
               "ja-JP": {
-                "description": "外部データソースの JSON エンコードされた仕様。`milvus://` ソースの場合、すべての refresh リクエストで `externalSource` を指定する必要があります。省略した場合、このリフレッシュは有効にならず、コレクションは以前に同期されたデータを提供し続けます。`volume://` ボリュームソースの場合、`externalSource` と `externalSpec` は両方を指定するか、両方を省略する必要があり、省略した場合はコレクションに以前保存された source 設定が再利用されます。<include target=\"milvus\">S3 bucket 内の object url を指定します。</include><include target=\"zilliz\">Zilliz Cloud volume 内の object url を指定します。</include>"
+                "description": "外部データソースの JSON エンコードされた仕様。<include target=\"milvus\">指定する場合は、`externalSpec` も指定する必要があります。省略した場合は、コレクションに保存されている source が再利用されます。S3 bucket 内の object url を指定します。</include><include target=\"zilliz\">`milvus://` ソースの場合、すべての refresh リクエストで `externalSource` を指定する必要があります。省略した場合、このリフレッシュは有効にならず、コレクションは以前に同期されたデータを提供し続けます。`volume://` ボリュームソースの場合、`externalSource` と `externalSpec` は両方を指定するか、両方を省略する必要があり、省略した場合はコレクションに以前保存された source 設定が再利用されます。Zilliz Cloud volume 内の object url を指定します。</include>"
               }
             },
             "x-added-at": "2.6.x",
@@ -10990,13 +10990,13 @@
           },
           "externalSpec": {
             "type": "string",
-            "description": "JSON-encoded specification describing how the external data maps to the collection. For a `milvus://` source, `format` must be `milvus-table` (or omitted). For a `volume://` source, provide `externalSpec` together with `externalSource`, or omit both.",
+            "description": "JSON-encoded specification describing how the external data maps to the collection.<include target=\"milvus\"> When provided, `externalSource` must also be provided. When omitted, the collection's persisted spec is reused.</include><include target=\"zilliz\"> For a `milvus://` source, `format` must be `milvus-table` (or omitted). For a `volume://` source, provide `externalSpec` together with `externalSource`, or omit both.</include>",
             "x-i18n": {
               "zh-CN": {
-                "description": "描述外部数据与 Collection 字段映射关系的 JSON 配置。对于 `milvus://` 源，`format` 必须为 `milvus-table`（或省略）；对于 `volume://` 卷源，`externalSpec` 需与 `externalSource` 同时提供或同时省略。"
+                "description": "描述外部数据与 Collection 字段映射关系的 JSON 配置。<include target=\"milvus\">提供该字段时必须同时提供 `externalSource`；省略时将复用 Collection 此前已持久化的 spec 配置。</include><include target=\"zilliz\">对于 `milvus://` 源，`format` 必须为 `milvus-table`（或省略）；对于 `volume://` 卷源，`externalSpec` 需与 `externalSource` 同时提供或同时省略。</include>"
               },
               "ja-JP": {
-                "description": "外部データがコレクションにどのようにマッピングされるかを記述する、JSON エンコードされた仕様。`milvus://` ソースの場合、`format` は `milvus-table`（または省略）である必要があります。`volume://` ボリュームソースの場合、`externalSpec` は `externalSource` とともに指定するか、両方を省略します。"
+                "description": "外部データがコレクションにどのようにマッピングされるかを記述する、JSON エンコードされた仕様。<include target=\"milvus\">指定する場合は、`externalSource` も指定する必要があります。省略した場合は、コレクションに保存されている spec が再利用されます。</include><include target=\"zilliz\">`milvus://` ソースの場合、`format` は `milvus-table`（または省略）である必要があります。`volume://` ボリュームソースの場合、`externalSpec` は `externalSource` とともに指定するか、両方を省略します。</include>"
               }
             },
             "x-added-at": "2.6.x",
