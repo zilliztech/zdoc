@@ -60,11 +60,17 @@ zilliz external-collection refresh trigger
 
 - **--external-source** (*string*) -
 
-    外部ソースを上書きします（任意）。
+    この更新で使用する外部ソース URI を指定します。
+
+    `--external-spec` と併せて指定するか、両方を省略してください。両方を省略した場合、更新では永続化されたソースと仕様が再利用されます。
+
+    <NextChannel action="include">このオプションでは、`volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを使用できます。`volume://` URI には上記のルールが適用されます。`milvus://` ソースの場合は必須です。省略した場合、更新は有効にならず、コレクションは以前に同期されたデータを引き続き提供します。</NextChannel>
 
 - **--external-spec** (*string*) -
 
-    外部仕様を上書きします（任意）。
+    この更新で使用する外部ソース仕様を JSON 文字列として指定します。`--external-source` と併せて指定するか、両方を省略してください。
+
+    <NextChannel action="include">`milvus://` ソースの場合は省略できます。`format` のデフォルトは `milvus-table` です。</NextChannel>
 
 ## Example\{#example}
 
@@ -79,4 +85,9 @@ zilliz external-collection refresh trigger --name my_external_coll
 
 # Trigger refresh in a non-default database
 zilliz external-collection refresh trigger --name my_external_coll --database my_db
+# next-channel-start
+
+# Trigger refresh for an external collection that uses a milvus:// source
+zilliz external-collection refresh trigger --name my_external_coll --external-source milvus://in01-xxxx/default/orders
+# next-channel-end
 ```

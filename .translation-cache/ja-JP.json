@@ -9961,9 +9961,9 @@
       "translatedAt": "2026-10-25T16:57:07.481Z"
     },
     "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md": {
-      "sourceHash": "4f17f1360ba969117210e2547e478908b75d03f9264b6904cbee4b162ed05220",
+      "sourceHash": "cdad45ac4ff8de4816b774a2e1fe1a2cd1594e207857f81b575d6b87d380f98b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md",
-      "translatedAt": "2026-10-25T16:57:07.481Z"
+      "translatedAt": "2026-11-06T19:48:00.979Z"
     },
     "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-list.md": {
       "sourceHash": "0331fa1d833b585202bdabdb22ad31ec99417db53e1873c292e55c29a945c189",
@@ -9971,9 +9971,9 @@
       "translatedAt": "2026-10-25T16:57:07.481Z"
     },
     "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md": {
-      "sourceHash": "0a5962302ddf50337e36f708309c8a4a4d005b6b18492fb3a8bebef2435dd5aa",
+      "sourceHash": "ced85a283235f796c0c6a7e57d14409571fa4b1aa8c34c376dca8ff31ecd90b1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md",
-      "translatedAt": "2026-10-25T16:57:07.481Z"
+      "translatedAt": "2026-11-06T19:48:00.979Z"
     },
     "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-create.md": {
       "sourceHash": "5b6aee443127851e469f631c219d34c269f35fd0016b95e2c943364b8d26b83e",
