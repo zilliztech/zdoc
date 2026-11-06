@@ -503,6 +503,10 @@ foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \

@@ -277,6 +277,7 @@ import io.milvus.v2.service.vector.response.SearchResp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
 
@@ -1104,7 +1105,7 @@ SearchResp approxResp = client.search(SearchReq.builder()
         .metricType(IndexParam.MetricType.MHJACCARD)
         .searchParams(Collections.emptyMap())
         .limit(3)
-        .outputFields(Collections.singletonList("document"))
+        .outputFields(Arrays.asList("doc_id", "document"))
         .build());
 
 for (SearchResp.SearchResult hit : approxResp.getSearchResults().get(0)) {
@@ -1315,7 +1316,7 @@ SearchResp refinedResp = client.search(SearchReq.builder()
             put("refine_k", 5);
         }})
         .limit(3)
-        .outputFields(Collections.singletonList("document"))
+        .outputFields(Arrays.asList("doc_id", "document"))
         .build());
 
 for (SearchResp.SearchResult hit : refinedResp.getSearchResults().get(0)) {
