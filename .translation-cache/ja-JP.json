@@ -686,9 +686,9 @@
       "translatedAt": "2026-11-05T11:15:07.011Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/elasticsearch-queries-to-milvus.md": {
-      "sourceHash": "53d8c7e9d54b0a9abf4b4c23518082917aabd53de5d78fe731e9c680c4ccd2d3",
+      "sourceHash": "e9c6c6165246c9c52868befc1351fa760a69939d4ae390273784cff2687256d2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/elasticsearch-queries-to-milvus.md",
-      "translatedAt": "2026-11-05T11:15:07.011Z"
+      "translatedAt": "2026-11-06T13:43:06.455Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/filtered-search.md": {
       "sourceHash": "e872edc71af69825d57235bb712eb861c040e19e6ea70c3b180284d9d43379a8",
