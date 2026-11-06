@@ -7,7 +7,7 @@ added_since: v3.0.0
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "RefreshExternalCollectionState 实例用于枚举刷新外部 Collection 作业的可能状态。 | Go | v2"
+description: "RefreshExternalCollectionState 实例枚举刷新外部 Collection 作业可能处于的状态。刷新作业会从 `RefreshStateInProgress` 转换为 `RefreshStateCompleted` 或 `RefreshStateFailed`。 | Go | v2"
 type: docx
 token: Or8Gd2JEIo1swQxD3QTccFoBn9b
 sidebar_position: 35
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # RefreshExternalCollectionState
 
-RefreshExternalCollectionState 实例用于枚举刷新外部 Collection 作业的可能状态。
+RefreshExternalCollectionState 实例枚举刷新外部 Collection 作业可能处于的状态。刷新作业会从 `RefreshStateInProgress` 转换为 `RefreshStateCompleted` 或 `RefreshStateFailed`。
 
 ```go
 type RefreshExternalCollectionState milvuspb

@@ -85,7 +85,7 @@ type RefreshExternalCollectionJobInfo struct {
 
 - **State** （[RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)） -
 
-    刷新作业的当前状态。
+    刷新作业的当前状态。刷新作业会从 `RefreshStateInProgress` 转变为 `RefreshStateCompleted` 或 `RefreshStateFailed`。
 
 - **Progress** （*int64*） -
 

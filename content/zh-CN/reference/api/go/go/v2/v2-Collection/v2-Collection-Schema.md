@@ -73,6 +73,8 @@ type Schema struct {
 
     此方法设置源数据 URI，该 URI 类似于 AWS S3 对象路径。
 
+    <NextChannel action="include">在 Zilliz Cloud 上，`externalSource` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。</NextChannel>
+
 - `WithExternalSpec(externalSpec string) *Schema`
 
     此方法将外部源配置设置为 JSON。外部源规范是一组次级参数：
@@ -80,6 +82,8 @@ type Schema struct {
     - **format** （*string*） -
 
         目标源数据文件的格式。可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
+
+        <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，`format` 可以省略，默认值为 `milvus-table`。</NextChannel>
 
     - **extfs** （*string*） -
 
@@ -176,7 +180,9 @@ fmt.Println(err)
 
 - `WithExternalSource(externalSource string)`
 
-    此方法设置源数据 URI，该 URI 应为可访问外部卷的名称。
+    此方法设置源数据 URI，该 URI <NextChannel action="exclude">应为可访问的外部存储卷的名称</NextChannel><NextChannel action="include">使用下述方案之一</NextChannel>。
+
+    <NextChannel action="include">在 Zilliz Cloud 上，`externalSource` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。`volume://` URI 指向可访问的外部存储卷。</NextChannel>
 
 - `WithExternalSpec(externalSpec string)`
 
@@ -187,5 +193,7 @@ fmt.Println(err)
         目标源数据文件的格式。
 
         可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
+
+        <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，`format` 可以省略，默认值为 `milvus-table`。</NextChannel>
 
     
