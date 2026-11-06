@@ -212,7 +212,7 @@
       "cadence": "daily",
       "schedule": "04:17 UTC",
       "fetch": "artifact",
-      "fetchDetail": "Historically the job succeeds even while drift is present, so the drift signal lives in the artifact rest-upstream-drift-<run_id> (retained 14 days): read watchdog-report.json for sources[].status (no-drift|drift), substantiveCount, summary categories, and diffDigest. A failed conclusion is itself report-worthy (first observed 2026-10-31, run 41168026117).",
+      "fetchDetail": "Historically the job succeeds even while drift is present, so the drift signal lives in the artifact rest-upstream-drift-<run_id> (retained 14 days): read watchdog-report.json for sources[].status (no-drift|drift), substantiveCount (excludes description/summary prose drift — the fragments keep their own text, so that class never resolves; it rides the diff report and refresh PR review lists), summary categories, and diffDigest. A failed conclusion is itself report-worthy (first observed 2026-10-31, run 41168026117).",
       "steadyState": "Both sources drift while upstream moves faster than refreshes land; the digest tracks the day-over-day substantiveCount/diffDigest series and the unattributed counts in the local state file, never in this ledger.",
       "knownIssues": [
         {
@@ -221,13 +221,14 @@
           "symptom": "Both sources (zilliz-cloud-control-plane, milvus-data-plane) report drift with pins not advanced.",
           "classification": "Upstream keeps moving while refreshes land periodically; the backlog now concentrates on the data plane, whose source-tree refresh has not been re-dispatched since its 11-01 pin.",
           "action": "Digest reports the day-over-day series and reminds that the fix path is dispatching rest-upstream-refresh.yml (source input, one reviewed PR per source). The digest itself never dispatches it.",
-          "evidence": "First run 40835506776 (2026-10-29 dispatch baseline: control plane 518 / data plane 55 substantive). 2026-11-05 scheduled run 41967187925: control plane 393 / data plane 32 substantive, pins unmoved. 2026-11-06: control-plane backlog cleared — four-dispatch chain (gate fixes #1114/#1117/#1119) produced refresh PR #1121, merged as e47b0266d with pin e64f3bd7 -> aadaafe0b4; data plane continues at 32 substantive on pin 5f7e1124 (two orphan refresh branches on the remote attest unmerged milvus dispatch attempts)."
+          "evidence": "First run 40835506776 (2026-10-29 dispatch baseline: control plane 518 / data plane 55 substantive). 2026-11-05 scheduled run 41967187925: control plane 393 / data plane 32 substantive, pins unmoved. 2026-11-06: control-plane backlog cleared — four-dispatch chain (gate fixes #1114/#1117/#1119) produced refresh PR #1121, merged as e47b0266d with pin e64f3bd7 -> aadaafe0b4; data plane continues at 32 substantive on pin 5f7e1124 (two orphan refresh branches on the remote attest unmerged milvus dispatch attempts). 2026-11-06 verification run: pin aadaafe0b4 vs upstream head 8db35c2ff with the spec blob unchanged (93b7b541ad) still reported 349 substantive — the headline had accumulated permanent report-only residents (313 description/summary prose entries, incl. the #1063 local backfill; hand-restored constraint divergences; human-gated required relaxations). The substantive metric now excludes prose kinds; additions verify adopted via category deltas (upstream-added-field 31 -> 5, added-param 3 -> 1)."
         }
       ],
       "history": [
         "2026-10-29: watchdog added by #906; first run established the baseline (drift by design at first pinning).",
         "2026-10-30: entered the daily schedule; unattributed counts (extractor attribution blind spots) are tracked separately and worth flagging when they grow.",
-        "2026-11-06: control-plane drift cleared by refresh PR #1121 (pin -> aadaafe0b4) after gate fixes #1114/#1117/#1119; backlog entry narrows to the data plane."
+        "2026-11-06: control-plane drift cleared by refresh PR #1121 (pin -> aadaafe0b4) after gate fixes #1114/#1117/#1119; backlog entry narrows to the data plane.",
+        "2026-11-06: substantive metric excludes description/summary kinds (prose stays local and never resolves); the headline now measures refreshable drift only."
       ]
     },
     {
