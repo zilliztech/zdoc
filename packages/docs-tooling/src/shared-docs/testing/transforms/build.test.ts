@@ -217,3 +217,25 @@ it('keeps one separator when product filtering removes the trailing part of a bl
   const mdx = await readFile(join(options.out, 'guides/tutorials/build-pipeline.mdx'), 'utf8')
   expect(mdx).toContain('Visible paragraph.\n\nOriginal paragraph.')
 })
+
+it('deduplicates component imports when two content files and the source all use Tabs', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'wp10-dedup-'))
+  onTestFinished(() => rm(root, { recursive: true, force: true }))
+  const options = await createBuildDemo(root)
+  const file = 'pages/build-pipeline/page.yaml'
+  const original = await readFile(join(options.sharedDocs, file), 'utf8')
+  const transforms: Transform[] = [
+    { operation: 'add', position: 'before', target: { block: 'connect' }, content: { file: 'first.md' } },
+    { operation: 'add', position: 'after', target: { block: 'connect' }, content: { file: 'second.md' } },
+  ]
+  await write(options.sharedDocs, file, original + `transforms: ${JSON.stringify(transforms)}\n`)
+  await write(options.sharedDocs, 'pages/build-pipeline/first.md', '<Tabs>\n\n<TabItem value="a">First</TabItem>\n\n</Tabs>')
+  await write(options.sharedDocs, 'pages/build-pipeline/second.md', '<Tabs>\n\n<TabItem value="b">Second</TabItem>\n\n</Tabs>')
+  const result = await build({ ...options, root })
+  expect(result.code, result.text).toBe(0)
+  const text = await readFile(join(options.out, 'guides/tutorials/build-pipeline.mdx'), 'utf8')
+  expect(text.match(/^import Tabs from '@theme\/Tabs';$/gm)).toHaveLength(1)
+  expect(text.match(/^import TabItem from '@theme\/TabItem';$/gm)).toHaveLength(1)
+  expect(text).toContain('First')
+  expect(text).toContain('Second')
+})
