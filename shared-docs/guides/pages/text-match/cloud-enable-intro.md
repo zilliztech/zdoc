@@ -1,0 +1,1 @@
+Text match works on the [`VARCHAR`](https://docs.zilliz.com/docs/use-string-field) field type, which is essentially the string data type in Zilliz Cloud. To enable text match, set both `enable_analyzer` and `enable_match` to `True` and then optionally configure an [analyzer](https://docs.zilliz.com/docs/analyzer-overview) for text analysis when defining your collection schema.

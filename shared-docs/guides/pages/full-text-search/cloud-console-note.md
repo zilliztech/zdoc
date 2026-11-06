@@ -1,0 +1,1 @@
+Zilliz Cloud supports enabling full text search programmatically or via the web console. This page focuses on how to enable full text search programmatically. For details about operations on the web console, refer to [Manage Collections (Console)](https://docs.zilliz.com/docs/manage-collections-console#full-text-search).
