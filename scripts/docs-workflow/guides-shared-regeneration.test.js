@@ -2,6 +2,7 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
+const os = require('node:os')
 const path = require('node:path')
 const {fixture, regenerate, image} = require('./replay-shared-pages')
 const {digest} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
@@ -53,7 +54,7 @@ test('bounded replay proof binds draft and permanent navigation plus actual outp
 })
 
 const {prepare} = require('./replay-shared-pages')
-const {git, snapshotPath} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
+const {git, gitBlobs, gitInventory, snapshotPath} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
 const {loadBundle} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
 const publication = require('../../packages/docs-tooling/src/lark/sharedPagePublication')
 function commit(root, message) {git(root, ['add', '.']); git(root, ['-c', 'user.name=Replay', '-c', 'user.email=replay@example.test', 'commit', '--quiet', '-m', message]); return git(root, ['rev-parse', 'HEAD']).toString().trim()}
@@ -170,4 +171,97 @@ test('executing tool identity rejects drift in its consumed docHeadingTags depen
   assert.doesNotThrow(() => regeneration.assertToolIdentity(tools, {root}))
   put(root, dependency, 'export const DOC_HEADING_TAGS = ["changed"]\n')
   assert.throws(() => regeneration.assertToolIdentity(tools, {root}), error => error.message === `Executing tooling drift: ${dependency}`)
+})
+function hydrateFixture(t) {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hydrate-repo-')))
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  git(root, ['init', '--quiet', '--initial-branch=master', '--template='])
+  const files = {'shared-docs/guides/source.yaml': 'track: docs/shared-docs-onboard\n',
+    'shared-docs/guides/Variables.json': '{"x": 1}\n',
+    'shared-docs/guides/pages/sample/page.yaml': 'publish:\n  - manual: guides\n    path: tutorials/sample\n',
+    'shared-docs/guides/pages/sample/lock.yaml': 'schema_version: 1\n',
+    'shared-docs/guides/pages/sample/deep/nested.md': 'utf8 \u2713 \u5185\u5bb9\nline two\n'}
+  for (const [file, bytes] of Object.entries(files)) put(root, file, Buffer.from(bytes))
+  return {root, pinned: commit(root, 'Pinned hydrate fixture')}
+}
+function hydrateDestination(t) {
+  const destination = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hydrate-out-')))
+  t.after(() => fs.rmSync(destination, {recursive: true, force: true}))
+  return destination
+}
+const writtenFiles = destination => {
+  const written = []
+  const visit = current => { for (const entry of fs.readdirSync(current, {withFileTypes: true})) entry.isDirectory() ? visit(path.join(current, entry.name)) : written.push(path.relative(destination, path.join(current, entry.name))) }
+  visit(destination); return written.sort()
+}
+test('hydrate materializes the pinned tree byte-identically through one batched Git read', t => {
+  const {root, pinned} = hydrateFixture(t)
+  const inventory = gitInventory(root, pinned, ['shared-docs/guides'])
+  const destination = hydrateDestination(t)
+  regeneration.hydrate(root, pinned, inventory, destination, {page: 'sample'})
+  assert.deepEqual(writtenFiles(destination), inventory.map(file => file.path).sort())
+  for (const file of inventory) assert.deepEqual(fs.readFileSync(path.join(destination, file.path)), git(root, ['show', `${pinned}:${file.path}`]))
+})
+test('[PUBLISH_REGEN_MISMATCH] hydrate rejects pinned digest drift with receipt evidence', t => {
+  const {root, pinned} = hydrateFixture(t)
+  const inventory = gitInventory(root, pinned, ['shared-docs/guides'])
+  const destination = hydrateDestination(t)
+  const tampered = structuredClone(inventory)
+  tampered.find(row => row.path.endsWith('Variables.json')).sha256 = '0'.repeat(64)
+  assert.throws(() => regeneration.hydrate(root, pinned, tampered, destination, {page: 'sample'}), error => {
+    assert.equal(error.code, 'PUBLISH_REGEN_MISMATCH')
+    assert.equal(error.detail[0].page, 'sample')
+    assert.equal(error.detail[0].file, 'shared-docs/guides/Variables.json')
+    assert.equal(error.detail[0].expected, '0'.repeat(64))
+    assert.ok(error.detail[0].actual && error.detail[0].actual !== error.detail[0].expected)
+    return true
+  })
+})
+test('hydrate rejects an inventory path absent from the pinned commit before writing any file', t => {
+  const {root, pinned} = hydrateFixture(t)
+  const inventory = gitInventory(root, pinned, ['shared-docs/guides'])
+  const destination = hydrateDestination(t)
+  const absent = 'shared-docs/guides/pages/absent/page.yaml'
+  assert.throws(() => regeneration.hydrate(root, pinned, [...inventory, {path: absent, sha256: digest(Buffer.from('absent'))}], destination, {page: 'sample'}),
+    new RegExp(`Invalid pinned blob: ${absent.replaceAll('.', '\\.')}`))
+  assert.deepEqual(fs.readdirSync(destination), [])
+})
+test('pinned blob batches memoize per immutable (root, commit, paths) and recompute new commits', t => {
+  const {root, pinned} = hydrateFixture(t)
+  const paths = gitInventory(root, pinned, ['shared-docs/guides']).map(file => file.path)
+  const first = gitBlobs(root, pinned, paths)
+  assert.equal(gitBlobs(root, pinned, paths), first)
+  put(root, 'shared-docs/guides/pages/sample/lock.yaml', 'schema_version: 2\n')
+  const next = commit(root, 'Recomputed pinned fixture')
+  assert.notEqual(gitBlobs(root, next, paths), first)
+  assert.equal(gitBlobs(root, next, ['shared-docs/guides/pages/sample/lock.yaml'])[0].toString(), 'schema_version: 2\n')
+  assert.equal(gitBlobs(root, pinned, ['shared-docs/guides/pages/sample/lock.yaml'])[0].toString(), 'schema_version: 1\n')
+})
+test('executing tool identity rejects drift in a loaded lark module between identical calls', async t => {
+  const value = await candidate(t)
+  const {root} = hydrateFixture(t)
+  const probe = 'packages/docs-tooling/src/lark/probe.js'
+  put(root, probe, 'module.exports = 1\n')
+  const pinnedProbe = commit(root, 'Pin loaded lark probe')
+  const absolute = path.join(root, probe)
+  require.cache[absolute] = {id: absolute, filename: absolute, loaded: true}
+  t.after(() => delete require.cache[absolute])
+  const tools = {...value.receipt.inputs.tools, zdoc: pinnedProbe}
+  assert.doesNotThrow(() => regeneration.assertToolIdentity(tools, {root}))
+  put(root, probe, 'module.exports = 2\n')
+  assert.throws(() => regeneration.assertToolIdentity(tools, {root}), error => error.message === `Executing tooling drift: ${probe}`)
+})
+test('failed pinned reads are never cached; a later valid state at the same root succeeds', t => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hydrate-cache-')))
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  assert.throws(() => gitInventory(root, 'f'.repeat(40), ['.']))
+  assert.throws(() => gitBlobs(root, 'f'.repeat(40), ['a.txt']))
+  git(root, ['init', '--quiet', '--initial-branch=master', '--template='])
+  put(root, 'a.txt', 'one\n')
+  const pinned = commit(root, 'Retry after failure')
+  const inventory = gitInventory(root, pinned, ['.'])
+  assert.equal(gitInventory(root, pinned, ['.']), inventory)
+  const blobs = gitBlobs(root, pinned, ['a.txt'])
+  assert.equal(gitBlobs(root, pinned, ['a.txt']), blobs)
+  assert.equal(blobs[0].toString(), 'one\n')
 })

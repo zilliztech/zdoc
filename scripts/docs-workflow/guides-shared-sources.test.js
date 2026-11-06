@@ -1768,3 +1768,22 @@ test('generation rejects a still-oversized bundle before reporting success', {ti
   await assert.rejects(generateSharedSources(options, {fetchOld: async () => ({blocks: {items: []}})}),
     new RegExp(`file size limit exceeded: "bundle.json" has \\d+ bytes; limit ${FILE_LIMIT}`))
 })
+test('pinned Git inventories memoize per immutable (root, commit, paths) and recompute new commits', {timeout: 60000}, async t => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'wp9-memo-')))
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  await git(root, 'init', '--quiet', '--initial-branch=master', '--template=')
+  await write(root, 'a.txt', 'one\n')
+  await git(root, 'add', '.'); await git(root, 'commit', '--quiet', '-m', 'First')
+  const first = await git(root, 'rev-parse', 'HEAD')
+  // The identity assertion pins the memoization contract: identical immutable reads return the shared result.
+  const inventory = adapter.gitInventory(root, first, ['.'])
+  assert.equal(adapter.gitInventory(root, first, ['.']), inventory)
+  assert.deepEqual(adapter.gitInventory(root, first, ['a.txt']).map(row => row.path), ['a.txt'])
+  await write(root, 'a.txt', 'two\n'); await write(root, 'b.txt', 'new\n')
+  await git(root, 'add', '.'); await git(root, 'commit', '--quiet', '-m', 'Second')
+  const second = await git(root, 'rev-parse', 'HEAD')
+  const next = adapter.gitInventory(root, second, ['.'])
+  assert.notEqual(next, inventory)
+  assert.deepEqual(next.map(row => row.path).sort(), ['a.txt', 'b.txt'])
+  assert.equal(next.find(row => row.path === 'a.txt').sha256, adapter.digest(Buffer.from('two\n')))
+})

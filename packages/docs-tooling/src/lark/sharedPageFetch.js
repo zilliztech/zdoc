@@ -26,8 +26,15 @@ function pinnedCommit(root, commit) {
   if (typeof commit !== 'string' || !/^[a-f0-9]{40}$/.test(commit)) throw new Error('A full pinned commit is required')
   if (git(root, ['rev-parse', '--verify', 'HEAD^{commit}']).toString().trim() !== commit) throw new Error('Pinned checkout HEAD mismatch')
 }
+// Pinned Git trees are immutable per (root, commit, paths). One run re-asks the
+// same keys once per page (regeneration proofs, locked inventories), so successful
+// reads are memoized for the process lifetime; failures are never cached.
+const gitInventoryCache = new Map()
 /** Hash the actual immutable blob bytes in one bounded Git batch, not filenames or synthetic digests. */
 function gitInventory(root, commit, paths) {
+  const key = `${root}\0${commit}\0${paths.join('\0')}`
+  const cached = gitInventoryCache.get(key)
+  if (cached) return cached
   const entries = git(root, ['ls-tree', '-r', '-z', commit, '--', ...paths]).toString().split('\0').filter(Boolean).map(line => {
     const match = /^(\d+) blob ([a-f0-9]{40})\t(.+)$/.exec(line)
     if (!match || !['100644', '100755'].includes(match[1]) || !routing.safeHandoffPath(match[3])) throw new Error('Unsafe pinned inventory entry')
@@ -37,7 +44,7 @@ function gitInventory(root, commit, paths) {
   if (!entries.length) return []
   const data = git(root, ['cat-file', '--batch'], {input: entries.map(entry => entry.oid).join('\n') + '\n'})
   let offset = 0
-  return entries.map(entry => {
+  const inventory = entries.map(entry => {
     const end = data.indexOf(10, offset), header = data.subarray(offset, end).toString().split(' '), size = Number(header[2])
     if (header[0] !== entry.oid || header[1] !== 'blob' || !Number.isSafeInteger(size) || size < 0 || size > 32 * 1024 * 1024) throw new Error('Invalid pinned blob')
     const bytes = data.subarray(end + 1, end + 1 + size)
@@ -45,6 +52,30 @@ function gitInventory(root, commit, paths) {
     offset = end + 1 + size + 1
     return {path: entry.path, sha256: digest(bytes), size}
   })
+  gitInventoryCache.set(key, inventory)
+  return inventory
+}
+const gitBlobsCache = new Map()
+/** Read pinned blobs in one bounded Git batch (responses in request order), not one
+ *  process spawn per file. Immutable Git objects permit the same memoization as
+ *  gitInventory; buffers are shared and must not be mutated by callers. */
+function gitBlobs(root, commit, paths) {
+  const key = `${root}\0${commit}\0${paths.join('\0')}`
+  const cached = gitBlobsCache.get(key)
+  if (cached) return cached
+  if (!paths.length) return []
+  const data = git(root, ['cat-file', '--batch'], {input: paths.map(file => `${commit}:${file}`).join('\n') + '\n'})
+  let offset = 0
+  const blobs = paths.map(file => {
+    const end = data.indexOf(10, offset), header = data.subarray(offset, end).toString().split(' '), size = Number(header[2])
+    if (header[1] !== 'blob' || !Number.isSafeInteger(size) || size < 0 || size > 32 * 1024 * 1024) throw new Error(`Invalid pinned blob: ${file}`)
+    const bytes = data.subarray(end + 1, end + 1 + size)
+    if (bytes.length !== size) throw new Error(`Truncated pinned blob: ${file}`)
+    offset = end + 1 + size + 1
+    return bytes
+  })
+  gitBlobsCache.set(key, blobs)
+  return blobs
 }
 function regularBytes(root, relative) {
   if (!routing.safeHandoffPath(relative)) throw new Error('Unsafe input path')
@@ -283,5 +314,5 @@ async function activationDraft({record, page, active, previousSnapshot, currentS
     throw Object.assign(new Error(`ACTIVATE_CHECK_FAILED: ${error.message}`), {code: 'ACTIVATE_CHECK_FAILED', detail: {old_token: token, links: references, reason: error.message}})
   }
 }
-module.exports = {baselineOutputPaths, digest, gitInventory, regularBytes, assertInventory, pinnedCommit, prepareSharedSources, restoreRouting, initializeSharedScraper, writerAdapter,
+module.exports = {baselineOutputPaths, digest, gitBlobs, gitInventory, regularBytes, assertInventory, pinnedCommit, prepareSharedSources, restoreRouting, initializeSharedScraper, writerAdapter,
   planFetchTargets, activationDraft, fetchActivationHeadings, snapshotPath, publicationPath, git, pendingSourceSnapshot}
