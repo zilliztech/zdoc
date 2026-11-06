@@ -307,7 +307,11 @@
                                       "ja-JP": {
                                         "description": "クラスタの CU タイプ。"
                                       }
-                                    }
+                                    },
+                                    "enum": [
+                                      "Performance-optimized",
+                                      "Capacity-optimized"
+                                    ]
                                   },
                                   "plan": {
                                     "type": "string",
@@ -353,7 +357,26 @@
                                       "ja-JP": {
                                         "description": "クラスタのステータス。"
                                       }
-                                    }
+                                    },
+                                    "enum": [
+                                      "CREATING",
+                                      "RUNNING",
+                                      "DELETING",
+                                      "DELETED",
+                                      "STOPPING",
+                                      "RESUMING",
+                                      "MODIFYING",
+                                      "ABNORMAL",
+                                      "FREEZING",
+                                      "FROZEN",
+                                      "UNFREEZED",
+                                      "RESTORE_BACKUP",
+                                      "MIGRATING",
+                                      "RESIZING",
+                                      "UPGRADING",
+                                      "WRITING_OPERATION",
+                                      "SET_PRIVATE_LINK"
+                                    ]
                                   },
                                   "connectAddress": {
                                     "type": "string",
@@ -2269,7 +2292,11 @@
                                 "ja-JP": {
                                   "description": "クラスターのタイプ。<br/>これは専用クラスターにのみ適用されます。Free および serverless クラスターでは、この値は空です。"
                                 }
-                              }
+                              },
+                              "enum": [
+                                "Performance-optimized",
+                                "Capacity-optimized"
+                              ]
                             },
                             "plan": {
                               "type": "string",
@@ -2300,7 +2327,26 @@
                                 "ja-JP": {
                                   "description": "クラスターの現在のステータス。"
                                 }
-                              }
+                              },
+                              "enum": [
+                                "CREATING",
+                                "RUNNING",
+                                "DELETING",
+                                "DELETED",
+                                "STOPPING",
+                                "RESUMING",
+                                "MODIFYING",
+                                "ABNORMAL",
+                                "FREEZING",
+                                "FROZEN",
+                                "UNFREEZED",
+                                "RESTORE_BACKUP",
+                                "MIGRATING",
+                                "RESIZING",
+                                "UPGRADING",
+                                "WRITING_OPERATION",
+                                "SET_PRIVATE_LINK"
+                              ]
                             },
                             "connectAddress": {
                               "type": "string",

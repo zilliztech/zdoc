@@ -321,7 +321,11 @@
                                       "ja-JP": {
                                         "description": "バックアップに含まれるリソースの種類。"
                                       }
-                                    }
+                                    },
+                                    "enum": [
+                                      "CLUSTER",
+                                      "COLLECTION"
+                                    ]
                                   },
                                   "creationMethod": {
                                     "type": "string",
@@ -333,7 +337,11 @@
                                       "ja-JP": {
                                         "description": "バックアップが手動で作成されたものか、自動で作成されたものかを示します。"
                                       }
-                                    }
+                                    },
+                                    "enum": [
+                                      "AUTO",
+                                      "MANUAL"
+                                    ]
                                   },
                                   "status": {
                                     "type": "string",
@@ -782,7 +790,11 @@
                                 "ja-JP": {
                                   "description": "バックアップされたリソースの種類。"
                                 }
-                              }
+                              },
+                              "enum": [
+                                "CLUSTER",
+                                "COLLECTION"
+                              ]
                             },
                             "creationMethod": {
                               "type": "string",
@@ -794,7 +806,11 @@
                                 "ja-JP": {
                                   "description": "バックアップが手動で作成されたか、自動で作成されたかを示します。"
                                 }
-                              }
+                              },
+                              "enum": [
+                                "MANUAL",
+                                "AUTO"
+                              ]
                             },
                             "status": {
                               "type": "string",
