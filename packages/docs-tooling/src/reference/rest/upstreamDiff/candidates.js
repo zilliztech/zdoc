@@ -57,12 +57,20 @@ function candidateSummary(entry) {
 // rules expect a stance for — flagged relaxations are instructed omissions
 // (rule 5), as are the rule-7 retirement classes — so the coverage gate can
 // measure compliance instead of punishing it.
+// Operation-level upstream-added entries carry no fragment — the operation
+// does not exist in any fragment yet — but they still owe the ledger a
+// decision (the T4 accounting gate refuses to land a refresh while a pending
+// upstream-added operation is unledgered). Callers that batch per fragment
+// must present them under this synthetic bucket instead of dropping them.
+const UNFRAGMENTED_OPERATIONS_BUCKET = '(operations)'
+
 function buildCandidateRecords(diffDocument, {fragmentFilter = null} = {}) {
     const records = []
     for (const entry of diffDocument.entries) {
         if (!isStanceable(entry)) continue
         if ((entry.ledgerStatus ?? 'pending') === 'classified') continue
-        if (fragmentFilter && entry.fragment !== fragmentFilter) continue
+        const inBucket = fragmentFilter === UNFRAGMENTED_OPERATIONS_BUCKET && !entry.fragment
+        if (fragmentFilter && entry.fragment !== fragmentFilter && !inBucket) continue
         records.push({
             d: entry.id,
             c: candidateSummary(entry),
@@ -81,4 +89,4 @@ function serializeCandidateLines(lines) {
     return `${lines.map(line => JSON.stringify(line)).join('\n')}\n`
 }
 
-module.exports = {buildCandidateLines, buildCandidateRecords, serializeCandidateLines, STANCEABLE_CATEGORIES, STANCE_EXPECTED_CATEGORIES, PROSE_KINDS, AUTO_KINDS}
+module.exports = {buildCandidateLines, buildCandidateRecords, serializeCandidateLines, UNFRAGMENTED_OPERATIONS_BUCKET, STANCEABLE_CATEGORIES, STANCE_EXPECTED_CATEGORIES, PROSE_KINDS, AUTO_KINDS}

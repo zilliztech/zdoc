@@ -4,6 +4,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const {decideBatches, parseModelContent, acceptDecisionLine, chatCompletionsUrl, decisionSystemPrompt} = require('./decide-batches')
+const {UNFRAGMENTED_OPERATIONS_BUCKET} = require('../../packages/docs-tooling/src/reference/rest/upstreamDiff/candidates')
 
 // Minimal diff shaped like diff.js output: two fragment batches. The 2026-10-30
 // merge model keeps prose/mirrors/additions out of the candidate list, so the
@@ -266,6 +267,105 @@ test('missing api key fails closed before any model call', async () => {
             /REST_UPSTREAM_DECIDE_API_KEY_MISSING/,
         )
         assert.equal(called, 0)
+    } finally {
+        fs.rmSync(dir, {recursive: true, force: true})
+    }
+})
+
+// Run 42156237729 regression fixtures: the fragment batches answer with the
+// standard full-coverage stances so only the operations bucket varies.
+function standardFragmentResponses() {
+    return {
+        '01-things-v2.json': JSON.stringify({decisions: [
+            {diffEntryId: 'upstream-modified|post /v2/things|01-things-v2.json|operation||||deprecated|', action: 'adopt'},
+            {diffEntryId: 'upstream-modified|post /v2/things|01-things-v2.json|requestBody|||name|constraint|maxLength', action: 'adopt'},
+        ]}),
+        '02-singles-v2.json': JSON.stringify({decisions: [
+            {diffEntryId: 'upstream-modified|delete /v2/things/{ID}|02-singles-v2.json|parameter|||dryRun:query|required|', action: 'adopt'},
+            {diffEntryId: 'upstream-modified|delete /v2/things/{ID}|02-singles-v2.json|parameter|||zoneId:query|required|', action: 'skip', reason: 'flagged relaxation; human decision pending'},
+            {diffEntryId: 'fragment-only|post /v2/legacy|02-singles-v2.json|operation|||||', action: 'skip', reason: 'retirement is a human decision'},
+        ]}),
+    }
+}
+
+test('fragment-less upstream-added operations form their own batch and take a ledger stance (run 42156237729)', async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-decide-ops-'))
+    process.env.DECIDE_TEST_KEY = 'test-key'
+    try {
+        const diffPath = writeDiff(dir)
+        const opId = 'upstream-added|post /v2/projects/{projectId}/jobs/exactSearch||operation||||operation-absent-in-fragments|'
+        const diff = JSON.parse(fs.readFileSync(diffPath, 'utf8'))
+        // Real shape from run 42156237729: operation-absent-in-fragments
+        // entries carry no fragment field at all, so per-fragment batching
+        // dropped the row and the run died on the T4 accounting gate instead.
+        diff.entries.push({
+            id: opId, category: 'upstream-added', opKey: 'post /v2/projects/{projectId}/jobs/exactSearch', scope: 'operation',
+            branch: '', responseStatus: '', field: '', change: {kind: 'operation-absent-in-fragments', key: '', before: null, after: null},
+            evidence: '/paths/~1v2~1projects~1{projectId}~1jobs~1exactSearch/post', ledgerStatus: 'pending',
+        })
+        fs.writeFileSync(diffPath, `${JSON.stringify(diff, null, 2)}\n`)
+        const calls = []
+        const fetchImpl = async (url, options) => {
+            const content = JSON.parse(options.body).messages[1].content
+            calls.push(content)
+            const response = content.includes('exactSearch')
+                ? JSON.stringify({decisions: [{diffEntryId: opId, action: 'ledger', classification: 'deferred', reason: 'New public exact-search jobs endpoint; deferred for human classification.'}]})
+                : standardFragmentResponses()[(content.match(/"d":"[^|]*\|[^|]*\|([^|]*)\|/) || [])[1]] ?? JSON.stringify({decisions: []})
+            return {ok: true, status: 200, text: async () => '', json: async () => ({choices: [{message: {content: response}}]})}
+        }
+        const outPath = path.join(dir, 'out.jsonl')
+        const reportPath = path.join(dir, 'report.json')
+        const {summary, batches} = await decideBatches({
+            diffPath, outPath, baseUrl: 'https://gateway.invalid', apiKeyEnv: 'DECIDE_TEST_KEY', model: 'm', reportPath, fetchImpl,
+        })
+        // The operations bucket presented the candidate to the model exactly once.
+        assert.equal(calls.filter(content => content.includes('exactSearch')).length, 1)
+        const operations = batches.find(batch => batch.fragment === UNFRAGMENTED_OPERATIONS_BUCKET)
+        assert.ok(operations, 'expected a synthetic (operations) batch')
+        assert.equal(operations.candidates, 1)
+        assert.equal(operations.stanceBase, 1)
+        assert.equal(operations.coverage, 1)
+        const decisions = fs.readFileSync(outPath, 'utf8').trim().split('\n').map(line => JSON.parse(line))
+        assert.deepEqual(
+            decisions.find(decision => decision.diffEntryId === opId),
+            {diffEntryId: opId, action: 'ledger', classification: 'deferred', reason: 'New public exact-search jobs endpoint; deferred for human classification.'},
+        )
+        assert.equal(summary.candidates, 6)
+        assert.equal(summary.stances, 6)
+    } finally {
+        fs.rmSync(dir, {recursive: true, force: true})
+    }
+})
+
+test('a classified upstream-added operation stays out of the decision stage entirely', async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-decide-ops-ledgered-'))
+    process.env.DECIDE_TEST_KEY = 'test-key'
+    try {
+        const diffPath = writeDiff(dir)
+        const diff = JSON.parse(fs.readFileSync(diffPath, 'utf8'))
+        diff.entries.push({
+            id: 'upstream-added|post /v2/clusters/onDemandClusters/{CLUSTER_ID}/modifyProperties||operation||||operation-absent-in-fragments|',
+            category: 'upstream-added', opKey: 'post /v2/clusters/onDemandClusters/{CLUSTER_ID}/modifyProperties', scope: 'operation',
+            branch: '', responseStatus: '', field: '', change: {kind: 'operation-absent-in-fragments', key: '', before: null, after: null},
+            evidence: '/paths/~1v2~1clusters~1onDemandClusters~1{CLUSTER_ID}~1modifyProperties/post', ledgerStatus: 'classified',
+        })
+        fs.writeFileSync(diffPath, `${JSON.stringify(diff, null, 2)}\n`)
+        const calls = []
+        const fetchImpl = async (url, options) => {
+            const content = JSON.parse(options.body).messages[1].content
+            calls.push(content)
+            const fragment = (content.match(/"d":"[^|]*\|[^|]*\|([^|]*)\|/) || [])[1]
+            const response = standardFragmentResponses()[fragment] ?? JSON.stringify({decisions: []})
+            return {ok: true, status: 200, text: async () => '', json: async () => ({choices: [{message: {content: response}}]})}
+        }
+        const {summary, batches} = await decideBatches({
+            diffPath, outPath: path.join(dir, 'out.jsonl'), baseUrl: 'https://gateway.invalid', apiKeyEnv: 'DECIDE_TEST_KEY', model: 'm', fetchImpl,
+        })
+        // Already-decided stock never reaches the model, and no synthetic
+        // operations batch forms when nothing in it is stanceable.
+        assert.ok(calls.every(content => !content.includes('onDemandClusters')))
+        assert.ok(!batches.some(batch => batch.fragment === UNFRAGMENTED_OPERATIONS_BUCKET))
+        assert.equal(summary.candidates, 5)
     } finally {
         fs.rmSync(dir, {recursive: true, force: true})
     }
