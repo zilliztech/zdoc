@@ -8129,13 +8129,13 @@
           },
           "externalSource": {
             "type": "string",
-            "description": "The external data source identifier. <include target=\"milvus\">An object url in an S3 bucket applies.</include><include target=\"zilliz\">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another Milvus 3.0 cluster in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.</include> Required when creating an external collection.",
+            "description": "The external data source identifier. <include target=\"milvus\">An object url in an S3 bucket applies.</include><include target=\"zilliz\">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on a cluster compatible with Milvus v3.0.x in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.</include> Required when creating an external collection.",
             "x-i18n": {
               "zh-CN": {
-                "description": "外部数据源标识符。<include target=\"milvus\">S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">在 Zilliz Cloud 上，`externalSource` 支持两种格式：`volume://<volume_name>/<path>` 与 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 指向与目标集群同项目、同地域的另一 Milvus 3.0 集群上的集合。前缀必须小写；三段（实例/数据库/集合）缺一不可，数据库为 `default` 时也须写明；末尾允许多一个 `/`。</include> 创建外部集合时必填。"
+                "description": "外部数据源标识符。<include target=\"milvus\">S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">在 Zilliz Cloud 上，`externalSource` 支持两种格式：`volume://<volume_name>/<path>` 与 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 指向与目标集群同项目、同地域的兼容 Milvus v3.0.x 的集群上的集合。前缀必须小写；三段（实例/数据库/集合）缺一不可，数据库为 `default` 时也须写明；末尾允许多一个 `/`。</include> 创建外部集合时必填。"
               },
               "ja-JP": {
-                "description": "外部データソース識別子です。<include target=\"milvus\">S3 bucket 内の object url を指定します。</include><include target=\"zilliz\">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョン内の別の Milvus 3.0 クラスター上のコレクションを指します。スキームは小文字でなければならず、3 つのセグメント（データベース名としての `default` を含む）はすべて必須で、末尾に 1 つの `/` は許容されます。</include> external collection を作成する場合に必須です。"
+                "description": "外部データソース識別子です。<include target=\"milvus\">S3 bucket 内の object url を指定します。</include><include target=\"zilliz\">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョン内の Milvus v3.0.x 互換のクラスター上のコレクションを指します。スキームは小文字でなければならず、3 つのセグメント（データベース名としての `default` を含む）はすべて必須で、末尾に 1 つの `/` は許容されます。</include> external collection を作成する場合に必須です。"
               }
             },
             "x-added-at": "2.6.x",
