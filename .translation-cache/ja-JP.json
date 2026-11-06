@@ -4316,9 +4316,9 @@
       "translatedAt": "2026-10-25T19:51:33.068Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md": {
-      "sourceHash": "4e62c2bcd27f59a193e1b0df76f2a80035e2879c91d6fa05790ce87a4b0954e6",
+      "sourceHash": "84743584b8358f84b62e1a6b71d209c4bdfcb07b5386b3bcf8fd5ce15bb527c4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md",
-      "translatedAt": "2026-10-25T19:51:33.068Z"
+      "translatedAt": "2026-11-06T19:47:06.518Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md": {
       "sourceHash": "277d79f78a1411528d04d4d8d5e4d1bfd225516072f58e25ff1d6185cf1a7398",
@@ -4341,9 +4341,9 @@
       "translatedAt": "2026-10-25T19:51:33.068Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md": {
-      "sourceHash": "344eabbf5b9502017255ff0825126d91b38dc52fe0858432717bc1331ea1e895",
+      "sourceHash": "51d4bab90e02800465d89c3e4c0dfaa7cac287dd2194c7166f648d06b51d4b53",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
-      "translatedAt": "2026-10-25T19:51:33.068Z"
+      "translatedAt": "2026-11-06T19:47:06.518Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo.md": {
       "sourceHash": "6a547ac73205b9911fdba6666d4ac154d899e4111e5ffd6142b5da4bbebacc11",
@@ -4351,9 +4351,9 @@
       "translatedAt": "2026-10-25T19:51:33.068Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md": {
-      "sourceHash": "d257d5f10ef2cbb136e80676228910e5488a309ccec2f7628e87997df4a47f69",
+      "sourceHash": "0005fef8e18017f78b5f794a05c9b5300ef35910b1f9ab011a54f86eda798a6c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md",
-      "translatedAt": "2026-10-25T19:51:33.068Z"
+      "translatedAt": "2026-11-06T19:47:06.518Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RenameCollection.md": {
       "sourceHash": "5c4b48da184d5d67affa74111d2b5dcfd5d744b720ebd41bad4cae2f9a4497b5",
@@ -4361,9 +4361,9 @@
       "translatedAt": "2026-10-25T19:51:33.068Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md": {
-      "sourceHash": "25c5c54f2dc0bc4c8480090361d12c3e0863db60836458f67db09346bc3728d4",
+      "sourceHash": "46b9ea8dc2f09d15e211d8c79d3bccdca1f13898ceb304bbd46d100bf822bf09",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
-      "translatedAt": "2026-10-25T19:51:33.068Z"
+      "translatedAt": "2026-11-06T19:47:06.518Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-StructSchema.md": {
       "sourceHash": "8b7aa5dbe4a432e3a7b564fe6054606ad19f986d1d58ed48f9e03be94c922e6c",

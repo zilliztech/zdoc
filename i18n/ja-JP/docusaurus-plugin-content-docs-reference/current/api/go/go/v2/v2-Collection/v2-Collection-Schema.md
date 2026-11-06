@@ -73,6 +73,8 @@ type Schema struct {
 
     AWS S3 オブジェクトパスに似たソースデータ URI を設定します。
 
+    <NextChannel action="include">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。</NextChannel>
+
 - `WithExternalSpec(externalSpec string) *Schema`
 
     外部ソース設定を JSON として設定します。外部ソース仕様は、一連の補助パラメーターです。
@@ -80,6 +82,8 @@ type Schema struct {
     - **format** (*string*) -
 
         対象のソースデータファイルの形式です。指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
+
+        <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースを `milvus://` スキームで使用します。`format` は省略でき、`milvus://` ソースの場合は既定で `milvus-table` になります。</NextChannel>
 
     - **extfs** (*string*) -
 
@@ -176,7 +180,9 @@ fmt.Println(err)
 
 - `WithExternalSource(externalSource string)`
 
-    ソースデータ URI を設定します。この URI は、アクセス可能な外部ボリュームの名前である必要があります。
+    ソースデータ URI を設定します。この URI は<NextChannel action="exclude">アクセス可能な外部ボリュームの名前である必要があります</NextChannel><NextChannel action="include">以下で説明するスキームのいずれかを使用します</NextChannel>。
+
+    <NextChannel action="include">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`volume://` URI は、アクセス可能な外部ボリュームを指します。</NextChannel>
 
 - `WithExternalSpec(externalSpec string)`
 
@@ -187,5 +193,7 @@ fmt.Println(err)
         対象のソースデータファイルの形式です。
 
         指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
+
+        <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースを `milvus://` スキームで使用します。`format` は省略でき、`milvus://` ソースの場合は既定で `milvus-table` になります。</NextChannel>
 
     

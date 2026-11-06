@@ -85,7 +85,7 @@ type RefreshExternalCollectionJobInfo struct {
 
 - **State** ([RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)) -
 
-    リフレッシュジョブの現在の状態です。
+    リフレッシュジョブの現在の状態です。リフレッシュジョブは、`RefreshStateInProgress` から `RefreshStateCompleted` または `RefreshStateFailed` に遷移します。
 
 - **Progress** (*int64*) -
 

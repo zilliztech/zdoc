@@ -7,7 +7,7 @@ added_since: v3.0.0
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "RefreshExternalCollectionState インスタンスは、外部コレクションのリフレッシュジョブで取りうる状態を列挙します。 | Go | v2"
+description: "RefreshExternalCollectionState インスタンスは、外部コレクションのリフレッシュジョブで取り得る状態を列挙します。リフレッシュジョブは `RefreshStateInProgress` から `RefreshStateCompleted` または `RefreshStateFailed` に遷移します。 | Go | v2"
 type: docx
 token: Or8Gd2JEIo1swQxD3QTccFoBn9b
 sidebar_position: 35
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # RefreshExternalCollectionState
 
-RefreshExternalCollectionState インスタンスは、外部コレクションのリフレッシュジョブで取りうる状態を列挙します。
+RefreshExternalCollectionState インスタンスは、外部コレクションのリフレッシュジョブで取り得る状態を列挙します。リフレッシュジョブは `RefreshStateInProgress` から `RefreshStateCompleted` または `RefreshStateFailed` に遷移します。
 
 ```go
 type RefreshExternalCollectionState milvuspb
