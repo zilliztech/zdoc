@@ -760,6 +760,16 @@
       "fragment": "32-spark-job-v2.json"
     },
     {
+      "opKey": "post /v2/projects/{projectId}/jobs/exactSearch",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "aadaafe0b4e47b52141eea6d34d094e8c4ebcab5",
+      "firstSeenAt": "2026-11-06",
+      "classification": "deferred",
+      "reason": "New upstream operation post /v2/projects/{projectId}/jobs/exactSearch is absent from fragments; needs a human authoring decision before it can be documented.",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-06"
+    },
+    {
       "opKey": "post /v2/projects/{projectId}/jobs/kmeans",
       "source": "zilliz-cloud-control-plane",
       "firstSeenPin": "e64f3bd77c94971d2352ca61eb86d1a1f11bf2cb",
