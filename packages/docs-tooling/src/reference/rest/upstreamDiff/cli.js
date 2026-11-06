@@ -265,6 +265,7 @@ function registerApplyCommand(command) {
                 normalizations: result.normalizations,
                 titleLog: result.titleLog,
                 ledgerDrafts: result.ledgerDrafts,
+                inheritedLifecycle: result.inheritedLifecycle,
                 unaddressedDiffEntries: unaddressed,
             }))
             console.log(`applied ${result.appliedLog.length} entries; changed ${result.changedFiles.size} fragment(s); ${unaddressed.length} diff entries left unaddressed -> ${opts.out}`)
