@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-01",
+  "updatedAt": "2026-11-06",
   "description": "Known-issues ledger for the scheduled watchdog workflows. Holds the durable triage knowledge the daily ops digest compares against: fetch channels, steady-state baselines, known-issue classifications, and closed-incident history. Volatile daily numbers (for example the rest-upstream drift substantiveCount/diffDigest series) intentionally live in a local state file outside the repository; only rules, statuses, and thresholds belong here.",
   "statusSemantics": {
     "known-expected": "Appears in healthy runs; do not report unless it disappears or worsens.",
@@ -219,14 +219,15 @@
           "id": "rest-upstream-drift-backlog",
           "status": "in-progress",
           "symptom": "Both sources (zilliz-cloud-control-plane, milvus-data-plane) report drift with pins not advanced.",
-          "classification": "Upstream keeps moving while refresh candidate branches remain unmerged; backlog priority rises as upstream advances.",
+          "classification": "Upstream keeps moving while refreshes land periodically; the backlog now concentrates on the data plane, whose source-tree refresh has not been re-dispatched since its 11-01 pin.",
           "action": "Digest reports the day-over-day series and reminds that the fix path is dispatching rest-upstream-refresh.yml (source input, one reviewed PR per source). The digest itself never dispatches it.",
-          "evidence": "First run 40835506776 (2026-10-29 dispatch baseline: control plane 518 / data plane 55 substantive). 2026-10-30 scheduled run 41002552300: pins unmoved, upstream heads advanced, diffDigests changed. As of 2026-10-30, two control-plane refresh candidate branches had appeared on the remote, unmerged."
+          "evidence": "First run 40835506776 (2026-10-29 dispatch baseline: control plane 518 / data plane 55 substantive). 2026-11-05 scheduled run 41967187925: control plane 393 / data plane 32 substantive, pins unmoved. 2026-11-06: control-plane backlog cleared — four-dispatch chain (gate fixes #1114/#1117/#1119) produced refresh PR #1121, merged as e47b0266d with pin e64f3bd7 -> aadaafe0b4; data plane continues at 32 substantive on pin 5f7e1124 (two orphan refresh branches on the remote attest unmerged milvus dispatch attempts)."
         }
       ],
       "history": [
         "2026-10-29: watchdog added by #906; first run established the baseline (drift by design at first pinning).",
-        "2026-10-30: entered the daily schedule; unattributed counts (extractor attribution blind spots) are tracked separately and worth flagging when they grow."
+        "2026-10-30: entered the daily schedule; unattributed counts (extractor attribution blind spots) are tracked separately and worth flagging when they grow.",
+        "2026-11-06: control-plane drift cleared by refresh PR #1121 (pin -> aadaafe0b4) after gate fixes #1114/#1117/#1119; backlog entry narrows to the data plane."
       ]
     },
     {
