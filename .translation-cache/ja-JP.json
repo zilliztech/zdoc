@@ -2186,9 +2186,9 @@
       "translatedAt": "2026-11-05T14:22:58.835Z"
     },
     "content/en/guides/tutorials/development/search-and-query/text-match.md": {
-      "sourceHash": "2ec35d602f7736863afd0b4b2dde1e054032277087230b9f49a22cb84743ec61",
+      "sourceHash": "d3c3cb781a41953e6fd776d016a52dfeef49fef19d5add1f70c12e6111b74129",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/text-match.md",
-      "translatedAt": "2026-11-05T14:22:58.835Z"
+      "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/development/search-and-query/tune-recall-rate.md": {
       "sourceHash": "4057f0df43c2122d5e63a10448fae58b1b9e177b8a21766234377472f823a57c",
@@ -2216,9 +2216,9 @@
       "translatedAt": "2026-11-05T14:22:58.835Z"
     },
     "content/en/guides/tutorials/development/snapshots/snapshots.md": {
-      "sourceHash": "ade4ef8e0ac34bf3f89ab3d3bf84f9f15f792af1b21a9ac5f2338f907444e906",
+      "sourceHash": "c8e13497efa029ce2ff12049c200b64d301a3b6de22f88d2a7bfc678b57785cb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/snapshots.md",
-      "translatedAt": "2026-10-28T03:40:58.002Z"
+      "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md": {
       "sourceHash": "71803ea6d7f5b21979eb6bc65dbd08958117c20b454ef4f8727b689263988680",
@@ -2261,9 +2261,9 @@
       "translatedAt": "2026-11-05T14:22:58.835Z"
     },
     "content/en/guides/tutorials/development/vector-index/minhash-lsh.md": {
-      "sourceHash": "ed87b1121cec12e9e5b82f070da1682e5bf5cd3fe8a398d2c1e63f2b4c93e6bd",
+      "sourceHash": "71311369d33428508b48a873e50be48900fa6eceddf11bba9424bb1ccc300c44",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/minhash-lsh.md",
-      "translatedAt": "2026-11-05T13:25:51.545Z"
+      "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/development/vector-index/tune-index-build-level.md": {
       "sourceHash": "bedcb7d2bc909946ef0a3d6a3b3362764175bc603bf79087eaabe005fe150098",
@@ -2371,9 +2371,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
-      "sourceHash": "75fff74ac250eb2f3ea18aee5b403e71989df9f6d76225c19151ba859ed1a19a",
+      "sourceHash": "6d3ac209e706700e3e0e6cf71a13bb2a96a7ffe95a1f56416976c77092a16228",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/changelogs.md",
-      "translatedAt": "2026-11-05T14:43:45.949Z"
+      "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md": {
       "sourceHash": "43022596b91c315086c6eba306c41aeb40b90066c41b3ab1eb1f5a5d98cf25ba",
@@ -2561,9 +2561,9 @@
       "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-290.md": {
-      "sourceHash": "2a490b51419672c589db25d68fb68ade243e9f78752b8565c9b6ca2573c68ed0",
+      "sourceHash": "4b41addfe8041bdfc0477ef2efaf2021cc960ca1faa33f0b47582e76bc020ce1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-290.md",
-      "translatedAt": "2026-11-05T14:43:45.949Z"
+      "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-291.md": {
       "sourceHash": "1ce46726853cfecfa2f4324157aca46446b69d4fdee88332a3197159b9b7412f",
@@ -3046,9 +3046,9 @@
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "195776113d71e40d64c1216207c0f53aeb128c7ebf02a61ba17a903e57628428",
+      "sourceHash": "bc8fcf3432af176aa1b35b4e29f483ba9e5266df96d5a914e0c805b91783841e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-11-05T15:06:20.053Z"
+      "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog.md": {
       "sourceHash": "ad5f0d5c118aea2e638fe9e583c93786f36cefdbb98c60eb8aa2d5093ce4ede2",
@@ -3106,19 +3106,19 @@
       "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md": {
-      "sourceHash": "d3486c5476dd36f46e7b398ac1237de3ce92fa115a6de88141a428a00d993376",
+      "sourceHash": "aea4465f2206a36977426a700e4951c7ac3ad9a45c0b7e0d8035db7388fbbbeb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md",
-      "translatedAt": "2026-11-05T15:06:20.053Z"
+      "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md": {
-      "sourceHash": "dbc85c279c6aba10092dfc929a2550debd16a371dbaacfccc1f2b967cee7e10b",
+      "sourceHash": "f669ef7295c58d603ea87ecf3335fa1714b3d8e80f35156bb2fa5bc9356af8af",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md",
-      "translatedAt": "2026-11-05T15:06:20.053Z"
+      "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md": {
-      "sourceHash": "ebaaa5bd523055eac220af63898b4643a1342dae0878d7c0f1a1e859ed99e67c",
+      "sourceHash": "d481bbd80ab4f66c193c944049381308060614028a4796029980fa4ee4343414",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md",
-      "translatedAt": "2026-11-05T15:06:20.053Z"
+      "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "6f2ad87056a2a439cf0fc70a39efbfff5a6b77961380148c33cfba7feb2a122a",

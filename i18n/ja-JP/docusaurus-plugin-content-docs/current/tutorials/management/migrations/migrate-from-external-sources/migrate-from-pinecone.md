@@ -84,7 +84,7 @@ Pinecone のメタデータは、最大限の柔軟性を実現するために�
 
 固定フィールドに変換されたメタデータフィールドでは、次の追加属性を設定できます。
 
-- **Nullable**: フィールドで null 値を受け入れられるかどうかを決定します。この機能はデフォルトで有効です。詳細については、[Nullable 属性](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#JjRFd3ubBoht7Ex3N9IcAkrRnOc) を参照してください。
+- **Nullable**: フィールドが null 値を受け入れるかどうかを決定します。この機能はデフォルトで有効になっています。詳細については、[Nullable 属性](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#KL0mdOeSgoJtVfxQUvIcvGGenAd) を参照してください。
 
 - **Default Value**: データが欠落している場合のフォールバック値を設定します。詳細については、[デフォルト値](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#LuoQdz5asouWjbxkKbscpywSnaf) を参照してください。
 

@@ -94,7 +94,7 @@ Zilliz Cloud がスナップショット内のセグメントファイルまた�
 
 - 復元された履歴データは、TTL ポリシーと競合する可能性があります。スナップショットを作成する前に、TTL を無効にするか、TTL 設定を調整することをお勧めします。
 
-- スナップショットを `milvus-table` の外部ソースとして使用するには、ソーススナップショットが通常の StorageV3 Zilliz Cloud コレクションのものである必要があります。外部コレクションのスナップショットは、`milvus-table` のソースとしてサポートされていません。
+- Zilliz Cloud でスナップショットを `milvus-table` の外部ソースとして使用するには、`external_source` を `milvus://` スキーム（`milvus://<instance_id>/<db_name>/<collection_name>`）でソースコレクションを指すように設定します。詳細は、[外部コレクションの作成](./create-external-collection) を参照してください。外部コレクションのスナップショットはソースとして使用できません。
 
 ## 関連情報\{#further-readings}
 

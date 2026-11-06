@@ -320,7 +320,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash 関数](./minhash-function)
 
-            - [検索](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#J302dXJq8oDOOdxA9EYc86Kmnof)と[クエリ](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#VhCFdfqkooVQMHxxVTyceCyKngg)の並べ替え
+            - [検索](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#CduodT384oDTX7x2IWqcjZv9nSg) と [クエリ](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#doxcnPWWXEtKQ2jAUJQeOtm3rle) の ORDER BY
 
             - [スナップショット](./snapshots)
 
@@ -878,7 +878,7 @@ import Grid from '@site/src/components/Grid';
 
             - [マルチベクトルハイブリッド検索](./hybrid-search)
 
-            - [転置インデックス](./inverted-index-type)と[あいまい一致](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)
+            - [転置インデックス](./inverted-index-type) と [ファジーマッチ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)
 
             - [グループ化検索](./grouping-search)
 

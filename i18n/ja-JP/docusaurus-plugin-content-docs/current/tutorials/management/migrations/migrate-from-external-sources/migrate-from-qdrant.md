@@ -99,7 +99,7 @@ Qdrant のペイロードは、柔軟性を最大限に確保するため、最�
 
 固定フィールドに変換されたペイロードフィールドでは、次の追加属性を設定できます。
 
-- **Nullable**: フィールドが null 値を受け入れられるかどうかを指定します。この機能はデフォルトで有効です。詳細は、[Nullable 属性](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#JjRFd3ubBoht7Ex3N9IcAkrRnOc) を参照してください。
+- **Nullable**: フィールドが null 値を受け入れるかどうかを決定します。この機能はデフォルトで有効になっています。詳細は、[Nullable attribute](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#KL0mdOeSgoJtVfxQUvIcvGGenAd) を参照してください。
 
 - **Default Value**: データがない場合に使用するフォールバック値を設定します。詳細は、[Default values](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#LuoQdz5asouWjbxkKbscpywSnaf) を参照してください。
 

@@ -66,7 +66,7 @@ Milvus 2.4 はまだ安定版に達していません。本番環境で Milvus 2
 
 このリリースでは、スカラーフィルタリングで、プレフィックス、インフィックス、サフィックスを使用したファジーマッチもサポートしています。
 
-詳細は、[Binary Vector](./use-binary-vector)、[INVERTED](./inverted-index-type)、および [Use the ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[`like`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[ Operator](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb) ガイド、ならびに [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) および [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py) の例コードを参照してください。*例コード内の接続情報を Zilliz Cloud クラスターの認証情報で必ず更新し、代わりに AUTOINDEX を使用してください。*
+詳細は、[バイナリベクトル](./use-binary-vector)、[INVERTED](./inverted-index-type)、および [使用方法](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[`like`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[ 演算子](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe) ガイドと、[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) および [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py) の例コードを参照してください。*例コード内の接続情報を、Zilliz Cloud クラスターの認証情報で必ず更新し、代わりに AUTOINDEX を使用してください。*
 
 ### グループ化検索\{#grouping-search}
 
@@ -78,7 +78,7 @@ Milvus 2.4 はまだ安定版に達していません。本番環境で Milvus 2
 
 機械学習やニューラルネットワークでは、Float16 や BFloat- などの半精度データ型がよく使用されます。これらのデータ型はクエリ効率を向上させ、メモリ使用量を削減できますが、精度が低下するというトレードオフがあります。このリリースにより、Zilliz Cloud はベクトルフィールドでこれらのデータ型をサポートするようになりました。
 
-詳細は、[Dense Vector](./use-dense-vector) および [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py) と [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py) の例コードを参照してください。*例コード内の接続情報を、Zilliz Cloud クラスターの認証情報で必ず更新してください。*
+詳細は、[密ベクトル](./use-dense-vector) と、[float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py) および [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py) の例コードを参照してください。*例コード内の接続情報を、Zilliz Cloud クラスターの認証情報で必ず更新してください。*
 
 ### 改良された MilvusClient インターフェース\{#refined-milvusclient-interfaces}
 
