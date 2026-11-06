@@ -15,7 +15,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const TOOLING_ROOT = path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest')
-const {buildCandidateRecords} = require(path.join(TOOLING_ROOT, 'upstreamDiff', 'candidates'))
+const {buildCandidateRecords, UNFRAGMENTED_OPERATIONS_BUCKET} = require(path.join(TOOLING_ROOT, 'upstreamDiff', 'candidates'))
 const {decisionShapeError, stanceError} = require(path.join(TOOLING_ROOT, 'upstreamDiff', 'assembler'))
 
 const DEFAULT_TIMEOUT_MS = 5 * 60 * 1000
@@ -167,7 +167,11 @@ async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, repo
     if (!apiKey) fail(`REST_UPSTREAM_DECIDE_API_KEY_MISSING: --api-key-env ${apiKeyEnv} is not set`)
     const diff = JSON.parse(fs.readFileSync(diffPath, 'utf8'))
     const entryById = new Map(diff.entries.map(entry => [entry.id, entry]))
-    const fragments = [...new Set(diff.entries.map(entry => entry.fragment).filter(Boolean))].sort()
+    // Fragment-less entries (operation-level upstream-added operations) must
+    // not vanish from the decision stage: they group into the synthetic
+    // operations bucket, and a pending upstream-added operation without a
+    // stance would fail the T4 accounting gate later anyway.
+    const fragments = [...new Set(diff.entries.map(entry => entry.fragment ?? UNFRAGMENTED_OPERATIONS_BUCKET))].sort()
     const batches = []
     const accepted = []
     for (const fragment of fragments) {
