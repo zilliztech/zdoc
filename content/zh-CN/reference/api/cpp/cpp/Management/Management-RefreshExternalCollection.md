@@ -58,11 +58,17 @@ auto request = milvus::RefreshExternalCollectionRequest()
 
 - `WithExternalSource(const std::string& external_source)`
 
-    设置外部源类型。
+    设置外部源 URI。
+
+    请同时提供 `external_source` 和 `external_spec`，或同时省略两者；当两者均省略时，刷新会复用已持久化的源和规范。
+
+    <NextChannel action="include">在 Zilliz Cloud 上，`external_source` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传入 `external_source`；如果省略，Collection 将继续提供此前同步的数据。</NextChannel>
 
 - `WithExternalSpec(const nlohmann::json& external_spec)`
 
-    以 JSON 格式设置特定于提供商的刷新配置。
+    以 JSON 形式设置外部源规范，例如 `format`。`format` 的可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
+
+    <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源使用 `milvus://` 方案；对于 `milvus://` 源，可以省略 `format`，其默认值为 `milvus-table`。</NextChannel>
 
 **返回：**
 
