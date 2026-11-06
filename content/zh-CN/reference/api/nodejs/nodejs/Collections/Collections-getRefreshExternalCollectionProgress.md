@@ -84,7 +84,7 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
     - **state** (*RefreshExternalCollectionState*) -
 
-        当前作业状态。可能的值包括 **RefreshPending**、**RefreshInProgress**、**RefreshCompleted** 和 **RefreshFailed**。
+        当前作业状态。可能的值包括 **RefreshPending**、**RefreshInProgress**、**RefreshCompleted** 和 **RefreshFailed**。刷新作业会从 **RefreshInProgress** 转换为 **RefreshCompleted** 或 **RefreshFailed**。
 
     - **progress** (*string*) -
 

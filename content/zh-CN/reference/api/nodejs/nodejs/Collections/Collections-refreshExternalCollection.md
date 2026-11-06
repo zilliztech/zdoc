@@ -56,10 +56,10 @@ await milvusClient.refreshExternalCollection({
   要刷新的外部 Collection 的名称。
 
 - **external_source** (*string*) -<br/>
-  可选的新外部数据源路径。如果提供，Collection 将从该新数据源刷新。
+  可选的新外部源路径。如果提供，将从该新源刷新 Collection。请同时提供 `external_source` 和 `external_spec`，或同时省略两者；如果同时省略两者，刷新会复用已持久化的 source 和 spec。<NextChannel action="include">在 Zilliz Cloud 上，`external_source` 接受两种 scheme：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传入 `external_source`；如果省略此参数，Collection 将继续提供此前同步的数据。</NextChannel>
 
 - **external_spec** (*string*) -<br/>
-  可选的新外部 spec 配置。如果提供，Collection 将使用此新 spec。
+  可选的新外部 spec 配置。如果提供，Collection 将使用该新 spec。`format` 的可能值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。<NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` scheme 搭配使用；可以省略 `format`，对于 `milvus://` 源，其默认值为 `milvus-table`。</NextChannel>
 
 - **db_name** (*string*) -<br/>
   Database 的名称。可选。

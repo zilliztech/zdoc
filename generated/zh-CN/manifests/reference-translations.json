@@ -6551,11 +6551,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "54f078cff56f207830d97a42e108ac1a06ee3f44f0cbf5ff3a8b30feda10797c",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "8860b373793c2a7e46660fe1db3574b58c813adcbab3a32028e259ab24aa64da",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
       "status": "translated",
-      "targetHash": "879dbc1fdc1a17214f9d691225b014840acd841ab484fd46aa74acdb1014ce45",
+      "targetHash": "89a29689b4ea93b4c119c00df4d554a761cee928d9d3e201e8f75d210ddee296",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md"
     },
     {
@@ -6668,11 +6668,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "42479d88b2fde8274c8c1890ea6f2cfca338fc897ebfb9cc7e8049505e2ff0cc",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "84e7b77d7d354c1d08b091ecd769a4ec0873691b7cef2692244d9fe6c9ee5eb9",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
       "status": "translated",
-      "targetHash": "8ce349d9b3703c5b56ed0cb41198509613d23b3cc8b673374903ea230588eeb9",
+      "targetHash": "fb11b418ad9cde6f90cd5c16561ef7d7007dc61878bcae1ab56f5755d1aef90a",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md"
     },
     {
@@ -6713,11 +6713,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "21022e7291212514fe88336011431612fd3d4dbfeb6fd55a9753124561a9c312",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "2ad7698f812d9b984a158feeac032cc600a25b139cbe4b59a175c2707be31978",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "99f729f6aaccc1eb0aed2f33cc126310861ca8af5e4f516e65cf5d1957c18b2e",
+      "targetHash": "9ba644e1d49ea35482b6c63816a3bb18d43cde53592d7e0f8a8424b029807d85",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md"
     },
     {
