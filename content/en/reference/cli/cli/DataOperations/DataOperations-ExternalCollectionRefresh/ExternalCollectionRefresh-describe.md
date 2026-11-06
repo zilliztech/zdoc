@@ -34,7 +34,7 @@ This operation gets the status of a single external-collection refresh job.
 
 ## Description\{#description}
 
-Gets the current status and details for one external-collection refresh job. Pass the `jobId` returned by `zilliz external-collection refresh trigger`.
+Gets the current status and details for one external-collection refresh job. Pass the `jobId` returned by `zilliz external-collection refresh trigger`. A refresh job transitions from `RefreshInProgress` to `RefreshCompleted` or `RefreshFailed`.
 
 ## Synopsis\{#synopsis}
 
@@ -59,6 +59,6 @@ zilliz -o json external-collection refresh describe --job-id 123456
 # Example output
 # {
 #   "jobId": 123456,
-#   "status": "RUNNING"
+#   "state": "RefreshInProgress"
 # }
 ```

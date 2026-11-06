@@ -60,11 +60,17 @@ zilliz external-collection refresh trigger
 
 - **--external-source** (*string*) -
 
-    Overrides the external source (optional).
+    Specifies the external source URI for this refresh.
+
+    Provide it together with `--external-spec`, or omit both; when both are omitted, the refresh reuses the persisted source and spec.
+
+    <NextChannel action="include">The option accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. For a `volume://` URI, the rule above applies. Required for a `milvus://` source; if you omit it, the refresh does not take effect and the collection keeps serving the previously synced data.</NextChannel>
 
 - **--external-spec** (*string*) -
 
-    Overrides the external spec (optional).
+    Specifies the external source specifications for this refresh as a JSON string. Provide it together with `--external-source`, or omit both.
+
+    <NextChannel action="include">For a `milvus://` source, you can omit it; `format` defaults to `milvus-table`.</NextChannel>
 
 ## Example\{#example}
 
@@ -79,4 +85,9 @@ zilliz external-collection refresh trigger --name my_external_coll
 
 # Trigger refresh in a non-default database
 zilliz external-collection refresh trigger --name my_external_coll --database my_db
+# next-channel-start
+
+# Trigger refresh for an external collection that uses a milvus:// source
+zilliz external-collection refresh trigger --name my_external_coll --external-source milvus://in01-xxxx/default/orders
+# next-channel-end
 ```
