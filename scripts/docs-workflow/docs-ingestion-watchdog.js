@@ -8,6 +8,13 @@ const REQUIRED_JOBS = Object.freeze([
   { label: 'verify / verify', names: ['verify / verify'] },
   { label: 'aggregate', names: ['aggregate'] },
 ])
+// Shared-source fallback attribution lives in the en Guides sources job log as
+// `[shared-fallback]` warn lines (one JSON object per fallback page). They are
+// informational: fallback keeps the previous published content, so it never
+// gates watchdog health — the daily digest turns new entries into follow-ups.
+const SHARED_FALLBACK_JOB_PREFIX = 'produce_guides_sources'
+const SHARED_FALLBACK_MARKER = '[shared-fallback]'
+const MAX_SHARED_FALLBACK_ENTRIES = 100
 
 function normalizedJobName(value) {
   return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ')
@@ -77,6 +84,55 @@ function evaluateDocsIngestion(runs, options = {}) {
   }
 }
 
+function stripAnsi(value) {
+  return String(value ?? '').replace(/\u001B\[[0-9;?]*[0-9A-Za-z]/g, '')
+}
+
+function parseSharedFallbackEntry(payload) {
+  let parsed
+  try { parsed = JSON.parse(payload) } catch { parsed = null }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return { raw: payload.slice(0, 500) }
+  return {
+    record_id: typeof parsed.record_id === 'string' ? parsed.record_id : null,
+    page: typeof parsed.page === 'string' ? parsed.page : null,
+    code: typeof parsed.code === 'string' ? parsed.code : null,
+    message: typeof parsed.message === 'string' ? parsed.message.slice(0, 500) : null,
+    paths: Array.isArray(parsed.paths) ? parsed.paths.filter(item => typeof item === 'string').slice(0, 10) : [],
+  }
+}
+
+function parseSharedFallbackLog(logText) {
+  const entries = []
+  const seen = new Set()
+  for (const line of stripAnsi(logText).split(/\r?\n/)) {
+    const marker = line.indexOf(SHARED_FALLBACK_MARKER)
+    if (marker < 0) continue
+    const payload = line.slice(marker + SHARED_FALLBACK_MARKER.length).trim()
+    if (!payload) continue
+    const entry = parseSharedFallbackEntry(payload)
+    // Malformed payloads cannot be identified, so each is quarantined as-is.
+    const key = entry.raw !== undefined ? `raw|${entries.length}` : `${entry.record_id}|${entry.page}|${entry.code}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    entries.push(entry)
+    if (entries.length >= MAX_SHARED_FALLBACK_ENTRIES) break
+  }
+  return entries
+}
+
+function countSharedFallbackCodes(entries) {
+  const codes = {}
+  for (const entry of entries) {
+    const code = entry.code || 'UNKNOWN'
+    codes[code] = (codes[code] || 0) + 1
+  }
+  return codes
+}
+
+function withSharedFallback(result, fallback) {
+  return { ...result, shared_fallback: fallback ?? null }
+}
+
 function createGitHubAdapter({ repository, token, fetch = globalThis.fetch }) {
   if (!/^[^/\s]+\/[^/\s]+$/.test(repository || '')) throw new Error('--repository must be owner/repo')
   if (!token) throw new Error('GITHUB_TOKEN is required')
@@ -98,6 +154,49 @@ function createGitHubAdapter({ repository, token, fetch = globalThis.fetch }) {
     return response.json()
   }
 
+  // Job logs redirect to a download URL and stream plain text; the body must
+  // never be inlined into an error message.
+  async function getLogText(endpoint) {
+    const response = await fetch(`${base}${endpoint}`, {
+      headers: {
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${token}`,
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      redirect: 'follow',
+    })
+    if (!response.ok) throw new Error(`GitHub API request failed (${response.status})`)
+    return response.text()
+  }
+
+  async function fetchSharedFallbacks(runId, jobs) {
+    const detailHint = `guides-sources-en-${runId} artifact bundle.json outcomes[].detail`
+    const targets = (Array.isArray(jobs) ? jobs : [])
+      .filter(job => normalizedJobName(job?.name).startsWith(SHARED_FALLBACK_JOB_PREFIX) && Number.isSafeInteger(Number(job?.id)))
+    if (!targets.length) return { source: 'unavailable', reason: `no ${SHARED_FALLBACK_JOB_PREFIX} job found on the selected run`, detail_hint: detailHint }
+    const entries = []
+    const warnings = []
+    for (const job of targets) {
+      try {
+        entries.push(...parseSharedFallbackLog(await getLogText(`/actions/jobs/${Number(job.id)}/logs`)))
+      } catch (error) {
+        warnings.push(`${job.name}: ${String(error.message).slice(0, 200)}`)
+      }
+    }
+    if (!entries.length && warnings.length) {
+      return { source: 'unavailable', reason: warnings.join('; ').slice(0, 500), detail_hint: detailHint }
+    }
+    return {
+      source: 'produce_guides_sources job logs',
+      count: entries.length,
+      pages: [...new Set(entries.map(entry => entry.page).filter(Boolean))],
+      codes: countSharedFallbackCodes(entries),
+      entries,
+      detail_hint: detailHint,
+      ...(warnings.length ? { warnings: warnings.map(warning => warning.slice(0, 200)) } : {}),
+    }
+  }
+
   async function inspectRecentRuns() {
     const listing = await get('/actions/workflows/fetch-docs.yml/runs?status=completed&per_page=20')
     const runs = Array.isArray(listing.workflow_runs) ? listing.workflow_runs : []
@@ -111,7 +210,7 @@ function createGitHubAdapter({ repository, token, fetch = globalThis.fetch }) {
     return { runs, detailsByRunId, jobsByRunId, reportsByRunId }
   }
 
-  return { inspectRecentRuns }
+  return { fetchSharedFallbacks, inspectRecentRuns }
 }
 
 function parseArgs(argv) {
@@ -144,12 +243,19 @@ function appendGitHubOutputs(result, outputFile = process.env.GITHUB_OUTPUT) {
     .replace(/\s+/g, ' ')
     .trim()
     .slice(0, 2000)
+  const fallback = result.shared_fallback || null
+  const entries = fallback && Array.isArray(fallback.entries) ? fallback.entries : []
+  const pages = [...new Set(entries.map(entry => entry.page).filter(Boolean))]
+  const codes = Object.keys((fallback && fallback.codes) || {}).sort()
   const lines = [
     `ok=${encode(result.ok)}`,
     `reason=${encode(result.reason)}`,
     `run_url=${encode(result.run_url)}`,
     `last_successful_at=${encode(result.last_successful_at)}`,
     `final_sha=${encode(result.final_sha)}`,
+    `fallback_count=${encode(fallback ? fallback.count : 0)}`,
+    `fallback_pages=${encode(pages.join(','))}`,
+    `fallback_codes=${encode(codes.join(','))}`,
   ]
   fs.appendFileSync(outputFile, `${lines.join('\n')}\n`)
 }
@@ -162,9 +268,19 @@ async function main(argv = process.argv.slice(2)) {
     const adapter = createGitHubAdapter({ repository: args.repository, token: process.env.GITHUB_TOKEN })
     const observation = await adapter.inspectRecentRuns()
     result = evaluateDocsIngestion(observation.runs, observation)
+    if (result.ok) {
+      let fallback
+      try {
+        fallback = await adapter.fetchSharedFallbacks(result.run_id, observation.jobsByRunId[result.run_id] || [])
+      } catch (error) {
+        fallback = { source: 'unavailable', reason: `GitHub API failure: ${String(error.message).slice(0, 480)}` }
+      }
+      result = withSharedFallback(result, fallback)
+    }
   } catch (error) {
     result = failure(`GitHub API failure: ${error.message}`)
   }
+  result = withSharedFallback(result, result.shared_fallback ?? null)
   fs.mkdirSync(path.dirname(output), { recursive: true })
   fs.writeFileSync(output, `${JSON.stringify(result, null, 2)}\n`, { mode: 0o600 })
   appendGitHubOutputs(result)
@@ -179,5 +295,7 @@ module.exports = {
   createGitHubAdapter,
   evaluateDocsIngestion,
   main,
+  parseSharedFallbackLog,
   safeOutputPath,
+  withSharedFallback,
 }
