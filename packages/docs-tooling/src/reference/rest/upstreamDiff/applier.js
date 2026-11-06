@@ -112,6 +112,16 @@ function hasLifecycleTriple(node) {
     return false
 }
 
+// Lifecycle evidence is a milvus-track attestation (verify-rest-lifecycle-
+// evidence's target-survival gate): a node the milvus publication filter
+// drops must never carry the managed triple, or the evidence file attests
+// content milvus pages never publish. Same rule, same shape as the verify
+// script: only an ARRAY x-include-target without 'milvus' excludes.
+function excludesMilvusTarget(node) {
+    const targets = node?.['x-include-target']
+    return Array.isArray(targets) && !targets.includes('milvus')
+}
+
 // Managed lifecycle triples ride the milvus release-track projections: every
 // schema node on a pinned path must carry the full triple
 // (integratedSpecBuilder requireSchemaProperties). Lifecycle suggestions only
@@ -123,7 +133,10 @@ function hasLifecycleTriple(node) {
 // applied output's inheritedLifecycle list for human review, and the
 // milvus-side diff adjudicates actual server truth on its own cadence.
 // `ancestorTokens` are the decoded write pointer WITHOUT the written node's
-// own token (all of them are ancestors).
+// own token (all of them are ancestors). Returns null when any ancestor pins
+// an x-include-target without 'milvus': everything below is zilliz-only, so
+// no triple may be inherited there at all (run 42163547148: branch-plan
+// placed stageName into the zilliz-only Volume branches of import/create).
 function ancestorLifecycleTriple(document, ancestorTokens) {
     let inherited = null
     let node = document
@@ -139,6 +152,7 @@ function ancestorLifecycleTriple(document, ancestorTokens) {
         // legitimate traversal nodes: keep walking through them. A dead end
         // (undefined or a scalar) just stops the triple search.
         if (!isPlainObject(node)) continue
+        if (excludesMilvusTarget(node)) return null
         if (hasLifecycleTriple(node)) inherited = lifecycleTripleOf(node)
     }
     return inherited
@@ -148,9 +162,11 @@ function ancestorLifecycleTriple(document, ancestorTokens) {
 // fragment never had. Walks exactly the nodes the track projections require:
 // the subtree root, values inside `properties` maps, `items`, and combinator
 // members. A node that already carries the triple stays untouched and becomes
-// the attribution source for its own descendants.
+// the attribution source for its own descendants. A node pinning
+// x-include-target without 'milvus' prunes its whole branch: zilliz-only
+// content never attests a milvus track release.
 function attachInheritedLifecycle(node, inherited, pointer, report) {
-    if (!isPlainObject(node) || !inherited) return
+    if (!isPlainObject(node) || !inherited || excludesMilvusTarget(node)) return
     const nodeHasTriple = hasLifecycleTriple(node)
     if (!nodeHasTriple) {
         node['x-added-at'] = inherited.addedAt
