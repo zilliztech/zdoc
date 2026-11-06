@@ -75,3 +75,11 @@ schema.md: schema-explained
 tune_consistency.md: consistency-level
 index-vector-fields.md: https://milvus.io/docs/index-vector-fields.md
 index-scalar-fields.md: https://milvus.io/docs/index-scalar-fields.md
+
+# Schema field pages onboarded with this change. The Milvus source file names
+# differ from the Cloud slugs, so cross-page references between these shared
+# pages need explicit mappings for single-page fetch builds.
+binary-vector.md: use-binary-vector
+dense-vector.md: use-dense-vector
+primary-field.md: primary-field-auto-id
+sparse_vector.md: use-sparse-vector
