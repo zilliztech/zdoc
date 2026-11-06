@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import type { SharedDocsError } from '../types'
+import { componentImportLine } from '../site/components'
 import type { BlockKind, GateToken, MergeBlock, MergeEnvelope, MergeSeparator, SegmentInput, SegmentResult, SourceSpan } from './types'
 
 interface Interval { start: number; end: number; kind: BlockKind; container?: boolean }
@@ -58,9 +59,9 @@ export function segmentMarkdown(input: SegmentInput): SegmentResult {
   for (;;) {
     let start = bodyLine
     while (start < offsets.length - 1 && lineText(start) === '') start++
-    const match = /^import (Admonition|Tabs|TabItem) from '@theme\/\1';$/.exec(lineText(start))
-    if (!match) break
-    envelope.imports.push({ ...slice(at(start), at(start + 1)), component: match[1] as 'Admonition' | 'Tabs' | 'TabItem' })
+    const component = componentImportLine(lineText(start))
+    if (!component) break
+    envelope.imports.push({ ...slice(at(start), at(start + 1)), component })
     bodyLine = start + 1
   }
   const bodyStart = at(bodyLine)
