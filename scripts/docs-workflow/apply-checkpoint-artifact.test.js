@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
-const { lstat, mkdtemp, mkdir, readFile, rename, rm, symlink, writeFile } = require('node:fs/promises');
+const { lstat, mkdtemp, mkdir, readFile, readdir, rename, rm, symlink, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
@@ -469,6 +469,62 @@ test('ancestor swaps before delete, commit, and rollback fail closed without tou
     await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks }), /identity lost|manual cleanup/i);
     assert.equal(await readFile(path.join(outside, 'python/marker'), 'utf8'), 'outside');
   }
+});
+
+test('a swap of the immediate parent directory before commit fails closed', async () => {
+  const f = await fixture({ files: { [`${ROOT}/keeper/x.md`]: 'new' } }); await targetWrite(f, `${ROOT}/keeper/x.md`, 'old');
+  const parent = path.join(f.targetDir, ROOT, 'keeper'), parked = `${parent}.parked`, outside = path.join(f.root, 'outside'); await mkdir(path.join(outside, 'keeper'), { recursive: true }); await writeFile(path.join(outside, 'keeper/marker'), 'outside');
+  // The rejection must come from the pre-write chain refresh, not from the
+  // end-of-apply gate: a payload byte written through the swapped directory
+  // would already be a leak even if the apply then fails.
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async beforeCommit({ rel }) { if (rel.endsWith('x.md')) { await rename(parent, parked); await symlink(path.join(outside, 'keeper'), parent); } } } }), /identity lost|manual cleanup/i);
+  assert.deepEqual(await readdir(path.join(outside, 'keeper')), ['marker'], 'no payload byte may land through the swapped parent');
+});
+
+test('interference with an already-copied path after the final file still fails the apply closed', async () => {
+  const f = await fixture({ files: { [`${ROOT}/a/first.md`]: 'first', [`${ROOT}/z/last.md`]: 'last' } });
+  await targetWrite(f, `${ROOT}/a/first.md`, 'old first'); await targetWrite(f, `${ROOT}/z/last.md`, 'old last');
+  const victim = path.join(f.targetDir, ROOT, 'a'), parked = `${victim}.parked`, outside = path.join(f.root, 'outside'); await mkdir(path.join(outside, 'a'), { recursive: true }); await writeFile(path.join(outside, 'a/marker'), 'outside');
+  // Manifest files iterate sorted, so last.md copies after first.md; once the
+  // final file is committed no per-file refresh runs again and only the
+  // whole-apply end gate can reject the disturbed directory.
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async afterCopy({ rel }) { if (rel.endsWith('last.md')) { await rename(victim, parked); await symlink(path.join(outside, 'a'), victim); } } } }), /identity lost|manual cleanup/i);
+  assert.equal(await readFile(path.join(outside, 'a/marker'), 'utf8'), 'outside');
+  assert.ok(!(await lstat(parked)).isSymbolicLink());
+  assert.deepEqual(await readdir(path.join(outside, 'a')), ['marker'], 'no payload byte may land through the swapped directory');
+});
+
+test('adopts apply-created directories into the guard and copies nested payloads', async () => {
+  const f = await fixture({ files: { [`${ROOT}/deep/nested/tree/new.md`]: 'new' } });
+  await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir });
+  assert.equal(await readFile(path.join(f.targetDir, ROOT, 'deep/nested/tree/new.md'), 'utf8'), 'new');
+});
+
+test('nested deletions under a directory-to-file transition succeed and prune adopted guard entries', async () => {
+  const f = await fixture({ files: { [`${ROOT}/topic`]: 'file' }, deletions: [`${ROOT}/topic/sub/old.md`, `${ROOT}/topic/sub/old2.md`, `${ROOT}/topic/sub/deep/old3.md`] });
+  await targetWrite(f, `${ROOT}/topic/sub/old.md`, 'old'); await targetWrite(f, `${ROOT}/topic/sub/old2.md`, 'old2'); await targetWrite(f, `${ROOT}/topic/sub/deep/old3.md`, 'old3');
+  await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir });
+  assert.equal(await readFile(path.join(f.targetDir, ROOT, 'topic'), 'utf8'), 'file');
+  assert.deepEqual((await readdir(path.dirname(f.targetDir))).filter(name => name.startsWith(`.${path.basename(f.targetDir)}.apply-`)), [], 'rollback journal must be cleaned up after success');
+});
+
+test('rollback restores nested-deletion transitions after a mid-apply failure', async () => {
+  const f = await fixture({ files: { [`${ROOT}/topic`]: 'file', [`${ROOT}/other.md`]: 'other' }, deletions: [`${ROOT}/topic/sub/old.md`] });
+  await targetWrite(f, `${ROOT}/topic/sub/old.md`, 'old');
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async afterCopy({ rel }) { if (rel.endsWith('other.md')) throw new Error('trigger rollback'); } } }), /trigger rollback/);
+  assert.equal(await readFile(path.join(f.targetDir, ROOT, 'topic/sub/old.md'), 'utf8'), 'old', 'deleted file must be restored');
+  await assert.rejects(readFile(path.join(f.targetDir, ROOT, 'other.md')), /ENOENT/, 'unwritten file must be rolled back');
+  assert.deepEqual((await readdir(path.dirname(f.targetDir))).filter(name => name.startsWith(`.${path.basename(f.targetDir)}.apply-`)), [], 'rollback journal must be cleaned up');
+});
+
+test('a swap of an adopted directory before a later sibling write fails closed', async () => {
+  const f = await fixture({ files: { [`${ROOT}/fresh/a.md`]: 'a', [`${ROOT}/fresh/b.md`]: 'b' } });
+  const victim = path.join(f.targetDir, ROOT, 'fresh'), parked = `${victim}.parked`, outside = path.join(f.root, 'outside'); await mkdir(path.join(outside, 'fresh'), { recursive: true }); await writeFile(path.join(outside, 'fresh/marker'), 'outside');
+  // fresh/ is created (and adopted) for a.md; swapping it before b.md must be
+  // rejected by b.md's pre-write chain refresh, proving adopted entries are
+  // verified, not merely recorded.
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async afterCopy({ rel }) { if (rel.endsWith('a.md')) { await rename(victim, parked); await symlink(path.join(outside, 'fresh'), victim); } } } }), /identity lost|manual cleanup/i);
+  assert.deepEqual(await readdir(path.join(outside, 'fresh')), ['marker'], 'no payload byte may land through the swapped directory');
 });
 
 test('CLI parses strict arguments and help', async () => {
