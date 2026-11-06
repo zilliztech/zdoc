@@ -10,6 +10,8 @@ const {
   appendGitHubOutputs,
   createGitHubAdapter,
   evaluateDocsIngestion,
+  parseSharedFallbackLog,
+  withSharedFallback,
 } = require('./docs-ingestion-watchdog')
 
 const NOW = new Date('2026-07-29T12:00:00.000Z')
@@ -182,9 +184,103 @@ test('GitHub outputs encode multiline API failures without injecting output keys
       'run_url=https://github.example/runs/42 ok=true',
       'last_successful_at=',
       'final_sha=',
+      'fallback_count=0',
+      'fallback_pages=',
+      'fallback_codes=',
     ])
     assert.equal(lines.filter(line => line.startsWith('ok=')).length, 1)
     assert.equal(lines.filter(line => line.startsWith('final_sha=')).length, 1)
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
+
+test('shared fallback log parser extracts, sanitizes, and dedupes entries', () => {
+  const line = '2026-11-05T19:08:23.1000580Z [shared-fallback] {"record_id":"rec1","page":"single-vector-search","code":"ACTIVATE_CHECK_FAILED","message":"ACTIVATE_CHECK_FAILED: Missing current heading block RODmdMHPloOXv8xsPJCcvLdOnce","paths":["content/en/byoc/a.md","content/en/guides/a.md","extra",7]}'
+  const ansiDuplicate = '2026-11-05T19:08:24Z \u001B[33m[shared-fallback]\u001B[0m {"record_id":"rec1","page":"single-vector-search","code":"ACTIVATE_CHECK_FAILED","message":"duplicate","paths":[]}'
+  const entries = parseSharedFallbackLog([line, ansiDuplicate, '2026-11-05T19:08:25Z [shared-fallback] not-json-at-all', 'unrelated log noise'].join('\n'))
+  assert.equal(entries.length, 2)
+  assert.deepEqual(entries[0], {
+    record_id: 'rec1',
+    page: 'single-vector-search',
+    code: 'ACTIVATE_CHECK_FAILED',
+    message: 'ACTIVATE_CHECK_FAILED: Missing current heading block RODmdMHPloOXv8xsPJCcvLdOnce',
+    paths: ['content/en/byoc/a.md', 'content/en/guides/a.md', 'extra'],
+  })
+  assert.deepEqual(entries[1], { raw: 'not-json-at-all' })
+})
+
+test('shared fallback log parser bounds message length', () => {
+  const entries = parseSharedFallbackLog(`[shared-fallback] {"record_id":"r","page":"p","code":"C","message":"${'x'.repeat(600)}","paths":[]}`)
+  assert.equal(entries.length, 1)
+  assert.equal(entries[0].message.length, 500)
+})
+
+test('GitHub adapter reads fallback lines only from the en guides sources jobs', async () => {
+  const calls = []
+  const logText = [
+    '2026-11-05T19:08:23.1000580Z [shared-fallback] {"record_id":"rec1","page":"single-vector-search","code":"ACTIVATE_CHECK_FAILED","message":"m1","paths":["content/en/byoc/a.md"]}',
+    '2026-11-05T19:08:23.1071724Z [shared-fallback] {"record_id":"rec2","page":"use-dense-vector","code":"SHARED_BUILD_FAILED","message":"m2","paths":["content/en/guides/b.md"]}',
+  ].join('\n')
+  const fetch = async url => {
+    const target = new URL(url).pathname.replace('/repos/acme/docs', '')
+    calls.push(target)
+    if (target === '/actions/jobs/101/logs') return { ok: true, status: 200, text: async () => logText }
+    if (target === '/actions/jobs/102/logs') return { ok: true, status: 200, text: async () => '' }
+    return { ok: false, status: 404, text: async () => 'gone' }
+  }
+  const adapter = createGitHubAdapter({ repository: 'acme/docs', token: 'secret', fetch })
+  const summary = await adapter.fetchSharedFallbacks(42, [
+    { id: 101, name: 'produce_guides_sources / fetch' },
+    { id: 102, name: 'produce_guides_sources / assemble' },
+    { id: 103, name: 'produce_zh_guides_sources / fetch' },
+  ])
+  assert.deepEqual(calls, ['/actions/jobs/101/logs', '/actions/jobs/102/logs'])
+  assert.equal(summary.source, 'produce_guides_sources job logs')
+  assert.equal(summary.count, 2)
+  assert.deepEqual(summary.pages, ['single-vector-search', 'use-dense-vector'])
+  assert.deepEqual(summary.codes, { ACTIVATE_CHECK_FAILED: 1, SHARED_BUILD_FAILED: 1 })
+  assert.equal(summary.detail_hint, 'guides-sources-en-42 artifact bundle.json outcomes[].detail')
+  assert.deepEqual(summary.entries[0], { record_id: 'rec1', page: 'single-vector-search', code: 'ACTIVATE_CHECK_FAILED', message: 'm1', paths: ['content/en/byoc/a.md'] })
+})
+
+test('shared fallback attribution degrades to unavailable without candidates or on log failures', async () => {
+  const fetch = async () => ({ ok: false, status: 404, text: async () => 'gone' })
+  const adapter = createGitHubAdapter({ repository: 'acme/docs', token: 'secret', fetch })
+  const missing = await adapter.fetchSharedFallbacks(42, [{ id: 999, name: 'aggregate' }])
+  assert.equal(missing.source, 'unavailable')
+  assert.match(missing.reason, /no produce_guides_sources job/)
+  assert.equal(missing.detail_hint, 'guides-sources-en-42 artifact bundle.json outcomes[].detail')
+  const failed = await adapter.fetchSharedFallbacks(42, [{ id: 101, name: 'produce_guides_sources / fetch' }])
+  assert.equal(failed.source, 'unavailable')
+  assert.match(failed.reason, /404/)
+})
+
+test('healthy watchdog result carries the shared fallback section without gating', () => {
+  const healthy = withSharedFallback(evaluate([run()]), { source: 'produce_guides_sources job logs', count: 0, pages: [], codes: {}, entries: [], detail_hint: 'x' })
+  assert.equal(healthy.ok, true)
+  assert.equal(healthy.shared_fallback.count, 0)
+  assert.equal(withSharedFallback(evaluate([run({ event: 'push' })]), null).shared_fallback, null)
+})
+
+test('GitHub outputs expose fallback counts and pages', () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'watchdog-fallback-'))
+  const output = path.join(directory, 'github-output')
+  try {
+    appendGitHubOutputs(withSharedFallback({
+      ok: true, reason: 'healthy', run_url: '', last_successful_at: '', final_sha: null,
+    }, {
+      source: 's', count: 3, codes: { ACTIVATE_CHECK_FAILED: 2, SHARED_BUILD_FAILED: 1 },
+      entries: [
+        { page: 'use-dense-vector', code: 'SHARED_BUILD_FAILED' },
+        { page: 'single-vector-search', code: 'ACTIVATE_CHECK_FAILED' },
+        { page: 'use-dense-vector', code: 'SHARED_BUILD_FAILED' },
+      ],
+    }), output)
+    const lines = fs.readFileSync(output, 'utf8').trimEnd().split('\n')
+    assert.equal(lines[5], 'fallback_count=3')
+    assert.equal(lines[6], 'fallback_pages=use-dense-vector,single-vector-search')
+    assert.equal(lines[7], 'fallback_codes=ACTIVATE_CHECK_FAILED,SHARED_BUILD_FAILED')
   } finally {
     fs.rmSync(directory, { recursive: true, force: true })
   }
