@@ -66,6 +66,19 @@ def get_refresh_external_collection_progress(
 
 一个 RefreshExternalCollectionJobInfo 对象，用于记录指定外部 Collection 刷新作业的详细信息。
 
+```python
+{
+    'job_id': 4325693842392,
+    'collection_name': 'test_collection',
+    'state': 'RefreshInProgress',
+    'progress': 67,
+    'reason': ''
+    'external_source': 'volume://<my_volume>/<bucket>/' 
+    'start_time': 1776470400000
+    'end_time': 1776470434567    
+}
+```
+
 **参数：**
 
 - **job_id** （*int*） -
@@ -78,7 +91,7 @@ def get_refresh_external_collection_progress(
 
 - **state** （*string*） -
 
-    指定作业的当前状态。可能的值包括：
+    指定作业的当前状态。刷新作业会从 `RefreshInProgress` 转变为 `RefreshCompleted` 或 `RefreshFailed`。可能的值为：
 
     - RefreshPending
 
@@ -171,4 +184,3 @@ while True:
 
     time.sleep(2)
 ```
-
