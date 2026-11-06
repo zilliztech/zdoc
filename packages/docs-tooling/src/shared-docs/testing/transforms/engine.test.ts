@@ -107,10 +107,24 @@ it('separates channel conflicts and handles blocks at both document edges', () =
   expect(body(execute(block('First', 'first') + '\n' + block('Last', 'last'), [{ operation: 'remove', target: { block: 'first' } }, { operation: 'remove', target: { block: 'last' } }]))).toBe('')
 })
 
-it('reports forbidden local images and authored components at their content-file lines', () => {
-  for (const content of ['Text\n![local](diagram.png)', 'Text\n<Tabs>', 'Text\n<!-- doc:block:start id="bad" -->']) {
+it('reports forbidden local images, named markers, authored imports and unknown components at their content-file lines', () => {
+  for (const content of ['Text\n![local](diagram.png)', 'Text\n<!-- doc:block:start id="bad" -->',
+    'Text\n<UnknownWidget>', 'Text\nimport Supademo from \'@site/src/components/Supademo\';']) {
     expect(execute(block('Original'), [{ operation: 'replace', target: { block: 'example' }, content: { file: 'cloud.md' } }], { 'cloud.md': content })).toMatchObject({ errors: [{ code: 'TRANSFORM_CONTENT_MARKUP', file: 'pages/example/cloud.md', line: 2 }] })
   }
+})
+
+it('allows registered components, Cloud-only Supademo and authored NextChannel gates in content files, ignoring fenced example tags', () => {
+  const allowed = (content: string) => execute(block('Original'),
+    [{ operation: 'replace', target: { block: 'example' }, content: { file: 'cloud.md' } }], { 'cloud.md': content })
+  const tabs = '<Tabs>\n\n<TabItem value=\'a\'>Cloud</TabItem>\n\n</Tabs>'
+  const result = allowed(tabs)
+  if ('errors' in result) throw new Error(JSON.stringify(result.errors))
+  expect(result.text).toContain('<TabItem value=\'a\'>Cloud</TabItem>')
+  expect('errors' in allowed('<Supademo id="demo" title="" />')).toBe(false)
+  expect('errors' in allowed('<NextChannel action="include">\n\nCloud\n\n</NextChannel>')).toBe(false)
+  const fenced = allowed('```js\n<UnknownWidget>\nimport SomeThing from \'pkg\';\n```')
+  expect('errors' in fenced).toBe(false)
 })
 
 it('rejects repeated language additions and overlapping line edits but allows disjoint lines', () => {

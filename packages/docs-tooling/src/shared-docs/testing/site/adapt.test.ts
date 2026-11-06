@@ -85,6 +85,21 @@ it('converts nested Admonitions and their code groups without consuming other cl
   expect(await toMdx(result, context)).toHaveProperty('mdx')
 })
 
+it('detects authored component tags and emits their imports once', async () => {
+  const result = adapted(page('<Tabs>\n\n<TabItem value="a">Cloud</TabItem>\n\n</Tabs>\n\n<Admonition type="info">\n\nNote\n\n</Admonition>\n\n<Supademo id="demo" title="" />'))
+  expect(result.components).toEqual(['Admonition', 'Tabs', 'TabItem', 'Supademo'])
+  expect(result.markdown.match(/^import (Admonition|Tabs|TabItem|Supademo) from/gm)).toHaveLength(4)
+  expect(result.markdown).toContain("import Supademo from '@site/src/components/Supademo';")
+  expect(await toMdx(result, context)).toHaveProperty('mdx')
+})
+
+it('does not count authored component tags inside fenced or inline code', () => {
+  const source = '```md\n<Tabs>\n```\n\nInline `<Supademo id="x" />` stays literal.'
+  const result = adapted(page(source))
+  expect(result.components).toEqual([])
+  expect(result.markdown).not.toContain('import ')
+})
+
 it.each(['1. ', '- ', '- Outer\n  - '])('keeps compiled Tabs in the list item for %s', async marker => {
   const fixture = readFileSync(new URL('../../fixtures/site/list-tabs.md', import.meta.url), 'utf8')
   const indent = marker.startsWith('- Outer') ? '      ' : '    '

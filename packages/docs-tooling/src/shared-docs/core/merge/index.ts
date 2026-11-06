@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it'
 import { parseYaml } from '../yaml'
 import type { Channel, SharedDocsError } from '../types'
+import { componentImportLine, componentImports, componentOrder } from '../site/components'
 import type { Component } from '../site/types'
 import { alignBlocks } from './align'
 import { segmentMarkdown } from './segment'
@@ -10,7 +11,6 @@ export { alignBlocks } from './align'
 export { segmentMarkdown } from './segment'
 export type * from './types'
 
-const componentOrder: Component[] = ['Admonition', 'Tabs', 'TabItem']
 const newlines = /\r\n|\r|\n/g
 const terminated = (text: string) => /[\r\n]$/.test(text)
 const offsetsOf = (text: string) => [0, ...Array.from(text.matchAll(newlines), match => match.index! + match[0].length)]
@@ -33,9 +33,9 @@ function importedComponents(markdown: string): Component[] {
   const components: Component[] = []
   while (cursor < lines.length) {
     if (lines[cursor] === '') { cursor++; continue }
-    const match = /^import (Admonition|Tabs|TabItem) from '@theme\/\1';$/.exec(lines[cursor++])
-    if (!match) break
-    components.push(match[1] as Component)
+    const component = componentImportLine(lines[cursor++])
+    if (!component) break
+    components.push(component)
   }
   return components
 }
@@ -242,7 +242,7 @@ export function mergeMarkdown(input: MergeInput): MergeResult {
   if (front) append(front.text) // Generated front matter/imports deliberately have no origin.
   if (components.length) {
     separate()
-    for (const component of components) append(`import ${component} from '@theme/${component}';\n`)
+    for (const component of components) append(`import ${component} from '${componentImports[component]}';\n`)
   }
   if (selected) {
     separate()
