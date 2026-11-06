@@ -352,6 +352,7 @@ async function applyCheckpointArtifact(options = {}) {
   const snapshots = [];
   for (let i = 0; i < mutationPaths.length; i++) { const rel = mutationPaths[i], source = path.join(target, rel), stat = await maybeLstat(source); if (stat) { const saved = path.join(journal, String(i)); await cp(source, saved, { recursive: true, dereference: false, preserveTimestamps: true }); await hooks?.afterJournalCopy?.({ rel }); snapshots.push({ rel, saved, existed: true }); } else snapshots.push({ rel, existed: false }); }
   let complete = false;
+  let applyFailure = null;
   const createdDirs = [];
   try {
     for (const rel of [...deletions].sort((a, b) => b.split('/').length - a.split('/').length || b.localeCompare(a))) { await hooks?.beforeDelete?.({ rel }); await refreshGuardChain(guard, target, rel); await assertSafeAncestors(target, rel); await rm(path.join(target, rel), { recursive: true, force: true }); }
@@ -381,14 +382,22 @@ async function applyCheckpointArtifact(options = {}) {
     await verifyGuard(guard);
     complete = true;
     return Object.freeze({ group: manifest.group, copied: files.length, deletions: deletions.length, translationCacheMerged: stateDescriptors.length > 0, externallyOwnedSkipped });
+  } catch (error) {
+    applyFailure = error;
+    throw error;
   } finally {
     if (!complete) {
       try {
         await hooks?.beforeRollback?.(); await verifyGuard(guard);
         for (const snapshot of [...snapshots].sort((a, b) => b.rel.split('/').length - a.rel.split('/').length)) { await verifyGuard(guard); const full = path.join(target, snapshot.rel); if (await maybeLstat(full)) { await rm(full, { recursive: true, force: true }); pruneGuardSubtree(guard, full); } await verifyGuard(guard); }
         for (const snapshot of snapshots.filter((x) => x.existed)) { await verifyGuard(guard); await mkdir(path.dirname(path.join(target, snapshot.rel)), { recursive: true }); await cp(snapshot.saved, path.join(target, snapshot.rel), { recursive: true, dereference: false, preserveTimestamps: true }); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
-        for (const dir of createdDirs.reverse()) { await verifyGuard(guard); try { await rmdir(dir); } catch (error) { if (error.code !== 'ENOENT' && error.code !== 'ENOTEMPTY') throw error; } guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
-      } catch (rollbackError) { throw new Error(`Apply failed and safe rollback was refused; manual cleanup may be required: ${rollbackError.message}`); }
+        // A created directory at or below a restored path was already removed
+        // with that path's subtree: rmdir could now only fail under a restored
+        // file (ENOTDIR) or delete a restored empty directory. Every other
+        // position keeps the strict handling below.
+        const restored = snapshots.filter((x) => x.existed).map((x) => path.join(target, x.rel));
+        for (const dir of createdDirs.reverse().filter((created) => !restored.some((full) => created === full || created.startsWith(`${full}${path.sep}`)))) { await verifyGuard(guard); try { await rmdir(dir); } catch (error) { if (error.code !== 'ENOENT' && error.code !== 'ENOTEMPTY') throw error; } guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
+      } catch (rollbackError) { throw new Error(`Apply failed and safe rollback was refused; manual cleanup may be required: ${rollbackError.message}; original apply failure: ${applyFailure?.message}`, { cause: applyFailure }); }
     }
     await rm(journal, { recursive: true, force: true });
   }
