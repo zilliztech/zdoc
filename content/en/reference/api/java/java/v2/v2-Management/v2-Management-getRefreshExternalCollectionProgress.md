@@ -77,7 +77,7 @@ A **GetRefreshExternalCollectionProgressResp** object wraps a single `RefreshExt
 
     - **state** (*String*) -
 
-        The current job state (e.g., `"PENDING"`, `"RUNNING"`, `"SUCCEEDED"`, `"FAILED"`).
+        The current job state. Possible values are `RefreshPending`, `RefreshInProgress`, `RefreshCompleted`, and `RefreshFailed`. A refresh job transitions from `RefreshInProgress` to `RefreshCompleted` or `RefreshFailed`.
 
     - **progress** (*int*) -
 
@@ -85,7 +85,7 @@ A **GetRefreshExternalCollectionProgressResp** object wraps a single `RefreshExt
 
     - **reason** (*String*) -
 
-        The failure reason if the job state is `"FAILED"`; empty otherwise.
+        The failure reason if the job state is `RefreshFailed`; empty otherwise.
 
     - **externalSource** (*String*) -
 

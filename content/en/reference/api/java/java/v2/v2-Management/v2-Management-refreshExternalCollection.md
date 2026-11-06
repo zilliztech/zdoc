@@ -62,11 +62,17 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
 - `externalSource(String externalSource)` -
 
-    The external data source identifier (e.g., `"s3"`, `"oss"`).
+    The external source URI.
+
+    Provide `externalSource` and `externalSpec` together, or omit both; when both are omitted, the refresh reuses the persisted source and spec.
+
+    <NextChannel action="include">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. For a `volume://` URI, the rule above applies. For a `milvus://` source, you must pass `externalSource` in every refresh request; omitting it leaves the collection serving the previously synced data.</NextChannel>
 
 - `externalSpec(JsonObject externalSpec)` -
 
-    A JSON object describing the external storage configuration. Fields depend on `externalSource` (typically include `endpoint`, `bucket`, `path`, credentials).
+    A JSON object that carries the external source specifications, such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
+
+    <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
 
 **RETURN TYPE:**
 
