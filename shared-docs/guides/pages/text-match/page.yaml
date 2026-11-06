@@ -1,0 +1,72 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/search-query-get/keyword-match.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/text-match
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/text-match
+
+transforms:
+  # Zilliz Cloud can also enable text match from the web console.
+  - operation: add
+    target: {block: text-match-overview-heading}
+    position: before
+    content: {file: cloud-console-note.md}
+  # The shared paragraph documents the Milvus 3.0.x TEXT field; Cloud uses its own wording.
+  - operation: replace
+    target: {block: text-match-enable-intro}
+    content: {file: cloud-enable-intro.md}
+  # Version tag in the heading is a Milvus statement; Cloud marks the section PUBLIC.
+  - operation: replace
+    target: {block: text-match-fuzzy-heading}
+    content: {file: cloud-fuzzy-heading.md}
+  # Rust is part of the Zilliz Cloud SDK set only (verbatim Cloud content, never compiled or run).
+  - operation: add
+    target: {block: text-match-schema, language: rust}
+    content: {file: cloud-rust-text-match-schema.md}
+  - operation: add
+    target: {block: text-match-analyzer, language: rust}
+    content: {file: cloud-rust-text-match-analyzer.md}
+  - operation: add
+    target: {block: text-match-syntax, language: rust}
+    content: {file: cloud-rust-text-match-syntax.md}
+  - operation: add
+    target: {block: text-match-and, language: rust}
+    content: {file: cloud-rust-text-match-and.md}
+  - operation: add
+    target: {block: text-match-and-not, language: rust}
+    content: {file: cloud-rust-text-match-and-not.md}
+  - operation: add
+    target: {block: text-match-fuzzy, language: rust}
+    content: {file: cloud-rust-text-match-fuzzy.md}
+  - operation: add
+    target: {block: text-match-search, language: rust}
+    content: {file: cloud-rust-text-match-search.md}
+  - operation: add
+    target: {block: text-match-query, language: rust}
+    content: {file: cloud-rust-text-match-query.md}
+  # Zilliz CLI (verbatim Cloud content; slot alignment corrected, see README.md).
+  - operation: add
+    target: {block: text-match-schema, language: shell}
+    content: {file: cloud-cli-text-match-schema.md}
+  - operation: add
+    target: {block: text-match-analyzer, language: shell}
+    content: {file: cloud-cli-text-match-analyzer.md}
+  - operation: add
+    target: {block: text-match-syntax, language: shell}
+    content: {file: cloud-cli-text-match-syntax.md}
+  - operation: add
+    target: {block: text-match-and, language: shell}
+    content: {file: cloud-cli-text-match-and.md}
+  - operation: add
+    target: {block: text-match-and-not, language: shell}
+    content: {file: cloud-cli-text-match-and-not.md}
+  - operation: add
+    target: {block: text-match-fuzzy, language: shell}
+    content: {file: cloud-cli-text-match-fuzzy.md}
+  - operation: add
+    target: {block: text-match-search, language: shell}
+    content: {file: cloud-cli-text-match-search.md}
