@@ -285,6 +285,152 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+### 将 Serving 集群的 Collection 用作数据源\{#use-a-collection-from-a-serving-cluster-as-the-data-source}
+
+上面的步骤基于 External Volume 中的数据文件创建 External Collection。您也可以使用另一 Serving 集群上的 Collection 作为数据源：创建 Schema 时，将 `external_source` 设置为源 Collection 的 `milvus://` URI。
+
+在 Zilliz Cloud 上，`external_source` 支持两种格式：`volume://<volume_name>/<path>` 与 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 指向与目标集群同项目、同地域的另一 Serving 集群（兼容 Milvus v3.0.x）上的 Collection。前缀必须小写；三段（实例/数据库/Collection）缺一不可，数据库为 `default` 时也须写明；末尾允许多一个 `/`。
+
+- 源为与目标**同项目、同地域**的另一 Serving 集群（**兼容 Milvus v3.0.x**）上的普通 Collection（不能是另一张外表）。
+
+- 连接项目端点时，请使用 API key 并传入查询集群 ID（Python 中为 `option={"cluster_id": "<query cluster id>"}`）。
+
+- 跨集群源（`milvus://`）当前仅支持 SDK 与 RESTful API，控制台不支持此源类型。云厂商：**阿里云、腾讯云即将支持。**
+
+随后按常规方式使用该 Schema 创建 Collection。为每个字段设置 `external_field`，取值为源 Collection 中对应字段的名称。`external_spec` 可以省略，因为 `milvus://` 源的格式默认为 `milvus-table`。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient, DataType
+
+# 使用 API key 和查询集群 ID 连接项目端点
+client = MilvusClient(
+    uri="https://{project-id}.{region}.api.zillizcloud.com.cn",
+    token="YOUR_API_KEY",
+    db_name="my_database",
+    option={"cluster_id": "<query cluster id>"}
+)
+
+# 将 Schema 指向源 Collection，省略 external_spec
+schema = MilvusClient.create_schema(
+    external_source="milvus://in01-xxxxxxxxxxxxxxx/default/products"
+)
+
+# 将每个字段映射到源 Collection 中的对应字段
+schema.add_field(
+    field_name="vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=1536,
+    external_field="embedding"
+)
+
+schema.add_field(
+    field_name="product_id",
+    datatype=DataType.VARCHAR,
+    max_length=32,
+    external_field="product_id"
+)
+
+schema.add_field(
+    field_name="title",
+    datatype=DataType.VARCHAR,
+    max_length=512,
+    external_field="title"
+)
+
+# 创建 Collection
+client.create_collection(
+    collection_name="my_collection",
+    schema=schema
+)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${PROJECT_ENDPOINT}/v2/vectordb/collections/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "dbName": "my_database",
+    "collectionName": "my_collection",
+    "schema": {
+        "externalSource": "milvus://in01-xxxxxxxxxxxxxxx/default/products",
+        "fields": [
+            {
+                "fieldName": "vector",
+                "dataType": "FloatVector",
+                "elementTypeParams": {
+                    "dim": "1536"
+                },
+                "externalField": "embedding"
+            },
+            {
+                "fieldName": "product_id",
+                "dataType": "VarChar",
+                "elementTypeParams": {
+                    "max_length": "32"
+                },
+                "externalField": "product_id"
+            },
+            {
+                "fieldName": "title",
+                "dataType": "VarChar",
+                "elementTypeParams": {
+                    "max_length": "512"
+                },
+                "externalField": "title"
+            }
+        ]
+    }
+}'
+```
+
+</TabItem>
+</Tabs>
+
+按步骤 4 所述创建索引并 Refresh Collection。对于以 `milvus://` 源创建的 Collection：
+
+refresh 的本质是将外部 Collection 重新绑定到本次请求传入的 `external_source` 并同步最新数据。每次 refresh 都必须传入 `external_source`；省略该参数时本次刷新不生效，Collection 仍对外提供此前同步的数据。
+
+任务状态从 `RefreshInProgress` 变为 `RefreshCompleted` 或 `RefreshFailed`。若已有刷新任务进行中，新请求会被拒绝。Zilliz Cloud 上的 refresh 需等待索引构建完成，耗时随数据量增长——从秒级到小时级。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+job_id = client.refresh_external_collection(
+    collection_name="my_collection",
+    external_source="milvus://in01-xxxxxxxxxxxxxxx/default/products"
+)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${PROJECT_ENDPOINT}/v2/vectordb/jobs/external_collection/refresh" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "dbName": "my_database",
+    "collectionName": "my_collection",
+    "externalSource": "milvus://in01-xxxxxxxxxxxxxxx/default/products"
+}'
+```
+
+</TabItem>
+</Tabs>
+
+Refresh 完成后，按步骤 5 与步骤 6 创建 On-demand 集群并执行搜索。有关详细信息，请参见[将 Serving 集群的 Collection 用作数据源](./use-collection-from-a-serving-cluster-as-data-source)。
+
 ## 步骤 4：创建索引并 Refresh Collection\{#step-4-create-indexes-and-refresh-the-collection}
 
 像在 Managed Collection 中一样，您也可以为 External  Collection 创建索引。所有向量字段都应创建索引，您也可以选择为部分标量字段创建索引，以加速元数据过滤。不过，您需要调用 Refresh 来真正构建索引。

@@ -654,10 +654,24 @@ module.exports = [
             "key": "doc:tutorials/development/collection/manage-collections-sdks"
           },
           {
-            "type": "doc",
-            "id": "tutorials/development/collection/create-external-collection",
+            "type": "category",
             "label": "创建 External Collection",
-            "key": "doc:tutorials/development/collection/create-external-collection"
+            "key": "category:tutorials/development/collection/create-external-collection",
+            "link": {
+              "type": "doc",
+              "id": "tutorials/development/collection/create-external-collection/create-external-collection"
+            },
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source",
+                "label": "Collection 用作数据源",
+                "key": "doc:tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source",
+                "customProps": {
+                  "channel": "next"
+                }
+              }
+            ]
           },
           {
             "type": "doc",

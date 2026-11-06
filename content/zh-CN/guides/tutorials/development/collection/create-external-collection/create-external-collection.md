@@ -53,17 +53,17 @@ External Collection 可用于按需计算 Database 中。
 
 ### 准备工作\{#preparation}
 
-- 您已获得具有足够权限的 API 密钥，可用于在按需计算 Database 中创建 External Collection。
+- 已获取具有足够权限的 **API key**（跨集群源：对目标读写、对源只读）；不支持“用户名:密码”。
 
     有关详细信息，请参见 [API 密钥](./manage-api-keys)。
 
-- 您已将对象存储桶集成到 Zilliz Cloud。
+- 数据文件类源（parquet、iceberg-table、lance-table、vortex）：已完成对象存储集成，并基于存储桶创建了包含目标数据文件的外部卷。
 
-    有关详细信息，请参见[阿里云对象存储](./integrate-with-alibaba-cloud-oss)和 [Amazon S3](./integrate-with-amazon-s3-cn)。
+    有关详细信息，请参见[阿里云对象存储](./integrate-with-alibaba-cloud-oss)、[Amazon S3](./integrate-with-amazon-s3-cn)和 [External Volume](./external-volume)。
 
-- 您已基于存储集成创建 External Volume，并确保该 Volume 中包含目标数据文件。
+- 跨集群源：源为与目标**同项目、同地域**的另一 Serving 集群（**兼容 Milvus v3.0.x**）上的普通 Collection（不能是另一张外表）；目标为按需搜索数据库，经项目端点 + 查询集群访问。
 
-    有关详细信息，请参见 [External Volume](./external-volume)。
+- 跨集群源（`milvus://`）当前仅支持 SDK 与 RESTful API，控制台不支持此源类型。云厂商：**阿里云、腾讯云即将支持。**
 
 ### 支持的数据源\{#support-data-sources}
 
@@ -92,6 +92,12 @@ Zilliz Cloud 支持以下数据源，您需要根据所选格式提供对应的 
     }
     ```
 
+- `milvus-table`
+
+    在 Zilliz Cloud 上，`external_source` 支持两种格式：`volume://<volume_name>/<path>` 与 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 指向与目标集群同项目、同地域的另一 Serving 集群（兼容 Milvus v3.0.x）上的 Collection。前缀必须小写；三段（实例/数据库/Collection）缺一不可，数据库为 `default` 时也须写明；末尾允许多一个 `/`。
+
+    有关详细信息，请参见[将 Serving 集群的 Collection 用作数据源](./use-collection-from-a-serving-cluster-as-data-source)。
+
 ### 设置 Schema\{#set-up-schema}
 
 当您拥有包含目标数据文件的 external volume 后，即可创建 Schema，将 Collection 列映射到 Parquet 文件（`parquet`）、Lance 表（`lance-table`）、Iceberg 表（iceberg-table）或 0.56.0 格式的 Vortex 文件
@@ -101,6 +107,8 @@ Zilliz Cloud 支持以下数据源，您需要根据所选格式提供对应的 
 <Admonition type="info" title="说明">
 
 external source 应以斜杠（/）结尾，以表明这是一个文件夹。
+
+使用 `milvus://` 源时，可省略 `external_spec`，格式默认为 `milvus-table`；此类源不使用 `snapshot_id` 与 `extfs`。
 
 </Admonition>
 
@@ -663,9 +671,32 @@ Refresh 操作是异步操作，因此您需要通过轮询来监控其进度。
 
 </Admonition>
 
+对于以 `milvus://` 源创建的 Collection：
+
+refresh 的本质是将外部 Collection 重新绑定到本次请求传入的 `external_source` 并同步最新数据。每次 refresh 都必须传入 `external_source`；省略该参数时本次刷新不生效，Collection 仍对外提供此前同步的数据。
+
+任务状态从 `RefreshInProgress` 变为 `RefreshCompleted` 或 `RefreshFailed`。若已有刷新任务进行中，新请求会被拒绝。Zilliz Cloud 上的 refresh 需等待索引构建完成，耗时随数据量增长——从秒级到小时级。
+
+## 故障排查\{#troubleshooting}
+
+使用另一 Serving 集群上的 Collection（`milvus://`）作为数据源时，可能遇到以下错误：
+
+| 场景 | 错误原文 | 应对 |
+| --- | --- | --- |
+| URI 格式错误/缺段 | `invalid external_source: external_source must be milvus://<instance_id>/<db_name>/<collection_name>` | 修正三段式 URI |
+| 源实例不存在或无读权限 | `Source cluster <id> does not exist or you do not have permission to read it.` | 核对实例 ID 与 API key 权限 |
+| 源集合不存在 | `Source collection <name> on cluster <id> is unavailable: ... collection not found ...` | 核对库名/集合名 |
+| format 冲突 | `external_spec.format must be "milvus-table" (or omitted) for a milvus:// source, got "parquet"` | 省略 `external_spec` 或用 `milvus-table` |
+| 并发刷新 | `Refresh job <id> is already in progress for collection <name>; wait for it to complete before refreshing again.` | 等当前任务完成 |
+
 ## 后续操作\{#follow-ups}
 
 Refresh External Collection 后，您就可以像使用任意 Managed Collection 一样，在 External Collection 中执行相似性搜索和查询。但需要注意的是，对于按需计算 Database 中的 Collection，在执行 Search 和 Query 之前，必须先将其附加到某个 On-demand 集群。有关详细信息，请参见[创建 On-Demand 集群](./on-demand-cluster)。
 
 在执行 Search、Query、Get 和 Hybrid Search 等 DQL 操作之前，您需要先创建一个 Session，以制定 On-demand 集群的计算资源。有关详细信息，请参见[按需 DQL 操作](./dql-sessions-external-collection)。
 
+
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

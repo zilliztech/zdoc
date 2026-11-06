@@ -86,6 +86,8 @@ snapshots/{collection_id}/
 
 - 恢复出的历史数据可能与 TTL 策略冲突。建议在创建 Snapshot 前禁用 TTL 或调整 TTL 设置。
 
+- 在 Zilliz Cloud 上将快照用作 `milvus-table` 外部数据源时，`external_source` 用 `milvus://` 形式（`milvus://<instance_id>/<db_name>/<collection_name>`）直接指向源 Collection，详见 [创建 External Collection](./create-external-collection)；外表的快照不能用作数据源。
+
 ## 相关阅读 \{#further-readings}
 
 import DocCardList from '@theme/DocCardList';
