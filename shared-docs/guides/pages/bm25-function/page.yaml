@@ -10,12 +10,16 @@ publish:
     path: tutorials/development/function/bm25-function
 
 # Content provenance:
-#   The shared source carries the C++ SDK snippets (added by the milvus-docs
-#   sync), so they are not reproduced here. The Cloud page nests the Step 1 SDK
-#   steps under `### Via SDK` and carries a Cloud-only `### Via web console`
-#   walkthrough whose body is a `<Supademo />` component. Cloud recall uses
-#   `params.level` instead of the source's `metric_type: BM25` in the search
-#   snippets. All content files are copied verbatim from the current Cloud page.
+#   Base shared docs (Zilliz Cloud wiki):
+#     BM25 Function page: https://zilliverse.feishu.cn/wiki/YbChwcPMBim5ryk1EQocEbDenDd
+#     Code groups sync from: https://zilliverse.feishu.cn/wiki/A3mAdX5a0oCGO5xV0ylcH2AGnTb
+#   The shared source carries the C++ and Rust SDK snippets (added by the
+#   milvus-docs sync), so they are not reproduced here. The Cloud page nests
+#   the Step 1 SDK steps under `### Via SDK` and carries a Cloud-only
+#   `### Via web console` walkthrough whose body is a `<Supademo />` component.
+#   Cloud recall uses `params.level` instead of the source's `metric_type: BM25`
+#   in the search snippets. All content files are copied verbatim from the
+#   current Cloud page.
 transforms:
   # The Cloud page nests the SDK steps under `### Via SDK`.
   - operation: add
