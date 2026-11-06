@@ -1,7 +1,6 @@
 ---
 title: "密ベクトル | Cloud"
 slug: /use-dense-vector
-sidebar_label: "密ベクトル"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "密ベクトルは、機械学習やデータ分析で広く使用される数値データ表現です。実数の配列で構成され、そのほとんどまたはすべての要素がゼロではありません。スパースベクトルと比較して、密ベクトルは同じ次元レベルでより多くの情報を含みます。これは、各次元が意味のある値を保持しているためです。この表現は、複雑なパターンや関係性を効果的に捉えることができ、高次元空間でのデータの分析や処理を容易にします。密ベクトルは通常、固定された次元数を持ち、その数は特定のアプリケーションや要件に応じて、数十から数百、場合によっては数千に及びます。 | Cloud"
 type: origin
-token: ARalwpaVDiCwDZkoSHtcPNgXnRg
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-use-dense-vector
+sidebar_label: "密ベクトル"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/dense-vector.md"
 
 ---
 
@@ -29,15 +30,15 @@ import TabItem from '@theme/TabItem';
 
 密ベクトルは通常、固定長の浮動小数点数配列として表されます（例: `[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]`）。このようなベクトルの次元数は通常、128、256、768、1024 のように数百から数千に及びます。各次元はオブジェクトの特定のセマンティック特徴を捉えており、類似度計算を通じてさまざまなシナリオに適用できます。
 
-![QOgMwbrhLhvvtbbk5TxcarhEn8i](https://zdoc-images.s3.us-west-2.amazonaws.com/QOgMwbrhLhvvtbbk5TxcarhEn8i.png)
+![密ベクトル](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/d7070dbacf2d4324091b5c94808c9b49140f583259d35e4360ff8e5168fe8ff1.png)
 
 上の図は、2D 空間における密ベクトルの表現を示しています。実際のアプリケーションにおける密ベクトルははるかに高次元であることが多いですが、この 2D 図は以下のいくつかの重要な概念を効果的に伝えています。
 
-- **多次元表現:** 各点は概念的なオブジェクト（**Milvus**、**ベクトルデータベース**、**検索システム** など）を表し、その位置は各次元の値によって決まります。
+- **多次元表現:** 各点は概念的なオブジェクト（**Zilliz Cloud**、**ベクトルデータベース**、**検索システム**など）を表し、その位置は各次元の値によって決まります。
 
 - **セマンティックな関係:** 点間の距離は、概念間のセマンティック類似度を反映します。近い点ほど、意味的に関連性の高い概念を示します。
 
-- **クラスタリング効果:** 関連する概念（**Milvus**、**ベクトルデータベース**、**検索システム**）は空間内で互いに近くに配置され、セマンティッククラスターを形成します。
+- **クラスタリング効果:** 関連する概念（**Zilliz Cloud**、**ベクトルデータベース**、**検索システム**など）は空間内で互いに近くに配置され、セマンティッククラスターを形成します。
 
 以下は、`"Milvus is an efficient vector database"` を表す実際の密ベクトルの例です。
 
@@ -53,15 +54,16 @@ import TabItem from '@theme/TabItem';
     0.072027855,
     // ... more dimensions
 ]
+
 ```
 
 密ベクトルは、さまざまな [embedding](https://en.wikipedia.org/wiki/Embedding) モデルを使用して生成できます。たとえば、画像向けの CNN モデル（[ResNet](https://pytorch.org/hub/pytorch_vision_resnet/)、[VGG](https://pytorch.org/vision/stable/models/vgg.html)）や、テキスト向けの言語モデル（[BERT](https://en.wikipedia.org/wiki/BERT_(language_model))、[Word2Vec](https://en.wikipedia.org/wiki/Word2vec)）などがあります。これらのモデルは、生データを高次元空間内の点に変換し、データのセマンティック特徴を捉えます。さらに、Zilliz Cloud は、ユーザーが密ベクトルを生成および処理するのに役立つ便利な方法を提供しています。詳細は Embeddings で説明しています。
 
-データがベクトル化されると、管理およびベクトル検索のために Zilliz Cloud クラスターに保存できます。以下の図は基本的なプロセスを示しています。
+データがベクトル化されると、管理とベクトル検索のために Zilliz Cloud に保存できます。以下の図は、基本的なプロセスを示しています。
 
-![No8KwR6wPhTIP6bKEqGcbBDWngc](https://zdoc-images.s3.us-west-2.amazonaws.com/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
+![密ベクトルの使用](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/7de8473a14cc5fbb175e1311eccea5a22a0a28802318448aacdb4a0f519b6343.png)
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 密ベクトルに加えて、Zilliz Cloud はスパースベクトルとバイナリベクトルもサポートしています。スパースベクトルは、キーワード検索や用語一致など、特定の用語に基づく正確な一致に適しています。一方、バイナリベクトルは、画像パターンマッチングや特定のハッシュアプリケーションなど、二値化されたデータを効率的に処理するためによく使用されます。詳細については、[バイナリベクトル](./use-binary-vector) および [スパースベクトル](./use-sparse-vector) を参照してください。
 
@@ -71,7 +73,7 @@ import TabItem from '@theme/TabItem';
 
 ### ベクトルフィールドの追加\{#add-vector-field}
 
-Zilliz Cloud クラスターで密ベクトルを使用するには、まずコレクションを作成するときに密ベクトルを保存するためのベクトルフィールドを定義します。このプロセスには以下が含まれます。
+Zilliz Cloud で密ベクトルを使用するには、まず、コレクションを作成するときに密ベクトルを保存するベクトルフィールドを定義します。このプロセスには次の内容が含まれます。
 
 1. `datatype` を、サポートされている密ベクトルのデータ型に設定します。サポートされている密ベクトルのデータ型については、Data Types を参照してください。
 
@@ -89,7 +91,7 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 schema = client.create_schema(
     auto_id=True,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 schema.add_field(field_name="pk", datatype=DataType.VARCHAR, is_primary=True, max_length=100)
@@ -135,29 +137,38 @@ schema.addField(AddFieldReq.builder()
 
 ```go
 import (
+    "context"
     "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-err = client.CreateCollection(ctx,
-    milvusclient.NewCreateCollectionOption("my_collection", schema).
-        WithIndexOptions(indexOption))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-// CreateCollection does not implicitly load the collection; load it before search.
-loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-if err := loadTask.Await(ctx); err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
+defer client.Close(ctx)
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(true)
+schema.WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeVarChar).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true).
+    WithMaxLength(100),
+).WithField(entity.NewField().
+    WithName("dense_vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(4),
+)
 ```
 
 </TabItem>
@@ -300,16 +311,33 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 **密ベクトルフィールドでサポートされているデータ型**:
 
-| データ型 | 説明 |
-| --- | --- |
-| `FLOAT_VECTOR` | 32 ビットの浮動小数点数を格納します。科学計算や機械学習で実数を表現するためによく使用され、類似したベクトルを区別するなど、高い精度が求められるシナリオに最適です。 |
-| `FLOAT16_VECTOR` | 16 ビットの半精度浮動小数点数を格納し、深層学習や GPU 計算で使用されます。レコメンデーションシステムの低精度リコール段階など、精度がそれほど重要でないシナリオでストレージスペースを節約します。 |
-| `BFLOAT16_VECTOR` | 16 ビットの Brain Floating Point（bfloat16）数値を格納し、Float32 と同じ指数範囲を持ちながら精度が低くなります。大規模な画像検索など、大量のベクトルを高速に処理する必要があるシナリオに適しています。 |
-| `INT8_VECTOR` | 各次元の個々の要素が 8 ビット整数（int8）であるベクトルを格納し、各要素の範囲は –128 から 127 です。量子化された深層学習モデル（ResNet、EfficientNet など）向けに設計されており、INT8_VECTOR は精度の低下を最小限に抑えながらモデルサイズを削減し、推論を高速化します。 |
+<table>
+   <tr>
+     <th><p>データ型</p></th>
+     <th><p>説明</p></th>
+   </tr>
+   <tr>
+     <td><p><code>FLOAT_VECTOR</code></p></td>
+     <td><p>32 ビット浮動小数点数を格納し、科学計算や機械学習で実数を表すためによく使用されます。類似するベクトルを区別するなど、高い精度が求められるシナリオに適しています。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>FLOAT16_VECTOR</code></p></td>
+     <td><p>16 ビットの半精度浮動小数点数を格納し、深層学習や GPU 計算に使用されます。レコメンデーションシステムの低精度リコールフェーズなど、精度がそれほど重要でないシナリオではストレージ容量を節約します。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>BFLOAT16_VECTOR</code></p></td>
+     <td><p>16 ビットの Brain Floating Point（bfloat16）数値を格納し、Float32 と同じ範囲の指数を持ちながら、精度を抑えています。大規模な画像検索など、大量のベクトルを高速に処理する必要があるシナリオに適しています。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>INT8_VECTOR</code></p></td>
+     <td><p>各次元の個々の要素が 8 ビット整数（int8）であるベクトルを格納し、各要素の範囲は –128 から 127 です。量子化された深層学習モデル（ResNet、EfficientNet など）向けに設計された INT8_VECTOR は、精度の損失を最小限に抑えながら、モデルサイズを縮小し、推論を高速化します。<br/><strong>注記</strong>: このベクトル型は HNSW インデックスでのみサポートされています。</p></td>
+   </tr>
+</table>
 
 ### ベクトルフィールドのインデックスパラメーターを設定する\{#set-index-params-for-vector-field}
 
@@ -438,9 +466,12 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 上記の例では、`AUTOINDEX` インデックスタイプを使用して、`dense_vector` フィールドに `dense_vector_index` という名前のインデックスが作成されます。`metric_type` は `IP` に設定されており、距離メトリクスとして内積が使用されることを示します。
+
+Zilliz Cloud は、より優れたベクトル検索エクスペリエンスを提供するために、さまざまなインデックスタイプを提供しています。AUTOINDEX は、ベクトル検索の学習曲線を緩やかにするように設計された特別なインデックスタイプです。選択できるインデックスタイプは多数あります。詳細については、[インデックスの説明](./indexes) を参照してください。
 
 Zilliz Cloud は他のメトリクスタイプもサポートしています。詳細については、[メトリクスタイプ](./search-metrics-explained) を参照してください。
 
@@ -589,6 +620,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### データの挿入\{#insert-data}
@@ -781,11 +813,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 類似検索を実行する\{#perform-similarity-search}
 
-密ベクトルに基づくセマンティック検索は、Zilliz Cloud クラスターの中核機能の 1 つです。ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータをすばやく見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメーターを準備し、`search` メソッドを呼び出します。
+密ベクトルに基づくセマンティック検索は、Zilliz Cloud の中核機能の1つであり、ベクトル間の距離に基づいて、クエリベクトルに最も類似するデータをすばやく見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメーターを準備してから、`search` メソッドを呼び出します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1007,6 +1040,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 類似検索パラメーターの詳細については、[基本ベクトル検索](./single-vector-search) を参照してください。

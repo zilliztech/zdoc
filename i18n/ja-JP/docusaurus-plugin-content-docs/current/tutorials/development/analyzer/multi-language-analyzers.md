@@ -885,6 +885,12 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+err = client.DropCollection(ctx, milvusclient.NewDropCollectionOption("multilingual_documents"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("multilingual_documents", schema).
         WithIndexOptions(indexOption))
@@ -921,6 +927,12 @@ client.load_collection(LoadCollectionRequest::builder()
 <TabItem value='c++'>
 
 ```c++
+status = client->DropCollection(milvus::DropCollectionRequest()
+                                    .WithCollectionName("multilingual_documents"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                         .WithCollectionName("multilingual_documents")
                                         .AddIndex(std::move(index_vector))
@@ -942,6 +954,9 @@ if (!status.IsOk()) {
 
 ```javascript
 const COLLECTION_NAME = "multilingual_documents";
+
+// Drop the existing collection if any, then create and load
+await client.dropCollection({ collection_name: COLLECTION_NAME });
 
 // Create the collection
 await client.createCollection({
@@ -989,6 +1004,14 @@ await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = collec
 
 ```bash
 # restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+  "collectionName": "multilingual_documents"
+}'
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \

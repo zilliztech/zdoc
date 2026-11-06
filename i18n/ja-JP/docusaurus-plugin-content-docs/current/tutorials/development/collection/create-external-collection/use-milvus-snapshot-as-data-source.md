@@ -21,6 +21,12 @@ import TabItem from '@theme/TabItem';
 
 # スナップショットをデータソースとして使用する
 
+<Admonition type="warning" title="Warning">
+
+**[提供終了]** この機能はリクエストに応じてのみ利用可能で、一般公開されていません。このページは提供を終了しています。サポートされているソースから外部コレクションを作成するには、[外部コレクションの作成](./create-external-collection) を参照してください。
+
+</Admonition>
+
 スナップショットのメタデータ JSON パスを `external_source` として使用し、`external_spec.format` を `"milvus-table"` に設定すると、Milvus スナップショットから外部コレクションを作成できます。
 
 外部コレクションを更新すると、Milvus はソースのセグメントマニフェストをターゲットの外部セグメントにマッピングします。メイン列のデータはスナップショットソースから参照されたままになりますが、生成された関数出力や変換された削除ログなど、ターゲットが所有するデータはターゲットコレクションの下に書き込まれます。
@@ -464,4 +470,3 @@ curl 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 ## データを更新する\{#refresh-data}
 
 コレクションの準備ができたら、それを更新してデータのメタデータとインデックスを作成します。詳細については、[Create an External コレクション](./create-external-collection#step-5-refresh-data) を参照してください。
-

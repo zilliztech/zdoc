@@ -36,6 +36,8 @@ import Supademo from '@site/src/components/Supademo';
 
 - 外部コレクションはオンデマンドコンピュートデータベースでのみ作成できます。サービング Dedicated クラスターでの外部コレクションの作成は、近日中にサポートされる予定です。
 
+- 別のクラスター上のコレクションから外部コレクションを作成する場合（`milvus://` ソース）は、現在 SDK および RESTful API でのみ利用できます。コンソールはこのソースタイプをサポートしていません。
+
 </Admonition>
 
 ## データの更新\{#refresh-data}
@@ -53,4 +55,3 @@ import Supademo from '@site/src/components/Supademo';
 外部コレクションを削除すると、Zilliz Cloud 上のスキーマ、マニフェスト、およびインデックスのみが削除されます。データはオブジェクトストレージにそのまま保持されます。
 
 <Supademo id="cmokvd5hr06grpimd8ugly112" title=""  />
-

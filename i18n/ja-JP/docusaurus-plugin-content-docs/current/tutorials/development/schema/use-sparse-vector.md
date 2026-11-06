@@ -1,7 +1,6 @@
 ---
 title: "スパースベクトル | Cloud"
 slug: /use-sparse-vector
-sidebar_label: "スパースベクトル"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "スパースベクトルは、情報検索や自然言語処理において、表層的な用語の一致を捉えるための重要な手法です。密ベクトルは意味理解に優れていますが、スパースベクトルは、特に特殊な用語やテキスト識別子を検索する際に、より予測可能な一致結果をもたらすことがよくあります。 | Cloud"
 type: origin
-token: JbPDwHqd0iZZSuk5tYicGqKbn9c
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-use-sparse-vector
+sidebar_label: "スパースベクトル"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/sparse_vector.md"
 
 ---
 
@@ -27,7 +28,7 @@ import TabItem from '@theme/TabItem';
 
 スパースベクトルは、ほとんどの要素がゼロで、非ゼロの値を持つ次元がごくわずかしかない特殊な高次元ベクトルです。以下の図に示すように、密ベクトルは通常、各位置に値を持つ連続配列として表現されます（例: `[0.3, 0.8, 0.2, 0.3, 0.1]`）。これに対して、スパースベクトルは非ゼロの要素とその次元のインデックスのみを格納し、多くの場合 `{ index: value}` のようなキーと値のペアとして表現されます（例: `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`）。 
 
-![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
+![スパースベクトル表現](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a85bc4abfda8ffaed8b2a32968f27d5828f038712d52079f78d81559a28e30d4.png)
 
 トークン化とスコアリングにより、ドキュメントは bag-of-words ベクトルとして表現でき、各次元は語彙内の特定の単語に対応します。ドキュメント内に存在する単語のみが非ゼロの値を持ち、スパースベクトル表現が作成されます。スパースベクトルは、次の 2 つのアプローチで生成できます。
 
@@ -37,9 +38,9 @@ import TabItem from '@theme/TabItem';
 
 スパースベクトルと元のテキストは、効率的な検索のために Zilliz Cloud に保存できます。以下の図は、全体的なプロセスを示しています。
 
-![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.s3.us-west-2.amazonaws.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
+![スパースベクトルワークフロー](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/091f10633af555d33ed9987c8cbef355f5a0eb0d94d83faace5ce673f8dab401.png)
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 スパースベクトルに加えて、Zilliz Cloud は密ベクトルとバイナリベクトルもサポートしています。密ベクトルは深い意味的関係を捉えるのに最適であり、バイナリベクトルは高速な類似度比較やコンテンツの重複排除といったシナリオに優れています。詳細は [密ベクトル](./use-dense-vector) および [バイナリベクトル](./use-binary-vector) を参照してください。
 
@@ -47,18 +48,18 @@ import TabItem from '@theme/TabItem';
 
 ## データ形式\{#data-formats}
 
-以降のセクションでは、SPLADE のような学習済みスパース埋め込みモデルから得られるベクトルを保存する方法を説明します。密ベクトルベースのセマンティック検索を補完するものを探している場合は、シンプルさの観点から、SPLADE よりも BM25 を使用した [フルテキスト検索](./full-text-search) を推奨します。品質評価を実施して SPLADE を使用することに決めた場合は、[Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照して、SPLADE でスパースベクトルを生成する方法を確認してください。
+以下のセクションでは、SPLADE などの学習済みスパース埋め込みモデルからベクトルを保存する方法を説明します。密ベクトルベースのセマンティック検索を補完するものを探している場合は、シンプルさの観点から SPLADE よりも BM25 を使用した[フルテキスト検索](./full-text-search)をお勧めします。品質評価を実行して SPLADE の使用を決定した場合は、SPLADE でスパースベクトルを生成する方法について [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) を参照してください。
 
 Zilliz Cloud は、次の形式でのスパースベクトル入力をサポートしています。
 
-- **辞書のリスト（** `{dimension_index: value, ...}` **としてフォーマット）**
+- **辞書のリスト（`{dimension_index: value, ...}` 形式）**
 
     ```python
     # Represent each sparse vector using a dictionary
     sparse_vectors = [{27: 0.5, 100: 0.3, 5369: 0.6} , {100: 0.1, 3: 0.8}]
     ```
 
-- **スパース行列（** `scipy.sparse` **クラスを使用）**
+- **スパース行列（`scipy.sparse` クラスを使用）**
 
     ```python
     from scipy.sparse import csr_matrix
@@ -70,7 +71,7 @@ Zilliz Cloud は、次の形式でのスパースベクトル入力をサポー�
     sparse_vectors = [csr_matrix((vals, ([0]*len(idx), idx)), shape=(1, 5369+1)) for idx, vals in zip(indices, values)]
     ```
 
-- **タプルのイテラブルのリスト（例:** `[(dimension_index, value)]`**）**
+- **タプルの反復可能オブジェクトのリスト（例: `[(dimension_index, value)]`）**
 
     ```python
     # Represent each sparse vector using a list of iterables (e.g. tuples)
@@ -86,7 +87,7 @@ Zilliz Cloud は、次の形式でのスパースベクトル入力をサポー�
 
 ### フィールドの追加\{#add-fields}
 
-Zilliz Cloud クラスターでスパースベクトルを使用するには、以下のフィールドを含むスキーマを持つコレクションを作成する必要があります。
+Zilliz Cloud でスパースベクトルを使用するには、以下のフィールドを含むスキーマを持つコレクションを作成する必要があります。
 
 - `SPARSE_FLOAT_VECTOR` フィールドはスパースベクトルを格納するために予約されており、`VARCHAR` フィールドから自動生成するか、入力データで直接指定します。
 
@@ -102,7 +103,7 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 schema = client.create_schema(
     auto_id=True,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 schema.add_field(field_name="pk", datatype=DataType.VARCHAR, is_primary=True, max_length=100)
@@ -195,7 +196,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 let client = ClientV2::new(
@@ -345,6 +345,7 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、3 つのフィールドを追加します。
@@ -355,9 +356,9 @@ export schema="{
 
 - `text`: このフィールドは、`VARCHAR` データ型を使用してテキスト文字列を格納します。最大長は 65535 バイトです。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-データ挿入時に、指定したテキストフィールドからスパースベクトル埋め込みを Zilliz Cloud で生成できるようにするには、関数を使用する追加の手順が必要です。詳細は [フルテキスト検索](./full-text-search) を参照してください。
+データ挿入時に指定したテキストフィールドから Zilliz Cloud がスパースベクトルの埋め込みを生成できるようにするには、関数を含む追加の手順を実行する必要があります。詳細は [フルテキスト検索](./full-text-search) を参照してください。
 
 </Admonition>
 
@@ -423,7 +424,6 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
@@ -500,9 +500,12 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、`SPARSE_INVERTED_INDEX` インデックスタイプと `IP` をメトリクスとして使用します。詳細については、以下のリソースを参照してください。
+
+- [SPARSE_INVERTED_INDEX](https://milvus.io/docs/sparse-inverted-index.md): インデックスとそのパラメーターの説明
 
 - [メトリクスタイプ](./search-metrics-explained): さまざまなフィールドタイプでサポートされるメトリクスタイプ
 
@@ -574,7 +577,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 client
@@ -660,6 +662,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## データの挿入\{#insert-data}
@@ -777,7 +780,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 client
@@ -887,6 +889,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## 類似度検索の実行\{#perform-similarity-search}
@@ -954,7 +957,6 @@ queryData, _ := entity.NewSliceSparseEmbedding([]uint32{1, 50, 1000}, []float32{
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
@@ -1019,6 +1021,7 @@ export queryData='[{"1": 0.2, "50": 0.4, "1000": 0.7}]'
 ```
 
 </TabItem>
+
 </Tabs>
 
 次に、`search` メソッドを使用して類似度検索を実行します。
@@ -1111,7 +1114,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 let results = client
@@ -1220,7 +1222,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 類似度検索のパラメーターの詳細については、[基本的なベクトル検索](./single-vector-search) を参照してください。
-

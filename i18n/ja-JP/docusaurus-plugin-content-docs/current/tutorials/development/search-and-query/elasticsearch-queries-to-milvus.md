@@ -603,7 +603,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html)で確認できます。Milvus の `like` 演算子の詳細については、[パターンマッチングでの ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[`LIKE`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[ の使用](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html)で確認できます。Milvus の `like` 演算子の詳細については、[Using ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[`LIKE`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[ for Pattern Matching](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe) を参照してください。
 
 ### Range クエリ\{#range-query}
 
@@ -1458,7 +1458,7 @@ resp = client.search(
 )
 ```
 
-専用のベクトルデータベースである Milvus は、インデックスタイプを使用してベクトル検索を最適化します。通常、高次元のベクトルデータには近似最近傍（ANN）検索を優先します。FLAT インデックスタイプを使用した総当たり kNN 検索は正確な結果を提供しますが、時間とリソースの両方を大量に消費します。これに対して、AUTOINDEX やその他のインデックスタイプを使用した ANN 検索は速度と精度のバランスを取るため、kNN よりも大幅に高速でリソース効率に優れたパフォーマンスを提供します。インデックスタイプと AUTOINDEX の詳細については、[Indexes](./indexes) と [AUTOINDEX Explained](./autoindex-explained) を参照してください。
+Milvus は、ベクトル検索に特化したデータベースとして、インデックスタイプを使用してベクトル検索を最適化します。通常、高次元のベクトルデータに対しては、近似最近傍（ANN）検索を優先します。FLAT インデックスタイプを使用した総当たり kNN 検索は正確な結果を提供しますが、時間がかかり、多くのリソースを消費します。これに対し、AUTOINDEX またはその他のインデックスタイプを使用した ANN 検索は、速度と精度のバランスを取り、kNN よりも大幅に高速でリソース効率の高いパフォーマンスを提供します。インデックスタイプと AUTOINDEX の詳細については、[Indexes](./indexes) と [AUTOINDEX Explained](./autoindex-explained) を参照してください。
 
 上記のベクトルクエリに対応する Milvus の同様の機能は、次のとおりです。
 

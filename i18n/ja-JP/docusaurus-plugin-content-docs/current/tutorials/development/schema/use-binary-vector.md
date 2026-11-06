@@ -1,7 +1,6 @@
 ---
 title: "バイナリベクトル | Cloud"
 slug: /use-binary-vector
-sidebar_label: "バイナリベクトル"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換では、ベクトルのサイズが圧縮されるだけでなく、意味情報を保持しながらストレージコストと計算コストも削減されます。重要でない特徴量に厳密な精度が必要ない場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。 | Cloud"
 type: origin
-token: NTwawtvYdiXTkukbss7ccw2RnXc
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-use-binary-vector
+sidebar_label: "バイナリベクトル"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/binary-vector.md"
 
 ---
 
@@ -27,11 +28,11 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-バイナリベクトルは、複雑なオブジェクト（画像、テキスト、音声など）を固定長のバイナリ値にエンコードする方法です。Zilliz Cloud クラスターでは、バイナリベクトルは通常、ビット配列またはバイト配列として表現されます。たとえば、8 次元のバイナリベクトルは `[1, 0, 1, 1, 0, 0, 1, 0]` のように表現できます。
+バイナリベクトルは、複雑なオブジェクト（画像、テキスト、音声など）を固定長のバイナリ値にエンコードする方法です。Zilliz Cloud では、バイナリベクトルは通常、ビット配列またはバイト配列として表現されます。たとえば、8 次元のバイナリベクトルは `[1, 0, 1, 1, 0, 0, 1, 0]` として表現できます。
 
 以下の図は、バイナリベクトルがテキストコンテンツ内のキーワードの存在をどのように表すかを示しています。この例では、10 次元のバイナリベクトルを使用して 2 つの異なるテキスト（**Text 1** と **Text 2**）を表現しており、各次元は語彙内の単語に対応します。1 はその単語がテキスト内に存在することを示し、0 は存在しないことを示します。
 
-![TuIGwtyEkh9g04bvo0icsWdynBd](https://zdoc-images.s3.us-west-2.amazonaws.com/TuIGwtyEkh9g04bvo0icsWdynBd.png)
+![バイナリベクトル](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/ee34d8689d906400466f8c7287bed870cf9f258bf77f437e0b7d63b51588ac53.png)
 
 バイナリベクトルには次の特徴があります。
 
@@ -45,13 +46,13 @@ import TabItem from '@theme/TabItem';
 
 バイナリベクトルはさまざまな方法で生成できます。テキスト処理では、事前定義された語彙を使用し、単語の有無に基づいて対応するビットを設定できます。画像処理では、知覚ハッシュアルゴリズム（[pHash](https://en.wikipedia.org/wiki/Perceptual_hashing) など）によって画像のバイナリ特徴を生成できます。機械学習アプリケーションでは、モデルの出力を二値化してバイナリベクトル表現を取得できます。
 
-バイナリベクトル化後、データは管理とベクトル検索のために Zilliz Cloud クラスターに保存できます。以下の図は基本的な流れを示しています。
+バイナリベクトル化後、データは管理とベクトル検索のために Zilliz Cloud に保存できます。以下の図は基本的なプロセスを示しています。
 
-![TF1uw4AQVhFdmBbrhyVcJO6WnXe](https://zdoc-images.s3.us-west-2.amazonaws.com/TF1uw4AQVhFdmBbrhyVcJO6WnXe.png)
+![バイナリベクトルの使用](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/5568db7b4aed503625a7668e9370a19e09249ae18881ccf547fded68f95116fa.png)
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-Although binary ベクトル excel in specific scenarios, they have limitations in their expressive capability, making it difficult to capture complex semantic relationships. Therefore, in real-world scenarios, binary ベクトル are often used alongside other ベクトル types to balance efficiency and expressiveness. For more information, refer to [Dense ベクトル](./use-dense-vector) and [Sparse Vector](./use-sparse-vector).
+バイナリベクトルは特定のシナリオでは優れていますが、表現能力に限界があるため、複雑な意味関係を捉えるのは困難です。そのため、実際のシナリオでは、効率と表現力を両立するために、バイナリベクトルが他のベクトルタイプと併用されることがよくあります。詳細については、[Dense ベクトル](./use-dense-vector) および [Sparse Vector](./use-sparse-vector) を参照してください。
 
 </Admonition>
 
@@ -59,7 +60,7 @@ Although binary ベクトル excel in specific scenarios, they have limitations 
 
 ### ベクトルフィールドを追加する\{#add-vector-field}
 
-Zilliz Cloud クラスターでバイナリベクトルを使用するには、まずコレクションを作成するときにバイナリベクトルを保存するためのベクトルフィールドを定義します。このプロセスには以下が含まれます。
+Zilliz Cloud でバイナリベクトルを使用するには、まずコレクションを作成するときに、バイナリベクトルを保存するベクトルフィールドを定義します。このプロセスには以下が含まれます。
 
 1. `datatype` を、サポートされているバイナリベクトルのデータ型（`BINARY_VECTOR`）に設定します。
 
@@ -75,7 +76,7 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 schema = client.create_schema(
     auto_id=True,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 schema.add_field(field_name="pk", datatype=DataType.VARCHAR, is_primary=True, max_length=100)
@@ -246,8 +247,7 @@ using Milvus.Client.V2.Types;
 var config = new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -296,6 +296,7 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、バイナリベクトルを保存するための `binary_vector` という名前のベクトルフィールドが追加されます。このフィールドのデータ型は `BINARY_VECTOR` で、次元数は 128 です。
@@ -420,9 +421,12 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 上記の例では、`AUTOINDEX` インデックスタイプを使用して、`binary_vector` フィールドに `binary_vector_index` という名前のインデックスが作成されます。`metric_type` は `HAMMING` に設定されており、類似度の測定にハミング距離が使用されることを示します。
+
+Zilliz Cloud は、より優れたベクトル検索エクスペリエンスを提供するために、さまざまなインデックスタイプを提供しています。AUTOINDEX は、ベクトル検索の学習曲線を緩やかにするために設計された特別なインデックスタイプです。選択できるインデックスタイプは多数あります。詳細については、[Index Explained](./indexes) を参照してください。
 
 さらに、Zilliz Cloud はバイナリベクトル用の他の類似度メトリクスもサポートしています。詳細については、[Metric Types](./search-metrics-explained) を参照してください。
 
@@ -565,6 +569,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### データを挿入する\{#insert-data}
@@ -780,11 +785,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 類似検索を実行する\{#perform-similarity-search}
 
-類似検索は Zilliz Cloud クラスターの中核機能の 1 つであり、ベクトル間の距離に基づいて、クエリベクトルに最も類似するデータをすばやく見つけることができます。バイナリベクトルを使用して類似検索を実行するには、クエリベクトルと検索パラメータを準備し、`search` メソッドを呼び出します。
+類似検索は Zilliz Cloud の中核機能の1つであり、ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータを迅速に見つけることができます。バイナリベクトルを使用して類似検索を実行するには、クエリベクトルと検索パラメータを準備し、`search` メソッドを呼び出します。
 
 検索操作中も、バイナリベクトルはバイト配列の形式で指定する必要があります。クエリベクトルの次元数が `dim` の定義時に指定した次元と一致していること、および 8 個の boolean 値ごとに 1 バイトに変換されていることを確認してください。
 
@@ -1010,7 +1016,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 類似検索パラメータの詳細については、[Basic ANN Search](./single-vector-search) を参照してください。
-
