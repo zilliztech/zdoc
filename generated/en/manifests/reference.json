@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "013aa36243ed4b9600ee2275561207ad59c28812",
+  "sourceCommit": "0a94a3ec5bf68431778e5fb75fa76adde2c823da",
   "records": [
     {
       "manual": "cli",
@@ -6900,7 +6900,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2.mdx",
-      "sourceHash": "28df00258768bab2a150004f101639d3cddfed34973d26bf2ca993ec7e353a1a"
+      "sourceHash": "30c54225fc63994c62a8da73bae79a99971e2d7cccaca0cae69347d8df909845"
     },
     {
       "manual": "rest",
@@ -6980,7 +6980,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/refresh-external-collection-v2.mdx",
-      "sourceHash": "0c0133d9d0fb5bb682cc408e1345300c130655a6bfb3a299c357740139b80aa1"
+      "sourceHash": "ad7c306b05eb0f4ac9369fae0babd6238cf8720662f460f6b3d885d4250ab2ca"
     },
     {
       "manual": "rest",
