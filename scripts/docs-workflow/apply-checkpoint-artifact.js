@@ -232,7 +232,38 @@ async function captureGuard(root, rels) {
 async function verifyGuard(identities) {
   for (const [full, expected] of identities) { const stat = await maybeLstat(full); if (!stat || stat.isSymbolicLink() || !stat.isDirectory() || stat.dev !== expected.dev || stat.ino !== expected.ino) throw new Error(`Target identity lost; manual cleanup may be required: ${full}`); }
 }
+// Verify-and-extend a single mutation path's ancestor chain. Guarded entries
+// must keep their identity; unguarded directories (e.g. created by this apply)
+// are adopted with the same symlink rejection captureGuard applies. On POSIX,
+// writing a file, creating a child, or removing a subtree cannot change any
+// parent directory's inode, so re-capturing every chain for every file is
+// unnecessary: this keeps each mutation on a verified path in O(depth) while a
+// full verifyGuard at the end of the copy loop still fails the whole apply
+// closed if any other guarded directory was disturbed.
+async function refreshGuardChain(identities, root, rel) {
+  const parts = rel.split('/'); let current = root;
+  for (let i = 0; i < Math.max(1, parts.length); i++) {
+    if (i) current = path.join(current, parts[i - 1]);
+    const expected = identities.get(current); const stat = await maybeLstat(current);
+    if (expected) {
+      if (!stat || stat.isSymbolicLink() || !stat.isDirectory() || stat.dev !== expected.dev || stat.ino !== expected.ino) throw new Error(`Target identity lost; manual cleanup may be required: ${current}`);
+    } else {
+      if (!stat) break;
+      if (stat.isSymbolicLink()) throw new Error(`Target identity guard found symlink: ${path.relative(root, current) || '.'}`);
+      if (stat.isDirectory()) identities.set(current, { dev: stat.dev, ino: stat.ino });
+    }
+  }
+}
 function minimalPaths(paths) { return [...new Set(paths)].sort((a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b)).filter((rel, i, all) => !all.slice(0, i).some((parent) => rel.startsWith(`${parent}/`))); }
+// Drop guard entries at or below an authorized recursive removal. The initial
+// capture only guards PROPER ancestors of minimal mutation paths, so every
+// entry inside a mutation path's subtree was adopted by this apply itself
+// (deletion refreshes walk raw deletion paths, which may sit below a file
+// path replacing the directory); keeping them would fail the end gate and the
+// rollback on legitimate directory-to-file transitions.
+function pruneGuardSubtree(identities, removed) {
+  for (const key of identities.keys()) if (key === removed || key.startsWith(`${removed}${path.sep}`)) identities.delete(key);
+}
 async function pathSize(full) { const stat = await maybeLstat(full); if (!stat) return 0; if (stat.isSymbolicLink()) throw new Error(`Symlink cannot be journaled: ${full}`); if (stat.isFile()) return stat.size; let total = 0; for (const name of await require('node:fs/promises').readdir(full)) total += await pathSize(path.join(full, name)); return total; }
 
 async function readStateNoFollow(root, statePath, kind, hooks) {
@@ -323,7 +354,7 @@ async function applyCheckpointArtifact(options = {}) {
   let complete = false;
   const createdDirs = [];
   try {
-    for (const rel of [...deletions].sort((a, b) => b.split('/').length - a.split('/').length || b.localeCompare(a))) { await hooks?.beforeDelete?.({ rel }); await verifyGuard(guard); await assertSafeAncestors(target, rel); await rm(path.join(target, rel), { recursive: true, force: true }); await verifyGuard(guard); }
+    for (const rel of [...deletions].sort((a, b) => b.split('/').length - a.split('/').length || b.localeCompare(a))) { await hooks?.beforeDelete?.({ rel }); await refreshGuardChain(guard, target, rel); await assertSafeAncestors(target, rel); await rm(path.join(target, rel), { recursive: true, force: true }); }
     await hooks?.beforeCopy?.();
     for (const entry of files) {
       const rel = entry.path, destination = path.join(target, rel); await assertSafeAncestors(target, rel);
@@ -332,21 +363,29 @@ async function applyCheckpointArtifact(options = {}) {
         current = path.join(current, parts[i]); const stat = await maybeLstat(current);
         if (stat?.isSymbolicLink()) throw new Error(`Target symlink ancestor is not allowed: ${rel}`);
         if (stat && !stat.isDirectory()) { const conflict = parts.slice(0, i + 1).join('/'); if (!deletions.some((d) => conflicts(d, conflict))) throw new Error(`Unauthorized target conflict: ${conflict}`); await rm(current, { recursive: true, force: true }); }
-        if (!(await maybeLstat(current))) { await verifyGuard(guard); await mkdir(current); createdDirs.push(current); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
+        // A created directory is adopted into the guard by the pre-write
+        // refreshGuardChain below, mirroring what the post-mkdir re-capture
+        // used to record.
+        if (!(await maybeLstat(current))) { await mkdir(current); createdDirs.push(current); }
       }
       const existing = await maybeLstat(destination);
       if (existing?.isSymbolicLink()) throw new Error(`Target symlink is not allowed: ${rel}`);
-      if (existing?.isDirectory()) { if (!deletions.some((d) => conflicts(d, rel))) throw new Error(`Unauthorized target conflict: ${rel}`); await rm(destination, { recursive: true }); }
+      if (existing?.isDirectory()) { if (!deletions.some((d) => conflicts(d, rel))) throw new Error(`Unauthorized target conflict: ${rel}`); await rm(destination, { recursive: true }); pruneGuardSubtree(guard, destination); }
       const bytes = mergedStates.get(rel) ?? await readNoFollow(path.join(payload, rel), payloadStats.get(rel));
-      await hooks?.beforeCommit?.({ rel }); await verifyGuard(guard); await atomicWrite(destination, bytes); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); await hooks?.afterCopy?.({ rel });
+      await hooks?.beforeCommit?.({ rel }); await refreshGuardChain(guard, target, rel); await atomicWrite(destination, bytes); await hooks?.afterCopy?.({ rel });
     }
+    // Whole-apply fail-closed gate: the per-file chain refreshes keep every
+    // mutation on a verified path, and this single full verification rejects
+    // interference with any other guarded directory before the apply is
+    // declared complete, while the rollback journal is still in place.
+    await verifyGuard(guard);
     complete = true;
     return Object.freeze({ group: manifest.group, copied: files.length, deletions: deletions.length, translationCacheMerged: stateDescriptors.length > 0, externallyOwnedSkipped });
   } finally {
     if (!complete) {
       try {
         await hooks?.beforeRollback?.(); await verifyGuard(guard);
-        for (const snapshot of [...snapshots].sort((a, b) => b.rel.split('/').length - a.rel.split('/').length)) { await verifyGuard(guard); const full = path.join(target, snapshot.rel); if (await maybeLstat(full)) await rm(full, { recursive: true, force: true }); await verifyGuard(guard); }
+        for (const snapshot of [...snapshots].sort((a, b) => b.rel.split('/').length - a.rel.split('/').length)) { await verifyGuard(guard); const full = path.join(target, snapshot.rel); if (await maybeLstat(full)) { await rm(full, { recursive: true, force: true }); pruneGuardSubtree(guard, full); } await verifyGuard(guard); }
         for (const snapshot of snapshots.filter((x) => x.existed)) { await verifyGuard(guard); await mkdir(path.dirname(path.join(target, snapshot.rel)), { recursive: true }); await cp(snapshot.saved, path.join(target, snapshot.rel), { recursive: true, dereference: false, preserveTimestamps: true }); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
         for (const dir of createdDirs.reverse()) { await verifyGuard(guard); try { await rmdir(dir); } catch (error) { if (error.code !== 'ENOENT' && error.code !== 'ENOTEMPTY') throw error; } guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
       } catch (rollbackError) { throw new Error(`Apply failed and safe rollback was refused; manual cleanup may be required: ${rollbackError.message}`); }
