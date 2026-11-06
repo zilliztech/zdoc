@@ -96,7 +96,11 @@ directory and extract the skeleton with the vendored extractor (the workflow
 installs Go 1.27 via `actions/setup-go`; locally, `go` must be on PATH). The
 report artifact (`rest-upstream-drift-<run_id>`) carries
 `watchdog-report.{md,json}` plus the raw `diff.json`/`diff.md` (and the
-extracted `skeleton.json`) per drifting source. The report card is always
+extracted `skeleton.json`) per drifting source. The substantive headline
+counts only drift a refresh run can resolve: description/summary drift is
+deliberately excluded because the fragments keep their own text (prose stays
+local), so it re-flags on every scan against an unchanged spec — it still
+rides the diff report and the refresh PR's review lists. The report card is always
 created and its finish status mirrors the drift result (`success` only when
 no source drifts and no unmanaged release track exists); delivery is
 best-effort and subject to `FEISHU_NOTIFICATIONS_DISABLED`. The lock file is
