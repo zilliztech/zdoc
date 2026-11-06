@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "8d8232b4d95902a3ca8d41337e7f4c6445911438",
+  "sourceCommit": "013aa36243ed4b9600ee2275561207ad59c28812",
   "records": [
     {
       "manual": "cli",
@@ -6900,17 +6900,17 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2.mdx",
-      "sourceHash": "984d8b845920429e24effba97e1a1121997077c0e9fc8d8f921e81bc85626c47"
+      "sourceHash": "28df00258768bab2a150004f101639d3cddfed34973d26bf2ca993ec7e353a1a"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/describe-collection-v2.mdx",
-      "sourceHash": "e3fc548fbbce3aad7f0599b90c09788d87033e588f12580f69c2de85d393d559"
+      "sourceHash": "9f39609a9b854a7aa2f9efd961c672f65629c0be53275c96524d9c1c298ad105"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/describe-external-collection-refresh-job-v2.mdx",
-      "sourceHash": "d69d057e919e44233f1b14f1bae373c261f4f6a2a6e990724710d8b8e725741d"
+      "sourceHash": "4280549d11f5adde2b9d1f27958bb6588d5d5412e42e41283e50d796b910e3df"
     },
     {
       "manual": "rest",
@@ -6970,7 +6970,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/list-external-collection-refresh-jobs-v2.mdx",
-      "sourceHash": "cc0b9fe1692faa9932a6e9b78439f8b2696412d92e1e19028c5a147eca62ad1b"
+      "sourceHash": "32535af135f01ecd46afd7fc9731afe9f48af5dea65ffd906fc3975255b4a345"
     },
     {
       "manual": "rest",
@@ -6980,7 +6980,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/refresh-external-collection-v2.mdx",
-      "sourceHash": "2fd04fb13d0d54ba4177956442ef3a74f482608d6f83a9caa10ec7b62ba6c183"
+      "sourceHash": "0c0133d9d0fb5bb682cc408e1345300c130655a6bfb3a299c357740139b80aa1"
     },
     {
       "manual": "rest",
