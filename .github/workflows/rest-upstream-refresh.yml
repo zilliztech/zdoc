@@ -416,7 +416,7 @@ jobs:
             fs.writeFileSync(ledgerPath, `${JSON.stringify(ledger, null, 2)}\n`)
             console.log(`ledger: landed ${added} draft entr(ies) as deferred (${applied.ledgerDrafts.length} proposed)`)
           }
-          console.log(`landed ${applied.changedFiles.length} fragment(s); ${applied.titleLog.length} title entr(ies); ${applied.overrides.length} override(s); ${applied.ledgerDrafts.length} ledger draft(s); pin -> ${process.env.UPSTREAM_COMMIT}`)
+          console.log(`landed ${applied.changedFiles.length} fragment(s); ${applied.titleLog.length} title entr(ies); ${applied.overrides.length} override(s); ${applied.ledgerDrafts.length} ledger draft(s); ${(applied.inheritedLifecycle ?? []).length} inherited lifecycle triple(s); pin -> ${process.env.UPSTREAM_COMMIT}`)
           NODE
           git add packages/docs-tooling/src/reference/rest/meta
           test -n "$(git status --porcelain -- packages/docs-tooling/src/reference/rest/meta)" || {
@@ -587,6 +587,7 @@ jobs:
             `- [ ] the lock pin is bumped to ${process.env.UPSTREAM_COMMIT} in the same commit (atomic adoption)`,
             '- [ ] entries flagged `requiresConfirmation` that were applied carry an override reason',
             '- [ ] recursive-subtree entries (unresolvable list) get a hand-written fragment update or an explicit defer',
+            '- [ ] inherited lifecycle attributions (see that section) attribute the right track release to each new node',
             '- [ ] new operations carry a zh-CN titles.json mapping; no operation was removed',
             '',
             '### Description drift (harvest manually — never auto-adopted)', '',
@@ -604,6 +605,15 @@ jobs:
             '### Added lifecycle-evidence elements (fragment content relocated inside rewritten subtrees)', '',
             retireReport && (retireReport.added ?? []).length
               ? [...head(retireReport.added, 30).map(item => `- \`${item.fragment}:${item.jsonPointer}\` — added by \`${item.addedBy}\``), ...(retireReport.added.length > 30 ? [`- … (${retireReport.added.length - 30} more in the run artifact)`] : [])].join('\n')
+              : '- none',
+            '',
+            '### Inherited lifecycle attributions (new nodes written into milvus-managed subtrees)', '',
+            (applied.inheritedLifecycle ?? []).length
+              ? [
+                  `- ${(applied.inheritedLifecycle ?? []).length} schema node(s) the fragment never had inherited the nearest surviving ancestor's x-added-at/x-last-modified/x-deprecated-since, so the milvus release-track projections stay complete. No product version is invented; the milvus-side diff adjudicates server truth on its own cadence.`,
+                  ...head(applied.inheritedLifecycle ?? [], 30).map(item => `- \`${item.pointer}\` — added-at ${item.addedAt ?? 'null'} / last-modified ${item.lastModified ?? 'null'}`),
+                  ...((applied.inheritedLifecycle ?? []).length > 30 ? [`- … (${applied.inheritedLifecycle.length - 30} more in the run artifact)`] : []),
+                ].join('\n')
               : '- none',
             '',
             '### Unplaced additions (need a scenario-tab decision)', '',

@@ -97,6 +97,81 @@ function resolveParent(document, pointer, diffEntryId) {
     return {parent, leaf, tokens}
 }
 
+function lifecycleTripleOf(node) {
+    return {
+        addedAt: node['x-added-at'] ?? null,
+        lastModified: node['x-last-modified'] ?? null,
+        deprecatedSince: node['x-deprecated-since'] ?? null,
+    }
+}
+
+function hasLifecycleTriple(node) {
+    for (const key of LIFECYCLE_KEYS) {
+        if (Object.hasOwn(node, key)) return true
+    }
+    return false
+}
+
+// Managed lifecycle triples ride the milvus release-track projections: every
+// schema node on a pinned path must carry the full triple
+// (integratedSpecBuilder requireSchemaProperties). Lifecycle suggestions only
+// derive from data-plane sources, so when a cloud-spec mirror or addition
+// writes schema nodes the fragment never had, the nearest surviving
+// ancestor's triple is the deterministic attribution — the node documents the
+// same surface, since the same track release, as the branch it lands in. No
+// product version is ever invented; every inherited triple lands in the
+// applied output's inheritedLifecycle list for human review, and the
+// milvus-side diff adjudicates actual server truth on its own cadence.
+// `ancestorTokens` are the decoded write pointer WITHOUT the written node's
+// own token (all of them are ancestors).
+function ancestorLifecycleTriple(document, ancestorTokens) {
+    let inherited = null
+    let node = document
+    for (const token of ancestorTokens) {
+        if (Array.isArray(node)) {
+            node = /^[0-9]+$/.test(token) ? node[Number(token)] : undefined
+        } else if (isPlainObject(node)) {
+            node = node[token]
+        } else {
+            break
+        }
+        // Combinator members (anyOf/oneOf branches) and parameters arrays are
+        // legitimate traversal nodes: keep walking through them. A dead end
+        // (undefined or a scalar) just stops the triple search.
+        if (!isPlainObject(node)) continue
+        if (hasLifecycleTriple(node)) inherited = lifecycleTripleOf(node)
+    }
+    return inherited
+}
+
+// Attach the inherited triple to every schema node in the written subtree the
+// fragment never had. Walks exactly the nodes the track projections require:
+// the subtree root, values inside `properties` maps, `items`, and combinator
+// members. A node that already carries the triple stays untouched and becomes
+// the attribution source for its own descendants.
+function attachInheritedLifecycle(node, inherited, pointer, report) {
+    if (!isPlainObject(node) || !inherited) return
+    const nodeHasTriple = hasLifecycleTriple(node)
+    if (!nodeHasTriple) {
+        node['x-added-at'] = inherited.addedAt
+        node['x-last-modified'] = inherited.lastModified
+        node['x-deprecated-since'] = inherited.deprecatedSince
+        report.push({pointer, ...inherited})
+    }
+    const effective = nodeHasTriple ? lifecycleTripleOf(node) : inherited
+    for (const [key, child] of Object.entries(node)) {
+        if (key === 'properties' && isPlainObject(child)) {
+            for (const [name, property] of Object.entries(child)) {
+                attachInheritedLifecycle(property, effective, `${pointer}/properties/${name}`, report)
+            }
+        } else if (key === 'items') {
+            attachInheritedLifecycle(child, effective, `${pointer}/items`, report)
+        } else if ((key === 'anyOf' || key === 'oneOf' || key === 'allOf') && Array.isArray(child)) {
+            child.forEach((member, index) => attachInheritedLifecycle(member, effective, `${pointer}/${key}/${index}`, report))
+        }
+    }
+}
+
 function stripMutableLeaves(value) {
     if (Array.isArray(value)) return value.map(stripMutableLeaves)
     if (!isPlainObject(value)) return value
@@ -339,7 +414,7 @@ function applyRequiredMembership(document, entry, schemaTokens, field) {
     else if (expected.length > 0 || current.length > 0) schema.required = expected
 }
 
-function applyFragmentEntry(document, entry, cited, denylist, normalizations, exemptions, writtenSubtrees) {
+function applyFragmentEntry(document, entry, cited, denylist, normalizations, exemptions, writtenSubtrees, inheritedLifecycle) {
     const label = entry.diffEntryId
     const kind = entry.kind
     if ((denylist || []).includes(decodePointer(entry.opPath).pop())) {
@@ -379,6 +454,7 @@ function applyFragmentEntry(document, entry, cited, denylist, normalizations, ex
         assertMirrorValueBound(entry, cited, current)
         parent[leaf] = structuredClone(entry.value)
         applyRequiredMembership(document, entry, tokens.slice(0, -2), String(cited.field).split('#')[0])
+        attachInheritedLifecycle(parent[leaf], ancestorLifecycleTriple(document, tokens.slice(0, -1)), entry.opPath, inheritedLifecycle)
         exemptions.push({pointer: entry.opPath, side: 'both'})
         writtenSubtrees.push({label, value: entry.value})
         return
@@ -411,6 +487,7 @@ function applyFragmentEntry(document, entry, cited, denylist, normalizations, ex
             const createdArray = !Array.isArray(parent[leaf])
             parameters.push(structuredClone(entry.value))
             parent[leaf] = parameters
+            attachInheritedLifecycle(parameters[parameters.length - 1], ancestorLifecycleTriple(document, decodePointer(entry.opPath)), `${entry.opPath}/${parameters.length - 1}`, inheritedLifecycle)
             // When this write created the array itself, the empty container is
             // also part of the sanctioned delta.
             exemptions.push({pointer: createdArray ? entry.opPath : `${entry.opPath}/${parameters.length - 1}`, side: 'after'})
@@ -453,6 +530,7 @@ function applyFragmentEntry(document, entry, cited, denylist, normalizations, ex
             parent[leaf][cited.field] = structuredClone(entry.value[cited.field])
             // opPath ends at the properties container; the owning schema is one token up.
             applyRequiredMembership(document, entry, decodePointer(entry.opPath).slice(0, -1), cited.field)
+            attachInheritedLifecycle(parent[leaf][cited.field], ancestorLifecycleTriple(document, decodePointer(entry.opPath)), `${entry.opPath}/${cited.field}`, inheritedLifecycle)
             exemptions.push({pointer: createdContainer ? entry.opPath : `${entry.opPath}/${cited.field}`, side: 'after'})
             writtenSubtrees.push({label, value: entry.value[cited.field]})
             return
@@ -599,6 +677,7 @@ function applyChangeSet({documents, titles = {}, changeSet, diff, ruleset}) {
     const normalizations = []
     const exemptionsByFile = new Map()
     const writtenSubtrees = []
+    const inheritedLifecycle = []
 
     for (const entry of changeSet.entries) {
         const cited = citedById.get(entry.diffEntryId)
@@ -626,7 +705,7 @@ function applyChangeSet({documents, titles = {}, changeSet, diff, ruleset}) {
         }
         const exemptions = []
         const entrySubtrees = []
-        applyFragmentEntry(documents.get(entry.targetFragment), entry, cited, denylist, normalizations, exemptions, entrySubtrees)
+        applyFragmentEntry(documents.get(entry.targetFragment), entry, cited, denylist, normalizations, exemptions, entrySubtrees, inheritedLifecycle)
         if (exemptions.length > 0) {
             const list = exemptionsByFile.get(entry.targetFragment) ?? []
             list.push(...exemptions)
@@ -658,6 +737,7 @@ function applyChangeSet({documents, titles = {}, changeSet, diff, ruleset}) {
         titleLog: titleResult.log,
         overrides,
         normalizations,
+        inheritedLifecycle,
     }
 }
 
