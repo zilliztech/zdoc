@@ -60,11 +60,17 @@ zilliz external-collection refresh trigger
 
 - **--external-source** (*string*) -
 
-    覆盖外部源（可选）。
+    指定本次刷新使用的外部源 URI。
+
+    请将其与 `--external-spec` 一起提供，或同时省略两者；当两者都省略时，刷新会复用已持久化的外部源和规范。
+
+    <NextChannel action="include">该选项接受两种格式：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。使用 `milvus://` 源时，必须提供此选项；如果省略，刷新不会生效，Collection 会继续提供此前同步的数据。</NextChannel>
 
 - **--external-spec** (*string*) -
 
-    覆盖外部规格（可选）。
+    以 JSON 字符串形式指定本次刷新的外部源规范。请将其与 `--external-source` 一起提供，或同时省略两者。
+
+    <NextChannel action="include">对于 `milvus://` 源，可以省略此选项；`format` 默认为 `milvus-table`。</NextChannel>
 
 ## 示例\{#example}
 
@@ -79,4 +85,9 @@ zilliz external-collection refresh trigger --name my_external_coll
 
 # Trigger refresh in a non-default database
 zilliz external-collection refresh trigger --name my_external_coll --database my_db
+# next-channel-start
+
+# Trigger refresh for an external collection that uses a milvus:// source
+zilliz external-collection refresh trigger --name my_external_coll --external-source milvus://in01-xxxx/default/orders
+# next-channel-end
 ```

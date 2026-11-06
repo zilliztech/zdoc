@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 ## 说明\{#description}
 
-获取一个外部 Collection 刷新作业的当前状态和详细信息。传入由 `zilliz external-collection refresh trigger` 返回的 `jobId`。
+获取单个外部 Collection 刷新作业的当前状态和详细信息。传入 `zilliz external-collection refresh trigger` 返回的 `jobId`。刷新作业的状态会从 `RefreshInProgress` 变为 `RefreshCompleted` 或 `RefreshFailed`。
 
 ## 语法\{#synopsis}
 
@@ -59,6 +59,6 @@ zilliz -o json external-collection refresh describe --job-id 123456
 # Example output
 # {
 #   "jobId": 123456,
-#   "status": "RUNNING"
+#   "state": "RefreshInProgress"
 # }
 ```

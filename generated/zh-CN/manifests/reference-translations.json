@@ -959,11 +959,11 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "4f17f1360ba969117210e2547e478908b75d03f9264b6904cbee4b162ed05220",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "cdad45ac4ff8de4816b774a2e1fe1a2cd1594e207857f81b575d6b87d380f98b",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md",
       "status": "translated",
-      "targetHash": "44c755a915e9983cdc5052a4f660e70423ccdf1f8386e850dfa36ddc0aeb261c",
+      "targetHash": "6ae963f987174649725b6a90804595263d21356a6728a0978a2519e4d1f58d10",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md"
     },
     {
@@ -977,11 +977,11 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "5970a6bce308071b1108c24fa72241f5020f8632",
-      "sourceHash": "0a5962302ddf50337e36f708309c8a4a4d005b6b18492fb3a8bebef2435dd5aa",
+      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
+      "sourceHash": "ced85a283235f796c0c6a7e57d14409571fa4b1aa8c34c376dca8ff31ecd90b1",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md",
       "status": "translated",
-      "targetHash": "b13eaf612bfebbc3af9ec294a336b8b1d034e356473ee08a134afea63eac2358",
+      "targetHash": "d97ca72b3126cd428605ff4fc5ecd79863c84d913964a0f81d6d4e32672a575c",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md"
     },
     {
