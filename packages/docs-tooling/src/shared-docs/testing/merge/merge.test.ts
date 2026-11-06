@@ -191,6 +191,23 @@ describe('pure two-version wrapper emitter', () => {
     expect(result.origins.flat().every(origin => origin.channel === 'next')).toBe(true)
   })
 
+  it('recognizes and emits the Cloud-only Supademo import', () => {
+    const source = "import Supademo from '@site/src/components/Supademo';\n\n<Supademo id=\"demo\" title=\"\" />\n"
+    const result = merge(source, source)
+    expect(result.components).toEqual(['Supademo'])
+    expect(result.markdown).toContain("import Supademo from '@site/src/components/Supademo';")
+  })
+
+  it('emits the Supademo import once across a changed pair', () => {
+    const current = "import Supademo from '@site/src/components/Supademo';\n\n<Supademo id=\"old\" />\n\nOld\n"
+    const next = "import Supademo from '@site/src/components/Supademo';\n\n<Supademo id=\"new\" />\n\nNew\n"
+    const result = merge(current, next)
+    expect(result.components).toEqual(['Supademo'])
+    expect(result.markdown.match(/^import Supademo from '@site\/src\/components\/Supademo';$/gm)).toHaveLength(1)
+    assertViews(result, input(current, 'current'), input(next, 'next'))
+    lint(result.markdown)
+  })
+
   it('applies shared diagnostic context and channel defaults when line origins are unavailable', () => {
     const result = mergeMarkdown({ current: { markdown: 'Old\n' }, next: { markdown: gate }, context: { file: 'page.yaml', page: 'page' } })
     expect(result).toMatchObject({ errors: [expect.objectContaining({ code: 'MERGE_NESTED_CHANNEL', page: 'page', channel: 'next', file: 'page.yaml', line: 1 })] })

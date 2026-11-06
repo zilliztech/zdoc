@@ -210,3 +210,17 @@ export const isBeta = (endpoint) => {
         endpoint.includes('invoice')
 
 }
+
+// An example value renders as a bare React child, so only scalars are
+// renderable: upstream specs occasionally ship `example: {}` (an empty
+// object) on date/timestamp fields, and rendering it crashes static site
+// generation with "Objects are not valid as a React child". Objects and
+// arrays are skipped wholesale; every other value keeps the exact truthy
+// behavior the render guards always had (0 renders, '' does not, false does
+// not — unchanged).
+export const isRenderableExample = (value) => {
+    if (value === 0) return true
+    if (value === null || value === undefined || value === '') return false
+    if (typeof value === 'object') return false
+    return Boolean(value)
+}

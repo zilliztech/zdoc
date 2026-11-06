@@ -3,7 +3,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, isControlPlane, getTokenPlaceholder } from './utils.js'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, isControlPlane, getTokenPlaceholder, isRenderableExample } from './utils.js'
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
@@ -137,7 +137,7 @@ const Param = ({ name, description, type, format, required, example, inProp, enu
             <div>
                 { admonitions && admonitions.length > 0 && <Admonitions admonitions={admonitions} lang={lang} /> }
                 { enums.length > 0 && <Enums enums={enums} lang={lang} target={target} /> }
-                { (example === 0 || example) && <div>
+                { (example === 0 || isRenderableExample(example)) && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.example.value']}</span>
                     <span className={styles.label}>{example}</span>
                 </div> }
@@ -328,7 +328,7 @@ const Primitive = ({ name, obj, required, lang, target }) => {
                     <span className={styles.paramExample}>{i18n[lang]['label.default.value']}</span>
                     <span className={styles.label}>{defaultValue}</span>
                 </div> }
-                { (example === 0 || example) && <div>
+                { (example === 0 || isRenderableExample(example)) && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.example.value']}</span>
                     <span className={styles.label}>{example}</span>
                 </div> }
