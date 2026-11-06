@@ -21,6 +21,12 @@ import TabItem from '@theme/TabItem';
 
 # Use Snapshot as Data Source
 
+<Admonition type="warning" title="Warning">
+
+**[Retired]** This feature is available on request only and is not publicly available. This page is retired. To create an external collection from a supported source, see [Create an External Collection](./create-external-collection).
+
+</Admonition>
+
 You can create an external collection from a Milvus snapshot by using the snapshot metadata JSON path as `external_source` and setting `external_spec.format` to `"milvus-table"`. 
 
 After you refresh the external collection, Milvus maps the source segment manifests into target external segments. The main column data remains referenced from the snapshot source, while target-owned data such as generated function outputs and converted delete logs is written under the target collection.

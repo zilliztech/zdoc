@@ -1,7 +1,6 @@
 ---
 title: "Sparse Vector | BYOC"
 slug: /use-sparse-vector
-sidebar_label: "Sparse Vector"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Sparse vectors are an important method of capturing surface-level term matching in information retrieval and natural language processing. While dense vectors excel in semantic understanding, sparse vectors often provide more predictable matching results, especially when searching for special terms or textual identifiers. | BYOC"
 type: origin
-token: JbPDwHqd0iZZSuk5tYicGqKbn9c
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-use-sparse-vector
+sidebar_label: "Sparse Vector"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/sparse_vector.md"
 
 ---
 
@@ -27,7 +28,7 @@ Sparse vectors are an important method of capturing surface-level term matching 
 
 A sparse vector is a special high-dimensional vector where most elements are zero, and only a few dimensions have non-zero values. As shown in the diagram below, dense vectors are typically represented as continuous arrays where each position has a value (e.g., `[0.3, 0.8, 0.2, 0.3, 0.1]`). In contrast, sparse vectors store only non-zero elements and their indices of the dimension, often represented as key-value pairs of `{ index: value}` (e.g., `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`). 
 
-![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
+![Sparse Vector Representation](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a85bc4abfda8ffaed8b2a32968f27d5828f038712d52079f78d81559a28e30d4.png)
 
 With tokenization and scoring, documents can be represented as bag-of-words vectors, where each dimension corresponds to a specific word in the vocabulary. Only the words present in the document have non-zero values, creating a sparse vector representation. Sparse vectors can be generated using two approaches:
 
@@ -37,9 +38,9 @@ With tokenization and scoring, documents can be represented as bag-of-words vect
 
 Sparse vectors and the original text can be stored in Zilliz Cloud for efficient retrieval. The diagram below outlines the overall process.
 
-![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.s3.us-west-2.amazonaws.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
+![Sparse Vector Workflow](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/091f10633af555d33ed9987c8cbef355f5a0eb0d94d83faace5ce673f8dab401.png)
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 In addition to sparse vectors, Zilliz Cloud also supports dense vectors and binary vectors. Dense vectors are ideal for capturing deep semantic relationships, while binary vectors excel in scenarios like quick similarity comparisons and content deduplication. For more information, refer to [Dense Vector](./use-dense-vector) and [Binary Vector](./use-binary-vector).
 
@@ -47,18 +48,18 @@ In addition to sparse vectors, Zilliz Cloud also supports dense vectors and bina
 
 ## Data Formats\{#data-formats}
 
-In the following sections, we demonstrate how to store vectors from learned sparse embedding models like SPLADE. If you are looking for something to complement dense-vector-based semantic search, we recommend [Full Text Search](./full-text-search) with BM25 over SPLADE for simplicity. If you've ran quality evaluation and dediced to use SPLADE, you can refer to [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) on how to generate sparse vectors with SPLADE.
+In the following sections, we demonstrate how to store vectors from learned sparse embedding models like SPLADE. If you are looking for something to complement dense-vector-based semantic search, we recommend [Full Text Search](./full-text-search) with BM25 over SPLADE for simplicity. If you have run quality evaluation and decided to use SPLADE, you can refer to [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) on how to generate sparse vectors with SPLADE.
 
 Zilliz Cloud supports  sparse vector input with the following formats:
 
-- **List of Dictionaries (formatted as** `{dimension_index: value, ...}`**)**
+- **List of Dictionaries (formatted as `{dimension_index: value, ...}`)**
 
     ```python
     # Represent each sparse vector using a dictionary
     sparse_vectors = [{27: 0.5, 100: 0.3, 5369: 0.6} , {100: 0.1, 3: 0.8}]
     ```
 
-- **Sparse Matrix (using the** `scipy.sparse` **class)**
+- **Sparse Matrix (using the `scipy.sparse` class)**
 
     ```python
     from scipy.sparse import csr_matrix
@@ -70,7 +71,7 @@ Zilliz Cloud supports  sparse vector input with the following formats:
     sparse_vectors = [csr_matrix((vals, ([0]*len(idx), idx)), shape=(1, 5369+1)) for idx, vals in zip(indices, values)]
     ```
 
-- **List of Tuple Iterables (e.g.** `[(dimension_index, value)]`**)**
+- **List of Tuple Iterables (e.g. `[(dimension_index, value)]`)**
 
     ```python
     # Represent each sparse vector using a list of iterables (e.g. tuples)
@@ -86,7 +87,7 @@ Before creating a collection, you need to specify the collection schema, which d
 
 ### Add fields\{#add-fields}
 
-To use sparse vectors in Zilliz Cloud clusters, you need to create a collection with a schema including the following fields:
+To use sparse vectors in Zilliz Cloud, you need to create a collection with a schema including the following fields:
 
 - A `SPARSE_FLOAT_VECTOR` field reserved for storing sparse vectors, either auto-generated from a `VARCHAR` field or provided directly in the input data.
 
@@ -102,7 +103,7 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 schema = client.create_schema(
     auto_id=True,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 schema.add_field(field_name="pk", datatype=DataType.VARCHAR, is_primary=True, max_length=100)
@@ -195,7 +196,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 let client = ClientV2::new(
@@ -345,6 +345,7 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, three fields are added:
@@ -355,9 +356,9 @@ In this example, three fields are added:
 
 - `text`: This field stores text strings using the `VARCHAR` data type, with a maximum length of 65535 bytes.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-To enable  or Zilliz Cloud to generate sparse vector embeddings from a specified text field during data insertion, an additional step involving a function must be taken. For more information, please refer to  [Full Text Search](./full-text-search).
+To enable Zilliz Cloud to generate sparse vector embeddings from a specified text field during data insertion, an additional step involving a function must be taken. For more information, please refer to  [Full Text Search](./full-text-search).
 
 </Admonition>
 
@@ -423,7 +424,6 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
@@ -500,9 +500,12 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric. For more details, see the following resources:
+
+- [SPARSE_INVERTED_INDEX](https://milvus.io/docs/sparse-inverted-index.md): Explained index and its parameters
 
 - [Metric Types](./search-metrics-explained): Supported metric types for different field types
 
@@ -574,7 +577,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 client
@@ -660,6 +662,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Insert data\{#insert-data}
@@ -777,7 +780,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 client
@@ -887,6 +889,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Perform Similarity Search\{#perform-similarity-search}
@@ -954,7 +957,6 @@ queryData, _ := entity.NewSliceSparseEmbedding([]uint32{1, 50, 1000}, []float32{
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
@@ -1019,6 +1021,7 @@ export queryData='[{"1": 0.2, "50": 0.4, "1000": 0.7}]'
 ```
 
 </TabItem>
+
 </Tabs>
 
 Then, execute the similarity search using the `search` method:
@@ -1111,7 +1114,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-// rust
 use milvus::v2::prelude::*;
 
 let results = client
@@ -1220,6 +1222,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 For more information on similarity search parameters, refer to [Basic Vector Search](./single-vector-search).

@@ -457,6 +457,6 @@ curl --request POST \
 
 ### Expected output\{#expected-output}
 
-```python
+```plaintext
 ['Milvus', '2', '0', 'Scale', 'AI', 'Vector']
 ```

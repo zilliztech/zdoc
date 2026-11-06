@@ -1,6 +1,6 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-06T02:27:09.670Z
+Generated: 2026-11-06T10:25:36.188Z
 Mode: full
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
@@ -8,7 +8,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 ## Summary
 
 - Changed docs: 0
-- Expanded docs: 318
+- Expanded docs: 315
 - Removed docs: 0
 - Warnings: 1
 
@@ -105,7 +105,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - GMdhwQQCRi2QaLkimNOcc3qNnbh
 - GOCJwJktXizGTXkRfCEc9GGLnsb
 - GQN0wDCrni4n36kyeVQcF41Lned: wiki node revision changed
-- GanXwLnJkiymKVkNPhecdi9MnGf
+- GanXwLnJkiymKVkNPhecdi9MnGf: wiki node revision changed
 - GeaswUCLVi04xQkLl4vc7cbdnVh
 - Ghq9wEiOOivgeIkmj2HcHC9onXe
 - Gi6KwjOlKiBhdOkxlL3cdobBnLe
@@ -163,7 +163,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - KhJhw2lOBirGhekK8jbcZkb2nVg
 - KkdswLx2bi4bgCkY6bEc7Do9neh
 - KmYgwHNOFiPQ9sk4bSDcMuIHnjC
-- KnnBwce9JifxvXkd070cvgUPnag
+- KnnBwce9JifxvXkd070cvgUPnag: wiki node revision changed
 - KrbjwFhy3iojF3k97XmcvvXMnW7
 - KtAgwMSa6iEoFkkEqzAcEJgRnjc
 - L11Mw0GRTiKALikJaEycwj1wnKg
@@ -176,14 +176,14 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - LYncwOT8Mi9Lfqk9asdcNPvFnWe
 - LbFXwpruviFWWokwtkhcVmnhnFh
 - Li1gwPA8HiBgsokLgO4cKA7nnDg
-- LqMIw1DXyiHUjAk9TEAcqHp6nDd
+- LqMIw1DXyiHUjAk9TEAcqHp6nDd: wiki node revision changed
 - Lv1Pw8lORiaX44kjGL0cNnpPnub
 - M5dXwsGOOiPdAjkWLZUc2Pxonuh
 - M6PLwhVqAipx7wkQNFscmuNPnWc
 - MIqTw7iJ4iQAtVkYKiEc98a7nsh
 - MKAJwmebRiSsOrkgShUcaHS9nhe: wiki node revision changed
 - MTqjwwUKhiyns4kGV7Lc7PRlnwb
-- MUL3wkn7Yi3YoFkYk59csf8bnNc
+- MUL3wkn7Yi3YoFkYk59csf8bnNc: wiki node revision changed
 - MYHwwhKtri4MMJku6BbcMjF4n1d: wiki node revision changed
 - MZ2WwklE5ifX4hkO4ZOcXz0indc
 - Ml6dwBPTfiQOY9koK24cT1Sznge
@@ -248,11 +248,9 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - QuBiwrIJdiDw3ckVDKBcPofinfe
 - QxYZwB4SKiLz5HkDE9LcISZsnCf
 - QyjpwAaKuihAeJkNBUJcdFesn9e: wiki node revision changed
-- R33EwQchxiO3HKk4vPnce6vkntc
+- R33EwQchxiO3HKk4vPnce6vkntc: wiki node revision changed
 - RH6MwFlaCig6LRkR6Qec206OnUc: wiki node revision changed
 - RLu1wO0FpiisJxkkViQcq039nff
-- RQQKwqhZUiubFzkHo4WcR62Gnvh: wiki node revision changed
-- RQTRwhOVPiwnwokqr4scAtyfnBf: wiki node revision changed
 - RY8ww0NDQi8yU9kNpjicHP7Gn4b
 - RZqzw4UPkiikHOkdoa4chGDgnWX
 - RlhDw3Fr9iCpWSkylfAcyes1nLh
@@ -268,7 +266,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - SOgiwzPxpisy8MkhtuecZqFbnaf
 - SXBNw91txiJhL6kq2ARcvYbRntg
 - SpMPwIX9diuiqfkHEAZcBSmnnOc
-- SwgXwdHG6iqpbUknXrHcOPd7nRe
+- SwgXwdHG6iqpbUknXrHcOPd7nRe: wiki node revision changed
 - TDkbwhwMyi7bPykZAoUc5PFfnIb
 - TQpDw2mkViTQ98k9RbfcxUarneb
 - TVnkwXupUiX3zDkzYPWcxKP3nvg
@@ -309,7 +307,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - Wh2Kw8tn7ivDZOkDy2jcqFU7nje
 - WtkSwXgDdiB0eTkEkorcDCFlnme: wiki node revision changed
 - X6nAwrgYAiJ3Lzku8mBczdbXnuo
-- XC1ow3jGBi7hVvkINtBcXhQ6n8g
+- XC1ow3jGBi7hVvkINtBcXhQ6n8g: wiki node revision changed
 - XCZaw6aKbixxWIkMssEchOtOnlg
 - XDoSwZodyigAEVkjkWfc9nsfnCg
 - XgbAwy9ZUimC1Pk7kBtcEKsIn7d
@@ -323,7 +321,6 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - YMYFwJhUuibUTxkJ1lTcNVSxnhg
 - YNbGwiEjAinaQfkSdNlcTehwn8I
 - YWhwwvlxOiGk9gkTm0Pc2w00npe
-- YbChwcPMBim5ryk1EQocEbDenDd
 - Yhh6wS2hdimtdfkMvYXcBi3InyL
 - YmsVwIzOBinv4OklCfmc2nyznAe: wiki node revision changed
 - Yt3TwxIUMirFhfkkpefcOmT6niQ
@@ -343,4 +340,4 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 
 ## Warnings
 
-- Changed record count 153 exceeds full-fetch threshold 101.
+- Changed record count 161 exceeds full-fetch threshold 101.

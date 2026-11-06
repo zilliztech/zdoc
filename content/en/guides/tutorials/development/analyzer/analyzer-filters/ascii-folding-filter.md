@@ -453,6 +453,6 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
 
 ### Expected output\{#expected-output}
 
-```python
+```plaintext
 ['Cafe', 'Moller', 'serves', 'creme', 'brulee', 'and', 'pinatas']
 ```

@@ -1,17 +1,18 @@
 ---
 title: "Full Text Search | BYOC"
 slug: /full-text-search
-sidebar_label: "Full Text Search"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings. | BYOC"
+description: "Full text search ranks documents by the terms they contain using the BM25 algorithm on raw text input, no embedding models needed. | BYOC"
 type: origin
-token: RQTRwhOVPiwnwokqr4scAtyfnBf
-sidebar_position: 12
 displayed_sidebar: default
+token: shared-full-text-search
+sidebar_label: "Full Text Search"
+sidebar_position: 12
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/full-text-search.md"
 
 ---
 
@@ -21,21 +22,21 @@ import TabItem from '@theme/TabItem';
 
 # Full Text Search
 
-Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings.
+Full text search retrieves documents that contain the terms or phrases in your query and ranks the results by relevance. It complements semantic search, which can overlook precise terms, and is especially useful in retrieval-augmented generation (RAG) scenarios, where documents that closely match specific search terms matter most.
 
-Using the BM25 algorithm for relevance scoring, this feature is particularly valuable in retrieval-augmented generation (RAG) scenarios, where it prioritizes documents that closely match specific search terms.
+With full text search, you can also skip embedding models: you provide raw text, and Zilliz Cloud converts it into sparse embeddings automatically.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 By integrating full text search with semantic-based dense vector search, you can enhance the accuracy and relevance of search results. For more information, refer to [Hybrid Search](./hybrid-search).
 
 </Admonition>
 
-Zilliz Cloud supports enabling full text search programmatically or via the web console. This page focuses on how to enable full text search programmatically. For details about operations on the web console, refer to [Manage Collections (Console)](./manage-collections-console#full-text-search).
+Zilliz Cloud supports enabling full text search programmatically or via the web console. This page focuses on how to enable full text search programmatically. For details about operations on the web console, refer to [Manage Collections (Console)](https://docs.zilliz.com/docs/manage-collections-console#full-text-search).
 
 ## BM25 implementation\{#bm25-implementation}
 
-Zilliz Cloud provides full text search powered by the BM25 relevance algorithm, a widely adopted scoring function in information retrieval systems, and Zilliz Cloud integrates it into the search workflow to deliver accurate, relevance-ranked text results.
+Zilliz Cloud implements full text search with the BM25 relevance algorithm, a widely adopted scoring function in information retrieval systems, and integrates it into the search workflow to deliver accurate, relevance-ranked text results.
 
 Full text search in Zilliz Cloud follows the workflow below:
 
@@ -49,7 +50,7 @@ Full text search in Zilliz Cloud follows the workflow below:
 
 1. **BM25 relevance scoring**: At search time, Zilliz Cloud applies the BM25 scoring function to compute document relevance and return ranked results that best match the query terms.
 
-![DfPMwP6ZahhHlLbIN0gcG9d7nQM](https://zdoc-images.s3.us-west-2.amazonaws.com/DfPMwP6ZahhHlLbIN0gcG9d7nQM.png)
+![Full Text Search](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/87421cdfa714907700ceb9768d70ec8a3aebd307d4afb358cdf021f3e3b7f2c0.png)
 
 To use full text search, follow these main steps:
 
@@ -69,11 +70,11 @@ Your collection schema must include at least three required fields:
 
 - **Primary field**: Uniquely identifies each entity in the collection.
 
-- **String field** (`VARCHAR` or `TEXT`): Stores raw text documents. Must set `enable_analyzer=True` so Zilliz Cloud can process the text for BM25 relevance ranking. By default, Zilliz Cloud uses the [`standard`](./standard-analyzer)[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview). The examples on this page use `VARCHAR`; for long text, you can define the input field as `TEXT` and omit `max_length`. For a complete example, refer to [Text Field](./use-text-field).
+- **String field** (`VARCHAR` or `TEXT`): Stores raw text documents. You must set `enable_analyzer=True` so that Zilliz Cloud can process the text for BM25 relevance ranking. By default, Zilliz Cloud uses the [`standard` analyzer](./standard-analyzer); to configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview). The examples on this page use `VARCHAR`; for long text, define the field as `TEXT` and omit `max_length`. For a complete example, refer to [Text Field](./use-text-field).
 
 - **Sparse vector field** (`SPARSE_FLOAT_VECTOR`): Stores sparse embeddings automatically generated by the BM25 function.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -98,6 +99,10 @@ schema.add_field(field_name="sparse", datatype=DataType.SPARSE_FLOAT_VECTOR) # S
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .build();
 schema.addField(AddFieldReq.builder()
@@ -137,11 +142,8 @@ ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-token := "YOUR_CLUSTER_TOKEN"
-
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey:  token,
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -171,6 +173,8 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = CollectionSchema::new()
     .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
     .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true))
@@ -262,20 +266,13 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 In the preceding config,
 
 - `id`: serves as the primary key and is automatically generated with `auto_id=True`.
 
-- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud string data type for text storage.
+- `text`: stores your raw text data for full text search operations. The field can use `VARCHAR` for bounded text or `TEXT` for long source content.
 
 - `sparse`: a vector field reserved to store internally generated sparse embeddings for full text search operations. The data type must be `SPARSE_FLOAT_VECTOR`.
 
@@ -285,13 +282,13 @@ The BM25 function converts tokenized text into sparse vectors that support BM25 
 
 Define the function and add it to your schema:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 bm25_function = Function(
     name="text_bm25_emb", # Function name
-    input_field_names=["text"], # Name of the VARCHAR field containing raw text data
+    input_field_names=["text"], # Name of the VARCHAR or TEXT field containing raw text data
     output_field_names=["sparse"], # Name of the SPARSE_FLOAT_VECTOR field reserved to store generated embeddings
     # highlight-next-line
     function_type=FunctionType.BM25, # Set to `BM25`
@@ -305,6 +302,11 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
+
+import java.util.*;
+
 schema.addFunction(Function.builder()
         .functionType(FunctionType.BM25)
         .name("text_bm25_emb")
@@ -331,6 +333,8 @@ schema.WithFunction(function)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let bm25_function = Function::new()
     .name("text_bm25_emb")
     .function_type(FunctionType::Bm25)
@@ -409,25 +413,34 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
-| Parameter | Description |
-| --- | --- |
-| `name` | The name of the function. This function converts your raw text from the `text` field into BM25-compatible sparse vectors that will be stored in the `sparse` field. |
-| `input_field_names` | The name of the `VARCHAR` field requiring text-to-sparse-vector conversion. For `FunctionType.BM25`, this parameter accepts only one field name. |
-| `output_field_names` | The name of the field where the internally generated sparse vectors will be stored. For `FunctionType.BM25`, this parameter accepts only one field name. |
-| `function_type` | The type of the function to use. Must be `FunctionType.BM25`. |
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p><code>name</code></p></td>
+     <td><p>The name of the function. This function converts your raw text from the <code>text</code> field into BM25-compatible sparse vectors that will be stored in the <code>sparse</code> field.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>input_field_names</code></p></td>
+     <td><p>The name of the <code>VARCHAR</code> or <code>TEXT</code> field requiring text-to-sparse-vector conversion. For <code>FunctionType.BM25</code>, this parameter accepts only one field name.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>output_field_names</code></p></td>
+     <td><p>The name of the field where the internally generated sparse vectors will be stored. For <code>FunctionType.BM25</code>, this parameter accepts only one field name.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>function_type</code></p></td>
+     <td><p>The type of the function to use. Must be <code>FunctionType.BM25</code>.</p></td>
+   </tr>
+</table>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-If multiple `VARCHAR` fields require BM25 processing, define **one BM25 function per field**, each with a unique name and output field.
+If multiple text fields require BM25 processing, define **one BM25 function per field**, each with a unique name and output field.
 
 </Admonition>
 
@@ -435,7 +448,7 @@ If multiple `VARCHAR` fields require BM25 processing, define **one BM25 function
 
 After defining the schema with necessary fields and the built-in function, set up the index for your collection. To simplify this process, use `AUTOINDEX` as the `index_type`, an option that allows Zilliz Cloud to choose and configure the most suitable index type based on the structure of your data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -443,8 +456,15 @@ index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="sparse",
-    index_type="AUTOINDEX", 
-    metric_type="BM25"
+
+    index_type="SPARSE_INVERTED_INDEX",
+    metric_type="BM25",
+    params={
+        "inverted_index_algo": "DAAT_MAXSCORE",
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75
+    }
+
 )
 ```
 
@@ -453,6 +473,8 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+
 Map<String,Object> params = new HashMap<>();
 params.put("inverted_index_algo", "DAAT_MAXSCORE");
 params.put("bm25_k1", 1.2);
@@ -484,6 +506,8 @@ indexOption.WithExtraParam("bm25_b", 0.75)
 <TabItem value='rust'>
 
 ```rust
+use std::collections::HashMap;
+
 let index_params = IndexParam::new()
     .field_name("sparse")
     .index_type(IndexType::SparseInvertedIndex)
@@ -546,13 +570,6 @@ export indexParams='[
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 <table>
@@ -594,7 +611,7 @@ export indexParams='[
 
 Now create the collection using the schema and index parameters defined.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -612,20 +629,8 @@ client.load_collection('my_collection')
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-import java.util.*;
-import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
@@ -664,8 +669,6 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
-use std::collections::HashMap;
-use serde_json::json;
 
 client.create_collection(
     CreateCollectionRequest::builder()
@@ -684,16 +687,10 @@ client.load_collection(LoadCollectionRequest::builder().collection_name("my_coll
 <TabItem value='c++'>
 
 ```c++
-status = client->CreateCollection(milvus::CreateCollectionRequest()
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
                                     .WithCollectionSchema(schema)
                                     .AddIndex(std::move(index_params)));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->LoadCollection(milvus::LoadCollectionRequest()
-                                    .WithCollectionName("my_collection"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -708,10 +705,10 @@ await client.createCollection({
     collection_name: 'my_collection',
     schema: schema,
     index_params: index_params,
-    functions: functions
+    functions: functions,
 });
 
-await client.loadCollection({ collection_name: "my_collection" });
+await client.loadCollection({ collection_name: 'my_collection' });
 ```
 
 </TabItem>
@@ -732,31 +729,25 @@ curl --request POST \
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data '{
-  "collectionName": "my_collection"
+    "collectionName": "my_collection"
 }'
 ```
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 ## Insert text data\{#insert-text-data}
 
-After setting up your collection and index, you're ready to insert text data. In this process, you need only to provide the raw text. The built-in function we defined earlier automatically generates the corresponding sparse vector for each text entry.
+After setting up your collection and index, you can insert text data. You only need to provide the raw text — the BM25 function defined earlier automatically generates the corresponding sparse vector for each text entry.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -772,6 +763,11 @@ client.insert('my_collection', [
 <TabItem value='java'>
 
 ```java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import io.milvus.v2.service.vector.request.InsertReq;
+
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"text\": \"information retrieval is a field of study.\"}", JsonObject.class),
@@ -808,6 +804,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
 client.insert(
     InsertRequest::builder()
         .collection_name("my_collection")
@@ -875,32 +874,27 @@ curl --request POST \
     ],
     "collectionName": "my_collection"
 }'
+
 ```
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 ## Perform full text search\{#perform-full-text-search}
 
-Once you've inserted data into your collection, you can perform full text searches using raw text queries. Zilliz Cloud automatically converts your query into a sparse vector and ranks the matched search results using the BM25 algorithm, and then returns the topK (`limit`) results.
+Once you've inserted data into your collection, you can search it with raw text queries. Zilliz Cloud automatically converts your query into a sparse vector, ranks the matched results using the BM25 algorithm, and returns the top `limit` results.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Admonition type="info" icon="📘" title="Notes">
+
+You can highlight the matched terms in search results by configuring a text highlighter. See [Text Highlighter](./text-highlighter) for details.
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-search_params = {
-    "metric_type": "BM25",  # Metric type must be BM25 for full text search
-    'params': {'level': 10},
-}
-
 res = client.search(
     collection_name='my_collection', 
     # highlight-start
@@ -909,7 +903,7 @@ res = client.search(
     output_fields=['text'], # Fields to return in search results; sparse field cannot be output
     # highlight-end
     limit=3,
-    search_params=search_params
+    search_params={"metric_type": "BM25", "params": {"level": 10}},
 )
 
 print(res)
@@ -920,9 +914,14 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+
 Map<String,Object> searchParams = new HashMap<>();
 searchParams.put("metric_type", "BM25");
 searchParams.put("level", 10);
+
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new EmbeddedText("whats the focus of information retrieval?")))
@@ -965,6 +964,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -1010,7 +1011,7 @@ await client.search({
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     output_fields: ['text'],
-    params: { metric_type: "BM25" },
+    params: { metric_type: 'BM25' },
     limit: 3,
 });
 ```
@@ -1044,42 +1045,37 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 | Parameter | Description |
 | --- | --- |
 | `search_params` | A dictionary containing search parameters. |
-| `params.level` | Controls the search precision with simplified search optimization. For details, refer to [Tune Recall Rate](./tune-recall-rate). |
+| `params.level` | Controls the search precision with simplified search optimization. For details, refer to [Tune Recall Rate](https://docs.zilliz.com/docs/tune-recall-rate). |
 | `data` | Raw query text in natural language. Zilliz Cloud automatically converts your text query into sparse vectors using the BM25 function - do not provide pre-computed vectors. |
 | `anns_field` | The name of the field that contains internally generated sparse vectors. |
-| `output_fields` | List of field names to return in search results. Supports all fields **except the sparse vector field** containing BM25-generated embeddings. Common output fields include the primary key field (e.g., `id`) and the original text field (e.g., `text`). For more information, refer to [FAQ](./full-text-search#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search). |
+| `output_fields` | List of field names to return in search results. Supports all fields **except the sparse vector field** containing BM25-generated embeddings. Common output fields include the primary key field (e.g., `id`) and the original text field (e.g., `text`). For more information, refer to [FAQ](https://docs.zilliz.com/docs/full-text-search#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search). |
 | `limit` | Maximum number of top matches to return. |
 
 ## FAQ\{#faq}
 
 ### Can I output or access the sparse vectors generated by the BM25 function in full text search?\{#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search}
 
-No, the sparse vectors generated by the BM25 function are not directly accessible or outputable in full text search. Here are the details:
+No, the sparse vectors generated by the BM25 function are not directly accessible or returnable in full text search. Here are the details:
 
-- The BM25 function generates sparse vectors internally for ranking and retrieval
+- The BM25 function generates sparse vectors internally for ranking and retrieval.
 
-- These vectors are stored in the sparse field but cannot be included in `output_fields`
+- These vectors are stored in the sparse field but cannot be included in `output_fields`.
 
-- You can only output the original text fields and metadata (like `id`, `text`)
+- You can only output the original text fields and metadata (like `id`, `text`).
 
 Example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+search_params = {"metric_type": "BM25"}
+
 # ❌ This throws an error - you cannot output the sparse field
 client.search(
     collection_name='my_collection',
@@ -1141,6 +1137,8 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Searching with the sparse field in output_fields throws an error.
 // Only output the original text and metadata fields.
 let request = SearchRequest::builder()
@@ -1204,31 +1202,24 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 ### Why do I need to define a sparse vector field if I can't access it?\{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
 
 The sparse vector field serves as an internal search index, similar to database indexes that users don't directly interact with.
 
-**Design Rationale**:
+**Design rationale**:
 
-- Separation of Concerns: You work with text (input/output), Milvus handles vectors (internal processing)
+- **Separation of concerns**: You work with text for input and output, and Zilliz Cloud handles the vectors internally.
 
-- Performance: Pre-computed sparse vectors enable fast BM25 ranking during queries
+- **Performance**: Pre-computed sparse vectors enable fast BM25 ranking during queries.
 
-- User Experience: Abstracts away complex vector operations behind a simple text interface
+- **User experience**: Complex vector operations are abstracted away behind a simple text interface.
 
 **If you need vector access**:
 
-- Use manual sparse vector operations instead of full text search
+- Use manual sparse vector operations instead of full text search.
 
-- Create separate collections for custom sparse vector workflows
+- Create separate collections for custom sparse vector workflows.
 
 For details, refer to [Sparse Vector](./use-sparse-vector).

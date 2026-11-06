@@ -94,7 +94,7 @@ Once Zilliz Cloud references a segment or index file in a snapshot, it does not 
 
 - Restored historical data may conflict with TTL policies. You are advised to disable TTL or adjust TTL settings before creating snapshots.
 
-- To use a snapshot as a `milvus-table` external source, the source snapshot must come from a normal StorageV3 Zilliz Cloud collection. Snapshots of external collections are not supported as `milvus-table` sources.
+- To use a snapshot as a `milvus-table` external source on Zilliz Cloud, point `external_source` to the source collection with the `milvus://` scheme (`milvus://<instance_id>/<db_name>/<collection_name>`) — see [Create an External Collection](./create-external-collection). Snapshots of external collections cannot be used as sources.
 
 ## Further readings\{#further-readings}
 

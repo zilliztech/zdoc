@@ -1,40 +1,38 @@
 ---
 title: "Collection Explained | BYOC"
 slug: /manage-collections
-sidebar_label: "Overview"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collections and entities are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts. | BYOC"
+description: "Zilliz Cloud provides collections to manage your data, and you insert your data as entities into the collections. Collections and entities are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts. | BYOC"
 type: origin
-token: Z9AMwNkVLiog0jkXxNscuMpJnjL
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-manage-collections
+sidebar_label: "Overview"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/manage-collections.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # Collection Explained
 
-On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collections and entities are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts.
+On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collection and entity are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts.
 
 ## Collection\{#collection}
 
-A collection is a two-dimensional table with fixed columns and variable rows. Each column represents a field, and each row represents an entity. 
+A collection is a two-dimensional table with fixed columns and variant rows. Each column represents a field, and each row represents an entity. 
 
 The following chart shows a collection with eight columns and six entities.
 
-![BitLbgzN4oYspwxM4vQcAmg2n9f](https://zdoc-images.s3.us-west-2.amazonaws.com/bitlbgzn4oyspwxm4vqcamg2n9f.png "BitLbgzN4oYspwxM4vQcAmg2n9f")
+![Collection Explained](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/68969b40586e37dca783609c32910aec85272b0c57d88a8d1c2b148853dc90a8.png)
 
 ## Schema and Fields\{#schema-and-fields}
 
-When describing an object, we usually mention its attributes, such as size, weight, and position. You can use these attributes as fields in a collection. Each field has various constraining properties, such as the data type and the dimensionality of a vector field. You can form a collection schema by creating the fields and defining their order. For applicable data types, refer to [Schema Explained](./schema-explained).
+When describing an object, we usually mention its attributes, such as size, weight, and position. You can use these attributes as fields in a collection. Each field has various constraining properties, such as the data type and the dimensionality of a vector field. You can form a collection schema by creating the fields and defining their order. For possible applicable data types, refer to [Schema Explained](./schema-explained).
 
-You should include all schema-defined fields in the entities to insert. To make some of them optional, consider the following options:
+You should include all schema-defined fields in the entities to insert. To make some of them optional, consider enabling dynamic field. For details, refer to [Dynamic Field](./enable-dynamic-field).
 
 - **Making them nullable or setting default values**
 
@@ -56,9 +54,10 @@ For more information, please refer to [Primary Field & AutoId](./primary-field-a
 
 ## Index\{#index}
 
+
 Creating indexes on specific fields improves search efficiency. You are advised to create indexes for all the fields your service relies on, among which indexes on vector fields are mandatory.
 
-Unlike in Milvus, AUTOINDEX is the only applicable index type to the vector fields in collections on Zilliz Cloud. For more details, refer to [AUTOINDEX Explained](./autoindex-explained).
+On Zilliz Cloud, `AUTOINDEX` is the only applicable index type for the vector fields in collections. For more details, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 ## Entity\{#entity}
 
@@ -74,7 +73,7 @@ Loading a collection is the prerequisite to conducting similarity searches and q
 
 Searches and queries are memory-intensive operations. To save the cost, you are advised to release the collections that are currently not in use.
 
-For more details, refer to [Load & Release](./load-release-collections).
+For more details, refer to [Load & Release](https://milvus.io/docs/load-and-release.md).
 
 ## Search and Query\{#search-and-query}
 
@@ -84,7 +83,7 @@ You can also include metadata filtering within searches and queries to improve t
 
 For details on applicable metric types, refer to [Metric Types](./search-metrics-explained).
 
-For more information about searches and queries, refer to the articles in the [Search](./zilliz-search-prompts) chapter, among which, basic features are:
+For more information about searches and queries, refer to the articles in the Search & Rerank chapter, among which, basic features are:
 
 - [Basic ANN Search](./single-vector-search)
 
@@ -102,13 +101,15 @@ For more information about searches and queries, refer to the articles in the [S
 
 - [Full Text Search](./full-text-search)
 
-- [Text Match](./text-match)
+- [Text Match](https://milvus.io/docs/keyword-match.md)
 
 In addition, Zilliz Cloud also provides enhancements to improve search performance and efficiency. They are disabled by default, and you can enable and use them according to your service requirements. They are
 
 - [Use Partition Key](./use-partition-key)
 
 - [Use mmap](./use-mmap)
+
+- [Clustering Compaction](https://milvus.io/docs/clustering-compaction.md)
 
 ## Partition\{#partition}
 
@@ -122,7 +123,7 @@ For details, refer to [Manage Partitions](./manage-partitions).
 
 Shards are horizontal slices of a collection. Each shard corresponds to a data input channel. Every collection has a shard by default. You can set the appropriate number of shards when creating a collection based on the expected throughput and the volume of the data to insert into the collection.
 
-For details on how to set the shard number, refer to [Create a Collection](./manage-collections-sdks#set-shard-number).
+For details on how to set the shard number, refer to [Create Collection](./manage-collections-sdks).
 
 ## Alias\{#alias}
 
@@ -138,9 +139,9 @@ You can set functions for Zilliz Cloud to derive fields upon collection creation
 
 Distributed database systems usually use the consistency level to define the data sameness across data nodes and replicas. You can set separate consistency levels when you create a collection or conduct similarity searches within the collection. The applicable consistency levels are **Strong**, **Bounded Staleness**, **Session**, and **Eventually**.
 
- For details on these consistency levels, refer to [Consistency Level](./consistency-level).
+
+For details on these consistency levels, refer to [Consistency Level](./consistency-level).
 
 ## Limits\{#limits}
 
 For limits and restrictions on collections, refer to [Zilliz Cloud Limits](./limits).
-

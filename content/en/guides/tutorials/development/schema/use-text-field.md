@@ -239,6 +239,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
@@ -251,10 +252,14 @@ ConnectConfig config = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(config);
 
 String COLLECTION_NAME = "text_bm25_collection";
-client.dropCollection(DropCollectionReq.builder()
+if (client.hasCollection(HasCollectionReq.builder()
         .collectionName(COLLECTION_NAME)
-        .async(false)
-        .build());
+        .build())) {
+    client.dropCollection(DropCollectionReq.builder()
+            .collectionName(COLLECTION_NAME)
+            .async(false)
+            .build());
+}
 
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .build();
@@ -805,6 +810,10 @@ client.insert(InsertReq.builder()
         .collectionName("text_bm25_collection")
         .data(rows)
         .build());
+
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("text_bm25_collection")
+        .build());
 ```
 
 </TabItem>
@@ -911,7 +920,7 @@ const res = await client.insert({
 
 console.log(res);
 
-await client.flushSync({ collection_names: ["text_bm25_collection"] });
+await client.loadCollection({ collection_name: "text_bm25_collection" });
 ```
 
 </TabItem>

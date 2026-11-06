@@ -81,7 +81,7 @@ The following JSON field types can be automatically converted from dynamic to fi
 
 For JSON fields converted to fixed fields, you can configure additional attributes:
 
-- **Nullable**: Decide whether a field can accept null values. This feature is enabled by default. For details, refer to [Nullable attribute](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#JjRFd3ubBoht7Ex3N9IcAkrRnOc).
+- **Nullable**: Decide whether a field can accept null values. This feature is enabled by default. For details, refer to [Nullable attribute](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#KL0mdOeSgoJtVfxQUvIcvGGenAd).
 
 - **Default Value**: Set fallback values when data is missing. For details, refer to [Default values](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#LuoQdz5asouWjbxkKbscpywSnaf).
 

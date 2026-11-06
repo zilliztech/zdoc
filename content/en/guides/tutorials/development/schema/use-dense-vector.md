@@ -1,7 +1,6 @@
 ---
 title: "Dense Vector | Cloud"
 slug: /use-dense-vector
-sidebar_label: "Dense Vector"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Dense vectors are numerical data representations widely used in machine learning and data analysis. They consist of arrays with real numbers, where most or all elements are non-zero. Compared to sparse vectors, dense vectors contain more information at the same dimensional level, as each dimension holds meaningful values. This representation can effectively capture complex patterns and relationships, making data easier to analyze and process in high-dimensional spaces. Dense vectors typically have a fixed number of dimensions, ranging from a few dozen to several hundred or even thousands, depending on the specific application and requirements. | Cloud"
 type: origin
-token: ARalwpaVDiCwDZkoSHtcPNgXnRg
-sidebar_position: 3
 displayed_sidebar: default
+token: shared-use-dense-vector
+sidebar_label: "Dense Vector"
+sidebar_position: 3
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/dense-vector.md"
 
 ---
 
@@ -29,15 +30,15 @@ Dense vectors are mainly used in scenarios that require understanding the semant
 
 Dense vectors are typically represented as arrays of floating-point numbers with a fixed length, such as `[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]`. The dimensionality of these vectors usually ranges from hundreds to thousands, such as 128, 256, 768, or 1024. Each dimension captures specific semantic features of an object, making it applicable to various scenarios through similarity calculations.
 
-![QOgMwbrhLhvvtbbk5TxcarhEn8i](https://zdoc-images.s3.us-west-2.amazonaws.com/QOgMwbrhLhvvtbbk5TxcarhEn8i.png)
+![Dense Vector](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/d7070dbacf2d4324091b5c94808c9b49140f583259d35e4360ff8e5168fe8ff1.png)
 
 The image above illustrates the representation of dense vectors in a 2D space. Although dense vectors in real-world applications often have much higher dimensions, this 2D illustration effectively conveys several key concepts:
 
-- **Multidimensional Representation:** Each point represents a conceptual object (like **Milvus**, **vector database**, **retrieval system**, etc.), with its position determined by the values of its dimensions.
+- **Multidimensional Representation:** Each point represents a conceptual object (like **Zilliz Cloud**, **vector database**, **retrieval system**, etc.), with its position determined by the values of its dimensions.
 
 - **Semantic Relationships:** The distances between points reflect the semantic similarity between concepts. Closer points indicate concepts that are more semantically related.
 
-- **Clustering Effect:** Related concepts (such as **Milvus**, **vector database**, and **retrieval system**) are positioned close to each other in space, forming a semantic cluster.
+- **Clustering Effect:** Related concepts (such as **Zilliz Cloud**, **vector database**, and **retrieval system**) are positioned close to each other in space, forming a semantic cluster.
 
 Below is an example of a real dense vector representing the text `"Milvus is an efficient vector database"`:
 
@@ -53,15 +54,16 @@ Below is an example of a real dense vector representing the text `"Milvus is an 
     0.072027855,
     // ... more dimensions
 ]
+
 ```
 
 Dense vectors can be generated using various [embedding](https://en.wikipedia.org/wiki/Embedding) models, such as CNN models (like [ResNet](https://pytorch.org/hub/pytorch_vision_resnet/), [VGG](https://pytorch.org/vision/stable/models/vgg.html)) for images and language models (like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)), [Word2Vec](https://en.wikipedia.org/wiki/Word2vec)) for text. These models transform raw data into points in high-dimensional space, capturing the semantic features of the data. Additionally, Zilliz Cloud offers convenient methods to help users generate and process dense vectors, as detailed in Embeddings.
 
-Once data is vectorized, it can be stored in Zilliz Cloud clusters for management and vector retrieval. The diagram below shows the basic process.
+Once data is vectorized, it can be stored in Zilliz Cloud for management and vector retrieval. The diagram below shows the basic process.
 
-![No8KwR6wPhTIP6bKEqGcbBDWngc](https://zdoc-images.s3.us-west-2.amazonaws.com/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
+![Use Dense Vector](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/7de8473a14cc5fbb175e1311eccea5a22a0a28802318448aacdb4a0f519b6343.png)
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Besides dense vectors, Zilliz Cloud also supports sparse vectors and binary vectors. Sparse vectors are suitable for precise matches based on specific terms, such as keyword search and term matching, while binary vectors are commonly used for efficiently handling binarized data, such as image pattern matching and certain hashing applications. For more information, refer to [Binary Vector](./use-binary-vector) and [Sparse Vector](./use-sparse-vector).
 
@@ -71,7 +73,7 @@ Besides dense vectors, Zilliz Cloud also supports sparse vectors and binary vect
 
 ### Add vector field\{#add-vector-field}
 
-To use dense vectors in Zilliz Cloud clusters, first define a vector field for storing dense vectors when creating a collection. This process includes:
+To use dense vectors in Zilliz Cloud, first define a vector field for storing dense vectors when creating a collection. This process includes:
 
 1. Setting `datatype` to a supported dense vector data type. For supported dense vector data types, see Data Types.
 
@@ -89,7 +91,7 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 schema = client.create_schema(
     auto_id=True,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 schema.add_field(field_name="pk", datatype=DataType.VARCHAR, is_primary=True, max_length=100)
@@ -135,29 +137,38 @@ schema.addField(AddFieldReq.builder()
 
 ```go
 import (
+    "context"
     "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-err = client.CreateCollection(ctx,
-    milvusclient.NewCreateCollectionOption("my_collection", schema).
-        WithIndexOptions(indexOption))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-// CreateCollection does not implicitly load the collection; load it before search.
-loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-if err := loadTask.Await(ctx); err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
+defer client.Close(ctx)
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(true)
+schema.WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeVarChar).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true).
+    WithMaxLength(100),
+).WithField(entity.NewField().
+    WithName("dense_vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(4),
+)
 ```
 
 </TabItem>
@@ -300,16 +311,33 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 **Supported data types for dense vector fields**:
 
-| Data Type | Description |
-| --- | --- |
-| `FLOAT_VECTOR` | Stores 32-bit floating-point numbers, commonly used for representing real numbers in scientific computations and machine learning. Ideal for scenarios requiring high precision, such as distinguishing similar vectors. |
-| `FLOAT16_VECTOR` | Stores 16-bit half-precision floating-point numbers, used for deep learning and GPU computations. It saves storage space in scenarios where precision is less critical, such as in the low-precision recall phase of recommendation systems. |
-| `BFLOAT16_VECTOR` | Stores 16-bit Brain Floating Point (bfloat16) numbers, offering the same range of exponents as Float32 but with reduced precision. Suitable for scenarios that need to process large volumes of vectors quickly, such as large-scale image retrieval. |
-| `INT8_VECTOR` | Stores vectors whose individual elements in each dimension are 8-bit integers (int8), with each element ranging from –128 to 127. Designed for quantized deep learning models (e.g., ResNet, EfficientNet), INT8_VECTOR reduces model size and speeds up inference with minimal precision loss. |
+<table>
+   <tr>
+     <th><p>Data Type</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p><code>FLOAT_VECTOR</code></p></td>
+     <td><p>Stores 32-bit floating-point numbers, commonly used for representing real numbers in scientific computations and machine learning. Ideal for scenarios requiring high precision, such as distinguishing similar vectors.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>FLOAT16_VECTOR</code></p></td>
+     <td><p>Stores 16-bit half-precision floating-point numbers, used for deep learning and GPU computations. It saves storage space in scenarios where precision is less critical, such as in the low-precision recall phase of recommendation systems.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>BFLOAT16_VECTOR</code></p></td>
+     <td><p>Stores 16-bit Brain Floating Point (bfloat16) numbers, offering the same range of exponents as Float32 but with reduced precision. Suitable for scenarios that need to process large volumes of vectors quickly, such as large-scale image retrieval.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>INT8_VECTOR</code></p></td>
+     <td><p>Stores vectors whose individual elements in each dimension are 8-bit integers (int8), with each element ranging from –128 to 127. Designed for quantized deep learning models (e.g., ResNet, EfficientNet), INT8_VECTOR reduces model size and speeds up inference with minimal precision loss.<br/><strong>Note</strong>: This vector type is supported only for HNSW indexes.</p></td>
+   </tr>
+</table>
 
 ### Set index params for vector field\{#set-index-params-for-vector-field}
 
@@ -438,9 +466,12 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 In the example above, an index named `dense_vector_index` is created for the `dense_vector` field using the `AUTOINDEX` index type. The `metric_type` is set to `IP`, indicating that inner product will be used as the distance metric.
+
+Zilliz Cloud provides various index types for a better vector search experience. AUTOINDEX is a special index type designed to smooth the learning curve of vector search. There are a lot of index types available for you to choose from. For details, refer to [Index Explained](./indexes).
 
 Zilliz Cloud supports other metric types. For more information, refer to [Metric Types](./search-metrics-explained).
 
@@ -589,6 +620,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Insert data\{#insert-data}
@@ -781,11 +813,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Perform similarity search\{#perform-similarity-search}
 
-Semantic search based on dense vectors is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search, prepare the query vector and search parameters, then call the `search` method.
+Semantic search based on dense vectors is one of the core features of Zilliz Cloud, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search, prepare the query vector and search parameters, then call the `search` method.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1007,6 +1040,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 For more information on similarity search parameters, refer to [Basic ANN Search](./single-vector-search).

@@ -355,11 +355,14 @@ const collectionName = "timestamptz_test123";
 const client = new MilvusClient({ address: serverAddress, token });
 
 // Drop the collection if it already exists
-await client.dropCollection({ collection_name: collectionName }).catch(() => {});
+if (await client.hasCollection({ collection_name: collectionName })) {
+  await client.dropCollection({ collection_name: collectionName });
+}
 
 // Create a collection with a TIMESTAMPTZ field
 await client.createCollection({
     collection_name: collectionName,
+    consistency_level: 'Session',
     fields: [
       {
         name: "id",
@@ -385,6 +388,22 @@ await client.createCollection({
 <TabItem value='bash'>
 
 ```bash
+# Drop the collection if it already exists
+if curl --request GET \
+       --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/has?collectionName=timestamptz_test123" \
+       --header 'Authorization: Bearer YOUR_CLUSTER_TOKEN' \
+       --header 'Content-Type: application/json' \
+       --header "Request-Timeout: 10" | grep -q '"has"[^,]*true'; then
+  curl --request POST \
+       --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/drop \
+       --header 'Authorization: Bearer YOUR_CLUSTER_TOKEN' \
+       --header 'Content-Type: application/json' \
+       --header "Request-Timeout: 10" \
+       --data '{
+         "collectionName": "timestamptz_test123"
+       }'
+fi
+
 curl --request POST \
      --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create \
      --header 'Authorization: Bearer YOUR_CLUSTER_TOKEN' \
@@ -400,14 +419,6 @@ curl --request POST \
            { "fieldName": "vec", "dataType": "FloatVector", "elementTypeParams": { "dim": "4" } }
          ]
        },
-       "indexParams": [
-         {
-           "fieldName": "vec",
-           "indexName": "vector_index",
-           "metricType": "L2",
-           "indexType": "AUTOINDEX"
-         }
-       ],
        "consistencyLevel": "Session"
      }'
 ```
@@ -823,7 +834,24 @@ await client.loadCollection({
 <TabItem value='bash'>
 
 ```bash
-# The index on the vector field was already created when the collection was created.
+# Create an index on the vector field.
+curl --request POST \
+     --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/create \
+     --header 'Authorization: Bearer YOUR_CLUSTER_TOKEN' \
+     --header 'Content-Type: application/json' \
+     --header "Request-Timeout: 10" \
+     --data '{
+       "collectionName": "timestamptz_test123",
+       "indexParams": [
+         {
+           "fieldName": "vec",
+           "indexName": "vec_index",
+           "metricType": "COSINE",
+           "indexType": "AUTOINDEX"
+         }
+       ]
+     }'
+
 # Load the collection before filtering.
 curl --request POST \
      --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/load \

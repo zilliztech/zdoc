@@ -603,7 +603,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html). For details on the `like` operator in Milvus, refer to [Using ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[`LIKE`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)[ for Pattern Matching](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb).
+You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html). For details on the `like` operator in Milvus, refer to [Using ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[`LIKE`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[ for Pattern Matching](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe).
 
 ### Range query\{#range-query}
 

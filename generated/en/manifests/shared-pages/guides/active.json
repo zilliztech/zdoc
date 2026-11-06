@@ -820,6 +820,83 @@
       ],
       "anchors": {},
       "activated_in": "41998529005"
+    },
+    {
+      "page": "full-text-search",
+      "record": "recvlPqEajVvUb",
+      "feishu_token": "RQTRwhOVPiwnwokqr4scAtyfnBf",
+      "feishu_aliases": [
+        "A3mAdX5a0oCGO5xV0ylcH2AGnTb",
+        "RQTRwhOVPiwnwokqr4scAtyfnBf"
+      ],
+      "anchors": {},
+      "activated_in": "42200820696"
+    },
+    {
+      "page": "text-match",
+      "record": "recvlPqGLmC059",
+      "feishu_token": "RQQKwqhZUiubFzkHo4WcR62Gnvh",
+      "feishu_aliases": [
+        "OrJ7dZi2BoHVx0x1N3iczsXFnbh",
+        "RQQKwqhZUiubFzkHo4WcR62Gnvh"
+      ],
+      "anchors": {},
+      "activated_in": "42200820696"
+    },
+    {
+      "page": "manage-collections",
+      "record": "recvlPrrKKZqxc",
+      "feishu_token": "Z9AMwNkVLiog0jkXxNscuMpJnjL",
+      "feishu_aliases": [
+        "YE9vdhY0oo11tkxzrOicfM2jnSm",
+        "Z9AMwNkVLiog0jkXxNscuMpJnjL"
+      ],
+      "anchors": {},
+      "activated_in": "42200820696"
+    },
+    {
+      "page": "use-dense-vector",
+      "record": "recvlPt0fX4m9U",
+      "feishu_token": "ARalwpaVDiCwDZkoSHtcPNgXnRg",
+      "feishu_aliases": [
+        "ARalwpaVDiCwDZkoSHtcPNgXnRg",
+        "OKiOdVU6yoVH9cxPZhrchKRPnac"
+      ],
+      "anchors": {},
+      "activated_in": "42200820696"
+    },
+    {
+      "page": "use-binary-vector",
+      "record": "recvlPt1KuBotc",
+      "feishu_token": "NTwawtvYdiXTkukbss7ccw2RnXc",
+      "feishu_aliases": [
+        "EzXCd6q9Xo2At1xssEecBsvZnhb",
+        "NTwawtvYdiXTkukbss7ccw2RnXc"
+      ],
+      "anchors": {},
+      "activated_in": "42200820696"
+    },
+    {
+      "page": "use-sparse-vector",
+      "record": "recvlPt3BHiutO",
+      "feishu_token": "JbPDwHqd0iZZSuk5tYicGqKbn9c",
+      "feishu_aliases": [
+        "JbPDwHqd0iZZSuk5tYicGqKbn9c",
+        "M7MOdb8vRo84oix9mrpc10QVnWb"
+      ],
+      "anchors": {},
+      "activated_in": "42200820696"
+    },
+    {
+      "page": "bm25-function",
+      "record": "recvlUId1kLImN",
+      "feishu_token": "YbChwcPMBim5ryk1EQocEbDenDd",
+      "feishu_aliases": [
+        "DE3MdfQv9oqo8dxKIcJcqdnlntf",
+        "YbChwcPMBim5ryk1EQocEbDenDd"
+      ],
+      "anchors": {},
+      "activated_in": "42200820696"
     }
   ]
 }

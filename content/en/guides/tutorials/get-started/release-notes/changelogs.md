@@ -320,7 +320,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash function](./minhash-function)
 
-            - Order by for [searches](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#J302dXJq8oDOOdxA9EYc86Kmnof) and [queries](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#VhCFdfqkooVQMHxxVTyceCyKngg)
+            - Order by for [searches](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#CduodT384oDTX7x2IWqcjZv9nSg) and [queries](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#doxcnPWWXEtKQ2jAUJQeOtm3rle)
 
             - [Snapshots](./snapshots)
 
@@ -878,7 +878,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Multi-vector hybrid search](./hybrid-search)
 
-            - [Inverted index](./inverted-index-type) and [fuzzy match](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#BIWqdTyc0o4Z3GxnNw8c6Ddsntb)
+            - [Inverted index](./inverted-index-type) and [fuzzy match](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)
 
             - [Grouping search](./grouping-search)
 

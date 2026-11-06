@@ -1,7 +1,6 @@
 ---
 title: "Text Match | Cloud"
 slug: /text-match
-sidebar_label: "Text Match"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria. | Cloud"
 type: origin
-token: RQQKwqhZUiubFzkHo4WcR62Gnvh
-sidebar_position: 13
 displayed_sidebar: default
+token: shared-text-match
+sidebar_label: "Text Match"
+sidebar_position: 13
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/keyword-match.md"
 
 ---
 
@@ -23,13 +24,13 @@ import TabItem from '@theme/TabItem';
 
 Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-Text match focuses on finding exact occurrences of the query terms, without scoring the relevance of the matched documents. If you want to retrieve the most relevant documents based on the semantic meaning and importance of the query terms, we recommend you use [Full Text Search](./full-text-search).
+`TEXT_MATCH` finds exact analyzed terms, while `TEXT_MATCH_FUZZY` can tolerate a small edit distance between query tokens and indexed tokens. Both are Boolean filtering operations and do not score the relevance of matched documents. If you want to retrieve the most relevant documents based on the semantic meaning and importance of the query terms, we recommend you use [Full Text Search](./full-text-search).
 
 </Admonition>
 
-Zilliz Cloud supports enabling text match programmatically or via the web console. This page focuses on how to enable text match programmatically. For details about operations on the web console, refer to [Manage Collections (Console)](./manage-collections-console#text-match).
+Zilliz Cloud supports enabling text match programmatically or via the web console. This page focuses on how to enable text match programmatically. For details about operations on the web console, refer to [Manage Collections (Console)](https://docs.zilliz.com/docs/manage-collections-console#text-match).
 
 ## Overview\{#overview}
 
@@ -41,11 +42,11 @@ Zilliz Cloud integrates [Tantivy](https://github.com/quickwit-oss/tantivy) to po
 
 When a user performs a text match, the inverted index is used to quickly retrieve all documents containing the terms. This is much faster than scanning through each document individually.
 
-![N43zw7HuGhmCHRbYDDmctO1bnkd](https://zdoc-images.s3.us-west-2.amazonaws.com/N43zw7HuGhmCHRbYDDmctO1bnkd.png)
+![Keyword Match](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/1f891c1bec47fc67600a361565522dd4aa2760237184c6911cbcf82cf6b8355d.png)
 
 ## Enable text match\{#enable-text-match}
 
-Text match works on the [`VARCHAR`](./use-string-field) field type, which is essentially the string data type in Zilliz Cloud. To enable text match, set both `enable_analyzer` and `enable_match` to `True` and then optionally configure an [analyzer](./analyzer-overview) for text analysis when defining your collection schema.
+Text match works on the [`VARCHAR`](https://docs.zilliz.com/docs/use-string-field) field type, which is essentially the string data type in Zilliz Cloud. To enable text match, set both `enable_analyzer` and `enable_match` to `True` and then optionally configure an [analyzer](https://docs.zilliz.com/docs/analyzer-overview) for text analysis when defining your collection schema.
 
 ### Set `enable_analyzer` and `enable_match`\{#set-enableanalyzer-and-enablematch}
 
@@ -86,14 +87,6 @@ schema.add_field(
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .enableDynamicField(false)
@@ -123,10 +116,7 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "context"
-import "fmt"
 import "github.com/milvus-io/milvus/client/v3/entity"
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
 
 schema := entity.NewSchema().WithDynamicFieldEnabled(false)
 schema.WithField(entity.NewField().
@@ -153,7 +143,6 @@ schema.WithField(entity.NewField().
 
 ```rust
 use milvus::v2::prelude::*;
-use serde_json::json;
 
 let schema = CollectionSchema::new()
     .enable_dynamic_field(false)
@@ -185,13 +174,8 @@ let schema = CollectionSchema::new()
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-#include <memory>
-#include <string>
-#include <vector>
-
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(false);
 schema->AddField({"id", milvus::DataType::INT64, "", true, true});
 schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true).EnableMatch(true));
 schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
@@ -202,8 +186,6 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 const schema = [
   {
     name: "id",
@@ -298,6 +280,7 @@ zilliz collection create --collection-name my_collection --schema '{
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Optional: Configure an analyzer\{#optional-configure-an-analyzer}
@@ -330,6 +313,11 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 schema.addField(AddFieldReq.builder()
@@ -363,6 +351,8 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let analyzer_params = serde_json::json!({"type": "english"});
 
 let schema = CollectionSchema::new()
@@ -397,12 +387,7 @@ let schema = CollectionSchema::new()
 
 ```c++
 nlohmann::json analyzer_params = {{"type", "english"}};
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"id", milvus::DataType::INT64, "", true, true});
-schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000)
-                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params));
-schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(200).EnableAnalyzer(true).WithAnalyzerParams(analyzer_params).EnableMatch(true));
 ```
 
 </TabItem>
@@ -509,23 +494,32 @@ zilliz collection create --collection-name my_collection --schema '{
 ```
 
 </TabItem>
+
 </Tabs>
 
 Zilliz Cloud also provides various other analyzers suited to different languages and scenarios. For more details, refer to [Analyzer Overview](./analyzer-overview).
 
 ## Use text match\{#use-text-match}
 
-Once you have enabled text match for a VARCHAR field in your collection schema, you can perform text matches using the `TEXT_MATCH` expression.
+Once you have enabled text match for a `VARCHAR` or `TEXT` field in your collection schema, you can perform text matches using the `TEXT_MATCH` expression.
 
 ### TEXT_MATCH expression syntax\{#textmatch-expression-syntax}
 
 The `TEXT_MATCH` expression is used to specify the field and the terms to search for. Its syntax is as follows:
 
-```plaintext
+```python
 TEXT_MATCH(field_name, text)
 ```
 
-- `field_name`: The name of the VARCHAR field to search for.
+```cpp
+std::string filter = "TEXT_MATCH(field_name, text)";
+```
+
+```bash
+export filter="\"TEXT_MATCH(field_name, text)\""
+```
+
+- `field_name`: The name of the match-enabled `VARCHAR` or `TEXT` field to search for.
 
 - `text`: The terms to search for. Multiple terms can be separated by spaces or other appropriate delimiters based on the language and configured analyzer.
 
@@ -567,7 +561,7 @@ let filter = "TEXT_MATCH(text, 'machine deep')";
 <TabItem value='c++'>
 
 ```c++
-const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
+std::string filter = "TEXT_MATCH(text, 'machine deep')";
 ```
 
 </TabItem>
@@ -594,167 +588,178 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
 # Zilliz CLI
 # Prerequisite: run zilliz login and select your cluster with zilliz context set.
 
-# Query documents containing both "machine" and "deep"
-zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')" --output-fields "id,text" 
+# Query documents containing "keyword1" or "keyword2"
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'keyword1 keyword2')" --output-fields "id,text" 
 ```
 
 </TabItem>
+
 </Tabs>
 
 You can also combine multiple `TEXT_MATCH` expressions using logical operators to perform **AND** matching. 
 
 - To search for documents containing both `machine` and `deep` in the `text` field, use the following expression:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
-    <TabItem value='python'>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
-    ```python
-    filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
-    ```
+```python
+filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='java'>
+<TabItem value='java'>
 
-    ```java
-    String filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
-    ```
+```java
+String filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='go'>
+<TabItem value='go'>
 
-    ```go
-    filter := "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
-    ```
+```go
+filter := "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='rust'>
+<TabItem value='rust'>
 
-    ```rust
-    let filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
-    ```
+```rust
+let filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='c++'>
+<TabItem value='c++'>
 
-    ```c++
-    const auto filter = R"(TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep'))";
-    ```
+```c++
+std::string filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='javascript'>
+<TabItem value='javascript'>
 
-    ```javascript
-    const filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
-    ```
+```javascript
+const filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='bash'>
+<TabItem value='bash'>
 
-    ```bash
-    export filter="\"TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')\""
-    ```
+```bash
+export filter="\"TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')\""
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='shell'>
+<TabItem value='shell'>
 
-    ```shell
-    # Zilliz CLI
-    # Prerequisite: run zilliz login and select your cluster with zilliz context set.
-    
-    # Query documents containing "machine" and "learning" but not "deep"
-    zilliz collection query --collection-name my_collection --filter "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')" --output-fields "id,text" 
-    ```
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
 
-    </TabItem>
-    </Tabs>
+# Query documents containing both "machine" and "deep"
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')" --output-fields "id,text" 
+```
+
+</TabItem>
+
+</Tabs>
 
 - To search for documents containing both `machine` and `learning` but without `deep` in the `text` field, use the following expressions:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
-    <TabItem value='python'>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
-    ```python
-    filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')"
-    ```
+```python
+filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')"
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='java'>
+<TabItem value='java'>
 
-    ```java
-    String filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
-    ```
+```java
+String filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='go'>
+<TabItem value='go'>
 
-    ```go
-    filter := "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')"
-    ```
+```go
+filter := "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')"
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='rust'>
+<TabItem value='rust'>
 
-    ```rust
-    let filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
-    ```
+```rust
+let filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='c++'>
+<TabItem value='c++'>
 
-    ```c++
-    const auto filter = R"(not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning'))";
-    ```
+```c++
+std::string filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='javascript'>
+<TabItem value='javascript'>
 
-    ```javascript
-    const filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
-    ```
+```javascript
+const filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='bash'>
+<TabItem value='bash'>
 
-    ```bash
-    export filter="\"not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')\""
-    ```
+```bash
+export filter="\"not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')\""
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='shell'>
+<TabItem value='shell'>
 
-    ```shell
-    # Zilliz CLI
-    # Prerequisite: run zilliz login and select your cluster with zilliz context set.
-    
-    # Query documents containing "keyword1" or "keyword2"
-    zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'keyword1 keyword2')" --output-fields "id,text" 
-    ```
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
 
-    </TabItem>
-    </Tabs>
+# Query documents containing "machine" and "learning" but not "deep"
+zilliz collection query --collection-name my_collection --filter "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')" --output-fields "id,text" 
+```
+
+</TabItem>
+
+</Tabs>
 
 ### TEXT_MATCH_FUZZY expression syntax | PUBLIC\{#textmatchfuzzy-expression-syntax-or-public}
 
-Use `TEXT_MATCH_FUZZY` to tolerate spelling differences between query tokens and indexed tokens. Milvus analyzes the query text with the field’s analyzer and applies fuzzy matching to each resulting token. If the query produces multiple tokens, the expression matches an entity when any token satisfies the configured edit distance.
+Use `TEXT_MATCH_FUZZY` to tolerate spelling differences between query tokens and indexed tokens. Zilliz Cloud analyzes the query text with the field's analyzer and applies fuzzy matching to each resulting token. If the query produces multiple tokens, the expression matches an entity when any token satisfies the configured edit distance.
 
 The syntax is as follows:
 
-```plaintext
+```python
 TEXT_MATCH_FUZZY(field_name, text, max_edit_distance = 1)
+```
+
+```cpp
+std::string filter = "TEXT_MATCH_FUZZY(field_name, text, max_edit_distance = 1)";
+```
+
+```bash
+export filter="\"TEXT_MATCH_FUZZY(field_name, text, max_edit_distance = 1)\""
 ```
 
 - `field_name`: The name of the match-enabled `VARCHAR` or `TEXT` field to search for.
@@ -826,16 +831,29 @@ export filter="\"TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)\""
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents with fuzzy matching (tolerates spelling differences)
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)" --output-fields "id,text" 
 ```
 
 </TabItem>
+
 </Tabs>
+
+`TEXT_MATCH_FUZZY` is part of the filter-expression syntax, so client SDKs do not require a dedicated fuzzy-match method. Pass the expression through the same `filter` parameter used for `TEXT_MATCH` in search or query operations.
 
 ### Search with text match\{#search-with-text-match}
 
 Text match can be used in combination with vector similarity search to narrow the search scope and improve search performance. By filtering the collection using text match before vector similarity search, you can reduce the number of documents that need to be searched, resulting in faster query times.
 
 In this example, the `filter` expression filters the search results to only include documents that match the specified term `keyword1` or `keyword2`. The vector similarity search is then performed on this filtered subset of documents.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+You can highlight the matched terms in search results by configuring a text highlighter. See [Text Highlighter](./text-highlighter) for details.
+
+</Admonition>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -862,6 +880,11 @@ result = client.search(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
 String filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -900,6 +923,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
 // Match entities with `keyword1` or `keyword2`
 let filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
@@ -925,16 +958,20 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-const auto filter = R"(TEXT_MATCH(text, 'keyword1 keyword2'))";
-std::vector<float> query_vector = {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104};
+// Match entities with `keyword1` or `keyword2`
+std::string filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
+
+// Assuming 'embeddings' is the vector field and 'text' is the VARCHAR field
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .WithAnnsField("embeddings")
+                   .AddFloatVector(query_vector)
+                   // highlight-next-line
                    .WithFilter(filter)
+                   .AddExtraParam("nprobe", "10")
                    .WithLimit(10)
-                   .AddOutputField("text")
                    .AddOutputField("id")
-                   .AddFloatVector(query_vector);
+                   .AddOutputField("text");
 
 milvus::SearchResponse response;
 auto status = client->Search(request, response);
@@ -1002,11 +1039,12 @@ curl --request POST \
 # Zilliz CLI
 # Prerequisite: run zilliz login and select your cluster with zilliz context set.
 
-# Query documents with fuzzy matching (tolerates spelling differences)
-zilliz collection query --collection-name my_collection --filter "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)" --output-fields "id,text" 
+# Search documents containing "machine deep" with vector similarity
+zilliz collection search --collection-name my_collection --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "TEXT_MATCH(text, 'machine deep')" --limit 10 --output-fields "id,text" 
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Query with text match\{#query-with-text-match}
@@ -1015,7 +1053,7 @@ Text match can also be used for scalar filtering in query operations. By specify
 
 The example below retrieves documents where the `text` field contains both terms `keyword1` and `keyword2`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1035,6 +1073,10 @@ result = client.query(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 QueryResp queryResp = client.query(QueryReq.builder()
@@ -1059,6 +1101,7 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
 ```
 
 </TabItem>
@@ -1066,6 +1109,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
+let uri = "YOUR_CLUSTER_ENDPOINT";
+let token = "YOUR_CLUSTER_TOKEN";
+
+let client = ClientV2::new(
+    &ConnectConfig::new().uri(uri).token(token),
+)
+.await?;
+
 // Match entities with both `keyword1` and `keyword2`
 let filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
@@ -1085,13 +1138,15 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-const auto filter = R"(TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2'))";
+// Match entities with both `keyword1` and `keyword2`
+std::string filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter(filter)
-                       .AddOutputField("id")
-                       .AddOutputField("text");
+                   .WithCollectionName("my_collection")
+                   // highlight-next-line
+                   .WithFilter(filter)
+                   .AddOutputField("id")
+                   .AddOutputField("text");
 
 milvus::QueryResponse response;
 auto status = client->Query(request, response);
@@ -1140,17 +1195,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-# Prerequisite: run zilliz login and select your cluster with zilliz context set.
-
-# Search documents containing "machine deep" with vector similarity
-zilliz collection search --collection-name my_collection --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "TEXT_MATCH(text, 'machine deep')" --limit 10 --output-fields "id,text" 
-```
-
-</TabItem>
 </Tabs>
 
 ## Considerations\{#considerations}
@@ -1159,8 +1203,6 @@ zilliz collection search --collection-name my_collection --vector-field embeddin
 
 - Once you've defined an analyzer in your schema, its settings become permanent for that collection. If you decide that a different analyzer would better suit your needs, you may consider dropping the existing collection and creating a new one with the desired analyzer configuration.
 
-- Phrase match performance depends on how text is tokenized. Before applying an analyzer to your entire collection, use the `run_analyzer` method to review the tokenization output. For more information, refer to [Analyzer Overview](./analyzer-overview#built-in-analyzer).
-
 - Escape rules in `filter` expressions:
 
     - Characters enclosed in double quotes or single quotes within expressions are interpreted as string constants. If the string constant includes escape characters, the escape characters must be represented with escape sequence. For example, use `\\` to represent `\`, `\\t` to represent a tab `\t`, and `\\n` to represent a newline.
@@ -1168,4 +1210,3 @@ zilliz collection search --collection-name my_collection --vector-field embeddin
     - If a string constant is enclosed by single quotes, a single quote within the constant should be represented as `\\'` while a double quote can be represented as either `"` or `\\"`. Example: `'It\\'s milvus'`.
 
     - If a string constant is enclosed by double quotes, a double quote within the constant should be represented as `\\"` while a single quote can be represented as either `'` or `\\'`. Example: `"He said \\"Hi\\""`.
-

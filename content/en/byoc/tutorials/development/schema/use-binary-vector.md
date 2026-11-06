@@ -1,7 +1,6 @@
 ---
 title: "Binary Vector | BYOC"
 slug: /use-binary-vector
-sidebar_label: "Binary Vector"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Binary vectors are a special form of data representation that convert traditional high-dimensional floating-point vectors into binary vectors containing only 0s and 1s. This transformation not only compresses the size of the vector but also reduces storage and computational costs while retaining semantic information. When precision for non-critical features is not essential, binary vectors can effectively maintain most of the integrity and utility of the original floating-point vectors. | BYOC"
 type: origin
-token: NTwawtvYdiXTkukbss7ccw2RnXc
-sidebar_position: 4
 displayed_sidebar: default
+token: shared-use-binary-vector
+sidebar_label: "Binary Vector"
+sidebar_position: 4
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/binary-vector.md"
 
 ---
 
@@ -27,11 +28,11 @@ Binary vectors have a wide range of applications, particularly in situations whe
 
 ## Overview\{#overview}
 
-Binary vectors are a method of encoding complex objects (like images, text, or audio) into fixed-length binary values. In Zilliz Cloud clusters, binary vectors are typically represented as bit arrays or byte arrays. For example, an 8-dimensional binary vector can be represented as `[1, 0, 1, 1, 0, 0, 1, 0]`.
+Binary vectors are a method of encoding complex objects (like images, text, or audio) into fixed-length binary values. In Zilliz Cloud, binary vectors are typically represented as bit arrays or byte arrays. For example, an 8-dimensional binary vector can be represented as `[1, 0, 1, 1, 0, 0, 1, 0]`.
 
 The diagram below shows how binary vectors represent the presence of keywords in text content. In this example, a 10-dimensional binary vector is used to represent two different texts (**Text 1** and **Text 2**), where each dimension corresponds to a word in the vocabulary: 1 indicates the presence of the word in the text, while 0 indicates its absence.
 
-![TuIGwtyEkh9g04bvo0icsWdynBd](https://zdoc-images.s3.us-west-2.amazonaws.com/TuIGwtyEkh9g04bvo0icsWdynBd.png)
+![Binary Vector](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/ee34d8689d906400466f8c7287bed870cf9f258bf77f437e0b7d63b51588ac53.png)
 
 Binary vectors have the following characteristics:
 
@@ -45,11 +46,11 @@ Binary vectors have the following characteristics:
 
 Binary vectors can be generated through various methods. In text processing, predefined vocabularies can be used to set corresponding bits based on word presence. For image processing, perceptual hashing algorithms (like [pHash](https://en.wikipedia.org/wiki/Perceptual_hashing)) can generate binary features of images. In machine learning applications, model outputs can be binarized to obtain binary vector representations.
 
-After binary vectorization, the data can be stored in Zilliz Cloud clusters for management and vector retrieval. The diagram below shows the basic process.
+After binary vectorization, the data can be stored in Zilliz Cloud for management and vector retrieval. The diagram below shows the basic process.
 
-![TF1uw4AQVhFdmBbrhyVcJO6WnXe](https://zdoc-images.s3.us-west-2.amazonaws.com/TF1uw4AQVhFdmBbrhyVcJO6WnXe.png)
+![Use Binary Vector](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/5568db7b4aed503625a7668e9370a19e09249ae18881ccf547fded68f95116fa.png)
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Although binary vectors excel in specific scenarios, they have limitations in their expressive capability, making it difficult to capture complex semantic relationships. Therefore, in real-world scenarios, binary vectors are often used alongside other vector types to balance efficiency and expressiveness. For more information, refer to [Dense Vector](./use-dense-vector) and [Sparse Vector](./use-sparse-vector).
 
@@ -59,7 +60,7 @@ Although binary vectors excel in specific scenarios, they have limitations in th
 
 ### Add vector field\{#add-vector-field}
 
-To use binary vectors in Zilliz Cloud clusters, first define a vector field for storing binary vectors when creating a collection. This process includes:
+To use binary vectors in Zilliz Cloud, first define a vector field for storing binary vectors when creating a collection. This process includes:
 
 1. Setting `datatype` to the supported binary vector data type, i.e., `BINARY_VECTOR`.
 
@@ -75,7 +76,7 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 schema = client.create_schema(
     auto_id=True,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 schema.add_field(field_name="pk", datatype=DataType.VARCHAR, is_primary=True, max_length=100)
@@ -246,8 +247,7 @@ using Milvus.Client.V2.Types;
 var config = new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 };
 using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
@@ -296,6 +296,7 @@ export schema="{
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example, a vector field named `binary_vector` is added for storing binary vectors. The data type of this field is `BINARY_VECTOR`, with a dimension of 128.
@@ -420,9 +421,12 @@ export indexParams='[
 ```
 
 </TabItem>
+
 </Tabs>
 
 In the example above, an index named `binary_vector_index` is created for the `binary_vector` field, using the `AUTOINDEX` index type. The `metric_type` is set to `HAMMING`, indicating that Hamming distance is used for similarity measurement.
+
+Zilliz Cloud provides various index types for a better vector search experience. AUTOINDEX is a special index type designed to smooth the learning curve of vector search. There are a lot of index types available for you to choose from. For details, refer to [Index Explained](./indexes).
 
 Additionally, Zilliz Cloud supports other similarity metrics for binary vectors. For more information, refer to [Metric Types](./search-metrics-explained).
 
@@ -565,6 +569,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Insert data\{#insert-data}
@@ -780,11 +785,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Perform similarity search\{#perform-similarity-search}
 
-Similarity search is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search using binary vectors, prepare the query vector and search parameters, then call the `search` method.
+Similarity search is one of the core features of Zilliz Cloud, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search using binary vectors, prepare the query vector and search parameters, then call the `search` method.
 
 During search operations, binary vectors must also be provided in the form of a byte array. Ensure that the dimensionality of the query vector matches the dimension specified when defining `dim` and that every 8 boolean values are converted into 1 byte.
 
@@ -1010,6 +1016,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 For more information on similarity search parameters, refer to [Basic ANN Search](./single-vector-search).

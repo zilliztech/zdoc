@@ -456,7 +456,7 @@ const res = await client.search({
     // highlight-start
     ids: [551, 296, 43],
     filter: 'color like "red%" and likes > 50',
-    output_fields: ["id", "color", "likes"],
+    output_fields: ["color", "likes"],
     // highlight-end
     limit: 3,
 });
@@ -891,7 +891,7 @@ const res = await client.search({
     // highlight-end
     limit: 3,
     group_by_field: "docId",
-    output_fields: ["id", "docId"],
+    output_fields: ["docId"],
 });
 
 console.log(res.results);

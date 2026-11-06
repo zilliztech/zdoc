@@ -297,7 +297,7 @@ nlohmann::json analyzer_params = {
     {"tokenizer", "standard"},
     {"filter", {"lowercase", "decimaldigit", "arabic_normalization",
                 {{"type", "stemmer"}, {"language", "arabic"}},
-                {{"type", "stop"}, {"stop_words", "_arabic_"}}}},
+                {{"type", "stop"}, {"stop_words", {"_arabic_"}}}}},
 };
 ```
 
@@ -355,7 +355,9 @@ analyzerParams='{
     },
     {
       "type": "stop",
-      "stop_words": "_arabic_"
+      "stop_words": [
+        "_arabic_"
+      ]
     }
   ]
 }'
@@ -651,6 +653,10 @@ foreach (var r in result.Results)
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \

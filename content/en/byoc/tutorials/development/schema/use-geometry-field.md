@@ -216,6 +216,7 @@ client
         CreateCollectionRequest::builder()
             .collection_name(collection_name)
             .schema(schema)
+            .consistency_level(ConsistencyLevel::Strong)
             .build()?,
     )
     .await?;
@@ -246,7 +247,8 @@ schema->AddField(milvus::FieldSchema("name", milvus::DataType::VARCHAR).WithMaxL
 
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName(collection_name)
-                                    .WithCollectionSchema(schema));
+                                    .WithCollectionSchema(schema)
+                                    .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -364,7 +366,8 @@ curl --request POST \
           }
         }
       ]
-    }
+    },
+    \"consistencyLevel\": \"Strong\"
   }"
 ```
 
@@ -805,8 +808,7 @@ client
 ```c++
 const std::string collection_name = "geo_collection";
 
-milvus::IndexDesc index_vector("embeddings", "", milvus::IndexType::IVF_FLAT, milvus::MetricType::L2);
-index_vector.AddExtraParam(milvus::NLIST, "128");
+milvus::IndexDesc index_vector("embeddings", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::L2);
 
 auto status = client->CreateIndex(milvus::CreateIndexRequest()
                                      .WithCollectionName(collection_name)
@@ -830,10 +832,9 @@ if (!status.IsOk()) {
 await client.createIndex({
   collection_name: 'geo_collection',
   field_name: 'embeddings',
-  index_type: 'IVF_FLAT',
+  index_type: 'AUTOINDEX',
   metric_type: 'L2',
   index_name: 'embeddings_index',
-  params: { nlist: 128 },
 });
 
 await client.loadCollection({

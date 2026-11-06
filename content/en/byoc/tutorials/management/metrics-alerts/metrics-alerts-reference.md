@@ -224,7 +224,7 @@ The **Availability** column lists the compute resources that support each metric
      <td><p>Loaded Entities (Approx.) ✦</p></td>
      <td><p>The approximate number of entities loaded (actively served).</p></td>
      <td><p><strong>Serving Clusters only</strong>: Dedicated / BYOC</p></td>
-     <td><p>For a more accurate and real-time value, please refer to the 'Loaded Entities' value on the collection overview page or use <a href="https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#RODmdMHPloOXv8xsPJCcvLdOnce">count(&ast;)</a>.</p></td>
+     <td><p>For a more accurate and real-time value, please refer to the 'Loaded Entities' value on the collection overview page or use <a href="./single-vector-search">count(&ast;)</a>.</p></td>
    </tr>
    <tr>
      <td><p>Number of Unloaded Collections</p></td>
