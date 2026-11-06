@@ -63,6 +63,9 @@ function validateBundle(files, expected = {}) {
     if (bundle.baseline_active_file?.file !== 'baseline/active.json') fail('active file path')
     if (!equal(JSON.parse(baseline(bundle.baseline_active_file?.file, 'generated/en/manifests/shared-pages/guides/active.json', bundle.baseline_active_file?.sha256)), bundle.baseline_active)) fail('baseline active')
   } else if (bundle.baseline_active_file) fail('unexpected active file')
+  const {publicationPath, baselineOutputPaths} = require('./sharedPageFetch')
+  const previousPublication = files.has('baseline/publication.json')
+    ? JSON.parse(baseline('baseline/publication.json', publicationPath)) : null
   // Reconstruct every inspected link and active ID, never alias-only state.
   const routing = require('./sharedPageFetch').restoreRouting(prep)
   const expectedRecords = new Set([...Object.keys(prep.inputs), ...prep.errors.map(error => error.record_id)])
@@ -116,9 +119,11 @@ function validateBundle(files, expected = {}) {
         activations.pages.push(entry)
       }
     } else if (outcome.status === 'fallback') {
-      const prior = prep.previous_snapshot?.records?.find(record => record.record_id === outcome.record_id)
+      const prior = prep.previous_snapshot?.records?.find(row => row.record_id === outcome.record_id)
+      if (prior && prior.source_kind !== 'shared-page' && !prior.output_paths?.length && inventory.has(publicationPath) && !previousPublication) fail('missing baseline publication')
+      const expectedPaths = baselineOutputPaths(prep.previous_snapshot, outcome.record_id, [...inventory.values()], previousPublication)
       descriptors = outcome.baseline.outputs
-      if (!Array.isArray(descriptors) || !equal([...descriptors.map(o => o.path)].sort(), [...(prior?.output_paths || [])].sort())) fail('incomplete baseline outputs')
+      if (!Array.isArray(descriptors) || !equal([...descriptors.map(o => o.path)].sort(), expectedPaths)) fail(`incomplete baseline outputs for ${outcome.record_id}: expected ${JSON.stringify(expectedPaths)}, received ${JSON.stringify(Array.isArray(descriptors) ? descriptors.map(o => o.path) : descriptors)}`)
       const active = bundle.baseline_active.pages.find(entry => entry.record === outcome.record_id) || null
       if (!equal(active, outcome.baseline.active)) fail('fallback activation')
       const receipt = outcome.baseline.receipt

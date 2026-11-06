@@ -1,0 +1,17 @@
+{
+ "code": 0,
+ "data": [
+  {
+   "cloudId": "aws",
+   "description": "Amazon Web Services"
+  },
+  {
+   "cloudId": "gcp",
+   "description": "Google Cloud Platform"
+  },
+  {
+   "cloudId": "azure",
+   "description": "Microsoft Azure"
+  }
+ ]
+}

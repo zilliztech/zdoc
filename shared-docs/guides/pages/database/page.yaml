@@ -1,0 +1,37 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/manage_databases.md
+
+metadata:
+  title: Database in Serving Clusters
+  description: A database in a serving cluster is a logical container for collections hosted by a Dedicated serving cluster. Use this page to create, view, configure, use, and drop databases through a serving cluster endpoint.
+
+publish:
+  - manual: guides
+    path: tutorials/development/database/database
+  - manual: guides-byoc
+    path: tutorials/development/database/database
+
+transforms:
+  - operation: replace
+    target:
+      block: database-heading
+    content:
+      file: cloud-heading.md
+  - operation: replace
+    target:
+      block: database-introduction
+    content:
+      file: cloud-introduction.md
+  - operation: replace
+    target:
+      block: database-properties-table
+    content:
+      file: cloud-properties-table.md
+  - operation: add
+    target:
+      block: database-faq
+    position: after
+    content:
+      file: cloud-next-steps.md

@@ -814,3 +814,135 @@ test('the shape gate refuses the PR #964 monster classes in written subtrees', (
         ], scalarDiff))), diff: scalarDiff, ruleset: RULESET}),
         /REST_UPSTREAM_APPLY_SHAPE_INVALID/)
 })
+
+test('mirror writes inherit the nearest ancestor lifecycle triple for nodes the fragment never had (run 42159286624)', () => {
+    const fileName = '11-import-operations-v2.json'
+    const triple = {'x-added-at': '2.6.x', 'x-last-modified': '2.6.x', 'x-deprecated-since': null}
+    const fragment = {
+        openapi: '3.0.1', info: {title: 'REST', version: 'v2'},
+        paths: {'/v2/vectordb/jobs/import/create': {post: {
+            responses: {'200': {description: 'ok', content: {'application/json': {schema: {anyOf: [
+                {'x-tab-label': 'success', type: 'object', ...triple,
+                    properties: {
+                        code: {type: 'integer', ...triple},
+                        data: {type: 'object', ...triple},
+                    }},
+                {'x-tab-label': 'failure', type: 'object', properties: {code: {type: 'integer'}}},
+            ]}}}}},
+        }}},
+    }
+    // Hand-built diff in the real mirror-entry shape (run 42159286624): the
+    // cloud spec fills the previously-empty data object with jobId, so the
+    // mirror writes a node the fragment never had into a lifecycle-managed
+    // subtree.
+    const dataPointer = '/paths/~1v2~1vectordb~1jobs~1import~1create/post/responses/200/content/application~1json/schema/anyOf/0/properties/data'
+    const MIRROR_DATA_ID = 'upstream-modified|post /v2/vectordb/jobs/import/create|11-import-operations-v2.json|response|success|200|data|schema|mirror'
+    const diff = {schemaVersion: '1.0', source: SOURCE.id, publicationTarget: 'zilliz', upstreamPin: SHA, summary: {},
+        entries: [{opKey: 'post /v2/vectordb/jobs/import/create', fragment: fileName,
+            category: 'upstream-modified', scope: 'response', branch: 'success', responseStatus: '200', field: 'data',
+            change: {kind: 'schema', key: 'mirror', before: null,
+                after: {type: 'object', properties: {code: {type: 'integer'}, data: {type: 'object', properties: {jobId: {type: 'string'}}}}}},
+            requiredMembership: null, droppedLocalFields: [], evidence: '/paths/~1v2~1vectordb~1jobs~1import~1create/post',
+            id: MIRROR_DATA_ID}]}
+    const documents = new Map([[fileName, fragment]])
+    const result = applyChangeSet({documents, titles: {}, ruleset: RULESET,
+        changeSet: parseChangeSet(JSON.stringify(changeSet([
+            {id: MIRROR_DATA_ID, kind: 'mirror', targetFragment: fileName, opPath: dataPointer,
+                value: mirrorValue(diff, MIRROR_DATA_ID, documents, fileName, dataPointer), requiredMembership: null},
+        ], diff))), diff})
+    const data = result.documents.get(fileName).paths['/v2/vectordb/jobs/import/create'].post
+        .responses['200'].content['application/json'].schema.anyOf[0].properties.data
+    // The subtree nodes the mirror brought in (code, the nested data object,
+    // and jobId) carry the inherited triple; the surviving data root keeps its own.
+    assert.deepEqual(
+        {added: data.properties.data.properties.jobId['x-added-at'], lastModified: data.properties.data.properties.jobId['x-last-modified'], deprecatedSince: data.properties.data.properties.jobId['x-deprecated-since']},
+        {added: '2.6.x', lastModified: '2.6.x', deprecatedSince: null},
+    )
+    assert.deepEqual(
+        {added: data['x-added-at'], lastModified: data['x-last-modified'], deprecatedSince: data['x-deprecated-since']},
+        {added: '2.6.x', lastModified: '2.6.x', deprecatedSince: null},
+    )
+    // The failure branch has no lifecycle-managed ancestor here: untouched.
+    const failureCode = result.documents.get(fileName).paths['/v2/vectordb/jobs/import/create'].post
+        .responses['200'].content['application/json'].schema.anyOf[1].properties.code
+    assert.ok(!('x-added-at' in failureCode))
+    assert.deepEqual(result.inheritedLifecycle, [
+        {pointer: `${dataPointer}/properties/code`, addedAt: '2.6.x', lastModified: '2.6.x', deprecatedSince: null},
+        {pointer: `${dataPointer}/properties/data`, addedAt: '2.6.x', lastModified: '2.6.x', deprecatedSince: null},
+        {pointer: `${dataPointer}/properties/data/properties/jobId`, addedAt: '2.6.x', lastModified: '2.6.x', deprecatedSince: null},
+    ])
+})
+
+test('addition writes inherit the ancestor triple only where one exists', () => {
+    const diff = additionDiff()
+    const fieldEntry = diff.entries[0]
+    const fieldPointer = `${SHAPE_DIFF_BASE}/responses/200/content/application~1json/schema/properties`
+    // additionDiff's fragment has no lifecycle-managed ancestors: nothing inherited.
+    const plain = applyChangeSet({documents: new Map([['20-volume-operations-v2.json', additionFragment()]]), titles: {},
+        changeSet: parseChangeSet(JSON.stringify(changeSet([
+            {id: fieldEntry.id, kind: 'addition', targetFragment: '20-volume-operations-v2.json',
+                opPath: fieldPointer, value: {data: withTranslations(fieldEntry.change.after)}, requiredMembership: null},
+        ], diff))), diff, ruleset: RULESET})
+    assert.deepEqual(plain.inheritedLifecycle, [])
+    assert.ok(!('x-added-at' in plain.documents.get('20-volume-operations-v2.json').paths['/v2/volumes/create'].post
+        .responses['200'].content['application/json'].schema.properties.data))
+})
+
+test('zilliz-only branches never inherit the managed triple (run 42163547148)', () => {
+    const fileName = '11-import-operations-v2.json'
+    const triple = {'x-added-at': '2.6.x', 'x-last-modified': '2.6.x', 'x-deprecated-since': null}
+    const fragment = {
+        openapi: '3.0.1', info: {title: 'REST', version: 'v2'},
+        paths: {'/v2/vectordb/jobs/import/create': {post: {
+            requestBody: {content: {'application/json': {schema: {
+                oneOf: [
+                    // The zilliz-only Volume branch carries a triple of its own
+                    // (contrived) to pin the ordering: the target exclusion
+                    // must win over an inherited triple, never lose to it.
+                    {'x-tab-label': 'Volume (Serving)', 'x-include-target': ['zilliz'], type: 'object', ...triple,
+                        properties: {clusterId: {type: 'string'}, volumeName: {type: 'string'}}},
+                    {'x-tab-label': 'Object storage files', 'x-include-target': ['milvus'], type: 'object', ...triple,
+                        properties: {dbName: {type: 'string'}}},
+                ],
+                ...triple,
+            }}}},
+            responses: {'200': {description: 'ok'}},
+        }}},
+    }
+    // branch-plan placed stageName (zilliz-only semantics) into the Volume
+    // branch and files into the milvus Object-storage branch.
+    const STAGE_ID = 'unattributed|post /v2/vectordb/jobs/import/create|11-import-operations-v2.json|requestBody|Volume (Serving)||stageName|field-uncovered|'
+    const FILES_ID = 'unattributed|post /v2/vectordb/jobs/import/create|11-import-operations-v2.json|requestBody|Object storage files||files|field-uncovered|'
+    const diff = {schemaVersion: '1.0', source: SOURCE.id, publicationTarget: 'zilliz', upstreamPin: SHA, summary: {},
+        entries: [
+            {opKey: 'post /v2/vectordb/jobs/import/create', fragment: fileName,
+                category: 'unattributed', scope: 'requestBody', branch: 'Volume (Serving)', field: 'stageName',
+                change: {kind: 'field-uncovered', before: null, after: {type: 'string'}},
+                requiredMembership: null, evidence: '/paths/x/post', id: STAGE_ID},
+            {opKey: 'post /v2/vectordb/jobs/import/create', fragment: fileName,
+                category: 'unattributed', scope: 'requestBody', branch: 'Object storage files', field: 'files',
+                change: {kind: 'field-uncovered', before: null, after: {type: 'array', items: {type: 'string'}}},
+                requiredMembership: null, evidence: '/paths/x/post', id: FILES_ID},
+        ]}
+    const documents = new Map([[fileName, fragment]])
+    const result = applyChangeSet({documents, titles: {}, ruleset: RULESET,
+        changeSet: parseChangeSet(JSON.stringify(changeSet([
+            {id: STAGE_ID, kind: 'addition', targetFragment: fileName,
+                opPath: '/paths/~1v2~1vectordb~1jobs~1import~1create/post/requestBody/content/application~1json/schema/oneOf/0/properties',
+                value: {stageName: {type: 'string'}}, requiredMembership: null},
+            {id: FILES_ID, kind: 'addition', targetFragment: fileName,
+                opPath: '/paths/~1v2~1vectordb~1jobs~1import~1create/post/requestBody/content/application~1json/schema/oneOf/1/properties',
+                value: {files: {type: 'array', items: {type: 'string'}}}, requiredMembership: null},
+        ], diff))), diff})
+    const members = result.documents.get(fileName).paths['/v2/vectordb/jobs/import/create'].post
+        .requestBody.content['application/json'].schema.oneOf
+    // The zilliz-only branch stays triple-free — no ancestor triple may leak in,
+    // not even the branch's own contrived one.
+    assert.ok(!('x-added-at' in members[0].properties.stageName))
+    // The milvus branch inherits from its managed ancestor.
+    assert.equal(members[1].properties.files['x-added-at'], '2.6.x')
+    assert.deepEqual(result.inheritedLifecycle, [
+        {pointer: '/paths/~1v2~1vectordb~1jobs~1import~1create/post/requestBody/content/application~1json/schema/oneOf/1/properties/files', addedAt: '2.6.x', lastModified: '2.6.x', deprecatedSince: null},
+        {pointer: '/paths/~1v2~1vectordb~1jobs~1import~1create/post/requestBody/content/application~1json/schema/oneOf/1/properties/files/items', addedAt: '2.6.x', lastModified: '2.6.x', deprecatedSince: null},
+    ])
+})

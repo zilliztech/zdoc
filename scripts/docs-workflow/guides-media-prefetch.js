@@ -358,11 +358,19 @@ async function prefetchGuidesMedia({
   const referencesToResolve = [...resolutionById.values()]
   const resolved = new Array(referencesToResolve.length)
   let cursor = 0
+  let stopped = false
   const workers = Array.from({ length: Math.min(concurrency, referencesToResolve.length) }, async () => {
-    while (cursor < referencesToResolve.length) {
+    while (!stopped && cursor < referencesToResolve.length) {
       const index = cursor
       cursor += 1
-      resolved[index] = await resolveReference(referencesToResolve[index], downloader, trim, upload)
+      try {
+        resolved[index] = await resolveReference(referencesToResolve[index], downloader, trim, upload)
+      } catch (error) {
+        // Stop pulling new work so a failing upstream does not keep consuming
+        // the whole queue after the run is already doomed to fail.
+        stopped = true
+        throw error
+      }
     }
   })
   await Promise.all(workers)
@@ -483,6 +491,9 @@ async function main() {
   }
 }
 
-if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1 })
+if (require.main === module) main().catch(error => {
+  console.error(`[guides-media-prefetch] fatal: ${error?.stack || error?.message || error}`)
+  process.exitCode = 1
+})
 
 module.exports = { assertMediaCoverage, bootstrapMediaEntries, collectMediaReferences, figmaIdentity, parseArgs, prefetchGuidesMedia, readMediaManifest, resolvePrefetchScopes, selectRequiredSourceFiles, selectSourceFiles, sourceFilesForSnapshot, trimBoard, validateEntries, validateMediaPrefetchMetrics, writeMediaManifest, writeMediaPrefetchReport }

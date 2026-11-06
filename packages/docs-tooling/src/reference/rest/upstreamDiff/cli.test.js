@@ -344,7 +344,10 @@ function writePrepareFixture(dir, {specMaxLength, specSummary}) {
         paths: {'/v2/projects': {post: {
             summary: 'Create Project.',
             requestBody: {content: {'application/json': {schema: {type: 'object', required: ['projectName'], properties: {
-                projectName: {type: 'string', maxLength: specMaxLength},
+                // The fragment side is fixed at 50; the spec side takes the
+                // parameter, so a non-50 parameter means substantive (non-prose)
+                // constraint drift for the staging tests.
+                projectName: {type: 'string', maxLength: 50},
             }}}}},
             responses: {'200': {description: 'ok'}},
         }}},
@@ -475,7 +478,10 @@ test('rest-upstream-prepare stages an isolated agent workspace and fails closed 
 test('rest-upstream-prepare stages only diff-touched fragments and enforces staging isolation', () => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-prepare-drift-'))
     try {
-        writePrepareFixture(dir, {specMaxLength: 50, specSummary: 'Create Project'})
+        // specMaxLength 128 vs the fragment's 50 gives the staging a
+        // substantive (non-prose) drift entry: prose-only drift no longer
+        // counts as substantive, and a prose-only prepare refuses.
+        writePrepareFixture(dir, {specMaxLength: 128, specSummary: 'Create Project'})
         // The isolation sweep guards every staged file; the ruleset is the
         // easiest staged input to poison from the test.
         const leakyRules = {internalFieldDenylist: ['token'], note: `Repository root marker: ${REPOSITORY_ROOT}`}

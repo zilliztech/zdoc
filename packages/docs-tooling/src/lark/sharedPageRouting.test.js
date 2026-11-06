@@ -392,3 +392,82 @@ test('active state I/O distinguishes absent authority from corrupt or symlink au
   fs.symlinkSync(path.join(root, 'missing.json'), file)
   assert.throws(() => readActiveState(root), /symlink/)
 })
+test('[base-nav] an empty-Slug ref row derives its navigation slug from the shared target Base slug', async t => {
+  const Scraper = require('./larkDocScraper')
+  const sharedRow = row()
+  sharedRow.fields.Slug = 'example-page'
+  const refRow = {record_id: 'rec-ref', base_table_id: 'tbl', base_table_name: 'Development', fields: {
+    Labels: 'Database in Serving Clusters', 'Placement Type': 'ref', Slug: '',
+    'Ref Target Doc': {text: 'Example', link: 'https://zilliverse.feishu.cn/wiki/old'}}}
+  const missingRow = {record_id: 'rec-missing-ref', base_table_id: 'tbl', base_table_name: 'Development', fields: {
+    Labels: 'Ghost Ref Entry', 'Placement Type': 'ref', Slug: '',
+    'Ref Target Doc': {text: 'Ghost', link: 'https://zilliverse.feishu.cn/wiki/ghost-token'}}}
+  const records = [sharedRow, refRow, missingRow]
+  const routingContext = context(records, {active: {schema_version: 1,
+    pages: [{page: 'example', record: 'rec-shared', feishu_token: 'old', anchors: {}, activated_in: '123'}]}})
+  const scraper = new Scraper('root', 'base:*', 'wiki', temporary(t))
+  scraper.records = records
+  scraper.base_tables = [{table_id: 'tbl', name: 'Development'}]
+  scraper.routingContext = routingContext
+  // A legacy wiki source restored from the cross-run source cache can still sit in
+  // the sources directory with a stale title-era slug after the record moved to a
+  // shared page; the ref slug must come from the Base record, not this file.
+  fs.writeFileSync(path.join(scraper.doc_source_dir, 'old.json'), JSON.stringify({
+    obj_type: 'docx', node_token: 'old', origin_node_token: 'old', obj_token: 'old-object',
+    title: 'Example', slug: 'stale-legacy-example', blocks: {items: [], counts: 0}}))
+  const warnings = []
+  const originalWarn = console.warn
+  console.warn = message => { warnings.push(String(message)) }
+  try {
+    await scraper.__apply_base_navigation()
+  } finally {
+    console.warn = originalWarn
+  }
+  const sources = require('./larkSourceIndex').load(scraper.doc_source_dir)
+  const refSource = sources.find('base_record_id', 'rec-ref')
+  // The source-contract validator derives the ref key as record.slug || canonical
+  // target slug: the shared target's Base slug must win over the slugified ref row
+  // title and over any stale slug a cache-restored legacy source still carries.
+  assert.equal(refSource.slug, 'example-page')
+  assert.notEqual(refSource.slug, 'stale-legacy-example')
+  assert.equal(refSource.base_nav_ref_target_token, 'old')
+  assert.equal(warnings.some(message => message.includes('Ref target not found') && message.includes('(rec-ref)')), false)
+  const missingSource = sources.find('base_record_id', 'rec-missing-ref')
+  assert.equal(missingSource.slug, 'ghost-ref-entry')
+  assert.equal(warnings.some(message => message.includes('Ref target not found') && message.includes('ghost-token')), true)
+})
+
+test('[base-nav] a ref row whose Docs cell duplicates the target token never shadows the canonical target', async t => {
+  // Production shape from fetch run 41977500568: the AI Models ref row and the
+  // Development canonical row both carry the target wiki token in their Docs
+  // cells, and the Base scan materializes the ref row last. A token->record map
+  // that indexes ref rows lets the row resolve as its own target, degrading the
+  // ref navigation slug to the slugified ref title ('cohere-ranker') while the
+  // contract validator expects the canonical Base slug ('cohere-model-ranker').
+  const Scraper = require('./larkDocScraper')
+  const wiki = 'https://zilliverse.feishu.cn/wiki/target-token'
+  const canonicalRow = {record_id: 'rec-target', base_table_id: 'tbl-dev', base_table_name: 'Development', fields: {
+    Docs: {link: wiki, text: 'Cohere Ranker'}, 'Placement Type': 'canonical', Slug: 'cohere-model-ranker', Progress: 'Draft'}}
+  const refRow = {record_id: 'rec-ref', base_table_id: 'tbl-ai', base_table_name: 'AI Models', fields: {
+    Docs: {link: wiki, text: 'Cohere Ranker'}, Labels: 'Cohere Ranker', 'Placement Type': 'ref', Slug: '',
+    'Ref Target Doc': {text: 'Cohere Ranker', link: wiki}}}
+
+  for (const ordering of [['ref row materialized last (production table order)', [canonicalRow, refRow]],
+    ['canonical row materialized last', [refRow, canonicalRow]]]) {
+    const scraper = new Scraper('root', 'base:*', 'wiki', temporary(t))
+    scraper.records = ordering[1]
+    scraper.base_tables = [{table_id: 'tbl-dev', name: 'Development'}, {table_id: 'tbl-ai', name: 'AI Models'}]
+    const warnings = []
+    const originalWarn = console.warn
+    console.warn = message => { warnings.push(String(message)) }
+    try {
+      await scraper.__apply_base_navigation()
+    } finally {
+      console.warn = originalWarn
+    }
+    const refSource = require('./larkSourceIndex').load(scraper.doc_source_dir).find('base_record_id', 'rec-ref')
+    assert.equal(refSource.slug, 'cohere-model-ranker', `ref slug must be the canonical Base slug regardless of map order (${ordering[0]})`)
+    assert.notEqual(refSource.slug, 'cohere-ranker')
+    assert.equal(warnings.some(message => message.includes('Ref target not found') && message.includes('(rec-ref)')), false)
+  }
+})

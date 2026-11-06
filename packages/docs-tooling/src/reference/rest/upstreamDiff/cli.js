@@ -14,7 +14,7 @@ const {prepareRestUpstreamStaging} = require('./staging')
 const {loadRestUpstreamSkeleton, skeletonToUpstreamDocument, assertSkeletonMatchesSource} = require('./sourceTree')
 const {accountUpstreamOperations, assertAccountingComplete} = require('./accounting')
 const {loadRestFragmentMigration, assertMigrationConsistency, assertCanonicalReady} = require('./migration')
-const {buildCandidateLines, serializeCandidateLines} = require('./candidates')
+const {buildCandidateLines, serializeCandidateLines, PROSE_KINDS} = require('./candidates')
 const {loadDecisions, assembleChangeSet} = require('./assembler')
 const {parseBranchPlan} = require('./branchPlan')
 
@@ -100,10 +100,18 @@ function computeUpstreamDiff(opts) {
 
 // Substantive drift = every refreshable delta the agent could address.
 // zdoc-only entries are deliberate documentation design; ledger-classified
-// fragment-only/upstream-added operations are already-decided stock. Everything
-// else (including unclassified operations and field-level drift) needs a run.
+// fragment-only/upstream-added operations are already-decided stock;
+// description/summary drift is deliberately never adopted (the fragments keep
+// their own text — prose stays local), so after one refresh it re-flags on
+// every scan against an unchanged spec and can never resolve. Everything else
+// (including unclassified operations and field-level drift) needs a run.
+// The prose entries still ride the diff report and the refresh PR's review
+// lists — they are report-only, not invisible.
 function substantiveDriftEntries(diff) {
-    return diff.entries.filter(entry => entry.category !== 'zdoc-only' && (entry.ledgerStatus ?? 'pending') !== 'classified')
+    return diff.entries.filter(entry =>
+        entry.category !== 'zdoc-only'
+        && (entry.ledgerStatus ?? 'pending') !== 'classified'
+        && !PROSE_KINDS.has(entry.change?.kind))
 }
 
 function renderDiffMarkdown(diff) {
@@ -265,6 +273,7 @@ function registerApplyCommand(command) {
                 normalizations: result.normalizations,
                 titleLog: result.titleLog,
                 ledgerDrafts: result.ledgerDrafts,
+                inheritedLifecycle: result.inheritedLifecycle,
                 unaddressedDiffEntries: unaddressed,
             }))
             console.log(`applied ${result.appliedLog.length} entries; changed ${result.changedFiles.size} fragment(s); ${unaddressed.length} diff entries left unaddressed -> ${opts.out}`)

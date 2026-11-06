@@ -14,7 +14,9 @@ function isRetryableFetchError(err) {
         'ETIMEDOUT',
         'ERR_STREAM_PREMATURE_CLOSE',
         'ERR_INVALID_CHAR',
-    ].includes(err?.code) || ['system', 'request-timeout', 'body-timeout'].includes(err?.type)
+        // node-fetch AbortError from the per-attempt timeoutMs signal: a timed-out
+        // attempt must be retried with a fresh window, not fail the caller.
+    ].includes(err?.code) || ['system', 'request-timeout', 'body-timeout', 'aborted'].includes(err?.type)
 }
 
 function shouldRetryJsonResponse(res, json) {
@@ -97,11 +99,20 @@ function responsePreview(body) {
 }
 
 async function retryFetchBody(url, options, label, readBody, shouldRetryResult=() => false) {
+    if (options?.signal && options?.timeoutMs) {
+        throw new Error('options.signal cannot be combined with options.timeoutMs; the per-attempt timeout owns the abort signal')
+    }
     let lastError
 
     for (let attempt = 1; attempt <= FEISHU_RETRY_ATTEMPTS; attempt++) {
+        // options.timeoutMs bounds one attempt (headers plus body read). Each
+        // attempt gets a fresh AbortController so a timed-out attempt retries
+        // with a new window instead of an already-aborted signal.
+        const { timeoutMs, ...requestInit } = requestOptions(options)
+        const controller = timeoutMs ? new AbortController() : null
+        const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : null
         try {
-            const res = await fetch(url, requestOptions(options))
+            const res = await fetch(url, controller ? { ...requestInit, signal: controller.signal } : requestInit)
             const body = await readBody(res)
             if (res.status === 429 || res.status >= 500 || shouldRetryResult(res, body)) {
                 const err = new Error(`retryable response ${res.status}${responsePreview(body)}`)
@@ -112,6 +123,9 @@ async function retryFetchBody(url, options, label, readBody, shouldRetryResult=(
             return body
         } catch (err) {
             lastError = err
+            // The attempt is over: retire its window before the backoff wait so
+            // the timer cannot fire into the retry delay.
+            if (timer) clearTimeout(timer)
             const retryable = err.retryDelayMs !== undefined || isRetryableFetchError(err)
 
             if (!retryable || attempt === FEISHU_RETRY_ATTEMPTS) {
@@ -123,6 +137,8 @@ async function retryFetchBody(url, options, label, readBody, shouldRetryResult=(
                 `[fetch-lark-docs] ${label} failed on attempt ${attempt}/${FEISHU_RETRY_ATTEMPTS}; retrying in ${delay}ms: ${shortError(err)}\n`
             )
             await wait(delay)
+        } finally {
+            if (timer) clearTimeout(timer)
         }
     }
 

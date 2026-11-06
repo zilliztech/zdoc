@@ -140,6 +140,14 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
   const sessionIdRef = useRef<string | null>(null);
   const conversationIdRef = useRef<string | null>(null);
   const requestGenerationRef = useRef(0);
+  const requestEndedRef = useRef(true);
+  const cancelProgressRef = useRef<(() => void) | null>(null);
+
+  useEffect(() => () => {
+    cancelProgressRef.current?.();
+    abortRef.current?.abort();
+    requestGenerationRef.current += 1;
+  }, []);
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
   const activeChatIdRef = useRef(activeChatId);
@@ -171,7 +179,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
             ? {
                 ...entry,
                 title,
-                messages: [...messages],
+                messages: messages.map(({status, busy, ...message}) => message),
                 sessionId: sessionIdRef.current,
                 conversationId: conversationIdRef.current,
               }
@@ -185,7 +193,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
       setChatHistory(prev => [{
         id,
         title,
-        messages: [...messages],
+        messages: messages.map(({status, busy, ...message}) => message),
         createdAt: Date.now(),
         sessionId: sessionIdRef.current,
         conversationId: conversationIdRef.current,
@@ -225,7 +233,9 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
   }, []);
 
   const send = useCallback(async (text: string) => {
-    if (!text.trim() || abortRef.current) return;
+    if (!text.trim() || (abortRef.current && !requestEndedRef.current)) return;
+    abortRef.current?.abort();
+    requestEndedRef.current = false;
 
     // Fold any pending context chips into the outgoing message, then clear them.
     const chips = contextChipsRef.current;
@@ -238,7 +248,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
     const outgoing = contextPrefix + text;
 
     const userMessage: ChatMessage = {role: 'user', text: outgoing};
-    const updatedMessages = [...messagesRef.current, userMessage, {role: 'assistant' as const, text: '', status: uiText.chat.readingPage}];
+    const updatedMessages = [...messagesRef.current, userMessage, {role: 'assistant' as const, text: '', status: uiText.chat.readingPage, busy: true}];
     setMessages(updatedMessages);
     setInput('');
     setIsStreaming(true);
@@ -265,6 +275,37 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
     let controller: AbortController | null = null;
     const isCurrentRequest = () =>
       requestGenerationRef.current === generation && !controller?.signal.aborted;
+    let progressTimer: ReturnType<typeof setTimeout> | undefined;
+    let pendingProgress: {status: string; busy: boolean} | undefined;
+    let loadingEnded = false;
+    const clearProgressTimer = () => {
+      clearTimeout(progressTimer);
+      progressTimer = undefined;
+      pendingProgress = undefined;
+    };
+    cancelProgressRef.current = clearProgressTimer;
+    const updateLastAssistant = (patch: Partial<ChatMessage>) => {
+      if (!isCurrentRequest()) return;
+      setMessages(prev => {
+        if (!isCurrentRequest()) return prev;
+        const updated = [...prev];
+        const last = updated[updated.length - 1];
+        if (last && last.role === 'assistant') {
+          updated[updated.length - 1] = {...last, ...patch};
+        }
+        return updated;
+      });
+    };
+
+    const finishLoading = () => {
+      clearProgressTimer();
+      if (!isCurrentRequest() || loadingEnded) return;
+      loadingEnded = true;
+      requestEndedRef.current = true;
+      updateLastAssistant({status: undefined, busy: false});
+      setIsStreaming(false);
+    };
+
     try {
       controller = new AbortController();
       abortRef.current = controller;
@@ -273,14 +314,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
       const {agentConfigCode, site} = getChatAgentConfig(siteConfig.customFields?.site);
       const pageContext = await fetchPageContext(location.pathname, controller.signal);
       if (!isCurrentRequest()) return;
-      setMessages(prev => {
-        const updated = [...prev];
-        const last = updated[updated.length - 1];
-        if (last && last.role === 'assistant' && !last.text) {
-          updated[updated.length - 1] = {...last, status: undefined};
-        }
-        return updated;
-      });
+      updateLastAssistant({status: 'preparing', busy: true});
       const requestBody = {
         message: outgoing,
         user_id: getVisitorId(),
@@ -351,17 +385,6 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
       let confidence: ConfidenceLevel | undefined;
       let agentType: AgentType | undefined;
 
-      const updateLastAssistant = (patch: Partial<ChatMessage>) => {
-        setMessages(prev => {
-          const updated = [...prev];
-          const last = updated[updated.length - 1];
-          if (last && last.role === 'assistant') {
-            updated[updated.length - 1] = {...last, ...patch};
-          }
-          return updated;
-        });
-      };
-
       const applyUpdate = (update: AgentStreamUpdate) => {
         if (!isCurrentRequest()) return;
         if (update.type === 'session') {
@@ -370,7 +393,8 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
         }
         if (update.type === 'text') {
           assistantText += update.text;
-          updateLastAssistant({text: assistantText, status: undefined});
+          clearProgressTimer();
+          updateLastAssistant({text: assistantText, status: undefined, busy: false});
           return;
         }
         if (update.type === 'agent') {
@@ -379,11 +403,20 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
           return;
         }
         if (update.type === 'status') {
-          updateLastAssistant({status: update.status, toolCallCount: undefined});
+          if (loadingEnded) return;
+          if (pendingProgress?.status === update.status && pendingProgress.busy === update.busy) return;
+          clearProgressTimer();
+          const applyStatus = () => {
+            if (!isCurrentRequest() || loadingEnded) return;
+            updateLastAssistant({status: update.status, busy: update.busy});
+          };
+          pendingProgress = {status: update.status, busy: update.busy};
+          if (update.busy) progressTimer = setTimeout(applyStatus, 150);
+          else applyStatus();
           return;
         }
         if (update.type === 'tool-call') {
-          updateLastAssistant({toolCallCount: update.count, status: undefined});
+          updateLastAssistant({toolCallCount: update.count});
           return;
         }
         if (update.type === 'sources') {
@@ -401,6 +434,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
           return;
         }
         if (update.type === 'error') {
+          finishLoading();
           if (!assistantText) {
             assistantText = update.message;
             updateLastAssistant({text: assistantText, status: undefined});
@@ -409,7 +443,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
           }
           return;
         }
-        updateLastAssistant({status: undefined});
+        finishLoading();
       };
 
       while (true) {
@@ -476,7 +510,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
         surface: chatSurface(),
       });
     } catch (err: unknown) {
-      if (err instanceof DOMException && err.name === 'AbortError') {
+      if (!isCurrentRequest() || (err instanceof DOMException && err.name === 'AbortError')) {
         // User cancelled
       } else {
         const errorMsg = err instanceof Error ? err.message : uiText.chat.requestFailed(0);
@@ -486,10 +520,13 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
           duration_bucket: durationBucket(Date.now() - startedAt),
           surface: chatSurface(),
         });
+        finishLoading();
         setMessages(prev => [...prev, {role: 'assistant', text: uiText.chat.unexpectedError(errorMsg)}]);
       }
     } finally {
+      finishLoading();
       if (requestGenerationRef.current === generation) {
+        cancelProgressRef.current = null;
         setIsStreaming(false);
         if (abortRef.current === controller) {
           abortRef.current = null;
@@ -526,18 +563,20 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
         keepalive: true,
       }).catch(() => {});
     }
+    cancelProgressRef.current?.();
     requestGenerationRef.current += 1;
     abortRef.current?.abort();
     abortRef.current = null;
     setIsStreaming(false);
     setMessages(prev => prev.map((message, index) =>
       index === prev.length - 1 && message.role === 'assistant'
-        ? {...message, status: undefined}
+        ? {...message, status: undefined, busy: false}
         : message,
     ));
   }, [chatEndpoint]);
 
   const newChat = useCallback(() => {
+    cancelProgressRef.current?.();
     requestGenerationRef.current += 1;
     abortRef.current?.abort();
     abortRef.current = null;
@@ -550,6 +589,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
   }, []);
 
   const loadChat = useCallback((id: string) => {
+    cancelProgressRef.current?.();
     requestGenerationRef.current += 1;
     abortRef.current?.abort();
     abortRef.current = null;
@@ -580,6 +620,11 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
   const deleteChat = useCallback((id: string) => {
     setChatHistory(prev => prev.filter(e => e.id !== id));
     if (activeChatIdRef.current === id) {
+      cancelProgressRef.current?.();
+      requestGenerationRef.current += 1;
+      abortRef.current?.abort();
+      abortRef.current = null;
+      setIsStreaming(false);
       setMessages([]);
       setActiveChatId(null);
       setInput('');

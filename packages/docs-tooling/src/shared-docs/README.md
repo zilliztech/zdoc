@@ -287,10 +287,15 @@ Block/language content comes from a regular file in the page directory. A
 language file contains exactly one fence of that language; replacing a code group
 requires a complete group, including its switcher when multilingual. File paths
 cannot escape the page directory, including through symlinks. Content files
-cannot contain named-block markers or authored `Tabs`, `TabItem` or `Admonition`
-components. Milvus alerts go through the existing site adapter. External image
-URLs go through the existing image stage. Page-directory images fail with
-`TRANSFORM_CONTENT_MARKUP` at their content-file line.
+cannot contain named-block markers, authored import statements, local images, or
+components the generator cannot import. Registered components are allowed and
+their imports are emitted once into the generated page: `Tabs`, `TabItem` and
+`Admonition` (from `@theme/*`) plus Cloud-only `Supademo` (from
+`@site/src/components/Supademo`). Do not write the import line yourself; the
+generator injects it. Unknown components, named markers and page-directory
+images fail with `TRANSFORM_CONTENT_MARKUP` at their content-file line. Milvus
+alerts go through the existing site adapter. External image URLs go through the
+existing image stage.
 
 Code-line selectors contain one to five consecutive, nonblank lines inside the
 chosen fence. Matching ignores leading/trailing indentation only, preserving

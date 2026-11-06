@@ -1,0 +1,31 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/collections/set-collection-ttl.md
+
+metadata:
+  description: "Zilliz Cloud can automatically expire entities through a Time-to-Live (TTL) policy. Expired entities stop appearing in query and search results immediately, and are physically removed from storage on the next compaction cycle — typically within 24 hours."
+
+publish:
+  - manual: guides
+    path: tutorials/development/collection/set-collection-ttl
+  - manual: guides-byoc
+    path: tutorials/development/collection/set-collection-ttl
+
+transforms:
+  # The compaction-tolerance setting is a self-hosted configuration item; Cloud has no configuration file.
+  - operation: remove
+    target:
+      block: compaction-tolerance-note
+  # Cloud badges entity-level TTL as PUBLIC rather than Milvus 3.0.x.
+  - operation: replace
+    target:
+      block: entity-ttl-heading
+    content:
+      file: cloud-entity-ttl-heading.md
+  # Cloud adds a support path and a compute-unit FAQ.
+  - operation: replace
+    target:
+      block: ttl-faq-tail
+    content:
+      file: cloud-faq-tail.md

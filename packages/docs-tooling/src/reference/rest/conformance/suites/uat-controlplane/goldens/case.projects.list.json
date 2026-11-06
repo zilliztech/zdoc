@@ -1,0 +1,157 @@
+{
+ "code": 0,
+ "data": [
+  {
+   "projectName": "cpz_proj_4293",
+   "projectId": "proj-616e1615516679a3ff2654",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
+   "queryClusterCount": 0,
+   "createTime": "2026-11-04T02:03:24Z",
+   "plan": "Enterprise",
+   "regionIds": [
+    "gcp-us-west1"
+   ],
+   "orgType": null
+  },
+  {
+   "projectName": "cpz_proj_legacy_11310",
+   "projectId": "proj-c503b45fd43d4a6e3b3393",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
+   "queryClusterCount": 0,
+   "createTime": "2026-11-04T01:51:51Z",
+   "plan": "Enterprise",
+   "regionIds": [
+    "gcp-us-west1"
+   ],
+   "orgType": null
+  },
+  {
+   "projectName": "cpz_proj_546",
+   "projectId": "proj-ff15192fe3cf4557dc02cf",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
+   "queryClusterCount": 0,
+   "createTime": "2026-11-04T01:48:20Z",
+   "plan": "Enterprise",
+   "regionIds": [
+    "gcp-us-west1"
+   ],
+   "orgType": null
+  },
+  {
+   "projectName": "cpz_proj_legacy_97597",
+   "projectId": "proj-1508dbdc6f2f1689436953",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
+   "queryClusterCount": 0,
+   "createTime": "2026-11-04T01:36:37Z",
+   "plan": "Enterprise",
+   "regionIds": [
+    "gcp-us-west1"
+   ],
+   "orgType": null
+  },
+  {
+   "projectName": "cpz_proj_55604",
+   "projectId": "proj-48871e95a9afe4aeef5a1c",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
+   "queryClusterCount": 0,
+   "createTime": "2026-11-04T01:34:15Z",
+   "plan": "Enterprise",
+   "regionIds": [
+    "gcp-us-west1"
+   ],
+   "orgType": null
+  },
+  {
+   "projectName": "cpz_proj_legacy_14503",
+   "projectId": "proj-71e95a493da091b572bcf3",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
+   "queryClusterCount": 0,
+   "createTime": "2026-11-04T01:23:34Z",
+   "plan": "Enterprise",
+   "regionIds": [
+    "gcp-us-west1"
+   ],
+   "orgType": null
+  },
+  {
+   "projectName": "p1005-avail-probe",
+   "projectId": "proj-161508dbe5b872a5b1776a",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
+   "queryClusterCount": 0,
+   "createTime": "2026-11-01T11:17:46Z",
+   "plan": "Standard",
+   "regionIds": [
+    "aws-us-west-2"
+   ],
+   "orgType": null
+  },
+  {
+   "projectName": "tf-uat-playground",
+   "projectId": "proj-f938b48859dedbd0201424",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
+   "queryClusterCount": 0,
+   "createTime": "2026-10-15T11:04:38Z",
+   "plan": "Standard",
+   "regionIds": [
+    "gcp-us-west1"
+   ],
+   "orgType": null
+  },
+  {
+   "projectName": "My Project",
+   "projectId": "proj-40c503b4d73e5ff56bbf50",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 1,
+   "servingInstanceCount": 1,
+   "queryClusterCount": 0,
+   "createTime": "2026-05-06T00:24:54Z",
+   "plan": "Enterprise",
+   "regionIds": [
+    "aws-us-west-2",
+    "gcp-us-west1"
+   ],
+   "orgType": null
+  },
+  {
+   "projectName": "Default Project",
+   "projectId": "proj-03b45fcdd7d4f3784e6dd0",
+   "description": null,
+   "createdBy": "usr-korapiuxeopjimllogyvni",
+   "instanceCount": 0,
+   "servingInstanceCount": 0,
+   "queryClusterCount": 0,
+   "createTime": "2023-05-25T09:27:47Z",
+   "plan": "Enterprise",
+   "regionIds": [
+    "aws-us-west-2",
+    "gcp-us-west1"
+   ],
+   "orgType": null
+  }
+ ]
+}

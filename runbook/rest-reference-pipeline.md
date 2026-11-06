@@ -96,9 +96,15 @@ directory and extract the skeleton with the vendored extractor (the workflow
 installs Go 1.27 via `actions/setup-go`; locally, `go` must be on PATH). The
 report artifact (`rest-upstream-drift-<run_id>`) carries
 `watchdog-report.{md,json}` plus the raw `diff.json`/`diff.md` (and the
-extracted `skeleton.json`) per drifting source; the Feishu card fires only
-when drift exists. The lock file is never written by the watchdog; pins move
-only through reviewed refresh PRs.
+extracted `skeleton.json`) per drifting source. The substantive headline
+counts only drift a refresh run can resolve: description/summary drift is
+deliberately excluded because the fragments keep their own text (prose stays
+local), so it re-flags on every scan against an unchanged spec — it still
+rides the diff report and the refresh PR's review lists. The report card is always
+created and its finish status mirrors the drift result (`success` only when
+no source drifts and no unmanaged release track exists); delivery is
+best-effort and subject to `FEISHU_NOTIFICATIONS_DISABLED`. The lock file is
+never written by the watchdog; pins move only through reviewed refresh PRs.
 
 `rest-upstream-refresh.yml` is dispatched by an operator after a watchdog
 report (inputs: `source`, optional `upstream_commit`, `base_ref`,
@@ -108,17 +114,29 @@ source (decisions-first pipeline, design
 prepare an isolated staging directory (diff plus touched fragment copies plus
 the ruleset, with a repository-path isolation sweep), build the machine-generated
 candidate list and take one model stance per candidate on the internal gateway
-(`scripts/rest-upstream/decide-batches.js`, batched per fragment with
-citation/contract gates and a stance-coverage floor), assemble the change set
-deterministically from those stances (`rest-upstream-assemble` — the model
-never writes a path or a value), and apply it with the deterministic applier
-(every entry must bind to a cited diff entry; denylist, `x-*`, and oneOf
-branch structure are asserted), gate the T4 ledger accounting, run the
-canonical bytes check, the change-scoped `test:for-change` union plus
-`pnpm test:rest-publication-contract` and `pnpm test:workflow-policy`, and
-`git diff --check` — no site builds (a master checkout has no dev-owned
-`generated/`, so site verification happens in the sync candidate build on the
-dev tree right after merge) — and finally open the PR with
+(`scripts/rest-upstream/decide-batches.js`, batched per fragment — plus a
+synthetic `(operations)` bucket for upstream-added operations, which exist in
+no fragment yet and owe the ledger a decision — with citation/contract gates
+and a stance-coverage floor), plan scenario-tab placements for added and
+unattributed fields (`scripts/rest-upstream/branch-plan.js`; the model picks
+existing tab labels only), draft evidence-grounded descriptions for
+prose-less added/mirrored nodes (`scripts/rest-upstream/describe-additions.js`)
+and fill zh-CN/ja-JP for the new prose (`scripts/rest-upstream/translate-additions.js`;
+a degraded entry is dropped whole — fail-closed — and listed in the PR),
+assemble the change set deterministically from those stances
+(`rest-upstream-assemble` — structure mirrors the resolved upstream subtree
+with the fragment's prose and `x-*` preserved; the model never writes a path
+or a value), and apply it with the deterministic applier (every entry must
+bind to a cited diff entry; denylist, `x-*`, and oneOf branch structure are
+asserted; schema nodes the fragment never had inherit the nearest managed
+lifecycle triple so the release-track projections stay complete, while
+subtrees pinned `x-include-target` without `milvus` never inherit), gate the
+T4 ledger accounting, run the canonical bytes check, the change-scoped
+`test:for-change` union plus `pnpm test:rest-publication-contract` and
+`pnpm test:workflow-policy`, and `git diff --check` — no site builds (a
+master checkout has no dev-owned `generated/`, so site verification happens
+in the sync candidate build on the dev tree right after merge) — and finally
+open the PR with
 `REST_UPSTREAM_REFRESH_PAT` so the pull-request checks actually run. The same
 commit bumps the lock pin to the refreshed upstream commit with its content
 SHA (atomic adoption: the watchdog goes quiet exactly when the PR merges) and
@@ -131,12 +149,27 @@ explicit override to deviate. The refresh workflow handles source-tree sources
 end to end (checkout-free GitHub contents fetch, `setup-go` 1.27, vendored
 extractor).
 The PR body embeds the diff report, the applier log (overrides, ledger
-drafts, unaddressed entries), and the decision divergences (explicit model
-skips with reasons plus every model output line the citation/contract gates
-rejected) for human review. ja-JP is a deliberate
-follow-up: the change set cannot write ja (the applier freezes `x-i18n`
-leaves), so each en-US prose change records the ja pages the ja lane must
-refresh.
+drafts, inherited lifecycle attributions, unaddressed entries), the
+retirement/translation/description review lists, and the decision divergences
+(explicit model skips with reasons plus every model output line the
+citation/contract gates rejected) for human review. Pre-existing prose in all
+three languages is preserved by the mirror; newly introduced prose lands with
+zh-CN and ja-JP, and model-drafted English descriptions are grounded on
+upstream evidence and fragment references. Retired-field reports include
+constraint-only losses (an enum or bound dropped while the field survives) —
+check the fragment-level diff before accepting them, and remember a container
+rename reports every inner field as retired.
+
+When a refresh run fails at a gate, its `rest-upstream-refresh-<run_id>`
+artifact carries the whole staging directory plus the applied output — enough
+to rehearse a fix locally instead of re-dispatching to discover the next
+gate: re-run the applier on the run's `change-set-translated.json` against
+`staging/fragments`, rebuild the lifecycle-evidence inventory over the
+overlaid fragments (`scripts/rest-upstream/refresh-lifecycle-inventory.js`,
+module API `{root, restMeta, appliedFile}`), and execute the same
+change-scoped union the workflow runs (the command list is visible in the
+failed run's step log). A full local pass means the next dispatch is verified
+before it starts.
 
 Required credentials and variables (all fail closed when missing):
 

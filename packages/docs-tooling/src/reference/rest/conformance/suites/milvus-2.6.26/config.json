@@ -1,0 +1,10 @@
+{
+  "name": "milvus-2.6.26",
+  "track": "milvus",
+  "anchor": "v2.6.26",
+  "prefix": "m2626",
+  "dim": 8,
+  "auth": { "mode": "none" },
+  "volatileFields": ["cost"],
+  "notes": "Reference expectations = 2026-11-01 first round behavior on v2.6.26 (reports/2026-11-01)."
+}

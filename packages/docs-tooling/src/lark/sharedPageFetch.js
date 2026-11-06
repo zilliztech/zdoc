@@ -15,6 +15,7 @@ const aliases = require('./sharedPageAliases')
 const SourceIndex = require('./larkSourceIndex')
 const {resolveManualPublication} = loadTypeScript(path.resolve(__dirname, '../manuals/registry.ts'))
 const {analysisMarkdown} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/links/anchors.ts'))
+const publicationPath = 'generated/en/manifests/shared-pages/guides/_publication.json'
 const snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
 function git(root, args, options = {}) {
@@ -25,8 +26,15 @@ function pinnedCommit(root, commit) {
   if (typeof commit !== 'string' || !/^[a-f0-9]{40}$/.test(commit)) throw new Error('A full pinned commit is required')
   if (git(root, ['rev-parse', '--verify', 'HEAD^{commit}']).toString().trim() !== commit) throw new Error('Pinned checkout HEAD mismatch')
 }
+// Pinned Git trees are immutable per (root, commit, paths). One run re-asks the
+// same keys once per page (regeneration proofs, locked inventories), so successful
+// reads are memoized for the process lifetime; failures are never cached.
+const gitInventoryCache = new Map()
 /** Hash the actual immutable blob bytes in one bounded Git batch, not filenames or synthetic digests. */
 function gitInventory(root, commit, paths) {
+  const key = `${root}\0${commit}\0${paths.join('\0')}`
+  const cached = gitInventoryCache.get(key)
+  if (cached) return cached
   const entries = git(root, ['ls-tree', '-r', '-z', commit, '--', ...paths]).toString().split('\0').filter(Boolean).map(line => {
     const match = /^(\d+) blob ([a-f0-9]{40})\t(.+)$/.exec(line)
     if (!match || !['100644', '100755'].includes(match[1]) || !routing.safeHandoffPath(match[3])) throw new Error('Unsafe pinned inventory entry')
@@ -36,7 +44,7 @@ function gitInventory(root, commit, paths) {
   if (!entries.length) return []
   const data = git(root, ['cat-file', '--batch'], {input: entries.map(entry => entry.oid).join('\n') + '\n'})
   let offset = 0
-  return entries.map(entry => {
+  const inventory = entries.map(entry => {
     const end = data.indexOf(10, offset), header = data.subarray(offset, end).toString().split(' '), size = Number(header[2])
     if (header[0] !== entry.oid || header[1] !== 'blob' || !Number.isSafeInteger(size) || size < 0 || size > 32 * 1024 * 1024) throw new Error('Invalid pinned blob')
     const bytes = data.subarray(end + 1, end + 1 + size)
@@ -44,6 +52,30 @@ function gitInventory(root, commit, paths) {
     offset = end + 1 + size + 1
     return {path: entry.path, sha256: digest(bytes), size}
   })
+  gitInventoryCache.set(key, inventory)
+  return inventory
+}
+const gitBlobsCache = new Map()
+/** Read pinned blobs in one bounded Git batch (responses in request order), not one
+ *  process spawn per file. Immutable Git objects permit the same memoization as
+ *  gitInventory; buffers are shared and must not be mutated by callers. */
+function gitBlobs(root, commit, paths) {
+  const key = `${root}\0${commit}\0${paths.join('\0')}`
+  const cached = gitBlobsCache.get(key)
+  if (cached) return cached
+  if (!paths.length) return []
+  const data = git(root, ['cat-file', '--batch'], {input: paths.map(file => `${commit}:${file}`).join('\n') + '\n'})
+  let offset = 0
+  const blobs = paths.map(file => {
+    const end = data.indexOf(10, offset), header = data.subarray(offset, end).toString().split(' '), size = Number(header[2])
+    if (header[1] !== 'blob' || !Number.isSafeInteger(size) || size < 0 || size > 32 * 1024 * 1024) throw new Error(`Invalid pinned blob: ${file}`)
+    const bytes = data.subarray(end + 1, end + 1 + size)
+    if (bytes.length !== size) throw new Error(`Truncated pinned blob: ${file}`)
+    offset = end + 1 + size + 1
+    return bytes
+  })
+  gitBlobsCache.set(key, blobs)
+  return blobs
 }
 function regularBytes(root, relative) {
   if (!routing.safeHandoffPath(relative)) throw new Error('Unsafe input path')
@@ -57,6 +89,66 @@ function regularBytes(root, relative) {
 }
 function assertInventory(root, inventory) {
   for (const file of inventory) if (digest(regularBytes(root, file.path)) !== file.sha256) throw new Error(`Pinned input drift: ${file.path}`)
+}
+/** Resolve retained outputs from pinned evidence, never the current Base/source cache.
+ * Shared receipts and older explicit inventories remain exact. Legacy Feishu
+ * snapshots have empty output_paths; their historical navigation supplies the
+ * document id and the pinned Git inventory supplies its extension/target set.
+ */
+function baselineOutputPaths(snapshot, recordId, fileInventory, publication = null) {
+  const record = snapshot?.records?.find(row => row.record_id === recordId)
+  if (!record) return []
+  if (record.output_paths?.length || record.source_kind === 'shared-page') return [...(record.output_paths || [])].sort()
+  const inventory = new Map(fileInventory.map(file => typeof file === 'string' ? [file, null] : [file.path, file.sha256]))
+  // A previous fallback already authenticated its historical paths. Ancestors in
+  // the effective snapshot may since have moved or disappeared; do not derive
+  // those paths again from the mixed current/historical navigation projection.
+  if (publication) {
+    if (publication.schema_version !== 1 || publication.effective_sha256 !== require('./sourceCompleteness').hashSnapshot(snapshot)
+      || !Array.isArray(publication.fallbacks)) throw new Error(`Invalid baseline publication: ${recordId}`)
+    const retained = publication.fallbacks.filter(row => row.record?.record_id === recordId)
+    if (retained.length > 1) throw new Error(`Duplicate baseline publication fallback: ${recordId}`)
+    if (retained.length) {
+      const fallback = retained[0]
+      if (JSON.stringify(fallback.record) !== JSON.stringify(record) || !Array.isArray(fallback.outputs)
+        || fallback.outputs.some(output => !routing.safeHandoffPath(output.path)
+          || !/^content\/en\/(guides|byoc)\/tutorials\/[^/]+\/.+\.mdx?$/.test(output.path)
+          || !/^[a-f0-9]{64}$/.test(output.sha256) || inventory.get(output.path) !== output.sha256)
+        || new Set(fallback.outputs.map(output => output.path)).size !== fallback.outputs.length) {
+        throw new Error(`Invalid baseline publication outputs: ${recordId}`)
+      }
+      return fallback.outputs.map(output => output.path).sort()
+    }
+  }
+  const rows = snapshot.navigation_records || [], byId = new Map(rows.map(row => [row.record_id, row]))
+  const leaf = byId.get(recordId)
+  if (!leaf) throw new Error(`Missing baseline navigation: ${recordId}`)
+  const segments = [], seen = new Set()
+  let row = leaf
+  while (row) {
+    if (seen.has(row.record_id)) throw new Error(`Cyclic baseline navigation: ${recordId}`)
+    seen.add(row.record_id)
+    const slug = row.slug || require('slugify')(row.title || '', {lower: true, strict: true})
+    if (!slug || !routing.safeHandoffPath(slug)) throw new Error(`Unsafe baseline slug: ${recordId}`)
+    segments.unshift(slug)
+    const parents = row.parent_record_ids || []
+    if (parents.length > 1 || parents.some(id => !byId.has(id))) throw new Error(`Invalid baseline parents: ${recordId}`)
+    row = byId.get(parents[0])
+  }
+  const table = require('./guidesTableSlugs').guidesTableSlug('en', leaf.table_name || leaf.table_id)
+  const relative = ['tutorials', table, ...segments].join('/')
+  const outputs = [], targets = guidesRecordPublishTargets(leaf)
+  for (const [target, physical] of [['zilliz.saas', 'guides'], ['zilliz.paas', 'byoc']]) {
+    if (targets.length && !targets.includes(target)) continue
+    // Canonical category landings repeat their slug. Check both shapes in the
+    // pinned inventory, but refuse ambiguity rather than choosing a new path.
+    const ids = [relative]
+    if (rows.some(child => (child.parent_record_ids || []).includes(recordId))) ids.push(`${relative}/${segments.at(-1)}`)
+    const matches = ids.flatMap(id => ['.mdx', '.md'].map(extension => `content/en/${physical}/${id}${extension}`)).filter(file => inventory.has(file))
+    if (matches.length > 1) throw new Error(`Ambiguous baseline outputs: ${recordId} (${physical})`)
+    outputs.push(...matches)
+  }
+  return outputs.sort()
 }
 function prepareSharedSources({records, repositoryRoot, baselineRoot, masterCommit, devCommit, sourceDir, rootToken, site = 'en'}) {
   if (site !== 'en') return null
@@ -222,5 +314,5 @@ async function activationDraft({record, page, active, previousSnapshot, currentS
     throw Object.assign(new Error(`ACTIVATE_CHECK_FAILED: ${error.message}`), {code: 'ACTIVATE_CHECK_FAILED', detail: {old_token: token, links: references, reason: error.message}})
   }
 }
-module.exports = {digest, gitInventory, regularBytes, assertInventory, pinnedCommit, prepareSharedSources, restoreRouting, initializeSharedScraper, writerAdapter,
-  planFetchTargets, activationDraft, fetchActivationHeadings, snapshotPath, git, pendingSourceSnapshot}
+module.exports = {baselineOutputPaths, digest, gitBlobs, gitInventory, regularBytes, assertInventory, pinnedCommit, prepareSharedSources, restoreRouting, initializeSharedScraper, writerAdapter,
+  planFetchTargets, activationDraft, fetchActivationHeadings, snapshotPath, publicationPath, git, pendingSourceSnapshot}

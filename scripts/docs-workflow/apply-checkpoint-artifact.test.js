@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
-const { lstat, mkdtemp, mkdir, readFile, rename, rm, symlink, writeFile } = require('node:fs/promises');
+const { lstat, mkdtemp, mkdir, readFile, readdir, rename, rm, symlink, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
@@ -469,6 +469,118 @@ test('ancestor swaps before delete, commit, and rollback fail closed without tou
     await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks }), /identity lost|manual cleanup/i);
     assert.equal(await readFile(path.join(outside, 'python/marker'), 'utf8'), 'outside');
   }
+});
+
+test('a swap of the immediate parent directory before commit fails closed', async () => {
+  const f = await fixture({ files: { [`${ROOT}/keeper/x.md`]: 'new' } }); await targetWrite(f, `${ROOT}/keeper/x.md`, 'old');
+  const parent = path.join(f.targetDir, ROOT, 'keeper'), parked = `${parent}.parked`, outside = path.join(f.root, 'outside'); await mkdir(path.join(outside, 'keeper'), { recursive: true }); await writeFile(path.join(outside, 'keeper/marker'), 'outside');
+  // The rejection must come from the pre-write chain refresh, not from the
+  // end-of-apply gate: a payload byte written through the swapped directory
+  // would already be a leak even if the apply then fails.
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async beforeCommit({ rel }) { if (rel.endsWith('x.md')) { await rename(parent, parked); await symlink(path.join(outside, 'keeper'), parent); } } } }), /identity lost|manual cleanup/i);
+  assert.deepEqual(await readdir(path.join(outside, 'keeper')), ['marker'], 'no payload byte may land through the swapped parent');
+});
+
+test('interference with an already-copied path after the final file still fails the apply closed', async () => {
+  const f = await fixture({ files: { [`${ROOT}/a/first.md`]: 'first', [`${ROOT}/z/last.md`]: 'last' } });
+  await targetWrite(f, `${ROOT}/a/first.md`, 'old first'); await targetWrite(f, `${ROOT}/z/last.md`, 'old last');
+  const victim = path.join(f.targetDir, ROOT, 'a'), parked = `${victim}.parked`, outside = path.join(f.root, 'outside'); await mkdir(path.join(outside, 'a'), { recursive: true }); await writeFile(path.join(outside, 'a/marker'), 'outside');
+  // Manifest files iterate sorted, so last.md copies after first.md; once the
+  // final file is committed no per-file refresh runs again and only the
+  // whole-apply end gate can reject the disturbed directory.
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async afterCopy({ rel }) { if (rel.endsWith('last.md')) { await rename(victim, parked); await symlink(path.join(outside, 'a'), victim); } } } }), /identity lost|manual cleanup/i);
+  assert.equal(await readFile(path.join(outside, 'a/marker'), 'utf8'), 'outside');
+  assert.ok(!(await lstat(parked)).isSymbolicLink());
+  assert.deepEqual(await readdir(path.join(outside, 'a')), ['marker'], 'no payload byte may land through the swapped directory');
+});
+
+test('adopts apply-created directories into the guard and copies nested payloads', async () => {
+  const f = await fixture({ files: { [`${ROOT}/deep/nested/tree/new.md`]: 'new' } });
+  await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir });
+  assert.equal(await readFile(path.join(f.targetDir, ROOT, 'deep/nested/tree/new.md'), 'utf8'), 'new');
+});
+
+test('nested deletions under a directory-to-file transition succeed and prune adopted guard entries', async () => {
+  const f = await fixture({ files: { [`${ROOT}/topic`]: 'file' }, deletions: [`${ROOT}/topic/sub/old.md`, `${ROOT}/topic/sub/old2.md`, `${ROOT}/topic/sub/deep/old3.md`] });
+  await targetWrite(f, `${ROOT}/topic/sub/old.md`, 'old'); await targetWrite(f, `${ROOT}/topic/sub/old2.md`, 'old2'); await targetWrite(f, `${ROOT}/topic/sub/deep/old3.md`, 'old3');
+  await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir });
+  assert.equal(await readFile(path.join(f.targetDir, ROOT, 'topic'), 'utf8'), 'file');
+  assert.deepEqual((await readdir(path.dirname(f.targetDir))).filter(name => name.startsWith(`.${path.basename(f.targetDir)}.apply-`)), [], 'rollback journal must be cleaned up after success');
+});
+
+test('rollback restores nested-deletion transitions after a mid-apply failure', async () => {
+  const f = await fixture({ files: { [`${ROOT}/topic`]: 'file', [`${ROOT}/other.md`]: 'other' }, deletions: [`${ROOT}/topic/sub/old.md`] });
+  await targetWrite(f, `${ROOT}/topic/sub/old.md`, 'old');
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async afterCopy({ rel }) { if (rel.endsWith('other.md')) throw new Error('trigger rollback'); } } }), /trigger rollback/);
+  assert.equal(await readFile(path.join(f.targetDir, ROOT, 'topic/sub/old.md'), 'utf8'), 'old', 'deleted file must be restored');
+  await assert.rejects(readFile(path.join(f.targetDir, ROOT, 'other.md')), /ENOENT/, 'unwritten file must be rolled back');
+  assert.deepEqual((await readdir(path.dirname(f.targetDir))).filter(name => name.startsWith(`.${path.basename(f.targetDir)}.apply-`)), [], 'rollback journal must be cleaned up');
+});
+
+test('rollback restores a file-to-directory transition without a false refusal', async () => {
+  for (const created of ['topic/index.md', 'topic/sub/deep/index.md']) {
+    const f = await fixture({ files: { [`${ROOT}/${created}`]: 'new', [`${ROOT}/topic-sibling/x.md`]: 'x' }, deletions: [`${ROOT}/topic`] });
+    await targetWrite(f, `${ROOT}/topic`, 'old file');
+    await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async afterCopy({ rel }) { if (rel.endsWith(created)) throw new Error('trigger rollback'); } } }), { message: 'trigger rollback' });
+    assert.equal(await readFile(path.join(f.targetDir, ROOT, 'topic'), 'utf8'), 'old file', 'the original file must be back at its position');
+    // A name-prefix sibling is not inside the restored path: its created directory must still be removed.
+    await assert.rejects(lstat(path.join(f.targetDir, ROOT, 'topic-sibling')), /ENOENT/);
+    assert.deepEqual((await readdir(path.dirname(f.targetDir))).filter(name => name.startsWith(`.${path.basename(f.targetDir)}.apply-`)), [], 'rollback journal must be cleaned up');
+  }
+});
+
+test('rollback keeps a restored empty directory that the apply had recreated', async () => {
+  const f = await fixture({ files: { [`${ROOT}/topic/index.md`]: 'new' }, deletions: [`${ROOT}/topic`] });
+  const topic = path.join(f.targetDir, ROOT, 'topic'); await mkdir(topic, { recursive: true });
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async afterCopy({ rel }) { if (rel.endsWith('topic/index.md')) throw new Error('trigger rollback'); } } }), { message: 'trigger rollback' });
+  assert.equal((await lstat(topic)).isDirectory(), true, 'the restored directory must survive the created-directory cleanup');
+  assert.deepEqual(await readdir(topic), []);
+});
+
+test('a non-directory at a created position outside restored paths still refuses rollback and reports the original failure', async () => {
+  const f = await fixture({ files: { [`${ROOT}/fresh/a.md`]: 'a', [`${ROOT}/kept.md`]: 'new kept' } }); await targetWrite(f, `${ROOT}/kept.md`, 'old kept');
+  const fresh = path.join(f.targetDir, ROOT, 'fresh');
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async beforeCommit({ rel }) { if (rel.endsWith('fresh/a.md')) { await rm(fresh, { recursive: true }); await writeFile(fresh, 'intruder'); throw new Error('trigger rollback'); } } } }), (error) => {
+    assert.match(error.message, /safe rollback was refused; manual cleanup may be required: ENOTDIR/);
+    assert.match(error.message, /original apply failure: trigger rollback/);
+    assert.equal(error.cause?.message, 'trigger rollback');
+    return true;
+  });
+  assert.equal(await readFile(fresh, 'utf8'), 'intruder', 'a file this apply did not restore must not be touched');
+  assert.equal(await readFile(path.join(f.targetDir, ROOT, 'kept.md'), 'utf8'), 'old kept');
+  assert.equal((await readdir(path.dirname(f.targetDir))).filter(name => name.startsWith(`.${path.basename(f.targetDir)}.apply-`)).length, 1, 'a refused rollback keeps the journal as the only recovery copy');
+});
+
+test('a swap of an adopted directory before a later sibling write fails closed', async () => {
+  // fresh/ is created (and adopted) for a.md. A real directory replacement
+  // passes assertSafeAncestors, so only the identity recorded at adoption can
+  // reject it before b.md; the symlink variant must not leak a byte either.
+  for (const replace of [(victim) => mkdir(victim), (victim, outside) => symlink(outside, victim)]) {
+    const f = await fixture({ files: { [`${ROOT}/fresh/a.md`]: 'a', [`${ROOT}/fresh/b.md`]: 'b' } });
+    const victim = path.join(f.targetDir, ROOT, 'fresh'), outside = path.join(f.root, 'outside'); await mkdir(outside); await writeFile(path.join(outside, 'marker'), 'outside');
+    await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async afterCopy({ rel }) { if (rel.endsWith('a.md')) { await rename(victim, `${victim}.parked`); await replace(victim, outside); } } } }), /identity lost|manual cleanup/i);
+    await assert.rejects(readFile(path.join(victim, 'b.md')), /ENOENT/, 'no payload byte may land in the replacement');
+    assert.deepEqual(await readdir(outside), ['marker'], 'no payload byte may land through the swapped directory');
+  }
+});
+
+test('a real directory swap before delete is rejected before the replacement loses anything', async () => {
+  const f = await fixture({ files: {}, deletions: [`${ROOT}/old.md`] }); await targetWrite(f, `${ROOT}/old.md`, 'inside');
+  const ancestor = path.join(f.targetDir, 'content/en/reference/api/python'), replacement = path.join(ancestor, 'python/old.md');
+  // assertSafeAncestors accepts a real directory, so the chain refresh is the
+  // only check standing between this swap and deleting the replacement's file.
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async beforeDelete() { await rename(ancestor, `${ancestor}.parked`); await mkdir(path.dirname(replacement), { recursive: true }); await writeFile(replacement, 'replacement'); } } }), /identity lost|manual cleanup/i);
+  assert.equal(await readFile(replacement, 'utf8'), 'replacement');
+});
+
+test('pruning a removed subtree keeps guarded name-prefix siblings', async () => {
+  const f = await fixture({ files: { [`${ROOT}/topic`]: 'file', [`${ROOT}/topic-sibling/x.md`]: 'x' }, deletions: [`${ROOT}/topic/old.md`] });
+  await targetWrite(f, `${ROOT}/topic/old.md`, 'old'); await targetWrite(f, `${ROOT}/topic-sibling/x.md`, 'old x');
+  const sibling = path.join(f.targetDir, ROOT, 'topic-sibling');
+  // topic is written first; its subtree prune must not forget topic-sibling,
+  // or this replacement would be adopted silently and receive the payload.
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async beforeCommit({ rel }) { if (rel.endsWith('topic-sibling/x.md')) { await rename(sibling, `${sibling}.parked`); await mkdir(sibling); } } } }), /identity lost|manual cleanup/i);
+  assert.deepEqual(await readdir(sibling), [], 'no payload byte may land in the replacement');
 });
 
 test('CLI parses strict arguments and help', async () => {

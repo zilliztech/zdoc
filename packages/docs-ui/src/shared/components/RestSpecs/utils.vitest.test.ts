@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter} from './utils.js';
+import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter, isRenderableExample} from './utils.js';
 
 const planeConfig = {
   dataPlaneKeywords: {
@@ -138,5 +138,26 @@ describe('RestSpecs textFilter link localization', () => {
   it('keeps enum rendering and unknown locales on English behavior', () => {
     const html = textFilter('Supported values: `CU_1`', 'zilliz', undefined);
     expect(html).toContain('CU_1');
+  });
+});
+
+describe('isRenderableExample', () => {
+  it('rejects object and array examples that would crash SSG as React children', () => {
+    // Run 42171207106: the upstream spec ships `example: {}` on the on-demand
+    // cluster date fields; rendering it as a child failed static generation
+    // for describe-on-demand-cluster-v2 and list-on-demand-clusters-v2.
+    expect(isRenderableExample({})).toBe(false);
+    expect(isRenderableExample({value: 'x'})).toBe(false);
+    expect(isRenderableExample([])).toBe(false);
+  });
+
+  it('keeps the exact scalar behavior the render guards always had', () => {
+    expect(isRenderableExample(0)).toBe(true);
+    expect(isRenderableExample('my-cluster')).toBe(true);
+    expect(isRenderableExample(42)).toBe(true);
+    expect(isRenderableExample('')).toBe(false);
+    expect(isRenderableExample(false)).toBe(false);
+    expect(isRenderableExample(null)).toBe(false);
+    expect(isRenderableExample(undefined)).toBe(false);
   });
 });

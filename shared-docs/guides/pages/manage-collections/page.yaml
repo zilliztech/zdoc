@@ -1,0 +1,29 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/collections/manage-collections.md
+
+metadata:
+  description: "Zilliz Cloud provides collections to manage your data, and you insert your data as entities into the collections. Collections and entities are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts."
+
+publish:
+  - manual: guides
+    path: tutorials/development/collection/manage-collections
+  - manual: guides-byoc
+    path: tutorials/development/collection/manage-collections
+
+transforms:
+  # Cloud keeps its own AUTOINDEX-only statement (coordinator decision A.2).
+  - operation: add
+    target:
+      block: index-intro
+    position: after
+    content:
+      file: cloud-autoindex-note.md
+  # Cloud-only "Limits" section: Milvus has no Cloud limits page.
+  - operation: add
+    target:
+      block: consistency-level-details
+    position: after
+    content:
+      file: cloud-limits-section.md

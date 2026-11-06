@@ -2,6 +2,7 @@ import MarkdownIt from 'markdown-it'
 import { codeGroupAt, fencesIn, markdownLines } from '../blocks'
 import { frontMatter } from './front-matter'
 import { renderTabs } from './tabs'
+import { componentImports, componentOrder, isImportableComponent } from './components'
 import { siteError } from './types'
 import type { AdaptPageInput, AdaptResult, Component, SourceLine } from './types'
 import type { SharedDocsError } from '../types'
@@ -102,6 +103,17 @@ export function adaptPage(input: AdaptPageInput): AdaptResult {
   }
   for (const open of divs) error(open.line, 'Unclosed div')
 
+  // Authored component tags (Tabs, TabItem, Admonition, Supademo) already carry
+  // their adapted form; only their imports need to be emitted. Fenced example
+  // lines and masked comments/inline code are excluded exactly as above.
+  const componentTag = /<\/?([A-Z][A-Za-z0-9]*)(?=[\s/>])/g
+  for (let i = front.bodyStart; i < lines.length; i++) {
+    if (excluded.has(i)) continue
+    for (const match of markupText(visibleLines[i]).matchAll(componentTag)) {
+      if (isImportableComponent(match[1])) components.add(match[1])
+    }
+  }
+
   const body = visibleLines.map((line, index) => index < front.bodyStart || excluded.has(index) ? '' : line).join('\n')
   const tokens = new MarkdownIt({ html: false }).parse(body, {})
   const used = new Set<string>()
@@ -120,9 +132,9 @@ export function adaptPage(input: AdaptPageInput): AdaptResult {
     replacements.set(start, { end: end - 1, lines: [{ text: `${prefix} ${content}{#${id}}`, source: start + 1 }] })
   }
   if (errors.length) return { errors }
-  const required: Component[] = (['Admonition', 'Tabs', 'TabItem'] as const).filter(component => components.has(component))
+  const required: Component[] = componentOrder.filter(component => components.has(component))
   const output = [...front.lines]
-  for (const component of required) output.push({ text: `import ${component} from '@theme/${component}';`, source: null })
+  for (const component of required) output.push({ text: `import ${component} from '${componentImports[component]}';`, source: null })
   if (required.length) output.push({ text: '', source: null })
   for (let i = front.bodyStart; i < lines.length; i++) {
     const replacement = replacements.get(i)

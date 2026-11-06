@@ -1,0 +1,24 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/enable-dynamic-field.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/enable-dynamic-field
+  - manual: guides-byoc
+    path: tutorials/development/schema/enable-dynamic-field
+
+# Zilliz Cloud is a managed service with a single current engine version, so the
+# Milvus minimum-version suffixes on these two headings are removed.
+transforms:
+  - operation: replace
+    target:
+      block: dynamic-field-indexing-heading
+    content:
+      file: cloud-indexing-heading.md
+  - operation: replace
+    target:
+      block: dynamic-field-cast-function-heading
+    content:
+      file: cloud-cast-function-heading.md

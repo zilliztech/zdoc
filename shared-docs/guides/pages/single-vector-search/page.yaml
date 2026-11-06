@@ -1,0 +1,63 @@
+schema_version: 1
+source:
+  file: site/en/userGuide/search-query-get/single-vector-search.md
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/single-vector-search
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/single-vector-search
+transforms:
+  # The Cloud page carries an eight-entry in-page table of contents that includes
+  # Use Level and Get Recall Rate. The shared source keeps Milvus's nine-entry list;
+  # Cloud replaces it with its own eight. The content file uses Milvus-relative
+  # links so the generator rewrites them to the Cloud ./single-vector-search# form.
+  - operation: replace
+    target: {block: single-vector-search-toc}
+    content: {file: cloud-toc.md}
+  # Two headings carry product/version suffixes; the Cloud page publishes the first
+  # without a suffix and the second with | PUBLIC.
+  - operation: replace
+    target: {block: basic-vector-search-primary-key-heading}
+    content: {file: cloud-primary-key-heading.md}
+  - operation: replace
+    target: {block: basic-vector-search-sort-heading}
+    content: {file: cloud-sort-heading.md}
+  # Each of the nine shared code groups has a real Zilliz CLI call on the Cloud page.
+  - operation: add
+    target: {block: basic-vector-search-single, language: shell}
+    content: {file: cloud-cli-single.md}
+  - operation: add
+    target: {block: basic-vector-search-bulk, language: shell}
+    content: {file: cloud-cli-bulk.md}
+  - operation: add
+    target: {block: basic-vector-search-primary-key, language: shell}
+    content: {file: cloud-cli-primary-key.md}
+  - operation: add
+    target: {block: basic-vector-search-partition, language: shell}
+    content: {file: cloud-cli-partition.md}
+  - operation: add
+    target: {block: basic-vector-search-output-fields, language: shell}
+    content: {file: cloud-cli-output-fields.md}
+  - operation: add
+    target: {block: basic-vector-search-sort-single, language: shell}
+    content: {file: cloud-cli-sort-single.md}
+  - operation: add
+    target: {block: basic-vector-search-sort-multi, language: shell}
+    content: {file: cloud-cli-sort-multi.md}
+  - operation: add
+    target: {block: basic-vector-search-limit-offset, language: shell}
+    content: {file: cloud-cli-limit-offset.md}
+  - operation: add
+    target: {block: basic-vector-search-timezone, language: shell}
+    content: {file: cloud-cli-timezone.md}
+  # Two Cloud-only sections (public preview) are appended after the last shared
+  # section. Their text comes from the fixed dev snapshot with product statements
+  # replaced by variables; same-boundary additions keep list order.
+  - operation: add
+    target: {block: basic-vector-search-enhancing}
+    position: after
+    content: {file: cloud-use-level.md}
+  - operation: add
+    target: {block: basic-vector-search-enhancing}
+    position: after
+    content: {file: cloud-get-recall-rate.md}

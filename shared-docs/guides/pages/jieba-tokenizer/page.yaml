@@ -1,0 +1,21 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/analyzer/tokenizer/jieba-tokenizer.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer
+  - manual: guides-byoc
+    path: tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer
+
+# The remote file-resource capability behind `extra_dict_file` is not offered on
+# Zilliz Cloud, so neither the section nor the sentence that links to it may be
+# published there. Milvus keeps both.
+transforms:
+  - operation: remove
+    target:
+      block: jieba-dict-file-reference
+  - operation: remove
+    target:
+      block: jieba-dict-file-section

@@ -289,3 +289,25 @@ test('shared docx object aliases render their mapped anchor and validate the can
     assert.throws(() => validateGuidesSourceContract({...f, target: 'zilliz.saas'}), /ref.*target mismatch/)
   }
 })
+test('ref target mismatch names the expected key and the entry actually found', () => {
+  const f = fixture()
+  const canonical = f.snapshot.navigation_records.find(record => record.record_id === 'page')
+  canonical.slug = 'canonical-page'
+  const ref = f.snapshot.navigation_records.find(record => record.record_id === 'ref')
+  ref.title = 'Different Ref Label'
+  ref.slug = ''
+  fs.rmSync(path.join(f.outputDir, 'tools/section/page.md'))
+  write(f.outputDir, 'tools/section/canonical-page.md', 'page-token')
+  f.sidebar[0].items[0].items[0].id = 'tutorials/tools/section/canonical-page'
+  const refItem = f.sidebar[0].items.find(item => item.key?.startsWith('ref:'))
+  refItem.key = 'ref:tutorials/tools/different-ref-label'
+  refItem.href = '/docs/canonical-page'
+  assert.throws(() => validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }),
+    /no link entry at ref:tutorials\/tools\/canonical-page/)
+
+  const g = fixture()
+  const gRefItem = g.sidebar[0].items.find(item => item.key?.startsWith('ref:'))
+  gRefItem.href = '/docs/wrong-page'
+  assert.throws(() => validateGuidesSourceContract({ ...g, target: 'zilliz.saas' }),
+    /expected \/docs\/page via ref:tutorials\/tools\/reuse, found \/docs\/wrong-page at ref:tutorials\/tools\/reuse/)
+})

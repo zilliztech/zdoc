@@ -1,0 +1,46 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/embeddings-reranking/embedding-function/bm25-function.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/function/bm25-function
+  - manual: guides-byoc
+    path: tutorials/development/function/bm25-function
+
+# Content provenance:
+#   The shared source carries the C++ SDK snippets (added by the milvus-docs
+#   sync), so they are not reproduced here. The Cloud page nests the Step 1 SDK
+#   steps under `### Via SDK` and carries a Cloud-only `### Via web console`
+#   walkthrough whose body is a `<Supademo />` component. Cloud recall uses
+#   `params.level` instead of the source's `metric_type: BM25` in the search
+#   snippets. All content files are copied verbatim from the current Cloud page.
+transforms:
+  # The Cloud page nests the SDK steps under `### Via SDK`.
+  - operation: add
+    target: {block: bm25-step1-schema-heading}
+    position: before
+    content: {file: cloud-via-sdk-heading.md}
+  # Cloud recall uses params.level instead of the source's metric_type: BM25.
+  - operation: replace
+    target: {block: bm25-search, language: python, lines: '    "metric_type": "BM25",'}
+    content:
+      lines: "    'params': {'level': 10},"
+  - operation: replace
+    target: {block: bm25-search, language: java, lines: 'searchParams.put("metric_type", "BM25");'}
+    content:
+      lines: "searchParams.put(\"level\", 10);"
+  - operation: remove
+    target: {block: bm25-search, language: go, lines: 'annSearchParams.WithExtraParam("metric_type", "BM25")'}
+  - operation: replace
+    target: {block: bm25-search, language: javascript, lines: '    params: { metric_type: ''BM25'' },'}
+    content:
+      lines: "    params: {'level': 10},"
+  - operation: remove
+    target: {block: bm25-search, language: bash, lines: '        "metric_type": "BM25",'}
+  # Cloud-only console walkthrough; the source page has no Via web console section.
+  - operation: add
+    target: {block: bm25-create}
+    position: after
+    content: {file: cloud-web-console.md}

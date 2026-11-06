@@ -116,6 +116,17 @@ function singleLine(value, label) {
   return value
 }
 
+const LOG_LABEL_LIMIT = 80
+function boundedLabel(value) {
+  const text = String(value).replace(/[\0\r\n\t]+/gu, ' ').trim()
+  return text.length <= LOG_LABEL_LIMIT ? text : `${text.slice(0, LOG_LABEL_LIMIT - 1)}…`
+}
+
+function stagePathCount(stagePathFile) {
+  if (!fs.statSync(stagePathFile).size) return 0
+  return fs.readFileSync(stagePathFile, 'utf8').split('\0').filter(entry => entry.length).length
+}
+
 function realDirectory(value, label) {
   if (typeof value !== 'string' || !value || /[\0\r\n]/u.test(value)) throw new Error(`${label} is required`)
   const resolved = path.resolve(value)
@@ -261,6 +272,8 @@ async function publishGeneralCheckpointTransaction(options = {}) {
       status: 'publish_failed', attempts: 0, failure: failure('CHECKPOINT_INVALID', 'artifact_validation', error), remoteState: 'known',
     }, now)
   }
+  const log = typeof options.log === 'function' ? options.log : null
+  if (log) log(`unit=${unit.unitKey} phase=artifact_validation`)
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     let publicationWorktree = null
@@ -268,6 +281,13 @@ async function publishGeneralCheckpointTransaction(options = {}) {
     let scratchDirectory = null
     let baseSha = null
     let phase = 'fetch'
+    let phaseStarted = log ? process.hrtime.bigint() : null
+    const emitPhase = log ? (name, extra = '') => {
+      const ended = process.hrtime.bigint()
+      const ms = Number(ended - phaseStarted) / 1e6
+      phaseStarted = ended
+      log(`unit=${unit.unitKey} attempt=${attempt} phase=${name} ms=${ms.toFixed(0)}${extra}`)
+    } : null
     const cleanup = () => {
       removeTemporaryWorktree(repositoryRoot, publicationWorktree)
       publicationWorktree = null
@@ -281,16 +301,47 @@ async function publishGeneralCheckpointTransaction(options = {}) {
     try {
       git(repositoryRoot, ['fetch', '--no-tags', remote, `+refs/heads/${unit.targetBranch}:refs/remotes/${remote}/${unit.targetBranch}`])
       baseSha = git(repositoryRoot, ['rev-parse', `refs/remotes/${remote}/${unit.targetBranch}`]).stdout.trim()
+      if (emitPhase) emitPhase('target_fetch', ` base=${baseSha.slice(0, 12)}`)
       phase = 'composition'
       publicationWorktree = createTemporaryWorktree(repositoryRoot, runnerTemp, 'docs-publish.', baseSha)
+
+      const publicationApply = await deps.applyCheckpointArtifact({artifactDir, targetDir: publicationWorktree, site, ...(baselineDir ? {baselineDir} : {})})
+      if (emitPhase) emitPhase('apply_publication', ` files=${publicationApply?.copied ?? 0} deletions=${publicationApply?.deletions ?? 0}`)
+
+      scratchDirectory = fs.mkdtempSync(path.join(runnerTemp, 'docs-stage-paths.'))
+      const stagePathFile = path.join(scratchDirectory, 'paths.bin')
+      await deps.writeStagePathFile({artifactDir, worktree: publicationWorktree, output: stagePathFile, site})
+      if (fs.statSync(stagePathFile).size) {
+        git(publicationWorktree, ['add', '--all', `--pathspec-from-file=${stagePathFile}`, '--pathspec-file-nul'])
+      }
+      await deps.verifyStagedCheckpointPaths({artifactDir, worktree: publicationWorktree, site})
+      if (emitPhase) emitPhase('stage', ` paths=${stagePathCount(stagePathFile)}`)
+
+      // The checkpoint has now been composed onto the exact target tip. When
+      // that composition is byte-identical there is nothing to publish, so the
+      // expensive validation composition (a second worktree, the managed-path
+      // restore, a second apply, and the per-unit validation commands such as
+      // a full site build) is skipped: validation protects a commit that will
+      // never exist, and a no-op publish must not fail on it.
+      if (git(publicationWorktree, ['diff', '--cached', '--quiet'], {allowFailure: true}).status === 0) {
+        if (emitPhase) emitPhase('noop_short_circuit')
+        return transactionResult({status: 'no_changes', baseSha, resultSha: baseSha, commitShas: [], attempts: attempt}, now)
+      }
+
+      // Validation composition setup stays in the composition phase so an
+      // infrastructure failure here keeps the CHECKPOINT_COMPOSITION_FAILED
+      // code the old order produced; the restore script below is the first
+      // operation that is uniquely validation.
       validationWorktree = createTemporaryWorktree(repositoryRoot, runnerTemp, 'docs-validation.', validationToolingSha)
       linkDependencies(dependencyRoot, validationWorktree)
-
-      await deps.applyCheckpointArtifact({artifactDir, targetDir: publicationWorktree, site, ...(baselineDir ? {baselineDir} : {})})
+      if (emitPhase) emitPhase('validation_worktree')
       phase = 'validation'
       command(validationWorktree, 'bash', [path.join(__dirname, '../restore-generated-state.sh'), '--exact', '--ref', baseSha], {environment})
-      await deps.applyCheckpointArtifact({artifactDir, targetDir: validationWorktree, site, ...(baselineDir ? {baselineDir} : {})})
+      if (emitPhase) emitPhase('restore_generated')
+      const validationApply = await deps.applyCheckpointArtifact({artifactDir, targetDir: validationWorktree, site, ...(baselineDir ? {baselineDir} : {})})
+      if (emitPhase) emitPhase('apply_validation', ` files=${validationApply?.copied ?? 0} deletions=${validationApply?.deletions ?? 0}`)
       for (const validationCommand of unit.validationCommands) {
+        const commandStarted = log ? process.hrtime.bigint() : null
         try {
           command(validationWorktree, 'bash', ['-o', 'errexit', '-o', 'nounset', '-o', 'pipefail', '-c', validationCommand], {
             environment: {...environment, ...unit.environment},
@@ -299,26 +350,23 @@ async function publishGeneralCheckpointTransaction(options = {}) {
           if (error && typeof error === 'object') error.validationCommand = validationCommand
           throw error
         }
+        if (log) {
+          const ms = Number(process.hrtime.bigint() - commandStarted) / 1e6
+          // The command text is last on the line: it is trusted repo-defined
+          // shell but free-form, so it must not shadow key=value fields.
+          log(`unit=${unit.unitKey} attempt=${attempt} phase=validation_command ms=${ms.toFixed(0)} command=${boundedLabel(validationCommand)}`)
+        }
       }
 
       phase = 'composition'
-      scratchDirectory = fs.mkdtempSync(path.join(runnerTemp, 'docs-stage-paths.'))
-      const stagePathFile = path.join(scratchDirectory, 'paths.bin')
-      await deps.writeStagePathFile({artifactDir, worktree: publicationWorktree, output: stagePathFile, site})
-      if (fs.statSync(stagePathFile).size) {
-        git(publicationWorktree, ['add', '--all', `--pathspec-from-file=${stagePathFile}`, '--pathspec-file-nul'])
-      }
-      await deps.verifyStagedCheckpointPaths({artifactDir, worktree: publicationWorktree, site})
-      if (git(publicationWorktree, ['diff', '--cached', '--quiet'], {allowFailure: true}).status === 0) {
-        return transactionResult({status: 'no_changes', baseSha, resultSha: baseSha, commitShas: [], attempts: attempt}, now)
-      }
-
       git(publicationWorktree, ['config', 'user.name', authorName])
       git(publicationWorktree, ['config', 'user.email', authorEmail])
       git(publicationWorktree, ['commit', '-m', unit.commitMessage, '-m', commitBody(manifest, environment)])
       const candidateSha = git(publicationWorktree, ['rev-parse', 'HEAD']).stdout.trim()
+      if (emitPhase) emitPhase('commit', ` sha=${candidateSha.slice(0, 12)}`)
       try {
         await deps.pushCandidate({repositoryRoot, worktree: publicationWorktree, remote, branch: unit.targetBranch, baseSha, candidateSha})
+        if (emitPhase) emitPhase('push')
         return transactionResult({status: 'published', baseSha, resultSha: candidateSha, commitShas: [candidateSha], attempts: attempt}, now)
       } catch (pushError) {
         let probe = null

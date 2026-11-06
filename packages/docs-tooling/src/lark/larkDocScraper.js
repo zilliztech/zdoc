@@ -261,6 +261,10 @@ class larkDocScraper {
             throw new Error(`[fetch] ${incomplete.length} docx source file(s) are missing blocks. Re-run the fetch to retry:\n${incomplete.join('\n')}`)
         }
 
+        await this.__replace_reference_synced_blocks()
+    }
+
+    async __replace_reference_synced_blocks() {
         // fetch blocks of all referenced_synced blocks
         const jsons = fs.readdirSync(this.doc_source_dir).filter(file => file.endsWith('.json'))
 
@@ -273,6 +277,12 @@ class larkDocScraper {
                     if (block.block_type === 50 && block.reference_synced) {
                         const { source_document_id, source_block_id } = block.reference_synced
                         const node = { "obj_type": "docx", obj_token: source_document_id }
+                        // The source docx of an activated shared record is frozen legacy state:
+                        // routing never refetches it, so it cannot hydrate the replacement.
+                        if (this.__is_shared_alias_source(node)) {
+                            console.warn(`[shared-alias] Skipped reference_synced replacement in ${json}: source document ${source_document_id} (record ${this.routingContext?.aliasesByToken.get(source_document_id) ?? 'unknown'}) is an activated shared-docs alias; its frozen legacy body is never refetched, so block ${source_block_id} stays unreplaced`)
+                            continue
+                        }
                         await this.__fetch_blocks(node)
                         const source_block = node.blocks.items.find(b => b.block_id == source_block_id)
                         if (source_block) {
@@ -316,10 +326,10 @@ class larkDocScraper {
                 }
                 console.log(`8. Replaced ${replacements.length} reference_synced blocks in ${json}`)
                 fs.writeFileSync(`${this.doc_source_dir}/${json}`, JSON.stringify(source, null, 2))
-            }   
+            }
         }
-    } 
-    
+    }
+
     __fetch_block_children(block, node) {
         let children = [];
         if (block.children) {
@@ -1217,6 +1227,13 @@ class larkDocScraper {
         const recordsById = new Map(this.records.map(record => [record.record_id, record]))
         const recordsByDocToken = new Map()
         for (const record of this.records) {
+            // Only document-owning records index their Docs token. A ref/link row's
+            // Docs cell names its navigation target, so indexing it lets the row
+            // shadow the target's canonical row (or resolve as its own target when
+            // the target moved to a shared page) and the ref slug degrades to the
+            // slugified ref title.
+            const placementType = this.__placement_type(record)
+            if (placementType === 'ref' || placementType === 'link') continue
             const docToken = this.__doc_token(this.__doc_field(record.fields))
             if (docToken) recordsByDocToken.set(docToken, record)
         }
@@ -1249,20 +1266,34 @@ class larkDocScraper {
             if (placementType === 'ref') {
                 const targetToken = this.__field_token(record.fields['Ref Target Doc'])
                 const targetSource = targetToken ? sourcesByToken().get(targetToken) : null
-                if (!targetSource) {
+                // A shared page's Feishu source is no longer written into the sources
+                // directory once activated; its Base row is still reachable through the
+                // routing aliases recorded when the page was onboarded.
+                const targetRecord = targetToken ? (recordsByDocToken.get(targetToken)
+                    || this.records.find(row => this.routingContext?.aliasesByToken?.get(targetToken) === row.record_id)
+                    || null) : null
+                if (!targetSource && !targetRecord) {
                     console.warn(`[base-nav] Ref target not found for "${title}" (${record.record_id}): ${targetToken || 'empty Ref Target Doc'}`)
                 }
                 source = this.__virtual_source({
                     nodeToken: this.__nav_token(record),
                     parentToken,
                     title,
-                    slug: targetSource?.slug || slug,
+                    // Mirror the source-contract validator (record slug || target slug ||
+                    // slugified title) so both sides derive the same ref navigation key
+                    // even when the Base ref row leaves its Slug empty. The target slug
+                    // comes from the Base record, never from the sources directory: the
+                    // directory can still hold a legacy source restored from the cross-run
+                    // cache whose slug predates the current Base slug (or the shared-page
+                    // onboarding), and the contract validator only ever reads the record.
+                    slug: this.__plain_value(record.fields.Slug)
+                        || (targetRecord ? this.__record_slug(targetRecord) : null)
+                        || targetSource?.slug || slug,
                     children: [],
                 })
                 source.base_nav_ref = true
                 source.base_nav_ref_target_token = targetToken
                 source.base_nav_ref_target_anchor = this.__field_anchor(record.fields['Ref Target Doc'])
-                const targetRecord = targetToken ? recordsByDocToken.get(targetToken) : null
                 source.base_nav_ref_target_title = targetSource?.title || targetSource?.name || (targetRecord ? this.__record_title(targetRecord) : null)
             } else if (placementType === 'link') {
                 source = this.__virtual_source({

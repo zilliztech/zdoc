@@ -1,0 +1,33 @@
+{
+ "code": 0,
+ "data": [
+  {
+   "distance": 1,
+   "id": 1,
+   "price": 10
+  },
+  {
+   "distance": 1,
+   "id": 9,
+   "price": 90
+  },
+  {
+   "distance": 1,
+   "id": 51,
+   "price": 3
+  },
+  {
+   "distance": 1,
+   "id": 105,
+   "price": 1
+  },
+  {
+   "distance": 0.2727273,
+   "id": 5,
+   "price": 50
+  }
+ ],
+ "topks": [
+  5
+ ]
+}
