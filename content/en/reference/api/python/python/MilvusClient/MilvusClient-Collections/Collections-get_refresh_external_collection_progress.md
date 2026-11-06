@@ -66,6 +66,19 @@ def get_refresh_external_collection_progress(
 
 A RefreshExternalCollectionJobInfo object that records the details of the specified external collection refresh job.
 
+```python
+{
+    'job_id': 4325693842392,
+    'collection_name': 'test_collection',
+    'state': 'RefreshInProgress',
+    'progress': 67,
+    'reason': ''
+    'external_source': 'volume://<my_volume>/<bucket>/' 
+    'start_time': 1776470400000
+    'end_time': 1776470434567    
+}
+```
+
 **PARAMETERS:**
 
 - **job_id** (*int*) -
@@ -78,7 +91,7 @@ A RefreshExternalCollectionJobInfo object that records the details of the specif
 
 - **state** (*string*) -
 
-    The current state of the specified job. Possible values are:
+    The current state of the specified job. A refresh job transitions from `RefreshInProgress` to `RefreshCompleted` or `RefreshFailed`. Possible values are:
 
     - RefreshPending
 

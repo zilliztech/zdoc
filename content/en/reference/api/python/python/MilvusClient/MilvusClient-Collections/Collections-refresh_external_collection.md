@@ -58,9 +58,15 @@ refresh_external_collection(
 
     The external source URI, which is similar to an AWS S3 object path.
 
+    Provide `external_source` and `external_spec` together, or omit both; when both are omitted, the refresh reuses the persisted source and spec.
+
+    <NextChannel action="include">On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. For a `volume://` URI, the rule above applies. For a `milvus://` source, you must pass `external_source` in every refresh request; omitting it leaves the collection serving the previously synced data.</NextChannel>
+
 - **external_spec** (*str*) -
 
     The external source specifications, which are a set of secondary parameters: format (str): The format of the target source data files. Possible values are parquet, vortex, lance-table, and iceberg-table. snapshot_id (str): The ID of an Iceberg table. This applies only when format is iceberg-table. extfs (string): External file system settings in a stringified JSON structure. Possible options are as follows: access_key_id (string): The access key ID of your object storage service. access_key_val (string): The access key value of your object storage service. cloud_provider (string): The cloud provider of your object storage service. region (string): The region of your object storage service. use_iam (string): Whether to use AWS IAM for bucket access authentication. Possible values are "true" or "false". iam_endpoint (string): The AWS IAM STS endpoint. use_ssl (string): Whether to use SSL to access your object storage bucket. Possible values are "true" or "false". use_virtual_host (string): Whether to use virtual hosting for bucket access. For details, refer to this article. storage_type (string): The storage type. Possible values is remote. role_arn (string): The AWS IAM Role ARN that is obtained from the bucket owner. external_id (string): The external ID obtained from the bucket owner. load_frequency (string): The interval at which Milvus retrieves temporary authentication credentials in seconds.
+
+    <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
 
 - **timeout** (*float*) -
 
@@ -68,7 +74,9 @@ refresh_external_collection(
 
 - **external_source** (*str*) -
 
-    The external source URI, which should be a `volume://` URI that points to an accessible external volume. For example, `volume://<volume-name>/path/to/folder/`..
+    The external source URI, which <NextChannel action="exclude">should be a `volume://` URI that points to an accessible external volume. For example, `volume://<volume-name>/path/to/folder/`</NextChannel><NextChannel action="include">uses one of the schemes described below</NextChannel>.
+
+    <NextChannel action="include">On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. A `volume://` URI points to an accessible external volume, for example, `volume://<volume-name>/path/to/folder/`.</NextChannel>
 
 - **external_spec** (*str*) -
 
@@ -79,6 +87,8 @@ refresh_external_collection(
         The format of the target source data files.
 
         Possible values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
+
+        <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
 
     - **snapshot_id** (*str*) -
 
