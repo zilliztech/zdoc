@@ -56,10 +56,10 @@ await milvusClient.refreshExternalCollection({
   更新する外部コレクションの名前です。
 
 - **external_source** (*string*) -<br/>
-  新しい外部ソースパスです。省略可能です。指定した場合、コレクションはこの新しいソースから更新されます。
+  新しい外部ソースパスです。指定した場合、コレクションはこの新しいソースから更新されます。`external_source` と `external_spec` はまとめて指定するか、両方とも省略してください。両方とも省略した場合、更新では永続化されたソースと仕様が再利用されます。 <NextChannel action="include">Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の2つのスキームを受け付けます。`volume://` URI の場合、上記のルールが適用されます。`milvus://` ソースの場合、すべての更新リクエストで `external_source` を渡す必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。</NextChannel>
 
 - **external_spec** (*string*) -<br/>
-  新しい外部仕様設定です。省略可能です。指定した場合、コレクションはこの新しい仕様を使用します。
+  新しい外部仕様設定です。指定した場合、コレクションはこの新しい仕様を使用します。`format` には、`parquet`、`vortex`、`lance-table`、`iceberg-table` を指定できます。 <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用します。`format` は省略でき、`milvus://` ソースの場合は `milvus-table` がデフォルトになります。</NextChannel>
 
 - **db_name** (*string*) -<br/>
   データベースの名前です。省略可能です。

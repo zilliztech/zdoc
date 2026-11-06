@@ -84,7 +84,7 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
     - **state** (*RefreshExternalCollectionState*) -
 
-        現在のジョブ状態です。指定可能な値は **RefreshPending**、**RefreshInProgress**、**RefreshCompleted**、**RefreshFailed** です。
+        現在のジョブ状態です。指定できる値は **RefreshPending**、**RefreshInProgress**、**RefreshCompleted**、**RefreshFailed** です。リフレッシュジョブは **RefreshInProgress** から **RefreshCompleted** または **RefreshFailed** に遷移します。
 
     - **progress** (*string*) -
 

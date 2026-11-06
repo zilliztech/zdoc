@@ -6201,9 +6201,9 @@
       "translatedAt": "2026-10-25T14:54:18.520Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md": {
-      "sourceHash": "54f078cff56f207830d97a42e108ac1a06ee3f44f0cbf5ff3a8b30feda10797c",
+      "sourceHash": "8860b373793c2a7e46660fe1db3574b58c813adcbab3a32028e259ab24aa64da",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-createCollection.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-11-06T19:45:28.604Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeAlias.md": {
       "sourceHash": "ad5e51fd7cf99cce9809b0ba4165d9e453d8cb47274d4d959b5786e44652ea58",
@@ -6266,9 +6266,9 @@
       "translatedAt": "2026-10-25T14:54:18.520Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md": {
-      "sourceHash": "42479d88b2fde8274c8c1890ea6f2cfca338fc897ebfb9cc7e8049505e2ff0cc",
+      "sourceHash": "84e7b77d7d354c1d08b091ecd769a4ec0873691b7cef2692244d9fe6c9ee5eb9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-11-06T19:45:28.604Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-hasCollection.md": {
       "sourceHash": "92756fa86ae28ac8a80d24b8aa0747a377d12f271bc916b835d07822275bca54",
@@ -6291,9 +6291,9 @@
       "translatedAt": "2026-10-25T14:54:18.520Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md": {
-      "sourceHash": "21022e7291212514fe88336011431612fd3d4dbfeb6fd55a9753124561a9c312",
+      "sourceHash": "2ad7698f812d9b984a158feeac032cc600a25b139cbe4b59a175c2707be31978",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
-      "translatedAt": "2026-10-25T14:54:18.520Z"
+      "translatedAt": "2026-11-06T19:45:28.604Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-renameCollection.md": {
       "sourceHash": "184e46a5a640784bce9e0759e46f417474423c8fe86a5a4947d27ed4f98aa2ef",
