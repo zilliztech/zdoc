@@ -457,6 +457,6 @@ curl --request POST \
 
 ### 期待される出力\{#expected-output}
 
-```python
+```plaintext
 ['Milvus', '2', '0', 'Scale', 'AI', 'Vector']
 ```

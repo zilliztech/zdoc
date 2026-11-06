@@ -1,7 +1,6 @@
 ---
 title: "BM25 関数 | BYOC"
 slug: /bm25-function
-sidebar_label: "BM25 関数"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,16 +8,16 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "BM25 関数は、生のテキストをスパースベクトルに変換し、字句的な関連性に基づいてドキュメントをスコアリングすることで、フルテキスト検索を可能にします。用語ベースのマッチングと頻度を考慮した重み付けを適用し、クエリ用語に密接に一致するテキストドキュメントを効率的に取得できるようにします。 | BYOC"
 type: origin
-token: YbChwcPMBim5ryk1EQocEbDenDd
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-bm25-function
+sidebar_label: "BM25 関数"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/embeddings-reranking/embedding-function/bm25-function.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
 import Supademo from '@site/src/components/Supademo';
 
 # BM25 関数
@@ -167,7 +166,7 @@ BM25 関数を使用するには、コレクションの作成時に定義する
 
 - **スパースベクトルフィールド** (`SPARSE_FLOAT_VECTOR`): BM25 関数によって自動的に生成されるスパース埋め込みを格納します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -192,6 +191,10 @@ schema.add_field(field_name="sparse", datatype=DataType.SPARSE_FLOAT_VECTOR) # S
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .build();
 schema.addField(AddFieldReq.builder()
@@ -235,7 +238,7 @@ token := "YOUR_CLUSTER_TOKEN"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey:  token,
+    APIKey: token
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -321,7 +324,7 @@ const schema = [
   },
 ];
 
-console.log(schema);
+console.log(schema)
 ```
 
 </TabItem>
@@ -356,13 +359,6 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 #### BM25 関数を定義する\{#define-the-bm25-function}
@@ -371,7 +367,7 @@ BM25 関数は、トークン化されたテキストを、BM25 スコアリン�
 
 関数を定義し、スキーマに追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -391,6 +387,11 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
+
+import java.util.*;
+
 schema.addFunction(Function.builder()
         .functionType(FunctionType.BM25)
         .name("text_bm25_emb")
@@ -495,20 +496,13 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 #### インデックスを構成する\{#configure-the-index}
 
-必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡素化するには、`index_type` として `AUTOINDEX` を使用します。これは、データの構造に基づいて Zilliz Cloud が最適なインデックスタイプを選択して構成できるようにするオプションです。
+必要なフィールドと組み込み関数を指定してスキーマを定義したら、コレクションのインデックスを設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -516,8 +510,15 @@ index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="sparse",
-    index_type="AUTOINDEX", 
-    metric_type="BM25"
+
+    index_type="SPARSE_INVERTED_INDEX",
+    metric_type="BM25",
+    params={
+        "inverted_index_algo": "DAAT_MAXSCORE",
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75
+    }
+
 )
 ```
 
@@ -526,6 +527,8 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+
 Map<String,Object> params = new HashMap<>();
 params.put("inverted_index_algo", "DAAT_MAXSCORE");
 params.put("bm25_k1", 1.2);
@@ -537,7 +540,7 @@ indexes.add(IndexParam.builder()
         .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
         .metricType(IndexParam.MetricType.BM25)
         .extraParams(params)
-        .build());    
+        .build());
 ```
 
 </TabItem>
@@ -573,7 +576,7 @@ let index_params = IndexParam::new()
 <TabItem value='c++'>
 
 ```c++
-auto index_params = milvus::IndexDesc("sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+auto index_params = milvus::IndexDesc("sparse", "", milvus::IndxType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
 index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 index_params.AddExtraParam("bm25_k1", "1.2");
 index_params.AddExtraParam("bm25_b", "0.75");
@@ -619,26 +622,19 @@ export indexParams='[
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 #### コレクションを作成する\{#create-the-collection}
 
 次に、定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.create_collection(
-    collection_name='my_collection', 
-    schema=schema, 
+    collection_name='my_collection',
+    schema=schema,
     index_params=index_params
 )
 
@@ -650,20 +646,8 @@ client.load_collection('my_collection')
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-import java.util.*;
-import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
@@ -722,16 +706,10 @@ client.load_collection(LoadCollectionRequest::builder().collection_name("my_coll
 <TabItem value='c++'>
 
 ```c++
-status = client->CreateCollection(milvus::CreateCollectionRequest()
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
-                                    .WithCollectionSchema(schema)
-                                    .AddIndex(std::move(index_params)));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->LoadCollection(milvus::LoadCollectionRequest()
-                                    .WithCollectionName("my_collection"));
+                                    .WithCollectionSchema(schema))
+                                    .AddIndex(std::move(index_params));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -746,10 +724,10 @@ await client.createCollection({
     collection_name: 'my_collection',
     schema: schema,
     index_params: index_params,
-    functions: functions
+    functions: functions,
 });
 
-await client.loadCollection({ collection_name: "my_collection" });
+await client.loadCollection({ collection_name: 'my_collection' });
 ```
 
 </TabItem>
@@ -770,24 +748,18 @@ curl --request POST \
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data '{
-  "collectionName": "my_collection"
+    "collectionName": "my_collection"
 }'
 ```
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 ### Web コンソール経由\{#via-web-console}
@@ -802,7 +774,7 @@ BM25 関数を備えたコレクションが作成されたら、テキストを
 
 コレクションとインデックスを設定したら、テキストデータを挿入する準備が整います。このプロセスでは、生のテキストを指定するだけで済みます。先ほど定義した BM25 関数が、各テキストエントリのスパースベクトルを自動的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -818,6 +790,11 @@ client.insert('my_collection', [
 <TabItem value='java'>
 
 ```java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import io.milvus.v2.service.vector.request.InsertReq;
+
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"text\": \"information retrieval is a field of study.\"}", JsonObject.class),
@@ -917,38 +894,31 @@ curl --request POST \
     "data": [
         {"text": "information retrieval is a field of study."},
         {"text": "information retrieval focuses on finding relevant information in large datasets."},
-        {"text": "data mining and information retrieval overlap in research."}       
+        {"text": "data mining and information retrieval overlap in research."}
     ],
     "collectionName": "my_collection"
 }'
+
 ```
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>
 
 ## ステップ 3: テキストクエリで検索する\{#step-3-search-with-text-query}
 
 コレクションにデータを挿入したら、生のテキストクエリを使用してフルテキスト検索を実行できます。Zilliz Cloud はクエリを自動的にスパースベクトルに変換し、BM25 アルゴリズムを使用して一致した検索結果をランク付けしてから、上位 K 件（`limit`）の結果を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 search_params = {
-    "metric_type": "BM25",  # Metric type must be BM25 for full text search
     'params': {'level': 10},
 }
 
 res = client.search(
-    collection_name='my_collection', 
+    collection_name='my_collection',
     # highlight-start
     data=['whats the focus of information retrieval?'],
     anns_field='sparse',
@@ -966,9 +936,13 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+
 Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
 searchParams.put("level", 10);
+
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new EmbeddedText("whats the focus of information retrieval?")))
@@ -985,7 +959,6 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 ```go
 annSearchParams := index.NewCustomAnnParam()
-annSearchParams.WithExtraParam("metric_type", "BM25")
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
     3,               // limit
@@ -1036,7 +1009,6 @@ auto request = milvus::SearchRequest()
                        .AddEmbeddedText("whats the focus of information retrieval?")
                        .WithLimit(3)
                        .WithAnnsField("sparse")
-                       .AddExtraParam("metric_type", "BM25")
                        .AddOutputField("text");
 
 milvus::SearchResponse response;
@@ -1056,7 +1028,7 @@ await client.search({
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     output_fields: ['text'],
-    params: { metric_type: "BM25" },
+    params: {'level': 10},
     limit: 3,
 });
 ```
@@ -1082,7 +1054,6 @@ curl --request POST \
         "text"
     ],
     "searchParams":{
-        "metric_type": "BM25",
         "params":{}
     }
 }'
@@ -1090,11 +1061,4 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
 </Tabs>

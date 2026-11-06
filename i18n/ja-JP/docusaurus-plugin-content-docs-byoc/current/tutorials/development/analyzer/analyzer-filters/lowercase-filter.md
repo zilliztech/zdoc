@@ -454,6 +454,6 @@ curl --request POST \
 
 ### 期待される出力\{#expected-output}
 
-```python
+```plaintext
 ['the', 'lowercase', 'filter', 'ensures', 'uniformity', 'in', 'text', 'processing']
 ```

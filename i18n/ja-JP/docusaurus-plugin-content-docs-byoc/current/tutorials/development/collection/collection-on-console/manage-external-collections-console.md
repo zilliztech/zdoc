@@ -36,6 +36,8 @@ import Supademo from '@site/src/components/Supademo';
 
 - 外部コレクションを作成できるのは、オンデマンドコンピューティング用データベースに限られます。サービング Dedicated クラスターでの外部コレクション作成サポートは、近日公開予定です。
 
+- 別のクラスター上のコレクションから外部コレクションを作成する場合（`milvus://` ソース）は、現在 SDK と RESTful API でのみ利用できます。コンソールでは、このソースタイプはサポートされていません。
+
 </Admonition>
 
 ## データの更新\{#refresh-data}

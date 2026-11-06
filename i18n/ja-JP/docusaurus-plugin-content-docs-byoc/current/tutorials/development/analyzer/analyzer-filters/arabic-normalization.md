@@ -428,6 +428,8 @@ Console.WriteLine(result.Results?.SelectMany(r => r.Tokens.Select(t => t.Token))
 
 ```bash
 # restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
   --header "Authorization: Bearer ${TOKEN}" \
