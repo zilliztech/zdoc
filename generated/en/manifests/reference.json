@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "0a94a3ec5bf68431778e5fb75fa76adde2c823da",
+  "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
   "records": [
     {
       "manual": "cli",
@@ -500,7 +500,7 @@
     {
       "manual": "cli",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md",
-      "sourceHash": "4f17f1360ba969117210e2547e478908b75d03f9264b6904cbee4b162ed05220"
+      "sourceHash": "cdad45ac4ff8de4816b774a2e1fe1a2cd1594e207857f81b575d6b87d380f98b"
     },
     {
       "manual": "cli",
@@ -510,7 +510,7 @@
     {
       "manual": "cli",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md",
-      "sourceHash": "0a5962302ddf50337e36f708309c8a4a4d005b6b18492fb3a8bebef2435dd5aa"
+      "sourceHash": "ced85a283235f796c0c6a7e57d14409571fa4b1aa8c34c376dca8ff31ecd90b1"
     },
     {
       "manual": "cli",
@@ -1230,7 +1230,7 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshExternalCollection.md",
-      "sourceHash": "91858da7d994f0544166e80fab4b9261797af8a48a60e041de2d98f9b2c18918"
+      "sourceHash": "57e5a27f4725861c94c49641347141a69081c7f500ec6cd9e4fe166bb0963bde"
     },
     {
       "manual": "cpp",
@@ -1695,7 +1695,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md",
-      "sourceHash": "4e62c2bcd27f59a193e1b0df76f2a80035e2879c91d6fa05790ce87a4b0954e6"
+      "sourceHash": "84743584b8358f84b62e1a6b71d209c4bdfcb07b5386b3bcf8fd5ce15bb527c4"
     },
     {
       "manual": "go",
@@ -1720,7 +1720,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
-      "sourceHash": "344eabbf5b9502017255ff0825126d91b38dc52fe0858432717bc1331ea1e895"
+      "sourceHash": "51d4bab90e02800465d89c3e4c0dfaa7cac287dd2194c7166f648d06b51d4b53"
     },
     {
       "manual": "go",
@@ -1730,7 +1730,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md",
-      "sourceHash": "d257d5f10ef2cbb136e80676228910e5488a309ccec2f7628e87997df4a47f69"
+      "sourceHash": "0005fef8e18017f78b5f794a05c9b5300ef35910b1f9ab011a54f86eda798a6c"
     },
     {
       "manual": "go",
@@ -1740,7 +1740,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
-      "sourceHash": "25c5c54f2dc0bc4c8480090361d12c3e0863db60836458f67db09346bc3728d4"
+      "sourceHash": "46b9ea8dc2f09d15e211d8c79d3bccdca1f13898ceb304bbd46d100bf822bf09"
     },
     {
       "manual": "go",
@@ -2535,7 +2535,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md",
-      "sourceHash": "646294fd4de87021ec1764378abd3281543886ba18fa072f4bd2b710d749d77c"
+      "sourceHash": "13831261c97106dad96a9ef06714f17013bf33c92169f9f0a4b432e171ab3279"
     },
     {
       "manual": "java",
@@ -2545,7 +2545,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
-      "sourceHash": "a62b53694a305b9c19b28f69ca0c93d6f2a5d05b6acec0c22428b4c3a1c2620c"
+      "sourceHash": "5d6d7062f338c5534dd19e4b55589e55c5965667472fc6444277858f963a8cd7"
     },
     {
       "manual": "java",
@@ -3035,7 +3035,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
-      "sourceHash": "39c2d5825ebb78399f669937237acd8b6f8dea57492b5e6d1ea301b3d70e35d4"
+      "sourceHash": "57f206bbc746279d89be087ee47baadc94a20cb2f17493ef04344c836aa75655"
     },
     {
       "manual": "java",
@@ -3050,7 +3050,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md",
-      "sourceHash": "a8800b93f45e9faae8b1e8b6cf00e1c0a22ce4d54f525ad5f03fc5349ca5ce5a"
+      "sourceHash": "c81e6773487ebbbe72b55a3700e646bce6dfb9c7c12f7d59af3aa00c5ca57dcb"
     },
     {
       "manual": "java",
@@ -3065,7 +3065,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
-      "sourceHash": "05b543b777bae17b57557b5ad7d3c5cacdefc7a409089149969ecb2a1aae7cf4"
+      "sourceHash": "856419007ec2ad9aa85b8744815c3b8cfefbc5216f613dddb1e52bb076c6bc3e"
     },
     {
       "manual": "java",
@@ -3585,7 +3585,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
-      "sourceHash": "54f078cff56f207830d97a42e108ac1a06ee3f44f0cbf5ff3a8b30feda10797c"
+      "sourceHash": "8860b373793c2a7e46660fe1db3574b58c813adcbab3a32028e259ab24aa64da"
     },
     {
       "manual": "node",
@@ -3650,7 +3650,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
-      "sourceHash": "42479d88b2fde8274c8c1890ea6f2cfca338fc897ebfb9cc7e8049505e2ff0cc"
+      "sourceHash": "84e7b77d7d354c1d08b091ecd769a4ec0873691b7cef2692244d9fe6c9ee5eb9"
     },
     {
       "manual": "node",
@@ -3675,7 +3675,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
-      "sourceHash": "21022e7291212514fe88336011431612fd3d4dbfeb6fd55a9753124561a9c312"
+      "sourceHash": "2ad7698f812d9b984a158feeac032cc600a25b139cbe4b59a175c2707be31978"
     },
     {
       "manual": "node",
@@ -4605,7 +4605,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md",
-      "sourceHash": "2824e2f1fd381942b2574a9160d1ebf65c1e29bedc8ca5aaa67d04634d19e66a"
+      "sourceHash": "43a69945fe3ca095e8439f71756e8cb204bf9c1c0d15e8744d51476a3091612b"
     },
     {
       "manual": "python",
@@ -4670,7 +4670,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md",
-      "sourceHash": "00ea269c832b2db9123d0647399948fe81edbc173086aa3afe03003b6dd7e6cc"
+      "sourceHash": "af0a3467a5988ab1ace7ca72563b93504345c4294a9390d9b50122f2261d6c78"
     },
     {
       "manual": "python",
@@ -4715,7 +4715,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress.md",
-      "sourceHash": "0bc6101137bb96a93e3146e9572276d535f1939165756f2670684f24a075e4b5"
+      "sourceHash": "9e3c9d720eedf1ad95654f0b0f931dd8bd3f03ed65030336d2332b87180c6980"
     },
     {
       "manual": "python",
@@ -4735,12 +4735,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_refresh_external_collection_jobs.md",
-      "sourceHash": "a7966b87b503ff5a90776916fbc0fda68f1ad1e56bbc7752008077d17d194c58"
+      "sourceHash": "bd59544504b3a1b23b06d3c140e72ec326975b09b276dada836fa19443a9e86d"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md",
-      "sourceHash": "63019b4b205f435754ecca373b171e28a0a25b14d39f4a58f50c765481eefafe"
+      "sourceHash": "834a444e28f7048cd0b98071d9ece62a1c4b1c2367b813c3a2c24ee96a62ff34"
     },
     {
       "manual": "python",
