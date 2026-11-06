@@ -73,9 +73,15 @@ CreateCollectionReq.CollectionSchema.builder()
 
     このコレクションにバインドされた外部ソース（例: S3 バケット、Lakehouse テーブル）を識別します。`externalSpec` と組み合わせて、Milvus の外部から更新される外部コレクションを定義します。
 
+    <NextChannel action="include">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2つのスキームを受け付けます。</NextChannel>
+
 - `externalSpec(JsonObject externalSpec)` -
 
     外部ソースの仕様です。通常は接続の詳細と更新ポリシーを記述した JSON です。`externalSource` と組み合わせて使用します。
+
+    この仕様には、`format` などの副次的なパラメータが含まれます。`format` に指定できる値は、`parquet`、`vortex`、`lance-table`、`iceberg-table` です。
+
+    <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`milvus://` ソースの場合、`format` は省略でき、デフォルトは `milvus-table` です。</NextChannel>
 
 **戻り値の型：**
 

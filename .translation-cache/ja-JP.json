@@ -5151,9 +5151,9 @@
       "translatedAt": "2026-10-25T13:51:48.192Z"
     },
     "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md": {
-      "sourceHash": "646294fd4de87021ec1764378abd3281543886ba18fa072f4bd2b710d749d77c",
+      "sourceHash": "13831261c97106dad96a9ef06714f17013bf33c92169f9f0a4b432e171ab3279",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md",
-      "translatedAt": "2026-10-25T13:51:48.192Z"
+      "translatedAt": "2026-11-06T19:42:08.020Z"
     },
     "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-ConsistencyLevel.md": {
       "sourceHash": "286ad30af23585f376d335064ad9fbd92cc09c6ffb17507c168a625582b1ef91",
@@ -5161,9 +5161,9 @@
       "translatedAt": "2026-10-25T13:51:48.192Z"
     },
     "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md": {
-      "sourceHash": "a62b53694a305b9c19b28f69ca0c93d6f2a5d05b6acec0c22428b4c3a1c2620c",
+      "sourceHash": "5d6d7062f338c5534dd19e4b55589e55c5965667472fc6444277858f963a8cd7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
-      "translatedAt": "2026-10-25T13:51:48.192Z"
+      "translatedAt": "2026-11-06T19:42:08.020Z"
     },
     "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-DataType.md": {
       "sourceHash": "38fa8b03a3f3dda735499e3c646746f6788bbb05401d558142555f6a6e43fa5b",
@@ -5651,9 +5651,9 @@
       "translatedAt": "2026-10-25T13:51:48.192Z"
     },
     "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md": {
-      "sourceHash": "39c2d5825ebb78399f669937237acd8b6f8dea57492b5e6d1ea301b3d70e35d4",
+      "sourceHash": "57f206bbc746279d89be087ee47baadc94a20cb2f17493ef04344c836aa75655",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
-      "translatedAt": "2026-10-25T13:51:48.192Z"
+      "translatedAt": "2026-11-06T19:42:08.020Z"
     },
     "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md": {
       "sourceHash": "e0ac1b8b7c8de0c0a13f21fa49132961623d852ecd102a0815d5d0792700ab3f",
@@ -5666,9 +5666,9 @@
       "translatedAt": "2026-10-25T13:51:48.192Z"
     },
     "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md": {
-      "sourceHash": "a8800b93f45e9faae8b1e8b6cf00e1c0a22ce4d54f525ad5f03fc5349ca5ce5a",
+      "sourceHash": "c81e6773487ebbbe72b55a3700e646bce6dfb9c7c12f7d59af3aa00c5ca57dcb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md",
-      "translatedAt": "2026-10-25T13:51:48.192Z"
+      "translatedAt": "2026-11-06T19:42:08.020Z"
     },
     "content/en/reference/api/java/java/v2/v2-Management/v2-Management-loadCollection.md": {
       "sourceHash": "ab33af2cdbee8b33b70a6a5ff8803fe73535172fb338e8d2a89a65badb7db259",
@@ -5681,9 +5681,9 @@
       "translatedAt": "2026-10-25T13:51:48.192Z"
     },
     "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md": {
-      "sourceHash": "05b543b777bae17b57557b5ad7d3c5cacdefc7a409089149969ecb2a1aae7cf4",
+      "sourceHash": "856419007ec2ad9aa85b8744815c3b8cfefbc5216f613dddb1e52bb076c6bc3e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
-      "translatedAt": "2026-10-25T13:51:48.192Z"
+      "translatedAt": "2026-11-06T19:42:08.020Z"
     },
     "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md": {
       "sourceHash": "c91557c1bd9a36ebed892b470631a069f2c7020aa07358593cf8377655998755",

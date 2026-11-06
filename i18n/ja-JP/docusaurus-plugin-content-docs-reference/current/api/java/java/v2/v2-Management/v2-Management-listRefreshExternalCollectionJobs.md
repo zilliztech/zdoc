@@ -80,7 +80,7 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 
     - **state** (*String*) -
 
-        現在のジョブ状態です（例：`"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
+        ジョブの現在の状態です。指定可能な値は `RefreshPending`、`RefreshInProgress`、`RefreshCompleted`、`RefreshFailed` です。リフレッシュジョブは `RefreshInProgress` から `RefreshCompleted` または `RefreshFailed` に遷移します。
 
     - **progress** (*int*) -
 
@@ -88,7 +88,7 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 
     - **reason** (*String*) -
 
-        ジョブ状態が `"FAILED"` の場合は失敗理由、それ以外の場合は空です。
+        ジョブの状態が `RefreshFailed` の場合の失敗理由です。それ以外の場合は空です。
 
     - **externalSource** (*String*) -
 

@@ -77,7 +77,7 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
     - **state**（*String*） -
 
-        現在のジョブ状態（例：`"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
+        現在のジョブ状態です。取り得る値は `RefreshPending`、`RefreshInProgress`、`RefreshCompleted`、`RefreshFailed` です。リフレッシュジョブは `RefreshInProgress` から `RefreshCompleted` または `RefreshFailed` に遷移します。
 
     - **progress**（*int*） -
 
@@ -85,7 +85,7 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
     - **reason**（*String*） -
 
-        ジョブ状態が `"FAILED"` の場合は失敗理由、それ以外の場合は空です。
+        ジョブ状態が `RefreshFailed` の場合は失敗理由、それ以外の場合は空です。
 
     - **externalSource**（*String*） -
 
