@@ -7,7 +7,7 @@ added_since: v3.0.0
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "A RefreshExternalCollectionState instance enumerates the possible states of a refresh external collection job. | Go | v2"
+description: "A RefreshExternalCollectionState instance enumerates the possible states of a refresh external collection job. A refresh job transitions from `RefreshStateInProgress` to `RefreshStateCompleted` or `RefreshStateFailed`. | Go | v2"
 type: docx
 token: Or8Gd2JEIo1swQxD3QTccFoBn9b
 sidebar_position: 35
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # RefreshExternalCollectionState
 
-A RefreshExternalCollectionState instance enumerates the possible states of a refresh external collection job.
+A RefreshExternalCollectionState instance enumerates the possible states of a refresh external collection job. A refresh job transitions from `RefreshStateInProgress` to `RefreshStateCompleted` or `RefreshStateFailed`.
 
 ```go
 type RefreshExternalCollectionState milvuspb

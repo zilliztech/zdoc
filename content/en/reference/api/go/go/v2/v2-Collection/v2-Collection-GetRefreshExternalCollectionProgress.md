@@ -85,7 +85,7 @@ type RefreshExternalCollectionJobInfo struct {
 
 - **State** ([RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)) -
 
-    The current state of the refresh job.
+    The current state of the refresh job. A refresh job transitions from `RefreshStateInProgress` to `RefreshStateCompleted` or `RefreshStateFailed`.
 
 - **Progress** (*int64*) -
 

@@ -73,6 +73,8 @@ type Schema struct {
 
     This sets the source data URI, which is similar to an AWS S3 object path.
 
+    <NextChannel action="include">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.</NextChannel>
+
 - `WithExternalSpec(externalSpec string) *Schema`
 
     This sets the external source configuration as JSON. The external source specifications are a set of secondary parameters:
@@ -80,6 +82,8 @@ type Schema struct {
     - **format** (*string*) -
 
         The format of the target source data files. Possible values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
+
+        <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
 
     - **extfs** (*string*) -
 
@@ -176,7 +180,9 @@ fmt.Println(err)
 
 - `WithExternalSource(externalSource string)`
 
-    This sets the source data URI, which should be the name of an accessible external volume..
+    This sets the source data URI, which <NextChannel action="exclude">should be the name of an accessible external volume</NextChannel><NextChannel action="include">uses one of the schemes described below</NextChannel>.
+
+    <NextChannel action="include">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. A `volume://` URI points to an accessible external volume.</NextChannel>
 
 - `WithExternalSpec(externalSpec string)`
 
@@ -187,5 +193,7 @@ fmt.Println(err)
         The format of the target source data files.
 
         Possible values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
+
+        <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
 
     
