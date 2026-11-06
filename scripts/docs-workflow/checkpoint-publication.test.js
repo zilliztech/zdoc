@@ -182,6 +182,32 @@ test('returns no_changes without creating or reporting a commit', async t => {
   assert.match(result.completedAt, /^\d{4}-\d{2}-\d{2}T/)
 })
 
+test('an empty staged checkpoint short-circuits before validation', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const facts = checkpoint(fixture)
+  const before = git(fixture.remote, 'rev-parse', 'refs/heads/dev')
+  const lines = []
+
+  // A failing validation command proves the command never ran: under the old
+  // order this unit would fail VALIDATION_FAILED even though nothing would
+  // have been committed.
+  const result = await publish(fixture, facts, {
+    unit: unit(facts, {validationCommands: ['exit 7']}),
+    log: message => lines.push(message),
+  })
+
+  assert.equal(result.status, 'no_changes', JSON.stringify(result.failure))
+  assert.equal(result.baseSha, before)
+  assert.deepEqual(result.commitShas, [])
+  assert.equal(result.failure, null)
+  assert.equal(result.remoteState, 'known')
+  assert.equal(git(fixture.remote, 'rev-parse', 'refs/heads/dev'), before)
+  assert.ok(lines.some(line => line.includes('phase=noop_short_circuit')), `expected the short-circuit phase line, got:\n${lines.join('\n')}`)
+  assert.ok(!lines.some(line => line.includes('phase=validation_command')), 'validation commands must not run for an empty staged checkpoint')
+  assert.ok(!lines.some(line => line.includes('phase=restore_generated')), 'generated-state restore must be skipped for an empty staged checkpoint')
+})
+
 test('runs every trusted validation command with the Chinese Guides environment', async t => {
   const fixture = setup()
   t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
@@ -207,12 +233,16 @@ test('runs every trusted validation command with the Chinese Guides environment'
 test('uses the Chinese Guides site for every checkpoint operation', async t => {
   const fixture = setup()
   t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
-  const facts = checkpoint(fixture)
+  const facts = checkpoint(
+    fixture,
+    workspace => put(workspace, 'content/zh-CN/guides/tutorials/a.md', 'new\n'),
+    {environment: {ZDOC_SITE: 'zh-CN'}},
+  )
   const observed = []
   const chinese = unit(facts, {
     unitKey: 'source/guides-zh-CN',
     environment: {ZDOC_SITE: 'zh-CN'},
-    validationCommands: ['true'],
+    validationCommands: ['test "$(cat content/zh-CN/guides/tutorials/a.md)" = new'],
   })
 
   const result = await publish(fixture, facts, {
@@ -222,22 +252,27 @@ test('uses the Chinese Guides site for every checkpoint operation', async t => {
         observed.push(['validate', expected.site])
         return {group: 'guides', stage: 'source', masterSha: facts.baselineSha, devBaselineSha: facts.baselineSha}
       },
-      applyCheckpointArtifact(options) { observed.push(['apply', options.site]) },
+      // Real writes so the staged diff is non-empty and the validation-side
+      // apply (after the noop short-circuit check) is still observed.
+      applyCheckpointArtifact(options) {
+        observed.push(['apply', options.site])
+        put(options.targetDir, 'content/zh-CN/guides/tutorials/a.md', 'new\n')
+      },
       writeStagePathFile(options) {
         observed.push(['stage', options.site])
-        fs.writeFileSync(options.output, '')
+        fs.writeFileSync(options.output, 'content/zh-CN/guides/tutorials/a.md\0')
       },
       verifyStagedCheckpointPaths(options) { observed.push(['verify', options.site]) },
     },
   })
 
-  assert.equal(result.status, 'no_changes', JSON.stringify(result.failure))
+  assert.equal(result.status, 'published', JSON.stringify(result.failure))
   assert.deepEqual(observed, [
     ['validate', 'zh-CN'],
     ['apply', 'zh-CN'],
-    ['apply', 'zh-CN'],
     ['stage', 'zh-CN'],
     ['verify', 'zh-CN'],
+    ['apply', 'zh-CN'],
   ])
 })
 
