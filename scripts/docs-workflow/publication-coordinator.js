@@ -439,6 +439,7 @@ async function publishDefaultUnit(context) {
     remote: context.remote,
     maxAttempts: context.maxPublishAttempts,
     runnerTemp: context.runnerTemp,
+    log: context.log,
   })
 }
 
@@ -487,6 +488,12 @@ async function runPublicationCoordinator(options = {}) {
   fs.mkdirSync(runnerTemp, {recursive: true})
   const sleep = typeof options.sleep === 'function' ? options.sleep : delay
   const now = typeof options.now === 'function' ? options.now : () => new Date()
+  // Single-line stdout progress. The step previously ran silently between
+  // progress artifacts, so per-unit and per-phase wall-clock attribution
+  // depended entirely on the uploaded progress/results documents.
+  const log = typeof options.log === 'function'
+    ? options.log
+    : (message => { process.stdout.write(`[publication-coordinator] ${message}\n`) })
   const strategies = options.strategies || Object.freeze({})
   const transactionContext = options.transactionContext || Object.freeze({})
   // Optional identity of the workflow run executing publication on behalf of
@@ -508,8 +515,11 @@ async function runPublicationCoordinator(options = {}) {
     maxPublishAttempts,
     strategies,
     transactionContext,
+    log,
   }))
   const scheduler = createPublicationScheduler({selection, maxCandidatePolls: candidatePolls, now: () => now().getTime(), publisherIdentity})
+  const runStarted = process.hrtime.bigint()
+  log(`mode=${mode} units=${selection.units.length} selection=${selection.selectionSha256.slice(0, 12)} poll=${pollMilliseconds}ms`)
   const candidates = new Map()
   const uploadedRevisions = new Set()
   const startedAt = now().toISOString()
@@ -580,6 +590,7 @@ async function runPublicationCoordinator(options = {}) {
       })
       if (candidate.status === 'ready') candidates.set(unit.unitKey, candidate)
       scheduler.observeCandidate(unit.unitKey, candidate)
+      log(`candidate unit=${unit.unitKey} status=${candidate.status}`)
       snapshot = await uploadSnapshot()
     }
 
@@ -602,6 +613,8 @@ async function runPublicationCoordinator(options = {}) {
       if (!candidate) throw new Error(`Resolved publication candidate is missing for ${unit.unitKey}`)
       scheduler.startPublication(unit.unitKey, {startedAt: now().toISOString()})
       await uploadSnapshot()
+      const publishStarted = process.hrtime.bigint()
+      log(`publish start unit=${unit.unitKey} sequence=${decision.sequence}`)
       const publishCompatibility = context => unitPublisher({
         ...context,
         prepared: context.candidate?.prepared,
@@ -628,6 +641,7 @@ async function runPublicationCoordinator(options = {}) {
         candidates.delete(unit.unitKey)
       }
       scheduler.finishPublication(unit.unitKey, transaction)
+      log(`publish end unit=${unit.unitKey} state=${transaction?.status} attempts=${transaction?.attempts ?? 0} commits=${transaction?.commitShas?.length ?? 0} durationMs=${(Number(process.hrtime.bigint() - publishStarted) / 1e6).toFixed(0)}`)
       // Preserve the failed unit's raw validation output; the single-line
       // failure message cannot carry a full build log. Upload errors are
       // counted, never fatal, and clients without the method opt out.
@@ -652,6 +666,9 @@ async function runPublicationCoordinator(options = {}) {
       transactionContext, repositoryRoot, runnerTemp,
     })
     writeTerminalOutputs({selection, results: terminal.results})
+    const stateCounts = {}
+    for (const unit of scheduler.snapshot().units) stateCounts[unit.state] = (stateCounts[unit.state] || 0) + 1
+    log(`complete mode=${mode} durationMs=${(Number(process.hrtime.bigint() - runStarted) / 1e6).toFixed(0)} states=${JSON.stringify(stateCounts)}`)
     return Object.freeze({...terminal, progressUploadFailures})
   }
 }
