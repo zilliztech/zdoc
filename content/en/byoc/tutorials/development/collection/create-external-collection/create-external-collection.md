@@ -53,15 +53,13 @@ As with creating a managed collection, you also need to create a schema before c
 
 ### Preparation\{#preparation}
 
-- You have obtained an API key with sufficient permissions to create an external collection in a database for on-demand computing.
+- You have obtained an **API key** with sufficient permissions. Username:password tokens are not accepted.
 
     For details, refer to [API Keys](./manage-api-keys).
 
-- You have integrated your object storage bucket with Zilliz Cloud.
+- For data-file sources (parquet, iceberg-table, lance-table, vortex), you have integrated your object storage bucket and created an external volume containing the target data files.
 
     For details, refer to [AWS](./integrate-with-aws-s3), [GCP](./integrate-with-gcp), and [Azure](./integrate-with-azure-blob-storage) docs.
-
-- You have created an external volume out of the bucket integration. Ensure that the volume contains the target data files.
 
     For details, refer to [External Volumes](./external-volume).
 
@@ -91,10 +89,6 @@ Zilliz Cloud supports the following data sources, and you should provide the cor
         "snapshot_id": "473984310232959286"
     }
     ```
-
-- `milvus-table`
-
-    Set `external_source` to the concrete Milvus snapshot metadata JSON file. For details, refer to [Use Snapshot as Data Source](./use-milvus-snapshot-as-data-source).
 
 ### Set up schema\{#set-up-schema}
 
@@ -905,6 +899,8 @@ curl --request POST \
 </Tabs>
 
 The refresh operation is asynchronous, so you need to set up an iteration to monitor its progress.
+
+If you use the RESTful API, check the progress of a refresh job with [Describe External Collection Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2), or list the refresh jobs with [List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2).
 
 <Admonition type="info" title="Notes">
 

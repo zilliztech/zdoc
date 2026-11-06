@@ -803,6 +803,152 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+### Use a collection from a serving cluster as the data source\{#use-a-collection-from-a-serving-cluster-as-the-data-source}
+
+The steps above create an external collection from data files on an external volume. You can also use a collection on another serving cluster as the data source: when creating the schema, set `external_source` to the `milvus://` URI of the source collection.
+
+On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another serving cluster compatible with Milvus v3.0.x in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.
+
+- The source is a regular collection (not another external collection) on **a serving cluster compatible with Milvus v3.0.x** in the **same project and region** as the target.
+
+- Connect to the project endpoint with your API key and the query cluster ID (in Python, `option={"cluster_id": "<query cluster id>"}`).
+
+- Cross-cluster sources (`milvus://`) are available through SDKs and the RESTful API only in the current release — the console does not support this source type. Cloud providers: **AWS and Azure are supported.**
+
+Create the collection with the schema as usual. For each field, set `external_field` to the name of the corresponding field in the source collection. You can omit `external_spec`, because the format of a `milvus://` source defaults to `milvus-table`.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient, DataType
+
+# Connect to the project endpoint with an API key and the query cluster ID
+client = MilvusClient(
+    uri="https://{project-id}.{region}.api.zillizcloud.com",
+    token="YOUR_API_KEY",
+    db_name="my_database",
+    option={"cluster_id": "<query cluster id>"}
+)
+
+# Point the schema to the source collection; external_spec is omitted
+schema = MilvusClient.create_schema(
+    external_source="milvus://in01-xxxxxxxxxxxxxxx/default/products"
+)
+
+# Map each field to the corresponding field in the source collection
+schema.add_field(
+    field_name="vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=1536,
+    external_field="embedding"
+)
+
+schema.add_field(
+    field_name="product_id",
+    datatype=DataType.VARCHAR,
+    max_length=32,
+    external_field="product_id"
+)
+
+schema.add_field(
+    field_name="title",
+    datatype=DataType.VARCHAR,
+    max_length=512,
+    external_field="title"
+)
+
+# Create the collection
+client.create_collection(
+    collection_name="my_collection",
+    schema=schema
+)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${PROJECT_ENDPOINT}/v2/vectordb/collections/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "dbName": "my_database",
+    "collectionName": "my_collection",
+    "schema": {
+        "externalSource": "milvus://in01-xxxxxxxxxxxxxxx/default/products",
+        "fields": [
+            {
+                "fieldName": "vector",
+                "dataType": "FloatVector",
+                "elementTypeParams": {
+                    "dim": "1536"
+                },
+                "externalField": "embedding"
+            },
+            {
+                "fieldName": "product_id",
+                "dataType": "VarChar",
+                "elementTypeParams": {
+                    "max_length": "32"
+                },
+                "externalField": "product_id"
+            },
+            {
+                "fieldName": "title",
+                "dataType": "VarChar",
+                "elementTypeParams": {
+                    "max_length": "512"
+                },
+                "externalField": "title"
+            }
+        ]
+    }
+}'
+```
+
+</TabItem>
+</Tabs>
+
+Create indexes and refresh the collection as described in Step 4. For an external collection created from a collection on another serving cluster (`milvus://`):
+
+A refresh re-binds the external collection to the `external_source` passed in the request and syncs the latest data. You must pass `external_source` in every refresh request; omitting it leaves the collection serving the previously synced data.
+
+A refresh job transitions from `RefreshInProgress` to `RefreshCompleted` or `RefreshFailed`. A second refresh submitted while one is in progress is rejected. Refresh waits for index building to finish, so its duration scales with data size — from seconds to hours for large collections.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+job_id = client.refresh_external_collection(
+    collection_name="my_collection",
+    external_source="milvus://in01-xxxxxxxxxxxxxxx/default/products"
+)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${PROJECT_ENDPOINT}/v2/vectordb/jobs/external_collection/refresh" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "dbName": "my_database",
+    "collectionName": "my_collection",
+    "externalSource": "milvus://in01-xxxxxxxxxxxxxxx/default/products"
+}'
+```
+
+</TabItem>
+</Tabs>
+
+Once the refresh completes, create an on-demand cluster and conduct searches as described in Step 5 and Step 6. For details, see [Use a Collection from a Serving Cluster as Data Source](./use-collection-from-a-serving-cluster-as-data-source).
+
 ## Step 4: Create indexes and refresh the collection.\{#step-4-create-indexes-and-refresh-the-collection}
 
 You can create indexes in an external database as you do in managed collections. All vector fields should be indexed, and you can select to index some scalar fields for fast metadata filtering. However, you need to call refresh to build the index.

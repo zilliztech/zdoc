@@ -603,7 +603,10 @@ module.exports = [
                 "type": "doc",
                 "id": "tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source",
                 "label": "Snapshot as Source",
-                "key": "doc:tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source"
+                "key": "doc:tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source",
+                "customProps": {
+                  "channel": "retire-in-next"
+                }
               }
             ]
           },

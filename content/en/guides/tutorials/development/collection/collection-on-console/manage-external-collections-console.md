@@ -36,7 +36,7 @@ Before you start, ensure you have created an [external volume](./external-volume
 
 - You can create an external collection only in an on-demand compute database. Support for creating external collections in serving Dedicated clusters is coming soon.
 
-- Creating an external collection from a collection on another cluster (the `milvus://` source) is currently available through SDKs and the RESTful API only — the console does not support this source type.
+- Creating an external collection from a collection on another serving cluster (the `milvus://` source) is currently available through SDKs and the RESTful API only — the console does not support this source type.
 
 </Admonition>
 

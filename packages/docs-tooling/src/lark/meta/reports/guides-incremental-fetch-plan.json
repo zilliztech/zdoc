@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-06T10:25:36.188Z",
+  "generated_at": "2026-11-06T18:25:58.020Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "full",
@@ -19,6 +19,7 @@
     "ANK0wJQ8DibXxIkpYDEcScMHnYe",
     "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
     "Ah0DwMIWsilLa4kVbYocJGCMnlh",
+    "AzxFwQpn4iRElfkDrbVcorGqnYd",
     "B1XTwQgNRizAMTkZQvrclGSonyc",
     "B1cSwfWcri4VJLkCR20cHIs6nCf",
     "B3JxwyvmHiI8CZkUFp4cvRp9nrh",
@@ -381,12 +382,22 @@
       "wiki node revision changed"
     ],
     "JfJvwdGz0iD9LpkrCMccZ2ypn0g": [
+      "release channel changed",
       "wiki node revision changed"
+    ],
+    "AzxFwQpn4iRElfkDrbVcorGqnYd": [
+      "new canonical record"
     ],
     "RH6MwFlaCig6LRkR6Qec206OnUc": [
       "wiki node revision changed"
     ],
     "JMtVw2kCYiunF9khkmHcFWbFnxf": [
+      "wiki node revision changed"
+    ],
+    "W04nwxHqNiqyrykxMZOcu4ianle": [
+      "wiki node revision changed"
+    ],
+    "P9HuwHZyXilwRTkVoDBcjAMlnrb": [
       "wiki node revision changed"
     ],
     "A33MwQX84iXyQNkzopece3oenye": [
@@ -547,7 +558,7 @@
     ]
   },
   "warnings": [
-    "Changed record count 161 exceeds full-fetch threshold 101."
+    "Changed record count 164 exceeds full-fetch threshold 101."
   ],
   "affected_tables": [
     "tbl9BeCMjBmalJVb",

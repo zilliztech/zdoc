@@ -1,6 +1,6 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-06T10:25:36.188Z
+Generated: 2026-11-06T18:25:58.020Z
 Mode: full
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
@@ -8,7 +8,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 ## Summary
 
 - Changed docs: 0
-- Expanded docs: 315
+- Expanded docs: 316
 - Removed docs: 0
 - Warnings: 1
 
@@ -30,6 +30,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - ANK0wJQ8DibXxIkpYDEcScMHnYe
 - ARpTwYXlIi7ZLtkEHx5ciUK6nuc
 - Ah0DwMIWsilLa4kVbYocJGCMnlh
+- AzxFwQpn4iRElfkDrbVcorGqnYd: new canonical record
 - B1XTwQgNRizAMTkZQvrclGSonyc: wiki node revision changed
 - B1cSwfWcri4VJLkCR20cHIs6nCf
 - B3JxwyvmHiI8CZkUFp4cvRp9nrh
@@ -147,7 +148,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - JYXswRlj9i5KE5kJ2U0cdaM5nBh
 - JaLdw76LPiX003kLpKHcA0n8n2d: wiki node revision changed
 - JaTxw9EtHivMv9kMSAnckG0vn1b
-- JfJvwdGz0iD9LpkrCMccZ2ypn0g: wiki node revision changed
+- JfJvwdGz0iD9LpkrCMccZ2ypn0g: release channel changed; wiki node revision changed
 - JiHgw9rQsibSugklTvBcpS1unGe
 - JkXDwmB2QijMfvkLoWEclz9Nnbe
 - JzapwWCp7iRPDhky5qWczpTonZf
@@ -218,7 +219,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - P4KNwDdqaivEZFk7RpOcYeyhn2N: wiki node revision changed
 - P4UywHFH2iDFJWk2kwwcs22SnRc: wiki node revision changed
 - P5q7wCCk5i3rlEkceyjcQMi0nSc: wiki node revision changed
-- P9HuwHZyXilwRTkVoDBcjAMlnrb
+- P9HuwHZyXilwRTkVoDBcjAMlnrb: wiki node revision changed
 - PAViwMSb3iVMzuk56z3c1zfRnwh
 - PBEbwjRu9iyyaFkZnuzcINHCnke
 - PBZwwNqWjiikeYkXgHPcGhLznTh: wiki node revision changed
@@ -294,7 +295,7 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 - VeDpwQV7wiodggkf10pcJbxMnjf
 - Vs4YwNnvzitoQ8kunlGcWMJInbf: wiki node revision changed
 - VsLcwDK6SiGs0CkJ7i0cmRYWnof
-- W04nwxHqNiqyrykxMZOcu4ianle
+- W04nwxHqNiqyrykxMZOcu4ianle: wiki node revision changed
 - W2fZwrrhVibvpGkd0MbcQGJQnib
 - WBONwyqFAi02DTkCG41c93wCn6e
 - WDOJwtKkAijW4gkUpQhcAL0Rn1d
@@ -340,4 +341,4 @@ Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
 
 ## Warnings
 
-- Changed record count 161 exceeds full-fetch threshold 101.
+- Changed record count 164 exceeds full-fetch threshold 101.

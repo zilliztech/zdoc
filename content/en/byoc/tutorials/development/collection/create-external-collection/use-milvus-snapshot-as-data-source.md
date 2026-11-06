@@ -2,11 +2,14 @@
 title: "Use Snapshot as Data Source | BYOC"
 slug: /use-milvus-snapshot-as-data-source
 sidebar_label: "Snapshot as Source"
-beta: PUBLIC
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
+channel: retire-in-next
+sidebar_custom_props:
+  channel: retire-in-next
 description: "You can create an external collection from a Milvus snapshot by using the snapshot metadata JSON path as `externalsource` and setting `externalspec.format` to `\"milvus-table\"`. | BYOC"
 type: origin
 token: JfJvwdGz0iD9LpkrCMccZ2ypn0g
