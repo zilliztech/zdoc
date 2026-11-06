@@ -1,0 +1,66 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/search-query-get/full-text-search.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/search-and-query/full-text-search
+  - manual: guides-byoc
+    path: tutorials/development/search-and-query/full-text-search
+
+# Content provenance:
+#   cloud-index-intro.md / cloud-index-table.md / cloud-search-table.md are verbatim copies of the
+#   current Cloud page (Zilliz Cloud wording, Cloud table values). They add no new support claim.
+#   cloud-rust-*.md and cloud-console-note.md are verbatim copies of the current Cloud page as well.
+#   Nothing here was compiled, executed or verified against a Rust SDK; Cloud-only content is
+#   preserved so an onboarding does not delete it.
+transforms:
+  # Index configuration: Zilliz Cloud can also resolve AUTOINDEX automatically.
+  - operation: replace
+    target: {block: bm25-full-text-index-intro}
+    content: {file: cloud-index-intro.md}
+  - operation: replace
+    target: {block: bm25-full-text-index-table}
+    content: {file: cloud-index-table.md}
+  # Recall control: Zilliz Cloud uses params.level instead of params.drop_ratio_search.
+  - operation: replace
+    target: {block: bm25-full-text-search-table}
+    content: {file: cloud-search-table.md}
+  - operation: replace
+    target: {block: bm25-full-text-search, language: python, lines: "    search_params={\"metric_type\": \"BM25\"},"}
+    content:
+      lines: |
+            search_params={"metric_type": "BM25", "params": {"level": 10}},
+  - operation: replace
+    target: {block: bm25-full-text-search, language: java, lines: "searchParams.put(\"metric_type\", \"BM25\");"}
+    content:
+      lines: |
+        searchParams.put("metric_type", "BM25");
+        searchParams.put("level", 10);
+  # Rust is available in the Zilliz Cloud SDK set only.
+  - operation: add
+    target: {block: bm25-full-text-schema, language: rust}
+    content: {file: cloud-rust-bm25-full-text-schema.md}
+  - operation: add
+    target: {block: bm25-full-text-function, language: rust}
+    content: {file: cloud-rust-bm25-full-text-function.md}
+  - operation: add
+    target: {block: bm25-full-text-index, language: rust}
+    content: {file: cloud-rust-bm25-full-text-index.md}
+  - operation: add
+    target: {block: bm25-full-text-create, language: rust}
+    content: {file: cloud-rust-bm25-full-text-create.md}
+  - operation: add
+    target: {block: bm25-full-text-insert, language: rust}
+    content: {file: cloud-rust-bm25-full-text-insert.md}
+  - operation: add
+    target: {block: bm25-full-text-search, language: rust}
+    content: {file: cloud-rust-bm25-full-text-search.md}
+  - operation: add
+    target: {block: bm25-full-text-faq-output, language: rust}
+    content: {file: cloud-rust-bm25-full-text-faq-output.md}
+  - operation: add
+    target: {block: bm25-full-text-implementation-heading}
+    position: before
+    content: {file: cloud-console-note.md}

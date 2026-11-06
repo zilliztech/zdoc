@@ -1,0 +1,1 @@
+Zilliz Cloud supports enabling text match programmatically or via the web console. This page focuses on how to enable text match programmatically. For details about operations on the web console, refer to [Manage Collections (Console)](https://docs.zilliz.com/docs/manage-collections-console#text-match).
