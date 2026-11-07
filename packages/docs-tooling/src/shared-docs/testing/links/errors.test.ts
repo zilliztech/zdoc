@@ -24,7 +24,7 @@ async function check(name: string) {
     const commit = fixture.commits['01-base']
     const fetcher = new FakeImageFetcher(new Map(Object.entries(data.fetch ?? {}).map(([url, responses]) => [url,
       (responses as number[][]).map(bytes => new Uint8Array(bytes))])))
-    const prepared = await prepareLinkInputs(data.markdown, sourceFile, commit, new FakeLinkInputReader({ [commit]: {} }), fetcher, context)
+    const prepared = await prepareLinkInputs(data.markdown, sourceFile, commit, new FakeLinkInputReader({ [commit]: data.targetFiles ?? {} }), fetcher, context)
     return rewriteLinksAndImages(input(data.markdown, { ...prepared, sharedPages: new Map(data.sharedPages ?? []) })).errors ?? []
   })
 }
@@ -34,6 +34,7 @@ it('[LINK_UNKNOWN_FORM] points to an unsupported form', () => check('link-unknow
 it('[LINK_TARGET_ABSENT] points to a missing shared target', () => check('link-target-absent'))
 it('[LINK_MAP_INVALID] points to the duplicate map entry', () => check('link-map-invalid'))
 it('[ANCHOR_NOT_FOUND] rejects an anchor with different case', () => check('anchor-not-found'))
+it('[ANCHOR_NOT_FOUND] rejects an anchor the projection removes from a self-link target', () => check('anchor-projected-away'))
 it('[IMAGE_FETCH_FAILED] points to an unavailable external image', () => check('image-fetch-failed'))
 it('[IMAGE_NOT_IN_COMMIT] points to an absent committed image', () => check('image-not-in-commit'))
 it('[IMAGE_CHANGED_DURING_READ] points to an unstable external image', () => check('image-changed-during-read'))
