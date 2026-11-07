@@ -66,7 +66,7 @@ Milvus 2.4 はまだ安定版に達していません。本番環境で Milvus 2
 
 このリリースでは、スカラーフィルタリングで、プレフィックス、インフィックス、サフィックスを使用したファジーマッチもサポートしています。
 
-詳細は、[バイナリベクトル](./use-binary-vector)、[INVERTED](./inverted-index-type)、および [使用方法](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[`like`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[ 演算子](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe) ガイドと、[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) および [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py) の例コードを参照してください。*例コード内の接続情報を、Zilliz Cloud クラスターの認証情報で必ず更新し、代わりに AUTOINDEX を使用してください。*
+詳細については、[バイナリベクトル](./use-binary-vector)、[INVERTED](./inverted-index-type)、および [演算子 ](./basic-filtering-operators#pattern-matching-operators)[`like`](./basic-filtering-operators#pattern-matching-operators)[ の使用方法](./basic-filtering-operators#pattern-matching-operators) ガイドと、[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) および [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py) の例コードを参照してください。*例コード内の接続情報を、Zilliz Cloud クラスターの認証情報で必ず更新し、代わりに AUTOINDEX を使用してください。*
 
 ### グループ化検索\{#grouping-search}
 

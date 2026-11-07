@@ -99,9 +99,9 @@ Qdrant のペイロードは、柔軟性を最大限に確保するため、最�
 
 固定フィールドに変換されたペイロードフィールドでは、次の追加属性を設定できます。
 
-- **Nullable**: フィールドが null 値を受け入れるかどうかを決定します。この機能はデフォルトで有効になっています。詳細は、[Nullable attribute](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#KL0mdOeSgoJtVfxQUvIcvGGenAd) を参照してください。
+- **Nullable**: フィールドが null 値を受け入れられるかどうかを指定します。この機能はデフォルトで有効になっています。詳細は、[Nullable attribute](./nullable-fields#define-a-nullable-field-in-the-collection-schema) を参照してください。
 
-- **Default Value**: データがない場合に使用するフォールバック値を設定します。詳細は、[Default values](https://zilliverse.feishu.cn/wiki/DjROwgK6ziCf7Rkoji6ccyEUnsg#LuoQdz5asouWjbxkKbscpywSnaf) を参照してください。
+- **Default Value**: データが欠損している場合に使用するフォールバック値を設定します。詳細は、[Default values](./nullable-fields#insert-behavior-with-missing-or-null-values) を参照してください。
 
 - **Partition Key**: オプションで、INT64 または VARCHAR フィールドをパーティションキーとして指定できます。各コレクションがサポートするパーティションキーは 1 つのみで、選択したフィールドを Nullable にすることはできません。詳細は、[Use Partition Key](./use-partition-key) を参照してください。
 

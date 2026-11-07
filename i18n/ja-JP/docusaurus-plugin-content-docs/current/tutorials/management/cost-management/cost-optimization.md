@@ -47,11 +47,11 @@ import TabItem from '@theme/TabItem';
 
 | 種類 | 料金参考（768 次元） | 容量/CU | 検索 QPS | レイテンシー | ユースケース |
 | --- | --- | --- | --- | --- | --- |
-| Free | 0 | 5 GB、≤5 コレクション | — | — | 学習、プロトタイピング |
+| 無料 | 0 | 5 GB、≤5 コレクション | — | — | 学習、プロトタイピング |
 | Serverless | RU 従量課金 | 自動スケーリング | 自動 | 中 | 不安定なトラフィック、Dev/Test |
 | Dedicated（パフォーマンス最適化） | &#126;&#36;65/M ベクトル/mo | 2M/CU | 500–1,500 | 低（&lt;10ms p99） | レイテンシー重視の本番環境 |
 | Dedicated（キャパシティ最適化） | &#126;&#36;20/M ベクトル/mo | 8M/CU | 100–300 | 中 | 大規模、コスト重視 |
-| Dedicated（階層型ストレージ） | &#126;&#36;7/M vectors/mo | 40M/CU | 100–150（ホット） | 高め | 大規模データ、cold/hot 分離 |
+| Dedicated（階層型ストレージ） | &#126;&#36;7/M ベクトル/mo | 40M/CU | 100–150（ホット） | 高め | 大規模データ、cold/hot 分離 |
 | BYOC | カスタム | カスタム | カスタム | カスタム | コンプライアンス、クラウド割引 |
 
 ### 選択の判断ツリー\{#selection-decision-tree}
@@ -461,7 +461,7 @@ curl --request POST \
 
 - **レコメンデーション：** 再ランキングモデルの上限（通常 20–50）を使用します。
 
-- **大きな TopK：** 1 回のリクエストで大量の結果セットを返す代わりに、[ページネーション](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#K0GIdj7YKox4wzxZCTrcbtBgnyc)（`offset` + `limit`）または [イテレーター](./with-iterators) を使用します。
+- **大きな TopK：** 1 回のリクエストで大量の結果セットを返す代わりに、[ページネーション](./single-vector-search#use-limit-and-offset)（`offset` + `limit`）または[イテレーター](./with-iterators)を使用してください。
 
 ### 出力フィールドを絞り込む\{#refine-output-fields}
 
@@ -793,7 +793,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-詳細については、[出力フィールドの使用](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#Sm86dgCilopuURxM8pgcok8In5f) を参照してください。
+詳細については、[出力フィールドの使用](./single-vector-search#use-output-fields) を参照してください。
 
 **最適化の推奨事項：**
 

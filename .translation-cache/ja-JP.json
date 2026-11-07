@@ -2566,9 +2566,9 @@
       "translatedAt": "2026-10-28T03:40:58.002Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-290.md": {
-      "sourceHash": "4b41addfe8041bdfc0477ef2efaf2021cc960ca1faa33f0b47582e76bc020ce1",
+      "sourceHash": "8607f4af03c414b9f8f8ab010e844406dce4ef0cc1eafdba0d2309c105ab87f5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-290.md",
-      "translatedAt": "2026-11-06T12:08:43.171Z"
+      "translatedAt": "2026-11-07T12:07:26.759Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-291.md": {
       "sourceHash": "1ce46726853cfecfa2f4324157aca46446b69d4fdee88332a3197159b9b7412f",
@@ -2906,9 +2906,9 @@
       "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
-      "sourceHash": "6e91a2b96ab4ab66c268cb3e74910f26029b3b6e2031258be9364fd48d5e4e04",
+      "sourceHash": "d0a40a424e50f68882c67059b643b5d00419d53daf0aacf903339363913eead8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/cost-optimization.md",
-      "translatedAt": "2026-11-05T13:25:51.545Z"
+      "translatedAt": "2026-11-07T12:07:26.759Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md": {
       "sourceHash": "30f26524e99ee48815d5043c870e2e9c79261f25656bf0a1af68f48d2c6e65e7",
@@ -3111,19 +3111,19 @@
       "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md": {
-      "sourceHash": "aea4465f2206a36977426a700e4951c7ac3ad9a45c0b7e0d8035db7388fbbbeb",
+      "sourceHash": "76d3469bf6176e77d1853c676a8b2ab43f155e2efed1510cf91ee543f717452c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md",
-      "translatedAt": "2026-11-06T12:08:43.171Z"
+      "translatedAt": "2026-11-07T12:07:26.759Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md": {
-      "sourceHash": "f669ef7295c58d603ea87ecf3335fa1714b3d8e80f35156bb2fa5bc9356af8af",
+      "sourceHash": "9a635ea95a1029d40b5afc9b9ff6af121a668329764b296ae1d3c39584850d7d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md",
-      "translatedAt": "2026-11-06T12:08:43.171Z"
+      "translatedAt": "2026-11-07T12:07:26.759Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md": {
-      "sourceHash": "d481bbd80ab4f66c193c944049381308060614028a4796029980fa4ee4343414",
+      "sourceHash": "f8564668c44074333bbbe139fe2f6b30dc299e68c2948a5d5cdfbcd739e1ec79",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md",
-      "translatedAt": "2026-11-06T12:08:43.171Z"
+      "translatedAt": "2026-11-07T12:07:26.759Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "6f2ad87056a2a439cf0fc70a39efbfff5a6b77961380148c33cfba7feb2a122a",
