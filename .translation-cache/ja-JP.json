@@ -336,9 +336,9 @@
       "translatedAt": "2026-11-07T11:50:28.363Z"
     },
     "content/en/byoc/tutorials/development/collection/set-collection-ttl.md": {
-      "sourceHash": "8d14e6178af190e268c7fb74cf02e7a9f6623cadd35e70865f93b4ba359ee25a",
+      "sourceHash": "e9ee7854b3464fb9098734ff8486def4b7319016c5c880d2e4be72f030b302b8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/set-collection-ttl.md",
-      "translatedAt": "2026-11-07T11:50:28.363Z"
+      "translatedAt": "2026-11-07T19:42:18.862Z"
     },
     "content/en/byoc/tutorials/development/collection/truncate-collection.md": {
       "sourceHash": "76ff8d2e23e534a384c351ee63d4cdc403db968c18e05a1c5fbf6f94c481ff07",
@@ -1656,9 +1656,9 @@
       "translatedAt": "2026-11-07T11:50:28.363Z"
     },
     "content/en/guides/tutorials/development/collection/set-collection-ttl.md": {
-      "sourceHash": "1486650e417915f3c357a17ba3cad55c7575ccde5da8684e962d972bac2a4209",
+      "sourceHash": "02bafd7b2504e5f722770bc09d381929f08d4d4f7a98d92f1a4e1d129fe35702",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/set-collection-ttl.md",
-      "translatedAt": "2026-11-07T11:50:28.363Z"
+      "translatedAt": "2026-11-07T19:42:18.862Z"
     },
     "content/en/guides/tutorials/development/collection/truncate-collection.md": {
       "sourceHash": "a1bd6793244b9e0ca3bf3cbe556825b9d30e12d552b526f1bca47b0c4339d939",
