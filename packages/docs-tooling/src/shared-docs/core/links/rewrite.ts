@@ -47,17 +47,24 @@ export function rewriteLinksAndImages(input: RewriteInput) {
     const fragment = hash < 0 ? undefined : ref.url.slice(hash + 1)
     const target = kind === 'anchor' ? input.markdown : input.targets.get(file)
     let destination = ''
+    // Links to this page's own output must survive the page's projection; raw
+    // upstream targets still contain headings that remove/replace transforms drop.
+    let projected = false
     if (kind === 'page') {
       const shared = input.sharedPages.get(file)
       const mapped = input.linkMap.get(file)
       if (shared !== undefined) {
         destination = `./${shared}`
+        projected = shared === input.context.page
         if (target == null) {
           fail(ref, 'LINK_TARGET_ABSENT', `Shared target is absent in this commit: ${file}`, { target: file })
           continue
         }
       } else if (mapped !== undefined) destination = isMilvusUrl(mapped) ? mapped : `./${mapped}`
-      else if (input.cloudPages.some(page => page.slug === file.slice(0, -3))) destination = `./${file.slice(0, -3)}`
+      else if (input.cloudPages.some(page => page.slug === file.slice(0, -3))) {
+        destination = `./${file.slice(0, -3)}`
+        projected = file.slice(0, -3) === input.context.page
+      }
       else {
         const fallback = file.slice(0, -3).replace(/-/g, ' ')
         const title = target == null ? fallback : targetTitle(target) ?? fallback
@@ -72,9 +79,12 @@ export function rewriteLinksAndImages(input: RewriteInput) {
     if (fragment !== undefined) {
       let anchor = fragment
       try { anchor = decodeURIComponent(fragment) } catch { /* Invalid fragments cannot match a heading. */ }
-      const heading = target == null ? undefined : collectHeadings(target).find(heading => heading.milvus === anchor)
+      const anchorSource = projected ? input.markdown : target
+      const heading = anchorSource == null ? undefined : collectHeadings(anchorSource).find(heading => heading.milvus === anchor)
       if (!heading) {
-        fail(ref, 'ANCHOR_NOT_FOUND', `No heading matches #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor: fragment })
+        const upstream = target != null && collectHeadings(target).find(candidate => candidate.milvus === anchor)
+        fail(ref, 'ANCHOR_NOT_FOUND', upstream ? `No heading matches #${fragment} in the projected ${file || input.sourceFile}; the heading exists upstream and the projection removes it.`
+          : `No heading matches #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor: fragment })
         continue
       }
       destination += `#${heading.cloud}`
