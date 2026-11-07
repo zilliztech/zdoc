@@ -44,7 +44,8 @@ it('validates self-link fragments against the projected output instead of the ra
   expect(rewriteLinksAndImages(input('# WP5\n\n## Heading\n\n[x](wp5-links.md#Heading)', overrides)))
     .toHaveProperty('markdown', '# WP5\n\n## Heading\n\n[x](./wp5-links#heading)')
   expect(rewriteLinksAndImages(input('[x](wp5-links.md#Projected-away)', overrides)))
-    .toMatchObject({ errors: [{ code: 'ANCHOR_NOT_FOUND', detail: { target: 'wp5-links.md', anchor: 'Projected-away' } }] })
+    .toMatchObject({ errors: [{ code: 'ANCHOR_NOT_FOUND', message: expect.stringContaining('the projection removes it'),
+      detail: { target: 'wp5-links.md', anchor: 'Projected-away' } }] })
   expect(rewriteLinksAndImages(input('[x](other.md#Projected-away)', { sharedPages: new Map([['other.md', 'other-page']]), targets: new Map([['other.md', raw]]) })))
     .toHaveProperty('markdown', '[x](./other-page#projected-away)')
   expect(rewriteLinksAndImages(input('[x](wp5-links.md#Projected-away)', { cloudPages: [{ slug: 'wp5-links', title: 'WP5' }], targets: new Map([['wp5-links.md', raw]]) })))
