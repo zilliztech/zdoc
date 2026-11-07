@@ -1,7 +1,6 @@
 ---
 title: "Basic Operators | BYOC"
 slug: /basic-filtering-operators
-sidebar_label: "Basic"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides comparison, range, arithmetic, logical, and NULL operators for filtering entities. Each operator supports specific field types. | BYOC"
 type: origin
-token: LBbUwOGcwi1UMak3eE2cM1gvnUe
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-basic-filtering-operators
+sidebar_label: "Basic"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/basic-operators.md"
 
 ---
 
@@ -23,9 +24,9 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud provides comparison, range, arithmetic, logical, and NULL operators for filtering entities. Each operator supports specific field types.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-The literal on the left-hand side of a filtering expression can either be a collection field name, such as `status`, `color`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] > 10'`. 
+The literal on the left-hand side of a filtering expression can either be a collection field name, such as `status`, `color`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] > 10'`.
 
 For details on scalar filtering in a StructArray field, refer to [StructArray Operators](./struct-array-filtering).
 
@@ -35,7 +36,7 @@ For details on scalar filtering in a StructArray field, refer to [StructArray Op
 
 Comparison operators are used to filter data based on equality, inequality, or size. They are applicable to numeric and text fields.
 
-### Supported Comparison Operators:\{#supported-comparison-operators}
+### Supported comparison operators\{#supported-comparison-operators}
 
 - `==` (Equal to)
 
@@ -49,7 +50,7 @@ Comparison operators are used to filter data based on equality, inequality, or s
 
 - `<=` (Less than or equal to)
 
-### Example 1: Filtering with Equal To (`==`)\{#example-1-filtering-with-equal-to}
+### Example 1: Filtering with equal to (`==`)\{#example-1-filtering-with-equal-to}
 
 Assume you have a field named `status` and you want to find all entities where `status` is "active". You can use the equality operator `==`:
 
@@ -117,9 +118,10 @@ filter='status == "active"'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### Example 2: Filtering with Not Equal To (`!=`)\{#example-2-filtering-with-not-equal-to}
+### Example 2: Filtering with not equal to (`!=`)\{#example-2-filtering-with-not-equal-to}
 
 To find entities where `status` is not "inactive":
 
@@ -187,9 +189,10 @@ filter='status != "inactive"'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### Example 3: Filtering with Greater Than (`>`)\{#example-3-filtering-with-greater-than-greater}
+### Example 3: Filtering with greater than (`>`)\{#example-3-filtering-with-greater-than-greater}
 
 If you want to find all entities with an `age` greater than 30:
 
@@ -257,9 +260,10 @@ filter='age > 30'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### Example 4: Filtering with Less Than\{#example-4-filtering-with-less-than}
+### Example 4: Filtering with less than\{#example-4-filtering-with-less-than}
 
 To find entities where `price` is less than 100:
 
@@ -327,9 +331,10 @@ filter='price < 100'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### Example 5: Filtering with Greater Than or Equal To (`>=`)\{#example-5-filtering-with-greater-than-or-equal-to-greater}
+### Example 5: Filtering with greater than or equal to (`>=`)\{#example-5-filtering-with-greater-than-or-equal-to-greater}
 
 If you want to find all entities with `rating` greater than or equal to 4:
 
@@ -397,9 +402,10 @@ filter='rating >= 4'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### Example 6: Filtering with Less Than or Equal To\{#example-6-filtering-with-less-than-or-equal-to}
+### Example 6: Filtering with less than or equal to\{#example-6-filtering-with-less-than-or-equal-to}
 
 To find entities with `discount` less than or equal to 10%:
 
@@ -467,6 +473,7 @@ filter='discount <= 10'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Range operators\{#range-operators}
@@ -539,6 +546,7 @@ filter='color in ["red", "green", "blue"]'
 ```
 
 </TabItem>
+
 </Tabs>
 
 This is useful when you want to check for membership in a list of values.
@@ -619,6 +627,7 @@ filter='name LIKE "Prod%"'
 ```
 
 </TabItem>
+
 </Tabs>
 
 To find entities whose `code` contains an error code such as `E1001`:
@@ -687,6 +696,7 @@ filter='code =~ "E[0-9]{4}"'
 ```
 
 </TabItem>
+
 </Tabs>
 
 To exclude entities whose `message` starts with `DEBUG`:
@@ -755,15 +765,16 @@ filter='message !~ "^DEBUG"'
 ```
 
 </TabItem>
+
 </Tabs>
 
 For more details about choosing between `LIKE` and regex, supported field types, regex syntax, escaping rules, and performance, refer to [Pattern Matching](./pattern-match). Zilliz Cloud also allows you to build an `NGRAM` index on `VARCHAR` fields or JSON string paths to accelerate eligible pattern matching filters. For details, refer to [NGRAM](./ngram-index-type).
 
-## Arithmetic Operators\{#arithmetic-operators}
+## Arithmetic operators\{#arithmetic-operators}
 
 Arithmetic operators allow you to create conditions based on calculations involving numeric fields.
 
-### Supported Arithmetic Operators:\{#supported-arithmetic-operators}
+### Supported arithmetic operators\{#supported-arithmetic-operators}
 
 - `+` (Addition)
 
@@ -777,7 +788,7 @@ Arithmetic operators allow you to create conditions based on calculations involv
 
 - `**` (Exponentiation)
 
-### Example 1: Using Modulus (`%`)\{#example-1-using-modulus-percent}
+### Example 1: Using modulus (`%`)\{#example-1-using-modulus-percent}
 
 To find entities where the `id` is an even number (i.e., divisible by 2):
 
@@ -845,9 +856,10 @@ filter='id % 2 == 0'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### Example 2: Using Exponentiation (`**`)\{#example-2-using-exponentiation}
+### Example 2: Using exponentiation (`**`)\{#example-2-using-exponentiation}
 
 To find entities where `price` raised to the power of 2 is greater than 1000:
 
@@ -855,7 +867,7 @@ To find entities where `price` raised to the power of 2 is greater than 1000:
 <TabItem value='python'>
 
 ```python
-filter = 'price > 1000'
+filter = 'price ** 2 > 1000'
 ```
 
 </TabItem>
@@ -903,7 +915,7 @@ const filter = 'price ** 2 > 1000';
 <TabItem value='csharp'>
 
 ```csharp
-string filter = "price > 1000";
+string filter = "price ** 2 > 1000";
 ```
 
 </TabItem>
@@ -915,7 +927,14 @@ filter='price ** 2 > 1000'
 ```
 
 </TabItem>
+
 </Tabs>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Arithmetic operators only support expressions involving a **single field and a constant**. Expressions that combine two fields arithmetically — such as `price * quantity > 100` — are not currently supported and will return an error. If you need to filter on a derived value computed from multiple fields, consider storing the pre-computed value as a separate scalar field at insert time.
+
+</Admonition>
 
 ## Bitwise operators | PUBLIC\{#bitwise-operators-or-public}
 
@@ -925,17 +944,17 @@ For scalar fields, bitwise operators apply to integer field types, such as `INT8
 
 ### Supported bitwise operators\{#supported-bitwise-operators}
 
-| **Operator** | **Name** | **Typical use** |
+| Operator | Name | Typical use |
 | --- | --- | --- |
 | `&` | Bitwise AND | Check whether specific bits are set. |
-| `\|` | Bitwise OR | Combine bits before comparison. |
+| <code>&#124;</code> | Bitwise OR | Combine bits before comparison. |
 | `^` | Bitwise XOR | Compare bit differences between two values. |
 
 ### Example: Filtering by permission bits\{#example-filtering-by-permission-bits}
 
 Assume you have an integer field named `permissions`, and each bit in the integer represents a permission flag:
 
-| **Permission flag** | **Bit value** |
+| Permission flag | Bit value |
 | --- | --- |
 | `READ` | `1` |
 | `WRITE` | `2` |
@@ -1010,6 +1029,7 @@ filter='(permissions & 4) == 4'
 ```
 
 </TabItem>
+
 </Tabs>
 
 To find entities where setting the `WRITE` bit produces the `READ + WRITE + SHARE` permission set, use bitwise OR (`|`):
@@ -1078,6 +1098,7 @@ filter='(permissions | 2) == 7'
 ```
 
 </TabItem>
+
 </Tabs>
 
 To find entities whose permission bits differ from `READ + WRITE + SHARE` by only the `WRITE` bit, use bitwise XOR (`^`):
@@ -1146,15 +1167,20 @@ filter='(permissions ^ 7) == 2'
 ```
 
 </TabItem>
+
 </Tabs>
 
-Note: Always wrap the bitwise operation in parentheses before comparing the result, such as `(permissions & 4) == 4`. 
+<Admonition type="info" icon="📘" title="Notes">
 
-## Logical Operators\{#logical-operators}
+Always wrap the bitwise operation in parentheses before comparing the result, such as `(permissions & 4) == 4`. Zilliz Cloud supports `&`, `|`, and `^` in filter expressions. Bitwise NOT (`~`) and shift operators (`<<` and `>>`) are not supported.
+
+</Admonition>
+
+## Logical operators\{#logical-operators}
 
 Logical operators are used to combine multiple conditions into a more complex filter expression. These include `AND`, `OR`, and `NOT`.
 
-### Supported Logical Operators:\{#supported-logical-operators}
+### Supported logical operators\{#supported-logical-operators}
 
 - `AND`: Combines multiple conditions that must all be true.
 
@@ -1162,7 +1188,7 @@ Logical operators are used to combine multiple conditions into a more complex fi
 
 - `NOT`: Negates a condition.
 
-### Example 1: Using `AND` to Combine Conditions\{#example-1-using-and-to-combine-conditions}
+### Example 1: Using `AND` to combine conditions\{#example-1-using-and-to-combine-conditions}
 
 To find all products where `price` is greater than 100 and `stock` is greater than 50:
 
@@ -1230,9 +1256,10 @@ filter='price > 100 AND stock > 50'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### Example 2: Using `OR` to Combine Conditions\{#example-2-using-or-to-combine-conditions}
+### Example 2: Using `OR` to combine conditions\{#example-2-using-or-to-combine-conditions}
 
 To find all products where `color` is either "red" or "blue":
 
@@ -1300,9 +1327,10 @@ filter='color == "red" OR color == "blue"'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### Example 3: Using `NOT` to Exclude a Condition\{#example-3-using-not-to-exclude-a-condition}
+### Example 3: Using `NOT` to exclude a condition\{#example-3-using-not-to-exclude-a-condition}
 
 To find all products where `color` is not "green":
 
@@ -1310,7 +1338,7 @@ To find all products where `color` is not "green":
 <TabItem value='python'>
 
 ```python
-filter = 'NOT (color == "green")'
+filter = 'NOT color == "green"'
 ```
 
 </TabItem>
@@ -1358,7 +1386,7 @@ const filter = 'NOT color == "green"';
 <TabItem value='csharp'>
 
 ```csharp
-string filter = "NOT (color == \"green\")";
+string filter = "NOT color == \"green\"";
 ```
 
 </TabItem>
@@ -1370,9 +1398,10 @@ filter='NOT color == "green"'
 ```
 
 </TabItem>
+
 </Tabs>
 
-## IS NULL and IS NOT NULL Operators\{#is-null-and-is-not-null-operators}
+## IS NULL and IS NOT NULL operators\{#is-null-and-is-not-null-operators}
 
 Use `IS NULL` and `IS NOT NULL` to find entities with missing or available field values. For example, you can find products without a category or entities whose embeddings are ready for search. Both operators work on supported scalar and vector fields, with the same meaning:
 
@@ -1411,12 +1440,12 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 results = client.query(
     collection_name="products",
-    filter="category IS NULL",
+    filter="embedding IS NULL",
     output_fields=["id"],
     limit=10,
 )
 print(sorted(entity["id"] for entity in results))
-# Expected: [2]
+# Expected: [3]
 ```
 
 </TabItem>
@@ -1436,7 +1465,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 QueryReq queryReq = QueryReq.builder()
         .collectionName("products")
-        .filter("category IS NULL")
+        .filter("embedding IS NULL")
         .outputFields(Collections.singletonList("id"))
         .limit(10)
         .build();
@@ -1468,7 +1497,7 @@ if err != nil {
 defer cli.Close(ctx)
 
 rs, err := cli.Query(ctx, milvusclient.NewQueryOption("products").
-    WithFilter("category IS NULL").
+    WithFilter("embedding IS NULL").
     WithOutputFields("id").
     WithLimit(10))
 if err != nil {
@@ -1481,7 +1510,7 @@ for i := 0; i < ids.Len(); i++ {
     result = append(result, v)
 }
 fmt.Println(result)
-// Expected: [2]
+// Expected: [3]
 ```
 
 </TabItem>
@@ -1498,7 +1527,7 @@ let client = ClientV2::new(
 
 let request = QueryRequest::builder()
     .collection_name("products")
-    .filter("category IS NULL")
+    .filter("embedding IS NULL")
     .output_fields(["id"])
     .limit(10)
     .build()?;
@@ -1527,7 +1556,7 @@ if (!status.IsOk()) {
 
 auto request = milvus::QueryRequest()
                    .WithCollectionName("products")
-                   .WithFilter("category IS NULL")
+                   .WithFilter("embedding IS NULL")
                    .AddOutputField("id")
                    .WithLimit(10);
 
@@ -1549,7 +1578,7 @@ const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR
 
 const results = await client.query({
   collection_name: "products",
-  filter: "category IS NULL",
+  filter: "embedding IS NULL",
   output_fields: ["id"],
   limit: 10,
 });
@@ -1575,7 +1604,7 @@ await client.ConnectAsync();
 QueryResp results = await client.QueryAsync(new QueryReq
 {
     CollectionName = "products",
-    Expression = "category IS NULL",
+    Expression = "embedding IS NULL",
     Parameters = new QueryParameters
     {
         OutputFields = { "id" },
@@ -1588,7 +1617,7 @@ for (int i = 0; i < results.RowCount; i++)
     Console.WriteLine(results.GetRow(i)["id"]);
 }
 // Output
-// 2
+// 3
 ```
 
 </TabItem>
@@ -1603,13 +1632,14 @@ curl -X 'POST' \
   -H 'Content-Type: application/json' \
   -d '{
     "collectionName": "products",
-    "filter": "category IS NULL",
+    "filter": "embedding IS NULL",
     "outputFields": ["id"],
     "limit": 10
   }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 Replace the `filter` in the same query to check either field or combine conditions:
@@ -1621,6 +1651,10 @@ Replace the `filter` in the same query to check either field or combine conditio
 | `embedding IS NULL` | `3` | Find entities without an embedding |
 | `embedding IS NOT NULL` | `1`, `2` | Find entities with an embedding |
 | `category IS NOT NULL AND embedding IS NOT NULL` | `1` | Find entities with both values |
+
+<a id="Regular-scalar-fields-with-null-values"></a>
+<a id="JSON-fields-with-null-values"></a>
+<a id="ARRAY-fields-with-null-values"></a>
 
 ### How field values are treated\{#how-field-values-are-treated}
 
@@ -1651,9 +1685,9 @@ All three filters are valid. A search on `embedding` with `embedding IS NULL` re
 
 Vector search already skips entities whose searched vector field is NULL, so `embedding IS NOT NULL` does not further narrow the candidates for a search on `embedding`. Ranking, other filters, and the search limit still determine which candidates are returned.
 
-## Tips on Using Basic Operators with JSON and ARRAY Fields\{#tips-on-using-basic-operators-with-json-and-array-fields}
+## Tips on using basic operators with JSON and ARRAY fields\{#tips-on-using-basic-operators-with-json-and-array-fields}
 
-While the basic operators in Zilliz Cloud clusters are versatile and can be applied to scalar fields, they can also be effectively used with the keys and indexes in the JSON and ARRAY fields.
+While the basic operators in Zilliz Cloud are versatile and can be applied to scalar fields, they can also be effectively used with the keys and indexes in the JSON and ARRAY fields.
 
 For example, if you have a `product` field that contains multiple keys like `price`, `model`, and `tags`, always reference the key directly:
 
@@ -1721,6 +1755,7 @@ filter='product["price"] > 1000'
 ```
 
 </TabItem>
+
 </Tabs>
 
 To find records where the first temperature in an array of recorded temperatures exceeds a certain value, use:
@@ -1789,6 +1824,7 @@ filter='history_temperatures[0] > 30'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Conclusion\{#conclusion}
@@ -1797,7 +1833,7 @@ Zilliz Cloud offers a range of basic operators that give you flexibility in filt
 
 ## FAQ\{#faq}
 
-**Is there a limit to the length of the match value list in filter conditions (e.g., `filter='color in ["red", "green", "blue"]'`)? What should I do if the list is too long?**
+**Is there a limit to the length of the match value list in filter conditions (e.g., filter='color in ["red", "green", "blue"]')? What should I do if the list is too long?**
 
 Zilliz Cloud does not impose a length limit on the match value list in filter conditions. However, an excessively long list can significantly impact query performance.
 If your filter condition includes a long list of match values or a complex expression with many elements, we recommend using [Filter Templating](./filtering-templating) to improve query performance.

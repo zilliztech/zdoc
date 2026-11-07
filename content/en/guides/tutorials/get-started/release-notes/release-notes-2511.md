@@ -42,7 +42,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Struct data type support** — Model nested, multi-attribute records more naturally to simplify schema design and improve querying in metadata-rich AI workloads. For details, refer to [StructArray Overview](./use-array-of-structs).
 
-        - **Enable Dynamic Field on existing collections** — Turn on dynamic field support without recreating the collection, allowing schema flexibility as business attributes evolve. For details, refer to [Modify Collection](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#BY0MdhhdqoQY2Cxl8TNcYtCwn0d).
+        - **Enable Dynamic Field on existing collections** — Turn on dynamic field support without recreating the collection, allowing schema flexibility as business attributes evolve. For details, refer to [Modify Collection](./modify-collections#example-5-enable-dynamic-field).
 
         - **Support Deleting Scalar Indexes Under Loading Status** — Allow deleting and rebuilding scalar indexes while the collection is in loading status.
 

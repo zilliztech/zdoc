@@ -52,7 +52,7 @@ Explore the future with our latest beta features, available for dedicated cluste
 
 - ***Return Raw Vectors***
 
-    Specify vector fields in your [search parameters](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#Sm86dgCilopuURxM8pgcok8In5f) to receive them as part of your search results.
+    Specify vector fields in your [search parameters](./single-vector-search#use-output-fields) to receive them as part of your search results.
 
 - ***JSON_CONTAINS Filter***
 
@@ -60,7 +60,7 @@ Explore the future with our latest beta features, available for dedicated cluste
 
 - ***Entity Count***
 
-    Get a quick overview of [the total number of entities within loaded collections](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#Sm86dgCilopuURxM8pgcok8In5f) for better data management.
+    Get a quick overview of [the total number of entities within loaded collections](./single-vector-search#use-output-fields) for better data management.
 
 ## Enhancements\{#enhancements}
 

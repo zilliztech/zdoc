@@ -1,17 +1,18 @@
 ---
 title: "Basic Vector Search | BYOC"
 slug: /single-vector-search
-sidebar_label: "Basic Vector Search"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches. | BYOC"
+description: "Run basic ANN searches in Zilliz Cloud with query vectors, output fields, filters, ranges, and iterators. | BYOC"
 type: origin
-token: BaGlwzDmyiyVvVk6NurcFclInCd
-sidebar_position: 1
 displayed_sidebar: default
+token: shared-single-vector-search
+sidebar_label: "Basic Vector Search"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/single-vector-search.md"
 
 ---
 
@@ -23,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
 Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 If you add new fields after the collection has been created, searches that include these fields return the defined default values or `NULL` for entities that have not explicitly set values. For details, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
@@ -35,11 +36,9 @@ The ANN and the k-Nearest Neighbors (kNN) search are the usual methods in vector
 
 Unlike kNN searches, an ANN search algorithm asks for an **index** file that records the sorted order of vector embeddings. When a search request comes in, you can use the index file as a reference to quickly locate a subgroup probably containing vector embeddings most similar to the query vector. Then, you can use the specified **metric type** to measure the similarity between the query vector and those in the subgroup, sort the group members based on similarity to the query vector, and figure out the **top-K** group members.
 
-ANN searches depend on pre-built indexes, and the search throughput, memory usage, and search correctness may vary with the index types you choose. You need to balance search performance and correctness. 
+ANN searches depend on pre-built indexes, and the search throughput, memory usage, and search correctness may vary with the index types you choose. You need to balance search performance and correctness.
 
-To reduce the learning curve, Zilliz Cloud provides **AUTOINDEX**. With **AUTOINDEX**, Zilliz Cloud can analyze the data distribution within your collection while building the index and sets the most optimized index parameters based on the analysis to strike a balance between search performance and correctness. 
-
-For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explained](./autoindex-explained) and [Metric Types](./search-metrics-explained). In this section, you will find detailed information about the following topics:
+To reduce the learning curve, Zilliz Cloud provides **AUTOINDEX**. With **AUTOINDEX**, Zilliz Cloud can analyze the data distribution within your collection while building the index and sets the most optimized index parameters based on the analysis to strike a balance between search performance and correctness.
 
 - [Single-vector search](./single-vector-search#single-vector-search)
 
@@ -51,9 +50,9 @@ For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explai
 
 - [Use limit and offset](./single-vector-search#use-limit-and-offset)
 
-- [Use level](./single-vector-search#use-level)
+- Use level
 
-- [Get Recall Rate](./single-vector-search#get-recall-rate)
+- Get Recall Rate
 
 - [Enhancing ANN search](./single-vector-search#enhancing-ann-search)
 
@@ -62,12 +61,6 @@ For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explai
 In ANN searches, a single-vector search refers to a search that involves only one query vector. Based on the pre-built index and the metric type carried in the search request, Zilliz Cloud will find the top-K vectors most similar to the query vector.
 
 In this section, you will learn how to conduct a single-vector search. The search request carries a single query vector and asks Zilliz Cloud to use Inner Product (IP) to calculate the similarity between query vectors and vectors in the collection and returns the three most similar ones.
-
-<Admonition type="info" title="Notes">
-
-Use a colon-separated username and password of the target cluster, like `username:password`, as the authentication token when calling data-plane RESTful API endpoints.
-
-</Admonition>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -86,7 +79,8 @@ res = client.search(
     collection_name="quick_setup",
     anns_field="vector",
     data=[query_vector],
-    limit=3
+    limit=3,
+    search_params={"metric_type": "IP"}
 )
 
 for hits in res:
@@ -131,7 +125,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
-    
+
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
@@ -166,8 +160,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -202,6 +196,7 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+
 ```
 
 </TabItem>
@@ -407,19 +402,45 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
-Milvus ranks the search results by their similarity scores to the query vector in descending order. The similarity score is also termed the distance to the query vector, and its value ranges vary with the metric types in use.
+Zilliz Cloud ranks the search results by their similarity scores to the query vector in descending order. The similarity score is also termed the distance to the query vector, and its value ranges vary with the metric types in use.
 
 The following table lists the applicable metric types and the corresponding distance ranges.
 
-| Metric Type | Characteristics | Distance Range |
-| --- | --- | --- |
-| `L2` | A smaller value indicates a higher similarity. | [0, ∞) |
-| `IP` | A greater value indicates a higher similarity. | [-1, 1] |
-| `COSINE` | A greater value indicates a higher similarity. | [-1, 1] |
-| `JACCARD` | A smaller value indicates a higher similarity. | [0, 1] |
-| `HAMMING` | A smaller value indicates a higher similarity. | [0, dim(vector)] |
+<table>
+   <tr>
+     <th><p>Metric Type</p></th>
+     <th><p>Characteristics</p></th>
+     <th><p>Distance Range</p></th>
+   </tr>
+   <tr>
+     <td><p><code>L2</code></p></td>
+     <td><p>A smaller value indicates a higher similarity.</p></td>
+     <td><p>[0, ∞)</p></td>
+   </tr>
+   <tr>
+     <td><p><code>IP</code></p></td>
+     <td><p>A greater value indicates a higher similarity.</p></td>
+     <td><p>[-1, 1]</p></td>
+   </tr>
+   <tr>
+     <td><p><code>COSINE</code></p></td>
+     <td><p>A greater value indicates a higher similarity.</p></td>
+     <td><p>[-1, 1]</p></td>
+   </tr>
+   <tr>
+     <td><p><code>JACCARD</code></p></td>
+     <td><p>A smaller value indicates a higher similarity.</p></td>
+     <td><p>[0, 1]</p></td>
+   </tr>
+   <tr>
+     <td><p><code>HAMMING</code></p></td>
+     <td><p>A smaller value indicates a higher similarity.</p></td>
+     <td><p>[0, dim(vector)]</p></td>
+   </tr>
+</table>
 
 ## Bulk-Vector Search\{#bulk-vector-search}
 
@@ -486,6 +507,7 @@ for hits in res:
 #         }
 #     ]
 # ]
+
 ```
 
 </TabItem>
@@ -497,6 +519,8 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.BaseVector;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.List;
 
 List<BaseVector> queryVectors = Arrays.asList(
         new FloatVec(new float[]{0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f}),
@@ -534,13 +558,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVectors := []entity.Vector{
     entity.FloatVector([]float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}),
     entity.FloatVector([]float32{0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104}),
@@ -636,7 +653,7 @@ for (const auto& result : searchResponse.Results().Results()) {
 ```javascript
 // 7. Search with multiple vectors
 const query_vectors = [
-    [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], 
+    [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
     [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
 ]
 
@@ -649,7 +666,7 @@ res = await client.search({
 console.log(res.results)
 
 // Output
-// 
+//
 // [
 //   [
 //     { score: 0.08821295201778412, id: '551' },
@@ -780,6 +797,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Primary-Key Search\{#primary-key-search}
@@ -796,7 +814,8 @@ res = client.search(
     # highlight-start
     ids=[551, 296, 43],
     # highlight-end
-    limit=3
+    limit=3,
+    search_params={"metric_type": "IP"}
 )
 
 for hits in res:
@@ -917,7 +936,7 @@ for (const auto& result : searchResponse.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-res = await client.search({
+const res = await client.search({
     collection_name: "quick_setup",
     anns_field: "vector",
     // highlight-start
@@ -956,13 +975,16 @@ var res = await client.SearchAsync(new SearchReq
 # restful
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   -H "Request-Timeout: 10" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   -d '{
     "collectionName": "quick_setup",
     "annsField": "vector",
     "ids": [551, 296, 43],
-    "limit": 3
+    "limit": 3,
+    "searchParams": {
+      "metric_type": "IP"
+    }
   }'
 ```
 
@@ -987,6 +1009,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## ANN Search in Partition\{#ann-search-in-partition}
@@ -1043,6 +1066,8 @@ for hits in res:
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
@@ -1074,13 +1099,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -1272,6 +1290,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Use Output Fields\{#use-output-fields}
@@ -1289,11 +1308,38 @@ res = client.search(
     collection_name="quick_setup",
     data=[query_vector],
     limit=3, # The number of results to return
-    search_params={
-        # highlight-next-line
-        "offset": 10 # The records to skip
-    }
+    search_params={"metric_type": "IP"},
+    # highlight-next-line
+    output_fields=["color"]
 )
+
+print(res)
+
+# [
+#     [
+#         {
+#             "id": 551,
+#             "distance": 0.08821295201778412,
+#             "entity": {
+#                 "color": "orange_6781"
+#             }
+#         },
+#         {
+#             "id": 296,
+#             "distance": 0.0800950899720192,
+#             "entity": {
+#                 "color": "red_4794"
+#             }
+#         },
+#         {
+#             "id": 43,
+#             "distance": 0.07794742286205292,
+#             "entity": {
+#                 "color": "grey_8510"
+#             }
+#         }
+#     ]
+# ]
 ```
 
 </TabItem>
@@ -1304,6 +1350,8 @@ res = client.search(
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
@@ -1335,13 +1383,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -1539,6 +1580,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Sort Search Results by Scalar Fields | PUBLIC\{#sort-search-results-by-scalar-fields-or-public}
@@ -1697,7 +1739,7 @@ for (const auto& result : searchResponse.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-res = await client.search({
+const res = await client.search({
     collection_name: "product_catalog",
     data: query_vector,
     anns_field: "embedding",
@@ -1774,6 +1816,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 You can also sort by multiple scalar fields. Zilliz Cloud applies the fields in the order that you specify. In the following example, Zilliz Cloud sorts results by `price` in ascending order. For entities with the same `price`, Zilliz Cloud then sorts by `rating` in descending order.
@@ -1939,7 +1982,7 @@ for (const auto& result : searchResponse.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-res = await client.search({
+const res = await client.search({
     collection_name: "product_catalog",
     data: query_vector,
     anns_field: "embedding",
@@ -2019,6 +2062,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 For entities with the same values in all specified order-by fields, Zilliz Cloud keeps the original similarity-score order.
@@ -2031,12 +2075,33 @@ If you wish to perform paginated queries, you can use a loop to send multiple Se
 
 The table below outlines how to set the **Limit** and **Offset** parameters for paginated queries when returning 100 Entities at a time.
 
-| Queries | Entities to return per query | Entities already been returned in total |
-| --- | --- | --- |
-| The **1st** query | 100 | 0 |
-| The **2nd** query | 100 | 100 |
-| The **3rd** query | 100 | 200 |
-| The **nth** query | 100 | 100 x (n-1) |
+<table>
+   <tr>
+     <th><p>Queries</p></th>
+     <th><p>Entities to return per query</p></th>
+     <th><p>Entities already been returned in total</p></th>
+   </tr>
+   <tr>
+     <td><p>The <strong>1st</strong> query</p></td>
+     <td><p>100</p></td>
+     <td><p>0</p></td>
+   </tr>
+   <tr>
+     <td><p>The <strong>2nd</strong> query</p></td>
+     <td><p>100</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p>The <strong>3rd</strong> query</p></td>
+     <td><p>100</p></td>
+     <td><p>200</p></td>
+   </tr>
+   <tr>
+     <td><p>The <strong>nth</strong> query</p></td>
+     <td><p>100</p></td>
+     <td><p>100 x (n-1)</p></td>
+   </tr>
+</table>
 
 Note that, the sum of `limit` and `offset` in a single ANN search should be less than 16,384.
 
@@ -2045,13 +2110,14 @@ Note that, the sum of `limit` and `offset` in a single ANN search should be less
 
 ```python
 # 4. Single vector search
-query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
 
 res = client.search(
     collection_name="quick_setup",
     data=[query_vector],
     limit=3, # The number of results to return
     search_params={
+        "metric_type": "IP",
         # highlight-next-line
         "offset": 10 # The records to skip
     }
@@ -2066,6 +2132,8 @@ res = client.search(
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
@@ -2097,13 +2165,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -2265,7 +2326,302 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
+
+## Temporarily set a timezone for a search\{#temporarily-set-a-timezone-for-a-search}
+
+If your collection has a `TIMESTAMPTZ` field, you can temporarily override the database or collection default timezone for a single operation by setting the `timezone` parameter in the search call. This controls how `TIMESTAMPTZ` values are displayed and compared during the operation.
+
+The value of `timezone` must be a valid [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (for example, **Asia/Shanghai**, **America/Chicago**, or **UTC**). For details on how to use a `TIMESTAMPTZ` field, refer to [TIMESTAMPTZ Field](./use-timestamptz-field).
+
+The example below shows how to temporarily set a timezone for a search operation:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
+```python
+res = client.search(
+    collection_name="quick_setup",
+    anns_field="vector",
+    data=[query_vector],
+    limit=3,
+    search_params={"metric_type": "IP"},
+    # highlight-next-line
+    timezone="America/Havana",
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+
+FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .annsField("vector")
+        .data(Collections.singletonList(queryVector))
+        .limit(3)
+        .metricType(IndexParam.MetricType.IP)
+        // highlight-next-line
+        .timezone("America/Havana")
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+System.out.println(searchResp.getSearchResults());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "quick_setup", // collectionName
+    3,             // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithSearchParam("metric_type", "IP").
+    WithOutputFields("event_time").
+    WithSearchParam("timezone", "America/Havana"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Event times: ", resultSet.GetColumn("event_time").FieldData().GetScalars())
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let query_vector = vec![0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .timezone("America/Havana")
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP)
+                         .AddOutputField("event_time")
+                         // highlight-next-line
+                         .WithTimezone("America/Havana")
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto eventTimes = result.OutputField<milvus::TimestamptzFieldData>("event_time");
+    for (size_t i = 0; i < result.GetRowCount(); ++i) {
+        std::cout << "id=" << ids[i] << ", event_time=" << eventTimes->Data()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "quick_setup",
+    anns_field: "vector",
+    data: query_vector,
+    limit: 3,
+    metric_type: "IP",
+    // highlight-next-line
+    params: { timezone: "America/Havana" },
+})
+
+console.log(res.results)
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Types;
+
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "quick_setup",
+    VectorFieldName = "vector",
+    Vectors = queryVector,
+    Limit = 3,
+    Parameters = new SearchParameters { Timezone = "America/Havana" }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export QUERY_VECTOR='[0.1, 0.2, 0.3, 0.4]'
+
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+-H "Content-Type: application/json" \
+-H "Request-Timeout: 10" \
+-d '{
+  "collectionName": "quick_setup",
+  "annsField": "vector",
+  "data": ['"$QUERY_VECTOR"'],
+  "limit": 3,
+  "searchParams": {
+    "metric_type": "IP",
+    "timezone": "America/Havana"
+  }
+}'
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "outputFields": [
+    "event_time"
+  ],
+  "timezone": "America/Havana",
+  "limit": 3
+}' \
+  --output json
+```
+
+</TabItem>
+
+</Tabs>
+
+## Enhancing ANN Search\{#enhancing-ann-search}
+
+AUTOINDEX considerably flattens the learning curve of ANN searches. However, the search results may not always be correct as the top-K increases. By reducing the search scope, improving search result relevancy, and diversifying the search results, Zilliz Cloud works out the following search enhancements.
+
+- Filtered Search
+
+    You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions.
+
+    For more about metadata filtering and filtering conditions, refer to [Filtered Search](./filtered-search), [Filtering Explained](./filtering-overview), and related topics.
+
+- Range Search
+
+    You can improve search result relevancy by restricting the distance or score of the returned entities within a specific range. In Zilliz Cloud, a range search involves drawing two concentric circles with the vector embedding most similar to the query vector as the center. The search request specifies the radius of both circles, and Zilliz Cloud returns all vector embeddings that fall within the outer circle but not the inner circle.
+
+    For more about range search, refer to [Range Search](./range-search).
+
+- Grouping Search
+
+    If the returned entities hold the same value in a specific field, the search results may not represent the distribution of all vector embeddings in the vector space. To diversify the search results, consider using the grouping search.
+
+    For more about grouping search, refer to [Grouping Search](./grouping-search),
+
+- Hybrid Search
+
+    A collection can include multiple vector fields to save the vector embeddings generated using different embedding models. By doing so, you can use a hybrid search to rerank the search results from these vector fields, improving the recall rate.
+
+    For more about hybrid search, refer to [Hybrid Search](./hybrid-search).
+
+- Search Iterator
+
+    A single ANN search returns a maximum of 16,384 entities. Consider using search iterators if you need more entities to return in a single search.
+
+    For details on search iterators, refer to [Search Iterator](./with-iterators).
+
+- Full-Text Search
+
+    Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings.
+
+    For details on full-text search, refer to [Full Text Search](./full-text-search).
+
+- Text Match
+
+    Keyword match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria.
+
+    For details on keyword match, refer to [Keyword Match](https://milvus.io/docs/keyword-match.md).
+
+- Use Partition Key
+
+    Involving multiple scalar fields in metadata filtering and using a rather complicated filtering condition may affect search efficiency. Once you set a scalar field as the partition key and use a filtering condition involving the partition key in the search request, it can help restrict the search scope within the partitions corresponding to the specified partition key values.
+
+    For details on the partition key, refer to [Use Partition Key](./use-partition-key).
+
+- Use mmap
+
+    For details on mmap-settings, refer to [Use mmap](./use-mmap).
+
+- Clustering Compaction
+
+    For details on clustering compactions, refer to [Clustering Compaction](https://milvus.io/docs/clustering-compaction.md).
+
+- Use reranking
+
+    For details on using rankers to enhance search result relevance, refer to [Decay Ranker Overview](./decay-ranker-oveview) and [Model Ranker Overview](https://milvus.io/docs/model-ranker-overview.md).
 
 ## Use Level\{#use-level}
 
@@ -2273,9 +2629,9 @@ To optimize ANN searches, Zilliz Cloud provides a parameter named `level` to con
 
 This parameter ranges from `1` to `10` and defaults to `1`. Increasing the value improves search recall rate with a degradation in search performance. In common cases, the default value yields a maximum of 90% recall rate. You can increase the value as required.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-The `level`  parameter is still in **Public Preview**. If you cannot set it to a value greater than `5`, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from `1` to `5` instead, or contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
+> The `level`  parameter is still in **Public Preview**. If you cannot set it to a value greater than `5`, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from `1` to `5` instead, or contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
 </Admonition>
 
@@ -2522,15 +2878,16 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Get Recall Rate\{#get-recall-rate}
 
 You can set `enable_recall_calculation` to `true`when you tweek the `level` parameter so that you can evaluate the precisions of your search with different `level` values.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-The `enable_recall_calculation`  parameter is still in **Public Preview**, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at [Zilliz Cloud support](https://zilliz.com/contact-sales).
+> The `enable_recall_calculation`  parameter is still in **Public Preview**, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
 </Admonition>
 
@@ -2771,290 +3128,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
-
-## Temporarily set a timezone for a search\{#temporarily-set-a-timezone-for-a-search}
-
-If your collection has a `TIMESTAMPTZ` field, you can temporarily override the database or collection default timezone for a single operation by setting the `timezone` parameter in the search call. This controls how `TIMESTAMPTZ` values are displayed and compared during the operation.
-
-The value of `timezone` must be a valid [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (for example, **Asia/Shanghai**, **America/Chicago**, or **UTC**). For details on how to use a `TIMESTAMPTZ` field, refer to [TIMESTAMPTZ Field](./use-timestamptz-field).
-
-The example below shows how to temporarily set a timezone for a search operation:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
-<TabItem value='python'>
-
-```python
-res = client.search(
-    collection_name="quick_setup",
-    anns_field="vector",
-    data=[query_vector],
-    limit=3,
-    # highlight-next-line
-    timezone="America/Havana",
-)
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Collections;
-
-FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
-SearchReq searchReq = SearchReq.builder()
-        .collectionName("quick_setup")
-        .annsField("vector")
-        .data(Collections.singletonList(queryVector))
-        .limit(3)
-        .metricType(IndexParam.MetricType.IP)
-        // highlight-next-line
-        .timezone("America/Havana")
-        .build();
-
-SearchResp searchResp = client.search(searchReq);
-System.out.println(searchResp.getSearchResults());
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
-resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
-    "quick_setup", // collectionName
-    3,             // limit
-    []entity.Vector{entity.FloatVector(queryVector)},
-).WithANNSField("vector").
-    WithSearchParam("metric_type", "IP").
-    WithOutputFields("event_time").
-    WithSearchParam("timezone", "America/Havana"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-for _, resultSet := range resultSets {
-    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
-    fmt.Println("Event times: ", resultSet.GetColumn("event_time").FieldData().GetScalars())
-}
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-use milvus::v2::prelude::*;
-
-let query_vector = vec![0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385];
-let response = client
-    .search(
-        SearchRequest::builder()
-            .collection_name("quick_setup")
-            .vector_field("vector")
-            .vectors(SearchVectors::Float(vec![query_vector]))
-            .limit(3)
-            .timezone("America/Havana")
-            .build()?,
-    )
-    .await?;
-
-for result in response.results() {
-    for row in result.rows()? {
-        println!("{:?}", row.to_entity_row()?);
-    }
-}
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto searchRequest = milvus::SearchRequest()
-                         .WithCollectionName("quick_setup")
-                         .WithAnnsField("vector")
-                         .WithLimit(3)
-                         .WithMetricType(milvus::MetricType::IP)
-                         .AddOutputField("event_time")
-                         // highlight-next-line
-                         .WithTimezone("America/Havana")
-                         .AddFloatVector(queryVector);
-
-milvus::SearchResponse searchResponse;
-auto status = client->Search(searchRequest, searchResponse);
-if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
-
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    const auto eventTimes = result.OutputField<milvus::TimestamptzFieldData>("event_time");
-    for (size_t i = 0; i < result.GetRowCount(); ++i) {
-        std::cout << "id=" << ids[i] << ", event_time=" << eventTimes->Data()[i] << std::endl;
-    }
-}
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-res = await client.search({
-    collection_name: "quick_setup",
-    anns_field: "vector",
-    data: query_vector,
-    limit: 3,
-    metric_type: "IP",
-    // highlight-next-line
-    params: { timezone: "America/Havana" },
-})
-
-console.log(res.results)
-```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Types;
-
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
-var res = await client.SearchAsync(new SearchReq
-{
-    CollectionName = "quick_setup",
-    VectorFieldName = "vector",
-    Vectors = queryVector,
-    Limit = 3,
-    Parameters = new SearchParameters { Timezone = "America/Havana" }
-});
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-export QUERY_VECTOR='[0.1, 0.2, 0.3, 0.4]'                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                          
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \                                                                                                                                                                                     
--H "Content-Type: application/json" \  
--H "Request-Timeout: 10" \                                                                                                                                                                                                               
--d '{                                                                                                                                                                                                                                                 
-  "collectionName": "quick_setup",                                                                                                                                                                                                                    
-  "annsField": "vector",                                                                                                                                                                                                                              
-  "data": ['"$QUERY_VECTOR"'],                                                                                                                                                                                                                        
-  "limit": 3,                                                                                                                                                                                                                                         
-  "searchParams": {                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-    "timezone": "America/Havana"                                                                                                                                                                                                                      
-  }                                                                                                                                                                                                                                                   
-}'
-```
-
-</TabItem>
-
-<TabItem value='shell'>
-
-```shell
-zilliz vector search \
-  --collection quick_setup \
-  --body '{
-  "data": [
-    [
-      0.3580376395471989,
-      -0.6023495712049978,
-      0.18414012509913835,
-      -0.26286205330961354,
-      0.9029438446296592
-    ]
-  ],
-  "annsField": "vector",
-  "outputFields": [
-    "event_time"
-  ],
-  "timezone": "America/Havana",
-  "limit": 3
-}' \
-  --output json
-```
-
-</TabItem>
-</Tabs>
-
-## Enhancing ANN Search\{#enhancing-ann-search}
-
-AUTOINDEX considerably flattens the learning curve of ANN searches. However, the search results may not always be correct as the top-K increases. By reducing the search scope, improving search result relevancy, and diversifying the search results, Zilliz Cloud works out the following search enhancements.
-
-- Filtered Search
-
-    You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions.
-
-    For more about metadata filtering and filtering conditions, refer to [Filtered Search](./filtered-search) and [Filtering Explained](./filtering-overview).
-
-- Range Search
-
-    You can improve search result relevancy by restricting the distance or score of the returned entities within a specific range. In Zilliz Cloud, a range search involves drawing two concentric circles with the vector embedding most similar to the query vector as the center. The search request specifies the radius of both circles, and Zilliz Cloud returns all vector embeddings that fall within the outer circle but not the inner circle.
-
-    For more about range search, refer to [Range Search](./range-search).
-
-- Grouping Search
-
-    If the returned entities hold the same value in a specific field, the search results may not represent the distribution of all vector embeddings in the vector space. To diversify the search results, consider using the grouping search.
-
-    For more about grouping search, refer to [Grouping Search](./grouping-search),
-
-- Hybrid Search
-
-    A collection can include multiple vector fields to save the vector embeddings generated using different embedding models. By doing so, you can use a hybrid search to rerank the search results from these vector fields, improving the recall rate.
-
-    For more about hybrid search, refer to [Hybrid Search](./hybrid-search).
-
-    For details about the limit on the number of vector fields allowed in a collection, see [Zilliz Cloud Limits](./limits#fields).
-
-- Search Iterator
-
-    A single ANN search returns a maximum of 16,384 entities. Consider using search iterators if you need more entities to return in a single search.
-
-    For details on search iterators, refer to [Search Iterator](./with-iterators).
-
-- Full-Text Search
-
-    Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings.
-
-    For details on full-text search, refer to [Full Text Search](./full-text-search).
-
-- Text Match
-
-    Keyword match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria.
-
-    For details on keyword match, refer to [Keyword Match](./text-match).
-
-- Use Partition Key
-
-    Involving multiple scalar fields in metadata filtering and using a rather complicated filtering condition may affect search efficiency. Once you set a scalar field as the partition key and use a filtering condition involving the partition key in the search request, it can help restrict the search scope within the partitions corresponding to the specified partition key values. 
-
-    For details on the partition key, refer to [Use Partition Key](./use-partition-key).
-
-- Use mmap
-
-    For details on mmap-settings, refer to [Use mmap](./use-mmap).
-

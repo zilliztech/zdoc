@@ -320,7 +320,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash function](./minhash-function)
 
-            - Order by for [searches](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#CduodT384oDTX7x2IWqcjZv9nSg) and [queries](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#doxcnPWWXEtKQ2jAUJQeOtm3rle)
+            - Order by for [searches](./single-vector-search#single-vector-search) and [queries](./get-and-scalar-query#sort-query-results-or-public)
 
             - [Snapshots](./snapshots)
 
@@ -534,7 +534,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⏰  Customizing the [notification interval](./manage-project-alerts#alert-settings) to suppress repeated alerts.
 
-        - 🔧  The [dynamic field can be enabled for existing collections](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#BY0MdhhdqoQY2Cxl8TNcYtCwn0d) without collection recreations.
+        - 🔧  The [dynamic field can be enabled for existing collections](./modify-collections#example-5-enable-dynamic-field) without collection recreations.
 
         - 💳  Subscription plans have been shifted to the project level, while clusters have several deployment options. Read [Detailed Plan Comparison](./select-zilliz-cloud-service-plans) to find more.
 
@@ -878,7 +878,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Multi-vector hybrid search](./hybrid-search)
 
-            - [Inverted index](./inverted-index-type) and [fuzzy match](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)
+            - [Inverted index](./inverted-index-type) and [fuzzy match](./basic-filtering-operators#pattern-matching-operators)
 
             - [Grouping search](./grouping-search)
 

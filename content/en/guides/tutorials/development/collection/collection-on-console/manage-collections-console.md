@@ -212,7 +212,7 @@ Zilliz Cloud supports the following management operations on created collections
 
     - To modify **mmap**, or **partition key** settings, use the SDKs instead. For details, see [Modify Collection](./modify-collections).
 
-    - If you have not enabled dynamic field when creating a collection, you can later enable it by using the SDK or web console. For details about the SDKs, see [Modify Collection](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#BY0MdhhdqoQY2Cxl8TNcYtCwn0d). For details about how to enable dynamic field on the web console, refer to the demo above.
+    - If you have not enabled dynamic field when creating a collection, you can later enable it by using the SDK or web console. For details about the SDKs, see [Modify Collection](./modify-collections#example-5-enable-dynamic-field). For details about how to enable dynamic field on the web console, refer to the demo above.
 
     Other collection schema settings are not editable. To apply changes, create a new collection with the desired configuration and import the data into it.
 
@@ -232,7 +232,7 @@ Zilliz Cloud supports the following management operations on created collections
 
 - **Edit collection TTL**: Time-to-live (TTL) is a collection property that determines the expiration time for data in a collection. For details, see [Set Collection TTL](./set-collection-ttl).
 
-- **Enable Allow Insert Auto ID:** The `allow_insert_auto_id` property allows a collection with AutoID enabled to accept user-provided primary key values during insert, upsert, and bulk import. For details, see [Modify Collection](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#Bs06diKs4oS5wzxpDaacYt6JnIf).
+- **Enable Allow Insert Auto ID:** The `allow_insert_auto_id` property allows a collection with AutoID enabled to accept user-provided primary key values during insert, upsert, and bulk import. For details, see [Modify Collection](./modify-collections#example-6-enable-allowinsertautoid).
 
 - **Drop collection:** To reduce resource overhead, you can drop collections that are no longer needed. Dropping a collection irreversibly deletes all data within it.
 

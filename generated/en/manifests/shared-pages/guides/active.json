@@ -897,6 +897,111 @@
       ],
       "anchors": {},
       "activated_in": "42200820696"
+    },
+    {
+      "page": "single-vector-search",
+      "record": "recvlPoTGW03Cp",
+      "feishu_token": "BaGlwzDmyiyVvVk6NurcFclInCd",
+      "feishu_aliases": [
+        "BaGlwzDmyiyVvVk6NurcFclInCd",
+        "KfBAdtbyPoi3kQx19S3cxqhznYd"
+      ],
+      "anchors": {
+        "CduodT384oDTX7x2IWqcjZv9nSg": "single-vector-search",
+        "K0GIdj7YKox4wzxZCTrcbtBgnyc": "use-limit-and-offset",
+        "Sm86dgCilopuURxM8pgcok8In5f": "use-output-fields",
+        "WZCsdyVa0oactBxGgOncImEdnsc": "use-level",
+        "PAXZd7tD1ocxT9xrpllcdVBvn2b": "get-recall-rate",
+        "JFY4dwlbhoUGiOxybpDcQeFZnDd": "temporarily-set-a-timezone-for-a-search"
+      },
+      "activated_in": "42362765623"
+    },
+    {
+      "page": "grouping-search",
+      "record": "recvlPp6ZPf0yY",
+      "feishu_token": "JWZGw89MBiUDBNkhtGfcyyUcnsd",
+      "feishu_aliases": [
+        "JWZGw89MBiUDBNkhtGfcyyUcnsd",
+        "Vf3CdHBZMo4HzVxeeZ3cCEnrnxg"
+      ],
+      "anchors": {
+        "HoVld8em1oN0mcx5h6VcAKBrnQc": "perform-grouping-search"
+      },
+      "activated_in": "42362765623"
+    },
+    {
+      "page": "get-and-scalar-query",
+      "record": "recvlPpiienCU8",
+      "feishu_token": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
+      "feishu_aliases": [
+        "BenVdKzdNodn81xx4Q2cqHBvn3e",
+        "R7F7wY8pCiJ5Q4kbntxcMsE6nLf"
+      ],
+      "anchors": {
+        "doxcnPWWXEtKQ2jAUJQeOtm3rle": "sort-query-results-or-public",
+        "GY2udOT2cohyD4xAXK1cS6xRnQb": "use-query",
+        "OGyUdivlLosfGGxbgn9cN2kbnpf": "temporarily-set-a-timezone-for-a-query"
+      },
+      "activated_in": "42362765623"
+    },
+    {
+      "page": "basic-filtering-operators",
+      "record": "recvlPpnGdYFm8",
+      "feishu_token": "LBbUwOGcwi1UMak3eE2cM1gvnUe",
+      "feishu_aliases": [
+        "LBbUwOGcwi1UMak3eE2cM1gvnUe",
+        "N0QwdMAghoTuZmxb7pacfZIRn9f"
+      ],
+      "anchors": {
+        "HfandwuQloKsmcx8iAjcMjqnnQb": "is-null-and-is-not-null-operators",
+        "doxcnevyxpbGAxYmAh66NWwefDe": "pattern-matching-operators",
+        "LEORdZEDUo5fE5xn0r7cT0KTnph": "comparison-operators",
+        "doxcnYhE9SC9LbRqC2Mnl1MjYQb": "range-operators",
+        "L44AdQ2VIou67ZxyiJSc5IIsnNg": "arithmetic-operators"
+      },
+      "activated_in": "42362765623"
+    },
+    {
+      "page": "modify-collections",
+      "record": "recvlPs9FBazpP",
+      "feishu_token": "WMh8w3tbKiBhukk3ICMc4ctznEg",
+      "feishu_aliases": [
+        "PI78ddMIsoXk43xlHIhcc5ubnrj",
+        "WMh8w3tbKiBhukk3ICMc4ctznEg"
+      ],
+      "anchors": {
+        "BY0MdhhdqoQY2Cxl8TNcYtCwn0d": "example-5-enable-dynamic-field",
+        "Bs06diKs4oS5wzxpDaacYt6JnIf": "example-6-enable-allowinsertautoid",
+        "S7WCdAXGrofhq1xU20vc2XVwnRg": "example-7-set-collection-time-zone"
+      },
+      "activated_in": "42362765623"
+    },
+    {
+      "page": "set-collection-ttl",
+      "record": "recvlPsbs7JQy4",
+      "feishu_token": "GthGwnrpEiGpClkV5JXcgWUgn8c",
+      "feishu_aliases": [
+        "DniFdKjCso54myxF5VCc8KkknPc",
+        "GthGwnrpEiGpClkV5JXcgWUgn8c"
+      ],
+      "anchors": {
+        "LFQRdfkNRo8jxvxeq5Jco3aRnSR": "overview"
+      },
+      "activated_in": "42362765623"
+    },
+    {
+      "page": "nullable-fields",
+      "record": "recvlPtyEujTZ1",
+      "feishu_token": "DjROwgK6ziCf7Rkoji6ccyEUnsg",
+      "feishu_aliases": [
+        "DjROwgK6ziCf7Rkoji6ccyEUnsg",
+        "UEP2dxP7doTNpnxdQAncsqRun6g"
+      ],
+      "anchors": {
+        "KL0mdOeSgoJtVfxQUvIcvGGenAd": "define-a-nullable-field-in-the-collection-schema",
+        "G6Pld95sqoN2aFxdQBPcVGLJnre": "insert-behavior-with-missing-or-null-values"
+      },
+      "activated_in": "42362765623"
     }
   ]
 }

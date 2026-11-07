@@ -1,7 +1,6 @@
 ---
 title: "Modify Collection | Cloud"
 slug: /modify-collections
-sidebar_label: "Modify"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "You can rename a collection or change its settings. This page focuses on how to modify a collection. | Cloud"
 type: origin
-token: WMh8w3tbKiBhukk3ICMc4ctznEg
-sidebar_position: 5
 displayed_sidebar: default
+token: shared-modify-collections
+sidebar_label: "Modify"
+sidebar_position: 5
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/modify-collection.md"
 
 ---
 
@@ -61,7 +62,7 @@ import io.milvus.v2.client.MilvusClientV2;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Connect to Zilliz Cloud
 ConnectConfig connectConfig = ConnectConfig.builder()
     .uri(CLUSTER_ENDPOINT)
     .token(TOKEN)
@@ -130,21 +131,32 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-client.rename_collection(
-    RenameCollectionRequest::builder()
-        .collection_name("my_collection")
-        .new_collection_name("my_new_collection")
-        .build()?,
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
 )
 .await?;
 
-client.rename_collection(
-    RenameCollectionRequest::builder()
-        .collection_name("my_new_collection")
-        .new_collection_name("my_collection")
-        .build()?,
-)
-.await?;
+client
+    .rename_collection(
+        RenameCollectionRequest::builder()
+            .collection_name("my_collection")
+            .new_collection_name("my_new_collection")
+            .build()?,
+    )
+    .await?;
+
+client
+    .rename_collection(
+        RenameCollectionRequest::builder()
+            .collection_name("my_new_collection")
+            .new_collection_name("my_collection")
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -153,6 +165,7 @@ client.rename_collection(
 
 ```c++
 #include <iostream>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -164,15 +177,15 @@ if (!status.IsOk()) {
 }
 
 status = client->RenameCollection(milvus::RenameCollectionRequest()
-                                    .WithCollectionName("my_collection")
-                                    .WithNewCollectionName("my_new_collection"));
+                                      .WithCollectionName("my_collection")
+                                      .WithNewCollectionName("my_new_collection"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
 status = client->RenameCollection(milvus::RenameCollectionRequest()
-                                    .WithCollectionName("my_new_collection")
-                                    .WithNewCollectionName("my_collection"));
+                                      .WithCollectionName("my_new_collection")
+                                      .WithNewCollectionName("my_collection"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -183,18 +196,18 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-const res = await client.renameCollection({
+await client.renameCollection({
     collection_name: "my_collection",
     new_collection_name: "my_new_collection"
 });
 
-const res2 = await client.renameCollection({
+await client.renameCollection({
     collection_name: "my_new_collection",
     new_collection_name: "my_collection"
 });
@@ -207,14 +220,15 @@ const res2 = await client.renameCollection({
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
 
-var config = new ConnectConfig
+const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+
+using var client = new MilvusClientV2(new ConnectConfig
 {
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-};
-using var client = new MilvusClientV2(config);
+    Uri = CLUSTER_ENDPOINT,
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
 await client.ConnectAsync();
 
 await client.RenameCollectionAsync(new RenameCollectionReq
@@ -260,13 +274,15 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Set Collection Properties\{#set-collection-properties}
 
+
 You can modify collection-level properties after a collection is created.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 All the properties listed in this section apply only to managed collections.
 
@@ -281,7 +297,7 @@ All the properties listed in this section apply only to managed collections.
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>If the data of a collection needs to be deleted after a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes all entities from the collection.</p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p><p>For details, refer to <a href="./set-collection-ttl#set-collection-level-ttl">Set collection-level TTL</a>.</p></td>
+     <td><p>If the data of a collection needs to be deleted after a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes all entities from the collection.</p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p><p>For details, refer to <a href="./set-collection-ttl">Set collection-level TTL</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>ttl_field</code></p></td>
@@ -289,7 +305,7 @@ All the properties listed in this section apply only to managed collections.
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
-     <td><p>Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.</p><p>Zilliz Cloud implements <a href="./use-mmap#global-mmap-strategy">global mmap settings</a> for your clusters. You can change the settings on a specific field or its index.</p><p>For details, refer to <a href="./use-mmap">Use mmap</a>.</p></td>
+     <td><p>Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.</p><p>Zilliz Cloud implements global mmap settings for your clusters. You can change the settings on a specific field or its index.</p><p>For details, refer to <a href="./use-mmap">Use mmap</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>partitionkey.isolation</code></p></td>
@@ -301,11 +317,11 @@ All the properties listed in this section apply only to managed collections.
    </tr>
    <tr>
      <td><p><code>allow_insert_auto_id</code></p></td>
-     <td><p>Whether to allow a collection to accept user-provided primary key values when AutoID has been enabled for the collection.</p><ul><li><p>When set to <strong>&quot;true&quot;</strong>: Inserts, upserts, and bulk imports use the user-provided primary key if present; otherwise, primary key values are auto-generated.</p></li><li><p>When set to <strong>&quot;false&quot;</strong>: User-provided primary key values are rejected or ignored and primary key values are always auto-generated. The default is <strong>&quot;false&quot;</strong>.</p></li></ul></td>
+     <td><p>Whether to allow a collection to accept user-provided primary key values when AutoID has been enabled for the collection.</p><ul><li><p>When set to <strong>"true"</strong>: Inserts, upserts, and bulk imports use the user-provided primary key if present; otherwise, primary key values are auto-generated.</p></li><li><p>When set to <strong>"false"</strong>: User-provided primary key values are rejected or ignored and primary key values are always auto-generated. The default is <strong>"false"</strong>.</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>timezone</code></p></td>
-     <td><p>Specifies the default timezone for this collection when handling time-sensitive operations, especially <code>TIMESTAMPTZ</code> fields. Timestamps are stored internally in UTC, and Milvus converts values for display and comparison according to this setting. If set, the collection timezone overrides the database’s default timezone; a query’s timezone parameter can temporarily override both. The value must be a valid <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA time zone identifier</a> (for example, <strong>Asia/Shanghai</strong>, <strong>America/Chicago</strong>, or <strong>UTC</strong>). For details on how to use a <code>TIMESTAMPTZ</code> field, refer to <a href="./use-timestamptz-field">TIMESTAMPTZ Field</a>.</p></td>
+     <td><p>Specifies the default timezone for this collection when handling time-sensitive operations, especially <code>TIMESTAMPTZ</code> fields. Timestamps are stored internally in UTC, and Zilliz Cloud converts values for display and comparison according to this setting. If set, the collection timezone overrides the database’s default timezone; a query’s timezone parameter can temporarily override both. The value must be a valid <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA time zone identifier</a> (for example, <strong>Asia/Shanghai</strong>, <strong>America/Chicago</strong>, or <strong>UTC</strong>). For details on how to use a <code>TIMESTAMPTZ</code> field, refer to <a href="./use-timestamptz-field">TIMESTAMPTZ Field</a>.</p></td>
    </tr>
 </table>
 
@@ -365,13 +381,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-client.alter_collection_properties(
-    AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
-        .property("collection.ttl.seconds", "60")
-        .build()?,
-)
-.await?;
+use milvus::v2::prelude::*;
+
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property("collection.ttl.seconds", "60")
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -436,13 +455,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Example 2: Set entity-level TTL | PUBLIC\{#example-2-set-entity-level-ttl-or-public}
 
 The following code snippet designates an existing `TIMESTAMPTZ` field (`expire_at`) as the TTL field for entity-level TTL. The collection must already contain a `TIMESTAMPTZ` field with that name, and `collection.ttl.seconds` must not be set — the two TTL modes are mutually exclusive.
 
-For the full entity-level TTL workflow (schema setup, insert, query, refresh, drop), refer to [Set entity-level TTL](./modify-collections).
+For the full entity-level TTL workflow (schema setup, insert, query, refresh, drop), refer to [Set entity-level TTL](./set-collection-ttl).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -495,13 +515,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-client.alter_collection_properties(
-    AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
-        .property("ttl_field", "expire_at")
-        .build()?,
-)
-.await?;
+use milvus::v2::prelude::*;
+
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property("ttl_field", "expire_at")
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -566,6 +589,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Example 3: Enable mmap\{#example-3-enable-mmap}
@@ -594,7 +618,7 @@ import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
 
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
-        .property(Constant.MMAP_ENABLED, "True")
+        .property(Constant.MMAP_ENABLED, "true")
         .build();
 
 client.alterCollectionProperties(alterCollectionReq);
@@ -624,13 +648,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-client.alter_collection_properties(
-    AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
-        .property("mmap.enabled", "true")
-        .build()?,
-)
-.await?;
+use milvus::v2::prelude::*;
+
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property("mmap.enabled", "true")
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -695,6 +722,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Example 4: Enable partition key\{#example-4-enable-partition-key}
@@ -722,7 +750,7 @@ import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
 
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
-        .property("partitionkey.isolation", "True")
+        .property("partitionkey.isolation", "true")
         .build();
 
 client.alterCollectionProperties(alterCollectionReq);
@@ -751,13 +779,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-client.alter_collection_properties(
-    AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
-        .property("partitionkey.isolation", "true")
-        .build()?,
-)
-.await?;
+use milvus::v2::prelude::*;
+
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property("partitionkey.isolation", "true")
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -822,6 +853,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Example 5: Enable dynamic field\{#example-5-enable-dynamic-field}
@@ -849,7 +881,7 @@ import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
 
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
-        .property("dynamicfield.enabled", "True")
+        .property("dynamicfield.enabled", "true")
         .build();
 
 client.alterCollectionProperties(alterCollectionReq);
@@ -878,13 +910,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-client.alter_collection_properties(
-    AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
-        .property("dynamicfield.enabled", "true")
-        .build()?,
-)
-.await?;
+use milvus::v2::prelude::*;
+
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property("dynamicfield.enabled", "true")
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -949,6 +984,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Example 6: Enable allow_insert_auto_id\{#example-6-enable-allowinsertautoid}
@@ -961,8 +997,6 @@ The example below shows how to enable `allow_insert_auto_id`:
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.alter_collection_properties(
     collection_name="my_collection",
     # highlight-next-line
@@ -980,7 +1014,7 @@ import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
 
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
-        .property("allow_insert_auto_id", "True")
+        .property("allow_insert_auto_id", "true")
         .build();
 
 client.alterCollectionProperties(alterCollectionReq);
@@ -1009,13 +1043,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-client.alter_collection_properties(
-    AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
-        .property("allow_insert_auto_id", "true")
-        .build()?,
-)
-.await?;
+use milvus::v2::prelude::*;
+
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property("allow_insert_auto_id", "true")
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1080,6 +1117,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### Example 7: Set collection time zone\{#example-7-set-collection-time-zone}
@@ -1094,8 +1132,6 @@ The example below shows how to set the collection time zone to **Asia/Shanghai**
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.alter_collection_properties(
     collection_name="my_collection",
     # highlight-next-line
@@ -1141,13 +1177,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-client.alter_collection_properties(
-    AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
-        .property("timezone", "Asia/Shanghai")
-        .build()?,
-)
-.await?;
+use milvus::v2::prelude::*;
+
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property("timezone", "Asia/Shanghai")
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1212,18 +1251,17 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Drop Collection Properties\{#drop-collection-properties}
 
-You can also reset a collection property by dropping it as follows. 
+You can also reset a collection property by dropping it as follows.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.drop_collection_properties(
     collection_name="my_collection",
     property_keys=[
@@ -1270,13 +1308,16 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-client.drop_collection_properties(
-    DropCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
-        .property_keys(["collection.ttl.seconds"])
-        .build()?,
-)
-.await?;
+use milvus::v2::prelude::*;
+
+client
+    .drop_collection_properties(
+        DropCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property_keys(["collection.ttl.seconds"])
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1339,4 +1380,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

@@ -74,11 +74,11 @@ Zilliz Cloud introduces a search parameter called `level` to optimize vector sea
 
 - **High Recall Search (level=6~10)**: For scenarios requiring high recall rates (e.g., 99% or even higher), users can set the parameter between **6** and **10**, or select **10** if performance is less critical.
 
-This flexibility allows users to tailor search behavior to their specific requirements, achieving the desired balance between precision and speed. See [use the 'level' parameter](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#WZCsdyVa0oactBxGgOncImEdnsc) for more details.
+This flexibility allows users to tailor search behavior to their specific requirements, achieving the desired balance between precision and speed. See [use the 'level' parameter](./single-vector-search#use-level) for more details.
 
 ## Recall Rate Estimation\{#recall-rate-estimation}
 
 We’ve introduced a feature to estimate recall rates during searches. By enabling the `enable_recall_calculation` parameter in `search_params` and setting it to `true`, you can receive system-estimated recall rates as part of your search results.
 
-By combining recall rate estimation with the `level` parameter, users can easily identify the appropriate `level` setting to achieve the desired recall rates for their applications. For more details, refer to [get recall rate](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#PAXZd7tD1ocxT9xrpllcdVBvn2b).
+By combining recall rate estimation with the `level` parameter, users can easily identify the appropriate `level` setting to achieve the desired recall rates for their applications. For more details, refer to [get recall rate](./single-vector-search#get-recall-rate).
 

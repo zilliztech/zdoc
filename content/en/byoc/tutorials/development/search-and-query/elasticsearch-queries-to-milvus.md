@@ -603,7 +603,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html). For details on the `like` operator in Milvus, refer to [Using ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[`LIKE`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[ for Pattern Matching](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe).
+You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html). For details on the `like` operator in Milvus, refer to [Using ](./basic-filtering-operators#pattern-matching-operators)[`LIKE`](./basic-filtering-operators#pattern-matching-operators)[ for Pattern Matching](./basic-filtering-operators#pattern-matching-operators).
 
 ### Range query\{#range-query}
 
@@ -738,7 +738,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html). For details on comparison operators in Milvus, see [Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph).
+You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html). For details on comparison operators in Milvus, see [Comparison operators](./basic-filtering-operators#comparison-operators).
 
 ### Term query\{#term-query}
 
@@ -947,7 +947,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html). For details on comparison operators in Milvus, see [Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph).
+You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html). For details on comparison operators in Milvus, see [Comparison operators](./basic-filtering-operators#comparison-operators).
 
 ### Terms query\{#terms-query}
 
@@ -1157,7 +1157,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html). For details on range operators in Milvus, refer to [Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg).
+You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html). For details on range operators in Milvus, refer to [Range operators](./basic-filtering-operators#range-operators).
 
 ### Wildcard query\{#wildcard-query}
 
@@ -1290,7 +1290,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html). For details on the range operators in Milvus, refer to [Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg). 
+You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html). For details on the range operators in Milvus, refer to [Range operators](./basic-filtering-operators#range-operators). 
 
 ## Boolean query\{#boolean-query}
 

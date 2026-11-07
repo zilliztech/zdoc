@@ -461,7 +461,7 @@ curl --request POST \
 
 - **Recommendations:** Use the limit of your reranking model (typically 20–50).
 
-- **Large TopK:** Use [pagination](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#K0GIdj7YKox4wzxZCTrcbtBgnyc) (`offset` + `limit`) or [iterators](./with-iterators) instead of returning massive result sets in one request.
+- **Large TopK:** Use [pagination](./single-vector-search#use-limit-and-offset) (`offset` + `limit`) or [iterators](./with-iterators) instead of returning massive result sets in one request.
 
 ### Refine output fields\{#refine-output-fields}
 
@@ -793,7 +793,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-For details, see [Use Output Fields](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#Sm86dgCilopuURxM8pgcok8In5f).
+For details, see [Use Output Fields](./single-vector-search#use-output-fields).
 
 **Optimization recommendations:**
 

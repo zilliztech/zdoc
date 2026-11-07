@@ -1212,8 +1212,6 @@ For configuration details, refer to [Modify Collection](https://milvus.io/docs/m
 
 ## Reference: How AutoID works\{#reference-how-autoid-works}
 
-Understanding how AutoID generates unique identifiers internally can help you [configure cluster IDs](./primary-field-auto-id#ensure-global-autoid-uniqueness-across-clusters) correctly and troubleshoot ID-related issues.
-
 AutoID uses a structured 64-bit format to guarantee uniqueness:
 
 ```plaintext

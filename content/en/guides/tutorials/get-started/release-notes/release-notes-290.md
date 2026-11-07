@@ -66,7 +66,7 @@ In previous releases of Milvus, memory-based binary search indexes and Marisa Tr
 
 This release also supports fuzzy matches in scalar filtering using prefixes, infixes, and suffixes.
 
-For details, check out the [Binary Vector](./use-binary-vector), [INVERTED](./inverted-index-type), and [Use the ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[`like`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[ Operator](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe) guides as well as the example code in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) and [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials and use AUTOINDEX instead.*
+For details, check out the [Binary Vector](./use-binary-vector), [INVERTED](./inverted-index-type), and [Use the ](./basic-filtering-operators#pattern-matching-operators)[`like`](./basic-filtering-operators#pattern-matching-operators)[ Operator](./basic-filtering-operators#pattern-matching-operators) guides as well as the example code in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) and [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials and use AUTOINDEX instead.*
 
 ### Grouping Search\{#grouping-search}
 

@@ -1,17 +1,18 @@
 ---
 title: "Grouping Search | Cloud"
 slug: /grouping-search
-sidebar_label: "Grouping Search"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "A grouping search allows Zilliz Cloud to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations. | Cloud"
+description: "Use grouping search to aggregate ANN search results by a field value and reduce duplicate entities. | Cloud"
 type: origin
-token: JWZGw89MBiUDBNkhtGfcyyUcnsd
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-grouping-search
+sidebar_label: "Grouping Search"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/grouping-search.md"
 
 ---
 
@@ -29,11 +30,11 @@ When entities in the search results share the same value in a scalar field, this
 
 Assume a collection stores multiple documents (denoted by **docId**). To retain as much semantic information as possible when converting documents into vectors, each document is split into smaller, manageable paragraphs (or **chunks**) and stored as separate entities. Even though the document is divided into smaller sections, users are often still interested in identifying which documents are most relevant to their needs.
 
-![LhJEwzWiphLWxobMaiCcbVDPnNb](https://zdoc-images.s3.us-west-2.amazonaws.com/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
+![Ann Search](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/e0a8aa022fda0f6484650a5b42b45ed065a82cd64c323eda3ec357e3073764f1.png)
 
 When performing an Approximate Nearest Neighbor (ANN) search on such a collection, the search results may include several paragraphs from the same document, potentially causing other documents to be overlooked, which may not align with the intended use case.
 
-![Ktj8wigrHhvz4nbDES5coKZJnZe](https://zdoc-images.s3.us-west-2.amazonaws.com/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
+![Grouping Search](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/5cbf44758387cbf19837e89fe61e6990ffe0b8a79a775e04c7dd43558711f076.png)
 
 To improve the diversity of search results, you can add the `group_by_field` parameter in the search request to enable Grouping Search. As shown in the diagram, you can set `group_by_field` to `docId`. Upon receiving this request, Zilliz Cloud will:
 
@@ -43,7 +44,7 @@ To improve the diversity of search results, you can add the `group_by_field` par
 
 - Return the top results for each group, as defined by the `limit` parameter, with the most similar entity from each group.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 By default, Grouping Search returns only one entity per group. If you want to increase the number of results to return per group, you can control this with the `group_size` and `strict_group_size` parameters.
 
@@ -66,6 +67,7 @@ This section provides example code to demonstrate the use of Grouping Search. Th
         {"id": 8, "vector": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], "chunk": "white_9381", "docId": 5},
         {"id": 9, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "chunk": "purple_4976", "docId": 3},
 ]
+
 ```
 
 In the search request, set both `group_by_field` and `output_fields` to `docId`. Zilliz Cloud will group the results by the specified field and return the most similar entity from each group, including the value of `docId` for each returned entity.
@@ -104,9 +106,11 @@ doc_ids = [result['entity']['docId'] for result in res[0]]
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.SearchReq
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -148,8 +152,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -226,16 +230,19 @@ for result in res.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <stdexcept>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector<float> query_vector = {0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .AddFloatVector(query_vector)
@@ -245,15 +252,18 @@ auto request = milvus::SearchRequest()
                    .AddOutputField("docId");
 
 milvus::SearchResponse response;
-auto status = client->Search(request, response);
+status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 for (auto& result : response.Results().Results()) {
     std::cout << "TopK results:" << std::endl;
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);
+    if (!status.IsOk()) {
+        throw std::runtime_error(status.Message());
+    }
     for (const auto& row : output_rows) {
         std::cout << "\t" << row << std::endl;
     }
@@ -273,7 +283,7 @@ const client = new MilvusClient({address, token});
 
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
-const res = await client.search({
+res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
     limit: 3,
@@ -283,7 +293,7 @@ const res = await client.search({
 })
 
 // Retrieve the values in the `docId` column
-var docIds = res.results.map(result => result.docId)
+var docIds = res.results.map(result => result.entity.docId)
 ```
 
 </TabItem>
@@ -376,6 +386,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In the request above, `limit=3` indicates that the system will return search results from three groups, with each group containing the single most similar entity to the query vector.
@@ -391,7 +402,7 @@ By default, Grouping Search returns only one entity per group. If you want multi
 # Group search results
 
 res = client.search(
-    collection_name="my_collection", 
+    collection_name="my_collection",
     data=query_vectors, # query vector
     limit=5, # number of groups to return
     group_by_field="docId", # grouping field
@@ -446,8 +457,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -528,16 +539,19 @@ for result in res.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <stdexcept>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector<float> query_vector = {0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .AddFloatVector(query_vector)
@@ -549,15 +563,18 @@ auto request = milvus::SearchRequest()
                    .AddOutputField("docId");
 
 milvus::SearchResponse response;
-auto status = client->Search(request, response);
+status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 for (auto& result : response.Results().Results()) {
     std::cout << "TopK results:" << std::endl;
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);
+    if (!status.IsOk()) {
+        throw std::runtime_error(status.Message());
+    }
     for (const auto& row : output_rows) {
         std::cout << "\t" << row << std::endl;
     }
@@ -577,7 +594,7 @@ const client = new MilvusClient({address, token});
 
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
-const res = await client.search({
+res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
     limit: 5,
@@ -589,7 +606,7 @@ const res = await client.search({
 })
 
 // Retrieve the values in the `docId` column
-var docIds = res.results.map(result => result.docId)
+var docIds = res.results.map(result => result.entity.docId)
 ```
 
 </TabItem>
@@ -676,6 +693,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In the example above:
@@ -684,7 +702,7 @@ In the example above:
 
 - `strict_group_size`: This boolean parameter controls whether the system should strictly enforce the count set by `group_size`. When `strict_group_size=True`, the system will attempt to include the exact number of entities specified by `group_size` in each group (e.g., two paragraphs), unless there isn’t enough data in that group. By default (`strict_group_size=False`), the system prioritizes meeting the number of groups specified by the `limit` parameter, rather than ensuring each group contains `group_size` entities. This approach is generally more efficient in cases where data distribution is uneven.
 
-For additional parameter details, refer to [search](/reference/python/python/Vector-search).
+For additional parameter details, refer to [search](https://docs.zilliz.com/reference/python/python/Vector-search).
 
 ## Order groups by a scalar field | PUBLIC\{#order-groups-by-a-scalar-field-or-public}
 
@@ -725,9 +743,7 @@ import io.milvus.v2.service.vector.request.aggregation.OrderByField;
 import io.milvus.v2.service.vector.response.SearchResp;
 import java.util.List;
 
-// Prerequisite: client is connected to the project endpoint;
-// clusterId identifies the on-demand cluster containing product_catalog.
-var session = client.session(clusterId);
+// Prerequisite: client is connected to Zilliz Cloud and product_catalog is loaded.
 FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
 SearchReq request = SearchReq.builder()
     .collectionName("product_catalog")
@@ -741,7 +757,7 @@ SearchReq request = SearchReq.builder()
     .orderByFields(List.of(OrderByField.builder()
         .fieldName("price").direction(AggDirection.ASC).build()))
     .build();
-SearchResp response = session.search(request);
+SearchResp response = client.search(request);
 System.out.println(response.getSearchResults());
 ```
 
@@ -756,8 +772,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-// Prerequisite: client is connected to the project endpoint;
-// clusterID identifies the on-demand cluster containing product_catalog.
+// Prerequisite: client is connected to Zilliz Cloud and product_catalog is loaded.
 queryVector := []float32{0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088}
 results, err := client.Search(ctx, milvusclient.NewSearchOption(
     "product_catalog", 20, []entity.Vector{entity.FloatVector(queryVector)},
@@ -767,8 +782,7 @@ results, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithGroupSize(3).
     WithStrictGroupSize(true).
     WithOutputFields("category", "price", "rating").
-    WithSearchParam("order_by_fields", "price:asc").
-    WithSearchParam("cluster_id", clusterID))
+    WithSearchParam("order_by_fields", "price:asc"))
 if err != nil {
     panic(err)
 }
@@ -828,11 +842,7 @@ for result in res.results() {
 #include <iostream>
 #include <stdexcept>
 
-// Prerequisite: client is connected to the project endpoint;
-// cluster_id identifies the on-demand cluster containing product_catalog.
-milvus::MilvusClientV2SessionPtr session;
-auto status = client->Session(cluster_id, session);
-if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+// Prerequisite: client is connected to Zilliz Cloud and product_catalog is loaded.
 std::vector<float> query_vector = {0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f};
 auto request = milvus::SearchRequest()
     .WithCollectionName("product_catalog")
@@ -847,7 +857,7 @@ auto request = milvus::SearchRequest()
     .AddOutputField("rating")
     .AddOrderByField(milvus::OrderByField("price", milvus::AggregationDirection::ASC));
 milvus::SearchResponse response;
-status = session->Search(request, response);
+auto status = client->Search(request, response);
 if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
 for (const auto& result : response.Results().Results()) {
     milvus::EntityRows rows;
@@ -862,11 +872,9 @@ for (const auto& result : response.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-// Prerequisite: client is connected to the project endpoint;
-// clusterId identifies the on-demand cluster containing product_catalog.
-const session = client.session(clusterId);
+// Prerequisite: client is connected to Zilliz Cloud and product_catalog is loaded.
 const queryVector = [0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088];
-const response = await session.search({
+const response = await client.search({
   collection_name: "product_catalog",
   data: [queryVector],
   anns_field: "embedding",
@@ -896,9 +904,9 @@ using Milvus.Client.V2;
 <TabItem value='bash'>
 
 ```bash
-# Prerequisite: set PROJECT_ENDPOINT, TOKEN, and CLUSTER_ID for your on-demand cluster.
+# Prerequisite: set CLUSTER_ENDPOINT and TOKEN for your Zilliz Cloud instance.
 curl --request POST \
-  --url "${PROJECT_ENDPOINT}/v2/vectordb/entities/search?cluster_id=${CLUSTER_ID}" \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
   --data '{
@@ -952,6 +960,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 In the request above, `limit=20` means Zilliz Cloud selects up to 20 groups, not 20 entities. Because `group_size=3`, the flat result list can contain up to 60 entities in total.
@@ -959,6 +968,8 @@ In the request above, `limit=20` means Zilliz Cloud selects up to 20 groups, not
 When you use `order_by_fields` with `group_by_field`, Zilliz Cloud orders groups by the specified scalar field value of each group's top entity. Within each group, entities remain ordered by their similarity score to the query vector.
 
 ## Considerations\{#considerations}
+
+- **Indexing**: This grouping feature works only for collections that are indexed with these index types: **FLAT**, **IVF_FLAT**, **IVF_SQ8**, **HNSW**, **HNSW_PQ**, **HNSW_PRQ**, **HNSW_SQ**, **DISKANN**, **SPARSE_INVERTED_INDEX**.
 
 - **Number of groups**: The `limit` parameter controls the number of groups from which search results are returned, rather than the specific number of entities within each group. Setting an appropriate `limit` helps control search diversity and query performance. Reducing `limit` can reduce computation costs if data is densely distributed or performance is a concern.
 

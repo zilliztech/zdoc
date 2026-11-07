@@ -1,17 +1,18 @@
 ---
 title: "Nullable Fields | BYOC"
 slug: /nullable-fields
-sidebar_label: "Nullable Fields"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud supports nullable fields, which allow a field value to be missing or explicitly set to NULL. Nullability is defined at the schema level and applies consistently across data ingestion, indexing, search, and query operations. | BYOC"
+description: "Configure nullable fields and default values, including schema, insert, index, search, and filter behavior. | BYOC"
 type: origin
-token: DjROwgK6ziCf7Rkoji6ccyEUnsg
-sidebar_position: 15
 displayed_sidebar: default
+token: shared-nullable-fields
+sidebar_label: "Nullable Fields"
+sidebar_position: 15
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/nullable-and-default.md"
 
 ---
 
@@ -25,19 +26,19 @@ Zilliz Cloud supports nullable fields, which allow a field value to be missing o
 
 Use nullable fields when:
 
-- Data is ingested from external systems that allow missing values
-
-- Some metadata is optional or only available for part of the dataset
-
-- Vector embeddings are generated asynchronously and inserted later
+- Data is ingested from external systems that allow missing values.
+- Some metadata is optional or only available for part of the dataset.
+- Vector embeddings are generated asynchronously and inserted later.
 
 ## Limits\{#limits}
 
-- On Zilliz Cloud, nullable StructArray fields are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support nullable StructArray fields. Set `nullable=True` on the parent StructArray field, not on individual sub-fields. NULL applies to the whole StructArray field, not to an individual Struct element, and the parent setting is propagated to its sub-fields internally. A StructArray field added to an existing collection must be nullable so existing entities can return NULL for the new field. For details, see [StructArray Limits](./struct-array-limits).
+- Vector fields that allow NULL values do not support `IS NULL` or `IS NOT NULL` filter expressions. You cannot explicitly filter entities based on whether a vector field value is NULL.
+
+- On Zilliz Cloud, nullable StructArray fields are supported on On-Demand Clusters running 3.0.0 or later in the 3.0.x line. Serving Clusters do not support nullable StructArray fields. Set `nullable=True` on the parent StructArray field, not on individual subfields. NULL applies to the whole StructArray field, not to an individual Struct element, and the parent setting is propagated to its subfields internally. A StructArray field added to an existing collection must be nullable so existing entities can return NULL for the new field. For details, refer to [StructArray Limits](./struct-array-limits#nullable-and-dynamic-schema-limits).
 
 - The `nullable` attribute is defined when a field is created and cannot be modified afterward. You cannot enable or disable nullability for an existing field.
 
-- Fields marked as nullable cannot be used as partition keys. Partition key fields must always contain valid, non-null values.
+- Fields marked as nullable cannot be used as partition keys. Partition key fields must always contain valid, non-null values. For more information, refer to [Use Partition Key](./use-partition-key).
 
 ## What is a nullable field?\{#what-is-a-nullable-field}
 
@@ -45,27 +46,25 @@ In Zilliz Cloud, whether a field is allowed to store a NULL value is controlled 
 
 When a field is defined with `nullable=True`, Zilliz Cloud allows the field value to be missing during data ingestion. In practice, Zilliz Cloud treats the following two inputs as equivalent and stores the field value as NULL:
 
-- The field is omitted from the input entity
-
-- The field is explicitly set to NULL (for example, `None` in Python)
+- The field is omitted from the input entity.
+- The field is explicitly set to NULL (for example, `None` in Python).
 
 If a field is not defined as nullable (the default behavior), every entity must provide a valid value for that field. Omitting the field or explicitly assigning a NULL value will cause the insert or import operation to fail.
 
-The nullable attribute is supported for both **scalar and vector fields** in a collection schema. On supported On-Demand Clusters, it is also supported on the parent StructArray field. Do not configure Struct sub-fields as nullable independently; define nullability on the StructArray parent and the setting is propagated to its sub-fields internally.
+The nullable attribute is supported for both **scalar and vector fields** in a collection schema. On supported On-Demand Clusters, it is also supported on the parent StructArray field. Do not configure Struct subfields as nullable independently; define nullability on the StructArray parent and the setting is propagated to its subfields internally.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Nullability determines whether a field value may be missing; it does not define what value is used when a field is missing.
 
 - If a nullable field is configured without a default value, omitting the field results in a stored NULL value.
-
 - If a default value is configured, Zilliz Cloud may store the default value instead. For details, see [Default Values](./default-fields).
 
 </Admonition>
 
 ## Define a nullable field in the collection schema\{#define-a-nullable-field-in-the-collection-schema}
 
-To use nullable fields, you must enable the `nullable` attribute when defining the collection schema.
+To use nullable fields, you must enable the nullable attribute when defining the collection schema.
 
 In this example, the collection schema defines a vector field named `embedding` with `nullable=True`. This allows entities in the collection to omit the vector value or explicitly set it to NULL during data ingestion.
 
@@ -82,13 +81,13 @@ client = MilvusClient(
 
 # Define schema fields
 schema = client.create_schema()
-schema.add_field("id", DataType.INT64, is_primary=True) # Primary field
+schema.add_field("id", DataType.INT64, is_primary=True)  # Primary field
 schema.add_field(
     field_name="embedding",
     datatype=DataType.FLOAT_VECTOR,
     dim=4,
     # highlight-next-line
-    nullable=True, # Enable the nullable attribute; defaults to False
+    nullable=True,  # Enable the nullable attribute; defaults to False
 )
 
 client.create_collection(
@@ -144,8 +143,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -170,7 +169,6 @@ schema.WithField(entity.NewField().
     WithName("embedding").
     WithDataType(entity.FieldTypeFloatVector).
     WithDim(4).
-    // highlight-next-line
     WithNullable(true),
 )
 
@@ -249,29 +247,29 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN'
+  address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
 await client.createCollection({
-  collection_name: 'my_collection',
+  collection_name: "my_collection",
   fields: [
     {
-      name: 'id',
+      name: "id",
       data_type: DataType.Int64,
-      is_primary_key: true
+      is_primary_key: true,
+      autoID: false,
     },
     {
-      name: 'embedding',
+      name: "embedding",
       data_type: DataType.FloatVector,
       dim: 4,
-      // highlight-next-line
-      nullable: true // Enable the nullable attribute; defaults to false
-    }
-  ]
+      nullable: true,
+    },
+  ],
 });
 ```
 
@@ -290,8 +288,7 @@ using Milvus.Client.V2.Types;
 var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Define schema fields
@@ -307,49 +304,52 @@ await client.CreateCollectionAsync(new CreateCollectionReq { CollectionName = "m
 <TabItem value='bash'>
 
 ```bash
+export TOKEN="YOUR_CLUSTER_TOKEN"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+
+export pkField='{
+  "fieldName": "id",
+  "dataType": "Int64",
+  "isPrimary": true
+}'
+
+export embeddingField='{
+  "fieldName": "embedding",
+  "dataType": "FloatVector",
+  "elementTypeParams": {"dim": 4},
+  "nullable": true
+}'
+
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
-    "collectionName": "my_collection",
-    "schema": {
-      "autoID": false,
-      "fields": [
-        {
-          "fieldName": "id",
-          "dataType": "Int64",
-          "isPrimary": true
-        },
-        {
-          "fieldName": "embedding",
-          "dataType": "FloatVector",
-          "elementTypeParams": {
-            "dim": 4
-          },
-          "nullable": true
-        }
+  --header "Request-Timeout: 10" \
+  -d "{
+    \"collectionName\": \"my_collection\",
+    \"schema\": {
+      \"fields\": [
+        $pkField,
+        $embeddingField
       ]
     }
-  }'
+  }"
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this schema:
 
 - The `embedding` field is explicitly marked as nullable.
-
 - Entities may omit the `embedding` field or assign it a NULL value during insertion.
-
 - The decision to allow NULL values is fixed at collection creation time.
 
 For clarity, the following examples focus on a nullable vector field (`embedding`). Defining nullable scalar fields is optional and not required to follow the rest of this guide.
 
 <details>
-
-<summary>**Optional: Define a nullable scalar field**</summary>
+<summary>Optional: Define a nullable scalar field</summary>
 
 Scalar fields can also be defined as nullable using the same `nullable` attribute and follow the same rules during ingestion. For example:
 
@@ -370,9 +370,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-
 schema.addField(AddFieldReq.builder()
         .fieldName("age")
         .dataType(DataType.Int64)
@@ -386,12 +383,9 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 schema.WithField(entity.NewField().
     WithName("age").
     WithDataType(entity.FieldTypeInt64).
-    // highlight-next-line
     WithNullable(true),
 )
 ```
@@ -425,14 +419,8 @@ schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithNullabl
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
-const ageField = {
-  name: 'age',
-  data_type: DataType.Int64,
-  // highlight-next-line
-  nullable: true
-};
+// Add to the fields array when calling createCollection:
+// { name: "age", data_type: DataType.Int64, nullable: true },
 ```
 
 </TabItem>
@@ -455,14 +443,12 @@ schema.Fields.Add(new FieldSchema("age", DataType.Int64) { Nullable = true });
 <TabItem value='bash'>
 
 ```bash
-{
-  "fieldName": "age",
-  "dataType": "Int64",
-  "nullable": true
-}
+# Add another field object to the schema "fields" array, for example:
+# { "fieldName": "age", "dataType": "Int64", "nullable": true }
 ```
 
 </TabItem>
+
 </Tabs>
 
 </details>
@@ -471,7 +457,7 @@ schema.Fields.Add(new FieldSchema("age", DataType.Int64) { Nullable = true });
 
 Once a field is defined as nullable in the collection schema, Zilliz Cloud allows the field value to be missing or explicitly set to NULL during data ingestion.
 
-The example below inserts three entities into the collection created in [Step 1](./nullable-fields#define-a-nullable-field-in-the-collection-schema), demonstrating these different cases.
+The example below inserts three entities into the collection created in [Define a nullable field in the collection schema](#define-a-nullable-field-in-the-collection-schema), demonstrating these different cases.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -484,10 +470,10 @@ data = [
     },
     {
         "id": 2,
-        "embedding": None,   # Explicitly set to NULL
+        "embedding": None,  # Explicitly set to NULL
     },
     {
-        "id": 3,             # Field omitted → stored as NULL
+        "id": 3,  # Field omitted → stored as NULL
     },
 ]
 
@@ -506,6 +492,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -536,31 +523,24 @@ client.insert(InsertReq.builder()
 
 ```go
 import (
+    "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-embeddingCol, err := column.NewNullableColumnFloatVector(
-    "embedding",
-    4,
-    [][]float32{{0.1, 0.2, 0.3, 0.4}},
-    []bool{true, false, false},
-)
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
+// Assumes `client` is the Zilliz Cloud client from the Go schema example above.
+ctx := context.Background()
+
+rows := []any{
+    map[string]any{"id": int64(1), "embedding": []float32{0.1, 0.2, 0.3, 0.4}},
+    map[string]any{"id": int64(2), "embedding": nil},
+    map[string]any{"id": int64(3)},
 }
 
-_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(
-    "my_collection",
-    column.NewColumnInt64("id", []int64{1, 2, 3}),
-    embeddingCol,
-))
+_, err := client.Insert(ctx, milvusclient.NewRowBasedInsertOption("my_collection", rows...))
 if err != nil {
     fmt.Println(err.Error())
-    // handle error
 }
 ```
 
@@ -616,22 +596,14 @@ if (!status.IsOk()) {
 
 ```javascript
 const data = [
-  {
-    id: 1,
-    embedding: [0.1, 0.2, 0.3, 0.4]
-  },
-  {
-    id: 2,
-    embedding: null // Explicitly set to NULL
-  },
-  {
-    id: 3 // Field omitted; stored as NULL
-  }
+  { id: 1, embedding: [0.1, 0.2, 0.3, 0.4] },
+  { id: 2, embedding: null },
+  { id: 3 },
 ];
 
 await client.insert({
-  collection_name: 'my_collection',
-  data
+  collection_name: "my_collection",
+  data: data,
 });
 ```
 
@@ -670,41 +642,32 @@ curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
+  --header "Request-Timeout: 10" \
+  -d '{
     "collectionName": "my_collection",
     "data": [
-      {
-        "id": 1,
-        "embedding": [0.1, 0.2, 0.3, 0.4]
-      },
-      {
-        "id": 2,
-        "embedding": null
-      },
-      {
-        "id": 3
-      }
+      {"id": 1, "embedding": [0.1, 0.2, 0.3, 0.4]},
+      {"id": 2, "embedding": null},
+      {"id": 3}
     ]
   }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this example:
 
 - Entity **id = 1** provides a valid vector value.
-
-- Entity **id = 2** explicitly assigns a NULL value to the embedding field.
-
-- Entity **id = 3** omits the embedding field entirely; Zilliz Cloud stores it as NULL.
+- Entity **id = 2** explicitly assigns a NULL value to the `embedding` field.
+- Entity **id = 3** omits the `embedding` field entirely; Zilliz Cloud stores it as NULL.
 
 ## Index behavior on nullable fields\{#index-behavior-on-nullable-fields}
 
 After inserting data, you can build an index on a nullable field as usual. The key difference is how Zilliz Cloud handles NULL values during index construction:
 
 - Only entities with non-null values are added to the index.
-
 - Entities with NULL values are skipped and do not participate in index building.
 
 For a nullable vector field, this means only entities with valid vectors become searchable by vector similarity.
@@ -739,6 +702,7 @@ client.load_collection(collection_name="my_collection")
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.index.request.CreateIndexReq;
+
 import java.util.Collections;
 
 IndexParam indexParam = IndexParam.builder()
@@ -764,39 +728,28 @@ client.loadCollection(LoadCollectionReq.builder()
 
 ```go
 import (
+    "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
-    "my_collection",
-    "embedding",
-    index.NewAutoIndex(entity.COSINE),
-))
+// Assumes `client` is the Zilliz Cloud client from the Go schema example above.
+ctx := context.Background()
+
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "embedding",
+    index.NewAutoIndex(entity.COSINE))
+
+_, err := client.CreateIndex(ctx, indexOption)
 if err != nil {
     fmt.Println(err.Error())
-    // handle error
 }
 
-err = indexTask.Await(ctx)
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
-    // handle error
-}
-
-loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-err = loadTask.Await(ctx)
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
 }
 ```
 
@@ -852,14 +805,15 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.createIndex({
-  collection_name: 'my_collection',
-  field_name: 'embedding',
-  index_type: 'AUTOINDEX',
-  metric_type: 'COSINE'
+  collection_name: "my_collection",
+  field_name: "embedding",
+  index_name: "embedding_idx",
+  index_type: "AUTOINDEX",
+  metric_type: "COSINE",
 });
 
 await client.loadCollection({
-  collection_name: 'my_collection'
+  collection_name: "my_collection",
 });
 ```
 
@@ -894,14 +848,14 @@ curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
+  --header "Request-Timeout: 10" \
+  -d '{
     "collectionName": "my_collection",
     "indexParams": [
       {
         "fieldName": "embedding",
-        "indexName": "embedding_index",
-        "indexType": "AUTOINDEX",
-        "metricType": "COSINE"
+        "metricType": "COSINE",
+        "indexType": "AUTOINDEX"
       }
     ]
   }'
@@ -910,19 +864,18 @@ curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
-    "collectionName": "my_collection"
-  }'
+  --header "Request-Timeout: 10" \
+  -d '{"collectionName": "my_collection"}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 At this point:
 
-- Entities with valid `embedding` values are indexed and ready for search.
-
-- Entities whose `embedding` is NULL remain in the collection, but they are not included in the vector index.
+- Entities with valid embedding values are indexed and ready for search.
+- Entities whose embedding is NULL remain in the collection, but they are not included in the vector index.
 
 ## Search behavior with nullable fields\{#search-behavior-with-nullable-fields}
 
@@ -931,10 +884,8 @@ When you perform search operations on a nullable field, Zilliz Cloud evaluates o
 For a nullable vector field such as `embedding` in this example:
 
 - Only entities with valid vector values are evaluated and ranked.
-
 - Entities with NULL vectors do not cause errors.
-
-- If the number of valid vectors is smaller than the requested topK (`limit`), Zilliz Cloud may return fewer results than `limit`.
+- If the number of valid vectors is smaller than the requested `topK` (`limit`), Zilliz Cloud may return fewer results than `limit`.
 
 The following example performs a vector search on the nullable vector field `embedding`:
 
@@ -947,6 +898,7 @@ res = client.search(
     data=[[0.1, 0.2, 0.3, 0.4]],
     anns_field="embedding",
     limit=3,
+    search_params={"metric_type": "COSINE"},
     output_fields=["embedding"],
 )
 
@@ -961,6 +913,7 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -981,11 +934,15 @@ System.out.println(res);
 
 ```go
 import (
+    "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+
+// Assumes `client` is the Zilliz Cloud client from the Go schema example above.
+ctx := context.Background()
 
 query := []float32{0.1, 0.2, 0.3, 0.4}
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -996,9 +953,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithOutputFields("embedding"))
 if err != nil {
     fmt.Println(err.Error())
-    // handle error
 }
-
 fmt.Println(resultSets)
 ```
 
@@ -1053,11 +1008,12 @@ if (!status.IsOk()) {
 
 ```javascript
 const res = await client.search({
-  collection_name: 'my_collection',
+  collection_name: "my_collection",
   data: [[0.1, 0.2, 0.3, 0.4]],
-  anns_field: 'embedding',
+  anns_field: "embedding",
   limit: 3,
-  output_fields: ['embedding']
+  search_params: { metric_type: "COSINE" },
+  output_fields: ["embedding"],
 });
 
 console.log(res);
@@ -1096,33 +1052,34 @@ curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
+  --header "Request-Timeout: 10" \
+  -d '{
     "collectionName": "my_collection",
     "data": [[0.1, 0.2, 0.3, 0.4]],
     "annsField": "embedding",
     "limit": 3,
+    "searchParams": {"metricType": "COSINE"},
     "outputFields": ["embedding"]
   }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 In this search:
 
 - Only entities with non-null `embedding` values are considered candidates.
-
 - Entities with NULL values for `embedding` are excluded from evaluation.
-
 - The number of returned results depends on how many valid vectors exist in the collection.
 
-## Query & filtering implications\{#query-and-filtering-implications}
+## Query and filtering implications\{#query-and-filtering-implications}
 
-The previous examples focus on vector fields. The following examples show how ordinary comparison filters treat NULL values in scalar fields.
+The previous examples focus on vector fields. This section describes how NULL values behave in **scalar filter expressions**.
 
-Scalar fields can be defined with `nullable=True` and follow the same ingestion rules as vector fields. Ordinary comparison filters, such as `age > 18` or `status == "active"`, do not match NULL values. Use `IS NULL` or `IS NOT NULL` to explicitly select entities based on whether a supported field is NULL.
+Scalar fields can be defined with `nullable=True` and follow the same ingestion rules as vector fields. However, **NULL scalar values always evaluate to false in filter expressions**. Use `IS NULL` or `IS NOT NULL` to select entities by whether a scalar field is NULL.
 
-For example, given a nullable scalar field `age`, the following filter selects entities whose `age` is greater than 18:
+For example, given a nullable scalar field `age`, the following filter selects entities whose age is greater than 18:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1168,7 +1125,7 @@ std::string expr = "age > 18";
 <TabItem value='javascript'>
 
 ```javascript
-const filter = 'age > 18';
+const expr = "age > 18";
 ```
 
 </TabItem>
@@ -1191,10 +1148,12 @@ string filter = "age > 18";
 <TabItem value='bash'>
 
 ```bash
-"filter": "age > 18"
+# Use in query/search filter parameter, for example:
+# "filter": "age > 18"
 ```
 
 </TabItem>
+
 </Tabs>
 
 Entities where `age` is NULL are excluded from the results because a NULL value does not satisfy the filter condition.
@@ -1205,7 +1164,7 @@ Similarly, equality checks do not match NULL values. For example:
 <TabItem value='python'>
 
 ```python
-expr = "status == \"active\""
+expr = 'status == "active"'
 ```
 
 </TabItem>
@@ -1245,7 +1204,7 @@ std::string expr = "status == \"active\"";
 <TabItem value='javascript'>
 
 ```javascript
-const filter = 'status == "active"';
+const expr = 'status == "active"';
 ```
 
 </TabItem>
@@ -1268,33 +1227,32 @@ string filter = "status == \"active\"";
 <TabItem value='bash'>
 
 ```bash
-"filter": "status == \"active\""
+# "filter": "status == \"active\""
 ```
 
 </TabItem>
+
 </Tabs>
 
 Entities where `status` is NULL are excluded from the results.
 
-## Applicable rules\{#applicable-rules}
+## Nullable fields and default values\{#nullable-fields-and-default-values}
 
 When both `nullable` and `default_value` are configured for a field, the following rules determine how Zilliz Cloud handles NULL input or missing field values during insertion.
 
-| Nullable | Default Value | User Input | Result |
-| --- | --- | --- | --- |
-| ✅ | ✅ (non-NULL) | NULL or omitted | Uses the default value |
-| ✅ | ❌ | NULL or omitted | Stored as NULL |
-| ❌ | ✅ (non-NULL) | NULL or omitted | Uses the default value |
-| ❌ | ❌ | NULL or omitted | Throws an error |
-| ❌ | ✅ (NULL) | NULL or omitted | Throws an error |
+| Nullable enabled | Default value | User input (NULL or omitted) | Result |
+| ---------------- | ------------- | ---------------------------- | -------- |
+| Yes | Yes (non-NULL) | NULL or omitted | Uses the default value |
+| Yes | No | NULL or omitted | Stored as NULL |
+| No | Yes (non-NULL) | NULL or omitted | Uses the default value |
+| No | No | NULL or omitted | Throws an error |
+| No | Yes (NULL default) | NULL or omitted | Throws an error |
 
 **Key takeaways:**
 
 - When a field has a non-NULL default value, that value is used regardless of whether `nullable` is enabled.
-
 - When `nullable=True` but no default value is set, the field stores NULL.
-
 - When `nullable=False` and no default value is set, insertion fails with an error.
-
 - Setting a NULL default value on a non-nullable field is invalid and causes an error.
 
+For full examples and API usage for defaults, see [Default Values](./default-fields).

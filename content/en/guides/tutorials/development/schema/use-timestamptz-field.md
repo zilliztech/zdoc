@@ -868,7 +868,7 @@ curl --request POST \
 
 #### Query with timestamp filtering\{#query-with-timestamp-filtering}
 
-Use arithmetic operators like `==`, `!=`, `<`, `>`, `<=`, `>=`. For a full list of arithmetic operators available in Zilliz Cloud, refer to [Arithmetic Operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#L44AdQ2VIou67ZxyiJSc5IIsnNg).
+Use arithmetic operators like `==`, `!=`, `<`, `>`, `<=`, `>=`. For a full list of arithmetic operators available in Zilliz Cloud, refer to [Arithmetic Operators](./basic-filtering-operators#arithmetic-operators).
 
 <Admonition type="info" title="Notes">
 
@@ -1434,11 +1434,11 @@ You can control the time zone for `TIMESTAMPTZ` fields at the **collection** or 
 
 For step-by-step instructions and code samples, refer to the dedicated pages:
 
-- [Modify Collection](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#S7WCdAXGrofhq1xU20vc2XVwnRg)
+- [Modify Collection](./modify-collections#example-7-set-collection-time-zone)
 
-- [Query](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#OGyUdivlLosfGGxbgn9cN2kbnpf)
+- [Query](./get-and-scalar-query#temporarily-set-a-timezone-for-a-query)
 
-- [Basic Vector Search](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#JFY4dwlbhoUGiOxybpDcQeFZnDd)
+- [Basic Vector Search](./single-vector-search#temporarily-set-a-timezone-for-a-search)
 
 - [Multi-Vector Hybrid Search](./hybrid-search)
 
