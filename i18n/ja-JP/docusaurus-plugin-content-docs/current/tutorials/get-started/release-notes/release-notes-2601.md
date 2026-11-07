@@ -153,7 +153,7 @@ import Grid from '@site/src/components/Grid';
 
         ## 機能強化\{#enhancements}
 
-        - **コレクション TTL および AutoID 設定**: コレクション概要 GUI から、コレクション TTL と Allow insert AutoID の設定を直接監視および変更できるようになりました。詳細は、[コレクション TTL の設定](./set-collection-ttl) および [コレクションの変更](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#share-RspvdjdanoUqAMxRiiJcMcWcnTe) を参照してください。
+        - **コレクション TTL と AutoID 設定**: コレクション Overview GUI から、コレクション TTL と Allow insert AutoID 設定を直接監視および変更できるようになりました。詳細は、[Set コレクション TTL](./set-collection-ttl) および [Modify コレクション](./modify-collections#example-6-enable-allowinsertautoid) を参照してください。
 
         - **データインポート**: JSON Lines 形式（.JSONL および .NDJSON 拡張子）のサポートが利用可能になりました。詳細は、[JSON/JSON Lines ファイルからのインポート](./data-import-json) を参照してください。
 

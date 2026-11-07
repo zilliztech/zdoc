@@ -1,17 +1,18 @@
 ---
 title: "Null 許容フィールド | Cloud"
 slug: /nullable-fields
-sidebar_label: "Null 許容フィールド"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は Null 許容フィールドをサポートしており、フィールド値を省略したり、明示的に NULL に設定したりできます。Null 許容性はスキーマレベルで定義され、データ取り込み、インデックス作成、検索、クエリの各操作に一貫して適用されます。 | Cloud"
+description: "スキーマ、挿入、インデックス、検索、フィルターの動作など、Null 許容フィールドとデフォルト値の構成について説明します。 | Cloud"
 type: origin
-token: DjROwgK6ziCf7Rkoji6ccyEUnsg
-sidebar_position: 15
 displayed_sidebar: default
+token: shared-nullable-fields
+sidebar_label: "Null 許容フィールド"
+sidebar_position: 15
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/nullable-and-default.md"
 
 ---
 
@@ -25,19 +26,19 @@ Zilliz Cloud は Null 許容フィールドをサポートしており、フィ�
 
 Null 許容フィールドは、次の場合に使用します。
 
-- 値の欠落を許容する外部システムからデータを取り込む場合。
-
-- 一部のメタデータがオプションであるか、データセットの一部にのみ存在する場合。
-
-- ベクトル埋め込みが非同期に生成され、後から挿入される場合。
+- 値の欠落を許容する外部システムからデータを取り込みます。
+- 一部のメタデータが任意であるか、データセットの一部にのみ存在します。
+- ベクトル埋め込みを非同期で生成し、後から挿入します。
 
 ## 制限事項\{#limits}
 
-- Zilliz Cloud では、Null 許容 StructArray フィールドは、3.0.x 系列の Milvus 3.0.0 以降を実行するオンデマンドクラスターでサポートされます。サービングクラスターでは、Null 許容 StructArray フィールドはサポートされません。`nullable=True` は、個々のサブフィールドではなく、親の StructArray フィールドに設定します。NULL は StructArray フィールド全体に適用され、個々の Struct 要素には適用されません。親の設定は内部的にサブフィールドへ伝播されます。既存のコレクションに追加する StructArray フィールドは Null 許容である必要があり、これにより既存のエンティティは新しいフィールドに対して NULL を返すことができます。詳細は、[StructArray Limits](./struct-array-limits) を参照してください。
+- NULL 値を許可するベクトルフィールドでは、`IS NULL` または `IS NOT NULL` のフィルター式はサポートされません。ベクトルフィールドの値が NULL かどうかによってエンティティを明示的にフィルターすることはできません。
+
+- Zilliz Cloud では、3.0.x 系の 3.0.0 以降を実行する On-Demand クラスターで Null 許容 StructArray フィールドがサポートされます。Serving クラスターでは、Null 許容 StructArray フィールドはサポートされません。`nullable=True` は、個々のサブフィールドではなく、親の StructArray フィールドに設定してください。NULL は StructArray フィールド全体に適用され、個々の Struct 要素には適用されません。親の設定は内部的にサブフィールドへ伝播します。既存のコレクションに追加する StructArray フィールドは Null 許容である必要があり、これにより既存のエンティティは新しいフィールドに対して NULL を返せます。詳細は、[StructArray の制限](./struct-array-limits#nullable-and-dynamic-schema-limits) を参照してください。
 
 - `nullable` 属性はフィールドの作成時に定義され、後から変更できません。既存のフィールドに対して Null 許容を有効化または無効化することはできません。
 
-- Null 許容としてマークされたフィールドは、パーティションキーとして使用できません。パーティションキーフィールドには、常に有効な非 NULL 値を含める必要があります。
+- Null 許容としてマークされたフィールドは、パーティションキーとして使用できません。パーティションキーフィールドには、常に有効な非 NULL 値を含める必要があります。詳細は、[パーティションキーの使用](./use-partition-key) を参照してください。
 
 ## Null 許容フィールドとは\{#what-is-a-nullable-field}
 
@@ -45,20 +46,18 @@ Zilliz Cloud では、フィールドが NULL 値を格納できるかどうか�
 
 フィールドが `nullable=True` で定義されている場合、Zilliz Cloud はデータ取り込み時にそのフィールド値を欠落させることができます。実際には、Zilliz Cloud は次の 2 つの入力を同等として扱い、フィールド値を NULL として格納します。
 
-- 入力エンティティでフィールドを省略した場合。
-
-- フィールドを明示的に NULL に設定した場合（Python の `None` など）。
+- 入力エンティティでフィールドが省略されている場合。
+- フィールドが明示的に NULL に設定されている場合（たとえば、Python の `None`）。
 
 フィールドが Null 許容として定義されていない場合（デフォルトの動作）、すべてのエンティティはそのフィールドに対して有効な値を指定する必要があります。フィールドを省略したり、明示的に NULL 値を割り当てたりすると、挿入またはインポート操作が失敗します。
 
-Null 許容属性は、コレクションスキーマの**スカラーおよびベクトルフィールド**の両方でサポートされています。サポートされているオンデマンドクラスターでは、親の StructArray フィールドでもサポートされています。Struct のサブフィールドを個別に Null 許容として構成しないでください。StructArray の親で Null 許容を定義すると、その設定が内部的にサブフィールドへ伝播されます。
+Null 許容属性は、コレクションスキーマ内の**スカラーフィールドとベクトルフィールド**の両方でサポートされています。サポート対象の On-Demand クラスターでは、親の StructArray フィールドでもサポートされます。Struct サブフィールドを個別に Null 許容に設定しないでください。StructArray の親で Null 許容性を定義すると、その設定は内部的にサブフィールドへ伝播します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Null 許容はフィールド値を欠落させることができるかどうかを決定しますが、フィールドが欠落している場合に使用する値を定義するものではありません。
 
 - Null 許容フィールドにデフォルト値が構成されていない場合、フィールドを省略すると NULL 値が格納されます。
-
 - デフォルト値が構成されている場合、Zilliz Cloud は代わりにデフォルト値を格納することがあります。詳細は、[Default Values](./default-fields) を参照してください。
 
 </Admonition>
@@ -82,13 +81,13 @@ client = MilvusClient(
 
 # Define schema fields
 schema = client.create_schema()
-schema.add_field("id", DataType.INT64, is_primary=True) # Primary field
+schema.add_field("id", DataType.INT64, is_primary=True)  # Primary field
 schema.add_field(
     field_name="embedding",
     datatype=DataType.FLOAT_VECTOR,
     dim=4,
     # highlight-next-line
-    nullable=True, # Enable the nullable attribute; defaults to False
+    nullable=True,  # Enable the nullable attribute; defaults to False
 )
 
 client.create_collection(
@@ -144,8 +143,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -170,7 +169,6 @@ schema.WithField(entity.NewField().
     WithName("embedding").
     WithDataType(entity.FieldTypeFloatVector).
     WithDim(4).
-    // highlight-next-line
     WithNullable(true),
 )
 
@@ -249,29 +247,29 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN'
+  address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
 await client.createCollection({
-  collection_name: 'my_collection',
+  collection_name: "my_collection",
   fields: [
     {
-      name: 'id',
+      name: "id",
       data_type: DataType.Int64,
-      is_primary_key: true
+      is_primary_key: true,
+      autoID: false,
     },
     {
-      name: 'embedding',
+      name: "embedding",
       data_type: DataType.FloatVector,
       dim: 4,
-      // highlight-next-line
-      nullable: true // Enable the nullable attribute; defaults to false
-    }
-  ]
+      nullable: true,
+    },
+  ],
 });
 ```
 
@@ -290,8 +288,7 @@ using Milvus.Client.V2.Types;
 var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 // Define schema fields
@@ -307,49 +304,52 @@ await client.CreateCollectionAsync(new CreateCollectionReq { CollectionName = "m
 <TabItem value='bash'>
 
 ```bash
+export TOKEN="YOUR_CLUSTER_TOKEN"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+
+export pkField='{
+  "fieldName": "id",
+  "dataType": "Int64",
+  "isPrimary": true
+}'
+
+export embeddingField='{
+  "fieldName": "embedding",
+  "dataType": "FloatVector",
+  "elementTypeParams": {"dim": 4},
+  "nullable": true
+}'
+
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
-    "collectionName": "my_collection",
-    "schema": {
-      "autoID": false,
-      "fields": [
-        {
-          "fieldName": "id",
-          "dataType": "Int64",
-          "isPrimary": true
-        },
-        {
-          "fieldName": "embedding",
-          "dataType": "FloatVector",
-          "elementTypeParams": {
-            "dim": 4
-          },
-          "nullable": true
-        }
+  --header "Request-Timeout: 10" \
+  -d "{
+    \"collectionName\": \"my_collection\",
+    \"schema\": {
+      \"fields\": [
+        $pkField,
+        $embeddingField
       ]
     }
-  }'
+  }"
 ```
 
 </TabItem>
+
 </Tabs>
 
 このスキーマでは、次のようになります。
 
 - `embedding` フィールドは明示的に Null 許容としてマークされます。
-
 - エンティティは、挿入時に `embedding` フィールドを省略するか、NULL 値を割り当てることができます。
-
 - NULL 値を許可するかどうかの決定は、コレクションの作成時に固定されます。
 
 わかりやすくするため、以降の例では Null 許容ベクトルフィールド（`embedding`）に焦点を当てます。Null 許容スカラーフィールドの定義はオプションであり、このガイドの残りの手順に従うために必須ではありません。
 
 <details>
-
-<summary>**オプション: Null 許容スカラーフィールドを定義する**</summary>
+<summary>任意：Null 許容スカラーフィールドを定義する</summary>
 
 スカラーフィールドも、同じ `nullable` 属性を使用して Null 許容として定義でき、取り込み時には同じルールに従います。例:
 
@@ -370,9 +370,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-
 schema.addField(AddFieldReq.builder()
         .fieldName("age")
         .dataType(DataType.Int64)
@@ -386,12 +383,9 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 schema.WithField(entity.NewField().
     WithName("age").
     WithDataType(entity.FieldTypeInt64).
-    // highlight-next-line
     WithNullable(true),
 )
 ```
@@ -425,14 +419,8 @@ schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithNullabl
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
-const ageField = {
-  name: 'age',
-  data_type: DataType.Int64,
-  // highlight-next-line
-  nullable: true
-};
+// Add to the fields array when calling createCollection:
+// { name: "age", data_type: DataType.Int64, nullable: true },
 ```
 
 </TabItem>
@@ -455,14 +443,12 @@ schema.Fields.Add(new FieldSchema("age", DataType.Int64) { Nullable = true });
 <TabItem value='bash'>
 
 ```bash
-{
-  "fieldName": "age",
-  "dataType": "Int64",
-  "nullable": true
-}
+# Add another field object to the schema "fields" array, for example:
+# { "fieldName": "age", "dataType": "Int64", "nullable": true }
 ```
 
 </TabItem>
+
 </Tabs>
 
 </details>
@@ -471,7 +457,7 @@ schema.Fields.Add(new FieldSchema("age", DataType.Int64) { Nullable = true });
 
 コレクションスキーマでフィールドが Null 許容として定義されると、Zilliz Cloud はデータ取り込み時にそのフィールド値を欠落させたり、明示的に NULL に設定したりできます。
 
-次の例では、[Step 1](./nullable-fields#define-a-nullable-field-in-the-collection-schema) で作成したコレクションに 3 つのエンティティを挿入し、これらの異なるケースを示します。
+次の例では、[コレクションスキーマでの Null 許容フィールドの定義](#define-a-nullable-field-in-the-collection-schema)で作成したコレクションに 3 つのエンティティを挿入し、これらの異なるケースを示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -484,10 +470,10 @@ data = [
     },
     {
         "id": 2,
-        "embedding": None,   # Explicitly set to NULL
+        "embedding": None,  # Explicitly set to NULL
     },
     {
-        "id": 3,             # Field omitted → stored as NULL
+        "id": 3,  # Field omitted → stored as NULL
     },
 ]
 
@@ -506,6 +492,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -536,31 +523,24 @@ client.insert(InsertReq.builder()
 
 ```go
 import (
+    "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-embeddingCol, err := column.NewNullableColumnFloatVector(
-    "embedding",
-    4,
-    [][]float32{{0.1, 0.2, 0.3, 0.4}},
-    []bool{true, false, false},
-)
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
+// Assumes `client` is the Zilliz Cloud client from the Go schema example above.
+ctx := context.Background()
+
+rows := []any{
+    map[string]any{"id": int64(1), "embedding": []float32{0.1, 0.2, 0.3, 0.4}},
+    map[string]any{"id": int64(2), "embedding": nil},
+    map[string]any{"id": int64(3)},
 }
 
-_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(
-    "my_collection",
-    column.NewColumnInt64("id", []int64{1, 2, 3}),
-    embeddingCol,
-))
+_, err := client.Insert(ctx, milvusclient.NewRowBasedInsertOption("my_collection", rows...))
 if err != nil {
     fmt.Println(err.Error())
-    // handle error
 }
 ```
 
@@ -616,22 +596,14 @@ if (!status.IsOk()) {
 
 ```javascript
 const data = [
-  {
-    id: 1,
-    embedding: [0.1, 0.2, 0.3, 0.4]
-  },
-  {
-    id: 2,
-    embedding: null // Explicitly set to NULL
-  },
-  {
-    id: 3 // Field omitted; stored as NULL
-  }
+  { id: 1, embedding: [0.1, 0.2, 0.3, 0.4] },
+  { id: 2, embedding: null },
+  { id: 3 },
 ];
 
 await client.insert({
-  collection_name: 'my_collection',
-  data
+  collection_name: "my_collection",
+  data: data,
 });
 ```
 
@@ -670,41 +642,32 @@ curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
+  --header "Request-Timeout: 10" \
+  -d '{
     "collectionName": "my_collection",
     "data": [
-      {
-        "id": 1,
-        "embedding": [0.1, 0.2, 0.3, 0.4]
-      },
-      {
-        "id": 2,
-        "embedding": null
-      },
-      {
-        "id": 3
-      }
+      {"id": 1, "embedding": [0.1, 0.2, 0.3, 0.4]},
+      {"id": 2, "embedding": null},
+      {"id": 3}
     ]
   }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、次のようになります。
 
 - エンティティ **id = 1** は有効なベクトル値を指定します。
-
-- エンティティ **id = 2** は embedding フィールドに明示的に NULL 値を割り当てます。
-
-- エンティティ **id = 3** は embedding フィールドを完全に省略し、Zilliz Cloud はそれを NULL として格納します。
+- エンティティ **id = 2** は、`embedding` フィールドに明示的に NULL 値を割り当てます。
+- エンティティ **id = 3** は `embedding` フィールドを完全に省略し、Zilliz Cloud はそれを NULL として格納します。
 
 ## Null 許容フィールドのインデックス動作\{#index-behavior-on-nullable-fields}
 
 データを挿入した後、通常どおり Null 許容フィールドにインデックスを構築できます。主な違いは、インデックス構築時に Zilliz Cloud が NULL 値を処理する方法です。
 
 - 非 NULL 値を持つエンティティのみがインデックスに追加されます。
-
 - NULL 値を持つエンティティはスキップされ、インデックス構築には参加しません。
 
 Null 許容ベクトルフィールドの場合、これは有効なベクトルを持つエンティティのみがベクトル類似性検索の対象になることを意味します。
@@ -739,6 +702,7 @@ client.load_collection(collection_name="my_collection")
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.index.request.CreateIndexReq;
+
 import java.util.Collections;
 
 IndexParam indexParam = IndexParam.builder()
@@ -764,39 +728,28 @@ client.loadCollection(LoadCollectionReq.builder()
 
 ```go
 import (
+    "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
-    "my_collection",
-    "embedding",
-    index.NewAutoIndex(entity.COSINE),
-))
+// Assumes `client` is the Zilliz Cloud client from the Go schema example above.
+ctx := context.Background()
+
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "embedding",
+    index.NewAutoIndex(entity.COSINE))
+
+_, err := client.CreateIndex(ctx, indexOption)
 if err != nil {
     fmt.Println(err.Error())
-    // handle error
 }
 
-err = indexTask.Await(ctx)
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
-    // handle error
-}
-
-loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-err = loadTask.Await(ctx)
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
 }
 ```
 
@@ -852,14 +805,15 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.createIndex({
-  collection_name: 'my_collection',
-  field_name: 'embedding',
-  index_type: 'AUTOINDEX',
-  metric_type: 'COSINE'
+  collection_name: "my_collection",
+  field_name: "embedding",
+  index_name: "embedding_idx",
+  index_type: "AUTOINDEX",
+  metric_type: "COSINE",
 });
 
 await client.loadCollection({
-  collection_name: 'my_collection'
+  collection_name: "my_collection",
 });
 ```
 
@@ -894,14 +848,14 @@ curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
+  --header "Request-Timeout: 10" \
+  -d '{
     "collectionName": "my_collection",
     "indexParams": [
       {
         "fieldName": "embedding",
-        "indexName": "embedding_index",
-        "indexType": "AUTOINDEX",
-        "metricType": "COSINE"
+        "metricType": "COSINE",
+        "indexType": "AUTOINDEX"
       }
     ]
   }'
@@ -910,19 +864,18 @@ curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
-    "collectionName": "my_collection"
-  }'
+  --header "Request-Timeout: 10" \
+  -d '{"collectionName": "my_collection"}'
 ```
 
 </TabItem>
+
 </Tabs>
 
 この時点では、次のようになります。
 
-- 有効な `embedding` 値を持つエンティティはインデックス化され、検索の準備が整います。
-
-- `embedding` が NULL のエンティティはコレクションに残りますが、ベクトルインデックスには含まれません。
+- 有効な埋め込み値を持つエンティティはインデックス化され、検索の準備が整います。
+- embedding が NULL のエンティティはコレクションに残りますが、ベクトルインデックスには含まれません。
 
 ## Null 許容フィールドの検索動作\{#search-behavior-with-nullable-fields}
 
@@ -931,10 +884,8 @@ Null 許容フィールドで検索操作を実行すると、Zilliz Cloud は�
 この例の `embedding` のような Null 許容ベクトルフィールドでは、次のようになります。
 
 - 有効なベクトル値を持つエンティティのみが評価され、ランク付けされます。
-
 - NULL ベクトルを持つエンティティによってエラーが発生することはありません。
-
-- 有効なベクトルの数が要求された topK（`limit`）より少ない場合、Zilliz Cloud は `limit` より少ない結果を返すことがあります。
+- 有効なベクトルの数が要求された `topK`（`limit`）より少ない場合、Zilliz Cloud は `limit` より少ない結果を返すことがあります。
 
 次の例では、Null 許容ベクトルフィールド `embedding` に対してベクトル検索を実行します。
 
@@ -947,6 +898,7 @@ res = client.search(
     data=[[0.1, 0.2, 0.3, 0.4]],
     anns_field="embedding",
     limit=3,
+    search_params={"metric_type": "COSINE"},
     output_fields=["embedding"],
 )
 
@@ -961,6 +913,7 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -981,11 +934,15 @@ System.out.println(res);
 
 ```go
 import (
+    "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+
+// Assumes `client` is the Zilliz Cloud client from the Go schema example above.
+ctx := context.Background()
 
 query := []float32{0.1, 0.2, 0.3, 0.4}
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -996,9 +953,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithOutputFields("embedding"))
 if err != nil {
     fmt.Println(err.Error())
-    // handle error
 }
-
 fmt.Println(resultSets)
 ```
 
@@ -1053,11 +1008,12 @@ if (!status.IsOk()) {
 
 ```javascript
 const res = await client.search({
-  collection_name: 'my_collection',
+  collection_name: "my_collection",
   data: [[0.1, 0.2, 0.3, 0.4]],
-  anns_field: 'embedding',
+  anns_field: "embedding",
   limit: 3,
-  output_fields: ['embedding']
+  search_params: { metric_type: "COSINE" },
+  output_fields: ["embedding"],
 });
 
 console.log(res);
@@ -1096,33 +1052,34 @@ curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{
+  --header "Request-Timeout: 10" \
+  -d '{
     "collectionName": "my_collection",
     "data": [[0.1, 0.2, 0.3, 0.4]],
     "annsField": "embedding",
     "limit": 3,
+    "searchParams": {"metricType": "COSINE"},
     "outputFields": ["embedding"]
   }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 この検索では、次のようになります。
 
 - 非 NULL の `embedding` 値を持つエンティティのみが候補として考慮されます。
-
 - `embedding` に NULL 値を持つエンティティは評価から除外されます。
-
 - 返される結果の数は、コレクション内に存在する有効なベクトルの数によって異なります。
 
 ## クエリとフィルタリングへの影響\{#query-and-filtering-implications}
 
-これまでの例では、ベクトルフィールドに焦点を当てました。次の例では、通常の比較フィルターがスカラーフィールドの NULL 値をどのように処理するかを示します。
+これまでの例では、ベクトルフィールドに焦点を当てました。このセクションでは、**スカラーフィルター式**で NULL 値がどのように動作するかについて説明します。
 
-スカラーフィールドは `nullable=True` で定義でき、ベクトルフィールドと同じ取り込みルールに従います。`age > 18` や `status == "active"` などの通常の比較フィルターは、NULL 値に一致しません。サポートされているフィールドが NULL かどうかに基づいてエンティティを明示的に選択するには、`IS NULL` または `IS NOT NULL` を使用します。
+スカラーフィールドは `nullable=True` で定義でき、ベクトルフィールドと同じ取り込みルールに従います。ただし、**NULL のスカラー値は、フィルター式では常に false と評価されます**。スカラーフィールドが NULL かどうかによってエンティティを選択するには、`IS NULL` または `IS NOT NULL` を使用します。
 
-たとえば、Null 許容スカラーフィールド `age` がある場合、次のフィルターは `age` が 18 より大きいエンティティを選択します。
+たとえば、Null 許容のスカラーフィールド `age` がある場合、次のフィルターは age が 18 より大きいエンティティを選択します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1168,7 +1125,7 @@ std::string expr = "age > 18";
 <TabItem value='javascript'>
 
 ```javascript
-const filter = 'age > 18';
+const expr = "age > 18";
 ```
 
 </TabItem>
@@ -1191,10 +1148,12 @@ string filter = "age > 18";
 <TabItem value='bash'>
 
 ```bash
-"filter": "age > 18"
+# Use in query/search filter parameter, for example:
+# "filter": "age > 18"
 ```
 
 </TabItem>
+
 </Tabs>
 
 `age` が NULL のエンティティは、NULL 値がフィルター条件を満たさないため、結果から除外されます。
@@ -1205,7 +1164,7 @@ string filter = "age > 18";
 <TabItem value='python'>
 
 ```python
-expr = "status == \"active\""
+expr = 'status == "active"'
 ```
 
 </TabItem>
@@ -1245,7 +1204,7 @@ std::string expr = "status == \"active\"";
 <TabItem value='javascript'>
 
 ```javascript
-const filter = 'status == "active"';
+const expr = 'status == "active"';
 ```
 
 </TabItem>
@@ -1268,32 +1227,32 @@ string filter = "status == \"active\"";
 <TabItem value='bash'>
 
 ```bash
-"filter": "status == \"active\""
+# "filter": "status == \"active\""
 ```
 
 </TabItem>
+
 </Tabs>
 
 `status` が NULL のエンティティは、結果から除外されます。
 
-## 適用されるルール\{#applicable-rules}
+## Null 許容フィールドとデフォルト値\{#nullable-fields-and-default-values}
 
 フィールドに `nullable` と `default_value` の両方が構成されている場合、挿入時に Zilliz Cloud が NULL 入力または欠落したフィールド値をどのように処理するかは、次のルールによって決まります。
 
-| Null 許容 | デフォルト値 | ユーザー入力 | 結果 |
-| --- | --- | --- | --- |
-| ✅ | ✅（非 NULL） | NULL または省略 | デフォルト値を使用します。 |
-| ✅ | ❌ | NULL または省略 | NULL として格納します。 |
-| ❌ | ✅（非 NULL） | NULL または省略 | デフォルト値を使用します。 |
-| ❌ | ❌ | NULL または省略 | エラーをスローします。 |
-| ❌ | ✅（NULL） | NULL または省略 | エラーをスローします。 |
+| Null 許容の有効化 | デフォルト値 | ユーザー入力（NULL または省略） | 結果 |
+| ---------------- | ------------- | ---------------------------- | -------- |
+| はい | はい（非 NULL） | NULL または省略 | デフォルト値を使用します。 |
+| はい | いいえ | NULL または省略 | NULL として格納します。 |
+| いいえ | はい（非 NULL） | NULL または省略 | デフォルト値を使用します。 |
+| いいえ | いいえ | NULL または省略 | エラーをスローします。 |
+| いいえ | はい（NULL のデフォルト値） | NULL または省略 | エラーをスローします。 |
 
 **主なポイント:**
 
-- フィールドに非 NULL のデフォルト値がある場合、`nullable` が有効かどうかにかかわらず、その値が使用されます。
-
+- フィールドに非 NULL のデフォルト値がある場合、nullable が有効かどうかにかかわらず、その値が使用されます。
 - `nullable=True` でデフォルト値が設定されていない場合、フィールドには NULL が格納されます。
-
 - `nullable=False` でデフォルト値が設定されていない場合、挿入はエラーで失敗します。
-
 - Null 非許容フィールドに NULL のデフォルト値を設定することは無効であり、エラーの原因になります。
+
+デフォルト値の完全な例と API の使用方法については、[デフォルト値](./default-fields) を参照してください。

@@ -52,7 +52,7 @@ Dedicated クラスターで利用可能な最新のベータ機能で、未来�
 
 - ***Return Raw ベクトル***
 
-    [検索パラメータ](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#Sm86dgCilopuURxM8pgcok8In5f)でベクトルフィールドを指定すると、検索結果の一部としてそれらを受け取ることができます。
+    検索結果の一部として受け取るには、[検索パラメーター](./single-vector-search#use-output-fields) でベクトルフィールドを指定します。
 
 - ***JSON_CONTAINS Filter***
 
@@ -60,7 +60,7 @@ Dedicated クラスターで利用可能な最新のベータ機能で、未来�
 
 - ***Entity Count***
 
-    [ロード済みコレクション内のエンティティの総数](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#Sm86dgCilopuURxM8pgcok8In5f)をすばやく把握でき、データ管理の向上に役立ちます。
+    データ管理を改善するために、[ロード済みコレクション内のエンティティの総数](./single-vector-search#use-output-fields) をすばやく把握できます。
 
 ## 機能強化\{#enhancements}
 

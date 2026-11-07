@@ -136,7 +136,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Query / Search Order By** — 検索結果とクエリ結果に対して複数フィールドの並べ替えを実行でき、フィールドごとに ASC / DESC を指定してカーネルにプッシュダウンします。複合ランキングのために過剰に取得したり、クライアント側で再並べ替えしたりする必要はなくなりました。
 
-            詳細については、[基本的なベクトル検索](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#J302dXJq8oDOOdxA9EYc86Kmnof)、[グループ化検索](https://zilliverse.feishu.cn/wiki/JWZGw89MBiUDBNkhtGfcyyUcnsd#Ijm0dJ8Y0o1pZWxOX3UcVzhMnVf)、[クエリ](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#VhCFdfqkooVQMHxxVTyceCyKngg) を参照してください。
+            詳細については、[基本的なベクトル検索](./single-vector-search#single-vector-search)、[Grouping Search](./grouping-search#perform-grouping-search)、および [クエリ](./get-and-scalar-query#use-query) を参照してください。
 
         **データライフサイクルと運用**
 
@@ -146,7 +146,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Entity TTL（行レベル TTL）** — `Timestamptz` TTL フィールドによる行単位の有効期限です。期限切れの行は自動的に回収され、保持コンプライアンス、セッションデータ、会話履歴に対応します。アプリケーション側のクリーンアップは不要です。
 
-             詳細については、[コレクション TTL の設定](https://zilliverse.feishu.cn/wiki/GthGwnrpEiGpClkV5JXcgWUgn8c#GfP0dKAmyolahMxQkg7canKKnsb.) を参照してください。
+             詳細については、[コレクション TTL の設定](./set-collection-ttl#overview) を参照してください。
 
         - **Force Merge** — オフピーク時間帯に（同期または非同期で）セグメントの Compaction を明示的にトリガーし、セグメントの断片化によるクエリレイテンシーのジッターとストレージオーバーヘッドを削減します。
 

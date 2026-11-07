@@ -37,7 +37,7 @@ Zilliz Cloud は、データのフィルタリングに使用できるいくつ�
 
 - **論理演算子**: `AND`、`OR`、`NOT` は、複数の条件を組み合わせて複雑な式を作成します。
 
-- **IS NULL 演算子と IS NOT NULL 演算子**: `IS NULL` を使用してフィールド値が NULL のエンティティを選択するか、`IS NOT NULL` を使用してフィールド値が NULL 以外のエンティティを選択します。これらの演算子はスカラーフィールドをサポートします。サポートされる型、構文、例については、[IS NULL and IS NOT NULL operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#HfandwuQloKsmcx8iAjcMjqnnQb) を参照してください。
+- **IS NULL 演算子と IS NOT NULL 演算子**: `IS NULL` を使用すると、フィールド値が NULL のエンティティを選択でき、`IS NOT NULL` を使用すると、フィールド値が NULL でないエンティティを選択できます。これらの演算子はスカラーフィールドをサポートしています。サポートされている型、構文、例については、[IS NULL and IS NOT NULL operators](./basic-filtering-operators#is-null-and-is-not-null-operators) を参照してください。
 
 ### 例: 色によるフィルタリング\{#example-filtering-by-color}
 

@@ -603,7 +603,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html)で確認できます。Milvus の `like` 演算子の詳細については、[Using ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[`LIKE`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[ for Pattern Matching](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html)で確認できます。Milvus の `like` 演算子の詳細については、[パターンマッチングに ](./basic-filtering-operators#pattern-matching-operators)[`LIKE`](./basic-filtering-operators#pattern-matching-operators)[ を使用する方法](./basic-filtering-operators#pattern-matching-operators) を参照してください。
 
 ### Range クエリ\{#range-query}
 
@@ -738,7 +738,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html)で確認できます。Milvus の比較演算子の詳細については、[Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html)で確認できます。Milvus の比較演算子の詳細については、[比較演算子](./basic-filtering-operators#comparison-operators) を参照してください。
 
 ### Term クエリ\{#term-query}
 
@@ -947,7 +947,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html)で確認できます。Milvus の比較演算子の詳細については、[Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html)で確認できます。Milvus の比較演算子の詳細については、[比較演算子](./basic-filtering-operators#comparison-operators) を参照してください。
 
 ### Terms クエリ\{#terms-query}
 
@@ -1157,7 +1157,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html)で確認できます。Milvus の範囲演算子の詳細については、[Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html)で確認できます。Milvus の範囲演算子の詳細については、[範囲演算子](./basic-filtering-operators#range-operators) を参照してください。
 
 ### Wildcard クエリ\{#wildcard-query}
 
@@ -1290,7 +1290,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html)で確認できます。Milvus の範囲演算子の詳細については、[Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg) を参照してください。
+Elasticsearch の例は[このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html)で確認できます。Milvus の範囲演算子の詳細については、[範囲演算子](./basic-filtering-operators#range-operators) を参照してください。
 
 ## Boolean クエリ\{#boolean-query}
 
@@ -1458,7 +1458,7 @@ resp = client.search(
 )
 ```
 
-Milvus は、ベクトル検索に特化したデータベースとして、インデックスタイプを使用してベクトル検索を最適化します。通常、高次元のベクトルデータに対しては、近似最近傍（ANN）検索を優先します。FLAT インデックスタイプを使用した総当たり kNN 検索は正確な結果を提供しますが、時間がかかり、多くのリソースを消費します。これに対し、AUTOINDEX またはその他のインデックスタイプを使用した ANN 検索は、速度と精度のバランスを取り、kNN よりも大幅に高速でリソース効率の高いパフォーマンスを提供します。インデックスタイプと AUTOINDEX の詳細については、[Indexes](./indexes) と [AUTOINDEX Explained](./autoindex-explained) を参照してください。
+Milvus は専用のベクトルデータベースとして、ベクトル検索を最適化するためにインデックスタイプを使用します。通常、高次元ベクトルデータには近似最近傍（ANN）検索を優先します。FLAT インデックスタイプを使用した総当たり kNN 検索は正確な結果を提供しますが、時間とリソースの両方が多くかかります。これに対し、AUTOINDEX やその他のインデックスタイプを使用した ANN 検索は速度と精度のバランスを取り、kNN よりも大幅に高速でリソース効率のよいパフォーマンスを提供します。インデックスタイプと AUTOINDEX の詳細については、[インデックス](./indexes) および [AUTOINDEX の説明](./autoindex-explained) を参照してください。
 
 上記のベクトルクエリに対応する Milvus の同様の機能は、次のとおりです。
 

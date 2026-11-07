@@ -1936,14 +1936,14 @@
       "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/nullable-fields.md": {
-      "sourceHash": "889c9a815c5ec31825792fe774b4999224898a4bb8e7418148466f074a82c11f",
+      "sourceHash": "e18868445f6e56a034ef6c8037ad80181e9c191d9457985c01ab777bf35aefc0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/nullable-fields.md",
-      "translatedAt": "2026-10-25T10:10:23.617Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/schema/primary-field-auto-id.md": {
-      "sourceHash": "cb2e8e9291e8ffb186465337b27b1593a05ef973c565c3f01417cc00f497f91c",
+      "sourceHash": "ca5baa10918a474cb70a19b1e9913b4124f52a9dfc2955c6462b40cdfd0f2e74",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/primary-field-auto-id.md",
-      "translatedAt": "2026-11-05T13:58:33.841Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
       "sourceHash": "bce6ec0e151cbf76cb5487fa2886f0d8960d34d6ae2f2bf7b988ce972b810dd1",
@@ -2031,9 +2031,9 @@
       "translatedAt": "2026-11-06T12:02:10.961Z"
     },
     "content/en/guides/tutorials/development/schema/use-timestamptz-field.md": {
-      "sourceHash": "b7907cb92e5ff28a1d26f13b0245acf034f2debe77b05d3f6d2bb9022ae4cf20",
+      "sourceHash": "a3aef1f7ae73e7916213786b29bd687f52f04d535ecb860d3bde8e51f0fc7b45",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-timestamptz-field.md",
-      "translatedAt": "2026-11-06T12:02:10.961Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/search-and-query/consistency-level.md": {
       "sourceHash": "b5f5d1fd1d30fb9aa9add66401a4a8141f746b289d30c3443906e571342af581",
@@ -2046,9 +2046,9 @@
       "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/elasticsearch-queries-to-milvus.md": {
-      "sourceHash": "34f37d805b792f7ec91bf686d7b9312a24fb31b2790e5da94eebed02df0bca8b",
+      "sourceHash": "77a945ea432e981c1eed7e19794df91e70090a1c11cde8ffc99d13b0515285ef",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/elasticsearch-queries-to-milvus.md",
-      "translatedAt": "2026-11-06T12:02:10.961Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtered-search.md": {
       "sourceHash": "5b04ed8bb4c2ef949e5bc78cb43a13cbeff555ec0f4f79af80f406e1936be44e",
@@ -2061,14 +2061,14 @@
       "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/basic-filtering-operators.md": {
-      "sourceHash": "3e65de6acab49cff0d96203f7b2cd853ebc67062d65bd1c84afc683ffd227114",
+      "sourceHash": "bd5455ccc1de631b740a60552dad1ec79708b60c7d230826d62c6cf9838a46eb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/basic-filtering-operators.md",
-      "translatedAt": "2026-10-25T10:11:36.432Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/filtering-overview.md": {
-      "sourceHash": "38739ad39edd085cdad99def6c8eb1ff92c582da41a16a36961f5e09a6b1e8e6",
+      "sourceHash": "191c0f887feff27b3f8cdf4b6eca859f412f7da4740af6eaa769b4b39273b9b8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/filtering-overview.md",
-      "translatedAt": "2026-11-05T13:58:33.841Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/filtering-templating.md": {
       "sourceHash": "84cf0ea11adcaaddf3dc305fbe2305c39f871ef20a394199d0aa18aa8856e255",
@@ -2111,14 +2111,14 @@
       "translatedAt": "2026-11-06T12:02:10.961Z"
     },
     "content/en/guides/tutorials/development/search-and-query/get-and-scalar-query.md": {
-      "sourceHash": "a0db3c29f2929ef988351348c508dcd855a3ded066ce89490319f2c3facf7469",
+      "sourceHash": "156c100fc2e586d48719a1ee7246f0a638d619f017f75038ad92e54d9cb2226f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/get-and-scalar-query.md",
-      "translatedAt": "2026-10-30T10:55:43.031Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/search-and-query/grouping-search.md": {
-      "sourceHash": "7c8926bf19dd8b6bf02559a6e8fd51eb57994f1b311852c45251d2149323ae01",
+      "sourceHash": "03ef4994269c69535cea30698512a9bbab446dee930cdfc2bd23fb0538dd7463",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/grouping-search.md",
-      "translatedAt": "2026-10-28T03:29:32.772Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/search-and-query/hybrid-search.md": {
       "sourceHash": "7c2ef53a9c3a997070b01df0eecbfdbfab765e3a61a2e5a71034691f97022fd3",
@@ -2151,9 +2151,9 @@
       "translatedAt": "2026-09-19T14:10:49.557Z"
     },
     "content/en/guides/tutorials/development/search-and-query/single-vector-search.md": {
-      "sourceHash": "58fa669d8cdb6a551dabbfc419fcf00511ba635b70863e6ce562ba837dcd2e43",
+      "sourceHash": "56c58c4d356bb2268854802df4895dafe73ef6aa045a95bf85a64a1e7d9ce843",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/single-vector-search.md",
-      "translatedAt": "2026-10-25T10:11:36.432Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
       "sourceHash": "8a4324549360b2f9b6b2ffcc054b4668228f26158c98f4e8fde4fc4e500d991f",
@@ -2376,9 +2376,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
-      "sourceHash": "6d3ac209e706700e3e0e6cf71a13bb2a96a7ffe95a1f56416976c77092a16228",
+      "sourceHash": "40921bf44b52e1248823a2d175a4e90fe538ae635c99913ebf18089938247ced",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/changelogs.md",
-      "translatedAt": "2026-11-06T12:08:43.171Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md": {
       "sourceHash": "43022596b91c315086c6eba306c41aeb40b90066c41b3ab1eb1f5a5d98cf25ba",
@@ -2436,9 +2436,9 @@
       "translatedAt": "2026-10-19T23:22:12.534Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2120.md": {
-      "sourceHash": "67b1621ff9a8f563816d3056a1a8af6c8b1b04272e28eb05be34781d88a86276",
+      "sourceHash": "92864f6309642220a1bb3570822dc17e460d9332d6e51504cdf5cdf5549284e8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2120.md",
-      "translatedAt": "2026-11-05T14:43:45.949Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2130.md": {
       "sourceHash": "5030232643b0dad76108a4bc9aa7f9871022c967073ea847b716367ad9bdb4a6",
@@ -2476,9 +2476,9 @@
       "translatedAt": "2026-10-19T23:23:36.984Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-230.md": {
-      "sourceHash": "07c31088ec2ff27e596ede5c34416d980a469ff35e1a240f6d3d4bb3f6e0d868",
+      "sourceHash": "f52295b674ed49a623a0d16adb1ba6421462d3ac4b50db21de4d7f4adae6e924",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-230.md",
-      "translatedAt": "2026-11-05T14:43:45.949Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-240.md": {
       "sourceHash": "abf6591e54308048a4045faba736f4b0dd6d76e7ae38745d05e0a3a4725fb5df",
@@ -2501,9 +2501,9 @@
       "translatedAt": "2026-10-19T23:23:36.984Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2511.md": {
-      "sourceHash": "8a56e6ad924cb3846e166f53992fb61f0591f50f61902dfeb39d6177b51467da",
+      "sourceHash": "43295568f120c105411a03096d1ed61b930b46ab2f774b49b00cb94aad447fa3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2511.md",
-      "translatedAt": "2026-11-05T14:43:45.949Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2512.md": {
       "sourceHash": "a84c7e67bd312856cbc9d33774c852eddc7d2aebbdcf051f803ebed1e80c776a",
@@ -2516,9 +2516,9 @@
       "translatedAt": "2026-10-19T23:23:36.984Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2601.md": {
-      "sourceHash": "68a0a7898fe938e2358f9ba05225c115d0c8533a9b29cbabeed97a8dd68b177a",
+      "sourceHash": "70aace93d7a6fbee1d2b97d0e9a0ef4087697f93e06198e93b0e7d306244c62b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2601.md",
-      "translatedAt": "2026-11-05T14:43:45.949Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2602.md": {
       "sourceHash": "3bd9d81b76ff571edd68bae41302ff170f6c106b516fdd8af8b8354adfc8a356",
@@ -2531,9 +2531,9 @@
       "translatedAt": "2026-10-19T23:23:36.984Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2605.md": {
-      "sourceHash": "6dd30c194e5b5b97ce4988b02526df5b329792961d779ee3ce5b6c0ee04bfbfb",
+      "sourceHash": "7db87a2105b1592b15a6922fc235a5e667e1203a6bf94f9ae431721953a7d19c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2605.md",
-      "translatedAt": "2026-11-05T14:43:45.949Z"
+      "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2606.md": {
       "sourceHash": "03929fff4ea7f814508e657db760e40c7a8b5ca3c36db78dac09ad564d8bb118",

@@ -868,7 +868,7 @@ curl --request POST \
 
 #### タイムスタンプフィルタリングを使用したクエリ\{#query-with-timestamp-filtering}
 
-`==`、`!=`、`<`、`>`、`<=`、`>=` などの算術演算子を使用します。Zilliz Cloud で使用できる算術演算子の完全なリストについては、[Arithmetic Operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#L44AdQ2VIou67ZxyiJSc5IIsnNg) を参照してください。
+`==`、`!=`、`<`、`>`、`<=`、`>=` などの算術演算子を使用します。Zilliz Cloud で使用可能な算術演算子の完全な一覧については、[Arithmetic Operators](./basic-filtering-operators#arithmetic-operators) を参照してください。
 
 <Admonition type="info" title="Notes">
 
@@ -1434,11 +1434,11 @@ curl --request POST \
 
 手順とコードサンプルについては、専用のページを参照してください：
 
-- [Modify コレクション](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#S7WCdAXGrofhq1xU20vc2XVwnRg)
+- [コレクションの変更](./modify-collections#example-7-set-collection-time-zone)
 
-- [Query](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf#OGyUdivlLosfGGxbgn9cN2kbnpf)
+- [クエリ](./get-and-scalar-query#temporarily-set-a-timezone-for-a-query)
 
-- [Basic ベクトル Search](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#JFY4dwlbhoUGiOxybpDcQeFZnDd)
+- [基本的なベクトル検索](./single-vector-search#temporarily-set-a-timezone-for-a-search)
 
 - [Multi-ベクトル Hybrid Search](./hybrid-search)
 

@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 import Grid from '@site/src/components/Grid';
 
-# 2025年11月 リリースノート
+#  2025年11月 リリースノート 
 
 <Grid columnSize="2" widthRatios="16,83">
 
@@ -42,7 +42,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Struct データ型のサポート** — ネストされた複数属性のレコードをより自然にモデル化し、スキーマ設計を簡素化するとともに、メタデータが豊富な AI ワークロードでのクエリを改善できます。詳細については、[StructArray Overview](./use-array-of-structs) を参照してください。
 
-        - **既存のコレクションで動的フィールドを有効化** — コレクションを再作成せずに動的フィールドサポートを有効にできるため、ビジネス属性の変化に合わせてスキーマを柔軟に保つことができます。詳細については、[Modify コレクション](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#BY0MdhhdqoQY2Cxl8TNcYtCwn0d) を参照してください。
+        - **既存コレクションでの動的フィールドの有効化** — コレクションを再作成せずに動的フィールドのサポートを有効にし、ビジネス属性の進化に合わせてスキーマの柔軟性を確保できます。詳細については、[コレクションの変更](./modify-collections#example-5-enable-dynamic-field) を参照してください。
 
         - **ロード中のスカラーインデックスの削除をサポート** — コレクションがロード中の状態でも、スカラーインデックスの削除と再構築を実行できます。
 
@@ -65,3 +65,4 @@ import Grid from '@site/src/components/Grid';
     </div>
 
 </Grid>
+

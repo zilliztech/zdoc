@@ -74,10 +74,10 @@ Zilliz Cloud では、検索精度を制御してベクトル検索を最適化�
 
 - **高リコール検索（level=6~10）**: 高いリコール率（例: 99% 以上）が求められるシナリオでは、パラメーターを **6** から **10** の間に設定できます。パフォーマンスがそれほど重要でない場合は **10** を選択してください。
 
-この柔軟性により、ユーザーは検索動作を特定の要件に合わせて調整し、精度と速度の間で望ましいバランスを実現できます。詳細については、[level パラメーターの使用](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#WZCsdyVa0oactBxGgOncImEdnsc) を参照してください。
+この柔軟性により、ユーザーは検索動作を特定の要件に合わせて調整し、精度と速度の間で望ましいバランスを実現できます。詳細については、[「level」パラメーターの使用方法](./single-vector-search#use-level) を参照してください。
 
 ## リコール率の推定\{#recall-rate-estimation}
 
 検索中にリコール率を推定する機能を導入しました。`search_params` 内の `enable_recall_calculation` パラメーターを有効にして `true` に設定すると、検索結果の一部としてシステムが推定したリコール率を受け取ることができます。
 
-リコール率推定を `level` パラメーターと組み合わせることで、ユーザーはアプリケーションに望ましいリコール率を実現する適切な `level` 設定を簡単に特定できます。詳細については、[リコール率の取得](https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd#PAXZd7tD1ocxT9xrpllcdVBvn2b) を参照してください。
+リコール率推定を `level` パラメーターと組み合わせることで、ユーザーはアプリケーションに必要なリコール率を達成するために適切な `level` 設定を簡単に特定できます。詳細については、[リコール率の取得](./single-vector-search#get-recall-rate) を参照してください。
