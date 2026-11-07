@@ -1,0 +1,7 @@
+{
+  "markdown": "# WP5\n\nSee [the removed section](wp5-links.md#Removed-section) for details.\n",
+  "sharedPages": [["wp5-links.md", "wp5-links"]],
+  "targetFiles": {
+    "site/en/wp5-links.md": "---\nid: wp5-links.md\ntitle: WP5 links\n---\n\n# WP5\n\n### Removed section\n\nUpstream body.\n"
+  }
+}

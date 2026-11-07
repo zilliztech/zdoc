@@ -38,6 +38,19 @@ it('stops at the first lookup match, preserves explicit Milvus fragments, and va
   expect(rewriteLinksAndImages(input('[a](a.md)', { ...overrides, sharedPages: new Map() })))
     .toHaveProperty('markdown', '[a](./mapped-a)')
 })
+it('validates self-link fragments against the projected output instead of the raw upstream target', () => {
+  const raw = '# WP5\n\n## Heading\n\n## Projected away\n'
+  const overrides = { sharedPages: new Map([['wp5-links.md', 'wp5-links']]), targets: new Map([['wp5-links.md', raw]]) }
+  expect(rewriteLinksAndImages(input('# WP5\n\n## Heading\n\n[x](wp5-links.md#Heading)', overrides)))
+    .toHaveProperty('markdown', '# WP5\n\n## Heading\n\n[x](./wp5-links#heading)')
+  expect(rewriteLinksAndImages(input('[x](wp5-links.md#Projected-away)', overrides)))
+    .toMatchObject({ errors: [{ code: 'ANCHOR_NOT_FOUND', message: expect.stringContaining('the projection removes it'),
+      detail: { target: 'wp5-links.md', anchor: 'Projected-away' } }] })
+  expect(rewriteLinksAndImages(input('[x](other.md#Projected-away)', { sharedPages: new Map([['other.md', 'other-page']]), targets: new Map([['other.md', raw]]) })))
+    .toHaveProperty('markdown', '[x](./other-page#projected-away)')
+  expect(rewriteLinksAndImages(input('[x](wp5-links.md#Projected-away)', { cloudPages: [{ slug: 'wp5-links', title: 'WP5' }], targets: new Map([['wp5-links.md', raw]]) })))
+    .toMatchObject({ errors: [{ code: 'ANCHOR_NOT_FOUND' }] })
+})
 it('[5-7] suggests equal and similar titles without adopting a differently named page', () => {
   const cloudPages = [{ slug: 'vector-embedding', title: 'Embedding Function Overview' }, { slug: 'functions', title: 'Embedding Functions' }]
   const result = rewriteLinksAndImages(input('[x](embedding-function-overview.md)', { cloudPages,
