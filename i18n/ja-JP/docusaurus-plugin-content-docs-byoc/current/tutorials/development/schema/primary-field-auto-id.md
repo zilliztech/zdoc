@@ -1212,8 +1212,6 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 
 ## リファレンス：AutoID の仕組み\{#reference-how-autoid-works}
 
-AutoID が内部で一意の識別子を生成する仕組みを理解すると、[クラスター ID の構成](./primary-field-auto-id#ensure-global-autoid-uniqueness-across-clusters) を正しく行い、ID 関連の問題をトラブルシューティングするのに役立ちます。
-
 AutoID は、一意性を保証するために構造化された 64 ビット形式を使用します：
 
 ```plaintext
@@ -1248,3 +1246,4 @@ AutoID は、一意性を保証するために構造化された 64 ビット形
 `VARCHAR` をデータ型として AutoID を有効にした場合でも、Zilliz Cloud は数値 ID を生成します。これらの ID は、最大 20 文字の数値文字列として保存されます（uint64 の範囲）。
 
 </Admonition>
+

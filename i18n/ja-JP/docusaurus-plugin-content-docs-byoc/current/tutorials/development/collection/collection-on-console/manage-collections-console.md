@@ -206,7 +206,7 @@ Zilliz Cloud では、Web コンソールを通じて、作成済みのコレク
 
     - **mmap** または **パーティションキー**設定を変更するには、代わりに SDK を使用してください。詳細については、[コレクションの変更](./modify-collections) を参照してください。
 
-    - コレクションの作成時に動的フィールドを有効にしていない場合は、後から SDK または Web コンソールを使用して有効にできます。SDK の詳細については、[コレクションの変更](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#BY0MdhhdqoQY2Cxl8TNcYtCwn0d) を参照してください。Web コンソールで動的フィールドを有効にする方法の詳細については、上記のデモを参照してください。
+    - コレクションの作成時に動的フィールドを有効にしていない場合は、後から SDK または Web コンソールを使用して有効にできます。SDK の詳細については、[コレクションの変更](./modify-collections#example-5-enable-dynamic-field) を参照してください。Web コンソールで動的フィールドを有効にする方法については、上記のデモを参照してください。
 
     その他のコレクションスキーマ設定は編集できません。変更を適用するには、目的の構成で新しいコレクションを作成し、そのコレクションにデータをインポートしてください。
 
@@ -226,7 +226,7 @@ Zilliz Cloud では、Web コンソールを通じて、作成済みのコレク
 
 - **コレクション TTL の編集**: Time-to-live（TTL）は、コレクション内のデータの有効期限を決定するコレクションのプロパティです。詳細については、[コレクション TTL を設定する](./set-collection-ttl) を参照してください。
 
-- **Allow Insert Auto ID を有効にする:** `allow_insert_auto_id` プロパティを使用すると、AutoID が有効なコレクションで、挿入、upsert、一括インポートの際にユーザーが指定したプライマリキーの値を受け入れられるようになります。詳細については、[コレクションの変更](https://zilliverse.feishu.cn/wiki/WMh8w3tbKiBhukk3ICMc4ctznEg#Bs06diKs4oS5wzxpDaacYt6JnIf) を参照してください。
+- **Allow Insert Auto ID の有効化:** `allow_insert_auto_id` プロパティを使用すると、AutoID が有効なコレクションで、挿入、アップサート、および一括インポート時にユーザー指定のプライマリキー値を受け入れられます。詳細については、[コレクションの変更](./modify-collections#example-6-enable-allowinsertautoid) を参照してください。
 
 - **コレクションの削除:** リソースのオーバーヘッドを削減するために、不要になったコレクションを削除できます。コレクションを削除すると、その中のすべてのデータが元に戻せない形で削除されます。
 

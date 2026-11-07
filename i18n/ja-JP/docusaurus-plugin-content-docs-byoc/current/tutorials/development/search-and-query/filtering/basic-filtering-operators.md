@@ -1,7 +1,6 @@
 ---
 title: "基本演算子 | BYOC"
 slug: /basic-filtering-operators
-sidebar_label: "基本"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud は、エンティティをフィルタリングするための比較演算子、範囲演算子、算術演算子、論理演算子、NULL 演算子を提供します。各演算子は特定のフィールド型をサポートします。 | BYOC"
 type: origin
-token: LBbUwOGcwi1UMak3eE2cM1gvnUe
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-basic-filtering-operators
+sidebar_label: "基本"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/boolean/basic-operators.md"
 
 ---
 
@@ -23,9 +24,9 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud は、エンティティをフィルタリングするための比較演算子、範囲演算子、算術演算子、論理演算子、NULL 演算子を提供します。各演算子は特定のフィールド型をサポートしています。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-フィルタ式の左辺のリテラルには、以下の例で使用している `status`、`color` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > 10'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。
+フィルタ式の左辺に指定できるリテラルは、以下の例で使用されている `status`、`color` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > 10'` のように特定の要素インデックスにある StructArray サブフィールド名です。
 
 StructArray フィールドでのスカラーフィルタリングの詳細については、[StructArray 演算子](./struct-array-filtering) を参照してください。
 
@@ -35,7 +36,7 @@ StructArray フィールドでのスカラーフィルタリングの詳細に�
 
 比較演算子は、等価性、不等価性、または大小関係に基づいてデータをフィルタリングするために使用します。数値フィールドとテキストフィールドに適用できます。
 
-### サポートされている比較演算子：\{#supported-comparison-operators}
+### サポートされている比較演算子\{#supported-comparison-operators}
 
 - `==`（等しい）
 
@@ -49,7 +50,7 @@ StructArray フィールドでのスカラーフィルタリングの詳細に�
 
 - `<=`（以下）
 
-### 例 1：等価演算子（`==`）を使用したフィルタリング\{#example-1-filtering-with-equal-to}
+### 例 1：等価（`==`）によるフィルタリング\{#example-1-filtering-with-equal-to}
 
 `status` という名前のフィールドがあり、`status` が "active" であるすべてのエンティティを検索するとします。この場合は、等価演算子 `==` を使用できます。
 
@@ -117,9 +118,10 @@ filter='status == "active"'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 2：不等演算子（`!=`）を使用したフィルタリング\{#example-2-filtering-with-not-equal-to}
+### 例 2：等しくない（`!=`）によるフィルタリング\{#example-2-filtering-with-not-equal-to}
 
 `status` が "inactive" でないエンティティを検索するには、次のようにします。
 
@@ -187,9 +189,10 @@ filter='status != "inactive"'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 3：より大きい（`>`）を使用したフィルタリング\{#example-3-filtering-with-greater-than-greater}
+### 例 3：より大きい（`>`）によるフィルタリング\{#example-3-filtering-with-greater-than-greater}
 
 `age` が 30 より大きいすべてのエンティティを検索する場合は、次のようにします。
 
@@ -257,9 +260,10 @@ filter='age > 30'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 4：より小さいを使用したフィルタリング\{#example-4-filtering-with-less-than}
+### 例 4：より小さい値によるフィルタリング\{#example-4-filtering-with-less-than}
 
 `price` が 100 より小さいエンティティを検索するには、次のようにします。
 
@@ -327,9 +331,10 @@ filter='price < 100'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 5：以上（`>=`）を使用したフィルタリング\{#example-5-filtering-with-greater-than-or-equal-to-greater}
+### 例 5：以上（`>=`）によるフィルタリング\{#example-5-filtering-with-greater-than-or-equal-to-greater}
 
 `rating` が 4 以上であるすべてのエンティティを検索する場合は、次のようにします。
 
@@ -397,9 +402,10 @@ filter='rating >= 4'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 6：以下を使用したフィルタリング\{#example-6-filtering-with-less-than-or-equal-to}
+### 例 6：以下によるフィルタリング\{#example-6-filtering-with-less-than-or-equal-to}
 
 `discount` が 10% 以下であるエンティティを検索するには、次のようにします。
 
@@ -467,6 +473,7 @@ filter='discount <= 10'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## 範囲演算子\{#range-operators}
@@ -539,6 +546,7 @@ filter='color in ["red", "green", "blue"]'
 ```
 
 </TabItem>
+
 </Tabs>
 
 これは、値のリストに含まれているかどうかを確認する場合に便利です。
@@ -619,6 +627,7 @@ filter='name LIKE "Prod%"'
 ```
 
 </TabItem>
+
 </Tabs>
 
 `code` に `E1001` などのエラーコードが含まれるエンティティを検索するには、次のようにします。
@@ -687,6 +696,7 @@ filter='code =~ "E[0-9]{4}"'
 ```
 
 </TabItem>
+
 </Tabs>
 
 `message` が `DEBUG` で始まるエンティティを除外するには、次のようにします。
@@ -755,6 +765,7 @@ filter='message !~ "^DEBUG"'
 ```
 
 </TabItem>
+
 </Tabs>
 
 `LIKE` と正規表現の選択、サポートされているフィールド型、正規表現の構文、エスケープ規則、パフォーマンスの詳細については、[パターンマッチング](./pattern-match) を参照してください。Zilliz Cloud では、`VARCHAR` フィールドまたは JSON 文字列パスに `NGRAM` インデックスを構築して、対象となるパターンマッチングフィルタを高速化することもできます。詳細については、[NGRAM](./ngram-index-type) を参照してください。
@@ -763,7 +774,7 @@ filter='message !~ "^DEBUG"'
 
 算術演算子を使用すると、数値フィールドを含む計算に基づいて条件を作成できます。
 
-### サポートされている算術演算子：\{#supported-arithmetic-operators}
+### サポートされている算術演算子\{#supported-arithmetic-operators}
 
 - `+`（加算）
 
@@ -777,7 +788,7 @@ filter='message !~ "^DEBUG"'
 
 - `**`（べき乗）
 
-### 例 1：剰余（`%`）を使用する\{#example-1-using-modulus-percent}
+### 例 1：剰余（`%`）の使用\{#example-1-using-modulus-percent}
 
 `id` が偶数（つまり、2 で割り切れる）であるエンティティを検索するには、次のようにします。
 
@@ -845,9 +856,10 @@ filter='id % 2 == 0'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 2：べき乗（`**`）を使用する\{#example-2-using-exponentiation}
+### 例 2：べき乗（`**`）の使用\{#example-2-using-exponentiation}
 
 `price` の 2 乗が 1000 より大きいエンティティを検索するには、次のようにします。
 
@@ -855,7 +867,7 @@ filter='id % 2 == 0'
 <TabItem value='python'>
 
 ```python
-filter = 'price > 1000'
+filter = 'price ** 2 > 1000'
 ```
 
 </TabItem>
@@ -903,7 +915,7 @@ const filter = 'price ** 2 > 1000';
 <TabItem value='csharp'>
 
 ```csharp
-string filter = "price > 1000";
+string filter = "price ** 2 > 1000";
 ```
 
 </TabItem>
@@ -915,7 +927,14 @@ filter='price ** 2 > 1000'
 ```
 
 </TabItem>
+
 </Tabs>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+算術演算子は、**単一のフィールドと定数**を含む式のみをサポートします。`price * quantity > 100` のように 2 つのフィールドを算術的に組み合わせる式は現在サポートされておらず、エラーが返されます。複数のフィールドから計算された派生値でフィルタリングする必要がある場合は、挿入時に計算済みの値を別のスカラーフィールドとして保存することを検討してください。
+
+</Admonition>
 
 ## ビット演算子 | PUBLIC\{#bitwise-operators-or-public}
 
@@ -925,17 +944,17 @@ filter='price ** 2 > 1000'
 
 ### サポートされているビット演算子\{#supported-bitwise-operators}
 
-| **演算子** | **名前** | **一般的な用途** |
+| 演算子 | 名前 | 主な用途 |
 | --- | --- | --- |
 | `&` | ビット単位の AND | 特定のビットが設定されているかどうかを確認します。 |
-| `\|` | ビット単位の OR | 比較の前にビットを結合します。 |
+| <code>&#124;</code> | ビット単位の OR | 比較の前にビットを結合します。 |
 | `^` | ビット単位の XOR | 2 つの値のビットの違いを比較します。 |
 
 ### 例：権限ビットによるフィルタリング\{#example-filtering-by-permission-bits}
 
 `permissions` という名前の整数フィールドがあり、整数内の各ビットが権限フラグを表すとします。
 
-| **権限フラグ** | **ビット値** |
+| 権限フラグ | ビット値 |
 | --- | --- |
 | `READ` | `1` |
 | `WRITE` | `2` |
@@ -1010,6 +1029,7 @@ filter='(permissions & 4) == 4'
 ```
 
 </TabItem>
+
 </Tabs>
 
 `WRITE` ビットを設定すると `READ + WRITE + SHARE` の権限セットになるエンティティを検索するには、ビット単位の OR（`|`）を使用します。
@@ -1078,6 +1098,7 @@ filter='(permissions | 2) == 7'
 ```
 
 </TabItem>
+
 </Tabs>
 
 権限ビットが `READ + WRITE + SHARE` と `WRITE` ビットだけ異なるエンティティを検索するには、ビット単位の XOR（`^`）を使用します。
@@ -1146,15 +1167,20 @@ filter='(permissions ^ 7) == 2'
 ```
 
 </TabItem>
+
 </Tabs>
 
-注：結果を比較する前に、`(permissions & 4) == 4` のようにビット演算を常にかっこで囲みます。
+<Admonition type="info" icon="📘" title="Notes">
+
+結果を比較する前に、`(permissions & 4) == 4` のように、必ずビット演算を括弧で囲んでください。Zilliz Cloud はフィルタ式で `&`、`|`、`^` をサポートしています。ビット単位の NOT（`~`）およびシフト演算子（`<<`、`>>`）はサポートされていません。
+
+</Admonition>
 
 ## 論理演算子\{#logical-operators}
 
 論理演算子は、複数の条件を組み合わせて、より複雑なフィルタ式を作成するために使用します。これらには `AND`、`OR`、`NOT` が含まれます。
 
-### サポートされている論理演算子：\{#supported-logical-operators}
+### サポートされている論理演算子\{#supported-logical-operators}
 
 - `AND`：複数の条件を結合し、すべてが true である必要があります。
 
@@ -1162,7 +1188,7 @@ filter='(permissions ^ 7) == 2'
 
 - `NOT`：条件を否定します。
 
-### 例 1：`AND` を使用した条件の結合\{#example-1-using-and-to-combine-conditions}
+### 例 1：`AND` を使用した条件の組み合わせ\{#example-1-using-and-to-combine-conditions}
 
 `price` が 100 より大きく、`stock` が 50 より大きいすべての商品を検索するには、次のようにします。
 
@@ -1230,9 +1256,10 @@ filter='price > 100 AND stock > 50'
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 例 2：`OR` を使用した条件の結合\{#example-2-using-or-to-combine-conditions}
+### 例 2：`OR` を使用した条件の組み合わせ\{#example-2-using-or-to-combine-conditions}
 
 `color` が "red" または "blue" であるすべての商品を検索するには、次のようにします。
 
@@ -1300,6 +1327,7 @@ filter='color == "red" OR color == "blue"'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 例 3：`NOT` を使用した条件の除外\{#example-3-using-not-to-exclude-a-condition}
@@ -1310,7 +1338,7 @@ filter='color == "red" OR color == "blue"'
 <TabItem value='python'>
 
 ```python
-filter = 'NOT (color == "green")'
+filter = 'NOT color == "green"'
 ```
 
 </TabItem>
@@ -1358,7 +1386,7 @@ const filter = 'NOT color == "green"';
 <TabItem value='csharp'>
 
 ```csharp
-string filter = "NOT (color == \"green\")";
+string filter = "NOT color == \"green\"";
 ```
 
 </TabItem>
@@ -1370,6 +1398,7 @@ filter='NOT color == "green"'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## IS NULL 演算子と IS NOT NULL 演算子\{#is-null-and-is-not-null-operators}
@@ -1411,12 +1440,12 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 results = client.query(
     collection_name="products",
-    filter="category IS NULL",
+    filter="embedding IS NULL",
     output_fields=["id"],
     limit=10,
 )
 print(sorted(entity["id"] for entity in results))
-# Expected: [2]
+# Expected: [3]
 ```
 
 </TabItem>
@@ -1436,7 +1465,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 QueryReq queryReq = QueryReq.builder()
         .collectionName("products")
-        .filter("category IS NULL")
+        .filter("embedding IS NULL")
         .outputFields(Collections.singletonList("id"))
         .limit(10)
         .build();
@@ -1468,7 +1497,7 @@ if err != nil {
 defer cli.Close(ctx)
 
 rs, err := cli.Query(ctx, milvusclient.NewQueryOption("products").
-    WithFilter("category IS NULL").
+    WithFilter("embedding IS NULL").
     WithOutputFields("id").
     WithLimit(10))
 if err != nil {
@@ -1481,7 +1510,7 @@ for i := 0; i < ids.Len(); i++ {
     result = append(result, v)
 }
 fmt.Println(result)
-// Expected: [2]
+// Expected: [3]
 ```
 
 </TabItem>
@@ -1498,7 +1527,7 @@ let client = ClientV2::new(
 
 let request = QueryRequest::builder()
     .collection_name("products")
-    .filter("category IS NULL")
+    .filter("embedding IS NULL")
     .output_fields(["id"])
     .limit(10)
     .build()?;
@@ -1527,7 +1556,7 @@ if (!status.IsOk()) {
 
 auto request = milvus::QueryRequest()
                    .WithCollectionName("products")
-                   .WithFilter("category IS NULL")
+                   .WithFilter("embedding IS NULL")
                    .AddOutputField("id")
                    .WithLimit(10);
 
@@ -1549,7 +1578,7 @@ const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR
 
 const results = await client.query({
   collection_name: "products",
-  filter: "category IS NULL",
+  filter: "embedding IS NULL",
   output_fields: ["id"],
   limit: 10,
 });
@@ -1575,7 +1604,7 @@ await client.ConnectAsync();
 QueryResp results = await client.QueryAsync(new QueryReq
 {
     CollectionName = "products",
-    Expression = "category IS NULL",
+    Expression = "embedding IS NULL",
     Parameters = new QueryParameters
     {
         OutputFields = { "id" },
@@ -1588,7 +1617,7 @@ for (int i = 0; i < results.RowCount; i++)
     Console.WriteLine(results.GetRow(i)["id"]);
 }
 // Output
-// 2
+// 3
 ```
 
 </TabItem>
@@ -1603,13 +1632,14 @@ curl -X 'POST' \
   -H 'Content-Type: application/json' \
   -d '{
     "collectionName": "products",
-    "filter": "category IS NULL",
+    "filter": "embedding IS NULL",
     "outputFields": ["id"],
     "limit": 10
   }'
 ```
 
 </TabItem>
+
 </Tabs>
 
 同じクエリ内の `filter` を置き換えて、いずれかのフィールドを確認するか、条件を組み合わせます。
@@ -1621,6 +1651,10 @@ curl -X 'POST' \
 | `embedding IS NULL` | `3` | 埋め込みのないエンティティを検索します。 |
 | `embedding IS NOT NULL` | `1`、`2` | 埋め込みのあるエンティティを検索します。 |
 | `category IS NOT NULL AND embedding IS NOT NULL` | `1` | 両方の値を持つエンティティを検索します。 |
+
+<a id="Regular-scalar-fields-with-null-values"></a>
+<a id="JSON-fields-with-null-values"></a>
+<a id="ARRAY-fields-with-null-values"></a>
 
 ### フィールド値の扱い\{#how-field-values-are-treated}
 
@@ -1651,9 +1685,9 @@ curl -X 'POST' \
 
 ベクトル検索では、検索対象のベクトルフィールドが NULL のエンティティがすでにスキップされるため、`embedding IS NOT NULL` を指定しても、`embedding` の検索候補はさらに絞り込まれません。返される候補は、ランキング、他のフィルタ、検索制限によって決まります。
 
-## JSON フィールドおよび ARRAY フィールドで基本演算子を使用するためのヒント\{#tips-on-using-basic-operators-with-json-and-array-fields}
+## JSON フィールドと ARRAY フィールドで基本演算子を使用するためのヒント\{#tips-on-using-basic-operators-with-json-and-array-fields}
 
-Zilliz Cloud クラスターの基本演算子は汎用性が高く、スカラーフィールドに適用できるだけでなく、JSON フィールドおよび ARRAY フィールドのキーとインデックスにも効果的に使用できます。
+Zilliz Cloud の基本演算子は汎用性が高く、スカラーフィールドに適用できますが、JSON フィールドと ARRAY フィールド内のキーおよびインデックスにも効果的に使用できます。
 
 たとえば、`price`、`model`、`tags` などの複数のキーを含む `product` フィールドがある場合は、常にキーを直接参照します。
 
@@ -1721,6 +1755,7 @@ filter='product["price"] > 1000'
 ```
 
 </TabItem>
+
 </Tabs>
 
 記録された気温の配列のうち、最初の気温が特定の値を超えるレコードを検索するには、次のようにします。
@@ -1789,6 +1824,7 @@ filter='history_temperatures[0] > 30'
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## まとめ\{#conclusion}
@@ -1797,7 +1833,7 @@ Zilliz Cloud は、データのフィルタリングとクエリを柔軟に行�
 
 ## FAQ\{#faq}
 
-**フィルタ条件の一致値リストの長さに制限はありますか（たとえば、`filter='color in ["red", "green", "blue"]'`）。リストが長すぎる場合はどうすればよいですか？**
+**フィルタ条件の一致値リスト（例：filter='color in ["red", "green", "blue"]'）の長さに制限はありますか？ リストが長すぎる場合はどうすればよいですか？**
 
 Zilliz Cloud は、フィルタ条件の一致値リストに長さの制限を設けていません。ただし、リストが過度に長いと、クエリのパフォーマンスに大きく影響する可能性があります。
 フィルタ条件に長い一致値リストまたは多数の要素を含む複雑な式が含まれる場合は、クエリのパフォーマンスを向上させるために [フィルターテンプレート](./filtering-templating) の使用をお勧めします。

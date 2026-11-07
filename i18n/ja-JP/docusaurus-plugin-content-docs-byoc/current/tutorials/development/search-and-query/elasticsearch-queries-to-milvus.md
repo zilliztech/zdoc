@@ -603,7 +603,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html) にあります。Milvus の `like` 演算子の詳細については、[Using ](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[`LIKE`](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe)[ for Pattern Matching](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#doxcnevyxpbGAxYmAh66NWwefDe) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html) にあります。Milvus の `like` 演算子の詳細については、[パターンマッチングでの ](./basic-filtering-operators#pattern-matching-operators)[`LIKE`](./basic-filtering-operators#pattern-matching-operators)[ の使用](./basic-filtering-operators#pattern-matching-operators) を参照してください。
 
 ### レンジクエリ\{#range-query}
 
@@ -738,7 +738,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html) にあります。Milvus の比較演算子の詳細については、[Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html) にあります。Milvus の比較演算子の詳細については、[比較演算子](./basic-filtering-operators#comparison-operators) を参照してください。
 
 ### タームクエリ\{#term-query}
 
@@ -947,7 +947,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html) にあります。Milvus の比較演算子の詳細については、[Comparison operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#LEORdZEDUo5fE5xn0r7cT0KTnph) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html) にあります。Milvus の比較演算子の詳細については、[比較演算子](./basic-filtering-operators#comparison-operators) を参照してください。
 
 ### タームズクエリ\{#terms-query}
 
@@ -1157,7 +1157,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html) にあります。Milvus の範囲演算子の詳細については、[Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html) にあります。Milvus の範囲演算子の詳細については、[範囲演算子](./basic-filtering-operators#range-operators) を参照してください。
 
 ### ワイルドカードクエリ\{#wildcard-query}
 
@@ -1290,7 +1290,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html) にあります。Milvus の範囲演算子の詳細については、[Range operators](https://zilliverse.feishu.cn/wiki/LBbUwOGcwi1UMak3eE2cM1gvnUe#RBJCdavN9ooCOfxw2eXcjdtrnlg) を参照してください。
+Elasticsearch の例は [このページ](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html) にあります。Milvus の範囲演算子の詳細については、[範囲演算子](./basic-filtering-operators#range-operators) を参照してください。 
 
 ## ブールクエリ\{#boolean-query}
 

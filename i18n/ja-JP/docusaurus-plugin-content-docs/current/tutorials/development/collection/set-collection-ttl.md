@@ -1,7 +1,6 @@
 ---
 title: "コレクション TTL を設定する | Cloud"
 slug: /set-collection-ttl
-sidebar_label: "TTL"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -9,9 +8,11 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud では、Time-to-Live（TTL）ポリシーを使用してエンティティを自動的に期限切れにできます。期限切れのエンティティはクエリおよび検索結果に直ちに表示されなくなり、次回の Compaction サイクルでストレージから物理的に削除されます。通常、これは 24 時間以内に実行されます。 | Cloud"
 type: origin
-token: GthGwnrpEiGpClkV5JXcgWUgn8c
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-set-collection-ttl
+sidebar_label: "TTL"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/collections/set-collection-ttl.md"
 
 ---
 
@@ -29,7 +30,7 @@ TTL には 2つのモードがあります。
 
 - **エンティティレベル TTL** — 各エンティティは、専用の `TIMESTAMPTZ` フィールドに独自の絶対有効期限を持ち、`ttl_field` プロパティによって TTL フィールドとしてマークされます。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 この機能はマネージドコレクションにのみ適用されます。
 
@@ -71,7 +72,7 @@ TTL には 2つのモードがあります。
 
 - **ビジネス上の時刻に基づく期限切れ。** エンティティは、特定の絶対時点（キャンペーンの終了、セッションの期限切れなど）までのみ有効なレコードを表します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 期限切れのエンティティは、検索結果にもクエリ結果にも表示されません。ただし、次回のデータ Compaction が実行されるまでストレージに残る場合があります。この Compaction は通常 24 時間以内に実行されます。
 
@@ -89,15 +90,40 @@ TTL には 2つのモードがあります。
 
 モードを選択するには、次の表を使用します:
 
-| **状況** | **使用するモード** |
-| --- | --- |
-| コレクション内のすべてのエンティティが同じ保持期間に従う必要がある | コレクションレベル TTL |
-| 保持が「挿入時点から N 秒間保持する」である | コレクションレベル TTL |
-| 同じコレクション内で異なるエンティティに異なる有効期間が必要である（per-tenant, hot/cold, per-document） | エンティティレベル TTL |
-| 保持が絶対的な実時間である（例: 2027-01-01T00:00:00Z） | エンティティレベル TTL |
-| 保持が挿入タイムスタンプではなくビジネス上のタイムスタンプに基づく | エンティティレベル TTL |
-| 挿入後にエンティティの有効期間を更新または延長したい | エンティティレベル TTL |
-| 一部のエンティティは期限切れにせず、それ以外は期限切れにする必要がある | エンティティレベル TTL（期限切れにしないものには NULL を使用） |
+<table>
+   <tr>
+     <th><p><strong>状況</strong></p></th>
+     <th><p><strong>使用するモード</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>コレクション内のすべてのエンティティが同じ保持期間に従う必要がある</p></td>
+     <td><p>コレクションレベル TTL</p></td>
+   </tr>
+   <tr>
+     <td><p>保持期間が「挿入時点から N 秒間保持する」である</p></td>
+     <td><p>コレクションレベル TTL</p></td>
+   </tr>
+   <tr>
+     <td><p>同じコレクション内でエンティティごとに異なる有効期間が必要である（テナント別、hot/cold, ドキュメント別）</p></td>
+     <td><p>エンティティレベル TTL</p></td>
+   </tr>
+   <tr>
+     <td><p>保持期限が絶対的な実時間である（例: 2027-01-01T00:00:00Z）</p></td>
+     <td><p>エンティティレベル TTL</p></td>
+   </tr>
+   <tr>
+     <td><p>保持期限が挿入タイムスタンプではなくビジネス上のタイムスタンプによって決まる</p></td>
+     <td><p>エンティティレベル TTL</p></td>
+   </tr>
+   <tr>
+     <td><p>挿入後にエンティティの有効期間を更新または延長したい</p></td>
+     <td><p>エンティティレベル TTL</p></td>
+   </tr>
+   <tr>
+     <td><p>期限切れにしないエンティティと期限切れにするエンティティが混在する</p></td>
+     <td><p>エンティティレベル TTL（期限切れにしないエンティティには NULL を使用）</p></td>
+   </tr>
+</table>
 
 </details>
 
@@ -321,8 +347,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 CollectionSchema schema = new()
@@ -398,6 +423,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### 既存のコレクションで有効にする\{#enable-on-an-existing-collection}
@@ -747,6 +773,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ### TTL 設定を削除する\{#drop-the-ttl-setting}
@@ -915,13 +942,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## エンティティレベル TTL を設定する | PUBLIC\{#set-entity-level-ttl-or-public}
 
 エンティティレベル TTL では、各エンティティが独自の絶対有効期限を持ちます。時刻はスキーマで宣言する専用の `TIMESTAMPTZ` 列に保存され、`ttl_field` コレクションプロパティを通じてその列を TTL フィールドとしてマークします。
 
-### 新しいコレクションで有効にする\{#enable-on-a-new-collection}
+### 新しいコレクションで有効にする\{#enable-on-a-new-collection-1}
 
 作成時にエンティティレベル TTL を有効にするには、同じ `create_collection` 呼び出しに 2つの追加が必要です。スキーマ内の `TIMESTAMPTZ` フィールドと、そのフィールドを指す `ttl_field` プロパティです。
 
@@ -1139,8 +1167,7 @@ using Milvus.Client.V2.Types;
 MilvusClientV2 client = new(new ConnectConfig
 {
     Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 
 CollectionSchema schema = new()
@@ -1222,6 +1249,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 コレクションが作成されたら、[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) のタイムスタンプ文字列を使用してエンティティを挿入します。
@@ -1322,6 +1350,7 @@ import (
     "context"
     "fmt"
     "math/rand"
+    "time"
 
     "github.com/milvus-io/milvus/client/v3/column"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
@@ -1350,8 +1379,12 @@ for i := range vector1 {
     vector3[i] = rand.Float32()
 }
 
-expireAt, err := column.NewNullableColumnTimestamptzIsoString("expire_at",
-    []string{"2026-12-31T00:00:00Z", "2027-01-01T00:00:00+08:00"},
+expireAt, err := column.NewNullableColumnTimestamptz("expire_at",
+    []time.Time{
+        {},
+        time.Date(2026, 12, 31, 0, 0, 0, 0, time.UTC),
+        time.Date(2027, 1, 1, 0, 0, 0, 0, time.FixedZone("CST", 8*3600)),
+    },
     []bool{false, true, true})
 if err != nil {
     fmt.Println(err.Error())
@@ -1490,6 +1523,7 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" --he
 ```
 
 </TabItem>
+
 </Tabs>
 
 各クエリとベクトル検索では、サーバーが TTL フィルターを自動的に挿入します。このフィルターを自分で記述する必要はなく、期限切れのエンティティが結果に表示されることもありません:
@@ -1727,6 +1761,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 同じ自動フィルターは `client.search()` にも適用されます。
@@ -1940,9 +1975,10 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 ```
 
 </TabItem>
+
 </Tabs>
 
-### 既存のコレクションで有効にする\{#enable-on-an-existing-collection}
+### 既存のコレクションで有効にする\{#enable-on-an-existing-collection-1}
 
 コレクションがすでに存在し、`collection.ttl.seconds` が設定されていない場合は、`add_collection_field` で `TIMESTAMPTZ` 列を追加し、`alter_collection_properties` でその列を TTL フィールドとしてマークします。必要に応じて、履歴行をアップサートして有効期限タイムスタンプをバックフィルします。バックフィルしない行は `NULL` のままとなり、期限切れになりません。
 
@@ -2273,9 +2309,10 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 ```
 
 </TabItem>
+
 </Tabs>
 
-### TTL 設定を削除する\{#drop-the-ttl-setting}
+### TTL 設定を削除する\{#drop-the-ttl-setting-1}
 
 エンティティごとの期限切れを停止するには、`property_keys` 内の `ttl_field` を指定して `drop_collection_properties` を呼び出します。`TIMESTAMPTZ` 列自体はスキーマに残ります。通常のフィールドとして引き続きクエリできます。
 
@@ -2440,17 +2477,18 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `ttl_field` を削除すると、今後のクエリに対する自動フィルターが無効になりますが、すでに期限切れになったエンティティが自動的に再び表示されることはありません。以前に期限切れになったエンティティを表示するには、`None` または将来の有効期限タイムスタンプを使用してアップサートします。これが、同じロードセッション内で期限切れの行へのアクセスを復元する唯一の方法です。
 
-## 2つのモード間の移行 | PRIVATE\{#migrate-between-the-two-modes}
+## 2つのモード間の移行\{#migrate-between-the-two-modes}
 
 2つの TTL モードは相互に排他的であるため、それらの間の切り替えは複数ステップの操作です。
 
 ### コレクションレベルからエンティティレベル TTL に切り替える\{#switch-from-collection-level-to-entity-level-ttl}
 
-コレクションが `collection.ttl.seconds` で作成されており、エンティティごとの期限切れに切り替える場合は、次の 4つのステップに従います。ステップ 1 を省略すると、ステップ 3 が `collection TTL is already set, cannot be set ttl field` で失敗します。
+コレクションが `collection.ttl.seconds` を指定して作成されており、エンティティ単位の期限切れに切り替える場合は、以下の手順に従ってください。ステップ 1 を省略すると、ステップ 3 が `collection TTL is already set, cannot be set ttl field` で失敗します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2459,7 +2497,10 @@ curl --request POST \
 import random
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 # Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 # highlight-start
@@ -2570,9 +2611,7 @@ client.upsert(UpsertReq.builder()
 import (
     "context"
     "fmt"
-    "math/rand"
 
-    "github.com/milvus-io/milvus/client/v3/column"
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -2590,6 +2629,7 @@ if err != nil {
 }
 defer client.Close(ctx)
 
+// Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", "collection.ttl.seconds"))
 if err != nil {
@@ -2613,20 +2653,7 @@ if err != nil {
     // handle error
 }
 
-// Step 4 (optional) — backfill expiration timestamps for historical entities
-vector := make([]float32, 128)
-for i := range vector {
-    vector[i] = rand.Float32()
-}
-_, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection",
-    column.NewColumnInt64("id", []int64{1}),
-    column.NewColumnFloatVector("vector", 128, [][]float32{vector}),
-    column.NewColumnTimestamptzIsoString("expire_at", []string{"2026-12-31T00:00:00Z"}),
-))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
+// Step 4 (optional) — backfill expiration timestamps with a column-based upsert.
 ```
 
 </TabItem>
@@ -2640,6 +2667,7 @@ let client = ClientV2::new(&ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .token("YOUR_CLUSTER_TOKEN")).await?;
 
+// Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
     .collection_name("my_collection")
@@ -2682,6 +2710,7 @@ client.upsert(UpsertRequest::builder()
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
+// Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                               .WithCollectionName("my_collection")
@@ -2705,22 +2734,6 @@ status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequ
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
-
-// Step 4 (optional) — backfill expiration timestamps for historical entities
-std::vector<float> vector(128);
-for (auto& v : vector) {
-    v = static_cast<float>(rand()) / RAND_MAX;
-}
-milvus::EntityRows rows;
-rows.push_back({{"id", 1}, {"vector", vector}, {"expire_at", "2026-12-31T00:00:00Z"}});
-milvus::UpsertResponse response;
-status = client->Upsert(milvus::UpsertRequest()
-                            .WithCollectionName("my_collection")
-                            .WithRowsData(std::move(rows)),
-                        response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -2733,6 +2746,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 // Assumes "my_collection" already exists with `collection.ttl.seconds` set.
+// highlight-start
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 await client.dropCollectionProperties({
   collection_name: "my_collection",
@@ -2750,15 +2764,7 @@ await client.alterCollectionProperties({
   collection_name: "my_collection",
   properties: { ttl_field: "expire_at" },
 });
-
-// Step 4 (optional) — backfill expiration timestamps for historical entities
-const vector = Array.from({ length: 128 }, () => Math.random());
-await client.upsert({
-  collection_name: "my_collection",
-  data: [
-    { id: 1, vector, expire_at: "2026-12-31T00:00:00Z" },
-  ],
-});
+// highlight-end
 ```
 
 </TabItem>
@@ -2769,6 +2775,7 @@ await client.upsert({
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
 
+// Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
 {
@@ -2799,6 +2806,7 @@ await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
+# Assumes "my_collection" already exists with collection.ttl.seconds set.
 # Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
@@ -2824,17 +2832,10 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_pro
         \"ttl_field\": \"expire_at\"
     }
 }"
-
-# Step 4 (optional) — backfill expiration timestamps for historical entities
-curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
-    \"collectionName\": \"my_collection\",
-    \"data\": [
-        {\"id\": 1, \"vector\": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8], \"expire_at\": \"2026-12-31T00:00:00Z\"}
-    ]
-}"
 ```
 
 </TabItem>
+
 </Tabs>
 
 `expire_at` をバックフィルしない履歴エンティティでは、その列が `NULL` となり、期限切れにならないことを意味します。有限の有効期間を持つべき行のみをバックフィルしてください。
@@ -2849,7 +2850,10 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 # Assumes "my_collection" already exists with `ttl_field` set.
 # highlight-start
@@ -2925,6 +2929,7 @@ if err != nil {
 }
 defer client.Close(ctx)
 
+// Assumes "my_collection" already exists with `ttl_field` set.
 err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", "ttl_field"))
 if err != nil {
     fmt.Println(err.Error())
@@ -2950,6 +2955,7 @@ let client = ClientV2::new(&ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .token("YOUR_CLUSTER_TOKEN")).await?;
 
+// Assumes "my_collection" already exists with `ttl_field` set.
 client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
     .collection_name("my_collection")
     .property_key("ttl_field")
@@ -2972,6 +2978,7 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 
+// Assumes "my_collection" already exists with `ttl_field` set.
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                               .WithCollectionName("my_collection")
                                               .AddPropertyKey("ttl_field"));
@@ -2981,7 +2988,7 @@ if (!status.IsOk()) {
 
 status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                .WithCollectionName("my_collection")
-                                               .AddProperty(milvus::COLLECTION_TTL_SECONDS, "1209600")); // 14 days
+                                               .AddProperty(milvus::COLLECTION_TTL_SECONDS, "1209600"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -2997,15 +3004,16 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 // Assumes "my_collection" already exists with `ttl_field` set.
+// highlight-start
 await client.dropCollectionProperties({
   collection_name: "my_collection",
   properties: ["ttl_field"],
 });
-
 await client.alterCollectionProperties({
   collection_name: "my_collection",
   properties: { "collection.ttl.seconds": 1209600 }, // 14 days
 });
+// highlight-end
 ```
 
 </TabItem>
@@ -3037,7 +3045,7 @@ await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-# Step 1 — drop the ttl_field property (mandatory; the two modes are mutually exclusive)
+# Assumes "my_collection" already exists with ttl_field set.
 curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"propertyKeys\": [
@@ -3045,7 +3053,6 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_prop
     ]
 }"
 
-# Step 2 — set a collection-level TTL for all entities
 curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"properties\": {
@@ -3055,13 +3062,14 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_pro
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## FAQ\{#faqs}
 
 ### TTL 設定によりデータはいつ期限切れになりますか？\{#when-does-data-expire-due-to-ttl-settings}
 
-現在、データは挿入またはアップサートされた時点に基づいて期限切れになります。期限切れのデータは検索結果に表示されません。詳細は、[例](./set-collection-ttl) を参照してください。
+データは、挿入またはアップサートされた時点に基づいて期限切れになります。期限切れのデータは検索結果に表示されません。詳細は、[例](./set-collection-ttl#set-collection-level-ttl) を参照してください。
 
 ### 期限切れのデータはいつ物理的に削除されますか？\{#when-will-the-expired-data-be-physically-deleted}
 
@@ -3072,4 +3080,3 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_pro
 ### CU 容量はいつ減少しますか？\{#when-will-the-cu-capacity-decrease}
 
 クラスターの CU 容量は、メモリ使用量とストレージ使用量のうち大きい方です。ストレージ使用量が適用される場合、期限切れのデータが物理的に削除された後、Zilliz Cloud コンソールで CU 容量の減少を確認できます。
-

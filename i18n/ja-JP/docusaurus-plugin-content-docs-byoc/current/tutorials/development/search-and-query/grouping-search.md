@@ -1,17 +1,18 @@
 ---
 title: "グループ検索 | BYOC"
 slug: /grouping-search
-sidebar_label: "グループ検索"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "グループ検索を使用すると、Zilliz Cloud は検索結果を指定したフィールドの値でグループ化し、より上位のレベルでデータを集計できます。たとえば、基本的な ANN 検索を使用して手持ちの書籍に類似する書籍を探せますが、グループ検索を使用すると、その書籍で扱われているトピックに関連する可能性がある書籍カテゴリを見つけられます。このトピックでは、グループ検索の使用方法と主な考慮事項について説明します。 | BYOC"
+description: "グループ検索を使用して、ANN 検索結果をフィールド値で集計し、重複するエンティティを削減します。 | BYOC"
 type: origin
-token: JWZGw89MBiUDBNkhtGfcyyUcnsd
-sidebar_position: 6
 displayed_sidebar: default
+token: shared-grouping-search
+sidebar_label: "グループ検索"
+sidebar_position: 6
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/grouping-search.md"
 
 ---
 
@@ -29,11 +30,11 @@ import TabItem from '@theme/TabItem';
 
 コレクションに複数のドキュメントが保存されているとします（**docId** で識別されます）。ドキュメントをベクトルに変換する際にできるだけ多くの意味情報を保持するため、各ドキュメントは管理しやすい小さな段落（または **チャンク**）に分割され、個別のエンティティとして保存されます。ドキュメントが小さなセクションに分割されていても、ユーザーは多くの場合、どのドキュメントが自分のニーズに最も関連しているかを特定することに関心があります。
 
-![LhJEwzWiphLWxobMaiCcbVDPnNb](https://zdoc-images.s3.us-west-2.amazonaws.com/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
+![ANN 検索](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/e0a8aa022fda0f6484650a5b42b45ed065a82cd64c323eda3ec357e3073764f1.png)
 
 このようなコレクションで近似最近傍（ANN）検索を実行すると、検索結果に同じドキュメントの複数の段落が含まれる可能性があり、他のドキュメントが見落とされる原因になることがあります。これは、想定されるユースケースに合わない場合があります。
 
-![Ktj8wigrHhvz4nbDES5coKZJnZe](https://zdoc-images.s3.us-west-2.amazonaws.com/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
+![グループ検索](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/5cbf44758387cbf19837e89fe61e6990ffe0b8a79a775e04c7dd43558711f076.png)
 
 検索結果の多様性を向上させるには、検索リクエストに `group_by_field` パラメーターを追加してグループ検索を有効にします。図に示すように、`group_by_field` を `docId` に設定できます。このリクエストを受け取ると、Zilliz Cloud は次の処理を行います：
 
@@ -43,7 +44,7 @@ import TabItem from '@theme/TabItem';
 
 - `limit` パラメーターで定義されたとおりに各グループの上位結果を返します。各グループからは最も類似するエンティティが返されます。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 デフォルトでは、グループ検索はグループごとに 1 つのエンティティのみを返します。グループごとに返す結果の数を増やす場合は、`group_size` と `strict_group_size` パラメーターで制御できます。
 
@@ -66,6 +67,7 @@ import TabItem from '@theme/TabItem';
         {"id": 8, "vector": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], "chunk": "white_9381", "docId": 5},
         {"id": 9, "vector": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], "chunk": "purple_4976", "docId": 3},
 ]
+
 ```
 
 検索リクエストで、`group_by_field` と `output_fields` の両方を `docId` に設定します。Zilliz Cloud は、指定したフィールドで結果をグループ化し、各グループから最も類似するエンティティを返します。返される各エンティティには `docId` の値が含まれます。
@@ -104,9 +106,11 @@ doc_ids = [result['entity']['docId'] for result in res[0]]
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.SearchReq
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -148,8 +152,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -226,16 +230,19 @@ for result in res.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <stdexcept>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector<float> query_vector = {0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .AddFloatVector(query_vector)
@@ -245,15 +252,18 @@ auto request = milvus::SearchRequest()
                    .AddOutputField("docId");
 
 milvus::SearchResponse response;
-auto status = client->Search(request, response);
+status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 for (auto& result : response.Results().Results()) {
     std::cout << "TopK results:" << std::endl;
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);
+    if (!status.IsOk()) {
+        throw std::runtime_error(status.Message());
+    }
     for (const auto& row : output_rows) {
         std::cout << "\t" << row << std::endl;
     }
@@ -273,7 +283,7 @@ const client = new MilvusClient({address, token});
 
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
-const res = await client.search({
+res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
     limit: 3,
@@ -283,7 +293,7 @@ const res = await client.search({
 })
 
 // Retrieve the values in the `docId` column
-var docIds = res.results.map(result => result.docId)
+var docIds = res.results.map(result => result.entity.docId)
 ```
 
 </TabItem>
@@ -376,6 +386,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 上記のリクエストでは、`limit=3` は、システムが 3 つのグループから検索結果を返し、各グループにクエリベクトルに最も類似する単一のエンティティが含まれることを示します。
@@ -391,7 +402,7 @@ zilliz vector search \
 # Group search results
 
 res = client.search(
-    collection_name="my_collection", 
+    collection_name="my_collection",
     data=query_vectors, # query vector
     limit=5, # number of groups to return
     group_by_field="docId", # grouping field
@@ -446,8 +457,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -528,16 +539,19 @@ for result in res.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <stdexcept>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector<float> query_vector = {0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .AddFloatVector(query_vector)
@@ -549,15 +563,18 @@ auto request = milvus::SearchRequest()
                    .AddOutputField("docId");
 
 milvus::SearchResponse response;
-auto status = client->Search(request, response);
+status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    throw std::runtime_error(status.Message());
 }
 
 for (auto& result : response.Results().Results()) {
     std::cout << "TopK results:" << std::endl;
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);
+    if (!status.IsOk()) {
+        throw std::runtime_error(status.Message());
+    }
     for (const auto& row : output_rows) {
         std::cout << "\t" << row << std::endl;
     }
@@ -577,7 +594,7 @@ const client = new MilvusClient({address, token});
 
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
-const res = await client.search({
+res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
     limit: 5,
@@ -589,7 +606,7 @@ const res = await client.search({
 })
 
 // Retrieve the values in the `docId` column
-var docIds = res.results.map(result => result.docId)
+var docIds = res.results.map(result => result.entity.docId)
 ```
 
 </TabItem>
@@ -676,6 +693,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 上記の例では：
@@ -684,7 +702,7 @@ zilliz vector search \
 
 - `strict_group_size`: このブール値パラメーターは、`group_size` で設定された数をシステムが厳密に適用するかどうかを制御します。`strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに `group_size` で指定された正確な数のエンティティ（たとえば 2 つの段落）を含めようとします。デフォルト（`strict_group_size=False`）では、システムは各グループに `group_size` 個のエンティティが含まれることを保証するのではなく、`limit` パラメーターで指定されたグループ数を満たすことを優先します。このアプローチは、データ分布が不均一な場合に一般に効率的です。
 
-パラメーターの詳細については、[search](/reference/python/python/Vector-search) を参照してください。
+パラメーターの詳細については、[search](https://docs.zilliz.com/reference/python/python/Vector-search) を参照してください。
 
 ## スカラーフィールドでグループを並べ替える | PUBLIC\{#order-groups-by-a-scalar-field-or-public}
 
@@ -725,9 +743,7 @@ import io.milvus.v2.service.vector.request.aggregation.OrderByField;
 import io.milvus.v2.service.vector.response.SearchResp;
 import java.util.List;
 
-// Prerequisite: client is connected to the project endpoint;
-// clusterId identifies the on-demand cluster containing product_catalog.
-var session = client.session(clusterId);
+// Prerequisite: client is connected to Zilliz Cloud and product_catalog is loaded.
 FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
 SearchReq request = SearchReq.builder()
     .collectionName("product_catalog")
@@ -741,7 +757,7 @@ SearchReq request = SearchReq.builder()
     .orderByFields(List.of(OrderByField.builder()
         .fieldName("price").direction(AggDirection.ASC).build()))
     .build();
-SearchResp response = session.search(request);
+SearchResp response = client.search(request);
 System.out.println(response.getSearchResults());
 ```
 
@@ -756,8 +772,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-// Prerequisite: client is connected to the project endpoint;
-// clusterID identifies the on-demand cluster containing product_catalog.
+// Prerequisite: client is connected to Zilliz Cloud and product_catalog is loaded.
 queryVector := []float32{0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088}
 results, err := client.Search(ctx, milvusclient.NewSearchOption(
     "product_catalog", 20, []entity.Vector{entity.FloatVector(queryVector)},
@@ -767,8 +782,7 @@ results, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithGroupSize(3).
     WithStrictGroupSize(true).
     WithOutputFields("category", "price", "rating").
-    WithSearchParam("order_by_fields", "price:asc").
-    WithSearchParam("cluster_id", clusterID))
+    WithSearchParam("order_by_fields", "price:asc"))
 if err != nil {
     panic(err)
 }
@@ -828,11 +842,7 @@ for result in res.results() {
 #include <iostream>
 #include <stdexcept>
 
-// Prerequisite: client is connected to the project endpoint;
-// cluster_id identifies the on-demand cluster containing product_catalog.
-milvus::MilvusClientV2SessionPtr session;
-auto status = client->Session(cluster_id, session);
-if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+// Prerequisite: client is connected to Zilliz Cloud and product_catalog is loaded.
 std::vector<float> query_vector = {0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f};
 auto request = milvus::SearchRequest()
     .WithCollectionName("product_catalog")
@@ -847,7 +857,7 @@ auto request = milvus::SearchRequest()
     .AddOutputField("rating")
     .AddOrderByField(milvus::OrderByField("price", milvus::AggregationDirection::ASC));
 milvus::SearchResponse response;
-status = session->Search(request, response);
+auto status = client->Search(request, response);
 if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
 for (const auto& result : response.Results().Results()) {
     milvus::EntityRows rows;
@@ -862,11 +872,9 @@ for (const auto& result : response.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-// Prerequisite: client is connected to the project endpoint;
-// clusterId identifies the on-demand cluster containing product_catalog.
-const session = client.session(clusterId);
+// Prerequisite: client is connected to Zilliz Cloud and product_catalog is loaded.
 const queryVector = [0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088];
-const response = await session.search({
+const response = await client.search({
   collection_name: "product_catalog",
   data: [queryVector],
   anns_field: "embedding",
@@ -896,9 +904,9 @@ using Milvus.Client.V2;
 <TabItem value='bash'>
 
 ```bash
-# Prerequisite: set PROJECT_ENDPOINT, TOKEN, and CLUSTER_ID for your on-demand cluster.
+# Prerequisite: set CLUSTER_ENDPOINT and TOKEN for your Zilliz Cloud instance.
 curl --request POST \
-  --url "${PROJECT_ENDPOINT}/v2/vectordb/entities/search?cluster_id=${CLUSTER_ID}" \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
   --data '{
@@ -952,6 +960,7 @@ zilliz vector search \
 ```
 
 </TabItem>
+
 </Tabs>
 
 上記のリクエストでは、`limit=20` は、Zilliz Cloud が 20 個のエンティティではなく最大 20 個のグループを選択することを意味します。`group_size=3` であるため、フラットな結果リストには合計で最大 60 個のエンティティを含めることができます。
@@ -960,6 +969,8 @@ zilliz vector search \
 
 ## 考慮事項\{#considerations}
 
+- **インデックス作成**: このグループ化機能は、次のインデックスタイプでインデックスが作成されたコレクションでのみ機能します：**FLAT**、**IVF_FLAT**、**IVF_SQ8**、**HNSW**、**HNSW_PQ**、**HNSW_PRQ**、**HNSW_SQ**、**DISKANN**、**SPARSE_INVERTED_INDEX**。
+
 - **グループ数**: `limit` パラメーターは、各グループ内の具体的なエンティティ数ではなく、検索結果を返すグループ数を制御します。適切な `limit` を設定すると、検索の多様性とクエリのパフォーマンスを制御できます。データが密に分布している場合やパフォーマンスが懸念される場合は、`limit` を減らすことで計算コストを削減できます。
 
 - **グループあたりのエンティティ数**: `group_size` パラメーターは、グループごとに返されるエンティティ数を制御します。ユースケースに合わせて `group_size` を調整すると、検索結果の充実度を高めることができます。ただし、データが不均一に分布している場合、特にデータが限られているシナリオでは、一部のグループが `group_size` で指定された数より少ないエンティティを返すことがあります。
@@ -967,4 +978,3 @@ zilliz vector search \
 - **厳密なグループサイズ**: `strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに指定された数のエンティティ（`group_size`）を返そうとします。この設定により、グループごとのエンティティ数を一定に保てますが、データ分布が不均一な場合やリソースが限られている場合はパフォーマンスが低下する可能性があります。厳密なエンティティ数が不要な場合は、`strict_group_size=False` に設定するとクエリ速度を向上させられます。
 
 - クエリベクトルが対象のコレクションにすでに存在する場合は、検索前に取得するのではなく、`ids` を使用することを検討してください。詳細は、[Primary-Key Search](./primary-key-search) を参照してください。
-
