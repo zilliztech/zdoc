@@ -13,3 +13,6 @@ transforms:
   - operation: remove
     target:
       block: autoid-cluster-config
+  - operation: remove
+    target:
+      block: autoid-reference-intro
