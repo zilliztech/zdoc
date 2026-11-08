@@ -1,0 +1,88 @@
+name: ga4 404 remediation
+
+# Deterministic GA4 404 → nginx 301 remediation tool (PR1 slice): manual
+# dispatch only. The run classifies the page_not_found window, emits the
+# proposed conf block plus the triage comment protocol, and uploads everything
+# as an artifact; it never pushes a branch or opens a PR. Until operators
+# configure the GA4 service account secret and property variables, every run
+# degrades to a no-op with a notice instead of failing (see the credential
+# gate step). The scheduled auto-PR slice is tracked separately.
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'GA4 lookback window in days (1-90)'
+        required: false
+        default: '7'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ga4-404-remediation
+  cancel-in-progress: false
+
+jobs:
+  remediation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out immutable tooling revision
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Resolve GA4 credentials
+        id: credentials
+        env:
+          GA4_SERVICE_ACCOUNT_JSON: ${{ secrets.GA4_SERVICE_ACCOUNT_JSON }}
+          GA4_PROPERTY_ID_EN: ${{ vars.GA4_PROPERTY_ID_EN }}
+          GA4_PROPERTY_ID_ZH_CN: ${{ vars.GA4_PROPERTY_ID_ZH_CN }}
+        run: |
+          if [ -n "$GA4_SERVICE_ACCOUNT_JSON" ] && [ -n "$GA4_PROPERTY_ID_EN" ]; then
+            creds_file="$RUNNER_TEMP/ga4-service-account.json"
+            printf '%s' "$GA4_SERVICE_ACCOUNT_JSON" > "$creds_file"
+            {
+              echo "has_credentials=true"
+              echo "credentials_file=$creds_file"
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::GA4 404 remediation is not configured; set GA4_SERVICE_ACCOUNT_JSON plus GA4_PROPERTY_ID_EN to enable it."
+            echo "has_credentials=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run GA4 404 remediation
+        id: remediation
+        if: ${{ steps.credentials.outputs.has_credentials == 'true' }}
+        env:
+          GA4_PROPERTY_ID_EN: ${{ vars.GA4_PROPERTY_ID_EN }}
+          GA4_PROPERTY_ID_ZH_CN: ${{ vars.GA4_PROPERTY_ID_ZH_CN }}
+        run: |
+          node scripts/redirects/ga4-404-remediation.js \
+            --credentials "${{ steps.credentials.outputs.credentials_file }}" \
+            --output-dir tmp/ga4-404-remediation \
+            --days "${{ inputs.days || '7' }}"
+          echo "card_status=success" >> "$GITHUB_OUTPUT"
+
+      - name: Append proposal summary
+        if: ${{ steps.credentials.outputs.has_credentials == 'true' }}
+        run: cat tmp/ga4-404-remediation/proposal.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload remediation artifacts
+        if: ${{ steps.credentials.outputs.has_credentials == 'true' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: ga4-404-remediation-${{ github.run_id }}
+          path: tmp/ga4-404-remediation
+          if-no-files-found: error
+          retention-days: 14
