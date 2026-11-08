@@ -179,6 +179,20 @@ test('classify routes served routes, conf residuals, and live sources into exemp
   assert.match(exempt[2].reason, /production serves this path/)
 })
 
+test('classify exempts ja-JP page paths instead of deriving a doubled-locale twin', async () => {
+  // The en host also serves the ja build, so /ja-JP paths arrive in the en
+  // rows; a unique-basename ladder hit must not turn them into dead twins.
+  const routes = new Set([...ROUTES, '/docs/home/anomaly-detection'])
+  const fetchImpl = stubFetch(new Map())
+  const {direct, triage, exempt} = await classify({
+    batch: [{path: '/ja-JP/docs/anomaly-detection', events: 2, users: 1, countries: {}}],
+    routes, confSources: new Set(), fetchImpl, probe: false,
+  })
+  assert.equal(direct.length, 0)
+  assert.equal(triage.length, 0)
+  assert.match(exempt[0].reason, /ja-JP page path recorded on the en host/)
+})
+
 test('classify proposes direct rules when source 404s and the ladder target serves 200', async () => {
   const fetchImpl = stubFetch(new Map([
     ['https://docs.zilliz.com/reference/go/v2-Vector-HybridSearch', 404],

@@ -31,6 +31,12 @@ node scripts/redirects/ga4-404-remediation.js --credentials sa.json --output-dir
 node scripts/redirects/ga4-404-remediation.js --mode apply --mapping mapping.json --output-dir tmp/apply   # operator-confirmed mapping → rules.conf + ledger.json
 ```
 
+The apply-mode mapping carries only en pairs (the `/ja-JP` twins are derived) and records declines/denylist decisions into the ledger:
+
+```json
+{"schema_version": 1, "mappings": [{"from": "/docs/old", "to": "/docs/home", "note": "optional"}], "declined": [{"from": "/docs/one-off", "note": "why"}], "denylist": [{"from": "/docs/never", "note": "why"}]}
+```
+
 A previous run's `ga4-rows.json` artifact replays without GA4 access (`--ga4-report tmp/ga4-404-remediation/ga4-rows.json --no-probe`). Every emitted rule must pass the same contracts as a hand-added one: `pnpm test:containers` (target lint + ja mirror) and the SPA-map derivation tests before merging.
 
 ## Engagement funnel report

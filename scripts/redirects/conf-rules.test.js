@@ -129,6 +129,26 @@ test('applyBatch splices the block before the 404 anchor with blank-line separat
   assert.match(merged, /location = \/ja-JP\/docs\/home \{ return 301 \/ja-JP\/docs\/index; \}\n\n    # GA4 404 remediation/)
 })
 
+test('validateBatch rejects sources nginx cannot load or that break the twin derivation', () => {
+  const routes = ROUTES
+  // A source with a space renders an unloadable location token.
+  const whitespace = validateBatch({rules: [{from: '/docs/with space', to: '/docs/home', ja: buildJaRule('/docs/with space', '/docs/home')}], confSources: new Set(), routes})
+  assert.ok(whitespace.errors.some(error => error.includes('invalid exact-match source') && error.includes('/docs/with space')))
+
+  // The en host also serves the ja build, so ja-prefixed GA4 sources can
+  // arrive; they must never be submitted — the twin is derived from the en path.
+  const jaSource = validateBatch({rules: [{from: '/ja-JP/docs/old', to: '/docs/home', ja: {from: '/ja-JP/ja-JP/docs/old', to: '/ja-JP/docs/home'}}], confSources: new Set(), routes})
+  assert.ok(jaSource.errors.some(error => error.includes('en source must not be /ja-JP-prefixed')))
+})
+
+test('validateBatch accepts the derived twin for absolute targets and rejects non-derived twins', () => {
+  const absolute = validateBatch({rules: [{from: '/pricing', to: 'https://zilliz.com/pricing', ja: buildJaRule('/pricing', 'https://zilliz.com/pricing')}], confSources: new Set(), routes: ROUTES})
+  assert.equal(absolute.errors.filter(error => error.includes('ja twin source')).length, 0)
+
+  const hijacked = validateBatch({rules: [{from: '/docs/old', to: '/docs/home', ja: {from: '/ja-JP/other', to: '/ja-JP/docs/home'}}], confSources: new Set(), routes: ROUTES})
+  assert.ok(hijacked.errors.some(error => error.includes('ja twin source must be the derived /ja-JP mirror of the en source: got /ja-JP/other')))
+})
+
 test('findInsertionOffset fails closed when the anchor is missing', () => {
   assert.throws(() => findInsertionOffset('server {\n}\n'), /insertion anchor not found/)
 })

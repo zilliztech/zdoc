@@ -197,7 +197,8 @@ function workflowRunUrl(env) {
 
 // --- mode: apply ------------------------------------------------------------
 
-function runApply({args, confText, routes, allowlist, ledgerRaw}) {
+function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs}) {
+  if (!args.mapping) throw new Error('apply mode requires --mapping FILE (the structured mapping JSON)')
   const mapping = loadMapping(args.mapping)
   const confSources = parseExactSources(confText)
   const rules = []
@@ -214,22 +215,25 @@ function runApply({args, confText, routes, allowlist, ledgerRaw}) {
   if (verdict.errors.length > 0) {
     throw new Error(`mapping rejected by the conf contract:\n${verdict.errors.map(line => `  - ${line}`).join('\n')}`)
   }
-  const batchText = formatBatch({date: new Date().toISOString().slice(0, 10), sourceLabel: 'operator mapping (apply mode)', rules})
-  const ledgerEntries = [...(ledgerRaw.entries ?? [])]
+  const decidedAt = new Date(nowMs).toISOString()
+  const batchText = formatBatch({date: decidedAt.slice(0, 10), sourceLabel: 'operator mapping (apply mode)', rules})
+  // Keyed by from so re-applying the same mapping updates its entry instead
+  // of appending a duplicate decision.
+  const ledgerEntries = new Map((ledgerRaw.entries ?? []).map(entry => [entry.from, entry]))
   for (const mappingEntry of mapping.mappings) {
-    ledgerEntries.push({from: mappingEntry.from, status: 'fixed', to: mappingEntry.to, note: mappingEntry.note ?? undefined, decided_at: new Date().toISOString()})
+    ledgerEntries.set(mappingEntry.from, {from: mappingEntry.from, status: 'fixed', to: mappingEntry.to, note: mappingEntry.note ?? undefined, decided_at: decidedAt})
   }
   for (const declined of mapping.declined ?? []) {
-    ledgerEntries.push({from: declined.from, status: 'declined', note: declined.note ?? undefined, decided_at: new Date().toISOString()})
+    ledgerEntries.set(declined.from, {from: declined.from, status: 'declined', note: declined.note ?? undefined, decided_at: decidedAt})
   }
   for (const denylisted of mapping.denylist ?? []) {
-    ledgerEntries.push({from: denylisted.from, status: 'denylist', note: denylisted.note ?? undefined, decided_at: new Date().toISOString()})
+    ledgerEntries.set(denylisted.from, {from: denylisted.from, status: 'denylist', note: denylisted.note ?? undefined, decided_at: decidedAt})
   }
   return {
     rules,
     batchText,
     warnings: verdict.warnings,
-    ledgerJson: `${JSON.stringify({schema_version: SCHEMA_VERSION, entries: ledgerEntries}, null, 2)}\n`,
+    ledgerJson: `${JSON.stringify({schema_version: SCHEMA_VERSION, entries: [...ledgerEntries.values()]}, null, 2)}\n`,
   }
 }
 
@@ -337,11 +341,10 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
   const allowlist = new Map(Object.entries(snapshot.allowlist ?? {}))
   const {map: ledgerMap, raw: ledgerRaw} = loadLedger(args.ledger)
   const generatedAt = new Date(nowMs).toISOString()
-  const date = generatedAt.slice(0, 10)
 
   if (mode === 'apply') {
     if (args.credentials || args['ga4-report']) throw new Error('apply mode does not take GA4 inputs')
-    const outcome = runApply({args, confText, routes, allowlist, ledgerRaw})
+    const outcome = runApply({args, confText, routes, allowlist, ledgerRaw, nowMs})
     const rulesConfPath = writeOutput(outputDir, 'rules.conf', outcome.batchText)
     const ledgerPath = writeOutput(outputDir, 'ledger.json', outcome.ledgerJson)
     if (args['write-conf']) {
@@ -358,13 +361,18 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
   }
 
   // Modes direct / triage: GA4 data is required, live (credentials) or replay
-  // (a previous ga4-rows.json artifact).
+  // (a previous ga4-rows.json artifact). The proposal labels carry the data
+  // window, which on replay comes from the artifact rather than --days.
   let rows
+  let windowDays = days
+  let windowEnd = generatedAt.slice(0, 10)
   const sites = []
   if (args['ga4-report']) {
     if (args.credentials) throw new Error('--credentials and --ga4-report are mutually exclusive')
     const report = loadGa4Report(args['ga4-report'])
     rows = report.rows
+    if (Number.isSafeInteger(report.days) && report.days > 0) windowDays = report.days
+    if (typeof report.generated_at === 'string' && report.generated_at !== '') windowEnd = report.generated_at.slice(0, 10)
     for (const site of report.sites) sites.push({...site, replayed_from: args['ga4-report']})
   } else if (args.credentials) {
     const credentials = loadServiceAccount(args.credentials)
@@ -397,7 +405,7 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
   const report = {
     schema_version: SCHEMA_VERSION,
     generated_at: generatedAt,
-    days,
+    days: windowDays,
     mode,
     workflow_run_url: workflowRunUrl(env),
     inputs: {conf: confPath, snapshot: snapshotPath, probe, min_users: minUsers, min_events: minEvents, batch_limit: batchLimit, ledger: args.ledger},
@@ -422,14 +430,14 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
 
   const outputs = {report_path: writeOutput(outputDir, 'report.json', `${JSON.stringify(report, null, 2)}\n`)}
   if (!args['ga4-report']) {
-    outputs.rows_path = writeOutput(outputDir, 'ga4-rows.json', `${JSON.stringify({schema_version: SCHEMA_VERSION, generated_at: generatedAt, days, sites: report.sites}, null, 2)}\n`)
+    outputs.rows_path = writeOutput(outputDir, 'ga4-rows.json', `${JSON.stringify({schema_version: SCHEMA_VERSION, generated_at: generatedAt, days: windowDays, sites: report.sites}, null, 2)}\n`)
   }
   if (triage.length > 0 || mode === 'triage') {
-    outputs.triage_path = writeOutput(outputDir, 'triage.md', buildTriageMarkdown({triage, generatedAt, days}))
+    outputs.triage_path = writeOutput(outputDir, 'triage.md', buildTriageMarkdown({triage, generatedAt, days: windowDays}))
   }
   if (mode === 'direct') {
     if (direct.length > 0) {
-      const batchText = formatBatch({date, sourceLabel: `GA4 window ${report.days}d ending ${date}`, rules: direct})
+      const batchText = formatBatch({date: windowEnd, sourceLabel: `GA4 window ${windowDays}d ending ${windowEnd}`, rules: direct})
       outputs.rules_conf_path = writeOutput(outputDir, 'rules.conf', batchText)
       if (args['write-conf']) fs.writeFileSync(confPath, applyBatch(confText, batchText))
     }

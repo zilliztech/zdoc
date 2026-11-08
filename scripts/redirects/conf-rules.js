@@ -17,7 +17,10 @@ const ANCHOR = 'error_page 404 /404.html;'
 const ANCHOR_LINE_PATTERN = /^[ \t]*error_page 404 \/404\.html;[ \t]*$/mu
 const JA_PREFIX = '/ja-JP'
 const EXACT_SOURCE_PATTERN = /location = ([^ {]+) \{/gu
-const RETURN_TARGET_PATTERN = /return 301\s+([^;\s]+);/gu
+// An exact-match source nginx can actually load and this tool can re-parse:
+// an absolute path with no whitespace (the `location =` URI token ends at
+// whitespace), braces, or semicolons.
+const VALID_SOURCE_PATTERN = /^\/[^\s{};]*$/u
 
 function parseExactSources(confText) {
   return new Set([...confText.matchAll(EXACT_SOURCE_PATTERN)].map(match => match[1]))
@@ -40,9 +43,9 @@ function stripJaPrefix(target) {
 // Returns one of: route, chain, allowlist, external, variable, bare-locale-root,
 // unresolved.
 function lintTarget(target, {routes, exactSources = new Set(), allowlist = new Map()}) {
-  if (isExternalTarget(target)) return {kind: 'external', resolved: true}
-  if (isVariableTarget(target)) return {kind: 'variable', resolved: true}
   let local = target.split('#', 1)[0]
+  if (isExternalTarget(local)) return {kind: 'external', resolved: true}
+  if (isVariableTarget(local)) return {kind: 'variable', resolved: true}
   if (local.startsWith(`${JA_PREFIX}/`)) {
     local = stripJaPrefix(local)
     if (local === '/') return {kind: 'bare-locale-root', resolved: false}
@@ -100,9 +103,22 @@ function validateBatch({rules, confSources, routes, allowlist = new Map()}) {
   for (const rule of rules) {
     for (const source of [rule.from, rule.ja ? rule.ja.from : null]) {
       if (!source) continue
+      if (!VALID_SOURCE_PATTERN.test(source)) {
+        errors.push(`invalid exact-match source (must be an absolute path without whitespace, braces, or semicolons): ${source}`)
+      }
       if (seen.has(source)) errors.push(`duplicate source inside the batch: ${source}`)
       seen.add(source)
       if (confSources.has(source)) errors.push(`source already has an exact rule in the conf: ${source}`)
+    }
+    // The en source is the single input of the pair: twins are derived from
+    // it, so a ja-prefixed source (the en host also serves the ja build, so
+    // these arrive in the GA4 rows) must never be submitted, and a twin whose
+    // source is not the mechanical mirror is not a derivation.
+    if (rule.from.startsWith(JA_PREFIX)) {
+      errors.push(`en source must not be /ja-JP-prefixed; remediate the en path so the twin stays derived: ${rule.from}`)
+    }
+    if (rule.ja && rule.ja.from !== `${JA_PREFIX}${rule.from}`) {
+      errors.push(`ja twin source must be the derived /ja-JP mirror of the en source: got ${rule.ja.from}`)
     }
     if (!rule.ja) errors.push(`missing ja twin for ${rule.from}`)
     for (const target of [rule.to, rule.ja ? rule.ja.to : null]) {
@@ -129,6 +145,7 @@ function applyBatch(confText, batchText) {
 
 module.exports = {
   ANCHOR,
+  VALID_SOURCE_PATTERN,
   applyBatch,
   buildJaRule,
   findInsertionOffset,

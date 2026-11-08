@@ -25,7 +25,12 @@ const DENYLIST_PATHS = Object.freeze([
 const LADDERS = Object.freeze(['exact-served', 'sdk-double-segment', 'restful-v2', 'sdk-overview', 'unique-basename'])
 
 // rows: [{path, country, events, users}] — one row per (pagePath, country)
-// combination as returned by the GA4 runReport page.
+// combination as returned by the GA4 runReport page. activeUsers is summed
+// across the country rows of one path, which slightly overcounts a user who
+// 404'd from two countries in the window; GA4 dedups per dimension
+// combination, so --min-users is marginally permissive — harmless at the
+// default threshold of 1, which only exists to drop the zero-user crawler
+// buckets.
 function aggregateRows(rows) {
   const aggregated = new Map()
   for (const row of rows) {
@@ -87,11 +92,13 @@ function selectBatch(candidates, limit = 30) {
   return sorted.slice(0, limit)
 }
 
-// Target ladders over the route snapshot plus the conf's own exact sources
-// (a conf source may serve as a chain target). Returns {to, ladder} or null.
-// L0 is handled by the caller: a source that IS a served route is exempt, not
-// a proposal.
-function resolveTarget(path, {routes, confSources = new Set()}) {
+// Target ladders over the route snapshot only: a proposed target must be a
+// real served route. Chain targets (the conf's own exact sources) pass the
+// lint but are deliberately not proposed — a proposal that lands users in a
+// second redirect is not a confident deterministic mapping. Returns
+// {to, ladder} or null. L0 is handled by the caller: a source that IS a
+// served route is exempt, not a proposal.
+function resolveTarget(path, {routes}) {
   const doubleSegment = path.match(/^\/reference\/([a-z0-9-]+)\/([^/]+)$/u)
   if (doubleSegment) {
     const [, sdk, rest] = doubleSegment
@@ -185,6 +192,13 @@ async function classify({batch, routes, confSources, origin = 'https://docs.zill
   const exempt = []
   for (const candidate of batch) {
     const {path, events, users, countries} = candidate
+    // The en host also serves the ja-JP build, so ja page paths arrive in the
+    // en rows. Their remediation is the en path (the twin is derived from it),
+    // never a /ja-JP source — which would double the locale prefix.
+    if (path.startsWith('/ja-JP/')) {
+      exempt.push({path, events, users, reason: 'ja-JP page path recorded on the en host; remediate the en path so the twin stays derived'})
+      continue
+    }
     if (routes.has(path)) {
       exempt.push({path, events, users, reason: 'path is a published route in the snapshot (phantom 404 or stale report)'})
       continue
@@ -194,7 +208,7 @@ async function classify({batch, routes, confSources, origin = 'https://docs.zill
       continue
     }
     if (!probe) {
-      const resolved = resolveTarget(path, {routes, confSources})
+      const resolved = resolveTarget(path, {routes})
       if (resolved) {
         direct.push({from: path, to: resolved.to, ladder: resolved.ladder, events, users, countries, ja: buildJaRule(path, resolved.to)})
       } else {
@@ -217,7 +231,7 @@ async function classify({batch, routes, confSources, origin = 'https://docs.zill
       exempt.push({path, events, users, reason: `production serves this path (HTTP ${sourceProbe.status} after ${sourceProbe.redirectCount} hops), not a 404`})
       continue
     }
-    const resolved = resolveTarget(path, {routes, confSources})
+    const resolved = resolveTarget(path, {routes})
     if (!resolved) {
       triage.push({path, events, users, countries, probe: sourceProbe, attempted: LADDERS, candidates: [], reason: 'no ladder resolved'})
       continue

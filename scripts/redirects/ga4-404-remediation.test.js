@@ -309,6 +309,33 @@ test('run() apply mode validates the mapping through the same generator and emit
   }
 })
 
+test('run() apply mode requires --mapping and merges ledger decisions idempotently', async () => {
+  const dir = makeTempDir('ga4-rem-applyguard-')
+  const outDir = path.join(dir, 'out')
+  try {
+    const confPath = writeFixture(dir, 'nginx.conf', CONF)
+    const snapshotPath = writeFixture(dir, 'snapshot.json', JSON.stringify(SNAPSHOT))
+    await assert.rejects(
+      () => run({argv: ['--mode', 'apply', '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]}),
+      /apply mode requires --mapping/,
+    )
+
+    const mappingPath = writeFixture(dir, 'mapping.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/manual', to: '/docs/home'}],
+    }))
+    const base = ['--mode', 'apply', '--mapping', mappingPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]
+    await run({argv: base, nowMs: 1_700_000_000_000})
+    await run({argv: base, nowMs: 1_700_000_100_000})
+    const ledger = JSON.parse(fs.readFileSync(path.join(outDir, 'ledger.json'), 'utf8'))
+    const manualEntries = ledger.entries.filter(entry => entry.from === '/docs/manual')
+    assert.equal(manualEntries.length, 1, 're-applying the same mapping must update, not duplicate')
+    assert.equal(manualEntries[0].decided_at, new Date(1_700_000_100_000).toISOString())
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
+
 test('run() apply mode rejects mappings that violate the conf contract', async () => {
   const dir = makeTempDir('ga4-rem-applybad-')
   const outDir = path.join(dir, 'out')
