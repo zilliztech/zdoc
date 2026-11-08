@@ -187,11 +187,11 @@ The project is created at the end of this step, and you will be redirected to th
 
         If **Auto-scaling** is disabled, simply specify the number of VM instances required for each project component in the corresponding **Count** field.
 
-        ![DYwHb4uOioMCbZxajkHc6unEn8f](https://zdoc-images.s3.us-west-2.amazonaws.com/dywhb4uoiomcbzxajkhc6unen8f.png "DYwHb4uOioMCbZxajkHc6unEn8f")
+        ![FadSbNEHcoYEnpxwPvac0NRFnfc](https://zdoc-images.s3.us-west-2.amazonaws.com/fadsbnehcoyenpxwpvac0nrfnfc.png "FadSbNEHcoYEnpxwPvac0NRFnfc")
 
         Once **Auto-scaling** is enabled, you need to specify a range for Zilliz Cloud to automatically scale the number of VM instances based on actual project workloads by setting the corresponding **Min** and **Max** fields.
 
-        ![As6Ebvzaoo4iccxsxdlctOCRnpd](https://zdoc-images.s3.us-west-2.amazonaws.com/as6ebvzaoo4iccxsxdlctocrnpd.png "As6Ebvzaoo4iccxsxdlctOCRnpd")
+        ![TJabbA8vToK83uxZASwcKtoBnof](https://zdoc-images.s3.us-west-2.amazonaws.com/tjabba8vtok83uxzaswcktobnof.png "TJabbA8vToK83uxZASwcKtoBnof")
 
         To facilitate resource settings, there are four predefined project size options. The following table shows the mapping between these project size options and the number of clusters that can be created in the project, along with the number of entities each cluster can contain.
 
@@ -242,7 +242,7 @@ The project is created at the end of this step, and you will be redirected to th
 
         This option determines whether you can create tiered-storage clusters. Once you select this option, you can set the instance type and count for the tiered query nodes. 
 
-        ![Aolab6yB3o8Z3mxDFCycMzNqnTf](https://zdoc-images.s3.us-west-2.amazonaws.com/aolab6yb3o8z3mxdfcycmznqntf.png "Aolab6yB3o8Z3mxDFCycMzNqnTf")
+        ![KM0vbGKTwoy1EcxitHWc2NNgnqf](https://zdoc-images.s3.us-west-2.amazonaws.com/km0vbgktwoy1ecxithwc2nngnqf.png "KM0vbGKTwoy1EcxitHWc2NNgnqf")
 
         <Admonition type="info" title="Notes">
 

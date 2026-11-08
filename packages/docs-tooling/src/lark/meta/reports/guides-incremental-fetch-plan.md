@@ -1,20 +1,21 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-07T18:23:15.082Z
+Generated: 2026-11-08T02:26:53.866Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-11-07T10:36:40.844Z
+Previous snapshot: 2026-11-07T18:27:19.783Z
 
 ## Summary
 
-- Changed docs: 0
-- Expanded docs: 58
+- Changed docs: 1
+- Expanded docs: 65
 - Removed docs: 0
 - Warnings: 0
 
 ## Changed Docs
 
+- Deploy BYOC-I on Microsoft Azure (QuBiwrIJdiDw3ckVDKBcPofinfe): wiki node revision changed
 - Basic Vector Search (null): shared inputs changed
 - Filtered Search (null): shared inputs changed
 - Range Search (null): shared inputs changed
@@ -108,14 +109,18 @@ Previous snapshot: 2026-11-07T10:36:40.844Z
 
 - A4jhweVMMigHOpkwDlLcKo0SnFe: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - AIb1wNAE3iiKVSk8MHAcVA4QnJb: incoming reference to LBbUwOGcwi1UMak3eE2cM1gvnUe
+- Ah0DwMIWsilLa4kVbYocJGCMnlh: outgoing reference from QuBiwrIJdiDw3ckVDKBcPofinfe
+- B1XTwQgNRizAMTkZQvrclGSonyc: incoming reference to QuBiwrIJdiDw3ckVDKBcPofinfe
 - B7SFwbn76iUM06kkYzBcffE8nYf: incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic
 - BClgwKlHaiushBkPPssclTkYnef: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - BJCjwpj8JizP0nkI11uci1pPndh: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
+- BX6iwjUzLi7udfksJoxc7jK1nsW: outgoing reference from QuBiwrIJdiDw3ckVDKBcPofinfe
 - BYtDwHuOXiG7imkyIjHcWa6fnlb: incoming reference to NTwawtvYdiXTkukbss7ccw2RnXc
 - BcXMwUYQ3iD7mEkWKFhcU5PUnB5: incoming reference to Neq4wR0EdiXokRkhXwbcMPfanCd
 - BnYLwepruiGNpwkJfBHcdrrOnOh: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - CK0ewQWC2iz6lakP0kscqogbnGh: incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg
 - CmR5wFcybi3iMokOJBxcXDQcntg: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
+- D1E4wLr5xiuHoFkJgblcHZ1FnLb: outgoing reference from QuBiwrIJdiDw3ckVDKBcPofinfe
 - Dj2NwrlqTiYlmDkwfAbcJNWSntd: incoming reference to QZYhwcQhWigYTVkLnHeczkwYnZb
 - EA2twSf5oiERMDkriKScU9GInc4: incoming reference to ARalwpaVDiCwDZkoSHtcPNgXnRg
 - EAwdw2ZbtiBKttk66FTctUebn7f: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
@@ -133,6 +138,7 @@ Previous snapshot: 2026-11-07T10:36:40.844Z
 - JaTxw9EtHivMv9kMSAnckG0vn1b: incoming reference to OVxRwZWxNi4pYrkdKxCcOuY2nf1
 - KTWtw4V6SiTpDMkeGMQc8lChn8b: incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic
 - KnnBwce9JifxvXkd070cvgUPnag: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
+- KrbjwFhy3iojF3k97XmcvvXMnW7: incoming reference to QuBiwrIJdiDw3ckVDKBcPofinfe
 - LRRVwYzxKioMiMk7cf6czQuhn7d: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - LqMIw1DXyiHUjAk9TEAcqHp6nDd: incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd
 - MTqjwwUKhiyns4kGV7Lc7PRlnwb: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
@@ -151,6 +157,7 @@ Previous snapshot: 2026-11-07T10:36:40.844Z
 - PlX3wo82Di6oWVkg2ercRWCUnvV: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - PmaowiSUaiTa8ckPMYJcqdRYnQg: incoming reference to ARalwpaVDiCwDZkoSHtcPNgXnRg
 - Pulhw06e5iXJTFkidFXcGbylnod: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
+- QuBiwrIJdiDw3ckVDKBcPofinfe: wiki node revision changed
 - R33EwQchxiO3HKk4vPnce6vkntc: incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd
 - RxUiwJ77WiFKZGkC8rEcLeopnTf: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - SwgXwdHG6iqpbUknXrHcOPd7nRe: incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd
@@ -164,6 +171,7 @@ Previous snapshot: 2026-11-07T10:36:40.844Z
 - WZe4w7lNji6RVHkR5alcrTw8nQ2: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - XDoSwZodyigAEVkjkWfc9nsfnCg: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
 - ZBEiwpvlbijhYDkmnNScc7zyn5d: incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg
+- ZWwJwKjeDi7SJGkzUQ0c7XfBnqh: incoming reference to QuBiwrIJdiDw3ckVDKBcPofinfe
 
 ## Removed Docs
 
