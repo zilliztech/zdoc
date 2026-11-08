@@ -143,8 +143,16 @@ jobs:
           git push "https://x-access-token:${REST_UPSTREAM_REFRESH_PAT}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${branch}"
           GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT" gh label create ga4-404-remediation --color D4C5F9 --description 'Automated GA4 404 remediation batch' 2>/dev/null || true
           # Truncate in node so a multibyte character is never split mid-sequence.
-          BODY_FILE="$RUNNER_TEMP/pr-body.md" node -e 'const fs=require("fs");const b=fs.readFileSync("tmp/ga4-404-remediation/proposal.md","utf8");const body=b.length>60000?b.slice(0,60000)+"\n\n(Truncated at 60000 characters; the full proposal is in the run artifact ga4-404-remediation-"+process.env.GITHUB_RUN_ID+".)\n":b;fs.writeFileSync(process.env.BODY_FILE,body)'
+          # body_file is the bash-side name gh pr create reads below; BODY_FILE
+          # only carries it into the node process.
+          body_file="$RUNNER_TEMP/pr-body.md"
+          rm -f "$body_file"
+          BODY_FILE="$body_file" node -e 'const fs=require("fs");const b=fs.readFileSync("tmp/ga4-404-remediation/proposal.md","utf8");const body=b.length>60000?b.slice(0,60000)+"\n\n(Truncated at 60000 characters; the full proposal is in the run artifact ga4-404-remediation-"+process.env.GITHUB_RUN_ID+".)\n":b;fs.writeFileSync(process.env.BODY_FILE,body)'
           export GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT"
+          test -s "$body_file" || {
+            echo "::error::proposal body file missing or empty at $body_file; refusing to open an empty PR."
+            exit 1
+          }
           pr_url=$(gh pr create \
             --repo "$GITHUB_REPOSITORY" \
             --base master --head "$branch" \
