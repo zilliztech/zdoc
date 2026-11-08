@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-11-08T02:26:53.866Z",
+  "generated_at": "2026-11-08T06:36:13.601Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "changed_records": [
     {
-      "record_id": "recvlPlZDprhGU",
-      "table_id": "tblLMqwkNDtAEK5p",
-      "table_name": "Deployment",
-      "title": "Deploy BYOC-I on Microsoft Azure",
-      "labels": "",
-      "slug": "deploy-byoc-i-azure",
+      "record_id": "recvlPmHUapDaN",
+      "table_id": "tbl9BeCMjBmalJVb",
+      "table_name": "Get Started",
+      "title": "Quickstart to External Data Lake Search",
+      "labels": "Quickstart to External Data Lake Search",
+      "slug": "quick-start-to-external-data-lake-search",
       "release_channel": "current",
-      "doc_token": "QuBiwrIJdiDw3ckVDKBcPofinfe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/QuBiwrIJdiDw3ckVDKBcPofinfe",
+      "doc_token": "KdwFwQnDNisT4skHH6Hc16uInji",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/KdwFwQnDNisT4skHH6Hc16uInji",
       "reasons": [
         "wiki node revision changed"
       ]
@@ -33,7 +33,7 @@
       "shared_page": {
         "group": "guides",
         "page": "single-vector-search",
-        "inputs_sha256": "0ddc1caac2bd05fb675bcb7ff8d21e17de506ad26f291b5724ea46eed6137568",
+        "inputs_sha256": "1c367357856be885ae40851cf4a08e0f55c6bc810a4fb5a7a9cf1ea3904ce89d",
         "record": "generated/en/manifests/shared-pages/guides/single-vector-search.json"
       },
       "reasons": [
@@ -54,7 +54,7 @@
       "shared_page": {
         "group": "guides",
         "page": "filtered-search",
-        "inputs_sha256": "84cf2a7f8ee7d22d0af039aa9fa93f8a5548861ee051c7d40684d216953c4e4f",
+        "inputs_sha256": "0e263680893fe8f3585175f533ce9cce31aa660b5dc81fadd6d2a9ce4529acc0",
         "record": "generated/en/manifests/shared-pages/guides/filtered-search.json"
       },
       "reasons": [
@@ -75,7 +75,7 @@
       "shared_page": {
         "group": "guides",
         "page": "range-search",
-        "inputs_sha256": "5935286cede9e580e8200d307ff86440a58faf1a068684d4d63756fbeb4ee215",
+        "inputs_sha256": "f3f94ef7422b2f637b68dbd1e23b05fd1a71069526f67716c971c1b945697168",
         "record": "generated/en/manifests/shared-pages/guides/range-search.json"
       },
       "reasons": [
@@ -96,7 +96,7 @@
       "shared_page": {
         "group": "guides",
         "page": "grouping-search",
-        "inputs_sha256": "a3bc0ef03677cd1ec454c082c3d9e4461b4b63205fc6b53b9e292b275e93006e",
+        "inputs_sha256": "532314d257c97f3858fbd108c583e4c5613a614e47b7348ecc36e814bf4e216f",
         "record": "generated/en/manifests/shared-pages/guides/grouping-search.json"
       },
       "reasons": [
@@ -117,7 +117,7 @@
       "shared_page": {
         "group": "guides",
         "page": "get-and-scalar-query",
-        "inputs_sha256": "9508b8620f88115793ef3ed5f8a6937e983d1895efb18415651928344a514d03",
+        "inputs_sha256": "1d821e2ae01af7f316eb5cc6e8f1f06caf938c3c69cf9f838e1bc1f37cebdc91",
         "record": "generated/en/manifests/shared-pages/guides/get-and-scalar-query.json"
       },
       "reasons": [
@@ -138,7 +138,7 @@
       "shared_page": {
         "group": "guides",
         "page": "basic-filtering-operators",
-        "inputs_sha256": "b4528d144463fd2ab55d88d0316bd9916874cbfb0c3e002685e95e9bdddf5a3c",
+        "inputs_sha256": "d39d35c7041df25886fb93e99762cbb1c2bece62a1e0729982e6724aeb490795",
         "record": "generated/en/manifests/shared-pages/guides/basic-filtering-operators.json"
       },
       "reasons": [
@@ -159,7 +159,7 @@
       "shared_page": {
         "group": "guides",
         "page": "pattern-match",
-        "inputs_sha256": "5ce69ac6f73e7dcb1804cbca7a7ad22a09633fe8733c81fe1da5029e570d61e6",
+        "inputs_sha256": "d559d15dd309f62ca8c37bd7901fb1d7960c44b57851e5c9fc39f7075389b5c9",
         "record": "generated/en/manifests/shared-pages/guides/pattern-match.json"
       },
       "reasons": [
@@ -180,7 +180,7 @@
       "shared_page": {
         "group": "guides",
         "page": "filtering-templating",
-        "inputs_sha256": "bd08734142ba28fd1328078bf1f0c5bd265da26fc4758bb330baef66fe78615a",
+        "inputs_sha256": "f9cb2985a0b62dd9998c0d3df77f59c2f173cbeca595e18d2b0bfb9ebd462237",
         "record": "generated/en/manifests/shared-pages/guides/filtering-templating.json"
       },
       "reasons": [
@@ -201,7 +201,7 @@
       "shared_page": {
         "group": "guides",
         "page": "json-filtering-operators",
-        "inputs_sha256": "3484b9cefbb38dbec08d129712328e3963b5b9bc2ee9ac8343021d99ad141f45",
+        "inputs_sha256": "96da10f2d099675aac82a8ff23b576272055620bd2e5096b7932f9324fc57c25",
         "record": "generated/en/manifests/shared-pages/guides/json-filtering-operators.json"
       },
       "reasons": [
@@ -222,7 +222,7 @@
       "shared_page": {
         "group": "guides",
         "page": "array-filtering-operators",
-        "inputs_sha256": "5ba8c0b77c1310cc95e7f6d6987768613cd5839c4369ec8b5ada0e87fea3ddca",
+        "inputs_sha256": "321a679ede2c3e745d36990d23c3bf2a2b6dec239e39ba611a1c676736e59680",
         "record": "generated/en/manifests/shared-pages/guides/array-filtering-operators.json"
       },
       "reasons": [
@@ -243,7 +243,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-filtering",
-        "inputs_sha256": "a699811d7ac0d2fcf1905fee40b9e4427d8946b91e54a76445beff43531a20bb",
+        "inputs_sha256": "e2af2f1ae66db747082dfd365290f4b7cc72437b301a86cf3892fa1d20e4c442",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json"
       },
       "reasons": [
@@ -264,7 +264,7 @@
       "shared_page": {
         "group": "guides",
         "page": "ramdom-sampling",
-        "inputs_sha256": "d5dec2f4aff3527b9a0e89819685d6de9906ca50dfad93beff67cf04cde6f5f6",
+        "inputs_sha256": "aed58adb5fa3f5024643e2d5c3358b60d435afba5af77916a4f21ba00f2a2cfb",
         "record": "generated/en/manifests/shared-pages/guides/ramdom-sampling.json"
       },
       "reasons": [
@@ -285,7 +285,7 @@
       "shared_page": {
         "group": "guides",
         "page": "full-text-search",
-        "inputs_sha256": "165dc80ae112af77ebbd246a329f8b370fae203fb7ae810cc8e1b9c555ed55ac",
+        "inputs_sha256": "85d08bb2c458bb9acfabd0f954e4e9d6d3388bd55515addaadb6c37ee0649b3e",
         "record": "generated/en/manifests/shared-pages/guides/full-text-search.json"
       },
       "reasons": [
@@ -306,7 +306,7 @@
       "shared_page": {
         "group": "guides",
         "page": "text-match",
-        "inputs_sha256": "917563ac188c2c41ba20e733c9c5b26eff7c7fd2666083d59b73211bc4818b42",
+        "inputs_sha256": "cc3826c0c9684adee8aa183c821635ad4ac28dbabc530454a31f0449a6ba8f02",
         "record": "generated/en/manifests/shared-pages/guides/text-match.json"
       },
       "reasons": [
@@ -327,7 +327,7 @@
       "shared_page": {
         "group": "guides",
         "page": "search-with-struct-array",
-        "inputs_sha256": "1b85afd7a0e9b68809708bf25402b9c070b242bced9162ad92f50e369022407b",
+        "inputs_sha256": "50636eb2286c8c0f15e3e610818aaec755832b758164b194f86d71ea5aaa5787",
         "record": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json"
       },
       "reasons": [
@@ -348,7 +348,7 @@
       "shared_page": {
         "group": "guides",
         "page": "filtered-search-with-struct-arrays",
-        "inputs_sha256": "93b2b6ce7da53a6a3fa486fc659327f72f894dc466b0f34196e1f6d2357ad781",
+        "inputs_sha256": "ca3ac132157a4332d5b4bb417726dca6cba3ee251509eee5b041ffbf0f4ba93c",
         "record": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json"
       },
       "reasons": [
@@ -369,7 +369,7 @@
       "shared_page": {
         "group": "guides",
         "page": "range-search-with-struct-arrays",
-        "inputs_sha256": "b3ab78471fa5038ecc17fee9f3175c45ca18e3114d1739a1c69f6e83fdbeddc4",
+        "inputs_sha256": "6aabe84008f885c91ea8866b37afdcb07362cbb462ef8b404eb473f90207370a",
         "record": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json"
       },
       "reasons": [
@@ -390,7 +390,7 @@
       "shared_page": {
         "group": "guides",
         "page": "grouping-search-with-struct-array",
-        "inputs_sha256": "c7b8053b2b3f95b411853f4a5445ab5377474821c755c890fb4f6e6cef27bd87",
+        "inputs_sha256": "5a6a42e13eb6bf2ae21da5257ac98cf35885a8d7620e5536c87c64c0eceaf9d8",
         "record": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json"
       },
       "reasons": [
@@ -411,7 +411,7 @@
       "shared_page": {
         "group": "guides",
         "page": "hybrid-search-with-struct-array",
-        "inputs_sha256": "add2c83d7936055b89eac15ada1a568fb0a0449245b3d9e198565198899d3f8f",
+        "inputs_sha256": "50350149bc777ee1182bceae08c69eccbd3bab4effd38855f3fe409554084212",
         "record": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json"
       },
       "reasons": [
@@ -432,7 +432,7 @@
       "shared_page": {
         "group": "guides",
         "page": "tutorial-colbert-colpali",
-        "inputs_sha256": "9eb8aa19dffcb34d64c79465680cacf0ccbfd7c86bf894fcadaba511f5ba5a58",
+        "inputs_sha256": "e80288d1efa4483ece63d11e325351177c04f9a5ca4e6b172a16395120480e44",
         "record": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json"
       },
       "reasons": [
@@ -453,7 +453,7 @@
       "shared_page": {
         "group": "guides",
         "page": "with-iterators",
-        "inputs_sha256": "03925880230061823abcd8264ca34d21bf13e3666beb66e94245e82958ee53c8",
+        "inputs_sha256": "5fac240368be67188e2a127d00f9dc647afd9b5ebafcf987acf5a6caf87b1050",
         "record": "generated/en/manifests/shared-pages/guides/with-iterators.json"
       },
       "reasons": [
@@ -474,7 +474,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-partition-key",
-        "inputs_sha256": "e34ab9582680f7e396b0a2efa586efd4ec1e12a8ae71ec6436ebc62ce7fc072c",
+        "inputs_sha256": "b26abec3ba1905cb1d40f7c628a03fc7b4c3ce20c9778fff2744e5efe3a9a65f",
         "record": "generated/en/manifests/shared-pages/guides/use-partition-key.json"
       },
       "reasons": [
@@ -495,7 +495,7 @@
       "shared_page": {
         "group": "guides",
         "page": "database",
-        "inputs_sha256": "442ea7663349c78bc7bbcfc5cb683f36d6a7b96bd902439869dc859982d835c9",
+        "inputs_sha256": "27f304825a5e68a89022a5a7e43dc3c22475e721664c10367cf5010822cf6d0b",
         "record": "generated/en/manifests/shared-pages/guides/database.json"
       },
       "reasons": [
@@ -516,7 +516,7 @@
       "shared_page": {
         "group": "guides",
         "page": "manage-collections",
-        "inputs_sha256": "b3ea1d4b9e239532768c042418ffd5395a8c0e0d060abed767f9b1f81e134098",
+        "inputs_sha256": "021ce81f8f4b6468bd102de485f3bbadf04e46255c3e74397c659469f5de2a83",
         "record": "generated/en/manifests/shared-pages/guides/manage-collections.json"
       },
       "reasons": [
@@ -537,11 +537,25 @@
       "shared_page": {
         "group": "guides",
         "page": "manage-collections-sdks",
-        "inputs_sha256": "99e1ae6d1ff13618d0b2b499550dd530453bb0d4e5cbc7eb3281d8d34c7b06ec",
+        "inputs_sha256": "5e068feb9e7fb7e3b7b43c6075c3d1f868ecdb31d1e9b01f2a0b2422e60825ef",
         "record": "generated/en/manifests/shared-pages/guides/manage-collections-sdks.json"
       },
       "reasons": [
         "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPs65wqwyk",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Create an External Collection",
+      "labels": "External Collection",
+      "slug": "create-external-collection",
+      "release_channel": "current",
+      "doc_token": "RsGAwmgAYiE6fgkOiokcijsBnEg",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/RsGAwmgAYiE6fgkOiokcijsBnEg",
+      "reasons": [
+        "wiki node revision changed"
       ]
     },
     {
@@ -558,7 +572,7 @@
       "shared_page": {
         "group": "guides",
         "page": "view-collections",
-        "inputs_sha256": "93ab361c2bb9b4557f42f07c882bf9e1f388234c58c0d6a51ca47033de54c97c",
+        "inputs_sha256": "6274b835a39af2e134270c36d9fdce10259f98dca1dd539d6b0f0b97017be9fb",
         "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
       },
       "reasons": [
@@ -579,7 +593,7 @@
       "shared_page": {
         "group": "guides",
         "page": "modify-collections",
-        "inputs_sha256": "00cde4f6af37b14e3adfe781c8bc252616cbdbd1909ee5ce789c4bbf1355d859",
+        "inputs_sha256": "c39117e2399cb346a99823d7e030de8280885c32471ea61c210c03b198bd4d6c",
         "record": "generated/en/manifests/shared-pages/guides/modify-collections.json"
       },
       "reasons": [
@@ -600,7 +614,7 @@
       "shared_page": {
         "group": "guides",
         "page": "set-collection-ttl",
-        "inputs_sha256": "6f14e327f10f9b9411fb5ce50a20280a90e3ad7d5b1264a977652435f5abc63c",
+        "inputs_sha256": "d4d192f0b7cd5d1c3938428dd18110ee922f26f0767e5e9e6cd759e082ef1d83",
         "record": "generated/en/manifests/shared-pages/guides/set-collection-ttl.json"
       },
       "reasons": [
@@ -621,7 +635,7 @@
       "shared_page": {
         "group": "guides",
         "page": "load-release-collections",
-        "inputs_sha256": "0a8400ed9aa1637c9886a55576c418a9ecf2184a1d6496fa20a39541178a9c66",
+        "inputs_sha256": "44d77f2fc4e3d3586c17a436f097090f73b7e33600f1365f0124e182bc85539e",
         "record": "generated/en/manifests/shared-pages/guides/load-release-collections.json"
       },
       "reasons": [
@@ -642,7 +656,7 @@
       "shared_page": {
         "group": "guides",
         "page": "manage-partitions",
-        "inputs_sha256": "f533e565c6a76582a896c92085fb62817d78a78103079c1cc421936311a15fb8",
+        "inputs_sha256": "d99416d4ed9afc838b6a43c4ecd8c1a36297475a8d7c997d0f1321b143b8f7da",
         "record": "generated/en/manifests/shared-pages/guides/manage-partitions.json"
       },
       "reasons": [
@@ -663,7 +677,7 @@
       "shared_page": {
         "group": "guides",
         "page": "manage-aliases",
-        "inputs_sha256": "5567208753404bca7f274c86a42d3632eb6d428bc8d5246fe7da2441beae2ccb",
+        "inputs_sha256": "362b2bb17b1f657c2c32dde13aec36376f4fccb509e540493ccdc803e87eb789",
         "record": "generated/en/manifests/shared-pages/guides/manage-aliases.json"
       },
       "reasons": [
@@ -684,11 +698,39 @@
       "shared_page": {
         "group": "guides",
         "page": "drop-collection",
-        "inputs_sha256": "1ff84baca05e6468c8b4ee4c429d5af828e08387c9072df029b5988d8afa5e6e",
+        "inputs_sha256": "5bd8dde6fe69b88144c813bb61a346d0eee3ebd808bd87b3970a52b0b87f4bce",
         "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
       },
       "reasons": [
         "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPsAL7yguD",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Manage External Collections (Console)",
+      "labels": "",
+      "slug": "manage-external-collections-console",
+      "release_channel": "current",
+      "doc_token": "W04nwxHqNiqyrykxMZOcu4ianle",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/W04nwxHqNiqyrykxMZOcu4ianle",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvm1Rp4w1C43",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "External Collection Limits",
+      "labels": "",
+      "slug": "external-collection-limits",
+      "release_channel": "current",
+      "doc_token": "P9HuwHZyXilwRTkVoDBcjAMlnrb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/P9HuwHZyXilwRTkVoDBcjAMlnrb",
+      "reasons": [
+        "wiki node revision changed"
       ]
     },
     {
@@ -705,7 +747,7 @@
       "shared_page": {
         "group": "guides",
         "page": "primary-field-auto-id",
-        "inputs_sha256": "99b0e7c0ca45795130bcf23c423ea230c2ddfd3bc15e0061126d38fd043d7ce2",
+        "inputs_sha256": "cd5e3ed13a7db7c7a1a9aac488b74559b9286ee73870cf5e7eda3d9bfd88f565",
         "record": "generated/en/manifests/shared-pages/guides/primary-field-auto-id.json"
       },
       "reasons": [
@@ -726,7 +768,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-dense-vector",
-        "inputs_sha256": "840340d15849fb60e8a978389451ae09c819a80885e50e80f979004a191ddaac",
+        "inputs_sha256": "696fc82900a5ae7f91d509176b68bfd057016a8f1fc6f4a69714d448b7a139e8",
         "record": "generated/en/manifests/shared-pages/guides/use-dense-vector.json"
       },
       "reasons": [
@@ -747,7 +789,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-binary-vector",
-        "inputs_sha256": "e671a68e09c8b5aa1ea85413d05335d8794b236cb59e67ab108134b7b8030b9d",
+        "inputs_sha256": "58fdf7905783f7ef956575bf5fa75a78af272014e6d059938e8aa6be5bfb61c6",
         "record": "generated/en/manifests/shared-pages/guides/use-binary-vector.json"
       },
       "reasons": [
@@ -768,7 +810,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-sparse-vector",
-        "inputs_sha256": "c16031903acf067affc1eb124560ed124ffc11b71d6a7846d9d0507954b8e877",
+        "inputs_sha256": "208673bc788333ea11ae757ed94d79ba211e9a85df569289f216a2cbc1719287",
         "record": "generated/en/manifests/shared-pages/guides/use-sparse-vector.json"
       },
       "reasons": [
@@ -789,7 +831,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-string-field",
-        "inputs_sha256": "2cfe9139aa6f8c799f8189c1a04d68bda38b600768e285cbd7b4696a2e8d61c7",
+        "inputs_sha256": "570a067a59785c8075ee4a049181ee5b0e05844ebf8429409536b84b7bbba087",
         "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
       },
       "reasons": [
@@ -810,7 +852,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-number-field",
-        "inputs_sha256": "f44288b8843cb602531ecd126f3d95aa1d8474535a6072a83a56dff644f47416",
+        "inputs_sha256": "9a0533a3e4578d2bafa6b76e309f2c60c19f5986a8f0c9ca312b9d55eedc3fb1",
         "record": "generated/en/manifests/shared-pages/guides/use-number-field.json"
       },
       "reasons": [
@@ -831,7 +873,7 @@
       "shared_page": {
         "group": "guides",
         "page": "json-field-overview",
-        "inputs_sha256": "40dda8c9451cfd5a0dec10e4021b1b178847593db7f4fa02b657128c2330ee33",
+        "inputs_sha256": "6dbcc35a090b7df720aa2462bb357aa262ce666a6b7858b9318680a8088cefce",
         "record": "generated/en/manifests/shared-pages/guides/json-field-overview.json"
       },
       "reasons": [
@@ -852,7 +894,7 @@
       "shared_page": {
         "group": "guides",
         "page": "json-indexing",
-        "inputs_sha256": "03a269d835276adc33699b11da60e7cd072773d23ef7f711d3822e74a8544518",
+        "inputs_sha256": "a95a455917b749fb9f2331b5b25454b02efed5b71887206fd51e61495f11957c",
         "record": "generated/en/manifests/shared-pages/guides/json-indexing.json"
       },
       "reasons": [
@@ -873,7 +915,7 @@
       "shared_page": {
         "group": "guides",
         "page": "json-shredding",
-        "inputs_sha256": "dd8fd7aeac6232cac73193cd3eee41ad916ee9f3aeb67683a6b88586e076d8e8",
+        "inputs_sha256": "de51b2bd32ffa6d59a3c4ab3de11191e391dad635421a3826752b0876475f387",
         "record": "generated/en/manifests/shared-pages/guides/json-shredding.json"
       },
       "reasons": [
@@ -894,7 +936,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-fields",
-        "inputs_sha256": "b232aa3fa788e4fa497233215b6e70204bd706ddc24686ae5c9c128934456457",
+        "inputs_sha256": "d2f45d09ebd8388f813ee0cc4825b9fe9d1600e8067b80d2a51f963077e6819a",
         "record": "generated/en/manifests/shared-pages/guides/use-array-fields.json"
       },
       "reasons": [
@@ -915,7 +957,7 @@
       "shared_page": {
         "group": "guides",
         "page": "use-array-of-structs",
-        "inputs_sha256": "1afbfcd701c2ec78077b31d8793fdb8118e157432338164b5830e2687863fcd9",
+        "inputs_sha256": "44d4b9635e9c8c20ef45788d426103cde1c1d75b7a1697e02b9dac08b811ded3",
         "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
       },
       "reasons": [
@@ -936,7 +978,7 @@
       "shared_page": {
         "group": "guides",
         "page": "create-struct-array",
-        "inputs_sha256": "aaf9a62767d237f105335c93166601d39704176a582565e19a38a9277de8ee81",
+        "inputs_sha256": "3ff627ed06bb9ca7a98dae228b19022d1ff217d39ba9edf567e3f7f05d2ef74b",
         "record": "generated/en/manifests/shared-pages/guides/create-struct-array.json"
       },
       "reasons": [
@@ -957,7 +999,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-struct-array",
-        "inputs_sha256": "46330d247b0d2f87eb9e396fa98aac24f0eaec60d7ae695f7015fde74d595ed8",
+        "inputs_sha256": "56746224c12d983f4b17a36b25af524e84c913ef5cbc09b3f7dd906e2a74f8e6",
         "record": "generated/en/manifests/shared-pages/guides/insert-struct-array.json"
       },
       "reasons": [
@@ -978,7 +1020,7 @@
       "shared_page": {
         "group": "guides",
         "page": "index-struct-array",
-        "inputs_sha256": "d2efe956a6f05f6a3c59eacefecc1b9229b00922fc49e581f349d9718abe61d3",
+        "inputs_sha256": "22fce7c380a94bfb30f41607e6421bb7b429bbeadff8643a7a1d1f45acdef716",
         "record": "generated/en/manifests/shared-pages/guides/index-struct-array.json"
       },
       "reasons": [
@@ -999,7 +1041,7 @@
       "shared_page": {
         "group": "guides",
         "page": "struct-array-limits",
-        "inputs_sha256": "7d0c7859a4f157da1a541489adf3f527f3081d5eff81b07cc0250f06910a649b",
+        "inputs_sha256": "4ebc5644fdab7dbf7e995aa4d3d008233892a3974dfe26b1b1dfccba761f0e1c",
         "record": "generated/en/manifests/shared-pages/guides/struct-array-limits.json"
       },
       "reasons": [
@@ -1020,7 +1062,7 @@
       "shared_page": {
         "group": "guides",
         "page": "enable-dynamic-field",
-        "inputs_sha256": "4d182f0bbadc784d092621159a5f8caec049f39096549f8d05ddd7b7999949e2",
+        "inputs_sha256": "df428338e577e19c5650bba3e0befeeac2233ca008e93cb87e2be1320df7a999",
         "record": "generated/en/manifests/shared-pages/guides/enable-dynamic-field.json"
       },
       "reasons": [
@@ -1041,7 +1083,7 @@
       "shared_page": {
         "group": "guides",
         "page": "nullable-fields",
-        "inputs_sha256": "61c68e9b7e025aa7c1089ad248e3bb18226f7bbd0770252fb2260fd5534d03e9",
+        "inputs_sha256": "069696a062e83818a09a8d4d7d178b91bf7679e6c416cf455b01b016405e3c5a",
         "record": "generated/en/manifests/shared-pages/guides/nullable-fields.json"
       },
       "reasons": [
@@ -1062,7 +1104,7 @@
       "shared_page": {
         "group": "guides",
         "page": "default-fields",
-        "inputs_sha256": "582ffbc163dfac281deb8e97e8036cb754af4fb7daffe6fe51ec51bd3d469634",
+        "inputs_sha256": "3190b98f9177b7c9cad06df0b41d8d09507423a5513f08bc38ed1212df2283cb",
         "record": "generated/en/manifests/shared-pages/guides/default-fields.json"
       },
       "reasons": [
@@ -1083,7 +1125,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alter-collection-field",
-        "inputs_sha256": "b09dc67746a91a02c4f32c288c467a01caec5dcba17f99142f2e50b2b84a3ee9",
+        "inputs_sha256": "edf709e0f945274a2b6b3311f94463e50614a42f79724a31e4998d670eac0f0f",
         "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
       },
       "reasons": [
@@ -1104,7 +1146,7 @@
       "shared_page": {
         "group": "guides",
         "page": "bitmap-index-type",
-        "inputs_sha256": "33ba06eadc58057025b1c83b9e62d0e967eb415596d902a0fdee18b0879a01e9",
+        "inputs_sha256": "feaa843c544f197bacaea46c245f6ab8fa6e836d84721e5afa32605a333b0580",
         "record": "generated/en/manifests/shared-pages/guides/bitmap-index-type.json"
       },
       "reasons": [
@@ -1125,7 +1167,7 @@
       "shared_page": {
         "group": "guides",
         "page": "inverted-index-type",
-        "inputs_sha256": "d62b42de596d956185f243611505701b088bed4b802c10fd2eb81d2fc5e846b2",
+        "inputs_sha256": "89edff402cfbc2f22958df65bf7e20fb9fd61f7bbf44e5a275ed06284ec46562",
         "record": "generated/en/manifests/shared-pages/guides/inverted-index-type.json"
       },
       "reasons": [
@@ -1146,7 +1188,7 @@
       "shared_page": {
         "group": "guides",
         "page": "ngram-index-type",
-        "inputs_sha256": "67f0bb03cb88b9d4bde90590cfbeaf99fb935877d64cc14b0f3f24d01498e30d",
+        "inputs_sha256": "c26d5c43769474bf5882a5f9981b36706ba60b749ef63df0c99070d9b62f0337",
         "record": "generated/en/manifests/shared-pages/guides/ngram-index-type.json"
       },
       "reasons": [
@@ -1167,7 +1209,7 @@
       "shared_page": {
         "group": "guides",
         "page": "rtree-index-type",
-        "inputs_sha256": "33f0d23f685df4ac714659cbf1a8b248e2b788e90b091460dcfa6817bbc16914",
+        "inputs_sha256": "2430255abee2f8e1ed3115d5e10fd82a6c783bb42ba819c605db6ca5bbb82ace",
         "record": "generated/en/manifests/shared-pages/guides/rtree-index-type.json"
       },
       "reasons": [
@@ -1188,7 +1230,7 @@
       "shared_page": {
         "group": "guides",
         "page": "slt-sort-index-type",
-        "inputs_sha256": "433d394258bf89e37e87ffee912c1bda4c1b6a80fc12ac7ce2a56ac490e8e29b",
+        "inputs_sha256": "4cc3e92e0b9dedf511cc0fba7e60d336558c94fe6137df8a3fde35ca2e60e50c",
         "record": "generated/en/manifests/shared-pages/guides/slt-sort-index-type.json"
       },
       "reasons": [
@@ -1209,7 +1251,7 @@
       "shared_page": {
         "group": "guides",
         "page": "insert-entities",
-        "inputs_sha256": "7c69dd47e1fc85687717fe8aee166b590a7b2e7ce0b58e97c04ff04df605c2e6",
+        "inputs_sha256": "fff323cc55af110af7332aab989d501c5920f65f6c4a08be80cb661c81b23383",
         "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
       },
       "reasons": [
@@ -1230,7 +1272,7 @@
       "shared_page": {
         "group": "guides",
         "page": "delete-entities",
-        "inputs_sha256": "47d3f62ac9a1e1328ba4fa0e0dfc631270bc2bcd08ac21fbb4203240227e3b38",
+        "inputs_sha256": "0baec888484b5d9a038bfdf17696c61c4feded887a2c35acd4c7e5f0e2188d6b",
         "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
       },
       "reasons": [
@@ -1251,7 +1293,7 @@
       "shared_page": {
         "group": "guides",
         "page": "bm25-function",
-        "inputs_sha256": "48ceb7ab320b0129585da5529aaed6aa639648c04fd7e62dd0181f71355d018b",
+        "inputs_sha256": "267eaeb07d894c585c88ea62bceb9c999ee61764e7915bf48abd30efebcb12a3",
         "record": "generated/en/manifests/shared-pages/guides/bm25-function.json"
       },
       "reasons": [
@@ -1272,7 +1314,7 @@
       "shared_page": {
         "group": "guides",
         "page": "reranking-weighted-reranker",
-        "inputs_sha256": "b06e193e8fec08c5d6a64fa64242bd985a688bacdef8826b7382fce6a675d337",
+        "inputs_sha256": "520754528342d04fdcee19db5df50339f51f019993f15a74b3fabb8eeaefafd2",
         "record": "generated/en/manifests/shared-pages/guides/reranking-weighted-reranker.json"
       },
       "reasons": [
@@ -1293,7 +1335,7 @@
       "shared_page": {
         "group": "guides",
         "page": "reranking-rrf",
-        "inputs_sha256": "4cee067d41114acbed63e4f108b5e654a256ca29e80a9ce07ac65a184e26f9eb",
+        "inputs_sha256": "e6590a5058fddf1a8e567dc71e7f94bc9d508606c66abb4d8cd034b8289bdd73",
         "record": "generated/en/manifests/shared-pages/guides/reranking-rrf.json"
       },
       "reasons": [
@@ -1314,7 +1356,7 @@
       "shared_page": {
         "group": "guides",
         "page": "boost-ranker",
-        "inputs_sha256": "12281e99a8fc8a89b7f5f494f403cc917507198d914643450123da98ffe00edb",
+        "inputs_sha256": "355aa13047de903b88aba3d6af35ef92a2677b38c0bdd741f05f89bd6118976b",
         "record": "generated/en/manifests/shared-pages/guides/boost-ranker.json"
       },
       "reasons": [
@@ -1335,7 +1377,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decay-ranker-oveview",
-        "inputs_sha256": "654657de0fc8ed8e62f70d6b7e3fadf741d63836840f3128be69749f2dd81d34",
+        "inputs_sha256": "7c1b0e27e48036a928927b275218ab9d4e81c09467ad9a16b0ec6694f905d891",
         "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
       },
       "reasons": [
@@ -1356,7 +1398,7 @@
       "shared_page": {
         "group": "guides",
         "page": "gaussian-decay",
-        "inputs_sha256": "8e1d971a4f8fa0760367b72570fae21371de148139625bd05eeb320d2359706b",
+        "inputs_sha256": "5cc6ef0b6078d1d254caed3bb13efd47560ef5334ddd343faf911c1fbe0b58ed",
         "record": "generated/en/manifests/shared-pages/guides/gaussian-decay.json"
       },
       "reasons": [
@@ -1377,7 +1419,7 @@
       "shared_page": {
         "group": "guides",
         "page": "exponential-decay",
-        "inputs_sha256": "1a0fd93650a217e581045d49811139b93e0ff777e9602525a94e185c8a4c735e",
+        "inputs_sha256": "d2a4aaf90c4117166261fbb46bd3ab07b71f16ef9281cf50a284749c8156e7f1",
         "record": "generated/en/manifests/shared-pages/guides/exponential-decay.json"
       },
       "reasons": [
@@ -1398,7 +1440,7 @@
       "shared_page": {
         "group": "guides",
         "page": "linear-decay",
-        "inputs_sha256": "8147aceffc60581e63f330347e7ff6b2e164b177e4feed5a15923b195c40d3b3",
+        "inputs_sha256": "cc73b1761cf15d0a3d4384b30700c5342333da00e16479fac1a9873c9f8af7e1",
         "record": "generated/en/manifests/shared-pages/guides/linear-decay.json"
       },
       "reasons": [
@@ -1419,7 +1461,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-analyzer",
-        "inputs_sha256": "e90473ae55ed7492fed3b4396f3744a1a425418072afbd7140bfaceb053b1617",
+        "inputs_sha256": "eec3daea490b1db7d6272e4f6c4a9f722cd259f7cf7d542d7d370cbe4e5ff65e",
         "record": "generated/en/manifests/shared-pages/guides/standard-analyzer.json"
       },
       "reasons": [
@@ -1440,7 +1482,7 @@
       "shared_page": {
         "group": "guides",
         "page": "english-analyzer",
-        "inputs_sha256": "07a32c3d1cae0f025ac8b707e5de1b45a5fcce79782cc2f3331a975403a6d628",
+        "inputs_sha256": "a50a169ddcdcbb80dc653f0125279de7fb1180cda2b27f69bf0c19de54d984a6",
         "record": "generated/en/manifests/shared-pages/guides/english-analyzer.json"
       },
       "reasons": [
@@ -1461,7 +1503,7 @@
       "shared_page": {
         "group": "guides",
         "page": "chinese-analyzer",
-        "inputs_sha256": "e03ed3186670526953525a33488cd0c3b9dd29a3b1306f7a42a3bc9ca1a3c6aa",
+        "inputs_sha256": "532fba3baa1c6f2b1c7bb43aa8b898a6d6da4dbe6f49727b24998f5097ec89a3",
         "record": "generated/en/manifests/shared-pages/guides/chinese-analyzer.json"
       },
       "reasons": [
@@ -1482,7 +1524,7 @@
       "shared_page": {
         "group": "guides",
         "page": "standard-tokenizer",
-        "inputs_sha256": "60a95c6e6573dedfac18e806ece500c16e63aced22b01cd2fe1e35bac2d0ce81",
+        "inputs_sha256": "bea3a6282253761e8ef22803a44a9ca4500e862a854437044d41155049b309fb",
         "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
       },
       "reasons": [
@@ -1503,7 +1545,7 @@
       "shared_page": {
         "group": "guides",
         "page": "whitespace-tokenizer",
-        "inputs_sha256": "ee8b43de70bb48e874f7602045f3515b1d28f5970368bafaf9fb8fcf20a3ea55",
+        "inputs_sha256": "a0a5a2120bf835f1cff5fb204326ede8895df7bdc5012997d502e1bde624eda5",
         "record": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json"
       },
       "reasons": [
@@ -1524,7 +1566,7 @@
       "shared_page": {
         "group": "guides",
         "page": "jieba-tokenizer",
-        "inputs_sha256": "2f0c3e93167a66c72353d35ac761fa7ad640172c4366888eabd0002ab7a3a628",
+        "inputs_sha256": "c875a36cb9781b03a3c623be97205d131e27e591690a8dbfbc3c870254ecc59a",
         "record": "generated/en/manifests/shared-pages/guides/jieba-tokenizer.json"
       },
       "reasons": [
@@ -1545,7 +1587,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lindera-tokenizer",
-        "inputs_sha256": "706efbcae1a1b00c0c727ab380f81e13aa221204a0c794d0f05ba6df4e5c06a6",
+        "inputs_sha256": "cae7b8b6d37b5eaee36b5f7ced92974fdf70dbc6365bb053b1d20baeb1ec41bf",
         "record": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json"
       },
       "reasons": [
@@ -1566,7 +1608,7 @@
       "shared_page": {
         "group": "guides",
         "page": "icu-tokenizer",
-        "inputs_sha256": "eaafc6ba5fae662a9eda937d024dd0afad6b520c86f122ab43432cc1861c9179",
+        "inputs_sha256": "59508b91fdf60bdc643309b4a969505ab187003e80b2a3972a2fdff0b8ace025",
         "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
       },
       "reasons": [
@@ -1587,7 +1629,7 @@
       "shared_page": {
         "group": "guides",
         "page": "language-identifier-tokenizer",
-        "inputs_sha256": "b566c944957fc4304251188f501aaaaf84531ee19c826b988251a46e5c3ff6b0",
+        "inputs_sha256": "85dad3acdc5eb68de95a50372454fbc9934a0a3e2e1d8f312099568d2233cfca",
         "record": "generated/en/manifests/shared-pages/guides/language-identifier-tokenizer.json"
       },
       "reasons": [
@@ -1608,7 +1650,7 @@
       "shared_page": {
         "group": "guides",
         "page": "lowercase-filter",
-        "inputs_sha256": "02dfa0a2f48ad95220fec72d92ef4ea89ed94e01c67fb7373fdbe53a7d0dbbbc",
+        "inputs_sha256": "4a127d8f1d43fbf7fb4c4efc980b66556667ed434f6c5af597b138195808e663",
         "record": "generated/en/manifests/shared-pages/guides/lowercase-filter.json"
       },
       "reasons": [
@@ -1629,7 +1671,7 @@
       "shared_page": {
         "group": "guides",
         "page": "ascii-folding-filter",
-        "inputs_sha256": "bccaec1fd09ec58ac9e3c0fb2355f731cad4bfa6ea35b0d73ae350f34fe11c6f",
+        "inputs_sha256": "2014be030ff76d7c1a7ba08bba0ee47717138d9613b8a2e395c834af4c29a7e2",
         "record": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json"
       },
       "reasons": [
@@ -1650,7 +1692,7 @@
       "shared_page": {
         "group": "guides",
         "page": "alphanumonly-filter",
-        "inputs_sha256": "ec47b2f8633da5bdfa7f2280599f7f9da4f3f7d929b1fc52f435718b2d22bd62",
+        "inputs_sha256": "2c565700433e2bae3d349c96a3975713d35762990c49eb7f54184999d4e5de3a",
         "record": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json"
       },
       "reasons": [
@@ -1671,7 +1713,7 @@
       "shared_page": {
         "group": "guides",
         "page": "cnalphanumonly-filter",
-        "inputs_sha256": "a5507b2e54e7cb51bda19792ed0aeb5521de1eea9cc6619a55687d3bc1fdec47",
+        "inputs_sha256": "aefd907912000fab87cfb98c508a85ec633ecf4ebef9c2232618282a80d922d6",
         "record": "generated/en/manifests/shared-pages/guides/cnalphanumonly-filter.json"
       },
       "reasons": [
@@ -1692,7 +1734,7 @@
       "shared_page": {
         "group": "guides",
         "page": "cncharonly-filter",
-        "inputs_sha256": "01f64cf73638f5b9795c4d1c0b0a13b9429718dba4168ec4ca103028891217d6",
+        "inputs_sha256": "6dcfc74a67f79d3d0226ce73edf210c7b6d2d0d5a6ed63301939ced95df68cec",
         "record": "generated/en/manifests/shared-pages/guides/cncharonly-filter.json"
       },
       "reasons": [
@@ -1713,7 +1755,7 @@
       "shared_page": {
         "group": "guides",
         "page": "pinyin-filter",
-        "inputs_sha256": "68c85124f59bddbd7a894e2e3dd2c0bb43d66a0d9ed937a8d7de5dc9e35991ae",
+        "inputs_sha256": "14b90a4748193312216a007065e52238f6213d32811dfb52ddcdd9237434b112",
         "record": "generated/en/manifests/shared-pages/guides/pinyin-filter.json"
       },
       "reasons": [
@@ -1734,7 +1776,7 @@
       "shared_page": {
         "group": "guides",
         "page": "length-filter",
-        "inputs_sha256": "cfdcb6b80fbe63cc1c3990e278ed0fdb333d9a78157bf241cd2bc53410a15094",
+        "inputs_sha256": "c620518e4ef7ec75ffd15b7256009c56ece7c2a7bb0c2f1510669ab16e0ecb55",
         "record": "generated/en/manifests/shared-pages/guides/length-filter.json"
       },
       "reasons": [
@@ -1755,7 +1797,7 @@
       "shared_page": {
         "group": "guides",
         "page": "stop-filter",
-        "inputs_sha256": "d0d81339f0f2d14817907792312fb90fda121ed44b40d8635e6e0e8400a6dd1a",
+        "inputs_sha256": "41b569b1909dcff7254df8adee0a3fe5a73359d32672928aeb081b787c0f8fa4",
         "record": "generated/en/manifests/shared-pages/guides/stop-filter.json"
       },
       "reasons": [
@@ -1776,7 +1818,7 @@
       "shared_page": {
         "group": "guides",
         "page": "decompounder-filter",
-        "inputs_sha256": "47db69006e362a07aca0c5490fc185df0e05ce4cb946de653c356e2bf9f0eaa5",
+        "inputs_sha256": "0d57d4c39b09a9637536df9eaf52e197598c2e1d203790d5ff3bc382f8285ac0",
         "record": "generated/en/manifests/shared-pages/guides/decompounder-filter.json"
       },
       "reasons": [
@@ -1797,7 +1839,7 @@
       "shared_page": {
         "group": "guides",
         "page": "stemmer-filter",
-        "inputs_sha256": "816ed11c463f7041105624992652afc3bcaf6837f4db7b1e0812d3bd478b34af",
+        "inputs_sha256": "73c11252b80b019ff7c73fd6cde6de7f01a31e5cc1026be4ad77ffac2cf0d818",
         "record": "generated/en/manifests/shared-pages/guides/stemmer-filter.json"
       },
       "reasons": [
@@ -1818,7 +1860,7 @@
       "shared_page": {
         "group": "guides",
         "page": "remove-punct-filter",
-        "inputs_sha256": "5286c91af0305fd9527e5dc47e67f0f3f21438b23f8d2e524cd57f26c65bbfb0",
+        "inputs_sha256": "46544587b65077bc269cf3fd20e42b613e686c8480ba7db8715cb83ae12295be",
         "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
       },
       "reasons": [
@@ -1839,7 +1881,7 @@
       "shared_page": {
         "group": "guides",
         "page": "regex-filter",
-        "inputs_sha256": "95be094c9e66a46e6dbedaac4d82c052fdb4712fba7aae3b0b078c5d0d9103e6",
+        "inputs_sha256": "67fd75218eef98ee4b68f1d6085d7074356490521afc9cf537f2fef975007db2",
         "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
       },
       "reasons": [
@@ -1860,7 +1902,7 @@
       "shared_page": {
         "group": "guides",
         "page": "multi-tenancy",
-        "inputs_sha256": "6ce17b66a53abd3540b50264672708a5d1523dd28e01a32fa816b9730ba42b2e",
+        "inputs_sha256": "a043fd13e16b19f6e96cbf37e7be569bf72fc629d944304d52aa82cd7129395b",
         "record": "generated/en/manifests/shared-pages/guides/multi-tenancy.json"
       },
       "reasons": [
@@ -1869,23 +1911,26 @@
     }
   ],
   "changed_tokens": [
-    "QuBiwrIJdiDw3ckVDKBcPofinfe"
+    "KdwFwQnDNisT4skHH6Hc16uInji",
+    "P9HuwHZyXilwRTkVoDBcjAMlnrb",
+    "RsGAwmgAYiE6fgkOiokcijsBnEg",
+    "W04nwxHqNiqyrykxMZOcu4ianle"
   ],
   "expanded_tokens": [
     "A4jhweVMMigHOpkwDlLcKo0SnFe",
     "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
-    "Ah0DwMIWsilLa4kVbYocJGCMnlh",
-    "B1XTwQgNRizAMTkZQvrclGSonyc",
+    "AzxFwQpn4iRElfkDrbVcorGqnYd",
     "B7SFwbn76iUM06kkYzBcffE8nYf",
     "BClgwKlHaiushBkPPssclTkYnef",
     "BJCjwpj8JizP0nkI11uci1pPndh",
-    "BX6iwjUzLi7udfksJoxc7jK1nsW",
+    "BRsZwqOUTiBbrPk9b5WcvFgTnze",
     "BYtDwHuOXiG7imkyIjHcWa6fnlb",
     "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
+    "BcjLwmXTni1fiMkkyx9ct5iWngc",
     "BnYLwepruiGNpwkJfBHcdrrOnOh",
     "CK0ewQWC2iz6lakP0kscqogbnGh",
+    "CPLrwghdWiSvGBkdeEecGjgLnSb",
     "CmR5wFcybi3iMokOJBxcXDQcntg",
-    "D1E4wLr5xiuHoFkJgblcHZ1FnLb",
     "Dj2NwrlqTiYlmDkwfAbcJNWSntd",
     "EA2twSf5oiERMDkriKScU9GInc4",
     "EAwdw2ZbtiBKttk66FTctUebn7f",
@@ -1896,14 +1941,18 @@
     "GanXwLnJkiymKVkNPhecdi9MnGf",
     "H2GHwE8umiuP6WkwjxPcQOfGn0e",
     "H8MVwnjdgihp0hkRHHKcjBe9n5e",
+    "INoRwFTjfiindPkaNlwc9XAgnkh",
     "IO4fwm5fJiroaoktKeIcbdkDnRb",
     "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
     "IxO5wZ1meiYrTckUPkQca9JOnbS",
+    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
     "JPNiwF6rPiNe0pkx460cr321nTc",
+    "JaLdw76LPiX003kLpKHcA0n8n2d",
     "JaTxw9EtHivMv9kMSAnckG0vn1b",
+    "JfJvwdGz0iD9LpkrCMccZ2ypn0g",
     "KTWtw4V6SiTpDMkeGMQc8lChn8b",
+    "KdwFwQnDNisT4skHH6Hc16uInji",
     "KnnBwce9JifxvXkd070cvgUPnag",
-    "KrbjwFhy3iojF3k97XmcvvXMnW7",
     "LRRVwYzxKioMiMk7cf6czQuhn7d",
     "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
     "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
@@ -1917,13 +1966,16 @@
     "OFl9wHXpriM8aEkoONScpU1lnIf",
     "OJVrwOiE4i3fFjk2J3NcneLznfh",
     "OZtawoDUci0CKokf9RlchvInnMf",
+    "P9HuwHZyXilwRTkVoDBcjAMlnrb",
+    "PAViwMSb3iVMzuk56z3c1zfRnwh",
     "PNj2w5fY9ifr82kbX8ucKgXAn0r",
     "PV2bwNENViEjXWkOgzZcXoKHnce",
     "PlX3wo82Di6oWVkg2ercRWCUnvV",
     "PmaowiSUaiTa8ckPMYJcqdRYnQg",
     "Pulhw06e5iXJTFkidFXcGbylnod",
-    "QuBiwrIJdiDw3ckVDKBcPofinfe",
     "R33EwQchxiO3HKk4vPnce6vkntc",
+    "RoxawNJhki1vXXkFsEEc7laMnxe",
+    "RsGAwmgAYiE6fgkOiokcijsBnEg",
     "RxUiwJ77WiFKZGkC8rEcLeopnTf",
     "SwgXwdHG6iqpbUknXrHcOPd7nRe",
     "UR9SwucAIiQ2TYkc9EucsgvSnng",
@@ -1931,36 +1983,70 @@
     "V7xfwDariioU5GkcmfXctzSEnyc",
     "VOkIwd5adiziGQkoDO1cRoRFnre",
     "Vs4YwNnvzitoQ8kunlGcWMJInbf",
+    "W04nwxHqNiqyrykxMZOcu4ianle",
     "WBONwyqFAi02DTkCG41c93wCn6e",
     "WTsmwWdgOiKnwpkdZdScp093njh",
     "WZe4w7lNji6RVHkR5alcrTw8nQ2",
+    "XC1ow3jGBi7hVvkINtBcXhQ6n8g",
     "XDoSwZodyigAEVkjkWfc9nsfnCg",
-    "ZBEiwpvlbijhYDkmnNScc7zyn5d",
-    "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+    "ZBEiwpvlbijhYDkmnNScc7zyn5d"
   ],
   "removed_records": [],
   "removed_tokens": [],
   "reasons_by_token": {
-    "QuBiwrIJdiDw3ckVDKBcPofinfe": [
+    "KdwFwQnDNisT4skHH6Hc16uInji": [
       "wiki node revision changed"
     ],
-    "BX6iwjUzLi7udfksJoxc7jK1nsW": [
-      "outgoing reference from QuBiwrIJdiDw3ckVDKBcPofinfe"
+    "RsGAwmgAYiE6fgkOiokcijsBnEg": [
+      "wiki node revision changed"
     ],
-    "D1E4wLr5xiuHoFkJgblcHZ1FnLb": [
-      "outgoing reference from QuBiwrIJdiDw3ckVDKBcPofinfe"
+    "W04nwxHqNiqyrykxMZOcu4ianle": [
+      "wiki node revision changed"
     ],
-    "Ah0DwMIWsilLa4kVbYocJGCMnlh": [
-      "outgoing reference from QuBiwrIJdiDw3ckVDKBcPofinfe"
+    "P9HuwHZyXilwRTkVoDBcjAMlnrb": [
+      "wiki node revision changed"
     ],
-    "B1XTwQgNRizAMTkZQvrclGSonyc": [
-      "incoming reference to QuBiwrIJdiDw3ckVDKBcPofinfe"
+    "PAViwMSb3iVMzuk56z3c1zfRnwh": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
     ],
-    "KrbjwFhy3iojF3k97XmcvvXMnW7": [
-      "incoming reference to QuBiwrIJdiDw3ckVDKBcPofinfe"
+    "INoRwFTjfiindPkaNlwc9XAgnkh": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
     ],
-    "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh": [
-      "incoming reference to QuBiwrIJdiDw3ckVDKBcPofinfe"
+    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "JaLdw76LPiX003kLpKHcA0n8n2d": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "AzxFwQpn4iRElfkDrbVcorGqnYd": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
+      "incoming reference to KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "BRsZwqOUTiBbrPk9b5WcvFgTnze": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "RoxawNJhki1vXXkFsEEc7laMnxe": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "BcjLwmXTni1fiMkkyx9ct5iWngc": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "JfJvwdGz0iD9LpkrCMccZ2ypn0g": [
+      "incoming reference to RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
+      "incoming reference to RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "XC1ow3jGBi7hVvkINtBcXhQ6n8g": [
+      "incoming reference to RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "CPLrwghdWiSvGBkdeEecGjgLnSb": [
+      "incoming reference to W04nwxHqNiqyrykxMZOcu4ianle"
     ],
     "A4jhweVMMigHOpkwDlLcKo0SnFe": [
       "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
@@ -1977,16 +2063,10 @@
     "KnnBwce9JifxvXkd070cvgUPnag": [
       "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
     ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
-    ],
     "MYHwwhKtri4MMJku6BbcMjF4n1d": [
       "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
     ],
     "MocQwCCItiHYEbkkJtOcROPTnod": [
-      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
-    ],
-    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
       "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
     ],
     "OFl9wHXpriM8aEkoONScpU1lnIf": [
@@ -2073,9 +2153,6 @@
     "PNj2w5fY9ifr82kbX8ucKgXAn0r": [
       "incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic"
     ],
-    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
-      "incoming reference to EmcowmwYpiFbWgkmnqfcMf3knVc"
-    ],
     "CK0ewQWC2iz6lakP0kscqogbnGh": [
       "incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg"
     ],
@@ -2140,11 +2217,9 @@
   "warnings": [],
   "affected_tables": [
     "tbl9BeCMjBmalJVb",
-    "tblLMqwkNDtAEK5p",
     "tblWv7PjNDsexddH",
     "tblZMzoITXNsyKmQ",
-    "tblh7utKxg0dgdTo",
-    "tblm1SbEPZaZrGZQ"
+    "tblh7utKxg0dgdTo"
   ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
@@ -2239,7 +2314,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-11-07T18:27:19.783Z",
+    "generated_at": "2026-11-08T02:31:24.757Z",
     "records": 404
   },
   "source_scope": "partial"

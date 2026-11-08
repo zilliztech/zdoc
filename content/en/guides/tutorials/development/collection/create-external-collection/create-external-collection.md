@@ -53,7 +53,7 @@ As with creating a managed collection, you also need to create a schema before c
 
 ### Preparation\{#preparation}
 
-- You have obtained an **API key** with sufficient permissions (read/write on the target and read on the source for cross-cluster sources). Username:password tokens are not accepted.
+- You have obtained an **API key** with sufficient permissions <NextChannel action="include"> (read/write on the target and read on the source for cross-cluster sources)</NextChannel>. Username:password tokens are not accepted.
 
     For details, refer to [API Keys](./manage-api-keys).
 
@@ -63,9 +63,13 @@ As with creating a managed collection, you also need to create a schema before c
 
     For details, refer to [External Volumes](./external-volume).
 
+<NextChannel action="include">
+
 - For a collection from another serving cluster, the source is a regular collection (not another external collection) on **a serving cluster compatible with Milvus v3.0.x** in the **same project and region** as the target, and the target is a database for on-demand search accessed through the project endpoint with a query cluster.
 
 - Cross-cluster sources (`milvus://`) are available through SDKs and the RESTful API only in the current release — the console does not support this source type. Cloud providers: **AWS and Azure are supported.**
+
+</NextChannel>
 
 ### Support data sources\{#support-data-sources}
 
@@ -94,17 +98,25 @@ Zilliz Cloud supports the following data sources, and you should provide the cor
     }
     ```
 
+<NextChannel action="include">
+
 - `milvus-table`
 
     Set `external_source` to a `milvus://` URI. On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another serving cluster compatible with Milvus v3.0.x in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.
 
     For this source, `external_spec` is optional. If you omit it or its `format` field, the format defaults to `milvus-table`. For details, refer to [Use a Collection from a Serving Cluster as Data Source](./use-collection-from-a-serving-cluster-as-data-source).
 
+</NextChannel>
+
 ### Set up schema\{#set-up-schema}
 
 Once you have an external volume containing the target data files, create the schema to map collection columns to Parquet files (`parquet`), a lance table (`lance-table`), an Iceberg table (`iceberg-table`), or Vortex files of the 0.56.0 format (`vortex`).
 
+<NextChannel action="include">
+
 For a cross-cluster source, set `external_source` to a `milvus://` URI instead. The `external_spec` parameter is optional for such a source; if you omit it or its `format` field, the format defaults to `milvus-table`. The `snapshot_id` and `extfs` settings do not apply to `milvus://` sources.
+
+</NextChannel>
 
 <Admonition type="info" title="Notes">
 
@@ -725,11 +737,15 @@ curl --request POST \
 
 Once the collection is ready, refresh it to create the metadata and indexes for your data.
 
+<NextChannel action="include">
+
 For external collections created from a collection on another serving cluster (`milvus://`):
 
-A refresh re-binds the external collection to the `external_source` passed in the request and syncs the latest data. You must pass `external_source` in every refresh request; omitting it leaves the collection serving the previously synced data.
+- A refresh re-binds the external collection to the `external_source` passed in the request and syncs the latest data. You must pass `external_source` in every refresh request; omitting it leaves the collection serving the previously synced data.
 
-A refresh job transitions from `RefreshInProgress` to `RefreshCompleted` or `RefreshFailed`. A second refresh submitted while one is in progress is rejected. Refresh waits for index building to finish, so its duration scales with data size — from seconds to hours for large collections.
+- A refresh job transitions from `RefreshInProgress` to `RefreshCompleted` or `RefreshFailed`. A second refresh submitted while one is in progress is rejected. Refresh waits for index building to finish, so its duration scales with data size — from seconds to hours for large collections.
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -934,6 +950,8 @@ If you use the RESTful API, check the progress of a refresh job with [Describe E
 
 </Admonition>
 
+<NextChannel action="include">
+
 ## Troubleshooting\{#troubleshooting}
 
 The following table lists the errors you may encounter when you create or refresh an external collection whose source is a collection on another serving cluster (`milvus://`), and how to resolve them.
@@ -945,6 +963,8 @@ The following table lists the errors you may encounter when you create or refres
 | Source collection does not exist | `Source collection <name> on cluster <id> is unavailable: ... collection not found ...` | Check the database name and the collection name. |
 | Format conflict | `external_spec.format must be "milvus-table" (or omitted) for a milvus:// source, got "parquet"` | Omit `external_spec`, or set its `format` to `milvus-table`. |
 | Concurrent refresh | `Refresh job <id> is already in progress for collection <name>; wait for it to complete before refreshing again.` | Wait for the current refresh job to complete. |
+
+</NextChannel>
 
 ## Follow-ups\{#follow-ups}
 

@@ -803,6 +803,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+<NextChannel action="include">
+
 ### Use a collection from a serving cluster as the data source\{#use-a-collection-from-a-serving-cluster-as-the-data-source}
 
 The steps above create an external collection from data files on an external volume. You can also use a collection on another serving cluster as the data source: when creating the schema, set `external_source` to the `milvus://` URI of the source collection.
@@ -948,6 +950,8 @@ curl --request POST \
 </Tabs>
 
 Once the refresh completes, create an on-demand cluster and conduct searches as described in Step 5 and Step 6. For details, see [Use a Collection from a Serving Cluster as Data Source](./use-collection-from-a-serving-cluster-as-data-source).
+
+</NextChannel>
 
 ## Step 4: Create indexes and refresh the collection.\{#step-4-create-indexes-and-refresh-the-collection}
 

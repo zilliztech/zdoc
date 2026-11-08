@@ -53,7 +53,7 @@ As with creating a managed collection, you also need to create a schema before c
 
 ### Preparation\{#preparation}
 
-- You have obtained an **API key** with sufficient permissions. Username:password tokens are not accepted.
+- You have obtained an **API key** with sufficient permissions . Username:password tokens are not accepted.
 
     For details, refer to [API Keys](./manage-api-keys).
 
