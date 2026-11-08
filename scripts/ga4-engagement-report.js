@@ -5,10 +5,14 @@
 // Pulls eventCount (plus the keyEvents metric) for every tracked dataLayer
 // engagement event out of the GA4 Data API for each docs property and renders
 // a funnel-grouped totals report: search funnel, Ask-AI funnel, page
-// engagement, and navigation/conversion. Zero runtime dependencies: the
-// service-account auth lives in scripts/lib/ga4-auth.js (hand-built RS256 JWT
-// exchanged over global fetch) — the same scheme as ga4-search-404-report.js,
-// which owns the separate page_not_found events.
+// engagement, and navigation/conversion. Each site also carries a traffic
+// breakdown (screenPageViews/totalUsers by country and page path for
+// docs.zilliz.com, current window vs the preceding one) so the watchdog
+// digest can flag crawler-shaped traffic against its baseline heuristics.
+// Zero runtime dependencies: the service-account auth lives in
+// scripts/lib/ga4-auth.js (hand-built RS256 JWT exchanged over global fetch) —
+// the same scheme as ga4-search-404-report.js, which owns the separate
+// page_not_found events.
 //
 // Usage:
 //   GA4_PROPERTY_ID_EN=123 GA4_PROPERTY_ID_ZH_CN=456 \
@@ -23,8 +27,11 @@ const path = require('node:path')
 
 const {RUN_REPORT_URL, createJwt, getAccessToken, loadServiceAccount} = require('./lib/ga4-auth.js')
 
-const SCHEMA_VERSION = 1
+const SCHEMA_VERSION = 2
 const DEFAULT_DAYS = 7
+// Traffic rows are filtered to the hostname each property actually serves;
+// the zh-CN property records docs.zilliz.com.cn, not the .com host.
+const DOCS_HOSTNAMES = {en: 'docs.zilliz.com', 'zh-CN': 'docs.zilliz.com.cn'}
 
 const FUNNELS = [
   {label: 'Search funnel', events: ['search_open', 'search_performed', 'search_result_clicked']},
@@ -81,8 +88,135 @@ async function fetchEngagementEvents(fetchImpl, accessToken, propertyId, {days})
   }))
 }
 
+function formatShare(current, compare) {
+  if (compare > 0) {
+    const pct = ((current - compare) / compare) * 100
+    return `${pct >= 0 ? '+' : ''}${pct.toFixed(1)}%`
+  }
+  return current > 0 ? 'new' : '—'
+}
+
+function appendTrafficLines(lines, rows, nameOf) {
+  for (const row of rows) {
+    const viewsPerUser = row.users > 0 ? (row.views / row.users).toFixed(2) : '—'
+    lines.push(
+      `- ${nameOf(row)}: ${row.views} views (${formatShare(row.views, row.compare_views)}), `
+        + `${row.users} users (${formatShare(row.users, row.compare_users)}), ${viewsPerUser} views/user`,
+    )
+  }
+  if (rows.length === 0) lines.push('- No rows returned for this window.')
+}
+
 function funnelOf(eventName) {
   return FUNNELS.find(funnel => funnel.events.includes(eventName))?.label ?? 'Other'
+}
+
+function trafficDateRanges({days}) {
+  return [
+    {startDate: `${days - 1}daysAgo`, endDate: 'today'},
+    {startDate: `${2 * days - 1}daysAgo`, endDate: `${days}daysAgo`},
+  ]
+}
+
+function trafficDimensionFilter(site) {
+  const hostname = DOCS_HOSTNAMES[site]
+  if (!hostname) throw new Error(`no docs hostname known for site ${site}`)
+  return {
+    filter: {
+      fieldName: 'hostName',
+      stringFilter: {matchType: 'EXACT', value: hostname},
+    },
+  }
+}
+
+function buildTrafficCountryRequest({days, site}) {
+  return {
+    dateRanges: trafficDateRanges({days}),
+    dimensions: [{name: 'country'}],
+    metrics: [{name: 'screenPageViews'}, {name: 'totalUsers'}],
+    dimensionFilter: trafficDimensionFilter(site),
+    orderBys: [{metric: {metricName: 'screenPageViews'}, desc: true}],
+    // The API shares one limit across both date ranges, so tail rows of one
+    // range can be cut while their sibling survives; only head rows are
+    // guaranteed both windows.
+    limit: 100, // up to 50 countries once rows are shared across both date ranges
+  }
+}
+
+function buildTrafficPagesRequest({days, site}) {
+  return {
+    dateRanges: trafficDateRanges({days}),
+    dimensions: [{name: 'pagePath'}],
+    metrics: [{name: 'screenPageViews'}, {name: 'totalUsers'}],
+    dimensionFilter: trafficDimensionFilter(site),
+    orderBys: [{metric: {metricName: 'screenPageViews'}, desc: true}],
+    limit: 1000, // up to 500 page paths across both date ranges
+  }
+}
+
+async function fetchTrafficRows(fetchImpl, accessToken, propertyId, request) {
+  const response = await fetchImpl(
+    `${RUN_REPORT_URL}/${encodeURIComponent(propertyId)}:runReport`,
+    {
+      method: 'POST',
+      headers: {Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json'},
+      body: JSON.stringify(request),
+    },
+  )
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '')
+    throw new Error(`runReport for ${propertyId} failed: HTTP ${response.status}${detail ? `: ${detail.slice(0, 300)}` : ''}`)
+  }
+  const body = await response.json()
+  return foldDateRangeRows(body.rows)
+}
+
+// With multiple date ranges the API appends a trailing dateRange dimension
+// value to every row (`date_range_0` = current window, `date_range_1` = the
+// preceding one); fold them into one entry per dimension value.
+function foldDateRangeRows(rows) {
+  const entries = new Map()
+  for (const row of Array.isArray(rows) ? rows : []) {
+    const dimensionValues = row.dimensionValues ?? []
+    const name = dimensionValues[0]?.value ?? ''
+    const range = dimensionValues[dimensionValues.length - 1]?.value ?? 'date_range_0'
+    const views = Number(row.metricValues?.[0]?.value ?? 0)
+    const users = Number(row.metricValues?.[1]?.value ?? 0)
+    let entry = entries.get(name)
+    if (!entry) {
+      entry = {name, views: 0, users: 0, compareViews: 0, compareUsers: 0}
+      entries.set(name, entry)
+    }
+    if (range === 'date_range_1') {
+      entry.compareViews = views
+      entry.compareUsers = users
+    } else {
+      entry.views = views
+      entry.users = users
+    }
+  }
+  return [...entries.values()].sort((a, b) => b.views - a.views || a.name.localeCompare(b.name))
+}
+
+async function fetchTrafficBreakdown(fetchImpl, accessToken, propertyId, {site, days}) {
+  const country = await fetchTrafficRows(fetchImpl, accessToken, propertyId, buildTrafficCountryRequest({days, site}))
+  const pages = await fetchTrafficRows(fetchImpl, accessToken, propertyId, buildTrafficPagesRequest({days, site}))
+  return {
+    country: country.map(row => ({
+      country: row.name,
+      views: row.views,
+      users: row.users,
+      compare_views: row.compareViews,
+      compare_users: row.compareUsers,
+    })),
+    pages: pages.map(row => ({
+      page_path: row.name,
+      views: row.views,
+      users: row.users,
+      compare_views: row.compareViews,
+      compare_users: row.compareUsers,
+    })),
+  }
 }
 
 function siteReportsToMarkdown(report) {
@@ -108,6 +242,7 @@ function siteReportsToMarkdown(report) {
     '- Counts are GA4 `eventCount` totals for the tracked dataLayer events, grouped into the search funnel, the Ask-AI funnel, page engagement, and navigation/conversion. Key events are only the events marked as key events in GA4.',
     '- Every tracked event is listed even at zero. A count that stays 0 across runs means the instrumentation or its GTM trigger went quiet.',
     '- Counts are real-user events only; crawlers are not tracked by GA4, and consent-denied sessions send nothing.',
+    '- Traffic sections list raw `screenPageViews`/`totalUsers` for `docs.zilliz.com` only, comparing the current window with the preceding one. Unlike the event counts above they include non-human traffic: a country bucket of "(not set)" with views but zero users, and pages whose views-per-user is far above the human norm, usually indicate automated crawlers.',
     '- Search-origin 404s are reported separately by the daily `ga4 search 404 report`.',
     '',
   )
@@ -123,6 +258,11 @@ function siteReportsToMarkdown(report) {
       const keyEvents = entry.key_events > 0 ? ` (${entry.key_events} key events)` : ''
       lines.push(`- ${entry.count} — ${entry.name}${keyEvents}`)
     }
+    lines.push('')
+    lines.push(`## ${site.site} traffic (${report.days}-day window vs preceding ${report.days} days)`, '')
+    appendTrafficLines(lines, site.traffic.country, row => row.country)
+    lines.push('', `### ${site.site} top pages`, '')
+    appendTrafficLines(lines, site.traffic.pages.slice(0, 15), row => row.page_path)
     lines.push('')
   }
   return `${lines.join('\n')}\n`
@@ -163,12 +303,14 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
   const sites = []
   for (const {site, property_id: propertyId} of resolveSites(env)) {
     const events = await fetchEngagementEvents(fetchImpl, accessToken, propertyId, {days: args.days})
+    const traffic = await fetchTrafficBreakdown(fetchImpl, accessToken, propertyId, {site, days: args.days})
     sites.push({
       site,
       property_id: propertyId,
       total_events: events.reduce((total, entry) => total + entry.count, 0),
       total_key_events: events.reduce((total, entry) => total + entry.key_events, 0),
       events,
+      traffic,
     })
   }
   const report = {
@@ -210,11 +352,17 @@ if (require.main === module) {
 
 module.exports = {
   SCHEMA_VERSION,
+  DOCS_HOSTNAMES,
   FUNNELS,
   TRACKED_EVENTS,
   buildRunReportRequest,
+  buildTrafficCountryRequest,
+  buildTrafficPagesRequest,
   createJwt,
   fetchEngagementEvents,
+  fetchTrafficBreakdown,
+  fetchTrafficRows,
+  foldDateRangeRows,
   funnelOf,
   getAccessToken,
   loadServiceAccount,
