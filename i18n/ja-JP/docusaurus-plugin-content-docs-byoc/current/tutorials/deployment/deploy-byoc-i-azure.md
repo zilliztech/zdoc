@@ -187,11 +187,11 @@ BYOC-I 組織内で **Create Project** ボタンをクリックしてデプロ�
 
         **Auto-scaling** が無効な場合は、各プロジェクトコンポーネントに必要な VM インスタンス数を対応する **Count** フィールドに指定するだけです。
 
-        ![DYwHb4uOioMCbZxajkHc6unEn8f](https://zdoc-images.s3.us-west-2.amazonaws.com/dywhb4uoiomcbzxajkhc6unen8f.png "DYwHb4uOioMCbZxajkHc6unEn8f")
+        ![FadSbNEHcoYEnpxwPvac0NRFnfc](https://zdoc-images.s3.us-west-2.amazonaws.com/fadsbnehcoyenpxwpvac0nrfnfc.png "FadSbNEHcoYEnpxwPvac0NRFnfc")
 
         **Auto-scaling** を有効にすると、対応する **Min** および **Max** フィールドを設定して、実際のプロジェクトワークロードに基づき Zilliz Cloud が VM インスタンス数を自動スケールできるように範囲を指定する必要があります。
 
-        ![As6Ebvzaoo4iccxsxdlctOCRnpd](https://zdoc-images.s3.us-west-2.amazonaws.com/as6ebvzaoo4iccxsxdlctocrnpd.png "As6Ebvzaoo4iccxsxdlctOCRnpd")
+        ![TJabbA8vToK83uxZASwcKtoBnof](https://zdoc-images.s3.us-west-2.amazonaws.com/tjabba8vtok83uxzaswcktobnof.png "TJabbA8vToK83uxZASwcKtoBnof")
 
         リソース設定を容易にするため、事前定義されたプロジェクトサイズオプションが 4つ用意されています。次の表は、これらのプロジェクトサイズオプションと、プロジェクト内で作成可能なクラスター数、および各クラスターに含めることができるエンティティ数との対応関係を示しています。
 
@@ -242,7 +242,7 @@ BYOC-I 組織内で **Create Project** ボタンをクリックしてデプロ�
 
         このオプションは、階層型ストレージクラスターを作成できるかどうかを決定します。このオプションを選択すると、階層型クエリノードのインスタンスタイプと台数を設定できます。 
 
-        ![Aolab6yB3o8Z3mxDFCycMzNqnTf](https://zdoc-images.s3.us-west-2.amazonaws.com/aolab6yb3o8z3mxdfcycmznqntf.png "Aolab6yB3o8Z3mxDFCycMzNqnTf")
+        ![KM0vbGKTwoy1EcxitHWc2NNgnqf](https://zdoc-images.s3.us-west-2.amazonaws.com/km0vbgktwoy1ecxithwc2nngnqf.png "KM0vbGKTwoy1EcxitHWc2NNgnqf")
 
         <Admonition type="info" title="Notes">
 

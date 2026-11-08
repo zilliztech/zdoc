@@ -111,9 +111,9 @@
       "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/deployment/deploy-byoc-i-azure.md": {
-      "sourceHash": "ccd45ded2f99de113b0895fc501e411f63965805357c753f85ff7c746174bb4f",
+      "sourceHash": "b8468e61fa0eaf8f7d82fff4751d2e4831e37243a93dded33a4f303f7d461e67",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-azure.md",
-      "translatedAt": "2026-09-19T13:45:51.402Z"
+      "translatedAt": "2026-11-08T07:48:30.349Z"
     },
     "content/en/byoc/tutorials/deployment/deploy-byoc-i-gcp.md": {
       "sourceHash": "3fd4fd2ab1b2d1007e3240ed8e5fe8cc9b41d10e5d3770e8d2bb56b9c3c49502",
@@ -286,9 +286,9 @@
       "translatedAt": "2026-11-06T19:45:47.341Z"
     },
     "content/en/byoc/tutorials/development/collection/create-external-collection/create-external-collection.md": {
-      "sourceHash": "e0c07a658ca8008d64a7d342409cc1921f84aa83a438094b31b035ba81ed84b8",
+      "sourceHash": "a1c65d5bc3bcaa80cad94b97eb09155a6817ca17d1df7330493eaa09b305976c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "translatedAt": "2026-11-06T19:45:47.341Z"
+      "translatedAt": "2026-11-08T07:48:30.349Z"
     },
     "content/en/byoc/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md": {
       "sourceHash": "dff3e3faaf3133d245664c44c1512cc50cc303b1ed106f3a9c5dcbd4b53aea79",
@@ -1596,14 +1596,14 @@
       "translatedAt": "2026-11-07T11:50:28.363Z"
     },
     "content/en/guides/tutorials/development/collection/collection-on-console/manage-external-collections-console.md": {
-      "sourceHash": "515aded895b19ffaf62ba51be4492cdf29633e4ca051b9815b943fde0899c557",
+      "sourceHash": "26556fd194be758aa558df274d476e716ea02b194130708b3e1c636147f0b681",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
-      "translatedAt": "2026-11-06T19:45:47.341Z"
+      "translatedAt": "2026-11-08T07:48:30.349Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md": {
-      "sourceHash": "9d6ab44b39772a96bbfe9280f728ee582a6c6afa7eecf8d0d33e99cccdfc371a",
+      "sourceHash": "3511926a0d62eaf0a82ddf6ea857c474a1bf0ef859f8b15ed82e105f71481c19",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "translatedAt": "2026-11-06T19:45:47.341Z"
+      "translatedAt": "2026-11-08T07:48:30.349Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source.md": {
       "sourceHash": "90b478aafed73a73cb6460463cd01e635cec8ef096a5445f091dcb3b4d708560",
@@ -1621,9 +1621,9 @@
       "translatedAt": "2026-10-28T15:48:53.927Z"
     },
     "content/en/guides/tutorials/development/collection/external-collection-limits.md": {
-      "sourceHash": "7199dcab0f796b8c7afd381a2d6911ec6bfb8474b9ac57436f0eb6eca8954b2d",
+      "sourceHash": "093d00e73ed3a129f47120ad3d4dc7d18522a573dabdaa1763077b682ee809c5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/external-collection-limits.md",
-      "translatedAt": "2026-11-06T19:45:47.341Z"
+      "translatedAt": "2026-11-08T07:48:30.349Z"
     },
     "content/en/guides/tutorials/development/collection/load-release-collections.md": {
       "sourceHash": "598a8cb27d2712b8b59e586c6be9aeed652ebf2486255c75125f0c62e7d47d0b",
@@ -2356,9 +2356,9 @@
       "translatedAt": "2026-09-19T14:14:40.742Z"
     },
     "content/en/guides/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md": {
-      "sourceHash": "7661ce27fa63031efa045761d423e7982868267bddbacd946a0ac4bb3a6739e5",
+      "sourceHash": "72ad1b0de9be41e5d3169da1a20953b02850cae963731b60bf044019d8bce8a2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
-      "translatedAt": "2026-11-06T19:45:47.341Z"
+      "translatedAt": "2026-11-08T07:48:30.349Z"
     },
     "content/en/guides/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md": {
       "sourceHash": "fe11a00890435cd818194e798994abcda67744f094d7b2e3c55539aecdea1158",

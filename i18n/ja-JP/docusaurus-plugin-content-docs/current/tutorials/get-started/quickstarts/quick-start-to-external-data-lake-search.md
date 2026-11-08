@@ -803,6 +803,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+<NextChannel action="include">
+
 ### サービングクラスターのコレクションをデータソースとして使用する\{#use-a-collection-from-a-serving-cluster-as-the-data-source}
 
 上記の手順では、外部ボリューム上のデータファイルから外部コレクションを作成します。別のサービングクラスター上のコレクションをデータソースとして使用することもできます。その場合、スキーマの作成時に、`external_source` をソースコレクションの `milvus://` URI に設定します。
@@ -948,6 +950,8 @@ curl --request POST \
 </Tabs>
 
 refresh が完了したら、ステップ 5 とステップ 6 の説明に従ってオンデマンドクラスターを作成し、検索を実行します。詳細は、[サービングクラスターのコレクションをデータソースとして使用する](./use-collection-from-a-serving-cluster-as-data-source) を参照してください。
+
+</NextChannel>
 
 ## ステップ 4: インデックスを作成してコレクションを更新する\{#step-4-create-indexes-and-refresh-the-collection}
 
