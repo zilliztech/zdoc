@@ -48,7 +48,7 @@ test('the classification job consumes the tracked ledger and degrades without cr
   assert.doesNotMatch(source, /pnpm\/action-setup/)
   for (const step of [...remediation.steps, ...applyReply.steps]) {
     if (step.uses?.startsWith('actions/setup-node@')) {
-      assert.equal(step.with['package-manager-cache'], 'false', `${step.name} must disable the package-manager cache`)
+      assert.equal(step.with['package-manager-cache'], false, `${step.name} must disable the package-manager cache`)
     }
   }
 
@@ -74,9 +74,16 @@ test('the publish step opens exactly one labeled PR per batch through apply mode
   assert.match(script, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
   assert.match(script, /branch="ga4-404-remediation\/\$\{batch_date\}-\$\{GITHUB_RUN_ID\}"/)
   assert.match(script, /gh label create ga4-404-remediation/)
-  assert.match(script, /gh pr create \\\n\s+--base master --head "\$branch"/)
+  // The PR body file is a bash variable (gh pr create reads it) carried into
+  // the node truncation via BODY_FILE — regression pin for the live failure
+  // where gh received `--body-file ""` because the variable was never defined.
+  assert.match(script, /body_file="\$RUNNER_TEMP\/pr-body\.md"/)
+  assert.match(script, /BODY_FILE="\$body_file" node -e/)
+  assert.match(script, /test -s "\$body_file" \|\| \{/)
+  assert.match(script, /--body-file "\$body_file" \\/)
+  assert.match(script, /gh pr create \\\n\s+--repo "\$GITHUB_REPOSITORY" \\\n\s+--base master --head "\$branch"/)
   assert.match(script, /--label ga4-404-remediation\)/)
-  assert.match(script, /gh pr comment "\$pr_url" --body-file tmp\/ga4-404-remediation\/triage\.md/)
+  assert.match(script, /gh pr comment "\$pr_url" --repo "\$GITHUB_REPOSITORY" --body-file tmp\/ga4-404-remediation\/triage\.md/)
   // The proposal body is bounded in the PR like every other bot PR.
   assert.match(script, /60000/)
   // The publish checkout must not leave the default token in the workspace.
