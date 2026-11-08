@@ -66,7 +66,7 @@ test('the publish step opens exactly one labeled PR per batch through apply mode
   assert.match(script, /--mode apply \\\n\s+--mapping tmp\/ga4-404-remediation\/publish-mapping\.json/)
   assert.match(script, /--write-conf/)
   assert.match(script, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
-  assert.match(script, /branch="ga4-404-remediation\/\$\{batch_date\}-\$\(git rev-parse --short HEAD\)"/)
+  assert.match(script, /branch="ga4-404-remediation\/\$\{batch_date\}-\$\{GITHUB_RUN_ID\}"/)
   assert.match(script, /gh label create ga4-404-remediation/)
   assert.match(script, /gh pr create \\\n\s+--base master --head "\$branch"/)
   assert.match(script, /--label ga4-404-remediation\)/)
@@ -99,14 +99,22 @@ test('the reply executor gates on allowlist, triage markers, reply markers, and 
 
   const apply = stepNamed(applyReply, 'Apply the reply to the PR branch')
   assert.equal(apply.env.GH_TOKEN, '${{ secrets.REST_UPSTREAM_REFRESH_PAT }}')
+  assert.equal(apply.env.PR_BRANCH, '${{ steps.gate.outputs.pr_branch }}')
+  // P0 regression pin: the executor's apply must actually write the conf —
+  // without --write-conf it pushes ledger-only commits while claiming rules.
+  assert.match(apply.run, /--write-conf/)
   assert.match(apply.run, /--reply-file "\$RUNNER_TEMP\/comment-body\.md"/)
   assert.match(apply.run, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
   // The ledger is always committed; the conf only when the reply carried rules.
   assert.match(apply.run, /git add scripts\/redirects\/ga4-404-remediation-ledger\.json/)
   assert.match(apply.run, /if \[ "\$\{rules:-0\}" != "0" \]; then\n\s+git add deploy\/en\/nginx\.conf/)
-  // Loop safety: the bot's confirmation comment never carries reply markers.
-  assert.match(apply.run, /printf 'Reply applied: %s rule\(s\)/)
-  assert.doesNotMatch(apply.run, /ga4-404-reply-data begin/)
+  assert.match(apply.run, /if git diff --cached --quiet; then/)
+  // Rejections never echo the reply markers back into a comment.
+  assert.match(apply.run, /apply_log="\$\{apply_log\/\/ga4-404-reply-data begin\/\(reply marker elided\)\}"/)
+  // Loop safety: the bot's confirmation comment itself never carries markers.
+  const confirmationLine = apply.run.split('\n').find(line => line.includes("printf 'Reply applied:"))
+  assert.ok(confirmationLine, 'the executor posts an apply confirmation')
+  assert.ok(!confirmationLine.includes('ga4-404-reply-data'), 'the confirmation text must not contain reply markers')
   // Rejections post the reason and fail the run.
   assert.match(apply.run, /The reply could not be applied/)
   const executorCheckout = applyReply.steps.find(step => step.uses?.startsWith('actions/checkout@'))

@@ -429,6 +429,43 @@ test('mapLimit caps in-flight workers and resolves in item order', async () => {
   await assert.rejects(() => mapLimit([1], 0, async () => 1), /positive integer/)
 })
 
+test('run() apply mode refuses empty replies, denylisted probe paths, and never touches the conf for ledger-only replies', async () => {
+  const dir = makeTempDir('ga4-rem-applyguard2-')
+  const outDir = path.join(dir, 'out')
+  try {
+    const confPath = writeFixture(dir, 'nginx.conf', CONF)
+    const snapshotPath = writeFixture(dir, 'snapshot.json', JSON.stringify(SNAPSHOT))
+    // Empty decisions: rejected with an actionable reason.
+    const emptyPath = writeFixture(dir, 'empty.json', JSON.stringify({schema_version: SCHEMA_VERSION, mappings: [], declined: [], denylist: []}))
+    await assert.rejects(
+      () => run({argv: ['--mode', 'apply', '--mapping', emptyPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]}),
+      /contains no decisions/,
+    )
+    // Watchdog e2e probe paths can never receive a rule through any entry point.
+    const probePath = writeFixture(dir, 'probe.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/ga4-e2e-test-404', to: '/docs/home'}],
+    }))
+    await assert.rejects(
+      () => run({argv: ['--mode', 'apply', '--mapping', probePath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]}),
+      /source is on the remediation denylist \(watchdog probe path\): \/docs\/ga4-e2e-test-404/,
+    )
+    // A declined-only reply updates the ledger and leaves the conf untouched
+    // even with --write-conf.
+    const declinedOnly = writeFixture(dir, 'declined.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      declined: [{from: '/docs/one-off', note: 'typo'}],
+    }))
+    const confBefore = fs.readFileSync(confPath, 'utf8')
+    const result = await run({argv: ['--mode', 'apply', '--mapping', declinedOnly, '--ledger', writeFixture(dir, 'ledger.json', JSON.stringify({schema_version: SCHEMA_VERSION, entries: []})), '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir, '--write-conf']})
+    assert.equal(result.rules, 0)
+    assert.equal(fs.readFileSync(confPath, 'utf8'), confBefore)
+    assert.ok(fs.readFileSync(result.ledger_path, 'utf8').includes('"declined"'))
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
+
 test('run() apply mode requires --mapping and merges ledger decisions idempotently', async () => {
   const dir = makeTempDir('ga4-rem-applyguard-')
   const outDir = path.join(dir, 'out')
