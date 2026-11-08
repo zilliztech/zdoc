@@ -95,12 +95,16 @@ function findInsertionOffset(confText) {
 }
 
 // Validates one proposed batch before emission. errors block the write;
-// warnings surface in the proposal but do not.
-function validateBatch({rules, confSources, routes, allowlist = new Map()}) {
+// warnings surface in the proposal but do not. `denylist` paths (watchdog e2e
+// probes) must never receive a rule through any entry point.
+function validateBatch({rules, confSources, routes, allowlist = new Map(), denylist = []}) {
   const errors = []
   const warnings = []
   const seen = new Set()
   for (const rule of rules) {
+    if (denylist.includes(rule.from)) {
+      errors.push(`source is on the remediation denylist (watchdog probe path): ${rule.from}`)
+    }
     for (const source of [rule.from, rule.ja ? rule.ja.from : null]) {
       if (!source) continue
       if (!VALID_SOURCE_PATTERN.test(source)) {

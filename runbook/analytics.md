@@ -24,7 +24,7 @@ Without the secret and property variables the run degrades to a notice instead o
 - `proposal.md` — human-readable proposal with exempt/filtered paths
 - `triage.md` — the machine-readable triage protocol (`ga4-404-triage:v1` markers) for paths no ladder resolved
 
-It is dispatch-only (manual trigger, optional `days` input, default 7) and reuses the same `GA4_SERVICE_ACCOUNT_JSON` / `GA4_PROPERTY_ID_EN` setup as the search-origin report. It never pushes a branch or edits the conf on CI; the scheduled auto-PR and triage-interpreter slices are separate changes. To apply a proposal locally:
+It runs daily on a schedule (cron `19 3 * * *`) and can also be dispatched manually (optional `days` input, default 7). It consumes the tracked decision ledger `scripts/redirects/ga4-404-remediation-ledger.json` (paths that were fixed, declined, or denylisted never resurface) and reuses the same `GA4_SERVICE_ACCOUNT_JSON` / `GA4_PROPERTY_ID_EN` setup as the search-origin report. When the classification produces deterministic rules and no remediation PR is open, the workflow opens one labeled PR (`ga4-404-remediation`) containing the generated conf block and the updated ledger; the PR carries the triage comment when unresolved paths remain. The PR is opened with `REST_UPSTREAM_REFRESH_PAT` so its pull_request checks really run. To apply a proposal locally instead:
 
 ```
 node scripts/redirects/ga4-404-remediation.js --credentials sa.json --output-dir tmp/ga4-404-remediation
@@ -36,6 +36,8 @@ The apply-mode mapping carries only en pairs (the `/ja-JP` twins are derived) an
 ```json
 {"schema_version": 1, "mappings": [{"from": "/docs/old", "to": "/docs/home", "note": "optional"}], "declined": [{"from": "/docs/one-off", "note": "why"}], "denylist": [{"from": "/docs/never", "note": "why"}]}
 ```
+
+**Answering triage on the PR.** The triage comment ends with a copy-pasteable `ga4-404-reply-data` block. Edit the JSON (keep both markers) and post it as a comment on the remediation PR: the `apply_reply` job extracts it, runs it through the same apply path, and pushes the conf/ledger commit to the PR branch. Gates, all fail-closed to a no-op: the commenter must be on the `GA4_404_REMEDIATION_ALLOWLIST` repo variable (comma-separated logins), the comment must not quote the triage block itself (reply with your own edited block only), and a path already recorded in the ledger can only be re-submitted as the identical decision. Rejections post the reason as a PR comment. The codex triage interpreter (a later slice) will post into this same protocol.
 
 A previous run's `ga4-rows.json` artifact replays without GA4 access (`--ga4-report tmp/ga4-404-remediation/ga4-rows.json --no-probe`). Every emitted rule must pass the same contracts as a hand-added one: `pnpm test:containers` (target lint + ja mirror) and the SPA-map derivation tests before merging.
 
