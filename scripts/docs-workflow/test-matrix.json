@@ -770,6 +770,22 @@
       "reason": "The GA4 engagement funnel script and its workflow contract test must stay compatible with the ga4-engagement-report.yml credential gate and report-card steps, and the tracked-event list must keep matching the dataLayer events documented in the analytics design spec."
     },
     {
+      "id": "ga4-404-remediation-tooling",
+      "paths": [
+        "scripts/redirects/**",
+        "scripts/lib/ga4-auth.js",
+        ".github/workflows/ga4-404-remediation.yml"
+      ],
+      "focusedTests": [
+        "node --test scripts/redirects/conf-rules.test.js scripts/redirects/pipeline.test.js scripts/redirects/ga4-404-remediation.test.js scripts/redirects/ga4-404-remediation-workflow.test.js scripts/ga4-search-404-report.test.js scripts/ga4-engagement-report.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The 404 remediation tool owns the single conf generator (ja twins, target lint, duplicate-source detection) behind the ga4-404-remediation.yml dispatch workflow; the shared GA4 auth lib and both refactored GA4 report scripts are co-tested so the JWT extraction never drifts."
+    },
+    {
       "id": "docs-tooling-cli-dispatch",
       "paths": [
         "packages/docs-tooling/src/cli-main*",
