@@ -5,8 +5,14 @@ import {createHash, randomUUID} from 'node:crypto';
 
 import {removeSecureStageTree} from './stageControl.ts';
 
-const [root, stage, group, events, release, staleRelease, acquiredSignal, waitForAcquired, mode] = process.argv.slice(2);
-if (!root || !stage || !group || !events) throw new Error('Bootstrap worker arguments are required');
+const [rootInput, stage, group, events, release, staleRelease, acquiredSignal, waitForAcquired, mode] = process.argv.slice(2);
+if (!rootInput || !stage || !group || !events) throw new Error('Bootstrap worker arguments are required');
+// stageControl.ts canonicalizes the repository root via realpathSync (canonicalRoot).
+// Match that here so the fence/owner string comparisons below observe the same path on
+// platforms where the temporary root is a symlink (macOS /tmp -> /private/tmp and
+// /var -> /private/var). Without this the interception never fires and acquisition
+// loops until its deadline instead of exercising the tested boundary.
+const root = fs.realpathSync(path.resolve(rootInput));
 
 // Test-process scheduling only: pause after real filesystem operations. Production
 // has no CLI/environment seam, and every builtin binding is restored before exit.
