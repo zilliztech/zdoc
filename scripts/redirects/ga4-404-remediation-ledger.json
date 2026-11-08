@@ -1,4 +1,12 @@
 {
   "schema_version": 1,
-  "entries": []
+  "entries": [
+    {
+      "from": "/reference/cli/cli/Auth-loginlog-in",
+      "status": "fixed",
+      "to": "/reference/cli/cli/overview",
+      "note": "GA4 window 7d: sdk-overview ladder (5 events / 1 users)",
+      "decided_at": "2026-11-08T16:17:58.200Z"
+    }
+  ]
 }
