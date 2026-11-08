@@ -36,7 +36,11 @@ import Supademo from '@site/src/components/Supademo';
 
 - 仅支持在按需计算场景下的 Database 中创建 External Collection。即将支持在 Serving Dedicated 集群中创建 External Collection。
 
+<NextChannel action="include">
+
 - 通过 `milvus://` 跨集群源创建外表当前仅支持 SDK 与 RESTful API，控制台暂不支持该源类型。
+
+</NextChannel>
 
 </Admonition>
 

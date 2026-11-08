@@ -285,6 +285,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+<NextChannel action="include">
+
 ### 将 Serving 集群的 Collection 用作数据源\{#use-a-collection-from-a-serving-cluster-as-the-data-source}
 
 上面的步骤基于 External Volume 中的数据文件创建 External Collection。您也可以使用另一 Serving 集群上的 Collection 作为数据源：创建 Schema 时，将 `external_source` 设置为源 Collection 的 `milvus://` URI。
@@ -430,6 +432,8 @@ curl --request POST \
 </Tabs>
 
 Refresh 完成后，按步骤 5 与步骤 6 创建 On-demand 集群并执行搜索。有关详细信息，请参见[将 Serving 集群的 Collection 用作数据源](./use-collection-from-a-serving-cluster-as-data-source)。
+
+</NextChannel>
 
 ## 步骤 4：创建索引并 Refresh Collection\{#step-4-create-indexes-and-refresh-the-collection}
 

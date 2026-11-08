@@ -2283,15 +2283,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
-      "sha256": "35bc010d584e01020e4b15f542fd6901ef079bfff0fdb1241c24ef8ab61f59ed",
+      "sha256": "ee04d67e656362545c58b05a47f88f6c1fd0962b15f0ee507637b4600ca42267",
       "docToken": "EWblwBycHiR65UkifyDcJaCwnye",
-      "revisionId": "111"
+      "revisionId": "113"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "sha256": "481d4f513bd2bc2ec06a26249d1ce1da3186c9a52908a25f8ba1d1f60286b50c",
+      "sha256": "1392b26206abb72a6adc9a9c2ea43dc31265082c893687b4986aae3371ab12fb",
       "docToken": "Ksgpw0XJqibTvnkMlPwcHtKinBc",
-      "revisionId": "533"
+      "revisionId": "545"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source.md",
@@ -2307,9 +2307,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/external-collection-limits.md",
-      "sha256": "e67e052f07f710d8b91d7c7b94b1b929ef0adfbcda592de319b706b6eaaf3935",
+      "sha256": "1260da5d96257e31d7a6ccd2e3c4d2593bcbd5069e1250084ad43ed435e7e806",
       "docToken": "HjpBwVmBiiyz1tkcLxCcyXbvn7g",
-      "revisionId": "153"
+      "revisionId": "155"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/load-release-collections.md",
@@ -3195,9 +3195,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
-      "sha256": "951ed01b67c16bf833b8af5e8c01a0062c9ad5640bb57d09ea48f618b5e0ff2e",
+      "sha256": "c57559d3c9fef84b9d45002118cc67465d39b1eec685a3c617c132d469130613",
       "docToken": "XweAwx0lriFJXhkMyb1c40v9nNh",
-      "revisionId": "364"
+      "revisionId": "366"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md",
