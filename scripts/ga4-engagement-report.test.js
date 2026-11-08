@@ -241,12 +241,12 @@ test('argument validation bounds the window and requires the file pair', () => {
   assert.equal(parsed.days, 7)
 })
 
-test('the traffic requests compare two windows over the docs hostname only', () => {
+test('the traffic requests compare two windows over each site\'s own docs hostname', () => {
   for (const [builder, limit, dimension] of [
     [reportModule.buildTrafficCountryRequest, 100, 'country'],
     [reportModule.buildTrafficPagesRequest, 1000, 'pagePath'],
   ]) {
-    const request = builder({days: 7})
+    const request = builder({days: 7, site: 'en'})
     assert.deepEqual(request.dateRanges, [
       {startDate: '6daysAgo', endDate: 'today'},
       {startDate: '13daysAgo', endDate: '7daysAgo'},
@@ -259,6 +259,14 @@ test('the traffic requests compare two windows over the docs hostname only', () 
     assert.deepEqual(request.orderBys, [{metric: {metricName: 'screenPageViews'}, desc: true}])
     assert.equal(request.limit, limit)
   }
+  assert.equal(
+    reportModule.buildTrafficCountryRequest({days: 7, site: 'zh-CN'}).dimensionFilter.filter.stringFilter.value,
+    'docs.zilliz.com.cn',
+  )
+  assert.throws(
+    () => reportModule.buildTrafficCountryRequest({days: 7, site: 'zz'}),
+    /no docs hostname known for site zz/,
+  )
 })
 
 test('foldDateRangeRows merges both date-range rows per dimension value and sorts by current views', () => {

@@ -29,7 +29,9 @@ const {RUN_REPORT_URL, createJwt, getAccessToken, loadServiceAccount} = require(
 
 const SCHEMA_VERSION = 2
 const DEFAULT_DAYS = 7
-const DOCS_HOSTNAME = 'docs.zilliz.com'
+// Traffic rows are filtered to the hostname each property actually serves;
+// the zh-CN property records docs.zilliz.com.cn, not the .com host.
+const DOCS_HOSTNAMES = {en: 'docs.zilliz.com', 'zh-CN': 'docs.zilliz.com.cn'}
 
 const FUNNELS = [
   {label: 'Search funnel', events: ['search_open', 'search_performed', 'search_result_clicked']},
@@ -116,32 +118,37 @@ function trafficDateRanges({days}) {
   ]
 }
 
-function trafficDimensionFilter() {
+function trafficDimensionFilter(site) {
+  const hostname = DOCS_HOSTNAMES[site]
+  if (!hostname) throw new Error(`no docs hostname known for site ${site}`)
   return {
     filter: {
       fieldName: 'hostName',
-      stringFilter: {matchType: 'EXACT', value: DOCS_HOSTNAME},
+      stringFilter: {matchType: 'EXACT', value: hostname},
     },
   }
 }
 
-function buildTrafficCountryRequest({days}) {
+function buildTrafficCountryRequest({days, site}) {
   return {
     dateRanges: trafficDateRanges({days}),
     dimensions: [{name: 'country'}],
     metrics: [{name: 'screenPageViews'}, {name: 'totalUsers'}],
-    dimensionFilter: trafficDimensionFilter(),
+    dimensionFilter: trafficDimensionFilter(site),
     orderBys: [{metric: {metricName: 'screenPageViews'}, desc: true}],
+    // The API shares one limit across both date ranges, so tail rows of one
+    // range can be cut while their sibling survives; only head rows are
+    // guaranteed both windows.
     limit: 100, // up to 50 countries once rows are shared across both date ranges
   }
 }
 
-function buildTrafficPagesRequest({days}) {
+function buildTrafficPagesRequest({days, site}) {
   return {
     dateRanges: trafficDateRanges({days}),
     dimensions: [{name: 'pagePath'}],
     metrics: [{name: 'screenPageViews'}, {name: 'totalUsers'}],
-    dimensionFilter: trafficDimensionFilter(),
+    dimensionFilter: trafficDimensionFilter(site),
     orderBys: [{metric: {metricName: 'screenPageViews'}, desc: true}],
     limit: 1000, // up to 500 page paths across both date ranges
   }
@@ -191,9 +198,9 @@ function foldDateRangeRows(rows) {
   return [...entries.values()].sort((a, b) => b.views - a.views || a.name.localeCompare(b.name))
 }
 
-async function fetchTrafficBreakdown(fetchImpl, accessToken, propertyId, {days}) {
-  const country = await fetchTrafficRows(fetchImpl, accessToken, propertyId, buildTrafficCountryRequest({days}))
-  const pages = await fetchTrafficRows(fetchImpl, accessToken, propertyId, buildTrafficPagesRequest({days}))
+async function fetchTrafficBreakdown(fetchImpl, accessToken, propertyId, {site, days}) {
+  const country = await fetchTrafficRows(fetchImpl, accessToken, propertyId, buildTrafficCountryRequest({days, site}))
+  const pages = await fetchTrafficRows(fetchImpl, accessToken, propertyId, buildTrafficPagesRequest({days, site}))
   return {
     country: country.map(row => ({
       country: row.name,
@@ -296,7 +303,7 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
   const sites = []
   for (const {site, property_id: propertyId} of resolveSites(env)) {
     const events = await fetchEngagementEvents(fetchImpl, accessToken, propertyId, {days: args.days})
-    const traffic = await fetchTrafficBreakdown(fetchImpl, accessToken, propertyId, {days: args.days})
+    const traffic = await fetchTrafficBreakdown(fetchImpl, accessToken, propertyId, {site, days: args.days})
     sites.push({
       site,
       property_id: propertyId,
@@ -345,7 +352,7 @@ if (require.main === module) {
 
 module.exports = {
   SCHEMA_VERSION,
-  DOCS_HOSTNAME,
+  DOCS_HOSTNAMES,
   FUNNELS,
   TRACKED_EVENTS,
   buildRunReportRequest,
