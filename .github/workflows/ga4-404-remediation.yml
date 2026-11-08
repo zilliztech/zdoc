@@ -120,7 +120,7 @@ jobs:
           # The publish path is apply mode: the mapping derives from the
           # classification, and the generator writes conf + ledger (never the
           # reverse). --write-conf is the CI-side application of the block.
-          node -e 'const fs=require("fs");const r=JSON.parse(fs.readFileSync("tmp/ga4-404-remediation/report.json","utf8"));fs.writeFileSync("tmp/ga4-404-remediation/publish-mapping.json",JSON.stringify({schema_version:1,mappings:r.direct.map(rule=>({from:rule.from,to:rule.to,note:`GA4 window ${r.days}d: ${rule.ladder} ladder (${rule.events} events / ${rule.users} users)`}))},null,2))'
+          node -e 'const fs=require("fs");const r=JSON.parse(fs.readFileSync("tmp/ga4-404-remediation/report.json","utf8"));fs.writeFileSync("tmp/ga4-404-remediation/publish-mapping.json",JSON.stringify({schema_version:1,mappings:r.direct.map(function(rule){return {from:rule.from,to:rule.to,note:"GA4 window "+r.days+"d: "+rule.ladder+" ladder ("+rule.events+" events / "+rule.users+" users)"}})},null,2))'
           node scripts/redirects/ga4-404-remediation.js \
             --mode apply \
             --mapping tmp/ga4-404-remediation/publish-mapping.json \
@@ -243,12 +243,12 @@ jobs:
             # one would re-trigger the executor for one spurious cycle.
             apply_log="${apply_log//ga4-404-reply-data begin/(reply marker elided)}"
             apply_log="${apply_log//ga4-404-reply-data end/(reply marker elided)}"
-            printf 'The reply could not be applied:\n\n```\n%.1000s\n```\n\n(No conf or ledger change was made; fix the block and reply again.)\n' "$apply_log" > "$RUNNER_TEMP/rejection.md"
+            REJECTION_BODY="$apply_log" node -e 'const fs=require("fs");const log=(process.env.REJECTION_BODY||"").slice(0,1000);fs.writeFileSync(process.env.RUNNER_TEMP+"/rejection.md","The reply could not be applied:\n\n    "+log.split("\n").join("\n    ")+"\n\n(No conf or ledger change was made; fix the block and reply again.)\n")'
             gh pr comment "$PR_NUMBER" --body-file "$RUNNER_TEMP/rejection.md"
             exit 1
           }
           printf '%s\n' "$apply_log" > "$RUNNER_TEMP/apply-log.txt"
-          rules=$(sed -n 's/^mode=apply rules=\([0-9][0-9]*\)$/\1/p' "$RUNNER_TEMP/apply-log.txt")
+          rules=$(sed -n 's/^mode=apply rules=\([0-9][0-9]*\)/\1/p' "$RUNNER_TEMP/apply-log.txt")
           cp tmp/apply/ledger.json scripts/redirects/ga4-404-remediation-ledger.json
           git config user.name "zdoc ga4-404 bot"
           git config user.email "bot@zilliz.com"
