@@ -626,6 +626,10 @@ async function captureLookupScopes(root: string, packages: LookupState['packages
 }
 
 export async function captureTrustedToolset(options: CaptureOptions): Promise<TrustedToolsetCapture> {
+  // Fail closed before any capture or helper execution: the Linux native-closure
+  // contract (ELF interpreter identity and full search-path binding) is not yet
+  // implemented, so no Linux runtime may be captured or trusted.
+  if (process.platform === 'linux') throw new Error('Trusted toolset capture is not yet supported on Linux')
   const root = await realpath(options.root), flags = options.flags ?? process.execArgv, environment = await trustedLauncherEnvironment(root, options.cwd ?? process.cwd(), options.environment ?? process.env, flags)
   const rootIdentity = await lstat(root)
   const entries = new Map<string, ClosureEntry>(), physical = new Map<string, string>()
@@ -795,6 +799,24 @@ async function captureRuntime(entries: Map<string, ClosureEntry>, physical: Map<
   return { git, resolutions: [...resolutions, ...native.resolutions], hostExclusions: native.hostExclusions, accessPaths: native.accessPaths }
 }
 
+/** Bind the nearest existing ancestor directory of an absent search candidate so
+ * access inspection still rejects a writable lookup location that dyld/ld.so
+ * would prefer over the measured library. */
+async function nearestExistingDirectory(path: string): Promise<string> {
+  let current = path
+  for (;;) {
+    const parent = dirname(current)
+    try {
+      if ((await lstat(current)).isDirectory()) return current
+      current = parent
+    } catch (e) {
+      if (!absent(e)) throw e
+      current = parent
+    }
+    if (parent === current) return current
+  }
+}
+
 /** Internal bootstrap inventory only; this result is material, never a trusted-capture capability. */
 export async function captureTrustedNativeFiles(seeds: { name: string; path: string }[]) {
   const node = await realpath(process.execPath)
@@ -823,10 +845,10 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
       for (const choice of choices) {
         if (!isAbsolute(choice)) throw new Error('Unresolved runtime search path')
         if (systemLibrary(choice)) {
-          try { const actual = await realpath(choice); if (!systemLibrary(actual)) throw new Error('System-library alias escape'); const stat = await lstat(actual); if (stat.uid !== 0 || stat.mode & 0o022) throw new Error('Unsafe system library') } catch (e) { if (!absent(e)) throw e; if (process.platform !== 'darwin') continue }
+          try { const actual = await realpath(choice); if (!systemLibrary(actual)) throw new Error('System-library alias escape'); const stat = await lstat(actual); if (stat.uid !== 0 || stat.mode & 0o022) throw new Error('Unsafe system library') } catch (e) { if (!absent(e)) throw e; accessPaths.add(await nearestExistingDirectory(choice)); if (process.platform !== 'darwin') continue }
           trustedSystem = true; break
         }
-        try { resolved = await realpath(choice); accessPaths.add(choice); break } catch (e) { if (!absent(e)) throw e }
+        try { resolved = await realpath(choice); accessPaths.add(choice); break } catch (e) { if (!absent(e)) throw e; accessPaths.add(await nearestExistingDirectory(choice)) }
       }
       if (trustedSystem) { hostExclusions.push(choices.find(systemLibrary)!); continue }
       if (!resolved) throw new Error(`Missing non-system runtime dependency: ${dependency}`)

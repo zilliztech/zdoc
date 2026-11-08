@@ -7,10 +7,10 @@ import { createBuildDemo, git, write, externalImage, imageBytes } from '../build
 import { FakeImageFetcher } from '../../adapters/images'
 import { collectGuidesWithDependencies, collectGuidesWorker } from '../../adapters/updates/guides-provider'
 import { digest } from '../../core/updates/canonical'
-it.skipIf(process.platform === 'linux')('rejects worker authority overrides before collection', async () => {
+it('rejects worker authority overrides before collection', async () => {
   await expect(collectGuidesWorker({ authority: { eligible: true } })).rejects.toThrow()
 })
-it.skipIf(process.platform === 'linux')('adapts real B1 observations with dual-manual membership and a separate real master pin', async () => {
+it('adapts real B1 observations with dual-manual membership and a separate real master pin', async () => {
   const root = await mkdtemp(join(tmpdir(), 'common-guides-'))
   try {
     const d = await createBuildDemo(root)
@@ -73,7 +73,7 @@ async function fixture() {
   }
   return { root, d, p, request, dependencies, sourceChange, planned, dispose: () => rm(root, { recursive: true, force: true }) }
 }
-it.skipIf(process.platform === 'linux')('plans a real forward Guides change once for both manuals using authenticated fixture authority', async () => {
+it('plans a real forward Guides change once for both manuals using authenticated fixture authority', async () => {
   const f = await fixture()
   try {
     await f.sourceChange()
@@ -88,7 +88,7 @@ it.skipIf(process.platform === 'linux')('plans a real forward Guides change once
     expect(await git(f.d.repo, 'rev-parse', f.d.commit)).toBe(f.d.commit)
   } finally { await f.dispose() }
 }, 120_000)
-it.skipIf(process.platform === 'linux')('preserves B1 repository-image candidate detail while common planning stays report-only', async () => {
+it('preserves B1 repository-image candidate detail while common planning stays report-only', async () => {
   const f = await fixture()
   try {
     await f.sourceChange('site/en/assets/diagram.png', new Uint8Array([...imageBytes, 9]))
@@ -98,7 +98,7 @@ it.skipIf(process.platform === 'linux')('preserves B1 repository-image candidate
     expect(plan).toMatchObject({ disposition: 'report-only', nextEdits: [] })
   } finally { await f.dispose() }
 }, 120_000)
-it.skipIf(process.platform === 'linux')('reports config-only changes and ignores an unrelated track commit', async () => {
+it('reports config-only changes and ignores an unrelated track commit', async () => {
   const f = await fixture()
   try {
     await f.sourceChange('outside-site.txt', 'unrelated\n')
@@ -112,7 +112,7 @@ it.skipIf(process.platform === 'linux')('reports config-only changes and ignores
     expect(result.plan).toMatchObject({ disposition: 'report-only', nextEdits: [] })
   } finally { await f.dispose() }
 }, 120_000)
-it.skipIf(process.platform === 'linux')('distinguishes authenticated deletion from a missing source object without inventing pins', async () => {
+it('distinguishes authenticated deletion from a missing source object without inventing pins', async () => {
   const f = await fixture()
   try {
     await git(f.d.repo, 'rm', 'site/en/build-pipeline.md'); await git(f.d.repo, 'commit', '-qm', 'authenticated deletion')
@@ -126,7 +126,7 @@ it.skipIf(process.platform === 'linux')('distinguishes authenticated deletion fr
     expect(JSON.parse(missing.detail['guides-impact-v1/pins.json']).source).toBeUndefined()
   } finally { await f.dispose() }
 }, 120_000)
-it.skipIf(process.platform === 'linux').each(['invalid-yaml', 'missing-page-yaml'])('retains full configured inventory and healthy observations after %s sibling configuration', async failure => {
+it.each(['invalid-yaml', 'missing-page-yaml'])('retains full configured inventory and healthy observations after %s sibling configuration', async failure => {
   const f = await fixture()
   try {
     if (failure === 'missing-page-yaml') await git(f.root, 'rm', 'shared-docs/guides/pages/build-pipeline/page.yaml')
@@ -141,7 +141,7 @@ it.skipIf(process.platform === 'linux').each(['invalid-yaml', 'missing-page-yaml
     expect(result.pages[0].report.semanticInputSha256).not.toBeNull()
   } finally { await f.dispose() }
 }, 120_000)
-it.skipIf(process.platform === 'linux')('keeps image acquisition unavailable rather than fabricating complete empty material', async () => {
+it('keeps image acquisition unavailable rather than fabricating complete empty material', async () => {
   const f = await fixture()
   try {
     await f.sourceChange()
@@ -154,7 +154,7 @@ it.skipIf(process.platform === 'linux')('keeps image acquisition unavailable rat
     } else expect(result.holds.length).toBeGreaterThan(0)
   } finally { await f.dispose() }
 }, 120_000)
-it.skipIf(process.platform === 'linux').each(['authority', 'dependencies', 'clock', 'environment', 'module', 'exportName', 'trustedGroup', 'fromFork'])('forbids worker input %s and rejects malformed pins', async key => {
+it.each(['authority', 'dependencies', 'clock', 'environment', 'module', 'exportName', 'trustedGroup', 'fromFork'])('forbids worker input %s and rejects malformed pins', async key => {
   const f = await fixture()
   try {
     expect(() => GuidesCollectionRequestSchema.parse({ ...f.request, [key]: {} })).toThrow()
@@ -169,7 +169,7 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
 /** Opt-in because this authenticates the complete real dependency/native closure three times.
  * Run only on a frozen committed tree; the normal suite reports this qualification as skipped. */
-it.skipIf(process.platform === 'linux').runIf(process.env.ZDOC_GUIDES_WORKER_INTEGRATION === '1')('runs the actual committed B1 collector through the measured fixed Guides worker', async () => {
+it.runIf(process.env.ZDOC_GUIDES_WORKER_INTEGRATION === '1')('runs the actual committed B1 collector through the measured fixed Guides worker', async () => {
   const evidenceRoot = join(process.cwd(), '.claude/wp12-b/b2/implementation/evidence/task-3')
   await mkdir(evidenceRoot, { recursive: true })
   const lane = await mkdtemp(join(evidenceRoot, 'real-worker-')), d = await createBuildDemo(join(lane, 'fixture'))
@@ -227,7 +227,7 @@ it.skipIf(process.platform === 'linux').runIf(process.env.ZDOC_GUIDES_WORKER_INT
     authority: report.authority.updateState, disposition: provider.planNext(report).disposition, detailFiles: result.collection.detailFiles, privateAccess: { bytes: result.privateAccess.bytes }, before, after }, null, 2) + '\n')
 }, 600_000)
 
-it.skipIf(process.platform === 'linux')('retains actual adoption observations and holds a dependency outside the selected common subjects', async () => {
+it('retains actual adoption observations and holds a dependency outside the selected common subjects', async () => {
   const f = await fixture()
   try {
     const targetFile = 'site/en/source-target.md'
@@ -254,7 +254,7 @@ it.skipIf(process.platform === 'linux')('retains actual adoption observations an
     expect(plans).toHaveLength(1); expect(plans[0].disposition).toBe('candidate'); expect(plans[0].subjects).toHaveLength(2); expect(plans[0].nextEdits).toHaveLength(2)
   } finally { await f.dispose() }
 }, 120_000)
-it.skipIf(process.platform === 'linux')('retains complete known material for deterministic source content failure', async () => {
+it('retains complete known material for deterministic source content failure', async () => {
   const f = await fixture()
   try {
     await f.sourceChange('site/en/build-pipeline.md', (await readFile(join(f.d.repo, 'site/en/build-pipeline.md'), 'utf8')).replace('title: Pipeline example\n', ''))
@@ -264,7 +264,7 @@ it.skipIf(process.platform === 'linux')('retains complete known material for det
     expect(plan).toMatchObject({ disposition: 'draft-failure' }); expect(plan.nextEdits).toHaveLength(1)
   } finally { await f.dispose() }
 }, 120_000)
-it.skipIf(process.platform === 'linux')('holds an unknown requested subject without inventing a frozen empty report', async () => {
+it('holds an unknown requested subject without inventing a frozen empty report', async () => {
   const f = await fixture()
   try {
     const result = await collect({ ...f.request, pages: ['not-configured'] }, { b1: f.dependencies.b1 })
@@ -274,7 +274,7 @@ it.skipIf(process.platform === 'linux')('holds an unknown requested subject with
   } finally { await f.dispose() }
 }, 120_000)
 
-it.skipIf(process.platform === 'linux').each(['remove-sibling', 'change-sibling-content'])('compares only consumed configuration paths across snapshots for %s', async scenario => {
+it.each(['remove-sibling', 'change-sibling-content'])('compares only consumed configuration paths across snapshots for %s', async scenario => {
   const f = await fixture()
   try {
     const sibling = 'shared-docs/guides/pages/build-pipeline'

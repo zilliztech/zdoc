@@ -566,13 +566,13 @@ describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
     await expect(captureTrustedToolset(a)).rejects.toThrow()
   })
 })
-describe.skipIf(process.platform === 'linux')('manifest and launcher contract', () => {
+describe('manifest and launcher contract', () => {
   it('rejects unknown/omitted fields, duplicates, out-of-order records and invalid targets', () => {
     const empty = { kind: 'shared-update-executable-closure', schemaVersion: 1, hostTcb, entries: [], packageLocators: [], resolutions: [] }
     expect(Buffer.from(serializeClosure(empty))).toEqual(Buffer.from(canonicalBytes(empty)))
     for (const value of [{ ...empty, extra: true }, { ...empty, schemaVersion: 2 }, { ...empty, entries: [{ path: 'toolset/closure-v1.json', state: 'absent' }] }, { ...empty, entries: [{ path: 'repo/z', state: 'absent' }, { path: 'repo/a', state: 'absent' }] }, { ...empty, entries: [{ path: 'repo/a', state: 'absent' }, { path: 'repo/a', state: 'absent' }] }]) expect(() => serializeClosure(value)).toThrow()
   })
-  it('binds identical closure bytes in material and proof; runtime/ordered flags change the toolset digest', async () => {
+  it.skipIf(process.platform === 'linux')('binds identical closure bytes in material and proof; runtime/ordered flags change the toolset digest', async () => {
     const capture = await captureTrustedToolset(await fixture()), ref = { path: 'blobs/closure', sha256: rawSha256(capture.bytes), bytes: capture.bytes.length }
     verifyClosureBinding(capture.material, ref, capture.bytes, capture.toolsetSha256)
     expect(() => verifyClosureBinding(capture.material, { ...ref, sha256: 'a'.repeat(64) }, capture.bytes, capture.toolsetSha256)).toThrow()
@@ -580,7 +580,7 @@ describe.skipIf(process.platform === 'linux')('manifest and launcher contract', 
     expect(changed.toolsetSha256).not.toBe(capture.toolsetSha256)
     expect(bindClosure(capture.closure, { ...capture.material, flags: ['--no-warnings', '--enable-source-maps'] }).toolsetSha256).not.toBe(bindClosure(capture.closure, { ...capture.material, flags: ['--enable-source-maps', '--no-warnings'] }).toolsetSha256)
   })
-  it('requires strict host TCB binding and captures actual Git resolution and non-system libraries', async () => {
+  it.skipIf(process.platform === 'linux')('requires strict host TCB binding and captures actual Git resolution and non-system libraries', async () => {
     const value = await captureTrustedToolset(await fixture())
     expect(value.closure.hostTcb).toEqual(hostTcb)
     const changed = bindClosure({ ...value.closure, hostTcb: { ...hostTcb, release: 'another-release' } }, value.material)
@@ -610,6 +610,17 @@ describe.skipIf(process.platform === 'linux')('manifest and launcher contract', 
     await writeFile(entry, macho(['/usr/lib/not-a-system-library.dylib'])); await expect(captureTrustedNativeFiles([{ name: 'runtime/test-native', path: entry }])).rejects.toThrow(/Missing/)
     await writeFile(entry, macho(['unresolved.dylib'])); await expect(captureTrustedNativeFiles([{ name: 'runtime/test-native', path: entry }])).rejects.toThrow(/Unknown/)
     expect(() => nativeDependencies(Buffer.from('cffaedfe', 'hex'))).toThrow()
+  })
+  it.skipIf(process.platform !== 'darwin')('binds an absent higher-priority @rpath candidate so a writable earlier lookup directory is retained for access inspection', async () => {
+    const writable = await mkdtemp(join(tmpdir(), 'writable-rpath-')), safe = await mkdtemp(join(tmpdir(), 'safe-rpath-'))
+    await chmod(writable, 0o777)
+    const lcLoad = (name: string) => { const text = Buffer.from(name + '\0'); const size = Math.ceil((24 + text.length) / 8) * 8; const b = Buffer.alloc(size); b.writeUInt32LE(0xc, 0); b.writeUInt32LE(size, 4); b.writeUInt32LE(24, 8); text.copy(b, 24); return b }
+    const lcRpath = (path: string) => { const text = Buffer.from(path + '\0'); const size = Math.ceil((12 + text.length) / 8) * 8; const b = Buffer.alloc(size); b.writeUInt32LE(0x8000001c, 0); b.writeUInt32LE(size, 4); b.writeUInt32LE(12, 8); text.copy(b, 12); return b }
+    const macho = (deps: string[], rpaths: string[]) => { const commands = [...rpaths.map(lcRpath), ...deps.map(lcLoad)]; const header = Buffer.alloc(32); header.writeUInt32LE(0xfeedfacf, 0); header.writeUInt32LE(process.arch === 'arm64' ? 0x100000c : 0x1000007, 4); header.writeUInt32LE(commands.length, 16); header.writeUInt32LE(commands.reduce((n, b) => n + b.length, 0), 20); return Buffer.concat([header, ...commands]) }
+    await writeFile(join(safe, 'libfoo.dylib'), macho([], []))
+    const entry = join(writable, 'entry'); await writeFile(entry, macho(['@rpath/libfoo.dylib'], [writable, safe]))
+    const result = await captureTrustedNativeFiles([{ name: 'runtime/test-rpath', path: entry }])
+    expect(result.accessPaths.has(writable)).toBe(true)
   })
   it('bypasses trusted dotenv and rejects ambient Node/package/loader settings and wrong cwd', async () => {
     const a = await fixture(); await put(a.root, '.env', 'SECRET=should-not-load')
