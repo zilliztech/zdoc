@@ -109,7 +109,30 @@ test('run zero-fills silent events in funnel order and writes the report and not
     if (url === 'https://oauth2.googleapis.com/token') {
       return {ok: true, json: async () => ({access_token: 'ya29.test'})}
     }
-    apiCalls.push({url, body: JSON.parse(init.body)})
+    const body = JSON.parse(init.body)
+    const dimension = body.dimensions[0].name
+    apiCalls.push({url, dimension})
+    if (dimension === 'country') {
+      return {
+        ok: true,
+        json: async () => ({
+          rows: [
+            {dimensionValues: [{value: 'United States'}, {value: 'date_range_0'}], metricValues: [{value: '10'}, {value: '4'}]},
+            {dimensionValues: [{value: 'United States'}, {value: 'date_range_1'}], metricValues: [{value: '5'}, {value: '3'}]},
+          ],
+        }),
+      }
+    }
+    if (dimension === 'pagePath') {
+      return {
+        ok: true,
+        json: async () => ({
+          rows: [
+            {dimensionValues: [{value: '/docs/home'}, {value: 'date_range_0'}], metricValues: [{value: '9'}, {value: '3'}]},
+          ],
+        }),
+      }
+    }
     return {
       ok: true,
       json: async () => ({
@@ -128,12 +151,16 @@ test('run zero-fills silent events in funnel order and writes the report and not
   })
   assert.equal(result.status, 'success')
   assert.equal(result.total_events, 50)
-  assert.deepEqual(apiCalls.map(call => call.url), [
-    'https://analyticsdata.googleapis.com/v1beta/properties/111:runReport',
-    'https://analyticsdata.googleapis.com/v1beta/properties/222:runReport',
+  assert.deepEqual(apiCalls, [
+    {url: 'https://analyticsdata.googleapis.com/v1beta/properties/111:runReport', dimension: 'eventName'},
+    {url: 'https://analyticsdata.googleapis.com/v1beta/properties/111:runReport', dimension: 'country'},
+    {url: 'https://analyticsdata.googleapis.com/v1beta/properties/111:runReport', dimension: 'pagePath'},
+    {url: 'https://analyticsdata.googleapis.com/v1beta/properties/222:runReport', dimension: 'eventName'},
+    {url: 'https://analyticsdata.googleapis.com/v1beta/properties/222:runReport', dimension: 'country'},
+    {url: 'https://analyticsdata.googleapis.com/v1beta/properties/222:runReport', dimension: 'pagePath'},
   ])
   const report = JSON.parse(fs.readFileSync(path.join(outDir, 'report.json'), 'utf8'))
-  assert.equal(report.schema_version, 1)
+  assert.equal(report.schema_version, 2)
   assert.equal(report.days, 7)
   assert.equal(report.sites.length, 2)
   assert.equal(report.sites[0].total_events, 25)
@@ -147,6 +174,10 @@ test('run zero-fills silent events in funnel order and writes the report and not
   assert.deepEqual(askAiCompleted, {name: 'ask_ai_completed', count: 18, key_events: 0})
   const silent = report.sites[0].events.find(entry => entry.name === 'chat_message_copy')
   assert.deepEqual(silent, {name: 'chat_message_copy', count: 0, key_events: 0})
+  assert.deepEqual(report.sites[0].traffic, {
+    country: [{country: 'United States', views: 10, users: 4, compare_views: 5, compare_users: 3}],
+    pages: [{page_path: '/docs/home', views: 9, users: 3, compare_views: 0, compare_users: 0}],
+  })
   assert.match(report.workflow_run_url, /actions\/runs\/42$/)
   const note = fs.readFileSync(path.join(outDir, 'note.md'), 'utf8')
   assert.match(note, /# GA4 Engagement Report/)
@@ -155,6 +186,11 @@ test('run zero-fills silent events in funnel order and writes the report and not
   assert.match(note, /### Ask-AI funnel/)
   assert.match(note, /7 — cta_click \(7 key events\)/)
   assert.match(note, /0 — chat_message_copy/)
+  assert.match(note, /## en traffic \(7-day window vs preceding 7 days\)/)
+  assert.match(note, /United States: 10 views \(\+100\.0%\), 4 users \(\+33\.3%\), 2\.50 views\/user/)
+  assert.match(note, /### en top pages/)
+  assert.match(note, /\/docs\/home: 9 views \(new\), 3 users \(new\), 3\.00 views\/user/)
+  assert.match(note, /## zh-CN traffic \(7-day window vs preceding 7 days\)/)
 })
 
 test('run skips unconfigured properties and requires at least one', async () => {
@@ -172,7 +208,7 @@ test('run skips unconfigured properties and requires at least one', async () => 
     env: {GA4_PROPERTY_ID_ZH_CN: '222'},
     argv: ['--credentials', credentialsFile, '--output-dir', path.join(dir, 'out')],
   })
-  assert.deepEqual(fetchUrls.filter(url => url.includes('runReport')).length, 1)
+  assert.deepEqual(fetchUrls.filter(url => url.includes('runReport')).length, 3)
   await assert.rejects(
     reportModule.run({fetchImpl, env: {}, argv: ['--credentials', credentialsFile, '--output-dir', path.join(dir, 'out')]}),
     /set GA4_PROPERTY_ID_EN and\/or GA4_PROPERTY_ID_ZH_CN/,
@@ -205,16 +241,69 @@ test('argument validation bounds the window and requires the file pair', () => {
   assert.equal(parsed.days, 7)
 })
 
+test('the traffic requests compare two windows over the docs hostname only', () => {
+  for (const [builder, limit, dimension] of [
+    [reportModule.buildTrafficCountryRequest, 100, 'country'],
+    [reportModule.buildTrafficPagesRequest, 1000, 'pagePath'],
+  ]) {
+    const request = builder({days: 7})
+    assert.deepEqual(request.dateRanges, [
+      {startDate: '6daysAgo', endDate: 'today'},
+      {startDate: '13daysAgo', endDate: '7daysAgo'},
+    ])
+    assert.deepEqual(request.dimensions, [{name: dimension}])
+    assert.deepEqual(request.metrics, [{name: 'screenPageViews'}, {name: 'totalUsers'}])
+    assert.deepEqual(request.dimensionFilter, {
+      filter: {fieldName: 'hostName', stringFilter: {matchType: 'EXACT', value: 'docs.zilliz.com'}},
+    })
+    assert.deepEqual(request.orderBys, [{metric: {metricName: 'screenPageViews'}, desc: true}])
+    assert.equal(request.limit, limit)
+  }
+})
+
+test('foldDateRangeRows merges both date-range rows per dimension value and sorts by current views', () => {
+  const folded = reportModule.foldDateRangeRows([
+    {dimensionValues: [{value: '/b'}, {value: 'date_range_1'}], metricValues: [{value: '4'}, {value: '2'}]},
+    {dimensionValues: [{value: '/a'}, {value: 'date_range_0'}], metricValues: [{value: '3'}, {value: '1'}]},
+    {dimensionValues: [{value: '/b'}, {value: 'date_range_0'}], metricValues: [{value: '7'}, {value: '5'}]},
+    {dimensionValues: [{value: '/c'}, {value: 'date_range_0'}], metricValues: [{value: '2'}, {value: '9'}]},
+  ])
+  assert.deepEqual(folded, [
+    {name: '/b', views: 7, users: 5, compareViews: 4, compareUsers: 2},
+    {name: '/a', views: 3, users: 1, compareViews: 0, compareUsers: 0},
+    {name: '/c', views: 2, users: 9, compareViews: 0, compareUsers: 0},
+  ])
+  // Views tie falls back to the name for a deterministic order.
+  assert.deepEqual(
+    reportModule.foldDateRangeRows([
+      {dimensionValues: [{value: '/z'}, {value: 'date_range_0'}], metricValues: [{value: '1'}, {value: '1'}]},
+      {dimensionValues: [{value: '/a'}, {value: 'date_range_0'}], metricValues: [{value: '1'}, {value: '1'}]},
+    ]).map(row => row.name),
+    ['/a', '/z'],
+  )
+  assert.deepEqual(reportModule.foldDateRangeRows(undefined), [])
+})
+
 test('the markdown renderer rejects unknown schema versions and always renders every funnel group', () => {
   assert.throws(() => reportModule.siteReportsToMarkdown({schema_version: 99, sites: []}), /schema_version/)
-  assert.throws(() => reportModule.siteReportsToMarkdown({schema_version: 1}), /sites must be an array/)
+  assert.throws(() => reportModule.siteReportsToMarkdown({schema_version: 1, sites: []}), /schema_version must be 2/)
+  assert.throws(() => reportModule.siteReportsToMarkdown({schema_version: 2}), /sites must be an array/)
   const note = reportModule.siteReportsToMarkdown({
-    schema_version: 1,
+    schema_version: 2,
     generated_at: new Date(Date.UTC(2026, 9, 28)).toISOString(),
     days: 7,
-    sites: [{site: 'en', property_id: '111', total_events: 0, total_key_events: 0, events: reportModule.TRACKED_EVENTS.map(name => ({name, count: 0, key_events: 0}))}],
+    sites: [{
+      site: 'en',
+      property_id: '111',
+      total_events: 0,
+      total_key_events: 0,
+      events: reportModule.TRACKED_EVENTS.map(name => ({name, count: 0, key_events: 0})),
+      traffic: {country: [], pages: []},
+    }],
   })
   for (const funnel of reportModule.FUNNELS) assert.match(note, new RegExp(`### ${funnel.label}`))
   assert.match(note, /0 — search_open/)
   assert.doesNotMatch(note, /key events\)$/)
+  assert.match(note, /## en traffic \(7-day window vs preceding 7 days\)/)
+  assert.match(note, /No rows returned for this window\./)
 })
