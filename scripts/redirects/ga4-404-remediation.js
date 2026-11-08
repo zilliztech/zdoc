@@ -31,6 +31,7 @@ const path = require('node:path')
 
 const {RUN_REPORT_URL, getAccessToken, loadServiceAccount} = require('../lib/ga4-auth.js')
 const {applyBatch, buildJaRule, formatBatch, parseExactSources, validateBatch} = require('./conf-rules.js')
+const {parseReplyMapping} = require('./reply.js')
 const {aggregateRows, classify, DENYLIST_PATHS, filterPaths, selectBatch} = require('./pipeline.js')
 
 const SCHEMA_VERSION = 1
@@ -76,14 +77,14 @@ function parseArgs(argv) {
 const FLAG_NAMES = [
   '--credentials', '--ga4-report', '--conf', '--snapshot', '--output-dir',
   '--days', '--min-users', '--min-events', '--batch-limit', '--mode',
-  '--mapping', '--ledger',
+  '--mapping', '--reply-file', '--ledger',
 ]
 
 const USAGE = [
   'Usage: ga4-404-remediation.js (--credentials FILE | --ga4-report FILE) --output-dir DIR',
   '       [--conf PATH] [--snapshot PATH] [--days N] [--min-users N] [--min-events N]',
-  '       [--batch-limit N] [--mode direct|triage|apply] [--mapping FILE] [--ledger FILE]',
-  '       [--no-probe] [--write-conf]',
+  '       [--batch-limit N] [--mode direct|triage|apply] [--mapping FILE | --reply-file FILE]',
+  '       [--ledger FILE] [--no-probe] [--write-conf]',
 ].join('\n')
 
 function parseNumber(values, name, fallback, {min, max}) {
@@ -178,7 +179,15 @@ function loadGa4Report(filePath) {
 function loadMapping(filePath) {
   const raw = JSON.parse(fs.readFileSync(filePath, 'utf8'))
   if (raw.schema_version !== SCHEMA_VERSION) throw new Error(`mapping schema_version must be ${SCHEMA_VERSION}`)
-  if (!Array.isArray(raw.mappings)) throw new Error('mapping must contain a mappings array')
+  // Same grammar as the reply protocol: all three decision arrays are
+  // optional, but at least one must be present (a declined-only file is a
+  // legitimate ledger-only update).
+  for (const key of ['mappings', 'declined', 'denylist']) {
+    if (raw[key] !== undefined && !Array.isArray(raw[key])) throw new Error(`mapping ${key} must be an array`)
+  }
+  if (!Array.isArray(raw.mappings ?? undefined) && !Array.isArray(raw.declined ?? undefined) && !Array.isArray(raw.denylist ?? undefined)) {
+    throw new Error('mapping must contain at least one of mappings, declined, denylist')
+  }
   return raw
 }
 
@@ -197,21 +206,56 @@ function workflowRunUrl(env) {
 
 // --- mode: apply ------------------------------------------------------------
 
+// The ledger 未决 gate: a path with an existing decision may only be
+// re-submitted as the identical decision (retry idempotency); changing it is
+// rejected so a stale reply or a later comment can never silently flip a
+// recorded decision — removing the ledger entry first is the explicit path.
+function assertLedgerUndecided(mapping, ledgerRaw) {
+  const existing = new Map((ledgerRaw.entries ?? []).map(entry => [entry.from, entry]))
+  const submissions = [
+    ...(mapping.mappings ?? []).map(entry => ({from: entry.from, status: 'fixed', to: entry.to})),
+    ...(mapping.declined ?? []).map(entry => ({from: entry.from, status: 'declined'})),
+    ...(mapping.denylist ?? []).map(entry => ({from: entry.from, status: 'denylist'})),
+  ]
+  for (const submission of submissions) {
+    const prior = existing.get(submission.from)
+    if (!prior) continue
+    const identical = prior.status === submission.status
+      && (submission.status !== 'fixed' || prior.to === submission.to)
+    if (!identical) {
+      throw new Error(`path already decided in the ledger (status ${prior.status}${prior.to ? `, to ${prior.to}` : ''}): ${submission.from} — remove the ledger entry first to change the decision`)
+    }
+  }
+}
+
 function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs}) {
-  if (!args.mapping) throw new Error('apply mode requires --mapping FILE (the structured mapping JSON)')
-  const mapping = loadMapping(args.mapping)
+  if (args.mapping && args['reply-file']) throw new Error('--mapping and --reply-file are mutually exclusive')
+  let mapping
+  if (args.mapping) {
+    mapping = loadMapping(args.mapping)
+  } else if (args['reply-file']) {
+    const parsed = parseReplyMapping(fs.readFileSync(args['reply-file'], 'utf8'))
+    if (!parsed.ok) throw new Error(`reply rejected: ${parsed.reason}`)
+    mapping = parsed.mapping
+  } else {
+    throw new Error('apply mode requires --mapping FILE or --reply-file FILE (the structured mapping JSON)')
+  }
+  assertLedgerUndecided(mapping, ledgerRaw)
   const confSources = parseExactSources(confText)
   const rules = []
-  for (const mappingEntry of mapping.mappings) {
+  for (const mappingEntry of mapping.mappings ?? []) {
     if (typeof mappingEntry.from !== 'string' || typeof mappingEntry.to !== 'string') {
       throw new Error('every mapping needs string from/to')
     }
     rules.push({from: mappingEntry.from, to: mappingEntry.to, ja: null})
   }
+  if (rules.length === 0 && (mapping.declined ?? []).length === 0 && (mapping.denylist ?? []).length === 0) {
+    throw new Error('the mapping or reply contains no decisions (all decision arrays are empty)')
+  }
   // Twins are derived here (never hand-written): the mapping only carries the
   // en pair, the generator adds the /ja-JP mirror.
   for (const rule of rules) rule.ja = buildJaRule(rule.from, rule.to)
-  const verdict = validateBatch({rules, confSources, routes, allowlist})
+  const verdict = validateBatch({rules, confSources, routes, allowlist, denylist: DENYLIST_PATHS})
   if (verdict.errors.length > 0) {
     throw new Error(`mapping rejected by the conf contract:\n${verdict.errors.map(line => `  - ${line}`).join('\n')}`)
   }
@@ -220,7 +264,7 @@ function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs}) {
   // Keyed by from so re-applying the same mapping updates its entry instead
   // of appending a duplicate decision.
   const ledgerEntries = new Map((ledgerRaw.entries ?? []).map(entry => [entry.from, entry]))
-  for (const mappingEntry of mapping.mappings) {
+  for (const mappingEntry of mapping.mappings ?? []) {
     ledgerEntries.set(mappingEntry.from, {from: mappingEntry.from, status: 'fixed', to: mappingEntry.to, note: mappingEntry.note ?? undefined, decided_at: decidedAt})
   }
   for (const declined of mapping.declined ?? []) {
@@ -274,6 +318,27 @@ function buildTriageMarkdown({triage, generatedAt, days}) {
   for (const entry of triage) {
     lines.push(`| \`${entry.path}\` | ${entry.events} | ${entry.users} | ${entry.reason} |`)
   }
+  lines.push(
+    '',
+    '## How to answer this triage',
+    '',
+    'Reply on this PR with exactly one block; the executor applies it to the PR branch',
+    'through the same generator as every other conf change. Copy the skeleton, edit the',
+    'JSON, keep both markers. A path already decided in the ledger can only be',
+    're-submitted as the identical decision.',
+    '',
+    '<!-- ga4-404-reply-data begin; the JSON between these markers is the machine-readable protocol -->',
+    '```json',
+    JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/retired-path', to: '/docs/live-path', note: 'why'}],
+      declined: [{from: '/docs/one-off-typo', note: 'why'}],
+      denylist: [{from: '/docs/never-redirect', note: 'why'}],
+    }, null, 2),
+    '```',
+    '<!-- ga4-404-reply-data end -->',
+    '',
+  )
   return `${lines.join('\n')}\n`
 }
 
@@ -347,7 +412,9 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
     const outcome = runApply({args, confText, routes, allowlist, ledgerRaw, nowMs})
     const rulesConfPath = writeOutput(outputDir, 'rules.conf', outcome.batchText)
     const ledgerPath = writeOutput(outputDir, 'ledger.json', outcome.ledgerJson)
-    if (args['write-conf']) {
+    // Only rules touch the conf: a ledger-only decision must not splice an
+    // empty batch block into the file.
+    if (args['write-conf'] && outcome.rules.length > 0) {
       fs.writeFileSync(confPath, applyBatch(confText, outcome.batchText))
     }
     return {
@@ -397,7 +464,7 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
 
   // The en + ja conf block goes through the shared generator and the same
   // contract validation as apply mode; any error is fail-closed.
-  const verdict = validateBatch({rules: direct, confSources, routes, allowlist})
+  const verdict = validateBatch({rules: direct, confSources, routes, allowlist, denylist: DENYLIST_PATHS})
   if (verdict.errors.length > 0) {
     throw new Error(`generated rules rejected by the conf contract (this is a tool bug):\n${verdict.errors.map(line => `  - ${line}`).join('\n')}`)
   }

@@ -3431,3 +3431,27 @@ test('shared-docs workflow policy rejects trigger, permission, input, writer and
     }
   } finally { fs.rmSync(directory, {recursive: true, force: true}) }
 })
+
+test('the GA4 404 remediation Git writer inventory rejects renamed or extra pushing jobs', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'ga4-remediation-writer-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const source = fs.readFileSync('.github/workflows/ga4-404-remediation.yml', 'utf8')
+    // Renaming a pushing job drops it from the declared inventory.
+    const renamed = source.replace('  remediation:\n', '  classify_only:\n')
+    fs.writeFileSync(path.join(directory, 'ga4-404-remediation.yml'), renamed)
+    assert.ok(
+      validateWorkflowPolicies(directory).includes('ga4-404-remediation.yml: git push is forbidden outside the declared Git writer inventory: classify_only'),
+      'a renamed pushing job must fall outside the declared Git writer inventory',
+    )
+    // A new job carrying git push without an inventory entry is rejected.
+    const extra = source.replace('\n  apply_reply:\n', '\n  rogue_publisher:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    steps:\n      - run: git push origin HEAD:refs/heads/ga4-404-remediation/rogue\n\n  apply_reply:\n')
+    fs.writeFileSync(path.join(directory, 'ga4-404-remediation.yml'), extra)
+    assert.ok(
+      validateWorkflowPolicies(directory).includes('ga4-404-remediation.yml: git push is forbidden outside the declared Git writer inventory: rogue_publisher'),
+      'an undeclared pushing job must be rejected',
+    )
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
