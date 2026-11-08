@@ -42,9 +42,15 @@ test('the classification job consumes the tracked ledger and degrades without cr
   const run = stepNamed(remediation, 'Run GA4 404 remediation')
   assert.match(run.run, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
   assert.match(run.run, /--output-dir tmp\/ga4-404-remediation/)
-  // The tool is zero-dependency: no pnpm install in the classification path.
+  // The tool is zero-dependency: no pnpm install in the classification path,
+  // and setup-node must not reach for the repo-root pnpm-lock.yaml either.
   assert.doesNotMatch(source, /pnpm install/)
   assert.doesNotMatch(source, /pnpm\/action-setup/)
+  for (const step of [...remediation.steps, ...applyReply.steps]) {
+    if (step.uses?.startsWith('actions/setup-node@')) {
+      assert.equal(step.with['package-manager-cache'], 'false', `${step.name} must disable the package-manager cache`)
+    }
+  }
 
   for (const name of ['Run GA4 404 remediation', 'Append proposal summary', 'Upload remediation artifacts', 'Publish remediation pull request']) {
     assert.equal(stepNamed(remediation, name).if, "${{ steps.credentials.outputs.has_credentials == 'true' }}", `${name} must be gated on credentials`)

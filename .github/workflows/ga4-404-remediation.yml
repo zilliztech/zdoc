@@ -64,6 +64,9 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '22'
+          # Zero-dependency tool: no package-manager cache (the repo-root
+          # pnpm-lock.yaml would otherwise make setup-node require pnpm).
+          package-manager-cache: false
 
       - name: Run GA4 404 remediation
         id: remediation
@@ -214,6 +217,9 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '22'
+          # Zero-dependency tool: no package-manager cache (the repo-root
+          # pnpm-lock.yaml would otherwise make setup-node require pnpm).
+          package-manager-cache: false
 
       # The reply goes through the same apply path (one generator, one ledger
       # merge). Failures post the rejection reason and fail the run.
