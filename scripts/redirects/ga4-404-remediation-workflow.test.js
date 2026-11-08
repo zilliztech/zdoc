@@ -8,80 +8,118 @@ const yaml = require('js-yaml')
 const workflowPath = '.github/workflows/ga4-404-remediation.yml'
 const source = fs.readFileSync(workflowPath, 'utf8')
 const workflow = yaml.load(source)
-const jobs = Object.values(workflow.jobs || {})
-const job = jobs[0]
-const steps = job?.steps || []
+const jobs = workflow.jobs
+const remediation = jobs.remediation
+const applyReply = jobs.apply_reply
 
-function stepNamed(name) {
-  return steps.find(step => step.name === name)
+function stepNamed(job, name) {
+  return job.steps.find(step => step.name === name)
 }
 
-test('remediation is dispatch-only with read-only permissions and its own queue slot', () => {
-  assert.deepEqual(Object.keys(workflow.on), ['workflow_dispatch'])
-  assert.equal(workflow.on.workflow_dispatch.inputs.days.default, '7')
+test('the workflow classifies on schedule and dispatch, and reacts to PR comments', () => {
+  assert.deepEqual(Object.keys(workflow.on).sort(), ['issue_comment', 'schedule', 'workflow_dispatch'])
+  assert.equal(workflow.on.schedule[0].cron, '19 3 * * *')
+  assert.deepEqual(workflow.on.issue_comment, {types: ['created']})
+  assert.deepEqual(workflow.on.workflow_dispatch.inputs.days.default, '7')
+  // The PAT carries every write capability; the workflow token stays read-only.
   assert.deepEqual(workflow.permissions, {contents: 'read'})
   assert.deepEqual(workflow.concurrency, {
     group: 'ga4-404-remediation',
     'cancel-in-progress': false,
   })
-  assert.equal(jobs.length, 1)
-  assert.equal(job['timeout-minutes'], 20)
-  // PR1 never schedules and never writes: the auto-PR slice arrives separately.
-  assert.doesNotMatch(source, /^  (?:push|pull_request|schedule):/m)
-  assert.doesNotMatch(source, /\bgit push\b/)
+  assert.deepEqual(Object.keys(jobs).sort(), ['apply_reply', 'remediation'])
+  assert.equal(remediation['timeout-minutes'], 20)
+  assert.equal(applyReply['timeout-minutes'], 10)
+  // The executor only wakes for PR comments, never for plain issue comments.
+  assert.equal(applyReply.if, "github.event_name == 'issue_comment' && github.event.issue.pull_request != null")
 })
 
-test('the credential gate requires the secret plus the English property and gates every GA4 step', () => {
-  const credentials = stepNamed('Resolve GA4 credentials')
-  assert.equal(credentials.id, 'credentials')
+test('the classification job consumes the tracked ledger and degrades without credentials', () => {
+  const credentials = stepNamed(remediation, 'Resolve GA4 credentials')
   assert.equal(credentials.env.GA4_SERVICE_ACCOUNT_JSON, '${{ secrets.GA4_SERVICE_ACCOUNT_JSON }}')
-  assert.equal(credentials.env.GA4_PROPERTY_ID_EN, '${{ vars.GA4_PROPERTY_ID_EN }}')
-  assert.match(credentials.run, /\$RUNNER_TEMP\/ga4-service-account\.json/)
-  assert.match(credentials.run, /has_credentials=false/)
   assert.match(credentials.run, /::notice::GA4 404 remediation is not configured/)
-  // Rule generation is en-only in this slice, so the gate requires the en
-  // property explicitly (zh-CN rows are collected for visibility only).
-  assert.match(credentials.run, /\[ -n "\$GA4_SERVICE_ACCOUNT_JSON" \] && \[ -n "\$GA4_PROPERTY_ID_EN" \]/)
 
-  const gate = "${{ steps.credentials.outputs.has_credentials == 'true' }}"
-  for (const name of [
-    'Run GA4 404 remediation',
-    'Append proposal summary',
-    'Upload remediation artifacts',
-  ]) {
-    assert.equal(stepNamed(name).if, gate, `${name} must be gated on the credential check`)
+  const run = stepNamed(remediation, 'Run GA4 404 remediation')
+  assert.match(run.run, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
+  assert.match(run.run, /--output-dir tmp\/ga4-404-remediation/)
+  // The tool is zero-dependency: no pnpm install in the classification path.
+  assert.doesNotMatch(source, /pnpm install/)
+  assert.doesNotMatch(source, /pnpm\/action-setup/)
+
+  for (const name of ['Run GA4 404 remediation', 'Append proposal summary', 'Upload remediation artifacts', 'Publish remediation pull request']) {
+    assert.equal(stepNamed(remediation, name).if, "${{ steps.credentials.outputs.has_credentials == 'true' }}", `${name} must be gated on credentials`)
   }
 })
 
-test('the remediation step runs the redirect tool directly without building content', () => {
-  const node = steps.find(step => step.uses?.startsWith('actions/setup-node@'))
-  assert.equal(node.with['node-version'], '22')
-  assert.match(stepNamed('Install dependencies').run, /^pnpm install --frozen-lockfile$/)
-
-  const remediation = stepNamed('Run GA4 404 remediation')
-  assert.equal(remediation.id, 'remediation')
-  assert.match(remediation.run, /node scripts\/redirects\/ga4-404-remediation\.js/)
-  assert.match(remediation.run, /--credentials "\$\{\{ steps\.credentials\.outputs\.credentials_file \}\}"/)
-  assert.match(remediation.run, /--output-dir tmp\/ga4-404-remediation/)
-  assert.match(remediation.run, /--days "\$\{\{ inputs\.days \|\| '7' \}\}"/)
-  assert.equal(remediation.env.GA4_PROPERTY_ID_EN, '${{ vars.GA4_PROPERTY_ID_EN }}')
-  assert.equal(remediation.env.GA4_PROPERTY_ID_ZH_CN, '${{ vars.GA4_PROPERTY_ID_ZH_CN }}')
-  for (const forbidden of ['restore-generated-state', 'build:en', 'build:zh-CN', 'check-links']) {
-    assert.equal(source.includes(forbidden), false, `must not contain ${forbidden}`)
-  }
+test('the publish step opens exactly one labeled PR per batch through apply mode', () => {
+  const publish = stepNamed(remediation, 'Publish remediation pull request')
+  // Gate order: rules exist, no open remediation PR, then the fail-closed PAT gate.
+  const script = publish.run
+  const indexOf = needle => script.indexOf(needle)
+  assert.ok(indexOf('No deterministic rules in this window') < indexOf('An open ga4-404-remediation PR already exists'), 'rule-count gate precedes the open-PR gate')
+  assert.ok(indexOf('An open ga4-404-remediation PR already exists') < indexOf('REST_UPSTREAM_REFRESH_PAT is not configured'), 'open-PR gate precedes the PAT gate')
+  assert.match(script, /gh pr list --label ga4-404-remediation --state open --json number --jq 'length'/)
+  // Gate 10: the PAT opens the PR so pull_request checks actually run.
+  assert.match(script, /git push "https:\/\/x-access-token:\$\{REST_UPSTREAM_REFRESH_PAT\}@github\.com\/\$\{GITHUB_REPOSITORY\}\.git"/)
+  assert.doesNotMatch(source, /git push origin/)
+  // The publish path is apply mode with the generator writing conf + ledger.
+  assert.match(script, /--mode apply \\\n\s+--mapping tmp\/ga4-404-remediation\/publish-mapping\.json/)
+  assert.match(script, /--write-conf/)
+  assert.match(script, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
+  assert.match(script, /branch="ga4-404-remediation\/\$\{batch_date\}-\$\(git rev-parse --short HEAD\)"/)
+  assert.match(script, /gh label create ga4-404-remediation/)
+  assert.match(script, /gh pr create \\\n\s+--base master --head "\$branch"/)
+  assert.match(script, /--label ga4-404-remediation\)/)
+  assert.match(script, /gh pr comment "\$pr_url" --body-file tmp\/ga4-404-remediation\/triage\.md/)
+  // The proposal body is bounded in the PR like every other bot PR.
+  assert.match(script, /60000/)
+  // The publish checkout must not leave the default token in the workspace.
+  const checkout = remediation.steps.find(step => step.uses?.startsWith('actions/checkout@'))
+  assert.equal(checkout.with['persist-credentials'], false)
 })
 
-test('a successful run uploads the full artifact directory with the house retention', () => {
-  const checkout = steps.find(step => step.uses?.startsWith('actions/checkout@'))
-  assert.equal(checkout.with.ref, '${{ github.sha }}')
-  const upload = stepNamed('Upload remediation artifacts')
-  assert.equal(upload.uses, 'actions/upload-artifact@v6')
-  assert.deepEqual(upload.with, {
-    name: 'ga4-404-remediation-${{ github.run_id }}',
-    path: 'tmp/ga4-404-remediation',
-    'if-no-files-found': 'error',
-    'retention-days': 14,
-  })
-  const summary = stepNamed('Append proposal summary')
-  assert.match(summary.run, /cat tmp\/ga4-404-remediation\/proposal\.md >> "\$GITHUB_STEP_SUMMARY"/)
+test('the reply executor gates on allowlist, triage markers, reply markers, and the remediation PR', () => {
+  const gate = stepNamed(applyReply, 'Gate the reply')
+  assert.equal(gate.env.ALLOWLIST, '${{ vars.GA4_404_REMEDIATION_ALLOWLIST }}')
+  assert.equal(gate.env.COMMENT_AUTHOR, '${{ github.event.comment.user.login }}')
+  const script = gate.run
+  // Fail-closed order: allowlist configured, commenter allowed, not a triage
+  // post/quote, carries a reply block, targets a remediation PR.
+  const indexOf = needle => script.indexOf(needle)
+  assert.ok(indexOf('reply executor stays disabled') < indexOf('not on the remediation allowlist'))
+  assert.ok(indexOf('not on the remediation allowlist') < indexOf('carries the triage block'))
+  assert.ok(indexOf('carries the triage block') < indexOf('nothing to apply'))
+  assert.ok(indexOf('nothing to apply') < indexOf('does not carry the ga4-404-remediation label'))
+  assert.match(script, /grep -q 'ga4-404-triage:v1' "\$comment_body"/)
+  assert.match(script, /grep -q 'ga4-404-reply-data begin' "\$comment_body"/)
+  assert.match(script, /pr_branch=\$\(echo "\$pr_json" \| jq -r '\.headRefName'\)/)
+  assert.match(script, /ga4-404-remediation\/\*\)/)
+  // The read gates use the workflow token; writes use the PAT.
+  assert.equal(gate.env.GH_TOKEN, '${{ github.token }}')
+
+  const apply = stepNamed(applyReply, 'Apply the reply to the PR branch')
+  assert.equal(apply.env.GH_TOKEN, '${{ secrets.REST_UPSTREAM_REFRESH_PAT }}')
+  assert.match(apply.run, /--reply-file "\$RUNNER_TEMP\/comment-body\.md"/)
+  assert.match(apply.run, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
+  // The ledger is always committed; the conf only when the reply carried rules.
+  assert.match(apply.run, /git add scripts\/redirects\/ga4-404-remediation-ledger\.json/)
+  assert.match(apply.run, /if \[ "\$\{rules:-0\}" != "0" \]; then\n\s+git add deploy\/en\/nginx\.conf/)
+  // Loop safety: the bot's confirmation comment never carries reply markers.
+  assert.match(apply.run, /printf 'Reply applied: %s rule\(s\)/)
+  assert.doesNotMatch(apply.run, /ga4-404-reply-data begin/)
+  // Rejections post the reason and fail the run.
+  assert.match(apply.run, /The reply could not be applied/)
+  const executorCheckout = applyReply.steps.find(step => step.uses?.startsWith('actions/checkout@'))
+  assert.equal(executorCheckout.with['persist-credentials'], false)
+  assert.equal(executorCheckout.with.ref, '${{ steps.gate.outputs.pr_branch }}')
+})
+
+test('the pushing jobs stay identical to the declared Git writer inventory', () => {
+  const policySource = fs.readFileSync('scripts/validate-workflow-policy.js', 'utf8')
+  assert.match(policySource, /\['ga4-404-remediation\.yml', new Set\(\['remediation', 'apply_reply'\]\)\]/)
+  const pushingJobs = Object.entries(jobs)
+    .filter(([, job]) => /git(?:\s+-C\s+\S+)?\s+push\b/.test(JSON.stringify(job)))
+    .map(([name]) => name)
+    .sort()
+  assert.deepEqual(pushingJobs, ['apply_reply', 'remediation'])
 })

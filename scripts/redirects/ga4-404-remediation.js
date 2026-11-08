@@ -31,6 +31,7 @@ const path = require('node:path')
 
 const {RUN_REPORT_URL, getAccessToken, loadServiceAccount} = require('../lib/ga4-auth.js')
 const {applyBatch, buildJaRule, formatBatch, parseExactSources, validateBatch} = require('./conf-rules.js')
+const {parseReplyMapping} = require('./reply.js')
 const {aggregateRows, classify, DENYLIST_PATHS, filterPaths, selectBatch} = require('./pipeline.js')
 
 const SCHEMA_VERSION = 1
@@ -76,14 +77,14 @@ function parseArgs(argv) {
 const FLAG_NAMES = [
   '--credentials', '--ga4-report', '--conf', '--snapshot', '--output-dir',
   '--days', '--min-users', '--min-events', '--batch-limit', '--mode',
-  '--mapping', '--ledger',
+  '--mapping', '--reply-file', '--ledger',
 ]
 
 const USAGE = [
   'Usage: ga4-404-remediation.js (--credentials FILE | --ga4-report FILE) --output-dir DIR',
   '       [--conf PATH] [--snapshot PATH] [--days N] [--min-users N] [--min-events N]',
-  '       [--batch-limit N] [--mode direct|triage|apply] [--mapping FILE] [--ledger FILE]',
-  '       [--no-probe] [--write-conf]',
+  '       [--batch-limit N] [--mode direct|triage|apply] [--mapping FILE | --reply-file FILE]',
+  '       [--ledger FILE] [--no-probe] [--write-conf]',
 ].join('\n')
 
 function parseNumber(values, name, fallback, {min, max}) {
@@ -197,9 +198,41 @@ function workflowRunUrl(env) {
 
 // --- mode: apply ------------------------------------------------------------
 
+// The ledger 未决 gate: a path with an existing decision may only be
+// re-submitted as the identical decision (retry idempotency); changing it is
+// rejected so a stale reply or a later comment can never silently flip a
+// recorded decision — removing the ledger entry first is the explicit path.
+function assertLedgerUndecided(mapping, ledgerRaw) {
+  const existing = new Map((ledgerRaw.entries ?? []).map(entry => [entry.from, entry]))
+  const submissions = [
+    ...mapping.mappings.map(entry => ({from: entry.from, status: 'fixed', to: entry.to})),
+    ...(mapping.declined ?? []).map(entry => ({from: entry.from, status: 'declined'})),
+    ...(mapping.denylist ?? []).map(entry => ({from: entry.from, status: 'denylist'})),
+  ]
+  for (const submission of submissions) {
+    const prior = existing.get(submission.from)
+    if (!prior) continue
+    const identical = prior.status === submission.status
+      && (submission.status !== 'fixed' || prior.to === submission.to)
+    if (!identical) {
+      throw new Error(`path already decided in the ledger (status ${prior.status}${prior.to ? `, to ${prior.to}` : ''}): ${submission.from} — remove the ledger entry first to change the decision`)
+    }
+  }
+}
+
 function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs}) {
-  if (!args.mapping) throw new Error('apply mode requires --mapping FILE (the structured mapping JSON)')
-  const mapping = loadMapping(args.mapping)
+  if (args.mapping && args['reply-file']) throw new Error('--mapping and --reply-file are mutually exclusive')
+  let mapping
+  if (args.mapping) {
+    mapping = loadMapping(args.mapping)
+  } else if (args['reply-file']) {
+    const parsed = parseReplyMapping(fs.readFileSync(args['reply-file'], 'utf8'))
+    if (!parsed.ok) throw new Error(`reply rejected: ${parsed.reason}`)
+    mapping = parsed.mapping
+  } else {
+    throw new Error('apply mode requires --mapping FILE or --reply-file FILE (the structured mapping JSON)')
+  }
+  assertLedgerUndecided(mapping, ledgerRaw)
   const confSources = parseExactSources(confText)
   const rules = []
   for (const mappingEntry of mapping.mappings) {
@@ -274,6 +307,27 @@ function buildTriageMarkdown({triage, generatedAt, days}) {
   for (const entry of triage) {
     lines.push(`| \`${entry.path}\` | ${entry.events} | ${entry.users} | ${entry.reason} |`)
   }
+  lines.push(
+    '',
+    '## How to answer this triage',
+    '',
+    'Reply on this PR with exactly one block; the executor applies it to the PR branch',
+    'through the same generator as every other conf change. Copy the skeleton, edit the',
+    'JSON, keep both markers. A path already decided in the ledger can only be',
+    're-submitted as the identical decision.',
+    '',
+    '<!-- ga4-404-reply-data begin; the JSON between these markers is the machine-readable protocol -->',
+    '```json',
+    JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/retired-path', to: '/docs/live-path', note: 'why'}],
+      declined: [{from: '/docs/one-off-typo', note: 'why'}],
+      denylist: [{from: '/docs/never-redirect', note: 'why'}],
+    }, null, 2),
+    '```',
+    '<!-- ga4-404-reply-data end -->',
+    '',
+  )
   return `${lines.join('\n')}\n`
 }
 

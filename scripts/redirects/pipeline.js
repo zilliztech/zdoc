@@ -24,6 +24,11 @@ const DENYLIST_PATHS = Object.freeze([
 
 const LADDERS = Object.freeze(['exact-served', 'sdk-double-segment', 'restful-v2', 'sdk-overview', 'unique-basename'])
 
+// Probe lanes: bounded so the worst case (30 paths × source+target probes ×
+// the 10s per-request abort budget) stays well inside the workflow timeout
+// while still saturating a slow production host.
+const PROBE_CONCURRENCY = 5
+
 // rows: [{path, country, events, users}] — one row per (pagePath, country)
 // combination as returned by the GA4 runReport page. activeUsers is summed
 // across the country rows of one path, which slightly overcounts a user who
@@ -183,88 +188,103 @@ async function requestOnce(fetchImpl, url, timeoutMs, method = 'HEAD') {
   }
 }
 
+// Runs `worker` over items with at most `limit` in flight, resolving in the
+// original item order regardless of completion order.
+async function mapLimit(items, limit, worker) {
+  if (!Number.isSafeInteger(limit) || limit < 1) throw new Error('mapLimit concurrency must be a positive integer')
+  const results = new Array(items.length)
+  let next = 0
+  const lanes = Array.from({length: Math.min(limit, items.length)}, async () => {
+    for (;;) {
+      const index = next
+      next += 1
+      if (index >= items.length) return
+      results[index] = await worker(items[index], index)
+    }
+  })
+  await Promise.all(lanes)
+  return results
+}
+
 // Classify one batch. Probes are injectable (fetchImpl) and skippable
 // (--no-probe): without probes the first ladder hit that exists in the route
-// snapshot wins, which is the artifact-only replay mode.
+// snapshot wins, which is the artifact-only replay mode. Probes run with a
+// bounded concurrency (PROBE_CONCURRENCY lanes) so a slow production day
+// cannot stretch the run past the workflow timeout; results keep batch order.
 async function classify({batch, routes, confSources, origin = 'https://docs.zilliz.com', fetchImpl = fetch, probe = true}) {
-  const direct = []
-  const triage = []
-  const exempt = []
-  for (const candidate of batch) {
+  const results = await mapLimit(batch, PROBE_CONCURRENCY, async candidate => {
     const {path, events, users, countries} = candidate
     // The en host also serves the ja-JP build, so ja page paths arrive in the
     // en rows. Their remediation is the en path (the twin is derived from it),
     // never a /ja-JP source — which would double the locale prefix.
     if (path.startsWith('/ja-JP/')) {
-      exempt.push({path, events, users, reason: 'ja-JP page path recorded on the en host; remediate the en path so the twin stays derived'})
-      continue
+      return {bucket: 'exempt', entry: {path, events, users, reason: 'ja-JP page path recorded on the en host; remediate the en path so the twin stays derived'}}
     }
     if (routes.has(path)) {
-      exempt.push({path, events, users, reason: 'path is a published route in the snapshot (phantom 404 or stale report)'})
-      continue
+      return {bucket: 'exempt', entry: {path, events, users, reason: 'path is a published route in the snapshot (phantom 404 or stale report)'}}
     }
     if (confSources.has(path)) {
-      exempt.push({path, events, users, reason: 'an exact rule for this path already exists in the conf (deploy-window residual)'})
-      continue
+      return {bucket: 'exempt', entry: {path, events, users, reason: 'an exact rule for this path already exists in the conf (deploy-window residual)'}}
     }
     if (!probe) {
       const resolved = resolveTarget(path, {routes})
       if (resolved) {
-        direct.push({from: path, to: resolved.to, ladder: resolved.ladder, events, users, countries, ja: buildJaRule(path, resolved.to)})
-      } else {
-        triage.push({path, events, users, countries, probe: null, attempted: LADDERS, candidates: [], reason: 'no ladder resolved (probe disabled)'})
+        return {bucket: 'direct', entry: {from: path, to: resolved.to, ladder: resolved.ladder, events, users, countries, ja: buildJaRule(path, resolved.to)}}
       }
-      continue
+      return {bucket: 'triage', entry: {path, events, users, countries, probe: null, attempted: LADDERS, candidates: [], reason: 'no ladder resolved (probe disabled)'}}
     }
     let sourceProbe
     try {
       sourceProbe = await probeUrl(fetchImpl, `${origin}${path}`)
     } catch (error) {
-      triage.push({path, events, users, countries, probe: {error: error.message}, attempted: [], candidates: [], reason: 'source probe failed'})
-      continue
+      return {bucket: 'triage', entry: {path, events, users, countries, probe: {error: error.message}, attempted: [], candidates: [], reason: 'source probe failed'}}
     }
     if (sourceProbe.error) {
-      triage.push({path, events, users, countries, probe: sourceProbe, attempted: [], candidates: [], reason: `source probe inconclusive: ${sourceProbe.error}`})
-      continue
+      return {bucket: 'triage', entry: {path, events, users, countries, probe: sourceProbe, attempted: [], candidates: [], reason: `source probe inconclusive: ${sourceProbe.error}`}}
     }
     if (sourceProbe.status !== 404) {
-      exempt.push({path, events, users, reason: `production serves this path (HTTP ${sourceProbe.status} after ${sourceProbe.redirectCount} hops), not a 404`})
-      continue
+      return {bucket: 'exempt', entry: {path, events, users, reason: `production serves this path (HTTP ${sourceProbe.status} after ${sourceProbe.redirectCount} hops), not a 404`}}
     }
     const resolved = resolveTarget(path, {routes})
     if (!resolved) {
-      triage.push({path, events, users, countries, probe: sourceProbe, attempted: LADDERS, candidates: [], reason: 'no ladder resolved'})
-      continue
+      return {bucket: 'triage', entry: {path, events, users, countries, probe: sourceProbe, attempted: LADDERS, candidates: [], reason: 'no ladder resolved'}}
     }
     let targetProbe
     try {
       targetProbe = await probeUrl(fetchImpl, `${origin}${resolved.to}`)
     } catch (error) {
-      triage.push({path, events, users, countries, probe: sourceProbe, attempted: [resolved.ladder], candidates: [{to: resolved.to, error: error.message}], reason: 'target probe failed'})
-      continue
+      return {bucket: 'triage', entry: {path, events, users, countries, probe: sourceProbe, attempted: [resolved.ladder], candidates: [{to: resolved.to, error: error.message}], reason: 'target probe failed'}}
     }
     if (targetProbe.status !== 200) {
-      triage.push({
-        path, events, users, countries,
-        probe: sourceProbe,
-        attempted: [resolved.ladder],
-        candidates: [{to: resolved.to, status: targetProbe.status}],
-        reason: `ladder target ${resolved.to} does not serve 200 (HTTP ${targetProbe.status ?? 'error'})`,
-      })
-      continue
+      return {
+        bucket: 'triage',
+        entry: {
+          path, events, users, countries,
+          probe: sourceProbe,
+          attempted: [resolved.ladder],
+          candidates: [{to: resolved.to, status: targetProbe.status}],
+          reason: `ladder target ${resolved.to} does not serve 200 (HTTP ${targetProbe.status ?? 'error'})`,
+        },
+      }
     }
-    direct.push({from: path, to: resolved.to, ladder: resolved.ladder, events, users, countries, ja: buildJaRule(path, resolved.to)})
-  }
+    return {bucket: 'direct', entry: {from: path, to: resolved.to, ladder: resolved.ladder, events, users, countries, ja: buildJaRule(path, resolved.to)}}
+  })
+  const direct = []
+  const triage = []
+  const exempt = []
+  for (const result of results) (result.bucket === 'direct' ? direct : result.bucket === 'triage' ? triage : exempt).push(result.entry)
   return {direct, triage, exempt}
 }
 
 module.exports = {
   DENYLIST_PATHS,
   LADDERS,
+  PROBE_CONCURRENCY,
   aggregateRows,
   classify,
   countriesToObject,
   filterPaths,
+  mapLimit,
   probeUrl,
   resolveTarget,
   selectBatch,
