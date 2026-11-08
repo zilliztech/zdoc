@@ -16,6 +16,7 @@ const {
   parseArgs,
   run,
 } = require('./ga4-404-remediation.js')
+const {mapLimit} = require('./pipeline.js')
 
 const TOKEN_URL = 'https://oauth2.googleapis.com/token'
 const RUN_REPORT_URL = 'https://analyticsdata.googleapis.com/v1beta/properties'
@@ -187,7 +188,7 @@ test('run() direct mode classifies replayed rows and emits the full artifact set
     assert.match(triage, /<!-- ga4-404-triage:v1 -->/)
     assert.match(triage, /<!-- ga4-404-triage-data begin/)
     assert.match(triage, /<!-- ga4-404-triage-data end -->/)
-    const payload = JSON.parse(triage.match(/```json\n(.*)\n```/s)[1])
+    const payload = JSON.parse(triage.match(/```json\n([\s\S]*?)\n```/)[1])
     assert.equal(payload.schema_version, SCHEMA_VERSION)
     assert.equal(payload.entries[0].from, '/docs/mystery')
 
@@ -304,6 +305,162 @@ test('run() apply mode validates the mapping through the same generator and emit
     assert.ok(ledger.entries.some(entry => entry.from === '/docs/manual' && entry.status === 'fixed' && entry.to === '/docs/home'))
     assert.ok(ledger.entries.some(entry => entry.from === '/docs/prior' && entry.status === 'denylist'))
     assert.ok(ledger.entries.some(entry => entry.from === '/docs/mystery' && entry.status === 'declined'))
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
+
+test('run() apply mode accepts a triage reply file through the same generator', async () => {
+  const dir = makeTempDir('ga4-rem-replyfile-')
+  const outDir = path.join(dir, 'out')
+  try {
+    const confPath = writeFixture(dir, 'nginx.conf', CONF)
+    const snapshotPath = writeFixture(dir, 'snapshot.json', JSON.stringify(SNAPSHOT))
+    const replyPath = writeFixture(dir, 'comment.md', [
+      'Human preamble.',
+      '<!-- ga4-404-reply-data begin; the JSON between these markers is the machine-readable protocol -->',
+      '```json',
+      JSON.stringify({schema_version: SCHEMA_VERSION, mappings: [{from: '/docs/manual', to: '/docs/home'}]}),
+      '```',
+      '<!-- ga4-404-reply-data end -->',
+      'Trailing prose.',
+    ].join('\n'))
+    const result = await run({
+      argv: ['--mode', 'apply', '--reply-file', replyPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir],
+    })
+    assert.equal(result.rules, 1)
+    assert.match(fs.readFileSync(result.rules_conf_path, 'utf8'), /location = \/docs\/manual \{ return 301 \/docs\/home; \}/)
+    // Malformed replies are rejected with the parser's reason, fail-closed.
+    const badReply = writeFixture(dir, 'bad-comment.md', 'a plain comment with no reply block')
+    await assert.rejects(
+      () => run({argv: ['--mode', 'apply', '--reply-file', badReply, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]}),
+      /reply rejected: no ga4-404-reply-data block found/,
+    )
+    // --mapping and --reply-file are mutually exclusive.
+    const otherMapping = writeFixture(dir, 'other-mapping.json', JSON.stringify({schema_version: SCHEMA_VERSION, mappings: [{from: '/docs/second', to: '/docs/home'}]}))
+    await assert.rejects(
+      () => run({argv: ['--mode', 'apply', '--mapping', otherMapping, '--reply-file', replyPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]}),
+      /mutually exclusive/,
+    )
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
+
+test('run() apply mode refuses to flip a recorded ledger decision but stays retry-idempotent', async () => {
+  const dir = makeTempDir('ga4-rem-ledgergate-')
+  const outDir = path.join(dir, 'out')
+  try {
+    const confPath = writeFixture(dir, 'nginx.conf', CONF)
+    const snapshotPath = writeFixture(dir, 'snapshot.json', JSON.stringify(SNAPSHOT))
+    const ledgerPath = writeFixture(dir, 'ledger.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      entries: [
+        {from: '/docs/fixed-path', status: 'fixed', to: '/docs/home', decided_at: '2026-11-01T00:00:00.000Z'},
+        {from: '/docs/declined-path', status: 'declined', decided_at: '2026-11-01T00:00:00.000Z'},
+      ],
+    }))
+    // Re-submitting the identical fixed decision is an idempotent retry...
+    const retryPath = writeFixture(dir, 'retry.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/fixed-path', to: '/docs/home'}],
+    }))
+    const retry = await run({argv: ['--mode', 'apply', '--mapping', retryPath, '--ledger', ledgerPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]})
+    assert.equal(retry.rules, 1)
+    // ...but flipping the target or the status is rejected fail-closed.
+    const flipPath = writeFixture(dir, 'flip.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/fixed-path', to: '/reference/cli/cli/overview'}],
+    }))
+    await assert.rejects(
+      () => run({argv: ['--mode', 'apply', '--mapping', flipPath, '--ledger', ledgerPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]}),
+      /path already decided in the ledger \(status fixed, to \/docs\/home\): \/docs\/fixed-path/,
+    )
+    const denylistPath = writeFixture(dir, 'denylist.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/declined-path', to: '/docs/home'}],
+    }))
+    await assert.rejects(
+      () => run({argv: ['--mode', 'apply', '--mapping', denylistPath, '--ledger', ledgerPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]}),
+      /path already decided in the ledger \(status declined\): \/docs\/declined-path/,
+    )
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
+
+test('mapLimit caps in-flight workers and resolves in item order', async () => {
+  let startedCount = 0
+  let peak = 0
+  const parked = new Map() // item -> resolve gate
+  const tick = () => new Promise(resolve => setImmediate(resolve))
+  const work = mapLimit(['a', 'b', 'c', 'd'], 2, async item => {
+    startedCount += 1
+    peak = Math.max(peak, startedCount)
+    await new Promise(resolve => parked.set(item, resolve))
+    startedCount -= 1
+    return item.toUpperCase()
+  })
+  const release = item => {
+    parked.get(item)()
+    parked.delete(item)
+  }
+  // Two lanes start and then park on their gates; the remaining items wait.
+  await tick()
+  await tick()
+  assert.equal(startedCount, 2)
+  assert.deepEqual([...parked.keys()].sort(), ['a', 'b'])
+  await tick()
+  assert.equal(startedCount, 2, 'mapLimit must not exceed the concurrency cap')
+  release('b') // lane 2 finishes 'b' and immediately picks up 'c'
+  await tick()
+  await tick()
+  assert.equal(startedCount, 2, 'a finished lane immediately picks up the next item')
+  assert.deepEqual([...parked.keys()].sort(), ['a', 'c'])
+  release('a') // lane 1 finishes 'a' and picks up 'd'
+  await tick()
+  await tick()
+  assert.deepEqual([...parked.keys()].sort(), ['c', 'd'])
+  release('c')
+  release('d')
+  const results = await work
+  assert.deepEqual(results, ['A', 'B', 'C', 'D'], 'results restore the original item order')
+  assert.equal(peak, 2)
+  await assert.rejects(() => mapLimit([1], 0, async () => 1), /positive integer/)
+})
+
+test('run() apply mode refuses empty replies, denylisted probe paths, and never touches the conf for ledger-only replies', async () => {
+  const dir = makeTempDir('ga4-rem-applyguard2-')
+  const outDir = path.join(dir, 'out')
+  try {
+    const confPath = writeFixture(dir, 'nginx.conf', CONF)
+    const snapshotPath = writeFixture(dir, 'snapshot.json', JSON.stringify(SNAPSHOT))
+    // Empty decisions: rejected with an actionable reason.
+    const emptyPath = writeFixture(dir, 'empty.json', JSON.stringify({schema_version: SCHEMA_VERSION, mappings: [], declined: [], denylist: []}))
+    await assert.rejects(
+      () => run({argv: ['--mode', 'apply', '--mapping', emptyPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]}),
+      /contains no decisions/,
+    )
+    // Watchdog e2e probe paths can never receive a rule through any entry point.
+    const probePath = writeFixture(dir, 'probe.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/ga4-e2e-test-404', to: '/docs/home'}],
+    }))
+    await assert.rejects(
+      () => run({argv: ['--mode', 'apply', '--mapping', probePath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir]}),
+      /source is on the remediation denylist \(watchdog probe path\): \/docs\/ga4-e2e-test-404/,
+    )
+    // A declined-only reply updates the ledger and leaves the conf untouched
+    // even with --write-conf.
+    const declinedOnly = writeFixture(dir, 'declined.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      declined: [{from: '/docs/one-off', note: 'typo'}],
+    }))
+    const confBefore = fs.readFileSync(confPath, 'utf8')
+    const result = await run({argv: ['--mode', 'apply', '--mapping', declinedOnly, '--ledger', writeFixture(dir, 'ledger.json', JSON.stringify({schema_version: SCHEMA_VERSION, entries: []})), '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir, '--write-conf']})
+    assert.equal(result.rules, 0)
+    assert.equal(fs.readFileSync(confPath, 'utf8'), confBefore)
+    assert.ok(fs.readFileSync(result.ledger_path, 'utf8').includes('"declined"'))
   } finally {
     fs.rmSync(dir, {recursive: true, force: true})
   }
