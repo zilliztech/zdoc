@@ -144,14 +144,19 @@ jobs:
           GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT" gh label create ga4-404-remediation --color D4C5F9 --description 'Automated GA4 404 remediation batch' 2>/dev/null || true
           # Truncate in node so a multibyte character is never split mid-sequence.
           BODY_FILE="$RUNNER_TEMP/pr-body.md" node -e 'const fs=require("fs");const b=fs.readFileSync("tmp/ga4-404-remediation/proposal.md","utf8");const body=b.length>60000?b.slice(0,60000)+"\n\n(Truncated at 60000 characters; the full proposal is in the run artifact ga4-404-remediation-"+process.env.GITHUB_RUN_ID+".)\n":b;fs.writeFileSync(process.env.BODY_FILE,body)'
-          pr_url=$(GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT" gh pr create \
+          export GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT"
+          pr_url=$(gh pr create \
+            --repo "$GITHUB_REPOSITORY" \
             --base master --head "$branch" \
             --title "fix(redirects): GA4 404 remediation batch ${batch_date}" \
             --body-file "$body_file" \
-            --label ga4-404-remediation)
+            --label ga4-404-remediation) || {
+            echo "::error::gh pr create failed (gh=$(gh --version | head -1), body bytes=$(wc -c < "$body_file"), branch=$branch, label present=$(gh label list --repo "$GITHUB_REPOSITORY" --search ga4-404-remediation --json name --jq 'length'))"
+            exit 1
+          }
           echo "pr_url=$pr_url" >> "$GITHUB_OUTPUT"
           if [ -f tmp/ga4-404-remediation/triage.md ]; then
-            GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT" gh pr comment "$pr_url" --body-file tmp/ga4-404-remediation/triage.md
+            gh pr comment "$pr_url" --repo "$GITHUB_REPOSITORY" --body-file tmp/ga4-404-remediation/triage.md
           fi
 
   # Applies operator replies (ga4-404-reply-data blocks) on the remediation PR
@@ -189,7 +194,7 @@ jobs:
             echo "::notice::No ga4-404-reply-data block in this comment; nothing to apply."
             exit 0
           fi
-          pr_json=$(gh pr view "$PR_NUMBER" --json labels,headRefName)
+          pr_json=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json labels,headRefName)
           if ! echo "$pr_json" | grep -q '"ga4-404-remediation"'; then
             echo "::notice::This PR does not carry the ga4-404-remediation label; ignoring."
             exit 0
