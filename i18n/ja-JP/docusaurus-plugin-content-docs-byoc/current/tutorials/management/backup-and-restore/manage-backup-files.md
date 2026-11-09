@@ -45,6 +45,9 @@ Zilliz Cloud Web コンソールですべてのバックアップファイルと
     次の例では、プロジェクト ID もクラスター ID も指定していないため、現在の組織内のすべてのバックアップファイルを一覧表示します。特定のプロジェクトまたはクラスターのバックアップを表示するには、リクエストに対応するプロジェクト ID またはクラスター ID を含めてください。RESTful API の詳細については、[List Backups](/reference/restful/list-backups-v2) を参照してください。
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request GET \
          --url "${BASE_URL}/v2/backups" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -58,6 +61,11 @@ Zilliz Cloud Web コンソールですべてのバックアップファイルと
     次の例では、バックアップファイルの詳細を確認します。RESTful API の詳細については、[Describe Backup](/reference/restful/describe-backup-v2) を参照してください。
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    export CLUSTER_ID="your-cluster-id"
+    export BACKUP_ID="your-backup-id"
+    
     curl --request GET \
          --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -136,6 +144,11 @@ Zilliz Cloud では、バックアップの作成方法に応じて削除の扱�
 次の例では、バックアップファイルを削除します。RESTful API の詳細については、[Delete Backup](/reference/restful/delete-backup-v2) を参照してください。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="your-cluster-id"
+export BACKUP_ID="your-backup-id"
+
 curl --request DELETE \
      --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
      --header "Authorization: Bearer ${TOKEN}" \

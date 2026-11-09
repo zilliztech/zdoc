@@ -1340,6 +1340,7 @@ const queryVector = [
 ];
 
 const res = await session.search({
+    db_name: "my_database",
     collection_name: "my_collection",
     data: [queryVector],
     anns_field: "vector",
@@ -1363,7 +1364,7 @@ const res = await session.search({
 
 ```bash
 curl --request POST \
---url "${PROJECT_ENDPOINT}/v2/vectordb/entities/search?cluster_id=inxx-xxxxxxxxxxxxxxxxx" \
+--url "${PROJECT_ENDPOINT}/v2/vectordb/entities/search?cluster_id=inxx-xxxxxxxxxxxxx" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{

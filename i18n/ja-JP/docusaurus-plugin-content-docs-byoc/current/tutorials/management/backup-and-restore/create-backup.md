@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Create Backup
 
 Zilliz Cloud におけるバックアップとは、データ損失やシステム障害の発生時にクラスター全体または特定のコレクションを復元するためのデータのコピーです。
@@ -62,6 +64,22 @@ Zilliz Cloud におけるバックアップとは、データ損失やシステ�
 
 <Supademo id="cmcske0x90dpa9st802gnvbz9" title=""  />
 
+<Procedures>
+
+1. 対象のプロジェクトに移動します。
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. **+ Manual Backup** をクリックします。
+
+1. **Backup Scope** で **クラスター** を選択します。
+
+1. バックアップする対象のクラスターを選択します。
+
+1. **Create** をクリックします。
+
+</Procedures>
+
 ### Via RESTful API\{#via-restful-api}
 
 次の例では、クラスター `in01-xxxxxxxxxxxxxx` のバックアップを作成します。RESTful API の詳細については、[Create Backup](/reference/restful/create-backup-v2) を参照してください。
@@ -102,6 +120,22 @@ curl --request POST \
 以下のデモでは、Web コンソールでコレクションバックアップを作成する方法を紹介しています。
 
 <Supademo id="cmcskksub0dra9st8cy34b2vi" title=""  />
+
+<Procedures>
+
+1. 対象のプロジェクトに移動します。
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. **+ Manual Backup** をクリックします。
+
+1. **Backup Scope** で **コレクション** を選択します。
+
+1. バックアップする対象のコレクションを選択します。
+
+1. **Create** をクリックします。
+
+</Procedures>
 
 ### Via RESTful API\{#via-restful-api}
 
@@ -150,4 +184,3 @@ curl --request POST \
 ### 元のクラスターが削除された場合、バックアップファイルは削除されますか？\{#will-backup-files-be-deleted-if-the-original-cluster-is-dropped}
 
 これはバックアップファイルの作成方法によって異なります。[自動バックアップ](./schedule-automatic-backups) は元のクラスターとともに削除されますが、手動で作成したクラスターバックアップは永続的に保持され、クラスター削除時にも自動的には削除されません。不要になった場合は手動で削除する必要があります。
-

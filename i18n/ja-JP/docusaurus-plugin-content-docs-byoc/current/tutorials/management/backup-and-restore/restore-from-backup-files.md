@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # バックアップファイルから復元
 
 Zilliz Cloud の復元機能を使用すると、偶発的なデータ損失、破損、またはシステム障害が発生した場合にバックアップファイルからデータを復旧でき、ビジネス継続性を確保できます。これは、インシデントからの復旧、意図しない変更の取り消し、または最小限の影響でテスト用にクラスターを複製するための信頼性の高い方法です。
@@ -62,14 +64,29 @@ Zilliz Cloud の復元機能を使用すると、偶発的なデータ損失、�
 
 <Supademo id="cmcsruzjd0gyo9st8kcjye30i" title=""  />
 
+<Procedures>
+
+1. 対象のプロジェクトに移動します。
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. 復元するクラスターバックアップファイルを見つけ、**Actions** の下にある **...** をクリックします。
+
+1. **Restore** をクリックし、次に **Full クラスター** を選択します。
+
+1. 設定を構成し、**Restore** をクリックします。
+
+</Procedures>
+
 ### RESTful API 経由\{#via-restful-api}
 
-以下の例では、既存のバックアップファイルからクラスター全体を `Dedicated-01-backup` という名前の新しいクラスターに復元します。RESTful API の詳細については、[Restore Cluster Backup](/reference/restful/restore-cluster-backup-v2) を参照してください。
+次の例では、既存のバックアップファイルからクラスター全体を `Dedicated-01-backup` という名前の新しいクラスターに復元します。RESTful API の詳細については、[Restore クラスター Backup](/reference/restful/restore-cluster-backup-v2) を参照してください。
 
 ```bash
 export API_KEY="YOUR_API_KEY"
 export BASE_URL="https://api.cloud.zilliz.com"
 export CLUSTER_ID="your-cluster-id"
+export BACKUP_ID="your-backup-id"
 
 curl --request POST \
      --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCluster" \
@@ -138,9 +155,23 @@ curl --request POST \
 
 <Supademo id="cmcss7xi00h8c9st8qsqnutnn" title=""  />
 
+<Procedures>
+
+1. 対象のプロジェクトに移動します。
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. 復元するコレクションバックアップファイルを見つけ、**Actions** の下にある **...** をクリックします。
+
+1. **Restore** **コレクション** をクリックします。
+
+1. 復元するコレクションを設定し、**Restore** をクリックします。
+
+</Procedures>
+
 ### RESTful API 経由\{#via-restful-api}
 
-以下の例では、バックアップファイルからコレクションを既存のクラスター `inxx-xxxxxxxxxxxxxxx` に復元します。RESTful API の詳細については、[Restore Collection Backup](/reference/restful/restore-collection-backup-v2) を参照してください。
+次の例では、バックアップファイルからコレクションを既存のクラスター `inxx-xxxxxxxxxxxxxxx` に復元します。RESTful API の詳細については、[Restore コレクション Backup](/reference/restful/restore-collection-backup-v2) を参照してください。
 
 ```bash
 curl --request POST \
@@ -191,4 +222,3 @@ curl --request POST \
 - 30 日より前に作成された 2.5.x のバックアップファイルから復元する場合、Zilliz Cloud はデフォルトで新しいクラスターを 2.6.x に復元し、対象の Milvus バージョンは変更できません。
 
 - 2.6.x のバックアップファイルから復元する場合、Zilliz Cloud は新しいクラスターを 2.6.x に復元し、対象の Milvus バージョンは変更できません。
-

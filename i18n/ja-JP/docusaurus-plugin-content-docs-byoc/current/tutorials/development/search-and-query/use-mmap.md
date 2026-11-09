@@ -195,6 +195,7 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 import (
     "context"
     "fmt"
+
     "github.com/milvus-io/milvus/client/v3/common"
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
@@ -204,9 +205,12 @@ import (
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+CLUSTER_ENDPOINT := "YOUR_CLUSTER_ENDPOINT"
+TOKEN := "YOUR_CLUSTER_TOKEN"
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
+    Address: CLUSTER_ENDPOINT,
+    APIKey:  TOKEN,
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -573,7 +577,7 @@ schema.WithField(entity.NewField().
 )
 
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "title",
-    index.NewInvertedIndex())
+    index.NewAutoIndex(entity.MetricType("")))
 indexOption.WithExtraParam(common.MmapEnabledKey, "false")
 
 _, err = client.CreateIndex(ctx, indexOption)
@@ -680,7 +684,7 @@ await client.alterIndexProperties({
 await client.CreateIndexAsync(new CreateIndexReq
 {
     CollectionName = "my_collection",
-    Indexes = [new IndexParam("title", "title_index", IndexType.AutoIndex) { ExtraParams = { ["mmap.enabled"] = "false" } }]
+    Indexes = [new IndexParam("title", "title", IndexType.AutoIndex) { ExtraParams = { ["mmap.enabled"] = "false" } }]
 });
 
 // Change mmap settings for an index
@@ -688,7 +692,7 @@ await client.CreateIndexAsync(new CreateIndexReq
 await client.AlterIndexPropertiesAsync(new AlterIndexPropertiesReq
 {
     CollectionName = "my_collection",
-    IndexName = "title_index",
+    IndexName = "title",
     Properties = { ["mmap.enabled"] = "true" }
 });
 ```

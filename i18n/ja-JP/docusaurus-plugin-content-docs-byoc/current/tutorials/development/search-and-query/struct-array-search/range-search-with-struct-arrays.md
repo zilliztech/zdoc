@@ -232,7 +232,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -538,7 +538,7 @@ let response = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -879,7 +879,7 @@ let response = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 #include <vector>

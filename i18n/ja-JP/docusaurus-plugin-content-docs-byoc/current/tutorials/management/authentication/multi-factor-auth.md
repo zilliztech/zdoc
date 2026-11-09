@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # MFA
 
 認証は、Zilliz Cloud にサインインする際に本人確認を行います。このプロセスを強化するため、Zilliz Cloud は多要素認証（MFA）をサポートしています。
@@ -52,6 +54,26 @@ Zilliz Cloud は、アカウントセキュリティを強化するために MFA
 
 <Supademo id="cmi72ns5s4jwob7b4ul2t1zz5?utm_source=link" title=""  />
 
+<Procedures>
+
+1. 右上のプロフィールをクリックします。
+
+1. **Account Settings** をクリックします。
+
+1. **Multi-Factor Authentication (MFA)** の横にあるスイッチをオンにします。
+
+1. アカウントのパスワードを入力し、**Enable** をクリックします。
+
+1. メールの受信トレイで確認コードを確認します。Zilliz Cloud UI に入力し、**Confirm** をクリックします。
+
+1. 認証アプリを使用して QR コードをスキャンします。
+
+1. 認証アプリで確認コードを確認します。Zilliz Cloud UI に入力し、**>** をクリックして続行します。
+
+1. 設定が成功したことを示すメッセージが表示されます。
+
+</Procedures>
+
 ## MFA を無効にする\{#disable-mfa}
 
 <Admonition type="info" title="Notes">
@@ -63,6 +85,22 @@ Zilliz Cloud は、アカウントセキュリティを強化するために MFA
 以下のデモでは、自分のアカウントに対して MFA を無効にする方法を示します。
 
 <Supademo id="cmi7297fo4jq8b7b448ydxlhk?utm_source=link" title=""  />
+
+<Procedures>
+
+1. 右上のプロフィールをクリックします。
+
+1. **Account Settings** をクリックします。
+
+1. **Multi-Factor Authentication (MFA)** の横にあるスイッチをオフにします。
+
+1. **Disable** をクリックします。
+
+1. メールの受信トレイで確認コードを確認します。Zilliz Cloud UI に入力し、**Disable** をクリックします。
+
+1. 設定が成功したことを示すメッセージが表示されます。
+
+</Procedures>
 
 ## すべての組織ユーザーに MFA を強制する\{#enforce-mfa-for-all-organization-users}
 
@@ -86,6 +124,18 @@ Zilliz Cloud は、アカウントセキュリティを強化するために MFA
 
 <Supademo id="cmi71danb4is0b7b4eogo3s07?utm_source=link" title=""  />
 
+<Procedures>
+
+1. **Organization Settings** に移動します。
+
+1. **Enforce MFA** の横にあるスイッチをオンにします。
+
+1. **Confirm** をクリックします。
+
+1. 設定が成功したことを示すメッセージが表示されます。
+
+</Procedures>
+
 ## 組織に対する MFA 強制を無効にする\{#disable-mfa-enforcement-for-organization}
 
 <Admonition type="info" title="Notes">
@@ -103,6 +153,18 @@ Zilliz Cloud は、アカウントセキュリティを強化するために MFA
 以下のデモでは、組織に対する MFA 強制を無効にする方法を示します。
 
 <Supademo id="cmi71q0gk4j6hb7b4xiywity3?utm_source=link" title=""  />
+
+<Procedures>
+
+1. **Organization Settings** に移動します。
+
+1. **Enforce MFA** の横にあるスイッチをオフにします。
+
+1. **Confirm** をクリックします。
+
+1. 設定が成功したことを示すメッセージが表示されます。
+
+</Procedures>
 
 ## トラブルシューティング\{#troubleshooting}
 
