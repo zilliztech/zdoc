@@ -196,7 +196,10 @@ test('the interpreter translates free text into the same apply path with isolate
   assert.match(apply.run, /reply_file="\$RUNNER_TEMP\/comment-body\.md"/)
   assert.match(apply.run, /if \[ "\$REPLY_MODE" = "interpret" \]; then/)
   assert.match(apply.run, /reply_file="\$INTERPRETED_REPLY_FILE"/)
-  assert.match(apply.run, /test -s "\$INTERPRETED_REPLY_FILE"/)
+  // Explicit if-form: the A && B || C guard trips shellcheck SC2015 on the CI
+  // runner's shellcheck (actionlint surfaces even info findings there).
+  assert.match(apply.run, /if \[ -z "\$INTERPRETED_REPLY_FILE" \] \|\| \[ ! -s "\$INTERPRETED_REPLY_FILE" \]; then/)
+  assert.doesNotMatch(apply.run, /test -[ns] "\$INTERPRETED_REPLY_FILE" && /)
   assert.match(apply.run, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
   // Integrity guard: the full-access interpreter turn shares this workspace
   // with the PAT-carrying apply step, so tracked state must be untouched and

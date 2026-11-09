@@ -473,10 +473,12 @@ jobs:
           fi
           reply_file="$RUNNER_TEMP/comment-body.md"
           if [ "$REPLY_MODE" = "interpret" ]; then
-            test -n "$INTERPRETED_REPLY_FILE" && test -s "$INTERPRETED_REPLY_FILE" || {
+            # Explicit if: the A && B || C form trips shellcheck SC2015 on the
+            # CI runner's shellcheck (actionlint surfaces even info findings).
+            if [ -z "$INTERPRETED_REPLY_FILE" ] || [ ! -s "$INTERPRETED_REPLY_FILE" ]; then
               echo '::error::the interpreter did not produce a reply file; refusing to apply an empty decision.'
               exit 1
-            }
+            fi
             reply_file="$INTERPRETED_REPLY_FILE"
           fi
           apply_log="$(node scripts/redirects/ga4-404-remediation.js \
