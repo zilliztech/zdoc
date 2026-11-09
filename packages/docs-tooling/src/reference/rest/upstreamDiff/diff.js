@@ -1,6 +1,6 @@
 const {isDeepStrictEqual} = require('node:util')
 const {attachLifecycleSuggestion, assertLifecycleSource, parseTrack} = require('./lifecycle')
-const {apiProjection, resolveSchemaDeep, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments} = require('./mirror')
+const {apiProjection, resolveSchemaDeep, pruneSiblingCoveredOmissions, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments} = require('./mirror')
 
 // Branch-aware diff between a pinned upstream spec and the zdoc fragments.
 // Truth assignment (2026-10-30 merge model): STRUCTURE follows upstream
@@ -189,12 +189,23 @@ function makeEntry(parts) {
 // `fragmentDocument`/`fragmentNode` are null for additions, where no local
 // subtree exists yet. A recursive subtree on either side has no finite
 // inlined value: the caller flags the entry for human follow-up instead of
-// failing the whole diff.
-function resolveMirrorSubtree(upstreamDocument, node, fragmentDocument = null, fragmentNode = null) {
+// failing the whole diff. `siblingNodes` are the same-named properties of the
+// other scenario branches: whatever they document that this branch omits is a
+// deliberate narrowing and is pruned from both the comparison and the value.
+// A sibling too recursive to resolve covers nothing.
+function resolveMirrorSubtree(upstreamDocument, node, fragmentDocument = null, fragmentNode = null, siblingNodes = []) {
     try {
         const resolvedUpstream = resolveSchemaDeep(upstreamDocument, node)
         const resolvedLocal = fragmentDocument ? resolveSchemaDeep(fragmentDocument, fragmentNode) : null
-        const comparableUpstream = overlayOpaque(resolvedUpstream, resolvedLocal)
+        const siblingViews = resolvedLocal ? siblingNodes.flatMap(sibling => {
+            try {
+                return [resolveSchemaDeep(fragmentDocument, sibling)]
+            } catch (error) {
+                if (!error.message.startsWith('REST_UPSTREAM_MIRROR_REF_CYCLE:')) throw error
+                return []
+            }
+        }) : []
+        const comparableUpstream = pruneSiblingCoveredOmissions(overlayOpaque(resolvedUpstream, resolvedLocal), resolvedLocal, siblingViews)
         return {resolvedUpstream, resolvedLocal, comparableUpstream,
             after: stripOpaqueMarkers(comparableUpstream),
             // Grounding evidence (the extractor's captured Go field comments),
@@ -267,7 +278,8 @@ function diffSchemaPair(context) {
         // The comparison runs on the deep-resolved pair so nested $ref-vs-
         // inline asymmetries don't fabricate drift; only a pair that is
         // shallow-unequal AND too recursive to resolve stays a flagged entry.
-        const mirrorPair = resolveMirrorSubtree(upstreamDocument, upstreamProperty, fragmentDocument, fragmentProperty)
+        const siblingNodes = (context.siblingBranchProperties || []).map(properties => properties[name]).filter(isPlainObject)
+        const mirrorPair = resolveMirrorSubtree(upstreamDocument, upstreamProperty, fragmentDocument, fragmentProperty, siblingNodes)
         const comparableUpstream = mirrorPair.unresolvableSubtree ? upstreamProperty : mirrorPair.comparableUpstream
         const localView = mirrorPair.unresolvableSubtree ? fragmentProperty : mirrorPair.resolvedLocal
         const mirrorProjection = schema => apiProjection(context.structureOnly ? stripScalarConstraints(schema) : schema)
@@ -404,8 +416,9 @@ function diffBodied(context, fragmentContent, upstreamContent, scope) {
 
     const entries = []
     const coveredNames = new Set()
+    const branchPropertySets = fragmentBranches.branches.map(branch => propertiesOf(fragmentDocument, branch, shared))
     for (let index = 0; index < fragmentBranches.branches.length; index++) {
-        const branchProperties = propertiesOf(fragmentDocument, fragmentBranches.branches[index], shared)
+        const branchProperties = branchPropertySets[index]
         for (const name of Object.keys(branchProperties)) coveredNames.add(name)
         entries.push(...diffSchemaPair({
             ...context,
@@ -414,6 +427,7 @@ function diffBodied(context, fragmentContent, upstreamContent, scope) {
             branch: fragmentBranches.labels[index],
             scope,
             suppressUpstreamOnlyFields: true,
+            siblingBranchProperties: branchPropertySets.filter((_, sibling) => sibling !== index),
         }))
     }
 
