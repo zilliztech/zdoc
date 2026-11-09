@@ -653,6 +653,24 @@ describe('manifest and launcher contract', () => {
     await writeFile(join(root, 'entry5'), macho(['@rpath/libfoo.dylib'], [join(root, 'chain-start', 'chain'), safe]))
     const chainResult = await captureTrustedNativeFiles([{ name: 'runtime/test-chain', path: join(root, 'entry5') }])
     expect(chainResult.accessPaths.has(join(root, 'chain-mid', 'middle'))).toBe(true)
+    // A symlink in the MIDDLE of a multi-component rpath (not the final component)
+    // is followed so its writable target directory is bound.
+    await mkdir(join(root, 'writable-mid', 'sub'), { recursive: true })
+    await chmod(join(root, 'writable-mid'), 0o777)
+    await symlink(join(root, 'writable-mid'), join(root, 'alias'))
+    await writeFile(join(root, 'entry6'), macho(['@rpath/libfoo.dylib'], [join(root, 'alias', 'sub'), safe]))
+    const midResult = await captureTrustedNativeFiles([{ name: 'runtime/test-mid', path: join(root, 'entry6') }])
+    expect(midResult.accessPaths.has(join(root, 'writable-mid', 'sub'))).toBe(true)
+    // A relative child-link target containing '..' resolves against the resolved
+    // parent directory (not the lexical link location).
+    await mkdir(join(root, 'real', 'deep'), { recursive: true })
+    await mkdir(join(root, 'real', 'writable'))
+    await chmod(join(root, 'real', 'writable'), 0o777)
+    await symlink(join(root, 'real', 'deep'), join(root, 'dotdot-parent'))
+    await symlink('../writable', join(root, 'real', 'deep', 'child'))
+    await writeFile(join(root, 'entry7'), macho(['@rpath/libfoo.dylib'], [join(root, 'dotdot-parent', 'child'), safe]))
+    const dotdotResult = await captureTrustedNativeFiles([{ name: 'runtime/test-dotdot', path: join(root, 'entry7') }])
+    expect(dotdotResult.accessPaths.has(join(root, 'real', 'writable'))).toBe(true)
   })
   it('bypasses trusted dotenv and rejects ambient Node/package/loader settings and wrong cwd', async () => {
     const a = await fixture(); await put(a.root, '.env', 'SECRET=should-not-load')

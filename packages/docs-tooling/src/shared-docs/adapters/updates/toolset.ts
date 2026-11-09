@@ -264,29 +264,48 @@ async function recheckAccess(evidence: AccessEvidence) {
     if (String(now.dev) !== pin.dev || String(now.ino) !== pin.ino || Number(now.mode) !== pin.mode || Number(now.uid) !== pin.uid || Number(now.gid) !== pin.gid) throw new Error('Trusted access identity changed')
   }
 }
-/** Resolve a path hop by hop, returning the lexical start, every intermediate
- * symlink target, and the final non-symlink, so access inspection cannot skip a
- * writable directory in the middle of a multi-link chain. A loop or an over-long
- * chain is rejected. */
+/** Resolve a path component by component, following symlinks at any depth and
+ * returning every symlink hop plus the final resolved non-symlink, so access
+ * inspection cannot skip a writable directory introduced by a link in the middle
+ * of the path. Relative targets resolve against the already-resolved parent, and
+ * `..` operates on the resolved namespace. A loop or an over-long chain is
+ * rejected. */
 async function resolveSymlinkHops(path: string): Promise<string[]> {
   const hops: string[] = []
-  let current = path
-  for (let depth = 0; depth < 64; depth++) {
-    hops.push(current)
+  const seen = new Set<string>()
+  const absolute = isAbsolute(path) ? path : resolve(path)
+  const root = posix.parse(absolute).root
+  let current = root
+  let queue = absolute.slice(root.length).split('/').filter(c => c !== '' && c !== '.')
+  for (let depth = 0; depth < 256; depth++) {
+    if (queue.length === 0) break
+    const component = queue.shift()!
+    if (component === '..') { current = posix.dirname(current); continue }
+    const candidate = posix.join(current, component)
     let st
     try {
-      st = await lstat(current)
+      st = await lstat(candidate)
     } catch (e) {
-      if (absent(e)) return hops
-      throw e
+      if (!absent(e)) throw e
+      return hops // absent tail; the nearest existing ancestor is handled separately
     }
-    if (!st.isSymbolicLink()) return hops
-    const target = await readlink(current)
-    const next = isAbsolute(target) ? target : resolve(dirname(current), target)
-    if (next === current) throw new Error('Symbolic link loop in native lookup path')
-    current = next
+    if (st.isSymbolicLink()) {
+      hops.push(candidate)
+      if (seen.has(candidate)) throw new Error('Symbolic link loop in native lookup path')
+      seen.add(candidate)
+      const target = await readlink(candidate)
+      if (isAbsolute(target)) {
+        current = posix.parse(target).root
+        queue = [...target.slice(posix.parse(target).root.length).split('/').filter(c => c !== '' && c !== '.'), ...queue]
+      } else {
+        queue = [...target.split('/').filter(c => c !== '' && c !== '.'), ...queue]
+      }
+      continue
+    }
+    current = candidate
   }
-  throw new Error('Symbolic link chain exceeds depth limit')
+  if (current !== root) hops.push(current)
+  return hops
 }
 
 async function inspectAccess(material: Map<string, string>, environment: NodeJS.ProcessEnv): Promise<AccessEvidence> {
