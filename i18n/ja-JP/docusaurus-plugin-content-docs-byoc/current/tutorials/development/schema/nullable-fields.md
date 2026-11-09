@@ -219,7 +219,7 @@ client.create_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <memory>
@@ -410,7 +410,7 @@ let schema = schema.add_field(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithNullable(true));
 ```
 
@@ -570,7 +570,7 @@ client.insert(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <vector>
 
@@ -783,7 +783,7 @@ client.load_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->CreateIndex(milvus::CreateIndexRequest()
                                 .WithCollectionName("my_collection")
                                 .AddIndex(milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE))
@@ -984,7 +984,7 @@ for result in search_results.results().iter() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <vector>
 
@@ -1116,7 +1116,7 @@ let expr = "age > 18";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string expr = "age > 18";
 ```
 
@@ -1195,7 +1195,7 @@ let expr = "status == \"active\"";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string expr = "status == \"active\"";
 ```
 

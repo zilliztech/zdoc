@@ -243,7 +243,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <stdexcept>
@@ -610,7 +610,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <stdexcept>
@@ -788,3 +788,4 @@ zilliz vector search \
 </TabItem>
 
 </Tabs>
+

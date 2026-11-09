@@ -168,7 +168,7 @@ client.create_index(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <stdexcept>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
@@ -392,7 +392,7 @@ client.create_index(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <stdexcept>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
@@ -591,7 +591,7 @@ println!("{:?}", resp.index_names());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <stdexcept>
 #include <utility>
 #include <iostream>
@@ -730,7 +730,7 @@ for description in resp.indexes() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <stdexcept>
 #include <utility>
 #include <iostream>

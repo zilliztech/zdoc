@@ -280,7 +280,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -537,7 +537,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 milvus::EntityRows data = {{{"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}, {"category", "book"}},
@@ -833,7 +833,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -1091,7 +1091,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 milvus::EntityRows data = {{{"product_id", "PROD-001"}, {"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}, {"category", "book"}},

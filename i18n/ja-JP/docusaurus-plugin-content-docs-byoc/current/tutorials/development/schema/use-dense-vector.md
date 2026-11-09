@@ -207,7 +207,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 #include "milvus/MilvusClientV2.h"
@@ -409,7 +409,7 @@ let index_params = vec![IndexParam::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <vector>
 
 std::vector<milvus::IndexDesc> indexes = {
@@ -557,7 +557,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // CreateCollection creates the configured indexes and loads the collection automatically.
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                             .WithCollectionName("my_collection")
@@ -723,7 +723,7 @@ println!("{} rows inserted", insert.insert_count());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {{{"dense_vector", std::vector<float>{0.1, 0.2, 0.3, 0.7}}},
                            {{"dense_vector", std::vector<float>{0.2, 0.3, 0.4, 0.8}}}};
 
@@ -937,7 +937,7 @@ println!("{:?}", search.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.7};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")

@@ -235,7 +235,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <memory>
@@ -389,7 +389,7 @@ export schema="{
 
 インデックスを作成すると、検索とクエリのパフォーマンスが向上します。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
 
-次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` にインデックスを作成し、どちらも `AUTOINDEX` インデックスタイプを使用します。このタイプでは、Zilliz Cloud がデータ型に基づいて最適なインデックスを自動的に選択します。各フィールドのインデックスタイプとパラメーターをカスタマイズすることもできます。詳細は、[Index Explained](./indexes) を参照してください。
+The following example creates インデックス on the ベクトル field `embedding` and the ARRAY field `tags`, both using the `AUTOINDEX` インデックス type. With this type, Zilliz Cloud automatically selects the most suitable インデックス based on the data type. You can also customize the index type and params for each field. For details, refer to [Index Explained](./indexes).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -473,7 +473,7 @@ let embedding_index = IndexParam::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <vector>
 
@@ -638,7 +638,7 @@ client.load_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
                                     .WithIndexes(std::move(indexes))
@@ -846,7 +846,7 @@ client.insert(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <string>
 #include <vector>
@@ -1045,7 +1045,7 @@ for row in query_results.results().get_output_rows()? {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::QueryResponse query_response;
 status = client->Query(milvus::QueryRequest()
                         .WithCollectionName("my_collection")
@@ -1203,7 +1203,7 @@ for row in query_results.results().get_output_rows()? {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->Query(milvus::QueryRequest()
                         .WithCollectionName("my_collection")
                         .WithFilter("ratings[0] > 4")
@@ -1395,7 +1395,7 @@ for result in search_results.results().iter() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<float> query_vector = {0.3, -0.6, 0.1};
 milvus::SearchResponse search_response;
 status = client->Search(milvus::SearchRequest()
