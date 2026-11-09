@@ -1,6 +1,6 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, mirrorValueMatches, assertMirrorValueBound, proseNodes, isTranslationComplete, assertSchemaShape, undescribedNodes, harvestUpstreamComments} = require('./mirror')
+const {apiProjection, resolveSchemaDeep, pruneSiblingCoveredOmissions, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, mirrorValueMatches, assertMirrorValueBound, proseNodes, isTranslationComplete, assertSchemaShape, undescribedNodes, harvestUpstreamComments} = require('./mirror')
 
 test('opaque blind spots are local-authority boundaries: overlay substitutes the fragment, retirement walkers stop', () => {
     // The Go extractor marks generic maps / interface{} / json.RawMessage as
@@ -44,6 +44,62 @@ test('apiProjection strips doc-owned keys at every depth and keeps API truth', (
         type: 'object', required: ['a'], maxLength: 5,
         properties: {a: {type: 'string', minLength: 2}},
     })
+})
+
+test('resolveSchemaDeep treats a one-member oneOf/anyOf as the wrapper it is', () => {
+    const document = {components: {schemas: {
+        Dto: {type: 'object', properties: {id: {type: 'string'}}, required: ['id']},
+        Base: {type: 'object', properties: {base: {type: 'string'}}, required: ['base']},
+    }}}
+    // The OAS 3.0 idiom documents a referenced schema beside its own
+    // description through a single-member combinator. Left unmerged, the
+    // wrapped parameter never equals the upstream's plain object and every
+    // run proposes a phantom schema mirror.
+    assert.deepEqual(resolveSchemaDeep(document, {oneOf: [{$ref: '#/components/schemas/Dto'}]}),
+        {type: 'object', properties: {id: {type: 'string'}}, required: ['id']})
+    assert.deepEqual(resolveSchemaDeep(document, {anyOf: [{$ref: '#/components/schemas/Dto'}]}),
+        {type: 'object', properties: {id: {type: 'string'}}, required: ['id']})
+    const documented = resolveSchemaDeep(document, {oneOf: [{$ref: '#/components/schemas/Base'}], type: 'object', properties: {own: {type: 'integer'}}})
+    assert.deepEqual(documented.properties, {base: {type: 'string'}, own: {type: 'integer'}})
+    assert.deepEqual(documented.required, ['base'])
+    // scenario branches always carry two or more members and stay arrays
+    const branching = resolveSchemaDeep(document, {oneOf: [{$ref: '#/components/schemas/Dto'}, {$ref: '#/components/schemas/Base'}]})
+    assert.equal(branching.oneOf.length, 2)
+})
+
+test('pruneSiblingCoveredOmissions drops only what a sibling branch documents and this branch omits', () => {
+    const upstream = {type: 'object', required: ['autoID', 'externalSource'], properties: {
+        autoID: {type: 'boolean'},
+        fields: {type: 'array', items: {type: 'object', required: ['fieldName', 'externalField'], properties: {
+            fieldName: {type: 'string'},
+            externalField: {type: 'string'},
+            nullable: {type: 'boolean'},
+        }}},
+        externalSource: {type: 'string'},
+    }}
+    const local = {type: 'object', required: ['autoID'], properties: {
+        autoID: {type: 'boolean'},
+        fields: {type: 'array', items: {type: 'object', required: ['fieldName'], properties: {
+            fieldName: {type: 'string'},
+        }}},
+    }}
+    // The external-setup sibling documents externalSource and fields[].externalField
+    // (create-collection custom vs external setup): the custom branch's mirror
+    // must not re-add them, and their required entries go with the property.
+    const sibling = {type: 'object', properties: {
+        autoID: {type: 'boolean'},
+        fields: {type: 'array', items: {type: 'object', properties: {fieldName: {type: 'string'}, externalField: {type: 'string'}}}},
+        externalSource: {type: 'string'},
+    }}
+    const pruned = pruneSiblingCoveredOmissions(upstream, local, [sibling])
+    assert.deepEqual(Object.keys(pruned.properties).sort(), ['autoID', 'fields'])
+    assert.deepEqual(Object.keys(pruned.properties.fields.items.properties).sort(), ['fieldName', 'nullable'])
+    assert.deepEqual(pruned.required, ['autoID'])
+    // nullable is documented by no branch: a genuine upstream addition stays
+    assert.ok(pruned.properties.fields.items.properties.nullable)
+    // nothing to prune without siblings, and non-object nodes pass through
+    assert.deepEqual(pruneSiblingCoveredOmissions(upstream, local, []), upstream)
+    assert.deepEqual(pruneSiblingCoveredOmissions('scalar', null, [sibling]), 'scalar')
 })
 
 test('resolveSchemaDeep inlines refs and allOf merges; cycles fail closed', () => {
