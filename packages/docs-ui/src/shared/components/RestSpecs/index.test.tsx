@@ -114,6 +114,23 @@ describe('RestSpecs schema combinators', () => {
     expect(html).not.toContain('tabPanel');
   });
 
+  it('nests a named single-option combinator under its parameter like a plain object', () => {
+    const html = renderRequestBody({
+      type: 'object',
+      properties: {
+        dbName: {type: 'string', description: 'Database.'},
+        schema: {
+          oneOf: [{type: 'object', properties: {autoID: {type: 'boolean', description: 'Auto ID.'}}}],
+          description: 'The collection schema.',
+        },
+      },
+    });
+
+    // Its fields sit inside the same 2rem indent a plain object property gets,
+    // so they read as children of the parameter rather than as its siblings.
+    expect(html).toMatch(/<span class="paramName">schema<\/span><span class="label">object<\/span>[\s\S]*?<div style="margin: 0px 0px 0px 2rem;"><div class="singleOptionPanel">[\s\S]*?<span class="paramName">autoID<\/span>/);
+  });
+
   it('still renders multi-option combinators as a radio tab group', () => {
     const html = renderRequestBody({
       oneOf: [

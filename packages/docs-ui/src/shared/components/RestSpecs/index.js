@@ -499,7 +499,9 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, 
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
         { validItems.length === 1
-            ? <SingleOption content={validItems[0].item} lang={lang} target={target} showDescription={!(name && name !== 'responses' && name !== 'requestBody')} />
+            ? <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
+                <SingleOption content={validItems[0].item} lang={lang} target={target} showDescription={!(name && name !== 'responses' && name !== 'requestBody')} />
+            </div>
             : <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
                 <div className={styles.tabs} style={{ marginTop: '1rem' }}>
                     {validItems.map(({ item, originalIndex }) => {
@@ -568,7 +570,9 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange, 
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
         { validItems.length === 1
-            ? <SingleOption content={validItems[0].item} lang={lang} target={target} showDescription={!(name && name !== 'responses' && name !== 'requestBody')} />
+            ? <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
+                <SingleOption content={validItems[0].item} lang={lang} target={target} showDescription={!(name && name !== 'responses' && name !== 'requestBody')} />
+            </div>
             : <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
                 <div className={styles.tabs} style={{ marginTop: '1rem' }}>
                     {validItems.map(({ item, originalIndex }) => {
