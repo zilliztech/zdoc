@@ -124,7 +124,7 @@ println!("{:?}", collections.collection_names());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -284,7 +284,7 @@ println!("{:?}", description.description());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 milvus::DescribeCollectionResponse response;

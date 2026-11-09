@@ -70,6 +70,8 @@ Once the object path and bucket credentials are obtained, call the API as follow
 
 ```bash
 # replace url and token with your own
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -90,6 +92,8 @@ To import data into a specific partition, you need to include `partitionName` in
 After Zilliz Cloud processes the above request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" \
      --header "Authorization: Bearer ${API_KEY}" \

@@ -234,7 +234,7 @@ As an alternative to working on Zilliz Cloud console, you can also programmatica
     -d '{
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
         "regionId": "az-eastus",
-        "bucketName": "my-container"
+        "bucketName": "my-bucket"
     }'
     ```
 
@@ -273,7 +273,7 @@ As an alternative to working on Zilliz Cloud console, you can also programmatica
     --header "Content-Type: application/json" \
     -d '{
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "gcp-us-central1",
+        "regionId": "az-eastus",
         "bucketName": "my-bucket",
         "externalCred": {
             "accountName": "mystorageaccount",
@@ -412,8 +412,9 @@ The response is similar to the following:
         "regionId": "az-eastus",
         "bucketName": "my-bucket",
         "externalCred": {
-            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
-            "externalId": "zilliz-external-AbCdEf12345678"
+            "accountName": "mystorageaccount",
+            "clientId": "00000000-0000-0000-0000-000000000000",
+            "tenantId": "11111111-1111-1111-1111-111111111111"
         },
         "createTime": "2024-07-30T16:49:50Z"
     }

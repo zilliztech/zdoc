@@ -51,33 +51,45 @@ The following demo shows how to create a **Dedicated** cluster.
 
 <Supademo id="cmhixsdvu030hxj0imafwl2av" title=""  />
 
-You need to configure the following information of the Dedicated cluster.
+<Procedures>
 
-| **Parameter** | **Description** |
-| --- | --- |
-| **Cluster Name** | Assign a unique identifier for your cluster. |
-| **Cluster Description (optional)** | Enter the description of your cluster, up to 255 characters. |
-| <NextChannel action="include">**Milvus Version**</NextChannel> | <NextChannel action="include">Select a Milvus version for your Dedicated cluster. The stable (**GA**) version is selected by default and is recommended for production workloads. To try new features, select a version labeled **Public Preview**, which is suitable for evaluation and non-critical production workloads. Features may change before general availability.</NextChannel> |
-| **Cluster Type** | Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right Cluster Type](./cu-types-explained). |
-| **Query CU** | Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.<br/>If you are creating a cluster in an Enterprise project, auto-scaling is enabled by default. You can configure the minimum and maximum number of Query CUs for auto-scaling by entering values in the input boxes or dragging the slider. For details about auto-scaling, see [Auto-scaling](./auto-scaling). |
-| **Backup Policy (optional)** | Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedule Automatic Backups](./schedule-automatic-backups). |
-| **Replica** | The number of replicas of the cluster. |
+1. Enter your target project and then click on **Real-Time Serving**.
 
-<NextChannel action="include">
+1. Click on **Create Cluster**.
 
-<Admonition type="info" title="Notes">
+1. Choose the cluster deployment option and then configure the cluster.
 
-- The stable (GA) Milvus version is selected by default. To try new features, select a public preview version. After creation, the cluster cannot be downgraded to an earlier Milvus version.
+    You need to configure the following information of the Dedicated cluster.
 
-- Use an SDK version compatible with your cluster’s Milvus version. For details, see [Install SDKs](./install-sdks).
+    | **Parameter** | **Description** |
+    | --- | --- |
+    | **Cluster Name** | Assign a unique identifier for your cluster. |
+    | **Cluster Description (optional)** | Enter the description of your cluster, up to 255 characters. |
+    | <NextChannel action="include">**Milvus Version**</NextChannel> | <NextChannel action="include">Select a Milvus version for your Dedicated cluster. The stable (**GA**) version is selected by default and is recommended for production workloads. To try new features, select a version labeled **Public Preview**, which is suitable for evaluation and non-critical production workloads. Features may change before general availability.</NextChannel> |
+    | **Cluster Type** | Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right Cluster Type](./cu-types-explained). |
+    | **Query CU** | Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.<br/>If you are creating a cluster in an Enterprise project, auto-scaling is enabled by default. You can configure the minimum and maximum number of Query CUs for auto-scaling by entering values in the input boxes or dragging the slider. For details about auto-scaling, see [Auto-scaling](./auto-scaling). |
+    | **Backup Policy (optional)** | Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedule Automatic Backups](./schedule-automatic-backups). |
+    | **Replica** | The number of replicas of the cluster. |
 
-- Milvus 3.0 clusters cannot be converted to [global clusters](./global-cluster-explained). If you plan to convert the cluster to a global cluster, select Milvus 2.6.
+    <NextChannel action="include">
 
-- Public preview versions are suitable for evaluation and non-critical production workloads. Features may change before general availability.
+    <Admonition type="info" title="Notes">
 
-</Admonition>
+    - The stable (GA) Milvus version is selected by default. To try new features, select a public preview version. After creation, the cluster cannot be downgraded to an earlier Milvus version.
+    
+    - Use an SDK version compatible with your cluster’s Milvus version. For details, see [Install SDKs](./install-sdks).
+    
+    - Milvus 3.0 clusters cannot be converted to [global clusters](./global-cluster-explained). If you plan to convert the cluster to a global cluster, select Milvus 2.6.
+    
+    - Public preview versions are suitable for evaluation and non-critical production workloads. Features may change before general availability.
 
-</NextChannel>
+    </Admonition>
+
+    </NextChannel>
+
+1. Click on **Create Cluster**.
+
+</Procedures>
 
 While the cluster is being created, you need to save the cluster credentials (user and password) which will be shown only once. 
 
@@ -92,6 +104,9 @@ When the cluster status turns into "Running", the cluster is created successfull
 Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/createDedicated" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -152,6 +167,9 @@ The following is an example output.
     Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/clusters/createDedicated" \
     --header "Authorization: Bearer ${TOKEN}" \

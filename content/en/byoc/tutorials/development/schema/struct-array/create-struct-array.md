@@ -467,7 +467,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <stdexcept>
 #include <utility>
 #include <iostream>
@@ -1027,7 +1027,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <stdexcept>
 #include <utility>
 #include <iostream>
@@ -1377,7 +1377,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <stdexcept>
 #include <utility>
 #include <iostream>
@@ -1674,7 +1674,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <stdexcept>
 #include <utility>
 #include <iostream>

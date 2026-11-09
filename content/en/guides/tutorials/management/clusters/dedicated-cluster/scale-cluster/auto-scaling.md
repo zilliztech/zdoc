@@ -161,6 +161,7 @@ After auto-scaling is enabled, Zilliz Cloud continuously evaluates the relevant 
 With the RESTful API, you can configure auto-scaling for both Query CU and replica in a single [Modify Cluster](/reference/restful/modify-cluster-v2) request.
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 

@@ -211,6 +211,7 @@ import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 // Define the collection schema
@@ -706,9 +707,9 @@ client.insert('demo', [
 ```java
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
-        gson.fromJson("{\"id\": 0, \"document\": \"Milvus simplifies semantic search through embeddings.\"}", JsonObject.class),
-        gson.fromJson("{\"id\": 1, \"document\": \"Vector embeddings convert text into searchable numeric data.\"}", JsonObject.class),
-        gson.fromJson("{\"id\": 2, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class)
+        gson.fromJson("{\"id\": 1, \"document\": \"Milvus simplifies semantic search through embeddings.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 2, \"document\": \"Vector embeddings convert text into searchable numeric data.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 3, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class)
 );
 
 client.insert(InsertReq.builder()
@@ -797,9 +798,9 @@ await client.insert({
 // Insert sample documents
 var rows = new List<IDictionary<string, object?>>
 {
-    new Dictionary<string, object?> { ["id"] = 0L, ["document"] = "Milvus simplifies semantic search through embeddings." },
-    new Dictionary<string, object?> { ["id"] = 1L, ["document"] = "Vector embeddings convert text into searchable numeric data." },
-    new Dictionary<string, object?> { ["id"] = 2L, ["document"] = "Semantic search helps users find relevant information quickly." },
+    new Dictionary<string, object?> { ["id"] = 1L, ["document"] = "Milvus simplifies semantic search through embeddings." },
+    new Dictionary<string, object?> { ["id"] = 2L, ["document"] = "Vector embeddings convert text into searchable numeric data." },
+    new Dictionary<string, object?> { ["id"] = 3L, ["document"] = "Semantic search helps users find relevant information quickly." },
 };
 
 await client.InsertAsync(new InsertReq

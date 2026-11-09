@@ -202,7 +202,7 @@ println!("{:?}", res.state());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 #include "milvus/MilvusClientV2.h"
@@ -467,7 +467,7 @@ println!("{:?}", res.state());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->LoadCollection(milvus::LoadCollectionRequest()
                                         .WithCollectionName("my_collection")
                                         .AddLoadField("my_id")
@@ -661,7 +661,7 @@ println!("{:?}", res.state());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->ReleaseCollection(milvus::ReleaseCollectionRequest()
                                             .WithCollectionName("my_collection"));
 if (!status.IsOk()) {

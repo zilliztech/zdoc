@@ -132,7 +132,7 @@ for row in res.results().rows()? {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -368,7 +368,7 @@ let filter = r#"filename =~ r"\.json$""#;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = R"(filename =~ r"\.json$")";
 ```
 
@@ -464,7 +464,7 @@ let filter = r#"message =~ "error|failed|timeout""#;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = R"(message =~ "error|failed|timeout")";
 ```
 
@@ -541,7 +541,7 @@ let filter = r#"email =~ "@gmail\.com$""#;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = R"(email =~ "@gmail\\.com$")";
 ```
 
@@ -624,7 +624,7 @@ let filter = r#"message =~ "E[0-9]{4}""#;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = R"(message =~ "E[0-9]{4}")";
 ```
 
@@ -705,7 +705,7 @@ let filter = r#"code =~ "^E[0-9]{4}$""#;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = R"(code =~ "^E[0-9]{4}$")";
 ```
 
@@ -787,7 +787,7 @@ let filter = r#"message !~ "^DEBUG" OR message IS NULL"#;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = R"(message !~ "^DEBUG" OR message IS NULL)";
 ```
 

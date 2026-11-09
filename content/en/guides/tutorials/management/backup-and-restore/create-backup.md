@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Create Backup
 
 In Zilliz Cloud, a backup is a copy of the data that allows you to restore the entire cluster or specific collections in the event of data loss or system failure.
@@ -70,6 +72,22 @@ The following demo shows how to create a cluster backup on the Zilliz Cloud web 
 
 <Supademo id="cmcske0x90dpa9st802gnvbz9" title=""  />
 
+<Procedures>
+
+1. Navigate to your target project.
+
+1. Click on **Backups** in the left navigation.
+
+1. Click on **+ Manual Backup**.
+
+1. Select **Cluster** as the **Backup Scope**.
+
+1. Select the target cluster you want to back up.
+
+1. Click on **Create**.
+
+</Procedures>
+
 ### Via RESTful API\{#via-restful-api}
 
 The following example creates a backup for the cluster `in01-xxxxxxxxxxxxxx`. For details about the RESTful API, see [Create Backup](/reference/restful/create-backup-v2).
@@ -110,6 +128,22 @@ To back up a specific collection or a subset of collections in a cluster, create
 The following demo shows how to create a collection backup on the web console.
 
 <Supademo id="cmcskksub0dra9st8cy34b2vi" title=""  />
+
+<Procedures>
+
+1. Navigate to your target project.
+
+1. Click on **Backups** in the left navigation.
+
+1. Click on **+ Manual Backup**.
+
+1. Select **Collection** as the **Backup Scope**.
+
+1. Select the target collection you want to back up.
+
+1. Click on **Create**.
+
+</Procedures>
 
 ### Via RESTful API\{#via-restful-api}
 

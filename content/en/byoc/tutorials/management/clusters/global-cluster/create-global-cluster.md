@@ -105,6 +105,8 @@ If you need to enable the global cluster feature for an existing cluster, see [M
     The following example creates a global cluster with 1 primary cluster deployed in AWS us-west-2 and 1 secondary cluster deployed in AWS eu-west-1. For details about the API, see [Create Global Cluster](/reference/restful/create-global-cluster-v2).
 
     ```bash
+    export API_KEY="YOUR_API_KEY"
+    
     curl --request POST \
       --url "https://api.cloud.zilliz.com/v2/globalClusters/create" \
       --header "Authorization: Bearer ${API_KEY}" \

@@ -220,7 +220,7 @@ let res = client.get(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -411,7 +411,7 @@ let res = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -600,7 +600,7 @@ let res = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -765,7 +765,7 @@ let res = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -980,7 +980,7 @@ let page2 = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1225,7 +1225,7 @@ let res = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1375,7 +1375,7 @@ let res = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1528,7 +1528,7 @@ let res = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1683,7 +1683,7 @@ let res = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1876,7 +1876,7 @@ while let Some(result) = iterator.next().await? {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // C++ QueryIterator is not supported in the current SDK.
 ```
 
@@ -2094,7 +2094,7 @@ while let Some(result) = iterator.next().await? {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -2388,7 +2388,7 @@ let res = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -2613,7 +2613,7 @@ let res = client.query(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 

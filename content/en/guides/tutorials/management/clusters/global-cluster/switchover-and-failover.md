@@ -158,6 +158,10 @@ For planned regional rotation, you can perform a switchover to promote a seconda
     The following example performs a switchover so that the cluster `in01-secondary` becomes the new primary cluster. For details about the API, see [Switchover Global Cluster](/reference/restful/switchover-global-cluster-v2).
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    export globalClusterId="glo-xxxxxxxxxxxxxxxx"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/globalClusters/${globalClusterId}/switchover" \
     --header "Authorization: Bearer ${TOKEN}" \
@@ -237,8 +241,8 @@ Failover is an emergency operation. Unlike a switchover, it does not wait for fu
 
     ```bash
     curl --request POST \
-      --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/failover" \
-      --header "Authorization: Bearer ${API_KEY}" \
+      --url "${BASE_URL}/v2/globalClusters/${globalClusterId}/failover" \
+      --header "Authorization: Bearer ${TOKEN}" \
       --header "Accept: application/json" \
       --header "Content-Type: application/json" \
       --data-raw '{

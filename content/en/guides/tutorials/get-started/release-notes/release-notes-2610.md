@@ -34,7 +34,7 @@ import Grid from '@site/src/components/Grid';
 
         ## Milvus v3.0.x Public Preview\{#milvus-v30x-public-preview}
 
-        Milvus v3.0.x is now available in Public Preview for Dedicated clusters on Zilliz Cloud. This release brings more flexible schema changes, stronger text processing, and server-side sorting and aggregation for queries and searches. To try it, deploy or use a Dedicated cluster running Milvus v2.6.x and select **Try Preview Features** on the Cluster Overview page.
+        Milvus v3.0.x is now available in Public Preview for Dedicated clusters on Zilliz Cloud. This release brings more flexible schema changes, stronger text processing, and server-side sorting and aggregation for queries and searches. To try it, deploy or use a Dedicated cluster running Milvus v2.6.x and select **Try Preview Features** on the Cluster Overview page. For details, refer to [Upgrade cluster for preview features](./manage-cluster#upgrade-cluster-for-preview-features).
 
         **Search and retrieval**
 

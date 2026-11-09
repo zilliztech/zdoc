@@ -54,6 +54,8 @@ To import data from a volume into a cluster, first create a [managed or external
 <TabItem value="serving" label="Serving Cluster">
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
 --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
 --header "Authorization: Bearer ${API_KEY}" \
@@ -77,6 +79,8 @@ curl --request POST \
 <TabItem value="on-demand" label="On-Demand Compute">
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
 --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
 --header "Authorization: Bearer ${API_KEY}" \
@@ -105,6 +109,8 @@ To import data into a specific partition, include `partitionName` in the request
 After Zilliz Cloud processes the above request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -146,6 +152,8 @@ Once the object path and bucket credentials are obtained, call the API as follow
 
 ```bash
 # replace url and token with your own
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -167,6 +175,8 @@ curl --request POST \
 
 ```bash
 # replace url and token with your own
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -196,6 +206,8 @@ After Zilliz Cloud processes the above request, you will receive a job ID. Use t
 <TabItem value="serving" label="Serving Cluster">
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -212,6 +224,8 @@ curl --request POST \
 <TabItem value="on-demand" label="On-Demand Compute">
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" \
      --header "Authorization: Bearer ${API_KEY}" \

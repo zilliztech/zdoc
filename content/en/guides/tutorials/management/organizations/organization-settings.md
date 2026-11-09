@@ -44,6 +44,16 @@ If you need multiple organizations, please [submit a support ticket](http://supp
 
 ![SJ2xw2rO4h2LJTblDpmcgHh0nHg](https://zdoc-images.s3.us-west-2.amazonaws.com/SJ2xw2rO4h2LJTblDpmcgHh0nHg.png)
 
+<Procedures>
+
+1. Navigate to the organization list.
+
+1. Click **+ Organization**.
+
+1. Enter the organization name and click **Create**.
+
+</Procedures>
+
 ## Rename an organization\{#rename-an-organization}
 
 To rename an organization, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles).
@@ -52,11 +62,31 @@ You can rename an organization in either of the following ways:
 
 - Rename an organization on the organization list page:
 
-    ![rename-organization](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-organization.png "rename-organization")
+    <Procedures>
+
+    1. Navigate to the organization list page.
+
+    1. Click on the **...** button of your target organization.
+
+    1. Click **Rename**.
+
+        ![rename-organization](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-organization.png "rename-organization")
+
+    </Procedures>
 
 - Enter an organization and rename it on the **System Settings** page:
 
     ![edit-organization-name](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-organization-name.png "edit-organization-name")
+
+    <Procedures>
+
+    1. Navigate to the **Organization Settings** page.
+
+    1. In the **Organization Information** area, click **Edit**.
+
+    1. Rename the organization and click **Confirm**.
+
+    </Procedures>
 
 ## Manage timezone\{#manage-timezone}
 
@@ -65,6 +95,16 @@ The system time zone is set to where your first login occurs and applies to all 
 To view the current time zone, you can either be an Organization Owner or an Organization Member. For details on roles in an organization, refer to [Manage Platform Roles](./manage-platform-roles).
 
 ![timezone-settings](https://zdoc-images.s3.us-west-2.amazonaws.com/timezone-settings.png "timezone-settings")
+
+<Procedures>
+
+1. Navigate to the **Organizations Settings** page.
+
+1. In the **Time Zone** area, click **Edit**.
+
+1. Select your preferred system time zone and click **Save**.
+
+</Procedures>
 
 To modify the system time zone, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
 
@@ -79,6 +119,16 @@ By default, the window is set to **2:00 AM–6:00 AM**. You can update it based 
 The following demo shows how to edit the preferred maintenance window.
 
 <Supademo id="cmn4bhv4l0ps5z3qmdcrmuij7" title=""  />
+
+<Procedures>
+
+1. Navigate to the **Organizations Settings** page.
+
+1. In the **Preferred Maintenance Window** area, click **Edit**.
+
+1. Select your preferred maintenance window and click **Save**.
+
+</Procedures>
 
 <Admonition type="info" title="Note">
 
@@ -139,4 +189,12 @@ The action of deleting an organization cannot be undone. Please take extra cauti
 </Admonition>
 
 ![delete-organization-en](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-organization-en.png "delete-organization-en")
+
+<Procedures>
+
+1. Navigate to the **Organization Settings** page.
+
+1. Click **Delete Organization**.
+
+</Procedures>
 

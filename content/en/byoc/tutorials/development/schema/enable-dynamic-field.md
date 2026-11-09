@@ -251,7 +251,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -507,7 +507,7 @@ let insert = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {
     {
         {"my_id", 1},
@@ -846,7 +846,7 @@ let mut index_params = vec![
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::IndexDesc overview_index("overview", "overview_index", milvus::IndexType::AUTOINDEX);
 overview_index.AddExtraParam("json_cast_type", "varchar");
 overview_index.AddExtraParam("json_path", "overview");
@@ -1082,7 +1082,7 @@ index_params.push(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::IndexDesc string_price_index("dynamic_json", "json_string_price_index", milvus::IndexType::AUTOINDEX);
 string_price_index.AddExtraParam("json_cast_type", "double");
 string_price_index.AddExtraParam("json_path", "dynamic_json['string_price']");
@@ -1258,7 +1258,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::IndexDesc my_vector_index("my_vector", "my_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
 
 auto status = client->CreateIndex(milvus::CreateIndexRequest()
@@ -1392,7 +1392,7 @@ let filter2 = r#"dynamic_json["nested"]["value"] < 50"#;  // JSON object key
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = R"(overview == "Great product")";   // Non-JSON key
 std::string filter1 = R"(words >= 100)";                  // Non-JSON key
 std::string filter2 = R"(dynamic_json["nested"]["value"] < 50)";  // JSON object key
@@ -1559,7 +1559,7 @@ let search = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")

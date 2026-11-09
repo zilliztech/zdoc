@@ -228,7 +228,7 @@ for result in res.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <stdexcept>
@@ -537,7 +537,7 @@ for result in res.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <stdexcept>
@@ -837,7 +837,7 @@ for result in res.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <stdexcept>

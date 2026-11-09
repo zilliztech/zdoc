@@ -51,6 +51,9 @@ To view all backups files and their details on the Zilliz Cloud web console, cli
     The following example lists all backup files in the current organization, as neither project ID nor cluster ID is specified. To view backups for a specific project or cluster, include the corresponding project ID or cluster ID in your request. For details about the RESTful API, see [List Backups](/reference/restful/list-backups-v2).
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request GET \
          --url "${BASE_URL}/v2/backups" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -64,6 +67,11 @@ The following is an example output.
     The following example checks the details of a backup files. For details about the RESTful API, see [Describe Backup](/reference/restful/describe-backup-v2).
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    export CLUSTER_ID="your-cluster-id"
+    export BACKUP_ID="your-backup-id"
+    
     curl --request GET \
          --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -142,6 +150,11 @@ The following demo shows how to delete a back file on the Zilliz Cloud web conso
 The following example deletes a backup file. For details about the RESTful API, see [Delete Backup](/reference/restful/delete-backup-v2).
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="your-cluster-id"
+export BACKUP_ID="your-backup-id"
+
 curl --request DELETE \
      --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
      --header "Authorization: Bearer ${TOKEN}" \

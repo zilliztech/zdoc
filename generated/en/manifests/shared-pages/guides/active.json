@@ -1002,6 +1002,28 @@
         "G6Pld95sqoN2aFxdQBPcVGLJnre": "insert-behavior-with-missing-or-null-values"
       },
       "activated_in": "42362765623"
+    },
+    {
+      "page": "alter-external-collection-schema",
+      "record": "recvob1UVb2vLT",
+      "feishu_token": "A9lowWdneiCQbZkgwrocKkT2nxW",
+      "feishu_aliases": [
+        "A9lowWdneiCQbZkgwrocKkT2nxW",
+        "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      ],
+      "anchors": {},
+      "activated_in": "42599114207"
+    },
+    {
+      "page": "snapshots",
+      "record": "recvlPnHgnRg7i",
+      "feishu_token": "XC1ow3jGBi7hVvkINtBcXhQ6n8g",
+      "feishu_aliases": [
+        "PsGYdbK0zoGXbAxlBEGcigWDn0d",
+        "XC1ow3jGBi7hVvkINtBcXhQ6n8g"
+      ],
+      "anchors": {},
+      "activated_in": "42599114207"
     }
   ]
 }

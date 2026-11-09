@@ -595,8 +595,8 @@ try {
 QueryIteratorReq queryIteratorReq = QueryIteratorReq.builder()
         .collectionName("quick_setup")
         .expr("color_tag like \"brown_8%\"")
-        .batchSize(50)
-        .outputFields(Arrays.asList("vector", "color_tag"))
+        .batchSize(10)
+        .outputFields(Arrays.asList("color_tag"))
         .build();
 
 QueryIterator queryIterator = client.queryIterator(queryIteratorReq);
@@ -618,7 +618,6 @@ while (true) {
     for (QueryResultsWrapper.RowRecord queryResult : batchResults) {
         JsonObject row = new JsonObject();
         row.add("id", new Gson().toJsonTree(queryResult.get("id")));
-        row.add("vector", new Gson().toJsonTree(queryResult.get("vector")));
         row.add("color_tag", new Gson().toJsonTree(queryResult.get("color_tag")));
         jsonObject.add(row);
     }
@@ -648,9 +647,9 @@ if err != nil {
 }
 
 it, err := client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(COLLECTION_NAME).
-    WithBatchSize(50).
+    WithBatchSize(10).
     WithFilter("color_tag like \"brown_8%\"").
-    WithOutputFields("color_tag", "vector"))
+    WithOutputFields("color_tag"))
 if err != nil {
     log.Fatal(err)
 }
@@ -693,10 +692,10 @@ let mut iterator = client
                 QueryRequest::builder()
                     .collection_name("quick_setup")
                     .filter("color_tag like \"brown_8%\"")
-                    .output_fields(["color_tag", "vector"])
+                    .output_fields(["color_tag"])
                     .build()?,
             )
-            .batch_size(50)
+            .batch_size(10)
             .build()?,
     )
     .await?;
@@ -718,9 +717,8 @@ println!("exported {} rows", count);
 milvus::QueryIteratorRequest request;
 request.WithCollectionName("quick_setup")
        .WithFilter("color_tag like \"brown_8%\"")
-       .WithOutputFields({"color_tag", "vector"});
-request.SetBatchSize(50);
-
+       .WithOutputFields({"color_tag"});
+request.SetBatchSize(10);
 milvus::QueryIteratorPtr iterator;
 status = client->QueryIterator(request, iterator);
 if (!status.IsOk()) {
@@ -755,8 +753,8 @@ const COLLECTION_NAME = "quick_setup";
 const iterator = await client.queryIterator({
   collection_name: COLLECTION_NAME,
   expr: 'color_tag like "brown_8%"',
-  output_fields: ["color_tag", "vector"],
-  batchSize: 50,
+  output_fields: ["color_tag"],
+  batchSize: 10,
 });
 
 let count = 0;
@@ -778,8 +776,8 @@ await foreach (IReadOnlyList<FieldData> batch in client.QueryIteratorAsync(new Q
 {
     CollectionName = "quick_setup",
     Expression = "color_tag like \"brown_8%\"",
-    Parameters = new QueryParameters { OutputFields = { "color_tag", "vector" } },
-    BatchSize = 50
+    Parameters = new QueryParameters { OutputFields = { "color_tag" } },
+    BatchSize = 10
 }))
 {
     count += batch.FirstOrDefault()?.RowCount ?? 0;

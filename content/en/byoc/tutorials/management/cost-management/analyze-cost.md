@@ -83,6 +83,8 @@ You can also use the [Query Daily Usage](/reference/restful/query-daily-usage-v2
 The following example demonstrates how to query the daily usage of an organization.
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
 --url "https://api.cloud.zilliz.com/v2/usage/query" \
 --header "Authorization: Bearer ${TOKEN}" \

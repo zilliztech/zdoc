@@ -56,6 +56,8 @@ To manage invoices, you must be an **Organization Owner** or **Organization Bill
 Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./manage-platform-roles#predefined-organization-roles). The following `GET` request lists all invoices for your organization.
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request GET \
 --url "https://api.cloud.zilliz.com/v2/invoices" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -126,6 +128,9 @@ In the results returned by the API, all amounts are in cents.
 Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./manage-platform-roles#predefined-organization-roles). The following `GET` request describes the specified invoice.
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+export INVOICE_ID="inv-12312io23810o291"
+
 curl --request GET \
 --url "https://api.cloud.zilliz.com/v2/invoices/${INVOICE_ID}" \
 --header "Authorization: Bearer ${TOKEN}" \

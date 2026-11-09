@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Set Up Console IP Allowlist
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
@@ -60,6 +62,22 @@ The following demo shows how to add an IP address to the allowlist.
 
 <Supademo id="cmi79l9ih4slqb7b4yi1x32r1?utm_source=link" title=""  />
 
+<Procedures>
+
+1. Navigate to the **Organization Settings** page.
+
+1. On the **Console IP Allowlist** card, click on **+ IP Address**.
+
+1. Click on **+ Use Current IP** to add your current IP address to the allowlist.
+
+1. Click on **+ Add New IP** to add more IP addresses to the allowlist.
+
+1. Enter IP address or CIDR.
+
+1. Click on **Save**.
+
+</Procedures>
+
 ## View IP address\{#view-ip-address}
 
 After you configure the allowlist, you can review the IPs at any time.
@@ -67,6 +85,16 @@ After you configure the allowlist, you can review the IPs at any time.
 The following demo shows how to view IP addresses in the allowlist.
 
 <Supademo id="cmi79trxa4tbsb7b44fnxlgik?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Navigate to the **Organization Settings** page.
+
+1. On the **Console IP Allowlist** card, click on the label **\{n\} IP Address**.
+
+1. View the IPs in the allowlist.
+
+</Procedures>
 
 ## Delete IP address\{#delete-ip-address}
 
@@ -81,6 +109,20 @@ Updates to the console IP allowlist take effect within 30 seconds.
 The following demo shows how to delete an IP address from the allowlist.
 
 <Supademo id="cmi79zr2500s6z20jewbtd5xb?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Navigate to the **Organization Settings** page.
+
+1. On the **Console IP Allowlist** card, click on the label **\{n\} IP Address**.
+
+1. Click on **...** under **Actions**.
+
+1. Click **Delete**.
+
+1. Enter IP address or CIDR to confirm and click **Delete**.
+
+</Procedures>
 
 ## FAQs\{#faqs}
 

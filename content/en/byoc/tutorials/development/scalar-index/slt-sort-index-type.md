@@ -183,7 +183,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -347,7 +347,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 

@@ -94,6 +94,8 @@ You can also import your data on the Zilliz Cloud console using Milvus SDKs. For
 When importing files from multiple paths, include each JSON file path in a separate list, then group all the lists into a higher-level list as in the following code example.
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \

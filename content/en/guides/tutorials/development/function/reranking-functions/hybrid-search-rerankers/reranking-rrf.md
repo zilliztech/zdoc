@@ -295,7 +295,7 @@ let rerank = Function::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <memory>
 #include "milvus/MilvusClientV2.h"
 
@@ -577,7 +577,7 @@ let hybrid_results = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 #include <utility>

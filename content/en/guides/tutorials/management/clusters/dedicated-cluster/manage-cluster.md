@@ -73,9 +73,19 @@ You can suspend a cluster via the web console or programmatically.
 
 <TabItem value="Cloud Console">
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to suspend your Dedicated cluster.
-
 <Supademo id="cm9tqgxt30snl11m7twwj7xia" title=""  />
+
+<Procedures>
+
+1. Navigate to the **Cluster Details** page of your target cluster.
+
+1. Click on **Actions**.
+
+1. Select **Suspend**.
+
+1. Enter the cluster name to confirm and click **Suspend**.
+
+</Procedures>
 
 </TabItem>
 
@@ -86,12 +96,14 @@ Your request should resemble the following example, where `{API_KEY}` is your AP
 The following `POST` request takes a request body and suspends a Dedicated cluster.
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/suspend" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
-
 # {
 #     "code": 0,
 #     "data": {
@@ -127,9 +139,19 @@ You can resume a cluster via the web console or programmatically.
 
 <TabItem value="Cloud Console">
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to resume your cluster.
-
 <Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
+
+<Procedures>
+
+1. Navigate to the **Cluster Details** page of your target cluster.
+
+1. Click on **Actions**.
+
+1. Select **Resume**.
+
+1. Enter the cluster name to confirm and click **Resume**.
+
+</Procedures>
 
 </TabItem>
 
@@ -197,6 +219,18 @@ If you are creating a new Dedicated cluster, you can select a public preview Mil
 
 ![upgrade-to-preview-version](https://zdoc-images.s3.us-west-2.amazonaws.com/upgrade-to-preview-version.png "upgrade-to-preview-version")
 
+<Procedures>
+
+1. Navigate to the **Cluster Details** tab of your target cluster.
+
+1. Click **Try Preview Features**.
+
+1. Enter the cluster name and agree to the terms of service.
+
+1. Click **Upgrade**.
+
+</Procedures>
+
 ## Convert to a global cluster\{#convert-to-a-global-cluster}
 
 If you need to convert an existing cluster to a [global cluster](./global-cluster-explained), follow the steps below.
@@ -209,6 +243,20 @@ Global clusters are compatible only with Milvus 2.6.x. You cannot convert a regu
 
 <Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
 
+<Procedures>
+
+1. Navigate to the **Cluster Details** page of your target cluster.
+
+1. Click on **Actions**.
+
+1. Select **Convert to Global Cluster**.
+
+1. Configure the global cluster name and its secondary clusters. The current cluster will become the primary cluster.
+
+1. Click **Create**.
+
+</Procedures>
+
 ## Drop\{#drop}
 
 When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
@@ -217,9 +265,19 @@ When a cluster is no longer needed, you can drop it. You can drop a cluster via 
 
 <TabItem value="Cloud Console">
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to drop your cluster.
-
 <Supademo id="cm9trwi5n0txr11m7otr902sk" title=""  />
+
+<Procedures>
+
+1. Navigate to the **Cluster Details** page of your target cluster.
+
+1. Click on **Actions**.
+
+1. Select **Drop**.
+
+1. Enter the cluster name to confirm and click **Drop**.
+
+</Procedures>
 
 </TabItem>
 

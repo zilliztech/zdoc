@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # MFA
 
 Authentication verifies your identity when you sign in to Zilliz Cloud. To strengthen this process, Zilliz Cloud supports multi-factor authentication (MFA).
@@ -52,6 +54,26 @@ The following demo shows how to enable MFA for your own account. The demo uses M
 
 <Supademo id="cmi72ns5s4jwob7b4ul2t1zz5?utm_source=link" title=""  />
 
+<Procedures>
+
+1. Click on your profile in the top right corner.
+
+1. Click on **Account Settings**.
+
+1. Turn on the switch next to **Multi-Factor Authentication (MFA)**.
+
+1. Enter your account password and click **Enable**.
+
+1. Check your email inbox for the verification code. Enter it on the Zilliz Cloud UI, and then click **Confirm**.
+
+1. Use your authenticator app to scan the QR code.
+
+1. Check the verification code on your authenticator app. Enter it on the Zilliz Cloud UI and click **>** to proceed.
+
+1. You will be prompted that the configuration is successful.
+
+</Procedures>
+
 ## Disable MFA\{#disable-mfa}
 
 <Admonition type="info" title="Notes">
@@ -63,6 +85,22 @@ If your organization has [MFA enforcement](./multi-factor-auth#enforce-mfa-for-a
 The following demo shows how to disable MFA for your own account.
 
 <Supademo id="cmi7297fo4jq8b7b448ydxlhk?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Click on your profile in the top right corner.
+
+1. Click on **Account Settings**.
+
+1. Turn off the switch next to **Multi-Factor Authentication (MFA)**.
+
+1. Click **Disable**.
+
+1. Check your email inbox for the verification code. Enter it on the Zilliz Cloud UI, and then click **Disable**.
+
+1. You will be prompted that the configuration is successful.
+
+</Procedures>
 
 ## Enforce MFA for all organization users\{#enforce-mfa-for-all-organization-users}
 
@@ -86,6 +124,18 @@ The following demo shows how to enforce MFA for an organization.
 
 <Supademo id="cmi71danb4is0b7b4eogo3s07?utm_source=link" title=""  />
 
+<Procedures>
+
+1. Navigate to **Organization Settings**.
+
+1. Turn on the switch next to **Enforce MFA**.
+
+1. Click **Confirm**.
+
+1. You will be prompted that the configuration is successful.
+
+</Procedures>
+
 ## Disable MFA enforcement for organization\{#disable-mfa-enforcement-for-organization}
 
 <Admonition type="info" title="Notes">
@@ -103,6 +153,18 @@ When organization-level MFA enforcement is disabled:
 The following demo shows how to disable MFA enforcement for an organization.
 
 <Supademo id="cmi71q0gk4j6hb7b4xiywity3?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Navigate to **Organization Settings**.
+
+1. Turn off the switch next to **Enforce MFA**.
+
+1. Click **Confirm**.
+
+1. You will be prompted that the configuration is successful.
+
+</Procedures>
 
 ## Troubleshooting\{#troubleshooting}
 

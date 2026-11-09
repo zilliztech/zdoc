@@ -75,6 +75,7 @@ The following demo shows how to use cross-region backup when manually creating a
 You can also use the Zilliz Cloud RESTful API to create cross-region copies of the backup created in the same region as the target cluster manually as follows:
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 

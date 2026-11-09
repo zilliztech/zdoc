@@ -175,7 +175,7 @@ let iterator = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <vector>
 
@@ -405,7 +405,7 @@ loop {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 while (true) {
     milvus::SingleResult result;
     // highlight-next-line

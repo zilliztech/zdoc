@@ -171,7 +171,7 @@ client.create_index(create_index_req).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -363,7 +363,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 
@@ -541,7 +541,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <vector>
 #include <string>
@@ -709,7 +709,7 @@ client.drop_index(drop_index_req).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->DropIndex(milvus::DropIndexRequest()
                                .WithCollectionName("geo_demo")
                                .WithIndexName("rtree_geo"));

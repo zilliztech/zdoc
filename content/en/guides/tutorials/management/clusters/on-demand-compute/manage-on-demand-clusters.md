@@ -110,8 +110,8 @@ Use this operation to inspect one on-demand cluster by cluster ID.
 
 ```bash
 curl --request GET \
-     --url "https://${BASE_URL}/v2/on-demand-compute?projectId=proj-09ee1f4b1151d5dd1edbc5&regionId=aws-us-west-2" \
-     --header "Authorization: Bearer ${API_KEY}" \
+     --url "${BASE_URL}/v2/on-demand-compute?projectId=proj-09ee1f4b1151d5dd1edbc5&regionId=aws-us-west-2" \
+     --header "Authorization: Bearer ${TOKEN}" \
      --header "Accept: application/json"
 ```
 

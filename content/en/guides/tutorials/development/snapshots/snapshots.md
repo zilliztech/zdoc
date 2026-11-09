@@ -1,36 +1,30 @@
 ---
 title: "Snapshots | Cloud"
 slug: /snapshots
-sidebar_label: "Snapshots"
-beta: ON REQUEST
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "A snapshot is a point-in-time image of a Zilliz Cloud collection. It captures the collection’s state at a specific timestamp and stores only metadata and manifest files, such as the schema, indexes, and vector data files (binlogs), for efficient storage and restoration. | Cloud"
+description: "Use snapshots to capture point-in-time collection states for rollback, versioning, and testing. | Cloud"
 type: origin
-token: XC1ow3jGBi7hVvkINtBcXhQ6n8g
-sidebar_position: 16
 displayed_sidebar: default
+token: shared-snapshots
+sidebar_label: "Snapshots"
+sidebar_position: 16
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/snapshots.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
-
+import DocCardList from '@theme/DocCardList';
 
 # Snapshots
 
-A snapshot is a point-in-time image of a Zilliz Cloud collection. It captures the collection’s state at a specific timestamp and stores only metadata and manifest files, such as the schema, indexes, and vector data files (binlogs), for efficient storage and restoration.
+A snapshot is a point-in-time image of a Zilliz Cloud collection. It captures the collection's state at a specific timestamp and stores only metadata and manifest files, such as the schema, indexes, and vector data files (binlogs), for efficient storage and restoration.
 
-Snapshots are not a substitute for backups. They are quick to create and restore, making them suitable for short-term needs such as fast rollbacks, versioning, and testing (days to weeks), whereas backups are independent, complete copies stored separately for long-term disaster recovery (weeks to years) and better protection against total storage failure.
+Snapshots are not a substitute for backups. They are quick to create and restore, making them suitable for short-term needs such as fast rollbacks, versioning, and testing (**days to weeks**), whereas backups are independent, complete copies stored separately for long-term disaster recovery (**weeks to years**) and better protection against total storage failure.
 
 To create backups, refer to [Create Backup](./create-backup).
-
-<Admonition type="info" title="Note">
-
-This feature is available only for Dedicated clusters.
-
-</Admonition>
 
 ## Snapshot anatomy\{#snapshot-anatomy}
 
@@ -56,7 +50,7 @@ When you create a snapshot for a collection, Zilliz Cloud collects the following
 
 Among the above information, Zilliz Cloud generates an Apache Avro manifest file for each segment and stores the snapshot metadata, collection description, index information, and the paths to the manifest files in a JSON file. The following diagram illustrates the snapshot folder structure.
 
-```python
+```text
 snapshots/{collection_id}/
 ├── metadata/
 │   └── {snapshot_id}.json         # Snapshot metadata (JSON format)
@@ -75,29 +69,19 @@ Creating a snapshot usually takes milliseconds, and restoring it takes seconds t
 Once Zilliz Cloud references a segment or index file in a snapshot, it does not garbage-collect those files unless you drop the snapshot. Snapshots consume storage proportional to the size of the target collections, and object storage costs apply to snapshot retention. In extreme cases, a single snapshot can even double your object storage costs. You are advised to
 
 - Remove old snapshots regularly to save storage.
-
 - Use descriptive names and descriptions for future reference.
-
 - Always verify snapshot creation and restoration results.
-
-- Track snapshot creation timestamps, storage usage, and
-
+- Track snapshot creation timestamps and storage usage for monitoring and troubleshooting.
 - Store restoration job IDs for monitoring and troubleshooting.
 
 ## Limits and restrictions\{#limits-and-restrictions}
 
 - Snapshots become immutable after creation.
-
 - You can restore a snapshot only to a new collection within the same cluster as the original.
-
 - Restored collections retain the same schema, number of shards, and partition count.
-
 - Restored historical data may conflict with TTL policies. You are advised to disable TTL or adjust TTL settings before creating snapshots.
-
 - To use a snapshot as a `milvus-table` external source on Zilliz Cloud, point `external_source` to the source collection with the `milvus://` scheme (`milvus://<instance_id>/<db_name>/<collection_name>`) — see [Create an External Collection](./create-external-collection). Snapshots of external collections cannot be used as sources.
 
 ## Further readings\{#further-readings}
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

@@ -278,7 +278,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -431,7 +431,7 @@ let schema = schema.add_function(bm25_function);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25_emb", milvus::FunctionType::BM25);
 function->AddInputFieldName("text");
 function->AddOutputFieldName("sparse");
@@ -575,7 +575,7 @@ let index_params = IndexParam::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto index_params = milvus::IndexDesc("sparse", "", milvus::IndxType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
 index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 index_params.AddExtraParam("bm25_k1", "1.2");
@@ -705,7 +705,7 @@ client.load_collection(LoadCollectionRequest::builder().collection_name("my_coll
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
                                     .WithCollectionSchema(schema))
@@ -848,7 +848,7 @@ client.insert(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {
     {{"text", "information retrieval is a field of study."}},
     {{"text", "information retrieval focuses on finding relevant information in large datasets."}},
@@ -1003,7 +1003,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto request = milvus::SearchRequest()
                        .WithCollectionName("my_collection")
                        .AddEmbeddedText("whats the focus of information retrieval?")

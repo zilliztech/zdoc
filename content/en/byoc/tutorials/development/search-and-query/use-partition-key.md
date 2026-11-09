@@ -218,7 +218,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -402,7 +402,7 @@ client.create_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -530,7 +530,7 @@ let filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Filter based on a single partition key value, or
 std::string filter = R"(partition_key == 'x' && <other conditions>)";
 
@@ -831,7 +831,7 @@ client.create_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 

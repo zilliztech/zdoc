@@ -113,10 +113,13 @@ schema.add_field(
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.request.SearchReq;
@@ -165,6 +168,7 @@ schema.addField(AddFieldReq.builder()
 import (
     "context"
     "fmt"
+
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -178,7 +182,7 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 })
 
 schema := entity.NewSchema().WithName(collectionName).
-        WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+        WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(true)).
         WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1000).WithEnableMatch(true).WithEnableAnalyzer(true)).
         WithField(entity.NewField().WithName("embeddings").WithDataType(entity.FieldTypeFloatVector).WithDim(5))
 ```
@@ -256,8 +260,9 @@ if (!status.IsOk()) {
 }
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField(milvus::FieldSchema("id", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
-schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, true));
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true).EnableMatch(true));
+schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
 ```
 
 </TabItem>
@@ -344,8 +349,7 @@ CollectionSchema schema = new()
 export idField='{
   "fieldName": "id",
   "dataType": "Int64",
-  "isPrimary": true,
-  "autoID": true
+  "isPrimary": true
 }'
 
 export textField='{
@@ -367,8 +371,8 @@ export vectorField='{
 }'
 
 export schema="{
-  \"autoID\": false,
-  \"enableDynamicField\": true,
+  \"autoId\": true,
+  \"enableDynamicField\": false,
   \"fields\": [
     $idField,
     $textField,
@@ -754,8 +758,20 @@ JsonObject row3 = new JsonObject();
 row3.addProperty("text", "machine quickly boosts learning");
 row3.add("embeddings", gson.toJsonTree(Arrays.asList(0.3f, 0.4f, 0.5f, 0.6f, 0.7f)));
 data.add(row3);
-
 client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(data).build());
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName(COLLECTION_NAME)
+        .indexParams(Collections.singletonList(IndexParam.builder()
+                .fieldName("embeddings")
+                .indexName("embeddings_index")
+                .indexType(IndexParam.IndexType.AUTOINDEX)
+                .metricType(IndexParam.MetricType.COSINE)
+                .build()))
+        .build());
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName(COLLECTION_NAME)
+        .build());
 ```
 
 </TabItem>
@@ -1605,7 +1621,7 @@ if (!status.IsOk()) {
 
 ```javascript
 const COLLECTION_NAME = "tech_articles";
-const filter_slop2 = "PHRASE_MATCH(text, 'learning machine', 2)";
+const filter_slop2 = "PHRASE_MATCH(text, 'machine learning', 2)";
 
 const result_slop2 = await client.search({
   collection_name: COLLECTION_NAME,
@@ -1795,7 +1811,7 @@ if (!status.IsOk()) {
 
 ```javascript
 const COLLECTION_NAME = "tech_articles";
-const filter_slop3 = "PHRASE_MATCH(text, 'learning machine', 3)";
+const filter_slop3 = "PHRASE_MATCH(text, 'machine learning', 3)";
 
 const result_slop3 = await client.search({
   collection_name: COLLECTION_NAME,

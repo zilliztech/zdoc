@@ -148,12 +148,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 
-String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
-String TOKEN = "YOUR_CLUSTER_TOKEN";
-
 ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri(CLUSTER_ENDPOINT)
-        .token(TOKEN)
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
@@ -259,13 +256,10 @@ using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Requests.Dql;
 
-const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
-const string TOKEN = "YOUR_CLUSTER_TOKEN";
-
 using var client = new MilvusClientV2(new ConnectConfig
 {
-    Uri = CLUSTER_ENDPOINT,
-    ApiKey = TOKEN
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
 });
 await client.ConnectAsync();
 
@@ -545,14 +539,11 @@ const indexParams = {
 <TabItem value='csharp'>
 
 ```csharp
-await client.CreateIndexAsync(new CreateIndexReq
-{
-    CollectionName = "hugging_face_demo",
-    Indexes = new[]
-    {
-        new IndexParam("dense", "dense", IndexType.AutoIndex, MetricType.Cosine)
-    }
-});
+// Prepare index parameters
+var indexParam = new IndexParam(
+    fieldName: "dense",
+    indexType: IndexType.AutoIndex,
+    metricType: MetricType.Cosine);
 ```
 
 </TabItem>
@@ -681,10 +672,7 @@ await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "hugging_face_demo",
     Schema = schema,
-    Indexes = new[]
-    {
-        new IndexParam("dense", "dense", IndexType.AutoIndex, MetricType.Cosine)
-    }
+    Indexes = [indexParam]
 });
 ```
 

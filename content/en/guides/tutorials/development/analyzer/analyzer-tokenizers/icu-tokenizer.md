@@ -75,7 +75,7 @@ let analyzer_params = json!({ "tokenizer": "icu" });
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "icu"}
 };
@@ -154,7 +154,7 @@ let analyzer_params = json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "icu"},
     {"filter", {"removepunct"}}
@@ -237,7 +237,7 @@ let analyzer_params = json!({ "tokenizer": "icu" });
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "icu"}
 };
@@ -379,7 +379,7 @@ println!("ICU analyzer output: {:?}", result.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 

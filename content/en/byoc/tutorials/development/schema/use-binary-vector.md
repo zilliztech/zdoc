@@ -192,7 +192,7 @@ schema = schema
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -370,7 +370,7 @@ let index_params = vec![IndexParam::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("binary_vector", "binary_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::HAMMING)
 };
@@ -512,7 +512,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                         .WithCollectionName("my_collection")
                                         .WithIndexes(std::move(indexes))
@@ -698,7 +698,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Binary vectors (128 bits = 16 bytes)
 std::vector<uint8_t> vector1 = {0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 std::vector<uint8_t> vector2 = {0x2A, 0xB3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -916,7 +916,7 @@ println!("{:?}", results.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // query vector = vector1
 std::vector<uint8_t> query_vector = {0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 

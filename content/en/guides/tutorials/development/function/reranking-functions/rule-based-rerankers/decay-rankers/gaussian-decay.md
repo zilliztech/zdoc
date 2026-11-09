@@ -211,7 +211,7 @@ let rerank = Function::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto rerank = std::make_shared<milvus::DecayRerank>("restaurant_distance_decay");
 rerank->AddInputFieldName("distance");
 rerank->SetFunction("gauss");
@@ -381,7 +381,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto function_score = std::make_shared<milvus::FunctionScore>();
 function_score->AddFunction(rerank);
 

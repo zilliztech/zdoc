@@ -67,6 +67,8 @@ Once you add a new secondary cluster, Zilliz Cloud provisions it and begins repl
     The following example adds a new secondary cluster named `secondary-cluster-ap` deployed in AWS ap-southeast-1. For details about the API, see [Add Secondary Clusters](/reference/restful/add-secondary-clusters-v2).
 
     ```bash
+    export API_KEY="YOUR_API_KEY"
+    
     curl --request POST \
       --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/secondaryClusters" \
       --header "Authorization: Bearer ${API_KEY}" \
@@ -116,6 +118,8 @@ You can drop a secondary cluster either via the web console or RESTful API.
     The following example removes a secondary cluster. For details about the API, see [Delete Global Member Cluster](/reference/restful/delete-global-member-cluster-v2).
 
     ```bash
+    export API_KEY="YOUR_API_KEY"
+    
     curl --request DELETE \
       --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/clusters/in01-xxxxxxxxxxxxxxx" \
       --header "Authorization: Bearer ${API_KEY}" \
@@ -154,6 +158,8 @@ To convert a global cluster to a regular cluster, you need to:
 You can also remove the global endpoint via RESTful API. The following is an example. For details, see [Remove Global Endpoint](/reference/restful/remove-global-endpoint-v2).
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
   --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/removeGlobalEndpoint" \
   --header "Authorization: Bearer ${API_KEY}" \

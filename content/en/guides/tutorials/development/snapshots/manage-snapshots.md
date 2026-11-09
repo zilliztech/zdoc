@@ -686,7 +686,6 @@ await client.UnpinSnapshotDataAsync(new UnpinSnapshotDataReq
 <TabItem value='bash'>
 
 ```bash
-# restful
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/snapshots/pin" \
   --header "Authorization: Bearer ${TOKEN}" \
@@ -695,6 +694,14 @@ curl --request POST \
     "collectionName": "my_collection",
     "snapshotName": "backup_20240101",
     "ttlSeconds": 3600
+  }'
+
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/snapshots/unpin" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "pinId": "446393534224220348"
   }'
 ```
 
@@ -985,6 +992,11 @@ client.listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
 <TabItem value='go'>
 
 ```go
+jobs, err := client.ListRestoreSnapshotJobs(context.Background(), milvusclient.NewListRestoreSnapshotJobsOption().WithCollectionName("my_collection"))
+if err != nil {
+    log.Fatal(err)
+}
+
 for _, job := range jobs {
     fmt.Printf("Job %d: %s -> Collection %s\n",
         job.GetJobId(), job.GetSnapshotName(), job.GetCollectionName())

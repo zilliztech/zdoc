@@ -75,6 +75,8 @@ You can also import your data on the Zilliz Cloud console using Milvus SDKs. For
 When importing files from multiple paths, include each Parquet file path in a separate list, then group all the lists into a higher-level list as in the following code example.
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -99,6 +101,8 @@ curl --request POST \
 If the source folder contains only the Parquet files to import, you can simply include the source folder in the request as follows:
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -127,6 +131,8 @@ If the folder contains multiple formats of files, the request will fail.
 If your prepared data file is a single Parquet file, import it as demonstrated in the following code example.
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \

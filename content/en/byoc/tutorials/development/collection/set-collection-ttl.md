@@ -285,7 +285,7 @@ client.create_collection(CreateCollectionRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -610,7 +610,7 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -874,7 +874,7 @@ client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -1105,7 +1105,7 @@ client.create_collection(CreateCollectionRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -1428,7 +1428,7 @@ client.insert(InsertRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <cstdlib>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
@@ -1655,7 +1655,7 @@ println!("{:?}", results);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -1895,7 +1895,7 @@ client.upsert(UpsertRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <cstdlib>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
@@ -2176,7 +2176,7 @@ client.upsert(UpsertRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <cstdlib>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
@@ -2419,7 +2419,7 @@ client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -2712,7 +2712,7 @@ client.upsert(UpsertRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <cstdlib>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
@@ -2991,7 +2991,7 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 

@@ -70,7 +70,7 @@ let filter = "RANDOM_SAMPLE(sampling_factor)";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto filter = "RANDOM_SAMPLE(sampling_factor)";
 ```
 
@@ -175,7 +175,7 @@ let filter_incorrect = r#"color == "red" OR RANDOM_SAMPLE(0.001)"#;  // ❌ Inva
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto filter_sample_correct = R"(color == "red" AND RANDOM_SAMPLE(0.001))";
 auto filter_sample_incorrect = R"(color == "red" OR RANDOM_SAMPLE(0.001))";
 ```
@@ -351,7 +351,7 @@ println!("Sampled {} products from collection", res.results().get_row_count());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -545,7 +545,7 @@ println!("Found {} electronics products in sample", res.results().get_row_count(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto filter = R"(category == "electronics" AND price > 100 AND RANDOM_SAMPLE(0.005))";
@@ -737,7 +737,7 @@ println!("Sample size: {}", res.results().get_row_count());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto filter = R"(customer_tier == "premium" AND region == "North America" AND RANDOM_SAMPLE(0.001))";
@@ -960,7 +960,7 @@ println!("Found {} similar books in sample", res.results().len());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};

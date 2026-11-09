@@ -325,6 +325,10 @@ auto request = milvus::SearchRequest()
     .WithLimit(3)
     .AddOutputField("product_id")
     .AddOutputField("title")
+    .AddOutputField("main_category")
+    .AddOutputField("price")
+    .AddOutputField("average_rating")
+    .AddOutputField("rating_number")
     .AddFloatVector(queryVector);
 
 milvus::SearchResponse response;

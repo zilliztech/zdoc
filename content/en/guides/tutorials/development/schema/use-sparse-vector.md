@@ -232,7 +232,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -442,7 +442,7 @@ let index_param = IndexParam::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::IndexDesc sparse_index("sparse_vector", "sparse_inverted_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::IP);
 sparse_index.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 ```
@@ -594,7 +594,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
@@ -799,7 +799,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 milvus::EntityRows data = {{{"text", "information retrieval is a field of study."}, {"sparse_vector", {{"1", 0.5}, {"100", 0.3}, {"500", 0.8}}}},
@@ -971,7 +971,7 @@ let sparse: SparseVector = [(1, 0.2f32), (50, 0.4f32), (1000, 0.7f32)].into_iter
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Prepare search parameters
 const std::string drop_ratio_search = "0.2";  // A tunable drop ratio parameter with a valid range between 0 and 1
 
@@ -1136,7 +1136,7 @@ println!("{:?}", results);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 auto request = milvus::SearchRequest()

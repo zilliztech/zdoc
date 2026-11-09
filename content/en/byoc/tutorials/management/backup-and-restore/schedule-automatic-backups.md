@@ -87,6 +87,7 @@ The following demo shows how to enable and configure automatic backups:
 The following example enables automatic backup for a cluster. For details about the RESTful API, see [Set Backup Policy](/reference/restful/set-backup-policy-v2).
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 

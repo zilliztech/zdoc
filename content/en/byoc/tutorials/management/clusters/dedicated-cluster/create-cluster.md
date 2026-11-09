@@ -53,6 +53,8 @@ Ensure:
 
 <TabItem value="Cloud Console">
 
+<Procedures>
+
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
 1. Enter the desired organization and project.
@@ -105,6 +107,8 @@ Ensure:
 
     Then, you'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
 
+</Procedures>
+
 </TabItem>
 
 <TabItem value="Bash">
@@ -114,6 +118,9 @@ Ensure:
 Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/createDedicated" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -174,6 +181,9 @@ The following is an example output.
     Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/clusters/createDedicated" \
     --header "Authorization: Bearer ${TOKEN}" \

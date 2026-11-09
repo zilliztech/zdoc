@@ -112,7 +112,7 @@ If your applications serve users across different geographic locations, you can 
     export TOKEN="YOUR_API_KEY"
     
     curl --request POST \
-         --url "https://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions" \
+         --url "${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions" \
          --header "Authorization: Bearer ${TOKEN}" \
          --header "Accept: application/json" \
          --header "Content-Type: application/json" \
@@ -145,8 +145,8 @@ You can remove regions from a multi-region project.
 
     ```bash
     curl -i --request DELETE \
-        --url "https://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions/gcp-us-west1" \
-        --header "Authorization: Bearer ${API_KEY}" \
+        --url "${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions/gcp-us-west1" \
+        --header "Authorization: Bearer ${TOKEN}" \
         --header "accept: application/json"
     ```
 

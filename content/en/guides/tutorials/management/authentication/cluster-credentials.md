@@ -156,7 +156,7 @@ If you forget a user's password or suspect it has been leaked, you can reset the
     <TabItem value='javascript'>
 
     ```javascript
-    milvusClient.updateUser({
+    client.updateUser({
        username: 'user_1',
        newPassword: 'NewP@ssw0rd',
        oldPassword: 'P@ssw0rd',
@@ -175,7 +175,7 @@ If you forget a user's password or suspect it has been leaked, you can reset the
     -d '{
         "newPassword": "NewP@ssw0rd",
         "userName": "user_1",
-        "password": "P@ssw0rd*"
+        "password": "P@ssw0rd"
     }'
     ```
 

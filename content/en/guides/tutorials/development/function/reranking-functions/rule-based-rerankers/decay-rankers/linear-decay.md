@@ -246,7 +246,7 @@ let rerank = DecayRerank::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto rerank = std::make_shared<milvus::DecayRerank>("event_relevance");
 rerank->AddInputFieldName("event_date");
 rerank->SetFunction("linear");
@@ -409,7 +409,7 @@ let resp = client.search(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto function_score = std::make_shared<milvus::FunctionScore>();
 function_score->AddFunction(rerank);
 

@@ -89,7 +89,7 @@ let filter = "json_contains(product[\"tags\"], \"sale\")";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // JSON data: {"tags": ["electronics", "sale", "new"]}
 std::string filter = "json_contains(product[\"tags\"], \"sale\")";
 ```
@@ -174,7 +174,7 @@ let filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
 std::string filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
 ```
@@ -259,7 +259,7 @@ let filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // JSON data: {"tags": ["electronics", "sale", "new"]}
 std::string filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
 ```

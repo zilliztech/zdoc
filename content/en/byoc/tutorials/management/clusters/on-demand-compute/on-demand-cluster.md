@@ -64,6 +64,9 @@ You can create an on-demand cluster from the Zilliz Cloud console or by calling 
 The following example creates an on-demand cluster. For details, see [Create On-Demand Cluster](https://docs-test.cloud-uat3.zilliz.com/reference/restful/create-on-demand-cluster-v2).
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
 --header "Authorization: Bearer ${TOKEN}" \

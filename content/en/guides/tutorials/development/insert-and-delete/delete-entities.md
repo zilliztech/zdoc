@@ -125,7 +125,7 @@ println!("{:?}", response.delete_count());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -295,7 +295,7 @@ use milvus::v2::prelude::*;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::DeleteResponse response;
 auto status = client->Delete(milvus::DeleteRequest()
                                 .WithCollectionName("quick_setup")
@@ -443,7 +443,7 @@ use milvus::v2::prelude::*;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::DeleteResponse response;
 auto status = client->Delete(milvus::DeleteRequest()
                                 .WithCollectionName("quick_setup")

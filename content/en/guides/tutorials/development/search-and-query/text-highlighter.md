@@ -250,6 +250,7 @@ highlighter->WithHighlightSearchText(true);
 auto request = milvus::SearchRequest()
     .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
+    .WithMetricType(milvus::MetricType::BM25)
     .WithLimit(10)
     .AddOutputField("text")
     .AddEmbeddedText("BM25")
@@ -275,6 +276,7 @@ const res = await client.search({
     collection_name: "highlighter_demo",
     data: ["BM25"],
     anns_field: "sparse_vector",
+    metric_type: "BM25",
     limit: 10,
     output_fields: ["text"],
     highlighter,
@@ -577,6 +579,7 @@ highlighter->AddHighlightQuery("TextMatch", "text", "text filtering");
 auto request = milvus::SearchRequest()
     .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
+    .WithMetricType(milvus::MetricType::BM25)
     .WithFilter(R"(TEXT_MATCH(text, "text filtering"))")
     .WithLimit(10)
     .AddOutputField("text")
@@ -605,6 +608,7 @@ const res = await client.search({
     collection_name: "highlighter_demo",
     data: ["BM25"],
     anns_field: "sparse_vector",
+    metric_type: "BM25",
     filter: 'TEXT_MATCH(text, "text filtering")',
     limit: 10,
     output_fields: ["text"],
@@ -906,6 +910,7 @@ highlighter->WithHighlightSearchText(true);
 auto request = milvus::SearchRequest()
     .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
+    .WithMetricType(milvus::MetricType::BM25)
     .WithLimit(10)
     .AddOutputField("text")
     .AddEmbeddedText("BM25")
@@ -931,6 +936,7 @@ const res = await client.search({
     collection_name: "highlighter_demo",
     data: ["BM25"],
     anns_field: "sparse_vector",
+    metric_type: "BM25",
     limit: 10,
     output_fields: ["text"],
     highlighter,
@@ -1147,10 +1153,16 @@ schema.addFunction(Function.builder()
         .outputFieldNames(Collections.singletonList("sparse_vector"))
         .build());
 
+Map<String, Object> extraParams = new HashMap<>();
+extraParams.put("inverted_index_algo", "DAAT_MAXSCORE");
+extraParams.put("bm25_k1", 1.2);
+extraParams.put("bm25_b", 0.75);
+
 IndexParam indexParam = IndexParam.builder()
         .fieldName("sparse_vector")
         .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
         .metricType(IndexParam.MetricType.BM25)
+        .extraParams(extraParams)
         .build();
 
 client.createCollection(CreateCollectionReq.builder()
@@ -1188,6 +1200,7 @@ client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(rows).bui
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 use std::collections::HashMap;
 
 let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
@@ -1223,7 +1236,19 @@ client
     )
     .await?;
 
-// insert + SEARCH_PARAMS (see full text search guide)
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .rows(vec![
+                json!({"text": "my first test doc"}),
+                json!({"text": "my second test doc"}),
+                json!({"text": "my first test doc. Milvus is an open-source vector database built for GenAI applications."}),
+                json!({"text": "my second test doc. Milvus is an open-source vector database that suits AI applications of every size from running a demo chatbot to building web-scale search."}),
+            ])
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1248,13 +1273,32 @@ request.AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, tr
 request.AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR, "", false, false, 2000));
 request.AddField(milvus::FieldSchema("sparse_vector", milvus::DataType::SPARSE_FLOAT_VECTOR, "", false, false));
 request.AddFunction(milvus::FunctionSchema("text_bm25", milvus::FunctionType::BM25, {"text"}, {"sparse_vector"}));
+milvus::IndexDesc index_desc("sparse_vector", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+index_desc.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
+index_desc.AddExtraParam("bm25_k1", "1.2");
+index_desc.AddExtraParam("bm25_b", "0.75");
+request.AddIndex(std::move(index_desc));
 
 status = client->CreateCollection(request);
 if (!status.IsOk()) {
     std::cerr << status.Message() << std::endl;
 }
 
-// index + insert + SEARCH_PARAMS (see full text search guide)
+milvus::EntityRows data = {
+    {{"text", "my first test doc"}},
+    {{"text", "my second test doc"}},
+    {{"text", "my first test doc. Milvus is an open-source vector database built for GenAI applications."}},
+    {{"text", "my second test doc. Milvus is an open-source vector database that suits AI applications of every size from running a demo chatbot to building web-scale search."}}
+};
+
+milvus::InsertResponse response;
+status = client->Insert(milvus::InsertRequest()
+                            .WithCollectionName(COLLECTION_NAME)
+                            .WithRowsData(std::move(data)),
+                        response);
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -1304,7 +1348,7 @@ const docs = [
 ];
 await client.insert({ collection_name: COLLECTION_NAME, data: docs.map(text => ({ text })) });
 
-const SEARCH_PARAMS = { params: { drop_ratio_search: 0.0 } };
+const SEARCH_PARAMS = { metric_type: "BM25", params: { drop_ratio_search: 0.0 } };
 ```
 
 </TabItem>

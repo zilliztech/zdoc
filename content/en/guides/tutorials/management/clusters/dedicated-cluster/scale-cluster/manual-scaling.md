@@ -83,6 +83,7 @@ Before you start, read [Plan Cluster Scaling](./plan-cluster-scaling) to underst
 With the RESTful API, you can manually scale Query CU and replica in a single [Modify Cluster](/reference/restful/modify-cluster-v2) request.
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 

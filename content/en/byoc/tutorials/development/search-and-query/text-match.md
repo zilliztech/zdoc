@@ -173,7 +173,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->SetEnableDynamicField(false);
 schema->AddField({"id", milvus::DataType::INT64, "", true, true});
@@ -385,7 +385,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {{"type", "english"}};
 schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(200).EnableAnalyzer(true).WithAnalyzerParams(analyzer_params).EnableMatch(true));
 ```
@@ -560,7 +560,7 @@ let filter = "TEXT_MATCH(text, 'machine deep')";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "TEXT_MATCH(text, 'machine deep')";
 ```
 
@@ -635,7 +635,7 @@ let filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
 ```
 
@@ -708,7 +708,7 @@ let filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and T
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
 ```
 
@@ -805,7 +805,7 @@ let filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
 ```
 
@@ -957,7 +957,7 @@ let result = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Match entities with `keyword1` or `keyword2`
 std::string filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
@@ -1137,7 +1137,7 @@ let result = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Match entities with both `keyword1` and `keyword2`
 std::string filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 

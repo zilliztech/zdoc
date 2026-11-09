@@ -92,7 +92,7 @@ let filter = "ARRAY_CONTAINS(history_temperatures, 23)";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "ARRAY_CONTAINS(history_temperatures, 23)";
 ```
 
@@ -170,7 +170,7 @@ let filter = "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])";
 ```
 
@@ -248,7 +248,7 @@ let filter = "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])";
 ```
 
@@ -326,7 +326,7 @@ let filter = "ARRAY_LENGTH(history_temperatures) < 10";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "ARRAY_LENGTH(history_temperatures) < 10";
 ```
 
@@ -459,7 +459,7 @@ let res = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto upsertRequest = milvus::UpsertRequest()
                          .WithCollectionName("users")
                          .AddRowData({{"pk", 1}, {"tags", nlohmann::json::array({"premium"})}})
@@ -627,7 +627,7 @@ let res = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto upsertRequest = milvus::UpsertRequest()
                          .WithCollectionName("users")
                          .AddRowData({{"pk", 1}, {"tags", nlohmann::json::array({"trial"})}})

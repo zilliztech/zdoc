@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Restore from Backup Files
 
 The restore feature in Zilliz Cloud lets you recover data from backup files in cases of accidental loss, corruption, or system failure—ensuring business continuity. It is a reliable way to recover from incidents, revert unintended changes, or clone a cluster for testing with minimal disruption.
@@ -62,6 +64,20 @@ The following demo shows how to restore a full cluster on the Zilliz Cloud web c
 
 <Supademo id="cmcsruzjd0gyo9st8kcjye30i" title=""  />
 
+<Procedures>
+
+1. Navigate to your target project.
+
+1. Click on **Backups** in the left navigation.
+
+1. Find the cluster backup file you wish to restore and click on **...** under **Actions**.
+
+1. Click on **Restore** and then select **Full Cluster**.
+
+1. Configure the settings and click on **Restore**.
+
+</Procedures>
+
 ### Via RESTful API\{#via-restful-api}
 
 The following example restores a full cluster for an existing backup file to a new cluster named `Dedicated-01-backup`. For details about the RESTful API, see [Restore Cluster Backup](/reference/restful/restore-cluster-backup-v2).
@@ -70,6 +86,7 @@ The following example restores a full cluster for an existing backup file to a n
 export API_KEY="YOUR_API_KEY"
 export BASE_URL="https://api.cloud.zilliz.com"
 export CLUSTER_ID="your-cluster-id"
+export BACKUP_ID="your-backup-id"
 
 curl --request POST \
      --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCluster" \
@@ -137,6 +154,20 @@ You can also select to only restore specific databases and collections to **an e
 The following demo shows how to restore specific databases and collections in a cluster on the Zilliz Cloud web console.
 
 <Supademo id="cmcss7xi00h8c9st8qsqnutnn" title=""  />
+
+<Procedures>
+
+1. Navigate to your target project.
+
+1. Click on **Backups** in the left navigation.
+
+1. Find the collection backup file you wish to restore and click on **...** under **Actions**.
+
+1. Click on **Restore** **Collection**.
+
+1. Configure the collections you wish to restore and click on **Restore**.
+
+</Procedures>
 
 ### Via RESTful API\{#via-restful-api}
 

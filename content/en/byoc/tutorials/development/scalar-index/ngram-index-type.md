@@ -256,7 +256,7 @@ client.create_index(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -451,7 +451,7 @@ use std::collections::HashMap;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::IndexDesc json_ngram_index("json_field", "json_ngram_index", milvus::IndexType::NGRAM);
 json_ngram_index.AddExtraParam("min_gram", "2");
 json_ngram_index.AddExtraParam("max_gram", "4");
@@ -577,7 +577,7 @@ Supported query types:
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     // Match any string that starts with the substring "database"
     const auto filter = R"(text LIKE "database%")";
     ```
@@ -646,7 +646,7 @@ Supported query types:
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     // Match any string that ends with the substring "database"
     const auto filter = R"(text LIKE "%database")";
     ```
@@ -715,7 +715,7 @@ Supported query types:
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     // Match any string that contains the substring "database" anywhere
     const auto filter = R"(text LIKE "%database%")";
     ```
@@ -786,7 +786,7 @@ Supported query types:
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     // Match any string where "st" appears first, and "um" appears later in the text
     const auto filter = R"(text LIKE "%st%um%")";
     ```
@@ -851,7 +851,7 @@ Supported query types:
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     const auto filter = R"(json_field["body"] LIKE "%database%")";
     ```
 
@@ -917,7 +917,7 @@ Supported query types:
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     // Match log messages that contain "error" followed later by "timeout"
     const auto filter = R"(text =~ "error.*timeout")";
     ```
@@ -982,7 +982,7 @@ Supported query types:
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     const auto filter = R"(json_field["body"] =~ "error.*timeout")";
     ```
 
@@ -1077,7 +1077,7 @@ use milvus::v2::prelude::*;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->DropIndex(milvus::DropIndexRequest()
                                .WithCollectionName("Documents")
                                .WithIndexName("ngram_index"));

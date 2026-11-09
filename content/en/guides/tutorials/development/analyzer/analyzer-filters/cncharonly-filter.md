@@ -71,7 +71,7 @@ let analyzer_params = serde_json::json!({"tokenizer": "jieba", "filter": ["cncha
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "jieba"},
     {"filter", {"cncharonly"}}
@@ -175,7 +175,7 @@ let analyzer_params = serde_json::json!({"tokenizer": "jieba", "filter": ["cncha
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "jieba"},
     {"filter", {"cncharonly"}}
@@ -343,7 +343,7 @@ println!("Analyzer output: {:?}", result);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <string>

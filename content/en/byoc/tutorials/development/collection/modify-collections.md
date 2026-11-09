@@ -163,7 +163,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 #include "milvus/MilvusClientV2.h"
@@ -397,7 +397,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty(milvus::COLLECTION_TTL_SECONDS, "60"));
@@ -531,7 +531,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("ttl_field", "expire_at"));
@@ -664,7 +664,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty(milvus::MMAP_ENABLED, "true"));
@@ -795,7 +795,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("partitionkey.isolation", "true"));
@@ -926,7 +926,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("dynamicfield.enabled", "true"));
@@ -1059,7 +1059,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("allow_insert_auto_id", "true"));
@@ -1193,7 +1193,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("timezone", "Asia/Shanghai"));
@@ -1324,7 +1324,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                                   .WithCollectionName("my_collection")
                                                   .AddPropertyKey(milvus::COLLECTION_TTL_SECONDS));

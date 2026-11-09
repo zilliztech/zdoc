@@ -265,7 +265,7 @@ let analyzer_params = json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", {
         {"type", "language_identifier"}, // Must be `language_identifier`
@@ -484,7 +484,7 @@ let analyzer_params = json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", {
         {"type", "language_identifier"},
@@ -793,7 +793,7 @@ let cn_response = client.run_analyzer(RunAnalyzerRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1113,7 +1113,7 @@ let response = client.run_analyzer(RunAnalyzerRequest::builder()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 

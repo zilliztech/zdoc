@@ -235,7 +235,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <memory>
@@ -473,7 +473,7 @@ let embedding_index = IndexParam::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <vector>
 
@@ -638,7 +638,7 @@ client.load_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
                                     .WithIndexes(std::move(indexes))
@@ -846,7 +846,7 @@ client.insert(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <string>
 #include <vector>
@@ -1045,7 +1045,7 @@ for row in query_results.results().get_output_rows()? {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::QueryResponse query_response;
 status = client->Query(milvus::QueryRequest()
                         .WithCollectionName("my_collection")
@@ -1203,7 +1203,7 @@ for row in query_results.results().get_output_rows()? {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->Query(milvus::QueryRequest()
                         .WithCollectionName("my_collection")
                         .WithFilter("ratings[0] > 4")
@@ -1395,7 +1395,7 @@ for result in search_results.results().iter() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<float> query_vector = {0.3, -0.6, 0.1};
 milvus::SearchResponse search_response;
 status = client->Search(milvus::SearchRequest()
