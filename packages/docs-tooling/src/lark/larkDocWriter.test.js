@@ -5,6 +5,7 @@ const os = require('node:os');
 const path = require('node:path');
 const LarkDocWriter = require('./larkDocWriter');
 const LarkSourceIndex = require('./larkSourceIndex');
+const { findAccidentalMathSpans } = require('../markdown/accidentalMathSpans');
 
 function textRun(content, style = {}) {
   return {
@@ -185,6 +186,50 @@ async function testStyledWhitespacePreservesCombinedMarkdownSpans() {
   ]);
 
   assert.equal(markdown, '***label*** description');
+}
+
+async function testHtmlTableCellDollarsStayLiteral() {
+  // The HTML table cell path renders cell markdown through markdown-it,
+  // which turns backtick-protected `$meta` chips into raw `<code>$meta</code>`
+  // tags. remark-math then pairs those dollars across the tags (the 11-05
+  // json-field-overview incident), so the renderer must re-escape every
+  // decoded dollar as an entity before the text reaches MDX.
+  const writer = createWriter([]);
+  const cell = writer.__htmlTableCellContent('Query via `$meta`: `$meta["dynamic_key"]`');
+
+  assert.ok(cell.includes('<code>&#36;meta</code>'), cell);
+  assert.ok(cell.includes('<code>&#36;meta[&quot;dynamic_key&quot;]</code>'), cell);
+  assert.ok(!cell.includes('\\$'), `backslash escapes would be double-processed by escapeCurrencyDollars: ${cell}`);
+
+  const compiled = String(await assertMdxCompiles(cell));
+  assert.doesNotMatch(compiled, /katex/);
+
+  const {spans} = await findAccidentalMathSpans(cell);
+  assert.deepEqual(spans, []);
+}
+
+async function testAccidentalMathSpanGateRepairsInsteadOfFailing() {
+  const writer = createWriter([]);
+
+  // The exact production damage shape is repaired in place (escaped chips,
+  // swallowed tags resolve again) and the page keeps flowing: a fetch run is
+  // too expensive to fail over writer-emitted damage the Feishu source never
+  // contained.
+  const damaged = '<td><p>Query via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>';
+  const repaired = await writer.__repair_accidental_math_spans(damaged, 'json-field-overview');
+  assert.equal(
+    repaired,
+    '<td><p>Query via <code>\\$meta</code>: <code>\\$meta["dynamic_key"]</code></p></td>',
+  );
+  const {spans: afterRepair} = await findAccidentalMathSpans(repaired);
+  assert.deepEqual(afterRepair, []);
+
+  // Escaped chips and genuine math pass through untouched.
+  const clean = '<td><p>Query via <code>\\$meta</code></p></td>\n\nThe rate $\\lambda$ controls decay.';
+  assert.equal(
+    await writer.__repair_accidental_math_spans(clean, 'json-field-overview'),
+    clean,
+  );
 }
 
 async function testProseDollarsDoNotBecomeMathDelimiters() {
@@ -1336,6 +1381,8 @@ async function run() {
   await testStyledWhitespaceClosesMarkdownSpans();
   await testStyledWhitespaceKeepsAContinuousMarkdownSpan();
   await testStyledWhitespacePreservesCombinedMarkdownSpans();
+  await testHtmlTableCellDollarsStayLiteral();
+  await testAccidentalMathSpanGateRepairsInsteadOfFailing();
   await testProseDollarsDoNotBecomeMathDelimiters();
   await testBoldEndingWithPunctuationBeforeTextUsesHtmlPair();
   testKeywordPickerUsesStableSeed();

@@ -4124,6 +4124,16 @@ async function testFrontmatterBracedDescriptionDoesNotFailMdxValidation() {
     '',
   ].join('\n')
   assert.deepEqual(await validateTranslatedContent(document), [])
+  // An accidental math span (dollars paired across JSX tags, or KaTeX-
+  // unparseable content) is a repairable validation error, aligned with the
+  // Fetch writer gate.
+  const damagedSpan = '<td><p>Query via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>'
+  const spanErrors = await validateTranslatedContent(damagedSpan)
+  assert.ok(
+    spanErrors.some(error => error.startsWith('Accidental math span:')),
+    `expected an accidental math span error, got: ${JSON.stringify(spanErrors)}`,
+  )
+  assert.deepEqual(await validateTranslatedContent('<p>via <code>\\$meta</code></p>'), [])
   const brokenFrontmatter = '---\ntitle: "unterminated\n---\n\n# Body\n\nParagraph.\n'
   assert.ok(
     (await validateTranslatedContent(brokenFrontmatter)).some(error => error.startsWith('YAML frontmatter error:')),
