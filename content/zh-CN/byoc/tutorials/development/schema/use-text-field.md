@@ -27,10 +27,12 @@ Zilliz Cloud 提供 `TEXT` 标量字段类型，用于随 Entity 直接存储较
 
 要在 Collection Schema 中定义 `TEXT` 字段，请将 `datatype` 设置为 `DataType.TEXT`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
+schema = MilvusClient.create_schema(auto_id=False, enable_dynamic_field=False)
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
 schema.add_field(
     field_name="content",
     # highlight-next-line
@@ -43,6 +45,12 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .build());
 schema.addField(AddFieldReq.builder()
         .fieldName("content")
         .dataType(DataType.Text)
@@ -55,7 +63,12 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+schema := entity.NewSchema().WithDynamicFieldEnabled(false).
+    WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+    WithField(entity.NewField().
+        WithName("content").
+        WithDataType(entity.FieldTypeText).
+        WithEnableAnalyzer(true))
 ```
 
 </TabItem>
@@ -63,7 +76,13 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+let mut schema = CollectionSchema::new();
+schema = schema.add_field(
+    FieldSchema::new()
+        .name("content")
+        .data_type(DataType::Text)
+        .enable_analyzer(true),
+);
 ```
 
 </TabItem>
@@ -80,11 +99,25 @@ content_field.EnableAnalyzer(true);
 <TabItem value='javascript'>
 
 ```javascript
-schema.push({
-    name: "content",
-    data_type: DataType.Text,
-    enable_analyzer: true
-});
+const schema = [
+    { name: "id", data_type: DataType.Int64, is_primary_key: true },
+    { name: "content", data_type: DataType.Text, enable_analyzer: true },
+];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var schema = new CollectionSchema
+{
+    Name = "text_bm25_collection",
+    EnableDynamicFields = false
+};
+
+// DataType.Text is an alias of VarChar with analyzer support for full-text search
+schema.Fields.Add(FieldSchema.CreateVarchar("content", maxLength: 65535, enableAnalyzer: true, enableMatch: true));
 ```
 
 </TabItem>
@@ -156,10 +189,11 @@ TEXT 字段支持空值。要启用此功能，请将 nullable 设置为 True。
 
 对于 BM25 全文搜索，输入 `TEXT` 字段必须设置 `enable_analyzer=True`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient, DataType
 from pymilvus import DataType, Function, FunctionType, MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
@@ -195,14 +229,22 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
-import java.util.*;
-import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -210,10 +252,14 @@ ConnectConfig config = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(config);
 
 String COLLECTION_NAME = "text_bm25_collection";
-client.dropCollection(DropCollectionReq.builder()
+if (client.hasCollection(HasCollectionReq.builder()
         .collectionName(COLLECTION_NAME)
-        .async(false)
-        .build());
+        .build())) {
+    client.dropCollection(DropCollectionReq.builder()
+            .collectionName(COLLECTION_NAME)
+            .async(false)
+            .build());
+}
 
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .build();
@@ -245,7 +291,42 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+const COLLECTION_NAME = "text_bm25_collection"
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer client.Close(ctx)
+
+if has, _ := client.HasCollection(ctx, milvusclient.NewHasCollectionOption(COLLECTION_NAME)); has {
+    _ = client.DropCollection(ctx, milvusclient.NewDropCollectionOption(COLLECTION_NAME))
+}
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(false).
+    WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+    WithField(entity.NewField().WithName("content").WithDataType(entity.FieldTypeText).WithEnableAnalyzer(true)).
+    WithField(entity.NewField().WithName("sparse").WithDataType(entity.FieldTypeSparseVector)).
+    WithFunction(entity.NewFunction().
+        WithName("content_bm25").
+        WithType(entity.FunctionTypeBM25).
+        WithInputFields("content").
+        WithOutputFields("sparse"))
 ```
 
 </TabItem>
@@ -253,7 +334,62 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+use milvus::v2::prelude::*;
+use serde_json::json;
+use std::collections::HashMap;
+
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let collection_name = "text_bm25_collection";
+
+if client
+    .has_collection(
+        HasCollectionRequest::builder()
+            .collection_name(collection_name)
+            .build()?,
+    )
+    .await?
+    .exists()
+{
+    client
+        .drop_collection(
+            DropCollectionRequest::builder()
+                .collection_name(collection_name)
+                .build()?,
+        )
+        .await?;
+}
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("content")
+            .data_type(DataType::Text)
+            .enable_analyzer(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("sparse")
+            .data_type(DataType::SparseFloatVector),
+    )
+    .add_function(
+        Function::new()
+            .name("content_bm25")
+            .function_type(FunctionType::Bm25)
+            .input_fields(["content"])
+            .output_fields(["sparse"]),
+    );
 ```
 
 </TabItem>
@@ -261,9 +397,12 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <memory>
-#include "milvus/MilvusClientV2.h"
+#include <string>
+#include <utility>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
@@ -273,6 +412,13 @@ if (!status.IsOk()) {
 }
 
 const std::string COLLECTION_NAME = "text_bm25_collection";
+
+milvus::HasCollectionResponse has_response;
+status = client->HasCollection(milvus::HasCollectionRequest().WithCollectionName(COLLECTION_NAME), has_response);
+if (has_response.Has()) {
+    status = client->DropCollection(milvus::DropCollectionRequest().WithCollectionName(COLLECTION_NAME));
+}
+
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->SetEnableDynamicField(false);
 schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true));
@@ -290,6 +436,7 @@ schema->AddFunction(function);
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
 import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
@@ -312,6 +459,41 @@ const functions = [{
     output_field_names: ["sparse"],
     params: {}
 }];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Responses.Dql;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+const string COLLECTION_NAME = "text_bm25_collection";
+
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = COLLECTION_NAME })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = COLLECTION_NAME });
+}
+
+var schema = new CollectionSchema { Name = COLLECTION_NAME };
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true));
+// DataType.Text is an alias of VarChar with analyzer support for full-text search
+schema.Fields.Add(FieldSchema.CreateVarchar("content", maxLength: 65535, enableAnalyzer: true, enableMatch: true));
+schema.Fields.Add(new FieldSchema("sparse", DataType.SparseFloatVector));
+schema.Functions.Add(FunctionSchema.CreateBm25("content_bm25", "content", "sparse"));
 ```
 
 </TabItem>
@@ -362,7 +544,7 @@ export schema='{
 
 为 BM25 Function 生成的稀疏向量字段创建索引。Metric Type 必须设置为 `BM25`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -392,9 +574,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 List<IndexParam> indexParams = new ArrayList<>();
 Map<String, Object> bm25Params = new HashMap<>();
 bm25Params.put("inverted_index_algo", "DAAT_MAXSCORE");
@@ -421,7 +600,21 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+sparseIndex := milvusclient.NewCreateIndexOption("text_bm25_collection", "sparse",
+    index.NewGenericIndex("sparse", map[string]string{
+        index.IndexTypeKey:     string(index.SparseInverted),
+        index.MetricTypeKey:    string(entity.BM25),
+        "inverted_index_algo":  "DAAT_MAXSCORE",
+        "bm25_k1":              "1.2",
+        "bm25_b":               "0.75",
+    })).WithIndexName("sparse_bm25_index")
+
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("text_bm25_collection", schema).
+    WithIndexOptions(sparseIndex))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -429,7 +622,36 @@ client.createCollection(requestCreate);
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+let index_param = IndexParam::new()
+    .field_name("sparse")
+    .index_type(IndexType::SparseInvertedIndex)
+    .metric_type(MetricType::Bm25)
+    .extra_params(HashMap::from([
+        (
+            "inverted_index_algo".to_string(),
+            "DAAT_MAXSCORE".to_string(),
+        ),
+        ("bm25_k1".to_string(), "1.2".to_string()),
+        ("bm25_b".to_string(), "0.75".to_string()),
+    ]));
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name(collection_name)
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
+
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name(collection_name)
+            .index_param(index_param)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -479,6 +701,32 @@ console.log(res);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var indexParam = new IndexParam(
+    fieldName: "sparse",
+    indexType: IndexType.SparseInvertedIndex,
+    metricType: MetricType.Bm25)
+{
+    ExtraParams =
+    {
+        ["inverted_index_algo"] = "DAAT_MAXSCORE",
+        ["bm25_k1"] = 1.2,
+        ["bm25_b"] = 0.75
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = COLLECTION_NAME,
+    Schema = schema,
+    Indexes = [indexParam]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -523,7 +771,7 @@ curl --request POST \
 
 直接向 `TEXT` 字段插入文本。不要为 `sparse` 字段提供值。Milvus 会在内部对 `content` 应用 BM25 Function 以生成稀疏向量。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -551,10 +799,6 @@ client.load_collection(collection_name=COLLECTION_NAME)
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"id\": 1, \"content\": \"Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications.\"}", JsonObject.class),
@@ -566,6 +810,10 @@ client.insert(InsertReq.builder()
         .collectionName("text_bm25_collection")
         .data(rows)
         .build());
+
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("text_bm25_collection")
+        .build());
 ```
 
 </TabItem>
@@ -573,7 +821,23 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("text_bm25_collection").
+    WithInt64Column("id", []int64{1, 2, 3}).
+    WithColumns(column.NewColumnText("content", []string{
+        "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications.",
+        "Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text.",
+        "Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting.",
+    })))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("text_bm25_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -581,7 +845,28 @@ client.insert(InsertReq.builder()
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+let rows = [
+    json!({"id": 1, "content": "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications."}),
+    json!({"id": 2, "content": "Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text."}),
+    json!({"id": 3, "content": "Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting."}),
+];
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name(collection_name)
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
+
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name(collection_name)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -635,7 +920,31 @@ const res = await client.insert({
 
 console.log(res);
 
-await client.flushSync({ collection_names: ["text_bm25_collection"] });
+await client.loadCollection({ collection_name: "text_bm25_collection" });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var contents = new[]
+{
+    "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications.",
+    "Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text.",
+    "Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting."
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = COLLECTION_NAME,
+    ColumnsData =
+    [
+        FieldData.Create("id", new long[] { 1, 2, 3 }),
+        FieldData.CreateVarChar("content", contents)
+    ]
+});
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = COLLECTION_NAME });
 ```
 
 </TabItem>
@@ -682,7 +991,7 @@ curl --request POST \
 
 使用原始 Query 文本作为 Search 数据，并在稀疏向量字段上执行搜索。Milvus 将 Query 文本转换为稀疏向量，使用 BM25 对匹配结果排序，并返回 `output_fields` 中请求的 `TEXT` 字段。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -702,10 +1011,6 @@ results = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("text_bm25_collection")
         .data(Collections.singletonList(new EmbeddedText("how does Milvus store source text for retrieval")))
@@ -720,7 +1025,16 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "text_bm25_collection",
+    2,
+    []entity.Vector{entity.Text("how does Milvus store source text for retrieval")},
+).WithANNSField("sparse").
+    WithOutputFields("content"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -728,7 +1042,19 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name(collection_name)
+            .vector_field("sparse")
+            .vectors(SearchVectors::EmbeddedText(vec![
+                "how does Milvus store source text for retrieval".into(),
+            ]))
+            .output_fields(["content"])
+            .limit(2)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -744,8 +1070,8 @@ auto request = milvus::SearchRequest()
                    .AddOutputField("content")
                    .AddEmbeddedText(query_text);
 
-milvus::SearchResponse response;
-status = client->Search(request, response);
+milvus::SearchResponse search_response;
+status = client->Search(request, search_response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -761,10 +1087,28 @@ const res = await client.search({
     data: ["how does Milvus store source text for retrieval"],
     anns_field: "sparse",
     limit: 2,
-    output_fields: ["id", "content"]
+    output_fields: ["content"]
 });
 
 console.log(JSON.stringify(res.results, null, 2));
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+SearchResp results = await client.SearchAsync(new SearchReq
+{
+    CollectionName = COLLECTION_NAME,
+    Texts = ["how does Milvus store source text for retrieval"],
+    VectorFieldName = "sparse",
+    Limit = 2,
+    Parameters = new SearchParameters
+    {
+        OutputFields = { "content" }
+    }
+});
 ```
 
 </TabItem>
@@ -801,7 +1145,7 @@ curl --request POST \
 
 每个 Search 命中都包含 BM25 分数和原始 `TEXT` 值。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -828,7 +1172,11 @@ for (List<SearchResp.SearchResult> hits : searchResp.getSearchResults()) {
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("content: ", resultSet.GetColumn("content"))
+}
 ```
 
 </TabItem>
@@ -836,7 +1184,15 @@ for (List<SearchResp.SearchResult> hits : searchResp.getSearchResults()) {
 <TabItem value='rust'>
 
 ```rust
-// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+for result in response.results() {
+    for row in result.rows()? {
+        let row = serde_json::Value::Object(row.to_entity_row()?);
+        println!(
+            "id: {}, score: {}, content: {}",
+            row["id"], row["score"], row["content"]
+        );
+    }
+}
 ```
 
 </TabItem>
@@ -844,7 +1200,7 @@ for (List<SearchResp.SearchResult> hits : searchResp.getSearchResults()) {
 <TabItem value='c++'>
 
 ```c++
-auto search_results = response.Results();
+auto search_results = search_response.Results();
 for (auto& result : search_results.Results()) {
     milvus::EntityRows output_rows;
     status = result.OutputRows(output_rows);
@@ -864,8 +1220,26 @@ for (auto& result : search_results.Results()) {
 
 ```javascript
 for (const hit of res.results) {
-    console.log(`id: ${hit.id}, score: ${hit.distance}`);
-    console.log(hit.entity?.content ?? hit.content);
+    console.log(`id: ${hit.id}, score: ${hit.score}`);
+    console.log(hit.content);
+}
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+SingleResult? single = results.SingleResults?.FirstOrDefault();
+if (single is not null)
+{
+    for (int i = 0; i < single.Scores.Count; i++)
+    {
+        IReadOnlyDictionary<string, object?> row = single.GetRow(i);
+        long id = results.Ids.LongIds?[i] ?? 0;
+        Console.WriteLine($"id: {id}, score: {single.Scores[i]}");
+        Console.WriteLine(row["content"]);
+    }
 }
 ```
 

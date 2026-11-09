@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 模式匹配表达式写在 `filter` 参数中。例如，以下查询匹配包含 `E1001` 之类错误代码的日志消息：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -105,10 +105,52 @@ fmt.Println(res)
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
+
+let res = client.query(
+    QueryRequest::builder()
+        .collection_name("log_events")
+        // highlight-next-line
+        .filter(r#"message =~ "E[0-9]{4}""#)
+        .output_fields(["message", "severity"])
+        .build()?,
+).await?;
+
+for row in res.results().rows()? {
+    println!("{:?}", row.to_entity_row()?);
+}
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
-// cpp
+#include <iostream>
+#include <string>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::QueryResponse queryResponse;
+status = client->Query(milvus::QueryRequest()
+    .WithCollectionName("log_events")
+    // highlight-next-line
+    .WithFilter(R"(message =~ "E[0-9]{4}")")
+    .WithOutputFields({"message", "severity"}), queryResponse);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -118,21 +160,42 @@ fmt.Println(res)
 ```javascript
 const { MilvusClient } = require('@zilliz/milvus2-sdk-node');
 
-async function main() {
-  const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
+const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
 
-  const res = await client.query({
-    collection_name: 'log_events',
-    // highlight-next-line
-    filter: 'message =~ "E[0-9]{4}"',
-    output_fields: ['message', 'severity'],
-  });
-  console.log(res);
-}
+const res = await client.query({
+  collection_name: 'log_events',
+  // highlight-next-line
+  filter: 'message =~ "E[0-9]{4}"',
+  output_fields: ['message', 'severity'],
+});
+console.log(res);
+```
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "log_events",
+    Expression = "message =~ \"E[0-9]{4}\"",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "message", "severity" }
+    }
 });
 ```
 
@@ -260,7 +323,7 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 
 例如：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -272,7 +335,7 @@ filter = 'message =~ r"\d{4}-\d{2}-\d{2}"'
 <TabItem value='java'>
 
 ```java
-String filter = "filename =~ r\"\\.json$\"";
+String filter = "message =~ r\"\\d{4}-\\d{2}-\\d{2}\"";
 ```
 
 </TabItem>
@@ -280,7 +343,15 @@ String filter = "filename =~ r\"\\.json$\"";
 <TabItem value='go'>
 
 ```go
-filter := `filename =~ r"\.json$"`
+filter := `message =~ r"\d{4}-\d{2}-\d{2}"`
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = r#"message =~ r"\d{4}-\d{2}-\d{2}""#;
 ```
 
 </TabItem>
@@ -288,7 +359,7 @@ filter := `filename =~ r"\.json$"`
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message =~ r"\d{4}-\d{2}-\d{2}")";
 ```
 
 </TabItem>
@@ -296,7 +367,15 @@ filter := `filename =~ r"\.json$"`
 <TabItem value='javascript'>
 
 ```javascript
-const filter = 'filename =~ r"\\.json$"';
+const filter = 'message =~ r"\\d{4}-\\d{2}-\\d{2}"';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message =~ r\"\\d{4}-\\d{2}-\\d{2}\"";
 ```
 
 </TabItem>
@@ -304,7 +383,7 @@ const filter = 'filename =~ r"\\.json$"';
 <TabItem value='bash'>
 
 ```bash
-filter='filename =~ r"\.json$"'
+filter='message =~ r"\d{4}-\d{2}-\d{2}"'
 ```
 
 </TabItem>
@@ -312,7 +391,7 @@ filter='filename =~ r"\.json$"'
 <TabItem value='shell'>
 
 ```shell
-zilliz vector query --collection my_collection --filter 'filename =~ r"\.json$"' --output-fields 'filename'
+zilliz vector query --collection my_collection --filter 'message =~ r"\d{4}-\d{2}-\d{2}"' --output-fields 'message'
 ```
 
 </TabItem>
@@ -339,7 +418,7 @@ zilliz vector query --collection my_collection --filter 'filename =~ r"\.json$"'
 
 若要匹配多个单词中的任意一个，请使用 `|` 进行分支匹配：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -364,10 +443,18 @@ filter := `message =~ "error|failed|timeout"`
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let filter = r#"message =~ "error|failed|timeout""#;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message =~ "error|failed|timeout")";
 ```
 
 </TabItem>
@@ -376,6 +463,14 @@ filter := `message =~ "error|failed|timeout"`
 
 ```javascript
 const filter = 'message =~ "error|failed|timeout"';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message =~ \"error|failed|timeout\"";
 ```
 
 </TabItem>
@@ -399,7 +494,7 @@ zilliz vector query --collection my_collection --filter 'message =~ "error|faile
 
 按字面值匹配正则表达式元字符时，请在正则表达式模式中进行转义。例如，若要匹配字面点号（正则表达式中的 `\.`），请在 Python 过滤字符串中写作 `\\.`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -424,10 +519,18 @@ filter := `email =~ "@gmail\\.com$"`
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let filter = r#"email =~ "@gmail\.com$""#;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(email =~ "@gmail\.com$")";
 ```
 
 </TabItem>
@@ -436,6 +539,14 @@ filter := `email =~ "@gmail\\.com$"`
 
 ```javascript
 const filter = 'email =~ "@gmail\\.com$"';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "email =~ \"@gmail\\.com$\"";
 ```
 
 </TabItem>
@@ -465,7 +576,7 @@ zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$
 
 Zilliz Cloud 的正则表达式匹配采用子字符串语义，模式无需匹配整个字段值。例如，以下过滤表达式既匹配 `E1001`，也匹配 `failed with E1001 after retry`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -490,10 +601,18 @@ filter := `message =~ "E[0-9]{4}"`
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let filter = r#"message =~ "E[0-9]{4}""#;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message =~ "E[0-9]{4}")";
 ```
 
 </TabItem>
@@ -502,6 +621,14 @@ filter := `message =~ "E[0-9]{4}"`
 
 ```javascript
 const filter = 'message =~ "E[0-9]{4}"';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message =~ \"E[0-9]{4}\"";
 ```
 
 </TabItem>
@@ -525,7 +652,7 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 
 若要匹配整个字段值，请使用 `^` 和 `$` 锚点：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -553,10 +680,20 @@ filter := `code =~ "^E[0-9]{4}$"`
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+// Match only values that are exactly E followed by four digits
+let filter = r#"code =~ "^E[0-9]{4}$""#;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
-// cpp
+// Match only values that are exactly E followed by four digits
+std::string filter = R"(code =~ "^E[0-9]{4}$")";
 ```
 
 </TabItem>
@@ -566,6 +703,15 @@ filter := `code =~ "^E[0-9]{4}$"`
 ```javascript
 // Match only values that are exactly E followed by four digits
 const filter = 'code =~ "^E[0-9]{4}$"';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Match only values that are exactly E followed by four digits
+string filter = "code =~ \"^E[0-9]{4}$\"";
 ```
 
 </TabItem>
@@ -591,7 +737,7 @@ zilliz vector query --collection my_collection --filter 'code =~ "^E[0-9]{4}$"' 
 
 正则表达式过滤不会匹配 null 值，`=~` 和 `!~` 都是如此。如果希望排除某个正则表达式模式但保留 null 值，请显式添加 `OR field IS NULL`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -616,10 +762,18 @@ filter := `message !~ "^DEBUG" OR message IS NULL`
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let filter = r#"message !~ "^DEBUG" OR message IS NULL"#;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
-// cpp
+std::string filter = R"(message !~ "^DEBUG" OR message IS NULL)";
 ```
 
 </TabItem>
@@ -628,6 +782,14 @@ filter := `message !~ "^DEBUG" OR message IS NULL`
 
 ```javascript
 const filter = 'message !~ "^DEBUG" OR message IS NULL';
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "message !~ \"^DEBUG\" OR message IS NULL";
 ```
 
 </TabItem>

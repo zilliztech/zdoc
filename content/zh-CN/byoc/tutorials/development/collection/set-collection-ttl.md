@@ -108,6 +108,8 @@ TTL 有两种模式：
 
 ```python
 from pymilvus import MilvusClient, DataType
+from pymilvus import MilvusClient
+import random
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
@@ -140,13 +142,28 @@ client.create_collection(
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import com.google.gson.Gson;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import io.milvus.v2.service.vector.request.UpsertReq;
+import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -189,6 +206,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "math/rand"
+    "github.com/milvus-io/milvus/client/v3/column"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -256,6 +275,7 @@ client.create_collection(CreateCollectionRequest::builder()
 ```c++
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
+#include <cstdlib>
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
@@ -282,7 +302,8 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -311,6 +332,9 @@ await client.createCollection({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -402,10 +426,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 # Assumes "my_collection" was created earlier without TTL
 schema = client.create_schema(auto_id=False, enable_dynamic_field=False)
 schema.add_field("id", DataType.INT64, is_primary=True, auto_id=False)
@@ -436,24 +456,6 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.collection.request.HasCollectionReq;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 // Assumes "my_collection" was created earlier without TTL.
 if (!client.hasCollection(HasCollectionReq.builder().collectionName("my_collection").build())) {
     CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
@@ -487,29 +489,10 @@ client.alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 // Assumes "my_collection" was created earlier without TTL.
 exists, err := client.HasCollection(ctx, milvusclient.NewHasCollectionOption("my_collection"))
 if err != nil {
@@ -544,12 +527,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 let has = client.has_collection(HasCollectionRequest::builder()
     .collection_name("my_collection")
     .build()?).await?;
@@ -579,12 +556,6 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 milvus::HasCollectionResponse has_response;
 status = client->HasCollection(milvus::HasCollectionRequest()
                                    .WithCollectionName("my_collection"),
@@ -620,10 +591,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 // Assumes "my_collection" was created earlier without TTL.
 if (!(await client.hasCollection({ collection_name: "my_collection" })).value) {
   await client.createCollection({
@@ -651,8 +618,6 @@ await client.alterCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 // Assumes "my_collection" was created earlier without TTL
 if (await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "my_collection" }) is not { Has: true })
 {
@@ -751,10 +716,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 # highlight-start
 client.drop_collection_properties(
     collection_name="my_collection",
@@ -768,17 +729,6 @@ client.drop_collection_properties(
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 // highlight-start
 client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
         .collectionName("my_collection")
@@ -792,27 +742,10 @@ client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", common.CollectionTTLConfigKey))
 if err != nil {
     fmt.Println(err.Error())
@@ -825,12 +758,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
     .collection_name("my_collection")
     .property_key("collection.ttl.seconds")
@@ -842,12 +769,6 @@ client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                               .WithCollectionName("my_collection")
                                               .AddPropertyKey(milvus::COLLECTION_TTL_SECONDS));
@@ -861,10 +782,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 // highlight-start
 await client.dropCollectionProperties({
   collection_name: "my_collection",
@@ -878,8 +795,6 @@ await client.dropCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
 {
     CollectionName = "my_collection",
@@ -923,10 +838,6 @@ Entity 级 TTL 允许每个 Entity 携带自己的绝对过期时间。过期时
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 schema = client.create_schema(enable_dynamic_field=False)
 schema.add_field("id", DataType.INT64, is_primary=True, auto_id=False)
 # highlight-next-line
@@ -951,22 +862,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
 schema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64)
         .isPrimaryKey(true).autoID(false).build());
@@ -998,28 +893,10 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 schema := entity.NewSchema().WithDynamicFieldEnabled(false).
         WithField(entity.NewField().WithName("id").WithIsAutoID(false).WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
         WithField(entity.NewField().WithName("expire_at").WithDataType(entity.FieldTypeTimestamptz).WithNullable(true)).
@@ -1043,12 +920,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 let schema = CollectionSchema::new()
     .enable_dynamic_field(false)
     .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(false))
@@ -1072,12 +943,6 @@ client.create_collection(CreateCollectionRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, false));
 schema->AddField(milvus::FieldSchema("expire_at", milvus::DataType::TIMESTAMPTZ).WithNullable(true));
@@ -1101,10 +966,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 await client.createCollection({
   collection_name: "my_collection",
   fields: [
@@ -1126,17 +987,6 @@ await client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
-MilvusClientV2 client = new(new ConnectConfig
-{
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-});
-
 CollectionSchema schema = new()
 {
     EnableDynamicFields = false,
@@ -1224,11 +1074,6 @@ Collection 创建完成后，写入 Entity 时使用 [ISO 8601](https://en.wikip
 <TabItem value='python'>
 
 ```python
-import random
-from pymilvus import MilvusClient
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 # Assumes "my_collection" was created earlier with `ttl_field`: "expire_at"
 # highlight-start
 rows = [
@@ -1252,23 +1097,6 @@ client.insert("my_collection", rows)
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.InsertReq;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 // Assumes "my_collection" was created earlier with `ttl_field`: "expire_at".
 Gson gson = new Gson();
 Random rng = new Random();
@@ -1312,28 +1140,10 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-    "math/rand"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 // Assumes "my_collection" was created earlier with `ttl_field`: "expire_at".
 vector1 := make([]float32, 128)
 vector2 := make([]float32, 128)
@@ -1368,12 +1178,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 let vector: Vec<f32> = (0..128).map(|_| rand::random::<f32>()).collect();
 client.insert(InsertRequest::builder()
     .collection_name("my_collection")
@@ -1390,13 +1194,6 @@ client.insert(InsertRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-#include <cstdlib>
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 std::vector<float> vector(128);
 for (auto& v : vector) {
     v = static_cast<float>(rand()) / RAND_MAX;
@@ -1421,10 +1218,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 const vector = Array.from({ length: 128 }, () => Math.random());
 
 // Assumes "my_collection" was created earlier with `ttl_field`: "expire_at".
@@ -1448,8 +1241,6 @@ await client.insert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 var vector = Enumerable.Repeat(0.1f, 128).ToArray();
 
 // Assumes "my_collection" was created earlier with `ttl_field`: "expire_at"
@@ -1492,10 +1283,6 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" --he
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 client.load_collection("my_collection")
 
 # highlight-start
@@ -1515,19 +1302,6 @@ print(results)
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 client.loadCollection(LoadCollectionReq.builder()
         .collectionName("my_collection")
         .build());
@@ -1549,26 +1323,10 @@ System.out.println(results.getQueryResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 _, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1592,12 +1350,6 @@ fmt.Println(resultSet.GetColumn("id"))
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 client.load_collection(LoadCollectionRequest::builder()
     .collection_name("my_collection")
     .build()?).await?;
@@ -1616,12 +1368,6 @@ println!("{:?}", results);
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 status = client->LoadCollection(milvus::LoadCollectionRequest()
                                     .WithCollectionName("my_collection"));
 if (!status.IsOk()) {
@@ -1648,10 +1394,6 @@ std::cout << rows.size() << " rows" << std::endl;
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 await client.loadCollection({ collection_name: "my_collection" });
 
 // highlight-start
@@ -1671,11 +1413,6 @@ console.log(results.data);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 await client.LoadCollectionAsync(new LoadCollectionReq
 {
     CollectionName = "my_collection"
@@ -1731,11 +1468,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-import random
-from pymilvus import MilvusClient
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 # highlight-start
 client.upsert("my_collection", [
     {"id": 2,
@@ -1750,23 +1482,6 @@ client.upsert("my_collection", [
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.UpsertReq;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 Gson gson = new Gson();
 Random rng = new Random();
 List<Float> vector = new ArrayList<>();
@@ -1790,28 +1505,10 @@ client.upsert(UpsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-    "math/rand"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 vector := make([]float32, 128)
 for i := range vector {
     vector[i] = rand.Float32()
@@ -1833,12 +1530,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 let vector: Vec<f32> = (0..128).map(|_| rand::random::<f32>()).collect();
 client.upsert(UpsertRequest::builder()
     .insert(InsertRequest::builder()
@@ -1855,13 +1546,6 @@ client.upsert(UpsertRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-#include <cstdlib>
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 std::vector<float> vector(128);
 for (auto& v : vector) {
     v = static_cast<float>(rand()) / RAND_MAX;
@@ -1884,10 +1568,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 const vector = Array.from({ length: 128 }, () => Math.random());
 
 // highlight-start
@@ -1905,8 +1585,6 @@ await client.upsert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 await client.UpsertAsync(new UpsertReq
 {
     CollectionName = "my_collection",
@@ -1944,11 +1622,6 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 <TabItem value='python'>
 
 ```python
-import random
-from pymilvus import MilvusClient, DataType
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 # highlight-start
 # Step 1 — add a TIMESTAMPTZ column to the schema
 client.add_collection_field(
@@ -1978,28 +1651,6 @@ client.upsert("my_collection", [
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.vector.request.UpsertReq;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 // highlight-start
 // Step 1 — add a TIMESTAMPTZ column to the schema
 client.addCollectionField(AddCollectionFieldReq.builder()
@@ -2040,29 +1691,10 @@ client.upsert(UpsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-    "math/rand"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 // Step 1 — add a TIMESTAMPTZ column to the schema
 err = client.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("my_collection",
     entity.NewField().WithName("expire_at").WithDataType(entity.FieldTypeTimestamptz).WithNullable(true)))
@@ -2100,12 +1732,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 // Step 1 — add a TIMESTAMPTZ column to the schema
 client.add_collection_field(AddCollectionFieldRequest::builder()
     .collection_name("my_collection")
@@ -2135,13 +1761,6 @@ client.upsert(UpsertRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-#include <cstdlib>
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 // Step 1 — add a TIMESTAMPTZ column to the schema
 status = client->AddCollectionField(milvus::AddCollectionFieldRequest()
                                         .WithCollectionName("my_collection")
@@ -2180,10 +1799,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 const vector = Array.from({ length: 128 }, () => Math.random());
 
 // highlight-start
@@ -2214,9 +1829,6 @@ await client.upsert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 // Step 1 — add a TIMESTAMPTZ column to the schema
 await client.AddCollectionFieldAsync(new AddCollectionFieldReq
 {
@@ -2229,6 +1841,17 @@ await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 {
     CollectionName = "my_collection",
     Properties = { ["ttl_field"] = "expire_at" }
+});
+
+// Step 3 (optional) — backfill expiration timestamps for historical rows
+var vector = Enumerable.Repeat(0.1f, 128).ToArray();
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "my_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 1L, ["vector"] = vector, ["expire_at"] = "2026-12-31T00:00:00Z" }
+    ]
 });
 ```
 
@@ -2277,10 +1900,6 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 # highlight-start
 client.drop_collection_properties(
     collection_name="my_collection",
@@ -2294,17 +1913,6 @@ client.drop_collection_properties(
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 // highlight-start
 client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
         .collectionName("my_collection")
@@ -2318,26 +1926,10 @@ client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", "ttl_field"))
 if err != nil {
     fmt.Println(err.Error())
@@ -2350,12 +1942,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
     .collection_name("my_collection")
     .property_key("ttl_field")
@@ -2367,12 +1953,6 @@ client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                               .WithCollectionName("my_collection")
                                               .AddPropertyKey("ttl_field"));
@@ -2386,10 +1966,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 // highlight-start
 await client.dropCollectionProperties({
   collection_name: "my_collection",
@@ -2403,8 +1979,6 @@ await client.dropCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
 {
     CollectionName = "my_collection",
@@ -2448,11 +2022,6 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-import random
-from pymilvus import MilvusClient, DataType
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 # Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 # highlight-start
 # Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
@@ -2489,29 +2058,6 @@ client.upsert("my_collection", [
 <TabItem value='java'>
 
 ```java
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-import io.milvus.v2.service.vector.request.UpsertReq;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 // Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 // highlight-start
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
@@ -2559,29 +2105,10 @@ client.upsert(UpsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-    "math/rand"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", "collection.ttl.seconds"))
 if err != nil {
@@ -2626,12 +2153,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
     .collection_name("my_collection")
@@ -2667,13 +2188,6 @@ client.upsert(UpsertRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-#include <cstdlib>
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                               .WithCollectionName("my_collection")
@@ -2720,10 +2234,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 // Assumes "my_collection" already exists with `collection.ttl.seconds` set.
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 await client.dropCollectionProperties({
@@ -2758,9 +2268,6 @@ await client.upsert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 // Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
 await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
 {
@@ -2780,6 +2287,17 @@ await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 {
     CollectionName = "my_collection",
     Properties = { ["ttl_field"] = "expire_at" }
+});
+
+// Step 4 (optional) — backfill expiration timestamps for historical entities
+var vector = Enumerable.Repeat(0.1f, 128).ToArray();
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "my_collection",
+    RowsData =
+    [
+        new Dictionary<string, object?> { ["id"] = 1L, ["vector"] = vector, ["expire_at"] = "2026-12-31T00:00:00Z" }
+    ]
 });
 ```
 
@@ -2839,10 +2357,6 @@ curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --he
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-
 # Assumes "my_collection" already exists with `ttl_field` set.
 # highlight-start
 client.drop_collection_properties(
@@ -2861,20 +2375,6 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build());
-
 // Assumes "my_collection" already exists with `ttl_field` set.
 // highlight-start
 client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
@@ -2896,27 +2396,10 @@ client.alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
-
 err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", "ttl_field"))
 if err != nil {
     fmt.Println(err.Error())
@@ -2936,12 +2419,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(&ConnectConfig::new()
-    .uri("YOUR_CLUSTER_ENDPOINT")
-    .token("YOUR_CLUSTER_TOKEN")).await?;
-
 client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
     .collection_name("my_collection")
     .property_key("ttl_field")
@@ -2958,12 +2435,6 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-
 status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                               .WithCollectionName("my_collection")
                                               .AddPropertyKey("ttl_field"));
@@ -2984,10 +2455,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-
 // Assumes "my_collection" already exists with `ttl_field` set.
 await client.dropCollectionProperties({
   collection_name: "my_collection",
@@ -3005,8 +2472,6 @@ await client.alterCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 // Assumes "my_collection" already exists with `ttl_field` set.
 await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
 {

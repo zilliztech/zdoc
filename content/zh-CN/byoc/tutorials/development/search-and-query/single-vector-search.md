@@ -114,7 +114,6 @@ import io.milvus.v2.service.vector.request.aggregation.OrderByField;
 import io.milvus.v2.service.vector.request.data.BaseVector;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -233,7 +232,6 @@ for result in response.results() {
 ```c++
 #include <iostream>
 #include <vector>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -1646,6 +1644,21 @@ var res = await client.SearchAsync(new SearchReq
 
 ```bash
 # restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+    "collectionName": "product_catalog",
+    "data": [[0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385]],
+    "annsField": "embedding",
+    "limit": 20,
+    "outputFields": ["id", "price", "rating", "category"],
+    "orderByFields": ["price:asc"]
+}'
 ```
 
 </TabItem>
@@ -1654,7 +1667,7 @@ var res = await client.SearchAsync(new SearchReq
 
 ```shell
 zilliz vector search \
-  --collection quick_setup \
+  --collection product_catalog \
   --body '{
   "data": [
     [
@@ -1665,14 +1678,17 @@ zilliz vector search \
       0.9029438446296592
     ]
   ],
-  "annsField": "vector",
+  "annsField": "embedding",
   "outputFields": [
-    "price"
+    "id",
+    "price",
+    "rating",
+    "category"
   ],
   "orderByFields": [
     "price:asc"
   ],
-  "limit": 3
+  "limit": 20
 }' \
   --output json
 ```
@@ -1869,6 +1885,21 @@ var res = await client.SearchAsync(new SearchReq
 
 ```bash
 # restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+    "collectionName": "product_catalog",
+    "data": [[0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385]],
+    "annsField": "embedding",
+    "limit": 20,
+    "outputFields": ["id", "price", "rating", "category"],
+    "orderByFields": ["price:asc", "rating:desc"]
+}'
 ```
 
 </TabItem>
@@ -1877,7 +1908,7 @@ var res = await client.SearchAsync(new SearchReq
 
 ```shell
 zilliz vector search \
-  --collection quick_setup \
+  --collection product_catalog \
   --body '{
   "data": [
     [
@@ -1888,16 +1919,18 @@ zilliz vector search \
       0.9029438446296592
     ]
   ],
-  "annsField": "vector",
+  "annsField": "embedding",
   "outputFields": [
+    "id",
     "price",
-    "rating"
+    "rating",
+    "category"
   ],
   "orderByFields": [
     "price:asc",
     "rating:desc"
   ],
-  "limit": 3
+  "limit": 20
 }' \
   --output json
 ```

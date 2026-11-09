@@ -34,7 +34,7 @@ import Grid from '@site/src/components/Grid';
 
         ## Milvus v3.0.x 公测版上线\{#milvus-v30x-public-preview}
 
-        Milvus v3.0.x 现已面向 Zilliz Cloud Dedicated 集群开始公测（Public Preview）。本次发布带来更灵活的 Schema 变更、更强的文本处理能力，以及查询与搜索的排序和聚合能力。如需试用，请在运行 Milvus v2.6.x 的 Dedicated 集群的集群概览页点击 **升级至 Milvus v3.0.x**。
+        Milvus v3.0.x 现已面向 Zilliz Cloud Dedicated 集群开始公测（Public Preview）。本次发布带来更灵活的 Schema 变更、更强的文本处理能力，以及查询与搜索的排序和聚合能力。如需试用，请在运行 Milvus v2.6.x 的 Dedicated 集群的集群概览页点击 **升级至 Milvus v3.0.x**。更多内容，可以查看[升级集群兼容版本以试用公测版功能](./manage-cluster#upgrade-cluster-for-preview-features)。
 
         **搜索与查询**
 

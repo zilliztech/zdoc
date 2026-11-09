@@ -204,6 +204,7 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 ```rust
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
+
 let client = ClientV2::new(
     &ConnectConfig::new()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -1981,7 +1982,7 @@ GetReq getReq = GetReq.builder()
         .collectionName("my_collection")
         .partitionName("partitionA")
         .ids(Arrays.asList(10, 11, 12))
-        .outputFields(Collections.singletonList("color"))
+        .outputFields(Arrays.asList("vector", "color"))
         .build();
 
 GetResp getResp = client.get(getReq);
@@ -1990,7 +1991,7 @@ QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
         .filter("color like \"red%\"")
-        .outputFields(Collections.singletonList("color"))
+        .outputFields(Arrays.asList("vector", "color"))
         .limit(3)
         .build();
 
@@ -2000,7 +2001,7 @@ QueryIteratorReq req = QueryIteratorReq.builder()
         .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
         .expr("color like \"red%\"")
-        .batchSize(50L)
+        .batchSize(10L)
         .outputFields(Collections.singletonList("color"))
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
@@ -2028,6 +2029,7 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 resultSet, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithPartitions("partitionA").
     WithFilter("color like \"red%\"").
+    WithLimit(3).
     WithOutputFields("vector", "color"))
 if err != nil {
     fmt.Println(err.Error())
@@ -2207,7 +2209,7 @@ const iterator = await client.queryIterator({
   partition_names: ['partitionA'],
   batchSize: 10,
   expr: 'color like "red%"',
-  output_fields: ['vector', 'color'],
+  output_fields: ['color'],
 });
 
 const results = [];
@@ -2438,6 +2440,7 @@ if (!status.IsOk()) {
 }
 
 request.SetFilter(R"(color like "red%" AND RANDOM_SAMPLE(0.005))");
+request.WithLimit(10);
 status = client->Query(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;

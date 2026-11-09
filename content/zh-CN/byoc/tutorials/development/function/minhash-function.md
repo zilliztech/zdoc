@@ -124,6 +124,18 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.common.clientenum.FunctionType;
+import java.util.Collections;
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.ArrayList;
+import java.util.List;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -158,9 +170,11 @@ schema.addField(AddFieldReq.builder()
 import (
     "context"
     "log"
+    "fmt"
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx := context.Background()
@@ -184,8 +198,10 @@ schema := entity.NewSchema().
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
+use serde_json::json;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
 
 let schema = CollectionSchema::new()
@@ -203,7 +219,7 @@ let schema = CollectionSchema::new()
 #include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -238,6 +254,8 @@ const fields = [
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -301,10 +319,6 @@ schema.add_function(minhash_function)
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.Collections;
-
 schema.addFunction(CreateCollectionReq.Function.builder()
         .name("minhash_function")
         .functionType(FunctionType.MINHASH)
@@ -320,8 +334,6 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 function := entity.NewFunction().
     WithName("minhash_function").
     WithType(entity.FunctionTypeMinHash).
@@ -338,8 +350,6 @@ schema = schema.WithFunction(function)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = schema.add_function(
     Function::new()
         .name("minhash_function")
@@ -369,8 +379,6 @@ schema->AddFunction(function);
 <TabItem value='javascript'>
 
 ```javascript
-import { FunctionType } from "@zilliz/milvus2-sdk-node";
-
 const functions = [
   {
     name: "minhash_function",
@@ -387,8 +395,6 @@ const functions = [
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 // Note: milvus-sdk-csharp as of v3.0.0 cannot set MinHash function params
 // (num_hashes / shingle_size) — FunctionSchema.Params is not publicly settable;
 // the server defaults are used.
@@ -488,9 +494,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import java.util.HashMap;
-
 IndexParam indexParam = IndexParam.builder()
         .fieldName("binary_vector")
         .indexType(IndexParam.IndexType.MINHASH_LSH)
@@ -508,13 +511,6 @@ IndexParam indexParam = IndexParam.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 indexOption := milvusclient.NewCreateIndexOption("dedup_collection", "binary_vector", index.NewMinHashLSHIndex(entity.MHJACCARD, 128).
     WithElementBitWidth(32).
     WithRawData(true)).
@@ -526,9 +522,6 @@ indexOption := milvusclient.NewCreateIndexOption("dedup_collection", "binary_vec
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let index_param = IndexParam::new()
     .field_name("binary_vector")
     .index_name("minhash_index")
@@ -557,8 +550,6 @@ index.AddExtraParam("with_raw_data", "true");
 <TabItem value='javascript'>
 
 ```javascript
-import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
-
 const indexParam = {
   field_name: "binary_vector",
   index_type: IndexType.MINHASH_LSH,
@@ -572,8 +563,6 @@ const indexParam = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Types;
-
 IndexParam indexParam = new("binary_vector", "minhash_index", IndexType.MinHashLsh, MetricType.MhJaccard)
 {
     ExtraParams =
@@ -618,9 +607,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.Collections;
-
 client.createCollection(CreateCollectionReq.builder()
         .collectionName("dedup_collection")
         .collectionSchema(schema)
@@ -633,12 +619,6 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("dedup_collection", schema).
     WithIndexOptions(indexOption))
 if err != nil {
@@ -651,8 +631,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client.create_collection(CreateCollectionRequest::builder()
     .collection_name("dedup_collection")
     .schema(schema)
@@ -668,7 +646,8 @@ client.create_collection(CreateCollectionRequest::builder()
 ```c++
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                  .WithCollectionName("dedup_collection")
-                                 .WithCollectionSchema(schema));
+                                 .WithCollectionSchema(schema)
+                                 .WithIndexes({std::move(index)}));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -696,8 +675,6 @@ await client.createIndex({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "dedup_collection",
@@ -763,11 +740,6 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.ArrayList;
-import java.util.List;
-
 List<JsonObject> data = new ArrayList<>();
 
 JsonObject row1 = new JsonObject();
@@ -793,12 +765,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("dedup_collection").
     WithVarcharColumn("document_content", []string{
         "information retrieval is a field of study that helps users find relevant information in large datasets",
@@ -815,9 +781,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let insert_req = InsertRequest::builder()
     .collection_name("dedup_collection")
     .rows(vec![
@@ -870,8 +833,6 @@ await client.insert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 await client.InsertAsync(new InsertReq
 {
     CollectionName = "dedup_collection",
@@ -945,14 +906,6 @@ for hits in results:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.common.IndexParam;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-
 SearchResp resp = client.search(SearchReq.builder()
         .collectionName("dedup_collection")
         .annsField("binary_vector")
@@ -977,14 +930,6 @@ for (SearchResp.SearchResult hit : resp.getSearchResults().get(0)) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 results, err := client.Search(ctx, milvusclient.NewSearchOption(
     "dedup_collection", 3,
     []entity.Vector{entity.Text("information retrieval is a research field focused on helping users find relevant data in large collections")}).
@@ -1007,9 +952,6 @@ for _, rs := range results {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let search_req = SearchRequest::builder()
     .collection_name("dedup_collection")
     .vector_field("binary_vector")
