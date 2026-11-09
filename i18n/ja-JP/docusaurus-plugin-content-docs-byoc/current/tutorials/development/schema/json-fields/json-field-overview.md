@@ -253,7 +253,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -563,7 +563,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 
 // Insert data
@@ -843,7 +843,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 
 // Create an index on the vector field
@@ -1056,7 +1056,7 @@ println!("{} rows returned", search.results().len());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Define filter expression
 std::string filter = R"(metadata["category"] == "electronics")";
 
@@ -1247,7 +1247,7 @@ println!("{} rows returned", search.results().len());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Define filter expression
 std::string filter = R"(metadata["supplier"]["country"] == "USA")";
 
@@ -1448,7 +1448,7 @@ println!("{} rows returned", search.results().len());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Define filter expression
 std::string filter = R"(json_contains(metadata["tags"], "summer_sale"))";
 
@@ -1639,7 +1639,7 @@ println!("{} rows returned", search.results().len());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Define filter expression
 std::string filter = R"(json_contains_any(metadata["tags"], ["electronics", "new", "clearance"]))";
 
@@ -1816,3 +1816,4 @@ Zilliz Cloud は、文字列値を JSON 入力に表示されるとおりに正�
 ```plaintext
 'a"b', 'a\'b'
 ```
+

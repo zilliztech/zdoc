@@ -1,21 +1,21 @@
 ---
 title: "外部コレクションのスキーマを変更する | BYOC"
 slug: /alter-external-collection-schema
-sidebar_label: "スキーマを変更する（外部コレクション）"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "外部データソースは、外部コレクションを作成した後で変化することがよくあります。たとえば、すでに埋め込みを格納しているレイクハウステーブルに、後から、クエリ結果で返したりフィルターで使用したりする score、category、timestamp などの新しいスカラーフィールドが含まれることがあります。 | BYOC"
+description: "既存の外部コレクションで外部データソースの追加フィールドを公開する方法について説明します。 | BYOC"
 type: origin
-token: A9lowWdneiCQbZkgwrocKkT2nxW
-sidebar_position: 19
 displayed_sidebar: default
+token: shared-alter-external-collection-schema
+sidebar_label: "スキーマを変更する（外部コレクション）"
+sidebar_position: 19
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/alter-external-collection-schema.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -28,11 +28,8 @@ import TabItem from '@theme/TabItem';
 ## 制限事項\{#limits}
 
 - 外部コレクションは現在、作成後のフィールド追加をサポートしています。フィールドの削除、フィールドの名前変更、フィールドデータ型の変更、ベクトル次元の変更、`external_field` の再マッピングなど、その他のスキーマ変更はサポートされていません。
-
 - 追加できるのは、外部データソースにすでに存在するフィールドだけです。この操作は、既存の外部フィールドを Zilliz Cloud フィールドにマッピングします。外部データソースに新しいフィールドを作成したり、ソースデータをバックフィルしたりはしません。
-
 - 既存の外部コレクションへの `SPARSE_FLOAT_VECTOR` フィールドの追加はサポートされていません。
-
 - 既存の外部コレクションへの StructArray フィールドの追加はサポートされていません。外部コレクションで StructArray フィールドが必要な場合は、コレクションの作成時にコレクションスキーマで定義してください。
 
 ## フィールドを追加する\{#add-a-field}
@@ -119,7 +116,7 @@ client.add_collection_field(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Note: milvus-sdk-cpp does not support adding a field to an external
 // collection as of v3.0.3 (AddCollectionField() routes through
 // AlterCollectionSchema, which rejects external collections).
@@ -168,6 +165,7 @@ await client.addCollectionField({
 ```
 
 </TabItem>
+
 </Tabs>
 
 この例では、`score` は Zilliz Cloud のフィールド名であり、`external_field="score"` によって外部データソース内の `score` フィールドにマッピングされます。`nullable=True` を設定するのは、フィールドがコレクションの作成後に追加されるためです。
@@ -237,7 +235,7 @@ client.add_collection_field(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Note: milvus-sdk-cpp does not support adding a field to an external
 // collection as of v3.0.3 (AddCollectionField() routes through
 // AlterCollectionSchema, which rejects external collections).
@@ -281,6 +279,7 @@ await client.addCollectionField({
 ```
 
 </TabItem>
+
 </Tabs>
 
 追加したベクトルフィールドでベクトル検索を実行する予定がある場合は、外部コレクションをリフレッシュする前に、そのフィールドのインデックスを作成してください。
@@ -389,151 +388,18 @@ client.create_index(
 
 <TabItem value='c++'>
 
-```c++
-#include <iostream>
+```cpp
+#include 
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::IndexDesc index_desc("image_embedding_v2", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
-status = client->CreateIndex(milvus::CreateIndexRequest()
+    std::cout CreateIndex(milvus::CreateIndexRequest()
                                  .WithCollectionName("product_embeddings")
                                  .AddIndex(std::move(index_desc)));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-await client.createIndex({
-   collection_name: 'product_embeddings',
-   field_name: 'image_embedding_v2',
-   index_type: 'AUTOINDEX',
-   metric_type: 'COSINE',
- });
-```
-
-</TabItem>
-
-<TabItem value='csharp'>
-
-```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-using Milvus.Client.V2.Requests.Utility;
-using Milvus.Client.V2.Responses.Utility;
-
-MilvusClientV2 client = new(new ConnectConfig
-{
-    Uri = "YOUR_CLUSTER_ENDPOINT",
-    Username = "root",
-    Password = "Milvus"
-});
-
-await client.CreateIndexAsync(new CreateIndexReq
-{
-    CollectionName = "product_embeddings",
-    Indexes =
-    [
-        new IndexParam("image_embedding_v2", null, IndexType.AutoIndex, MetricType.Cosine)
-    ]
-});
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "collectionName": "product_embeddings",
-    "indexParams": [
-        {
-            "fieldName": "image_embedding_v2",
-            "indexType": "AUTOINDEX",
-            "metricType": "COSINE"
-        }
-    ]
-}' 
-```
-
-</TabItem>
-</Tabs>
-
-## 外部コレクションをリフレッシュする\{#refresh-the-external-collection}
-
-外部コレクションのスキーマを変更した後は、外部コレクションをリフレッシュして、Zilliz Cloud が外部コレクションのメタデータを更新し、スキーマ変更がクエリ、検索、フィルターの結果に反映されるようにします。
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-client.refresh_external_collection(
-    collection_name="product_embeddings"
-)
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-RefreshExternalCollectionResp resp = client.refreshExternalCollection(
-        RefreshExternalCollectionReq.builder()
-                .collectionName("product_embeddings")
-                .build());
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-res, err := client.RefreshExternalCollection(ctx, milvusclient.NewRefreshExternalCollectionOption("product_embeddings"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let response = client.refresh_external_collection(
-    sdk::request::utility::RefreshExternalCollectionRequest::builder()
-        .collection_name("product_embeddings")
-        .build()?,
-).await?;
-println!("job_id: {}", response.job_id());
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::RefreshExternalCollectionRequest request;
-request.WithCollectionName("product_embeddings");
-milvus::RefreshExternalCollectionResponse response;
-status = client->RefreshExternalCollection(request, response);
+    std::cout RefreshExternalCollection(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -579,4 +445,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>

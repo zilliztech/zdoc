@@ -322,7 +322,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 #include "milvus/MilvusClientV2.h"
@@ -753,7 +753,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 #include <vector>
@@ -1034,7 +1034,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 #include <vector>
@@ -1319,7 +1319,7 @@ for row in response.results().rows()? {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 

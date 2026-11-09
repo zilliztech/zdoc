@@ -2364,6 +2364,19 @@ HybridSearchReq hybridReq = HybridSearchReq.builder()
         .outFields(Arrays.asList("headline", "content", "publish_date"))
         .build();
 SearchResp hybridResp = client.hybridSearch(hybridReq);
+
+HybridSearchReq hybridExpReq = HybridSearchReq.builder()
+        .collectionName(collectionName)
+        .searchRequests(Arrays.asList(
+                AnnSearchReq.builder().vectorFieldName("dense").limit(7)
+                        .vectors(Collections.singletonList(new EmbeddedText(query))).build(),
+                AnnSearchReq.builder().vectorFieldName("sparse_vector").limit(7)
+                        .vectors(Collections.singletonList(new EmbeddedText(query))).build()))
+        .functionScore(FunctionScore.builder().addFunction(exponentialRanker).build())
+        .limit(7)
+        .outFields(Arrays.asList("headline", "content", "publish_date"))
+        .build();
+SearchResp hybridExpResp = client.hybridSearch(hybridExpReq);
 ```
 
 </TabItem>
@@ -2419,6 +2432,27 @@ let hybrid_req = HybridSearchRequest::builder()
     .build()?;
 
 let hybrid = client.hybrid_search(hybrid_req).await?;
+
+let hybrid_exp_req = HybridSearchRequest::builder()
+    .collection_name(collection_name)
+    .sub_requests(vec![
+        SubSearchRequest::builder()
+            .vector_field("dense")
+            .vectors(SearchVectors::EmbeddedText(vec![query.to_string()]))
+            .limit(7)
+            .build()?,
+        SubSearchRequest::builder()
+            .vector_field("sparse_vector")
+            .vectors(SearchVectors::EmbeddedText(vec![query.to_string()]))
+            .limit(7)
+            .build()?,
+    ])
+    .rerank(exponential_ranker.clone())
+    .limit(7)
+    .output_fields(vec!["headline", "content", "publish_date"])
+    .build()?;
+
+let hybrid_exp = client.hybrid_search(hybrid_exp_req).await?;
 ```
 
 </TabItem>
@@ -2428,7 +2462,6 @@ let hybrid = client.hybrid_search(hybrid_req).await?;
 ```c++
 auto function_score = std::make_shared<milvus::FunctionScore>();
 function_score->AddFunction(gaussian_ranker);
-
 milvus::SearchResponse response;
 status = client->HybridSearch(milvus::HybridSearchRequest()
                                   .WithCollectionName(collection_name)
@@ -2441,6 +2474,27 @@ status = client->HybridSearch(milvus::HybridSearchRequest()
                                                      .AddEmbeddedText(query)
                                                      .WithLimit(7))
                                   .WithRerank(function_score)
+                                  .WithLimit(7)
+                                  .AddOutputField("headline")
+                                  .AddOutputField("content")
+                                  .AddOutputField("publish_date"),
+                              response);
+if (!status.IsOk()) { std::cout << status.Message() << std::endl; }
+
+auto function_score_exp = std::make_shared<milvus::FunctionScore>();
+function_score_exp->AddFunction(exponential_ranker);
+
+status = client->HybridSearch(milvus::HybridSearchRequest()
+                                  .WithCollectionName(collection_name)
+                                  .AddSubRequest(milvus::SubSearchRequest()
+                                                     .WithVectorFieldName("dense")
+                                                     .AddEmbeddedText(query)
+                                                     .WithLimit(7))
+                                  .AddSubRequest(milvus::SubSearchRequest()
+                                                     .WithVectorFieldName("sparse_vector")
+                                                     .AddEmbeddedText(query)
+                                                     .WithLimit(7))
+                                  .WithRerank(function_score_exp)
                                   .WithLimit(7)
                                   .AddOutputField("headline")
                                   .AddOutputField("content")
@@ -2461,6 +2515,17 @@ const hybrid = await client.hybridSearch({
     { anns_field: "sparse_vector", data: [query], limit: 7 },
   ],
   rerank: gaussian_ranker,
+  limit: 7,
+  output_fields: ["headline", "content", "publish_date"],
+});
+
+const hybrid_exp = await client.hybridSearch({
+  collection_name,
+  data: [
+    { anns_field: "dense", data: [query], limit: 7 },
+    { anns_field: "sparse_vector", data: [query], limit: 7 },
+  ],
+  rerank: exponential_ranker,
   limit: 7,
   output_fields: ["headline", "content", "publish_date"],
 });
@@ -2662,8 +2727,9 @@ for (int scaleDays : new int[]{7, 14, 30}) {
             .data(Collections.singletonList(new EmbeddedText(query)))
             .annsField("dense")
             .limit(7)
-            .outputFields(Arrays.asList("headline", "publish_date"))
+            .outputFields(Arrays.asList("headline", "content", "publish_date"))
             .functionScore(FunctionScore.builder().addFunction(scaledRanker).build())
+            .consistencyLevel(ConsistencyLevel.STRONG)
             .build());
     System.out.println("scale = " + scaleDays + " days, hits = " + resp.getSearchResults().get(0).size());
 }
@@ -2688,8 +2754,9 @@ for _, scaleDays := range []int{7, 14, 30} {
 
     results, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 7, []entity.Vector{entity.Text(query)}).
         WithANNSField("dense").
-        WithOutputFields("headline", "publish_date").
-        WithFunctionReranker(scaledRanker))
+        WithOutputFields("headline", "content", "publish_date").
+        WithFunctionReranker(scaledRanker).
+        WithConsistencyLevel(entity.ClStrong))
     if err != nil { log.Fatal(err) }
     fmt.Printf("scale = %d days, hits = %d\n", scaleDays, results[0].ResultCount)
 }
@@ -2717,8 +2784,9 @@ for scale_days in [7, 14, 30] {
         .vector_field("dense")
         .vectors(SearchVectors::EmbeddedText(vec![query.to_string()]))
         .limit(7)
-        .output_fields(vec!["headline", "publish_date"])
+        .output_fields(vec!["headline", "content", "publish_date"])
         .rerank(FunctionScore::new().add_function(scaled_ranker))
+        .consistency_level(ConsistencyLevel::Strong)
         .build()?)
     .await?;
     println!("scale = {} days, hits = {:?}", scale_days, res.results());
@@ -2741,7 +2809,6 @@ for (int scale_days : {7, 14, 30}) {
 
     auto fs = std::make_shared<milvus::FunctionScore>();
     fs->AddFunction(scaled_ranker);
-
     milvus::SearchResponse response;
     status = client->Search(milvus::SearchRequest()
                                 .WithCollectionName(collection_name)
@@ -2749,8 +2816,10 @@ for (int scale_days : {7, 14, 30}) {
                                 .AddEmbeddedText(query)
                                 .WithLimit(7)
                                 .AddOutputField("headline")
+                                .AddOutputField("content")
                                 .AddOutputField("publish_date")
-                                .WithRerank(fs),
+                                .WithRerank(fs)
+                                .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG),
                             response);
     if (!status.IsOk()) { std::cout << status.Message() << std::endl; }
 }
@@ -2773,7 +2842,8 @@ for (const scale_days of [7, 14, 30]) {
   };
   const res = await client.search({
     collection_name, anns_field: "dense", data: [query], limit: 7,
-    output_fields: ["headline", "publish_date"], rerank: scaled_ranker,
+    output_fields: ["headline", "content", "publish_date"], rerank: scaled_ranker,
+    consistency_level: "Strong",
   });
   console.log(`scale = ${scale_days} days, hits: ${res.results.length}`);
 }
@@ -2951,8 +3021,9 @@ for (String testQuery : Arrays.asList("machine learning", "neural networks", "et
             .data(Collections.singletonList(new EmbeddedText(testQuery)))
             .annsField("dense")
             .limit(4)
-            .outputFields(Arrays.asList("headline", "publish_date"))
+            .outputFields(Arrays.asList("headline", "content", "publish_date"))
             .functionScore(FunctionScore.builder().addFunction(gaussianRanker).build())
+            .consistencyLevel(ConsistencyLevel.STRONG)
             .build());
     System.out.println("TOP 4 RESULTS FOR '" + testQuery + "'");
     for (SearchResp.SearchResult hit : resp.getSearchResults().get(0)) {
@@ -2969,8 +3040,9 @@ for (String testQuery : Arrays.asList("machine learning", "neural networks", "et
 for _, testQuery := range []string{"machine learning", "neural networks", "ethics in AI"} {
     results, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 4, []entity.Vector{entity.Text(testQuery)}).
         WithANNSField("dense").
-        WithOutputFields("headline", "publish_date").
-        WithFunctionReranker(gaussianRanker))
+        WithOutputFields("headline", "content", "publish_date").
+        WithFunctionReranker(gaussianRanker).
+        WithConsistencyLevel(entity.ClStrong))
     if err != nil { log.Fatal(err) }
     fmt.Printf("TOP 4 RESULTS FOR '%s'\n", testQuery)
     for _, rs := range results {
@@ -2990,8 +3062,9 @@ for test_query in ["machine learning", "neural networks", "ethics in AI"] {
         .vector_field("dense")
         .vectors(SearchVectors::EmbeddedText(vec![test_query.to_string()]))
         .limit(4)
-        .output_fields(vec!["headline", "publish_date"])
+        .output_fields(vec!["headline", "content", "publish_date"])
         .rerank(FunctionScore::new().add_function(gaussian_ranker.clone()))
+        .consistency_level(ConsistencyLevel::Strong)
         .build()?)
     .await?;
     println!("TOP 4 RESULTS FOR '{}': {:?}", test_query, res.results());
@@ -3006,7 +3079,6 @@ for test_query in ["machine learning", "neural networks", "ethics in AI"] {
 for (const std::string& test_query : {"machine learning", "neural networks", "ethics in AI"}) {
     auto fs = std::make_shared<milvus::FunctionScore>();
     fs->AddFunction(gaussian_ranker);
-
     milvus::SearchResponse response;
     status = client->Search(milvus::SearchRequest()
                                 .WithCollectionName(collection_name)
@@ -3014,8 +3086,10 @@ for (const std::string& test_query : {"machine learning", "neural networks", "et
                                 .AddEmbeddedText(test_query)
                                 .WithLimit(4)
                                 .AddOutputField("headline")
+                                .AddOutputField("content")
                                 .AddOutputField("publish_date")
-                                .WithRerank(fs),
+                                .WithRerank(fs)
+                                .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG),
                             response);
     if (!status.IsOk()) { std::cout << status.Message() << std::endl; }
 }
@@ -3029,7 +3103,8 @@ for (const std::string& test_query : {"machine learning", "neural networks", "et
 for (const test_query of ["machine learning", "neural networks", "ethics in AI"]) {
   const res = await client.search({
     collection_name, anns_field: "dense", data: [test_query], limit: 4,
-    output_fields: ["headline", "publish_date"], rerank: gaussian_ranker,
+    output_fields: ["headline", "content", "publish_date"], rerank: gaussian_ranker,
+    consistency_level: "Strong",
   });
   console.log(`TOP 4 RESULTS FOR '${test_query}':`, res.results.length);
 }
