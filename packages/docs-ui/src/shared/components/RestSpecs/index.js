@@ -415,22 +415,38 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected, optionVal
 // A combinator (anyOf/oneOf) whose option list filtered down to a single
 // entry renders its content directly — a lone tab label like "Zilliz Cloud"
 // carries no choice and only adds noise. The panel body is exactly Tab's.
-const SingleOption = ({ content, lang, target }) => {
+// When the wrapper already drew a named header with its own description
+// (schema | object above a parameter description), the option's own
+// type-level description would duplicate it, so it can be suppressed.
+const SingleOption = ({ content, lang, target, showDescription = true }) => {
     if (!content) {
         return null
     }
 
     const translatedDescription = content?.["x-i18n"]?.[lang]?.description ? content["x-i18n"][lang].description : content?.description
+    const optionDescription = showDescription ? translatedDescription : undefined
 
     return (
         <div className={styles.tabPanel}>
-            { content?.type === 'object' && <Properties description={translatedDescription} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
-            { content?.type === 'array' && <Items description={translatedDescription} obj={content.items} required={content.items.required} lang={lang} target={target} /> }
-            { (content?.type === 'string' || content?.type === 'number' || content?.type === 'integer' || content?.type === 'boolean') && <Primitive obj={{...content, description: translatedDescription}} lang={lang} target={target} /> }
-            { content?.$ref && <Primitive obj={{type: 'object', description: translatedDescription || `\`${content.$ref.slice('#/components/schemas/'.length)}\` (recursive reference).`}} lang={lang} target={target} /> }
-            { content?.properties && content?.type === undefined && <Properties description={translatedDescription} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
+            { content?.type === 'object' && <Properties description={optionDescription} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
+            { content?.type === 'array' && <Items description={optionDescription} obj={content.items} required={content.items.required} lang={lang} target={target} /> }
+            { (content?.type === 'string' || content?.type === 'number' || content?.type === 'integer' || content?.type === 'boolean') && <Primitive obj={{...content, description: optionDescription}} lang={lang} target={target} /> }
+            { content?.type === 'code' && <CodeBlock className="language-json" children={JSON.stringify(content.value, null, 4)} /> }
+            { content?.type === 'reqs' && <CodeBlock className="language-bash" children={content.value} /> }
         </div>
     )
+}
+
+// With one valid option left there is no scenario to pick, so the parameter
+// header names the resolved type ("schema | object") instead of the
+// combinator keyword — matching how plain typed properties read. Multi-option
+// combinators keep the keyword that labels the tab row.
+const combinatorHeaderLabel = (validItems, keyword) => {
+    if (validItems.length !== 1) {
+        return keyword
+    }
+
+    return validItems[0].item?.type || 'object'
 }
 
 const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, x_i18n }) => {
@@ -474,13 +490,13 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, 
         { (name && name !== 'responses' && name !== 'requestBody') && <div className={styles.paramContainer}>
             <div className={styles.paramLabels}>
                 <span className={styles.paramName}>{name}</span>
-                <span className={styles.label}>anyOf</span>
+                <span className={styles.label}>{combinatorHeaderLabel(validItems, 'anyOf')}</span>
                 { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
         { validItems.length === 1
-            ? <SingleOption content={validItems[0].item} lang={lang} target={target} />
+            ? <SingleOption content={validItems[0].item} lang={lang} target={target} showDescription={!(name && name !== 'responses' && name !== 'requestBody')} />
             : <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
                 <div className={styles.tabs} style={{ marginTop: '1rem' }}>
                     {validItems.map(({ item, originalIndex }) => {
@@ -543,13 +559,13 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange, 
         { (name && name !== 'responses' && name !== 'requestBody') && <div className={styles.paramContainer}>
             <div className={styles.paramLabels}>
                 <span className={styles.paramName}>{name}</span>
-                <span className={styles.label}>oneOf</span>
+                <span className={styles.label}>{combinatorHeaderLabel(validItems, 'oneOf')}</span>
                 { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
         { validItems.length === 1
-            ? <SingleOption content={validItems[0].item} lang={lang} target={target} />
+            ? <SingleOption content={validItems[0].item} lang={lang} target={target} showDescription={!(name && name !== 'responses' && name !== 'requestBody')} />
             : <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
                 <div className={styles.tabs} style={{ marginTop: '1rem' }}>
                     {validItems.map(({ item, originalIndex }) => {
