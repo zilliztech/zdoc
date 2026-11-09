@@ -127,7 +127,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     #include "milvus/MilvusClientV2.h"
 
     // Initialize Milvus client
@@ -222,7 +222,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     // Add the INVERTED index
     milvus::IndexDesc index_desc("category", "category_index", milvus::IndexType::INVERTED); // field name, index name, index type
     ```
@@ -328,7 +328,7 @@ JSON 以外のフィールドにインデックスを作成するには、次の
 
     <TabItem value='c++'>
 
-    ```c++
+    ```cpp
     // Create the index
     status = client->CreateIndex(milvus::CreateIndexRequest()
                                      .WithCollectionName("my_collection") // Replace with your collection name
@@ -490,7 +490,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Build index params
 milvus::IndexDesc json_index_desc("metadata", "metadata_category_index", milvus::IndexType::INVERTED); // JSON field name, index name, index type
 json_index_desc.AddExtraParam("json_path", "metadata[\"category\"]"); // Path to the JSON key
@@ -638,7 +638,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 

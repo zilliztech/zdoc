@@ -525,18 +525,13 @@ std::cout << partition_response.Stats().RowCount() << std::endl;
 
 ```javascript
 // 1. Set up a milvus client
-const milvusClient = new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT',
-    token: 'YOUR_CLUSTER_TOKEN'
-});
-
 // 2. Get the entity count
-await milvusClient.getCollectionStats({
+await client.getCollectionStats({
  collection_name: 'test_collection'
 });
 
 // 3. Get the entity count of a partition
-await milvusClient.getPartitionStats({
+await client.getPartitionStats({
  collection_name: 'test_collection',
  partition_name: '_default'
 });

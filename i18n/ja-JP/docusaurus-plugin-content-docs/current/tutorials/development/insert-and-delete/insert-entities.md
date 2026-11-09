@@ -216,7 +216,7 @@ println!("{:?}", res.insert_count());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <vector>
@@ -553,7 +553,7 @@ println!("{:?}", res.insert_count());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <vector>
 
