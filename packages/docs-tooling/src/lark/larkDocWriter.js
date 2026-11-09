@@ -1060,6 +1060,7 @@ class larkDocWriter {
 
                 let markdown = `${front_matter}\n\n# ${title}\n\n${short_description}\n\n## Contents\n\n${links.join('\n')}\n\n## FAQs\n\n${sub_page.slice(1).join('\n')}`
                 markdown = await this.__mdx_patches(markdown)
+                markdown = await this.__repair_accidental_math_spans(markdown, slug)
                 fs.writeFileSync(`${path}/${slug}.md`, markdown)
             }
         }

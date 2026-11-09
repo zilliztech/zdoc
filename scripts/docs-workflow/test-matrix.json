@@ -591,6 +591,7 @@
       ],
       "focusedTests": [
         "node --test packages/docs-tooling/src/markdown/renderMarkdownHtml.test.js packages/docs-tooling/src/markdown/accidentalMathSpans.test.js",
+        "node packages/docs-tooling/src/lark/larkDocWriter.test.js",
         "node packages/docs-tooling/src/lark/larkDocScraper.test.js",
         "node --test packages/docs-tooling/src/lark/requestedGuidesFetchPlanner.test.js",
         "pnpm test:guides-workflow",
@@ -1043,7 +1044,8 @@
     {
       "id": "translation-agent-runtime",
       "paths": [
-        "scripts/translation/**"
+        "scripts/translation/**",
+        "packages/docs-tooling/src/markdown/accidentalMathSpans*"
       ],
       "focusedTests": [
         "pnpm test:translation"

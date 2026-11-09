@@ -679,7 +679,7 @@ async function validateTranslatedContent(content) {
   // the Feishu document.
   const { spans: accidentalSpans } = await findAccidentalMathSpans(mdxBody)
   for (const span of accidentalSpans) {
-    errors.push(`Accidental math span: remark-math paired $ delimiters into math (${JSON.stringify(String(span.value).slice(0, 60))}); escape the dollars as \\$ or rephrase so no unintended $...$ pair forms`)
+    errors.push(`Accidental math span: remark-math paired $ delimiters into math (${JSON.stringify(String(span.value).slice(0, 60))}); escape the dollars as \\$, rephrase so no unintended $...$ pair forms, or regenerate the damaged source via Fetch`)
   }
   const structureErrors = validateMdxStructure(content)
   if (structureErrors.length) errors.push(...structureErrors)

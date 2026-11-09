@@ -192,12 +192,14 @@ async function testHtmlTableCellDollarsStayLiteral() {
   // The HTML table cell path renders cell markdown through markdown-it,
   // which turns backtick-protected `$meta` chips into raw `<code>$meta</code>`
   // tags. remark-math then pairs those dollars across the tags (the 11-05
-  // json-field-overview incident), so the chips must come out pre-escaped.
+  // json-field-overview incident), so the renderer must re-escape every
+  // decoded dollar as an entity before the text reaches MDX.
   const writer = createWriter([]);
   const cell = writer.__htmlTableCellContent('Query via `$meta`: `$meta["dynamic_key"]`');
 
-  assert.ok(cell.includes('<code>\\$meta</code>'), cell);
-  assert.ok(cell.includes('<code>\\$meta[&quot;dynamic_key&quot;]</code>'), cell);
+  assert.ok(cell.includes('<code>&#36;meta</code>'), cell);
+  assert.ok(cell.includes('<code>&#36;meta[&quot;dynamic_key&quot;]</code>'), cell);
+  assert.ok(!cell.includes('\\$'), `backslash escapes would be double-processed by escapeCurrencyDollars: ${cell}`);
 
   const compiled = String(await assertMdxCompiles(cell));
   assert.doesNotMatch(compiled, /katex/);

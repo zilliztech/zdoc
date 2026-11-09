@@ -3,21 +3,13 @@ const test = require('node:test');
 const {
   findAccidentalMathSpans,
   repairAccidentalMathSpans,
-  looksAccidentalMathValue,
-  mightContainMathDelimiters,
 } = require('./accidentalMathSpans');
 
-test('prefilter short-circuits pages without any dollar', () => {
-  assert.equal(mightContainMathDelimiters('no dollars on this page'), false);
-  assert.equal(mightContainMathDelimiters('price $5 and `$meta`'), true);
-  assert.equal(mightContainMathDelimiters(null), false);
-});
-
-test('accident signature matches swallowed JSX tags or CJK content', () => {
-  assert.equal(looksAccidentalMathValue('meta</code>: <code>'), true);
-  assert.equal(looksAccidentalMathValue('経由でクエリします：'), true);
-  assert.equal(looksAccidentalMathValue('x + y'), false);
-  assert.equal(looksAccidentalMathValue('\\lambda'), false);
+test('prefilter short-circuits pages without any dollar', async () => {
+  const clean = await findAccidentalMathSpans('no dollars on this page');
+  assert.deepEqual(clean.spans, []);
+  const candidate = await findAccidentalMathSpans('price $5 and `$meta`');
+  assert.deepEqual(candidate.spans, []);
 });
 
 test('detects the production damage shape: dollars paired across code chips', async () => {
@@ -128,4 +120,63 @@ test('repair handles chained damage across rounds', async () => {
   assert.equal(remaining.length, 0);
   const recheck = await findAccidentalMathSpans(repaired);
   assert.deepEqual(recheck.spans, []);
+});
+
+test('localized \\text content and brace-escaped environments are legitimate', async () => {
+  // KaTeX judges these fine once braces are restored the way the site's
+  // markdownPolicy does; the old CJK regex would have flagged them.
+  const clean = [
+    'The score $\\text{スコア}=x$ is localized.',
+    'The matrix $\\begin\\{matrix\\} a \\end\\{matrix\\}$ renders.',
+    'Chinese prose with $x + y$ math.',
+  ].join('\n');
+  const {spans} = await findAccidentalMathSpans(clean);
+  assert.deepEqual(spans, []);
+});
+
+test('span the site renders as red KaTeX output is flagged', async () => {
+  // Unclosed brace group: the site engine throws, so the span is accidental
+  // even though it carries no CJK and no JSX remnant.
+  const {spans} = await findAccidentalMathSpans('a $x {y$ b');
+  assert.equal(spans.length, 1);
+  assert.equal(spans[0].value, 'x {y');
+});
+
+test('repair leaves already-escaped dollars alone', async () => {
+  // `\$` inside a formula is inert to remark-math; escaping its delimiters
+  // again would mint `\\$` — a literal backslash plus a live delimiter.
+  const damaged = '<td><p>via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>\n\nFormula with \\\\$x$ stays.';
+  const {markdown: repaired, repaired: spans, remaining} = await repairAccidentalMathSpans(damaged);
+  assert.equal(remaining.length, 0);
+  assert.ok(spans.every(span => span.value === 'meta</code>: <code>'), JSON.stringify(spans));
+  assert.match(repaired, /\\\\\$x\$/);
+  const recheck = await findAccidentalMathSpans(repaired);
+  assert.deepEqual(recheck.spans, []);
+});
+
+test('repair handles trailing whitespace inside a display fence position', async () => {
+  const damaged = '$$\n率 + x\n$$   \n\nafter';
+  const {markdown: repaired, remaining} = await repairAccidentalMathSpans(damaged);
+  assert.equal(remaining.length, 0);
+  assert.equal(repaired, '\\$\\$\n率 + x\n\\$\\$   \n\nafter');
+  const recheck = await findAccidentalMathSpans(repaired);
+  assert.deepEqual(recheck.spans, []);
+});
+
+test('repair reports span objects with values for attribution logs', async () => {
+  const {repaired: spans} = await repairAccidentalMathSpans('<td><p>a <code>$meta</code>: <code>$meta["k"]</code></p></td>');
+  assert.ok(spans.length >= 1);
+  assert.ok(typeof spans[0].value === 'string' && spans[0].value.length > 0, JSON.stringify(spans[0]));
+});
+
+test('repair falls back to the original text if escaping would grow new math', async () => {
+  // Probe17 shape from review: a live delimiter preceded by a backslash could
+  // mint `\\$` and a fresh formula; the invariant must roll the repair back.
+  const tricky = '$\\\\$ \\times n$\n';
+  const result = await repairAccidentalMathSpans(tricky);
+  const finalClean = (await findAccidentalMathSpans(result.markdown)).spans.length === 0;
+  assert.ok(
+    finalClean || (result.markdown === tricky && result.repaired.length === 0),
+    'repair output must either be clean or be the untouched original',
+  );
 });

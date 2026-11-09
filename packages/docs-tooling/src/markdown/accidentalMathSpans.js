@@ -8,7 +8,6 @@
 // unicodeTextInMathMode warnings. This module is the one shared definition of
 // "an accidental math span" so writer gates and tests detect the same damage.
 
-const CJK_CHARS = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uff00-\uffef\u3000-\u303f]/
 const JSX_TAG_REMNANT = /<\/?[a-zA-Z][^<>]*>/
 const ANY_DOLLAR = /\$/
 
@@ -31,26 +30,45 @@ function loadPipeline() {
     return pipelinePromise;
 }
 
-// Fast signals. CJK never belongs in an equation, and a swallowed JSX tag can
-// only come from damaged inline content. KaTeX renders both kinds "fine", so
-// they need dedicated checks.
-function looksAccidentalMathValue(value) {
-    return JSX_TAG_REMNANT.test(value) || CJK_CHARS.test(value);
+// The site's markdownPolicy restores escaped braces before KaTeX sees a math
+// value (both sites enable the math-brace-fix policy), so the legality check
+// must judge the restored form or it misjudges `\begin\{matrix\}` shapes.
+function restoreMathBraces(value) {
+    return value.replace(/\\\{/g, '{').replace(/\\\}/g, '}');
 }
 
-// Authoritative signal: the site renders each span through KaTeX, and any
-// parse failure (unbalanced braces, an unknown macro) shows up there as
-// visible red error output. A span the site engine cannot parse is therefore
-// accidental by definition, while legitimate equations — including ones with
-// undefined-looking commands like \R, which KaTeX ships — parse cleanly.
+// Authoritative signal: the site renders each span through KaTeX, so a span
+// the site engine rejects — a structural parse failure, an unknown macro, or
+// content that trips unicodeTextInMathMode (the warning class that exposed the
+// incident) — is accidental by definition. Legitimate equations, including
+// ones with undefined-looking commands like \R and localized \text{...}
+// content, parse cleanly; strict only escalates the exact warning the site
+// prints.
 function looksLikeBrokenMathValue(value, katex, displayMode) {
     if (!katex) return false;
     try {
-        katex.renderToString(value, {strict: 'ignore', displayMode});
+        katex.renderToString(restoreMathBraces(value), {
+            displayMode,
+            strict: errorCode => (errorCode === 'unicodeTextInMathMode' ? 'error' : 'ignore'),
+        });
         return false;
     } catch {
         return true;
     }
+}
+
+// A swallowed JSX tag can only come from damaged inline content; KaTeX renders
+// some damaged shapes (bare `meta</code>: <code>`) without complaint, so this
+// signal stays alongside the KaTeX check.
+function looksLikeSwallowedJsx(value) {
+    return JSX_TAG_REMNANT.test(value);
+}
+
+function isAccidentalMathSpan(span, katex) {
+    return (
+        looksLikeSwallowedJsx(span.value) ||
+        looksLikeBrokenMathValue(span.value, katex, span.type === 'math')
+    );
 }
 
 // Cheap prefilter: pages without a raw dollar cannot grow a math span, so the
@@ -59,10 +77,11 @@ function mightContainMathDelimiters(markdown) {
     return ANY_DOLLAR.test(String(markdown ?? ''));
 }
 
-// Returns {spans, compileError}. `spans` lists accidental math nodes; a
-// compileError means the markdown itself is not valid MDX (a separate class of
-// failure surfaced by downstream MDX validation) and is reported, not thrown.
-async function findAccidentalMathSpans(markdown) {
+// Parse once and classify every math node. Returns {spans, compileError}: spans
+// carry {type, value, position, accidental}; a compileError means the markdown
+// itself is not valid MDX (a separate class of failure surfaced by downstream
+// MDX validation) and is reported, not thrown.
+async function collectMathSpans(markdown) {
     const result = {spans: [], compileError: null};
     if (!mightContainMathDelimiters(markdown)) return result;
 
@@ -75,17 +94,19 @@ async function findAccidentalMathSpans(markdown) {
                     if (!node) return;
                     if (
                         (node.type === 'inlineMath' || node.type === 'math') &&
-                        typeof node.value === 'string' &&
-                        (looksAccidentalMathValue(node.value) || looksLikeBrokenMathValue(node.value, katex, node.type === 'math'))
+                        typeof node.value === 'string'
                     ) {
-                        spans.push({
+                        const span = {
                             type: node.type,
                             value: node.value,
                             position: node.position ? {
                                 start: node.position.start?.offset,
                                 end: node.position.end?.offset,
                             } : null,
-                        });
+                            accidental: false,
+                        };
+                        span.accidental = isAccidentalMathSpan(span, katex);
+                        spans.push(span);
                     }
                     const children = node.children;
                     if (Array.isArray(children)) {
@@ -101,44 +122,91 @@ async function findAccidentalMathSpans(markdown) {
     return result;
 }
 
+// Returns {spans, compileError} where spans lists accidental math nodes only.
+async function findAccidentalMathSpans(markdown) {
+    const collected = await collectMathSpans(markdown);
+    return {
+        spans: collected.spans.filter(span => span.accidental),
+        compileError: collected.compileError,
+    };
+}
+
+function isEscapedDollar(text, offset) {
+    let backslashes = 0;
+    while (offset - 1 - backslashes >= 0 && text[offset - 1 - backslashes] === '\\') backslashes += 1;
+    return backslashes % 2 === 1;
+}
+
 // Delimiter character offsets covered by one span, from the mdast position.
 // Positions cover the delimiters themselves: an inlineMath starts at its
 // opening `$` and ends one past its closing `$`; a display `math` node wraps
-// the `$$` pairs on both ends.
-function spanDelimiterOffsets(span) {
+// the `$$` pairs on both ends. Escaped dollars (`\$`) keep their pairing power
+// inside math for KaTeX but are already inert to remark-math, so they are left
+// alone — escaping them again would turn `\$` into `\\$`: a literal backslash
+// plus a brand-new live delimiter.
+function spanDelimiterOffsets(span, text) {
     if (!span.position || span.position.start == null || span.position.end == null) return [];
-    if (span.type === 'math') {
-        return [span.position.start, span.position.start + 1, span.position.end - 2, span.position.end - 1];
-    }
-    return [span.position.start, span.position.end - 1];
+    const start = span.position.start;
+    const end = span.position.end;
+    // Opening run: consecutive `$`s from the start (`$$` display fences).
+    let openingEnd = start;
+    while (openingEnd < end && text[openingEnd] === '$') openingEnd += 1;
+    // Closing run: the position may include trailing whitespace after the
+    // closing `$$`, which is not part of the fence — walk back over it first.
+    let closingEnd = end;
+    while (closingEnd > openingEnd && /[ \t\r\n]/.test(text[closingEnd - 1])) closingEnd -= 1;
+    let closingStart = closingEnd;
+    while (closingStart > openingEnd && text[closingStart - 1] === '$') closingStart -= 1;
+    const offsets = [];
+    for (let offset = start; offset < openingEnd; offset += 1) offsets.push(offset);
+    for (let offset = closingStart; offset < closingEnd; offset += 1) offsets.push(offset);
+    return offsets.filter(offset => text[offset] === '$' && !isEscapedDollar(text, offset));
 }
 
 // Escape the delimiters of every accidental span so the `$` characters render
 // literally and the swallowed JSX tags resolve again. Escaping only removes
-// pairing ability, so each round eliminates at least the detected spans and
-// the pass converges. The repair restores exactly what the author wrote: a
-// chip `$meta` that is escaped shows as a literal `$meta` again.
+// pairing ability for remark-math, so each round eliminates the detected
+// spans. The repair must also never create a math node that was not there
+// before: after every round the full span set is re-collected and, if a new
+// value appeared, the whole repair is rolled back (the caller then warns with
+// the surviving spans instead of publishing a mangled page).
 async function repairAccidentalMathSpans(markdown, maxRounds = 5) {
-    let text = String(markdown ?? '');
+    const original = String(markdown ?? '');
+    let text = original;
     const repaired = [];
-    let remaining = [];
+    let baseline = null;
     for (let round = 0; round < maxRounds; round += 1) {
-        const {spans} = await findAccidentalMathSpans(text);
-        if (spans.length === 0) return {markdown: text, repaired, remaining: []};
-        const offsets = [...new Set(spans.flatMap(spanDelimiterOffsets))].filter(offset => text[offset] === '$');
-        if (offsets.length === 0) return {markdown: text, repaired, remaining: spans};
-        for (const offset of offsets.sort((a, b) => b - a)) {
+        const collected = await collectMathSpans(text);
+        if (!baseline) baseline = new Set(collected.spans.map(span => span.value));
+        const accidental = collected.spans.filter(span => span.accidental);
+        if (accidental.length === 0) return {markdown: text, repaired, remaining: []};
+        const offsets = [...new Set(accidental.flatMap(span => spanDelimiterOffsets(span, text)))].sort((a, b) => b - a);
+        if (offsets.length === 0) {
+            return {markdown: original, repaired: [], remaining: accidental};
+        }
+        for (const offset of offsets) {
             text = text.slice(0, offset) + '\\$' + text.slice(offset + 1);
         }
-        repaired.push(...spans.map(span => span.value));
+        repaired.push(...accidental);
+
+        // Invariant: a repair may never grow new math. Roll back wholesale if
+        // escaping somehow produced one.
+        const after = await collectMathSpans(text);
+        const grew = after.spans.some(span => !baseline.has(span.value));
+        if (grew) {
+            return {markdown: original, repaired: [], remaining: accidental};
+        }
     }
-    const final = await findAccidentalMathSpans(text);
-    return {markdown: text, repaired, remaining: final.spans};
+    const final = await collectMathSpans(text);
+    const accidental = final.spans.filter(span => span.accidental);
+    if (accidental.length > 0) {
+        return {markdown: original, repaired: [], remaining: accidental};
+    }
+    return {markdown: text, repaired, remaining: []};
 }
 
 module.exports = {
-    looksAccidentalMathValue,
-    mightContainMathDelimiters,
     findAccidentalMathSpans,
     repairAccidentalMathSpans,
+    collectMathSpans,
 };
