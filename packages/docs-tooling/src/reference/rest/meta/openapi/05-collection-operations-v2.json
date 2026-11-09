@@ -8180,6 +8180,53 @@
         "x-last-modified": "2.6.x",
         "x-deprecated-since": null
       },
+      "CustomCollectionSchema": {
+        "type": "object",
+        "description": "The schema is responsible for organizing data in the target collection. A valid schema should have multiple fields, which must include a primary key, a vector field, and several scalar fields.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Schema 决定了 Collection 中数据的组织方式。一个有效的 Schema 应包含多个字段，其中必须包含主键字段、向量字段以及多个标量字段。"
+          },
+          "ja-JP": {
+            "description": "schema は対象コレクション内のデータを整理する役割を担います。有効な schema には複数のフィールドが必要であり、primary key、vector field、および複数の scalar field を含める必要があります。"
+          }
+        },
+        "properties": {
+          "autoID": {
+            "$ref": "#/components/schemas/CollectionSchema/properties/autoID"
+          },
+          "enableDynamicField": {
+            "$ref": "#/components/schemas/CollectionSchema/properties/enableDynamicField"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomFieldSchema"
+            },
+            "description": "A list of field objects.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "字段列表。"
+              },
+              "ja-JP": {
+                "description": "フィールドオブジェクトのリスト。"
+              }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
+          },
+          "functions": {
+            "$ref": "#/components/schemas/CollectionSchema/properties/functions"
+          },
+          "structFields": {
+            "$ref": "#/components/schemas/CollectionSchema/properties/structFields"
+          }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
       "CustomSetupCollection": {
         "x-tab-label": "custom setup",
         "type": "object",
@@ -8226,7 +8273,7 @@
             },
             "oneOf": [
               {
-                "$ref": "#/components/schemas/CollectionSchema"
+                "$ref": "#/components/schemas/CustomCollectionSchema"
               }
             ],
             "x-added-at": "2.6.x",
@@ -10183,6 +10230,54 @@
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
             "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "fieldName",
+          "dataType"
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "CustomFieldSchema": {
+        "type": "object",
+        "description": "A field schema object.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "一个字段 Schema 对象。"
+          },
+          "ja-JP": {
+            "description": "フィールド schema オブジェクト。"
+          }
+        },
+        "properties": {
+          "fieldName": {
+            "$ref": "#/components/schemas/FieldSchema/properties/fieldName"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/FieldSchema/properties/dataType"
+          },
+          "elementDataType": {
+            "$ref": "#/components/schemas/FieldSchema/properties/elementDataType"
+          },
+          "nullable": {
+            "$ref": "#/components/schemas/FieldSchema/properties/nullable"
+          },
+          "defaultValue": {
+            "$ref": "#/components/schemas/FieldSchema/properties/defaultValue"
+          },
+          "isPrimary": {
+            "$ref": "#/components/schemas/FieldSchema/properties/isPrimary"
+          },
+          "isPartitionKey": {
+            "$ref": "#/components/schemas/FieldSchema/properties/isPartitionKey"
+          },
+          "isClusteringKey": {
+            "$ref": "#/components/schemas/FieldSchema/properties/isClusteringKey"
+          },
+          "elementTypeParams": {
+            "$ref": "#/components/schemas/FieldSchema/properties/elementTypeParams"
           }
         },
         "required": [
