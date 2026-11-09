@@ -507,6 +507,16 @@ async function main(): Promise<void> {
   try {
     const argv = process.argv.slice(2);
     const repositoryRoot = path.resolve(process.cwd());
+    if (argv[0] === 'shared-docs' && argv[1] === 'update-plan') {
+      const {runUpdatePlan} = await import('./shared-docs/commands/update-plan.ts');
+      process.exitCode = await runUpdatePlan(argv.slice(2));
+      return;
+    }
+    if (argv[0] === 'shared-docs' && argv[1] === 'update-prepare') {
+      const {runUpdatePrepare} = await import('./shared-docs/commands/update-prepare.ts');
+      process.exitCode = await runUpdatePrepare(argv.slice(2));
+      return;
+    }
     loadDotenv({path: path.join(repositoryRoot, '.env'), override: false});
     if (await executeExplicitCommand(argv, repositoryRoot)) return;
     if (argv[0] === 'reference-manifest' || argv[0] === 'reference-sidebar' || argv[0] === 'validate-reference') {

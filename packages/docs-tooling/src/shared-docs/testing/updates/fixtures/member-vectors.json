@@ -1,0 +1,205 @@
+{
+  "scope": "proposal namespace examples only; no production authority",
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "id": "V1",
+      "description": "Same logical ID/token in two manuals, one Guides subject/lock",
+      "site": "en",
+      "units": [
+        {
+          "unitKey": "guides:alphanumonly-filter",
+          "reports": [
+            {
+              "subject": {
+                "kind": "guides-page",
+                "group": "guides",
+                "pageId": "alphanumonly-filter"
+              },
+              "lockPath": "shared-docs/guides/pages/alphanumonly-filter/lock.yaml",
+              "members": [
+                {
+                  "logicalId": "alphanumonly-filter",
+                  "manualId": "guides",
+                  "token": "shared-alphanumonly-filter",
+                  "outputPath": "fixtures/en/guides/alphanumonly-filter.mdx",
+                  "origin": "upstream",
+                  "current": true,
+                  "next": true
+                },
+                {
+                  "logicalId": "alphanumonly-filter",
+                  "manualId": "guides-byoc",
+                  "token": "shared-alphanumonly-filter",
+                  "outputPath": "fixtures/en/guides-byoc/alphanumonly-filter.mdx",
+                  "origin": "upstream",
+                  "current": true,
+                  "next": true
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "expectedErrors": [],
+      "expectedDistinctLocks": 1
+    },
+    {
+      "id": "V2a",
+      "description": "Same manual/logical ID despite different token, path and origin",
+      "site": "en",
+      "units": [
+        {
+          "unitKey": "guides:alphanumonly-filter",
+          "reports": [
+            {
+              "subject": {
+                "kind": "guides-page",
+                "group": "guides",
+                "pageId": "alphanumonly-filter"
+              },
+              "lockPath": "shared-docs/guides/pages/alphanumonly-filter/lock.yaml",
+              "members": [
+                {
+                  "logicalId": "alphanumonly-filter",
+                  "manualId": "guides",
+                  "token": "other-token",
+                  "outputPath": "fixtures/en/guides/other.mdx",
+                  "origin": "local",
+                  "current": true,
+                  "next": true
+                },
+                {
+                  "logicalId": "alphanumonly-filter",
+                  "manualId": "guides",
+                  "token": "shared-alphanumonly-filter",
+                  "outputPath": "fixtures/en/guides/alphanumonly-filter.mdx",
+                  "origin": "upstream",
+                  "current": true,
+                  "next": true
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "expectedErrors": [
+        "DUPLICATE_MANUAL_LOGICAL_ID"
+      ],
+      "expectedDistinctLocks": 1
+    },
+    {
+      "id": "V2b",
+      "description": "Same manual/token across two reports in one adoption unit",
+      "site": "en",
+      "units": [
+        {
+          "unitKey": "guides:alphanumonly-filter+other",
+          "reports": [
+            {
+              "subject": {
+                "kind": "guides-page",
+                "group": "guides",
+                "pageId": "alphanumonly-filter"
+              },
+              "lockPath": "shared-docs/guides/pages/alphanumonly-filter/lock.yaml",
+              "members": [
+                {
+                  "logicalId": "alphanumonly-filter",
+                  "manualId": "guides",
+                  "token": "shared-alphanumonly-filter",
+                  "outputPath": "fixtures/en/guides/alphanumonly-filter.mdx",
+                  "origin": "upstream",
+                  "current": true,
+                  "next": true
+                }
+              ]
+            },
+            {
+              "subject": {
+                "kind": "guides-page",
+                "group": "guides",
+                "pageId": "other"
+              },
+              "lockPath": "shared-docs/guides/pages/other/lock.yaml",
+              "members": [
+                {
+                  "logicalId": "other",
+                  "manualId": "guides",
+                  "token": "shared-alphanumonly-filter",
+                  "outputPath": "fixtures/en/guides/other.mdx",
+                  "origin": "upstream",
+                  "current": true,
+                  "next": true
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "expectedErrors": [
+        "DUPLICATE_MANUAL_TOKEN"
+      ],
+      "expectedDistinctLocks": 2
+    },
+    {
+      "id": "V3",
+      "description": "Different units/manual namespaces but same physical repository path",
+      "site": "en",
+      "units": [
+        {
+          "unitKey": "guides:alphanumonly-filter",
+          "reports": [
+            {
+              "subject": {
+                "kind": "guides-page",
+                "group": "guides",
+                "pageId": "alphanumonly-filter"
+              },
+              "lockPath": "shared-docs/guides/pages/alphanumonly-filter/lock.yaml",
+              "members": [
+                {
+                  "logicalId": "alphanumonly-filter",
+                  "manualId": "guides",
+                  "token": "shared-alphanumonly-filter",
+                  "outputPath": "fixtures/en/guides/alphanumonly-filter.mdx",
+                  "origin": "upstream",
+                  "current": true,
+                  "next": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "unitKey": "guides:other",
+          "reports": [
+            {
+              "subject": {
+                "kind": "guides-page",
+                "group": "guides",
+                "pageId": "other"
+              },
+              "lockPath": "shared-docs/guides/pages/other/lock.yaml",
+              "members": [
+                {
+                  "logicalId": "other",
+                  "manualId": "guides-byoc",
+                  "token": "shared-other",
+                  "outputPath": "fixtures/en/guides/alphanumonly-filter.mdx",
+                  "origin": "upstream",
+                  "current": true,
+                  "next": true
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "expectedErrors": [
+        "DUPLICATE_OUTPUT_PATH"
+      ],
+      "expectedDistinctLocks": 2
+    }
+  ]
+}

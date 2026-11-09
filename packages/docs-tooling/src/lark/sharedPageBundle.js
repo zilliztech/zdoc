@@ -63,7 +63,7 @@ function validateBundle(files, expected = {}) {
     if (bundle.baseline_active_file?.file !== 'baseline/active.json') fail('active file path')
     if (!equal(JSON.parse(baseline(bundle.baseline_active_file?.file, 'generated/en/manifests/shared-pages/guides/active.json', bundle.baseline_active_file?.sha256)), bundle.baseline_active)) fail('baseline active')
   } else if (bundle.baseline_active_file) fail('unexpected active file')
-  const {publicationPath, baselineOutputPaths} = require('./sharedPageFetch')
+  const {publicationPath, baselineOutputPaths, selectedFetchManuals} = require('./sharedPageFetch')
   const previousPublication = files.has('baseline/publication.json')
     ? JSON.parse(baseline('baseline/publication.json', publicationPath)) : null
   // Reconstruct every inspected link and active ID, never alias-only state.
@@ -96,7 +96,10 @@ function validateBundle(files, expected = {}) {
         || receipt.inputs.fetch.image_base_url !== outcome.image_base_url || receipt.inputs.fetch.navigation !== digest(JSON.stringify(bundle.navigation))) fail('receipt binding')
       if (outcome.identity.inputs_sha256 !== digest(JSON.stringify(receipt.inputs))) fail('input digest')
       descriptors = outcome.outputs
-      if (!Array.isArray(descriptors) || descriptors.length !== 2 || !equal([...descriptors.map(o => o.manual)].sort(), ['guides', 'guides-byoc']) || !Array.isArray(outcome.targets) || outcome.targets.length !== 2) fail('incomplete paired output')
+      const manuals = selectedFetchManuals(prep.records.find(record => record.record_id === outcome.record_id))
+      const hasExactManuals = rows => Array.isArray(rows) && rows.length === manuals.length
+        && equal(rows.map(row => row.manual).sort(), manuals)
+      if (!hasExactManuals(descriptors) || !hasExactManuals(outcome.targets) || !hasExactManuals(receipt.outputs)) fail('incomplete selected output')
       for (const output of descriptors) {
         if (!safeHandoffPath(output.file)) fail('unsafe output file')
         const target = outcome.targets.find(target => target.manual === output.manual)

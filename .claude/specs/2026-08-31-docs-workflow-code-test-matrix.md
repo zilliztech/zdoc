@@ -1,5 +1,79 @@
 # Docs workflow code-to-test matrix
 
+The `grouped-vitest-harness` entry covers `package.json` and the three exact
+`scripts/testing/{run-vitest-groups.mjs,vitest-stop-reporter.mjs,run-vitest-groups.test.mjs}`
+paths. Its focused command is `pnpm test:vitest-groups`; both complete
+`pnpm test:shared-docs` and `pnpm test:frontend` gates, workflow matrix and diff
+checks are required. Existing package/replay-infrastructure requirements still
+apply, including replay:all and workflow policy.
+
+These gates discover and validate an exhaustive file manifest, run ordinary files
+with normal parallelism. Frontend/all next runs the complete reference
+`translationManifest.integration.test.ts` file in an isolated `reference-integration`
+phase; shared-docs does not include or require that file. Both scopes finish with
+the complete local-update transactions, runner and `update-prepare.test.ts` command
+files in separate sequential forks with one worker, in that order. Their unique
+phase names are `transactions`, `local-runner` and `update-prepare`; prepare is
+excluded from light and appears exactly once. Thus all has five ordered phases
+and shared-docs has four.
+Existing testcase deadlines
+and normal runIf skips remain. A private run-correlated reporter and owned-process
+supervisor fail closed on errors, incomplete/mismatched results or surviving
+children; later groups are not launched and unrun files are not normal skips.
+Both entrypoints have one monotonic 15-minute execution ceiling across preflight,
+discovery, transitions, validation and all report writes, with bounded preflight Git
+calls and no post-deadline child start/passing verdict. After freezing that measured
+verdict, one at-most-1000ms terminal-settlement attempt exclusively stages, persists,
+atomically publishes and confirms it. No tests/report copying or retry occur there.
+Provisional reports cannot qualify alone: the actual reader verifies the sole
+version-2 run-bound terminal, scope and original discovery binding, complete
+report/phase bindings, isolated worker configuration and zero-exit settled receipts.
+Expected phase names, ordering and full-file membership are derived from trusted
+scope policy and bound discovery, not report-declared phase counts. Historical
+version-1 evidence and version-2 evidence with the earlier three/four-phase
+policy require their matching retained reader (commit `21d6add193` contains the
+prior version-2 policy). They do not qualify the new four/five-phase policy; do
+not rewrite old evidence to add a phase.
+CLI settlement unknown is nonzero; an offline verified committed verdict does not
+prove CLI delivery/exit. No rollback or file-time deadline inference is used.
+Incomplete raw counts and observed reporter
+failures are distinct. macOS/Linux temporary roots are new owned0700 children
+of the user's dedicated .cache/zdoc-vitest, or explicit ZDOC_TEST_TMP_PARENT, outside the checkout
+and actual Git/common directories, object stores/alternates and aggregate output.
+Overlapping paths and symlink/case aliases are rejected before creation. Existing
+parents must already be owned0700 and are not chmodded or cleaned. Ancestor
+identity/cardinality is retained and identities revalidated across phases; no equivalence to historical
+fixture performance is assumed. The CI tooling job remains at its existing 20-minute total limit and
+requires separate Linux/Node22 whole-job timing evidence.
+
+The exact `publication-stage-control` entry covers `stageControl.ts`,
+`stageControl.test.ts` and `stageControl.bootstrap-worker.ts` under
+`packages/docs-tooling/src/publication/`. It runs the complete stage-control,
+publication diagnostics, workflow run and CLI integration test files in isolated
+forks with one Vitest worker, preserving concurrent actors inside each test.
+Its union includes `test:replay:all`, the workflow matrix, TypeScript runtime
+boundary, typecheck, workflow policy and diff checks. These master-owned paths
+must retain stable corruption/ownership rejection while safely re-observing
+legitimate fence-generation transitions within the original acquisition deadline.
+Hermetic fixtures do not replace the required authenticated retained-artifact
+publication replay with an isolated bare remote and exact inventories/builds.
+
+The exact `docs-tooling-runtime-contract` entry covers
+`packages/docs-tooling/src/runtime-contract.test.ts` and its owning
+`packages/docs-tooling/package.json`. Both select the complete runtime-contract
+file, TypeScript runtime boundary, workflow matrix and diff checks. The manifest
+also retains the existing `dependency-manifests` replay contract, `test:replay:all`
+and workflow policy union. Keep the precise dependency expectation, imported
+runtime package coverage, Node engine and real generator-loading checks aligned.
+The contract reads real literal module references with the installed TypeScript
+AST, including type imports, rather than matching regex or generated-code text.
+Test support is limited to `shared-docs/testing/**`, the exact
+`shared-docs/adapters/contract/suites.ts`, and existing `*.test.js/ts` suffixes.
+Every included runtime source is also checked for literal local imports into
+those excluded files, using the current relative extension/index conventions;
+`vitest` and other undeclared packages remain forbidden in runtime sources.
+Computed module paths and general package-exports resolution are not inferred.
+
 This is the living development map for Fetch, Translation, publication, recovery, and replay changes. Its machine-readable source is [`scripts/docs-workflow/test-matrix.json`](../../scripts/docs-workflow/test-matrix.json). Keep both representations aligned in the same change.
 
 ## How an Agent uses the matrix
