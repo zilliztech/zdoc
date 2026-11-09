@@ -136,9 +136,9 @@
       "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md": {
-      "sourceHash": "87a6b65eb72c5931546f20f20620ed03e559968db73fc04340ce6ab98f07e194",
+      "sourceHash": "30a63d47a9717895949732e9014203be101228184d82255a45f865b1df1e48a1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md",
-      "translatedAt": "2026-11-06T11:48:36.003Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/arabic-normalization.md": {
       "sourceHash": "654c6b18cae14ab869aa2c8ad31d765ad85931fe2ce0d194e3e57e3c0c22aec9",
@@ -146,59 +146,59 @@
       "translatedAt": "2026-11-06T11:48:36.003Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md": {
-      "sourceHash": "2928aab2afdd04e0e291135c015e4f76ea53d5ddc0ecc075a428bf352e372ebb",
+      "sourceHash": "e34486eb41f9b5d19bf61e6be9a8a2ec93ca5b8014162608864d6746dfc8b7cd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md",
-      "translatedAt": "2026-11-06T11:48:36.003Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md": {
-      "sourceHash": "daadefe6855e7c979fac824f2ac28334fd3f9e0383ae9775e84d94a885f5a165",
+      "sourceHash": "f018b6f13626030f79cd9614b0160e330557f5c2bb1553cd4ef1395daa4a74cd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md",
-      "translatedAt": "2026-11-03T02:45:36.946Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md": {
-      "sourceHash": "283e7222dad2700009506cfb2e940c093dd593f36bc1576853b3cb75e1aeaf63",
+      "sourceHash": "e2b7354f8f171ffbc85e755c066d1d05da9ccbe1b636df3efa89f46677c34579",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md",
-      "translatedAt": "2026-11-03T02:45:36.946Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md": {
-      "sourceHash": "02403e94a15969d4635234187654dc552c461e36ba7b721d403d8fa2ab5f629e",
+      "sourceHash": "ec4273c0dbba737ec127994755677dab72131c817281b50c1857324464297f57",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md",
-      "translatedAt": "2026-10-29T19:43:59.613Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/length-filter.md": {
-      "sourceHash": "8fdeb2381683cc5a163dec276c494cec33acc70ae46e5a5163f2112db05da589",
+      "sourceHash": "319d90ce8e98f5c0ade8844e52f603689ad949564a06641d3784aec2edd80315",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/length-filter.md",
-      "translatedAt": "2026-11-03T02:45:36.946Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md": {
-      "sourceHash": "eaef81d5c0fdf18d1552798eda7f2aa0639bcaf2cbd31b3396867e2dfce9740e",
+      "sourceHash": "399d77091b5b2d19e82a86be48b16755d5c65fb27c3e6e95bd99a38b73febe66",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md",
-      "translatedAt": "2026-11-06T11:48:36.003Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md": {
-      "sourceHash": "4261a01ab54e6cd7f27d5c9510e59fa3f37e7c21aef0397fd731070dcb499d25",
+      "sourceHash": "3073176a1e9dd657fb515419b30ce573277f8d52459d2b3aa36555308788c0ce",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md",
-      "translatedAt": "2026-11-03T02:45:36.946Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/regex-filter.md": {
-      "sourceHash": "a3efd58da3f18932b29246b1e5bc409987a4af58b97e449d297dd821a43df38c",
+      "sourceHash": "dc70778f25543406c044ce528bdb858c29e7d8497c7e745f0ac8f99e9870031a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/regex-filter.md",
-      "translatedAt": "2026-10-28T15:45:32.623Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md": {
-      "sourceHash": "8e23cf4a83bde6daad026b17f73a8701d87e33c281af611ddd14b643aa2d4216",
+      "sourceHash": "f0c75e133b78134d81d016d1301bdf208fd8475c76a4afa8a65f1f294ec37ef2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md",
-      "translatedAt": "2026-10-28T15:45:32.623Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md": {
-      "sourceHash": "11233153620d5075298956d9de5228a0fb4a3849056abe54069a18d8fc80ebe8",
+      "sourceHash": "72accfc7fd867143b88f1f5b65de8f03327dcab4a94656fec72789aa4d96d596",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md",
-      "translatedAt": "2026-11-03T02:45:36.946Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/stop-filter.md": {
-      "sourceHash": "c0d1380ed6e58dd3e640b790669d3e325afbad230e20f0cc63ffb657f13bdc4d",
+      "sourceHash": "5268b1198f8e036429824e74b8cf539dd39b1d0f34e8a754a324936cfc6fcdfb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/stop-filter.md",
-      "translatedAt": "2026-10-29T19:43:59.613Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-overview.md": {
       "sourceHash": "7fa4cef9957fc4671a31f7ac24b636ccd43a095a320421c0516712f353a4fd22",
@@ -206,19 +206,19 @@
       "translatedAt": "2026-11-05T10:46:45.050Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md": {
-      "sourceHash": "ed51323d545d9d4029a5a4e72ecaede179363017174f77f474fcf85a20771a5d",
+      "sourceHash": "8e344421dc5f429972f3baca273558011d09675df72e741690071de746eb3209",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
-      "translatedAt": "2026-10-28T15:45:32.623Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md": {
-      "sourceHash": "e728ed128be212c7d9c43d46d3461bf5a91b8f460b675730fa6bc10286d38e3b",
+      "sourceHash": "dcb97075333c543a174a36c462036307f983d28fe0e77f70c513f256c3ac3b33",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
-      "translatedAt": "2026-11-05T10:46:45.050Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md": {
-      "sourceHash": "18bdc91469e82fc95fe18194d18f65b08d34279e5b34d7356fd95261ad6d5097",
+      "sourceHash": "3bc9b296d2278d42b2edc45802e68cb0bbe30a3765f408b08fc8559679af813c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md",
-      "translatedAt": "2026-11-05T10:46:45.050Z"
+      "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md": {
       "sourceHash": "5d87b0432f67b53db36c35bfdb7eafb33c69037be51895e8620ec619b7172f6f",

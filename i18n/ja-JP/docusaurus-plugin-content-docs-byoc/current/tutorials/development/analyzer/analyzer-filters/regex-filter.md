@@ -96,7 +96,7 @@ let analyzer_params = serde_json::json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "standard"},
     {"filter", {
@@ -248,7 +248,7 @@ let analyzer_params = serde_json::json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "standard"},
     {"filter", {
@@ -441,7 +441,7 @@ println!("Analyzer output: {:?}", result);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <string>

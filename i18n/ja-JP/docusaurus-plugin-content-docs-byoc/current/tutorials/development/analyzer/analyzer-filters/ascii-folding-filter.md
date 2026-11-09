@@ -72,7 +72,7 @@ let analyzer_params = json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <milvus/thirdparty/nlohmann/json.hpp>
 
 nlohmann::json analyzer_params = {
@@ -179,7 +179,7 @@ let analyzer_params = json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <milvus/thirdparty/nlohmann/json.hpp>
 
 nlohmann::json analyzer_params = {
@@ -353,7 +353,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <string>
