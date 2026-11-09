@@ -51,7 +51,7 @@ export function classifyRemoteRead(input: unknown): RemoteReadResult<unknown> {
 const IdentitySchema = z.strictObject({ actorId: positive, workflowId: positive, workflowPath: path,
   workflowDefinitionSha256: DigestSchema, event: z.literal('workflow_dispatch') })
 export const RemotePolicySchema = z.strictObject({ host: z.literal('github.com'), repositoryId: positive, repositoryFullName: path,
-  baseRef: z.literal('master'), allowedHeadPrefixes: z.array(text).min(1).max(16), checkAppId: positive,
+  baseRef: z.literal('master'), writerActorId: positive, allowedHeadPrefixes: z.array(text).min(1).max(16), checkAppId: positive,
   checkName: text, producerArtifactName: text, validatorArtifactName: text, producer: IdentitySchema, validator: IdentitySchema })
 export interface RemotePolicy extends Required<z.infer<typeof RemotePolicySchema>> {}
 export const ExactValidationExpectedSchema = z.strictObject({ repositoryId: positive, prNumber: positive, branch: text,
@@ -130,9 +130,10 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
     headRef: intent.branch, master: intent.master, dev: intent.dev }, 'REMOTE')
   checkBinding(intent.repositoryId === rules.repositoryId, 'EXPECTED_REPOSITORYID')
   checkBinding(intent.tools === intent.master, 'EXPECTED_TOOLS')
+  checkBinding(intent.base === intent.master, 'EXPECTED_BASE')
   checkBinding(rules.allowedHeadPrefixes.some(prefix => intent.branch.startsWith(prefix)), 'BRANCH_POLICY')
   matches(facts.pr, { repositoryId: rules.repositoryId, number: intent.prNumber, base: intent.base,
-    head: intent.seal, state: 'open', draft: true, actorId: rules.producer.actorId }, 'PR')
+    head: intent.seal, state: 'open', draft: true, actorId: rules.writerActorId }, 'PR')
   matches(r, { repositoryId: intent.repositoryId, prNumber: intent.prNumber, head: intent.seal, seal: intent.seal,
     master: intent.master, dev: intent.dev, tools: intent.tools, unitKey: intent.unitKey, planSha256: intent.planSha256,
     requestId: intent.requestId, runId: intent.validatorRunId, runAttempt: intent.validatorRunAttempt,
@@ -164,7 +165,7 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
     runId: intent.producerRunId, runAttempt: intent.producerRunAttempt }
   if (seal) {
     matches(seal, { oid: intent.seal, parents: [intent.candidate], tree: intent.candidateTree,
-      signatureValid: true, signingActorId: rules.producer.actorId }, 'SEAL')
+      signatureValid: true, signingActorId: rules.writerActorId }, 'SEAL')
     matches(seal.metadata, sealExpected, 'SEAL_METADATA')
     checkBinding(canonicalBytes(seal.metadata).length <= REMOTE_LIMITS.payloadBytes, 'SEAL_SIZE')
   }

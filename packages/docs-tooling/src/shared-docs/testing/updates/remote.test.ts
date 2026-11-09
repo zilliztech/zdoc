@@ -13,10 +13,10 @@ const found = <T>(value: T) => ({ kind: 'found' as const, value })
 function fixture() {
   const identity = { actorId: 7, workflowId: 8, workflowPath: '.github/workflows/producer.yml', workflowDefinitionSha256: digest(2), event: 'workflow_dispatch' as const }
   const policy = { host: 'github.com' as const, repositoryId: 100, repositoryFullName: 'example/zdoc', baseRef: 'master' as const,
-    allowedHeadPrefixes: ['shared-update/'], checkAppId: 9, checkName: 'exact-validation', producerArtifactName: 'producer',
+    allowedHeadPrefixes: ['shared-update/'], writerActorId: 27, checkAppId: 9, checkName: 'exact-validation', producerArtifactName: 'producer',
     validatorArtifactName: 'validation', producer: identity,
     validator: { ...identity, actorId: 17, workflowId: 18, workflowPath: '.github/workflows/validate.yml', workflowDefinitionSha256: digest(3) } }
-  const expected = { repositoryId: 100, prNumber: 20, branch: 'shared-update/unit', base: oid(1), seal: oid(2), master: oid(3),
+  const expected = { repositoryId: 100, prNumber: 20, branch: 'shared-update/unit', base: oid(3), seal: oid(2), master: oid(3),
     dev: oid(4), tools: oid(3), unitKey: 'guides:unit', planSha256: digest(4), proofSha256: digest(5), transactionId: digest(6),
     preparedBase: oid(5), candidate: oid(6), candidateTree: oid(7), previousSeal: null as string | null, preservedHumanHeads: [oid(8)],
     requestId: 'validation-request', validatorRunId: 31, validatorRunAttempt: 2, producerRequestId: 'producer-request', producerRunId: 30, producerRunAttempt: 1 }
@@ -37,7 +37,7 @@ function fixture() {
     { id: 62, name: 'validation', runId: 31, runAttempt: 2, expired: false, archiveApiDigest: digest(13), archiveActualDigest: digest(13), archive: blob('validation/archive.zip', digest(13), 200) }]
   const { kind: _kind, schemaVersion: _version, ...producerSeal } = seal
   const facts = { host: 'github.com' as const, repositoryId: 100, repositoryFullName: 'example/zdoc', baseRepositoryId: 100, headRepositoryId: 100,
-    pr: { repositoryId: 100, number: 20, base: expected.base, head: expected.seal, state: 'open' as const, draft: true, actorId: 7, metadataEvidence: [blob('pr/metadata.json')] },
+    pr: { repositoryId: 100, number: 20, base: expected.base, head: expected.seal, state: 'open' as const, draft: true, actorId: 27, metadataEvidence: [blob('pr/metadata.json')] },
     baseRef: 'master', headRef: expected.branch, master: expected.master, dev: expected.dev, evidence: [blob('repo/facts.json')],
     producerRuns: found([run]), validatorRuns: found([{ ...run, ...policy.validator, id: 31, attempt: 2, workflowSuiteId: 50,
       workflowSuiteHead: expected.master, evidence: [blob('validation/run.json')] }]),
@@ -49,7 +49,7 @@ function fixture() {
     artifacts: found(artifacts), members: found([{ artifactId: 61, archiveDigest: digest(12), memberPath: 'receipt.json', actualDigest: producerBlob.sha256, member: producerBlob },
       { artifactId: 62, archiveDigest: digest(13), memberPath: 'receipt.json', actualDigest: receiptBlob.sha256, member: receiptBlob }]),
     seal: found({ oid: expected.seal, parents: [expected.candidate], tree: expected.candidateTree, signatureValid: true,
-      signingActorId: 7, metadata: seal, evidence: [blob('seal/facts.json')] }), output: blob('validation/output.json', receipt.outputDigest) }
+      signingActorId: 27, metadata: seal, evidence: [blob('seal/facts.json')] }), output: blob('validation/output.json', receipt.outputDigest) }
   return { expected, policy, facts, receipt }
 }
 type Fixture = ReturnType<typeof fixture>
@@ -62,12 +62,17 @@ function hold(f: Fixture, reason: string) {
 }
 it('accepts distinct producer/validator runs, M/S heads, suites, archive/member/output digests', () => {
   const f = fixture()
+  expect(f.policy.producer.actorId).not.toBe(f.policy.writerActorId)
+  expect(f.expected.base).toBe(f.expected.master)
   expect(f.expected.master).not.toBe(f.expected.seal)
   expect(f.facts.validatorRuns.value[0].workflowSuiteId).not.toBe(f.receipt.targetSuiteId)
   expect(f.facts.artifacts.value[1].archiveApiDigest).not.toBe(f.facts.associations.value[0].receipt.sha256)
   expect(decide(f).status).toBe('accepted')
 })
 const mutations: [string, (f: Fixture) => void, string][] = [
+  ['jointly stale intent and observed base', f => { f.expected.base = oid(99); f.facts.pr.base = oid(99) }, 'EXPECTED_BASE'],
+  ['wrong PR writer', f => { f.facts.pr.actorId = f.policy.producer.actorId }, 'PR_ACTORID'],
+  ['wrong seal writer', f => { f.facts.seal.value.signingActorId = f.policy.producer.actorId }, 'SEAL_SIGNINGACTORID'],
   ['head', f => { f.facts.pr.head = oid(99) }, 'PR_HEAD'],
   ['master', f => { f.facts.master = oid(99) }, 'REMOTE_MASTER'],
   ['dev', f => { f.facts.dev = oid(99) }, 'REMOTE_DEV'],
