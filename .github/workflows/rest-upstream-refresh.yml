@@ -61,7 +61,10 @@ jobs:
         id: single_flight
         run: |
           slug=$(echo "$SOURCE" | tr '[:upper:]' '[:lower:]')
-          open_prs=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --json headRefName --jq '.[].headRefName')
+          # --limit lifts gh's default 30 so a long-reviewed refresh PR can
+          # never fall off the listing; the slug comes from the lock/source
+          # ids ([a-z-] today), so no regex metacharacter can widen the match.
+          open_prs=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 500 --json headRefName --jq '.[].headRefName')
           matching=$(printf '%s\n' "$open_prs" | grep -E "^rest-upstream-refresh/${slug}-[0-9a-f]{7,40}$" || true)
           if [ -n "$matching" ]; then
             echo "::notice::An open rest-upstream-refresh PR already exists for ${SOURCE}; the next batch opens after it merges."

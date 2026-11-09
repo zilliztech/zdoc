@@ -42,10 +42,12 @@ test('the watchdog computes the dispatch plan between the scan and the artifact 
   // workflow token stays out of this step entirely.
   assert.equal(dispatchStep.env.GH_TOKEN, '${{ secrets.REST_UPSTREAM_REFRESH_PAT }}')
 
-  // A failed dispatch must not lose the evidence.
+  // A failed dispatch must not lose the evidence; a failed scan must not
+  // add a misleading upload failure on top of the real one.
   const uploadStep = steps[upload]
-  assert.equal(uploadStep['if'], '${{ always() }}')
+  assert.equal(uploadStep['if'], "${{ always() && steps.scan.conclusion == 'success' }}")
   assert.equal(steps[summary]['if'], '${{ always() }}')
+  assert.match(steps[summary].run, /No watchdog report was produced/)
   assert.match(steps[summary].run, /dispatch-plan\.md/)
 })
 
@@ -68,7 +70,9 @@ test('the refresh workflow gates on one open refresh PR per source before any pa
   assert.equal(gate.outputs.proceed, '${{ steps.single_flight.outputs.proceed }}')
   assert.equal(gate.env.GH_TOKEN, '${{ github.token }}')
   const gateStep = stepNamed(gate, 'Gate the single-flight refresh per source')
-  assert.match(gateStep.run, /gh pr list --repo "\$GITHUB_REPOSITORY" --state open --json headRefName/)
+  // --limit lifts gh's default 30 so a long-reviewed refresh PR can never
+  // fall off the listing (asymmetric-pagination regression pin).
+  assert.match(gateStep.run, /gh pr list --repo "\$GITHUB_REPOSITORY" --state open --limit 500 --json headRefName/)
   // Branch shape, not the /pulls label parameter (the REST endpoint ignores it).
   assert.match(gateStep.run, /grep -E "\^rest-upstream-refresh\/\$\{slug\}-\[0-9a-f\]\{7,40\}\$"/)
   assert.match(gateStep.run, /An open rest-upstream-refresh PR already exists for \$\{SOURCE\}/)

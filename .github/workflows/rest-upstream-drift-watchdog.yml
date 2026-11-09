@@ -100,7 +100,10 @@ jobs:
             "${args[@]}"
 
       - name: Upload drift report
-        if: ${{ always() }}
+        # Runs whenever the scan produced files — including after a dispatch
+        # failure — so the report and the dispatch plan always land. A failed
+        # scan has no files and must not add a misleading second red step.
+        if: ${{ always() && steps.scan.conclusion == 'success' }}
         uses: actions/upload-artifact@v6
         with:
           name: rest-upstream-drift-${{ github.run_id }}
@@ -111,6 +114,7 @@ jobs:
       - name: Append report to step summary
         if: ${{ always() }}
         run: |
+          test -f tmp/rest-upstream-watchdog/watchdog-report.md || { echo '::notice::No watchdog report was produced; see the scan step for the failure.'; exit 0; }
           cat tmp/rest-upstream-watchdog/watchdog-report.md >> "$GITHUB_STEP_SUMMARY"
           test ! -f tmp/rest-upstream-watchdog/dispatch-plan.md || cat tmp/rest-upstream-watchdog/dispatch-plan.md >> "$GITHUB_STEP_SUMMARY"
 

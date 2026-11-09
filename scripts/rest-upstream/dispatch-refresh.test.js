@@ -48,12 +48,15 @@ function jsonResponse(body) {
   return {ok: true, status: 200, json: async () => body}
 }
 
-function routesFor({headRefs = [], failedRunCreated_at = null, masterLock = null} = {}) {
-  const failedRuns = failedRunCreated_at
-    ? [{status: 'completed', conclusion: 'failure', created_at: failedRunCreated_at}]
+function routesFor({headRefs = [], failedRunUpdated_at = null, masterLock = null} = {}) {
+  const failedRuns = failedRunUpdated_at
+    ? [{status: 'completed', conclusion: 'failure', updated_at: failedRunUpdated_at}]
     : []
   return [
-    ['/repos/o/r/pulls?', jsonResponse(headRefs.map(head_ref_name => ({head_ref_name})))],
+    // Real REST /pulls shape: the branch lives at head.ref (headRefName is
+    // the gh/GraphQL projection name). This fixture shape is what makes the
+    // single-flight test honest — see the 2026-11-09 review P1-1.
+    ['/repos/o/r/pulls?', jsonResponse(headRefs.map(ref => ({head: {ref}})))],
     ['/repos/o/r/actions/workflows/', jsonResponse({total_count: failedRuns.length, workflow_runs: failedRuns})],
     ['/repos/o/r/contents/packages',
       jsonResponse({
@@ -155,14 +158,23 @@ test('a refresh run that failed inside the backoff window blocks; an old failure
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'dispatch-refresh-'))
   try {
     const blocked = await writeInputsAndRun(dir, {
-      routes: routesFor({failedRunCreated_at: new Date(NOW_MS - FAILURE_BACKOFF_MS / 2).toISOString()}),
+      routes: routesFor({failedRunUpdated_at: new Date(NOW_MS - FAILURE_BACKOFF_MS / 2).toISOString()}),
     })
     assert.equal(blocked.plan.sources.find(entry => entry.id === 'zilliz-cloud-control-plane').reason, 'recent-refresh-failure')
 
     const stale = await writeInputsAndRun(dir, {
-      routes: routesFor({failedRunCreated_at: new Date(NOW_MS - FAILURE_BACKOFF_MS - 60 * 1000).toISOString()}),
+      routes: routesFor({failedRunUpdated_at: new Date(NOW_MS - FAILURE_BACKOFF_MS - 60 * 1000).toISOString()}),
     })
     assert.equal(stale.plan.sources.find(entry => entry.id === 'zilliz-cloud-control-plane').dispatchable, true)
+
+    // The window keys on completion time: created outside the window but
+    // finished inside it still blocks.
+    const lateFinish = await writeInputsAndRun(dir, {
+      routes: [['/repos/o/r/pulls?', jsonResponse([])], ['/repos/o/r/actions/workflows/', jsonResponse({workflow_runs: [
+        {status: 'completed', conclusion: 'failure', created_at: new Date(NOW_MS - FAILURE_BACKOFF_MS - 3600 * 1000).toISOString(), updated_at: new Date(NOW_MS - 3600 * 1000).toISOString()},
+      ]})]],
+    })
+    assert.equal(lateFinish.plan.sources.find(entry => entry.id === 'zilliz-cloud-control-plane').reason, 'recent-refresh-failure')
   } finally {
     fs.rmSync(dir, {recursive: true, force: true})
   }
@@ -175,8 +187,8 @@ test('an in-progress or successful run never counts as a recent failure', async 
     const routes = [
       ['/repos/o/r/pulls?', jsonResponse([])],
       ['/repos/o/r/actions/workflows/', jsonResponse({workflow_runs: [
-        {status: 'in_progress', conclusion: null, created_at: recent},
-        {status: 'completed', conclusion: 'success', created_at: recent},
+        {status: 'in_progress', conclusion: null, updated_at: recent},
+        {status: 'completed', conclusion: 'success', updated_at: recent},
       ]})],
     ]
     const {plan} = await writeInputsAndRun(dir, {routes})
@@ -232,22 +244,82 @@ test('--execute dispatches each dispatchable source through the refresh workflow
   }
 })
 
-test('a failing dispatcher fails the run before the plan lands', async () => {
+test('a failing dispatcher fails the run but the plan lands with the partial evidence', async () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'dispatch-refresh-'))
   try {
+    const dispatchCalls = []
+    const outPath = path.join(dir, 'plan.json')
     await assert.rejects(() => run({
       argv: [
-        '--report', writeJson(dir, 'report.json', watchdogReport([reportSource('zilliz-cloud-control-plane')])),
-        '--lock', writeJson(dir, 'lock.json', {schemaVersion: '1.0', sources: [lockSource('zilliz-cloud-control-plane', 'a'.repeat(40))]}),
-        '--out', path.join(dir, 'plan.json'),
+        '--report', writeJson(dir, 'report.json', watchdogReport([
+          reportSource('zilliz-cloud-control-plane'),
+          reportSource('milvus-data-plane', {id: 'milvus-data-plane'}),
+        ])),
+        '--lock', writeJson(dir, 'lock.json', {schemaVersion: '1.0', sources: [lockSource('zilliz-cloud-control-plane', 'a'.repeat(40)), lockSource('milvus-data-plane', 'a'.repeat(40))]}),
+        '--out', outPath,
         '--repo', 'o/r', '--execute',
       ],
       env: {GH_TOKEN: 't'.repeat(20)},
       fetchImpl: fetchStub(routesFor()),
       nowMs: NOW_MS,
-      dispatchFn: () => { throw new Error('DISPATCH_FAILED: gh workflow run for zilliz-cloud-control-plane: 403') },
+      dispatchFn: call => {
+        dispatchCalls.push(call)
+        if (call.sourceId === 'milvus-data-plane') throw new Error('DISPATCH_FAILED: gh workflow run for milvus-data-plane: 403')
+      },
     }), /DISPATCH_FAILED/)
-    assert.ok(!fs.existsSync(path.join(dir, 'plan.json')), 'no plan may survive a failed dispatch')
+    // The already-dispatched first source is recorded even though the run
+    // failed on the second one.
+    const plan = JSON.parse(fs.readFileSync(outPath, 'utf8'))
+    const first = plan.sources.find(entry => entry.id === 'zilliz-cloud-control-plane')
+    const second = plan.sources.find(entry => entry.id === 'milvus-data-plane')
+    assert.equal(first.dispatched, true)
+    assert.equal(second.dispatchable, false)
+    assert.equal(second.reason, 'dispatch-failed')
+    assert.deepEqual(dispatchCalls.map(call => call.sourceId), ['zilliz-cloud-control-plane', 'milvus-data-plane'])
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
+
+test('an unknown skip reason fails plan validation', () => {
+  const plan = {
+    schemaVersion: 1,
+    generatedAt: new Date(NOW_MS).toISOString(),
+    repository: 'o/r',
+    verification: 'full',
+    sources: [{id: 'zilliz-cloud-control-plane', head: 'b'.repeat(40), pin: 'a'.repeat(40), substantiveCount: 5, dispatchable: false, reason: 'looks-fine-to-me'}],
+  }
+  assert.throws(() => require('./dispatch-refresh').validatePlan(plan), /unknown reason/)
+})
+
+test('the pulls listing fails closed on a malformed entry or a non-list response', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'dispatch-refresh-'))
+  try {
+    const argvOf = outName => [
+      '--report', writeJson(dir, 'report.json', watchdogReport([reportSource('zilliz-cloud-control-plane')])),
+      '--lock', writeJson(dir, 'lock.json', {schemaVersion: '1.0', sources: [lockSource('zilliz-cloud-control-plane', 'a'.repeat(40))]}),
+      '--out', path.join(dir, outName),
+      '--repo', 'o/r',
+    ]
+    const malformedShape = [['/repos/o/r/pulls?', jsonResponse([{stale: true}])]]
+    await assert.rejects(() => runScenario(dir, {argv: argvOf('plan-a.json'), routes: malformedShape}), /without head\.ref/, 'a legacy flat field must not read as a clean listing')
+    const notAList = [['/repos/o/r/pulls?', jsonResponse({message: 'boom'})]]
+    await assert.rejects(() => runScenario(dir, {argv: argvOf('plan-b.json'), routes: notAList}), /is not a list/)
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
+
+test('--execute without a token is rejected and --out demands the .json suffix', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'dispatch-refresh-'))
+  try {
+    const base = [
+      '--report', writeJson(dir, 'report.json', watchdogReport([reportSource('zilliz-cloud-control-plane')])),
+      '--lock', writeJson(dir, 'lock.json', {schemaVersion: '1.0', sources: [lockSource('zilliz-cloud-control-plane', 'a'.repeat(40))]}),
+      '--repo', 'o/r',
+    ]
+    await assert.rejects(() => runScenario(dir, {argv: [...base, '--out', path.join(dir, 'plan.json'), '--execute'], env: {GH_TOKEN: ''}}), /--execute requires a token/)
+    await assert.rejects(() => runScenario(dir, {argv: [...base, '--out', path.join(dir, 'plan.txt')]}), /must end in \.json/)
   } finally {
     fs.rmSync(dir, {recursive: true, force: true})
   }

@@ -82,9 +82,12 @@ function fail(message) {
 }
 
 // Single-flight branch shape, anchored on the trailing base-sha hex tail so
-// the slug itself can never bleed into a prefix collision (P2-3).
+// the slug itself can never bleed into a prefix collision (P2-3). The slug
+// is regex-escaped; the lock's source ids are [a-z-] today, and the workflow
+// gate's grep shares the same assumption.
 function refreshBranchRegex(slug) {
-  return new RegExp(`^rest-upstream-refresh/${slug}-[0-9a-f]{7,40}$`)
+  const escaped = slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return new RegExp(`^rest-upstream-refresh/${escaped}-[0-9a-f]{7,40}$`)
 }
 
 async function githubJson(fetchImpl, url, token) {
@@ -96,7 +99,10 @@ async function githubJson(fetchImpl, url, token) {
 }
 
 // REST /pulls ignores `label` (verified against the live API): list open
-// pulls with pagination and let the caller filter by branch shape.
+// pulls with pagination and let the caller filter by branch shape. The REST
+// shape nests the branch under head.ref (`headRefName` is the gh/GraphQL
+// projection name); a malformed entry fails closed instead of quietly
+// reading as "no open pulls".
 async function listOpenPullHeadRefs(fetchImpl, {apiBase, repository, token}) {
   const headRefs = []
   for (let page = 1; page <= PULLS_MAX_PAGES; page += 1) {
@@ -104,7 +110,10 @@ async function listOpenPullHeadRefs(fetchImpl, {apiBase, repository, token}) {
     const listing = await githubJson(fetchImpl, url, token)
     if (!Array.isArray(listing)) fail(`GITHUB_API_UNEXPECTED: open pulls listing for ${repository} is not a list`)
     for (const pull of listing) {
-      if (pull && typeof pull.head_ref_name === 'string') headRefs.push(pull.head_ref_name)
+      if (!pull || typeof pull.head?.ref !== 'string') {
+        fail(`GITHUB_API_UNEXPECTED: open pulls listing for ${repository} carries an entry without head.ref`)
+      }
+      headRefs.push(pull.head.ref)
     }
     if (listing.length < PULLS_PAGE_SIZE) return headRefs
   }
@@ -113,7 +122,9 @@ async function listOpenPullHeadRefs(fetchImpl, {apiBase, repository, token}) {
 
 // One completed refresh run that failed inside the backoff window blocks the
 // next dispatch cycle (global, not per source: dispatch runs all report
-// head_branch=master, so the listing cannot attribute a source).
+// head_branch=master, so the listing cannot attribute a source). The window
+// keys on updated_at (≈ completion time): a run created before the window
+// but finished inside it must still block.
 async function hasRecentRefreshFailure(fetchImpl, {apiBase, repository, token, nowMs}) {
   const url = `${apiBase}/repos/${repository}/actions/workflows/${REFRESH_WORKFLOW}/runs?per_page=${RUNS_LIST_SIZE}`
   const body = await githubJson(fetchImpl, url, token)
@@ -121,9 +132,9 @@ async function hasRecentRefreshFailure(fetchImpl, {apiBase, repository, token, n
   return body.workflow_runs.some(run => run
     && run.status === 'completed'
     && run.conclusion === 'failure'
-    && typeof run.created_at === 'string'
-    && Number.isFinite(Date.parse(run.created_at))
-    && nowMs - Date.parse(run.created_at) < FAILURE_BACKOFF_MS)
+    && typeof run.updated_at === 'string'
+    && Number.isFinite(Date.parse(run.updated_at))
+    && nowMs - Date.parse(run.updated_at) < FAILURE_BACKOFF_MS)
 }
 
 // TOCTOU guard for --execute: the report was classified against the checkout
@@ -190,6 +201,19 @@ function decideSources({report, openHeadRefs, recentFailure, verified}) {
   })
 }
 
+// The closed vocabulary of plan reasons; the plan is evidence, so an unknown
+// reason is a bug, not prose.
+const DISPATCH_REASON = 'drift-with-no-open-refresh-pr'
+const SKIP_REASONS = new Set([
+  'no-drift',
+  'prose-only-drift',
+  'unverified-no-token',
+  'open-refresh-pr',
+  'recent-refresh-failure',
+  'already-refreshed-at-head',
+  'dispatch-failed',
+])
+
 function validatePlan(plan) {
   if (plan.schemaVersion !== PLAN_SCHEMA_VERSION) fail('dispatch plan schemaVersion must be 1')
   if (!Array.isArray(plan.sources) || plan.sources.length === 0) fail('dispatch plan carries no sources')
@@ -201,9 +225,11 @@ function validatePlan(plan) {
       fail(`dispatch plan source ${source.id} carries no dispatchable/reason pair`)
     }
     if (source.dispatchable) {
-      if (source.reason !== 'drift-with-no-open-refresh-pr') fail(`dispatch plan source ${source.id} is dispatchable with reason ${source.reason}`)
+      if (source.reason !== DISPATCH_REASON) fail(`dispatch plan source ${source.id} is dispatchable with reason ${source.reason}`)
       if (!(source.substantiveCount > 0)) fail(`dispatch plan source ${source.id} is dispatchable without substantive drift`)
       if (plan.verification !== 'full') fail(`dispatch plan source ${source.id} is dispatchable on a ${plan.verification} verification plan`)
+    } else if (!SKIP_REASONS.has(source.reason)) {
+      fail(`dispatch plan source ${source.id} skips with unknown reason ${source.reason}`)
     }
   }
 }
@@ -274,23 +300,42 @@ async function run({
     sources: decided,
   }
   validatePlan(plan)
+  fs.mkdirSync(path.dirname(args.out), {recursive: true})
+  if (!args.out.endsWith('.json')) fail('--out must end in .json (the markdown twin is derived from the path)')
+  const markdownPath = args.out.replace(/\.json$/, '.md')
+  const writePlan = () => {
+    fs.writeFileSync(args.out, `${JSON.stringify(plan, null, 2)}\n`)
+    fs.writeFileSync(markdownPath, renderPlanMarkdown(plan))
+  }
+  writePlan()
 
   if (execute) {
+    // The plan lands before the first dispatch and is rewritten after every
+    // per-source outcome, so a mid-loop failure (PAT scope, transient API)
+    // still leaves the evidence of what was already dispatched.
     const lockApiPath = args['lock-api-path'] || DEFAULT_LOCK_API_PATH
     for (const source of plan.sources.filter(entry => entry.dispatchable)) {
       const reportSource = report.sources.find(entry => entry.id === source.id)
       if (await masterPinEqualsHead(fetchImpl, {apiBase, repository, token, lockPath: lockApiPath, sourceId: source.id, head: reportSource.head})) {
         source.dispatchable = false
         source.reason = 'already-refreshed-at-head'
+        writePlan()
         continue
       }
-      dispatchFn({repository, sourceId: source.id})
+      try {
+        dispatchFn({repository, sourceId: source.id})
+      } catch (error) {
+        source.dispatchable = false
+        source.reason = 'dispatch-failed'
+        writePlan()
+        throw error
+      }
       source.dispatched = true
+      writePlan()
     }
   }
 
   validatePlan(plan)
-  fs.mkdirSync(path.dirname(args.out), {recursive: true})
   fs.writeFileSync(args.out, `${JSON.stringify(plan, null, 2)}\n`)
   fs.writeFileSync(args.out.replace(/\.json$/, '.md'), renderPlanMarkdown(plan))
   const dispatchableCount = plan.sources.filter(source => source.dispatchable).length

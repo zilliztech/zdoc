@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-06",
+  "updatedAt": "2026-11-09",
   "description": "Known-issues ledger for the scheduled watchdog workflows. Holds the durable triage knowledge the daily ops digest compares against: fetch channels, steady-state baselines, known-issue classifications, and closed-incident history. Volatile daily numbers (for example the rest-upstream drift substantiveCount/diffDigest series) intentionally live in a local state file outside the repository; only rules, statuses, and thresholds belong here.",
   "statusSemantics": {
     "known-expected": "Appears in healthy runs; do not report unless it disappears or worsens.",
