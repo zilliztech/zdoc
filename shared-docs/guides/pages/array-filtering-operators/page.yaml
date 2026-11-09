@@ -20,3 +20,13 @@ transforms:
       block: array-remove-heading
     content:
       file: cloud-array-remove-heading.md
+  - operation: replace
+    target:
+      block: array-append-upsert-reference
+    content:
+      file: cloud-array-append-upsert-reference.md
+  - operation: replace
+    target:
+      block: array-remove-upsert-reference
+    content:
+      file: cloud-array-remove-upsert-reference.md
