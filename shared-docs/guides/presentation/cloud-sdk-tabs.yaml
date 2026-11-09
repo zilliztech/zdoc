@@ -14,6 +14,7 @@ languages:
   - value: c++
     label: C++
     aliases: [cpp]
+    fence: cpp
   - value: javascript
     label: NodeJS
   - value: csharp
