@@ -12,7 +12,7 @@
   },
   "summary": {
     "fragments": 16,
-    "elements": 2438,
+    "elements": 2441,
     "highConfidenceIncremental": 294,
     "managedFloor": 2048,
     "modified": 9,
@@ -18341,6 +18341,32 @@
     },
     {
       "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomCollectionSchema",
+      "elementType": "reusable-schema",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Custom-setup narrowing of CollectionSchema (create-collection custom setup omits the external-collection fields); mirrors the managed 2.6.x floor of /components/schemas/CollectionSchema."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
       "jsonPointer": "/components/schemas/CollectionSchema/properties/autoID",
       "elementType": "schema-property",
       "change": "baseline-floor",
@@ -18468,6 +18494,32 @@
       },
       "confidence": "managed-floor",
       "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomCollectionSchema/properties/fields",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Custom-setup narrowing of CollectionSchema fields (create-collection custom setup omits the external-collection fields); mirrors the managed 2.6.x floor of /components/schemas/CollectionSchema/properties/fields."
     },
     {
       "fragment": "05-collection-operations-v2.json",
@@ -20860,6 +20912,32 @@
       },
       "confidence": "managed-floor",
       "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomFieldSchema",
+      "elementType": "reusable-schema",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Custom-setup narrowing of FieldSchema (create-collection custom setup omits the external-collection fields); mirrors the managed 2.6.x floor of /components/schemas/FieldSchema."
     },
     {
       "fragment": "05-collection-operations-v2.json",
@@ -63308,7 +63386,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "1533023e43a41592e1d867fad6f89046e9546bf91b0354b7a166ce6305bfc274",
+    "fragmentInventorySha256": "03b7a4d8afaca33a1dea17a9562c8a9060b28fbd971030eae9801f8833a1f57a",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",
