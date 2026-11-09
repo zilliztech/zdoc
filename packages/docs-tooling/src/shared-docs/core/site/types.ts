@@ -1,8 +1,8 @@
 import type { DiagnosticContext, PageConfig, SharedDocsError } from '../types'
 
-export interface TabsLanguage { value: string; label: string; aliases?: readonly string[]; required?: boolean }
+export interface TabsLanguage { value: string; label: string; aliases?: readonly string[]; required?: boolean; fence?: string }
 export interface TabsRules { schema_version: 1; group_id: string; default: string; languages: readonly TabsLanguage[] }
-export type Component = 'Admonition' | 'Tabs' | 'TabItem' | 'Supademo'
+export type Component = 'Admonition' | 'Tabs' | 'TabItem' | 'Supademo' | 'DocCardList'
 export interface AdaptPageInput {
   markdown: string
   pageId: string
