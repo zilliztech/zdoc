@@ -799,27 +799,53 @@ async function captureRuntime(entries: Map<string, ClosureEntry>, physical: Map<
   return { git, resolutions: [...resolutions, ...native.resolutions], hostExclusions: native.hostExclusions, accessPaths: native.accessPaths }
 }
 
-/** Bind the nearest existing ancestor directory of an absent search candidate so
- * access inspection still rejects a writable lookup location that dyld/ld.so
- * would prefer over the measured library. Symlinks are followed so a writable
- * target directory is bound; a dangling symlink (whose target cannot be
- * authenticated) is rejected rather than silently skipped. */
+/** Bind the nearest existing ancestor of an absent search candidate so access
+ * inspection still rejects a writable lookup location that dyld/ld.so would
+ * prefer over the measured library. Returns the LEXICAL path (never the resolved
+ * target), so inspection both walks the directory that holds any symlink and,
+ * via realpath, the directory it points to. A dangling symlink — the candidate
+ * file itself or a path component — cannot be authenticated and is rejected. */
 async function nearestExistingDirectory(path: string): Promise<string> {
+  // The candidate file itself may be a symlink whose target is absent; reject it.
+  let fileIsLink = false
+  try {
+    fileIsLink = (await lstat(path)).isSymbolicLink()
+  } catch (e) {
+    if (!absent(e)) throw e
+  }
+  if (fileIsLink) {
+    try {
+      await realpath(path)
+    } catch (e) {
+      if (absent(e)) throw new Error(`Dangling symbolic link in native lookup candidate: ${path}`)
+      throw e
+    }
+  }
+  // Walk up to the nearest existing directory or symlink, keeping the lexical path.
   let current = dirname(path)
   for (;;) {
     const parent = dirname(current)
-    let symlink = false
+    let exists = false
     try {
-      symlink = (await lstat(current)).isSymbolicLink()
+      const st = await lstat(current)
+      exists = true
+      if (st.isDirectory() || st.isSymbolicLink()) {
+        // A symlink component is returned lexically; inspectAccess follows it and
+        // checks both the holding directory and the target. A dangling one is rejected.
+        if (st.isSymbolicLink()) {
+          try {
+            await realpath(current)
+          } catch (e) {
+            if (absent(e)) throw new Error(`Dangling symbolic link in native lookup path: ${current}`)
+            throw e
+          }
+        }
+        return current
+      }
     } catch (e) {
       if (!absent(e)) throw e
     }
-    try {
-      return await realpath(current)
-    } catch (e) {
-      if (!absent(e)) throw e
-      if (symlink) throw new Error(`Dangling symbolic link in native lookup candidate path: ${current}`)
-    }
+    if (exists) { current = parent; continue }
     if (parent === current) throw new Error(`No existing ancestor directory for native lookup candidate: ${path}`)
     current = parent
   }

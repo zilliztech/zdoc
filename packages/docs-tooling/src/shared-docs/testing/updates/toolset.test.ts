@@ -625,11 +625,25 @@ describe('manifest and launcher contract', () => {
     await symlink(writable, join(root, 'early'))
     const entry = join(root, 'entry'); await writeFile(entry, macho(['@rpath/libfoo.dylib'], [join(root, 'early'), safe]))
     const result = await captureTrustedNativeFiles([{ name: 'runtime/test-rpath', path: entry }])
-    expect(result.accessPaths.has(writable)).toBe(true)
+    // The lexical link path is bound so inspection walks both it (the holding dir)
+    // and its realpath target (the writable dir).
+    expect(result.accessPaths.has(join(root, 'early'))).toBe(true)
     // A dangling symlink (target absent) cannot be authenticated and is rejected.
     await symlink(join(root, 'missing'), join(root, 'dangling'))
     await writeFile(join(root, 'entry2'), macho(['@rpath/libfoo.dylib'], [join(root, 'dangling'), safe]))
     await expect(captureTrustedNativeFiles([{ name: 'runtime/test-dangling', path: join(root, 'entry2') }])).rejects.toThrow(/Dangling symbolic link/)
+    // A candidate file that is itself a dangling symlink is also rejected.
+    await mkdir(join(root, 'filelink'))
+    await symlink(join(root, 'missing'), join(root, 'filelink', 'libfoo.dylib'))
+    await writeFile(join(root, 'entry3'), macho(['@rpath/libfoo.dylib'], [join(root, 'filelink'), safe]))
+    await expect(captureTrustedNativeFiles([{ name: 'runtime/test-filelink', path: join(root, 'entry3') }])).rejects.toThrow(/Dangling symbolic link/)
+    // A symlink inside a writable dir (pointing at a safe dir) binds the lexical
+    // link path so the holding writable dir is inspected, not only the target.
+    await mkdir(join(root, 'alias-target'))
+    await symlink(join(root, 'alias-target'), join(writable, 'alias'))
+    await writeFile(join(root, 'entry4'), macho(['@rpath/libfoo.dylib'], [join(writable, 'alias'), safe]))
+    const aliasResult = await captureTrustedNativeFiles([{ name: 'runtime/test-alias', path: join(root, 'entry4') }])
+    expect(aliasResult.accessPaths.has(join(writable, 'alias'))).toBe(true)
   })
   it('bypasses trusted dotenv and rejects ambient Node/package/loader settings and wrong cwd', async () => {
     const a = await fixture(); await put(a.root, '.env', 'SECRET=should-not-load')
