@@ -102,6 +102,13 @@ function apiProjection(value) {
 // have no finite inlined form, so a reference that re-enters its own resolution
 // path fails closed deterministically; the depth limit stays as the backstop
 // for pathological finite chains.
+//
+// A one-member oneOf/anyOf admits exactly what its member admits, so it is
+// the same wrapper as a one-member allOf — fragments use either to document a
+// referenced schema beside its own description — and merges the same way.
+// Left unmerged, a wrapped parameter never equals the upstream's plain object
+// and the diff proposes a mirror on every run. Scenario branches always carry
+// two or more members and stay arrays.
 function resolveSchemaDeep(document, schema, depth = 0, resolving = new Set()) {
     if (depth > 16) fail('REST_UPSTREAM_MIRROR_REF_CYCLE', 'mirror subtree exceeds the reference depth limit')
     if (Array.isArray(schema)) return schema.map(item => resolveSchemaDeep(document, item, depth + 1, resolving))
@@ -122,6 +129,13 @@ function resolveSchemaDeep(document, schema, depth = 0, resolving = new Set()) {
         onPath = true
     }
     try {
+        for (const combinator of ['oneOf', 'anyOf']) {
+            const members = effective[combinator]
+            if (Array.isArray(members) && members.length === 1 && isPlainObject(members[0])) {
+                const {[combinator]: single, ...rest} = effective
+                effective = {...rest, allOf: [...(Array.isArray(rest.allOf) ? rest.allOf : []), ...single]}
+            }
+        }
         if (Array.isArray(effective.allOf)) {
             const merged = {...effective}
             delete merged.allOf
@@ -157,6 +171,46 @@ function resolveSchemaDeep(document, schema, depth = 0, resolving = new Set()) {
     } finally {
         if (onPath) resolving.delete(schema.$ref)
     }
+}
+
+// Scenario branches narrow a shared structure on purpose: create-collection's
+// custom setup documents the collection schema without the external-collection
+// fields its external-setup sibling carries. A nested node that this branch's
+// local view omits while a sibling branch documents it at the same position is
+// such a deliberate omission — the nested counterpart of the branch-level rule
+// that keeps per-branch omissions silent — so the branch's mirror must neither
+// compare against it nor re-add it. A node that no branch documents is a
+// genuine upstream addition and stays.
+function pruneSiblingCoveredOmissions(upstreamNode, localNode, siblingNodes) {
+    const siblings = siblingNodes.filter(isPlainObject)
+    if (!isPlainObject(upstreamNode) || siblings.length === 0) return upstreamNode
+    const local = isPlainObject(localNode) ? localNode : {}
+    const result = {...upstreamNode}
+    if (isPlainObject(upstreamNode.properties)) {
+        const localProperties = isPlainObject(local.properties) ? local.properties : {}
+        const siblingProperties = siblings.map(sibling => (isPlainObject(sibling.properties) ? sibling.properties : {}))
+        const pruned = new Set()
+        const properties = {}
+        for (const [name, child] of Object.entries(upstreamNode.properties)) {
+            if (!Object.hasOwn(localProperties, name) && siblingProperties.some(candidate => Object.hasOwn(candidate, name))) {
+                pruned.add(name)
+                continue
+            }
+            properties[name] = pruneSiblingCoveredOmissions(child, localProperties[name], siblingProperties.map(candidate => candidate[name]))
+        }
+        result.properties = properties
+        if (pruned.size > 0 && Array.isArray(upstreamNode.required)) {
+            const required = upstreamNode.required.filter(name => !pruned.has(name))
+            if (required.length > 0) result.required = required
+            else delete result.required
+        }
+    }
+    for (const key of ['items', 'additionalProperties']) {
+        if (isPlainObject(upstreamNode[key])) {
+            result[key] = pruneSiblingCoveredOmissions(upstreamNode[key], local[key], siblings.map(sibling => sibling[key]))
+        }
+    }
+    return result
 }
 
 // The mirror merge: upstream structure with the fragment's doc-owned keys
@@ -549,4 +603,4 @@ function stripScalarConstraints(value) {
     return result
 }
 
-module.exports = {apiProjection, resolveSchemaDeep, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, undescribedNodes, hasDescription, isTranslationComplete, assertSchemaShape}
+module.exports = {apiProjection, resolveSchemaDeep, pruneSiblingCoveredOmissions, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, undescribedNodes, hasDescription, isTranslationComplete, assertSchemaShape}

@@ -76,6 +76,44 @@ For a new interface, the minimum review checklist is: source operation and
 matrix coverage; generated English/Chinese output; and the English build's
 Japanese localization provenance.
 
+### Narrowed variants of shared schema components
+
+Scenario-branched bodies often reuse one component with per-branch
+deliberate omissions: create-collection's custom setup documents the
+collection schema without the external-collection fields
+(`externalSource`, `externalSpec`, per-field `externalField`) that its
+external-setup sibling carries. Author such a narrowing as a new component
+whose properties reuse the shared component's nodes through JSON-pointer
+refs (`#/components/schemas/X/properties/name`), so descriptions, i18n,
+enums, and lifecycle stay single-sourced and an upstream refresh that
+mirrors the shared property updates every consumer at once
+(`CustomCollectionSchema` / `CustomFieldSchema` in
+`05-collection-operations-v2.json` are the reference example).
+
+Three rules keep the narrowing stable across the upstream refresh:
+
+- The diff keeps the omission silent: a field a sibling scenario branch
+  documents and this branch omits is pruned from the branch's mirror
+  comparison and value (`pruneSiblingCoveredOmissions`), the nested
+  counterpart of the branch-level rule that per-branch omissions stay
+  silent. A field documented by no branch is a genuine upstream addition
+  and is proposed normally.
+- A single-member `oneOf`/`anyOf` wrapper (the OpenAPI 3.0 idiom for
+  documenting a referenced schema beside its own description) resolves like
+  a one-member `allOf` in the mirror lane; it is never drift against the
+  upstream's plain object.
+- The release-track projection requires lifecycle on every resolved
+  component root and explicit property/items node (pointer-ref leaves are
+  exempt), so new structural nodes carry the track floor of the component
+  they narrow and need matching `baseline-floor` rows in
+  `meta/lifecycle-evidence/milvus-2.6.x-bootstrap.json` (insert next to the
+  mirrored counterpart, bump only `summary.elements`), then refresh the
+  inventory hash with
+  `node scripts/rest-upstream/refresh-lifecycle-inventory.js` and confirm
+  `node scripts/verify-rest-lifecycle-evidence.mjs` plus
+  `node --test scripts/rest-upstream/assert-track-projection.test.js`
+  still pass.
+
 ## REST upstream drift watchdog and refresh
 
 The REST fragments are kept aligned with their upstream specs through two

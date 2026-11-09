@@ -104,6 +104,97 @@ function ids(result, predicate = () => true) {
     return result.entries.filter(predicate).map(entry => entry.id)
 }
 
+// create-collection shape: a scenario-branched body whose nested `schema`
+// parameter documents a shared component through a single-member combinator,
+// with the custom-setup branch narrowed to omit the external-collection fields
+// its external-setup sibling carries.
+function narrowedCollectionFragment(wrapper) {
+    const lifecycle = {'x-added-at': '2.6.x', 'x-last-modified': '2.6.x', 'x-deprecated-since': null}
+    const schemaParameter = target => ({[wrapper]: [{$ref: `#/components/schemas/${target}`}], description: 'Schema.'})
+    return {
+        openapi: '3.0.0',
+        info: {title: 'fixture', version: '1'},
+        paths: {'/v2/vectordb/collections/create': {post: {
+            summary: 'Create Collection',
+            requestBody: {content: {'application/json': {schema: {oneOf: [
+                {'x-tab-label': 'custom setup', type: 'object', properties: {collectionName: {type: 'string'}, schema: schemaParameter('CustomCollectionSchema')}},
+                {'x-tab-label': 'external setup', type: 'object', properties: {collectionName: {type: 'string'}, schema: schemaParameter('CollectionSchema')}},
+            ]}}}},
+            responses: {'200': {description: 'OK'}},
+        }}},
+        components: {schemas: {
+            CollectionSchema: {type: 'object', ...lifecycle, properties: {
+                autoID: {type: 'boolean'},
+                fields: {type: 'array', items: {$ref: '#/components/schemas/FieldSchema'}},
+                externalSource: {type: 'string'},
+            }},
+            FieldSchema: {type: 'object', ...lifecycle, properties: {fieldName: {type: 'string'}, externalField: {type: 'string'}}},
+            CustomCollectionSchema: {type: 'object', ...lifecycle, properties: {
+                autoID: {$ref: '#/components/schemas/CollectionSchema/properties/autoID'},
+                fields: {type: 'array', items: {$ref: '#/components/schemas/CustomFieldSchema'}},
+            }},
+            CustomFieldSchema: {type: 'object', ...lifecycle, properties: {fieldName: {$ref: '#/components/schemas/FieldSchema/properties/fieldName'}}},
+        }},
+    }
+}
+
+function collectionUpstream(fieldProperties) {
+    return {
+        openapi: '3.0.0',
+        info: {title: 'upstream', version: '1'},
+        paths: {'/v2/vectordb/collections/create': {post: {
+            summary: 'Create Collection',
+            requestBody: {content: {'application/json': {schema: {type: 'object', properties: {
+                collectionName: {type: 'string'},
+                schema: {type: 'object', properties: {
+                    autoID: {type: 'boolean'},
+                    fields: {type: 'array', items: {type: 'object', properties: fieldProperties}},
+                    externalSource: {type: 'string'},
+                }, description: 'Schema.'},
+            }}}}},
+            responses: {'200': {description: 'OK'}},
+        }}},
+    }
+}
+
+function runCollection(wrapper, fieldProperties) {
+    return diffSpecifications({
+        source: SOURCE,
+        upstreamPin: SHA,
+        upstream: collectionUpstream(fieldProperties),
+        fragments: new Map([['05-collection-operations-v2.json', narrowedCollectionFragment(wrapper)]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+}
+
+const schemaMirrors = result => result.entries.filter(entry => entry.field === 'schema' && entry.change.kind === 'schema')
+
+test('a single-member wrapper around a nested schema parameter is not drift', () => {
+    // Both OAS idioms for documenting a referenced schema compare equal to the
+    // upstream's plain object; before the fix the oneOf form proposed a mirror
+    // on every run.
+    for (const wrapper of ['oneOf', 'allOf']) {
+        const result = runCollection(wrapper, {fieldName: {type: 'string'}, externalField: {type: 'string'}})
+        assert.deepEqual(schemaMirrors(result).map(entry => entry.id), [], `${wrapper} wrapper`)
+    }
+})
+
+test('a narrowed scenario branch keeps its deliberate omissions when upstream changes the shared structure', () => {
+    for (const wrapper of ['oneOf', 'allOf']) {
+        const result = runCollection(wrapper, {fieldName: {type: 'string'}, externalField: {type: 'string'}, nullable: {type: 'boolean'}})
+        const mirrors = new Map(schemaMirrors(result).map(entry => [entry.branch, entry.change.after]))
+        // the external branch documents the full structure and takes the addition
+        assert.deepEqual(Object.keys(mirrors.get('external setup').properties).sort(), ['autoID', 'externalSource', 'fields'], wrapper)
+        assert.deepEqual(Object.keys(mirrors.get('external setup').properties.fields.items.properties).sort(), ['externalField', 'fieldName', 'nullable'], wrapper)
+        // the custom branch takes the genuine addition without re-adding what
+        // its external-setup sibling documents and it deliberately omits
+        assert.deepEqual(Object.keys(mirrors.get('custom setup').properties).sort(), ['autoID', 'fields'], wrapper)
+        assert.deepEqual(Object.keys(mirrors.get('custom setup').properties.fields.items.properties).sort(), ['fieldName', 'nullable'], wrapper)
+        assert.deepEqual(mirrors.get('custom setup').droppedLocalFields ?? [], [], wrapper)
+    }
+})
+
 test('scenario branches are documentation assets: deliberate omissions stay silent, uncovered fields become unattributed', () => {
     const result = run()
     const create = entry => entry.opKey === 'post /v2/vectordb/jobs/import/create'
