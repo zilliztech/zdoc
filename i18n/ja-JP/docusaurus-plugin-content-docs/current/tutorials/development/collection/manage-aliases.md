@@ -187,7 +187,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 #include "milvus/MilvusClientV2.h"
@@ -411,7 +411,7 @@ println!("{:?}", res.aliases());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::ListAliasesResponse response;
 auto status = client->ListAliases(milvus::ListAliasesRequest()
                                       .WithCollectionName("my_collection_1"),
@@ -567,7 +567,7 @@ println!("{:?}", res);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::DescribeAliasResponse response;
 auto status = client->DescribeAlias(milvus::DescribeAliasRequest()
                                         .WithAlias("bob"),
@@ -798,7 +798,7 @@ println!("{:?}", res.aliases());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterAlias(milvus::AlterAliasRequest()
                                      .WithCollectionName("my_collection_2")
                                      .WithAlias("alice"));
@@ -1023,7 +1023,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->DropAlias(milvus::DropAliasRequest().WithAlias("bob"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
