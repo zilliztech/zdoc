@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "ae2c1a89389be313ed1dd96832e72d12ad787b0c",
+  "sourceCommit": "ee0fdbb2e6d5cad3ffcbc02bda6bf2ed23c5d7fa",
   "records": [
     {
       "manual": "cli",
@@ -6900,7 +6900,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2.mdx",
-      "sourceHash": "4fdd1480cbd496dfb682fbdf8e8c2c38d8aa279c891d1c61990229602ac10a72"
+      "sourceHash": "6bb33563797beeaa78014313508c60020d3244e2fddeb04f0bce4c10f27a3f84"
     },
     {
       "manual": "rest",
