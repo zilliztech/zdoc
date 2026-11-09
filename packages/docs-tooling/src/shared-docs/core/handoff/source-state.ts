@@ -148,8 +148,8 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
   if (fetchInputs.render_targets !== undefined) {
     const projection = fetchInputs.render_targets
     keys(projection, ['schema_version', 'targets'], 'Shared render targets')
-    assert(projection.schema_version === 1 && Array.isArray(projection.targets) && projection.targets.length === 2
-      && Array.isArray(receipt.outputs) && receipt.outputs.length === 2, 'Invalid render target version or pair')
+    assert(projection.schema_version === 1 && Array.isArray(projection.targets) && projection.targets.length > 0 && projection.targets.length <= 2
+      && Array.isArray(receipt.outputs) && receipt.outputs.length === projection.targets.length, 'Invalid render target version or output set')
     const manuals = new Set<string>()
     for (const target of projection.targets) {
       keys(target, ['manual', 'path', 'extension', 'navigation', 'channel'], 'Shared render target')

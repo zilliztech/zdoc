@@ -47,7 +47,17 @@ describe('anonymous visitor identity', () => {
 
   it.each(['getItem', 'setItem'] as const)('omits identity when storage %s fails', method => {
     vi.stubGlobal('crypto', {randomUUID: () => id});
-    vi.spyOn(Storage.prototype, method).mockImplementation(() => {throw new Error('storage blocked');});
+    const storage = globalThis.localStorage;
+    const blocked = vi.fn(() => {throw new Error('storage blocked');});
+    const facade = {
+      getItem: storage.getItem.bind(storage),
+      setItem: storage.setItem.bind(storage),
+      removeItem: storage.removeItem.bind(storage),
+      clear: storage.clear.bind(storage),
+    };
+    facade[method] = blocked;
+    vi.stubGlobal('localStorage', facade);
     expect(getVisitorId()).toBeUndefined();
+    expect(blocked).toHaveBeenCalledTimes(1);
   });
 });

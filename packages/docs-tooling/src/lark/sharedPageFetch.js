@@ -238,6 +238,12 @@ function writerAdapter(sourceDir, rootToken, manual) {
     block_types: Writer.prototype.__block_types(), linkReplacementShim: null, page_blocks: [], blocks: []})
   return writer
 }
+function selectedFetchManuals(record) {
+  const selectedTargets = guidesRecordPublishTargets(record)
+  const manuals = ['guides', 'guides-byoc'].filter(manual => selectedTargets.includes(resolveManualPublication(manual, 'en').publication.generatorTarget))
+  if (!manuals.length || manuals.length !== selectedTargets.length) throw new Error('CONFIG_PATH_UNKNOWN: current Base requires a nonempty supported target set')
+  return manuals
+}
 function planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, navigation, previousSnapshot}) {
   const index = SourceIndex.load(sourceDir)
   // During first activation the record's legacy docx source stays cached beside
@@ -249,9 +255,7 @@ function planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, nav
   const position = (parent.children || []).filter(child => child && child.obj_type !== 'bitable').findIndex(child => child.node_token === source.node_token) + 1
   if (!position) throw new Error('CONFIG_PATH_UNKNOWN: current Base sibling position is absent')
   const nav = navigation.navigationRecords.find(row => row.record_id === record.record_id)
-  const selectedTargets = guidesRecordPublishTargets(record)
-  return ['guides', 'guides-byoc'].map(manual => {
-    if (!selectedTargets.includes(resolveManualPublication(manual, 'en').publication.generatorTarget)) throw new Error(`CONFIG_PATH_UNKNOWN: current Base excludes ${manual}`)
+  return selectedFetchManuals(record).map(manual => {
     const writer = writerAdapter(sourceDir, rootToken, manual)
     const relative = writer.__doc_id_for_token(source.node_token, resolveManualPublication(manual, 'en').publication.contentRoot)
     if (!routing.safeHandoffPath(relative)) throw new Error('CONFIG_PATH_UNKNOWN: unsafe writer output')
@@ -315,4 +319,4 @@ async function activationDraft({record, page, active, previousSnapshot, currentS
   }
 }
 module.exports = {baselineOutputPaths, digest, gitBlobs, gitInventory, regularBytes, assertInventory, pinnedCommit, prepareSharedSources, restoreRouting, initializeSharedScraper, writerAdapter,
-  planFetchTargets, activationDraft, fetchActivationHeadings, snapshotPath, publicationPath, git, pendingSourceSnapshot}
+  selectedFetchManuals, planFetchTargets, activationDraft, fetchActivationHeadings, snapshotPath, publicationPath, git, pendingSourceSnapshot}

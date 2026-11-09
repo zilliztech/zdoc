@@ -1,7 +1,7 @@
 // @vitest-environment node
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
@@ -603,3 +603,51 @@ it('runs shared-docs update through the public CLI on committed isolated inputs 
     expect(invalid.status).toBe(2);
   } finally { rmSync(temporary, {recursive: true, force: true}); }
 }, 120_000);
+
+function runLocalUpdateCli(args: string[], cwd = path.resolve(import.meta.dirname, '../../..'), overrides: NodeJS.ProcessEnv = {}) {
+  const tool = path.resolve(import.meta.dirname, '../../../scripts/docs-tooling.js');
+  // Vitest's own module lookup is not a supported production launcher setting.
+  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !['NODE_PATH', 'NODE_OPTIONS'].includes(key)));
+  return spawnSync(process.execPath, [tool, 'shared-docs', ...args], {cwd, encoding: 'utf8', env: {...env,...overrides}, timeout: 10_000});
+}
+
+it.each([
+  ['update-plan', '--request', '/absent/request.json', '--request', '/other/request.json', '--out', '/absent/output'],
+  ['update-plan', '--request', '/absent/request.json', '--out', '/absent/output', '--provider', 'fixture'],
+  ['update-plan', '--request', '/absent/request.json', '--out', '/absent/output', '--resume'],
+  ['update-prepare', '--request', '/absent/request.json', '--plan', '/absent/plan', '--unit', 'unit', '--out', '/absent/output', '--resume', '--resume'],
+  ['update-prepare', '--request', '/absent/request.json', '--out', '/absent/output'],
+])('rejects invalid local update dispatch arguments with exit 2: %j', (...args: string[]) => {
+  const result = runLocalUpdateCli(args);
+  expect(result.status, result.stderr).toBe(2);
+  expect(result.stdout).not.toContain('candidate');
+});
+
+it('rejects malformed local request JSON through the actual loader entry', () => {
+  const root = realpathSync(temporaryRoot());
+  try {
+    writeFileSync(path.join(root, 'request.json'), '{"schemaVersion":1,"schemaVersion":1}');
+    const result = runLocalUpdateCli(['update-plan', '--request', path.join(root, 'request.json'), '--out', path.join(root, 'output')]);
+    expect(result.status, result.stderr).toBe(2);
+    expect(result.stdout + result.stderr).toContain('INVALID_LOCAL_REQUEST');
+  } finally { rmSync(root, {recursive: true, force: true}); }
+});
+
+it('rejects an unrelated caller cwd before loading its dotenv for local updates', () => {
+  const root = temporaryRoot();
+  try {
+    writeFileSync(path.join(root, '.env'), 'NODE_OPTIONS=--require ./untrusted.cjs\n');
+    writeFileSync(path.join(root, 'untrusted.cjs'), 'throw new Error("CANDIDATE_PRELOAD_RAN")\n');
+    const result = runLocalUpdateCli(['update-plan', '--request', path.join(root, 'request.json'), '--out', path.join(root, 'output')], root);
+    expect(result.status).toBe(1);
+    expect(result.stderr).toMatch(/trusted.*(?:root|checkout|cwd)/iu);
+    expect(result.stdout + result.stderr).not.toMatch(/CANDIDATE_PRELOAD_RAN|injecting env/iu);
+  } finally { rmSync(root, {recursive: true, force: true}); }
+});
+
+it('reports forbidden execution dependencies as infrastructure failure before local request acquisition', () => {
+  const result = runLocalUpdateCli(['update-plan','--request','/absent/request.json','--out','/absent/output'], undefined, {GIT_CONFIG_COUNT:'0'});
+  expect(result.status).toBe(1);
+  expect(result.stderr).toContain('Forbidden ambient execution setting: GIT_CONFIG_COUNT');
+  expect(result.stdout).toBe('');
+});
