@@ -5,6 +5,7 @@ const os = require('node:os');
 const path = require('node:path');
 const LarkDocWriter = require('./larkDocWriter');
 const LarkSourceIndex = require('./larkSourceIndex');
+const { findAccidentalMathSpans } = require('../markdown/accidentalMathSpans');
 
 function textRun(content, style = {}) {
   return {
@@ -185,6 +186,43 @@ async function testStyledWhitespacePreservesCombinedMarkdownSpans() {
   ]);
 
   assert.equal(markdown, '***label*** description');
+}
+
+async function testHtmlTableCellDollarsStayLiteral() {
+  // The HTML table cell path renders cell markdown through markdown-it,
+  // which turns backtick-protected `$meta` chips into raw `<code>$meta</code>`
+  // tags. remark-math then pairs those dollars across the tags (the 11-05
+  // json-field-overview incident), so the chips must come out pre-escaped.
+  const writer = createWriter([]);
+  const cell = writer.__htmlTableCellContent('Query via `$meta`: `$meta["dynamic_key"]`');
+
+  assert.ok(cell.includes('<code>\\$meta</code>'), cell);
+  assert.ok(cell.includes('<code>\\$meta[&quot;dynamic_key&quot;]</code>'), cell);
+
+  const compiled = String(await assertMdxCompiles(cell));
+  assert.doesNotMatch(compiled, /katex/);
+
+  const {spans} = await findAccidentalMathSpans(cell);
+  assert.deepEqual(spans, []);
+}
+
+async function testAccidentalMathSpanGateFailsClosed() {
+  const writer = createWriter([]);
+
+  // The exact production damage shape must fail the write_page gate...
+  await assert.rejects(
+    writer.__validate_accidental_math_spans(
+      '<td><p>Query via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>',
+      'json-field-overview',
+    ),
+    /Accidental math span\(s\) on "json-field-overview"/,
+  );
+
+  // ...while escaped chips and genuine math pass.
+  await writer.__validate_accidental_math_spans(
+    '<td><p>Query via <code>\\$meta</code></p></td>\n\nThe rate $\\lambda$ controls decay.',
+    'json-field-overview',
+  );
 }
 
 async function testProseDollarsDoNotBecomeMathDelimiters() {
@@ -1336,6 +1374,8 @@ async function run() {
   await testStyledWhitespaceClosesMarkdownSpans();
   await testStyledWhitespaceKeepsAContinuousMarkdownSpan();
   await testStyledWhitespacePreservesCombinedMarkdownSpans();
+  await testHtmlTableCellDollarsStayLiteral();
+  await testAccidentalMathSpanGateFailsClosed();
   await testProseDollarsDoNotBecomeMathDelimiters();
   await testBoldEndingWithPunctuationBeforeTextUsesHtmlPair();
   testKeywordPickerUsesStableSeed();
