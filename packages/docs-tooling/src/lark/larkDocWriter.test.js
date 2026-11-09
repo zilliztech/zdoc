@@ -206,22 +206,27 @@ async function testHtmlTableCellDollarsStayLiteral() {
   assert.deepEqual(spans, []);
 }
 
-async function testAccidentalMathSpanGateFailsClosed() {
+async function testAccidentalMathSpanGateRepairsInsteadOfFailing() {
   const writer = createWriter([]);
 
-  // The exact production damage shape must fail the write_page gate...
-  await assert.rejects(
-    writer.__validate_accidental_math_spans(
-      '<td><p>Query via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>',
-      'json-field-overview',
-    ),
-    /Accidental math span\(s\) on "json-field-overview"/,
+  // The exact production damage shape is repaired in place (escaped chips,
+  // swallowed tags resolve again) and the page keeps flowing: a fetch run is
+  // too expensive to fail over writer-emitted damage the Feishu source never
+  // contained.
+  const damaged = '<td><p>Query via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>';
+  const repaired = await writer.__repair_accidental_math_spans(damaged, 'json-field-overview');
+  assert.equal(
+    repaired,
+    '<td><p>Query via <code>\\$meta</code>: <code>\\$meta["dynamic_key"]</code></p></td>',
   );
+  const {spans: afterRepair} = await findAccidentalMathSpans(repaired);
+  assert.deepEqual(afterRepair, []);
 
-  // ...while escaped chips and genuine math pass.
-  await writer.__validate_accidental_math_spans(
-    '<td><p>Query via <code>\\$meta</code></p></td>\n\nThe rate $\\lambda$ controls decay.',
-    'json-field-overview',
+  // Escaped chips and genuine math pass through untouched.
+  const clean = '<td><p>Query via <code>\\$meta</code></p></td>\n\nThe rate $\\lambda$ controls decay.';
+  assert.equal(
+    await writer.__repair_accidental_math_spans(clean, 'json-field-overview'),
+    clean,
   );
 }
 
@@ -1375,7 +1380,7 @@ async function run() {
   await testStyledWhitespaceKeepsAContinuousMarkdownSpan();
   await testStyledWhitespacePreservesCombinedMarkdownSpans();
   await testHtmlTableCellDollarsStayLiteral();
-  await testAccidentalMathSpanGateFailsClosed();
+  await testAccidentalMathSpanGateRepairsInsteadOfFailing();
   await testProseDollarsDoNotBecomeMathDelimiters();
   await testBoldEndingWithPunctuationBeforeTextUsesHtmlPair();
   testKeywordPickerUsesStableSeed();

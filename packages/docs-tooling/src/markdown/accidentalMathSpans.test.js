@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const test = require('node:test');
 const {
   findAccidentalMathSpans,
+  repairAccidentalMathSpans,
   looksAccidentalMathValue,
   mightContainMathDelimiters,
 } = require('./accidentalMathSpans');
@@ -75,4 +76,56 @@ test('compile failures are reported, not thrown', async () => {
   const {spans, compileError} = await findAccidentalMathSpans(broken);
   assert.ok(compileError instanceof Error);
   assert.deepEqual(spans, []);
+});
+
+test('KaTeX structural failures mark a span accidental', async () => {
+  // Unbalanced braces and unknown macros are what the site renders as red
+  // error output; both are repairable by escaping the delimiters.
+  const {spans} = await findAccidentalMathSpans('a $x {y$ b and a $\\foobarbaz$ c');
+  assert.equal(spans.length, 2);
+  assert.deepEqual(spans.map(span => span.value).sort(), ['\\foobarbaz', 'x {y']);
+});
+
+test('legitimate equations with spaces and LaTeX markers stay clean', async () => {
+  // Real shapes from the tree: spaced equations all carry LaTeX markers, and
+  // a span the site engine parses without CJK or JSX remnants is left alone.
+  const clean = [
+    'The score is $TF(q_i, D)$ over $|D|$ documents.',
+    'Cap at $\\max(0, distance - offset)$ per $\\lambda$.',
+    'Embed $E_Q = [e_{q_1}, ..., e_{q_m} ]$ from the query.',
+    'Plain $x + y$ math parses fine.',
+  ].join('\n');
+  const {spans} = await findAccidentalMathSpans(clean);
+  assert.deepEqual(spans, []);
+});
+
+test('repair escapes delimiters in place and re-checks clean', async () => {
+  const damaged = '<td><p>via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>';
+  const {markdown: repaired, repaired: spans, remaining} = await repairAccidentalMathSpans(damaged);
+  assert.equal(remaining.length, 0);
+  assert.equal(spans.length, 1);
+  assert.equal(
+    repaired,
+    '<td><p>via <code>\\$meta</code>: <code>\\$meta["dynamic_key"]</code></p></td>',
+  );
+  const recheck = await findAccidentalMathSpans(repaired);
+  assert.deepEqual(recheck.spans, []);
+});
+
+test('repair restores damaged display math delimiters', async () => {
+  const damaged = '$$\n率 + x\n$$';
+  const {markdown: repaired, remaining} = await repairAccidentalMathSpans(damaged);
+  assert.equal(remaining.length, 0);
+  assert.equal(repaired, '\\$\\$\n率 + x\n\\$\\$');
+  const recheck = await findAccidentalMathSpans(repaired);
+  assert.deepEqual(recheck.spans, []);
+});
+
+test('repair handles chained damage across rounds', async () => {
+  // `$a$b$c$` pairs twice in one parse; the second pass catches the survivor.
+  const damaged = '$a$<code>b</code>$c$';
+  const {markdown: repaired, remaining} = await repairAccidentalMathSpans(damaged);
+  assert.equal(remaining.length, 0);
+  const recheck = await findAccidentalMathSpans(repaired);
+  assert.deepEqual(recheck.spans, []);
 });

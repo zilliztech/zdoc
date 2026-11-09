@@ -4,7 +4,7 @@ const {
     getFencedCodeRanges,
     createFencedCodeBlock,
 } = require('../mdx/validate.cjs')
-const { findAccidentalMathSpans } = require('../markdown/accidentalMathSpans')
+const { repairAccidentalMathSpans } = require('../markdown/accidentalMathSpans')
 const { filterCodeVariants } = require('./codeVariantFilter')
 const { matchFilterTags, resolveIncludeSpans } = require('../reference/rest/includeSpans')
 const Downloader = require('./larkImageDownloader.js')
@@ -1368,18 +1368,21 @@ class larkDocWriter {
 
     // remark-math pairs `$` delimiters across JSX tags, so two inline-code
     // chips whose text starts with `$` swallow the tags between them into one
-    // math node and render as broken pseudo-math on the site. Fail closed at
-    // the writer so damaged pages never reach a checkpoint or dev; fix the
-    // emitting path (see renderMarkdownHtml's code_inline rule) instead of
-    // hand-editing generated content.
-    async __validate_accidental_math_spans (markdown, slug) {
-        const {spans, compileError} = await findAccidentalMathSpans(markdown)
-        if (compileError) {
-            console.warn(`[__write_page] "${slug}" did not parse for the math-span gate (${compileError.message}); downstream MDX validation governs that failure`)
+    // math node and render as broken pseudo-math on the site. The Feishu
+    // source is innocent: this shape is emitted by the writer (markdown-it
+    // turns backtick chips into raw <code> tags). The repair is exact and
+    // lossless — escaping the paired dollars renders the original text again —
+    // so never fail the run for this; warn with attribution so the emitting
+    // path gets fixed instead.
+    async __repair_accidental_math_spans (markdown, slug) {
+        const {markdown: repaired, repaired: spans, remaining} = await repairAccidentalMathSpans(markdown)
+        if (spans.length > 0) {
+            console.warn(`[__write_page] "${slug}": repaired ${spans.length} accidental math span(s): ${spans.map(span => JSON.stringify(String(span.value).slice(0, 80))).join('; ')}; escape dollars in the emitting writer path (see renderMarkdownHtml's code_inline rule)`)
         }
-        if (spans.length === 0) return
-        const samples = spans.map(span => JSON.stringify(span.value.slice(0, 80))).join('; ')
-        throw new Error(`Accidental math span(s) on "${slug}": remark-math paired $ delimiters across JSX tags (${samples}). Escape the dollars in the emitting writer path instead of hand-editing generated content`)
+        if (remaining.length > 0) {
+            console.warn(`[__write_page] "${slug}": accidental math span(s) survived the repair: ${remaining.map(span => JSON.stringify(String(span.value).slice(0, 80))).join('; ')}`)
+        }
+        return repaired
     }
 
     __parse_channel_code_directive (line) {
@@ -1481,7 +1484,7 @@ class larkDocWriter {
         markdown = markdown.replace(/\s*<tr>\n(\s*<td>(<br\/>)*<\/td>\n)*\s*<\/tr>/g, '')
         markdown = this.__example_http_urls(markdown)
         markdown = await this.__mdx_patches(markdown)
-        await this.__validate_accidental_math_spans(markdown, slug)
+        markdown = await this.__repair_accidental_math_spans(markdown, slug)
 
         const description = this.__extract_description(markdown)
 
