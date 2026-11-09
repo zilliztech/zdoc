@@ -80,7 +80,7 @@ let analyzer_params = serde_json::json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "jieba"},
     {"filter", {"pinyin"}}
@@ -214,7 +214,7 @@ let analyzer_params = serde_json::json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "jieba"},
     {"filter", {
@@ -387,7 +387,7 @@ let sample_text = "中文测试";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -537,7 +537,7 @@ let result = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "jieba"},
     {"filter", {"pinyin"}}
@@ -739,7 +739,7 @@ let result = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "jieba"},
     {"filter", {
@@ -967,7 +967,7 @@ let result = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "jieba"},
     {"filter", {

@@ -79,7 +79,7 @@ let analyzer_params = json!({"tokenizer": "jieba"});
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", "jieba"}
 };
@@ -189,7 +189,7 @@ let analyzer_params = json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
     {"tokenizer", {
         {"type", "jieba"},
@@ -324,7 +324,7 @@ let analyzer_params = json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
   {"tokenizer", {
       {"type", "jieba"},
@@ -490,7 +490,7 @@ let analyzer_params = json!({
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json analyzer_params = {
   {"tokenizer", {
       {"type", "jieba"},
@@ -679,7 +679,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <string>
