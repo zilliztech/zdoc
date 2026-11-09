@@ -1,4 +1,33 @@
 {
   "schema_version": 1,
-  "entries": []
+  "entries": [
+    {
+      "from": "/reference/cli/cli/Auth-loginlog-in",
+      "status": "fixed",
+      "to": "/reference/cli/cli/overview",
+      "note": "GA4 window 7d: sdk-overview ladder (5 events / 1 users)",
+      "decided_at": "2026-11-08T23:30:34.979Z"
+    },
+    {
+      "from": "/docs/failed-payments",
+      "status": "fixed",
+      "to": "/docs/failed-payments-organization-recovery",
+      "note": "",
+      "decided_at": "2026-11-09T00:17:08.546Z"
+    },
+    {
+      "from": "/docs/free-tier-overview",
+      "status": "fixed",
+      "to": "/docs/register-with-zilliz-cloud#start-with-free-resources",
+      "note": "",
+      "decided_at": "2026-11-09T00:17:08.546Z"
+    },
+    {
+      "from": "/reference/java/java/v2-StructFieldSchema-getDataType",
+      "status": "fixed",
+      "to": "/reference/java/java/v2-Collections-StructFieldSchema",
+      "note": "",
+      "decided_at": "2026-11-09T00:17:08.546Z"
+    }
+  ]
 }
