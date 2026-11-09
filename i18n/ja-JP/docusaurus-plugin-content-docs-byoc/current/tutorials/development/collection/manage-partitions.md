@@ -165,7 +165,7 @@ println!("{:?}", partitions.partition_names());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -381,7 +381,7 @@ println!("{:?}", partitions.partition_names());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreatePartition(milvus::CreatePartitionRequest()
                                          .WithCollectionName("my_collection")
                                          .WithPartitionName("partitionA"));
@@ -571,7 +571,7 @@ println!("{}", has.exists());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::HasPartitionResponse response;
 auto status = client->HasPartition(milvus::HasPartitionRequest()
                                     .WithCollectionName("my_collection")
@@ -762,7 +762,7 @@ println!("{:?}", state.state());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->LoadPartitions(milvus::LoadPartitionsRequest()
                                         .WithCollectionName("my_collection")
                                         .AddPartitionName("partitionA"));
@@ -980,7 +980,7 @@ println!("{:?}", state.state());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->ReleasePartitions(milvus::ReleasePartitionsRequest()
                                 .WithCollectionName("my_collection")
                                 .AddPartitionName("partitionA"));
@@ -1241,7 +1241,7 @@ println!("{:?}", partitions.partition_names());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->ReleasePartitions(milvus::ReleasePartitionsRequest()
                                             .WithCollectionName("my_collection")
                                             .AddPartitionName("partitionA"));

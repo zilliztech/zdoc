@@ -163,7 +163,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 #include "milvus/MilvusClientV2.h"
@@ -317,7 +317,7 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>allow_insert_auto_id</code></p></td>
-     <td><p>コレクションで AutoID が有効になっている場合に、ユーザー指定の主キー値を受け入れるかどうかを指定します。</p><ul><li><p><strong>"true"</strong> に設定した場合: ユーザー指定の主キーがある場合は、挿入、アップサート、一括インポートでその値が使用されます。ない場合は、主キー値が自動生成されます。</p></li><li><p><strong>"false"</strong> に設定した場合: ユーザー指定の主キー値は拒否または無視され、主キー値は常に自動生成されます。デフォルトは <strong>"false"</strong> です。</p></li></ul></td>
+     <td><p>Whether to allow a コレクション to accept user-provided primary key values when AutoID has been enabled for the コレクション.</p><ul><li><p>When set to <strong>"true"</strong>: Inserts, upserts, and bulk imports use the user-provided primary key if present; otherwise, primary key values are auto-generated.</p></li><li><p>When set to <strong>"false"</strong>: User-provided primary key values are rejected or ignored and primary key values are always auto-generated. The default is <strong>"false"</strong>.</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>timezone</code></p></td>
@@ -397,7 +397,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty(milvus::COLLECTION_TTL_SECONDS, "60"));
@@ -531,7 +531,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("ttl_field", "expire_at"));
@@ -664,7 +664,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty(milvus::MMAP_ENABLED, "true"));
@@ -795,7 +795,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("partitionkey.isolation", "true"));
@@ -926,7 +926,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("dynamicfield.enabled", "true"));
@@ -1059,7 +1059,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("allow_insert_auto_id", "true"));
@@ -1193,7 +1193,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                    .WithCollectionName("my_collection")
                                                    .AddProperty("timezone", "Asia/Shanghai"));
@@ -1324,7 +1324,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
                                                   .WithCollectionName("my_collection")
                                                   .AddPropertyKey(milvus::COLLECTION_TTL_SECONDS));

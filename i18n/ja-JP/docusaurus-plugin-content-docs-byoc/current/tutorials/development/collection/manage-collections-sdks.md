@@ -211,7 +211,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 
 #include "milvus/MilvusClientV2.h"
@@ -343,7 +343,7 @@ Zilliz Cloud では、すべてのベクトルフィールドのインデック�
 
 上記のコードスニペットに示すように、ベクトルフィールドにはインデックスタイプとメトリクスタイプの両方を設定し、スカラーフィールドにはインデックスタイプのみを設定する必要があります。ベクトルフィールドのインデックスは必須です。また、フィルタリング条件で頻繁に使用するスカラーフィールドには、インデックスを作成することをおすすめします。
 
-詳細は、[インデックス ベクトル Fields](https://milvus.io/docs/index-vector-fields.md) および [Index スカラー Fields](https://milvus.io/docs/index-scalar-fields.md) を参照してください。
+For details, refer to [インデックス ベクトル Fields](https://milvus.io/docs/index-vector-fields.md) and [Index スカラー Fields](https://milvus.io/docs/index-scalar-fields.md).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -431,7 +431,7 @@ let index_params = vec![
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("my_id", "my_id", milvus::IndexType::AUTOINDEX),
     milvus::IndexDesc("my_vector", "my_vector", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)};
@@ -610,7 +610,7 @@ println!("{:?}", res.state());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                            .WithCollectionName("customized_setup_1")
                                            .WithCollectionSchema(schema)
@@ -840,7 +840,7 @@ println!("{:?}", res.state());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                            .WithCollectionName("customized_setup_2")
                                            .WithCollectionSchema(schema));
@@ -1037,7 +1037,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                           .WithCollectionName("customized_setup_3")
                                           .WithCollectionSchema(schema)
@@ -1189,7 +1189,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                           .WithCollectionName("customized_setup_4")
                                           .WithCollectionSchema(schema)
@@ -1349,7 +1349,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                           .WithCollectionName("customized_setup_5")
                                           .WithCollectionSchema(schema)
@@ -1504,7 +1504,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                           .WithCollectionName("customized_setup_6")
                                           .WithCollectionSchema(schema)
