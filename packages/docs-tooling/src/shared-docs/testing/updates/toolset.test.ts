@@ -671,6 +671,15 @@ describe('manifest and launcher contract', () => {
     await writeFile(join(root, 'entry7'), macho(['@rpath/libfoo.dylib'], [join(root, 'dotdot-parent', 'child'), safe]))
     const dotdotResult = await captureTrustedNativeFiles([{ name: 'runtime/test-dotdot', path: join(root, 'entry7') }])
     expect(dotdotResult.accessPaths.has(join(root, 'real', 'writable'))).toBe(true)
+    // A link target that traverses a writable dir and then leaves it via '..'
+    // must still record that traversed dir (it can be swapped mid-resolution).
+    await mkdir(join(root, 'writable-dotdot', 'sub'), { recursive: true })
+    await chmod(join(root, 'writable-dotdot'), 0o777)
+    await mkdir(join(root, 'safe-end'))
+    await symlink('writable-dotdot/sub/../../safe-end', join(root, 'leave-link'))
+    await writeFile(join(root, 'entry8'), macho(['@rpath/libfoo.dylib'], [join(root, 'leave-link'), safe]))
+    const leaveResult = await captureTrustedNativeFiles([{ name: 'runtime/test-leave', path: join(root, 'entry8') }])
+    expect(leaveResult.accessPaths.has(join(root, 'writable-dotdot'))).toBe(true)
   })
   it('bypasses trusted dotenv and rejects ambient Node/package/loader settings and wrong cwd', async () => {
     const a = await fixture(); await put(a.root, '.env', 'SECRET=should-not-load')
