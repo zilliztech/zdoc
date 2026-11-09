@@ -304,6 +304,14 @@
     overflow-anchor: none;
 }
 
+/* A combinator left with a single option renders its panel outside any .tabs
+   radio group, so the checked-radio rule below can never reveal a .tabPanel
+   there. It gets its own always-visible container with the same spacing. */
+.singleOptionPanel {
+    margin-top: 1rem;
+    border-radius: 5px;
+}
+
 /* Visually-hidden radios — preserves keyboard a11y, replaces `display: none` */
 .tabs input[type=radio] {
     position: absolute;
