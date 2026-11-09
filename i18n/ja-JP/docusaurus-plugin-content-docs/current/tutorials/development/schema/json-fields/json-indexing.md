@@ -462,7 +462,7 @@ client.insert(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -683,7 +683,7 @@ curl --request POST \
 
 </details>
 
-以下の例で追加するインデックス定義を収集するための index-params オブジェクトを準備します：
+Prepare an index-params object to collect the index definitions added in the examples below:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -720,7 +720,7 @@ let mut index_params = Vec::new();
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<milvus::IndexDesc> index_params;
 ```
 
@@ -840,7 +840,7 @@ index_params.push(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 #include "milvus/MilvusClientV2.h"
 
@@ -987,7 +987,7 @@ index_params.push(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 #include "milvus/MilvusClientV2.h"
 
@@ -1132,7 +1132,7 @@ index_params.push(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 #include "milvus/MilvusClientV2.h"
 
@@ -1279,7 +1279,7 @@ index_params.push(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 #include "milvus/MilvusClientV2.h"
 
@@ -1432,7 +1432,7 @@ index_params.push(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 #include "milvus/MilvusClientV2.h"
 
@@ -1595,7 +1595,7 @@ index_params.push(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 #include "milvus/MilvusClientV2.h"
 
@@ -1740,7 +1740,7 @@ index_params.push(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 #include "milvus/MilvusClientV2.h"
 
@@ -1868,7 +1868,7 @@ client.create_index(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <utility>
 #include "milvus/MilvusClientV2.h"
@@ -2000,7 +2000,7 @@ println!("{:?}", desc);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -2187,7 +2187,7 @@ index_params.push(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <utility>
 #include "milvus/MilvusClientV2.h"
 

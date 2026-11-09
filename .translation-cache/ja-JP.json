@@ -1896,14 +1896,14 @@
       "translatedAt": "2026-11-09T13:43:52.937Z"
     },
     "content/en/guides/tutorials/development/scalar-index/rtree-index-type.md": {
-      "sourceHash": "c29b0e27c89eaad19f835c9f223fc0aec2516d6cf39858815d0fddc209840599",
+      "sourceHash": "80dea0f9701c62190ffbb005212ae8dd950bca516943320c3ef7a3e157ce4117",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/scalar-index/rtree-index-type.md",
-      "translatedAt": "2026-11-05T11:57:36.168Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/scalar-index/slt-sort-index-type.md": {
-      "sourceHash": "752fcdd8a6e27fa4048196612a69047d4176efc4957fc371fcf6a7c586a40fca",
+      "sourceHash": "a15d36fde301325c3799c6839c76a11f683b81859d528098244bfe7dafe3182e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/scalar-index/slt-sort-index-type.md",
-      "translatedAt": "2026-11-05T11:57:36.168Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md": {
       "sourceHash": "d063a95c0571fd9d404b19938bc06462523ab7ab350e31c19265d77c87eb1f84",
@@ -1911,34 +1911,34 @@
       "translatedAt": "2026-11-05T13:25:51.545Z"
     },
     "content/en/guides/tutorials/development/schema/alter-collection-field.md": {
-      "sourceHash": "a0ade1ddb464cf08c006e56b7a713d96473477ad2b200554296f6bb64e4f6e38",
+      "sourceHash": "98a39ca39bb44b956dc716768754c8adb35e6204e13d131d3cb38ff742486ddf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/alter-collection-field.md",
-      "translatedAt": "2026-10-28T04:45:25.788Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/alter-external-collection-schema.md": {
-      "sourceHash": "73e08b35b77ed238327407609ee02255e96e03c86e083b9719333a23714889ab",
+      "sourceHash": "1f023014bf4d71b362b59b38780531a5b77e0940a3b909a4c0bc81fada3a0e35",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/alter-external-collection-schema.md",
-      "translatedAt": "2026-11-05T11:57:36.168Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/default-fields.md": {
-      "sourceHash": "87635ca2ad086ea679b084f7db5c6a3fd7129ad752210ee28fffcfed8b48bb4c",
+      "sourceHash": "def34a1c495633ce9f3828a12c97270692f97eb6e2f370cb3cc064f281d8cb66",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/default-fields.md",
-      "translatedAt": "2026-11-05T13:25:51.545Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/enable-dynamic-field.md": {
-      "sourceHash": "e630f0c8f6995ec1c9bfb0df8945e34cac1de7d30ddeb5ae90759b23643395c5",
+      "sourceHash": "6b4bf028a39a852031cfb399976be0dec2a3d781f25e8e00eebe79b82ba2ba17",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/enable-dynamic-field.md",
-      "translatedAt": "2026-11-05T13:25:51.545Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/json-fields/json-field-overview.md": {
-      "sourceHash": "ed87935d46af14997dd4006bdf159d5e6b9760109775e963e8e4269ad46cb80f",
+      "sourceHash": "549a1b1d82bb7730c5c57c9b89fa23c8193f2e7a0ccd5c31015e6a008aaff0cf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-fields/json-field-overview.md",
-      "translatedAt": "2026-11-05T13:25:51.545Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/json-fields/json-indexing.md": {
-      "sourceHash": "c99375f31db484e37e97384892254c5f7536eeb2656d2cbed114ece7e6495c8c",
+      "sourceHash": "5582da56dbfd6ae8f5c59f59f5e90bb67352e3d32e9029ed76f71da25c429b80",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-fields/json-indexing.md",
-      "translatedAt": "2026-11-05T13:58:33.841Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/json-fields/json-shredding.md": {
       "sourceHash": "157c20cae656d17507a36a69676d0178afaa45de7787af585c50285a059fce33",
@@ -1946,14 +1946,14 @@
       "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/nullable-fields.md": {
-      "sourceHash": "e18868445f6e56a034ef6c8037ad80181e9c191d9457985c01ab777bf35aefc0",
+      "sourceHash": "a3f999adc651293ad76250f7af21577ca154d999f7ce9285dbf2d08ef5e7e492",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/nullable-fields.md",
-      "translatedAt": "2026-11-07T12:03:18.393Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/primary-field-auto-id.md": {
-      "sourceHash": "ca5baa10918a474cb70a19b1e9913b4124f52a9dfc2955c6462b40cdfd0f2e74",
+      "sourceHash": "d7b4dd886feab1d4af4e560dc9d69c62ae7dcab130da1f746edbc7c0cde4c233",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/primary-field-auto-id.md",
-      "translatedAt": "2026-11-07T12:03:18.393Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
       "sourceHash": "bce6ec0e151cbf76cb5487fa2886f0d8960d34d6ae2f2bf7b988ce972b810dd1",
@@ -1976,19 +1976,19 @@
       "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md": {
-      "sourceHash": "b22ad6b2fc05e2832c4adcabd971224124f02157a2a25a840ed84ce62878ba3b",
+      "sourceHash": "02dad79440b63520c49652777b1f1e2c62b885b3510580b158f242d0da2f5ea6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/create-struct-array.md",
-      "translatedAt": "2026-11-02T08:51:44.728Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/index-struct-array.md": {
-      "sourceHash": "401abe3b9d9a092171f2f47d6970f225c2b403f213ae5b9856db9b932d5a8035",
+      "sourceHash": "41c6afe66a69e3e440b815adb1332d1d9ca323d733d75df9955c1a2f617a7ffa",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/index-struct-array.md",
-      "translatedAt": "2026-11-02T08:51:44.728Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/insert-struct-array.md": {
-      "sourceHash": "8f932df5eb20d8817bd1286fc3a8d44e1d4fd67e81b8cdc278634e5ca777ee48",
+      "sourceHash": "e5b844154994bc13ea9cc873fdef2c5884bdd6530ef1c64c67ed17d700e7d94a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/insert-struct-array.md",
-      "translatedAt": "2026-11-02T08:51:44.728Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/struct-array-limits.md": {
       "sourceHash": "35e0fc10c58c8c37c934bf5af289df09fa467c39e29e33afb6c8801a379f05c1",
@@ -2001,14 +2001,14 @@
       "translatedAt": "2026-10-28T04:45:25.788Z"
     },
     "content/en/guides/tutorials/development/schema/use-array-fields.md": {
-      "sourceHash": "5a1b0c0bbb39f040709458f8cbd63bd1bcc5038a5c62f6402e42794c7463616f",
+      "sourceHash": "35cc47b0a3cf0954bea140f01da425f6e40e713e76f0edbbb768e5662df3648e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-array-fields.md",
-      "translatedAt": "2026-11-05T13:58:33.841Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/use-binary-vector.md": {
-      "sourceHash": "2105f93ca923d2e0c0b5ac3ff6aa453e272d9d8c63e3573ab532649bf15e1a17",
+      "sourceHash": "e246fd943bc7c1723f65e9336b314a710852d3d05587fb7c78f9586f919a9e93",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-binary-vector.md",
-      "translatedAt": "2026-11-06T12:02:10.961Z"
+      "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/use-dense-vector.md": {
       "sourceHash": "cdc6aea73ab1087582996381e4172faeb204ab13949fcf3e7c484ddfed248ede",

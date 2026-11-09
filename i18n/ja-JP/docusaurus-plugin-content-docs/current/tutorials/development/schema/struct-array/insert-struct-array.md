@@ -473,7 +473,7 @@ println!("insert count: {}", resp.insert_count());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <stdexcept>
 #include <iostream>
 #include <vector>
@@ -997,7 +997,7 @@ client.insert(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 nlohmann::json row = {
     {"doc_id", 10},
     {"title", "Article without chunks yet"},
@@ -1192,7 +1192,7 @@ println!("query rows: {}", resp.results().get_output_field("doc_id").map(|f| f.l
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::LoadCollectionRequest load_req;
 load_req.WithCollectionName("tech_articles");
 status = client->LoadCollection(load_req);

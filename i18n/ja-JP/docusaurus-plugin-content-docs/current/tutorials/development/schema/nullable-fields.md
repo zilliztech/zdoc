@@ -64,7 +64,7 @@ Null 許容はフィールド値を欠落させることができるかどうか
 
 ## コレクションスキーマで Null 許容フィールドを定義する\{#define-a-nullable-field-in-the-collection-schema}
 
-Null 許容フィールドを使用するには、コレクションスキーマを定義するときに `nullable` 属性を有効にする必要があります。
+To use nullable fields, you must enable the nullable attribute when defining the コレクション スキーマ.
 
 この例では、コレクションスキーマで `nullable=True` を指定した `embedding` という名前のベクトルフィールドを定義しています。これにより、コレクション内のエンティティは、データ取り込み時にベクトル値を省略したり、明示的に NULL に設定したりできます。
 
@@ -219,7 +219,7 @@ client.create_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <memory>
@@ -410,7 +410,7 @@ let schema = schema.add_field(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithNullable(true));
 ```
 
@@ -570,7 +570,7 @@ client.insert(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <vector>
 
@@ -783,7 +783,7 @@ client.load_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->CreateIndex(milvus::CreateIndexRequest()
                                 .WithCollectionName("my_collection")
                                 .AddIndex(milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE))
@@ -984,7 +984,7 @@ for result in search_results.results().iter() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <vector>
 
@@ -1116,7 +1116,7 @@ let expr = "age > 18";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string expr = "age > 18";
 ```
 
@@ -1195,7 +1195,7 @@ let expr = "status == \"active\"";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string expr = "status == \"active\"";
 ```
 
@@ -1250,7 +1250,7 @@ string filter = "status == \"active\"";
 
 **主なポイント:**
 
-- フィールドに非 NULL のデフォルト値がある場合、nullable が有効かどうかにかかわらず、その値が使用されます。
+- When a field has a non-NULL default value, that value is used regardless of whether `nullable` is enabled.
 - `nullable=True` でデフォルト値が設定されていない場合、フィールドには NULL が格納されます。
 - `nullable=False` でデフォルト値が設定されていない場合、挿入はエラーで失敗します。
 - Null 非許容フィールドに NULL のデフォルト値を設定することは無効であり、エラーの原因になります。
