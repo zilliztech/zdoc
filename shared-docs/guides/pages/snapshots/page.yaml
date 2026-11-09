@@ -1,0 +1,23 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/search-query-get/snapshots.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/snapshots/snapshots
+
+# Content provenance:
+#   Cloud-only differences: the backup-link paragraph uses Zilliz Cloud wording
+#   (Create Backup) and the Further readings section is replaced by DocCardList.
+#   The page publishes to Guides (Zilliz.SaaS) only, matching the Base record.
+transforms:
+  - operation: replace
+    target: {block: snapshots-backup-link}
+    content: {file: cloud-backup-link.md}
+  - operation: replace
+    target: {block: snapshots-further-readings}
+    content: {file: cloud-further-readings.md}
+  - operation: replace
+    target: {block: snapshots-milvus-table}
+    content: {file: cloud-milvus-table.md}

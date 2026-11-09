@@ -1,0 +1,1 @@
+- To use a snapshot as a `milvus-table` external source on Zilliz Cloud, point `external_source` to the source collection with the `milvus://` scheme (`milvus://<instance_id>/<db_name>/<collection_name>`) — see [Create an External Collection](create-external-collection.md). Snapshots of external collections cannot be used as sources.

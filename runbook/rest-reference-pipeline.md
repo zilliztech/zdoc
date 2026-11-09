@@ -106,8 +106,22 @@ no source drifts and no unmanaged release track exists); delivery is
 best-effort and subject to `FEISHU_NOTIFICATIONS_DISABLED`. The lock file is
 never written by the watchdog; pins move only through reviewed refresh PRs.
 
-`rest-upstream-refresh.yml` is dispatched by an operator after a watchdog
-report (inputs: `source`, optional `upstream_commit`, `base_ref`,
+**Auto-refresh linkage (2026-11-09).** After the scan, the watchdog turns the
+report into a validated `dispatch-plan.json` (same artifact) and dispatches
+one refresh per drifting source — every decision is made inside
+`scripts/rest-upstream/dispatch-refresh.js`; no model writes any structured
+data on this path. A source is dispatched only when it drifts with
+`substantiveCount > 0` (prose-only drift never auto-opens a PR), no open
+`rest-upstream-refresh/<source>-<sha>` PR exists (the refresh workflow's
+`gate` job enforces the same single flight before its paid stages — close the
+PR to rearm), and no refresh run failed in the last 24h (failure backoff;
+the next daily cycle retries). Dispatch requires `REST_UPSTREAM_REFRESH_PAT`
+and is suppressed while the `REST_UPSTREAM_AUTO_REFRESH_DISABLED` repo var
+is set (plan-only mode). The refresh PR still opens as a draft for human
+review — automation moves the dispatch, never the merge.
+
+`rest-upstream-refresh.yml` is dispatched by the watchdog linkage or by an
+operator (inputs: `source`, optional `upstream_commit`, `base_ref`,
 `draft_pr`, optional `lifecycle_track`). One dispatch produces one PR per
 source (decisions-first pipeline, design
 `.claude/specs/2026-10-29-rest-upstream-decisions-pipeline-design.md`):
@@ -176,8 +190,13 @@ Required credentials and variables (all fail closed when missing):
 - `REST_UPSTREAM_GITHUB_TOKEN` — contents:read on `zilliztech/zilliz-cloud`
   (falls back to `PRODUCT_DOC_LINKS_GITHUB_TOKEN`).
 - `REST_UPSTREAM_REFRESH_PAT` — a PAT allowed to push a `rest-upstream-refresh/*`
-  branch and open a PR; it must not be the default `GITHUB_TOKEN` (bot-PR CI
-  is phantom by design).
+  branch, open a PR, and run `gh workflow run` against
+  `rest-upstream-refresh.yml` (classic `repo` scope covers all three;
+  a fine-grained PAT additionally needs Actions:write); it must not be the
+  default `GITHUB_TOKEN` (bot-PR CI is phantom by design). Verify the
+  dispatch capability before clearing `REST_UPSTREAM_AUTO_REFRESH_DISABLED`:
+  a PAT without it fails the watchdog's dispatch step visibly (fail closed,
+  artifact retained).
 - `AGENTIC_PROVIDER_API_KEY` plus `REST_UPSTREAM_AGENT_MODEL` and
   `REST_UPSTREAM_AGENT_BASE_URL` (each falls back to the translation agent's
   `AGENTIC_*` counterparts).
@@ -230,13 +249,19 @@ decide timing, judgments, and commitments. See
 and `.claude/specs/2026-11-01-x-zilliz-cluster-types-proposal.md` (registry).
 
 **Daily (passive).** The drift watchdog runs at 04:17 UTC over both pinned
-sources and milvus tags. Green: nothing to do. Drift red: note the
-substantive count, batch it until a refresh is worth one model run. Track
-coverage red: a new milvus minor line exists — start the new-track sequence
-below. If the card does not arrive, `gh workflow run
+sources and milvus tags, then auto-dispatches a refresh per drifting source
+(see the linkage paragraph above; check `dispatch-plan.json` in the artifact
+for the per-source decision and skip reasons). Green: nothing to do. Drift
+red with all sources skipped: read the plan's `reason` fields —
+`open-refresh-pr` means a draft PR already awaits review, and
+`recent-refresh-failure` means start (or wait out) the failure backoff.
+Track coverage red: a new milvus minor line exists — start the new-track
+sequence below. If the card does not arrive, `gh workflow run
 rest-upstream-drift-watchdog.yml` and read the `watchdog-report.md` artifact.
 
-**Refresh (on demand, the only paid step).** When accumulated drift matters:
+**Refresh (on demand, the paid step — normally triggered by the linkage).**
+When accumulated drift matters, or a manual lane is needed (for example a
+pinned `upstream_commit` or a `lifecycle_track` adoption):
 
 ```bash
 gh workflow run rest-upstream-refresh.yml \
