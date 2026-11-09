@@ -87,14 +87,14 @@
         "packages/docs-ui/src/shared/components/RestSpecs/**"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts"
+        "pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts packages/docs-ui/src/shared/components/RestSpecs/index.test.tsx"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "REST reference rendering must select localized operation and schema text while preserving source-language fallbacks."
+      "reason": "REST reference rendering must select localized operation and schema text while preserving source-language fallbacks, render allOf schemas as the single schema they denote (merged properties/required), and keep a combinator left with one option by target/language filtering visible outside any tab group."
     },
     {
       "id": "docs-ui-doc-links",
@@ -1400,7 +1400,8 @@
       "id": "frontend-test-harness",
       "paths": [
         "vitest.config.ts",
-        "src/test-setup.ts"
+        "src/test-setup.ts",
+        "src/test/CodeBlockStub.tsx"
       ],
       "focusedTests": [
         "pnpm test:frontend"

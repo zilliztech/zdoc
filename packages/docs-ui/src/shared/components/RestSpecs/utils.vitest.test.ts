@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter, isRenderableExample} from './utils.js';
+import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter, isRenderableExample, mergeAllOf} from './utils.js';
 
 const planeConfig = {
   dataPlaneKeywords: {
@@ -159,5 +159,51 @@ describe('isRenderableExample', () => {
     expect(isRenderableExample(false)).toBe(false);
     expect(isRenderableExample(null)).toBe(false);
     expect(isRenderableExample(undefined)).toBe(false);
+  });
+});
+
+describe('mergeAllOf', () => {
+  it('unwraps a single-element allOf while the wrapper description wins', () => {
+    const merged = mergeAllOf({
+      allOf: [{type: 'object', description: 'component', properties: {roleArn: {type: 'string'}}}],
+      description: 'usage site',
+    });
+    expect(merged).toMatchObject({type: 'object', description: 'usage site', properties: {roleArn: {type: 'string'}}});
+    expect(merged).not.toHaveProperty('allOf');
+  });
+
+  it('merges object parts, unions required, and keeps wrapper required', () => {
+    const merged = mergeAllOf({
+      allOf: [
+        {type: 'object', properties: {name: {type: 'string'}}, required: ['name']},
+        {type: 'object', properties: {region: {type: 'string'}}, required: ['region']},
+      ],
+      required: ['name'],
+    });
+    expect(merged.properties).toEqual({name: {type: 'string'}, region: {type: 'string'}});
+    expect(merged.required).toEqual(['name', 'region']);
+  });
+
+  it('unwraps a lone non-object part with wrapper metadata layered on top', () => {
+    const merged = mergeAllOf({
+      allOf: [{type: 'string', enum: ['a', 'b']}],
+      description: 'kind',
+    });
+    expect(merged).toMatchObject({type: 'string', enum: ['a', 'b'], description: 'kind'});
+    expect(merged).not.toHaveProperty('allOf');
+  });
+
+  it('returns heterogeneous multi-part allOf untouched', () => {
+    const schema = {
+      allOf: [{type: 'object', properties: {a: {type: 'string'}}}, {type: 'string'}],
+      description: 'mixed',
+    };
+    expect(mergeAllOf(schema)).toBe(schema);
+  });
+
+  it('returns schemas without allOf by reference', () => {
+    const schema = {type: 'object', properties: {}};
+    expect(mergeAllOf(schema)).toBe(schema);
+    expect(mergeAllOf(undefined)).toBeUndefined();
   });
 });

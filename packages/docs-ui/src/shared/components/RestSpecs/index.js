@@ -3,7 +3,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, isControlPlane, getTokenPlaceholder, isRenderableExample } from './utils.js'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, isControlPlane, getTokenPlaceholder, isRenderableExample } from './utils.js'
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
@@ -165,7 +165,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
 
                     return true
                 }).map((propName, index) => {
-                    const prop = properties[propName]
+                    const prop = mergeAllOf(properties[propName])
                     const desc = prop["x-i18n"]?.[lang]?.description ? prop["x-i18n"][lang].description : prop.description
                     const requireds = requiredFields instanceof Array ? requiredFields : []
                     if (prop.type === 'object') {
@@ -254,6 +254,7 @@ const RecursiveRef = ({ name, refPath, description, required, lang }) => {
 }
 
 const Items = ({ name, description, obj, required, lang, target }) => {
+    obj = obj?.items?.allOf ? { ...obj, items: mergeAllOf(obj.items) } : obj
     return (
         <>
             { (name || description) && <div className={styles.paramContainer}>
@@ -367,6 +368,7 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected, optionVal
     if (!content) {
         return null
     }
+    content = mergeAllOf(content)
     
     const fallbackLabel = content.label ? content.label : `${i18n[lang]["tab.option"]} ${id}`
     const value = optionValue || fallbackLabel.toUpperCase()
@@ -422,12 +424,13 @@ const SingleOption = ({ content, lang, target, showDescription = true }) => {
     if (!content) {
         return null
     }
+    content = mergeAllOf(content)
 
     const translatedDescription = content?.["x-i18n"]?.[lang]?.description ? content["x-i18n"][lang].description : content?.description
     const optionDescription = showDescription ? translatedDescription : undefined
 
     return (
-        <div className={styles.tabPanel}>
+        <div className={styles.singleOptionPanel}>
             { content?.type === 'object' && <Properties description={optionDescription} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
             { content?.type === 'array' && <Items description={optionDescription} obj={content.items} required={content.items.required} lang={lang} target={target} /> }
             { (content?.type === 'string' || content?.type === 'number' || content?.type === 'integer' || content?.type === 'boolean') && <Primitive obj={{...content, description: optionDescription}} lang={lang} target={target} /> }
@@ -746,16 +749,34 @@ const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryE
     }
 }
 
+// The request body section reads its JSON schema in several places; merging
+// allOf once up front lets every reader see the schema the allOf denotes.
+const withMergedJsonSchema = (body) => {
+    const media = body?.content?.['application/json']
+    if (!media?.schema?.allOf) {
+        return body
+    }
+
+    return {
+        ...body,
+        content: {
+            ...body.content,
+            'application/json': { ...media, schema: mergeAllOf(media.schema) },
+        },
+    }
+}
+
 export default function RestSpecs(props) {
     const { 
         summary, 
         tags, 
         parameters, 
-        requestBody, 
+        requestBody: rawRequestBody,
         responses,
         description, 
         deprecated,
     } = props.specs;
+    const requestBody = withMergedJsonSchema(rawRequestBody)
 
     const target = props.target
     const lang = props.lang ? props.lang : 'en-US'
@@ -796,7 +817,7 @@ export default function RestSpecs(props) {
     const selectedResponseEntry = responseEntries.find(({ status }) => status === selectedResponseStatus) || responseEntries[0]
     const selectedHttpResponse = selectedResponseEntry?.response
     const responseMediaType = selectedHttpResponse?.content?.['application/json']
-    const responseSchema = responseMediaType?.schema
+    const responseSchema = mergeAllOf(responseMediaType?.schema)
     const responseExample = responseMediaType?.examples
     const responseDescription = selectedHttpResponse?.['x-i18n']?.[lang]?.description ?? selectedHttpResponse?.description
 

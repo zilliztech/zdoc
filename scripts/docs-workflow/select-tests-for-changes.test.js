@@ -197,7 +197,7 @@ test('selector maps REST reference rendering to its localized component regressi
     'packages/docs-ui/src/shared/components/RestSpecs/utils.js',
   ])
   assert.deepEqual(selected.areas.map(area => area.id), ['docs-ui-rest-specs'])
-  assert.equal(selected.commands.includes('pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts'), true)
+  assert.equal(selected.commands.includes('pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts packages/docs-ui/src/shared/components/RestSpecs/index.test.tsx'), true)
   assert.equal(selected.commands.includes('pnpm test:workflow-matrix'), true)
 })
 
