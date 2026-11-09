@@ -89,7 +89,7 @@ let filter = "status == \"active\"";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "status == \"active\"";
 ```
 
@@ -160,7 +160,7 @@ let filter = "status != \"inactive\"";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "status != \"inactive\"";
 ```
 
@@ -231,7 +231,7 @@ let filter = "age > 30";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "age > 30";
 ```
 
@@ -302,7 +302,7 @@ let filter = "price < 100";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "price < 100";
 ```
 
@@ -373,7 +373,7 @@ let filter = "rating >= 4";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "rating >= 4";
 ```
 
@@ -444,7 +444,7 @@ let filter = "discount <= 10";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "discount <= 10";
 ```
 
@@ -517,7 +517,7 @@ let filter = "color in [\"red\", \"green\", \"blue\"]";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "color in [\"red\", \"green\", \"blue\"]";
 ```
 
@@ -598,7 +598,7 @@ let filter = "name LIKE \"Prod%\"";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "name LIKE \"Prod%\"";
 ```
 
@@ -667,7 +667,7 @@ let filter = "code =~ \"E[0-9]{4}\"";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "code =~ \"E[0-9]{4}\"";
 ```
 
@@ -736,7 +736,7 @@ let filter = "message !~ \"^DEBUG\"";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "message !~ \"^DEBUG\"";
 ```
 
@@ -827,7 +827,7 @@ let filter = "id % 2 == 0";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "id % 2 == 0";
 ```
 
@@ -898,7 +898,7 @@ let filter = "price ** 2 > 1000";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "price ** 2 > 1000";
 ```
 
@@ -1000,7 +1000,7 @@ let filter = "(permissions & 4) == 4";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "(permissions & 4) == 4";
 ```
 
@@ -1069,7 +1069,7 @@ let filter = "(permissions | 2) == 7";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "(permissions | 2) == 7";
 ```
 
@@ -1138,7 +1138,7 @@ let filter = "(permissions ^ 7) == 2";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "(permissions ^ 7) == 2";
 ```
 
@@ -1227,7 +1227,7 @@ let filter = "price > 100 AND stock > 50";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "price > 100 AND stock > 50";
 ```
 
@@ -1298,7 +1298,7 @@ let filter = "color == \"red\" OR color == \"blue\"";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "color == \"red\" OR color == \"blue\"";
 ```
 
@@ -1369,7 +1369,7 @@ let filter = "NOT color == \"green\"";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "NOT color == \"green\"";
 ```
 
@@ -1541,7 +1541,7 @@ for row in response.results().rows()? {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 #include "milvus/MilvusClientV2.h"
@@ -1726,7 +1726,7 @@ let filter = "product[\"price\"] > 1000";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "product[\"price\"] > 1000";
 ```
 
@@ -1795,7 +1795,7 @@ let filter = "history_temperatures[0] > 30";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "history_temperatures[0] > 30";
 ```
 

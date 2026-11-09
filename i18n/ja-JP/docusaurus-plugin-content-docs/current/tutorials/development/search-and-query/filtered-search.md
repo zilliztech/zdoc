@@ -56,7 +56,7 @@ Zilliz Cloud では、フィルタリング検索は、フィルタリングを�
 
 ## 例\{#examples}
 
-このセクションでは、フィルタリング検索を実行する方法を説明します。このセクションのコードスニペットは、コレクションに以下のエンティティがすでに含まれていることを前提としています。各エンティティには、**id**、**vector**、**color**、**likes** の 4つのフィールドがあります。例では、`COSINE` メトリクスでインデックスが作成された 5 次元の `vector` フィールドを持つ、ロード済みの `my_collection` という名前のコレクションを使用します。
+This section demonstrates how to conduct a filtered search. Code snippets in this section assume you already have the following entities in your コレクション. Each entity has four fields, namely **id**, **vector**, **color**, and **likes**. The examples use a loaded コレクション named `my_collection` with a five-dimensional `vector` field indexed with the `COSINE` metric.
 
 ```json
 [
@@ -243,7 +243,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <stdexcept>
@@ -610,7 +610,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <stdexcept>
@@ -788,3 +788,4 @@ zilliz vector search \
 </TabItem>
 
 </Tabs>
+

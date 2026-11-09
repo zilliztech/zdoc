@@ -230,7 +230,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 
@@ -347,7 +347,7 @@ export schema="{
 
 インデックス作成は、検索とクエリのパフォーマンス向上に役立ちます。Zilliz Cloud では、インデックス作成はベクトルフィールドには必須ですが、スカラーフィールドには任意です。
 
-次の例では、ベクトルフィールド `embedding` とスカラーフィールド `varchar_field1` にインデックスを作成し、どちらにも `AUTOINDEX` インデックスタイプを使用します。このタイプでは、Zilliz Cloud がデータ型に基づいて最適なインデックスを自動的に選択します。各フィールドのインデックスタイプとパラメーターをカスタマイズすることもできます。詳細については、[Index Explained](./indexes) を参照してください。
+The following example creates インデックス on the ベクトル field `embedding` and the スカラー field `varchar_field1`, both using the `AUTOINDEX` インデックス type. With this type, Zilliz Cloud automatically selects the most suitable インデックス based on the data type. You can also customize the index type and params for each field. For details, refer to [Index Explained](./indexes).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -434,7 +434,7 @@ let indexes = vec![
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("varchar_field1", "varchar_index", milvus::IndexType::AUTOINDEX),
     milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
@@ -555,7 +555,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                         .WithCollectionName("my_collection")
                                         .WithIndexes(std::move(indexes))
@@ -744,7 +744,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {{{"varchar_field1", "Product A"}, {"varchar_field2", "High quality product"}, {"pk", 1}, {"embedding", std::vector<float>{0.1, 0.2, 0.3}}},
                            {{"varchar_field1", "Product B"}, {"pk", 2}, {"embedding", std::vector<float>{0.4, 0.5, 0.6}}},
                            {{"varchar_field1", nullptr}, {"varchar_field2", nullptr}, {"pk", 3}, {"embedding", std::vector<float>{0.2, 0.3, 0.1}}},
@@ -946,7 +946,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto request = milvus::QueryRequest()
                        .WithCollectionName("my_collection")
                        .WithFilter(R"(varchar_field1 == "Product A")")
@@ -1094,7 +1094,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto request = milvus::QueryRequest()
                        .WithCollectionName("my_collection")
                        .WithFilter("varchar_field2 IS NULL")
@@ -1240,7 +1240,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto request = milvus::QueryRequest()
                        .WithCollectionName("my_collection")
                        .WithFilter(R"(varchar_field1 == "Unknown")")
@@ -1411,7 +1411,7 @@ println!("{:?}", res.results());
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<float> query_vector = {0.3, -0.6, 0.1};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")

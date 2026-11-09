@@ -147,6 +147,7 @@ import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.request.HybridSearchReq;
 import io.milvus.v2.service.vector.request.ranker.RRFRanker;
 import io.milvus.v2.service.vector.request.AnnSearchReq;
+import io.milvus.v2.common.IndexParam;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
@@ -715,7 +716,7 @@ var res = await client.QueryAsync(new QueryReq
 {
     CollectionName = "my_collection",
     Expression = "10 <= age <= 20",
-    Parameters = new QueryParameters { OutputFields = { "id", "age" } }
+    Parameters = new QueryParameters { OutputFields = { "id", "user", "age" } }
 });
 ```
 
@@ -1670,11 +1671,13 @@ List<AnnSearchReq> searchRequests = new ArrayList<>();
 searchRequests.add(AnnSearchReq.builder()
         .vectors(Collections.singletonList(new FloatVec(new float[]{1.25f, 2.0f, 3.5f})))
         .vectorFieldName("vector")
+        .metricType(IndexParam.MetricType.COSINE)
         .topK(100)
         .build());
 searchRequests.add(AnnSearchReq.builder()
         .vectors(Collections.singletonList(new EmbeddedText("shoes")))
         .vectorFieldName("text_sparse")
+        .metricType(IndexParam.MetricType.BM25)
         .topK(100)
         .build());
 
@@ -1696,8 +1699,10 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     "my_collection",
     10,
-    milvusclient.NewAnnRequest("vector", 100, entity.FloatVector{1.25, 2, 3.5}),
-    milvusclient.NewAnnRequest("text_sparse", 100, entity.Text("shoes")),
+    milvusclient.NewAnnRequest("vector", 100, entity.FloatVector{1.25, 2, 3.5}).
+        WithSearchParam("metric_type", "COSINE"),
+    milvusclient.NewAnnRequest("text_sparse", 100, entity.Text("shoes")).
+        WithSearchParam("metric_type", "BM25"),
 ).WithReranker(milvusclient.NewRRFReranker()))
 ```
 
@@ -1714,11 +1719,13 @@ let res = client
                 SubSearchRequest::builder()
                     .vector_field("vector")
                     .vectors(SearchVectors::Float(vec![vec![1.25, 2.0, 3.5]]))
+                    .metric_type(MetricType::Cosine)
                     .limit(100)
                     .build()?,
                 SubSearchRequest::builder()
                     .vector_field("text_sparse")
                     .vectors(SearchVectors::EmbeddedText(vec!["shoes".to_string()]))
+                    .metric_type(MetricType::Bm25)
                     .limit(100)
                     .build()?,
             ])
@@ -1740,12 +1747,13 @@ request.WithLimit(10);
 
 auto dense_sub = std::make_shared<milvus::SubSearchRequest>();
 dense_sub->WithAnnsField("vector").WithLimit(100);
+dense_sub->WithMetricType(milvus::MetricType::COSINE);
 dense_sub->AddFloatVector({1.25f, 2.0f, 3.5f});
 
 auto sparse_sub = std::make_shared<milvus::SubSearchRequest>();
 sparse_sub->WithAnnsField("text_sparse").WithLimit(100);
+sparse_sub->WithMetricType(milvus::MetricType::BM25);
 sparse_sub->AddEmbeddedText("shoes");
-
 request.AddSubRequest(dense_sub);
 request.AddSubRequest(sparse_sub);
 request.WithRerank(std::make_shared<milvus::RRFRerank>(60));
@@ -1766,8 +1774,8 @@ const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR
 const res = await client.hybridSearch({
     collection_name: "my_collection",
     data: [
-        { data: [[1.25, 2, 3.5]], anns_field: "vector", limit: 100 },
-        { data: ["shoes"], anns_field: "text_sparse", limit: 100 },
+        { data: [[1.25, 2, 3.5]], anns_field: "vector", limit: 100, params: { metric_type: "COSINE" } },
+        { data: ["shoes"], anns_field: "text_sparse", limit: 100, params: { metric_type: "BM25" } },
     ],
     rerank: RRFRanker(),
     limit: 10,
@@ -1816,8 +1824,8 @@ curl --request POST \
   --data '{
       "collectionName": "my_collection",
       "search": [
-          { "data": [[1.25, 2, 3.5]], "annsField": "vector", "limit": 100 },
-          { "data": ["shoes"], "annsField": "text_sparse", "limit": 100 }
+          { "data": [[1.25, 2, 3.5]], "annsField": "vector", "metricType": "COSINE", "limit": 100 },
+          { "data": ["shoes"], "annsField": "text_sparse", "metricType": "BM25", "limit": 100 }
       ],
       "rerank": { "strategy": "rrf" },
       "limit": 10
