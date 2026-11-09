@@ -644,6 +644,15 @@ describe('manifest and launcher contract', () => {
     await writeFile(join(root, 'entry4'), macho(['@rpath/libfoo.dylib'], [join(writable, 'alias'), safe]))
     const aliasResult = await captureTrustedNativeFiles([{ name: 'runtime/test-alias', path: join(root, 'entry4') }])
     expect(aliasResult.accessPaths.has(join(writable, 'alias'))).toBe(true)
+    // A multi-level chain (start safe, middle writable, end safe) must bind the
+    // intermediate hop so its writable ancestor is inspected, not just the endpoints.
+    await mkdir(join(root, 'chain-start')); await mkdir(join(root, 'chain-mid')); await mkdir(join(root, 'chain-end'))
+    await chmod(join(root, 'chain-mid'), 0o777)
+    await symlink(join(root, 'chain-end'), join(root, 'chain-mid', 'middle'))
+    await symlink(join(root, 'chain-mid', 'middle'), join(root, 'chain-start', 'chain'))
+    await writeFile(join(root, 'entry5'), macho(['@rpath/libfoo.dylib'], [join(root, 'chain-start', 'chain'), safe]))
+    const chainResult = await captureTrustedNativeFiles([{ name: 'runtime/test-chain', path: join(root, 'entry5') }])
+    expect(chainResult.accessPaths.has(join(root, 'chain-mid', 'middle'))).toBe(true)
   })
   it('bypasses trusted dotenv and rejects ambient Node/package/loader settings and wrong cwd', async () => {
     const a = await fixture(); await put(a.root, '.env', 'SECRET=should-not-load')

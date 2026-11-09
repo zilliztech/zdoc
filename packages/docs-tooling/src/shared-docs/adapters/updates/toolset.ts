@@ -264,9 +264,34 @@ async function recheckAccess(evidence: AccessEvidence) {
     if (String(now.dev) !== pin.dev || String(now.ino) !== pin.ino || Number(now.mode) !== pin.mode || Number(now.uid) !== pin.uid || Number(now.gid) !== pin.gid) throw new Error('Trusted access identity changed')
   }
 }
+/** Resolve a path hop by hop, returning the lexical start, every intermediate
+ * symlink target, and the final non-symlink, so access inspection cannot skip a
+ * writable directory in the middle of a multi-link chain. A loop or an over-long
+ * chain is rejected. */
+async function resolveSymlinkHops(path: string): Promise<string[]> {
+  const hops: string[] = []
+  let current = path
+  for (let depth = 0; depth < 64; depth++) {
+    hops.push(current)
+    let st
+    try {
+      st = await lstat(current)
+    } catch (e) {
+      if (absent(e)) return hops
+      throw e
+    }
+    if (!st.isSymbolicLink()) return hops
+    const target = await readlink(current)
+    const next = isAbsolute(target) ? target : resolve(dirname(current), target)
+    if (next === current) throw new Error('Symbolic link loop in native lookup path')
+    current = next
+  }
+  throw new Error('Symbolic link chain exceeds depth limit')
+}
+
 async function inspectAccess(material: Map<string, string>, environment: NodeJS.ProcessEnv): Promise<AccessEvidence> {
   const paths = new Set<string>(), materialPaths = new Set(material.keys())
-  for (const full of material.keys()) for (const start of [full, await realpath(full)]) for (let path = start; ; path = dirname(path)) { if (paths.has(path)) break; paths.add(path); if (dirname(path) === path) break }
+  for (const full of material.keys()) for (const start of await resolveSymlinkHops(full)) for (let path = start; ; path = dirname(path)) { if (paths.has(path)) break; paths.add(path); if (dirname(path) === path) break }
   const pins: AccessEvidence['pins'] = new Map(), files = new Set<string>(), writableGroups = new Set<number>()
   for (const path of paths) {
     if (/[\x00-\x1f\x7f]/.test(path)) throw new Error('Unsupported access path')
@@ -879,10 +904,10 @@ export async function captureTrustedNativeFiles(seeds: { name: string; path: str
       for (const choice of choices) {
         if (!isAbsolute(choice)) throw new Error('Unresolved runtime search path')
         if (systemLibrary(choice)) {
-          try { const actual = await realpath(choice); if (!systemLibrary(actual)) throw new Error('System-library alias escape'); const stat = await lstat(actual); if (stat.uid !== 0 || stat.mode & 0o022) throw new Error('Unsafe system library') } catch (e) { if (!absent(e)) throw e; accessPaths.add(await nearestExistingDirectory(choice)); if (process.platform !== 'darwin') continue }
+          try { const actual = await realpath(choice); if (!systemLibrary(actual)) throw new Error('System-library alias escape'); const stat = await lstat(actual); if (stat.uid !== 0 || stat.mode & 0o022) throw new Error('Unsafe system library') } catch (e) { if (!absent(e)) throw e; for (const hop of await resolveSymlinkHops(await nearestExistingDirectory(choice))) accessPaths.add(hop); if (process.platform !== 'darwin') continue }
           trustedSystem = true; break
         }
-        try { resolved = await realpath(choice); accessPaths.add(choice); break } catch (e) { if (!absent(e)) throw e; accessPaths.add(await nearestExistingDirectory(choice)) }
+        try { resolved = await realpath(choice); accessPaths.add(choice); break } catch (e) { if (!absent(e)) throw e; for (const hop of await resolveSymlinkHops(await nearestExistingDirectory(choice))) accessPaths.add(hop) }
       }
       if (trustedSystem) { hostExclusions.push(choices.find(systemLibrary)!); continue }
       if (!resolved) throw new Error(`Missing non-system runtime dependency: ${dependency}`)
