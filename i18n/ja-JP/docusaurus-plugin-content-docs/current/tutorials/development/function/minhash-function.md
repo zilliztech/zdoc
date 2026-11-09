@@ -201,7 +201,7 @@ use milvus::v2::prelude::*;
 use std::collections::HashMap;
 use serde_json::json;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
 
 let schema = CollectionSchema::new()
@@ -219,7 +219,7 @@ let schema = CollectionSchema::new()
 #include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -648,7 +648,8 @@ client.create_collection(CreateCollectionRequest::builder()
 ```c++
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                  .WithCollectionName("dedup_collection")
-                                 .WithCollectionSchema(schema));
+                                 .WithCollectionSchema(schema)
+                                 .WithIndexes({std::move(index)}));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

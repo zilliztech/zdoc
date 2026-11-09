@@ -554,7 +554,7 @@ print(json.dumps(resp.json(), indent=4))
 String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
 String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
 String API_KEY = "";
-String jobId = "job-xxxx";
+String jobId = "job-01fa0e5d42cjxudhpuehyp";
 CloudDescribeImportRequest request = CloudDescribeImportRequest.builder()
     .apiKey(API_KEY)
     .clusterId(CLUSTER_ID)

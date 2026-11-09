@@ -463,8 +463,8 @@ await client.InsertAsync(new InsertReq { CollectionName = collectionName, RowsDa
 
 ```bash
 curl --request POST \
---url "${YOUR_ZILLIZ_CLOUD_URI}/v2/vectordb/collections/create" \
---header "Authorization: Bearer ${YOUR_ZILLIZ_CLOUD_TOKEN}" \
+--url "https://YOUR_ZILLIZ_CLOUD_URI/v2/vectordb/collections/create" \
+--header "Authorization: Bearer YOUR_ZILLIZ_CLOUD_TOKEN" \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "cohere_rerank_demo",
@@ -482,8 +482,8 @@ curl --request POST \
 }'
 
 curl --request POST \
---url "${YOUR_ZILLIZ_CLOUD_URI}/v2/vectordb/entities/insert" \
---header "Authorization: Bearer ${YOUR_ZILLIZ_CLOUD_TOKEN}" \
+--url "https://YOUR_ZILLIZ_CLOUD_URI/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer YOUR_ZILLIZ_CLOUD_TOKEN" \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "cohere_rerank_demo",
@@ -858,8 +858,8 @@ console.log(results);
 
 ```bash
 curl --request POST \
---url "${YOUR_ZILLIZ_CLOUD_URI}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${YOUR_ZILLIZ_CLOUD_TOKEN}" \
+--url "https://YOUR_ZILLIZ_CLOUD_URI/v2/vectordb/entities/search" \
+--header "Authorization: Bearer YOUR_ZILLIZ_CLOUD_TOKEN" \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "cohere_rerank_demo",

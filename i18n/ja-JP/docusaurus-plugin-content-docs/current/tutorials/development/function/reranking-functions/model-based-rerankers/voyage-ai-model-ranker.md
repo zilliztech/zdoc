@@ -418,7 +418,10 @@ await client.insert({ collection_name, data });
 
 ```csharp
 using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Responses.Dql;
 using Milvus.Client.V2.Types;
 using System;
@@ -433,6 +436,30 @@ using var client = new MilvusClientV2(config);
 await client.ConnectAsync();
 
 string collectionName = "voyage_rerank_demo";
+
+// Define collection schema
+var schema = new CollectionSchema { Name = collectionName };
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true));
+schema.Fields.Add(new FieldSchema("document", DataType.VarChar) { MaxLength = 1000 });
+schema.Fields.Add(FieldSchema.CreateFloatVector("dense", 4));
+
+// Configure index and create collection
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = collectionName,
+    Schema = schema,
+    Indexes = [new IndexParam("dense", null, IndexType.AutoIndex, MetricType.Cosine)]
+});
+
+// Insert sample data
+var data = new List<IDictionary<string, object?>>
+{
+    new Dictionary<string, object?> { ["id"] = 1L, ["document"] = "Recent renewable energy developments include improved solar efficiency.", ["dense"] = new[] { 0.10f, 0.20f, 0.30f, 0.40f } },
+    new Dictionary<string, object?> { ["id"] = 2L, ["document"] = "Climate policy and carbon markets have evolved rapidly in recent years.", ["dense"] = new[] { 0.11f, 0.19f, 0.28f, 0.39f } },
+    new Dictionary<string, object?> { ["id"] = 3L, ["document"] = "New battery technology helps stabilize wind and solar power generation.", ["dense"] = new[] { 0.90f, 0.10f, 0.05f, 0.02f } },
+    new Dictionary<string, object?> { ["id"] = 4L, ["document"] = "Vector databases support similarity search for machine learning applications.", ["dense"] = new[] { 0.01f, 0.02f, 0.03f, 0.04f } },
+};
+await client.InsertAsync(new InsertReq { CollectionName = collectionName, RowsData = data });
 ```
 
 </TabItem>
@@ -756,6 +783,7 @@ console.log(results);
 var voyageRanker = new ModelRerank("voyage_semantic_ranker")
     .WithProvider("voyageai")
     .WithQueries(new[] { "renewable energy developments" });
+voyageRanker.InputFieldNames.Add("document");
 
 var queryVector = new ReadOnlyMemory<float>(new[] { 0.12f, 0.21f, 0.29f, 0.41f });
 

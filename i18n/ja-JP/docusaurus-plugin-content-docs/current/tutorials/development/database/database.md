@@ -145,7 +145,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -285,7 +285,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto request = milvus::CreateDatabaseRequest()
     .WithDatabaseName("my_database_2")
     .AddProperty("database.replica.number", "3");
@@ -433,7 +433,7 @@ println!("{:?}", database);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::ListDatabasesResponse listResponse;
 status = client->ListDatabases(milvus::ListDatabasesRequest(), listResponse);
 if (!status.IsOk()) {
@@ -502,7 +502,7 @@ curl --request POST \
 
 ## データベースプロパティを管理する\{#manage-database-properties}
 
-各データベースには独自のプロパティがあります。[データベースの作成](./database#create-database) の説明に従ってデータベースを作成するときにプロパティを設定するか、既存のデータベースのプロパティを変更および削除できます。
+Each データベース has its own properties, you can set the properties of a データベース when you create the データベース as described in [Create データベース](./database#create-database) or you can alter and drop the properties of any existing database.
 
 Serving クラスターのデータベースでは、以下のデータベースプロパティを設定できます。
 
@@ -575,7 +575,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto request = milvus::AlterDatabasePropertiesRequest()
     .WithDatabaseName("my_database_1")
     .AddProperty("database.max.collections", "10");
@@ -703,7 +703,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto request = milvus::DropDatabasePropertiesRequest()
     .WithDatabaseName("my_database_1")
     .AddPropertyKey("database.max.collections");
@@ -814,7 +814,7 @@ client.use_database("my_database_2").await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->UseDatabase("my_database_2");
 if (!status.IsOk()) {
     std::cerr << status.Message() << std::endl;
@@ -918,7 +918,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto request = milvus::DropDatabaseRequest().WithDatabaseName("my_database_2");
 status = client->DropDatabase(request);
 if (!status.IsOk()) {

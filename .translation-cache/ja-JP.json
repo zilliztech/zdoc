@@ -1706,9 +1706,9 @@
       "translatedAt": "2026-08-04T05:16:18.746Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-json.md": {
-      "sourceHash": "f133a618c8984048b8b3a37113cc8803c50eeedbd6ada6299a4d2484910bd262",
+      "sourceHash": "f2a318dce379781b76ec63e3d555a72ebdc2820e6a4df075babec9708a53724d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md",
-      "translatedAt": "2026-10-10T05:51:48.141Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-numpy.md": {
       "sourceHash": "ff5264a6f2897387aa21aedaf48a333ed6bb9cf0ecfa4b1c8fb16bcaea4510c8",
@@ -1716,9 +1716,9 @@
       "translatedAt": "2026-10-10T05:51:48.141Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-parquet.md": {
-      "sourceHash": "9950505e1ef59a3402b24aa7385fcda6dec4e0b1ab1ec24517ff5adbd7fcc6ea",
+      "sourceHash": "3e798fc0af426d9c0ba9cabdc1c160042b3c6d8d2380049bcc3d6cbb82326875",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-parquet.md",
-      "translatedAt": "2026-10-10T05:51:48.141Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-storage-options.md": {
       "sourceHash": "a9fc2e43e828009118b5270a299f8f6cf282f2d876a095e490bef071569009d1",
@@ -1726,9 +1726,9 @@
       "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-zero-to-hero.md": {
-      "sourceHash": "c844a0283e7df98817d52ac4e67b7ec24b6cf5b441614cefdc90839722c2fa81",
+      "sourceHash": "55666e77fb75c5c03da6a9f623a86faa5dc551a5be26bc7882ba9b2c2a92f674",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-zero-to-hero.md",
-      "translatedAt": "2026-11-05T12:48:14.916Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data-on-web-ui.md": {
       "sourceHash": "c1a7d059212b029e47d195400eaebae9b50075f6c2021e8b49cdc975e586df3f",
@@ -1736,14 +1736,14 @@
       "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data-via-restful-api.md": {
-      "sourceHash": "829f31e3dbc8591f57aacc1b032a4212554125228a54d6bc8d833040057343c4",
+      "sourceHash": "7e0cdc00edf28c054e4e5ea9ca905bf55142d06e421788ecca41d91a32c63475",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
-      "translatedAt": "2026-10-10T05:51:48.141Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data-via-sdks.md": {
-      "sourceHash": "fdc09958e5646af29d49cf62ba83a66f80fefd8a225ad17ebd6dc63ba2412ab9",
+      "sourceHash": "24db8c40e32cc4c5ce63e07f27da3b7db714db72c035b2428d3c9fbe3ee006df",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data-via-sdks.md",
-      "translatedAt": "2026-11-05T11:54:01.635Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data.md": {
       "sourceHash": "9933a105105b091b87086357445a9082b3cf10b9276821113828b31caf6ca70c",
@@ -1756,9 +1756,9 @@
       "translatedAt": "2026-08-04T05:03:50.791Z"
     },
     "content/en/guides/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md": {
-      "sourceHash": "8b86d44165ddfa82375965869c5d799f6225e89280d5ed1ac0a82bfe9f0003c1",
+      "sourceHash": "b9759655eecd56cededd9b192365cc9203cbdb44ff6b32fc5d8423f7503a2df3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md",
-      "translatedAt": "2026-11-05T11:54:01.635Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/database/database-concept.md": {
       "sourceHash": "d604f6ffb87a7f69d527af4a06b29474429a2e28debdd0315a4c8106897f8b6f",
@@ -1766,9 +1766,9 @@
       "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/database/database.md": {
-      "sourceHash": "dd9b5f85f92bbaac79d94aa3eebb8117b12bcf842ef547c248f9134ca5e4c5f9",
+      "sourceHash": "29bc810be3867f8f460117d416d35e34b6c5ac0d59c1123d5b69e9e07c2ad11f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/database/database.md",
-      "translatedAt": "2026-11-05T11:54:01.635Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/database/on-demand-database.md": {
       "sourceHash": "d32696d635d188fbde1b996bea149fb1c13c07f3fd00a761a2c429c8becf7eae",
@@ -1776,44 +1776,44 @@
       "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/function/bm25-function.md": {
-      "sourceHash": "d70483c379a163b7a2318b963ae7f32848660dd0482e27391d8e1f33f434f0a5",
+      "sourceHash": "fe38a0a1d082232e2d7a5132fb004abce52a9617068bdcac4a4d311bf0c6a0c9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/bm25-function.md",
-      "translatedAt": "2026-11-06T12:02:10.961Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/function/minhash-function.md": {
-      "sourceHash": "6c42744ba17f081a40a5e8bfc1615cfb8461b252a8429f1b35079a5906e86b9f",
+      "sourceHash": "60b6ddfde42c9cf7479594932fe617f682756a44a9794e4c50b23e8f8b1410b8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/minhash-function.md",
-      "translatedAt": "2026-11-05T11:54:01.635Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf.md": {
-      "sourceHash": "1b3a9173d6a39e2c6e7c73e8e87f2c749ce6a91766e10b6ab6d4f59fe4f0e625",
+      "sourceHash": "5df7dba230cd30aa9c82e6506aeaab374227b8738099fa8a2ffe6fabac128f40",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf.md",
-      "translatedAt": "2026-10-29T19:43:59.613Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker.md": {
-      "sourceHash": "1cb88213cfce5b0a8bfe4c9fd987a146c6cf23b7ec259b23954762ddaa6f7de7",
+      "sourceHash": "784b34bc53f327ef001fc1c0c23167f4136fd1c0a881b7422963d88762d8928e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker.md",
-      "translatedAt": "2026-11-05T11:54:01.635Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker.md": {
-      "sourceHash": "c82777cddcf54cfb48d9f6ef557c3cba60379ce3c8ed23d08ebd9fd0b1f17ca6",
+      "sourceHash": "eec50fad0c1e0057a114ec1bbcb7e21c17236dde7c4f870920f977cf21c1c2ba",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker.md",
-      "translatedAt": "2026-11-05T13:25:51.545Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker.md": {
-      "sourceHash": "b6abd5894cef9f29f757fc47e99a84de637a4eb744e502e5d6bc31d50338cf65",
+      "sourceHash": "a365c26c2103c7e9356da4d60ee529938d33664ce39cdc051e0f70f8b2a241c8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker.md",
-      "translatedAt": "2026-11-05T13:25:51.545Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker.md": {
-      "sourceHash": "49819330cac7d6268fcaeb456fe022b64f6752e9c47fea1ef4b1658724464313",
+      "sourceHash": "917d9597616a259f9ded3107805c7646c15117a635b3acb7f7482321719373cc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker.md",
-      "translatedAt": "2026-11-05T13:25:51.545Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md": {
-      "sourceHash": "a38773fd29d34e83bba78349ba3318517a754cdab4b2506e4a9a0ffc0ded4b5b",
+      "sourceHash": "e41ac710f4c7dd4b8cc768e4060d56eb9f6896ee78f7b00c762d731dfb330fef",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md",
-      "translatedAt": "2026-11-05T11:54:01.635Z"
+      "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview.md": {
       "sourceHash": "9fd08aec6a156b067db7e0df590f64c87078a8671cb149226cf00612100ae77f",

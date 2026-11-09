@@ -483,8 +483,10 @@ await client.InsertAsync(new InsertReq
     CollectionName = collectionName,
     RowsData =
     [
-        new Dictionary<string, object?> { ["id"] = 1L, ["document"] = "Recent renewable energy developments include improved solar efficiency.", ["dense"] = new[] { 0.12f, 0.21f, 0.29f, 0.41f } },
-        new Dictionary<string, object?> { ["id"] = 2L, ["document"] = "Advances in battery storage enable longer grid resilience.", ["dense"] = new[] { 0.11f, 0.22f, 0.30f, 0.40f } }
+        new Dictionary<string, object?> { ["id"] = 1L, ["document"] = "Recent renewable energy developments include improved solar efficiency.", ["dense"] = new[] { 0.10f, 0.20f, 0.30f, 0.40f } },
+        new Dictionary<string, object?> { ["id"] = 2L, ["document"] = "Climate policy and carbon markets have evolved rapidly in recent years.", ["dense"] = new[] { 0.11f, 0.19f, 0.28f, 0.39f } },
+        new Dictionary<string, object?> { ["id"] = 3L, ["document"] = "New battery technology helps stabilize wind and solar power generation.", ["dense"] = new[] { 0.90f, 0.10f, 0.05f, 0.02f } },
+        new Dictionary<string, object?> { ["id"] = 4L, ["document"] = "Vector databases support similarity search for machine learning applications.", ["dense"] = new[] { 0.01f, 0.02f, 0.03f, 0.04f } }
     ]
 });
 ```
