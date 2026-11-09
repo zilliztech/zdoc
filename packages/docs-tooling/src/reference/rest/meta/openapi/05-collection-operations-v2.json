@@ -8224,7 +8224,7 @@
                 "description": "schema は対象コレクション内のデータを整理する役割を担います。有効な schema には複数のフィールドが必要であり、primary key、vector field、および複数の scalar field を含める必要があります。このパラメーターを設定すると、`dimension`、`idType`、`autoID`、`primaryFieldName`、`vectorFieldName` は無視されます。"
               }
             },
-            "allOf": [
+            "oneOf": [
               {
                 "$ref": "#/components/schemas/CollectionSchema"
               }
@@ -8374,13 +8374,13 @@
                 "description": "external collection 用のスキーマです。externalField マッピングを持つフィールドに加えて、externalSource を含める必要があります。<include target=\"milvus\">external collection の作成時には `externalSpec` が必須です。</include><include target=\"zilliz\">`externalSpec` は省略可能です。`milvus://` ソースの場合、省略すると `format` はデフォルトの `milvus-table` になります。</include>"
               }
             },
-            "allOf": [
+            "oneOf": [
               {
-                "$ref": "#/components/schemas/CollectionSchema"
+                "$ref": "#/components/schemas/CollectionSchema",
+                "required": [
+                  "externalSource"
+                ]
               }
-            ],
-            "required": [
-              "externalSource"
             ],
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
