@@ -120,15 +120,6 @@ jobs:
       - run: pnpm test:replay
       - name: Test shared docs
         run: pnpm test:shared-docs
-      - name: Dump shared-docs failure evidence (diagnostic)
-        if: always()
-        run: |
-          for d in /home/runner/.cache/zdoc-vitest/*/; do
-            for p in light transactions local-runner update-prepare; do
-              f="$d$p/failure.json"; [ -f "$f" ] && { echo "=== $f ==="; cat "$f"; break 2; }
-            done
-          done
-        continue-on-error: true
 
   workflow_lint:
     name: Lint workflows with actionlint
