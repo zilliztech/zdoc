@@ -53,6 +53,8 @@ Dedicated クラスターは、一貫性があり予測可能なパフォーマ�
 
 <TabItem value="Cloud Console">
 
+<Procedures>
+
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
 1. 目的の組織とプロジェクトを入力します。
@@ -105,6 +107,8 @@ Dedicated クラスターは、一貫性があり予測可能なパフォーマ�
 
     その後、クラスターアクセス用のパブリックエンドポイントとトークンを表示するダイアログにリダイレクトされます。これらの情報は安全に保管してください。
 
+</Procedures>
+
 </TabItem>
 
 <TabItem value="Bash">
@@ -114,6 +118,9 @@ Dedicated クラスターは、一貫性があり予測可能なパフォーマ�
 リクエストは、次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/createDedicated" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -174,6 +181,9 @@ curl --request POST \
     リクエストは、次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/clusters/createDedicated" \
     --header "Authorization: Bearer ${TOKEN}" \
@@ -280,3 +290,4 @@ Free または Serverless クラスターでは、バージョンを選択でき
 パブリックプレビュー機能を利用するために既存の Dedicated クラスターをアップグレードするには、[クラスターの管理](/docs/manage-cluster#upgrade-cluster-for-preview-features) を参照してください。
 
 </NextChannel>
+

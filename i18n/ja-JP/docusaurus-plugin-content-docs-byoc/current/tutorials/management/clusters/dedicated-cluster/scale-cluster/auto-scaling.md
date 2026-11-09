@@ -161,6 +161,7 @@ Zilliz Cloud は、同じスケーリング操作で Query CU とレプリカの
 RESTful API を使用すると、1 回の [Modify クラスター](/reference/restful/modify-cluster-v2) リクエストで Query CU とレプリカの両方の自動スケーリングを構成できます。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 

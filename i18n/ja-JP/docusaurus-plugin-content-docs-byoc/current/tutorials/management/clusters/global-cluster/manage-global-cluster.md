@@ -67,6 +67,8 @@ import Procedures from '@site/src/components/Procedures';
     次の例では、AWS ap-southeast-1 にデプロイされた `secondary-cluster-ap` という名前の新しいセカンダリクラスターを追加します。API の詳細については、[Add Secondary クラスター](/reference/restful/add-secondary-clusters-v2) を参照してください。
 
     ```bash
+    export API_KEY="YOUR_API_KEY"
+    
     curl --request POST \
       --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/secondaryClusters" \
       --header "Authorization: Bearer ${API_KEY}" \
@@ -113,9 +115,11 @@ import Procedures from '@site/src/components/Procedures';
 
 - **RESTful API を使用する場合**
 
-    次の例では、セカンダリクラスターを削除します。API の詳細については、[Delete Global Member Cluster](/reference/restful/delete-global-member-cluster-v2) を参照してください。
+    The following example removes a secondary クラスター. For details about the API, see [Delete Global Member Cluster](/reference/restful/delete-global-member-cluster-v2).
 
     ```bash
+    export API_KEY="YOUR_API_KEY"
+    
     curl --request DELETE \
       --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/clusters/in01-xxxxxxxxxxxxxxx" \
       --header "Authorization: Bearer ${API_KEY}" \
@@ -145,7 +149,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. すべてのセカンダリクラスターを[削除](./manage-global-cluster#drop-secondary-cluster)します。
 
-1. **Global Cluster** ページで、**Actions** ドロップダウンから **Remove Global Endpoint** をクリックします。
+1. On the **Global Cluster** page, click on **Remove Global Endpoint** from the **Actions** dropdown.
 
     ![Qg0Mw7gCGh9vlfbMpxockJPVnUg](https://zdoc-images.s3.us-west-2.amazonaws.com/Qg0Mw7gCGh9vlfbMpxockJPVnUg.png)
 
@@ -154,6 +158,8 @@ import Procedures from '@site/src/components/Procedures';
 RESTful API を使用してグローバルエンドポイントを削除することもできます。以下に例を示します。詳細については、[Remove Global Endpoint](/reference/restful/remove-global-endpoint-v2) を参照してください。
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
   --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/removeGlobalEndpoint" \
   --header "Authorization: Bearer ${API_KEY}" \
@@ -173,3 +179,4 @@ curl --request POST \
 ## グローバルクラスターを削除する\{#drop-global-cluster}
 
 グローバルクラスター全体を削除するには、まず[すべてのセカンダリクラスターを削除](./manage-global-cluster#drop-secondary-cluster)し、その後プライマリクラスターを削除します。プライマリクラスターが削除されると、グローバルクラスターは自動的に削除されます。
+

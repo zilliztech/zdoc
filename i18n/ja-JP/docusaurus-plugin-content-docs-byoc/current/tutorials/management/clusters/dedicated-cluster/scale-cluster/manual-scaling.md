@@ -107,6 +107,7 @@ replicas の手動スケーリングは、Enterprise プラン以上でサポー
 RESTful API を使用すると、1 回の [Modify クラスター](/reference/restful/modify-cluster-v2) リクエストで Query CU とレプリカを手動でスケーリングできます。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 

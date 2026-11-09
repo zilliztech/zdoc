@@ -69,9 +69,19 @@ Dedicated クラスターでは、次の操作を実行できます。
 
 <TabItem value="Cloud Console">
 
-対象クラスターの **クラスター Details** ページに移動し、以下の手順に従って Dedicated クラスターを一時停止します。
-
 <Supademo id="cm9tqgxt30snl11m7twwj7xia" title=""  />
+
+<Procedures>
+
+1. 対象クラスターの **クラスター Details** ページに移動します。
+
+1. **Actions** をクリックします。
+
+1. **Suspend** を選択します。
+
+1. 確認のためクラスター名を入力し、**Suspend** をクリックします。
+
+</Procedures>
 
 </TabItem>
 
@@ -82,12 +92,14 @@ Dedicated クラスターでは、次の操作を実行できます。
 次の `POST` リクエストは、リクエストボディを受け取り、Dedicated クラスターを一時停止します。
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/suspend" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
-
 # {
 #     "code": 0,
 #     "data": {
@@ -121,9 +133,19 @@ curl --request POST \
 
 <TabItem value="Cloud Console">
 
-対象クラスターの **クラスター Details** ページに移動し、以下の手順に従ってクラスターを再開します。
-
 <Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
+
+<Procedures>
+
+1. 対象クラスターの **クラスター Details** ページに移動します。
+
+1. **Actions** をクリックします。
+
+1. **Resume** を選択します。
+
+1. 確認のためクラスター名を入力し、**Resume** をクリックします。
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 
@@ -187,6 +209,20 @@ curl --request POST \
 
 <Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
 
+<Procedures>
+
+1. 対象クラスターの **クラスター Details** ページに移動します。
+
+1. **Actions** をクリックします。
+
+1. **Convert to Global クラスター** を選択します。
+
+1. グローバルクラスター名とセカンダリクラスターを構成します。現在のクラスターがプライマリクラスターになります。
+
+1. **Create** をクリックします。
+
+</Procedures>
+
 ## 削除\{#drop}
 
 クラスターが不要になった場合は、削除できます。クラスターは、Web コンソールまたはプログラムから削除できます。
@@ -195,9 +231,19 @@ curl --request POST \
 
 <TabItem value="Cloud Console">
 
-対象クラスターの **クラスター Details** ページに移動し、以下の手順に従ってクラスターを削除します。
-
 <Supademo id="cm9trwi5n0txr11m7otr902sk" title=""  />
+
+<Procedures>
+
+1. 対象クラスターの **クラスター Details** ページに移動します。
+
+1. **Actions** をクリックします。
+
+1. **Drop** を選択します。
+
+1. 確認のためクラスター名を入力し、**Drop** をクリックします。
+
+</Procedures>
 
 </TabItem>
 
@@ -234,4 +280,3 @@ curl --request POST \
 </TabItem>
 
 </Tabs>
-

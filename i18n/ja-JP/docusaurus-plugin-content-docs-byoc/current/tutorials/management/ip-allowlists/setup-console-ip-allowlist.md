@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # コンソール IP 許可リストを設定する
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
@@ -56,6 +58,22 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmi79l9ih4slqb7b4yi1x32r1?utm_source=link" title=""  />
 
+<Procedures>
+
+1. **Organization Settings** ページに移動します。
+
+1. **Console IP Allowlist** カードで、**+ IP Address** をクリックします。
+
+1. 許可リストに現在の IP アドレスを追加するには、**+ Use Current IP** をクリックします。
+
+1. 許可リストに IP アドレスをさらに追加するには、**+ Add New IP** をクリックします。
+
+1. IP アドレスまたは CIDR を入力します。
+
+1. **Save** をクリックします。
+
+</Procedures>
+
 ## IP アドレスを表示する\{#view-ip-address}
 
 許可リストを設定した後は、いつでも IP を確認できます。
@@ -63,6 +81,16 @@ import Supademo from '@site/src/components/Supademo';
 次のデモでは、許可リスト内の IP アドレスを表示する方法を示します。
 
 <Supademo id="cmi79trxa4tbsb7b44fnxlgik?utm_source=link" title=""  />
+
+<Procedures>
+
+1. **Organization Settings** ページに移動します。
+
+1. **Console IP Allowlist** カードで、ラベル **\{n\} IP Address** をクリックします。
+
+1. 許可リスト内の IP を表示します。
+
+</Procedures>
 
 ## IP アドレスを削除する\{#delete-ip-address}
 
@@ -77,6 +105,20 @@ IP または CIDR エントリを削除して、その送信元からのコン�
 次のデモでは、許可リストから IP アドレスを削除する方法を示します。
 
 <Supademo id="cmi79zr2500s6z20jewbtd5xb?utm_source=link" title=""  />
+
+<Procedures>
+
+1. **Organization Settings** ページに移動します。
+
+1. **Console IP Allowlist** カードで、ラベル **\{n\} IP Address** をクリックします。
+
+1. **Actions** の下にある **...** をクリックします。
+
+1. **Delete** をクリックします。
+
+1. IP アドレスまたは CIDR を入力して確認し、**Delete** をクリックします。
+
+</Procedures>
 
 ## FAQ\{#faqs}
 
@@ -109,4 +151,3 @@ IP または CIDR エントリを削除して、その送信元からのコン�
 1. **動的 IP を使用している場合はどうなりますか？**
 
     インターネット サービス プロバイダー（ISP）がアドレスをローテーションする場合は、対象範囲をカバーする小さな CIDR（例: `/29` または `/28`）を許可することを検討してください。
-

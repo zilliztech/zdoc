@@ -52,7 +52,7 @@ import Procedures from '@site/src/components/Procedures';
 
     <Procedures>
 
-    1. **Cluster Settings** で **Global Cluster** の横にあるスイッチをオンにします。
+    1. Turn on the switch next to **Global Cluster** in **Cluster Settings**.
 
     1. グローバルクラスターの名前を入力します。
 
@@ -96,7 +96,7 @@ import Procedures from '@site/src/components/Procedures';
 
     1. プライマリクラスターとセカンダリクラスターの両方のプロビジョニングが完了すると、クラスターは **RUNNING** ステータスで表示され、データレプリケーションをサポートします。
 
-    **Global Cluster** ページの **Global Topology** タブで、データ同期のステータスとラグを監視できます。
+    You can monitor the data synchronization status and lag on the **Global Topology** tab of the **Global Cluster** page.
 
     ![CLpZwH1e3hd3F1bIXisc6u7GnDg](https://zdoc-images.s3.us-west-2.amazonaws.com/CLpZwH1e3hd3F1bIXisc6u7GnDg.png)
 
@@ -105,6 +105,8 @@ import Procedures from '@site/src/components/Procedures';
     次の例では、1 つのプライマリクラスターを AWS us-west-2 に、1 つのセカンダリクラスターを AWS eu-west-1 にデプロイしたグローバルクラスターを作成します。API の詳細については、[グローバルクラスターの作成](/reference/restful/create-global-cluster-v2) を参照してください。
 
     ```bash
+    export API_KEY="YOUR_API_KEY"
+    
     curl --request POST \
       --url "https://api.cloud.zilliz.com/v2/globalClusters/create" \
       --header "Authorization: Bearer ${API_KEY}" \

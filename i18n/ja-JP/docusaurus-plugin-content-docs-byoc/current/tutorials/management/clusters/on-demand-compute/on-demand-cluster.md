@@ -64,6 +64,9 @@ import Procedures from '@site/src/components/Procedures';
 次の例では、オンデマンドクラスターを作成します。詳細については、[Create On-Demand クラスター](https://docs-test.cloud-uat3.zilliz.com/reference/restful/create-on-demand-cluster-v2) を参照してください。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
 --header "Authorization: Bearer ${TOKEN}" \

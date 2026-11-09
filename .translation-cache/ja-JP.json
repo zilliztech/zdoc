@@ -1046,14 +1046,14 @@
       "translatedAt": "2026-11-09T12:54:24.094Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
-      "sourceHash": "54c3086690b8a611fe812e49c185f2b267dcd755a7088f43e705c5867a02c248",
+      "sourceHash": "f11fca6d0497552c9f10370f069eca96790495427f1fdd18f08e0c3d1bd0d801",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "translatedAt": "2026-08-25T16:39:59.142Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/billing-management/manage-invoice.md": {
-      "sourceHash": "7b2525db43dc2474dc7b795f7d970605a1aa3cb1d2f143a00a30af9eb660eefd",
+      "sourceHash": "c0a3276ac015160265ba9069007dcd33d16d9a0de045c03f0fb8bfb9dba3dfac",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/manage-invoice.md",
-      "translatedAt": "2026-09-19T13:57:10.436Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/billing-management/payment-billing.md": {
       "sourceHash": "c5ac0e8f6433ea861619f80e89ff68c351bc21aa827169473b04f175be2ebe3e",
@@ -1131,19 +1131,19 @@
       "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "fd438ab29dc6dd161c4535817c1ba10deb958c7521ea94222c55b9246b9bb16a",
+      "sourceHash": "4240d006c35187ed9d8702c8a2e66f71edc05d004ca258e2d9a2d17e769a151a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-10-29T12:55:32.070Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
-      "sourceHash": "9e0ade649ff796d74712c5801430fd2fdcdd197129049525697865448298b407",
+      "sourceHash": "3430bd6d04e84010f14fe15037a841d14bb8cf44f95420a6cdc7b07334040e80",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md": {
-      "sourceHash": "ce2015598ebbca88183ff8af3185ad0d7f7a3644d1868bf43f8f2338a3927123",
+      "sourceHash": "6a532885263ac7ccd3d61d27e99b0d3ca5c69d9500b6955ba4f8ea78da10eb51",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md": {
       "sourceHash": "76a3909e5cefd7c0b73c4470ed80aa1170bd303d5a88fff97fb88f45235ce827",
@@ -1156,9 +1156,9 @@
       "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md": {
-      "sourceHash": "e3eb2f04f6a830e88b24b73cffbb841e5b7c0b76ffe618cd8a7bdad59b3e5f45",
+      "sourceHash": "a5fc28bff2aa145a118aa25c759eda641e533c880e1bb949458afc109c0df96f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md": {
       "sourceHash": "c570eb3412343f99850adc095ec77cc821817dce66c52e8b50bbac78417a0a43",
@@ -1176,14 +1176,14 @@
       "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "59042f18a69edfde2e4fb5270d25f6882ab4e4884785186b382fa6e5a67d9f10",
+      "sourceHash": "fab626a2d4e566689c0575253ef0c9fc241c3ded5c1fd0b6336c856f7444ddcc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-11-05T11:27:22.390Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
-      "sourceHash": "1983d8f221e9bb47e1dde1380450b282867726005cce537296cff00a98852c3a",
+      "sourceHash": "b96472ac06c34e2613482cd4f46df544afe452918502925e6c47e8266c534138",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/create-global-cluster.md",
-      "translatedAt": "2026-10-26T11:53:44.014Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
       "sourceHash": "0e26ceeed5e0b7c44779983d1e60857af17a967430d82894d40c75ad7d4a0062",
@@ -1191,9 +1191,9 @@
       "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
-      "sourceHash": "fd8783c9ae2fcb13ea8d9afc8e9bde97eb138eef1ecf05ed79b091362b5d876e",
+      "sourceHash": "f154d2aa0a3ad008519e6aaa3732a5aed26035199b2c283fdeb0cf01d3909163",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "translatedAt": "2026-10-26T11:53:44.014Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/monitor-global-cluster.md": {
       "sourceHash": "80dc2ad60f33e390cb810c8975ae1f6f75dc49dd236b6b9862df466fa908f621",
@@ -1206,19 +1206,19 @@
       "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/switchover-and-failover.md": {
-      "sourceHash": "a2c9450c1abbb616b5cc08f58a04eca72e2118f12ce3b575f2e8aa61499c6853",
+      "sourceHash": "4c361dd40453141475445db48f349520aee1ad54c32259828d0d9fc820d4f349",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
-      "translatedAt": "2026-10-26T11:53:44.014Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "204a46a6ffa345aeae526eeda43f62d76ccc0e93cd8b4a23e0a522dd0cf102ea",
+      "sourceHash": "ceeb7dac6c96d4e49a0865b46ca75db8dddd908bad5cc5975d9fb3ecde75ccce",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-10-19T14:37:53.819Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
-      "sourceHash": "e403fe70781d59f0045d9ff964de61ca1e8f6f527f181f984d4a857dcca46dd6",
+      "sourceHash": "6c145a0ad87c14c6cf0f950ee58a06e29c964460c924837d360c141b8ed32de1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-      "translatedAt": "2026-10-29T12:55:32.070Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/cmek/aws-kms.md": {
       "sourceHash": "250afcff27536043003f978e53a1f12b6bba5b8e26aada61974c904ed3b15632",
@@ -1236,9 +1236,9 @@
       "translatedAt": "2026-11-05T11:27:22.390Z"
     },
     "content/en/byoc/tutorials/management/cost-management/analyze-cost.md": {
-      "sourceHash": "17addd2b27fe4bb63da91a73ce0431dad92b276403d6eeb61931c6272fab0e7a",
+      "sourceHash": "f12689f36adc8943278f61e197e216547262b53899dc0e602bd350e3ef70804c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cost-management/analyze-cost.md",
-      "translatedAt": "2026-10-23T14:57:40.280Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/identity-management/identity-management-overview.md": {
       "sourceHash": "069fd4fcdb90bb4639efabfa2a1459c5f3feb775d746c0dcaac8e9a91bab0a27",
@@ -1321,9 +1321,9 @@
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md": {
-      "sourceHash": "4ee965fe470f04089e82d1a001c9235c4ed0d53cfc994df951a266e5ba82fac8",
+      "sourceHash": "d60574c7bcacc6921c8547451f7f63394665182e63fc224fcac10847c3d267ea",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md",
-      "translatedAt": "2026-09-19T14:01:58.853Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/limits/limits.md": {
       "sourceHash": "c16ae2d785972de74eb3030a90f204edd99ea4297894e7cd0c33fd518e419bfe",
@@ -1381,9 +1381,9 @@
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/organizations/organization-settings.md": {
-      "sourceHash": "f7120b0a7a23ce235c94ddcb7eaebaa1a8a8bc00036078e3a555bfd01be4bb77",
+      "sourceHash": "d91ceddddc264b7d28e4ee06212d5a42ad48737aafb671ffd94c31575f2b0de0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/organizations/organization-settings.md",
-      "translatedAt": "2026-09-19T14:01:58.853Z"
+      "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/organizations/use-recycle-bin.md": {
       "sourceHash": "76558b66f44a49e77c337d2c23cda058083409331b45ae549ca3b5f482f5ad9f",

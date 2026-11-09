@@ -110,8 +110,8 @@ curl --request GET \
 
 ```bash
 curl --request GET \
-     --url "https://${BASE_URL}/v2/on-demand-compute?projectId=proj-09ee1f4b1151d5dd1edbc5&regionId=aws-us-west-2" \
-     --header "Authorization: Bearer ${API_KEY}" \
+     --url "${BASE_URL}/v2/on-demand-compute?projectId=proj-09ee1f4b1151d5dd1edbc5&regionId=aws-us-west-2" \
+     --header "Authorization: Bearer ${TOKEN}" \
      --header "Accept: application/json"
 ```
 
@@ -583,3 +583,4 @@ curl --request DELETE \
 - オンデマンドクラスターを作成するには、[オンデマンドクラスターの作成](./on-demand-cluster) を参照してください。
 
 - プロジェクトエンドポイント経由で接続するには、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
+
