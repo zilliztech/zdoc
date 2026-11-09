@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/alter-external-collection-schema.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/alter-external-collection-schema
+  - manual: guides-byoc
+    path: tutorials/development/schema/alter-external-collection-schema

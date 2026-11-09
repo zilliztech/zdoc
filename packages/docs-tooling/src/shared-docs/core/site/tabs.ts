@@ -28,10 +28,11 @@ export function parseTabsRules(yamlText: string, context: DiagnosticContext): { 
       }
       value.languages.forEach((language, index) => {
         const path = ['languages', index]
-        if (!check.object(language, path, ['value', 'label', 'aliases', 'required'], ['value', 'label'])) return
+        if (!check.object(language, path, ['value', 'label', 'aliases', 'required', 'fence'], ['value', 'label'])) return
         unique(language.value, [...path, 'value'])
         if (typeof language.value === 'string') values.add(language.value)
         check.string(language.label, [...path, 'label'])
+        if (language.fence !== undefined) check.string(language.fence, [...path, 'fence'])
         if (language.required !== undefined && typeof language.required !== 'boolean') check.error([...path, 'required'], 'required must be a boolean')
         if (language.aliases !== undefined) {
           if (!Array.isArray(language.aliases)) check.error([...path, 'aliases'], 'aliases must be a list')
@@ -70,7 +71,7 @@ export function renderTabs(group: CodeGroup, lines: string[], rules: TabsRules, 
     const fence = byLanguage.get(language.value)!
     for (let i = fence.start; i <= fence.end; i++) {
       let text = lines[i]
-      if (i === fence.start) text = text.replace(/^([ \t]*[`~]+)[^\s`~]+/, (_, prefix) => prefix + language.value)
+      if (i === fence.start) text = text.replace(/^([ \t]*[`~]+)[^\s`~]+/, (_, prefix) => prefix + (language.fence ?? language.value))
       output.push({ text, source: i + 1 })
     }
   }
