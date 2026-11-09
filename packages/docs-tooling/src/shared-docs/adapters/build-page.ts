@@ -305,9 +305,14 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
   const errors: SharedDocsError[] = []
   const targets = new Map<number, { navigation: { sidebar_label?: string; sidebar_position?: number }; pages: readonly ZdocPage[]; fetch?: FetchBuildTarget }>()
   const records = await runtime.records()
-  if (runtime.fetchContext && (runtime.fetchContext.page !== pageId || config.publish.length !== 2
-    || new Set(config.publish.map(target => target.manual)).size !== 2)) {
-    return { errors: [{ ...context, code: 'OWNERSHIP_PATH_MISMATCH', message: 'Fetch requires exactly Guides and BYOC for the selected page' }] }
+  const fetchManuals = runtime.fetchContext?.targets.map(target => target.manual)
+  if (runtime.fetchContext && (runtime.fetchContext.page !== pageId || !fetchManuals?.length
+    || fetchManuals.some(manual => manual !== 'guides' && manual !== 'guides-byoc')
+    || new Set(fetchManuals).size !== fetchManuals.length
+    || config.publish.length !== fetchManuals.length
+    || new Set(config.publish.map(target => target.manual)).size !== config.publish.length
+    || config.publish.some(target => !fetchManuals.some(manual => manual === target.manual)))) {
+    return { errors: [{ ...context, code: 'OWNERSHIP_PATH_MISMATCH', message: 'Fetch publish targets must exactly match the selected Base targets' }] }
   }
   for (const [index, target] of config.publish.entries()) {
     if (target.manual !== 'guides' && target.manual !== 'guides-byoc') {

@@ -202,6 +202,10 @@ async function generateSharedSources(options, dependencies = {}) {
         previousReceipt = readSharedReceipt(baselineRoot, previous.shared_page)
         require('../../packages/docs-tooling/src/lark/sharedPagePublication').validatePublishedReceipt(previousReceipt, previous,
           {workspace: baselineRoot, snapshot: previousSnapshot})
+        const previousManuals = previousReceipt.outputs.map(output => output.manual).sort()
+        if (JSON.stringify(previousManuals) !== JSON.stringify(targets.map(target => target.manual).sort())) {
+          throw Object.assign(new Error('Changing an active shared page target set requires an explicit migration'), {code: 'OWNERSHIP_PATH_MISMATCH'})
+        }
       }
       const recordedImages = new Map((previousReceipt?.inputs.images || []).map(image => [image.source, image.sha256]))
       const acceptedFetcher = new HttpImageFetcher(Math.ceil((options.imageTimeout ?? 120) * 1000))
@@ -220,7 +224,9 @@ async function generateSharedSources(options, dependencies = {}) {
       const buildStart = performance.now()
       const code = await runBuild({sharedDocs: path.join(repositoryRoot, sharedRoot), repo, dev: baselineRoot, out: buildOut, page,
         imageTimeout: options.imageTimeout ?? 120}, text => { log += text }, {repositoryRoot, fetchContext, fetcher: dependencies.fetcher, readAcceptedImage, onErrors: errors => buildErrors.push(...errors), onBuilt: pages => { built = pages }})
-      if (code || !built || built.length !== 2) throw Object.assign(new Error(`Paired shared build failed: ${log}`), {
+      if (code || !built || built.length !== targets.length
+        || new Set(built.map(output => output.manual)).size !== targets.length
+        || built.some(output => !targets.some(target => target.manual === output.manual))) throw Object.assign(new Error(`Selected shared build failed: ${log}`), {
         code: buildErrors.some(error => error.code === 'OWNERSHIP_PATH_MISMATCH') ? 'OWNERSHIP_PATH_MISMATCH' : 'SHARED_BUILD_FAILED',
         detail: buildErrors.length ? buildErrors : null,
       })
