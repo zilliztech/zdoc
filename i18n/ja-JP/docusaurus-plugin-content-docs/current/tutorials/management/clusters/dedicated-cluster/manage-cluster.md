@@ -73,9 +73,19 @@ Dedicated クラスターでは、以下の操作を実行できます。
 
 <TabItem value="Cloud Console">
 
-対象のクラスターの **クラスター Details** ページに移動し、以下の手順に従って Dedicated クラスターを一時停止します。
-
 <Supademo id="cm9tqgxt30snl11m7twwj7xia" title=""  />
+
+<Procedures>
+
+1. 対象のクラスターの **クラスター Details** ページに移動します。
+
+1. **Actions** をクリックします。
+
+1. **Suspend** を選択します。
+
+1. 確認のためにクラスター名を入力し、**Suspend** をクリックします。
+
+</Procedures>
 
 </TabItem>
 
@@ -86,12 +96,14 @@ Dedicated クラスターでは、以下の操作を実行できます。
 以下の `POST` リクエストはリクエストボディを受け取り、Dedicated クラスターを一時停止します。
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/suspend" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
-
 # {
 #     "code": 0,
 #     "data": {
@@ -127,9 +139,19 @@ curl --request POST \
 
 <TabItem value="Cloud Console">
 
-対象のクラスターの **クラスター Details** ページに移動し、以下の手順に従ってクラスターを再開します。
-
 <Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
+
+<Procedures>
+
+1. 対象のクラスターの **クラスター Details** ページに移動します。
+
+1. **Actions** をクリックします。
+
+1. **Resume** を選択します。
+
+1. 確認のためにクラスター名を入力し、**Resume** をクリックします。
+
+</Procedures>
 
 </TabItem>
 
@@ -197,6 +219,18 @@ curl --request POST \
 
 ![upgrade-to-preview-version](https://zdoc-images.s3.us-west-2.amazonaws.com/upgrade-to-preview-version.png "upgrade-to-preview-version")
 
+<Procedures>
+
+1. 対象のクラスターの **クラスター Details** タブに移動します。
+
+1. **Try Preview Features** をクリックします。
+
+1. クラスター名を入力し、利用規約に同意します。
+
+1. **Upgrade** をクリックします。
+
+</Procedures>
+
 ## グローバルクラスターへの変換\{#convert-to-a-global-cluster}
 
 既存のクラスターを [グローバルクラスター](./global-cluster-explained) に変換する必要がある場合は、以下の手順に従ってください。
@@ -209,6 +243,20 @@ curl --request POST \
 
 <Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
 
+<Procedures>
+
+1. 対象のクラスターの **クラスター Details** ページに移動します。
+
+1. **Actions** をクリックします。
+
+1. **Convert to Global クラスター** を選択します。
+
+1. グローバルクラスターの名前とそのセカンダリクラスターを設定します。現在のクラスターがプライマリクラスターになります。
+
+1. **Create** をクリックします。
+
+</Procedures>
+
 ## 削除\{#drop}
 
 クラスターが不要になった場合は、削除できます。クラスターは、Web コンソールまたはプログラムから削除できます。
@@ -217,9 +265,19 @@ curl --request POST \
 
 <TabItem value="Cloud Console">
 
-対象のクラスターの **クラスター Details** ページに移動し、以下の手順に従ってクラスターを削除します。
-
 <Supademo id="cm9trwi5n0txr11m7otr902sk" title=""  />
+
+<Procedures>
+
+1. 対象のクラスターの **クラスター Details** ページに移動します。
+
+1. **Actions** をクリックします。
+
+1. **Drop** を選択します。
+
+1. 確認のためにクラスター名を入力し、**Drop** をクリックします。
+
+</Procedures>
 
 </TabItem>
 

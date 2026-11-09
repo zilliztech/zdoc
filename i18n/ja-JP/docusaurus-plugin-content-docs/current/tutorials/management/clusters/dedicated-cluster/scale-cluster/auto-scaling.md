@@ -161,6 +161,7 @@ Zilliz Cloud は、同一のスケーリングアクションで Query CU とレ
 RESTful API を使用すると、単一の [Modify クラスター](/reference/restful/modify-cluster-v2) リクエストで Query CU とレプリカの両方のオートスケーリングを構成できます。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 
@@ -229,3 +230,4 @@ curl --request POST \
 - スケールダウンが成功するのは、現在のデータ量と、現在のコレクション数およびパーティション数がターゲット仕様に収まる場合だけです。
 
 - スケジュールスケーリングには、30 分より長いスケジュール間隔が必要です。
+

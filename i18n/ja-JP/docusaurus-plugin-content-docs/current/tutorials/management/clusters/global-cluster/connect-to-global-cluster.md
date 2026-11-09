@@ -67,7 +67,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. グローバルクラスターまたはターゲットクラスターに移動します。
 
-    - **グローバルエンドポイント**の場合: **Global** **Cluster** ページに移動します。
+    - For the **global** **endpoint**: Go to the **Global** **Cluster** page.
 
     - **パブリックエンドポイント**の場合: 特定のプライマリクラスターまたはセカンダリクラスターの **Cluster** **Details** ページに移動します。
 
@@ -237,8 +237,8 @@ var client = new MilvusClientV2(new ConnectConfig
 
 ```bash
 curl --request POST \
-  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
-  --header "Authorization: Bearer ${TOKEN}" \
+  --url "YOUR_GLOBAL_ENDPOINT/v2/vectordb/collections/list" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
   -d '{}'
 ```
@@ -319,8 +319,8 @@ let config = ConnectConfig::new().uri("YOUR_CLUSTER_PUBLIC_ENDPOINT").token("YOU
 
 ```bash
 curl --request POST \
-  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
-  --header "Authorization: Bearer ${TOKEN}" \
+  --url "YOUR_CLUSTER_PUBLIC_ENDPOINT/v2/vectordb/collections/list" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
   -d '{}'
 ```

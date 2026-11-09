@@ -99,6 +99,8 @@ Query Daily Usage RESTful API は現在パブリックプレビューです。�
 次の例では、組織の日々の使用量を照会する方法を示します。
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
 --url "https://api.cloud.zilliz.com/v2/usage/query" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -124,3 +126,4 @@ Zilliz Cloud は**小数点以下 10 桁**の精度で料金を計算し、す�
 - **RESTful API**: すべての数値（Unit Price、Usage、Usage Amount など）は、常に小数点以下 10 桁まで正確に返されます。値の小数部が 10 桁未満の場合は、10 桁に達するまで末尾にゼロが付加されます。RESTful API の使用方法については、[Query Daily Usage](/reference/restful/query-daily-usage-v2) を参照してください。
 
 - **Web Console UI**: 表示される金額は API の値と一致しますが、読みやすさのため末尾のゼロは省略されます。たとえば、`0.1234000000` は UI では `0.1234` と表示されます。
+

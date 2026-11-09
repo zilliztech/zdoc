@@ -96,7 +96,7 @@ curl --request GET \
 
 1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
-1. **On-Demand Compute > クラスター** に移動します。
+1. Go to **On-Demand Compute > クラスター**.
 
 1. クラスター名、クラスター ID、ステータス、CU サイズ、エンドポイント、作成者、作成時刻を含むオンデマンドクラスターの一覧を確認します。
 
@@ -110,8 +110,8 @@ curl --request GET \
 
 ```bash
 curl --request GET \
-     --url "https://${BASE_URL}/v2/on-demand-compute?projectId=proj-09ee1f4b1151d5dd1edbc5&regionId=aws-us-west-2" \
-     --header "Authorization: Bearer ${API_KEY}" \
+     --url "${BASE_URL}/v2/on-demand-compute?projectId=proj-09ee1f4b1151d5dd1edbc5&regionId=aws-us-west-2" \
+     --header "Authorization: Bearer ${TOKEN}" \
      --header "Accept: application/json"
 ```
 
@@ -136,7 +136,7 @@ curl --request GET \
 
 1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
-1. **On-Demand Compute > クラスター** に移動します。
+1. Go to **On-Demand Compute > クラスター**.
 
 1. 対象クラスターをクリックして詳細を表示します。
 
@@ -570,7 +570,7 @@ curl --request DELETE \
 
 1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
-1. **On-Demand Compute > Clusters** に移動します。
+1. Go to **On-Demand Compute > Clusters**.
 
 1. 対象のオンデマンドクラスターを選択します。
 

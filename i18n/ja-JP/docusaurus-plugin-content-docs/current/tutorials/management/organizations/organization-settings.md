@@ -44,6 +44,16 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が作成�
 
 ![SJ2xw2rO4h2LJTblDpmcgHh0nHg](https://zdoc-images.s3.us-west-2.amazonaws.com/SJ2xw2rO4h2LJTblDpmcgHh0nHg.png)
 
+<Procedures>
+
+1. 組織一覧に移動します。
+
+1. **+ Organization** をクリックします。
+
+1. 組織名を入力し、**Create** をクリックします。
+
+</Procedures>
+
 ## 組織名を変更する\{#rename-an-organization}
 
 組織名を変更するには、[Organization Owner](./manage-platform-roles#predefined-organization-roles) である必要があります。
@@ -52,11 +62,31 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が作成�
 
 - 組織一覧ページで組織名を変更する:
 
-    ![rename-organization](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-organization.png "rename-organization")
+    <Procedures>
+
+    1. 組織一覧ページに移動します。
+
+    1. 対象の組織の **...** ボタンをクリックします。
+
+    1. **Rename** をクリックします。
+
+        ![rename-organization](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-organization.png "rename-organization")
+
+    </Procedures>
 
 - 組織に入り、**System Settings** ページで名前を変更する:
 
     ![edit-organization-name](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-organization-name.png "edit-organization-name")
+
+    <Procedures>
+
+    1. **Organization Settings** ページに移動します。
+
+    1. **Organization Information** 領域で **Edit** をクリックします。
+
+    1. 組織名を変更し、**Confirm** をクリックします。
+
+    </Procedures>
 
 ## タイムゾーンを管理する\{#manage-timezone}
 
@@ -65,6 +95,16 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が作成�
 現在のタイムゾーンを確認するには、Organization Owner または Organization Member である必要があります。組織内のロールの詳細については、[プラットフォームロールの管理](./manage-platform-roles) を参照してください。
 
 ![timezone-settings](https://zdoc-images.s3.us-west-2.amazonaws.com/timezone-settings.png "timezone-settings")
+
+<Procedures>
+
+1. **Organizations Settings** ページに移動します。
+
+1. **Time Zone** 領域で **Edit** をクリックします。
+
+1. 希望するシステムのタイムゾーンを選択し、**Save** をクリックします。
+
+</Procedures>
 
 システムのタイムゾーンを変更するには、[Organization Owner](./manage-platform-roles#predefined-organization-roles) である必要があります。**Edit** をクリックして **Time Zone Settings** ダイアログボックスを開き、ドロップダウンリストからタイムゾーンを選択します。タイムゾーン名を入力して、目的のタイムゾーンをすばやく絞り込むこともできます。
 
@@ -79,6 +119,16 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が作成�
 以下のデモでは、優先メンテナンス時間枠を編集する方法を示します。
 
 <Supademo id="cmn4bhv4l0ps5z3qmdcrmuij7" title=""  />
+
+<Procedures>
+
+1. **Organizations Settings** ページに移動します。
+
+1. **Preferred Maintenance Window** 領域で **Edit** をクリックします。
+
+1. 希望するメンテナンス時間枠を選択し、**Save** をクリックします。
+
+</Procedures>
 
 <Admonition type="info" title="Note">
 
@@ -139,3 +189,11 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が作成�
 </Admonition>
 
 ![delete-organization-en](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-organization-en.png "delete-organization-en")
+
+<Procedures>
+
+1. **Organization Settings** ページに移動します。
+
+1. **Delete Organization** をクリックします。
+
+</Procedures>

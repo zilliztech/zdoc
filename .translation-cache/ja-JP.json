@@ -2811,14 +2811,14 @@
       "translatedAt": "2026-11-09T13:53:59.156Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
-      "sourceHash": "e9ac093682ad74be0664f8b63aec43f0c37a0024f6789ab20296256ad78d0cc9",
+      "sourceHash": "4b7f2cf04eba0a8bce45024ed4f61a0445f9ac030a4e08a4ea428d6155d03515",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
-      "translatedAt": "2026-10-29T12:57:57.824Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md": {
-      "sourceHash": "f5cba8fb6a662e1c7c76f80f55301ab9016bcbdbb6b37abef4e41b2b3610f688",
+      "sourceHash": "4af25cb43db922c4e88a32f17958d00861c88c3707d01867af62ac182312c9ec",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "translatedAt": "2026-09-19T14:20:52.976Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md": {
       "sourceHash": "7222ef3c778662286ed69b65d7df4c06eac68567e6abbee1e640e73bc5686a6f",
@@ -2831,9 +2831,9 @@
       "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md": {
-      "sourceHash": "294e6a25a8d0e46b216640a534a8d9f7c4c23bf8caadb6eec9141e22b26619e9",
+      "sourceHash": "f1a654abd4721535b0e4543aba4b92ef0e2dddddc17635a00e6fd0cb4d23ff3f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md": {
       "sourceHash": "c1eafde1e1cdd72d889e66a25a536df6786121c350a977658583e7b642b3c829",
@@ -2851,14 +2851,14 @@
       "translatedAt": "2026-10-29T12:57:57.824Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "d38f7832bc970d5c25b8b0c1652864b251848e2a4007ffc518783f7e71c85e05",
+      "sourceHash": "aaf0c1fed60bdf9ec0d4cff3c6aa6881de3f57273108799ee132658d2fd5001f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-11-05T15:06:20.053Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
-      "sourceHash": "8eb13c856cf31804a819b8e32e8c11413b875c8291fa6e41df12766f7eb716ac",
+      "sourceHash": "b286291bdcf7a5d9273b71822f3e92ff3067d61009a660f7bcc4cf35ba526b19",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/create-global-cluster.md",
-      "translatedAt": "2026-10-26T11:56:32.471Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
       "sourceHash": "d8e510ef5b992d0e6ed8e7a8846e5283f89256a15bf44d8fae85836b663d149d",
@@ -2866,9 +2866,9 @@
       "translatedAt": "2026-10-26T11:56:32.471Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
-      "sourceHash": "854488abb23a7b820bceae1f4bb9ce8501656363dcab8cce058d7748d93a9b31",
+      "sourceHash": "23603002c01e6dfb06cb87ff6fc9c5bd5d16d515c9116267d7d5b6708c527ba7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "translatedAt": "2026-10-26T11:56:32.471Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/monitor-global-cluster.md": {
       "sourceHash": "8fde1eccb307310010350d3c50f7c4f977bd117ab21757d7e4c1ecb95c4742d3",
@@ -2881,19 +2881,19 @@
       "translatedAt": "2026-10-26T11:56:32.471Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/switchover-and-failover.md": {
-      "sourceHash": "1223e855fa826c74642d32c6bf4dd08bd1d864265507c1074c61656600a9d898",
+      "sourceHash": "207db63cd77878c40750e392c19c271f858568c569f2b663835e72fe4315169d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
-      "translatedAt": "2026-10-26T11:56:32.471Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "b8ab51d57a5d0a6cfb26aeec7e19a994bfe38e048da15dfcb6176bf24d13e3c3",
+      "sourceHash": "540de7b006c50953c8a1643fc9b8a63579e08a6d29d856649eb9f53a0ce9a1d1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
-      "sourceHash": "d30dbb57fa95482819496bb843575591f962d5f6dddf5e82fdf7c2e1cf1e94ee",
+      "sourceHash": "0a3fac69090f95a4291c3b7d880535e62ba172ff47ecd79f201590537461fa81",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-      "translatedAt": "2026-10-29T12:57:57.824Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/cmek/aws-kms.md": {
       "sourceHash": "eb364d4fe53af08b3701383e6f2d8b688713d4e36db0c03aba583d91075299a1",
@@ -2911,9 +2911,9 @@
       "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
-      "sourceHash": "2cda731e4fcb3f1bab3768e86cbdbd16a9d5a06291dc893cd832ec5e345cd41d",
+      "sourceHash": "1aadec6c01be283ee85469b457f6da8e53d22606caf6fab45cb0b1965e2a96de",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/analyze-cost.md",
-      "translatedAt": "2026-10-23T14:57:40.280Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
       "sourceHash": "d0a40a424e50f68882c67059b643b5d00419d53daf0aacf903339363913eead8",
@@ -3031,9 +3031,9 @@
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md": {
-      "sourceHash": "e4cb143c74e234f41cc021ba1556f9f8958c03de7c16c29c7840078f8d521537",
+      "sourceHash": "fb28604705e30869b9677a8e1b2e91e2cac1afe88b3e2cd022ce24eb6d72c4a5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md",
-      "translatedAt": "2026-09-19T14:24:19.670Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/ip-allowlists/setup-whitelist.md": {
       "sourceHash": "2bc75f3f88e74cd45d95637b7fe36c734c377b892edac6236db42787c3c83720",
@@ -3161,9 +3161,9 @@
       "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/organizations/organization-settings.md": {
-      "sourceHash": "d354474b7b0d3470c87f9022e68901b286ba29e48ab55f2084beba10a4db6076",
+      "sourceHash": "4bd357fd282fed5808ad8b692ed4fad360d0155c3f7230fc90dcc8ed1404cc36",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-settings.md",
-      "translatedAt": "2026-09-19T14:25:42.714Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/organizations/use-recycle-bin.md": {
       "sourceHash": "f6f0884151582cba176f520e1df05ab5222afd35fc9b7d5a1337d1434f3bdad2",
@@ -3191,9 +3191,9 @@
       "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/projects/manage-projects.md": {
-      "sourceHash": "2a41774a98f5e46b0a26baf20e47c430824fc5028d8c0003cbd8e5f98f64b3df",
+      "sourceHash": "664f6382d438e1179e61793d822603e8627181e17cf917300ddd7ebbd9290045",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/manage-projects.md",
-      "translatedAt": "2026-10-28T04:45:25.788Z"
+      "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/slow-logs/configure-slow-logs.md": {
       "sourceHash": "e8a0defab30a6d6595f279298c374bb82e27956743a9508890f4fb5ec67097f8",

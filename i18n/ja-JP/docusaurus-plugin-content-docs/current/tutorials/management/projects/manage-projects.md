@@ -112,7 +112,7 @@ Zilliz Cloud Web コンソールまたは RESTful API を使用して、プロ�
     export TOKEN="YOUR_API_KEY"
     
     curl --request POST \
-         --url "https://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions" \
+         --url "${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions" \
          --header "Authorization: Bearer ${TOKEN}" \
          --header "Accept: application/json" \
          --header "Content-Type: application/json" \
@@ -145,8 +145,8 @@ Zilliz Cloud Web コンソールまたは RESTful API を使用して、プロ�
 
     ```bash
     curl -i --request DELETE \
-        --url "https://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions/gcp-us-west1" \
-        --header "Authorization: Bearer ${API_KEY}" \
+        --url "${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions/gcp-us-west1" \
+        --header "Authorization: Bearer ${TOKEN}" \
         --header "accept: application/json"
     ```
 
@@ -316,3 +316,4 @@ Zilliz Cloud Web コンソールまたは RESTful API を使用して、プロ�
 **プロジェクトのプランをダウングレードできますか？**
 
 プランの直接ダウングレードはサポートされていません。下位のプランに切り替えるには、希望するプランで新しいプロジェクトを作成し、そのプロジェクトにデータを [移行](./offline-migration) してください。
+

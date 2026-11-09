@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Console IP Allowlist を設定する
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
@@ -60,6 +62,22 @@ console IP allowlist への更新は 30 秒以内に反映されます。
 
 <Supademo id="cmi79l9ih4slqb7b4yi1x32r1?utm_source=link" title=""  />
 
+<Procedures>
+
+1. **Organization Settings** ページに移動します。
+
+1. **Console IP Allowlist** カードで **+ IP Address** をクリックします。
+
+1. **+ Use Current IP** をクリックして、現在の IP アドレスを allowlist に追加します。
+
+1. **+ Add New IP** をクリックして、allowlist に IP アドレスを追加します。
+
+1. IP アドレスまたは CIDR を入力します。
+
+1. **Save** をクリックします。
+
+</Procedures>
+
 ## IP アドレスを表示する\{#view-ip-address}
 
 allowlist を設定した後は、いつでも IP を確認できます。
@@ -67,6 +85,16 @@ allowlist を設定した後は、いつでも IP を確認できます。
 以下のデモは、allowlist 内の IP アドレスを表示する方法を示しています。
 
 <Supademo id="cmi79trxa4tbsb7b44fnxlgik?utm_source=link" title=""  />
+
+<Procedures>
+
+1. **Organization Settings** ページに移動します。
+
+1. **Console IP Allowlist** カードで、**\{n\} IP Address** ラベルをクリックします。
+
+1. allowlist 内の IP を確認します。
+
+</Procedures>
 
 ## IP アドレスを削除する\{#delete-ip-address}
 
@@ -81,6 +109,20 @@ console IP allowlist への更新は 30 秒以内に反映されます。
 以下のデモは、allowlist から IP アドレスを削除する方法を示しています。
 
 <Supademo id="cmi79zr2500s6z20jewbtd5xb?utm_source=link" title=""  />
+
+<Procedures>
+
+1. **Organization Settings** ページに移動します。
+
+1. **Console IP Allowlist** カードで、**\{n\} IP Address** ラベルをクリックします。
+
+1. **Actions** の下にある **...** をクリックします。
+
+1. **Delete** をクリックします。
+
+1. 確認のため IP アドレスまたは CIDR を入力し、**Delete** をクリックします。
+
+</Procedures>
 
 ## FAQ\{#faqs}
 
@@ -113,4 +155,3 @@ console IP allowlist への更新は 30 秒以内に反映されます。
 1. **動的 IP を使用している場合はどうなりますか？**
 
     インターネットサービスプロバイダー（ISP）がアドレスをローテーションする場合は、その範囲をカバーする小さな CIDR（例: `/29` または `/28`）の許可を検討してください。
-
