@@ -39,7 +39,40 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Single-flight gate (design: .claude/plans/2026-11-09-rest-upstream-auto-
+  # refresh-linkage.md): one open refresh PR per source. The gate runs before
+  # the paid model stages, so a duplicate dispatch (auto or manual) costs one
+  # no-op job instead of a full refresh; a second push to the same branch
+  # name would only ever die as a non-fast-forward, so this also keeps the
+  # remote free of orphan refresh branches. Escape hatch: close the open PR
+  # and the next dispatch (the daily watchdog's or a manual one) proceeds.
+  # The branch shape is the discriminator — REST /pulls ignores its `label`
+  # parameter, and the hex tail keeps prefix-extended source ids apart.
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      proceed: ${{ steps.single_flight.outputs.proceed }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE: ${{ inputs.source }}
+    steps:
+      - name: Gate the single-flight refresh per source
+        id: single_flight
+        run: |
+          slug=$(echo "$SOURCE" | tr '[:upper:]' '[:lower:]')
+          open_prs=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --json headRefName --jq '.[].headRefName')
+          matching=$(printf '%s\n' "$open_prs" | grep -E "^rest-upstream-refresh/${slug}-[0-9a-f]{7,40}$" || true)
+          if [ -n "$matching" ]; then
+            echo "::notice::An open rest-upstream-refresh PR already exists for ${SOURCE}; the next batch opens after it merges."
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          fi
+
   refresh:
+    needs: gate
+    if: ${{ needs.gate.outputs.proceed == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 180
     env:

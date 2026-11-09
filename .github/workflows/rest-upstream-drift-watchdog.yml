@@ -18,7 +18,7 @@ concurrency:
 jobs:
   watchdog:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     steps:
       - name: Check out immutable tooling revision
         uses: actions/checkout@v5
@@ -67,7 +67,40 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `drifting_count=${drifting.length}\ncard_status=${drifting.length === 0 ? 'success' : 'fail'}\n`)
           NODE
 
+      # Auto-refresh linkage (design: .claude/plans/2026-11-09-rest-upstream-
+      # auto-refresh-linkage.md): turn the drift report into a validated
+      # dispatch plan and, unless the kill switch var is set, dispatch one
+      # rest-upstream-refresh run per drifting source. The plan is written
+      # before the artifact upload below so the evidence always lands, and
+      # every dispatch decision is made inside the script — no model writes
+      # any structured data on this path. Runs before the upload on purpose
+      # (dispatch-plan.json rides the drift artifact); the upload/summary
+      # steps carry always() so a dispatch failure still leaves the evidence.
+      - name: Dispatch refresh for drifting sources
+        id: dispatch
+        if: ${{ steps.scan.conclusion == 'success' }}
+        env:
+          GH_TOKEN: ${{ secrets.REST_UPSTREAM_REFRESH_PAT }}
+          REST_UPSTREAM_AUTO_REFRESH_DISABLED: ${{ vars.REST_UPSTREAM_AUTO_REFRESH_DISABLED || '' }}
+        run: |
+          args=()
+          if [ -n "$REST_UPSTREAM_AUTO_REFRESH_DISABLED" ]; then
+            echo "::notice::REST_UPSTREAM_AUTO_REFRESH_DISABLED is set; the dispatch plan is computed but nothing is dispatched."
+          elif [ -z "$GH_TOKEN" ]; then
+            echo "::notice::REST_UPSTREAM_REFRESH_PAT is not configured; the dispatch plan stays unverified and nothing is dispatched."
+          else
+            args+=(--execute)
+          fi
+          node scripts/rest-upstream/dispatch-refresh.js \
+            --report tmp/rest-upstream-watchdog/watchdog-report.json \
+            --lock packages/docs-tooling/src/reference/rest/meta/upstream/rest-upstream-lock.json \
+            --out tmp/rest-upstream-watchdog/dispatch-plan.json \
+            --repo "$GITHUB_REPOSITORY" \
+            --token-env GH_TOKEN \
+            "${args[@]}"
+
       - name: Upload drift report
+        if: ${{ always() }}
         uses: actions/upload-artifact@v6
         with:
           name: rest-upstream-drift-${{ github.run_id }}
@@ -76,7 +109,10 @@ jobs:
           retention-days: 14
 
       - name: Append report to step summary
-        run: cat tmp/rest-upstream-watchdog/watchdog-report.md >> "$GITHUB_STEP_SUMMARY"
+        if: ${{ always() }}
+        run: |
+          cat tmp/rest-upstream-watchdog/watchdog-report.md >> "$GITHUB_STEP_SUMMARY"
+          test ! -f tmp/rest-upstream-watchdog/dispatch-plan.md || cat tmp/rest-upstream-watchdog/dispatch-plan.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Create documentation site report card
         id: report_card

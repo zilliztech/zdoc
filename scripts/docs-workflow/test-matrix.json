@@ -266,6 +266,8 @@
       "focusedTests": [
         "pnpm test:rest-upstream",
         "node --test scripts/rest-upstream/drift-watchdog.test.js",
+        "node --test scripts/rest-upstream/dispatch-refresh.test.js",
+        "node --test scripts/rest-upstream/dispatch-linkage-workflow.test.js",
         "node --test scripts/rest-upstream/decide-batches.test.js",
         "node --test scripts/rest-upstream/branch-plan.test.js",
         "node --test scripts/rest-upstream/translate-additions.test.js",
