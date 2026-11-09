@@ -42,7 +42,15 @@ const AGENTIC_REASONING_EFFORTS = Object.freeze(['none', 'minimal', 'low', 'medi
 const PROPOSE_TIMEOUT_MS = 12 * 60 * 1000
 const INTERPRET_TIMEOUT_MS = 8 * 60 * 1000
 const DEFAULT_SANDBOX_MODE = 'danger-full-access'
-const REPLY_MARKER_LITERALS = ['ga4-404-reply-data begin', 'ga4-404-reply-data end']
+// Stripped from agent output before it is ever written to a file: a proposal
+// or rejection body must never carry a live reply block (re-trigger risk) nor
+// a counterfeit machine triage block (scope-source forgery).
+const REPLY_MARKER_LITERALS = [
+  'ga4-404-reply-data begin',
+  'ga4-404-reply-data end',
+  'ga4-404-triage-data begin',
+  'ga4-404-triage-data end',
+]
 
 const ROUTES_SNAPSHOT = 'deploy/contracts/en-redirect-target-routes.json'
 
@@ -119,9 +127,11 @@ function loadReportEntries(reportPath) {
   return entries
 }
 
-// Pull the machine triage block out of one or more PR comments (the bot's
-// triage comment, possibly interleaved with others). The last block wins so a
-// quoted older triage never shadows the current one.
+// Pull the machine triage block out of PR comment text. The workflow passes
+// ONLY the batch's first machine triage comment (the forge-proof fetch in
+// ga4-404-remediation.yml filters on the triage marker and takes the first
+// match), so a forged block in any later comment never becomes the scope
+// source; last-block-wins applies only within that trusted text.
 function extractTriageEntries(commentsText) {
   if (typeof commentsText !== 'string' || commentsText === '') return {ok: false, reason: 'no comment text'}
   const blocks = [...commentsText.matchAll(/<!--\s*ga4-404-triage-data begin[^>]*-->[\s\S]*?```(?:json)?[ \t]*\r?\n([\s\S]*?)```[\s\S]*?<!--\s*ga4-404-triage-data end[^>]*-->/gu)]
@@ -203,7 +213,7 @@ Research rules:
 - NEVER invent a target path. If you cannot verify a confident target, recommend "declined" (do not fix this window) with a one-line reason. Recommend "denylist" only for structural never-redirect paths (test fixtures, e2e probes, bot noise).
 - Propose a mapping only when the target page clearly serves the intent of the dead path.
 - Do not include /ja-JP twin rules; the generator derives them mechanically.
-- Never write the literal strings "ga4-404-reply-data begin" or "ga4-404-reply-data end" anywhere in your output.
+- Never write the literal strings "ga4-404-reply-data begin", "ga4-404-reply-data end", "ga4-404-triage-data begin" or "ga4-404-triage-data end" anywhere in your output.
 
 Output format (markdown, no code outside the one JSON fence):
 1. One-line summary.

@@ -145,6 +145,10 @@ test('the triage proposal job stays a read-only advisory poster with isolated ag
 })
 
 test('the reply executor gates on allowlist, bot output prefixes, and the remediation PR, then picks a reply mode', () => {
+  // The interpreter's notices and rejections post as github-actions[bot]; the
+  // job needs the comment scope for that, but never a push scope (the PR2
+  // lesson: pin the capability a token must actually have, not just the env).
+  assert.deepEqual(applyReply.permissions, {contents: 'read', issues: 'write'})
   const gate = stepNamed(applyReply, 'Gate the reply')
   assert.equal(gate.env.ALLOWLIST, '${{ vars.GA4_404_REMEDIATION_ALLOWLIST }}')
   assert.equal(gate.env.COMMENT_AUTHOR, '${{ github.event.comment.user.login }}')
@@ -165,9 +169,14 @@ test('the reply executor gates on allowlist, bot output prefixes, and the remedi
   // match keeps the interpreter from consuming its own output.
   assert.match(script, /"Reply applied"\*\|"The reply could not be applied"\*\|"Triage reply interpreter"\*/)
   // A marker-carrying comment applies directly; otherwise free text only
-  // reaches the interpreter when the PR actually carries triage context.
+  // reaches the interpreter when the PR actually carries triage context —
+  // sourced from the batch's FIRST machine triage comment only, so a forged
+  // triage-data block in any later comment cannot hijack the scope or the
+  // prompt (live-reproduced forgery during review).
   assert.match(script, /if grep -q 'ga4-404-reply-data begin' "\$comment_body"; then\n\s+reply_mode=block/)
-  assert.match(script, /grep -q 'ga4-404-triage-data begin'/)
+  assert.match(script, /select\(\.body \| startswith\("<!-- ga4-404-triage:v1 -->"\)\) \| \.body\] \| \.\[0\] \/\/ empty/)
+  assert.match(script, /issues\/\$\{PR_NUMBER\}\/comments\?per_page=100/)
+  assert.doesNotMatch(source, /--paginate --jq 'map\(\.body\) \| join/)
   assert.match(script, /No ga4-404-reply-data block and no triage context on this PR; nothing to apply/)
   assert.match(script, /echo "reply_mode=\$\{reply_mode\}"/)
   assert.match(script, /pr_branch=\$\(echo "\$pr_json" \| jq -r '\.headRefName'\)/)
@@ -189,6 +198,12 @@ test('the interpreter translates free text into the same apply path with isolate
   assert.match(apply.run, /reply_file="\$INTERPRETED_REPLY_FILE"/)
   assert.match(apply.run, /test -s "\$INTERPRETED_REPLY_FILE"/)
   assert.match(apply.run, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
+  // Integrity guard: the full-access interpreter turn shares this workspace
+  // with the PAT-carrying apply step, so tracked state must be untouched and
+  // no planted git hook may run (live-reproduced risk during review).
+  assert.match(apply.run, /git status --porcelain --untracked-files=no/)
+  assert.match(apply.run, /workspace is dirty after the interpreter turn; refusing to apply possibly tampered state/)
+  assert.match(apply.run, /git commit --no-verify -m "chore\(redirects\): apply triage reply/)
   // The ledger is always committed; the conf only when the reply carried rules.
   assert.match(apply.run, /git add scripts\/redirects\/ga4-404-remediation-ledger\.json/)
   assert.match(apply.run, /if \[ "\$\{rules:-0\}" != "0" \]; then\n\s+git add deploy\/en\/nginx\.conf/)
@@ -217,11 +232,14 @@ test('the interpreter translates free text into the same apply path with isolate
   assert.doesNotMatch(interpretSource, /GA4_SERVICE_ACCOUNT_JSON/)
   assert.equal(interpret.env.GH_TOKEN, '${{ github.token }}')
   assert.equal(interpret.env.AGENTIC_PROVIDER_API_KEY, '${{ secrets.DEEPSEEK_API_KEY }}')
-  // Fail-closed without the gateway; the interpreter scopes to the triage
-  // entries and runs the one-turn translation over the same ledger.
+  // Fail-closed without the gateway — with PR feedback, not a silent red run.
   assert.match(interpretSource, /::error::Agentic gateway is not configured/)
+  assert.match(interpretSource, /Triage reply interpreter: the agentic gateway is not configured/)
+  assert.match(interpretSource, /could not read the machine triage block on this PR; nothing applied/)
   assert.match(interpretSource, /--mode extract-triage/)
   assert.match(interpretSource, /--mode interpret/)
+  // The scope source is the same forge-proof first-machine-comment fetch.
+  assert.match(interpretSource, /select\(\.body \| startswith\("<!-- ga4-404-triage:v1 -->"\)/)
   assert.match(interpretSource, /--triage-file "\$RUNNER_TEMP\/triage-entries\.json"/)
   assert.match(interpretSource, /--comment-file "\$RUNNER_TEMP\/comment-body\.md"/)
   assert.match(interpretSource, /--ledger scripts\/redirects\/ga4-404-remediation-ledger\.json/)
@@ -241,6 +259,11 @@ test('the interpreter translates free text into the same apply path with isolate
   }
   const executorSetup = stepNamed(applyReply, 'Set up Node.js')
   assert.equal(executorSetup.with['package-manager-cache'], false)
+  // The interpreter path restores the pnpm store cache instead of paying a
+  // full cold monorepo download on every free-text reply.
+  const cachedSetup = stepNamed(applyReply, 'Set up Node.js with the pnpm store cache')
+  assert.equal(cachedSetup.with.cache, 'pnpm')
+  assert.match(String(cachedSetup.if), /reply_mode == 'interpret'/)
 
   // The apply step must skip when the interpreter found no decisions, and run
   // for both the structured block and the interpreted block.

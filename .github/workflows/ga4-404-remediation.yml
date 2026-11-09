@@ -254,10 +254,22 @@ jobs:
   # Applies operator replies on the remediation PR to the PR branch. Every
   # gate fails closed to a no-op. Two reply forms reach the same apply path:
   # a structured ga4-404-reply-data block, or (PR3) free text that the codex
-  # interpreter translates into one block first. Executor-authored comments
-  # are prefix-marked and marker-free so neither form can re-trigger itself.
+  # interpreter translates into one block first. The executor's own comments
+  # are prefix-marked and marker-free — that prefix gate is the loop breaker,
+  # because the apply-step comments are authored by the PAT identity, which
+  # is necessarily on the allowlist (the interpreter's notices post as
+  # github-actions[bot], which the allowlist rejects on top of the prefix
+  # gate). The interpreter's scope source is only the batch's machine triage
+  # comment, so a quoted or forged triage block in any later comment cannot
+  # widen what codex may decide.
   apply_reply:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request != null
+    # The interpreter's notices and rejections post as github-actions[bot]
+    # under this token (issues: write, no push scope); the push PAT stays
+    # confined to the apply step.
+    permissions:
+      contents: read
+      issues: write
     runs-on: ubuntu-latest
     # The interpreter adds a codex turn plus a dependency install on top of
     # the structured path; 20 minutes covers the worst turn without letting a
@@ -303,8 +315,12 @@ jobs:
           if grep -q 'ga4-404-reply-data begin' "$comment_body"; then
             reply_mode=block
           else
-            triage_comments=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" --paginate --jq 'map(.body) | join("\n---\n")')
-            if ! printf '%s' "$triage_comments" | grep -q 'ga4-404-triage-data begin'; then
+            # Scope source: only the machine triage comment the batch posted
+            # at PR creation (first match). Without this filter any commenter
+            # could forge a later triage-data block and hijack the
+            # interpreter's scope and prompt.
+            triage_comment=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" --jq '[.[] | select(.body | startswith("<!-- ga4-404-triage:v1 -->")) | .body] | .[0] // empty')
+            if [ -z "$triage_comment" ]; then
               echo "::notice::No ga4-404-reply-data block and no triage context on this PR; nothing to apply."
               exit 0
             fi
@@ -348,6 +364,16 @@ jobs:
         if: ${{ steps.gate.outputs.should_apply == 'true' && steps.gate.outputs.reply_mode == 'interpret' }}
         uses: pnpm/action-setup@v5
 
+      - name: Set up Node.js with the pnpm store cache
+        if: ${{ steps.gate.outputs.should_apply == 'true' && steps.gate.outputs.reply_mode == 'interpret' }}
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          # pnpm/action-setup ran above, so the explicit pnpm store cache is
+          # available and the interpreter's monorepo install stops paying a
+          # full cold download on every free-text reply.
+          cache: pnpm
+
       - name: Install current tooling
         if: ${{ steps.gate.outputs.should_apply == 'true' && steps.gate.outputs.reply_mode == 'interpret' }}
         run: pnpm install --frozen-lockfile
@@ -371,14 +397,23 @@ jobs:
           AGENTIC_REASONING_EFFORT: ${{ vars.AGENTIC_REASONING_EFFORT }}
         run: |
           if [ -z "$AGENTIC_PROVIDER_API_KEY" ] || [ -z "$AGENTIC_BASE_URL" ]; then
+            printf 'Triage reply interpreter: the agentic gateway is not configured (DEEPSEEK_API_KEY secret + DEEPSEEK_BASE_URL var); the free-text interpreter cannot run. Post a structured ga4-404-reply-data block instead.\n' > "$RUNNER_TEMP/interpreter-notice.md"
+            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/interpreter-notice.md"
             echo '::error::Agentic gateway is not configured (DEEPSEEK_API_KEY secret + DEEPSEEK_BASE_URL var); the free-text interpreter cannot run. Post a structured ga4-404-reply-data block instead.'
             exit 1
           fi
-          gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" --paginate --jq 'map(.body) | join("\n---\n")' > "$RUNNER_TEMP/triage-comments.md"
-          node scripts/redirects/triage-agent.js \
+          # Scope source: only the first machine triage comment (see the gate
+          # step for why the forge-proof filter exists).
+          gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" --jq '[.[] | select(.body | startswith("<!-- ga4-404-triage:v1 -->")) | .body] | .[0] // empty' > "$RUNNER_TEMP/triage-comments.md"
+          extract_log="$(node scripts/redirects/triage-agent.js \
             --mode extract-triage \
             --comment-file "$RUNNER_TEMP/triage-comments.md" \
-            --output "$RUNNER_TEMP/triage-entries.json"
+            --output "$RUNNER_TEMP/triage-entries.json" 2>&1)" || {
+            printf 'Triage reply interpreter: could not read the machine triage block on this PR; nothing applied.\n\n    %s\n' "$(printf '%s' "$extract_log" | head -3)" > "$RUNNER_TEMP/interpreter-notice.md"
+            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/interpreter-notice.md"
+            echo "::error::extract-triage failed: $extract_log"
+            exit 1
+          }
           interpret_status=0
           interpret_log="$(node scripts/redirects/triage-agent.js \
             --mode interpret \
@@ -428,6 +463,14 @@ jobs:
             echo 'REST_UPSTREAM_REFRESH_PAT is not configured; the reply cannot be applied.' >&2
             exit 1
           }
+          # Integrity guard: in interpret mode a full-access codex turn just
+          # ran in this workspace, and the next commands execute its output.
+          # Refuse to apply if any tracked file moved underneath the
+          # generator, and never let a planted git hook run.
+          if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+            echo '::error::workspace is dirty after the interpreter turn; refusing to apply possibly tampered state.' >&2
+            exit 1
+          fi
           reply_file="$RUNNER_TEMP/comment-body.md"
           if [ "$REPLY_MODE" = "interpret" ]; then
             test -n "$INTERPRETED_REPLY_FILE" && test -s "$INTERPRETED_REPLY_FILE" || {
@@ -465,7 +508,7 @@ jobs:
             echo '::error::The reply produced no committed changes; nothing to push.'
             exit 1
           fi
-          git commit -m "chore(redirects): apply triage reply from @${COMMENT_AUTHOR} (${rules:-0} rules, ledger update)"
+          git commit --no-verify -m "chore(redirects): apply triage reply from @${COMMENT_AUTHOR} (${rules:-0} rules, ledger update)"
           git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${PR_BRANCH}"
           # Executor-authored comments are prefix-marked ("Reply applied") and
           # never carry reply markers; the interpreted decisions are echoed
