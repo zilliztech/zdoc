@@ -611,16 +611,25 @@ describe('manifest and launcher contract', () => {
     await writeFile(entry, macho(['unresolved.dylib'])); await expect(captureTrustedNativeFiles([{ name: 'runtime/test-native', path: entry }])).rejects.toThrow(/Unknown/)
     expect(() => nativeDependencies(Buffer.from('cffaedfe', 'hex'))).toThrow()
   })
-  it.skipIf(process.platform !== 'darwin')('binds an absent higher-priority @rpath candidate so a writable earlier lookup directory is retained for access inspection', async () => {
-    const writable = await mkdtemp(join(tmpdir(), 'writable-rpath-')), safe = await mkdtemp(join(tmpdir(), 'safe-rpath-'))
-    await chmod(writable, 0o777)
+  it.skipIf(process.platform !== 'darwin')('follows a writable earlier @rpath symlink target and rejects a dangling one', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'rpath-symlink-')))
+    const writable = join(root, 'writable'), safe = join(root, 'safe')
+    await mkdir(writable); await mkdir(safe); await chmod(writable, 0o777)
     const lcLoad = (name: string) => { const text = Buffer.from(name + '\0'); const size = Math.ceil((24 + text.length) / 8) * 8; const b = Buffer.alloc(size); b.writeUInt32LE(0xc, 0); b.writeUInt32LE(size, 4); b.writeUInt32LE(24, 8); text.copy(b, 24); return b }
     const lcRpath = (path: string) => { const text = Buffer.from(path + '\0'); const size = Math.ceil((12 + text.length) / 8) * 8; const b = Buffer.alloc(size); b.writeUInt32LE(0x8000001c, 0); b.writeUInt32LE(size, 4); b.writeUInt32LE(12, 8); text.copy(b, 12); return b }
     const macho = (deps: string[], rpaths: string[]) => { const commands = [...rpaths.map(lcRpath), ...deps.map(lcLoad)]; const header = Buffer.alloc(32); header.writeUInt32LE(0xfeedfacf, 0); header.writeUInt32LE(process.arch === 'arm64' ? 0x100000c : 0x1000007, 4); header.writeUInt32LE(commands.length, 16); header.writeUInt32LE(commands.reduce((n, b) => n + b.length, 0), 20); return Buffer.concat([header, ...commands]) }
     await writeFile(join(safe, 'libfoo.dylib'), macho([], []))
-    const entry = join(writable, 'entry'); await writeFile(entry, macho(['@rpath/libfoo.dylib'], [writable, safe]))
+    // Earlier rpath is a symlink to a writable dir with no lib there; the measured
+    // library lives in the later rpath. The writable target directory itself must be
+    // bound (not just the symlink), so access inspection can reject it.
+    await symlink(writable, join(root, 'early'))
+    const entry = join(root, 'entry'); await writeFile(entry, macho(['@rpath/libfoo.dylib'], [join(root, 'early'), safe]))
     const result = await captureTrustedNativeFiles([{ name: 'runtime/test-rpath', path: entry }])
     expect(result.accessPaths.has(writable)).toBe(true)
+    // A dangling symlink (target absent) cannot be authenticated and is rejected.
+    await symlink(join(root, 'missing'), join(root, 'dangling'))
+    await writeFile(join(root, 'entry2'), macho(['@rpath/libfoo.dylib'], [join(root, 'dangling'), safe]))
+    await expect(captureTrustedNativeFiles([{ name: 'runtime/test-dangling', path: join(root, 'entry2') }])).rejects.toThrow(/Dangling symbolic link/)
   })
   it('bypasses trusted dotenv and rejects ambient Node/package/loader settings and wrong cwd', async () => {
     const a = await fixture(); await put(a.root, '.env', 'SECRET=should-not-load')

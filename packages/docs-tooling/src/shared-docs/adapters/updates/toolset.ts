@@ -801,19 +801,27 @@ async function captureRuntime(entries: Map<string, ClosureEntry>, physical: Map<
 
 /** Bind the nearest existing ancestor directory of an absent search candidate so
  * access inspection still rejects a writable lookup location that dyld/ld.so
- * would prefer over the measured library. */
+ * would prefer over the measured library. Symlinks are followed so a writable
+ * target directory is bound; a dangling symlink (whose target cannot be
+ * authenticated) is rejected rather than silently skipped. */
 async function nearestExistingDirectory(path: string): Promise<string> {
-  let current = path
+  let current = dirname(path)
   for (;;) {
     const parent = dirname(current)
+    let symlink = false
     try {
-      if ((await lstat(current)).isDirectory()) return current
-      current = parent
+      symlink = (await lstat(current)).isSymbolicLink()
     } catch (e) {
       if (!absent(e)) throw e
-      current = parent
     }
-    if (parent === current) return current
+    try {
+      return await realpath(current)
+    } catch (e) {
+      if (!absent(e)) throw e
+      if (symlink) throw new Error(`Dangling symbolic link in native lookup candidate path: ${current}`)
+    }
+    if (parent === current) throw new Error(`No existing ancestor directory for native lookup candidate: ${path}`)
+    current = parent
   }
 }
 
