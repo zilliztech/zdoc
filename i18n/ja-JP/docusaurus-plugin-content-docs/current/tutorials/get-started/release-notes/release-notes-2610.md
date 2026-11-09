@@ -34,7 +34,7 @@ import Grid from '@site/src/components/Grid';
 
         ## Milvus v3.0.x パブリックプレビュー\{#milvus-v30x-public-preview}
 
-        Milvus v3.0.x は現在、Zilliz Cloud の Dedicated クラスター向けにパブリックプレビューで提供されています。このリリースでは、より柔軟なスキーマ変更、より強力なテキスト処理、およびクエリと検索のためのサーバー側の並べ替えと集計が利用可能になります。試すには、Milvus v2.6.x を実行する Dedicated クラスターをデプロイまたは使用し、クラスター Overview ページで **Try Preview Features** を選択します。
+        Milvus v3.0.x が、Zilliz Cloud 上の Dedicated クラスターでパブリックプレビューとして利用可能になりました。このリリースでは、より柔軟なスキーマ変更、強化されたテキスト処理、クエリと検索のためのサーバー側の並べ替えおよび集計が導入されています。試すには、Milvus v2.6.x を実行する Dedicated クラスターをデプロイまたは使用し、クラスター Overview ページで **Try Preview Features** を選択します。詳細は、[Upgrade クラスター for preview features](./manage-cluster#upgrade-cluster-for-preview-features) を参照してください。
 
         **検索と取得**
 
@@ -68,7 +68,7 @@ import Grid from '@site/src/components/Grid';
 
         **データ操作**
 
-        - **エンティティレベルの TTL:** `ttl_field` コレクションプロパティを `TIMESTAMPTZ` フィールドに設定して、個々のエンティティを期限切れにします。TTL 値が `NULL` のエンティティは期限切れにならず、より後のタイムスタンプを upsert することでエンティティの有効期間を延長できます。詳細は、[Set Collection TTL](./set-collection-ttl) を参照してください。
+        - **エンティティレベルの TTL:** `ttl_field` コレクションプロパティを `TIMESTAMPTZ` フィールドに指定すると、個々のエンティティを期限切れにできます。TTL 値が `NULL` のエンティティは期限切れになることはなく、より後のタイムスタンプを upsert することでエンティティの有効期間を延長できます。詳細は、[Set Collection TTL](./set-collection-ttl) を参照してください。
 
         <Admonition type="info" title="Notes">
 

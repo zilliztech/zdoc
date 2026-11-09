@@ -56,6 +56,8 @@ import Procedures from '@site/src/components/Procedures';
 リクエストは次の例のようになります。ここで、`{TOKEN}` は [Organization Owner または Billing Admin ロール](./manage-platform-roles#predefined-organization-roles) を持つ認証用 API キーです。以下の `GET` リクエストは、組織のすべての請求書を一覧表示します。
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request GET \
 --url "https://api.cloud.zilliz.com/v2/invoices" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -126,6 +128,9 @@ API から返される結果では、金額はすべてセント単位です。
 リクエストは次の例のようになります。ここで、`{TOKEN}` は [Organization Owner または Billing Admin ロール](./manage-platform-roles#predefined-organization-roles) を持つ認証用 API キーです。以下の `GET` リクエストは、指定した請求書の詳細を取得します。
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+export INVOICE_ID="inv-12312io23810o291"
+
 curl --request GET \
 --url "https://api.cloud.zilliz.com/v2/invoices/${INVOICE_ID}" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -181,3 +186,4 @@ API から返される結果では、金額はすべてセント単位です。
 請求書をダウンロードするには、Zilliz Cloud Web コンソールで対象の請求書の横にあるダウンロードアイコンをクリックします。
 
 ![download-invoices](https://zdoc-images.s3.us-west-2.amazonaws.com/download-invoices.png "download-invoices")
+

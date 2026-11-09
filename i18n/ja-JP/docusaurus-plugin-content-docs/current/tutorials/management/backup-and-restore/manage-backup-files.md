@@ -51,6 +51,9 @@ Zilliz Cloud の Web コンソールでバックアップファイルとその�
     The following example lists all backup files in the current organization, as neither project ID nor クラスター ID is specified. To view backups for a specific project or クラスター, include the corresponding project ID or クラスター ID in your request. For details about the RESTful API, see [List Backups](/reference/restful/list-backups-v2).
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request GET \
          --url "${BASE_URL}/v2/backups" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -64,6 +67,11 @@ Zilliz Cloud の Web コンソールでバックアップファイルとその�
     次の例では、バックアップファイルの詳細を確認します。RESTful API の詳細については、[Describe Backup](/reference/restful/describe-backup-v2) を参照してください。
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    export CLUSTER_ID="your-cluster-id"
+    export BACKUP_ID="your-backup-id"
+    
     curl --request GET \
          --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -142,6 +150,11 @@ Zilliz Cloud では、バックアップの作成方法に応じて削除の扱�
 次の例では、バックアップファイルを削除します。RESTful API の詳細については、[Delete Backup](/reference/restful/delete-backup-v2) を参照してください。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="your-cluster-id"
+export BACKUP_ID="your-backup-id"
+
 curl --request DELETE \
      --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
      --header "Authorization: Bearer ${TOKEN}" \

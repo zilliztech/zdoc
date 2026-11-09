@@ -401,6 +401,15 @@ auto status = client->GrantPrivilegeV2(grant_req);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+grant_req.WithRoleName("role_a")
+         .WithPrivilege("ClusterReadOnly")
+         .WithDatabaseName("*")
+         .WithCollectionName("*");
+status = client->GrantPrivilegeV2(grant_req);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -735,10 +744,19 @@ client
 ```c++
 milvus::RevokePrivilegeV2Request revoke_req;
 revoke_req.WithRoleName("role_a")
-           .WithPrivilege("privilege_group_1")
-           .WithDatabaseName("default")
-           .WithCollectionName("collection_01");
+          .WithPrivilege("privilege_group_1")
+          .WithDatabaseName("default")
+          .WithCollectionName("collection_01");
 auto status = client->RevokePrivilegeV2(revoke_req);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+revoke_req.WithRoleName("role_a")
+          .WithPrivilege("ClusterReadOnly")
+          .WithDatabaseName("*")
+          .WithCollectionName("*");
+status = client->RevokePrivilegeV2(revoke_req);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -1018,3 +1036,4 @@ curl --request POST \
 ```bash
 ['admin']
 ```
+

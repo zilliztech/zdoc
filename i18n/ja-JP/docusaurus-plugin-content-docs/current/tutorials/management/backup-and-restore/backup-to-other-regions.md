@@ -75,6 +75,7 @@ Zilliz Cloud のクロスリージョンバックアップは、バックアッ�
 また、Zilliz Cloud RESTful API を使用して、ターゲットクラスターと同じリージョンで作成されたバックアップのクロスリージョンコピーを、次のように手動で作成することもできます。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 

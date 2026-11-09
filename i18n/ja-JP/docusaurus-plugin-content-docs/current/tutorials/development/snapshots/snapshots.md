@@ -1,36 +1,30 @@
 ---
 title: "スナップショット | Cloud"
 slug: /snapshots
-sidebar_label: "スナップショット"
-beta: ON REQUEST
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "スナップショットは、Zilliz Cloud コレクションの特定時点のイメージです。特定のタイムスタンプ時点のコレクションの状態をキャプチャし、効率的なストレージと復元のために、スキーマ、インデックス、ベクトルデータファイル（binlogs）などのメタデータとマニフェストファイルのみを保存します。 | Cloud"
+description: "スナップショットを使用して、ロールバック、バージョン管理、テストのためにコレクションの特定時点の状態をキャプチャします。 | Cloud"
 type: origin
-token: XC1ow3jGBi7hVvkINtBcXhQ6n8g
-sidebar_position: 16
 displayed_sidebar: default
+token: shared-snapshots
+sidebar_label: "スナップショット"
+sidebar_position: 16
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/search-query-get/snapshots.md"
 
 ---
 
-import Admonition from '@theme/Admonition';
-
+import DocCardList from '@theme/DocCardList';
 
 # スナップショット
 
-スナップショットは、Zilliz Cloud コレクションの特定時点のイメージです。特定のタイムスタンプ時点のコレクションの状態をキャプチャし、効率的なストレージと復元のために、スキーマ、インデックス、ベクトルデータファイル（binlogs）などのメタデータとマニフェストファイルのみを保存します。
+スナップショットは、Zilliz Cloud コレクションの特定時点のイメージです。特定のタイムスタンプ時点のコレクションの状態をキャプチャし、効率的な保存と復元のために、スキーマ、インデックス、ベクトルデータファイル（binlogs）などのメタデータとマニフェストファイルのみを保存します。
 
-スナップショットはバックアップの代替にはなりません。スナップショットは短時間で作成および復元できるため、迅速なロールバック、バージョン管理、テスト（数日から数週間）といった短期間のニーズに適しています。一方、バックアップは、長期的な災害復旧（数週間から数年）のために別途保存される独立した完全なコピーであり、ストレージ全体の障害に対する保護を強化します。
+スナップショットはバックアップの代替にはなりません。作成と復元が迅速なため、迅速なロールバック、バージョン管理、テスト（**数日から数週間**）などの短期的なニーズに適していますが、バックアップは独立した完全なコピーであり、長期的な災害復旧（**数週間から数年間**）およびストレージ全体の障害に対するより優れた保護のために別途保存されます。
 
 バックアップを作成するには、[バックアップの作成](./create-backup) を参照してください。
-
-<Admonition type="info" title="Note">
-
-この機能は Dedicated クラスターでのみ利用できます。
-
-</Admonition>
 
 ## スナップショットの構成\{#snapshot-anatomy}
 
@@ -56,7 +50,7 @@ Zilliz Cloud は、実際のベクトルデータを複製せずにデータを�
 
 上記の情報のうち、Zilliz Cloud は各セグメントの Apache Avro マニフェストファイルを生成し、スナップショットメタデータ、コレクションの説明、インデックス情報、およびマニフェストファイルへのパスを JSON ファイルに保存します。次の図は、スナップショットのフォルダー構造を示しています。
 
-```python
+```text
 snapshots/{collection_id}/
 ├── metadata/
 │   └── {snapshot_id}.json         # Snapshot metadata (JSON format)
@@ -75,29 +69,19 @@ snapshots/{collection_id}/
 Zilliz Cloud がスナップショット内のセグメントファイルまたはインデックスファイルを参照すると、スナップショットを削除しない限り、それらのファイルはガベージコレクションされません。スナップショットは対象コレクションのサイズに比例したストレージを消費し、スナップショットの保持にはオブジェクトストレージのコストがかかります。極端な場合、1つのスナップショットによってオブジェクトストレージのコストが 2 倍になることもあります。次のことをお勧めします。
 
 - ストレージを節約するために、古いスナップショットを定期的に削除してください。
-
 - 後で参照できるように、わかりやすい名前と説明を使用してください。
-
 - スナップショットの作成および復元の結果を必ず確認してください。
-
-- スナップショットの作成タイムスタンプとストレージ使用量を追跡し、
-
+- 監視とトラブルシューティングのために、スナップショットの作成タイムスタンプとストレージ使用量を追跡してください。
 - 監視とトラブルシューティングのために復元ジョブの ID を保存してください。
 
 ## 制限と制約\{#limits-and-restrictions}
 
 - スナップショットは作成後に変更できなくなります。
-
 - スナップショットは、元のスナップショットと同じクラスター内の新しいコレクションにのみ復元できます。
-
 - 復元されたコレクションは、同じスキーマ、シャード数、パーティション数を保持します。
-
 - 復元された履歴データは、TTL ポリシーと競合する可能性があります。スナップショットを作成する前に、TTL を無効にするか、TTL 設定を調整することをお勧めします。
-
 - Zilliz Cloud でスナップショットを `milvus-table` の外部ソースとして使用するには、`external_source` を `milvus://` スキーム（`milvus://<instance_id>/<db_name>/<collection_name>`）でソースコレクションを指すように設定します。詳細は、[外部コレクションの作成](./create-external-collection) を参照してください。外部コレクションのスナップショットはソースとして使用できません。
 
 ## 関連情報\{#further-readings}
-
-import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

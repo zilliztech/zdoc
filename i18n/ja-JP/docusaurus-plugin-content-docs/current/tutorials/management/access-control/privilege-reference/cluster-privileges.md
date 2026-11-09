@@ -258,6 +258,9 @@ await client.CreatePrivilegeGroupAsync(new CreatePrivilegeGroupReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/privilege_groups/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -363,6 +366,9 @@ await client.AddPrivilegesToGroupAsync(new AddPrivilegesToGroupReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/privilege_groups/add_privileges_to_group" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -468,6 +474,9 @@ await client.RemovePrivilegesFromGroupAsync(new RemovePrivilegesFromGroupReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/privilege_groups/remove_privileges_from_group" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -567,6 +576,9 @@ foreach (PrivilegeGroupInfo group in resp.Groups)
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/privilege_groups/list" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -665,6 +677,9 @@ await client.DropPrivilegeGroupAsync(new DropPrivilegeGroupReq
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/privilege_groups/drop" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -774,3 +789,4 @@ curl --request POST \
 | DropPrivilegeGroup | 権限グループを削除します |
 | ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを表示します |
 | OperatePrivilegeGroup | 権限グループに権限を追加する、または権限グループから権限を削除します |
+

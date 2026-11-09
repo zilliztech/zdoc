@@ -51,33 +51,45 @@ Dedicated クラスターは、一貫して予測可能なパフォーマンス�
 
 <Supademo id="cmhixsdvu030hxj0imafwl2av" title=""  />
 
-Dedicated クラスターでは、次の情報を設定する必要があります。
+<Procedures>
 
-| **Parameter** | **Description** |
-| --- | --- |
-| **クラスター Name** | クラスターの一意の識別子を割り当てます。 |
-| **クラスター Description (optional)** | クラスターの説明を 255 文字以内で入力します。 |
-| <NextChannel action="include">**Milvus Version**</NextChannel> | <NextChannel action="include">Dedicated クラスターの Milvus バージョンを選択します。安定版（**GA**）がデフォルトで選択され、本番ワークロードに推奨されます。新機能を試すには、**Public Preview** とラベル付けされたバージョンを選択してください。これは評価および重要度の低い本番ワークロードに適しています。機能は一般提供前に変更される場合があります。</NextChannel> |
-| **クラスター Type** | クラスターのパフォーマンス要件に合ったクラスタータイプを選択します。詳細については、[適切なクラスタータイプの選択](./cu-types-explained) を参照してください。 |
-| **Query CU** | クラスターの Query CU 数を選択します。個人用メールアドレスで作成された組織では、支払い方法が設定されていても、Dedicated クラスターの最大 Query CU サイズは 32 です。<br/>Enterprise プロジェクトでクラスターを作成する場合、オートスケーリングはデフォルトで有効になっています。入力ボックスに値を入力するかスライダーをドラッグして、オートスケーリングの最小および最大 Query CU 数を設定できます。オートスケーリングの詳細については、[オートスケーリング](./auto-scaling) を参照してください。 |
-| **Backup Policy (optional)** | 作成するクラスターの自動バックアップポリシーを決定します。バックアップポリシーの詳細については、[自動バックアップのスケジュール](./schedule-automatic-backups) を参照してください。 |
-| **Replica** | クラスターのレプリカ数です。 |
+1. 対象のプロジェクトに移動し、**Real-Time Serving** をクリックします。
 
-<NextChannel action="include">
+1. **Create クラスター** をクリックします。
 
-<Admonition type="info" title="Notes">
+1. クラスターのデプロイオプションを選択し、クラスターを構成します。
 
-- 安定版（GA）の Milvus バージョンがデフォルトで選択されます。新機能を試すには、パブリックプレビュー版を選択してください。作成後、クラスターを以前の Milvus バージョンにダウングレードすることはできません。
+    Dedicated クラスターでは、次の情報を設定する必要があります。
 
-- クラスターの Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK のインストール](./install-sdks) を参照してください。
+    | **Parameter** | **Description** |
+    | --- | --- |
+    | **クラスター Name** | クラスターの一意の識別子を割り当てます。 |
+    | **クラスター Description (optional)** | クラスターの説明を 255 文字以内で入力します。 |
+    | <NextChannel action="include">**Milvus Version**</NextChannel> | <NextChannel action="include">Dedicated クラスターの Milvus バージョンを選択します。安定版（**GA**）がデフォルトで選択され、本番ワークロードに推奨されます。新機能を試すには、**Public Preview** とラベル付けされたバージョンを選択してください。これは評価および重要度の低い本番ワークロードに適しています。機能は一般提供前に変更される場合があります。</NextChannel> |
+    | **クラスター Type** | クラスターのパフォーマンス要件に合ったクラスタータイプを選択します。詳細については、[適切なクラスタータイプの選択](./cu-types-explained) を参照してください。 |
+    | **Query CU** | クラスターの Query CU 数を選択します。個人用メールアドレスで作成された組織では、支払い方法が設定されていても、Dedicated クラスターの最大 Query CU サイズは 32 です。<br/>Enterprise プロジェクトでクラスターを作成する場合、オートスケーリングはデフォルトで有効になっています。入力ボックスに値を入力するかスライダーをドラッグして、オートスケーリングの最小および最大 Query CU 数を設定できます。オートスケーリングの詳細については、[オートスケーリング](./auto-scaling) を参照してください。 |
+    | **Backup Policy (optional)** | 作成するクラスターの自動バックアップポリシーを決定します。バックアップポリシーの詳細については、[自動バックアップのスケジュール](./schedule-automatic-backups) を参照してください。 |
+    | **Replica** | クラスターのレプリカ数です。 |
 
-- Milvus 3.0 のクラスターは、[グローバルクラスター](./global-cluster-explained) に変換できません。クラスターをグローバルクラスターに変換する予定がある場合は、Milvus 2.6 を選択してください。
+    <NextChannel action="include">
 
-- パブリックプレビュー版は、評価および重要度の低い本番ワークロードに適しています。機能は一般提供前に変更される場合があります。
+    <Admonition type="info" title="Notes">
 
-</Admonition>
+    - 安定版（GA）の Milvus バージョンがデフォルトで選択されます。新機能を試すには、パブリックプレビュー版を選択してください。作成後、クラスターを以前の Milvus バージョンにダウングレードすることはできません。
+    
+    - クラスターの Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK のインストール](./install-sdks) を参照してください。
+    
+    - Milvus 3.0 のクラスターは、[グローバルクラスター](./global-cluster-explained) に変換できません。クラスターをグローバルクラスターに変換する予定がある場合は、Milvus 2.6 を選択してください。
+    
+    - パブリックプレビュー版は、評価および重要度の低い本番ワークロードに適しています。機能は一般提供前に変更される場合があります。
 
-</NextChannel>
+    </Admonition>
+
+    </NextChannel>
+
+1. **Create Cluster** をクリックします。
+
+</Procedures>
 
 クラスターの作成中に、一度だけ表示されるクラスターの資格情報（ユーザーとパスワード）を保存する必要があります。
 
@@ -92,6 +104,9 @@ Dedicated クラスターでは、次の情報を設定する必要がありま�
 リクエストは次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/createDedicated" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -152,6 +167,9 @@ curl --request POST \
     リクエストは次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/clusters/createDedicated" \
     --header "Authorization: Bearer ${TOKEN}" \

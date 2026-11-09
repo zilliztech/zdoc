@@ -156,7 +156,7 @@ Zilliz Cloud はトークンを使用して ID を認証します。トークン
     <TabItem value='javascript'>
 
     ```javascript
-    milvusClient.updateUser({
+    client.updateUser({
        username: 'user_1',
        newPassword: 'NewP@ssw0rd',
        oldPassword: 'P@ssw0rd',
@@ -175,7 +175,7 @@ Zilliz Cloud はトークンを使用して ID を認証します。トークン
     -d '{
         "newPassword": "NewP@ssw0rd",
         "userName": "user_1",
-        "password": "P@ssw0rd*"
+        "password": "P@ssw0rd"
     }'
     ```
 

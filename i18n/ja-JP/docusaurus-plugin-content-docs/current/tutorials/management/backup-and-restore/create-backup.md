@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # バックアップの作成
 
 Zilliz Cloud では、バックアップとはデータのコピーであり、データ損失やシステム障害が発生した際にクラスター全体または特定のコレクションを復元するために使用できるものです。
@@ -70,6 +72,22 @@ Zilliz Cloud では、バックアップとはデータのコピーであり、�
 
 <Supademo id="cmcske0x90dpa9st802gnvbz9" title=""  />
 
+<Procedures>
+
+1. 対象のプロジェクトに移動します。
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. **+ Manual Backup** をクリックします。
+
+1. **Backup Scope** として **クラスター** を選択します。
+
+1. バックアップする対象のクラスターを選択します。
+
+1. **Create** をクリックします。
+
+</Procedures>
+
 ### RESTful API を使用する場合\{#via-restful-api}
 
 次の例では、クラスター `in01-xxxxxxxxxxxxxx` のバックアップを作成します。RESTful API の詳細については、[バックアップの作成](/reference/restful/create-backup-v2)を参照してください。
@@ -110,6 +128,22 @@ curl --request POST \
 以下のデモでは、Web コンソールでコレクションバックアップを作成する方法を紹介します。
 
 <Supademo id="cmcskksub0dra9st8cy34b2vi" title=""  />
+
+<Procedures>
+
+1. 対象のプロジェクトに移動します。
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. **+ Manual Backup** をクリックします。
+
+1. **Backup Scope** として **コレクション** を選択します。
+
+1. バックアップする対象のコレクションを選択します。
+
+1. **Create** をクリックします。
+
+</Procedures>
 
 ### RESTful API を使用する場合\{#via-restful-api}
 
@@ -168,4 +202,3 @@ curl --request POST \
 暗号化されたバックアップを新しいクラスターに復元する場合、Zilliz Cloud はバックアップファイルに関連付けられた KMS キーを使用してデータを復号してから復元します。そのため、暗号化の有無にかかわらず、バックアップを新しいクラスターに復元できます。
 
 詳細については、[暗号化されたバックアップからの復元](./restore-from-backup-files#restore-from-an-encrypted-backup-file)を参照してください。
-

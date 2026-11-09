@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # バックアップファイルから復元
 
 Zilliz Cloud の復元機能を使用すると、偶発的なデータ損失、破損、またはシステム障害が発生した場合にバックアップファイルからデータを復旧でき、事業継続性を確保できます。これは、インシデントからの復旧、意図しない変更の巻き戻し、または最小限の中断でテスト用にクラスターを複製するための信頼性の高い方法です。
@@ -68,6 +70,20 @@ Zilliz Cloud の復元機能を使用すると、偶発的なデータ損失、�
 
 <Supademo id="cmcsruzjd0gyo9st8kcjye30i" title=""  />
 
+<Procedures>
+
+1. 対象のプロジェクトに移動します。
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. 復元するクラスターバックアップファイルを見つけ、**Actions** の下の **...** をクリックします。
+
+1. **Restore** をクリックし、**Full クラスター** を選択します。
+
+1. 設定を構成し、**Restore** をクリックします。
+
+</Procedures>
+
 ### RESTful API 経由\{#via-restful-api}
 
 The following example restores a full クラスター for an existing backup file to a new クラスター named `Dedicated-01-backup`. For details about the RESTful API, see [Restore クラスター Backup](/reference/restful/restore-cluster-backup-v2).
@@ -76,6 +92,7 @@ The following example restores a full クラスター for an existing backup fil
 export API_KEY="YOUR_API_KEY"
 export BASE_URL="https://api.cloud.zilliz.com"
 export CLUSTER_ID="your-cluster-id"
+export BACKUP_ID="your-backup-id"
 
 curl --request POST \
      --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCluster" \
@@ -143,6 +160,20 @@ curl --request POST \
 以下のデモでは、Zilliz Cloud Web コンソールでクラスター内の特定のデータベースとコレクションを復元する方法を示します。
 
 <Supademo id="cmcss7xi00h8c9st8qsqnutnn" title=""  />
+
+<Procedures>
+
+1. 対象のプロジェクトに移動します。
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. 復元するコレクションバックアップファイルを見つけ、**Actions** の下の **...** をクリックします。
+
+1. **Restore** の **コレクション** をクリックします。
+
+1. 復元するコレクションを設定し、**Restore** をクリックします。
+
+</Procedures>
 
 ### RESTful API 経由\{#via-restful-api}
 
@@ -217,4 +248,3 @@ curl --request POST \
 - 30 日より前に作成された 2.5.x のバックアップファイルから復元する場合、Zilliz Cloud はデフォルトで新しいクラスターを 2.6.x に復元し、対象の Milvus バージョンは変更できません。
 
 - 2.6.x のバックアップファイルから復元する場合、Zilliz Cloud は新しいクラスターを 2.6.x に復元し、対象の Milvus バージョンは変更できません。
-

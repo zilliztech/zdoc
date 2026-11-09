@@ -99,6 +99,7 @@ Zilliz Cloud では、クラスターの**自動バックアップ**を有効化
 以下の例では、クラスターの自動バックアップを有効にします。RESTful API の詳細については、[Set Backup Policy](/reference/restful/set-backup-policy-v2) を参照してください。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 
@@ -252,3 +253,4 @@ curl --request POST \
 **元のクラスターを削除した場合、バックアップファイルも削除されますか？**
 
 これはバックアップファイルの作成方法によって異なります。自動バックアップはすべて元のクラスターとともに削除されます。ただし、[手動によるクラスターバックアップ](./create-backup)は永続的に保持され、クラスターを削除しても削除されません。不要になった場合は、手動で削除する必要があります。
+
