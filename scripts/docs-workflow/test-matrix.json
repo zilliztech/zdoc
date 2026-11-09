@@ -777,13 +777,13 @@
         ".github/workflows/ga4-404-remediation.yml"
       ],
       "focusedTests": [
-        "node --test scripts/redirects/conf-rules.test.js scripts/redirects/pipeline.test.js scripts/redirects/reply.test.js scripts/redirects/ga4-404-remediation.test.js scripts/redirects/ga4-404-remediation-workflow.test.js scripts/ga4-search-404-report.test.js scripts/ga4-engagement-report.test.js"
+        "node --test scripts/redirects/conf-rules.test.js scripts/redirects/pipeline.test.js scripts/redirects/reply.test.js scripts/redirects/triage-agent.test.js scripts/redirects/ga4-404-remediation.test.js scripts/redirects/ga4-404-remediation-workflow.test.js scripts/ga4-search-404-report.test.js scripts/ga4-engagement-report.test.js"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-policy"
       ],
-      "reason": "The 404 remediation tool owns the single conf generator (ja twins, target lint, duplicate-source detection) and the tracked decision ledger behind the ga4-404-remediation.yml scheduled/PR workflow (batch PR opening plus the ga4-404-reply-data comment executor); the shared GA4 auth lib and both refactored GA4 report scripts are co-tested so the JWT extraction never drifts."
+      "reason": "The 404 remediation tool owns the single conf generator (ja twins, target lint, duplicate-source detection) and the tracked decision ledger behind the ga4-404-remediation.yml scheduled/PR workflow (batch PR opening, the ga4-404-reply-data comment executor, the codex triage proposal job, and the free-text interpreter that feeds the same apply path); the shared GA4 auth lib and both refactored GA4 report scripts are co-tested so the JWT extraction never drifts."
     },
     {
       "id": "docs-tooling-cli-dispatch",
