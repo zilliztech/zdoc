@@ -8,8 +8,9 @@ evidence modes live in [replay-harnesses.md](replay-harnesses.md).
 
 English Fetch prepares shared-page routing against its pinned master configuration
 and exact dev baseline before ordinary Feishu body reads. After source fetching,
-`Generate selected shared Guides sources` builds each selected record's Guides and
-BYOC outputs together. Current Base navigation, publish targets and release channel
+`Generate selected shared Guides sources` builds exactly the nonempty target set selected by the Base record and page
+configuration: Guides, BYOC, or both. These sets must match without duplicates;
+paired pages still require both outputs together. Current Base navigation, publish targets and release channel
 are checked before rendering; an existing `.md` or `.mdx` extension is retained,
 and a new page uses `.mdx`. `IMAGE_BED_URL` must be a valid HTTPS image-bed base
 when shared work is selected, including artifact-only skip mode; a missing or invalid
@@ -31,7 +32,7 @@ existing artifact gate, preventing new English Guides/BYOC publication from that
 job. The existing translation-enabled reconciliation producer gate remains unchanged.
 
 The source artifact binds the bounded bundle to master/dev SHAs, sizes and hashes,
-including raw Base routing evidence, both successful outputs and exact historical
+including raw Base routing evidence, all selected successful outputs and exact historical
 fallback bytes. Offline table jobs place prebuilt bytes and repeat writer path and
 front-matter checks; they do not generate shared pages or upload images. Fallbacks
 are restored within their existing table owner even when current traversal omits
@@ -51,8 +52,8 @@ before them.
 
 On first activation, the job reads the old document at its current revision only
 when a current body link or Base ref requires a heading anchor. Page-top-only
-references do not require that read. It checks required anchors against both
-generated manuals; `ACTIVATE_CHECK_FAILED` retains both baseline outputs. Existing
+references do not require that read. It checks required anchors against every
+selected manual; `ACTIVATE_CHECK_FAILED` retains the exact baseline outputs. Existing
 active pages reuse their retained anchor map. A run with no shared records and no
 active shared state creates no shared bundle and keeps the legacy source payload
 unchanged.
@@ -84,12 +85,14 @@ whose `Docs` points to the page directory. Switching `Docs` back to Feishu,
 deleting the record, changing its placement type or moving its Progress outside
 the publishable set fails Fetch with `OWNERSHIP_REVERTED` and leaves the Git
 version in place. Restore the record; retirement of shared pages is not supported
-yet.
+yet. Changing the target set of an already active page likewise fails with
+`OWNERSHIP_PATH_MISMATCH` and retains its historical outputs; single-target first
+activation does not authorize retiring an existing target.
 
 ## Shared Guides final publication evidence
 
 English Guides source artifacts retain the observed candidate and authenticated
-paired outcomes. Assembly derives a separate effective snapshot: successful
+selected-target outcomes. Assembly derives a separate effective snapshot: successful
 shared records use the emitted output paths; failed transitions retain their exact
 pinned dev record and historical outputs; failed new records remain absent.
 Combined sidebars include those authenticated old paths even when a stable table
@@ -130,7 +133,7 @@ and recovery cache identities remain unchanged.
 
 For a recorded image digest, generation reuses hash-verified accepted bytes. If an
 origin read succeeds with changed bytes, `IMAGE_SOURCE_CHANGED` reports the old and
-observed digests while the accepted image and both manual outputs remain unchanged.
+observed digests while the accepted image and all selected manual outputs remain unchanged.
 Missing or corrupt accepted objects fail the page; an unreadable origin retains
 its existing failure behavior. Typed notices flow through the existing build card.
 Receipt merge notes serialize deterministically into the existing `notes: string[]`.
@@ -138,7 +141,7 @@ Receipt merge notes serialize deterministically into the existing `notes: string
 Before sealing a successful source, an independent clean generation uses the new
 candidate receipt's pinned inputs, frozen render targets and accepted images under
 the same tooling. It compares the exact output path set, bytes and hashes;
-`PUBLISH_REGEN_MISMATCH` retains that page's baseline pair while valid siblings
+`PUBLISH_REGEN_MISMATCH` retains that page's exact baseline outputs while valid siblings
 continue. Checkpoint validation verifies the bound replay proof and rejects output
 or proof mutation. A historical receipt replayed by newer tooling is an upgrade
 comparison and never a publication veto; changed inputs are not compared with old

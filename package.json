@@ -20,8 +20,8 @@
     "check:reconciliation-policy": "node scripts/generate-reconciliation-policy.js --check",
     "typecheck": "tsc",
     "check:static-env": "node scripts/check-static-env-placeholder.js",
-    "test:frontend": "vitest run",
-    "test:shared-docs": "vitest run packages/docs-tooling/src/shared-docs",
+    "test:frontend": "node scripts/testing/run-vitest-groups.mjs --scope all",
+    "test:shared-docs": "node scripts/testing/run-vitest-groups.mjs --scope shared-docs",
     "test:containers": "node --test deploy/contracts/container.test.mjs",
     "test:cloud-data-nginx": "node --test deploy/contracts/cloud-data-nginx.test.mjs",
     "test:profiles": "pnpm vitest run packages/site-config",
@@ -55,7 +55,8 @@
     "test:all": "pnpm test:frontend",
     "test:replay:requested": "node --test scripts/docs-workflow/replay-requested-guides.test.js",
     "test:replay:shared-pages": "node --test scripts/docs-workflow/replay-shared-pages.test.js",
-    "rest:availability": "node packages/docs-tooling/src/reference/rest/index.js rest-availability --base http://127.0.0.1:19530 --label milvus-dev --out tmp/rest-availability"
+    "rest:availability": "node packages/docs-tooling/src/reference/rest/index.js rest-availability --base http://127.0.0.1:19530 --label milvus-dev --out tmp/rest-availability",
+    "test:vitest-groups": "node --test scripts/testing/run-vitest-groups.test.mjs"
   },
   "dependencies": {
     "@actions/artifact": "6.2.1",

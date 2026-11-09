@@ -670,20 +670,78 @@ function checksumRecord(payload: unknown): string {
   return createHash('sha256').update(JSON.stringify(payload)).digest('hex');
 }
 
-function readRecoveryControlFence(root: string, label: string): ObservedRecoveryControlFence {
+// Only optimistic acquisition consumes this signal. Release and stale-claim
+// verification continue to use the strict reader and never discard an identity.
+class RecoveryControlFenceGenerationChanged extends Error {}
+
+function readRecoveryControlFence(
+  root: string,
+  label: string,
+  acquisitionParent?: readonly BoundPath[],
+): ObservedRecoveryControlFence {
   const directory = path.join(root, ...REMOVAL_CONTROL_FENCE.split('/'));
-  const directoryIdentity = identityOf(directory, `${label} recovery control fence directory`);
+  const ownerRelative = path.posix.join(REMOVAL_CONTROL_FENCE, RECOVERY_CONTROL_FENCE_OWNER);
+  const owner = path.join(root, ...ownerRelative.split('/'));
+  let directoryIdentity: PathIdentity | undefined;
+  const checkGeneration = () => {
+    if (!acquisitionParent) return;
+    revalidate(acquisitionParent, `${label} recovery control fence parent`);
+    let current: PathIdentity;
+    try {
+      current = identityOf(directory, `${label} recovery control fence directory`);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT' || (error as NodeJS.ErrnoException).path !== directory) throw error;
+      revalidate(acquisitionParent, `${label} recovery control fence parent`);
+      throw new RecoveryControlFenceGenerationChanged('Recovery control fence disappeared during acquisition');
+    }
+    if (current.kind !== 'directory' || (current.mode & 0o777) !== 0o700) {
+      throw new Error(`${label} recovery control fence must be a mode-0700 directory`);
+    }
+    if (directoryIdentity && (current.dev !== directoryIdentity.dev || current.ino !== directoryIdentity.ino)) {
+      revalidate(acquisitionParent, `${label} recovery control fence parent`);
+      throw new RecoveryControlFenceGenerationChanged('Recovery control fence generation changed during acquisition');
+    }
+    return current;
+  };
+  const readObservedPath = <T>(action: () => T): T => {
+    try { return action(); } catch (error) {
+      const failure = error as NodeJS.ErrnoException;
+      // Only absence at these two observed public names can be a release race.
+      // Other filesystem errors, parent failures and all record validation stay strict.
+      if (acquisitionParent && failure.code === 'ENOENT' && (failure.path === directory || failure.path === owner)) checkGeneration();
+      throw error;
+    }
+  };
+  directoryIdentity = readObservedPath(() => identityOf(directory, `${label} recovery control fence directory`));
   if (directoryIdentity.kind !== 'directory' || (directoryIdentity.mode & 0o777) !== 0o700) {
     throw new Error(`${label} recovery control fence must be a mode-0700 directory`);
   }
-  const ownerRelative = path.posix.join(REMOVAL_CONTROL_FENCE, RECOVERY_CONTROL_FENCE_OWNER);
-  const owner = path.join(root, ...ownerRelative.split('/'));
-  if (!pathEntryExists(owner)) throw new Error(`${label} recovery control fence is missing its owned owner record`);
-  const ownerIdentity = identityOf(owner, `${label} recovery control fence owner`);
+  checkGeneration();
+  if (!pathEntryExists(owner)) {
+    checkGeneration();
+    throw new Error(`${label} recovery control fence is missing its owned owner record`);
+  }
+  const ownerIdentity = readObservedPath(() => identityOf(owner, `${label} recovery control fence owner`));
   if (ownerIdentity.kind !== 'file' || (ownerIdentity.mode & 0o777) !== 0o600 || ownerIdentity.nlink !== 1) {
     throw new Error(`${label} recovery control fence owner must be a mode-0600 regular file with one link`);
   }
-  const contents = readSecureFile(root, ownerRelative, `${label} recovery control fence owner`);
+  let contents: Buffer;
+  if (acquisitionParent) {
+    // Bind the exact owner descriptor under the validated parent/directory. A
+    // legitimate directory rename may remove its public name while this fd lives.
+    const descriptor = readObservedPath(() => openSync(owner, constants.O_RDONLY | constants.O_NOFOLLOW));
+    try {
+      const opened = fstatSync(descriptor);
+      if (!opened.isFile() || opened.dev !== ownerIdentity.dev || opened.ino !== ownerIdentity.ino
+        || opened.mode !== ownerIdentity.mode || opened.nlink !== 1) {
+        throw new Error(`${label} recovery control fence owner identity changed while opening`);
+      }
+      contents = readFileSync(descriptor);
+    } finally { closeSync(descriptor); }
+    checkGeneration();
+  } else {
+    contents = readSecureFile(root, ownerRelative, `${label} recovery control fence owner`);
+  }
   if (contents.byteLength > 4096) throw new Error(`${label} recovery control fence exceeds the size limit`);
   let value: unknown;
   try {
@@ -700,8 +758,10 @@ function readRecoveryControlFence(root: string, label: string): ObservedRecovery
   }
   const payload = {version: 2 as const, kind: 'docs-tooling-recovery-control-fence' as const, pid: value.pid as number, token: value.token};
   if (checksumRecord(payload) !== value.checksum) throw new Error(`${label} recovery control fence checksum is invalid`);
-  if (!sameExactIdentity(identityOf(directory, `${label} recovery control fence directory`), directoryIdentity)
-    || !sameExactIdentity(identityOf(owner, `${label} recovery control fence owner`), ownerIdentity)) {
+  const finalDirectory = checkGeneration() ?? identityOf(directory, `${label} recovery control fence directory`);
+  const finalOwner = readObservedPath(() => identityOf(owner, `${label} recovery control fence owner`));
+  if (!sameExactIdentity(finalDirectory, directoryIdentity) || !sameExactIdentity(finalOwner, ownerIdentity)) {
+    checkGeneration();
     throw new Error(`${label} recovery control fence identity changed while reading`);
   }
   return {directory, directoryIdentity, owner, ownerIdentity, record: {...payload, checksum: value.checksum}};
@@ -917,7 +977,15 @@ function acquireRecoveryControlFence(root: string, label: string, testing?: Reco
         recoverExistingFenceClaim(root, label, target, identityOf(target, `${label} recovery control fence directory`));
         continue;
       }
-      const current = readRecoveryControlFence(root, label);
+      let current: ObservedRecoveryControlFence;
+      try {
+        current = readRecoveryControlFence(root, label, parentBinding);
+      } catch (error) {
+        if (!(error instanceof RecoveryControlFenceGenerationChanged)) throw error;
+        revalidate(parentBinding, `${label} recovery control fence parent`);
+        sleepSync(Math.min(REMOVAL_CONTROL_FENCE_POLL_MS, Math.max(0, deadline - Date.now())));
+        continue;
+      }
       if (current.record.pid === process.pid) throw new Error(`${label} recovery control fence is not reentrant`);
       if (processIsAlive(current.record.pid)) {
         sleepSync(REMOVAL_CONTROL_FENCE_POLL_MS);

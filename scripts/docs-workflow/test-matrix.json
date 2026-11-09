@@ -23,6 +23,28 @@
       "reason": "Build provenance preserves candidate ownership checks within each independently built site without coupling English and Chinese release inputs."
     },
     {
+      "id": "publication-stage-control",
+      "paths": [
+        "packages/docs-tooling/src/publication/stageControl.ts",
+        "packages/docs-tooling/src/publication/stageControl.test.ts",
+        "packages/docs-tooling/src/publication/stageControl.bootstrap-worker.ts"
+      ],
+      "focusedTests": [
+        "pnpm exec vitest run packages/docs-tooling/src/publication/stageControl.test.ts packages/docs-tooling/src/publication/diagnostics.test.ts packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/cli-main.integration.test.ts --pool=forks --isolate --maxWorkers=1"
+      ],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "pnpm test:typescript-runtime-boundary",
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "Secure stage removal and recovery fences serve CLI publication, diagnostics and workflow baseline restoration. Concurrent acquisition must tolerate verified directory-generation transitions without weakening stable corruption, ownership, parent bindings or stale-claim cleanup. Hermetic replay does not replace retained-artifact publication replay."
+    },
+    {
       "id": "publication-diagnostics",
       "paths": [
         "packages/docs-tooling/src/publication/diagnostics.ts",
@@ -1357,6 +1379,24 @@
       "reason": "Release Channel (CURRENT/NEXT/RETIRE-IN-NEXT) front matter and sidebar customProps gate per-channel docs per deployment: runtime env.js injection, client gating with the shared 404 page and banner, server-side route blocking in both directions (NEXT routes blocked on CURRENT deployments, RETIRE-IN-NEXT routes blocked on NEXT deployments), and build capability exclusions must stay aligned. Block-level gating adds the globally registered NextChannel MDX component (CURRENT-fail-closed runtime gate), writer pass-through plus structural lint, and translation output parity for the channel tags; the right-rail TOC filters its build-time entries at runtime, dropping items whose heading anchor the deployment's channel hides. Static AI surfaces (.md copies, llms.txt) and description front matter resolve the CURRENT view of block gates via the shared next-channel-view resolver; RETIRE-IN-NEXT pages stay CURRENT-view everywhere until their record is removed. Code-block channel directives ((next|current)-channel-*) add the ChannelCode renderer wrapper, fence-interior resolution in the static resolver, and Fetch-time structural/ reserved-target lint. The sidebar filter must remove hidden-channel leaves at any nesting depth, and the paginator override keeps Previous/Next from advertising routes the sidebar hides and the nginx gate blocks."
     },
     {
+      "id": "docs-tooling-runtime-contract",
+      "paths": [
+        "packages/docs-tooling/src/runtime-contract*",
+        "packages/docs-tooling/package.json"
+      ],
+      "focusedTests": [
+        "pnpm exec vitest run packages/docs-tooling/src/runtime-contract.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:typescript-runtime-boundary",
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "The owning docs-tooling manifest and complete runtime contract must agree on direct dependencies, imported packages, the Node engine and real generator loading. It previously had no CI consumer, so the @zilliz/mdtomd manifest addition and scanner false positives stayed red on master. Manifest changes also retain the dependency-manifests replay and policy union."
+    },
+    {
       "id": "dependency-manifests",
       "paths": [
         "pnpm-lock.yaml",
@@ -1382,19 +1422,24 @@
       "reason": "Workspace dependency manifests and the shared lockfile can shift every workflow tooling runtime (overrides, transitive upgrades, engine constraints); the replay harnesses must prove the installed toolchain still passes. The docs-tooling runtime contract runs here because a manifest edit is exactly the change that can break it (the @zilliz/mdtomd drift)."
     },
     {
-      "id": "docs-tooling-runtime-contract",
+      "id": "grouped-vitest-harness",
       "paths": [
-        "packages/docs-tooling/src/runtime-contract*"
+        "package.json",
+        "scripts/testing/run-vitest-groups.mjs",
+        "scripts/testing/vitest-stop-reporter.mjs",
+        "scripts/testing/run-vitest-groups.test.mjs"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-tooling/src/runtime-contract.test.ts"
+        "pnpm test:vitest-groups",
+        "pnpm test:shared-docs",
+        "pnpm test:frontend"
       ],
       "harnesses": [],
       "gates": [
-        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "The docs-tooling runtime contract pins the package manifest dependency list and proves every statically or dynamically imported runtime package is declared. It previously had no matrix row or CI consumer, so the @zilliz/mdtomd manifest addition and two scanner false positives (regex-literal @theme escapes, vitest imports in test-support modules) stayed red on master."
+      "reason": "The grouped supervisor must retain the full discovered selection, ordinary parallel light coverage and isolated complete real-Git suites; protocol, owned process failure stop and aggregate accounting are part of the gate."
     },
     {
       "id": "frontend-test-harness",
