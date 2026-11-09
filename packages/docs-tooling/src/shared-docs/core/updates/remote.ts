@@ -121,16 +121,16 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
   } catch { failures.push('RECEIPT_MALFORMED') }
   if (!e.success || !f.success || !p.success || failures.length) return { status: 'hold', reasons: failures }
   const intent = e.data, facts = f.data, rules = p.data
-  const require = (condition: unknown, code: string) => { if (!condition && !failures.includes(code)) failures.push(code) }
+  const checkBinding = (condition: unknown, code: string) => { if (!condition && !failures.includes(code)) failures.push(code) }
   const matches = (actual: object, wanted: object, prefix: string) => {
-    for (const [key, value] of Object.entries(wanted)) require(equal((actual as Record<string, unknown>)[key], value), `${prefix}_${key.toUpperCase()}`)
+    for (const [key, value] of Object.entries(wanted)) checkBinding(equal((actual as Record<string, unknown>)[key], value), `${prefix}_${key.toUpperCase()}`)
   }
   matches(facts, { host: rules.host, repositoryId: rules.repositoryId, repositoryFullName: rules.repositoryFullName,
     baseRepositoryId: rules.repositoryId, headRepositoryId: rules.repositoryId, baseRef: rules.baseRef,
     headRef: intent.branch, master: intent.master, dev: intent.dev }, 'REMOTE')
-  require(intent.repositoryId === rules.repositoryId, 'EXPECTED_REPOSITORYID')
-  require(intent.tools === intent.master, 'EXPECTED_TOOLS')
-  require(rules.allowedHeadPrefixes.some(prefix => intent.branch.startsWith(prefix)), 'BRANCH_POLICY')
+  checkBinding(intent.repositoryId === rules.repositoryId, 'EXPECTED_REPOSITORYID')
+  checkBinding(intent.tools === intent.master, 'EXPECTED_TOOLS')
+  checkBinding(rules.allowedHeadPrefixes.some(prefix => intent.branch.startsWith(prefix)), 'BRANCH_POLICY')
   matches(facts.pr, { repositoryId: rules.repositoryId, number: intent.prNumber, base: intent.base,
     head: intent.seal, state: 'open', draft: true, actorId: rules.producer.actorId }, 'PR')
   matches(r, { repositoryId: intent.repositoryId, prNumber: intent.prNumber, head: intent.seal, seal: intent.seal,
@@ -139,13 +139,13 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
     workflowPath: rules.validator.workflowPath, workflowDefinitionSha256: rules.validator.workflowDefinitionSha256,
     targetCheckAppId: rules.checkAppId, targetCheckHead: intent.seal, outputDigest: facts.output.sha256, conclusion: 'success' }, 'RECEIPT')
   const found = <T>(value: RemoteReadResult<T>, code: string): T | undefined => {
-    if (value.kind !== 'found') { require(false, code); return undefined }
+    if (value.kind !== 'found') { checkBinding(false, code); return undefined }
     return value.value
   }
   const one = <T>(values: T[] | undefined, predicate: (value: T) => boolean, code: string): T | undefined => {
     if (!values) return undefined
     const selected = values.filter(predicate)
-    require(selected.length === 1, code)
+    checkBinding(selected.length === 1, code)
     return selected.length === 1 ? selected[0] : undefined
   }
   const producer = one(found(facts.producerRuns, 'PRODUCER_READ'), run => run.id === intent.producerRunId, 'PRODUCER_AMBIGUOUS_OR_MISSING')
@@ -166,7 +166,7 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
     matches(seal, { oid: intent.seal, parents: [intent.candidate], tree: intent.candidateTree,
       signatureValid: true, signingActorId: rules.producer.actorId }, 'SEAL')
     matches(seal.metadata, sealExpected, 'SEAL_METADATA')
-    require(canonicalBytes(seal.metadata).length <= REMOTE_LIMITS.payloadBytes, 'SEAL_SIZE')
+    checkBinding(canonicalBytes(seal.metadata).length <= REMOTE_LIMITS.payloadBytes, 'SEAL_SIZE')
   }
   const provenance = one(found(facts.producerProvenance, 'PROVENANCE_READ'), value => value.runId === intent.producerRunId, 'PROVENANCE_AMBIGUOUS_OR_MISSING')
   if (provenance) matches(provenance, { ...sealExpected, seal: intent.seal, requestId: intent.producerRequestId }, 'PROVENANCE')
@@ -183,7 +183,7 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
     const artifact = one(artifacts, value => value.runId === runId && value.name === name, `${code}_ARTIFACT_AMBIGUOUS_OR_MISSING`)
     if (!artifact) return
     matches(artifact, { id: owner.artifactId, runAttempt, expired: false, archiveActualDigest: artifact.archiveApiDigest }, `${code}_ARTIFACT`)
-    require(artifact.archive.sha256 === artifact.archiveApiDigest, `${code}_ARCHIVE_DIGEST`)
+    checkBinding(artifact.archive.sha256 === artifact.archiveApiDigest, `${code}_ARCHIVE_DIGEST`)
     const member = one(members, value => value.artifactId === artifact.id && value.memberPath === owner.memberPath, `${code}_MEMBER_AMBIGUOUS_OR_MISSING`)
     if (member) matches(member, { archiveDigest: artifact.archiveApiDigest, actualDigest: owner.receipt.sha256,
       member: owner.receipt }, `${code}_MEMBER`)
