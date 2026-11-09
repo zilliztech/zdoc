@@ -6,6 +6,7 @@ const path = require('node:path')
 const yaml = require('js-yaml')
 const { loadTypeScript } = require('../lib/load-typescript')
 const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-tooling/src/mdx/validate.cjs')
+const { findAccidentalMathSpans } = require('../../packages/docs-tooling/src/markdown/accidentalMathSpans')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const {loadChunkLimits, parsePositiveInteger} = require('./chunkLimits')
 const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
@@ -669,6 +670,16 @@ async function validateTranslatedContent(content) {
     await compile(mdxBody, { development: false, remarkPlugins: [remarkMath.default || remarkMath] })
   } catch (error) {
     errors.push(`MDX compile error: ${String(error.message || error).split('\n')[0]}`)
+  }
+  // The same accidental-span detection the Fetch writer gate uses: remark-math
+  // pairs `$` delimiters across JSX tags, and a translated page that grows one
+  // renders broken pseudo-math. Reported as a repairable validation error so
+  // the agent can escape the dollars or rephrase; preflight also runs this on
+  // sources, where the fix is re-fetching with the writer escape, not editing
+  // the Feishu document.
+  const { spans: accidentalSpans } = await findAccidentalMathSpans(mdxBody)
+  for (const span of accidentalSpans) {
+    errors.push(`Accidental math span: remark-math paired $ delimiters into math (${JSON.stringify(String(span.value).slice(0, 60))}); escape the dollars as \\$, rephrase so no unintended $...$ pair forms, or regenerate the damaged source via Fetch`)
   }
   const structureErrors = validateMdxStructure(content)
   if (structureErrors.length) errors.push(...structureErrors)
