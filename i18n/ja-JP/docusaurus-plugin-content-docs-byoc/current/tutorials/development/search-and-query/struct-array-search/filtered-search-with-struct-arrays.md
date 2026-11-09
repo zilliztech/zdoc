@@ -184,7 +184,7 @@ let results = client.search(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 
@@ -461,7 +461,7 @@ let results = client.search(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -734,7 +734,7 @@ let results = client.search(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 
@@ -1022,7 +1022,7 @@ let results = client.hybrid_search(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 #include <vector>

@@ -247,7 +247,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <vector>
 

@@ -90,7 +90,7 @@ let filter_templates: HashMap<String, FilterTemplateValue> = HashMap::from([
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string filter = "age > {age} AND city IN {city}";
 std::unordered_map<std::string, nlohmann::json> filterTemplates = {
     {"age", 25},
@@ -259,7 +259,7 @@ let res = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string expr = "age > {age} AND city IN {city}";
 std::unordered_map<std::string, nlohmann::json> filterTemplates = {
     {"age", 25},
@@ -461,7 +461,7 @@ let res = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string expr = "age > {age} AND city IN {city}";
 std::unordered_map<std::string, nlohmann::json> filterTemplates = {
     {"age", 25},
@@ -644,7 +644,7 @@ let res = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string expr = "age > {age} AND city IN {city}";
 std::unordered_map<std::string, nlohmann::json> filterTemplates = {
     {"age", 25},
@@ -822,7 +822,7 @@ let res = client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string expr = "message =~ {pattern}";
 std::unordered_map<std::string, nlohmann::json> filterTemplates = {
     {"pattern", "E[0-9]{4}"}
@@ -958,7 +958,7 @@ let filter_templates: HashMap<String, FilterTemplateValue> = HashMap::from([
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::string expr = "message !~ {pattern}";
 std::unordered_map<std::string, nlohmann::json> filterTemplates = {
     {"pattern", "^DEBUG"}
