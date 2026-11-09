@@ -771,7 +771,7 @@ print(writer.data_path)
 <TabItem value='java'>
 
 ```java
-List<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();
+List<List<String>> batchFiles = writer.getBatchFiles();
 System.out.println(batchFiles);
 
 // [["/5868ba87-743e-4d9e-8fa6-e07b39229425/1.parquet"]]

@@ -75,6 +75,8 @@ Milvus SDK を使用して Zilliz Cloud コンソールでデータをインポ�
 複数のパスからファイルをインポートする場合は、各 Parquet ファイルのパスを個別のリストに含め、次のコード例のように、すべてのリストを上位のリストにまとめます。
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -99,6 +101,8 @@ curl --request POST \
 ソースフォルダーにインポート対象の Parquet ファイルのみが含まれている場合は、次のようにリクエストにソースフォルダーを含めるだけです。
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -127,6 +131,8 @@ curl --request POST \
 準備したデータファイルが単一の Parquet ファイルである場合は、次のコード例に示すようにインポートします。
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \

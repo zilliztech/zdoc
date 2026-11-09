@@ -94,6 +94,8 @@ Zilliz Cloud コンソールで Milvus SDK を使用してデータをインポ�
 複数のパスからファイルをインポートする場合は、各 JSON ファイルのパスを個別のリストに含め、以下のコード例のようにそれらすべてのリストを上位レベルのリストにまとめます。
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -189,3 +191,4 @@ Zilliz Cloud は、クラウドストレージからのデータインポート�
 | オブジェクトストレージから | 1,000 ファイル | 10 GB | 1 TB |
 
 [データファイルの準備](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) を参照して自分でデータを再構築するか、[BulkWriter ツール](./use-bulkwriter) を使用してソースデータファイルを生成できます。[上記の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_json_data.json)。
+

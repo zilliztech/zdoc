@@ -242,7 +242,7 @@ let rerank = {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <ctime>
 #include <memory>
 #include "milvus/MilvusClientV2.h"
@@ -416,7 +416,7 @@ let response = client.search(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 #include "milvus/MilvusClientV2.h"

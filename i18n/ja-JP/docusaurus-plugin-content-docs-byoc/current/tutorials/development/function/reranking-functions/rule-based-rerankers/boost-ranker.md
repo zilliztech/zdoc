@@ -477,7 +477,7 @@ let rerank = Function::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <memory>
 #include "milvus/MilvusClientV2.h"
 
@@ -700,7 +700,7 @@ println!("{:?}", response);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -1004,7 +1004,7 @@ println!("{:?}", response);
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -1171,3 +1171,4 @@ curl --request POST \
      <td><p><code>"Sum"</code></p></td>
    </tr>
 </table>
+

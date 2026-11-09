@@ -896,7 +896,7 @@ writer.commit()
 <TabItem value='java'>
 
 ```java
-remoteBulkWriter.commit(false);
+writer.commit(false);
 ```
 
 </TabItem>

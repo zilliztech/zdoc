@@ -70,6 +70,8 @@ Zilliz Cloud では、クラスターをホストしているクラウドプロ�
 
 ```bash
 # replace url and token with your own
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -90,6 +92,8 @@ curl --request POST \
 Zilliz Cloud が上記のリクエストを処理すると、ジョブ ID を受け取ります。このジョブ ID を使用して、次のコマンドでインポートの進行状況を監視します。
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -117,3 +121,4 @@ curl --request POST \
 ```
 
 RESTful API を呼び出して[現在のインポートジョブの進行状況を取得](/reference/restful/get-import-job-progress-v2)したり、[すべてのインポートジョブを一覧表示](/reference/restful/list-import-jobs-v2)したりすることもできます。その代わりに、Zilliz Cloud コンソールの[ジョブセンター](./job-center)に移動して、結果とジョブの詳細を確認することもできます。
+
