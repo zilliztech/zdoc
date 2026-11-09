@@ -1,0 +1,1 @@
+Indexing is mandatory for vector fields, including both the vector fields in a collection and those defined in a Struct. For vector fields in a Struct, you should use `AUTOINDEX` as the index type and `MAX_SIM` series as the metric type.

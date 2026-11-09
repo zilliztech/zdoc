@@ -1,0 +1,65 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/add-fields-to-an-existing-collection.md
+
+metadata:
+  beta: FALSE
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/add-fields-to-an-existing-collection
+  - manual: guides-byoc
+    path: tutorials/development/schema/add-fields-to-an-existing-collection
+
+transforms:
+  - operation: replace
+    target:
+      block: alter-schema-scalar-heading
+    content:
+      file: cloud-alter-schema-scalar-heading.md
+  - operation: replace
+    target:
+      block: alter-schema-struct-heading
+    content:
+      file: cloud-alter-schema-struct-heading.md
+  - operation: replace
+    target:
+      block: alter-schema-vector-heading
+    content:
+      file: cloud-alter-schema-vector-heading.md
+  - operation: replace
+    target:
+      block: alter-schema-function-heading
+    content:
+      file: cloud-alter-schema-function-heading.md
+  - operation: replace
+    target:
+      block: alter-schema-drop-heading
+    content:
+      file: cloud-alter-schema-drop-heading.md
+  - operation: replace
+    target:
+      block: alter-schema-drop-function-heading
+    content:
+      file: cloud-alter-schema-drop-function-heading.md
+  - operation: replace
+    target:
+      block: alter-schema-struct-availability
+    content:
+      file: cloud-alter-schema-struct-availability.md
+  - operation: replace
+    target:
+      block: alter-schema-function-prerequisites
+    content:
+      file: cloud-alter-schema-function-prerequisites.md
+  - operation: replace
+    target:
+      block: alter-schema-field-limit
+    content:
+      file: cloud-alter-schema-field-limit.md
+  - operation: replace
+    target:
+      block: alter-schema-workflow-links
+    content:
+      file: cloud-workflow-links.md

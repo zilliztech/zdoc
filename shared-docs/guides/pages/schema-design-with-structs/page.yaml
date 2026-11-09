@@ -1,0 +1,25 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/schema/best-practices-for-array-of-structs.md
+
+metadata:
+  beta: FALSE
+
+publish:
+  - manual: guides
+    path: tutorials/development/schema/schema-best-practices/schema-design-with-structs
+  - manual: guides-byoc
+    path: tutorials/development/schema/schema-best-practices/schema-design-with-structs
+
+transforms:
+  - operation: replace
+    target:
+      block: struct-model-index-guidance
+    content:
+      file: cloud-struct-model-index-guidance.md
+  - operation: replace
+    target:
+      block: struct-model-index-intro
+    content:
+      file: cloud-struct-model-index-intro.md

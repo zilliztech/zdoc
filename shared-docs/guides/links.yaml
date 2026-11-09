@@ -43,7 +43,7 @@ structarray-limits.md: struct-array-limits
 text.md: use-text-field
 timestamptz-field.md: use-timestamptz-field
 tutorial-implement-a-time-based-ranking-in-milvus.md: tutorial-implement-time-based-ranking
-upsert-entities.md: https://milvus.io/docs/upsert-entities.md
+upsert-entities.md: upsert-entities
 
 use-json-fields.md: https://milvus.io/docs/use-json-fields.md
 
@@ -83,3 +83,8 @@ binary-vector.md: use-binary-vector
 dense-vector.md: use-dense-vector
 primary-field.md: primary-field-auto-id
 sparse_vector.md: use-sparse-vector
+
+# Shared schema evolution, upsert, and StructArray modeling pages.
+add-fields-to-an-existing-collection.md: add-fields-to-an-existing-collection
+best-practices-for-array-of-structs.md: schema-design-with-structs
+schema-hands-on.md: schema-design-hands-on
