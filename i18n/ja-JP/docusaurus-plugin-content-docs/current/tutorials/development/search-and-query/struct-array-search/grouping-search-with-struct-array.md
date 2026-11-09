@@ -221,7 +221,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <vector>
@@ -503,7 +503,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
 
 std::string filter_expr = "category == \"search\" && "
@@ -753,7 +753,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
 std::vector<float> code_query_vector = {0.18f, 0.23f, 0.29f, 0.36f};
 

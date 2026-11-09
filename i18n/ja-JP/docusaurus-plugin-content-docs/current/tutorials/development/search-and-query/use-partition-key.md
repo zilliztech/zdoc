@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Partition Key の使用
+# Partition Key を使用する
 
 **Partition Key** は、コレクションの**名前空間**として機能し、論理的なデータ分離を実現する検索最適化ソリューションです。テナント ID やプロジェクト名などの特定のスカラーフィールドを Partition Key に指定すると、単一のコレクション内でデータを複数の名前空間に効果的に分割できます。これにより、フィルター条件を使用して検索リクエストを特定の名前空間に限定できるため、検索範囲を大幅に狭め、全体的な効率を向上できます。この記事では、この名前空間ベースの最適化を実装する方法と、Partition Key を使用する際の考慮事項について説明します。
 
@@ -218,7 +218,7 @@ let schema = CollectionSchema::new()
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -402,7 +402,7 @@ client.create_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -530,7 +530,7 @@ let filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Filter based on a single partition key value, or
 std::string filter = R"(partition_key == 'x' && <other conditions>)";
 
@@ -831,7 +831,7 @@ client.create_collection(
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 

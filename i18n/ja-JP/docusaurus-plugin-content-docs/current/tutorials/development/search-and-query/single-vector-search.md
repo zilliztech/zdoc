@@ -233,7 +233,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include <vector>
 
@@ -437,7 +437,7 @@ Zilliz Cloud は、検索結果をクエリベクトルとの類似度スコア�
    </tr>
    <tr>
      <td><p><code>HAMMING</code></p></td>
-     <td><p>値が小さいほど類似度が高くなります。</p></td>
+     <td><p>A smaller value indicates a higher similarity.</p></td>
      <td><p>[0, dim(vector)]</p></td>
    </tr>
 </table>
@@ -618,7 +618,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<std::vector<float>> queryVectors = {
     {0.041732933F, 0.013779674F, -0.027564144F, -0.013061441F, 0.009748648F},
     {0.0039737443F, 0.003020432F, -0.0006188639F, 0.03913546F, -0.00089768134F},
@@ -906,7 +906,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("quick_setup")
                          .WithAnnsField("vector")
@@ -1152,7 +1152,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("quick_setup")
                          .WithAnnsField("vector")
@@ -1436,7 +1436,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("quick_setup")
                          .WithAnnsField("vector")
@@ -1706,7 +1706,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("product_catalog")
                          .WithAnnsField("embedding")
@@ -1945,7 +1945,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("product_catalog")
                          .WithAnnsField("embedding")
@@ -2217,7 +2217,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("quick_setup")
                          .WithAnnsField("vector")
@@ -2441,7 +2441,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("quick_setup")
                          .WithAnnsField("vector")
@@ -2757,7 +2757,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("quick_setup")
@@ -3018,7 +3018,7 @@ for result in response.results() {
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("quick_setup")
