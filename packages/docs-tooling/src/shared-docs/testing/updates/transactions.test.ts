@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { mkdtemp, readFile, symlink, writeFile } from 'node:fs/promises'
+import { mkdtemp, readFile, realpath, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -14,7 +14,7 @@ import type { UpdateUnitPlan } from '../../core/updates/envelope'
 const lockPath='shared-docs/fixture/lock.yaml'
 const lock=(current='1'.repeat(40),next='1'.repeat(40))=>`schema_version: 1\ncurrent: '${current}'\nnext: '${next}'\n`
 async function history() {
-  const root=await mkdtemp(join(tmpdir(),'local-transactions-')),repository=join(root,'input')
+  const root=await realpath(await mkdtemp(join(tmpdir(),'local-transactions-'))),repository=join(root,'input')
   await write(repository,lockPath,lock());await write(repository,'content/en/fixture/a.md','base\n')
   await git(repository,'init','-q','-b','master','--template=');await git(repository,'add','.');await git(repository,'commit','-qm','base')
   const base=await git(repository,'rev-parse','HEAD')
