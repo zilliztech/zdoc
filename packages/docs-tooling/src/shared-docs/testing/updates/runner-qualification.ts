@@ -5,7 +5,7 @@
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { lstat, readFile, realpath, writeFile } from 'node:fs/promises'
-import { dirname, isAbsolute, join } from 'node:path'
+import { dirname, isAbsolute, join, resolve } from 'node:path'
 import { release } from 'node:os'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { patchNextLock } from '../../core/updates/transaction'
@@ -48,12 +48,22 @@ function settlementSummary(value:unknown):unknown {
     group:v.group==='absent'?'absent':'unknown',signals:Array.isArray(v.signals)?v.signals.length:0,
     cleanupErrorCount:Array.isArray(v.cleanupErrors)?v.cleanupErrors.length:null}
 }
-interface Failure {phase:string;code:string}
+export function classifyCaptureRefusal(message:string):string {
+  if(message==='Trusted toolset capture is not yet supported on Linux'||message==='Unsupported access inspection platform')return 'unsupported-platform'
+  if(/^(Unsafe access (owner|mode)|Local identity policy)/.test(message))return 'access-owner-mode'
+  if(/ACL|access inspector|filesystem capability/.test(message))return 'acl'
+  if(/^(Forbidden ambient|Forbidden Node execution|Launcher must run)/.test(message))return 'environment'
+  if(/native|Mach|xcrun|Python|python|runtime helper/.test(message))return 'native'
+  if(/dependency|package|locator|closure|Closure|resolution|symlink/.test(message))return 'dependency'
+  return 'unknown'
+}
+interface Failure {phase:string;code:string;category?:string}
 export interface RunnerDiagnostic {
   kind:'shared-update-runner-diagnostic';schemaVersion:1;productionQualified:false;master:string
+  missingObservations:string[]
   host:{platform:string;architecture:string;release:string;node:string;uid:number|null;gid:number|null}
   capture:'passed'|'held'|'not-run';capacity:TreeLowerBound
-  worker:{status:'passed'|'held'|'not-run';generationExecuted:boolean;resultValidated:boolean;settlement:unknown;planDispositions:string[];tripwireUntouched:boolean|null}
+  worker:{status:'passed'|'held'|'not-run';generationExecuted:boolean;resultValidated:boolean;observation:unknown;settlement:unknown;planDispositions:string[];tripwireUntouched:boolean|null}
   phases:{phase:string;milliseconds:number;status:'passed'|'held'}[];failure:Failure|null
   tools:ReturnType<typeof describeTrustedToolset>|null
   closure:{sha256:string;bytes:number;toolsetSha256:string;access:unknown}|null
@@ -67,18 +77,24 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
   try{await lstat(input.evidenceRoot);throw new Error('DIAGNOSTIC_OUTPUT_EXISTS')}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error}
   const evidence=await initializeEvidence({root:input.evidenceRoot,repositories:[toolRoot],owner:'runner-diagnostic-v1',maxBytes:192*1024*1024})
   const result:RunnerDiagnostic={kind:'shared-update-runner-diagnostic',schemaVersion:1,productionQualified:false,master:input.master,
+    missingObservations:['host-image-identity','helper-semantic-versions','measured-child-credential-canary','filesystem-credential-isolation'],
     host:{platform:process.platform,architecture:process.arch,release:release(),node:process.version,uid:process.getuid?.()??null,gid:process.getgid?.()??null},
     capture:'not-run',capacity:{complete:false,entries:0,distinctBlobs:0,bytes:0,scope:'master-tree-blobs-only',objectBudget,verdict:'not-proven'},
-    worker:{status:'not-run',generationExecuted:false,resultValidated:false,settlement:null,planDispositions:[],tripwireUntouched:null},
+    worker:{status:'not-run',generationExecuted:false,resultValidated:false,observation:null,settlement:null,planDispositions:[],tripwireUntouched:null},
     phases:[],failure:null,tools:null,closure:null,limits:{treeOutputBytes:treeOutputLimit,treeEntries:treeEntryLimit,overallDeadline:'external-owned-launcher',collectorResultBytes:128*1024*1024}}
   const started=performance.now()
   let phase='bootstrap',phaseStart=started
   const check=()=>{if(performance.now()-started>120000)throw new Error('COOPERATIVE_DEADLINE')}
   const begin=(next:string)=>{check();phase=next;phaseStart=performance.now()}
   const pass=()=>{check();result.phases.push({phase,milliseconds:Math.ceil(performance.now()-phaseStart),status:'passed'})}
-  const gitRead=async(...args:string[])=> (await exec('/usr/bin/git',['-c','core.hooksPath=/dev/null','-C',toolRoot,...args],{env:gitEnvironment,timeout:10000,maxBuffer:treeOutputLimit,encoding:'buffer'})).stdout
+  const gitRead=async(...args:string[])=> (await exec('/usr/bin/git',['--no-replace-objects','-c','core.hooksPath=/dev/null','-C',toolRoot,...args],{env:gitEnvironment,timeout:10000,maxBuffer:treeOutputLimit,encoding:'buffer'})).stdout
   try{
-    begin('binding');if((await gitRead('rev-parse','HEAD')).toString().trim()!==input.master)throw new Error('MASTER_MISMATCH');pass()
+    begin('binding');
+    for(const name of ['shallow','info/grafts','objects/info/alternates']){
+      const path=resolve(toolRoot,(await gitRead('rev-parse','--git-path',name)).toString().trim())
+      try{await lstat(path);throw new Error('AMBIGUOUS_GIT_STORAGE')}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error}
+    }
+    if((await gitRead('rev-parse','HEAD')).toString().trim()!==input.master)throw new Error('MASTER_MISMATCH');pass()
     begin('capacity');result.capacity=parseTreeLowerBound(await gitRead('ls-tree','-r','-l','-z',input.master));pass()
     begin('capture');result.capture='held'
     // Default helper coverage is intentional: gh/Python cannot be omitted to pass.
@@ -90,7 +106,7 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     const access=await retainTrustedAccessEvidence(capture,evidence)
     await verifyTrustedToolset(capture)
     result.closure={sha256:rawSha256(capture.bytes),bytes:capture.bytes.length,toolsetSha256:capture.toolsetSha256,access}
-    result.capture='passed';pass()
+    pass();result.capture='passed'
     begin('worker');result.worker.status='held'
     const fixture=await createBuildDemo(join(evidence.root,'fixture'))
     // No external resource request: both fixture pins below contain local images only.
@@ -118,12 +134,11 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
       try{await lstat(tripwire);throw new Error('CANDIDATE_EXECUTED')}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error}
       result.worker.tripwireUntouched=true
       for(const plan of plans)for(const edit of plan.nextEdits)if(edit.before.current!==current||edit.before.next!==current||edit.target!==target||edit.before.path!=='shared-docs/guides/pages/build-pipeline/lock.yaml')throw new Error('NON_NEXT_ONLY_PLAN')
-      await writeOwnedBlob(evidence,canonicalBytes({kind:'diagnostic-worker-observation',schemaVersion:1,plans,settlement:settlementSummary(settlement)}))
-      if(collected.collection.holds.length||plans.length!==1||plans.some(plan=>!['candidate','draft-failure'].includes(plan.disposition)))throw new Error('WORKER_PREPARATION_HELD')
-      await writeOwnedBlob(evidence,canonicalBytes({kind:'diagnostic-worker-result',schemaVersion:1,plans,settlement:settlementSummary(settlement)}))
+      result.worker.observation=await writeOwnedBlob(evidence,canonicalBytes({kind:'diagnostic-worker-observation',schemaVersion:1,fixture:{current,target,config,dev:fixture.devCommit},plans,settlement:settlementSummary(settlement)}))
+      if(collected.collection.holds.length||plans.length!==1||plans.some(plan=>plan.disposition!=='candidate'))throw new Error('WORKER_PREPARATION_HELD')
       await verifyTrustedToolset(capture)
       if((await gitRead('rev-parse','HEAD')).toString().trim()!==input.master)throw new Error('MASTER_MISMATCH')
-      result.worker.status='passed';pass()
+      pass();result.worker.status='passed'
     }catch(error){
       const observed=provider.getWorkerSettlement()??(error as {settlement?:unknown})?.settlement
       result.worker.settlement=settlementSummary(observed)??result.worker.settlement
@@ -132,11 +147,17 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     }
   }catch(error){
     const message=error instanceof Error?error.message:''
-    const allowed=['MASTER_MISMATCH','CAPTURE_BINDING_MISMATCH','WORKER_UNSETTLED','WORKER_PREPARATION_HELD','CANDIDATE_EXECUTED','NON_NEXT_ONLY_PLAN','COOPERATIVE_DEADLINE']
+    const allowed=['MASTER_MISMATCH','AMBIGUOUS_GIT_STORAGE','CAPTURE_BINDING_MISMATCH','WORKER_UNSETTLED','WORKER_PREPARATION_HELD','CANDIDATE_EXECUTED','NON_NEXT_ONLY_PLAN','COOPERATIVE_DEADLINE']
     result.failure={phase,code:allowed.includes(message)?message:phase==='capture'?'CAPTURE_REFUSED':phase==='capacity'?'CAPACITY_INCOMPLETE':phase==='worker'?'WORKER_REFUSED':'DIAGNOSTIC_REFUSED'}
+    if(phase==='capture')result.failure.category=classifyCaptureRefusal(message.slice(0,4096))
     result.phases.push({phase,milliseconds:Math.ceil(performance.now()-phaseStart),status:'held'})
   }
   // Do not retain raw exceptions, environment values, stdout/stderr or credential canaries.
-  await evidence.writeJournal('diagnostic.json',canonicalBytes(result))
+  let reportBytes=canonicalBytes(result)
+  if(reportBytes.length>1024*1024){
+    result.tools=null;result.capture='held';if(result.worker.status==='passed')result.worker.status='held'
+    result.failure??={phase:'report',code:'REPORT_OUTPUT_LIMIT'};reportBytes=canonicalBytes(result)
+  }
+  await evidence.writeJournal('diagnostic.json',reportBytes)
   return result
 }
