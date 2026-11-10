@@ -1,7 +1,8 @@
-import { afterEach, describe, expect, it } from 'vitest'
+// @vitest-environment node
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mkdtemp, mkdir, writeFile, readFile, symlink, link, rename, realpath, lstat, chmod, unlink } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { initializeEvidence, writeOwnedBlob, sameFilesystemIdentity, checkedAncestors } from '../../adapters/updates/evidence'
@@ -105,4 +106,71 @@ describe('owned evidence bytes', () => {
     await expect(store.writeBlob(Buffer.from('bad'))).rejects.toThrow()
     expect(await readFile(join(repo, 'input'), 'utf8')).toBe('preserved')
   },30000)
+})
+
+describe('fresh bounded ancestor checks', () => {
+  it('returns every existing ancestor in order across batches and rejects upper aliases and symlinks', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'ancestor-batches-'))); roots.push(root)
+    const suffix = Array.from({length: 12}, (_, index) => `part-${index}`)
+    const directory = join(root, 'actual', ...suffix)
+    await mkdir(directory, {recursive: true})
+    const expected = []
+    for (let path = directory; ; path = dirname(path)) {
+      const st = await lstat(path, {bigint: true})
+      expected.push({path, dev: st.dev, ino: st.ino})
+      if (dirname(path) === path) break
+    }
+    expect(await checkedAncestors(directory)).toEqual(expected)
+    expect(await checkedAncestors(join(directory, 'missing', 'nested'))).toEqual(expected)
+    await expect(checkedAncestors(join(root, 'ACTUAL', ...suffix))).rejects.toThrow('Case alias')
+    await symlink(join(root, 'actual'), join(root, 'alias'))
+    await expect(checkedAncestors(join(root, 'alias', ...suffix))).rejects.toThrow('symlink ancestor')
+  }, 30000)
+
+  it.each([
+    ['ascii-name', 'ASCII-NAME'],
+    ['kelvin', 'Kelvin'],
+    ['i̇', 'İ'],
+    ['ος', 'ΟΣ'],
+  ])('freshly detects the %s / %s case alias after an earlier missing-path check', async (existing, requested) => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'ancestor-case-'))); roots.push(root)
+    const path = join(root, requested, 'missing')
+    await checkedAncestors(path)
+    await mkdir(join(root, existing))
+    await expect(checkedAncestors(path)).rejects.toThrow('Case alias')
+  }, 30000)
+
+  it('settles all started checks before rejecting and never starts another batch after a failure', async () => {
+    const path = '/ancestor-check/a/b/c/d/e/f/g/h/i/j/k'
+    const slow = dirname(path), firstFailure = new Error('first ancestor failed')
+    let release!: () => void
+    const blocked = new Promise<void>(resolve => { release = resolve })
+    const started: string[] = []
+    let slowFinished = false, settled = false
+    const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+    vi.resetModules()
+    vi.doMock('node:fs/promises', () => ({...actual, lstat: async (value: string) => {
+      const current = String(value); started.push(current)
+      if (current === path) throw firstFailure
+      if (current === slow) { await blocked; slowFinished = true }
+      return {dev: 1n, ino: 2n, isDirectory: () => true, isSymbolicLink: () => false} as Awaited<ReturnType<typeof lstat>>
+    }, readdir: async () => []}))
+    const {checkedAncestors: check} = await import('../../adapters/updates/evidence')
+    const outcome = check(path).then(value => ({value}), error => ({error})).finally(() => { settled = true })
+    try {
+      await new Promise<void>(resolve => setTimeout(resolve, 0))
+      expect(started.length).toBeGreaterThan(1)
+      expect(started.length).toBeLessThanOrEqual(8)
+      expect(started).toContain(slow)
+      expect(settled).toBe(false)
+      const firstBatch = [...started]
+      release()
+      expect(await outcome).toEqual({error: firstFailure})
+      expect(slowFinished).toBe(true)
+      expect(started).toEqual(firstBatch)
+    } finally {
+      release(); await outcome
+      vi.doUnmock('node:fs/promises'); vi.resetModules()
+    }
+  })
 })

@@ -14,8 +14,12 @@ export const rawSha256 = (bytes: Uint8Array) => createHash('sha256').update(byte
 
 /** Reject spelling aliases as well as physical aliases, even on case-sensitive hosts. */
 export async function checkedAncestors(path: string): Promise<{ path: string; dev: bigint; ino: bigint }[]> {
-  const result: { path: string; dev: bigint; ino: bigint }[] = []
+  const paths: string[] = []
   for (let current = resolve(path); ; current = dirname(current)) {
+    paths.push(current)
+    if (dirname(current) === current) break
+  }
+  async function inspect(current: string) {
     try {
       const st = await identityStat(current)
       if (!st.isDirectory() || st.isSymbolicLink()) throw new Error('Non-directory or symlink ancestor')
@@ -25,7 +29,7 @@ export async function checkedAncestors(path: string): Promise<{ path: string; de
         const names = await readdir(parent)
         if (names.some(n => n !== name && n.toLocaleLowerCase('en-US') === name.toLocaleLowerCase('en-US'))) throw new Error('Case alias')
       }
-      result.push({ path: current, dev: st.dev, ino: st.ino })
+      return { path: current, dev: st.dev, ino: st.ino }
     } catch (error) {
       if (!missing(error)) throw error
       const parent = dirname(current)
@@ -33,13 +37,30 @@ export async function checkedAncestors(path: string): Promise<{ path: string; de
         const names = await readdir(parent), name = relative(parent, current)
         if (names.some(n => n.toLocaleLowerCase('en-US') === name.toLocaleLowerCase('en-US'))) throw new Error('Case alias')
       } catch (e) { if (!missing(e)) throw e }
+      return null
     }
-    if (dirname(current) === current) break
+  }
+  // Every invocation still reads fresh metadata. Bound independent reads and settle
+  // the whole batch before callers proceed; inspect results in leaf-to-root order.
+  const result: { path: string; dev: bigint; ino: bigint }[] = []
+  for (let offset = 0; offset < paths.length; offset += 8) {
+    const batch = await Promise.allSettled(paths.slice(offset, offset + 8).map(inspect))
+    for (const item of batch) {
+      if (item.status === 'rejected') throw item.reason
+      if (item.value) result.push(item.value)
+    }
   }
   return result
 }
 async function verifyAncestors(pins: Awaited<ReturnType<typeof checkedAncestors>>) {
-  for (const pin of pins) { const st = await identityStat(pin.path); if (!st.isDirectory() || st.isSymbolicLink() || !same(st, pin)) throw new Error('Ancestor identity changed') }
+  // A failed check must not return while another check in this batch is pending.
+  for (let offset = 0; offset < pins.length; offset += 8) {
+    const results = await Promise.allSettled(pins.slice(offset, offset + 8).map(async pin => {
+      const st = await identityStat(pin.path)
+      if (!st.isDirectory() || st.isSymbolicLink() || !same(st, pin)) throw new Error('Ancestor identity changed')
+    }))
+    for (const result of results) if (result.status === 'rejected') throw result.reason
+  }
 }
 
 /** Bounded no-follow reads; regular, singly-linked files only. Recheck path and handle. */
