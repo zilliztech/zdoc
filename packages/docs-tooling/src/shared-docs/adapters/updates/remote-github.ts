@@ -38,8 +38,8 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
       if(input.method!=='GET')fail('ENDPOINT_INVALID')
       if(input.body||!input.path.startsWith(prefix))fail('ENDPOINT_INVALID')
       const suffix=input.path.slice(prefix.length),parts=suffix.split('?')
-      if(parts.length>2||parts[0].includes('..')||! /^(?:|\/git\/(?:ref\/heads\/[A-Za-z0-9_/-]+|matching-refs\/heads\/)|\/pulls(?:\/[1-9][0-9]*)?|\/commits\/[a-f0-9]{40}(?:\/check-runs)?|\/actions\/runs\/[1-9][0-9]*(?:\/attempts\/[1-9][0-9]*|\/artifacts)?|\/actions\/workflows\/[1-9][0-9]*|\/actions\/artifacts\/[1-9][0-9]*(?:\/zip)?|\/contents\/\.github\/workflows\/[A-Za-z0-9_.-]+)$/.test(parts[0]))fail('ENDPOINT_INVALID')
-      for(const [key,value] of new URLSearchParams(parts[1]??''))if(!['page','per_page','state','base','filter','ref'].includes(key)||! /^(?:[1-9][0-9]*|all|open|master|[a-f0-9]{40})$/.test(value))fail('ENDPOINT_INVALID')
+      if(parts.length>2||parts[0].includes('..')||! /^(?:|\/git\/(?:ref\/heads\/[A-Za-z0-9_/-]+|matching-refs\/heads\/)|\/pulls(?:\/[1-9][0-9]*)?|\/commits\/[a-f0-9]{40}(?:\/check-runs)?|\/actions\/runs\/[1-9][0-9]*(?:\/attempts\/[1-9][0-9]*|\/artifacts)?|\/actions\/workflows\/[1-9][0-9]*(?:\/runs)?|\/actions\/artifacts\/[1-9][0-9]*(?:\/zip)?|\/contents\/\.github\/workflows\/[A-Za-z0-9_.-]+)$/.test(parts[0]))fail('ENDPOINT_INVALID')
+      for(const [key,value] of new URLSearchParams(parts[1]??''))if(!['page','per_page','state','base','filter','ref','event','head_sha'].includes(key)||! /^(?:[1-9][0-9]*|all|open|master|workflow_dispatch|[a-f0-9]{40})$/.test(value))fail('ENDPOINT_INVALID')
     }
     const canonicalUrl=new URL(input.path,'https://api.github.com')
     if(canonicalUrl.origin!=='https://api.github.com'||canonicalUrl.pathname!==input.path.split('?')[0]||input.path.includes('%'))fail('ENDPOINT_INVALID')
@@ -132,13 +132,14 @@ export interface RemoteReads {
   readRepository():Promise<RemoteReadResult<RemoteRepository>>
   readRef(ref:string):Promise<RemoteReadResult<RemoteRef>>
   readPull(number:number):Promise<RemoteReadResult<RemotePull>>
-  scanPulls():Promise<RemoteReadResult<RemotePull[]>>
+  scanPulls(options?:{state:'all'}):Promise<RemoteReadResult<RemotePull[]>>
   readCommit(oid:string):Promise<RemoteReadResult<RemoteCommit>>
   readRun(request:{id:number;attempt:number;role:'producer'|'validator'}):Promise<RemoteReadResult<RemoteRun>>
+  findValidationRuns(request:{requestId:string;master:string}):Promise<RemoteReadResult<{id:number;attempt:number}[]>>
   readChecks(oid:string):Promise<RemoteReadResult<RemoteCheck[]>>
   readArtifact(request:{runId:number;attempt:number;name:string}):Promise<RemoteReadResult<RemoteArtifact>>
 }
-const instances=new WeakMap<RemoteReads,{policy:RemotePolicy;definitions:readonly ApprovedProducerDefinition[];check:()=>void;retain:(bytes:Uint8Array)=>Promise<BlobRef>}>()
+const instances=new WeakMap<RemoteReads,{policy:RemotePolicy;definitions:readonly ApprovedProducerDefinition[];check:()=>void;retain:(bytes:Uint8Array)=>Promise<BlobRef>;repositoryNodeId:()=>Promise<string>}>()
 /** Only actual constructor instances qualify, never structural interfaces or decoded JSON. */
 export function remoteReadContext(reads:RemoteReads) {return instances.get(reads)}
 
@@ -214,7 +215,7 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
   const pull=(value:unknown,refs:BlobRef[])=>{
     const raw=obj(value),base=obj(raw.base),head=obj(raw.head)
     const result=RemotePullSchema.parse({number:raw.number,repositoryId:policy.repositoryId,baseRepositoryId:obj(base.repo).id,headRepositoryId:obj(head.repo).id,
-      baseRef:base.ref,headRef:head.ref,base:base.sha,head:head.sha,actorId:obj(raw.user).id,state:raw.merged_at?'merged':raw.state,draft:raw.draft,evidence:refs}) as RemotePull
+      baseRef:base.ref,headRef:head.ref,base:base.sha,head:head.sha,actorId:obj(raw.user).id,state:raw.merged_at?'merged':raw.state,draft:raw.draft,createdAt:raw.created_at,evidence:refs}) as RemotePull
     if(result.baseRepositoryId!==policy.repositoryId||result.headRepositoryId!==policy.repositoryId||result.baseRef!==policy.baseRef||!policy.allowedHeadPrefixes.some(prefix=>result.headRef.startsWith(prefix)))fail('PULL_SCOPE')
     return result
   }
@@ -253,7 +254,7 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
       const value=pull(response.value,[response.evidence]);if(value.number!==number)fail('PULL_IDENTITY')
       const again=await api(path);if(!same(response.value,again.value))fail('PULL_RACE');await repository();return found({...value,evidence:[...value.evidence,again.evidence]})
     }),
-    scanPulls:()=>guarded(async()=>{await repository();const first=await collection(`${root}/pulls?state=open&base=master`),second=await collection(`${root}/pulls?state=open&base=master`);if(!same(first.values,second.values))fail('PULL_SCAN_RACE');await repository()
+    scanPulls:options=>guarded(async()=>{await repository();const state=options?.state==='all'?'all':'open';const first=await collection(`${root}/pulls?state=${state}&base=master`),second=await collection(`${root}/pulls?state=${state}&base=master`);if(!same(first.values,second.values))fail('PULL_SCAN_RACE');await repository()
       // Out-of-namespace ordinary PRs do not claim a shared update. Unknown overlapping namespace PRs remain visible or stop the scan.
       return found(first.values.filter(raw=>policy.allowedHeadPrefixes.some(prefix=>String(raw.head?.ref??'').startsWith(prefix))).map(raw=>pull(raw,[...first.evidence,...second.evidence]))) }),
     readCommit:oid=>guarded(async()=>{
@@ -277,6 +278,14 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
         wasSignedByGitHub:signature?.wasSignedByGitHub===true,payload:verification.payload??null,signature:verification.signature??null,evidence:[response.evidence,graph.evidence,identityEvidence]}) as RemoteCommit)
     }),
     readRun:request=>guarded(async()=>found(await run(request))),
+    findValidationRuns:request=>guarded(async()=>{
+      str(request.requestId);GitShaSchema.parse(request.master);await repository()
+      const path=`${root}/actions/workflows/${policy.validator.workflowId}/runs?event=workflow_dispatch&head_sha=${request.master}`,first=await collection(path,'workflow_runs'),second=await collection(path,'workflow_runs')
+      if(!same(first.values,second.values))fail('RUN_DISCOVERY_RACE')
+      const selected=first.values.filter(raw=>raw.display_title===`Shared update exact ${request.requestId}`)
+      for(const raw of selected)if(raw.workflow_id!==policy.validator.workflowId||raw.path!==policy.validator.workflowPath||raw.head_sha!==request.master||raw.event!=='workflow_dispatch'||obj(raw.repository).id!==policy.repositoryId||obj(raw.head_repository).id!==policy.repositoryId||obj(raw.actor).id!==policy.validator.actorId)fail('RUN_DISCOVERY_IDENTITY')
+      await repository();return found(selected.map(raw=>({id:integer(raw.id),attempt:integer(raw.run_attempt),evidence:[...first.evidence,...second.evidence]})))
+    }),
     readChecks:oid=>guarded(async()=>{GitShaSchema.parse(oid);await repository();const list=await collection(`${root}/commits/${oid}/check-runs?filter=all`,'check_runs'),again=await collection(`${root}/commits/${oid}/check-runs?filter=all`,'check_runs');if(!same(list.values,again.values))fail('CHECK_RACE');list.evidence.push(...again.evidence);await repository()
       const values=list.values.map(raw=>({id:integer(raw.id),name:str(raw.name),appId:integer(obj(raw.app).id),suiteId:integer(obj(raw.check_suite).id),head:GitShaSchema.parse(raw.head_sha),status:str(raw.status),conclusion:raw.conclusion===null?'pending':str(raw.conclusion),evidence:list.evidence}))
       if(values.some(value=>value.head!==oid)||values.length>LIMIT.observations)fail('CHECK_SCOPE');return found(values) }),
@@ -297,5 +306,43 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
       return found({id,name:request.name,runId:request.runId,toolingHead:GitShaSchema.parse(owner.head_sha),archive:await writeOwnedBlob(input.evidence,download.bytes),members,evidence:[attemptBefore.evidence,...list.evidence,before.evidence,download.evidence,after.evidence,...again.evidence,attemptAfter.evidence]})
     }),
   }
-  freeze(reads);instances.set(reads,Object.freeze({policy,definitions,check,retain:(bytes:Uint8Array)=>writeOwnedBlob(input.evidence,bytes)}));return reads
+  freeze(reads);instances.set(reads,Object.freeze({policy,definitions,check,retain:(bytes:Uint8Array)=>writeOwnedBlob(input.evidence,bytes),repositoryNodeId:async()=>{await repository();const response=await api(root);const raw=obj(response.value);if(raw.id!==policy.repositoryId||raw.full_name!==policy.repositoryFullName)fail('REPOSITORY_ID');return str(raw.node_id)}}));return reads
+}
+
+export const REMOTE_REF_CAS = 'mutation SharedUpdateRefs($input:UpdateRefsInput!){updateRefs(input:$input){clientMutationId}}'
+export const REMOTE_SEAL_APPEND = 'mutation SharedUpdateSeal($input:CreateCommitOnBranchInput!){createCommitOnBranch(input:$input){commit{oid}}}'
+/** An injected executable transport is fixture code, not production authorization. No credential lookup. */
+export function createRemoteMutationFixtureClient(input:{transport:RemoteTransport;repositoryFullName:string;repositoryId:string;targetRef:string;stagingRef:string;workflowId:number;observe?:(value:{action:string;path:string;requestSha256:string;status:number|null;responseSha256:string|null;correlationId:string|null})=>Promise<void>}) {
+  const root=`/repos/${input.repositoryFullName}`
+  if(!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(input.repositoryFullName)||!/^shared-update\/[A-Za-z0-9_/-]+$/.test(input.targetRef)||!/^shared-update-staging\/[a-f0-9]{64}$/.test(input.stagingRef)||[input.targetRef,input.stagingRef].some(ref=>ref.includes('..')||ref.endsWith('/'))||!input.repositoryId)fail('MUTATION_ALLOWLIST')
+  return async(action:'blob'|'tree'|'commit'|'cas'|'seal'|'draft'|'dispatch',body:Record<string,any>):Promise<unknown>=>{
+    let path:string,expected=201
+    const exact=(value:Record<string,any>,keys:string[])=>{if(Object.keys(value).sort().join(',')!==keys.sort().join(','))fail('MUTATION_ALLOWLIST')}
+    if(action==='cas') {
+      exact(body,['name','beforeOid','afterOid','force']);if(![input.targetRef,input.stagingRef].includes(body.name)||body.force!==false)fail('MUTATION_ALLOWLIST')
+      GitShaSchema.parse(body.beforeOid);GitShaSchema.parse(body.afterOid);if(/^0+$/.test(body.afterOid))fail('MUTATION_ALLOWLIST')
+      path='/graphql';expected=200;body={query:REMOTE_REF_CAS,variables:{input:{repositoryId:input.repositoryId,refUpdates:[{...body,name:`refs/heads/${body.name}`}],clientMutationId:body.afterOid}}}
+    } else if(action==='seal') {
+      exact(body,['expectedHeadOid','message']);GitShaSchema.parse(body.expectedHeadOid)
+      path='/graphql';expected=200;body={query:REMOTE_SEAL_APPEND,variables:{input:{branch:{repositoryNameWithOwner:input.repositoryFullName,branchName:input.stagingRef},expectedHeadOid:body.expectedHeadOid,message:body.message,fileChanges:{additions:[],deletions:[]}}}}
+    } else if(action==='draft') {
+      exact(body,['title','head','base','body','draft']);if(body.head!==input.targetRef||body.base!=='master'||body.draft!==true)fail('MUTATION_ALLOWLIST');path=`${root}/pulls`
+    } else if(action==='dispatch') {
+      exact(body,['ref','inputs']);exact(obj(body.inputs),['requestId','seal','master','dev']);if(body.ref!=='master'||!['seal','master','dev'].every(key=>GitShaSchema.safeParse(body.inputs[key]).success)||typeof body.inputs.requestId!=='string'||!body.inputs.requestId||body.inputs.requestId.length>256)fail('MUTATION_ALLOWLIST');path=`${root}/actions/workflows/${integer(input.workflowId)}/dispatches`;expected=204
+    } else if(action==='blob'){exact(body,['content','encoding']);if(body.encoding!=='base64'||typeof body.content!=='string'||Buffer.from(body.content,'base64').toString('base64')!==body.content)fail('MUTATION_ALLOWLIST');path=`${root}/git/blobs`}
+    else if(action==='tree'){exact(body,['tree']);if(!Array.isArray(body.tree)||body.tree.length>10000)fail('MUTATION_ALLOWLIST');for(const entry of body.tree){exact(obj(entry),['path','mode','type','sha']);if(typeof entry.path!=='string'||!entry.path||/[\/\0]/.test(entry.path)||['.','..'].includes(entry.path)||!['040000','100644','100755','120000'].includes(entry.mode)||entry.type!==(entry.mode==='040000'?'tree':'blob'))fail('MUTATION_ALLOWLIST');GitShaSchema.parse(entry.sha)}path=`${root}/git/trees`}
+    else if(action==='commit'){exact(body,['tree','parents','author','committer','message']);GitShaSchema.parse(body.tree);if(!Array.isArray(body.parents)||body.parents.length>2||typeof body.message!=='string')fail('MUTATION_ALLOWLIST');body.parents.forEach(value=>GitShaSchema.parse(value));for(const key of ['author','committer']){exact(obj(body[key]),['name','email','date']);if(!['name','email','date'].every(field=>typeof body[key][field]==='string'&&!/[\0\r\n]/.test(body[key][field])))fail('MUTATION_ALLOWLIST')}path=`${root}/git/commits`}
+    else fail('MUTATION_ALLOWLIST')
+    const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),IO.requestMilliseconds),requestSha256=rawSha256(canonicalBytes(body));let observed=false
+    try {
+      const response=await Promise.race([input.transport({method:'POST',path,body:canonicalBytes(body),maximum:IO.jsonBytes,signal:controller.signal}),new Promise<never>((_,reject)=>controller.signal.addEventListener('abort',()=>reject(new Error('MUTATION_TIMEOUT')),{once:true}))])
+      const correlation=response.headers['x-github-request-id'];await input.observe?.({action,path,requestSha256,status:response.status,responseSha256:rawSha256(response.body),correlationId:typeof correlation==='string'&&/^[A-Za-z0-9:-]{1,128}$/.test(correlation)?correlation:null});observed=true
+      if(response.status!==expected||response.body.length>IO.jsonBytes)fail('MUTATION_UNCLASSIFIED')
+      if(expected===204){if(response.body.length)fail('MUTATION_INCOMPLETE');return null}
+      const value=obj(parseStrictJson(response.body));if(value.errors)fail('MUTATION_UNCLASSIFIED')
+      if(path==='/graphql'&&!value.data)fail('MUTATION_INCOMPLETE')
+      if(action==='cas'){const result=obj(obj(value.data).updateRefs);if(result.clientMutationId!==body.variables.input.clientMutationId)fail('MUTATION_INCOMPLETE')}
+      return value
+    } catch(error){if(!observed)await input.observe?.({action,path,requestSha256,status:null,responseSha256:null,correlationId:null});throw error}finally {clearTimeout(timer)}
+  }
 }
