@@ -11,11 +11,12 @@ export const componentImports: Readonly<Record<Component, string>> = {
   Tabs: '@theme/Tabs',
   TabItem: '@theme/TabItem',
   Supademo: '@site/src/components/Supademo',
+  Procedures: '@site/src/components/Procedures',
   DocCardList: '@theme/DocCardList',
 }
 
 /** Canonical emission order; imports are deduplicated and emitted once. */
-export const componentOrder: readonly Component[] = ['Admonition', 'Tabs', 'TabItem', 'Supademo', 'DocCardList']
+export const componentOrder: readonly Component[] = ['Admonition', 'Tabs', 'TabItem', 'Supademo', 'Procedures', 'DocCardList']
 
 /** True when the generator knows how to import this authored component. */
 export const isImportableComponent = (name: string): name is Component => name in componentImports
