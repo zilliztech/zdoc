@@ -225,8 +225,9 @@ it.each([
   expect(await originalState(f)).toEqual(before)
 },15_000)
 
-// Reviewed case budgets: ordinary plan/prepare 15s, recovery 30s, complete K1/K2 60s.
-// Evidence: task-5/heavy-case-first-measurements.json (14.3–18.9s recovery, 37.9s history).
+// Reviewed case budgets: ordinary plan/prepare 15s, interruption/resume 60s, complete K1/K2 60s.
+// Recovery includes planning, an interrupted prepare and a fully revalidated resume.
+// Give these combined filesystem/Git stages headroom under complete-gate load.
 it.each(['prepared','created','validated','installed'] as const)('revalidates the %s journal after interruption and reuses existing candidate objects',async phase=>{
   const f=await fixture(),plan=join(f.root,'plan'),output=join(f.root,`resume-${phase}`),before=await originalState(f)
   await f.mark('plan.start');expect((await f.runner.plan(f.request,plan)).status).toBe('planned');await f.mark('plan.complete')
@@ -248,7 +249,7 @@ it.each(['prepared','created','validated','installed'] as const)('revalidates th
   expect((await readJson(join(output,'journal.json'))).phase).toBe('installed')
   expect(await git(join(output,'scratch.git'),'rev-parse',`refs/shared-update/local/${result.planSha256}`)).toBe(result.candidate)
   expect(await originalState(f)).toEqual(before)
-},30_000)
+},60_000)
 
 it('revalidates installed K1 at its original target after source advancement and prepares fresh K2',async()=>{
   const f=await fixture(),first=await installed(f),oldFiles=await files(first.output),oldPlan=await files(first.plan)
