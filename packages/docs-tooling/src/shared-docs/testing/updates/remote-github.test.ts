@@ -8,7 +8,7 @@ import { deflateRawSync } from 'node:zlib'
 import { afterEach, expect, it } from 'vitest'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { REMOTE_LIMITS, type RemotePolicy } from '../../core/updates/remote'
-import { createRemoteReads, createRemoteTransport, parseRemoteZip, remoteReadContext, type RemoteTransport } from '../../adapters/updates/remote-github'
+import { createRemoteReads, createRemoteTransport, createRemoteMutationFixtureClient, REMOTE_REF_CAS, parseRemoteZip, remoteReadContext, type RemoteTransport } from '../../adapters/updates/remote-github'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 const oid='a'.repeat(40),roots:string[]=[]
 afterEach(async()=>{for(const root of roots.splice(0))await rm(root,{recursive:true,force:true})})
@@ -32,7 +32,7 @@ async function fixture() {
   const root=await mkdtemp(join(await realpath(tmpdir()),'remote-api-'));roots.push(root)
   const evidence=await initializeEvidence({root:join(root,'evidence'),repositories:[],owner:'fixture'})
   const archive=zip({'receipt.json':Buffer.from('synthetic bytes')}),metadata={id:61,name:'producer',expired:false,size_in_bytes:archive.length,digest:'sha256:'+rawSha256(archive),workflow_run:{id:30,repository_id:100,head_repository_id:100,head_sha:oid,head_branch:'master'}}
-  const pr={id:20,number:20,base:{repo:{id:100},ref:'master',sha:oid},head:{repo:{id:100},ref:'shared-update/unit',sha:oid},user:{id:27},state:'open',merged_at:null,draft:true}
+  const pr={id:20,number:20,base:{repo:{id:100},ref:'master',sha:oid},head:{repo:{id:100},ref:'shared-update/unit',sha:oid},user:{id:27},state:'open',merged_at:null,draft:true,created_at:'2026-01-01T00:00:00Z'}
   const run={id:30,run_attempt:1,repository:{id:100},head_repository:{id:100},head_sha:oid,actor:{id:7},event:'workflow_dispatch',workflow_id:8,path:policy.producer.workflowPath,status:'completed',conclusion:'success',check_suite_id:50}
   const responses:Record<string,unknown>={
     '':{id:100,full_name:'example/zdoc'},'/git/ref/heads/master':{ref:'refs/heads/master',object:{type:'commit',sha:oid}},'/git/matching-refs/heads/':[],
@@ -183,4 +183,24 @@ it('preserves nullable GraphQL committer and bounded dual API identity evidence'
     }
     expect(JSON.stringify(observations)).not.toContain('PRIVATE_MESSAGE')
   }
+})
+
+it('requires an API-authenticated created_at and scans closed/merged exact-head PRs in all-state mode',async()=>{
+  const f=await fixture();f.pr.state='closed';(f.pr as any).merged_at='2026-02-01T00:00:00Z'
+  const all=await f.reads.scanPulls({state:'all'});expect(all.kind).toBe('found');if(all.kind==='found')expect(all.value[0]).toMatchObject({createdAt:'2026-01-01T00:00:00Z',state:'merged'})
+  expect(f.transcript.some(item=>item.path.includes('state=all'))).toBe(true)
+  delete (f.pr as any).created_at;expect((await f.reads.scanPulls({state:'all'})).kind).toBe('unknown')
+})
+it('keeps readonly credential transport closed to writer mutation queries',async()=>{
+  const transport=createRemoteTransport({repositoryFullName:'example/zdoc',token:'fixture-must-not-reach-network',socketRequest:(()=>{throw Error('NETWORK_REACHED')}) as any})
+  await expect(transport({method:'POST',path:'/graphql',body:canonicalBytes({query:REMOTE_REF_CAS,variables:{input:{}}}),maximum:4096,signal:new AbortController().signal})).rejects.toThrow('ENDPOINT_INVALID')
+})
+it('enforces mutation endpoint/body/ref allowlists and treats null CAS results as incomplete',async()=>{
+  let calls=0
+  const options={repositoryFullName:'example/zdoc',repositoryId:'R_fixture',targetRef:'shared-update/unit',stagingRef:'shared-update-staging/'+'a'.repeat(64),workflowId:18,transport:async()=>{calls++;return {status:200,headers:{},body:canonicalBytes({data:{updateRefs:null}})}}}
+  for(const targetRef of ['master','dev','arbitrary/branch','shared-update/../master'])expect(()=>createRemoteMutationFixtureClient({...options,targetRef})).toThrow('MUTATION_ALLOWLIST')
+  const client=createRemoteMutationFixtureClient(options)
+  for(const [action,body]of [['cas',{name:'master',beforeOid:oid,afterOid:oid,force:false}],['cas',{name:options.targetRef,beforeOid:oid,afterOid:oid,force:true}],['cas',{name:options.targetRef,beforeOid:oid,afterOid:'0'.repeat(40),force:false}],['draft',{head:options.targetRef,base:'master',draft:false,title:'x',body:'x'}],['dispatch',{ref:oid,inputs:{requestId:'x',seal:oid,master:oid,dev:oid,extra:'x'}}],['blob',{content:'',encoding:'base64',sha:oid}],['commit',{tree:oid,parents:[],message:'x',signature:'discard'}],['tree',{tree:[{path:'../escape',mode:'100644',type:'blob',sha:oid}]}],['close',{}]] as const)await expect(client(action as any,body)).rejects.toThrow()
+  expect(calls).toBe(0)
+  await expect(client('cas',{name:options.targetRef,beforeOid:oid,afterOid:oid,force:false})).rejects.toThrow();expect(calls).toBe(1)
 })

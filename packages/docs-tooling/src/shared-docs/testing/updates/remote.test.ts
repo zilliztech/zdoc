@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import { expect, it } from 'vitest'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { acceptExactValidation, classifyRemoteRead, DecisionSchema, ExactValidationReceiptV1Schema,
-  RemoteSealV1Schema, RemotePolicySchema, RemoteFactsSchema, REMOTE_LIMITS } from '../../core/updates/remote'
+  RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, RemoteSealV1Schema, RemotePolicySchema, RemoteFactsSchema, REMOTE_LIMITS } from '../../core/updates/remote'
 
 const oid = (n: number) => n.toString(16).padStart(40, '0')
 const digest = (n: number) => n.toString(16).padStart(64, '0')
@@ -191,4 +191,14 @@ it('rejects legacy policy and committer attribution without migration defaults',
   expect(RemotePolicySchema.safeParse(legacy).success).toBe(false)
   expect(RemotePolicySchema.safeParse({...f.policy,sealIdentity:{...sealIdentity,platformSignerActorId:0}}).success).toBe(false)
   expect(RemoteFactsSchema.safeParse({...f.facts,seal:{kind:'found',value:{...f.facts.seal.value,writerAttribution:{role:'committer',actorId:27}}}}).success).toBe(false)
+})
+
+it('does not turn journal JSON into authority and rejects staging identity substitution',()=>{
+  const f=fixture(),intent={kind:'shared-update-remote-intent',schemaVersion:1,repositoryId:100,repositoryFullName:'example/zdoc',master:f.expected.master,dev:f.expected.dev,transactionId:f.expected.transactionId,unitKey:f.expected.unitKey,planSha256:f.expected.planSha256,proofSha256:f.expected.proofSha256,plan:blob('plan.json'),proof:blob('proof.json'),preparedBase:f.expected.preparedBase,candidate:f.expected.candidate,candidateTree:f.expected.candidateTree,previousSeal:null,preservedHumanHeads:[],targetRef:f.expected.branch,expectedHead:null,stagingRef:'shared-update-staging/'+f.expected.transactionId,pulls:[],producerRunId:30,producerRunAttempt:1,producerRequestId:'producer',requestId:'validation'}
+  expect(RemoteTransactionIntentSchema.safeParse(intent).success).toBe(true)
+  expect(RemoteTransactionIntentSchema.safeParse({...intent,authorized:true}).success).toBe(false)
+  expect(RemoteTransactionIntentSchema.safeParse({...intent,stagingRef:'shared-update-staging/'+digest(99)}).success).toBe(false)
+  const journal={kind:'shared-update-remote-journal',schemaVersion:1,intentSha256:digest(1),transactionId:digest(2),sequence:0,phase:'before',action:'cas',observation:null,reasons:[]}
+  expect(RemoteTransactionJournalSchema.safeParse(journal).success).toBe(true)
+  expect(RemoteTransactionJournalSchema.safeParse({...journal,authorized:true}).success).toBe(false)
 })
