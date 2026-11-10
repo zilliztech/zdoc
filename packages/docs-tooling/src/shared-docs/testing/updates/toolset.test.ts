@@ -1,4 +1,6 @@
 // @vitest-environment node
+import * as fsPromises from 'node:fs/promises'
+import * as childProcess from 'node:child_process'
 import { describe, expect, it, vi, afterEach } from 'vitest'
 import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename, chown, readdir, lstat } from 'node:fs/promises'
 import { load as loadYaml } from 'js-yaml'
@@ -445,6 +447,12 @@ describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
     const capture = await captureTrustedToolset({ ...a, helpers: ['gh', 'python3'] })
     const evidence = await initializeEvidence({ root: join(a.root, '.claude', 'evidence'), repositories: [a.root], owner: 'launcher' })
     const proof = await retainTrustedAccessEvidence(capture, evidence)
+    if (process.platform === 'darwin') {
+      const access = JSON.parse(await readFile(join(evidence.root, proof.path), 'utf8'))
+      const pythonLexical = execFileSync('/usr/bin/xcrun', ['--find', 'python3'], {encoding:'utf8'}).trim()
+      const gitLexical = execFileSync('/usr/bin/xcrun', ['--find', 'git'], {encoding:'utf8'}).trim()
+      for (const path of [gitLexical, pythonLexical]) expect(access.paths.some((pin: {path: string}) => pin.path === path)).toBe(true)
+    }
     await expect((await import('node:fs/promises')).lstat(join(evidence.root,proof.path)).then(st=>st.mode&0o777)).resolves.toBe(0o600)
     const launcher = await prepareTrustedLauncher(capture, evidence)
     const result = await launcher.run('scripts/worker.cjs', [data])
@@ -751,7 +759,12 @@ describe('trusted local identity policy', () => {
 // Keep process fault dispatch private to tests; ordinary calls use real spawn.
 vi.mock('node:child_process', async importOriginal => {
   const actual = await importOriginal<typeof import('node:child_process')>()
-  return {...actual, spawn: vi.fn(actual.spawn)}
+  const mockedExecFile = vi.fn(actual.execFile)
+  const {promisify} = await import('node:util')
+  Object.defineProperty(mockedExecFile, promisify.custom, {value: (...args: unknown[]) => new Promise((resolve, reject) => {
+    (mockedExecFile as Function)(...args, (error: Error | null, stdout: unknown, stderr: unknown) => error ? reject(error) : resolve({stdout,stderr}))
+  })})
+  return {...actual, execFile: mockedExecFile, spawn: vi.fn(actual.spawn)}
 })
 async function ownerFixture() {
   const a = await loaderFixture(), marker = join(a.root, '.claude/owned-worker.json')
@@ -952,4 +965,95 @@ describe.skipIf(process.platform === 'linux').sequential('Guides worker owned se
     }
     // This event-order control is synthetic. Real settlement is tested above.
   }, 30000)
+})
+
+
+vi.mock('node:fs/promises', async importOriginal => {
+  const actual = await importOriginal<typeof import('node:fs/promises')>()
+  return {...actual, open: vi.fn(actual.open), realpath: vi.fn(actual.realpath), readdir: vi.fn(actual.readdir)}
+})
+const fsPromisesOpen = vi.mocked(fsPromises.open).getMockImplementation()!
+const originalRealpath = vi.mocked(fsPromises.realpath).getMockImplementation()!
+const originalExecFile = vi.mocked(childProcess.execFile).getMockImplementation()!
+describe.skipIf(process.platform !== 'darwin')('fixed developer tool capture provisioning', () => {
+  afterEach(() => { vi.restoreAllMocks(); vi.clearAllMocks(); vi.mocked(childProcess.execFile).mockImplementation(originalExecFile); vi.mocked(fsPromises.open).mockImplementation(fsPromisesOpen); vi.mocked(fsPromises.realpath).mockImplementation(originalRealpath) })
+  const profile = '/Library/Preferences/OpenDirectory/Configurations/Search.plist'
+  function discover(gitPath: string, pythonPath?: string) {
+    const original = originalExecFile
+    vi.mocked(childProcess.execFile).mockImplementation(((file: string, args: string[], options: unknown, callback: Function) => {
+      if (file === '/usr/bin/xcrun') {
+        callback(null, args[1] === 'git' ? gitPath + '\n' : pythonPath + '\n', '')
+        return {} as never
+      }
+      return (original as Function)(file, args, options, callback)
+    }) as never)
+  }
+  it.each(['/Applications/Xcode.app/Contents/Developer', '/Applications/Xcode_16.4.app/Contents/Developer', '/Library/Developer/CommandLineTools'])('accepts %s Git location and preserves profile permission refusal', async developer => {
+    const a = await fixture(), location = developer + '/usr/bin/git'
+    discover(location)
+    const original = originalRealpath
+    vi.spyOn(fsPromises, 'realpath').mockImplementation((async path => String(path) === location ? location : original(path)) as typeof fsPromises.realpath)
+    const opened = vi.spyOn(fsPromises, 'open').mockImplementation((async (path, ...args) => {
+      if (String(path) === profile) throw Object.assign(new Error('profile read denied'), {code: 'EACCES'})
+      return fsPromisesOpen(path, ...args)
+    }) as typeof fsPromises.open)
+    await expect(captureTrustedToolset(a)).rejects.toMatchObject({code: 'EACCES'})
+    expect(opened).toHaveBeenCalledWith(profile, expect.any(Number))
+  })
+  it.each(['/Applications/Xcode_evil.app/Contents/Developer/usr/bin/git', '/Applications/Xcode_16.4.app/Contents/Developer/usr/../bin/git', '/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/python3', '/Library/Developer/arbitrary/usr/bin/git', '/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/git\nextra', '/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/git\n', '/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/git\r'])('refuses malformed Git discovery %s before profile read', async location => {
+    const a = await fixture(); discover(location)
+    const opened = vi.spyOn(fsPromises, 'open')
+    await expect(captureTrustedToolset(a)).rejects.toThrow('Unknown system Git provisioning')
+    expect(opened.mock.calls.some(([path]) => String(path) === profile)).toBe(false)
+  })
+  it.each(['/Applications/Xcode.app/Contents/Developer', '/Applications/Xcode_16.4.app/Contents/Developer', '/Library/Developer/CommandLineTools'])('accepts %s Python framework layout through actual capture', async developer => {
+    const a = await fixture(), location = developer + '/usr/bin/python3', binary = developer + '/Library/Frameworks/Python3.framework/Versions/3.9/bin/python3.9', stdlib = dirname(dirname(binary)) + '/lib/python3.9'
+    const gitPath = execFileSync('/usr/bin/xcrun', ['--find', 'git'], {encoding: 'utf8'}).trim()
+    discover(gitPath, location)
+    vi.spyOn(fsPromises, 'realpath').mockImplementation((async path => String(path) === location ? binary : [binary, stdlib].includes(String(path)) ? String(path) : originalRealpath(path)) as typeof fsPromises.realpath)
+    const originalRead = vi.mocked(fsPromises.readdir).getMockImplementation()!
+    const read = vi.spyOn(fsPromises, 'readdir').mockImplementation((async (path, ...args) => {
+      if (String(path) === stdlib) throw new Error('MEASURE_STDLIB_SENTINEL')
+      return (originalRead as Function)(path, ...args)
+    }) as typeof fsPromises.readdir)
+    try {
+      await expect(captureTrustedToolset({...a, helpers:['python3']})).rejects.toThrow('MEASURE_STDLIB_SENTINEL')
+      expect(read.mock.calls.some(([path]) => String(path) === stdlib)).toBe(true)
+    } finally { read.mockRestore() }
+  })
+  it.each(['/Applications/Xcode_bad.app/Contents/Developer/usr/bin/python3', '/Library/Developer/other/usr/bin/python3'])('refuses unsupported Python discovery %s', async location => {
+    const a = await fixture(), gitPath = execFileSync('/usr/bin/xcrun', ['--find', 'git'], {encoding:'utf8'}).trim()
+    discover(gitPath, location)
+    await expect(captureTrustedToolset({...a, helpers:['python3']})).rejects.toThrow('Unknown Python provisioning')
+  })
+  it('rejects a Python target escaping into a different developer root', async () => {
+    const a = await fixture(), location = '/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/python3', gitPath = execFileSync('/usr/bin/xcrun', ['--find', 'git'], {encoding:'utf8'}).trim()
+    discover(gitPath, location)
+    vi.spyOn(fsPromises, 'realpath').mockImplementation((async path => String(path) === location ? '/Library/Developer/CommandLineTools/usr/bin/python3' : originalRealpath(path)) as typeof fsPromises.realpath)
+    await expect(captureTrustedToolset({...a, helpers:['python3']})).rejects.toThrow('Unknown Python provisioning')
+  })
+  it('binds original profile bytes and rejects changed bytes on verification', async () => {
+    const a = await fixture(), capture = await captureTrustedToolset(a), bytes = await readFile(profile)
+    expect(capture.closure.entries.find(entry => entry.path === 'runtime/identity-profile/Search.plist')).toMatchObject({sha256:rawSha256(bytes),bytes:bytes.length})
+    vi.spyOn(fsPromises, 'open').mockImplementation((async (path, ...args) => {
+      const handle = await fsPromisesOpen(path, ...args)
+      if (String(path) === profile) {
+        const originalRead = handle.read.bind(handle)
+        handle.read = (async (...readArgs: Parameters<typeof handle.read>) => {
+          const result = await originalRead(...readArgs)
+          if (result.bytesRead) result.buffer[0] ^= 1
+          return result
+        }) as typeof handle.read
+      }
+      return handle
+    }) as typeof fsPromises.open)
+    await expect(verifyTrustedToolset(capture)).rejects.toThrow('Trusted runtime changed before inspection')
+  })
+  it('rejects a canonical Git target that escapes its selected developer root', async () => {
+    const a = await fixture(), location = '/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/git'
+    discover(location)
+    const original = originalRealpath
+    vi.spyOn(fsPromises, 'realpath').mockImplementation((async path => String(path) === location ? '/Applications/Xcode.app/Contents/Developer/usr/bin/git' : original(path)) as typeof fsPromises.realpath)
+    await expect(captureTrustedToolset(a)).rejects.toThrow('Unknown system Git provisioning')
+  })
 })

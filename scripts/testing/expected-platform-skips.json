@@ -10,7 +10,7 @@
     "linux": {
       "packages/docs-tooling/src/shared-docs/testing/links/images.test.ts": 4,
       "packages/docs-tooling/src/shared-docs/testing/updates/guides-provider.test.ts": 1,
-      "packages/docs-tooling/src/shared-docs/testing/updates/toolset.test.ts": 89,
+      "packages/docs-tooling/src/shared-docs/testing/updates/toolset.test.ts": 107,
       "packages/docs-tooling/src/shared-docs/testing/updates/update-command.test.ts": 2
     }
   }

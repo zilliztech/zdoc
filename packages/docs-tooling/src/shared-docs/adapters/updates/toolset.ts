@@ -688,7 +688,7 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
   for (const helper of helpers) {
     if (helper === 'python3') {
       const python = await capturePython(entries, physical, environment)
-      nativeTargets.push(...python.nativeTargets); resolutions.push(...python.resolutions); continue
+      nativeTargets.push(...python.nativeTargets); resolutions.push(...python.resolutions); for (const path of python.accessPaths) accessPaths.add(path); continue
     }
     if (helper !== 'gh') throw new Error('Unknown trusted runtime helper')
     nativeTargets.push({ name: 'runtime/gh', path: process.platform === 'darwin' ? process.arch === 'arm64' ? '/opt/homebrew/bin/gh' : '/usr/local/bin/gh' : '/usr/bin/gh' })
@@ -822,15 +822,26 @@ function systemLibrary(path: string) {
   }
   return /^\/(usr\/)?lib(?:64|\/x86_64-linux-gnu|\/aarch64-linux-gnu)?\/(?:lib(?:c|m|dl|rt|pthread|resolv|util|z|pcre2-8|gcc_s|stdc\+\+)\.so\.[0-9.]+|ld-linux-(?:x86-64|aarch64)\.so\.[0-9]+)$/.test(path)
 }
+/** Fixed xcrun discovery is only a location policy; bytes/native/access checks still apply. */
+async function resolveDarwinDeveloperTool(tool: 'git' | 'python3', environment: NodeJS.ProcessEnv) {
+  const refusal = tool === 'git' ? 'Unknown system Git provisioning' : 'Unknown Python provisioning'
+  const output = (await exec('/usr/bin/xcrun', ['--find', tool], { env: environment, timeout: 10000 })).stdout
+  const lexical = output.endsWith('\n') ? output.slice(0, -1) : output
+  const match = /^(\/Library\/Developer\/CommandLineTools|\/Applications\/Xcode(?:_[0-9]+(?:\.[0-9]+)*)?\.app\/Contents\/Developer)\/usr\/bin\/(git|python3)$/.exec(lexical)
+  if (/[\x00-\x20\x7f]/.test(lexical) || !match || match[2] !== tool) throw new Error(refusal)
+  const target = await realpath(lexical)
+  if (/[\x00-\x20\x7f]/.test(target) || !isAbsolute(target) || resolve(target) !== target || !contains(match[1], target) || target === match[1]) throw new Error(refusal)
+  return { lexical, target }
+}
 async function captureRuntime(entries: Map<string, ClosureEntry>, physical: Map<string, string>, environment: NodeJS.ProcessEnv) {
   const node = await realpath(process.execPath), binaries = new Map<string, string>([['runtime/node', node]])
-  const resolutions: ExecutableClosure['resolutions'] = []
+  const resolutions: ExecutableClosure['resolutions'] = [], developerAccessPaths = new Set<string>()
   for (const [name, path] of accessInspectors()) { binaries.set(name, path); resolutions.push({ from: 'runtime/node', specifier: name, kind: 'binary', conditions: [], target: name }) }
   let git = '/usr/bin/git'
   if (process.platform === 'darwin') {
     binaries.set('runtime/git-resolver', '/usr/bin/xcrun'); binaries.set('runtime/git-shim', '/usr/bin/git')
-    git = (await exec('/usr/bin/xcrun', ['--find', 'git'], { env: environment, timeout: 10000 })).stdout.trim()
-    if (!git.startsWith('/Library/Developer/') && !git.startsWith('/Applications/Xcode.app/')) throw new Error('Unknown system Git provisioning')
+    const resolved = await resolveDarwinDeveloperTool('git', environment)
+    git = resolved.target; developerAccessPaths.add(resolved.lexical)
     resolutions.push({ from: 'runtime/git-resolver', specifier: 'git', kind: 'binary', conditions: [], target: 'runtime/git' })
     resolutions.push({ from: 'runtime/git-shim', specifier: 'xcrun', kind: 'binary', conditions: [], target: 'runtime/git-resolver' })
   } else if (process.platform !== 'linux') throw new Error('Unsupported trusted runtime platform')
@@ -843,7 +854,7 @@ async function captureRuntime(entries: Map<string, ClosureEntry>, physical: Map<
   const native = await captureTrustedNativeFiles([...binaries].map(([name, path]) => ({ name, path })))
   for (const entry of native.entries) entries.set(entry.path, entry)
   for (const [full, path] of native.physical) physical.set(full, path)
-  return { git, resolutions: [...resolutions, ...native.resolutions], hostExclusions: native.hostExclusions, accessPaths: native.accessPaths }
+  return { git, resolutions: [...resolutions, ...native.resolutions], hostExclusions: native.hostExclusions, accessPaths: new Set([...native.accessPaths, ...developerAccessPaths]) }
 }
 
 /** Bind the nearest existing ancestor of an absent search candidate so access
@@ -970,10 +981,10 @@ function isMachExecutable(input: Uint8Array) {
 }
 async function capturePython(entries: Map<string, ClosureEntry>, physical: Map<string, string>, environment: NodeJS.ProcessEnv) {
   let binary = '/usr/bin/python3'
-  const nativeTargets = [{ name: 'runtime/shell', path: '/bin/sh' }], resolutions: ExecutableClosure['resolutions'] = []
+  const nativeTargets = [{ name: 'runtime/shell', path: '/bin/sh' }], resolutions: ExecutableClosure['resolutions'] = [], accessPaths = new Set<string>()
   if (process.platform === 'darwin') {
-    binary = (await exec('/usr/bin/xcrun', ['--find', 'python3'], { env: environment, timeout: 10000 })).stdout.trim()
-    if (!binary.startsWith('/Library/Developer/') && !binary.startsWith('/Applications/Xcode.app/')) throw new Error('Unknown Python provisioning')
+    const resolved = await resolveDarwinDeveloperTool('python3', environment)
+    binary = resolved.target; accessPaths.add(resolved.lexical)
     nativeTargets.push({ name: 'runtime/python3-shim', path: '/usr/bin/python3' })
     resolutions.push({ from: 'runtime/git-resolver', specifier: 'python3', kind: 'binary', conditions: [], target: 'runtime/python3' })
   }
@@ -1008,7 +1019,7 @@ async function capturePython(entries: Map<string, ClosureEntry>, physical: Map<s
   resolutions.push({ from: 'runtime/launch/python3', specifier: 'shell-interpreter', kind: 'binary', conditions: [], target: 'runtime/shell' },
     { from: 'runtime/launch/python3', specifier: 'python-real', kind: 'binary', conditions: ['-I', '-S', '-B'], target: 'runtime/python3' },
     { from: 'runtime/python3', specifier: 'isolated-standard-library', kind: 'import', conditions: ['-I', '-S', '-B'], target: 'runtime/python-stdlib' })
-  return { nativeTargets, resolutions }
+  return { nativeTargets, resolutions, accessPaths }
 }
 
 /** Launch existing consumers in a separate process; never mutate the parent environment. */
