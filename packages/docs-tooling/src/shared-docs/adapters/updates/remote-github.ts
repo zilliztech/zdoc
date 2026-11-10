@@ -261,11 +261,20 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
       const response=await api(`${root}/commits/${oid}`),raw=obj(response.value),commit=obj(raw.commit),verification=obj(commit.verification)
       const [owner,name]=policy.repositoryFullName.split('/'),graph=await api('/graphql',{query:signatureQuery,variables:{owner,name,oid}}),repo=obj(obj(graph.value).data?.repository),node=obj(repo.object)
       if(repo.databaseId!==policy.repositoryId||raw.sha!==oid||node.oid!==oid||!Array.isArray(raw.parents)||raw.parents.length>2)fail('COMMIT_IDENTITY')
+      const author=integer(obj(raw.author).id),graphAuthor=integer(node.author?.user?.databaseId)
+      if(author!==graphAuthor)fail('COMMIT_AUTHOR_IDENTITY')
+      const restCommitter=raw.committer?.id??null,graphCommitter=node.committer?.user?.databaseId??null
+      if(restCommitter!==null)integer(restCommitter)
+      if(graphCommitter!==null)integer(graphCommitter)
+      if(restCommitter!==null&&graphCommitter!==null&&restCommitter!==graphCommitter)fail('COMMIT_COMMITTER_IDENTITY')
       const signature=node.signature,valid=verification.verified===true&&verification.reason==='valid'&&signature?.isValid===true
       if(signature&&(signature.payload!==verification.payload||signature.signature!==verification.signature))fail('SIGNATURE_PAYLOAD')
-      return found(RemoteCommitSchema.parse({oid,tree:obj(commit.tree).sha,parents:raw.parents.map((parent:any)=>obj(parent).sha),authorActorId:node.author?.user?.databaseId??null,
+      const identityEvidence=await retain({kind:'remote-commit-identity',repositoryId:policy.repositoryId,oid,
+        rest:{authorActorId:author,committerActorId:restCommitter,response:response.evidence,bodySha256:rawSha256(response.bytes)},
+        graphql:{authorActorId:graphAuthor,committerActorId:graphCommitter,response:graph.evidence,bodySha256:rawSha256(graph.bytes)}})
+      return found(RemoteCommitSchema.parse({oid,tree:obj(commit.tree).sha,parents:raw.parents.map((parent:any)=>obj(parent).sha),authorActorId:author,
         committerActorId:node.committer?.user?.databaseId??null,signerActorId:signature?.signer?.databaseId??null,signatureValid:valid,signatureState:signature?.state??'UNSIGNED',
-        wasSignedByGitHub:signature?.wasSignedByGitHub===true,payload:verification.payload??null,signature:verification.signature??null,evidence:[response.evidence,graph.evidence]}) as RemoteCommit)
+        wasSignedByGitHub:signature?.wasSignedByGitHub===true,payload:verification.payload??null,signature:verification.signature??null,evidence:[response.evidence,graph.evidence,identityEvidence]}) as RemoteCommit)
     }),
     readRun:request=>guarded(async()=>found(await run(request))),
     readChecks:oid=>guarded(async()=>{GitShaSchema.parse(oid);await repository();const list=await collection(`${root}/commits/${oid}/check-runs?filter=all`,'check_runs'),again=await collection(`${root}/commits/${oid}/check-runs?filter=all`,'check_runs');if(!same(list.values,again.values))fail('CHECK_RACE');list.evidence.push(...again.evidence);await repository()
