@@ -670,3 +670,50 @@ including next-only candidates, stale plans, output protection and resume.
 Those synthetic fixtures do not establish measured production-worker or SDK
 integration qualification. Operator commands and recovery rules are in the
 repository README.
+
+### Remote update library (not activated)
+
+`createRemoteUpdateRunner({capture, reads, policy, writerCapability?,
+transactionEvidence?})` is an internal library entry. There is no public remote
+write command or workflow installation. Capture still comes from
+`captureTrustedToolset`, including its Linux refusal. Requests cannot install a
+runtime, provider, trusted flag or writer. The executable fixture seams establish
+test behavior only; they do not qualify a production runner.
+
+`observe(request, preparationRoot, inspectionRoot)` accepts a strict local input
+pin record plus producer run/attempt/request identity and a validation request
+identity. Those identities are claims, not producer attestations. Observation
+rechecks repository identity, current master/dev, authenticated namespace PRs and
+exact refs. It returns `held`, `noop` or `planned`, always with `operations: []`.
+A planned intent derives its repository from policy and its plan, proof, P/K and
+refs from authenticated observations; callers cannot override an intent or proof.
+
+P is the ordinary prepared merge base, K is a deterministic next-only candidate,
+and S is the independently authenticated remote seal. Remote history capabilities
+are bound to the exact read adapter, policy and current M/H/donor set. Historical
+S may attest an older M. Its raw objects, producer bundle and historical proof
+remain historical evidence; the bridge prepares a new P, recollects under today's
+captured M, and creates a fresh K/proof. The old K is `previousBotCommit`; the old
+S is an ordinary ancestor of P and becomes `previousSeal` only in the next intent
+and seal. Separate `remote-origin` evidence never impersonates an owned B2 local
+journal. `existing.localEvidence` continues to accept only verified owned local
+journals. Human data/configuration changes are preserved, while execution changes
+and `BOTH_SIDES_LOCK_CHANGED` stop preparation. A noop creates neither K nor S nor
+a PR. Draft failures cannot produce ready or donor-close proposals here.
+
+Preparation and inspection use new, disjoint evidence roots. Persistent transaction
+attempt evidence is constructor-bound and separate; selecting a fresh preparation
+root cannot clear an earlier dispatch-attempt veto. `apply` remains report-only
+with `WRITER_DISABLED`, regardless of capability-shaped input. Unclassified write
+outcomes in the underlying transaction stop later mutations and permit read-only
+reconciliation only. A new invocation must authenticate fresh facts; journal
+phase never authorizes work.
+
+`reconcile(retainedIntent)` treats the retained intent as a claim and reconstructs
+remote state read-only. It preserves raw-object and exact-validation-receipt holds;
+this unqualified production bridge cannot certify completion. Missing local output,
+missing raw objects, unknown remote state, stale identity or missing exact receipt
+must not become a new-PR fallback. Replanning an unchanged completed content state
+produces no new candidate. Production activation, real runner/capture qualification,
+trusted validation producer, external CAS/dispatch evidence and rollout policy
+remain B4 work; local synthetic tests do not close those gaps.
