@@ -50,8 +50,9 @@ function parseCommit(oid:string,raw:Uint8Array):Commit {
   return {oid,tree:lines[0].slice(5),parents,time,message:Uint8Array.from(bytes.subarray(split+2)),raw:Uint8Array.from(raw)}
 }
 /** GitHub verifies the signature cryptographically; this independently binds that verification to raw S. */
-export function verifyRemoteSealSignature(commitBytes:Uint8Array,fact:RemoteCommit,writer:number):void {
-  check(fact.signatureValid&&fact.signatureState==='VALID'&&fact.wasSignedByGitHub&&fact.committerActorId===writer,'SEAL_SIGNATURE_IDENTITY')
+export function verifyRemoteSealSignature(commitBytes:Uint8Array,fact:RemoteCommit,identity:{writerActorId:number;platformSignerActorId:number}):void {
+  check(Number.isSafeInteger(identity.writerActorId)&&identity.writerActorId>0&&Number.isSafeInteger(identity.platformSignerActorId)&&identity.platformSignerActorId>0,'SEAL_SIGNATURE_IDENTITY')
+  check(fact.signatureValid&&fact.signatureState==='VALID'&&fact.wasSignedByGitHub&&fact.authorActorId===identity.writerActorId&&fact.signerActorId===identity.platformSignerActorId,'SEAL_SIGNATURE_IDENTITY')
   check(typeof fact.payload==='string'&&typeof fact.signature==='string','SEAL_SIGNATURE_BYTES')
   const raw=Buffer.from(commitBytes),split=raw.indexOf('\n\n');check(split>0,'SEAL_SIGNATURE_BYTES')
   const header=raw.subarray(0,split).toString('utf8').split('\n'),positions=header.flatMap((line,index)=>line.startsWith('gpgsig ')?[index]:[])
@@ -135,7 +136,7 @@ export async function inspectRemoteHistory(request:{head:string;donorHeads:reado
       check(seal.repositoryId===request.policy.repositoryId&&same(s.parents,[seal.candidate])&&s.tree===seal.candidateTree,'SEAL_BINDING')
       const k=graph.get(seal.candidate),p=graph.get(seal.preparedBase);check(k&&p&&same(k.parents,[p.oid])&&k.tree===s.tree,'CANDIDATE_PARENT')
       const revision=parseRevisionMessage(k.message);check(revision,'REVISION_REQUIRED')
-      const fact=found(await bounded(reads.readCommit(oid)));check(fact.oid===oid&&fact.tree===s.tree&&same(fact.parents,s.parents),'SEAL_API_OBJECT');verifyRemoteSealSignature(s.raw,fact,request.policy.writerActorId);evidence.push(...fact.evidence as BlobRef[])
+      const fact=found(await bounded(reads.readCommit(oid)));check(fact.oid===oid&&fact.tree===s.tree&&same(fact.parents,s.parents),'SEAL_API_OBJECT');verifyRemoteSealSignature(s.raw,fact,{writerActorId:request.policy.writerActorId,platformSignerActorId:request.policy.sealIdentity.platformSignerActorId});evidence.push(...fact.evidence as BlobRef[])
       const run=found(await bounded(reads.readRun({id:seal.runId,attempt:seal.runAttempt,role:'producer'})))
       check(run.toolingHead===seal.master,'HISTORICAL_TOOLS');evidence.push(...run.evidence)
       const artifact=found(await bounded(reads.readArtifact({runId:seal.runId,attempt:seal.runAttempt,name:request.policy.producerArtifactName})))

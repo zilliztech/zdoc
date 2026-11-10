@@ -12,7 +12,7 @@ import { createRemoteReads, createRemoteTransport, parseRemoteZip, remoteReadCon
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 const oid='a'.repeat(40),roots:string[]=[]
 afterEach(async()=>{for(const root of roots.splice(0))await rm(root,{recursive:true,force:true})})
-const policy:RemotePolicy={host:'github.com',repositoryId:100,repositoryFullName:'example/zdoc',baseRef:'master',writerActorId:27,allowedHeadPrefixes:['shared-update/'],checkAppId:9,checkName:'exact',producerArtifactName:'producer',validatorArtifactName:'validation',producer:{actorId:7,workflowId:8,workflowPath:'.github/workflows/producer.yml',workflowDefinitionSha256:rawSha256(Buffer.from('trusted producer')),event:'workflow_dispatch'},validator:{actorId:17,workflowId:18,workflowPath:'.github/workflows/validate.yml',workflowDefinitionSha256:'b'.repeat(64),event:'workflow_dispatch'}}
+const policy:RemotePolicy={host:'github.com',repositoryId:100,repositoryFullName:'example/zdoc',baseRef:'master',writerActorId:27,sealIdentity:{scheme:'github-app-author-v1',platformSignerActorId:99},allowedHeadPrefixes:['shared-update/'],checkAppId:9,checkName:'exact',producerArtifactName:'producer',validatorArtifactName:'validation',producer:{actorId:7,workflowId:8,workflowPath:'.github/workflows/producer.yml',workflowDefinitionSha256:rawSha256(Buffer.from('trusted producer')),event:'workflow_dispatch'},validator:{actorId:17,workflowId:18,workflowPath:'.github/workflows/validate.yml',workflowDefinitionSha256:'b'.repeat(64),event:'workflow_dispatch'}}
 function zip(files:Record<string,Uint8Array>,descriptor=true) {
   const chunks:Buffer[]=[],central:Buffer[]=[];let offset=0
   for(const [name,input] of Object.entries(files)){
@@ -39,9 +39,9 @@ async function fixture() {
     '/pulls/20':pr,'/pulls':[pr],'/actions/runs/30/attempts/1':run,'/actions/workflows/8':{id:8,path:policy.producer.workflowPath},
     '/contents/.github/workflows/producer.yml':{type:'file',encoding:'base64',path:policy.producer.workflowPath,content:Buffer.from('trusted producer').toString('base64')},
     '/actions/runs/30/artifacts':{total_count:1,artifacts:[metadata]},'/actions/artifacts/61':metadata,'/actions/artifacts/61/zip':archive,
-    [`/commits/${oid}`]:{sha:oid,parents:[],commit:{tree:{sha:oid},verification:{verified:true,reason:'valid',payload:'payload',signature:'signature'}}},
+    [`/commits/${oid}`]:{sha:oid,author:{id:27},committer:{id:99},parents:[],commit:{tree:{sha:oid},verification:{verified:true,reason:'valid',payload:'payload',signature:'signature'}}},
     [`/commits/${oid}/check-runs`]:{total_count:1,check_runs:[{id:41,name:'exact',app:{id:9},check_suite:{id:51},head_sha:oid,status:'completed',conclusion:'success'}]},
-    '/graphql':{data:{repository:{databaseId:100,object:{oid,author:{user:{databaseId:27}},committer:{user:{databaseId:27}},signature:{isValid:true,state:'VALID',wasSignedByGitHub:true,signer:{databaseId:99},payload:'payload',signature:'signature'}}}}},
+    '/graphql':{data:{repository:{databaseId:100,object:{oid,author:{user:{databaseId:27}},committer:{user:null},signature:{isValid:true,state:'VALID',wasSignedByGitHub:true,signer:{databaseId:99},payload:'payload',signature:'signature'}}}}},
   }
   const transcript:{method:string;path:string}[]=[];let intercept:((path:string)=>{status:number;body:unknown;headers?:Record<string,string>}|undefined)|undefined
   const transport:RemoteTransport=async request=>{
@@ -157,4 +157,30 @@ it.each([
 it('accepts complete genuine paginated ref inventory with unrelated refs',async()=>{
   const f=await fixture();let page=0;f.setIntercept(path=>path==='/git/matching-refs/heads/'?++page===1?{status:200,body:Array.from({length:100},(_,i)=>({ref:'refs/heads/unrelated-'+i,node_id:'REF_'+i,object:{type:'commit',sha:oid}})),headers:{link:'<https://api.github.com/repos/example/zdoc/git/matching-refs/heads/?per_page=100&page=2>; rel="next"'}}:{status:200,body:[],headers:{link:'<https://api.github.com/repos/example/zdoc/git/matching-refs/heads/?per_page=100&page=1>; rel="prev"'}}:undefined)
   expect((await f.reads.readRef('deleted')).kind).toBe('absent');expect(page).toBe(2)
+})
+
+it.each(['missing-rest-author','missing-graphql-author','author-conflict','invalid-author','committer-conflict'])('holds dual API identity failure %s',async kind=>{
+  const f=await fixture(),rest=f.responses[`/commits/${oid}`] as any,graph=(f.responses['/graphql'] as any).data.repository.object
+  if(kind==='missing-rest-author')delete rest.author
+  if(kind==='missing-graphql-author')graph.author.user=null
+  if(kind==='author-conflict')rest.author.id=28
+  if(kind==='invalid-author')rest.author.id=0
+  if(kind==='committer-conflict')graph.committer.user={databaseId:27}
+  expect(await f.reads.readCommit(oid)).toMatchObject({kind:'unknown'})
+})
+it('preserves nullable GraphQL committer and bounded dual API identity evidence',async()=>{
+  const f=await fixture();(f.responses[`/commits/${oid}`] as any).commit.message='PRIVATE_MESSAGE'
+  const result=await f.reads.readCommit(oid)
+  expect(result.kind).toBe('found')
+  if(result.kind==='found'){
+    expect(result.value).toMatchObject({authorActorId:27,committerActorId:null,signerActorId:99})
+    const bytes=await Promise.all(result.value.evidence.map(ref=>f.evidence.readBlob(ref)))
+    const observations=bytes.map(value=>JSON.parse(Buffer.from(value).toString())),identity=observations.find(value=>value.kind==='remote-commit-identity')
+    expect(identity).toMatchObject({repositoryId:100,oid,rest:{authorActorId:27,committerActorId:99},graphql:{authorActorId:27,committerActorId:null}})
+    for(const side of ['rest','graphql']){
+      expect(observations).toContainEqual(expect.objectContaining({bodySha256:identity[side].bodySha256}))
+      expect(result.value.evidence).toContainEqual(identity[side].response)
+    }
+    expect(JSON.stringify(observations)).not.toContain('PRIVATE_MESSAGE')
+  }
 })

@@ -9,7 +9,7 @@ import { afterEach, expect, it, vi } from 'vitest'
 import { canonicalBytes, digest } from '../../core/updates/canonical'
 import { guidesUnitKey, type BotRevision, type CandidateSnapshotProof, type UpdateReportEnvelope, type UpdateUnitPlan } from '../../core/updates/envelope'
 import { encodeRevisionMessage } from '../../core/updates/metadata'
-import { encodeSealMessage, type RemotePolicy, type RemoteSealV1 } from '../../core/updates/remote'
+import { encodeSealMessage, type RemoteCommit, type RemotePolicy, type RemoteSealV1 } from '../../core/updates/remote'
 import { createRemoteReads, type RemoteTransport } from '../../adapters/updates/remote-github'
 import { checkRemoteHistoryBudget, inspectRemotePulls, inspectRemoteHistory, isVerifiedRemoteHistory, verifyRemoteSealSignature } from '../../adapters/updates/remote-metadata'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
@@ -47,7 +47,7 @@ async function fixture() {
   const before=Buffer.from(`schema_version: 1\ncurrent: ${source}\nnext: ${source}\n`),after=Buffer.from(`schema_version: 1\ncurrent: ${source}\nnext: ${target}\n`)
   const files:Files={[path]:{mode:'100644',oid:object('blob',before)}}
   const m=commit(files),master=m.oid,workflow=Buffer.from('reviewed fixture-only isolated producer v1\n')
-  const policy:RemotePolicy={host:'github.com',repositoryId:100,repositoryFullName:'example/zdoc',baseRef:'master',writerActorId:27,allowedHeadPrefixes:['shared-update/'],checkAppId:9,checkName:'exact',producerArtifactName:'producer',validatorArtifactName:'validation',producer:{actorId:7,workflowId:8,workflowPath:'.github/workflows/producer.yml',workflowDefinitionSha256:rawSha256(workflow),event:'workflow_dispatch'},validator:{actorId:17,workflowId:18,workflowPath:'.github/workflows/validate.yml',workflowDefinitionSha256:hash,event:'workflow_dispatch'}}
+  const policy:RemotePolicy={host:'github.com',repositoryId:100,repositoryFullName:'example/zdoc',baseRef:'master',writerActorId:27,sealIdentity:{scheme:'github-app-author-v1',platformSignerActorId:99},allowedHeadPrefixes:['shared-update/'],checkAppId:9,checkName:'exact',producerArtifactName:'producer',validatorArtifactName:'validation',producer:{actorId:7,workflowId:8,workflowPath:'.github/workflows/producer.yml',workflowDefinitionSha256:rawSha256(workflow),event:'workflow_dispatch'},validator:{actorId:17,workflowId:18,workflowPath:'.github/workflows/validate.yml',workflowDefinitionSha256:hash,event:'workflow_dispatch'}}
   const member={manualId:'guides',logicalId:'alpha',origin:'upstream' as const,token:'shared-alpha',outputPath:'content/en/guides/alpha.mdx',current:true,next:true},emptyRef=blob(Buffer.alloc(0)),material={entries:[{path:'data/input.md',sha256:hash,bytes:0}]}
   const semantic={kind:'shared-update-semantic' as const,schemaVersion:1 as const,subject,source:{repository:'source',directory:'pages/alpha',track:'main'},config:material,lockSchema:{version:1,path},upstream:{current:material,oldNext:material,target:material},images:[],members:[member],registry:null,authority:{provider:'guides-retained-source' as const,state:'eligible-to-propose' as const,reasons:[],policySha256:hash},providerPolicySha256:hash,toolsetSha256:hash}
   const report:UpdateReportEnvelope={kind:'shared-update',schemaVersion:1,subject,pins:{master,dev:master,trustedTools:master,configSnapshot:master,configTreeOid:known.get(master)!.tree,relevantConfigSha256:hash,comparisonConfig:null,toolsetSha256:hash,registrySha256:hash,source:{repository:'source',track:'main',observedTrackHead:target,current:source,oldNext:source,target}},authority:{provider:'guides-retained-source',subject,evidence:[emptyRef],updateState:'eligible-to-propose',reasons:[]},members:[member],memberSetSha256:digest('members',[member]),axes:[{axis:'old-next-to-target',sourceChanged:true,outputChanged:true,contentStatus:'valid',added:[],removed:[],renameCandidates:[]},{axis:'current-to-candidate-next',sourceChanged:true,outputChanged:true,contentStatus:'valid',added:[],removed:[],renameCandidates:[]}],configurationChanges:[],detail:{kind:'guides-impact-v1',file:emptyRef},diagnostics:[],semanticProjection:semantic,semanticInputSha256:digest('semantic',semantic)}
@@ -78,8 +78,8 @@ async function fixture() {
     else if(part===`/actions/runs/${runId}/artifacts`)value={total_count:1,artifacts:[artifact]}
     else if(part===`/actions/artifacts/${runId}`)value=artifact
     else if(part===`/actions/artifacts/${runId}/zip`)value=archive
-    else if(part.startsWith('/commits/')){const oid=part.slice(9),entry=known.get(oid)!,signed=records.get(oid)!.s;value={sha:oid,parents:entry.parents.map(sha=>({sha})),commit:{tree:{sha:entry.tree},verification:{verified:true,reason:'valid',payload:signed.payload.toString(),signature:signed.signature}}}}
-    else if(url.pathname==='/graphql'){const body=JSON.parse(Buffer.from(request.body!).toString()),oid=body.variables.oid,signed=records.get(oid)!.s;value={data:{repository:{databaseId:100,object:{oid,author:{user:{databaseId:27}},committer:{user:{databaseId:27}},signature:{isValid:true,state:'VALID',wasSignedByGitHub:true,signer:{databaseId:99},payload:signed.payload.toString(),signature:signed.signature,...signaturePatch}}}}}}
+    else if(part.startsWith('/commits/')){const oid=part.slice(9),entry=known.get(oid)!,signed=records.get(oid)!.s;value={sha:oid,author:{id:27},committer:{id:99},parents:entry.parents.map(sha=>({sha})),commit:{tree:{sha:entry.tree},verification:{verified:true,reason:'valid',payload:signed.payload.toString(),signature:signed.signature}}}}
+    else if(url.pathname==='/graphql'){const body=JSON.parse(Buffer.from(request.body!).toString()),oid=body.variables.oid,signed=records.get(oid)!.s;value={data:{repository:{databaseId:100,object:{oid,author:{user:{databaseId:27}},committer:{user:null},signature:{isValid:true,state:'VALID',wasSignedByGitHub:true,signer:{databaseId:99},payload:signed.payload.toString(),signature:signed.signature,...signaturePatch}}}}}}
     return {status:value===undefined?404:200,headers:{},body:value instanceof Uint8Array?value:canonicalBytes(value??null)}
   }
   const definitions=[{tools:master,...policy.producer,protocol:'shared-update-producer-v1' as const}]
@@ -129,13 +129,25 @@ it('accepts historical tools M different from current master and exact trusted-m
   const f=await fixture(),masterFiles=f.editFiles(f.files,{'packages/trusted-tool.txt':'reviewed tools\n'}),current=f.commit(masterFiles,[f.master]),merged=f.commit({...f.candidateFiles,...masterFiles,[path]:f.candidateFiles[path]},[f.s.oid,current.oid])
   expect(await f.inspect(merged.oid,current.oid)).toMatchObject({status:'verified'})
 })
-it.each(['forged-author','wrong-signature','not-github-signed','wrong-attempt','wrong-producer','expired','wrong-artifact-repo','missing-provenance','malformed-plan','patch','lock-member','unexpected-member'])('holds %s instead of accepting JSON authority',async kind=>{
+it.each(['forged-author','wrong-signature','not-github-signed','wrong-attempt','wrong-producer','expired','wrong-artifact-repo','wrong-workflow','wrong-tools','wrong-definition','wrong-run','wrong-repository','mixed-provenance','replayed-transaction','replayed-plan','replayed-proof','missing-provenance','malformed-plan','patch','lock-member','unexpected-member'])('holds %s instead of accepting JSON authority',async kind=>{
   const f=await fixture()
   if(kind==='forged-author')f.signature({signer:{databaseId:27},isValid:false})
   if(kind==='wrong-signature')f.signature({signature:'different'})
   if(kind==='not-github-signed')f.signature({wasSignedByGitHub:false})
   if(kind==='wrong-attempt')f.run({run_attempt:2})
   if(kind==='wrong-producer')f.run({actor:{id:27}})
+  if(kind==='wrong-workflow')f.run({workflow_id:9})
+  if(kind==='wrong-tools')f.run({head_sha:'f'.repeat(40)})
+  if(kind==='wrong-definition')f.definitions[0].workflowDefinitionSha256='f'.repeat(64)
+  if(kind==='wrong-run')f.run({id:31})
+  if(kind==='wrong-repository')f.run({repository:{id:101}})
+  if(['mixed-provenance','replayed-transaction','replayed-plan','replayed-proof'].includes(kind)){
+    const receipt:Record<string,unknown>={...f.receipt};if(kind==='mixed-provenance')receipt.seal='f'.repeat(40)
+    if(kind==='replayed-transaction')receipt.transactionId='f'.repeat(64)
+    if(kind==='replayed-plan')receipt.planSha256='f'.repeat(64)
+    if(kind==='replayed-proof')receipt.proofSha256='f'.repeat(64)
+    f.members.set('provenance.json',canonicalBytes(receipt))
+  }
   if(kind==='expired')f.artifact({expired:true})
   if(kind==='wrong-artifact-repo')f.artifact({workflow_run:{id:30,repository_id:100,head_repository_id:101,head_sha:f.master}})
   if(kind==='missing-provenance')f.members.delete('provenance.json')
@@ -183,7 +195,7 @@ it('rejects raw object hash tampering, missing history and a forged structural a
 it('does not accept a missing production producer registry or contradictory signed raw payload',async()=>{
   const f=await fixture(),reads=createRemoteReads({policy:f.policy,evidence:f.evidence,transport:f.transport})
   expect(await inspectRemoteHistory({head:f.s.oid,master:f.master,donorHeads:[],policy:f.policy},reads,f.objects)).toMatchObject({status:'hold'})
-  const result=await f.reads().readCommit(f.s.oid);if(result.kind==='found')expect(()=>verifyRemoteSealSignature(f.known.get(f.s.oid)!.raw,{...result.value,payload:'different'},27)).toThrow('SEAL_SIGNED_PAYLOAD')
+  const result=await f.reads().readCommit(f.s.oid);if(result.kind==='found')expect(()=>verifyRemoteSealSignature(f.known.get(f.s.oid)!.raw,{...result.value,payload:'different'},{writerActorId:27,platformSignerActorId:99})).toThrow('SEAL_SIGNED_PAYLOAD')
 })
 
 it('enforces invocation bounds at exact accepted and rejected counters',()=>{
@@ -237,4 +249,26 @@ it.each(['depth','full-path'])('bounds hash-valid expanded tree %s before retain
   if(kind==='depth')for(let i=0;i<65;i++)tree=f.object('tree',Buffer.concat([Buffer.from('40000 x\0'),Buffer.from(tree,'hex')]))
   const raw=Buffer.from(`tree ${tree}\nparent ${f.s.oid}\nauthor Human <human@example.com> 10 +0000\ncommitter Human <human@example.com> 10 +0000\n\ndata\n`),head=f.object('commit',raw)
   expect(await f.inspect(head)).toMatchObject({status:'hold',reasons:['TREE_PATH_LIMIT']})
+})
+
+// Retained run 42743539633: helper-only evidence; its message is not RemoteSealV1.
+const retainedRaw=Buffer.from("dHJlZSBmNWIyZTI0MDc1OTE0MGE4ODdlMGUxZWJlMDI0MDU2ZWUyYmQ5ZjVkCnBhcmVudCA5ZWIwMDk0YzZlMWQ4YjdkOGRmZTQ4OGIzMzliNTcxMDdkNDFjYjRmCmF1dGhvciBnaXRodWItYWN0aW9uc1tib3RdIDw0MTg5ODI4MitnaXRodWItYWN0aW9uc1tib3RdQHVzZXJzLm5vcmVwbHkuZ2l0aHViLmNvbT4gMTc5NDI3Nzk5OSArMDAwMApjb21taXR0ZXIgR2l0SHViIDxub3JlcGx5QGdpdGh1Yi5jb20+IDE3OTQyNzc5OTkgKzAwMDAKZ3Bnc2lnIC0tLS0tQkVHSU4gUEdQIFNJR05BVFVSRS0tLS0tCiAKIHdzRmNCQUFCQ0FBUUJRSnE4b0p2Q1JDMWFRN3V1NVVobEFBQUhESVFBQjdIbmRhcGg3M3ZkdzVoeU5JTWZRNUIKIEZydXNvVk9hTTdTODNaM09wNjloVGpEeTlFSEdPQVUvTVpxNVhhY2daalI3K2FHUnJKMldYaFdaNlFGVzNmSG8KIDRBQ29SZmpJTHA3a3JjZENDOUgwOENZTWlSVyt0UE5jVnI2R21ZMXZkRE5vSjdwZ1JLekJzVTg0Wk0xUzRZSEoKIDViMUxIZ1NZZU5qeFlJa1JqTnNNUEx5NXBWcS9ENjJNc2s0bW1qOGxUUHR6eFp1Z29NTUFydGdZV2lzZUJJK0EKIEhOUUYzYzJDdUh5YytrSnIxV0U5WGtuaWNRaHlPK1l4emRsYlJWaVVOZWJhdzB3RWFNZDBMVVEyUm9aZTJrTUQKIGQ3WE1vRDJlMmJQa2lraTJyTVpDTisrR0Y0WDJlZzFOdnIrTjk2R2UvRi9YVVVXNXBvMDdxZzRSd3RseWVHYmIKIHpNMVlSNFk0eTRDZnlwL2JPV2tyQ2hLVmNXZytYMmNHRUtKcDYrQmNyUHV2bWVETEdUb3RHZncrdFB0QWxjKzIKIElRT1c0b2h4aVFSR25BOWVNQzM2ajVLK05LSFhaWUlVYkJJN0ZkSEpNUWR6YWFJVHNoL3pqaWcwN2dsWTdzbjMKIFhlNGsraTRHMG9YWVNnZ1lOR2Z4SHZvaXczKzFZWjBlV1FldU1tQlV3N29XMHlsSEJROFZoNmhUR21IU3RsdVAKIEF6RFV6K2xKZjBXb3dTNE9tS3pFR2ZTVXowUVUvWkd6S2ZoUldGdzVzYnBCanJSYjlta0lFcXRDUzJtVWZSYUUKIFF4bUlxb0IzOEZtSjQ5MGZ5eFdKaFFRd1ZZVWtoVUMyMHJKZGQ3Z3g2V0kwR0pSWFZPMjdTU3VxVlRIWnowNnkKIGwzcWlndXJLdlhLVDhPdFdkaE1nCiA9Ynp2VwogLS0tLS1FTkQgUEdQIFNJR05BVFVSRS0tLS0tCiAKCldQMTItQjMgcHJlZmxpZ2h0IHNlYWwgcmVwbz0xNDUyMTE1NTY5IHJ1bj00Mjc0MzUzOTYzMyBhdHRlbXB0PTEgSz05ZWIwMDk0YzZlMWQ4YjdkOGRmZTQ4OGIzMzliNTcxMDdkNDFjYjRm",'base64')
+const retainedFact:RemoteCommit={"oid":"402eadbae470ffbf48e8a9cbbceb1f295282586e","tree":"f5b2e240759140a887e0e1ebe024056ee2bd9f5d","parents":["9eb0094c6e1d8b7d8dfe488b339b57107d41cb4f"],"authorActorId":41898282,"committerActorId":null,"signerActorId":19864447,"signatureValid":true,"signatureState":"VALID","wasSignedByGitHub":true,"payload":"tree f5b2e240759140a887e0e1ebe024056ee2bd9f5d\nparent 9eb0094c6e1d8b7d8dfe488b339b57107d41cb4f\nauthor github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> 1794277999 +0000\ncommitter GitHub <noreply@github.com> 1794277999 +0000\n\nWP12-B3 preflight seal repo=1452115569 run=42743539633 attempt=1 K=9eb0094c6e1d8b7d8dfe488b339b57107d41cb4f","signature":"-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq8oJvCRC1aQ7uu5UhlAAAHDIQAB7Hndaph73vdw5hyNIMfQ5B\nFrusoVOaM7S83Z3Op69hTjDy9EHGOAU/MZq5XacgZjR7+aGRrJ2WXhWZ6QFW3fHo\n4ACoRfjILp7krcdCC9H08CYMiRW+tPNcVr6GmY1vdDNoJ7pgRKzBsU84ZM1S4YHJ\n5b1LHgSYeNjxYIkRjNsMPLy5pVq/D62Msk4mmj8lTPtzxZugoMMArtgYWiseBI+A\nHNQF3c2CuHyc+kJr1WE9XknicQhyO+YxzdlbRViUNebaw0wEaMd0LUQ2RoZe2kMD\nd7XMoD2e2bPkiki2rMZCN++GF4X2eg1Nvr+N96Ge/F/XUUW5po07qg4RwtlyeGbb\nzM1YR4Y4y4Cfyp/bOWkrChKVcWg+X2cGEKJp6+BcrPuvmeDLGTotGfw+tPtAlc+2\nIQOW4ohxiQRGnA9eMC36j5K+NKHXZYIUbBI7FdHJMQdzaaITsh/zjig07glY7sn3\nXe4k+i4G0oXYSggYNGfxHvoiw3+1YZ0eWQeuMmBUw7oW0ylHBQ8Vh6hTGmHStluP\nAzDUz+lJf0WowS4OmKzEGfSUz0QU/ZGzKfhRWFw5sbpBjrRb9mkIEqtCS2mUfRaE\nQxmIqoB38FmJ490fyxWJhQQwVYUkhUC20rJdd7gx6WI0GJRXVO27SSuqVTHZz06y\nl3qigurKvXKT8OtWdhMg\n=bzvW\n-----END PGP SIGNATURE-----\n","evidence":[{"path":"retained/api.json","sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","bytes":1}]}
+const retainedIdentity={writerActorId:41898282,platformSignerActorId:19864447}
+it('binds the retained 1182-byte seal to bot author and platform signature with nullable GraphQL committer',()=>{
+  expect(retainedRaw.length).toBe(1182)
+  expect(()=>verifyRemoteSealSignature(retainedRaw,retainedFact,retainedIdentity)).not.toThrow()
+})
+it.each(['author-missing','author-wrong','signer-missing','signer-wrong','invalid-signature','payload','raw-oid','signature-tail','signature-terminal-continuation'])('rejects retained helper evidence tampering %s',kind=>{
+  const fact={...retainedFact};let raw=Buffer.from(retainedRaw)
+  if(kind==='author-missing')fact.authorActorId=null
+  if(kind==='author-wrong')fact.authorActorId=19864447
+  if(kind==='signer-missing')fact.signerActorId=null
+  if(kind==='signer-wrong')fact.signerActorId=41898282
+  if(kind==='invalid-signature')fact.signatureValid=false
+  if(kind==='payload')fact.payload+='x'
+  if(kind==='raw-oid')fact.oid='a'.repeat(40)
+  if(kind==='signature-terminal-continuation')raw=Buffer.from(raw.toString().replace(' \n\n','\n'))
+  if(kind==='signature-tail')raw=Buffer.from(raw.toString().replace(' =bzvW',' =bzvX'))
+  expect(()=>verifyRemoteSealSignature(raw,fact,retainedIdentity)).toThrow()
 })
