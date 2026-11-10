@@ -680,6 +680,9 @@ export async function runGate(options) {
   })
   const result=await settleGateVerdict(prepared),report=result.report
   if(result.settlementStatus==='acknowledged')console.log(`${result.success?'PASS':'FAIL'} grouped ${options.scope}: ${report.rawCountsComplete?`${report.numPassedTests} passed, ${report.numFailedTests} failed, ${report.numPendingTests} skipped`:`INCOMPLETE raw counts; at least ${report.observedFailures.length} observed failure event(s)`}; ${report.evidenceRoot}`)
+  // The aggregate reason names the failing condition, so it belongs in the log
+  // and not only inside the retained report.
+  if(!result.success&&report.failure)console.error(`grouped ${options.scope} failure: ${report.failure}`)
   return result
 }
 
