@@ -1,9 +1,11 @@
-import { afterEach, describe, expect, it } from 'vitest'
+// @vitest-environment node
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mkdtemp, mkdir, writeFile, readFile, symlink, link, rename, realpath, lstat, chmod, unlink } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
+import { constants } from 'node:fs'
 import { initializeEvidence, writeOwnedBlob, sameFilesystemIdentity, checkedAncestors } from '../../adapters/updates/evidence'
 const roots: string[] = []
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
@@ -105,4 +107,145 @@ describe('owned evidence bytes', () => {
     await expect(store.writeBlob(Buffer.from('bad'))).rejects.toThrow()
     expect(await readFile(join(repo, 'input'), 'utf8')).toBe('preserved')
   },30000)
+})
+
+describe('fresh bounded ancestor checks', () => {
+  it('returns every existing ancestor in order across batches and rejects upper aliases and symlinks', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'ancestor-batches-'))); roots.push(root)
+    const suffix = Array.from({length: 12}, (_, index) => `part-${index}`)
+    const directory = join(root, 'actual', ...suffix)
+    await mkdir(directory, {recursive: true})
+    const expected = []
+    for (let path = directory; ; path = dirname(path)) {
+      const st = await lstat(path, {bigint: true})
+      expected.push({path, dev: st.dev, ino: st.ino})
+      if (dirname(path) === path) break
+    }
+    expect(await checkedAncestors(directory)).toEqual(expected)
+    expect(await checkedAncestors(join(directory, 'missing', 'nested'))).toEqual(expected)
+    await expect(checkedAncestors(join(root, 'ACTUAL', ...suffix))).rejects.toThrow('Case alias')
+    await symlink(join(root, 'actual'), join(root, 'alias'))
+    await expect(checkedAncestors(join(root, 'alias', ...suffix))).rejects.toThrow('symlink ancestor')
+  }, 30000)
+
+  it.each([
+    ['ascii-name', 'ASCII-NAME'],
+    ['kelvin', 'Kelvin'],
+    ['i̇', 'İ'],
+    ['ος', 'ΟΣ'],
+  ])('freshly detects the %s / %s case alias after an earlier missing-path check', async (existing, requested) => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'ancestor-case-'))); roots.push(root)
+    const path = join(root, requested, 'missing')
+    await checkedAncestors(path)
+    await mkdir(join(root, existing))
+    await expect(checkedAncestors(path)).rejects.toThrow('Case alias')
+  }, 30000)
+
+  it('settles all started checks before rejecting and never starts another batch after a failure', async () => {
+    const path = '/ancestor-check/a/b/c/d/e/f/g/h/i/j/k'
+    const slow = dirname(path), firstFailure = new Error('first ancestor failed')
+    let release!: () => void
+    const blocked = new Promise<void>(resolve => { release = resolve })
+    const started: string[] = []
+    let slowFinished = false, settled = false
+    const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+    vi.resetModules()
+    vi.doMock('node:fs/promises', () => ({...actual, lstat: async (value: string) => {
+      const current = String(value); started.push(current)
+      if (current === path) throw firstFailure
+      if (current === slow) { await blocked; slowFinished = true }
+      return {dev: 1n, ino: 2n, isDirectory: () => true, isSymbolicLink: () => false} as Awaited<ReturnType<typeof lstat>>
+    }, readdir: async () => []}))
+    const {checkedAncestors: check} = await import('../../adapters/updates/evidence')
+    const outcome = check(path).then(value => ({value}), error => ({error})).finally(() => { settled = true })
+    try {
+      await new Promise<void>(resolve => setTimeout(resolve, 0))
+      expect(started.length).toBeGreaterThan(1)
+      expect(started.length).toBeLessThanOrEqual(8)
+      expect(started).toContain(slow)
+      expect(settled).toBe(false)
+      const firstBatch = [...started]
+      release()
+      expect(await outcome).toEqual({error: firstFailure})
+      expect(slowFinished).toBe(true)
+      expect(started).toEqual(firstBatch)
+    } finally {
+      release(); await outcome
+      vi.doUnmock('node:fs/promises'); vi.resetModules()
+    }
+  })
+})
+
+
+describe('concurrent content-addressed evidence writes', () => {
+  it.each(['complete', 'tamper', 'fail'] as const)('orders same-path writers until the first write %s without caching trust', async mode => {
+    const {root, repo} = await fixture(), out = join(root, 'concurrent')
+    const bytes = Buffer.from('same immutable evidence'), path = join(out, 'blobs', createHash('sha256').update(bytes).digest('hex'))
+    const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+    let release!: () => void, entered!: () => void
+    const blocked = new Promise<void>(resolve => { release = resolve })
+    const writing = new Promise<void>(resolve => { entered = resolve })
+    const failure = new Error('injected first-writer failure')
+    let metadataReads = 0, targetWrites = 0
+    const operations: Promise<unknown>[] = []
+    vi.resetModules()
+    vi.doMock('node:fs/promises', () => ({...actual,
+      lstat: (...args: Parameters<typeof actual.lstat>) => { metadataReads++; return actual.lstat(...args) },
+      open: async (...args: Parameters<typeof actual.open>) => {
+        const target = String(args[0]) === path && typeof args[1] === 'number' && (args[1] & constants.O_EXCL) !== 0
+        if (target) targetWrites++
+        const handle = await actual.open(...args)
+        if (target && targetWrites === 1) {
+          const write = handle.writeFile.bind(handle), close = handle.close.bind(handle)
+          handle.writeFile = async (...data: Parameters<typeof handle.writeFile>) => {
+            entered(); await blocked
+            if (mode === 'fail') throw failure
+            return write(...data)
+          }
+          handle.close = async () => {
+            await close()
+            if (mode === 'tamper') await actual.writeFile(path, Buffer.alloc(bytes.length, 120))
+          }
+        }
+        return handle
+      },
+    }))
+    try {
+      const {initializeEvidence: initialize} = await import('../../adapters/updates/evidence')
+      const store = await initialize({root: out, repositories: [repo], owner: 'concurrent'})
+      const first = store.writeBlob(bytes); operations.push(first)
+      await writing
+      metadataReads = 0
+      const second = store.writeBlob(Uint8Array.from(bytes)); operations.push(second)
+      // Same-path followers must not inspect the half-written file. This assertion
+      // observes synchronous I/O entry, without a sleep or a timing threshold.
+      expect(metadataReads).toBe(0)
+      const unrelated = store.writeBlob(Buffer.from('independent evidence')); operations.push(unrelated)
+      expect(Buffer.from(await store.readBlob(await unrelated)).toString()).toBe('independent evidence')
+      expect(targetWrites).toBe(1)
+      release()
+      const results = await Promise.allSettled([first, second])
+      if (mode === 'complete') {
+        expect(results.map(result => result.status)).toEqual(['fulfilled', 'fulfilled'])
+        expect(await second).toEqual(await first)
+        expect(Buffer.from(await store.readBlob(await second))).toEqual(bytes)
+      } else if (mode === 'tamper') {
+        expect(results[0].status).toBe('fulfilled')
+        expect(results[1].status).toBe('rejected')
+        await expect(store.writeBlob(bytes)).rejects.toThrow()
+      } else {
+        expect(results).toEqual([{status: 'rejected', reason: failure}, {status: 'rejected', reason: failure}])
+        expect(targetWrites).toBe(1)
+        // The completed queue entry is gone; a later call inspects the retained
+        // incomplete file afresh and still refuses it instead of retrying writes.
+        const later = await store.writeBlob(bytes).then(() => null, error => error)
+        expect(later).toBeInstanceOf(Error)
+        expect(later).not.toBe(failure)
+        expect(targetWrites).toBe(2)
+      }
+    } finally {
+      release(); await Promise.allSettled(operations)
+      vi.doUnmock('node:fs/promises'); vi.resetModules()
+    }
+  }, 30000)
 })
