@@ -58,7 +58,39 @@ export function classifyCaptureRefusal(message:string):string {
   if(/dependency|package|locator|closure|Closure|resolution|symlink/.test(message))return 'dependency'
   return 'unknown'
 }
-interface Failure {phase:string;code:string;category?:string}
+/** Fixed diagnostic vocabulary only; dynamic paths, package names and values never leave the exception. */
+export function captureRefusalReason(error:unknown):string {
+  const value=error as {code?:unknown;message?:unknown}|null
+  const codes:Record<string,string>={ENOENT:'filesystem-input-missing',ENOTDIR:'filesystem-not-directory',EACCES:'filesystem-access-denied',EPERM:'filesystem-operation-denied',ELOOP:'filesystem-symlink-loop'}
+  if(typeof value?.code==='string'&&Object.hasOwn(codes,value.code))return codes[value.code]
+  const message=typeof value?.message==='string'?value.message.slice(0,4096):''
+  const prefixes:readonly (readonly [string,string])[]=[
+    ['Unsupported pnpm lock layout','lock-layout-unsupported'],
+    ['External pnpm store must be independently materialized inside trusted root','virtual-store-external'],
+    ['Ambiguous pnpm locator directory','virtual-store-locator-ambiguous'],
+    ['Unrecognized pnpm virtual-store locator','virtual-store-locator-unknown'],
+    ['Unsupported trusted lock locator','lock-locator-unsupported'],
+    ['Aliased installed package root','installed-package-alias'],
+    ['Installed package differs from lock identity','installed-identity-mismatch'],
+    ['Missing lock peer context','lock-peer-context-missing'],
+    ['Workspace identity unavailable','workspace-identity-missing'],
+    ['Unmeasured dependency escape','dependency-escape'],
+    ['Dependency resolution escapes captured packages','dependency-resolution-escape'],
+    ['Invalid lock dependency locator','dependency-locator-invalid'],
+    ['Installed dependency resolution differs from lock','installed-resolution-mismatch'],
+    ['Untracked ancestor package configuration','ancestor-package-untracked'],
+    ['Unknown source dependency discovery scope','source-discovery-scope-unknown'],
+    ['Aliased dependency discovery scope','discovery-scope-alias'],
+    ['Unknown dependency discovery entry','discovery-entry-unknown'],
+    ['Aliased package scope','package-scope-alias'],
+    ['Unmeasured dependency discovery target','discovery-target-unmeasured'],
+    ['Unknown dependency discovery package','discovery-package-unknown'],
+    ['Closure material binding mismatch','closure-binding-mismatch'],
+    ['Noncanonical closure bytes','closure-noncanonical'],
+  ]
+  return prefixes.find(([prefix])=>message===prefix||message.startsWith(prefix+':'))?.[1]??'unclassified'
+}
+interface Failure {phase:string;code:string;category?:string;reason?:string}
 export interface RunnerDiagnostic {
   kind:'shared-update-runner-diagnostic';schemaVersion:1;productionQualified:false;master:string
   missingObservations:string[]
@@ -150,7 +182,7 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     const message=error instanceof Error?error.message:''
     const allowed=['MASTER_MISMATCH','AMBIGUOUS_GIT_STORAGE','CAPTURE_BINDING_MISMATCH','WORKER_UNSETTLED','WORKER_PREPARATION_HELD','CANDIDATE_EXECUTED','NON_NEXT_ONLY_PLAN','COOPERATIVE_DEADLINE']
     result.failure={phase,code:allowed.includes(message)?message:phase==='capture'?'CAPTURE_REFUSED':phase==='capacity'?'CAPACITY_INCOMPLETE':phase==='worker'?'WORKER_REFUSED':'DIAGNOSTIC_REFUSED'}
-    if(phase==='capture')result.failure.category=classifyCaptureRefusal(message.slice(0,4096))
+    if(phase==='capture'){result.failure.category=classifyCaptureRefusal(message.slice(0,4096));result.failure.reason=captureRefusalReason(error)}
     result.phases.push({phase,milliseconds:Math.ceil(performance.now()-phaseStart),status:'held'})
   }
   // Do not retain raw exceptions, environment values, stdout/stderr or credential canaries.

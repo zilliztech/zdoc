@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path'
 import * as provider from '../../adapters/updates/guides-provider'
 import { release } from 'node:os'
 import * as toolset from '../../adapters/updates/toolset'
-import { collectRunnerQualification, parseTreeLowerBound, validateDiagnosticSettlement, classifyCaptureRefusal } from './runner-qualification'
+import { collectRunnerQualification, parseTreeLowerBound, validateDiagnosticSettlement, classifyCaptureRefusal, captureRefusalReason } from './runner-qualification'
 
 const roots:string[]=[]
 afterEach(async()=>{vi.restoreAllMocks();await Promise.all(roots.splice(0).map(root=>rm(root,{recursive:true,force:true})))})
@@ -119,4 +119,28 @@ it.each(['shallow','info/grafts','objects/info/alternates'])('refuses ambiguous 
   const capture=vi.spyOn(toolset,'captureTrustedToolset')
   const result=await collectRunnerQualification({toolRoot:repository,master,evidenceRoot:join(root,'evidence')})
   expect(result.failure?.code).toBe('AMBIGUOUS_GIT_STORAGE');expect(result.capture).toBe('not-run');expect(capture).not.toHaveBeenCalled()
+})
+
+it.each([
+  ['Unrecognized pnpm virtual-store locator: SECRET-LOCATOR','virtual-store-locator-unknown'],
+  ['Installed dependency resolution differs from lock: SECRET -> SECRET','installed-resolution-mismatch'],
+  ['Unmeasured dependency escape: /private/SECRET','dependency-escape'],
+  ['Unknown dependency discovery entry: SECRET','discovery-entry-unknown'],
+  ['Aliased installed package root','installed-package-alias'],
+  ['Closure material binding mismatch','closure-binding-mismatch'],
+  ['private SECRET unknown','unclassified'],
+])('fixed capture refusal reason strips dynamic suffixes',(message,reason)=>{
+  expect(captureRefusalReason(new Error(message))).toBe(reason)
+})
+it('retained capture reason never copies dynamic secret suffix',async()=>{
+  const root=await realpath(await mkdtemp(join(tmpdir(),'runner-diagnostic-test-')));roots.push(root)
+  const {git}=await import('../build/demo'),master=await git(process.cwd(),'rev-parse','HEAD')
+  vi.spyOn(toolset,'captureTrustedToolset').mockRejectedValue(new Error('Installed dependency resolution differs from lock: SECRET-LOCATOR -> SECRET-DEPENDENCY'))
+  const result=await collectRunnerQualification({toolRoot:process.cwd(),master,evidenceRoot:join(root,'evidence')})
+  expect(result.failure).toMatchObject({category:'dependency',reason:'installed-resolution-mismatch'})
+  expect(await readFile(join(root,'evidence','diagnostic.json'),'utf8')).not.toContain('SECRET')
+})
+
+it.each([['ENOENT','filesystem-input-missing'],['ENOTDIR','filesystem-not-directory'],['EACCES','filesystem-access-denied'],['EPERM','filesystem-operation-denied'],['ELOOP','filesystem-symlink-loop'],['SECRET-CODE','unclassified']])('structured errno produces only fixed reason tokens',(code,reason)=>{
+  expect(captureRefusalReason(Object.assign(new Error('SECRET-PATH'),{code,path:'SECRET-PATH'}))).toBe(reason)
 })
