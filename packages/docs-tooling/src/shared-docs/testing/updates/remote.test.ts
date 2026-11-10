@@ -13,7 +13,7 @@ const found = <T>(value: T) => ({ kind: 'found' as const, value })
 function fixture() {
   const identity = { actorId: 7, workflowId: 8, workflowPath: '.github/workflows/producer.yml', workflowDefinitionSha256: digest(2), event: 'workflow_dispatch' as const }
   const policy = { host: 'github.com' as const, repositoryId: 100, repositoryFullName: 'example/zdoc', baseRef: 'master' as const,
-    allowedHeadPrefixes: ['shared-update/'], writerActorId: 27, checkAppId: 9, checkName: 'exact-validation', producerArtifactName: 'producer',
+    allowedHeadPrefixes: ['shared-update/'], writerActorId: 27, sealIdentity: { scheme: 'github-app-author-v1', platformSignerActorId: 99 }, checkAppId: 9, checkName: 'exact-validation', producerArtifactName: 'producer',
     validatorArtifactName: 'validation', producer: identity,
     validator: { ...identity, actorId: 17, workflowId: 18, workflowPath: '.github/workflows/validate.yml', workflowDefinitionSha256: digest(3) } }
   const expected = { repositoryId: 100, prNumber: 20, branch: 'shared-update/unit', base: oid(3), seal: oid(2), master: oid(3),
@@ -49,7 +49,7 @@ function fixture() {
     artifacts: found(artifacts), members: found([{ artifactId: 61, archiveDigest: digest(12), memberPath: 'receipt.json', actualDigest: producerBlob.sha256, member: producerBlob },
       { artifactId: 62, archiveDigest: digest(13), memberPath: 'receipt.json', actualDigest: receiptBlob.sha256, member: receiptBlob }]),
     seal: found({ oid: expected.seal, parents: [expected.candidate], tree: expected.candidateTree, signatureValid: true,
-      signatureState: 'VALID' as const, wasSignedByGitHub: true, signerActorId: 99, authorActorId: 27, writerAttribution: { role: 'committer' as const, actorId: 27 }, metadata: seal, evidence: [blob('seal/facts.json')] }), output: blob('validation/output.json', receipt.outputDigest) }
+      signatureState: 'VALID' as const, wasSignedByGitHub: true, signerActorId: 99, authorActorId: 27, writerAttribution: { role: 'author' as const, actorId: 27 }, metadata: seal, evidence: [blob('seal/facts.json')] }), output: blob('validation/output.json', receipt.outputDigest) }
   return { expected, policy, facts, receipt }
 }
 type Fixture = ReturnType<typeof fixture>
@@ -72,6 +72,10 @@ it('accepts distinct producer/validator runs, M/S heads, suites, archive/member/
 const mutations: [string, (f: Fixture) => void, string][] = [
   ['jointly stale intent and observed base', f => { f.expected.base = oid(99); f.facts.pr.base = oid(99) }, 'EXPECTED_BASE'],
   ['wrong PR writer', f => { f.facts.pr.actorId = f.policy.producer.actorId }, 'PR_ACTORID'],
+  ['wrong author with correct attribution', f => { f.facts.seal.value.authorActorId = 28 }, 'SEAL_AUTHORACTORID'],
+  ['missing author', f => { f.facts.seal.value.authorActorId = null }, 'SEAL_AUTHORACTORID'],
+  ['wrong platform signer', f => { f.facts.seal.value.signerActorId = 27 }, 'SEAL_SIGNERACTORID'],
+  ['missing platform signer', f => { f.facts.seal.value.signerActorId = null }, 'SEAL_SIGNERACTORID'],
   ['wrong seal writer', f => { f.facts.seal.value.writerAttribution.actorId = f.policy.producer.actorId }, 'SEAL_WRITERATTRIBUTION'],
   ['head', f => { f.facts.pr.head = oid(99) }, 'PR_HEAD'],
   ['master', f => { f.facts.master = oid(99) }, 'REMOTE_MASTER'],
@@ -180,4 +184,11 @@ it('keeps incomplete, unreadable, unscoped, ambiguous and malformed observations
     const result = classifyRemoteRead({ ...observation(), ...patch })
     expect(result.kind).toBe('unknown'); expect(JSON.stringify(result)).not.toContain('secret')
   }
+})
+
+it('rejects legacy policy and committer attribution without migration defaults',()=>{
+  const f=fixture(),{sealIdentity,...legacy}=f.policy
+  expect(RemotePolicySchema.safeParse(legacy).success).toBe(false)
+  expect(RemotePolicySchema.safeParse({...f.policy,sealIdentity:{...sealIdentity,platformSignerActorId:0}}).success).toBe(false)
+  expect(RemoteFactsSchema.safeParse({...f.facts,seal:{kind:'found',value:{...f.facts.seal.value,writerAttribution:{role:'committer',actorId:27}}}}).success).toBe(false)
 })
