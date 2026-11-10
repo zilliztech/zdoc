@@ -1,0 +1,142 @@
+/** Internal diagnostic only. No report produced here is a capability or production receipt.
+ * Run under the reviewed external owned-process launcher: capture is not abortable.
+ * Inner deadlines are cooperative; only that launcher can certify an overall timeout.
+ */
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
+import { lstat, readFile, realpath, writeFile } from 'node:fs/promises'
+import { dirname, isAbsolute, join } from 'node:path'
+import { release } from 'node:os'
+import { canonicalBytes } from '../../core/updates/canonical'
+import { patchNextLock } from '../../core/updates/transaction'
+import { initializeEvidence, rawSha256, writeOwnedBlob } from '../../adapters/updates/evidence'
+import { captureTrustedToolset, describeTrustedToolset, retainTrustedAccessEvidence, verifyClosureBinding, verifyTrustedToolset } from '../../adapters/updates/toolset'
+import { createGuidesProvider } from '../../adapters/updates/guides-provider'
+import { createBuildDemo, git, write } from '../build/demo'
+
+const exec=promisify(execFile)
+const treeOutputLimit=4*1024*1024,treeEntryLimit=100000,objectBudget=64*1024*1024
+const gitEnvironment={LANG:'C',LC_ALL:'C',GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null',GIT_TERMINAL_PROMPT:'0',GIT_NO_LAZY_FETCH:'1',GIT_OPTIONAL_LOCKS:'0'}
+export interface TreeLowerBound {complete:boolean;entries:number;distinctBlobs:number;bytes:number;verdict:'over-budget'|'not-proven';scope:'master-tree-blobs-only';objectBudget:number}
+/** Strict NUL-delimited ls-tree -rlz output. No raw path/content is retained in the report. */
+export function parseTreeLowerBound(input:Uint8Array):TreeLowerBound {
+  if(input.length>treeOutputLimit)throw new Error('TREE_OUTPUT_LIMIT')
+  const text=new TextDecoder('utf8',{fatal:true}).decode(input)
+  if(text&&!text.endsWith('\0'))throw new Error('TRUNCATED_TREE')
+  const rows=text?text.slice(0,-1).split('\0'):[],objects=new Map<string,number>(),paths=new Set<string>()
+  if(rows.length>treeEntryLimit)throw new Error('TREE_ENTRY_LIMIT')
+  let bytes=0
+  for(const row of rows){
+    const match=/^(100644|100755|120000) blob ([a-f0-9]{40}) +([0-9]+)\t([^\0]+)$/.exec(row)
+    if(!match||paths.has(match[4]))throw new Error('INVALID_TREE')
+    const size=Number(match[3]);if(!Number.isSafeInteger(size)||size<0)throw new Error('INVALID_TREE_SIZE')
+    paths.add(match[4]);const old=objects.get(match[2])
+    if(old!==undefined&&old!==size)throw new Error('INCONSISTENT_OBJECT_SIZE')
+    if(old===undefined){objects.set(match[2],size);bytes+=size;if(!Number.isSafeInteger(bytes))throw new Error('TREE_SIZE_LIMIT')}
+  }
+  return {complete:true,entries:rows.length,distinctBlobs:objects.size,bytes,scope:'master-tree-blobs-only',objectBudget,verdict:bytes>objectBudget?'over-budget':'not-proven'}
+}
+export function validateDiagnosticSettlement(value:unknown):boolean {
+  const v=value as {pid?:number;born?:boolean;close?:{code:number|null;signal:string|null}|null;group?:string;cleanupErrors?:unknown[]}|null
+  return !!v&&Number.isSafeInteger(v.pid)&&v.pid!>0&&v.born===true&&v.close?.code===0&&v.close.signal===null&&v.group==='absent'&&Array.isArray(v.cleanupErrors)&&v.cleanupErrors.length===0
+}
+function settlementSummary(value:unknown):unknown {
+  if(!value||typeof value!=='object')return null
+  const v=value as import('../../adapters/updates/toolset').GuidesWorkerSettlement
+  return {pid:Number.isSafeInteger(v.pid)?v.pid:null,born:v.born===true,
+    close:v.close?{code:Number.isInteger(v.close.code)?v.close.code:null,signal:v.close.signal===null?null:'observed'}:null,
+    group:v.group==='absent'?'absent':'unknown',signals:Array.isArray(v.signals)?v.signals.length:0,
+    cleanupErrorCount:Array.isArray(v.cleanupErrors)?v.cleanupErrors.length:null}
+}
+interface Failure {phase:string;code:string}
+export interface RunnerDiagnostic {
+  kind:'shared-update-runner-diagnostic';schemaVersion:1;productionQualified:false;master:string
+  host:{platform:string;architecture:string;release:string;node:string;uid:number|null;gid:number|null}
+  capture:'passed'|'held'|'not-run';capacity:TreeLowerBound
+  worker:{status:'passed'|'held'|'not-run';generationExecuted:boolean;resultValidated:boolean;settlement:unknown;planDispositions:string[];tripwireUntouched:boolean|null}
+  phases:{phase:string;milliseconds:number;status:'passed'|'held'}[];failure:Failure|null
+  tools:ReturnType<typeof describeTrustedToolset>|null
+  closure:{sha256:string;bytes:number;toolsetSha256:string;access:unknown}|null
+  limits:{treeOutputBytes:number;treeEntries:number;overallDeadline:'external-owned-launcher';collectorResultBytes:number}
+}
+/** Bootstrap arguments come from reviewed code, never candidate/request JSON. No writer/env/runtime seam. */
+export async function collectRunnerQualification(input:{toolRoot:string;master:string;evidenceRoot:string}):Promise<RunnerDiagnostic> {
+  if(Object.keys(input).sort().join(',')!=='evidenceRoot,master,toolRoot'||!isAbsolute(input.toolRoot)||!isAbsolute(input.evidenceRoot)||!(/^[a-f0-9]{40}$/).test(input.master))throw new Error('INVALID_DIAGNOSTIC_BOOTSTRAP')
+  const toolRoot=await realpath(input.toolRoot)
+  // New output only; initializeEvidence independently rejects overlap/aliases and pins ownership.
+  try{await lstat(input.evidenceRoot);throw new Error('DIAGNOSTIC_OUTPUT_EXISTS')}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error}
+  const evidence=await initializeEvidence({root:input.evidenceRoot,repositories:[toolRoot],owner:'runner-diagnostic-v1',maxBytes:192*1024*1024})
+  const result:RunnerDiagnostic={kind:'shared-update-runner-diagnostic',schemaVersion:1,productionQualified:false,master:input.master,
+    host:{platform:process.platform,architecture:process.arch,release:release(),node:process.version,uid:process.getuid?.()??null,gid:process.getgid?.()??null},
+    capture:'not-run',capacity:{complete:false,entries:0,distinctBlobs:0,bytes:0,scope:'master-tree-blobs-only',objectBudget,verdict:'not-proven'},
+    worker:{status:'not-run',generationExecuted:false,resultValidated:false,settlement:null,planDispositions:[],tripwireUntouched:null},
+    phases:[],failure:null,tools:null,closure:null,limits:{treeOutputBytes:treeOutputLimit,treeEntries:treeEntryLimit,overallDeadline:'external-owned-launcher',collectorResultBytes:128*1024*1024}}
+  const started=performance.now()
+  let phase='bootstrap',phaseStart=started
+  const check=()=>{if(performance.now()-started>120000)throw new Error('COOPERATIVE_DEADLINE')}
+  const begin=(next:string)=>{check();phase=next;phaseStart=performance.now()}
+  const pass=()=>{check();result.phases.push({phase,milliseconds:Math.ceil(performance.now()-phaseStart),status:'passed'})}
+  const gitRead=async(...args:string[])=> (await exec('/usr/bin/git',['-c','core.hooksPath=/dev/null','-C',toolRoot,...args],{env:gitEnvironment,timeout:10000,maxBuffer:treeOutputLimit,encoding:'buffer'})).stdout
+  try{
+    begin('binding');if((await gitRead('rev-parse','HEAD')).toString().trim()!==input.master)throw new Error('MASTER_MISMATCH');pass()
+    begin('capacity');result.capacity=parseTreeLowerBound(await gitRead('ls-tree','-r','-l','-z',input.master));pass()
+    begin('capture');result.capture='held'
+    // Default helper coverage is intentional: gh/Python cannot be omitted to pass.
+    const capture=await captureTrustedToolset({root:toolRoot,commit:input.master,cwd:toolRoot})
+    result.tools=describeTrustedToolset(capture)
+    if(result.tools.commit!==input.master||await realpath(result.tools.root)!==toolRoot)throw new Error('CAPTURE_BINDING_MISMATCH')
+    const ref=await writeOwnedBlob(evidence,capture.bytes)
+    verifyClosureBinding(capture.material,ref,capture.bytes,capture.toolsetSha256)
+    const access=await retainTrustedAccessEvidence(capture,evidence)
+    await verifyTrustedToolset(capture)
+    result.closure={sha256:rawSha256(capture.bytes),bytes:capture.bytes.length,toolsetSha256:capture.toolsetSha256,access}
+    result.capture='passed';pass()
+    begin('worker');result.worker.status='held'
+    const fixture=await createBuildDemo(join(evidence.root,'fixture'))
+    // No external resource request: both fixture pins below contain local images only.
+    const sourcePath=join(fixture.repo,'site/en/build-pipeline.md')
+    const source=(await readFile(sourcePath,'utf8')).replace(/^!\[External[^\n]*\n/gm,'')
+    await writeFile(sourcePath,source);await git(fixture.repo,'add','.');await git(fixture.repo,'commit','-qm','diagnostic local-only current')
+    const current=await git(fixture.repo,'rev-parse','HEAD')
+    for(const page of ['build-pipeline','shared-target'])await write(fixture.sharedDocs,`pages/${page}/lock.yaml`,JSON.stringify({schema_version:1,current,next:current}))
+    const repository=dirname(dirname(fixture.sharedDocs)),tripwire=join(repository,'candidate-executed')
+    await write(repository,'scripts/candidate.cjs',`require('node:fs').writeFileSync(${JSON.stringify(tripwire)},'EXECUTED')`)
+    await write(repository,'package.json',JSON.stringify({scripts:{postinstall:'node scripts/candidate.cjs'}}))
+    await git(repository,'init','-q','-b','master','--template=');await git(repository,'add','.');await git(repository,'commit','-qm','diagnostic fixed configuration')
+    const config=await git(repository,'rev-parse','HEAD')
+    await writeFile(sourcePath,source.replaceAll('Pipeline example','Forward pipeline example'));await git(fixture.repo,'add','.');await git(fixture.repo,'commit','-qm','diagnostic forward source')
+    const target=await git(fixture.repo,'rev-parse','HEAD')
+    await git(fixture.repo,'remote','add','origin','https://github.com/milvus-io/milvus-docs')
+    const provider=await createGuidesProvider({capture,evidence,signal:AbortSignal.timeout(60000),request:{kind:'guides-collection',schemaVersion:1,repositoryRoot:repository,sourceRepository:fixture.repo,devRepository:fixture.dev,master:input.master,configSnapshot:config,dev:fixture.devCommit,pages:['build-pipeline'],comparisonConfig:null,target,evidenceRun:null,evidenceZip:null},
+      async prepareNext(context){const before=Buffer.from(context.lock.before.text),patch=patchNextLock({subject:context.subject,before:{path:context.lock.path,sha256:context.lock.before.blob.sha256,current,next:current},bytes:before,target,mode:'100644'});return {blob:await writeOwnedBlob(evidence,patch.bytes),text:patch.text}}})
+    try{
+      const collected=await provider.collectAll();result.worker.generationExecuted=true
+      const settlement=collected.workerSettlement;result.worker.settlement=settlementSummary(settlement)
+      if(!validateDiagnosticSettlement(settlement))throw new Error('WORKER_UNSETTLED')
+      const plans=provider.planAll();result.worker.resultValidated=true;result.worker.planDispositions=plans.map(plan=>plan.disposition)
+      // Candidate data must never run, and no generated content/lock is installed.
+      try{await lstat(tripwire);throw new Error('CANDIDATE_EXECUTED')}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error}
+      result.worker.tripwireUntouched=true
+      for(const plan of plans)for(const edit of plan.nextEdits)if(edit.before.current!==current||edit.before.next!==current||edit.target!==target||edit.before.path!=='shared-docs/guides/pages/build-pipeline/lock.yaml')throw new Error('NON_NEXT_ONLY_PLAN')
+      await writeOwnedBlob(evidence,canonicalBytes({kind:'diagnostic-worker-observation',schemaVersion:1,plans,settlement:settlementSummary(settlement)}))
+      if(collected.collection.holds.length||plans.length!==1||plans.some(plan=>!['candidate','draft-failure'].includes(plan.disposition)))throw new Error('WORKER_PREPARATION_HELD')
+      await writeOwnedBlob(evidence,canonicalBytes({kind:'diagnostic-worker-result',schemaVersion:1,plans,settlement:settlementSummary(settlement)}))
+      await verifyTrustedToolset(capture)
+      if((await gitRead('rev-parse','HEAD')).toString().trim()!==input.master)throw new Error('MASTER_MISMATCH')
+      result.worker.status='passed';pass()
+    }catch(error){
+      const observed=provider.getWorkerSettlement()??(error as {settlement?:unknown})?.settlement
+      result.worker.settlement=settlementSummary(observed)??result.worker.settlement
+      if(observed&&typeof observed==='object'&&(observed as {born?:boolean}).born===true)result.worker.generationExecuted=true
+      throw error
+    }
+  }catch(error){
+    const message=error instanceof Error?error.message:''
+    const allowed=['MASTER_MISMATCH','CAPTURE_BINDING_MISMATCH','WORKER_UNSETTLED','WORKER_PREPARATION_HELD','CANDIDATE_EXECUTED','NON_NEXT_ONLY_PLAN','COOPERATIVE_DEADLINE']
+    result.failure={phase,code:allowed.includes(message)?message:phase==='capture'?'CAPTURE_REFUSED':phase==='capacity'?'CAPACITY_INCOMPLETE':phase==='worker'?'WORKER_REFUSED':'DIAGNOSTIC_REFUSED'}
+    result.phases.push({phase,milliseconds:Math.ceil(performance.now()-phaseStart),status:'held'})
+  }
+  // Do not retain raw exceptions, environment values, stdout/stderr or credential canaries.
+  await evidence.writeJournal('diagnostic.json',canonicalBytes(result))
+  return result
+}
