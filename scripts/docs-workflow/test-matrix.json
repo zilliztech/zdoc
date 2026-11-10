@@ -1432,7 +1432,8 @@
         "package.json",
         "scripts/testing/run-vitest-groups.mjs",
         "scripts/testing/vitest-stop-reporter.mjs",
-        "scripts/testing/run-vitest-groups.test.mjs"
+        "scripts/testing/run-vitest-groups.test.mjs",
+        "scripts/testing/expected-platform-skips.json"
       ],
       "focusedTests": [
         "pnpm test:vitest-groups",

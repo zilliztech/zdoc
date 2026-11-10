@@ -3,7 +3,7 @@ import {runInNewContext} from 'node:vm'
 import {EventEmitter} from 'node:events'
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
-import {readFileSync} from 'node:fs'
+import {mkdirSync,readFileSync,rmSync,writeFileSync} from 'node:fs'
 import {mkdtemp,mkdir,rename,symlink,readFile,writeFile,stat,realpath,link} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
@@ -11,7 +11,7 @@ import {spawn,execFileSync} from 'node:child_process'
 import {createRequire} from 'node:module'
 import {dirname} from 'node:path'
 import {fileURLToPath} from 'node:url'
-import {HEAVY_FILES,REFERENCE_FILE,parseOptions,partitionFiles,inspectEvents,validateRawReport,supervise,runPhases,summarizeReports,tempParentPath,createTemporaryRoot,verifyTemporaryRoot,resolveProtectedInputs,withGateDeadline,prepareGateReports,settleGateVerdict,readGateReport} from './run-vitest-groups.mjs'
+import {HEAVY_FILES,REFERENCE_FILE,parseOptions,partitionFiles,inspectEvents,validateRawReport,supervise,runPhases,summarizeReports,tempParentPath,createTemporaryRoot,verifyTemporaryRoot,resolveProtectedInputs,withGateDeadline,prepareGateReports,settleGateVerdict,readGateReport,observedPlatformSkips,comparePlatformSkips,readPlatformSkipDeclaration} from './run-vitest-groups.mjs'
 import StopReporter from './vitest-stop-reporter.mjs'
 
 const expectedIsolatedFiles=['packages/docs-tooling/src/shared-docs/testing/updates/transactions.test.ts',
@@ -134,6 +134,25 @@ test('every scope stops at its first failing phase and reports all later complet
       assert.deepEqual(result.unrun,phases.slice(fail+1).flatMap(p=>p.files))
     }
   }
+})
+test('platform skips must stay within the committed declaration',async()=>{
+  const observed=observedPlatformSkips([{testResults:[{name:'/repo/a.test.ts',assertionResults:[{status:'passed'},{status:'skipped'},{status:'pending'}]}]}],'/repo')
+  assert.deepEqual(observed,{'a.test.ts':2})
+  assert.deepEqual(comparePlatformSkips(observed,{'a.test.ts':2}),[])
+  assert.deepEqual(comparePlatformSkips(observed,{'a.test.ts':3}),[])
+  assert.match(comparePlatformSkips(observed,{'a.test.ts':1})[0],/observed 2 skipped test\(s\) in a.test.ts exceeds the declared maximum 1/)
+  assert.match(comparePlatformSkips(observed,{})[0],/undeclared 2 skipped test\(s\) in a.test.ts/)
+  assert.deepEqual(comparePlatformSkips({},{'a.test.ts':2}),[])
+  const root=await mkdtemp(join(await realpath(tmpdir()),'vitest-skip-declaration-'))
+  try {
+    mkdirSync(join(root,'scripts/testing'),{recursive:true})
+    writeFileSync(join(root,'scripts/testing/expected-platform-skips.json'),JSON.stringify({version:1,platforms:{linux:{'a.test.ts':2},darwin:{}}}))
+    assert.deepEqual(readPlatformSkipDeclaration(root,'linux'),{'a.test.ts':2})
+    assert.deepEqual(readPlatformSkipDeclaration(root,'darwin'),{})
+    assert.throws(()=>readPlatformSkipDeclaration(root,'win32'),/Missing platform skip declaration/)
+    writeFileSync(join(root,'scripts/testing/expected-platform-skips.json'),JSON.stringify({version:2,platforms:{linux:{}}}))
+    assert.throws(()=>readPlatformSkipDeclaration(root,'linux'),/Invalid platform skip declaration/)
+  } finally {rmSync(root,{recursive:true,force:true})}
 })
 test('terminal protocol requires correlation, exact files, sequence and bounded worker policy',()=>{
   const p=protocol('/repo'),valid=events(p)

@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { appendFile, cp, mkdtemp, readFile, readdir, rename, stat, unlink, writeFile } from 'node:fs/promises'
+import { appendFile, cp, mkdtemp, readFile, readdir, realpath, rename, stat, unlink, writeFile } from 'node:fs/promises'
 import { tmpdir, release } from 'node:os'
 import { dirname, join } from 'node:path'
 import { expect, it, vi } from 'vitest'
@@ -25,7 +25,7 @@ import type { AuthorityObservation } from '../../core/updates/envelope'
  * This is a synthetic manual fixture, never a production SDK provider installation. */
 async function fixture(targetText='new source\n') {
   const started=process.hrtime.bigint()
-  const root=await mkdtemp(join(tmpdir(),'local-runner-')),repository=join(root,'repository'),source=join(root,'source')
+  const root=await realpath(await mkdtemp(join(tmpdir(),'local-runner-'))),repository=join(root,'repository'),source=join(root,'source')
   const mark=async(event:string,detail:unknown=null)=>appendFile(join(root,'phase-timings.jsonl'),JSON.stringify({event,milliseconds:Number(process.hrtime.bigint()-started)/1e6,detail})+'\n',{mode:0o600})
   await mark('fixture.start')
   const sourceUrl='https://github.com/example/transaction-fixture'
@@ -496,7 +496,7 @@ it('holds missing original source observation objects in the historical scratch 
  * Capability/launcher and authority acquisition are explicitly test-local substitutes.
  * This does NOT qualify the measured worker, real access policy or production authority. */
 async function guidesFixture(failure=false,authorityState:AuthorityObservation['updateState']='eligible-to-propose') {
-  const started=process.hrtime.bigint(),root=await mkdtemp(join(tmpdir(),'guides-local-runner-'))
+  const started=process.hrtime.bigint(),root=await realpath(await mkdtemp(join(tmpdir(),'guides-local-runner-')))
   const mark=async(event:string)=>appendFile(join(root,'phase-timings.jsonl'),JSON.stringify({event,milliseconds:Number(process.hrtime.bigint()-started)/1e6})+'\n')
   await mark('fixture.start')
   const toolsHead=await git(process.cwd(),'rev-parse','HEAD')

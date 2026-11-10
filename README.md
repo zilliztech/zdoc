@@ -45,11 +45,19 @@ pnpm build:zh-CN
 file selection and run ordinary files in parallel. Frontend (`all` scope) then runs
 the complete `translationManifest.integration.test.ts` file in a separate
 `reference-integration` phase. Both gates finish with the complete local-update
-transaction, runner and `update-prepare.test.ts` command test files in that order
-(`transactions`, `local-runner`, `update-prepare`). This gives frontend five phases
-and shared-docs four, including light. Each of these isolated phases
+transaction, runner and `update-prepare.test.ts` command test files as isolated
+phases (`transactions`, `local-runner`, `update-prepare`). This gives frontend five
+phases and shared-docs four, including light. Each of these isolated phases
 uses a separate single-worker process; shared-docs has no reference phase.
-Case deadlines and normal platform-dependent skips are unchanged.
+The ordinary light phase runs first and alone: when it fails, every later
+file stays unrun instead of spending the remaining gate budget. The isolated
+phases keep their own per-case deadlines and run in order; running them together
+only adds scheduler contention against those measured deadlines.
+Case deadlines are unchanged. Platform-dependent skips must be declared in
+`scripts/testing/expected-platform-skips.json` per platform and per test file, as
+the maximum skips that file may show there. The gate fails when an undeclared
+file skips or when a file exceeds its declared maximum, so muted coverage cannot
+grow silently; a file that skips less is reported, not failed.
 Heavy phases override an inherited `VITEST_MAX_WORKERS` to one; ordinary files
 retain their usual worker configuration. Use `pnpm test:vitest-groups` for the
 supervisor's selection, reporting and actual child-process failure contracts.
@@ -64,7 +72,10 @@ and reader confirmation. This allowance runs no tests or report copies and adds 
 A failed test/module, invalid or incomplete report, nonzero exit, or surviving
 owned process fails the gate and prevents later phases. Failed heavy work is
 terminated only within that invocation's process group; tests left unrun after
-failure are not ordinary skips. The CI tooling job's existing 20-minute total
+failure are not ordinary skips. A failed phase prints its failing case, error and
+stack to the console before the gate decides, and the site-validation workflow
+publishes the retained evidence directory as an artifact for a failed gate.
+The CI tooling job's existing 20-minute total
 limit, which also includes installation, Translation and replay tests, is unchanged.
 Denied process probes/signals stop that cleanup attempt: receipts retain the first
 failure and structured cleanup errors, with settlement unknown rather than assumed
