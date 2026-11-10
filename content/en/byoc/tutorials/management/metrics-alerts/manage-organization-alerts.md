@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Organization Alerts
 
 Organization alerts monitor billing and account-related metrics across your entire Zilliz Cloud organization. Unlike project alerts that focus on cluster performance, organization alerts help you track credit balances, payment methods, and usage patterns to ensure uninterrupted service and prevent unexpected billing issues. Stay informed about account health and avoid service disruptions by receiving timely notifications about credit depletion, payment failures, and usage thresholds.
@@ -35,6 +37,16 @@ Before viewing or managing organization alerts, ensure you have:
 Navigate to **Organization Alerts** in the left sidebar to access your organization alert dashboard and monitor your account's financial health.
 
 <Supademo id="cmb66uk3u3fadppkplclhnmdd" title="Zilliz Cloud - View Organization Alerts Demo" />
+
+<Procedures>
+
+1. Click on **Organization Alerts**.
+
+1. On **History**, view alert history.
+
+1. On **Settings**, view alert settings.
+
+</Procedures>
 
 ### Alert history\{#alert-history}
 
@@ -108,6 +120,24 @@ Create similar alerts with different notification settings or threshold modifica
 Set organization-wide default notification settings that automatically apply to new alerts, ensuring consistent billing notification practices across your organization.
 
 <Supademo id="cmb67pjbs3g31ppkpfd4l8mcv" title="Configure Alert Receiver Settings"/>
+
+<Procedures>
+
+1. On the project page, click **Project Alerts**.
+
+1. Click **Alert Receiver Settings**.
+
+1. Configure the following settings:
+
+1. **Send to**: Select the default notification channels, such as email, Slack, or webhooks. These channels are automatically selected for new alerts.
+
+1. **Alert Resolution Notification**: Enable this option to receive notifications when an alert is resolved.
+
+1. **Apply Settings to Existing Alerts**: Choose whether to apply the new default settings to all existing alerts.
+
+1. Click **Save**.
+
+</Procedures>
 
 ## FAQ\{#faq}
 

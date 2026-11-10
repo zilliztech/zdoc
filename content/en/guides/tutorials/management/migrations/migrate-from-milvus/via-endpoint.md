@@ -50,7 +50,33 @@ Before starting your Milvus to Zilliz Cloud migration, ensure you meet these req
 
 The following demo walks you through how to start migrating from Milvus via endpoint:
 
-<Supademo id="cmbkiuxw98p13sn1rc65tt6b0" title="Zilliz Cloud - Migrate from Milvus via Endpoint" />
+<Supademo id="cmbkiuxw98p13sn1rc65tt6b0" title=""  />
+
+<Procedures>
+
+1. In the left navigation pane, click on **Migrations**.
+
+1. Click on **Endpoint** in the **Milvus** card.
+
+1. Enter the Milvus **Cluster Endpoint** and the **username and password** of this Milvus cluster.
+
+1. Click on **Test Connection & Continue**.
+
+1. Once the checks pass, click on **Continue to Migrate**.
+
+1. Select the source database to migrate.
+
+1. Select the target cluster to migrate the data into.
+
+1. Click on **Next**.
+
+1. Choose a source collection to review field mappings.
+
+1. You can optionally adjust the settings of dynamic field, functions, full text search, shard numbers.
+
+1. Click on **Migrate**.
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 

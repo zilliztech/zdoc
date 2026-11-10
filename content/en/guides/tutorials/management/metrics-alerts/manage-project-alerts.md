@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Project Alerts
 
 Project alerts enable proactive monitoring of your Zilliz Cloud clusters by sending notifications when specified conditions are met. You can configure project alerts to monitor cluster metrics such as CU capacity, query performance, ensuring you're immediately notified of potential issues that require attention.
@@ -41,7 +43,17 @@ Before creating or managing project alerts, ensure you have:
 
 Navigate to **Project Alerts** in the left sidebar to access your project alert dashboard.
 
-<Supademo id="cmb5xa9pg39f6ppkpjwalrmro" title="Zilliz Cloud - View Project Alerts Demo" />
+<Supademo id="cmb5xa9pg39f6ppkpjwalrmro" title=""  />
+
+<Procedures>
+
+1. Click on **Project Alerts**.
+
+1. On **History**, view alert history.
+
+1. On **Settings**, view alert settings.
+
+</Procedures>
 
 ### Alert history\{#alert-history}
 
@@ -124,7 +136,33 @@ curl --request GET \
 
 Set up new alerts to monitor your cluster performance and health from various aspects.
 
-<Supademo id="cmb5w29ip399appkp45y9k3u2" title="Zilliz Cloud - Create Project Alerts Demo" />
+<Supademo id="cmb5w29ip399appkp45y9k3u2" title=""  />
+
+<Procedures>
+
+1. Click on **Project Alerts**.
+
+1. Click on **+ Alert**.
+
+1. Configure the alert and set the following:
+
+    - Alert name
+
+    - Metric
+
+    - Trigger conditions
+
+    - Severity level
+
+    - Target cluster
+
+    -  Alert receivers
+
+    -  Notification methods
+
+1. Click on **Create**.
+
+</Procedures>
 
 </TabItem>
 <TabItem value="Bash">
@@ -231,13 +269,23 @@ Set project-wide default notification settings, ensuring consistent monitoring p
 
 <Supademo id="cmb5zptc03acdppkpy0vk18f9" title="Zilliz Cloud - Configure Alert Receiver Settings Demo" />
 
-When configuring settings, you'll encounter the following concepts:
+<Procedures>
 
-- **Send to**: Default notification channels (email, Slack, webhooks) automatically selected for new alerts. Configure your most commonly used channels to streamline alert creation.
+1. On the project page, click **Project Alerts**.
 
-- **Alert Resolution Notification**: When enabled, you will receive notifications when the alert is resolved.
+1. Click **Alert Receiver Settings**.
 
-- **Apply Settings to Existing Alerts**: Choose whether to update all existing alerts with new default settings.
+1. Configure the following settings:
+
+1. **Send to**: Select the default notification channels, such as email, Slack, or webhooks. These channels are automatically selected for new alerts.
+
+1. **Alert Resolution Notification**: Enable this option to receive notifications when an alert is resolved.
+
+1. **Apply Settings to Existing Alerts**: Choose whether to apply the new default settings to all existing alerts.
+
+1. Click **Save**.
+
+</Procedures>
 
 ## FAQ\{#faq}
 

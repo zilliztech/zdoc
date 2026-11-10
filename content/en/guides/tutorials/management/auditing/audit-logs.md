@@ -183,6 +183,18 @@ Once audit log is enabled, you can edit its configuration or disable it as neede
 
 ![WaxlwwFpVhjeVKbfgWScdKQKnqW](https://zdoc-images.s3.us-west-2.amazonaws.com/WaxlwwFpVhjeVKbfgWScdKQKnqW.png)
 
+<Procedures>
+
+1. Navigate to your target cluster.
+
+1. Switch to the **Logs** tab.
+
+1. Click on the **Edit** button or the arrow next to it.
+
+1. You can edit or delete the log configuration.
+
+</Procedures>
+
 ## FAQ\{#faq}
 
 This FAQ addresses common issues and questions related to audit logging on Zilliz Cloud. For further assistance, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).

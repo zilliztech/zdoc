@@ -132,6 +132,18 @@ You can view the added AWS KMS keys on the Zilliz Cloud console.
 
 ![S3NKwZYR7hj6ocbkpIQcB66Unyg](https://zdoc-images.s3.us-west-2.amazonaws.com/S3NKwZYR7hj6ocbkpIQcB66Unyg.png)
 
+<Procedures>
+
+1. Find your target project.
+
+1. In the left navigation pane, click on **Security** > **CMEK**.
+
+1. Click **Amazon KMS** to view added keys.
+
+1. (Optional) Click **Remove** to remove obsolete ones.
+
+</Procedures>
+
 When a KMS key is no longer needed, you can delete it if any clusters do not use it.
 
 ## Use AWS KMS keys\{#use-aws-kms-keys}

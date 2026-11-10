@@ -118,6 +118,7 @@ import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import java.util.Arrays;
+import java.util.List;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
@@ -461,6 +462,8 @@ You can always change the consistency level for a specific search. The following
 <TabItem value='python'>
 
 ```python
+query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+
 res = client.search(
     collection_name="my_collection",
     data=[query_vector],
@@ -476,6 +479,8 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
+List<Float> queryVector = Arrays.asList(0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f);
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new FloatVec(queryVector)))
@@ -491,6 +496,8 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
     3,               // limit
@@ -508,6 +515,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+let query_vector: Vec<f32> = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
 client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -544,6 +553,8 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
 const res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],

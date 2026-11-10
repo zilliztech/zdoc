@@ -137,6 +137,20 @@ If your applications serve users across different geographic locations, you can 
 
     ![Cw14w6V8Ih4QqWbuYstcKqjVnUx](https://zdoc-images.s3.us-west-2.amazonaws.com/Cw14w6V8Ih4QqWbuYstcKqjVnUx.png)
 
+    <Procedures>
+
+    1. In the left navigation pane, click on **Projects**.
+
+    1. Click on **...** under **Actions**.
+
+    1. Click on **Add region**.
+
+    1. Select the region to add.
+
+    1. Click on **Save**.
+
+    </Procedures>
+
 ## Delete project regions\{#delete-project-regions}
 
 You can remove regions from a multi-region project.
@@ -162,6 +176,20 @@ You can remove regions from a multi-region project.
 - **Via Web console**
 
     ![DpQXwPmA9hnquubow8UcnFnQn9c](https://zdoc-images.s3.us-west-2.amazonaws.com/DpQXwPmA9hnquubow8UcnFnQn9c.png)
+
+    <Procedures>
+
+    1. In the left navigation pane, click on **Projects**.
+
+    1. Click on **...** under **Actions**.
+
+    1. Click on **Remove region**.
+
+    1. Select the region to remove.
+
+    1. Click on **Remove**.
+
+    </Procedures>
 
 ## Upgrade a project\{#upgrade-a-project}
 
@@ -204,6 +232,18 @@ If you need to upgrade a project to the **Business Critical** or **BYOC** plan, 
     The following demo shows how to upgrade the plan of a project from **Standard** to **Enterprise**.
 
     <Supademo id="cmur1bl9j0u2iqm0p6hr5sr2h" title=""  />
+
+    <Procedures>
+
+    1. Navigate to your target project.
+
+    1. Click on the project selector on the top.
+
+    1. Click on **Upgrade Project**.
+
+    1. Select the plan and click on **Upgrade**.
+
+    </Procedures>
 
 ## View all projects\{#view-all-projects}
 
@@ -248,6 +288,14 @@ You can view the list of all projects in your permission scope in the organizati
 - **Via web console**
 
     ![VnLHwjlDbhA62GbPXsYcIl6CnKb](https://zdoc-images.s3.us-west-2.amazonaws.com/VnLHwjlDbhA62GbPXsYcIl6CnKb.png)
+
+    <Procedures>
+
+    1. In the left navigation pane, click on **Projects**.
+
+    1. View the list of all projects.
+
+    </Procedures>
 
 ## View project details\{#view-project-details}
 
@@ -299,6 +347,20 @@ To rename a project or edit the description of a project, you must be an [Organi
 
 <Supademo id="cmhiwa69y5zk2fatiw4ou24k6" title=""  />
 
+<Procedures>
+
+1. Find your target project.
+
+1. Click on **...** in the **Actions** column.
+
+1. Select **Edit Details**.
+
+1. Enter the new name or description for the project.
+
+1. Click on **Save**.
+
+</Procedures>
+
 ## Delete a project\{#delete-a-project}
 
 To delete a project, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles). 
@@ -311,9 +373,23 @@ You can delete a project via the web console.
 
 <Supademo id="cmhiwf80b5zoufatic4p14w7m?utm_source=link" title=""  />
 
+<Procedures>
+
+1. Find your target project.
+
+1. Click on **...** in the **Actions** column.
+
+1. Select **Delete**.
+
+1. Enter the project name to confirm.
+
+1. Click on **Delete**.
+
+</Procedures>
+
 ## FAQ\{#faq}
 
 **Can I downgrade my project plan?**
 
-Direct plan downgrades are not supported. To switch to a lower plan, create a new project on the desired plan and [migrate](./offline-migration) your data to it.
+Direct plan downgrades are not supported. To switch to a lower plan, create a new project on the desired plan and [migrate](./offline-migration) your data to it.    
 

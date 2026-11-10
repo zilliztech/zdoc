@@ -147,7 +147,29 @@ To prepare migration data for Milvus 2.x,
 
 With backup files ready, you can migrate the data from local files, an object storage, or a volume or an object storage.
 
-<Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title="Zilliz Cloud - Migrate from Milvus via Backup File Demo" />
+<Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title=""  />
+
+<Procedures>
+
+1. Click on **Migrations**.
+
+1. Click on **Backup File**.
+
+1. Choose the upload method for backup file.
+
+1. Upload backup files.
+
+1. Click on **Next**.
+
+1. Select your target cluster.
+
+1. Next, select your target database.
+
+1. After, select the collection to migrate.
+
+1. Next up, click on **Next**.
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 
@@ -159,7 +181,19 @@ If full text search is already enabled for the source collection, Zilliz Cloud w
 
 Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **In Progress** to **Successful**, the migration is complete.
 
-<Supademo id="cme9my2nn4b64h3pyiyvsakqb" title="Zilliz Cloud - Monitor the Migration Process" />
+<Supademo id="cme9my2nn4b64h3pyiyvsakqb" title=""  />
+
+<Procedures>
+
+1. On the project page, click **Jobs**.
+
+1. Navigate to the target job and click on **...** under **Actions**.
+
+1. After that, click **View Details**.
+
+1. View the job details.
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 

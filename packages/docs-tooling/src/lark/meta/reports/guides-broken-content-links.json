@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-09T10:59:59.128Z",
+  "generated_at": "2026-11-10T10:39:47.111Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "base_table_id": "*",
   "summary": {
     "canonical_tokens": 409,
     "scanned_sources": 317,
-    "skipped_noncanonical_sources": 89,
-    "content_links": 1864,
+    "skipped_noncanonical_sources": 90,
+    "content_links": 1868,
     "broken_content_links": 25
   },
   "broken_content_links": [

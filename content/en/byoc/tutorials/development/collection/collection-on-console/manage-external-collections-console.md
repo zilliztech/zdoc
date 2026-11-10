@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage External Collections (Console)
 
 This page covers how to manage an external collection via the Zilliz Cloud web console.
@@ -29,6 +31,18 @@ This page covers how to manage an external collection via the Zilliz Cloud web c
 Before you start, ensure you have created an [external volume](./external-volume).
 
 <Supademo id="cmokttyiy05dxpimdm3d8vnxv" title=""  />
+
+<Procedures>
+
+1. Navigate to your target database. You can either select a database in Serving Clusters or in On-Demand Compute.
+
+1. Click on **...** and select **Create Collection**.
+
+1. Configure your external collection.
+
+1. Click on **Create**.
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 
@@ -42,11 +56,31 @@ Before you start, ensure you have created an [external volume](./external-volume
 
 ![ZEAOwzCoThf80KbhYbgcsJgJnhg](https://zdoc-images.s3.us-west-2.amazonaws.com/ZEAOwzCoThf80KbhYbgcsJgJnhg.png)
 
+<Procedures>
+
+1. Navigate to your target external collection.
+
+1. Click on **Refresh**.
+
+1. Read the information and click on **Refresh**.
+
+</Procedures>
+
 ## Enable query mode\{#enable-query-mode}
 
 Before you start, ensure you have deleted the vector index.
 
 ![ZF6gw5l8rh3zT9bsgv8c52Y5nNb](https://zdoc-images.s3.us-west-2.amazonaws.com/ZF6gw5l8rh3zT9bsgv8c52Y5nNb.png)
+
+<Procedures>
+
+1. Navigate to your target external collection.
+
+1. Turn on the switch next to **Query Mode**.
+
+1. Click on **Enable**.
+
+</Procedures>
 
 ## Drop an external collection\{#drop-an-external-collection}
 
@@ -54,3 +88,12 @@ Dropping an external collection will only remove the schema, manifest, and index
 
 <Supademo id="cmokvd5hr06grpimd8ugly112" title=""  />
 
+<Procedures>
+
+1. Navigate to your target external collection.
+
+1. Click on **Actions** and then select **Drop**.
+
+1. Enter the collection name and click on **Drop**.
+
+</Procedures>

@@ -211,6 +211,24 @@ If your source contains text, you can configure Full Text Search during migratio
 
 <Supademo id="cmhmruu9p0cp7dqxahn1vdnbb" title="Zilliz Cloud - Configure Full Text Search" />
 
+<Procedures>
+
+1. Add a `VARCHAR` field and a `SPARSE_FLOAT_VECTOR` field to the collection schema.
+
+1. Scroll down to **Advanced Settings** and click **+ Full Text Search**.
+
+1. Configure the full text search settings:
+
+    - Select the `VARCHAR` field as the input field.
+
+    - Select an analyzer.
+
+    - Select the function type.
+
+    - Select the `SPARSE_FLOAT_VECTOR` field as the output field.
+
+</Procedures>
+
 ## Platform-specific migration guides\{#platform-specific-migration-guides}
 
 For source-specific prerequisites, data type mappings, and handling rules, see the following guides:

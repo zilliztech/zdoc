@@ -19,6 +19,8 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Cluster Credentials
 
 Zilliz Cloud authenticates your identity using a token. A token can be either the cluster credential or an API key. This guide introduces authentication with cluster credentials.
@@ -36,6 +38,20 @@ If you forget a user's password or suspect it has been leaked, you can reset the
 - **Reset user password on the console**
 
     ![reset-cluster-user-password](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "reset-cluster-user-password")
+
+    <Procedures>
+
+    1. Navigate to your target cluster.
+
+    1. Switch to the **Users** tab.
+
+    1. Click on **...** under **Actions**.
+
+    1. Click on **Reset Password**.
+
+    1. Enter the new password and click on **Confirm**.
+
+    </Procedures>
 
 - **Reset user password programmatically**
 

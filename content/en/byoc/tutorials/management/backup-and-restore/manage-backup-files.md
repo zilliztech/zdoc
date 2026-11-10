@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Backup Files
 
 This guide walks you through how to view, rename, and delete existing backup files.
@@ -125,6 +127,18 @@ The following demo shows how to rename a backup file on the Zilliz Cloud web con
 
 <Supademo id="cmcsspyv70hpq9st8rz5ro3qa" title=""  />
 
+<Procedures>
+
+1. In the left navigation, click on **Backups**.
+
+1. Find the target backup file and click on **...** under **Actions**. Select **Rename**.
+
+1. Enter a new name for the backup file.
+
+1. Click on **Save**.
+
+</Procedures>
+
 ## Delete backup files\{#delete-backup-files}
 
 Zilliz Cloud handles deletion differently based on how the backup was created:
@@ -138,6 +152,18 @@ Zilliz Cloud handles deletion differently based on how the backup was created:
 The following demo shows how to delete a back file on the Zilliz Cloud web console.
 
 <Supademo id="cmcst9z5t0ics9st8bbvsrqkk" title=""  />
+
+<Procedures>
+
+1. In the left navigation, click on **Backups**.
+
+1. Find the target backup file and click on **...** under **Actions**. Select **Delete**.
+
+1. Type the name of the backup file to confirm the action.
+
+1. Click on **Delete**.
+
+</Procedures>
 
 ### Via RESTful API\{#via-restful-api}
 

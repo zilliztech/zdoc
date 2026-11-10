@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Offline Migration
 
 Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions.
@@ -91,6 +93,20 @@ Keep the source cluster available until you confirm that the migrated data is co
 The following demo walks you through the complete offline migration process:
 
 <Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title=""  />
+
+<Procedures>
+
+1. In the left navigation pane, click on **Migrations**.
+
+1. Click on **Offline** on the **Zilliz to Zilliz Migration** card.
+
+1. Click on **Select Source Location**. And then select the source organization > project > cluster > database.
+
+1. Click on **Select Target Location**.
+
+1. Click on **Migrate**.
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 

@@ -319,9 +319,31 @@ Depending on the type of key, the process varies:
 
     ![reset-personal-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-personal-api-keys.png "reset-personal-api-keys")
 
+    <Procedures>
+
+    1. Navigate to the organization **API Keys** page.
+
+    1. Click on **View my Personal Key**.
+
+    1. Click on the **Reset** button.
+
+    </Procedures>
+
 - **Reset customized API keys**: Only Organization Owners and Project Admins can reset customized API keys.
 
     ![reset-customized-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-customized-api-keys.png "reset-customized-api-keys")
+
+    <Procedures>
+
+    1. Navigate to the organization **API Keys** page.
+
+    1. Click on **...** under **Actions**.
+
+    1. Click on the **Reset** button.
+
+    1. Enter the key name and click on **Reset**.
+
+    </Procedures>
 
 ## Delete an API key\{#delete-an-api-key}
 
@@ -338,6 +360,18 @@ Deleting an API key will irreversibly terminate access to Zilliz Cloud resources
 </Admonition>
 
 ![delete-customized-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-customized-api-keys.png "delete-customized-api-keys")
+
+<Procedures>
+
+1. Navigate to the organization **API Keys** page.
+
+1. Click on **...** under **Actions**.
+
+1. Click on the **Delete** button.
+
+1. Enter the key name and click on **Delete**.
+
+</Procedures>
 
 ## FAQ\{#faq}
 

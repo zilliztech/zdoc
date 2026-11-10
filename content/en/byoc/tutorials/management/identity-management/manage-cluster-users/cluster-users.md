@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Cluster Users (Console)
 
 In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security.
@@ -28,17 +30,29 @@ To manage cluster users, you must be an **Organization Owner** or a **Project Ad
 
 ## Create a cluster user\{#create-a-cluster-user}
 
-When creating a cluster user, you need to:
-
-- Input the name of the user.
-
-- (Optional) Enter the description of the user.
-
-- Grant this user either a built-in cluster role or [a custom cluster role](./cluster-roles).
-
-- Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials).
-
 ![X8A2bdNuTopfLWxt53Ich1FHntf](https://zdoc-images.s3.us-west-2.amazonaws.com/x8a2bdnutopflwxt53ich1fhntf.png "X8A2bdNuTopfLWxt53Ich1FHntf")
+
+<Procedures>
+
+1. Navigate to your target cluster.
+
+1. Switch to the **Users** tab.
+
+1. Click on **+ User**.
+
+1. Configure the user settings.
+
+    - Input the name of the user.
+
+    - (Optional) Enter the description of the user.
+
+    - Grant this user either a built-in cluster role or [a custom cluster role](./cluster-roles).
+
+    - Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials).
+
+1. Click on **Create**.
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 
@@ -50,6 +64,24 @@ Each cluster can have up to 500 cluster users.
 
 ![V1PkbqpnZoGkmQxu2kbcNIH2neb](https://zdoc-images.s3.us-west-2.amazonaws.com/v1pkbqpnzogkmqxu2kbcnih2neb.png "V1PkbqpnZoGkmQxu2kbcNIH2neb")
 
+<Procedures>
+
+1. Navigate to your target cluster.
+
+1. Switch to the **Users** tab.
+
+1. Click on the **Edit** button next to your target user.
+
+1. Edit the user settings.
+
+    - (Optional) Enter the description of the user.
+
+    - Grant this user either a built-in cluster role or [a custom cluster role](./cluster-roles).
+
+1. Click on **Confirm**.
+
+</Procedures>
+
 ## Drop a cluster user\{#drop-a-cluster-user}
 
 <Admonition type="info" title="Notes">
@@ -60,3 +92,16 @@ The default user **db_admin** cannot be dropped.
 
 ![drop-cluster-user](https://zdoc-images.s3.us-west-2.amazonaws.com/drop-cluster-user.png "drop-cluster-user")
 
+<Procedures>
+
+1. Navigate to your target cluster.
+
+1. Switch to the **Users** tab.
+
+1. Click on **...** under **Actions**.
+
+1. Click on **Drop**.
+
+1. Enter the cluster user name to confirm and click on **Drop**.
+
+</Procedures>

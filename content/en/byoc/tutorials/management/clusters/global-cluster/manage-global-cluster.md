@@ -62,6 +62,20 @@ Once you add a new secondary cluster, Zilliz Cloud provisions it and begins repl
 
     <Supademo id="cmkat4dkp1h55ke4xyc8i7c9y" title=""  />
 
+    <Procedures>
+
+    1. Navigate to the target global cluster.
+
+    1. Click on **Actions** in the top right corner.
+
+    1. Click on **Create Secondary Cluster**.
+
+    1. Configure the new secondary cluster(s).
+
+    1. Click on **Create**.
+
+    </Procedures>
+
 - **Via RESTful API**
 
     The following example adds a new secondary cluster named `secondary-cluster-ap` deployed in AWS ap-southeast-1. For details about the API, see [Add Secondary Clusters](/reference/restful/add-secondary-clusters-v2).
@@ -112,6 +126,18 @@ You can drop a secondary cluster either via the web console or RESTful API.
     The following screenshot shows how to drop a secondary cluster.
 
     ![KjCvwgeZWhTEHnb1t3Pc1NoXnCb](https://zdoc-images.s3.us-west-2.amazonaws.com/KjCvwgeZWhTEHnb1t3Pc1NoXnCb.png)
+
+    <Procedures>
+
+    1. Find your target secondary cluster.
+
+    1. Click on **Actions**.
+
+    1. Click on **Drop**.
+
+    1. Enter the cluster name and click on **Drop**.
+
+    </Procedures>
 
 - **Via RESTful API**
 

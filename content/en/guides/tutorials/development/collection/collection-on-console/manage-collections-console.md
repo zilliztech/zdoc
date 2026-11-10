@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Collections (Console)
 
 A collection is a two-dimensional table used to store vector embeddings and metadata. All entities in a collection share the same schema. You can create multiple collections for data management or multi-tenancy purposes. 
@@ -164,6 +166,32 @@ The demo below shows the entrance of this feature on the Zilliz Cloud web consol
 
 <Supademo id="cmbk94p4i8hm0sn1rhzrph2b5" title=""  />
 
+- **Configure mmap when creating a collection**
+
+    <Procedures>
+
+    1. On the collection creation page, scroll down to **Advanced Settings** and click **Mmap Settings**.
+
+    1. Configure the collection-level and field-level mmap settings.
+
+    1. Click **Save**.
+
+    </Procedures>
+
+- **Modify mmap for an existing collection**
+
+    <Procedures>
+
+    1. Release the collection before modifying its mmap settings.
+
+    1. Open the collection’s **Overview** page and click the **Mmap Settings** icon.
+
+    1. Adjust the collection-level and field-level mmap settings as needed.
+
+    1. Click **Save**.
+
+    </Procedures>
+
 ### Shard\{#shard}
 
 A shard is a horizontal slice of a collection that corresponds to a data input channel. Every collection comes with one shard by default. You can add more shards to increase write throughput. 
@@ -180,6 +208,24 @@ The demo below shows the entrance of this feature on the Zilliz Cloud web consol
 
 <Supademo id="cmbj8ahun7j48sn1redlc3e93" title=""  />
 
+<Procedures>
+
+1. Add a `VARCHAR` field and a `SPARSE_FLOAT_VECTOR` field to the collection schema.
+
+1. Scroll down to **Advanced Settings** and click **+ Full Text Search**.
+
+1. Configure the full text search settings:
+
+    - Select the `VARCHAR` field as the input field.
+
+    - Select an analyzer.
+
+    - Select the function type.
+
+    - Select the `SPARSE_FLOAT_VECTOR` field as the output field.
+
+</Procedures>
+
 ### Text Match\{#text-match}
 
 The Zilliz Cloud console also supports configuring the field and analyzer for text match. For details about text match, see [Text Match](./text-match).
@@ -187,6 +233,16 @@ The Zilliz Cloud console also supports configuring the field and analyzer for te
 The demo below shows the entrance of this feature on the Zilliz Cloud web console.
 
 <Supademo id="cmbj80qyf7it8sn1r6lzo0g1c" title=""  />
+
+<Procedures>
+
+1. Add a `VARCHAR` field to the collection schema.
+
+1. Click the **Settings** icon for the field.
+
+1. Enable **Text Match** and select an analyzer.
+
+</Procedures>
 
 ## Manage collection\{#manage-collection}
 
@@ -199,6 +255,16 @@ Zilliz Cloud supports the following management operations on created collections
 - **Edit collection description:** You can change the description of an existing collection. 
 
     ![SBlWwPqMPhqspYbR7pxct59xnle](https://zdoc-images.s3.us-west-2.amazonaws.com/SBlWwPqMPhqspYbR7pxct59xnle.png)
+
+    <Procedures>
+
+    1. Navigate to your target collection.
+
+    1. Click on **Edit** icon next to the description.
+
+    1. Enter the new description and click on **Save**.
+
+    </Procedures>
 
 - **Edit collection schema and settings:** Currently, Zilliz Cloud only supports editing the following schema and settings.
 

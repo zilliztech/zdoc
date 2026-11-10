@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Import Data (Console)
 
 This page introduces how to import the prepared data on the Zilliz Cloud console.
@@ -63,6 +65,28 @@ You are advised to use a bucket or a blob container from the same provider and i
 </Admonition>
 
 <Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Navigate to the target collection you wish to import data into.
+
+1. Switch to the **Data** tab.
+
+1. Click on **Import Data**.
+
+1. Set the data import configuration.
+
+    - Select the partition.
+
+    - Select **Object Storage Service** as the **Data Location**.
+
+    - Select your data format. For supported data formats, see [Format Options](./data-import-format-options).
+
+    - Enter your object storage service credentials.
+
+1. Click **Import**.
+
+</Procedures>
 
 ## Verify results\{#verify-results}
 

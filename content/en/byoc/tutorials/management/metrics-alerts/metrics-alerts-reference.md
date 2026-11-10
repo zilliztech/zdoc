@@ -55,7 +55,7 @@ Organization-level metrics help you track license-related issues across all proj
      <td><ul><li><p><strong>&gt;</strong> <strong>70%</strong>: assess future needs and plan renewal/upgrade.</p></li><li><p><strong>100%</strong>: renew/upgrade immediately to avoid disruption.</p></li></ul></td>
    </tr>
    <tr>
-     <td><p>Usage Amount in the Past Day ($)</p></td>
+     <td><p>Usage Amount in the Past Day (&#36;)</p></td>
      <td><p>Cumulative usage charges over a the past day.</p></td>
      <td><p>Monitor vs. budget; optimize usage or adjust budget as needed.</p></td>
    </tr>
@@ -65,7 +65,7 @@ Organization-level metrics help you track license-related issues across all proj
      <td><p>Use or extend credits before expiry.</p></td>
    </tr>
    <tr>
-     <td><p>Remaining Credits ($)</p></td>
+     <td><p>Remaining Credits (&#36;)</p></td>
      <td><p>Balance of free credits.</p></td>
      <td><p>Top up when low to maintain account functionality.</p></td>
    </tr>
@@ -75,7 +75,7 @@ Organization-level metrics help you track license-related issues across all proj
      <td><p>Update or replace card before expiry to avoid payment failures.</p></td>
    </tr>
    <tr>
-     <td><p>Advance Pay Balance ($)</p></td>
+     <td><p>Advance Pay Balance (&#36;)</p></td>
      <td><p>Remaining pre-paid funds.</p></td>
      <td><p>Add funds when low to prevent service interruption.</p></td>
    </tr>

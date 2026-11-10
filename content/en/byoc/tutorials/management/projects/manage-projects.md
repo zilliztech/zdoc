@@ -18,6 +18,10 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Projects
 
 In Zilliz Cloud, a project serves as a logical container within an organization, grouping clusters, volumes, and related resources. All resources within a project share the same cloud provider and region.
@@ -72,6 +76,14 @@ You can view the list of all projects in your permission scope in the organizati
 
     ![VnLHwjlDbhA62GbPXsYcIl6CnKb](https://zdoc-images.s3.us-west-2.amazonaws.com/VnLHwjlDbhA62GbPXsYcIl6CnKb.png)
 
+    <Procedures>
+
+    1. In the left navigation pane, click on **Projects**.
+
+    1. View the list of all projects.
+
+    </Procedures>
+
 ## View project details\{#view-project-details}
 
 You can also check the details of a certain project.
@@ -120,7 +132,21 @@ You can also check the details of a certain project.
 
 To rename a project or edit the description of a project, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles). You can edit project details via the web console.
 
-![rename-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-project-byoc.png "rename-project-byoc")
+<Supademo id="cmhiwa69y5zk2fatiw4ou24k6" title=""  />
+
+<Procedures>
+
+1. Find your target project.
+
+1. Click on **...** in the **Actions** column.
+
+1. Select **Edit Details**.
+
+1. Enter the new name or description for the project.
+
+1. Click on **Save**.
+
+</Procedures>
 
 ## Delete a project\{#delete-a-project}
 
@@ -132,5 +158,25 @@ Once a project is deleted, all its associated data and resources will be irrever
 
 You can delete a project via the web console.
 
-![delete-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-project-byoc.png "delete-project-byoc")
+<Supademo id="cmhiwf80b5zoufatic4p14w7m?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Find your target project.
+
+1. Click on **...** in the **Actions** column.
+
+1. Select **Delete**.
+
+1. Enter the project name to confirm.
+
+1. Click on **Delete**.
+
+</Procedures>
+
+## FAQ\{#faq}
+
+**Can I downgrade my project plan?**
+
+Direct plan downgrades are not supported. To switch to a lower plan, create a new project on the desired plan and [migrate](./offline-migration) your data to it.    
 

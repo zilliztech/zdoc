@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Import Data (Console)
 
 This page introduces how to import the prepared data on the Zilliz Cloud console.
@@ -40,9 +42,31 @@ Once data files are ready, you can import them directly from your local drive or
 
 Zilliz Cloud supports importing data from a local JSON or Parquet file. If your data is prepared in the NumPy format, please import from an [object storage bucket](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket).
 
-To import data from a local file, you can drag or drop a file into the upload area and click **Import**.
+To import data from a local file, you can follow the demo below.
 
 <Supademo id="cme7x3fgv388ch3pyymi6ek0q?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Navigate to the target collection you wish to import data into.
+
+1. Switch to the **Data** tab.
+
+1. Click on **Import Data**.
+
+1. Set the data import configuration.
+
+    - Select the partition.
+
+    - Select **Local File** as the **Data Location**.
+
+    - Select your data format. For supported data formats, see [Format Options](./data-import-format-options).
+
+    - Drag or drop your local file into the **Select File** area.
+
+1. Click **Import**.
+
+</Procedures>
 
 ### Remote files from an object storage bucket\{#remote-files-from-an-object-storage-bucket}
 
@@ -72,6 +96,28 @@ You are advised to use a bucket or a blob container from the same provider and i
 
 <Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
 
+<Procedures>
+
+1. Navigate to the target collection you wish to import data into.
+
+1. Switch to the **Data** tab.
+
+1. Click on **Import Data**.
+
+1. Set the data import configuration.
+
+    - Select the partition.
+
+    - Select **Object Storage Service** as the **Data Location**.
+
+    - Select your data format. For supported data formats, see [Format Options](./data-import-format-options).
+
+    - Enter your object storage service credentials.
+
+1. Click **Import**.
+
+</Procedures>
+
 ### From a volume\{#from-a-volume}
 
 - **Managed volume**: If your local file is extremely large (> 1GB), you can [upload the file to a managed volume](./managed-volume) first and them import from the volume. Once you have uploaded the prepared files to a volume, copy the file path and continue to import the file into a collection.
@@ -81,6 +127,32 @@ You are advised to use a bucket or a blob container from the same provider and i
 The following demo shows how to import data from a managed volume.
 
 <Supademo id="cmidzr662adilb7b4d7l45rnf?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Navigate to your target volume and switch to the **Files** tab.
+
+1. In the **Actions** column, click on **...** and then select **Copy Path**.
+
+1. Navigate to the target collection you wish to import data into.
+
+1. Switch to the **Data** tab.
+
+1. Click on **Import Data**.
+
+1. Set the data import configuration.
+
+    - Select the partition.
+
+    - Select **Volume** as the **Data Location**.
+
+    - Select your data format. For supported data formats, see [Format Options](./data-import-format-options).
+
+    - Paste the file or folder path you just copied in step 2.
+
+1. Click **Import**.
+
+</Procedures>
 
 ## Verify results\{#verify-results}
 

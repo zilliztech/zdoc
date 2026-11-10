@@ -181,9 +181,31 @@ When your invoice is overdue, you can first check and update your payment method
 
 ![pay-invoice](https://zdoc-images.s3.us-west-2.amazonaws.com/pay-invoice.png "pay-invoice")
 
+<Procedures>
+
+1. Click on **Billing** in the left navigation pane.
+
+1. Switch to the **Invoices** tab.
+
+1. Click on your target invoice.
+
+1. Click on **Pay Now**.
+
+</Procedures>
+
 ### Download Invoice\{#download-invoice}
 
-To download an invoice, click the download icon next to the target invoice on the Zilliz Cloud web console.
+You can also download an invoice as instructed below.
 
 ![download-invoices](https://zdoc-images.s3.us-west-2.amazonaws.com/download-invoices.png "download-invoices")
+
+<Procedures>
+
+1. Click on **Billing** in the left navigation pane.
+
+1. Switch to the **Invoices** tab.
+
+1. Click on the **Download** button in the **Actions** column.
+
+</Procedures>
 

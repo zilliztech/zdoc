@@ -52,6 +52,22 @@ The inactivity timeout applies to your Zilliz Cloud console session. It does not
 
 ![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/updateemailaddress.png "update_email_address")
 
+<Procedures>
+
+1. Click on your profile in the upper right corner.
+
+1. Click on **Account Settings**.
+
+1. Click on **Update** in the **Email** area.
+
+1. Enter your account password.
+
+1. Enter the new email address.
+
+1. Check your email inbox for the verification code and input it in the Zilliz Cloud web console.
+
+</Procedures>
+
 <Admonition type="info" title="Notes">
 
 Updating the email address will not affect the receiver of billing invoices and alerts. Please update these information manually if necessary.
@@ -62,15 +78,27 @@ Updating the email address will not affect the receiver of billing invoices and 
 
 ![change_password](https://zdoc-images.s3.us-west-2.amazonaws.com/changepassword.png "change_password")
 
-Your password must be at least 8 characters long and include at least 3 of the following character types:
+<Procedures>
 
-- Lowercase letters (a–z)
+1. Open **Account Settings**.
 
-- Uppercase letters (A–Z)
+1. In the **Password** section, click **Reset**.
 
-- Numbers (0–9)
+1. In the **Reset Password** dialog box, enter your current password and new password, then confirm the new password.
 
-- Special characters (e.g., !@#&#36;%^&&ast;)
+    Your password must be at least 8 characters long and include at least 3 of the following character types:
+
+    - Lowercase letters (a–z)
+
+    - Uppercase letters (A–Z)
+
+    - Numbers (0–9)
+
+    - Special characters (e.g., !@#&#36;%^&&ast;)
+
+1. Click **Reset** to save your new password.
+
+</Procedures>
 
 ## Enable and disable MFA\{#enable-and-disable-mfa}
 

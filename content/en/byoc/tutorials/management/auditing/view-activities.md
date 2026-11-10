@@ -58,5 +58,7 @@ To enhance your control and ease in navigating through the platform audit logs, 
 
 - **Filter by audit log**
 
+    Select your preferred activity type from the list. 
+
     ![filter-by-activity](https://zdoc-images.s3.us-west-2.amazonaws.com/filter-by-activity.png "filter-by-activity")
 

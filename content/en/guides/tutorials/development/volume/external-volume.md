@@ -372,6 +372,14 @@ You can view all existing volumes in a project.
 
     ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.s3.us-west-2.amazonaws.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
 
+    <Procedures>
+
+    1. In the left navigation pane, click on **Volumes**.
+
+    1. View all existing volumes in the project.
+
+    </Procedures>
+
 ## Describe  external volume\{#describe-external-volume}
 
 You can check the details of a specific volume.
@@ -504,6 +512,16 @@ You can check the details of a specific volume.
 - **Via web console**
 
     ![NrgXwPhxGhq78NbBfDYcWc6Ened](https://zdoc-images.s3.us-west-2.amazonaws.com/NrgXwPhxGhq78NbBfDYcWc6Ened.png)
+
+    <Procedures>
+
+    1. In the left navigation pane, click on **Volumes**.
+
+    1. Click on your target volume and then switch to the **Overview** tab.
+
+    1. View the details of the volume.
+
+    </Procedures>
 
 ## Delete an external volume\{#delete-an-external-volume}
 

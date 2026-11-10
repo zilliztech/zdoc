@@ -326,7 +326,7 @@ await client.CreateCollectionAsync(new CreateCollectionReq
 
 ```bash
 # Configuration
-export CLUSTER_ENDPOINT="http://10.100.32.69:19530"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 COLLECTION_NAME="geo_collection"
 

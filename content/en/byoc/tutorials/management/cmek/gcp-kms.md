@@ -48,6 +48,8 @@ For details on how encryption works and its scope, refer to [this section](./cme
 
 ## Before you start\{#before-you-start}
 
+- All Bash commands in this guide run in [Google Cloud Shell](https://shell.cloud.google.com/).
+
 - You have sufficient permissions to run key management commands.
 
 ## Add Google Cloud CryptoKey\{#add-google-cloud-cryptokey}
@@ -99,6 +101,18 @@ To add a Google Cloud CryptoKey, log in to the [Zilliz Cloud console](https://cl
 You can view the added Google Cloud KMS keys on the Zilliz Cloud console.
 
 ![JIOvwK1qghkys1b4drXcZUyFnCb](https://zdoc-images.s3.us-west-2.amazonaws.com/JIOvwK1qghkys1b4drXcZUyFnCb.png)
+
+<Procedures>
+
+1. Find your target project.
+
+1. In the left navigation pane, click on **Security** > **CMEK**.
+
+1. Click Google Cloud **KMS** to view added keys.
+
+1. (Optional) Click **Remove** to remove obsolete ones.
+
+</Procedures>
 
 When a KMS key is no longer needed, you can delete it if any clusters do not use it.
 

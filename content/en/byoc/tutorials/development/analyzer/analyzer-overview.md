@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Analyzer Overview
 
 In text processing, an **analyzer** is a crucial component that converts raw text into a structured, searchable format. Each analyzer typically consists of two core elements: **tokenizer** and **filter**. Together, they transform input text into tokens, refine these tokens, and prepare them for efficient indexing and retrieval.
@@ -1739,6 +1741,26 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
 You can also use the Zilliz Cloud console to perform the above operations. For details, play the demo below.
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
+
+<Procedures>
+
+1. Navigate to the **Overview** page of your target cluster.
+
+1. Click on **Create Collection**.
+
+1. Set the collection name, vector field, and varchar field.
+
+1. Click on the **Settings** button next to your varchar field.
+
+1. Switch on **Analyzer**.
+
+1. Configure the analyzer.
+
+1. Click on **Test** to see the results of applying the analyzer.
+
+1. Click on **Save**.
+
+</Procedures>
 
 <Admonition type="info" title="Note">
 

@@ -164,6 +164,16 @@ The following demo shows how to check automatic backup schedule on the Zilliz Cl
 
 <Supademo id="cmcsr43kx02umxk0ih3i31jaq?utm_source=link" title=""  />
 
+<Procedures>
+
+1. Navigate to your target cluster.
+
+1. Switch to the **Backups** tab.
+
+1. You can see the details of the automatic backup policy and edit it if necessary.
+
+</Procedures>
+
 ### Via RESTful API\{#via-restful-api}
 
 The following example checks the automatic backup policy of a cluster. For details about the RESTful API, see [Get Backup Policy](/reference/restful/get-backup-policy-v2).
@@ -211,6 +221,18 @@ You can also disable automatic backup for a cluster.
 The following demo shows how to check automatic backup schedule on the Zilliz Cloud web console.
 
 <Supademo id="cmcsr7chx0gu29st8s0obm37l?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Navigate to your target cluster.
+
+1. Switch to the **Backups** tab.
+
+1. Click on **Edit** on the **Backup Policy** card.
+
+1. Turn off the switch and click on **Save**.
+
+</Procedures>
 
 ### Via RESTful API\{#via-restful-api}
 

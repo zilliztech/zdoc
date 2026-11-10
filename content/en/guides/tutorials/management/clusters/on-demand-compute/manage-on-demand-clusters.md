@@ -287,6 +287,26 @@ You can modify the settings, such as the name, description, and auto-suspend set
 
     ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 
+    <Procedures>
+
+    1. Navigate to your target on-demand cluster.
+
+    1. In the upper right corner, click on **Actions** and then select **Modify**.
+
+    1. You can modify the following settings of the on-demand cluster:
+
+        - Cluster name
+
+        - Description
+
+        - Number of Query CUs
+
+        - Auto Suspend
+
+    1. Click on **Save**.
+
+    </Procedures>
+
 ## Configure a keep-warm schedule\{#configure-a-keep-warm-schedule}
 
 A keep-warm schedule keeps an on-demand cluster running during recurring weekly windows. When a keep-warm window starts, Zilliz Cloud resumes the on-demand cluster if it is suspended. During the window, `Auto Suspend` is suppressed. When the window ends, the on-demand cluster follows its existing auto-suspension policy again.

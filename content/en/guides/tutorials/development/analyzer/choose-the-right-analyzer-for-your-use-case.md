@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Choose the Right Analyzer for Your Use Case
 
 This guide helps you select and configure the most suitable **analyzer** for your text content in Zilliz Cloud.
@@ -1255,4 +1257,24 @@ For better control over token behavior across different languages:
 In Zilliz Cloud, you can configure and test text analyzers directly from the [Zilliz Cloud](https://cloud.zilliz.com/) [console](https://cloud.zilliz.com/), without writing code.
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
+
+<Procedures>
+
+1. Navigate to the **Overview** page of your target cluster.
+
+1. Click on **Create Collection**.
+
+1. Set the collection name, vector field, and varchar field.
+
+1. Click on the **Settings** button next to your varchar field.
+
+1. Switch on **Analyzer**.
+
+1. Configure the analyzer.
+
+1. Click on **Test** to see the results of applying the analyzer.
+
+1. Click on **Save**.
+
+</Procedures>
 

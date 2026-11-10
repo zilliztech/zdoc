@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Project Jobs
 
 Zilliz Cloud offers an intuitive Jobs page that integrates all historical and asynchronous data tasks within the same project.
@@ -122,6 +124,16 @@ To cancel a job, you must be an **Organization Owner** or a **Project Admin**.
 
 ![cancel_job](https://zdoc-images.s3.us-west-2.amazonaws.com/canceljob.png "cancel_job")
 
+<Procedures>
+
+1. In the left navigation pane, click on **Jobs**.
+
+1. Click on **...** in the **Actions** column.
+
+1. Click on **Cancel**.
+
+</Procedures>
+
 ## Retry failed job\{#retry-failed-job}
 
 <Admonition type="info" title="Notes">
@@ -138,3 +150,10 @@ If you have made adjustments to the files that are failed to be imported, you ca
 
 ![retry_failed_job](https://zdoc-images.s3.us-west-2.amazonaws.com/retryfailedjob.png "retry_failed_job")
 
+<Procedures>
+
+1. In the left navigation pane, click on **Jobs**.
+
+1. Click on the **Retry** button.
+
+</Procedures>

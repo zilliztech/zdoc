@@ -164,8 +164,6 @@ The following is an example output.
 
     Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
-    Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
-
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
@@ -226,14 +224,54 @@ The following is an example output.
     1. Retrieve the available Milvus versions using **List Milvus Version**.
 
         ```bash
-        # TODO: Add a request to list available Milvus versions.
+        curl --request GET \
+             --url "https://api.cloud.zilliz.com/v2/clusters/versions?regionId=gcp-us-west1" \
+             --header "Authorization: Bearer ${API_KEY}" \
+             --header "Accept: application/json"
+        ```
+
+        Example response:
+
+        ```json
+        {
+          "code": 0,
+          "data": [
+            {
+              "regionId": "gcp-us-west1",
+              "versions": [
+                {"majorVersion": "2.6", "channel": "GA"},
+                {"majorVersion": "3.0", "channel": "PUBLIC_PREVIEW"}
+              ]
+            }
+          ]
+        }
         ```
 
     1. Select a version from the response, then specify it in your cluster creation request.
 
         ```bash
-        # TODO: Add a request to create a Dedicated cluster with the selected Milvus version.
+        curl --request POST \
+             --url "https://api.cloud.zilliz.com/v2/clusters" \
+             --header "Authorization: Bearer ${API_KEY}" \
+             --header "Accept: application/json" \
+             --header "Content-Type: application/json" \
+             --data-raw '{
+               "clusterName": "my-preview-cluster",
+               "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+               "regionId": "gcp-us-west1",
+               "plan": "Enterprise",
+               "cuType": "Performance-optimized",
+               "cuSize": 1,
+               "version": {
+                 "majorVersion": "3.0",
+                 "channel": "PUBLIC_PREVIEW"
+               }
+             }'
         ```
+
+        - `version.majorVersion`: The Milvus version line returned by the query, without a leading `v` or patch number.
+
+        - `version.channel`: The release channel returned by the query: `GA` or `PUBLIC_PREVIEW`.
 
     </Procedures>
 

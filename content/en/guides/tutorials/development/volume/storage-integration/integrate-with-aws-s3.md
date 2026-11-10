@@ -419,6 +419,16 @@ Once the integration is added, you can view its details or remove the integratio
 
 ![YODhb5leToWLsjxGRrpcyuZNnPb](https://zdoc-images.s3.us-west-2.amazonaws.com/yodhb5letowlsjxgrrpcyuznnpb.png "YODhb5leToWLsjxGRrpcyuZNnPb")
 
+<Procedures>
+
+1. On your project page, navigate to **Integrations** from the left-side navigation pane.
+
+1. Click on your target integration, click on **...** Under **Actions**.
+
+1. Click on **View Details** or **Remove**.
+
+</Procedures>
+
 ### Obtain the integration ID\{#obtain-the-integration-id}
 
 If you need to use the RESTful API to export backup files to one of your AWS S3 buckets integrated with Zilliz Cloud, click **View Details** to display the details of an integration and copy its integration ID.

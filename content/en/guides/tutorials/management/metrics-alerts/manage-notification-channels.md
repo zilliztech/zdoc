@@ -34,6 +34,22 @@ You can access the management page of notification channels in the **Edit Alert*
 
 ![manage-alert-channel](https://zdoc-images.s3.us-west-2.amazonaws.com/manage-alert-channel.png "manage-alert-channel")
 
+<Procedures>
+
+1. Navigate to your target project.
+
+1. In the left navigation pane, click on **Project Alerts**.
+
+1. Click on **...** under **Actions**.
+
+1. Click on **Edit**.
+
+1. In the **Send to** area, configure the alert channels.
+
+1. Click on **Update**.
+
+</Procedures>
+
 ### Email\{#email}
 
 To set up email notifications,

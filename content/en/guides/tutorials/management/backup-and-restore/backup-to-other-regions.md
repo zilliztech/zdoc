@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Cross-Region Backup
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
@@ -71,6 +73,22 @@ You can enable cross-region backup either when [creating a backup manually](./cr
 The following demo shows how to use cross-region backup when manually creating a backup. For details about how to use cross-region backup while scheduling automatic backups, refer to [Schedule Automatic Backups](./schedule-automatic-backups).
 
 <Supademo id="cmgkg6um62deokrn973s89qfx?utm_source=link" title=""  />
+
+<Procedures>
+
+1. Navigate to your target cluster.
+
+1. Switch to the **Backups** tab.
+
+1. Click on **+ Manual Backup**.
+
+1. Click on **+ Region**.
+
+1. Select the preferred regions and set the backup retention.
+
+1. Click on **Create**.
+
+</Procedures>
 
 You can also use the Zilliz Cloud RESTful API to create cross-region copies of the backup created in the same region as the target cluster manually as follows:
 
