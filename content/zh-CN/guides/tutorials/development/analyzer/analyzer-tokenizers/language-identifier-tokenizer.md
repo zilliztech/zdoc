@@ -125,7 +125,7 @@ Zilliz Cloud 提供两种语言检测引擎可选：
 
 - [lingua 支持语言列表](https://github.com/pemistahl/lingua?tab=readme-ov-file#3-which-languages-are-supported)
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -153,9 +153,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 
 Map<String, Object> defaultAnalyzer = new HashMap<>();
@@ -254,6 +251,27 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "language_identifier", // Must be `language_identifier`
+        ["identifier"] = "whatlang", // or `lingua`
+        ["analyzers"] = new Dictionary<string, object>
+        {
+            ["default"] = new Dictionary<string, object> { ["tokenizer"] = "standard" }, // fallback if language detection fails
+            ["English"] = new Dictionary<string, object> { ["type"] = "english" },
+            ["Mandarin"] = new Dictionary<string, object> { ["tokenizer"] = "jieba" }
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -284,7 +302,7 @@ analyzerParams='{
 
 如果你更倾向于使用自定义的分析器名称，或需要与现有配置保持兼容，可以使用 `mapping` 参数。这样就能为分析器创建别名——既可以使用检测引擎返回的原始名称，也可以使用你自定义的名称。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -316,9 +334,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 
 Map<String, Object> defaultAnalyzer = new HashMap<>();
@@ -438,6 +453,32 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "language_identifier",
+        ["identifier"] = "lingua",
+        ["analyzers"] = new Dictionary<string, object>
+        {
+            ["default"] = new Dictionary<string, object> { ["tokenizer"] = "standard" },
+            ["english_analyzer"] = new Dictionary<string, object> { ["type"] = "english" }, // Custom analyzer name
+            ["chinese_analyzer"] = new Dictionary<string, object> { ["tokenizer"] = "jieba" }
+        },
+        ["mapping"] = new Dictionary<string, object>
+        {
+            ["English"] = "english_analyzer",
+            ["Chinese"] = "chinese_analyzer"
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -476,7 +517,7 @@ analyzerParams='{
 
 ### 中英文检测\{#english-and-chinese-detection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -523,7 +564,6 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -576,6 +616,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 // Configuration
 analyzerParams := map[string]any{
@@ -630,43 +672,39 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    // Configuration
-    let analyzer_params = json!({
-        "tokenizer": {
-            "type": "language_identifier",
-            "identifier": "whatlang",
-            "analyzers": {
-                "default": {"tokenizer": "standard"},
-                "English": {"type": "english"},
-                "Mandarin": {"tokenizer": "jieba"}
-            }
+// Configuration
+let analyzer_params = json!({
+    "tokenizer": {
+        "type": "language_identifier",
+        "identifier": "whatlang",
+        "analyzers": {
+            "default": {"tokenizer": "standard"},
+            "English": {"type": "english"},
+            "Mandarin": {"tokenizer": "jieba"}
         }
-    });
+    }
+});
 
-    // English text
-    let result_en = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["The Milvus vector database is built for scale!".to_string()])
-            .analyzer_params(analyzer_params.clone())
-            .build()?,
-    ).await?;
-    println!("English: {:?}", result_en.results());
+// English text
+let result_en = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["The Milvus vector database is built for scale!".to_string()])
+        .analyzer_params(analyzer_params.clone())
+        .build()?,
+).await?;
+println!("English: {:?}", result_en.results());
 
-    // Chinese text
-    let result_cn = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["Milvus向量数据库专为大规模应用而设计".to_string()])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
-    println!("Chinese: {:?}", result_cn.results());
-    Ok(())
-}
+// Chinese text
+let result_cn = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["Milvus向量数据库专为大规模应用而设计".to_string()])
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
+println!("Chinese: {:?}", result_cn.results());
 ```
 
 </TabItem>
@@ -675,7 +713,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 #include <string>
 
@@ -776,10 +813,63 @@ console.log('Chinese:', resultCn);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+using System.Collections.Generic;
+
+// Configuration
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "language_identifier",
+        ["identifier"] = "whatlang",
+        ["analyzers"] = new Dictionary<string, object>
+        {
+            ["default"] = new Dictionary<string, object> { ["tokenizer"] = "standard" },
+            ["English"] = new Dictionary<string, object> { ["type"] = "english" },
+            ["Mandarin"] = new Dictionary<string, object> { ["tokenizer"] = "jieba" }
+        }
+    }
+};
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// English text
+RunAnalyzerResp resultEn = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = ["The Milvus vector database is built for scale!"]
+});
+Console.WriteLine("English: " + string.Join(", ", resultEn.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+
+// Chinese text
+RunAnalyzerResp resultCn = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = ["Milvus向量数据库专为大规模应用而设计"]
+});
+Console.WriteLine("Chinese: " + string.Join(", ", resultCn.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 # restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
   --header "Authorization: Bearer ${TOKEN}" \
@@ -804,10 +894,12 @@ curl --request POST \
 
 ### 欧洲语言检测\{#european-languages-with-accent-normalization}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient
+
 # Configuration for French, German, Spanish, etc.
 analyzer_params = {
     "tokenizer": {
@@ -845,7 +937,6 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -893,6 +984,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 // Configuration for French, German, Spanish, etc.
 analyzerParams := map[string]any{
     "tokenizer": map[string]any{
@@ -939,37 +1032,33 @@ use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    // Configuration for French, German, Spanish, etc.
-    let analyzer_params = json!({
-        "tokenizer": {
-            "type": "language_identifier",
-            "identifier": "lingua",
-            "analyzers": {
-                "default": {"tokenizer": "standard"},
-                "English": {"type": "english"},
-                "French": {
-                    "tokenizer": "standard",
-                    "filter": ["lowercase", "asciifolding"]
-                }
+// Configuration for French, German, Spanish, etc.
+let analyzer_params = json!({
+    "tokenizer": {
+        "type": "language_identifier",
+        "identifier": "lingua",
+        "analyzers": {
+            "default": {"tokenizer": "standard"},
+            "English": {"type": "english"},
+            "French": {
+                "tokenizer": "standard",
+                "filter": ["lowercase", "asciifolding"]
             }
         }
-    });
+    }
+});
 
-    // Test with accented text
-    let result_fr = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["Café français très délicieux".to_string()])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
-    println!("French: {:?}", result_fr.results());
-    Ok(())
-}
+// Test with accented text
+let result_fr = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["Café français très délicieux".to_string()])
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
+println!("French: {:?}", result_fr.results());
 ```
 
 </TabItem>
@@ -978,7 +1067,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 #include <string>
 
@@ -1061,10 +1149,59 @@ console.log('French:', resultFr);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+using System.Collections.Generic;
+
+// Configuration for French, German, Spanish, etc.
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "language_identifier",
+        ["identifier"] = "lingua",
+        ["analyzers"] = new Dictionary<string, object>
+        {
+            ["default"] = new Dictionary<string, object> { ["tokenizer"] = "standard" },
+            ["English"] = new Dictionary<string, object> { ["type"] = "english" },
+            ["French"] = new Dictionary<string, object>
+            {
+                ["tokenizer"] = "standard",
+                ["filter"] = new List<object> { "lowercase", "asciifolding" }
+            }
+        }
+    }
+};
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Test with accented text
+RunAnalyzerResp resultFr = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = ["Café français très délicieux"]
+});
+Console.WriteLine("French: " + string.Join(", ", resultFr.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 # restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
   --header "Authorization: Bearer ${TOKEN}" \

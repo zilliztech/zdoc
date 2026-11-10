@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # BM25 Function
 
 BM25 Function 通过将原始文本转换为稀疏向量，并基于词法相关性对文档进行评分，从而实现全文检索。它采用基于词项的匹配机制和考虑词频的加权方式，高效检索与查询词高度匹配的文本内容。
@@ -192,10 +194,6 @@ schema.add_field(field_name="sparse", datatype=DataType.SPARSE_FLOAT_VECTOR) # S
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .build();
 schema.addField(AddFieldReq.builder()
@@ -269,8 +267,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = CollectionSchema::new()
     .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
     .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true))
@@ -313,6 +309,7 @@ const schema = [
     name: "id",
     data_type: DataType.Int64,
     is_primary_key: true,
+    autoID: true,
   },
   {
     name: "text",
@@ -326,7 +323,6 @@ const schema = [
     data_type: DataType.SparseFloatVector,
   },
 ];
-
 console.log(schema);
 ```
 
@@ -397,11 +393,6 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-
-import java.util.*;
-
 schema.addFunction(Function.builder()
         .functionType(FunctionType.BM25)
         .name("text_bm25_emb")
@@ -428,8 +419,6 @@ schema.WithFunction(function)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let bm25_function = Function::new()
     .name("text_bm25_emb")
     .function_type(FunctionType::Bm25)
@@ -541,8 +530,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-
 Map<String,Object> params = new HashMap<>();
 params.put("inverted_index_algo", "DAAT_MAXSCORE");
 params.put("bm25_k1", 1.2);
@@ -574,8 +561,6 @@ indexOption.WithExtraParam("bm25_b", 0.75)
 <TabItem value='rust'>
 
 ```rust
-use std::collections::HashMap;
-
 let index_params = IndexParam::new()
     .field_name("sparse")
     .index_type(IndexType::SparseInvertedIndex)
@@ -669,8 +654,20 @@ client.load_collection('my_collection')
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
+import java.util.*;
+import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
@@ -709,6 +706,8 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
+use serde_json::json;
 
 client.create_collection(
     CreateCollectionRequest::builder()
@@ -801,6 +800,26 @@ curl --request POST \
 
 <Supademo id="cmuywx5bz025rqm7zokfuwfag" title=""  />
 
+<Procedures>  
+
+1. 点击目标集群名称，进入集群详情页面，点击 **创建 Collection**。
+
+1. 输入 Collection 名称，并将向量字段类型设置为 `SPARSE_FLOAT_VECTOR`。
+
+1. 点击 **+ 字段**，输入文本字段名称，将字段类型设置为 `VARCHAR`，并指定最大长度。
+
+1. 在 **属性及高级设置** 区域，点击 **+ Function**，选择 **BM25** 作为 Function 类型。
+
+1. 选择前面添加的 `VARCHAR` 字段作为输入字段，并根据文本类型配置合适的 Analyzer。您也可以选择 Zilliz Cloud 内置的语言模板。
+
+1. （可选）点击 **测试**，验证 Analyzer 的分词效果。确认配置后，点击 **保存**。
+
+1. 确认 Function 的输入字段为 `VARCHAR` 字段，输出字段为 `SPARSE_FLOAT_VECTOR` 字段，点击 **保存**。
+
+1. 确认 Function 已添加，点击 **创建**，完成 Collection 创建。
+
+</Procedures>
+
 在创建好包含 BM25 Function 的 Collection 后，你就可以插入文本数据，并基于文本查询执行词法搜索。
 
 ## 步骤 2：向 Collection 中插入文本数据\{#step-2-insert-text-data-into-the-collection}
@@ -823,11 +842,6 @@ client.insert('my_collection', [
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import io.milvus.v2.service.vector.request.InsertReq;
-
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"text\": \"information retrieval is a field of study.\"}", JsonObject.class),
@@ -864,9 +878,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 client.insert(
     InsertRequest::builder()
         .collection_name("my_collection")
@@ -981,10 +992,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 Map<String,Object> searchParams = new HashMap<>();
 searchParams.put("metric_type", "BM25");
 searchParams.put("level", 10);
@@ -1030,8 +1037,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")

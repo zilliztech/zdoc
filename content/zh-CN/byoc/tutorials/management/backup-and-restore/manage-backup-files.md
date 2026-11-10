@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 管理备份文件
 
 本文将介绍如何查看、重命名和删除已有的备份文件。
@@ -45,6 +47,9 @@ import Supademo from '@site/src/components/Supademo';
     以下示例展示如何查看备份文件。由于示例中未指定项目 ID 或集群 ID，因此将查看当前**组织**下的所有备份文件。如需查看某个项目或集群下的备份文件，请在请求中指定相应 ID。更多 API 参数细节，请参见[查看备份列表](/reference/restful/list-backups-v2)。
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request GET \
          --url "${BASE_URL}/v2/backups" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -88,6 +93,11 @@ import Supademo from '@site/src/components/Supademo';
     以下示例展示如何查看某个备份文件的详细信息。更多 API 参数细节，请参见[查看备份详情](/reference/restful/describe-backup-v2)。
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    export CLUSTER_ID="your-cluster-id"
+    export BACKUP_ID="your-backup-id"
+    
     curl --request GET \
          --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -147,6 +157,18 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmcsvwnph0kqn9st866jrkz4c" title=""  />
 
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **备份**。
+
+1. 找到需要重命名的备份文件，在 **操作** 栏中点击 **...**，选择 **重命名**。
+
+1. 在弹出的对话框中，输入备份文件的新名称，然后点击 **保存**。
+
+1. 页面右上角出现成功提示，即表示重命名成功。
+
+</Procedures>
+
 ## 删除备份文件\{#delete-backup-files}
 
 Zilliz Cloud 根据备份的创建方式采用不同的删除策略：
@@ -161,11 +183,28 @@ Zilliz Cloud 根据备份的创建方式采用不同的删除策略：
 
 <Supademo id="cmcsw3q5m03y3xk0iiyxl31dg" title=""  />
 
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **备份**。
+
+1. 找到需要删除的备份文件，在 **操作** 栏中点击 **...**，选择 **删除**。
+
+1. 在弹出的对话框中，输入备份文件名称以确认删除，然后点击 **删除**。
+
+1. 页面右上角出现成功提示，即表示备份文件已删除。
+
+</Procedures>
+
 ### 通过 RESTful API\{#via-restful-api}
 
 以下示例展示如何删除指定集群中的某个备份文件。更多 API 参数细节，请参见[删除备份](/reference/restful/delete-backup-v2)。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="your-cluster-id"
+export BACKUP_ID="your-backup-id"
+
 curl --request DELETE \
      --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
      --header "Authorization: Bearer ${TOKEN}" \

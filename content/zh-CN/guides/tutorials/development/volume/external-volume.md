@@ -372,6 +372,14 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
     ![IQsNwwOfBh5m3rbOA3wcrOTPn5c](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/IQsNwwOfBh5m3rbOA3wcrOTPn5c.png)
 
+    <Procedures>  
+
+    1. 进入目标项目，在左侧导航栏中点击 **Volumes**。
+
+    1. 查看 Volume 列表，包括名称、类型、地域、状态、创建时间和创建者等信息。
+
+    </Procedures>
+
 ## 查看 External Volume 详情\{#describe-external-volume}
 
 您也可以查看某个特定 Volume 的详情。
@@ -485,6 +493,16 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 - **通过 Web 控制台**
 
     ![PJxwwarRShaHm8bgUGBcGqxwnkc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/PJxwwarRShaHm8bgUGBcGqxwnkc.png)
+
+    <Procedures>  
+
+    1. 进入目标项目，在左侧导航栏中点击 **Volumes**。
+
+    1. 在 Volume 列表中，点击目标 Volume 的名称。
+
+    1. 在 **概览** 页签中，查看 Volume 的详细信息，包括 Volume ID、类型、地域、创建时间、创建人、描述、存储集成和路径。
+
+    </Procedures>
 
 ## 删除  External Volume\{#delete-an-external-volume}
 

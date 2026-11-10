@@ -54,7 +54,7 @@ import TabItem from '@theme/TabItem';
 
 要使用空格分词器配置分析器，请在 `analyzer_params` 中将 `tokenizer` 设置为 `whitespace`。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -110,6 +110,17 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "whitespace",
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -124,7 +135,7 @@ analyzerParams='{
 
 空格分词器可以与一个或多个过滤器结合使用。例如，以下代码定义了一个使用空格分词器和小写过滤器的分析器：  
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -179,6 +190,18 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
     "tokenizer": "whitespace",
     "filter": ["lowercase"]
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "whitespace",
+    ["filter"] = new[] { "lowercase" }
 };
 ```
 
@@ -207,7 +230,7 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -267,6 +290,18 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "whitespace",
+    ["filter"] = new[] { "lowercase" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -284,11 +319,12 @@ analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import (
+
     MilvusClient,
 )
 
@@ -314,7 +350,6 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
@@ -392,7 +427,6 @@ client
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -435,6 +469,40 @@ const result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params: analyzer_params
 });
+
+console.log("Whitespace analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Utility;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "The Milvus vector database is built for scale!";
+
+// Run the whitespace analyzer with the defined configuration
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine("Whitespace analyzer output: " + string.Join(",", result.Results?.SelectMany(r => r.Tokens.Select(t => t.Token)) ?? Array.Empty<string>()));
 ```
 
 </TabItem>
@@ -446,6 +514,7 @@ const result = await client.runAnalyzer({
 export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
 export SAMPLE_TEXT="The Milvus vector database is built for scale!"
 curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   -H "Content-Type: application/json" \
   -H "Request-Timeout: 10" \
   -d '{

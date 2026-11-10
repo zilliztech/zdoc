@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 管理项目告警
 
 项目告警功能通过对集群指标（如 CU、Query QPS）进行主动监控，在满足指定条件时发送通知，帮助您主动监控 Zilliz Cloud 集群的状态。配置项目告警后，您能在潜在问题出现时立即收到通知，确保及时处理。
@@ -42,6 +44,16 @@ import Supademo from '@site/src/components/Supademo';
 在左侧导航栏中点击**项目告警**，即可访问项目告警仪表盘。
 
 <Supademo id="cmbk6jzy68h60sn1ri2xm74jm" title="Zilliz Cloud - 查看项目告警 Demo" />
+
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **项目告警**。
+
+1. 点击 **告警历史**，查看历史告警记录。
+
+1. 点击 **告警设置**，查看已配置的告警规则。
+
+</Procedures>
 
 ### 告警历史\{#alert-history}
 
@@ -125,6 +137,18 @@ curl --request GET \
 设置新的告警规则，从不同维度监控集群的性能和健康状态。
 
 <Supademo id="cmbk75d218h70sn1rkh2gdpc6" title="Zilliz Cloud - 创建项目告警 Demo" />
+
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **项目告警**。
+
+1. 点击 **+ 告警**。
+
+1. 输入告警名称，并配置告警设置。
+
+1. 点击 **创建**。
+
+</Procedures>
 
 </TabItem>
 <TabItem value="Bash">
@@ -231,13 +255,23 @@ curl --request POST \
 
 <Supademo id="cmbk9psuk8hqqsn1rrpqu0hmo" title="Zilliz Cloud - 配置告警接收设置 Demo" />
 
-配置设置时，您会遇到以下概念：
+<Procedures>  
 
-- **发送给**：为新告警自动选择的默认通知渠道（邮箱、企业微信、Webhook）。配置您最常用的渠道可简化告警创建流程。
+1. 进入目标项目，在左侧导航栏中点击 **项目告警**。
 
-- **告警恢复通知**：启用后，当告警恢复（条件不再满足）时您将收到通知。
+1. 点击 **告警接收设置**。
 
-- **将设置应用于现有告警**：选择是否用新的默认设置更新所有现有告警。
+1. 根据需要配置告警接收设置。
+
+    - **发送给**：为新告警自动选择的默认通知渠道（邮箱、企业微信、Webhook）。配置您最常用的渠道可简化告警创建流程。
+
+    - **告警恢复通知**：启用后，当告警恢复（条件不再满足）时您将收到通知。
+
+    - **将设置应用于现有告警**：选择是否用新的默认设置更新所有现有告警。
+
+1. 点击 **保存**。
+
+</Procedures>
 
 ## FAQ\{#faq}
 

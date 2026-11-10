@@ -19,6 +19,8 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 了解账单
 
 Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud 进行实际结算。
@@ -350,6 +352,16 @@ API 返回的结果中，所有金额单位为分。
 账单逾期后，可以先检查您的优惠券余额和现金余额，然后尝试重新支付账单。
 
 ![pay-invoice-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/pay-invoice-cn.png "pay-invoice-cn")
+
+<Procedures>  
+
+1. 进入目标组织，在左侧导航栏中点击 **账单**。
+
+1. 点击 **历史账单** 页签。
+
+1. 找到状态为 **未支付** 的目标账单，点击 **立即支付**。
+
+</Procedures>
 
 ### 下载账单\{#download-invoice}
 

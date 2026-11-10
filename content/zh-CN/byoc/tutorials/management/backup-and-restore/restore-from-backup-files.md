@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 恢复备份
 
 Zilliz Cloud 提供的恢复功能可用于在发生意外删除、数据损坏或系统故障时，从备份文件中恢复数据，保障业务连续性。这是一种可靠的手段，可用于灾难恢复、撤销错误更改，或创建用于测试的集群副本，将业务中断最小化。
@@ -62,6 +64,20 @@ Zilliz Cloud 提供的恢复功能可用于在发生意外删除、数据损坏�
 
 <Supademo id="cmcswsqmt0lro9st8cllvfbnn" title=""  />
 
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **备份**。
+
+1. 找到需要恢复的集群备份，在 **操作** 栏中点击 **...**，选择 **恢复** > **整个集群**。
+
+1. 在弹出的对话框中，配置恢复后的新集群参数，然后点击 **恢复**。
+
+1. 下载并妥善保存新集群的用户名和密码。
+
+1. 页面右上角出现恢复任务已提交的提示后，可前往 **任务中心** 查看进度和详情。
+
+</Procedures>
+
 ### 通过 RESTful API\{#via-restful-api}
 
 以下示例展示如何通过集群备份文件将集群恢复至名为 `Dedicated-01-backup` 的新集群。更多 API 参数细节，请参见[恢复集群备份](/reference/restful/restore-cluster-backup-v2)。
@@ -70,6 +86,7 @@ Zilliz Cloud 提供的恢复功能可用于在发生意外删除、数据损坏�
 export API_KEY="YOUR_API_KEY"
 export BASE_URL="https://api.cloud.zilliz.com"
 export CLUSTER_ID="your-cluster-id"
+export BACKUP_ID="your-backup-id"
 
 curl --request POST \
      --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCluster" \
@@ -137,6 +154,24 @@ curl --request POST \
 以下 Demo 展示如何在控制台中恢复指定 Database 和 Collection：
 
 <Supademo id="cmcsx430q0mhe9st81af8q8du" title=""  />
+
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **备份**。
+
+1. 找到需要恢复的 Collection 备份，在 **操作** 栏中点击 **...**，选择 **恢复 Collection**。
+
+1. 选择 **目标项目** 和 **目标集群**。
+
+1. 设置恢复后的 **Collection 状态**：不加载所有 Collection，或保留其在原始集群中的状态。
+
+1. 勾选需要恢复的 Database 和 Collection，并按需修改恢复后的 Collection 名称。
+
+1. 点击 **恢复**，提交恢复任务。
+
+1. 页面右上角出现恢复任务已提交的提示后，可前往 **任务中心** 查看进度和详情。
+
+</Procedures>
 
 ### 通过 RESTful API\{#via-restful-api}
 

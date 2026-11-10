@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 创建备份
 
 在 Zilliz Cloud 中，备份指的是数据副本，用于在发生数据丢失或系统故障时恢复整个集群或集群中的部分 Collection。
@@ -70,6 +72,22 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmcsuck620is09st88znq9ysd?utm_source=link" title=""  />
 
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **备份**。
+
+1. 点击 **+ 手动备份**。
+
+1. 在弹出的对话框中，选择 **集群** 作为 **备份类型**，然后选择需要备份的集群。
+
+1. （可选）设置跨地域备份。
+
+1. 点击 **创建**，提交备份任务。
+
+1. 页面右上角出现任务已提交的提示后，可前往 **任务中心** 查看进度和详情。
+
+</Procedures>
+
 ### 通过 RESTful API\{#via-restful-api}
 
 以下示例展示如何为集群 `in01-xxxxxxxxxxxxxx` 创建集群备份。更多 API 参数细节，请参见[创建备份](/reference/restful/create-backup-v2)。
@@ -106,6 +124,24 @@ curl --request POST \
 以下 Demo 展示如何通过控制台创建 Collection 备份。
 
 <Supademo id="cmcsuwoo20jn49st8cbnydkj0?utm_source=link" title=""  />
+
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **备份**。
+
+1. 点击 **+ 手动备份**。
+
+1. 在弹出的对话框中，选择 **Collection** 作为 **备份类型**。
+
+1. 选择需要备份的集群、Database 和 Collection。
+
+1. （可选）设置跨地域备份。
+
+1. 点击 **创建**，提交备份任务。
+
+1. 页面右上角出现任务已提交的提示后，可前往 **任务中心** 查看进度和详情。
+
+</Procedures>
 
 ### 通过 RESTful API\{#via-restful-api}
 

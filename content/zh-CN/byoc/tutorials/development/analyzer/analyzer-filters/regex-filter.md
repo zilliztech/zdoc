@@ -34,7 +34,7 @@ import TabItem from '@theme/TabItem';
 `regex` 过滤器在 Zilliz Cloud 中属于自定义过滤器。
  要使用它，请在过滤器配置中指定 `"type": "regex"`，并通过 `expr` 参数设定所需的正则表达式。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -52,10 +52,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -123,6 +119,25 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "regex",
+            ["expr"] = "^(?!test)" // keep tokens that do NOT start with "test"
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -157,7 +172,7 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -175,10 +190,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -245,6 +256,25 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "regex",
+            ["expr"] = "^(?!test)"
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -265,7 +295,7 @@ analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -293,7 +323,11 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -425,6 +459,36 @@ const result = await client.runAnalyzer({
     analyzer_params,
 });
 console.log("Standard analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Sample text to analyze
+var sampleText = "testItem apple testCase banana";
+
+// Run the standard analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine("Standard analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>

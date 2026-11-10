@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 管理组织告警
 
 组织告警功能监控您整个 Zilliz Cloud 组织的账单和账户相关指标。与专注于集群性能的项目告警不同，组织告警帮助您追踪现金余额、用量金额，以确保服务不中断并预防意外的账单问题。通过接收关于用量金额耗尽、支付失败和使用量阈值的及时通知，您可以随时掌握账户健康状况，避免服务中断。
@@ -35,6 +37,16 @@ import Supademo from '@site/src/components/Supademo';
 在左侧导航栏中点击**组织告警**，即可访问组织告警仪表盘，监控您账户的财务健康状况。
 
 <Supademo id="cmbkfl0zw8lgwsn1rjl3mhptl" title="Zilliz Cloud - 查看组织告警 Demo" />
+
+<Procedures>  
+
+1. 进入目标组织，点击 **组织告警**。
+
+1. 在 **告警历史** 页签中，查看历史告警记录。
+
+1. 在 **告警设置** 页签中，查看已配置的告警规则。
+
+</Procedures>
 
 ### 告警历史\{#alert-history}
 
@@ -109,13 +121,23 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmbkgeww28mczsn1rdmgvzr6m" title="配置告警接收设置"/>
 
-配置设置时，您会遇到以下概念：
+<Procedures>  
 
-- **发送给**：为新告警自动选择的默认通知渠道（邮箱、企业微信、Webhook）。配置您最常用的渠道可简化告警创建流程。
+1. 进入目标项目，在左侧导航栏中点击 **项目告警**。
 
-- **告警恢复通知**：启用后，当告警恢复（条件不再满足）时您将收到通知。
+1. 点击 **告警接收设置**。
 
-- **将设置应用于现有告警**：选择是否用新的默认设置更新所有现有告警。
+1. 根据需要配置告警接收设置。
+
+    - **发送给**：为新告警自动选择的默认通知渠道（邮箱、企业微信、Webhook）。配置您最常用的渠道可简化告警创建流程。
+
+    - **告警恢复通知**：启用后，当告警恢复（条件不再满足）时您将收到通知。
+
+    - **将设置应用于现有告警**：选择是否用新的默认设置更新所有现有告警。
+
+1. 点击 **保存**。
+
+</Procedures>
 
 ## FAQ\{#faq}
 

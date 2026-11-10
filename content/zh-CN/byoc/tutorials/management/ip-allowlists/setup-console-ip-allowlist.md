@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 设置控制台 IP 白名单
 
 默认情况下，组织用户可以从任意 IP 地址访问组织 Web 控制台。为限制访问并提升安全性，您可以为 Web 控制台配置 IP 白名单。配置后用户只能从指定的 IP 地址访问控制台，例如公司网络的 IP 地址。
@@ -48,6 +50,16 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmin14al802xyx20i2xtxddqf?utm_source=link" title=""  />
 
+<Procedures>  
+
+1. 在左侧导航栏中，点击 **组织设置**。
+
+1. 在 **控制台 IP 白名单** 卡片中，点击 **+ IP 地址**。
+
+1. 输入要添加的 IP 地址，点击 **保存**。
+
+</Procedures>  
+
 ## 查看 IP 地址\{#view-ip-address}
 
 配置白名单后，您可随时查看白名单中的 IP 列表。
@@ -55,6 +67,14 @@ import Supademo from '@site/src/components/Supademo';
 以下 Demo 展示如何查看控制台 IP 白名单中的 IP 地址。
 
 ![UYusbiBkUolCwoxMgVAcqzpBnHg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/uyusbibkuolcwoxmgvacqzpbnhg.png "UYusbiBkUolCwoxMgVAcqzpBnHg")
+
+<Procedures>  
+
+1. 进入目标组织，在左侧导航栏中点击 **组织设置**。
+
+1. 在 **控制台 IP 白名单** 卡片中，点击 **\{n\} 个 IP 地址**，查看当前配置的 IP 地址或 CIDR 列表。
+
+</Procedures>
 
 ## 删除 IP 地址\{#delete-ip-address}
 
@@ -65,6 +85,18 @@ import Supademo from '@site/src/components/Supademo';
 以下 Demo 展示如何从控制台 IP 白名单中删除 IP 地址。
 
 <Supademo id="cmin1k7zi00011n0i5c3bc7qj?utm_source=link" title=""  />
+
+<Procedures>  
+
+1. 在左侧导航栏中，点击 **组织设置**。
+
+1. 在 **控制台 IP 白名单** 卡片中，点击 **\{n\} 个 IP 地址**，打开 IP 地址列表。
+
+1. 选中要删除的 IP 地址，点击 **删除**。
+
+1. 在确认对话框中，输入要删除的 IP 地址，点击 **删除**。
+
+</Procedures>
 
 ## 常见问题\{#faqs}
 

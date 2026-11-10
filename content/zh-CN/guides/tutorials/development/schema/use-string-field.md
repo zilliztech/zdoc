@@ -55,8 +55,9 @@ Zilliz Cloud 支持为 `VARCHAR` 字段设置 Null 值和默认值。如需开�
 <TabItem value='python'>
 
 ```python
-# Import necessary libraries
 from pymilvus import MilvusClient, DataType
+
+# Import necessary libraries
 
 # Define server address
 SERVER_ADDR = "YOUR_CLUSTER_ENDPOINT"
@@ -85,15 +86,27 @@ schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.common.IndexParam;
+import java.util.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.response.InsertResp;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
-        
+
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 schema.setEnableDynamicField(true);
 
@@ -184,46 +197,41 @@ schema.WithField(entity.NewField().
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("varchar_field1")
+            .data_type(DataType::VarChar)
+            .max_length(100)
+            .nullable(true)
+            .default_value(DefaultValue::String("Unknown".to_string())),
     )
-    .await?;
-
-    let schema = CollectionSchema::new()
-        .add_field(
-            FieldSchema::new()
-                .name("varchar_field1")
-                .data_type(DataType::VarChar)
-                .max_length(100)
-                .nullable(true)
-                .default_value(DefaultValue::String("Unknown".to_string())),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("varchar_field2")
-                .data_type(DataType::VarChar)
-                .max_length(200)
-                .nullable(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("pk")
-                .data_type(DataType::Int64)
-                .primary_key(true),
-        )
-        .add_field(
-            FieldSchema::new()
-                .name("embedding")
-                .data_type(DataType::FloatVector)
-                .dimension(3),
-        );
-
-    Ok(())
-}
+    .add_field(
+        FieldSchema::new()
+            .name("varchar_field2")
+            .data_type(DataType::VarChar)
+            .max_length(200)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(3),
+    );
 ```
 
 </TabItem>
@@ -233,7 +241,6 @@ async fn main() -> Result<()> {
 ```c++
 #include <iostream>
 #include <memory>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -257,6 +264,7 @@ schema->AddField(milvus::FieldSchema("varchar_field2", milvus::DataType::VARCHAR
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
   address: `YOUR_CLUSTER_ENDPOINT`
@@ -375,16 +383,13 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("varchar_field1")
         .indexName("varchar_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .build());
-        
+
 indexes.add(IndexParam.builder()
         .fieldName("embedding")
         .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -400,7 +405,7 @@ indexes.add(IndexParam.builder()
 indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
     index.NewAutoIndex(index.MetricType(entity.COSINE)))
 indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_field1",
-    index.NewInvertedIndex())
+    index.NewAutoIndex(entity.L2)).WithIndexName("varchar_index")
 ```
 
 </TabItem>
@@ -436,8 +441,6 @@ std::vector<milvus::IndexDesc> indexes = {
 <TabItem value='javascript'>
 
 ```javascript
-import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
-
 const indexParams = [{
     index_name: 'varchar_index',
     field_name: 'varchar_field1',
@@ -482,7 +485,7 @@ export indexParams='[
 
 ```python
 # Create Collection
-client.createCollection(
+client.create_collection(
     collection_name="my_collection",
     schema=schema,
     index_params=index_params
@@ -510,6 +513,12 @@ client.createCollection(requestCreate);
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption1, indexOption2))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -554,7 +563,7 @@ if (!status.IsOk()) {
 await client.createCollection({
     collection_name: "my_collection",
     schema: schema,
-    index_params: index_params
+    index_params: indexParams
 });
 ```
 
@@ -563,6 +572,9 @@ await client.createCollection({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -610,11 +622,6 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import io.milvus.v2.service.vector.response.InsertResp;
-
 List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
 rows.add(gson.fromJson("{\"varchar_field1\": \"Product A\", \"varchar_field2\": \"High quality product\", \"pk\": 1, \"embedding\": [0.1, 0.2, 0.3]}", JsonObject.class));
@@ -752,15 +759,38 @@ const data = [
   },
   {
     varchar_field1: "Product B",
-    varchar_field2: "Affordable price",
     pk: 2,
     embedding: [0.4, 0.5, 0.6],
   },
   {
-    varchar_field1: "Product C",
-    varchar_field2: "Best seller",
+    varchar_field1: null,
+    varchar_field2: null,
     pk: 3,
-    embedding: [0.7, 0.8, 0.9],
+    embedding: [0.2, 0.3, 0.1],
+  },
+  {
+    varchar_field1: "Product C",
+    varchar_field2: null,
+    pk: 4,
+    embedding: [0.5, 0.7, 0.2],
+  },
+  {
+    varchar_field1: null,
+    varchar_field2: "Exclusive deal",
+    pk: 5,
+    embedding: [0.6, 0.4, 0.8],
+  },
+  {
+    varchar_field1: "Unknown",
+    varchar_field2: null,
+    pk: 6,
+    embedding: [0.8, 0.5, 0.3],
+  },
+  {
+    varchar_field1: "",
+    varchar_field2: "Best seller",
+    pk: 7,
+    embedding: [0.8, 0.5, 0.3],
   },
 ];
 
@@ -775,6 +805,9 @@ await client.insert({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -784,16 +817,16 @@ curl --request POST \
     "data": [
         {"varchar_field1": "Product A", "varchar_field2": "High quality product", "pk": 1, "embedding": [0.1, 0.2, 0.3]},
         {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]},
-        {"varchar_field1": null, "varchar_field2": null, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  
-        {"varchar_field1": "Product C", "varchar_field2": null, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  
-        {"varchar_field1": null, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  
-        {"varchar_field1": "Unknown", "varchar_field2": null, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  
-        {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}  
+        {"varchar_field1": null, "varchar_field2": null, "pk": 3, "embedding": [0.2, 0.3, 0.1]},
+        {"varchar_field1": "Product C", "varchar_field2": null, "pk": 4, "embedding": [0.5, 0.7, 0.2]},
+        {"varchar_field1": null, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},
+        {"varchar_field1": "Unknown", "varchar_field2": null, "pk": 6, "embedding": [0.8, 0.5, 0.3]},
+        {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}
     ],
     "collectionName": "my_collection"
 }'
 
-## {"code":0,"cost":0,"data":{"insertCount":3,"insertIds":[1,2,3]}}
+## {"code":0,"cost":0,"data":{"insertCount":7,"insertIds":[1,2,3,4,5,6,7]}}
 ```
 
 </TabItem>
@@ -829,9 +862,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-
 String filter = "varchar_field1 == \"Product A\"";
 QueryResp resp = client.query(QueryReq.builder()
         .collectionName("my_collection")
@@ -927,6 +957,9 @@ await client.query({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -1069,6 +1102,9 @@ await client.query({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
@@ -1209,6 +1245,9 @@ await client.query({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 # restful
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
@@ -1260,11 +1299,8 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 String filter = "varchar_field2 == \"Best seller\"";
-SearchResp resp = client.search(SearchReq.builder()
+SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .annsField("embedding")
         .data(Collections.singletonList(new FloatVec(new float[]{0.3f, -0.6f, 0.1f})))
@@ -1273,7 +1309,7 @@ SearchResp resp = client.search(SearchReq.builder()
         .filter(filter)
         .build());
 
-System.out.println(resp.getSearchResults());
+System.out.println(searchResp.getSearchResults());
 
 // Output
 //
@@ -1385,6 +1421,9 @@ await client.search({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -1403,7 +1442,7 @@ curl --request POST \
     "filter": "varchar_field2 == \"Best seller\""
 }'
 
-## {"code":0,"cost":0,"data":[{"distance":-0.2364331,"id":1,"varchar_field1":"Product A","varchar_field2":"High quality product"}]}
+## {"code":0,"cost":0,"data":[{"distance":-0.044681635,"pk":7,"varchar_field1":"","varchar_field2":"Best seller"}]}
 ```
 
 </TabItem>

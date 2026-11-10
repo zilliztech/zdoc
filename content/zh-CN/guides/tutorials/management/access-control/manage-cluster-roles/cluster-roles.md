@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # 管理集群角色（控制台）
 
 集群角色定义了用户在集群中的权限。具体而言，集群角色控制集群用户在集群、Database 和 Collection 层级的权限。
@@ -139,6 +141,14 @@ Zilliz Cloud 提供 3 种内置的集群角色，每种内置角色都包含了�
 
 ![edit-custom-role-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/edit-custom-role-cn.png "edit-custom-role-cn")
 
+<Procedures>  
+
+1. 进入目标集群的详情页面，点击 **角色** 页签。
+
+1. 找到目标自定义角色，点击其 **操作** 列中的 **...**，选择 **编辑**。
+
+</Procedures>
+
 ## 删除自定义集群角色\{#delete-a-custom-cluster-role}
 
 您可以删除不再需要使用的自定义角色。
@@ -146,4 +156,16 @@ Zilliz Cloud 提供 3 种内置的集群角色，每种内置角色都包含了�
 已分配给用户的自定义角色不可删除。如仍需继续删除，请先找到正在使用该自定义角色的集群用户，然后为这些用户分配其他角色，最终再删除该自定义角色。
 
 ![delete-cluster-role-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/delete-cluster-role-cn.png "delete-cluster-role-cn")
+
+<Procedures>  
+
+1. 进入目标集群的详情页面，点击 **角色** 页签。
+
+1. 找到目标自定义角色，点击其 **操作** 列中的 **...**，选择 **删除**。
+
+1. 在 **删除集群角色** 对话框中，输入目标角色的名称进行确认。
+
+1. 点击 **删除**。
+
+</Procedures>
 

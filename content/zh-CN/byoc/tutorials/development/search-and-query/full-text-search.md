@@ -96,10 +96,6 @@ schema.add_field(field_name="sparse", datatype=DataType.SPARSE_FLOAT_VECTOR) # S
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .build();
 schema.addField(AddFieldReq.builder()
@@ -173,8 +169,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = CollectionSchema::new()
     .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
     .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true))
@@ -217,6 +211,7 @@ const schema = [
     name: "id",
     data_type: DataType.Int64,
     is_primary_key: true,
+    autoID: true,
   },
   {
     name: "text",
@@ -230,7 +225,6 @@ const schema = [
     data_type: DataType.SparseFloatVector,
   },
 ];
-
 console.log(schema);
 ```
 
@@ -300,10 +294,6 @@ export schema='{
     <TabItem value='java'>
 
     ```java
-    import java.util.Collections;
-    import java.util.HashMap;
-    import java.util.Map;
-    
     Map<String, Object> analyzerParams = new HashMap<>();
     analyzerParams.put("tokenizer", "jieba");
     analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
@@ -357,8 +347,6 @@ export schema='{
     <TabItem value='csharp'>
 
     ```csharp
-    using System.Collections.Generic;
-    
     Dictionary<string, object> analyzerParams = new()
     {
         ["tokenizer"] = "jieba",
@@ -498,11 +486,6 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
-import io.milvus.common.clientenum.FunctionType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-
-import java.util.*;
-
 schema.addFunction(Function.builder()
         .functionType(FunctionType.BM25)
         .name("text_bm25_emb")
@@ -529,8 +512,6 @@ schema.WithFunction(function)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let bm25_function = Function::new()
     .name("text_bm25_emb")
     .function_type(FunctionType::Bm25)
@@ -653,8 +634,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-
 Map<String,Object> params = new HashMap<>();
 params.put("inverted_index_algo", "DAAT_MAXSCORE");
 params.put("bm25_k1", 1.2);
@@ -686,8 +665,6 @@ indexOption.WithExtraParam("bm25_b", 0.75)
 <TabItem value='rust'>
 
 ```rust
-use std::collections::HashMap;
-
 let index_params = IndexParam::new()
     .field_name("sparse")
     .index_type(IndexType::SparseInvertedIndex)
@@ -816,8 +793,20 @@ client.load_collection('my_collection')
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
+import java.util.*;
+import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
@@ -856,6 +845,8 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
+use serde_json::json;
 
 client.create_collection(
     CreateCollectionRequest::builder()
@@ -962,11 +953,6 @@ client.insert('my_collection', [
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import io.milvus.v2.service.vector.request.InsertReq;
-
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"text\": \"information retrieval is a field of study.\"}", JsonObject.class),
@@ -1003,9 +989,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 client.insert(
     InsertRequest::builder()
         .collection_name("my_collection")
@@ -1118,10 +1101,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.response.SearchResp;
-
 Map<String,Object> searchParams = new HashMap<>();
 searchParams.put("metric_type", "BM25");
 searchParams.put("level", 10);
@@ -1167,8 +1146,6 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let res = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -1345,8 +1322,6 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // Searching with the sparse field in output_fields throws an error.
 // Only output the original text and metadata fields.
 let request = SearchRequest::builder()

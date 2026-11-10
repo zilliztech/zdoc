@@ -19,6 +19,8 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 集群身份凭证
 
 Zilliz Cloud 通过集群身份凭证或 API 密钥认证您的身份。本文将介绍如何使用集群身份凭证完成身份认证。
@@ -35,7 +37,19 @@ Zilliz Cloud 通过集群身份凭证或 API 密钥认证您的身份。本文�
 
 - **通过控制台重置密码**
 
-![reset-cluster-user-password-zh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/reset-cluster-user-password-zh.png "reset-cluster-user-password-zh")
+    ![reset-cluster-user-password-zh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/reset-cluster-user-password-zh.png "reset-cluster-user-password-zh")
+
+    <Procedures>  
+
+    1. 进入目标集群的详情页面，点击 **用户** 页签。
+
+    1. 找到目标用户，点击其 **操作** 列中的 **...**，选择 **重置密码**。
+
+    1. 在 **重置密码** 对话框中，输入新密码，并再次输入新密码进行确认。
+
+    1. 点击 **确认**。
+
+    </Procedures>
 
 - **通过编程重置密码**
 

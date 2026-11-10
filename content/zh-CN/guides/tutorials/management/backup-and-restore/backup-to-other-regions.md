@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 跨地域备份
 
 <Admonition type="info" title="说明">
@@ -71,6 +73,20 @@ Zilliz Cloud 的跨区域备份通过将备份复制到多个云地域来增强�
 以下示例介绍如何手动创建跨地域备份。如需了解如何在设置定时自动备份时设置跨地域备份策略，请参考[设置定时自动备份](./schedule-automatic-backups)。
 
 <Supademo id="cmgkgzjgk2e2ukrn9fmfc0zjb?utm_source=link" title=""  />
+
+<Procedures>  
+
+1. 进入目标集群的详情页面，切换至 **备份** 页签。
+
+1. 点击 **+ 备份**。
+
+1. 在弹出的对话框中，找到 **跨地域备份** 卡片，点击 **+ 地域**。
+
+1. 选择用于存放备份副本的目标地域。
+
+1. 点击 **创建**，提交跨地域备份任务。
+
+</Procedures>
 
 您也可以使用 Zilliz Cloud RESTful API 在为集群创建同地域备份的同时将该备份同步到指定的其它地域。
 

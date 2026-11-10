@@ -107,6 +107,7 @@ import Procedures from '@site/src/components/Procedures';
 使用 RESTful API 时，您可以在单个[修改集群配置](/reference/restful/modify-cluster-v2)请求中手动扩缩容 Query CU 和 Replica。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 

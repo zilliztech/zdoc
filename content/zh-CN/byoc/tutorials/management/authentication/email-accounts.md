@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # 邮箱账号
 
 在 Zilliz Cloud 注册账户后，您可对账户信息进行管理。您可以编辑账号设置以及删除账号。
@@ -44,6 +46,16 @@ import Admonition from '@theme/Admonition';
 
 ![update_email_address_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/updateemailaddresscn.png "update_email_address_cn")
 
+<Procedures>  
+
+1. 进入 **账号设置**，点击 **邮箱地址** 旁的 **修改**。
+
+1. 输入手机号收到的验证码，点击 **确认**，完成身份验证。如无法接收短信验证码，点击 **使用邮箱验证身份**，通过邮箱完成验证。
+
+1. 输入新邮箱地址及该邮箱收到的验证码，完成新邮箱验证和邮箱地址修改。
+
+</Procedures>
+
 <Admonition type="info" title="说明">
 
 修改账号邮箱地址不会影响账单信息和告警接收人。如有需要请自行进行手动更新。
@@ -53,6 +65,16 @@ import Admonition from '@theme/Admonition';
 ## 修改手机号码\{#update-mobile-phone-number}
 
 ![update_mobile_phone_number_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/updatemobilephonenumbercn.png "update_mobile_phone_number_cn")
+
+<Procedures>  
+
+1. 进入 **账号设置**，点击 **手机号码** 旁的 **修改**。
+
+1. 输入当前手机号收到的验证码，点击 **确认**，完成身份验证。如无法接收短信验证码，点击 **使用邮箱验证身份**，通过邮箱完成验证。
+
+1. 输入新手机号码及该手机号收到的验证码，完成新手机号验证和手机号码修改。
+
+</Procedures>
 
 <Admonition type="info" title="说明">
 
@@ -64,13 +86,23 @@ import Admonition from '@theme/Admonition';
 
 ![change_password_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/changepasswordcn.png "change_password_cn")
 
-您的密码必须符合以下要求：
+<Procedures>  
 
-- 长度为 8 至 128 个字符
+1. 进入 **账号设置**，点击 **密码** 旁的 **更改密码**。
 
-- 包含大写字母（A–Z）、小写字母（a–z）和数字（0–9）
+1. 在弹出的对话框中，输入当前密码、新密码，并再次输入新密码进行确认。
 
-- 至少包含一个特殊字符（如 !@#&#36;%^&&ast;）
+    您的密码必须符合以下要求：
+
+    - 长度为 8 至 128 个字符
+
+    - 包含大写字母（A–Z）、小写字母（a–z）和数字（0–9）
+
+    - 至少包含一个特殊字符（如 !@#&#36;%^&&ast;）
+
+1. 点击 **重置**，完成密码修改。
+
+</Procedures>
 
 ## 开启或关闭 MFA\{#enable-and-disable-mfa}
 

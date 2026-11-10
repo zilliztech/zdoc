@@ -39,7 +39,7 @@ import TabItem from '@theme/TabItem';
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -54,10 +54,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
@@ -108,6 +104,18 @@ let analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new List<object> { "cnalphanumonly" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -127,7 +135,7 @@ analyzerParams='{
 
 要将中文 Analyzer 应用于字段，只需在 `analyzer_params` 中将 `type` 设置为 `chinese`，并根据需要包含可选参数。  
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -141,9 +149,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "chinese");
 ```
@@ -186,6 +191,17 @@ nlohmann::json analyzer_params = {
 analyzer_params = {
     "type": "chinese",
 }
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["type"] = "chinese"
+};
 ```
 
 </TabItem>
@@ -214,7 +230,7 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -228,9 +244,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "chinese");
 ```
@@ -277,6 +290,17 @@ analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["type"] = "chinese"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -289,11 +313,12 @@ analyzerParams='{"type": "chinese"}'
 
 ### 使用 `run_analyzer` 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import (
+
     MilvusClient,
 )
 
@@ -315,6 +340,9 @@ print("Chinese analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 import io.milvus.v2.client.ConnectConfig;
@@ -446,6 +474,40 @@ const result = await client.runAnalyzer({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "Milvus 是一个高性能、可扩展的向量数据库！";
+
+// Run the Chinese analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+{
+    Console.WriteLine(t.Token);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -464,6 +526,6 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
 
 ### 预期输出\{#expected_output}
 
-```python
+```plaintext
 Chinese analyzer output: ['Milvus', '是', '一个', '高性', '性能', '高性能', '可', '扩展', '的', '向量', '数据', '据库', '数据库']
 ```

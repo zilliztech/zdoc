@@ -210,6 +210,22 @@ Zilliz Cloud 支持从主流向量数据库和搜索平台迁移：
 
 <Supademo id="cmhmtjeff0dexdqxa2qqkdsds" title="Zilliz Cloud - 设置 Full Text Search" />
 
+<Procedures>  
+
+1. 完成源连接配置及迁移源和目标的选择后，进入 **检查字段映射** 页面。
+
+1. 找到需要转换为 `VARCHAR` 类型的目标文本字段，点击 **转换为固定列**。
+
+1. 展开 **高级设置**，点击 **Full Text Search**。
+
+1. 选择输入字段，并根据需要配置和检查文本分析设置。
+
+1. 点击 **保存**。
+
+1. 返回迁移页面，确认配置后点击 **迁移**。
+
+</Procedures>
+
 ## 平台专属迁移指南\{#platform-specific-migration-guides}
 
 各平台详细操作流程、前置条件及数据映射说明：

@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 `asciifolding` 过滤器内置于 Zilliz Cloud。要使用它，只需在 `analyzer_params` 的过滤器部分指定其名称。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -60,8 +60,6 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"ascii
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "standard",
     "filter": ["asciifolding"]
@@ -87,6 +85,18 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["asciifolding"],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "asciifolding" }
 };
 ```
 
@@ -117,7 +127,7 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -150,8 +160,6 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"ascii
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "standard",
     "filter": ["asciifolding"]
@@ -182,6 +190,18 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "asciifolding" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -199,7 +219,7 @@ analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -229,6 +249,11 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -278,6 +303,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println(token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -287,6 +318,8 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 use serde_json::json;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
 
 let text = "Café Möller serves crème brûlée and piñatas.";
 
@@ -312,6 +345,8 @@ for result in response.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -344,12 +379,47 @@ const sampleText = "Café Möller serves crème brûlée and piñatas.";
 
 const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
 const result = await client.runAnalyzer({
-  analyzer_params: analyzerParams,
+  analyzer_params: analyzer_params,
   text: sampleText,
 });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+using System.Collections.Generic;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "Café Möller serves crème brûlée and piñatas.";
+
+// Run the standard analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+{
+    Console.WriteLine(t.Token);
+}
 ```
 
 </TabItem>

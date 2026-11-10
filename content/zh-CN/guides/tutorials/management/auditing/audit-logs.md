@@ -175,6 +175,16 @@ import Procedures from '@site/src/components/Procedures';
 
 ![HFfowWebphLNCMbB7yacq1C1nzc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/HFfowWebphLNCMbB7yacq1C1nzc.png)
 
+<Procedures>  
+
+1. 进入目标集群的详情页面，点击 **日志** 页签。
+
+1. 在 **审计日志** 区域，查看当前状态、存储集成和目录。
+
+1. 如需修改配置，点击 **编辑**；如需禁用审计日志，点击 **编辑** 右侧的下拉箭头，选择禁用操作。
+
+</Procedures>
+
 ## 常见问题\{#faq}
 
 以下常见问题解答旨在帮助您解决在 Zilliz Cloud 上使用审计日志时可能遇到的问题。如需进一步帮助，请联系 [Zilliz Cloud 支持](https://zilliz.com.cn/contact-sales)。

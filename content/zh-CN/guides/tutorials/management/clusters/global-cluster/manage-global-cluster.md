@@ -56,11 +56,25 @@ import Procedures from '@site/src/components/Procedures';
 
     <Supademo id="cmkat4dkp1h55ke4xyc8i7c9y" title=""  />
 
+    <Procedures>  
+
+    1. 进入目标全球集群的详情页面。
+
+    1. 点击 **操作**，在下拉菜单中选择 **创建从集群**。
+
+    1. 在弹出的对话框中，配置一个或多个从集群。
+
+    1. 点击 **创建**。
+
+    </Procedures>
+
 - **通过 RESTful API**
 
     以下示例展示了如何添加从集群。详情请参考[创建全球集群](/reference/restful/create-global-cluster-v2)。
 
     ```bash
+    export API_KEY="YOUR_API_KEY"
+    
     curl --request POST \
       --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/secondaryClusters" \
       --header "Authorization: Bearer ${API_KEY}" \
@@ -105,11 +119,25 @@ import Procedures from '@site/src/components/Procedures';
 
     ![HoGrwE4RyhqZVNbG1WscPHVLnxl](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/HoGrwE4RyhqZVNbG1WscPHVLnxl.png)
 
+    <Procedures>  
+
+    1. 在目标全球集群下，选择要删除的从集群，进入其详情页面。
+
+    1. 点击**操作**，选择**删除**。
+
+    1. 在**删除集群**对话框中，输入目标从集群的名称进行确认。
+
+    1. 点击**删除**。
+
+    </Procedures>
+
 - **通过 RESTful API**
 
     以下示例展示了如何删除从集群。详情请参考[删除全球集群成员集群](/reference/restful/delete-global-member-cluster-v2)。
 
     ```bash
+    export API_KEY="YOUR_API_KEY"
+    
     curl --request DELETE \
       --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/clusters/in01-xxxxxxxxxxxxxxx" \
       --header "Authorization: Bearer ${API_KEY}" \
@@ -148,6 +176,8 @@ import Procedures from '@site/src/components/Procedures';
 您还可以通过 RESTful API 移除全球 Endpoint。以下为示例代码，详情请参考[移除全球端点](/reference/restful/remove-global-endpoint-v2)。
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+
 curl --request POST \
   --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/removeGlobalEndpoint" \
   --header "Authorization: Bearer ${API_KEY}" \

@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 管理 Collection (控制台)
 
 Collection 是一张二维表格，用于存储 Embedding向量和元数据。一个 Collection 中的所有 Entity 共享相同的 Schema。您可以创建多个 Collection 来进行数据管理，或用于实现多租户（multi-tenancy）。
@@ -88,6 +90,18 @@ Index 是一种用于加速搜索与查询的数据结构。Zilliz Cloud 支持�
 - **Vector Index**：系统会自动为向量字段创建 AUTOINDEX，以加速向量搜索。如果 Schema 中包含多个向量字段，您可以为每个向量字段分别创建独立的 Index。此外，您还可以修改用于计算向量间距离的相似度类型和决定底层量化策略的 Index Build Level 以平衡索引成本、性能和可容纳数据量。
 
     <Supademo id="cmgkapsvz29uykrn9jtbs6nk4?utm_source=link" title=""  />
+
+    <Procedures>  
+
+    1. 在创建 Collection 页面，点击向量字段的 **编辑索引**。
+
+    1. 选择合适的 **相似度类型**。
+
+    1. 选择合适的 **Index Build Level**，点击 **保存**。
+
+    1. Collection 创建成功后，点击 **Index** 页签，查看索引详情。
+
+    </Procedures>
 
 - **Scalar Index**：Zilliz Cloud 默认不会为标量字段自动创建 Index。但您可以手动为常用于过滤的标量字段创建 Index，以加快搜索与查询性能。
 
@@ -163,6 +177,26 @@ Index 是一种用于加速搜索与查询的数据结构。Zilliz Cloud 支持�
 
 <Supademo id="cmbk9no218hp0sn1rk55qs959" title=""  />
 
+- **创建 Collection 时配置 mmap**
+
+    <Procedures>  
+
+    1. 在创建 Collection 页面，打开 **Mmap 设置**。
+
+    1. 配置 Collection 和字段层级的 mmap 策略，点击 **保存**。
+
+    </Procedures>  
+
+- **修改已有 Collection 的 mmap 设置**
+
+    <Procedures>  
+
+    1. 进入目标 Collection 的详情页面，点击 **Mmap 设置**。
+
+    1. 调整 Collection 和字段层级的 mmap 策略，点击 **保存**。
+
+    </Procedures>
+
 ### Shard\{#shard}
 
 Shard 是 Collection 的水平切片，对应一个数据写入通道。每个 Collection 默认包含一个 Shard。您可以通过增加 Shard 数量来提升写入吞吐量。
@@ -179,6 +213,22 @@ Zilliz Cloud Web 控制台支持设置 Full Text Search 中使用的 Analyzer �
 
 <Supademo id="cmboh78cya3xzsn1rure280x2" title=""  />
 
+<Procedures>  
+
+1. 完成源连接配置及迁移源和目标的选择后，进入 **检查字段映射** 页面。
+
+1. 找到需要转换为 `VARCHAR` 类型的目标文本字段，点击 **转换为固定列**。
+
+1. 展开 **高级设置**，点击 **Full Text Search**。
+
+1. 选择输入字段，并根据需要配置和检查文本分析设置。
+
+1. 点击 **保存**。
+
+1. 返回迁移页面，确认配置后点击 **迁移**。
+
+</Procedures>
+
 ### Text Match\{#text-match}
 
 Zilliz Cloud Web 控制台支持设置 Text Match 中使用的字段和 Analyzer。详情请见 [Text Match](./text-match)。
@@ -186,6 +236,14 @@ Zilliz Cloud Web 控制台支持设置 Text Match 中使用的字段和 Analyzer
 以下 Demo 展示如何通过 Zilliz Cloud Web 控制台设置 Text Match。
 
 <Supademo id="cmbohi4q7a40lsn1rt8640eph" title=""  />
+
+<Procedures>  
+
+1. 在 Collection 的 Schema 中添加一个 `VARCHAR` 字段，点击该字段的 **设置** 图标。
+
+1. 开启 **Text Match**，并根据文本类型配置合适的 Analyzer。
+
+</Procedures>
 
 ## 管理 Collection\{#manage-collection}
 
@@ -198,6 +256,16 @@ Zilliz Cloud 支持通过 Web 控制台对已创建的 Collection 执行以下�
 - **编辑 Collection 描述**：可以修改现有 Collection 的描述。
 
     ![VcAwwkr0yhcqf3b3cfNcywp2nYJ](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/VcAwwkr0yhcqf3b3cfNcywp2nYJ.png)
+
+    <Procedures>  
+
+    1. 进入目标 Collection 的详情页面。
+
+    1. 在 **概览** 页签中，点击 **描述** 旁的编辑图标。
+
+    1. 在 **编辑 Collection 描述** 对话框中，输入新的描述，点击 **保存**。
+
+    </Procedures>
 
 - **编辑 Collection 的 Schema 和配置**：目前 Zilliz Cloud 支持修改以下 Schema 和设置：
 

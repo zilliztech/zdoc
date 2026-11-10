@@ -41,7 +41,7 @@ import Procedures from '@site/src/components/Procedures';
     export TOKEN="YOUR_API_KEY"
     
     curl --request POST \
-         --url "https://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions" \
+         --url "${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions" \
          --header "Authorization: Bearer ${TOKEN}" \
          --header "Accept: application/json" \
          --header "Content-Type: application/json" \
@@ -84,8 +84,8 @@ import Procedures from '@site/src/components/Procedures';
 
     ```bash
     curl -i --request DELETE \
-        --url "https://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions/gcp-us-west1" \
-        --header "Authorization: Bearer ${API_KEY}" \
+        --url "${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions/gcp-us-west1" \
+        --header "Authorization: Bearer ${TOKEN}" \
         --header "accept: application/json"
     ```
 
@@ -101,6 +101,18 @@ import Procedures from '@site/src/components/Procedures';
 - **通过 Web 控制台**
 
     ![AreXwfoJvhIFcYbYbhHcxbVCnRc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/AreXwfoJvhIFcYbYbhHcxbVCnRc.png)
+
+    <Procedures>  
+
+    1. 进入目标组织，在左侧导航栏中点击 **项目**。
+
+    1. 找到目标项目，点击其 **操作** 列中的 **...**，选择 **移除地域**。
+
+    1. 在 **移除地域** 对话框中，选择要移除的地域。
+
+    1. 点击 **移除**。
+
+    </Procedures>
 
 ## 查看全部项目\{#view-all-projects}
 
@@ -145,6 +157,14 @@ import Procedures from '@site/src/components/Procedures';
 - **通过 Web 控制台**
 
     ![XJTIwuEapharu1bRUmCcICTsnEo](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/XJTIwuEapharu1bRUmCcICTsnEo.png)
+
+    <Procedures>  
+
+    1. 切换至目标组织。
+
+    1. 在左侧导航栏中点击 **项目**，查看该组织下的项目列表。
+
+    </Procedures>
 
 ## 查看项目详情\{#view-project-details}
 
@@ -196,6 +216,18 @@ import Procedures from '@site/src/components/Procedures';
 
 <Supademo id="cmhiwsw4r607mfati5u089sae" title=""  />
 
+<Procedures>  
+
+1. 进入目标组织的 **项目** 页面，找到目标项目。
+
+1. 在 **操作** 栏中点击 **...**，选择 **编辑详情**。
+
+1. 在弹出的对话框中，修改项目名称或描述，然后点击 **保存**。
+
+1. 页面右上角出现成功提示，即表示修改成功。
+
+</Procedures>
+
 ## 删除项目\{#delete-a-project}
 
 要删除项目，您必须是[组织管理员](./manage-platform-roles#manage-organization-roles)。删除项目前，您需要先删除该项目下的所有[集群](./manage-cluster#drop-cluster)。
@@ -204,5 +236,17 @@ import Procedures from '@site/src/components/Procedures';
 
 您可以通过 Web 控制台删除项目。
 
-![delete-project-zh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/delete-project-zh.png "delete-project-zh")
+<Supademo id="cmhiwxmer60exfati32g2fbdi?utm_source=link" title=""  />
+
+<Procedures>  
+
+1. 进入目标组织的 **项目** 页面，找到目标项目。
+
+1. 在 **操作** 栏中点击 **...**，选择 **删除**。
+
+1. 在弹出的对话框中，输入项目名称以确认删除，然后点击 **删除**。
+
+1. 页面右上角出现成功提示，即表示项目已删除。
+
+</Procedures>
 

@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 `cncharonly` 过滤器内置于 Zilliz Cloud。要使用它，只需在 `analyzer_params` 的过滤器部分指定其名称。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -62,18 +62,13 @@ analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cncharon
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
-    let analyzer_params = serde_json::json!({
-        "tokenizer": "jieba",
-        "filter": ["cncharonly"]
-    });
-
-    Ok(())
-}
+let analyzer_params = serde_json::json!({
+    "tokenizer": "jieba",
+    "filter": ["cncharonly"]
+});
 ```
 
 </TabItem>
@@ -92,9 +87,21 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "jieba",
     "filter": ["cncharonly"],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new List<object> { "cncharonly" }
 };
 ```
 
@@ -125,7 +132,7 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -158,10 +165,10 @@ analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cncharon
 <TabItem value='rust'>
 
 ```rust
-    let analyzer_params = serde_json::json!({
-        "tokenizer": "jieba",
-        "filter": ["cncharonly"]
-    });
+let analyzer_params = serde_json::json!({
+    "tokenizer": "jieba",
+    "filter": ["cncharonly"]
+});
 ```
 
 </TabItem>
@@ -180,9 +187,21 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
   tokenizer: "jieba",
   filter: ["cncharonly"],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new List<object> { "cncharonly" }
 };
 ```
 
@@ -205,7 +224,7 @@ export analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -232,6 +251,11 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -261,6 +285,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -272,7 +298,7 @@ if err != nil {
 
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"}
-option := milvusclient.NewRunAnalyzerOption(texts).
+option := milvusclient.NewRunAnalyzerOption(texts...).
     WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)
@@ -287,11 +313,11 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-    let resp = client.run_analyzer(RunAnalyzerRequest::builder()
-        .texts(vec!["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"])
-        .analyzer_params(analyzer_params)
-        .build()?).await?;
-    println!("{:?}", resp.results());
+let resp = client.run_analyzer(RunAnalyzerRequest::builder()
+    .texts(vec!["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"])
+    .analyzer_params(analyzer_params)
+    .build()?).await?;
+println!("{:?}", resp.results());
 ```
 
 </TabItem>
@@ -326,7 +352,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+});
+
+analyzer_params = {
   tokenizer: "jieba",
   filter: ["cncharonly"],
 };
@@ -340,20 +372,51 @@ console.log(result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+using System.Collections.Generic;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。";
+
+// Run the jieba tokenizer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+{
+    Console.WriteLine(t.Token);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 # restful
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
---data '{
-  "text": "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。",
-  "analyzerParams": {
-    "tokenizer": "jieba",
-    "filter": ["cncharonly"]
-  }
+--data-raw '{
+  "analyzerParams": "{\"tokenizer\": \"jieba\", \"filter\": [\"cncharonly\"]}",
+  "text": ["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"]
 }'
 ```
 

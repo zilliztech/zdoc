@@ -421,6 +421,14 @@ export TOKEN="YOUR_API_KEY"
 
     ![WXtPwcoT4heZicblLYmctLRunrf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/WXtPwcoT4heZicblLYmctLRunrf.png)
 
+    <Procedures>  
+
+    1. 进入目标项目，在左侧导航栏中点击 **Volumes**。
+
+    1. 查看 Volume 列表，包括名称、类型、地域、状态、创建时间和创建者等信息。
+
+    </Procedures>
+
 ## 查看 Volume 详情\{#Describe-managed-volume}
 
 您还可以查看特定 Volume 的详细信息。
@@ -524,6 +532,16 @@ export TOKEN="YOUR_API_KEY"
 - **通过 Web 控制台**
 
     ![G2kawpwZNh3wgZbZckpcPqhjnef](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/G2kawpwZNh3wgZbZckpcPqhjnef.png)
+
+    <Procedures>  
+
+    1. 进入目标项目，在左侧导航栏中点击 **Volumes**。
+
+    1. 在 Volume 列表中，点击目标 Volume 的名称。
+
+    1. 在 **概览** 页签中，查看 Volume 的详细信息，包括 Volume ID、类型、地域、创建时间、创建人、描述、存储集成和路径。
+
+    </Procedures>
 
 ## 上传数据至 Managed Volume\{#-upload-data-into-a-managed-volume}
 

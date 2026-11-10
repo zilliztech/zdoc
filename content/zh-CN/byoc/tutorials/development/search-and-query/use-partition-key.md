@@ -159,14 +159,14 @@ schema.WithField(entity.NewField().
     WithDataType(entity.FieldTypeInt64).
     WithIsPrimaryKey(true),
 ).WithField(entity.NewField().
+    WithName("vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5),
+).WithField(entity.NewField().
     WithName("my_varchar").
     WithDataType(entity.FieldTypeVarChar).
     WithIsPartitionKey(true).
     WithMaxLength(512),
-).WithField(entity.NewField().
-    WithName("vector").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(5),
 )
 ```
 

@@ -111,7 +111,7 @@ SDK 客户端可以获取 Global Cluster topology，包括 endpoint 列表、主
 
 </details>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -149,7 +149,6 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 import (
     "context"
     "log"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -171,13 +170,9 @@ if err != nil {
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    // Use the global endpoint for automatic routing
-    let config = ConnectConfig::new().uri("YOUR_GLOBAL_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
-    Ok(())
-}
+// Use the global endpoint for automatic routing
+let config = ConnectConfig::new().uri("YOUR_GLOBAL_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 ```
 
 </TabItem>
@@ -186,7 +181,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 
 // Use the global endpoint for automatic routing
@@ -213,12 +207,32 @@ const client = new MilvusClient({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Use the global endpoint for automatic routing
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_GLOBAL_ENDPOINT",  // Global endpoint from the console
+    Username = "YOUR_CLUSTER_TOKEN" // API key or username:password
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 curl --request POST \
-  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
-  --header "Authorization: Bearer ${TOKEN}" \
+  --url "YOUR_GLOBAL_ENDPOINT/v2/vectordb/collections/list" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
   -d '{}'
 ```
@@ -230,17 +244,11 @@ curl --request POST \
 
 全球集群中的每个集群都有自己的公共 Endpoint。当您需要直接访问特定集群时，可以使用此方式。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 # Connect directly to a specific cluster
-client = MilvusClient(
-    uri="YOUR_CLUSTER_PUBLIC_ENDPOINT",  # Public endpoint of a specific cluster
-    token="YOUR_CLUSTER_TOKEN" # API key or username:password
-)
 ```
 
 </TabItem>
@@ -248,16 +256,7 @@ client = MilvusClient(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.client.ConnectConfig;
-
 // Connect directly to a specific cluster
-ConnectConfig connectConfig = ConnectConfig.builder()
-    .uri("YOUR_CLUSTER_PUBLIC_ENDPOINT")  // Public endpoint of a specific cluster
-    .token("YOUR_CLUSTER_TOKEN")  // API key or username:password
-    .build();
-
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
 </TabItem>
@@ -265,15 +264,8 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // Connect directly to a specific cluster
-client, err := milvusclient.New(context.Background(), &milvusclient.ClientConfig{
+, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_PUBLIC_ENDPOINT", // Public endpoint of a specific cluster
     APIKey:  "YOUR_CLUSTER_TOKEN",           // API key or username:password
 })
@@ -287,16 +279,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    // Connect directly to a specific cluster
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_PUBLIC_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
-    Ok(())
-}
+// Connect directly to a specific cluster
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_PUBLIC_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 ```
 
 </TabItem>
@@ -304,16 +288,7 @@ async fn main() -> Result<()> {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-
-#include <iostream>
-
 // Connect directly to a specific cluster
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_PUBLIC_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -321,13 +296,15 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
-
 // Connect directly to a specific cluster
-const client = new MilvusClient({
-    address: "YOUR_CLUSTER_PUBLIC_ENDPOINT",  // Public endpoint of a specific cluster
-    token: "YOUR_CLUSTER_TOKEN"  // API key or username:password
-})
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Connect directly to a specific cluster
 ```
 
 </TabItem>
@@ -336,8 +313,8 @@ const client = new MilvusClient({
 
 ```bash
 curl --request POST \
-  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
-  --header "Authorization: Bearer ${TOKEN}" \
+  --url "YOUR_CLUSTER_PUBLIC_ENDPOINT/v2/vectordb/collections/list" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
   -d '{}'
 ```

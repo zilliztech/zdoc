@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Analyzer 概述
 
 在文本处理中，**Analyzer** 是一个关键组件，用于将原始文本转换为结构化、可搜索的格式。每个 Analyzer 通常由两个核心元素组成：**分词器**和**过滤器**。它们共同将输入文本拆分为 token、对 token 进行处理，并为高效索引和检索做好准备。
@@ -77,7 +79,7 @@ Zilliz Cloud 集群中的内置 Analyzer 已预先配置特定的分词器和过
 
 例如，要使用内置的 `standard` Analyzer，只需将其名称 `standard` 指定为 `type`，还可以选择添加该 Analyzer 类型特有的额外配置，例如 `stop_words`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -110,8 +112,6 @@ analyzerParams := map[string]any{"type": "standard", "stop_words": []string{"a",
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let analyzer_params = serde_json::json!({
     "type": "standard",
     "stop_words": ["a", "an", "for"]
@@ -142,6 +142,18 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["type"] = "standard", // Uses the standard built-in analyzer
+    ["stop_words"] = new[] { "a", "an", "for" } // Defines a list of common words (stop words) to exclude from tokenization
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -156,10 +168,12 @@ export analyzerParams='{
 
 要检查 Analyzer 的执行结果，请使用 `run_analyzer` 方法：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient, DataType
+
 # Sample text to analyze
 text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
 
@@ -177,6 +191,18 @@ result = client.run_analyzer(
 ```java
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Arrays;
 
 List<String> texts = new ArrayList<>();
 texts.add("An efficient system relies on a robust analyzer to correctly process text for various applications.");
@@ -198,6 +224,8 @@ import (
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 texts := []string{"An efficient system relies on a robust analyzer to correctly process text for various applications."}
@@ -216,8 +244,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let sample_text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
 let response = client
     .run_analyzer(
@@ -235,6 +261,8 @@ println!("{:?}", response);
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+
 std::string text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
 
 auto request = milvus::RunAnalyzerRequest()
@@ -253,6 +281,9 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 // Sample text to analyze
 const text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
 
@@ -260,6 +291,29 @@ const text = "An efficient system relies on a robust analyzer to correctly proce
 const result = await client.runAnalyzer({
     text,
     analyzer_params
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+
+// Sample text to analyze
+var text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
+
+// Run analyzer
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { text }
 });
 ```
 
@@ -293,7 +347,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
 
 上述内置 `standard` Analyzer 的配置等同于使用以下参数设置自定义 Analyzer。其中显式定义了 `tokenizer` 和 `filter` 选项，以实现等效的 Function 行为：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -377,6 +431,26 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        "lowercase",
+        new Dictionary<string, object>
+        {
+            ["type"] = "stop",
+            ["stop_words"] = new[] { "a", "an", "for" }
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -419,7 +493,7 @@ Zilliz Cloud 提供以下内置 Analyzer，每种 Analyzer 都针对特定的文
 
 **指定分词器的示例**：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -475,6 +549,17 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "whitespace"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -512,7 +597,7 @@ export analyzerParams='{
 
     **使用内置过滤器的示例：**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -573,6 +658,18 @@ export analyzerParams='{
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    var analyzerParams = new Dictionary<string, object>
+    {
+        ["tokenizer"] = "standard", // Mandatory: Specifies tokenizer
+        ["filter"] = new object[] { "lowercase" } // Optional: Built-in filter that converts text to lowercase
+    };
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -595,7 +692,7 @@ export analyzerParams='{
 
     **配置自定义过滤器的示例：**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -676,6 +773,25 @@ export analyzerParams='{
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    var analyzerParams = new Dictionary<string, object>
+    {
+        ["tokenizer"] = "standard", // Mandatory: Specifies tokenizer
+        ["filter"] = new object[]
+        {
+            new Dictionary<string, object>
+            {
+                ["type"] = "stop", // Specifies 'stop' as the filter type
+                ["stop_words"] = new[] { "of", "to" } // Customizes stop words for this filter type
+            }
+        }
+    };
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -711,12 +827,10 @@ export analyzerParams='{
 
 首先设置 Milvus 客户端并创建一个新的 Schema。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
-
 # Set up a Milvus client
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
@@ -732,14 +846,6 @@ schema = client.create_schema(auto_id=True, enable_dynamic_field=False)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.*;
-
 // Set up a Milvus client
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -758,14 +864,6 @@ CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSche
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
@@ -798,8 +896,6 @@ let schema = CollectionSchema::new().enable_dynamic_field(false);
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-
 auto client = milvus::MilvusClientV2::Create();
 
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
@@ -817,13 +913,28 @@ schema->SetEnableDynamicField(false);
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
 // Set up a Milvus client
 const client = new MilvusClient({
     address: "YOUR_CLUSTER_ENDPOINT",
     token: "YOUR_CLUSTER_TOKEN"
 });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Set up a Milvus client
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Create a new schema
+var schema = new CollectionSchema();
 ```
 
 </TabItem>
@@ -859,7 +970,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
     - <strong>验证：</strong>使用 `run_analyzer` 检查该 Analyzer 配置是否生成预期的分词结果。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -881,13 +992,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='java'>
 
     ```java
-    import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-    import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-    import java.util.ArrayList;
-    import java.util.HashMap;
-    import java.util.List;
-    import java.util.Map;
-    
     Map<String, Object> analyzerParamsBuiltin = new HashMap<>();
     analyzerParamsBuiltin.put("type", "english");
     
@@ -906,12 +1010,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='go'>
 
     ```go
-    import (
-        "fmt"
-    
-        "github.com/milvus-io/milvus/client/v3/milvusclient"
-    )
-    
     analyzerParamsBuiltin := map[string]any{"type": "english"}
     
     texts := []string{"Milvus simplifies text analysis for search."}
@@ -930,8 +1028,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='rust'>
 
     ```rust
-    use milvus::v2::prelude::*;
-    
     let analyzer_params_built_in = serde_json::json!({"type": "english"});
     let sample_text = "Milvus simplifies text analysis for search.";
     let response = client
@@ -985,6 +1081,27 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Built-in analyzer configuration for English text processing
+    var analyzerParamsBuiltIn = new Dictionary<string, object>
+    {
+        ["type"] = "english"
+    };
+    
+    // Verify built-in analyzer configuration
+    var sampleText = "Milvus simplifies text analysis for search.";
+    var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+    {
+        AnalyzerParams = analyzerParamsBuiltIn,
+        Texts = new[] { sampleText }
+    });
+    Console.WriteLine("Built-in analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens.Select(t => t.Token))));
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -1009,7 +1126,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
     - <strong>验证：</strong>使用 `run_analyzer` 确认自定义 Analyzer 配置能够按预期处理文本。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -1043,14 +1160,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='java'>
 
     ```java
-    import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-    import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-    import java.util.ArrayList;
-    import java.util.Arrays;
-    import java.util.HashMap;
-    import java.util.List;
-    import java.util.Map;
-    
     // Configure a custom analyzer
     Map<String, Object> analyzerParamsCustom = new HashMap<>();
     analyzerParamsCustom.put("tokenizer", "standard");
@@ -1082,12 +1191,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='go'>
 
     ```go
-    import (
-        "fmt"
-    
-        "github.com/milvus-io/milvus/client/v3/milvusclient"
-    )
-    
     analyzerParamsCustom := map[string]any{"tokenizer": "standard",
         "filter": []any{"lowercase",
             map[string]any{
@@ -1115,8 +1218,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='rust'>
 
     ```rust
-    use milvus::v2::prelude::*;
-    
     let analyzer_params_custom = serde_json::json!({
         "tokenizer": "standard",
         "filter": ["lowercase", {"type": "length", "max": 40}, {"type": "stop", "stop_words": ["of", "for"]}]
@@ -1191,6 +1292,41 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // Custom analyzer configuration with a standard tokenizer and custom filters
+    var analyzerParamsCustom = new Dictionary<string, object>
+    {
+        ["tokenizer"] = "standard",
+        ["filter"] = new object[]
+        {
+            "lowercase", // Built-in filter: convert tokens to lowercase
+            new Dictionary<string, object>
+            {
+                ["type"] = "length", // Custom filter: restrict token length
+                ["max"] = 40
+            },
+            new Dictionary<string, object>
+            {
+                ["type"] = "stop", // Custom filter: remove specified stop words
+                ["stop_words"] = new[] { "of", "for" }
+            }
+        }
+    };
+    
+    // Verify custom analyzer configuration
+    var sampleText = "Milvus provides flexible, customizable analyzers for robust text processing.";
+    var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+    {
+        AnalyzerParams = analyzerParamsCustom,
+        Texts = new[] { sampleText }
+    });
+    Console.WriteLine("Custom analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens.Select(t => t.Token))));
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -1214,7 +1350,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
 验证 Analyzer 配置后，将其添加到 Schema 字段：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1250,9 +1386,6 @@ schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-
 schema.addField(AddFieldReq.builder()
         .fieldName("title_en")
         .dataType(DataType.VarChar)
@@ -1291,8 +1424,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 schema.WithField(entity.NewField().
     WithName("id").
     WithDataType(entity.FieldTypeInt64).
@@ -1324,8 +1455,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = schema
     .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
     .add_field(FieldSchema::new().name("title_en").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true).enable_match(true).analyzer_params(analyzer_params_built_in))
@@ -1351,8 +1480,6 @@ schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 // Create schema
 const schema = [
   {
@@ -1383,6 +1510,24 @@ const schema = [
     dim: 3,
   },
 ];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Add VARCHAR field 'title_en' using the built-in analyzer configuration
+schema.Fields.Add(FieldSchema.CreateVarchar("title_en", maxLength: 1000, enableAnalyzer: true, analyzerParams: analyzerParamsBuiltIn, enableMatch: true));
+
+// Add VARCHAR field 'title' using the custom analyzer configuration
+schema.Fields.Add(FieldSchema.CreateVarchar("title", maxLength: 1000, enableAnalyzer: true, analyzerParams: analyzerParamsCustom, enableMatch: true));
+
+// Add a vector field for embeddings
+schema.Fields.Add(FieldSchema.CreateFloatVector("embedding", dimension: 3));
+
+// Add a primary key field
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true));
 ```
 
 </TabItem>
@@ -1436,7 +1581,7 @@ export SCHEMA_CONFIG='{
 
 ### 步骤 4：准备索引参数并创建 Collection\{#step-4-prepare-index-parameters-and-create-the-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1457,11 +1602,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import java.util.ArrayList;
-import java.util.List;
-
 // Set up index params for vector field
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -1484,15 +1624,7 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-idx := index.NewAutoIndex(index.MetricType(entity.COSINE))
+idx := index.NewAutoIndex(entity.COSINE)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "embedding", idx)
 
 err = client.CreateCollection(ctx,
@@ -1509,8 +1641,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -1571,6 +1701,23 @@ console.log("Collection created successfully!");
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Set up index parameters for the vector field
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = new[]
+    {
+        new IndexParam("embedding", "embedding", IndexType.AutoIndex, MetricType.Cosine)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1594,6 +1741,30 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
 您也可以在 Zilliz Cloud 控制台中执行上述操作。有关详细信息，请播放下面的演示。
 
 <Supademo id="cmfxiu7c342st10k8ql0xi1av" title=""  />
+
+<Procedures>  
+
+1. 进入目标集群，点击 **创建 Collection**，输入 Collection 名称。
+
+1. 将主键名称设置为 `id`，并根据实际数据设置 `vector` 字段的 **向量维度**。
+
+1. 点击 **+ 字段**，添加名为 `title` 的字段，将字段类型设置为 **VARCHAR**，并将 **最大长度** 设置为 `1000`。
+
+1. 点击 `title` 字段的 **设置** 图标，开启 **Analyzer**。
+
+1. 在 **Analyzer 设置** 对话框中，选择 **中文（简体）** 模板，查看对应的 Analyzer 配置。
+
+1. 输入样例文本，点击 **测试**，在 **结果** 区域查看分词结果。确认配置符合预期后，点击 **保存**。
+
+1. （可选）开启 **Text Match**，以便在过滤表达式中对该字段执行文本匹配。
+
+1. 点击向量字段的 **编辑索引**，检查索引设置，确认后点击 **保存**。
+
+1. （可选）点击 **+ 索引**，在需要创建索引的标量字段旁点击 **+**，然后点击 **创建**。
+
+1. 确认所有配置后，点击 **创建**，完成 Collection 创建。
+
+</Procedures>
 
 <Admonition type="info" title="说明">
 

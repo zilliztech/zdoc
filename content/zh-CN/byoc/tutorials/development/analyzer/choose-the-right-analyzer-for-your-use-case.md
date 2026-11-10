@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 最佳实践：如何选择合适的 Analyzer
 
 <Admonition type="info" title="说明">
@@ -158,7 +160,7 @@ import Supademo from '@site/src/components/Supademo';
 
 #### 示例\{#implementation-example}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -183,11 +185,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 
@@ -205,8 +202,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 analyzerParams := map[string]any{"type": "english"}
 
 schema.WithField(entity.NewField().
@@ -222,9 +217,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let analyzer_params = serde_json::json!({"type": "english"});
 let schema = CollectionSchema::new().add_field(FieldSchema::new()
     .name("text")
@@ -251,8 +243,6 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 const analyzer_params = { type: "english" };
 
 const schema = [
@@ -264,6 +254,21 @@ const schema = [
     analyzer_params,
   },
 ];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Using built-in English analyzer
+Dictionary<string, object> analyzerParams = new()
+{
+    ["type"] = "english"
+};
+
+// Applying analyzer config to target VARCHAR field in your collection schema
+schema.Fields.Add(FieldSchema.CreateVarchar("text", 200, enableAnalyzer: true, analyzerParams: analyzerParams));
 ```
 
 </TabItem>
@@ -533,7 +538,7 @@ export textField='{
 要创建自定义 Analyzer，需要在 `analyzer_params` 字典中定义 tokenizer 和过滤器列表。
  这些过滤器会按照定义的顺序依次应用。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -559,12 +564,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "whitespace");
 analyzerParams.put("filter", Arrays.asList("lowercase", "alphanumonly"));
@@ -583,8 +582,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 analyzerParams := map[string]any{
     "tokenizer": "whitespace",
     "filter": []any{"lowercase", "alphanumonly"},
@@ -603,9 +600,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let analyzer_params = serde_json::json!({
     "tokenizer": "whitespace",
     "filter": ["lowercase", "alphanumonly"]
@@ -638,8 +632,6 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 const analyzer_params = {
   tokenizer: "whitespace",
   filter: ["lowercase", "alphanumonly"],
@@ -654,6 +646,22 @@ const schema = [
     analyzer_params,
   },
 ];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Example: A custom analyzer for technical content
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "whitespace",
+    ["filter"] = new List<object> { "lowercase", "alphanumonly" }
+};
+
+// Applying analyzer config to target VARCHAR field in your collection schema
+schema.Fields.Add(FieldSchema.CreateVarchar("text", 200, enableAnalyzer: true, analyzerParams: analyzerParams));
 ```
 
 </TabItem>
@@ -679,7 +687,7 @@ export textField='{
 
 在将配置应用到 Collection 之前，务必先验证：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -696,6 +704,11 @@ print("Analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Arrays;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
@@ -725,6 +738,7 @@ import (
     "encoding/json"
     "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -759,6 +773,7 @@ for _, r := range result {
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
         .texts(vec!["The Milvus vector database is built for scale!"])
@@ -791,7 +806,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+import { DataType, MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
@@ -800,6 +815,37 @@ const result = await client.runAnalyzer({
   analyzer_params,
 });
 console.log(result.results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using System.Collections.Generic;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "The Milvus vector database is built for scale!";
+
+// Run analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+Console.WriteLine("Analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>
@@ -1090,7 +1136,7 @@ curl --request POST \
 
 **基础多语言配置**（不包含词干提取）：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1105,10 +1151,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "icu");
 analyzerParams.put("filter", Arrays.asList("lowercase", "asciifolding"));
@@ -1130,8 +1172,6 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = serde_json::json!({
     "tokenizer": "icu",
     "filter": ["lowercase", "asciifolding"]
@@ -1162,6 +1202,18 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "icu",
+    ["filter"] = new List<object> { "lowercase", "asciifolding" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1185,4 +1237,28 @@ export analyzerParams='{
 你可以直接在 Zilliz Cloud 控制台中配置和测试 Analyzer，而无需编写代码。具体可参考如下演示。
 
 <Supademo id="cmfxiu7c342st10k8ql0xi1av" title=""  />
+
+<Procedures>  
+
+1. 进入目标集群，点击 **创建 Collection**，输入 Collection 名称。
+
+1. 将主键名称设置为 `id`，并根据实际数据设置 `vector` 字段的 **向量维度**。
+
+1. 点击 **+ 字段**，添加名为 `title` 的字段，将字段类型设置为 **VARCHAR**，并将 **最大长度** 设置为 `1000`。
+
+1. 点击 `title` 字段的 **设置** 图标，开启 **Analyzer**。
+
+1. 在 **Analyzer 设置** 对话框中，选择 **中文（简体）** 模板，查看对应的 Analyzer 配置。
+
+1. 输入样例文本，点击 **测试**，在 **结果** 区域查看分词结果。确认配置符合预期后，点击 **保存**。
+
+1. （可选）开启 **Text Match**，以便在过滤表达式中对该字段执行文本匹配。
+
+1. 点击向量字段的 **编辑索引**，检查索引设置，确认后点击 **保存**。
+
+1. （可选）点击 **+ 索引**，在需要创建索引的标量字段旁点击 **+**，然后点击 **创建**。
+
+1. 确认所有配置后，点击 **创建**，完成 Collection 创建。
+
+</Procedures>
 

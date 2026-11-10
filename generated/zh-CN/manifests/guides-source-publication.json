@@ -609,13 +609,13 @@
   "records": [
     {
       "path": "content/zh-CN/byoc/tutorials/client-libraries/install-sdks.md",
-      "sha256": "771bb07456d081d58b0615822905972d0447a7f610ec344cf899601978e7c3a5",
+      "sha256": "5b68379756a72fdae29a9a5e7574020aad6f84ba8300e6a9c2129864c78a2517",
       "docToken": "Jo4bwNi6zi4zlHkN2bWcewFYnDc",
       "revisionId": "722"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md",
-      "sha256": "8f4d3f3407c5afb9210c30518bbfe22b84de755f2b6907fbe3f21853bca0c3ee",
+      "sha256": "ab67ac679f2da4fa158e96ac739e1a72509c9a710d1a3841495858d7649e5537",
       "docToken": "FnxIwZq7wi8N8Kk2GbqcTeHXnsb",
       "revisionId": "46"
     },
@@ -627,127 +627,127 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md",
-      "sha256": "b3fb059b14feeb759ad0db787caf12d9641f490ab7b2a69bf87043cf524bfc6d",
+      "sha256": "b79f4e89074099c1d4f81db65317e378a3ef090b2425f4e5952bed165b63e284",
       "docToken": "AzqdwhBW5ixVLMk1IRecqHCvnfa",
       "revisionId": "60"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md",
-      "sha256": "de4f4071a0172d51ecff6f6da043f50b63c6a2d69b2d6a9c97e4cfbb1c08ed1e",
+      "sha256": "1901a36a10795a0b67138a0b49cc11af391e980bdea802d832b32e00b912834c",
       "docToken": "S20fwoua2ifNgPkAY9mcihIGnxc",
       "revisionId": "43"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md",
-      "sha256": "422a95d8c54204266ea2afa303a1541632e87a336a9cde8005a4f05d2c2a47db",
+      "sha256": "28e6e582de79b0e82f786a41b87454841b08cc66a59b260302e7f0dd942aa91d",
       "docToken": "U53cwHbmOiBCf5kyR7McxmE5nkd",
       "revisionId": "44"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md",
-      "sha256": "d88021c3718ace110da52b1c3b848f2c748e4fb3c7179b3f47391f7c31b9e072",
+      "sha256": "4808e1a3cf31e6b8f626e7e1b41dfffd9ec35f7e5fe9cf7f4c04d68a773621f4",
       "docToken": "FI9Lw2JwTimpxikTjtpctKK1nbc",
       "revisionId": "65"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/length-filter.md",
-      "sha256": "671d1bfa4a36c17400352838b2579f4e887e0f24fbae9f4785a7df70bdff92c0",
+      "sha256": "0ed7c432a1b9896a61c637ab21b8518ea2b1cbf5c9e324e1dd3a234a379de0fb",
       "docToken": "C1J1w3XqqiSMH9kTTcTcBjVZnOh",
       "revisionId": "65"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md",
-      "sha256": "8dda0b2c5066e6ca3d3a6dbbe625aec99bf9bb4b847c0a672c478eda4c36a1cd",
+      "sha256": "79ff189449969e2308bf8ed708bde82726b6a112259337acb3531201766f1d62",
       "docToken": "AsVpwT9MYivO3zkzhVacewpAnPh",
       "revisionId": "124"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md",
-      "sha256": "7f59c425c69643e5d8e483fb0f028a2fc9e21cffc0a2c3623b26a709637d0525",
+      "sha256": "638521ab6c701e42a9a3bfdc0a42af4b83af6aae628174536297e006b631102f",
       "docToken": "KMNdwKnqkibpRbk6bYDcpa12nih",
       "revisionId": "77"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/regex-filter.md",
-      "sha256": "1a6903792303df8caad1f340b5a4f3e7b80bfe15afec9020834a67610241b524",
+      "sha256": "92580c00ea9d3dca2e75bc77af39d0bfba9373ccd988c7a76360fcc53ec20384",
       "docToken": "EcNmwuOtTi8VTDk6XtLcJsxznWx",
       "revisionId": "51"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md",
-      "sha256": "1d4f535c0b811690846532a2be8cef286e6801c9abfe89ef22104169f78b1c5a",
+      "sha256": "1b724920f3056d3364605c7c0ceebb05bc554287b9abe3646053123416b91a64",
       "docToken": "RA2vwGhS9itlQpkgoeXcKHVenpe",
       "revisionId": "51"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md",
-      "sha256": "d5b536e034e6f254ecd135d78c529a6288a0367852521ace0b3016a2de306686",
+      "sha256": "3023f9b3f775a972721ad1543e9d0216e7f0459c574f9a62025448a3628efeba",
       "docToken": "DNLUwvDBWibe0hkIBE2cOixJn7c",
       "revisionId": "78"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-filters/stop-filter.md",
-      "sha256": "28349b1283fb107b8ff701d0c3b8f72412b7f1450ed011e1b5d6933df5314bb4",
+      "sha256": "e3f4025ddefd9cd23135286a29c20c0831de67b1d2cd8015586ad26c553e01a8",
       "docToken": "PcaswIdMjiPOrAkyA0uc5aXOn0b",
       "revisionId": "64"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-overview.md",
-      "sha256": "8a36a81f1231e32fef349e5d157fac39aac521738294168e9ff0269258ed906f",
+      "sha256": "1338a7b6ed991d2dd2b49e595cf4ccdaa8a2d617b262998f7ae74a508f54cee2",
       "docToken": "XDNVwL0r1iSJgqk0XkkcVQK9nvh",
-      "revisionId": "1554"
+      "revisionId": "1556"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
-      "sha256": "a9d389ab4f6a915bbc4e73df29b2bb57f4e04f9ae5cba997e19da31c23ae1314",
+      "sha256": "040d44f822c739751b53fc1e2a60a076dbcd22e8a16db55d97031855b2eae9c4",
       "docToken": "BkbswA37iiN3zpk8JLHcbPb0ndd",
       "revisionId": "53"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
-      "sha256": "63367a705624b3660bbc157cea3b7f8aa930ce39e2436ede7a48f7c95bcf00bf",
+      "sha256": "7b44b9b24ba6a98149f8f0c120fa0b0d8fffb31f97a6a7751bc2c192c43f2399",
       "docToken": "Hfcrw0GogiQCGwkn9mlcKJVSnSh",
       "revisionId": "698"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md",
-      "sha256": "5e74b06ea739fe940c825ec2aa95e8ddf40498ad15ae00b1dbc1730e344440c0",
+      "sha256": "8b26597fe0be2683f133582879a97da68a8949ecad860b810a95b6c0b7d8471c",
       "docToken": "MC6CwYqf6iWuTTk4vLKcRni3nwf",
       "revisionId": "281"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md",
-      "sha256": "14f5c1321d248d104e4b99a17df86a4b0cafdb21ae791b63a1a24d2a525c65a6",
+      "sha256": "640c6451639e5025d5889f03484043b3fa8e7a5649f65648a726e2b9fcedc0e5",
       "docToken": "IWMVwdnisijLNGkLUlAcCZCmnWc",
       "revisionId": "554"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md",
-      "sha256": "a9813286f4557ec9be9851b8a49d41bc33e55aa423df0283e6d8544eb77bc83a",
+      "sha256": "988f53527a0f4e95b4307d83909defb95c9325d960077b6c750aa60d84807a10",
       "docToken": "Zy1KwpriziqRlqka3Oxc0W4tnhg",
       "revisionId": "189"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-tokenizers/thai-tokenizer.md",
-      "sha256": "ac43b03fd11b1c7864cac8a8071336b5896c2aa3a71c7208df059862f07bd338",
+      "sha256": "e7bfd6abc1db00b08db9f1860448ee816ea1912971adf6cbf003a4c884bfb5b2",
       "docToken": "QBsRwmVohirAJWkD0PgcBsILn6X",
       "revisionId": "47"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
-      "sha256": "a80530cbdb12eaa26d94b907b94fd7218e9222b3b3df99e5085b1b0dfa526683",
+      "sha256": "eacf44a37de4bbf65b9fb7c3f1c21879b2af1d6c9934b10857fcc394ba133a89",
       "docToken": "DUzAwFTRNidwUlkgWSicIeDKndb",
       "revisionId": "79"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/built-in-analyzer/arabic-analyzer.md",
-      "sha256": "611fddffde33fd34b58187744176a8007f2750639feae44b9ede8432e51d19e2",
+      "sha256": "a6d983d8bef90264c16394e0b47e7b77b7b33c363b67b4b184bb6a15455fb9f7",
       "docToken": "B0CwwnxeRiBzu0knv5kch2EDn0d",
       "revisionId": "61"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/built-in-analyzer/chinese-analyzer.md",
-      "sha256": "ea84674d2fedf892b90f31249a6035ecafef2a80ef68084d11ea35a259039b4c",
+      "sha256": "9e32c4ec46c224cfb4867e3f506e696f31b7c3158b99191349293b946e960fd3",
       "docToken": "UlMPwmPO5iJBn1kDTLzc5cJVnXO",
       "revisionId": "165"
     },
@@ -765,27 +765,27 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/built-in-analyzer/thai-analyzer.md",
-      "sha256": "7970ecde267585be9cd37c7bb1c01c3e01ea846d976deec50661d7589235ee5c",
+      "sha256": "7ea3027035e9ac8b4cf2c7ad1c4c95d1c316a423e960f2a1b7e4879b8c0f2938",
       "docToken": "QWPqwmppOiIPhEkLAEXcZKMznlh",
       "revisionId": "65"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case.md",
-      "sha256": "e3955642566e20c60e5f537f3396df92949dfeed50649c7de84dace704740ce7",
+      "sha256": "33e745361278a0eb9564821db40fe862d928709e6e2ed126a356e5bd6c46572b",
       "docToken": "Sotxw9TeRiM6U1k2aQ7cc3SUn9d",
-      "revisionId": "1128"
+      "revisionId": "1132"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/multi-language-analyzers.md",
-      "sha256": "ec04b0160056e3c40d83dfbb9a06c8a110f1ca70514b99147d60c047d2b34a0b",
+      "sha256": "458d591c730eb1bbaf57560edf3735670fadfa1fa40b24690d22c64a537ebc9e",
       "docToken": "Ze9bwp7rJis0HGkYXftcC1k8nic",
       "revisionId": "364"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/collection-on-console/manage-collections-console.md",
-      "sha256": "9554a76f0c8d976a2f22b1e536b395f56885958b5add29d6fe1a1592eade4b31",
+      "sha256": "82474c2a59415c13d532e4a18e46e32142a28b5be1cab871fb653cd10aa7413b",
       "docToken": "Cy4swPPaeiZgbmkN4wUc9wAdnwd",
-      "revisionId": "1875"
+      "revisionId": "1891"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/drop-collection.md",
@@ -795,7 +795,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/load-release-collections.md",
-      "sha256": "9bc3ba097b3ed9e2d0cf912d770431eb78952f7bc82db7b3a17331462c5c527e",
+      "sha256": "cc7d0f5123a4d9cb83b620e024289b7ea6031b32fb2c458deadc60a80f1ea4a3",
       "docToken": "G7jYwhWH4iVtGakm2BHcGuzIn3f",
       "revisionId": "945"
     },
@@ -807,7 +807,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/manage-collections-sdks.md",
-      "sha256": "57678c6a04eb9db599e91ddcde1bc3e8a8b7855a23cc9a7c47af606d8939f79b",
+      "sha256": "2c4e956b615551507d56371611efee3716fcc9268bb92a5e981df68c82d54882",
       "docToken": "SQQowEMkwiwYvWkwETbczgj8nUh",
       "revisionId": "3223"
     },
@@ -819,13 +819,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/manage-partitions.md",
-      "sha256": "a370158687183c5bbb70c336aa3c6f3fce3757db4ff605549e112c0dee17d68d",
+      "sha256": "4e093a0dfb4f0662abcb7e09d9a409c210875a8e1d7764c1f1a097128df1891d",
       "docToken": "T944whOEaiDKWbkhJVUcLxmNnRg",
       "revisionId": "2211"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/modify-collections.md",
-      "sha256": "13840f3b4544744c2c334d45e0ae6fd05ef283c938e5ab349aa3f8bf1d2ef7e0",
+      "sha256": "e3b69d3ebd870bfabe160bd343684e51c67a4e4f7f9fd16c80fa69bfd0ed5df7",
       "docToken": "QB61wPMzoik03uk2r3ScJdaEnNf",
       "revisionId": "1552"
     },
@@ -897,9 +897,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/data-import/import-data/import-data-on-web-ui.md",
-      "sha256": "60bbde7f6dc95030d342600e8f6dba189ee33106f8229d50620b18221db36d72",
+      "sha256": "a3dbd42d64dd150c9504bf6157130adced24051c12ebced3e7b9f75725b9098f",
       "docToken": "BXBvwZh9Yiis0Vk8LcdcjZSPnQd",
-      "revisionId": "794"
+      "revisionId": "799"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
@@ -939,15 +939,15 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/database/database.md",
-      "sha256": "0dc2bcce30422b0dc06d2039f4ee5991e8e18ae08424fff2f6a5c4ff2d19b4e5",
+      "sha256": "0c699202ae3c15412bd2fff18f345fd857de603899d505e2574cd16b81393dcd",
       "docToken": "XIFowGwHFiNkgbkONbgcfhHTnbe",
-      "revisionId": "9"
+      "revisionId": "25"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/bm25-function.md",
-      "sha256": "e4f176cb4001c844e89d7fb4624a7daa9fa1e43812bb54030f78a1162377dd79",
+      "sha256": "707713890649728934020ac27b9873c6d25cf007d5bfefe27f43fc0cd23515ef",
       "docToken": "K6J1wapTRipxweklQpNcdFCgnEr",
-      "revisionId": "402"
+      "revisionId": "404"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/function-and-model-inference-overview.md",
@@ -1125,7 +1125,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/schema-best-practices/schema-design-hands-on.md",
-      "sha256": "2176630bb07412c678b4bca8b35217daee25d7a244f7fd7530e1537a99e25a39",
+      "sha256": "7ab3d272fff0a8f007aec4e624df7490da69ed39bf04ff96973092d8e9dee826",
       "docToken": "AhYhwruK6impy5klHLdcs5Bfndh",
       "revisionId": "3216"
     },
@@ -1137,7 +1137,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/schema-explained.md",
-      "sha256": "8e506dca22ab8cd0e6c486bbe9337977a454f87a41d0ebffd209a3179dd507b6",
+      "sha256": "aa8a15184a212177921ae782519cd0ae21afca4cb1ffb81ef6a80c40b5dc4c33",
       "docToken": "L2M6wPhQOic817knYpacZuhJnX2",
       "revisionId": "4361"
     },
@@ -1209,7 +1209,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/use-string-field.md",
-      "sha256": "86c9b7493a686c2bad76ee8158f38e0dfa0ad86f0a7e3a6680ccabefcfacf0fb",
+      "sha256": "7ae42e7850940286105face70c798b517adcb61ad45778b2702265806262452b",
       "docToken": "Z1kKwms8miXdCnkQEzWc9hNyn9f",
       "revisionId": "1825"
     },
@@ -1221,7 +1221,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/use-timestamptz-field.md",
-      "sha256": "9eefb14b21fecd6bc338ce50f7c225bca605472f2efc2b6e02e0cd933a23eabe",
+      "sha256": "a4e3e23bd7cfd1f902356ab5b1bf8eb4c0404af6fd0f3fc12549c9cdca1b74f5",
       "docToken": "E722wYOs1i8YbVkrFrcci3Rynfb",
       "revisionId": "427"
     },
@@ -1305,7 +1305,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/full-text-search.md",
-      "sha256": "639f21955cd1a98b6af8dc08a843fff9ecbb1f91e190c5b67ae08da1a0d8a1ea",
+      "sha256": "e040271bc377c84fc5b617272d90a2ca42de158bb581541d4d978d8a3b000649",
       "docToken": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
       "revisionId": "1130"
     },
@@ -1329,7 +1329,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/phrase-match.md",
-      "sha256": "d80f6e2f474f32e5ac9bea6af827856085e2af951264046af519e2fd0586f308",
+      "sha256": "1203ace1ff2bf352ddf4fad6de4ffb879ba6931e13be098888985765824f7347",
       "docToken": "AXhtwvmowicwpskTZCWcNhgOnog",
       "revisionId": "623"
     },
@@ -1407,7 +1407,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/text-match.md",
-      "sha256": "932181db1b2b65281bd4ac5275d5e97a8bd6d820c2a9a173cd947152af784bb4",
+      "sha256": "7fd69bf8b9643a621edcb4f28b83bdcc8c996cf03a9e1fdce2e6d18e3eadbf28",
       "docToken": "WWSZwJWLYiRBfckbN58cV85BnQb",
       "revisionId": "376"
     },
@@ -1419,13 +1419,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/use-mmap.md",
-      "sha256": "801df1b5149c43b178308124d14299fc98ba455b9ad550882f9c25d8deae7d81",
+      "sha256": "a51dee219f80951f4bb06d4f61c9583db0d7ccb00d412d24b77ffbf5417838ea",
       "docToken": "IRH1wYwjXicDLFkRcZwcMJl1n3g",
       "revisionId": "2773"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/use-partition-key.md",
-      "sha256": "8a1329b6639d527de13eb2f854cf7e60d269f697f78e6fb7ab8d84a3c5ee4e96",
+      "sha256": "c89365fec94039e4ad14e26ccefe58a8133b93c61ba9eecb7e11e9bb57318b49",
       "docToken": "QT2Vw3FvJiuwzBkeZvicRBlsnae",
       "revisionId": "2906"
     },
@@ -1593,9 +1593,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md",
-      "sha256": "80dd0b0dd142f57a46bf94fc25d707adea1fbefe082c8c041335db69394494cb",
+      "sha256": "5e4bb9cc1304e183712f799b26eb049e974d6e837025145718e5fc89b196b95f",
       "docToken": "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
-      "revisionId": "662"
+      "revisionId": "667"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/access-control/manage-platform-roles.md",
@@ -1643,7 +1643,7 @@
       "path": "content/zh-CN/byoc/tutorials/management/auditing/audit-logs.md",
       "sha256": "2c757973a2f05fc168d7b26bcc80ba60eb3da5e70db10b981a7193a3df3ce4c5",
       "docToken": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
-      "revisionId": "712"
+      "revisionId": "714"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/auditing/view-activities.md",
@@ -1653,21 +1653,21 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/authentication/cluster-credentials.md",
-      "sha256": "6336ddcc3b370a2496508e4f4ddfb8c7eb5a75a4ad6adc87e04791997087760c",
+      "sha256": "b73c8381016b1b959b587025375b2e015f347261b37ac6b05d81feb2911a77b5",
       "docToken": "VNWiwtYwGi9m0Okhj3Zce8wAnte",
-      "revisionId": "444"
+      "revisionId": "448"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/authentication/email-accounts.md",
-      "sha256": "2f44c4c9deda5c77ab4bfd4ba3ea9515c7f07d22f4c1fa7b56ebda92b032b6c4",
+      "sha256": "1609fb6c0b6fa01dfc1b41b00e5c5cd55517a2e8a6ee24ba752132e14138d7a4",
       "docToken": "SVnkw5IkNiOfALkijr1cw91vn3L",
-      "revisionId": "526"
+      "revisionId": "537"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/authentication/manage-api-keys.md",
-      "sha256": "e0b91e3e394a3277df3fccfaae9f531e2dacaa1b6af7dce6396aa69ecb551125",
+      "sha256": "364f3044b133cb85aa2133b7a83ae74a612f3877faf297b76a35bb213766e7dd",
       "docToken": "UGzNwB4TmiqTozkJvarceRdenif",
-      "revisionId": "1613"
+      "revisionId": "1620"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/authentication/multi-factor-auth.md",
@@ -1677,27 +1677,27 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/create-backup.md",
-      "sha256": "0eab28286f1a6d0b0522e7f88bd91fa7487109ab207d9aca893c82b5abadd267",
+      "sha256": "2ca9307655e4de774dea4718abca06abd8572d5e3f406f71d81f2553739f6d4d",
       "docToken": "GFFswc3z1iQtjQkpmyScL00dnSx",
-      "revisionId": "846"
+      "revisionId": "849"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/manage-backup-files.md",
-      "sha256": "11e1a2fed7e58cb70dd5c3cc1bf632fb6ba4b64dcfe6c0d1d987d8c7a2b18aa4",
+      "sha256": "936337eb8cc350bce93228d09d854600ae2ba001f75c4158614f53cad9bc0b32",
       "docToken": "BQjRwYOyZiDjwfkRav6cpFOTnoe",
-      "revisionId": "167"
+      "revisionId": "171"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/restore-from-backup-files.md",
-      "sha256": "e3ac838336e103a88b54bfa4fbf73ea194af2288a294e791283d452d74088783",
+      "sha256": "e93a82dba0312ca0dc6c29d227be37b59ba55591430cb187422e103b4e954812",
       "docToken": "NtkswF6UEi3kB0k8XSEcOKkhnld",
-      "revisionId": "552"
+      "revisionId": "554"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "sha256": "4dd4761ed80bfe29f6a875d5ff41c997dd9d09c049866aca82fce7947b61ba15",
+      "sha256": "f67c51e71673f5e50674e8d4bd4d1eec198e54aeccd1fd8469c4bd21d92f55ae",
       "docToken": "TXyTwrfxCiStfek4hc7c2nKwnJc",
-      "revisionId": "598"
+      "revisionId": "601"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/payment-billing.md",
@@ -1743,9 +1743,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/view-invoice.md",
-      "sha256": "5d5eb573b9716260013687a227638d6753803ff3d5aff1f2368f8b080da5204b",
+      "sha256": "3ad42061657a660e3ea93e301423db91192d41c124856c50697f17f0ae1651b5",
       "docToken": "NhbHwPiL2i4KWskrcO4cDrSNnzh",
-      "revisionId": "3561"
+      "revisionId": "3563"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
@@ -1761,15 +1761,15 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster.md",
-      "sha256": "4a1e370e3252b0dc2aa5eebb693416a751181aff0942c48673eddc5b4e648464",
+      "sha256": "b187b374ed5949c2764108176400b76053dea7076b39140e665d15f1ac22cbbe",
       "docToken": "MAFcwBTqqiR5YZkdkd4cADg0nub",
-      "revisionId": "2038"
+      "revisionId": "2063"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
-      "sha256": "c2a56568ce740f314cf70f383936383ac94d0fc6b0166b2e8708e7840e4221d5",
+      "sha256": "d83fa7f0f599c71a9405d1386e01f75f30ff343041096d078639e330b420863f",
       "docToken": "IRirwe30tilo1qkJlR7ca2MUnvn",
-      "revisionId": "3565"
+      "revisionId": "3617"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
@@ -1791,7 +1791,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md",
-      "sha256": "6eda5b7023c8bf518c28947243aca18e8f040a042c6171ed8eeedbb36cdf1b5d",
+      "sha256": "72eda8477e7cfaa9b8f5583b151cb6788870b845088d9775908aa7f73516ae35",
       "docToken": "I64FwCeMBi2DmokaO2McbxTQn9f",
       "revisionId": "99"
     },
@@ -1821,15 +1821,15 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
-      "sha256": "2659fb2e037376c1125c455cd1da6b78c66cbbef5b49906173000e0cc326cd03",
+      "sha256": "e9f1d12bc7b187a50a2409ef85ebc7e4db9021299965e3072c2da686a1eb1eed",
       "docToken": "UX6ew8AtoillJskKRthcZyqinZb",
       "revisionId": "73"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/identity-management/manage-cluster-users/cluster-users.md",
-      "sha256": "db6257e0d381243a87e91de7f725a67bcd0ff9738a4aa1dd8dddcd3b1958fdc9",
+      "sha256": "f159563d28d9055fd5c4fc6791257615f5901cd9ad5683f8d061efd1fb10b89c",
       "docToken": "KKSvwII0Ni7CQ7khuiBcU1gYnQc",
-      "revisionId": "166"
+      "revisionId": "182"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/identity-management/manage-platform-users.md",
@@ -1845,9 +1845,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md",
-      "sha256": "74d949cb4742424185e8048e84216e85297ea9eb285c8aaf56bae01ae6cc220c",
+      "sha256": "c507909f01bc763a91ba2fe4a01b4a92d17304bca281f0c2eb7940a17c7cfd91",
       "docToken": "LgvSwz0qxiSMbik6BlbcSiTpn6g",
-      "revisionId": "420"
+      "revisionId": "425"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/limits/api-comparison.md",
@@ -1863,21 +1863,21 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md",
-      "sha256": "b3cff8fdbb5be48cbb7bd81988c3afc0af931488835e0c973bf7bd90cbce9163",
+      "sha256": "c7489b107d345f782a1a5988255e94be2a54fd9fb335023ff5942d008ba1a2ef",
       "docToken": "T9z1wL5y9iDgV5kMAx1cAZfxn0b",
-      "revisionId": "775"
+      "revisionId": "779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/manage-organization-alerts.md",
-      "sha256": "67d85fa3c4e442bf29171eb947741a58b860c91ec96d79398c6bd9a8ea9ff493",
+      "sha256": "36f3e96ab2d9b2c1f1bbb14a096fb636f0d7222bfb6fec8b710df0fe04bdf866",
       "docToken": "WpDVwYaHMizLWuklBJlcypTzn2d",
-      "revisionId": "515"
+      "revisionId": "517"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/manage-project-alerts.md",
-      "sha256": "7b138728509be1eca39c40de1bcd1c2b8d8c9fe82f1770074c63b95d816cf658",
+      "sha256": "fa594c416c71b7e98fd4ce7308f8ad5f9c85191fc4860846f47027eac395d516",
       "docToken": "EUS8w4x9Ii0BmhkJBfQcsoFln5c",
-      "revisionId": "670"
+      "revisionId": "680"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
@@ -1905,9 +1905,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
-      "sha256": "edcb31c4a29f5227b29f5c2db1907212a3304beaf6b40be55cbd7ccac2f6e454",
+      "sha256": "871b8e6c5ffc11b460b8bbb67d8093419bb0d2bd3b68fc38f7bd9d5da2ec527c",
       "docToken": "N6tlwTPPvi0FXvkj4fccCgtTnOg",
-      "revisionId": "1450"
+      "revisionId": "1451"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
@@ -1917,15 +1917,15 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
-      "sha256": "afb134c85562f14f6e75f05f9ecc3e8db920b0a52249160b7d4d6f7a00ec6cd3",
+      "sha256": "460e3c88215e2b0bf6e2592fff21b4d64ba02f56256b6b8d34320aa38ff6b278",
       "docToken": "YBlmwO9ajiU4tYklnjmc6fJPn8e",
-      "revisionId": "424"
+      "revisionId": "425"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/organizations/organization-settings.md",
-      "sha256": "25aea2c028d16299ef23b8cfc0803f58977de47e49044023b525a95d917275cc",
+      "sha256": "feb07f101d188ba7bffce169bb3095be9d527f04e86e7f49ef395914c87a8920",
       "docToken": "AkYpwsObJihszLkXBz6ca0XDnOc",
-      "revisionId": "464"
+      "revisionId": "477"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/organizations/use-recycle-bin.md",
@@ -1935,15 +1935,15 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/projects/job-center.md",
-      "sha256": "cb5111179e607fb7ead944b283307ebd113aacf3b629d87d9cbeec4742c49d5c",
+      "sha256": "fa04ff2e0fefafc4f1fe758f84821a323c12b6179810a4c1ce7fd388bac649ac",
       "docToken": "YtLLwrOl0in7OqkdMpPc4ZkxnVd",
-      "revisionId": "246"
+      "revisionId": "252"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/projects/manage-projects.md",
-      "sha256": "40639e79dcb403ebbddb69e98ccbddc8196b581e6760c2a094d4c29bf9df1cbb",
+      "sha256": "1bedfdd2fde6387319d1b79ab8196a51e7582ddc5c3c1cfddbdd41e104395d25",
       "docToken": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
-      "revisionId": "1059"
+      "revisionId": "1073"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/slow-logs/configure-slow-logs.md",
@@ -2103,13 +2103,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/client-libraries/install-sdks.md",
-      "sha256": "d0b55d619853a01f47e0555a802b01b5f58eec2485d27a96f1743df7acabe07d",
+      "sha256": "dc0f80494583199409a304eb42a191dcc7e3dde29a7129a8a9348616299b6671",
       "docToken": "Jo4bwNi6zi4zlHkN2bWcewFYnDc",
       "revisionId": "722"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md",
-      "sha256": "c333488087a4653ef3085597761f10ce910201011d932c8ceb3900426af690d1",
+      "sha256": "acdacb6382b978e26a56c1dbc34b123f7f38fb76a06bf97d76d0b3b059000c1a",
       "docToken": "FnxIwZq7wi8N8Kk2GbqcTeHXnsb",
       "revisionId": "46"
     },
@@ -2121,127 +2121,127 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/ascii-folding-filter.md",
-      "sha256": "3e42c9831f831808733985a8cdb7b67114be0d30b38b100a326399e3164a0b16",
+      "sha256": "894ed0e3dfcf77a14e3908148c33bac3ccf125b6d1a88c77d1f6b949808b1fda",
       "docToken": "AzqdwhBW5ixVLMk1IRecqHCvnfa",
       "revisionId": "60"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md",
-      "sha256": "643a112b4b218f8cfa3b7541b78e5ea77df3f230806eb3f929b4ca2980b7ba27",
+      "sha256": "05b125daa31e544e2d53b5f08af81376ac141958951d39015f78a5b3dc13a5f3",
       "docToken": "S20fwoua2ifNgPkAY9mcihIGnxc",
       "revisionId": "43"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md",
-      "sha256": "b1977c65abc0f8e5d7682e264715adba3f3951a6a5ec34e1098f410d06f54693",
+      "sha256": "f118eb0664ad3ee32e2c24aa80ccdba5134fa3aad11502c23bae619f009907b0",
       "docToken": "U53cwHbmOiBCf5kyR7McxmE5nkd",
       "revisionId": "44"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md",
-      "sha256": "8e069c09cf0a0ded9809974befa0f7164ede0f4f75b81c88f52431948085ebda",
+      "sha256": "c6c4e8a3c0de06bc72ab2ddd5222bcf285d07e5b4a5cc976edcd17c1f4a697e2",
       "docToken": "FI9Lw2JwTimpxikTjtpctKK1nbc",
       "revisionId": "65"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/length-filter.md",
-      "sha256": "9ffc01584efe05651b8f019b9f3e4cf4482256f897d45a0c783d591a89aa723b",
+      "sha256": "f45729ce22bc1a92096c4bd248f485e87f51dc45b2041ef8e45ca7bdb3d731c7",
       "docToken": "C1J1w3XqqiSMH9kTTcTcBjVZnOh",
       "revisionId": "65"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md",
-      "sha256": "c41b0224f354b445a0cb59a72ae85fd18b9e71a532058a8700e33241069fcec3",
+      "sha256": "603d55deadd58dca996dc3b8a3f3417d9f84f488765444fb19067dd2225a64c4",
       "docToken": "AsVpwT9MYivO3zkzhVacewpAnPh",
       "revisionId": "124"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md",
-      "sha256": "109f52c64bbd0261695a0cdf6770b84af84e4a7088af5b387df5d56ae3500cf2",
+      "sha256": "88dd4ed8380edcc44d90942d656514656ca1b90745eeaec571c0c1bba9cab8f0",
       "docToken": "KMNdwKnqkibpRbk6bYDcpa12nih",
       "revisionId": "77"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/regex-filter.md",
-      "sha256": "40c4b79ce1039dab85b7ed86048e074b41a72f0a1844204ed300b0e10265c9b5",
+      "sha256": "f55831f63c63163facf58377e0adceb9cec9ba555ac5e7629b1611030ac83747",
       "docToken": "EcNmwuOtTi8VTDk6XtLcJsxznWx",
       "revisionId": "51"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md",
-      "sha256": "3df4873e387a3485b9a15f2a60e92074d151cbe0b3cc9e18e3f17bd9fbddf6e9",
+      "sha256": "0173b3903fd0edeed5a2884dfb90c6c8e726c338e71d6a397889c856a86cf5d4",
       "docToken": "RA2vwGhS9itlQpkgoeXcKHVenpe",
       "revisionId": "51"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md",
-      "sha256": "de8f813557a2d454628e702f73a436ce7a4b8a9b62efc1c2f88f5cf76db2c796",
+      "sha256": "d08f0d9c9533095c53c057c521f7cc768804d7f95f0ea47a65ef478eb78a1831",
       "docToken": "DNLUwvDBWibe0hkIBE2cOixJn7c",
       "revisionId": "78"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-filters/stop-filter.md",
-      "sha256": "1f4a0bdc85d98cdbdf1062bd3574213cc9b0c528a2449ff3b4f80208e988c3a0",
+      "sha256": "1e8aa75ab77986f2c39ef93253c6bc18b04167b61429b1a37f0a2a2a8ec0af81",
       "docToken": "PcaswIdMjiPOrAkyA0uc5aXOn0b",
       "revisionId": "64"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-overview.md",
-      "sha256": "8715849900ee859badea05163420ccb3b9f87443ab0ce741cd142b2579ca77fb",
+      "sha256": "022b117a4feff850bd2b18a9784997ee65a6c42458d3a66855d6b69f20519350",
       "docToken": "XDNVwL0r1iSJgqk0XkkcVQK9nvh",
-      "revisionId": "1554"
+      "revisionId": "1556"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
-      "sha256": "e949c377b76bcf01d19696286cf9704659ea6d7c726253964327ddb796af207a",
+      "sha256": "301d1bf65db27b1b612b7d233a0500a226c3f9ca4f15ba49684834d8b51dcb67",
       "docToken": "BkbswA37iiN3zpk8JLHcbPb0ndd",
       "revisionId": "53"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
-      "sha256": "cbceb02a2aeb1cc3a20de18bb7262a45576544b714e817f22640fd07fc688a8b",
+      "sha256": "ea05f5ec69a34cbca2b82c60c6d1a665f5f4c897734b7cca957fe0a10513cae0",
       "docToken": "Hfcrw0GogiQCGwkn9mlcKJVSnSh",
       "revisionId": "698"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md",
-      "sha256": "bf6351766359d6edb50bc82f6265961a857b611624232a804179ee90c6311c80",
+      "sha256": "310fd54731d549aad391b8ebc6c6768a3b46838ccb50ae0d281595e40f293ac7",
       "docToken": "MC6CwYqf6iWuTTk4vLKcRni3nwf",
       "revisionId": "281"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md",
-      "sha256": "a517f82094d3039477a93a4758a718a5f88e7680f3c4d8054432bb9450b7c90d",
+      "sha256": "023759598b0f5d98f03201ba0a0f0fcad99091e1a16c345086c4e2b81b401758",
       "docToken": "IWMVwdnisijLNGkLUlAcCZCmnWc",
       "revisionId": "554"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md",
-      "sha256": "dc91c5d6ed229031f1410c4595512de9f944bcbd9dd62dc3012513b088fbe5ca",
+      "sha256": "bf0150d899ece53f46d13b99efe121abb98f19a67331d3bd69c471db79803296",
       "docToken": "Zy1KwpriziqRlqka3Oxc0W4tnhg",
       "revisionId": "189"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-tokenizers/thai-tokenizer.md",
-      "sha256": "f4e1ce3216a8e7437b5c4dbd0676f21319b59e3d8e201c2df556de6bb0f39d5e",
+      "sha256": "d41af5481ec9c4a0da5009c63d79e1d1e696a2e7ca9c7e2a819217725900b481",
       "docToken": "QBsRwmVohirAJWkD0PgcBsILn6X",
       "revisionId": "47"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
-      "sha256": "95853affe3670236707700e068ef720eacc85ac6eeefcda613420657739964d8",
+      "sha256": "f3aeb7dcceb0fe09b04fae8e62d31809435af25dd01b2986c6a693de853406e4",
       "docToken": "DUzAwFTRNidwUlkgWSicIeDKndb",
       "revisionId": "79"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/built-in-analyzer/arabic-analyzer.md",
-      "sha256": "4ba782dc998593e563a5eb7208eb3e1fd01a37d2b6a04155b11ab4285c797a16",
+      "sha256": "91bf279ed811ca4da126ecdf7bef74cfa7a335563ac9a437bad3e3ad5e17642b",
       "docToken": "B0CwwnxeRiBzu0knv5kch2EDn0d",
       "revisionId": "61"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/built-in-analyzer/chinese-analyzer.md",
-      "sha256": "677a0b40af827a45d966e74d847dd06293071fe1011faf90f4be96be6840c0bf",
+      "sha256": "c3bee54100c3c55825c54ad8aa25226938057c79e5fbc98d65a460e8095c4ade",
       "docToken": "UlMPwmPO5iJBn1kDTLzc5cJVnXO",
       "revisionId": "165"
     },
@@ -2259,33 +2259,33 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/built-in-analyzer/thai-analyzer.md",
-      "sha256": "a9d83a30461ce264862e5ee52723bd545fa6ec48f129bc6b7d79241f4f3b6b57",
+      "sha256": "c3a0b62f8d30b41b38e351d97a0a13b0783e0d4ad30f4b34ae31be9f6d172ae0",
       "docToken": "QWPqwmppOiIPhEkLAEXcZKMznlh",
       "revisionId": "65"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case.md",
-      "sha256": "67b43718f273bf4121f3e5f101bc774a1b281ccc3b53a35ec16f17b0ae244509",
+      "sha256": "cda5867b560498cb6823fda0091a0c9a47a84626a65517e262278c65fbdd0669",
       "docToken": "Sotxw9TeRiM6U1k2aQ7cc3SUn9d",
-      "revisionId": "1128"
+      "revisionId": "1132"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/multi-language-analyzers.md",
-      "sha256": "61f8a1c74cb64c8332ee7b42ab9fda54296455a7931aec0fadfe58dc15ae5e4e",
+      "sha256": "101517655a4f969708d8457cf1a436b711035893df5d243811202a24a31828a3",
       "docToken": "Ze9bwp7rJis0HGkYXftcC1k8nic",
       "revisionId": "364"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md",
-      "sha256": "81f1f7586716b223098de88346480d2386ba8b12ba0fd9c331cce631ffacd3ab",
+      "sha256": "de9959647e22f56c62b26674af730b808029e3481600b54eb7d7a4f787c4663e",
       "docToken": "Cy4swPPaeiZgbmkN4wUc9wAdnwd",
-      "revisionId": "1875"
+      "revisionId": "1891"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
-      "sha256": "ee04d67e656362545c58b05a47f88f6c1fd0962b15f0ee507637b4600ca42267",
+      "sha256": "9f4aa644131f5f9b024922daa66e2a0974e3bcdf456bf592d460a5ced00752c8",
       "docToken": "EWblwBycHiR65UkifyDcJaCwnye",
-      "revisionId": "113"
+      "revisionId": "119"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/create-external-collection/create-external-collection.md",
@@ -2313,7 +2313,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/load-release-collections.md",
-      "sha256": "3bb35584b2b8375fd462842cc0e9589d012921dc84458bdcf29eb743e69dbc9e",
+      "sha256": "4238ff0381650e5d9c7360302b21d4c7134ce23e7236be898bd1b1d6a45d88ba",
       "docToken": "G7jYwhWH4iVtGakm2BHcGuzIn3f",
       "revisionId": "945"
     },
@@ -2325,7 +2325,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/manage-collections-sdks.md",
-      "sha256": "366e16536577fbfa64883aad7515b9f037f46df134690b8c68730f111e91cafe",
+      "sha256": "56c1c9b574b9517229c36a659b7f93c7d9aaf18a7c1f6b6b243271fd042ccfe2",
       "docToken": "SQQowEMkwiwYvWkwETbczgj8nUh",
       "revisionId": "3223"
     },
@@ -2337,13 +2337,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/manage-partitions.md",
-      "sha256": "11a9bd59f1a92786eaa128458f36763501e36a04964b2e21a7778c17b24af626",
+      "sha256": "519d0b57d929d55437b8bfe826678041a3db588178b87d9017c40445785dae2f",
       "docToken": "T944whOEaiDKWbkhJVUcLxmNnRg",
       "revisionId": "2211"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/modify-collections.md",
-      "sha256": "b83b93a1a03a0568c7d722980b69cdecd455c5606806ed41b499091e7ccc4236",
+      "sha256": "d702dfd9fc23c4c77b72f35b98da7cbf5c16ea1405f174f5d2f0f061fa7242db",
       "docToken": "QB61wPMzoik03uk2r3ScJdaEnNf",
       "revisionId": "1552"
     },
@@ -2427,9 +2427,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/data-import/import-data/import-data-on-web-ui.md",
-      "sha256": "660c0361389b68efdca59af3c3af439ac988eaa1303c36e4bf39c39af5d044b6",
+      "sha256": "c2ebc17fd2a4a6e60426a36fd5b4ba05cc132b56860a4524c3303c48f61ddee7",
       "docToken": "BXBvwZh9Yiis0Vk8LcdcjZSPnQd",
-      "revisionId": "794"
+      "revisionId": "799"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
@@ -2469,9 +2469,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/database/database.md",
-      "sha256": "440471214a25b53f3023f0a34349672183b81391749cf445473b59e62798b55a",
+      "sha256": "c948ed3b23a1223a838d31b3740c0ac5f2a6983ebbe6413f082023226abf9752",
       "docToken": "XIFowGwHFiNkgbkONbgcfhHTnbe",
-      "revisionId": "9"
+      "revisionId": "25"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/database/on-demand-database.md",
@@ -2481,9 +2481,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/bm25-function.md",
-      "sha256": "52c1d8c8e2fcc15aea054af7c22d10461d73ca4be08707eaf160420086005278",
+      "sha256": "cf0cc225642e3490fe2b35b4f981e1711a721a8af918a8d736935ee0eafc3e40",
       "docToken": "K6J1wapTRipxweklQpNcdFCgnEr",
-      "revisionId": "402"
+      "revisionId": "404"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/function-and-model-inference-overview.md",
@@ -2673,7 +2673,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/schema-best-practices/schema-design-hands-on.md",
-      "sha256": "ed8fbbf318a74dc9254f04c4746b85c37bba36acbb4277208a5dbd2db2115109",
+      "sha256": "9bad898cd56c874a4149232c39c5097ca0955f7639c06464d075af16256f14ec",
       "docToken": "AhYhwruK6impy5klHLdcs5Bfndh",
       "revisionId": "3216"
     },
@@ -2685,7 +2685,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/schema-explained.md",
-      "sha256": "2966ba5d98d7168ebc922b12748b2661466e4283e3f4295e01dd1a9be06532a5",
+      "sha256": "b274855d4e7323862177ded731bca38bc13459df1491579b804b134980a3ac66",
       "docToken": "L2M6wPhQOic817knYpacZuhJnX2",
       "revisionId": "4361"
     },
@@ -2757,7 +2757,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/use-string-field.md",
-      "sha256": "f432074480d5dd4c7a7b1d1963cf22e5032dc02793213afe9df588ac51c7b78f",
+      "sha256": "00ee0aec38b7f536d8d664eb56a3b2601a50ce647587717438bf65598525dd14",
       "docToken": "Z1kKwms8miXdCnkQEzWc9hNyn9f",
       "revisionId": "1825"
     },
@@ -2769,7 +2769,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/use-timestamptz-field.md",
-      "sha256": "026bfaaaa489b7aacdee2719c77bb30e9b2d1ae7a727e4056d77571954f5cd24",
+      "sha256": "0f9ca701f27dda68dc880389e908761a37227b13c6cd53facf3d4c00794e1e80",
       "docToken": "E722wYOs1i8YbVkrFrcci3Rynfb",
       "revisionId": "427"
     },
@@ -2859,7 +2859,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/full-text-search.md",
-      "sha256": "d98f69d84af820ed70be98e6d457793b741000abb6b0268f066b53aeca30721d",
+      "sha256": "e3b027cff5e6928cd983cdc648cbed214fd8125f810a7bb9be9840e86260d478",
       "docToken": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
       "revisionId": "1130"
     },
@@ -2883,7 +2883,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/phrase-match.md",
-      "sha256": "3c4a03f7d6e3270c8546969f9b980e5523720e752dd69a993d712e8f1bc7039c",
+      "sha256": "66469ef1edee9a43110878e5f942d5f5646f23b1d01a4de4fae4e296adeaa23e",
       "docToken": "AXhtwvmowicwpskTZCWcNhgOnog",
       "revisionId": "623"
     },
@@ -2961,7 +2961,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/text-match.md",
-      "sha256": "bb8a8d847c532fbff569275356fba85d96802f0e59c6243d0d00cd74a362991d",
+      "sha256": "4f40de3fc022e5cf2cf1dae60687495933cea5742e3900a35c48b7e626eeb815",
       "docToken": "WWSZwJWLYiRBfckbN58cV85BnQb",
       "revisionId": "376"
     },
@@ -2973,13 +2973,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/use-mmap.md",
-      "sha256": "a37a662faa376af42510e077eb676097ce89ddb8fe08fab2d4971d9a4a5dd976",
+      "sha256": "ac88c9dbfb25dfb5381c3d65b0d8ffa372a38cfebd1404f00e1c72b843a26a6a",
       "docToken": "IRH1wYwjXicDLFkRcZwcMJl1n3g",
       "revisionId": "2773"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/use-partition-key.md",
-      "sha256": "216ff2480dddad89e64784ebdf2a1a19ab7084f058d7b488167905e141dcacd4",
+      "sha256": "e13d02f4616b88fc3991d13eed02a71731270e509f541d2ade8b75bcb6b9fe0c",
       "docToken": "QT2Vw3FvJiuwzBkeZvicRBlsnae",
       "revisionId": "2906"
     },
@@ -3063,27 +3063,27 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/external-volume.md",
-      "sha256": "44783c62fbb06cd983c8c281f4a015e6cd6d6ed754bd86c51e88c5c679d54f13",
+      "sha256": "fa3e2485b95c1c23de90b2f475887e10132558876d760d9debd92941abd1f8b4",
       "docToken": "E9QNwMMUbiVDvtkJQKUcuHR0nxc",
-      "revisionId": "575"
+      "revisionId": "585"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/managed-volume.md",
-      "sha256": "3c7f375d3e70011e4172aa9862e5b57ad714465d523ed0c87509619cd7443cbd",
+      "sha256": "cf03b13327479b81450265d5d7c3cf846f93c14d93f7d0794ddefe319c6d6089",
       "docToken": "JVtGwoZ0Ni6ZEmkTZvyc58kAnjc",
-      "revisionId": "866"
+      "revisionId": "872"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/storage-integration/integrate-with-alibaba-cloud-oss.md",
-      "sha256": "ce09c2c9bc44a597dbfac683cdd74696ffb9dbde31c8998c7d061eb81e3670a8",
+      "sha256": "edc6dff9d478a062dfce6a3c0b09ca8327928700476321ee4f758891c6fc22bf",
       "docToken": "IwAbwxWzQiGVc0khATdcOoCbnCg",
-      "revisionId": "1933"
+      "revisionId": "1936"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/volume/storage-integration/integrate-with-amazon-s3-cn.md",
-      "sha256": "a647c1c42ce12c686085c69dcd7b1cfd03d8dde051e1b98ec98e16b57f0ee3cc",
+      "sha256": "daa231d1f9200b5752729e2ab674f46a13027484f332e51687be99ae39cf165d",
       "docToken": "Bt3swdJKaigDQgkrzSwcoEEgnV4",
-      "revisionId": "1069"
+      "revisionId": "1071"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cloud-providers-and-regions.md",
@@ -3429,9 +3429,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md",
-      "sha256": "4e32659212f558045dc036baee7f282f3552c61faa2194a516eaa483d8ad56a0",
+      "sha256": "6cc24b90643ed10c8846326d3aedcdc5fad69dab5681629d9489397fa67f9dde",
       "docToken": "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
-      "revisionId": "662"
+      "revisionId": "667"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/access-control/manage-platform-roles.md",
@@ -3477,9 +3477,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/auditing/audit-logs.md",
-      "sha256": "6e642968250856494f8011dd16fbcd6bb3d30f059d31f3da926b7b91e46af3a1",
+      "sha256": "1ce3e94aae3f2ed3a8cf4adc213f3a03dfec66808ec4dfdb92b3686aad3a9163",
       "docToken": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
-      "revisionId": "712"
+      "revisionId": "714"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/auditing/view-activities.md",
@@ -3489,21 +3489,21 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/authentication/cluster-credentials.md",
-      "sha256": "7dd84f6f42811b90e1aaa1fe7dea98e778593f55fa8c581f805145596bc46b5f",
+      "sha256": "2eb212230194924d0dbf46552b51b11f3cca3704d2e3733d37d5e4373e829fb7",
       "docToken": "VNWiwtYwGi9m0Okhj3Zce8wAnte",
-      "revisionId": "444"
+      "revisionId": "448"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/authentication/email-accounts.md",
-      "sha256": "bc713d0d0e1d453c7ab32ea5ae8c7ae52276b279363417c9858298faf7fd61bf",
+      "sha256": "fbb5a02e521a22902925cf960340eb25e645626cc0cabed6f65a30515a853cb6",
       "docToken": "SVnkw5IkNiOfALkijr1cw91vn3L",
-      "revisionId": "526"
+      "revisionId": "537"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/authentication/manage-api-keys.md",
-      "sha256": "dea48e53785bf3ef6f834ec24a3d3e7f19504ad8816ba219c99fa6dca24a3fab",
+      "sha256": "c01067d203ab41dc30005369dbaec5ad37082046bba1a79523e7b14d7ddd717f",
       "docToken": "UGzNwB4TmiqTozkJvarceRdenif",
-      "revisionId": "1613"
+      "revisionId": "1620"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/authentication/multi-factor-auth.md",
@@ -3513,15 +3513,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md",
-      "sha256": "6b3012327e1cc5fc50d0ae53602d4936155254cd3a40d86b4310625024eba934",
+      "sha256": "b48648c6435541cafc5f235688eb21693c1df0dfa7c71d93200ca6b34300eb58",
       "docToken": "DwklwhvhBi1xiQkdaxVcbIK0ned",
-      "revisionId": "519"
+      "revisionId": "521"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/create-backup.md",
-      "sha256": "49d1dcb9f5420b345acc541f8a993e5d31f0dfd2a4c26fd15d5ca3f9c9feafdc",
+      "sha256": "0a266ceeca7e35dbbfa527683d0e4d9cdbaca7627fe71ef18a2b3a582bfffae8",
       "docToken": "GFFswc3z1iQtjQkpmyScL00dnSx",
-      "revisionId": "846"
+      "revisionId": "849"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/export-backup-files.md",
@@ -3531,21 +3531,21 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/manage-backup-files.md",
-      "sha256": "f84582bbdb430931af1a1a60f7ff15e0779a56cdc7f03c1dbd641e8bcff4797b",
+      "sha256": "b6619a87e26c098c36b3f5a9228c174e19a23f444fa8af485261b3972740aec2",
       "docToken": "BQjRwYOyZiDjwfkRav6cpFOTnoe",
-      "revisionId": "167"
+      "revisionId": "171"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/restore-from-backup-files.md",
-      "sha256": "2af76ce6076a2cb3e797d7810aeec1cb1fe81b3cecf7a075d4fafc340a956eba",
+      "sha256": "f3470e9777219ab53f3b5e69cd70ee07e7af409ef68ccd808d8e4d6afab2e17c",
       "docToken": "NtkswF6UEi3kB0k8XSEcOKkhnld",
-      "revisionId": "552"
+      "revisionId": "554"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "sha256": "bf8e5eedd6c2b9d9332d74e28266256088250d8b297f8313dc48c43b6e6ba1e3",
+      "sha256": "e3aa11522676db6477536ccc66e111d25f8382aedc2a88a14fe6a046eb1161ff",
       "docToken": "TXyTwrfxCiStfek4hc7c2nKwnJc",
-      "revisionId": "598"
+      "revisionId": "601"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/failed-payments-organization-recovery.md",
@@ -3621,9 +3621,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/view-invoice.md",
-      "sha256": "28a412164e04980b943b162bd1586db96ce65040a42e85048fd671c095fd0744",
+      "sha256": "773d78183352144d33126b166911d037a1c19f09987b558aebaa8c934bf8472f",
       "docToken": "NhbHwPiL2i4KWskrcO4cDrSNnzh",
-      "revisionId": "3561"
+      "revisionId": "3563"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
@@ -3645,15 +3645,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster.md",
-      "sha256": "c0d6b97e9328e586fb9fb95ca34c2e49543226b2beb53164f52fd4be2397bbe8",
+      "sha256": "adaf1aad19b593e00738368026caebc96ae00e4d4191dbd8350b0de095157d85",
       "docToken": "MAFcwBTqqiR5YZkdkd4cADg0nub",
-      "revisionId": "2038"
+      "revisionId": "2063"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
-      "sha256": "e055e90df9bc58129a30fa49b08c554800350a50135a9be428c32d25e094239e",
+      "sha256": "6f52136599b87af7b8903fcf61b8ff4ea05b4d8ba6e09e4de2a5e6f88386ae42",
       "docToken": "IRirwe30tilo1qkJlR7ca2MUnvn",
-      "revisionId": "3565"
+      "revisionId": "3617"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
@@ -3675,7 +3675,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md",
-      "sha256": "ce5c130fde5d5e67d988ca5215bdd9c948f7c2da50e4de3639d7d09f2c2845e9",
+      "sha256": "eae6113d6739af3e7b10d4012502f23ce698628c200aaeccdb46b8ae7a4792a0",
       "docToken": "I64FwCeMBi2DmokaO2McbxTQn9f",
       "revisionId": "99"
     },
@@ -3693,13 +3693,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "sha256": "d5f4d02881517d73dab63de94a06744fe1207325a8dcc287ff06d9dc9cfc3601",
+      "sha256": "b28abddbb10e30e968e80ed9f8ed0c70c8b17c53b679d03db6fe14fe0be69475",
       "docToken": "VfF8wgQEmixhpkkxEFDchYoinBv",
       "revisionId": "295"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md",
-      "sha256": "c6070c44c7d9457952aeaf4ec50c135184156800115cdc43fc772e18929612ba",
+      "sha256": "484b6f90fe327076c445912a65dcd5961600bac399f1c822c0266b9162c38aa9",
       "docToken": "SgDzwGKoHiV6flk3OJ9cGFaZnuf",
       "revisionId": "403"
     },
@@ -3711,9 +3711,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "sha256": "9a5f8e08de2a9976a8d25705ea734a09a7192ffda928405ee303b352696de57d",
+      "sha256": "5795071c0e1cad6266659f8e092aa8bc5eeb6b7ca94c0f60d11f044415329e09",
       "docToken": "NpmyweSc9icYKak5XFvcP8iAnXd",
-      "revisionId": "370"
+      "revisionId": "397"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/global-cluster/monitor-global-cluster.md",
@@ -3735,9 +3735,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "sha256": "7e4f37daa84455d1c516704c403fbc322a61f80d21c076e577fe9af7c684e1d5",
+      "sha256": "de1433d3c6239a7d5629102c1271fdef352dbeeea13d602233a3b65faddac491",
       "docToken": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
-      "revisionId": "225"
+      "revisionId": "228"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
@@ -3807,15 +3807,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
-      "sha256": "0b9d95560a74f37ea54d190ac98104ad30f55079664cf4bb16aa3f7731cc5683",
+      "sha256": "26bd23b3d91ceb3032f0d02a186dda04c558546ac8e3d97b3d563d5ec243194f",
       "docToken": "UX6ew8AtoillJskKRthcZyqinZb",
       "revisionId": "73"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users.md",
-      "sha256": "c620aabfba1c0589dbe569f713f94a5611a5a0dadf3e7cee2eabd4b2c3690531",
+      "sha256": "1bdeb13bc141e364a83d505dc76717b41369be58e92a98e42ec70fb622d1edc6",
       "docToken": "KKSvwII0Ni7CQ7khuiBcU1gYnQc",
-      "revisionId": "166"
+      "revisionId": "182"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/identity-management/manage-platform-users.md",
@@ -3831,9 +3831,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md",
-      "sha256": "7076e8197bef525afa26504ef90055347e5bdd9c9d7582f083c5633e7340767b",
+      "sha256": "ce4c9a0393c78151764d58f7375965d48f8f06e25f60bc742edf305e99fdc716",
       "docToken": "LgvSwz0qxiSMbik6BlbcSiTpn6g",
-      "revisionId": "420"
+      "revisionId": "425"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/ip-allowlists/setup-whitelist.md",
@@ -3855,21 +3855,21 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/manage-notification-channels.md",
-      "sha256": "fe89d1f3d985d7322d38f84a5df34d3d5d34721b952af456970d66c7c48c6174",
+      "sha256": "0545a40b695ffa4e784068fbfce80138ad4e0bf150368d8985e4d25ce6f2b562",
       "docToken": "T9z1wL5y9iDgV5kMAx1cAZfxn0b",
-      "revisionId": "775"
+      "revisionId": "779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/manage-organization-alerts.md",
-      "sha256": "4325bbd9cbe8ddfac20a19c9fb848592ce19498fc8083c0f964ecaa860be8af2",
+      "sha256": "305405770607961f910c4d7e8af7017b42086dc199fa0f7744c988e46efdaebf",
       "docToken": "WpDVwYaHMizLWuklBJlcypTzn2d",
-      "revisionId": "515"
+      "revisionId": "517"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/manage-project-alerts.md",
-      "sha256": "55c367604bf0abfe5077fa6164154513c86c17900ffc790a8272c7579d15f91b",
+      "sha256": "6fdbf352f5701dad65e7e9045ab59e5c03c5b6c91e9cf8af85cb08dac7b4d1e0",
       "docToken": "EUS8w4x9Ii0BmhkJBfQcsoFln5c",
-      "revisionId": "670"
+      "revisionId": "680"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
@@ -3897,15 +3897,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
-      "sha256": "83abb705352472980e0971a048312d2de15baf028cafab0250e60142b3a25c14",
+      "sha256": "6499266e3e28905a4680fc6f6baaf7358b9a9363845220ce5a80fe43c72422fb",
       "docToken": "N6tlwTPPvi0FXvkj4fccCgtTnOg",
-      "revisionId": "1450"
+      "revisionId": "1451"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md",
-      "sha256": "65d750a63bd3c9f64d3c4575b3049898fe784d78b53277b4e3716dd4a53f354e",
+      "sha256": "20759f4e95ba1a40786fa3fa21bcace7929e1e968b629cc67538cbc9aa7f2f31",
       "docToken": "FD9uwJwjgi8ub4kit1EcXyEQnqs",
-      "revisionId": "399"
+      "revisionId": "402"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md",
@@ -3951,15 +3951,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
-      "sha256": "f98c9ce46062f8c0af1783b6069eecf1e3ea3d3efbf5e9157a800305fcfa115b",
+      "sha256": "1720763eddd5507877d5a70f93c6d665fd0820ad5fc8e9f7b77130a30157511b",
       "docToken": "YBlmwO9ajiU4tYklnjmc6fJPn8e",
-      "revisionId": "424"
+      "revisionId": "425"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-milvus/via-endpoint.md",
-      "sha256": "25afa05e2bb12a3bd81d9e6e02196ff0f9cc694a571a67c016628f0824ecb357",
+      "sha256": "a3830e277cfd4cf6935cd139418443afaa385a18eef9b7bae7979ca2b5f0cafb",
       "docToken": "PtmRwn9bQi6WAKkurfXcEXKKn9b",
-      "revisionId": "517"
+      "revisionId": "518"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/migrations/migrate-from-milvus/via-stage.md",
@@ -3969,9 +3969,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/organizations/organization-settings.md",
-      "sha256": "c14723b64c1d0a9c1e1b557444733a38032e5f3a94e6988927bcfc121bed0748",
+      "sha256": "8b66790e666326efe4c0d94300421e1f835ededa979bd43272b64556443d2217",
       "docToken": "AkYpwsObJihszLkXBz6ca0XDnOc",
-      "revisionId": "464"
+      "revisionId": "477"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/organizations/use-recycle-bin.md",
@@ -3999,15 +3999,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/projects/job-center.md",
-      "sha256": "7aaf4cfebcfe97648610288fad3a4f13f5bf406e88d71148b08cee0ee422a0f0",
+      "sha256": "471d5f76f62edc091f2643ea70cf2b5dd454e4276601b2ca827c342c8fc14523",
       "docToken": "YtLLwrOl0in7OqkdMpPc4ZkxnVd",
-      "revisionId": "246"
+      "revisionId": "252"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/projects/manage-projects.md",
-      "sha256": "ecbbe556b00a1460333a7241be262280384294d2dbc8da9007d320329bfb1f15",
+      "sha256": "a12516eebc947547f7cde522051ad828ab728994a22cb0114f4f83889030e0de",
       "docToken": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
-      "revisionId": "1059"
+      "revisionId": "1073"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/slow-logs/configure-slow-logs.md",

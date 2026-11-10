@@ -52,6 +52,10 @@ client.rename_collection(
 import io.milvus.v2.service.collection.request.RenameCollectionReq;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.param.Constant;
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
+import java.util.Collections;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -61,7 +65,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
     .uri(CLUSTER_ENDPOINT)
     .token(TOKEN)
     .build();
-    
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 RenameCollectionReq renameCollectionReq = RenameCollectionReq.builder()
@@ -82,6 +86,7 @@ import (
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/common"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -255,10 +260,8 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.alter_collection_properties(
-    collection_name="my_collection",
+    collection_name="my_new_collection",
     properties={"collection.ttl.seconds": 60}
 )
 ```
@@ -268,11 +271,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.Constant;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
-        .collectionName("my_collection")
+        .collectionName("my_new_collection")
         .property(Constant.TTL_SECONDS, "60")
         .build();
 
@@ -284,14 +284,7 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.CollectionTTLConfigKey, 60))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_new_collection").WithProperty(common.CollectionTTLConfigKey, 60))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -305,7 +298,7 @@ if err != nil {
 ```rust
 client.alter_collection_properties(
     AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
+        .collection_name("my_new_collection")
         .property("collection.ttl.seconds", "60")
         .build()?,
 )
@@ -318,7 +311,7 @@ client.alter_collection_properties(
 
 ```c++
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                                   .WithCollectionName("my_collection")
+                                                   .WithCollectionName("my_new_collection")
                                                    .AddProperty(milvus::COLLECTION_TTL_SECONDS, "60"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -331,7 +324,7 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.alterCollectionProperties({
-    collection_name: "my_collection",
+    collection_name: "my_new_collection",
     properties: {
         "collection.ttl.seconds": 60
     }
@@ -343,11 +336,9 @@ await client.alterCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 {
-    CollectionName = "my_collection",
+    CollectionName = "my_new_collection",
     Properties = { ["collection.ttl.seconds"] = "60" }
 });
 ```
@@ -366,7 +357,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection",
+    "collectionName": "my_new_collection",
     "properties": {
         "collection.ttl.seconds": 60
     }
@@ -386,10 +377,8 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.alter_collection_properties(
-    collection_name="my_collection",
+    collection_name="my_new_collection",
     # highlight-next-line
     properties={"ttl_field": "expire_at"}
 )
@@ -400,10 +389,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
-        .collectionName("my_collection")
+        .collectionName("my_new_collection")
         .property("ttl_field", "expire_at")
         .build();
 
@@ -415,13 +402,7 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("ttl_field", "expire_at"))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_new_collection").WithProperty("ttl_field", "expire_at"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -435,7 +416,7 @@ if err != nil {
 ```rust
 client.alter_collection_properties(
     AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
+        .collection_name("my_new_collection")
         .property("ttl_field", "expire_at")
         .build()?,
 )
@@ -448,7 +429,7 @@ client.alter_collection_properties(
 
 ```c++
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                                   .WithCollectionName("my_collection")
+                                                   .WithCollectionName("my_new_collection")
                                                    .AddProperty("ttl_field", "expire_at"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -461,7 +442,7 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.alterCollectionProperties({
-    collection_name: "my_collection",
+    collection_name: "my_new_collection",
     properties: {
         "ttl_field": "expire_at"
     }
@@ -473,11 +454,9 @@ await client.alterCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 {
-    CollectionName = "my_collection",
+    CollectionName = "my_new_collection",
     Properties = { ["ttl_field"] = "expire_at" }
 });
 ```
@@ -496,7 +475,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection",
+    "collectionName": "my_new_collection",
     "properties": {
         "ttl_field": "expire_at"
     }
@@ -514,10 +493,8 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.alter_collection_properties(
-    collection_name="my_collection",
+    collection_name="my_new_collection",
     properties={"mmap.enabled": True}
 )
 ```
@@ -527,11 +504,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.Constant;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
-        .collectionName("my_collection")
+        .collectionName("my_new_collection")
         .property(Constant.MMAP_ENABLED, "True")
         .build();
 
@@ -543,14 +517,7 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.MmapEnabledKey, true))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_new_collection").WithProperty(common.MmapEnabledKey, true))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -564,7 +531,7 @@ if err != nil {
 ```rust
 client.alter_collection_properties(
     AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
+        .collection_name("my_new_collection")
         .property("mmap.enabled", "true")
         .build()?,
 )
@@ -577,7 +544,7 @@ client.alter_collection_properties(
 
 ```c++
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                                   .WithCollectionName("my_collection")
+                                                   .WithCollectionName("my_new_collection")
                                                    .AddProperty(milvus::MMAP_ENABLED, "true"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -590,7 +557,7 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.alterCollectionProperties({
-    collection_name: "my_collection",
+    collection_name: "my_new_collection",
     properties: {
         "mmap.enabled": true
     }
@@ -602,11 +569,9 @@ await client.alterCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 {
-    CollectionName = "my_collection",
+    CollectionName = "my_new_collection",
     Properties = { ["mmap.enabled"] = "true" }
 });
 ```
@@ -625,7 +590,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection",
+    "collectionName": "my_new_collection",
     "properties": {
         "mmap.enabled": "true"
     }
@@ -643,10 +608,8 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.alter_collection_properties(
-    collection_name="my_collection",
+    collection_name="my_new_collection",
     properties={"partitionkey.isolation": True}
 )
 ```
@@ -656,10 +619,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
-        .collectionName("my_collection")
+        .collectionName("my_new_collection")
         .property("partitionkey.isolation", "True")
         .build();
 
@@ -671,13 +632,7 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("partitionkey.isolation", true))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_new_collection").WithProperty("partitionkey.isolation", true))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -691,7 +646,7 @@ if err != nil {
 ```rust
 client.alter_collection_properties(
     AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
+        .collection_name("my_new_collection")
         .property("partitionkey.isolation", "true")
         .build()?,
 )
@@ -704,7 +659,7 @@ client.alter_collection_properties(
 
 ```c++
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                                   .WithCollectionName("my_collection")
+                                                   .WithCollectionName("my_new_collection")
                                                    .AddProperty("partitionkey.isolation", "true"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -717,7 +672,7 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.alterCollectionProperties({
-    collection_name: "my_collection",
+    collection_name: "my_new_collection",
     properties: {
         "partitionkey.isolation": true
     }
@@ -729,11 +684,9 @@ await client.alterCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 {
-    CollectionName = "my_collection",
+    CollectionName = "my_new_collection",
     Properties = { ["partitionkey.isolation"] = "true" }
 });
 ```
@@ -752,7 +705,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection",
+    "collectionName": "my_new_collection",
     "properties": {
         "partitionkey.isolation": "true"
     }
@@ -770,10 +723,8 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.alter_collection_properties(
-    collection_name="my_collection",
+    collection_name="my_new_collection",
     properties={"dynamicfield.enabled": True}
 )
 ```
@@ -783,10 +734,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
-        .collectionName("my_collection")
+        .collectionName("my_new_collection")
         .property("dynamicfield.enabled", "True")
         .build();
 
@@ -798,13 +747,7 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("dynamicfield.enabled", true))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_new_collection").WithProperty("dynamicfield.enabled", true))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -818,7 +761,7 @@ if err != nil {
 ```rust
 client.alter_collection_properties(
     AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
+        .collection_name("my_new_collection")
         .property("dynamicfield.enabled", "true")
         .build()?,
 )
@@ -831,7 +774,7 @@ client.alter_collection_properties(
 
 ```c++
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                                   .WithCollectionName("my_collection")
+                                                   .WithCollectionName("my_new_collection")
                                                    .AddProperty("dynamicfield.enabled", "true"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -844,7 +787,7 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.alterCollectionProperties({
-    collection_name: "my_collection",
+    collection_name: "my_new_collection",
     properties: {
         "dynamicfield.enabled": true
     }
@@ -856,11 +799,9 @@ await client.alterCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 {
-    CollectionName = "my_collection",
+    CollectionName = "my_new_collection",
     Properties = { ["dynamicfield.enabled"] = "true" }
 });
 ```
@@ -879,7 +820,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection",
+    "collectionName": "my_new_collection",
     "properties": {
         "dynamicfield.enabled": "true"
     }
@@ -899,10 +840,8 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.alter_collection_properties(
-    collection_name="my_collection",
+    collection_name="my_new_collection",
     # highlight-next-line
     properties={"allow_insert_auto_id": "true"}
 )
@@ -914,10 +853,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
-        .collectionName("my_collection")
+        .collectionName("my_new_collection")
         .property("allow_insert_auto_id", "True")
         .build();
 
@@ -929,13 +866,7 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("allow_insert_auto_id", "true"))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_new_collection").WithProperty("allow_insert_auto_id", "true"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -949,7 +880,7 @@ if err != nil {
 ```rust
 client.alter_collection_properties(
     AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
+        .collection_name("my_new_collection")
         .property("allow_insert_auto_id", "true")
         .build()?,
 )
@@ -962,7 +893,7 @@ client.alter_collection_properties(
 
 ```c++
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                                   .WithCollectionName("my_collection")
+                                                   .WithCollectionName("my_new_collection")
                                                    .AddProperty("allow_insert_auto_id", "true"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -975,7 +906,7 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.alterCollectionProperties({
-    collection_name: "my_collection",
+    collection_name: "my_new_collection",
     properties: {
         "allow_insert_auto_id": true
     }
@@ -987,11 +918,9 @@ await client.alterCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 {
-    CollectionName = "my_collection",
+    CollectionName = "my_new_collection",
     Properties = { ["allow_insert_auto_id"] = "true" }
 });
 ```
@@ -1010,7 +939,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection",
+    "collectionName": "my_new_collection",
     "properties": {
         "allow_insert_auto_id": "true"
     }
@@ -1036,10 +965,8 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.alter_collection_properties(
-    collection_name="my_collection",
+    collection_name="my_new_collection",
     # highlight-next-line
     properties={"timezone": "Asia/Shanghai"}
 )
@@ -1050,10 +977,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
-        .collectionName("my_collection")
+        .collectionName("my_new_collection")
         .property("timezone", "Asia/Shanghai")
         .build();
 
@@ -1065,13 +990,7 @@ client.alterCollectionProperties(alterCollectionReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("timezone", "Asia/Shanghai"))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_new_collection").WithProperty("timezone", "Asia/Shanghai"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -1085,7 +1004,7 @@ if err != nil {
 ```rust
 client.alter_collection_properties(
     AlterCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
+        .collection_name("my_new_collection")
         .property("timezone", "Asia/Shanghai")
         .build()?,
 )
@@ -1098,7 +1017,7 @@ client.alter_collection_properties(
 
 ```c++
 auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                                   .WithCollectionName("my_collection")
+                                                   .WithCollectionName("my_new_collection")
                                                    .AddProperty("timezone", "Asia/Shanghai"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -1111,7 +1030,7 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.alterCollectionProperties({
-    collection_name: "my_collection",
+    collection_name: "my_new_collection",
     properties: {
         "timezone": "Asia/Shanghai"
     }
@@ -1123,11 +1042,9 @@ await client.alterCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
 {
-    CollectionName = "my_collection",
+    CollectionName = "my_new_collection",
     Properties = { ["timezone"] = "Asia/Shanghai" }
 });
 ```
@@ -1146,7 +1063,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection",
+    "collectionName": "my_new_collection",
     "properties": {
         "timezone": "Asia/Shanghai"
     }
@@ -1164,10 +1081,8 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.drop_collection_properties(
-    collection_name="my_collection",
+    collection_name="my_new_collection",
     property_keys=[
         "collection.ttl.seconds"
     ]
@@ -1179,11 +1094,8 @@ client.drop_collection_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-import java.util.Collections;
-
 client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
-        .collectionName("my_collection")
+        .collectionName("my_new_collection")
         .propertyKeys(Collections.singletonList("collection.ttl.seconds"))
         .build());
 ```
@@ -1193,14 +1105,7 @@ client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", common.CollectionTTLConfigKey))
+err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_new_collection", common.CollectionTTLConfigKey))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -1214,7 +1119,7 @@ if err != nil {
 ```rust
 client.drop_collection_properties(
     DropCollectionPropertiesRequest::builder()
-        .collection_name("my_collection")
+        .collection_name("my_new_collection")
         .property_keys(["collection.ttl.seconds"])
         .build()?,
 )
@@ -1227,7 +1132,7 @@ client.drop_collection_properties(
 
 ```c++
 auto status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
-                                                  .WithCollectionName("my_collection")
+                                                  .WithCollectionName("my_new_collection")
                                                   .AddPropertyKey(milvus::COLLECTION_TTL_SECONDS));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -1240,7 +1145,7 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.dropCollectionProperties({
-    collection_name: "my_collection",
+    collection_name: "my_new_collection",
     properties: ['collection.ttl.seconds'],
 });
 ```
@@ -1250,11 +1155,9 @@ await client.dropCollectionProperties({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 await client.DropCollectionPropertiesAsync(new DropCollectionPropertiesReq
 {
-    CollectionName = "my_collection",
+    CollectionName = "my_new_collection",
     DeleteKeys = ["collection.ttl.seconds"]
 });
 ```
@@ -1273,7 +1176,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "my_collection",
+    "collectionName": "my_new_collection",
     "propertyKeys": [
         "collection.ttl.seconds"
     ]

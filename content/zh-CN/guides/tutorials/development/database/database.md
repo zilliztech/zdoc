@@ -19,6 +19,8 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Serving 集群中的 Database
 
 Zilliz Cloud 在集群和 Collection 之间引入了一层 **Database**，可帮助您更高效地组织和管理数据，同时满足您的多租需求。
@@ -48,6 +50,16 @@ Zilliz Cloud 在集群和 Collection 之间引入了一层 **Database**，可帮
 您可以按照如下图所示的方式创建 Database。
 
 ![create-database-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/create-database-cn.png "create-database-cn")
+
+<Procedures>  
+
+1. 在导航树中，找到目标 Dedicated 集群，点击集群名称右侧的 **+** 按钮。
+
+1. 在**创建 Database**对话框中，输入 Database 名称。
+
+1. 点击**创建**。
+
+</Procedures>
 
 您也可以将创建好的 Collection 从一个 Database 移动到另一个 Database 中。更多详情，请参考[管理 Collection (控制台)](./manage-collections-console)。
 
@@ -79,6 +91,16 @@ client.create_database(
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.service.database.request.*;
+import io.milvus.v2.service.database.request.CreateDatabaseReq;
+import java.util.HashMap;
+import java.util.Map;
+import io.milvus.v2.service.database.request.DescribeDatabaseReq;
+import io.milvus.v2.service.database.response.DescribeDatabaseResp;
+import io.milvus.v2.service.database.response.ListDatabasesResp;
+import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
+import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
+import java.util.Collections;
+import io.milvus.v2.service.database.request.DropDatabaseReq;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530")
@@ -101,9 +123,10 @@ import (
     "context"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "log"
 )
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530",
     APIKey: "YOUR_CLUSTER_TOKEN",
 })
@@ -111,7 +134,7 @@ if err != nil {
     // handle err
 }
 
-err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_1"))
+err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_1"))
 if err != nil {
     // handle err
 }
@@ -123,6 +146,7 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
 let client = ClientV2::new(
     &ConnectConfig::new()
@@ -166,6 +190,7 @@ if (!status.IsOk()) {
 
 ```javascript
 import {MilvusClient} from '@zilliz/milvus2-sdk-node';
+
 const client = new MilvusClient({ 
     address: "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530",
     token: 'YOUR_CLUSTER_TOKEN' 
@@ -215,10 +240,6 @@ client.create_database(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.CreateDatabaseReq;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, String> properties = new HashMap<>();
 properties.put("database.replica.number", "3");
 CreateDatabaseReq createDatabaseReq = CreateDatabaseReq.builder()
@@ -233,13 +254,7 @@ client.createDatabase(createDatabaseReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_2").WithProperty("database.replica.number", 3))
+err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_2").WithProperty("database.replica.number", 3))
 if err != nil {
     // handle err
 }
@@ -250,9 +265,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let mut properties = HashMap::new();
 properties.insert("database.replica.number".to_string(), "3".to_string());
 
@@ -270,9 +282,6 @@ client.create_database(
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 status = client->CreateDatabase(milvus::CreateDatabaseRequest()
     .WithDatabaseName("my_database_2")
     .WithProperties({{"database.replica.number", "3"}}));
@@ -345,10 +354,6 @@ client.describe_database(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.DescribeDatabaseReq;
-import io.milvus.v2.service.database.response.DescribeDatabaseResp;
-import io.milvus.v2.service.database.response.ListDatabasesResp;
-
 ListDatabasesResp listDatabasesResp = client.listDatabases();
 
 DescribeDatabaseResp descDBResp = client.describeDatabase(DescribeDatabaseReq.builder()
@@ -361,20 +366,14 @@ DescribeDatabaseResp descDBResp = client.describeDatabase(DescribeDatabaseReq.bu
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 // List all existing databases
-databases, err := cli.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
+databases, err := client.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
 if err != nil {
     // handle err
 }
 log.Println(databases)
 
-db, err := cli.DescribeDatabase(ctx, milvusclient.NewDescribeDatabaseOption("default"))
+db, err := client.DescribeDatabase(ctx, milvusclient.NewDescribeDatabaseOption("default"))
 if err != nil {
     // handle err
 }
@@ -386,8 +385,6 @@ log.Println(db)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let databases = client.list_databases(ListDatabasesRequest::builder().build()?).await?;
 println!("{:?}", databases.database_names());
 
@@ -404,9 +401,6 @@ client.describe_database(
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 milvus::ListDatabasesResponse databases_response;
 status = client->ListDatabases(milvus::ListDatabasesRequest(), databases_response);
 if (!status.IsOk()) {
@@ -496,8 +490,6 @@ client.alter_database_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
-
 client.alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
         .databaseName("my_database_1")
         .property("database.max.collections", "10")
@@ -509,13 +501,7 @@ client.alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err := cli.AlterDatabaseProperties(ctx, milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
+err := client.AlterDatabaseProperties(ctx, milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
     WithProperty("database.max.collections", 10))
 if err != nil {
     // handle err
@@ -527,9 +513,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let mut properties = HashMap::new();
 properties.insert("database.max.collections".to_string(), "10".to_string());
 
@@ -547,9 +530,6 @@ client.alter_database_properties(
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 status = client->AlterDatabaseProperties(milvus::AlterDatabasePropertiesRequest()
     .WithDatabaseName("my_database_1")
     .WithProperties({{"database.max.collections", "10"}}));
@@ -615,9 +595,6 @@ client.drop_database_properties(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
-import java.util.Collections;
-
 client.dropDatabaseProperties(DropDatabasePropertiesReq.builder()
         .databaseName("my_database_1")
         .propertyKeys(Collections.singletonList("database.max.collections"))
@@ -629,13 +606,7 @@ client.dropDatabaseProperties(DropDatabasePropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err := cli.DropDatabaseProperties(ctx, milvusclient.NewDropDatabasePropertiesOption("my_database_1", "database.max.collections"))
+err := client.DropDatabaseProperties(ctx, milvusclient.NewDropDatabasePropertiesOption("my_database_1", "database.max.collections"))
 if err != nil {
     // handle err
 }
@@ -646,8 +617,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client.drop_database_properties(
     DropDatabasePropertiesRequest::builder()
         .database_name("my_database_1")
@@ -662,9 +631,6 @@ client.drop_database_properties(
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 status = client->DropDatabaseProperties(milvus::DropDatabasePropertiesRequest()
     .WithDatabaseName("my_database_1")
     .WithPropertyKeys({"database.max.collections"}));
@@ -739,13 +705,7 @@ client.useDatabase("my_database_2");
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
+err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
 if err != nil {
     // handle err
 }
@@ -764,9 +724,6 @@ client.use_database("my_database_2").await?;
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 status = client->UseDatabase("my_database_2");
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -809,6 +766,16 @@ await client.useDatabase({
 
 ![drop-database-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/drop-database-cn.png "drop-database-cn")
 
+<Procedures>  
+
+1. 在导航树中，找到目标 Database，点击其名称右侧的删除图标。
+
+1. 在**删除 Database** 对话框中，输入目标 Database 的名称进行确认。
+
+1. 点击**删除**。
+
+</Procedures>
+
 ### 使用 SDK 删除 Database\{#drop-a-database-programmatically}
 
 您也可以使用 RESTful API 或 SDK 来删除 Database。
@@ -827,8 +794,6 @@ client.drop_database(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.database.request.DropDatabaseReq;
-
 client.dropDatabase(DropDatabaseReq.builder()
         .databaseName("my_database_2")
         .build());
@@ -839,13 +804,7 @@ client.dropDatabase(DropDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-err = cli.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
+err = client.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
 if err != nil {
     // handle err
 }
@@ -856,8 +815,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client.drop_database(
     DropDatabaseRequest::builder()
         .database_name("my_database_2")
@@ -871,9 +828,6 @@ client.drop_database(
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
 status = client->DropDatabase(milvus::DropDatabaseRequest()
     .WithDatabaseName("my_database_2"));
 if (!status.IsOk()) {

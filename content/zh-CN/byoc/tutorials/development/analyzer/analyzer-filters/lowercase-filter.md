@@ -27,7 +27,7 @@ Lowercase 过滤器将分词器生成的词项转换为小写，使搜索不区�
 
 Lowercase 过滤器内置于 Zilliz Cloud。要使用它，只需在 `analyzer_params` 的过滤器部分指定其名称。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -60,8 +60,6 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "standard",
     "filter": ["lowercase"]
@@ -87,6 +85,18 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "lowercase" }
 };
 ```
 
@@ -117,7 +127,7 @@ Lowercase 过滤器作用于分词器生成的词项，因此必须与分词器�
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -150,8 +160,6 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "standard",
     "filter": ["lowercase"]
@@ -182,6 +190,18 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "lowercase" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -199,7 +219,7 @@ analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -229,9 +249,11 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -261,6 +283,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -279,6 +303,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Standard analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -287,6 +317,10 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 let response = client
     .run_analyzer(
@@ -340,6 +374,7 @@ import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 const sample_text = 'The Lowercase Filter Ensures Uniformity In Text Processing.';
@@ -349,6 +384,43 @@ const result = await client.runAnalyzer({
 });
 const tokens = result.results.flatMap(r => r.tokens.map(t => t.token));
 console.log('Standard analyzer output:', tokens);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+using System.Collections.Generic;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "The Lowercase Filter Ensures Uniformity In Text Processing.";
+
+// Run the standard analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerResult r in result.Results)
+{
+    foreach (AnalyzerToken t in r.Tokens)
+    {
+        Console.WriteLine($"Standard analyzer output: {t.Token}");
+    }
+}
 ```
 
 </TabItem>

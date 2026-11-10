@@ -52,6 +52,28 @@ Zilliz Cloud 提供基于 Milvus 的完全托管的向量数据库解决方案�
 
 <Supademo id="cmbohkjeya419sn1ritu7745e" title="Zilliz Cloud - Migrate from Milvus via Endpoint" />
 
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **数据迁移**。
+
+1. 在 **Milvus** 迁移源区域，选择 **Endpoint**。
+
+1. 输入源 Milvus 的连接信息，点击 **测试连通性并继续**。
+
+1. 连通性检测通过后，点击 **继续迁移**。
+
+1. 选择待迁移的源 Database 和 Collection。
+
+1. 选择目标 Zilliz Cloud 集群和 Database，点击 **下一步**。
+
+1. 检查源 Collection 与目标 Collection 的字段映射。
+
+1. （可选）展开 **高级设置**，检查 Function 配置。默认情况下，Zilliz Cloud 会迁移源 Milvus 的 Function 配置。如需为其他 `VARCHAR` 字段启用全文搜索，点击 **Full Text Search**，完成配置后点击 **保存**。
+
+1. 确认字段映射及相关配置后，点击 **迁移**。
+
+</Procedures>
+
 <Admonition type="info" title="说明">
 
 - 如果源 Collection 已启用 Full Text Search 功能，Zilliz Cloud 会在迁移后保留目标 Collection 的 Function 设置。这些继承的设置无法修改。

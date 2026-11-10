@@ -350,6 +350,18 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
 
 ![integrate-with-oss-6](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/integrate-with-oss-6.png "integrate-with-oss-6")
 
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **集成中心**。
+
+1. 选择对应的对象存储服务，进入集成配置列表。
+
+1. 找到目标配置，点击其 **操作** 列中的 **...**。
+
+1. 选择 **查看详情** 以查看配置信息，或选择 **删除** 以删除该配置。
+
+</Procedures>
+
 ### 获取集成 ID\{#obtain-the-integration-id}
 
 如果您需要使用 RESTful API 接口导出文件到您集成到 Zilliz Cloud 的对象存储桶中，您可以单击**查看详情**查看该对象存储桶的集成详情并复制该桶的集成 ID。

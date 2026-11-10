@@ -37,7 +37,7 @@ Jieba 分词器通过将中文文本拆分为其组成的单词来处理文本�
 
 使用简单配置时，您只需要将 `tokenizer` 设置为 `"jieba"`。例如
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -96,6 +96,20 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+// Simple configuration: only specifying the tokenizer name
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba" // Use the default settings: dict=["_default_"], mode="search", hmm=True
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -110,7 +124,7 @@ analyzerParams='{
 
 上述简单配置与下方示例中的配置等效。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -159,14 +173,14 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-    let analyzer_params = serde_json::json!({
-        "tokenizer": {
-            "type": "jieba",
-            "dict": ["_default_"],
-            "mode": "search",
-            "hmm": true
-        }
-    });
+let analyzer_params = serde_json::json!({
+    "tokenizer": {
+        "type": "jieba",
+        "dict": ["_default_"],
+        "mode": "search",
+        "hmm": true
+    }
+});
 ```
 
 </TabItem>
@@ -201,6 +215,26 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+// Custom configuration equivalent to the simple configuration above
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object> // Tokenizer configuration
+    {
+        ["type"] = "jieba",           // Tokenizer type, fixed as "jieba"
+        ["dict"] = new[] { "_default_" }, // Use the default dictionary
+        ["mode"] = "search",          // Use search mode for improved recall (see mode details below)
+        ["hmm"] = true                // Enable HMM for probabilistic segmentation
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -224,7 +258,7 @@ export analyzerParams='{
 
 为了更好地控制 Analyzer 参数，您可以自定义相关参数。例如，您可以参考如下示例为 Analyzer 提供自定义字典、选择文本切分方式，并选择是否开启隐式马尔科夫模型（HMM）等。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -273,14 +307,14 @@ analyzerParams := map[string]interface{}{
 <TabItem value='rust'>
 
 ```rust
-    let analyzer_params = serde_json::json!({
-        "tokenizer": {
-            "type": "jieba",
-            "dict": ["customDictionary"],
-            "mode": "exact",
-            "hmm": false
-        }
-    });
+let analyzer_params = serde_json::json!({
+    "tokenizer": {
+        "type": "jieba",
+        "dict": ["customDictionary"],
+        "mode": "exact",
+        "hmm": false
+    }
+});
 ```
 
 </TabItem>
@@ -310,6 +344,26 @@ const analyzer_params = {
     mode: "exact",
     hmm: false,
   },
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+
+// Custom configuration with user-defined settings
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",           // Fixed tokenizer type
+        ["dict"] = new[] { "customDictionary" }, // Custom dictionary list; replace with your own terms
+        ["mode"] = "exact",           // Use exact mode (non-overlapping tokens)
+        ["hmm"] = false               // Disable HMM; unmatched text will be split into individual characters
+    }
 };
 ```
 
@@ -368,7 +422,7 @@ export analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -416,14 +470,14 @@ analyzerParams := map[string]interface{}{
 <TabItem value='rust'>
 
 ```rust
-    let analyzer_params = serde_json::json!({
-        "tokenizer": {
-            "type": "jieba",
-            "dict": ["结巴分词器"],
-            "mode": "exact",
-            "hmm": false
-        }
-    });
+let analyzer_params = serde_json::json!({
+    "tokenizer": {
+        "type": "jieba",
+        "dict": ["结巴分词器"],
+        "mode": "exact",
+        "hmm": false
+    }
+});
 ```
 
 </TabItem>
@@ -458,6 +512,23 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "jieba",
+        ["dict"] = new[] { "结巴分词器" },
+        ["mode"] = "exact",
+        ["hmm"] = false
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -477,11 +548,12 @@ export analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import (
+
     MilvusClient,
 )
 
@@ -628,9 +700,41 @@ console.log(result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// Sample text to analyze
+var sampleText = "milvus结巴分词器中文测试";
+
+// Run the standard analyzer with the defined configuration
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine("Standard analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens.Select(t => t.Token))));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
 --header "Authorization: Bearer ${TOKEN}" \

@@ -29,11 +29,13 @@ import TabItem from '@theme/TabItem';
 
 您可以参考如下代码 Load Collection。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
+from time import sleep
+from pymilvus.client.types import LoadState
 
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
@@ -67,6 +69,8 @@ import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.collection.request.GetLoadStateReq;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import java.util.Arrays;
+import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -106,9 +110,10 @@ System.out.println(res);
 import (
     "context"
     "fmt"
-    
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
@@ -121,7 +126,7 @@ if err != nil {
     // handle error
 }
 defer client.Close(ctx)
-    
+
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
@@ -183,8 +188,9 @@ println!("{:?}", res.state());
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
+#include <thread>
+#include <chrono>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -247,6 +253,37 @@ console.log(res.state)
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Responses.Collection;
+using Milvus.Client.V2.Types;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+// 7. Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection"
+});
+
+// Get load state of the collection
+GetLoadStateResp res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection"
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -295,7 +332,7 @@ curl --request POST \
 
 如下代码中假设名为 **my_collection** 的 Collection 中有名为 **my_id** 和 **my_vector** 两个字段。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -324,10 +361,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.GetLoadStateReq;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import java.util.Arrays;
-
 // Load the collection
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .collectionName("my_collection")
@@ -351,12 +384,6 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection").
         WithLoadFields("my_id", "my_vector").
         WithSkipLoadDynamicField(true))
@@ -385,8 +412,6 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .load_collection(
         LoadCollectionRequest::builder()
@@ -455,6 +480,27 @@ console.log(res.state);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "my_collection",
+    LoadFields = new[] { "my_id", "my_vector" }, // Load only the specified fields
+    SkipLoadDynamicField = true // Skip loading the dynamic field
+});
+
+// Get load state of the collection
+GetLoadStateResp res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection"
+});
+Console.WriteLine(res.State);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -477,7 +523,7 @@ console.log(res.state);
 
 如下示例演示了如何 Release Collection。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -504,9 +550,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.GetLoadStateReq;
-import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
-
 // 8. Release the collection
 ReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq.builder()
         .collectionName("my_collection")
@@ -529,12 +572,6 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
@@ -554,8 +591,6 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // 8. Release the collection
 client
     .release_collection(
@@ -624,6 +659,25 @@ console.log(res.state)
 // 
 // LoadStateNotLoad
 // 
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// 8. Release the collection
+await client.ReleaseCollectionAsync(new ReleaseCollectionReq
+{
+    CollectionName = "my_collection"
+});
+
+// Get load state of the collection
+GetLoadStateResp res = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "my_collection"
+});
+Console.WriteLine(res.State);
 ```
 
 </TabItem>

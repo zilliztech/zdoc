@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 `decompounder` 过滤器是 Zilliz Cloud 中的自定义过滤器，通过在过滤器配置中设置 `"type": "decompounder"` 并将`word_list`设置为您需要的值的方式来指定。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -45,11 +45,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -67,7 +62,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "decompounder",
         "word_list": []string{"dampf", "schiff", "fahrt", "brot", "backen", "automat"},
@@ -110,12 +105,31 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 // javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder
         "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"],
     }],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "decompounder", // Specifies the filter type as decompounder
+            ["word_list"] = new[] { "dampf", "schiff", "fahrt", "brot", "backen", "automat" }
+        }
+    }
 };
 ```
 
@@ -162,7 +176,7 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -180,11 +194,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -202,7 +211,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "decompounder",
         "word_list": []string{"dampf", "schiff", "fahrt", "brot", "backen", "automat"},
@@ -245,12 +254,31 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 // javascript
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder
         "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"],
     }],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "decompounder", // Specifies the filter type as decompounder
+            ["word_list"] = new[] { "dampf", "schiff", "fahrt", "brot", "backen", "automat" }
+        }
+    }
 };
 ```
 
@@ -283,16 +311,10 @@ analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import (
-    MilvusClient,
-)
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-
 # Sample text to analyze
 sample_text = "dampfschifffahrt brotbackautomat"
 
@@ -306,21 +328,6 @@ print("Standard analyzer output:", result)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-ConnectConfig config = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .build();
-MilvusClientV2 client = new MilvusClientV2(config);
-
 List<String> texts = new ArrayList<>();
 texts.add("dampfschifffahrt brotbackautomat");
 
@@ -336,23 +343,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "encoding/json"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"dampfschifffahrt brotbackautomat"}
 option := milvusclient.NewRunAnalyzerOption(texts...).
@@ -371,32 +361,21 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-use serde_json::json;
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [{
+        "type": "decompounder",
+        "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"]
+    }]
+});
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-    let client = ClientV2::new(&config).await?;
-
-    let analyzer_params = json!({
-        "tokenizer": "standard",
-        "filter": [{
-            "type": "decompounder",
-            "word_list": ["dampf", "schiff", "fahrt", "brot", "backen", "automat"]
-        }]
-    });
-
-    let result = client.run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["dampfschifffahrt brotbackautomat".to_string()])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    ).await?;
-    println!("{:?}", result.results());
-    Ok(())
-}
+let result = client.run_analyzer(
+    RunAnalyzerRequest::builder()
+        .texts(["dampfschifffahrt brotbackautomat".to_string()])
+        .analyzer_params(analyzer_params)
+        .build()?,
+).await?;
+println!("{:?}", result.results());
 ```
 
 </TabItem>
@@ -404,19 +383,6 @@ async fn main() -> Result<()> {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-
-#include <iostream>
-#include <string>
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 std::string text = "dampfschifffahrt brotbackautomat";
 auto request = milvus::RunAnalyzerRequest()
                        .AddText(text)
@@ -442,19 +408,31 @@ for (const auto& result : response.Results()) {
 
 ```javascript
 // javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN'
-});
-
 const res = await client.runAnalyzer({
   text: 'dampfschifffahrt brotbackautomat',
   analyzer_params: analyzer_params
 });
 
 console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Sample text to analyze
+var sampleText = "dampfschifffahrt brotbackautomat";
+
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+foreach (var r in result.Results)
+{
+    Console.WriteLine("Standard analyzer output: " + string.Join(", ", r.Tokens.Select(t => t.Token)));
+}
 ```
 
 </TabItem>

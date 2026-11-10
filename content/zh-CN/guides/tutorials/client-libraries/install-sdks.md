@@ -97,7 +97,7 @@ yarn list | grep @zilliz/milvus2-sdk-node
 // Import the SDK as a CommonJS module
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
 
-// Import the SDK as a ES6 module
+// Import the SDK as an ES6 module
 import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 ```
 

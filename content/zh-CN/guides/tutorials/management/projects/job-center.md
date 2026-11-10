@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # 项目任务
 
 Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的所有历史和异步数据任务整合在一起。
@@ -122,6 +124,16 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 ![cancel_job_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/canceljobcn.png "cancel_job_cn")
 
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **任务中心**。
+
+1. 找到要取消的任务，点击其 **操作** 列中的 **...**。
+
+1. 选择 **取消任务**。
+
+</Procedures>
+
 ## 重试失败任务\{#retry-failed-job}
 
 <Admonition type="info" title="说明">
@@ -137,3 +149,15 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 如果您在查看失败原因后对需要导入的数据文件进行相应调整，您可以重试导入任务。
 
 ![retry_failed_job_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/retryfailedjobcn.png "retry_failed_job_cn")
+
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **任务中心**。
+
+1. 找到失败的导入任务，点击其状态旁的信息图标，查看失败原因及报错信息。
+
+1. 根据失败原因调整待导入的数据文件。
+
+1. 点击目标任务 **操作** 列中的 **重试** 图标，重新执行导入任务。
+
+</Procedures>

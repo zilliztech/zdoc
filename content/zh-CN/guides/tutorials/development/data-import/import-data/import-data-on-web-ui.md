@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 通过 Web 控制台导入
 
 本文介绍如何通过 Zilliz Cloud Web 控制台将数据导入现有 Collection 中。
@@ -54,6 +56,20 @@ Zilliz Cloud 支持上传本地 JSON 或 Parquet 文件。如果您的数据格�
 
 <Supademo id="cme9uc5b54igsh3pyto6qzsep?utm_source=link" title=""  />
 
+<Procedures>  
+
+1. 进入目标 Collection 的详情页面，点击 **导入数据**。
+
+1. 在弹出的对话框中，选择目标 Partition。
+
+1. 选择 **本地文件** 作为数据位置，并选择 **数据格式**。
+
+1. 上传需要导入的文件。
+
+1. 点击 **导入**。
+
+</Procedures>
+
 ### 从对象存储桶中导入远程文件\{#remote-files-from-an-object-storage-bucket}
 
 要导入远程文件，您需要先将其上传到远程存储桶。您可以使用[BulkWriter 工具](./use-bulkwriter)将原始数据转换为支持的格式并将结果文件上传。
@@ -82,6 +98,20 @@ Zilliz Cloud 允许您将数据从任意对象存储导入到任意 Zilliz Cloud
 
 <Supademo id="cme9ujdvy023mz40hswufsrd8?utm_source=link" title=""  />
 
+<Procedures>  
+
+1. 进入目标 Collection 的详情页面，点击 **导入数据**。
+
+1. 在弹出的对话框中，选择目标 Partition。
+
+1. 选择 **对象存储服务** 作为数据位置，并选择 **数据格式**。
+
+1. 输入对象存储 URL 和访问凭证。
+
+1. 点击 **导入**。
+
+</Procedures>
+
 ### 导入存储在 Volume 中的文件\{#files-uploaded-to-a-volume}
 
 如果您的本地文件大小超过 1 GB，您可以先将其上传到 Volume 中，然后通过 Volume 导入数据。
@@ -89,6 +119,22 @@ Zilliz Cloud 允许您将数据从任意对象存储导入到任意 Zilliz Cloud
 上传准备好的文件到 Volume 后，您只需选择相应的 Volume，并填写文件所在路径。
 
 <Supademo id="cmimi9sf2gidjb7b4q3lph3k8?utm_source=link" title=""  />
+
+<Procedures>  
+
+1. 进入目标 Collection 的详情页面，切换至 **数据** 页签。
+
+1. 点击 **导入数据**。
+
+1. 在弹出的对话框中，选择 **Volume** 作为 **数据位置**。
+
+1. 选择 **数据格式** 和存放数据的 **Volume**。
+
+1. 输入文件或文件夹路径。您可以从 **Volumes** 页面复制该路径。
+
+1. 点击 **导入**。
+
+</Procedures>
 
 ## 结果验证\{#verify-the-result}
 

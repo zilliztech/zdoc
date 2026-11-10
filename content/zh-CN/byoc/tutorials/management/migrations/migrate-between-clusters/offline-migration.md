@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 离线迁移
 
 **离线迁移**允许您在计划的停机时间内，将现有集群数据从源集群迁移到目标集群。此方法支持在同一组织内或不同组织之间进行迁移，适用于可以接受短暂停机的场景，例如计划维护或小规模数据库迁移。
@@ -91,6 +93,18 @@ import Supademo from '@site/src/components/Supademo';
 以下演示完整离线迁移流程：
 
 <Supademo id="cmsyc9uzm0ml7qmlarl3wv66c" title=""  />
+
+<Procedures>  
+
+1. 在左侧导航栏中，点击 **数据迁移**。
+
+1. 点击 **选择迁移来源位置**，依次选择源组织、项目、集群和数据库。
+
+1. 点击 **选择迁移目标位置**，选择目标数据库。
+
+1. 确认迁移配置后，点击 **迁移**。
+
+</Procedures>
 
 <Admonition type="info" title="说明">
 

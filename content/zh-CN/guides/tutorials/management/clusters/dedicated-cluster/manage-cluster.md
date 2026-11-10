@@ -81,6 +81,18 @@ import Procedures from '@site/src/components/Procedures';
 
 <Supademo id="cm9uraerl02a5wbbiavqhws6u" title=""  />
 
+<Procedures>
+
+1. 进入目标集群的详情页面，点击 **操作**。
+
+1. 在下拉菜单中选择 **挂起**。
+
+1. 在弹出的确认对话框中，点击 **挂起**。集群状态将变为 **挂起中**。
+
+1. 等待集群状态变为 **已挂起**，即表示操作成功。
+
+</Procedures>
+
 </TabItem>
 
 <TabItem value="bash">
@@ -145,6 +157,18 @@ Dedicated 集群在手动挂起后也按需手动恢复运行。
 
 <Supademo id="cm9urqadl02ifwbbijvvktj23" title=""  />
 
+<Procedures>
+
+1. 进入目标集群的详情页面，点击 **操作**。
+
+1. 在下拉菜单中选择 **恢复运行**。
+
+1. 在弹出的确认对话框中，点击 **恢复运行**。集群状态将变为 **恢复运行中**。
+
+1. 等待集群状态变为 **运行中**，即表示操作成功。
+
+</Procedures>
+
 </TabItem>
 
 <TabItem value="bash">
@@ -207,6 +231,18 @@ curl --request POST \
 
 <Supademo id="cmfnfy1340ixx1d3n1nf50j8f?utm_source=link" title=""  />
 
+<Procedures>
+
+1. 进入目标集群的详情页面，点击 **升级**。
+
+1. 在 **升级部署方式** 对话框中，选择目标部署方式：
+
+    - **vServerless**：点击 **立刻升级**。
+
+    - **Dedicated**：点击 **升级到新集群**，配置新集群后点击 **创建**。
+
+</Procedures>
+
 ## 升级集群兼容版本以试用公测版功能\{#upgrade-cluster-for-preview-features}
 
 <NextChannel action="exclude">
@@ -235,6 +271,16 @@ curl --request POST \
 
 ![upgrade-to-preview-version-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/upgrade-to-preview-version-cn.png "upgrade-to-preview-version-cn")
 
+<Procedures>
+
+1. 进入目标集群的 **集群详情** 页面，点击 **试用公测版新功能**。
+
+1. 在弹出的对话框中，阅读相关说明，输入集群名称，并勾选同意服务条款。
+
+1. 点击 **升级**。
+
+</Procedures>
+
 ## 转换为全球集群\{#convert-to-a-global-cluster}
 
 如果您需要将现有的 Dedicated 集群转换为[全球集群](./global-cluster-explained)，请参考以下 Demo。
@@ -247,6 +293,20 @@ curl --request POST \
 
 <Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
 
+<Procedures>  
+
+1. 进入目标 Dedicated 集群的详情页面。
+
+1. 点击 **操作**，选择 **转换为全球集群**。
+
+1. 输入新全球集群的名称。当前 Dedicated 集群将作为主集群。
+
+1. 配置并添加一个或多个从集群，然后提交转换请求。
+
+1. 等待转换任务完成，即表示操作成功。
+
+</Procedures>
+
 ## 删除集群\{#drop-cluster}
 
 您可以删除不再需要的集群。您可以通过 Web 控制台或使用 RESTful API 和 SDK 删除集群。
@@ -258,6 +318,18 @@ curl --request POST \
 前往目标集群的**集群详情**页，并跟随以下指南删除集群。
 
 <Supademo id="cm9us4mn102n1wbbinzd427jg" title=""  />
+
+<Procedures>  
+
+1. 进入目标集群的详情页面，点击 **操作**。
+
+1. 在下拉菜单中选择 **删除**。
+
+1. 在弹出的确认对话框中，点击 **删除**。
+
+1. 页面右上角出现成功提示，即表示集群已删除。
+
+</Procedures>
 
 </TabItem>
 

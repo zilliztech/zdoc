@@ -113,8 +113,23 @@ schema.add_field(
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.BaseVector;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.QueryResp;
+import io.milvus.v2.service.vector.response.SearchResp;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -151,6 +166,9 @@ schema.addField(AddFieldReq.builder()
 
 ```go
 import (
+    "context"
+    "fmt"
+
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -164,7 +182,7 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 })
 
 schema := entity.NewSchema().WithName(collectionName).
-        WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+        WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(true)).
         WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1000).WithEnableMatch(true).WithEnableAnalyzer(true)).
         WithField(entity.NewField().WithName("embeddings").WithDataType(entity.FieldTypeFloatVector).WithDim(5))
 ```
@@ -175,6 +193,8 @@ schema := entity.NewSchema().WithName(collectionName).
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
+use std::collections::HashMap;
 
 // Set up a MilvusClient
 let uri = "YOUR_CLUSTER_ENDPOINT";
@@ -225,6 +245,8 @@ let schema = CollectionSchema::new()
 #include <iostream>
 #include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
 const std::string address = "YOUR_CLUSTER_ENDPOINT";
 const std::string token = "YOUR_CLUSTER_TOKEN";
@@ -238,8 +260,9 @@ if (!status.IsOk()) {
 }
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField(milvus::FieldSchema("id", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
-schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, true));
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true).EnableMatch(true));
+schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
 ```
 
 </TabItem>
@@ -287,7 +310,12 @@ const schema = {
 
 ```csharp
 using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
 using Milvus.Client.V2.Types;
+using System.Collections.Generic;
 
 const string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 const string TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -321,8 +349,7 @@ CollectionSchema schema = new()
 export idField='{
   "fieldName": "id",
   "dataType": "Int64",
-  "isPrimary": true,
-  "autoID": true
+  "isPrimary": true
 }'
 
 export textField='{
@@ -344,8 +371,8 @@ export vectorField='{
 }'
 
 export schema="{
-  \"autoID\": false,
-  \"enableDynamicField\": true,
+  \"autoId\": true,
+  \"enableDynamicField\": false,
   \"fields\": [
     $idField,
     $textField,
@@ -426,10 +453,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.collection.request.DropCollectionReq;
-import io.milvus.v2.service.collection.request.HasCollectionReq;
-
 String COLLECTION_NAME = "tech_articles"; // Name your collection
 
 if (client.hasCollection(
@@ -457,8 +480,6 @@ client.createCollection(
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 // Create a schema for a new collection
 schema := entity.NewSchema().WithDynamicFieldEnabled(false)
 schema.WithField(entity.NewField().
@@ -484,16 +505,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
-
 // Create the collection
 let collection_name = "tech_articles"; // Name your collection
 
@@ -530,9 +541,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const auto collection_name = "tech_articles";
 
 milvus::HasCollectionResponse response;
@@ -571,8 +579,6 @@ await client.createCollection(schema);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-
 // Create the collection
 const string COLLECTION_NAME = "tech_articles";
 
@@ -611,7 +617,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/drop" \
   -d "{
     \"collectionName\": \"${COLLECTION_NAME}\"
   }"
-  
+
 # create new collection
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
@@ -732,13 +738,6 @@ client.load_collection(collection_name=COLLECTION_NAME)
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 // Insert sample data with text containing "machine learning" phrases
 String COLLECTION_NAME = "tech_articles";
 
@@ -759,8 +758,20 @@ JsonObject row3 = new JsonObject();
 row3.addProperty("text", "machine quickly boosts learning");
 row3.add("embeddings", gson.toJsonTree(Arrays.asList(0.3f, 0.4f, 0.5f, 0.6f, 0.7f)));
 data.add(row3);
-
 client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(data).build());
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName(COLLECTION_NAME)
+        .indexParams(Collections.singletonList(IndexParam.builder()
+                .fieldName("embeddings")
+                .indexName("embeddings_index")
+                .indexType(IndexParam.IndexType.AUTOINDEX)
+                .metricType(IndexParam.MetricType.COSINE)
+                .build()))
+        .build());
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName(COLLECTION_NAME)
+        .build());
 ```
 
 </TabItem>
@@ -787,17 +798,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
-
 let collection_name = "tech_articles";
 
 // Insert sample data with text containing "machine learning" phrases
@@ -849,11 +849,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-#include <utility>
-#include <vector>
-
 milvus::EntityRows data = {
     {{"text", "Machine learning is a subset of artificial intelligence that focuses on algorithms."}, {"embeddings", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}}},
     {{"text", "Deep learning machine algorithms require large datasets for training."}, {"embeddings", std::vector<float>{0.2, 0.3, 0.4, 0.5, 0.6}}},
@@ -941,8 +936,6 @@ await client.loadCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dml;
-
 // Insert sample data with text containing "machine learning" phrases
 const string COLLECTION_NAME = "tech_articles";
 
@@ -1175,10 +1168,6 @@ print("Query result: ", result)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-
 String COLLECTION_NAME = "tech_articles";
 String filter = "PHRASE_MATCH(text, 'machine learning')";
 QueryResp result = client.query(QueryReq.builder()
@@ -1210,16 +1199,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
-
 // Match documents containing exactly "machine learning"
 let filter = "PHRASE_MATCH(text, 'machine learning')";
 
@@ -1239,9 +1218,6 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 auto request = milvus::QueryRequest()
@@ -1278,10 +1254,6 @@ const result = await client.query({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 // Match documents containing exactly "machine learning"
 string filter = "PHRASE_MATCH(text, 'machine learning')";
 
@@ -1363,12 +1335,6 @@ print("Slop 1 result: ", result_slop1)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 String COLLECTION_NAME = "tech_articles";
 String filterSlop1 = "PHRASE_MATCH(text, 'learning machine', 1)";
 List<Float> queryVector = Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f);
@@ -1412,16 +1378,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
-
 // Example: Filter documents containing "learning machine" with slop=1
 let filter = "PHRASE_MATCH(text, 'learning machine', 1)";
 
@@ -1444,10 +1400,6 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-#include <vector>
-
 const auto filter = R"(PHRASE_MATCH(text, 'learning machine', 1))";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
@@ -1490,10 +1442,6 @@ const result_slop1 = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 // Example: Filter documents containing "learning machine" with slop=1
 string filter = "PHRASE_MATCH(text, 'learning machine', 1)";
 
@@ -1586,12 +1534,6 @@ print("Slop 2 result: ", result_slop2)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 // Example: Filter documents containing "machine learning" with slop=2
 String filter_slop2 = "PHRASE_MATCH(text, 'machine learning', 2)";
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -1632,16 +1574,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
-
 // Example: Filter documents containing "machine learning" with slop=2
 let filter = "PHRASE_MATCH(text, 'machine learning', 2)";
 
@@ -1664,10 +1596,6 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-#include <vector>
-
 const auto filter = R"(PHRASE_MATCH(text, 'machine learning', 2))";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
@@ -1693,7 +1621,7 @@ if (!status.IsOk()) {
 
 ```javascript
 const COLLECTION_NAME = "tech_articles";
-const filter_slop2 = "PHRASE_MATCH(text, 'learning machine', 2)";
+const filter_slop2 = "PHRASE_MATCH(text, 'machine learning', 2)";
 
 const result_slop2 = await client.search({
   collection_name: COLLECTION_NAME,
@@ -1710,10 +1638,6 @@ const result_slop2 = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 // Example: Filter documents containing "machine learning" with slop=2
 string filter = "PHRASE_MATCH(text, 'machine learning', 2)";
 
@@ -1800,12 +1724,6 @@ print("Slop 3 result: ", result_slop3)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 // Example: Filter documents containing "machine learning" with slop=3
 String filter_slop3 = "PHRASE_MATCH(text, 'machine learning', 3)";
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -1846,16 +1764,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
-
 // Example: Filter documents containing "machine learning" with slop=3
 let filter = "PHRASE_MATCH(text, 'machine learning', 3)";
 
@@ -1878,10 +1786,6 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-#include <vector>
-
 const auto filter = R"(PHRASE_MATCH(text, 'machine learning', 3))";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
@@ -1907,7 +1811,7 @@ if (!status.IsOk()) {
 
 ```javascript
 const COLLECTION_NAME = "tech_articles";
-const filter_slop3 = "PHRASE_MATCH(text, 'learning machine', 3)";
+const filter_slop3 = "PHRASE_MATCH(text, 'machine learning', 3)";
 
 const result_slop3 = await client.search({
   collection_name: COLLECTION_NAME,
@@ -1924,10 +1828,6 @@ const result_slop3 = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Responses.Dql;
-using Milvus.Client.V2.Types;
-
 // Example: Filter documents containing "machine learning" with slop=3
 string filter = "PHRASE_MATCH(text, 'machine learning', 3)";
 

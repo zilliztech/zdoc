@@ -88,6 +88,14 @@ schema.add_field(
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .enableDynamicField(false)
@@ -117,7 +125,10 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "context"
+import "fmt"
 import "github.com/milvus-io/milvus/client/v3/entity"
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
 
 schema := entity.NewSchema().WithDynamicFieldEnabled(false)
 schema.WithField(entity.NewField().
@@ -144,6 +155,7 @@ schema.WithField(entity.NewField().
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 let schema = CollectionSchema::new()
     .enable_dynamic_field(false)
@@ -176,7 +188,10 @@ let schema = CollectionSchema::new()
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 #include <memory>
+#include <string>
+#include <vector>
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->AddField({"id", milvus::DataType::INT64, "", true, true});
@@ -189,11 +204,14 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
 const schema = [
   {
     name: "id",
     data_type: DataType.Int64,
     is_primary_key: true,
+    autoID: true,
   },
   {
     name: "text",
@@ -317,10 +335,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 schema.addField(AddFieldReq.builder()
@@ -354,8 +368,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let analyzer_params = serde_json::json!({"type": "english"});
 
 let schema = CollectionSchema::new()
@@ -389,14 +401,11 @@ let schema = CollectionSchema::new()
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <memory>
-
 nlohmann::json analyzer_params = {{"type", "english"}};
 
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 schema->AddField({"id", milvus::DataType::INT64, "", true, true});
-schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000)
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(200)
                     .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params));
 schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
 ```
@@ -411,13 +420,14 @@ const schema = [
     name: "id",
     data_type: DataType.Int64,
     is_primary_key: true,
+    autoID: true,
   },
   {
     name: "text",
     data_type: "VarChar",
     enable_analyzer: true,
     enable_match: true,
-    max_length: 1000,
+    max_length: 200,
     analyzer_params: { type: 'english' },
   },
   {
@@ -795,8 +805,6 @@ let filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
 <TabItem value='c++'>
 
 ```c++
-#include <string>
-
 std::string filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
 ```
 
@@ -858,12 +866,10 @@ result = client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 String filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
+
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("nprobe", 10);
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -871,6 +877,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
         .data(Collections.singletonList(queryVector))
         // highlight-next-line
         .filter(filter)
+        .searchParams(searchParams)
         .topK(10)
         .outputFields(Arrays.asList("id", "text"))
         .build());
@@ -889,6 +896,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     []entity.Vector{entity.FloatVector(queryVector)},
 ).WithANNSField("embeddings").
     WithFilter(filter).
+    WithSearchParam("nprobe", "10").
     WithOutputFields("id", "text"))
 if err != nil {
     fmt.Println(err.Error())
@@ -901,15 +909,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
+use std::collections::HashMap;
 
 // Match entities with `keyword1` or `keyword2`
 let filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
@@ -924,6 +924,7 @@ let result = client
             .vector_field("embeddings") // Vector field name
             .vectors(SearchVectors::Float(vec![query_vector])) // Query vector
             .filter(filter)
+            .extra_params(HashMap::from([("nprobe".into(), "10".into())]))
             .output_fields(["id", "text"]) // Fields to return
             .limit(10) // Max. number of results to return
             .build()?,
@@ -936,10 +937,6 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-#include <vector>
-
 const auto filter = R"(TEXT_MATCH(text, 'keyword1 keyword2'))";
 std::vector<float> query_vector = {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104};
 auto request = milvus::SearchRequest()
@@ -947,6 +944,7 @@ auto request = milvus::SearchRequest()
                    .WithAnnsField("embeddings")
                    .WithFilter(filter)
                    .WithLimit(10)
+                   .AddExtraParam("nprobe", "10")
                    .AddOutputField("text")
                    .AddOutputField("id")
                    .AddFloatVector(query_vector);
@@ -1050,10 +1048,6 @@ result = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-
 String filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 QueryResp queryResp = client.query(QueryReq.builder()
@@ -1085,16 +1079,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
-let uri = "YOUR_CLUSTER_ENDPOINT";
-let token = "YOUR_CLUSTER_TOKEN";
-
-let client = ClientV2::new(
-    &ConnectConfig::new().uri(uri).token(token),
-)
-.await?;
-
 // Match entities with both `keyword1` and `keyword2`
 let filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
@@ -1114,9 +1098,6 @@ let result = client
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
 const auto filter = R"(TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2'))";
 
 auto request = milvus::QueryRequest()

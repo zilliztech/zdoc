@@ -71,8 +71,15 @@ print(res)
 import io.milvus.v2.service.partition.request.ListPartitionsReq;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-
 import java.util.*;
+import io.milvus.v2.service.partition.request.CreatePartitionReq;
+import java.util.List;
+import io.milvus.v2.service.partition.request.HasPartitionReq;
+import io.milvus.v2.service.partition.request.LoadPartitionsReq;
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import java.util.Collections;
+import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
+import io.milvus.v2.service.partition.request.DropPartitionReq;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -222,6 +229,7 @@ console.log(res);
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Partition;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
 
 using var client = new MilvusClientV2(new ConnectConfig
 {
@@ -297,10 +305,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.partition.request.CreatePartitionReq;
-import io.milvus.v2.service.partition.request.ListPartitionsReq;
-import java.util.List;
-
 CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
         .collectionName("my_collection")
         .partitionName("partitionA")
@@ -324,12 +328,6 @@ System.out.println(partitionNames);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreatePartition(ctx, milvusclient.NewCreatePartitionOption("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -352,8 +350,6 @@ fmt.Println(partitionNames)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .create_partition(
         CreatePartitionRequest::builder()
@@ -425,8 +421,6 @@ console.log(res)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Partition;
-
 await client.CreatePartitionAsync(new CreatePartitionReq
 {
     CollectionName = "my_collection",
@@ -512,8 +506,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.partition.request.HasPartitionReq;
-
 HasPartitionReq hasPartitionReq = HasPartitionReq.builder()
         .collectionName("my_collection")
         .partitionName("partitionA")
@@ -531,12 +523,6 @@ System.out.println(hasPartitionRes);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 result, err := client.HasPartition(ctx, milvusclient.NewHasPartitionOption("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -554,8 +540,6 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let has = client
     .has_partition(
         HasPartitionRequest::builder()
@@ -605,14 +589,12 @@ console.log(res.value)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Partition;
-
-var res = await client.HasPartitionAsync(new HasPartitionReq
+var hasResp = await client.HasPartitionAsync(new HasPartitionReq
 {
     CollectionName = "my_collection",
     PartitionName = "partitionA"
 });
-Console.WriteLine(res.Has);
+Console.WriteLine(hasResp.Has);
 ```
 
 </TabItem>
@@ -679,10 +661,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.partition.request.LoadPartitionsReq;
-import io.milvus.v2.service.collection.request.GetLoadStateReq;
-import java.util.Collections;
-
 LoadPartitionsReq loadPartitionsReq = LoadPartitionsReq.builder()
         .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
@@ -706,12 +684,6 @@ System.out.println(getLoadStateRes);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 task, err := client.LoadPartitions(ctx, milvusclient.NewLoadPartitionsOption("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -738,8 +710,6 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .load_partitions(
         LoadPartitionsRequest::builder()
@@ -815,21 +785,18 @@ console.log(res)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Partition;
-
 await client.LoadPartitionsAsync(new LoadPartitionsReq
 {
     CollectionName = "my_collection",
     PartitionNames = new[] { "partitionA" }
 });
 
-var res = await client.GetLoadStateAsync(new GetLoadStateReq
+var loadStateResp = await client.GetLoadStateAsync(new GetLoadStateReq
 {
     CollectionName = "my_collection",
     PartitionNames = new[] { "partitionA" }
 });
-Console.WriteLine(res.State);
+Console.WriteLine(loadStateResp.State);
 ```
 
 </TabItem>
@@ -910,10 +877,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
-import io.milvus.v2.service.collection.request.GetLoadStateReq;
-import java.util.Collections;
-
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
@@ -937,12 +900,6 @@ System.out.println(getLoadStateRes);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -962,8 +919,6 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .release_partitions(
         ReleasePartitionsRequest::builder()
@@ -1039,21 +994,18 @@ console.log(res)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Partition;
-
 await client.ReleasePartitionsAsync(new ReleasePartitionsReq
 {
     CollectionName = "my_collection",
     PartitionNames = new[] { "partitionA" }
 });
 
-var res = await client.GetLoadStateAsync(new GetLoadStateReq
+var loadStateResp = await client.GetLoadStateAsync(new GetLoadStateReq
 {
     CollectionName = "my_collection",
     PartitionNames = new[] { "partitionA" }
 });
-Console.WriteLine(res.State);
+Console.WriteLine(loadStateResp.State);
 ```
 
 </TabItem>
@@ -1154,12 +1106,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.partition.request.DropPartitionReq;
-import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
-import io.milvus.v2.service.partition.request.ListPartitionsReq;
-import java.util.Collections;
-import java.util.List;
-
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
@@ -1190,12 +1136,6 @@ System.out.println(partitionNames);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1221,8 +1161,6 @@ fmt.Println(partitionNames)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client
     .release_partitions(
         ReleasePartitionsRequest::builder()
@@ -1317,8 +1255,6 @@ console.log(res)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Requests.Partition;
-
 await client.ReleasePartitionsAsync(new ReleasePartitionsReq
 {
     CollectionName = "my_collection",

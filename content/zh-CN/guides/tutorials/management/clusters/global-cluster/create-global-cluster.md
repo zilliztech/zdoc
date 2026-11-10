@@ -97,6 +97,8 @@ import Procedures from '@site/src/components/Procedures';
     以下示例展示了如何创建全球集群。详情请参考[创建全球集群](/reference/restful/create-global-cluster-v2)。
 
     ```bash
+    export API_KEY="YOUR_API_KEY"
+    
     curl --request POST \
       --url "https://api.cloud.zilliz.com/v2/globalClusters/create" \
       --header "Authorization: Bearer ${API_KEY}" \

@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 组织设置
 
 组织管理员具备管理组织设置的权限。
@@ -42,6 +44,16 @@ import Supademo from '@site/src/components/Supademo';
 
 ![XQCpw5364hU7Sfb4D0JcDmDJnpc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/XQCpw5364hU7Sfb4D0JcDmDJnpc.png)
 
+<Procedures>  
+
+1. 进入组织列表页面。
+
+1. 点击 **+ 组织**。
+
+1. 在 **创建组织** 对话框中，输入组织名称，点击 **创建**。
+
+</Procedures>
+
 ## 编辑组织名称\{#edit-organization-name}
 
 要编辑组织名称，您必须是[组织管理员](./manage-platform-roles#manage-organization-roles)。
@@ -56,6 +68,18 @@ import Supademo from '@site/src/components/Supademo';
 
 ![timezone-settings](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/timezone-settings.png "timezone-settings")
 
+<Procedures>  
+
+1. 进入目标组织，在左侧导航栏中点击 **系统设置**。
+
+1. 在 **系统时区** 区域，查看当前时区，点击 **编辑**。
+
+1. 在 **编辑系统时区** 对话框中，从下拉列表中选择目标时区。
+
+1. 点击 **保存**。
+
+</Procedures>
+
 如需修改时区，您的角色必须为组织管理员。请单击**编辑**以打开**编辑系统时区**对话框，并从下拉列表中选择时区。您还可以输入时区名称以快速检索所需的时区。
 
 ## 设置偏好运维窗口\{#set-up-preferred-maintenance-window}
@@ -69,6 +93,18 @@ import Supademo from '@site/src/components/Supademo';
 以下 Demo 展示了如何修改偏好运维窗口。
 
 <Supademo id="cmn5e3ep53bovz3qmb2i4x0cb" title=""  />
+
+<Procedures>  
+
+1. 进入目标组织，在左侧导航栏中点击 **组织设置**。
+
+1. 在 **偏好运维窗口** 卡片中，点击 **编辑**。
+
+1. 在弹出的对话框中，选择偏好的运维时间段，然后点击 **保存**。
+
+1. 页面右上角出现 **偏好运维窗口已更新** 提示，即表示设置成功。
+
+</Procedures>
 
 <Admonition type="info" title="说明">
 

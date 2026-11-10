@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 
 要使用默认选项，请在 `analyzer_params` 的 `filter` 部分指定 `"pinyin"`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -45,10 +45,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("pinyin"));
@@ -70,9 +66,6 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "jieba",
     "filter": ["pinyin"]
@@ -103,6 +96,18 @@ let analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[] { "pinyin" }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -120,7 +125,7 @@ analyzerParams='{
 
 如需完全控制，请将过滤器指定为对象，并配置 Zilliz Cloud 输出的拼音 token 形式。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -145,10 +150,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 Map<String, Object> pinyinFilter = new HashMap<>();
@@ -184,9 +185,6 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "jieba",
     "filter": [
@@ -241,6 +239,28 @@ analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "pinyin",
+            ["keep_original"] = true,
+            ["keep_full_pinyin"] = true,
+            ["keep_joined_full_pinyin"] = false,
+            ["keep_separate_first_letter"] = false
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -277,7 +297,7 @@ analyzerParams='{
 
 将 Analyzer 配置应用于 Collection Schema 之前，请使用 `run_analyzer` 验证其行为。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -295,6 +315,8 @@ sample_text = "中文测试"
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.RunAnalyzerReq;
+import io.milvus.v2.service.vector.response.RunAnalyzerResp;
 import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
@@ -337,6 +359,7 @@ texts := []string{"中文测试"}
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
@@ -380,6 +403,27 @@ const sample_text = "中文测试";
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+using System.Collections.Generic;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
+
+var sampleText = "中文测试";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -394,7 +438,7 @@ const sample_text = "中文测试";
 
 默认的 `pinyin` 过滤器会保留原始中文 token，并输出字符级拼音 token。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -412,12 +456,6 @@ print(result)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("pinyin"));
@@ -434,8 +472,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 analyzerParams := map[string]any{
     "tokenizer": "jieba",
     "filter":    []string{"pinyin"},
@@ -458,8 +494,6 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "jieba",
     "filter": ["pinyin"]
@@ -515,6 +549,25 @@ console.log(char_result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[] { "pinyin" }
+};
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -541,7 +594,7 @@ curl --request POST \
 
 当需要使用完整拼接拼音形式匹配中文词语时，请启用 `keep_joined_full_pinyin`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -567,12 +620,6 @@ print(result)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 Map<String, Object> pinyinFilter = new HashMap<>();
@@ -595,8 +642,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 analyzerParams := map[string]any{
     "tokenizer": "jieba",
     "filter": []map[string]any{
@@ -627,8 +672,6 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "jieba",
     "filter": [
@@ -708,6 +751,35 @@ console.log(joined_result.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "pinyin",
+            ["keep_original"] = true,
+            ["keep_full_pinyin"] = false,
+            ["keep_joined_full_pinyin"] = true,
+            ["keep_separate_first_letter"] = false
+        }
+    }
+};
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -734,7 +806,7 @@ curl --request POST \
 
 当需要使用拼音首字母形式匹配中文词语时，请启用 `keep_separate_first_letter`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -760,12 +832,6 @@ print(result)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 Map<String, Object> pinyinFilter = new HashMap<>();
@@ -788,8 +854,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 analyzerParams := map[string]any{
     "tokenizer": "jieba",
     "filter": []map[string]any{
@@ -820,8 +884,6 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "jieba",
     "filter": [
@@ -897,6 +959,35 @@ const initials_result = await client.runAnalyzer({
     analyzer_params,
 });
 console.log(initials_result.results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "jieba",
+    ["filter"] = new[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "pinyin",
+            ["keep_original"] = true,
+            ["keep_full_pinyin"] = false,
+            ["keep_joined_full_pinyin"] = false,
+            ["keep_separate_first_letter"] = true
+        }
+    }
+};
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine(string.Join(", ", result.Results.SelectMany(r => r.Tokens).Select(t => t.Token)));
 ```
 
 </TabItem>

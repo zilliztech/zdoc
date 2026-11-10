@@ -55,7 +55,7 @@ Zilliz Cloud 中的 `standard` 分词器将连续的 Unicode 字母和数字字�
 
 要使用标准分词器配置分析器，请在 `analyzer_params` 中将 `tokenizer` 设置为 `standard`。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -69,10 +69,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.HashMap;
-
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 
 analyzerParams.put("tokenizer", "standard");
@@ -92,9 +88,7 @@ analyzerParams := map[string]any{"tokenizer": "standard"}
 
 ```rust
 let analyzer_params = serde_json::json!({
-
     "tokenizer": "standard"
-
 });
 ```
 
@@ -120,6 +114,17 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard"
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -134,7 +139,7 @@ analyzerParams='{
 
 标准分词器可以与一个或多个过滤器结合使用。例如，以下代码定义了一个使用 Standard 分词器和 Lowercase 过滤器的分析器：  
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -149,12 +154,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-
-import java.util.HashMap;
-
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 
 analyzerParams.put("tokenizer", "standard");
@@ -176,11 +175,8 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 
 ```rust
 let analyzer_params = serde_json::json!({
-
     "tokenizer": "standard",
-
     "filter": ["lowercase"]
-
 });
 ```
 
@@ -203,6 +199,18 @@ nlohmann::json analyzer_params = {
 const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"]
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "lowercase" }
 };
 ```
 
@@ -237,7 +245,7 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -252,12 +260,6 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-import java.util.Collections;
-
-import java.util.HashMap;
-
-import java.util.Map;
-
 Map<String, Object> analyzerParams = new HashMap<>();
 
 analyzerParams.put("tokenizer", "standard");
@@ -279,11 +281,8 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 
 ```rust
 let analyzer_params = serde_json::json!({
-
     "tokenizer": "standard",
-
     "filter": ["lowercase"]
-
 });
 ```
 
@@ -304,11 +303,20 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 const analyzer_params = {
-
     "tokenizer": "standard",
-
     "filter": ["lowercase"]
+};
+```
 
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new List<object> { "lowercase" }
 };
 ```
 
@@ -320,15 +328,10 @@ const analyzer_params = {
 # restful
 
 analyzerParams='{
-
   "tokenizer": "standard",
-
   "filter": [
-
     "lowercase"
-
   ]
-
 }'
 ```
 
@@ -337,11 +340,12 @@ analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import (
+
     MilvusClient,
 )
 
@@ -363,16 +367,14 @@ print("Standard analyzer output:", result)
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Collections;
 import io.milvus.v2.client.ConnectConfig;
-
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
@@ -406,31 +408,23 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
 ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: "YOUR_CLUSTER_ENDPOINT",
-
     APIKey:  "YOUR_CLUSTER_TOKEN",
-
 })
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 texts := []string{"The Milvus vector database is built for scale!"}
@@ -442,11 +436,9 @@ option := milvusclient.NewRunAnalyzerOption(texts...).
 result, err := client.RunAnalyzer(ctx, option)
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 fmt.Println(result)
@@ -476,7 +468,6 @@ let result = client
             .analyzer_params(analyzer_params)
 
             .build()?,
-
     )
 
     .await?;
@@ -523,14 +514,45 @@ const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR
 const sampleText = "The Milvus vector database is built for scale!";
 
 const result = await client.runAnalyzer({
-
     text: sampleText,
-
     analyzer_params,
-
 });
 
 console.log("Standard analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+// Sample text to analyze
+string sampleText = "The Milvus vector database is built for scale!";
+
+// Run the standard analyzer with the defined configuration
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+{
+    Console.WriteLine(t.Token);
+}
 ```
 
 </TabItem>
@@ -553,11 +575,8 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 
 -d '{
-
     "text": ["The Milvus vector database is built for scale!"],
-
     "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [\"lowercase\"]}"
-
 }'
 ```
 

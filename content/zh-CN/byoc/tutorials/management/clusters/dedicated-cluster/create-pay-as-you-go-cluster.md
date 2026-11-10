@@ -45,32 +45,42 @@ import Procedures from '@site/src/components/Procedures';
 
 <Supademo id="cmhiydksy083hy90ibirrjb9x" title=""  />
 
-您需要配置以下集群信息：
+<Procedures>
 
-| **参数** | **描述** |
-| --- | --- |
-| **集群名称** | 请输入集群的名称。当前存在随机默认值，您可根据需要修改该名称 |
-| **集群描述（可选）** | 请输入集群的描述。最多 255 字符。 |
-| <NextChannel action="include">**Milvus 版本**</NextChannel> | <NextChannel action="include">选择集群使用的 Milvus 版本。默认选择稳定版（**GA**），推荐用于生产环境。如需提前体验新功能，可选择**公测版**（Public Preview），适用于功能评估及非关键业务的生产环境。公测功能在正式发布前可能调整</NextChannel> |
-| **集群类型** | 想了解更多关于集群类型的相关内容，可参见[选择合适的 CU 类型](/docs/cu-types-explained)。 |
-| **Query CU** | 您可以使用[计算器](https://zilliz.com.cn/pricing#calculator)估算所需 Query CU 数量。对于使用个人邮箱创建的组织，即使已配置支付方式，Dedicated 集群的 Query CU 最大也只能设置为 32。<br/>默认启用自动扩缩容。您可以在输入框中输入数值，或拖动滑块，配置自动扩缩容的最小和最大 Query CU 数量。有关自动扩缩容的详细信息，请参阅[手动扩缩容](./manual-scaling)。 |
-| **备份策略（可选）** | 设置定时创建备份的频率。更多详细信息，请参考 [设置定时自动备份](./schedule-automatic-backups)。 |
+1. 进入目标项目，在左侧导航栏中点击 **Serving 集群**。
 
-<NextChannel action="include">
+1. 点击 **创建集群**。
 
-<Admonition type="info" title="说明">
+1. 选择 **Dedicated** 部署方式，并配置集群。
 
-- 默认选择稳定版（GA）Milvus。您可以按需选择公测版，但选择后不支持降级至较早的 Milvus 版本。
+    | **参数** | **描述** |
+    | --- | --- |
+    | **集群名称** | 请输入集群的名称。当前存在随机默认值，您可根据需要修改该名称 |
+    | **集群描述（可选）** | 请输入集群的描述。最多 255 字符。 |
+    | <NextChannel action="include">**Milvus 版本**</NextChannel> | <NextChannel action="include">选择集群使用的 Milvus 版本。默认选择稳定版（**GA**），推荐用于生产环境。如需提前体验新功能，可选择**公测版**（Public Preview），适用于功能评估及非关键业务的生产环境。公测功能在正式发布前可能调整</NextChannel> |
+    | **集群类型** | 想了解更多关于集群类型的相关内容，可参见[选择合适的 CU 类型](/docs/cu-types-explained)。 |
+    | **Query CU** | 您可以使用[计算器](https://zilliz.com.cn/pricing#calculator)估算所需 Query CU 数量。对于使用个人邮箱创建的组织，即使已配置支付方式，Dedicated 集群的 Query CU 最大也只能设置为 32。<br/>默认启用自动扩缩容。您可以在输入框中输入数值，或拖动滑块，配置自动扩缩容的最小和最大 Query CU 数量。有关自动扩缩容的详细信息，请参阅[手动扩缩容](./manual-scaling)。 |
+    | **备份策略（可选）** | 设置定时创建备份的频率。更多详细信息，请参考 [设置定时自动备份](./schedule-automatic-backups)。 |
 
-- 请使用与集群 Milvus 版本兼容的 SDK。具体兼容关系，请参见[安装 SDK](./install-sdks#sdk-compatibility)。
+    <NextChannel action="include">
 
-- Milvus 3.0 集群不支持转换为[全球集群](./global-cluster-explained)（Global Cluster）。如需后续转换为全球集群，请选择 Milvus 2.6。
+    <Admonition type="info" title="说明">
 
-- 公测版适用于功能评估及非关键业务的生产环境，相关功能在正式发布前可能调整。
+    - 默认选择稳定版（GA）Milvus。您可以按需选择公测版，但选择后不支持降级至较早的 Milvus 版本。
+    
+    - 请使用与集群 Milvus 版本兼容的 SDK。具体兼容关系，请参见[安装 SDK](./install-sdks#sdk-compatibility)。
+    
+    - Milvus 3.0 集群不支持转换为[全球集群](./global-cluster-explained)（Global Cluster）。如需后续转换为全球集群，请选择 Milvus 2.6。
+    
+    - 公测版适用于功能评估及非关键业务的生产环境，相关功能在正式发布前可能调整。
 
-</Admonition>
+    </Admonition>
 
-</NextChannel>
+    </NextChannel>
+
+1. 点击**创建集群**。
+
+</Procedures>
 
 集群创建过程中，请保存集群访问凭证（用户名和密码）。该信息将仅展示一次。
 
@@ -85,6 +95,9 @@ import Procedures from '@site/src/components/Procedures';
 以下为示例代码，请将示例中的 `{API_KEY}` 替换为您自己的Zilliz Cloud API 密钥。更多详情，请参考[创建 Dedicated 集群](/reference/restful/create-dedicated-cluster-v2)。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/createDedicated" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -129,6 +142,9 @@ curl --request POST \
     以下为示例代码，请将示例中的 `{API_KEY}` 替换为您自己的Zilliz Cloud API 密钥。更多详情，请参考[创建 Dedicated 集群](/reference/restful/create-dedicated-cluster-v2)。
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/clusters/createDedicated" \
     --header "Authorization: Bearer ${TOKEN}" \
@@ -171,13 +187,32 @@ curl --request POST \
     1. 调用 **List Milvus Version** 接口，获取可用的 Milvus 版本。
 
         ```bash
-        # TODO: Add a request to list available Milvus versions.
+        curl --request GET \
+             --url "https://api.cloud.zilliz.com/v2/clusters/versions?regionId=gcp-us-west1" \
+             --header "Authorization: Bearer ${API_KEY}" \
+             --header "Accept: application/json"
         ```
 
     1. 从返回结果中选择版本，并在创建集群的请求中指定该版本。
 
         ```bash
-        # TODO: Add a request to create a Dedicated cluster with the selected Milvus version.
+        curl --request POST \
+             --url "https://api.cloud.zilliz.com/v2/clusters" \
+             --header "Authorization: Bearer ${API_KEY}" \
+             --header "Accept: application/json" \
+             --header "Content-Type: application/json" \
+             --data-raw '{
+               "clusterName": "my-preview-cluster",
+               "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+               "regionId": "gcp-us-west1",
+               "plan": "Enterprise",
+               "cuType": "Performance-optimized",
+               "cuSize": 1,
+               "version": {
+                 "majorVersion": "3.0",
+                 "channel": "PUBLIC_PREVIEW"
+               }
+             }'
         ```
 
     <Admonition type="info" title="说明">

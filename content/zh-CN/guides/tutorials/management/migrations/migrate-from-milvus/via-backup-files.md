@@ -144,6 +144,22 @@ Zilliz Cloud 支持从 Milvus 2.x 和更高版本迁移数据。要从 Milvus 2.
 
 <Supademo id="cme9nfjc94bofh3py7kldqzx9" title="Zilliz Cloud - 通过备份文件从 Milvus 迁移" />
 
+<Procedures>  
+
+1. 进入目标项目，在左侧导航栏中点击 **数据迁移**。
+
+1. 在 **Milvus** 迁移源区域，点击 **备份文件**。
+
+1. 选择 **上传本地文件**，点击文件上传区域，上传备份文件。
+
+1. 文件上传完成后，点击 **下一步**。
+
+1. 选择目标集群和 Database，然后选择要迁移的 Collection。
+
+1. 点击 **下一步**。
+
+</Procedures>
+
 <Admonition type="info" title="Notes">
 
 如果源 Collection 已启用 Full Text Search 功能，Zilliz Cloud 会在迁移后保留目标 Collection 的 Function 设置。这些继承的设置无法修改。

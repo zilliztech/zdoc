@@ -71,7 +71,7 @@ import TabItem from '@theme/TabItem';
 
 要配置使用 `lindera` 分词器的分析器，将 `tokenizer.type` 设置为 `lindera`，通过 `dict_kind` 选择词典，并可选地应用过滤器。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -116,8 +116,6 @@ Map<String, Object> analyzerParams = new HashMap<>();
 <TabItem value='go'>
 
 ```go
-import "fmt"
-
 analyzerParams := map[string]interface{}{
     "tokenizer": map[string]interface{}{
         "type":      "lindera",
@@ -143,8 +141,6 @@ fmt.Println(analyzerParams)
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": {
         "type": "lindera",
@@ -197,6 +193,29 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "lindera",
+        ["dict_kind"] = "ko-dic",
+        ["filter"] = new List<object>
+        {
+            new Dictionary<string, object>
+            {
+                ["kind"] = "korean_stop_tags",
+                ["tags"] = new List<object> { "SP", "SSC", "SSO", "SC", "SE", "SF", "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ", "JX", "JC", "UNK", "EP", "ETM" }
+            }
+        }
+    }
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -243,7 +262,7 @@ curl --request POST \
 
 ### 韩语示例\{#korean-example}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -488,6 +507,56 @@ console.log("Analyzer output:", result);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+using System.Collections.Generic;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "lindera",
+        ["dict_kind"] = "ko-dic",
+        ["filter"] = new List<object>
+        {
+            new Dictionary<string, object>
+            {
+                ["kind"] = "korean_stop_tags",
+                ["tags"] = new List<object> { "SP", "SSC", "SSO", "SC", "SE", "SF", "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ", "JX", "JC", "UNK", "EP", "ETM" }
+            }
+        }
+    }
+};
+
+// Sample Korean text: "서울에서 맛있는 음식을 먹었습니다" (I ate delicious food in Seoul)
+string sampleText = "서울에서 맛있는 음식을 먹었습니다";
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+{
+    Console.WriteLine(t.Token);
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -517,7 +586,7 @@ curl --request POST \
 
 ### 日语示例\{#japanese-example}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -735,6 +804,55 @@ const result = await client.runAnalyzer({
   text: sample_text,
 });
 console.log("Analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+using Milvus.Client.V2.Types;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+Dictionary<string, object> analyzerParams = new()
+{
+    ["tokenizer"] = new Dictionary<string, object>
+    {
+        ["type"] = "lindera",
+        ["dict_kind"] = "ipadic",
+        ["filter"] = new List<object>
+        {
+            new Dictionary<string, object>
+            {
+                ["kind"] = "japanese_stop_tags",
+                ["tags"] = new List<object> { "接続詞", "助詞,格助詞", "助詞,格助詞,一般", "助詞,格助詞,引用", "助詞,格助詞,連語", "助詞,係助詞", "助詞,終助詞", "助詞,接続助詞", "助詞,特殊", "助詞,副助詞", "助詞,副助詞／並立助詞／終助詞", "助詞,連体化", "助詞,副詞化", "助詞,並立助詞", "助動詞", "記号,一般", "記号,読点", "記号,句点", "記号,空白", "記号,括弧閉", "記号,括弧開", "その他,間投", "フィラー", "非言語音" }
+            }
+        }
+    }
+};
+
+// Sample Japanese text: "東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です"
+string sampleText = "東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です";
+
+RunAnalyzerResp result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = [sampleText]
+});
+
+foreach (AnalyzerToken t in result.Results.SelectMany(r => r.Tokens))
+{
+    Console.WriteLine(t.Token);
+}
 ```
 
 </TabItem>

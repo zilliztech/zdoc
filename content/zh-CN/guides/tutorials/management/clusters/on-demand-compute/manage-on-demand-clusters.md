@@ -168,6 +168,20 @@ import Procedures from '@site/src/components/Procedures';
 
     ![SedPwGq1Zh6eQsbqLeucm0kvnBd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SedPwGq1Zh6eQsbqLeucm0kvnBd.png)
 
+    <Procedures>  
+
+    1. 进入目标项目，在左侧导航栏中选择 **按量计算** → **集群**。
+
+    1. 点击目标 On-demand 集群的名称，进入集群详情页面。
+
+    1. 点击 **操作**，选择 **编辑**。
+
+    1. 在 **编辑 On-demand 集群** 对话框中，根据需要修改集群名称、描述、**Query CU** 和 **自动挂起时间**。
+
+    1. 点击 **保存**。
+
+    </Procedures>
+
 ## 配置 keep-warm 策略\{#configure-keep-warm-schedule}
 
 Keep-warm schedule 可让按需集群在每周重复的时间窗口内保持运行。keep-warm 时间窗口开始时，如果按需集群处于已挂起状态，Zilliz Cloud 会恢复该按需集群。在该时间窗口内，自动挂起会被抑制。时间窗口结束后，按需集群会重新遵循现有的自动挂起策略。

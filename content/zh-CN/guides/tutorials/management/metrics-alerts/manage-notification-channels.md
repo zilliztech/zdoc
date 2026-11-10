@@ -34,6 +34,16 @@ Zilliz Cloud 的告警通知确保您不会错过集群中的任何重要事件�
 
 ![zh-manage-alert-channel](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zh-manage-alert-channel.png "zh-manage-alert-channel")
 
+<Procedures>  
+
+1. 进入 **项目告警** 页面，点击 **+ 告警**；如需修改已有告警，点击目标告警 **操作** 列中的 **...**，选择 **编辑**。
+
+1. 在弹出的对话框中，找到 **发送给** 区域，选择通知渠道并配置告警接收人。如需添加渠道，点击 **+ 告警渠道**。
+
+1. 完成配置后，点击 **创建** 或 **保存**。
+
+</Procedures>
+
 ### 邮件\{#email}
 
 要设置电子邮件通知，请按以下步骤操作：

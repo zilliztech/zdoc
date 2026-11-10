@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 `length` 过滤器是 Zilliz Cloud 中的自定义过滤器，通过在过滤器配置中设置 `"type": "length"` 来指定。您可以将其配置为分析器参数中的字典，以定义长度限制。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -59,8 +59,6 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-import "fmt"
-
 analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type": "length",
@@ -75,8 +73,6 @@ fmt.Println(analyzerParams)
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "standard",
     "filter": [
@@ -106,12 +102,31 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "length", // Specifies the filter type as length
         "max": 10, // Sets the maximum token length to 10 characters
     }],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "length", // Specifies the filter type as length
+            ["max"] = 10 // Sets the maximum token length to 10 characters
+        }
+    }
 };
 ```
 
@@ -150,16 +165,10 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import (
-    MilvusClient,
-)
-
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-
 analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
@@ -167,13 +176,6 @@ analyzer_params = {
         "max": 10,
     }],
 }
-
-# Sample text to analyze
-sample_text = "The length filter allows control over token length requirements for text processing."
-
-# Run the standard analyzer with the defined configuration
-result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
 ```
 
 </TabItem>
@@ -195,8 +197,6 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-import "fmt"
-
 analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type": "length",
@@ -211,8 +211,6 @@ fmt.Println(analyzerParams)
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 let analyzer_params = json!({
     "tokenizer": "standard",
     "filter": [
@@ -242,12 +240,31 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "length", // Specifies the filter type as length
         "max": 10, // Sets the maximum token length to 10 characters
     }],
+};
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "length",
+            ["max"] = 10
+        }
+    }
 };
 ```
 
@@ -272,7 +289,7 @@ analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -299,7 +316,6 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
@@ -370,6 +386,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
@@ -402,6 +419,7 @@ println!("{:?}", res.results());
 ```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -441,7 +459,7 @@ const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
 });
 
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "length",
@@ -456,6 +474,44 @@ const result = await client.runAnalyzer({
     text: sample_text,
 });
 console.log("Analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using System.Collections.Generic;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+var analyzerParams = new Dictionary<string, object>
+{
+    ["tokenizer"] = "standard",
+    ["filter"] = new object[]
+    {
+        new Dictionary<string, object>
+        {
+            ["type"] = "length",
+            ["max"] = 10
+        }
+    }
+};
+
+// Sample text to analyze
+var sampleText = "The length filter allows control over token length requirements for text processing.";
+
+// Run the standard analyzer with the defined configuration
+var result = await client.RunAnalyzerAsync(new RunAnalyzerReq
+{
+    AnalyzerParams = analyzerParams,
+    Texts = new[] { sampleText }
+});
+Console.WriteLine("Standard analyzer output: " + string.Join(", ", result.Results.SelectMany(r => r.Tokens.Select(t => t.Token))));
 ```
 
 </TabItem>

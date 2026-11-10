@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 - 密码：长度需为 8-64 个字符，且必须包含大写字母、小写字母、数字和特殊字符中的三种。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -55,12 +55,18 @@ client.create_user(user_name="user_1", password="P@ssw0rd", description="a new u
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.CreateUserReq;
+import java.util.List;
+import io.milvus.v2.service.rbac.request.GrantRoleReq;
+import io.milvus.v2.service.rbac.request.DescribeUserReq;
+import io.milvus.v2.service.rbac.response.DescribeUserResp;
+import io.milvus.v2.service.rbac.request.RevokeRoleReq;
+import io.milvus.v2.service.rbac.request.DropUserReq;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build();
-        
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 CreateUserReq createUserReq = CreateUserReq.builder()
@@ -68,7 +74,7 @@ CreateUserReq createUserReq = CreateUserReq.builder()
         .password("P@ssw0rd")
         .description("a new user in the developers team")
         .build();
-        
+
 client.createUser(createUserReq);
 ```
 
@@ -80,7 +86,6 @@ client.createUser(createUserReq);
 import (
     "context"
     "fmt"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -112,23 +117,19 @@ use milvus::v2 as sdk;
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+).await?;
 
-    client.create_user(
-        sdk::request::rbac::CreateUserRequest::builder()
-            .username("user_1")
-            .password("P@ssw0rd")
-            .description("a new user in the developers team")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.create_user(
+    sdk::request::rbac::CreateUserRequest::builder()
+        .username("user_1")
+        .password("P@ssw0rd")
+        .description("a new user in the developers team")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -174,6 +175,34 @@ await client.createUser({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Rbac;
+
+var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+await client.CreateUserAsync(new CreateUserReq
+{
+    UserName = "user_1",
+    Password = "P@ssw0rd",
+    Description = "a new user in the developers team"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -198,12 +227,10 @@ curl --request POST \
 
 在创建了多个用户后，您可以查看所有已创建的用户列表。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.list_users()
 ```
 
@@ -212,8 +239,6 @@ client.list_users()
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
 List<String> resp = client.listUsers();
 ```
 
@@ -262,6 +287,14 @@ await client.listUsers();
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var resp = await client.ListUsersAsync(new ListUsersReq());
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -285,17 +318,10 @@ curl --request POST \
 
 以下示例展示了如何将角色 `role_a` 分配给用户 `user_1`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 client.grant_role(user_name="user_1", role_name="role_a")
 ```
 
@@ -304,10 +330,6 @@ client.grant_role(user_name="user_1", role_name="role_a")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.rbac.request.GrantRoleReq;
-
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
@@ -315,8 +337,6 @@ ConnectConfig connectConfig = ConnectConfig.builder()
     .uri(CLUSTER_ENDPOINT)
     .token(TOKEN)
     .build();
-    
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 GrantRoleReq grantRoleReq = GrantRoleReq.builder()
         .roleName("role_a")
@@ -330,24 +350,6 @@ client.grantRole(grantRoleReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 err = client.GrantRole(ctx, milvusclient.NewGrantRoleOption("user_1", "role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -360,26 +362,12 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
-
-    client.grant_role(
-        sdk::request::rbac::GrantRoleRequest::builder()
-            .username("user_1")
-            .role_name("role_a")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.grant_role(
+    sdk::request::rbac::GrantRoleRequest::builder()
+        .username("user_1")
+        .role_name("role_a")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -387,15 +375,6 @@ async fn main() -> Result<()> {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 status = client->GrantRole(milvus::GrantRoleRequest()
                                .WithUserName("user_1")
                                .WithRoleName("role_a"));
@@ -411,14 +390,22 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.grantRole({
    username: 'user_1',
    roleName: 'role_a'
  });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+await client.GrantRoleAsync(new GrantRoleReq
+{
+    UserName = "user_1",
+    RoleName = "role_a"
+});
 ```
 
 </TabItem>
@@ -448,12 +435,10 @@ curl --request POST \
 
 以下示例展示了如何查看用户 `user_1` 的角色。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.describe_user(user_name="user_1")
 ```
 
@@ -462,9 +447,6 @@ client.describe_user(user_name="user_1")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.DescribeUserReq;
-import io.milvus.v2.service.rbac.response.DescribeUserResp;
-
 DescribeUserReq describeUserReq = DescribeUserReq.builder()
         .userName("user_1")
         .build();
@@ -518,6 +500,17 @@ await client.describeUser({username: 'user_1'});
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+var resp = await client.DescribeUserAsync(new DescribeUserReq
+{
+    UserName = "user_1"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -545,12 +538,10 @@ curl --request POST \
 
 以下示例展示了如何撤销已分配给用户 `user_1` 的角色 `role_a`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.revoke_role(
     user_name='user_1',
     role_name='role_a'
@@ -562,8 +553,6 @@ client.revoke_role(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.RevokeRoleReq;
-
 client.revokeRole(RevokeRoleReq.builder()
         .userName("user_1")
         .roleName("role_a")
@@ -621,6 +610,18 @@ await client.revokeRole({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+await client.RevokeRoleAsync(new RevokeRoleReq
+{
+    UserName = "user_1",
+    RoleName = "role_a"
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -647,17 +648,10 @@ curl --request POST \
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 # drop the user
 client.drop_user(user_name="user_1")
 ```
@@ -667,17 +661,6 @@ client.drop_user(user_name="user_1")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.rbac.request.DropUserReq;
-
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
 DropUserReq dropUserReq = DropUserReq.builder()
         .userName("user_1")
         .build();
@@ -689,24 +672,6 @@ client.dropUser(dropUserReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 err = client.DropUser(ctx, milvusclient.NewDropUserOption("user_1"))
 if err != nil {
     fmt.Println(err.Error())
@@ -719,25 +684,11 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    ).await?;
-
-    client.drop_user(
-        sdk::request::rbac::DropUserRequest::builder()
-            .username("user_1")
-            .build()?,
-    ).await?;
-    Ok(())
-}
+client.drop_user(
+    sdk::request::rbac::DropUserRequest::builder()
+        .username("user_1")
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -745,15 +696,6 @@ async fn main() -> Result<()> {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 status = client->DropUser(milvus::DropUserRequest().WithUserName("user_1"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -767,13 +709,18 @@ if (!status.IsOk()) {
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.deleteUser({
     username: 'user_1'
 });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Drop the user
+await client.DropUserAsync(new DropUserReq { UserName = "user_1" });
 ```
 
 </TabItem>
@@ -798,12 +745,10 @@ curl --request POST \
 
 删除后，您可以通过查看所有用户操作检查是否删除成功。如果列表中未展示此前删除的用户则视为删除成功。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.list_users()
 ```
 
@@ -812,8 +757,6 @@ client.list_users()
 <TabItem value='java'>
 
 ```java
-import java.util.List;
-
 List<String> resp = client.listUsers();
 ```
 
@@ -858,6 +801,14 @@ if (!status.IsOk()) {
 
 ```javascript
 await client.listUsers();
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var resp = await client.ListUsersAsync(new ListUsersReq());
 ```
 
 </TabItem>

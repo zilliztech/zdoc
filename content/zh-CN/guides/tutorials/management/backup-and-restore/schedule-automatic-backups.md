@@ -163,6 +163,16 @@ curl --request POST \
 
 <Supademo id="cmcsvlqk403trxk0ielj7k9g6?utm_source=link" title=""  />
 
+<Procedures>  
+
+1. 进入目标集群的详情页面，切换至 **备份** 页签。
+
+1. 在 **备份策略** 卡片中，查看当前备份计划及下次备份时间。
+
+1. 如需修改备份设置，点击 **编辑**。
+
+</Procedures>
+
 ### 通过 RESTful API\{#via-restful-api}
 
 以下示例展示如何查询集群的定时自动备份策略。更多 API 参数细节，请参见[获取备份策略](/reference/restful/get-backup-policy-v2)。
@@ -210,6 +220,18 @@ curl --request GET \
 以下演示展示如何通过控制台关闭自动备份：
 
 <Supademo id="cmcsvo3k30kkz9st89plxmshd?utm_source=link" title=""  />
+
+<Procedures>  
+
+1. 进入目标集群的详情页面，切换至 **备份** 页签。
+
+1. 在 **备份策略** 卡片中，点击 **编辑**。
+
+1. 在 **备份策略设置** 对话框中，关闭 **备份策略** 开关。
+
+1. 点击 **保存**。
+
+</Procedures>
 
 ### 通过 RESTful API\{#via-restful-api}
 

@@ -71,6 +71,18 @@ import Procedures from '@site/src/components/Procedures';
 
 <Supademo id="cm9uraerl02a5wbbiavqhws6u" title=""  />
 
+<Procedures>
+
+1. 进入目标集群的详情页面，点击 **操作**。
+
+1. 在下拉菜单中选择 **挂起**。
+
+1. 在弹出的确认对话框中，点击 **挂起**。集群状态将变为 **挂起中**。
+
+1. 等待集群状态变为 **已挂起**，即表示操作成功。
+
+</Procedures>
+
 </TabItem>
 
 <TabItem value="bash">
@@ -122,6 +134,18 @@ curl --request POST \
 前往目标集群的**集群详情**页，并跟随以下指南恢复运行集群。
 
 <Supademo id="cm9urqadl02ifwbbijvvktj23" title=""  />
+
+<Procedures>
+
+1. 进入目标集群的详情页面，点击 **操作**。
+
+1. 在下拉菜单中选择 **恢复运行**。
+
+1. 在弹出的确认对话框中，点击 **恢复运行**。集群状态将变为 **恢复运行中**。
+
+1. 等待集群状态变为 **运行中**，即表示操作成功。
+
+</Procedures>
 
 <Admonition type="info" title="说明">
 
@@ -184,6 +208,18 @@ curl --request POST \
 前往目标集群的**集群详情**页，并跟随以下指南删除集群。
 
 <Supademo id="cm9us4mn102n1wbbinzd427jg" title=""  />
+
+<Procedures>  
+
+1. 进入目标集群的详情页面，点击 **操作**。
+
+1. 在下拉菜单中选择 **删除**。
+
+1. 在弹出的确认对话框中，点击 **删除**。
+
+1. 页面右上角出现成功提示，即表示集群已删除。
+
+</Procedures>
 
 </TabItem>
 

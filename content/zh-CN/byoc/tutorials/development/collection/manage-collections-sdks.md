@@ -61,8 +61,9 @@ Zilliz Cloud 支持为标量字段设置 nullable 属性和默认值。有关更
 <TabItem value='python'>
 
 ```python
-# 3. Create a collection in customized setup mode
 from pymilvus import MilvusClient, DataType
+
+# 3. Create a collection in customized setup mode
 
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
@@ -91,6 +92,11 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.common.IndexParam;
+import java.util.*;
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import io.milvus.param.Constant;
+import io.milvus.v2.common.ConsistencyLevel;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -246,6 +252,8 @@ const fields = [
 ```csharp
 using Milvus.Client.V2;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Responses.Collection;
 
 var client = new MilvusClientV2(new ConnectConfig
 {
@@ -334,9 +342,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import java.util.*;
-
 // 3.3 + 3.4 Prepare index parameters and add indexes
 IndexParam indexParamForIdField = IndexParam.builder()
         .fieldName("my_id")
@@ -359,13 +364,6 @@ indexParams.add(indexParamForVectorField);
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/entity"
-
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 collectionName := "customized_setup_1"
 indexOptions := []milvusclient.CreateIndexOption{
     milvusclient.NewCreateIndexOption(collectionName, "my_vector", index.NewAutoIndex(entity.COSINE)),
@@ -378,8 +376,6 @@ indexOptions := []milvusclient.CreateIndexOption{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // 3.3 + 3.4 Prepare and add index parameters
 let index_params = vec![
     IndexParam::new().field_name("my_vector").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine),
@@ -392,8 +388,6 @@ let index_params = vec![
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("my_vector", "my_vector", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE),
     milvus::IndexDesc("my_id", "my_id", milvus::IndexType::AUTOINDEX)};
@@ -420,9 +414,6 @@ const index_params = [{
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Types;
-
 var indexParams = new[]
 {
     new IndexParam("my_id", "my_id", IndexType.AutoIndex, null),
@@ -490,9 +481,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.collection.request.GetLoadStateReq;
-
 // 3.5 Create a collection with schema and index parameters
 CreateCollectionReq customizedSetupReq1 = CreateCollectionReq.builder()
         .collectionName("customized_setup_1")
@@ -519,12 +507,6 @@ System.out.println(loaded);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("customized_setup_1", schema).
     WithIndexOptions(indexOptions...))
 if err != nil {
@@ -532,6 +514,13 @@ if err != nil {
     // handle error
 }
 fmt.Println("collection created")
+
+state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("customized_setup_1"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(state.State)
 ```
 
 </TabItem>
@@ -539,8 +528,6 @@ fmt.Println("collection created")
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // 3.5 Create a collection with the index loaded simultaneously
 client.create_collection(CreateCollectionRequest::builder()
     .collection_name("customized_setup_1")
@@ -611,16 +598,18 @@ console.log(res.state)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "customized_setup_1",
     Schema = schema,
     Indexes = indexParams
 });
+
+GetLoadStateResp loadStateResp = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "customized_setup_1"
+});
+Console.WriteLine(loadStateResp.State);
 ```
 
 </TabItem>
@@ -640,6 +629,15 @@ curl --request POST \
     \"collectionName\": \"customized_setup_1\",
     \"schema\": $schema,
     \"indexParams\": $indexParams
+}"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_load_state" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d "{
+    \"collectionName\": \"customized_setup_1\"
 }"
 ```
 
@@ -678,9 +676,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.collection.request.GetLoadStateReq;
-
 // 3.6 Create a collection and index it separately
 CreateCollectionReq customizedSetupReq2 = CreateCollectionReq.builder()
     .collectionName("customized_setup_2")
@@ -705,12 +700,6 @@ System.out.println(loaded);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("customized_setup_2", schema))
 if err != nil {
     fmt.Println(err.Error())
@@ -731,8 +720,6 @@ fmt.Println(state.State)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // 3.6 Create a collection and index it separately
 client.create_collection(CreateCollectionRequest::builder()
     .collection_name("customized_setup_2")
@@ -800,15 +787,17 @@ console.log(res.state)
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "customized_setup_2",
     Schema = schema
 });
+
+GetLoadStateResp loadStateResp = await client.GetLoadStateAsync(new GetLoadStateReq
+{
+    CollectionName = "customized_setup_2"
+});
+Console.WriteLine(loadStateResp.State);
 ```
 
 </TabItem>
@@ -874,8 +863,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 // With shard number
 CreateCollectionReq customizedSetupReq3 = CreateCollectionReq.builder()
     .collectionName("customized_setup_3")
@@ -891,12 +878,6 @@ client.createCollection(customizedSetupReq3);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("customized_setup_3", schema).WithShardNum(1))
 if err != nil {
     fmt.Println(err.Error())
@@ -910,8 +891,6 @@ fmt.Println("collection created")
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // With shard number
 client.create_collection(CreateCollectionRequest::builder()
     .collection_name("customized_setup_3")
@@ -946,7 +925,7 @@ const createCollectionReq = {
     // highlight-next-line
     shards_num: 1
 }
-client.createCollection(createCollectionReq);
+await client.createCollection(createCollectionReq);
 ```
 
 </TabItem>
@@ -954,10 +933,6 @@ client.createCollection(createCollectionReq);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "customized_setup_3",
@@ -1015,9 +990,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.Constant;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 // With MMap
 CreateCollectionReq customizedSetupReq4 = CreateCollectionReq.builder()
         .collectionName("customized_setup_4")
@@ -1033,13 +1005,6 @@ client.createCollection(customizedSetupReq4);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("customized_setup_4", schema).
     WithProperty(common.MmapEnabledKey, false))
 if err != nil {
@@ -1054,8 +1019,6 @@ fmt.Println("collection created")
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // With mmap
 client.create_collection(CreateCollectionRequest::builder()
     .collection_name("customized_setup_4")
@@ -1083,7 +1046,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-client.createCollection({
+await client.createCollection({
     collection_name: "customized_setup_4",
     fields: fields,
     enable_dynamic_field: true,
@@ -1098,10 +1061,6 @@ client.createCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "customized_setup_4",
@@ -1167,9 +1126,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.Constant;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 // With TTL
 CreateCollectionReq customizedSetupReq5 = CreateCollectionReq.builder()
         .collectionName("customized_setup_5")
@@ -1185,13 +1141,6 @@ client.createCollection(customizedSetupReq5);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/common"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("customized_setup_5", schema).
     WithProperty(common.CollectionTTLConfigKey, 86400))
 if err != nil {
@@ -1206,8 +1155,6 @@ fmt.Println("collection created")
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // With TTL
 client.create_collection(CreateCollectionRequest::builder()
     .collection_name("customized_setup_5")
@@ -1245,7 +1192,7 @@ const createCollectionReq = {
     }
     // highlight-end
 }
-client.createCollection(createCollectionReq);
+await client.createCollection(createCollectionReq);
 ```
 
 </TabItem>
@@ -1253,10 +1200,6 @@ client.createCollection(createCollectionReq);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "customized_setup_5",
@@ -1317,9 +1260,6 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 // With consistency level
 CreateCollectionReq customizedSetupReq6 = CreateCollectionReq.builder()
         .collectionName("customized_setup_6")
@@ -1335,13 +1275,6 @@ client.createCollection(customizedSetupReq6);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("customized_setup_6", schema).
     WithConsistencyLevel(entity.ClBounded))
 if err != nil {
@@ -1356,8 +1289,6 @@ fmt.Println("collection created")
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 // With consistency level
 client.create_collection(CreateCollectionRequest::builder()
     .collection_name("customized_setup_6")
@@ -1393,7 +1324,7 @@ const createCollectionReq = {
     consistency_level: "Bounded",
 }
 
-client.createCollection(createCollectionReq);
+await client.createCollection(createCollectionReq);
 ```
 
 </TabItem>
@@ -1401,10 +1332,6 @@ client.createCollection(createCollectionReq);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Types;
-
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
     CollectionName = "customized_setup_6",

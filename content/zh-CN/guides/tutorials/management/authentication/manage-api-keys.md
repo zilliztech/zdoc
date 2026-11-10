@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # API 密钥
 
 在用户或应用程序调用 API 或 SDK 访问 Zilliz Cloud 控制面和数据面资源时，需要使用API 密钥进行身份认证。API 密钥是一个由字母和数字组成的字符串。每个密钥有自己的属性，如名称和 ID。
@@ -309,9 +311,31 @@ import Admonition from '@theme/Admonition';
 
     ![reset-personal-api-keys-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/reset-personal-api-keys-cn.png "reset-personal-api-keys-cn")
 
+    <Procedures>  
+
+    1. 进入目标组织的 **API 密钥** 页面。
+
+    1. 在 **个人密钥** 卡片中，点击 **查看个人密钥**。
+
+    1. 在 **个人密钥** 对话框中，点击 **重置**。
+
+    </Procedures>  
+
 - **重置自定义 API 密钥**：仅**组织管理员**和**项目管理员**有权限重置自定义 API 密钥。
 
     ![reset-customized-api-keys-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/reset-customized-api-keys-cn.png "reset-customized-api-keys-cn")
+
+    <Procedures>  
+
+    1. 进入目标组织的 **API 密钥** 页面。
+
+    1. 在 **自定义密钥** 列表中，找到目标密钥，点击其 **操作** 列中的 **...**，选择 **重置**。
+
+    1. 在 **重置 API 密钥** 对话框中，输入目标密钥的名称进行确认。
+
+    1. 点击 **重置**。
+
+    </Procedures>
 
 ## 删除 API 密钥\{#delete-an-api-key}
 
@@ -328,6 +352,18 @@ import Admonition from '@theme/Admonition';
 </Admonition>
 
 ![delete-customized-api-keys-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/delete-customized-api-keys-cn.png "delete-customized-api-keys-cn")
+
+<Procedures>  
+
+1. 进入目标组织的 **API 密钥** 页面。
+
+1. 在 **自定义密钥** 列表中，找到目标密钥，点击其 **操作** 列中的 **...**，选择 **删除**。
+
+1. 在 **删除 API 密钥** 对话框中，输入目标密钥的名称进行确认。
+
+1. 点击 **删除**。
+
+</Procedures>
 
 ## 常见问题\{#faq}
 
