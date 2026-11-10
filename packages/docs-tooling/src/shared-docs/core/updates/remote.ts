@@ -212,7 +212,7 @@ export const RemoteRepositorySchema = z.strictObject({ id: positive, fullName: p
 export const RemoteRefSchema = z.strictObject({ ref: text, oid: GitShaSchema, evidence })
 export const RemotePullSchema = z.strictObject({ number: positive, repositoryId: positive, baseRepositoryId: positive,
   headRepositoryId: positive, baseRef: text, headRef: text, base: GitShaSchema, head: GitShaSchema,
-  actorId: positive, state: z.enum(['open','closed','merged']), draft: z.boolean(), evidence })
+  actorId: positive, state: z.enum(['open','closed','merged']), draft: z.boolean(), createdAt: z.iso.datetime(), evidence })
 export const RemoteCommitSchema = z.strictObject({ oid: GitShaSchema, tree: GitTreeOidSchema,
   parents: z.array(GitShaSchema).max(2), authorActorId: positive.nullable(), committerActorId: positive.nullable(),
   signerActorId: positive.nullable(), signatureValid: z.boolean(), signatureState: text,
@@ -246,3 +246,27 @@ export function parseSealMessage(bytes: Uint8Array): RemoteSealV1 | null {
   if (encodeSealMessage(parsed) !== source) throw new Error('SEAL_MESSAGE_INVALID')
   return parsed
 }
+
+/** Frozen request identity, never authority. Mutable observations belong in a separate journal. */
+const transactionBranch = text.regex(/^[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)+$/)
+export const RemoteTransactionIntentSchema = z.strictObject({
+  kind: z.literal('shared-update-remote-intent'), schemaVersion: z.literal(1),
+  repositoryId: positive, repositoryFullName: path, master: GitShaSchema, dev: GitShaSchema,
+  transactionId: DigestSchema, unitKey: text, planSha256: DigestSchema, proofSha256: DigestSchema, plan: blob(REMOTE_LIMITS.outputBytes), proof: blob(REMOTE_LIMITS.outputBytes),
+  preparedBase: GitShaSchema, candidate: GitShaSchema, candidateTree: GitTreeOidSchema,
+  previousSeal: GitShaSchema.nullable(), preservedHumanHeads: z.array(GitShaSchema).max(REMOTE_LIMITS.heads),
+  targetRef: transactionBranch, expectedHead: GitShaSchema.nullable(), stagingRef: transactionBranch,
+  pulls: z.array(z.strictObject({ number: positive, head: GitShaSchema, headRef: transactionBranch,
+    createdAt: z.iso.datetime(), state: z.enum(['open','closed']) })).max(REMOTE_LIMITS.heads),
+  producerRunId: positive, producerRunAttempt: positive, producerRequestId: text,
+  requestId: text,
+}).superRefine((value, context) => {
+  if (value.stagingRef !== `shared-update-staging/${value.transactionId}` || value.targetRef === value.stagingRef)
+    context.addIssue({code:'custom',message:'Transaction ref identity'})
+  if (new Set(value.pulls.map(pull=>pull.number)).size !== value.pulls.length || new Set(value.preservedHumanHeads).size !== value.preservedHumanHeads.length)
+    context.addIssue({code:'custom',message:'Duplicate transaction heads'})
+})
+export type RemoteTransactionIntent = Required<z.infer<typeof RemoteTransactionIntentSchema>>
+export const RemoteTransactionJournalSchema = z.strictObject({ kind:z.literal('shared-update-remote-journal'),schemaVersion:z.literal(1),
+  intentSha256:DigestSchema,transactionId:DigestSchema,sequence:size(2048),phase:z.enum(['before','after','hold','reconcile']),
+  action:text,observation:blob(REMOTE_LIMITS.archiveBytes).nullable(),reasons:z.array(reason).max(REMOTE_LIMITS.reasons) })
