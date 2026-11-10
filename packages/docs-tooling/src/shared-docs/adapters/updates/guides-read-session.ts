@@ -8,7 +8,7 @@ import {canonicalBytes, compareUtf8} from '../../core/updates/canonical'
 import type {BlobRef} from '../../core/updates/envelope'
 import type {CommitParents} from '../../core/updates/unit-plan'
 import {isMilvusPagePath, milvusPageMetadata} from '../links-input'
-import {gitRead, resolveCommit} from './git'
+import {gitEnvironment, gitRead, resolveCommit} from './git'
 
 const exec = promisify(execFile)
 const fullOid = (value: string) => /^[a-f0-9]{40}$/.test(value)
@@ -38,8 +38,7 @@ function admit(s: Store, key: string, value: unknown) {
   s.entries.set(key, {value: copy, size}); s.bytes += size
 }
 async function raw(repository: string, args: string[]): Promise<Buffer> {
-  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')))
-  return (await exec('git', ['--no-replace-objects', '-C', repository, ...args], {env: {...env, GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0', GIT_OPTIONAL_LOCKS: '0'},
+  return (await exec('git', ['--no-replace-objects', '-C', repository, ...args], {env: gitEnvironment('read'),
     encoding: 'buffer', timeout: 30_000, maxBuffer: 32 * 1024 * 1024})).stdout
 }
 const identity = (s: Awaited<ReturnType<typeof lstat>>) => [s.dev, s.ino, s.mode, s.uid, s.gid, s.nlink]

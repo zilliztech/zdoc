@@ -192,14 +192,18 @@ export async function supervise({argv,cwd,env,directory,deadline,protocol=null,g
     child.once('exit',(code,signal)=>{exit={code,signal}})
     await jsonWrite(join(directory,'owner.json'),{pid:child.pid??null,processGroup:child.pid??null,started,argv,cwd})
     while(true) {
+      // The exit state is sampled before the event read. A child that exits during
+      // the read is re-read on the next pass instead of being judged final with a
+      // stale event file.
+      const exited=exit!==null
       if(protocol) {
         try {
           const path=join(directory,'events.jsonl')
           const info=await stat(path)
           if(info.size>4*1024*1024)throw new Error('Reporter event channel exceeded bound; raw file retained')
-          observed=inspectEvents(await readFile(path,'utf8'),{...protocol,final:exit!==null})
+          observed=inspectEvents(await readFile(path,'utf8'),{...protocol,final:exited})
           if(observed.failure)reason??='Reported test/module failure'
-        }catch(e){if(e.code!=='ENOENT'||exit!==null)reason??=`Reporter protocol: ${e.message}`}
+        }catch(e){if(e.code!=='ENOENT'||exited)reason??=`Reporter protocol: ${e.message}`}
       }
       if(budget?.expired||Date.now()>=deadline)reason??='Grouped gate 15-minute outer deadline exhausted'
       if(reason) {
@@ -207,7 +211,7 @@ export async function supervise({argv,cwd,env,directory,deadline,protocol=null,g
         if(child.pid)settled=await stopOwned()
         break
       }
-      if(exit!==null)break
+      if(exited)break
       await pause(25)
     }
     if(!exit&&child.pid) {
@@ -264,13 +268,87 @@ export function validateRawReport(raw,expected,root) {
   if(raw.numTotalTests!==cases.length||raw.numPassedTests!==cases.filter(t=>t.status==='passed').length)throw new Error('Raw result count mismatch')
 }
 
+/** A failed phase must name its failure in the console. Retained evidence alone
+ * leaves CI without the failing test, so the detail is printed before the gate
+ * decides. The report never changes the gate outcome. */
+async function reportPhaseFailure(phase,completed,directory) {
+  try {
+    const lines=[`${phase.name}: FAILED`]
+    const reason=completed.receipt?.reason
+    if(reason)lines.push(`reason: ${reason}`)
+    const observed=completed.receipt?.observed?.failure
+    if(observed) {
+      lines.push(`failed: ${observed.file??'(unknown file)'} :: ${observed.name??'(unknown case)'}`)
+      for(const error of observed.errors??[])lines.push(String(error.stack??error.message??error))
+    }
+    if(completed.error)lines.push(`report error: ${completed.error}`)
+    const failed=completed.raw?.testResults?.flatMap(file=>(file.assertionResults??[])
+      .filter(test=>test.status==='failed')
+      .map(test=>`${file.name} :: ${test.fullName??test.title}\n${(test.failureMessages??[]).join('\n')}`))??[]
+    for(const message of failed)lines.push(message)
+    for(const name of ['stdout','stderr']) {
+      const text=await readFile(join(directory,name),'utf8').catch(()=> '')
+      if(text.trim())lines.push(`--- ${name} tail ---`,text.slice(-16000))
+    }
+    console.error(lines.join('\n'))
+  } catch(error) {
+    console.error(`Unable to report ${phase.name} failure detail: ${error.message}`)
+  }
+}
+
+/** The declared platform skip inventory. Every skipped test must be declared for
+ * the running platform, so a muted suite cannot pass as complete coverage. */
+export function readPlatformSkipDeclaration(cwd,platform=process.platform) {
+  const path=join(cwd,'scripts/testing/expected-platform-skips.json')
+  let declaration
+  try{declaration=JSON.parse(readFileSync(path,'utf8'))}
+  catch(error){throw new Error(`Unreadable platform skip declaration: ${error.message}`)}
+  if(declaration?.version!==1||!declaration.platforms||typeof declaration.platforms!=='object'||Array.isArray(declaration.platforms))throw new Error('Invalid platform skip declaration')
+  const declared=declaration.platforms[platform]
+  if(!declared||typeof declared!=='object'||Array.isArray(declared))throw new Error(`Missing platform skip declaration for ${platform}`)
+  for(const [file,count] of Object.entries(declared)) {
+    if(typeof file!=='string'||!file||!Number.isSafeInteger(count)||count<0)throw new Error('Invalid platform skip declaration entry')
+  }
+  return declared
+}
+/** Skipped and pending assertions per repository-relative test file. */
+export function observedPlatformSkips(reports,root) {
+  const observed={}
+  for(const raw of reports??[])for(const file of raw?.testResults??[]) {
+    const skipped=(file.assertionResults??[]).filter(test=>['skipped','pending','todo'].includes(test.status)).length
+    if(!skipped)continue
+    const name=relative(root,file.name)
+    observed[name]=(observed[name]??0)+skipped
+  }
+  return observed
+}
+/** Declared values are the maximum skips a file may show on that platform. An
+ * undeclared file that skips, or a file that exceeds its declared maximum, fails
+ * the gate until the declaration is updated. A declared file that skips less is
+ * not a failure: the coverage only grew. */
+export function comparePlatformSkips(observed,declared) {
+  const problems=[]
+  for(const [file,count] of Object.entries(observed)) {
+    if(!(file in declared))problems.push(`undeclared ${count} skipped test(s) in ${file}`)
+    else if(count>declared[file])problems.push(`observed ${count} skipped test(s) in ${file} exceeds the declared maximum ${declared[file]}`)
+  }
+  return problems.sort()
+}
+
 export async function runPhases(phases,execute) {
   const completed=[]
-  for(const phase of phases) {
-    let result
-    try{result=await execute(phase)}catch(e){result={name:phase.name,files:phase.files,success:false,error:e.message,raw:null,receipt:{exitCode:null,settled:false,reason:'Supervisor failed'}}}
+  const runOne=async phase=>{
+    try{return await execute(phase)}
+    catch(e){return {name:phase.name,files:phase.files,success:false,error:e.message,raw:null,receipt:{exitCode:null,settled:false,reason:'Supervisor failed'}}}
+  }
+  // The phases run in order. The isolated phases are measured against their own
+  // per-case deadlines, so running them together only adds scheduler contention:
+  // a measured local run lost a 15s case to that contention.
+  for(let index=0;index<phases.length;index++) {
+    const phase=phases[index]
+    const result=await runOne(phase)
     completed.push(result)
-    if(!result.success)return {success:false,completed,unrun:phases.slice(completed.length).flatMap(p=>p.files)}
+    if(!result.success)return {success:false,completed,unrun:phases.slice(index+1).flatMap(p=>p.files)}
   }
   return {success:true,completed,unrun:[]}
 }
@@ -388,8 +466,10 @@ export async function createTemporaryRoot(cwd,{platform=process.platform,home=ho
   await verifyTemporaryRoot(layout);return layout
 }
 function sourceIdentity(cwd,budget) {
-  const files=['package.json','vitest.config.ts','scripts/testing/run-vitest-groups.mjs','scripts/testing/vitest-stop-reporter.mjs','scripts/testing/run-vitest-groups.test.mjs']
-  const git=args=>execFileSync('git',args,{cwd,timeout:Math.min(10000,budget.remaining()),killSignal:'SIGKILL'})
+  const files=['package.json','vitest.config.ts','scripts/testing/run-vitest-groups.mjs','scripts/testing/vitest-stop-reporter.mjs','scripts/testing/run-vitest-groups.test.mjs','scripts/testing/expected-platform-skips.json']
+  // A tracked diff can exceed the default 1 MiB capture buffer. The identity hash
+  // needs the complete diff, so the bound is raised instead of failing the preflight.
+  const git=args=>execFileSync('git',args,{cwd,timeout:Math.min(10000,budget.remaining()),killSignal:'SIGKILL',maxBuffer:256*1024*1024})
   return {head:git(['rev-parse','HEAD']).toString().trim(),
     trackedDiffSha256:sha(git(['diff','HEAD','--binary','--no-ext-diff','--no-textconv'])),
     harnessSha256:sha(Buffer.concat(files.flatMap(file=>[Buffer.from(file+'\0'),readFileSync(join(cwd,file)),Buffer.from('\0')])))}
@@ -542,7 +622,7 @@ export async function runGate(options) {
     await step('setup record',()=>jsonWrite(join(root,'setup.json'),{started,deadline,cwd,scope:options.scope,layout,before,
       environment:{node:process.version,platform:process.platform,VITEST_MAX_WORKERS:process.env.VITEST_MAX_WORKERS??null,CI:process.env.CI??null}}))
     console.log(`Grouped Vitest evidence: ${root}`)
-    let manifest=[],expectedPhaseCount=0,result={success:false,completed:[],unrun:[]},failure=null
+    let manifest=[],expectedPhaseCount=0,result={success:false,completed:[],unrun:[]},failure=null,observedSkips={}
     try {
       const discovery=join(root,'discovery.json')
       await step('discovery identity',()=>verifyTemporaryRoot(layout))
@@ -577,15 +657,21 @@ export async function runGate(options) {
         const completed={name:phase.name,files:phase.files,success:receipt.success&&!error,receipt,raw,error}
         await step(`${phase.name} validated record`,()=>jsonWrite(join(directory,'validated.json'),{success:completed.success,error,rawPath,temporaryIdentity:phaseLayout}))
         console.log(`${phase.name}: ${completed.success?'PASS':'FAIL'}; evidence ${directory}`)
+        if(!completed.success)await reportPhaseFailure(phase,completed,directory)
         return completed
       })
-    } catch(e){failure=e.message}
+      const declaredSkips=await step('platform skip declaration',()=>readPlatformSkipDeclaration(cwd))
+      observedSkips=observedPlatformSkips(result.completed.map(phase=>phase.raw).filter(Boolean),cwd)
+      const skipProblems=result.completed.every(phase=>phase.success)?comparePlatformSkips(observedSkips,declaredSkips):[]
+      if(skipProblems.length)failure??=`Platform skip declaration mismatch: ${skipProblems.join('; ')}`
+    } catch(e){failure??=e.message}
     const after=await step('final source identity',()=>sourceIdentity(cwd,budget))
     if(JSON.stringify(before)!==JSON.stringify(after))failure??='Source identity changed during grouped gate'
     const success=!failure&&result.success&&expectedPhaseCount>0&&result.completed.length===expectedPhaseCount
     const reports=summarizeReports(result.completed)
     reports.rawCountsComplete&&=expectedPhaseCount>0&&result.completed.length===expectedPhaseCount&&!result.unrun.length
     const aggregate={success,runId:randomUUID(),checkout:cwd,startTime:started,endTime:Date.now(),evidenceRoot:root,scope:options.scope,before,after,failure,
+      platformSkips:{platform:process.platform,observed:observedSkips},
       discoveredFiles:manifest,phases:result.completed.map(p=>({name:p.name,files:p.files,success:p.success,exitCode:p.receipt.exitCode,settled:p.receipt.settled,error:p.error,reason:p.receipt.reason,cleanupStatus:p.receipt.cleanupStatus??'unknown',cleanupErrors:p.receipt.cleanupErrors??[],receiptPersistence:p.receipt.receiptPersistence??'unconfirmed'})),
       unrunFiles:result.unrun,unaccountedFiles:manifest.filter(file=>!reports.testResults.some(f=>f.name===file)),...reports,
       qualification:success?'Complete discovered selection passed and every owned group settled':'Failed/incomplete; raw counts cover only available reports, unrun files and cancelled tests are not ordinary platform skips'}
@@ -594,6 +680,9 @@ export async function runGate(options) {
   })
   const result=await settleGateVerdict(prepared),report=result.report
   if(result.settlementStatus==='acknowledged')console.log(`${result.success?'PASS':'FAIL'} grouped ${options.scope}: ${report.rawCountsComplete?`${report.numPassedTests} passed, ${report.numFailedTests} failed, ${report.numPendingTests} skipped`:`INCOMPLETE raw counts; at least ${report.observedFailures.length} observed failure event(s)`}; ${report.evidenceRoot}`)
+  // The aggregate reason names the failing condition, so it belongs in the log
+  // and not only inside the retained report.
+  if(!result.success&&report.failure)console.error(`grouped ${options.scope} failure: ${report.failure}`)
   return result
 }
 
