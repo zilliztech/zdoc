@@ -178,8 +178,6 @@ curl --request POST \
 
     リクエストは、次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
-    リクエストは、次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
-
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
@@ -240,14 +238,54 @@ curl --request POST \
     1. **List Milvus Version** を使用して、利用可能な Milvus バージョンを取得します。
 
         ```bash
-        # TODO: Add a request to list available Milvus versions.
+        curl --request GET \
+             --url "https://api.cloud.zilliz.com/v2/clusters/versions?regionId=gcp-us-west1" \
+             --header "Authorization: Bearer ${API_KEY}" \
+             --header "Accept: application/json"
+        ```
+
+        レスポンス例:
+
+        ```json
+        {
+          "code": 0,
+          "data": [
+            {
+              "regionId": "gcp-us-west1",
+              "versions": [
+                {"majorVersion": "2.6", "channel": "GA"},
+                {"majorVersion": "3.0", "channel": "PUBLIC_PREVIEW"}
+              ]
+            }
+          ]
+        }
         ```
 
     1. レスポンスからバージョンを選択し、クラスター作成リクエストで指定します。
 
         ```bash
-        # TODO: Add a request to create a Dedicated cluster with the selected Milvus version.
+        curl --request POST \
+             --url "https://api.cloud.zilliz.com/v2/clusters" \
+             --header "Authorization: Bearer ${API_KEY}" \
+             --header "Accept: application/json" \
+             --header "Content-Type: application/json" \
+             --data-raw '{
+               "clusterName": "my-preview-cluster",
+               "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+               "regionId": "gcp-us-west1",
+               "plan": "Enterprise",
+               "cuType": "Performance-optimized",
+               "cuSize": 1,
+               "version": {
+                 "majorVersion": "3.0",
+                 "channel": "PUBLIC_PREVIEW"
+               }
+             }'
         ```
+
+        - `version.majorVersion`: クエリによって返される Milvus のバージョン系列です。先頭の `v` やパッチ番号は含まれません。
+
+        - `version.channel`: クエリによって返されるリリースチャネルです。`GA` または `PUBLIC_PREVIEW` のいずれかです。
 
     </Procedures>
 
@@ -290,4 +328,3 @@ Free または Serverless クラスターでは、バージョンを選択でき
 パブリックプレビュー機能を利用するために既存の Dedicated クラスターをアップグレードするには、[クラスターの管理](/docs/manage-cluster#upgrade-cluster-for-preview-features) を参照してください。
 
 </NextChannel>
-

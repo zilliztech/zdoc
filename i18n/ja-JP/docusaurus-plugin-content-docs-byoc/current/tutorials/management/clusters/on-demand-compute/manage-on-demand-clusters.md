@@ -287,6 +287,26 @@ curl --request GET \
 
     ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 
+    <Procedures>
+
+    1. 対象のオンデマンドクラスターに移動します。
+
+    1. 画面右上で **Actions** をクリックし、**Modify** を選択します。
+
+    1. オンデマンドクラスターの以下の設定を変更できます:
+
+        - クラスター名
+
+        - 説明
+
+        - クエリ CU 数
+
+        - Auto Suspend
+
+    1. **Save** をクリックします。
+
+    </Procedures>
+
 ## キープウォームスケジュールを構成する\{#configure-a-keep-warm-schedule}
 
 キープウォームスケジュールを使用すると、毎週繰り返される時間枠の間、オンデマンドクラスターを実行状態に保つことができます。キープウォーム時間枠が開始されると、Zilliz Cloud はオンデマンドクラスターがサスペンドされている場合に再開します。時間枠の間は、`Auto Suspend` が抑止されます。時間枠が終了すると、オンデマンドクラスターは既存の自動サスペンドポリシーに再び従います。
@@ -583,4 +603,3 @@ curl --request DELETE \
 - オンデマンドクラスターを作成するには、[オンデマンドクラスターの作成](./on-demand-cluster) を参照してください。
 
 - プロジェクトエンドポイント経由で接続するには、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
-

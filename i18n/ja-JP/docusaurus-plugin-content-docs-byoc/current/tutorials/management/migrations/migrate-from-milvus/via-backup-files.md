@@ -141,7 +141,29 @@ Milvus 2.x の移行データを準備するには、
 
 バックアップファイルの準備ができたら、ローカルファイルからデータを移行できます。
 
-<Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title="Zilliz Cloud - Migrate from Milvus via Backup File Demo" />
+<Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title=""  />
+
+<Procedures>
+
+1. **Migrations** をクリックします。
+
+1. **Backup File** をクリックします。
+
+1. バックアップファイルのアップロード方法を選択します。
+
+1. バックアップファイルをアップロードします。
+
+1. **Next** をクリックします。
+
+1. ターゲットクラスターを選択します。
+
+1. ターゲットデータベースを選択します。
+
+1. 移行するコレクションを選択します。
+
+1. **Next** をクリックします。
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 
@@ -153,7 +175,19 @@ Milvus 2.x の移行データを準備するには、
 
 **Migrate** をクリックすると、移行ジョブが生成されます。移行の進行状況は [Jobs](./job-center) ページで確認できます。ジョブステータスが **In Progress** から **Successful** に切り替わると、移行は完了です。
 
-<Supademo id="cme9my2nn4b64h3pyiyvsakqb" title="Zilliz Cloud - Monitor the Migration Process" />
+<Supademo id="cme9my2nn4b64h3pyiyvsakqb" title=""  />
+
+<Procedures>
+
+1. プロジェクトページで **Jobs** をクリックします。
+
+1. 対象のジョブに移動し、**Actions** の下にある **...** をクリックします。
+
+1. **View Details** をクリックします。
+
+1. ジョブの詳細を表示します。
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 

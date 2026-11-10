@@ -132,6 +132,18 @@ KMS キーを使用して Zilliz Cloud クラスターを暗号化すると、�
 
 ![S3NKwZYR7hj6ocbkpIQcB66Unyg](https://zdoc-images.s3.us-west-2.amazonaws.com/S3NKwZYR7hj6ocbkpIQcB66Unyg.png)
 
+<Procedures>
+
+1. 対象プロジェクトを見つけます。
+
+1. 左側のナビゲーションペインで **Security** > **CMEK** をクリックします。
+
+1. **Amazon KMS** をクリックして、追加したキーを表示します。
+
+1. （任意）**Remove** をクリックして、不要になったキーを削除します。
+
+</Procedures>
+
 KMS キーが不要になった場合は、どのクラスターでも使用されていなければ削除できます。
 
 ## AWS KMS キーを使用する\{#use-aws-kms-keys}
@@ -154,7 +166,7 @@ KMS キーを追加すると、次のように暗号化されたクラスター�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみを選択できます。
 
-1. 概要を確認してから、**Create Cluster** をクリックします。
+1. 概要を確認して、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
@@ -175,4 +187,3 @@ KMS キーを追加すると、次のように暗号化されたクラスター�
 - このオプションを有効にすると、復元後に作成されるクラスターは、以下で指定する KMS キーを使用して暗号化されます。
 
 - このオプションを無効にすると、復元後に作成されるクラスターは暗号化されません。
-

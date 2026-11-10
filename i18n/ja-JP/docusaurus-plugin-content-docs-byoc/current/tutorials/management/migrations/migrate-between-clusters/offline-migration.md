@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # オフライン移行
 
 オフライン移行は、ソース Zilliz Cloud クラスターからターゲット Zilliz Cloud クラスターへ既存のすべてのデータを転送します。この方法は、同一組織内および異なる組織間の移行の両方をサポートします。計画メンテナンス時や小規模なデータベース移行など、一時的な書き込み中断を許容できるシナリオに最適です。
@@ -92,9 +94,22 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title=""  />
 
+<Procedures>
+
+1. 左側のナビゲーションペインで **Migrations** をクリックします。
+
+1. **Zilliz to Zilliz Migration** カードで **Offline** をクリックします。
+
+1. **Select Source Location** をクリックし、ソースの組織 > プロジェクト > クラスター > データベースを選択します。
+
+1. **Select Target Location** をクリックします。
+
+1. **Migrate** をクリックします。
+
+</Procedures>
+
 <Admonition type="info" title="Notes">
 
 移行されたコレクションは、検索またはクエリ操作ですぐには利用できません。検索およびクエリ機能を有効にするには、Zilliz Cloud でコレクションを手動でロードする必要があります。詳細は [Load & Release](./load-release-collections) を参照してください。
 
 </Admonition>
-

@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # プロジェクトアラートの管理
 
 プロジェクトアラートを使用すると、指定した条件を満たした際に通知を送信し、Zilliz Cloud クラスターをプロアクティブに監視できます。CU キャパシティやクエリパフォーマンスなどのクラスターメトリクスを監視するよう設定することで、対応が必要な潜在的な問題が発生した際にすぐに通知を受け取ることができます。
@@ -35,7 +37,17 @@ import Supademo from '@site/src/components/Supademo';
 
 左サイドバーの **Project Alerts** に移動して、プロジェクトアラートダッシュボードにアクセスします。
 
-<Supademo id="cmb5xa9pg39f6ppkpjwalrmro" title="Zilliz Cloud - View Project Alerts Demo" />
+<Supademo id="cmb5xa9pg39f6ppkpjwalrmro" title=""  />
+
+<Procedures>
+
+1. **Project Alerts** をクリックします。
+
+1. **History** でアラート履歴を確認します。
+
+1. **Settings** でアラート設定を確認します。
+
+</Procedures>
 
 ### アラート履歴\{#alert-history}
 
@@ -118,7 +130,33 @@ curl --request GET \
 
 新しいアラートを設定して、クラスターのパフォーマンスと健全性を多角的に監視できます。
 
-<Supademo id="cmb5w29ip399appkp45y9k3u2" title="Zilliz Cloud - Create Project Alerts Demo" />
+<Supademo id="cmb5w29ip399appkp45y9k3u2" title=""  />
+
+<Procedures>
+
+1. **Project Alerts** をクリックします。
+
+1. **+ Alert** をクリックします。
+
+1. アラートを構成し、以下の項目を設定します。
+
+    - アラート名
+
+    - メトリクス
+
+    - トリガー条件
+
+    - 重大度レベル
+
+    - 対象クラスター
+
+    -  アラート受信者
+
+    -  通知方法
+
+1. **Create** をクリックします。
+
+</Procedures>
 
 </TabItem>
 <TabItem value="Bash">
@@ -225,13 +263,23 @@ RESTful API を使用してプロジェクトアラートを管理すること�
 
 <Supademo id="cmb5zptc03acdppkpy0vk18f9" title="Zilliz Cloud - Configure Alert Receiver Settings Demo" />
 
-設定時には、以下の項目を確認してください。
+<Procedures>
 
-- **送信先**: 新規アラート作成時に自動選択されるデフォルトの通知チャネル（メール、Slack、Webhook）です。よく使用するチャネルを設定しておくと、アラート作成を効率化できます。
+1. プロジェクトページで **Project Alerts** をクリックします。
 
-- **アラート解決通知**: 有効にすると、アラートが解消された際にも通知が届きます。
+1. **Alert Receiver Settings** をクリックします。
 
-- **既存のアラートに設定を適用**: 新しいデフォルト設定を既存のすべてのアラートに反映するかどうかを選択できます。
+1. 以下の設定を構成します。
+
+1. **Send to**: メール、Slack、Webhook などのデフォルトの通知チャネルを選択します。新しいアラートでは、これらのチャネルが自動的に選択されます。
+
+1. **Alert Resolution Notification**: アラートが解消されたときに通知を受け取るには、このオプションを有効にします。
+
+1. **Apply Settings to Existing Alerts**: 新しいデフォルト設定を既存のすべてのアラートに適用するかどうかを選択します。
+
+1. **Save** をクリックします。
+
+</Procedures>
 
 ## FAQ\{#faq}
 

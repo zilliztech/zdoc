@@ -34,6 +34,22 @@ Zilliz Cloud のアラート通知により、クラスター内で発生する�
 
 ![manage-alert-channel](https://zdoc-images.s3.us-west-2.amazonaws.com/manage-alert-channel.png "manage-alert-channel")
 
+<Procedures>
+
+1. 対象プロジェクトに移動します。
+
+1. 左側のナビゲーションパネルで **Project Alerts** をクリックします。
+
+1. **Actions** の下にある **...** をクリックします。
+
+1. **Edit** をクリックします。
+
+1. **Send to** エリアで、アラートチャネルを設定します。
+
+1. **Update** をクリックします。
+
+</Procedures>
+
 ### Email\{#email}
 
 メール通知を設定する手順は以下のとおりです。

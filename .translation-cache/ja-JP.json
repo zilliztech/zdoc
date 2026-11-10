@@ -1046,14 +1046,14 @@
       "translatedAt": "2026-11-09T12:54:24.094Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
-      "sourceHash": "f11fca6d0497552c9f10370f069eca96790495427f1fdd18f08e0c3d1bd0d801",
+      "sourceHash": "ca337425c45a708287c90971b99ef90da0e6021896f0ed134d704ffde630f34e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "translatedAt": "2026-11-09T12:57:16.914Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/billing-management/manage-invoice.md": {
-      "sourceHash": "c0a3276ac015160265ba9069007dcd33d16d9a0de045c03f0fb8bfb9dba3dfac",
+      "sourceHash": "7db5faf818efc16b012c95fecbd90209ff5317b4fb31f3a21ab70979fc1e9beb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/manage-invoice.md",
-      "translatedAt": "2026-11-09T12:57:16.914Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/billing-management/payment-billing.md": {
       "sourceHash": "c5ac0e8f6433ea861619f80e89ff68c351bc21aa827169473b04f175be2ebe3e",
@@ -1131,9 +1131,9 @@
       "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "4240d006c35187ed9d8702c8a2e66f71edc05d004ca258e2d9a2d17e769a151a",
+      "sourceHash": "ecb641d9189bb736f86d118322cd81a8ae6cf84c25b63bcb388ef3188350d175",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-11-09T12:57:16.914Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "3430bd6d04e84010f14fe15037a841d14bb8cf44f95420a6cdc7b07334040e80",
@@ -1191,9 +1191,9 @@
       "translatedAt": "2026-10-26T11:53:44.014Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
-      "sourceHash": "f154d2aa0a3ad008519e6aaa3732a5aed26035199b2c283fdeb0cf01d3909163",
+      "sourceHash": "b3315f164e2321a2c11a41b5da24ed0100bfe9859f49179c52ecea87f91c070b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "translatedAt": "2026-11-09T12:57:16.914Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/monitor-global-cluster.md": {
       "sourceHash": "80dc2ad60f33e390cb810c8975ae1f6f75dc49dd236b6b9862df466fa908f621",
@@ -1211,9 +1211,9 @@
       "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "ceeb7dac6c96d4e49a0865b46ca75db8dddd908bad5cc5975d9fb3ecde75ccce",
+      "sourceHash": "fdf3b706f43ce1c1d5cf07453faf3522c6fc0d75525bdefac18f3c04f406ee58",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-11-09T12:57:16.914Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "6c145a0ad87c14c6cf0f950ee58a06e29c964460c924837d360c141b8ed32de1",
@@ -1221,9 +1221,9 @@
       "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/cmek/aws-kms.md": {
-      "sourceHash": "250afcff27536043003f978e53a1f12b6bba5b8e26aada61974c904ed3b15632",
+      "sourceHash": "8ec9a8d58a40ab0ab42d770a2f7534d0f5f9e6a1f4cdec1792bc08ca03d9dabf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cmek/aws-kms.md",
-      "translatedAt": "2026-11-05T11:27:22.390Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/cmek/cmek.md": {
       "sourceHash": "78fee85e3946b3b7a10aa278e3ba411b2a0fc98ed04f444c3c760bb1f593c32c",
@@ -1231,9 +1231,9 @@
       "translatedAt": "2026-11-05T11:27:22.390Z"
     },
     "content/en/byoc/tutorials/management/cmek/gcp-kms.md": {
-      "sourceHash": "0ef86d0b59f4c34dfa645da84454e114e3b384d3618d980f921a7760e3e3f413",
+      "sourceHash": "c647235bf68818a7dd206a21b271fa97b997432331f174941d4120b4f7258728",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cmek/gcp-kms.md",
-      "translatedAt": "2026-11-05T11:27:22.390Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/cost-management/analyze-cost.md": {
       "sourceHash": "f12689f36adc8943278f61e197e216547262b53899dc0e602bd350e3ef70804c",
@@ -1251,9 +1251,9 @@
       "translatedAt": "2026-11-05T11:27:22.390Z"
     },
     "content/en/byoc/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
-      "sourceHash": "a5b51f58e760b4468417f9dad30a2720f88675e176a3e3bf6800af6cf0680331",
+      "sourceHash": "d068e2a215f76dd78b0bd9ddf43db3aa1669f88f679f41dcd545164f8ee6dec2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/manage-cluster-users/cluster-users.md",
-      "translatedAt": "2026-09-19T14:00:37.142Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/identity-management/manage-platform-users.md": {
       "sourceHash": "7328e4eb66f5ad1f01676c3527e5ac82747295d0585c03f2af18b81954565f18",
@@ -1331,24 +1331,24 @@
       "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md": {
-      "sourceHash": "bcad2e810440f0020c1b4ef8f6abce51dc135bcb0212e12e30529eaf15410eaa",
+      "sourceHash": "8fd6fe449bb9df09755dc667290d479ca77cd0ac1615cecd604e9c7bbaeda12f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-notification-channels.md",
-      "translatedAt": "2026-09-19T14:01:58.853Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-organization-alerts.md": {
-      "sourceHash": "d2d8c1e8cc42082b5fa044750d5a7f7c1091f75d8ad21c057f4bab62047ab1a0",
+      "sourceHash": "1d4b33418b08a812d4e5255778a9def8652d08c93760c6a8b7a3d8e68262e653",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-organization-alerts.md",
-      "translatedAt": "2026-08-25T07:05:04.006Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-project-alerts.md": {
-      "sourceHash": "f8444f02ed9dc1cadc287ba9751077eed6de4b3ebb6659738440b1948ebcee46",
+      "sourceHash": "f909af67b272b12ebdf4ee6e92e301b4256ecc9876c685f305d1e8b4cf751335",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-project-alerts.md",
-      "translatedAt": "2026-09-19T14:01:58.853Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "dd7c05ae20b96ecb1933e51d845824cc8fcc1e5407e88f74f9b1956999bf1959",
+      "sourceHash": "243279fcbc9831802baaeb6d1a3f0caf3f0a4a27510f9532d91a0305526538b5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-11-06T11:52:57.225Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md": {
       "sourceHash": "292d256d0ddfa25f4b34aa0a8eeca626f7cff696f47d0b88cb26d9005bc7ea2d",
@@ -1366,9 +1366,9 @@
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-between-clusters/offline-migration.md": {
-      "sourceHash": "1005ee56c3be8540a89bd16305c7c682a69850e7a2665d1a26d1f172b85bbe8b",
+      "sourceHash": "36107f260abe167cdd8b0a8b5df5d109bcfebcaceaba741b9b85174dfed27a27",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
-      "translatedAt": "2026-09-19T14:01:58.853Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md": {
       "sourceHash": "34666328637a665930612b66aeb7ff96e87e3605a15a000c6ab5e9e6ee014d5a",
@@ -1376,9 +1376,9 @@
       "translatedAt": "2026-10-23T14:57:40.280Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md": {
-      "sourceHash": "7507056a965a95d10e84114c73bca7d91683e47198af57c17f283cd3f8b477e3",
+      "sourceHash": "b089074b8d5f2a9d19e5eed80599f4ad923ca8e3cc165bb511c0030f193b3fcc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
-      "translatedAt": "2026-09-19T14:01:58.853Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/organizations/organization-settings.md": {
       "sourceHash": "d91ceddddc264b7d28e4ee06212d5a42ad48737aafb671ffd94c31575f2b0de0",
@@ -1391,9 +1391,9 @@
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/projects/job-center.md": {
-      "sourceHash": "50ca060736521561ca7adad4f7d5cb08bb2f547f5f3ae576f1dfd4f75322352f",
+      "sourceHash": "216771b7129a8b67fee1dcfaad53c8d7f0c85d1bc6db6d1df3abe9053f215223",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/projects/job-center.md",
-      "translatedAt": "2026-09-19T14:01:58.853Z"
+      "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/projects/manage-projects.md": {
       "sourceHash": "ebc1be179f50878b2e18ae765b5362a3391dc911083dced9f46ce73a2408af7d",

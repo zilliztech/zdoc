@@ -55,9 +55,9 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
      <td><ul><li><p><strong>&gt;</strong> <strong>70%</strong>: 将来のニーズを評価し、更新またはアップグレード（renewal/upgrade.）を計画してください。</p></li><li><p><strong>100%</strong>: サービス中断を避けるために、ただちに更新（renew/upgrade）してください。</p></li></ul></td>
    </tr>
    <tr>
-     <td><p>Usage Amount in the Past Day ($)</p></td>
+     <td><p>Usage Amount in the Past Day (&#36;)</p></td>
      <td><p>過去 1 日間の累積使用料金。</p></td>
-     <td><p>予算との比較を監視し、必要に応じて使用量を最適化するか予算を調整します。</p></td>
+     <td><p>予算と比較して監視し、必要に応じて使用量を最適化するか予算を調整します。</p></td>
    </tr>
    <tr>
      <td><p>Credit Validity (day)</p></td>
@@ -65,9 +65,9 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
      <td><p>有効期限が切れる前にクレジットを使用するか延長します。</p></td>
    </tr>
    <tr>
-     <td><p>Remaining Credits ($)</p></td>
+     <td><p>Remaining Credits (&#36;)</p></td>
      <td><p>無料クレジットの残高。</p></td>
-     <td><p>アカウント機能を維持するため、残高が少なくなったら補充します。</p></td>
+     <td><p>残高が少なくなったら、アカウント機能を維持するためにチャージします。</p></td>
    </tr>
    <tr>
      <td><p>Credit Card Validity (day)</p></td>
@@ -75,9 +75,9 @@ Zilliz Cloud はメトリクスを以下のレベルに整理しています。
      <td><p>支払い失敗を避けるため、有効期限前にカードを更新または差し替えます。</p></td>
    </tr>
    <tr>
-     <td><p>Advance Pay Balance ($)</p></td>
-     <td><p>残りの前払い資金。</p></td>
-     <td><p>サービス中断を防ぐため、残高が少なくなったら資金を追加します。</p></td>
+     <td><p>Advance Pay Balance (&#36;)</p></td>
+     <td><p>前払い資金の残高。</p></td>
+     <td><p>残高が少なくなったら、サービス中断を防ぐために資金を追加します。</p></td>
    </tr>
 </table>
 

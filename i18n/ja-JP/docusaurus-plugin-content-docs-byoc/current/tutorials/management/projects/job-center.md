@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # プロジェクトジョブの管理
 
 Zilliz Cloud は、同一プロジェクト内のすべての履歴データタスクと非同期データタスクを統合する直感的な Jobs ページを提供します。
@@ -122,6 +124,16 @@ Zilliz Cloud は、同一プロジェクト内のすべての履歴データタ�
 
 ![cancel_job](https://zdoc-images.s3.us-west-2.amazonaws.com/canceljob.png "cancel_job")
 
+<Procedures>
+
+1. 左側のナビゲーションペインで **Jobs** をクリックします。
+
+1. **Actions** 列の **...** をクリックします。
+
+1. **Cancel** をクリックします。
+
+</Procedures>
+
 ## 失敗したジョブの再試行\{#retry-failed-job}
 
 <Admonition type="info" title="Notes">
@@ -137,3 +149,11 @@ Zilliz Cloud は、同一プロジェクト内のすべての履歴データタ�
 インポートに失敗したファイルに修正を加えた場合は、そのジョブを再試行できます。
 
 ![retry_failed_job](https://zdoc-images.s3.us-west-2.amazonaws.com/retryfailedjob.png "retry_failed_job")
+
+<Procedures>
+
+1. 左側のナビゲーションペインで **Jobs** をクリックします。
+
+1. **Retry** ボタンをクリックします。
+
+</Procedures>
