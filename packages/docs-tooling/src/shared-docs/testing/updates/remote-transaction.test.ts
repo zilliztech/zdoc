@@ -13,6 +13,9 @@ import { createRemoteTransaction, createRemoteTransactionFixture } from '../../a
 import { inspectRemoteHistory } from '../../adapters/updates/remote-metadata'
 import { createRemoteReads, REMOTE_REF_CAS, REMOTE_SEAL_APPEND, type RemoteTransport } from '../../adapters/updates/remote-github'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
+// Real bare Git, owned evidence fsyncs and multiple HTTP readbacks share workers in the light gate.
+// Bound each new integration scenario explicitly; the multi-position fault matrix keeps its 120s bound.
+const integrationTimeout=30_000
 const roots:string[]=[],cleanup:(()=>Promise<void>)[]=[]
 afterEach(async()=>{for(const close of cleanup.splice(0))await close();for(const root of roots.splice(0))await rm(root,{recursive:true,force:true})})
 const workflow=Buffer.from('trusted fixture-only isolated workflow\n')
@@ -115,34 +118,34 @@ it('rejects JSON and fixture writer authority at the production constructor with
   const f=await fixture(),fixtureWriter=f.harness().writerCapability
   for(const writerCapability of [{authorized:true},fixtureWriter,JSON.parse(JSON.stringify(fixtureWriter))])expect(await createRemoteTransaction({reads:f.reads,evidence:f.evidence,writerCapability}).apply(f.intent)).toMatchObject({status:'report-only',reasons:['WRITER_DISABLED']})
   expect(f.writes).toHaveLength(0)
-})
+},integrationTimeout)
 it('uploads actual closed objects, seals exactly K, CASes target and creates one draft; validator stays disabled',async()=>{
   const f=await fixture(),result=await f.harness().apply(f.intent)
   expect(result.reasons).toEqual(['VALIDATOR_NOT_INSTALLED']);expect(result.seal).toBe(f.ref(f.intent.targetRef));expect(f.pulls).toHaveLength(1);expect(f.pulls[0].draft).toBe(true)
   expect(f.remote(['merge-base','--is-ancestor',f.candidate,result.seal!]).length).toBe(0)
   expect(f.writes.filter(write=>write.action==='cas').map(write=>write.body.variables.input.refUpdates[0])).toEqual([{name:'refs/heads/'+f.intent.stagingRef,beforeOid:'0'.repeat(40),afterOid:f.candidate,force:false},{name:'refs/heads/'+f.intent.targetRef,beforeOid:'0'.repeat(40),afterOid:result.seal,force:false}])
   expect(f.writes.map(write=>write.action)).not.toContain('dispatches')
-})
+},integrationTimeout)
 it.each(['before','after','lost','incomplete','read-fails'])('stops every subsequent mutation after %s at each write position',async mode=>{
   const baseline=await fixture();baseline.installValidator();await baseline.harness().apply(baseline.intent);const count=baseline.writes.length;expect(count).toBeGreaterThan(5)
   for(let at=1;at<=count;at++){const f=await fixture();f.installValidator();f.setFault(at,mode);const result=await f.harness().apply(f.intent);expect(result.status).toBe('hold');expect(result.reasons).toEqual(['REMOTE_STATE_UNKNOWN']);expect(f.writes).toHaveLength(at);expect(JSON.stringify(result)).not.toContain('private-token-secret');const before=f.writes.length;await f.harness().reconcile(f.intent);expect(f.writes).toHaveLength(before)}
 },120000)
-it('refuses a concurrent human target push without overwriting it or creating a PR',async()=>{const f=await fixture();f.manualPush();const result=await f.harness().apply(f.intent);expect(result.reasons).toEqual(['REMOTE_STATE_UNKNOWN']);expect(f.ref(f.intent.targetRef)).not.toBe(f.getSeal());expect(f.pulls).toHaveLength(0)})
-it('holds M/D movement after CAS and preserves written refs without rollback',async()=>{const f=await fixture();f.moveBase();const result=await f.harness().apply(f.intent);expect(result.reasons).toEqual(['REMOTE_STATE_UNKNOWN']);expect(f.ref(f.intent.targetRef)).toBe(f.getSeal());expect(f.pulls).toHaveLength(0)})
-it('reconciles response loss read-only and requires a fresh explicit invocation even when old H remains',async()=>{const f=await fixture();f.setFault(1,'before');const transaction=f.harness();expect((await transaction.apply(f.intent)).reasons).toEqual(['REMOTE_STATE_UNKNOWN']);f.clearFault();const before=f.writes.length;expect((await transaction.reconcile(f.intent)).observation?.targetState).toBe('old');expect((await transaction.apply(f.intent)).reasons).toEqual(['FRESH_INVOCATION_REQUIRED']);expect(f.writes).toHaveLength(before)})
-it('validates all scratch bytes and proof before any upload',async()=>{const f=await fixture();const bad=createRemoteTransactionFixture({reads:f.reads,evidence:f.evidence,transport:async()=>{throw Error('must not write')},scratch:{read:async()=>Buffer.from('bad bytes')},remoteObjects:f.remoteObjects,authenticate:async()=>{}});expect((await bad.apply(f.intent)).reasons).toEqual(['OBJECT_BYTES_OID']);expect(f.writes).toHaveLength(0)})
+it('refuses a concurrent human target push without overwriting it or creating a PR',async()=>{const f=await fixture();f.manualPush();const result=await f.harness().apply(f.intent);expect(result.reasons).toEqual(['REMOTE_STATE_UNKNOWN']);expect(f.ref(f.intent.targetRef)).not.toBe(f.getSeal());expect(f.pulls).toHaveLength(0)},integrationTimeout)
+it('holds M/D movement after CAS and preserves written refs without rollback',async()=>{const f=await fixture();f.moveBase();const result=await f.harness().apply(f.intent);expect(result.reasons).toEqual(['REMOTE_STATE_UNKNOWN']);expect(f.ref(f.intent.targetRef)).toBe(f.getSeal());expect(f.pulls).toHaveLength(0)},integrationTimeout)
+it('reconciles response loss read-only and requires a fresh explicit invocation even when old H remains',async()=>{const f=await fixture();f.setFault(1,'before');const transaction=f.harness();expect((await transaction.apply(f.intent)).reasons).toEqual(['REMOTE_STATE_UNKNOWN']);f.clearFault();const before=f.writes.length;expect((await transaction.reconcile(f.intent)).observation?.targetState).toBe('old');expect((await transaction.apply(f.intent)).reasons).toEqual(['FRESH_INVOCATION_REQUIRED']);expect(f.writes).toHaveLength(before)},integrationTimeout)
+it('validates all scratch bytes and proof before any upload',async()=>{const f=await fixture();const bad=createRemoteTransactionFixture({reads:f.reads,evidence:f.evidence,transport:async()=>{throw Error('must not write')},scratch:{read:async()=>Buffer.from('bad bytes')},remoteObjects:f.remoteObjects,authenticate:async()=>{}});expect((await bad.apply(f.intent)).reasons).toEqual(['OBJECT_BYTES_OID']);expect(f.writes).toHaveLength(0)},integrationTimeout)
 
 it('dispatches only the pinned-version legacy204 master contract and accepts authenticated exact artifact facts',async()=>{
   const f=await fixture();f.installValidator();const result=await f.harness().apply(f.intent)
   expect(result.reasons).toEqual([]);expect(result.status).toBe('accepted');expect(result.readyProposal).toEqual({prNumber:20,head:f.getSeal()});expect(result.donorCloseProposals).toEqual([])
   const dispatch=f.writes.filter(write=>write.action==='dispatches');expect(dispatch).toHaveLength(1);expect(dispatch[0].body).toEqual({ref:'master',inputs:{requestId:f.intent.requestId,seal:f.getSeal(),master:f.master,dev:f.master}})
-})
+},integrationTimeout)
 it.each(['old-green','missing','ambiguous'])('holds installed validation %s and never loops dispatch',async mode=>{
   const f=await fixture();f.installValidator(mode);const result=await f.harness().apply(f.intent);expect(result.status).toBe('hold');expect(result.readyProposal).toBeUndefined();expect(result.donorCloseProposals).toBeUndefined();expect(f.writes.filter(write=>write.action==='dispatches')).toHaveLength(1)
-})
+},integrationTimeout)
 it('fresh authenticated same-intent invocation reuses verified seal/ref/PR without another write',async()=>{
   const f=await fixture();expect((await f.harness().apply(f.intent)).reasons).toEqual(['VALIDATOR_NOT_INSTALLED']);const count=f.writes.length;const second=await f.harness().apply(f.intent);expect(second.reasons).toEqual(['VALIDATOR_NOT_INSTALLED']);expect(f.writes).toHaveLength(count);expect(f.pulls).toHaveLength(1)
-})
+},integrationTimeout)
 
 async function historicalFixture() {
 const source='a'.repeat(40),target='b'.repeat(40),hash='c'.repeat(64),path='shared-docs/guides/pages/alpha/lock.yaml'
@@ -278,34 +281,34 @@ it('authenticates donor history and survivor ordering, preserves both branches, 
   const apply=()=>createRemoteTransactionFixture({reads,evidence:f.evidence,transport,scratch:f.objects,remoteObjects,authenticate:async()=>{},validatorInstalled:async()=>{}}).apply(intent)
   const result=await apply();expect(result.reasons).toEqual([]);expect(result.status).toBe('accepted');expect(result.donorCloseProposals).toEqual([{prNumber:21,head:f.s.oid,survivor:20,seal:next.s.oid}]);expect(refs.get('shared-update/donor')).toBe(f.s.oid);expect(transcript).toEqual(['cas','dispatch'])
   pulls[1].state='closed';const second=await apply();expect(second.reasons).toEqual([]);expect(second.status).toBe('accepted');expect(second.donorCloseProposals).toEqual([]);expect(transcript).toEqual(['cas','dispatch'])
-},30000)
+},integrationTimeout)
 
 it('uses retained dispatch attempts only as a veto and never redispatches an invisible queued request',async()=>{
   const f=await fixture();f.installValidator('missing');expect((await f.harness().apply(f.intent)).reasons).toEqual(['VALIDATION_PENDING']);const count=f.writes.length
   expect((await f.harness().apply(f.intent)).reasons).toEqual(['VALIDATION_PENDING']);expect(f.writes).toHaveLength(count);expect(f.writes.filter(write=>write.action==='dispatches')).toHaveLength(1)
-},15000)
+},integrationTimeout)
 it('does not redispatch a lost dispatch response with no visible run in a fresh same-store invocation',async()=>{
   const f=await fixture();f.installValidator('missing');const baseline=await fixture();await baseline.harness().apply(baseline.intent);f.setFault(baseline.writes.length+1,'lost')
   expect((await f.harness().apply(f.intent)).reasons).toEqual(['REMOTE_STATE_UNKNOWN']);f.clearFault();const count=f.writes.length;expect((await f.harness().apply(f.intent)).reasons).toEqual(['VALIDATION_PENDING']);expect(f.writes).toHaveLength(count)
-},15000)
+},integrationTimeout)
 it('bounds repeated-subtree DAG expansion before uploads',async()=>{
   const f=await fixture();let tree=f.intent.candidateTree
   for(let index=0;index<14;index++)tree=f.object('tree',Buffer.concat([Buffer.from('40000 a\0'),Buffer.from(tree,'hex'),Buffer.from('40000 b\0'),Buffer.from(tree,'hex')]))
   const raw=Buffer.from(await f.scratch.read(f.candidate,'commit')).toString().replace('tree '+f.intent.candidateTree,'tree '+tree),candidate=f.object('commit',Buffer.from(raw)),proof={...f.proof,candidate,candidateTree:tree},proofRef=await f.evidence.writeBlob(canonicalBytes(proof))
   const result=await f.harness().apply({...f.intent,candidate,candidateTree:tree,proof:proofRef,proofSha256:proofRef.sha256});expect(result.reasons).toEqual(['TRANSACTION_BUDGET']);expect(f.writes).toHaveLength(0)
-})
+},integrationTimeout)
 
 it('rejects a PR appearing between authenticated discovery and the second snapshot before any upload',async()=>{
   const f=await fixture();f.appearAfterScans(5);const result=await f.harness().apply(f.intent);expect(result.reasons).toEqual(['PULL_SET_CHANGED']);expect(f.writes).toHaveLength(0)
-})
+},integrationTimeout)
 it('reuses a uniquely authenticated draft after its creation response is lost, without duplicate creation',async()=>{
   const baseline=await fixture();await baseline.harness().apply(baseline.intent);const f=await fixture();f.setFault(baseline.writes.length,'lost');expect((await f.harness().apply(f.intent)).reasons).toEqual(['REMOTE_STATE_UNKNOWN']);f.clearFault();const count=f.writes.length
   const result=await f.harness().apply(f.intent);expect(result.reasons).toEqual(['VALIDATOR_NOT_INSTALLED']);expect(f.writes).toHaveLength(count);expect(f.pulls).toHaveLength(1)
-},15000)
+},integrationTimeout)
 it.each(['closed','merged','duplicate'])('holds an existing exact-ref %s PR without reopening or creating another',async state=>{
   const f=await fixture(),pull={number:20,id:20,created_at:'2026-01-01T00:00:00Z',base:{repo:{id:100},ref:'master',sha:f.master},head:{repo:{id:100},ref:f.intent.targetRef,sha:f.master},user:{id:27},state:state==='merged'?'closed':state==='duplicate'?'open':'closed',merged_at:state==='merged'?'2026-02-01T00:00:00Z':null,draft:true};f.pulls.push(pull);if(state==='duplicate')f.pulls.push({...pull,number:21,id:21})
   expect((await f.harness().apply(f.intent)).status).toBe('hold');expect(f.writes).toHaveLength(0)
-})
+},integrationTimeout)
 
 it('latches a transport timeout and an authority revocation without issuing a second mutation',async()=>{
   const f=await fixture();let requests=0
@@ -314,20 +317,20 @@ it('latches a transport timeout and an authority revocation without issuing a se
   const revoked=await fixture();let authorityChecks=0
   const result=await createRemoteTransactionFixture({reads:revoked.reads,evidence:revoked.evidence,scratch:revoked.scratch,remoteObjects:revoked.remoteObjects,transport:revoked.transport,authenticate:async()=>{if(++authorityChecks>1)throw Error('Authority revoked')}}).apply(revoked.intent)
   expect(result.status).toBe('hold');expect(revoked.writes).toHaveLength(0)
-})
+},integrationTimeout)
 
 it('reconstructs a human successor as written-but-stale without treating it as authorization',async()=>{
   const f=await fixture();await f.harness().apply(f.intent);const count=f.writes.length,seal=f.getSeal()!,human=f.object('commit',f.rawCommit(f.intent.candidateTree,[seal],'human edit\n'),f.remote)
   f.remote(['update-ref','refs/heads/'+f.intent.targetRef,human,seal]);const result=await f.harness().reconcile(f.intent)
   expect(result.reasons).toEqual(['TARGET_STALE']);expect(result.observation?.targetState).toBe('written-stale');expect(f.writes).toHaveLength(count)
-},10000)
+},integrationTimeout)
 it('rejects a foreign staging object or stale M before any upload',async()=>{
   const f=await fixture();f.remote(['update-ref','refs/heads/'+f.intent.stagingRef,f.master]);expect((await f.harness().apply(f.intent)).status).toBe('hold');expect(f.writes).toHaveLength(0)
   const stale=await fixture(),newMaster=stale.object('commit',stale.rawCommit(stale.masterTree,[stale.master],'moved\n'),stale.remote);stale.remote(['update-ref','refs/heads/master',newMaster]);expect((await stale.harness().apply(stale.intent)).reasons).toEqual(['BASE_CHANGED']);expect(stale.writes).toHaveLength(0)
-})
+},integrationTimeout)
 it('rejects proof/plan/revision substitutions before any mutation',async()=>{
   const f=await fixture();const proof={...f.proof,prepared:{...f.proof.prepared,tree:'f'.repeat(40)}},ref=await f.evidence.writeBlob(canonicalBytes(proof));expect((await f.harness().apply({...f.intent,proof:ref,proofSha256:ref.sha256})).reasons).toEqual(['PREPARED_TREE_BINDING']);expect(f.writes).toHaveLength(0)
-})
+},integrationTimeout)
 
 it('expires a genuinely pending mutation transport via its 30-second AbortSignal and never writes again',async()=>{
   const f=await fixture();let requests=0,aborted=false,entered!:()=>void
@@ -341,4 +344,4 @@ it('expires a genuinely pending mutation transport via its 30-second AbortSignal
     expect(aborted).toBe(true);expect(result.reasons).toEqual(['REMOTE_STATE_UNKNOWN']);expect(requests).toBe(1)
     await transaction.reconcile(f.intent);expect(requests).toBe(1)
   } finally {vi.useRealTimers()}
-})
+},integrationTimeout)
