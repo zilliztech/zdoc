@@ -64,7 +64,7 @@ async function fixture() {
   members.set('provenance.json',canonicalBytes(receipt))
   const records=new Map<string,{s:typeof s;seal:RemoteSealV1;members:Map<string,Uint8Array>}>([[s.oid,{s,seal,members}]])
   const evidence=await initializeEvidence({root:join(root,'evidence'),repositories:[repository],owner:'fixture'})
-  const pulls=[{id:20,number:20,base:{repo:{id:100},ref:'master',sha:master},head:{repo:{id:100},ref:'shared-update/unit',sha:s.oid},user:{id:27},state:'open',merged_at:null,draft:true}]
+  const pulls=[{id:20,number:20,base:{repo:{id:100},ref:'master',sha:master},head:{repo:{id:100},ref:'shared-update/unit',sha:s.oid},user:{id:27},state:'open',merged_at:null,draft:true,created_at:'2026-01-01T00:00:00Z'}]
   let signaturePatch:Record<string,unknown>={},runPatch:Record<string,unknown>={},artifactPatch:Record<string,unknown>={};const transcript:string[]=[]
   const transport:RemoteTransport=async request=>{
     transcript.push(request.method+' '+request.path);const url=new URL(request.path,'https://api.github.com'),part=url.pathname.replace('/repos/example/zdoc','');let value:unknown
