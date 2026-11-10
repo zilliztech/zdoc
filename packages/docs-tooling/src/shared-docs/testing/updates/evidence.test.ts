@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
+import { constants } from 'node:fs'
 import { initializeEvidence, writeOwnedBlob, sameFilesystemIdentity, checkedAncestors } from '../../adapters/updates/evidence'
 const roots: string[] = []
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
@@ -173,4 +174,78 @@ describe('fresh bounded ancestor checks', () => {
       vi.doUnmock('node:fs/promises'); vi.resetModules()
     }
   })
+})
+
+
+describe('concurrent content-addressed evidence writes', () => {
+  it.each(['complete', 'tamper', 'fail'] as const)('orders same-path writers until the first write %s without caching trust', async mode => {
+    const {root, repo} = await fixture(), out = join(root, 'concurrent')
+    const bytes = Buffer.from('same immutable evidence'), path = join(out, 'blobs', createHash('sha256').update(bytes).digest('hex'))
+    const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+    let release!: () => void, entered!: () => void
+    const blocked = new Promise<void>(resolve => { release = resolve })
+    const writing = new Promise<void>(resolve => { entered = resolve })
+    const failure = new Error('injected first-writer failure')
+    let metadataReads = 0, targetWrites = 0
+    const operations: Promise<unknown>[] = []
+    vi.resetModules()
+    vi.doMock('node:fs/promises', () => ({...actual,
+      lstat: (...args: Parameters<typeof actual.lstat>) => { metadataReads++; return actual.lstat(...args) },
+      open: async (...args: Parameters<typeof actual.open>) => {
+        const target = String(args[0]) === path && typeof args[1] === 'number' && (args[1] & constants.O_EXCL) !== 0
+        if (target) targetWrites++
+        const handle = await actual.open(...args)
+        if (target && targetWrites === 1) {
+          const write = handle.writeFile.bind(handle), close = handle.close.bind(handle)
+          handle.writeFile = async (...data: Parameters<typeof handle.writeFile>) => {
+            entered(); await blocked
+            if (mode === 'fail') throw failure
+            return write(...data)
+          }
+          handle.close = async () => {
+            await close()
+            if (mode === 'tamper') await actual.writeFile(path, Buffer.alloc(bytes.length, 120))
+          }
+        }
+        return handle
+      },
+    }))
+    try {
+      const {initializeEvidence: initialize} = await import('../../adapters/updates/evidence')
+      const store = await initialize({root: out, repositories: [repo], owner: 'concurrent'})
+      const first = store.writeBlob(bytes); operations.push(first)
+      await writing
+      metadataReads = 0
+      const second = store.writeBlob(Uint8Array.from(bytes)); operations.push(second)
+      // Same-path followers must not inspect the half-written file. This assertion
+      // observes synchronous I/O entry, without a sleep or a timing threshold.
+      expect(metadataReads).toBe(0)
+      const unrelated = store.writeBlob(Buffer.from('independent evidence')); operations.push(unrelated)
+      expect(Buffer.from(await store.readBlob(await unrelated)).toString()).toBe('independent evidence')
+      expect(targetWrites).toBe(1)
+      release()
+      const results = await Promise.allSettled([first, second])
+      if (mode === 'complete') {
+        expect(results.map(result => result.status)).toEqual(['fulfilled', 'fulfilled'])
+        expect(await second).toEqual(await first)
+        expect(Buffer.from(await store.readBlob(await second))).toEqual(bytes)
+      } else if (mode === 'tamper') {
+        expect(results[0].status).toBe('fulfilled')
+        expect(results[1].status).toBe('rejected')
+        await expect(store.writeBlob(bytes)).rejects.toThrow()
+      } else {
+        expect(results).toEqual([{status: 'rejected', reason: failure}, {status: 'rejected', reason: failure}])
+        expect(targetWrites).toBe(1)
+        // The completed queue entry is gone; a later call inspects the retained
+        // incomplete file afresh and still refuses it instead of retrying writes.
+        const later = await store.writeBlob(bytes).then(() => null, error => error)
+        expect(later).toBeInstanceOf(Error)
+        expect(later).not.toBe(failure)
+        expect(targetWrites).toBe(2)
+      }
+    } finally {
+      release(); await Promise.allSettled(operations)
+      vi.doUnmock('node:fs/promises'); vi.resetModules()
+    }
+  }, 30000)
 })

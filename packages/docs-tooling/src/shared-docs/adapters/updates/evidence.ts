@@ -178,6 +178,7 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
   }
   await verify()
   const ownedJournals = new Map<string, { dev: bigint; ino: bigint }>()
+  const pendingBlobs = new Map<string, Promise<BlobRef>>()
   async function writeExclusive(path: string, bytes: Uint8Array) {
     if (bytes.byteLength > limit) throw new Error('Oversized evidence')
     await verify(); const parents = await checkedAncestors(dirname(path))
@@ -201,9 +202,19 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
     },
     async writeBlob(bytes) {
       const ref = { path: `blobs/${rawSha256(bytes)}`, sha256: rawSha256(bytes), bytes: bytes.byteLength }
-      try { await writeExclusive(join(root, ref.path), bytes) }
-      catch (e) { if ((e as NodeJS.ErrnoException).code !== 'EEXIST') throw e; await readBlob(ref) }
-      return ref
+      // An exclusive create makes the path visible before its bytes are durable.
+      // Order this store's same-path writers, but retain no completed trust result:
+      // every follower performs the ordinary fresh write/collision validation.
+      const previous = pendingBlobs.get(ref.path)
+      const pending = (async () => {
+        if (previous) await previous
+        try { await writeExclusive(join(root, ref.path), bytes) }
+        catch (e) { if ((e as NodeJS.ErrnoException).code !== 'EEXIST') throw e; await readBlob(ref) }
+        return ref
+      })()
+      pendingBlobs.set(ref.path, pending)
+      try { return await pending }
+      finally { if (pendingBlobs.get(ref.path) === pending) pendingBlobs.delete(ref.path) }
     },
     async readMaterial(material, ref) {
       RepoPathSchema.parse(material.path)
