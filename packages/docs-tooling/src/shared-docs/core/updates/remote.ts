@@ -51,7 +51,7 @@ export function classifyRemoteRead(input: unknown): RemoteReadResult<unknown> {
 const IdentitySchema = z.strictObject({ actorId: positive, workflowId: positive, workflowPath: path,
   workflowDefinitionSha256: DigestSchema, event: z.literal('workflow_dispatch') })
 export const RemotePolicySchema = z.strictObject({ host: z.literal('github.com'), repositoryId: positive, repositoryFullName: path,
-  baseRef: z.literal('master'), writerActorId: positive, allowedHeadPrefixes: z.array(text).min(1).max(16), checkAppId: positive,
+  baseRef: z.literal('master'), writerActorId: positive, sealIdentity: z.strictObject({ scheme: z.literal('github-app-author-v1'), platformSignerActorId: positive }), allowedHeadPrefixes: z.array(text).min(1).max(16), checkAppId: positive,
   checkName: text, producerArtifactName: text, validatorArtifactName: text, producer: IdentitySchema, validator: IdentitySchema })
 export interface RemotePolicy extends Required<z.infer<typeof RemotePolicySchema>> {}
 export const ExactValidationExpectedSchema = z.strictObject({ repositoryId: positive, prNumber: positive, branch: text,
@@ -100,7 +100,7 @@ export const RemoteFactsSchema = z.strictObject({ host: z.literal('github.com'),
   members: readResultSchema(z.array(ArtifactMemberFactSchema).max(REMOTE_LIMITS.members)),
   seal: readResultSchema(z.strictObject({ oid: GitShaSchema, parents: z.array(GitShaSchema).max(2), tree: GitTreeOidSchema,
     signatureValid: z.boolean(), signatureState: z.literal('VALID'), wasSignedByGitHub: z.boolean(),
-    signerActorId: positive.nullable(), authorActorId: positive.nullable(), writerAttribution: z.strictObject({ role: z.literal('committer'), actorId: positive }), metadata: RemoteSealV1Schema, evidence })),
+    signerActorId: positive.nullable(), authorActorId: positive.nullable(), writerAttribution: z.strictObject({ role: z.literal('author'), actorId: positive }), metadata: RemoteSealV1Schema, evidence })),
   output: blob(REMOTE_LIMITS.outputBytes) })
 export interface RemoteFacts extends Required<z.infer<typeof RemoteFactsSchema>> {}
 const hash = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex')
@@ -166,7 +166,7 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
     runId: intent.producerRunId, runAttempt: intent.producerRunAttempt }
   if (seal) {
     matches(seal, { oid: intent.seal, parents: [intent.candidate], tree: intent.candidateTree,
-      signatureValid: true, signatureState: 'VALID', wasSignedByGitHub: true, writerAttribution: { role: 'committer', actorId: rules.writerActorId } }, 'SEAL')
+      signatureValid: true, signatureState: 'VALID', wasSignedByGitHub: true, authorActorId: rules.writerActorId, signerActorId: rules.sealIdentity.platformSignerActorId, writerAttribution: { role: 'author', actorId: rules.writerActorId } }, 'SEAL')
     matches(seal.metadata, sealExpected, 'SEAL_METADATA')
     checkBinding(canonicalBytes(seal.metadata).length <= REMOTE_LIMITS.payloadBytes, 'SEAL_SIZE')
   }
