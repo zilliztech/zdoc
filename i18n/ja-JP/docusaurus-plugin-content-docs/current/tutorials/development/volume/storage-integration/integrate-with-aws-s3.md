@@ -419,6 +419,16 @@ Zilliz Cloud コンソールでの操作の代わりに、ストレージ連携�
 
 ![YODhb5leToWLsjxGRrpcyuZNnPb](https://zdoc-images.s3.us-west-2.amazonaws.com/yodhb5letowlsjxgrrpcyuznnpb.png "YODhb5leToWLsjxGRrpcyuZNnPb")
 
+<Procedures>
+
+1. プロジェクトページで、左側のナビゲーションパネルから **Integrations** に移動します。
+
+1. 対象の連携をクリックし、**Actions** の下にある **...** をクリックします。
+
+1. **View Details** または **Remove** をクリックします。
+
+</Procedures>
+
 ### 連携 ID を取得する\{#obtain-the-integration-id}
 
 RESTful API を使用して、Zilliz Cloud と連携した AWS S3 バケットのいずれかにバックアップファイルをエクスポートする必要がある場合は、**View Details** をクリックして連携の詳細を表示し、その連携 ID をコピーします。

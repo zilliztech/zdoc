@@ -127,13 +127,13 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
 ## ユーザーへのロールの付与\{#grant-a-role-to-a-user}
 
-クラスターロールの作成後、そのロールをユーザーに付与できます。Users タブで、[新しいクラスターユーザーを作成する](./cluster-users#create-a-cluster-user)際、または[既存のクラスターユーザーのロールを編集する](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user)際にロールを付与します。
+クラスターロールを作成すると、ユーザーにそのロールを付与できます。**Users** タブに移動し、[新しいクラスターユーザーを作成](./cluster-users#create-a-cluster-user)するとき、または[既存のクラスターユーザーのロールを編集](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user)するときにロールを付与します。
 
 ![grant-role-to-user](https://zdoc-images.s3.us-west-2.amazonaws.com/grant-role-to-user.png "grant-role-to-user")
 
 ## ユーザーからのロールの取り消し\{#revoke-a-role-from-a-user}
 
-クラスターロールがユーザーに適さなくなった場合は、そのロールを取り消せます。Users タブで対象のユーザーを探し、[ロールを編集](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user)をクリックして、ダイアログボックスで別のロールを選択します。
+クラスターロールがユーザーに適さなくなった場合は、そのロールを取り消すことができます。**Users** タブに移動し、対象ユーザーを見つけて、[ロールを編集](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user)をクリックします。ダイアログボックスで別のロールを選択します。
 
 ![revoke-role-from-user](https://zdoc-images.s3.us-west-2.amazonaws.com/revoke-role-from-user.png "revoke-role-from-user")
 
@@ -143,6 +143,20 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
 ![edit-custom-role](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-custom-role.png "edit-custom-role")
 
+<Procedures>
+
+1. 対象クラスターに移動します。
+
+1. **Roles** タブに切り替えます。
+
+1. **Actions** の下にある **...** をクリックします。
+
+1. **Edit** をクリックします。
+
+1. ロールの権限を調整し、**Save** をクリックします。
+
+</Procedures>
+
 ## カスタムクラスターロールの削除\{#delete-a-custom-cluster-role}
 
 不要になったカスタムクラスターロールは削除できます。
@@ -151,3 +165,16 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
 ![delete-クラスター-role](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-cluster-role.png "delete-クラスター-role")
 
+<Procedures>
+
+1. 対象クラスターに移動します。
+
+1. **Roles** タブに切り替えます。
+
+1. **Actions** の下にある **...** をクリックします。
+
+1. **Delete** をクリックします。
+
+1. ロール名を入力し、**Delete** をクリックします。
+
+</Procedures>

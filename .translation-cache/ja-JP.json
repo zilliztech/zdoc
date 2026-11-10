@@ -1396,9 +1396,9 @@
       "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/projects/manage-projects.md": {
-      "sourceHash": "ebc1be179f50878b2e18ae765b5362a3391dc911083dced9f46ce73a2408af7d",
+      "sourceHash": "3218f7d883652c42509f813ee75dd30d636f5a9d1f216fa2393ed53db854afd0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/projects/manage-projects.md",
-      "translatedAt": "2026-08-25T17:18:58.230Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/byoc/tutorials/management/slow-logs/configure-slow-logs.md": {
       "sourceHash": "da2b86e70b32387146b3958df58057f60dea62b77efb0ef7481d314c968869b5",
@@ -1526,9 +1526,9 @@
       "translatedAt": "2026-11-09T12:58:44.287Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-overview.md": {
-      "sourceHash": "a224a10f60e54621dc4ab9318ed32fc04b1dbc747817f9dbeca65b3826db490b",
+      "sourceHash": "8f84b03187c67d6bc42eae203a1a2f85f1568e861197eea40c6ec600291e38eb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-overview.md",
-      "translatedAt": "2026-11-05T11:27:22.390Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md": {
       "sourceHash": "6cbcae0ea1040842883772e042b2ce529426dd09d29d19d6bfe131993c828fdf",
@@ -1591,9 +1591,9 @@
       "translatedAt": "2026-11-05T11:40:45.651Z"
     },
     "content/en/guides/tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case.md": {
-      "sourceHash": "45224d92de30ce53ca98a8ed5e836215c6ddbeaebfff4ee041139690f2dd91e7",
+      "sourceHash": "f0e804223f7de7b0a15a4c2f837c5fb91e67939d82ff28ba3a0289cab721a92d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case.md",
-      "translatedAt": "2026-11-05T11:40:45.651Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/analyzer/multi-language-analyzers.md": {
       "sourceHash": "65bd66424cb33e6b9d74ff3cabacda3653a39c53e3a4e8ee17f66af8baaff941",
@@ -1601,14 +1601,14 @@
       "translatedAt": "2026-11-06T12:02:10.961Z"
     },
     "content/en/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md": {
-      "sourceHash": "fc5897250bb402d6651125747792ef75415d6b04cec524a0d10500915f096e60",
+      "sourceHash": "e9b7b84aacec69e7abc32f775e927ec7c6b32c090caa9eb8152d7ee592fa611e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/collection-on-console/manage-collections-console.md",
-      "translatedAt": "2026-11-07T11:50:28.363Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/collection/collection-on-console/manage-external-collections-console.md": {
-      "sourceHash": "26556fd194be758aa558df274d476e716ea02b194130708b3e1c636147f0b681",
+      "sourceHash": "ed237f85e78116e30da9106c6ba981853f00a0dfe0789edf03aa5a66814bc398",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
-      "translatedAt": "2026-11-08T07:48:30.349Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md": {
       "sourceHash": "3511926a0d62eaf0a82ddf6ea857c474a1bf0ef859f8b15ed82e105f71481c19",
@@ -1731,9 +1731,9 @@
       "translatedAt": "2026-11-09T13:42:33.325Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data-on-web-ui.md": {
-      "sourceHash": "c1a7d059212b029e47d195400eaebae9b50075f6c2021e8b49cdc975e586df3f",
+      "sourceHash": "c009aa73339ef62496a3dc70fa2ba0a7c59c073a682fc126895fa2afcdf68a90",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data-on-web-ui.md",
-      "translatedAt": "2026-09-19T14:05:52.293Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data-via-restful-api.md": {
       "sourceHash": "7e0cdc00edf28c054e4e5ea9ca905bf55142d06e421788ecca41d91a32c63475",
@@ -1776,9 +1776,9 @@
       "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/function/bm25-function.md": {
-      "sourceHash": "fe38a0a1d082232e2d7a5132fb004abce52a9617068bdcac4a4d311bf0c6a0c9",
+      "sourceHash": "836955bedcbd973d62d09ef36dc463adcfa5779bd544d2c1e36a342915b74928",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/bm25-function.md",
-      "translatedAt": "2026-11-09T13:42:33.325Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/function/minhash-function.md": {
       "sourceHash": "60b6ddfde42c9cf7479594932fe617f682756a44a9794e4c50b23e8f8b1410b8",
@@ -2016,9 +2016,9 @@
       "translatedAt": "2026-11-09T13:47:51.369Z"
     },
     "content/en/guides/tutorials/development/schema/use-geometry-field.md": {
-      "sourceHash": "83277b18f043bbcdb5100d2e29c493c57367c78ecb2a7818d43b724e3f46d815",
+      "sourceHash": "989dba3af2a23eccfd3c0669e3e813f6c599c12b0d8c8a41e1c567f5ec42d331",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-geometry-field.md",
-      "translatedAt": "2026-11-06T12:02:10.961Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/schema/use-number-field.md": {
       "sourceHash": "b6656c43a0c287d78fcd7cf6e754c153f381e569ecb56975c83a3d6999bf35b5",
@@ -2046,9 +2046,9 @@
       "translatedAt": "2026-11-07T12:03:18.393Z"
     },
     "content/en/guides/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "b5f5d1fd1d30fb9aa9add66401a4a8141f746b289d30c3443906e571342af581",
+      "sourceHash": "19094714a5b3875acc119d95160f659b43ae96aaa41d3e860730200c5807a020",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-11-05T20:41:59.139Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "12e8a14d3939ed237a2926c7e5d0de5fa9dc059eb6a85143182fb0d363d8948c",
@@ -2286,29 +2286,29 @@
       "translatedAt": "2026-10-25T05:21:41.431Z"
     },
     "content/en/guides/tutorials/development/volume/external-volume.md": {
-      "sourceHash": "df19f0dfd82f183d2f136bd39635f9e919c215b24ead0492a05a0d5391928765",
+      "sourceHash": "ef6e5a03447cc82bee44eeb6c68153de2dbf1384eeb39e73429bd3113c4303ed",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/external-volume.md",
-      "translatedAt": "2026-11-05T14:43:45.949Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/volume/managed-volume.md": {
-      "sourceHash": "8fadd130defca0e807288232ef81a7397ad6c1e40aef52c246f3172ff9e47ed7",
+      "sourceHash": "6ec0ae95f13c98baad3c07f51b2523fa37b768d8157701ed355a5d57f81dd7bf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/managed-volume.md",
-      "translatedAt": "2026-11-05T14:43:45.949Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
-      "sourceHash": "d4e2123bc561bc520b28fd21d2f13939393df6a9d557c15e13958a1880209c23",
+      "sourceHash": "b6cb36103f9266c146b52e4dc3c75cd763612e7fdb215d8ec0aa046c9619d4d9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md": {
-      "sourceHash": "aa9b21715e0720764fae2b648b5b1053e85bb1f097f9b4faa6505d434bc4f139",
+      "sourceHash": "67f2f49abf37baa1443c7d5f3b6998457f04a1c232d9e67f64f68f70de649aa4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-gcp.md": {
-      "sourceHash": "d3ab79a00ba402261a7155f72b24cffe13491397e7f4a388c592262e55684457",
+      "sourceHash": "260cc33b165f4c700129f28ae40707f7ba458942bb88514a50467c3c0ff68c71",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/storage-integration/integrate-with-gcp.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/get-started/cloud-providers-and-regions.md": {
       "sourceHash": "96df855d70c38a26612dcf67eda8ca39e325ee9e3d91e0f4f56db0d091af5d3a",
@@ -2606,9 +2606,9 @@
       "translatedAt": "2026-11-09T13:53:59.156Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md": {
-      "sourceHash": "51898fd5af62aae5e6bbf4104547527bf2f3b489605ed8534814aa03ae523073",
+      "sourceHash": "2bd93defb58be777c6792e6b9121fa0d0b9579f85c6031cc623f8e5dac2a9dc9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-platform-roles.md": {
       "sourceHash": "c084cf6d7d91ac2a863505e9f15be09cb15ec076a565b515b56e73c1cbb2a73a",

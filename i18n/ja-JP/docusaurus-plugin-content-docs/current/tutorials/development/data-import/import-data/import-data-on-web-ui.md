@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # データのインポート（Console）
 
 このページでは、準備したデータを Zilliz Cloud コンソールでインポートする方法を紹介します。
@@ -40,9 +42,31 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud は、ローカルの JSON または Parquet ファイルからのデータインポートをサポートしています。データが NumPy 形式で準備されている場合は、[オブジェクトストレージバケット](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket)からインポートしてください。
 
-ローカルファイルからデータをインポートするには、アップロード領域にファイルをドラッグ＆ドロップして、**Import** をクリックします。
+ローカルファイルからデータをインポートするには、以下のデモに従ってください。
 
 <Supademo id="cme7x3fgv388ch3pyymi6ek0q?utm_source=link" title=""  />
+
+<Procedures>
+
+1. データをインポートする対象のコレクションに移動します。
+
+1. **Data** タブに切り替えます。
+
+1. **Import Data** をクリックします。
+
+1. データインポート設定を構成します。
+
+    - パーティションを選択します。
+
+    - **Data Location** で **Local File** を選択します。
+
+    - データ形式を選択します。サポートされているデータ形式については、[Format Options](./data-import-format-options) を参照してください。
+
+    - ローカルファイルを **Select File** 領域にドラッグまたはドロップします。
+
+1. **Import** をクリックします。
+
+</Procedures>
 
 ### オブジェクトストレージバケット内のリモートファイル\{#remote-files-from-an-object-storage-bucket}
 
@@ -72,6 +96,28 @@ Zilliz Cloud では、クラスターをホストしているクラウドプロ�
 
 <Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
 
+<Procedures>
+
+1. データをインポートする対象のコレクションに移動します。
+
+1. **Data** タブに切り替えます。
+
+1. **Import Data** をクリックします。
+
+1. データインポート設定を構成します。
+
+    - パーティションを選択します。
+
+    - **Data Location** で **Object Storage Service** を選択します。
+
+    - データ形式を選択します。サポートされているデータ形式については、[Format Options](./data-import-format-options) を参照してください。
+
+    - オブジェクトストレージサービスの認証情報を入力します。
+
+1. **Import** をクリックします。
+
+</Procedures>
+
 ### volume から\{#from-a-volume}
 
 - **Managed volume**: ローカルファイルが非常に大きい場合（1 GB 超）、まず[ファイルを managed volume にアップロード](./managed-volume)してから、その volume からインポートできます。準備したファイルを volume にアップロードしたら、ファイルパスをコピーし、コレクションへのファイルのインポートを続行します。
@@ -81,6 +127,32 @@ Zilliz Cloud では、クラスターをホストしているクラウドプロ�
 次のデモは、managed volume からデータをインポートする方法を示しています。
 
 <Supademo id="cmidzr662adilb7b4d7l45rnf?utm_source=link" title=""  />
+
+<Procedures>
+
+1. 対象のボリュームに移動し、**Files** タブに切り替えます。
+
+1. **Actions** 列で **...** をクリックし、**Copy Path** を選択します。
+
+1. データをインポートする対象のコレクションに移動します。
+
+1. **Data** タブに切り替えます。
+
+1. **Import Data** をクリックします。
+
+1. データインポート設定を構成します。
+
+    - パーティションを選択します。
+
+    - **Data Location** で **Volume** を選択します。
+
+    - データ形式を選択します。サポートされているデータ形式については、[Format Options](./data-import-format-options) を参照してください。
+
+    - ステップ 2 でコピーしたファイルまたはフォルダーのパスを貼り付けます。
+
+1. **Import** をクリックします。
+
+</Procedures>
 
 ## 結果を確認する\{#verify-results}
 
@@ -111,4 +183,3 @@ Zilliz Cloud では、クラスターをホストしているクラウドプロ�
 - [SDK 経由でデータをインポート](./import-data-via-sdks)
 
 - [データインポート ハンズオン](./data-import-zero-to-hero)
-

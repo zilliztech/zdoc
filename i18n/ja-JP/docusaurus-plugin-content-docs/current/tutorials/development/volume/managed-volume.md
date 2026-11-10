@@ -459,6 +459,14 @@ export TOKEN="YOUR_API_KEY"
 
     ![Hp1Hwxoj9hkJqdbECCYcB4G6nVe](https://zdoc-images.s3.us-west-2.amazonaws.com/Hp1Hwxoj9hkJqdbECCYcB4G6nVe.png)
 
+    <Procedures>
+
+    1. 左側のナビゲーションパネルで **Volumes** をクリックします。
+
+    1. プロジェクト内の既存のボリュームをすべて表示します。
+
+    </Procedures>
+
 ## マネージドボリュームの詳細を表示する\{#describe-managed-volume}
 
 特定のマネージドボリュームの詳細も確認できます。
@@ -609,6 +617,16 @@ export TOKEN="YOUR_API_KEY"
     プロジェクト内のボリュームの一覧を表示し、ボリューム名をクリックすると特定のボリュームの詳細を確認できます。
 
     ![FU4ow2zIuht0CfbRiBJcFZ6RnYf](https://zdoc-images.s3.us-west-2.amazonaws.com/FU4ow2zIuht0CfbRiBJcFZ6RnYf.png)
+
+    <Procedures>
+
+    1. 左側のナビゲーションパネルで **Volumes** をクリックします。
+
+    1. 対象のボリュームをクリックし、**Overview** タブに切り替えます。
+
+    1. ボリュームの詳細を表示します。
+
+    </Procedures>
 
 ## マネージドボリュームにデータをアップロードする\{#upload-data-into-a-managed-volume}
 

@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # コレクションの管理（コンソール）
 
 コレクションは、ベクトル埋め込みとメタデータを保存するために使用される 2 次元テーブルです。コレクション内のすべてのエンティティは同じスキーマを共有します。データ管理やマルチテナンシーを目的として、複数のコレクションを作成できます。
@@ -164,6 +166,32 @@ mmap 設定には注意してください。デフォルトの mmap 設定を変
 
 <Supademo id="cmbk94p4i8hm0sn1rhzrph2b5" title=""  />
 
+- **コレクション作成時に mmap を構成する**
+
+    <Procedures>
+
+    1. コレクション作成ページで **Advanced Settings** まで下にスクロールし、**Mmap Settings** をクリックします。
+
+    1. コレクションレベルとフィールドレベルの mmap 設定を構成します。
+
+    1. **Save** をクリックします。
+
+    </Procedures>
+
+- **既存のコレクションの mmap を変更する**
+
+    <Procedures>
+
+    1. mmap 設定を変更する前に、コレクションをリリースしてください。
+
+    1. コレクションの **Overview** ページを開き、**Mmap Settings** アイコンをクリックします。
+
+    1. 必要に応じて、コレクションレベルとフィールドレベルの mmap 設定を調整します。
+
+    1. **Save** をクリックします。
+
+    </Procedures>
+
 ### シャード\{#shard}
 
 シャードは、データ入力チャネルに対応するコレクションの水平スライスです。すべてのコレクションにはデフォルトで 1 つのシャードが付属しています。書き込みスループットを向上させるために、シャードを追加できます。
@@ -180,6 +208,24 @@ Zilliz Cloud コンソールでは、全文検索で使用する関数とアナ�
 
 <Supademo id="cmbj8ahun7j48sn1redlc3e93" title=""  />
 
+<Procedures>
+
+1. コレクションスキーマに `VARCHAR` フィールドと `SPARSE_FLOAT_VECTOR` フィールドを追加します。
+
+1. **Advanced Settings** まで下にスクロールし、**+ Full Text Search** をクリックします。
+
+1. 全文検索の設定を構成します。
+
+    - 入力フィールドとして `VARCHAR` フィールドを選択します。
+
+    - アナライザーを選択します。
+
+    - 関数タイプを選択します。
+
+    - 出力フィールドとして `SPARSE_FLOAT_VECTOR` フィールドを選択します。
+
+</Procedures>
+
 ### テキストマッチ\{#text-match}
 
 Zilliz Cloud コンソールでは、テキストマッチ用のフィールドとアナライザーを構成することもできます。テキストマッチの詳細については、[テキストマッチ](./text-match) を参照してください。
@@ -187,6 +233,16 @@ Zilliz Cloud コンソールでは、テキストマッチ用のフィールド�
 以下のデモでは、Zilliz Cloud Web コンソール上でこの機能の入口を示しています。
 
 <Supademo id="cmbj80qyf7it8sn1r6lzo0g1c" title=""  />
+
+<Procedures>
+
+1. コレクションスキーマに `VARCHAR` フィールドを追加します。
+
+1. フィールドの **Settings** アイコンをクリックします。
+
+1. **Text Match** を有効にし、アナライザーを選択します。
+
+</Procedures>
 
 ## コレクションの管理\{#manage-collection}
 
@@ -199,6 +255,16 @@ Zilliz Cloud では、Web コンソールを通じて、作成済みのコレク
 - **コレクションの説明の編集:** 既存のコレクションの説明を変更できます。
 
     ![SBlWwPqMPhqspYbR7pxct59xnle](https://zdoc-images.s3.us-west-2.amazonaws.com/SBlWwPqMPhqspYbR7pxct59xnle.png)
+
+    <Procedures>
+
+    1. 対象のコレクションに移動します。
+
+    1. 説明の横にある **Edit** アイコンをクリックします。
+
+    1. 新しい説明を入力し、**Save** をクリックします。
+
+    </Procedures>
 
 - **コレクションのスキーマと設定の編集:** 現時点では、Zilliz Cloud は次のスキーマと設定の編集のみをサポートしています。
 

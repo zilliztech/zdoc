@@ -343,6 +343,16 @@ Zilliz Cloud コンソールでの操作に代えて、プログラムからス�
 
 ![DN2GbaT6momqNzxZeLwc0fe2nuh](https://zdoc-images.s3.us-west-2.amazonaws.com/dn2gbat6momqnzxzelwc0fe2nuh.png "DN2GbaT6momqNzxZeLwc0fe2nuh")
 
+<Procedures>
+
+1. プロジェクトページで、左側のナビゲーションペインから **Integrations** に移動します。
+
+1. 対象の統合をクリックし、**Actions** の下にある **...** をクリックします。
+
+1. **View Details** または **Remove** をクリックします。
+
+</Procedures>
+
 ### 統合 ID を取得する\{#obtain-the-integration-id}
 
 RESTful API を使用して、Zilliz Cloud と統合された AWS S3 バケットのいずれかにバックアップファイルをエクスポートする必要がある場合は、**View Details** をクリックして統合の詳細を表示し、その統合 ID をコピーします。
@@ -466,4 +476,3 @@ curl --request DELETE \
     - Zilliz Cloud と Azure Portal の両方で、必要な権限があることを確認してください。
 
     - ロールを構成した直後に **AuthorizationPermissionMismatch** または同様の権限エラーが発生した場合は、待機して再試行してください。Azure のロール割り当ての反映には最大 10 分かかることがあり、管理グループのスコープが関与するまれなケースでは、反映に最大 12 時間かかることがあります。
-

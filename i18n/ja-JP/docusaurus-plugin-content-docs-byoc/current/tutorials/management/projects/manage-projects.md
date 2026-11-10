@@ -18,6 +18,10 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
+import Procedures from '@site/src/components/Procedures';
+
 # プロジェクトの管理
 
 Zilliz Cloud において、プロジェクトは組織内の論理的なコンテナーとして機能し、クラスター、ボリューム、および関連リソースをグループ化します。プロジェクト内のすべてのリソースは、同じクラウドプロバイダーとリージョンを共有します。
@@ -72,6 +76,14 @@ BYOC デプロイメントでは、各プロジェクトが 1 つのリージョ
 
     ![VnLHwjlDbhA62GbPXsYcIl6CnKb](https://zdoc-images.s3.us-west-2.amazonaws.com/VnLHwjlDbhA62GbPXsYcIl6CnKb.png)
 
+    <Procedures>
+
+    1. 左側のナビゲーションペインで **Projects** をクリックします。
+
+    1. すべてのプロジェクトの一覧を表示します。
+
+    </Procedures>
+
 ## プロジェクトの詳細を表示する\{#view-project-details}
 
 特定のプロジェクトの詳細を確認することもできます。
@@ -120,7 +132,21 @@ BYOC デプロイメントでは、各プロジェクトが 1 つのリージョ
 
 プロジェクトの名前変更や説明の編集を行うには、[Organization Owner](./manage-platform-roles#predefined-organization-roles) である必要があります。プロジェクトの詳細は Web コンソールから編集できます。
 
-![rename-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-project-byoc.png "rename-project-byoc")
+<Supademo id="cmhiwa69y5zk2fatiw4ou24k6" title=""  />
+
+<Procedures>
+
+1. 対象のプロジェクトを探します。
+
+1. **Actions** 列の **...** をクリックします。
+
+1. **Edit Details** を選択します。
+
+1. プロジェクトの新しい名前または説明を入力します。
+
+1. **Save** をクリックします。
+
+</Procedures>
 
 ## プロジェクトを削除する\{#delete-a-project}
 
@@ -132,5 +158,24 @@ BYOC デプロイメントでは、各プロジェクトが 1 つのリージョ
 
 プロジェクトは Web コンソールから削除できます。
 
-![delete-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-project-byoc.png "delete-project-byoc")
+<Supademo id="cmhiwf80b5zoufatic4p14w7m?utm_source=link" title=""  />
 
+<Procedures>
+
+1. 対象のプロジェクトを探します。
+
+1. **Actions** 列の **...** をクリックします。
+
+1. **Delete** を選択します。
+
+1. 確認のためにプロジェクト名を入力します。
+
+1. **Delete** をクリックします。
+
+</Procedures>
+
+## FAQ\{#faq}
+
+**プロジェクトのプランをダウングレードできますか？**
+
+プランの直接ダウングレードはサポートされていません。下位のプランに切り替えるには、希望するプランで新しいプロジェクトを作成し、そのプロジェクトにデータを [移行](./offline-migration) してください。    

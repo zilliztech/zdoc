@@ -372,6 +372,14 @@ import Procedures from '@site/src/components/Procedures';
 
     ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.s3.us-west-2.amazonaws.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
 
+    <Procedures>
+
+    1. 左側のナビゲーションペインで **Volumes** をクリックします。
+
+    1. プロジェクト内の既存のボリュームをすべて表示します。
+
+    </Procedures>
+
 ## 外部ボリュームの詳細を表示する\{#describe-external-volume}
 
 特定のボリュームの詳細を確認できます。
@@ -504,6 +512,16 @@ import Procedures from '@site/src/components/Procedures';
 - **Web コンソールを使用する場合**
 
     ![NrgXwPhxGhq78NbBfDYcWc6Ened](https://zdoc-images.s3.us-west-2.amazonaws.com/NrgXwPhxGhq78NbBfDYcWc6Ened.png)
+
+    <Procedures>
+
+    1. 左側のナビゲーションペインで **Volumes** をクリックします。
+
+    1. 対象のボリュームをクリックし、**Overview** タブに切り替えます。
+
+    1. ボリュームの詳細を表示します。
+
+    </Procedures>
 
 ## 外部ボリュームを削除する\{#delete-an-external-volume}
 
