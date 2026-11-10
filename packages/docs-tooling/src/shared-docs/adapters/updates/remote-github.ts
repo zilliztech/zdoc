@@ -38,9 +38,11 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
       if(input.method!=='GET')fail('ENDPOINT_INVALID')
       if(input.body||!input.path.startsWith(prefix))fail('ENDPOINT_INVALID')
       const suffix=input.path.slice(prefix.length),parts=suffix.split('?')
-      if(parts.length>2||parts[0].includes('..')||! /^(?:|\/git\/(?:ref\/heads\/[A-Za-z0-9_/%-]+|matching-refs\/heads\/)|\/pulls(?:\/[1-9][0-9]*)?|\/commits\/[a-f0-9]{40}(?:\/check-runs)?|\/actions\/runs\/[1-9][0-9]*(?:\/attempts\/[1-9][0-9]*|\/artifacts)?|\/actions\/workflows\/[1-9][0-9]*|\/actions\/artifacts\/[1-9][0-9]*(?:\/zip)?|\/contents\/\.github\/workflows\/[A-Za-z0-9_.-]+)$/.test(parts[0]))fail('ENDPOINT_INVALID')
+      if(parts.length>2||parts[0].includes('..')||! /^(?:|\/git\/(?:ref\/heads\/[A-Za-z0-9_/-]+|matching-refs\/heads\/)|\/pulls(?:\/[1-9][0-9]*)?|\/commits\/[a-f0-9]{40}(?:\/check-runs)?|\/actions\/runs\/[1-9][0-9]*(?:\/attempts\/[1-9][0-9]*|\/artifacts)?|\/actions\/workflows\/[1-9][0-9]*|\/actions\/artifacts\/[1-9][0-9]*(?:\/zip)?|\/contents\/\.github\/workflows\/[A-Za-z0-9_.-]+)$/.test(parts[0]))fail('ENDPOINT_INVALID')
       for(const [key,value] of new URLSearchParams(parts[1]??''))if(!['page','per_page','state','base','filter','ref'].includes(key)||! /^(?:[1-9][0-9]*|all|open|master|[a-f0-9]{40})$/.test(value))fail('ENDPOINT_INVALID')
     }
+    const canonicalUrl=new URL(input.path,'https://api.github.com')
+    if(canonicalUrl.origin!=='https://api.github.com'||canonicalUrl.pathname!==input.path.split('?')[0]||input.path.includes('%'))fail('ENDPOINT_INVALID')
     const receive = (url: URL, credentials: boolean): Promise<RawResponse> => new Promise((resolve, reject) => {
       const headers: Record<string,string> = { Accept: 'application/vnd.github+json', 'User-Agent': 'zdoc-remote-reads', 'X-GitHub-Api-Version': '2022-11-28' }
       if (credentials) headers.Authorization = `Bearer ${token}`
@@ -60,7 +62,7 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
       if (input.body) req.write(input.body)
       req.end()
     })
-    let result = await receive(new URL(input.path, 'https://api.github.com'), true)
+    let result = await receive(canonicalUrl, true)
     if (result.status >= 300 && result.status < 400) {
       if (!/\/actions\/artifacts\/[1-9][0-9]*\/zip$/.test(input.path) || input.method !== 'GET') fail('REDIRECT_REJECTED')
       const target = new URL(result.headers.location ?? '')

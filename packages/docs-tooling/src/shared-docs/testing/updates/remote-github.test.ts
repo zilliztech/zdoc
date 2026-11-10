@@ -122,6 +122,7 @@ it('uses the real streaming transport decoder, bounds bodies, rejects writes and
     expect((await transport(request)).status).toBe(200);oversized=true;await expect(transport(request)).rejects.toThrow();oversized=false
     for(const method of ['DELETE','PATCH','PUT','HEAD']){const before=received.length;await expect(transport({...request,method:method as 'GET'})).rejects.toThrow();expect(received).toHaveLength(before)}
     await expect(transport({...request,method:'POST',body:Buffer.from('{"query":"mutation{delete}"}')})).rejects.toThrow()
+    for(const path of ['/repos/example/zdoc/git/ref/heads/%2e%2e/%2e%2e/%2e%2e/%2e%2e/other','/repos/example/zdoc/git/ref/heads/foo%2fbar']){const before=received.length;await expect(transport({...request,path})).rejects.toThrow();expect(received).toHaveLength(before)}
     redirect=true;const response=await transport({...request,path:'/repos/example/zdoc/actions/artifacts/1/zip'})
     expect(response.headers).not.toHaveProperty('location');expect(received.at(-1)?.authorization).toBeUndefined();expect(received[0].authorization).toBe('Bearer SYNTHETIC_TOKEN')
   }finally{await new Promise<void>(resolve=>server.close(()=>resolve()))}
