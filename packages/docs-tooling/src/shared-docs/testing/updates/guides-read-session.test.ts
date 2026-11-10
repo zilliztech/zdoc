@@ -197,11 +197,17 @@ it('keeps the representative 8478-node parent working set but evicts at the reac
 it('preserves the exact 50000 traversal check and independently adds unreachable stops', async () => {
   const fake = await synthetic(50001); fake.parents.set(oid(60000), [])
   const session = createGuidesReadSession(retain)
-  const expected = await oracle.history(root, oid(50000), [oid(60000)])
+  // The synthetic ancestry is a known linear chain: oid(n) has oid(n-1) as its only
+  // parent. The frozen oracle reproduces it at the cost of a second full traversal,
+  // so the expectation is stated here instead of recomputed.
+  const chain = Array.from({length: 50000}, (_, index) => {
+    const n = index + 1
+    return {oid: oid(n), parents: n === 1 ? [] : [oid(n - 1)]}
+  })
+  const expected = [...chain, {oid: oid(60000), parents: []}]
   expect(expected).toHaveLength(50001); expect(await session.history(root, oid(50000), [oid(60000)])).toEqual(expected)
   await expect(session.history(root, oid(50001), [])).rejects.toThrow('Source ancestry exceeds local bound')
-  await expect(oracle.history(root, oid(50001), [])).rejects.toThrow('Source ancestry exceeds local bound')
-  expect(await session.history(root, oid(50001), [oid(50001)])).toEqual(await oracle.history(root, oid(50001), [oid(50001)]))
+  expect(await session.history(root, oid(50001), [oid(50001)])).toEqual([{oid: oid(50001), parents: [oid(50000)]}])
   session.dispose()
 }, 300000)
 it('evicts raw bytes by reachable entry and byte bounds and bypasses oversized values', async () => {
