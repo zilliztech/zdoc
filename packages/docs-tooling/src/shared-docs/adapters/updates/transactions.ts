@@ -157,12 +157,17 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
       if(protectedToolsetPath(path)||!allowed.has(path)||entry&&(!['100644','100755'].includes(entry.mode)||entry.type!=='blob'))hold('UNREVIEWED_CANDIDATE_DATA')
     }
   }
-  async function prepare(request:PreparationRequest,budget?:()=>void):Promise<PreparedTransaction> {
+  async function prepareWithBoundary(request:PreparationRequest,budget:(()=>void)|undefined,remote:boolean):Promise<PreparedTransaction> {
     await validateLayout();budget?.();await commit(request.master,budget)
     const donors=[...request.donorHeads].sort(compareUtf8),preservedHeads=[...new Set([request.head,...donors].filter((x):x is string=>!!x))].sort(compareUtf8)
     if(donors.length>8||new Set(donors).size!==donors.length||!request.head&&donors.length)hold('DONOR_HEADS_INVALID')
     const allowed=new Set(request.dataPaths.map(path=>RepoPathSchema.parse(path))),locks=new Set(request.lockPaths.map(path=>RepoPathSchema.parse(path))),merges:MergeRecord[]=[]
-    for(const head of preservedHeads){await commit(head,budget);await checkData(request.master,head,allowed,budget)}
+    for(const head of preservedHeads){
+      await commit(head,budget)
+      let baseline=request.master
+      if(remote){const bases=(await run(repository,['merge-base','--all',request.master,head],undefined,{},budget)).toString().trim().split('\n');if(bases.length!==1||!GitShaSchema.safeParse(bases[0]).success)hold('MERGE_BASE_UNSUPPORTED');baseline=bases[0]}
+      await checkData(baseline,head,allowed,budget)
+    }
     async function merge(left:string,right:string) {
       budget?.();if(await isAncestor(right,left,budget))return left
       if(await isAncestor(left,right,budget))return right
@@ -234,7 +239,11 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
     await verify();return immutable(proof)
   }
   return {
-    repository,commit,tree,blobAt,isAncestor,rawDiff,prepare,validateCandidate,
+    repository,commit,tree,blobAt,isAncestor,rawDiff,
+    prepare:(request:PreparationRequest,budget?:()=>void)=>prepareWithBoundary(request,budget,false),
+    // Git facts only: remote provenance is checked by the caller before this boundary.
+    prepareRemote:(request:PreparationRequest,budget?:()=>void)=>prepareWithBoundary(request,budget,true),
+    validateCandidate,read:object,
     async inputIdentity(source:string) {
       const root=await realpath(source);await checkedAncestors(root)
       const stat=await lstat(root,{bigint:true}),head=(await run(root,['rev-parse','--verify','HEAD^{commit}'])).toString().trim()

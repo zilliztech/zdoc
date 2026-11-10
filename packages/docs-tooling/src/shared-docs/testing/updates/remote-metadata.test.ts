@@ -11,7 +11,7 @@ import { guidesUnitKey, type BotRevision, type CandidateSnapshotProof, type Upda
 import { encodeRevisionMessage } from '../../core/updates/metadata'
 import { encodeSealMessage, type RemoteCommit, type RemotePolicy, type RemoteSealV1 } from '../../core/updates/remote'
 import { createRemoteReads, type RemoteTransport } from '../../adapters/updates/remote-github'
-import { checkRemoteHistoryBudget, inspectRemotePulls, inspectRemoteHistory, isVerifiedRemoteHistory, verifyRemoteSealSignature } from '../../adapters/updates/remote-metadata'
+import { assertRemoteHistoryBinding, checkRemoteHistoryBudget, inspectRemotePulls, inspectRemoteHistory, isVerifiedRemoteHistory, verifyRemoteSealSignature } from '../../adapters/updates/remote-metadata'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 vi.setConfig({testTimeout:30000})
 const roots:string[]=[]
@@ -271,4 +271,14 @@ it.each(['author-missing','author-wrong','signer-missing','signer-wrong','invali
   if(kind==='signature-terminal-continuation')raw=Buffer.from(raw.toString().replace(' \n\n','\n'))
   if(kind==='signature-tail')raw=Buffer.from(raw.toString().replace(' =bzvW',' =bzvX'))
   expect(()=>verifyRemoteSealSignature(raw,fact,retainedIdentity)).toThrow()
+})
+
+it('binds genuine capabilities to exact reads policy and current inspection roots rather than structural membership',async()=>{
+  const f=await fixture(),reads=f.reads(),request={head:f.s.oid,donorHeads:[],master:f.master,policy:f.policy}
+  const result=await inspectRemoteHistory(request,reads,f.objects);expect(result.status).toBe('verified');if(result.status!=='verified')return
+  const binding={...request,reads}
+  expect(()=>assertRemoteHistoryBinding(result.history,binding)).not.toThrow()
+  for(const changed of [{reads:f.reads()},{policy:{...f.policy,writerActorId:28}},{head:f.k.oid},{master:f.k.oid},{donorHeads:[f.s.oid]}])
+    expect(()=>assertRemoteHistoryBinding(result.history,{...binding,...changed})).toThrow('REMOTE_HISTORY_CONTEXT_CHANGED')
+  expect(()=>assertRemoteHistoryBinding(JSON.parse(JSON.stringify(result.history)),binding)).toThrow('REMOTE_HISTORY_CONTEXT_CHANGED')
 })

@@ -1,4 +1,5 @@
 // @vitest-environment node
+import { execFileSync } from 'node:child_process'
 import { appendFile, cp, mkdtemp, readFile, readdir, realpath, rename, stat, unlink, writeFile } from 'node:fs/promises'
 import { tmpdir, release } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -8,6 +9,11 @@ import { fixtureMaterial, fixtureSubject } from './fixtures/manual-provider'
 import { collectFixedGuidesUnits, createLocalRunnerWithRuntime, parseLocalUpdateRequest, type LocalFaultHooks, type LocalUpdateRequest, type LocalUpdateRuntime } from '../../adapters/updates/local-runner'
 import { LocalTransactionHold } from '../../adapters/updates/transactions'
 import { bindClosure } from '../../adapters/updates/toolset'
+import { createRemoteRunnerWithRuntime } from '../../adapters/updates/remote-runner'
+import { createRemoteReads, type RemoteTransport } from '../../adapters/updates/remote-github'
+import { inspectRemoteHistory } from '../../adapters/updates/remote-metadata'
+import { encodeSealMessage, type RemotePolicy, type RemoteSealV1 } from '../../core/updates/remote'
+import { initializeEvidence } from '../../adapters/updates/evidence'
 import { rawSha256 } from '../../adapters/updates/evidence'
 import * as evidenceModule from '../../adapters/updates/evidence'
 import { canonicalBytes, digest } from '../../core/updates/canonical'
@@ -23,7 +29,9 @@ import type { AuthorityObservation } from '../../core/updates/envelope'
 
 /** Actual local Git/material/authority-file observations through the internal seam.
  * This is a synthetic manual fixture, never a production SDK provider installation. */
-async function fixture(targetText='new source\n') {
+async function fixture(targetText='new source\n',guides=false) {
+  const subject=guides?{kind:'guides-page' as const,group:'guides' as const,pageId:'alpha'}:fixtureSubject
+  const contentPath=guides?'content/en/guides/alpha.mdx':'content/en/fixture/a.md'
   const started=process.hrtime.bigint()
   const root=await realpath(await mkdtemp(join(tmpdir(),'local-runner-'))),repository=join(root,'repository'),source=join(root,'source')
   const mark=async(event:string,detail:unknown=null)=>appendFile(join(root,'phase-timings.jsonl'),JSON.stringify({event,milliseconds:Number(process.hrtime.bigint()-started)/1e6,detail})+'\n',{mode:0o600})
@@ -33,9 +41,9 @@ async function fixture(targetText='new source\n') {
   await git(source,'remote','add','origin',sourceUrl);await git(source,'add','.');await git(source,'commit','-qm','source current')
   const current=await git(source,'rev-parse','HEAD')
   async function advance(text:string) {await write(source,'api/Client.md',text);await git(source,'add','.');await git(source,'commit','-qm','source advance');return git(source,'rev-parse','HEAD')}
-  const target=await advance(targetText),lockPath='shared-docs/fixture/lock.yaml'
+  const target=await advance(targetText),lockPath=guides?'shared-docs/guides/pages/alpha/lock.yaml':'shared-docs/fixture/lock.yaml'
   await write(repository,lockPath,`schema_version: 1\ncurrent: '${current}'\nnext: '${current}'\n`)
-  await write(repository,'content/en/fixture/a.md','local fixture config\n')
+  await write(repository,contentPath,'local fixture config\n')
   await git(repository,'init','-q','-b','master','--template=');await git(repository,'add','.');await git(repository,'commit','-qm','trusted config')
   const master=await git(repository,'rev-parse','HEAD')
   const authorityPath=join(root,'authority.txt'),runtimePath=join(root,'runtime.txt'),groupingPath=join(root,'grouping.json')
@@ -55,7 +63,7 @@ async function fixture(targetText='new source\n') {
       await mark('fresh.complete');return result
     },
     async dataPaths(transaction,heads) {
-      const paths=new Set<string>();for(const head of heads)for(const entry of await transaction.tree(head))if(['shared-docs/fixture/','content/en/fixture/'].some(prefix=>entry.path.startsWith(prefix)))paths.add(entry.path)
+      const paths=new Set<string>();for(const head of heads)for(const entry of await transaction.tree(head))if(['shared-docs/fixture/','content/en/fixture/',...(guides?['shared-docs/guides/','content/en/guides/']:[])].some(prefix=>entry.path.startsWith(prefix)))paths.add(entry.path)
       return [...paths].sort()
     },
     async compare(transaction,head,paths) {
@@ -69,8 +77,8 @@ async function fixture(targetText='new source\n') {
       if('errors' in parsed)throw new Error('fixture lock invalid')
       const pins=parsed.lock,head=await git(source,'rev-parse','refs/heads/main')
       await transaction.importObjects(source,[pins.current,pins.next,request.sourceTarget,head])
-      const initial=fixtureMaterial({current:pins.current,target:request.sourceTarget,master}),report=structuredClone(initial.collectedReport)
-      const config=await transaction.blobAt(base.prepared.base,'content/en/fixture/a.md'),configRef=await evidence.writeBlob(config)
+      const initial=fixtureMaterial({subject,...guides?{members:[{logicalId:'alpha',manualId:'guides',token:'shared-alpha',outputPath:'content/en/guides/alpha.mdx',origin:'upstream',current:true,next:true}]}:{},current:pins.current,target:request.sourceTarget,master:request.master}),report=structuredClone(initial.collectedReport)
+      const config=await transaction.blobAt(base.prepared.base,contentPath),configRef=await evidence.writeBlob(config)
       const inventories=[]
       for(const oid of [pins.current,pins.next,request.sourceTarget]) {
         const bytes=await transaction.blobAt(oid,'api/Client.md'),ref=await evidence.writeBlob(bytes)
@@ -78,12 +86,12 @@ async function fixture(targetText='new source\n') {
       }
       const authorityBytes=await readFile(authorityPath),eligible=authorityBytes.toString()==='eligible\n'
       const authorityRef=await evidence.writeBlob(authorityBytes),detail=await evidence.writeBlob(canonicalBytes({kind:'synthetic-detail',observation:collections,target:request.sourceTarget}))
-      report.pins={...report.pins,master,dev:request.dev,trustedTools:master,configSnapshot:base.prepared.base,configTreeOid:base.prepared.tree,
+      report.pins={...report.pins,master:request.master,dev:request.dev,trustedTools:request.master,configSnapshot:base.prepared.base,configTreeOid:base.prepared.tree,
         comparisonConfig:request.comparisonConfig,toolsetSha256:bound.toolsetSha256,source:{repository:sourceUrl,track:'main',observedTrackHead:head,current:pins.current,oldNext:pins.next,target:request.sourceTarget}}
       report.authority={...report.authority,evidence:[authorityRef],updateState:eligible?'eligible-to-propose':'retired',reasons:eligible?[]:['FIXTURE_AUTHORITY_REVOKED']}
       report.detail.file=detail
       const semantic=report.semanticProjection!
-      semantic.source.repository=sourceUrl;semantic.config={entries:[{path:'content/en/fixture/a.md',sha256:configRef.sha256,bytes:configRef.bytes}]}
+      semantic.source.repository=sourceUrl;semantic.config={entries:[{path:contentPath,sha256:configRef.sha256,bytes:configRef.bytes}]}
       semantic.upstream={current:inventories[0],oldNext:inventories[1],target:inventories[2]};semantic.toolsetSha256=bound.toolsetSha256
       semantic.authority={...semantic.authority,state:report.authority.updateState,reasons:report.authority.reasons}
       report.semanticInputSha256=digest('semantic',semantic)
@@ -91,9 +99,10 @@ async function fixture(targetText='new source\n') {
       report.axes=report.axes.map((axis,index)=>({...axis,sourceChanged:!Buffer.from(canonicalBytes(inventories[index])).equals(Buffer.from(canonicalBytes(inventories[2]))),
         contentStatus:targetBytes.toString().includes('FAIL')?'content-failure':'valid'}))
       validateUpdateReportEnvelope(report)
-      const beforeRef=await evidence.writeBlob(before),patch=request.sourceTarget===pins.next?null:patchNextLock({subject:fixtureSubject,before:{path:lockPath,current:pins.current,next:pins.next,sha256:beforeRef.sha256},bytes:before,target:request.sourceTarget,mode:'100644'})
+      const beforeRef=await evidence.writeBlob(before),patch=request.sourceTarget===pins.next?null:patchNextLock({subject,before:{path:lockPath,current:pins.current,next:pins.next,sha256:beforeRef.sha256},bytes:before,target:request.sourceTarget,mode:'100644'})
       const ids=[pins.current,pins.next,request.sourceTarget,head],history=[]
       for(const oid of [...new Set(ids)]) {const facts=await transaction.commit(oid);history.push({oid,parents:facts.parents})}
+      if(guides){history.length=0;for(const row of (await git(source,'rev-list','--parents',...ids)).split('\n')){const [oid,...parents]=row.split(' ');history.push({oid,parents})}}
       const sourceInventories=await Promise.all(ids.slice(0,3).map(async(oid,index)=>({commit:oid,treeOid:(await transaction.commit(oid)).tree,inventory:await evidence.writeBlob(canonicalBytes(inventories[index])),absentPaths:[]})))
       const context=captureUnitMaterial({...initial,collectedReport:report,reportBlob:await evidence.writeBlob(canonicalBytes(report)),history,sourceInventories,
         lock:{path:lockPath,before:{blob:beforeRef,text:before.toString()},preparedNext:patch?{blob:await evidence.writeBlob(patch.bytes),text:patch.text}:null},relevantSource:semantic.upstream})
@@ -101,13 +110,13 @@ async function fixture(targetText='new source\n') {
     },
   }
   const request:LocalUpdateRequest={kind:'shared-update-local-request',schemaVersion:1,repository,devRepository:repository,sourceRepository:source,master,dev:master,sourceTarget:target,
-    comparisonConfig:null,subjects:[fixtureSubject],existing:null,lifecycle:null}
+    comparisonConfig:null,subjects:[subject],existing:null,lifecycle:null}
   const makeRunner=(hooks:LocalFaultHooks={})=>createLocalRunnerWithRuntime(runtime,{afterPhase:async(phase,journal)=>{
     await mark(`journal.${phase}`);await hooks.afterPhase?.(phase,journal)
   }})
   const runner=makeRunner()
   await mark('fixture.complete')
-  return {root,source,repository,master,current,target,runtime,runner,request,advance,authorityPath,runtimePath,groupingPath,mark,makeRunner,counts:()=>({collections,accessReads})}
+  return {root,source,repository,master,current,target,runtime,runner,request,subject,lockPath,contentPath,advance,authorityPath,runtimePath,groupingPath,mark,makeRunner,counts:()=>({collections,accessReads})}
 }
 type Fixture=Awaited<ReturnType<typeof fixture>>
 const unit='sdk-manual:fixture'
@@ -216,8 +225,9 @@ it.each([
   expect(await originalState(f)).toEqual(before)
 },15_000)
 
-// Reviewed case budgets: ordinary plan/prepare 15s, recovery 30s, complete K1/K2 60s.
-// Evidence: task-5/heavy-case-first-measurements.json (14.3–18.9s recovery, 37.9s history).
+// Reviewed case budgets: ordinary plan/prepare 15s, interruption/resume 60s, complete K1/K2 60s.
+// Recovery includes planning, an interrupted prepare and a fully revalidated resume.
+// Give these combined filesystem/Git stages headroom under complete-gate load.
 it.each(['prepared','created','validated','installed'] as const)('revalidates the %s journal after interruption and reuses existing candidate objects',async phase=>{
   const f=await fixture(),plan=join(f.root,'plan'),output=join(f.root,`resume-${phase}`),before=await originalState(f)
   await f.mark('plan.start');expect((await f.runner.plan(f.request,plan)).status).toBe('planned');await f.mark('plan.complete')
@@ -239,7 +249,7 @@ it.each(['prepared','created','validated','installed'] as const)('revalidates th
   expect((await readJson(join(output,'journal.json'))).phase).toBe('installed')
   expect(await git(join(output,'scratch.git'),'rev-parse',`refs/shared-update/local/${result.planSha256}`)).toBe(result.candidate)
   expect(await originalState(f)).toEqual(before)
-},30_000)
+},60_000)
 
 it('revalidates installed K1 at its original target after source advancement and prepares fresh K2',async()=>{
   const f=await fixture(),first=await installed(f),oldFiles=await files(first.output),oldPlan=await files(first.plan)
@@ -662,3 +672,128 @@ it('retains full Guides inventory and unavailable-subject diagnostics without in
     expect(await f.state()).toEqual(before)
   } finally {vi.restoreAllMocks()}
 },15_000)
+
+function originZip(files:Map<string,Uint8Array>) {
+  const chunks:Buffer[]=[],entries:Buffer[]=[];let offset=0
+  for(const [name,data] of files){const bytes=Buffer.from(data),nameBytes=Buffer.from(name);let crc=0xffffffff;for(const byte of bytes){crc^=byte;for(let i=0;i<8;i++)crc=(crc>>>1)^((crc&1)?0xedb88320:0)}crc=(crc^0xffffffff)>>>0
+    const local=Buffer.alloc(30),central=Buffer.alloc(46);local.writeUInt32LE(0x04034b50);local.writeUInt32LE(crc,14);local.writeUInt32LE(bytes.length,18);local.writeUInt32LE(bytes.length,22);local.writeUInt16LE(nameBytes.length,26)
+    central.writeUInt32LE(0x02014b50);central.writeUInt32LE(crc,16);central.writeUInt32LE(bytes.length,20);central.writeUInt32LE(bytes.length,24);central.writeUInt16LE(nameBytes.length,28);central.writeUInt32LE(offset,42);chunks.push(local,nameBytes,bytes);entries.push(central,nameBytes);offset+=30+nameBytes.length+bytes.length}
+  const directory=Buffer.concat(entries),end=Buffer.alloc(22);end.writeUInt32LE(0x06054b50);end.writeUInt16LE(files.size,8);end.writeUInt16LE(files.size,10);end.writeUInt32LE(directory.length,12);end.writeUInt32LE(offset,16);return Buffer.concat([...chunks,directory,end])
+}
+/** API and signatures are fixture code; raw candidate/ancestry bytes are real Git objects. */
+async function remoteOrigin(f:Fixture,old:Awaited<ReturnType<typeof installed>>) {
+  const scratch=join(old.output,'scratch.git'),candidate=old.result.candidate!
+  const journal=await readJson(join(old.output,'journal.json')),snapshot=await readJson(join(old.output,'blobs',journal.snapshot.sha256))
+  const plan=await readJson(join(old.output,'blobs',journal.plan.sha256)),proof=await readJson(join(old.output,'proof.json'))
+  await git(f.repository,'fetch','--no-tags',scratch,candidate)
+  const tree=await git(f.repository,'rev-parse',`${candidate}^{tree}`),time=Number(await git(f.repository,'show','-s','--format=%ct',candidate))+1
+  const payload=`tree ${tree}\nparent ${candidate}\nauthor Fixture <fixture@example.test> ${time} +0000\ncommitter Fixture <fixture@example.test> ${time} +0000\n\n`
+  const workflow=Buffer.from('name: producer\n'),workflowHash=rawSha256(workflow)
+  const policy:RemotePolicy={host:'github.com',repositoryId:100,repositoryFullName:'example/zdoc',baseRef:'master',writerActorId:27,
+    sealIdentity:{scheme:'github-app-author-v1',platformSignerActorId:99},allowedHeadPrefixes:['shared-update/'],checkAppId:10,checkName:'exact-validation',
+    producer:{workflowId:8,workflowPath:'.github/workflows/producer.yml',workflowDefinitionSha256:workflowHash,actorId:7,event:'workflow_dispatch'},
+    validator:{workflowId:9,workflowPath:'.github/workflows/validator.yml',workflowDefinitionSha256:workflowHash,actorId:7,event:'workflow_dispatch'},producerArtifactName:'producer',validatorArtifactName:'validator'}
+  const seal:RemoteSealV1={kind:'shared-update-seal',schemaVersion:1,repositoryId:100,transactionId:'a'.repeat(64),unitKey:plan.unitKey,planSha256:digest('plan',plan),proofSha256:rawSha256(canonicalBytes(proof)),master:f.master,dev:f.master,preparedBase:proof.prepared.base,candidate,candidateTree:tree,previousSeal:null,preservedHumanHeads:[],runId:30,runAttempt:1}
+  const message=encodeSealMessage(seal),signature='fixture signature\n',unsigned=payload+message
+  const signed=payload.replace('\n\n',`\ngpgsig ${signature.trim()}\n\n`)+message
+  const sealFile=join(f.root,'seal.raw');await writeFile(sealFile,signed)
+  const oid=await git(f.repository,'hash-object','-w','-t','commit',sealFile)
+  const members=new Map<string,Uint8Array>([['plan.json',canonicalBytes(plan)],['proof.json',canonicalBytes(proof)]])
+  const retained=async(ref:{sha256:string})=>readFile(join(old.output,'blobs',ref.sha256))
+  members.set('patch.raw',await retained(proof.patch))
+  for(const ref of plan.reports)members.set(`reports/${ref.sha256}.json`,await retained(ref))
+  for(const edit of plan.nextEdits)members.set(`locks/${edit.afterBlob.sha256}.yaml`,await retained(edit.afterBlob))
+  members.set('provenance.json',canonicalBytes({kind:'shared-update-producer',schemaVersion:1,...Object.fromEntries(Object.entries(seal).filter(([key])=>!['kind','schemaVersion'].includes(key))),seal:oid,requestId:'producer-30',tools:f.master,workflowDefinitionSha256:workflowHash,members:[...members].map(([name,bytes])=>({name,sha256:rawSha256(bytes),bytes:bytes.length}))}))
+  const evidence=await initializeEvidence({root:join(f.root,'remote-evidence'),repositories:[f.repository,f.source],owner:'remote-fixture'})
+  const archive=originZip(members),artifact={id:30,name:'producer',expired:false,size_in_bytes:archive.length,digest:'sha256:'+rawSha256(archive),workflow_run:{id:30,repository_id:100,head_repository_id:100,head_sha:f.master,head_branch:'master'}}
+  const state={master:f.master,dev:f.master,pulls:[] as unknown[],refs:new Map<string,string>()},requests:string[]=[]
+  const transport:RemoteTransport=async request=>{
+    requests.push(request.method+' '+request.path)
+    const url=new URL(request.path,'https://api.github.com'),part=url.pathname.replace('/repos/example/zdoc','');let value:unknown
+    if(part==='')value={id:100,full_name:'example/zdoc'}
+    else if(part==='/pulls')value=state.pulls
+    else if(part==='/git/matching-refs/heads/')value=[]
+    else if(part.startsWith('/git/ref/heads/')){const ref=part.slice('/git/ref/heads/'.length),sha=ref==='master'?state.master:ref==='dev'?state.dev:state.refs.get(ref);if(sha)value={ref:'refs/heads/'+ref,object:{sha,type:'commit'}}}
+    else if(part==='/actions/runs/30/attempts/1')value={id:30,run_attempt:1,repository:{id:100},head_repository:{id:100},head_sha:f.master,actor:{id:7},event:'workflow_dispatch',workflow_id:8,path:policy.producer.workflowPath,status:'completed',conclusion:'success',check_suite_id:50}
+    else if(part==='/actions/workflows/8')value={id:8,path:policy.producer.workflowPath}
+    else if(part==='/contents/'+policy.producer.workflowPath)value={type:'file',path:policy.producer.workflowPath,encoding:'base64',content:workflow.toString('base64')}
+    else if(part==='/actions/runs/30/artifacts')value={total_count:1,artifacts:[artifact]}
+    else if(part==='/actions/artifacts/30')value=artifact
+    else if(part==='/actions/artifacts/30/zip')value=archive
+    else if(part===`/commits/${oid}`)value={sha:oid,author:{id:27},committer:{id:99},parents:[{sha:candidate}],commit:{tree:{sha:tree},verification:{verified:true,reason:'valid',payload:unsigned,signature}}}
+    else if(url.pathname==='/graphql')value={data:{repository:{databaseId:100,object:{oid,author:{user:{databaseId:27}},committer:{user:null},signature:{isValid:true,state:'VALID',wasSignedByGitHub:true,signer:{databaseId:99},payload:unsigned,signature}}}}}
+    return {status:value===undefined?404:200,headers:{},body:value instanceof Uint8Array?value:canonicalBytes(value??null)}
+  }
+  const reads=createRemoteReads({policy,evidence,transport,approvedProducers:[{tools:f.master,...policy.producer,protocol:'shared-update-producer-v1'}]})
+  // cat-file must preserve bytes rather than the text wrapper's trim operation.
+  const rawObjects={read:async(oid:string,type:'commit'|'tree'|'blob')=>execFileSync('/usr/bin/git',['-C',f.repository,'cat-file',type,oid])}
+  return {oid,reads,policy,evidence,objects:rawObjects,plan,proof,snapshot,seal,state,requests}
+}
+it('bridges genuine remote P K S human history into a fresh candidate across master without a local journal',async()=>{
+  const f=await fixture('new source\n',true),old=await installedGuides(f),origin=await remoteOrigin(f,old)
+  await git(f.repository,'checkout','-qb','human',origin.oid)
+  await write(f.repository,f.contentPath,'human Cloud content\n');await git(f.repository,'add','.');await git(f.repository,'commit','-qm','human content')
+  const human=await git(f.repository,'rev-parse','HEAD')
+  await git(f.repository,'checkout','master');await write(f.repository,'content/en/guides/master.mdx','master promotion\n');await write(f.repository,'scripts/tool.ts','reviewed current master tools\n');await git(f.repository,'add','.');await git(f.repository,'commit','-qm','master advance')
+  const master=await git(f.repository,'rev-parse','HEAD'),target=await f.advance('third source\n')
+  const authenticated=await inspectRemoteHistory({head:human,donorHeads:[],master,policy:origin.policy},origin.reads,origin.objects)
+  expect(authenticated.status,JSON.stringify(authenticated)).toBe('verified');if(authenticated.status!=='verified')return
+  const request={...f.request,master,dev:master,sourceTarget:target,existing:{head:human,donorHeads:[],localEvidence:[]}}
+  const currentRuntime={...f.runtime,master,trustedTools:master,async compare(transaction:Parameters<LocalUpdateRuntime['compare']>[0],head:string,paths:readonly string[]){
+    const before=new Map((await transaction.tree(master)).map(entry=>[entry.path,entry])),after=new Map((await transaction.tree(head)).map(entry=>[entry.path,entry]))
+    for(const path of new Set([...before.keys(),...after.keys()]))if(!paths.includes(path)&&JSON.stringify(before.get(path))!==JSON.stringify(after.get(path)))throw new LocalTransactionHold('UNREVIEWED_CANDIDATE_DATA')
+  }}
+  const runner=createLocalRunnerWithRuntime(currentRuntime)
+  const prepared=await runner.prepareRemoteCandidate(request,join(f.root,'remote-prepared'),{reads:origin.reads,policy:origin.policy,history:authenticated.history,recheck:async()=>{}})
+  expect(prepared.status,prepared.reasons.join(';')).toBe('prepared')
+  expect(prepared.proof?.prepared.kind).toBe('existing')
+  const tx=prepared.transaction!,revision=parseRevisionMessage((await tx.commit(prepared.proof!.candidate)).message)!
+  expect(revision.previousBotCommit).toBe(old.result.candidate);expect(revision.master).toBe(master)
+  for(const ancestor of [old.result.candidate!,origin.oid,human,master])expect(await tx.isAncestor(ancestor,prepared.proof!.candidate)).toBe(true)
+  expect((await tx.blobAt(prepared.proof!.candidate,f.contentPath)).toString()).toBe('human Cloud content\n')
+  expect((await tx.blobAt(prepared.proof!.candidate,'scripts/tool.ts')).toString()).toBe('reviewed current master tools\n')
+  expect(await readdir(join(f.root,'remote-prepared'))).not.toContain('journal.json')
+  const originManifest=await prepared.store!.readBlob(prepared.evidence[0]),retained=JSON.parse(Buffer.from(originManifest).toString())
+  for(const ref of retained.batches)await prepared.store!.readBlob(ref)
+  const oldProof=retained.records.find((record:{name:string})=>record.name==='proof.json')
+  expect(JSON.parse(Buffer.from(await prepared.store!.readBlob(oldProof.blob)).toString())).toEqual(origin.proof)
+  origin.state.master=master;origin.state.dev=master;origin.state.refs.set('shared-update/unit',human)
+  const pull={id:20,number:20,base:{repo:{id:100},ref:'master',sha:master},head:{repo:{id:100},ref:'shared-update/unit',sha:human},user:{id:27},state:'open',merged_at:null,draft:true,created_at:'2026-01-01T00:00:00Z'}
+  origin.state.pulls.push(pull)
+  const remote=createRemoteRunnerWithRuntime({runtime:currentRuntime,reads:origin.reads,policy:origin.policy,transactionEvidence:origin.evidence})
+  const claims={local:request,producer:{runId:31,attempt:1,requestId:'producer-31'},validationRequestId:'validator-31'}
+  const observed=await remote.observe(claims,join(f.root,'observed-prepare'),join(f.root,'observed-inspect'))
+  expect(observed.status,observed.reasons.join(';')).toBe('planned')
+  expect(observed.intent).toMatchObject({previousSeal:origin.oid,expectedHead:human})
+  const observedRaw=execFileSync('/usr/bin/git',['-C',join(f.root,'observed-prepare','scratch.git'),'cat-file','commit',observed.intent!.candidate])
+  const observedRevision=parseRevisionMessage(observedRaw.subarray(observedRaw.indexOf('\n\n')+2))
+  expect(observedRevision?.previousBotCommit).toBe(old.result.candidate)
+  const observedNoop=await remote.observe({...claims,local:{...request,sourceTarget:f.target}},join(f.root,'observed-noop'),join(f.root,'observed-noop-inspect'))
+  expect(observedNoop.status,observedNoop.reasons.join(';')).toBe('noop');expect(observedNoop.intent).toBeUndefined()
+  origin.state.pulls.push({...pull,id:21,number:21,state:'closed'})
+  expect(await remote.observe(claims,join(f.root,'ambiguous-ref'),join(f.root,'ambiguous-inspect'))).toMatchObject({status:'held',reasons:['PULL_REF_AMBIGUOUS']})
+  origin.state.pulls.pop()
+  const duplicate=await remote.observe({...claims,local:{...request,existing:null}},join(f.root,'duplicate-plan'),join(f.root,'duplicate-inspect'))
+  expect(duplicate).toMatchObject({status:'held',reasons:['EXISTING_UNIT_AUTHENTICATION_REQUIRED']})
+  expect(origin.requests.every(request=>request.startsWith('GET ')||request==='POST /graphql')).toBe(true)
+
+  const noop=await runner.prepareRemoteCandidate({...request,sourceTarget:f.target},join(f.root,'remote-noop'),{reads:origin.reads,policy:origin.policy,history:authenticated.history,recheck:async()=>{}})
+  expect(noop.status,noop.reasons.join(';')).toBe('noop');expect(noop.proof).toBeUndefined()
+  const raced=await runner.prepareRemoteCandidate(request,join(f.root,'remote-race'),{reads:origin.reads,policy:origin.policy,history:authenticated.history,recheck:async()=>{throw new LocalTransactionHold('REMOTE_OBSERVATION_CHANGED')}})
+  expect(raced).toMatchObject({status:'held',reasons:['REMOTE_OBSERVATION_CHANGED'],operations:[]})
+  let originChecks=0
+  const missingRoot=join(f.root,'missing-origin'),missing=await runner.prepareRemoteCandidate(request,missingRoot,{reads:origin.reads,policy:origin.policy,history:authenticated.history,recheck:async()=>{if(++originChecks===2)await unlink(join(missingRoot,'blobs',origin.seal.proofSha256))}})
+  expect(missing).toMatchObject({status:'held',reasons:['REMOTE_BRIDGE_UNESTABLISHED'],operations:[]})
+  expect(await runner.prepareRemoteCandidate(request,join(f.root,'forged'),{reads:origin.reads,policy:origin.policy,history:JSON.parse(JSON.stringify(authenticated.history)),recheck:async()=>{}})).toMatchObject({status:'held',reasons:['REMOTE_HISTORY_CONTEXT_CHANGED'],operations:[]})
+  await expect(runner.plan({...request,existing:{...request.existing,localEvidence:[join(f.root,'remote-evidence')]}},join(f.root,'remote-as-local'))).rejects.toThrow()
+  await git(f.repository,'checkout','-qb','human-tools',human);await write(f.repository,'scripts/tool.ts','human untrusted tool\n');await git(f.repository,'add','.');await git(f.repository,'commit','-qm','human tool edit')
+  const tools=await inspectRemoteHistory({head:await git(f.repository,'rev-parse','HEAD'),donorHeads:[],master,policy:origin.policy},origin.reads,origin.objects)
+  expect(tools).toMatchObject({status:'hold',reasons:['HUMAN_EXECUTION_CHANGE']})
+},120000)
+async function installedGuides(f:Fixture) {
+  const plan=join(f.root,'plan'),output=join(f.root,'installed')
+  expect((await f.runner.plan(f.request,plan)).status).toBe('planned')
+  const snapshot=await readJson(join(plan,'snapshot.json')),unitKey=snapshot.plans[0].unitKey
+  const result=await f.runner.prepare(f.request,plan,unitKey,output)
+  expect(result.status,result.reasons.join(';')).toBe('prepared');return {plan,output,result}
+}

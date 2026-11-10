@@ -8,9 +8,13 @@ import { BlobRefSchema, CandidateSnapshotProofSchema, ContentMembersSchema, GitS
   subjectKey, validateBlobBytes, validateUnitReports, type BlobRef, type BotRevision, type Subject, type ToolsetMaterial,
   type UpdateReportEnvelope, type UpdateUnitPlan } from '../../core/updates/envelope'
 import { captureUnitMaterial, planUpdateBatch, type PlanningGroups, type UnitMaterialContext } from '../../core/updates/unit-plan'
+import { parseRevisionMessage as importRevision } from '../../core/updates/metadata'
 import { patchNextLock } from '../../core/updates/transaction'
 import { immutable } from '../../core/updates/types'
 import { checkedAncestors, initializeEvidence, rawSha256, readRegularBytes, writeOwnedBlob, type EvidenceStore } from './evidence'
+import { assertRemoteHistoryBinding, retainRemoteHistoryOrigin, type RemoteHistoryCapability } from './remote-metadata'
+import type { RemoteReads } from './remote-github'
+import type { RemotePolicy } from '../../core/updates/remote'
 import { createGuidesProvider } from './guides-provider'
 import { createLocalMetadataInspector, type LocalJournalFacts, type LocalRevisionEvidence } from './metadata-store'
 import { createScratchTransaction, LocalTransactionHold, type CandidateInput, type PreparedTransaction, type ScratchTransaction } from './transactions'
@@ -80,10 +84,20 @@ export interface LocalUpdateRuntime {
   compare(transaction:ScratchTransaction,head:string,paths:readonly string[]):Promise<void>
   collect(input:{request:LocalUpdateRequest;base:PreparedTransaction;transaction:ScratchTransaction;evidence:EvidenceStore}):Promise<CollectedLocalUnits>
 }
+export interface RemoteCandidateBridge {
+  reads:RemoteReads;policy:RemotePolicy;history:RemoteHistoryCapability|null;protectedRoots?:readonly string[]
+  /** Fresh remote checks are observations, never an origin or writer grant. */
+  recheck():Promise<void>
+}
+export interface RemoteCandidateResult {
+  status:'held'|'noop'|'prepared';reasons:string[];operations:[];evidence:BlobRef[]
+  plan?:UpdateUnitPlan;planRef?:BlobRef;proof?:import('../../core/updates/envelope').CandidateSnapshotProof;proofRef?:BlobRef
+  transaction?:ScratchTransaction;store?:EvidenceStore
+}
 export interface LocalFaultHooks {afterPhase?(phase:Journal['phase'],journal:Readonly<Journal>):Promise<void>}
 
 /** No candidate executables are loaded: the fixed Guides worker is rooted in capture. */
-export function createLocalUpdateRunner(capture:TrustedToolsetCapture,secrets:{GH_TOKEN?:string}={}) {
+export function createLocalUpdateRuntime(capture:TrustedToolsetCapture,secrets:{GH_TOKEN?:string}={}):LocalUpdateRuntime {
   const trusted=describeTrustedToolset(capture)
   const runtime:LocalUpdateRuntime={master:trusted.commit,trustedTools:trusted.commit,gitBinary:trusted.git,toolset:capture.material,closureBytes:capture.bytes,
     fresh:evidence=>retainTrustedAccessEvidence(capture,evidence),
@@ -96,7 +110,11 @@ export function createLocalUpdateRunner(capture:TrustedToolsetCapture,secrets:{G
     compare:(transaction,head,paths)=>compareCandidateToolset(capture,{root:transaction.repository,commit:head,dataPaths:[...paths]}),
     collect:input=>collectFixedGuidesUnits(capture,secrets,input),
   }
-  return createLocalRunnerWithRuntime(runtime)
+  return runtime
+}
+
+export function createLocalUpdateRunner(capture:TrustedToolsetCapture,secrets:{GH_TOKEN?:string}={}) {
+  return createLocalRunnerWithRuntime(createLocalUpdateRuntime(capture,secrets))
 }
 
 /** Fixed production collection body. Direct adapter-internal reuse only; the public
@@ -288,12 +306,12 @@ export function createLocalRunnerWithRuntime(runtime:LocalUpdateRuntime,faults:L
     const holds=[...new Set([...collected.holds,...missing.length?['SUBJECT_OBSERVATION_UNAVAILABLE']:[]])].sort(compareUtf8)
     return {access,contexts,grouping:groups,plans,holds,observations,collectionEvidence}
   }
-  async function makeBase(request:LocalUpdateRequest,transaction:ScratchTransaction,additionalLocks:string[]=[],budget?:()=>void) {
+  async function makeBase(request:LocalUpdateRequest,transaction:ScratchTransaction,additionalLocks:string[]=[],budget?:()=>void,remote=false) {
     const heads=[request.master,...request.existing?[request.existing.head,...request.existing.donorHeads]:[]]
     for(const head of heads)try{await transaction.commit(head,budget)}catch(error){budget?.();if(error instanceof LocalTransactionHold)throw error;await transaction.importObjects(request.repository,[head],budget)}
     const dataPaths=await runtime.dataPaths(transaction,heads);budget?.()
-    for(const head of heads){await runtime.compare(transaction,head,dataPaths);budget?.()}
-    const base=await transaction.prepare({master:request.master,head:request.existing?.head,donorHeads:request.existing?.donorHeads??[],
+    for(const head of heads){if(!remote||head===request.master)await runtime.compare(transaction,head,dataPaths);budget?.()}
+    const base=await (remote?transaction.prepareRemote:transaction.prepare)({master:request.master,head:request.existing?.head,donorHeads:request.existing?.donorHeads??[],
       lockPaths:[...new Set([...request.subjects.map(expectedLockPath),...additionalLocks])],dataPaths},budget)
     await runtime.compare(transaction,base.prepared.base,dataPaths)
     return {base,dataPaths}
@@ -448,6 +466,66 @@ export function createLocalRunnerWithRuntime(runtime:LocalUpdateRuntime,faults:L
     for(const plan of value.plans)await writeNamed(store,`units/${name(plan.unitKey)}.json`,plan)
   }
   return {
+    /** Separate remote provenance: this path never reads or creates a local journal. */
+    async prepareRemoteCandidate(value:unknown,output:string,bridge:RemoteCandidateBridge):Promise<RemoteCandidateResult> {
+      const request=requestValue(value);await canonicalInputs(request)
+      if(request.existing?.localEvidence.length)held('REMOTE_LOCAL_EVIDENCE_FORBIDDEN')
+      const store=await openOutput(request,output,undefined,false,[...bridge.protectedRoots??[]]),transaction=await createScratchTransaction({evidence:store,gitBinary:runtime.gitBinary})
+      const evidence:BlobRef[]=[]
+      try {
+        const verifyOrigin=async()=>{
+          if(!request.existing){if(bridge.history)held('REMOTE_HISTORY_CONTEXT_CHANGED');return}
+          try{assertRemoteHistoryBinding(bridge.history,{reads:bridge.reads,policy:bridge.policy,head:request.existing.head,master:request.master,donorHeads:request.existing.donorHeads})}
+          catch{held('REMOTE_HISTORY_CONTEXT_CHANGED')}
+          const history=bridge.history!
+          if(!same(history.subjects,request.subjects))held('EXISTING_UNIT_AUTHENTICATION_REQUIRED')
+          const candidate=await transaction.commit(history.candidate),seal=await transaction.commit(history.seal)
+          const revision=importRevision(candidate.message)
+          if(!revision||revision.unitKey!==history.unitKey||!same(revision.subjects,history.subjects)||!same(seal.parents,[history.candidate])||seal.tree!==candidate.tree)held('REMOTE_ORIGIN_CHANGED')
+        }
+        const closureRef=await closure(store);await runtime.fresh(store)
+        const identities=await identity(transaction,request);await importPins(transaction,request)
+        if(request.existing)await transaction.importObjects(request.repository,[request.existing.head,...request.existing.donorHeads])
+        await verifyOrigin();await bridge.recheck()
+        const {base,dataPaths}=await makeBase(request,transaction,[],undefined,true)
+        const first=await collect(request,store,transaction,base)
+        const history=bridge.history
+        // Authenticated subjects are bound to today's collected member identities.
+        const grouping:PlanningGroups={localJournalUnits:history?[first.contexts.filter(context=>history.subjects.some(subject=>same(subject,context.subject))).flatMap(context=>context.subject.kind==='guides-page'?context.members.map(member=>({pageId:context.subject.kind==='guides-page'?context.subject.pageId:'',manual:member.manualId,path:member.outputPath})):[])].filter(unit=>unit.length):[]}
+        const fresh=await collect(request,store,transaction,base,grouping)
+        const current=snapshotSchema.parse(json({kind:'shared-update-local-snapshot',schemaVersion:1,request,trustedTools:runtime.trustedTools,toolset:runtime.toolset,
+          closure:closureRef,access:fresh.access,prepared:base,identities,contexts:fresh.contexts,plans:fresh.plans,grouping:fresh.grouping,holds:fresh.holds,collectionEvidence:fresh.collectionEvidence,dataPaths}))
+        await checkSnapshot(store,current)
+        const reasons=[...fresh.holds,...fresh.plans.filter(plan=>plan.disposition==='hold').flatMap(plan=>plan.holdReasons)]
+        if(reasons.length)return {status:'held',reasons,operations:[],evidence}
+        if(fresh.plans.length!==1)held('REMOTE_UNIT_AMBIGUOUS')
+        const plan=fresh.plans[0]
+        if(history&&(plan.unitKey!==history.unitKey||!same(plan.subjects,history.subjects)))held('EXISTING_UNIT_AUTHENTICATION_REQUIRED')
+        const provenance=history?await retainRemoteHistoryOrigin(history,{reads:bridge.reads,policy:bridge.policy,head:request.existing!.head,master:request.master,donorHeads:request.existing!.donorHeads},store):await store.writeBlob(canonicalBytes({kind:'remote-origin',schemaVersion:1,history:null}))
+        evidence.push(provenance)
+        const checkFresh=async()=>{
+          await runtime.fresh(store);await verifyOrigin();await bridge.recheck();await checkSnapshot(store,current)
+          const retained=parseStrictJson(await store.readBlob(provenance)) as {batches?:BlobRef[];records?:{blob:BlobRef}[]}
+          for(const ref of [...retained.batches??[],...retained.records?.map(record=>record.blob)??[]])await store.readBlob(ref)
+          const observed=await collect(request,store,transaction,base,grouping)
+          await compareFresh(current,observed,transaction);await verifyIdentities(transaction,request,identities);await recheckSources(transaction,request,observed.observations)
+        }
+        await checkFresh()
+        const planRef=await store.writeBlob(canonicalBytes(plan));evidence.push(planRef)
+        if(!plan.nextEdits.length)return {status:'noop',reasons:[],operations:[],evidence,plan,planRef,transaction,store}
+        if(!['candidate','draft-failure'].includes(plan.disposition))held('UNIT_NOT_PREPARABLE')
+        const revision:BotRevision={kind:'shared-update-revision',schemaVersion:1,unitKey:plan.unitKey,subjects:plan.subjects,parentHead:base.prepared.base,
+          master:request.master,dev:request.dev,tools:runtime.trustedTools,memberSetSha256:plan.membersSha256,planSha256:digest('plan',plan),
+          previousBotCommit:history?.candidate??null,lockDeltas:plan.nextEdits.map(edit=>({path:edit.before.path,current:edit.before.current,oldNext:edit.before.next,next:edit.target})),preservedHumanHeads:base.preservedHeads}
+        const input:CandidateInput={base,plan,revision,trustedTools:runtime.trustedTools,dev:request.dev,toolsetSha256,executableClosure:closureRef}
+        let proof=await transaction.createCandidate(input)
+        await checkFresh();await runtime.compare(transaction,proof.candidate,dataPaths)
+        proof=await transaction.validateCandidate(input,proof.candidate)
+        if(history&&(!await transaction.isAncestor(history.candidate,proof.prepared.base)||!await transaction.isAncestor(history.seal,proof.prepared.base)))held('REMOTE_ORIGIN_CHANGED')
+        const proofRef=await store.writeBlob(canonicalBytes(proof));evidence.push(proofRef)
+        return {status:'prepared',reasons:[],operations:[],evidence,plan,planRef,proof,proofRef,transaction,store}
+      }catch(error){return {status:'held',reasons:[error instanceof LocalTransactionHold?error.message:'REMOTE_BRIDGE_UNESTABLISHED'],operations:[],evidence}}
+    },
     async plan(value:unknown,output:string):Promise<LocalRunResult> {
       const request=requestValue(value);await canonicalInputs(request)
       const store=await openOutput(request,output),transaction=await createScratchTransaction({evidence:store,gitBinary:runtime.gitBinary})
