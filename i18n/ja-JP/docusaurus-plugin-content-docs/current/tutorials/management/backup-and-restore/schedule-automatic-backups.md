@@ -164,6 +164,16 @@ curl --request POST \
 
 <Supademo id="cmcsr43kx02umxk0ih3i31jaq?utm_source=link" title=""  />
 
+<Procedures>
+
+1. 対象のクラスターに移動します。
+
+1. **Backups** タブに切り替えます。
+
+1. 自動バックアップポリシーの詳細を確認し、必要に応じて編集できます。
+
+</Procedures>
+
 ### RESTful API での操作\{#via-restful-api}
 
 以下の例では、クラスターの自動バックアップポリシーを確認します。RESTful API の詳細については、[Get Backup Policy](/reference/restful/get-backup-policy-v2) を参照してください。
@@ -212,6 +222,18 @@ curl --request GET \
 
 <Supademo id="cmcsr7chx0gu29st8s0obm37l?utm_source=link" title=""  />
 
+<Procedures>
+
+1. 対象のクラスターに移動します。
+
+1. **Backups** タブに切り替えます。
+
+1. **Backup Policy** カードで **Edit** をクリックします。
+
+1. スイッチをオフにし、**Save** をクリックします。
+
+</Procedures>
+
 ### RESTful API での操作\{#via-restful-api}
 
 以下の例では、クラスターの自動バックアップを無効にします。RESTful API の詳細については、[Set Backup Policy](/reference/restful/set-backup-policy-v2) を参照してください。
@@ -253,4 +275,3 @@ curl --request POST \
 **元のクラスターを削除した場合、バックアップファイルも削除されますか？**
 
 これはバックアップファイルの作成方法によって異なります。自動バックアップはすべて元のクラスターとともに削除されます。ただし、[手動によるクラスターバックアップ](./create-backup)は永続的に保持され、クラスターを削除しても削除されません。不要になった場合は、手動で削除する必要があります。
-

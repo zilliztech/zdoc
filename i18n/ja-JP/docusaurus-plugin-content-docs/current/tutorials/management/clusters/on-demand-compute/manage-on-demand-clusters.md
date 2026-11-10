@@ -96,7 +96,7 @@ curl --request GET \
 
 1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
-1. Go to **On-Demand Compute > クラスター**.
+1. **On-Demand Compute > クラスター** に移動します。
 
 1. クラスター名、クラスター ID、ステータス、CU サイズ、エンドポイント、作成者、作成時刻を含むオンデマンドクラスターの一覧を確認します。
 
@@ -136,7 +136,7 @@ curl --request GET \
 
 1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
-1. Go to **On-Demand Compute > クラスター**.
+1. **On-Demand Compute > クラスター** に移動します。
 
 1. 対象クラスターをクリックして詳細を表示します。
 
@@ -286,6 +286,26 @@ curl --request GET \
     Web コンソールを使用して、既存のオンデマンドクラスターのクラスター名、説明、自動サスペンド時間、クエリ CU 数を変更できます。
 
     ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
+
+    <Procedures>
+
+    1. 対象のオンデマンドクラスターに移動します。
+
+    1. 右上隅で **Actions** をクリックし、**Modify** を選択します。
+
+    1. オンデマンドクラスターの以下の設定を変更できます。
+
+        - クラスター名
+
+        - 説明
+
+        - クエリ CU 数
+
+        - 自動サスペンド
+
+    1. **Save** をクリックします。
+
+    </Procedures>
 
 ## キープウォームスケジュールを構成する\{#configure-a-keep-warm-schedule}
 
@@ -570,7 +590,7 @@ curl --request DELETE \
 
 1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
 
-1. Go to **On-Demand Compute > Clusters**.
+1. **On-Demand Compute > Clusters** に移動します。
 
 1. 対象のオンデマンドクラスターを選択します。
 
@@ -583,4 +603,3 @@ curl --request DELETE \
 - オンデマンドクラスターの作成については、[オンデマンドクラスターの作成](./on-demand-cluster) を参照してください。
 
 - プロジェクトエンドポイント経由で接続するには、[オンデマンド検索用の接続](./connect-for-on-demand-search) を参照してください。
-

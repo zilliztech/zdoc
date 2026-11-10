@@ -62,6 +62,20 @@ import Procedures from '@site/src/components/Procedures';
 
     <Supademo id="cmkat4dkp1h55ke4xyc8i7c9y" title=""  />
 
+    <Procedures>
+
+    1. 対象のグローバルクラスターに移動します。
+
+    1. 右上隅にある **Actions** をクリックします。
+
+    1. **Create Secondary クラスター** をクリックします。
+
+    1. 新しいセカンダリクラスターを構成します。
+
+    1. **Create** をクリックします。
+
+    </Procedures>
+
 - **RESTful API を使用する場合**
 
     次の例では、AWS ap-southeast-1 にデプロイされた `secondary-cluster-ap` という名前の新しいセカンダリクラスターを追加します。API の詳細については、[Add Secondary クラスター](/reference/restful/add-secondary-clusters-v2) を参照してください。
@@ -113,9 +127,21 @@ import Procedures from '@site/src/components/Procedures';
 
     ![KjCvwgeZWhTEHnb1t3Pc1NoXnCb](https://zdoc-images.s3.us-west-2.amazonaws.com/KjCvwgeZWhTEHnb1t3Pc1NoXnCb.png)
 
+    <Procedures>
+
+    1. 対象のセカンダリクラスターを見つけます。
+
+    1. **Actions** をクリックします。
+
+    1. **Drop** をクリックします。
+
+    1. クラスター名を入力し、**Drop** をクリックします。
+
+    </Procedures>
+
 - **RESTful API を使用する場合**
 
-    The following example removes a secondary クラスター. For details about the API, see [Delete Global Member Cluster](/reference/restful/delete-global-member-cluster-v2).
+    次の例では、セカンダリクラスターを削除します。API の詳細については、[Delete Global Member Cluster](/reference/restful/delete-global-member-cluster-v2) を参照してください。
 
     ```bash
     export API_KEY="YOUR_API_KEY"
@@ -149,7 +175,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. すべてのセカンダリクラスターを[削除](./manage-global-cluster#drop-secondary-cluster)します。
 
-1. On the **Global Cluster** page, click on **Remove Global Endpoint** from the **Actions** dropdown.
+1. **Global Cluster** ページで、**Actions** ドロップダウンから **Remove Global Endpoint** をクリックします。
 
     ![Qg0Mw7gCGh9vlfbMpxockJPVnUg](https://zdoc-images.s3.us-west-2.amazonaws.com/Qg0Mw7gCGh9vlfbMpxockJPVnUg.png)
 
@@ -180,4 +206,3 @@ curl --request POST \
 ## グローバルクラスターを削除する\{#drop-global-cluster}
 
 グローバルクラスターを完全に削除するには、まず[すべてのセカンダリクラスターを削除](./manage-global-cluster#drop-secondary-cluster)し、次にプライマリクラスターを削除します。グローバルクラスターは、プライマリクラスターが削除されると自動的に削除されます。
-

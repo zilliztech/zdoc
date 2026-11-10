@@ -52,6 +52,22 @@ Zilliz Cloud コンソールにサインインすると、コンソールを使�
 
 ![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/updateemailaddress.png "update_email_address")
 
+<Procedures>
+
+1. 右上隅のプロフィールをクリックします。
+
+1. **Account Settings** をクリックします。
+
+1. **Email** エリアの **Update** をクリックします。
+
+1. アカウントのパスワードを入力します。
+
+1. 新しいメールアドレスを入力します。
+
+1. メールの受信トレイで確認コードを確認し、Zilliz Cloud の Web コンソールに入力します。
+
+</Procedures>
+
 <Admonition type="info" title="Notes">
 
 メールアドレスを更新しても、請求書やアラートの受信者には影響しません。必要に応じて、これらの情報を手動で更新してください。
@@ -62,15 +78,27 @@ Zilliz Cloud コンソールにサインインすると、コンソールを使�
 
 ![change_password](https://zdoc-images.s3.us-west-2.amazonaws.com/changepassword.png "change_password")
 
-パスワードは 8 文字以上で、以下の文字種のうち少なくとも 3 種類を含める必要があります。
+<Procedures>
 
-- 小文字（a–z）
+1. **Account Settings** を開きます。
 
-- 大文字（A–Z）
+1. **Password** セクションで、**Reset** をクリックします。
 
-- 数字（0–9）
+1. **Reset Password** ダイアログボックスで、現在のパスワードと新しいパスワードを入力し、新しいパスワードを確認します。
 
-- 特殊文字（例: !@#&#36;%^&&ast;）
+    パスワードは 8 文字以上で、以下の文字種のうち少なくとも 3 種類を含める必要があります。
+
+    - 小文字（a–z）
+
+    - 大文字（A–Z）
+
+    - 数字（0–9）
+
+    - 特殊文字（例: !@#&#36;%^&&ast;）
+
+1. **Reset** をクリックして、新しいパスワードを保存します。
+
+</Procedures>
 
 ## MFA を有効化および無効化する\{#enable-and-disable-mfa}
 

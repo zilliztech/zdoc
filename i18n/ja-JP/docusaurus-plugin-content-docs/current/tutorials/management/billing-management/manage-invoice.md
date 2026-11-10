@@ -181,9 +181,31 @@ API から返される結果では、金額はすべてセント単位です。
 
 ![pay-invoice](https://zdoc-images.s3.us-west-2.amazonaws.com/pay-invoice.png "pay-invoice")
 
+<Procedures>
+
+1. 左側のナビゲーションペインで **Billing** をクリックします。
+
+1. **Invoices** タブに切り替えます。
+
+1. 対象の請求書をクリックします。
+
+1. **Pay Now** をクリックします。
+
+</Procedures>
+
 ### 請求書のダウンロード\{#download-invoice}
 
-請求書をダウンロードするには、Zilliz Cloud Web コンソールで対象の請求書の横にあるダウンロードアイコンをクリックします。
+以下の手順に従って、請求書をダウンロードすることもできます。
 
 ![download-invoices](https://zdoc-images.s3.us-west-2.amazonaws.com/download-invoices.png "download-invoices")
+
+<Procedures>
+
+1. 左側のナビゲーションペインで **Billing** をクリックします。
+
+1. **Invoices** タブに切り替えます。
+
+1. **Actions** 列の **Download** ボタンをクリックします。
+
+</Procedures>
 

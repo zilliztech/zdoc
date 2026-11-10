@@ -319,9 +319,31 @@ Zilliz Cloud が各組織ユーザーに対して自動的に生成するパー�
 
     ![reset-personal-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-personal-api-keys.png "reset-personal-api-keys")
 
+    <Procedures>
+
+    1. 組織の **API Keys** ページに移動します。
+
+    1. **View my Personal Key** をクリックします。
+
+    1. **Reset** ボタンをクリックします。
+
+    </Procedures>
+
 - **カスタマイズされた API キーのリセット**：カスタマイズされた API キーをリセットできるのは、Organization Owners と Project Admins のみです。
 
     ![reset-customized-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-customized-api-keys.png "reset-customized-api-keys")
+
+    <Procedures>
+
+    1. 組織の **API Keys** ページに移動します。
+
+    1. **Actions** の **...** をクリックします。
+
+    1. **Reset** ボタンをクリックします。
+
+    1. キー名を入力し、**Reset** をクリックします。
+
+    </Procedures>
 
 ## API キーを削除する\{#delete-an-api-key}
 
@@ -339,6 +361,18 @@ API キーを削除すると、そのキーを使用しているすべてのサ�
 
 ![delete-customized-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-customized-api-keys.png "delete-customized-api-keys")
 
+<Procedures>
+
+1. 組織の **API Keys** ページに移動します。
+
+1. **Actions** の **...** をクリックします。
+
+1. **Delete** ボタンをクリックします。
+
+1. キー名を入力し、**Delete** をクリックします。
+
+</Procedures>
+
 ## FAQ\{#faq}
 
 **本番環境で自分のパーソナル API キーを使用してもよいですか？**  
@@ -346,4 +380,3 @@ API キーを削除すると、そのキーを使用しているすべてのサ�
 いいえ。**パーソナル API キー**は個々のユーザーアカウントに紐付けられており、ユーザーが組織を離れると自動的に削除されます。キーの所有者のアカウントが削除されると、そのキーに依存しているアプリケーションまたはサービスは直ちに Zilliz Cloud リソースへのアクセスを失います。 
 
 本番環境では、代わりに**カスタマイズされた API キー**を使用してください。カスタマイズされたキーは個々のユーザーアカウントから独立しているため、チームメンバーが組織を離れてもサービスの継続性を保証します。    
-

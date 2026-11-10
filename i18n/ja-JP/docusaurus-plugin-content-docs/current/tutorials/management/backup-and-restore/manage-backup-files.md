@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # バックアップファイルの管理
 
 このガイドでは、既存のバックアップファイルを表示、名前変更、削除する方法について説明します。
@@ -131,6 +133,18 @@ Zilliz Cloud の Web コンソールでバックアップファイルとその�
 
 <Supademo id="cmcsspyv70hpq9st8rz5ro3qa" title=""  />
 
+<Procedures>
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. 対象のバックアップファイルを見つけ、**Actions** の下にある **...** をクリックします。**Rename** を選択します。
+
+1. バックアップファイルの新しい名前を入力します。
+
+1. **Save** をクリックします。
+
+</Procedures>
+
 ## バックアップファイルの削除\{#delete-backup-files}
 
 Zilliz Cloud では、バックアップの作成方法に応じて削除の扱いが異なります。
@@ -144,6 +158,18 @@ Zilliz Cloud では、バックアップの作成方法に応じて削除の扱�
 次のデモでは、Zilliz Cloud の Web コンソールでバックアップファイルを削除する方法を示します。
 
 <Supademo id="cmcst9z5t0ics9st8bbvsrqkk" title=""  />
+
+<Procedures>
+
+1. 左側のナビゲーションで **Backups** をクリックします。
+
+1. 対象のバックアップファイルを見つけ、**Actions** の下にある **...** をクリックします。**Delete** を選択します。
+
+1. 操作を確認するために、バックアップファイルの名前を入力します。
+
+1. **Delete** をクリックします。
+
+</Procedures>
 
 ### RESTful API 経由\{#via-restful-api}
 

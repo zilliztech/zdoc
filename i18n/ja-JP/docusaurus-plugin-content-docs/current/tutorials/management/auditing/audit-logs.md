@@ -183,6 +183,18 @@ Zilliz Cloud の監査ログ機能は、監査ログをストレージバケッ�
 
 ![WaxlwwFpVhjeVKbfgWScdKQKnqW](https://zdoc-images.s3.us-west-2.amazonaws.com/WaxlwwFpVhjeVKbfgWScdKQKnqW.png)
 
+<Procedures>
+
+1. 対象クラスターに移動します。
+
+1. **Logs** タブに切り替えます。
+
+1. **Edit** ボタンまたはその横の矢印をクリックします。
+
+1. ログ設定を編集または削除できます。
+
+</Procedures>
+
 ## FAQ\{#faq}
 
 この FAQ では、Zilliz Cloud の監査ログに関する一般的な問題と質問を扱います。さらに支援が必要な場合は、[Zilliz Cloud support](https://support.zilliz.com/hc/en-us) にお問い合わせください。
@@ -198,4 +210,3 @@ Zilliz Cloud の監査ログ機能は、監査ログをストレージバケッ�
 - **クラスターの Abnormal ステータスは Audit Log サービスに影響しますか？**
 
     クラスターの異常ステータスは、ネットワーク接続の問題や Zilliz Cloud サービスの中断など、クラスターで問題が発生している可能性があることを示します。ただし、これらの問題は Audit Log サービスには影響せず、通常どおり動作して期待どおりにログを転送し続けます。問題が継続する場合は、[Zilliz Cloud support](https://support.zilliz.com/hc/en-us) にお問い合わせください。
-

@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # クロスリージョンバックアップ
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
@@ -71,6 +73,22 @@ Zilliz Cloud のクロスリージョンバックアップは、バックアッ�
 次のデモでは、手動でバックアップを作成する際にクロスリージョンバックアップを使用する方法を示します。自動バックアップのスケジュール設定中にクロスリージョンバックアップを使用する方法の詳細については、[自動バックアップのスケジュール](./schedule-automatic-backups) を参照してください。
 
 <Supademo id="cmgkg6um62deokrn973s89qfx?utm_source=link" title=""  />
+
+<Procedures>
+
+1. ターゲットクラスターに移動します。
+
+1. **Backups** タブに切り替えます。
+
+1. **+ Manual Backup** をクリックします。
+
+1. **+ Region** をクリックします。
+
+1. 優先リージョンを選択し、バックアップの保持期間を設定します。
+
+1. **Create** をクリックします。
+
+</Procedures>
 
 また、Zilliz Cloud RESTful API を使用して、ターゲットクラスターと同じリージョンで作成されたバックアップのクロスリージョンコピーを、次のように手動で作成することもできます。
 

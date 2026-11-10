@@ -91,9 +91,9 @@ AWS KMS キーを追加するには、[Zilliz Cloud コンソール](https://clo
         <Admonition type="info" title="Notes">
 
         暗号化された Zilliz Cloud クラスターをあるクラウドリージョンから別のリージョンにバックアップした後、対象リージョンでバックアップを復号するには、元のクラスターを暗号化したのと同じキーを使用する必要があります。
-
+        
         この場合、キーをバックアップをホストするリージョンにレプリケートし、既存の IAM ロールを使用して Zilliz Cloud に送信できます。
-
+        
         マルチリージョンレプリカキーの作成の詳細については、AWS ドキュメントの[このページ](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-replicate.html) を参照してください。
 
         </Admonition>
@@ -212,6 +212,18 @@ KMS キーを使用して Zilliz Cloud クラスターを暗号化すると、�
 
 ![S3NKwZYR7hj6ocbkpIQcB66Unyg](https://zdoc-images.s3.us-west-2.amazonaws.com/S3NKwZYR7hj6ocbkpIQcB66Unyg.png)
 
+<Procedures>
+
+1. 対象のプロジェクトを探します。
+
+1. 左側のナビゲーションペインで **Security** > **CMEK** をクリックします。
+
+1. **Amazon KMS** をクリックして、追加されたキーを表示します。
+
+1. （オプション）不要になったキーを削除するには、**Remove** をクリックします。
+
+</Procedures>
+
 Zilliz Cloud は、一覧表示されているキーの可用性を 10 分ごとにスキャンします。また、一覧表示されている KMS キーのステータスに関するプロジェクトアラートを作成することもできます。詳細については、[Manage Project Alerts](./manage-project-alerts#create-a-project-alert) を参照してください。
 
 KMS キーが不要になった場合は、どのクラスターもそのキーを使用していなければ削除できます。
@@ -236,7 +248,7 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみを選択できます。
 
-1. 概要を確認して、**Create Cluster** をクリックします。
+1. 概要を確認し、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 

@@ -48,6 +48,8 @@ Google Cloud KMS では、暗号化キーは **CryptoKey** として表され、
 
 ## 事前準備\{#before-you-start}
 
+- このガイドのすべての Bash コマンドは、[Google Cloud Shell](https://shell.cloud.google.com/) で実行すること。
+
 - キー管理コマンドを実行するための十分な権限を持っていること。
 
 ## Google Cloud CryptoKey を追加する\{#add-google-cloud-cryptokey}
@@ -100,6 +102,18 @@ Google Cloud CryptoKey を追加するには、[Zilliz Cloud コンソール](ht
 
 ![JIOvwK1qghkys1b4drXcZUyFnCb](https://zdoc-images.s3.us-west-2.amazonaws.com/JIOvwK1qghkys1b4drXcZUyFnCb.png)
 
+<Procedures>
+
+1. 対象プロジェクトを見つけます。
+
+1. 左側のナビゲーションペインで、**Security** > **CMEK** をクリックします。
+
+1. 追加されたキーを表示するには、Google Cloud **KMS** をクリックします。
+
+1. （オプション）**Remove** をクリックして、不要なキーを削除します。
+
+</Procedures>
+
 Zilliz Cloud は、一覧表示されているキーの可用性を 10 分ごとにスキャンします。また、一覧表示されている KMS キーのステータスに関するプロジェクトアラートを作成することもできます。詳細については、[Manage Project Alerts](./manage-project-alerts#create-a-project-alert) を参照してください。
 
 KMS キーが不要になった場合は、クラスターがそのキーを使用していない場合に削除できます。
@@ -124,7 +138,7 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみ選択できます。
 
-1. 概要を確認し、**Create Cluster** をクリックします。
+1. サマリーを確認してから、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 

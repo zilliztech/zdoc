@@ -2646,29 +2646,29 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/auditing/audit-logs.md": {
-      "sourceHash": "45c2b7e98526d83889118d0a601927d3dd52d92fb882000a037c45aa4a1e6722",
+      "sourceHash": "35aa1b1044bd02e9fc7178190600ae98a85ba1c352e551ce3b5a825a987e3851",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/audit-logs.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/auditing/view-activities.md": {
-      "sourceHash": "b0b78a518b07405f3548512097dc587092e3989cc2ef133d004b42bb838b153b",
+      "sourceHash": "2cabf2df21e33bb0dac792fa283063abf0c33500f08645dac99809f93a960c7a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/view-activities.md",
-      "translatedAt": "2026-09-19T13:43:11.314Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/authentication/cluster-credentials.md": {
-      "sourceHash": "7468eb7082941912deb8c13df11b96f7ab62e5f1c6a5766468d0db62b30ec0e2",
+      "sourceHash": "ca28ad2a28e7724cbd3b7636a3f3f8e9024c77273d055943ba05238fb8a3928b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/cluster-credentials.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/authentication/email-accounts.md": {
-      "sourceHash": "ffe94cf86e07310c5e72b9920304fc58a301a9dfe6b00cb897f36bd0f39f2f2e",
+      "sourceHash": "3ecdfbb6003419d40905be10fd80247ea6b01144c3af031e398ab4722e14e08a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/email-accounts.md",
-      "translatedAt": "2026-10-28T02:47:20.007Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/authentication/manage-api-keys.md": {
-      "sourceHash": "9b8cb310a9d365091bc95bbb0fc4e2026381eeeaf876d77934f4f514d22b7f4e",
+      "sourceHash": "ff7daab377259707e5f804818b2f88b11e515e402128b24b9db021a0b8709e0d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/manage-api-keys.md",
-      "translatedAt": "2026-10-10T05:57:57.258Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/authentication/multi-factor-auth.md": {
       "sourceHash": "da3e479caa3709b438b4d35d44d58c66d2ddc0576fe50e7a0988ef0fc8d5fb28",
@@ -2676,9 +2676,9 @@
       "translatedAt": "2026-11-09T13:53:59.156Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
-      "sourceHash": "1fca1a54d38f313e89d7796e3edf0b05256f1d83d16d9b277b73daa49e37b713",
+      "sourceHash": "96e65868c6ce66badbbbd5d98205635298b00579f3b57abad3d78514dc004095",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/backup-to-other-regions.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/create-backup.md": {
       "sourceHash": "6c3b00ebcfc84f4f1e19ed04dcf5eda00836fe3c4b28f92a1a98392bacf166b9",
@@ -2691,9 +2691,9 @@
       "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/manage-backup-files.md": {
-      "sourceHash": "3b3ddfba73ca01808a8dd129f89d4ddb158d9d46e5f24ba30e0c1cf6ad3fa76c",
+      "sourceHash": "5ff7478d6eeaa738515d53ddbb148f2bf0f29abc89ad37fd61d1d4db19577b8a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/manage-backup-files.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/restore-from-backup-files.md": {
       "sourceHash": "ce1d2bd91c5c3059a39b89424d0e0dfeb877193e417547deba6cbee1cedce3f2",
@@ -2701,9 +2701,9 @@
       "translatedAt": "2026-11-09T13:53:59.156Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
-      "sourceHash": "6c2076684fd2882511ee888e2f2bc3ce2ad8d96c8e78f99c34be2f7a3024a2cc",
+      "sourceHash": "b84c4623d336f6375045cbb4382754e44536adac6212ef2708fb4a22ae52a608",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/billing-management/failed-payments-organization-recovery.md": {
       "sourceHash": "875eb71210c933359f93b4765fe4520c7d8e78c9e9e2474f7dc7e2691dbafec8",
@@ -2711,9 +2711,9 @@
       "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/manage-invoice.md": {
-      "sourceHash": "c414c8ca67b6c80e5978b640fab9a5545f6c5f932f71a5d6144d0b3e3f3e785b",
+      "sourceHash": "021ea8ed493f6f1e6e010e71d5317e3efca79b08e2877f44bf822c39675ccea3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/manage-invoice.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/billing-management/monitor-billing-alerts.md": {
       "sourceHash": "7358e77563caecbff012a5de81a53f6843aae2e30bff8cb05ce9054712b39e54",
@@ -2806,9 +2806,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "95ba07e6912b51e4ec65efaba0b3538c090afb9708a37e62fea4f62f80932a3a",
+      "sourceHash": "f08fc9758efe0ff18527a7850692e20e7103b2262b4e9d2fe8bca742bb88b0d6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "4b7f2cf04eba0a8bce45024ed4f61a0445f9ac030a4e08a4ea428d6155d03515",
@@ -2866,9 +2866,9 @@
       "translatedAt": "2026-10-26T11:56:32.471Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
-      "sourceHash": "23603002c01e6dfb06cb87ff6fc9c5bd5d16d515c9116267d7d5b6708c527ba7",
+      "sourceHash": "b6376229b91d50553fb8083dcc1c57a8947447e1fddef363a35ac485ba96a431",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "translatedAt": "2026-11-09T13:57:51.180Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/monitor-global-cluster.md": {
       "sourceHash": "8fde1eccb307310010350d3c50f7c4f977bd117ab21757d7e4c1ecb95c4742d3",
@@ -2886,9 +2886,9 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "540de7b006c50953c8a1643fc9b8a63579e08a6d29d856649eb9f53a0ce9a1d1",
+      "sourceHash": "61044f32362e9b5e9d89d66e6e6f1a65576096ebfb1cdce21773ef12a724db61",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-11-09T13:57:51.180Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "0a3fac69090f95a4291c3b7d880535e62ba172ff47ecd79f201590537461fa81",
@@ -2896,9 +2896,9 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/cmek/aws-kms.md": {
-      "sourceHash": "eb364d4fe53af08b3701383e6f2d8b688713d4e36db0c03aba583d91075299a1",
+      "sourceHash": "24e8a1c845b99fd4f4827545785e75f11a54e0726bf6e70029b86f72670f01f7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/aws-kms.md",
-      "translatedAt": "2026-11-05T15:06:20.053Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/cmek/cmek.md": {
       "sourceHash": "0da9c6f631bfaceef81b79931e718a78dc4707ca17bfc3d55e38835d524a7ee5",
@@ -2906,9 +2906,9 @@
       "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/cmek/gcp-kms.md": {
-      "sourceHash": "ef680f013d6869317cdffbd0c8786026106d04e00b7c7b0223b7eccf7827d397",
+      "sourceHash": "5e3bd71478e2817596858e1948566249e15cd825a549cce5549b06836a729a7c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/gcp-kms.md",
-      "translatedAt": "2026-11-05T15:06:20.053Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
       "sourceHash": "1aadec6c01be283ee85469b457f6da8e53d22606caf6fab45cb0b1965e2a96de",
@@ -2961,9 +2961,9 @@
       "translatedAt": "2026-11-05T15:06:20.053Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
-      "sourceHash": "b1a4de18294531848bb53b75363887cb530a95df95da74d36c828cd8e7c1711f",
+      "sourceHash": "a8b89c80b4e541da97e6a791635c821004ecc2c04f72f022cda836db5e8520c9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/manage-cluster-users/cluster-users.md",
-      "translatedAt": "2026-09-19T14:23:03.631Z"
+      "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-platform-users.md": {
       "sourceHash": "b10d672f8035ccc260704bac9d8b1342fd5f2ecbf5fdd7e46f4215bb2410e3d8",

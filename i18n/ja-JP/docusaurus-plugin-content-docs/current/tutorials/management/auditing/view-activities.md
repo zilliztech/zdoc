@@ -58,4 +58,6 @@ Platform Audit Logs の操作性と閲覧のしやすさを高めるために、
 
 - **監査ログでフィルタリング**
 
+    リストから希望するアクティビティタイプを選択します。 
+
     ![filter-by-activity](https://zdoc-images.s3.us-west-2.amazonaws.com/filter-by-activity.png "filter-by-activity")
