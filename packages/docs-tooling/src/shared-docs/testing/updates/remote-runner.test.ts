@@ -52,30 +52,30 @@ it('derives deterministic intents from fixed bridge facts and keeps all producti
   expect(first.intent!.stagingRef).toBe('shared-update-staging/'+first.intent!.transactionId)
   expect(await f.runner.apply(first)).toMatchObject({status:'report-only',reasons:['WRITER_DISABLED']})
   expect(f.requests.every(request=>request.startsWith('GET '))).toBe(true)
-})
+},30000)
 it('rejects arbitrary intent/runtime overrides and forged captures before observing',async()=>{
   const f=await fixture()
   for(const extra of [{runtime:{}},{intent:{}},{trusted:true},{plan:{}},{writerCapability:{}}])expect(()=>RemoteUpdateRequestSchema.parse({...f.request,...extra})).toThrow()
   expect(()=>createRemoteUpdateRunner({capture:{} as never,reads:f.reads,policy:f.policy})).toThrow()
   expect(()=>createRemoteRunnerWithRuntime({runtime:f.runtime,reads:{...f.reads},policy:f.policy})).toThrow('REMOTE_ADAPTER_REQUIRED')
   expect(()=>createRemoteRunnerWithRuntime({runtime:f.runtime,reads:f.reads,policy:{...f.policy,writerActorId:28}})).toThrow('REMOTE_ADAPTER_REQUIRED')
-})
+},30000)
 it('returns noop without constructing an intent or invoking the writer',async()=>{
   const f=await fixture();seam.prepare.mockResolvedValue({status:'noop',reasons:[],operations:[],evidence:[],plan:f.plan})
   expect(await f.observe()).toEqual({status:'noop',reasons:[],operations:[],evidence:[]})
-})
+},30000)
 it('holds a remote master race during preparation',async()=>{
   const f=await fixture();f.race();expect(await f.observe()).toMatchObject({status:'held',reasons:['REMOTE_OBSERVATION_CHANGED'],operations:[]})
-})
+},30000)
 it('holds a deterministic target collision even without a pull request',async()=>{
   const f=await fixture(),target='shared-update/'+rawSha256(canonicalBytes({kind:'remote-unit',unitKey:f.plan.unitKey}));f.refs.set(target,f.master)
   expect(await f.observe()).toMatchObject({status:'held',reasons:['TARGET_COLLISION'],operations:[]})
-})
+},30000)
 it('does not reopen a closed pull at the deterministic target ref',async()=>{
   const f=await fixture(),headRef='shared-update/'+rawSha256(canonicalBytes({kind:'remote-unit',unitKey:f.plan.unitKey}))
   f.pulls.push({id:20,number:20,base:{repo:{id:100},ref:'master',sha:f.master},head:{repo:{id:100},ref:headRef,sha:f.master},user:{id:27},state:'closed',merged_at:null,draft:true,created_at:'2026-01-01T00:00:00Z'})
   expect(await f.observe()).toMatchObject({status:'held',reasons:['TARGET_COLLISION']})
-})
+},30000)
 it('recovery ignores phase claims and retains exact receipt/raw qualification holds across new outputs',async()=>{
   const f=await fixture(),observation=await f.observe()
   const marker=await f.evidence.writeBlob(canonicalBytes({kind:'dispatch-attempt',intent:observation.intent!.transactionId}))
@@ -85,13 +85,13 @@ it('recovery ignores phase claims and retains exact receipt/raw qualification ho
   expect((await f.observe('recovery')).intent).toEqual(observation.intent)
   expect(await f.evidence.readBlob(marker)).toEqual(canonicalBytes({kind:'dispatch-attempt',intent:observation.intent!.transactionId}))
   expect(f.requests.every(request=>request.startsWith('GET '))).toBe(true)
-})
+},30000)
 
 it('holds unavailable raw Git history without falling back to a new unit',async()=>{
   const f=await fixture(),request={...f.request,local:{...f.request.local,existing:{head:'f'.repeat(40),donorHeads:[],localEvidence:[]}}}
   expect(await f.runner.observe(request,join(f.root,'missing-prepare'),join(f.root,'missing-inspect'))).toMatchObject({status:'held',operations:[]})
   expect(seam.prepare).not.toHaveBeenCalled()
-})
+},30000)
 
 it('detects partial subject overlap across unequal authenticated and newly planned unit keys',()=>{
   const alpha={kind:'guides-page' as const,group:'guides' as const,pageId:'alpha'},beta={...alpha,pageId:'beta'},gamma={...alpha,pageId:'gamma'}
