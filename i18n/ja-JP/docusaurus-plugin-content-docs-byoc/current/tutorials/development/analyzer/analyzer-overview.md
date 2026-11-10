@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # アナライザーの概要
 
 テキスト処理において、**アナライザー**は生のテキストを構造化され検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、**トークナイザー**と**フィルター**という 2 つのコア要素で構成されます。これらが連携して入力テキストをトークンに変換し、トークンを調整して、効率的なインデックス作成と検索に備えます。
@@ -1740,6 +1742,26 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
 
+<Procedures>
+
+1. 対象クラスターの **Overview** ページに移動します。
+
+1. **Create コレクション** をクリックします。
+
+1. コレクション名、ベクトルフィールド、varchar フィールドを設定します。
+
+1. varchar フィールドの横にある **Settings** ボタンをクリックします。
+
+1. **Analyzer** をオンにします。
+
+1. アナライザーを構成します。
+
+1. アナライザーを適用した結果を確認するには、**Test** をクリックします。
+
+1. **Save** をクリックします。
+
+</Procedures>
+
 <Admonition type="info" title="Note">
 
 アナライザーの構成は、コレクションの作成後に変更できません。アナライザーの構成を変更するには、目的の設定で新しいコレクションを作成し、データを [移行](./migrate-between-clusters) します。
@@ -1757,4 +1779,3 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
 - [全文検索](./full-text-search)
 
 - [テキスト一致](./text-match)
-

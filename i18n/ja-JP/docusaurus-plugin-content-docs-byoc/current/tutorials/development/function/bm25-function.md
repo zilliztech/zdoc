@@ -19,6 +19,7 @@ custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/u
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Supademo from '@site/src/components/Supademo';
+import Procedures from '@site/src/components/Procedures';
 
 # BM25 関数
 
@@ -764,9 +765,43 @@ curl --request POST \
 
 ### Web コンソール経由\{#via-web-console}
 
-または、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) で BM25 関数を使用してコレクションを作成することもできます。
+または、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) で BM25 関数を使用するコレクションを作成することもできます。以下で使用する名前と制限値は例です。使用するデータに合わせて設定してください。
 
-<Supademo id="cmjl3i2jg4mkb3zz206xgz4tr" title=""  />
+<Supademo id="cmwabmbzc0dbiqmfqcxfs9cyw" title=""  />
+
+<Procedures>
+
+1. Create コレクション ページを開きます。
+
+    コンソールでクラスターを開き、**Create コレクション** をクリックします。
+
+1. スパースベクトルフィールドを追加します。
+
+    **ベクトル** フィールドを選択し、その **Field Type** を **SPARSE_FLOAT_VECTOR** に変更します。このフィールドには、BM25 関数が生成するスパースベクトルが格納されます。
+
+1. テキストフィールドを追加します。
+
+    **+ Field** をクリックし、**Field Name** を任意の名前（例えば `var`）に設定して、**Field Type** を **VARCHAR** に設定します。**Max Length** には、挿入する予定のテキストのうち最長のものをカバーする長さを設定します。
+
+1. BM25 関数を追加します。
+
+    **Properties and Advanced Settings** までスクロールし、**+ Function** をクリックして、**Function Type** を **BM25** に設定します。
+
+1. 関数を設定します。
+
+    | 設定 | 説明 |
+    | --- | --- |
+    | **Input Field** | 生のテキストを格納する VARCHAR フィールド（例えば `var`）を選択します。 |
+    | **Analyzer** | BM25 スコアリングの前に、入力テキストをトークン化して正規化するために使用する analyzer を選択します。組み込みの analyzer は、空白と句読点でテキストを分割します。これはほとんどの英語ワークロードに適しています。他の言語など、データに異なるトークン化が必要な場合は、カスタム analyzer を選択してください。詳細については、[ユースケースに適した Analyzer を選ぶ](./choose-the-right-analyzer-for-your-use-case) を参照してください。 |
+    | **Output Field** | BM25 の出力を格納する `SPARSE_FLOAT_VECTOR` フィールド（例えば `vector`）を選択します。 |
+
+    その後、**Save** をクリックします。
+
+1. コレクションを作成します。
+
+    スキーマを確認し、**Create** をクリックします。
+
+</Procedures>
 
 BM25 関数を備えたコレクションが作成されたら、テキストを挿入し、テキストクエリに基づく字句検索を実行できます。
 

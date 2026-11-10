@@ -19,6 +19,8 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import Procedures from '@site/src/components/Procedures';
+
 # クラスター認証情報
 
 Zilliz Cloud はトークンを使用して ID を認証します。トークンは、クラスター認証情報または API キーのいずれかです。このガイドでは、クラスター認証情報を使用した認証について説明します。
@@ -36,6 +38,20 @@ Zilliz Cloud はトークンを使用して ID を認証します。トークン
 - **コンソールでユーザーパスワードをリセットする**
 
     ![reset-クラスター-user-password](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "reset-クラスター-user-password")
+
+    <Procedures>
+
+    1. 対象のクラスターに移動します。
+
+    1. **Users** タブを選択します。
+
+    1. **Actions** の下にある **...** をクリックします。
+
+    1. **Reset Password** をクリックします。
+
+    1. 新しいパスワードを入力し、**Confirm** をクリックします。
+
+    </Procedures>
 
 - **プログラムでユーザーパスワードをリセットする**
 

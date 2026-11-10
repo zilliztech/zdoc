@@ -58,4 +58,6 @@ Zilliz Cloud の **Platform Audit Logs** 機能は、アクセスログを含む
 
 - **監査ログでフィルタリング**
 
+    リストから希望するアクティビティタイプを選択します。
+
     ![filter-by-activity](https://zdoc-images.s3.us-west-2.amazonaws.com/filter-by-activity.png "filter-by-activity")

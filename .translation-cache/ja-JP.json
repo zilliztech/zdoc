@@ -201,9 +201,9 @@
       "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-overview.md": {
-      "sourceHash": "7fa4cef9957fc4671a31f7ac24b636ccd43a095a320421c0516712f353a4fd22",
+      "sourceHash": "ef39ef40dfb251074a1c46a7a37266f615fc0c973eb98b1ff7503222b4b667d0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-overview.md",
-      "translatedAt": "2026-11-05T10:46:45.050Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md": {
       "sourceHash": "8e344421dc5f429972f3baca273558011d09675df72e741690071de746eb3209",
@@ -266,9 +266,9 @@
       "translatedAt": "2026-11-05T10:46:45.050Z"
     },
     "content/en/byoc/tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case.md": {
-      "sourceHash": "f8ec3a1f11b0aeea6ac9fdc54200d7898fbe137e6936b092d79c691ad8127a34",
+      "sourceHash": "abcce89d805e7b7bf9066a692958ddfac05e807a008f1db35f090c5b1f8db811",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case.md",
-      "translatedAt": "2026-11-05T10:46:45.050Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/analyzer/multi-language-analyzers.md": {
       "sourceHash": "7a0178a05264aa422b81c1c62a51e338d60ceef906c6a0a7d55a6a666821b394",
@@ -276,14 +276,14 @@
       "translatedAt": "2026-11-06T11:48:36.003Z"
     },
     "content/en/byoc/tutorials/development/collection/collection-on-console/manage-collections-console.md": {
-      "sourceHash": "85df4e6ad88fb6497ebfd5c6c76cd1119be56e1e4ec01c6782d4837fe7cf49d9",
+      "sourceHash": "3f89cf1f3449954076ea09787116cf3ffe3792bf3f3730e87f1cce285ebb7ccd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/collection-on-console/manage-collections-console.md",
-      "translatedAt": "2026-11-07T11:50:28.363Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/collection/collection-on-console/manage-external-collections-console.md": {
-      "sourceHash": "eacf4e54b7f506806992a7c29411980554206c1b88907338b8e5aefd763a2b65",
+      "sourceHash": "83d7bf753d2331538254cc7e121cdcec78d0e399eda5921b022e30756c997c91",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
-      "translatedAt": "2026-11-06T19:45:47.341Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/collection/create-external-collection/create-external-collection.md": {
       "sourceHash": "a1c65d5bc3bcaa80cad94b97eb09155a6817ca17d1df7330493eaa09b305976c",
@@ -396,9 +396,9 @@
       "translatedAt": "2026-11-09T12:46:01.582Z"
     },
     "content/en/byoc/tutorials/development/data-import/import-data/import-data-on-web-ui.md": {
-      "sourceHash": "db4c4470961b367c17cc13e79493eb7e586903d839feab5165c925227c11bf6d",
+      "sourceHash": "d82ade8840b02ee802954e91d662a48304522c5cd733245e8404515b0ab61130",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/import-data/import-data-on-web-ui.md",
-      "translatedAt": "2026-09-19T13:48:36.176Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/data-import/import-data/import-data-via-restful-api.md": {
       "sourceHash": "db42ce33e0a470e5d4425b136ca6ca6c8bb1d85c0e319040f8cc44c2b18120a7",
@@ -441,9 +441,9 @@
       "translatedAt": "2026-09-19T13:48:36.176Z"
     },
     "content/en/byoc/tutorials/development/function/bm25-function.md": {
-      "sourceHash": "f87194dca04459e7cd4811f9929eaf3950a5e710f05122d9408f501333ec02d7",
+      "sourceHash": "bf1d9bed24ade6e46aecff375dcbb2f25683166e3109222ac16724a4097711c9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/bm25-function.md",
-      "translatedAt": "2026-11-09T12:46:01.582Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/function/minhash-function.md": {
       "sourceHash": "e84b76e99e6be1d3f83c319a5dca15a0ce91a7e17b570f80397e37b28c99b3fc",
@@ -646,9 +646,9 @@
       "translatedAt": "2026-11-09T12:49:41.519Z"
     },
     "content/en/byoc/tutorials/development/schema/use-geometry-field.md": {
-      "sourceHash": "22f325ed8a886599b0242b9fa39fecb0a26429c96ef7728e51858a1dd8b787b3",
+      "sourceHash": "beb68c380cb3871bae7f364d3e9ad6c774390b781044ad8a2a63d9e66b1ec1e7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-geometry-field.md",
-      "translatedAt": "2026-11-06T11:48:36.003Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/schema/use-number-field.md": {
       "sourceHash": "fb7a5e3afff5c05e419f61338f42ee57bc85d8d35f0a278632c0be660e16634c",
@@ -676,9 +676,9 @@
       "translatedAt": "2026-11-07T11:50:28.363Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/consistency-level.md": {
-      "sourceHash": "d99237e3dbc95ebf9415f7c578ca25b647cc3f966b07335baf4c87366a25bb98",
+      "sourceHash": "7d096c5427685701005787f5698126f624ee2324a335f567ec1ebb8a484b81d4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/consistency-level.md",
-      "translatedAt": "2026-11-05T20:41:59.139Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/dql-sessions-external-collection.md": {
       "sourceHash": "5aac06b3cd275a6cce3dcacb32199bfe395e05726830fd7838f7570d8206d50d",
@@ -871,9 +871,9 @@
       "translatedAt": "2026-10-25T05:11:00.677Z"
     },
     "content/en/byoc/tutorials/development/volume/external-volume.md": {
-      "sourceHash": "2b908089a5c04e6bb9745d4ade03b2d73653bae39a5659dac2f294b707b8645c",
+      "sourceHash": "4543a904e20c726625fd62cd1393cfab6e087031d594dfc27158338f4f562cb5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/external-volume.md",
-      "translatedAt": "2026-11-05T11:21:18.028Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
       "sourceHash": "fc2422de6000092eb9716ad054fd9341510a0ad9710056583977660613508cb9",
@@ -966,9 +966,9 @@
       "translatedAt": "2026-11-09T12:54:24.094Z"
     },
     "content/en/byoc/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md": {
-      "sourceHash": "b1f6b2687ed9dac2f2606f65feff172e5fb9e5276916e459ffc11293e27333f1",
+      "sourceHash": "a277f130c235d1c80ee1bffbe34859e4596855dace487374e3b30927a9356a69",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md",
-      "translatedAt": "2026-09-19T13:57:10.436Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/management/access-control/manage-platform-roles.md": {
       "sourceHash": "72f6e9974c5263a7a6ff1462a34ccab5cfe5bfb1fed3b4c4514484e097248a61",
@@ -1006,24 +1006,24 @@
       "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/auditing/view-activities.md": {
-      "sourceHash": "d14d0ab84059ff09a9980f04d99607fade473481d81f620917d4cdd328a32e1a",
+      "sourceHash": "509e91801694cf666de226a02154c36930cdab5b21be204c421b262e01e45961",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/auditing/view-activities.md",
-      "translatedAt": "2026-09-19T13:43:11.314Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/management/authentication/cluster-credentials.md": {
-      "sourceHash": "9eb0faec96bdb22524aa5242021425be4234467fcc15afbe81fb02975059e6d9",
+      "sourceHash": "26b0f49c69e781e1520b1d78a60496a0e1f6aeec51f84d09d2795cb6cc10fb8c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/cluster-credentials.md",
-      "translatedAt": "2026-11-09T12:54:24.094Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/management/authentication/email-accounts.md": {
-      "sourceHash": "6fdc8cfd51c5a2bcfcef70df1027f222118f64df6945d0b10d44c2880ba88342",
+      "sourceHash": "791695831d02ce52190b457ec4e25a4d75ab3bca5ffbc61d680656df4617bf65",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/email-accounts.md",
-      "translatedAt": "2026-10-28T02:47:20.007Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/management/authentication/manage-api-keys.md": {
-      "sourceHash": "1b52b28ac6e1f13fae9c12398b973634ecf22ae67ca8882b5f442683aad80f29",
+      "sourceHash": "cc17736d3583e905d5f8561ebba14bf89c6d3ecfb598dc2843481b1f67461036",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/manage-api-keys.md",
-      "translatedAt": "2026-10-10T05:49:11.808Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/management/authentication/multi-factor-auth.md": {
       "sourceHash": "5a5d2bdf6a466f4fdef934e284d70429177dcaf111ebf1568938a2bac1f31492",
@@ -1036,9 +1036,9 @@
       "translatedAt": "2026-11-09T12:54:24.094Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/manage-backup-files.md": {
-      "sourceHash": "840ca7ca2f3655d5eb8ec22e86772192941caaaaf739f81dc60516598806f4c5",
+      "sourceHash": "6767820f1bfc7d285d42639b5aa04f40e5d39d6e26c3c2f11d77dbb397422a44",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/backup-and-restore/manage-backup-files.md",
-      "translatedAt": "2026-11-09T12:54:24.094Z"
+      "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/restore-from-backup-files.md": {
       "sourceHash": "5a877a97297c484a0da9f3e70f8d2b458ffa39a90f18cc6103afe373c051c8ef",

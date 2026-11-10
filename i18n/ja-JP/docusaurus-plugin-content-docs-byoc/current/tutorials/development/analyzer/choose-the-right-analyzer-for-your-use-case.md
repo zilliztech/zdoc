@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # ユースケースに適したアナライザーを選択する
 
 このガイドでは、Zilliz Cloud のテキストコンテンツに最適な **アナライザー** を選択して設定する方法を説明します。
@@ -1256,3 +1258,22 @@ Zilliz Cloud では、コードを書かずに [Zilliz Cloud](https://cloud.zill
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
 
+<Procedures>
+
+1. 対象クラスターの **Overview** ページに移動します。
+
+1. **Create コレクション** をクリックします。
+
+1. コレクション名、ベクトルフィールド、varchar フィールドを設定します。
+
+1. varchar フィールドの横にある **Settings** ボタンをクリックします。
+
+1. **Analyzer** をオンにします。
+
+1. アナライザーを構成します。
+
+1. **Test** をクリックすると、アナライザーを適用した結果を確認できます。
+
+1. **Save** をクリックします。
+
+</Procedures>

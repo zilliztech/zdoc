@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # データのインポート（Console）
 
 このページでは、Zilliz Cloud コンソールで準備済みデータをインポートする方法を紹介します。
@@ -64,6 +66,28 @@ Zilliz Cloud では現在、クラスターをホストしているクラウド�
 
 <Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
 
+<Procedures>
+
+1. データをインポートする対象のコレクションに移動します。
+
+1. **Data** タブに切り替えます。
+
+1. **Import Data** をクリックします。
+
+1. データインポートの構成を設定します。
+
+    - パーティションを選択します。
+
+    - **Data Location** として **Object Storage Service** を選択します。
+
+    - データ形式を選択します。サポートされているデータ形式については、[Format Options](./data-import-format-options) を参照してください。
+
+    - オブジェクトストレージサービスの認証情報を入力します。
+
+1. **Import** をクリックします。
+
+</Procedures>
+
 ## 結果を確認する\{#verify-results}
 
 インポートジョブの進行状況とステータスは、[Jobs](./job-center) ページで確認できます。
@@ -83,4 +107,3 @@ Zilliz Cloud では現在、クラスターをホストしているクラウド�
 - [SDK によるデータのインポート](./import-data-via-sdks)
 
 - [データインポート ハンズオン](./data-import-zero-to-hero)
-

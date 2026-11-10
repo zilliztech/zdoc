@@ -321,9 +321,31 @@ personal または customized API キーが漏洩した可能性がある場合�
 
     ![reset-personal-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-personal-api-keys.png "reset-personal-api-keys")
 
+    <Procedures>
+
+    1. 組織の **API Keys** ページに移動します。
+
+    1. **View my Personal Key** をクリックします。
+
+    1. **Reset** ボタンをクリックします。
+
+    </Procedures>
+
 - **Reset customized API keys**: customized API キーをリセットできるのは Organization Owners と Project Admins のみです。
 
     ![reset-customized-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-customized-api-keys.png "reset-customized-api-keys")
+
+    <Procedures>
+
+    1. 組織の **API Keys** ページに移動します。
+
+    1. **Actions** の下にある **...** をクリックします。
+
+    1. **Reset** ボタンをクリックします。
+
+    1. キー名を入力し、**Reset** をクリックします。
+
+    </Procedures>
 
 ## API キーを削除する\{#delete-an-api-key}
 
@@ -340,6 +362,18 @@ API キーを削除すると、そのキーを使用しているすべてのサ�
 </Admonition>
 
 ![delete-customized-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-customized-api-keys.png "delete-customized-api-keys")
+
+<Procedures>
+
+1. 組織の **API Keys** ページに移動します。
+
+1. **Actions** の下にある **...** をクリックします。
+
+1. **Delete** ボタンをクリックします。
+
+1. キー名を入力し、**Delete** をクリックします。
+
+</Procedures>
 
 ## FAQ\{#faq}
 
