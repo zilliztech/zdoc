@@ -7,6 +7,7 @@ import { promisify } from 'node:util'
 import { lstat, readFile, realpath, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, join, resolve } from 'node:path'
 import { release } from 'node:os'
+import { REMOTE_IO_LIMITS } from '../../core/updates/remote'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { patchNextLock } from '../../core/updates/transaction'
 import { initializeEvidence, rawSha256, writeOwnedBlob } from '../../adapters/updates/evidence'
@@ -15,7 +16,7 @@ import { createGuidesProvider } from '../../adapters/updates/guides-provider'
 import { createBuildDemo, git, write } from '../build/demo'
 
 const exec=promisify(execFile)
-const treeOutputLimit=4*1024*1024,treeEntryLimit=100000,objectBudget=64*1024*1024
+const treeOutputLimit=4*1024*1024,treeEntryLimit=100000,objectBudget=REMOTE_IO_LIMITS.objectBytes
 const gitEnvironment={LANG:'C',LC_ALL:'C',GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null',GIT_TERMINAL_PROMPT:'0',GIT_NO_LAZY_FETCH:'1',GIT_OPTIONAL_LOCKS:'0'}
 export interface TreeLowerBound {complete:boolean;entries:number;distinctBlobs:number;bytes:number;verdict:'over-budget'|'not-proven';scope:'master-tree-blobs-only';objectBudget:number}
 /** Strict NUL-delimited ls-tree -rlz output. No raw path/content is retained in the report. */
@@ -123,7 +124,7 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     await writeFile(sourcePath,source.replaceAll('Pipeline example','Forward pipeline example'));await git(fixture.repo,'add','.');await git(fixture.repo,'commit','-qm','diagnostic forward source')
     const target=await git(fixture.repo,'rev-parse','HEAD')
     await git(fixture.repo,'remote','add','origin','https://github.com/milvus-io/milvus-docs')
-    const provider=await createGuidesProvider({capture,evidence,signal:AbortSignal.timeout(60000),request:{kind:'guides-collection',schemaVersion:1,repositoryRoot:repository,sourceRepository:fixture.repo,devRepository:fixture.dev,master:input.master,configSnapshot:config,dev:fixture.devCommit,pages:['build-pipeline'],comparisonConfig:null,target,evidenceRun:null,evidenceZip:null},
+    const provider=await createGuidesProvider({capture,evidence,signal:AbortSignal.timeout(60000),request:{kind:'guides-collection',schemaVersion:1,repositoryRoot:repository,sourceRepository:fixture.repo,devRepository:fixture.dev,master:config,configSnapshot:config,dev:fixture.devCommit,pages:['build-pipeline'],comparisonConfig:null,target,evidenceRun:null,evidenceZip:null},
       async prepareNext(context){const before=Buffer.from(context.lock.before.text),patch=patchNextLock({subject:context.subject,before:{path:context.lock.path,sha256:context.lock.before.blob.sha256,current,next:current},bytes:before,target,mode:'100644'});return {blob:await writeOwnedBlob(evidence,patch.bytes),text:patch.text}}})
     try{
       const collected=await provider.collectAll();result.worker.generationExecuted=true
@@ -134,7 +135,7 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
       try{await lstat(tripwire);throw new Error('CANDIDATE_EXECUTED')}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error}
       result.worker.tripwireUntouched=true
       for(const plan of plans)for(const edit of plan.nextEdits)if(edit.before.current!==current||edit.before.next!==current||edit.target!==target||edit.before.path!=='shared-docs/guides/pages/build-pipeline/lock.yaml')throw new Error('NON_NEXT_ONLY_PLAN')
-      result.worker.observation=await writeOwnedBlob(evidence,canonicalBytes({kind:'diagnostic-worker-observation',schemaVersion:1,fixture:{current,target,config,dev:fixture.devCommit},plans,settlement:settlementSummary(settlement)}))
+      result.worker.observation=await writeOwnedBlob(evidence,canonicalBytes({kind:'diagnostic-worker-observation',schemaVersion:1,fixture:{current,target,master:config,trustedTools:input.master,dev:fixture.devCommit},plans,settlement:settlementSummary(settlement)}))
       if(collected.collection.holds.length||plans.length!==1||plans.some(plan=>plan.disposition!=='candidate'))throw new Error('WORKER_PREPARATION_HELD')
       await verifyTrustedToolset(capture)
       if((await gitRead('rev-parse','HEAD')).toString().trim()!==input.master)throw new Error('MASTER_MISMATCH')
