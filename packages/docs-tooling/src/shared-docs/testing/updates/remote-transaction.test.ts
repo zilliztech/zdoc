@@ -249,6 +249,8 @@ async function build() {
 return build()
 }
 
+// History authentication plus two complete apply passes use real Git and evidence I/O.
+// Budget this combined scenario separately from ordinary cases in the parallel light phase.
 it('authenticates donor history and survivor ordering, preserves both branches, and proposes only unchanged open donors after exact validation',async()=>{
   const f=await historicalFixture(),history=await f.inspect();expect(history.status).toBe('verified')
   const next=f.addRevision({parent:f.s.oid,baseFiles:f.candidateFiles,previous:f.s.oid,preservedHeads:[f.s.oid]})
@@ -281,7 +283,7 @@ it('authenticates donor history and survivor ordering, preserves both branches, 
   const apply=()=>createRemoteTransactionFixture({reads,evidence:f.evidence,transport,scratch:f.objects,remoteObjects,authenticate:async()=>{},validatorInstalled:async()=>{}}).apply(intent)
   const result=await apply();expect(result.reasons).toEqual([]);expect(result.status).toBe('accepted');expect(result.donorCloseProposals).toEqual([{prNumber:21,head:f.s.oid,survivor:20,seal:next.s.oid}]);expect(refs.get('shared-update/donor')).toBe(f.s.oid);expect(transcript).toEqual(['cas','dispatch'])
   pulls[1].state='closed';const second=await apply();expect(second.reasons).toEqual([]);expect(second.status).toBe('accepted');expect(second.donorCloseProposals).toEqual([]);expect(transcript).toEqual(['cas','dispatch'])
-},integrationTimeout)
+},60_000)
 
 it('uses retained dispatch attempts only as a veto and never redispatches an invisible queued request',async()=>{
   const f=await fixture();f.installValidator('missing');expect((await f.harness().apply(f.intent)).reasons).toEqual(['VALIDATION_PENDING']);const count=f.writes.length

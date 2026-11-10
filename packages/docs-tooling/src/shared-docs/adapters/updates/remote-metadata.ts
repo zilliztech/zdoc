@@ -9,15 +9,28 @@ import { ProducerBundleReceiptSchema, RemotePolicySchema, REMOTE_IO_LIMITS, REMO
   encodeSealMessage, parseSealMessage, type RemoteCommit, type RemotePolicy, type RemoteSealV1, type RemoteReadResult } from '../../core/updates/remote'
 import { assertNextOnlyDiff, type NextOnlyDelta } from '../../core/updates/transaction'
 import { protectedToolsetPath } from './toolset'
-import { rawSha256 } from './evidence'
+import { rawSha256, type EvidenceStore } from './evidence'
 import { remoteReadContext, type RemoteReads } from './remote-github'
 
 export interface RemoteObjects { read(oid:string,type:'commit'|'tree'|'blob'):Promise<Uint8Array> }
 interface Commit {oid:string;tree:string;parents:string[];time:number;message:Uint8Array;raw:Uint8Array}
 interface Entry {mode:string;oid:string}
 export interface RemoteHistoryCapability {readonly kind:'remote-history';readonly head:string;readonly master:string;readonly seal:string;readonly candidate:string;readonly unitKey:string;readonly subjects:readonly Subject[];readonly preservedHeads:readonly string[];readonly evidence:readonly BlobRef[];readonly counts:Readonly<{headers:number;relevant:number;objects:number;bytes:number}>}
-const capabilities=new WeakSet<RemoteHistoryCapability>()
+const capabilities=new WeakMap<RemoteHistoryCapability,{reads:RemoteReads;policy:string;head:string;master:string;donors:string[];retain:(store:EvidenceStore)=>Promise<BlobRef>}>()
 export const isVerifiedRemoteHistory=(value:unknown):value is RemoteHistoryCapability=>!!value&&typeof value==='object'&&capabilities.has(value as RemoteHistoryCapability)
+/** Constructor identity and exact inspection pins are required at every bridge use. */
+export function assertRemoteHistoryBinding(value:unknown,request:{reads:RemoteReads;policy:RemotePolicy;head:string;master:string;donorHeads:readonly string[]}):asserts value is RemoteHistoryCapability {
+  const binding=value&&typeof value==='object'?capabilities.get(value as RemoteHistoryCapability):undefined
+  const policy=RemotePolicySchema.parse(request.policy)
+  if(!binding||!remoteReadContext(request.reads)||binding.reads!==request.reads||binding.policy!==rawSha256(canonicalBytes(policy))
+    ||!same(policy,remoteReadContext(request.reads)!.policy)||binding.head!==request.head||binding.master!==request.master
+    ||!same(binding.donors,[...request.donorHeads].sort(compareUtf8)))throw new Error('REMOTE_HISTORY_CONTEXT_CHANGED')
+}
+/** Copy authenticated historical bytes into the new evidence root, never into a B2 journal. */
+export async function retainRemoteHistoryOrigin(history:RemoteHistoryCapability,binding:Parameters<typeof assertRemoteHistoryBinding>[1],store:EvidenceStore):Promise<BlobRef> {
+  assertRemoteHistoryBinding(history,binding)
+  return capabilities.get(history)!.retain(store)
+}
 class RemoteHistoryHold extends Error {}
 const fail=(code:string):never=>{throw new RemoteHistoryHold(code)}
 const check=(value:unknown,code:string)=>{if(!value)fail(code)}
@@ -75,6 +88,7 @@ export async function inspectRemoteHistory(request:{head:string;donorHeads:reado
   const context=remoteReadContext(reads)
   const budget=()=>{checkRemoteHistoryBudget({headers:counts.headers,relevant:counts.relevant,merges:0,messageBytes:0,objectBytes:counts.bytes},performance.now()-started);context?.check()}
   const bounded=async<T>(operation:Promise<T>):Promise<T>=>{budget();let timer:ReturnType<typeof setTimeout>;try{return await Promise.race([operation,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new RemoteHistoryHold('HISTORY_TIME_LIMIT')),Math.max(1,REMOTE_IO_LIMITS.inspectionMilliseconds-(performance.now()-started)))})])}finally{clearTimeout(timer)}}
+  const originRecords:{seal:string;name:string;bytes:Uint8Array}[]=[]
   try {
     request={...request,donorHeads:[...request.donorHeads],policy:RemotePolicySchema.parse(request.policy) as RemotePolicy}
     check(context,'REMOTE_ADAPTER_REQUIRED');check(objects&&typeof objects.read==='function','RAW_OBJECT_SOURCE_REQUIRED')
@@ -145,6 +159,8 @@ export async function inspectRemoteHistory(request:{head:string;donorHeads:reado
       evidence.push(artifact.archive,...artifact.evidence)
       const member=(name:string)=>{const bytes=artifact.members.get(name);check(bytes,'BUNDLE_MEMBER_MISSING');return bytes}
       const receipt=canonical(ProducerBundleReceiptSchema,member('provenance.json'))
+      originRecords.push({seal:oid,name:'authenticated-facts.json',bytes:canonicalBytes({kind:'authenticated-remote-origin-facts',seal:oid,fact,run,runAfter,artifact:{id:artifact.id,name:artifact.name,runId:artifact.runId,toolingHead:artifact.toolingHead,archive:artifact.archive,evidence:artifact.evidence}})})
+      for(const [name,bytes] of artifact.members)originRecords.push({seal:oid,name,bytes:Uint8Array.from(bytes)})
       const {kind:_kind,schemaVersion:_version,...binding}=seal
       for(const [key,value] of Object.entries(binding))check(same(receipt[key],value),'PROVENANCE_BINDING')
       check(receipt.seal===oid&&receipt.tools===seal.master&&receipt.workflowDefinitionSha256===run.workflowDefinitionSha256,'PROVENANCE_IDENTITY')
@@ -228,7 +244,17 @@ export async function inspectRemoteHistory(request:{head:string;donorHeads:reado
     const refs=new Map<string,BlobRef>();for(const ref of evidence){const previous=refs.get(ref.path);check(!previous||same(previous,ref),'EVIDENCE_CONFLICT');refs.set(ref.path,{...ref})}
     check(refs.size<=REMOTE_LIMITS.evidence,'EVIDENCE_LIMIT');budget()
     const history=immutable({kind:'remote-history' as const,head:request.head,master:request.master,seal:selected!,candidate:verified.get(selected!)!.seal.candidate,unitKey:verified.get(selected!)!.seal.unitKey,subjects:structuredClone(verified.get(selected!)!.revision.subjects),preservedHeads:roots,evidence:[...refs.values()].sort((a,b)=>compareUtf8(a.path,b.path)),counts:{...counts}})
-    capabilities.add(history);return {status:'verified',history}
+    capabilities.set(history,{reads,policy:rawSha256(canonicalBytes(request.policy)),head:request.head,master:request.master,donors:[...request.donorHeads].sort(compareUtf8),
+      async retain(store){
+        const batches:BlobRef[]=[],objects:{oid:string;type:string;bytes:number;segments:{batch:number;offset:number;bytes:number}[]}[]=[]
+        let chunks:Uint8Array[]=[],size=0
+        const flush=async()=>{if(size){batches.push(await store.writeBlob(Buffer.concat(chunks,size)));chunks=[];size=0}}
+        for(const [key,bytes] of rawObjects){const segments:{batch:number;offset:number;bytes:number}[]=[];let at=0
+          while(at<bytes.length){const length=Math.min(4*1024*1024-size,bytes.length-at);segments.push({batch:batches.length,offset:size,bytes:length});chunks.push(bytes.subarray(at,at+length));size+=length;at+=length;if(size===4*1024*1024)await flush()}
+          objects.push({oid:key.slice(-40),type:key.slice(0,-40),bytes:bytes.length,segments})}
+        await flush();const records:{seal:string;name:string;blob:BlobRef}[]=[];for(const {seal,name,bytes} of originRecords)records.push({seal,name,blob:await store.writeBlob(bytes)})
+        return store.writeBlob(canonicalBytes({kind:'remote-origin',schemaVersion:1,history,batches,objects,records}))
+      }});return {status:'verified',history}
   } catch(error) {
     // Only fixed internal codes survive. Never retain raw object/parser/transport diagnostics.
     const code=error instanceof RemoteHistoryHold?error.message:'REMOTE_HISTORY_UNESTABLISHED'
