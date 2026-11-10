@@ -7,6 +7,7 @@ import { promisify } from 'node:util'
 import { lstat, readFile, realpath, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, join, resolve } from 'node:path'
 import { release } from 'node:os'
+import type { BlobRef } from '../../core/updates/envelope'
 import { REMOTE_IO_LIMITS } from '../../core/updates/remote'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { patchNextLock } from '../../core/updates/transaction'
@@ -90,6 +91,23 @@ export function captureRefusalReason(error:unknown):string {
   ]
   return prefixes.find(([prefix])=>message===prefix||message.startsWith(prefix+':'))?.[1]??'unclassified'
 }
+export function workerRefusalReason(error:unknown):string {
+  const value=error as {name?:unknown;message?:unknown}|null
+  if(value?.name==='TimeoutError')return 'worker-timeout'
+  if(value?.name==='AbortError')return 'worker-aborted'
+  const message=typeof value?.message==='string'?value.message.slice(0,4096):''
+  if(message==='Guides worker timeout')return 'worker-timeout'
+  if(message==='Guides worker input exceeds byte bound')return 'worker-input-bound'
+  if(message==='Guides worker output exceeds byte bound')return 'worker-output-bound'
+  if(message.includes('Guides worker result exceeds byte bound'))return 'worker-result-bound'
+  if(message.startsWith('Guides worker interrupted:'))return 'worker-interrupted'
+  if(message==='Guides worker settlement is unknown'||message==='Guides worker group settlement is unknown')return 'worker-settlement-unknown'
+  return 'unclassified'
+}
+interface ToolDescriptionSummary {
+  commit:string;root:string|null;git:string|null;gitVersion:string|null
+  runtimeCount:number;hostExclusionCount:number;accessInspected:number;accessInspectorCount:number;description:BlobRef
+}
 interface Failure {phase:string;code:string;category?:string;reason?:string}
 export interface RunnerDiagnostic {
   kind:'shared-update-runner-diagnostic';schemaVersion:1;productionQualified:false;master:string
@@ -98,7 +116,8 @@ export interface RunnerDiagnostic {
   capture:'passed'|'held'|'not-run';capacity:TreeLowerBound
   worker:{status:'passed'|'held'|'not-run';generationExecuted:boolean;resultValidated:boolean;observation:unknown;settlement:unknown;planDispositions:string[];tripwireUntouched:boolean|null}
   phases:{phase:string;milliseconds:number;status:'passed'|'held'}[];failure:Failure|null
-  tools:ReturnType<typeof describeTrustedToolset>|null
+  report:{status:'complete'|'held';reason:'REPORT_OUTPUT_LIMIT'|null}
+  tools:ToolDescriptionSummary|null
   closure:{sha256:string;bytes:number;toolsetSha256:string;access:unknown}|null
   limits:{treeOutputBytes:number;treeEntries:number;overallDeadline:'external-owned-launcher';collectorResultBytes:number}
 }
@@ -114,7 +133,7 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     host:{platform:process.platform,architecture:process.arch,release:release(),node:process.version,uid:process.getuid?.()??null,gid:process.getgid?.()??null},
     capture:'not-run',capacity:{complete:false,entries:0,distinctBlobs:0,bytes:0,scope:'master-tree-blobs-only',objectBudget,verdict:'not-proven'},
     worker:{status:'not-run',generationExecuted:false,resultValidated:false,observation:null,settlement:null,planDispositions:[],tripwireUntouched:null},
-    phases:[],failure:null,tools:null,closure:null,limits:{treeOutputBytes:treeOutputLimit,treeEntries:treeEntryLimit,overallDeadline:'external-owned-launcher',collectorResultBytes:128*1024*1024}}
+    phases:[],failure:null,report:{status:'complete',reason:null},tools:null,closure:null,limits:{treeOutputBytes:treeOutputLimit,treeEntries:treeEntryLimit,overallDeadline:'external-owned-launcher',collectorResultBytes:128*1024*1024}}
   const started=performance.now()
   let phase='bootstrap',phaseStart=started
   const check=()=>{if(performance.now()-started>120000)throw new Error('COOPERATIVE_DEADLINE')}
@@ -132,8 +151,14 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     begin('capture');result.capture='held'
     // Default helper coverage is intentional: gh/Python cannot be omitted to pass.
     const capture=await captureTrustedToolset({root:toolRoot,commit:input.master,cwd:toolRoot})
-    result.tools=describeTrustedToolset(capture)
-    if(result.tools.commit!==input.master||await realpath(result.tools.root)!==toolRoot)throw new Error('CAPTURE_BINDING_MISMATCH')
+    const description=describeTrustedToolset(capture)
+    if(description.commit!==input.master||await realpath(description.root)!==toolRoot)throw new Error('CAPTURE_BINDING_MISMATCH')
+    const descriptionBytes=canonicalBytes(description)
+    if(descriptionBytes.length>32*1024*1024)throw new Error('TOOL_DESCRIPTION_OUTPUT_LIMIT')
+    const descriptionRef=await writeOwnedBlob(evidence,descriptionBytes)
+    const bounded=(value:string,limit:number)=>value.length<=limit?value:null
+    result.tools={commit:description.commit,root:bounded(description.root,4096),git:bounded(description.git,4096),gitVersion:bounded(description.gitVersion,256),
+      runtimeCount:description.runtime.length,hostExclusionCount:description.hostExclusions.length,accessInspected:description.access.inspected,accessInspectorCount:description.access.inspectors.length,description:descriptionRef}
     const ref=await writeOwnedBlob(evidence,capture.bytes)
     verifyClosureBinding(capture.material,ref,capture.bytes,capture.toolsetSha256)
     const access=await retainTrustedAccessEvidence(capture,evidence)
@@ -180,16 +205,17 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     }
   }catch(error){
     const message=error instanceof Error?error.message:''
-    const allowed=['MASTER_MISMATCH','AMBIGUOUS_GIT_STORAGE','CAPTURE_BINDING_MISMATCH','WORKER_UNSETTLED','WORKER_PREPARATION_HELD','CANDIDATE_EXECUTED','NON_NEXT_ONLY_PLAN','COOPERATIVE_DEADLINE']
+    const allowed=['MASTER_MISMATCH','AMBIGUOUS_GIT_STORAGE','CAPTURE_BINDING_MISMATCH','WORKER_UNSETTLED','WORKER_PREPARATION_HELD','CANDIDATE_EXECUTED','NON_NEXT_ONLY_PLAN','COOPERATIVE_DEADLINE','TOOL_DESCRIPTION_OUTPUT_LIMIT']
     result.failure={phase,code:allowed.includes(message)?message:phase==='capture'?'CAPTURE_REFUSED':phase==='capacity'?'CAPACITY_INCOMPLETE':phase==='worker'?'WORKER_REFUSED':'DIAGNOSTIC_REFUSED'}
     if(phase==='capture'){result.failure.category=classifyCaptureRefusal(message.slice(0,4096));result.failure.reason=captureRefusalReason(error)}
+    if(phase==='worker')result.failure.reason=workerRefusalReason(error)
     result.phases.push({phase,milliseconds:Math.ceil(performance.now()-phaseStart),status:'held'})
   }
   // Do not retain raw exceptions, environment values, stdout/stderr or credential canaries.
   let reportBytes=canonicalBytes(result)
   if(reportBytes.length>1024*1024){
-    result.tools=null;result.capture='held';if(result.worker.status==='passed')result.worker.status='held'
-    result.failure??={phase:'report',code:'REPORT_OUTPUT_LIMIT'};reportBytes=canonicalBytes(result)
+    result.report={status:'held',reason:'REPORT_OUTPUT_LIMIT'}
+    result.worker.planDispositions=[];reportBytes=canonicalBytes(result)
   }
   await evidence.writeJournal('diagnostic.json',reportBytes)
   return result

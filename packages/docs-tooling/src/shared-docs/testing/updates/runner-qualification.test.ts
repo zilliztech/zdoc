@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path'
 import * as provider from '../../adapters/updates/guides-provider'
 import { release } from 'node:os'
 import * as toolset from '../../adapters/updates/toolset'
-import { collectRunnerQualification, parseTreeLowerBound, validateDiagnosticSettlement, classifyCaptureRefusal, captureRefusalReason } from './runner-qualification'
+import { collectRunnerQualification, parseTreeLowerBound, validateDiagnosticSettlement, classifyCaptureRefusal, captureRefusalReason, workerRefusalReason } from './runner-qualification'
 
 const roots:string[]=[]
 afterEach(async()=>{vi.restoreAllMocks();await Promise.all(roots.splice(0).map(root=>rm(root,{recursive:true,force:true})))})
@@ -144,3 +144,30 @@ it('retained capture reason never copies dynamic secret suffix',async()=>{
 it.each([['ENOENT','filesystem-input-missing'],['ENOTDIR','filesystem-not-directory'],['EACCES','filesystem-access-denied'],['EPERM','filesystem-operation-denied'],['ELOOP','filesystem-symlink-loop'],['SECRET-CODE','unclassified']])('structured errno produces only fixed reason tokens',(code,reason)=>{
   expect(captureRefusalReason(Object.assign(new Error('SECRET-PATH'),{code,path:'SECRET-PATH'}))).toBe(reason)
 })
+
+it('compact report preserves completed capture with oversized runtime description and pre-spawn timeout',async()=>{
+  const root=await realpath(await mkdtemp(join(tmpdir(),'runner-diagnostic-test-')));roots.push(root)
+  const {git}=await import('../build/demo'),master=await git(process.cwd(),'rev-parse','HEAD');syntheticCapture(master)
+  const description=toolset.describeTrustedToolset({} as never),runtime=Array.from({length:5000},(_,index)=>({path:`runtime/fixed-${index}`,physical:'/fixed/'+String(index)+'x'.repeat(300)}))
+  vi.mocked(toolset.describeTrustedToolset).mockReturnValue({...description,runtime})
+  vi.spyOn(toolset,'verifyTrustedToolset').mockResolvedValue(undefined)
+  vi.spyOn(toolset,'retainTrustedAccessEvidence').mockImplementation(async(_capture,evidence)=>evidence.writeBlob(Buffer.from('synthetic-access')))
+  vi.spyOn(provider,'createGuidesProvider').mockRejectedValue(Object.assign(new Error('SECRET timeout details'),{name:'TimeoutError'}))
+  const result=await collectRunnerQualification({toolRoot:process.cwd(),master,evidenceRoot:join(root,'evidence')})
+  expect(result.capture).toBe('passed');expect(result.phases.find(item=>item.phase==='capture')?.status).toBe('passed')
+  expect(result.tools?.runtimeCount).toBe(5000);expect(result.tools?.description.bytes).toBeGreaterThan(1024*1024)
+  const retained=JSON.parse(await readFile(join(root,'evidence',result.tools!.description.path),'utf8'))
+  expect(retained.runtime).toHaveLength(5000)
+  const report=await readFile(join(root,'evidence','diagnostic.json'),'utf8');expect(Buffer.byteLength(report)).toBeLessThan(1024*1024)
+  expect(report).not.toContain('SECRET');expect(result.report.status).toBe('complete')
+  expect(result.worker).toMatchObject({status:'held',generationExecuted:false,settlement:null})
+  expect(result.failure).toMatchObject({code:'WORKER_REFUSED',reason:'worker-timeout'})
+})
+it.each([
+  [Object.assign(new Error('SECRET'),{name:'TimeoutError'}),'worker-timeout'],
+  [Object.assign(new Error('SECRET'),{name:'AbortError'}),'worker-aborted'],
+  [new Error('Guides worker input exceeds byte bound'),'worker-input-bound'],
+  [new Error('Guides worker output exceeds byte bound'),'worker-output-bound'],
+  [new Error('Guides worker failed: Error: Guides worker result exceeds byte bound SECRET'),'worker-result-bound'],
+  [new Error('SECRET unrecognized'),'unclassified'],
+])('worker refusal uses fixed reason without raw error data',(error,reason)=>expect(workerRefusalReason(error)).toBe(reason))
