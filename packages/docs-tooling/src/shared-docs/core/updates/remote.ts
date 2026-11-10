@@ -99,7 +99,8 @@ export const RemoteFactsSchema = z.strictObject({ host: z.literal('github.com'),
     status: text, conclusion: text, evidence })), artifacts: collection(ArtifactFactSchema),
   members: readResultSchema(z.array(ArtifactMemberFactSchema).max(REMOTE_LIMITS.members)),
   seal: readResultSchema(z.strictObject({ oid: GitShaSchema, parents: z.array(GitShaSchema).max(2), tree: GitTreeOidSchema,
-    signatureValid: z.boolean(), signingActorId: positive, metadata: RemoteSealV1Schema, evidence })),
+    signatureValid: z.boolean(), signatureState: z.literal('VALID'), wasSignedByGitHub: z.boolean(),
+    signerActorId: positive.nullable(), authorActorId: positive.nullable(), writerAttribution: z.strictObject({ role: z.literal('committer'), actorId: positive }), metadata: RemoteSealV1Schema, evidence })),
   output: blob(REMOTE_LIMITS.outputBytes) })
 export interface RemoteFacts extends Required<z.infer<typeof RemoteFactsSchema>> {}
 const hash = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex')
@@ -165,7 +166,7 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
     runId: intent.producerRunId, runAttempt: intent.producerRunAttempt }
   if (seal) {
     matches(seal, { oid: intent.seal, parents: [intent.candidate], tree: intent.candidateTree,
-      signatureValid: true, signingActorId: rules.writerActorId }, 'SEAL')
+      signatureValid: true, signatureState: 'VALID', wasSignedByGitHub: true, writerAttribution: { role: 'committer', actorId: rules.writerActorId } }, 'SEAL')
     matches(seal.metadata, sealExpected, 'SEAL_METADATA')
     checkBinding(canonicalBytes(seal.metadata).length <= REMOTE_LIMITS.payloadBytes, 'SEAL_SIZE')
   }
@@ -204,4 +205,44 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
   }
   if (unique.size > REMOTE_LIMITS.evidence) return { status: 'hold', reasons: ['EVIDENCE_LIMIT'] }
   return { status: 'accepted', evidence: [...unique.values()].sort((a, b) => compareUtf8(a.path, b.path)) }
+}
+
+/** Raw read observations. These schemas are consistency only; adapter membership is private. */
+export const RemoteRepositorySchema = z.strictObject({ id: positive, fullName: path, evidence })
+export const RemoteRefSchema = z.strictObject({ ref: text, oid: GitShaSchema, evidence })
+export const RemotePullSchema = z.strictObject({ number: positive, repositoryId: positive, baseRepositoryId: positive,
+  headRepositoryId: positive, baseRef: text, headRef: text, base: GitShaSchema, head: GitShaSchema,
+  actorId: positive, state: z.enum(['open','closed','merged']), draft: z.boolean(), evidence })
+export const RemoteCommitSchema = z.strictObject({ oid: GitShaSchema, tree: GitTreeOidSchema,
+  parents: z.array(GitShaSchema).max(2), authorActorId: positive.nullable(), committerActorId: positive.nullable(),
+  signerActorId: positive.nullable(), signatureValid: z.boolean(), signatureState: text,
+  wasSignedByGitHub: z.boolean(), payload: z.string().max(REMOTE_LIMITS.payloadBytes * 2).nullable(),
+  signature: z.string().max(16384).nullable(), evidence })
+export const ApprovedProducerDefinitionSchema = z.strictObject({ tools: GitShaSchema, ...IdentitySchema.shape,
+  protocol: z.literal('shared-update-producer-v1') })
+export const ProducerBundleReceiptSchema = z.strictObject({ kind: z.literal('shared-update-producer'), schemaVersion: z.literal(1),
+  ...sealShape, seal: GitShaSchema, requestId: text, tools: GitShaSchema, workflowDefinitionSha256: DigestSchema,
+  members: z.array(z.strictObject({ name: path, sha256: DigestSchema, bytes: size(REMOTE_LIMITS.outputBytes) })).max(63) })
+export type RemoteRepository = Required<z.infer<typeof RemoteRepositorySchema>>
+export type RemoteRef = Required<z.infer<typeof RemoteRefSchema>>
+export type RemotePull = Required<z.infer<typeof RemotePullSchema>>
+export type RemoteCommit = Required<z.infer<typeof RemoteCommitSchema>>
+export type ApprovedProducerDefinition = Required<z.infer<typeof ApprovedProducerDefinitionSchema>>
+export type ProducerBundleReceipt = Required<z.infer<typeof ProducerBundleReceiptSchema>>
+export const REMOTE_IO_LIMITS = Object.freeze({ jsonBytes: 1048576, pages: 20, pageSize: 100, calls: 512,
+  requestMilliseconds: 30000, inspectionMilliseconds: 120000, expandedBytes: 16777216, objectBytes: 67108864 })
+export function encodeSealMessage(value: RemoteSealV1): string {
+  const bytes = canonicalBytes(RemoteSealV1Schema.parse(value))
+  if (bytes.length > REMOTE_LIMITS.payloadBytes) throw new Error('SEAL_LIMIT')
+  return `Seal shared update\n\nShared-Update-Seal: v1.${Buffer.from(bytes).toString('base64url')}\n`
+}
+export function parseSealMessage(bytes: Uint8Array): RemoteSealV1 | null {
+  if (bytes.length > REMOTE_LIMITS.payloadBytes * 2) throw new Error('SEAL_LIMIT')
+  const source = new TextDecoder('utf8', {fatal:true}).decode(bytes)
+  if (!/shared-update-seal[ \t]*:/i.test(source)) return null
+  const match = /^Seal shared update\n\nShared-Update-Seal: v1.([A-Za-z0-9_-]+)\n$/.exec(source)
+  if (!match) throw new Error('SEAL_MESSAGE_INVALID')
+  const parsed = RemoteSealV1Schema.parse(parseStrictJson(Buffer.from(match[1], 'base64url'))) as RemoteSealV1
+  if (encodeSealMessage(parsed) !== source) throw new Error('SEAL_MESSAGE_INVALID')
+  return parsed
 }
