@@ -34,6 +34,22 @@ Zilliz Cloud のアラート通知により、クラスター内で発生する�
 
 ![manage-alert-channel](https://zdoc-images.s3.us-west-2.amazonaws.com/manage-alert-channel.png "manage-alert-channel")
 
+<Procedures>
+
+1. 対象のプロジェクトに移動します。
+
+1. 左側のナビゲーションパネルで **Project Alerts** をクリックします。
+
+1. **Actions** の下にある **...** をクリックします。
+
+1. **Edit** をクリックします。
+
+1. **Send to** エリアで、アラートチャネルを設定します。
+
+1. **Update** をクリックします。
+
+</Procedures>
+
 ### Email\{#email}
 
 メール通知を設定する手順は以下のとおりです。
@@ -269,9 +285,9 @@ DingTalk のアラート通知を設定するには、以下の手順に従い�
     <Admonition type="info" title="Notes">
 
     カスタムボットを設定する際は、**Security Setting** で **Custom Keywords** を指定します。
-
+    
     - **Test**: 接続テスト用のアラート通知を受信します。
-
+    
     - **Alert**: 実際のイベントのアラート通知を受信します。
 
     </Admonition>
@@ -303,4 +319,3 @@ DingTalk のアラート通知を設定するには、以下の手順に従い�
 通知チャネルを設定したら、Send Test Message アイコンをクリックして、正しく構成されていることを確認します。
 
 ![test-connectivity](https://zdoc-images.s3.us-west-2.amazonaws.com/test-connectivity.png "test-connectivity")
-

@@ -21,6 +21,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # プロジェクトアラートの管理
 
 プロジェクトアラートを使用すると、指定した条件を満たしたときに通知が送信され、Zilliz Cloud クラスターをプロアクティブに監視できます。CU 容量やクエリパフォーマンスなどのクラスターメトリクスを監視するようにプロジェクトアラートを構成することで、対応が必要な潜在的な問題をすぐに把握できます。
@@ -41,7 +43,17 @@ import Supademo from '@site/src/components/Supademo';
 
 左サイドバーの **Project Alerts** に移動すると、プロジェクトアラートのダッシュボードにアクセスできます。
 
-<Supademo id="cmb5xa9pg39f6ppkpjwalrmro" title="Zilliz Cloud - View Project Alerts Demo" />
+<Supademo id="cmb5xa9pg39f6ppkpjwalrmro" title=""  />
+
+<Procedures>
+
+1. **Project Alerts** をクリックします。
+
+1. **History** でアラート履歴を表示します。
+
+1. **Settings** でアラート設定を表示します。
+
+</Procedures>
 
 ### アラート履歴\{#alert-history}
 
@@ -64,7 +76,7 @@ import Supademo from '@site/src/components/Supademo';
    </tr>
    <tr>
      <td><p>名前</p></td>
-     <td><p>アラートを識別するための説明的な名前（例：&quot;High CU Usage - Dedicated Clusters&quot;、&quot;P99 Query Latency&quot;）</p></td>
+     <td><p>アラートを識別する説明的な名前（例：&quot;High CU Usage - Dedicated Clusters&quot;、&quot;P99 Query Latency&quot;）</p></td>
    </tr>
    <tr>
      <td><p>ステータス</p></td>
@@ -124,7 +136,33 @@ curl --request GET \
 
 クラスターのパフォーマンスと健全性をさまざまな観点から監視するための新しいアラートを設定します。
 
-<Supademo id="cmb5w29ip399appkp45y9k3u2" title="Zilliz Cloud - Create Project Alerts Demo" />
+<Supademo id="cmb5w29ip399appkp45y9k3u2" title=""  />
+
+<Procedures>
+
+1. **Project Alerts** をクリックします。
+
+1. **+ Alert** をクリックします。
+
+1. アラートを構成し、次の項目を設定します。
+
+    - アラート名
+
+    - メトリクス
+
+    - トリガー条件
+
+    - 重大度レベル
+
+    - 対象クラスター
+
+    - アラート受信者
+
+    - 通知方法
+
+1. **Create** をクリックします。
+
+</Procedures>
 
 </TabItem>
 <TabItem value="Bash">
@@ -231,13 +269,23 @@ curl --request POST \
 
 <Supademo id="cmb5zptc03acdppkpy0vk18f9" title="Zilliz Cloud - Configure Alert Receiver Settings Demo" />
 
-設定を構成する際には、以下の項目を確認します。
+<Procedures>
 
-- **Send to**: 新しいアラートに自動的に選択されるデフォルトの通知チャネル（メール、Slack、Webhook）です。よく使用するチャネルを設定しておくと、アラートの作成を効率化できます。
+1. プロジェクトページで **Project Alerts** をクリックします。
 
-- **Alert Resolution Notification**: 有効にすると、アラートが解決したときに通知を受け取ります。
+1. **Alert Receiver Settings** をクリックします。
 
-- **Apply Settings to Existing Alerts**: 新しいデフォルト設定で既存のすべてのアラートを更新するかどうかを選択します。
+1. 以下の設定を構成します。
+
+1. **Send to**: メール、Slack、Webhook など、デフォルトの通知チャネルを選択します。これらのチャネルは、新しいアラートに対して自動的に選択されます。
+
+1. **Alert Resolution Notification**: アラートが解決したときに通知を受け取るには、このオプションを有効にします。
+
+1. **Apply Settings to Existing Alerts**: 新しいデフォルト設定をすべての既存アラートに適用するかどうかを選択します。
+
+1. **Save** をクリックします。
+
+</Procedures>
 
 ## FAQ\{#faq}
 
@@ -256,4 +304,3 @@ curl --request POST \
 - [アラートを編集](./manage-project-alerts#edit-an-alert)して、条件のしきい値や期間の要件を調整する
 
 - [アラートを無効化](./manage-project-alerts#disable-or-enable-an-alert)して、設定を保持したまま、一時的にすべての通知を停止する
-

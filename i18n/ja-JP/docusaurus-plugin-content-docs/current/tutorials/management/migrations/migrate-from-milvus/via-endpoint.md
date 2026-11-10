@@ -50,7 +50,33 @@ Milvus から Zilliz Cloud への移行を開始する前に、以下の要件�
 
 以下のデモでは、エンドポイント経由で Milvus からの移行を開始する方法を説明します。
 
-<Supademo id="cmbkiuxw98p13sn1rc65tt6b0" title="Zilliz Cloud - Migrate from Milvus via Endpoint" />
+<Supademo id="cmbkiuxw98p13sn1rc65tt6b0" title=""  />
+
+<Procedures>
+
+1. 左側のナビゲーションペインで、**Migrations** をクリックします。
+
+1. **Milvus** カードで **Endpoint** をクリックします。
+
+1. Milvus の **クラスター Endpoint** と、この Milvus クラスターの**ユーザー名とパスワード**を入力します。
+
+1. **Test Connection & Continue** をクリックします。
+
+1. チェックに合格したら、**Continue to Migrate** をクリックします。
+
+1. 移行するソースデータベースを選択します。
+
+1. データの移行先となるターゲットクラスターを選択します。
+
+1. **Next** をクリックします。
+
+1. フィールドマッピングを確認するソースコレクションを選択します。
+
+1. 必要に応じて、動的フィールド、関数、全文検索、シャード数の設定を調整できます。
+
+1. **Migrate** をクリックします。
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 
@@ -80,7 +106,7 @@ Create インデックス after migration をオフにすると、移行ジョ�
 
 一度 **Migrate** をクリックすると、移行ジョブが生成されます。[Jobs](./job-center) ページで移行の進捗を確認できます。ジョブのステータスが **In Progress** から **Successful** に変わると、移行は完了です。
 
-インデックスの作成をスキップした場合、移行が成功するとジョブの詳細に **Indexes skipped** と表示されます。インデックスを作成してコレクションをロードするには、[post-migration steps](./via-endpoint#post-migration) の手順に従ってください。
+インデックス作成をスキップした場合、移行の成功後、ジョブの詳細に **Indexes skipped** と表示されます。インデックスを作成してコレクションをロードするには、[移行後の手順](./via-endpoint#post-migration) に従ってください。
 
 ![RGsvb7oFpo7uzbxjSSFc6owNn0c](https://zdoc-images.s3.us-west-2.amazonaws.com/rgsvb7ofpo7uzbxjssfc6ownn0c.png "RGsvb7oFpo7uzbxjSSFc6owNn0c")
 

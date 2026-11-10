@@ -147,7 +147,29 @@ Milvus 2.x の移行データを準備するには、
 
 バックアップファイルの準備ができたら、ローカルファイル、オブジェクトストレージ、またはボリュームからデータを移行できます。
 
-<Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title="Zilliz Cloud - Migrate from Milvus via Backup File Demo" />
+<Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title=""  />
+
+<Procedures>
+
+1. **Migrations** をクリックします。
+
+1. **Backup File** をクリックします。
+
+1. バックアップファイルのアップロード方法を選択します。
+
+1. バックアップファイルをアップロードします。
+
+1. **Next** をクリックします。
+
+1. ターゲットクラスターを選択します。
+
+1. 次に、ターゲットデータベースを選択します。
+
+1. その後、移行するコレクションを選択します。
+
+1. 次に、**Next** をクリックします。
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 
@@ -159,7 +181,19 @@ Milvus 2.x の移行データを準備するには、
 
 **Migrate** をクリックすると、移行ジョブが生成されます。[Jobs](./job-center) ページで移行の進行状況を確認できます。ジョブステータスが **In Progress** から **Successful** に変わると、移行は完了です。
 
-<Supademo id="cme9my2nn4b64h3pyiyvsakqb" title="Zilliz Cloud - Monitor the Migration Process" />
+<Supademo id="cme9my2nn4b64h3pyiyvsakqb" title=""  />
+
+<Procedures>
+
+1. プロジェクトページで、**Jobs** をクリックします。
+
+1. ターゲットジョブに移動し、**Actions** の下にある **...** をクリックします。
+
+1. その後、**View Details** をクリックします。
+
+1. ジョブの詳細を表示します。
+
+</Procedures>
 
 <Admonition type="info" title="Notes">
 
@@ -171,7 +205,7 @@ Milvus 2.x の移行データを準備するには、
 
 移行ジョブが完了したら、次の点に注意してください。
 
-- **Index Creation**: The migration process automatically creates [AUTOINDEX](./autoindex-explained) for the migrated コレクション.
+- **インデックス作成**: 移行プロセスでは、移行されたコレクションに対して [AUTOINDEX](./autoindex-explained) が自動的に作成されます。
 
 - **Manual Loading Required**: 自動インデックス作成が行われても、移行されたコレクションはすぐに検索またはクエリ操作に使用できるわけではありません。検索およびクエリ機能を有効にするには、Zilliz Cloud でコレクションを手動でロードする必要があります。詳細については、[Load & Release](./load-release-collections) を参照してください。
 

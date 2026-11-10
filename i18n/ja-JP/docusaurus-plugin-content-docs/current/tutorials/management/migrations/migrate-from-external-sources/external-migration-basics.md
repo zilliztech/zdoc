@@ -171,7 +171,7 @@ Create インデックス after migration をオフにすると、移行ジョ�
 
 移行が正常に完了したら、検索またはクエリを実行する前に、以下の手順に従ってください。インデックス作成をスキップした場合、ジョブの詳細に **インデックス skipped** と表示されます。
 
-1. **インデックスを確認します。** **Create indexes after migration** をオンのままにした場合は、自動インデックス作成が成功したことを確認してください。オフにした場合は、すべてのベクトルフィールドに手動でインデックスを作成してください。必要に応じて、ワークロードに合わせてスカラーインデックスを作成してください。インデックス設定については、[AUTOINDEX の説明](./autoindex-explained) を参照してください。
+1. **インデックスを確認します。** **Create indexes after migration** をオンのままにした場合は、自動インデックス作成が成功したことを確認してください。オフにした場合は、すべてのベクトルフィールドにインデックスを手動で作成します。ワークロードに応じて必要なスカラーインデックスを作成します。インデックスの設定については、[AUTOINDEX Explained](./autoindex-explained) を参照してください。
 
 1. **コレクションをロードします。** インデックス作成が完了したら、コレクションを手動でロードし、ロードが完了するまで待ちます。この手順は、インデックスが自動で作成された場合でも手動で作成された場合でも必要です。詳細は、[Load & Release](./load-release-collections) を参照してください。
 
@@ -210,6 +210,24 @@ Zilliz Cloud へのデータ移行を開始する準備はできていますか�
 ソースにテキストが含まれている場合は、移行中に Full Text Search を設定してテキストの取得を改善できます。詳細は、[Full Text Search](./full-text-search) を参照してください。
 
 <Supademo id="cmhmruu9p0cp7dqxahn1vdnbb" title="Zilliz Cloud - Configure Full Text Search" />
+
+<Procedures>
+
+1. コレクションスキーマに `VARCHAR` フィールドと `SPARSE_FLOAT_VECTOR` フィールドを追加します。
+
+1. **Advanced Settings** までスクロールし、**+ Full Text Search** をクリックします。
+
+1. Full Text Search の設定を構成します：
+
+    - `VARCHAR` フィールドを入力フィールドとして選択します。
+
+    - アナライザーを選択します。
+
+    - 関数のタイプを選択します。
+
+    - `SPARSE_FLOAT_VECTOR` フィールドを出力フィールドとして選択します。
+
+</Procedures>
 
 ## プラットフォーム別の移行ガイド\{#platform-specific-migration-guides}
 

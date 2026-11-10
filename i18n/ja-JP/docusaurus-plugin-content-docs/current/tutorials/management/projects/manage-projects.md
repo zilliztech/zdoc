@@ -137,6 +137,20 @@ Zilliz Cloud Web コンソールまたは RESTful API を使用して、プロ�
 
     ![Cw14w6V8Ih4QqWbuYstcKqjVnUx](https://zdoc-images.s3.us-west-2.amazonaws.com/Cw14w6V8Ih4QqWbuYstcKqjVnUx.png)
 
+    <Procedures>
+
+    1. 左側のナビゲーションペインで **Projects** をクリックします。
+
+    1. **Actions** の下にある **...** をクリックします。
+
+    1. **Add region** をクリックします。
+
+    1. 追加するリージョンを選択します。
+
+    1. **Save** をクリックします。
+
+    </Procedures>
+
 ## プロジェクトのリージョンを削除する\{#delete-project-regions}
 
 マルチリージョンプロジェクトからリージョンを削除できます。
@@ -162,6 +176,20 @@ Zilliz Cloud Web コンソールまたは RESTful API を使用して、プロ�
 - **Web コンソールを使用する**
 
     ![DpQXwPmA9hnquubow8UcnFnQn9c](https://zdoc-images.s3.us-west-2.amazonaws.com/DpQXwPmA9hnquubow8UcnFnQn9c.png)
+
+    <Procedures>
+
+    1. 左側のナビゲーションペインで **Projects** をクリックします。
+
+    1. **Actions** の下にある **...** をクリックします。
+
+    1. **Remove region** をクリックします。
+
+    1. 削除するリージョンを選択します。
+
+    1. **Remove** をクリックします。
+
+    </Procedures>
 
 ## プロジェクトをアップグレードする\{#upgrade-a-project}
 
@@ -204,6 +232,18 @@ Zilliz Cloud Web コンソールまたは RESTful API を使用して、プロ�
     次のデモは、プロジェクトのプランを **Standard** から **Enterprise** にアップグレードする方法を示しています。
 
     <Supademo id="cmur1bl9j0u2iqm0p6hr5sr2h" title=""  />
+
+    <Procedures>
+
+    1. 対象のプロジェクトに移動します。
+
+    1. 上部のプロジェクトセレクターをクリックします。
+
+    1. **Upgrade Project** をクリックします。
+
+    1. プランを選択し、**Upgrade** をクリックします。
+
+    </Procedures>
 
 ## すべてのプロジェクトを表示する\{#view-all-projects}
 
@@ -248,6 +288,14 @@ Zilliz Cloud Web コンソールまたは RESTful API を使用して、プロ�
 - **Web コンソールを使用する**
 
     ![VnLHwjlDbhA62GbPXsYcIl6CnKb](https://zdoc-images.s3.us-west-2.amazonaws.com/VnLHwjlDbhA62GbPXsYcIl6CnKb.png)
+
+    <Procedures>
+
+    1. 左側のナビゲーションペインで **Projects** をクリックします。
+
+    1. すべてのプロジェクトの一覧を表示します。
+
+    </Procedures>
 
 ## プロジェクトの詳細を表示する\{#view-project-details}
 
@@ -299,6 +347,20 @@ Zilliz Cloud Web コンソールまたは RESTful API を使用して、プロ�
 
 <Supademo id="cmhiwa69y5zk2fatiw4ou24k6" title=""  />
 
+<Procedures>
+
+1. 対象のプロジェクトを見つけます。
+
+1. **Actions** 列の **...** をクリックします。
+
+1. **Edit Details** を選択します。
+
+1. プロジェクトの新しい名前または説明を入力します。
+
+1. **Save** をクリックします。
+
+</Procedures>
+
 ## プロジェクトを削除する\{#delete-a-project}
 
 プロジェクトを削除するには、[Organization Owner](./manage-platform-roles#predefined-organization-roles) である必要があります。
@@ -311,9 +373,22 @@ Zilliz Cloud Web コンソールまたは RESTful API を使用して、プロ�
 
 <Supademo id="cmhiwf80b5zoufatic4p14w7m?utm_source=link" title=""  />
 
+<Procedures>
+
+1. 対象のプロジェクトを見つけます。
+
+1. **Actions** 列の **...** をクリックします。
+
+1. **Delete** を選択します。
+
+1. 確認のため、プロジェクト名を入力します。
+
+1. **Delete** をクリックします。
+
+</Procedures>
+
 ## FAQ\{#faq}
 
 **プロジェクトのプランをダウングレードできますか？**
 
-プランの直接ダウングレードはサポートされていません。下位のプランに切り替えるには、希望するプランで新しいプロジェクトを作成し、そのプロジェクトにデータを [移行](./offline-migration) してください。
-
+プランの直接ダウングレードはサポートされていません。下位プランに切り替えるには、希望するプランで新しいプロジェクトを作成し、データをそのプロジェクトに[移行](./offline-migration)してください。    

@@ -20,6 +20,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # 組織アラートの管理
 
 組織アラートは、Zilliz Cloud organization 全体の請求およびアカウント関連のメトリクスを監視します。クラスターのパフォーマンスに特化したプロジェクトアラートとは異なり、組織アラートではクレジット残高、支払い方法、利用状況を追跡でき、サービスの継続性を確保し、予期しない請求トラブルを未然に防げます。クレジットの枯渇、支払いの失敗、使用量の閾値に関する通知をタイムリーに受け取ることで、アカウントの健全性を把握し、サービス停止を回避できます。
@@ -35,6 +37,16 @@ import Supademo from '@site/src/components/Supademo';
 左サイドバーの **Organization Alerts** から組織アラートダッシュボードにアクセスし、アカウントの財務状況を監視できます。
 
 <Supademo id="cmb66uk3u3fadppkplclhnmdd" title="Zilliz Cloud - View Organization Alerts Demo" />
+
+<Procedures>
+
+1. **Organization Alerts** をクリックします。
+
+1. **History** でアラート履歴を表示します。
+
+1. **Settings** でアラート設定を表示します。
+
+</Procedures>
 
 ### アラート履歴\{#alert-history}
 
@@ -109,6 +121,24 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmb67pjbs3g31ppkpfd4l8mcv" title="Configure Alert Receiver Settings"/>
 
+<Procedures>
+
+1. プロジェクトページで **Project Alerts** をクリックします。
+
+1. **Alert Receiver Settings** をクリックします。
+
+1. 以下の設定を構成します。
+
+1. **Send to**: メール、Slack、Webhook など、デフォルトの通知チャネルを選択します。これらのチャネルは、新しいアラートに対して自動的に選択されます。
+
+1. **Alert Resolution Notification**: アラートが解決したときに通知を受け取るには、このオプションを有効にします。
+
+1. **Apply Settings to Existing Alerts**: 新しいデフォルト設定をすべての既存アラートに適用するかどうかを選択します。
+
+1. **Save** をクリックします。
+
+</Procedures>
+
 ## FAQ\{#faq}
 
 ### アラート発生時、通知はどのくらいの頻度で届きますか？\{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
@@ -126,4 +156,3 @@ import Supademo from '@site/src/components/Supademo';
 - [アラートを編集](./manage-organization-alerts#edit-an-alert)して、条件の閾値や期間要件を調整する
 
 - [アラートを無効化](./manage-organization-alerts#disable-or-enable-an-alert)して、設定を保持したまま一時的にすべての通知を停止する
-
