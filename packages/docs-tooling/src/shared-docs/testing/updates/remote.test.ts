@@ -49,7 +49,7 @@ function fixture() {
     artifacts: found(artifacts), members: found([{ artifactId: 61, archiveDigest: digest(12), memberPath: 'receipt.json', actualDigest: producerBlob.sha256, member: producerBlob },
       { artifactId: 62, archiveDigest: digest(13), memberPath: 'receipt.json', actualDigest: receiptBlob.sha256, member: receiptBlob }]),
     seal: found({ oid: expected.seal, parents: [expected.candidate], tree: expected.candidateTree, signatureValid: true,
-      signingActorId: 27, metadata: seal, evidence: [blob('seal/facts.json')] }), output: blob('validation/output.json', receipt.outputDigest) }
+      signatureState: 'VALID' as const, wasSignedByGitHub: true, signerActorId: 99, authorActorId: 27, writerAttribution: { role: 'committer' as const, actorId: 27 }, metadata: seal, evidence: [blob('seal/facts.json')] }), output: blob('validation/output.json', receipt.outputDigest) }
   return { expected, policy, facts, receipt }
 }
 type Fixture = ReturnType<typeof fixture>
@@ -72,7 +72,7 @@ it('accepts distinct producer/validator runs, M/S heads, suites, archive/member/
 const mutations: [string, (f: Fixture) => void, string][] = [
   ['jointly stale intent and observed base', f => { f.expected.base = oid(99); f.facts.pr.base = oid(99) }, 'EXPECTED_BASE'],
   ['wrong PR writer', f => { f.facts.pr.actorId = f.policy.producer.actorId }, 'PR_ACTORID'],
-  ['wrong seal writer', f => { f.facts.seal.value.signingActorId = f.policy.producer.actorId }, 'SEAL_SIGNINGACTORID'],
+  ['wrong seal writer', f => { f.facts.seal.value.writerAttribution.actorId = f.policy.producer.actorId }, 'SEAL_WRITERATTRIBUTION'],
   ['head', f => { f.facts.pr.head = oid(99) }, 'PR_HEAD'],
   ['master', f => { f.facts.master = oid(99) }, 'REMOTE_MASTER'],
   ['dev', f => { f.facts.dev = oid(99) }, 'REMOTE_DEV'],
