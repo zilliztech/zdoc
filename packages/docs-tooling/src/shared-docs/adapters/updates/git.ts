@@ -5,12 +5,35 @@ import { join } from 'node:path'
 import { GitMilvusDocsReader } from '../git-milvus-docs-reader'
 const exec = promisify(execFile)
 export const sha = (value: string) => /^[a-f0-9]{40}$/.test(value)
+/** The inherited environment without ambient Git variables, built once per process.
+ * Every Git child inherits exactly this set, so a per-call copy only repeated an
+ * identical allocation. Callers that mutate process.env must reset the cache. */
+let inheritedEnvironment: NodeJS.ProcessEnv | null = null
+const childEnvironments = new Map<string, NodeJS.ProcessEnv>()
+function inherited(): NodeJS.ProcessEnv {
+  if (!inheritedEnvironment) inheritedEnvironment = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')))
+  return inheritedEnvironment
+}
+/** One retained child environment per variant: GIT_* stays excluded and the
+ * lock policy stays explicit. The object is reused, never mutated. */
+export function gitEnvironment(variant: 'read' | 'blob'): NodeJS.ProcessEnv {
+  let environment = childEnvironments.get(variant)
+  if (!environment) {
+    environment = {...inherited()}
+    environment.GIT_NO_LAZY_FETCH = '1'
+    environment.GIT_TERMINAL_PROMPT = '0'
+    if (variant === 'read') environment.GIT_OPTIONAL_LOCKS = '0'
+    childEnvironments.set(variant, environment)
+  }
+  return environment
+}
+/** Rebuild the cached child environments after the caller mutates process.env. */
+export function resetGitEnvironment() {inheritedEnvironment = null;childEnvironments.clear()}
 /** No fetch, checkout, config writes or ref mutation. Temporary exports are caller-owned. */
 export async function gitRead(repository: string, args: string[]): Promise<string> {
   if (!['rev-parse', 'ls-tree', 'cat-file', 'ls-files'].includes(args[0]) && !(args.length === 3 && args.join(' ') === 'remote get-url origin')) throw new Error('Only Git reads are supported')
-  const env = Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_')))
-  return (await exec('git', ['--no-replace-objects', '-C', repository, ...args], { env: { ...env,
-    GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0', GIT_OPTIONAL_LOCKS: '0' }, timeout: 30_000, maxBuffer: 32 * 1024 * 1024 })).stdout.trim()
+  return (await exec('git', ['--no-replace-objects', '-C', repository, ...args], { env: gitEnvironment('read'),
+    timeout: 30_000, maxBuffer: 32 * 1024 * 1024 })).stdout.trim()
 }
 /** Protect real metadata locations, including bare, separate and linked worktree layouts. */
 export async function gitMetadataDirectories(repository: string): Promise<string[]> {
@@ -46,8 +69,7 @@ export async function exportTree(repository: string, commit: string, roots: stri
   for (const entry of entries) {
     const [metadata, path] = entry.split('\t')
     const object = metadata.split(' ')[2]
-    const env = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_'))), GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0' }
-    const bytes = (await exec('git', ['--no-replace-objects', '-C', repository, 'cat-file', 'blob', object], { env,
+    const bytes = (await exec('git', ['--no-replace-objects', '-C', repository, 'cat-file', 'blob', object], { env: gitEnvironment('blob'),
       encoding: 'buffer', timeout: 30_000, maxBuffer: 32 * 1024 * 1024 })).stdout
     await mkdir(join(destination, path, '..'), { recursive: true })
     await writeFile(join(destination, path), bytes, { flag: 'wx' })

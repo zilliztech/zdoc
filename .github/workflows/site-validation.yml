@@ -119,7 +119,19 @@ jobs:
       - run: pnpm test:translation
       - run: pnpm test:replay
       - name: Test shared docs
+        env:
+          # The gate keeps its evidence under an owned 0700 parent. Point it at the
+          # runner temporary directory so a failed gate can publish that evidence.
+          ZDOC_TEST_TMP_PARENT: ${{ runner.temp }}/zdoc-vitest
         run: pnpm test:shared-docs
+      - name: Upload shared-docs gate evidence
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: shared-docs-gate-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/zdoc-vitest/
+          if-no-files-found: ignore
+          retention-days: 7
 
   workflow_lint:
     name: Lint workflows with actionlint

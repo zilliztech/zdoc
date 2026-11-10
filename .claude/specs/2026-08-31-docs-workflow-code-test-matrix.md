@@ -1,7 +1,7 @@
 # Docs workflow code-to-test matrix
 
-The `grouped-vitest-harness` entry covers `package.json` and the three exact
-`scripts/testing/{run-vitest-groups.mjs,vitest-stop-reporter.mjs,run-vitest-groups.test.mjs}`
+The `grouped-vitest-harness` entry covers `package.json` and the four exact
+`scripts/testing/{run-vitest-groups.mjs,vitest-stop-reporter.mjs,run-vitest-groups.test.mjs,expected-platform-skips.json}`
 paths. Its focused command is `pnpm test:vitest-groups`; both complete
 `pnpm test:shared-docs` and `pnpm test:frontend` gates, workflow matrix and diff
 checks are required. Existing package/replay-infrastructure requirements still
@@ -12,14 +12,23 @@ with normal parallelism. Frontend/all next runs the complete reference
 `translationManifest.integration.test.ts` file in an isolated `reference-integration`
 phase; shared-docs does not include or require that file. Both scopes finish with
 the complete local-update transactions, runner and `update-prepare.test.ts` command
-files in separate sequential forks with one worker, in that order. Their unique
-phase names are `transactions`, `local-runner` and `update-prepare`; prepare is
-excluded from light and appears exactly once. Thus all has five ordered phases
-and shared-docs has four.
+files as isolated single-worker phases named `transactions`, `local-runner` and
+`update-prepare`; prepare is excluded from light and appears exactly once. Thus
+all has five phases and shared-docs four. The ordinary light phase runs first and
+alone, so its failure leaves every later file unrun; the isolated phases keep
+their own per-case deadlines and run in order, because running them together only
+adds scheduler contention against those measured deadlines.
 Existing testcase deadlines
-and normal runIf skips remain. A private run-correlated reporter and owned-process
+are unchanged. Platform-dependent skips must be declared per platform and per test
+file in `scripts/testing/expected-platform-skips.json`, as the maximum skips that
+file may show there; the gate fails when an undeclared file skips or when a file
+exceeds its declared maximum, so muted coverage cannot grow silently.
+A private run-correlated reporter and owned-process
 supervisor fail closed on errors, incomplete/mismatched results or surviving
 children; later groups are not launched and unrun files are not normal skips.
+A failed phase prints its failing case, error and stack to the console before the
+gate decides, and the site-validation workflow publishes the retained evidence
+directory as an artifact for a failed gate.
 Both entrypoints have one monotonic 15-minute execution ceiling across preflight,
 discovery, transitions, validation and all report writes, with bounded preflight Git
 calls and no post-deadline child start/passing verdict. After freezing that measured

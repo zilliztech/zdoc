@@ -4,7 +4,28 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { expect, it, onTestFinished } from 'vitest'
 import { git, write } from '../build/demo'
-import { exportTree, sourceEndpoints, requireOrdered } from '../../adapters/updates/git'
+import { exportTree, sourceEndpoints, requireOrdered, gitEnvironment, resetGitEnvironment } from '../../adapters/updates/git'
+it('reuses one filtered child environment and rebuilds it after a reset', () => {
+  process.env.GIT_DIR = '/tmp/ambient-git-dir'
+  try {
+    resetGitEnvironment()
+    const read = gitEnvironment('read'), blob = gitEnvironment('blob')
+    expect(read).toBe(gitEnvironment('read'))
+    expect(blob).toBe(gitEnvironment('blob'))
+    expect(read).not.toBe(blob)
+    for (const environment of [read, blob]) {
+      expect(Object.keys(environment).filter(key => key.startsWith('GIT_')).sort()).toEqual(
+        environment === read ? ['GIT_NO_LAZY_FETCH', 'GIT_OPTIONAL_LOCKS', 'GIT_TERMINAL_PROMPT'] : ['GIT_NO_LAZY_FETCH', 'GIT_TERMINAL_PROMPT'])
+      expect(environment.GIT_NO_LAZY_FETCH).toBe('1')
+      expect(environment.GIT_TERMINAL_PROMPT).toBe('0')
+    }
+    resetGitEnvironment()
+    expect(gitEnvironment('read')).not.toBe(read)
+  } finally {
+    delete process.env.GIT_DIR
+    resetGitEnvironment()
+  }
+})
 it('reads exact bytes without modifying refs and rejects nonregular trees and backward endpoints', async () => {
   const root = await mkdtemp(join(tmpdir(), 'update-git-')); onTestFinished(() => rm(root, { recursive: true, force: true }))
   await git(root, 'init', '-q', '-b', 'track'); await write(root, 'input/file', 'old\n')
