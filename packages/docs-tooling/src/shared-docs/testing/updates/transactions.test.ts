@@ -134,3 +134,25 @@ it.each(['config','object-directory'] as const)('rejects scratch %s redirection 
   await expect(createScratchTransaction({evidence,gitBinary:'/usr/bin/git',resume:true})).rejects.toThrow(change==='config'?'SCRATCH_CONFIG_CHANGED':'SCRATCH_LAYOUT_UNSUPPORTED')
   expect(await f.state()).toEqual(before)
 })
+
+it('reads exact hash-addressed scratch objects without assigning remote provenance',async()=>{
+  const f=await history(),{transaction}=await f.scratch('raw-read',[f.base])
+  const raw=await transaction.read(f.base,'commit'),facts=await transaction.commit(f.base)
+  expect(Buffer.from(raw).toString()).toContain(`tree ${facts.tree}\n`)
+  expect(transaction).not.toHaveProperty('remoteOrigin')
+  await expect(transaction.read('f'.repeat(40),'commit')).rejects.toThrow()
+})
+
+it('remote Git preparation accepts master-only tooling advances but rejects human tools and both-side lock changes',async()=>{
+  const f=await history(),human=await f.branch('human',f.base,{'content/en/fixture/human.md':'human\n'}),master=await f.branch('tools',f.base,{'scripts/tool.ts':'reviewed tools\n'})
+  const {transaction}=await f.scratch('remote-tools',[human,master])
+  const request={master,head:human,donorHeads:[],lockPaths:[lockPath],dataPaths}
+  await expect(transaction.prepare(request)).rejects.toThrow('UNREVIEWED_CANDIDATE_DATA')
+  const prepared=await transaction.prepareRemote(request)
+  expect((await transaction.blobAt(prepared.prepared.base,'scripts/tool.ts')).toString()).toBe('reviewed tools\n')
+  expect(await transaction.isAncestor(human,prepared.prepared.base)).toBe(true)
+  const unsafe=await f.branch('unsafe',human,{'scripts/unsafe.ts':'human code\n'}),bad=await f.scratch('remote-human-tools',[unsafe,master])
+  await expect(bad.transaction.prepareRemote({...request,head:unsafe})).rejects.toThrow('UNREVIEWED_CANDIDATE_DATA')
+  const lockHead=await f.branch('lock-human',f.base,{[lockPath]:lock(undefined,'2'.repeat(40))}),lockMaster=await f.branch('lock-master',f.base,{[lockPath]:lock(undefined,'2'.repeat(40))}),locks=await f.scratch('remote-locks',[lockHead,lockMaster])
+  await expect(locks.transaction.prepareRemote({...request,master:lockMaster,head:lockHead})).rejects.toThrow('BOTH_SIDES_LOCK_CHANGED')
+})
