@@ -78,9 +78,10 @@ export async function observeRuntimePreflight(toolRoot:string):Promise<RuntimePr
     if(expired()){result.observations.push({name,status:'unavailable',reason:'preflight-deadline'});continue}
     try{
       const observed=spawnSync('/usr/bin/xcrun',['--find',tool],{env:environment,timeout:Math.min(2000,Math.max(1,8000-(performance.now()-started))),maxBuffer:4096,encoding:'utf8',killSignal:'SIGKILL'})
+      if(observed.error){const reason=captureRefusalReason(observed.error);result.observations.push({name,status:'unavailable',reason:reason==='unclassified'?'tool-location-unavailable':reason});continue}
       const path=typeof observed.stdout==='string'?observed.stdout.trim():''
       // Only recognized fixed provisioning roots may leave this diagnostic boundary.
-      if(observed.error||observed.status!==0||observed.signal||!safePath(path)||resolve(path)!==path||!(/^\/(?:Library\/Developer\/CommandLineTools\/|Applications\/Xcode(?:_[0-9]+(?:\.[0-9]+)*)?\.app\/Contents\/Developer\/)usr\/bin\/(?:git|python3(?:\.\d+)?)$/.test(path))||!path.endsWith('/'+tool)){
+      if(observed.status!==0||observed.signal||!safePath(path)||resolve(path)!==path||!(/^\/(?:Library\/Developer\/CommandLineTools\/|Applications\/Xcode(?:_[0-9]+(?:\.[0-9]+)*)?\.app\/Contents\/Developer\/)usr\/bin\/(?:git|python3(?:\.\d+)?)$/.test(path))||!(tool==='git'?path.endsWith('/git'):/\/python3(?:\.\d+)?$/.test(path))){
         result.observations.push({name,status:'unavailable',reason:'tool-location-unavailable'});continue
       }
       result.observations.push({name,status:'observed',path})
