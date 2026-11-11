@@ -60,7 +60,7 @@ refresh_external_collection(
 
     请同时提供 `external_source` 和 `external_spec`，或同时省略两者；如果两者均省略，则刷新会复用已持久化的源和规范。
 
-    在 Zilliz Cloud 上，`external_source` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传入 `external_source`；省略该参数会使 Collection 继续提供此前已同步的数据。
+    在 Zilliz Cloud 上，`external_source` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，同样适用该规则，即省略该参数会复用已持久化的源，刷新仍会同步最新数据。
 
 - **external_spec** （*str*） -
 
