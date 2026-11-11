@@ -2273,11 +2273,11 @@
     },
     {
       "manual": "cpp",
-      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
-      "sourceHash": "57e5a27f4725861c94c49641347141a69081c7f500ec6cd9e4fe166bb0963bde",
+      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
+      "sourceHash": "aa9296feaf856ec19eb889b02df5b85852ace9db51aebe58203d753e93075dba",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "5315353c698cfe4cccecf43e9e0b2fc1ed646b1a28cd0f95712fdafd4769c3a6",
+      "targetHash": "a213123887f59d829513785dc49653a2f005d1dd62158c09df6b9e2107528499",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-RefreshExternalCollection.md"
     },
     {
