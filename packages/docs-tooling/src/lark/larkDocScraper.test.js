@@ -236,7 +236,7 @@ async function testCompleteBasePagination() {
   const Scraper = require('./larkDocScraper');
   for (const resource of ['tables', 'records']) {
     const row = id => resource === 'tables' ? {table_id: id} : {record_id: id};
-    const read = async pages => {
+    const read = async (pages, strict = true) => {
       const scraper = new Scraper('', 'app:*', 'wiki', '/tmp');
       let calls = 0;
       scraper.__fetchFeishuJson = async url => {
@@ -244,8 +244,9 @@ async function testCompleteBasePagination() {
         assert.ok(calls < pages.length, 'unexpected extra request');
         return {code: 0, data: pages[calls++]};
       };
-      return resource === 'tables' ? scraper.__base_tables('token') : scraper.__base_record_page('token', {table_id: 'table', index: 0});
+      return resource === 'tables' ? scraper.__base_tables('token', null, null, strict) : scraper.__base_record_page('token', {table_id: 'table', index: 0}, null, null, strict);
     };
+    assert.equal((await read([{items: [row('legacy')]}], false)).length, 1);
     const first = {total: 2, has_more: true, page_token: 'next+/', items: [row('a')]};
     const last = {total: 2, has_more: false, items: [row('b')]};
     assert.equal((await read([first, last])).length, 2);
@@ -279,7 +280,7 @@ async function testBaseCapturesRecordIdParentMetadata() {
       return {
         code: 0,
         data: {
-          has_more: false, total: 1, items: [{ table_id: 'table-token' }],
+          items: [{ table_id: 'table-token' }],
         },
       };
     }
@@ -288,7 +289,7 @@ async function testBaseCapturesRecordIdParentMetadata() {
       return {
         code: 0,
         data: {
-          has_more: false, total: 0, items: [],
+          items: [],
         },
       };
     }
@@ -297,7 +298,7 @@ async function testBaseCapturesRecordIdParentMetadata() {
       return {
         code: 0,
         data: {
-          has_more: false, total: 4, items: [
+          items: [
             {
               record_id: 'orm-parent-record',
               fields: {
@@ -371,7 +372,7 @@ async function testBasePreservesDuplicateDocTokenSlugsByParentContext() {
       return {
         code: 0,
         data: {
-          has_more: false, total: 1, items: [{ table_id: 'table-token' }],
+          items: [{ table_id: 'table-token' }],
         },
       };
     }
@@ -380,7 +381,7 @@ async function testBasePreservesDuplicateDocTokenSlugsByParentContext() {
       return {
         code: 0,
         data: {
-          has_more: false, total: 0, items: [],
+          items: [],
         },
       };
     }
@@ -389,7 +390,7 @@ async function testBasePreservesDuplicateDocTokenSlugsByParentContext() {
       return {
         code: 0,
         data: {
-          has_more: false, total: 4, items: [
+          items: [
             {
               record_id: 'orm-parent-record',
               fields: {
