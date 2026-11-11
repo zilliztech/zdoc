@@ -37,7 +37,8 @@ ARRAY フィールドによるデータの格納例を次に示します。
 
 - **デフォルト値**: ARRAY フィールドはデフォルト値をサポートしていません。ただし、`nullable` 属性を `True` に設定すると、null 値を許可できます。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
 
-- <strong>データ型:</strong> ARRAY フィールド内のすべての要素は、`element_type` パラメーターで定義される同じデータ型である必要があります。`element_type` に `VARCHAR` を設定する場合は、各配列要素に許可される最大バイト数を定義する `max_length` も指定する必要があります。`element_type` には、`JSON` を除く、Zilliz Cloud がサポートする任意のスカラーデータ型を指定できます。`element_type=STRUCT` の場合は、StructArray フィールドを使用し、`struct_schema` を指定します。詳細は、[StructArray](./create-struct-array) を参照してください。
+- <strong>データ型:</strong> ARRAY フィールド内のすべての要素は同じデータ型である必要があり、そのデータ型は `element_type` パラメーターで定義されます。`element_type` を `VARCHAR` に設定する場合は、各配列要素に許可される最大バイト数を定義する `max_length` も指定する必要があります。`element_type` には、`JSON` を除き、Zilliz Cloud でサポートされている任意のスカラーデータ型を指定できます。`element_type=STRUCT` の場合は、StructArray フィールドを使用し、`struct_schema` を指定してください。詳細は、[StructArray](./create-struct-array) を参照してください。トップレベルの ARRAY フィールドはベクトルやネストされた配列を保持できず、その要素を個別に null にすることもできません。これらの形式は、StructArray フィールド内のサブフィールドでのみ使用できます。
+
 
 - **配列の容量**: ARRAY フィールド内の要素数は、`max_capacity` で指定された、Array の作成時に定義される最大容量以下である必要があります。値は、**1** から **4096** の範囲の整数である必要があります。
 
@@ -389,7 +390,7 @@ export schema="{
 
 インデックスは、検索とクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドのインデックス作成は任意です。
 
-The following example creates インデックス on the ベクトル field `embedding` and the ARRAY field `tags`, both using the `AUTOINDEX` インデックス type. With this type, Zilliz Cloud automatically selects the most suitable index based on the data type. You can also customize the index type and params for each field. For details, refer to [Index Explained](./indexes).
+次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` に、いずれも `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Zilliz Cloud がデータ型に基づいて最適なインデックスを自動的に選択します。各フィールドのインデックスタイプとパラメーターをカスタマイズすることもできます。詳細は、[Index Explained](./indexes) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

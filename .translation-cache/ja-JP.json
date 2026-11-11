@@ -1976,34 +1976,34 @@
       "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md": {
-      "sourceHash": "02dad79440b63520c49652777b1f1e2c62b885b3510580b158f242d0da2f5ea6",
+      "sourceHash": "ad18d896daba049fb2545ead9a2d0e8987fc7a44aa445bb183b16ca7565a2f1e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/create-struct-array.md",
-      "translatedAt": "2026-11-09T13:46:13.778Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/index-struct-array.md": {
-      "sourceHash": "41c6afe66a69e3e440b815adb1332d1d9ca323d733d75df9955c1a2f617a7ffa",
+      "sourceHash": "a4e7866d27297b221784d260e126148c8234e82dfbc3dea78843a4304bcfd6e8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/index-struct-array.md",
-      "translatedAt": "2026-11-09T13:46:13.778Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/insert-struct-array.md": {
-      "sourceHash": "e5b844154994bc13ea9cc873fdef2c5884bdd6530ef1c64c67ed17d700e7d94a",
+      "sourceHash": "d3ade0f6ec19648971c426cdd4eee730ebb95b7be9faee6d0b51ed55b8f92f49",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/insert-struct-array.md",
-      "translatedAt": "2026-11-09T13:46:13.778Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/struct-array-limits.md": {
-      "sourceHash": "35e0fc10c58c8c37c934bf5af289df09fa467c39e29e33afb6c8801a379f05c1",
+      "sourceHash": "43b023a94891f35a7d9dbd6a15570c65be28a74ca233ca402be6a0d9678bff1e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/struct-array-limits.md",
-      "translatedAt": "2026-10-30T10:55:43.031Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/use-array-of-structs.md": {
-      "sourceHash": "42f68289b7c347b39076d94b8107a895aadc455962e326fc1b5ec535a5de9a61",
+      "sourceHash": "331d627cdb22a28720f661133593521fb3af0d264fe2e50d7801febac68d4dd2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/use-array-of-structs.md",
-      "translatedAt": "2026-10-28T04:45:25.788Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/schema/use-array-fields.md": {
-      "sourceHash": "35cc47b0a3cf0954bea140f01da425f6e40e713e76f0edbbb768e5662df3648e",
+      "sourceHash": "3e668954567c8de48ade2ec547f00d8d1de0b5ee2de5f80dd2df5506334ee9b3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-array-fields.md",
-      "translatedAt": "2026-11-09T13:46:13.778Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/schema/use-binary-vector.md": {
       "sourceHash": "e246fd943bc7c1723f65e9336b314a710852d3d05587fb7c78f9586f919a9e93",
@@ -2111,9 +2111,9 @@
       "translatedAt": "2026-11-09T13:47:51.369Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/struct-array-filtering.md": {
-      "sourceHash": "15aff35000d1ecbf9f6b4ed495dccae2ca79a0069117a494e39a7f19eadf2941",
+      "sourceHash": "32d416eaf54149b313a7eb280b28f8f97ae5fd71bbc35dcece4795ffaae279d0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/struct-array-filtering.md",
-      "translatedAt": "2026-10-30T10:55:43.031Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/search-and-query/full-text-search.md": {
       "sourceHash": "7eec927ce5e0798bf8e65c2a4d3de100c6f27c48f3e9028e7a8676de14f4489a",
@@ -2166,9 +2166,9 @@
       "translatedAt": "2026-11-09T13:49:19.042Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
-      "sourceHash": "72f2ba707b47cb5bc2b4501c6b98e0bf91f1101b8ed34c9e8dbf34a3450b6c64",
+      "sourceHash": "28c3df8930386cb6e13f89eae948e4787542b7e24d4878b26c422018d9982941",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-      "translatedAt": "2026-11-09T13:49:19.042Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md": {
       "sourceHash": "d60dcd332b22d2542c0e36d3bf4040ebf9c3e9a4878e2abb2d378e4ef28654bf",
@@ -2296,9 +2296,9 @@
       "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
-      "sourceHash": "b6cb36103f9266c146b52e4dc3c75cd763612e7fdb215d8ec0aa046c9619d4d9",
+      "sourceHash": "942578ae2e62adabae7d9576abea51a369313cd463540e5e1bfe91a37b869273",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-      "translatedAt": "2026-11-10T13:19:53.736Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md": {
       "sourceHash": "67f2f49abf37baa1443c7d5f3b6998457f04a1c232d9e67f64f68f70de649aa4",
@@ -2896,9 +2896,14 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/cmek/aws-kms.md": {
-      "sourceHash": "e370fe708e8f7f7612b05172cb598baa4d0c15c0b63212f9e19789ee278a6f18",
+      "sourceHash": "0e8289e79673034a0ce02f4b218e6b9c6360512c32d77f594872b95acb28af97",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/aws-kms.md",
-      "translatedAt": "2026-11-11T04:50:28.886Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
+    },
+    "content/en/guides/tutorials/management/cmek/azure-kms.md": {
+      "sourceHash": "fddb271dd160a72d0affbcdd4a906bc3a2a2eb940ba2da99579349ba5eba867e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/azure-kms.md",
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/management/cmek/cmek.md": {
       "sourceHash": "793e5dd13630be51d1b060f286f79c066e2780176c6c50ad45d5a5194b59925a",
@@ -2906,9 +2911,9 @@
       "translatedAt": "2026-11-11T04:50:28.886Z"
     },
     "content/en/guides/tutorials/management/cmek/gcp-kms.md": {
-      "sourceHash": "14a74fde4cb3cd2226ec04245931d74693b4c0f9b0cea095f9ccc9b415d9fbc2",
+      "sourceHash": "fae82ed61304ffcc1b0475453b35aaf9724a807e3f26e94cab372973649a193d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/gcp-kms.md",
-      "translatedAt": "2026-11-11T04:50:28.886Z"
+      "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
       "sourceHash": "1aadec6c01be283ee85469b457f6da8e53d22606caf6fab45cb0b1965e2a96de",

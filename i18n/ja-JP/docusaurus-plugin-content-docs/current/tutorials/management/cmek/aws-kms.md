@@ -58,9 +58,9 @@ AWS Key Management Service（KMS）は、データの暗号化と署名に使用
 
 ## 手順\{#procedures}
 
-AWS KMS キーを追加するには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインし、左側のナビゲーションペインで **Network** > **CMEK** を選択し、該当する AWS リージョンにある **Business Critical** プロジェクトのいずれかに移動して、**+ CMEK** をクリックし、**Add CMEK (AWS KMS)** ダイアログボックスの手順に従ってプロセスを完了します。
+AWS KMS キーを追加するには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインし、左側のナビゲーションペインで **Security** > **CMEK** を選択して、該当する AWS リージョンを含むプロジェクトのいずれかに移動します。次に、**+ CMEK** をクリックし、**Add CMEK (AWS KMS)** ダイアログボックスで手順に従ってプロセスを完了します。
 
-開始する前に、この手順で使用する IAM ロールを決定する必要があります。IAM ロールは、KMS キーの追加に使用すると Zilliz Cloud に一覧表示されます。**Existing IAM Role** タブの **Select AWS IAM Role** ステップにあるドロップダウンリストを確認し、必要な IAM ロールが一覧に表示されているかどうかを判断してください。
+開始する前に、この手順で使用する IAM ロールを決定する必要があります。KMS キーの追加に Zilliz Cloud を使用すると、利用可能な IAM ロールが Zilliz Cloud に一覧表示されます。**Existing IAM Role** タブの **Select AWS IAM Role** ステップにあるドロップダウンリストを確認し、必要な IAM ロールが一覧に表示されているかどうかを判断してください。
 
 - 表示されている場合は、[既存のロールを使用して KMS キーを追加する](./aws-kms#add-a-kms-key-using-an-existing-role) に進みます。
 
@@ -246,7 +246,7 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみを選択できます。
 
-1. Review the summary, then click **Create Cluster**.
+1. 概要を確認してから、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
@@ -267,4 +267,3 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 - このオプションを有効にすると、復元後に作成されるクラスターは、以下で指定した KMS キーを使用して暗号化されます。
 
 - このオプションを無効にすると、復元後に作成されるクラスターは暗号化されません。
-

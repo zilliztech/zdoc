@@ -24,7 +24,8 @@ import Admonition from '@theme/Admonition';
 
 ## StructArray とは\{#what-is-structarray}
 
-**StructArray** は、array of structs とも呼ばれ、各エンティティに Struct 要素の順序付きセットを保存します。配列内のすべての Struct 要素は同じスキーマに従います。Struct 要素には、スカラーサブフィールド、ベクトルサブフィールド、またはその両方を含めることができます。
+**StructArray** は、構造体の配列とも呼ばれ、各エンティティに Struct 要素の順序付きセットを保存します。配列内のすべての Struct 要素は同じスキーマに従います。Struct 要素には、スカラーサブフィールド、ベクトルサブフィールド、およびスカラー配列サブフィールドを含めることができます。
+
 
 たとえば、コレクションは 1 つの記事を 1 つのエンティティとして保存し、そのチャンクを `chunks` という名前の StructArray フィールドに保存できます。各チャンクには、テキスト、セクションメタデータ、品質スコア、および 1 つ以上のベクトル埋め込みを含めることができます。
 
@@ -158,7 +159,7 @@ StructArray のドキュメントは、モデリングページと検索ペー�
 
 - `element_filter` と `MATCH_*` は、StructArray フィールド内のスカラーサブフィールド用です。`$[subfield]` はこれらの演算子内でのみ使用します。行レベルのフィルタでは、`chunks[0][section]`、`array_length(chunks)`、`array_contains(chunks[section], ...)` など、StructArray のパスを直接参照することもできます。
 
-- 一部の検索の組み合わせは、バージョンによる制限またはモード固有です。範囲検索、グループ化検索、ハイブリッド検索、nullable なフィールド、または動的に追加されたフィールドに依存する前に、[StructArray の制限](./struct-array-limits) を確認してください。
+- 一部の検索の組み合わせには、バージョン制限またはモード固有の制限があります。範囲検索、グループ化検索、ハイブリッド検索、null 許容フィールド、動的に追加されたフィールド、要素レベルの null 値、配列サブフィールド、サブフィールドの追加および削除を利用する前に、[StructArray の制限](./struct-array-limits) を確認してください。
 
 ## 次のステップ\{#next-steps}
 
