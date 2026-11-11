@@ -64,7 +64,7 @@ zilliz external-collection refresh trigger
 
     Provide it together with `--external-spec`, or omit both; when both are omitted, the refresh reuses the persisted source and spec.
 
-    The option accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. For a `volume://` URI, the rule above applies. Required for a `milvus://` source; if you omit it, the refresh does not take effect and the collection keeps serving the previously synced data.
+    The option accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. For a `volume://` URI, the rule above applies. For a `milvus://` source, the same rule applies — omitting it reuses the persisted source, and the refresh still syncs the latest data.
 
 - **--external-spec** (*string*) -
 
