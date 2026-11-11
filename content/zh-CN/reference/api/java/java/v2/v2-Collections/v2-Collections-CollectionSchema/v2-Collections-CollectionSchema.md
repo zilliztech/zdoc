@@ -73,7 +73,7 @@ CreateCollectionReq.CollectionSchema.builder()
 
     标识绑定到此 Collection 的外部来源（例如 S3 存储桶、Lakehouse 表）。与 `externalSpec` 配合使用，可定义从 Milvus 外部刷新的外部 Collection。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`externalSource` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。</NextChannel>
+    在 Zilliz Cloud 上，`externalSource` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。
 
 - `externalSpec(JsonObject externalSpec)` -
 
@@ -81,7 +81,7 @@ CreateCollectionReq.CollectionSchema.builder()
 
     该规范包含 `format` 等次要参数。`format` 的可能取值包括 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 来源与 `milvus://` 方案搭配使用；对于 `milvus://` 来源，`format` 可以省略，并默认为 `milvus-table`。</NextChannel>
+    在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，`format` 可以省略，默认值为 `milvus-table`。
 
 **返回类型：**
 

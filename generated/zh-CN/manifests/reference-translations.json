@@ -4622,11 +4622,11 @@
     },
     {
       "manual": "java",
-      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
-      "sourceHash": "13831261c97106dad96a9ef06714f17013bf33c92169f9f0a4b432e171ab3279",
+      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
+      "sourceHash": "f003c391a58790a006b037b2e1207beb94759dea793bcb2a883491079cc68f8f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md",
       "status": "translated",
-      "targetHash": "c16b5c474c7187785753bd530a178f3315e0e7852af269d7726d7e6fafdcda0f",
+      "targetHash": "21079c9c126ab5830ce45dfa89187b2ec40851159645760c1787d85a3ec49247",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md"
     },
     {
@@ -4640,11 +4640,11 @@
     },
     {
       "manual": "java",
-      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
-      "sourceHash": "5d6d7062f338c5534dd19e4b55589e55c5965667472fc6444277858f963a8cd7",
+      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
+      "sourceHash": "ee9d28d9416c4f9bd2be6c33d0aefb247305b55666327fea002ffd8169f57110",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
       "status": "translated",
-      "targetHash": "c3eae60d9a02b3bdbf1d7d9067e8073f3038ec736eae1a5463b75e05263d9c48",
+      "targetHash": "6eca1a5435ac7c20cd4e07973762237e976d35bf360c38570e6fb7e31a3def3f",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md"
     },
     {
@@ -5615,11 +5615,11 @@
     },
     {
       "manual": "java",
-      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
-      "sourceHash": "856419007ec2ad9aa85b8744815c3b8cfefbc5216f613dddb1e52bb076c6bc3e",
+      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
+      "sourceHash": "431bb44c744521837bf50e90ea7e2a6af5179f41c6b090b36e61e3f3d15c3000",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "5c5a0f19c66d5825cafb8996f1424d65345cd0cd19b82c2094b7464c37b41f84",
+      "targetHash": "d144c3bd4f2addb8be2757f961cf938f8d8d33bff81e40c75a0d2ac04d35bfeb",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md"
     },
     {

@@ -78,7 +78,7 @@ MilvusClientV2.createSchema()
 
     绑定到此 Collection 的外部源名称（例如 S3 存储桶或 Lakehouse 表）。默认值为空字符串。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`externalSource` 接受两种 scheme：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。</NextChannel>
+    在 Zilliz Cloud 上，`externalSource` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。
 
 - **externalSpec**（*JsonObject*）-
 
@@ -86,7 +86,7 @@ MilvusClientV2.createSchema()
 
     该规范包含 `format` 等次级参数。`format` 的可能值包括 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源会与 `milvus://` scheme 配合使用；对于 `milvus://` 源，`format` 可以省略，并默认为 `milvus-table`。</NextChannel>
+    在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，`format` 可以省略，默认值为 `milvus-table`。
 
 ## 示例\{#example}
 
