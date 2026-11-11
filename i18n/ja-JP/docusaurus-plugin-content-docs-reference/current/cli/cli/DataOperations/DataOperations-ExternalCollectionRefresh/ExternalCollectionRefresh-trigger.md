@@ -64,7 +64,7 @@ zilliz external-collection refresh trigger
 
     `--external-spec` と併せて指定するか、両方を省略してください。両方を省略した場合、更新では永続化されたソースと仕様が再利用されます。
 
-    このオプションでは、`volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2つのスキームを使用できます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は必須です。省略すると更新が反映されず、コレクションは以前に同期されたデータの提供を続けます。
+    このオプションは、`volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の2つのスキームを受け付けます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合も同じルールが適用されます。省略すると永続化されたソースが再利用され、更新では引き続き最新データが同期されます。
 
 - **--external-spec** (*string*) -
 
