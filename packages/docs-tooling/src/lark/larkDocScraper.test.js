@@ -232,6 +232,36 @@ async function testSlugifyPrefersExactSlugForAmbiguousSectionTitle() {
   );
 }
 
+async function testCompleteBasePagination() {
+  const Scraper = require('./larkDocScraper');
+  for (const resource of ['tables', 'records']) {
+    const row = id => resource === 'tables' ? {table_id: id} : {record_id: id};
+    const read = async pages => {
+      const scraper = new Scraper('', 'app:*', 'wiki', '/tmp');
+      let calls = 0;
+      scraper.__fetchFeishuJson = async url => {
+        if (calls && pages[calls - 1].page_token) assert.ok(url.endsWith(encodeURIComponent(pages[calls - 1].page_token)));
+        assert.ok(calls < pages.length, 'unexpected extra request');
+        return {code: 0, data: pages[calls++]};
+      };
+      return resource === 'tables' ? scraper.__base_tables('token') : scraper.__base_record_page('token', {table_id: 'table', index: 0});
+    };
+    const first = {total: 2, has_more: true, page_token: 'next+/', items: [row('a')]};
+    const last = {total: 2, has_more: false, items: [row('b')]};
+    assert.equal((await read([first, last])).length, 2);
+    assert.equal((await read([{total: 0, has_more: false, items: []}])).length, 0);
+    for (const [pages, error] of [
+      [[{...first, page_token: undefined}], /continuation/],
+      [[{...first, has_more: undefined}], /metadata/],
+      [[{...first, items: undefined}], /Missing items/],
+      [[{...first, total: 3}, {...first, total: 3, items: [row('b')]}], /continuation/],
+      [[first, {...last, total: 3}], /changing pagination/],
+      [[first, {...last, items: [row('a')]}], /duplicate identity/],
+      [[{...first, has_more: false}], /Incomplete result/],
+    ]) await assert.rejects(read(pages), error);
+  }
+}
+
 async function testBaseCapturesRecordIdParentMetadata() {
   const larkDocScraper = require('./larkDocScraper');
   const tokenFetcher = require('./larkTokenFetcher.js');
@@ -249,7 +279,7 @@ async function testBaseCapturesRecordIdParentMetadata() {
       return {
         code: 0,
         data: {
-          items: [{ table_id: 'table-token' }],
+          has_more: false, total: 1, items: [{ table_id: 'table-token' }],
         },
       };
     }
@@ -258,7 +288,7 @@ async function testBaseCapturesRecordIdParentMetadata() {
       return {
         code: 0,
         data: {
-          items: [],
+          has_more: false, total: 0, items: [],
         },
       };
     }
@@ -267,7 +297,7 @@ async function testBaseCapturesRecordIdParentMetadata() {
       return {
         code: 0,
         data: {
-          items: [
+          has_more: false, total: 4, items: [
             {
               record_id: 'orm-parent-record',
               fields: {
@@ -341,7 +371,7 @@ async function testBasePreservesDuplicateDocTokenSlugsByParentContext() {
       return {
         code: 0,
         data: {
-          items: [{ table_id: 'table-token' }],
+          has_more: false, total: 1, items: [{ table_id: 'table-token' }],
         },
       };
     }
@@ -350,7 +380,7 @@ async function testBasePreservesDuplicateDocTokenSlugsByParentContext() {
       return {
         code: 0,
         data: {
-          items: [],
+          has_more: false, total: 0, items: [],
         },
       };
     }
@@ -359,7 +389,7 @@ async function testBasePreservesDuplicateDocTokenSlugsByParentContext() {
       return {
         code: 0,
         data: {
-          items: [
+          has_more: false, total: 4, items: [
             {
               record_id: 'orm-parent-record',
               fields: {
@@ -1880,6 +1910,7 @@ async function run() {
   await testSlugifyResolvesAmbiguousTitleWithCompositeParentContext();
   await testSlugifyResolvesAmbiguousTitleWithBitableParentMetadata();
   await testSlugifyPrefersExactSlugForAmbiguousSectionTitle();
+  await testCompleteBasePagination();
   await testBaseCapturesRecordIdParentMetadata();
   await testBasePreservesDuplicateDocTokenSlugsByParentContext();
   await testDriveFolderSlugifyUsesParentContext();
