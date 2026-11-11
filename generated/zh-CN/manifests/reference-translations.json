@@ -6551,11 +6551,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
-      "sourceHash": "8860b373793c2a7e46660fe1db3574b58c813adcbab3a32028e259ab24aa64da",
+      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
+      "sourceHash": "1245a9a9194a8e75f304378aeb518fcd759bd16ee802ed38f0341cdacefa80ea",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
       "status": "translated",
-      "targetHash": "89a29689b4ea93b4c119c00df4d554a761cee928d9d3e201e8f75d210ddee296",
+      "targetHash": "138331dae6f0e5fd4d47dac1ccaf694f1796f73f095cdbcbceb48321275f9970",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md"
     },
     {
@@ -6713,11 +6713,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
-      "sourceHash": "2ad7698f812d9b984a158feeac032cc600a25b139cbe4b59a175c2707be31978",
+      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
+      "sourceHash": "65d401be8bbced23dd4919e196573cb39f1f9e6076839b67f1950d7b8672a35e",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "9ba644e1d49ea35482b6c63816a3bb18d43cde53592d7e0f8a8424b029807d85",
+      "targetHash": "3d541ab9032d5366ba6b3712bc008918e855fae2fbb326eaf3ba30e0cf25d1a1",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md"
     },
     {

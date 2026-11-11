@@ -146,7 +146,7 @@ await milvusClient.createCollection({
 
     外部源路径。此参数适用于创建外部 Collection。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。</NextChannel>
+    在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。
 
 - **external_spec**（*string*） -
 
@@ -154,7 +154,7 @@ await milvusClient.createCollection({
 
     该 spec 是一个 JSON 字符串，包含 `format` 等次级参数。`format` 的可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，`format` 可以省略，默认值为 `milvus-table`。</NextChannel>
+    在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案一起使用；对于 `milvus://` 源，可以省略 `format`，其默认值为 `milvus-table`。
 
 - **do_physical_backfill**（*boolean*） -
 
@@ -495,7 +495,7 @@ await milvusClient.createCollection({
 
     外部源路径。此参数适用于创建外部 Collection。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。</NextChannel>
+    在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。
 
 - **external_spec**（*string*） -
 
@@ -503,7 +503,7 @@ await milvusClient.createCollection({
 
     该 spec 是一个 JSON 字符串，包含 `format` 等次级参数。`format` 的可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，`format` 可以省略，默认值为 `milvus-table`。</NextChannel>
+    在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案一起使用；对于 `milvus://` 源，可以省略 `format`，其默认值为 `milvus-table`。
 
 - **do_physical_backfill**（*boolean*） -
 
@@ -870,7 +870,7 @@ await milvusClient.createCollection({
 
     外部源路径。此参数适用于创建外部 Collection。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。</NextChannel>
+    在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。
 
 - **external_spec**（*string*） -
 
@@ -878,7 +878,7 @@ await milvusClient.createCollection({
 
     该 spec 是一个 JSON 字符串，包含 `format` 等次级参数。`format` 的可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，`format` 可以省略，默认值为 `milvus-table`。</NextChannel>
+    在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案一起使用；对于 `milvus://` 源，可以省略 `format`，其默认值为 `milvus-table`。
 
 - **do_physical_backfill**（*boolean*） -
 
