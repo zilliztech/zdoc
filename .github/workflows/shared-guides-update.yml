@@ -148,7 +148,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: shared-guides-report-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ steps.prepare.outputs.report_evidence }}/
+          path: ${{ steps.prepare.outputs.report_evidence }}
           if-no-files-found: error
           retention-days: 30
       - id: upload
@@ -156,7 +156,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: shared-guides-candidate-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ steps.prepare.outputs.evidence }}/
+          path: ${{ steps.prepare.outputs.evidence }}
           if-no-files-found: error
           retention-days: 30
 

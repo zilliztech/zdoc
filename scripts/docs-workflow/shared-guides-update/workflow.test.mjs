@@ -30,6 +30,8 @@ test('only the writer can mutate and it consumes the same preparation job’s ar
   assert.deepEqual(prepare.permissions, { contents: 'read', actions: 'read' })
   assert.deepEqual(write.permissions, { contents: 'write', 'pull-requests': 'write', actions: 'read' })
   assert.equal(prepare['runs-on'], 'macos-15')
+  assert.equal(prepare.steps.find(s => s.id === 'report').with.path, '${{ steps.prepare.outputs.report_evidence }}')
+  assert.equal(prepare.steps.find(s => s.id === 'upload').with.path, '${{ steps.prepare.outputs.evidence }}')
   assert.equal(prepare.outputs.artifact_id, '${{ steps.upload.outputs.artifact-id }}')
   assert.equal(prepare.outputs.artifact_digest, '${{ steps.upload.outputs.artifact-digest }}')
   const writer = write.steps.find(s => s.run?.endsWith('/write.mjs'))
