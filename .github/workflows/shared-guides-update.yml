@@ -72,9 +72,8 @@ jobs:
           set -euo pipefail
           node scripts/docs-workflow/shared-guides-update/discover.mjs > "$RUNNER_TEMP/discovery.json"
           jq -ec --arg sha "$GITHUB_SHA" '.master == $sha and (.status == "candidate" or .status == "held" or .status == "unchanged")' "$RUNNER_TEMP/discovery.json"
-          printf 'observation=%s\n' "$(jq -c . "$RUNNER_TEMP/discovery.json")" >> "$GITHUB_OUTPUT"
-          printf 'status=%s\n' "$(jq -r .status "$RUNNER_TEMP/discovery.json")" >> "$GITHUB_OUTPUT"
-          jq -r '"history_verified=" + (.historyVerified | tostring)' "$RUNNER_TEMP/discovery.json" >> "$GITHUB_OUTPUT"
+          jq -cr '"observation=" + tojson, "status=" + .status, "history_verified=" + (.historyVerified | tostring)' \
+            "$RUNNER_TEMP/discovery.json" >> "$GITHUB_OUTPUT"
           jq -r '"Discovery: " + .status + " " + (.reasons | join(", "))' "$RUNNER_TEMP/discovery.json" >> "$GITHUB_STEP_SUMMARY"
 
   history_checkpoint:
