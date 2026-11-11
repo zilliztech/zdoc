@@ -727,7 +727,7 @@ curl --request POST \
 
 別の Dedicated クラスター上のコレクション（`milvus://`）から作成された外部コレクションの場合：
 
-- リフレッシュでは、外部コレクションをリクエストで渡された `external_source` に再バインドし、最新データを同期します。すべてのリフレッシュリクエストで `external_source` を渡す必要があります。省略した場合、コレクションは以前に同期されたデータを提供し続けます。
+- リフレッシュでは、外部コレクションをリクエストで渡された `external_source` に再バインドし、最新のデータを同期します。`external_source` を省略すると永続化されたソースが再利用され、リフレッシュはそのソースから最新のデータを引き続き同期します。
 
 - リフレッシュジョブは、`RefreshInProgress` から `RefreshCompleted` または `RefreshFailed` に遷移します。進行中に送信された 2 つ目のリフレッシュは拒否されます。リフレッシュはインデックス構築の完了を待機するため、所要時間はデータサイズに応じて増加し、大規模なコレクションでは数秒から数時間に及ぶことがあります。
 
@@ -918,7 +918,7 @@ curl --request POST \
 
 リフレッシュ操作は非同期であるため、その進捗を監視する反復処理を設定する必要があります。
 
-RESTful API を使用する場合は、[Describe External コレクション Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2) でリフレッシュジョブの進行状況を確認するか、[List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2) でリフレッシュジョブを一覧表示してください。
+RESTful API を使用する場合は、[Describe External コレクション Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2) でリフレッシュジョブの進捗を確認するか、[List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2) でリフレッシュジョブを一覧表示してください。
 
 <Admonition type="info" title="Notes">
 

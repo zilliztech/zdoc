@@ -10,7 +10,7 @@ notebook: FALSE
 description: "別の Zilliz Cloud Dedicated クラスター上のコレクションを、外部コレクションのデータソースとして使用できます。 | Cloud"
 type: origin
 token: AzxFwQpn4iRElfkDrbVcorGqnYd
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -183,7 +183,7 @@ curl --request POST \
 
 ## データを更新する\{#refresh-data}
 
-更新すると、外部コレクションがリクエストで渡された `external_source` に再バインドされ、最新のデータが同期されます。すべての更新リクエストで `external_source` を渡す必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。
+更新では、リクエストで渡された `external_source` に外部コレクションを再バインドし、最新データを同期します。`external_source` を省略すると、永続化されたソースが再利用され、更新時もそのソースから最新データが同期されます。
 
 更新ジョブは `RefreshInProgress` から `RefreshCompleted` または `RefreshFailed` に遷移します。実行中に送信された 2 回目の更新は拒否されます。更新はインデックスの構築が完了するまで待機するため、所要時間はデータサイズに比例します。大規模なコレクションでは、数秒から数時間かかります。
 

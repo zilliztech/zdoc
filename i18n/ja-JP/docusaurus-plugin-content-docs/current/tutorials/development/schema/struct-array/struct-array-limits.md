@@ -101,15 +101,15 @@ StructArray のサブフィールドは、物理的な配列形式のストレ�
 | StructArray フィールドの動的追加 | 後述の可用性に関する記述を条件とします。 |
 | 動的追加における nullable の要件 | 既存のコレクションに追加される StructArray フィールドは、既存のエンティティが新しいフィールドの値を持たないため、nullable である必要があります。 |
 | 動的追加後の既存エンティティ | 既存のエンティティは、追加された StructArray フィールドに対して `null` を返します。 |
-| サブフィールドの動的追加 | サポートされています。追加するサブフィールドは `nullable=True` で作成する必要があります。追加する `ARRAY` サブフィールドでは、内部配列内の null 値のために `element_nullable=True` も指定します。既存のエンティティは、各 Struct 要素内の新しいサブフィールドに対して null を返し、StructArray フィールドが null のエンティティは null のままです。 |
+| サブフィールドの動的追加 | サポートされています。追加するサブフィールドは `nullable=True` を指定して作成する必要があります。追加する `ARRAY` サブフィールドでは、内部配列内の null 値を許可するために、さらに `element_nullable=True` を指定します。既存のエンティティは、それぞれの Struct 要素内で新しいサブフィールドに対して null を返し、StructArray フィールドが null であるエンティティは null のままです。既存のサブフィールドを後から `element_nullable` に変更することはできません。 |
 
 
-Zilliz Cloud では、nullable な StructArray フィールドと StructArray フィールドの動的追加は On-Demand クラスターでサポートされています。動的に追加される StructArray フィールドは nullable である必要があります。Serving クラスターではこれらの機能はサポートされていません。nullable なベクトル配列は Zilliz Cloud クラスターではまだ利用できません。追加の機能については後述します。
+Zilliz Cloud では、nullable な StructArray フィールドと StructArray フィールドの動的追加は、Dedicated クラスターと On-Demand クラスターでサポートされています。動的に追加する StructArray フィールドは nullable である必要があります。nullable なベクトル配列は、Milvus v3.0.x と互換性のある Dedicated クラスターでサポートされています。追加の機能については、以下を参照してください。
 
-要素レベルの null 値、スカラー `ARRAY` サブフィールド、および既存の StructArray フィールドへのサブフィールドの追加または削除は、Zilliz Cloud クラスターではまだ利用できません。
+要素レベルの null 値、スカラー `ARRAY` サブフィールド、および既存の StructArray フィールドに対するサブフィールドの追加または削除は、Milvus v3.0.x と互換性のある Dedicated クラスターでサポートされています。
 
 
-これらの機能は、Zilliz Cloud クラスターではまだ利用できません。
+これらの機能は、On-Demand クラスターではまだ利用できません。
 
 
 nullable な StructArray フィールドを使用した挿入例については、[StructArray フィールドにデータを挿入する](./insert-struct-array) を参照してください。

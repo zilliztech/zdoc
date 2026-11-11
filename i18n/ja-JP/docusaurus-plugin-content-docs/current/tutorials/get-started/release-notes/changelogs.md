@@ -36,8 +36,6 @@ import Grid from '@site/src/components/Grid';
 
         - ベクトル Lakebase のより多くのベクトル機能が近日提供される予定です。
 
-        - 🔗 **クロスクラスター外部コレクション** — `milvus://` スキームを使用する外部コレクションのデータソースとして、同じプロジェクトおよびリージョン内の **Dedicated クラスター** にあるコレクションを使用できます。このソースタイプは **AWS リージョン** でのみ使用できます。詳細については、[外部コレクションを作成する](./create-external-collection) を参照してください。
-
     </div>
 
 </Grid>
@@ -1359,3 +1357,4 @@ import Grid from '@site/src/components/Grid';
     </div>
 
 </Grid>
+
