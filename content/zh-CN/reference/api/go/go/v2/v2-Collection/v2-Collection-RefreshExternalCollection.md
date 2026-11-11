@@ -65,7 +65,7 @@ result, err := client.RefreshExternalCollection(option)
 
     `externalSource` 和 `externalSpec` 应一起提供，或一起省略；如果两者均省略，则刷新会复用已持久化的源和规范。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`externalSource` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传入 `externalSource`；如果省略，Collection 将继续提供之前同步的数据。</NextChannel>
+    在 Zilliz Cloud 上，`externalSource` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传入 `externalSource`；如果省略，则 Collection 将继续提供先前同步的数据。
 
 - `WithExternalSpec(externalSpec string)`
 
@@ -75,7 +75,7 @@ result, err := client.RefreshExternalCollection(option)
 
         目标源数据文件的格式。可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
 
-        <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，可以省略 `format`，其默认值为 `milvus-table`。</NextChannel>
+        在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，可以省略 `format`，其默认值为 `milvus-table`。
 
     - **extfs** （*string*） -
 

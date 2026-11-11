@@ -3155,11 +3155,11 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
-      "sourceHash": "51d4bab90e02800465d89c3e4c0dfaa7cac287dd2194c7166f648d06b51d4b53",
+      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
+      "sourceHash": "3569bbe6a6b3c5ad29808e57827afa62d295c0026526f5f65543720bf607f2d9",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "079d95be319cc5815497afcf82b47a31848edcf604cca7b9f45dd39227e5aa13",
+      "targetHash": "09beabb95a441d5f72d3a8462a325e75472947cac1a3c83a296a11d84c198281",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md"
     },
     {
@@ -3191,11 +3191,11 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
-      "sourceHash": "46b9ea8dc2f09d15e211d8c79d3bccdca1f13898ceb304bbd46d100bf822bf09",
+      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
+      "sourceHash": "34ac070fdca501cc10792e030bf730ee3ded1cd6300632d121084f98fae5f219",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
       "status": "translated",
-      "targetHash": "157db6e54129d175f24f5de76d90cb6f70df7fa74a289f814e089f1016809742",
+      "targetHash": "baeff77e3e0e8540d0a673f645cbd3d7277e1a573cf028d076e5c711fb624fbf",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md"
     },
     {
