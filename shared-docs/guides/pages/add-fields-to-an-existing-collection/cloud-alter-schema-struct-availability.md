@@ -1,1 +1,1 @@
-- Nullable StructArray fields and dynamic StructArray field addition are supported on On-Demand Clusters. A StructArray field added dynamically must be nullable. Serving Clusters do not support these capabilities.
+- Nullable StructArray fields and dynamic StructArray field addition are supported on both Free/Serverless and Dedicated Clusters. A StructArray field added dynamically must be nullable.
