@@ -5615,11 +5615,11 @@
     },
     {
       "manual": "java",
-      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
-      "sourceHash": "431bb44c744521837bf50e90ea7e2a6af5179f41c6b090b36e61e3f3d15c3000",
+      "sourceCommit": "fc5c164e41eedc5c684a4b6a81e99e7e63dcfb89",
+      "sourceHash": "299f0b297756b53a1e3516f0bbb2780e6f4e95308f51c1ee16b377f39b241378",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "d144c3bd4f2addb8be2757f961cf938f8d8d33bff81e40c75a0d2ac04d35bfeb",
+      "targetHash": "05074ff78129813cc1f7f4875851f6672118edca186710f2d29ca9fb011a6db7",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md"
     },
     {

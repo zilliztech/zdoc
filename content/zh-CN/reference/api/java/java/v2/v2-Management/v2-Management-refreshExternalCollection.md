@@ -66,7 +66,7 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
     请同时提供 `externalSource` 和 `externalSpec`，或两者都省略；如果两者都省略，刷新操作会重用已持久化的源和规范。
 
-    在 Zilliz Cloud 上，`externalSource` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传入 `externalSource`；如果省略，Collection 将继续提供此前同步的数据。
+    在 Zilliz Cloud 上，`externalSource` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，上述规则适用。对于 `milvus://` 源，此规则同样适用——省略它会重用已持久化的源，并且刷新操作仍会同步最新数据。
 
 - `externalSpec(JsonObject externalSpec)` -
 
