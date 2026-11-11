@@ -305,3 +305,23 @@ test('a checkpoint cannot certify its own writer, a newer failed writer, an unve
   checkpoint.head_branch = 'feature'
   await assert.rejects(discover(f), /WRITER_WORKFLOW_HISTORY_GAP/)
 })
+
+test('a verified setup failure before the only mutation step permits another run', async () => {
+  const f = inventory()
+  const prior = run(1, { head_sha: current })
+  f.runNumber = 2
+  f.runId = 1002
+  f.runs = [run(2, { status: 'in_progress' }), prior]
+  const job = writerJob(prior, 1, 'failure')
+  job.steps = [{ name: 'Recheck inputs and create the draft', status: 'completed', conclusion: 'skipped' }]
+  f.jobs['/actions/runs/1001/attempts/1/jobs'] = [job]
+  const helper = 'scripts/docs-workflow/shared-guides-update/discover.mjs'
+  f.checkpointFiles[current] = { [workflow.path]: 'reviewed workflow', [helper]: 'prior verifier' }
+  f.checkpointFiles[master] = { [workflow.path]: 'reviewed workflow', [helper]: 'current verifier' }
+  assert.equal((await discover(f)).historyVerified, true)
+  f.checkpointFiles[current][workflow.path] = 'different workflow'
+  assert.equal((await discover(f)).historyVerified, false)
+  f.checkpointFiles[current][workflow.path] = 'reviewed workflow'
+  job.steps[0].conclusion = 'failure'
+  assert.equal((await discover(f)).historyVerified, false)
+})

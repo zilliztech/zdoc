@@ -426,7 +426,19 @@ write path. An open update PR or a remaining writer branch stops the run before
 it prepares another candidate. If a write loses its response, inspect the run’s
 journal, matching branches and PRs before taking further action. A moved input,
 unverified Fetch producer, or incomplete publication evidence requires fresh
-evidence. The next scheduled run reads the inputs again.
+evidence. Review a superseded Fetch against the next successful scheduled Fetch from a
+registered producer tree. The producer fingerprint covers the full repository
+tree, so an unrelated change can require a new reviewed fingerprint. Inspect
+`shared-guides-report-<run>-1` for page impact and lifecycle evidence and
+`shared-guides-update-producer` for the signed producer receipt. The bot-created
+Draft PR can show **Approve workflows to run** for normal PR checks. Review its
+head and approve those checks before merging. See [GitHub’s workflow token
+reference](https://docs.github.com/en/actions/concepts/security/github_token).
+
+A verified history checkpoint covers earlier attempts. If GitHub cannot account
+for an intervening writer, reconcile its API effects before allowing further
+writes. After an update PR is closed or merged, retained staging or target
+branches also require operator reconciliation before a new draft can open.
 
 ### Inspect shared Guides upstream changes without publishing
 

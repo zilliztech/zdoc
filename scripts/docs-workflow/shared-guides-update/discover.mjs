@@ -241,10 +241,18 @@ async function writerHistory(read, runId, runNumber, master) {
       for (let attempt = 1; attempt <= run.run_attempt; attempt++) {
         const jobs = await attemptJobs(read, run, attempt)
         const writers = jobs.filter(job => job.name === 'write')
-        if (writers.length !== 1 || writers[0].status !== 'completed' ||
-          !(writers[0].conclusion === 'skipped' || (writers[0].conclusion === 'success' && trustedBranch && attempt === 1))) {
-          return [`UNRESOLVED_WRITER_RUN_${run.id}_ATTEMPT_${attempt}`]
+        const writer = writers.length === 1 ? writers[0] : undefined
+        let settled = writer?.status === 'completed' && (writer.conclusion === 'skipped' ||
+          (writer.conclusion === 'success' && trustedBranch && attempt === 1))
+        if (!settled && writer?.status === 'completed' && writer.conclusion === 'failure' && trustedBranch && attempt === 1) {
+          const steps = writer.steps?.filter(step => step.name === 'Recheck inputs and create the draft')
+          if (steps?.length === 1 && steps[0].status === 'completed' && steps[0].conclusion === 'skipped') {
+            // Only this exact workflow issues writes exclusively in that step.
+            const [former, current] = await Promise.all([checkpointCode(run.head_sha), checkpointCode(master)])
+            settled = former[0].equals(current[0])
+          }
         }
+        if (!settled) return [`UNRESOLVED_WRITER_RUN_${run.id}_ATTEMPT_${attempt}`]
         if (run.run_attempt !== 1 || !trustedBranch ||
           !passedStep(jobs, 'discover', 'Check upstream pins and open updates') ||
           !passedStep(jobs, 'history_checkpoint', 'Record verified writer history')) continue

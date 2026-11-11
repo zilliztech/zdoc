@@ -8,7 +8,7 @@ const { test: ci, discover, prepare, write } = config.jobs
 
 test('only master schedule or explicit master dispatch can reach the writer', () => {
   assert.deepEqual(Object.keys(config.on).sort(), ['pull_request', 'schedule', 'workflow_dispatch'])
-  assert.deepEqual(config.permissions, {})
+  assert.deepEqual(config.permissions, { contents: 'read' })
   assert.equal(config.on.workflow_dispatch.inputs.create_draft.default, false)
   assert.equal(ci.if, "github.event_name == 'pull_request'")
   assert.deepEqual(ci.permissions, { contents: 'read' })
@@ -26,7 +26,7 @@ test('only master schedule or explicit master dispatch can reach the writer', ()
 })
 
 test('only the writer can mutate and it consumes the same preparation job’s artifact', () => {
-  assert.deepEqual(discover.permissions, { contents: 'read', 'pull-requests': 'read' })
+  assert.deepEqual(discover.permissions, { contents: 'read', 'pull-requests': 'read', actions: 'read' })
   assert.deepEqual(prepare.permissions, { contents: 'read', actions: 'read' })
   assert.deepEqual(write.permissions, { contents: 'write', 'pull-requests': 'write', actions: 'read' })
   assert.equal(prepare['runs-on'], 'macos-15')
@@ -43,4 +43,14 @@ test('only the writer can mutate and it consumes the same preparation job’s ar
   }
   assert.equal(write.steps.filter(s => s.env?.GH_TOKEN).length, 1)
   assert.equal(writer.env.GH_TOKEN, '${{ github.token }}')
+})
+
+test('a history checkpoint requires a successful authenticated discovery and cannot write', () => {
+  const job = config.jobs.history_checkpoint
+  assert.equal(job.needs, 'discover')
+  assert.equal(job.if, "needs.discover.outputs.history_verified == 'true'")
+  assert.equal(discover.outputs.history_verified, '${{ steps.discover.outputs.history_verified }}')
+  assert.match(discover.steps.find(s => s.id === 'discover').run, /\.historyVerified/)
+  assert.deepEqual(job.permissions, {})
+  assert.deepEqual(job.steps.map(s => s.name), ['Record verified writer history'])
 })

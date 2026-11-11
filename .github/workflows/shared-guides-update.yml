@@ -17,7 +17,8 @@ on:
       - scripts/docs-workflow/shared-guides-update/**
       - packages/docs-tooling/src/shared-docs/**
 
-permissions: {}
+permissions:
+  contents: read
 
 # Scheduled and manual writers share a lane. Pull requests only run offline tests.
 concurrency:
@@ -53,9 +54,11 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
+      actions: read
     outputs:
       status: ${{ steps.discover.outputs.status }}
       observation: ${{ steps.discover.outputs.observation }}
+      history_verified: ${{ steps.discover.outputs.history_verified }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
@@ -71,7 +74,18 @@ jobs:
           jq -ec --arg sha "$GITHUB_SHA" '.master == $sha and (.status == "candidate" or .status == "held" or .status == "unchanged")' "$RUNNER_TEMP/discovery.json"
           printf 'observation=%s\n' "$(jq -c . "$RUNNER_TEMP/discovery.json")" >> "$GITHUB_OUTPUT"
           printf 'status=%s\n' "$(jq -r .status "$RUNNER_TEMP/discovery.json")" >> "$GITHUB_OUTPUT"
+          jq -r '"history_verified=" + (.historyVerified | tostring)' "$RUNNER_TEMP/discovery.json" >> "$GITHUB_OUTPUT"
           jq -r '"Discovery: " + .status + " " + (.reasons | join(", "))' "$RUNNER_TEMP/discovery.json" >> "$GITHUB_STEP_SUMMARY"
+
+  history_checkpoint:
+    needs: discover
+    if: needs.discover.outputs.history_verified == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions: {}
+    steps:
+      - name: Record verified writer history
+        run: echo 'All earlier writer attempts were accounted for.' >> "$GITHUB_STEP_SUMMARY"
 
   prepare:
     needs: discover
@@ -83,6 +97,7 @@ jobs:
       actions: read
     outputs:
       status: ${{ steps.prepare.outputs.status }}
+      report_artifact_id: ${{ steps.report.outputs.artifact-id }}
       artifact_id: ${{ steps.upload.outputs.artifact-id }}
       artifact_digest: ${{ steps.upload.outputs.artifact-digest }}
     steps:
@@ -111,6 +126,31 @@ jobs:
           PROFILE_RECEIPT: ${{ steps.profile.outputs.evidence }}
           PROFILE_SHA256: ${{ steps.profile.outputs.sha256 }}
         run: python3 -B scripts/docs-workflow/shared-guides-update/prepare.py
+      - name: Retain the runner profile receipt
+        if: always() && steps.profile.outputs.evidence != ''
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-decision-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.profile.outputs.evidence }}
+          if-no-files-found: error
+          retention-days: 30
+      - name: Retain the reason preparation stopped
+        if: always() && steps.prepare.outputs.evidence != '' && steps.prepare.outputs.status != 'prepared'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-preparation-result-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.prepare.outputs.evidence }}/preparation.json
+          if-no-files-found: error
+          retention-days: 30
+      - id: report
+        name: Retain the page impact report and lifecycle evidence
+        if: success() && steps.prepare.outputs.status == 'prepared'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.prepare.outputs.report_evidence }}/
+          if-no-files-found: error
+          retention-days: 30
       - id: upload
         if: success() && steps.prepare.outputs.status == 'prepared'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -152,10 +192,18 @@ jobs:
       - name: Recheck inputs and create the draft
         env:
           GH_TOKEN: ${{ github.token }}
+          REPORT_ARTIFACT_ID: ${{ needs.prepare.outputs.report_artifact_id }}
           PREPARE_ARTIFACT_ID: ${{ needs.prepare.outputs.artifact_id }}
           PREPARE_ARTIFACT_DIGEST: ${{ needs.prepare.outputs.artifact_digest }}
           WRITER_OUTPUT: ${{ runner.temp }}/shared-guides-writer
         run: node scripts/docs-workflow/shared-guides-update/write.mjs
+      - name: Retain the signed producer receipt
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-update-producer
+          path: ${{ runner.temp }}/shared-guides-producer/
+          if-no-files-found: error
+          retention-days: 30
       - name: Retain the writer's journal
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
