@@ -38,9 +38,7 @@ import Procedures from '@site/src/components/Procedures';
 
 | **模型服务提供商** | **支持的 Zilliz Cloud 功能** | **所需凭证** |
 | --- | --- | --- |
-| **OpenAI** | Text Embedding Function | API 密钥。获取方法请参阅 [OpenAI API 快速入门](https://developers.openai.com/api/docs/quickstart#create-and-export-an-api-key)。 |
-| **Cohere** | Text Embedding Function 和基于模型的 Ranker | API 密钥。获取方法请参阅 [API 密钥和速率限制](https://docs.cohere.com/docs/rate-limits)。 |
-| **Voyage AI** | Text Embedding Function 和基于模型的 Ranker | API 密钥。获取方法请参阅 [API 密钥和 Python 客户端](https://docs.voyageai.com/docs/api-key-and-installation)。 |
+| 硅基流动 | 文本嵌入 | API 密钥。获取方法请参阅[硅基流动快速入门](https://api-docs.siliconflow.cn/docs/userguide/quickstart#41-create-api-key)。 |
 
 <Admonition type="info" title="说明">
 

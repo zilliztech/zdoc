@@ -2097,9 +2097,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/ai-models/integrate-with-model-providers.md",
-      "sha256": "2478ce241d51a231e4437d2b72f8cd2e37b6e20de4b916920369757329848c6a",
+      "sha256": "be0def89b6a75fa590e1dc8628a35f0f1058b05d06f9caa856c61ce19b69388c",
       "docToken": "Psarw6886iSZAvkYGnnclLBgnVd",
-      "revisionId": "287"
+      "revisionId": "321"
     },
     {
       "path": "content/zh-CN/guides/tutorials/client-libraries/install-sdks.md",
