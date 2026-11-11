@@ -10,6 +10,7 @@ import type { InspectionReader, Md2md, PreprocessResult } from './types'
 import { applyPlan, planTransforms, stripMappedMarkers, filterContent } from '../core/transforms'
 import type { ContentFile, MappedLine, TransformPlan } from '../core/transforms'
 import { provenanceCarrier, remapError, survivingSources } from '../core/transforms/provenance'
+import { variantFileName } from '../core/variants'
 import type { TabsRules } from '../core/site'
 import type { ProductNameSource } from '../core/product-names'
 
@@ -22,6 +23,8 @@ export interface InspectedChannel {
   engine: PreprocessResult['engine']
   provenance?: MappedLine[]
   transformSources?: ProductNameSource[]
+  /** Present when the channel bytes come from an adopted variant instead of the pinned commit. */
+  variant?: { file: string; pull: number; head_sha: string }
 }
 export type InspectionResult = Omit<ReadSuccess, 'markdown'> & {
   planned: boolean
@@ -52,6 +55,10 @@ export async function inspectPage(input: ReadPageInput & { variablesJson: string
   }
   const read = await readPageSources({ ...input, lockYaml }, reader)
   if ('errors' in read) return read
+  const channelVariant = (channel: 'current' | 'next') => {
+    const variant = read.variants?.[channel]
+    return variant ? { file: `pages/${input.pageId}/${variantFileName(channel)}`, pull: variant.provenance.pull, head_sha: variant.provenance.head_sha } : undefined
+  }
   const channels = {} as Record<Channel, InspectedChannel>
   const manualChannels = new Map<string, Record<Channel, InspectedChannel>>()
   for (const manual of input.transformContext?.manuals ?? []) manualChannels.set(manual.name, {} as Record<Channel, InspectedChannel>)
@@ -93,6 +100,7 @@ export async function inspectPage(input: ReadPageInput & { variablesJson: string
     if (!ready) continue
     const { parsed, blocks, plan } = ready
     const sourceName = read.config.source.file
+    const variant = channelVariant(channel)
     const annotate = (error: SharedDocsError): SharedDocsError => ({ ...error, page: input.pageId, channel })
     const mapped = plan ? stripMappedMarkers(applyPlan(read.markdown[channel], sourceName, plan), parsed.blocks) : undefined
     const content = mapped ? mapped.map(line => line.text).join('\n') : md2md.stripBlockMarkers(read.markdown[channel])
@@ -130,14 +138,15 @@ export async function inspectPage(input: ReadPageInput & { variablesJson: string
             const view = filtered.lines
             manualChannels.get(manual.name)![channel] = { commit: read.lock[channel], blocks,
               content: view.map(line => line.text).join('\n'), dependencies: result.dependencies, engine: result.engine,
-              provenance: view, transformSources: survivingSources(mapped, view) }
+              provenance: view, transformSources: survivingSources(mapped, view), ...(variant ? { variant } : {}) }
           }
         }
-        channels[channel] = { commit: read.lock[channel], blocks, content: output, dependencies: result.dependencies, engine: result.engine }
+        channels[channel] = { commit: read.lock[channel], blocks, content: output, dependencies: result.dependencies, engine: result.engine,
+          ...(variant ? { variant } : {}) }
       }
     })
   }
   if (errors.length) return { errors }
   return { config: read.config, source: read.source, lock: read.lock, planned: input.lockYaml === undefined, channels,
-    ...(manualChannels.size ? { manualChannels } : {}) }
+    ...(read.variants ? { variants: read.variants } : {}), ...(manualChannels.size ? { manualChannels } : {}) }
 }

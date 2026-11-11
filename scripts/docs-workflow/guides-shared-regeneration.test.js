@@ -100,6 +100,28 @@ for (const baseline of ['legacy', 'new', 'active']) test(`[PUBLISH_REGEN_MISMATC
   assert.deepEqual(result.snapshot.navigation_records.find(row => row.record_id === 'rec0'), before.previous_snapshot.navigation_records.find(row => row.record_id === 'rec0'))
   publication.publishedEvidence(options.baselineRoot, result.snapshot)
 })
+test('adopted variants flow into receipts, replay from the pinned tree and fail closed when dropped', async t => {
+  const options = await fixture(t, {pages: ['sample'], imageSource: true, variants: 'next'})
+  options.imageBaseUrl = 'https://images.example.test'; options.sequence = 0
+  const bundle = await regenerate(options)
+  assert.equal(bundle.outcomes[0].status, 'success', JSON.stringify(bundle.outcomes))
+  const outcome = bundle.outcomes[0]
+  const receipt = JSON.parse(fs.readFileSync(path.join(options.out, outcome.receipt)))
+  assert.deepEqual(receipt.inputs.variants.map(row => ({channel: row.channel, pull: row.pull, adopted_via: row.adopted_via})),
+    [{channel: 'next', pull: 42, adopted_via: 'adopt-variant'}])
+  const output = fs.readFileSync(path.join(options.out, outcome.outputs[0].file), 'utf8')
+  assert.ok(output.includes('Variant body text.'), 'variant content must reach the merged output')
+  const replayWith = () => regeneration.regenerateReceipt({receipt, navigation: bundle.navigation,
+    repositoryRoot: options.repositoryRoot, baselineRoot: options.baselineRoot, repo: options.repo,
+    scratch: options.scratch, outputs: outcome.outputs.map(row => ({...row, bytes: fs.readFileSync(path.join(options.out, row.file))})),
+    readAcceptedImage: async () => image}, {assertToolIdentity: () => {}})
+  await replayWith()
+  const dropped = structuredClone(receipt); delete dropped.inputs.variants
+  await assert.rejects(regeneration.regenerateReceipt({receipt: dropped, navigation: bundle.navigation,
+    repositoryRoot: options.repositoryRoot, baselineRoot: options.baselineRoot, repo: options.repo,
+    scratch: options.scratch, outputs: outcome.outputs.map(row => ({...row, bytes: fs.readFileSync(path.join(options.out, row.file))})),
+    readAcceptedImage: async () => image}, {assertToolIdentity: () => {}}), /Variant identity differs/)
+})
 test('[PUBLISH_REGEN_MISMATCH] checkpoint CLI validates bound proof offline and rejects proof and output tampering', async t => {
   const value = await candidate(t), result = finalize(value.options, value.bundle)
   fs.rmSync(value.options.out, {recursive: true}); fs.rmSync(value.options.scratch, {recursive: true}); fs.rmSync(value.options.repo, {recursive: true})

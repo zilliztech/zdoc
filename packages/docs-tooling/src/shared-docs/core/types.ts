@@ -47,6 +47,12 @@ export interface PageConfigContext extends DiagnosticContext {
   betaValues: readonly string[]
 }
 export interface PageLock { schema_version: 1; current: string; next: string }
+/** Provenance sidecar for an adopted variant, recorded verbatim next to the content file. */
+export interface VariantProvenance { pull: number; head_sha: string; adopted_at: string; adopted_via?: string }
+/** Raw upstream markdown bytes adopted as Zilliz-owned variant content for one channel. */
+export interface PageVariant { text: string; provenance: VariantProvenance }
+/** Unparsed variant content plus its provenance sidecar, as read from the page directory. */
+export interface RawVariantFiles { text: string; provenanceText: string }
 export type ConfigResult<T> = { config: T } | { errors: SharedDocsError[] }
 export type LockResult = { lock: PageLock } | { errors: SharedDocsError[] }
 export interface LockHistory {

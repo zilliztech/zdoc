@@ -105,3 +105,17 @@ it('propagates unavailable branches and infrastructure failures rather than misc
   await expect(readPageSources({ pageId: 'delete-entities', context, pageYaml: pilot, sourceYaml: source, lockYaml: lock(before) }, reader))
     .rejects.toBe(failure)
 })
+
+it('replaces adopted channel bytes with variant content while keeping pin validation intact', async () => {
+  const { reader, before, after, original } = await createReaderFixture('git')
+  const variant = { text: 'Adopted variant content.\n', provenance: { pull: 42, head_sha: after, adopted_at: '2026-11-11T00:00:00Z' } }
+  const input = { pageId: 'delete-entities', pageYaml: pilot, sourceYaml: source, context }
+  const nextOnly = await readPageSources({ ...input, lockYaml: lock(before, after), variants: { next: variant } }, reader)
+  expect(nextOnly).toMatchObject({ markdown: { current: original, next: 'Adopted variant content.\n' } })
+  expect('variants' in nextOnly && nextOnly.variants?.next?.provenance.pull).toBe(42)
+  const both = await readPageSources({ ...input, lockYaml: lock(before, after), variants: { next: variant, current: variant } }, reader)
+  expect(both).toMatchObject({ markdown: { current: 'Adopted variant content.\n', next: 'Adopted variant content.\n' } })
+  // An unusable pin stays unusable: adoption never relaxes lock validation.
+  expect(await readPageSources({ ...input, lockYaml: lock(before, 'f'.repeat(40)), variants: { next: variant } }, reader))
+    .toMatchObject({ errors: [{ code: 'LOCK_COMMIT_NOT_FOUND', channel: 'next' }] })
+})

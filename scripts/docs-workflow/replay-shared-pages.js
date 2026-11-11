@@ -25,7 +25,7 @@ function record(id, page) {
       Slug: page, Labels: 'Fresh Base label', Targets: ['Zilliz.SaaS', 'Zilliz.PaaS'], Progress: 'Published',
       'Placement Type': 'Canonical', 'Release Channel': 'NEXT'}}
 }
-async function fixture(t, {pages = ['sample', 'sibling'], old = true, active = false, imageSource = true, singleTarget = false, metadataMarker = false, pilot = false} = {}) {
+async function fixture(t, {pages = ['sample', 'sibling'], old = true, active = false, imageSource = true, singleTarget = false, metadataMarker = false, pilot = false, variants = false} = {}) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'wp9-source-')))
   if (t) t.after(() => fs.rmSync(root, {recursive: true, force: true}))
   const repositoryRoot = path.join(root, 'master'), baselineRoot = path.join(root, 'dev'), repo = path.join(root, 'upstream'), sourceDir = path.join(root, 'sources')
@@ -48,6 +48,15 @@ async function fixture(t, {pages = ['sample', 'sibling'], old = true, active = f
     await write(repositoryRoot, `${config}/pages/${page}/lock.yaml`, JSON.stringify({schema_version: 1, current: upstreamCommit, next: upstreamCommit}))
   }
   await write(repositoryRoot, `${config}/pages/inactive/page.yaml`, 'broken: [')
+  if (variants) {
+    const source = fs.readFileSync(path.join(repo, `site/en/${pages[0]}.md`), 'utf8')
+    const adopted = variants === 'both' ? source : source.replace('Body text.', 'Variant body text.')
+    const sidecar = JSON.stringify({pull: 42, head_sha: upstreamCommit, adopted_at: '2026-11-11T00:00:00Z', adopted_via: 'adopt-variant'})
+    for (const channel of variants === 'both' ? ['current', 'next'] : ['next']) {
+      await write(repositoryRoot, `${config}/pages/${pages[0]}/variant-${channel}.md`, adopted)
+      await write(repositoryRoot, `${config}/pages/${pages[0]}/variant-${channel}.provenance.json`, sidecar)
+    }
+  }
   await git(repositoryRoot, 'init', '--quiet', '--initial-branch=master', '--template=')
   await git(repositoryRoot, 'add', '.'); await git(repositoryRoot, 'commit', '--quiet', '-m', 'Pinned selected configuration')
   const masterCommit = await git(repositoryRoot, 'rev-parse', 'HEAD')
