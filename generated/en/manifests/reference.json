@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "923a17aa5dcbc7be1b7003b2d103b160e5a2245f",
+  "sourceCommit": "072036c5cd82719613beec2f8eb7386199d643cf",
   "records": [
     {
       "manual": "cli",
@@ -6980,7 +6980,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/refresh-external-collection-v2.mdx",
-      "sourceHash": "ad7c306b05eb0f4ac9369fae0babd6238cf8720662f460f6b3d885d4250ab2ca"
+      "sourceHash": "ca99e8e5975fdf518eeab9ffc7d952fd14f24d7dca8f6bacb035c6f444e271ef"
     },
     {
       "manual": "rest",
