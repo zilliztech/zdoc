@@ -62,13 +62,13 @@ auto request = milvus::RefreshExternalCollectionRequest()
 
     `external_source` と `external_spec` は、両方を指定するか、両方とも省略してください。両方とも省略した場合、更新では永続化されたソースと仕様が再利用されます。
 
-    <NextChannel action="include">Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は、すべての更新リクエストで `external_source` を渡す必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。</NextChannel>
+    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は、各更新リクエストで `external_source` を渡す必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。
 
 - `WithExternalSpec(const nlohmann::json& external_spec)`
 
     `format` などの外部ソース仕様を JSON として設定します。`format` に指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-    <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームとともに使用されます。`format` は省略でき、`milvus://` ソースの場合、デフォルトで `milvus-table` になります。</NextChannel>
+    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームとともに使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
 
 **戻り値:**
 
