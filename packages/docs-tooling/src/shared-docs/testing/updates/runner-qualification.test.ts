@@ -9,6 +9,9 @@ import { git } from '../build/demo'
 import { dirname, join } from 'node:path'
 import * as provider from '../../adapters/updates/guides-provider'
 import { release } from 'node:os'
+import { rawSha256 } from '../../adapters/updates/evidence'
+import { patchNextLock } from '../../core/updates/transaction'
+import type { NextLockEdit } from '../../core/updates/envelope'
 import * as toolset from '../../adapters/updates/toolset'
 import { collectRunnerQualification, parseTreeLowerBound, validateDiagnosticSettlement, classifyCaptureRefusal, captureRefusalReason, workerRefusalReason, observeRuntimePreflight } from './runner-qualification'
 
@@ -78,21 +81,57 @@ it('rejects changed closure bytes before worker and does not retain raw errors',
   expect(result).toMatchObject({capture:'held',worker:{status:'not-run'},closure:null,failure:{phase:'capture',code:'CAPTURE_REFUSED'}})
   expect(worker).not.toHaveBeenCalled()
 })
-it.each(['held','unsettled','draft-failure'] as const)('synthetic boundary: %s cannot qualify worker; candidate scripts stay untouched',async mode=>{
+it.each(['held','unsettled','draft-failure','empty-candidate','candidate'] as const)('synthetic boundary: %s preserves observed worker status and checks the tripwire',async mode=>{
   const {root,repository,master}=await diagnosticFixture()
   syntheticCapture(master,repository)
-  vi.spyOn(toolset,'verifyTrustedToolset').mockResolvedValue(undefined)
-  vi.spyOn(toolset,'retainTrustedAccessEvidence').mockImplementation(async(_capture,evidence)=>evidence.writeBlob(Buffer.from('synthetic-access')))
+  let clock=0
+  vi.spyOn(performance,'now').mockImplementation(()=>clock)
+  const timeout=vi.spyOn(AbortSignal,'timeout')
+  const finalVerify=vi.spyOn(toolset,'verifyTrustedToolset').mockResolvedValue(undefined)
+  vi.spyOn(toolset,'retainTrustedAccessEvidence').mockImplementation(async(_capture,evidence)=>{
+    clock=144000 // Two hosted capture/access intervals elapsed before the provider starts.
+    return evidence.writeBlob(Buffer.from('synthetic-access'))
+  })
   const settlement={pid:123,born:true,close:{code:0,signal:null},group:mode==='unsettled'?'unknown':'absent',signals:[],cleanupErrors:[]}
-  const collectAll=vi.fn(async()=>({collection:{holds:[]},workerSettlement:settlement}))
-  const providerConstructor=vi.spyOn(provider,'createGuidesProvider').mockResolvedValue({collectAll,planAll:()=>[{disposition:mode==='draft-failure'?'draft-failure':'hold',nextEdits:[]}],getWorkerSettlement:()=>settlement} as unknown as Awaited<ReturnType<typeof provider.createGuidesProvider>>)
+  const progress=join(root,'evidence','diagnostic-progress.json')
+  const collectAll=vi.fn(async()=>{
+    const journal=JSON.parse(await readFile(progress,'utf8'))
+    expect(journal).toEqual({kind:'shared-update-runner-diagnostic-progress',schemaVersion:1,productionQualified:false,master,
+      stages:['binding','capacity','preflight','capture','retain-access','fixture','provider-setup','collect'].map(stage=>({stage,elapsedMs:expect.any(Number)}))})
+    await expect(readFile(join(root,'evidence','diagnostic.json'))).rejects.toMatchObject({code:'ENOENT'})
+    return {collection:{holds:[]},workerSettlement:settlement}
+  })
+  const providerConstructor=vi.spyOn(provider,'createGuidesProvider').mockImplementation(async({request,evidence})=>{
+    const disposition={candidate:'candidate','empty-candidate':'candidate','draft-failure':'draft-failure',unsettled:'hold',held:'hold'}[mode]
+    const nextEdits:NextLockEdit[]=[]
+    if(mode==='candidate'){
+      const subject={kind:'guides-page',group:'guides',pageId:'build-pipeline'} as const
+      const path='shared-docs/guides/pages/build-pipeline/lock.yaml'
+      const bytes=await readFile(join(request.repositoryRoot,path))
+      const {current,next}=JSON.parse(bytes.toString())
+      const before={path,current,next,sha256:rawSha256(bytes)}
+      const target=request.target!
+      const patch=patchNextLock({subject,before,bytes,target,mode:'100644'})
+      nextEdits.push({subject,before,target,afterBlob:await evidence.writeBlob(patch.bytes)})
+    }
+    return {collectAll,planAll:()=>[{disposition,nextEdits}],getWorkerSettlement:()=>settlement} as unknown as Awaited<ReturnType<typeof provider.createGuidesProvider>>
+  })
   const result=await collectRunnerQualification({toolRoot:repository,master,evidenceRoot:join(root,'evidence')})
+  expect(timeout).toHaveBeenCalledWith(300000)
   expect(collectAll).toHaveBeenCalledOnce();expect(result.productionQualified).toBe(false)
   const actualFixtureMaster=await git(join(root,'evidence','fixture'),'rev-parse','HEAD')
   expect(providerConstructor.mock.calls[0][0].request.master).toBe(actualFixtureMaster)
   expect(providerConstructor.mock.calls[0][0].request.configSnapshot).toBe(actualFixtureMaster)
   expect(actualFixtureMaster).not.toBe(master);expect(result.master).toBe(master)
-  expect(result.worker.status).toBe('held');expect(result.failure?.code).toBe(mode==='unsettled'?'WORKER_UNSETTLED':'WORKER_PREPARATION_HELD')
+  if(mode==='candidate'){
+    expect(result.worker.status).toBe('passed');expect(result.failure).toBeNull()
+    expect(finalVerify).toHaveBeenCalledOnce()
+    expect(JSON.parse(await readFile(progress,'utf8')).stages.at(-1).stage).toBe('final-verify')
+  }else{
+    const expectedFailure={unsettled:'WORKER_UNSETTLED','empty-candidate':'NON_NEXT_ONLY_PLAN','draft-failure':'WORKER_PREPARATION_HELD',held:'WORKER_PREPARATION_HELD'}[mode]
+    expect(result.worker.status).toBe('held');expect(result.failure?.code).toBe(expectedFailure)
+    expect(finalVerify).not.toHaveBeenCalled()
+  }
   expect(result.worker.resultValidated).toBe(mode!=='unsettled')
   if(mode!=='unsettled')expect(result.worker.tripwireUntouched).toBe(true)
 },15000)
@@ -119,7 +158,7 @@ it('cooperative deadline cannot leave capture passed when its phase is held',asy
   syntheticCapture(master,repository)
   let clock=0;vi.spyOn(performance,'now').mockImplementation(()=>clock)
   vi.spyOn(toolset,'verifyTrustedToolset').mockResolvedValue(undefined)
-  vi.spyOn(toolset,'retainTrustedAccessEvidence').mockImplementation(async(_capture,evidence)=>{clock=120001;return evidence.writeBlob(Buffer.from('synthetic-access'))})
+  vi.spyOn(toolset,'retainTrustedAccessEvidence').mockImplementation(async(_capture,evidence)=>{clock=540001;return evidence.writeBlob(Buffer.from('synthetic-access'))})
   const result=await collectRunnerQualification({toolRoot:repository,master,evidenceRoot:join(root,'evidence')})
   expect(result.capture).toBe('held');expect(result.failure?.code).toBe('COOPERATIVE_DEADLINE');expect(result.worker.status).toBe('not-run')
 })
