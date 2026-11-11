@@ -758,6 +758,17 @@ observed head. The caller must check the live target again before publishing
 that report. This evidence covers the single lock update. Production
 exact-validation receipts also require a signed seal and a target check.
 
+For the signed Draft qualification, `adapters/updates/sealed-guides-check.mjs`
+links that archived report to a signed, single-parent commit with the same tree
+as the candidate. The trusted caller supplies the expected seal message and
+independently authenticates the producer, report bytes, current refs and
+GitHub API responses. Stage verification checks the private staging ref
+while the PR still points at the candidate. After the PR advances, the reader
+verifies the seal at its head. It then matches the reserved check ID, app,
+suite, target SHA, request identifier and validator run URL. The final
+readback requires that same check to have completed successfully. The reader
+only consumes JSON on stdin and writes verified observations on stdout.
+
 Preparation and inspection use new, disjoint evidence roots. Persistent transaction
 attempt evidence is constructor-bound and separate; selecting a fresh preparation
 root cannot clear an earlier dispatch-attempt veto. `apply` remains report-only

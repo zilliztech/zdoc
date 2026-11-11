@@ -8,6 +8,7 @@ import { assertRevisionBinding, encodeRevisionMessage, METADATA_LIMITS, parseRev
 import { ProducerBundleReceiptSchema, RemotePolicySchema, REMOTE_IO_LIMITS, REMOTE_LIMITS,
   encodeSealMessage, parseSealMessage, type RemoteCommit, type RemotePolicy, type RemoteSealV1, type RemoteReadResult } from '../../core/updates/remote'
 import { assertNextOnlyDiff, type NextOnlyDelta } from '../../core/updates/transaction'
+import { verifySealSignature } from './verify-seal-signature.mjs'
 import { protectedToolsetPath } from './toolset'
 import { rawSha256, type EvidenceStore } from './evidence'
 import { remoteReadContext, type RemoteReads } from './remote-github'
@@ -64,21 +65,11 @@ function parseCommit(oid:string,raw:Uint8Array):Commit {
 }
 /** GitHub verifies the signature cryptographically; this independently binds that verification to raw S. */
 export function verifyRemoteSealSignature(commitBytes:Uint8Array,fact:RemoteCommit,identity:{writerActorId:number;platformSignerActorId:number}):void {
-  check(Number.isSafeInteger(identity.writerActorId)&&identity.writerActorId>0&&Number.isSafeInteger(identity.platformSignerActorId)&&identity.platformSignerActorId>0,'SEAL_SIGNATURE_IDENTITY')
-  check(fact.signatureValid&&fact.signatureState==='VALID'&&fact.wasSignedByGitHub&&fact.authorActorId===identity.writerActorId&&fact.signerActorId===identity.platformSignerActorId,'SEAL_SIGNATURE_IDENTITY')
-  check(typeof fact.payload==='string'&&typeof fact.signature==='string','SEAL_SIGNATURE_BYTES')
-  const raw=Buffer.from(commitBytes),split=raw.indexOf('\n\n');check(split>0,'SEAL_SIGNATURE_BYTES')
-  const header=raw.subarray(0,split).toString('utf8').split('\n'),positions=header.flatMap((line,index)=>line.startsWith('gpgsig ')?[index]:[])
-  check(positions.length===1&&!header.some(line=>line.startsWith('gpgsig-')),'SEAL_SIGNATURE_HEADER');const at=positions[0];let end=at+1
-  while(header[end]?.startsWith(' '))end++
-  const signature=[header[at].slice(7),...header.slice(at+1,end).map(line=>line.slice(1))].join('\n')
-  // Git's signature header excludes the final armor LF; payload excludes the entire header block.
-  check(signature+'\n'===fact.signature||signature===fact.signature,'SEAL_SIGNATURE_BYTES')
-  const stripped=Buffer.concat([Buffer.from([...header.slice(0,at),...header.slice(end)].join('\n')+'\n\n'),raw.subarray(split+2)])
-  check(stripped.equals(Buffer.from(fact.payload)),'SEAL_SIGNED_PAYLOAD')
-  const inserted=Buffer.concat([Buffer.from([...header.slice(0,at),...signature.split('\n').map((line,index)=>index?' '+line:'gpgsig '+line),...header.slice(end)].join('\n')+'\n\n'),raw.subarray(split+2)])
-  check(inserted.equals(raw),'SEAL_RECONSTRUCTION')
-  check(createHash('sha1').update(`commit ${raw.length}\0`).update(raw).digest('hex')===fact.oid,'SEAL_OID')
+  try {
+    verifySealSignature(commitBytes, fact, identity)
+  } catch (error) {
+    fail(error instanceof Error ? error.message : 'SEAL_SIGNATURE_BYTES')
+  }
 }
 
 /** No capture, fetch, checkout, candidate process or normalized authentication callback. */
