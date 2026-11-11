@@ -1,0 +1,189 @@
+name: shared docs adopt variant
+
+# Dispatch-only adoption entry: fetches one upstream PR head, writes the page's
+# variant files, and opens a master PR. The PR (opened with a PAT so checks run)
+# carries the real shared-docs-validate generation evidence; nothing here pushes
+# to dev or master, and GITHUB_TOKEN never writes.
+
+on:
+  workflow_dispatch:
+    inputs:
+      page:
+        description: Shared page ID (lowercase slug)
+        required: true
+        type: string
+      pull:
+        description: Upstream milvus-docs pull request number
+        required: true
+        type: string
+      promote:
+        description: Also write variant-current.md (production channel adoption)
+        required: false
+        type: boolean
+        default: false
+      dry_run:
+        description: Print the adoption plan without writing
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shared-docs-adopt-variant-${{ inputs.page }}
+  cancel-in-progress: false
+
+jobs:
+  adopt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Validate dispatch inputs
+        env:
+          PAGE: ${{ inputs.page }}
+          PULL: ${{ inputs.pull }}
+        run: |
+          set -euo pipefail
+          [[ "$PAGE" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || { echo "::error::page must be a lowercase slug" >&2; exit 1; }
+          [[ "$PULL" =~ ^[1-9][0-9]*$ ]] || { echo "::error::pull must be a positive integer" >&2; exit 1; }
+
+      - name: Stop when an adoption PR is already open
+        id: gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAGE: ${{ inputs.page }}
+          PULL: ${{ inputs.pull }}
+        run: |
+          set -euo pipefail
+          branch="shared-docs-adopt/${PAGE}-p${PULL}"
+          if gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 500 --json headRefName --jq '.[].headRefName' | grep -Fxq "$branch"; then
+            echo "::notice::An open adoption PR already exists for ${PAGE} from pull #${PULL}; nothing was dispatched."
+            echo 'Adoption PR already open; nothing was dispatched.' >> "$GITHUB_STEP_SUMMARY"
+            echo 'proceed=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo 'proceed=true' >> "$GITHUB_OUTPUT"
+
+      - name: Check out pinned master
+        if: steps.gate.outputs.proceed == 'true'
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install pnpm
+        if: steps.gate.outputs.proceed == 'true'
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        if: steps.gate.outputs.proceed == 'true'
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install tooling
+        if: steps.gate.outputs.proceed == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Adopt the upstream PR as variant content
+        if: steps.gate.outputs.proceed == 'true'
+        env:
+          PAGE: ${{ inputs.page }}
+          PULL: ${{ inputs.pull }}
+          PROMOTE: ${{ inputs.promote }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          args=(--shared-docs shared-docs/guides --page "$PAGE" --pull "$PULL")
+          if [[ "$PROMOTE" == true ]]; then args+=(--promote); fi
+          if [[ "$DRY_RUN" == true ]]; then args+=(--dry-run); fi
+          pnpm docs-tooling shared-docs adopt-variant "${args[@]}" | tee "$RUNNER_TEMP/adopt-output.txt"
+          cat "$RUNNER_TEMP/adopt-output.txt" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Stop on dry run or unchanged adoption
+        if: steps.gate.outputs.proceed == 'true'
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
+          PAGE: ${{ inputs.page }}
+          PULL: ${{ inputs.pull }}
+        run: |
+          set -euo pipefail
+          if [[ "$DRY_RUN" == true ]]; then
+            echo 'Dry run only; nothing was committed or pushed.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if test -z "$(git status --porcelain -- "shared-docs/guides/pages/${PAGE}")"; then
+            echo "::notice::${PAGE} is already adopted from pull #${PULL} with identical bytes; nothing to deliver."
+            echo 'Variant already identical; nothing was committed or pushed.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+      - name: Guard staged adoption files
+        if: steps.gate.outputs.proceed == 'true'
+        env:
+          PAGE: ${{ inputs.page }}
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const { execFileSync } = require('node:child_process');
+          const fs = require('node:fs');
+          const git = args => execFileSync('git', args, { encoding: 'utf8' });
+          const page = process.env.PAGE;
+          const allowed = ['variant-next.md', 'variant-next.provenance.json', 'variant-current.md', 'variant-current.provenance.json']
+            .map(name => `shared-docs/guides/pages/${page}/${name}`);
+          const changed = git(['status', '--porcelain', '-z', '--', `shared-docs/guides/pages/${page}`]).split('\0').filter(Boolean)
+            .map(entry => entry.slice(3));
+          if (!changed.length) throw new Error('No adoption changes to guard');
+          for (const file of changed) {
+            if (!allowed.includes(file) || !fs.lstatSync(file).isFile() || fs.lstatSync(file).isSymbolicLink()) {
+              throw new Error(`Refusing non-variant or non-regular path: ${JSON.stringify(file)}`);
+            }
+          }
+          console.log(`Guarded adoption files: ${changed.join(', ')}`);
+          NODE
+
+      - name: Commit the adoption
+        id: commit
+        if: steps.gate.outputs.proceed == 'true'
+        env:
+          PAGE: ${{ inputs.page }}
+          PULL: ${{ inputs.pull }}
+        run: |
+          set -euo pipefail
+          git config user.name 'zdoc shared-docs adopt bot'
+          git config user.email 'zdoc-shared-docs-adopt-bot@users.noreply.github.com'
+          git add -- "shared-docs/guides/pages/${PAGE}"
+          git commit -m "feat(shared-docs): adopt milvus-docs #${PULL} as ${PAGE} variant"
+          head_sha=$(git rev-parse HEAD)
+          [[ "$head_sha" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          printf 'committed_sha=%s\n' "$head_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Deliver the adoption PR through the provisioned PAT
+        id: deliver
+        if: steps.gate.outputs.proceed == 'true'
+        env:
+          SHARED_DOCS_ADOPT_PAT: ${{ secrets.SHARED_DOCS_ADOPT_PAT }}
+          GH_TOKEN: ${{ secrets.SHARED_DOCS_ADOPT_PAT }}
+          PAGE: ${{ inputs.page }}
+          PULL: ${{ inputs.pull }}
+          PROMOTE: ${{ inputs.promote }}
+          BRANCH: shared-docs-adopt/${{ inputs.page }}-p${{ inputs.pull }}
+        run: |
+          set -euo pipefail
+          test -n "$SHARED_DOCS_ADOPT_PAT" || {
+            echo 'SHARED_DOCS_ADOPT_PAT is not configured; the verified adoption is committed on this run but was not delivered. Provision the PAT and re-dispatch, or apply the variant files from the run summary.' >&2
+            exit 1
+          }
+          {
+            printf 'Adopts milvus-docs #%s as Zilliz-owned variant content for %s.\n\n' "$PULL" "$PAGE"
+            printf '%s. Channels: next%s.\n\n' "$(grep -oE 'milvus-docs #[0-9]+ at [0-9a-f]{12}' "$RUNNER_TEMP/adopt-output.txt" | tail -1 || echo "Upstream pull #${PULL}")" "$([ "$PROMOTE" == true ] && printf ', current' || printf '')"
+            printf 'The merged PR makes shared-docs-validate run full generation against the new variant files; that check is the adoption evidence. Reconciliation (deleting the variants and re-pinning) stays a deliberate human step after the upstream PR merges.\n'
+          } > "$RUNNER_TEMP/adopt-pr-body.md"
+          git push "https://x-access-token:${SHARED_DOCS_ADOPT_PAT}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${BRANCH}"
+          gh label create shared-docs-adopt --repo "$GITHUB_REPOSITORY" --color D4C5F9 --description 'Adopted upstream PR as variant content' || true
+          gh pr create --repo "$GITHUB_REPOSITORY" --base master --head "$BRANCH" \
+            --title "feat(shared-docs): adopt milvus-docs #${PULL} as ${PAGE} variant" \
+            --body-file "$RUNNER_TEMP/adopt-pr-body.md" --label 'shared-docs-adopt'
+          echo 'Adoption PR opened; shared-docs-validate will run on it automatically.' >> "$GITHUB_STEP_SUMMARY"

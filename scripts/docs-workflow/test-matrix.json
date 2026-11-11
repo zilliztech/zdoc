@@ -1486,6 +1486,9 @@
       "paths": [
         "packages/docs-tooling/src/shared-docs/adapters/detect-groups.cjs",
         ".github/workflows/shared-docs-lock.yml",
+        "packages/docs-tooling/src/shared-docs/testing/adopt-variant.test.ts",
+        "packages/docs-tooling/src/shared-docs/commands/adopt-variant.ts",
+        ".github/workflows/shared-docs-adopt-variant.yml",
         ".github/workflows/shared-docs-validate.yml",
         "packages/docs-tooling/src/shared-docs/testing/workflows.test.ts",
         "scripts/validate-workflow-policy.js",
@@ -1501,7 +1504,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Shared docs PR checks must preserve the read-only whole-group candidate boundary, NUL-safe affected-group detection and unsupported-layout rejection, same-repository grouped lock-only writer, immutable SHA-bound child validation, fork notice and isolated infrastructure reporting. Actual workflow shell blocks run offline against local Git and GitHub stubs; run actionlint on both workflows."
+      "reason": "Shared docs PR checks must preserve the read-only whole-group candidate boundary, NUL-safe affected-group detection and unsupported-layout rejection, same-repository grouped lock-only writer, immutable SHA-bound child validation, fork notice and isolated infrastructure reporting. Actual workflow shell blocks run offline against local Git and GitHub stubs; run actionlint on both workflows. The adoption dispatch workflow stays dispatch-only, read-only on the checkout, PAT-delivered, and single-flight per page and pull request."
     },
     {
       "id": "shared-handoff-routing",
