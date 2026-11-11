@@ -7376,9 +7376,9 @@
       "translatedAt": "2026-11-06T19:42:50.648Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md": {
-      "sourceHash": "32719279001264db7daccd25e01dc15363c7e8e0fa49225652f6c30c5fe829ba",
+      "sourceHash": "4244420e3364b422af30f2dd104d9d1e2a4f10715e2ae9264bb132e7ac6e3339",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md",
-      "translatedAt": "2026-11-11T04:42:34.349Z"
+      "translatedAt": "2026-11-11T16:42:47.134Z"
     },
     "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-rename_collection.md": {
       "sourceHash": "20060fa20c7d598a162d2613d16817219d598a69012c1d1a384d7ab99183ea8a",
