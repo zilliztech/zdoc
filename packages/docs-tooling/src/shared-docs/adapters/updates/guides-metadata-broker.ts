@@ -4,7 +4,7 @@ import type { Readable, Writable } from 'node:stream'
 import { parseStrictJson } from '../../core/updates/canonical'
 import { retainedMetadata, type ReadonlyGitHub } from './github'
 import { coordinatorBodyReader, LifecycleHttpError, metadataLimit } from './guides-lifecycle-transport'
-import { latestGuidesRun, stepWindow, successfulJob } from './selected-lifecycle'
+import { latestGuidesRun, stepWindow, successfulJob } from './guides-run-metadata'
 
 const maximumRequests = 63 // repo, run, jobs/artifacts (20 pages each), two histories (10 each), dev
 const requestBytes = 33

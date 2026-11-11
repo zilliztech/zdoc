@@ -1,5 +1,6 @@
 // @vitest-environment node
-import { spawn } from 'node:child_process'
+import { spawn, execFile } from 'node:child_process'
+import { promisify } from 'node:util'
 import { createHash } from 'node:crypto'
 import { once } from 'node:events'
 import { createServer, request as httpRequest } from 'node:http'
@@ -92,6 +93,35 @@ it('serves each expected live GET on a private pipe and samples the changed dev 
     expect(result).toEqual({credential:null, values:responses})
   }
   expect(calls).toEqual([...paths, ...paths])
+})
+
+it('keeps B1 and compiler modules out of the real coordinator through an entire metadata observation', async () => {
+  // Run with the production TypeScript loader. Vitest has its own module cache.
+  const script = `
+    const assert = require('node:assert/strict'), path = require('node:path')
+    const {Readable, Writable} = require('node:stream'), {createHash} = require('node:crypto')
+    const https = require('node:https'), http = require('node:http')
+    const [paths, port] = JSON.parse(process.argv[1])
+    https.request = (url, opts, receive) => {
+      assert.equal(url.origin, 'https://api.github.com')
+      return http.request({...opts, hostname: '127.0.0.1', port, path: url.pathname + url.search}, receive)
+    }
+    const load = require('./scripts/lib/load-typescript.js').loadTypeScript
+    const root = path.resolve('packages/docs-tooling/src/shared-docs/adapters/updates')
+    load(path.join(root, 'guides-provider.ts'))
+    const {serveGuidesMetadata} = load(path.join(root, 'guides-metadata-broker.ts'))
+    const unexpected = () => Object.keys(require.cache).filter(name =>
+      name.includes('/@zilliz/mdtomd/') || ['runner.ts', 'candidate.ts', 'selected-lifecycle.ts'].some(file => name === path.join(root, file)))
+    assert.deepEqual(unexpected(), [])
+    const frames = paths.map((p, i) => Buffer.concat([Buffer.from([i + 1]), createHash('sha256').update(p).digest()]))
+    const replies = new Writable({write(_bytes, _encoding, done) { done() }})
+    serveGuidesMetadata(Readable.from(frames), replies, 123, process.env.GH_TOKEN, AbortSignal.timeout(5000))
+      .then(() => assert.deepEqual(unexpected(), []))
+      .catch(error => { console.error(error); process.exitCode = 1 })
+  `
+  await promisify(execFile)(process.execPath, ['-e', script, JSON.stringify([paths, (server.address() as AddressInfo).port])],
+    {env:{GH_TOKEN:token, JITI_CACHE:'false'}, timeout:10_000})
+  expect(calls).toEqual(paths)
 })
 
 it('lets a worker retain an ordinary early hold when it completes after archive metadata', async () => {
