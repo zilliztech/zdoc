@@ -56,7 +56,7 @@ await milvusClient.refreshExternalCollection({
   更新する外部コレクションの名前です。
 
 - **external_source** (*string*) -<br/>
-  新しい外部ソースパスです。省略可能です。指定すると、コレクションはこの新しいソースから更新されます。`external_source` と `external_spec` は同時に指定するか、両方とも省略してください。両方を省略した場合、更新では永続化されたソースと仕様が再利用されます。Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`volume://` URI の場合は、前述のルールが適用されます。`milvus://` ソースの場合は、すべての更新リクエストで `external_source` を渡す必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。
+  新しい外部ソースのパスです。省略可能です。指定すると、コレクションはこの新しいソースから更新されます。`external_source` と `external_spec` は一緒に指定するか、両方とも省略してください。両方を省略した場合、更新では永続化されたソースと仕様が再利用されます。Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の2つのスキームを受け入れます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合も同じルールが適用され、省略すると永続化されたソースが再利用され、更新では引き続き最新データが同期されます。
 
 - **external_spec** (*string*) -<br/>
   新しい外部仕様設定です。省略可能です。指定すると、コレクションはこの新しい仕様を使用します。`format` に指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームとともに使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
