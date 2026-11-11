@@ -1,1 +1,1 @@
-These capabilities are not yet available on Free/Serverless Clusters.
+These capabilities are not yet available on On-Demand Clusters.
