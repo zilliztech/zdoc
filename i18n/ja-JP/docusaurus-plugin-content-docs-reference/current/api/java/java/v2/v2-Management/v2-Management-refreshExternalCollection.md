@@ -66,7 +66,7 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
     `externalSource` と `externalSpec` は一緒に指定するか、両方とも省略してください。両方を省略した場合、リフレッシュでは永続化されたソースとスペックが再利用されます。
 
-    Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は、すべてのリフレッシュリクエストで `externalSource` を渡す必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。
+    Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合も同じルールが適用されます。省略すると永続化されたソースが再利用され、リフレッシュでは引き続き最新データが同期されます。
 
 - `externalSpec(JsonObject externalSpec)` -
 

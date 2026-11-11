@@ -5701,9 +5701,9 @@
       "translatedAt": "2026-10-25T13:51:48.192Z"
     },
     "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md": {
-      "sourceHash": "431bb44c744521837bf50e90ea7e2a6af5179f41c6b090b36e61e3f3d15c3000",
+      "sourceHash": "299f0b297756b53a1e3516f0bbb2780e6f4e95308f51c1ee16b377f39b241378",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
-      "translatedAt": "2026-11-11T04:41:12.414Z"
+      "translatedAt": "2026-11-11T16:42:47.883Z"
     },
     "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md": {
       "sourceHash": "c91557c1bd9a36ebed892b470631a069f2c7020aa07358593cf8377655998755",
