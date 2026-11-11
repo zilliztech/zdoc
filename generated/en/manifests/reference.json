@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "6eb9e21da64136d315e5f1153faa92903a2738c0",
+  "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
   "records": [
     {
       "manual": "cli",
@@ -510,7 +510,7 @@
     {
       "manual": "cli",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md",
-      "sourceHash": "ced85a283235f796c0c6a7e57d14409571fa4b1aa8c34c376dca8ff31ecd90b1"
+      "sourceHash": "fff53c49f2239227fab870b42c2afe6bcda186a7c74fb8ab4b284f5d3c1c7a72"
     },
     {
       "manual": "cli",
@@ -1230,7 +1230,7 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshExternalCollection.md",
-      "sourceHash": "57e5a27f4725861c94c49641347141a69081c7f500ec6cd9e4fe166bb0963bde"
+      "sourceHash": "aa9296feaf856ec19eb889b02df5b85852ace9db51aebe58203d753e93075dba"
     },
     {
       "manual": "cpp",
@@ -1720,7 +1720,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
-      "sourceHash": "51d4bab90e02800465d89c3e4c0dfaa7cac287dd2194c7166f648d06b51d4b53"
+      "sourceHash": "3569bbe6a6b3c5ad29808e57827afa62d295c0026526f5f65543720bf607f2d9"
     },
     {
       "manual": "go",
@@ -1740,7 +1740,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
-      "sourceHash": "46b9ea8dc2f09d15e211d8c79d3bccdca1f13898ceb304bbd46d100bf822bf09"
+      "sourceHash": "34ac070fdca501cc10792e030bf730ee3ded1cd6300632d121084f98fae5f219"
     },
     {
       "manual": "go",
@@ -2535,7 +2535,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md",
-      "sourceHash": "13831261c97106dad96a9ef06714f17013bf33c92169f9f0a4b432e171ab3279"
+      "sourceHash": "f003c391a58790a006b037b2e1207beb94759dea793bcb2a883491079cc68f8f"
     },
     {
       "manual": "java",
@@ -2545,7 +2545,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
-      "sourceHash": "5d6d7062f338c5534dd19e4b55589e55c5965667472fc6444277858f963a8cd7"
+      "sourceHash": "ee9d28d9416c4f9bd2be6c33d0aefb247305b55666327fea002ffd8169f57110"
     },
     {
       "manual": "java",
@@ -3065,7 +3065,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
-      "sourceHash": "856419007ec2ad9aa85b8744815c3b8cfefbc5216f613dddb1e52bb076c6bc3e"
+      "sourceHash": "431bb44c744521837bf50e90ea7e2a6af5179f41c6b090b36e61e3f3d15c3000"
     },
     {
       "manual": "java",
@@ -3585,7 +3585,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
-      "sourceHash": "8860b373793c2a7e46660fe1db3574b58c813adcbab3a32028e259ab24aa64da"
+      "sourceHash": "1245a9a9194a8e75f304378aeb518fcd759bd16ee802ed38f0341cdacefa80ea"
     },
     {
       "manual": "node",
@@ -3675,7 +3675,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
-      "sourceHash": "2ad7698f812d9b984a158feeac032cc600a25b139cbe4b59a175c2707be31978"
+      "sourceHash": "65d401be8bbced23dd4919e196573cb39f1f9e6076839b67f1950d7b8672a35e"
     },
     {
       "manual": "node",
@@ -4605,7 +4605,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md",
-      "sourceHash": "43a69945fe3ca095e8439f71756e8cb204bf9c1c0d15e8744d51476a3091612b"
+      "sourceHash": "6d43ee610b609d53e72dbac8fa9b67c8ddcecd4cd8222e453000aeca71bafae7"
     },
     {
       "manual": "python",
@@ -4670,7 +4670,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md",
-      "sourceHash": "af0a3467a5988ab1ace7ca72563b93504345c4294a9390d9b50122f2261d6c78"
+      "sourceHash": "190be7b10c8d6fdd700b3f1252b5571d9a98927130d33be4722df6ee77b0308e"
     },
     {
       "manual": "python",
@@ -4740,7 +4740,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md",
-      "sourceHash": "834a444e28f7048cd0b98071d9ece62a1c4b1c2367b813c3a2c24ee96a62ff34"
+      "sourceHash": "32719279001264db7daccd25e01dc15363c7e8e0fa49225652f6c30c5fe829ba"
     },
     {
       "manual": "python",
