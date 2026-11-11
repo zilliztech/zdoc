@@ -465,4 +465,41 @@ describe('adoption workflow contracts', () => {
     expect(result.status).toBe(1)
     expect(result.stderr).toContain('Provision the PAT and re-dispatch')
   })
+
+
+describe('pin drift watchdog contracts', () => {
+  const watchdogWorkflow = load(readFileSync('.github/workflows/shared-docs-pin-drift-watchdog.yml', 'utf8')) as Workflow
+  const watchdogJob = watchdogWorkflow.jobs.watchdog
+
+  it('stays scheduled, read-only and blobless with card status driven by the audit', () => {
+    expect(watchdogWorkflow.concurrency).toEqual({ group: 'shared-docs-pin-drift-watchdog', 'cancel-in-progress': false })
+    expect(readFileSync('.github/workflows/shared-docs-pin-drift-watchdog.yml', 'utf8')).toMatch(/cron: '47 4 \* \* \*'/)
+    expect(readFileSync('.github/workflows/shared-docs-pin-drift-watchdog.yml', 'utf8')).toMatch(/  contents: read\n/)
+    const clone = watchdogJob.steps.find(step => step.name === 'Clone blobless tracking history')
+    expect(clone?.run).toContain('--filter=blob:none --no-checkout --single-branch')
+    const scan = watchdogJob.steps.find(step => step.name === 'Scan pin drift and variant health')
+    expect(scan?.run).toContain('shared-docs-pin-drift.js')
+    expect(scan?.run).toContain('--shared-docs shared-docs/guides --upstream "$UPSTREAM_REPO" --head "$head"')
+    expect(scan?.env?.GITHUB_TOKEN).toBe('${{ github.token }}')
+    const upload = watchdogJob.steps.find(step => step.name === 'Upload the audit report')
+    expect(upload?.with).toMatchObject({ name: 'shared-docs-pin-drift-${{ github.run_id }}', 'retention-days': 14, 'if-no-files-found': 'error' })
+    expect(upload?.if).toBe('${{ always() && steps.scan.conclusion == \'success\' }}')
+    const finish = watchdogJob.steps.find(step => step.name === 'Finish the report card')
+    expect(finish?.env?.CARD_STATUS).toBe('${{ steps.scan.outputs.card_status }}')
+    expect((watchdogJob as unknown as { env?: Record<string, string> }).env?.FEISHU_NOTIFICATIONS_DISABLED)
+      .toBe("${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}")
+    for (const step of watchdogJob.steps) {
+      const source = step.run ?? ''
+      expect(source).not.toMatch(/git push/)
+      expect(source).not.toMatch(/secrets\.(?!APP_ID|APP_SECRET)/)
+    }
+  })
+
+  it('derives the card status strictly from unhealthy and error counts', () => {
+    const scanStep = watchdogJob.steps.find(step => step.name === 'Scan pin drift and variant health')
+    expect(scanStep?.run).toContain("summary.unhealthyCount === 0 && summary.errorCount === 0 ? 'success' : 'fail'")
+    expect(scanStep?.run).toContain('for (const field of')
+    expect(scanStep?.run).toContain('throw new Error(`Watchdog report is missing summary.${field}`)')
+  })
+})
 })

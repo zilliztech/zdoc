@@ -9,6 +9,7 @@ This file is the operator runbook: setup, branch ownership, the publication runb
 - [Translation operations](runbook/translation-operations.md) — quality assets, the scheduled dispatcher, manifest migration, fast-path precheck, reconciliation card
 - [Shared Guides generation](runbook/shared-guides-generation.md) — source generation, publication evidence, requirement accounting
 - [Release Channel gating](runbook/release-channel-gating.md) — CURRENT / NEXT / RETIRE-IN-NEXT and `<NextChannel>`
+- [Shared-docs variants](runbook/shared-docs-variants.md) — adopting unmerged upstream PR content, the adoption workflow, pin drift watchdog and reconciliation
 - [Analytics](runbook/analytics.md) — GA4 reports and console reconciliation
 - [Content production recipes](runbook/content-production.md) — adding a new reference manual
 

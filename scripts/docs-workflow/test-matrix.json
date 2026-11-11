@@ -1684,6 +1684,26 @@
         "git diff --check"
       ],
       "reason": "REST data-plane availability program. The hermetic test pins the runner machinery (verdict taxonomy, effect retry, matrix writer); the data-plane suite itself runs against live endpoints (milvus-cell vCluster per release track, zilliz UAT/prod later) through `rest-availability --base --label --out` and is operator-triggered, never CI. Matrices land in tmp/rest-availability and back the x-added-at release-track attribution and the future x-zilliz-cluster-types marks."
+    },
+    {
+      "id": "shared-docs-pin-drift-watchdog",
+      "paths": [
+        "scripts/docs-workflow/shared-docs-pin-drift.js",
+        "scripts/docs-workflow/shared-docs-pin-drift.test.js",
+        ".github/workflows/shared-docs-pin-drift-watchdog.yml"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/shared-docs-pin-drift.test.js",
+        "pnpm vitest run packages/docs-tooling/src/shared-docs/testing/workflows.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "pnpm typecheck",
+        "git diff --check"
+      ],
+      "reason": "The pin drift watchdog stays read-only: drift is informational while unhealthy pins and unavailable variant state fail the report card, because degraded pins silently become production Fetch per-page fallbacks."
     }
   ]
 }
