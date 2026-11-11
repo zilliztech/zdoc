@@ -64,7 +64,7 @@ zilliz external-collection refresh trigger
 
     请将其与 `--external-spec` 一起提供，或同时省略两者；当两者都省略时，刷新会复用已持久化的外部源和规范。
 
-    该选项接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，此选项为必填；如果省略，刷新不会生效，Collection 会继续提供先前已同步的数据。
+    该选项支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，同样适用上述规则——省略该项会复用已持久化的源，刷新仍会同步最新数据。
 
 - **--external-spec** (*string*) -
 
