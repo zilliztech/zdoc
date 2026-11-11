@@ -313,6 +313,8 @@ import { describe, vi, afterEach } from 'vitest'
 import * as toolsetApi from '../../adapters/updates/toolset'
 import * as evidenceApi from '../../adapters/updates/evidence'
 import * as materialApi from '../../core/updates/unit-plan'
+import * as lifecycleTransport from '../../adapters/updates/guides-lifecycle-transport'
+import * as b1Runner from '../../adapters/updates/runner'
 import { fixtureMaterial } from './fixtures/manual-provider'
 /** Controlled adapter awaits only; actual worker ownership is tested in toolset.test. */
 describe.sequential('Guides provider cancellation checkpoints', () => {
@@ -363,6 +365,28 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
     return {options, controller, reason, run, describe, prepare, retain, writes, reads, prepareNext, settlement, collection,
       get completedWrites() {return completedWrites}, dispose: () => rm(root, {recursive: true, force: true})}
   }
+  it('keeps coordinator credentials out of selected worker inputs even when retained evidence is missing', async () => {
+    const f = await controlled('selected')
+    const stage = vi.spyOn(lifecycleTransport, 'stageGuidesArchives').mockResolvedValue(null)
+    try {
+      const provider = await createGuidesProvider({...f.options, secrets: {GH_TOKEN: 'coordinator-only'}, request: {
+        ...f.options.request, pages: ['fixture'], evidenceRun: '123', evidenceZip: '/input.zip',
+      }})
+      await provider.collectAll()
+      expect(stage).toHaveBeenCalledWith(123, '/input.zip', f.options.evidence, 'coordinator-only', f.controller.signal)
+      const [input, secrets] = f.run.mock.calls[0]
+      expect(secrets).toEqual({})
+      expect(input).toMatchObject({request: {evidenceZip: null, pages: ['fixture']}, archives: null})
+      expect(JSON.stringify(input)).not.toContain('coordinator-only')
+      const report = vi.spyOn(b1Runner, 'reportUpdates').mockRejectedValue(new Error('end of traced call'))
+      await expect(collectGuidesWorker(input)).rejects.toThrow('end of traced call')
+      const [options, , dependencies] = report.mock.calls[0]
+      expect(options.lifecyclePage).toBe('fixture')
+      expect(options.pages).toBeUndefined()
+      expect(dependencies?.github).toBeDefined()
+      await expect(dependencies!.github!.zip(1)).rejects.toThrow('unavailable')
+    } finally {await f.dispose()}
+  })
   it('stops an already-aborted factory before describing or preparing a launcher', async () => {
     const f = await controlled('before')
     try {f.controller.abort(f.reason); await expect(createGuidesProvider(f.options)).rejects.toBe(f.reason); expect(f.describe).not.toHaveBeenCalled(); expect(f.prepare).not.toHaveBeenCalled()}
