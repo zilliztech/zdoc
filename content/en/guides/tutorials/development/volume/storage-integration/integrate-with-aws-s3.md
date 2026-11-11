@@ -151,6 +151,8 @@ For simplicity, create a policy using the JSON editor.
     }
     ```
 
+    The code snippet above includes both read and write permissions, which is suitable if you use integration for backup export, audit logs, or access log forwarding. Otherwise, you can make it read-only by removing the `s3:PubObject` item from the snippet.
+
     However, when you have enabled server-side encryption for the bucket using AWS KMS, you need to add another IAM policy to allow the `kms:GenerateDataKey` action.  In this case, use the following JSON policy.
 
     ```json

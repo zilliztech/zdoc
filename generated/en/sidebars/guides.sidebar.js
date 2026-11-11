@@ -2412,6 +2412,15 @@ module.exports = [
             "id": "tutorials/management/cmek/gcp-kms",
             "label": "Google Cloud KMS",
             "key": "doc:tutorials/management/cmek/gcp-kms"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/cmek/azure-kms",
+            "label": "Microsoft Azure KMS",
+            "key": "doc:tutorials/management/cmek/azure-kms",
+            "customProps": {
+              "channel": "next"
+            }
           }
         ]
       },

@@ -39,6 +39,10 @@ As a collection moves from development to production, its schema often changes. 
 
 - Adding user-defined scalar fields is supported in Milvus 2.6.x and later. Adding user-defined vector fields is supported in Milvus 2.6.18 and later.
 
+- Adding StructArray fields is supported. Added StructArray fields must be nullable.
+
+- Adding a sub-field to an existing StructArray field is supported. The added sub-field must allow element-level null (`nullable=True` on a scalar or vector sub-field, `element_nullable=True` on an array sub-field), cannot have a default value, and cannot be bound to an index in the same request.
+
 - Field names must be unique among fields in the collection.
 
 **Add a Function and its generated vector field**
@@ -57,7 +61,7 @@ As a collection moves from development to production, its schema often changes. 
 
 - You cannot drop the primary key field, partition key field, clustering key field, or the last vector field in a collection.
 
-- You can drop a whole `ARRAY<STRUCT>` field, but you cannot drop an individual sub-field inside an `ARRAY<STRUCT>` field.
+- You can drop a whole `ARRAY<STRUCT>` field. You can also drop an individual sub-field by its path, such as `chunks[lang]`, except the last sub-field of the `ARRAY<STRUCT>` field.
 
 - You cannot directly drop a field that is used as a Function input field or generated as a Function output field. To remove a Function output field, drop the Function that generates it.
 
@@ -82,6 +86,8 @@ Choose the workflow based on whether you are adding a user-defined field or a Fu
 - [Add user-defined vector fields](./add-fields-to-an-existing-collection#add-user-defined-vector-fields) when your application generates embeddings and writes vector values to Zilliz Cloud.
 
 - [Add a Function and its generated vector field](./add-fields-to-an-existing-collection) when Zilliz Cloud should generate vector values from existing fields, such as BM25 sparse vectors or MinHash signatures from text.
+
+- [Add a sub-field to an existing StructArray field](./add-fields-to-an-existing-collection) when existing Struct elements need a new attribute.
 
 In these cases, the total number of fields cannot exceed the Zilliz Cloud field-count limit. For details, refer to [Zilliz Cloud Limits](./limits#fields).
 
@@ -704,7 +710,113 @@ await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
 </TabItem>
 </Tabs>
 
-After the StructArray field is added, entities that already exist in the collection return null for `chunks` across all its subfields. When you insert a new entity, ensure that all subfields are either null or have valid values. Inserting an entity with some subfields set to null and others to valid values results in errors.
+After the StructArray field is added, entities that already exist in the collection return null for chunks across all its subfields. When you insert a new entity, ensure that all subfields are either null or have valid values. Inserting an entity with some subfields set to null and others to valid values results in errors. Element-nullable subfields may hold null in individual Struct elements; for details, refer to [Create a StructArray Field](/docs/create-struct-array).
+
+### Add a sub-field to an existing StructArray field\{#add-a-sub-field-to-an-existing-structarray-field}
+
+Use `add_collection_field()` with the sub-field path as the field name to add a sub-field to a StructArray field that already holds data. To add a sub-field, do as follows:
+
+1. Name the field with the path `structArrayField[subField]`, such as `chunks[lang]`.
+
+1. Choose a scalar, vector, or scalar array data type supported by StructArray.
+
+1. Set `nullable=True` on the added sub-field. This is required for every added sub-field and is what allows element-level null. On an array sub-field, additionally set `element_nullable=True` to allow null values inside the inner array. The sub-field inherits the row-level `nullable` setting and the `max_capacity` of the StructArray field.
+
+**Example: Add an element-nullable sub-field**
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import DataType, MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.add_collection_field(
+    collection_name="books",
+    field_name="chunks[lang]",
+    data_type=DataType.VARCHAR,
+    max_length=16,
+    nullable=True,
+)
+# highlight-end
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+// highlight-start
+err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("books",
+        entity.NewField().
+                WithName("chunks[lang]").
+                WithDataType(entity.FieldTypeVarChar).
+                WithMaxLength(16).
+                WithNullable(true)))
+// highlight-end
+if err != nil {
+    fmt.Println(err)
+    return
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "books",
+    "schema": {
+      "fieldName": "chunks[lang]",
+      "dataType": "VarChar",
+      "elementNullable": true,
+      "elementTypeParams": {"max_length": "16"}
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+After the sub-field is added, entities that already exist return `NULL` for `chunks[lang]` in each of their Struct elements, and entities whose `chunks` field is `NULL` stay `NULL`. New entities can omit the sub-field or set it to `NULL` in any Struct element.
+
+The following rules apply:
+
+- The added sub-field must be created with `nullable=True`, and an added array sub-field additionally takes `element_nullable=True` to allow null values inside the inner array. It cannot have a default value.
+
+- You cannot bind an index while adding the sub-field. Create the index with a separate `create_index()` call. An added vector sub-field supports element-level metrics only, not `MAX_SIM*`, and the collection must have an index on it before you load the collection with the new sub-field included.
+
+- History segments receive the added sub-field and its index through schema-version compaction. Set `dataCoord.compaction.bumpSchemaVersion.enabled` to `true` (it is `false` by default); otherwise the added sub-field's index does not cover history segments.
+
+- Adding a sub-field to a loaded collection does not release the collection. Queries can return the new sub-field before its index exists.
+
+- Clients that pin a schema timestamp receive a schema-mismatch error and must refresh, as for any added field.
+
+{/* doc:block:start id="alter-schema-vector-heading" */}
 
 ### Add user-defined vector fields\{#add-user-defined-vector-fields}
 
@@ -1574,6 +1686,84 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 
 If `image_vector` is the last vector field in the collection, the drop operation is rejected.
 
+### Drop a StructArray sub-field\{#drop-a-structarray-sub-field}
+
+You can drop an individual sub-field from a StructArray field with `drop_collection_field()` by passing the sub-field path. Milvus removes the sub-field from the schema together with its index; its data is reclaimed as described in When is storage space reclaimed after dropping a field?.
+
+The following example assumes that `chunks` is a StructArray field in `my_collection` with a `lang` sub-field, and drops only that sub-field.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.drop_collection_field(
+    collection_name="my_collection",
+    field_name="chunks[lang]",
+)
+# highlight-end
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+// highlight-start
+err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("my_collection", "chunks[lang]"))
+// highlight-end
+if err != nil {
+    fmt.Println(err)
+    return
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/drop" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "my_collection",
+    "fieldName": "chunks[lang]"
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+You cannot drop the last sub-field of a StructArray field, the last vector field of the collection, or a sub-field used by a Function. To remove the whole StructArray field, drop it by name, as shown in the previous example. After a sub-field is dropped, insert and upsert requests that still carry the sub-field are rejected.
+
+Dropping a sub-field while queries are still running against it can fail transiently: query plans that were built on the older schema keep executing for a short time and fail with an internal error. Finish queries against a sub-field before dropping it, or retry the drop after the running queries finish.
+
+<a id="drop-vector-fields-generated-by-functions--milvus-30x"></a>
+
+{/* doc:block:start id="alter-schema-drop-function-heading" */}
+
 ### Drop a Function and its generated vector field | PUBLIC\{#drop-a-function-and-its-generated-vector-field-or-public}
 
 Use this operation when you no longer need a Function or its generated vector field, such as a BM25 Function and its generated sparse vector field.
@@ -1725,6 +1915,10 @@ Call `drop_function_field()` with the Function name. This operation removes the 
 ### Do I need to wait after altering a collection schema?\{#do-i-need-to-wait-after-altering-a-collection-schema}
 
 Usually, no manual wait is required. If your next operation depends on the updated schema, you can call `describe_collection()` first to confirm the schema that Zilliz Cloud currently returns.
+
+### Why does an added vector sub-field fail with a FieldNotLoaded error?\{#why-does-an-added-vector-sub-field-fail-with-a-fieldnotloaded-error}
+
+After you add a vector sub-field and create its index, queries against the new sub-field can still fail with error 2027 (`FieldNotLoaded`) even though the collection reports ready. Release the collection and load it again; queries then cover the new sub-field.
 
 In a distributed deployment, there can be a short propagation window while Zilliz Cloud components refresh collection metadata. If an operation immediately after the schema change fails with a schema-related error, refresh the schema and retry the operation.
 

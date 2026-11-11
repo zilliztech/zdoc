@@ -101,7 +101,7 @@ There are several special notes you should consider before using the merge featu
 
 - **Upsert a StructArray field.**
 
-    Upserting a StructArray field in an entity overwrites the field value. To do so, you need to provide a list of dictionaries, each of which contains all subfields defined in the struct schema, even when you perform the upsert in merge mode. You can omit element-nullable subfields; Milvus stores null for them in that Struct element.
+    Upserting a StructArray field in an entity overwrites the field value. To do so, you need to provide a list of dictionaries, each of which contains all subfields defined in the struct schema, even when you perform the upsert in merge mode. You can omit element-nullable subfields; Zilliz Cloud stores null for them in that Struct element.
 
     For details, refer to [Upsert StructArray field in merge mode](./upsert-entities#upsert-structarray-field-in-merge-mode).
 
@@ -111,7 +111,7 @@ Based on the above content, there are several limits and restrictions to follow:
 
 - The `upsert` request must always include the primary keys of the target entities, even when `autoID` is enabled. For `autoID` collections, primary-key handling depends on the upsert mode:
 
-    - In override mode, the primary key identifies the existing entity to replace, and Milvus generates a new primary key for the replacement entity.
+    - In override mode, the primary key identifies the existing entity to replace, and Zilliz Cloud generates a new primary key for the replacement entity.
 
     - In merge mode, updating an existing entity preserves its primary key. If the primary key does not exist, Zilliz Cloud attempts to insert a new entity. You must provide all fields to insert the new entity; otherwise, the request fails with a missing-field error.
 
@@ -1729,7 +1729,7 @@ console.log(res.data);
 
 ## Upsert StructArray field in merge mode\{#upsert-structarray-field-in-merge-mode}
 
-Upserting a StructArray field in an entity overwrites the field value. That means you need to include all subfields defined in the struct schema when you upsert a StructArray field. Element-nullable subfields can be omitted or set to `None` in a Struct element, and Milvus stores null for them. A request that still carries a dropped subfield is rejected.
+Upserting a StructArray field in an entity overwrites the field value. That means you need to include all subfields defined in the struct schema when you upsert a StructArray field. Element-nullable subfields can be omitted or set to `None` in a Struct element, and Zilliz Cloud stores null for them. A request that still carries a dropped subfield is rejected.
 
 pymilvus can also replace part of a StructArray value. Pass `field_ops` to `upsert()` with `FieldOp.path_replace()`: a path such as `[1][lang]` replaces one subfield of one Struct element and preserves the other Struct elements and subfields, and a path such as `[1]` replaces one whole Struct element. A child path carries only the selected subfield, and every operand must explicitly include its keys. A whole-element path requires every subfield that is not element-nullable and sets omitted element-nullable subfields to null.
 

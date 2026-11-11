@@ -54,7 +54,7 @@ For details on how encryption works and its scope, refer to [this section](./cme
 
 Each project allows up to **20** keys, regardless of the KMS providers. To add a Google Cloud CryptoKey to Zilliz Cloud, you can either use an existing key ring or create a new one and create the CryptoKey in it.
 
-To add a Google Cloud CryptoKey, log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login), choose **Network** > **CMEK** from the left navigation pane, go into one of your **Business Critical** projects located in an applicable Google Cloud region, click **+ CMEK**, and follow the steps in the **Add CMEK (Google Cloud KMS)** dialog box to complete the process. 
+To add a Google Cloud CryptoKey, log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login), choose **Network** > **CMEK** from the left navigation pane, go into one of your projects with an applicable Google Cloud region, click **+ CMEK**, and follow the steps in the **Add CMEK (Google Cloud KMS)** dialog box to complete the process. 
 
 <Procedures>
 

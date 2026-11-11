@@ -1181,7 +1181,8 @@ Use scalar subfields in StructArray predicates. Vector subfields are not scalar 
 | `VARCHAR` | `$[section] == "index"`, `$[text] like "range%"` |
 | Vector subfields | Not supported as `$[...]` scalar predicate inputs. Use vector subfields through vector search instead. |
 
-For unsupported cases such as JSON paths, array container functions, text match functions, null predicates on `$[...]`, Geometry functions, Timestamptz expressions, and generic function calls, see [StructArray Operators](./struct-array-filtering).
+For unsupported cases such as JSON paths, text match functions, Geometry functions, Timestamptz expressions, and generic function calls, and for the array container functions and null predicates that `$[...]` supports see [StructArray Operators](./struct-array-filtering).
+
 
 ## Common mistakes\{#common-mistakes}
 
