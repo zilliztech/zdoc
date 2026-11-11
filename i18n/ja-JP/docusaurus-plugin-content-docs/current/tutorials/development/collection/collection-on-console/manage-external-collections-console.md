@@ -50,11 +50,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - 外部コレクションはオンデマンドコンピュートデータベースでのみ作成できます。サービング Dedicated クラスターでの外部コレクションの作成は、近日中にサポートされる予定です。
 
-<NextChannel action="include">
-
-- 別のサービングクラスター上のコレクションから外部コレクションを作成する場合（`milvus://` ソース）は、現在は SDK および RESTful API でのみ可能で、コンソールではこのソースタイプをサポートしていません。
-
-</NextChannel>
+- 別の Dedicated クラスター上のコレクションから外部コレクションを作成する場合（`milvus://` ソース）、現在は SDK および RESTful API を通じてのみ利用でき、コンソールではこのソースタイプはサポートされていません。
 
 </Admonition>
 

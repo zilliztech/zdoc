@@ -53,7 +53,7 @@ import TabItem from '@theme/TabItem';
 
 ### 事前準備\{#preparation}
 
-- 十分な権限を持つ **API キー** を取得していること <NextChannel action="include"> （ターゲットに対する read/write、およびクロスクラスターソースの場合はソースに対する読み取り）</NextChannel>。ユーザー名：パスワード形式のトークンは受け付けられません。
+- 対象に対する read/write 権限、およびクロスクラスターソースの場合はソースに対する読み取り権限を含む、十分な権限を持つ **API キー** を取得していること。ユーザー名:パスワード形式のトークンは使用できません。
 
     詳細は、[API キー](./manage-api-keys) を参照してください。
 
@@ -63,13 +63,9 @@ import TabItem from '@theme/TabItem';
 
     詳細は、[外部ボリューム](./external-volume) を参照してください。
 
-<NextChannel action="include">
+- 別の Dedicated クラスター上のコレクションの場合、ソースは、対象と同じ**プロジェクトおよびリージョン**内にある**Milvus v3.0.x と互換性のある Dedicated クラスター**上の通常のコレクション（別の外部コレクションではないもの）であり、対象は、クエリクラスターを備えたプロジェクトエンドポイントを介してアクセスされるオンデマンド検索用データベースであること。
 
-- 別のサービングクラスターのコレクションの場合、ソースは、ターゲットと同じ**プロジェクトおよびリージョン**にある**Milvus v3.0.x と互換性のあるサービングクラスター**上の通常のコレクション（別の外部コレクションではない）であり、ターゲットは、クエリクラスターを備えたプロジェクトエンドポイントを介してアクセスされるオンデマンド検索用データベースです。
-
-- クロスクラスターソース（`milvus://`）は、現在のリリースでは SDK および RESTful API を通じてのみ利用できます。コンソールではこのソースタイプはサポートされていません。クラウドプロバイダー：**AWS および Azure がサポートされています。**
-
-</NextChannel>
+- クロスクラスターソース（`milvus://`）は、現在のリリースでは SDK と RESTful API を通じてのみ利用できます。コンソールはこのソースタイプにまだ対応していません。クラウドプロバイダー：**AWS リージョンがサポートされています。**
 
 ### サポートされるデータソース\{#support-data-sources}
 
@@ -98,25 +94,17 @@ Zilliz Cloud は以下のデータソースをサポートしています。選�
     }
     ```
 
-<NextChannel action="include">
-
 - `milvus-table`
 
-    `external_source` に `milvus://` URI を設定します。Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョンにある Milvus v3.0.x 互換の別のサービングクラスター上のコレクションを指します。スキームは小文字である必要があり、3 つのセグメントはすべて必須です（データベース名として `default` を含む）。末尾のスラッシュは 1 つまで許容されます。
+    `external_source` を `milvus://` URI に設定します。Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョン内にある Milvus v3.0.x と互換性のある別の Dedicated クラスター上のコレクションを指します。スキームは小文字である必要があり、3つのセグメントはすべて必須です（データベース名として `default` を含む）。末尾のスラッシュは1つまで許容されます。
 
-    このソースでは、`external_spec` は省略可能です。省略した場合、またはその `format` フィールドを省略した場合、形式は `milvus-table` にデフォルト設定されます。詳細は、[サービングクラスターのコレクションをデータソースとして使用する](./use-collection-from-a-serving-cluster-as-data-source) を参照してください。
-
-</NextChannel>
+    このソースでは、`external_spec` は省略可能です。これを省略した場合、またはその `format` フィールドを省略した場合、形式は `milvus-table` にデフォルト設定されます。詳細は、[サービングクラスターのコレクションをデータソースとして使用する](./use-collection-from-a-dedicated-cluster-as-data-source) を参照してください。
 
 ### スキーマを設定する\{#set-up-schema}
 
 対象のデータファイルを含む外部ボリュームを用意したら、コレクションの列を Parquet ファイル（`parquet`）、Lance テーブル（`lance-table`）、Iceberg テーブル（`iceberg-table`）、または 0.56.0 形式の Vortex ファイル（`vortex`）にマッピングするスキーマを作成します。
 
-<NextChannel action="include">
-
 クロスクラスターソースの場合は、代わりに `external_source` を `milvus://` URI に設定します。このようなソースでは、`external_spec` パラメーターは省略可能です。省略した場合、またはその `format` フィールドを省略した場合、形式は `milvus-table` にデフォルト設定されます。`snapshot_id` および `extfs` の設定は、`milvus://` ソースには適用されません。
-
-</NextChannel>
 
 <Admonition type="info" title="Notes">
 
@@ -737,15 +725,11 @@ curl --request POST \
 
 コレクションの準備ができたら、データのメタデータとインデックスを作成するためにリフレッシュします。
 
-<NextChannel action="include">
-
-別のサービングクラスター上のコレクションから作成された外部コレクションの場合（`milvus://`）：
+別の Dedicated クラスター上のコレクション（`milvus://`）から作成された外部コレクションの場合：
 
 - リフレッシュでは、外部コレクションをリクエストで渡された `external_source` に再バインドし、最新データを同期します。すべてのリフレッシュリクエストで `external_source` を渡す必要があります。省略した場合、コレクションは以前に同期されたデータを提供し続けます。
 
 - リフレッシュジョブは、`RefreshInProgress` から `RefreshCompleted` または `RefreshFailed` に遷移します。進行中に送信された 2 つ目のリフレッシュは拒否されます。リフレッシュはインデックス構築の完了を待機するため、所要時間はデータサイズに応じて増加し、大規模なコレクションでは数秒から数時間に及ぶことがあります。
-
-</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -934,7 +918,7 @@ curl --request POST \
 
 リフレッシュ操作は非同期であるため、その進捗を監視する反復処理を設定する必要があります。
 
-RESTful API を使用する場合は、[Describe External コレクション Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2) でリフレッシュジョブの進捗を確認するか、[List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2) でリフレッシュジョブを一覧表示します。
+RESTful API を使用する場合は、[Describe External コレクション Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2) でリフレッシュジョブの進行状況を確認するか、[List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2) でリフレッシュジョブを一覧表示してください。
 
 <Admonition type="info" title="Notes">
 
@@ -950,11 +934,9 @@ RESTful API を使用する場合は、[Describe External コレクション Ref
 
 </Admonition>
 
-<NextChannel action="include">
-
 ## トラブルシューティング\{#troubleshooting}
 
-次の表は、別のサービングクラスター上のコレクション（`milvus://`）をソースとする外部コレクションを作成またはリフレッシュするときに発生する可能性があるエラーと、その解決方法を示しています。
+次の表に、ソースが別の Dedicated クラスター上のコレクション（`milvus://`）である外部コレクションを作成またはリフレッシュする際に発生する可能性があるエラーと、その解決方法を示します。
 
 | シナリオ | エラーメッセージ | 解決方法 |
 | --- | --- | --- |
@@ -963,8 +945,6 @@ RESTful API を使用する場合は、[Describe External コレクション Ref
 | ソースコレクションが存在しない | `Source collection <name> on cluster <id> is unavailable: ... collection not found ...` | データベース名とコレクション名を確認します。 |
 | 形式の競合 | `external_spec.format must be "milvus-table" (or omitted) for a milvus:// source, got "parquet"` | `external_spec` を省略するか、その `format` を `milvus-table` に設定します。 |
 | 同時リフレッシュ | `Refresh job <id> is already in progress for collection <name>; wait for it to complete before refreshing again.` | 現在のリフレッシュジョブが完了するまで待機します。 |
-
-</NextChannel>
 
 ## 次のステップ\{#follow-ups}
 

@@ -20,12 +20,6 @@ import Admonition from '@theme/Admonition';
 
 # Customer-Managed Encryption Keys
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
-
-この機能は、Business Critical (SaaS) および BYOC デプロイメントでのみ利用できます。
-
-</FeatureNote>
-
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
 この機能は AWS および Google Cloud で利用できます。Microsoft Azure では利用できません。

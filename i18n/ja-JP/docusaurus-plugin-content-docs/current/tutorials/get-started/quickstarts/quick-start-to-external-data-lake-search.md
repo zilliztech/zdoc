@@ -803,19 +803,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<NextChannel action="include">
+### Dedicated クラスターのコレクションをデータソースとして使用する\{#use-a-collection-from-a-dedicated-cluster-as-the-data-source}
 
-### サービングクラスターのコレクションをデータソースとして使用する\{#use-a-collection-from-a-serving-cluster-as-the-data-source}
+上記の手順では、外部ボリューム上のデータファイルから外部コレクションを作成します。別の Dedicated クラスター上のコレクションをデータソースとして使用することもできます。その場合は、スキーマを作成するときに、`external_source` をソースコレクションの `milvus://` URI に設定します。
 
-上記の手順では、外部ボリューム上のデータファイルから外部コレクションを作成します。別のサービングクラスター上のコレクションをデータソースとして使用することもできます。その場合、スキーマの作成時に、`external_source` をソースコレクションの `milvus://` URI に設定します。
+Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`milvus://` スキームは、同じプロジェクトおよびリージョン内にある、Milvus v3.0.x と互換性のある別の Dedicated クラスター上のコレクションを指します。スキームは小文字で指定する必要があり、3 つのセグメントはすべて必須です（データベース名として `default` を指定する場合も含みます）。また、末尾のスラッシュは 1 つまで許容されます。
 
-Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョン内にある Milvus v3.0.x 互換の別のサービングクラスター上のコレクションを指します。スキームは小文字で指定する必要があり、データベース名として `default` を指定する場合も含め、3 つのセグメントはすべて必須です。末尾のスラッシュは 1 つまで許容されます。
-
-- ソースは、ターゲットと**同じプロジェクトおよびリージョン**にある **Milvus v3.0.x 互換のサービングクラスター**上の通常のコレクション（別の外部コレクションではありません）です。
+- ソースは、ターゲットと同じ**プロジェクトおよびリージョン**にある**Milvus v3.0.x と互換性のある Dedicated クラスター**上の通常のコレクションです（別の外部コレクションではありません）。
 
 - API キーとクエリクラスター ID を使用して、プロジェクトエンドポイントに接続します（Python の場合は `option={"cluster_id": "<query cluster id>"}`）。
 
-- クラスター間ソース（`milvus://`）は、現在のリリースでは SDK および RESTful API を介してのみ利用できます。コンソールはこのソースタイプをサポートしていません。クラウドプロバイダー：**AWS と Azure がサポートされています。**
+- クロスクラスターソース（`milvus://`）は、現在のリリースでは SDK および RESTful API を通じてのみ利用できます。コンソールはこのソースタイプをサポートしていません。クラウドプロバイダー：**AWS リージョンがサポートされています。**
 
 通常どおりスキーマを使用してコレクションを作成します。各フィールドについて、`external_field` をソースコレクション内の対応するフィールドの名前に設定します。`milvus://` ソースの形式はデフォルトで `milvus-table` になるため、`external_spec` は省略できます。
 
@@ -914,7 +912,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ステップ 4 の説明に従ってインデックスを作成し、コレクションを更新します。別のサービングクラスター上のコレクション（`milvus://`）から作成した外部コレクションの場合は、以下のとおりです。
+ステップ 4 の説明に従ってインデックスを作成し、コレクションを refresh します。別の Dedicated クラスター上のコレクション（`milvus://`）から作成した外部コレクションの場合は、次のとおりです。
 
 refresh を実行すると、外部コレクションがリクエストで渡された `external_source` に再バインドされ、最新のデータが同期されます。すべての refresh リクエストで `external_source` を渡す必要があります。これを省略すると、コレクションは以前に同期されたデータを提供し続けます。
 
@@ -949,9 +947,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-refresh が完了したら、ステップ 5 とステップ 6 の説明に従ってオンデマンドクラスターを作成し、検索を実行します。詳細は、[サービングクラスターのコレクションをデータソースとして使用する](./use-collection-from-a-serving-cluster-as-data-source) を参照してください。
-
-</NextChannel>
+refresh が完了したら、ステップ 5 とステップ 6 の説明に従ってオンデマンドクラスターを作成し、検索を実行します。詳細は、[サービングクラスターのコレクションをデータソースとして使用する](./use-collection-from-a-dedicated-cluster-as-data-source) を参照してください。
 
 ## ステップ 4: インデックスを作成してコレクションを更新する\{#step-4-create-indexes-and-refresh-the-collection}
 

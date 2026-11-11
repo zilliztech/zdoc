@@ -164,6 +164,33 @@ for (Result<Item> result : results) {
 </TabItem>
 </Tabs>
 
+## ソースファイル内の StructArray フィールド\{#structarray-fields-in-source-files}
+
+[StructArray](/docs/use-array-of-structs) フィールドは、ソースファイルのフォーマットごとに異なる形式で保持されます。インポートリーダーは、次のいずれかの形式を想定しています：
+
+| フォーマット | StructArray フィールドの形式 |
+| --- | --- |
+| JSON、JSONL | フィールド値はオブジェクトのリストであり、Struct 要素ごとに 1 つのオブジェクトを持ち、サブフィールド名をキーとします：`"chunks": [{"text": "...", "section": "index", "emb": [0.1, 0.2]}, ...]`。 |
+| CSV | セルには、JSON フォーマットと同じ JSON テキストが格納されます。インポートジョブに設定された `nullkey` または JSON の `null` は、null である StructArray 値を示します。 |
+| Parquet | StructArray フィールドごとに、型が `list<struct<...>>` の列が 1 つあり、サブフィールドごとに 1 つの struct の子があります。スカラーのサブフィールドはスカラーの子、ベクトルのサブフィールドは `list<float32>` などの要素型のリストであり、配列のサブフィールドは `list<T>` の子です。 |
+| NumPy | サポートされていません。NumPy ファイルでは、トップレベルのフィールドごとに 1 ファイルが使用され、StructArray フィールドを表す方法はありません。StructArray フィールドを含むコレクションには、JSON、CSV、または Parquet ファイルを使用してください。 |
+
+次のルールは、サポートされているすべてのフォーマットの StructArray 値に適用されます：
+
+- 各 Struct 要素の内部では、`chunks[text]` のようなパスではなく、サブフィールド名を使用してください。`chunks[text]` という名前のフラットな列またはキーは拒否されます。
+
+- `[null, {...}]` のように、Struct 要素自体を null にすることはできません。StructArray 値全体が null になるのは、StructArray フィールドが null を許容する場合だけです。
+
+- コレクションのサブフィールドではないキーまたは Parquet の子（削除されたサブフィールドを含む）は無視されます。
+
+- 要素が null を許容するサブフィールドでキーが見つからない場合、またはその値が `null` の場合、該当する Struct 要素の null 値としてインポートされるため、サブフィールドを追加する前に作成されたファイルも、そのサブフィールドなしでインポートできます。それ以外の場所に `null` がある場合はインポートに失敗します。配列のサブフィールドでは、`null` は null の内部配列を表し、内部配列内の `null` は、サブフィールドがそれを許容する場合、null の内部値を表します。
+
+- バックアップからの復元などの binlog インポートと、スナップショットソースからのインポートは、要素が null を許容するサブフィールドまたはスカラー配列のサブフィールドを持つコレクションでは拒否されます。
+
+pymilvus BulkWriter は、要素が null を許容するサブフィールドと null を許容する StructArray 値を含め、サポートされているすべてのフォーマットで上記の StructArray 形式をサポートしています。ライターの `add_row()` 呼び出しでは、同じ行形式を使用してください。
+
+スキーマ側の制限については、[StructArray Limits](/docs/struct-array-limits) を参照してください。
+
 ## データをインポートする\{#import-data}
 
 データとコレクションの準備ができたら、ボリュームまたは外部ストレージ（オブジェクトストレージバケットやブロックストレージ BLOB コンテナーなど）を介して、特定のコレクションにデータをインポートできます。
@@ -823,4 +850,3 @@ curl --request POST \
 - [RESTful API 経由でデータをインポートする](./import-data-via-restful-api)
 
 - [ゼロから学ぶデータインポート](./data-import-zero-to-hero) 
-

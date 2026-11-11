@@ -37,6 +37,8 @@ import TabItem from '@theme/TabItem';
 
      コレクションの作成方法の詳細については、[コレクションの管理（コンソール）](./manage-collections-console) を参照してください。
 
+- 対象のコレクションに StructArray フィールドがある場合は、ソースファイルにサポートされている構造でそれらのフィールドが含まれていること。形式ごとの構造とインポート規則については、[ソースファイル内の StructArray フィールド](/docs/import-data-via-sdks#structarray-fields-in-source-files) を参照してください。バックアップの復元などの Binlog インポートとスナップショットソースインポートは、要素に null を許容するサブフィールドまたはスカラー配列サブフィールドを持つコレクションでは拒否されます。スキーマ側の制限については、[StructArray の制限](/docs/struct-array-limits) を参照してください。
+
 <Admonition type="info" title="Notes">
 
 Zilliz Cloud では、クラスターをホストするクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
@@ -268,4 +270,3 @@ curl --request POST \
 - 外部ボリュームでは、認証情報を管理するために、[AWS S3 バケット](./integrate-with-aws-s3)、[Google Cloud Storage バケット](./integrate-with-gcp)、または [Microsoft Azure Blob Storage コンテナー](./integrate-with-azure-blob-storage) を Zilliz Cloud と連携する必要があります。認証情報は一度設定すると、複数のボリュームと操作で再利用されます。データエンジニアがクラウドストレージのキーに直接アクセスする必要はありません。
 
 - 直接的な [外部ストレージインポート](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) では、インポートリクエストごとに認証情報（アクセスキーとシークレットキー）を指定する必要があります。これは 1 回限りのインポートには簡単ですが、認証情報の分離や再利用はできません。
-

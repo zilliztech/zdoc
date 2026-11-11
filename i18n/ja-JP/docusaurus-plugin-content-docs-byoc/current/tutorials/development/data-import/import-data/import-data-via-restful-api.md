@@ -36,6 +36,8 @@ import Admonition from '@theme/Admonition';
 
      コレクションの作成方法の詳細については、[コレクションの管理（コンソール）](./manage-collections-console) を参照してください。
 
+- ターゲットコレクションに StructArray フィールドがある場合は、ソースファイルがサポートされている形状でそれらを含んでいること。形式ごとの形状およびインポートルールについては、[ソースファイル内の StructArray フィールド](/docs/import-data-via-sdks#structarray-fields-in-source-files)を参照してください。バックアップの復元などの Binlog インポートおよびスナップショットソースからのインポートは、要素が null を許容するサブフィールドまたはスカラー配列サブフィールドを持つコレクションでは拒否されます。スキーマ側の制限については、[StructArray の制限](/docs/struct-array-limits)を参照してください。
+
 <Admonition type="info" title="Notes">
 
 Zilliz Cloud では、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
@@ -121,4 +123,3 @@ curl --request POST \
 ```
 
 RESTful API を呼び出して[現在のインポートジョブの進行状況を取得](/reference/restful/get-import-job-progress-v2)したり、[すべてのインポートジョブを一覧表示](/reference/restful/list-import-jobs-v2)したりすることもできます。その代わりに、Zilliz Cloud コンソールの[ジョブセンター](./job-center)に移動して、結果とジョブの詳細を確認することもできます。
-

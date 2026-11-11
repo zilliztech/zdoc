@@ -74,7 +74,7 @@ import Admonition from '@theme/Admonition';
 
 - [バックアップファイルのエクスポート](./export-backup-files)
 
-- Azure リージョンでの外部コレクションと外部ボリューム。
+- Azure リージョンでの外部ボリューム。
 
 <Admonition type="info" title="Notes">
 
@@ -101,4 +101,3 @@ import Admonition from '@theme/Admonition';
 ### Deprecated\{#deprecated}
 
 - Pipelines
-

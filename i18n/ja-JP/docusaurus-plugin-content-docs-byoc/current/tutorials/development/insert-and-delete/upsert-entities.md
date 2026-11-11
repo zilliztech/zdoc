@@ -101,7 +101,7 @@ Zilliz Cloud は、強整合性クエリで既存のエンティティを取得�
 
 - **StructArray フィールドを Upsert する。**
 
-    エンティティ内の StructArray フィールドを Upsert すると、そのフィールドの値は上書きされます。そのためには、マージモードで Upsert を実行する場合でも、struct スキーマで定義されたすべてのサブフィールドを含むディクショナリのリストを指定する必要があります。
+    エンティティで StructArray フィールドを Upsert すると、フィールド値が上書きされます。そのため、マージモードで Upsert を実行する場合でも、Struct スキーマで定義されたすべてのサブフィールドを含むディクショナリのリストを指定する必要があります。要素が null を許容するサブフィールドは省略できます。その場合、Milvus はその Struct 要素に null を格納します。
 
     詳細については、[マージモードでの StructArray フィールドの Upsert](./upsert-entities#upsert-structarray-field-in-merge-mode) を参照してください。
 
@@ -1729,7 +1729,24 @@ console.log(res.data);
 
 ## マージモードでの StructArray フィールドの Upsert\{#upsert-structarray-field-in-merge-mode}
 
-エンティティ内の StructArray フィールドを Upsert すると、そのフィールドの値は上書きされます。つまり、StructArray フィールドを Upsert する際は、struct スキーマで定義されたすべてのサブフィールドを含める必要があります。
+エンティティで StructArray フィールドを Upsert すると、フィールド値が上書きされます。つまり、StructArray フィールドを Upsert するときは、Struct スキーマで定義されたすべてのサブフィールドを含める必要があります。要素が null を許容するサブフィールドは、Struct 要素で省略するか `None` に設定でき、Milvus はそれらに null を格納します。削除されたサブフィールドを引き続き含むリクエストは拒否されます。
+
+pymilvus では、StructArray 値の一部を置き換えることもできます。`upsert()` に `field_ops` を渡す際に `FieldOp.path_replace()` を指定します。`[1][lang]` のようなパスは、1 つの Struct 要素の 1 つのサブフィールドを置き換え、他の Struct 要素およびサブフィールドを保持します。また、`[1]` のようなパスは、Struct 要素全体を 1 つ置き換えます。子パスには選択したサブフィールドのみが含まれ、各オペランドにはそれぞれのキーを明示的に含める必要があります。要素全体を指定するパスには、要素が null を許容しないすべてのサブフィールドが必要で、省略された要素が null を許容するサブフィールドは null に設定されます。
+
+```python
+from pymilvus import FieldOp
+
+client.upsert(
+    collection_name="tech_articles",
+    data=[
+        {
+            "doc_id": 1,
+            "chunks": [{"lang": "zh"}],
+        }
+    ],
+    field_ops={"chunks": FieldOp.path_replace("[1][lang]")},
+)
+```
 
 以下の例では、6 つのサブフィールドを持つ StructArray フィールドである `chunks` フィールドをマージモードで Upsert する方法を示します。操作が完了すると、ID 1 のエンティティの `chunks` フィールドは、リクエストで指定された 2 つの要素を持つ struct の配列に設定されます。
 
@@ -1965,4 +1982,3 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
-

@@ -401,14 +401,14 @@
       "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/data-import/import-data/import-data-via-restful-api.md": {
-      "sourceHash": "db42ce33e0a470e5d4425b136ca6ca6c8bb1d85c0e319040f8cc44c2b18120a7",
+      "sourceHash": "981606160523a1180022f54246216420a92d386954174d1690648cef91de5665",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
-      "translatedAt": "2026-11-09T12:46:01.582Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/byoc/tutorials/development/data-import/import-data/import-data-via-sdks.md": {
-      "sourceHash": "6d183ce6c234f6303ef11032cfe347ff5389a568457188165ea82ef32ac05798",
+      "sourceHash": "406f73878db6c82cf00e490aab0e5151aa194406a248d29a35c0a79cceba96c9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/import-data/import-data-via-sdks.md",
-      "translatedAt": "2026-11-09T12:46:01.582Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/byoc/tutorials/development/data-import/import-data/import-data.md": {
       "sourceHash": "33e9babafad491f63b4ecd530714bbb5870ac1223753274cc703a205f5d32acd",
@@ -506,9 +506,9 @@
       "translatedAt": "2026-11-09T12:47:48.664Z"
     },
     "content/en/byoc/tutorials/development/insert-and-delete/upsert-entities.md": {
-      "sourceHash": "42e4c0b053ada7a76474e1476a99b011853446f9c6414bda785b5670f4dba21c",
+      "sourceHash": "31a66a680b7e23e3e82455423ce86c3ff3895d5334ddee6395599da425204452",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/insert-and-delete/upsert-entities.md",
-      "translatedAt": "2026-11-06T11:48:36.003Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/byoc/tutorials/development/scalar-index/bitmap-index-type.md": {
       "sourceHash": "ddb1b3316b1dcbbecd7529d86c7a141f9fb91913b43c1a3878ca228bde07a842",
@@ -1221,19 +1221,19 @@
       "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/cmek/aws-kms.md": {
-      "sourceHash": "8ec9a8d58a40ab0ab42d770a2f7534d0f5f9e6a1f4cdec1792bc08ca03d9dabf",
+      "sourceHash": "529dd815ddd01fe597cf8dba2edfaeb64ed63f8b13b9fdcab8f303381e52bed1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cmek/aws-kms.md",
-      "translatedAt": "2026-11-10T13:08:08.036Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/byoc/tutorials/management/cmek/cmek.md": {
-      "sourceHash": "78fee85e3946b3b7a10aa278e3ba411b2a0fc98ed04f444c3c760bb1f593c32c",
+      "sourceHash": "0287eeee6847162f8e84dda065d99259322077a77b53d77c00e6f89dd7e533c8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cmek/cmek.md",
-      "translatedAt": "2026-11-05T11:27:22.390Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/byoc/tutorials/management/cmek/gcp-kms.md": {
-      "sourceHash": "c647235bf68818a7dd206a21b271fa97b997432331f174941d4120b4f7258728",
+      "sourceHash": "b00c8a2c64ba751331624e9344d09027d33de78417e0318526d598d54836da5b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cmek/gcp-kms.md",
-      "translatedAt": "2026-11-10T13:08:08.036Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/byoc/tutorials/management/cost-management/analyze-cost.md": {
       "sourceHash": "f12689f36adc8943278f61e197e216547262b53899dc0e602bd350e3ef70804c",
@@ -1606,19 +1606,19 @@
       "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/collection/collection-on-console/manage-external-collections-console.md": {
-      "sourceHash": "ed237f85e78116e30da9106c6ba981853f00a0dfe0789edf03aa5a66814bc398",
+      "sourceHash": "bd8c131599c572edd17d8653fb16cda06bee583d8cb3109552d03d87f5aba4dd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
-      "translatedAt": "2026-11-10T13:19:53.736Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md": {
-      "sourceHash": "3511926a0d62eaf0a82ddf6ea857c474a1bf0ef859f8b15ed82e105f71481c19",
+      "sourceHash": "f3b7349e6322a27a3bc76c793806de7c8c32a16214ebfc4f1840ed60fedf6805",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "translatedAt": "2026-11-08T07:48:30.349Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
-    "content/en/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source.md": {
-      "sourceHash": "90b478aafed73a73cb6460463cd01e635cec8ef096a5445f091dcb3b4d708560",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source.md",
-      "translatedAt": "2026-11-06T19:45:47.341Z"
+    "content/en/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source.md": {
+      "sourceHash": "258dcac254d59a76fefd04749322b0c5c328489e74fcf2b87552e5cbb004dfa6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source.md",
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md": {
       "sourceHash": "40e6868b82f2b51d585581a24d9256d4817f1ac9ec359a6425fbef5b6852bb0c",
@@ -1631,9 +1631,9 @@
       "translatedAt": "2026-11-09T13:00:23.467Z"
     },
     "content/en/guides/tutorials/development/collection/external-collection-limits.md": {
-      "sourceHash": "093d00e73ed3a129f47120ad3d4dc7d18522a573dabdaa1763077b682ee809c5",
+      "sourceHash": "7160f3a7b6364d31bbc20dd9b9db91b0f51e118306f69ab2816391df476eb3f0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/external-collection-limits.md",
-      "translatedAt": "2026-11-08T07:48:30.349Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/development/collection/load-release-collections.md": {
       "sourceHash": "21e06c2d477bb27c6792758d7b2e4cc56aa7cef49b4559501c7615150f05c97d",
@@ -1736,14 +1736,14 @@
       "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data-via-restful-api.md": {
-      "sourceHash": "7e0cdc00edf28c054e4e5ea9ca905bf55142d06e421788ecca41d91a32c63475",
+      "sourceHash": "36d0774f9c110099d8db20448d956d517039b5baffa6536bf3a407fc63ef43db",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
-      "translatedAt": "2026-11-09T13:42:33.325Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data-via-sdks.md": {
-      "sourceHash": "24db8c40e32cc4c5ce63e07f27da3b7db714db72c035b2428d3c9fbe3ee006df",
+      "sourceHash": "9491d308779b3665601c138c17e9367c5edd791f3ead3c152c37930d95d901b0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data-via-sdks.md",
-      "translatedAt": "2026-11-09T13:42:33.325Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data.md": {
       "sourceHash": "9933a105105b091b87086357445a9082b3cf10b9276821113828b31caf6ca70c",
@@ -1876,9 +1876,9 @@
       "translatedAt": "2026-11-09T13:43:52.937Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/upsert-entities.md": {
-      "sourceHash": "5650b784b2871fc572fabf82fbe8d567f9b927b8c99de6ea1c278585b0958827",
+      "sourceHash": "44dda45117e4b32977773d04af08e0b979b4856719c7e28b18ced3c8be078ed1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/upsert-entities.md",
-      "translatedAt": "2026-11-06T12:02:10.961Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/development/scalar-index/bitmap-index-type.md": {
       "sourceHash": "1c199b74dbd2c2e15d0ae209084f3bba029325706bf22507cbbbe9489ec08afc",
@@ -2356,9 +2356,9 @@
       "translatedAt": "2026-08-25T17:44:56.620Z"
     },
     "content/en/guides/tutorials/get-started/feature-availability.md": {
-      "sourceHash": "ca84013789d06cd86d93c7aaa36d76352e9ffbf1d04b8411b7db42e49f73526e",
+      "sourceHash": "936dc204eb3995fc9bbc9668f0f5e09215ffad00909ab47c736b77e8089e4123",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/feature-availability.md",
-      "translatedAt": "2026-10-27T03:55:25.719Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md": {
       "sourceHash": "446dd585974adb7d0f309ad42d986213b3ccb832ae64eb65eb111f9c094e6d8c",
@@ -2366,9 +2366,9 @@
       "translatedAt": "2026-09-19T14:14:40.742Z"
     },
     "content/en/guides/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md": {
-      "sourceHash": "8f38662085442e7186d71a1a556c56e80e5d41e9e790fd4236335cd9d047b926",
+      "sourceHash": "52da163f22c6bd0010eff7d460811f8527e3a41a4e4ef86a832a804859ec85f6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md": {
       "sourceHash": "fe11a00890435cd818194e798994abcda67744f094d7b2e3c55539aecdea1158",
