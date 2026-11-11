@@ -747,6 +747,17 @@ returns the new blob, its enclosing trees and the candidate commit in dependency
 order. The receiving adapter must establish baseline identity and connectivity
 before relying on inherited objects.
 
+For a Draft PR on an isolated base, the trusted workflow can run
+`adapters/updates/exact-guides-report.mjs` with a JSON document on stdin.
+The workflow authenticates the original producer and retained proof, reads
+the PR and both Git refs, and supplies the pinned target separately from its
+observations. It passes the before and after blobs and the complete, unfiltered
+NUL-delimited raw Git diff as base64. The reader checks the single parent,
+path, modes, blob identities and proof digest and writes a JSON report for the
+observed head. The caller must check the live target again before publishing
+that report. This evidence covers the single lock update. Production
+exact-validation receipts also require a signed seal and a target check.
+
 Preparation and inspection use new, disjoint evidence roots. Persistent transaction
 attempt evidence is constructor-bound and separate; selecting a fresh preparation
 root cannot clear an earlier dispatch-attempt veto. `apply` remains report-only
