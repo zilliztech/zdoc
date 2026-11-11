@@ -153,6 +153,47 @@ export const filterSchemaOptions = (arr, lang, target) => {
         })
 }
 
+const isObjectSchema = (schema) => schema.type === 'object' || (schema.type === undefined && Boolean(schema.properties))
+
+// allOf is a conjunction, not a choice, so it renders as the one schema it
+// denotes instead of a tab strip. OpenAPI 3.0 ignores siblings of $ref, so a
+// fragment documents a referenced schema by wrapping it in a single-element
+// allOf beside its own description; the generator inlines the $ref, leaving
+// allOf: [<schema>]. Object parts merge their properties and required lists
+// (a required list on the wrapper constrains the merged object too); a lone
+// non-object part is unwrapped. The wrapper's own description and metadata
+// document the usage site, so they win over the parts'. Any other mix has no
+// single meaning and is returned untouched.
+export const mergeAllOf = (schema) => {
+    if (!schema || typeof schema !== 'object' || !Array.isArray(schema.allOf)) {
+        return schema
+    }
+
+    const { allOf, ...wrapper } = schema
+    const parts = allOf.map(mergeAllOf).filter(part => part && typeof part === 'object')
+    if (parts.length === 0) {
+        return schema
+    }
+
+    if (parts.every(isObjectSchema)) {
+        const required = [...new Set([...parts, wrapper].flatMap(part => Array.isArray(part.required) ? part.required : []))]
+        const merged = {
+            ...parts[0],
+            ...wrapper,
+            type: 'object',
+            properties: Object.assign({}, ...[...parts, wrapper].map(part => part.properties || {})),
+        }
+        if (required.length > 0) {
+            merged.required = required
+        } else {
+            delete merged.required
+        }
+        return merged
+    }
+
+    return parts.length === 1 ? { ...parts[0], ...wrapper } : schema
+}
+
 export const getExampleLabel = (example, key) => {
     return example?.summary || example?.["x-tab-label"] || `OPTION ${key}`
 }

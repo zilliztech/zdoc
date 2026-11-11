@@ -24,7 +24,7 @@ function record(id, page) {
       Slug: page, Labels: 'Fresh Base label', Targets: ['Zilliz.SaaS', 'Zilliz.PaaS'], Progress: 'Published',
       'Placement Type': 'Canonical', 'Release Channel': 'NEXT'}}
 }
-async function fixture(t, {pages = ['sample'], old = true, active = false, imageSource = false, singleTarget = false, metadataMarker = false, externalImage = false, ordinaryPages = 0} = {}) {
+async function fixture(t, {pages = ['sample'], old = true, active = false, imageSource = false, singleTarget = false, metadataMarker = false, externalImage = false, ordinaryPages = 0, manuals = ['guides', 'guides-byoc'], baseManuals = manuals} = {}) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'wp9-source-')))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
   const repositoryRoot = path.join(root, 'master'), baselineRoot = path.join(root, 'dev'), repo = path.join(root, 'upstream'), sourceDir = path.join(root, 'sources')
@@ -43,7 +43,7 @@ async function fixture(t, {pages = ['sample'], old = true, active = false, image
   await write(repositoryRoot, `${config}/product-names.yaml`, 'check: [Milvus, "localhost:19530"]\nallow: []\n')
   await write(repositoryRoot, `${config}/presentation/cloud-sdk-tabs.yaml`, fs.readFileSync(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/fixtures/site/cloud-sdk-tabs.yaml')))
   for (const page of pages) {
-    await write(repositoryRoot, `${config}/pages/${page}/page.yaml`, pageYaml(`site/en/${page}.md`, `tutorials/manage-data/${page}`))
+    await write(repositoryRoot, `${config}/pages/${page}/page.yaml`, pageYaml(`site/en/${page}.md`, `tutorials/manage-data/${page}`, manuals))
     await write(repositoryRoot, `${config}/pages/${page}/lock.yaml`, JSON.stringify({schema_version: 1, current: upstreamCommit, next: upstreamCommit}))
   }
   await write(repositoryRoot, `${config}/pages/inactive/page.yaml`, 'broken: [')
@@ -51,6 +51,7 @@ async function fixture(t, {pages = ['sample'], old = true, active = false, image
   await git(repositoryRoot, 'add', '.'); await git(repositoryRoot, 'commit', '--quiet', '-m', 'Pinned selected configuration')
   const masterCommit = await git(repositoryRoot, 'rev-parse', 'HEAD')
   const records = pages.map((page, index) => ({...record(`rec${index}`, page), base_record_index: index}))
+  for (const row of records) row.fields.Targets = baseManuals.map(manual => manual === 'guides' ? 'Zilliz.SaaS' : 'Zilliz.PaaS')
   for (let index = 0; index < ordinaryPages; index++) {
     const id = pages.length + index, slug = `ordinary-page-${index}`
     const row = {...record(`rec${id}`, slug), base_record_index: id}
@@ -60,7 +61,7 @@ async function fixture(t, {pages = ['sample'], old = true, active = false, image
   }
   if (metadataMarker) for (const record of records) record.fields.Labels = 'Before --- After'
   const previous = {schema_version: 3, manual: 'guides', build_env: 'uat', records: old ? records.map(row => row.fields.Slug).map((page, index) => ({record_id: `rec${index}`, slug: page,
-    placement_type: 'canonical', doc_token: index ? `old${index}` : 'old', output_paths: index >= pages.length ? [] : [`content/en/guides/tutorials/manage-data/${page}.md`, ...(singleTarget ? [] : [`content/en/byoc/tutorials/manage-data/${page}.mdx`])]})) : []}
+    placement_type: 'canonical', doc_token: index ? `old${index}` : 'old', output_paths: index >= pages.length ? [] : manuals.filter(manual => !singleTarget || manual === 'guides').map(manual => `content/en/${manual === 'guides' ? 'guides' : 'byoc'}/tutorials/manage-data/${page}.${manual === 'guides' ? 'md' : 'mdx'}`)})) : []}
   const oldRecords = records.map((record, index) => ({...record, fields: {...record.fields, Docs: {text: record.fields.Docs.text, link: `https://example.feishu.cn/wiki/${index ? `old${index}` : 'old'}`}}}))
   const oldNavigation = require('../../packages/docs-tooling/src/lark/sourceSnapshot').createGuidesNavigationState(oldRecords)
   previous.navigation_records = old ? oldNavigation.navigationRecords : []
@@ -117,6 +118,53 @@ test('[9-6] real selected source build uses pinned inputs, both manuals, current
   assert.deepEqual(options.plan.affected_tables, ['table'])
   assert.equal(bundle.outcomes[0].input_context.upstream.current.find(file => file.path === 'site/en/sample.md').sha256,
     adapter.digest(fs.readFileSync(path.join(options.repo, 'site/en/sample.md'))))
+})
+for (const manual of ['guides', 'guides-byoc']) {
+  test(`single-target Fetch builds and authenticates exactly ${manual}`, {timeout: 120000}, async t => {
+    const options = await fixture(t, {manuals: [manual]})
+    const bundle = await generateSharedSources(options, {fetchOld: async () => ({blocks: {items: [heading]}})})
+    assert.equal(bundle.outcomes[0].status, 'success', JSON.stringify(bundle.outcomes))
+    assert.deepEqual(bundle.outcomes[0].outputs.map(output => output.manual), [manual])
+    assert.deepEqual(bundle.outcomes[0].targets.map(target => target.manual), [manual])
+    const {loadBundle, validateBundle} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+    const loaded = loadBundle(options.out)
+    assert.equal(loaded.bundle.effective_active.pages[0].page, 'sample')
+    for (const mutate of [
+      outcome => { outcome.outputs = [] },
+      outcome => { outcome.outputs.push({...outcome.outputs[0]}) },
+      outcome => { outcome.targets = [] },
+      outcome => { outcome.outputs[0].manual = manual === 'guides' ? 'guides-byoc' : 'guides' },
+      outcome => { outcome.targets.push({...outcome.targets[0]}) },
+    ]) {
+      const data = structuredClone(bundle); mutate(data.outcomes[0])
+      const files = new Map(loaded.files); files.set('bundle.json', Buffer.from(JSON.stringify(data)))
+      assert.throws(() => validateBundle(files), /incomplete.*output/)
+    }
+    for (const output of bundle.outcomes[0].outputs) await write(options.repositoryRoot, output.path, loaded.files.get(output.file))
+    const finalized = require('../../packages/docs-tooling/src/lark/sharedPagePublication').finalizePublication({
+      workspace: options.repositoryRoot, handoff: loaded, candidate: options.candidate})
+    assert.equal(finalized.publication.cache_eligible, true)
+    assert.deepEqual(finalized.snapshot.records[0].output_paths, bundle.outcomes[0].outputs.map(output => output.path))
+  })
+}
+for (const [manuals, baseManuals] of [
+  [['guides'], ['guides', 'guides-byoc']],
+  [['guides', 'guides-byoc'], ['guides']],
+  [['guides'], ['guides-byoc']],
+]) {
+  test(`Fetch rejects configured ${manuals} against selected ${baseManuals}`, {timeout: 120000}, async t => {
+    const options = await fixture(t, {manuals, baseManuals, old: false})
+    const bundle = await generateSharedSources(options, {fetchOld: async () => {throw Error('No activation on mismatch')}})
+    assert.equal(bundle.outcomes[0].status, 'fallback')
+    assert.equal(bundle.outcomes[0].code, 'OWNERSHIP_PATH_MISMATCH')
+    assert.deepEqual(bundle.outcomes[0].baseline.outputs, [])
+    assert.deepEqual(bundle.effective_active.pages, [])
+  })
+}
+test('Fetch refuses empty, duplicate and unsupported Base target sets', () => {
+  for (const targets of [[], ['Zilliz.SaaS', 'Zilliz.SaaS'], ['unknown'], ['Zilliz.SaaS', 'unknown']]) {
+    assert.throws(() => adapter.selectedFetchManuals({fields: {Targets: targets}}), /nonempty supported target set/)
+  }
 })
 test('brand-new records emit .mdx in both manuals without old-document fetches', {timeout: 120000}, async t => {
   const options = await fixture(t, {old: false})
@@ -599,7 +647,7 @@ test('portable bundle authenticates both manual outputs, evidence, images and re
     mutate(data, files); files.set('bundle.json', Buffer.from(JSON.stringify(data)))
     return () => validateBundle(files, {masterSha: options.masterCommit, devBaselineSha: options.devCommit})
   }
-  assert.throws(change(data => data.outcomes[0].outputs.pop()), /incomplete paired/)
+  assert.throws(change(data => data.outcomes[0].outputs.pop()), /incomplete selected/)
   assert.throws(change(data => data.outcomes.push(data.outcomes[0])), /duplicate/)
   assert.throws(change(data => data.outcomes[0].input_context = {upstream: data.outcomes[0].input_context.upstream, files: []}), /input context/)
   assert.throws(change(data => data.outcomes[0].input_context = {}), /input context/)
@@ -1250,6 +1298,21 @@ async function publishedBaseline(options, dependencies = {}) {
   await refreshPreparation(options)
   return bundle
 }
+test('active shared pages cannot silently retire a previously published target', {timeout: 120000}, async t => {
+  const options = await fixture(t)
+  await publishedBaseline(options)
+  options.records[0].fields.Targets = ['Zilliz.SaaS']
+  await write(options.repositoryRoot, 'shared-docs/guides/pages/sample/page.yaml',
+    pageYaml('site/en/sample.md', 'tutorials/manage-data/sample', ['guides']))
+  await git(options.repositoryRoot, 'add', '.'); await git(options.repositoryRoot, 'commit', '--quiet', '-m', 'Change active targets')
+  options.masterCommit = await git(options.repositoryRoot, 'rev-parse', 'HEAD')
+  await refreshPreparation(options)
+  const bundle = await generateSharedSources(options)
+  assert.equal(bundle.outcomes[0].status, 'fallback')
+  assert.equal(bundle.outcomes[0].code, 'OWNERSHIP_PATH_MISMATCH')
+  const handoff = require('../../packages/docs-tooling/src/lark/sharedPageBundle').loadBundle(options.out)
+  assert.equal(handoff.bundle.outcomes[0].status, 'fallback')
+})
 const originUrl = 'https://origin.test/diagram.png'
 const changedImage = Buffer.from([137, 80, 78, 71, 9, 8, 7])
 test('[IMAGE_SOURCE_CHANGED] recorded images retain authenticated acceptance across both manuals and repeated occurrences', {timeout: 120000}, async t => {

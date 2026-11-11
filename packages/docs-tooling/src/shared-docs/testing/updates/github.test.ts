@@ -1,5 +1,7 @@
 // @vitest-environment node
 import { expect, it, vi } from 'vitest'
+const { runGh } = vi.hoisted(() => ({ runGh: vi.fn() }))
+vi.mock('node:child_process', () => ({ execFile: Object.assign(vi.fn(), { [Symbol.for('nodejs.util.promisify.custom')]: runGh }) }))
 import { GitHubReads, pages, retainedMetadata } from '../../adapters/updates/github'
 it('provides only reads and rejects off-service or traversal paths before invoking gh', async () => {
   const api = new GitHubReads()
@@ -35,4 +37,43 @@ it('rejects wrong run attempt and artifact digest/expiry/head bindings, never ch
     { ...artifact, workflow_run: { ...artifact.workflow_run, head_sha: 'c'.repeat(40) } }]) await expect(retainedMetadata(api([a]), 1)).rejects.toThrow(/mismatch/)
   await expect(retainedMetadata(api([artifact, { ...artifact, id: 4 }]), 1)).rejects.toThrow(/ambiguous/)
   await expect(retainedMetadata(api([artifact], { ...run, run_attempt: 0 }), 1)).rejects.toThrow(/identity/)
+})
+
+
+it.each(['get', 'zip'] as const)('discards untrusted child error fields at the %s boundary', async method => {
+  const fake = 'FAKE_CREDENTIAL_FROM_CHILD_ERROR'
+  for (const code of ['ETIMEDOUT', 'ENOENT', 'ERR_CHILD_PROCESS_STDIO_MAXBUFFER']) {
+    const original = Object.assign(new Error(fake), { code, stdout: fake, stderr: Buffer.from(fake), cause: new Error(fake), custom: { secret: fake } })
+    original.stack = fake
+    runGh.mockRejectedValueOnce(original)
+    const api = new GitHubReads()
+    const error = await (method === 'get' ? api.get('repos/zilliztech/zdoc') : api.zip(3)).catch(e => e) as Error
+    expect(error).toBeInstanceOf(Error)
+    expect(error.message).toBe(method === 'get' ? 'GitHub metadata request failed' : 'GitHub artifact download failed')
+    expect(Object.getOwnPropertyNames(error).sort()).toEqual(['message', 'stack'])
+    expect(Object.getOwnPropertyNames(error).map(key => String(error[key])).join('\n')).not.toContain(fake)
+    expect(error).not.toBe(original)
+  }
+})
+
+it('does not expose invalid JSON response text through parser diagnostics', async () => {
+  const fake = 'FAKE_CREDENTIAL_FROM_JSON_RESPONSE'
+  runGh.mockResolvedValueOnce({ stdout: `{"secret":"${fake}`, stderr: '' })
+  const error = await new GitHubReads().get('repos/zilliztech/zdoc').catch(e => e) as Error
+  expect(error.message).toBe('GitHub metadata response is not valid JSON')
+  expect(Object.getOwnPropertyNames(error).sort()).toEqual(['message', 'stack'])
+  expect(String(error.stack)).not.toContain(fake)
+})
+
+it('preserves successful metadata, archive bytes and fixed read execution bounds', async () => {
+  runGh.mockClear()
+  const metadata = { id: 660446555, nested: ['unchanged', null, 1] }, bytes = Buffer.from([0, 255, 1, 10])
+  runGh.mockResolvedValueOnce({ stdout: JSON.stringify(metadata), stderr: '' }).mockResolvedValueOnce({ stdout: bytes, stderr: Buffer.alloc(0) })
+  const api = new GitHubReads()
+  expect(await api.get('repos/zilliztech/zdoc')).toEqual(metadata)
+  expect(await api.zip(3)).toBe(bytes)
+  expect(runGh.mock.calls).toEqual([
+    ['gh', ['api', '--hostname', 'github.com', '--method', 'GET', 'repos/zilliztech/zdoc'], { timeout: 30_000, maxBuffer: 16 * 1024 * 1024 }],
+    ['gh', ['api', '--hostname', 'github.com', '--method', 'GET', 'repos/zilliztech/zdoc/actions/artifacts/3/zip'], { encoding: 'buffer', timeout: 120_000, maxBuffer: 256 * 1024 * 1024 }],
+  ])
 })

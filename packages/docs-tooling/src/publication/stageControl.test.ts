@@ -593,6 +593,94 @@ describe('secure stage control', () => {
     expect(existsSync(path.join(root, 'tmp/python'))).toBe(false);
   });
 
+  for (const acquisition of ['first', 'second']) {
+    it(`re-observes a legitimately released fence during the ${acquisition} acquisition`, async () => {
+      const root = temporaryRoot();
+      for (const group of ['reader', 'holder']) {
+        mkdirSync(path.join(root, `tmp/${group}`), {recursive: true});
+        writeFileSync(path.join(root, `tmp/${group}/value.txt`), group);
+      }
+      const events = path.join(root, 'race-events.log');
+      writeFileSync(events, '');
+      const children: ReturnType<typeof spawn>[] = [];
+      const completions: Promise<number | null>[] = [];
+      const start = (group: string, mode: string) => {
+        const child = spawn(process.execPath, ['--experimental-strip-types', path.join(import.meta.dirname, 'stageControl.bootstrap-worker.ts'), root, `tmp/${group}`, group, events, '', '', '', '', mode], {stdio: ['ignore', 'pipe', 'pipe']});
+        children.push(child);
+        let stderr = '';
+        child.stderr!.on('data', chunk => { stderr += chunk; });
+        const completed = new Promise<number | null>((resolve, reject) => {child.once('error', reject);child.once('exit', code => resolve(code));});
+        completions.push(completed);
+        return {completed, stderr: () => stderr};
+      };
+      const wait = async (name: string) => vi.waitFor(() => expect(existsSync(path.join(root, name))).toBe(true), {timeout: 3_000, interval: 5});
+      // wx creation is visible before the marker's JSON bytes have finished writing.
+      const waitRecord = (name: string) => vi.waitFor(() => JSON.parse(readFileSync(path.join(root, name), 'utf8')), {timeout: 3_000, interval: 5});
+      const signal = (name: string) => writeFileSync(path.join(root, name), 'continue');
+      try {
+        let reader: ReturnType<typeof start>;
+        if (acquisition === 'second') {
+          reader = start('reader', 'race-second');
+          await wait('reader-first-release-renamed');
+        }
+        const holder = start('holder', 'race-holder');
+        const held = await waitRecord('holder-acquired');
+        if (acquisition === 'first') reader = start('reader', 'race-first');
+        else signal('reader-continue-first-release');
+        const observed = await waitRecord('reader-directory-observed');
+        expect({dev: observed.dev, ino: observed.ino, owner: observed.owner}).toEqual(held);
+        expect(observed.stack).toContain('readRecoveryControlFence');
+        signal('holder-release');
+        expect(await holder.completed, holder.stderr()).toBe(0);
+        signal('reader-resume');
+        const code = await reader!.completed;
+        const result = JSON.parse(readFileSync(path.join(root, 'reader-result.json'), 'utf8'));
+        expect(result, reader!.stderr()).toMatchObject({success: true, pausedRead: true, pausedRelease: acquisition === 'second', stageRemoved: true});
+        expect(code).toBe(0);
+        expect(existsSync(path.join(root, 'tmp/holder'))).toBe(false);
+        expect(existsSync(path.join(root, 'tmp/docs-tooling/.stage-removal-control-bootstrap.lock'))).toBe(false);
+      } finally {
+        for (const child of children) if (child.exitCode === null && child.signalCode === null) child.kill('SIGKILL');
+        await Promise.allSettled(completions);
+      }
+    });
+  }
+
+  for (const [boundary, message] of [
+    ['replacement', /not reentrant/], ['replacement-corrupt', /malformed/],
+    ['missing', /missing.*owner/], ['malformed', /malformed/], ['schema', /record is invalid/],
+    ['checksum', /checksum is invalid/], ['mode', /mode-0700/], ['owner-mode', /mode-0600/],
+    ['hardlink', /hard-linked|one link/], ['owner-alias', /symlink/], ['directory-alias', /symlink/],
+    ['owner-replaced', /identity changed/], ['parent-disappeared', /parent.*identity changed/],
+    ['deadline', /timed out waiting/],
+  ] as const) {
+    it(`preserves the acquisition safety boundary for ${boundary}`, async () => {
+      const root = temporaryRoot();
+      mkdirSync(path.join(root, 'tmp/stage'), {recursive: true});
+      writeFileSync(path.join(root, 'tmp/stage/value.txt'), 'stage');
+      const child = spawn(process.execPath, ['--experimental-strip-types', path.join(import.meta.dirname, 'stageControl.bootstrap-worker.ts'), root, 'tmp/stage', 'control', path.join(root, 'events'), '', '', '', '', `observe-${boundary}`], {stdio: ['ignore', 'pipe', 'pipe']});
+      let stderr = '';
+      child.stderr!.on('data', chunk => { stderr += chunk; });
+      const completed = new Promise<number | null>((resolve, reject) => {child.once('error', reject);child.once('exit', resolve);});
+      const timeout = setTimeout(() => child.kill('SIGKILL'), 4_000);
+      try {
+        expect(await completed, stderr).toBe(0);
+        const result = JSON.parse(readFileSync(path.join(root, 'observation-result.json'), 'utf8'));
+        expect(result).toMatchObject({rejected: true, stagePreserved: true, observations: boundary === 'deadline' ? 3 : 1});
+        expect(result.message).toMatch(message);
+        if (['missing', 'malformed', 'schema', 'checksum', 'mode', 'owner-mode', 'hardlink', 'owner-alias', 'owner-replaced'].includes(boundary)) {
+          expect(result.currentDirectory).toBe(result.originalDirectory);
+        }
+        if (boundary === 'replacement' || boundary === 'replacement-corrupt') expect(result.currentDirectory).not.toBe(result.originalDirectory);
+        if (boundary === 'deadline') expect(result.clockAdvance).toBe(30_003);
+      } finally {
+        clearTimeout(timeout);
+        if (child.exitCode === null && child.signalCode === null) child.kill('SIGKILL');
+        await completed;
+      }
+    });
+  }
+
   it('never publishes an empty recovery fence when interrupted before owner preparation', async () => {
     const root = temporaryRoot();
     mkdirSync(path.join(root, 'tmp/stage'), {recursive: true});

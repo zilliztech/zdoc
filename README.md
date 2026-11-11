@@ -41,6 +41,112 @@ pnpm start:zh-CN
 pnpm build:zh-CN
 ```
 
+`pnpm test:shared-docs` and `pnpm test:frontend` discover their complete Vitest
+file selection and run ordinary files in parallel. Frontend (`all` scope) then runs
+the complete `translationManifest.integration.test.ts` file in a separate
+`reference-integration` phase. Both gates finish with the complete local-update
+transaction, runner and `update-prepare.test.ts` command test files as isolated
+phases (`transactions`, `local-runner`, `update-prepare`). This gives frontend five
+phases and shared-docs four, including light. Each of these isolated phases
+uses a separate single-worker process; shared-docs has no reference phase.
+The ordinary light phase runs first and alone: when it fails, every later
+file stays unrun instead of spending the remaining gate budget. The isolated
+phases keep their own per-case deadlines and run in order; running them together
+only adds scheduler contention against those measured deadlines.
+Case deadlines are unchanged. Platform-dependent skips must be declared in
+`scripts/testing/expected-platform-skips.json` per platform and per test file, as
+the maximum skips that file may show there. The gate fails when an undeclared
+file skips or when a file exceeds its declared maximum, so muted coverage cannot
+grow silently; a file that skips less is reported, not failed.
+Heavy phases override an inherited `VITEST_MAX_WORKERS` to one; ordinary files
+retain their usual worker configuration. Use `pnpm test:vitest-groups` for the
+supervisor's selection, reporting and actual child-process failure contracts.
+
+Each complete gate has a 15-minute monotonic execution limit covering preflight,
+discovery, all phases, validation and actual writes of every requested report.
+Expired work cannot start a child or freeze a passing execution verdict; preflight
+Git calls are bounded by the remaining budget. Only after all that work completes
+within the limit is the measured verdict frozen. One separate terminal confirmation
+attempt has at most 1 second for exclusive staging, persistence, atomic publication
+and reader confirmation. This allowance runs no tests or report copies and adds no retry.
+A failed test/module, invalid or incomplete report, nonzero exit, or surviving
+owned process fails the gate and prevents later phases. Failed heavy work is
+terminated only within that invocation's process group; tests left unrun after
+failure are not ordinary skips. A failed phase prints its failing case, error and
+stack to the console before the gate decides, and the site-validation workflow
+publishes the retained evidence directory as an artifact for a failed gate.
+The CI tooling job's existing 20-minute total
+limit, which also includes installation, Translation and replay tests, is unchanged.
+Denied process probes/signals stop that cleanup attempt: receipts retain the first
+failure and structured cleanup errors, with settlement unknown rather than assumed
+complete; a receipt-write failure is explicitly unconfirmed and remains failed.
+
+The supervisor supports macOS and Linux. Its dedicated default parent is
+`~/.cache/zdoc-vitest` on both platforms (macOS Library ancestors can have ACLs
+unsupported by the existing trusted-tool policy);
+`ZDOC_TEST_TMP_PARENT` can select an absolute parent. The parent must be owned by
+the current user, mode 0700, and free of symlink/case aliases. Canonical paths must
+not overlap or contain the checkout, actual Git/common directories, object stores
+(including alternates), or the requested aggregate output. Missing directories are created privately; existing directories are
+never chmodded or cleaned. Each gate gets a fresh owned0700 root and each phase a
+separate temporary directory. Ancestor identities and entry counts are retained;
+directory identities are checked before and after creation and phase execution.
+Neither a crowded system temporary directory nor this layout is presumed equivalent
+in performance to an older fixture. Global environment/permissions and older tool
+proofs remain untouched.
+
+The printed evidence directory retains discovery, raw phase logs/reports,
+run-correlated reporter events, process-group receipts and the final aggregate.
+An aborted gate also retains its stage and owned-group stop result. An incomplete
+raw report has unknown full case counts; observed reporter failures are reported
+separately and are not replaced by a misleading zero-failure total.
+`--reporter=default`, `--reporter=json`, and a fresh
+`--outputFile.json=/absolute/path/result.json` are supported. Aggregate and requested
+JSON files are provisional and have no standalone `success` flag. The sole committed
+version-2 `terminal.json` binds the run, scope, original discovery bytes, measured
+execution verdict, all report identities and hashes, and each complete phase's raw
+result and settled process receipt. The reader derives the ordered, exhaustive
+phase selection from the scope policy and bound discovery, including isolated
+worker configuration; reports cannot declare their own required phase count.
+Historical version-2 evidence with the earlier three/four-phase policy must use
+its matching retained reader, available at commit `21d6add193`; it cannot qualify
+the new four/five-phase policy. Preserve the original artifacts unchanged.
+Historical version-1 evidence must be read with its matching retained supervisor,
+not treated as qualification under this new phase policy. Commit
+`7e6e337b50b6aa191d12c8f9661a1d23dda5ba8d` retains the version-1 reader. To inspect
+an existing version-1 aggregate without changing its artifacts or the checkout:
+
+```bash
+reader_dir=$(mktemp -d "${TMPDIR:-/tmp}/zdoc-v1-reader.XXXXXX")
+git show 7e6e337b50b6aa191d12c8f9661a1d23dda5ba8d:scripts/testing/run-vitest-groups.mjs > "$reader_dir/reader.mjs"
+node --input-type=module - "$reader_dir/reader.mjs" /absolute/path/version-1/aggregate.json <<'JS'
+import {pathToFileURL} from 'node:url';
+const {readGateReport} = await import(pathToFileURL(process.argv[2]).href);
+console.log(await readGateReport(process.argv[3]));
+JS
+```
+
+Use the current reader for version-2 evidence:
+actual reader to qualify either report path:
+
+```js
+import {readGateReport} from './scripts/testing/run-vitest-groups.mjs';
+const result = await readGateReport('/absolute/path/result.json');
+console.log(result.success, result.executionStatus, result.commandStatus);
+```
+
+The CLI uses the same reader and returns zero only for an acknowledged passing
+commit. Missing, partial or mismatched terminal evidence cannot qualify a report.
+An error or exhausted confirmation allowance returns nonzero with settlement status
+`unknown`, without rollback or retry: the terminal might already have committed.
+An offline reader can verify that committed execution result, but its
+`commandStatus: not-established-by-artifacts` does not prove CLI delivery or exit.
+No filesystem timestamp substitutes for the measured monotonic execution budget.
+All discovered files must be accounted for and every owned group settled.
+Narrowing options, retries and deadline overrides
+are rejected by these complete gates; use direct `pnpm exec vitest run ...` for
+explicit focused diagnostics, which do not qualify the complete selection.
+
 Build output is written to `build/en` and `build/zh-CN`.
 
 ## Content ownership
@@ -355,3 +461,57 @@ observations or explicitly failed content generation; it does not mean every
 page built successfully or authorize a mutation. Inspect per-page statuses and
 reasons. Current and old-next/target observations remain distinct, including
 source changes hidden by Cloud replacements and image-byte changes.
+
+### Plan and prepare a local shared-docs update
+
+Run the local commands from the trusted tooling checkout at the exact committed
+implementation you intend to use. They validate the launcher before reading any
+`.env`; unsupported Node/Git/package-manager overrides are rejected. Inputs must
+be already acquired local repositories. Supply a strict JSON request with exact
+master/dev/source commits and complete subjects; see the
+[request and evidence contract](packages/docs-tooling/src/shared-docs/README.md#local-update-commands).
+The request's master must match the independently captured tooling HEAD.
+
+Before capturing a toolset after Vite/Vitest, wait for the owning command process
+to exit: ESM config loading can unlink its temporary file asynchronously. The
+checkout's exact root `node_modules/.vite-temp` must be absent or an ordinary,
+canonical, empty directory with safe access; symlinks, aliases and contents are
+rejected. If it remains nonempty, stop and inspect the reported paths without
+deleting or ignoring them to pass validation. Capture and pre-launch verification
+bind the observed directory state and access identity. Persistent changes observed
+on revalidation require a fresh capture; these checks are not an atomic snapshot
+or continuous monitor. Child load guards refuse unmeasured executable files,
+including files introduced after verification.
+
+```bash
+pnpm docs-tooling shared-docs update-plan \
+  --request /absolute/request.json --out /absolute/new-plan
+pnpm docs-tooling shared-docs update-prepare \
+  --request /absolute/request.json --plan /absolute/new-plan \
+  --unit '<unitKey from the plan>' --out /absolute/new-candidate
+```
+
+Inspect `result.json`, `reports/` and `units/` before choosing a unit. Planning
+may construct an isolated prepared base; preparation rechecks the plan, source,
+configuration, authority and toolset, and creates at most one local candidate
+that changes only the selected next locks. Scratch Git objects, journals and
+proofs stay in the owned output. Input refs and repositories remain unchanged.
+SDK subjects currently return `PROVIDER_NOT_INSTALLED`; incomplete Guides
+authority remains held. Neither is permission to bypass an eligibility check.
+
+Use absent/empty, absolute canonical output directories outside input data,
+Git metadata and prior evidence; a dedicated `.claude/` directory is suitable.
+Ordinary invocations never overwrite evidence. To resume an interrupted prepare,
+repeat its exact command with `--resume`; only the matching owned journal is
+accepted and all bindings are revalidated. For `PLAN_CHANGED`, generate a fresh
+plan and use a new output. Preserve conflict/hold evidence and resolve the
+reported input problem; do not reset, force-push or delete arbitrary directories.
+
+Exit 2 means invalid arguments/request/output; exit 1 means infrastructure or
+acquisition failure, retaining only safely owned partial evidence. Exit 0 means
+a completed observation: inspect `status` (`planned`, `held`, `prepared`,
+`reused`), `disposition` and `reasons`. A `draft-failure` candidate is not
+publishable. Holds contain no candidate/proof. The result is also printed as
+JSON to stdout; a hold before output ownership exists only there, with no
+`result.json` or fabricated pins. External `operations` is always empty.
+These commands do not publish, push, create PRs or authorize production actions.

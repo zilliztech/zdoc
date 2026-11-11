@@ -1,0 +1,1 @@
+- a null subfield value in a Struct element makes the element predicate unknown rather than false. `element_filter` keeps only elements whose predicate is true, and `MATCH_*` counts an unknown element as a miss. For details, see [StructArray Operators](struct-array-operators.md).

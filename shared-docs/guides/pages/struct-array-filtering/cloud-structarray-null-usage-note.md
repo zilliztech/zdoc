@@ -1,0 +1,1 @@
+- Use `IS NULL` and `IS NOT NULL` only on the whole StructArray field, such as `chunks is null`, or, on `$[subfield]` inside `element_filter` or `MATCH_*`. Do not use them on a subfield path such as `chunks[section]`.

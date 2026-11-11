@@ -11,3 +11,41 @@ publish:
     path: tutorials/development/search-and-query/filtering/struct-array-filtering
   - manual: guides-byoc
     path: tutorials/development/search-and-query/filtering/struct-array-filtering
+
+transforms:
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-operators-subfield-scope
+    content:
+      file: cloud-structarray-operators-subfield-scope.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-positional-array-subfield
+    content:
+      file: cloud-structarray-positional-array-subfield.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-element-predicate-table
+    content:
+      file: cloud-structarray-element-predicate-table.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-null-predicates-intro
+    content:
+      file: cloud-structarray-null-predicates-intro.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-null-usage-note
+    content:
+      file: cloud-structarray-null-usage-note.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-null-predicate-exclusions
+    content:
+      file: cloud-structarray-null-predicate-exclusions.md

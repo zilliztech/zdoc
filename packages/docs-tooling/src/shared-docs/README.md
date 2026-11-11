@@ -608,3 +608,112 @@ Output protection resolves each participating repository's actual Git directory
 and common directory, covering bare repositories, separate Git directories and
 linked worktrees. Metadata overlap is rejected with exit 2 before writes;
 disjoint `.claude/` report destinations remain supported.
+
+### Local update commands
+
+`shared-docs update-plan` and `shared-docs update-prepare` are thin command
+adapters over `createLocalUpdateRunner`. Their strict options reject unknown,
+duplicate and missing flags. Only prepare accepts `--resume`. They use a
+separate pre-dotenv dispatch path; legacy `shared-docs update` keeps its parser,
+report detail serialization, four filenames and empty operations unchanged.
+
+The request file is bounded to 1 MiB and parsed by `parseLocalUpdateRequest`:
+
+```ts
+{
+  kind: 'shared-update-local-request'; schemaVersion: 1;
+  repository: string; devRepository: string; sourceRepository: string;
+  master: string; dev: string; sourceTarget: string;
+  comparisonConfig: string | null;
+  subjects: (
+    | {kind: 'guides-page'; group: 'guides'; pageId: string}
+    | {kind: 'sdk-manual'; group: string; manualId: string}
+  )[];
+  existing: null | {head: string; donorHeads: string[]; localEvidence: string[]};
+  lifecycle: null | {runId: number; archive: string | null};
+}
+```
+
+Use canonical absolute paths and exact lowercase SHA-1 commits. The current
+schema permits 1–64 unique complete subjects, up to 8 distinct donors and 256
+prior local evidence roots. Unknown and duplicate JSON keys are errors. There
+is no page subset within a manual, public provider module, authority override,
+clock, writer or trusted-toolset argument. `existing.localEvidence` names owned
+local outputs whose journals, objects and proofs are independently verified;
+copied evidence never supplies fresh remote identity or access authority.
+
+The implementation root is derived from the executing command module. Canonical
+cwd must match it. Bootstrap reads bounded, no-follow files to resolve HEAD in
+ordinary or linked-worktree SHA-1 files-backend checkouts, including loose and
+packed branch refs. Unborn, malformed, cyclic, unsafe or unsupported metadata
+fails closed. The independently observed commit goes to `captureTrustedToolset`;
+HEAD is rechecked afterward. The request's master is never a fallback. Current
+launcher/access policy still governs the actual Node/Git/helpers/dependencies
+and fixed Guides worker. `GH_TOKEN` is a separate secret input, never semantic
+material. Host/access observations remain private evidence.
+
+Owned outputs contain normalized `request.json`, `pins.json`, `snapshot.json`,
+`reports/<hash>.json`, `units/<hash>.json`, referenced `blobs/<sha256>`,
+`result.json` and `scratch.git/`. Subject/unit identities live inside the JSON,
+not arbitrary filenames. Prepare adds `journal.json` and, only after validated
+candidate creation, `proof.json`. `LocalRunResult` carries status, selected unit,
+disposition, plan digest, candidate, reasons, validation/proof references and
+`operations: []`. A pre-ownership `LocalTransactionHold` is emitted only to
+stdout, with null candidate/proof/pins-dependent fields; no output is invented
+by the command's exception handler. Only `LocalInputError` maps to exit 2 and
+only explicit transaction holds map to completed exit 0; other failures exit 1.
+
+`LocalCommandDependencies` is an internal library seam for tests. Production
+always uses the fixed factory and registry; no CLI option selects dependencies.
+Command tests exercise the actual local runner with isolated Git fixtures,
+including next-only candidates, stale plans, output protection and resume.
+Those synthetic fixtures do not establish measured production-worker or SDK
+integration qualification. Operator commands and recovery rules are in the
+repository README.
+
+### Remote update library (not activated)
+
+`createRemoteUpdateRunner({capture, reads, policy, writerCapability?,
+transactionEvidence?})` is an internal library entry. There is no public remote
+write command or workflow installation. Capture still comes from
+`captureTrustedToolset`, including its Linux refusal. Requests cannot install a
+runtime, provider, trusted flag or writer. The executable fixture seams establish
+test behavior only; they do not qualify a production runner.
+
+`observe(request, preparationRoot, inspectionRoot)` accepts a strict local input
+pin record plus producer run/attempt/request identity and a validation request
+identity. Those identities are claims, not producer attestations. Observation
+rechecks repository identity, current master/dev, authenticated namespace PRs and
+exact refs. It returns `held`, `noop` or `planned`, always with `operations: []`.
+A planned intent derives its repository from policy and its plan, proof, P/K and
+refs from authenticated observations; callers cannot override an intent or proof.
+
+P is the ordinary prepared merge base, K is a deterministic next-only candidate,
+and S is the independently authenticated remote seal. Remote history capabilities
+are bound to the exact read adapter, policy and current M/H/donor set. Historical
+S may attest an older M. Its raw objects, producer bundle and historical proof
+remain historical evidence; the bridge prepares a new P, recollects under today's
+captured M, and creates a fresh K/proof. The old K is `previousBotCommit`; the old
+S is an ordinary ancestor of P and becomes `previousSeal` only in the next intent
+and seal. Separate `remote-origin` evidence never impersonates an owned B2 local
+journal. `existing.localEvidence` continues to accept only verified owned local
+journals. Human data/configuration changes are preserved, while execution changes
+and `BOTH_SIDES_LOCK_CHANGED` stop preparation. A noop creates neither K nor S nor
+a PR. Draft failures cannot produce ready or donor-close proposals here.
+
+Preparation and inspection use new, disjoint evidence roots. Persistent transaction
+attempt evidence is constructor-bound and separate; selecting a fresh preparation
+root cannot clear an earlier dispatch-attempt veto. `apply` remains report-only
+with `WRITER_DISABLED`, regardless of capability-shaped input. Unclassified write
+outcomes in the underlying transaction stop later mutations and permit read-only
+reconciliation only. A new invocation must authenticate fresh facts; journal
+phase never authorizes work.
+
+`reconcile(retainedIntent)` treats the retained intent as a claim and reconstructs
+remote state read-only. It preserves raw-object and exact-validation-receipt holds;
+this unqualified production bridge cannot certify completion. Missing local output,
+missing raw objects, unknown remote state, stale identity or missing exact receipt
+must not become a new-PR fallback. Replanning an unchanged completed content state
+produces no new candidate. Production activation, real runner/capture qualification,
+trusted validation producer, external CAS/dispatch evidence and rollout policy
+remain B4 work; local synthetic tests do not close those gaps.

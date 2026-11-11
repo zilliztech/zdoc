@@ -54,6 +54,30 @@ test('path matching supports exact, prefix-star, and recursive directory entries
   assert.equal(matchesPattern('README.md', 'README.md'), true)
 })
 
+test('grouped Vitest support maps every new path to its contract and both complete gates', () => {
+  for (const input of ['package.json', 'scripts/testing/run-vitest-groups.mjs', 'scripts/testing/vitest-stop-reporter.mjs', 'scripts/testing/run-vitest-groups.test.mjs']) {
+    const selected = selectTests([input])
+    for (const command of ['pnpm test:vitest-groups', 'pnpm test:shared-docs', 'pnpm test:frontend', 'pnpm test:workflow-matrix', 'git diff --check']) {
+      assert.equal(selected.commands.includes(command), true, `${input}: ${command}`)
+    }
+    assert.equal(branchPolicy(input).targetBranch, 'master')
+  }
+  const scripts = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8')).scripts
+  assert.equal(scripts['test:shared-docs'], 'node scripts/testing/run-vitest-groups.mjs --scope shared-docs')
+  assert.equal(scripts['test:frontend'], 'node scripts/testing/run-vitest-groups.mjs --scope all')
+})
+
+test('publication stage control maps product, contracts and concurrent worker to the complete safety union', () => {
+  const paths = ['packages/docs-tooling/src/publication/stageControl.ts', 'packages/docs-tooling/src/publication/stageControl.test.ts', 'packages/docs-tooling/src/publication/stageControl.bootstrap-worker.ts']
+  for (const input of paths) {
+    const selected = selectTests([input])
+    for (const command of ['pnpm exec vitest run packages/docs-tooling/src/publication/stageControl.test.ts packages/docs-tooling/src/publication/diagnostics.test.ts packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/cli-main.integration.test.ts --pool=forks --isolate --maxWorkers=1', 'pnpm test:replay:all', 'pnpm test:workflow-matrix', 'pnpm test:typescript-runtime-boundary', 'pnpm typecheck', 'pnpm test:workflow-policy', 'git diff --check']) {
+      assert.equal(selected.commands.includes(command), true, `${input}: ${command}`)
+    }
+    assert.equal(branchPolicy(input).targetBranch, 'master')
+  }
+})
+
 test('diff-mode selector input drops paths deleted on the head side', () => {
   const tree = headTreeFiles('HEAD')
   assert.equal(tree.has('package.json'), true)
@@ -197,13 +221,26 @@ test('selector maps REST reference rendering to its localized component regressi
     'packages/docs-ui/src/shared/components/RestSpecs/utils.js',
   ])
   assert.deepEqual(selected.areas.map(area => area.id), ['docs-ui-rest-specs'])
-  assert.equal(selected.commands.includes('pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts'), true)
+  assert.equal(selected.commands.includes('pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts packages/docs-ui/src/shared/components/RestSpecs/index.test.tsx'), true)
   assert.equal(selected.commands.includes('pnpm test:workflow-matrix'), true)
+})
+
+test('docs-tooling runtime contract and owning manifest select the complete runtime checks', () => {
+  for (const input of ['packages/docs-tooling/src/runtime-contract.test.ts', 'packages/docs-tooling/package.json']) {
+    const selected = selectTests([input])
+    assert.deepEqual(selected.areas.map(area => area.id), input.endsWith('package.json')
+      ? ['docs-tooling-runtime-contract', 'dependency-manifests'] : ['docs-tooling-runtime-contract'])
+    for (const command of ['pnpm exec vitest run packages/docs-tooling/src/runtime-contract.test.ts', 'pnpm test:typescript-runtime-boundary', 'pnpm test:workflow-matrix', 'git diff --check']) {
+      assert.equal(selected.commands.includes(command), true, `${input}: ${command}`)
+    }
+    assert.equal(branchPolicy(input).targetBranch, 'master')
+  }
 })
 
 test('selector maps dependency manifests and the lockfile to the replay toolchain gates', () => {
   const selected = selectTests(['pnpm-lock.yaml', 'packages/docs-tooling/package.json'])
-  assert.deepEqual(selected.areas.map(area => area.id), ['dependency-manifests'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['docs-tooling-runtime-contract', 'dependency-manifests'])
+  assert.equal(selected.commands.includes('pnpm exec vitest run packages/docs-tooling/src/runtime-contract.test.ts'), true)
   assert.equal(selected.commands.includes('pnpm test:replay:contract'), true)
   assert.equal(selected.commands.includes('pnpm test:replay:all'), true)
   assert.equal(selected.commands.includes('pnpm test:workflow-policy'), true)
@@ -211,7 +248,7 @@ test('selector maps dependency manifests and the lockfile to the replay toolchai
 
 test('workflow and replay infrastructure changes select structural and aggregate gates', () => {
   const selected = selectTests(['.github/workflows/replay-tests.yml', 'package.json'])
-  assert.deepEqual(selected.areas.map(area => area.id), ['workflow-yaml', 'replay-infrastructure'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['workflow-yaml', 'replay-infrastructure', 'grouped-vitest-harness'])
   assert.equal(selected.commands.includes('pnpm test:replay:all'), true)
   assert.equal(selected.commands.includes('node --test deploy/contracts/fetch-translation-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/master-tooling-sync-workflow.test.mjs'), true)
 })

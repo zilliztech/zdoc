@@ -6,13 +6,23 @@ const root = 'repos/zilliztech/zdoc'
 export class GitHubReads implements ReadonlyGitHub {
   async get(path: string): Promise<unknown> {
     if (!/^repos\/zilliztech\/zdoc(?:\/(?:actions|contents)[\w./?=&-]*)?$/.test(path) || path.includes('..')) throw new Error('Unsupported read endpoint')
-    const { stdout } = await exec('gh', ['api', '--hostname', 'github.com', '--method', 'GET', path], { timeout: 30_000, maxBuffer: 16 * 1024 * 1024 })
-    return JSON.parse(stdout)
+    let stdout: string
+    try {
+      const result = await exec('gh', ['api', '--hostname', 'github.com', '--method', 'GET', path], { timeout: 30_000, maxBuffer: 16 * 1024 * 1024 })
+      stdout = result.stdout
+    } catch {
+      // Child diagnostics may contain credentials and are later retained in B1 evidence.
+      throw new Error('GitHub metadata request failed')
+    }
+    try { return JSON.parse(stdout) }
+    catch { throw new Error('GitHub metadata response is not valid JSON') }
   }
   async zip(artifact: number) {
     if (!Number.isSafeInteger(artifact) || artifact <= 0) throw new Error('Invalid artifact ID')
-    return (await exec('gh', ['api', '--hostname', 'github.com', '--method', 'GET', `${root}/actions/artifacts/${artifact}/zip`], {
-      encoding: 'buffer', timeout: 120_000, maxBuffer: 256 * 1024 * 1024 })).stdout
+    try {
+      return (await exec('gh', ['api', '--hostname', 'github.com', '--method', 'GET', `${root}/actions/artifacts/${artifact}/zip`], {
+        encoding: 'buffer', timeout: 120_000, maxBuffer: 256 * 1024 * 1024 })).stdout
+    } catch { throw new Error('GitHub artifact download failed') }
   }
 }
 export function object(value: unknown): Record<string, any> {

@@ -1,7 +1,20 @@
 import {defineConfig} from 'vitest/config';
+import {transformWithEsbuild} from 'vite';
 import path from 'path';
 
+// The REST reference components are JSX authored in .js files, which the
+// Docusaurus Babel pipeline accepts but Vite only parses as plain JS. Compile
+// exactly those files as JSX so their render tests exercise the real modules.
+const jsxInJsComponents = /packages\/docs-ui\/src\/shared\/components\/Rest(Specs|Header)\/[^/]+\.js$/;
+
 export default defineConfig({
+  plugins: [{
+    name: 'docs-ui-rest-jsx-in-js',
+    enforce: 'pre',
+    transform(code, id) {
+      return jsxInJsComponents.test(id) ? transformWithEsbuild(code, id, {loader: 'jsx', jsx: 'automatic'}) : null;
+    },
+  }],
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],
@@ -20,6 +33,7 @@ export default defineConfig({
       '@docusaurus/ErrorBoundary': path.resolve(__dirname, 'node_modules/@docusaurus/core/lib/client/exports/ErrorBoundary.js'),
       '@docusaurus/useGlobalData': path.resolve(__dirname, 'node_modules/@docusaurus/core/lib/client/exports/useGlobalData.js'),
       '@theme/Admonition': path.resolve(__dirname, 'src/test/AdmonitionStub.tsx'),
+      '@theme/CodeBlock': path.resolve(__dirname, 'src/test/CodeBlockStub.tsx'),
       '@theme-init/Heading': path.resolve(__dirname, 'src/test/HeadingInitStub.tsx'),
       '@docusaurus/Link': path.resolve(__dirname, 'src/test/LinkStub.tsx'),
       '@site/src/components': path.resolve(__dirname, 'packages/docs-ui/src/shared/components'),

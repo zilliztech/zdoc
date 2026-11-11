@@ -88,3 +88,8 @@ sparse_vector.md: use-sparse-vector
 add-fields-to-an-existing-collection.md: add-fields-to-an-existing-collection
 best-practices-for-array-of-structs.md: schema-design-with-structs
 schema-hands-on.md: schema-design-hands-on
+
+# StructArray element-null docs (#3707/#3819): structarray-limits links to the
+# Milvus source-data page; the zdoc StructArray source-file shapes live on the
+# SDK import page (section anchor published via the guides Base).
+prepare-source-data.md: import-data-via-sdks
