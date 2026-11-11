@@ -1,1 +1,1 @@
-Nullable StructArray fields, nullable vector arrays, dynamic StructArray field addition, element-level null values, scalar `ARRAY` subfields, and adding or dropping StructArray subfields are not yet available on Zilliz Cloud clusters.
+On Zilliz Cloud, nullable StructArray fields and dynamic StructArray field addition are supported on On-Demand Clusters. A StructArray field added dynamically must be nullable. Serving Clusters do not support these capabilities. Nullable vector arrays are not yet available on Zilliz Cloud clusters; see the additional capabilities below.
