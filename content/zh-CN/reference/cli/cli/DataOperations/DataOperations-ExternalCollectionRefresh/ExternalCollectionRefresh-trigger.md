@@ -64,13 +64,13 @@ zilliz external-collection refresh trigger
 
     请将其与 `--external-spec` 一起提供，或同时省略两者；当两者都省略时，刷新会复用已持久化的外部源和规范。
 
-    <NextChannel action="include">该选项接受两种格式：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。使用 `milvus://` 源时，必须提供此选项；如果省略，刷新不会生效，Collection 会继续提供此前同步的数据。</NextChannel>
+    该选项接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，此选项为必填；如果省略，刷新不会生效，Collection 会继续提供先前已同步的数据。
 
 - **--external-spec** (*string*) -
 
     以 JSON 字符串形式指定本次刷新的外部源规范。请将其与 `--external-source` 一起提供，或同时省略两者。
 
-    <NextChannel action="include">对于 `milvus://` 源，可以省略此选项；`format` 默认为 `milvus-table`。</NextChannel>
+    对于 `milvus://` 源，您可以省略此选项；`format` 默认为 `milvus-table`。
 
 ## 示例\{#example}
 

@@ -977,11 +977,11 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "c76cc8c6604049703a02d79a0e5c1f5ffcd56352",
-      "sourceHash": "ced85a283235f796c0c6a7e57d14409571fa4b1aa8c34c376dca8ff31ecd90b1",
+      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
+      "sourceHash": "fff53c49f2239227fab870b42c2afe6bcda186a7c74fb8ab4b284f5d3c1c7a72",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md",
       "status": "translated",
-      "targetHash": "d97ca72b3126cd428605ff4fc5ecd79863c84d913964a0f81d6d4e32672a575c",
+      "targetHash": "25592acd6fe933135df72666ba8274c23f2832dc289715b8026e1428af12ed7d",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md"
     },
     {
