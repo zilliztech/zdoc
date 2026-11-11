@@ -92,15 +92,26 @@ export async function runAdoptVariant(options: AdoptVariantOptions, write: (text
       const name = variantFileName(channel), sidecarName = variantSidecarName(channel)
       const existing = await readExisting(join(pageDirectory, name))
       const existingSidecar = await readExisting(join(pageDirectory, sidecarName))
-      // Unchanged means the adopted content bytes are identical; the sidecar still
-      // refreshes so adopted_at records the latest adoption event.
-      const state = existing === undefined || existingSidecar === undefined ? 'added'
+      // Unchanged means the adopted content bytes are identical AND the recorded
+      // provenance already names this pull and head; rewriting the sidecar anyway
+      // would make every repeat adoption a timestamp-only commit.
+      let state = existing === undefined || existingSidecar === undefined ? 'added'
         : existing === text ? 'unchanged' : 'updated'
+      let sidecarUnchanged = false
+      if (state === 'unchanged') {
+        try {
+          const recorded = JSON.parse(existingSidecar!)
+          sidecarUnchanged = recorded.pull === options.pull && recorded.head_sha === head
+        } catch { sidecarUnchanged = false }
+      }
       if (!options.dryRun && state !== 'unchanged') await writeFile(join(pageDirectory, name), text)
-      if (!options.dryRun && existingSidecar !== sidecar) await writeFile(join(pageDirectory, sidecarName), sidecar)
+      if (!options.dryRun && (state !== 'unchanged' || !sidecarUnchanged)) await writeFile(join(pageDirectory, sidecarName), sidecar)
       plan.push({ file: group.file(`pages/${options.page}/${name}`), state, bytes: Buffer.byteLength(text) })
     }
     for (const entry of plan) write(`${entry.state === 'unchanged' ? 'Unchanged' : options.dryRun ? 'Planned' : entry.state === 'added' ? 'Created' : 'Updated'} ${entry.file} (${entry.bytes} bytes)\n`)
+    if (!options.promote && await readExisting(join(pageDirectory, variantFileName('current'))) !== undefined) {
+      write(`Notice: variant-current.md already exists and was left untouched; pass --promote to refresh it, or reconcile.\n`)
+    }
     write(`${options.dryRun ? 'Dry run; nothing written. ' : ''}Adopted milvus-docs #${options.pull} at ${head.slice(0, 12)} for ${options.page}: channels=${channels.join(',')}. Commit these files on a master PR; shared-docs-validate runs the real generation check.\n`)
     return 0
   } catch (error) {

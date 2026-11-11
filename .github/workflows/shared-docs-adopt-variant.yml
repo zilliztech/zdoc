@@ -43,10 +43,16 @@ jobs:
         env:
           PAGE: ${{ inputs.page }}
           PULL: ${{ inputs.pull }}
+          PROMOTE: ${{ inputs.promote }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          SHARED_DOCS_ADOPT_PAT: ${{ secrets.SHARED_DOCS_ADOPT_PAT }}
         run: |
           set -euo pipefail
           [[ "$PAGE" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || { echo "::error::page must be a lowercase slug" >&2; exit 1; }
           [[ "$PULL" =~ ^[1-9][0-9]*$ ]] || { echo "::error::pull must be a positive integer" >&2; exit 1; }
+          if [[ "$DRY_RUN" != true && -z "$SHARED_DOCS_ADOPT_PAT" ]]; then
+            echo '::notice::SHARED_DOCS_ADOPT_PAT is not configured; this dispatch will fail closed after committing locally. Re-dispatch after provisioning the PAT, or run the shared-docs adopt-variant command locally and open the master PR yourself.'
+          fi
 
       - name: Stop when an adoption PR is already open
         id: gate
@@ -103,6 +109,7 @@ jobs:
           cat "$RUNNER_TEMP/adopt-output.txt" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Stop on dry run or unchanged adoption
+        id: stop
         if: steps.gate.outputs.proceed == 'true'
         env:
           DRY_RUN: ${{ inputs.dry_run }}
@@ -112,16 +119,19 @@ jobs:
           set -euo pipefail
           if [[ "$DRY_RUN" == true ]]; then
             echo 'Dry run only; nothing was committed or pushed.' >> "$GITHUB_STEP_SUMMARY"
+            echo 'deliver=false' >> "$GITHUB_OUTPUT"
             exit 0
           fi
           if test -z "$(git status --porcelain -- "shared-docs/guides/pages/${PAGE}")"; then
-            echo "::notice::${PAGE} is already adopted from pull #${PULL} with identical bytes; nothing to deliver."
+            echo "::notice::${PAGE} is already adopted from pull #${PULL} with identical bytes and provenance; nothing to deliver."
             echo 'Variant already identical; nothing was committed or pushed.' >> "$GITHUB_STEP_SUMMARY"
+            echo 'deliver=false' >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          echo 'deliver=true' >> "$GITHUB_OUTPUT"
 
       - name: Guard staged adoption files
-        if: steps.gate.outputs.proceed == 'true'
+        if: steps.gate.outputs.proceed == 'true' && steps.stop.outputs.deliver != 'false'
         env:
           PAGE: ${{ inputs.page }}
         run: |
@@ -146,7 +156,7 @@ jobs:
 
       - name: Commit the adoption
         id: commit
-        if: steps.gate.outputs.proceed == 'true'
+        if: steps.gate.outputs.proceed == 'true' && steps.stop.outputs.deliver != 'false'
         env:
           PAGE: ${{ inputs.page }}
           PULL: ${{ inputs.pull }}
@@ -162,7 +172,7 @@ jobs:
 
       - name: Deliver the adoption PR through the provisioned PAT
         id: deliver
-        if: steps.gate.outputs.proceed == 'true'
+        if: steps.gate.outputs.proceed == 'true' && steps.stop.outputs.deliver != 'false'
         env:
           SHARED_DOCS_ADOPT_PAT: ${{ secrets.SHARED_DOCS_ADOPT_PAT }}
           GH_TOKEN: ${{ secrets.SHARED_DOCS_ADOPT_PAT }}
@@ -173,7 +183,7 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$SHARED_DOCS_ADOPT_PAT" || {
-            echo 'SHARED_DOCS_ADOPT_PAT is not configured; the verified adoption is committed on this run but was not delivered. Provision the PAT and re-dispatch, or apply the variant files from the run summary.' >&2
+            echo 'SHARED_DOCS_ADOPT_PAT is not configured; the verified adoption is committed on this run but was not delivered. Provision the PAT and re-dispatch, or run the shared-docs adopt-variant command locally and open the master PR yourself.' >&2
             exit 1
           }
           {

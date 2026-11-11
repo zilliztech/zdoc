@@ -357,6 +357,7 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       }
       if (options.promote !== undefined && options.promote !== true) throw new Error('--promote must be a flag');
       if (options.dryRun !== undefined && options.dryRun !== true) throw new Error('--dry-run must be a flag');
+      if (options.pull !== undefined && typeof options.pull !== 'string') throw new Error('--pull requires a value');
       const {runAdoptVariant} = await import('./shared-docs/commands/adopt-variant.ts');
       process.exitCode = await runAdoptVariant({sharedDocs: requiredOption(options, 'sharedDocs'), page: requiredOption(options, 'page'),
         pull: Number(requiredOption(options, 'pull')), ref: options.ref === undefined ? undefined : requiredOption(options, 'ref'),
