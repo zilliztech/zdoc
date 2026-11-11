@@ -95,7 +95,7 @@ export async function runAdoptVariant(options: AdoptVariantOptions, write: (text
       // Unchanged means the adopted content bytes are identical AND the recorded
       // provenance already names this pull and head; rewriting the sidecar anyway
       // would make every repeat adoption a timestamp-only commit.
-      let state = existing === undefined || existingSidecar === undefined ? 'added'
+      let state: 'added' | 'updated' | 'unchanged' = existing === undefined || existingSidecar === undefined ? 'added'
         : existing === text ? 'unchanged' : 'updated'
       let sidecarUnchanged = false
       if (state === 'unchanged') {
