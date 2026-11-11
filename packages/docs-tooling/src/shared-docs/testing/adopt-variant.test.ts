@@ -63,9 +63,13 @@ it('a dry run reports the plan without writing anything', async () => {
 it('re-adoption of identical bytes is a no-op and promotion writes both channels', async () => {
   const setup = await fixture()
   expect((await output(setup)).text).toContain('Created')
+  const sidecarBefore = await readFile(join(setup.group, 'pages/sample/variant-next.provenance.json'), 'utf8')
   const again = await output(setup)
   expect(again.code).toBe(0)
   expect(again.text).toContain('Unchanged')
+  // Identical re-adoption must not rewrite the sidecar: a refreshed adopted_at
+  // would turn every repeat dispatch into a timestamp-only commit.
+  expect(await readFile(join(setup.group, 'pages/sample/variant-next.provenance.json'), 'utf8')).toBe(sidecarBefore)
   const promoted = await output(setup, { promote: true })
   expect(promoted.code).toBe(0)
   expect(promoted.text).toContain('channels=current,next')

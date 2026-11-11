@@ -418,7 +418,7 @@ describe('adoption workflow contracts', () => {
   })
 
   it('rejects malformed dispatch inputs before any other step', () => {
-    expect(execute(adopt, 'adopt', 'Validate dispatch inputs', fixture(), { PAGE: 'sample', PULL: '42' }).status).toBe(0)
+    expect(execute(adopt, 'adopt', 'Validate dispatch inputs', fixture(), { PAGE: 'sample', PULL: '42', DRY_RUN: 'true', SHARED_DOCS_ADOPT_PAT: 'test-pat' }).status).toBe(0)
     expect(execute(adopt, 'adopt', 'Validate dispatch inputs', fixture(), { PAGE: 'Bad_Slug', PULL: '42' }).status).toBe(1)
     expect(execute(adopt, 'adopt', 'Validate dispatch inputs', fixture(), { PAGE: 'sample', PULL: '0' }).status).toBe(1)
   })
@@ -433,12 +433,30 @@ describe('adoption workflow contracts', () => {
     expect(free.status).toBe(0); expect(free.outputs.proceed).toBe('true')
   })
 
-  it('stops without delivery on a dry run or an unchanged adoption', () => {
+  it('stops without delivery on a dry run or an unchanged adoption and lets delivery continue otherwise', () => {
     const setup = fixture()
     expect(execute(adopt, 'adopt', 'Stop on dry run or unchanged adoption', setup, { DRY_RUN: 'true' }).status).toBe(0)
+    const dryRun = execute(adopt, 'adopt', 'Stop on dry run or unchanged adoption', fixture(), { DRY_RUN: 'true', PAGE: 'example', PULL: '42' })
+    expect(dryRun.status).toBe(0)
+    expect(dryRun.outputs.deliver).toBe('false')
+    expect(dryRun.summary).toContain('nothing was committed or pushed')
     const unchanged = execute(adopt, 'adopt', 'Stop on dry run or unchanged adoption', fixture(), { DRY_RUN: 'false', PAGE: 'example', PULL: '42' })
     expect(unchanged.status).toBe(0)
+    expect(unchanged.outputs.deliver).toBe('false')
     expect(unchanged.summary).toContain('nothing was committed or pushed')
+    const dirty = fixture()
+    put(dirty.repo, 'shared-docs/guides/pages/example/variant-next.md', 'adopted\n')
+    const delivering = execute(adopt, 'adopt', 'Stop on dry run or unchanged adoption', dirty, { DRY_RUN: 'false', PAGE: 'example', PULL: '42' })
+    expect(delivering.status).toBe(0)
+    expect(delivering.outputs.deliver).toBe('true')
+  })
+
+  it('gates every delivery step on the stop flag', () => {
+    for (const name of ['Guard staged adoption files', 'Commit the adoption', 'Deliver the adoption PR through the provisioned PAT']) {
+      expect(adoptJob.steps.find(step => step.name === name)?.if)
+        .toBe("steps.gate.outputs.proceed == 'true' && steps.stop.outputs.deliver != 'false'")
+    }
+    expect(adoptJob.steps.find(step => step.name === 'Validate dispatch inputs')?.env?.SHARED_DOCS_ADOPT_PAT).toBe('${{ secrets.SHARED_DOCS_ADOPT_PAT }}')
   })
 
   it('guards only variant files and records the committed adoption SHA', () => {
