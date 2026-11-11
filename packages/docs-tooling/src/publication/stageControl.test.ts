@@ -614,6 +614,8 @@ describe('secure stage control', () => {
         return {completed, stderr: () => stderr};
       };
       const wait = async (name: string) => vi.waitFor(() => expect(existsSync(path.join(root, name))).toBe(true), {timeout: 3_000, interval: 5});
+      // wx creation is visible before the marker's JSON bytes have finished writing.
+      const waitRecord = (name: string) => vi.waitFor(() => JSON.parse(readFileSync(path.join(root, name), 'utf8')), {timeout: 3_000, interval: 5});
       const signal = (name: string) => writeFileSync(path.join(root, name), 'continue');
       try {
         let reader: ReturnType<typeof start>;
@@ -622,12 +624,10 @@ describe('secure stage control', () => {
           await wait('reader-first-release-renamed');
         }
         const holder = start('holder', 'race-holder');
-        await wait('holder-acquired');
+        const held = await waitRecord('holder-acquired');
         if (acquisition === 'first') reader = start('reader', 'race-first');
         else signal('reader-continue-first-release');
-        await wait('reader-directory-observed');
-        const held = JSON.parse(readFileSync(path.join(root, 'holder-acquired'), 'utf8'));
-        const observed = JSON.parse(readFileSync(path.join(root, 'reader-directory-observed'), 'utf8'));
+        const observed = await waitRecord('reader-directory-observed');
         expect({dev: observed.dev, ino: observed.ino, owner: observed.owner}).toEqual(held);
         expect(observed.stack).toContain('readRecoveryControlFence');
         signal('holder-release');
