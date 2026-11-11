@@ -103,8 +103,8 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
   const options = { sharedDocs: join(request.repositoryRoot, 'shared-docs/guides'), repo: request.sourceRepository, dev: request.devRepository, out: '',
     masterSha: request.configSnapshot, devSha: request.dev, ...(request.target === null ? {} : { sourceSha: request.target }),
     ...(request.comparisonConfig === null ? {} : { comparisonMasterSha: request.comparisonConfig }),
-    // Select only the lifecycle observation. B1 still examines every sibling for cross-page adoption.
-    ...(request.pages.length === 1 ? {lifecyclePage: request.pages[0]} : {}),
+    // B1 retains the entire configured inventory and renders siblings whenever an adoption edge is possible.
+    ...(request.pages.length === 1 ? {lifecyclePage: request.pages[0], proveIndependentPage: request.evidenceRun !== null} : {}),
     ...(request.evidenceRun === null ? {} : { evidenceRun: request.evidenceRun }),
     ...(request.evidenceZip === null ? {} : { evidenceZip: request.evidenceZip }) }
   const b1 = await reportUpdates(options, request.repositoryRoot, { ...dependencies.b1, fetcher: capturedFetcher })
@@ -252,7 +252,8 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
           history: await reads.history(request.sourceRepository, endpoints.head, [parsed.lock.current]), sourceInventories,
           relevantSource: { current: rawSourceMaterial[0], oldNext: rawSourceMaterial[1], target: rawSourceMaterial[2] },
           reportingChanges: sorted([...configurationChanges.map(change => change.path), ...impact.sourceImpact.changes.filter(change => change.kind === 'image' || change.kind === 'variable').map(change => `${change.kind}:${change.identity}`),
-            ...(equal(sourceMaterial[1], sourceMaterial[2]) ? [] : equal(rawSourceMaterial[1], rawSourceMaterial[2]) ? ['source-discovery'] : [])]), holdReasons: [] })
+            ...(equal(sourceMaterial[1], sourceMaterial[2]) ? [] : equal(rawSourceMaterial[1], rawSourceMaterial[2]) ? ['source-discovery'] : [])]),
+          holdReasons: leaf.unobservedAdoptionPeers?.length ? ['CROSS_UNIT_DEPENDENCY_UNAVAILABLE'] : [] })
         result.pages.push({ report, context })
       } catch (error) { operationHold(subject, String(error)) }
     }
