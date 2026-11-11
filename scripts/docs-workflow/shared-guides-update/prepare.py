@@ -247,11 +247,15 @@ def run_b2(root, tool, node, phase, extra=()):
     return result
 
 
-def blob(directory, ref):
-    digest = ref["sha256"]
+def blob(directory, ref, maximum=None):
+    digest, size = ref["sha256"], ref["bytes"]
     require(DIGEST.fullmatch(digest) and ref["path"] == "blobs/" + digest, "INVALID_BLOB_REFERENCE")
-    raw = (directory / ref["path"]).read_bytes()
-    require(len(raw) == ref["bytes"] and sha256(raw) == digest, "B2_BLOB_MISMATCH")
+    require(type(size) is int and size >= 0 and (maximum is None or size <= maximum), "B2_BLOB_SIZE_INVALID")
+    with os.fdopen(os.open(directory / ref["path"], os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW), "rb") as handle:
+        info = os.fstat(handle.fileno())
+        require(stat.S_ISREG(info.st_mode) and info.st_size == size, "B2_BLOB_MISMATCH")
+        raw = handle.read(size + 1)
+    require(len(raw) == size and sha256(raw) == digest, "B2_BLOB_MISMATCH")
     return raw
 
 
@@ -264,10 +268,31 @@ def unit_status(unit):
     return "candidate"
 
 
-def authority(root, unit, pins, run):
-    plan = root / "plan"
+def report_material(directory, unit):
+    # The canonical B2 envelope is also a remote producer member (1 MiB limit).
+    # The larger B1 impact detail is review evidence in its own artifact.
     require(len(unit["reports"]) == 1, "AMBIGUOUS_UNIT_REPORT")
-    report = json.loads(blob(plan, unit["reports"][0]))
+    report_raw = blob(directory, unit["reports"][0], 1024**2)
+    report = json.loads(report_raw)
+    require(report["subject"] == report["authority"]["subject"] == SUBJECT
+            and report["detail"]["kind"] == "guides-impact-v1"
+            and report["authority"]["provider"] == "guides-retained-source", "UNEXPECTED_REPORT_SUBJECT")
+    detail = report["detail"]["file"]
+    refs = report["authority"]["evidence"]
+    detail_refs = [ref for ref in refs if ref["sha256"] == detail["sha256"] and ref["bytes"] == detail["bytes"]]
+    pin_refs = [ref for ref in refs if ref["sha256"] != detail["sha256"]]
+    require(len(refs) == 2 and len(detail_refs) == len(pin_refs) == 1, "UNEXPECTED_AUTHORITY_EVIDENCE")
+    impact_raw = blob(directory, detail_refs[0], 16 * 1024**2)
+    pins_raw = blob(directory, pin_refs[0], 1024**2)
+    impact = json.loads(impact_raw)
+    require(impact["offlineReplay"] is False and any(row["pageId"] == PAGE and row["selected"] is True
+            for row in impact["pages"]), "MISSING_PAGE_IMPACT")
+    return report_raw, impact_raw, pins_raw
+
+
+def authority(root, unit, pins, run):
+    report_raw, _, pins_raw = report_material(root / "plan", unit)
+    report = json.loads(report_raw)
     source = report["pins"]["source"]
     require(report["subject"] == SUBJECT and source["track"] == TRACK and source["target"] == source["observedTrackHead"] == pins["source"]
             and source["current"] == pins["current"] and source["oldNext"] == pins["next"]
@@ -277,11 +302,10 @@ def authority(root, unit, pins, run):
             "NO_ELIGIBLE_SOURCE_CHANGE")
     # The exact B1 pins blob inside the authenticated B2 report identifies
     # what the measured collection used, independent of the discovery result.
-    observations = [json.loads(blob(plan, ref)) for ref in report["authority"]["evidence"]]
-    identities = [obs["lifecycle"] for obs in observations if "lifecycle" in obs and obs.get("master") == pins["master"]
-                  and obs.get("dev") == pins["dev"] and obs.get("offlineReplay") is False]
-    require(len(identities) == 1, "MISSING_LIFECYCLE_PINS")
-    row = identities[0]
+    observed = json.loads(pins_raw)
+    require(observed.get("offlineReplay") is False and observed.get("master") == pins["master"]
+            and observed.get("dev") == pins["dev"] and "lifecycle" in observed, "MISSING_LIFECYCLE_PINS")
+    row = observed["lifecycle"]
     require(row["runId"] == row["latestRunId"] == run["id"] and row["attempt"] == run["run_attempt"]
             and row["masterSha"] == run["head_sha"] and row["sampledDev"] == pins["dev"]
             and row["observedPage"] == PAGE and row["reasons"] == []
@@ -322,14 +346,23 @@ def verify_candidate(root, tool, unit, pins, result):
             and all(git(repo, "ls-tree", sha, "--", LOCK).startswith(b"100644 blob ") for sha in (master, candidate)),
             "UNEXPECTED_CANDIDATE_TREE")
     edit = unit["nextEdits"][0]
+    raw_patch = blob(directory, proof["patch"], 1024**2)
     require(proof["nextEdits"] == [edit] and edit["subject"] == SUBJECT and edit["target"] == pins["source"]
             and edit["before"] == {"current": pins["current"], "next": pins["next"], "path": LOCK, "sha256": sha256(before)}
             and edit["afterBlob"]["sha256"] == sha256(after)
-            and blob(directory, proof["patch"]) == git(repo, "diff", "--raw", "--no-abbrev", "-z", master, candidate),
+            and raw_patch == git(repo, "diff", "--raw", "--no-abbrev", "-z", master, candidate),
             "B2_PATCH_MISMATCH")
     patch = git(repo, "diff", "--no-ext-diff", master, candidate)
     git(tool, "apply", "--check", "-", data=patch)
-    for name, raw in (("before.lock", before), ("after.lock", after), ("unit-plan.json", plan_raw),
+    report_raw, impact_raw, pins_raw = report_material(directory, unit)
+    report_directory = root / "report-evidence"
+    report_directory.mkdir(mode=0o700)
+    (report_directory / "reports").mkdir()
+    (report_directory / "guides-impact-v1").mkdir()
+    for name, raw in (("reports/" + unit["reports"][0]["sha256"] + ".json", report_raw), ("patch.raw", raw_patch),
+                      ("guides-impact-v1/pins.json", pins_raw), ("guides-impact-v1/report.json", impact_raw)):
+        (report_directory / name).write_bytes(raw)
+    for name, raw in (("report.json", report_raw), ("before.lock", before), ("after.lock", after), ("unit-plan.json", plan_raw),
                       ("candidate.commit", git(repo, "cat-file", "commit", candidate)),
                       ("lock.next.patch", patch), ("proof.json", proof_raw)):
         (evidence / name).write_bytes(raw)
@@ -399,6 +432,7 @@ def main():
     output("status", record["status"])
     if record["status"] == "prepared":
         output("candidate", record["candidate"])
+        output("report_evidence", root / "report-evidence")
     print(json.dumps({"status": record["status"], "reasons": record["reasons"]}))
     return code
 

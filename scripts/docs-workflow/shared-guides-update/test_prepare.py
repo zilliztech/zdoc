@@ -1,9 +1,11 @@
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
+import json
 import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
 
 import prepare as p
@@ -111,6 +113,35 @@ class PreparationTest(unittest.TestCase):
                        {"disposition": "candidate"}, {"holdReasons": ["AMBIGUOUS"]}):
             with self.assertRaises(p.Hold):
                 p.unit_status({**unit, **change})
+
+    def test_report_pack_retains_b2_bytes_and_both_authority_references(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "blobs").mkdir()
+
+            def retain(value):
+                raw = json.dumps(value).encode()
+                digest = p.sha256(raw)
+                path = "blobs/" + digest
+                (root / path).write_bytes(raw)
+                return {"bytes": len(raw), "sha256": digest, "path": path}
+
+            pins = retain({"offlineReplay": False, "lifecycle": {"observedPage": p.PAGE}})
+            impact = retain({"offlineReplay": False, "pages": [{"pageId": p.PAGE, "selected": True}]})
+            report = {"subject": p.SUBJECT, "authority": {"subject": p.SUBJECT, "provider": "guides-retained-source",
+                      "evidence": [pins, impact]}, "detail": {"kind": "guides-impact-v1", "file":
+                      {**impact, "path": "launcher-local/guides-impact-v1/report.json"}}}
+            ref = retain(report)
+            unit = {"reports": [ref]}
+            self.assertEqual(p.report_material(root, unit), tuple((root / r["path"]).read_bytes() for r in (ref, impact, pins)))
+            with self.assertRaisesRegex(p.Hold, "B2_BLOB_SIZE_INVALID"):
+                p.report_material(root, {"reports": [{**ref, "bytes": 1024**2 + 1}]})
+            with self.assertRaisesRegex(p.Hold, "UNEXPECTED_AUTHORITY_EVIDENCE"):
+                swapped = {**report, "authority": {**report["authority"], "evidence": [pins, pins]}}
+                p.report_material(root, {"reports": [retain(swapped)]})
+            (root / pins["path"]).write_bytes(b"x" * pins["bytes"])
+            with self.assertRaisesRegex(p.Hold, "B2_BLOB_MISMATCH"):
+                p.report_material(root, unit)
 
     def test_profile_helper_matches_staged_digest(self):
         digest = sha256((HERE / "provision-profile").read_bytes()).hexdigest()
