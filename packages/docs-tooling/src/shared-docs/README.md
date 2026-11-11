@@ -739,6 +739,14 @@ journals. Human data/configuration changes are preserved, while execution change
 and `BOTH_SIDES_LOCK_CHANGED` stop preparation. A noop creates neither K nor S nor
 a PR. Draft failures cannot produce ready or donor-close proposals here.
 
+For a new PR that advances one Guides page, the receiver can reuse its verified
+master history. The transfer planner compares the raw Git trees from the root
+down to the lock file. At each level, all bytes outside the selected entry's
+object ID must match. It checks the lock edit against the plan and proof, then
+returns the new blob, its enclosing trees and the candidate commit in dependency
+order. The receiving adapter must establish baseline identity and connectivity
+before relying on inherited objects.
+
 Preparation and inspection use new, disjoint evidence roots. Persistent transaction
 attempt evidence is constructor-bound and separate; selecting a fresh preparation
 root cannot clear an earlier dispatch-attempt veto. `apply` remains report-only
