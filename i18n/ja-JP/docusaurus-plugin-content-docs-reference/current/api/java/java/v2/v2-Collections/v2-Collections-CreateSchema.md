@@ -78,7 +78,7 @@ MilvusClientV2.createSchema()
 
     このコレクションにバインドされた外部ソース（S3 バケットや Lakehouse テーブルなど）の名前。デフォルトは空文字列です。
 
-    <NextChannel action="include">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2つのスキームを受け入れます。</NextChannel>
+    Zilliz Cloud では、`externalSource` は次の 2 つのスキームを受け付けます：`volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>`。
 
 - **externalSpec** (*JsonObject*) -
 
@@ -86,7 +86,7 @@ MilvusClientV2.createSchema()
 
     この仕様には、`format` などの副次的パラメーターが含まれます。`format` に指定できる値は、`parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-    <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームで使用されます。`format` は省略でき、`milvus://` ソースの場合のデフォルトは `milvus-table` です。</NextChannel>
+    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームとともに使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
 
 ## 例\{#example}
 

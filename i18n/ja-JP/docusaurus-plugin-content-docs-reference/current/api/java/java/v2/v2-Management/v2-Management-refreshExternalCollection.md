@@ -66,13 +66,13 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
     `externalSource` と `externalSpec` は一緒に指定するか、両方とも省略してください。両方を省略した場合、リフレッシュでは永続化されたソースとスペックが再利用されます。
 
-    <NextChannel action="include">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は、すべてのリフレッシュリクエストで `externalSource` を渡す必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。</NextChannel>
+    Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は、すべてのリフレッシュリクエストで `externalSource` を渡す必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。
 
 - `externalSpec(JsonObject externalSpec)` -
 
     `format` などの外部ソースの仕様を含む JSON オブジェクトです。`format` に指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-    <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用します。`format` は省略でき、`milvus://` ソースではデフォルトで `milvus-table` になります。</NextChannel>
+    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用します。`format` は省略でき、`milvus://` ソースではデフォルトで `milvus-table` になります。
 
 **戻り値の型:**
 
