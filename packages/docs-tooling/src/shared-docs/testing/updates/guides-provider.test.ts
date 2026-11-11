@@ -406,7 +406,7 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
       await provider.collectAll()
       expect(stage).toHaveBeenCalledWith(123, '/input.zip', f.options.evidence, 'coordinator-only', f.controller.signal)
       const [input, secrets] = f.run.mock.calls[0]
-      expect(secrets).toEqual({})
+      expect(secrets).toEqual({GH_TOKEN: 'coordinator-only'})
       expect(input).toMatchObject({request: {evidenceZip: null, pages: ['fixture']}, archives: null})
       expect(JSON.stringify(input)).not.toContain('coordinator-only')
       const report = vi.spyOn(b1Runner, 'reportUpdates').mockRejectedValue(new Error('end of traced call'))

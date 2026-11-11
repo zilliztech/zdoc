@@ -74,12 +74,12 @@ function exactlyOne(rows: Row[], predicate: (row: Row) => boolean) {
   const matches = rows.filter(predicate)
   return matches.length === 1 ? matches[0] : undefined
 }
-function successfulJob(jobs: Row[], name: string, run: Row) {
+export function successfulJob(jobs: Row[], name: string, run: Row) {
   const job = exactlyOne(jobs, row => row.name === name)
   return job?.run_id === run.id && job.run_attempt === run.run_attempt && job.head_sha === run.head_sha &&
     job.status === 'completed' && job.conclusion === 'success' ? job : undefined
 }
-function stepWindow(job: Row | undefined, name: string) {
+export function stepWindow(job: Row | undefined, name: string) {
   const step = exactlyOne(job?.steps ?? [], s => s.name === name)
   if (!step || step.conclusion !== 'success') return undefined
   const start = Date.parse(step.started_at), end = Date.parse(step.completed_at)

@@ -8,7 +8,7 @@ import { createRemoteTransport } from './remote-github'
 const repository = 'repos/zilliztech/zdoc'
 const sourceLimit = 256 * 1024 * 1024
 const publicationLimit = 1024 * 1024
-const metadataLimit = 16 * 1024 * 1024
+export const metadataLimit = 16 * 1024 * 1024
 const runResource = /^\/actions\/runs\/[1-9][0-9]*(?:\/(?:attempts\/[1-9][0-9]*\/jobs|artifacts)\?per_page=100&page=(?:[1-9]|1[0-9]|20))?$/
 const workflowResource = /^\/actions\/workflows\/(?:fetch-docs|fetch-guides-requested)\.yml\/runs\?created=%3E%3D[0-9]{4}-[0-9]{2}-[0-9]{2}&per_page=100&page=(?:[1-9]|10)$/
 
@@ -67,13 +67,19 @@ type StageResult = StagedArchives | { oversized: 'source' | 'publication' } | nu
 
 // Only the coordinator receives the explicit read token. The fixed HTTPS transport
 // bounds streamed bodies and strips credentials on the single permitted ZIP redirect.
-function coordinatorReads(token: string, signal?: AbortSignal): ReadonlyGitHub {
+export class LifecycleHttpError extends Error {
+  constructor(readonly status: number) { super(`GitHub lifecycle read failed (HTTP ${status})`) }
+}
+export function coordinatorBodyReader(token: string, signal?: AbortSignal) {
   const transport = createRemoteTransport({repositoryFullName: 'zilliztech/zdoc', token})
-  async function read(path: string, maximum: number, milliseconds: number) {
+  return async (path: string, maximum: number, milliseconds: number) => {
     const result = await transport({method: 'GET', path: '/' + path, maximum, signal: deadline(milliseconds, signal)})
-    if (result.status !== 200) throw new Error(`GitHub lifecycle read failed (HTTP ${result.status})`)
+    if (result.status !== 200) throw new LifecycleHttpError(result.status)
     return result.body
   }
+}
+function coordinatorReads(token: string, signal?: AbortSignal): ReadonlyGitHub {
+  const read = coordinatorBodyReader(token, signal)
   return {
     async get(path) {
       return parseStrictJson(await read(path, metadataLimit, 30_000))

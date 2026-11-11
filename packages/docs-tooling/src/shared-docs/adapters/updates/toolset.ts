@@ -1,6 +1,8 @@
 import { constants } from 'node:fs'
 import { lstat, open, readdir, readlink, realpath, symlink, writeFile } from 'node:fs/promises'
 import { basename, dirname, isAbsolute, join, posix, relative, resolve, sep } from 'node:path'
+import type { Readable, Writable } from 'node:stream'
+import { serveGuidesMetadata } from './guides-metadata-broker'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
 import { release, userInfo } from 'node:os'
@@ -1065,7 +1067,23 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
       if (input.length > workerLimit) throw new Error('Guides worker input exceeds byte bound')
       await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher()
       signal?.throwIfAborted()
-      return invokeGuidesWorker(targets.get('runtime/node')!, [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root], state.options.root, { ...environment, ...secrets }, input, signal)
+      // Bind the credential to this parent's verified, selected worker launch. The
+      // ordinary worker schema and operator input cannot select a metadata callback.
+      const args = [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root]
+      let broker: {runId: number; token: string} | undefined
+      if (secrets.GH_TOKEN) {
+        const wire = parseStrictJson(input)
+        if (wire && typeof wire === 'object' && Object.hasOwn(wire, 'request')) {
+          const {selectedWorkerInput} = await import('./guides-provider')
+          const {request} = selectedWorkerInput.parse(wire)
+          if (request.trustedTools !== state.options.commit || request.toolsetSha256 !== state.sha256)
+            throw new Error('Selected Guides worker tool identity mismatch')
+          broker = {runId: Number(request.evidenceRun), token: secrets.GH_TOKEN}
+          args.push('metadata-pipes')
+        }
+      }
+      return invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root,
+        broker ? environment : {...environment, ...secrets}, input, signal, broker)
     },
     async run(script: string, args: string[], secrets: { GH_TOKEN?: string } = {}) {
       RepoPathSchema.parse(script)
@@ -1157,7 +1175,7 @@ const fs=require('node:fs'),path=require('node:path');
   const data=common.parseStrictJson(Buffer.concat(chunks));
   const provider=load(path.join(root,'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts'));
   if(typeof provider.collectGuidesWorker!=='function')throw Error('Fixed Guides worker export is unavailable');
-  const result=common.canonicalBytes(await provider.collectGuidesWorker(data));
+  const result=common.canonicalBytes(await provider.collectGuidesWorker(data,process.argv[3]==='metadata-pipes'));
   if(result.length>resultLimit)throw Error('Guides worker result exceeds byte bound');
   fs.writeFileSync(3,result);
 })().catch(error=>{console.error(String(error));process.exitCode=1});
@@ -1173,9 +1191,25 @@ export interface GuidesWorkerSettlement {
 /** Own only the group born from this actual handle; a parent cannot clean up after
  * its own fatal death, or certify descendants that deliberately leave the group. */
 async function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv,
-  input: Uint8Array, signal?: AbortSignal): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
+  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
   signal?.throwIfAborted()
-  const child = spawn(binary, args, {cwd, env: environment, stdio: ['pipe', 'pipe', 'pipe', 'pipe'], detached: true})
+  const child = spawn(binary, args, {cwd, env: environment,
+    stdio: ['pipe', 'pipe', 'pipe', 'pipe', broker ? 'pipe' : 'ignore', broker ? 'pipe' : 'ignore'], detached: true})
+  const readerLifetime = new AbortController()
+  let closeBroker: (() => void) | undefined
+  let serving: Promise<void> | undefined
+  if (broker) {
+    // Node typings name only five stdio slots even when spawn opens more.
+    const pipes: readonly (Readable | Writable | null)[] = child.stdio
+    const requests = pipes[4] as Readable, replies = pipes[5] as Writable
+    closeBroker = () => { readerLifetime.abort(); requests.destroy(); replies.destroy() }
+    requests.on('error', closeBroker)
+    replies.on('error', closeBroker)
+    // A failed GET/invalid frame closes the private reader. The worker retains
+    // its normal unknown-authority outcome. No error body or credential crosses.
+    serving = serveGuidesMetadata(requests, replies, broker.runId, broker.token, readerLifetime.signal)
+      .then(() => { replies.end() }, closeBroker)
+  }
   const receipt: GuidesWorkerSettlement = {pid: child.pid ?? null, born: false, close: null, group: 'unknown', signals: [], cleanupErrors: []}
   const output: Buffer[][] = [[], [], []], sizes = [0, 0, 0]
   let primary: Error | null = null, exitFailure: Error | null = null, terminal = false
@@ -1240,6 +1274,8 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     if (signal?.aborted) abort()
     await requested
   } catch (error) { latch(error) }
+  closeBroker?.()
+  await serving
   // One awaited finalizer owns every terminal path. Its errors cannot strand an
   // unobserved promise or bypass listener/timer cleanup.
   try {
