@@ -112,6 +112,113 @@ describe('filterNextChannelSidebarItems', () => {
     ]);
   });
 
+  it('keeps a doc-landing category emptied by filtering so its CURRENT landing page stays navigable', () => {
+    // Regression: a CURRENT parent doc exists in the sidebar only as its
+    // category's landing link; dropping the emptied category orphaned the
+    // live parent page from navigation (zh "创建 External Collection").
+    const items: PropSidebarItem[] = [
+      {
+        type: 'category',
+        label: 'Create External Collection',
+        link: {type: 'doc', id: 'collection/create-external-collection'},
+        items: [docItem('collection/use-...-as-data-source', {customProps: {channel: 'next'}})],
+      } as unknown as PropSidebarItem,
+    ];
+
+    expect(filterNextChannelSidebarItems(items)).toEqual([
+      {
+        type: 'category',
+        label: 'Create External Collection',
+        link: {type: 'doc', id: 'collection/create-external-collection'},
+        items: [],
+      },
+    ]);
+  });
+
+  it('keeps an emptied category that carries a resolved landing href, like the theme receives', () => {
+    // Docusaurus resolves raw `link: {type: 'doc'}` categories to a plain
+    // `href` (and doc leaves to link items) before the theme sees them, so
+    // the production shape of the zh "创建 External Collection" category has
+    // no `link` field — only `href`.
+    const items: PropSidebarItem[] = [
+      {
+        type: 'category',
+        label: 'Create External Collection',
+        key: 'category:collection/create-external-collection',
+        href: '/docs/create-external-collection',
+        collapsed: true,
+        collapsible: true,
+        items: [
+          {
+            type: 'link',
+            key: 'doc:collection/use-...-as-data-source',
+            href: '/docs/use-collection-from-a-serving-cluster-as-data-source',
+            label: 'Collection as Source',
+            customProps: {channel: 'next'},
+            docId: 'collection/use-...-as-data-source',
+          } as unknown as PropSidebarItem,
+        ],
+      } as unknown as PropSidebarItem,
+    ];
+
+    expect(filterNextChannelSidebarItems(items)).toEqual([
+      {
+        type: 'category',
+        label: 'Create External Collection',
+        key: 'category:collection/create-external-collection',
+        href: '/docs/create-external-collection',
+        collapsed: true,
+        collapsible: true,
+        items: [],
+      },
+    ]);
+  });
+
+  it('still collapses a link-less emptied category; a landing page of any kind survives', () => {
+    const items: PropSidebarItem[] = [
+      {
+        type: 'category',
+        label: 'Generated index section',
+        link: {type: 'generated-index', permalink: '/docs/generated'},
+        items: [docItem('generated/preview', {customProps: {channel: 'next'}})],
+      } as unknown as PropSidebarItem,
+      {
+        type: 'category',
+        label: 'Link-less section',
+        items: [docItem('linkless/preview', {customProps: {channel: 'next'}})],
+      } as unknown as PropSidebarItem,
+    ];
+
+    expect(filterNextChannelSidebarItems(items)).toEqual([
+      {
+        type: 'category',
+        label: 'Generated index section',
+        link: {type: 'generated-index', permalink: '/docs/generated'},
+        items: [],
+      },
+    ]);
+  });
+
+  it('keeps a doc-landing category emptied by retire-in-next filtering on NEXT deployments', () => {
+    const items: PropSidebarItem[] = [
+      {
+        type: 'category',
+        label: 'Legacy Guide',
+        link: {type: 'doc', id: 'legacy/landing'},
+        items: [docItem('legacy/retired', {customProps: {channel: 'retire-in-next'}})],
+      } as unknown as PropSidebarItem,
+    ];
+
+    expect(filterRetiredChannelSidebarItems(items)).toEqual([
+      {
+        type: 'category',
+        label: 'Legacy Guide',
+        link: {type: 'doc', id: 'legacy/landing'},
+        items: [],
+      },
+    ]);
+  });
+
   it('removes NEXT leaves nested below categories whose own child count is unchanged', () => {
     // Regression: the SSO leaf sits three levels deep, so every ancestor keeps
     // its direct child count while the filtered descendant disappears.
