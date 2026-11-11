@@ -9981,9 +9981,9 @@
       "translatedAt": "2026-10-25T16:57:07.481Z"
     },
     "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md": {
-      "sourceHash": "ced85a283235f796c0c6a7e57d14409571fa4b1aa8c34c376dca8ff31ecd90b1",
+      "sourceHash": "fff53c49f2239227fab870b42c2afe6bcda186a7c74fb8ab4b284f5d3c1c7a72",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md",
-      "translatedAt": "2026-11-06T19:48:00.979Z"
+      "translatedAt": "2026-11-11T04:47:49.092Z"
     },
     "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-create.md": {
       "sourceHash": "5b6aee443127851e469f631c219d34c269f35fd0016b95e2c943364b8d26b83e",
