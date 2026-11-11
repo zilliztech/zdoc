@@ -108,6 +108,19 @@ const equal = (a: unknown, b: unknown) => Buffer.from(canonicalBytes(a)).equals(
 
 /** Pure consistency decision. Receipt bytes are bounded, strict canonical JSON; no credential/capability is created. */
 export function acceptExactValidation(expected: unknown, apiFacts: unknown, receipt: unknown, policy: unknown): Decision {
+  return checkExactValidation(expected, apiFacts, receipt, policy, 'completed')
+}
+
+/** Read-only decision before completing the specific Check reserved by the validator. */
+export function inspectReservedValidation(expected: unknown, apiFacts: unknown, receipt: unknown, policy: unknown):
+  { status: 'ready-to-publish'; evidence: BlobRef[] } | { status: 'hold'; reasons: string[] } {
+  const decision = checkExactValidation(expected, apiFacts, receipt, policy, 'in_progress')
+  if (decision.status === 'hold') return decision
+  return { status: 'ready-to-publish', evidence: decision.evidence }
+}
+
+function checkExactValidation(expected: unknown, apiFacts: unknown, receipt: unknown, policy: unknown,
+  checkStatus: 'completed' | 'in_progress'): Decision {
   const e = ExactValidationExpectedSchema.safeParse(expected), f = RemoteFactsSchema.safeParse(apiFacts), p = RemotePolicySchema.safeParse(policy)
   const failures: string[] = []
   if (!e.success) failures.push('EXPECTED_MALFORMED')
@@ -179,7 +192,7 @@ export function acceptExactValidation(expected: unknown, apiFacts: unknown, rece
     receipt: { ...association.receipt, sha256: hash(receipt as Uint8Array), bytes: (receipt as Uint8Array).length } }, 'ASSOCIATION')
   const check = one(found(facts.checks, 'CHECK_READ'), value => value.id === r.targetCheckId, 'CHECK_AMBIGUOUS_OR_MISSING')
   if (check) matches(check, { name: rules.checkName, appId: rules.checkAppId, suiteId: r.targetSuiteId,
-    head: intent.seal, status: 'completed', conclusion: 'success' }, 'CHECK')
+    head: intent.seal, status: checkStatus, conclusion: checkStatus === 'completed' ? 'success' : 'pending' }, 'CHECK')
   const artifacts = found(facts.artifacts, 'ARTIFACT_READ'), members = found(facts.members, 'MEMBER_READ')
   const bindArtifact = (owner: { artifactId?: number; memberPath?: string; receipt?: BlobRef }, runId: number, runAttempt: number, name: string, code: string) => {
     const artifact = one(artifacts, value => value.runId === runId && value.name === name, `${code}_ARTIFACT_AMBIGUOUS_OR_MISSING`)

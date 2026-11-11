@@ -769,6 +769,23 @@ suite, target SHA, request identifier and validator run URL. The final
 readback requires that same check to have completed successfully. The reader
 only consumes JSON on stdin and writes verified observations on stdout.
 
+The private formal-contract qualification uses `adapters/updates/formal-validation.ts`
+to encode the existing `Shared-Update-Seal: v1` message, verify its Git
+signature and produce canonical producer and validator receipts. The private
+plan projects one real Guides page onto an isolated master and source snapshot.
+Its domain-separated plan digest enters the seal. The validator compares the
+plan's master, dev and observed source tip with freshly read refs, the receipt
+and the hashed output. The source tip can differ from the lock target.
+A changed input yields a hold carrying the expected and observed SHAs.
+
+Before publishing success, the trusted caller authenticates the completed
+producer and validator artifacts and inspects the reserved Check on the signed
+head. A matching in-progress Check yields `ready-to-publish`. After updating
+it, the caller reads the refs and Check again. Only a completed, successful
+Check can yield `accepted`. Both decisions use the product's exact-validation
+rules. The caller obtains fresh observations before each remote write and owns
+the network credentials. This stdin reader performs no writes to GitHub.
+
 Preparation and inspection use new, disjoint evidence roots. Persistent transaction
 attempt evidence is constructor-bound and separate; selecting a fresh preparation
 root cannot clear an earlier dispatch-attempt veto. `apply` remains report-only
