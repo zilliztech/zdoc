@@ -63,14 +63,18 @@ async function branch(read, repo, name) {
   return result.object.sha
 }
 
-async function configFile(read, master, path) {
-  const blob = await read(zdoc, `/contents/${path}?ref=${master}`)
-  check(blob?.type === 'file' && blob.path === path && blob.encoding === 'base64' && positive(blob.size) && blob.size <= 4096 &&
+async function pinnedBlob(read, commit, path, maxBytes) {
+  const blob = await read(zdoc, `/contents/${path}?ref=${commit}`)
+  check(blob?.type === 'file' && blob.path === path && blob.encoding === 'base64' && positive(blob.size) && blob.size <= maxBytes &&
     sha(blob.sha) && typeof blob.content === 'string', 'INVALID_CONFIG_BLOB')
   const bytes = Buffer.from(blob.content, 'base64')
   const oid = createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')
   check(bytes.length === blob.size && blob.sha === oid, 'INVALID_CONFIG_BYTES')
-  return new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+  return bytes
+}
+
+async function configFile(read, master, path) {
+  return new TextDecoder('utf-8', { fatal: true }).decode(await pinnedBlob(read, master, path, 4096))
 }
 
 async function assertAncestor(read, older, newer) {
@@ -165,63 +169,93 @@ async function overlapReasons(read, ownedHead, ownedStage, ownedPull) {
   return overlaps
 }
 
-// A missing branch does not prove that an earlier writer never POSTed objects.
-// Run numbers cover this specific workflow from rollout #1, independently of the
-// checkout, the retention of any particular artifact, and the latest run attempt.
+// A missing ref does not prove that an older writer never POSTed objects. Inspect
+// contiguous runs backwards until rollout #1 or an authenticated checkpoint;
+// the checkpoint certifies only runs strictly older than its own run.
 const workflowPath = '.github/workflows/shared-guides-update.yml'
 const workflowApi = '/actions/workflows/shared-guides-update.yml'
-const maxRuns = 1000
-const maxPriorAttempts = 60
+const historyPath = 'scripts/docs-workflow/shared-guides-update/discover.mjs'
+const maxRunsPerScan = 1000
+const maxAttemptsPerScan = 60
+
+function passedStep(jobs, name, step) {
+  const matches = jobs.filter(job => job.name === name)
+  if (matches.length !== 1) return false
+  const job = matches[0]
+  return job.status === 'completed' && job.conclusion === 'success' && Array.isArray(job.steps) &&
+    job.steps.filter(s => s.name === step && s.status === 'completed' && s.conclusion === 'success').length === 1
+}
+
+async function attemptJobs(read, run, attempt) {
+  const result = await read(zdoc, `/actions/runs/${run.id}/attempts/${attempt}/jobs?per_page=100`)
+  check(positive(result?.total_count) && result.total_count <= 100 && Array.isArray(result.jobs) && result.jobs.length === result.total_count &&
+    result.jobs.every(job => job.run_id === run.id && job.run_attempt === attempt && job.head_sha === run.head_sha),
+    'INCOMPLETE_WRITER_ATTEMPT_JOBS')
+  return result.jobs
+}
 
 async function writerHistory(read, runId, runNumber, master) {
   check(positive(runId) && positive(runNumber), 'ACTIONS_RUN_CONTEXT_REQUIRED')
   const workflow = await read(zdoc, workflowApi)
   check(positive(workflow?.id) && workflow.path === workflowPath && workflow.state === 'active', 'WRITER_WORKFLOW_IDENTITY')
-  const runs = new Map()
+  const revisions = new Map()
+  function checkpointCode(commit) {
+    if (!revisions.has(commit)) revisions.set(commit, Promise.all([workflowPath, historyPath].map(path => pinnedBlob(read, commit, path, 256 * 1024))))
+    return revisions.get(commit)
+  }
   const ids = new Set()
-  let total
+  let total, previousNumber, currentSeen = false, attempts = 0, newerProduction
   for (let index = 1; ; index++) {
     const result = await read(zdoc, `${workflowApi}/runs?per_page=100&page=${index}`)
-    check(positive(result?.total_count) && result.total_count <= maxRuns && (total === undefined || total === result.total_count) &&
-      Array.isArray(result.workflow_runs) && result.workflow_runs.length === Math.min(100, result.total_count - runs.size),
+    check(positive(result?.total_count) && (total === undefined || total === result.total_count) &&
+      Array.isArray(result.workflow_runs) && result.workflow_runs.length === Math.min(100, result.total_count - ids.size),
       'WRITER_WORKFLOW_HISTORY_INCOMPLETE')
     total = result.total_count
     for (const run of result.workflow_runs) {
       check(run?.workflow_id === workflow.id && run.path === workflowPath && run.repository?.id === zdocId &&
         run.repository.full_name === zdoc && positive(run.id) && !ids.has(run.id) && positive(run.run_number) &&
-        !runs.has(run.run_number) && positive(run.run_attempt) && sha(run.head_sha) &&
-        ['pull_request', 'schedule', 'workflow_dispatch'].includes(run.event), 'INVALID_WRITER_RUN_INVENTORY')
-      runs.set(run.run_number, run)
+        positive(run.run_attempt) && sha(run.head_sha) && ['pull_request', 'schedule', 'workflow_dispatch'].includes(run.event),
+        'INVALID_WRITER_RUN_INVENTORY')
+      check(previousNumber === undefined || run.run_number === previousNumber - 1, 'WRITER_WORKFLOW_HISTORY_GAP')
+      previousNumber = run.run_number
       ids.add(run.id)
-    }
-    if (runs.size === total) break
-  }
-  // With positive, distinct numbers, a largest number equal to the count proves
-  // continuity back to #1. Deleted/expired run records cannot silently reset the veto.
-  check(Math.max(...runs.keys()) === total, 'WRITER_WORKFLOW_HISTORY_GAP')
-  const current = runs.get(runNumber)
-  check(current?.id === runId && current.run_attempt === 1 && current.status === 'in_progress' &&
-    current.head_branch === 'master' && current.head_sha === master && current.event !== 'pull_request' &&
-    current.head_repository?.id === zdocId, 'CURRENT_WRITER_RUN_MISMATCH')
-  let attempts = 0
-  for (const run of runs.values()) {
-    if (run.id === runId || run.event === 'pull_request') continue
-    if (run.run_number > runNumber || run.status !== 'completed') return [`UNSETTLED_PRODUCTION_RUN_${run.id}`]
-    attempts += run.run_attempt
-    check(attempts <= maxPriorAttempts, 'WRITER_HISTORY_REVIEW_REQUIRED')
-    for (let attempt = 1; attempt <= run.run_attempt; attempt++) {
-      const jobs = await read(zdoc, `/actions/runs/${run.id}/attempts/${attempt}/jobs?per_page=100`)
-      check(positive(jobs?.total_count) && jobs.total_count <= 100 && Array.isArray(jobs.jobs) && jobs.jobs.length === jobs.total_count &&
-        jobs.jobs.every(job => job.run_id === run.id && job.run_attempt === attempt && job.head_sha === run.head_sha),
-        'INCOMPLETE_WRITER_ATTEMPT_JOBS')
-      const writers = jobs.jobs.filter(job => job.name === 'write')
-      if (writers.length !== 1 || writers[0].status !== 'completed' ||
-        !(writers[0].conclusion === 'skipped' || (writers[0].conclusion === 'success' &&
-          run.head_branch === 'master' && run.head_repository?.id === zdocId && attempt === 1))) {
-        return [`UNRESOLVED_WRITER_RUN_${run.id}_ATTEMPT_${attempt}`]
+      check(ids.size <= maxRunsPerScan, 'WRITER_HISTORY_REVIEW_REQUIRED')
+
+      if (run.run_number > runNumber) {
+        if (run.event !== 'pull_request') newerProduction = run.id
+        continue
+      }
+      if (run.run_number === runNumber) {
+        check(run.id === runId && run.run_attempt === 1 && run.status === 'in_progress' && run.head_branch === 'master' &&
+          run.head_sha === master && run.event !== 'pull_request' && run.head_repository?.id === zdocId, 'CURRENT_WRITER_RUN_MISMATCH')
+        currentSeen = true
+        if (newerProduction) return [`UNSETTLED_PRODUCTION_RUN_${newerProduction}`]
+        continue
+      }
+      check(currentSeen, 'CURRENT_WRITER_RUN_MISMATCH')
+      if (run.event === 'pull_request') continue
+      if (run.status !== 'completed') return [`UNSETTLED_PRODUCTION_RUN_${run.id}`]
+      attempts += run.run_attempt
+      check(attempts <= maxAttemptsPerScan, 'WRITER_HISTORY_REVIEW_REQUIRED')
+      const trustedBranch = run.head_branch === 'master' && run.head_repository?.id === zdocId
+      for (let attempt = 1; attempt <= run.run_attempt; attempt++) {
+        const jobs = await attemptJobs(read, run, attempt)
+        const writers = jobs.filter(job => job.name === 'write')
+        if (writers.length !== 1 || writers[0].status !== 'completed' ||
+          !(writers[0].conclusion === 'skipped' || (writers[0].conclusion === 'success' && trustedBranch && attempt === 1))) {
+          return [`UNRESOLVED_WRITER_RUN_${run.id}_ATTEMPT_${attempt}`]
+        }
+        if (run.run_attempt !== 1 || !trustedBranch ||
+          !passedStep(jobs, 'discover', 'Check upstream pins and open updates') ||
+          !passedStep(jobs, 'history_checkpoint', 'Record verified writer history')) continue
+        if (run.head_sha === master) return []
+        const [prior, now] = await Promise.all([checkpointCode(run.head_sha), checkpointCode(master)])
+        if (prior.every((bytes, i) => bytes.equals(now[i]))) return []
       }
     }
+    if (ids.size === total) break
   }
+  check(currentSeen && previousNumber === 1, 'WRITER_WORKFLOW_HISTORY_GAP')
   return []
 }
 
@@ -239,13 +273,14 @@ export async function discover({ token, read = githubReader(token), ownedHead, o
   check(match && sha(match[1]) && sha(match[2]), 'UNRECOGNIZED_PAGE_LOCK')
   const [, current, next] = match
   const reasons = await overlapReasons(read, ownedHead, ownedStage, ownedPull)
-  reasons.push(...await writerHistory(read, runId, runNumber, master))
+  const historyReasons = await writerHistory(read, runId, runNumber, master)
+  reasons.push(...historyReasons)
   await assertAncestor(read, current, next)
   await assertAncestor(read, next, sourceHead)
   check(JSON.stringify([master, dev, sourceHead]) === JSON.stringify(await pins()), 'DISCOVERY_PINS_CHANGED')
   // Even if the page file last changed earlier, its referenced fragments may have changed at the tip.
   return { schemaVersion: 1, page, master, dev, sourceTrack: track, sourceHead, sourceTarget: sourceHead, current, next,
-    status: reasons.length ? 'held' : next === sourceHead ? 'unchanged' : 'candidate', reasons }
+    historyVerified: historyReasons.length === 0, status: reasons.length ? 'held' : next === sourceHead ? 'unchanged' : 'candidate', reasons }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

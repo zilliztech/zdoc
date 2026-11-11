@@ -36,7 +36,7 @@ function writerJob(run, attempt, conclusion) {
 
 function inventory() {
   const fixture = { branches: [branch('master', master), branch('dev', dev)], pulls: [], calls: [],
-    runNumber: 1, runId: 1001, runs: [run(1, { status: 'in_progress' })], jobs: {},
+    runNumber: 1, runId: 1001, runs: [run(1, { status: 'in_progress' })], jobs: {}, checkpointFiles: {},
     config: 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs\ntrack: v3.0.x\n',
     lock: `schema_version: 1\ncurrent: ${current}\nnext: ${next}\n` }
   function respond(owner, route) {
@@ -62,14 +62,22 @@ function inventory() {
     }
     assert.equal(owner, repo)
     if (path.startsWith('/contents/')) {
-      assert.equal(params.get('ref'), master)
+      const commit = params.get('ref')
       const name = path.slice('/contents/'.length)
-      const bytes = Buffer.from(name === lockFile ? fixture.lock : fixture.config)
+      let text
+      if ([workflow.path, 'scripts/docs-workflow/shared-guides-update/discover.mjs'].includes(name)) {
+        text = fixture.checkpointFiles[commit]?.[name]
+        assert.ok(text)
+      } else {
+        assert.equal(commit, master)
+        text = name === lockFile ? fixture.lock : fixture.config
+      }
+      const bytes = Buffer.from(text)
       return { type: 'file', path: name, encoding: 'base64', size: bytes.length, content: bytes.toString('base64'),
         sha: createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex') }
     }
     if (path === '/actions/workflows/shared-guides-update.yml') return workflow
-    if (path === '/actions/workflows/shared-guides-update.yml/runs') return { total_count: fixture.runs.length, workflow_runs: batch(fixture.runs) }
+    if (path === '/actions/workflows/shared-guides-update.yml/runs') return { total_count: fixture.runs.length, workflow_runs: batch([...fixture.runs].sort((a,b) => b.run_number - a.run_number)) }
     if (path.startsWith('/actions/runs/')) {
       const jobs = fixture.jobs[path]
       assert.ok(jobs, 'expected attempt-specific jobs read')
@@ -101,7 +109,7 @@ test('uses the configured immutable track tip for full dependency analysis and p
   f.pulls.push(pull(1, [file('packages/docs-tooling/README.md')]))
   assert.deepEqual(await discover(f), {
     schemaVersion: 1, page, master, dev, sourceTrack: 'v3.0.x', sourceHead: head, sourceTarget: head,
-    current, next, status: 'candidate', reasons: [],
+    current, next, historyVerified: true, status: 'candidate', reasons: [],
   })
   assert.ok(f.calls.some(([, route]) => route.startsWith(`/compare/${current}...${next}`)))
   assert.ok(f.calls.some(([, route]) => route.startsWith(`/compare/${next}...${head}`)))
@@ -119,6 +127,7 @@ test('considers late pages of open PRs, files (including old rename paths), and 
   f.branches.push(...Array.from({ length: 98 }, (_, i) => branch(`feat/${i}`, head)), branch(targetRef, writerOid))
   const result = await discover(f)
   assert.equal(result.status, 'held')
+  assert.equal(result.historyVerified, true)
   assert.deepEqual(result.reasons, ['OPEN_UPDATE_PR_101', 'EXISTING_UPDATE_BRANCH'])
 })
 
@@ -239,4 +248,60 @@ test('requires continuous workflow provenance and holds if a prior run is unsett
   f.runs.push(prior)
   f.runs[0].head_sha = dev
   await assert.rejects(discover(f), /CURRENT_WRITER_RUN_MISMATCH/)
+})
+
+function attestedCheckpoint(run, writer = 'skipped') {
+  return [writerJob(run, 1, writer), ...[
+    ['discover', 'Check upstream pins and open updates'], ['history_checkpoint', 'Record verified writer history'],
+  ].map(([name, step]) => ({ ...writerJob(run, 1, 'success'), name, steps: [{ name: step, status: 'completed', conclusion: 'success' }] }))]
+}
+
+test('run 3000 accepts a clean checkpoint even with expired old runs and unrelated PR activity', async () => {
+  const f = inventory()
+  f.runNumber = 3000
+  f.runId = 4000
+  const checkpoint = run(2998, { head_sha: current, event: 'workflow_dispatch' })
+  f.runs = [run(3001, { event: 'pull_request' }), run(3000, { status: 'in_progress' }), run(2999, { event: 'pull_request' }), checkpoint,
+    ...Array.from({ length: 2200 }, (_, i) => run(i + 2))]
+  const path = '/actions/runs/3998/attempts/1/jobs'
+  f.jobs[path] = attestedCheckpoint(checkpoint)
+  const helper = 'scripts/docs-workflow/shared-guides-update/discover.mjs'
+  f.checkpointFiles[current] = { [workflow.path]: 'reviewed workflow', [helper]: 'reviewed history code' }
+  f.checkpointFiles[master] = { ...f.checkpointFiles[current] }
+  assert.equal((await discover(f)).historyVerified, true)
+  assert.ok(!f.calls.some(([, route]) => route === '/actions/workflows/shared-guides-update.yml/runs?per_page=100&page=2'))
+  f.checkpointFiles[current][helper] = 'other code'
+  await assert.rejects(discover(f), /WRITER_WORKFLOW_HISTORY_GAP/)
+  f.checkpointFiles[current][helper] = 'reviewed history code'
+  f.jobs[path][2].steps[0].name = 'unrelated green step'
+  await assert.rejects(discover(f), /WRITER_WORKFLOW_HISTORY_GAP/)
+})
+
+test('a checkpoint cannot certify its own writer, a newer failed writer, an unverified gap or a rerun', async () => {
+  const f = inventory()
+  f.runNumber = 3000
+  f.runId = 4000
+  const checkpoint = run(2998)
+  const later = run(2999)
+  f.runs = [run(3000, { status: 'in_progress' }), later, checkpoint]
+  const path = '/actions/runs/3998/attempts/1/jobs'
+  f.jobs[path] = attestedCheckpoint(checkpoint, 'cancelled')
+  f.jobs['/actions/runs/3999/attempts/1/jobs'] = [writerJob(later, 1, 'skipped')]
+  let result = await discover(f)
+  assert.equal(result.historyVerified, false)
+  assert.deepEqual(result.reasons, ['UNRESOLVED_WRITER_RUN_3998_ATTEMPT_1'])
+  f.jobs[path] = attestedCheckpoint(checkpoint)
+  f.jobs['/actions/runs/3999/attempts/1/jobs'][0].conclusion = 'failure'
+  result = await discover(f)
+  assert.deepEqual(result.reasons, ['UNRESOLVED_WRITER_RUN_3999_ATTEMPT_1'])
+  f.runs.splice(1, 1)
+  await assert.rejects(discover(f), /WRITER_WORKFLOW_HISTORY_GAP/)
+  f.runs.splice(1, 0, later)
+  later.event = 'pull_request'
+  checkpoint.run_attempt = 2
+  f.jobs['/actions/runs/3998/attempts/2/jobs'] = [writerJob(checkpoint, 2, 'skipped')]
+  await assert.rejects(discover(f), /WRITER_WORKFLOW_HISTORY_GAP/)
+  checkpoint.run_attempt = 1
+  checkpoint.head_branch = 'feature'
+  await assert.rejects(discover(f), /WRITER_WORKFLOW_HISTORY_GAP/)
 })
