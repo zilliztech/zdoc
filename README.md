@@ -410,6 +410,24 @@ pnpm build:zh-CN
 
 Shared Guides final publication evidence and shared Fetch requirement accounting are documented in [runbook/shared-guides-generation.md](runbook/shared-guides-generation.md#shared-guides-final-publication-evidence). The REST upstream and availability operations cadence (watchdog, refresh, availability matrices, zilliz probes) lives in [runbook/rest-reference-pipeline.md](runbook/rest-reference-pipeline.md#rest-upstream-and-availability-operations).
 
+### Scheduled updates for json-field-overview
+
+[Shared Guides upstream update](.github/workflows/shared-guides-update.yml) checks the
+Milvus `v3.0.x` tracking branch daily at **06:37 UTC**. The pilot plans and prepares
+an update for `json-field-overview` against the current zdoc `master`, published
+`dev` and upstream revision. When the page has a verified change, the writer
+opens a Draft PR against `master` that edits only the page’s `lock.yaml` entry
+for `next`. Review the lock diff and the producing run’s candidate and writer
+artifacts before merging. The existing Fetch schedule picks up a merged change.
+
+To inspect the same inputs on demand, dispatch the workflow on `master` with
+`create_draft=false` (the default). Use `create_draft=true` to exercise the scheduled
+write path. An open update PR or a remaining writer branch stops the run before
+it prepares another candidate. If a write loses its response, inspect the run’s
+journal, matching branches and PRs before taking further action. A moved input,
+unverified Fetch producer, or incomplete publication evidence requires fresh
+evidence. The next scheduled run reads the inputs again.
+
 ### Inspect shared Guides upstream changes without publishing
 
 The report-only command uses already acquired local Git repositories. Prepare
