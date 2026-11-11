@@ -146,7 +146,7 @@ await milvusClient.createCollection({
 
     外部ソースのパスです。これは外部コレクションの作成に適用されます。
 
-    <NextChannel action="include">Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の2つのスキームを受け付けます。</NextChannel>
+    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。
 
 - **external_spec** (*string*) -
 
@@ -154,7 +154,7 @@ await milvusClient.createCollection({
 
     spec は、`format` などの副次的なパラメーターを含む JSON 文字列です。`format` に指定できる値は、`parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-    <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`milvus://` ソースでは、`format` を省略でき、デフォルトで `milvus-table` になります。</NextChannel>
+    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
 
 - **do_physical_backfill** (*boolean*) -
 
@@ -495,7 +495,7 @@ await milvusClient.createCollection({
 
     外部ソースのパスです。これは外部コレクションの作成に適用されます。
 
-    <NextChannel action="include">Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の2つのスキームを受け付けます。</NextChannel>
+    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。
 
 - **external_spec** (*string*) -
 
@@ -503,7 +503,7 @@ await milvusClient.createCollection({
 
     spec は、`format` などの副次的なパラメーターを含む JSON 文字列です。`format` に指定できる値は、`parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-    <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`milvus://` ソースでは、`format` を省略でき、デフォルトで `milvus-table` になります。</NextChannel>
+    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
 
 - **do_physical_backfill** (*boolean*) -
 
@@ -870,7 +870,7 @@ await milvusClient.createCollection({
 
     外部ソースのパスです。これは外部コレクションの作成に適用されます。
 
-    <NextChannel action="include">Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の2つのスキームを受け付けます。</NextChannel>
+    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。
 
 - **external_spec** (*string*) -
 
@@ -878,7 +878,7 @@ await milvusClient.createCollection({
 
     spec は、`format` などの副次的なパラメーターを含む JSON 文字列です。`format` に指定できる値は、`parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-    <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`milvus://` ソースでは、`format` を省略でき、デフォルトで `milvus-table` になります。</NextChannel>
+    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
 
 - **do_physical_backfill** (*boolean*) -
 
