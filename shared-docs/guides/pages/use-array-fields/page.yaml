@@ -15,3 +15,9 @@ transforms:
       block: array-partial-update-note
     content:
       file: cloud-array-partial-update-note.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-array-subfield-scope
+    content:
+      file: cloud-structarray-array-subfield-scope.md

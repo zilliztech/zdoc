@@ -8,3 +8,29 @@ publish:
     path: tutorials/development/schema/struct-array/insert-struct-array
   - manual: guides-byoc
     path: tutorials/development/schema/struct-array/insert-struct-array
+
+transforms:
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-insert-null-summary
+    content:
+      file: cloud-structarray-insert-null-summary.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-insert-element-null-intro
+    content:
+      file: cloud-structarray-insert-element-null-intro.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-insert-rules-table
+    content:
+      file: cloud-structarray-insert-rules-table.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-insert-null-walkthrough
+    content:
+      file: cloud-structarray-insert-null-walkthrough.md
