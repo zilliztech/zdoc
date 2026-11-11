@@ -83,3 +83,8 @@ binary-vector.md: use-binary-vector
 dense-vector.md: use-dense-vector
 primary-field.md: primary-field-auto-id
 sparse_vector.md: use-sparse-vector
+
+# StructArray element-null docs (#3707/#3819): structarray-limits links to the
+# Milvus source-data page; the zdoc StructArray source-file shapes live on the
+# SDK import page (section anchor published via the guides Base).
+prepare-source-data.md: import-data-via-sdks

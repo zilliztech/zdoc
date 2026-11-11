@@ -4247,15 +4247,15 @@
       "post": {
         "summary": "Refresh External Collection",
         "deprecated": false,
-        "description": "This operation triggers an asynchronous data refresh job for an existing external collection, re-syncing the collection's data from its underlying external source. `externalSource` and `externalSpec` must be both provided or both omitted; when both are omitted, the collection's previously persisted source and spec are reused.<include target=\"zilliz\"> For a `milvus://` source, you must pass `externalSource` in every refresh request; omitting it leaves the refresh ineffective and the collection serving the previously synced data.</include>",
+        "description": "This operation triggers an asynchronous data refresh job for an existing external collection, re-syncing the collection's data from its underlying external source. `externalSource` and `externalSpec` must be both provided or both omitted; when both are omitted, the collection's previously persisted source and spec are reused.",
         "x-i18n": {
           "zh-CN": {
             "summary": "刷新外部 Collection",
-            "description": "本接口为已存在的外部 Collection 触发一次异步刷新任务，从底层外部数据源重新同步数据。`externalSource` 与 `externalSpec` 必须同时提供或同时省略；同时省略时，将复用此前已持久化的 source 与 spec 配置。<include target=\"zilliz\">对于 `milvus://` 源，每次 refresh 都必须传入 `externalSource`，省略该参数时本次刷新不生效，集合仍对外提供此前同步的数据。</include>"
+            "description": "本接口为已存在的外部 Collection 触发一次异步刷新任务，从底层外部数据源重新同步数据。`externalSource` 与 `externalSpec` 必须同时提供或同时省略；同时省略时，将复用此前已持久化的 source 与 spec 配置。"
           },
           "ja-JP": {
             "summary": "外部コレクションを更新",
-            "description": "この操作は、既存の外部コレクションに対して非同期のデータ更新ジョブを開始し、基盤となる外部ソースからコレクションのデータを再同期します。`externalSource` と `externalSpec` は両方を指定するか、両方を省略する必要があります。両方を省略した場合は、コレクションに以前保存された source と spec の設定が再利用されます。<include target=\"zilliz\">`milvus://` ソースの場合、すべての refresh リクエストで `externalSource` を指定する必要があります。省略した場合、このリフレッシュは有効にならず、コレクションは以前に同期されたデータを提供し続けます。</include>"
+            "description": "この操作は、既存の外部コレクションに対して非同期のデータ更新ジョブを開始し、基盤となる外部ソースからコレクションのデータを再同期します。`externalSource` と `externalSpec` は両方を指定するか、両方を省略する必要があります。両方を省略した場合は、コレクションに以前保存された source と spec の設定が再利用されます。"
           }
         },
         "tags": [
@@ -11070,13 +11070,13 @@
           },
           "externalSource": {
             "type": "string",
-            "description": "JSON-encoded specification of the external data source.<include target=\"milvus\"> When provided, `externalSpec` must also be provided. When omitted, the collection's persisted source is reused. An object url in an S3 bucket applies.</include><include target=\"zilliz\"> For a `milvus://` source, you must pass `externalSource` in every refresh request; omitting it leaves the refresh ineffective and the collection serving the previously synced data. For a `volume://` source, `externalSource` and `externalSpec` must be both provided or both omitted; when both are omitted, the collection's previously persisted source configuration is reused. An object url in a Zilliz Cloud volume applies.</include>",
+            "description": "JSON-encoded specification of the external data source.<include target=\"milvus\"> When provided, `externalSpec` must also be provided. When omitted, the collection's persisted source is reused. An object url in an S3 bucket applies.</include><include target=\"zilliz\"> For a `volume://` source, `externalSource` and `externalSpec` must be both provided or both omitted; when both are omitted, the collection's previously persisted source configuration is reused. An object url in a Zilliz Cloud volume applies.</include>",
             "x-i18n": {
               "zh-CN": {
-                "description": "外部数据源的 JSON 配置。<include target=\"milvus\">提供该字段时必须同时提供 `externalSpec`；省略时将复用 Collection 此前已持久化的 source 配置。S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">对于 `milvus://` 源，每次 refresh 都必须传入 `externalSource`，省略该参数时本次刷新不生效，集合仍对外提供此前同步的数据；对于 `volume://` 卷源，`externalSource` 与 `externalSpec` 需同时提供或同时省略，省略时将复用 Collection 此前已持久化的 source 配置。Zilliz Cloud Volume 中的对象 URL 适用。</include>"
+                "description": "外部数据源的 JSON 配置。<include target=\"milvus\">提供该字段时必须同时提供 `externalSpec`；省略时将复用 Collection 此前已持久化的 source 配置。S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">对于 `volume://` 卷源，`externalSource` 与 `externalSpec` 需同时提供或同时省略，省略时将复用 Collection 此前已持久化的 source 配置。Zilliz Cloud Volume 中的对象 URL 适用。</include>"
               },
               "ja-JP": {
-                "description": "外部データソースの JSON エンコードされた仕様。<include target=\"milvus\">指定する場合は、`externalSpec` も指定する必要があります。省略した場合は、コレクションに保存されている source が再利用されます。S3 bucket 内の object url を指定します。</include><include target=\"zilliz\">`milvus://` ソースの場合、すべての refresh リクエストで `externalSource` を指定する必要があります。省略した場合、このリフレッシュは有効にならず、コレクションは以前に同期されたデータを提供し続けます。`volume://` ボリュームソースの場合、`externalSource` と `externalSpec` は両方を指定するか、両方を省略する必要があり、省略した場合はコレクションに以前保存された source 設定が再利用されます。Zilliz Cloud volume 内の object url を指定します。</include>"
+                "description": "外部データソースの JSON エンコードされた仕様。<include target=\"milvus\">指定する場合は、`externalSpec` も指定する必要があります。省略した場合は、コレクションに保存されている source が再利用されます。S3 bucket 内の object url を指定します。</include><include target=\"zilliz\">`volume://` ボリュームソースの場合、`externalSource` と `externalSpec` は両方を指定するか、両方を省略する必要があり、省略した場合はコレクションに以前保存された source 設定が再利用されます。Zilliz Cloud volume 内の object url を指定します。</include>"
               }
             },
             "x-added-at": "2.6.x",

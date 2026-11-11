@@ -1,0 +1,1 @@
+- An element-nullable vector subfield supports element-level search only. Index it with a regular vector metric such as `COSINE`, `IP`, or `L2`. `MAX_SIM*` metrics and EmbeddingList indexes are rejected on it, and `AUTOINDEX` does not select a `MAX_SIM*` metric for it. Null vectors are skipped when the index is built and during search.
