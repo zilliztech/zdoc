@@ -14,7 +14,7 @@ const lock = 'shared-docs/guides/pages/' + page + '/lock.yaml'
 const workflow = '.github/workflows/shared-guides-update.yml'
 const bot = 41898282
 const signer = 19864447
-const members = ['after.lock', 'before.lock', 'candidate.commit', 'lock.next.patch', 'plan.json', 'preparation.json', 'prepare.json', 'proof.json', 'unit-plan.json']
+const members = ['after.lock', 'before.lock', 'candidate.commit', 'lock.next.patch', 'plan.json', 'preparation.json', 'prepare.json', 'proof.json', 'report.json', 'unit-plan.json']
 const oid = value => typeof value === 'string' && /^[0-9a-f]{40}$/.test(value) && value.length === 40 && !/^0+$/.test(value)
 const hash = data => createHash('sha256').update(data).digest('hex')
 const need = (condition, message) => { if (!condition) throw new Error(message) }
@@ -35,7 +35,7 @@ export function context(env) {
   const digest = env.PREPARE_ARTIFACT_DIGEST
   need(typeof digest === 'string' && /^[a-f0-9]{64}$/.test(digest) && digest.length === 64, 'Invalid prepare artifact digest')
   return { master:env.GITHUB_SHA, run:number(env.GITHUB_RUN_ID), attempt:1, event:env.GITHUB_EVENT_NAME,
-    artifact:number(env.PREPARE_ARTIFACT_ID), digest }
+    artifact:number(env.PREPARE_ARTIFACT_ID), reportArtifact:number(env.REPORT_ARTIFACT_ID), digest }
 }
 
 export function gitReader(workspace, scratch) {
@@ -102,13 +102,19 @@ export async function authenticatePrepare(contract, transport, ctx) {
   need(jobs.length === 1 && jobs[0].run_id === ctx.run && jobs[0].run_attempt === 1 &&
     jobs[0].head_sha === ctx.master && jobs[0].status === 'completed' && jobs[0].conclusion === 'success', 'Prepare job not authenticated')
   need(artifacts.total_count === artifacts.artifacts.length && artifacts.total_count <= 100, 'Incomplete artifact inventory')
-  const matches = artifacts.artifacts.filter(a => a.name === 'shared-guides-candidate-' + ctx.run + '-1')
-  need(matches.length === 1, 'Missing or ambiguous candidate artifact')
-  const a = matches[0], origin = a.workflow_run
-  need(a.id === ctx.artifact && a.expired === false && a.digest === 'sha256:' + ctx.digest &&
-    Number.isSafeInteger(a.size_in_bytes) && a.size_in_bytes > 0 && a.size_in_bytes <= 2 * 1024 * 1024 &&
-    origin.id === ctx.run && origin.head_sha === ctx.master && origin.head_branch === 'master' &&
-    origin.repository_id === repoId && origin.head_repository_id === repoId, 'Artifact binding changed')
+  function artifact(role, id) {
+    const matches = artifacts.artifacts.filter(a => a.name === 'shared-guides-' + role + '-' + ctx.run + '-1')
+    need(matches.length === 1, 'Missing or ambiguous ' + role + ' artifact')
+    const a = matches[0], origin = a.workflow_run
+    need(a.id === id && a.expired === false && Number.isSafeInteger(a.size_in_bytes) && a.size_in_bytes > 0 &&
+      /^sha256:[0-9a-f]{64}$/.test(a.digest) && origin.id === ctx.run && origin.head_sha === ctx.master &&
+      origin.head_branch === 'master' && origin.repository_id === repoId && origin.head_repository_id === repoId,
+      'Artifact binding changed')
+    return a
+  }
+  artifact('report',ctx.reportArtifact)
+  const a = artifact('candidate',ctx.artifact)
+  need(a.digest === 'sha256:' + ctx.digest && a.size_in_bytes <= 2 * 1024 * 1024, 'Prepare archive digest or size changed')
   const bytes = await get('/actions/artifacts/' + a.id + '/zip',a.size_in_bytes,true)
   need(bytes.length === a.size_in_bytes && hash(bytes) === ctx.digest, 'Downloaded artifact digest changed')
   const files = contract.parseRemoteZip(bytes)
@@ -140,6 +146,16 @@ export async function material(contract, ctx, files, git) {
   need(abbrev && git.patch(ctx.master,proof.candidate,abbrev[1].length).equals(patch), 'Full candidate patch differs')
   const delta = await contract.planNewGuidesObjectTransfer({master:ctx.master,dev:prep.dev,plan:unit,proof,
     source:git.source,baseline:git.baseline})
+  const reportBytes = files.get('report.json'), report = json('report.json')
+  need(unit.reports.length === 1 && reportBytes.equals(contract.canonicalBytes(report)), 'Expected one canonical Guides report')
+  contract.validateBlobBytes(unit.reports[0],reportBytes)
+  contract.validateUnitReports(unit,[report])
+  const {pins, authority} = report
+  need(pins.master === ctx.master && pins.dev === prep.dev && pins.trustedTools === ctx.master &&
+    pins.configSnapshot === proof.prepared.base && pins.configTreeOid === delta.baseTree &&
+    pins.toolsetSha256 === proof.trustedToolsetSha256 && pins.source.repository === 'https://github.com/milvus-io/milvus-docs' &&
+    pins.source.track === 'v3.0.x' && pins.source.observedTrackHead === prep.sourceTrackHead &&
+    authority.provider === 'guides-retained-source' && authority.updateState === 'eligible-to-propose', 'Report pins or authority differ')
   const targetRef = 'shared-update/' + hash(contract.canonicalBytes({kind:'remote-unit',unitKey:unit.unitKey}))
   const binding = {repositoryId:repoId,repositoryFullName:repo,master:ctx.master,dev:prep.dev,unitKey:unit.unitKey,
     planSha256:planHash,proofSha256:proofHash,preparedBase:ctx.master,candidate:proof.candidate,candidateTree:proof.candidateTree,
@@ -153,9 +169,37 @@ export async function material(contract, ctx, files, git) {
   need(clock, 'Unrepresentable deterministic candidate')
   const actor = {name:'Shared update local',email:'shared-update-local@localhost',
     date:new Date(Number(clock[1]) * 1000).toISOString().replace('.000Z','+00:00')}
-  return {prep,unit,proof,seal,binding,targetRef,stage:'shared-update-staging/' + transactionId,
+  return {prep,unit,proof,report,rawDiff:delta.rawDiff,reportArtifact:ctx.reportArtifact,seal,binding,targetRef,stage:'shared-update-staging/' + transactionId,
     baseTree:delta.baseTree,after:files.get('after.lock').toString('utf8'),
     commit:{tree:proof.candidateTree,parents:[ctx.master],author:actor,committer:actor,message:raw.subarray(raw.indexOf('\n\n') + 2).toString()}}
+}
+
+// The historical reader authenticates this closed member set for a new (single-parent) unit.
+export function producerBundle(contract, candidate, files, signed, definitionBytes) {
+  const {seal,unit,rawDiff,binding} = candidate
+  const {kind, schemaVersion, ...fields} = seal
+  const members = new Map([
+    ['plan.json', files.get('unit-plan.json')], ['proof.json', files.get('proof.json')], ['patch.raw', rawDiff],
+    ['reports/' + unit.reports[0].sha256 + '.json', files.get('report.json')],
+    ['locks/' + unit.nextEdits[0].afterBlob.sha256 + '.yaml', files.get('after.lock')]
+  ])
+  const encoded = contract.formalValidation({op:'producer',producer:{...fields,kind:'shared-update-producer',schemaVersion,
+    seal:signed,requestId:binding.producerRequestId,tools:seal.master,workflowDefinitionSha256:hash(definitionBytes),
+    members:[...members].map(([name,bytes]) => ({name,sha256:hash(bytes),bytes:bytes.length}))}})
+  need(encoded.status === 'encoded', 'Cannot retain seal provenance')
+  members.set('provenance.json',Buffer.from(encoded.bytesBase64,'base64'))
+  return members
+}
+
+function impactSummary({report,reportArtifact,prep,seal}) {
+  const change = value => value === true ? 'changed' : value === false ? 'unchanged' : 'unknown'
+  const names = {'old-next-to-target':'Prior next to proposed next','current-to-candidate-next':'Current to proposed next'}
+  const rows = report.axes.map(axis =>
+    '| ' + [names[axis.axis],change(axis.sourceChanged),change(axis.outputChanged),axis.contentStatus].join(' | ') + ' |')
+  const base = 'https://github.com/' + repo + '/actions/runs/'
+  return ['| Comparison | Source | Rendered output | Content |','|---|---|---|---|',...rows,'',
+    'The [retained Fetch run](' + base + number(prep.fetchRun) + ') established that this page is eligible for an update. ' +
+    '[Download the page impact and authority evidence](' + base + seal.runId + '/artifacts/' + number(reportArtifact) + ').'].join('\n')
 }
 
 const signMutation = 'mutation Sign($input:CreateCommitOnBranchInput!){createCommitOnBranch(input:$input){commit{oid}}}'
@@ -263,6 +307,7 @@ export async function createDraft({api, candidate, fresh, form, verify, journal,
     head:targetRef,base:'master',draft:true,title:'Update the json-field-overview next lock',
     body:'Advance the Milvus source used by the next channel of the JSON Field Overview guide.\n\n' +
       'Current stays at `' + edit.before.current + '`. Next advances from `' + edit.before.next + '` to `' + edit.target + '`.\n\n' +
+      impactSummary(candidate) + '\n\n' +
       'Prepared from master `' + seal.master + '` and dev `' + prep.dev + '`. Signed head `' + s + '`. ' +
       '[Preparation and writer evidence](https://github.com/' + repo + '/actions/runs/' + seal.runId + ').'
   },201))
@@ -277,25 +322,51 @@ export async function createDraft({api, candidate, fresh, form, verify, journal,
     dev:prep.dev,target:edit.target,candidate:k.sha,seal:s,...signed,stage,targetRef}
 }
 
-async function main() {
-  need(process.argv.length === 2, 'Writer accepts no command-line arguments')
-  const ctx = context(process.env)
-  const token = process.env.GH_TOKEN, workspace = process.env.GITHUB_WORKSPACE, temp = process.env.RUNNER_TEMP
-  const dest = process.env.WRITER_OUTPUT
-  need(token && workspace === process.cwd() && resolve(temp) === temp && dest === join(temp,'shared-guides-writer'), 'Invalid job paths or token')
-  mkdirSync(dest,{mode:0o700})
-  const journal = entry => appendFileSync(join(dest,'journal.ndjson'),JSON.stringify({run:ctx.run,attempt:ctx.attempt,
-    master:ctx.master,artifactId:ctx.artifact,archiveSha256:ctx.digest,...entry}) + '\n',{mode:0o600})
-  const write = (name,bytes) => writeFileSync(join(dest,name),bytes,{flag:'wx',mode:0o600})
+// A successful hold is possible only while every outbound operation was read-only.
+// Once a mutation request is recorded, even losing its response must fail the job.
+export async function runWithJournal(work, append) {
+  let requested = false
+  const journal = entry => {
+    append(entry)
+    if (entry.state === 'requested') requested = true
+  }
   journal({state:'started'})
   try {
+    const result = await work(journal)
+    need(requested && result.status === 'created', 'Missing confirmed draft')
+    journal({state:'created',prNumber:result.prNumber,seal:result.seal})
+    return result
+  } catch (error) {
+    const reason = String(error instanceof Error ? error.message : 'Writer operation failed').split(/[\r\n]/,1)[0].slice(0,250)
+    if (requested) {
+      journal({state:'stopped',reason})
+      throw error
+    }
+    journal({state:'held',mutationRequested:false,reason})
+    return {status:'held',mutationRequested:false,reason}
+  }
+}
+
+async function main() {
+  need(process.argv.length === 2, 'Writer accepts no command-line arguments')
+  const token = process.env.GH_TOKEN, workspace = process.env.GITHUB_WORKSPACE, temp = process.env.RUNNER_TEMP
+  const dest = process.env.WRITER_OUTPUT
+  need(workspace === process.cwd() && resolve(temp) === temp && dest === join(temp,'shared-guides-writer'), 'Invalid job paths or token')
+  mkdirSync(dest,{mode:0o700})
+  const append = entry => appendFileSync(join(dest,'journal.ndjson'),JSON.stringify({run:process.env.GITHUB_RUN_ID,
+    attempt:process.env.GITHUB_RUN_ATTEMPT,master:process.env.GITHUB_SHA,artifactId:process.env.PREPARE_ARTIFACT_ID,
+    archiveSha256:process.env.PREPARE_ARTIFACT_DIGEST,...entry}) + '\n',{mode:0o600})
+  const write = (name,bytes) => writeFileSync(join(dest,name),bytes,{flag:'wx',mode:0o600})
+  const result = await runWithJournal(async journal => {
+    const ctx = context(process.env)
+    need(typeof token === 'string' && token.length > 0, 'Job token unavailable')
     const contract = await import(pathToFileURL(join(temp,'writer-contract.mjs')))
     const {discover} = await import('./discover.mjs')
     const git = gitReader(workspace,mkdtempSync(join(temp,'shared-guides-objects-')))
     need(git.head === ctx.master, 'Writer checkout differs from workflow head')
     const files = await authenticatePrepare(contract,contract.createRemoteTransport({repositoryFullName:repo,token}),ctx)
     const candidate = await material(contract,ctx,files,git)
-    const {prep,unit,seal,binding} = candidate, edit = unit.nextEdits[0]
+    const {prep,unit} = candidate, edit = unit.nextEdits[0]
     const fresh = async owned => {
       execFileSync('/usr/bin/python3',['-B','scripts/docs-workflow/shared-guides-update/prepare.py','verify-fetch'],
         {input:files.get('preparation.json'),timeout:180000,maxBuffer:1024*1024,env:{PATH:'/usr/bin:/bin',GH_TOKEN:token}})
@@ -306,26 +377,28 @@ async function main() {
     }
     const api = apiClient(token)
     const provenance = s => {
-      const {kind, schemaVersion, ...fields} = seal
-      const plan = files.get('unit-plan.json'), proof = files.get('proof.json')
-      const encoded = contract.formalValidation({op:'producer',producer:{...fields,kind:'shared-update-producer',schemaVersion,
-        seal:s,requestId:binding.producerRequestId,tools:ctx.master,workflowDefinitionSha256:hash(git.baseFile(ctx.master,workflow)),
-        members:[{name:'plan.json',sha256:hash(plan),bytes:plan.length},{name:'proof.json',sha256:hash(proof),bytes:proof.length}]}})
-      need(encoded.status === 'encoded', 'Cannot retain seal provenance')
-      write('plan.json',plan)
-      write('proof.json',proof)
-      write('provenance.json',Buffer.from(encoded.bytesBase64,'base64'))
+      const members = producerBundle(contract,candidate,files,s,git.baseFile(ctx.master,workflow))
+      const output = join(temp,'shared-guides-producer')
+      mkdirSync(output,{mode:0o700})
+      for (const dir of ['reports','locks']) mkdirSync(join(output,dir),{mode:0o700})
+      for (const [name,bytes] of members) writeFileSync(join(output,name),bytes,{flag:'wx',mode:0o600})
     }
     const draft = await createDraft({api,candidate,fresh,form:contract.formalValidation,
       verify:(seal,s) => verifySignature(api,git,contract,seal,s),journal,provenance})
     write('draft.json',contract.canonicalBytes({...draft,artifactId:ctx.artifact,archiveSha256:ctx.digest}))
-    journal({state:'created',prNumber:draft.prNumber,seal:draft.seal})
-    console.log('Created draft ' + draft.url)
-    if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY,'Created [Draft PR #' + draft.prNumber + '](' + draft.url + ') at `' + draft.seal + '`.\n')
-  } catch (error) {
-    journal({state:'stopped'})
-    throw error
+    return draft
+  },append)
+  let summary
+  if (result.status === 'held') {
+    write('held.json',JSON.stringify(result) + '\n')
+    console.log('Held before requesting any GitHub mutation: ' + result.reason)
+    summary = 'Held before requesting any GitHub mutation. The retained writer journal contains the reason.'
+  } else {
+    console.log('Created draft ' + result.url)
+    summary = 'Created [Draft PR #' + result.prNumber + '](' + result.url + ') at `' + result.seal + '`.'
   }
+  appendFileSync(process.env.GITHUB_STEP_SUMMARY,summary + '\n')
+  appendFileSync(process.env.GITHUB_OUTPUT,'status=' + result.status + '\n')
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href)
   main().catch(error => { console.error(error.message); process.exitCode = 1 })

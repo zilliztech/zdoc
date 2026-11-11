@@ -3,3 +3,4 @@ export { canonicalBytes, digest, parseStrictJson } from '../../../packages/docs-
 export { planNewGuidesObjectTransfer } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-transaction'
 export { formalValidation } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/formal-validation'
 export { createRemoteTransport, parseRemoteZip } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-github'
+export { validateBlobBytes, validateUnitReports } from '../../../packages/docs-tooling/src/shared-docs/core/updates/envelope'

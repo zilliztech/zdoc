@@ -1,24 +1,26 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { test } from 'node:test'
-import { authenticatePrepare, context, createDraft, gitReader, material, verifySignature } from './write.mjs'
+import { authenticatePrepare, context, createDraft, gitReader, material, producerBundle, runWithJournal, verifySignature } from './write.mjs'
 
 const master = 'a'.repeat(40), dev = 'b'.repeat(40), k = 'c'.repeat(40), tree = 'd'.repeat(40), s = 'e'.repeat(40)
 const targetRef = 'shared-update/' + 'a'.repeat(64), stage = 'shared-update-staging/' + 'd'.repeat(64)
 const unit = {nextEdits:[{before:{current:master,next:master},target:dev}]}
 const seal = {candidate:k,candidateTree:tree,master,runId:15}
-const candidate = {stage,targetRef,seal,unit,prep:{dev},baseTree:'f'.repeat(40),after:'new lock',commit:{tree,parents:[master]}}
+const axes = ['old-next-to-target','current-to-candidate-next'].map(axis =>
+  ({axis,sourceChanged:true,outputChanged:true,contentStatus:'valid',added:[],removed:[],renameCandidates:[]}))
+const candidate = {stage,targetRef,seal,unit,report:{axes},reportArtifact:32,prep:{dev,fetchRun:11},baseTree:'f'.repeat(40),after:'new lock',commit:{tree,parents:[master]}}
 const env = {GITHUB_ACTIONS:'true',GITHUB_SERVER_URL:'https://github.com',GITHUB_API_URL:'https://api.github.com',
   GITHUB_REPOSITORY:'zilliztech/zdoc',GITHUB_REPOSITORY_ID:'660446555',GITHUB_REF:'refs/heads/master',GITHUB_SHA:master,
   GITHUB_WORKFLOW_REF:'zilliztech/zdoc/.github/workflows/shared-guides-update.yml@refs/heads/master',GITHUB_WORKFLOW_SHA:master,
   GITHUB_JOB:'write',GITHUB_RUN_ATTEMPT:'1',GITHUB_RUN_ID:'15',GITHUB_EVENT_NAME:'schedule',
-  PREPARE_ARTIFACT_ID:'31',PREPARE_ARTIFACT_DIGEST:'4'.repeat(64)}
+  PREPARE_ARTIFACT_ID:'31',REPORT_ARTIFACT_ID:'32',PREPARE_ARTIFACT_DIGEST:'4'.repeat(64)}
 
 test('writer accepts only the original run on the fixed production workflow and repository',() => {
   assert.equal(context(env).master,master)
@@ -36,9 +38,10 @@ function prepareEvidence() {
     repository:{id:660446555},head_repository:{id:660446555}}
   const job = {name:'prepare',run_id:15,run_attempt:1,head_sha:master,status:'completed',conclusion:'success'}
   const artifact = {id:31,name:'shared-guides-candidate-15-1',expired:false,digest:'sha256:' + digest,size_in_bytes:bytes.length,workflow_run:origin}
-  const members = ['plan.json','prepare.json','preparation.json','proof.json','candidate.commit','unit-plan.json','before.lock','after.lock','lock.next.patch']
+  const human = {...artifact,id:32,name:'shared-guides-report-15-1'}
+  const members = ['report.json','plan.json','prepare.json','preparation.json','proof.json','candidate.commit','unit-plan.json','before.lock','after.lock','lock.next.patch']
   const files = new Map(members.map(name => [name,Buffer.from(name)]))
-  const responses = [run,{total_count:1,jobs:[job]},{total_count:1,artifacts:[artifact]},bytes]
+  const responses = [run,{total_count:1,jobs:[job]},{total_count:2,artifacts:[artifact,human]},bytes]
   let calls = 0
   const authenticate = () => authenticatePrepare({parseStrictJson:JSON.parse,parseRemoteZip:() => files},async ({method,path}) => {
     assert.equal(method,'GET')
@@ -48,16 +51,16 @@ function prepareEvidence() {
     const response = responses[calls++]
     return {status:200,body:Buffer.isBuffer(response) ? response : Buffer.from(JSON.stringify(response))}
   },ctx)
-  return {run,job,artifact,files,responses,authenticate}
+  return {run,job,artifact,human,files,responses,authenticate}
 }
 
 test('authenticate the prepare job and exact current-run archive, including every member and downloaded digest',async () => {
-  assert.equal((await prepareEvidence().authenticate()).size,9)
+  assert.equal((await prepareEvidence().authenticate()).size,10)
   for (const tamper of [
     f => {f.run.path = '.github/workflows/other.yml'}, f => {f.job.conclusion = 'skipped'},
     f => {f.job.head_sha = k}, f => {f.run.run_attempt = 2}, f => {f.artifact.workflow_run.id = 16},
     f => {f.artifact.digest = 'sha256:' + '0'.repeat(64)}, f => {f.artifact.expired = true},
-    f => {f.responses[3] = Buffer.from('wrong bytes')}, f => {f.responses[2].total_count = 2},
+    f => {f.responses[3] = Buffer.from('wrong bytes')}, f => {f.responses[2].total_count = 3}, f => {f.human.id = 44}, f => {f.human.name = 'report-for-a-different-run'},
     f => {f.files.set('unknown.js',Buffer.from('unexpected'))}
   ]) {
     const f = prepareEvidence()
@@ -66,7 +69,7 @@ test('authenticate the prepare job and exact current-run archive, including ever
   }
 })
 
-function scenario({stopAt,wrongK,badSeal,failAfter,brokenDraft} = {}) {
+function scenario({stopAt,wrongK,badSeal,failAfter,brokenDraft} = {}, record = () => {}) {
   const calls = [], checks = [], journal = [], verified = [], receipts = []
   const pr = {id:9,number:8,state:'open',draft:true,merged:false,user:{id:41898282},changed_files:1,
     head:{ref:targetRef,sha:s,repo:{id:660446555}},base:{ref:'master',sha:master,repo:{id:660446555}}}
@@ -101,13 +104,15 @@ function scenario({stopAt,wrongK,badSeal,failAfter,brokenDraft} = {}) {
       assert.equal(body.base,'master')
       assert.equal(body.head,targetRef)
       assert.equal(body.draft,true)
+      assert.match(body.body,/Prior next to proposed next \| changed \| changed/)
+      assert.match(body.body,/runs\/15\/artifacts\/32/)
       return mutation('draft',pr)
     }}
   return {calls,checks,journal,verified,receipts,run:() => createDraft({candidate,api,
     form:() => ({status:'encoded',githubMessage:{headline:'seal',body:'body'}}),
     fresh:async owned => { checks.push(structuredClone(owned)); if (checks.length === stopAt) throw new Error('Existing PR or stale inputs') },
     verify:async (_,oid) => { verified.push(oid); if (badSeal) throw new Error('Wrong signature') },
-    journal:item => journal.push(item),provenance:oid => receipts.push(oid),waitRef:async () => {}})}
+    journal:item => { journal.push(item); record(item) },provenance:oid => receipts.push(oid),waitRef:async () => {}})}
 }
 
 test('create only the exact candidate, signed stage, new target and Draft; check each boundary',async () => {
@@ -140,6 +145,29 @@ test('incorrect K, rejected seal, lost responses and changed Draft never cause r
   }
 })
 
+test('a proven pre-mutation hold can return success; uncertain writes continue to veto subsequent runs',async () => {
+  const journal = []
+  const run = settings => runWithJournal(record => scenario(settings,record).run(),entry => journal.push(entry))
+  const held = await run({stopAt:1})
+  assert.deepEqual(held,{status:'held',mutationRequested:false,reason:'Existing PR or stale inputs'})
+  assert.deepEqual(journal.map(entry => entry.state),['started','held'])
+  await assert.rejects(() => run({failAfter:'tree'}),/Unknown remote outcome/)
+  assert.equal(journal.at(-1).state,'stopped')
+  assert.equal((await run({})).status,'created')
+  assert.equal(journal.at(-1).state,'created')
+})
+
+test('CLI reports status=held with a retained reason and zero producer artifacts before the first mutation',t => {
+  const temp = mkdtempSync(join(tmpdir(),'shared-guides-held-test-'))
+  t.after(() => rmSync(temp,{recursive:true,force:true}))
+  const dest = join(temp,'shared-guides-writer'), output = join(temp,'outputs')
+  execFileSync(process.execPath,['scripts/docs-workflow/shared-guides-update/write.mjs'],{env:{...env,
+    RUNNER_TEMP:temp,GITHUB_WORKSPACE:process.cwd(),WRITER_OUTPUT:dest,GITHUB_OUTPUT:output,GITHUB_STEP_SUMMARY:join(temp,'summary')}})
+  assert.equal(readFileSync(output,'utf8'),'status=held\n')
+  assert.deepEqual(JSON.parse(readFileSync(join(dest,'held.json'))),{status:'held',mutationRequested:false,reason:'Job token unavailable'})
+  assert.equal(existsSync(join(temp,'shared-guides-producer')),false)
+})
+
 test('the bundled production contract reconstructs the exact B2 commit from master and rejects a changed lock or candidate',async t => {
   const root = mkdtempSync(join(tmpdir(),'shared-guides-writer-test-'))
   t.after(() => rmSync(root,{recursive:true,force:true}))
@@ -170,8 +198,19 @@ test('the bundled production contract reconstructs the exact B2 commit from mast
   writeFileSync(join(repo,lock),after)
   git(['add',lock])
   const candidateTree = git(['write-tree']).toString().trim()
+  const {fixtureMaterial} = loadTypeScript(resolve('packages/docs-tooling/src/shared-docs/testing/updates/fixtures/manual-provider.ts'))
+  const report = structuredClone(fixtureMaterial({subject,master:m,current:master,target:dev,members:[{
+    logicalId:'json-field-overview',manualId:'guides',token:'shared-json-field-overview',
+    outputPath:'content/en/guides/json-field-overview.mdx',origin:'upstream',current:true,next:true}]}).collectedReport)
+  report.pins.configTreeOid = baseTree
+  const source = {repository:'https://github.com/milvus-io/milvus-docs',track:'v3.0.x'}
+  Object.assign(report.pins.source,source)
+  Object.assign(report.semanticProjection.source,source)
+  report.semanticInputSha256 = c.digest('semantic',report.semanticProjection)
   const plan = {kind:'shared-update-unit',schemaVersion:1,unitKey:'guides:' + sha256(canon([subject])),subjects:[subject],
-    disposition:'candidate',membersSha256:'a'.repeat(64),semanticInputSha256:'b'.repeat(64),holdReasons:[],reports:[blob(before)],
+    disposition:'candidate',membersSha256:c.digest('unit-members',[{subject,memberSetSha256:report.memberSetSha256}]),
+    semanticInputSha256:c.digest('unit-semantic',[{subject,semanticInputSha256:report.semanticInputSha256}]),
+    holdReasons:[],reports:[blob(canon(report))],
     nextEdits:[{subject,before:{path:lock,current:master,next:master,sha256:sha256(before)},afterBlob:blob(after),target:dev}]}
   const planSha256 = c.digest('plan',plan)
   const revision = {kind:'shared-update-revision',schemaVersion:1,unitKey:plan.unitKey,subjects:[subject],
@@ -182,11 +221,11 @@ test('the bundled production contract reconstructs the exact B2 commit from mast
     '\n\n' + encodeRevisionMessage(revision).commitMessage)
   const candidate = git(['hash-object','-w','-t','commit','--stdin'],raw).toString().trim()
   const proof = {prepared:{kind:'new',master:m,base:m,tree:baseTree},candidate,candidateTree,
-    patch:blob(git(['diff','--raw','--no-abbrev','-z',m,candidate])),preservedHumanHeads:[],trustedToolsetSha256:'c'.repeat(64),
+    patch:blob(git(['diff','--raw','--no-abbrev','-z',m,candidate])),preservedHumanHeads:[],trustedToolsetSha256:report.pins.toolsetSha256,
     executableClosure:blob(before),nextEdits:plan.nextEdits}
   const patch = git(['diff','--no-ext-diff',m,candidate]), ctx = {run:15,attempt:1,master:m}
   const result = {kind:'shared-update-local-result',schemaVersion:1,reasons:[],operations:[]}
-  const files = new Map(Object.entries({'unit-plan.json':canon(plan),'proof.json':canon(proof),'before.lock':before,'after.lock':after,
+  const files = new Map(Object.entries({'report.json':canon(report),'unit-plan.json':canon(plan),'proof.json':canon(proof),'before.lock':before,'after.lock':after,
     'candidate.commit':raw,'lock.next.patch':patch,'plan.json':canon({...result,status:'planned'}),
     'prepare.json':canon({...result,status:'prepared',disposition:'candidate',candidate,unitKey:plan.unitKey,planSha256,proof:blob(canon(proof))}),
     'preparation.json':canon({page:subject.pageId,status:'prepared',runId:15,runAttempt:1,master:m,dev:m,source:dev,
@@ -197,7 +236,20 @@ test('the bundled production contract reconstructs the exact B2 commit from mast
   assert.equal(actual.seal.planSha256,planSha256)
   assert.equal(actual.seal.proofSha256,sha256(canon(proof)))
   assert.equal(c.formalValidation({op:'seal',seal:actual.seal}).status,'encoded')
-  for (const [name,wrong] of [['candidate.commit',Buffer.concat([raw,Buffer.from('\n')])],['after.lock',before],
+  const bundleMembers = producerBundle(c,actual,files,s,Buffer.from('reviewed workflow'))
+  const reportPath = 'reports/' + plan.reports[0].sha256 + '.json'
+  const lockPath = 'locks/' + plan.nextEdits[0].afterBlob.sha256 + '.yaml'
+  assert.deepEqual([...bundleMembers.keys()].sort(),['provenance.json','plan.json','proof.json','patch.raw',reportPath,lockPath].sort())
+  const receipt = JSON.parse(bundleMembers.get('provenance.json'))
+  assert.equal(receipt.seal,s)
+  for (const {name,bytes,sha256:digest} of receipt.members) {
+    assert.equal(bundleMembers.get(name).length,bytes)
+    assert.equal(sha256(bundleMembers.get(name)),digest)
+  }
+  assert.deepEqual(bundleMembers.get(reportPath),canon(report))
+  assert.deepEqual(bundleMembers.get(lockPath),after)
+  assert.deepEqual(blob(bundleMembers.get('patch.raw')),proof.patch)
+  for (const [name,wrong] of [['report.json',canon({...report,authority:{...report.authority,updateState:'unknown'}})],['candidate.commit',Buffer.concat([raw,Buffer.from('\n')])],['after.lock',before],
     ['before.lock',after],['unit-plan.json',Buffer.concat([canon(plan),Buffer.from('\n')])],
     ['prepare.json',canon({...result,status:'held'})],['lock.next.patch',Buffer.from('bad diff')]]) {
     await assert.rejects(() => material(c,ctx,new Map(files).set(name,wrong),reader))
