@@ -134,7 +134,7 @@ async function regenerateReceipt(options, dependencies = {}) {
       const text = readVariantFile(variantFileName(channel))
       const provenanceText = readVariantFile(variantSidecarName(channel))
       if (text === undefined && provenanceText !== undefined) throw Error(`${variantSidecarName(channel)} requires ${variantFileName(channel)}`)
-      if (text !== undefined) rawVariants[channel] = {text, provenanceText: provenanceText ?? ''}
+      if (text !== undefined) rawVariants[channel] = {text, provenanceText}
     }
     const parsedVariants = parseVariants(rawVariants, {})
     if ('errors' in parsedVariants) throw Error(JSON.stringify(parsedVariants.errors))
