@@ -73,7 +73,7 @@ type Schema struct {
 
     This sets the source data URI, which is similar to an AWS S3 object path.
 
-    <NextChannel action="include">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.</NextChannel>
+    On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.
 
 - `WithExternalSpec(externalSpec string) *Schema`
 
@@ -83,7 +83,7 @@ type Schema struct {
 
         The format of the target source data files. Possible values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
 
-        <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
+        On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
 
     - **extfs** (*string*) -
 
@@ -180,9 +180,9 @@ fmt.Println(err)
 
 - `WithExternalSource(externalSource string)`
 
-    This sets the source data URI, which <NextChannel action="exclude">should be the name of an accessible external volume</NextChannel><NextChannel action="include">uses one of the schemes described below</NextChannel>.
+    This sets the source data URI, which uses one of the schemes described below.
 
-    <NextChannel action="include">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. A `volume://` URI points to an accessible external volume.</NextChannel>
+    On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. A `volume://` URI points to an accessible external volume.
 
 - `WithExternalSpec(externalSpec string)`
 
@@ -194,6 +194,6 @@ fmt.Println(err)
 
         Possible values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
 
-        <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
+        On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
 
     
