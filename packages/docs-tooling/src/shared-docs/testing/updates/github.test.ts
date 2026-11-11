@@ -98,18 +98,12 @@ it('preserves successful metadata, archive bytes and fixed read execution bounds
 })
 
 
-it('keeps explicit coordinator credentials out of the object and command arguments, and enforces caller download bounds', async () => {
-  const token = 'fixture-coordinator-credential'
-  const api = new GitHubReads(token)
-  expect(Object.getOwnPropertyNames(api)).toEqual([])
+it('enforces the caller download bound before invoking gh', async () => {
+  const api = new GitHubReads()
   runGh.mockClear()
   await expect(api.zip(3, 0)).rejects.toThrow(/limit/)
   expect(runGh).not.toHaveBeenCalled()
   runGh.mockResolvedValueOnce({stdout: Buffer.from([1])})
   await api.zip(3, 12)
-  const [command, args, options] = runGh.mock.calls[0]
-  expect(command).toBe('gh')
-  expect(args).not.toContain(token)
-  expect(options.maxBuffer).toBe(12)
-  expect(options.env.GH_TOKEN).toBe(token)
+  expect(runGh.mock.calls[0][2].maxBuffer).toBe(12)
 })

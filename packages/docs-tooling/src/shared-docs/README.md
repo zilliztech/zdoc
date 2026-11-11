@@ -647,6 +647,15 @@ clock, writer or trusted-toolset argument. `existing.localEvidence` names owned
 local outputs whose journals, objects and proofs are independently verified;
 copied evidence never supplies fresh remote identity or access authority.
 
+For a single Guides page, the coordinator can download both retained archives
+with an explicit `GH_TOKEN` with Actions read access to `zilliztech/zdoc`.
+Local operators can supply the token from their signed-in GitHub CLI through
+the command environment. Alternatively, set `lifecycle.archive` to the source
+ZIP and put `publication-results-fetch-<runId>-<attempt>.zip` beside it.
+Both local files are checked against GitHub's artifact identities, sizes and
+SHA-256 digests. Public metadata can be read without credentials. The worker
+receives the staged bytes and verifies them against GitHub independently.
+
 The implementation root is derived from the executing command module. Canonical
 cwd must match it. Bootstrap reads bounded, no-follow files to resolve HEAD in
 ordinary or linked-worktree SHA-1 files-backend checkouts, including loose and

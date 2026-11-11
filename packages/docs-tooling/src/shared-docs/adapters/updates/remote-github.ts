@@ -1,4 +1,5 @@
 import { request as httpsRequest } from 'node:https'
+import { rootCertificates } from 'node:tls'
 import { inflateRawSync } from 'node:zlib'
 import { performance } from 'node:perf_hooks'
 import * as z from 'zod'
@@ -38,7 +39,7 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
       if(input.method!=='GET')fail('ENDPOINT_INVALID')
       if(input.body||!input.path.startsWith(prefix))fail('ENDPOINT_INVALID')
       const suffix=input.path.slice(prefix.length),parts=suffix.split('?')
-      if(parts.length>2||parts[0].includes('..')||! /^(?:|\/git\/(?:ref\/heads\/[A-Za-z0-9_/-]+|matching-refs\/heads\/)|\/pulls(?:\/[1-9][0-9]*)?|\/commits\/[a-f0-9]{40}(?:\/check-runs)?|\/actions\/runs\/[1-9][0-9]*(?:\/attempts\/[1-9][0-9]*|\/artifacts)?|\/actions\/workflows\/[1-9][0-9]*(?:\/runs)?|\/actions\/artifacts\/[1-9][0-9]*(?:\/zip)?|\/contents\/\.github\/workflows\/[A-Za-z0-9_.-]+)$/.test(parts[0]))fail('ENDPOINT_INVALID')
+      if(parts.length>2||parts[0].includes('..')||! /^(?:|\/git\/(?:ref\/heads\/[A-Za-z0-9_/-]+|matching-refs\/heads\/)|\/pulls(?:\/[1-9][0-9]*)?|\/commits\/[a-f0-9]{40}(?:\/check-runs)?|\/actions\/runs\/[1-9][0-9]*(?:\/attempts\/[1-9][0-9]*(?:\/jobs)?|\/artifacts)?|\/actions\/workflows\/[1-9][0-9]*(?:\/runs)?|\/actions\/artifacts\/[1-9][0-9]*(?:\/zip)?|\/contents\/\.github\/workflows\/[A-Za-z0-9_.-]+)$/.test(parts[0]))fail('ENDPOINT_INVALID')
       for(const [key,value] of new URLSearchParams(parts[1]??''))if(!['page','per_page','state','base','filter','ref','event','head_sha'].includes(key)||! /^(?:[1-9][0-9]*|all|open|master|workflow_dispatch|[a-f0-9]{40})$/.test(value))fail('ENDPOINT_INVALID')
     }
     const canonicalUrl=new URL(input.path,'https://api.github.com')
@@ -47,7 +48,9 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
       const headers: Record<string,string> = { Accept: 'application/vnd.github+json', 'User-Agent': 'zdoc-remote-reads', 'X-GitHub-Api-Version': '2022-11-28' }
       if (credentials) headers.Authorization = `Bearer ${token}`
       if (input.body) headers['Content-Type'] = 'application/json'
-      const req = socket(url, { method: input.method, headers, signal: input.signal }, response => {
+      // Keep authenticated connections independent of ambient proxy agents and extra CA files.
+      const req = socket(url, { method: input.method, headers, signal: input.signal, agent: false,
+        ca: [...rootCertificates], rejectUnauthorized: true }, response => {
         let size = 0; const chunks: Buffer[] = []
         response.on('data', chunk => { const bytes = Buffer.from(chunk); size += bytes.length; if (size > input.maximum) { response.destroy(); req.destroy(); reject(new Error('RESPONSE_LIMIT')) } else chunks.push(bytes) })
         response.on('error', () => reject(new Error('TRANSPORT_FAILED')))
