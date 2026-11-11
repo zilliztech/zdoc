@@ -20,6 +20,13 @@ import { createBuildDemo, git, write } from '../build/demo'
 const exec=promisify(execFile)
 const treeOutputLimit=4*1024*1024,treeEntryLimit=100000,objectBudget=REMOTE_IO_LIMITS.objectBytes
 const gitEnvironment={LANG:'C',LC_ALL:'C',GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null',GIT_TERMINAL_PROMPT:'0',GIT_NO_LAZY_FETCH:'1',GIT_OPTIONAL_LOCKS:'0'}
+// A hosted capture and a full access recheck each took about 72 seconds.
+// These bounds cover the diagnostic harness. The collector owns its own child timeout.
+const diagnosticDeadlineMs = 9 * 60_000
+const providerDeadlineMs = 5 * 60_000
+type DiagnosticStage = 'binding' | 'capacity' | 'preflight' | 'capture' | 'retain-access' |
+  'fixture' | 'provider-setup' | 'collect' | 'validate' | 'final-verify'
+
 export interface TreeLowerBound {complete:boolean;entries:number;distinctBlobs:number;bytes:number;verdict:'over-budget'|'not-proven';scope:'master-tree-blobs-only';objectBudget:number}
 /** Strict NUL-delimited ls-tree -rlz output. No raw path/content is retained in the report. */
 export function parseTreeLowerBound(input:Uint8Array):TreeLowerBound {
@@ -216,22 +223,35 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     worker:{status:'not-run',generationExecuted:false,resultValidated:false,observation:null,settlement:null,planDispositions:[],tripwireUntouched:null},
     phases:[],failure:null,report:{status:'complete',reason:null},tools:null,closure:null,limits:{treeOutputBytes:treeOutputLimit,treeEntries:treeEntryLimit,overallDeadline:'external-owned-launcher',collectorResultBytes:128*1024*1024}}
   const started=performance.now()
+  const stages: { stage: DiagnosticStage; elapsedMs: number }[] = []
+  // Each entry precedes its operation. An interrupted run retains the last atomic journal,
+  // which records progress only. The terminal report owns all outcome/settlement claims.
+  async function enter(stage: DiagnosticStage) {
+    stages.push({ stage, elapsedMs: Math.ceil(performance.now() - started) })
+    await evidence.writeJournal('diagnostic-progress.json', canonicalBytes({
+      kind: 'shared-update-runner-diagnostic-progress', schemaVersion: 1,
+      productionQualified: false, master: input.master, stages,
+    }))
+  }
   let phase='bootstrap',phaseStart=started
-  const check=()=>{if(performance.now()-started>120000)throw new Error('COOPERATIVE_DEADLINE')}
+  const check=()=>{if(performance.now()-started>diagnosticDeadlineMs)throw new Error('COOPERATIVE_DEADLINE')}
   const begin=(next:string)=>{check();phase=next;phaseStart=performance.now()}
   const pass=()=>{check();result.phases.push({phase,milliseconds:Math.ceil(performance.now()-phaseStart),status:'passed'})}
   const gitRead=async(...args:string[])=> (await exec('/usr/bin/git',['--no-replace-objects','-c','core.hooksPath=/dev/null','-C',toolRoot,...args],{env:gitEnvironment,timeout:10000,maxBuffer:treeOutputLimit,encoding:'buffer'})).stdout
   try{
-    begin('binding');
+    begin('binding'); await enter('binding')
     for(const name of ['shallow','info/grafts','objects/info/alternates']){
       const path=resolve(toolRoot,(await gitRead('rev-parse','--git-path',name)).toString().trim())
       try{await lstat(path);throw new Error('AMBIGUOUS_GIT_STORAGE')}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error}
     }
     if((await gitRead('rev-parse','HEAD')).toString().trim()!==input.master)throw new Error('MASTER_MISMATCH');pass()
-    begin('capacity');result.capacity=parseTreeLowerBound(await gitRead('ls-tree','-r','-l','-z',input.master));pass()
+    begin('capacity'); await enter('capacity')
+    result.capacity=parseTreeLowerBound(await gitRead('ls-tree','-r','-l','-z',input.master));pass()
     begin('capture');result.capture='held'
+    await enter('preflight')
     result.preflight=await observeRuntimePreflight(toolRoot)
     // Default helper coverage is intentional: gh/Python cannot be omitted to pass.
+    await enter('capture')
     const capture=await captureTrustedToolset({root:toolRoot,commit:input.master,cwd:toolRoot})
     const description=describeTrustedToolset(capture)
     if(description.commit!==input.master||await realpath(description.root)!==toolRoot)throw new Error('CAPTURE_BINDING_MISMATCH')
@@ -243,11 +263,13 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
       runtimeCount:description.runtime.length,hostExclusionCount:description.hostExclusions.length,accessInspected:description.access.inspected,accessInspectorCount:description.access.inspectors.length,description:descriptionRef}
     const ref=await writeOwnedBlob(evidence,capture.bytes)
     verifyClosureBinding(capture.material,ref,capture.bytes,capture.toolsetSha256)
+    await enter('retain-access')
+    // Retention revalidates the toolset. The provider rechecks it again before use.
     const access=await retainTrustedAccessEvidence(capture,evidence)
-    await verifyTrustedToolset(capture)
     result.closure={sha256:rawSha256(capture.bytes),bytes:capture.bytes.length,toolsetSha256:capture.toolsetSha256,access}
     pass();result.capture='passed'
     begin('worker');result.worker.status='held'
+    await enter('fixture')
     const fixture=await createBuildDemo(join(evidence.root,'fixture'))
     // No external resource request: both fixture pins below contain local images only.
     const sourcePath=join(fixture.repo,'site/en/build-pipeline.md')
@@ -263,19 +285,24 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     await writeFile(sourcePath,source.replaceAll('Pipeline example','Forward pipeline example'));await git(fixture.repo,'add','.');await git(fixture.repo,'commit','-qm','diagnostic forward source')
     const target=await git(fixture.repo,'rev-parse','HEAD')
     await git(fixture.repo,'remote','add','origin','https://github.com/milvus-io/milvus-docs')
-    const provider=await createGuidesProvider({capture,evidence,signal:AbortSignal.timeout(60000),request:{kind:'guides-collection',schemaVersion:1,repositoryRoot:repository,sourceRepository:fixture.repo,devRepository:fixture.dev,master:config,configSnapshot:config,dev:fixture.devCommit,pages:['build-pipeline'],comparisonConfig:null,target,evidenceRun:null,evidenceZip:null},
+    await enter('provider-setup')
+    const provider=await createGuidesProvider({capture,evidence,signal:AbortSignal.timeout(providerDeadlineMs),request:{kind:'guides-collection',schemaVersion:1,repositoryRoot:repository,sourceRepository:fixture.repo,devRepository:fixture.dev,master:config,configSnapshot:config,dev:fixture.devCommit,pages:['build-pipeline'],comparisonConfig:null,target,evidenceRun:null,evidenceZip:null},
       async prepareNext(context){const before=Buffer.from(context.lock.before.text),patch=patchNextLock({subject:context.subject,before:{path:context.lock.path,sha256:context.lock.before.blob.sha256,current,next:current},bytes:before,target,mode:'100644'});return {blob:await writeOwnedBlob(evidence,patch.bytes),text:patch.text}}})
     try{
+      await enter('collect')
       const collected=await provider.collectAll();result.worker.generationExecuted=true
+      await enter('validate')
       const settlement=collected.workerSettlement;result.worker.settlement=settlementSummary(settlement)
       if(!validateDiagnosticSettlement(settlement))throw new Error('WORKER_UNSETTLED')
       const plans=provider.planAll();result.worker.resultValidated=true;result.worker.planDispositions=plans.map(plan=>plan.disposition)
       // Candidate data must never run, and no generated content/lock is installed.
       try{await lstat(tripwire);throw new Error('CANDIDATE_EXECUTED')}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error}
       result.worker.tripwireUntouched=true
+      if(plans.some(plan=>plan.disposition==='candidate'&&plan.nextEdits.length!==1))throw new Error('NON_NEXT_ONLY_PLAN')
       for(const plan of plans)for(const edit of plan.nextEdits)if(edit.before.current!==current||edit.before.next!==current||edit.target!==target||edit.before.path!=='shared-docs/guides/pages/build-pipeline/lock.yaml')throw new Error('NON_NEXT_ONLY_PLAN')
       result.worker.observation=await writeOwnedBlob(evidence,canonicalBytes({kind:'diagnostic-worker-observation',schemaVersion:1,fixture:{current,target,master:config,trustedTools:input.master,dev:fixture.devCommit},plans,settlement:settlementSummary(settlement)}))
       if(collected.collection.holds.length||plans.length!==1||plans.some(plan=>plan.disposition!=='candidate'))throw new Error('WORKER_PREPARATION_HELD')
+      await enter('final-verify')
       await verifyTrustedToolset(capture)
       if((await gitRead('rev-parse','HEAD')).toString().trim()!==input.master)throw new Error('MASTER_MISMATCH')
       pass();result.worker.status='passed'
