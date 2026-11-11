@@ -6713,11 +6713,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
-      "sourceHash": "65d401be8bbced23dd4919e196573cb39f1f9e6076839b67f1950d7b8672a35e",
+      "sourceCommit": "fc5c164e41eedc5c684a4b6a81e99e7e63dcfb89",
+      "sourceHash": "0bd406ce00ef24d8cee6ad8f33e375b281ccb2e32a5c30686cc4e9b700bf89eb",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "3d541ab9032d5366ba6b3712bc008918e855fae2fbb326eaf3ba30e0cf25d1a1",
+      "targetHash": "9bdc4b1fcd8b8341bd2d88830cf129061d7be369fea47d4889d6a3013387d7dc",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md"
     },
     {
