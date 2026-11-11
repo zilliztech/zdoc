@@ -122,16 +122,51 @@ it('requires the actual canonical Base row and successful generation for the sel
   const scoped = {...evidence(), observedPage: 'another-page'}
   expect(classifyLifecycle(scoped, 'page', targets, now).state).toBe('unknown')
 })
-it('binds producer workflow, scraper, dispatch, and dependency bytes while allowing unrelated update changes', async () => {
+it('binds all producer tree entries and authenticates the policy bytes and mode', async () => {
   const {producerInventoryDigest} = await import('../../adapters/updates/selected-lifecycle')
-  const changed = (path: string) => [0, 1].map(version => producerInventoryDigest(`100644 blob ${String(version).repeat(40)}\t${path}\0`))
-  for (const path of ['.github/workflows/_fetch-guides-sources.yml', 'packages/docs-tooling/src/cli-main.ts',
-    'packages/docs-tooling/src/manuals/derive/larkConfigView.ts', 'packages/docs-tooling/src/lark/larkDocScraper.js',
-    'scripts/docs-workflow/guides-media-prefetch.test.js', 'pnpm-lock.yaml']) {
-    const [before, after] = changed(path); expect(after).not.toBe(before)
+  const {createHash} = await import('node:crypto')
+  const bytes = Buffer.from('reviewed\n'), oid = createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')
+  const path = 'packages/docs-tooling/src/shared-docs/adapters/updates/reviewed-fetch-tree.json'
+  const policy = `100644 blob ${oid}\t${path}\0`, dir = `040000 tree ${'a'.repeat(40)}\tpackages\0`
+  const digest = (tree: string) => producerInventoryDigest(tree, bytes)
+  const baseline = digest(dir + policy)
+  expect(digest(dir.replace('a'.repeat(40), 'b'.repeat(40)) + policy)).toBe(baseline)
+  for (const file of ['.env', 'extra.cjs', 'packages/docs-tooling/src/cli-main.ts', 'scripts/testing/test.js']) {
+    expect(digest(dir + policy + `100644 blob ${'a'.repeat(40)}\t${file}\0`)).not.toBe(baseline)
   }
-  const [before, after] = changed('packages/docs-tooling/src/shared-docs/adapters/updates/selected-lifecycle.ts')
-  expect(after).toBe(before)
+  expect(() => digest(dir)).toThrow(/Missing producer review policy/)
+  expect(() => digest(dir + policy.replace(oid, 'b'.repeat(40)))).toThrow(/policy differs/)
+  expect(() => digest(dir + policy.replace('100644', '120000'))).toThrow(/policy differs/)
+})
+
+it('binds complete membership to distinct record IDs in every observed table', async () => {
+  const {recordMembership} = await import('../../adapters/updates/selected-lifecycle')
+  const data = [{base_table_id: 'a', record_id: 'one'}, {base_table_id: 'b', record_id: 'two'}]
+  const complete = recordMembership(data)
+  expect(complete).toMatchObject({tableCount: 2, recordCount: 2})
+  expect(recordMembership([...data].reverse())).toEqual(complete)
+  expect(recordMembership([data[0]])).not.toEqual(complete)
+  expect(recordMembership([data[0], {...data[1], base_table_id: 'a'}])).not.toEqual(complete)
+  expect(recordMembership([data[0], {...data[1], record_id: 'one'}])).toBeUndefined()
+})
+
+it('limits the independently enumerated historical census to its own producer, run, attempt, source ZIP and page', async () => {
+  const {selectedObservation} = await import('../../adapters/updates/selected-lifecycle')
+  const legacy = (await import('../../adapters/updates/reviewed-fetch-tree.json')).default.legacyCensus
+  const api = {get: async () => { throw new Error('Unexpected request') }, zip: async () => new Uint8Array()}
+  const run = {id: legacy.runId, run_attempt: legacy.attempt, head_sha: legacy.producer, head_repository: {id: 660446555}, workflow_id: 83360731}
+  const source = {id: legacy.artifactId, digest: legacy.zipDigest}
+  async function observe(observed = run, artifact = source, page = legacy.page) {
+    return selectedObservation(api, {run: observed, artifact, artifacts: [], jobs: []}, {},
+      {base_app_token: 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh'}, '', {producerRepo: '', devRepo: '', dev: '', page})
+  }
+  // Even the exact reviewed scan still requires successful producer and publication evidence.
+  expect(await observe()).toEqual({reason: 'BASE_SCAN_ATTEMPT_UNPROVEN'})
+  for (const observation of [
+    observe({...run, id: run.id + 1}), observe({...run, run_attempt: 2}),
+    observe(run, {...source, id: source.id + 1}), observe(run, {...source, digest: 'sha256:' + 'f'.repeat(64)}),
+    observe(run, source, 'another-page'),
+  ]) expect(await observation).toEqual({reason: 'BASE_SCAN_CENSUS_UNPROVEN'})
 })
 
 it('checks both workflow histories and holds on newer activity, other attempts and incomplete pagination', async () => {

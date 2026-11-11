@@ -445,7 +445,9 @@ Archive preflight requires Python 3. It does not start Fetch or query Base.
 Without retained evidence it still analyzes pages and reports lifecycle unknown.
 For a single page, pass `--pages <page-id>` and the current dev SHA. The
 reader also verifies that the newest applicable Fetch observed this Base record
-and that the same run published its English Guides outputs. Check
+and that the same run published its English Guides outputs. The producer must
+match the reviewed Fetch tree, or the specific historical scan with an
+independent Base census documented in the shared-docs package. Check
 `pages[].lifecycle` and `futureEligible` in the report before using the
 proposed `next`. A newer run in progress or conflicting publication evidence
 keeps the page on hold.

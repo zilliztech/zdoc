@@ -21,25 +21,55 @@ type Metadata = Awaited<ReturnType<typeof retainedMetadata>>
 export type SelectedPage = { page: string; producerRepo: string; devRepo: string; dev: string }
 const unknown = (reason: string) => ({ reason } as const)
 
-// The producer at 47a7274cb runs a new scraper across all tables before shared
-// routing. createSourceSnapshot consumes those Base rows even in incremental body
-// mode. Bind that audit to its runtime, workflows and dependency configuration,
-// so unrelated master commits do not change the meaning of the collection.
-const producerRoots = ['.github', 'config', 'deploy', 'packages', 'scripts', 'patches',
-  'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', '.pnpmfile.cjs', '.npmrc', 'tsconfig.json', 'apps/docs/package.json']
-export function producerInventoryDigest(tree: string) {
-  const entries = tree.split('\0').filter(entry => {
-    if (!entry) return false
-    const path = entry.slice(entry.indexOf('\t') + 1)
-    // The Fetch CLI loads update commands only for explicit shared-docs update
-    // invocations. Its own source-job preflight tests under scripts stay bound.
-    return path !== 'packages/docs-tooling/src/shared-docs/README.md' &&
-      !/^packages\/docs-tooling\/src\/shared-docs\/(?:testing\/|(?:adapters|core)\/updates\/|commands\/update[^/]*\.ts$)/.test(path) &&
-      !/^packages\/docs-tooling\/src\/.*\.test\.ts$/.test(path) && !path.startsWith('scripts/testing/')
-  })
-  return sha256(entries.join('\0'))
+const policyPath = 'packages/docs-tooling/src/shared-docs/adapters/updates/reviewed-fetch-tree.json'
+const reviewed = require('./reviewed-fetch-tree.json') as {
+  strictProducerSha256: string
+  legacyCensus: { producer: string; runId: number; attempt: number; artifactId: number; zipDigest: string;
+    page: string; recordId: string; verifiedAt: string; tableCount: number; recordCount: number; membershipSha256: string }
 }
-const reviewedProducerDigest = '3890e0dde5e0e1f9c9fd8051d739c26014f70e2c2fd6716d297f01d87d5108e1'
+
+// A tree OID changes along the entire path to the policy that records its own fingerprint.
+// Normalize just those OIDs, after checking the policy blob against the trusted checkout.
+// All other paths, types, modes and OIDs (including empty subtrees) enter the fingerprint.
+export function producerInventoryDigest(tree: string, policyBytes: Uint8Array) {
+  if (!tree.endsWith('\0') || tree.includes('\uFFFD')) throw new Error('Invalid producer tree listing')
+  const policyOid = createHash('sha1').update(`blob ${policyBytes.length}\0`).update(policyBytes).digest('hex')
+  const digest = createHash('sha256')
+  let foundPolicy = false
+  for (const entry of tree.slice(0, -1).split('\0')) {
+    const separator = entry.indexOf('\t'), path = entry.slice(separator + 1)
+    const header = entry.slice(0, separator)
+    if (path === policyPath) {
+      if (foundPolicy || header !== `100644 blob ${policyOid}`) throw new Error('Producer review policy differs')
+      foundPolicy = true
+      digest.update(`100644 blob <review-policy>\t${path}\0`)
+    } else if (policyPath.startsWith(path + '/')) {
+      if (!/^040000 tree [0-9a-f]{40}$/.test(header)) throw new Error('Invalid producer policy directory')
+      digest.update(`040000 tree <policy-directory>\t${path}\0`)
+    } else {
+      digest.update(entry + '\0')
+    }
+  }
+  if (!foundPolicy) throw new Error('Missing producer review policy')
+  return digest.digest('hex')
+}
+
+export function recordMembership(rows: Row[]) {
+  const tables = new Map<string, string[]>(), ids = new Set<string>()
+  for (const {record_id: id, base_table_id: table} of rows) {
+    if (typeof id !== 'string' || !/^[a-zA-Z0-9]+$/.test(id) || typeof table !== 'string' ||
+      !/^[a-zA-Z0-9]+$/.test(table) || ids.has(id)) return undefined
+    ids.add(id)
+    const members = tables.get(table) ?? []
+    members.push(id)
+    tables.set(table, members)
+  }
+  const groups = [...tables.keys()].sort().map(table => {
+    const members = tables.get(table)!
+    return [table, members.length, sha256(members.sort().join('\n'))]
+  })
+  return {tableCount: tables.size, recordCount: ids.size, membershipSha256: sha256(JSON.stringify(groups))}
+}
 function exactlyOne(rows: Row[], predicate: (row: Row) => boolean) {
   const matches = rows.filter(predicate)
   return matches.length === 1 ? matches[0] : undefined
@@ -115,9 +145,25 @@ export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, 
   const { run } = facts
   if (!sha(run.head_sha) || run.head_repository?.id !== 660446555 || run.workflow_id !== 83360731 ||
     snapshot.base_app_token !== 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh') return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
-  const tree = await gitRead(selected.producerRepo, ['ls-tree', '-r', '-z', run.head_sha, '--', ...producerRoots])
-  if (producerInventoryDigest(tree) !== reviewedProducerDigest) return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
-  return readReviewedObservation(api, facts, manifest, snapshot, payload, selected)
+  const legacy = reviewed.legacyCensus
+  const legacyProducer = run.head_sha === legacy.producer
+  if (legacyProducer) {
+    if (run.id !== legacy.runId || run.run_attempt !== legacy.attempt || facts.artifact.id !== legacy.artifactId ||
+      facts.artifact.digest !== legacy.zipDigest || selected.page !== legacy.page) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
+  } else {
+    const tree = await gitRead(selected.producerRepo, ['ls-tree', '-r', '-t', '-z', '--full-tree', run.head_sha])
+    const bytes = await readFile(new URL('./reviewed-fetch-tree.json', import.meta.url))
+    try {
+      if (producerInventoryDigest(tree, bytes) !== reviewed.strictProducerSha256) return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
+    } catch { return unknown('BASE_SCAN_PRODUCER_UNPROVEN') }
+  }
+  const result = await readReviewedObservation(api, facts, manifest, snapshot, payload, selected)
+  if (!('identity' in result)) return result
+  if (legacyProducer && (result.recordId !== legacy.recordId || result.identity.membershipSha256 !== legacy.membershipSha256 ||
+    result.identity.recordCount !== legacy.recordCount || result.identity.tableCount !== legacy.tableCount)) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
+  Object.assign(result.identity, legacyProducer ? {censusVerifiedAt: legacy.verifiedAt} :
+    {producerInventorySha256: reviewed.strictProducerSha256})
+  return result
 }
 
 // Called only after the authenticated producer revision matches the reviewed
@@ -134,7 +180,10 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
   const bundlePath = 'tmp/docs-tooling/en/shared-pages/guides/bundle.json'
   if (!manifest.files.some((f: Row) => f.path === bundlePath)) return unknown('BASE_SCAN_RECORD_UNPROVEN')
   const bundleBytes = await readFile(join(payload, bundlePath))
-  const observation = observedRecord(JSON.parse(bundleBytes.toString()), snapshot, selected.page)
+  const bundle = JSON.parse(bundleBytes.toString())
+  const membership = recordMembership(bundle.preparation.records)
+  if (!membership) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
+  const observation = observedRecord(bundle, snapshot, selected.page)
   if (!observation) return unknown('BASE_SCAN_RECORD_UNPROVEN')
   const { record, outcome } = observation
   const publication = boundArtifact(facts.artifacts, run, `publication-results-fetch-${run.id}-${run.run_attempt}`)
@@ -181,7 +230,7 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
   const tip = object(await api.get(`${apiRoot}/branches/dev`))
   if (tip.name !== 'dev' || tip.commit?.sha !== selected.dev) return unknown('DEV_TIP_CHANGED')
   return { outputPaths, recordId: record.record_id, observedAt: new Date(scan.start).toISOString(), identity: {
-    observedPage: selected.page, observedRecordId: record.record_id, observedTableId: record.table_id, sourceJobId: job!.id, producerInventorySha256: reviewedProducerDigest,
+    observedPage: selected.page, observedRecordId: record.record_id, observedTableId: record.table_id, sourceJobId: job!.id, ...membership,
     bundleSha256: sha256(bundleBytes), publicationArtifactId: publication.id, publicationZipSha256: sha256(archive),
     publicationResultSha: unit.resultSha, publicationSnapshotSha256: sha256(effectiveBytes), publicationReceiptSha256: sha256(receiptBytes),
     latestRunId: run.id, sampledDev: selected.dev, publishedOutputsSha256: sha256(JSON.stringify(outputs)),

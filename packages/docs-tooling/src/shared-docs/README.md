@@ -579,6 +579,24 @@ for a newer Guides observation and a changed dev tip before returning the
 page's lifecycle state. The report records the run, artifact and Git identities
 used for that decision.
 
+The English shared source scan checks distinct IDs, totals and pagination for
+all Base tables and their unfiltered records. The verifier authenticates every
+entry in the Fetch producer's Git tree. A new tree requires review and a new
+fingerprint in `adapters/updates/reviewed-fetch-tree.json`. The fingerprint
+uses `git ls-tree -r -t -z --full-tree <producer>` and
+`producerInventoryDigest`; the verifier checks the policy blob itself against
+its trusted local copy. Commits that share the same tree qualify.
+
+One earlier scan has an independent membership census. For
+`json-field-overview` on scheduled run 42944655729, attempt 1, the authenticated
+Base scan read all nine tables, enumerated 497 distinct record IDs, checked each
+table's revision before and after the scan, and matched the selected record.
+The verifier binds this evidence to the precise producer, source archive,
+page and record. It recomputes the census from the archive by hashing the
+newline-joined sorted IDs of each table, then hashing the JSON array of
+`[table ID, count, hash]` tuples sorted by table ID. The latest-observation,
+maximum age and publication checks also apply to this historical scan.
+
 Other pages require their own observations. Incomplete or conflicting evidence
 keeps the page on hold. A missing record cannot establish deletion. All
 configured pages remain in the inventory, including unselected pages and pages
