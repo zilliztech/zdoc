@@ -1,0 +1,1 @@
+- Assuming subfields can be added to an existing StructArray field without element-level null, or adding a subfield that does not allow element-level null.
