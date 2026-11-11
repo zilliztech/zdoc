@@ -10,4 +10,4 @@
 | Dynamic add StructArray field | Subject to the availability statement below. |
 | Nullable requirement for dynamic add | A StructArray field added to an existing collection must be nullable because existing entities have no value for the new field. |
 | Existing entities after dynamic add | Existing entities return `null` for the added StructArray field. |
-| Dynamic add subfield | Supported. An added subfield must be created with `nullable=True`; an added `ARRAY` subfield additionally takes `element_nullable=True` for null values inside the inner array. Existing entities return null for the new subfield in each of their Struct elements, and entities whose StructArray field is null stay null. |
+| Dynamic add subfield | Supported. An added subfield must be created with `nullable=True`; an added `ARRAY` subfield additionally takes `element_nullable=True` for null values inside the inner array. Existing entities return null for the new subfield in each of their Struct elements, and entities whose StructArray field is null stay null. Existing subfields cannot be changed to `element_nullable` afterward. |
