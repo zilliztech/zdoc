@@ -428,7 +428,11 @@ journal, matching branches and PRs before taking further action. A moved input,
 unverified Fetch producer, or incomplete publication evidence requires fresh
 evidence. Review a superseded Fetch against the next successful scheduled Fetch from a
 registered producer tree. The producer fingerprint covers the full repository
-tree, so an unrelated change can require a new reviewed fingerprint. Inspect
+tree, so an unrelated change can require a new reviewed fingerprint. From a
+checkout of the proposed merge, run
+`node scripts/docs-workflow/shared-guides-update/producer-fingerprint.cjs --check`
+to compare the registered digest to that tree. Review its changes before updating
+`strictProducerSha256` in `reviewed-fetch-tree.json`. Inspect
 `shared-guides-report-<run>-1` for page impact and lifecycle evidence and
 `shared-guides-update-producer` for the signed producer receipt. The bot-created
 Draft PR can show **Approve workflows to run** for normal PR checks. Review its
