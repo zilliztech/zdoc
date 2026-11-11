@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const {execFileSync} = require('node:child_process')
-const {scan, renderMarkdown, watchdogCardStatus} = require('./shared-docs-pin-drift')
+const {scan, renderMarkdown, watchdogCardStatus, resolveFetchPullState} = require('./shared-docs-pin-drift')
 
 function git(repo, ...args) {
   return execFileSync('git', ['-c', 'commit.gpgsign=false', '-C', repo, ...args], {encoding: 'utf8',
@@ -94,6 +94,15 @@ test('variant lifecycle issues classify as informational unless the upstream sta
   // The off-branch pin and the unavailable upstream state are both unhealthy.
   assert.equal(unavailable.summary.unhealthyCount, 2)
   assert.equal(watchdogCardStatus(unavailable), 'fail')
+})
+
+test('pull-request state wiring follows the source repository and refuses non-GitHub sources', async () => {
+  const setup = await fixture()
+  put(setup.group, 'source.yaml', 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs\ntrack: v3.0.x\n')
+  const wired = resolveFetchPullState(setup.group)
+  assert.equal(typeof wired, 'function')
+  put(setup.group, 'source.yaml', `schema_version: 1\nrepository: /local/only\ntrack: ${UPSTREAM_TRACK}\n`)
+  assert.equal(resolveFetchPullState(setup.group), undefined)
 })
 
 test('off-branch pins and broken configuration report unhealthy and errors', async () => {

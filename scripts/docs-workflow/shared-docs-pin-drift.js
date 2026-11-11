@@ -27,12 +27,23 @@ function git(repo, ...args) {
 
 function fail(message) { throw new Error(message) }
 
-function defaultFetchPullState(pull) {
-  const result = execFileSync('gh', ['api', `repos/milvus-io/milvus-docs/pulls/${pull}`,
+function defaultFetchPullState(repository, pull) {
+  const result = execFileSync('gh', ['api', `repos/${repository}/pulls/${pull}`,
     '--jq', '{state: .state, merged: .merged, head: .head.sha}'], {encoding: 'utf8', maxBuffer: 1024 * 1024})
   const state = JSON.parse(result)
   if (!['open', 'closed'].includes(state.state) || typeof state.head !== 'string') fail(`Unexpected pull request state for #${pull}`)
   return state
+}
+
+/** Wire live upstream pull-request reads from the group's source repository.
+ *  Returns undefined for a non-GitHub repository; callers must say so out loud. */
+function resolveFetchPullState(sharedDocsRoot) {
+  const source = parseSourceConfig(fs.readFileSync(path.join(sharedDocsRoot, 'source.yaml'), 'utf8'), {})
+  if ('errors' in source) fail(`Cannot audit variant pull-request state: ${JSON.stringify(source.errors)}`)
+  const match = /^https:\/\/github\.com\/([A-Za-z0-9][A-Za-z0-9-]*)\/([A-Za-z0-9_.-]+?)(?:\.git)?$/.exec(source.config.repository)
+  if (!match) return undefined
+  const repository = `${match[1]}/${match[2]}`
+  return pull => defaultFetchPullState(repository, pull)
 }
 
 function diffSummary(left, right) {
@@ -171,6 +182,10 @@ async function main(argv) {
   for (const required of ['sharedDocsRoot', 'upstreamRepo', 'headSha', 'out']) {
     if (!options[required]) fail(`Missing required argument: --${required.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)}`)
   }
+  const fetchPullState = resolveFetchPullState(options.sharedDocsRoot)
+  if (!fetchPullState) {
+    console.warn('[pin-drift] variant pull-request state audit is disabled: the source repository is not a github.com HTTPS URL')
+  } else options.fetchPullState = fetchPullState
   const report = await scan(options)
   fs.mkdirSync(options.out, {recursive: true})
   fs.writeFileSync(path.join(options.out, 'watchdog-report.json'), JSON.stringify(report, null, 2) + '\n')
@@ -184,4 +199,4 @@ if (require.main === module) main(process.argv.slice(2)).catch(error => {
   process.exit(2)
 })
 
-module.exports = {scan, renderMarkdown, watchdogCardStatus, main}
+module.exports = {scan, renderMarkdown, watchdogCardStatus, main, resolveFetchPullState}

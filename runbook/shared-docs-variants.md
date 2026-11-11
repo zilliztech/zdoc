@@ -35,10 +35,13 @@ Responses:
 - `PIN_OFF_BRANCH` — the pin points outside the track history (usually an upstream force-push or rewrite). Open a re-pin PR immediately; until it lands, Fetch serves the page from the previous baseline.
 - `RECONCILIATION_PENDING` — the upstream PR merged but the variant is still in place. Do step 3 of the lifecycle; the message includes the variant-vs-upstream line diff.
 - `PR_HEAD_MOVED` — upstream pushed new commits; re-adopt when the content should track them.
-- `VARIANT_STATE_UNAVAILABLE` — the GitHub API read failed; the watchdog run itself usually shows why. Retry before treating it as content work.
+- `VARIANT_STATE_UNAVAILABLE` — the GitHub API read failed; the watchdog run itself usually shows why. Retry before treating it as content work. The audited repository comes from the group's `source.yaml` (GitHub HTTPS URLs only); anything else disables the PR-state audit with a loud notice.
+- Blobless note: the audit clone keeps no blobs, so the reconciliation line-diff and the `UPSTREAM_FILE_MISSING` check lazy-fetch individual blobs over the network; without network access those markers degrade to "upstream file missing" — treat consecutive watchdog runs degrading together as infrastructure, not content.
 
 ## Limitations
 
 - Adoption only covers pages that already exist upstream and in the shared page pool. A PR that adds a brand-new page keeps the existing paths: Feishu-owned page first, shared onboarding after the upstream merge.
-- Variant content is read at the PR head, but fragments, variables and image assets still resolve from the pinned commits. A PR whose content depends on new images or fragments absent from the pin needs the pin advanced first (or the assets externalized); the build fails closed when preparation cannot find them.
+- Variant content is read at the PR head, but include fragments still resolve from the pinned commits (variables come from zdoc's `Variables.json`; images are fetched by URL). A PR whose content depends on new fragments absent from the pin needs the pin advanced first; the build fails closed when preparation cannot find them.
+- Image provenance fields (`uses[].commit`, observation `commit`) keep naming the pin commit even for variant-introduced references; the receipt's `inputs.variants` entry is the authoritative provenance for the adopted head.
+- The updates-runner diagnostic observation reports `UPDATE_OBSERVATION_UNAVAILABLE` for variant channels (it reconstructs origins from pinned bytes). This is report-only diagnostics; receipts, publication and regeneration are unaffected.
 - `<NextChannel>`-gated text ships in the production browser bundle by design (see [Release Channel gating](release-channel-gating.md)); variant adoption changes nothing about that.
