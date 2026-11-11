@@ -62,7 +62,7 @@ auto request = milvus::RefreshExternalCollectionRequest()
 
     请同时提供 `external_source` 和 `external_spec`，或同时省略两者；当两者均省略时，刷新会复用已持久化的源和规范。
 
-    在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传入 `external_source`；如果省略，Collection 将继续提供先前同步的数据。
+    在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，同样适用该规则——省略它时会复用已持久化的源，刷新仍会同步最新数据。
 
 - `WithExternalSpec(const nlohmann::json& external_spec)`
 
