@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-11-10T18:23:42.080Z",
+  "generated_at": "2026-11-11T02:57:38.624Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/cpp/v3.0.x",
   "base_app_token": "QdLkbfmnFatl4TsThKDc5Dobn5g",
   "records": [
@@ -3139,14 +3139,14 @@
       "doc_token": "BRFNded7LoGTfJxgz9kcq20Vnmg",
       "doc_link": "https://zilliverse.feishu.cn/docx/BRFNded7LoGTfJxgz9kcq20Vnmg",
       "source_file": "BRFNded7LoGTfJxgz9kcq20Vnmg.json",
-      "source_hash": "e1622d1e4daa7c0510ade59396b176b1ed172f537768f65fdb98a992f55a3e04",
+      "source_hash": "31013fd31e18812aa0ff65f2f7053b8ebe215ef60494c84b8e47b9f69ff2e363",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "17",
+      "revision_id": "19",
       "publish_targets": [
         "Milvus",
         "Zilliz"
