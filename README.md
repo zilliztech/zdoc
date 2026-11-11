@@ -443,8 +443,12 @@ run, exact attempt, source job/steps and unique source artifact. It downloads
 the source ZIP, or verifies a supplied `--evidence-zip` against the API digest.
 Archive preflight requires Python 3. It does not start Fetch or query Base.
 Without retained evidence it still analyzes pages and reports lifecycle unknown.
-Current incremental snapshots cannot prove complete fresh lifecycle state;
-archive authentication alone does not change that unknown classification.
+For a single page, pass `--pages <page-id>` and the current dev SHA. The
+reader also verifies that the newest applicable Fetch observed this Base record
+and that the same run published its English Guides outputs. Check
+`pages[].lifecycle` and `futureEligible` in the report before using the
+proposed `next`. A newer run in progress or conflicting publication evidence
+keeps the page on hold.
 
 The absent/empty output directory must not overlap input data or Git metadata
 and must have no symlink components. A separate task directory under `.claude/`

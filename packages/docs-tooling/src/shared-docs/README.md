@@ -571,11 +571,16 @@ verifies ZIP digest and preflights ZIP/tar members, then uses existing stage
 and raw-snapshot validators. Python 3 standard library is required to preflight
 and extract an optional retained source artifact. No extraction follows links.
 
-Current incremental Fetch artifacts do not prove per-record freshness or an
-exhaustive Base census; the adapter reports
-`RECORD_FRESHNESS_COMPLETENESS_UNPROVEN` and `LATEST_OBSERVATION_UNPROVEN`.
-Even a successfully authenticated archive therefore does not authorize a
-future lifecycle mutation. Missing rows are never deletion evidence. All
+For a single selected Guides page, the reader can verify that a scheduled
+Fetch read the canonical Base record during its source step. It matches the
+record to the generated outputs, the same attempt's English Guides publication
+result, and the receipt and output bytes on the pinned dev commit. It checks
+for a newer Guides observation and a changed dev tip before returning the
+page's lifecycle state. The report records the run, artifact and Git identities
+used for that decision.
+
+Other pages require their own observations. Incomplete or conflicting evidence
+keeps the page on hold. A missing record cannot establish deletion. All
 configured pages remain in the inventory, including unselected pages and pages
 without retained/dev mapping. Analysis availability and lifecycle eligibility
 are reported separately. Full 7-9 and all requirement pending IDs remain intact.
