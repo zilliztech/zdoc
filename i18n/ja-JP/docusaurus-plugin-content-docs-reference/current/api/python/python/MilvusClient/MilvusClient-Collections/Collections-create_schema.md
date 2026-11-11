@@ -78,19 +78,19 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
     AWS S3 オブジェクトパスに似た外部ソース URI です。
 
-    <NextChannel action="include">Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の2つのスキームを受け入れます。</NextChannel>
+    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。
 
 - **external_spec** (*str*) -
 
     外部ソースの仕様です。これは一連の副パラメーターです。format (str): 対象のソースデータファイルの形式です。指定可能な値は parquet、vortex、lance-table、iceberg-table です。snapshot_id (str): Iceberg テーブルの ID です。これは format が iceberg-table の場合にのみ適用されます。extfs (string): 文字列化された JSON 構造の外部ファイルシステム設定です。指定可能なオプションは次のとおりです。access_key_id (string): オブジェクトストレージサービスのアクセスキー ID です。access_key_val (string): オブジェクトストレージサービスのアクセスキーの値です。cloud_provider (string): オブジェクトストレージサービスのクラウドプロバイダーです。region (string): オブジェクトストレージサービスのリージョンです。use_iam (string): バケットアクセス認証に AWS IAM を使用するかどうか。指定可能な値は "true" または "false" です。iam_endpoint (string): AWS IAM STS エンドポイントです。use_ssl (string): オブジェクトストレージバケットへのアクセスに SSL を使用するかどうか。指定可能な値は "true" または "false" です。use_virtual_host (string): バケットアクセスに仮想ホスティングを使用するかどうか。詳細については、この記事を参照してください。storage_type (string): ストレージの種類です。指定可能な値は remote です。role_arn (string): バケット所有者から取得する AWS IAM ロール ARN です。external_id (string): バケット所有者から取得する外部 ID です。load_frequency (string): Milvus が一時認証情報を取得する間隔（秒）です。
 
-    <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームで使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。</NextChannel>
+    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームとともに使用します。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
 
 - **external_source** (*str*) -
 
-    外部ソース URI は<NextChannel action="exclude">、アクセス可能な外部ボリュームを指す `volume://` URI である必要があります。たとえば、`volume://<volume-name>/path/to/folder/` です</NextChannel><NextChannel action="include">、以下で説明するスキームのいずれかです</NextChannel>。
+    以下で説明するスキームのいずれかを使用する外部ソース URI です。
 
-    <NextChannel action="include">Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の2つのスキームを受け入れます。`volume://` URI は、アクセス可能な外部ボリュームを指します。たとえば、`volume://<volume-name>/path/to/folder/` です。</NextChannel>
+    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`volume://` URI は、アクセス可能な外部ボリュームを指します。たとえば、`volume://<volume-name>/path/to/folder/` です。
 
 - **external_spec** (*str*) -
 
@@ -102,7 +102,7 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
         指定可能な値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-        <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームで使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。</NextChannel>
+        Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームとともに使用します。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
 
     - **snapshot_id** (*str*) -
 
