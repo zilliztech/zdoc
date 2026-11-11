@@ -665,14 +665,20 @@ clock, writer or trusted-toolset argument. `existing.localEvidence` names owned
 local outputs whose journals, objects and proofs are independently verified;
 copied evidence never supplies fresh remote identity or access authority.
 
-For a single Guides page, the coordinator can download both retained archives
-with an explicit `GH_TOKEN` with Actions read access to `zilliztech/zdoc`.
-Local operators can supply the token from their signed-in GitHub CLI through
-the command environment. Alternatively, set `lifecycle.archive` to the source
-ZIP and put `publication-results-fetch-<runId>-<attempt>.zip` beside it.
-Both local files are checked against GitHub's artifact identities, sizes and
-SHA-256 digests. Public metadata can be read without credentials. The worker
-receives the staged bytes and verifies them against GitHub independently.
+For a single Guides page with a retained Fetch run, set `GH_TOKEN` on the
+command to give the coordinator Actions read access to `zilliztech/zdoc`.
+The coordinator can download the two archives or use local copies. To supply
+both locally, set `lifecycle.archive` to the source ZIP and put
+`publication-results-fetch-<runId>-<attempt>.zip` beside it. Both archives
+must match their GitHub identities, sizes and SHA-256 digests.
+
+With a token, the coordinator reads the selected run, its jobs and artifacts,
+both Guides workflow histories and the current dev tip. The worker receives
+the response bodies over private pipes and checks them against the archives
+and pinned Git objects. The token stays in the coordinator. Each collection
+reads live metadata, including the checks before candidate creation and
+installation. Without a token, a worker with both local archives can read
+public metadata directly, subject to GitHub's anonymous rate limit.
 
 The implementation root is derived from the executing command module. Canonical
 cwd must match it. Bootstrap reads bounded, no-follow files to resolve HEAD in
