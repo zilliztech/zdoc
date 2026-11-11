@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import { expect, it } from 'vitest'
 import { formalValidation } from '../../adapters/updates/formal-validation'
 import { canonicalBytes, digest as planDigest } from '../../core/updates/canonical'
-import { acceptExactValidation, classifyRemoteRead, DecisionSchema, ExactValidationReceiptV1Schema,
+import { acceptExactValidation, parseSealMessage, classifyRemoteRead, DecisionSchema, ExactValidationReceiptV1Schema,
   RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, RemoteSealV1Schema, RemotePolicySchema, RemoteFactsSchema, REMOTE_LIMITS } from '../../core/updates/remote'
 
 const oid = (n: number) => n.toString(16).padStart(40, '0')
@@ -275,7 +275,18 @@ it('requires the signed raw commit to contain the full canonical message and exa
   }
   const f = signed(encoded.message)
   expect(formalValidation(f)).toEqual({ status: 'verified', seal, oid: f.expectedOid })
-  expect(() => formalValidation(signed(encoded.message.trimEnd()))).toThrow('SEAL_MESSAGE_INVALID')
+  const github = encoded.githubMessage.headline + '\n\n' + encoded.githubMessage.body
+  expect(github + '\n').toBe(encoded.message)
+  expect(parseSealMessage(Buffer.from(encoded.message))).toEqual(seal)
+  expect(() => parseSealMessage(Buffer.from(github))).toThrow('SEAL_MESSAGE_INVALID')
+  const physical = signed(github)
+  expect(physical.expectedOid).not.toBe(f.expectedOid)
+  expect(formalValidation(physical)).toEqual({ status: 'verified', seal, oid: physical.expectedOid })
+  expect(() => formalValidation({ ...physical, signature: f.signature })).toThrow('SEAL_SIGNED_PAYLOAD')
+  for (const malformed of [github + '\n\n', github + '\r\n', github + ' ', github + '\0', '\ufeff' + github,
+    github.replace('v1.', 'v1:'), github.replace('\n\n', '\r\n\r\n'), github + '=']) {
+    expect(() => formalValidation(signed(malformed))).toThrow('SEAL_MESSAGE_INVALID')
+  }
   expect(() => formalValidation(signed(encoded.message, oid(888)))).toThrow('SEAL_OBJECT_MISMATCH')
   expect(() => formalValidation({ ...f, expectedOid: oid(889) })).toThrow('SEAL_OBJECT_MISMATCH')
   expect(() => formalValidation({ ...f, seal: { ...seal, planSha256: '8'.repeat(64) } })).toThrow('SEAL_MESSAGE_MISMATCH')

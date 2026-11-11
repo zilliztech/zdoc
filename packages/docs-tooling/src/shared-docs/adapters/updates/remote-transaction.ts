@@ -8,7 +8,7 @@ import { CandidateSnapshotProofSchema, GitShaSchema, NextLockEditSchema, UpdateU
 import { immutable } from '../../core/updates/types'
 import { parseRevisionMessage, assertRevisionBinding, encodeRevisionMessage } from '../../core/updates/metadata'
 import { assertNextOnlyDiff } from '../../core/updates/transaction'
-import { RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, encodeSealMessage, parseSealMessage,
+import { RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, githubSealMessage, parseSignedGitHubSealMessage,
   acceptExactValidation, ExactValidationReceiptV1Schema, ProducerBundleReceiptSchema, REMOTE_IO_LIMITS, type RemoteReadResult, type RemoteTransactionIntent, type RemoteSealV1, type RemotePull } from '../../core/updates/remote'
 import { type EvidenceStore, rawSha256, writeOwnedBlob, readRegularBytes } from './evidence'
 import { createRemoteMutationFixtureClient, remoteReadContext, type RemoteReads, type RemoteTransport } from './remote-github'
@@ -235,9 +235,9 @@ async function preflight(reads:RemoteReads,intent:RemoteTransactionIntent,target
 }
 async function verifiedSeal(reads:RemoteReads,objects:RemoteTransactionObjectReads,intent:RemoteTransactionIntent,oid:string) {
   const raw=found(await objects.read(oid,'commit')),object=parseObject(oid,'commit',raw),fact=found(await reads.readCommit(oid)),policy=remoteReadContext(reads)!.policy
-  check(same(object.parents,[intent.candidate])&&object.tree===intent.candidateTree&&same(parseSealMessage(object.message!),sealMetadata(intent)),'SEAL_INTENT')
   check(fact.oid===oid&&fact.tree===object.tree&&same(fact.parents,object.parents),'SEAL_API_OBJECT')
   verifyRemoteSealSignature(raw,fact,{writerActorId:policy.writerActorId,platformSignerActorId:policy.sealIdentity.platformSignerActorId})
+  check(same(object.parents,[intent.candidate])&&object.tree===intent.candidateTree&&same(parseSignedGitHubSealMessage(object.message!),sealMetadata(intent)),'SEAL_INTENT')
   return {object,fact}
 }
 /** Read-only reconstruction. It never retries a mutation, even when the old head is still visible. */
@@ -372,8 +372,8 @@ export function createRemoteTransactionFixture(input:{reads:RemoteReads;evidence
       let staging=refOid(await input.reads.readRef(intent.stagingRef))
       if(staging===null){await write('cas',{name:intent.stagingRef,beforeOid:zero,afterOid:intent.candidate,force:false},async()=>{check(refOid(await input.reads.readRef(intent!.stagingRef))===intent!.candidate,'STAGING_READBACK');return {staging:intent!.candidate}});staging=intent.candidate}
       if(staging===intent.candidate) {
-        const message=encodeSealMessage(sealMetadata(intent)),[headline,...rest]=message.split('\n')
-        await write('seal',{expectedHeadOid:intent.candidate,message:{headline,body:rest.join('\n').replace(/^\n/,'')}},async response=>{
+        const message=githubSealMessage(sealMetadata(intent))
+        await write('seal',{expectedHeadOid:intent.candidate,message},async response=>{
           const oid=response.data?.createCommitOnBranch?.commit?.oid;check(typeof oid==='string','SEAL_RESPONSE_INCOMPLETE')
           check(refOid(await input.reads.readRef(intent!.stagingRef))===oid,'SEAL_READBACK');const verified=await verifiedSeal(input.reads,remoteObjects,intent!,oid);seal=oid;return {seal:oid,evidence:verified.fact.evidence}
         })

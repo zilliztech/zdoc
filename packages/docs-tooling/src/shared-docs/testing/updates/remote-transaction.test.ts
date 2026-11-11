@@ -123,6 +123,10 @@ it('rejects JSON and fixture writer authority at the production constructor with
 it('uploads actual closed objects, seals exactly K, CASes target and creates one draft; validator stays disabled',async()=>{
   const f=await fixture(),result=await f.harness().apply(f.intent)
   expect(result.reasons).toEqual(['VALIDATOR_NOT_INSTALLED']);expect(result.seal).toBe(f.ref(f.intent.targetRef));expect(f.pulls).toHaveLength(1);expect(f.pulls[0].draft).toBe(true)
+  const githubMessage=f.writes.find(write=>write.action==='seal')!.body.variables.input.message
+  expect(githubMessage.headline).toBe('Seal shared update')
+  expect(githubMessage.body).toMatch(/^Shared-Update-Seal: v1\.[A-Za-z0-9_-]+$/)
+  expect(githubMessage.body.endsWith('\n')).toBe(false)
   expect(f.remote(['merge-base','--is-ancestor',f.candidate,result.seal!]).length).toBe(0)
   expect(f.writes.filter(write=>write.action==='cas').map(write=>write.body.variables.input.refUpdates[0])).toEqual([{name:'refs/heads/'+f.intent.stagingRef,beforeOid:'0'.repeat(40),afterOid:f.candidate,force:false},{name:'refs/heads/'+f.intent.targetRef,beforeOid:'0'.repeat(40),afterOid:result.seal,force:false}])
   expect(f.writes.map(write=>write.action)).not.toContain('dispatches')

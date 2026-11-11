@@ -771,8 +771,13 @@ only consumes JSON on stdin and writes verified observations on stdout.
 
 The private formal-contract qualification uses `adapters/updates/formal-validation.ts`
 to encode the existing `Shared-Update-Seal: v1` message, verify its Git
-signature and produce canonical producer and validator receipts. The private
-plan projects one real Guides page onto an isolated master and source snapshot.
+signature and produce canonical producer and validator receipts. The canonical
+seal message ends with LF. GitHub's `createCommitOnBranch` takes a headline and
+a body and stores the message without that LF. Readers authenticate the exact
+raw commit, OID and signed payload before accepting either spelling. Both
+forms must otherwise match the re-encoded v1 message byte for byte.
+
+The private plan projects one real Guides page onto an isolated master and source snapshot.
 Its domain-separated plan digest enters the seal. The validator compares the
 plan's master, dev and observed source tip with freshly read refs, the receipt
 and the hashed output. The source tip can differ from the lock target.

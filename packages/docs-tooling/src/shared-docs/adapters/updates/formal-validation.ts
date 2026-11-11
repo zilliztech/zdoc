@@ -6,8 +6,8 @@ import * as z from 'zod'
 import { verifySealSignature } from './verify-seal-signature.mjs'
 import { canonicalBytes, digest, parseStrictJson } from '../../core/updates/canonical'
 import { GitShaSchema } from '../../core/updates/envelope'
-import { acceptExactValidation, encodeSealMessage, ExactValidationExpectedSchema, ExactValidationReceiptV1Schema,
-  inspectReservedValidation, parseSealMessage, ProducerBundleReceiptSchema, REMOTE_LIMITS, RemoteSealV1Schema,
+import { acceptExactValidation, encodeSealMessage, githubSealMessage, ExactValidationExpectedSchema, ExactValidationReceiptV1Schema,
+  inspectReservedValidation, parseSignedGitHubSealMessage, ProducerBundleReceiptSchema, REMOTE_LIMITS, RemoteSealV1Schema,
   type RemoteSealV1 } from '../../core/updates/remote'
 
 const pins = z.strictObject({ master: GitShaSchema, dev: GitShaSchema, source: GitShaSchema })
@@ -60,7 +60,7 @@ export function formalValidation(input: unknown) {
       return freshness(pins.parse(v.expected), pins.parse(v.observed))
     case 'seal': {
       const seal = RemoteSealV1Schema.parse(v.seal) as RemoteSealV1
-      return { status: 'encoded', message: encodeSealMessage(seal) }
+      return { status: 'encoded', message: encodeSealMessage(seal), githubMessage: githubSealMessage(seal) }
     }
     case 'verify-seal': {
       const expected = RemoteSealV1Schema.parse(v.seal)
@@ -74,7 +74,7 @@ export function formalValidation(input: unknown) {
           !Array.isArray(signature.parents) || signature.parents.length !== 1 || signature.parents[0] !== expected.candidate ||
           parents.length !== 1 || parents[0] !== 'parent ' + expected.candidate ||
           trees.length !== 1 || trees[0] !== 'tree ' + expected.candidateTree) throw new Error('SEAL_OBJECT_MISMATCH')
-      const actual = parseSealMessage(message)
+      const actual = parseSignedGitHubSealMessage(message)
       if (!actual || !Buffer.from(canonicalBytes(actual)).equals(canonicalBytes(expected))) throw new Error('SEAL_MESSAGE_MISMATCH')
       return { status: 'verified', seal: actual, oid }
     }

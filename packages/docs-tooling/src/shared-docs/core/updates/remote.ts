@@ -244,20 +244,33 @@ export type ApprovedProducerDefinition = Required<z.infer<typeof ApprovedProduce
 export type ProducerBundleReceipt = Required<z.infer<typeof ProducerBundleReceiptSchema>>
 export const REMOTE_IO_LIMITS = Object.freeze({ jsonBytes: 1048576, pages: 20, pageSize: 100, calls: 512,
   requestMilliseconds: 30000, inspectionMilliseconds: 120000, expandedBytes: 16777216, objectBytes: 67108864 })
-export function encodeSealMessage(value: RemoteSealV1): string {
+export function githubSealMessage(value: RemoteSealV1): {headline: string; body: string} {
   const bytes = canonicalBytes(RemoteSealV1Schema.parse(value))
   if (bytes.length > REMOTE_LIMITS.payloadBytes) throw new Error('SEAL_LIMIT')
-  return `Seal shared update\n\nShared-Update-Seal: v1.${Buffer.from(bytes).toString('base64url')}\n`
+  return { headline: 'Seal shared update', body: `Shared-Update-Seal: v1.${Buffer.from(bytes).toString('base64url')}` }
+}
+export function encodeSealMessage(value: RemoteSealV1): string {
+  const { headline, body } = githubSealMessage(value)
+  return `${headline}\n\n${body}\n`
+}
+export function hasSealTrailer(bytes: Uint8Array): boolean {
+  if (bytes.length > REMOTE_LIMITS.payloadBytes * 2) throw new Error('SEAL_LIMIT')
+  return /shared-update-seal[ \t]*:/i.test(new TextDecoder('utf8', {fatal: true, ignoreBOM: true}).decode(bytes))
 }
 export function parseSealMessage(bytes: Uint8Array): RemoteSealV1 | null {
-  if (bytes.length > REMOTE_LIMITS.payloadBytes * 2) throw new Error('SEAL_LIMIT')
-  const source = new TextDecoder('utf8', {fatal:true}).decode(bytes)
-  if (!/shared-update-seal[ \t]*:/i.test(source)) return null
-  const match = /^Seal shared update\n\nShared-Update-Seal: v1.([A-Za-z0-9_-]+)\n$/.exec(source)
+  if (!hasSealTrailer(bytes)) return null
+  const source = Buffer.from(bytes)
+  const match = /^Seal shared update\n\nShared-Update-Seal: v1\.([A-Za-z0-9_-]+)\n$/.exec(source.toString('utf8'))
   if (!match) throw new Error('SEAL_MESSAGE_INVALID')
   const parsed = RemoteSealV1Schema.parse(parseStrictJson(Buffer.from(match[1], 'base64url'))) as RemoteSealV1
-  if (encodeSealMessage(parsed) !== source) throw new Error('SEAL_MESSAGE_INVALID')
+  if (!source.equals(Buffer.from(encodeSealMessage(parsed)))) throw new Error('SEAL_MESSAGE_INVALID')
   return parsed
+}
+/** After authentication of the original signed Git object, accept GitHub's framing without its terminal LF. */
+export function parseSignedGitHubSealMessage(bytes: Uint8Array): RemoteSealV1 | null {
+  if (bytes.length > REMOTE_LIMITS.payloadBytes * 2) throw new Error('SEAL_LIMIT')
+  if (bytes[bytes.length - 1] === 0x0a) return parseSealMessage(bytes)
+  return parseSealMessage(Buffer.concat([bytes, Buffer.from('\n')]))
 }
 
 /** Frozen request identity, never authority. Mutable observations belong in a separate journal. */

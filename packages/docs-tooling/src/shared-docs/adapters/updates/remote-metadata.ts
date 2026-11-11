@@ -6,7 +6,7 @@ import { CandidateSnapshotProofSchema, GitShaSchema, RepoPathSchema, UpdateRepor
   validateBlobBytes, validateUnitReports, type BlobRef, type BotRevision, type CandidateSnapshotProof, type UpdateUnitPlan, type Subject } from '../../core/updates/envelope'
 import { assertRevisionBinding, encodeRevisionMessage, METADATA_LIMITS, parseRevisionMessage } from '../../core/updates/metadata'
 import { ProducerBundleReceiptSchema, RemotePolicySchema, REMOTE_IO_LIMITS, REMOTE_LIMITS,
-  encodeSealMessage, parseSealMessage, type RemoteCommit, type RemotePolicy, type RemoteSealV1, type RemoteReadResult } from '../../core/updates/remote'
+  hasSealTrailer, parseSignedGitHubSealMessage, type RemoteCommit, type RemotePolicy, type RemoteSealV1, type RemoteReadResult } from '../../core/updates/remote'
 import { assertNextOnlyDiff, type NextOnlyDelta } from '../../core/updates/transaction'
 import { verifySealSignature } from './verify-seal-signature.mjs'
 import { protectedToolsetPath } from './toolset'
@@ -135,13 +135,14 @@ export async function inspectRemoteHistory(request:{head:string;donorHeads:reado
       check(bytes.equals(Buffer.from(commit.raw)),'DETERMINISTIC_COMMIT')
     }
     const candidateOids=new Set<string>(),sealOids=new Set<string>()
-    for(const oid of relevant){const value=graph.get(oid)!,seal=parseSealMessage(value.message);if(seal)sealOids.add(oid);if(parseRevisionMessage(value.message))candidateOids.add(oid)}
+    for(const oid of relevant){const value=graph.get(oid)!;if(hasSealTrailer(value.message))sealOids.add(oid);if(parseRevisionMessage(value.message))candidateOids.add(oid)}
     check(sealOids.size>0,'REMOTE_ORIGIN_REQUIRED')
-    for(const oid of sealOids){budget();const s=graph.get(oid)!,seal=parseSealMessage(s.message)!
+    for(const oid of sealOids){budget();const s=graph.get(oid)!
+      const fact=found(await bounded(reads.readCommit(oid)));check(fact.oid===oid&&fact.tree===s.tree&&same(fact.parents,s.parents),'SEAL_API_OBJECT');verifyRemoteSealSignature(s.raw,fact,{writerActorId:request.policy.writerActorId,platformSignerActorId:request.policy.sealIdentity.platformSignerActorId});evidence.push(...fact.evidence as BlobRef[])
+      const seal=parseSignedGitHubSealMessage(s.message)!
       check(seal.repositoryId===request.policy.repositoryId&&same(s.parents,[seal.candidate])&&s.tree===seal.candidateTree,'SEAL_BINDING')
       const k=graph.get(seal.candidate),p=graph.get(seal.preparedBase);check(k&&p&&same(k.parents,[p.oid])&&k.tree===s.tree,'CANDIDATE_PARENT')
       const revision=parseRevisionMessage(k.message);check(revision,'REVISION_REQUIRED')
-      const fact=found(await bounded(reads.readCommit(oid)));check(fact.oid===oid&&fact.tree===s.tree&&same(fact.parents,s.parents),'SEAL_API_OBJECT');verifyRemoteSealSignature(s.raw,fact,{writerActorId:request.policy.writerActorId,platformSignerActorId:request.policy.sealIdentity.platformSignerActorId});evidence.push(...fact.evidence as BlobRef[])
       const run=found(await bounded(reads.readRun({id:seal.runId,attempt:seal.runAttempt,role:'producer'})))
       check(run.toolingHead===seal.master,'HISTORICAL_TOOLS');evidence.push(...run.evidence)
       const artifact=found(await bounded(reads.readArtifact({runId:seal.runId,attempt:seal.runAttempt,name:request.policy.producerArtifactName})))
