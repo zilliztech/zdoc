@@ -60,13 +60,13 @@ refresh_external_collection(
 
     请同时提供 `external_source` 和 `external_spec`，或同时省略两者；如果两者均省略，则刷新会复用已持久化的源和规范。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传递 `external_source`；省略该参数会使 Collection 继续提供先前同步的数据。</NextChannel>
+    在 Zilliz Cloud 上，`external_source` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传入 `external_source`；省略该参数会使 Collection 继续提供此前已同步的数据。
 
 - **external_spec** （*str*） -
 
     外部源规范，是一组次级参数：format（str）：目标源数据文件的格式。可选值为 parquet、vortex、lance-table 和 iceberg-table。snapshot_id（str）：Iceberg 表的 ID。仅当 format 为 iceberg-table 时适用。extfs（string）：以字符串化 JSON 结构表示的外部文件系统设置。可选选项如下：access_key_id（string）：您的对象存储服务的访问密钥 ID。access_key_val（string）：您的对象存储服务的访问密钥值。cloud_provider（string）：您的对象存储服务的云提供商。region（string）：您的对象存储服务的区域。use_iam（string）：是否使用 AWS IAM 进行存储桶访问身份验证。可选值为 "true" 或 "false"。iam_endpoint（string）：AWS IAM STS Endpoint。use_ssl（string）：访问您的对象存储桶时是否使用 SSL。可选值为 "true" 或 "false"。use_virtual_host（string）：存储桶访问是否使用虚拟主机。有关详情，请参见这篇文章。storage_type（string）：存储类型。可选值为 remote。role_arn（string）：从存储桶所有者处获取的 AWS IAM 角色 ARN。external_id（string）：从存储桶所有者处获取的外部 ID。load_frequency（string）：Milvus 获取临时身份验证凭据的时间间隔，单位为秒。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，可以省略 `format`，其默认为 `milvus-table`。</NextChannel>
+    在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，可以省略 `format`，其默认值为 `milvus-table`。
 
 - **timeout** （*float*） -
 
@@ -74,9 +74,9 @@ refresh_external_collection(
 
 - **external_source** （*str*） -
 
-    外部源 URI，<NextChannel action="exclude">应为指向可访问外部卷的 `volume://` URI。例如，`volume://<volume-name>/path/to/folder/`</NextChannel><NextChannel action="include">使用下文所述的方案之一</NextChannel>。
+    外部源 URI，使用下文所述方案之一。
 
-    <NextChannel action="include">在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。`volume://` URI 指向可访问的外部卷，例如 `volume://<volume-name>/path/to/folder/`。</NextChannel>
+    在 Zilliz Cloud 上，`external_source` 支持两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。`volume://` URI 指向可访问的外部存储卷，例如 `volume://<volume-name>/path/to/folder/`。
 
 - **external_spec** （*str*） -
 
@@ -88,7 +88,7 @@ refresh_external_collection(
 
         可选值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
 
-        <NextChannel action="include">在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，可以省略 `format`，其默认为 `milvus-table`。</NextChannel>
+        在 Zilliz Cloud 上，`milvus-table` 源与 `milvus://` 方案配合使用；对于 `milvus://` 源，可以省略 `format`，其默认值为 `milvus-table`。
 
     - **snapshot_id** （*str*） -
 
