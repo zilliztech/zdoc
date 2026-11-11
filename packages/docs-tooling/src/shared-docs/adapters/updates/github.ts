@@ -4,16 +4,17 @@ const exec = promisify(execFile)
 export interface ReadonlyGitHub { get(path: string): Promise<unknown>; zip(artifact: number, maximum?: number): Promise<Uint8Array> }
 const root = 'repos/zilliztech/zdoc'
 export class GitHubReads implements ReadonlyGitHub {
-  constructor(private readonly token?: string) {}
-  private environment() {
-    return this.token ? {...process.env, GH_TOKEN: this.token} : process.env
+  readonly #token?: string
+  constructor(token?: string) { this.#token = token }
+  #credentialOptions() {
+    return this.#token ? {env: {...process.env, GH_TOKEN: this.#token}} : {}
   }
   async get(path: string): Promise<unknown> {
     const history = /^repos\/zilliztech\/zdoc\/actions\/workflows\/(?:fetch-docs|fetch-guides-requested)\.yml\/runs\?created=%3E%3D\d{4}-\d{2}-\d{2}&per_page=100&page=(?:[1-9]|10)$/.test(path)
-    if (!history && path !== `${root}/branches/dev` && !/^repos\/zilliztech\/zdoc(?:\/(?:actions|contents)[\w./?=&-]*)?$/.test(path) || path.includes('..')) throw new Error('Unsupported read endpoint')
+    if ((!history && path !== `${root}/branches/dev` && !/^repos\/zilliztech\/zdoc(?:\/(?:actions|contents)[\w./?=&-]*)?$/.test(path)) || path.includes('..')) throw new Error('Unsupported read endpoint')
     let stdout: string
     try {
-      const result = await exec('gh', ['api', '--hostname', 'github.com', '--method', 'GET', path], { env: this.environment(), timeout: 30_000, maxBuffer: 16 * 1024 * 1024 })
+      const result = await exec('gh', ['api', '--hostname', 'github.com', '--method', 'GET', path], { ...this.#credentialOptions(), timeout: 30_000, maxBuffer: 16 * 1024 * 1024 })
       stdout = result.stdout
     } catch {
       // Child diagnostics may contain credentials and are later retained in B1 evidence.
@@ -27,7 +28,7 @@ export class GitHubReads implements ReadonlyGitHub {
     if (!Number.isSafeInteger(artifact) || artifact <= 0) throw new Error('Invalid artifact ID')
     try {
       return (await exec('gh', ['api', '--hostname', 'github.com', '--method', 'GET', `${root}/actions/artifacts/${artifact}/zip`], {
-        env: this.environment(), encoding: 'buffer', timeout: 120_000, maxBuffer: maximum })).stdout
+        ...this.#credentialOptions(), encoding: 'buffer', timeout: 120_000, maxBuffer: maximum })).stdout
     } catch { throw new Error('GitHub artifact download failed') }
   }
 }

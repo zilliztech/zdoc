@@ -27,13 +27,13 @@ it('authenticates repository and exact run before trusting artifact names', asyn
 
 it('rejects wrong run attempt and artifact digest/expiry/head bindings, never choosing one ambiguous artifact', async () => {
   const head = 'a'.repeat(40)
-  const artifact = { id: 3, name: 'guides-sources-en-1', expired: false, digest: `sha256:${'b'.repeat(64)}`,
+  const artifact = { id: 3, name: 'guides-sources-en-1', expired: false, size_in_bytes: 12, digest: `sha256:${'b'.repeat(64)}`,
     workflow_run: { id: 1, repository_id: 660446555, head_repository_id: 660446555, head_sha: head, head_branch: 'master' } }
   const run = { id: 1, repository: { id: 660446555 }, run_attempt: 1, head_sha: head, head_branch: 'master' }
   const api = (a: unknown[], r = run) => ({ zip: vi.fn(), get: async (path: string) => path.endsWith('zdoc') ? { id: 660446555 } :
     path.includes('/jobs?') ? { jobs: [] } : path.includes('/artifacts?') ? { artifacts: a } : r })
   expect((await retainedMetadata(api([artifact]), 1)).artifact.id).toBe(3)
-  for (const a of [{ ...artifact, digest: null }, { ...artifact, expired: true },
+  for (const a of [{ ...artifact, size_in_bytes: undefined }, { ...artifact, digest: null }, { ...artifact, expired: true },
     { ...artifact, workflow_run: { ...artifact.workflow_run, head_sha: 'c'.repeat(40) } }]) await expect(retainedMetadata(api([a]), 1)).rejects.toThrow(/mismatch/)
   await expect(retainedMetadata(api([artifact, { ...artifact, id: 4 }]), 1)).rejects.toThrow(/ambiguous/)
   await expect(retainedMetadata(api([artifact], { ...run, run_attempt: 0 }), 1)).rejects.toThrow(/identity/)
@@ -76,4 +76,21 @@ it('preserves successful metadata, archive bytes and fixed read execution bounds
     ['gh', ['api', '--hostname', 'github.com', '--method', 'GET', 'repos/zilliztech/zdoc'], { timeout: 30_000, maxBuffer: 16 * 1024 * 1024 }],
     ['gh', ['api', '--hostname', 'github.com', '--method', 'GET', 'repos/zilliztech/zdoc/actions/artifacts/3/zip'], { encoding: 'buffer', timeout: 120_000, maxBuffer: 256 * 1024 * 1024 }],
   ])
+})
+
+
+it('keeps explicit coordinator credentials out of the object and command arguments, and enforces caller download bounds', async () => {
+  const token = 'fixture-coordinator-credential'
+  const api = new GitHubReads(token)
+  expect(Object.getOwnPropertyNames(api)).toEqual([])
+  runGh.mockClear()
+  await expect(api.zip(3, 0)).rejects.toThrow(/limit/)
+  expect(runGh).not.toHaveBeenCalled()
+  runGh.mockResolvedValueOnce({stdout: Buffer.from([1])})
+  await api.zip(3, 12)
+  const [command, args, options] = runGh.mock.calls[0]
+  expect(command).toBe('gh')
+  expect(args).not.toContain(token)
+  expect(options.maxBuffer).toBe(12)
+  expect(options.env.GH_TOKEN).toBe(token)
 })
