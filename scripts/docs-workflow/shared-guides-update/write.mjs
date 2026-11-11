@@ -199,7 +199,7 @@ async function awaitRef(api, branch, exact, previous) {
   throw new Error('Acknowledged ref did not converge')
 }
 
-async function verifySignature(api, git, contract, seal, s) {
+export async function verifySignature(api, git, contract, seal, s) {
   const [gql, rest] = await Promise.all([api.graph(signatureQuery,{oid:s}),api.rest('/commits/' + s)])
   const q = gql.repository.object, g = q.signature, r = rest.commit.verification
   need(gql.repository.databaseId === repoId && rest.sha === s && q.oid === s && rest.author.id === q.author.user.databaseId &&

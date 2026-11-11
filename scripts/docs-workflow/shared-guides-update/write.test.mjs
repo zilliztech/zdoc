@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { test } from 'node:test'
-import { authenticatePrepare, context, createDraft, gitReader, material } from './write.mjs'
+import { authenticatePrepare, context, createDraft, gitReader, material, verifySignature } from './write.mjs'
 
 const master = 'a'.repeat(40), dev = 'b'.repeat(40), k = 'c'.repeat(40), tree = 'd'.repeat(40), s = 'e'.repeat(40)
 const targetRef = 'shared-update/' + 'a'.repeat(64), stage = 'shared-update-staging/' + 'd'.repeat(64)
@@ -201,5 +201,33 @@ test('the bundled production contract reconstructs the exact B2 commit from mast
     ['before.lock',after],['unit-plan.json',Buffer.concat([canon(plan),Buffer.from('\n')])],
     ['prepare.json',canon({...result,status:'held'})],['lock.next.patch',Buffer.from('bad diff')]]) {
     await assert.rejects(() => material(c,ctx,new Map(files).set(name,wrong),reader))
+  }
+})
+
+test('authenticate the two native signature observations against the raw Git object and formal seal',async () => {
+  const {loadTypeScript} = createRequire(import.meta.url)('../../lib/load-typescript.js')
+  const contract = loadTypeScript(resolve('packages/docs-tooling/src/shared-docs/adapters/updates/formal-validation.ts'))
+  const formal = {kind:'shared-update-seal',schemaVersion:1,repositoryId:660446555,transactionId:'1'.repeat(64),
+    unitKey:'guides:' + '3'.repeat(64),planSha256:'4'.repeat(64),proofSha256:'5'.repeat(64),master,dev,
+    preparedBase:master,candidate:k,candidateTree:tree,previousSeal:null,preservedHumanHeads:[],runId:15,runAttempt:1}
+  const {headline,body} = contract.formalValidation({op:'seal',seal:formal}).githubMessage
+  const signature = '-----BEGIN PGP SIGNATURE-----\nfixture\n-----END PGP SIGNATURE-----'
+  const headers = ['tree ' + tree,'parent ' + k,'author workflow <actions@example.com> 120 +0000',
+    'committer workflow <actions@example.com> 120 +0000'].join('\n')
+  const message = headline + '\n\n' + body
+  const payload = headers + '\n\n' + message
+  const raw = Buffer.from(headers + '\ngpgsig ' + signature.replaceAll('\n','\n ') + '\n\n' + message)
+  const id = createHash('sha1').update('commit ' + raw.length + '\0').update(raw).digest('hex')
+  const facts = () => ({q:{oid:id,tree:{oid:tree},parents:{totalCount:1,nodes:[{oid:k}]},author:{user:{databaseId:41898282}},
+    signature:{isValid:true,state:'VALID',wasSignedByGitHub:true,signer:{databaseId:19864447},payload,signature}},
+    r:{sha:id,author:{id:41898282},parents:[{sha:k}],commit:{tree:{sha:tree},verification:{verified:true,reason:'valid',payload,signature}}},raw})
+  const verify = f => verifySignature({graph:async () => ({repository:{databaseId:660446555,object:f.q}}),rest:async () => f.r},
+    {readSeal:() => f.raw},contract,formal,id)
+  assert.equal((await verify(facts())).authorId,41898282)
+  for (const tamper of [f => {f.q.signature.signer.databaseId++},f => {f.q.signature.wasSignedByGitHub = false},
+    f => {f.r.commit.verification.payload += '\n'},f => {f.q.parents.totalCount++},f => {f.raw = Buffer.concat([raw,Buffer.from('\n')])}]) {
+    const f = facts()
+    tamper(f)
+    await assert.rejects(() => verify(f))
   }
 })
