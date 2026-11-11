@@ -65,7 +65,7 @@ result, err := client.RefreshExternalCollection(option)
 
     `externalSource` と `externalSpec` は両方を指定するか、両方を省略してください。両方を省略した場合、リフレッシュでは永続化されたソースと仕様が再利用されます。
 
-    <NextChannel action="include">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は、すべてのリフレッシュリクエストで `externalSource` を指定する必要があります。省略した場合、コレクションは以前に同期されたデータを提供し続けます。</NextChannel>
+    Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は、リフレッシュリクエストごとに `externalSource` を指定する必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。
 
 - `WithExternalSpec(externalSpec string)`
 
@@ -75,7 +75,7 @@ result, err := client.RefreshExternalCollection(option)
 
         対象のソースデータファイルの形式です。使用可能な値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-        <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームとともに使用されます。`format` は省略可能で、`milvus://` ソースではデフォルトで `milvus-table` になります。</NextChannel>
+        Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用します。`format` は省略でき、`milvus://` ソースの場合、デフォルトは `milvus-table` です。
 
     - **extfs** (*string*) -
 

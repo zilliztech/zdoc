@@ -73,7 +73,7 @@ type Schema struct {
 
     AWS S3 オブジェクトパスに似たソースデータ URI を設定します。
 
-    <NextChannel action="include">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。</NextChannel>
+    Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2つのスキームを受け付けます。
 
 - `WithExternalSpec(externalSpec string) *Schema`
 
@@ -83,7 +83,7 @@ type Schema struct {
 
         対象のソースデータファイルの形式です。指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-        <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースを `milvus://` スキームで使用します。`format` は省略でき、`milvus://` ソースの場合は既定で `milvus-table` になります。</NextChannel>
+        Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用します。`format` は省略でき、`milvus://` ソースの場合は `milvus-table` がデフォルトになります。
 
     - **extfs** (*string*) -
 
@@ -180,9 +180,9 @@ fmt.Println(err)
 
 - `WithExternalSource(externalSource string)`
 
-    ソースデータ URI を設定します。この URI は<NextChannel action="exclude">アクセス可能な外部ボリュームの名前である必要があります</NextChannel><NextChannel action="include">以下で説明するスキームのいずれかを使用します</NextChannel>。
+    以下で説明するスキームのいずれかを使用するソースデータ URI を設定します。
 
-    <NextChannel action="include">Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`volume://` URI は、アクセス可能な外部ボリュームを指します。</NextChannel>
+    Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2つのスキームを受け付けます。`volume://` URI は、アクセス可能な外部ボリュームを指します。
 
 - `WithExternalSpec(externalSpec string)`
 
@@ -194,6 +194,6 @@ fmt.Println(err)
 
         指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-        <NextChannel action="include">Zilliz Cloud では、`milvus-table` ソースを `milvus://` スキームで使用します。`format` は省略でき、`milvus://` ソースの場合は既定で `milvus-table` になります。</NextChannel>
+        Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用します。`format` は省略でき、`milvus://` ソースの場合は `milvus-table` がデフォルトになります。
 
     
