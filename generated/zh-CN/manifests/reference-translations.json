@@ -3155,11 +3155,11 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "d8116329724df9337cafb2a061ffe352fefb41a5",
-      "sourceHash": "3569bbe6a6b3c5ad29808e57827afa62d295c0026526f5f65543720bf607f2d9",
+      "sourceCommit": "fc5c164e41eedc5c684a4b6a81e99e7e63dcfb89",
+      "sourceHash": "712cfbaef697d78e78cbf4a2cc398ff2140aa81256b130708736ec5fced10b44",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
       "status": "translated",
-      "targetHash": "09beabb95a441d5f72d3a8462a325e75472947cac1a3c83a296a11d84c198281",
+      "targetHash": "f3aad1866593b4a2bbae81faa28ac59624b28a8323d36b83d685f438a1f3d2f6",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md"
     },
     {

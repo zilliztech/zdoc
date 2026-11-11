@@ -65,7 +65,7 @@ result, err := client.RefreshExternalCollection(option)
 
     `externalSource` 和 `externalSpec` 应一起提供，或一起省略；如果两者均省略，则刷新会复用已持久化的源和规范。
 
-    在 Zilliz Cloud 上，`externalSource` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，适用上述规则。对于 `milvus://` 源，您必须在每次刷新请求中传入 `externalSource`；如果省略，则 Collection 将继续提供先前同步的数据。
+    在 Zilliz Cloud 上，`externalSource` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` URI，上述规则适用。对于 `milvus://` 源，同样适用上述规则——省略该值会复用已持久化的源，并且刷新仍会同步最新数据。
 
 - `WithExternalSpec(externalSpec string)`
 
