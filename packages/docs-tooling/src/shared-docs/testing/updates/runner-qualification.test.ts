@@ -1,5 +1,7 @@
+import * as childProcess from 'node:child_process'
+import * as fsPromises from 'node:fs/promises'
 // @vitest-environment node
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
 import { mkdtemp, mkdir, readFile, realpath, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { pathToFileURL } from 'node:url'
@@ -8,8 +10,13 @@ import { dirname, join } from 'node:path'
 import * as provider from '../../adapters/updates/guides-provider'
 import { release } from 'node:os'
 import * as toolset from '../../adapters/updates/toolset'
-import { collectRunnerQualification, parseTreeLowerBound, validateDiagnosticSettlement, classifyCaptureRefusal, captureRefusalReason, workerRefusalReason } from './runner-qualification'
+import { collectRunnerQualification, parseTreeLowerBound, validateDiagnosticSettlement, classifyCaptureRefusal, captureRefusalReason, workerRefusalReason, observeRuntimePreflight } from './runner-qualification'
 
+vi.mock('node:child_process',async importOriginal=>({...await importOriginal<typeof import('node:child_process')>(),spawnSync:vi.fn()}))
+vi.mock('node:fs/promises',async importOriginal=>{const actual=await importOriginal<typeof import('node:fs/promises')>();return {...actual,lstat:vi.fn(actual.lstat),realpath:vi.fn(actual.realpath)}})
+beforeEach(async()=>{const actual=await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises');vi.mocked(fsPromises.lstat).mockImplementation(actual.lstat);vi.mocked(fsPromises.realpath).mockImplementation(actual.realpath);vi.mocked(childProcess.spawnSync).mockClear().mockReturnValue({status:1,stdout:'SECRET',stderr:'SECRET',signal:null,pid:0,output:[]} as never)})
+const platformDescriptor=Object.getOwnPropertyDescriptor(process,'platform')!
+const setPlatform=(value:string)=>Object.defineProperty(process,'platform',{...platformDescriptor,value})
 const roots:string[]=[]
 /** Mocked capture cases own a full local checkout, independent of CI's shallow source checkout. */
 async function diagnosticFixture(){
@@ -19,7 +26,7 @@ async function diagnosticFixture(){
   await git(repository,'add','.');await git(repository,'commit','-qm','fixed diagnostic input')
   return {root,repository,master:await git(repository,'rev-parse','HEAD')}
 }
-afterEach(async()=>{vi.restoreAllMocks();await Promise.all(roots.splice(0).map(root=>rm(root,{recursive:true,force:true})))})
+afterEach(async()=>{Object.defineProperty(process,'platform',platformDescriptor);vi.restoreAllMocks();await Promise.all(roots.splice(0).map(root=>rm(root,{recursive:true,force:true})))})
 const row=(oid:string,size:number,path:string)=>`100644 blob ${oid} ${size}\t${path}\0`
 const a='a'.repeat(40),b='b'.repeat(40)
 describe('bounded tree lower bound (never a full graph qualification)',()=>{
@@ -186,4 +193,117 @@ it('rejects a real shallow source checkout while a separate full fixture reaches
   expect(await git(repository,'rev-parse','--is-shallow-repository')).toBe('false')
   const full=await collectRunnerQualification({toolRoot:repository,master,evidenceRoot:join(root,'full-evidence')})
   expect(full.failure?.code).toBe('CAPTURE_REFUSED');expect(capture).toHaveBeenCalledOnce()
+})
+
+it.each([
+ ['Unknown system Git provisioning','git-provisioning-unsupported'],
+ ['Unknown Python provisioning','python-provisioning-unsupported'],
+ ['Unsupported Python installation layout','python-layout-unsupported'],
+ ['Unsafe trusted file: SECRET','trusted-file-unsafe'],
+ ['Unknown non-system runtime dependency: SECRET','native-dependency-unknown'],
+ ['Unsupported identity source coverage','identity-source-unsupported'],
+ ['Forbidden ambient execution setting: SECRET','environment-setting-forbidden'],
+])('first-stage failures have fixed redacted vocabulary',(message,reason)=>expect(captureRefusalReason(new Error(message))).toBe(reason))
+it('observes independent fixed prerequisites under the capture sanitizer without accepting them',async()=>{
+ setPlatform('darwin')
+ const {repository}=await diagnosticFixture()
+ const environment={LANG:'C',LC_ALL:'C'}
+ vi.spyOn(toolset,'trustedLauncherEnvironment').mockResolvedValue(environment)
+ vi.mocked(childProcess.spawnSync).mockImplementation((_file,args,options)=>{
+   expect(options?.env).toBe(environment);expect(options?.maxBuffer).toBe(4096);expect(options?.killSignal).toBe('SIGKILL')
+   expect(args?.[0]).toBe('--find')
+   return {status:0,stdout:args?.[1]==='git'?'/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/git\n':'/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/python3\n',stderr:'SECRET',signal:null} as never
+ })
+ vi.spyOn(fsPromises,'lstat').mockImplementation(async path=>{
+   if(String(path).endsWith('Search.plist'))throw Object.assign(new Error('SECRET'),{code:'ENOENT'})
+   return {isSymbolicLink:()=>false,isFile:()=>true,isDirectory:()=>false,uid:0,gid:0,mode:0o100755} as never
+ })
+ vi.spyOn(fsPromises,'realpath').mockImplementation(async path=>String(path).endsWith('/python3')?String(path)+'.9':String(path) as never)
+ const result=await observeRuntimePreflight(repository)
+ expect(toolset.trustedLauncherEnvironment).toHaveBeenCalledWith(repository,repository)
+ expect(result.qualification).toBe('unqualified')
+ expect(result.observations).toContainEqual({name:'identity-profile',status:'unavailable',reason:'filesystem-input-missing'})
+ expect(result.observations.some(item=>item.name==='python-stdlib')).toBe(true)
+ expect(result.observations.some(item=>item.name==='gh')).toBe(true)
+ expect(JSON.stringify(result)).not.toContain('SECRET')
+ expect(result.observations.length).toBeLessThanOrEqual(32)
+})
+it('discards malformed command output and still observes profile alias metadata',async()=>{
+ setPlatform('darwin')
+ const {repository}=await diagnosticFixture()
+ vi.spyOn(toolset,'trustedLauncherEnvironment').mockResolvedValue({LANG:'C'})
+ vi.mocked(childProcess.spawnSync).mockReturnValue({status:0,stdout:'/private/SECRET\nmalformed',stderr:'SECRET',signal:null} as never)
+ vi.spyOn(fsPromises,'lstat').mockResolvedValue({isSymbolicLink:()=>true,isFile:()=>false,isDirectory:()=>false,uid:0,gid:0,mode:0o120755} as never)
+ vi.spyOn(fsPromises,'realpath').mockImplementation(async path=>String(path)==='/Library/Preferences/OpenDirectory/Configurations/Search.plist'?'/fixed/profile':String(path) as never)
+ const result=await observeRuntimePreflight(repository)
+ expect(result.observations.filter(item=>item.name.startsWith('xcrun-')).every(item=>item.reason==='tool-location-unavailable')).toBe(true)
+ expect(result.observations.find(item=>item.name==='identity-profile')?.alias).toBe(true)
+ expect(JSON.stringify(result)).not.toContain('SECRET')
+})
+
+it('unavailable sanitizer observations do not replace actual capture refusal',async()=>{
+ setPlatform('darwin')
+ const {root,repository,master}=await diagnosticFixture()
+ vi.spyOn(toolset,'trustedLauncherEnvironment').mockRejectedValue(new Error('SECRET'))
+ const capture=vi.spyOn(toolset,'captureTrustedToolset').mockRejectedValue(new Error('Unknown system Git provisioning'))
+ const result=await collectRunnerQualification({toolRoot:repository,master,evidenceRoot:join(root,'evidence')})
+ expect(capture).toHaveBeenCalledOnce()
+ expect(result.failure?.reason).toBe('git-provisioning-unsupported')
+ expect(result.productionQualified).toBe(false)
+ expect(JSON.stringify(result)).not.toContain('SECRET')
+})
+it('preflight deadline prevents further commands without changing capture policy',async()=>{
+ setPlatform('darwin')
+ const {root,repository,master}=await diagnosticFixture()
+ vi.spyOn(toolset,'trustedLauncherEnvironment').mockResolvedValue({LANG:'C'})
+ let time=0;vi.spyOn(performance,'now').mockImplementation(()=>time)
+ vi.mocked(childProcess.spawnSync).mockImplementation(()=>{time=8001;return {status:1,stdout:'SECRET',stderr:'SECRET'} as never})
+ const capture=vi.spyOn(toolset,'captureTrustedToolset').mockRejectedValue(new Error('Unknown system Git provisioning'))
+ const result=await collectRunnerQualification({toolRoot:repository,master,evidenceRoot:join(root,'evidence')})
+ expect(childProcess.spawnSync).toHaveBeenCalledOnce()
+ expect(result.preflight?.observations.find(item=>item.name==='xcrun-python3')?.reason).toBe('preflight-deadline')
+ expect(result.preflight?.qualification).toBe('unqualified');expect(capture).toHaveBeenCalledOnce()
+ expect(result.failure?.reason).toBe('git-provisioning-unsupported')
+})
+
+it('Linux preflight is unavailable and executes no commands or sanitizer',async()=>{
+ setPlatform('linux')
+ const sanitizer=vi.spyOn(toolset,'trustedLauncherEnvironment')
+ expect(await observeRuntimePreflight('/fixed')).toMatchObject({status:'unavailable',qualification:'unqualified',observations:[]})
+ expect(childProcess.spawnSync).not.toHaveBeenCalled();expect(sanitizer).not.toHaveBeenCalled()
+})
+it.each(['/Applications/Xcode_16.4.app/Contents/Developer/usr/../bin/git','/Applications/Xcode_16.4.app/Contents/Developer/./usr/bin/git'])('rejects noncanonical location without inspecting it',async output=>{
+ setPlatform('darwin')
+ vi.spyOn(toolset,'trustedLauncherEnvironment').mockResolvedValue({LANG:'C'})
+ vi.mocked(childProcess.spawnSync).mockReturnValue({status:0,stdout:output,stderr:'',signal:null} as never)
+ const metadata=vi.spyOn(fsPromises,'lstat').mockRejectedValue(Object.assign(new Error('SECRET'),{code:'ENOENT'}))
+ const result=await observeRuntimePreflight('/fixed')
+ expect(result.observations.filter(item=>item.name.startsWith('xcrun-')).every(item=>item.status==='unavailable')).toBe(true)
+ expect(metadata.mock.calls.some(([path])=>path===output)).toBe(false)
+ expect(JSON.stringify(result)).not.toContain(output)
+})
+it.each([['ENOBUFS','operation-output-bound'],['ETIMEDOUT','operation-timeout']])('bounded command failure %s leaves independent profile observation and actual capture attempted',async(code,reason)=>{
+ setPlatform('darwin')
+ const {root,repository,master}=await diagnosticFixture()
+ vi.spyOn(toolset,'trustedLauncherEnvironment').mockResolvedValue({LANG:'C'})
+ vi.mocked(childProcess.spawnSync).mockReturnValue({status:null,stdout:'/Applications/Xcode.app/Contents/Developer/usr/bin/git',stderr:'SECRET',error:Object.assign(new Error('SECRET'),{code})} as never)
+ const capture=vi.spyOn(toolset,'captureTrustedToolset').mockRejectedValue(new Error('Unsupported identity source coverage'))
+ const result=await collectRunnerQualification({toolRoot:repository,master,evidenceRoot:join(root,'evidence')})
+ expect(childProcess.spawnSync).toHaveBeenCalledTimes(2)
+ expect(result.preflight?.observations.some(item=>item.name==='identity-profile')).toBe(true)
+ expect(result.preflight?.observations.filter(item=>item.name.startsWith('xcrun-')).every(item=>item.status==='unavailable'&&item.reason===reason)).toBe(true)
+ expect(capture).toHaveBeenCalledOnce();expect(result.failure?.reason).toBe('identity-source-unsupported')
+ expect(JSON.stringify(result)).not.toContain('SECRET')
+})
+
+it('observes direct versioned Python and derives its standard-library metadata',async()=>{
+ setPlatform('darwin')
+ vi.spyOn(toolset,'trustedLauncherEnvironment').mockResolvedValue({LANG:'C'})
+ vi.mocked(childProcess.spawnSync).mockImplementation((_file,args)=>({status:0,stdout:args?.[1]==='python3'?'/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/python3.9':'/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/git',stderr:'',signal:null} as never))
+ vi.spyOn(fsPromises,'lstat').mockResolvedValue({isSymbolicLink:()=>false,isFile:()=>true,isDirectory:()=>false,uid:0,gid:0,mode:0o100755} as never)
+ vi.spyOn(fsPromises,'realpath').mockImplementation(async path=>String(path) as never)
+ const result=await observeRuntimePreflight('/fixed')
+ expect(result.observations).toContainEqual({name:'xcrun-python3',status:'observed',path:'/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/python3.9'})
+ expect(result.observations.find(item=>item.name==='python-stdlib')).toMatchObject({status:'observed',path:'/Applications/Xcode_16.4.app/Contents/Developer/usr/lib/python3.9'})
+ expect(result.qualification).toBe('unqualified')
 })

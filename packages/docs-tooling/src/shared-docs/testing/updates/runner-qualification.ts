@@ -2,6 +2,7 @@
  * Run under the reviewed external owned-process launcher: capture is not abortable.
  * Inner deadlines are cooperative; only that launcher can certify an overall timeout.
  */
+import { spawnSync } from 'node:child_process'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { lstat, readFile, realpath, writeFile } from 'node:fs/promises'
@@ -12,7 +13,7 @@ import { REMOTE_IO_LIMITS } from '../../core/updates/remote'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { patchNextLock } from '../../core/updates/transaction'
 import { initializeEvidence, rawSha256, writeOwnedBlob } from '../../adapters/updates/evidence'
-import { captureTrustedToolset, describeTrustedToolset, retainTrustedAccessEvidence, verifyClosureBinding, verifyTrustedToolset } from '../../adapters/updates/toolset'
+import { trustedLauncherEnvironment, captureTrustedToolset, describeTrustedToolset, retainTrustedAccessEvidence, verifyClosureBinding, verifyTrustedToolset } from '../../adapters/updates/toolset'
 import { createGuidesProvider } from '../../adapters/updates/guides-provider'
 import { createBuildDemo, git, write } from '../build/demo'
 
@@ -50,22 +51,101 @@ function settlementSummary(value:unknown):unknown {
     group:v.group==='absent'?'absent':'unknown',signals:Array.isArray(v.signals)?v.signals.length:0,
     cleanupErrorCount:Array.isArray(v.cleanupErrors)?v.cleanupErrors.length:null}
 }
+export interface RuntimePreflight {
+  qualification:'unqualified';status:'observed'|'unavailable';limitations:readonly string[]
+  observations:{name:string;status:'observed'|'unavailable';path?:string;physical?:string;alias?:boolean;kind?:string;uid?:number;gid?:number;mode?:number;reason?:string}[]
+}
+/** Fixed prerequisites only. Metadata is not native, identity, ACL or capture approval. */
+export async function observeRuntimePreflight(toolRoot:string):Promise<RuntimePreflight> {
+  const result:RuntimePreflight={qualification:'unqualified',status:'unavailable',limitations:['metadata-is-not-access-approval','locations-are-not-native-closure-proof','eight-second-budget-is-cooperative-metadata-is-not-cancelable'],observations:[]}
+  if(process.platform!=='darwin')return result
+  const started=performance.now(),expired=()=>performance.now()-started>=8000
+  let environment:NodeJS.ProcessEnv
+  try{environment=await trustedLauncherEnvironment(toolRoot,toolRoot)}catch{result.observations.push({name:'environment',status:'unavailable',reason:'sanitized-environment-unavailable'});return result}
+  const safePath=(value:string)=>value.length<=4096&&isAbsolute(value)&&!/[\x00-\x20\x7f]/.test(value)
+  const metadata=async(name:string,path:string)=>{
+    if(result.observations.length>=32)return
+    if(!safePath(path)){result.observations.push({name,status:'unavailable',reason:'tool-location-unavailable'});return}
+    if(expired()){result.observations.push({name,status:'unavailable',reason:'preflight-deadline'});return}
+    try{
+      const stat=await lstat(path),physical=await realpath(path)
+      if(!safePath(physical))throw new Error('invalid')
+      result.observations.push({name,status:'observed',path,physical,alias:stat.isSymbolicLink()||physical!==path,kind:stat.isFile()?'file':stat.isDirectory()?'directory':stat.isSymbolicLink()?'symlink':'other',uid:stat.uid,gid:stat.gid,mode:stat.mode})
+    }catch(error){result.observations.push({name,status:'unavailable',reason:captureRefusalReason(error)})}
+  }
+  for(const tool of ['git','python3'] as const){
+    const name='xcrun-'+tool
+    if(expired()){result.observations.push({name,status:'unavailable',reason:'preflight-deadline'});continue}
+    try{
+      const observed=spawnSync('/usr/bin/xcrun',['--find',tool],{env:environment,timeout:Math.min(2000,Math.max(1,8000-(performance.now()-started))),maxBuffer:4096,encoding:'utf8',killSignal:'SIGKILL'})
+      if(observed.error){const reason=captureRefusalReason(observed.error);result.observations.push({name,status:'unavailable',reason:reason==='unclassified'?'tool-location-unavailable':reason});continue}
+      const path=typeof observed.stdout==='string'?observed.stdout.trim():''
+      // Only recognized fixed provisioning roots may leave this diagnostic boundary.
+      if(observed.status!==0||observed.signal||!safePath(path)||resolve(path)!==path||!(/^\/(?:Library\/Developer\/CommandLineTools\/|Applications\/Xcode(?:_[0-9]+(?:\.[0-9]+)*)?\.app\/Contents\/Developer\/)usr\/bin\/(?:git|python3(?:\.\d+)?)$/.test(path))||!(tool==='git'?path.endsWith('/git'):/\/python3(?:\.\d+)?$/.test(path))){
+        result.observations.push({name,status:'unavailable',reason:'tool-location-unavailable'});continue
+      }
+      result.observations.push({name,status:'observed',path})
+      await metadata(tool,path)
+      const physical=result.observations.at(-1)?.physical
+      if(tool==='python3'&&physical&&/^python3\.\d+$/.test(physical.slice(physical.lastIndexOf('/')+1))){
+        const version=physical.slice(physical.lastIndexOf('/')+1).slice(6)
+        await metadata('python-stdlib',join(dirname(dirname(physical)),'lib','python'+version))
+      }
+    }catch{result.observations.push({name,status:'unavailable',reason:'tool-location-unavailable'})}
+  }
+  await metadata('node',process.execPath)
+  await metadata('gh',process.arch==='arm64'?'/opt/homebrew/bin/gh':'/usr/local/bin/gh')
+  for(const [index,path] of ['/','/Library','/Library/Preferences','/Library/Preferences/OpenDirectory','/Library/Preferences/OpenDirectory/Configurations','/Library/Preferences/OpenDirectory/Configurations/Search.plist'].entries())await metadata(index===5?'identity-profile':'identity-ancestor-'+index,path)
+  result.status='observed';return result
+}
 export function classifyCaptureRefusal(message:string):string {
   if(message==='Trusted toolset capture is not yet supported on Linux'||message==='Unsupported access inspection platform')return 'unsupported-platform'
   if(/^(Unsafe access (owner|mode)|Local identity policy)/.test(message))return 'access-owner-mode'
   if(/ACL|access inspector|filesystem capability/.test(message))return 'acl'
   if(/^(Forbidden ambient|Forbidden Node execution|Launcher must run)/.test(message))return 'environment'
-  if(/native|Mach|xcrun|Python|python|runtime helper/.test(message))return 'native'
+  if(message==='Unknown system Git provisioning'||/native|Mach|xcrun|Python|python|runtime helper/.test(message))return 'native'
   if(/dependency|package|locator|closure|Closure|resolution|symlink/.test(message))return 'dependency'
   return 'unknown'
 }
 /** Fixed diagnostic vocabulary only; dynamic paths, package names and values never leave the exception. */
 export function captureRefusalReason(error:unknown):string {
   const value=error as {code?:unknown;message?:unknown}|null
-  const codes:Record<string,string>={ENOENT:'filesystem-input-missing',ENOTDIR:'filesystem-not-directory',EACCES:'filesystem-access-denied',EPERM:'filesystem-operation-denied',ELOOP:'filesystem-symlink-loop'}
+  const codes:Record<string,string>={ENOENT:'filesystem-input-missing',ENOTDIR:'filesystem-not-directory',EACCES:'filesystem-access-denied',EPERM:'filesystem-operation-denied',ELOOP:'filesystem-symlink-loop',ETIMEDOUT:'operation-timeout',ENOBUFS:'operation-output-bound'}
   if(typeof value?.code==='string'&&Object.hasOwn(codes,value.code))return codes[value.code]
   const message=typeof value?.message==='string'?value.message.slice(0,4096):''
   const prefixes:readonly (readonly [string,string])[]=[
+    ['Unknown system Git provisioning','git-provisioning-unsupported'],
+    ['Unknown Python provisioning','python-provisioning-unsupported'],
+    ['Unsupported Python installation layout','python-layout-unsupported'],
+    ['Aliased Python standard library','python-stdlib-alias'],
+    ['Unsafe trusted file','trusted-file-unsafe'],
+    ['Trusted file replaced','trusted-file-replaced'],
+    ['Trusted file truncated','trusted-file-truncated'],
+    ['Trusted file changed','trusted-file-changed'],
+    ['Trusted file grew','trusted-file-grew'],
+    ['Malformed Mach-O header','native-header-malformed'],
+    ['Malformed Mach-O commands','native-commands-malformed'],
+    ['Malformed Mach-O command','native-command-malformed'],
+    ['Truncated Mach-O command','native-command-truncated'],
+    ['Missing identity plist declaration','identity-declaration-missing'],
+    ['Unknown identity plist declaration','identity-declaration-unsupported'],
+    ['Invalid identity record','identity-record-invalid'],
+    ['Invalid identity field','identity-field-invalid'],
+    ['Missing identity records','identity-records-missing'],
+    ['Identity resolver error','identity-resolver-error'],
+    ['Unsupported identity source coverage','identity-source-unsupported'],
+    ['Unsupported identity provisioning context','identity-context-unsupported'],
+    ['Unsupported local identity profile','identity-profile-unsupported'],
+    ['Missing identity observations','identity-observations-missing'],
+    ['Missing trusted principal records','identity-principals-missing'],
+    ['Malformed identity plist','identity-profile-malformed'],
+    ['Unsupported runtime executable','native-executable-unsupported'],
+    ['Unknown non-system runtime dependency','native-dependency-unknown'],
+    ['Missing non-system runtime dependency','native-dependency-missing'],
+    ['Forbidden ambient execution setting','environment-setting-forbidden'],
+    ['Forbidden ambient loader setting','environment-loader-forbidden'],
+    ['Forbidden Node execution flag','environment-flag-forbidden'],
+    ['Launcher must run from trusted root','environment-cwd-invalid'],
     ['Unsupported pnpm lock layout','lock-layout-unsupported'],
     ['External pnpm store must be independently materialized inside trusted root','virtual-store-external'],
     ['Ambiguous pnpm locator directory','virtual-store-locator-ambiguous'],
@@ -113,6 +193,7 @@ export interface RunnerDiagnostic {
   kind:'shared-update-runner-diagnostic';schemaVersion:1;productionQualified:false;master:string
   missingObservations:string[]
   host:{platform:string;architecture:string;release:string;node:string;uid:number|null;gid:number|null}
+  preflight:RuntimePreflight|null
   capture:'passed'|'held'|'not-run';capacity:TreeLowerBound
   worker:{status:'passed'|'held'|'not-run';generationExecuted:boolean;resultValidated:boolean;observation:unknown;settlement:unknown;planDispositions:string[];tripwireUntouched:boolean|null}
   phases:{phase:string;milliseconds:number;status:'passed'|'held'}[];failure:Failure|null
@@ -131,7 +212,7 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
   const result:RunnerDiagnostic={kind:'shared-update-runner-diagnostic',schemaVersion:1,productionQualified:false,master:input.master,
     missingObservations:['host-image-identity','helper-semantic-versions','measured-child-credential-canary','filesystem-credential-isolation'],
     host:{platform:process.platform,architecture:process.arch,release:release(),node:process.version,uid:process.getuid?.()??null,gid:process.getgid?.()??null},
-    capture:'not-run',capacity:{complete:false,entries:0,distinctBlobs:0,bytes:0,scope:'master-tree-blobs-only',objectBudget,verdict:'not-proven'},
+    preflight:null,capture:'not-run',capacity:{complete:false,entries:0,distinctBlobs:0,bytes:0,scope:'master-tree-blobs-only',objectBudget,verdict:'not-proven'},
     worker:{status:'not-run',generationExecuted:false,resultValidated:false,observation:null,settlement:null,planDispositions:[],tripwireUntouched:null},
     phases:[],failure:null,report:{status:'complete',reason:null},tools:null,closure:null,limits:{treeOutputBytes:treeOutputLimit,treeEntries:treeEntryLimit,overallDeadline:'external-owned-launcher',collectorResultBytes:128*1024*1024}}
   const started=performance.now()
@@ -149,6 +230,7 @@ export async function collectRunnerQualification(input:{toolRoot:string;master:s
     if((await gitRead('rev-parse','HEAD')).toString().trim()!==input.master)throw new Error('MASTER_MISMATCH');pass()
     begin('capacity');result.capacity=parseTreeLowerBound(await gitRead('ls-tree','-r','-l','-z',input.master));pass()
     begin('capture');result.capture='held'
+    result.preflight=await observeRuntimePreflight(toolRoot)
     // Default helper coverage is intentional: gh/Python cannot be omitted to pass.
     const capture=await captureTrustedToolset({root:toolRoot,commit:input.master,cwd:toolRoot})
     const description=describeTrustedToolset(capture)
