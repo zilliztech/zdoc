@@ -501,6 +501,37 @@ curl --request POST \
 
 EmbeddingList 検索では、ベクトルごとの比較に対応する `MAX_SIM*` メトリクスを選択します。密ベクトルの場合は `MAX_SIM_COSINE`（`MAX_SIM` とも呼ばれます）、`MAX_SIM_IP`、または `MAX_SIM_L2`、バイナリベクトルの場合は `MAX_SIM_HAMMING` または `MAX_SIM_JACCARD` です。これらのメトリクスは埋め込みリストを比較し、エンティティレベルの結果を返します。要素レベルの検索では、以下に示す対応する通常のメトリクスを使用します。
 
+要素レベルの null を許容するサブフィールドやスカラー `ARRAY` サブフィールドでは、スカラーインデックスはサポートされません。これらのサブフィールドに対するフィルタは、インデックスなしで実行されます。
+
+
+## 要素レベルの null を許容するベクトルサブフィールドと追加されたベクトルサブフィールドにインデックスを作成する\{#index-element-nullable-and-added-vector-subfields}
+
+ベクトルサブフィールドは、要素レベルの null（`nullable=True`）を指定して作成できます。また、既存の StructArray フィールドにベクトルサブフィールドを追加することもできます。どちらの場合も、サブフィールドのインデックス作成方法は次のように変わります。
+
+
+- 要素レベルの null を許容するベクトルサブフィールドは、要素レベルの検索のみをサポートします。`COSINE`、`IP`、`L2` などの通常のベクトルメトリクスでインデックスを作成してください。このサブフィールドでは `MAX_SIM*` メトリクスと EmbeddingList インデックスが拒否され、`AUTOINDEX` もこのサブフィールドに `MAX_SIM*` メトリクスを選択しません。インデックスの構築時および検索時には、null ベクトルがスキップされます。
+
+```python
+index_params = client.prepare_index_params()
+
+# Element-level index on an added, element-nullable vector subfield.
+index_params.add_index(
+    field_name="chunks[summary_emb]",
+    index_name="chunks_summary_emb_cosine",
+    index_type="HNSW",
+    metric_type="COSINE",
+    params={
+        "M": 16,
+        "efConstruction": 200,
+    },
+)
+
+client.create_index(
+    collection_name="tech_articles",
+    index_params=index_params,
+)
+```
+
 ## インデックスのメトリクス互換性\{#index-metric-compatibility}
 
 次の表を使用して、StructArray ベクトルサブフィールドのインデックスタイプとメトリクスタイプを選択してください。対象から始め、検索モードに基づいてメトリクスファミリーを選択します。
@@ -809,7 +840,8 @@ curl --request POST \
 | 1 つのベクトルサブフィールドは 1 つのインデックスのみを受け入れます。 | 異なるメトリクスファミリーが必要な場合は、別々のベクトルサブフィールドを使用します。 |
 | EmbeddingList 検索には `MAX_SIM*` メトリクスを使用します。 | EmbeddingList のクエリデータには、`MAX_SIM*` メトリクスで構築されたインデックスが必要です。 |
 | 要素レベルの検索には通常のベクトルメトリクスを使用します。 | 要素レベルの検索では、通常のベクトルクエリデータと `COSINE`、`IP`、`L2` などのメトリクスを使用します。 |
-| フィルタに出現するスカラーサブフィールドにインデックスを作成します。 | 対象でサポートされているスカラーインデックスタイプを使用します。 |
+| フィルタに出現するスカラーサブフィールドにインデックスを作成します。 | 対象でサポートされているスカラーインデックスタイプを使用してください。要素レベルの null を許容するサブフィールドとスカラー `ARRAY` サブフィールドにはインデックスを作成できません。 |
+| 要素レベルの null を許容するベクトルサブフィールドには、要素レベルのメトリクスを使用してください。 | 要素レベルの null を許容するベクトルサブフィールド（`nullable=True`）は、既存の StructArray フィールドに追加されたベクトルサブフィールドも含め、`MAX_SIM*` メトリクスを拒否します。 |
 | ベクトルフィールドの制限に注意してください。 | ベクトルフィールドとベクトルサブフィールドの合計数には制限があります。多数のベクトルサブフィールドを追加する前に、StructArray Limits を参照してください。 |
 
 ## よくある間違い\{#common-mistakes}

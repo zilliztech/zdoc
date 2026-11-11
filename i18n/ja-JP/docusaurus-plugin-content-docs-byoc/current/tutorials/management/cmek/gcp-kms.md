@@ -54,7 +54,7 @@ Google Cloud KMS では、暗号化キーは **CryptoKey** として表され、
 
 各プロジェクトでは、KMS プロバイダーに関係なく、最大 **20** 個のキーを使用できます。Google Cloud CryptoKey を Zilliz Cloud に追加するには、既存のキーリングを使用するか、新しいキーリングを作成してその中に CryptoKey を作成します。
 
-Google Cloud CryptoKey を追加するには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインし、左側のナビゲーションペインで **Network** > **CMEK** を選択し、該当する Google Cloud リージョンにある **Business Critical** プロジェクトのいずれかを開き、**+ CMEK** をクリックし、**Add CMEK (Google Cloud KMS)** ダイアログボックスの手順に従ってプロセスを完了します。 
+Google Cloud CryptoKey を追加するには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインし、左側のナビゲーションペインで **Network** > **CMEK** を選択し、該当する Google Cloud リージョンにあるプロジェクトのいずれかを開き、**+ CMEK** をクリックし、**Add CMEK (Google Cloud KMS)** ダイアログボックスの手順に従ってプロセスを完了します。 
 
 <Procedures>
 
@@ -134,7 +134,7 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみ選択できます。
 
-1. Review the summary, then click **Create Cluster**.
+1. 概要を確認してから、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
@@ -155,4 +155,3 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 - このオプションを有効にすると、復元後に作成されるクラスターは、以下で指定する KMS キーを使用して暗号化されます。
 
 - このオプションを無効にすると、復元後に作成されるクラスターは暗号化されません。
-

@@ -39,6 +39,10 @@ import TabItem from '@theme/TabItem';
 
 - ユーザー定義スカラーフィールドの追加は、Milvus 2.6.x 以降でサポートされています。ユーザー定義ベクトルフィールドの追加は、Milvus 2.6.18 以降でサポートされています。
 
+- StructArray フィールドの追加はサポートされています。追加する StructArray フィールドは nullable である必要があります。
+
+- 既存の StructArray フィールドへのサブフィールドの追加はサポートされています。追加するサブフィールドでは要素レベルの null を許可する必要があり（スカラーまたはベクトルのサブフィールドでは `nullable=True`、配列のサブフィールドでは `element_nullable=True`）、デフォルト値を持たせることはできず、同じリクエストでインデックスにバインドすることもできません。
+
 - フィールド名は、コレクション内のフィールド間で一意である必要があります。
 
 **Function とその生成ベクトルフィールドを追加する**
@@ -57,7 +61,7 @@ import TabItem from '@theme/TabItem';
 
 - コレクション内の主キーフィールド、パーティションキーフィールド、クラスタリングキーフィールド、または最後のベクトルフィールドは削除できません。
 
-- `ARRAY<STRUCT>` フィールド全体は削除できますが、`ARRAY<STRUCT>` フィールド内の個々のサブフィールドは削除できません。
+- `ARRAY<STRUCT>` フィールド全体を削除できます。また、`chunks[lang]` など、パスを指定して個々のサブフィールドを削除することもできますが、`ARRAY<STRUCT>` フィールドの最後のサブフィールドは削除できません。
 
 - Function の入力フィールドとして使用されているフィールド、または Function の出力として生成されたフィールドは、直接削除できません。Function の出力フィールドを削除するには、そのフィールドを生成する Function を削除します。
 
@@ -82,6 +86,8 @@ import TabItem from '@theme/TabItem';
 - アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、[Add user-defined ベクトル fields](./add-fields-to-an-existing-collection#add-user-defined-vector-fields) を使用します。
 
 - 既存のフィールドから Zilliz Cloud がベクトル値を生成する場合（テキストからの BM25 スパースベクトルや MinHash 署名など）は、[Function とその生成ベクトルフィールドを追加する](./add-fields-to-an-existing-collection) を使用します。
+
+- 既存の Struct 要素に新しい属性が必要な場合は、[既存の StructArray フィールドにサブフィールドを追加する](./add-fields-to-an-existing-collection) を使用します。
 
 これらの場合、フィールドの総数は Zilliz Cloud のフィールド数上限を超えることはできません。詳細については、[Zilliz Cloud Limits](./limits#fields) を参照してください。
 
@@ -704,7 +710,113 @@ await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
 </TabItem>
 </Tabs>
 
-StructArray フィールドの追加後、コレクションにすでに存在するエンティティでは、`chunks` のすべてのサブフィールドに対して null が返されます。新しいエンティティを挿入するときは、すべてのサブフィールドが null であるか、有効な値を持つことを確認してください。一部のサブフィールドを null にし、他のサブフィールドに有効な値を設定してエンティティを挿入すると、エラーになります。
+StructArray フィールドを追加すると、コレクションにすでに存在するエンティティでは、chunks のすべてのサブフィールドに対して null が返されます。新しいエンティティを挿入するときは、すべてのサブフィールドを null または有効な値に設定してください。一部のサブフィールドを null にし、その他を有効な値に設定したエンティティを挿入すると、エラーになります。要素レベルで nullable なサブフィールドでは、個々の Struct 要素に null を保持できます。詳細については、[StructArray フィールドを作成する](/docs/create-struct-array) を参照してください。
+
+### 既存の StructArray フィールドにサブフィールドを追加する\{#add-a-sub-field-to-an-existing-structarray-field}
+
+データがすでに格納されている StructArray フィールドにサブフィールドを追加するには、フィールド名としてサブフィールドのパスを指定して `add_collection_field()` を使用します。サブフィールドを追加するには、次の手順に従います：
+
+1. フィールド名には、`chunks[lang]` などのパス `structArrayField[subField]` を指定します。
+
+1. StructArray でサポートされているスカラー、ベクトル、またはスカラー配列のデータ型を選択します。
+
+1. 追加するサブフィールドには `nullable=True` を設定します。これは、追加するすべてのサブフィールドに必要であり、要素レベルの null を許可するための設定です。配列のサブフィールドでは、内部配列内の null 値を許可するために `element_nullable=True` も設定します。サブフィールドは、行レベルの `nullable` 設定と StructArray フィールドの `max_capacity` を継承します。
+
+**例：要素レベルの null を許可するサブフィールドを追加する**
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import DataType, MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.add_collection_field(
+    collection_name="books",
+    field_name="chunks[lang]",
+    data_type=DataType.VARCHAR,
+    max_length=16,
+    nullable=True,
+)
+# highlight-end
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+// highlight-start
+err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("books",
+        entity.NewField().
+                WithName("chunks[lang]").
+                WithDataType(entity.FieldTypeVarChar).
+                WithMaxLength(16).
+                WithNullable(true)))
+// highlight-end
+if err != nil {
+    fmt.Println(err)
+    return
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "books",
+    "schema": {
+      "fieldName": "chunks[lang]",
+      "dataType": "VarChar",
+      "elementNullable": true,
+      "elementTypeParams": {"max_length": "16"}
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+サブフィールドを追加すると、既存のエンティティでは、各 Struct 要素の `chunks[lang]` に対して `NULL` が返され、`chunks` フィールドが `NULL` であるエンティティは `NULL` のままになります。新しいエンティティでは、サブフィールドを省略するか、任意の Struct 要素で `NULL` に設定できます。
+
+次のルールが適用されます：
+
+- 追加するサブフィールドは `nullable=True` を指定して作成する必要があり、配列のサブフィールドを追加する場合は、内部配列内の null 値を許可するために `element_nullable=True` も指定します。デフォルト値は設定できません。
+
+- サブフィールドの追加時にインデックスをバインドすることはできません。別途 `create_index()` を呼び出してインデックスを作成します。追加するベクトルサブフィールドは要素レベルのメトリクスのみをサポートし、`MAX_SIM*` はサポートしません。また、新しいサブフィールドを含めてコレクションをロードする前に、そのサブフィールドにインデックスを作成しておく必要があります。
+
+- 履歴セグメントは、スキーマバージョンの Compaction を通じて、追加されたサブフィールドとそのインデックスを受け取ります。`dataCoord.compaction.bumpSchemaVersion.enabled` を `true` に設定してください（デフォルトは `false` です）。そうでない場合、追加したサブフィールドのインデックスは履歴セグメントをカバーしません。
+
+- ロード済みのコレクションにサブフィールドを追加しても、コレクションはリリースされません。インデックスが存在する前に、クエリが新しいサブフィールドを返す場合があります。
+
+- スキーマのタイムスタンプを固定しているクライアントは、スキーマ不一致エラーを受け取るため、他の追加フィールドの場合と同様に、スキーマを更新する必要があります。
+
+{/* doc:block:start id="alter-schema-vector-heading" */}
 
 ### ユーザー定義ベクトルフィールドを追加する\{#add-user-defined-vector-fields}
 
@@ -1574,6 +1686,84 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 
 `image_vector` がコレクション内の最後のベクトルフィールドである場合、削除操作は拒否されます。
 
+### StructArray のサブフィールドを削除する\{#drop-a-structarray-sub-field}
+
+サブフィールドのパスを渡して `drop_collection_field()` を使用すると、StructArray フィールドから個々のサブフィールドを削除できます。Milvus はスキーマからサブフィールドをそのインデックスとともに削除します。サブフィールドのデータは、「フィールドを削除した後、ストレージ容量はいつ解放されますか？」で説明されているように解放されます。
+
+次の例では、`chunks` が `my_collection` 内の `lang` サブフィールドを持つ StructArray フィールドであることを前提とし、そのサブフィールドのみを削除します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.drop_collection_field(
+    collection_name="my_collection",
+    field_name="chunks[lang]",
+)
+# highlight-end
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+// highlight-start
+err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("my_collection", "chunks[lang]"))
+// highlight-end
+if err != nil {
+    fmt.Println(err)
+    return
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/drop" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "my_collection",
+    "fieldName": "chunks[lang]"
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+StructArray フィールドの最後のサブフィールド、コレクションの最後のベクトルフィールド、または Function で使用されているサブフィールドは削除できません。StructArray フィールド全体を削除するには、前の例に示すように、名前で削除します。サブフィールドを削除した後、そのサブフィールドを引き続き含む insert および upsert リクエストは拒否されます。
+
+サブフィールドに対するクエリがまだ実行されている間にそのサブフィールドを削除すると、一時的に失敗する場合があります。古いスキーマに基づいて作成されたクエリプランは短時間実行され続け、内部エラーで失敗します。サブフィールドを削除する前に、そのサブフィールドに対するクエリを完了するか、実行中のクエリが終了した後に削除を再試行してください。
+
+<a id="drop-vector-fields-generated-by-functions--milvus-30x"></a>
+
+{/* doc:block:start id="alter-schema-drop-function-heading" */}
+
 ### Function とその生成ベクトルフィールドを削除する | PUBLIC\{#drop-a-function-and-its-generated-vector-field-or-public}
 
 Function またはその生成ベクトルフィールド（BM25 Function とその生成スパースベクトルフィールドなど）が不要になった場合は、この操作を使用します。
@@ -1725,6 +1915,10 @@ Function 名を指定して `drop_function_field()` を呼び出します。こ�
 ### コレクションスキーマを変更した後、待機する必要がありますか？\{#do-i-need-to-wait-after-altering-a-collection-schema}
 
 通常、手動で待機する必要はありません。次の操作が更新後のスキーマに依存する場合は、まず `describe_collection()` を呼び出して、Zilliz Cloud が現在返すスキーマを確認できます。
+
+### 追加したベクトルサブフィールドが FieldNotLoaded エラーで失敗するのはなぜですか？\{#why-does-an-added-vector-sub-field-fail-with-a-fieldnotloaded-error}
+
+ベクトルサブフィールドを追加してそのインデックスを作成した後も、コレクションが準備完了を報告していても、新しいサブフィールドに対するクエリがエラー 2027（`FieldNotLoaded`）で失敗する場合があります。コレクションをリリースしてから再度ロードしてください。クエリはその後、新しいサブフィールドを対象とするようになります。
 
 分散デプロイでは、Zilliz Cloud のコンポーネントがコレクションメタデータを更新する間、短い伝播期間が発生することがあります。スキーマ変更直後の操作がスキーマ関連のエラーで失敗した場合は、スキーマを更新して操作を再試行してください。
 

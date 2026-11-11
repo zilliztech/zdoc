@@ -1086,11 +1086,69 @@ curl --request POST \
 
 NULL 以外の StructArray 値では、必須のすべてのサブフィールドに有効な値を指定します。同じエンティティ内で、NULL のサブフィールド配列と有効なサブフィールド配列を混在させないでください。
 
+Struct 要素自体は null にできません。要素レベルの null を許容するサブフィールドは、次のセクションで説明するように、個々の Struct 要素内で null 値を保持できます。
+
+
 <Admonition type="info" icon="📘" title="Notes">
 
 バージョンとデプロイにおける利用可否については、[StructArray の制限](./struct-array-limits) を参照してください。既存のコレクションに追加する StructArray フィールドは NULL 許容である必要があります。既存のエンティティでは、追加されたフィールド全体が NULL になります。
 
 </Admonition>
+
+## 個々の Struct 要素に null 値を挿入する\{#insert-null-values-for-individual-struct-elements}
+
+要素レベルの null を許容するサブフィールドは、一部の Struct 要素では null 値を保持し、他の要素では有効な値を保持できます。次の例では、`chunks` Struct スキーマが、`nullable=True` の `lang` VARCHAR サブフィールドと、`nullable=True` および `element_nullable=True` の `tags` 配列サブフィールドを定義していることを前提としています。スキーマ定義の全体については、[Struct 要素で null 値を許容する](./create-struct-array) を参照してください。
+
+
+Struct 要素内で、要素レベルの null を許容するサブフィールドを `None` に設定するか、省略します。どちらも null 値を格納します。
+
+```python
+client.insert(
+    collection_name="tech_articles",
+    data=[
+        {
+            "doc_id": 11,
+            "title": "Chunks with missing attributes",
+            "category": "search",
+            "title_vector": [0.07, 0.11, 0.17, 0.21],
+            "chunks": [
+                {
+                    "text": "Detected language and tags are present.",
+                    "section": "search",
+                    "page": 1,
+                    "quality_score": 0.90,
+                    "has_code": False,
+                    "lang": "en",
+                    "tags": ["search", "tuning"],
+                    "emb_list_vector": [0.12, 0.22, 0.32, 0.42],
+                    "emb": [0.12, 0.22, 0.32, 0.42],
+                },
+                {
+                    "text": "Language is unknown and tags are omitted.",
+                    "section": "search",
+                    "page": 2,
+                    "quality_score": 0.84,
+                    "has_code": False,
+                    "lang": None,
+                    "emb_list_vector": [0.14, 0.24, 0.34, 0.44],
+                    "emb": [0.14, 0.24, 0.34, 0.44],
+                },
+            ],
+        }
+    ],
+)
+```
+
+2 番目の Struct 要素では、`lang` が明示的に null で、`tags` が省略されているため、Zilliz Cloud はその要素内の両方に null を格納します。他のサブフィールドは引き続きすべての Struct 要素で値が必要であり、Struct 要素自体は null にできません。配列サブフィールドでは、`None` は null の内部配列を格納し、`[]` は空の内部配列を格納します。
+
+
+null のサブフィールド値は、後続の操作で次のように動作します。
+
+- クエリ結果では、その要素内のサブフィールド値として `null` が返されます。
+
+- フィルターでは、サブフィールド値が null の場合、要素の述語は false ではなく unknown になります。`element_filter` または `MATCH_*` 内で `$[lang] is null` または `$[lang] is not null` を使用してテストします。詳細については、[StructArray Operators](./struct-array-filtering) を参照してください。
+
+- 要素レベルの null を許容するベクトルサブフィールドの null ベクトルは、検索に参加しません。
 
 ## 挿入したデータを検証する\{#validate-inserted-data}
 
@@ -1306,23 +1364,24 @@ curl --request POST \
 | --- | --- |
 | StructArray フィールドにはオブジェクトの配列を使用します。 | `chunks` の値はリストであり、リスト内の各項目は Struct 要素です。 |
 | 各 Struct 要素内ではサブフィールド名を使用します。 | `chunks` 内には `{"text": "...", "emb": [...]}` を挿入し、`{"chunks[text]": "..."}` は挿入しません。 |
-| Struct スキーマに一致させます。 | 各 Struct 要素は、Struct スキーマで定義されたサブフィールドを使用する必要があります。 |
+| Struct スキーマに一致させます。 | 各 Struct 要素は、Struct スキーマで定義されたサブフィールドを使用する必要があります。要素レベルの null を許容するサブフィールドは、Struct 要素内で省略するか、`None` に設定できます。 |
 | ベクトルの次元を一致させます。 | ベクトル値は、それぞれのベクトルサブフィールドに設定された `dim` と一致する必要があります。 |
 | `max_capacity` を遵守します。 | 1 つのエンティティ内の Struct 要素数は、StructArray フィールドの `max_capacity` を超えてはなりません。 |
 | 検索モードごとに別々のベクトルサブフィールドを使用します。 | EmbeddingList 検索と要素レベルの検索の両方が必要な場合は、両方のベクトルサブフィールドにベクトル値を書き込みます。 |
 | フィールドが null を許容する場合にのみ `null` を使用します。 | null を許容しない StructArray フィールドには、有効な StructArray 値が必要です。 |
 
+
 ## よくある間違い\{#common-mistakes}
 
 - 挿入ペイロードで `chunks[text]` などのフィールドパスを使用しています。
 
-- Struct 要素から必須サブフィールドを省略しています。
+- 要素レベルの null を許容しないサブフィールドを、Struct 要素から省略しています。
 
 - 誤った次元のベクトルを挿入しています。
 
 - `max_capacity` で許可される数を超える Struct 要素を挿入しています。
 
-- 同じ StructArray 値内の他のサブフィールドが有効であるにもかかわらず、1 つのサブフィールドだけを `null` に設定しています。
+- サブフィールドが要素レベルの null を許容しない場合に、Struct 要素内でそのサブフィールドを `None` に設定するか、`[None, {...}]` のような null の Struct 要素を挿入しています。
 
 - `emb_list_vector` にのみベクトルを書き込み、その後 `chunks[emb]` で要素レベルの検索を実行しようとしています。
 

@@ -1181,7 +1181,8 @@ StructArray の述語ではスカラーサブフィールドを使用します�
 | `VARCHAR` | `$[section] == "index"`, `$[text] like "range%"` |
 | ベクトルサブフィールド | `$[...]` のスカラー述語入力としてはサポートされません。代わりに、ベクトル検索を通じてベクトルサブフィールドを使用します。 |
 
-JSON パス、配列コンテナ関数、テキスト一致関数、`$[...]` に対する null 述語、Geometry 関数、Timestamptz 式、汎用関数呼び出しなど、サポートされないケースについては、[StructArray 演算子](./struct-array-filtering) を参照してください。
+JSON パス、テキストマッチ関数、Geometry 関数、Timestamptz 式、汎用関数呼び出しなど、サポートされていないケースと、`$[...]` がサポートする配列コンテナ関数および null 述語については、[StructArray 演算子](./struct-array-filtering) を参照してください。
+
 
 ## よくある間違い\{#common-mistakes}
 

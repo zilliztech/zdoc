@@ -28,7 +28,8 @@ StructArray フィルタリングには、2つの演算子ファミリーと一�
 | `MATCH_*` | スカラー述語を満たす Struct 要素の数に基づいてエンティティを選択します。 | 行レベルフィルタリングです。これらの演算子自体は要素オフセットを返しません。 |
 | 行レベルパス述語 | 1つの要素位置をテストしたり、Struct 要素をカウントしたり、`$[...]` 述語を使用せずに要素間でサブフィールド値をテストしたりします。 | 行レベルフィルタリングです。これらの述語は要素オフセットを返しません。 |
 
-StructArray 演算子ではスカラーサブフィールドを使用してください。ベクトルサブフィールドはベクトル検索パスで使用され、スカラー述語の入力にはなりません。
+StructArray 演算子では、スカラーサブフィールドと配列サブフィールドを使用します。ベクトルサブフィールドはベクトル検索パスで使用され、スカラー述語の入力にはなりません。
+
 
 ## どの演算子を使うべきか\{#when-to-use-which-operator}
 
@@ -248,6 +249,24 @@ chunks[0][page] in [1, 2, 3]
 
 ### ARRAY 演算子\{#array-operators}
 
+#### 位置による配列サブフィールドへのアクセス\{#access-array-subfields-by-position}
+
+位置指定パスは、スカラー `ARRAY` サブフィールドも参照できます。`chunks[0][tags]` は最初の Struct 要素の内側の配列です。配列リテラルとの `==` および `!=`、`array_contains`、`array_contains_any`、`array_contains_all`、`array_length` をサポートします。これに対する比較演算子、`in`、`like`、および算術演算は拒否されます。
+
+
+```python
+# The first chunk is tagged "tuning".
+array_contains(chunks[0][tags], "tuning")
+
+# The first chunk has exactly these tags, in this order.
+chunks[0][tags] == ["search", "tuning"]
+
+# The first chunk has at least two tags.
+array_length(chunks[0][tags]) >= 2
+```
+
+配列サブフィールドパス全体に対する `array_contains*`、`==`、および `!=`（たとえば `array_contains(chunks[tags], "tuning")`）は、そのパスが Struct 要素ごとに 1つの内側の配列を保持するため、拒否されます。代わりに `MATCH_ANY(chunks, array_contains($[tags], "tuning"))` を使用してください。
+
 #### Struct 要素をカウントする\{#count-struct-elements}
 
 `array_length(structArrayField)` を使用して、エンティティ内の Struct 要素数でフィルタリングします。`array_length(chunks[section])` など、サブフィールドパスに対する `array_length` は、各サブフィールドが Struct 要素ごとに 1つの値を保持するため、同じ数を返します。
@@ -320,9 +339,40 @@ chunks is not null
 | `INT8`, `INT16`, `INT32`, `INT64` | 比較、連鎖範囲、`in`、`not in`、`+`、`-`、`*`、`/`、`%` を使った算術式の後に比較を続ける形式、および論理結合。 |
 | `FLOAT`, `DOUBLE` | 比較、連鎖範囲、`in`、`not in`、`+`、`-`、`*`、`/` を使った算術式の後に比較を続ける形式、および論理結合。浮動小数点サブフィールドでは `%` 演算子はサポートされません。 |
 | `VARCHAR` | 文字列比較、連鎖範囲、`in`、`not in`、`like`、`=~`、`!~`、および論理結合。 |
-| ベクトルサブフィールド | `$[...]` スカラー述語の入力としてはサポートされません。代わりに、EmbeddingList 検索または要素レベルベクトル検索を通じてベクトルサブフィールドを使用してください。 |
+| スカラー `ARRAY` サブフィールド | `$[tags]` に対する `array_contains`、`array_contains_any`、`array_contains_all`、`array_length` に加えて、`$[tags] is null` と `$[tags] is not null` を使用できます。`$[tags]` に対する比較演算子、`in`、および `like` は拒否されます。 |
+| 要素単位で null を許容するサブフィールド | `$[subfield] is null` と `$[subfield] is not null` は、現在の Struct 要素内の値が null かどうかをテストします。null 値を保持できないサブフィールドでは、`is null` は常に false です。 |
+| ベクトルサブフィールド | `$[...]` スカラー述語の入力としてはサポートされません。ただし、要素単位で null を許容するベクトルサブフィールドに対する `$[emb] is null` と `$[emb] is not null` は例外です。代わりに、EmbeddingList 検索または要素レベルベクトル検索でベクトルサブフィールドを使用してください。 |
+
 
 `&&`、`||`、`!` などの論理演算子は述語式に適用されます。たとえば、`!$[has_code]` ではなく `!($[has_code] == true)` と記述してください。
+
+## 要素レベル述語における null 値\{#null-values-in-element-level-predicates}
+
+要素単位で null を許容するサブフィールドは、Struct 要素内で null 値を保持できます。StructArray 述語では、null 値は三値論理に従います。
+
+
+- null のサブフィールド値に対する比較、`in`、`like`、または算術述語は、false ではなく unknown になります。`&&`、`\|\|`、および `!` は unknown の結果を伝播するため、`$[lang]` が null の場合、`!($[lang] == "en")` は引き続き unknown です。
+
+- `element_filter` は、述語が true である Struct 要素のみを保持します。unknown の要素は一致しません。
+
+- `MATCH_*` は、unknown の要素をミスとしてカウントします。いずれかの要素が unknown の場合、`MATCH_ALL` は false になりますが、空の StructArray は引き続き `MATCH_ALL` を満たします。
+
+- `$[subfield] is null` と `$[subfield] is not null` は常に true または false になります。これらは現在の要素の有効性を読み取るため、`$[lang] is null` は `lang` 値が null である要素に正確に一致します。
+
+- 配列サブフィールドでは、`$[tags]` に対する `array_contains*` は null の内側の値をスキップし、null の内側の配列には決して一致しません。`array_length($[tags])` は null の内側の値をカウントし、`$[tags] is null` は null の内側の配列に対してのみ true になります。
+
+```python
+# Chunks whose language is unknown.
+element_filter(chunks, $[lang] is null)
+
+# Entities where every chunk has a detected language.
+MATCH_ALL(chunks, $[lang] is not null)
+
+# Entities with at least one chunk tagged "tuning".
+MATCH_ANY(chunks, array_contains($[tags], "tuning"))
+```
+
+行レベルの位置指定パスも同じルールに従います。最初の要素の `lang` 値が null の場合、エンティティにその位置の要素がない場合、または StructArray フィールドが null の場合、`chunks[0][lang] == "en"` は unknown になるため、エンティティは一致しません。
 
 ## サポートされない述語\{#unsupported-predicates}
 
@@ -332,9 +382,10 @@ chunks is not null
 
 - JSON path 構文、JSON path に対する `exists`、または `json_contains`、`json_contains_all`、`json_contains_any` などの JSON 関数。
 
-- `$[subfield]` に対する `array_contains`、`array_contains_all`、`array_contains_any`、`array_length` などの配列コンテナ関数。代わりに、行レベル述語では `chunks[section]` などのサブフィールドパスでこれらの関数を使用してください。
+- スカラーサブフィールドの `$[subfield]` に対する `array_contains`、`array_contains_all`、`array_contains_any`、`array_length` などの配列コンテナ関数。代わりに、行レベル述語の `chunks[section]` などのサブフィールドパスでこれらの関数を使用してください。スカラー `ARRAY` サブフィールドの `$[tags]` ではサポートされます。
 
-- `$[subfield] is null` または `$[subfield] is not null`。
+
+- `$[tags][0]` などの配列サブフィールドへの添字アクセス、および `$[tags]` に対する `like`。
 
 - Geometry / GIS 関数。
 
@@ -362,7 +413,10 @@ chunks is not null
 
 - 位置指定パスでは、サブフィールド名の前に要素位置を記述します。`chunks[0][section]` と記述し、`chunks[section][0]` とは記述しません。
 
-- `IS NULL` と `IS NOT NULL` は、`chunks is null` など StructArray フィールド全体にのみ使用してください。`chunks[section]` などのサブフィールドパスや `$[subfield]` には使用しないでください。
+- `IS NULL` と `IS NOT NULL` は、StructArray フィールド全体（たとえば `chunks is null`）でのみ使用するか、`element_filter` または `MATCH_*` 内の `$[subfield]` に対して使用してください。`chunks[section]` などのサブフィールドパスでは使用しないでください。
+
+
+- 配列サブフィールドに添字アクセスしないでください。`$[tags][0]` と `chunks[0][tags][0]` はサポートされません。
 
 - 空の StructArray に対する `MATCH_ANY` は `false` を返します。
 

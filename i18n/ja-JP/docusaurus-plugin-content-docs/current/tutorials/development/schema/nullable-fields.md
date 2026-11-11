@@ -34,7 +34,7 @@ Null 許容フィールドは、次の場合に使用します。
 
 - NULL 値を許可するベクトルフィールドでは、`IS NULL` または `IS NOT NULL` のフィルター式はサポートされません。ベクトルフィールドの値が NULL かどうかによってエンティティを明示的にフィルターすることはできません。
 
-- Zilliz Cloud では、3.0.x 系の 3.0.0 以降を実行する On-Demand クラスターで Null 許容 StructArray フィールドがサポートされます。Serving クラスターでは、Null 許容 StructArray フィールドはサポートされません。`nullable=True` は、個々のサブフィールドではなく、親の StructArray フィールドに設定してください。NULL は StructArray フィールド全体に適用され、個々の Struct 要素には適用されません。親の設定は内部的にサブフィールドへ伝播します。既存のコレクションに追加する StructArray フィールドは Null 許容である必要があり、これにより既存のエンティティは新しいフィールドに対して NULL を返せます。詳細は、[StructArray の制限](./struct-array-limits#nullable-and-dynamic-schema-limits) を参照してください。
+- Zilliz Cloud では、NULL 許容の StructArray フィールドは On-Demand クラスターでサポートされています。Serving クラスターでは、NULL 許容の StructArray フィールドはサポートされていません。`nullable=True` を個々のサブフィールドではなく、親の StructArray フィールドに設定してください。NULL は個々の Struct 要素ではなく、StructArray フィールド全体に適用され、親の設定は内部的にそのサブフィールドへ伝播されます。既存のコレクションに追加する StructArray フィールドは、既存のエンティティが新しいフィールドに対して NULL を返せるよう、NULL 許容である必要があります。要素レベルの NULL 値は、Zilliz Cloud クラスターではまだ利用できません。詳細は、[StructArray の制限](./struct-array-limits#nullable-and-dynamic-schema-limits) を参照してください。
 
 - `nullable` 属性はフィールドの作成時に定義され、後から変更できません。既存のフィールドに対して Null 許容を有効化または無効化することはできません。
 
@@ -51,7 +51,7 @@ Zilliz Cloud では、フィールドが NULL 値を格納できるかどうか�
 
 フィールドが Null 許容として定義されていない場合（デフォルトの動作）、すべてのエンティティはそのフィールドに対して有効な値を指定する必要があります。フィールドを省略したり、明示的に NULL 値を割り当てたりすると、挿入またはインポート操作が失敗します。
 
-Null 許容属性は、コレクションスキーマ内の**スカラーフィールドとベクトルフィールド**の両方でサポートされています。サポート対象の On-Demand クラスターでは、親の StructArray フィールドでもサポートされます。Struct サブフィールドを個別に Null 許容に設定しないでください。StructArray の親で Null 許容性を定義すると、その設定は内部的にサブフィールドへ伝播します。
+nullable 属性は、コレクションスキーマ内の**スカラーフィールドとベクトルフィールドの両方**でサポートされています。サポート対象の On-Demand クラスターでは、親の StructArray フィールドでもサポートされています。Struct のサブフィールドを個別に NULL 許容として構成しないでください。StructArray の親で NULL 許容性を定義すると、その設定は内部的にサブフィールドへ伝播されます。要素レベルの NULL 値は、Zilliz Cloud クラスターではまだ利用できません。
 
 <Admonition type="info" icon="📘" title="Notes">
 
