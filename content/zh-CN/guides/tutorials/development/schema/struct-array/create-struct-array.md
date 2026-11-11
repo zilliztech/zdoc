@@ -583,7 +583,7 @@ client.add_collection_struct_field(
 
 添加 StructArray Field 后，已有 Entity 会在该新 Field 的所有 subfield 上返回 `null`。
 
-此外，还可以通过 `add_collection_field()` 以子字段路径为现有 StructArray Field 添加单个子字段，或通过 `drop_collection_field()` 按路径删除单个子字段（StructArray Field 的最后一个子字段除外）。若目标集群尚不支持子字段变更，可调用 `drop_collection_field()` 删除整个 StructArray Field，再用更新后的 Struct Schema 重新添加。
+此外，还可以通过 `add_collection_field()` 以子字段路径为现有 StructArray Field 添加单个子字段，或通过 `drop_collection_field()` 按路径删除单个子字段（StructArray Field 的最后一个子字段除外）。子字段增删在兼容 Milvus v3.0.x 的 Dedicated 集群上支持；On-Demand 集群暂不支持子字段变更，此类集群可调用 `drop_collection_field()` 删除整个 StructArray Field，再用更新后的 Struct Schema 重新添加。
 
 ### 为现有 StructArray Field 添加子字段 \{#add-a-subfield-to-an-existing-structarray-field}
 

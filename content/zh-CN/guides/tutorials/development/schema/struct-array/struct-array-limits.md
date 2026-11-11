@@ -95,11 +95,9 @@ Nullable StructArray 行为和动态添加 StructArray Field 都受版本限制�
 | Dynamic add 后的已有 Entity | 已有 Entity 会在新增 StructArray Field 的所有 subfield 上返回 `null`。 |
 | 元素级 null（Element-level null） | 标量、向量或 array 子字段可允许单个 Struct 元素中的该子字段为 null：标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`。行级 `nullable` 仍来自 StructArray 父 Field；在子字段上设置 `nullable=True` 启用的是元素级 null，而非行级 null。 |
 | 可省略子字段 | element-nullable 子字段可以在 Struct 元素中省略，Milvus 会为其存储 null。非 element-nullable 子字段必须出现在每个 Struct 元素中。 |
-| Dynamic add 子字段 | 向现有 StructArray Field 添加的子字段必须以 `nullable=True` 创建；array 子字段还需 `element_nullable=True`。已有 Entity 的新子字段在每个 Struct 元素中返回 null，StructArray Field 为 null 的 Entity 保持 null。 |
+| Dynamic add 子字段 | 向现有 StructArray Field 添加的子字段必须以 `nullable=True` 创建；array 子字段还需 `element_nullable=True`。已有 Entity 的新子字段在每个 Struct 元素中返回 null，StructArray Field 为 null 的 Entity 保持 null。已有子字段不能事后改为元素级 null（element_nullable）。 |
 
-在 Milvus v3.0.x 中，Nullable StructArray Field、Nullable Vector 数组和动态添加 StructArray Field 可用。
-
-在兼容 Milvus v3.0.x 的 cluster 中，Nullable StructArray Field、Nullable Vector 数组和动态添加 StructArray Field 可用。
+在兼容 Milvus v3.0.x 的 Dedicated 和 On-Demand 集群中，Nullable StructArray Field 和动态添加 StructArray Field 可用。Nullable Vector 数组、元素级 null 值、标量 Array 子字段，以及对现有 StructArray Field 的子字段增删，在兼容 Milvus v3.0.x 的 Dedicated 集群上可用，但 On-Demand 集群暂不支持这些能力。
 
 关于 Nullable StructArray Field 的插入示例，请参阅 [向 StructArray Field 插入数据](./insert-struct-array)。
 

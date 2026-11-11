@@ -1113,9 +1113,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/nullable-fields.md",
-      "sha256": "cf4659c6c599f9d7175af09b22eecf26583753aeada83c5512c2fbaf63fa10da",
+      "sha256": "ffa6040fdc8bb25df1c16a51a7e398a68ab1984930a90448a96c5a2b0cecaa6d",
       "docToken": "BdZswOSRyiVxWakbGbCceGminNC",
-      "revisionId": "3463"
+      "revisionId": "3468"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/primary-field-auto-id.md",
@@ -1143,9 +1143,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/struct-array/create-struct-array.md",
-      "sha256": "c93aa7c94140a06493938e6cd9711b3a357d4db10f66f06c3c605d30b11e7992",
+      "sha256": "41de744fa16b2537adf50ef2568933c47f197d638e58bd780e0c58f6ed0c0e5d",
       "docToken": "KaxHwqbfaiszEUkk8CScBYPSnSt",
-      "revisionId": "34"
+      "revisionId": "38"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/struct-array/index-struct-array.md",
@@ -1161,9 +1161,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/struct-array/struct-array-limits.md",
-      "sha256": "0847b75406ddccbf2f4435cfc8284c5fb15185cb84b36111da90291b77b61ae6",
+      "sha256": "baeff207575edd56ee6c72d143c9606b01db5b987fe4c6b8bfe488747ef457ba",
       "docToken": "RANTwGTbUizuOOk4JQYcVZPbn7f",
-      "revisionId": "17"
+      "revisionId": "40"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md",
@@ -1719,9 +1719,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/set-up-payment-method/cash-recharge.md",
-      "sha256": "7f6f489131eee119dcd590742f80f522d8abb45750b1244c3320bf6876263e10",
+      "sha256": "f5fca08cb2234766a86611edb800ebcf295ed0e71a46c573c227564f12e2771f",
       "docToken": "JZqrwH8V8i6a3jktSQgcyXAEnAg",
-      "revisionId": "1041"
+      "revisionId": "1047"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/billing-management/set-up-payment-method/enterprise-verification.md",
@@ -2289,15 +2289,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "sha256": "1392b26206abb72a6adc9a9c2ea43dc31265082c893687b4986aae3371ab12fb",
+      "sha256": "2b551e0ad87454c5da170d7705d500ebbf3131c749159d32b6fde9c9687690ba",
       "docToken": "Ksgpw0XJqibTvnkMlPwcHtKinBc",
-      "revisionId": "545"
+      "revisionId": "547"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source.md",
-      "sha256": "e6010c4745681a79981c911414e1f525319605c95a0ecd068ba32115ae5982d5",
+      "sha256": "8279c597b9af7089b5008a529a6ca7460ee577109b2ceddeb4e1ee516e29f7f6",
       "docToken": "YVhZw2z0AiuNNnkruztcOAfMnmg",
-      "revisionId": "40"
+      "revisionId": "41"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/drop-collection.md",
@@ -2307,9 +2307,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/external-collection-limits.md",
-      "sha256": "1260da5d96257e31d7a6ccd2e3c4d2593bcbd5069e1250084ad43ed435e7e806",
+      "sha256": "9fe2c06fb55002f22b30de77d8116b4258be9062450ad86c34340bb56b1e9a76",
       "docToken": "HjpBwVmBiiyz1tkcLxCcyXbvn7g",
-      "revisionId": "155"
+      "revisionId": "156"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/load-release-collections.md",
@@ -2661,9 +2661,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/nullable-fields.md",
-      "sha256": "327c576c34cdb4b7a675f28310f696fdfc9e9faec788aee5769e9411f4d2fd81",
+      "sha256": "6d212da0f2b4e88c15d779cb11ec7d573d8411ff12f4801e4756d38bdeb4956b",
       "docToken": "BdZswOSRyiVxWakbGbCceGminNC",
-      "revisionId": "3463"
+      "revisionId": "3468"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/primary-field-auto-id.md",
@@ -2691,9 +2691,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/struct-array/create-struct-array.md",
-      "sha256": "9211bcdff38d4b86c80183dfa2fb27598cf88cdc1ceba0fbad36546caab04724",
+      "sha256": "0e4a39eace406280442a1bd2c3393c0818b0a3a610055ec879c6e9359be802f2",
       "docToken": "KaxHwqbfaiszEUkk8CScBYPSnSt",
-      "revisionId": "34"
+      "revisionId": "38"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/struct-array/index-struct-array.md",
@@ -2709,9 +2709,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/struct-array/struct-array-limits.md",
-      "sha256": "99a79878fcd774f5189b0bab82bae059e645bb16e4d316cce8490fddea2ffc02",
+      "sha256": "0d293570de3b4053821a9659cadf5b6df892e16bd0b89999679f6bd3f4b559dc",
       "docToken": "RANTwGTbUizuOOk4JQYcVZPbn7f",
-      "revisionId": "17"
+      "revisionId": "40"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/struct-array/use-array-of-structs.md",
@@ -3195,9 +3195,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
-      "sha256": "c57559d3c9fef84b9d45002118cc67465d39b1eec685a3c617c132d469130613",
+      "sha256": "2358c8405a0e5bb24121d3ec534339269cf8c6daa59a87a2529213693e862396",
       "docToken": "XweAwx0lriFJXhkMyb1c40v9nNh",
-      "revisionId": "366"
+      "revisionId": "367"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md",
@@ -3555,9 +3555,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/manage-invoice.md",
-      "sha256": "50229d7a5843b38bc3d73709aea9a5887b3cfbe10e700cda0055002ceb412fd6",
-      "docToken": "JTuUwoHUyiqJU6kuu30cN9ibnkh",
-      "revisionId": "644"
+      "sha256": "7df4c5d4f5a7aeaa2f713c5aa0bb3d10fc7a343b35ac99f6e7fb91481defd4de",
+      "docToken": "VtUpwheHgiB0E2kZIRIcyW3Nnth",
+      "revisionId": "419"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/manage-orders.md",
@@ -3603,9 +3603,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/set-up-payment-method/cash-recharge.md",
-      "sha256": "9915d7c6655ab1ab7fc0e0ae61f291bbc77852c874d925384445346bdad92f60",
+      "sha256": "b47c6a6bdab52d44f226c21dc101919802b8bcdab7ab1130e1f2024dec953b8c",
       "docToken": "JZqrwH8V8i6a3jktSQgcyXAEnAg",
-      "revisionId": "1041"
+      "revisionId": "1047"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/set-up-payment-method/enterprise-verification.md",

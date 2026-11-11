@@ -33,7 +33,7 @@ Zilliz Cloud 支持 `nullable` 属性。启用 `nullable` 属性后，字段值�
 
 ## 限制\{#limits}
 
-- Array of Structs（StructArray）Field 支持行级 nullable：在父 StructArray Field 上设置 `nullable=True`，NULL 作用于整个 Field，父 Field 的设置会内部传播到其子字段。此外，subfield 可以允许元素级 null：标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`，允许单个 Struct 元素中的该子字段为 null；Struct 元素本身不能为 null。详情参见[StructArray 限制](./struct-array-limits)。
+- Array of Structs（StructArray）Field 支持行级 nullable：在父 StructArray Field 上设置 `nullable=True`，NULL 作用于整个 Field，父 Field 的设置会内部传播到其子字段。此外，subfield 可以允许元素级 null：标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`，允许单个 Struct 元素中的该子字段为 null；Struct 元素本身不能为 null。元素级 null 在兼容 Milvus v3.0.x 的 Dedicated 集群上支持，On-Demand 集群暂不支持。详情参见[StructArray 限制](./struct-array-limits)。
 
 - `nullable` 属性在创建字段时定义，之后不能修改。您不能为已有字段启用或禁用 `nullable` 属性。
 
@@ -51,7 +51,7 @@ Zilliz Cloud 支持 `nullable` 属性。启用 `nullable` 属性后，字段值�
 
 如果字段未启用 `nullable` 属性（默认行为），则每个 Entity 都必须为该字段提供有效值。省略该字段或显式赋值为 `NULL` 会导致插入或导入操作失败。
 
-Collection Schema 中的 **标量字段和向量字段** 都支持 `nullable` 属性。不过，Array of Structs 字段不支持 `nullable` 属性。
+Collection Schema 中的 **标量字段和向量字段** 都支持 `nullable` 属性。Array of Structs（StructArray）Field 支持行级 `nullable` 属性。
 
 <Admonition type="info" title="说明">
 

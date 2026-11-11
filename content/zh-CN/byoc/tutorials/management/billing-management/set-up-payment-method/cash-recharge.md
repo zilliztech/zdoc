@@ -74,11 +74,7 @@ import Procedures from '@site/src/components/Procedures';
 
     在您完成线下汇款后，汇款金额预计在 5～10 分钟后充值到您的 Zilliz Cloud 组织账号中，届时您将收到 **Zilliz Cloud 充值成功**的邮件提醒。您可在 Zilliz Cloud 账单概览页的**现金余额**部分查看余额并通过**充值记录**查看充值历史和详情。
 
-    <NextChannel action="include">
-
-    一般情况下，现金充值到账后，系统会自动申请开票，无需您手动申请。开票成功后，您可前往**费用中心 > 发票 > 开票历史**查看和下载发票。如果您已与 Zilliz Cloud 签订合同，且合同中约定了账期，则继续按原有流程手动申请开票。详情请参考开具发票。
-
-    </NextChannel>
+    一般情况下，现金充值到账后，系统会自动申请开票，无需您手动申请。开票成功后，您可前往**费用中心 > 发票 > 开票历史**查看和下载发票。如果您已与 Zilliz Cloud 签订合同，且合同中约定了账期，则继续按原有流程手动申请开票。详情请参考[开具发票](./manage-invoice)。
 
     如果您的汇款资金未到账，请通过 finance@zilliz.com 联系我们或[提交工单](http://support.zilliz.com.cn)。
 
@@ -88,23 +84,11 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 常见问题\{#faqs}
 
-<NextChannel action="exclude">
-
-- **现金充值（对公转账）可以开发票吗？**
-
-    不可以。根据《中华人民共和国发票管理办法》、《中华人民共和国发票管理办法实施细则》，Zilliz Cloud 只能针对**您已消费**的账单开具发票。对公汇款是对组织的现金余额进行充值。充值预付的款项，由于没有消费，也没有对应的Zilliz Cloud 消费，因此无法申请开具发票。
-
-</NextChannel>
-
-<NextChannel action="include">
-
 - **现金充值（对公转账）可以开发票吗？**
 
     可以。一般情况下，每笔现金充值到账后，系统会自动申请开票，无需您手动申请。已开票的充值金额用于支付账单或订单时，不再重复开票。
 
-    如果您已与 Zilliz Cloud 签订合同，且合同中约定了账期，则仍按原有流程手动申请开票，现金充值不触发自动开票。详情请参考开具发票。
-
-</NextChannel>
+    如果您已与 Zilliz Cloud 签订合同，且合同中约定了账期，则仍按原有流程手动申请开票，现金充值不触发自动开票。详情请参考[开具发票](./manage-invoice)。
 
 - **为什么无法进行现金充值？**
 

@@ -174,7 +174,7 @@ curl --request POST \
 
 ## Refresh 数据\{#refresh-data}
 
-refresh 的本质是将外部 Collection 重新绑定到本次请求传入的 `external_source` 并同步最新数据。每次 refresh 都必须传入 `external_source`；省略该参数时本次刷新不生效，Collection 仍对外提供此前同步的数据。
+refresh 的本质是将外部 Collection 重新绑定到本次请求传入的 `external_source` 并同步最新数据。省略 `external_source` 时将复用已持久化的源，refresh 同样会同步最新数据。
 
 任务状态从 `RefreshInProgress` 变为 `RefreshCompleted` 或 `RefreshFailed`。若已有刷新任务进行中，新请求会被拒绝。Zilliz Cloud 上的 refresh 需等待索引构建完成，耗时随数据量增长——从秒级到小时级。
 

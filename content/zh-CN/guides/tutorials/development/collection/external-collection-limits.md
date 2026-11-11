@@ -42,7 +42,7 @@ import Admonition from '@theme/Admonition';
 
 - 使用另一 Serving 集群上的 Collection（`milvus://`）作为数据源时：源须为与目标同项目、同地域的兼容 Milvus v3.0.x 的 Serving 集群上的普通 Collection（不能是另一张外表）；须使用 API key（对目标读写、对源只读），不支持“用户名:密码”；当前版本仅支持 SDK 与 RESTful API，控制台不支持此源类型；云厂商方面，阿里云、腾讯云即将支持。
 
-- 对于以 `milvus://`（跨集群）源创建的 Collection：每次 refresh 都必须传入 `external_source`，省略则本次刷新不生效，Collection 仍提供此前同步的数据；若已有刷新任务进行中，重复提交会被拒绝。
+- 对于以 `milvus://`（跨集群）源创建的 Collection：refresh 省略 `external_source` 时将复用已持久化的源，同样会同步最新数据；若已有刷新任务进行中，重复提交会被拒绝。
 
 </NextChannel>
 
