@@ -53,6 +53,5 @@ allow:
 
   # Preserve explicit engine versions in schema-evolution availability statements.
   - "- Adding user-defined scalar fields is supported in Milvus 2.6.x and later. Adding user-defined vector fields is supported in Milvus 2.6.18 and later."
-  - "- Nullable StructArray fields and dynamic StructArray field addition are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support these capabilities. Added StructArray fields must be nullable."
   # The heading converter inserts an explicit anchor; allow only this engine badge.
   - "Milvus 2.6.17+"
