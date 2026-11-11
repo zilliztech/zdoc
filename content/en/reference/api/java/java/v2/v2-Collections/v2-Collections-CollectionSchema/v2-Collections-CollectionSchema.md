@@ -73,7 +73,7 @@ CreateCollectionReq.CollectionSchema.builder()
 
     Identifies the external source (e.g., a S3 bucket, a Lakehouse table) bound to this collection. Pairs with `externalSpec` to define an external collection that refreshes from outside Milvus.
 
-    <NextChannel action="include">On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.</NextChannel>
+    On Zilliz Cloud, `externalSource` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.
 
 - `externalSpec(JsonObject externalSpec)` -
 
@@ -81,7 +81,7 @@ CreateCollectionReq.CollectionSchema.builder()
 
     The specification carries secondary parameters such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
 
-    <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
+    On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
 
 **RETURN TYPE:**
 
