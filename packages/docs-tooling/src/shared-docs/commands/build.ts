@@ -113,7 +113,7 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
             file: file(`pages/${pageId}/${variantSidecarName(channel)}`), line: 1, page: pageId, channel: 'both' })
           continue
         }
-        if (text !== undefined) rawVariants[channel] = { text, provenanceText: provenanceText ?? '' }
+        if (text !== undefined) rawVariants[channel] = { text, provenanceText }
       }
       const variants = parseVariants(rawVariants, { file: group.file(`pages/${pageId}/page.yaml`), page: pageId, channel: 'both' })
       if ('errors' in variants) errors.push(...variants.errors)

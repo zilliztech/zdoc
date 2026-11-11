@@ -52,7 +52,7 @@ export interface VariantProvenance { pull: number; head_sha: string; adopted_at:
 /** Raw upstream markdown bytes adopted as Zilliz-owned variant content for one channel. */
 export interface PageVariant { text: string; provenance: VariantProvenance }
 /** Unparsed variant content plus its provenance sidecar, as read from the page directory. */
-export interface RawVariantFiles { text: string; provenanceText: string }
+export interface RawVariantFiles { text: string; provenanceText?: string }
 export type ConfigResult<T> = { config: T } | { errors: SharedDocsError[] }
 export type LockResult = { lock: PageLock } | { errors: SharedDocsError[] }
 export interface LockHistory {
