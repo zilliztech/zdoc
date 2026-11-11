@@ -165,7 +165,68 @@ async function overlapReasons(read, ownedHead, ownedStage, ownedPull) {
   return overlaps
 }
 
-export async function discover({ token, read = githubReader(token), ownedHead, ownedStage, ownedPull } = {}) {
+// A missing branch does not prove that an earlier writer never POSTed objects.
+// Run numbers cover this specific workflow from rollout #1, independently of the
+// checkout, the retention of any particular artifact, and the latest run attempt.
+const workflowPath = '.github/workflows/shared-guides-update.yml'
+const workflowApi = '/actions/workflows/shared-guides-update.yml'
+const maxRuns = 1000
+const maxPriorAttempts = 60
+
+async function writerHistory(read, runId, runNumber, master) {
+  check(positive(runId) && positive(runNumber), 'ACTIONS_RUN_CONTEXT_REQUIRED')
+  const workflow = await read(zdoc, workflowApi)
+  check(positive(workflow?.id) && workflow.path === workflowPath && workflow.state === 'active', 'WRITER_WORKFLOW_IDENTITY')
+  const runs = new Map()
+  const ids = new Set()
+  let total
+  for (let index = 1; ; index++) {
+    const result = await read(zdoc, `${workflowApi}/runs?per_page=100&page=${index}`)
+    check(positive(result?.total_count) && result.total_count <= maxRuns && (total === undefined || total === result.total_count) &&
+      Array.isArray(result.workflow_runs) && result.workflow_runs.length === Math.min(100, result.total_count - runs.size),
+      'WRITER_WORKFLOW_HISTORY_INCOMPLETE')
+    total = result.total_count
+    for (const run of result.workflow_runs) {
+      check(run?.workflow_id === workflow.id && run.path === workflowPath && run.repository?.id === zdocId &&
+        run.repository.full_name === zdoc && positive(run.id) && !ids.has(run.id) && positive(run.run_number) &&
+        !runs.has(run.run_number) && positive(run.run_attempt) && sha(run.head_sha) &&
+        ['pull_request', 'schedule', 'workflow_dispatch'].includes(run.event), 'INVALID_WRITER_RUN_INVENTORY')
+      runs.set(run.run_number, run)
+      ids.add(run.id)
+    }
+    if (runs.size === total) break
+  }
+  // With positive, distinct numbers, a largest number equal to the count proves
+  // continuity back to #1. Deleted/expired run records cannot silently reset the veto.
+  check(Math.max(...runs.keys()) === total, 'WRITER_WORKFLOW_HISTORY_GAP')
+  const current = runs.get(runNumber)
+  check(current?.id === runId && current.run_attempt === 1 && current.status === 'in_progress' &&
+    current.head_branch === 'master' && current.head_sha === master && current.event !== 'pull_request' &&
+    current.head_repository?.id === zdocId, 'CURRENT_WRITER_RUN_MISMATCH')
+  let attempts = 0
+  for (const run of runs.values()) {
+    if (run.id === runId || run.event === 'pull_request') continue
+    if (run.run_number > runNumber || run.status !== 'completed') return [`UNSETTLED_PRODUCTION_RUN_${run.id}`]
+    attempts += run.run_attempt
+    check(attempts <= maxPriorAttempts, 'WRITER_HISTORY_REVIEW_REQUIRED')
+    for (let attempt = 1; attempt <= run.run_attempt; attempt++) {
+      const jobs = await read(zdoc, `/actions/runs/${run.id}/attempts/${attempt}/jobs?per_page=100`)
+      check(positive(jobs?.total_count) && jobs.total_count <= 100 && Array.isArray(jobs.jobs) && jobs.jobs.length === jobs.total_count &&
+        jobs.jobs.every(job => job.run_id === run.id && job.run_attempt === attempt && job.head_sha === run.head_sha),
+        'INCOMPLETE_WRITER_ATTEMPT_JOBS')
+      const writers = jobs.jobs.filter(job => job.name === 'write')
+      if (writers.length !== 1 || writers[0].status !== 'completed' ||
+        !(writers[0].conclusion === 'skipped' || (writers[0].conclusion === 'success' &&
+          run.head_branch === 'master' && run.head_repository?.id === zdocId && attempt === 1))) {
+        return [`UNRESOLVED_WRITER_RUN_${run.id}_ATTEMPT_${attempt}`]
+      }
+    }
+  }
+  return []
+}
+
+export async function discover({ token, read = githubReader(token), ownedHead, ownedStage, ownedPull,
+  runId = Number(process.env.GITHUB_RUN_ID), runNumber = Number(process.env.GITHUB_RUN_NUMBER) } = {}) {
   const [repo, upstream] = await Promise.all([read(zdoc, ''), read(milvus, '')])
   check(repo.id === zdocId && repo.full_name === zdoc && repo.default_branch === 'master' &&
     upstream.id === milvusId && upstream.full_name === milvus, 'REPOSITORY_IDENTITY_MISMATCH')
@@ -178,6 +239,7 @@ export async function discover({ token, read = githubReader(token), ownedHead, o
   check(match && sha(match[1]) && sha(match[2]), 'UNRECOGNIZED_PAGE_LOCK')
   const [, current, next] = match
   const reasons = await overlapReasons(read, ownedHead, ownedStage, ownedPull)
+  reasons.push(...await writerHistory(read, runId, runNumber, master))
   await assertAncestor(read, current, next)
   await assertAncestor(read, next, sourceHead)
   check(JSON.stringify([master, dev, sourceHead]) === JSON.stringify(await pins()), 'DISCOVERY_PINS_CHANGED')

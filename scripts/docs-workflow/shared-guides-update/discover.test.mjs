@@ -24,8 +24,19 @@ function pull(number, files, ref = 'docs/edit') {
     changed_files: files.length, files }
 }
 
+const workflow = { id: 99, path: '.github/workflows/shared-guides-update.yml', state: 'active' }
+function run(number, overrides = {}) {
+  return { id: 1000 + number, run_number: number, run_attempt: 1, head_sha: master, head_branch: 'master',
+    head_repository: repository, repository, workflow_id: workflow.id, path: workflow.path, status: 'completed',
+    event: 'schedule', ...overrides }
+}
+function writerJob(run, attempt, conclusion) {
+  return { run_id: run.id, run_attempt: attempt, head_sha: run.head_sha, name: 'write', status: 'completed', conclusion }
+}
+
 function inventory() {
   const fixture = { branches: [branch('master', master), branch('dev', dev)], pulls: [], calls: [],
+    runNumber: 1, runId: 1001, runs: [run(1, { status: 'in_progress' })], jobs: {},
     config: 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs\ntrack: v3.0.x\n',
     lock: `schema_version: 1\ncurrent: ${current}\nnext: ${next}\n` }
   function respond(owner, route) {
@@ -56,6 +67,13 @@ function inventory() {
       const bytes = Buffer.from(name === lockFile ? fixture.lock : fixture.config)
       return { type: 'file', path: name, encoding: 'base64', size: bytes.length, content: bytes.toString('base64'),
         sha: createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex') }
+    }
+    if (path === '/actions/workflows/shared-guides-update.yml') return workflow
+    if (path === '/actions/workflows/shared-guides-update.yml/runs') return { total_count: fixture.runs.length, workflow_runs: batch(fixture.runs) }
+    if (path.startsWith('/actions/runs/')) {
+      const jobs = fixture.jobs[path]
+      assert.ok(jobs, 'expected attempt-specific jobs read')
+      return { total_count: jobs.length, jobs }
     }
     if (path === '/branches') return batch(fixture.branches)
     if (path === '/pulls') {
@@ -181,4 +199,44 @@ test('refuses unrecognized configs, invalid blobs, rewritten history, mutable pi
   f.adjust = () => { throw new Error('unavailable') }
   await assert.rejects(discover(f), /unavailable/)
   await assert.rejects(discover(), /READ_TOKEN_REQUIRED/)
+})
+
+test('checks every earlier write attempt even if a later attempt skips and no branch was created', async () => {
+  const f = inventory()
+  const prior = run(1, { run_attempt: 2 })
+  const allowedPr = run(2, { event: 'pull_request' })
+  f.runNumber = 3
+  f.runId = 1003
+  f.runs = [run(3, { status: 'in_progress' }), allowedPr, prior]
+  const key = attempt => `/actions/runs/${prior.id}/attempts/${attempt}/jobs`
+  f.jobs[key(2)] = [writerJob(prior, 2, 'skipped')]
+  for (const failed of ['failure', 'cancelled', 'timed_out', null]) {
+    f.jobs[key(1)] = [writerJob(prior, 1, failed)]
+    assert.deepEqual((await discover(f)).reasons, ['UNRESOLVED_WRITER_RUN_1001_ATTEMPT_1'])
+  }
+  f.jobs[key(1)] = [{ ...writerJob(prior, 1, 'success'), name: 'prepare' }]
+  assert.deepEqual((await discover(f)).reasons, ['UNRESOLVED_WRITER_RUN_1001_ATTEMPT_1'])
+  for (const safe of ['skipped', 'success']) {
+    f.jobs[key(1)] = [writerJob(prior, 1, safe)]
+    assert.equal((await discover(f)).status, 'candidate')
+  }
+  f.jobs[key(2)] = [writerJob(prior, 2, 'success')]
+  assert.deepEqual((await discover(f)).reasons, ['UNRESOLVED_WRITER_RUN_1001_ATTEMPT_2'])
+})
+
+test('requires continuous workflow provenance and holds if a prior run is unsettled', async () => {
+  const f = inventory()
+  f.runNumber = 103
+  f.runId = 1103
+  const prior = run(1)
+  f.runs = [run(103, { status: 'in_progress' }), ...Array.from({ length: 101 }, (_, i) => run(i + 2, { event: 'pull_request' })), prior]
+  f.jobs['/actions/runs/1001/attempts/1/jobs'] = [writerJob(prior, 1, 'cancelled')]
+  assert.deepEqual((await discover(f)).reasons, ['UNRESOLVED_WRITER_RUN_1001_ATTEMPT_1'])
+  prior.status = 'queued'
+  assert.deepEqual((await discover(f)).reasons, ['UNSETTLED_PRODUCTION_RUN_1001'])
+  f.runs.pop()
+  await assert.rejects(discover(f), /WRITER_WORKFLOW_HISTORY_GAP/)
+  f.runs.push(prior)
+  f.runs[0].head_sha = dev
+  await assert.rejects(discover(f), /CURRENT_WRITER_RUN_MISMATCH/)
 })
