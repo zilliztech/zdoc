@@ -1,6 +1,6 @@
 ---
-title: "将 Serving 集群的 Collection 用作数据源 | Cloud"
-slug: /use-collection-from-a-serving-cluster-as-data-source
+title: "将 Dedicated 集群的 Collection 用作数据源 | Cloud"
+slug: /use-collection-from-a-硼dedicated-cluster-as-data-source
 sidebar_label: "Collection 用作数据源"
 beta: PUBLIC
 added_since: FALSE
@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 将 Serving 集群的 Collection 用作数据源
+# 将 Dedicated 集群的 Collection 用作数据源
 
 您可以将另一 Zilliz Cloud Serving 集群上的 Collection 用作 External Collection 的数据源。
 

@@ -431,7 +431,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Refresh 完成后，按步骤 5 与步骤 6 创建 On-demand 集群并执行搜索。有关详细信息，请参见[将 Serving 集群的 Collection 用作数据源](./use-collection-from-a-serving-cluster-as-data-source)。
+Refresh 完成后，按步骤 5 与步骤 6 创建 On-demand 集群并执行搜索。有关详细信息，请参见[将 Serving 集群的 Collection 用作数据源](./use-collection-from-a-硼dedicated-cluster-as-data-source)。
 
 </NextChannel>
 

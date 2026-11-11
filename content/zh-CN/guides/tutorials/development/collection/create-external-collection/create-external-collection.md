@@ -102,7 +102,7 @@ Zilliz Cloud 支持以下数据源，您需要根据所选格式提供对应的 
 
     在 Zilliz Cloud 上，`external_source` 支持两种格式：`volume://<volume_name>/<path>` 与 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 指向与目标集群同项目、同地域的另一 Serving 集群（兼容 Milvus v3.0.x）上的 Collection。前缀必须小写；三段（实例/数据库/Collection）缺一不可，数据库为 `default` 时也须写明；末尾允许多一个 `/`。
 
-    有关详细信息，请参见[将 Serving 集群的 Collection 用作数据源](./use-collection-from-a-serving-cluster-as-data-source)。
+    有关详细信息，请参见[将 Serving 集群的 Collection 用作数据源](./use-collection-from-a-硼dedicated-cluster-as-data-source)。
 
 </NextChannel>
 

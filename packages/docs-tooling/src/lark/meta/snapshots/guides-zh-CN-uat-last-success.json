@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-11-11T15:06:30.835Z",
+  "generated_at": "2026-11-11T18:28:52.350Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides-zh-CN",
   "base_app_token": "I6YUb1M0JajHrqsJGcLcZNh7neP",
   "records": [
@@ -4224,7 +4224,7 @@
       "doc_token": "Ksgpw0XJqibTvnkMlPwcHtKinBc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Ksgpw0XJqibTvnkMlPwcHtKinBc",
       "source_file": "Ksgpw0XJqibTvnkMlPwcHtKinBc.json",
-      "source_hash": "fde3089ac7d96be1bbe699d751a7bb6057e0c3442b1769a0747511cc66b28ceb",
+      "source_hash": "597d59d0d9cf766c95ceef47b00f5a87659bbabcdcbd9130fde0efde6219aaf6",
       "node_metadata": {
         "requested_token": "Ksgpw0XJqibTvnkMlPwcHtKinBc",
         "requested_node_token": "Ksgpw0XJqibTvnkMlPwcHtKinBc",
@@ -4238,15 +4238,15 @@
         "parent_node_token": "ABQMwN4HLiCUJGkEipvcipinnZc",
         "node_create_time": "1778138053",
         "obj_create_time": "1778138053",
-        "obj_edit_time": "1794399104",
-        "revision_id": "547"
+        "obj_edit_time": "1794416899",
+        "revision_id": "548"
       },
       "node_token": "Ksgpw0XJqibTvnkMlPwcHtKinBc",
       "origin_node_token": "Ksgpw0XJqibTvnkMlPwcHtKinBc",
       "obj_token": "F1fadmYyLoV29fxZg27cTvMSnsV",
       "obj_type": "docx",
-      "obj_edit_time": "1794399104",
-      "revision_id": "547",
+      "obj_edit_time": "1794416899",
+      "revision_id": "548",
       "publish_targets": [
         "Zilliz.SaaS"
       ],
@@ -4269,12 +4269,12 @@
       "table_id": "tblYpqCgevikMomb",
       "table_name": "开发指南",
       "placement_type": "canonical",
-      "title": "将 Serving 集群的 Collection 用作数据源",
-      "slug": "use-collection-from-a-serving-cluster-as-data-source",
+      "title": "将 Dedicated 集群的 Collection 用作数据源",
+      "slug": "use-collection-from-a-硼dedicated-cluster-as-data-source",
       "doc_token": "YVhZw2z0AiuNNnkruztcOAfMnmg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/YVhZw2z0AiuNNnkruztcOAfMnmg",
       "source_file": "YVhZw2z0AiuNNnkruztcOAfMnmg.json",
-      "source_hash": "1d9543d06fb62204dcb3c632838c0daed936be9e19a9aad1c5b2a51ac08e57d7",
+      "source_hash": "dcf8488a2cda786bbc8661bb772b47d8cf8cc71bc042d3c17aac51a43a987f77",
       "node_metadata": {
         "requested_token": "YVhZw2z0AiuNNnkruztcOAfMnmg",
         "requested_node_token": "YVhZw2z0AiuNNnkruztcOAfMnmg",
@@ -4283,20 +4283,20 @@
         "obj_token": "HmGadx5hVoQkgcxR7FmcTBAUnZO",
         "obj_type": "docx",
         "node_type": "origin",
-        "title": "将 Serving 集群的 Collection 用作数据源",
+        "title": "将 Dedicated 集群的 Collection 用作数据源",
         "space_id": "7167193056431783939",
         "parent_node_token": "ABQMwN4HLiCUJGkEipvcipinnZc",
         "node_create_time": "1793961551",
         "obj_create_time": "1793961551",
-        "obj_edit_time": "1794399162",
-        "revision_id": "41"
+        "obj_edit_time": "1794415829",
+        "revision_id": "43"
       },
       "node_token": "YVhZw2z0AiuNNnkruztcOAfMnmg",
       "origin_node_token": "YVhZw2z0AiuNNnkruztcOAfMnmg",
       "obj_token": "HmGadx5hVoQkgcxR7FmcTBAUnZO",
       "obj_type": "docx",
-      "obj_edit_time": "1794399162",
-      "revision_id": "41",
+      "obj_edit_time": "1794415829",
+      "revision_id": "43",
       "publish_targets": [
         "Zilliz.SaaS"
       ],
@@ -21821,9 +21821,9 @@
         "recvmzPysmtFPz"
       ],
       "order": 49,
-      "title": "将 Serving 集群的 Collection 用作数据源",
+      "title": "将 Dedicated 集群的 Collection 用作数据源",
       "labels": "Collection 用作数据源",
-      "slug": "use-collection-from-a-serving-cluster-as-data-source",
+      "slug": "use-collection-from-a-硼dedicated-cluster-as-data-source",
       "targets": [
         "zilliz.saas"
       ],
@@ -25172,7 +25172,7 @@
     "tblr7Zec2ReTfRmw": "12f28bf5a8d3d26dfa5c696b65e1dd8ddac6747a321225cf3ed13464122f1939",
     "tblRaa3JnIhllHb9": "5f574957fe13e90417d7fcf8302bd39bb81349c4d2d027f480c7633006918c5f",
     "tblsw6S3J0ekcgNB": "68abbdda3b6f250d4f295ffc6bb2a0dc399ceae0628ce11b36599e79f1bfc156",
-    "tblYpqCgevikMomb": "831d35204d9629e8e630f41fdf83a144a874b98a7dd65455dc0dfb6d7c98cc52",
+    "tblYpqCgevikMomb": "f84bf4f9d2db4c9f210ada2ff1805df45e7cf449b433d2ccad3643cfaa1c9231",
     "tblzcM4ERJ00Wjjx": "25c682f1ab796375abe2a877db45ee5affe74ee846d7830648861e39536d7d64"
   }
 }
