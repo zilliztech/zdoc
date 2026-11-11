@@ -35,7 +35,8 @@ export const GuidesCollectionRequestSchema = z.strictObject({ kind: z.literal('g
 const stagedArchive = z.strictObject({id: z.number().int().positive().max(Number.MAX_SAFE_INTEGER), path: localPath})
 // Private parent/worker transport. The operator request never accepts an archive identity or authority assertion.
 const selectedWorkerInput = z.strictObject({request: GuidesCollectionRequestSchema,
-  archives: z.strictObject({source: stagedArchive, publication: stagedArchive}).nullable(),
+  archives: z.union([z.strictObject({source: stagedArchive, publication: stagedArchive}),
+    z.strictObject({oversized: z.enum(['source', 'publication'])})]).nullable(),
 }).refine(({request}) => request.pages.length === 1 && request.evidenceRun !== null && request.evidenceZip === null)
 export type GuidesCollectionRequest = z.infer<typeof GuidesCollectionRequestSchema>
 export interface RetainedBytes { blob: BlobRef; base64: string }
@@ -321,7 +322,7 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
     const input = selected ? {request: {...request, evidenceZip: null}, archives: await stageGuidesArchives(
       Number(request.evidenceRun), request.evidenceZip, options.evidence, options.secrets?.GH_TOKEN, options.signal)} : request
     checkpoint()
-    const child = await launcher.runGuidesCollector(input, request.pages.length === 1 ? {} : options.secrets, options.signal)
+    const child = await launcher.runGuidesCollector(input, selected ? {} : options.secrets, options.signal)
     // Preserve observed worker facts before cancellation or postprocessing can reject.
     workerSettlement = immutable(structuredClone(child.settlement))
     checkpoint()

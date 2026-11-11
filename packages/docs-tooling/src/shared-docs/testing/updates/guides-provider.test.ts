@@ -387,6 +387,17 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
       await expect(dependencies!.github!.zip(1)).rejects.toThrow('unavailable')
     } finally {await f.dispose()}
   })
+  it('preserves launcher inputs when a single page has no retained lifecycle run', async () => {
+    const f = await controlled('without-run')
+    try {
+      const secrets = {GH_TOKEN: 'original-input'}
+      const stage = vi.spyOn(lifecycleTransport, 'stageGuidesArchives')
+      const provider = await createGuidesProvider({...f.options, secrets, request: {...f.options.request, pages: ['fixture']}})
+      await provider.collectAll()
+      expect(stage).not.toHaveBeenCalled()
+      expect(f.run).toHaveBeenCalledWith(expect.objectContaining({pages: ['fixture'], evidenceRun: null}), secrets, f.controller.signal)
+    } finally {await f.dispose()}
+  })
   it('stops an already-aborted factory before describing or preparing a launcher', async () => {
     const f = await controlled('before')
     try {f.controller.abort(f.reason); await expect(createGuidesProvider(f.options)).rejects.toBe(f.reason); expect(f.describe).not.toHaveBeenCalled(); expect(f.prepare).not.toHaveBeenCalled()}

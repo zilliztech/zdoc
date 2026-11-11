@@ -1,6 +1,7 @@
+import { writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { parseStrictJson } from '../../core/updates/canonical'
-import { rawSha256, readRegularBytes, writeOwnedBlob, type EvidenceStore } from './evidence'
+import { createOwnedDirectory, rawSha256, readRegularBytes, type EvidenceStore } from './evidence'
 import { boundArtifact, GitHubReads, retainedMetadata, type ReadonlyGitHub } from './github'
 
 const repository = 'repos/zilliztech/zdoc'
@@ -11,7 +12,7 @@ const runResource = /^\/actions\/runs\/[1-9][0-9]*(?:\/(?:attempts\/[1-9][0-9]*\
 const workflowResource = /^\/actions\/workflows\/(?:fetch-docs|fetch-guides-requested)\.yml\/runs\?created=%3E%3D[0-9]{4}-[0-9]{2}-[0-9]{2}&per_page=100&page=(?:[1-9]|10)$/
 
 /** The worker independently observes GitHub. A staged archive supplies bytes only. */
-export function publicGuidesReads(archives: StagedArchives | null): ReadonlyGitHub {
+export function publicGuidesReads(archives: StageResult): ReadonlyGitHub {
   return {
     async get(path) {
       const resource = path.slice(repository.length)
@@ -44,8 +45,11 @@ export function publicGuidesReads(archives: StagedArchives | null): ReadonlyGitH
     },
     async zip(id, maximum = sourceLimit) {
       if (!Number.isSafeInteger(maximum) || maximum < 1 || maximum > sourceLimit) throw new Error('Invalid lifecycle archive byte limit')
-      if (archives?.source.id === id) return readRegularBytes(archives.source.path, maximum)
-      if (archives?.publication.id === id) return readRegularBytes(archives.publication.path, Math.min(maximum, publicationLimit))
+      if (!archives) throw new Error('Authenticated lifecycle archive unavailable')
+      if ('oversized' in archives) throw new Error(archives.oversized === 'source'
+        ? 'Guides source ZIP exceeds the 256 MiB staging limit' : 'Guides publication ZIP exceeds the 1 MiB staging limit')
+      if (archives.source.id === id) return readRegularBytes(archives.source.path, maximum)
+      if (archives.publication.id === id) return readRegularBytes(archives.publication.path, Math.min(maximum, publicationLimit))
       throw new Error('Authenticated lifecycle archive unavailable')
     },
   }
@@ -53,16 +57,18 @@ export function publicGuidesReads(archives: StagedArchives | null): ReadonlyGitH
 
 interface StagedArchive { id: number; path: string }
 export interface StagedArchives { source: StagedArchive; publication: StagedArchive }
+type StageResult = StagedArchives | { oversized: 'source' | 'publication' } | null
 
 /** Only the coordinator can read credentials. Never serialize its API response as authority. */
 export async function stageGuidesArchives(runId: number, sourceZip: string | null, evidence: EvidenceStore,
-  token?: string, signal?: AbortSignal): Promise<StagedArchives | null> {
+  token?: string, signal?: AbortSignal): Promise<StageResult> {
   const api = new GitHubReads(token)
   async function acquire() {
     const {run, artifacts, artifact: source} = await retainedMetadata(api, runId)
     const publication = boundArtifact(artifacts, run, `publication-results-fetch-${runId}-${run.run_attempt}`)
-    if (source.id === publication.id || source.size_in_bytes > sourceLimit || publication.size_in_bytes > publicationLimit)
-      throw new Error('Unsupported lifecycle archive size or identity')
+    if (source.id === publication.id) throw new Error('Ambiguous lifecycle archive identity')
+    if (source.size_in_bytes > sourceLimit) return {oversized: 'source'} as const
+    if (publication.size_in_bytes > publicationLimit) return {oversized: 'publication'} as const
     signal?.throwIfAborted()
     const sourceBytes = sourceZip ? await readRegularBytes(sourceZip, source.size_in_bytes) : await api.zip(source.id, source.size_in_bytes)
     signal?.throwIfAborted()
@@ -77,9 +83,18 @@ export async function stageGuidesArchives(runId: number, sourceZip: string | nul
   const inputs = await acquire().catch(() => null)
   signal?.throwIfAborted()
   if (!inputs) return null
-  const source = await writeOwnedBlob(evidence, inputs.sourceBytes)
-  signal?.throwIfAborted()
-  const publication = await writeOwnedBlob(evidence, inputs.publicationBytes)
-  return {source: {id: inputs.source.id, path: join(evidence.root, source.path)},
-    publication: {id: inputs.publication.id, path: join(evidence.root, publication.path)}}
+  if (inputs.oversized) return {oversized: inputs.oversized}
+  // Transport ZIPs have their own authenticated bounds, independent of the evidence blob limit.
+  const directory = await createOwnedDirectory(evidence)
+  async function stage(name: string, id: number, bytes: Uint8Array) {
+    const path = join(directory.root, name)
+    await directory.verify()
+    signal?.throwIfAborted()
+    await writeFile(path, bytes, {flag: 'wx', mode: 0o600})
+    await directory.verify()
+    return {id, path}
+  }
+  const source = await stage('source.zip', inputs.source.id, inputs.sourceBytes)
+  const publication = await stage('publication.zip', inputs.publication.id, inputs.publicationBytes)
+  return {source, publication}
 }

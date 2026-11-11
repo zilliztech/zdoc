@@ -2,7 +2,7 @@
 import { mkdtemp, readFile, realpath, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { afterEach, expect, it, onTestFinished, vi } from 'vitest'
+import { afterEach, assert, expect, it, onTestFinished, vi } from 'vitest'
 import { GitHubReads } from '../../adapters/updates/github'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 import { publicGuidesReads, stageGuidesArchives } from '../../adapters/updates/guides-lifecycle-transport'
@@ -37,7 +37,7 @@ it('rejects oversized streamed metadata and HTTP failures', async () => {
 it('stages the exact two digest-bound ZIPs and only serves their authenticated IDs with bounded reads', async () => {
   const dir = await realpath(await mkdtemp(join(tmpdir(), 'guides-staged-')))
   onTestFinished(() => rm(dir, {recursive: true, force: true}))
-  const evidence = await initializeEvidence({root: join(dir, 'evidence'), repositories: [], owner: 'test'})
+  const evidence = await initializeEvidence({root: join(dir, 'evidence'), repositories: [], owner: 'test', maxBytes: 4})
   const repo = 660446555, run = {id: 123, run_attempt: 2, repository: {id: repo}, head_sha: '1'.repeat(40), head_branch: 'master'}
   const bytes = [Buffer.from('source'), Buffer.from('publication')]
   const artifacts = ['guides-sources-en-123', 'publication-results-fetch-123-2'].map((name, index) => ({
@@ -54,14 +54,23 @@ it('stages the exact two digest-bound ZIPs and only serves their authenticated I
   const download = vi.spyOn(GitHubReads.prototype, 'zip').mockImplementation(async (id) => bytes[id - 1])
   const local = join(dir, 'source.zip')
   await writeFile(local, bytes[0])
+  await expect(evidence.writeBlob(bytes[0])).rejects.toThrow('Oversized evidence')
   const staged = await stageGuidesArchives(123, local, evidence)
-  expect(staged).not.toBeNull()
+  assert(staged && 'source' in staged)
   expect(download.mock.calls).toEqual([[2, bytes[1].length]])
-  expect(await readFile(staged!.source.path)).toEqual(bytes[0])
+  expect(await readFile(staged.source.path)).toEqual(bytes[0])
   const reader = publicGuidesReads(staged)
   expect(Buffer.from(await reader.zip(2))).toEqual(bytes[1])
   await expect(reader.zip(2, 2)).rejects.toThrow('oversized')
   await expect(reader.zip(3)).rejects.toThrow('unavailable')
+  for (const [i, maximum, kind] of [[0, 256, 'source'], [1, 1, 'publication']] as const) {
+    artifacts[i].size_in_bytes = maximum * 1024 * 1024 + 1
+    const oversized = await stageGuidesArchives(123, local, evidence)
+    expect(oversized).toEqual({oversized: kind})
+    await expect(publicGuidesReads(oversized).zip(1)).rejects.toThrow(`${maximum} MiB staging limit`)
+    expect(download).toHaveBeenCalledTimes(1)
+    artifacts[i].size_in_bytes = bytes[i].length
+  }
   download.mockResolvedValue(Buffer.from('wrong bytes'))
   await expect(stageGuidesArchives(123, local, evidence)).resolves.toBeNull()
   await expect(stageGuidesArchives(123, null, evidence)).resolves.toBeNull()
