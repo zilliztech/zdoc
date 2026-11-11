@@ -11,3 +11,11 @@ publish:
     path: tutorials/development/schema/struct-array/use-array-of-structs
   - manual: guides-byoc
     path: tutorials/development/schema/struct-array/use-array-of-structs
+
+transforms:
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-intro-subfield-scope
+    content:
+      file: cloud-structarray-intro-subfield-scope.md

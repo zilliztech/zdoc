@@ -33,3 +33,21 @@ transforms:
       block: structarray-element-matrix
     content:
       file: cloud-element-matrix.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-index-element-null-limits
+    content:
+      file: cloud-structarray-index-element-null-limits.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-index-element-null-intro
+    content:
+      file: cloud-structarray-index-element-null-intro.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-index-element-null-rules
+    content:
+      file: cloud-structarray-index-element-null-rules.md

@@ -5,6 +5,7 @@ source:
 
 metadata:
   beta: PUBLIC
+  description: "Create a StructArray field when one entity needs to contain an ordered list of structured elements. Each Struct element follows the same schema and can contain scalar subfields, vector subfields, and scalar array subfields."
 
 publish:
   - manual: guides
@@ -18,3 +19,73 @@ transforms:
       block: structarray-create-availability
     content:
       file: cloud-availability.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-subfield-type-families
+    content:
+      file: cloud-structarray-subfield-type-families.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-subfield-types-table
+    content:
+      file: cloud-structarray-subfield-types-table.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-scalar-array-subfield-intro
+    content:
+      file: cloud-structarray-scalar-array-subfield-intro.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-element-null-intro
+    content:
+      file: cloud-structarray-element-null-intro.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-null-summary-note
+    content:
+      file: cloud-structarray-null-summary-note.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-add-subfield-intro
+    content:
+      file: cloud-structarray-add-subfield-intro.md
+  # Cloud never runs pre-element-null releases; the history note does not apply.
+  - operation: remove
+    target:
+      block: structarray-add-subfield-history
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-drop-subfield-intro
+    content:
+      file: cloud-structarray-drop-subfield-intro.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-create-rules-table
+    content:
+      file: cloud-structarray-create-rules-table.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-mistake-subfield-evolution
+    content:
+      file: cloud-structarray-mistake-subfield-evolution.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-create-intro
+    content:
+      file: cloud-structarray-create-intro.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-add-subfield-rules
+    content:
+      file: cloud-structarray-add-subfield-rules.md

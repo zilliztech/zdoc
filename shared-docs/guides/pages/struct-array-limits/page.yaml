@@ -18,3 +18,69 @@ transforms:
       block: structarray-availability
     content:
       file: cloud-availability.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-limits-glance-table
+    content:
+      file: cloud-structarray-limits-glance-table.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-schema-limits-table
+    content:
+      file: cloud-structarray-schema-limits-table.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-subfield-types-table
+    content:
+      file: cloud-structarray-subfield-types-table.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-nullable-dynamic-table
+    content:
+      file: cloud-structarray-nullable-dynamic-table.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-additional-capabilities
+    content:
+      file: cloud-structarray-additional-capabilities.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-cloud-availability-note
+    content:
+      file: cloud-structarray-cloud-availability-note.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-insert-limits-table
+    content:
+      file: cloud-structarray-insert-limits-table.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-element-null-vector-index-note
+    content:
+      file: cloud-structarray-element-null-vector-index-note.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-filter-function-support
+    content:
+      file: cloud-structarray-filter-function-support.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-element-predicate-null-note
+    content:
+      file: cloud-structarray-element-predicate-null-note.md
+  # Cloud wording for the element-null block; no specific Milvus version numbers.
+  - operation: replace
+    target:
+      block: structarray-import-storage-table
+    content:
+      file: cloud-structarray-import-storage-table.md
