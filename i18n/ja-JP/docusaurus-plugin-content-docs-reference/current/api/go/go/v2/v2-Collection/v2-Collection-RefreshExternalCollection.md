@@ -65,7 +65,7 @@ result, err := client.RefreshExternalCollection(option)
 
     `externalSource` と `externalSpec` は両方を指定するか、両方を省略してください。両方を省略した場合、リフレッシュでは永続化されたソースと仕様が再利用されます。
 
-    Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は、リフレッシュリクエストごとに `externalSource` を指定する必要があります。省略すると、コレクションは以前に同期されたデータを提供し続けます。
+    Zilliz Cloud では、`externalSource` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合は同じルールが適用され、省略すると永続化されたソースが再利用され、リフレッシュでは引き続き最新データが同期されます。
 
 - `WithExternalSpec(externalSpec string)`
 

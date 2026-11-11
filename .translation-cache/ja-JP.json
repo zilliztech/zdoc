@@ -4356,9 +4356,9 @@
       "translatedAt": "2026-10-25T19:51:33.068Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md": {
-      "sourceHash": "3569bbe6a6b3c5ad29808e57827afa62d295c0026526f5f65543720bf607f2d9",
+      "sourceHash": "712cfbaef697d78e78cbf4a2cc398ff2140aa81256b130708736ec5fced10b44",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
-      "translatedAt": "2026-11-11T04:45:45.687Z"
+      "translatedAt": "2026-11-11T16:47:10.068Z"
     },
     "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo.md": {
       "sourceHash": "6a547ac73205b9911fdba6666d4ac154d899e4111e5ffd6142b5da4bbebacc11",
