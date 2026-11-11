@@ -146,7 +146,7 @@ await milvusClient.createCollection({
 
     The external source path. This applies to the creation of external collections.
 
-    <NextChannel action="include">On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.</NextChannel>
+    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.
 
 - **external_spec** (*string*) -
 
@@ -154,7 +154,7 @@ await milvusClient.createCollection({
 
     The spec is a JSON string of secondary parameters such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
 
-    <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
+    On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
 
 - **do_physical_backfill** (*boolean*) -
 
@@ -495,7 +495,7 @@ await milvusClient.createCollection({
 
     The external source path. This applies to the creation of external collections.
 
-    <NextChannel action="include">On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.</NextChannel>
+    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.
 
 - **external_spec** (*string*) -
 
@@ -503,7 +503,7 @@ await milvusClient.createCollection({
 
     The spec is a JSON string of secondary parameters such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
 
-    <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
+    On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
 
 - **do_physical_backfill** (*boolean*) -
 
@@ -870,7 +870,7 @@ await milvusClient.createCollection({
 
     The external source path. This applies to the creation of external collections.
 
-    <NextChannel action="include">On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.</NextChannel>
+    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.
 
 - **external_spec** (*string*) -
 
@@ -878,7 +878,7 @@ await milvusClient.createCollection({
 
     The spec is a JSON string of secondary parameters such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
 
-    <NextChannel action="include">On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.</NextChannel>
+    On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
 
 - **do_physical_backfill** (*boolean*) -
 
@@ -942,4 +942,3 @@ const milvusClient = new MilvusClient({
    ],
  });
 ```
-
