@@ -194,6 +194,7 @@ describe('docs-tooling runtime contract', () => {
       'fast-xml-parser',
       'inquirer',
       'js-yaml',
+      'katex',
       'lodash',
       'markdown-it',
       'node-fetch',
