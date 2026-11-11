@@ -78,8 +78,8 @@ with zipfile.ZipFile(sys.argv[1],'w') as z:z.writestr('guides-source.tar',b.getv
   expect(await readFile(join(first, 'guides-source/manifest.json'), 'utf8')).toBe('{}')
   const head = 'a'.repeat(40), artifact = { id: 3, name: 'guides-sources-en-1', expired: false, digest: `sha256:${hash(bytes)}`, size_in_bytes: bytes.length,
     workflow_run: { id: 1, repository_id: 660446555, head_repository_id: 660446555, head_sha: head, head_branch: 'master' } }
-  const api = { zip: async () => bytes, get: async (path: string) => path.endsWith('zdoc') ? { id: 660446555 } : path.includes('/jobs?') ? { jobs: [] } :
-    path.includes('/artifacts?') ? { artifacts: [artifact] } : { id: 1, run_attempt: 1, repository: { id: 660446555 }, head_sha: head, head_branch: 'master' } }
+  const api = { zip: async () => bytes, get: async (path: string) => path.endsWith('zdoc') ? { id: 660446555 } : path.includes('/jobs?') ? { total_count: 0, jobs: [] } :
+    path.includes('/artifacts?') ? { total_count: 1, artifacts: [artifact] } : { id: 1, run_attempt: 1, repository: { id: 660446555 }, head_sha: head, head_branch: 'master' } }
   const second = join(root, 'second'); await mkdir(second)
   await expect(readLifecycle(api, 1, second)).rejects.toThrow(/artifact identity/i)
   artifact.digest = `sha256:${'c'.repeat(64)}`

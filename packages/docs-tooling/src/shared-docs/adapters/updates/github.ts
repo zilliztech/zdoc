@@ -38,15 +38,22 @@ export function object(value: unknown): Record<string, any> {
 }
 export async function pages(api: ReadonlyGitHub, path: string, key: 'jobs' | 'artifacts') {
   const result: Record<string, any>[] = [], ids = new Set<number>()
+  let expectedTotal: number | undefined
   for (let page = 1; page <= 20; page++) {
     const data = object(await api.get(`${path}?per_page=100&page=${page}`))
-    if (!Array.isArray(data[key]) || data[key].length > 100) throw new Error('Malformed API page')
+    const total = data.total_count
+    if (!Number.isSafeInteger(total) || total < 0 || !Array.isArray(data[key])) throw new Error('Malformed API page')
+    if (total > 2000) throw new Error('API pagination limit exceeded')
+    if (expectedTotal !== undefined && total !== expectedTotal) throw new Error('API pagination total changed')
+    expectedTotal = total
+    if (data[key].length !== Math.min(100, total - result.length)) throw new Error('API page does not match advertised total')
+
     for (const value of data[key]) {
       const item = object(value)
       if (!Number.isSafeInteger(item.id) || item.id <= 0 || ids.has(item.id)) throw new Error('Ambiguous API identity')
       ids.add(item.id); result.push(item)
     }
-    if (data[key].length < 100) return result
+    if (result.length === total) return result
   }
   throw new Error('API pagination limit exceeded')
 }

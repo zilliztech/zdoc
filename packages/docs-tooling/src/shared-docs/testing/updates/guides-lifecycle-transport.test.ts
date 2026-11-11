@@ -47,8 +47,8 @@ it('stages the exact two digest-bound ZIPs and only serves their authenticated I
   vi.spyOn(GitHubReads.prototype, 'get').mockImplementation(async path => {
     if (path === repository) return {id: repo}
     if (path === repository + '/actions/runs/123') return run
-    if (path.endsWith('/attempts/2/jobs?per_page=100&page=1')) return {jobs: []}
-    if (path.endsWith('/123/artifacts?per_page=100&page=1')) return {artifacts}
+    if (path.endsWith('/attempts/2/jobs?per_page=100&page=1')) return {total_count: 0, jobs: []}
+    if (path.endsWith('/123/artifacts?per_page=100&page=1')) return {total_count: artifacts.length, artifacts}
     throw Error('unexpected endpoint')
   })
   const download = vi.spyOn(GitHubReads.prototype, 'zip').mockImplementation(async (id) => bytes[id - 1])
