@@ -1,0 +1,1 @@
+For unsupported cases such as JSON paths, text match functions, Geometry functions, Timestamptz expressions, and generic function calls, and for the array container functions and null predicates that `$[...]` supports see [StructArray Operators](struct-array-operators.md).

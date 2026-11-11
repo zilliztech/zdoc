@@ -1,0 +1,1 @@
+A **StructArray**, also known as an array of structs, stores an ordered set of Struct elements in each entity. Every Struct element in the array follows the same schema. A Struct element can contain scalar subfields, vector subfields, and, scalar array subfields.
