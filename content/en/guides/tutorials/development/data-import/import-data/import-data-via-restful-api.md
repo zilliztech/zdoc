@@ -37,6 +37,8 @@ Make sure the following conditions are met:
 
      For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
 
+- If the target collection has StructArray fields, make sure your source files carry them in the supported shapes.For the per-format shapes and import rules, see [StructArray fields in source files](/docs/import-data-via-sdks#structarray-fields-in-source-files). Binlog import, such as a backup restore, and snapshot-source import are rejected for collections that have element-nullable subfields or scalar array subfields. For the schema-side limits, see [StructArray Limits](/docs/struct-array-limits).
+
 <Admonition type="info" title="Notes">
 
 Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.

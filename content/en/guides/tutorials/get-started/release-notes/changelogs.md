@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Last updated Oct 29, 2026 | Cloud"
+description: "Last updated Nov 11, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** Oct 29, 2026
+Last updated: Nov 11, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -35,6 +35,8 @@ import Grid from '@site/src/components/Grid';
     <div>
 
         - More vector lakebase features are on the way.
+
+        - 🔗 **Cross-cluster external collections** — use a collection on a **Dedicated cluster** in the same project and region as the data source of an external collection with the `milvus://` scheme. This source type is available in **AWS regions** only. For details, see [Create an External Collection](./create-external-collection).
 
     </div>
 

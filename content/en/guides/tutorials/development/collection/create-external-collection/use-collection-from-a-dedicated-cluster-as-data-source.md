@@ -1,16 +1,13 @@
 ---
-title: "Use a Collection from a Serving Cluster as Data Source | Cloud"
-slug: /use-collection-from-a-serving-cluster-as-data-source
+title: "Use a Collection from a Dedicated Cluster as Data Source | Cloud"
+slug: /use-collection-from-a-dedicated-cluster-as-data-source
 sidebar_label: "Collection as Source"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-channel: next
-sidebar_custom_props:
-  channel: next
-description: "You can use a collection on another Zilliz Cloud serving cluster as the data source of an external collection. | Cloud"
+description: "You can use a collection on another Zilliz Cloud dedicated cluster as the data source of an external collection. | Cloud"
 type: origin
 token: AzxFwQpn4iRElfkDrbVcorGqnYd
 sidebar_position: 2
@@ -22,19 +19,31 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Use a Collection from a Serving Cluster as Data Source
+# Use a Collection from a Dedicated Cluster as Data Source
 
-You can use a collection on another Zilliz Cloud serving cluster as the data source of an external collection.
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another serving cluster compatible with Milvus v3.0.x in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.
+This feature is available only on Enterprise (SaaS).
+
+</FeatureNote>
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in AWS. It is not available on Google Cloud and Microsoft Azure.
+
+</FeatureNote>
+
+You can use a collection on another Zilliz Cloud dedicated cluster as the data source of an external collection.
+
+On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another dedicated cluster compatible with Milvus v3.0.x in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.
 
 ## Before you start\{#before-you-start}
 
 - You have obtained an **API key** with sufficient permissions (read/write on the target and read on the source for cross-cluster sources). Username:password tokens are not accepted.
 
-- For a collection from another serving cluster, the source is a regular collection (not another external collection) on **a serving cluster compatible with Milvus v3.0.x** in the **same project and region** as the target, and the target is a database for on-demand search accessed through the project endpoint with a query cluster.
+- For a collection from another dedicated cluster, the source is a regular collection (not another external collection) on **a dedicated cluster compatible with Milvus v3.0.x** in the **same project and region** as the target, and the target is a database for on-demand search accessed through the project endpoint with a query cluster.
 
-- Cross-cluster sources (`milvus://`) are available through SDKs and the RESTful API only in the current release — the console does not support this source type. Note that the `milvus://` scheme is supported only in **AWS and Azure regions.**
+- Cross-cluster sources (`milvus://`) are available through SDKs and the RESTful API only in the current release — the console does not support this source type. Note that the `milvus://` scheme is supported only in **AWS regions.**
 
 ## Create the collection\{#create-the-collection}
 

@@ -20,12 +20,6 @@ import Admonition from '@theme/Admonition';
 
 # Customer-Managed Encryption Keys
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
-
-This feature is available only on Business Critical (SaaS) and BYOC deployments.
-
-</FeatureNote>
-
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
 This feature is available in AWS and Google Cloud. It is not available on Microsoft Azure.

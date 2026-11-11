@@ -721,12 +721,9 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source",
+                "id": "tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source",
                 "label": "Collection as Source",
-                "key": "doc:tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source",
-                "customProps": {
-                  "channel": "next"
-                }
+                "key": "doc:tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source"
               }
             ]
           },

@@ -74,7 +74,7 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 - [Export backup files](./export-backup-files)
 
-- External Collections and External Volumes in Azure regions.
+- External Volumes in Azure regions.
 
 <Admonition type="info" title="Notes">
 

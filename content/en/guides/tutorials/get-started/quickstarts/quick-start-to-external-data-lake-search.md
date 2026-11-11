@@ -803,19 +803,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<NextChannel action="include">
+### Use a collection from a dedicated cluster as the data source\{#use-a-collection-from-a-dedicated-cluster-as-the-data-source}
 
-### Use a collection from a serving cluster as the data source\{#use-a-collection-from-a-serving-cluster-as-the-data-source}
+The steps above create an external collection from data files on an external volume. You can also use a collection on another dedicated cluster as the data source: when creating the schema, set `external_source` to the `milvus://` URI of the source collection.
 
-The steps above create an external collection from data files on an external volume. You can also use a collection on another serving cluster as the data source: when creating the schema, set `external_source` to the `milvus://` URI of the source collection.
+On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another dedicated cluster compatible with Milvus v3.0.x in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.
 
-On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another serving cluster compatible with Milvus v3.0.x in the same project and region. The scheme must be lowercase, all three segments are required (including `default` as the database name), and a single trailing slash is tolerated.
-
-- The source is a regular collection (not another external collection) on **a serving cluster compatible with Milvus v3.0.x** in the **same project and region** as the target.
+- The source is a regular collection (not another external collection) on **a dedicated cluster compatible with Milvus v3.0.x** in the **same project and region** as the target.
 
 - Connect to the project endpoint with your API key and the query cluster ID (in Python, `option={"cluster_id": "<query cluster id>"}`).
 
-- Cross-cluster sources (`milvus://`) are available through SDKs and the RESTful API only in the current release — the console does not support this source type. Cloud providers: **AWS and Azure are supported.**
+- Cross-cluster sources (`milvus://`) are available through SDKs and the RESTful API only in the current release — the console does not support this source type. Cloud providers: **AWS regions are supported.**
 
 Create the collection with the schema as usual. For each field, set `external_field` to the name of the corresponding field in the source collection. You can omit `external_spec`, because the format of a `milvus://` source defaults to `milvus-table`.
 
@@ -914,7 +912,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Create indexes and refresh the collection as described in Step 4. For an external collection created from a collection on another serving cluster (`milvus://`):
+Create indexes and refresh the collection as described in Step 4. For an external collection created from a collection on another dedicated cluster (`milvus://`):
 
 A refresh re-binds the external collection to the `external_source` passed in the request and syncs the latest data. You must pass `external_source` in every refresh request; omitting it leaves the collection serving the previously synced data.
 
@@ -949,9 +947,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Once the refresh completes, create an on-demand cluster and conduct searches as described in Step 5 and Step 6. For details, see [Use a Collection from a Serving Cluster as Data Source](./use-collection-from-a-serving-cluster-as-data-source).
-
-</NextChannel>
+Once the refresh completes, create an on-demand cluster and conduct searches as described in Step 5 and Step 6. For details, see [Use a Collection from a Serving Cluster as Data Source](./use-collection-from-a-dedicated-cluster-as-data-source).
 
 ## Step 4: Create indexes and refresh the collection.\{#step-4-create-indexes-and-refresh-the-collection}
 
