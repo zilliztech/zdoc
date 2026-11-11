@@ -45,6 +45,9 @@ test('only the writer can mutate and it consumes the same preparation job’s ar
   }
   assert.equal(write.steps.filter(s => s.env?.GH_TOKEN).length, 1)
   assert.equal(writer.env.GH_TOKEN, '${{ github.token }}')
+  assert.equal(writer.id, 'writer')
+  const receipt = write.steps.find(s => s.with?.name === 'shared-guides-update-producer')
+  assert.equal(receipt.if, "success() && steps.writer.outputs.status == 'created'")
 })
 
 test('a history checkpoint requires a successful authenticated discovery and cannot write', () => {

@@ -189,7 +189,8 @@ jobs:
           node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild/bin/esbuild \
             scripts/docs-workflow/shared-guides-update/writer-contract.ts --bundle --platform=node \
             --format=esm --target=node22 --outfile="$RUNNER_TEMP/writer-contract.mjs"
-      - name: Recheck inputs and create the draft
+      - id: writer
+        name: Recheck inputs and create the draft
         env:
           GH_TOKEN: ${{ github.token }}
           REPORT_ARTIFACT_ID: ${{ needs.prepare.outputs.report_artifact_id }}
@@ -198,6 +199,7 @@ jobs:
           WRITER_OUTPUT: ${{ runner.temp }}/shared-guides-writer
         run: node scripts/docs-workflow/shared-guides-update/write.mjs
       - name: Retain the signed producer receipt
+        if: success() && steps.writer.outputs.status == 'created'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: shared-guides-update-producer
