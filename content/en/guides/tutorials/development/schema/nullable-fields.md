@@ -34,7 +34,7 @@ Use nullable fields when:
 
 - Vector fields that allow NULL values do not support `IS NULL` or `IS NOT NULL` filter expressions. You cannot explicitly filter entities based on whether a vector field value is NULL.
 
-- On Zilliz Cloud, nullable StructArray fields are supported on On-Demand Clusters. Serving Clusters do not support nullable StructArray fields. Set `nullable=True` on the parent StructArray field, not on individual subfields. NULL applies to the whole StructArray field, not to an individual Struct element, and the parent setting is propagated to its subfields internally. A StructArray field added to an existing collection must be nullable so existing entities can return NULL for the new field. Element-level null values are not yet available on Zilliz Cloud clusters. For details, refer to [StructArray Limits](./struct-array-limits#nullable-and-dynamic-schema-limits).
+- On Zilliz Cloud, nullable StructArray fields are supported on Dedicated and On-Demand Clusters. Set `nullable=True` on the parent StructArray field, not on individual subfields. NULL applies to the whole StructArray field, not to an individual Struct element, and the parent setting is propagated to its subfields internally. A StructArray field added to an existing collection must be nullable so existing entities can return NULL for the new field. Element-level null values are supported on Dedicated Clusters compatible with Milvus v3.0.x but not yet available on On-Demand Clusters. For details, refer to [StructArray Limits](./struct-array-limits#nullable-and-dynamic-schema-limits).
 
 - The `nullable` attribute is defined when a field is created and cannot be modified afterward. You cannot enable or disable nullability for an existing field.
 
@@ -51,7 +51,7 @@ When a field is defined with `nullable=True`, Zilliz Cloud allows the field valu
 
 If a field is not defined as nullable (the default behavior), every entity must provide a valid value for that field. Omitting the field or explicitly assigning a NULL value will cause the insert or import operation to fail.
 
-The nullable attribute is supported for both **scalar and vector fields** in a collection schema. On supported On-Demand Clusters, it is also supported on the parent StructArray field. Do not configure Struct subfields as nullable independently; define nullability on the StructArray parent and the setting is propagated to its subfields internally. Element-level null values are not yet available on Zilliz Cloud clusters.
+The nullable attribute is supported for both **scalar and vector fields** in a collection schema. On Dedicated and On-Demand Clusters, it is also supported on the parent StructArray field. Do not configure Struct subfields as nullable independently; define nullability on the StructArray parent and the setting is propagated to its subfields internally. Element-level null values are supported on Dedicated Clusters compatible with Milvus v3.0.x but not yet available on On-Demand Clusters.
 
 <Admonition type="info" icon="📘" title="Notes">
 

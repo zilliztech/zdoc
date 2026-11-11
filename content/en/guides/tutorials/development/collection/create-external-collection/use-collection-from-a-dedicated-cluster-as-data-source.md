@@ -10,7 +10,7 @@ notebook: FALSE
 description: "You can use a collection on another Zilliz Cloud dedicated cluster as the data source of an external collection. | Cloud"
 type: origin
 token: AzxFwQpn4iRElfkDrbVcorGqnYd
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -183,7 +183,7 @@ curl --request POST \
 
 ## Refresh data\{#refresh-data}
 
-A refresh re-binds the external collection to the `external_source` passed in the request and syncs the latest data. You must pass `external_source` in every refresh request; omitting it leaves the collection serving the previously synced data.
+A refresh re-binds the external collection to the `external_source` passed in the request and syncs the latest data. Omitting `external_source` reuses the persisted source, and the refresh still syncs the latest data from it.
 
 A refresh job transitions from `RefreshInProgress` to `RefreshCompleted` or `RefreshFailed`. A second refresh submitted while one is in progress is rejected. Refresh waits for index building to finish, so its duration scales with data size — from seconds to hours for large collections.
 

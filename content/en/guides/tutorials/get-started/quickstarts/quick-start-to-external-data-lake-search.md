@@ -914,7 +914,7 @@ curl --request POST \
 
 Create indexes and refresh the collection as described in Step 4. For an external collection created from a collection on another dedicated cluster (`milvus://`):
 
-A refresh re-binds the external collection to the `external_source` passed in the request and syncs the latest data. You must pass `external_source` in every refresh request; omitting it leaves the collection serving the previously synced data.
+A refresh re-binds the external collection to the `external_source` passed in the request and syncs the latest data. Omitting `external_source` reuses the persisted source, and the refresh still syncs the latest data from it.
 
 A refresh job transitions from `RefreshInProgress` to `RefreshCompleted` or `RefreshFailed`. A second refresh submitted while one is in progress is rejected. Refresh waits for index building to finish, so its duration scales with data size — from seconds to hours for large collections.
 

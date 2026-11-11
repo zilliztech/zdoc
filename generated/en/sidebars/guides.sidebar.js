@@ -712,15 +712,6 @@ module.exports = [
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source",
-                "label": "Snapshot as Source",
-                "key": "doc:tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source",
-                "customProps": {
-                  "channel": "retire-in-next"
-                }
-              },
-              {
-                "type": "doc",
                 "id": "tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source",
                 "label": "Collection as Source",
                 "key": "doc:tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source"

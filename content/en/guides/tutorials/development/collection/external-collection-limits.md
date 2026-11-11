@@ -40,7 +40,7 @@ Compared with managed collections, external collections have the following limit
 
 - For cross-cluster sources: the source must be a regular collection on a dedicated cluster compatible with Milvus v3.0.x in the same project and region; the target must be a database for on-demand search; access requires an API key; SDK and REST only in the current release; AWS regions are supported.
 
-- For external collections created from a collection on another dedicated cluster (`milvus://`), every refresh must pass `external_source` — omitting it leaves the collection serving previously synced data; a second refresh while one is in progress is rejected.
+- For external collections created from a collection on another dedicated cluster (`milvus://`), a refresh that omits `external_source` reuses the persisted source and still syncs the latest data; a second refresh while one is in progress is rejected.
 
 The following table compares the operations supported by external collections and managed collections in detail.
 

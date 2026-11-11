@@ -101,15 +101,15 @@ The following table describes nullable StructArray behavior and dynamic StructAr
 | Dynamic add StructArray field | Subject to the availability statement below. |
 | Nullable requirement for dynamic add | A StructArray field added to an existing collection must be nullable because existing entities have no value for the new field. |
 | Existing entities after dynamic add | Existing entities return `null` for the added StructArray field. |
-| Dynamic add subfield | Supported. An added subfield must be created with `nullable=True`; an added `ARRAY` subfield additionally takes `element_nullable=True` for null values inside the inner array. Existing entities return null for the new subfield in each of their Struct elements, and entities whose StructArray field is null stay null. |
+| Dynamic add subfield | Supported. An added subfield must be created with `nullable=True`; an added `ARRAY` subfield additionally takes `element_nullable=True` for null values inside the inner array. Existing entities return null for the new subfield in each of their Struct elements, and entities whose StructArray field is null stay null. Existing subfields cannot be changed to `element_nullable` afterward. |
 
 
-On Zilliz Cloud, nullable StructArray fields and dynamic StructArray field addition are supported on On-Demand Clusters. A StructArray field added dynamically must be nullable. Serving Clusters do not support these capabilities. Nullable vector arrays are not yet available on Zilliz Cloud clusters; see the additional capabilities below.
+On Zilliz Cloud, nullable StructArray fields and dynamic StructArray field addition are supported on Dedicated and On-Demand Clusters. A StructArray field added dynamically must be nullable. Nullable vector arrays are supported on Dedicated Clusters compatible with Milvus v3.0.x; see the additional capabilities below.
 
-Element-level null values, scalar `ARRAY` subfields, and adding or dropping subfields of an existing StructArray field are not yet available on Zilliz Cloud clusters.
+Element-level null values, scalar `ARRAY` subfields, and adding or dropping subfields of an existing StructArray field are supported on Dedicated Clusters compatible with Milvus v3.0.x.
 
 
-These capabilities are not yet available on Zilliz Cloud clusters.
+These capabilities are not yet available on On-Demand Clusters.
 
 
 For insert examples with nullable StructArray fields, see [Insert Data into StructArray Fields](./insert-struct-array).
