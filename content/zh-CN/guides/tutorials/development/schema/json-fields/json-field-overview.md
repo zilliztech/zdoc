@@ -85,7 +85,7 @@ JSON 字段是 Zilliz Cloud 中一种通过模式定义的数据类型（`DataTy
 
 要使用 JSON 字段，你需要在创建集合时显式地在 Collection Schema 中定义它。以下示例展示了如何创建一个包含 `metadata` 字段（类型为 `DataType.JSON`）的 Collection：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -125,6 +125,17 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.List;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -164,17 +175,21 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "encoding/json"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 // Set up a Milvus client
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal(err)
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 
 // Create schema
 schema := entity.NewSchema().WithDynamicFieldEnabled(true)
@@ -186,7 +201,7 @@ schema.WithField(entity.NewField().WithName("vector").WithDataType(entity.FieldT
 // Define a JSON field that allows null values
 schema.WithField(entity.NewField().WithName("metadata").WithDataType(entity.FieldTypeJSON).WithNullable(true))
 
-if err := cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("product_catalog", schema)); err != nil {
+if err := client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("product_catalog", schema)); err != nil {
     log.Fatal(err)
 }
 ```
@@ -197,6 +212,7 @@ if err := cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("prod
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 // Set up a Milvus client
 let client = ClientV2::new(
@@ -246,6 +262,7 @@ client
 ```c++
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
+#include <utility>
 
 // Set up a Milvus client
 auto client = milvus::MilvusClientV2::Create();
@@ -279,6 +296,7 @@ if (!status.IsOk()) {
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
 
 const CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 const TOKEN = "YOUR_CLUSTER_TOKEN";
@@ -311,6 +329,46 @@ await client.createCollection({
   collection_name: "product_catalog",
   enableDynamicField: true,
   schema,
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+
+// Set up a Milvus client
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+
+// Create schema
+CollectionSchema schema = new()
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("product_id", DataType.Int64, isPrimaryKey: true), // Primary field
+        new FieldSchema("vector", DataType.FloatVector) { Dimension = 5 }, // Vector field
+        // Define a JSON field that allows null values
+        new FieldSchema("metadata", DataType.Json) { Nullable = true }
+    }
+};
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "product_catalog",
+    Schema = schema
 });
 ```
 
@@ -365,7 +423,7 @@ curl --request POST \
 
 Collection 创建完成后，在指定的 JSON 字段中插入包含结构化 JSON 对象的实体。你的数据格式应为字典列表。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -402,12 +460,6 @@ client.insert(collection_name="product_catalog", data=entities)
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.Arrays;
-import java.util.List;
-
 // Insert data
 Gson gson = new Gson();
 
@@ -430,13 +482,6 @@ client.insert(insertReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "encoding/json"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-)
-
 // Insert data
 metadata, _ := json.Marshal(map[string]any{
     "category":     "electronics",
@@ -461,7 +506,7 @@ columns := []column.Column{
     column.NewColumnJSONBytes("metadata", [][]byte{metadata}),
 }
 
-if _, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("product_catalog", columns...)); err != nil {
+if _, err := client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("product_catalog", columns...)); err != nil {
     log.Fatal(err)
 }
 ```
@@ -471,8 +516,6 @@ if _, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("product_ca
 <TabItem value='rust'>
 
 ```rust
-use serde_json::json;
-
 // Insert data
 let entities = vec![
     json!({
@@ -513,8 +556,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <utility>
-
 // Insert data
 milvus::EntityRows rows = {
     {
@@ -587,6 +628,45 @@ await client.insert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Insert data
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "product_catalog",
+    RowsData =
+    [
+        new Dictionary<string, object?>
+        {
+            ["product_id"] = 1L,
+            ["vector"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f },
+            ["metadata"] = new Dictionary<string, object?> // JSON field
+            {
+                ["category"] = "electronics",
+                ["brand"] = "BrandA",
+                ["in_stock"] = true,
+                ["price"] = 99.99,
+                ["string_price"] = "99.99",
+                ["tags"] = new[] { "clearance", "summer_sale" },
+                ["supplier"] = new Dictionary<string, object?>
+                {
+                    ["name"] = "SupplierX",
+                    ["country"] = "USA",
+                    ["contact"] = new Dictionary<string, object?>
+                    {
+                        ["email"] = "support@supplierx.com",
+                        ["phone"] = "+1-800-555-0199"
+                    }
+                }
+            }
+        }
+    ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -637,7 +717,7 @@ curl --request POST \
 
 <summary>显示示例代码</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -659,11 +739,6 @@ client.load_collection(collection_name="product_catalog")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import java.util.Arrays;
-
 // Create an index on the vector field
 client.createIndex(CreateIndexReq.builder()
         .collectionName("product_catalog")
@@ -686,15 +761,8 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-)
-
 // Create an index on the vector field
-indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
+indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
     "product_catalog", "vector", index.NewAutoIndex(entity.COSINE),
 ).WithIndexName("vector_index"))
 if err != nil {
@@ -705,7 +773,7 @@ if err := indexTask.Await(ctx); err != nil {
 }
 
 // Load the collection
-loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("product_catalog"))
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("product_catalog"))
 if err != nil {
     log.Fatal(err)
 }
@@ -750,8 +818,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <utility>
-
 // Create an index on the vector field
 milvus::IndexDesc index("vector", "vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
 auto status = client->CreateIndex(milvus::CreateIndexRequest()
@@ -776,8 +842,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
-
 // Create an index on the vector field
 await client.createIndex({
   collection_name: "product_catalog",
@@ -790,6 +854,25 @@ await client.createIndex({
 // Load the collection
 await client.loadCollection({
   collection_name: "product_catalog",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Create an index on the vector field
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "product_catalog",
+    Indexes = [new IndexParam("vector", "vector_index", IndexType.AutoIndex, MetricType.Cosine)]
+});
+
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "product_catalog"
 });
 ```
 
@@ -844,7 +927,7 @@ curl --request POST \
 
 要过滤出 `category` 为 `"electronics"` 的数据：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -866,11 +949,6 @@ client.search(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-
 // Define filter expression
 String filter = "metadata[\"category\"] == \"electronics\"";
 
@@ -890,16 +968,10 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
-
 // Define filter expression
 filter := `metadata["category"] == "electronics"`
 
-res, err := cli.Search(ctx, milvusclient.NewSearchOption(
+res, err := client.Search(ctx, milvusclient.NewSearchOption(
     "product_catalog", // Collection name
     5, // Max. number of results to return
     []entity.Vector{entity.FloatVector{0.1, 0.2, 0.3, 0.4, 0.5}}, // Query vector (must match collection's vector dim)
@@ -980,6 +1052,28 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Define filter expression
+string filter = "metadata[\"category\"] == \"electronics\"";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1005,7 +1099,7 @@ curl --request POST \
 
 要过滤出嵌套键 `supplier["country"]` 等于 `"USA"` 的数据：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1029,11 +1123,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-
 // Define filter expression
 String filter = "metadata[\"supplier\"][\"country\"] == \"USA\"";
 
@@ -1053,16 +1142,10 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
-
 // Define filter expression
 filter := `metadata["supplier"]["country"] == "USA"`
 
-res, err := cli.Search(ctx, milvusclient.NewSearchOption(
+res, err := client.Search(ctx, milvusclient.NewSearchOption(
     "product_catalog", // Collection name
     5, // Max. number of results to return
     []entity.Vector{entity.FloatVector{0.1, 0.2, 0.3, 0.4, 0.5}}, // Query vector (must match collection's vector dim)
@@ -1143,6 +1226,28 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Define filter expression
+string filter = "metadata[\"supplier\"][\"country\"] == \"USA\"";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1178,7 +1283,7 @@ Zilliz Cloud 还提供了一些专门用于查询 JSON 字段中数组值的运�
 
 要查找 `tags` 键下包含 `"summer_sale"` 值的产品：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1202,11 +1307,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-
 // Define filter expression
 String filter = "json_contains(metadata[\"tags\"], \"summer_sale\")";
 
@@ -1226,16 +1326,10 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
-
 // Define filter expression
 filter := `json_contains(metadata["tags"], "summer_sale")`
 
-res, err := cli.Search(ctx, milvusclient.NewSearchOption(
+res, err := client.Search(ctx, milvusclient.NewSearchOption(
     "product_catalog", // Collection name
     5, // Max. number of results to return
     []entity.Vector{entity.FloatVector{0.1, 0.2, 0.3, 0.4, 0.5}}, // Query vector (must match collection's vector dim)
@@ -1316,6 +1410,28 @@ console.log(res.results);
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Define filter expression
+string filter = "json_contains(metadata[\"tags\"], \"summer_sale\")";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1341,7 +1457,7 @@ curl --request POST \
 
 要查找在 `tags` 键下至少包含 `"electronics"`、`"new"` 或 `"clearance"` 其中一个值的产品：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1365,11 +1481,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-
 // Define filter expression
 String filter = "json_contains_any(metadata[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
 
@@ -1389,16 +1500,10 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-)
-
 // Define filter expression
 filter := `json_contains_any(metadata["tags"], ["electronics", "new", "clearance"])`
 
-res, err := cli.Search(ctx, milvusclient.NewSearchOption(
+res, err := client.Search(ctx, milvusclient.NewSearchOption(
     "product_catalog", // Collection name
     5, // Max. number of results to return
     []entity.Vector{entity.FloatVector{0.1, 0.2, 0.3, 0.4, 0.5}}, // Query vector (must match collection's vector dim)
@@ -1475,6 +1580,28 @@ const res = await client.search({
 });
 
 console.log(res.results);
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Define filter expression
+string filter = "json_contains_any(metadata[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "product_catalog", // Collection name
+    VectorFieldName = "vector",
+    Vectors = [new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }], // Query vector (must match collection's vector dim)
+    Limit = 5, // Max. number of results to return
+    Parameters = new SearchParameters
+    {
+        Expression = filter, // Filter expression
+        OutputFields = { "product_id", "metadata" } // Fields to include in the search results
+    }
+});
 ```
 
 </TabItem>

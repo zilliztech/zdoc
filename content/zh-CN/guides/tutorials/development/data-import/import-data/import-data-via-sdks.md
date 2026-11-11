@@ -157,6 +157,33 @@ while (results.hasNext()) {
 </TabItem>
 </Tabs>
 
+### 源文件中的 StructArray 字段 \{#structarray-fields-in-source-files}
+
+不同源文件格式承载 StructArray 字段的方式不同。导入读取器期望以下形态之一：
+
+| 格式 | StructArray 字段形态 |
+| --- | --- |
+| JSON、JSONL | 字段值为对象列表，每个对象对应一个 Struct 元素，以子字段名为键：`"chunks": [{"text": "...", "section": "index", "emb": [0.1, 0.2]}, ...]`。 |
+| CSV | 单元格内容与 JSON 格式中的 JSON 文本相同。导入任务配置的 `nullkey` 或 JSON `null` 表示空的 StructArray 值。 |
+| Parquet | 每个 StructArray 字段一列，类型为 `list<struct<...>>`，每个子字段对应一个 struct 子列。标量子字段对应标量子列；向量子字段对应其元素类型的列表，如 `list<float32>`；array 子字段对应 `list<T>` 子列。 |
+| NumPy | 不支持。NumPy 文件每个文件只承载一个顶层字段，无法表示 StructArray 字段。包含 StructArray 字段的 Collection 请改用 JSON、CSV 或 Parquet 文件。 |
+
+所有支持格式中的 StructArray 值都遵循以下规则：
+
+- Struct 元素内部使用子字段名，不要使用 `chunks[text]` 这类路径。名为 `chunks[text]` 的扁平列或键会被拒绝。
+
+- Struct 元素本身不能为 null，例如 `[null, {...}]`。整个 StructArray 值只有在该字段可空（nullable）时才能为 null。
+
+- 不属于 Collection 子字段的键或 Parquet 子列（包括已删除的子字段）会被忽略。
+
+- element-nullable 子字段的缺失键或 `null` 值会作为该 Struct 元素的 null 值导入，因此在新增子字段之前写入的文件可以正常导入。其他位置的 `null` 会导致导入失败。对于 array 子字段，`null` 表示空的内层数组；当子字段允许时，内层数组中的 `null` 表示空的内部值。
+
+- 包含 element-nullable 子字段或标量 array 子字段的 Collection 不支持 binlog 导入（如备份恢复）和快照源导入。
+
+pymilvus BulkWriter 在所有支持的格式中都支持上述 StructArray 形态，包括 element-nullable 子字段和可空的 StructArray 值。请在 writer 的 `add_row()` 调用中使用相同的行形态。
+
+Schema 侧的限制详见 [StructArray 限制](./struct-array-limits)。
+
 ## 导入数据\{#import-data}
 
 一旦您的数据和 Collection 准备就绪，您可以通过 Volume 或外部存储（如对象存储桶和块存储 Blob 容器）将数据导入到特定集合中。

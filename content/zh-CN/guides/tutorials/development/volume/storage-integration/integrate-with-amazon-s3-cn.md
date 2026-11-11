@@ -165,6 +165,8 @@ Zilliz Cloud 支持与 Amazon Simple Storage Service（[Amazon S3](https://docs.
     }
     ```
 
+    上述示例中包含了读和写两种权限，适用于将备份文件、审计日志或访问日志导出到 Volume 的场景。您也可以创建只读集成，只需从上述示例中移除 `s3:PutObject` 即可。
+
     当您为上述对象存储桶启用了服务端加密，您还需要为 `kms:GenerateDataKey` 操作添加相应的策略。在此情况下，请使用如下 JSON 策略文件。
 
     ```json

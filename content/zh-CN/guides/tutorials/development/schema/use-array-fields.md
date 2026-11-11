@@ -46,7 +46,7 @@ Array 类型的字段用于存放相同数据类型的一组元素。如下示�
 
 1. 设置 `datatype` 为支持的 Array 数据类型，即 `ARRAY`。
 
-1. 通过 `element_type` 参数，指定数组中元素的数据类型。该值可以是 Zilliz Cloud clusters 支持的任意标量数据类型，例如 `VARCHAR`、`INT64` 等。同一个 Array 中的所有元素必须是相同的数据类型。
+1. 通过 `element_type` 参数，指定数组中元素的数据类型。该值可以是 Zilliz Cloud clusters 支持的任意标量数据类型，例如 `VARCHAR`、`INT64` 等。同一个 Array 中的所有元素必须是相同的数据类型。对于 `element_type=STRUCT`，请改用 StructArray Field 并提供 `struct_schema`，详情参见[StructArray 概述](./use-array-of-structs)。顶层 Array Field 不能持有向量或嵌套数组，其元素也不能单独为 null；这些形式仅可用于 StructArray Field 内部的子字段。
 
 1. 通过 `max_capacity` 参数，设置数组的最大容量，即数组中可以包含的最大元素数量。
 

@@ -144,7 +144,9 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
 
     <Admonition type="info" title="说明">
 
-    `$bucket` 应替换为您实际的 OSS 存储空间名称。
+    - `$bucket` 应替换为您实际的 OSS 存储空间名称。
+    
+    - 上述示例中包含了读和写两种权限，适用于将备份文件、审计日志或访问日志导出到 Volume 的场景。您也可以创建只读的集成，只需从上述示例中移除 `oss:PutObject` 即可。
 
     </Admonition>
 

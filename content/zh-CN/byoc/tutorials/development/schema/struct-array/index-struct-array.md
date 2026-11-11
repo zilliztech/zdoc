@@ -205,6 +205,8 @@ client.create_index(
 
 Scalar Index 是可选的，但当 StructArray Scalar subfield 经常出现在 Filter 中时很有用，例如 `element_filter(chunks, $[quality_score] > 0.9)` 或 `MATCH_ANY(chunks, $[section] == "index")`。
 
+element-nullable 子字段和标量 array 子字段不支持标量索引。对这些子字段的过滤会在无索引的情况下运行。
+
 ## Index metric 兼容性 \{#index-metric-compatibility}
 
 使用以下表格为 StructArray Vector subfield 选择 Index type 和 metric type。先从目标开始，再根据搜索模式选择 metric 类型族。
@@ -243,6 +245,16 @@ Element-level Search 使用常规 Vector metric。它会独立搜索每个 Struc
 | Element-level Search | `BINARY_VECTOR` | `AUTOINDEX` | `HAMMING`, `JACCARD` |
 
 关于特定版本支持和其他限制，请参阅 [StructArray 限制](./struct-array-limits)。
+
+## 为 element-nullable 与新增的向量子字段创建索引 \{#index-element-nullable-and-added-vector-subfields}
+
+向量子字段可以在创建时带元素级 null（`nullable=True`），也可以被添加到现有 StructArray Field 中。这两种情况会改变子字段的索引方式：
+
+- element-nullable 向量子字段仅支持元素级搜索。使用常规向量度量（如 `COSINE`、`IP` 或 `L2`）为其创建索引；`MAX_SIM*` 度量和 EmbeddingList 索引在其上会被拒绝，`AUTOINDEX` 也不会为其选择 `MAX_SIM*` 度量。null 向量在索引构建和搜索时都会被跳过。
+
+- Zilliz Cloud 仅在某个数据段持有非 null 向量时，才会为 element-nullable 向量子字段的数据段构建向量索引。
+
+- 添加到现有 StructArray Field 的向量子字段始终是 element-nullable 的，因此适用相同的度量规则。你不能在添加请求中绑定索引；需要在子字段存在后单独创建索引。
 
 ## 验证 Index \{#verify-indexes}
 

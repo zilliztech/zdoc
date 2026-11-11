@@ -26,7 +26,7 @@ import Grid from '@site/src/components/Grid';
 
 ## 什么是 StructArray？ \{#what-is-structarray}
 
-**StructArray** 也称为 array of structs，会在每个 Entity 中存储一组有序的 Struct 元素。数组中的每个 Struct 元素都遵循相同的 Schema。一个 Struct 元素可以包含 Scalar subfield、Vector subfield，或二者同时包含。
+**StructArray** 也称为 array of structs，会在每个 Entity 中存储一组有序的 Struct 元素。数组中的每个 Struct 元素都遵循相同的 Schema。一个 Struct 元素可以包含 Scalar subfield、Vector subfield、标量 array 子字段，或同时包含其中多种。
 
 例如，一个 Collection 可以把一篇文章存为一个 Entity，并把文章片段存储在名为 `chunks` 的 StructArray Field 中。每个片段可以包含文本、章节元数据、质量评分，以及一个或多个 Vector embedding。
 

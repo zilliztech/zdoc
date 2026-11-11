@@ -39,6 +39,8 @@ import TabItem from '@theme/TabItem';
 
 - Milvus 2.6.x 及更高版本支持添加用户自定义标量字段。Milvus 2.6.18 及更高版本支持添加用户自定义向量字段。
 
+- 支持向现有 StructArray 字段添加子字段。新增子字段必须允许元素级 null（标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`），不能设置默认值，且不能在同一次请求中绑定索引。
+
 - 字段名称在 Collection 的所有字段中必须唯一。
 
 **添加 Function 及其生成的向量字段**
@@ -57,7 +59,7 @@ import TabItem from '@theme/TabItem';
 
 - 不能删除主键字段、Partition Key 字段、Clustering Key 字段或 Collection 中的最后一个向量字段。
 
-- 可以删除整个 `ARRAY<STRUCT>` 字段，但不能删除 `ARRAY<STRUCT>` 字段中的单个子字段。
+- 可以删除整个 `ARRAY<STRUCT>` 字段。也可以按路径（如 `chunks[lang]`）删除单个子字段，但 StructArray 字段的最后一个子字段除外。
 
 - 不能直接删除用作 Function 输入字段或由 Function 生成的输出字段。若要删除 Function 输出字段，请删除生成该字段的 Function。
 
@@ -704,7 +706,111 @@ await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
 </TabItem>
 </Tabs>
 
-添加 StructArray 字段后，Collection 中原有 Entity 的 `chunks` 及其所有子字段均返回 null。插入新 Entity 时，请确保所有子字段要么均为 null，要么均具有有效值。如果部分子字段设置为 null，而其他子字段具有有效值，插入操作会报错。
+添加 StructArray 字段后，Collection 中原有 Entity 的 `chunks` 及其所有子字段均返回 null。插入新 Entity 时，请确保所有子字段要么均为 null，要么均具有有效值。如果部分子字段设置为 null，而其他子字段具有有效值，插入操作会报错。元素级 null 的子字段可以在单个 Struct 元素中持有 null；详情请参阅[创建 StructArray Field](./create-struct-array)。
+
+### 为现有 StructArray 字段添加子字段 \{#add-a-sub-field-to-an-existing-structarray-field}
+
+使用 `add_collection_field()` 并以子字段路径作为字段名，即可向已持有数据的 StructArray 字段添加子字段。步骤如下：
+
+1. 使用路径 `structArrayField[subField]` 为字段命名，例如 `chunks[lang]`。
+
+1. 选择 StructArray 支持的标量、向量或标量 array 数据类型。
+
+1. 为新增子字段设置 `nullable=True`。每个新增子字段都必须设置该参数，这也是元素级 null 能力的来源。对于 array 子字段，还需额外设置 `element_nullable=True`，以允许内层数组中存在 null 值。新增子字段会继承 StructArray 字段的行级 `nullable` 设置和 `max_capacity`。
+
+**示例：添加一个 element-nullable 子字段**
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import DataType, MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.add_collection_field(
+    collection_name="books",
+    field_name="chunks[lang]",
+    data_type=DataType.VARCHAR,
+    max_length=16,
+    nullable=True,
+)
+# highlight-end
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+// highlight-start
+err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("books",
+        entity.NewField().
+                WithName("chunks[lang]").
+                WithDataType(entity.FieldTypeVarChar).
+                WithMaxLength(16).
+                WithNullable(true)))
+// highlight-end
+if err != nil {
+    fmt.Println(err)
+    return
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "books",
+    "schema": {
+      "fieldName": "chunks[lang]",
+      "dataType": "VarChar",
+      "elementNullable": true,
+      "elementTypeParams": {"max_length": "16"}
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+子字段添加完成后，已有 Entity 的每个 Struct 元素中的 `chunks[lang]` 均返回 `NULL`；`chunks` 字段为 `NULL` 的 Entity 保持 `NULL` 不变。新写入的 Entity 可以在任意 Struct 元素中省略该子字段，或将其设置为 `NULL`。
+
+适用以下规则：
+
+- 新增子字段必须以 `nullable=True` 创建；新增 array 子字段还需额外设置 `element_nullable=True`，以允许内层数组中存在 null 值。不能设置默认值。
+
+- 添加子字段时不能同时绑定索引。请通过单独的 `create_index()` 调用创建索引。新增向量子字段仅支持元素级度量，不支持 `MAX_SIM*`；在加载包含新增子字段的 Collection 之前，必须先为其创建索引。
+
+- 历史数据段通过 schema 版本压缩（schema-version compaction）获得新增子字段及其索引。需将 `dataCoord.compaction.bumpSchemaVersion.enabled` 设置为 `true`（默认为 `false`），否则新增子字段的索引无法覆盖历史数据段。
+
+- 向已加载的 Collection 添加子字段不会导致 Collection 卸载。在新子字段的索引创建之前，查询即可返回该子字段。
+
+- 固定 schema 时间戳的客户端会收到 schema 不匹配错误并需刷新客户端，与其他新增字段的情形相同。
 
 ### 添加用户自定义向量字段\{#add-user-defined-vector-fields}
 
@@ -1574,6 +1680,80 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 
 如果 `image_vector` 是 Collection 中的最后一个向量字段，删除操作会被拒绝。
 
+### 删除 StructArray 子字段 \{#drop-a-structarray-subfield}
+
+通过 `drop_collection_field()` 传入子字段路径，即可从 StructArray 字段中删除单个子字段。Milvus 会将该子字段及其索引一并从 Schema 中移除；其数据的回收方式见下文「删除字段后何时回收存储空间？」。
+
+以下示例假设 `my_collection` 中存在带有 `lang` 子字段的 StructArray 字段 `chunks`，并仅删除该子字段。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.drop_collection_field(
+    collection_name="my_collection",
+    field_name="chunks[lang]",
+)
+# highlight-end
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+// highlight-start
+err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("my_collection", "chunks[lang]"))
+// highlight-end
+if err != nil {
+    fmt.Println(err)
+    return
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/drop" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "my_collection",
+    "fieldName": "chunks[lang]"
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+不能删除 StructArray 字段的最后一个子字段、Collection 的最后一个向量字段，或被 Function 使用的子字段。如需删除整个 StructArray 字段，请按上文示例直接按字段名删除。子字段被删除后，仍携带该子字段的 insert 和 upsert 请求会被拒绝。
+
+在仍有查询针对某个子字段运行时删除它可能出现瞬时失败：基于旧 Schema 构建的查询计划会继续执行一小段时间并报内部错误。请在删除子字段前等待针对它的查询结束，或在查询结束后重试删除操作。
+
 ### 删除 Function 及其生成的向量字段 | PUBLIC\{#drop-a-function-and-its-generated-vector-field}
 
 当不再需要某个 Function 或其生成的向量字段时，请使用此操作，例如删除 BM25 Function 及其生成的稀疏向量字段。
@@ -1700,6 +1880,8 @@ await client.DropFunctionFieldAsync(new DropFunctionFieldReq
 
 当需要根据现有字段生成向量值时，使用 `add_function_field()`。该方法会在同一次 Schema 变更中添加 Function、其生成的向量字段和绑定的索引定义。本指南展示用于词法搜索的 BM25 路径；MinHash Function 则生成用于近似重复检测的二进制向量字段。
 
+当现有 Struct 元素需要新属性时，使用 `add_collection_field()` 为现有 StructArray 字段添加子字段。
+
 ### 为什么新增的用户自定义字段必须可为空？\{#why-must-added-user-defined-fields-be-nullable}
 
 现有 Entity 是在新字段存在之前插入的，因此没有该字段的值。设置 `nullable=True` 后，在应用写入值之前，或者对于标量字段，在默认值生效之前，Zilliz Cloud 可以使用 `NULL` 表示缺失值。
@@ -1725,6 +1907,10 @@ await client.DropFunctionFieldAsync(new DropFunctionFieldReq
 ### 修改 Collection Schema 后需要等待吗？\{#do-I-need-to-wait-after-altering-a-collection-schema}
 
 通常无需手动等待。如果后续操作依赖更新后的 Schema，可以先调用 `describe_collection()`，确认 Zilliz Cloud 当前返回的 Schema。
+
+### 为什么新增的向量子字段会报 FieldNotLoaded 错误？\{#why-does-an-added-vector-sub-field-fail-with-a-fieldnotloaded-error}
+
+新增向量子字段并创建索引后，即使 Collection 显示已就绪，针对该子字段的查询仍可能报错误 2027（`FieldNotLoaded`）。请释放并重新加载 Collection，查询即可覆盖新子字段。
 
 在分布式部署中，Zilliz Cloud 各组件刷新 Collection Metadata 时，可能存在短暂的传播窗口。如果 Schema 变更后的操作立即因 Schema 相关错误而失败，请刷新 Schema 并重试该操作。
 

@@ -33,13 +33,13 @@ Zilliz Cloud 支持 `nullable` 属性。启用 `nullable` 属性后，字段值�
 
 ## 限制\{#limits}
 
-- Array of Structs 字段不支持 `NULL` 值。您不能为 Array of Structs 字段或其内部嵌套字段启用 `nullable` 属性。
+- Array of Structs（StructArray）Field 支持行级 nullable：在父 StructArray Field 上设置 `nullable=True`，NULL 作用于整个 Field，父 Field 的设置会内部传播到其子字段。此外，subfield 可以允许元素级 null：标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`，允许单个 Struct 元素中的该子字段为 null；Struct 元素本身不能为 null。详情参见[StructArray 限制](./struct-array-limits)。
 
 - `nullable` 属性在创建字段时定义，之后不能修改。您不能为已有字段启用或禁用 `nullable` 属性。
 
 - 启用 `nullable` 属性的字段不能用作 Partition Key。Partition Key 字段必须始终包含有效的非空值。
 
-## 什么是Nullable 属性\{#nullable-attribute}
+## 什么是 nullable 属性\{#nullable-attribute}
 
 在 Zilliz Cloud 中，字段是否允许存储 `NULL` 值由名为 `nullable` 的 Schema 级字段属性控制。
 
@@ -107,6 +107,19 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import com.google.gson.Gson;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.List;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Collections;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -146,6 +159,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/index"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -189,6 +204,7 @@ if err != nil {
 ```rust
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
@@ -225,6 +241,7 @@ client.create_collection(
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 #include <memory>
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
@@ -250,6 +267,7 @@ if (!status.IsOk()) {
 
 ```javascript
 import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+import { DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
@@ -370,9 +388,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-
 schema.addField(AddFieldReq.builder()
         .fieldName("age")
         .dataType(DataType.Int64)
@@ -386,8 +401,6 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
-
 schema.WithField(entity.NewField().
     WithName("age").
     WithDataType(entity.FieldTypeInt64).
@@ -401,8 +414,6 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let schema = schema.add_field(
     FieldSchema::new()
         .name("age")
@@ -425,8 +436,6 @@ schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithNullabl
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
 const ageField = {
   name: 'age',
   data_type: DataType.Int64,
@@ -440,13 +449,6 @@ const ageField = {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 schema.Fields.Add(new FieldSchema("age", DataType.Int64) { Nullable = true });
 ```
 
@@ -502,13 +504,6 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.Arrays;
-import java.util.List;
-
 Gson gson = new Gson();
 
 JsonObject row1 = new JsonObject();
@@ -535,13 +530,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 embeddingCol, err := column.NewNullableColumnFloatVector(
     "embedding",
     4,
@@ -569,9 +557,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let rows = vec![
     json!({"id": 1, "embedding": [0.1, 0.2, 0.3, 0.4]}),
     json!({"id": 2, "embedding": None::<Vec<f32>>}),
@@ -591,9 +576,6 @@ client.insert(
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <vector>
-
 milvus::EntityRows data = {
     {{"id", 1}, {"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}},
     {{"id", 2}, {"embedding", nullptr}},
@@ -640,13 +622,6 @@ await client.insert({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var data = new List<IDictionary<string, object?>>
 {
     new Dictionary<string, object?> { ["id"] = 1L, ["embedding"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f } },
@@ -736,11 +711,6 @@ client.load_collection(collection_name="my_collection")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import java.util.Collections;
-
 IndexParam indexParam = IndexParam.builder()
         .fieldName("embedding")
         .indexName("embedding_index")
@@ -763,14 +733,6 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
     "my_collection",
     "embedding",
@@ -805,8 +767,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 client.create_index(
     CreateIndexRequest::builder()
         .collection_name("my_collection")
@@ -868,13 +828,6 @@ await client.loadCollection({
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 await client.CreateIndexAsync(new CreateIndexReq
 {
     CollectionName = "my_collection",
@@ -958,12 +911,6 @@ print(res)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 SearchResp res = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new FloatVec(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f))))
@@ -980,13 +927,6 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 query := []float32{0.1, 0.2, 0.3, 0.4}
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection",
@@ -1007,8 +947,6 @@ fmt.Println(resultSets)
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-
 let search_results = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -1030,9 +968,6 @@ for result in search_results.results().iter() {
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <vector>
-
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4};
 milvus::SearchResponse search_response;
 status = client->Search(milvus::SearchRequest()
@@ -1068,13 +1003,6 @@ console.log(res);
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "my_collection",
@@ -1176,13 +1104,6 @@ const filter = 'age > 18';
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 string filter = "age > 18";
 ```
 
@@ -1253,13 +1174,6 @@ const filter = 'status == "active"';
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2;
-using Milvus.Client.V2.Requests.Collection;
-using Milvus.Client.V2.Requests.Dml;
-using Milvus.Client.V2.Requests.Dql;
-using Milvus.Client.V2.Requests.Index;
-using Milvus.Client.V2.Types;
-
 string filter = "status == \"active\"";
 ```
 
@@ -1275,6 +1189,8 @@ string filter = "status == \"active\"";
 </Tabs>
 
 `status` 为 `NULL` 的 Entity 会从结果中排除。
+
+该属性支持标量和向量字段；对于 StructArray Field，行级 nullable 设置在父 Field 上，子字段还可以通过 `nullable=True`（标量/向量）或 `element_nullable=True`（array）允许元素级 null。
 
 ## 适用规则\{#applicable-rules}
 

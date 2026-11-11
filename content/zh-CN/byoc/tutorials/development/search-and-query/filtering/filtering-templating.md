@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 假设你有一个包含两个字段的过滤表达式，年龄和城市，你想找到所有年龄大于25且居住在“北京”或“上海”的人。你可以使用模板来代替直接嵌入过滤表达式中的值：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -50,8 +50,6 @@ filter_params = {"age": 25, "city": ["北京", "上海"]}
 <TabItem value='java'>
 
 ```java
-import java.util.*;
-
 String filter = "age > {age} AND city IN {city}";
 Map<String, Object> filterTemplateValues = new HashMap<>();
 filterTemplateValues.put("age", 25);
@@ -75,9 +73,6 @@ filterTemplates := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let filter = "age > {age} AND city IN {city}";
 let filter_templates: HashMap<String, FilterTemplateValue> = HashMap::from([
     ("age".into(), FilterTemplateValue::Int64(25)),
@@ -104,6 +99,19 @@ std::unordered_map<std::string, nlohmann::json> filterTemplates = {
 ```javascript
 const filter = "age > {age} AND city IN {city}";
 const exprValues = { age: 25, city: ["北京", "上海"] };
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string filter = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
 ```
 
 </TabItem>
@@ -136,7 +144,7 @@ filter_params='{"age": 25, "city": ["北京", "上海"]}'
 
 对于 Zilliz Cloud 中的搜索操作，过滤表达式用于定义过滤条件，`filter_params`参数用于指定占位符的值。`filter_params`字典包含 Zilliz Cloud 将用于替换到过滤表达式中的动态值。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -158,16 +166,22 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
+import java.util.*;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.*;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import io.milvus.v2.service.vector.request.DeleteReq;
 
 String expr = "age > {age} AND city IN {city}";
 Map<String, Object> filterTemplateValues = new HashMap<>();
 filterTemplateValues.put("age", 25);
 filterTemplateValues.put("city", Arrays.asList("北京", "上海"));
+
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("search_list", 100);
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName("hello_milvus")
@@ -175,6 +189,7 @@ SearchReq searchReq = SearchReq.builder()
         .filter(expr)
         .topK(10)
         .outputFields(Arrays.asList("age", "city"))
+        .searchParams(searchParams)
         .filterTemplateValues(filterTemplateValues)
         .build();
 
@@ -189,7 +204,6 @@ SearchResp searchResp = client.search(searchReq);
 import (
     "context"
     "fmt"
-
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -204,7 +218,8 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithFilter(expr).
     WithTemplateParam("age", 25).
     WithTemplateParam("city", []string{"北京", "上海"}).
-    WithOutputFields("age", "city"))
+    WithOutputFields("age", "city").
+    WithSearchParam("search_list", "100"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -235,6 +250,7 @@ let res = client
             .limit(10)
             .output_fields(["age", "city"])
             .filter_templates(filter_templates)
+            .extra_params(HashMap::from([("search_list".into(), "100".into())]))
             .build()?,
     )
     .await?;
@@ -258,7 +274,8 @@ auto searchRequest = milvus::SearchRequest()
                          .WithOutputFields({"age", "city"})
                          .WithFilter(expr)
                          .WithFilterTemplates(std::move(filterTemplates))
-                         .AddFloatVector({0.1f, 0.2f});
+                         .AddFloatVector({0.1f, 0.2f})
+                         .AddExtraParam("search_list", "100");
 
 milvus::SearchResponse searchResponse;
 client->Search(searchRequest, searchResponse);
@@ -278,7 +295,46 @@ const res = await client.search({
     filter: expr,
     limit: 10,
     output_fields: ["age", "city"],
-    exprValues
+    exprValues,
+    params: { search_list: 100 },
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dml;
+
+string expr = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "hello_milvus",
+    Vectors = [new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f })],
+    VectorFieldName = "vector",
+    MetricType = MetricType.Cosine,
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Expression = expr,
+        OutputFields = { "age", "city" },
+        ExtraParameters = { ["search_list"] = "100" },
+        FilterTemplates =
+        {
+            ["age"] = 25,
+            ["city"] = new[] { "北京", "上海" }
+        }
+    }
 });
 ```
 
@@ -301,6 +357,7 @@ curl --request POST \
       "limit": 10,
       "filter": "age > {age} AND city IN {city}",
       "exprParams": {"age": 25, "city": ["北京", "上海"]},
+      "searchParams": {"params": {"search_list": 100}},
       "outputFields": ["age", "city"]
   }'
 ```
@@ -314,7 +371,7 @@ curl --request POST \
 
 相同的模板机制可以应用于 Zilliz Cloud 中的查询操作。在Query 方法中，您定义过滤表达式并使用`filter_params`指定要替换的值。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -333,11 +390,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 String expr = "age > {age} AND city IN {city}";
 Map<String, Object> filterTemplateValues = new HashMap<>();
 filterTemplateValues.put("age", 25);
@@ -358,13 +410,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 expr := "age > {age} AND city IN {city}"
 
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("hello_milvus").
@@ -383,9 +428,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let expr = "age > {age} AND city IN {city}";
 let filter_templates: HashMap<String, FilterTemplateValue> = HashMap::from([
     ("age".into(), FilterTemplateValue::Int64(25)),
@@ -443,6 +485,34 @@ const res = await client.query({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string expr = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "hello_milvus",
+    Expression = expr,
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "age", "city" },
+        FilterTemplates =
+        {
+            ["age"] = 25,
+            ["city"] = new[] { "北京", "上海" }
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -470,7 +540,7 @@ curl --request POST \
 
 您还可以在删除操作中使用过滤表达式模板。与搜索和查询类似，过滤表达式定义条件，`filter_params`为占位符提供动态值。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -488,10 +558,6 @@ res = client.delete(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.DeleteReq;
-import java.util.*;
-
 String expr = "age > {age} AND city IN {city}";
 Map<String, Object> filterTemplateValues = new HashMap<>();
 filterTemplateValues.put("age", 25);
@@ -511,13 +577,6 @@ client.delete(deleteReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 expr := "age > {age} AND city IN {city}"
 
 result, err := client.Delete(ctx, milvusclient.NewDeleteOption("hello_milvus").
@@ -535,9 +594,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let expr = "age > {age} AND city IN {city}";
 let filter_templates: HashMap<String, FilterTemplateValue> = HashMap::from([
     ("age".into(), FilterTemplateValue::Int64(25)),
@@ -592,6 +648,30 @@ const res = await client.delete({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string expr = "age > {age} AND city IN {city}";
+var filterParams = new Dictionary<string, object>
+{
+    ["age"] = 25,
+    ["city"] = new[] { "北京", "上海" }
+};
+
+await client.DeleteAsync(new DeleteReq
+{
+    CollectionName = "hello_milvus",
+    Expression = expr,
+    FilterTemplates =
+    {
+        ["age"] = 25,
+        ["city"] = new[] { "北京", "上海" }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -618,7 +698,7 @@ curl --request POST \
 
 您可以将过滤表达式模板与正则表达式过滤条件结合使用。当正则表达式模式在请求时提供时，此功能尤其有用。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -637,11 +717,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.*;
-
 String expr = "message =~ {pattern}";
 Map<String, Object> filterTemplateValues = new HashMap<>();
 filterTemplateValues.put("pattern", "E[0-9]{4}");
@@ -661,13 +736,6 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 expr := "message =~ {pattern}"
 
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("hello_milvus").
@@ -685,9 +753,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let expr = "message =~ {pattern}";
 let filter_templates: HashMap<String, FilterTemplateValue> = HashMap::from([
     ("pattern".into(), FilterTemplateValue::String("E[0-9]{4}".to_string())),
@@ -743,6 +808,32 @@ const res = await client.query({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+string expr = "message =~ {pattern}";
+var filterParams = new Dictionary<string, object>
+{
+    ["pattern"] = "E[0-9]{4}"
+};
+
+QueryResp res = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "hello_milvus",
+    Expression = expr,
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "message" },
+        FilterTemplates =
+        {
+            ["pattern"] = "E[0-9]{4}"
+        }
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -766,7 +857,7 @@ curl --request POST \
 
 您还可以将模板参数与 `!~` 结合使用：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -779,8 +870,6 @@ filter_params = {"pattern": "^DEBUG"}
 <TabItem value='java'>
 
 ```java
-import java.util.*;
-
 String expr = "message !~ {pattern}";
 Map<String, Object> filterTemplateValues = new HashMap<>();
 filterTemplateValues.put("pattern", "^DEBUG");
@@ -802,9 +891,6 @@ filterTemplates := map[string]any{
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use std::collections::HashMap;
-
 let expr = "message !~ {pattern}";
 let filter_templates: HashMap<String, FilterTemplateValue> = HashMap::from([
     ("pattern".into(), FilterTemplateValue::String("^DEBUG".to_string())),
@@ -829,6 +915,18 @@ std::unordered_map<std::string, nlohmann::json> filterTemplates = {
 ```javascript
 const expr = "message !~ {pattern}";
 const exprValues = { pattern: "^DEBUG" };
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+string expr = "message !~ {pattern}";
+var filterParams = new Dictionary<string, object>
+{
+    ["pattern"] = "^DEBUG"
+};
 ```
 
 </TabItem>

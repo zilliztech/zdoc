@@ -39,7 +39,7 @@ Zilliz Cloud 支持为标量字段（不包括主字段）设置默认值。字�
 
 以下示例创建一个 Collection，其中两个标量字段配置了默认值：`age` 的默认值为 `18`，`status` 的默认值为 `"active"`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -91,6 +91,19 @@ import io.milvus.v2.service.collection.request.HasCollectionReq;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.utility.request.FlushReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Collections;
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -162,7 +175,10 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "fmt"
 )
 
 ctx := context.Background()
@@ -199,7 +215,6 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
         WithName("vector").
         WithDataType(entity.FieldTypeFloatVector).
         WithDim(5)).
-    // highlight-start
     WithField(entity.NewField().
         WithName("age").
         WithDataType(entity.FieldTypeInt64).
@@ -209,7 +224,6 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
         WithDataType(entity.FieldTypeVarChar).
         WithDefaultValueString("active").
         WithMaxLength(10))
-    // highlight-end
 
 indexOption := milvusclient.NewCreateIndexOption(
     collectionName,
@@ -322,6 +336,7 @@ client
 #include <iostream>
 #include <string>
 #include "milvus/MilvusClientV2.h"
+#include <vector>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -382,7 +397,9 @@ const client = new MilvusClient({
 const collectionName = 'my_collection';
 
 // Drop the collection if it already exists
-await client.dropCollection({ collection_name: collectionName }).catch(() => {});
+if ((await client.hasCollection({ collection_name: collectionName })).value) {
+  await client.dropCollection({ collection_name: collectionName });
+}
 
 await client.createCollection({
   collection_name: collectionName,
@@ -430,6 +447,67 @@ await client.loadCollection({ collection_name: collectionName });
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Responses.Dql;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+await client.ConnectAsync();
+
+// Drop the collection if it already exists
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "my_collection" })).Has)
+{
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = "my_collection" });
+}
+
+// Define collection schema
+var ageField = new FieldSchema("age", DataType.Int64) { DefaultValue = 18L };
+var statusField = FieldSchema.CreateVarchar("status", maxLength: 10);
+statusField.DefaultValue = "active";
+
+var schema = new CollectionSchema
+{
+    EnableDynamicFields = true,
+    Fields =
+    {
+        new FieldSchema("id", DataType.Int64, isPrimaryKey: true),
+        FieldSchema.CreateFloatVector("vector", dimension: 5),
+        ageField,
+        statusField
+    }
+};
+
+// Set index params
+var indexParam = new IndexParam(
+    fieldName: "vector",
+    indexType: IndexType.AutoIndex,
+    metricType: MetricType.L2);
+
+// Create collection
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "my_collection",
+    Schema = schema,
+    Indexes = [indexParam]
+});
+
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = "my_collection" });
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -437,11 +515,18 @@ export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 # Drop the collection if it already exists
-curl --request POST \
-  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop" \
+if curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/has" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
-  --data '{"collectionName": "my_collection"}'
+  --data '{"collectionName": "my_collection"}' \
+  | grep -qE '"has"[[:space:]]*:[[:space:]]*true'; then
+  curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    --data '{"collectionName": "my_collection"}'
+fi
 
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
@@ -505,7 +590,7 @@ curl --request POST \
 
 插入数据时，如果省略已配置默认值的字段，或显式将该字段设为 `NULL`，Zilliz Cloud 会自动使用配置的默认值。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -531,15 +616,6 @@ client.flush(collection_name="my_collection")
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.utility.request.FlushReq;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 String collectionName = "my_collection";
 
 Gson gson = new Gson();
@@ -591,14 +667,7 @@ client.flush(FlushReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-collectionName := "my_collection"
+collectionName = "my_collection"
 
 ageColumn, err := column.NewNullableColumnInt64(
     "age",
@@ -688,10 +757,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <string>
-#include <vector>
-
 const std::string collection_name = "my_collection";
 
 milvus::EntityRows rows;
@@ -722,10 +787,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const collectionName = 'my_collection';
-
 const data = [
   // All fields provided explicitly
   { id: 1, vector: [0.1, 0.2, 0.3, 0.4, 0.5], age: 30, status: 'premium' },
@@ -744,6 +805,45 @@ await client.insert({
 
 // Flush so the inserted rows are immediately queryable
 await client.flush({ collection_names: [collectionName] });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var data = new[]
+{
+    // All fields provided explicitly
+    new Dictionary<string, object?>
+    {
+        ["id"] = 1L, ["vector"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f }, ["age"] = 30L, ["status"] = "premium"
+    },
+    // age and status omitted → both use default values (18 and "active")
+    new Dictionary<string, object?>
+    {
+        ["id"] = 2L, ["vector"] = new[] { 0.2f, 0.3f, 0.4f, 0.5f, 0.6f }
+    },
+    // status set to None → uses default value "active"
+    new Dictionary<string, object?>
+    {
+        ["id"] = 3L, ["vector"] = new[] { 0.3f, 0.4f, 0.5f, 0.6f, 0.7f }, ["age"] = 25L, ["status"] = null
+    },
+    // age set to None → uses default value 18
+    new Dictionary<string, object?>
+    {
+        ["id"] = 4L, ["vector"] = new[] { 0.4f, 0.5f, 0.6f, 0.7f, 0.8f }, ["age"] = null, ["status"] = "inactive"
+    }
+};
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "my_collection",
+    RowsData = data
+});
+
+// Flush so the inserted rows are immediately queryable
+await client.FlushAsync(new Milvus.Client.V2.Requests.Utility.FlushReq { CollectionNames = ["my_collection"] });
 ```
 
 </TabItem>
@@ -801,7 +901,7 @@ curl --request POST \
 
 以下示例搜索 `age` 等于默认值 `18` 的 Entity：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -824,13 +924,6 @@ for hit in res[0]:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-import java.util.Arrays;
-import java.util.Collections;
-
 String collectionName = "my_collection";
 
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -858,16 +951,7 @@ for (SearchResp.SearchResult hit : searchResp.getSearchResults().get(0)) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    "github.com/milvus-io/milvus/client/v3/index"
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-collectionName := "my_collection"
+collectionName = "my_collection"
 
 annParam := index.NewCustomAnnParam()
 annParam.WithExtraParam("nprobe", 16)
@@ -930,10 +1014,6 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <string>
-#include <vector>
-
 const std::string collection_name = "my_collection";
 
 std::string filter = "age == 18";
@@ -942,6 +1022,7 @@ auto request = milvus::SearchRequest()
                    .WithCollectionName(collection_name)
                    .WithFilter(filter)
                    .WithLimit(10)
+                   .AddExtraParam("nprobe", "16")
                    .AddOutputField("id")
                    .AddOutputField("age")
                    .AddOutputField("status")
@@ -968,10 +1049,6 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const collectionName = 'my_collection';
-
 const searchResults = await client.search({
   collection_name: collectionName,
   data: [[0.1, 0.2, 0.4, 0.3, 0.5]],
@@ -987,6 +1064,28 @@ console.log('Search results (age == 18):');
 for (const hit of searchResults.results) {
   console.log(`  id: ${hit.id}, age: ${hit.age}, status: ${hit.status}`);
 }
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+SearchResp res = await client.SearchAsync(new SearchReq
+{
+    CollectionName = "my_collection",
+    Vectors = [new ReadOnlyMemory<float>(new[] { 0.1f, 0.2f, 0.4f, 0.3f, 0.5f })],
+    VectorFieldName = "vector",
+    MetricType = MetricType.L2,
+    Limit = 10,
+    Parameters = new SearchParameters
+    {
+        Nprobe = 16,
+        Expression = "age == 18",
+        OutputFields = { "id", "age", "status" }
+    }
+});
+Console.WriteLine("Search results (age == 18):");
 ```
 
 </TabItem>
@@ -1032,7 +1131,7 @@ Search results (age == 18):
 
 您也可以直接匹配默认值来查询 Entity：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1064,11 +1163,6 @@ for r in default_status_results:
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-
 String collectionName = "my_collection";
 
 // Query entities where age equals the default value (18)
@@ -1109,15 +1203,7 @@ for (QueryResp.QueryResult row : defaultStatusResults.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/entity"
-    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-collectionName := "my_collection"
+collectionName = "my_collection"
 
 // Query entities where age equals the default value (18)
 defaultAgeResults, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).
@@ -1191,9 +1277,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <string>
-
 const std::string collection_name = "my_collection";
 
 // Query entities where age equals the default value (18)
@@ -1246,10 +1329,6 @@ for (const auto& row : output_rows2) {
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const collectionName = 'my_collection';
-
 // Query entities where age equals the default value (18)
 const defaultAgeResults = await client.query({
   collection_name: collectionName,
@@ -1275,6 +1354,36 @@ console.log("\nQuery results (status == 'active'):");
 for (const row of defaultStatusResults.data) {
   console.log(`  id: ${row.id}, age: ${row.age}, status: ${row.status}`);
 }
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+QueryResp defaultAgeResults = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "age == 18",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "id", "age", "status" }
+    }
+});
+
+Console.WriteLine("Query results (age == 18):");
+
+QueryResp defaultStatusResults = await client.QueryAsync(new QueryReq
+{
+    CollectionName = "my_collection",
+    Expression = "status == \"active\"",
+    Parameters = new QueryParameters
+    {
+        OutputFields = { "id", "age", "status" }
+    }
+});
+
+Console.WriteLine("Query results (status == 'active'):");
 ```
 
 </TabItem>

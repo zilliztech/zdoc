@@ -82,18 +82,18 @@ for hits in res:
 # [
 #     [
 #         {
-#             "id": 551,
-#             "distance": 0.08821295201778412,
+#             "id": 0,
+#             "distance": 1.4093276262283325,
 #             "entity": {}
 #         },
 #         {
-#             "id": 296,
-#             "distance": 0.0800950899720192,
+#             "id": 10,
+#             "distance": 1.4093276262283325,
 #             "entity": {}
 #         },
 #         {
-#             "id": 43,
-#             "distance": 0.07794742286205292,
+#             "id": 4,
+#             "distance": 0.9902134537696838,
 #             "entity": {}
 #         }
 #     ]
@@ -131,8 +131,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
-for (List<SearchResp.SearchResult> results : searchResults) {
+List> searchResults = searchResp.getSearchResults();
+for (List results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -141,9 +141,9 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 // Output
 // TopK results:
-// SearchResp.SearchResult(entity={}, score=0.95944905, id=5)
-// SearchResp.SearchResult(entity={}, score=0.8689616, id=1)
-// SearchResp.SearchResult(entity={}, score=0.866088, id=7)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=0)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=10)
+// SearchResp.SearchResult(entity={}, score=0.9902134537696838, id=4)
 ```
 
 </TabItem>
@@ -290,9 +290,9 @@ res = await client.search({
 console.log(res.results)
 
 // [
-//   { score: 0.08821295201778412, id: '551' },
-//   { score: 0.0800950899720192, id: '296' },
-//   { score: 0.07794742286205292, id: '43' }
+//   { score: 1.4093276262283325, id: '0' },
+//   { score: 1.4093276262283325, id: '10' },
+//   { score: 0.9902134537696838, id: '4' }
 // ]
 ```
 
@@ -358,18 +358,19 @@ curl --request POST \
 #     "code": 0,
 #     "data": [
 #         {
-#             "distance": 0.08821295201778412,
-#             "id": 551
+#             "distance": 1.4093276262283325,
+#             "id": 0
 #         },
 #         {
-#             "distance": 0.0800950899720192,
-#             "id": 296
+#             "distance": 1.4093276262283325,
+#             "id": 10
 #         },
 #         {
-#             "distance": 0.07794742286205292,
-#             "id": 43
+#             "distance": 0.9902134537696838,
+#             "id": 4
 #         }
-#     ]
+#     ],
+#     "topks":[3]
 # }
 ```
 
@@ -441,35 +442,35 @@ for hits in res:
 # [
 #     [
 #         {
-#             "id": 551,
-#             "distance": 0.08821295201778412,
+#             "id": 0,
+#             "distance": 1.4093276262283325,
 #             "entity": {}
 #         },
 #         {
-#             "id": 296,
-#             "distance": 0.0800950899720192,
+#             "id": 10,
+#             "distance": 1.4093276262283325,
 #             "entity": {}
 #         },
 #         {
-#             "id": 43,
-#             "distance": 0.07794742286205292,
+#             "id": 4,
+#             "distance": 0.9902134537696838,
 #             "entity": {}
 #         }
 #     ],
 #     [
 #         {
-#             "id": 730,
-#             "distance": 0.04431751370429993,
+#             "id": 1,
+#             "distance": 1.3017789125442505,
 #             "entity": {}
 #         },
 #         {
-#             "id": 333,
-#             "distance": 0.04231833666563034,
+#             "id": 11,
+#             "distance": 1.3017789125442505,
 #             "entity": {}
 #         },
 #         {
-#             "id": 232,
-#             "distance": 0.04221535101532936,
+#             "id": 7,
+#             "distance": 1.2419954538345337,
 #             "entity": {}
 #         }
 #     ]
@@ -481,7 +482,7 @@ for hits in res:
 <TabItem value='java'>
 
 ```java
-List<BaseVector> queryVectors = Arrays.asList(
+List queryVectors = Arrays.asList(
         new FloatVec(new float[]{0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f}),
         new FloatVec(new float[]{0.0039737443f, 0.003020432f, -0.0006188639f, 0.03913546f, -0.00089768134f})
 );
@@ -493,8 +494,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
-for (List<SearchResp.SearchResult> results : searchResults) {
+List> searchResults = searchResp.getSearchResults();
+for (List results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -503,13 +504,13 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 // Output
 // TopK results:
-// SearchResp.SearchResult(entity={}, score=0.49548206, id=1)
-// SearchResp.SearchResult(entity={}, score=0.320147, id=3)
-// SearchResp.SearchResult(entity={}, score=0.107413776, id=6)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=0)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=10)
+// SearchResp.SearchResult(entity={}, score=0.9902134537696838, id=4)
 // TopK results:
-// SearchResp.SearchResult(entity={}, score=0.5678123, id=6)
-// SearchResp.SearchResult(entity={}, score=0.32368967, id=2)
-// SearchResp.SearchResult(entity={}, score=0.24108477, id=3)
+// SearchResp.SearchResult(entity={}, score=1.3017789125442505, id=1)
+// SearchResp.SearchResult(entity={}, score=1.3017789125442505, id=11)
+// SearchResp.SearchResult(entity={}, score=1.2419954538345337, id=7)
 ```
 
 </TabItem>
@@ -623,17 +624,17 @@ res = await client.search({
 console.log(res.results)
 
 // Output
-// 
+//
 // [
 //   [
-//     { score: 0.08821295201778412, id: '551' },
-//     { score: 0.0800950899720192, id: '296' },
-//     { score: 0.07794742286205292, id: '43' }
+//     { score: 1.4093276262283325, id: '0' },
+//     { score: 1.4093276262283325, id: '10' },
+//     { score: 0.9902134537696838, id: '4' }
 //   ],
 //   [
-//     { score: 0.04431751370429993, id: '730' },
-//     { score: 0.04231833666563034, id: '333' },
-//     { score: 0.04221535101532936, id: '232' },
+//     { score: 1.3017789125442505, id: '1' },
+//     { score: 1.3017789125442505, id: '11' },
+//     { score: 1.2419954538345337, id: '7' }
 //   ]
 // ]
 ```
@@ -689,30 +690,30 @@ curl --request POST \
 #     "data": [
 #         [
 #           {
-#               "distance": 0.08821295201778412,
-#               "id": 551
+#               "distance": 1.4093276262283325,
+#               "id": 0
 #           },
 #           {
-#               "distance": 0.0800950899720192,
-#               "id": 296
+#               "distance": 1.4093276262283325,
+#               "id": 10
 #           },
 #           {
-#               "distance": 0.07794742286205292,
-#               "id": 43
+#               "distance": 0.9902134537696838,
+#               "id": 4
 #           }
 #         ],
 #         [
 #           {
-#               "distance": 0.04431751370429993,
-#               "id": 730
+#               "distance": 1.3017789125442505,
+#               "id": 1
 #           },
 #           {
-#               "distance": 0.04231833666563034,
-#               "id": 333
+#               "distance": 1.3017789125442505,
+#               "id": 11
 #           },
 #           {
-#               "distance": 0.04221535101532936,
-#               "id": 232
+#               "distance": 1.2419954538345337,
+#               "id": 7
 #           }
 #        ]
 #     ],
@@ -971,18 +972,18 @@ for hits in res:
 # [
 #     [
 #         {
-#             "id": 551,
-#             "distance": 0.08821295201778412,
+#             "id": 10,
+#             "distance": 1.4093276262283325,
 #             "entity": {}
 #         },
 #         {
-#             "id": 296,
-#             "distance": 0.0800950899720192,
+#             "id": 14,
+#             "distance": 0.9902134537696838,
 #             "entity": {}
 #         },
 #         {
-#             "id": 43,
-#             "distance": 0.07794742286205292,
+#             "id": 11,
+#             "distance": 0.8519943356513977,
 #             "entity": {}
 #         }
 #     ]
@@ -1004,8 +1005,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
-for (List<SearchResp.SearchResult> results : searchResults) {
+List> searchResults = searchResp.getSearchResults();
+for (List results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -1014,9 +1015,9 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 // Output
 // TopK results:
-// SearchResp.SearchResult(entity={}, score=0.6395302, id=13)
-// SearchResp.SearchResult(entity={}, score=0.5408028, id=12)
-// SearchResp.SearchResult(entity={}, score=0.49696884, id=17)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=10)
+// SearchResp.SearchResult(entity={}, score=0.9902134537696838, id=14)
+// SearchResp.SearchResult(entity={}, score=0.8519943356513977, id=11)
 ```
 
 </TabItem>
@@ -1118,9 +1119,9 @@ res = await client.search({
 console.log(res.results)
 
 // [
-//   { score: 0.08821295201778412, id: '551' },
-//   { score: 0.0800950899720192, id: '296' },
-//   { score: 0.07794742286205292, id: '43' }
+//   { score: 1.4093276262283325, id: '10' },
+//   { score: 0.9902134537696838, id: '14' },
+//   { score: 0.8519943356513977, id: '11' }
 // ]
 ```
 
@@ -1167,16 +1168,16 @@ curl --request POST \
 #     "code": 0,
 #     "data": [
 #         {
-#             "distance": 0.08821295201778412,
-#             "id": 551
+#             "distance": 1.4093276262283325,
+#             "id": 10
 #         },
 #         {
-#             "distance": 0.0800950899720192,
-#             "id": 296
+#             "distance": 0.9902134537696838,
+#             "id": 14
 #         },
 #         {
-#             "distance": 0.07794742286205292,
-#             "id": 43
+#             "distance": 0.8519943356513977,
+#             "id": 11
 #         }
 #     ],
 #     "topks":[3]
@@ -1249,8 +1250,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
-for (List<SearchResp.SearchResult> results : searchResults) {
+List> searchResults = searchResp.getSearchResults();
+for (List results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -1259,9 +1260,9 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 // Output
 // TopK results:
-// SearchResp.SearchResult(entity={color=black_9955}, score=0.95944905, id=5)
-// SearchResp.SearchResult(entity={color=red_7319}, score=0.8689616, id=1)
-// SearchResp.SearchResult(entity={color=white_5015}, score=0.866088, id=7)
+// SearchResp.SearchResult(entity={color=pink_8682}, score=1.4093276262283325, id=0)
+// SearchResp.SearchResult(entity={color=pink_8682}, score=1.4093276262283325, id=10)
+// SearchResp.SearchResult(entity={color=red_4794}, score=0.9902134537696838, id=4)
 ```
 
 </TabItem>
@@ -1366,9 +1367,9 @@ res = await client.search({
 console.log(res.results)
 
 // [
-//   { score: 0.08821295201778412, id: '551', entity: {"color": "orange_6781"}},
-//   { score: 0.0800950899720192, id: '296' entity: {"color": "red_4794"}},
-//   { score: 0.07794742286205292, id: '43' entity: {"color": "grey_8510"}}
+//   { score: 1.4093276262283325, id: '0', entity: {"color": "pink_8682"}},
+//   { score: 1.4093276262283325, id: '10', entity: {"color": "pink_8682"}},
+//   { score: 0.9902134537696838, id: '4', entity: {"color": "red_4794"}}
 // ]
 ```
 
@@ -1415,19 +1416,19 @@ curl --request POST \
 #     "code": 0,
 #     "data": [
 #         {
-#             "distance": 0.08821295201778412,
-#             "id": 551,
-#             "color": "orange_6781"
+#             "distance": 1.4093276262283325,
+#             "id": 0,
+#             "color": "pink_8682"
 #         },
 #         {
-#             "distance": 0.0800950899720192,
-#             "id": 296,
+#             "distance": 1.4093276262283325,
+#             "id": 10,
+#             "color": "pink_8682"
+#         },
+#         {
+#             "distance": 0.9902134537696838,
+#             "id": 4,
 #             "color": "red_4794"
-#         },
-#         {
-#             "distance": 0.07794742286205292,
-#             "id": 43
-#             "color": "grey_8510"
 #         }
 #     ],
 #     "topks":[3]
@@ -1990,8 +1991,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
-for (List<SearchResp.SearchResult> results : searchResults) {
+List> searchResults = searchResp.getSearchResults();
+for (List results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -2000,9 +2001,9 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 // Output
 // TopK results:
-// SearchResp.SearchResult(entity={}, score=0.24120237, id=16)
-// SearchResp.SearchResult(entity={}, score=0.22559784, id=9)
-// SearchResp.SearchResult(entity={}, score=-0.09906838, id=2)
+// SearchResp.SearchResult(entity={}, score=0.4527677893638611, id=3)
+// SearchResp.SearchResult(entity={}, score=0.4527677893638611, id=13)
+// SearchResp.SearchResult(entity={}, score=0.4388217329978943, id=7)
 ```
 
 </TabItem>
@@ -2206,7 +2207,7 @@ res = client.search(
 
 ```java
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
-Map<String, Object> params = new HashMap<>();
+Map params = new HashMap<>();
 params.put("level", 10);
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
@@ -2217,8 +2218,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
-for (List<SearchResp.SearchResult> results : searchResults) {
+List> searchResults = searchResp.getSearchResults();
+for (List results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -2227,9 +2228,9 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 // Output
 // TopK results:
-// SearchResp.SearchResult(entity={}, score=0.95944905, id=5)
-// SearchResp.SearchResult(entity={}, score=0.8689616, id=1)
-// SearchResp.SearchResult(entity={}, score=0.866088, id=7)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=0)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=10)
+// SearchResp.SearchResult(entity={}, score=0.9902134537696838, id=4)
 ```
 
 </TabItem>
@@ -2376,7 +2377,7 @@ curl --request POST \
     }
 }'
 
-# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}],"topks":[3]}
+# {"code":0,"cost":0,"data":[{"distance":1.4093276262283325,"id":0},{"distance":1.4093276262283325,"id":10},{"distance":0.9902134537696838,"id":4},{"distance":1.3017789125442505,"id":1},{"distance":1.3017789125442505,"id":11},{"distance":1.2419954538345337,"id":7}],"topks":[3]}
 ```
 
 </TabItem>
@@ -2445,7 +2446,7 @@ res = client.search(
 
 ```java
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
-Map<String, Object> params = new HashMap<>();
+Map params = new HashMap<>();
 params.put("level", 10);
 params.put("enable_recall_calculation", true);
 SearchReq searchReq = SearchReq.builder()
@@ -2457,8 +2458,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
-for (List<SearchResp.SearchResult> results : searchResults) {
+List> searchResults = searchResp.getSearchResults();
+for (List results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -2467,9 +2468,9 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 // Output
 // TopK results:
-// SearchResp.SearchResult(entity={}, score=0.95944905, id=5)
-// SearchResp.SearchResult(entity={}, score=0.8689616, id=1)
-// SearchResp.SearchResult(entity={}, score=0.866088, id=7)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=0)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=10)
+// SearchResp.SearchResult(entity={}, score=0.9902134537696838, id=4)
 ```
 
 </TabItem>
@@ -2625,7 +2626,7 @@ curl --request POST \
     }
 }'
 
-# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}],"topks":[3]}
+# {"code":0,"cost":0,"data":[{"distance":1.4093276262283325,"id":0},{"distance":1.4093276262283325,"id":10},{"distance":0.9902134537696838,"id":4},{"distance":1.3017789125442505,"id":1},{"distance":1.3017789125442505,"id":11},{"distance":1.2419954538345337,"id":7}],"topks":[3]}
 ```
 
 </TabItem>

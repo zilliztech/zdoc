@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" title="Notes">
 
-本页说明如何在搜索流程中使用 StructArray 过滤器。如需完整语法规则、支持的谓词类型和不支持的谓词矩阵，请参见 [StructArray 操作符](./struct-array-filtering)。
+本页说明如何在搜索流程中使用 StructArray 过滤器。如需完整语法规则、支持的谓词类型、不支持的谓词矩阵，以及元素级谓词中的 null 值语义，请参见 [StructArray 操作符](./struct-array-filtering)。
 
 </Admonition>
 

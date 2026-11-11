@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # 创建 StructArray Field
 
@@ -54,9 +55,11 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
+此外，subfield 还可以允许元素级 null（element-level null）：标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`，允许单个 Struct 元素中的该子字段为 null。详情参见下文「在 Struct 元素中允许 null 值」。
+
 ## 支持的 subfield 数据类型 \{#supported-subfield-data-types}
 
-StructArray Field 会为每个 Struct subfield 存储一个数组值。定义 Struct Schema 时，请从受支持的 Scalar 和 Vector 类型族中选择 subfield 类型。
+StructArray Field 会为每个 Struct subfield 存储一个数组值。定义 Struct Schema 时，请从受支持的 Scalar、标量 array 和 Vector 类型族中选择 subfield 类型。
 
 | Struct subfield 物理类型 | 支持情况 | 说明 |
 | --- | --- | --- |
@@ -76,6 +79,315 @@ StructArray Field 会为每个 Struct subfield 存储一个数组值。定义 St
 | `Array<Text>` | 不支持 | StructArray Field 不支持 Text subfield。 |
 | `Array<Timestamptz>` | 不支持 | StructArray Field 不支持 Timestamptz subfield 和 time-specific expression。 |
 | 嵌套的 `Array`、`ArrayOfVector`、`Struct` 或 `ArrayOfStruct` | 不支持 | StructArray Field 不能包含嵌套数组、嵌套 Vector 数组、嵌套 Struct Field 或嵌套 Array-of-Struct Field。 |
+| `Array<Array>` | 支持 | 将 subfield 定义为 `DataType.ARRAY`，设置标量 `element_type` 和内层数组的 `max_capacity`。每个 Struct 元素持有一个内层数组。在子字段上设置 `nullable=True` 允许内层数组为 null，设置 `element_nullable=True` 允许内层数组中的值为 null。 |
+
+## 添加标量 array 子字段 \{#add-a-scalar-array-subfield}
+
+Struct subfield 可以是标量 `ARRAY`。此时每个 Struct 元素持有一个内层数组，例如每个 chunk 对应一个标签列表。定义该 subfield 时使用 `DataType.ARRAY`、标量 `element_type` 以及内层数组的 `max_capacity`。
+
+```python
+chunk_schema.add_field(
+    field_name="tags",
+    datatype=DataType.ARRAY,
+    element_type=DataType.VARCHAR,
+    max_capacity=16,
+    max_length=64,
+)
+```
+
+array 子字段遵循以下规则：
+
+- 内层数组只能持有标量值，不能持有向量、Struct 元素或另一个数组。
+
+- subfield 的 `max_capacity` 限制内层数组；StructArray Field 的 `max_capacity` 仍然限制 Struct 元素的数量。
+
+- array 子字段不支持标量索引。
+
+- 在过滤中使用 `array_contains`、`array_contains_any`、`array_contains_all` 和 `array_length` 操作 `$[tags]`（位于 `element_filter` 或 `MATCH_*` 中），或用于 `chunks[0][tags]` 这类位置路径。详情参见[StructArray 操作符](./struct-array-filtering)。
+
+## 在 Struct 元素中允许 null 值 \{#allow-null-values-in-struct-elements}
+
+标量、向量或 array 子字段可以允许在单个 Struct 元素中为该子字段存储 null 值（即 **element-nullable 子字段**）。在标量或向量子字段上设置 `nullable=True`；在 array 子字段上，设置 `nullable=True` 允许整个内层数组为 null，设置 `element_nullable=True` 允许内层数组中的值为 null。例如，一个 chunk 可以没有检测到的语言，而它的其他 subfield 仍有值。
+
+下面的示例创建 `tech_articles` 集合，其 Schema 即[向 StructArray Field 插入数据](./insert-struct-array)中元素级 null 示例所使用的完整 Schema：包含第一个示例中的全部 subfield，外加一个 element-nullable 的 `lang` subfield 和一个 element-nullable 的 `tags` array 子字段。
+
+```python
+from pymilvus import MilvusClient, DataType
+
+client = MilvusClient(
+    uri="{{var.example_endpoint}}",
+    token="{{var.example_token}}",
+)
+
+schema = client.create_schema(
+    auto_id=False,
+    enable_dynamic_field=False,
+)
+
+# Collection-level fields.
+schema.add_field(
+    field_name="doc_id",
+    datatype=DataType.INT64,
+    is_primary=True,
+)
+schema.add_field(
+    field_name="title",
+    datatype=DataType.VARCHAR,
+    max_length=512,
+)
+schema.add_field(
+    field_name="category",
+    datatype=DataType.VARCHAR,
+    max_length=128,
+)
+schema.add_field(
+    field_name="title_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=4,
+)
+
+# Struct schema used by each element in the StructArray field.
+chunk_schema = client.create_struct_field_schema()
+chunk_schema.add_field(
+    field_name="text",
+    datatype=DataType.VARCHAR,
+    max_length=65535,
+)
+chunk_schema.add_field(
+    field_name="section",
+    datatype=DataType.VARCHAR,
+    max_length=128,
+)
+chunk_schema.add_field(
+    field_name="page",
+    datatype=DataType.INT64,
+)
+chunk_schema.add_field(
+    field_name="quality_score",
+    datatype=DataType.FLOAT,
+)
+chunk_schema.add_field(
+    field_name="has_code",
+    datatype=DataType.BOOL,
+)
+
+# Vector subfield for EmbeddingList search.
+chunk_schema.add_field(
+    field_name="emb_list_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=4,
+)
+
+# Vector subfield for element-level search.
+chunk_schema.add_field(
+    field_name="emb",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=4,
+)
+
+# An element-nullable scalar subfield.
+chunk_schema.add_field(
+    field_name="lang",
+    datatype=DataType.VARCHAR,
+    max_length=16,
+    nullable=True,
+)
+
+# An element-nullable array subfield: nullable=True allows a null inner
+# array and element_nullable=True allows null values inside the inner array.
+chunk_schema.add_field(
+    field_name="tags",
+    datatype=DataType.ARRAY,
+    element_type=DataType.VARCHAR,
+    max_capacity=16,
+    max_length=64,
+    nullable=True,
+    element_nullable=True,
+)
+
+# Add the StructArray field. nullable=True applies to the whole field.
+schema.add_field(
+    field_name="chunks",
+    datatype=DataType.ARRAY,
+    element_type=DataType.STRUCT,
+    struct_schema=chunk_schema,
+    max_capacity=1000,
+    nullable=True,
+)
+
+client.create_collection(
+    collection_name="tech_articles",
+    schema=schema,
+)
+```
+
+元素级 null 遵循以下规则：
+
+- 行级 `nullable` 作用于整个 StructArray Field，只能在父 Field 上设置。元素级 null 则设置在 subfield 自身：标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`。
+
+- Struct 元素本身不能为 null。若需表达 null，应将元素内相应 subfield 的值设为 null。
+
+- 插入数据时，Struct 元素中的 element-nullable 子字段可以省略，也可以显式设为 `None`，两种写法均存储 null 值。非 element-nullable 的子字段必须出现在每个 Struct 元素中。
+
+- 在 array 子字段上，`nullable=True` 允许某个 Struct 元素的内层数组整体为 null，`element_nullable=True` 允许内层数组中的值为 null。空的内层数组不是 null。
+
+- element-nullable 向量子字段（`nullable=True`）仅支持元素级搜索；对其使用 `MAX_SIM*` 度量或 EmbeddingList 搜索会被拒绝，且 null 向量不参与搜索。
+
+- element-nullable 子字段不支持标量索引。
+
+- 在过滤条件中，subfield 为 null 会使元素谓词的结果为 unknown 而非 false。可在 `element_filter` 或 `MATCH_*` 中使用 `$[lang] is null` 或 `$[lang] is not null` 进行判断，详见[StructArray 操作符](./struct-array-filtering)。
+
+<Tabs groupId="code" defaultValue='go' values={[{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "{{var.example_endpoint}}",
+    APIKey:  "{{var.example_token}}",
+})
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(false)
+
+// Collection-level fields.
+schema.WithField(entity.NewField().
+        WithName("doc_id").
+        WithDataType(entity.FieldTypeInt64).
+        WithIsPrimaryKey(true))
+schema.WithField(entity.NewField().
+        WithName("title").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(512))
+schema.WithField(entity.NewField().
+        WithName("category").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(128))
+schema.WithField(entity.NewField().
+        WithName("title_vector").
+        WithDataType(entity.FieldTypeFloatVector).
+        WithDim(4))
+
+// Struct schema used by each element in the StructArray field.
+chunkSchema := entity.NewStructSchema()
+chunkSchema.WithField(entity.NewField().
+        WithName("text").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(65535))
+chunkSchema.WithField(entity.NewField().
+        WithName("section").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(128))
+chunkSchema.WithField(entity.NewField().
+        WithName("page").
+        WithDataType(entity.FieldTypeInt64))
+chunkSchema.WithField(entity.NewField().
+        WithName("quality_score").
+        WithDataType(entity.FieldTypeFloat))
+chunkSchema.WithField(entity.NewField().
+        WithName("has_code").
+        WithDataType(entity.FieldTypeBool))
+chunkSchema.WithField(entity.NewField().
+        WithName("emb_list_vector").
+        WithDataType(entity.FieldTypeFloatVector).
+        WithDim(4))
+chunkSchema.WithField(entity.NewField().
+        WithName("emb").
+        WithDataType(entity.FieldTypeFloatVector).
+        WithDim(4))
+
+// An element-nullable scalar subfield.
+chunkSchema.WithField(entity.NewField().
+        WithName("lang").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(16).
+        WithNullable(true))
+
+// An element-nullable array subfield: WithNullable(true) allows a null
+// inner array and WithElementNullable(true) allows null values inside it.
+chunkSchema.WithField(entity.NewField().
+        WithName("tags").
+        WithDataType(entity.FieldTypeArray).
+        WithElementType(entity.FieldTypeVarChar).
+        WithMaxCapacity(16).
+        WithMaxLength(64).
+        WithNullable(true).
+        WithElementNullable(true))
+
+// Add the StructArray field. WithNullable(true) applies to the whole field.
+schema.WithField(entity.NewField().
+        WithName("chunks").
+        WithDataType(entity.FieldTypeArray).
+        WithElementType(entity.FieldTypeStruct).
+        WithMaxCapacity(1000).
+        WithNullable(true).
+        WithStructSchema(chunkSchema))
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("tech_articles", schema))
+if err != nil {
+    fmt.Println(err)
+    return
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "{{var.example_endpoint}}/v2/vectordb/collections/create" \
+  --header "Authorization: Bearer {{var.example_token}}" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "tech_articles",
+    "schema": {
+      "autoID": false,
+      "enableDynamicField": false,
+      "fields": [
+        {"fieldName": "doc_id", "dataType": "Int64", "isPrimary": true},
+        {"fieldName": "title", "dataType": "VarChar", "elementTypeParams": {"max_length": "512"}},
+        {"fieldName": "category", "dataType": "VarChar", "elementTypeParams": {"max_length": "128"}},
+        {"fieldName": "title_vector", "dataType": "FloatVector", "elementTypeParams": {"dim": "4"}}
+      ],
+      "structFields": [
+        {
+          "fieldName": "chunks",
+          "nullable": true,
+          "typeParams": {"max_capacity": "1000"},
+          "fields": [
+            {"fieldName": "text", "dataType": "Array", "elementDataType": "VarChar", "elementTypeParams": {"max_length": "65535"}},
+            {"fieldName": "section", "dataType": "Array", "elementDataType": "VarChar", "elementTypeParams": {"max_length": "128"}},
+            {"fieldName": "page", "dataType": "Array", "elementDataType": "Int64"},
+            {"fieldName": "quality_score", "dataType": "Array", "elementDataType": "Float"},
+            {"fieldName": "has_code", "dataType": "Array", "elementDataType": "Bool"},
+            {"fieldName": "lang", "dataType": "Array", "elementDataType": "VarChar", "elementNullable": true, "elementTypeParams": {"max_length": "16"}},
+            {"fieldName": "tags", "dataType": "Array", "elementDataType": "Array", "elementNullable": true, "typeSchema": {"arrayElement": {"typeParams": {"max_capacity": "16"}, "arrayElement": {"leafType": "VarChar", "nullable": true, "typeParams": {"max_length": "64"}}}}},
+            {"fieldName": "emb_list_vector", "dataType": "ArrayOfVector", "elementDataType": "FloatVector", "elementTypeParams": {"dim": "4"}},
+            {"fieldName": "emb", "dataType": "ArrayOfVector", "elementDataType": "FloatVector", "elementTypeParams": {"dim": "4"}}
+          ]
+        }
+      ]
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+更多 element-nullable 规则与限制（如索引与搜索行为），参见[StructArray 限制](./struct-array-limits)。
 
 关于特定版本支持、Nullable 行为和其他限制，请参阅 [StructArray 限制](./struct-array-limits)。
 
@@ -200,7 +512,7 @@ client.create_collection(
 
 ## 将 StructArray Field 设为 Nullable \{#make-a-structarray-field-nullable}
 
-Clusters compatible with Milvus v3.0.x support Nullable StructArray Field。Nullable StructArray Field 允许 Entity 为整个 StructArray Field 存储 `null`。
+兼容 Milvus v3.0.x 的集群支持 Nullable StructArray Field。Nullable StructArray Field 允许 Entity 为整个 StructArray Field 存储 `null`。
 
 ```python
 schema.add_field(
@@ -215,13 +527,13 @@ schema.add_field(
 
 <Admonition type="warning" title="警告">
 
-Nullable StructArray Field 仅在 clusters compatible with Milvus v3.0.x 中可用。对于 Nullable StructArray Field，Entity 可以提供有效的 StructArray value，也可以将整个 Field 设为 `null`。插入有效的 StructArray value 时，所有 subfield 应同时为 null 或同时具有有效值。如果某些 subfield 为 null 而其他 subfield 为有效值，会导致错误。详情请参阅 [StructArray 限制](./struct-array-limits)。
+Nullable StructArray Field 仅在 兼容 Milvus v3.0.x 的集群 中可用。对于 Nullable StructArray Field，Entity 可以提供有效的 StructArray value，也可以将整个 Field 设为 `null`。插入有效的 StructArray value 时，所有 subfield 应同时为 null 或同时具有有效值。如果某些 subfield 为 null 而其他 subfield 为有效值，会导致错误。详情请参阅 [StructArray 限制](./struct-array-limits)。
 
 </Admonition>
 
 ## 向现有 Collection 添加 StructArray Field \{#add-a-structarray-field-to-an-existing-collection}
 
-Clusters compatible with Milvus v3.0.x support 向现有 Collection 添加 StructArray Field。新增的 StructArray Field 必须是 Nullable，因为 Collection 中已存在的 Entity 没有这个新 Field 的值。
+兼容 Milvus v3.0.x 的集群支持 向现有 Collection 添加 StructArray Field。新增的 StructArray Field 必须是 Nullable，因为 Collection 中已存在的 Entity 没有这个新 Field 的值。
 
 要向现有 Collection 添加 StructArray Field，请先定义 Struct Schema。然后调用 `add_collection_struct_field()` 并设置 `nullable=True`。
 
@@ -271,7 +583,15 @@ client.add_collection_struct_field(
 
 添加 StructArray Field 后，已有 Entity 会在该新 Field 的所有 subfield 上返回 `null`。
 
-创建 StructArray Field 后，不能再向该现有 StructArray Field 添加新的 subfield。如果后续需要更多元素属性，请调用 `drop_collection_field()` 删除 StructArray Field，然后用更新后的 Struct Schema 添加新的 StructArray Field。
+此外，还可以通过 `add_collection_field()` 以子字段路径为现有 StructArray Field 添加单个子字段，或通过 `drop_collection_field()` 按路径删除单个子字段（StructArray Field 的最后一个子字段除外）。若目标集群尚不支持子字段变更，可调用 `drop_collection_field()` 删除整个 StructArray Field，再用更新后的 Struct Schema 重新添加。
+
+### 为现有 StructArray Field 添加子字段 \{#add-a-subfield-to-an-existing-structarray-field}
+
+可以向已持有数据的 StructArray Field 添加子字段：调用 `add_collection_field()` 并以子字段路径作为字段名（如 `chunks[lang]`），并为新增子字段设置 `nullable=True`（这也是元素级 null 能力的来源）。在 array 子字段上还需额外设置 `element_nullable=True`。新增子字段会继承 StructArray Field 的行级 `nullable` 设置和 `max_capacity`。完整步骤与规则参见[修改 Collection Schema](./add-fields-to-an-existing-collection)。
+
+### 删除 StructArray 子字段 \{#drop-a-subfield-from-a-structarray-field}
+
+通过 `drop_collection_field()` 传入子字段路径，即可删除现有 StructArray Field 中的单个子字段。Milvus 会将该子字段及其索引一并从 Schema 中移除。不能删除最后一个子字段、Collection 的最后一个向量字段或被 Function 使用的子字段。
 
 ```python
 client.drop_collection_field(
@@ -323,6 +643,8 @@ client.add_collection_struct_field(
 - 使用 `chunks.emb` 或 `chunks.emb_list_vector`，而不是必需的路径语法 `chunks[emb]` 或 `chunks[emb_list_vector]`。
 
 - 假设 Nullable StructArray 行为在所有目标版本中都可用。
+
+1. 假设所有集群都可以向现有 StructArray Field 添加新的 subfield，或新增的 subfield 不允许元素级 null。
 
 ## 下一步 \{#next-steps}
 

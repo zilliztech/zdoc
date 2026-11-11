@@ -31,13 +31,14 @@ StructArray 支持范围涵盖 Schema 定义、insert payload、Index、Search m
 | Schema 形状 | Struct 只能用作 Array Field 的 element type。不支持将 Struct 作为顶层 Collection Field。 |
 | Subfield Schema | 同一个 StructArray Field 中的所有 Struct 元素共享一个预定义 Struct Schema。 |
 | Capacity | `max_capacity` 是必需的，并限制一个 Entity 可以在 StructArray Field 中存储多少个 Struct 元素。 |
-| Subfield 变更 | 创建 StructArray Field 后，不能向该现有 StructArray Field 添加 subfield。 |
+| Subfield 变更 | 可向现有 StructArray Field 添加 element-nullable 子字段，或从中删除单个子字段。 |
 | Subfield path | 对 Index、Search 目标、Output Field 和 Filter 使用 `chunks[emb]` 等 `structArray[subfield]` path。不要使用 `chunks.emb`。 |
 | Insert 形状 | 将 StructArray Field 作为对象数组插入。不要在 insert payload 内使用路径语法。 |
 | Vector Index | 一个 Vector Field 或 Vector subfield 只能接受一个 Index。EmbeddingList Search 和 Element-level Search 请使用独立的 Vector subfield。 |
 | Functions | StructArray Field 内部的 Field 或 subfield 不支持 Field function。 |
-| Nullable Field | Nullable StructArray Field 受版本限制。支持时，null 作用于整个 StructArray Field，而不是单个 Struct 元素。 |
+| Nullable Field | Nullable StructArray Field 的行级 null 作用于整个 Field。此外，子字段可允许单个 Struct 元素中的 null：标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`。Struct 元素本身不能为 null。 |
 | Dynamic add Field | 向现有 Collection 添加 StructArray Field 受版本限制，并要求新增 Field 为 Nullable。 |
+| 嵌套 subfield | Struct 可以包含一层嵌套的标量 array 子字段。任何情况下都不支持嵌套 `Struct`、`ArrayOfStruct` 和 JSON 子字段，内层数组不能持有向量。 |
 
 ## Schema 限制 \{#schema-limits}
 
@@ -46,9 +47,12 @@ StructArray 支持范围涵盖 Schema 定义、insert payload、Index、Search m
 | Struct 不是顶层 Field type。 | 使用 `datatype=DataType.ARRAY`、`element_type=DataType.STRUCT` 和 `struct_schema` 创建 StructArray Field。 |
 | 所有元素共享一个 Schema。 | StructArray Field 中的每个 Struct 元素都遵循相同的 subfield 列表和 subfield 数据类型。 |
 | `max_capacity` 是必需的。 | 一个 Entity 中 Struct 元素数量不能超过 StructArray Field 配置的 `max_capacity`。 |
-| 现有 subfield 是固定的。 | 不能向现有 StructArray Field 追加新的 subfield。如需更改 subfield Schema，请删除 StructArray Field，然后使用更新后的 Schema 重新添加。 |
-| 不支持嵌套 StructArray。 | StructArray Field 不能包含嵌套的 `Array`、`ArrayOfVector`、`Struct` 或 `ArrayOfStruct` subfield。 |
+| 子字段可变更。 | 可向现有 StructArray Field 添加 element-nullable 子字段，或按路径（如 `chunks[lang]`）删除单个子字段。不能删除最后一个子字段、Collection 的最后一个向量字段或被 Function 使用的子字段。 |
+| 嵌套 Struct 不受支持。 | Struct 可以包含一层嵌套的标量 array 子字段；不支持嵌套 `Struct`、`ArrayOfStruct` 或 JSON 子字段，内层数组不能持有向量。 |
 | StructArray 内部不支持 Function。 | 不要为 StructArray Field 或其 subfield 定义 Field function。 |
+| 标量 array 子字段有各自的 `max_capacity`。 | 标量 array 子字段为其内层数组声明 `max_capacity`；Struct 元素的内层数组超过该子字段声明的容量时会被拒绝。各子字段的值无需一致。该值必须大于 0 且不超过 `proxy.maxArrayCapacity`（默认 4096）。 |
+| StructArray Field 的 Field 属性受限。 | 对 StructArray Field 或其子字段路径调用 `alter_collection_field()` 仅接受 `mmap.enabled`、`field.description` 和 `warmup`；其他属性（如 `max_capacity`、`max_length`）会被拒绝。 |
+| subfield 不支持文本分析。 | 在 Struct 子字段上设置 `enable_match` 或 `enable_analyzer` 会被拒绝。文本索引只为顶层 Field 构建。 |
 
 关于 Schema 创建示例，请参阅 [创建 StructArray Field](./create-struct-array)。
 
@@ -58,6 +62,7 @@ StructArray subfield 会映射到物理上的数组式存储。下表列出支�
 
 | Struct subfield 物理类型 | 支持情况 | 说明 |
 | --- | --- | --- |
+| `Array<Array>` | 支持 | 将子字段定义为 `DataType.ARRAY`，设置标量 `element_type` 和内层数组的 `max_capacity`。每个 Struct 元素持有一个内层数组。在子字段上设置 `nullable=True` 允许内层数组为 null，设置 `element_nullable=True` 允许内层数组中的值为 null。 |
 | `Array<Bool>` | 支持 | 将 subfield 定义为 `DataType.BOOL`。 |
 | `Array<Int8/Int16/Int32/Int64>` | 支持 | 将 subfield 定义为 `DataType.INT8`、`DataType.INT16`、`DataType.INT32` 或 `DataType.INT64`。 |
 | `Array<Float/Double>` | 支持 | 将 subfield 定义为 `DataType.FLOAT` 或 `DataType.DOUBLE`。 |
@@ -88,6 +93,9 @@ Nullable StructArray 行为和动态添加 StructArray Field 都受版本限制�
 | Dynamic add StructArray Field | 仅在包含 dynamic StructArray Field 支持的版本中可用。 |
 | Dynamic add 的 Nullable 要求 | 向现有 Collection 添加的 StructArray Field 必须是 Nullable，因为已有 Entity 没有新 Field 的值。 |
 | Dynamic add 后的已有 Entity | 已有 Entity 会在新增 StructArray Field 的所有 subfield 上返回 `null`。 |
+| 元素级 null（Element-level null） | 标量、向量或 array 子字段可允许单个 Struct 元素中的该子字段为 null：标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`。行级 `nullable` 仍来自 StructArray 父 Field；在子字段上设置 `nullable=True` 启用的是元素级 null，而非行级 null。 |
+| 可省略子字段 | element-nullable 子字段可以在 Struct 元素中省略，Milvus 会为其存储 null。非 element-nullable 子字段必须出现在每个 Struct 元素中。 |
+| Dynamic add 子字段 | 向现有 StructArray Field 添加的子字段必须以 `nullable=True` 创建；array 子字段还需 `element_nullable=True`。已有 Entity 的新子字段在每个 Struct 元素中返回 null，StructArray Field 为 null 的 Entity 保持 null。 |
 
 在 Milvus v3.0.x 中，Nullable StructArray Field、Nullable Vector 数组和动态添加 StructArray Field 可用。
 
@@ -101,7 +109,7 @@ Nullable StructArray 行为和动态添加 StructArray Field 都受版本限制�
 | --- | --- |
 | Payload 结构 | 将 StructArray Field 作为 Struct 对象数组插入，例如 `chunks: [{"text": "...", "emb": [...]}]`。 |
 | Subfield 名称 | 在每个 Struct 对象内部使用 `text` 和 `emb` 等 subfield 名称，不要使用 `chunks[text]` 等 path。 |
-| Schema 对齐 | 每个 Struct 元素都必须匹配 Struct Schema。 |
+| Schema 对齐 | 每个 Struct 元素都必须匹配 Struct Schema。element-nullable 子字段可在 Struct 元素中省略或设置为 `null`。 |
 | 容量 | 一个 Entity 中 Struct 元素数量不能超过 `max_capacity`。 |
 | Vector dimension | Vector 值必须匹配对应 Vector subfield 配置的 `dim`。 |
 | 搜索模式重复 | 如果同时需要 EmbeddingList Search 和 Element-level Search，请将 Vector 写入两个独立的 Vector subfield。 |
@@ -118,6 +126,8 @@ StructArray Vector subfield 可以为 EmbeddingList Search 或 Element-level Sea
 同时需要两种模式时，请使用独立的 Vector subfield。例如，使用 `chunks[emb_list_vector]` 做 EmbeddingList Search，使用 `chunks[emb]` 做 Element-level Search。
 
 规划 Collection Schema 时，StructArray Vector subfield 会计入 Vector subfield。请确保 Vector Field 和 Vector subfield 总数符合目标版本和服务层级的限制。
+
+element-nullable 向量子字段仅支持使用常规向量度量进行元素级搜索。`MAX_SIM*` 度量、EmbeddingList 索引和 EmbeddingList 搜索在其上会被拒绝，`AUTOINDEX` 也不会为其选择 `MAX_SIM*` 度量。null 向量不参与搜索。element-nullable 子字段和标量 array 子字段不支持标量索引。
 
 关于支持的 Index type 和 metric type matrix，请参阅 [为 StructArray Field 创建 Index](./index-struct-array)。
 
@@ -144,7 +154,9 @@ StructArray Scalar Filtering 由 `element_filter` 和 `MATCH_*` family 等 Struc
 
 - 不要将 Vector subfield 用作 `$[...]` Scalar predicate 输入。
 
-- StructArray Element-level predicate 不支持 JSON path syntax、JSON function、array container function、text match function、Geometry / GIS function 和 Timestamptz expression。
+- StructArray 元素级 predicate 不支持 JSON path syntax、JSON function、text match function、Geometry / GIS function 和 Timestamptz expression。标量 array 子字段支持在 `$[tags]` 上使用 `array_contains`、`array_contains_any`、`array_contains_all` 和 `array_length`，且每种子字段类型都支持 `$[subfield] is null` / `is not null`。
+
+- Struct 元素中的 null 子字段值会使元素 predicate 为 unknown 而非 false。`element_filter` 只保留 predicate 为 true 的元素，`MATCH_*` 将 unknown 元素计为未命中。详情参见[StructArray 操作符](./struct-array-filtering)。
 
 - 优先使用 `$[has_code] == true` 等显式布尔比较，而不是裸布尔表达式。
 

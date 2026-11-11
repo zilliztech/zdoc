@@ -206,6 +206,59 @@ client.insert(
 
 Nullable StructArray Field 仅在 clusters compatible with Milvus v3.0.x 中可用。如果你动态向现有 Collection 添加 StructArray Field，则新增 Field 必须是 Nullable，已有 Entity 会在新 Field 的所有 subfield 上返回 `null`。
 
+## 为单个 Struct 元素插入 null 值 \{#insert-null-values-for-individual-struct-elements}
+
+element-nullable 子字段可以在部分 Struct 元素中持有 null 值，在其他元素中持有有效值。以下示例假设 `chunks` Struct Schema 定义了 `nullable=True` 的 `lang` VARCHAR 子字段，以及 `nullable=True` 且 `element_nullable=True` 的 `tags` array 子字段。完整的 Schema 定义参见[创建 StructArray Field](./create-struct-array)。
+
+在 Struct 元素中，将 element-nullable 子字段设置为 `None` 或直接省略，两者都会存储 null 值。
+
+```python
+client.insert(
+    collection_name="tech_articles",
+    data=[
+        {
+            "doc_id": 11,
+            "title": "Chunks with missing attributes",
+            "category": "search",
+            "title_vector": [0.07, 0.11, 0.17, 0.21],
+            "chunks": [
+                {
+                    "text": "Detected language and tags are present.",
+                    "section": "search",
+                    "page": 1,
+                    "quality_score": 0.90,
+                    "has_code": False,
+                    "lang": "en",
+                    "tags": ["search", "tuning"],
+                    "emb_list_vector": [0.12, 0.22, 0.32, 0.42],
+                    "emb": [0.12, 0.22, 0.32, 0.42],
+                },
+                {
+                    "text": "Language is unknown and tags are omitted.",
+                    "section": "search",
+                    "page": 2,
+                    "quality_score": 0.84,
+                    "has_code": False,
+                    "lang": None,
+                    "emb_list_vector": [0.14, 0.24, 0.34, 0.44],
+                    "emb": [0.14, 0.24, 0.34, 0.44],
+                },
+            ],
+        }
+    ],
+)
+```
+
+在第二个 Struct 元素中，`lang` 显式为 null，`tags` 被省略，Zilliz Cloud 会为该元素中的两者存储 null。其余子字段仍要求在每个 Struct 元素中提供值，且 Struct 元素本身不能为 null。对于 array 子字段，`None` 存储空的（null）内层数组，而 `[]` 存储空的内层数组。
+
+null 子字段值在后续操作中的行为：
+
+- Query 结果会在该元素中为该子字段值返回 `null`。
+
+- 在过滤中，null 值会使元素 predicate 为 unknown 而非 false。可在 `element_filter` 或 `MATCH_*` 中使用 `$[lang] is null` 或 `$[lang] is not null` 来测试它。详情参见[StructArray 操作符](./struct-array-filtering)。
+
+- element-nullable 向量子字段中的 null 向量不参与搜索。
+
 </Admonition>
 
 ## 验证已插入的数据 \{#validate-inserted-data}
@@ -237,7 +290,7 @@ for row in rows:
 | --- | --- |
 | 对 StructArray Field 使用对象数组。 | `chunks` 的值是列表，列表中的每一项都是 Struct 元素。 |
 | 在每个 Struct 元素内部使用 subfield 名称。 | 在 `chunks` 内插入 `{"text": "...", "emb": [...]}`，不要插入 `{"chunks[text]": "..."}`。 |
-| 匹配 Struct Schema。 | 每个 Struct 元素都必须使用 Struct Schema 中定义的 subfield。 |
+| 匹配 Struct Schema。 | 每个 Struct 元素都必须使用 Struct Schema 中定义的子字段。element-nullable 子字段可以在 Struct 元素中省略或设置为 `None`。 |
 | 匹配 Vector dimension。 | Vector 值必须匹配对应 Vector subfield 配置的 `dim`。 |
 | 遵守 `max_capacity`。 | 一个 Entity 中 Struct 元素数量不能超过 StructArray Field 的 `max_capacity`。 |
 | 为不同搜索模式使用独立 Vector subfield。 | 如果同时需要 EmbeddingList Search 和 Element-level Search，请将 Vector 值写入两个 Vector subfield。 |

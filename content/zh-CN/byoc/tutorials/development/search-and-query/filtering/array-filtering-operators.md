@@ -50,7 +50,7 @@ ARRAY 操作符允许 Zilliz Cloud clusters中的 ARRAY 类型的字段进行精
 
 假设有名为 `history_temperatures` 的字段包含了各地气象站上报的历年最低气温。您可以使用如下过滤表达式找出最低气温列表中包含了 23 度的所有 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -99,6 +99,15 @@ const filter = 'ARRAY_CONTAINS(history_temperatures, 23)';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_CONTAINS filter
+var filter = "ARRAY_CONTAINS(history_temperatures, 23)";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -116,7 +125,7 @@ filter='ARRAY_CONTAINS(history_temperatures, 23)'
 
 您可以使用如下过滤表达式找出最低气温列表中同时包含了 23 度和 24 度的所有 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -165,6 +174,15 @@ const filter = 'ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_CONTAINS_ALL filter
+var filter = "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -182,7 +200,7 @@ filter='ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 
 您可以使用如下过滤表达式找出最低气温列表中包含了 23 度或 24 度的所有 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -231,6 +249,15 @@ const filter = 'ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_CONTAINS_ANY filter
+var filter = "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -248,7 +275,7 @@ filter='ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 
 您可以使用如下过滤表达式找出最低气温记录少于 10 个的所有 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -297,6 +324,15 @@ const filter = 'ARRAY_LENGTH(history_temperatures) < 10';
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// ARRAY_LENGTH filter
+var filter = "ARRAY_LENGTH(history_temperatures) < 10";
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -312,7 +348,7 @@ ARRAY_APPEND 操作符会在一次 upsert 请求中，将负载中的元素追�
 
 下面示例会将 `"premium"` 追加到主键为 1 的实体的 `tags` ARRAY 字段中：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -364,6 +400,7 @@ client.upsert(upsertReq);
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/column"
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -428,6 +465,32 @@ const res = await client.upsert({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Types;
+
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "users",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["tags"] = new[] { "premium" }
+        }
+    },
+    FieldOps = new[]
+    {
+        new FieldPartialUpdateOp("tags", FieldPartialUpdateOpType.ArrayAppend)
+    }
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -453,12 +516,10 @@ ARRAY_REMOVE 操作符会在一次 upsert 请求中，从已有的 ARRAY 字段�
 
 下面示例会将 `"trial"` 从主键为 1 的实体的 `tags` ARRAY 字段中移除：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import FieldOp
-
 client.upsert(
     collection_name="users",
     data=[{"pk": 1, "tags": ["trial"]}],
@@ -471,12 +532,6 @@ client.upsert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.UpsertReq;
-import java.util.*;
-
 JsonObject row = new JsonObject();
 row.addProperty("pk", 1);
 JsonArray tags = new JsonArray();
@@ -503,11 +558,6 @@ client.upsert(upsertReq);
 <TabItem value='go'>
 
 ```go
-import (
-    "github.com/milvus-io/milvus/client/v3/column"
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
 client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
     WithInt64Column("pk", []int64{1}).
     WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"trial"}})).
@@ -519,9 +569,6 @@ client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2::prelude::*;
-use serde_json::json;
-
 let res = client
     .upsert(
         UpsertRequest::builder()
@@ -564,6 +611,29 @@ const res = await client.upsert({
     collection_name: "users",
     data: [{ pk: 1, tags: ["trial"] }],
     field_ops: [{ field_name: "tags", op: "ARRAY_REMOVE" }]
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+await client.UpsertAsync(new UpsertReq
+{
+    CollectionName = "users",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["tags"] = new[] { "trial" }
+        }
+    },
+    FieldOps = new[]
+    {
+        new FieldPartialUpdateOp("tags", FieldPartialUpdateOpType.ArrayRemove)
+    }
 });
 ```
 

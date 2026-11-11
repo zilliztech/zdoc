@@ -855,7 +855,7 @@ filter='id % 2 == 0'
 <TabItem value='python'>
 
 ```python
-filter = 'price > 1000'
+filter = 'price ** 2 > 1000'
 ```
 
 </TabItem>
@@ -903,7 +903,7 @@ const filter = 'price ** 2 > 1000';
 <TabItem value='csharp'>
 
 ```csharp
-string filter = "price > 1000";
+string filter = "price ** 2 > 1000";
 ```
 
 </TabItem>
@@ -1458,16 +1458,16 @@ import (
 )
 
 ctx := context.Background()
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal("failed to connect to milvus server: ", err.Error())
 }
-defer cli.Close(ctx)
+defer client.Close(ctx)
 
-rs, err := cli.Query(ctx, milvusclient.NewQueryOption("products").
+rs, err := client.Query(ctx, milvusclient.NewQueryOption("products").
     WithFilter("category IS NULL").
     WithOutputFields("id").
     WithLimit(10))

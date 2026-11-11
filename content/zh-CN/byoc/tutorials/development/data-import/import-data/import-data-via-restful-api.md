@@ -30,6 +30,8 @@ import Admonition from '@theme/Admonition';
 
 - 已创建 Collection，且该 Collection 的 Schema 与示例数据集相匹配。详情请参见[创建 Collection](./manage-collections-sdks)。
 
+- 如果目标 Collection 包含 StructArray 字段，请确保源文件以受支持的形态承载数据。各格式的数据形态与导入规则请参见[通过 SDK 导入](./import-data-via-sdks)中的「源文件中的 StructArray 字段」。包含 element-nullable 子字段或标量 array 子字段的 Collection 不支持 binlog 导入（如备份恢复）和快照源导入。Schema 侧的限制详见[StructArray 限制](./struct-array-limits)。
+
 <Admonition type="info" title="说明">
 
 Zilliz Cloud 允许您将数据从任意对象存储导入到任意 Zilliz Cloud 集群，不用考虑托管集群的云服务商。例如，您可以将存储在阿里云上的数据导入到部署在腾讯云上的集群。

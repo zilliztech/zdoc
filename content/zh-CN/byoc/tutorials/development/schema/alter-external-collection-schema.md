@@ -45,7 +45,7 @@ import TabItem from '@theme/TabItem';
 
 如果希望在查询结果中返回某个标量字段或在过滤表达式中使用该字段，请使用 `add_collection_field()` 添加该字段。以下示例添加了一个 `score` 字段，并将其映射到外部数据源中的 `score` 字段。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -149,6 +149,16 @@ await client.addCollectionField({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+// Note: milvus-sdk-csharp does not support adding a field to an external
+// collection as of v3.0.0 (AddCollectionFieldAsync cannot set the
+// external_field mapping).
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -168,17 +178,10 @@ await client.addCollectionField({
 
 以下示例添加了一个名为 `image_embedding_v2` 的稠密向量字段。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import DataType, MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN",
-)
-
 client.add_collection_field(
     collection_name="product_embeddings",
     field_name="image_embedding_v2",
@@ -215,16 +218,6 @@ client.add_collection_field(
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(
-    &ConnectConfig::new()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN"),
-).await?;
-
 client.add_collection_field(
     sdk::request::collection::AddCollectionFieldRequest::builder()
         .collection_name("product_embeddings")
@@ -255,12 +248,6 @@ client.add_collection_field(
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.addCollectionField({
    collection_name: 'product_embeddings',
    field: {
@@ -271,6 +258,16 @@ await client.addCollectionField({
      external_field: 'image_embedding_v2',
    },
  });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// Note: milvus-sdk-csharp does not support adding a field to an external
+// collection as of v3.0.0 (AddCollectionFieldAsync cannot set the
+// external_field mapping).
 ```
 
 </TabItem>
@@ -288,7 +285,7 @@ await client.addCollectionField({
 
 如果计划在新增的向量字段上执行向量搜索，请在刷新外部 Collection 之前为该字段创建索引。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -316,6 +313,8 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.index.request.CreateIndexReq;
 import java.util.Collections;
+import io.milvus.v2.service.utility.request.RefreshExternalCollectionReq;
+import io.milvus.v2.service.utility.response.RefreshExternalCollectionResp;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -373,16 +372,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(
-    &ConnectConfig::new()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN"),
-).await?;
-
 client.create_index(
     sdk::request::index::CreateIndexRequest::builder()
         .collection_name("product_embeddings")
@@ -424,18 +413,40 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.createIndex({
    collection_name: 'product_embeddings',
    field_name: 'image_embedding_v2',
    index_type: 'AUTOINDEX',
    metric_type: 'COSINE',
  });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Utility;
+using Milvus.Client.V2.Responses.Utility;
+
+MilvusClientV2 client = new(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    Username = "root",
+    Password = "Milvus"
+});
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "product_embeddings",
+    Indexes =
+    [
+        new IndexParam("image_embedding_v2", null, IndexType.AutoIndex, MetricType.Cosine)
+    ]
+});
 ```
 
 </TabItem>
@@ -469,7 +480,7 @@ curl --request POST \
 
 修改外部 Collection Schema 后，请刷新外部 Collection，使 Zilliz Cloud 更新外部 Collection 的元数据，并让 Schema 修改在查询、搜索和过滤结果中生效。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -483,17 +494,6 @@ client.refresh_external_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.utility.request.RefreshExternalCollectionReq;
-import io.milvus.v2.service.utility.response.RefreshExternalCollectionResp;
-
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
 RefreshExternalCollectionResp resp = client.refreshExternalCollection(
         RefreshExternalCollectionReq.builder()
                 .collectionName("product_embeddings")
@@ -505,24 +505,6 @@ RefreshExternalCollectionResp resp = client.refreshExternalCollection(
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-ctx := context.Background()
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
 res, err := client.RefreshExternalCollection(ctx, milvusclient.NewRefreshExternalCollectionOption("product_embeddings"))
 if err != nil {
     fmt.Println(err.Error())
@@ -535,16 +517,6 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-use milvus::v2 as sdk;
-use milvus::v2::error::Result;
-use milvus::v2::prelude::*;
-
-let client = ClientV2::new(
-    &ConnectConfig::new()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN"),
-).await?;
-
 let response = client.refresh_external_collection(
     sdk::request::utility::RefreshExternalCollectionRequest::builder()
         .collection_name("product_embeddings")
@@ -558,15 +530,6 @@ println!("job_id: {}", response.job_id());
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
 milvus::RefreshExternalCollectionRequest request;
 request.WithCollectionName("product_embeddings");
 milvus::RefreshExternalCollectionResponse response;
@@ -581,15 +544,21 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
 await client.refreshExternalCollection({
    collection_name: 'product_embeddings',
  });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+RefreshExternalCollectionResp resp = await client.RefreshExternalCollectionAsync(
+    new RefreshExternalCollectionReq
+    {
+        CollectionName = "product_embeddings"
+    });
 ```
 
 </TabItem>

@@ -69,6 +69,10 @@ element_filter(chunks, $[quality_score] > 0.9) && category == "index"
 
 `element_filter` 在一个过滤表达式中只能出现一次。不要在另一个 `element_filter` 中嵌套 `element_filter` 或 `MATCH_*`。
 
+### 按位置访问 array 子字段 \{#access-array-subfields-by-position}
+
+位置路径还可以引用标量 `ARRAY` 子字段：`chunks[0][tags]` 是第一个 Struct 元素的内层数组。它支持带数组字面量的 `==` 和 `!=`，以及 `array_contains`、`array_contains_any`、`array_contains_all` 和 `array_length`。比较操作符、`in`、`like` 和算术运算在其上会被拒绝。
+
 ## Match 系列操作符\{#match-family-operators}
 
 当需要根据有多少个 Struct 元素满足谓词来选择 Entity 时，请使用 `MATCH_*` 操作符。
@@ -139,13 +143,27 @@ MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 
 | 子字段类型 | Element-level 谓词支持 |
 | --- | --- |
+| 标量 `ARRAY` 子字段 | 在 `$[tags]` 上支持 `array_contains`、`array_contains_any`、`array_contains_all` 和 `array_length`，以及 `$[tags] is null` / `$[tags] is not null`。比较操作符、`in`、`like` 在 `$[tags]` 上会被拒绝。 |
+| 任意 element-nullable 子字段 | `$[subfield] is null` 和 `$[subfield] is not null` 测试当前 Struct 元素中的值是否为 null。在不允许 null 值的子字段上，`is null` 恒为 false。 |
 | `BOOL` | 标量谓词，例如 `$[has_code] == true` 或 `!($[has_code] == true)`。避免使用 `$[has_code]` 这样的裸布尔表达式。 |
 | `INT8`、`INT16`、`INT32`、`INT64` | 比较、链式范围、`in`、`not in`、后接比较的 `+`、`-`、`*`、`/` 或 `%` 算术表达式，以及逻辑组合。 |
 | `FLOAT`、`DOUBLE` | 比较、链式范围、`in`、`not in`、后接比较的 `+`、`-`、`*` 或 `/` 算术表达式，以及逻辑组合。浮点子字段不支持 `%` 操作符。 |
 | `VARCHAR` | 字符串比较、链式范围、`in`、`not in`、`like`、`=&#126;`、`!&#126;` 以及逻辑组合。 |
-| Vector 子字段 | 不支持作为 `$[...]` 标量谓词输入。请通过 EmbeddingList Search 或 Element-level Vector Search 使用 Vector 子字段。 |
+| Vector 子字段 | 除 element-nullable 向量子字段的 `$[emb] is null` / `is not null` 外，不支持作为 `$[...]` 标量谓词输入。请通过 EmbeddingList Search 或 Element-level Vector Search 使用 Vector 子字段。 |
 
 `&&`、`||` 和 `!` 等逻辑操作符适用于谓词表达式。例如，请写成 `!($[has_code] == true)`，而不是 `!$[has_code]`。
+
+## 元素级谓词中的 null 值 \{#null-values-in-element-level-predicates}
+
+element-nullable 子字段可以在某个 Struct 元素中持有 null 值。null 值在 StructArray predicate 中遵循三值逻辑：
+
+- 对 null 子字段值的比较、`in`、`like` 或算术 predicate 结果为 unknown 而非 false。`&&`、`\|\|` 和 `!` 会传播 unknown 结果，因此当 `$[lang]` 为 null 时 `!($[lang] == "en")` 仍为 unknown。
+
+- `element_filter` 只保留 predicate 为 true 的 Struct 元素，unknown 的元素不会被匹配。
+
+- `element_filter` 或 `MATCH_*` 中的 `$[subfield] is null` / `$[subfield] is not null` 用于测试当前 Struct 元素中的值是否为 null；在不允许 null 的子字段上，`is null` 恒为 false。
+
+- element-nullable 向量子字段中的 null 向量不参与搜索。
 
 ## 不支持的谓词\{#unsupported-predicates}
 
@@ -155,9 +173,7 @@ Element-level `$[...]` 谓词不支持：
 
 - JSON path 语法、JSON path 上的 `exists`，或 `json_contains`、`json_contains_all`、`json_contains_any` 等 JSON 函数。
 
-- `array_contains`、`array_contains_all`、`array_contains_any` 或 `array_length` 等数组容器函数。
-
-- `$[subfield] is null` 或 `$[subfield] is not null`。
+- 作用于标量子字段 `$[subfield]` 的 array 容器函数（如 `array_contains`）。标量 ARRAY 子字段除外：其 `$[tags]` 支持 `array_contains`、`array_contains_any`、`array_contains_all` 和 `array_length`，也支持 `$[tags] is null` / `is not null`；但比较操作符、`in`、`like` 及算术运算在 `$[tags]` 上会被拒绝。
 
 - Geometry / GIS 函数。
 
@@ -184,6 +200,8 @@ Element-level `$[...]` 谓词不支持：
 - 空 StructArray 上的 `MATCH_ANY` 返回 `false`。
 
 - 空 StructArray 上的 `MATCH_ALL` 返回 `true`。
+
+- 仅在 `chunks is null` 这类整个 StructArray Field 上使用 `IS NULL` / `IS NOT NULL`，或在 `element_filter` / `MATCH_*` 中对 `$[subfield]` 使用；不要在 `chunks[section]` 这类子字段路径上使用它们。
 
 ## 另请参阅\{#see-also}
 
