@@ -46,11 +46,12 @@ export async function extractSourceZip(bytes: Uint8Array, destination: string) {
 export async function readLifecycle(api: ReadonlyGitHub, runId: number, directory: string, localZip?: string, expectedBase?: string, selected?: SelectedPage): Promise<LifecycleEvidence> {
   const facts = await retainedMetadata(api, runId)
   const { run, jobs, artifact } = facts
+  if (artifact.size_in_bytes > 256 * 1024 * 1024) throw new Error('Source ZIP exceeds 256 MiB')
   if (localZip) {
     const stat = await lstat(localZip)
     if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 256 * 1024 * 1024) throw new Error('Evidence ZIP must be a bounded regular file')
   }
-  const bytes = localZip ? await readFile(localZip) : await api.zip(artifact.id)
+  const bytes = localZip ? await readFile(localZip) : await api.zip(artifact.id, artifact.size_in_bytes)
   if (`sha256:${hash(bytes)}` !== artifact.digest || bytes.length !== artifact.size_in_bytes) throw new Error('Source ZIP digest/size mismatch')
   const archiveEntries = await extractSourceZip(bytes, directory)
   const stage = join(directory, 'guides-source')

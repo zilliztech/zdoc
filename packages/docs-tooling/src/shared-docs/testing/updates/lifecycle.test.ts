@@ -82,6 +82,9 @@ with zipfile.ZipFile(sys.argv[1],'w') as z:z.writestr('guides-source.tar',b.getv
     path.includes('/artifacts?') ? { total_count: 1, artifacts: [artifact] } : { id: 1, run_attempt: 1, repository: { id: 660446555 }, head_sha: head, head_branch: 'master' } }
   const second = join(root, 'second'); await mkdir(second)
   await expect(readLifecycle(api, 1, second)).rejects.toThrow(/artifact identity/i)
+  artifact.size_in_bytes = 256 * 1024 * 1024 + 1
+  await expect(readLifecycle({...api, zip: async () => {throw new Error('unexpected download')}}, 1, second)).rejects.toThrow('Source ZIP exceeds 256 MiB')
+  artifact.size_in_bytes = bytes.length
   artifact.digest = `sha256:${'c'.repeat(64)}`
   await expect(readLifecycle(api, 1, second)).rejects.toThrow(/digest/)
 })

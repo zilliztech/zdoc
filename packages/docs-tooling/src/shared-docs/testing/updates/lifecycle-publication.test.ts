@@ -77,6 +77,9 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(results)})
     snapshot, root, {page, producerRepo: root, devRepo: root, dev})
   expect(await observe()).toMatchObject({outputPaths: [outputPath], identity: {observedPage: page, observedRecordId: recordId,
     observedTableId: table, publicationResultSha: published, sampledDev: dev}})
+  publication.size_in_bytes = 1024 * 1024 + 1
+  expect(await observe()).toEqual({reason: 'PUBLICATION_ARCHIVE_OVERSIZED'})
+  publication.size_in_bytes = archive.length
   // A UTF-8 reader would decode both blobs to the exact same replacement character.
   await put(outputPath, Buffer.concat([Buffer.from('Published '), Buffer.from([0xff])]))
   git('commit', '-qam', 'Change served bytes')
