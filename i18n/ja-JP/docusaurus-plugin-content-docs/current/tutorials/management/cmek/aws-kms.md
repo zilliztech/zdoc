@@ -24,17 +24,15 @@ import Procedures from '@site/src/components/Procedures';
 
 # AWS KMS
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
-
-この機能は、Business Critical（SaaS）および BYOC デプロイでのみ使用できます。
-
-</FeatureNote>
+<NextChannel action="exclude">
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
 この機能は AWS で使用できます。Google Cloud と Microsoft Azure では使用できません。
 
 </FeatureNote>
+
+</NextChannel>
 
 AWS Key Management Service（KMS）は、データの暗号化と署名に使用するキーを簡単に作成および管理できる AWS マネージドサービスです。
 
@@ -248,7 +246,7 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみを選択できます。
 
-1. 概要を確認し、**Create Cluster** をクリックします。
+1. Review the summary, then click **Create Cluster**.
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
@@ -269,3 +267,4 @@ KMS キーを追加すると、次のようにして暗号化されたクラス�
 - このオプションを有効にすると、復元後に作成されるクラスターは、以下で指定した KMS キーを使用して暗号化されます。
 
 - このオプションを無効にすると、復元後に作成されるクラスターは暗号化されません。
+

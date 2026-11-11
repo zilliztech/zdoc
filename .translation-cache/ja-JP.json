@@ -2386,9 +2386,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
-      "sourceHash": "40921bf44b52e1248823a2d175a4e90fe538ae635c99913ebf18089938247ced",
+      "sourceHash": "93db36057079989b555faa1b22f8b8e16b1fbcb9e0df5138f5b62e60adc6cf64",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/changelogs.md",
-      "translatedAt": "2026-11-07T12:03:18.393Z"
+      "translatedAt": "2026-11-11T04:50:28.886Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md": {
       "sourceHash": "43022596b91c315086c6eba306c41aeb40b90066c41b3ab1eb1f5a5d98cf25ba",
@@ -2896,19 +2896,19 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/cmek/aws-kms.md": {
-      "sourceHash": "24e8a1c845b99fd4f4827545785e75f11a54e0726bf6e70029b86f72670f01f7",
+      "sourceHash": "e370fe708e8f7f7612b05172cb598baa4d0c15c0b63212f9e19789ee278a6f18",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/aws-kms.md",
-      "translatedAt": "2026-11-10T13:30:20.760Z"
+      "translatedAt": "2026-11-11T04:50:28.886Z"
     },
     "content/en/guides/tutorials/management/cmek/cmek.md": {
-      "sourceHash": "0da9c6f631bfaceef81b79931e718a78dc4707ca17bfc3d55e38835d524a7ee5",
+      "sourceHash": "793e5dd13630be51d1b060f286f79c066e2780176c6c50ad45d5a5194b59925a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/cmek.md",
-      "translatedAt": "2026-11-05T15:06:20.053Z"
+      "translatedAt": "2026-11-11T04:50:28.886Z"
     },
     "content/en/guides/tutorials/management/cmek/gcp-kms.md": {
-      "sourceHash": "5e3bd71478e2817596858e1948566249e15cd825a549cce5549b06836a729a7c",
+      "sourceHash": "14a74fde4cb3cd2226ec04245931d74693b4c0f9b0cea095f9ccc9b415d9fbc2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/gcp-kms.md",
-      "translatedAt": "2026-11-10T13:30:20.760Z"
+      "translatedAt": "2026-11-11T04:50:28.886Z"
     },
     "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
       "sourceHash": "1aadec6c01be283ee85469b457f6da8e53d22606caf6fab45cb0b1965e2a96de",

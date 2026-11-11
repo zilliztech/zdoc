@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "最終更新日 2026年10月29日 | Cloud"
+description: "最終更新日 2026年11月11日 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # 変更履歴
 
-**最終更新日:** 2026年10月29日
+最終更新日: 2026年11月11日
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -35,6 +35,8 @@ import Grid from '@site/src/components/Grid';
     <div>
 
         - ベクトル Lakebase のより多くのベクトル機能が近日提供される予定です。
+
+        - 🔗 **クロスクラスター外部コレクション** — `milvus://` スキームを使用する外部コレクションのデータソースとして、同じプロジェクトおよびリージョン内の **Dedicated クラスター** にあるコレクションを使用できます。このソースタイプは **AWS リージョン** でのみ使用できます。詳細については、[外部コレクションを作成する](./create-external-collection) を参照してください。
 
     </div>
 
