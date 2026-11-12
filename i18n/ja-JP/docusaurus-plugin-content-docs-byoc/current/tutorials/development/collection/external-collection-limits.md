@@ -94,7 +94,7 @@ Zilliz Cloud は外部コレクションの生データを保存せず、外部�
      <td><p><strong>TTL</strong></p></td>
      <td><p>✅</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p><strong>Nullable/Default Value</strong></p></td>
@@ -309,4 +309,3 @@ Zilliz Cloud は外部コレクションの生データを保存せず、外部�
      <td><p>❌</p></td>
    </tr>
 </table>
-

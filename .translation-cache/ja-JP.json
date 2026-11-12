@@ -296,9 +296,9 @@
       "translatedAt": "2026-11-09T12:44:47.358Z"
     },
     "content/en/byoc/tutorials/development/collection/external-collection-limits.md": {
-      "sourceHash": "da8082fd5698d65eeee8f12f74e986a2ab635fd42c9ab3ea124ac2bf43b60122",
+      "sourceHash": "f869837c21e5013a6e3adb08b2b4ec9949604f05e56d85b0a198f158ffae79b7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/external-collection-limits.md",
-      "translatedAt": "2026-09-19T13:47:07.007Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/byoc/tutorials/development/collection/load-release-collections.md": {
       "sourceHash": "d370a7469f2268f21e1658db4bf0ee0f456b119180ea761fbb39c846b846edaf",
@@ -486,9 +486,9 @@
       "translatedAt": "2026-11-09T12:47:48.664Z"
     },
     "content/en/byoc/tutorials/development/insert-and-delete/count-entities.md": {
-      "sourceHash": "b6228a38c8c7809dd31d1623186ec624d8a7e9024595888542892259f2f773d3",
+      "sourceHash": "9ad3ae01b03254531332c595e9ccb1cef3db3efa125aef88227208463cce8c50",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/insert-and-delete/count-entities.md",
-      "translatedAt": "2026-11-09T12:47:48.664Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/byoc/tutorials/development/insert-and-delete/delete-entities.md": {
       "sourceHash": "4e7345f1b09d9615923d4a38a9784aae7cfdb0ef9f8e0941714f61fa749d4026",
@@ -861,9 +861,9 @@
       "translatedAt": "2026-11-06T11:52:57.225Z"
     },
     "content/en/byoc/tutorials/development/vector-index/tune-index-build-level.md": {
-      "sourceHash": "064f287d759f624fbbbb7d9965f28b2026dec949a64ed2ba22ac43226077f6d7",
+      "sourceHash": "4c0aa9f993e6a71411d112234dcaaa4193d62e1d5dbeccbc778e9f27c8660a9a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/vector-index/tune-index-build-level.md",
-      "translatedAt": "2026-10-25T05:11:00.677Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/byoc/tutorials/development/volume/external-volume.md": {
       "sourceHash": "4543a904e20c726625fd62cd1393cfab6e087031d594dfc27158338f4f562cb5",
@@ -956,9 +956,9 @@
       "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md": {
-      "sourceHash": "c1f2ef755faa5fa05aca402741771c1a47fc435ea5955c90551e4ba318e693ef",
+      "sourceHash": "15d9c6b5a69ce9aa781b50b73e9b24f51f3c11325e178ce918eba6d95846ed40",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
-      "translatedAt": "2026-11-09T12:54:24.094Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/byoc/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md": {
       "sourceHash": "a277f130c235d1c80ee1bffbe34859e4596855dace487374e3b30927a9356a69",
@@ -971,9 +971,9 @@
       "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/access-control/privilege-reference/cluster-privileges.md": {
-      "sourceHash": "8071a634738bc18e2f7a51d5957b9f26939faa1dc6a1063bd550233895e90ff5",
+      "sourceHash": "738df2594b9fc3cc894a1db34ae7c6ea9f946f2946cf3c5946a56cdf71b7342d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/privilege-reference/cluster-privileges.md",
-      "translatedAt": "2026-11-09T12:54:24.094Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/byoc/tutorials/management/access-control/privilege-reference/platform-privileges.md": {
       "sourceHash": "f6aca0cd9b7b11630112ba98f2bdff59206c1afee1d9209afa263adbae04293b",
@@ -1656,9 +1656,9 @@
       "translatedAt": "2026-11-09T13:00:23.467Z"
     },
     "content/en/guides/tutorials/development/collection/external-collection-limits.md": {
-      "sourceHash": "1074f78231487e7482f5651dcd6323504a90cecdfd3eb62ad727e528bf5cbd99",
+      "sourceHash": "e69c2b13f5e8b79cf1e83c43d553c857e7ceb1213bb1f57c43328f8b825f26f2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/external-collection-limits.md",
-      "translatedAt": "2026-11-11T16:50:08.974Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/guides/tutorials/development/collection/load-release-collections.md": {
       "sourceHash": "21e06c2d477bb27c6792758d7b2e4cc56aa7cef49b4559501c7615150f05c97d",
@@ -1886,9 +1886,9 @@
       "translatedAt": "2026-11-09T13:43:52.937Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/count-entities.md": {
-      "sourceHash": "77a28e70cfb8bd5e4d01cf87088c0db7bbd4c34ac6329a4c4d7c65e7ee4f1cf6",
+      "sourceHash": "6a60f126df49b713539f4ddfb5ce54623e4cb8b1b1250cbb148a59d2029f59f6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/count-entities.md",
-      "translatedAt": "2026-11-09T13:43:52.937Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/delete-entities.md": {
       "sourceHash": "33c0303b15c620e76e491a6c18fdd9917ce0034aec1c053676dd4d26ce513e69",
@@ -2271,9 +2271,9 @@
       "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/development/vector-index/tune-index-build-level.md": {
-      "sourceHash": "bedcb7d2bc909946ef0a3d6a3b3362764175bc603bf79087eaabe005fe150098",
+      "sourceHash": "900a460392e3508b2274720c685d730f61ac463cb5e2280ab3db198d4ac7b103",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/tune-index-build-level.md",
-      "translatedAt": "2026-10-25T05:21:41.431Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/guides/tutorials/development/volume/external-volume.md": {
       "sourceHash": "ef6e5a03447cc82bee44eeb6c68153de2dbf1384eeb39e73429bd3113c4303ed",
@@ -2591,9 +2591,9 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md": {
-      "sourceHash": "2ea72cfeadbae1d1e5878f7f87ef293708d216261c3b633b12c0a92365e38d05",
+      "sourceHash": "f86f58f70311efe4af3a6dce6865d4f6728cc54c9b2c9e3fd4c7985abc4d9602",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md": {
       "sourceHash": "2bd93defb58be777c6792e6b9121fa0d0b9579f85c6031cc623f8e5dac2a9dc9",
@@ -2606,9 +2606,9 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-control/privilege-reference/cluster-privileges.md": {
-      "sourceHash": "3ee21f06b15fd60cb5a539cdef04dea7fedacd3c5b0044e165329ddbcd37e7c3",
+      "sourceHash": "d54f3d9906ea89f1ad22e16aec4d9788c00ea9bebbb0ccd50f73a9a349172f3f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/privilege-reference/cluster-privileges.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-12T11:45:41.029Z"
     },
     "content/en/guides/tutorials/management/access-control/privilege-reference/platform-privileges.md": {
       "sourceHash": "faf6108a7b7b2743c94bccbe048e589cba498aa21c1e547dd74778b3b7dbb33a",

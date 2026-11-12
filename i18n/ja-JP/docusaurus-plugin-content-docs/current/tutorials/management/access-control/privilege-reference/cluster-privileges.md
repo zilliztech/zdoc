@@ -159,6 +159,11 @@ Zilliz Cloud では、コレクション、データベース、クラスター�
 ```python
 from pymilvus import MilvusClient
 
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+
 client.create_privilege_group(group_name='privilege_group_1')
 ```
 

@@ -43,6 +43,11 @@ import TabItem from '@theme/TabItem';
 ```python
 from pymilvus import MilvusClient
 
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+
 client.create_role(role_name="role_a", description="a cluster read only role")
 ```
 
