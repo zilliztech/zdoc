@@ -1556,11 +1556,13 @@
       "id": "shared-fetch-source-generation",
       "paths": [
         "packages/docs-tooling/src/lark/sharedPageFetch*",
+        "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
         "scripts/docs-workflow/guides-shared-sources*",
         "packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts"
       ],
       "focusedTests": [
         "node --test scripts/docs-workflow/guides-shared-sources.test.js",
+        "node --test packages/docs-tooling/src/lark/sharedPageRenderIdentity.test.js",
         "pnpm vitest run packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts"
       ],
       "harnesses": [
@@ -1601,6 +1603,7 @@
       "id": "shared-fetch-publication",
       "paths": [
         "packages/docs-tooling/src/lark/sharedPagePublication*",
+        "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
         "scripts/docs-workflow/guides-shared-publication*",
         "scripts/collect-build-card-notes*",
         "scripts/docs-workflow/guides-shared-regeneration*"

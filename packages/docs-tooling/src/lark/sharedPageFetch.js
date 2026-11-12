@@ -15,6 +15,8 @@ const aliases = require('./sharedPageAliases')
 const SourceIndex = require('./larkSourceIndex')
 const {resolveManualPublication} = loadTypeScript(path.resolve(__dirname, '../manuals/registry.ts'))
 const {analysisMarkdown} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/links/anchors.ts'))
+const {parseLock} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/lock.ts'))
+const renderIdentity = require('./sharedPageRenderIdentity')
 const publicationPath = 'generated/en/manifests/shared-pages/guides/_publication.json'
 const snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
@@ -180,12 +182,40 @@ function prepareSharedSources({records, repositoryRoot, baselineRoot, masterComm
   assertInventory(baselineRoot, devFiles)
   if (git(baselineRoot, ['status', '--porcelain=v1', '--untracked-files=all', '--', 'content/en/guides', 'content/en/byoc', snapshotPath, 'generated/en/manifests/shared-pages/guides']).length) throw new Error('Immutable dev inventory is dirty')
   const inputs = {}
+  // Engine identity derives from the same pinned tree the build executes; the
+  // worktree must match the pin exactly like the overlay evidence above.
+  const engineFiles = gitInventory(repositoryRoot, masterCommit, renderIdentity.ENGINE_PATHS)
+  assertInventory(repositoryRoot, engineFiles)
+  const engine = {inventory_sha256: renderIdentity.engineDigest(engineFiles), md2md: renderIdentity.resolveMd2mdVersion()}
+  const devPagePaths = renderIdentity.devMdPaths(devFiles)
   for (const record of selected) {
     const route = context.routesByRecordId.get(record.record_id)
     const files = gitInventory(repositoryRoot, masterCommit, ['shared-docs/guides'])
     assertInventory(repositoryRoot, files)
     const evidence = {master_commit: masterCommit, dev_commit: devCommit, files, dev_files: devFiles, navigation}
-    const identity = {group: 'guides', page: route.page, inputs_sha256: digest(JSON.stringify(evidence)), record: routing.sharedReceiptPath('guides', route.page)}
+    // Lock pins are committed content addresses for the upstream inventories.
+    const lockRelative = `shared-docs/guides/pages/${route.page}/lock.yaml`
+    let pins = null
+    if (files.some(entry => entry.path === lockRelative)) {
+      const parsed = parseLock(gitBlobs(repositoryRoot, masterCommit, [lockRelative])[0].toString(), {page: route.page, channel: 'both'})
+      if (!('errors' in parsed)) pins = {current: parsed.lock.current, next: parsed.lock.next}
+    }
+    // Planning-side render targets are best-effort: a page whose shared source is
+    // not in the source cache yet (first onboarding) has none, and null only
+    // over-approximates re-rendering. The build path re-derives and reports the
+    // real error when one exists.
+    let renderTargets = null
+    try { renderTargets = planFetchTargets({record, sourceDir, baselineRoot, rootToken, page: route.page, navigation, previousSnapshot}) } catch { renderTargets = null }
+    let images = null
+    const previousRecord = previousSnapshot?.records?.find(row => row.record_id === record.record_id && row.shared_page?.page === route.page)
+    if (previousRecord?.shared_page?.record) {
+      try { images = renderIdentity.receiptImages(JSON.parse(regularBytes(baselineRoot, previousRecord.shared_page.record)).inputs.images) } catch { images = null }
+    }
+    const identity = renderIdentity.renderIdentity({
+      page: route.page, pins, overlay: renderIdentity.overlayInventory(files, route.page), engine, devPagePaths,
+      renderTargets, images,
+      active: active.pages.find(entry => entry.record === record.record_id && entry.page === route.page) || null,
+    })
     context.sharedInputsByRecordId.set(record.record_id, identity)
     inputs[record.record_id] = {identity, evidence}
   }

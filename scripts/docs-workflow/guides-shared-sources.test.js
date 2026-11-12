@@ -112,12 +112,35 @@ test('[9-6] real selected source build uses pinned inputs, both manuals, current
   assert.deepEqual(fs.readFileSync(path.join(options.scratch, 'images', accepted.sha256)), image)
   assert.equal(bundle.outcomes[0].identity.inputs_sha256, options.candidate.records[0].shared_page.inputs_sha256)
   assert.equal(bundle.outcomes[0].identity.inputs_sha256, options.plan.changed_records[0].shared_page.inputs_sha256)
+  // The fixture preparation runs without a source cache, so its planning identity
+  // legitimately carries null render targets; zero-drift planning/publication
+  // equality is pinned by the render-identity test below.
   assert.notEqual(bundle.outcomes[0].identity.inputs_sha256, options.prepared.data.inputs.rec0.identity.inputs_sha256)
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(options.out, bundle.outcomes[0].receipt))).notes, [])
   assert.equal(bundle.effective_active.pages[0].activated_in, '123')
   assert.deepEqual(options.plan.affected_tables, ['table'])
   assert.equal(bundle.outcomes[0].input_context.upstream.current.find(file => file.path === 'site/en/sample.md').sha256,
     adapter.digest(fs.readFileSync(path.join(options.repo, 'site/en/sample.md'))))
+})
+
+test('render identity agrees between planning and publication on zero drift', {timeout: 120000}, async t => {
+  const options = await fixture(t)
+  // Production planning runs against the restored source cache: prepare with the
+  // sources directory present so render targets derive exactly like the build.
+  const prepared = adapter.prepareSharedSources({...options, devCommit: options.devCommit})
+  options.preparation = prepared.data
+  options.candidate.records.find(row => row.record_id === 'rec0').shared_page = prepared.data.inputs.rec0.identity
+  const bundle = await generateSharedSources(options, {fetchOld: async () => ({blocks: {items: [heading]}})})
+  assert.equal(bundle.outcomes[0].status, 'success', JSON.stringify(bundle.outcomes))
+  // One recipe on both sides: the publication identity recomputed from the receipt
+  // equals the planning identity, which is what retires the perpetual full refetch.
+  assert.deepEqual(bundle.outcomes[0].identity, prepared.data.inputs.rec0.identity)
+  const receipt = JSON.parse(fs.readFileSync(path.join(options.out, bundle.outcomes[0].receipt)))
+  const renderIdentity = require('../../packages/docs-tooling/src/lark/sharedPageRenderIdentity')
+  assert.equal(bundle.outcomes[0].identity.inputs_sha256,
+    renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, 'sample')).inputs_sha256)
+  assert.ok(Object.hasOwn(receipt.inputs.fetch, 'active'))
+  assert.ok(/^[a-f0-9]{64}$/.test(receipt.inputs.tools.engine_sha256))
 })
 for (const manual of ['guides', 'guides-byoc']) {
   test(`single-target Fetch builds and authenticates exactly ${manual}`, {timeout: 120000}, async t => {
@@ -1815,7 +1838,8 @@ test('compact generated bundle retains production-scale evidence and all paired 
   let outputs = 0
   for (const outcome of bundle.outcomes) {
     const receipt = JSON.parse(handoff.files.get(outcome.receipt))
-    assert.equal(adapter.digest(JSON.stringify(receipt.inputs)), outcome.identity.inputs_sha256)
+    const renderIdentity = require('../../packages/docs-tooling/src/lark/sharedPageRenderIdentity')
+    assert.equal(renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, outcome.page)).inputs_sha256, outcome.identity.inputs_sha256)
     for (const output of outcome.outputs) {
       assert.equal(adapter.digest(handoff.files.get(output.file)), output.sha256); outputs++
     }

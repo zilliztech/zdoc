@@ -10,6 +10,7 @@ const hashSnapshot = snapshot => require('./sourceCompleteness').hashSnapshot(sn
 const MANIFEST = 'generated/en/manifests/shared-pages/guides'
 const EFFECTIVE = 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-effective.json'
 const aliases = require('./sharedPageAliases')
+const renderIdentity = require('./sharedPageRenderIdentity')
 const {validateRegenerationEvidence} = require('../../../../scripts/docs-workflow/guides-shared-regeneration')
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 function check(condition, message) { if (!condition) throw new Error(`Shared publication: ${message}`) }
@@ -30,8 +31,15 @@ function validatePublishedReceipt(receipt, record, {workspace, snapshot, read = 
   validateSharedSnapshotRecord(record); validateSharedReceipt(receipt, record.shared_page)
   const navigation = receipt.inputs.fetch.navigation
   check(navigation && typeof navigation === 'object' && Array.isArray(navigation.navigationRecords), 'draft navigation is not publication authority')
-  const draftInputs = {...receipt.inputs, fetch: {...receipt.inputs.fetch, navigation: digest(JSON.stringify(navigation))}}
-  check(digest(JSON.stringify(draftInputs)) === record.shared_page.inputs_sha256, 'receipt input identity mismatch')
+  // Identity recomputes the shared render recipe over the receipt projection.
+  // Pre-renderIdentity receipts (no fetch.active) authenticate through their
+  // legacy whole-input digest until the transition round rewrites them.
+  if (Object.hasOwn(receipt.inputs.fetch, 'active')) {
+    const recomputed = renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, record.shared_page.page))
+    check(recomputed.inputs_sha256 === record.shared_page.inputs_sha256, 'receipt input identity mismatch')
+  } else {
+    check(renderIdentity.legacyReceiptInputsDigest(receipt) === record.shared_page.inputs_sha256, 'receipt input identity mismatch')
+  }
   const nav = navigation.navigationRecords.filter(row => row.record_id === record.record_id)
   check(nav.length === 1 && nav[0].source_kind === 'shared-page' && nav[0].shared_page?.page === record.shared_page.page
     && nav[0].doc_link === record.doc_link && nav[0].slug === record.slug, 'receipt canonical record/navigation mismatch')
