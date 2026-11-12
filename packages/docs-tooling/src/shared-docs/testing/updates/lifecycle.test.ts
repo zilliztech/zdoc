@@ -139,6 +139,43 @@ it('binds all producer tree entries and authenticates the policy bytes and mode'
   expect(() => digest(dir + policy.replace('100644', '120000'))).toThrow(/policy differs/)
 })
 
+it('accepts one registered scheduled attempt only for its page, immutable commit, original blob and complete inventory', async () => {
+  const {producerInventoryDigest, reviewedProducerInventory} = await import('../../adapters/updates/selected-lifecycle')
+  const {createHash} = await import('node:crypto')
+  const raw = Buffer.from('{"strictProducerSha256":"old"}\n')
+  const oid = (bytes: Buffer) => createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')
+  const sha256 = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex')
+  const path = 'packages/docs-tooling/src/shared-docs/adapters/updates/reviewed-fetch-tree.json'
+  const tree = (bytes: Buffer) => `100644 blob ${oid(bytes)}\t${path}\0`
+  const oldTree = tree(raw), digest = producerInventoryDigest(oldTree, raw)
+  const page = 'json-field-overview', producer = 'a'.repeat(40), repository = {id:660446555}
+  const run = {id:120, run_attempt:2, head_sha:producer, head_branch:'master', event:'schedule', status:'completed',
+    conclusion:'success', workflow_id:83360731, path:'.github/workflows/fetch-docs.yml', repository, head_repository:repository}
+  const entry = {page, runId:run.id, attempt:run.run_attempt, producer, producerInventorySha256:digest,
+    policyBlobOid:oid(raw), policySha256:sha256(raw)}
+  const trusted = Buffer.from(JSON.stringify({strictProducerSha256:'f'.repeat(64)}))
+  const read = (entries: unknown[]) => async () => Buffer.from(JSON.stringify({registrations:entries}))
+  const check = (rows = read([entry]), observation = run, selected = page, listing = oldTree, bytes = raw) =>
+    reviewedProducerInventory(listing, trusted, observation, selected, async () => bytes, rows)
+  expect(await check()).toBe(digest)
+  const strict = Buffer.from(JSON.stringify({strictProducerSha256:digest}))
+  expect(await reviewedProducerInventory(tree(strict), strict, run, 'other-page', async () => {throw Error()},
+    async () => {throw Error()})).toBe(digest)
+  for (const change of [{head_sha:'b'.repeat(40)}, {id:121}, {run_attempt:1}, {event:'workflow_dispatch'},
+    {status:'in_progress'}, {conclusion:'failure'}, {head_branch:'dev'}, {workflow_id:1},
+    {path:'.github/workflows/other.yml'}, {repository:{id:1}}, {head_repository:{id:1}}])
+    expect(await check(read([entry]), {...run,...change})).toBeUndefined()
+  for (const rows of [[], [entry, entry], [{...entry, attempt:'2'}], [{...entry, page:'other'}],
+    [{...entry, wildcard:true}], [{...entry, producerInventorySha256:'e'.repeat(64)}],
+    [{...entry, policyBlobOid:'e'.repeat(40)}], [{...entry, policySha256:'e'.repeat(64)}]])
+    expect(await check(read(rows))).toBeUndefined()
+  expect(await check(async () => Buffer.from('{"registrations":[],"registrations":[]}'))).toBeUndefined()
+  expect(await check(undefined,run,'other-page')).toBeUndefined()
+  expect(await check(undefined,run,page,oldTree,Buffer.from(raw.toString().trimEnd()))).toBeUndefined()
+  expect(await check(undefined,run,page,oldTree.replace('100644','120000'))).toBeUndefined()
+  expect(await check(undefined,run,page,oldTree + `100644 blob ${'c'.repeat(40)}\tchanged.py\0`)).toBeUndefined()
+})
+
 it('binds complete membership to distinct record IDs in every observed table', async () => {
   const {recordMembership} = await import('../../adapters/updates/selected-lifecycle')
   const data = [{base_table_id: 'a', record_id: 'one'}, {base_table_id: 'b', record_id: 'two'}]
