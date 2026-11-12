@@ -20,6 +20,7 @@ const {validateSharedReceipt, readSharedReceipt, readActiveState, safeHandoffPat
 const {runBuild, readSharedDocs} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/commands/build.ts'))
 const {parseLock} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/core/lock.ts'))
 const {parseSourceConfig} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/core/config.ts'))
+const {variantReceiptEntries} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/core/variants.ts'))
 const {resolveManualPublication} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/manuals/registry.ts'))
 const {createGuidesNavigationState} = require('../../packages/docs-tooling/src/lark/sourceSnapshot')
 const {validateImageBaseUrl} = require('../../packages/docs-tooling/src/lark/sharedImageUploader')
@@ -112,7 +113,7 @@ function baselineFallback(data, recordId, baselineRoot, out) {
   }
   return {outputs, receipt, active}
 }
-function receiptDraft({page, input, upstream, lock, outputs, images, channel, imageBaseUrl, renderTargets, notes = []}) {
+function receiptDraft({page, input, upstream, lock, outputs, images, channel, imageBaseUrl, renderTargets, variants, notes = []}) {
   const byPath = new Map()
   for (const version of ['current', 'next']) for (const file of upstream[version]) {
     if (!byPath.has(file.path)) byPath.set(file.path, {path: file.path, current: null, next: null})
@@ -126,14 +127,17 @@ function receiptDraft({page, input, upstream, lock, outputs, images, channel, im
   }
   const md2mdPackage = JSON.parse(fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'))
   if (md2mdPackage.name !== '@zilliz/mdtomd') throw new Error('Unexpected md2md package identity')
-  return {schema_version: 1, page, token: `shared-${page}`, inputs: {
+  const inputs = {
     milvus_docs: {repository: 'milvus-io/milvus-docs', current: lock.current, next: lock.next, files: [...byPath.values()].sort((a, b) => a.path.localeCompare(b.path))},
     zdoc: {repository: 'zilliztech/zdoc', commit: input.evidence.master_commit, files: input.evidence.files.map(({path, sha256}) => ({path, sha256}))},
     dev: {commit: input.evidence.dev_commit, files: input.evidence.dev_files.map(({path, sha256}) => ({path, sha256}))},
     fetch: {navigation: fetch.digest(JSON.stringify(input.evidence.navigation)), image_base_url: imageBaseUrl, render_targets: {schema_version: 1, targets: renderTargets}},
     tools: {zdoc: input.evidence.master_commit, md2md: md2mdPackage.version},
     images: images.map(image => ({source: image.original, sha256: image.sha256, object: image.address})),
-  }, outputs, channel: channel === 'current' ? null : channel, notes}
+  }
+  const adopted = variantReceiptEntries(variants, page, value => fetch.digest(value), sharedRoot)
+  if (adopted.length) inputs.variants = adopted
+  return {schema_version: 1, page, token: `shared-${page}`, inputs, outputs, channel: channel === 'current' ? null : channel, notes}
 }
 function receiptNotes(built) {
   const groups = new Map()
@@ -231,6 +235,12 @@ async function generateSharedSources(options, dependencies = {}) {
         detail: buildErrors.length ? buildErrors : null,
       })
       const buildSeconds = (performance.now() - buildStart) / 1000
+      const adoptedVariants = shared.pages.get(page)?.variants ?? {}
+      if (Object.keys(adoptedVariants).length) {
+        const summary = Object.entries(adoptedVariants).map(([name, variant]) =>
+          `${name}=pull/${variant.provenance.pull}@${variant.provenance.head_sha.slice(0, 12)}`).join(' ')
+        console.info(`[shared-variant] page=${page} ${summary}`)
+      }
       for (const output of built) for (const address of new Set(output.images.map(image => image.address))) output.mdx = output.mdx.split(address).join(`${imageBaseUrl}/${address}`)
       stage = 'activation'
       const activationStart = performance.now()
@@ -255,7 +265,7 @@ async function generateSharedSources(options, dependencies = {}) {
         path: `${resolveManualPublication(output.manual, 'en').publication.contentRoot}/${output.path}${output.extension}`,
         sha256: fetch.digest(Buffer.from(output.mdx))}))
       const receipt = receiptDraft({page, input, upstream, lock, outputs, images, channel: targets[0].channel,
-        imageBaseUrl, renderTargets, notes: receiptNotes(built)})
+        imageBaseUrl, renderTargets, variants: adoptedVariants, notes: receiptNotes(built)})
       validateSharedReceipt(receipt, input.identity)
       for (const [sha, bytes] of imageBytes) if (!fs.existsSync(path.join(scratchRoot, 'images', sha))) write(scratchRoot, `images/${sha}`, bytes)
       stage = 'regeneration'
