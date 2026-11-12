@@ -3,6 +3,8 @@ import { createRequire } from 'node:module'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { isDeepStrictEqual as equal } from 'node:util'
+import * as z from 'zod'
+import { DigestSchema, GitShaSchema } from '../../core/updates/envelope'
 import { GitLinkInputReader } from '../links-input'
 import { gitRead, sha } from './git'
 import { exactlyOne, latestGuidesRun, stepWindow, successfulJob } from './guides-run-metadata'
@@ -25,17 +27,20 @@ const unknown = (reason: string) => ({ reason } as const)
 
 const policyPath = 'packages/docs-tooling/src/shared-docs/adapters/updates/reviewed-fetch-tree.json'
 const reviewed = require('./reviewed-fetch-tree.json') as {
-  strictProducerSha256: string
   legacyCensus: { producer: string; runId: number; attempt: number; artifactId: number; zipDigest: string;
     page: string; recordId: string; verifiedAt: string; tableCount: number; recordCount: number; membershipSha256: string }
+}
+
+function gitBlobOid(bytes: Uint8Array) {
+  return createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')
 }
 
 // A tree OID changes along the entire path to the policy that records its own fingerprint.
 // Normalize just those OIDs, after checking the policy blob against the trusted checkout.
 // All other paths, types, modes and OIDs (including empty subtrees) enter the fingerprint.
 export function producerInventoryDigest(tree: string, policyBytes: Uint8Array) {
+  const policyOid = gitBlobOid(policyBytes)
   if (!tree.endsWith('\0') || tree.includes('\uFFFD')) throw new Error('Invalid producer tree listing')
-  const policyOid = createHash('sha1').update(`blob ${policyBytes.length}\0`).update(policyBytes).digest('hex')
   const digest = createHash('sha256')
   let foundPolicy = false
   for (const entry of tree.slice(0, -1).split('\0')) {
@@ -54,6 +59,34 @@ export function producerInventoryDigest(tree: string, policyBytes: Uint8Array) {
   }
   if (!foundPolicy) throw new Error('Missing producer review policy')
   return digest.digest('hex')
+}
+
+const registration = z.strictObject({
+  page: z.literal('json-field-overview'), producer: GitShaSchema, policyBlobOid: GitShaSchema, policySha256: DigestSchema,
+  producerInventorySha256: DigestSchema, runId: z.number().int().positive(), attempt: z.number().int().positive(),
+})
+const registry = z.strictObject({ registrations: z.array(registration).max(1) })
+const readRegistry = () => readFile(new URL('./reviewed-scheduled-fetch.json', import.meta.url))
+
+export async function reviewedProducerInventory(tree: string, trustedPolicy: Uint8Array, run: Row, page: string,
+  readProducerPolicy: () => Promise<Uint8Array>, readRegistrations: () => Promise<Uint8Array> = readRegistry) {
+  // Preserve the ordinary policy even when the single-run registration is absent or unusable.
+  try {
+    const actual = producerInventoryDigest(tree, trustedPolicy)
+    if (actual === object(parseStrictJson(trustedPolicy)).strictProducerSha256) return actual
+  } catch { /* A previously reviewed producer may have a different policy blob. */ }
+
+  if (page !== 'json-field-overview' || run.repository?.id !== 660446555 || run.head_repository?.id !== 660446555 ||
+    run.workflow_id !== 83360731 || run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' ||
+    run.event !== 'schedule' || run.status !== 'completed' || run.conclusion !== 'success') return undefined
+  try {
+    const [entry] = registry.parse(parseStrictJson(await readRegistrations())).registrations
+    if (!entry || entry.producer !== run.head_sha || entry.runId !== run.id || entry.attempt !== run.run_attempt) return undefined
+    const original = await readProducerPolicy()
+    if (gitBlobOid(original) !== entry.policyBlobOid || sha256(original) !== entry.policySha256) return undefined
+    const actual = producerInventoryDigest(tree, original)
+    return actual === entry.producerInventorySha256 ? actual : undefined
+  } catch { return undefined }
 }
 
 export function recordMembership(rows: Row[]) {
@@ -100,22 +133,23 @@ export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, 
     snapshot.base_app_token !== 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh') return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
   const legacy = reviewed.legacyCensus
   const legacyProducer = run.head_sha === legacy.producer
+  let producerInventorySha256: string | undefined
   if (legacyProducer) {
     if (run.id !== legacy.runId || run.run_attempt !== legacy.attempt || facts.artifact.id !== legacy.artifactId ||
       facts.artifact.digest !== legacy.zipDigest || selected.page !== legacy.page) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
   } else {
     const tree = await gitRead(selected.producerRepo, ['ls-tree', '-r', '-t', '-z', '--full-tree', run.head_sha])
     const bytes = await readFile(new URL('./reviewed-fetch-tree.json', import.meta.url))
-    try {
-      if (producerInventoryDigest(tree, bytes) !== reviewed.strictProducerSha256) return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
-    } catch { return unknown('BASE_SCAN_PRODUCER_UNPROVEN') }
+    producerInventorySha256 = await reviewedProducerInventory(tree, bytes, run, selected.page,
+      () => new GitLinkInputReader(selected.producerRepo).readBytes(run.head_sha, policyPath))
+    if (!producerInventorySha256) return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
   }
   const result = await readReviewedObservation(api, facts, manifest, snapshot, payload, selected)
   if (!('identity' in result)) return result
   if (legacyProducer && (result.recordId !== legacy.recordId || result.identity.membershipSha256 !== legacy.membershipSha256 ||
     result.identity.recordCount !== legacy.recordCount || result.identity.tableCount !== legacy.tableCount)) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
   Object.assign(result.identity, legacyProducer ? {censusVerifiedAt: legacy.verifiedAt} :
-    {producerInventorySha256: reviewed.strictProducerSha256})
+    {producerInventorySha256})
   return result
 }
 
