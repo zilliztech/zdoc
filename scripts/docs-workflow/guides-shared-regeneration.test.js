@@ -146,7 +146,12 @@ test('fresh replay restores Git bytes despite dirty live configuration, upstream
   fs.writeFileSync(path.join(value.options.repo, 'site/en/sample.md'), 'dirty upstream')
   fs.writeFileSync(path.join(value.options.baselineRoot, 'content/en/guides/existing.md'), 'dirty dev')
   const proof = await replay(value)
-  assert.equal(proof.inputs_sha256, value.outcome.identity.inputs_sha256)
+  // The proof binds the whole receipt inputs; the render identity is the separate
+  // page-local recipe, so the two digests are intentionally distinct spaces.
+  const draft = structuredClone(value.receipt.inputs)
+  if (typeof draft.fetch.navigation !== 'string') draft.fetch.navigation = digest(JSON.stringify(draft.fetch.navigation))
+  assert.equal(proof.inputs_sha256, digest(JSON.stringify(draft)))
+  assert.notEqual(proof.inputs_sha256, value.outcome.identity.inputs_sha256)
   assert.ok(fs.readdirSync(value.options.scratch).every(file => !file.startsWith('receipt-replay-')))
 })
 test('new render targets validate exact version, paired manuals, path, position and channel; legacy receipts remain readable', async t => {
