@@ -119,11 +119,11 @@ test('missing card report does not substitute workflow head SHA', () => {
   assert.equal(result.final_sha, null)
 })
 
-test('GitHub adapter fetches completed runs, details, and jobs with injected fetch', async () => {
+test('GitHub adapter fetches dispatch details and candidate jobs with injected fetch', async () => {
   const calls = []
   const responses = new Map([
-    ['/actions/workflows/fetch-docs.yml/runs?status=completed&per_page=20', { workflow_runs: [run()] }],
-    ['/actions/runs/42', { ...run(), inputs: { group: 'all', publish: 'true' } }],
+    ['/actions/workflows/fetch-docs.yml/runs?status=completed&per_page=20', { workflow_runs: [run({ event: 'workflow_dispatch' })] }],
+    ['/actions/runs/42', { ...run({ event: 'workflow_dispatch' }), inputs: { group: 'all', publish: 'true' } }],
     ['/actions/runs/42/jobs?per_page=100', { jobs: jobs() }],
   ])
   const fetch = async url => {
@@ -140,10 +140,68 @@ test('GitHub adapter fetches completed runs, details, and jobs with injected fet
   assert.deepEqual(calls, [...responses.keys()])
 })
 
+test('GitHub adapter skips schedule details and fetches jobs only for the candidate', async () => {
+  const calls = []
+  const runs = [
+    run({ id: 41, completed_at: '2026-07-29T03:00:00Z' }),
+    run({ id: 42, event: 'workflow_dispatch', completed_at: '2026-07-29T02:00:00Z' }),
+    run({ id: 43, event: 'workflow_dispatch', completed_at: '2026-07-29T01:00:00Z' }),
+  ]
+  const fetch = async url => {
+    const path = new URL(url).pathname.replace('/repos/acme/docs', '') + new URL(url).search
+    calls.push(path)
+    if (path === '/actions/runs/42' || path === '/actions/runs/43') {
+      return { ok: true, status: 200, json: async () => ({ inputs: { group: 'guides', publish: 'true' } }) }
+    }
+    if (path === '/actions/runs/41/jobs?per_page=100') return { ok: true, status: 200, json: async () => ({ jobs: jobs() }) }
+    return { ok: true, status: 200, json: async () => ({ workflow_runs: runs, jobs: [] }) }
+  }
+  const adapter = createGitHubAdapter({ repository: 'acme/docs', token: 'secret', fetch })
+  const observed = await adapter.inspectRecentRuns()
+  // Dispatch details are fetched to resolve inputs; the schedule run (newest
+  // success, therefore the candidate) is the only one whose jobs are fetched.
+  assert.deepEqual(calls, [
+    '/actions/workflows/fetch-docs.yml/runs?status=completed&per_page=20',
+    '/actions/runs/42',
+    '/actions/runs/43',
+    '/actions/runs/41/jobs?per_page=100',
+  ])
+  assert.deepEqual(Object.keys(observed.jobsByRunId), ['41'])
+  assert.deepEqual(observed.detailsByRunId[41], undefined)
+})
+
+test('GitHub adapter retries transient 5xx responses before giving up', async () => {
+  const statuses = [502, 503]
+  const calls = []
+  const fetch = async url => {
+    calls.push(url)
+    if (statuses.length) return { ok: false, status: statuses.shift(), text: async () => 'Server Error' }
+    return { ok: true, status: 200, json: async () => ({ workflow_runs: [] }) }
+  }
+  const adapter = createGitHubAdapter({ repository: 'acme/docs', token: 'secret', fetch, sleep: async () => {} })
+  const observed = await adapter.inspectRecentRuns()
+  assert.equal(observed.runs.length, 0)
+  assert.equal(calls.length, 3)
+})
+
+test('GitHub adapter retries network-level failures before giving up', async () => {
+  let attempts = 0
+  const fetch = async () => {
+    attempts += 1
+    if (attempts === 1) throw new Error('socket hang up')
+    return { ok: true, status: 200, json: async () => ({ workflow_runs: [] }) }
+  }
+  const adapter = createGitHubAdapter({ repository: 'acme/docs', token: 'secret', fetch, sleep: async () => {} })
+  const observed = await adapter.inspectRecentRuns()
+  assert.equal(observed.runs.length, 0)
+  assert.equal(attempts, 2)
+})
+
 test('GitHub adapter surfaces API failure', async () => {
   const adapter = createGitHubAdapter({
     repository: 'acme/docs',
     token: 'secret',
+    retryAttempts: 1,
     fetch: async () => ({ ok: false, status: 503, text: async () => 'unavailable' }),
   })
   await assert.rejects(adapter.inspectRecentRuns(), /GitHub API request failed \(503\): unavailable/)
@@ -154,6 +212,7 @@ test('GitHub outputs encode multiline API failures without injecting output keys
   const adapter = createGitHubAdapter({
     repository: 'acme/docs',
     token: 'secret',
+    retryAttempts: 1,
     fetch: async () => ({
       ok: false,
       status: 503,
