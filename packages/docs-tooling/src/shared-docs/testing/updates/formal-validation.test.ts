@@ -196,7 +196,10 @@ describe('production shared-update-unit validation', () => {
     const forged = { ...f, planBase64: b64(privatePlan), outputBase64: b64(privateOutput),
       receipt: { ...f.receipt, planSha256: digest('plan', privatePlanObj), outputDigest: sha256(privateOutput) } }
     expect(() => formalValidation({ ...forged, op: 'receipt' })).toThrow('PRODUCTION_REQUIRES_UNIT_PLAN')
-    // production unit in a private/test context
+    // production unit in a private/test context (receipt and caller agree on a test repository)
+    expect(() => formalValidation({ ...f, op: 'receipt', repository: { id: 100 },
+      receipt: { ...f.receipt, repositoryId: 100 } })).toThrow('PRIVATE_REQUIRES_PROJECTION')
+    // caller context disagrees with the receipt repository -> repository binding
     expect(() => formalValidation({ ...f, op: 'receipt', repository: { id: 100 } })).toThrow('REPOSITORY_BINDING')
   })
 
