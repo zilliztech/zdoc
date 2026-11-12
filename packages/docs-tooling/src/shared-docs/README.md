@@ -581,7 +581,7 @@ used for that decision.
 
 The English shared source scan checks distinct IDs, totals and pagination for
 all Base tables and their unfiltered records. The verifier authenticates every
-entry in the Fetch producer's Git tree. A new tree requires review and a new
+entry in the Fetch producer's Git tree. The ordinary registration uses a reviewed
 fingerprint in `adapters/updates/reviewed-fetch-tree.json`. The fingerprint
 uses `git ls-tree -r -t -z --full-tree <producer>` and
 `producerInventoryDigest`; the verifier checks the policy blob itself against
@@ -602,6 +602,28 @@ keeps the page on hold. A missing record cannot establish deletion. All
 configured pages remain in the inventory, including unselected pages and pages
 without retained/dev mapping. Analysis availability and lifecycle eligibility
 are reported separately. Full 7-9 and all requirement pending IDs remain intact.
+
+### Reviewing one completed Fetch
+
+To review a completed scheduled Fetch after its producer tree was built, inspect
+the run and exact attempt, then review the code at the returned `head_sha`.
+Run the measurement tool from a trusted tooling checkout containing that Git commit.
+
+```bash
+gh api "repos/zilliztech/zdoc/actions/runs/${RUN_ID}/attempts/${ATTEMPT}" \
+  --jq '{id,run_attempt,head_sha,event,path,head_branch,status,conclusion}'
+node scripts/docs-workflow/shared-guides-update/producer-fingerprint.cjs --inspect "$PRODUCER_SHA"
+```
+
+A reviewed master PR can place one entry in `registrations` in
+`adapters/updates/reviewed-scheduled-fetch.json`. Copy `producer`,
+`policyBlobOid`, `policySha256`, and `producerInventorySha256` from the
+measurement of that exact commit. Set `page` to `json-field-overview` and
+copy the numeric `runId` and `attempt` from the Actions response. The original
+policy bytes, including their trailing newline, are part of this identity.
+An empty array leaves the single-run registration inactive. The verifier still
+authenticates the source archive, record, publication receipt, live dev and
+latest eligible Fetch for that attempt. A later Fetch needs its own review.
 
 `reportUpdates(options, repositoryRoot, dependencies)` and `runUpdate` accept
 internal test dependencies for GET-only API/image readers and an explicitly
