@@ -43,6 +43,11 @@ The role name must start with a letter and can only include uppercase or lowerca
 ```python
 from pymilvus import MilvusClient
 
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+
 client.create_role(role_name="role_a", description="a cluster read only role")
 ```
 

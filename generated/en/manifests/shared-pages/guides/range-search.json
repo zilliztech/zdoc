@@ -4006,7 +4006,7 @@
       ]
     },
     "dev": {
-      "commit": "82b04ab8ac6de00ce8d0365dcd78f81a49050fa1",
+      "commit": "00f8c8939f7ee737a075fa86e33e414cfc1f5fc2",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -4258,7 +4258,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/external-collection-limits.md",
-          "sha256": "da8082fd5698d65eeee8f12f74e986a2ab635fd42c9ab3ea124ac2bf43b60122"
+          "sha256": "f869837c21e5013a6e3adb08b2b4ec9949604f05e56d85b0a198f158ffae79b7"
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/load-release-collections.md",
@@ -4470,7 +4470,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/json-fields/json-field-overview.md",
-          "sha256": "23785adfef5b5416399b715e629db700a4eb23c6faa34839736ca5e990c092d6"
+          "sha256": "54ea39d3154b24fa7c6bd31b74f65a511e292931367362be0540c2d69f8018c8"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/json-fields/json-indexing.md",
@@ -4722,7 +4722,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-          "sha256": "fc2422de6000092eb9716ad054fd9341510a0ad9710056583977660613508cb9"
+          "sha256": "8c2160beb6b79366f9f793fcba291a64ee43183ad0398e098e59d683e776af2d"
         },
         {
           "path": "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md",
@@ -5405,6 +5405,34 @@
           "sha256": "65bd66424cb33e6b9d74ff3cabacda3653a39c53e3a4e8ee17f66af8baaff941"
         },
         {
+          "path": "content/en/guides/tutorials/development/batch-jobs/anomaly-detection.md",
+          "sha256": "6fb79802982892c4451c3a6a89e17c7445c0f11d20c35ab4a9a10cd36a89d318"
+        },
+        {
+          "path": "content/en/guides/tutorials/development/batch-jobs/batch-jobs.md",
+          "sha256": "bd51f622f256ade156607a947f718f5e1c75dbe6d1d5e1b34721fc5195b50046"
+        },
+        {
+          "path": "content/en/guides/tutorials/development/batch-jobs/data-backfill.md",
+          "sha256": "2487e57fac382a04efef5502414fbaacda956f8d83a64349dbb6f4a6641985d4"
+        },
+        {
+          "path": "content/en/guides/tutorials/development/batch-jobs/k-means-clustering.md",
+          "sha256": "37397063fc9e3bd6b667cb486c7223d6e311540dfcd74fb032ed49e38a4bc302"
+        },
+        {
+          "path": "content/en/guides/tutorials/development/batch-jobs/manage-batch-jobs.md",
+          "sha256": "08c5d6448e29c154b62352e23aa34ce9ec5858a70ccd38f81ad4822cf20ccdff"
+        },
+        {
+          "path": "content/en/guides/tutorials/development/batch-jobs/primary-key-dedup.md",
+          "sha256": "e10b667c97f10f85a8994e55867e747ffedb287dd7f1fded4df8fc8613d2eb9f"
+        },
+        {
+          "path": "content/en/guides/tutorials/development/batch-jobs/vector-similarity-dedup.md",
+          "sha256": "b9a837684c5f81a0c06147954af9a7a56380b9a7dc025df771126e24d87bea0b"
+        },
+        {
           "path": "content/en/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md",
           "sha256": "e9b7b84aacec69e7abc32f775e927ec7c6b32c090caa9eb8152d7ee592fa611e"
         },
@@ -5426,7 +5454,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/collection/external-collection-limits.md",
-          "sha256": "1074f78231487e7482f5651dcd6323504a90cecdfd3eb62ad727e528bf5cbd99"
+          "sha256": "e69c2b13f5e8b79cf1e83c43d553c857e7ceb1213bb1f57c43328f8b825f26f2"
         },
         {
           "path": "content/en/guides/tutorials/development/collection/load-release-collections.md",
@@ -5670,7 +5698,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/json-fields/json-field-overview.md",
-          "sha256": "549a1b1d82bb7730c5c57c9b89fa23c8193f2e7a0ccd5c31015e6a008aaff0cf"
+          "sha256": "1255c6c55e128d28ff963b46083352c8f48a1aa129f646c717a179c3641e9214"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/json-fields/json-indexing.md",
@@ -5913,34 +5941,6 @@
           "sha256": "f58f79a0129ef1f29f8a310a49fe938593c7da4a71a6a4a581edae5b7452c02b"
         },
         {
-          "path": "content/en/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md",
-          "sha256": "71803ea6d7f5b21979eb6bc65dbd08958117c20b454ef4f8727b689263988680"
-        },
-        {
-          "path": "content/en/guides/tutorials/development/spark-batch-jobs/data-backfill.md",
-          "sha256": "273f3fd53f35e4e7d84484861566811225062f3632616f631d4395a13d380f90"
-        },
-        {
-          "path": "content/en/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md",
-          "sha256": "e3498f27637a4b34c36a380e9c1a9b2efa22ce16c610d998bcc114a768cbf3a5"
-        },
-        {
-          "path": "content/en/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
-          "sha256": "3ef673839c9ba69d8f1b522b4aafee0b141bd30805dad65f0b6a235ef8ce7a9c"
-        },
-        {
-          "path": "content/en/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md",
-          "sha256": "45e47e861bdeeb6445cba03253e9b0c00d7939f470975a8f8b552bfa2d0655b9"
-        },
-        {
-          "path": "content/en/guides/tutorials/development/spark-batch-jobs/spark-batch-jobs.md",
-          "sha256": "35d0a587bf665ec490f9d59f4f96add54ace125c3e0580efe08d583b3ca403c7"
-        },
-        {
-          "path": "content/en/guides/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md",
-          "sha256": "5378aad0928e7af6350381e64e66976b527f99e56a02e41671627dfdc1fe707a"
-        },
-        {
           "path": "content/en/guides/tutorials/development/vector-index/autoindex-explained.md",
           "sha256": "5a1d144755d3bbb234b8274cefc257aecb6878d70946498c0f30a7e2985f6a5e"
         },
@@ -5962,7 +5962,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-          "sha256": "942578ae2e62adabae7d9576abea51a369313cd463540e5e1bfe91a37b869273"
+          "sha256": "f202783dcfff6e83bb090b5d33271e01d7001db0757589e4de5fd87afd51c4b6"
         },
         {
           "path": "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md",
@@ -6834,7 +6834,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "74b58d4e25800c13d5c095e3d4130b7e0c7a73e877568c7f340ab628beba011c"
+          "sha256": "2b4036a27c3ef9412e73e81bff25d4bbe4fc7bc9b39be1ec7267004818d69c97"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -6842,367 +6842,367 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
-          "sha256": "7ff65957b10d4218067c6597ac0e02c424d1d0de0a4796b69cec7139c1d4e2b8"
+          "sha256": "a7cc3308784ec43591f370b5093e450ed5cae1199389bcff1d4eb481b27e13a9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "077152710acf21b892796f9f5e67cec044caaa3d5a332ae7445c91313d6dd0e9"
+          "sha256": "fa1c6e092f2cdb0354297903ce795b482932c254899f74b4e97e5a396ddf93aa"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-external-collection-schema.json",
-          "sha256": "a36742d0286ab46c1b7e1fd1904b209c3af9ea3c194a8286e352bd8cdcdec382"
+          "sha256": "61e8cfd70972a9640b04ec3c8339c884688b7822dba0154e54d3a7a9ab0ac3e6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/array-filtering-operators.json",
-          "sha256": "da9c3678a735c9ee1f8903baa1f7dedfb3489fcc14d831aa33d13b914af31b83"
+          "sha256": "5f811b814ba649ae109489455f842f561f0e19d13f066753a2512191783ec84d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json",
-          "sha256": "107b590b5fef808d90d920035708736a0a8204094bd19993ef90471a6097b360"
+          "sha256": "ff063b6fbc0236ccb3919457b914fa19042f75e06ce0fc90bf9bbd521f45ba44"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/basic-filtering-operators.json",
-          "sha256": "e1b1c7225bdee101ad553baccf061163106070f6ae42693ed5eee9cafe2ac093"
+          "sha256": "163145cbb76141709bedcb372c06627af7831833ecf8360487206ebd432a8fd3"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/bitmap-index-type.json",
-          "sha256": "e5cb96eb39ae7ea6b8cd01960388d697eca1adf2292ceeed5ba5751ab5eaa6e7"
+          "sha256": "5ebc3cb6a3e7062e198b04b3a4ec9d540b8f3f27f0bce44c0a1827cfe58fa8f9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/bm25-function.json",
-          "sha256": "a4c8fccfe0939ddb650bae87f3d62fe997f6aebed2b79a4f4c3b8a848d613f9b"
+          "sha256": "875711cb5d2074a5a0df96446a4d6a4bd7b9f27a5564e64e2cc883281d31a998"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/boost-ranker.json",
-          "sha256": "f48a614077e1f6622a8db1c3cae21942fbbe8d81914a7062b1bafb58303e3434"
+          "sha256": "4d712cbfd28eb4209d8e32b443870310e4b6401f3d40fc030a1fbf011bee234a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/chinese-analyzer.json",
-          "sha256": "75ddc2663c04c9e59582283955968e9fa09091715d498df730e600f15590e60a"
+          "sha256": "2cba0e42c55b86b8181bbee650a042f3b521953193b5bedac17f55f8aff54035"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/cnalphanumonly-filter.json",
-          "sha256": "d023bc3c65a2471d6abb1966cf4e350369a96fd763737bbe5e8f69ccffb19daa"
+          "sha256": "c5225b91b939c9f845419c3d85f78a2109c0c3a58c214a6745e3c86371e4eac2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/cncharonly-filter.json",
-          "sha256": "d162c083e66ded9b5a59c6b0b2cc77fd5141d47940a363f913bf42d511521813"
+          "sha256": "543ced2aa2d66c4b70d148d977bad16e109d67222266609e348c6047cbad26df"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/create-struct-array.json",
-          "sha256": "c7126471259da590f08c3c9ca7cb4016e954fa0c0c2d43db2cce4c02ee2355f9"
+          "sha256": "b0134aab481e975ebf8a7d26ae6fca5e8471d4d2959831581c814c717142d30e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/database.json",
-          "sha256": "8b5330392ce3838eb12316fe58ff56bc03bcec74685ce9247bc2eac7d54244fb"
+          "sha256": "c2f4b66c0547627425044ed8c87384c865ebaa42258a814b51fb3f496425e9f9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "3a511b11a49594faeae8ffd67eed130ee8ea42ede43491a4d15cfe1f3996deba"
+          "sha256": "d1c1a4d15abb74a1281af151e5e8687d8065c9612fcb99c051ea3d6b3b242c1c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "1a16b79e70a37651f7b0337362adabadd08caa48a54e255ae80cc05ed00d2c28"
+          "sha256": "faa40db53a845e71db8822c5fb16dab3a76c870398e6b402aa4c6d7713c8e804"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/default-fields.json",
-          "sha256": "43605b32c5e6190da7954227d82effe7618f104781bbdae0e3f4182247094f75"
+          "sha256": "f8de16259e9a48ce492583babf9ef46c79b5464037d668c918b5ffce70c60516"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "22dd0b883bb35a06a3f9d140ddfb672951b33eed609a5c3f72c481c8ec21ee34"
+          "sha256": "8bdc28f0c55c60db18f5addc363ab6b4451860eb963654b0318b3c50e4a961fe"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "d46314e34ab65a9c2a2282763b1ed7d33be32cc0e1a17f33acf5b14929000ad4"
+          "sha256": "e55f473e36e709065c4c934c8ea4060f7def0973eec2e0e5ebfa0981c8bbd5ad"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/enable-dynamic-field.json",
-          "sha256": "b632b859fd09793b734905df3d3d37838165abada950b76ddadb3f7ae582b50c"
+          "sha256": "a68e8c4ea5fe3c200d613e6ed9484103b669867af0e67fd6ba07faea7673b129"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/english-analyzer.json",
-          "sha256": "30a1312a9eeabcd410de3891296c59a36540c589b216bbd45e9b4ef52efc2a92"
+          "sha256": "5e5d0f032820abe8a20f27b75638adcf281af52359c08d11bd8be4411e081291"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/exponential-decay.json",
-          "sha256": "df3c2c96eae07f2d5c10a95e8236cc822832cd65edeb2a32884dad8d6db154af"
+          "sha256": "699ec752cf237539661b12d75450065f30b9c6c1313fdc4260e7689249602f2e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json",
-          "sha256": "2ba0e27069ea9adc7ef70ae82a5ffdbb184b5f39edbe17e249c4c1e2d13b5b86"
+          "sha256": "36e918a3750fb91f5c45a30d9ce775599d8f434d6d6ca37e2c48b2ce2df872a2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search.json",
-          "sha256": "efdb6e160172a0d2bea6ceef51a80ece8825cd17f8c00df1ccda59e96a7c545f"
+          "sha256": "53d32babf6e784050c478b26f6c3ca851f39a50f61fe5927475ac9f544c570e2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtering-templating.json",
-          "sha256": "8c710bc8ef3731c400d54310bbe6dc62a0efd9edc8346e093e1633795f6c3944"
+          "sha256": "d5702c5eedca6df86dec9e98964cd39cd6d9f16a7541d49c17f6f169a1dcd00e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/full-text-search.json",
-          "sha256": "23400bf32da8b1bd903710c125c32a5468274622ca614985bd11dce49118b6a1"
+          "sha256": "1f7a47971f174c632907d0a3a1ea14e9e16a39d81d4bbccb50976b6fad334e28"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/gaussian-decay.json",
-          "sha256": "93e93bcc0233adda4a060d65a2c6c9dfee5b64d1db995560e539cb8b80efdb63"
+          "sha256": "4a40c8f8929cd49d18e8375b70d0cf1353113da5ec644d874e612c75301d1aac"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/get-and-scalar-query.json",
-          "sha256": "c5e85a62236fee9e3deaab354d293fe2c762f6e7800d9027d958aeea8157f075"
+          "sha256": "e89869cddad04d586e43d69dfb6b4eb80012acb53ab629e517375ff379ebc7d6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json",
-          "sha256": "e41d8ac2afaf487968ea7c59c4a713eb5c7b3b3bd58c931d1780be828041f314"
+          "sha256": "e4852734864ef2e9708a1658562a1299b815ac5bfcf24e37edd42a2346dd07df"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/grouping-search.json",
-          "sha256": "bd6b19eb9f699b7e6980ae851e6f8b5b0a1e84e603dce414734671297b0b177e"
+          "sha256": "e8972b1b0ca4a70592ca13e57f7af9439e8c4162f02a0695f2ec39c9b1552e55"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json",
-          "sha256": "f89bac9f7e9513b7ce7809ed44f96bd72ab4d90373e2ebc1ae2f8f397a3d0f7b"
+          "sha256": "140a0f38c06fdb0621028b42164effe0e0476ff31113621a0e0c0e1bbb206d4e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "bd0450e7a608f99ef31253e391be758d9d1a9b5cba5a0c3b53cd7b0221aae5ea"
+          "sha256": "dbae28b20fc3589272f8b681295c45838c15e76b3c7409488cb486ae9b55ebe4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/index-struct-array.json",
-          "sha256": "a1dae313c9ffe4c461f5ae030255107ba14b0d2f30046ed79d4a7eb58ade2458"
+          "sha256": "3a8200806c55761e8254a7ecc1929a630f768f8cb84506eaf045475a45e65d01"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "d3d1a32fff5ec8987a77aeb8a88b02b2c1ea8f3041f955b8923026cdc2503beb"
+          "sha256": "6a6a6e2eb82fdce755d081664dfa8f413e0b97a966a795416166ee68b6396c53"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-struct-array.json",
-          "sha256": "620c4042dd05a005e2f9fd44d18f6fb6b2ad878f89ab2fda63f72fbc299cb26b"
+          "sha256": "ccaa94650dbb8f928bfe1c1fe70f90431eb4a9ea4d39024dd63d97372130017c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/inverted-index-type.json",
-          "sha256": "19cb885767530c700181aa1f8579629acc1cdd8f347f618866a8b146daa2e24b"
+          "sha256": "c4c09f8f84d39524b3a965148f51ca37060cfacad8e26df5e2d2e95518e34bf4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/jieba-tokenizer.json",
-          "sha256": "fe8fbcd0a35ffc20b337f94b5d24706ea4071c663d11c8b7bb21570fc22765a2"
+          "sha256": "7f956997c2748d430904646df7a023e078d57ea410a361df2c46a62b6c9f83c0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-field-overview.json",
-          "sha256": "f0a80c63d384d8dd87d2a924b8c4871e99a098153b066054441d9b44cf42428a"
+          "sha256": "97e9ea2dcfbfbe1aa3a11c753186ca807dcc9b68685c4a1348a7f5ccc14f034c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-filtering-operators.json",
-          "sha256": "416e09d10b896dc31a4674b096283b33e74e976c274e54f98edda55ee64e7fca"
+          "sha256": "85aab49a381f189d6156d340fb1991918c6624b9d6064701cce4eba9388e24ee"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-indexing.json",
-          "sha256": "588039d4d08b6ee83f5ea64c558e041fd2601b9766ea949b7c0c188345df6df5"
+          "sha256": "7a497cc90f7148e77fd38883b83fb2ce15fb047254747cc9c54489fb14047897"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-shredding.json",
-          "sha256": "bc40a91f9ee7c89466248dd2ac447b59599d2b15ca0d34948a65c02a53cbd4dd"
+          "sha256": "404ca2a6add497d36475bcb95e1d6ecab052e09bca97c05f840ef171d30d4875"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/language-identifier-tokenizer.json",
-          "sha256": "6ea0b227a9d3b09999fc3c8513136235df80613f9d7cff51fb55788dd219c5ae"
+          "sha256": "954f5d1c7c4bf07d11d2e14d738190fb89a6a50cd02d333d27cdd4798b38e16b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/length-filter.json",
-          "sha256": "ac89718ded434acecf8eb06c8d5f1310661870aae4037f31b9d025c9b0097e8c"
+          "sha256": "c468a804ae7e56c4f3c8abbfd233b2c960325754ec53b681964b4ccc544f329d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "a2eb6a5d885dd695940b16c494f30c519991c336417ae5304904661879154e1b"
+          "sha256": "39bf5b16f9f811ee2921508aef5fe617a8e8c0e2a0c6f7f4a8160ef130a717cd"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/linear-decay.json",
-          "sha256": "e2e35fd26292618f05157d07e615363baedcb74ac545b6d1423a1d185312500f"
+          "sha256": "eebc3e1e7c3f87a4badf9d2e6fc265344ded373a12b4ac3b7f542215aaa3ecd5"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/load-release-collections.json",
-          "sha256": "aa5a7bb104f8b0fd7bbbbf2462ecac0522d752da473d3bdd38343b82e6be1a3d"
+          "sha256": "037c07c9092cd2c837614accae3526b67f0c14afd1527318707114cf4b737552"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lowercase-filter.json",
-          "sha256": "fc11c548c4126f5e4cbd6337b505326567787b2c39982a6b0919e378e4ec68e9"
+          "sha256": "ae340cb72abc90bcdc027bbfabcba79779ae5441da5b7e41945f2a8be38f3a34"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-aliases.json",
-          "sha256": "c48dc245f9d382dd3e27d1fd6b153da6b25205f5ba10b5bf6f7c13905b58a9bb"
+          "sha256": "c365672817083e3505667a8b98d438d6b4f94a842e878026879ffcf50a5368f4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-collections-sdks.json",
-          "sha256": "8474dbdd8aae7ce9a81266b2ee227a05ab1dc9f33b5f38fc70c48442dc57ebfb"
+          "sha256": "6c6b5be53d8e0c32bd8809df777b3b2bf8e23a6e204a8d1b1a6d30a86c7dbd7b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-collections.json",
-          "sha256": "0d8c03c526d9ed9cd71c2b9fc72d2f3fe246100b1b2a38f4c8a3cb2f2c9d0690"
+          "sha256": "6c5b9a83ee5e54c6e0cdc79240c3e094edacdf5a883cc833cb329674e6e017fb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-partitions.json",
-          "sha256": "eb05c20c06c74f37cb19ae96df2b833ade72f3a163121979c44f080c5f37dc0b"
+          "sha256": "4eb96f013cfcfdb7ddfa5534690b8352785ce3690adb3852f62a5597e1db6e68"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/modify-collections.json",
-          "sha256": "46c7ccc2ac0ab6b1595458f45d6e3b1399bd4a8ef823dfc983c62a17f1f512c1"
+          "sha256": "6dd16f3e7ee5a74bd3c799f53e1ebafe5572d9412898e5fc0b7719d75950a042"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/multi-tenancy.json",
-          "sha256": "2070251dfebfd5850e48be4034d915e327dcea9c8a3670eddea7236c83d27d2a"
+          "sha256": "9d420bc8ec3225946e2a7cb69098becdfa9d14376a22c2fc967c9edcba83a48e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ngram-index-type.json",
-          "sha256": "e12669bde23a26d3ccc3a05e64510f0441237cc4ce0e047960cbe467e89fc790"
+          "sha256": "18e848a26dcb8b70e6fe94fbc1f0ec7de1d2b4f16463c0793d0ec263c83dbdfa"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/nullable-fields.json",
-          "sha256": "6cf49931be3c8f622d55b54c37843a73c8886124272bd4ee6bd8eb47a861742b"
+          "sha256": "51565ec38336978f3f01d5ff139d68f640502accbbb6839f841288aa0a68dd39"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/pattern-match.json",
-          "sha256": "55bfbcd8a9ea04c6a6c94065daf78abcabe36b9061d2e5c311cb2f645a1aafc3"
+          "sha256": "9aee520a9feeabfa811aa50bd46a1990bc899d257537c00f3886f15098259a6d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/pinyin-filter.json",
-          "sha256": "4075c4e98a2a8f8da4de8f044078a48c8244a1f3e91c0f28ab4b7bc56e6c7d33"
+          "sha256": "23a386f56c025d61c4b747490ce80f727ddcf0b59d97e546a52f8233e368c0a8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/primary-field-auto-id.json",
-          "sha256": "bed4c32020194fc29e584ae4491187feb1a4eea7423f401dc76b722beb2eb715"
+          "sha256": "eed47fd63f433010645b8551c57f2c067ee5bc3ec35b68a36abb6dafb681e5fb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ramdom-sampling.json",
-          "sha256": "9463d3d5a83b61cdff780eabc591d8854d957a365ee70fbb1e1c42abc7a2df57"
+          "sha256": "5c7432c9a0455b324d701718a846b2ebaccf02c38d3aebbf94c44934727147c9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json",
-          "sha256": "c62d537059c034a48102b663af57dc919c3742111752b7fa8265ebb0d0aa4cfa"
+          "sha256": "e52cb7218de2da4a0235bded99735e5dc22be244d6f20caf2986a7db445acab0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/range-search.json",
-          "sha256": "53c4e456a816c58342b6302b78e34fdb84384be918f8c64cf4dfbe70fb3f50a4"
+          "sha256": "a210494073bde446cdff620f997f074e33e150e06a8173a4a2b90f2f92ac5130"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "df905baa053d16917f7eea310ab624fac46f16922558d61424337b5ccaa5e9b2"
+          "sha256": "b3f6b5e8859e8a9ff576d5fdbcb6099e8b7ec7c3264298f60e0b6f3621bb7ad2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "ca76fec3e260874a3dae726ecc04aaad82ef9dd1f0997103456cda92247b384b"
+          "sha256": "30d5f787b47eed45380a3f8bba52a85ccd313b3c97357b9ff023460557d83067"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-rrf.json",
-          "sha256": "3a8280467fd8839030262778cc238ba0bb054ab526b7932c3c85e6ed001c2c01"
+          "sha256": "4cfd59706a257bfa3d9c997a93868d1f36366c1394c80c09fa5071fca2b28945"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-weighted-reranker.json",
-          "sha256": "25a08ab220c80092f20465af5f8884d57305a437dfafc826813a713dc396de2b"
+          "sha256": "201ca52a82cebd02bd1e5398755d25dad8f8b525d7b2be3672b304d75b104054"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/rtree-index-type.json",
-          "sha256": "26b6f45996a784de3539742730443d21e26082914121b07400666207bbb6d0b5"
+          "sha256": "7d87aa175b0a23e7ce59d65fca952f7aa291227c323ba377dfe25fb189fcf785"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json",
-          "sha256": "95661070e3f25394503cc3cf1809d78e6a8157ce8f9dead1d0d3e8d9fabe51cc"
+          "sha256": "f1ec460fb87376d2643c5583e5b1ab7effd9ed4485ffa81c7407863f0d43d6cf"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/set-collection-ttl.json",
-          "sha256": "8c485e46c16bb2a716a9077f005963ce96cdee1f15e9f208831a3b4524027f94"
+          "sha256": "ce6da78d76ac5e3810b09061a72d89c48071c3917c81d50ecf0c01112d500580"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/single-vector-search.json",
-          "sha256": "34cab354b3c39bf28370dd445840f33316589d0f6ad755bfb6e0caab6b714b81"
+          "sha256": "cc0012318f2fc13d1f1ecf2e35329880a44e5f77c68adb38e8f1d4e3810d6567"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/slt-sort-index-type.json",
-          "sha256": "0a4d377bb70a2ab5b858a8aba9f2f261bb68e7e93178eaf9a7766992542c4559"
+          "sha256": "9573e44841d302f7507697f848d3cd914c392ecc4f70e6d058d65de698f1e4f0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/snapshots.json",
-          "sha256": "edd17562621eee55f06b9f1c935e416c540bc09cb1ed0805ce27b1b921423714"
+          "sha256": "0ddd1eb1b911a114e27a4b96f3f2bc58b40f11b48f2cba7fe88f39b3fcfdc4e9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-analyzer.json",
-          "sha256": "a55b7a7be35d2eefa35b22827112838fc87555a6b0720631171488f405b4d659"
+          "sha256": "fec30130a3208f4927ce30850734c48feb45c2fa8d315254077364c9beab5836"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "9babedbb28dae02d901fa4b0a7e9e9d76e780e2b95e6f2f4c3867c641a6b9d5b"
+          "sha256": "d1b36dd2b4b54e858542a658a414338e4c112f17f33ec7805bb4e109dd0ecfb6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stemmer-filter.json",
-          "sha256": "b675efc76970b16e3be0a04974cc0e7c3133ec9f2ee3ce6337e2e0135e426a6d"
+          "sha256": "7af010d6fc26a956f3a1b6e7d601f3b8d212b382c566eed413824ad7b380494d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "e503e3f78297a6e12dc76d41f8b88d5a185bdd205e19431c7a6dc0528810e510"
+          "sha256": "538fc69d8f754b4a16693ee92f42b0dc3cf5e4737c19d867c4ea601b3a5083c5"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json",
-          "sha256": "dd30ba8e69ab583c3b2e846c83431db7fc4da6ccf62558a131fcb1ce16bd13da"
+          "sha256": "e1da117653c7354d046097abe43e10f93dbd8ecf70ffc3763df5d82699307b11"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-limits.json",
-          "sha256": "dfdba62fdca6f7cd20d27274ff025669e92f91377f1d68a722b61826bca817e4"
+          "sha256": "35d51b64ca6dfceb66f46238708a12039c0ecbe046bb7ed607f5b305fe21c658"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/text-match.json",
-          "sha256": "7f2d399a584cbc86db73694899c6ec87104c1380b7e82727e9b79b950b7c6ba7"
+          "sha256": "02e4763bfab07d1dce19404ac16646b1f0d14f19d18d51509709a02a177dfee0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json",
-          "sha256": "dcf870733a2f85442f6611075f64b191a7f48a35b1046e9238eefd0e73fe05ad"
+          "sha256": "11db98dac031cedee30062fca7223205f941cf9fa7dab77f001d1b2c50d46437"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-fields.json",
-          "sha256": "6cb88318d732a23982b918a7433116b272df77f9b0716c715a640669e825f4a1"
+          "sha256": "1a47d82a2f556c3bd72b19c7686c15ea205bfcfdcad2e807672d3adef8bf7384"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "e08443eeb237bc0aa8e34ca09a5a7b91ce6ffc23fd9b927fbde32562f36bcfb1"
+          "sha256": "4e2f373e026ec495c96236666509d8c259e4a8ecc0e43691c9d5fa3f31edc40a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-binary-vector.json",
-          "sha256": "a5c24f3ef462a1bac3257daa890004e331beb349e02e8f6282090188e2eb4314"
+          "sha256": "2e865975e1814c61aad5df0d008ac214ed5c32ed3dbfa1636c2938ea9f819f4a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-dense-vector.json",
-          "sha256": "57066b13d2cdf14b8b4054674e3000387c56e9d52948acc9eb68fb72623cb108"
+          "sha256": "3d6b1dcb12af40a5131edcccf63463bcef3bb116e9016ae9c3ea3df70ac7ca91"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-number-field.json",
-          "sha256": "417762a94e473617151873df647bd47a14732b6b70b8ec6123356d0af65ed12a"
+          "sha256": "2a86652b67fc1b76388c805aa3204739f39f99bf209990a94c4d778bd67f657a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-partition-key.json",
-          "sha256": "708e1686a788f162734a24c8f3dba896072ce926ef3b83f0f17c98a37036f9d7"
+          "sha256": "f25a1570f8576b57cecd129acd9ce0308c37b888859f2e2e3f82a55d667e5502"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-sparse-vector.json",
-          "sha256": "b5b24898b83e83d823de24c0b9299abcb126ca7fc83922c4651014836695b0f9"
+          "sha256": "8b8a10cd692e10aca5bb4614562d9339a43d35cb5279383baf657fbfcb69344d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "ae86e82e25ddc78bf79999c6e8f05f1ee40467722bcdcf3a314e6e4d401aef03"
+          "sha256": "bff00fd65f5b93675ddac105ac070e401fb305a13235ef81f7f35cb720f5ce5a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "21cc5ccff43c54413501a3332df31c95a61bc445181bf0d8a9281bcd53965b84"
+          "sha256": "1e3bc463b364161396c9aea9537b5725ab91bd1b777a605c688fef9f9b910e19"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json",
-          "sha256": "616ce225b9fcc9dd88192edce387045039be9229ec5be28d4dec375c1d07ad97"
+          "sha256": "9827a7486a2fccd1c2fa31fed03ecdaa35d275533542861f96b659ce542d60a0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/with-iterators.json",
-          "sha256": "ec488aef61e5f5c03a1c0dce446f4da7040baaf6c0dc4b823e04401c978d7efe"
+          "sha256": "3a9fb033bf82ed7ee80de1c87a95b9599e1fe9e54ef2e5767a12239cc426a14a"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "a868537bd2ed2c76975e734e8cc079c52cefb0f19e99f18332ebf4eebf710119"
+          "sha256": "ee4e558f1637897df2ec775c1db7cd7bc73c16b8b146eae080dc7ba1c9335672"
         }
       ]
     },

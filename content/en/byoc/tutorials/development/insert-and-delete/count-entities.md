@@ -67,6 +67,11 @@ To get the precise entity count, load the collection and run a query with `count
 ```python
 from pymilvus import MilvusClient
 
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+
 # Count without the entities in growing segments
 res = client.query(
     collection_name="test_collection",

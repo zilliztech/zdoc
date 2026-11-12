@@ -113,6 +113,13 @@ The following example assumes that you have already created a collection. Settin
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+
 # 4. Set up index
 # 4.1. Set up the index parameters
 index_params = MilvusClient.prepare_index_params()
