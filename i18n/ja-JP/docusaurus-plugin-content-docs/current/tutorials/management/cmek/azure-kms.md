@@ -47,17 +47,9 @@ Microsoft Azure Key Vault Service は Microsoft Azure のマネージドサー�
 
 クラスターでデータを暗号化するための Zilliz Cloud CMEK を作成する際は、登録済みの Microsoft Entra アプリケーションと Microsoft Azure リソースグループの ID を指定する必要があります。このセクションでは、Azure Cloud Shell と Azure Portal でこれらを作成する方法について説明します。
 
-この手順の完了時には、次のすべての項目が揃っている必要があります。
+<details>
 
-- Azure サブスクリプション ID とディレクトリ ID を取得していること。
-
-- Azure リソースグループ名を確認していること。
-
-- Microsoft Entra アプリケーション（クライアント）ID を取得していること。
-
-- Azure Key Vault 名を確認していること。
-
-<details summary="Click here to read details">
+<summary>詳細設定を表示するには、ここをクリックしてください。</summary>
 
 ### リソースグループを作成する\{#create-a-resource-group}
 
@@ -178,6 +170,16 @@ az role assignment create \
 ```
 
 </details>
+
+この手順の完了時には、次のすべての項目が揃っている必要があります。
+
+- Azure サブスクリプション ID とディレクトリ ID を取得していること。
+
+- Azure リソースグループ名を確認していること。
+
+- Microsoft Entra アプリケーション（クライアント）ID を取得していること。
+
+- Azure Key Vault 名を確認していること。
 
 ## Zilliz Cloud で Azure Key Vault キーを追加する\{#add-an-azure-key-vault-key-on-zilliz-cloud}
 
@@ -363,7 +365,7 @@ KMS キーを追加すると、次の手順で暗号化されたクラスター�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみ選択できます。
 
-1. 概要を確認し、**Create Cluster** をクリックします。
+1. 概要を確認してから、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 

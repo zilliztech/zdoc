@@ -536,9 +536,9 @@
       "translatedAt": "2026-11-11T11:54:34.015Z"
     },
     "content/en/byoc/tutorials/development/schema/alter-collection-field.md": {
-      "sourceHash": "60c148a1d40c6001ce135872e15e0de514a038cae117a5ae32c7699e2202970b",
+      "sourceHash": "11f644929ff8b1e2a1115f3b03a26cd7d7f0b2fecfb6127b0713d769357adca9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/alter-collection-field.md",
-      "translatedAt": "2026-11-09T12:47:48.664Z"
+      "translatedAt": "2026-11-12T04:42:08.344Z"
     },
     "content/en/byoc/tutorials/development/schema/alter-external-collection-schema.md": {
       "sourceHash": "545662600abec3c8cb9f756d913c513def1103c9000e30b3dc94472fb8da77bc",
@@ -1901,9 +1901,9 @@
       "translatedAt": "2026-11-11T11:54:34.015Z"
     },
     "content/en/guides/tutorials/development/schema/alter-collection-field.md": {
-      "sourceHash": "98a39ca39bb44b956dc716768754c8adb35e6204e13d131d3cb38ff742486ddf",
+      "sourceHash": "1a49701d0638efc2f98776dc74011754d0f1ff8428be40f0886c4540a16cbbc5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/alter-collection-field.md",
-      "translatedAt": "2026-11-09T13:46:13.778Z"
+      "translatedAt": "2026-11-12T04:42:08.344Z"
     },
     "content/en/guides/tutorials/development/schema/alter-external-collection-schema.md": {
       "sourceHash": "1f023014bf4d71b362b59b38780531a5b77e0940a3b909a4c0bc81fada3a0e35",
@@ -2891,9 +2891,9 @@
       "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/management/cmek/azure-kms.md": {
-      "sourceHash": "fddb271dd160a72d0affbcdd4a906bc3a2a2eb940ba2da99579349ba5eba867e",
+      "sourceHash": "402453bfb9ab718948245e6f7facd11f591113b2a88a898474523fa69cf134e5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/azure-kms.md",
-      "translatedAt": "2026-11-11T12:07:36.534Z"
+      "translatedAt": "2026-11-12T04:42:08.344Z"
     },
     "content/en/guides/tutorials/management/cmek/cmek.md": {
       "sourceHash": "793e5dd13630be51d1b060f286f79c066e2780176c6c50ad45d5a5194b59925a",

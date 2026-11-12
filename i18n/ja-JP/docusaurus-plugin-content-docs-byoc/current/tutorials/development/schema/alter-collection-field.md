@@ -32,6 +32,9 @@ import TabItem from '@theme/TabItem';
 
 - 各コレクションは、パーティションキーを 1 つだけ持つことができます。コレクションの作成時に設定したパーティションキーは変更できません。
 
+- [StructArray](./use-array-of-structs) フィールドまたはそのサブフィールドパス（`chunks[text]` など）では、`mmap.enabled`、`field.description`、`warmup` のみを変更できます。`max_capacity` や `max_length` などのその他のプロパティは拒否されます。親フィールドとサブフィールドはまとめて保存され、`mmap.enabled` と `warmup` は、いずれかで有効にすると共有ストレージに反映されます。サブフィールドでこれらのプロパティのいずれか1つを無効にしても、親フィールドまたは兄弟サブフィールドでそれが引き続き有効になっている間は、無効化は反映されません。また、`warmup` を `disable` に設定しても、すべての読み取りがスキップされるわけではありません。要素オフセットなど、クエリ実行に必要なデータは引き続き読み取られます。
+
+
 </Admonition>
 
 ## VarChar フィールドの変更\{#alter-varchar-field}
