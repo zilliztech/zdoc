@@ -34,6 +34,9 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
   // that branch (apply_reply job); it never pushes master or dev.
   ['ga4-404-remediation.yml', new Set(['remediation', 'apply_reply'])],
   ['shared-docs-lock.yml', new Set(['lock'])],
+  // The adoption workflow pushes one adoption branch per dispatch with a PAT and
+  // opens a master PR; it never pushes master or dev.
+  ['shared-docs-adopt-variant.yml', new Set(['adopt'])],
   ['sync-master-tooling-to-dev.yml', new Set(['sync'])],
 ]))
 const publishingWorkflows = new Set([

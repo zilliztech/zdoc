@@ -1,0 +1,150 @@
+name: shared docs pin drift watchdog
+
+# Read-only daily audit: compares every shared page's lock pins against the
+# upstream track head, and audits adopted variants against the live upstream
+# pull-request state. It never writes pins or variants; unhealthy pins (which
+# silently degrade production Fetch to per-page baseline fallback) fail the
+# report card, plain drift is informational.
+
+on:
+  schedule:
+    - cron: '47 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shared-docs-pin-drift-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+    steps:
+      - name: Check out pinned master
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install tooling
+        run: pnpm install --frozen-lockfile
+
+      - name: Read public source configuration
+        id: source
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const { loadTypeScript } = require('./scripts/lib/load-typescript');
+          const { parseSourceConfig } = loadTypeScript(path.resolve('packages/docs-tooling/src/shared-docs/core/config.ts'));
+          const result = parseSourceConfig(fs.readFileSync('shared-docs/guides/source.yaml', 'utf8'));
+          if ('errors' in result) throw new Error(JSON.stringify(result.errors));
+          const { repository, track } = result.config;
+          if (!/^https:\/\/github\.com\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+(?:\.git)?$/.test(repository) || /\/(?:\.|\.\.)(?:\.git)?$/.test(repository)) {
+            throw new Error('Source repository must be a credential-free GitHub HTTPS repository URL');
+          }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `repository=${repository}\ntrack=${track}\n`);
+          NODE
+
+      - name: Clone blobless tracking history
+        env:
+          SOURCE_REPOSITORY: ${{ steps.source.outputs.repository }}
+          TRACK: ${{ steps.source.outputs.track }}
+        run: |
+          set -euo pipefail
+          git clone --quiet --filter=blob:none --no-checkout --single-branch --branch "$TRACK" --no-tags \
+            "$SOURCE_REPOSITORY" "$RUNNER_TEMP/milvus-docs-pin-scan"
+          git -C "$RUNNER_TEMP/milvus-docs-pin-scan" show-ref --verify "refs/remotes/origin/$TRACK"
+
+      - name: Scan pin drift and variant health
+        id: scan
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          UPSTREAM_REPO: ${{ runner.temp }}/milvus-docs-pin-scan
+          TRACK: ${{ steps.source.outputs.track }}
+        run: |
+          set -euo pipefail
+          head=$(git -C "$UPSTREAM_REPO" rev-parse "refs/remotes/origin/$TRACK")
+          [[ "$head" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          node scripts/docs-workflow/shared-docs-pin-drift.js \
+            --shared-docs shared-docs/guides --upstream "$UPSTREAM_REPO" --head "$head" \
+            --out tmp/shared-docs-pin-drift
+          node <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync('tmp/shared-docs-pin-drift/watchdog-report.json', 'utf8'));
+          const summary = report.summary || {};
+          for (const field of ['scannedPages', 'driftedCount', 'unhealthyCount', 'pendingReconciliationCount', 'errorCount', 'diffDigest']) {
+            if (summary[field] === undefined) throw new Error(`Watchdog report is missing summary.${field}`);
+          }
+          const cardStatus = summary.unhealthyCount === 0 && summary.errorCount === 0 ? 'success' : 'fail';
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `card_status=${cardStatus}\ndrifted_count=${summary.driftedCount}\nunhealthy_count=${summary.unhealthyCount}\n`);
+          NODE
+
+      - name: Upload the audit report
+        if: ${{ always() && steps.scan.conclusion == 'success' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: shared-docs-pin-drift-${{ github.run_id }}
+          path: tmp/shared-docs-pin-drift
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Attach the report to the run summary
+        if: ${{ always() }}
+        run: |
+          set -euo pipefail
+          if test -f tmp/shared-docs-pin-drift/watchdog-report.md; then
+            cat tmp/shared-docs-pin-drift/watchdog-report.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo '::notice::No watchdog report was produced; the scan step failed before writing one.'
+          fi
+
+      - name: Create the report card
+        id: report_card
+        if: ${{ always() }}
+        continue-on-error: true
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        run: pnpm docs-tooling report-card create --title "Shared docs pin drift watchdog" --stages "Scan pin drift and variant health"
+
+      - name: Attach the report note
+        if: ${{ always() && steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        run: pnpm docs-tooling report-card note --file tmp/shared-docs-pin-drift/watchdog-report.md
+
+      - name: Finish the report card
+        if: ${{ always() && steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          CARD_ID: ${{ steps.report_card.outputs.card_id }}
+          CARD_STARTED_AT: ${{ steps.report_card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.report_card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.report_card.outputs.card_title }}
+          CARD_STATUS: ${{ steps.scan.outputs.card_status }}
+        run: |
+          pnpm docs-tooling report-card finish --message-id "$CARD_ID" --started-at "$CARD_STARTED_AT" \
+            --stages "$CARD_STAGES" --title "$CARD_TITLE" --status "$CARD_STATUS"
