@@ -313,6 +313,7 @@ def authority(root, unit, pins, run):
     run_id, attempt = run["id"], run["run_attempt"]
     return {"fetchRun": run_id, "fetchAttempt": attempt, "fetchProducer": run["head_sha"],
             "sourceJob": row["sourceJobId"], "scanStart": row["generatedAt"],
+            "producerInventorySha256": row["producerInventorySha256"],
             "sourceZip": artifact(metadata, run, row["artifactId"], f"guides-sources-en-{run_id}", row["zipSha256"], 256 * 1024**2),
             "publicationZip": artifact(metadata, run, row["publicationArtifactId"], f"publication-results-fetch-{run_id}-{attempt}",
                                        row["publicationZipSha256"], 1024**2)}
