@@ -190,6 +190,24 @@ StructArray のスカラーフィルタリングは、`element_filter` や `MATC
 | ソースファイル形式 | JSON、JSONL、CSV、および Parquet ファイルは StructArray フィールドを保持できます。NumPy ファイルはトップレベルフィールドごとに 1 ファイルで構成されるため、StructArray データを提供できません。StructArray フィールドを持つコレクションには、JSON、CSV、または Parquet ファイルを使用してください。ファイルの形状については、[ソースデータを準備する](./import-data-via-sdks#structarray-fields-in-source-files) を参照してください。 |
 | バックアップとスナップショットのインポート | バックアップの復元などの Binlog インポート、およびスナップショットソースのインポートは、要素レベルの null を許容するサブフィールドまたはスカラー `ARRAY` サブフィールドを持つコレクションでは拒否されます。 |
 
+## クラスタータイプ別の StructArray 機能\{#structarray-features-across-cluster-types}
+
+次の表では、外部コレクションとマネージドコレクションでサポートされる StructArray フィールド操作を詳しく比較します。
+
+| 機能 | Dedicated クラスター、マネージドコレクション | オンデマンドクラスター、マネージドコレクション | オンデマンドクラスター、外部コレクション |
+| --- | --- | --- | --- |
+| StructArray フィールドを持つコレクションの作成 | ✅ | ✅ | ❌ |
+| 挿入、upsert、または部分更新 | ✅ | ❌ | ❌ |
+| StructArray を使用した一括インポート | ✅ | ✅ | ❌ |
+| 要素レベル検索（範囲、グルーピング、ハイブリッドなど） | ✅ | ✅ | ❌ |
+| `ELEMENT_FILTER` と `MATCH_*` ファミリー | ✅ | ✅ | ❌ |
+| EmbeddingList 検索（`MAX_SIM` メトリクス） | ✅ | ✅ | ❌ |
+| StructArray フィールド全体の追加（nullable である必要があります） | ✅ | ✅ | ❌ |
+| StructArray フィールド全体の削除 | ✅ | ✅ | ❌ |
+| nullable サブフィールド（`element_nullable`、たとえば nullable なベクトル） | ✅ | ❌ | ❌ |
+| 既存の StructArray へのサブフィールドの追加 | ✅ | ❌ | ❌ |
+| サブフィールドの削除 | ✅ | ❌ | ❌ |
+
 
 ## 関連ページ\{#related-pages}
 
