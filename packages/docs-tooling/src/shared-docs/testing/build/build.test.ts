@@ -15,6 +15,7 @@ import { GitLinkInputReader } from '../../adapters/links-input'
 import { RealMd2md } from '../../adapters/md2md'
 import { createZdocContentReader } from '../../adapters/zdoc-content'
 import { buildImageManifest, readSharedDocs, runBuild } from '../../commands/build'
+import { findAccidentalMathSpans } from '../../../markdown/accidentalMathSpans.js'
 import { imageDigest } from '../../core/links'
 import { currentView, nextView } from '../merge/helpers'
 import { createBuildDemo, externalImage, git, imageBytes, pageYaml, runBuildDemo, write } from './demo'
@@ -114,6 +115,36 @@ it('writes only the selected page while preserving the complete shared-page publ
   const manifest = JSON.parse(await readFile(join(options.out, 'images.json'), 'utf8'))
   expect(manifest).toHaveLength(2)
   expect(manifest.map((image: { original: string }) => image.original)).toEqual(['assets/diagram.png', externalImage])
+})
+
+it('repairs accidental math spans in every emitted target and leaves clean pages untouched', async () => {
+  const options = await demo()
+  // The production incident shape (json-field-overview): two `$meta` inline-code
+  // chips in one raw-HTML paragraph pair into a pseudo-math span that the
+  // translation source gates reject fail-closed. The build must emit the exact
+  // lossless escape so retranslation can succeed.
+  const file = 'site/en/build-pipeline.md'
+  await write(options.repo, file, (await readFile(join(options.repo, file), 'utf8'))
+    + '\n<p>Query the dynamic key or via <code>$meta</code>: <code>$meta["dynamic_key"]</code> directly.</p>\n')
+  await git(options.repo, 'add', '.'); await git(options.repo, 'commit', '--quiet', '-m', 'Accidental math span source')
+  const commit = await git(options.repo, 'rev-parse', 'HEAD')
+  await write(options.sharedDocs, 'pages/build-pipeline/lock.yaml', JSON.stringify({ schema_version: 1, current: commit, next: commit }))
+  let built: readonly import('../../adapters/build-page').BuiltPage[] | undefined
+  let text = ''
+  const code = await runBuild(options, value => { text += value }, { fetcher: fetcher(), onBuilt: pages => { built = [...pages] } })
+  expect(code, text).toBe(0)
+  expect(text).toContain('[guides/tutorials/build-pipeline.mdx] repaired 1 accidental math span(s)')
+  expect(text).toContain('[guides-byoc/tutorials/build-pipeline.mdx] repaired 1 accidental math span(s)')
+  for (const manual of ['guides', 'guides-byoc']) {
+    const output = await readFile(join(options.out, manual, 'tutorials/build-pipeline.mdx'), 'utf8')
+    expect(output).toContain('via <code>\\$meta</code>: <code>\\$meta["dynamic_key"]</code>')
+    expect(output).not.toContain('<code>$meta</code>')
+    expect((await findAccidentalMathSpans(output)).spans).toEqual([])
+  }
+  for (const page of built!) expect((await findAccidentalMathSpans(page.mdx)).spans).toEqual([])
+  const clean = await readFile(join(options.out, 'guides/tutorials/shared-target.mdx'), 'utf8')
+  expect(clean).not.toContain('\\$')
+  expect((await findAccidentalMathSpans(clean)).spans).toEqual([])
 })
 
 it('accepts differing commits with identical final MDX and reports planned locks without writing them', async () => {
