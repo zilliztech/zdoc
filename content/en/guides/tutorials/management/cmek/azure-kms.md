@@ -47,17 +47,9 @@ For details on how encryption works and its scope, refer to [this section](./cme
 
 When creating a Zilliz Cloud CMEK for data encryption in your clusters, you need to provide the IDs of a registered Microsoft Entra application and a Microsoft Azure resource group. In this section, you will learn how to create them in Azure Cloud Shell and the Azure Portal. 
 
-At the end of this step, you should have all of the following:
+<details>
 
-- Your Azure Subscription ID and Directory ID.
-
-- Your Azure resource group name.
-
-- Your Microsoft Entra application (client) ID.
-
-- Your Azure Key Vault name.
-
-<details summary="Click here to read details">
+<summary>Click here to view the detailed settings.</summary>
 
 ### Create a resource group\{#create-a-resource-group}
 
@@ -178,6 +170,16 @@ az role assignment create \
 ```
 
 </details>
+
+At the end of this step, you should have all of the following:
+
+- Your Azure Subscription ID and Directory ID.
+
+- Your Azure resource group name.
+
+- Your Microsoft Entra application (client) ID.
+
+- Your Azure Key Vault name.
 
 ## Add an Azure Key Vault key on Zilliz Cloud\{#add-an-azure-key-vault-key-on-zilliz-cloud}
 

@@ -5,8 +5,8 @@
   "inputs": {
     "milvus_docs": {
       "repository": "milvus-io/milvus-docs",
-      "current": "e510bc82f633015f48145a8335cd8eba9fe47821",
-      "next": "e510bc82f633015f48145a8335cd8eba9fe47821",
+      "current": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+      "next": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
       "files": [
         {
           "path": "site/en/about/comparison.md",
@@ -25,8 +25,8 @@
         },
         {
           "path": "site/en/about/overview.md",
-          "current": "1686e6d633e1092ff78080ba4577940bcea58fe6ec6128461b5e73677af192b8",
-          "next": "1686e6d633e1092ff78080ba4577940bcea58fe6ec6128461b5e73677af192b8"
+          "current": "1ba3501f242c132e826c49e74aa99770612d8e9b16e7598e90189646cd0a7e83",
+          "next": "1ba3501f242c132e826c49e74aa99770612d8e9b16e7598e90189646cd0a7e83"
         },
         {
           "path": "site/en/about/roadmap.md",
@@ -185,8 +185,8 @@
         },
         {
           "path": "site/en/adminGuide/grant_privileges.md",
-          "current": "493e5f5b9de7967d4ca29faf0356b374b78ab56a00326fa34ccf04d1cfcc2ed5",
-          "next": "493e5f5b9de7967d4ca29faf0356b374b78ab56a00326fa34ccf04d1cfcc2ed5"
+          "current": "dae4d96a6bada8c30222296b90e7553bff58a51be9b8f6796fb12d61c55a7504",
+          "next": "dae4d96a6bada8c30222296b90e7553bff58a51be9b8f6796fb12d61c55a7504"
         },
         {
           "path": "site/en/adminGuide/grant_roles.md",
@@ -435,8 +435,8 @@
         },
         {
           "path": "site/en/embeddings/embed-with-bgm-m3.md",
-          "current": "94e34e39157e01a624fd3200dc080cf4b859d75d0f82c1e86a73aaa70d08654a",
-          "next": "94e34e39157e01a624fd3200dc080cf4b859d75d0f82c1e86a73aaa70d08654a"
+          "current": "f307a1f899063812a842545fa2b05b3001dde6fc0f1b495c34b8ca6b0543a789",
+          "next": "f307a1f899063812a842545fa2b05b3001dde6fc0f1b495c34b8ca6b0543a789"
         },
         {
           "path": "site/en/embeddings/embed-with-cohere.md",
@@ -645,18 +645,18 @@
         },
         {
           "path": "site/en/getstarted/install_SDKs/install-pymilvus.md",
-          "current": "9b392567ec883f279b2d1d547acbbc17dfe8212030455dac9285616e0f6036e4",
-          "next": "9b392567ec883f279b2d1d547acbbc17dfe8212030455dac9285616e0f6036e4"
+          "current": "20a5748befe545bcb3f21a51b2160564e579e30f0eddb783a24e256404271163",
+          "next": "20a5748befe545bcb3f21a51b2160564e579e30f0eddb783a24e256404271163"
         },
         {
           "path": "site/en/getstarted/install-overview.md",
-          "current": "59d74df465d85bb9642e2cda878b6137d172b2740b33bd1d21655fb5db11423e",
-          "next": "59d74df465d85bb9642e2cda878b6137d172b2740b33bd1d21655fb5db11423e"
+          "current": "9b29e4a7acc2222ac35e46a6ba0c6db1978a97e271fa4b5386d2ec6a536ed318",
+          "next": "9b29e4a7acc2222ac35e46a6ba0c6db1978a97e271fa4b5386d2ec6a536ed318"
         },
         {
           "path": "site/en/getstarted/milvus_lite.md",
-          "current": "d98253faeaa38df5f8248d9342ebd59885b136187aad1949add0ce67845af64e",
-          "next": "d98253faeaa38df5f8248d9342ebd59885b136187aad1949add0ce67845af64e"
+          "current": "1564a24cb891a977cf4319891528d8245d75ca4a0fb2bc698a40affd3a042878",
+          "next": "1564a24cb891a977cf4319891528d8245d75ca4a0fb2bc698a40affd3a042878"
         },
         {
           "path": "site/en/getstarted/offline/install_offline-helm.md",
@@ -665,33 +665,33 @@
         },
         {
           "path": "site/en/getstarted/quickstart.md",
-          "current": "b892b060808f6b0a6252d934c9697f09c21ae6d5d941199db8276c91fa09fa10",
-          "next": "b892b060808f6b0a6252d934c9697f09c21ae6d5d941199db8276c91fa09fa10"
+          "current": "01b8203138756e74f3fcd81956858135a69275c72e86faad9df6797bcc64fdc0",
+          "next": "01b8203138756e74f3fcd81956858135a69275c72e86faad9df6797bcc64fdc0"
         },
         {
           "path": "site/en/getstarted/run-milvus-docker/install_standalone-binary.md",
-          "current": "04e122974bed8814738ce3aa864aade036e568a0cdccf9c52b7ba4bdb615d395",
-          "next": "04e122974bed8814738ce3aa864aade036e568a0cdccf9c52b7ba4bdb615d395"
+          "current": "0d0988781d4edcb5913da384dee5abca7b4da072fbf84444b9a1e9076bd3a7b8",
+          "next": "0d0988781d4edcb5913da384dee5abca7b4da072fbf84444b9a1e9076bd3a7b8"
         },
         {
           "path": "site/en/getstarted/run-milvus-docker/install_standalone-docker-compose.md",
-          "current": "ee0c9995b03ef74777ebdf91cfc869a04fbd92e446083628a6579a7c45987757",
-          "next": "ee0c9995b03ef74777ebdf91cfc869a04fbd92e446083628a6579a7c45987757"
+          "current": "38511f4d306a3769fb39ed2f7ab8c048be7ed0fdfbd0f7cd4021dc86dbbfe7ad",
+          "next": "38511f4d306a3769fb39ed2f7ab8c048be7ed0fdfbd0f7cd4021dc86dbbfe7ad"
         },
         {
           "path": "site/en/getstarted/run-milvus-docker/install_standalone-docker.md",
-          "current": "eae1d470d1cd2e9953106afe9e96938001e79eda381f17bd884dbb39c250f651",
-          "next": "eae1d470d1cd2e9953106afe9e96938001e79eda381f17bd884dbb39c250f651"
+          "current": "add82dcbc823b8da12b5a0a0b495f09d4acf5fdc57f2c03fbd61ce6f3efaa5e3",
+          "next": "add82dcbc823b8da12b5a0a0b495f09d4acf5fdc57f2c03fbd61ce6f3efaa5e3"
         },
         {
           "path": "site/en/getstarted/run-milvus-docker/install_standalone-windows.md",
-          "current": "2645f3f8816194176743ea34b31f2ba77dfcace0e1cef08c2c18f480867325c6",
-          "next": "2645f3f8816194176743ea34b31f2ba77dfcace0e1cef08c2c18f480867325c6"
+          "current": "2b03d26530e9657c474688c437bf6b3b11fa2f2da695b6817054fedabf50c920",
+          "next": "2b03d26530e9657c474688c437bf6b3b11fa2f2da695b6817054fedabf50c920"
         },
         {
           "path": "site/en/getstarted/run-milvus-docker/prerequisite-docker.md",
-          "current": "ef12535b49659bc1cf7ed87a8a83112c53b60c27ae2f7f8da4c0aff4e64f3f5f",
-          "next": "ef12535b49659bc1cf7ed87a8a83112c53b60c27ae2f7f8da4c0aff4e64f3f5f"
+          "current": "f12a0e28d69822930ad986ce5512394dad95e6c33df9236684d5b4de0427864e",
+          "next": "f12a0e28d69822930ad986ce5512394dad95e6c33df9236684d5b4de0427864e"
         },
         {
           "path": "site/en/getstarted/run-milvus-gpu/install_cluster-helm-gpu.md",
@@ -1190,13 +1190,13 @@
         },
         {
           "path": "site/en/menuStructure/en.json",
-          "current": "f754d13203ff19c8d1851151536f53ca84233501f73451dbe999cddc04ea288f",
-          "next": "f754d13203ff19c8d1851151536f53ca84233501f73451dbe999cddc04ea288f"
+          "current": "29819131c2d63e5cb7e1ed45aaf50b58812c6028b5a68ec4d2ceb82d1c5a686d",
+          "next": "29819131c2d63e5cb7e1ed45aaf50b58812c6028b5a68ec4d2ceb82d1c5a686d"
         },
         {
           "path": "site/en/reference/architecture/architecture_overview.md",
-          "current": "572c339d143e531dbd49e201a3be7b542c9915f5b67c8869d5eb4deff446ca69",
-          "next": "572c339d143e531dbd49e201a3be7b542c9915f5b67c8869d5eb4deff446ca69"
+          "current": "a2c94470a1644d23589c02461125c1eb1232b53734aab22615d21959a8192983",
+          "next": "a2c94470a1644d23589c02461125c1eb1232b53734aab22615d21959a8192983"
         },
         {
           "path": "site/en/reference/architecture/architecture.md",
@@ -1275,8 +1275,8 @@
         },
         {
           "path": "site/en/reference/multi_tenancy.md",
-          "current": "064de46b559c8e7831552e75a74a029c91a5e36f5c472fd4ecf16cf71166395d",
-          "next": "064de46b559c8e7831552e75a74a029c91a5e36f5c472fd4ecf16cf71166395d"
+          "current": "84b38f409007233f2d92b98836460d8a06ee85b9886b2c50d84681707e171127",
+          "next": "84b38f409007233f2d92b98836460d8a06ee85b9886b2c50d84681707e171127"
         },
         {
           "path": "site/en/reference/replica.md",
@@ -1455,8 +1455,8 @@
         },
         {
           "path": "site/en/release_notes.md",
-          "current": "c149ed6e0a7ec871ffda5038d89c7e573ab34efadb8ad514a78f6db6ce8c3124",
-          "next": "c149ed6e0a7ec871ffda5038d89c7e573ab34efadb8ad514a78f6db6ce8c3124"
+          "current": "fc1474183b63d715892d6c979c901e205ee0379b9612bd86cbd0b60d3c892019",
+          "next": "fc1474183b63d715892d6c979c901e205ee0379b9612bd86cbd0b60d3c892019"
         },
         {
           "path": "site/en/rerankers/rerankers-bge.md",
@@ -1570,8 +1570,8 @@
         },
         {
           "path": "site/en/tutorials/quickstart_with_attu.md",
-          "current": "9ac4c4723d0a759d6b0955ee1733bacd3e8dc5cae3836f00951ad515759b1c03",
-          "next": "9ac4c4723d0a759d6b0955ee1733bacd3e8dc5cae3836f00951ad515759b1c03"
+          "current": "038bca105b58ff3ec96a04ed590b18702511ce77df277f4bb3e78daaf783ff3f",
+          "next": "038bca105b58ff3ec96a04ed590b18702511ce77df277f4bb3e78daaf783ff3f"
         },
         {
           "path": "site/en/tutorials/recommendation_system.md",
@@ -1620,43 +1620,43 @@
         },
         {
           "path": "site/en/userGuide/collections/create-collection.md",
-          "current": "3a1d8d977de9300da57b6e368546cfb14dacc9eb7f1d313ac1d6052d68d0a7f5",
-          "next": "3a1d8d977de9300da57b6e368546cfb14dacc9eb7f1d313ac1d6052d68d0a7f5"
+          "current": "57d26dc65a1b09c97bb975b18462d27e34a22cf103d0ac950aabcfddd05f83f8",
+          "next": "57d26dc65a1b09c97bb975b18462d27e34a22cf103d0ac950aabcfddd05f83f8"
         },
         {
           "path": "site/en/userGuide/collections/drop-collection.md",
-          "current": "7e6ef33cd1025c3db1dd8349d652b8c6b01caee77fd3d1a3c5471879d1110b87",
-          "next": "7e6ef33cd1025c3db1dd8349d652b8c6b01caee77fd3d1a3c5471879d1110b87"
+          "current": "ae73982ce53d878545bff6d0c64530d0a51e28a79953dfc50bf1a96a2970caa2",
+          "next": "ae73982ce53d878545bff6d0c64530d0a51e28a79953dfc50bf1a96a2970caa2"
         },
         {
           "path": "site/en/userGuide/collections/load-and-release.md",
-          "current": "5b771534439878b2358790d8b4d303b71c4918e6481c2485c9c5f8af06a2c4ca",
-          "next": "5b771534439878b2358790d8b4d303b71c4918e6481c2485c9c5f8af06a2c4ca"
+          "current": "eee96848ede64ba0fd8ed3b9c078fd06d07e6c8fe3de5beed0c0f04fdb93127c",
+          "next": "eee96848ede64ba0fd8ed3b9c078fd06d07e6c8fe3de5beed0c0f04fdb93127c"
         },
         {
           "path": "site/en/userGuide/collections/manage-aliases.md",
-          "current": "06892e1ac38909da2750b2f2f52d88ba5a9557d0641269f02fa5176688cfd127",
-          "next": "06892e1ac38909da2750b2f2f52d88ba5a9557d0641269f02fa5176688cfd127"
+          "current": "c31eebed2ad99d7bf6eca4cedf95731c34e9c6958c8a3f4fdf2a7943c69e450b",
+          "next": "c31eebed2ad99d7bf6eca4cedf95731c34e9c6958c8a3f4fdf2a7943c69e450b"
         },
         {
           "path": "site/en/userGuide/collections/manage-collections.md",
-          "current": "deb4014ad7b40ccf2265b818953a896cf3de5dfb9f991cedeabb00d7cb899430",
-          "next": "deb4014ad7b40ccf2265b818953a896cf3de5dfb9f991cedeabb00d7cb899430"
+          "current": "e540cffeba1b0215b9edd71a3147c75eddc60d4161cbe807790c71998e9e0e0c",
+          "next": "e540cffeba1b0215b9edd71a3147c75eddc60d4161cbe807790c71998e9e0e0c"
         },
         {
           "path": "site/en/userGuide/collections/manage-partitions.md",
-          "current": "5c928309fdc0624aff62a5f7092a1ff200beb1dfc2c7a2e4056211a48b6636d1",
-          "next": "5c928309fdc0624aff62a5f7092a1ff200beb1dfc2c7a2e4056211a48b6636d1"
+          "current": "071477d290d02452b876b29ad68faf309bc0cae9c476ba6083de02e63526333d",
+          "next": "071477d290d02452b876b29ad68faf309bc0cae9c476ba6083de02e63526333d"
         },
         {
           "path": "site/en/userGuide/collections/modify-collection.md",
-          "current": "645d58eecb236f7c08e87484053f989743a0aa9fdddaf9105b7df400a63c1bf6",
-          "next": "645d58eecb236f7c08e87484053f989743a0aa9fdddaf9105b7df400a63c1bf6"
+          "current": "66aaa677170dbfb1675c92d4f607e40511aee8b546260aa14d70d0b68d08ee46",
+          "next": "66aaa677170dbfb1675c92d4f607e40511aee8b546260aa14d70d0b68d08ee46"
         },
         {
           "path": "site/en/userGuide/collections/set-collection-ttl.md",
-          "current": "f42aeca56643697e5272d0aed9d2d857fe2e3b7589d958a9f3fcfd2b6af81eb0",
-          "next": "f42aeca56643697e5272d0aed9d2d857fe2e3b7589d958a9f3fcfd2b6af81eb0"
+          "current": "6d199ad7f75aaca902eadaea76bc90d6d5098a1277e13fe67c7de51e87cf05ca",
+          "next": "6d199ad7f75aaca902eadaea76bc90d6d5098a1277e13fe67c7de51e87cf05ca"
         },
         {
           "path": "site/en/userGuide/collections/view-collections.md",
@@ -1665,8 +1665,8 @@
         },
         {
           "path": "site/en/userGuide/data-import/idempotent-import.md",
-          "current": "e1708c49293750f2763989bebfb0fbe451f3738f941fc162ecb30fb2d1e49a8d",
-          "next": "e1708c49293750f2763989bebfb0fbe451f3738f941fc162ecb30fb2d1e49a8d"
+          "current": "e61024fddab1bd45e1e871030aea3ac8e3cedbb8fd2e07ec72465480ef9c3ce3",
+          "next": "e61024fddab1bd45e1e871030aea3ac8e3cedbb8fd2e07ec72465480ef9c3ce3"
         },
         {
           "path": "site/en/userGuide/data-import/import-data.md",
@@ -1675,8 +1675,8 @@
         },
         {
           "path": "site/en/userGuide/data-import/prepare-source-data.md",
-          "current": "1d2dc2aaa18597b0a416a9bbd33cf5d1e30aeb292f26bfcd38e49ee3daa15324",
-          "next": "1d2dc2aaa18597b0a416a9bbd33cf5d1e30aeb292f26bfcd38e49ee3daa15324"
+          "current": "c93144a5a6a0050c0e72157259b49afaeed20f9520c6546fe21503aece2a1e53",
+          "next": "c93144a5a6a0050c0e72157259b49afaeed20f9520c6546fe21503aece2a1e53"
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/embedding-function/azure-openai.md",
@@ -1690,8 +1690,8 @@
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/embedding-function/bm25-function.md",
-          "current": "bb629ec3f5f52779abc76f9808b42d267c52c6d46260f3d3820a91aa91fa28ef",
-          "next": "bb629ec3f5f52779abc76f9808b42d267c52c6d46260f3d3820a91aa91fa28ef"
+          "current": "79a2bd6e3097454e2a7797604c0e78c96f908a6f700d09acf8f8b99600e0a906",
+          "next": "79a2bd6e3097454e2a7797604c0e78c96f908a6f700d09acf8f8b99600e0a906"
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/embedding-function/cohere.md",
@@ -1755,8 +1755,8 @@
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/boost-ranker.md",
-          "current": "a63a0fc981fea643365424d58783259e8d13d30afb140f01cdf9ba6a14dc9b7a",
-          "next": "a63a0fc981fea643365424d58783259e8d13d30afb140f01cdf9ba6a14dc9b7a"
+          "current": "789503537c28db2896edbb14447c95450a2f0b87a982a1ef85b355a7915171bc",
+          "next": "789503537c28db2896edbb14447c95450a2f0b87a982a1ef85b355a7915171bc"
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/cohere-ranker.md",
@@ -1770,18 +1770,18 @@
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/decay-ranker-overview.md",
-          "current": "11a9f13376c35cd38aaab7aa59f85719e6de22ffda8dc9af7fd4a3cd54b66343",
-          "next": "11a9f13376c35cd38aaab7aa59f85719e6de22ffda8dc9af7fd4a3cd54b66343"
+          "current": "f564b0f848ad96b9972b03af9307456efe4bcf9b227d944d4786fca5343dcbb2",
+          "next": "f564b0f848ad96b9972b03af9307456efe4bcf9b227d944d4786fca5343dcbb2"
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/exponential-decay.md",
-          "current": "d62df654a4def124982d86240c81e036b3ebeb09e502e93f2e2f7e9549c24b87",
-          "next": "d62df654a4def124982d86240c81e036b3ebeb09e502e93f2e2f7e9549c24b87"
+          "current": "83114e95f915679ca6a36ca2f56d5995572973a8b9642e681284987692cabdbf",
+          "next": "83114e95f915679ca6a36ca2f56d5995572973a8b9642e681284987692cabdbf"
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/gaussian-decay.md",
-          "current": "c303d3aba2ca18a74cbdf113df814d2f07f44c88d6379fd04d9dcc81f49b858b",
-          "next": "c303d3aba2ca18a74cbdf113df814d2f07f44c88d6379fd04d9dcc81f49b858b"
+          "current": "73db590fd80af1a4e88f22e8f135eda6bd13c95ef52176d1173d2fb9db1a141f",
+          "next": "73db590fd80af1a4e88f22e8f135eda6bd13c95ef52176d1173d2fb9db1a141f"
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/hugging-face-ranker.md",
@@ -1790,8 +1790,8 @@
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/linear-decay.md",
-          "current": "8c35c4890ab0ba3bc01937327916794133f7754151a9f44070b97076087f2db2",
-          "next": "8c35c4890ab0ba3bc01937327916794133f7754151a9f44070b97076087f2db2"
+          "current": "59155ceacf7d18e82a932cbc88b6d8c24caf76c6a0d76d0b3166044b103c4f9a",
+          "next": "59155ceacf7d18e82a932cbc88b6d8c24caf76c6a0d76d0b3166044b103c4f9a"
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/model-ranker-overview.md",
@@ -1800,8 +1800,8 @@
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/rrf-ranker.md",
-          "current": "fdf7f9d0586e428996e755e0367bc46ba382b9e6d3b16ed0528ba159b39a517f",
-          "next": "fdf7f9d0586e428996e755e0367bc46ba382b9e6d3b16ed0528ba159b39a517f"
+          "current": "ca462a7d8d4fd32f73ab31577a40db91d83ad898bbb06a738fb21c6d77679fcd",
+          "next": "ca462a7d8d4fd32f73ab31577a40db91d83ad898bbb06a738fb21c6d77679fcd"
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/siliconflow-ranker.md",
@@ -1830,8 +1830,8 @@
         },
         {
           "path": "site/en/userGuide/embeddings-reranking/reranking/weighted-ranker.md",
-          "current": "4bc53d0a382e7ed968373f67638a75db331bc7314263257f2616c0c86590f086",
-          "next": "4bc53d0a382e7ed968373f67638a75db331bc7314263257f2616c0c86590f086"
+          "current": "c0fdaada0401aab9391aa0522f036e4a9352d3f228bc3fc03d95786a358ee402",
+          "next": "c0fdaada0401aab9391aa0522f036e4a9352d3f228bc3fc03d95786a358ee402"
         },
         {
           "path": "site/en/userGuide/indexes/binary/bin-flat.md",
@@ -1885,8 +1885,8 @@
         },
         {
           "path": "site/en/userGuide/indexes/floating-vector/hnsw.md",
-          "current": "80780ba8dd67e59340a995df1ef04d72756f6a0531a6db5a7dc807de99a9a3ca",
-          "next": "80780ba8dd67e59340a995df1ef04d72756f6a0531a6db5a7dc807de99a9a3ca"
+          "current": "73cd5aae00509d825441219f6a71b489bc1418d036a081cdc2b7bcd5c86642ea",
+          "next": "73cd5aae00509d825441219f6a71b489bc1418d036a081cdc2b7bcd5c86642ea"
         },
         {
           "path": "site/en/userGuide/indexes/floating-vector/ivf-flat.md",
@@ -1950,28 +1950,28 @@
         },
         {
           "path": "site/en/userGuide/indexes/scalar/bitmap.md",
-          "current": "456ac46425d5ea902cf016e0f337123f3d4fd2a0cb23da907afbd08876ce5843",
-          "next": "456ac46425d5ea902cf016e0f337123f3d4fd2a0cb23da907afbd08876ce5843"
+          "current": "6e20bf046e3cc6c1d72c5afa302ab793d7757a0afe44bb933008e792e5e8538e",
+          "next": "6e20bf046e3cc6c1d72c5afa302ab793d7757a0afe44bb933008e792e5e8538e"
         },
         {
           "path": "site/en/userGuide/indexes/scalar/inverted.md",
-          "current": "9fcbc7014d5b73dd67c7a441b9b4186fd9922fe5ab67a82383ad50f3eb941841",
-          "next": "9fcbc7014d5b73dd67c7a441b9b4186fd9922fe5ab67a82383ad50f3eb941841"
+          "current": "215397003ee6c9b8049d0c5d0019ba3e9473c3533c1f292538d1d5152dd01d88",
+          "next": "215397003ee6c9b8049d0c5d0019ba3e9473c3533c1f292538d1d5152dd01d88"
         },
         {
           "path": "site/en/userGuide/indexes/scalar/ngram.md",
-          "current": "e69e6ae0a8025230c8343e15eb9de8399ac0497f8bb317d343896cc2bebc84dd",
-          "next": "e69e6ae0a8025230c8343e15eb9de8399ac0497f8bb317d343896cc2bebc84dd"
+          "current": "b79e32d9ecb909125fb1683dd95b0babe5c81910924280599f09067ee6dfa50d",
+          "next": "b79e32d9ecb909125fb1683dd95b0babe5c81910924280599f09067ee6dfa50d"
         },
         {
           "path": "site/en/userGuide/indexes/scalar/rtree.md",
-          "current": "7ae4170b5979ba6b6fa15a5abe53e2411b14e69185383c923de51e792abf2836",
-          "next": "7ae4170b5979ba6b6fa15a5abe53e2411b14e69185383c923de51e792abf2836"
+          "current": "b3c9483a1112f8bb2762cd8816ff4a33362fdd2bdfc6b02d659cfb48b9ff63b8",
+          "next": "b3c9483a1112f8bb2762cd8816ff4a33362fdd2bdfc6b02d659cfb48b9ff63b8"
         },
         {
           "path": "site/en/userGuide/indexes/scalar/stl-sort.md",
-          "current": "f47d2a68862c1ec7c0ac3442b095b09cdb3f145a82ec5ffe5e6907d009761833",
-          "next": "f47d2a68862c1ec7c0ac3442b095b09cdb3f145a82ec5ffe5e6907d009761833"
+          "current": "c54ded1dc5938d79910f3c543d28a7e375a3fcf60a66a6c4de330c803daba6ef",
+          "next": "c54ded1dc5938d79910f3c543d28a7e375a3fcf60a66a6c4de330c803daba6ef"
         },
         {
           "path": "site/en/userGuide/indexes/sparse/sparse-inverted-index.md",
@@ -1985,13 +1985,13 @@
         },
         {
           "path": "site/en/userGuide/insert-and-delete/insert-update-delete.md",
-          "current": "a77986beff507706397ef38a5057d338bdbe7dff04463924939fb96d32a29068",
-          "next": "a77986beff507706397ef38a5057d338bdbe7dff04463924939fb96d32a29068"
+          "current": "b6e9a853b5f2db75a1a89aebc436471cacbf350f9ac07f181a918f680b165289",
+          "next": "b6e9a853b5f2db75a1a89aebc436471cacbf350f9ac07f181a918f680b165289"
         },
         {
           "path": "site/en/userGuide/insert-and-delete/upsert-entities.md",
-          "current": "b0f84559686c7bf54036ff8656b81ef2e96fe7ef4c43bb622eeb2a7a0137f2fe",
-          "next": "b0f84559686c7bf54036ff8656b81ef2e96fe7ef4c43bb622eeb2a7a0137f2fe"
+          "current": "4c1b8cccc5c75181078cb5c9c8aa37bbe3558f3e9600b70f8e43aa94ef6afcef",
+          "next": "4c1b8cccc5c75181078cb5c9c8aa37bbe3558f3e9600b70f8e43aa94ef6afcef"
         },
         {
           "path": "site/en/userGuide/load_balance.md",
@@ -2000,8 +2000,8 @@
         },
         {
           "path": "site/en/userGuide/manage_databases.md",
-          "current": "6d8e177ec4ff1e460ebad5aec8a5dec15276709a3d392a0b81ec0609716ddb4b",
-          "next": "6d8e177ec4ff1e460ebad5aec8a5dec15276709a3d392a0b81ec0609716ddb4b"
+          "current": "9baf4aae8b8e1dc55973cbea8ec1bd18ac68b575efc7ec8a681b5be89d662f6e",
+          "next": "9baf4aae8b8e1dc55973cbea8ec1bd18ac68b575efc7ec8a681b5be89d662f6e"
         },
         {
           "path": "site/en/userGuide/manage-indexes/index-scalar-fields.md",
@@ -2020,18 +2020,18 @@
         },
         {
           "path": "site/en/userGuide/schema/add-fields-to-an-existing-collection.md",
-          "current": "b4ce8390be212e02d82b0ddd6c4b4910895724ff0d6e7e6d45c164a8dece0c8b",
-          "next": "b4ce8390be212e02d82b0ddd6c4b4910895724ff0d6e7e6d45c164a8dece0c8b"
+          "current": "852b5f7a19190c9c84d4aff085bc5b1e8a1a2a7c294d60f5280b1ef2c71f2c34",
+          "next": "852b5f7a19190c9c84d4aff085bc5b1e8a1a2a7c294d60f5280b1ef2c71f2c34"
         },
         {
           "path": "site/en/userGuide/schema/alter-collection-field.md",
-          "current": "05ee11b8f87e6dc5e1deac9feb5ae67a270b6867c2f0761d8320caa0889fe0ba",
-          "next": "05ee11b8f87e6dc5e1deac9feb5ae67a270b6867c2f0761d8320caa0889fe0ba"
+          "current": "6fbdb96bdf7194fccfd7e30c1f1d5144bb550d4d220f8e2a7de64a9129015f01",
+          "next": "6fbdb96bdf7194fccfd7e30c1f1d5144bb550d4d220f8e2a7de64a9129015f01"
         },
         {
           "path": "site/en/userGuide/schema/alter-external-collection-schema.md",
-          "current": "c4ed82759db5ddeaa3952dfd8f248585a24bf3cdfc60c9d41835af1c0d86f7ca",
-          "next": "c4ed82759db5ddeaa3952dfd8f248585a24bf3cdfc60c9d41835af1c0d86f7ca"
+          "current": "f62d702300dd69cca02b23b14334227475f3ee9b9ac4c0c300b151b33a42de3b",
+          "next": "f62d702300dd69cca02b23b14334227475f3ee9b9ac4c0c300b151b33a42de3b"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/analyzer-overview.md",
@@ -2045,18 +2045,18 @@
         },
         {
           "path": "site/en/userGuide/schema/analyzer/analyzer/chinese-analyzer.md",
-          "current": "6d43b83ec3254f01b317ee05b3864fc59b48447045cc94be0d43b30c46de8250",
-          "next": "6d43b83ec3254f01b317ee05b3864fc59b48447045cc94be0d43b30c46de8250"
+          "current": "04dca1ad87437efd1ab220730a280889454c55e63c4527481b26d2147ba3bb32",
+          "next": "04dca1ad87437efd1ab220730a280889454c55e63c4527481b26d2147ba3bb32"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/analyzer/english-analyzer.md",
-          "current": "c8aa5f205a16e0e12a60965ad4b25aebf1cdd171bc312c6ddaa9c313a62d1c7e",
-          "next": "c8aa5f205a16e0e12a60965ad4b25aebf1cdd171bc312c6ddaa9c313a62d1c7e"
+          "current": "45ff913f69f17c53ec35dfc1f64b710bc068f5007f91600ba51b3b230cb18ee9",
+          "next": "45ff913f69f17c53ec35dfc1f64b710bc068f5007f91600ba51b3b230cb18ee9"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/analyzer/standard-analyzer.md",
-          "current": "5b73f58e50f443c2a672dcc4d8ef9db9b964903667c5ed609a34d3ef1d281b6c",
-          "next": "5b73f58e50f443c2a672dcc4d8ef9db9b964903667c5ed609a34d3ef1d281b6c"
+          "current": "334444b0dee0728aec3a099acecb1b4b768450cd5e06a08784e457253efd9c0d",
+          "next": "334444b0dee0728aec3a099acecb1b4b768450cd5e06a08784e457253efd9c0d"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/analyzer/thai-analyzer.md",
@@ -2070,8 +2070,8 @@
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/alphanumonly-filter.md",
-          "current": "ead0b179c05bc4ff8fbc52950799b737a41ad60b95e163459b3cee6612b778e0",
-          "next": "ead0b179c05bc4ff8fbc52950799b737a41ad60b95e163459b3cee6612b778e0"
+          "current": "34165b5cd5a4978574228ebf54cfb2801161e456451afa4ad34fc6d9e3d47645",
+          "next": "34165b5cd5a4978574228ebf54cfb2801161e456451afa4ad34fc6d9e3d47645"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/arabic-normalization-filter.md",
@@ -2080,18 +2080,18 @@
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/ascii-folding-filter.md",
-          "current": "4f422e72d9672bdab59a4e5bb0ebf2439ce359eeb4a4ab0487e216a26152685c",
-          "next": "4f422e72d9672bdab59a4e5bb0ebf2439ce359eeb4a4ab0487e216a26152685c"
+          "current": "691b54116c2802632cb0be95df7caca24ee663467f8a2c6634eff648e2d9f512",
+          "next": "691b54116c2802632cb0be95df7caca24ee663467f8a2c6634eff648e2d9f512"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/cnalphanumonly-filter.md",
-          "current": "b90959e00302a74fc2c7f2d86f4c5c04a474cd09de3c4788f95ac2bfffaf54db",
-          "next": "b90959e00302a74fc2c7f2d86f4c5c04a474cd09de3c4788f95ac2bfffaf54db"
+          "current": "5591af2e30af32f1bda70addf862ac250ee3f7075ad2cc4d226c7fff2d16d53c",
+          "next": "5591af2e30af32f1bda70addf862ac250ee3f7075ad2cc4d226c7fff2d16d53c"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/cncharonly-filter.md",
-          "current": "f714f559d7afdea6ddfaeec6709b234d605bdd154ef1a4f967b33ec4dc23caf9",
-          "next": "f714f559d7afdea6ddfaeec6709b234d605bdd154ef1a4f967b33ec4dc23caf9"
+          "current": "c7b1729e196d12f56d887302d69c7a1d81bd83eea6eab3e50906918990b3a9cb",
+          "next": "c7b1729e196d12f56d887302d69c7a1d81bd83eea6eab3e50906918990b3a9cb"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/decimaldigit-filter.md",
@@ -2100,43 +2100,43 @@
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/decompounder-filter.md",
-          "current": "dc4f10c01c1b8916c14ccb1c3b28811d0057a7505260848f6c05007204d213e2",
-          "next": "dc4f10c01c1b8916c14ccb1c3b28811d0057a7505260848f6c05007204d213e2"
+          "current": "04f7bbec577194b855cc2e05a1cf3037d09b6ab7bc15dc9519ab52ae753c25f0",
+          "next": "04f7bbec577194b855cc2e05a1cf3037d09b6ab7bc15dc9519ab52ae753c25f0"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/length-filter.md",
-          "current": "f037c2ba5d11ed7b85c30916abe7818676e2b2f392bca5ed0ceb5065138eea28",
-          "next": "f037c2ba5d11ed7b85c30916abe7818676e2b2f392bca5ed0ceb5065138eea28"
+          "current": "7f2f928d5fd3a43436d2266e40ecfa060f82ae4bc521f57b155541fb6cf8031b",
+          "next": "7f2f928d5fd3a43436d2266e40ecfa060f82ae4bc521f57b155541fb6cf8031b"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/lowercase-filter.md",
-          "current": "df852c286feab3abf3d36ea2465393ac35bd5d0bfce2e7efbf00372eedef5713",
-          "next": "df852c286feab3abf3d36ea2465393ac35bd5d0bfce2e7efbf00372eedef5713"
+          "current": "447fe37b4b48ac00be4947d1dec1f343d78cd78f47f8e0135317fd3edd65e32f",
+          "next": "447fe37b4b48ac00be4947d1dec1f343d78cd78f47f8e0135317fd3edd65e32f"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/pinyin-filter.md",
-          "current": "820d804ba92c7d84ca2b1bd41bb48ac04cc1cec4a8fb2e4fcd5b7f8dd6042a4a",
-          "next": "820d804ba92c7d84ca2b1bd41bb48ac04cc1cec4a8fb2e4fcd5b7f8dd6042a4a"
+          "current": "7a7fac133d774bb97f7245fdc023dfc0a6fe03d76c3d66b8d96b1b619d17f73b",
+          "next": "7a7fac133d774bb97f7245fdc023dfc0a6fe03d76c3d66b8d96b1b619d17f73b"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/regex-filter.md",
-          "current": "dbd850189ecb1137871f9f1fb83360b96837fa201836acc0896ffd706433ee08",
-          "next": "dbd850189ecb1137871f9f1fb83360b96837fa201836acc0896ffd706433ee08"
+          "current": "9b9ac11fee516e0954622762a03464c428f0273c1385201d5be9032369e61c9e",
+          "next": "9b9ac11fee516e0954622762a03464c428f0273c1385201d5be9032369e61c9e"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/removepunct-filter.md",
-          "current": "fb97d1245962d22af743f3e8f7d676e9eef4fa0e08f8a9e4d2976e6163a2a9d0",
-          "next": "fb97d1245962d22af743f3e8f7d676e9eef4fa0e08f8a9e4d2976e6163a2a9d0"
+          "current": "86927b4771211133e9985c52dac8706c93d9c019a3a0251f9ff4f9d2cc1a24a2",
+          "next": "86927b4771211133e9985c52dac8706c93d9c019a3a0251f9ff4f9d2cc1a24a2"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/stemmer-filter.md",
-          "current": "ed3b2d82439049971f95d0801b86096ffca032e7eab1d8b2e1ae2d643775d2c1",
-          "next": "ed3b2d82439049971f95d0801b86096ffca032e7eab1d8b2e1ae2d643775d2c1"
+          "current": "a20215b9df1699e56b05d9a755ea135a35593f4c1fb6102f8b8fe5628c2f13cc",
+          "next": "a20215b9df1699e56b05d9a755ea135a35593f4c1fb6102f8b8fe5628c2f13cc"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/stop-filter.md",
-          "current": "c35409d1a4ff6e245c01ba06d793db7ac326ba4f835864efe6343019d764b860",
-          "next": "c35409d1a4ff6e245c01ba06d793db7ac326ba4f835864efe6343019d764b860"
+          "current": "c43998bc3e6d6bf3bcc0ce2f096eaa738876cf41bef63cf425756a2da5b14744",
+          "next": "c43998bc3e6d6bf3bcc0ce2f096eaa738876cf41bef63cf425756a2da5b14744"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/filter/synonym-filter.md",
@@ -2155,28 +2155,28 @@
         },
         {
           "path": "site/en/userGuide/schema/analyzer/tokenizer/icu-tokenizer.md",
-          "current": "fd5f0e11072ba931c8ffdcaec260bbcd7f2d24fdc7ef3941664163a738fb542d",
-          "next": "fd5f0e11072ba931c8ffdcaec260bbcd7f2d24fdc7ef3941664163a738fb542d"
+          "current": "14f1109ab4a7526ad6cbcd89557b538c6019509f7f206347ba39390baeb03017",
+          "next": "14f1109ab4a7526ad6cbcd89557b538c6019509f7f206347ba39390baeb03017"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/tokenizer/jieba-tokenizer.md",
-          "current": "d5240ae4e13e27e33f9d54dede58fee069b54a7d08829fa9fc7b4feedc037f81",
-          "next": "d5240ae4e13e27e33f9d54dede58fee069b54a7d08829fa9fc7b4feedc037f81"
+          "current": "e9556cd51e25ba71c801492f51f29e8337a2b7984fc38987594e735ca4f9ddeb",
+          "next": "e9556cd51e25ba71c801492f51f29e8337a2b7984fc38987594e735ca4f9ddeb"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/tokenizer/language-identifier.md",
-          "current": "3376059f867f8fbc9cdbc07cdf9937898b41ad376d7cfc88433367f454486c62",
-          "next": "3376059f867f8fbc9cdbc07cdf9937898b41ad376d7cfc88433367f454486c62"
+          "current": "54083b8a888b60a6d5ec430fe22760d63e7b917718553b02a7081972c2b5ae76",
+          "next": "54083b8a888b60a6d5ec430fe22760d63e7b917718553b02a7081972c2b5ae76"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/tokenizer/lindera-tokenizer.md",
-          "current": "81af7a532672b874c4c631cd951058e06a58336332a0557ccc280174d6ad2b87",
-          "next": "81af7a532672b874c4c631cd951058e06a58336332a0557ccc280174d6ad2b87"
+          "current": "dc3952dc83e5c9d540c09a4f9066693f3c47227d3b84a10e4b3dcf67850529c6",
+          "next": "dc3952dc83e5c9d540c09a4f9066693f3c47227d3b84a10e4b3dcf67850529c6"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/tokenizer/standard-tokenizer.md",
-          "current": "aaeeac2a631213e6a05d0b99ae225d05df95a3565b28bceaadd43d63e9ed2891",
-          "next": "aaeeac2a631213e6a05d0b99ae225d05df95a3565b28bceaadd43d63e9ed2891"
+          "current": "b4cb3ac79f519232ab4804af490699e1f47dcc5fa0133951ce0a8145b05504b8",
+          "next": "b4cb3ac79f519232ab4804af490699e1f47dcc5fa0133951ce0a8145b05504b8"
         },
         {
           "path": "site/en/userGuide/schema/analyzer/tokenizer/thai-tokenizer.md",
@@ -2185,48 +2185,48 @@
         },
         {
           "path": "site/en/userGuide/schema/analyzer/tokenizer/whitespace-tokenizer.md",
-          "current": "a079f7fd0b826887b835b7c1e75face1acbe5c66b1ab2277d8debdbff9ae01f2",
-          "next": "a079f7fd0b826887b835b7c1e75face1acbe5c66b1ab2277d8debdbff9ae01f2"
+          "current": "75ffd44fae49bea9290c62decd9c19d1b19bd4c154763644a0df33d393422dd0",
+          "next": "75ffd44fae49bea9290c62decd9c19d1b19bd4c154763644a0df33d393422dd0"
         },
         {
           "path": "site/en/userGuide/schema/array_data_type.md",
-          "current": "7034e1783aef950722ba5bf323ed21d4aab5a40d409242cb010384153e74c419",
-          "next": "7034e1783aef950722ba5bf323ed21d4aab5a40d409242cb010384153e74c419"
+          "current": "083251820d5dbfb53f0950b3ac6db0ab12be3d0d1268a976d1b020c625a308b4",
+          "next": "083251820d5dbfb53f0950b3ac6db0ab12be3d0d1268a976d1b020c625a308b4"
         },
         {
           "path": "site/en/userGuide/schema/array-of-structs.md",
-          "current": "bd7ae7bed38373666ffc76de6811595feb44427f3585838a495e6e4e47712ee1",
-          "next": "bd7ae7bed38373666ffc76de6811595feb44427f3585838a495e6e4e47712ee1"
+          "current": "4c0f45bfc50340af3add5db786437cdc4a82f17b822d64b98fe16dbb9a42d252",
+          "next": "4c0f45bfc50340af3add5db786437cdc4a82f17b822d64b98fe16dbb9a42d252"
         },
         {
           "path": "site/en/userGuide/schema/best-practices-for-array-of-structs.md",
-          "current": "7e3f1b951611f99647af2d6df3cb87a34d0d0218f501662d83e7dc0a5c8e824b",
-          "next": "7e3f1b951611f99647af2d6df3cb87a34d0d0218f501662d83e7dc0a5c8e824b"
+          "current": "3b45a99d6fa70f4dc9e513f5e458586f7f58298ce764adbe762d41810498f43f",
+          "next": "3b45a99d6fa70f4dc9e513f5e458586f7f58298ce764adbe762d41810498f43f"
         },
         {
           "path": "site/en/userGuide/schema/binary-vector.md",
-          "current": "cb5cfe4ab65d4fbc0e526e6e6c9bdb39ba57db263d7fe185eac256b300ed2519",
-          "next": "cb5cfe4ab65d4fbc0e526e6e6c9bdb39ba57db263d7fe185eac256b300ed2519"
+          "current": "27765229d5653092498e044bdf0afe840b2c6aea9eed729700bb51e13c78eded",
+          "next": "27765229d5653092498e044bdf0afe840b2c6aea9eed729700bb51e13c78eded"
         },
         {
           "path": "site/en/userGuide/schema/create-structarray-field.md",
-          "current": "529744acf9bab7ce25bfeab5dfc30e6876331c47c1f21e3ab1548120a133b02e",
-          "next": "529744acf9bab7ce25bfeab5dfc30e6876331c47c1f21e3ab1548120a133b02e"
+          "current": "28d9f594c9172cafe9e1a0eec329bacb76d7b489e0df7df8a876795bb8f20fde",
+          "next": "28d9f594c9172cafe9e1a0eec329bacb76d7b489e0df7df8a876795bb8f20fde"
         },
         {
           "path": "site/en/userGuide/schema/default-values.md",
-          "current": "7db748ca5b01b58380f888fd3e4636790b9e8294550385eace8c9ad2bfcee18e",
-          "next": "7db748ca5b01b58380f888fd3e4636790b9e8294550385eace8c9ad2bfcee18e"
+          "current": "2d99051013551430bfa366ebde9cf8a9f87303acb0e78776aec0b192940afd50",
+          "next": "2d99051013551430bfa366ebde9cf8a9f87303acb0e78776aec0b192940afd50"
         },
         {
           "path": "site/en/userGuide/schema/dense-vector.md",
-          "current": "998070857ae1d93125277ece450a5b45d80e4ae0017cf2baafc0cb878eb584ba",
-          "next": "998070857ae1d93125277ece450a5b45d80e4ae0017cf2baafc0cb878eb584ba"
+          "current": "2fcd03a724d165f5a09e192c4bab465066389c1f2cdfa6be05956987e95ac149",
+          "next": "2fcd03a724d165f5a09e192c4bab465066389c1f2cdfa6be05956987e95ac149"
         },
         {
           "path": "site/en/userGuide/schema/enable-dynamic-field.md",
-          "current": "c5e9bf16a3d02723016b31dd342984f9b3292622458fc3531722abd0a7e9aade",
-          "next": "c5e9bf16a3d02723016b31dd342984f9b3292622458fc3531722abd0a7e9aade"
+          "current": "b5cdb7dbee41de24fb40c210f4446443f8fe65f67a5ac414f6cf3b4f48b85fd5",
+          "next": "b5cdb7dbee41de24fb40c210f4446443f8fe65f67a5ac414f6cf3b4f48b85fd5"
         },
         {
           "path": "site/en/userGuide/schema/geometry-field.md",
@@ -2235,43 +2235,43 @@
         },
         {
           "path": "site/en/userGuide/schema/index-structarray-fields.md",
-          "current": "c1886d04eaea66465ba3175b8830fe0c9c4201098eb4556522af7d3af6fce1f6",
-          "next": "c1886d04eaea66465ba3175b8830fe0c9c4201098eb4556522af7d3af6fce1f6"
+          "current": "c2e2dc5c5e9e07c7e628b5eb85d68bac60cec35dbde3914bb26a55a64bd22bcf",
+          "next": "c2e2dc5c5e9e07c7e628b5eb85d68bac60cec35dbde3914bb26a55a64bd22bcf"
         },
         {
           "path": "site/en/userGuide/schema/insert-data-into-structarray-fields.md",
-          "current": "8fa6abe6686bf53b130d14ac49dd5e2155296f45dead4206f8043e0e8afefba7",
-          "next": "8fa6abe6686bf53b130d14ac49dd5e2155296f45dead4206f8043e0e8afefba7"
+          "current": "b2112575012dbb4ba33ddb09dc6c2668edcec7fccfbf3c2f514bf7f42b09675f",
+          "next": "b2112575012dbb4ba33ddb09dc6c2668edcec7fccfbf3c2f514bf7f42b09675f"
         },
         {
           "path": "site/en/userGuide/schema/json-field-overview.md",
-          "current": "9d481347abc167c88968dc63c90c93a990f2420f171361940f5e3445bce7381d",
-          "next": "9d481347abc167c88968dc63c90c93a990f2420f171361940f5e3445bce7381d"
+          "current": "7efc7b803557e8f93837f3e3c0e5e3d182dd74c8e91a634f139c0463c2001e4c",
+          "next": "7efc7b803557e8f93837f3e3c0e5e3d182dd74c8e91a634f139c0463c2001e4c"
         },
         {
           "path": "site/en/userGuide/schema/json-indexing.md",
-          "current": "53aee57202fc27023d0a026513a0b4a53275a651658e7cfecfbdea24bd44b5ed",
-          "next": "53aee57202fc27023d0a026513a0b4a53275a651658e7cfecfbdea24bd44b5ed"
+          "current": "0fea722fca30d510a6e6bac16333b67e2e78fe4ae0b11cc381409691f1364cad",
+          "next": "0fea722fca30d510a6e6bac16333b67e2e78fe4ae0b11cc381409691f1364cad"
         },
         {
           "path": "site/en/userGuide/schema/json-shredding.md",
-          "current": "350b6d8b8b70050a920c08e1bbd163a1de2fa30e922c444fa304d486c5b9741a",
-          "next": "350b6d8b8b70050a920c08e1bbd163a1de2fa30e922c444fa304d486c5b9741a"
+          "current": "ef01569a4c5cca1ca183aca5414248abd0828feec4c6baeb5dbef9599df9ec62",
+          "next": "ef01569a4c5cca1ca183aca5414248abd0828feec4c6baeb5dbef9599df9ec62"
         },
         {
           "path": "site/en/userGuide/schema/nullable-and-default.md",
-          "current": "5114ce39913c5f89337df7f53c7a4d82b7635eeb14799607896f78706047d172",
-          "next": "5114ce39913c5f89337df7f53c7a4d82b7635eeb14799607896f78706047d172"
+          "current": "8d0d6b8f65c2d5f4fc805656c0709e255b202297a85181ef50c82aba0c8c07df",
+          "next": "8d0d6b8f65c2d5f4fc805656c0709e255b202297a85181ef50c82aba0c8c07df"
         },
         {
           "path": "site/en/userGuide/schema/number.md",
-          "current": "5f3103468ca67f48015302f677ca29f7c6c9c9f5f2529affc64684f0e87ec353",
-          "next": "5f3103468ca67f48015302f677ca29f7c6c9c9f5f2529affc64684f0e87ec353"
+          "current": "f787f146484d9f169e38b479cf02265bc624ca7f197ec05e5f906e98515a5bbf",
+          "next": "f787f146484d9f169e38b479cf02265bc624ca7f197ec05e5f906e98515a5bbf"
         },
         {
           "path": "site/en/userGuide/schema/primary-field.md",
-          "current": "808201181da3f94656af385895a348690cecbf6cc2357542114f5d39f3160801",
-          "next": "808201181da3f94656af385895a348690cecbf6cc2357542114f5d39f3160801"
+          "current": "6ea6681578a5a20df752833d29ad0a5a23cf6cc7bf3ad67a3213e0a029e79ab7",
+          "next": "6ea6681578a5a20df752833d29ad0a5a23cf6cc7bf3ad67a3213e0a029e79ab7"
         },
         {
           "path": "site/en/userGuide/schema/schema.md",
@@ -2280,8 +2280,8 @@
         },
         {
           "path": "site/en/userGuide/schema/sparse_vector.md",
-          "current": "3874518bde54eb50ace900b851cc6553e0f9b6dbf26bb2dcf01a6535234bd9d6",
-          "next": "3874518bde54eb50ace900b851cc6553e0f9b6dbf26bb2dcf01a6535234bd9d6"
+          "current": "0c47c48cb5ffd8bd5a10bbb3455d6426ba572dad2c28c7ed5dcef9059295ff1d",
+          "next": "0c47c48cb5ffd8bd5a10bbb3455d6426ba572dad2c28c7ed5dcef9059295ff1d"
         },
         {
           "path": "site/en/userGuide/schema/string.md",
@@ -2290,8 +2290,8 @@
         },
         {
           "path": "site/en/userGuide/schema/structarray-limits.md",
-          "current": "04a6b02877cf9e6df5164e283c3426edf8c1ec0b3effce1c2847cb693623084a",
-          "next": "04a6b02877cf9e6df5164e283c3426edf8c1ec0b3effce1c2847cb693623084a"
+          "current": "b320c8392bf86f0810a3971aa9759df52358e5c1b22aee220eb1f7aea27418e7",
+          "next": "b320c8392bf86f0810a3971aa9759df52358e5c1b22aee220eb1f7aea27418e7"
         },
         {
           "path": "site/en/userGuide/schema/text.md",
@@ -2305,23 +2305,23 @@
         },
         {
           "path": "site/en/userGuide/schema/use-json-fields.md",
-          "current": "e20635f4054250a73b98e14d3151930c6e00c8e532c75ce69d7109c4caadcfe9",
-          "next": "e20635f4054250a73b98e14d3151930c6e00c8e532c75ce69d7109c4caadcfe9"
+          "current": "1ad6b630d7b84e91681320f6e8ebc3c3142eb54d578b26074a7ba51a93645f72",
+          "next": "1ad6b630d7b84e91681320f6e8ebc3c3142eb54d578b26074a7ba51a93645f72"
         },
         {
           "path": "site/en/userGuide/search-query-get/basic-vector-search-with-structarray.md",
-          "current": "18b6f12713f6f42c4be0f0466e41048c97d7099ddb87a96e937b2bbed947426a",
-          "next": "18b6f12713f6f42c4be0f0466e41048c97d7099ddb87a96e937b2bbed947426a"
+          "current": "446c036d2161ead0542062e93249719e7c8f88f84c76f9afba8a568d56dbc876",
+          "next": "446c036d2161ead0542062e93249719e7c8f88f84c76f9afba8a568d56dbc876"
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/array-operators.md",
-          "current": "73b119793fd8e74652b5469660ed6f63c9e815f7c8951301d221ee2f8b9506b7",
-          "next": "73b119793fd8e74652b5469660ed6f63c9e815f7c8951301d221ee2f8b9506b7"
+          "current": "f38e5937b28a2ba8ab2a7c281dd3c29b0184535445ea2532c4fe5bebce9f46e7",
+          "next": "f38e5937b28a2ba8ab2a7c281dd3c29b0184535445ea2532c4fe5bebce9f46e7"
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/basic-operators.md",
-          "current": "4b9ec01f45d3d3918f37e08933f79b04874c1d473f3d4ccfdd7d8a3124abb609",
-          "next": "4b9ec01f45d3d3918f37e08933f79b04874c1d473f3d4ccfdd7d8a3124abb609"
+          "current": "3bf328013f80c5cebd79dbb4165fbb58ccab98016ff0ce9f6aedb68155540519",
+          "next": "3bf328013f80c5cebd79dbb4165fbb58ccab98016ff0ce9f6aedb68155540519"
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/boolean.md",
@@ -2330,8 +2330,8 @@
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/filtering-templating.md",
-          "current": "9f7bfdf6c8b3539cf924893b8d5339c576caa43781de0647d40966f293fd9c58",
-          "next": "9f7bfdf6c8b3539cf924893b8d5339c576caa43781de0647d40966f293fd9c58"
+          "current": "f4d53ae09c1665f9558a6a71638b341a233740da964d3de75f184b69839e47e0",
+          "next": "f4d53ae09c1665f9558a6a71638b341a233740da964d3de75f184b69839e47e0"
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/geometry-operators.md",
@@ -2340,8 +2340,8 @@
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/json-operators.md",
-          "current": "196fb68aa053903c8f76152557eaf9e10bd57887d38acd524026564d45b9060c",
-          "next": "196fb68aa053903c8f76152557eaf9e10bd57887d38acd524026564d45b9060c"
+          "current": "65d46309cc69125129b9512f22ac7033d4981ccc5152e7f23875de06c68303e3",
+          "next": "65d46309cc69125129b9512f22ac7033d4981ccc5152e7f23875de06c68303e3"
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/membership-match.md",
@@ -2350,18 +2350,18 @@
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/pattern-matching.md",
-          "current": "94076f05b350ea7036af867343c22572dc24581ef0bc9d88f22d6308c6beae41",
-          "next": "94076f05b350ea7036af867343c22572dc24581ef0bc9d88f22d6308c6beae41"
+          "current": "010c04abb1d02ae5d3d6b1f66329e4576e097b7cd6253636e0c0b5431918823c",
+          "next": "010c04abb1d02ae5d3d6b1f66329e4576e097b7cd6253636e0c0b5431918823c"
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/random-sampling.md",
-          "current": "69571f7eb726a6193443ac30989a20e3b4adc92db746c39acedbb3417e5bb465",
-          "next": "69571f7eb726a6193443ac30989a20e3b4adc92db746c39acedbb3417e5bb465"
+          "current": "72c88a91c7cd61856311c0da3e7dc3275d5a72e087f0708b9ea057e9a7cfc86d",
+          "next": "72c88a91c7cd61856311c0da3e7dc3275d5a72e087f0708b9ea057e9a7cfc86d"
         },
         {
           "path": "site/en/userGuide/search-query-get/boolean/struct-array-operators.md",
-          "current": "2b79bfc70cce6084edbaa98b1da64182747a933846d76e021f6ba9162edb3748",
-          "next": "2b79bfc70cce6084edbaa98b1da64182747a933846d76e021f6ba9162edb3748"
+          "current": "4f58ac1be8230f6e81b68d1ebfa17ba35b36c678a63f3788c0d816ffa7b28cee",
+          "next": "4f58ac1be8230f6e81b68d1ebfa17ba35b36c678a63f3788c0d816ffa7b28cee"
         },
         {
           "path": "site/en/userGuide/search-query-get/choose-an-embeddinglist-search-strategy.md",
@@ -2380,13 +2380,13 @@
         },
         {
           "path": "site/en/userGuide/search-query-get/filtered-search-with-structarray.md",
-          "current": "3ae89ea6184ef4f83581c9ab2b8e023154e08175cd125b9affa7561bbeee85cb",
-          "next": "3ae89ea6184ef4f83581c9ab2b8e023154e08175cd125b9affa7561bbeee85cb"
+          "current": "e4d5a1ada8822b689b54a66fc4ae0bc8f786b88885d0df93d470828b06ffc8a4",
+          "next": "e4d5a1ada8822b689b54a66fc4ae0bc8f786b88885d0df93d470828b06ffc8a4"
         },
         {
           "path": "site/en/userGuide/search-query-get/filtered-search.md",
-          "current": "17cfc7a7e7e9b1859a620fdd770c3d959476c07aa9033276c318d3192f36d38f",
-          "next": "17cfc7a7e7e9b1859a620fdd770c3d959476c07aa9033276c318d3192f36d38f"
+          "current": "015b051379e084a47262e54aeca97627a3cabbf921497eeac6de3aaaeb16e626",
+          "next": "015b051379e084a47262e54aeca97627a3cabbf921497eeac6de3aaaeb16e626"
         },
         {
           "path": "site/en/userGuide/search-query-get/force-merge.md",
@@ -2395,33 +2395,33 @@
         },
         {
           "path": "site/en/userGuide/search-query-get/full-text-search.md",
-          "current": "b16f8d674d258269e9556b7318330066b4993241747025e87241dee2a35a8bff",
-          "next": "b16f8d674d258269e9556b7318330066b4993241747025e87241dee2a35a8bff"
+          "current": "fc83b4dd90dd9982e6f53ec7a041af99b15fdfdac4203639cfd84effcd57b7c2",
+          "next": "fc83b4dd90dd9982e6f53ec7a041af99b15fdfdac4203639cfd84effcd57b7c2"
         },
         {
           "path": "site/en/userGuide/search-query-get/get-and-scalar-query.md",
-          "current": "904c098aa28a4b21561fc2b4b3a116a5fadb65eaaf91658b74ed07dfcadbee5e",
-          "next": "904c098aa28a4b21561fc2b4b3a116a5fadb65eaaf91658b74ed07dfcadbee5e"
+          "current": "253e70be52bd5fde83ed7a82ad6fe795bb52467104fc79859ebf3f5c5f5ae22e",
+          "next": "253e70be52bd5fde83ed7a82ad6fe795bb52467104fc79859ebf3f5c5f5ae22e"
         },
         {
           "path": "site/en/userGuide/search-query-get/grouping-search-with-structarray.md",
-          "current": "3e44423f68f771fbaf97378aa678ad05e0918674ddd2f1ccf52dda31fe3f4d19",
-          "next": "3e44423f68f771fbaf97378aa678ad05e0918674ddd2f1ccf52dda31fe3f4d19"
+          "current": "9f45c9a6ce6b80fce9d1aa163ae69b63ec864748c3b1bfb67cea14d20b908d64",
+          "next": "9f45c9a6ce6b80fce9d1aa163ae69b63ec864748c3b1bfb67cea14d20b908d64"
         },
         {
           "path": "site/en/userGuide/search-query-get/grouping-search.md",
-          "current": "28898f6f6efdf4ec989a9262ffc02597298678d4e931464aa5bff06af0b41aea",
-          "next": "28898f6f6efdf4ec989a9262ffc02597298678d4e931464aa5bff06af0b41aea"
+          "current": "d674426e964f1fc82ba30ff37b01b73724edf8e6663efa56d3836b4cb0ad4d11",
+          "next": "d674426e964f1fc82ba30ff37b01b73724edf8e6663efa56d3836b4cb0ad4d11"
         },
         {
           "path": "site/en/userGuide/search-query-get/hybrid-search-with-structarray.md",
-          "current": "4d8bbac0c0e4c6148fba3691c5cc0828088bd97b5feb82385016553ed1c79269",
-          "next": "4d8bbac0c0e4c6148fba3691c5cc0828088bd97b5feb82385016553ed1c79269"
+          "current": "8a0dcf84de5b4eed4e77a169ded80eb70ad6864259c4b8ce06ea355329d6c924",
+          "next": "8a0dcf84de5b4eed4e77a169ded80eb70ad6864259c4b8ce06ea355329d6c924"
         },
         {
           "path": "site/en/userGuide/search-query-get/keyword-match.md",
-          "current": "92666367264a7f2166e8a9766ff146a32183ed3bc119119c634e697414e150bd",
-          "next": "92666367264a7f2166e8a9766ff146a32183ed3bc119119c634e697414e150bd"
+          "current": "9f687f7205e87cb0e33785bc65cfaf3a7c15203db4cdd9b60149550f4476285e",
+          "next": "9f687f7205e87cb0e33785bc65cfaf3a7c15203db4cdd9b60149550f4476285e"
         },
         {
           "path": "site/en/userGuide/search-query-get/manage-snapshots.md",
@@ -2435,18 +2435,18 @@
         },
         {
           "path": "site/en/userGuide/search-query-get/mmap.md",
-          "current": "be3938e287f24d9b2f7ce5471abdebaff8252e3fcc78ed2fbc2de4866012f0cb",
-          "next": "be3938e287f24d9b2f7ce5471abdebaff8252e3fcc78ed2fbc2de4866012f0cb"
+          "current": "f6db88a98e3edc53f954ff46776bd8c0959ff2e53d29ea289ddea9e8d542cb94",
+          "next": "f6db88a98e3edc53f954ff46776bd8c0959ff2e53d29ea289ddea9e8d542cb94"
         },
         {
           "path": "site/en/userGuide/search-query-get/multi-vector-search.md",
-          "current": "33465f2896fb1a1ad209c1e87bca56f814ec40b365be0bd3bc164b5095364a51",
-          "next": "33465f2896fb1a1ad209c1e87bca56f814ec40b365be0bd3bc164b5095364a51"
+          "current": "9e4d3c7c84ff0305d5e1420796af54370501af68cace7d525338f138863de39a",
+          "next": "9e4d3c7c84ff0305d5e1420796af54370501af68cace7d525338f138863de39a"
         },
         {
           "path": "site/en/userGuide/search-query-get/phrase-match.md",
-          "current": "d31255ca73fda743101527eac1a375c08ae5e4758a9fa65065e056a6d31cdcc6",
-          "next": "d31255ca73fda743101527eac1a375c08ae5e4758a9fa65065e056a6d31cdcc6"
+          "current": "17457943233b9f5596bad463b863cd4ee44f53621256d072134609390794bfcb",
+          "next": "17457943233b9f5596bad463b863cd4ee44f53621256d072134609390794bfcb"
         },
         {
           "path": "site/en/userGuide/search-query-get/primary-key-search.md",
@@ -2455,28 +2455,28 @@
         },
         {
           "path": "site/en/userGuide/search-query-get/range-search-with-structarray.md",
-          "current": "c79de90b539f47b24bef7b9380ffb12f18ed65e5609cbc8c456e2f69e3d55f5f",
-          "next": "c79de90b539f47b24bef7b9380ffb12f18ed65e5609cbc8c456e2f69e3d55f5f"
+          "current": "a7bdcc58af39d89e6559e098df60c44968d3e2e13f3037c7f7b143aec10f7e2a",
+          "next": "a7bdcc58af39d89e6559e098df60c44968d3e2e13f3037c7f7b143aec10f7e2a"
         },
         {
           "path": "site/en/userGuide/search-query-get/range-search.md",
-          "current": "cf143c37aa1bae6457452344ea279d101b85df481d7fe8b843f02508fa9a2c0d",
-          "next": "cf143c37aa1bae6457452344ea279d101b85df481d7fe8b843f02508fa9a2c0d"
+          "current": "74c9cf0c3ae148812a381ad0878763eb707e0e532dbc054f4ffbaa56d0e08a0a",
+          "next": "74c9cf0c3ae148812a381ad0878763eb707e0e532dbc054f4ffbaa56d0e08a0a"
         },
         {
           "path": "site/en/userGuide/search-query-get/search-aggregation.md",
-          "current": "6ef1f43f9e312fb1cfceddf390f972f277a14d908c08ec91bc7a05cae5279cfc",
-          "next": "6ef1f43f9e312fb1cfceddf390f972f277a14d908c08ec91bc7a05cae5279cfc"
+          "current": "6ff41c984dabd215f3ab4313790fd174b4906d6eeee01f1c983c9861afcacc63",
+          "next": "6ff41c984dabd215f3ab4313790fd174b4906d6eeee01f1c983c9861afcacc63"
         },
         {
           "path": "site/en/userGuide/search-query-get/search-with-embedding-lists.md",
-          "current": "5eb16a7931f020d499daf3b7e1a9ec1c80828fd68729ef02a5d7b65a617f7ec3",
-          "next": "5eb16a7931f020d499daf3b7e1a9ec1c80828fd68729ef02a5d7b65a617f7ec3"
+          "current": "52a744b51865729fb6cdbab78226345f33062af1d1532a896c5b3dc91fd2f965",
+          "next": "52a744b51865729fb6cdbab78226345f33062af1d1532a896c5b3dc91fd2f965"
         },
         {
           "path": "site/en/userGuide/search-query-get/single-vector-search.md",
-          "current": "53f3e7ae6d9ef48224eb991d939512909d1add0e7edc0e68a454a8baa23bec38",
-          "next": "53f3e7ae6d9ef48224eb991d939512909d1add0e7edc0e68a454a8baa23bec38"
+          "current": "ae5e685f25b00e415a559c92b4adb5a2a24e0249002398a8cccef93228127495",
+          "next": "ae5e685f25b00e415a559c92b4adb5a2a24e0249002398a8cccef93228127495"
         },
         {
           "path": "site/en/userGuide/search-query-get/snapshot-use-cases.md",
@@ -2485,23 +2485,23 @@
         },
         {
           "path": "site/en/userGuide/search-query-get/snapshots.md",
-          "current": "f865676272d03b610d7eb1113312bda837dfa4b2fbe18c128b277ddf92367548",
-          "next": "f865676272d03b610d7eb1113312bda837dfa4b2fbe18c128b277ddf92367548"
+          "current": "e4a778bf63355ca98af8c4e69580f39dd1c757684931cf906c5b2ecfb0cc9f9a",
+          "next": "e4a778bf63355ca98af8c4e69580f39dd1c757684931cf906c5b2ecfb0cc9f9a"
         },
         {
           "path": "site/en/userGuide/search-query-get/text-highlighter.md",
-          "current": "f4db865f232397a17da1f2677f045fbbe3a5fc840d87a04e35ffd92220f2e1d7",
-          "next": "f4db865f232397a17da1f2677f045fbbe3a5fc840d87a04e35ffd92220f2e1d7"
+          "current": "023d6fa032fe89be94757a9c4fbc31e86f1ae26b81c5a34623b6c088ca1dab48",
+          "next": "023d6fa032fe89be94757a9c4fbc31e86f1ae26b81c5a34623b6c088ca1dab48"
         },
         {
           "path": "site/en/userGuide/search-query-get/use-partition-key.md",
-          "current": "01857c43296571c4e9388e533707449ba7851faeddfd3294641752e976932b26",
-          "next": "01857c43296571c4e9388e533707449ba7851faeddfd3294641752e976932b26"
+          "current": "a9037393a4107436f498e533ffb9feaa439f87362b333b182f1d734191b4ac50",
+          "next": "a9037393a4107436f498e533ffb9feaa439f87362b333b182f1d734191b4ac50"
         },
         {
           "path": "site/en/userGuide/search-query-get/with-iterators.md",
-          "current": "09dba1b130d838ac1922506aece5e02bedb2090cec5ad134c9adb6185eb2ef92",
-          "next": "09dba1b130d838ac1922506aece5e02bedb2090cec5ad134c9adb6185eb2ef92"
+          "current": "410076cc66a9e1c7a7e81fd8827f6b83a4e4daaf1406fbc1d005a9ed24466cad",
+          "next": "410076cc66a9e1c7a7e81fd8827f6b83a4e4daaf1406fbc1d005a9ed24466cad"
         },
         {
           "path": "site/en/userGuide/storage-optimization/best-practices-for-tiered-storage.md",
@@ -2630,14 +2630,14 @@
         },
         {
           "path": "site/en/Variables.json",
-          "current": "d087899e285be020d00c4ec6d0021b3d3101e0e2419a0e192fcc503f249c3729",
-          "next": "d087899e285be020d00c4ec6d0021b3d3101e0e2419a0e192fcc503f249c3729"
+          "current": "e35301529baffc9b3af1d4b0e742e9ab0f32383ae46aacc10e33b44c4e5e6c12",
+          "next": "e35301529baffc9b3af1d4b0e742e9ab0f32383ae46aacc10e33b44c4e5e6c12"
         }
       ]
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "d7ef94d3958ea4cd003e605adf466982fc66c0c6",
+      "commit": "c14671395f97a0f1020f408775a1b831b1a495e7",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2645,7 +2645,7 @@
         },
         {
           "path": "shared-docs/guides/links.yaml",
-          "sha256": "fdd637767453360ca21f23c7c1b9d36f28ba63f75febae46f474840c19251b5f"
+          "sha256": "7c63c38d8500a290663b3dbc0ecdee83e9ba35e26a04d6e911a686f455dc2b94"
         },
         {
           "path": "shared-docs/guides/pages/alphanumonly-filter/lock.yaml",
@@ -2656,12 +2656,16 @@
           "sha256": "b139b13325d2eb7495ce7f692034f9429fcce36ce5d2868c4bea5b2c4261784a"
         },
         {
+          "path": "shared-docs/guides/pages/alter-collection-field/cloud-structarray-alter-property-limits.md",
+          "sha256": "619b4c3ebbe8cfafa0dbf7070ae62be14ccd47be9605a3da112749913a47e5af"
+        },
+        {
           "path": "shared-docs/guides/pages/alter-collection-field/lock.yaml",
-          "sha256": "77472607dee4ba9e1a2f50626213cf2550c6ddd1ce0c935f99fa823760c27522"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/alter-collection-field/page.yaml",
-          "sha256": "4cea31c415a2a021e7572a8ceddadc0b9af02e2524cb61cdaa2f4e1d7b300130"
+          "sha256": "ef5f10680e4ef01ea8da55bb1da36f6adfca819404b6fbbfe45fc4cb97dba783"
         },
         {
           "path": "shared-docs/guides/pages/alter-external-collection-schema/lock.yaml",
@@ -2773,15 +2777,59 @@
         },
         {
           "path": "shared-docs/guides/pages/create-struct-array/cloud-availability.md",
-          "sha256": "0cdaa4bd60d88ef211015ad3b38aaefe27c068c1ea716a9b4f5eebd1c538d499"
+          "sha256": "590d4a92ec2f3f113c826b708c917c1028af6366f5e9941a498923cc6849e1f3"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-add-subfield-intro.md",
+          "sha256": "f6f70d80d9c7fa69664faad8bf3b1f209be3d1d09449efefa6f5a437e0a73eef"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-add-subfield-rules.md",
+          "sha256": "dada28315cc810f8bbdd593aa2d1857b754fcf4f4c035a32bb38b7f69b343f1f"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-create-intro.md",
+          "sha256": "6a62257446cd29d6ba4169559b8996f88662d034707e6482be6a46270d3d9933"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-create-rules-table.md",
+          "sha256": "af7bea891fb56e157fe3c7598146512dc025a94e4416f0d2117da8523d9d82fe"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-drop-subfield-intro.md",
+          "sha256": "311d22d568863153467ce62012ca4ae135352fee247236a3dae125dacbd6391d"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-element-null-intro.md",
+          "sha256": "5bf936e69f1e96143ade830000ebfa9f3be63d51a2e7c4687b9d203c57e40f0a"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-mistake-subfield-evolution.md",
+          "sha256": "5f779b6ef577117026542d26db8ae8a3fe784639de3382544e848020962866a5"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-null-summary-note.md",
+          "sha256": "41684e0b172b4a3f7ce1e3fd3e7869ac4ef3024de59c5f64b19b42ad806dc36d"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-scalar-array-subfield-intro.md",
+          "sha256": "75648b2565376477eb0463012fe0966928c75c85ba21934c0cabc7e9ae55429f"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-subfield-type-families.md",
+          "sha256": "027e0e2231bb016317de3a0f74ed03d76ec0776e419a669c2e643715f156275f"
+        },
+        {
+          "path": "shared-docs/guides/pages/create-struct-array/cloud-structarray-subfield-types-table.md",
+          "sha256": "d86c8efd4429e754be0e82418943a28fd8c987960dfaf763b9eafb1e6a8cf9aa"
         },
         {
           "path": "shared-docs/guides/pages/create-struct-array/lock.yaml",
-          "sha256": "21f94c841635df1eb7325535e1d5373508c6b4626618ae89824ff673cc7d858d"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/create-struct-array/page.yaml",
-          "sha256": "05c7506395789edcf936bcae2c10a668a5bf8753b7bd6ec6c65f81f919bf2944"
+          "sha256": "331c9f2a821b1a6a7529d20d18443c5d9d6e6e1f8dfff16e39cc20ec6f6584dd"
         },
         {
           "path": "shared-docs/guides/pages/database/cloud-heading.md",
@@ -2880,12 +2928,16 @@
           "sha256": "ae266a0d7754d28a5c6e3726284695ca3cef42fac04e571df2d2957e5429c2b2"
         },
         {
+          "path": "shared-docs/guides/pages/filtered-search-with-struct-arrays/cloud-structarray-filtered-function-support.md",
+          "sha256": "f5c46a485224b7b547ec14c2d3638e9dde3315dad19f736eeddcee1ef92132f0"
+        },
+        {
           "path": "shared-docs/guides/pages/filtered-search-with-struct-arrays/lock.yaml",
-          "sha256": "26931d25561a2ab7174864d20642d4a4b49b831f926f2d6f9a1d164263bd4d52"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/filtered-search-with-struct-arrays/page.yaml",
-          "sha256": "3e8edaaf67144096f5ea5c384536a05cb574388fd28d7a3ea5758ce01ce1182c"
+          "sha256": "2b73b61e788a3b3d59151fbd61ecf35e17a587dc1f1cd944400e9b28c1eaeae6"
         },
         {
           "path": "shared-docs/guides/pages/filtered-search/cloud-iterative-cli.md",
@@ -3060,16 +3112,28 @@
           "sha256": "477a5acccab4a43d00fc9c01ca68ad0e4401feb11c6f977f1b2223cb5f85d0c3"
         },
         {
+          "path": "shared-docs/guides/pages/index-struct-array/cloud-structarray-index-element-null-intro.md",
+          "sha256": "6e2236bdd481a1867e0aa1d6ff5af68cd55097cdf97d834514c7b36c7aed282c"
+        },
+        {
+          "path": "shared-docs/guides/pages/index-struct-array/cloud-structarray-index-element-null-limits.md",
+          "sha256": "7d8a95196f493f886d49c595d9191953b63592e2e159c598a7c1ea8126275632"
+        },
+        {
+          "path": "shared-docs/guides/pages/index-struct-array/cloud-structarray-index-element-null-rules.md",
+          "sha256": "7bf02af855f114839a49610a53d63e941cfa7cdb26e84f11f88582151394e1e9"
+        },
+        {
           "path": "shared-docs/guides/pages/index-struct-array/cloud-vector-indexes.md",
           "sha256": "12d217852c9f0704b8e5969b50d64bb721ba1d297b38352705be4558de3a5916"
         },
         {
           "path": "shared-docs/guides/pages/index-struct-array/lock.yaml",
-          "sha256": "21f94c841635df1eb7325535e1d5373508c6b4626618ae89824ff673cc7d858d"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/index-struct-array/page.yaml",
-          "sha256": "0886c6d4d18fdeb5d4c6c6a903f76f8b0a838ff9e21cd1198cdfc0521c697824"
+          "sha256": "63418b2b41debb9cc1c6f0834a1fd933dccdabb6bf3f925a827ed8eaa7cc1ad5"
         },
         {
           "path": "shared-docs/guides/pages/insert-entities/lock.yaml",
@@ -3080,12 +3144,28 @@
           "sha256": "7a9711e9928e6f197a73f7840f750b9c6d1ea71d6251133df31eea8e7ef39b9a"
         },
         {
+          "path": "shared-docs/guides/pages/insert-struct-array/cloud-structarray-insert-element-null-intro.md",
+          "sha256": "b59011ae18e418ad21a0ae0e5573762559c74bb0363f3879174f46d77f96c2c9"
+        },
+        {
+          "path": "shared-docs/guides/pages/insert-struct-array/cloud-structarray-insert-null-summary.md",
+          "sha256": "769bba414087a30fdbdb174a34e0d27c30cf071d7aa8febc76cc37bd8d48a28c"
+        },
+        {
+          "path": "shared-docs/guides/pages/insert-struct-array/cloud-structarray-insert-null-walkthrough.md",
+          "sha256": "579ad2ca601af3fe090462d5467e4b84dd00e686d98096d342948c1d96451670"
+        },
+        {
+          "path": "shared-docs/guides/pages/insert-struct-array/cloud-structarray-insert-rules-table.md",
+          "sha256": "8d9d4c3515d9742699e6460065956087d9046db6fc4cad2f23deaefc9c93f507"
+        },
+        {
           "path": "shared-docs/guides/pages/insert-struct-array/lock.yaml",
-          "sha256": "0e35b171f542dc28e080754f4c694e66bd8cf1d39389a6ed1c1b835f5eb5ec32"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/insert-struct-array/page.yaml",
-          "sha256": "0b793c1b186ab6fcf182e8d6aae62f78d5b58f63575dbb84fa3e56ea2503198f"
+          "sha256": "d7411ab6b4a49e4a6487c46938caedda71ca810041f227a47b02bb0ec7c1b3fe"
         },
         {
           "path": "shared-docs/guides/pages/inverted-index-type/cloud-drop-note.md",
@@ -3313,15 +3393,15 @@
         },
         {
           "path": "shared-docs/guides/pages/nullable-fields/cloud-limits.md",
-          "sha256": "44143db32660168bc6aa3d6a0261878d5f9b9447155da0d41fbada08762d46be"
+          "sha256": "166517dfd812e0518604cd72a13f7b2982eea00ad6a0b3d55c3d0291dbeea644"
         },
         {
           "path": "shared-docs/guides/pages/nullable-fields/cloud-structarray-scope.md",
-          "sha256": "8f299ba47458679b3217ee18621d30e478ba9d289f1793b5a3eabe65903f45a3"
+          "sha256": "b352f77f9e72219c3926f6b75bc5929bdbfcc5896b05aefecb32b509427c062f"
         },
         {
           "path": "shared-docs/guides/pages/nullable-fields/lock.yaml",
-          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/nullable-fields/page.yaml",
@@ -3608,24 +3688,92 @@
           "sha256": "265a21f914cb5598745204e3c09590d29311bfae4b981ab1aa573601f905002a"
         },
         {
+          "path": "shared-docs/guides/pages/struct-array-filtering/cloud-structarray-element-predicate-table.md",
+          "sha256": "add3c4444ce728faf256ab32ba38776be98a5c45a2489eebd330bf154c77df1a"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-filtering/cloud-structarray-null-predicate-exclusions.md",
+          "sha256": "40d7b91596abf9c14f0a86f22f8f73b77f404f38f921335025dee445460a2911"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-filtering/cloud-structarray-null-predicates-intro.md",
+          "sha256": "353989a10ec4cfbd262e9eb32feecd5efb31ca3e2e0f0d54e1f8452a821e4333"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-filtering/cloud-structarray-null-usage-note.md",
+          "sha256": "c0c24f779776919c713f53b8d1f532474d4690109700d9cb56b4b7bd24fa3e78"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-filtering/cloud-structarray-operators-subfield-scope.md",
+          "sha256": "a10c9815c2f5aca427eaa064a38a442ee90b50933579c5e202593d632ea81259"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-filtering/cloud-structarray-positional-array-subfield.md",
+          "sha256": "3579aafb99e9d480f4d540c31b2a5a687e4f2eca03026d4abd9acfb434c0b509"
+        },
+        {
           "path": "shared-docs/guides/pages/struct-array-filtering/lock.yaml",
-          "sha256": "a46f27aa76fc2ab227221c0c368988e054137eda6f23141548142985cd776ab1"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/struct-array-filtering/page.yaml",
-          "sha256": "37c9cc341efb770d7f2c82da2690781af1da0aa78bf013184d5cfa8d79906186"
+          "sha256": "46b5aaabb9f40e15ed888274ff55d4c194ea1bab1aef50ee3b9975e04e269c1c"
         },
         {
           "path": "shared-docs/guides/pages/struct-array-limits/cloud-availability.md",
-          "sha256": "0cdaa4bd60d88ef211015ad3b38aaefe27c068c1ea716a9b4f5eebd1c538d499"
+          "sha256": "60473c5635ee55921ec6ee8a81a181449bf79386d90efc3f7d1077d16ce113d7"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-additional-capabilities.md",
+          "sha256": "548f785b43741d938c4ea5bb47a28bc22c601b99ad6be867873208048c592b11"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-cloud-availability-note.md",
+          "sha256": "f2aa7b603949918e7947086effc040e6c07039aee143148d902ff837fa69dd1b"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-element-null-vector-index-note.md",
+          "sha256": "436664feae6a200b7db9ca98c707e5d5fb753a8edf9eb958c4adac3b19720323"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-element-predicate-null-note.md",
+          "sha256": "c7aa67e0fc70495f334d5f70a0022a56230bc8aeb7018f3555be5532991abadc"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-filter-function-support.md",
+          "sha256": "972195e96502a7a842b398a259637d5e889cdf3e57c225a8357126d36e60d057"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-import-storage-table.md",
+          "sha256": "a74f9c17b46b31e7dc5d05dc493c859cd63426359ba7d9d1639302ed5cc164ae"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-insert-limits-table.md",
+          "sha256": "81cd5da299f04fd2c980ad98db9557cf461c37888b750921244306e41e99fcb9"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-limits-glance-table.md",
+          "sha256": "0d4aca4638aa8bb6b0965d623e9fb538da3c9f5473250669bb0240c45663228a"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-nullable-dynamic-table.md",
+          "sha256": "530c47d90895cd43f0ddc0ce20f9032fc3674bb9da37959ab60f3513d911f0d7"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-schema-limits-table.md",
+          "sha256": "2967f1c56929df224dc8bf4a22fa561c36044efa735f2bf0448b9b520d622e25"
+        },
+        {
+          "path": "shared-docs/guides/pages/struct-array-limits/cloud-structarray-subfield-types-table.md",
+          "sha256": "ae794575ca50c2a7c3b94a305bda892deb0bc38aefc48b4bf2b38544f7960aa1"
         },
         {
           "path": "shared-docs/guides/pages/struct-array-limits/lock.yaml",
-          "sha256": "a46f27aa76fc2ab227221c0c368988e054137eda6f23141548142985cd776ab1"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/struct-array-limits/page.yaml",
-          "sha256": "88fedf4a3a8fb96c489e1dffa641e144ee85dbb999123a62577176c1eb9aecf6"
+          "sha256": "666ba6bab59633069134f4886a8c236a456afda1a11a12a1494636091ec7e3f9"
         },
         {
           "path": "shared-docs/guides/pages/text-match/cloud-cli-text-match-analyzer.md",
@@ -3732,20 +3880,28 @@
           "sha256": "64737e578aa412e303044c2b5538c8694332e86321cae64fbfefaf6d601234eb"
         },
         {
+          "path": "shared-docs/guides/pages/use-array-fields/cloud-structarray-array-subfield-scope.md",
+          "sha256": "acabab2abedf72610e4daae254fcda14223164291794fc4959615dfcc7f48abd"
+        },
+        {
           "path": "shared-docs/guides/pages/use-array-fields/lock.yaml",
-          "sha256": "9ba45f513fc2a2ef06ff7e6409d062bb5c4c6d557ac86b189204409a609050c4"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/use-array-fields/page.yaml",
-          "sha256": "07feacbb58a91e3476c3c48a81d6f797c1f5b8d1c4dbbd75a3c32d0488754183"
+          "sha256": "b0f1b93887d9c08f1cc85ecc402914f2864729cc6dffb203678143c2f8d5d59b"
+        },
+        {
+          "path": "shared-docs/guides/pages/use-array-of-structs/cloud-structarray-intro-subfield-scope.md",
+          "sha256": "56961dd23b3a9fe986ba70bf5562f6f58fd151f25ee551f2edd51c2130b5734c"
         },
         {
           "path": "shared-docs/guides/pages/use-array-of-structs/lock.yaml",
-          "sha256": "77472607dee4ba9e1a2f50626213cf2550c6ddd1ce0c935f99fa823760c27522"
+          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
         },
         {
           "path": "shared-docs/guides/pages/use-array-of-structs/page.yaml",
-          "sha256": "7b2ed20eb2871a4f3e19402bc964338357bebf1d262799188e5ff4ed1eb503e1"
+          "sha256": "98dec4503b508ff32d8435033edbf4dc4789843461f99ae924cbf1dde71cfbd1"
         },
         {
           "path": "shared-docs/guides/pages/use-binary-vector/lock.yaml",
@@ -3841,7 +3997,7 @@
         },
         {
           "path": "shared-docs/guides/product-names.yaml",
-          "sha256": "494d35d0595b9e0c658f0d177f3b739e2dcb5f4f914edd9a2ff9765dcf4fd412"
+          "sha256": "e6b250814984d02098a712eebe8f97742ad0079b2526065320e8553f5644079e"
         },
         {
           "path": "shared-docs/guides/source.yaml",
@@ -3850,7 +4006,7 @@
       ]
     },
     "dev": {
-      "commit": "3214feb27a9986c0405177f56cab8503b76fec8c",
+      "commit": "5135476fad66d1a242832ee92eb2f4ae809a7c85",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -4097,10 +4253,6 @@
           "sha256": "a1c65d5bc3bcaa80cad94b97eb09155a6817ca17d1df7330493eaa09b305976c"
         },
         {
-          "path": "content/en/byoc/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md",
-          "sha256": "dff3e3faaf3133d245664c44c1512cc50cc303b1ed106f3a9c5dcbd4b53aea79"
-        },
-        {
           "path": "content/en/byoc/tutorials/development/collection/drop-collection.md",
           "sha256": "499849b8bb848daf1e1faca45e793183e34c71269f5901ff1f56c7610b96e23e"
         },
@@ -4186,11 +4338,11 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
-          "sha256": "db42ce33e0a470e5d4425b136ca6ca6c8bb1d85c0e319040f8cc44c2b18120a7"
+          "sha256": "981606160523a1180022f54246216420a92d386954174d1690648cef91de5665"
         },
         {
           "path": "content/en/byoc/tutorials/development/data-import/import-data/import-data-via-sdks.md",
-          "sha256": "6d183ce6c234f6303ef11032cfe347ff5389a568457188165ea82ef32ac05798"
+          "sha256": "406f73878db6c82cf00e490aab0e5151aa194406a248d29a35c0a79cceba96c9"
         },
         {
           "path": "content/en/byoc/tutorials/development/data-import/import-data/import-data.md",
@@ -4274,7 +4426,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/insert-and-delete/upsert-entities.md",
-          "sha256": "42e4c0b053ada7a76474e1476a99b011853446f9c6414bda785b5670f4dba21c"
+          "sha256": "288b9c5c2d7b99ab6a2b05f513516047289a1a3099adbf636a00e678f35644ce"
         },
         {
           "path": "content/en/byoc/tutorials/development/scalar-index/bitmap-index-type.md",
@@ -4298,7 +4450,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-          "sha256": "fe57bf147200971f4efc5ac263cf85df8da1c8591ff93d1d76fc69146d398630"
+          "sha256": "5b700ec519eb55e09ab605c4d482ed89b53cdf6eb6289c6b8fee1822769d6229"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/alter-collection-field.md",
@@ -4330,7 +4482,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/nullable-fields.md",
-          "sha256": "28e1facdcabab3c1a33a6c89e08091eac2c886565a43e20a74030383482a762c"
+          "sha256": "1cd996f4840ee67cb8be1e42ecc261b4a014878854f50eff240b335c4fba1702"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/primary-field-auto-id.md",
@@ -4354,27 +4506,27 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/create-struct-array.md",
-          "sha256": "39b792b4039a389fcd1bec2f97a6ea70ffc451cf4c67fe8e8abaa1d0fc65c30c"
+          "sha256": "7035ff56e7737077f4879199c520b44752469a605e2bef90a0ab108f5c6fd7c9"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/index-struct-array.md",
-          "sha256": "598320bd1fb53aed67046013c586087042c74744f1658a5de354095a292bd846"
+          "sha256": "5087e4eb57716c6a552e48d66ffeed826d699cf011cc25bd2142437d7d7a0aa0"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/insert-struct-array.md",
-          "sha256": "1f5fb3ca88642d5504f0b72ab4679635b271b80f5dea7ae36b8cadfeb901ca43"
+          "sha256": "9d3cfbb3d87c17e06a0ffb21b66abd5982d3e76bf60fa26247d1eac98c802449"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/struct-array-limits.md",
-          "sha256": "7441e4bbff40198a1015a5b38c87702832b9d47f6b5bab03f280f34c1486343e"
+          "sha256": "2183ce05784e0f05a97942e1e674a3f520be381dcea6bc7ec0e57e88ef67653c"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md",
-          "sha256": "abae8dcfb0a1d69cffeba8edd87e9b2329445eed9f9723a6a1befdfac2e615c4"
+          "sha256": "0ed7de1eef0e68c543a4f4c10b70f8b2d2a575be54c45d26432978fe192f0971"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-array-fields.md",
-          "sha256": "7cf0d32da57aa4caa50e550e0af06d33352a615bfcf2ad20de84b35aa80615cc"
+          "sha256": "502374d1d21550279db5460f1b2dcdd70c70e7f9aed71eb332af4aa34b291acf"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/use-binary-vector.md",
@@ -4462,7 +4614,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/filtering/struct-array-filtering.md",
-          "sha256": "be1da3a815fa6a0dca9c11296b4b8dd8743b94941ad2369a2197a24f679fc8e6"
+          "sha256": "6c7c50ab4888caa74a9af0956ddefcb10776df25283e0919a19623ca22efdd7c"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/full-text-search.md",
@@ -4506,7 +4658,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-          "sha256": "d4294d16acad3eb7fd180e8bc4d1c9a82b0de9102d2543e42f8ec2bae170aa19"
+          "sha256": "eaaec7d2add9fafd173bcf128127f862b900ad1bff7ebcbd6e246e8f57a316b8"
         },
         {
           "path": "content/en/byoc/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
@@ -4874,15 +5026,15 @@
         },
         {
           "path": "content/en/byoc/tutorials/management/cmek/aws-kms.md",
-          "sha256": "8ec9a8d58a40ab0ab42d770a2f7534d0f5f9e6a1f4cdec1792bc08ca03d9dabf"
+          "sha256": "529dd815ddd01fe597cf8dba2edfaeb64ed63f8b13b9fdcab8f303381e52bed1"
         },
         {
           "path": "content/en/byoc/tutorials/management/cmek/cmek.md",
-          "sha256": "78fee85e3946b3b7a10aa278e3ba411b2a0fc98ed04f444c3c760bb1f593c32c"
+          "sha256": "0287eeee6847162f8e84dda065d99259322077a77b53d77c00e6f89dd7e533c8"
         },
         {
           "path": "content/en/byoc/tutorials/management/cmek/gcp-kms.md",
-          "sha256": "c647235bf68818a7dd206a21b271fa97b997432331f174941d4120b4f7258728"
+          "sha256": "3fd55fcbf61627d7fcd8155e37db910e700cab378f6d64bf5a49d1b1a35ee949"
         },
         {
           "path": "content/en/byoc/tutorials/management/cost-management/analyze-cost.md",
@@ -5258,19 +5410,15 @@
         },
         {
           "path": "content/en/guides/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
-          "sha256": "ed237f85e78116e30da9106c6ba981853f00a0dfe0789edf03aa5a66814bc398"
+          "sha256": "bd8c131599c572edd17d8653fb16cda06bee583d8cb3109552d03d87f5aba4dd"
         },
         {
           "path": "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md",
-          "sha256": "3511926a0d62eaf0a82ddf6ea857c474a1bf0ef859f8b15ed82e105f71481c19"
+          "sha256": "0adede437e6aa989e8effd4420c647065b231efc0427f81a3a7f112d2c8d3595"
         },
         {
-          "path": "content/en/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-serving-cluster-as-data-source.md",
-          "sha256": "90b478aafed73a73cb6460463cd01e635cec8ef096a5445f091dcb3b4d708560"
-        },
-        {
-          "path": "content/en/guides/tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source.md",
-          "sha256": "40e6868b82f2b51d585581a24d9256d4817f1ac9ec359a6425fbef5b6852bb0c"
+          "path": "content/en/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source.md",
+          "sha256": "28b610756c881f8a214a4ac0ec5006ce4ca6cbdfcd4a2ef7cb37fb766f8c07f5"
         },
         {
           "path": "content/en/guides/tutorials/development/collection/drop-collection.md",
@@ -5278,7 +5426,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/collection/external-collection-limits.md",
-          "sha256": "093d00e73ed3a129f47120ad3d4dc7d18522a573dabdaa1763077b682ee809c5"
+          "sha256": "1074f78231487e7482f5651dcd6323504a90cecdfd3eb62ad727e528bf5cbd99"
         },
         {
           "path": "content/en/guides/tutorials/development/collection/load-release-collections.md",
@@ -5362,11 +5510,11 @@
         },
         {
           "path": "content/en/guides/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
-          "sha256": "7e0cdc00edf28c054e4e5ea9ca905bf55142d06e421788ecca41d91a32c63475"
+          "sha256": "36d0774f9c110099d8db20448d956d517039b5baffa6536bf3a407fc63ef43db"
         },
         {
           "path": "content/en/guides/tutorials/development/data-import/import-data/import-data-via-sdks.md",
-          "sha256": "24db8c40e32cc4c5ce63e07f27da3b7db714db72c035b2428d3c9fbe3ee006df"
+          "sha256": "9491d308779b3665601c138c17e9367c5edd791f3ead3c152c37930d95d901b0"
         },
         {
           "path": "content/en/guides/tutorials/development/data-import/import-data/import-data.md",
@@ -5478,7 +5626,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/insert-and-delete/upsert-entities.md",
-          "sha256": "5650b784b2871fc572fabf82fbe8d567f9b927b8c99de6ea1c278585b0958827"
+          "sha256": "e2d4d62911d0af567507ee4cbe3052a34528caab2c0006826ce88fb95409125e"
         },
         {
           "path": "content/en/guides/tutorials/development/scalar-index/bitmap-index-type.md",
@@ -5502,7 +5650,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-          "sha256": "d063a95c0571fd9d404b19938bc06462523ab7ab350e31c19265d77c87eb1f84"
+          "sha256": "0a99b63034f7956dc172a4920d72f20e5689c27a7e04eff8a440d7afaa0277a7"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/alter-collection-field.md",
@@ -5534,7 +5682,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/nullable-fields.md",
-          "sha256": "a3f999adc651293ad76250f7af21577ca154d999f7ce9285dbf2d08ef5e7e492"
+          "sha256": "59b451a42d8ade3a9c462ccf68abf4b2220a9610c52eef572db162fb0c85a2da"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/primary-field-auto-id.md",
@@ -5558,27 +5706,27 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md",
-          "sha256": "02dad79440b63520c49652777b1f1e2c62b885b3510580b158f242d0da2f5ea6"
+          "sha256": "714892a33ed52ae65031511ce23d9409e55d671c77012aae44a10d0f11bed6dc"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/index-struct-array.md",
-          "sha256": "41c6afe66a69e3e440b815adb1332d1d9ca323d733d75df9955c1a2f617a7ffa"
+          "sha256": "a4e7866d27297b221784d260e126148c8234e82dfbc3dea78843a4304bcfd6e8"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/insert-struct-array.md",
-          "sha256": "e5b844154994bc13ea9cc873fdef2c5884bdd6530ef1c64c67ed17d700e7d94a"
+          "sha256": "d3ade0f6ec19648971c426cdd4eee730ebb95b7be9faee6d0b51ed55b8f92f49"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/struct-array-limits.md",
-          "sha256": "35e0fc10c58c8c37c934bf5af289df09fa467c39e29e33afb6c8801a379f05c1"
+          "sha256": "020a978eeacb0fc04576f2f02eb917f7323957a2d453f33a817bf149032f4888"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/struct-array/use-array-of-structs.md",
-          "sha256": "42f68289b7c347b39076d94b8107a895aadc455962e326fc1b5ec535a5de9a61"
+          "sha256": "331d627cdb22a28720f661133593521fb3af0d264fe2e50d7801febac68d4dd2"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-array-fields.md",
-          "sha256": "35cc47b0a3cf0954bea140f01da425f6e40e713e76f0edbbb768e5662df3648e"
+          "sha256": "3e668954567c8de48ade2ec547f00d8d1de0b5ee2de5f80dd2df5506334ee9b3"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/use-binary-vector.md",
@@ -5666,7 +5814,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/filtering/struct-array-filtering.md",
-          "sha256": "15aff35000d1ecbf9f6b4ed495dccae2ca79a0069117a494e39a7f19eadf2941"
+          "sha256": "32d416eaf54149b313a7eb280b28f8f97ae5fd71bbc35dcece4795ffaae279d0"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/full-text-search.md",
@@ -5710,7 +5858,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-          "sha256": "72f2ba707b47cb5bc2b4501c6b98e0bf91f1101b8ed34c9e8dbf34a3450b6c64"
+          "sha256": "28c3df8930386cb6e13f89eae948e4787542b7e24d4878b26c422018d9982941"
         },
         {
           "path": "content/en/guides/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
@@ -5814,7 +5962,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-          "sha256": "b6cb36103f9266c146b52e4dc3c75cd763612e7fdb215d8ec0aa046c9619d4d9"
+          "sha256": "942578ae2e62adabae7d9576abea51a369313cd463540e5e1bfe91a37b869273"
         },
         {
           "path": "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md",
@@ -5890,7 +6038,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/feature-availability.md",
-          "sha256": "ca84013789d06cd86d93c7aaa36d76352e9ffbf1d04b8411b7db42e49f73526e"
+          "sha256": "936dc204eb3995fc9bbc9668f0f5e09215ffad00909ab47c736b77e8089e4123"
         },
         {
           "path": "content/en/guides/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
@@ -5898,7 +6046,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
-          "sha256": "8f38662085442e7186d71a1a556c56e80e5d41e9e790fd4236335cd9d047b926"
+          "sha256": "0c21e852cce4cfb20a3ae5bb41d14d3c5a283d0e3a6215349373bf8d8978cf74"
         },
         {
           "path": "content/en/guides/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md",
@@ -5914,7 +6062,7 @@
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/changelogs.md",
-          "sha256": "40921bf44b52e1248823a2d175a4e90fe538ae635c99913ebf18089938247ced"
+          "sha256": "aa93457a1f687e527b84e2b33c7df62b97e33a9fcd29186db6e230b2015c3fba"
         },
         {
           "path": "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md",
@@ -6322,15 +6470,19 @@
         },
         {
           "path": "content/en/guides/tutorials/management/cmek/aws-kms.md",
-          "sha256": "24e8a1c845b99fd4f4827545785e75f11a54e0726bf6e70029b86f72670f01f7"
+          "sha256": "0e8289e79673034a0ce02f4b218e6b9c6360512c32d77f594872b95acb28af97"
+        },
+        {
+          "path": "content/en/guides/tutorials/management/cmek/azure-kms.md",
+          "sha256": "fddb271dd160a72d0affbcdd4a906bc3a2a2eb940ba2da99579349ba5eba867e"
         },
         {
           "path": "content/en/guides/tutorials/management/cmek/cmek.md",
-          "sha256": "0da9c6f631bfaceef81b79931e718a78dc4707ca17bfc3d55e38835d524a7ee5"
+          "sha256": "793e5dd13630be51d1b060f286f79c066e2780176c6c50ad45d5a5194b59925a"
         },
         {
           "path": "content/en/guides/tutorials/management/cmek/gcp-kms.md",
-          "sha256": "5e3bd71478e2817596858e1948566249e15cd825a549cce5549b06836a729a7c"
+          "sha256": "fae82ed61304ffcc1b0475453b35aaf9724a807e3f26e94cab372973649a193d"
         },
         {
           "path": "content/en/guides/tutorials/management/cost-management/analyze-cost.md",
@@ -6682,7 +6834,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "dce73357b64994fdeece1a3262706fd3ec9f67c47a96e05f740cd795e8dab9f5"
+          "sha256": "ac9123d2818a4700f43802fa9b14ac5b8c20894d33f9417f70528824c1e90e84"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -6690,367 +6842,367 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
-          "sha256": "0da7deb8a89290f99b9fd8d7e53f2518df86c10d5472e27e1aee4a464acc06a4"
+          "sha256": "2d847ab902eedc6cd626a1fac466260aa5298533ce6d29d46f5836766d7fe31e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "95b72a9eaa3d67f15dd9fd5c72304ded6ed1174c36eef8a3f06c2f779eb8c66e"
+          "sha256": "9e0325b51b65efd0dd2503173e55b006e048d89671c65204c918e16085c7c9f7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-external-collection-schema.json",
-          "sha256": "04737622b01839914cadd5fc1342effa6d9aaab3132c793fdd1cfa6038e84b46"
+          "sha256": "120f098e5987a435ebbe23f1c8afe27dab7c0f18b8aab52d3363b68620c07b21"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/array-filtering-operators.json",
-          "sha256": "6c387e247d171c3430226e7941158a84b7911ddfb5eceef1f56083ad18f4b917"
+          "sha256": "3ff28379ba1ad77923f04a98d540f338318f937e12f1eb43f85b18961fe5a6e2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json",
-          "sha256": "793f9301a9bb12b2f5aeb96fa56178c4891f0e6aebc28a63d9b631be86abb58d"
+          "sha256": "16c43e55e3249c161dff4871745718b32f49acc3e07bfeee98adaa66a29b09ba"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/basic-filtering-operators.json",
-          "sha256": "279e9cbb2f6f97048598e1192465e754ecd79a21ce4e9b3c3b8448c096fac4b1"
+          "sha256": "a60093f58f5f52a24503aa803ef69088a78d3552487eb6754647d3c6dcb6ef96"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/bitmap-index-type.json",
-          "sha256": "8c4729ddb4bbe5ff4cd3fc5efd710156226224fdef1b04d21d5abb7ed3be98ae"
+          "sha256": "1a96d285a6a55a0bef529d74a8fea83355b1752f4f5f6a13fd0edaa1cc8e89fb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/bm25-function.json",
-          "sha256": "57a540961143ccc2ca92141c0de90176663ac2cce4f4d49920d8a17ed0a8277e"
+          "sha256": "64c2ae0e287070d7b41e2a76d8791206bf83196b9340664d72ba026a427a15a4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/boost-ranker.json",
-          "sha256": "5c1fc44bfbdc186100e395761454fcbeaaab09918ef42d27134e56f98691b9e9"
+          "sha256": "a23b2b02e4a610c3ad6d2d573e1ebcc816c40e569a790dd40a86468ff0bc5967"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/chinese-analyzer.json",
-          "sha256": "4d9ec4c10ab72efc08a76d743a6a3ebfe626d49662849c4ee71cfe559415dea8"
+          "sha256": "b06e2caeffe2648861a7bba2c76aac25afd617ee2dabdf4579f8265b097190dc"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/cnalphanumonly-filter.json",
-          "sha256": "68ef33d22b2b285fa982db5a9f2c8ee6b4e2bc969ff5ae18f6fc34783594edc3"
+          "sha256": "dbd9ca71f6dcc2e0453e9e2cac97ce77cdb7e7123be4242596a19ac7df253a93"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/cncharonly-filter.json",
-          "sha256": "4ed9e719cd7c70c0bb993f96796267c92cc688090d04aa1466fc52e6ddaa5b96"
+          "sha256": "1437cc890fb377da98b16d60681e241c7a871704fc03a680495b868061493bf7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/create-struct-array.json",
-          "sha256": "1620b77421c25067af936979d45e46091a9a4329171e219a3da1e38416984645"
+          "sha256": "a467d5849c8ecff8e6c6c8d33dc1c5428c3f0235a589dc42403d8320e6234ac9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/database.json",
-          "sha256": "efadb07c75afd46cd607a14f65630e53826c8d0d6192e80caf04d37f5a6341d3"
+          "sha256": "b910dadd7b1b58ca37f36b030d7744f3465f45887ec0cdeaccb33dc6c7601634"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "7ff7ca2506f602e94e91960dce521679cc48b8f19bc96dde3015ae31d6d348eb"
+          "sha256": "7ed2483616cca708cf2652702a7b12e9adef7a5cfd29c84de4c848b3e65dc55d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "403561d959b15c083d6e2fb5bcf06b9f5b49221c7e2dd464353d507789c404f1"
+          "sha256": "639099ebc4a98b91269714a64e9db72c98ce2743c643a13c2666d663b83f8f64"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/default-fields.json",
-          "sha256": "a7b0318a9e59021bcd31343c786248c01276f0650e028ae77e8e8345978b61b4"
+          "sha256": "561dccf256d4ca3ce58bc65284d1d0c0691d269354469e23e14682cfe0e00f97"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "4534c48a7e62751c6923d18ae31d568efabb71621e2a6d8649052678382bde63"
+          "sha256": "1971036470e40296b06b9830148c10ceea482c7503646105c394c0a3428f34e7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "96eb2e448070c7a126c4cba3905e86f4ce913af9b04703c2538bae4e4eead829"
+          "sha256": "537b3bac09f5b7b947393ef4da97851f124a480134d45e38e45401fcdee38266"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/enable-dynamic-field.json",
-          "sha256": "1d57946ab735849dd3a30f94a93a1e299b81e79dab90a0a8c79f06a806c29186"
+          "sha256": "18d404afd84222a797a1cac6d022c192986a97005d95cce1f4353e28c8ea2d8a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/english-analyzer.json",
-          "sha256": "25e4760e8edfea7874e2135aa8963030d3d60ffad3be873018de1dd9293aefec"
+          "sha256": "ca7422ab14ed7e568dd063be8e5f39bd58e9e5867deaa0b0f827a37f07fe51d7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/exponential-decay.json",
-          "sha256": "129cbb6bceda0781b399d021ff8b975b82867ecacc503b37bb4cf65d01eaf133"
+          "sha256": "40f4357ca4e456b1901e578c8c2354c6d7ef4a215c315facaee5ed935b100690"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json",
-          "sha256": "476208d5b07d49abb54048727d1ff31fc4e5298f199feb4cc40d7dabae583895"
+          "sha256": "372e62b8f128ddeda103db185e5abefacbf209c2c62b28058e7959761c6778a7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search.json",
-          "sha256": "f01197cdb8a852b3379519a790ab580e4dcc39a77948a2b5f9f8665c30f8a73a"
+          "sha256": "2b84a79be364f21c9158aa751651282a4e5667d832bf049e7b12386f54693980"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtering-templating.json",
-          "sha256": "630f54fd7c49336f23ab522cae490b2b3caee78d040a57790904e5c162fe9922"
+          "sha256": "fca51415a4bc36624acfc25fd2a3f9846d0380601817eca88a0b433b6f317fa6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/full-text-search.json",
-          "sha256": "7f22908d4b4a43059f66cbaa994d48484a05a5a8bb0e7dd371b9fe4a8e9ac75f"
+          "sha256": "366b0cb693cac72a6ad9d7f8607c04888a41f3007d9a09dd290dd1e09b9fba8a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/gaussian-decay.json",
-          "sha256": "8889b61a2b0827b21786699e84aac7e44bf4680739be957a8db9b471ab933a71"
+          "sha256": "6c8eed78931d60f771e4c044b36782be4b2f969cfb63dae06f814c4ddc8b05e5"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/get-and-scalar-query.json",
-          "sha256": "bd7eac63605c7d0c2982489e2d2c543a31962ea335d7caf78e96fce1f57a8484"
+          "sha256": "3f43fcff948a521f38d3c205e7c71df236f114389d95d31b37be7acc34c0e5eb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json",
-          "sha256": "4ae9b07cc2a3d256836c550f99e9fcf64b74cfe82919751f0ffc689e01c977aa"
+          "sha256": "ef6ec683a2ec3b25ada71947337e9a765fa1524601bf7df0958b456c8339f099"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/grouping-search.json",
-          "sha256": "0bbffdedab9fda130136c0ede132d1cea92e18e3332e8eddbb948780602be4c2"
+          "sha256": "f9c7827b681eaed7b9d1efaf43f738a17dbc4620be10602b0b3e2bec0d788949"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json",
-          "sha256": "1d1cd56d52b9bf238637fc9c215c6ab5e6e539124bb69377766f5fb4691b4b7f"
+          "sha256": "5869992e99fb31fb82040780f7b980068b6c510e392935c0c99b14e9e1f72b10"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "26d88a4f5c769e55d9e9af51b1f8143fc7c9e24106ed76cd79b3d1e12ec5ae68"
+          "sha256": "bb7d7b9cc2d5c87a3d74f0be3d042b2ee47602a66c3dfc107942dc71f7b83739"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/index-struct-array.json",
-          "sha256": "609c8d894e662a039f9c6cee1f8ac7c3df44a1853ac776d1c2e3c38b643b1da9"
+          "sha256": "7f96c2dec846c9a5554b2a011be15ec6febdb411a56d1e995b88ecfa99e27622"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "d10861f34c7c4d5bd3c9a067ac3e0be92751b67e6e968ff9e513f6badf09da37"
+          "sha256": "813f483a23781ef1b56a736c1f38d6974c3c1cfa4aa4394456c25f9494dba611"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-struct-array.json",
-          "sha256": "69056db911483d9ddbef971081b3d92d3b70ee6d368a8c0e4b4e127623470c5e"
+          "sha256": "a11985ed1b6791d464058d6be46755900dbd19c7147cd2613aac41ffe0eeb2dd"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/inverted-index-type.json",
-          "sha256": "776a0a3e6d9d7249278d479cd2afc8f96063c4be419d880e960ae641c4cdf7a9"
+          "sha256": "0868e43711b5c08d711e7f8340393ad4abd38c16d23f57c606e08cc9a0f31d76"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/jieba-tokenizer.json",
-          "sha256": "90a468696840312ab96c2e5907dab7e525c864c59be289b869c3c8060f645a49"
+          "sha256": "983722a76b76c6e994d476ceaa6aa2a102cee504a40693b4823b3ae9b5c88c74"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-field-overview.json",
-          "sha256": "39c4319f4407c95bb83e5acd55957e09efaa8fa1a04c590e2ad4a88cbe653b4c"
+          "sha256": "94649e87ffe92d8ee87378f1c722eae65a64bc49a762045848fca480d00a0d36"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-filtering-operators.json",
-          "sha256": "b98b149faac121ee3d12a2451c89e0ad6cb56d698fb8f4b52bb5d836c809fdcf"
+          "sha256": "ab43d26b5fe5390389981847c03854d04f57a86dcd68474e78e6ae52ec993b9e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-indexing.json",
-          "sha256": "ecee161645d0ab4c7f24f29dd24a9ab9d9a2a1f56a73f56106b039f551335d6d"
+          "sha256": "82ae1aef57ca438ee7ceffd1a2c2ba507aef3435faa9d8450a79e1598d8f6c4a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-shredding.json",
-          "sha256": "baedb16c3b9c1d226e3ffd31bb9e2028332adcf110c751c042b9c31be11528af"
+          "sha256": "5ada182f6bbe6029ec5dbf00898bb419d9bb2bd3b8def1706050177929663709"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/language-identifier-tokenizer.json",
-          "sha256": "d205e1f794f5b0c2175f9a85ce2bfcb532cf056521d0b9301b6599e6864a3132"
+          "sha256": "2cab618c7341d14f2bc81c91d75307ef3425ebad15ee43f6a69fb9bb0445ca13"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/length-filter.json",
-          "sha256": "3a5b583e8f06d694e6be9ba671ebe65b59c809ff321303659f8e12dab0753a93"
+          "sha256": "ecba6dedb02f88b6febe6c1f04f543ff4fa82a86360735cf20e8b5380fe0fbe8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "3c57b9e2c58a940d4ce377e58939946fe367a00e52a36237040574816953c1b9"
+          "sha256": "cac3fd05d26b717c10f6450c70d00ec72c49711c9c27cf4fdb809e07d6447f12"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/linear-decay.json",
-          "sha256": "c4c242a87d2881d1d83be2bafd535d611db11026371b051ad2874da084bacf4d"
+          "sha256": "af74e6068d1338c9f0fa2fccca0bd68837e064d43ff3770272850eb553d1896d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/load-release-collections.json",
-          "sha256": "c5447eb5cf8c9d93d792ad5b77603fe2add84659097cac889d9729e2b4b586a1"
+          "sha256": "80558b08638273946694c95d8aa7f4f5fc722e0dffeedf347b15f9d42b3ef10a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lowercase-filter.json",
-          "sha256": "058822645e2a7c6e436e52a0ff76897bf44b4771944e98dbf4b71f107da16829"
+          "sha256": "3ebd4123aef49cc783762b897c563078fcb729516f526bc1704624812f65689e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-aliases.json",
-          "sha256": "47ffb9d3607f6acf41eb1ad32224f5bcdd596b3197f174b3a9ec86eb119d52f0"
+          "sha256": "f40bea5b2776ad655dfe8abb7708003e4786732b4cc0d72aa4d840a16e2ab092"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-collections-sdks.json",
-          "sha256": "ebea2394e1cb8e1f7da68eda962c410bf2d49cb6bdc8856fe7d74b724f709683"
+          "sha256": "41e5b8be7423496422931e5497d8fe2d2bf924572b6c46b45330d8e21cb419a8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-collections.json",
-          "sha256": "4d5f3dae232f0197022c72502c15805415bfeade24fe3aca8c23bbf2118e4545"
+          "sha256": "cd4d10ed7d838b20c1ec4b57dbca91ccbf3b1fa8bb870c23022783f1d7561999"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-partitions.json",
-          "sha256": "5da60536903663bba8528213bad9e3d095291055e3a23803760aa06daa580ac9"
+          "sha256": "bd416afe8543f292bc5f417cf11cc870cdaf767418bd667c04cef85d24e9bdbb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/modify-collections.json",
-          "sha256": "f78deb6438a6c50c84c26e6b872094eb3f6c3c1611d722cf40b169cec0a077bc"
+          "sha256": "833edf40bc0a751af875b4aeb2154a10d52bec0c9f8c68f376432b2bfe87f9cc"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/multi-tenancy.json",
-          "sha256": "b9a45e4fa3ac16098b0b618d538136316e5a761d76d209a3e9099881ec8c6f5a"
+          "sha256": "f76ef94b23126a1204e29f8a1ec20661f587689309eeee2826f30076859036f6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ngram-index-type.json",
-          "sha256": "392b69e642d8be476e657c88006004f1f96ba29555f272ec63d2017e74d229d4"
+          "sha256": "cd744d89d20835d05e6a069ed2927a9ae6213fb21c666c06504cd60e21c73d02"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/nullable-fields.json",
-          "sha256": "4fefde893ca3c915e8eebb7684502fda9938cf8e0218658290d38683bb4be8f8"
+          "sha256": "4e16ff353a2a6c78abda2949978e2ea35cefaca0be831f7d1a52c7eeb573cccb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/pattern-match.json",
-          "sha256": "996c4e20ff4c85862bb5c76e28dfe049ba7fa3e815090a5592d74360a716caaa"
+          "sha256": "17c2289694811c457b57ba2971659e9438284bcada41bc7b615c4770c85e88f8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/pinyin-filter.json",
-          "sha256": "3b199d684dbc4987a263a440d79bd5e6ccf5439fb6cad9f5afab35c97d0b530c"
+          "sha256": "247bb8da27946dbcb008e18a42b05626701785b25e82d6484015099bf0c570ad"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/primary-field-auto-id.json",
-          "sha256": "a29f18d54a21d7e11d76c07d416655e080d67140e17de5c1153be838501d2a44"
+          "sha256": "a97f34b0653a57008134bf05b2558ca5a64e42f40f123ddd076544376c583d61"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ramdom-sampling.json",
-          "sha256": "5b03ac8e35ac86d64903946bd0f7a6695403bfce8587840487b33b808a30cebd"
+          "sha256": "6549f2caae5565428055008cc07a27ada6216069d27567b07bacab4444d66cb1"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json",
-          "sha256": "2ff92f6e4799a37901480fc25c6de275f693942116a0aa513e6b7b38188902bc"
+          "sha256": "25b62ca76227b28e75ab3db586d4d96983b4d58e82efe722fea153b8e73d2eaf"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/range-search.json",
-          "sha256": "5c02194686c8978d5ab3f94457cf4ee793063faa004ea054027a06d9fd7b3fef"
+          "sha256": "a6003889058d5d30b5797b44feb25e8d997249f92a41444db2117b871c21c7c7"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "f7ea0639272b1a5d0c66aa5a44e830f5ecd820d05ef4932b6c28518a225f3eb4"
+          "sha256": "0bf17da15da1b13502425f7c450bfb219e1991318fdc14d501a12f7285d08234"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "7274d344c6f91d32ceffe9b8a1391cdec0bac82dff8a75602a201c0a4b3bb900"
+          "sha256": "f6c3e0a309a5dd7bc578e5c170978f34cb45703fcd98f23459cb5957ba821fc5"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-rrf.json",
-          "sha256": "0560771a7997b2112449774e9fe4a347b3df032cd9c73a8fba3e8eadb5bdcf97"
+          "sha256": "2a0bc2b8fc36ee2f3180407a903660fd0820c4853cb0b964c7a35586c05b4d5f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-weighted-reranker.json",
-          "sha256": "371cb06c806ef92469c5fce956f724f3d8ee321bfd9d2a1333146aba0bfd304b"
+          "sha256": "8d06ae8aed14c1ccb356363b629f173a3e131a15986824f04328261da3a7e21a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/rtree-index-type.json",
-          "sha256": "2cc1ec9b1d110ece53c9c774c29e70948c2a76b5a9d8bcc668135adafa99da26"
+          "sha256": "abb11d4cb2b19beeaf92f9e6908ff7c3e2ba9fa3931b3a8ddedbd5d66ad7ed76"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json",
-          "sha256": "561d4064381ea4dc7e26798b7a9463f796796c8bf86b72a5fbc190478f99738b"
+          "sha256": "a0703566971396ba93db3ffd03bb3232c3a7320d1fee1910c047bb8e4b4d1e5d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/set-collection-ttl.json",
-          "sha256": "d7b393521a1f6bd6926064307f00ee29a91fb78670b40d3db6b063c7857e3f62"
+          "sha256": "527c01b9543fe6f884e699a0bc7c5b8bbd40908eed4939c6998c759934b05e51"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/single-vector-search.json",
-          "sha256": "a1be656dc761fb1065104710f174eba46bf25d87516cae47a30eb7b6ada8223e"
+          "sha256": "576e0704a55e57e17a3cf56e68aa1a80d244f55fedbe09aeb849eb1406abcfa8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/slt-sort-index-type.json",
-          "sha256": "3be3c8f595474b27f6a472a4bf3444f2c29c8889af1c9dc30a81f3321c94064b"
+          "sha256": "5067fd6d5fc392c1586396bec7eec893273d406c09ce1ff4397d298f00492cdf"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/snapshots.json",
-          "sha256": "d210d2cf848adc05a5040a7acb2f08f5d190d6123ac4301160360cecb3097239"
+          "sha256": "bd75e443b3275b8cad23e84581fc179f2eb12772da1345808cfaad6db1964077"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-analyzer.json",
-          "sha256": "58a268170c7a563dff85adb994f43a9ee7e3b904a912f128b644d38b3cf655be"
+          "sha256": "275cf5ffce3b9fc81dec89beddb011b6bb1e37b69fb0f0ba92684475b7522dda"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "bb22c68966074620c6bd9c4cc22383ed5ee04d47acdf6276f4a10fe83881be20"
+          "sha256": "43ae2c8d99f99f4354cdf0b11d6c43bd5766fedb0a65398e24b6a010e778ac25"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stemmer-filter.json",
-          "sha256": "f83605147689d9be8058d4caf70b4008eb051c2f00357926888c2d703589307b"
+          "sha256": "e94db261dd3ad2606fea92efeda8c6375213725a152748254914116c837b9204"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "01aa94d516a11345c165781787f2ebbaf99fd84c9bdad8b868820123fd8039ea"
+          "sha256": "8d930191c0dda1515cea3bb63a31bb84f5e4cba18860e25e0b5b0ba55352d2c4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json",
-          "sha256": "71fa12671bb50a2230018de9970229a144b2223f32cc7ca40f918cce5664ed80"
+          "sha256": "b57e41963f248132d82d24c67467c307fa52f95a6a426bb3b88201d386b7d024"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-limits.json",
-          "sha256": "f23270b400dc2c5b46233f0b9a628093cb42043048790508b05a2092c70b5d8a"
+          "sha256": "56db914163eb81db583ba41e4b85a773e47b38f1686981f661664a85298c5e30"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/text-match.json",
-          "sha256": "a98fd722040ae5cbb62a33ac3d406412ab903cba000dbe9180af8290685cb9ba"
+          "sha256": "30c18faf834f834e6d3f0d2885bf11db90e6716d0b578b1dff4580b1930ab002"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json",
-          "sha256": "c60d7bb0cc41bb4c8bf2b4711ed89c373652d6ace9941c1651043a0bfe96e7d6"
+          "sha256": "50abf2407edd34cd819056ec05edfbfa18385a5ec00e34e187b957f11d7baf69"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-fields.json",
-          "sha256": "72323a22eeeebb424751ec9b6f8c6eb9841b89123b216898aedb7d20c1cca17c"
+          "sha256": "5d66480b13ac086f236762e676d37f1a825aca6e4f317766cc147f450918a5a4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "1167c767ba48bc98b57f2cc18c19f73672b1f0e9e2b57265eb710a640575a555"
+          "sha256": "99302723b8adeae85331418e529d5c0a087345da6c08db91583b42284394a42f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-binary-vector.json",
-          "sha256": "84b14c4efa8afc7cc7552058b06ab0bd3e0a547c83e94d7058f16970d3fafe64"
+          "sha256": "df29af649a026726cede9f45f8e35a5c2e05a3141b210ecd6c0df47f47300642"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-dense-vector.json",
-          "sha256": "2b5b0737de831238099895fc656e724ae797b03954216d872cb3e50e394ce2a0"
+          "sha256": "042490e05ffcb0d460f7e49b2f5e51f7f5c40f1f9846245c8e94fa2cf6a2e3bc"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-number-field.json",
-          "sha256": "a316d24df27b329756ad52c73c917a7c04a2181becd21575602ed343d466cc67"
+          "sha256": "2b0f723cae388748e8d35a87511ed9c4a8fbb8a32f816b82d75025dfd8c39f63"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-partition-key.json",
-          "sha256": "b21a8bf6b9d0a986f5055f87e67c21aa597b55c60ec07592dcba187ef3f584c7"
+          "sha256": "994ecedc6c1c2668ca4b8aaafe4931f6fcddbd90217a42720242dd7e4de9121f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-sparse-vector.json",
-          "sha256": "9d7173e05fa650af6141eb17d4ebe7b40ad03c8ee8b08177503207582ffdfb83"
+          "sha256": "4b7241c0b0d890aff7c56bd5ffb8b66ad397c4a9e755ce01e2aa3fdee655084d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "cbf98b53bd3f943c139ffe6e426059bea826fe95ee3cd3b5c083521a77eec4aa"
+          "sha256": "170ad7e685fbdcf4cc2d38d6abc728b9ca616dc5d91a848a430dfa0d20c8be46"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "3e3abbdc8f1b7b4d757f1dabb9789c0c3eea4d66daafa8d08ffe9b2b71dd2b02"
+          "sha256": "ed4854b8c3737e57bf003ef493059fa0bf1c3d918aa12e248dd1df00a402b9f8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json",
-          "sha256": "829459363051fea845a6b5a9d700269f392c072c8457c7c7c86d4b177f0fe8e1"
+          "sha256": "d5212ee7c0989c0f3159185c5c8a16b356465366ac7698a574cac3dfdb1c058a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/with-iterators.json",
-          "sha256": "da87fa10aa434f0bcd8c1650582dd0805b3e90a7df19fc51bb6b2321197366b2"
+          "sha256": "54a19e3f0046d55957250aa876407738ebc0aa38f146e69fad952539b9c0d3a5"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "c0745a9a8b0f46dc1b9f605ba3d5337b16c3278e3442eafc25e92c75f72ca7ca"
+          "sha256": "b344be5c7af83d85b2ae06479b8208a9cd69f5e8998900f99e16e85c793d3994"
         }
       ]
     },
@@ -10965,29 +11117,6 @@
             "ref_target_anchor": null
           },
           {
-            "record_id": "recvoFM08mWjNS",
-            "table_id": "tblWv7PjNDsexddH",
-            "table_name": "Development",
-            "placement_type": "canonical",
-            "parent_record_ids": [
-              "recvlPs65wqwyk"
-            ],
-            "order": 49,
-            "title": "Use Snapshot as Data Source",
-            "labels": "Snapshot as Source",
-            "slug": "use-milvus-snapshot-as-data-source",
-            "targets": [
-              "zilliz.paas",
-              "zilliz.saas"
-            ],
-            "progress": "Draft",
-            "doc_token": "JfJvwdGz0iD9LpkrCMccZ2ypn0g",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/JfJvwdGz0iD9LpkrCMccZ2ypn0g",
-            "ref_target": null,
-            "ref_target_token": null,
-            "ref_target_anchor": null
-          },
-          {
             "record_id": "reczz28WMex1Nyk4",
             "table_id": "tblWv7PjNDsexddH",
             "table_name": "Development",
@@ -10995,7 +11124,7 @@
             "parent_record_ids": [
               "recvlPs65wqwyk"
             ],
-            "order": 50,
+            "order": 49,
             "title": "Use a Collection from a Dedicated Cluster as Data Source",
             "labels": "Collection as Source",
             "slug": "use-collection-from-a-dedicated-cluster-as-data-source",
@@ -11017,7 +11146,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 51,
+            "order": 50,
             "title": "View Collections",
             "labels": "View",
             "slug": "view-collections",
@@ -11045,7 +11174,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 52,
+            "order": 51,
             "title": "Modify Collection",
             "labels": "Modify",
             "slug": "modify-collections",
@@ -11073,7 +11202,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 53,
+            "order": 52,
             "title": "Set Collection TTL",
             "labels": "TTL",
             "slug": "set-collection-ttl",
@@ -11101,7 +11230,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 54,
+            "order": 53,
             "title": "Use Large TopK",
             "labels": "Large TopK",
             "slug": "use-large-topk",
@@ -11123,7 +11252,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 55,
+            "order": 54,
             "title": "Load & Release",
             "labels": "Load & Release",
             "slug": "load-release-collections",
@@ -11151,7 +11280,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 56,
+            "order": 55,
             "title": "Manage Partitions",
             "labels": "Partitions",
             "slug": "manage-partitions",
@@ -11179,7 +11308,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 57,
+            "order": 56,
             "title": "Manage Aliases",
             "labels": "Aliases",
             "slug": "manage-aliases",
@@ -11207,7 +11336,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 58,
+            "order": 57,
             "title": "Truncate Collection",
             "labels": "Truncate Collection",
             "slug": "truncate-collection",
@@ -11230,7 +11359,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 59,
+            "order": 58,
             "title": "Drop Collection",
             "labels": "Drop",
             "slug": "drop-collection",
@@ -11258,7 +11387,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 60,
+            "order": 59,
             "title": "Collection on Console",
             "labels": "",
             "slug": "collection-on-console",
@@ -11278,7 +11407,7 @@
             "parent_record_ids": [
               "recvlPsu74mphG"
             ],
-            "order": 61,
+            "order": 60,
             "title": "Manage Collections (Console)",
             "labels": "",
             "slug": "manage-collections-console",
@@ -11301,7 +11430,7 @@
             "parent_record_ids": [
               "recvlPsu74mphG"
             ],
-            "order": 62,
+            "order": 61,
             "title": "Manage External Collections (Console)",
             "labels": "",
             "slug": "manage-external-collections-console",
@@ -11324,7 +11453,7 @@
             "parent_record_ids": [
               "recvlPnrtMmScA"
             ],
-            "order": 63,
+            "order": 62,
             "title": "External Collection Limits",
             "labels": "",
             "slug": "external-collection-limits",
@@ -11345,7 +11474,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 64,
+            "order": 63,
             "title": "Volume",
             "labels": "Volume",
             "slug": "volume",
@@ -11365,7 +11494,7 @@
             "parent_record_ids": [
               "recvlPnt69nRDV"
             ],
-            "order": 65,
+            "order": 64,
             "title": "Managed Volumes",
             "labels": "Managed Volumes",
             "slug": "managed-volume",
@@ -11387,7 +11516,7 @@
             "parent_record_ids": [
               "recvlPnt69nRDV"
             ],
-            "order": 66,
+            "order": 65,
             "title": "External Volumes",
             "labels": "External Volumes",
             "slug": "external-volume",
@@ -11410,7 +11539,7 @@
             "parent_record_ids": [
               "recvlPnt69nRDV"
             ],
-            "order": 67,
+            "order": 66,
             "title": "Storage Integration",
             "labels": "Storage Integration",
             "slug": "storage-integration",
@@ -11430,7 +11559,7 @@
             "parent_record_ids": [
               "recvlW3nt9PgV8"
             ],
-            "order": 68,
+            "order": 67,
             "title": "Integrate with AWS S3",
             "labels": "AWS S3",
             "slug": "integrate-with-aws-s3",
@@ -11452,7 +11581,7 @@
             "parent_record_ids": [
               "recvlW3nt9PgV8"
             ],
-            "order": 69,
+            "order": 68,
             "title": "Integrate with Google Cloud Storage",
             "labels": "Google Cloud Storage",
             "slug": "integrate-with-gcp",
@@ -11474,7 +11603,7 @@
             "parent_record_ids": [
               "recvlW3nt9PgV8"
             ],
-            "order": 70,
+            "order": 69,
             "title": "Integrate with Azure Blob Storage",
             "labels": "Azure Blob Storage",
             "slug": "integrate-with-azure-blob-storage",
@@ -11496,7 +11625,7 @@
             "parent_record_ids": [
               "recvlW3nt9PgV8"
             ],
-            "order": 71,
+            "order": 70,
             "title": "Integrate with Amazon S3",
             "labels": "AWS S3",
             "slug": "integrate-with-aws-s3",
@@ -11518,7 +11647,7 @@
             "parent_record_ids": [
               "recvlW3nt9PgV8"
             ],
-            "order": 72,
+            "order": 71,
             "title": "Integrate with Azure Blob Storage",
             "labels": "Azure Blob Storage",
             "slug": "integrate-with-azure-blob-storage",
@@ -11540,7 +11669,7 @@
             "parent_record_ids": [
               "recvlW3nt9PgV8"
             ],
-            "order": 73,
+            "order": 72,
             "title": "Integrate with Google Cloud Storage",
             "labels": "Google Cloud Storage",
             "slug": "integrate-with-gcp",
@@ -11560,7 +11689,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 74,
+            "order": 73,
             "title": "Schema",
             "labels": "Schema",
             "slug": "schema",
@@ -11580,7 +11709,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 75,
+            "order": 74,
             "title": "Schema Explained",
             "labels": "Overview",
             "slug": "schema-explained",
@@ -11603,7 +11732,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 76,
+            "order": 75,
             "title": "Primary Field & AutoID",
             "labels": "Primary Field",
             "slug": "primary-field-auto-id",
@@ -11631,7 +11760,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 77,
+            "order": 76,
             "title": "Dense Vector",
             "labels": "Dense Vector",
             "slug": "use-dense-vector",
@@ -11659,7 +11788,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 78,
+            "order": 77,
             "title": "Binary Vector",
             "labels": "Binary Vector",
             "slug": "use-binary-vector",
@@ -11687,7 +11816,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 79,
+            "order": 78,
             "title": "Sparse Vector",
             "labels": "Sparse Vector",
             "slug": "use-sparse-vector",
@@ -11715,7 +11844,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 80,
+            "order": 79,
             "title": "VarChar Field",
             "labels": "VarChar",
             "slug": "use-string-field",
@@ -11743,7 +11872,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 81,
+            "order": 80,
             "title": "Text Field",
             "labels": "Text Field",
             "slug": "use-text-field",
@@ -11766,7 +11895,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 82,
+            "order": 81,
             "title": "Boolean & Number",
             "labels": "Boolean & Number",
             "slug": "use-number-field",
@@ -11794,7 +11923,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 83,
+            "order": 82,
             "title": "JSON Field",
             "labels": "",
             "slug": "json-fields",
@@ -11814,7 +11943,7 @@
             "parent_record_ids": [
               "recvlPtcx5rI2g"
             ],
-            "order": 84,
+            "order": 83,
             "title": "JSON Field Overview",
             "labels": "Overview",
             "slug": "json-field-overview",
@@ -11842,7 +11971,7 @@
             "parent_record_ids": [
               "recvlPtcx5rI2g"
             ],
-            "order": 85,
+            "order": 84,
             "title": "JSON Indexing",
             "labels": "Indexing",
             "slug": "json-indexing",
@@ -11870,7 +11999,7 @@
             "parent_record_ids": [
               "recvlPtcx5rI2g"
             ],
-            "order": 86,
+            "order": 85,
             "title": "JSON Shredding",
             "labels": "Shredding",
             "slug": "json-shredding",
@@ -11898,7 +12027,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 87,
+            "order": 86,
             "title": "Array Field",
             "labels": "Array",
             "slug": "use-array-fields",
@@ -11926,7 +12055,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 88,
+            "order": 87,
             "title": "StructArray",
             "labels": "",
             "slug": "struct-array",
@@ -11946,7 +12075,7 @@
             "parent_record_ids": [
               "recvlPtk8BZ2aP"
             ],
-            "order": 89,
+            "order": 88,
             "title": "StructArray Overview",
             "labels": "Overview",
             "slug": "use-array-of-structs",
@@ -11974,7 +12103,7 @@
             "parent_record_ids": [
               "recvlPtk8BZ2aP"
             ],
-            "order": 90,
+            "order": 89,
             "title": "Create a StructArray Field",
             "labels": "",
             "slug": "create-struct-array",
@@ -12002,7 +12131,7 @@
             "parent_record_ids": [
               "recvlPtk8BZ2aP"
             ],
-            "order": 91,
+            "order": 90,
             "title": "Insert Data into StructArray Fields",
             "labels": "",
             "slug": "insert-struct-array",
@@ -12030,7 +12159,7 @@
             "parent_record_ids": [
               "recvlPtk8BZ2aP"
             ],
-            "order": 92,
+            "order": 91,
             "title": "Index StructArray Fields",
             "labels": "",
             "slug": "index-struct-array",
@@ -12058,7 +12187,7 @@
             "parent_record_ids": [
               "recvlPtk8BZ2aP"
             ],
-            "order": 93,
+            "order": 92,
             "title": "StructArray Limits",
             "labels": "",
             "slug": "struct-array-limits",
@@ -12086,7 +12215,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 94,
+            "order": 93,
             "title": "Geometry Field",
             "labels": "Geometry",
             "slug": "use-geometry-field",
@@ -12109,7 +12238,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 95,
+            "order": 94,
             "title": "TIMESTAMPTZ Field",
             "labels": "TIMSTAMPTZ",
             "slug": "use-timestamptz-field",
@@ -12132,7 +12261,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 96,
+            "order": 95,
             "title": "Dynamic Field",
             "labels": "Dynamic Field",
             "slug": "enable-dynamic-field",
@@ -12160,7 +12289,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 97,
+            "order": 96,
             "title": "Nullable Fields",
             "labels": "Nullable Fields",
             "slug": "nullable-fields",
@@ -12188,7 +12317,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 98,
+            "order": 97,
             "title": "Default Values",
             "labels": "Default Values",
             "slug": "default-fields",
@@ -12216,7 +12345,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 99,
+            "order": 98,
             "title": "Alter Collection Field",
             "labels": "Alter Field",
             "slug": "alter-collection-field",
@@ -12244,7 +12373,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 100,
+            "order": 99,
             "title": "Alter Collection Schema",
             "labels": "Alter Schema (Managed Collection)",
             "slug": "add-fields-to-an-existing-collection",
@@ -12267,7 +12396,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 101,
+            "order": 100,
             "title": "Alter External Collection Schema",
             "labels": "Alter Schema (External Collection)",
             "slug": "alter-external-collection-schema",
@@ -12295,7 +12424,7 @@
             "parent_record_ids": [
               "recvlPny7w8bvX"
             ],
-            "order": 102,
+            "order": 101,
             "title": "Best Practices for Schema Design",
             "labels": "Best Practices",
             "slug": "schema-best-practices",
@@ -12318,7 +12447,7 @@
             "parent_record_ids": [
               "recvlPtAbhhqgZ"
             ],
-            "order": 103,
+            "order": 102,
             "title": "Data Model Design for Search",
             "labels": "Data Model Design",
             "slug": "schema-design-hands-on",
@@ -12341,7 +12470,7 @@
             "parent_record_ids": [
               "recvlPtAbhhqgZ"
             ],
-            "order": 104,
+            "order": 103,
             "title": "Data Model Design with an Array of Structs",
             "labels": "Data Model with Structs",
             "slug": "schema-design-with-structs",
@@ -12362,7 +12491,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 105,
+            "order": 104,
             "title": "Vector Index",
             "labels": "",
             "slug": "vector-index",
@@ -12382,7 +12511,7 @@
             "parent_record_ids": [
               "recvlPnCX5Uxxw"
             ],
-            "order": 106,
+            "order": 105,
             "title": "AUTOINDEX Explained",
             "labels": "AUTOINDEX",
             "slug": "autoindex-explained",
@@ -12405,7 +12534,7 @@
             "parent_record_ids": [
               "recvlPnCX5Uxxw"
             ],
-            "order": 107,
+            "order": 106,
             "title": "MINHASH_LSH",
             "labels": "MINHASH_LSH",
             "slug": "minhash-lsh",
@@ -12428,7 +12557,7 @@
             "parent_record_ids": [
               "recvlPnCX5Uxxw"
             ],
-            "order": 108,
+            "order": 107,
             "title": "Tune Index Build Level",
             "labels": "Tune Build Level",
             "slug": "tune-index-build-level",
@@ -12449,7 +12578,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 109,
+            "order": 108,
             "title": "Scalar Index",
             "labels": "",
             "slug": "scalar-index",
@@ -12469,7 +12598,7 @@
             "parent_record_ids": [
               "recvlPnE6a17dr"
             ],
-            "order": 110,
+            "order": 109,
             "title": "BITMAP",
             "labels": "BITMAP",
             "slug": "bitmap-index-type",
@@ -12497,7 +12626,7 @@
             "parent_record_ids": [
               "recvlPnE6a17dr"
             ],
-            "order": 111,
+            "order": 110,
             "title": "INVERTED",
             "labels": "INVERTED",
             "slug": "inverted-index-type",
@@ -12525,7 +12654,7 @@
             "parent_record_ids": [
               "recvlPnE6a17dr"
             ],
-            "order": 112,
+            "order": 111,
             "title": "NGRAM",
             "labels": "NGRAM",
             "slug": "ngram-index-type",
@@ -12553,7 +12682,7 @@
             "parent_record_ids": [
               "recvlPnE6a17dr"
             ],
-            "order": 113,
+            "order": 112,
             "title": "RTREE",
             "labels": "RTREE",
             "slug": "rtree-index-type",
@@ -12581,7 +12710,7 @@
             "parent_record_ids": [
               "recvlPnE6a17dr"
             ],
-            "order": 114,
+            "order": 113,
             "title": "STL_SORT",
             "labels": "STL_SORT",
             "slug": "slt-sort-index-type",
@@ -12607,7 +12736,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 115,
+            "order": 114,
             "title": "Insert & Delete",
             "labels": "Insert & Delete",
             "slug": "insert-and-delete",
@@ -12627,7 +12756,7 @@
             "parent_record_ids": [
               "recvlPnzHpvWyr"
             ],
-            "order": 116,
+            "order": 115,
             "title": "Insert Entities",
             "labels": "Insert",
             "slug": "insert-entities",
@@ -12655,7 +12784,7 @@
             "parent_record_ids": [
               "recvlPnzHpvWyr"
             ],
-            "order": 117,
+            "order": 116,
             "title": "Upsert Entities",
             "labels": "Upsert",
             "slug": "upsert-entities",
@@ -12678,7 +12807,7 @@
             "parent_record_ids": [
               "recvlPnzHpvWyr"
             ],
-            "order": 118,
+            "order": 117,
             "title": "Count Entities",
             "labels": "Count",
             "slug": "count-entities",
@@ -12701,7 +12830,7 @@
             "parent_record_ids": [
               "recvlPnzHpvWyr"
             ],
-            "order": 119,
+            "order": 118,
             "title": "Delete Entities",
             "labels": "Delete",
             "slug": "delete-entities",
@@ -12727,7 +12856,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 120,
+            "order": 119,
             "title": "Data Import",
             "labels": "Data Import",
             "slug": "data-import",
@@ -12747,7 +12876,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 121,
+            "order": 120,
             "title": "Storage Options",
             "labels": "Storage Options",
             "slug": "data-import-storage-options",
@@ -12770,7 +12899,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 122,
+            "order": 121,
             "title": "Format Options",
             "labels": "Format Options",
             "slug": "data-import-format-options",
@@ -12793,7 +12922,7 @@
             "parent_record_ids": [
               "recvlPtZzDu4ca"
             ],
-            "order": 123,
+            "order": 122,
             "title": "Import from a Parquet File",
             "labels": "Parquet (Recommended)",
             "slug": "data-import-parquet",
@@ -12816,7 +12945,7 @@
             "parent_record_ids": [
               "recvlPtZzDu4ca"
             ],
-            "order": 124,
+            "order": 123,
             "title": "Import from a JSON/JSON Lines File",
             "labels": "JSON/JSON Line",
             "slug": "data-import-json",
@@ -12839,7 +12968,7 @@
             "parent_record_ids": [
               "recvlPtZzDu4ca"
             ],
-            "order": 125,
+            "order": 124,
             "title": "Import from NumPy Files",
             "labels": "NumPy",
             "slug": "data-import-numpy",
@@ -12862,7 +12991,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 126,
+            "order": 125,
             "title": "Convert Your Data",
             "labels": "Convert Your Data",
             "slug": "prepare-data-import",
@@ -12885,7 +13014,7 @@
             "parent_record_ids": [
               "recvlPu1cVScQt"
             ],
-            "order": 127,
+            "order": 126,
             "title": "Use BulkWriter",
             "labels": "Use BulkWriter",
             "slug": "use-bulkwriter",
@@ -12908,7 +13037,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 128,
+            "order": 127,
             "title": "Import Data",
             "labels": "Import Data",
             "slug": "import-data",
@@ -12931,7 +13060,7 @@
             "parent_record_ids": [
               "recvlPu38A4xlI"
             ],
-            "order": 129,
+            "order": 128,
             "title": "Import Data (Console)",
             "labels": "Console",
             "slug": "import-data-on-web-ui",
@@ -12954,7 +13083,7 @@
             "parent_record_ids": [
               "recvlPu38A4xlI"
             ],
-            "order": 130,
+            "order": 129,
             "title": "Import Data (RESTful API)",
             "labels": "RESTful API",
             "slug": "import-data-via-restful-api",
@@ -12977,7 +13106,7 @@
             "parent_record_ids": [
               "recvlPu38A4xlI"
             ],
-            "order": 131,
+            "order": 130,
             "title": "Import Data (SDK)",
             "labels": "SDKs",
             "slug": "import-data-via-sdks",
@@ -13000,7 +13129,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 132,
+            "order": 131,
             "title": "Data Import Hands-On",
             "labels": "Zero to Hero",
             "slug": "data-import-zero-to-hero",
@@ -13021,7 +13150,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 133,
+            "order": 132,
             "title": "Data Export",
             "labels": "Data Export",
             "slug": "data-export",
@@ -13041,7 +13170,7 @@
             "parent_record_ids": [
               "recvlWdyCXBd20"
             ],
-            "order": 134,
+            "order": 133,
             "title": "Export Data Using Iterators",
             "labels": "Using Iterators",
             "slug": "export-data-iterators",
@@ -13062,7 +13191,7 @@
             "table_name": "Development",
             "placement_type": "canonical",
             "parent_record_ids": [],
-            "order": 135,
+            "order": 134,
             "title": "Spark Batch Jobs",
             "labels": "",
             "slug": "spark-batch-jobs",
@@ -13084,7 +13213,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 136,
+            "order": 135,
             "title": "Primary-Key Deduplication",
             "labels": "",
             "slug": "primary-key-dedup",
@@ -13106,7 +13235,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 137,
+            "order": 136,
             "title": "Vector Similarity Deduplication",
             "labels": "",
             "slug": "vector-similarity-dedup",
@@ -13128,7 +13257,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 138,
+            "order": 137,
             "title": "K-Means Clustering",
             "labels": "",
             "slug": "k-means-clustering",
@@ -13150,7 +13279,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 139,
+            "order": 138,
             "title": "Anomaly Detection",
             "labels": "",
             "slug": "anomaly-detection",
@@ -13172,7 +13301,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 140,
+            "order": 139,
             "title": "Data Backfill ",
             "labels": "",
             "slug": "data-backfill",
@@ -13194,7 +13323,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 141,
+            "order": 140,
             "title": "Custom Spark JAR Jobs",
             "labels": "",
             "slug": "custom-spark-jar-jobs",
@@ -13216,7 +13345,7 @@
             "parent_record_ids": [
               "recvspa0Z0wVKh"
             ],
-            "order": 142,
+            "order": 141,
             "title": "Prepare a Compatible Spark JAR",
             "labels": "",
             "slug": "prepare-a-compatible-spark-jar",
@@ -13238,7 +13367,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 143,
+            "order": 142,
             "title": "Manage Spark Batch Jobs",
             "labels": "",
             "slug": "manage-spark-batch-jobs",
@@ -13258,7 +13387,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 144,
+            "order": 143,
             "title": "Function",
             "labels": "",
             "slug": "function",
@@ -13278,7 +13407,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 145,
+            "order": 144,
             "title": "Function Overview",
             "labels": "Overview",
             "slug": "function-and-model-inference-overview",
@@ -13301,7 +13430,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 146,
+            "order": 145,
             "title": "BM25 Function",
             "labels": "BM25 Function",
             "slug": "bm25-function",
@@ -13329,7 +13458,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 147,
+            "order": 146,
             "title": "Text Embedding Functions",
             "labels": "",
             "slug": "text-embedding-funcs",
@@ -13349,7 +13478,7 @@
             "parent_record_ids": [
               "recvlUIJBq9oCb"
             ],
-            "order": 148,
+            "order": 147,
             "title": "OpenAI",
             "labels": "OpenAI",
             "slug": "openai",
@@ -13371,7 +13500,7 @@
             "parent_record_ids": [
               "recvlUIJBq9oCb"
             ],
-            "order": 149,
+            "order": 148,
             "title": "Voyage AI",
             "labels": "Voyage AI",
             "slug": "voyage-ai",
@@ -13393,7 +13522,7 @@
             "parent_record_ids": [
               "recvlUIJBq9oCb"
             ],
-            "order": 150,
+            "order": 149,
             "title": "Cohere",
             "labels": "Cohere",
             "slug": "cohere",
@@ -13415,7 +13544,7 @@
             "parent_record_ids": [
               "recvlUIJBq9oCb"
             ],
-            "order": 151,
+            "order": 150,
             "title": "Hugging Face",
             "labels": "Hugging Face",
             "slug": "hugging-face",
@@ -13437,7 +13566,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 152,
+            "order": 151,
             "title": "MinHash Function",
             "labels": "MinHash Function",
             "slug": "minhash-function",
@@ -13460,7 +13589,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 153,
+            "order": 152,
             "title": "Reranking Functions",
             "labels": "Reranking Functions",
             "slug": "reranking-functions",
@@ -13480,7 +13609,7 @@
             "parent_record_ids": [
               "recvlUIQUnhIus"
             ],
-            "order": 154,
+            "order": 153,
             "title": "Hybrid Search Rerankers",
             "labels": "Hybrid Search Rerankers",
             "slug": "hybrid-search-rerankers",
@@ -13500,7 +13629,7 @@
             "parent_record_ids": [
               "recvlUVSjFLHeB"
             ],
-            "order": 155,
+            "order": 154,
             "title": "Weighted Ranker",
             "labels": "Weighted Ranker",
             "slug": "reranking-weighted-reranker",
@@ -13528,7 +13657,7 @@
             "parent_record_ids": [
               "recvlUVSjFLHeB"
             ],
-            "order": 156,
+            "order": 155,
             "title": "RRF Ranker",
             "labels": "RRF Ranker",
             "slug": "reranking-rrf",
@@ -13556,7 +13685,7 @@
             "parent_record_ids": [
               "recvlUIQUnhIus"
             ],
-            "order": 157,
+            "order": 156,
             "title": "Rule-based Rerankers",
             "labels": "Rule-based Rerankers",
             "slug": "rule-based-rerankers",
@@ -13576,7 +13705,7 @@
             "parent_record_ids": [
               "recvlUWkShmhNL"
             ],
-            "order": 158,
+            "order": 157,
             "title": "Boost Ranker",
             "labels": "Boost Ranker",
             "slug": "boost-ranker",
@@ -13604,7 +13733,7 @@
             "parent_record_ids": [
               "recvlUWkShmhNL"
             ],
-            "order": 159,
+            "order": 158,
             "title": "Decay Rankers",
             "labels": "Decay Rankers",
             "slug": "decay-rankers",
@@ -13624,7 +13753,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 160,
+            "order": 159,
             "title": "Decay Ranker Overview",
             "labels": "Decay Ranker Overview",
             "slug": "decay-ranker-oveview",
@@ -13652,7 +13781,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 161,
+            "order": 160,
             "title": "Gaussian Decay",
             "labels": "Gaussian Decay",
             "slug": "gaussian-decay",
@@ -13680,7 +13809,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 162,
+            "order": 161,
             "title": "Exponential Decay",
             "labels": "Exponential Decay",
             "slug": "exponential-decay",
@@ -13708,7 +13837,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 163,
+            "order": 162,
             "title": "Linear Decay",
             "labels": "Linear Decay",
             "slug": "linear-decay",
@@ -13736,7 +13865,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 164,
+            "order": 163,
             "title": "Tutorial: Implement Time-based Ranking",
             "labels": "Tutorial: Implement Time-based Ranking",
             "slug": "tutorial-implement-time-based-ranking",
@@ -13759,7 +13888,7 @@
             "parent_record_ids": [
               "recvlUIQUnhIus"
             ],
-            "order": 165,
+            "order": 164,
             "title": "Model-based Rerankers",
             "labels": "Model-based Rerankers",
             "slug": "model-based-rerankers",
@@ -13779,7 +13908,7 @@
             "parent_record_ids": [
               "recvlUWp51iTns"
             ],
-            "order": 166,
+            "order": 165,
             "title": "Cohere Ranker",
             "labels": "Cohere Ranker",
             "slug": "cohere-model-ranker",
@@ -13801,7 +13930,7 @@
             "parent_record_ids": [
               "recvlUWp51iTns"
             ],
-            "order": 167,
+            "order": 166,
             "title": "Voyage AI Ranker",
             "labels": "Voyage AI Ranker",
             "slug": "voyage-ai-model-ranker",
@@ -13823,7 +13952,7 @@
             "parent_record_ids": [
               "recvlUWp51iTns"
             ],
-            "order": 168,
+            "order": 167,
             "title": "Hugging Face Ranker",
             "labels": "",
             "slug": "hugging-face-ranker",
@@ -13843,7 +13972,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 169,
+            "order": 168,
             "title": "Analyzer",
             "labels": "Analyzer",
             "slug": "analyzer",
@@ -13863,7 +13992,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 170,
+            "order": 169,
             "title": "Analyzer Overview",
             "labels": "Overview",
             "slug": "analyzer-overview",
@@ -13886,7 +14015,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 171,
+            "order": 170,
             "title": "Built-in Analyzers",
             "labels": "Built-in Analyzer",
             "slug": "built-in-analyzer",
@@ -13906,7 +14035,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 172,
+            "order": 171,
             "title": "Standard Analyzer",
             "labels": "Standard",
             "slug": "standard-analyzer",
@@ -13934,7 +14063,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 173,
+            "order": 172,
             "title": "English",
             "labels": "English",
             "slug": "english-analyzer",
@@ -13962,7 +14091,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 174,
+            "order": 173,
             "title": "Chinese",
             "labels": "Chinese",
             "slug": "chinese-analyzer",
@@ -13990,7 +14119,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 175,
+            "order": 174,
             "title": "Arabic",
             "labels": "Arabic",
             "slug": "arabic-analyzer",
@@ -14013,7 +14142,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 176,
+            "order": 175,
             "title": "Thai",
             "labels": "Thai",
             "slug": "thai-analyzer",
@@ -14036,7 +14165,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 177,
+            "order": 176,
             "title": "Tokenizers",
             "labels": "Tokenizer",
             "slug": "analyzer-tokenizers",
@@ -14056,7 +14185,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 178,
+            "order": 177,
             "title": "Standard Tokenizer",
             "labels": "Standard",
             "slug": "standard-tokenizer",
@@ -14084,7 +14213,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 179,
+            "order": 178,
             "title": "Whitespace",
             "labels": "Whitespace",
             "slug": "whitespace-tokenizer",
@@ -14112,7 +14241,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 180,
+            "order": 179,
             "title": "Jieba",
             "labels": "Jieba",
             "slug": "jieba-tokenizer",
@@ -14140,7 +14269,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 181,
+            "order": 180,
             "title": "Lindera",
             "labels": "Lindera",
             "slug": "lindera-tokenizer",
@@ -14168,7 +14297,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 182,
+            "order": 181,
             "title": "ICU",
             "labels": "ICU",
             "slug": "icu-tokenizer",
@@ -14196,7 +14325,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 183,
+            "order": 182,
             "title": "Language Identifier",
             "labels": "Language Identifier",
             "slug": "language-identifier-tokenizer",
@@ -14224,7 +14353,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 184,
+            "order": 183,
             "title": "Thai",
             "labels": "Thai",
             "slug": "thai-tokenizer",
@@ -14247,7 +14376,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 185,
+            "order": 184,
             "title": "Analyzer Filters",
             "labels": "",
             "slug": "analyzer-filters",
@@ -14267,7 +14396,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 186,
+            "order": 185,
             "title": "Lowercase",
             "labels": "Lowercase",
             "slug": "lowercase-filter",
@@ -14295,7 +14424,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 187,
+            "order": 186,
             "title": "ASCII folding",
             "labels": "ASCII folding",
             "slug": "ascii-folding-filter",
@@ -14323,7 +14452,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 188,
+            "order": 187,
             "title": "Alphanumonly",
             "labels": "Alphanumonly",
             "slug": "alphanumonly-filter",
@@ -14351,7 +14480,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 189,
+            "order": 188,
             "title": "Cnalphanumonly",
             "labels": "Cnalphanumonly",
             "slug": "cnalphanumonly-filter",
@@ -14379,7 +14508,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 190,
+            "order": 189,
             "title": "Cncharonly",
             "labels": "Cncharonly",
             "slug": "cncharonly-filter",
@@ -14407,7 +14536,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 191,
+            "order": 190,
             "title": "Pinyin",
             "labels": "pinyin",
             "slug": "pinyin-filter",
@@ -14435,7 +14564,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 192,
+            "order": 191,
             "title": "Length",
             "labels": "Length",
             "slug": "length-filter",
@@ -14463,7 +14592,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 193,
+            "order": 192,
             "title": "Stop",
             "labels": "Stop",
             "slug": "stop-filter",
@@ -14491,7 +14620,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 194,
+            "order": 193,
             "title": "Decompounder",
             "labels": "Decompounder",
             "slug": "decompounder-filter",
@@ -14519,7 +14648,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 195,
+            "order": 194,
             "title": "Stemmer",
             "labels": "Stemmer",
             "slug": "stemmer-filter",
@@ -14547,7 +14676,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 196,
+            "order": 195,
             "title": "Remove Punct",
             "labels": "Remove Punct",
             "slug": "remove-punct-filter",
@@ -14575,7 +14704,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 197,
+            "order": 196,
             "title": "Regex",
             "labels": "Regex Analyzer Filter",
             "slug": "regex-filter",
@@ -14603,7 +14732,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 198,
+            "order": 197,
             "title": "Synonym",
             "labels": "Synonym",
             "slug": "synonym-filter",
@@ -14626,7 +14755,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 199,
+            "order": 198,
             "title": "Arabic Normalization",
             "labels": "Arabic Normalization",
             "slug": "arabic-normalization",
@@ -14649,7 +14778,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 200,
+            "order": 199,
             "title": "Multi-language Analyzers",
             "labels": "Multi-language Analyzers",
             "slug": "multi-language-analyzers",
@@ -14672,7 +14801,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 201,
+            "order": 200,
             "title": "Choose the Right Analyzer for Your Use Case",
             "labels": "Best Practice",
             "slug": "choose-the-right-analyzer-for-your-use-case",
@@ -14695,7 +14824,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 202,
+            "order": 201,
             "title": "Manage File Resources",
             "labels": "Manage File Resources",
             "slug": "manage-file-resources",
@@ -14716,7 +14845,7 @@
             "table_name": "Development",
             "placement_type": "canonical",
             "parent_record_ids": [],
-            "order": 203,
+            "order": 202,
             "title": "Snapshots",
             "labels": "Snapshots",
             "slug": "snapshots",
@@ -14743,7 +14872,7 @@
             "parent_record_ids": [
               "recvlPnHgnRg7i"
             ],
-            "order": 204,
+            "order": 203,
             "title": "Manage Snapshots",
             "labels": "Manage Snapshots",
             "slug": "manage-snapshots",
@@ -17383,12 +17512,34 @@
             "ref_target_anchor": null
           },
           {
+            "record_id": "reczz28YJ79gEGVA",
+            "table_id": "tblZMzoITXNsyKmQ",
+            "table_name": "Management",
+            "placement_type": "canonical",
+            "parent_record_ids": [
+              "recvlVRhA4KOpE"
+            ],
+            "order": 120,
+            "title": "Microsoft Azure KMS",
+            "labels": "",
+            "slug": "azure-kms",
+            "targets": [
+              "zilliz.saas"
+            ],
+            "progress": "Draft",
+            "doc_token": "R6pDwUeXti5GiOkkAHBcKxeJnNQ",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/R6pDwUeXti5GiOkkAHBcKxeJnNQ",
+            "ref_target": null,
+            "ref_target_token": null,
+            "ref_target_anchor": null
+          },
+          {
             "record_id": "recvlVQUsw1Yrs",
             "table_id": "tblZMzoITXNsyKmQ",
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 120,
+            "order": 121,
             "title": "Audit Logs",
             "labels": "Audit Logs",
             "slug": "auditing",
@@ -17408,7 +17559,7 @@
             "parent_record_ids": [
               "recvlVQUsw1Yrs"
             ],
-            "order": 121,
+            "order": 122,
             "title": "VectorDB Audit Logs",
             "labels": "VectorDB Audit Logs",
             "slug": "audit-logs",
@@ -17431,7 +17582,7 @@
             "parent_record_ids": [
               "recvlVQUsw1Yrs"
             ],
-            "order": 122,
+            "order": 123,
             "title": "VectorDB Audit Logs Reference",
             "labels": "VectorDB Audit Logs Reference",
             "slug": "audit-logs-ref",
@@ -17454,7 +17605,7 @@
             "parent_record_ids": [
               "recvlVQUsw1Yrs"
             ],
-            "order": 123,
+            "order": 124,
             "title": "View Platform Audit Logs",
             "labels": "View Platform Audit Logs",
             "slug": "view-activities",
@@ -17475,7 +17626,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 124,
+            "order": 125,
             "title": "Access Logs",
             "labels": "Access Logs",
             "slug": "access-logs",
@@ -17495,7 +17646,7 @@
             "parent_record_ids": [
               "recvlVQVyUgNTD"
             ],
-            "order": 125,
+            "order": 126,
             "title": "Access Logs Overview",
             "labels": "Access Logs Overview",
             "slug": "access-log-overview",
@@ -17518,7 +17669,7 @@
             "parent_record_ids": [
               "recvlVQVyUgNTD"
             ],
-            "order": 126,
+            "order": 127,
             "title": "Configure Access Logs",
             "labels": "Configure Access Logs",
             "slug": "configure-access-logs",
@@ -17541,7 +17692,7 @@
             "parent_record_ids": [
               "recvlVQVyUgNTD"
             ],
-            "order": 127,
+            "order": 128,
             "title": "Access Log Reference",
             "labels": "Access Log Reference",
             "slug": "access-log-reference",
@@ -17562,7 +17713,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 128,
+            "order": 129,
             "title": "Slow Logs",
             "labels": "",
             "slug": "slow-logs",
@@ -17582,7 +17733,7 @@
             "parent_record_ids": [
               "recvobblSggSgz"
             ],
-            "order": 129,
+            "order": 130,
             "title": "Configure Slow Logs",
             "labels": "",
             "slug": "configure-slow-logs",
@@ -17605,7 +17756,7 @@
             "parent_record_ids": [
               "recvobblSggSgz"
             ],
-            "order": 130,
+            "order": 131,
             "title": "Slow Logs Reference",
             "labels": "",
             "slug": "slow-log-reference",
@@ -17626,7 +17777,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 131,
+            "order": 132,
             "title": "Billing Management",
             "labels": "Billing Management",
             "slug": "billing-management",
@@ -17646,7 +17797,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 132,
+            "order": 133,
             "title": "Understand BYOC Billing",
             "labels": "",
             "slug": "understand-byoc-billing",
@@ -17668,7 +17819,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 133,
+            "order": 134,
             "title": "Payment and Billing Overview",
             "labels": "Payment and Billing Overview",
             "slug": "payment-billing",
@@ -17691,7 +17842,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 134,
+            "order": 135,
             "title": "Set up Payment Method",
             "labels": "Set Up Payment Method",
             "slug": "set-up-payment-method",
@@ -17714,7 +17865,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 135,
+            "order": 136,
             "title": "Credits",
             "labels": "Credits",
             "slug": "credits",
@@ -17737,7 +17888,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 136,
+            "order": 137,
             "title": "Credit Card",
             "labels": "Credit Card",
             "slug": "subscribe-by-adding-credit-card",
@@ -17760,7 +17911,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 137,
+            "order": 138,
             "title": "Advance Pay",
             "labels": "Advance Pay",
             "slug": "advance-pay",
@@ -17783,7 +17934,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 138,
+            "order": 139,
             "title": "Marketplace Subscription",
             "labels": "",
             "slug": "marketplace-subscription",
@@ -17803,7 +17954,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 139,
+            "order": 140,
             "title": "Subscribe to a Free Trial on AWS Marketplace",
             "labels": "AWS Marketplace (Free Trial)",
             "slug": "subscribe-on-aws-marketplace-free-trial",
@@ -17825,7 +17976,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 140,
+            "order": 141,
             "title": "Subscribe to a Public Offer on AWS Marketplace",
             "labels": "AWS Marketplace (Public Offer)",
             "slug": "subscribe-on-aws-marketplace",
@@ -17848,7 +17999,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 141,
+            "order": 142,
             "title": "Subscribe to a Private Offer on AWS Marketplace",
             "labels": "AWS Marketplace (Private Offer)",
             "slug": "subscribe-on-aws-marketplace-private-offer",
@@ -17871,7 +18022,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 142,
+            "order": 143,
             "title": "Subscribe to a Public Offer on Google Cloud Marketplace",
             "labels": "Google Cloud Marketplace (Public Offer)",
             "slug": "subscribe-on-gcp-marketplace",
@@ -17894,7 +18045,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 143,
+            "order": 144,
             "title": "Subscribe to a Private Offer on Google Cloud Marketplace",
             "labels": "Google Cloud Marketplace (Private Offer)",
             "slug": "subscribe-on-gcp-marketplace-private-offer",
@@ -17917,7 +18068,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 144,
+            "order": 145,
             "title": "Subscribe to a Public Offer on Microsoft Marketplace",
             "labels": "Microsoft Marketplace (Public Offer)",
             "slug": "subscribe-on-azure-marketplace",
@@ -17940,7 +18091,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 145,
+            "order": 146,
             "title": "Update Payment Method",
             "labels": "Update Payment Method",
             "slug": "update-payment-method",
@@ -17963,7 +18114,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 146,
+            "order": 147,
             "title": "Update Billing Profile",
             "labels": "Update Billing Profile",
             "slug": "update-billing-profile",
@@ -17986,7 +18137,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 147,
+            "order": 148,
             "title": "Understand Invoices",
             "labels": "Understand Invoices",
             "slug": "view-invoice",
@@ -18009,7 +18160,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 148,
+            "order": 149,
             "title": "Manage Invoices",
             "labels": "Manage Invoices",
             "slug": "manage-invoice",
@@ -18032,7 +18183,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 149,
+            "order": 150,
             "title": "Failed Payments and Organization Recovery",
             "labels": "Failed Payments and Organization Recovery",
             "slug": "failed-payments-organization-recovery",
@@ -18054,7 +18205,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 150,
+            "order": 151,
             "title": "Separate Billing by Marketplace Account",
             "labels": "",
             "slug": "separate-billing",
@@ -18074,7 +18225,7 @@
             "parent_record_ids": [
               "recvlW1LGxSWiK"
             ],
-            "order": 151,
+            "order": 152,
             "title": "Separate Zilliz Cloud Billing on AWS Marketplace",
             "labels": "AWS Marketplace",
             "slug": "separate-zilliz-cloud-billing-on-aws-marketplace",
@@ -18096,7 +18247,7 @@
             "parent_record_ids": [
               "recvlW1LGxSWiK"
             ],
-            "order": 152,
+            "order": 153,
             "title": "Separate Zilliz Cloud Billing on Microsoft Marketplace",
             "labels": "Microsoft Marketplace",
             "slug": "separate-zilliz-cloud-billing-on-azure-marketplace",
@@ -18118,7 +18269,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 153,
+            "order": 154,
             "title": "Monitor Billing Alerts",
             "labels": "Monitor Billing Alerts",
             "slug": "monitor-billing-alerts",
@@ -18138,7 +18289,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 154,
+            "order": 155,
             "title": "Cost Management",
             "labels": "Cost Management",
             "slug": "cost-management",
@@ -18158,7 +18309,7 @@
             "parent_record_ids": [
               "recvlW1ufE3Qec"
             ],
-            "order": 155,
+            "order": 156,
             "title": "Understand Cost",
             "labels": "Understand Cost",
             "slug": "understand-cost",
@@ -18178,7 +18329,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 156,
+            "order": 157,
             "title": "On-Demand Compute Cost",
             "labels": "On-Demand Compute",
             "slug": "on-demand-compute-cost",
@@ -18200,7 +18351,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 157,
+            "order": 158,
             "title": "Dedicated Cluster Cost",
             "labels": "Dedicated Cluster",
             "slug": "dedicated-cluster-cost",
@@ -18222,7 +18373,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 158,
+            "order": 159,
             "title": "Serverless Cluster Cost",
             "labels": "Serverless Cluster",
             "slug": "serverless-cluster-cost",
@@ -18244,7 +18395,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 159,
+            "order": 160,
             "title": "Storage Cost",
             "labels": "Storage",
             "slug": "storage-cost",
@@ -18266,7 +18417,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 160,
+            "order": 161,
             "title": "Storage Request Cost",
             "labels": "Storage Request",
             "slug": "storage-request-cost",
@@ -18288,7 +18439,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 161,
+            "order": 162,
             "title": "Data Transfer Cost",
             "labels": "Data Transfer",
             "slug": "data-transfer-cost",
@@ -18310,7 +18461,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 162,
+            "order": 163,
             "title": "Audit Logs Cost",
             "labels": "Audit Logs",
             "slug": "audit-log-cost",
@@ -18332,7 +18483,7 @@
             "parent_record_ids": [
               "recvlW1ufE3Qec"
             ],
-            "order": 163,
+            "order": 164,
             "title": "Analyze Cost",
             "labels": "Analyze Cost",
             "slug": "analyze-cost",
@@ -18355,7 +18506,7 @@
             "parent_record_ids": [
               "recvlW1ufE3Qec"
             ],
-            "order": 164,
+            "order": 165,
             "title": "Cost Optimization",
             "labels": "Cost Optimization",
             "slug": "cost-optimization",
@@ -18375,7 +18526,7 @@
             "table_name": "Management",
             "placement_type": "canonical",
             "parent_record_ids": [],
-            "order": 165,
+            "order": 166,
             "title": "Zilliz Cloud Limits",
             "labels": "Zilliz Cloud Limits",
             "slug": "limits",
@@ -18398,7 +18549,7 @@
             "parent_record_ids": [
               "recvlW2LRPor2A"
             ],
-            "order": 166,
+            "order": 167,
             "title": "API Availability",
             "labels": "API Availability",
             "slug": "api-comparison",
@@ -18422,8 +18573,8 @@
           "tblh7utKxg0dgdTo": "6b07e5f75af5c936da0fd7d9dde0a65af5e40cf24e24ab24d900dc79bb603c9b",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "441316a4b6e454a267acd83ffd19ee4998a1e393b64ffbd8be6682658c8ecdda",
-          "tblZMzoITXNsyKmQ": "40a0a070663d7c51167b62e4551108f4168e72f6bd06f91bab15af7c443de327"
+          "tblWv7PjNDsexddH": "29b3e446deeb4275a106530a2a37c1d6fb5cb8e5fbf5fdd5f4177ecd948b094b",
+          "tblZMzoITXNsyKmQ": "64bc293ca409fb5c0e7b1f7c63a956e23db936365f5b59ac76b7e8e65e4e8810"
         }
       },
       "image_base_url": "https://zdoc-images.s3.us-west-2.amazonaws.com",
@@ -18454,7 +18605,7 @@
       }
     },
     "tools": {
-      "zdoc": "d7ef94d3958ea4cd003e605adf466982fc66c0c6",
+      "zdoc": "c14671395f97a0f1020f408775a1b831b1a495e7",
       "md2md": "1.3.0"
     },
     "images": []
@@ -18463,12 +18614,12 @@
     {
       "manual": "guides",
       "path": "content/en/guides/tutorials/development/schema/alter-collection-field.md",
-      "sha256": "98a39ca39bb44b956dc716768754c8adb35e6204e13d131d3cb38ff742486ddf"
+      "sha256": "1a49701d0638efc2f98776dc74011754d0f1ff8428be40f0886c4540a16cbbc5"
     },
     {
       "manual": "guides-byoc",
       "path": "content/en/byoc/tutorials/development/schema/alter-collection-field.md",
-      "sha256": "60c148a1d40c6001ce135872e15e0de514a038cae117a5ae32c7699e2202970b"
+      "sha256": "11f644929ff8b1e2a1115f3b03a26cd7d7f0b2fecfb6127b0713d769357adca9"
     }
   ],
   "channel": null,

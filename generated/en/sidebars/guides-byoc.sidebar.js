@@ -866,15 +866,15 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "tutorials/development/schema/add-fields-to-an-existing-collection",
-            "label": "Alter Schema (Managed Collection)",
-            "key": "doc:tutorials/development/schema/add-fields-to-an-existing-collection"
-          },
-          {
-            "type": "doc",
             "id": "tutorials/development/schema/alter-collection-field",
             "label": "Alter Field",
             "key": "doc:tutorials/development/schema/alter-collection-field"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/schema/add-fields-to-an-existing-collection",
+            "label": "Alter Schema (Managed Collection)",
+            "key": "doc:tutorials/development/schema/add-fields-to-an-existing-collection"
           },
           {
             "type": "doc",
