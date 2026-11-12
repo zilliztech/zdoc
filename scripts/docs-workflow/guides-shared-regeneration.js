@@ -43,7 +43,9 @@ function installedMd2md() {
 function assertToolIdentity(tools, {root = path.resolve(__dirname, '../..')} = {}) {
   if (git(root, ['rev-parse', 'HEAD']).toString().trim() !== tools.zdoc || installedMd2md() !== tools.md2md) throw Error('Executing tooling identity does not match receipt')
   // Generated dev state is deliberately excluded; executable source/config may not drift.
-  const roots = ['scripts', 'packages/docs-tooling/src/shared-docs', 'packages/docs-tooling/src/manuals',
+  // src/markdown is pinned because the shared-docs build repair depends on
+  // accidentalMathSpans.js: its bytes are part of the reproduced output identity.
+  const roots = ['scripts', 'packages/docs-tooling/src/shared-docs', 'packages/docs-tooling/src/markdown', 'packages/docs-tooling/src/manuals',
     'packages/docs-ui/src/shared/utils/docHeadingTags.ts', 'packages/docs-tooling/package.json', 'package.json', 'pnpm-lock.yaml']
   const inventory = gitInventory(root, tools.zdoc, roots)
   for (const file of inventory) if (digest(regularBytes(root, file.path)) !== file.sha256) throw Error(`Executing tooling drift: ${file.path}`)

@@ -172,6 +172,17 @@ test('executing tool identity rejects drift in its consumed docHeadingTags depen
   put(root, dependency, 'export const DOC_HEADING_TAGS = ["changed"]\n')
   assert.throws(() => regeneration.assertToolIdentity(tools, {root}), error => error.message === `Executing tooling drift: ${dependency}`)
 })
+test('executing tool identity rejects drift in its consumed accidental-math-span dependency', async t => {
+  const value = await candidate(t)
+  const root = path.join(value.options.root, 'synthetic-tooling')
+  const dependency = 'packages/docs-tooling/src/markdown/accidentalMathSpans.js'
+  put(root, dependency, 'module.exports = {repairAccidentalMathSpans: async () => ({markdown: "", repaired: [], remaining: []})}\n')
+  git(root, ['init', '--quiet', '--initial-branch=master', '--template='])
+  const tools = {...value.receipt.inputs.tools, zdoc: commit(root, 'Pinned consumed math-span repair')}
+  assert.doesNotThrow(() => regeneration.assertToolIdentity(tools, {root}))
+  put(root, dependency, 'module.exports = {repairAccidentalMathSpans: async () => ({markdown: "drifted", repaired: [], remaining: []})}\n')
+  assert.throws(() => regeneration.assertToolIdentity(tools, {root}), error => error.message === `Executing tooling drift: ${dependency}`)
+})
 function hydrateFixture(t) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hydrate-repo-')))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
