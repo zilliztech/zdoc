@@ -72,7 +72,7 @@ Before creating a primary-key deduplication job, ensure that:
 
 - If duplicate records contain different values, choose an appropriate `keepBy` field and strategy.
 
-For the general requirements for running Spark batch jobs, including authentication, input files, and output behavior, see [Spark Batch Jobs](./spark-batch-jobs).
+For the general requirements for running batch jobs, including authentication, input files, and output behavior, see [Batch Jobs](./batch-jobs).
 
 ## Create a primary-key deduplication job\{#create-a-primary-key-deduplication-job}
 
@@ -82,7 +82,7 @@ Create a primary-key deduplication job by specifying the input and output paths 
 
 1. Prepare an idempotency key.
 
-    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./spark-batch-jobs#idempotent-submission).
+    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./batch-jobs#idempotent-submission).
 
 1. Prepare the request payload.
 
@@ -125,7 +125,7 @@ Create a primary-key deduplication job by specifying the input and output paths 
 
     When `keepBy` is omitted, the job selects one record from each duplicate group based on an internal identifier. Use `keepBy` when duplicate records may contain different field values, and you need a predictable retention rule.
 
-    For parameters shared by all Spark batch jobs, refer to [Request payload](./spark-batch-jobs#request-payload).
+    For parameters shared by all batch jobs, refer to [Request payload](./batch-jobs#request-payload).
 
 1. Submit the job.
 
@@ -161,7 +161,7 @@ Create a primary-key deduplication job by specifying the input and output paths 
     }
     ```
 
-    For details about submission behaviors, refer to [Submission response](./spark-batch-jobs#submission-response).
+    For details about submission behaviors, refer to [Submission response](./batch-jobs#submission-response).
 
 </Procedures>
 
@@ -171,7 +171,7 @@ After submitting the request, use the returned job ID to monitor the job until i
 
 When the job succeeds, verify that the expected output is available at the path specified in the request.
 
-For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-spark-batch-jobs).
+For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-batch-jobs).
 
 ## Validate the output\{#validate-the-output}
 

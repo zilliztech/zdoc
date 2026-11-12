@@ -34,6 +34,10 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
 - You have administrative access to the AWS Management Console.
 
+- The Resource Control Policies (RCP) of your AWS Organization allow cross-account role assumption.
+
+    For details, refer to [Role assumption failures](./integrate-with-aws-s3#role-assumption-failures) below.
+
 ## Step 1: Start integration in Zilliz Cloud console\{#step-1-start-integration-in-zilliz-cloud-console}
 
 <Supademo id="cmeibltu49co2h3pytvtdthb2" title=""  />
@@ -591,19 +595,61 @@ check bucket failed: get bucket location: operation error S3: GetBucketLocation,
 
 - Ensure the policy includes the `s3:GetBucketLocation` permission along with other necessary permissions, such as `s3:GetObject`, `s3:PutObject`, and `s3:ListBucket`.
 
-### Role assumption failure\{#role-assumption-failure}
+### Role assumption failures\{#role-assumption-failures}
 
-**Description**: This error occurs when there is an issue with assuming the IAM role due to incorrect role ARN, external ID, or trust policy.
+- **Incorrect credentials**
 
-```sql
-try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss121703] with externalId[zilliz-external-1umVCIK7q96kzDE] failed
-```
+    **Description**: This error occurs when there is an issue with assuming the IAM role due to incorrect role ARN, external ID, or trust policy.
 
-**Solution**:
+    ```sql
+    try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss121703] with externalId[zilliz-external-1umVCIK7q96kzDE] failed
+    ```
 
-- Verify that the role ARN and external ID on the Zilliz Cloud console match the corresponding values in the IAM trust policy.
+    **Solution**:
 
-- Ensure that the trust policy in the IAM role allows Zilliz Cloud to assume the role.
+    - Verify that the role ARN and external ID on the Zilliz Cloud console match the corresponding values in the IAM trust policy.
+
+    - Ensure that the trust policy in the IAM role allows Zilliz Cloud to assume the role.
+
+- **Cross-account role assumption denied**
+
+    **Description**: This error occurs when the RCP of your AWS organization denies cross-account role assumption, even if your role ARN, external ID, and trust policy are correct.
+
+    ```bash
+    try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss121703] with externalId[zilliz-external-1umVCIK7q96kzDE] failed
+    ```
+
+    **Solution:**
+
+    Consult your AWS organization administrator to determine whether your AWS organization RCP denies role assumption outside the organization. If so, request changes.
+
+    The following is an example of possible RCP settings in your AWS organization. This is for your reference only; do not use it in production. If all conditions are met, the role-assumption request will be denied.
+
+    ```json
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "DenyAssumeRoleFromOutsideMyOrg",
+          "Effect": "Deny",
+          "Principal": "*",
+          "Action": "sts:AssumeRole",
+          "Resource": "*",
+          "Condition": {
+            "StringNotEqualsIfExists": {
+              "aws:PrincipalOrgID": "${aws:ResourceOrgID}"
+            },
+            "Null": {
+              "aws:PrincipalARN": "false"
+            },
+            "BoolIfExists": {
+              "aws:PrincipalIsAWSService": "false"
+            }
+          }
+        }
+      ]
+    }
+    ```
 
 ### Permission propagation delay\{#permission-propagation-delay}
 

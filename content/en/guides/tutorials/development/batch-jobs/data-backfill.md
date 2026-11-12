@@ -72,7 +72,7 @@ Before conducting a data backfill precheck and backfilling the data, ensure that
 
 - The target cluster and input volume are in the same project and region.
 
-For the general requirements for running Spark batch jobs, including authentication, supported file formats, input files, and output behavior, see [Spark Batch Jobs](./spark-batch-jobs).
+For the general requirements for running batch jobs, including authentication, supported file formats, input files, and output behavior, see [Batch Jobs](./batch-jobs).
 
 ## Create a data backfill job with prechecks\{#create-a-data-backfill-job-with-prechecks}
 
@@ -82,7 +82,7 @@ Prepare the input data files to include a column corresponding to the primary ke
 
 1. Prepare an idempotency key.
 
-    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./spark-batch-jobs#idempotent-submission).
+    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./batch-jobs#idempotent-submission).
 
     For precheck and backfill jobs, use different idempotency keys to avoid possible conflicts.
 
@@ -124,7 +124,7 @@ Prepare the input data files to include a column corresponding to the primary ke
     | `dbName` | N | Name of the database inside the specified cluster.<br/>The value is a string of no more than 256 characters. |
     | `collectionName` | Y | Name of a collection in the specified cluster and database.<br/>The value is a string of no more than 256 characters. |
     | `fields` | Y | Fields in the target collection to backfill.<br/>Zilliz Cloud uses the names to locate the target fields for the backfill task. The value is an array list of strings. |
-    | `input` | Y | Input data for the backfill. It points to a data file stored in a Zilliz Cloud volume. For details, refer to the general [Request payload](./spark-batch-jobs#request-payload). |
+    | `input` | Y | Input data for the backfill. It points to a data file stored in a Zilliz Cloud volume. For details, refer to the general [Request payload](./batch-jobs#request-payload). |
     | `columnMapping` | N | Maps source columns in the input data to fields in the target collection when their names differ.<br/>Use `columnMapping` when the column names in the source data differ from the field names in the target collection. If specified, `columnMapping` must include the mapping for the primary key and all fields involved in the backfill task. |
 
     If `columnMapping` is omitted, the source columns, including the primary-key column, must have the same names as their corresponding fields in the target collection.
@@ -137,7 +137,7 @@ Prepare the input data files to include a column corresponding to the primary ke
     curl --request POST \
         --url "https://api.cloud.zilliz.com/v2/projects/{projectId}/jobs/backfill/precheck" \
         --header "Authorization: Bearer ${API_KEY}" \
-        --header "Idempotency-Key: spark-job-20260730-005" \
+        --header "Idempotency-Key: batch-job-20260730-005" \
         --header "Content-Type: application/json" \
         --data "${precheck_payload}"
     ```
@@ -228,7 +228,7 @@ Prepare the input data files to include a column corresponding to the primary ke
     curl --request POST \
         --url "https://api.cloud.zilliz.com/v2/projects/{projectId}/jobs/backfill" \
         --header "Authorization: Bearer ${API_KEY}" \
-        --header "Idempotency-Key: spark-job-20260730-006" \
+        --header "Idempotency-Key: batch-job-20260730-006" \
         --header "Content-Type: application/json" \
         --data "${backfill_payload}"
     ```
@@ -271,7 +271,7 @@ Prepare the input data files to include a column corresponding to the primary ke
         "precheckReport": null,
         "failureReason": {
           "code": "SPARK_EXECUTION_FAILED",
-          "message": "The Spark job failed.",
+          "message": "The batch job failed.",
           "retryable": false
         },
         "createdAt": "2026-08-21T02:00:00Z",
@@ -295,7 +295,7 @@ After submitting the request, use the returned job ID to monitor the job until i
 
 When the job succeeds, verify that the expected output is available at the path specified in the request.
 
-For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-spark-batch-jobs).
+For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-batch-jobs).
 
 ## Validate the results\{#validate-the-results}
 

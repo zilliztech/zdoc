@@ -139,7 +139,7 @@ Before creating a vector similarity deduplication job, ensure that:
 
 - If you use `keepBy`, the specified field exists in every input file and contains values that can be compared using the selected strategy.
 
-For the general requirements for running Spark batch jobs, including authentication, input files, and output behavior, see [Spark Batch Jobs](./spark-batch-jobs).
+For the general requirements for running batch jobs, including authentication, input files, and output behavior, see [Batch Jobs](./batch-jobs).
 
 ## Create a vector similarity deduplication job\{#create-a-vector-similarity-deduplication-job}
 
@@ -149,7 +149,7 @@ Create a vector similarity deduplication job by specifying the input and output 
 
 1. Prepare an idempotency key.
 
-    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./spark-batch-jobs#idempotent-submission).
+    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./batch-jobs#idempotent-submission).
 
 1. Prepare the request payload.
 
@@ -197,7 +197,7 @@ Create a vector similarity deduplication job by specifying the input and output 
        <tr>
          <td><p><code>vectorField</code></p></td>
          <td><p>Yes</p></td>
-         <td><p>The vector field used for similarity comparison. Supported values include <code>array&lt;float&gt;</code>, numeric arrays, Spark vectors, and comma-separated strings.</p></td>
+         <td><p>The vector field used for similarity comparison. Supported values include <code>array&lt;float&gt;</code>, numeric arrays, vectors, and comma-separated strings.</p></td>
        </tr>
        <tr>
          <td><p><code>metric</code></p></td>
@@ -232,7 +232,7 @@ Create a vector similarity deduplication job by specifying the input and output 
 
     </Admonition>
 
-    For parameters shared by all Spark batch jobs, refer to [Request payload](./spark-batch-jobs#request-payload).
+    For parameters shared by all batch jobs, refer to [Request payload](./batch-jobs#request-payload).
 
 1. Submit the job.
 
@@ -242,7 +242,7 @@ Create a vector similarity deduplication job by specifying the input and output 
     curl --request POST \
         --url "https://api.cloud.zilliz.com/v2/projects/{projectId}/jobs/dedup/vector" \
         --header "Authorization: Bearer ${API_KEY}" \
-        --header "Idempotency-Key: spark-job-20260730-002" \
+        --header "Idempotency-Key: batch-job-20260730-002" \
         --header "Content-Type: application/json" \
         --data "${payload}"
     ```
@@ -268,7 +268,7 @@ Create a vector similarity deduplication job by specifying the input and output 
     }
     ```
 
-    For details about submission behaviors, refer to [Submission response](./spark-batch-jobs#submission-response).
+    For details about submission behaviors, refer to [Submission response](./batch-jobs#submission-response).
 
 </Procedures>
 
@@ -278,7 +278,7 @@ After submitting the request, use the returned job ID to monitor the job until i
 
 When the job succeeds, verify that the expected output is available at the path specified in the request.
 
-For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-spark-batch-jobs).
+For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-batch-jobs).
 
 ## Validate the output\{#validate-the-output}
 

@@ -1,13 +1,13 @@
 ---
-title: "Spark Batch Jobs | Cloud"
-slug: /spark-batch-jobs
-sidebar_label: "Spark Batch Jobs"
+title: "Batch Jobs | Cloud"
+slug: /batch-jobs
+sidebar_label: "Batch Jobs"
 beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Spark batch jobs let you run distributed, offline processing on large datasets managed in Zilliz Cloud. Use built-in jobs to deduplicate, cluster, or inspect vector data. | Cloud"
+description: "Batch jobs let you run distributed, offline processing on large datasets managed in Zilliz Cloud. Use built-in jobs to deduplicate, cluster, or inspect vector data. | Cloud"
 type: origin
 token: K4F3wDpFciHWwJkZd5qc302OnWg
 sidebar_position: 13
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# Spark Batch Jobs
+# Batch Jobs
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
@@ -28,9 +28,9 @@ This feature is only available in all applicable AWS regions. It is not availabl
 
 </FeatureNote>
 
-Spark batch jobs let you run distributed, offline processing on large datasets managed in Zilliz Cloud. Use built-in jobs to deduplicate, cluster, or inspect vector data.
+Batch jobs let you run distributed, offline processing on large datasets managed in Zilliz Cloud. Use built-in jobs to deduplicate, cluster, or inspect vector data.
 
-Spark batch jobs are designed for long-running data processing tasks. They are not intended for low-latency online requests or per-record transformations.
+Batch jobs are designed for long-running data processing tasks. They are not intended for low-latency online requests or per-record transformations.
 
 ## Problems you may encounter\{#problems-you-may-encounter}
 
@@ -40,7 +40,7 @@ As vector datasets grow, you may need more than simple insert or search operatio
 
 Retries, repeated imports, overlapping data sources, and slightly modified versions of the same text or image can all create duplicate vector embeddings across entities. Some entities share the same primary key, while others have different primary keys but nearly identical content, increasing storage, indexing, and downstream processing costs.
 
-Spark batch jobs can identify and remove duplicates across large datasets. Use **a primary-key deduplication job** to clean up records with the same ID, or **a vector-similarity deduplication job** to find records with different IDs but nearly identical content.
+Batch jobs can identify and remove duplicates across large datasets. Use **a primary-key deduplication job** to clean up records with the same ID, or **a vector-similarity deduplication job** to find records with different IDs but nearly identical content.
 
 ### Unclear embedding distributions\{#unclear-embedding-distributions}
 
@@ -65,13 +65,13 @@ The following table lists the recommended job types for your goals.
 | Divide vector data into a predefined number of groups | [K-Means Clustering](./k-means-clustering) |
 | Find records that differ significantly from the main data distribution | [Anomaly Detection](./anomaly-detection) |
 
-## How Spark batch jobs work\{#how-spark-batch-jobs-work}
+## How batch jobs work\{#how-batch-jobs-work}
 
-A Spark batch job is a long-running distributed, offline processing job that returns a job ID immediately upon receiving a job creation request. You can use the job ID as a handler to monitor its progress and manage its lifecycle.
+A batch job is a long-running distributed, offline processing job that returns a job ID immediately upon receiving a job creation request. You can use the job ID as a handler to monitor its progress and manage its lifecycle.
 
 ### Before you start\{#before-you-start}
 
-To submit a Spark batch job, ensure that:
+To submit a batch job, ensure that:
 
 - You have a valid Zilliz Cloud API key with sufficient permissions.
 
@@ -89,7 +89,7 @@ To submit a Spark batch job, ensure that:
 
 ### Configure External Volume permissions\{#configure-external-volume-permissions}
 
-Spark batch jobs read input data from and write results to External Volumes. Before submitting a job, make sure the object storage role associated with each Volume has the permissions required for its intended use.
+Batch jobs read input data from and write results to External Volumes. Before submitting a job, make sure the object storage role associated with each Volume has the permissions required for its intended use.
 
 The input and output Volumes can use different storage roles. Grant each role only the permissions required for the corresponding bucket and prefix.
 
@@ -144,7 +144,7 @@ For Amazon S3, the role requires:
 
 #### Output Volume\{#output-volume}
 
-The output Volume requires permission to write job results. Spark may also delete temporary objects or objects left by failed or canceled writes.
+The output Volume requires permission to write job results. Zilliz Cloud may also delete temporary objects or objects left by failed or canceled writes.
 
 For Amazon S3, the role requires:
 
@@ -197,9 +197,9 @@ Scope `s3:PutObject` and `s3:DeleteObject` to the output prefix rather than the 
 
 </details>
 
-### Submit and run a Spark batch job\{#submit-and-run-a-spark-batch-job}
+### Submit and run a batch job\{#submit-and-run-a-batch-job}
 
-Once you have obtained the API key and uploaded necessary files to a Zilliz Cloud volume, you are all set to submit and run a Spark batch job.
+Once you have obtained the API key and uploaded necessary files to a Zilliz Cloud volume, you are all set to submit and run a batch job.
 
 <Procedures>
 
@@ -209,17 +209,17 @@ Once you have obtained the API key and uploaded necessary files to a Zilliz Clou
 
 1. Prepare the request header.
 
-    Include the idempotency key generated in the previous step in the request header when creating a Spark batch job.
+    Include the idempotency key generated in the previous step in the request header when creating a batch job.
 
     ```http
     Authorization: Bearer <api-key>
-    Idempotency-Key: spark-job-20260730-001
+    Idempotency-Key: batch-job-20260730-001
     Content-Type: application/json
     ```
 
 1. Prepare the request payload.
 
-    All Spark batch jobs share a common payload structure, with job-specific parameters that vary with job purposes.
+    All batch jobs share a common payload structure, with job-specific parameters that vary with job purposes.
 
     For the common payload structure, refer to [Request payload](./primary-key-dedup). For job-specific parameters, refer to the following pages:
 
@@ -239,14 +239,14 @@ Use an idempotency key to make job submission safe to retry. Zilliz Cloud checks
 
 | Case | Behavior |
 | --- | --- |
-| Same idempotency key and same request body | Returns the previously created Spark batch job without creating a duplicate. |
+| Same idempotency key and same request body | Returns the previously created batch job without creating a duplicate. |
 | Same idempotency key and different request body | Returns a conflict error. |
 
 The idempotency key is scoped to a specific organization, user, region, and project. Zilliz Cloud retains the key for approximately **25 hours**, based on the maximum job timeout window. After the retention window expires, the same key can be reused for a new submission.
 
 #### Request payload\{#request-payload}
 
-All Spark batch jobs share a common payload structure as follows:
+All batch jobs share a common payload structure as follows:
 
 ```json
 {
@@ -281,7 +281,7 @@ The `input` and `output` parameters in the above table share a similar structure
    <tr>
      <td><p><code>type</code></p></td>
      <td><p>Yes</p></td>
-     <td><p>The Spark batch job type. This applies both to <code>input</code> and <code>output</code>. Possible values are:</p><ul><li><code>volume</code></li></ul></td>
+     <td><p>The batch job type. This applies both to <code>input</code> and <code>output</code>. Possible values are:</p><ul><li><code>volume</code></li></ul></td>
    </tr>
    <tr>
      <td><p><code>volumeName</code></p></td>
@@ -307,7 +307,7 @@ The `input` and `output` parameters in the above table share a similar structure
 
 <Admonition type="info" title="Notes">
 
-For `input`, `format` determines which Spark data source reader is used. If you omit this parameter, the job uses the Parquet reader by default and processes only the Parquet files under the specified path. Files in other formats, such as JSON or CSV, are ignored.
+For `input`, `format` determines which data source reader is used. If you omit this parameter, the job uses the Parquet reader by default and processes only the Parquet files under the specified path. Files in other formats, such as JSON or CSV, are ignored.
 
 If the files you want to process are not Parquet, explicitly set `input.format` to the corresponding format. The job does not automatically detect and combine files of different formats.
 
@@ -344,7 +344,7 @@ Although the HTTP codes differ, they share the same payload structure as follows
 }
 ```
 
-The response includes a job ID that you can use to monitor the job. To view job states, retrieve job details, or cancel a running job, see [Understand job states](./manage-spark-batch-jobs#understand-job-states).
+The response includes a job ID that you can use to monitor the job. To view job states, retrieve job details, or cancel a running job, see [Understand job states](./manage-batch-jobs#understand-job-states).
 
 When an error occurs, the response is similar to the following:
 
@@ -370,7 +370,7 @@ You can tell the error from `details.errorCode` and the HTTP CODE the error resp
 
 ## Next steps\{#next-steps}
 
-Use the following guides to create the Spark batch job that matches your goal, or to monitor and manage an existing job.
+Use the following guides to create the batch job that matches your goal, or to monitor and manage an existing job.
 
 import DocCardList from '@theme/DocCardList';
 

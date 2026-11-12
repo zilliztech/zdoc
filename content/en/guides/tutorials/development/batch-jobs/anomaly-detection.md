@@ -70,7 +70,7 @@ Before creating an anomaly detection job, ensure that:
 
 When `outputWithFeatures` is set to `false`, consider specifying `primaryKeyField` so that each output record can be traced back to the source data.
 
-For the general requirements for running Spark batch jobs, including authentication, supported file formats, input files, and output behavior, see [Spark Batch Jobs](./spark-batch-jobs).
+For the general requirements for running batch jobs, including authentication, supported file formats, input files, and output behavior, see [Batch Jobs](./batch-jobs).
 
 ## Create an anomaly detection job\{#create-an-anomaly-detection-job}
 
@@ -80,7 +80,7 @@ Create an anomaly detection job by specifying the input and output locations, th
 
 1. Prepare an idempotency key.
 
-    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./spark-batch-jobs#idempotent-submission).
+    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./batch-jobs#idempotent-submission).
 
 1. Prepare the request payload.
 
@@ -113,7 +113,7 @@ Create an anomaly detection job by specifying the input and output locations, th
 
     | Parameter | Required | Description |
     | --- | --- | --- |
-    | `vectorField` | Yes | The vector field used for anomaly detection. Supported representations include `array<float>`, numeric arrays, Spark vectors, and comma-separated strings. |
+    | `vectorField` | Yes | The vector field used for anomaly detection. Supported representations include `array<float>`, numeric arrays, vectors, and comma-separated strings. |
     | `primaryKeyField` | No | The input field used to identify records in the output. Recommended when `outputWithFeatures` is set to `false`. |
     | `topK` | No | The maximum number of records to return, ordered by `outlier_score` from highest to lowest. The value must be a positive integer. If omitted, the job returns all scored records. |
     | `outputWithFeatures` | No | Whether to retain the vector field in the output. Default: `true`. When set to `false`, the vector field is excluded. |
@@ -126,7 +126,7 @@ Create an anomaly detection job by specifying the input and output locations, th
     curl --request POST \
         --url "https://api.cloud.zilliz.com/v2/projects/{projectId}/jobs/anomaly-detection" \
         --header "Authorization: Bearer ${API_KEY}" \
-        --header "Idempotency-Key: spark-job-20260730-004" \
+        --header "Idempotency-Key: batch-job-20260730-004" \
         --header "Content-Type: application/json" \
         --data "${payload}"
     ```
@@ -160,7 +160,7 @@ After submitting the request, use the returned job ID to monitor the job until i
 
 When the job succeeds, verify that the expected output is available at the path specified in the request.
 
-For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-spark-batch-jobs).
+For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-batch-jobs).
 
 ## Understand and validate the output\{#understand-and-validate-the-output}
 

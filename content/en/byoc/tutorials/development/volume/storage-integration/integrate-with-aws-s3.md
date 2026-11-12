@@ -48,6 +48,10 @@ Ensure that:
 
 - The S3 bucket is in the same AWS Region as the BYOC data plane that will use the integration.
 
+- The Resource Control Policies (RCP) of your AWS Organization allow cross-account role assumption.
+
+    For details, refer to [Role assumption failures](./integrate-with-aws-s3#role-assumption-failures) below.
+
 <Admonition type="info" title="Notes">
 
 A bucket integration is Region-specific. If your project has data planes in multiple Regions, create a separate bucket and integration for each Region.
@@ -280,9 +284,30 @@ The role name typically ends with `-storage-role`. Locate the exact role ARN in 
 
 ## Troubleshooting\{#troubleshooting}
 
-| Validation result | Likely cause | What to check |
-| --- | --- | --- |
-| `bucket region not match` | The bucket and selected BYOC data plane are in different Regions. | Select the matching Region or use a bucket in the data plane's Region. |
-| `NoSuchBucket` | The bucket name is incorrect or the bucket no longer exists. | Enter only the exact bucket name, without `s3://` or a path. |
-| `AccessDenied` for `GetBucketLocation` | The IAM permission policy is missing, not attached, or blocked by another AWS policy. | Confirm the role has `s3:GetBucketLocation` on the bucket and review permission boundaries, bucket policies, and service control policies. |
-| Role assumption failed | The storage role lacks `sts:AssumeRole`, or the role ARN, trusted principal, or external ID does not match. | Check both sides: the storage role's identity policy must allow the customer role ARN, and the customer role's trust policy must contain the generated principal and external ID. |
+<table>
+   <tr>
+     <th><p>Validation result</p></th>
+     <th><p>Likely cause</p></th>
+     <th><p>What to check</p></th>
+   </tr>
+   <tr>
+     <td><p><code>bucket region not match</code></p></td>
+     <td><p>The bucket and selected BYOC data plane are in different Regions.</p></td>
+     <td><p>Select the matching Region or use a bucket in the data plane's Region.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>NoSuchBucket</code></p></td>
+     <td><p>The bucket name is incorrect or the bucket no longer exists.</p></td>
+     <td><p>Enter only the exact bucket name, without <code>s3://</code> or a path.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>AccessDenied</code> for <code>GetBucketLocation</code></p></td>
+     <td><p>The IAM permission policy is missing, not attached, or blocked by another AWS policy.</p></td>
+     <td><p>Confirm the role has <code>s3:GetBucketLocation</code> on the bucket and review permission boundaries, bucket policies, and service control policies.</p></td>
+   </tr>
+   <tr>
+     <td><p>Role assumption failed</p></td>
+     <td><p>The storage role lacks <code>sts:AssumeRole</code>, or the role ARN, trusted principal, or external ID does not match.</p></td>
+     <td><p>Check whether:</p><ul><li><p>The storage role's identity policy must allow the customer role ARN,</p></li><li><p>The customer role's trust policy must contain the generated principal and external ID.</p></li><li><p>The RCP of your AWS organization allows cross-account role assumption if your account belongs to an organization.</p></li></ul></td>
+   </tr>
+</table>

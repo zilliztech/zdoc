@@ -1,13 +1,13 @@
 ---
-title: "Manage Spark Batch Jobs | Cloud"
-slug: /manage-spark-batch-jobs
-sidebar_label: "Manage Spark Batch Jobs"
+title: "Manage Batch Jobs | Cloud"
+slug: /manage-batch-jobs
+sidebar_label: "Manage Batch Jobs"
 beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Spark batch jobs run asynchronously and move through several states from submission to completion. This page explains the job lifecycle and then shows how to list jobs, retrieve job details, and cancel jobs that are still in a cancelable state. | Cloud"
+description: "Batch jobs run asynchronously and move through several states from submission to completion. This page explains the job lifecycle and then shows how to list jobs, retrieve job details, and cancel jobs that are still in a cancelable state. | Cloud"
 type: origin
 token: LYncwOT8Mi9Lfqk9asdcNPvFnWe
 sidebar_position: 7
@@ -18,7 +18,7 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Manage Spark Batch Jobs
+# Manage Batch Jobs
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
@@ -26,7 +26,7 @@ This feature is only available in all applicable AWS regions. It is not availabl
 
 </FeatureNote>
 
-Spark batch jobs run asynchronously and move through several states from submission to completion. This page explains the job lifecycle and then shows how to list jobs, retrieve job details, and cancel jobs that are still in a cancelable state.
+Batch jobs run asynchronously and move through several states from submission to completion. This page explains the job lifecycle and then shows how to list jobs, retrieve job details, and cancel jobs that are still in a cancelable state.
 
 ## Understand job states\{#understand-job-states}
 
@@ -38,13 +38,13 @@ A job normally progresses from `PENDING` to `PREPARING` and then to `RUNNING`, b
 
 Jobs in `PENDING`, `PREPARING`, or `RUNNING` accept cancellation requests, while jobs that have reached `SUCCEEDED`, `FAILED`, or `TIMEOUT` can no longer be canceled. Repeated cancellation requests for jobs already in the cancellation flow are handled idempotently.
 
-## List Spark batch jobs in a region\{#list-spark-batch-jobs-in-a-region}
+## List batch jobs in a region\{#list-batch-jobs-in-a-region}
 
-List Spark batch jobs in a specific region to find jobs submitted across projects that you can access. The request requires the region ID and `type=SPARK`. You can combine optional filters to narrow the results by state, job-name prefix, or creation time.
+List batch jobs in a specific region to find jobs submitted across projects that you can access. The request requires the region ID and `type=SPARK`. You can combine optional filters to narrow the results by state, job-name prefix, or creation time.
 
 ### Request examples\{#request-examples}
 
-The following example lists all Spark batch jobs across projects that you can access in `aws-us-west-2`.
+The following example lists all batch jobs across projects that you can access in `aws-us-west-2`.
 
 ```bash
 export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -54,7 +54,7 @@ curl --request GET \
   --header "Authorization: Bearer ${API_KEY}"
 ```
 
-To narrow the results, add one or more optional filters. The following example lists **running** Spark batch jobs in **`aws-us-west-2`** whose names begin with **`pk-dedup`**. It returns up to **50** jobs per page.
+To narrow the results, add one or more optional filters. The following example lists **running** batch jobs in **`aws-us-west-2`** whose names begin with **`pk-dedup`**. It returns up to **50** jobs per page.
 
 ```bash
 export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -76,7 +76,7 @@ The following table lists possible filters applicable to the job list requests.
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `type` | Yes | The job type. Set this parameter to `SPARK`. |
-| `regionId` | Yes | The ID of the region in which to list Spark batch jobs. |
+| `regionId` | Yes | The ID of the region in which to list batch jobs. |
 | `status` | No | Filters jobs by state, such as `PENDING`, `RUNNING`, or `SUCCEEDED`. |
 | `createdAfter` | No | Returns jobs created after the specified ISO 8601 timestamp, such as `2026-07-30T00:00:00Z`. |
 | `createdBefore` | No | Returns jobs created before the specified ISO 8601 timestamp. |
@@ -136,15 +136,15 @@ The response includes:
 
 - `total`: The total number of jobs that match the request filters.
 
-- `items`: The Spark batch jobs returned on the current page.
+- `items`: The batch jobs returned on the current page.
 
 - `nextPageToken`: The token used to retrieve the next page. This field is absent or empty when there are no more results.
 
-For details about the parameters in the response, refer to the reference page [List Spark batch jobs](/reference/restful/list-spark-jobs-v2).
+For details about the parameters in the response, refer to the reference page [List batch jobs](/reference/restful/list-spark-jobs-v2).
 
-## View a Spark batch job details in a project\{#view-a-spark-batch-job-details-in-a-project}
+## View a batch job details in a project\{#view-a-batch-job-details-in-a-project}
 
-You can obtain the details of a Spark batch job by specifying its job ID and the project ID where the job was submitted.
+You can obtain the details of a batch job by specifying its job ID and the project ID where the job was submitted.
 
 ### Request example\{#request-example}
 
@@ -210,15 +210,15 @@ The following example shows a successful API response for a failed K-Means clust
 
 The response includes:
 
-- **Job state and identity**: `jobId`, `jobName`, `status`, `regionId`, and Spark application identifiers.
+- **Job state and identity**: `jobId`, `jobName`, `status`, `regionId`, and application identifiers.
 
-- **Diagnostics**: `failureReason`, Spark history links, and the driver log URI when available.
+- **Diagnostics**: `failureReason`, history links, and the driver log URI when available.
 
 - **Output contract**: the operator, output format, write mode, whether input columns are preserved, and any columns generated by the job.
 
 - **Timing information**: timestamps for job creation, queuing, submission, execution, and completion.
 
-For a failed job, check `failureReason` first, and then use the Spark history or driver log links for deeper troubleshooting.
+For a failed job, check `failureReason` first, and then use the history or driver log links for deeper troubleshooting.
 
 ### Understand the output contract\{#understand-the-output-contract}
 
@@ -226,7 +226,7 @@ The following table lists the fields in the `outputContract` envelope.
 
 | Field | Description |
 | --- | --- |
-| `operator` | The built-in operator executed by the Spark batch job, such as `kmeans`, `pk_deduplicate`, `vector_deduplicate`, or `anomaly_detection`. |
+| `operator` | The built-in operator executed by the batch job, such as `kmeans`, `pk_deduplicate`, `vector_deduplicate`, or `anomaly_detection`. |
 | `outputFormat` | The actual format of the generated output. This usually matches `output.format` in the job request. |
 | `writeMode` | The behavior used when the configured output path already exists. |
 | `preservesInputColumns` | Indicates whether the output retains the original columns from the input dataset. |
@@ -234,7 +234,7 @@ The following table lists the fields in the `outputContract` envelope.
 
 For example, a K-Means job with `preservesInputColumns` set to `true` and `generatedColumns` containing `cluster_id` produces the original dataset with an additional cluster assignment column.
 
-## Cancel a Spark batch job\{#cancel-a-spark-batch-job}
+## Cancel a batch job\{#cancel-a-batch-job}
 
 You can submit a cancellation request for a job in `PENDING`, `PREPARING`, or `RUNNING`.
 

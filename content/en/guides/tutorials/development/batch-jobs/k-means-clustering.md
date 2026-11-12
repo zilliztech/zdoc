@@ -71,7 +71,7 @@ Before creating a K-Means clustering job, ensure that:
 
 - All vectors in that field use the same type and dimension and were generated using the same embedding model and preprocessing method.
 
-For the general requirements for running Spark batch jobs, including authentication, input files, and output behavior, see [Spark Batch Jobs](./spark-batch-jobs).
+For the general requirements for running batch jobs, including authentication, input files, and output behavior, see [Batch Jobs](./batch-jobs).
 
 ## Create a K-Means clustering job\{#create-a-k-means-clustering-job}
 
@@ -81,7 +81,7 @@ Create a K-Means clustering job by specifying the input and output locations, th
 
 1. Prepare an idempotency key.
 
-    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./spark-batch-jobs#idempotent-submission).
+    An idempotency key is a unique string that remains unchanged when retrying the same job request. For details, refer to [Idempotent submission](./batch-jobs#idempotent-submission).
 
 1. Prepare the request payload.
 
@@ -115,11 +115,11 @@ Create a K-Means clustering job by specifying the input and output locations, th
     | **Parameter** | **Required** | **Description** |
     | --- | --- | --- |
     | `primaryKeyField` | No | The input field used to identify each record and associate it with the assigned `cluster_id`. If omitted, the job generates an identifier for each record in the output. |
-    | `vectorField` | Yes | The vector field to cluster. Supported representations include `array<float>`, numeric arrays, Spark vectors, and comma-separated strings. |
+    | `vectorField` | Yes | The vector field to cluster. Supported representations include `array<float>`, numeric arrays, vectors, and comma-separated strings. |
     | `metric` | Yes | The metric used to compare vectors. Possible values are `cosine` and `l2`. |
     | `numClusters` | Yes | The number of clusters to create. The value must be a positive integer. |
 
-    For parameters shared by all Spark batch jobs, refer to [Request payload](./spark-batch-jobs#request-payload).
+    For parameters shared by all batch jobs, refer to [Request payload](./batch-jobs#request-payload).
 
 1. Submit the payload.
 
@@ -129,7 +129,7 @@ Create a K-Means clustering job by specifying the input and output locations, th
     curl --request POST \
         --url "https://api.cloud.zilliz.com/v2/projects/{projectId}/jobs/kmeans" \
         --header "Authorization: Bearer ${API_KEY}" \
-        --header "Idempotency-Key: spark-job-20260730-003" \
+        --header "Idempotency-Key: batch-job-20260730-003" \
         --header "Content-Type: application/json" \
         --data "${payload}"
     ```
@@ -163,7 +163,7 @@ After submitting the request, use the returned job ID to monitor the job until i
 
 When the job succeeds, verify that the expected output is available at the path specified in the request.
 
-For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-spark-batch-jobs).
+For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-batch-jobs).
 
 ## Validate the output\{#validate-the-output}
 

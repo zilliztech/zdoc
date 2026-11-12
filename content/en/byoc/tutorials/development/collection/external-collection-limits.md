@@ -94,7 +94,7 @@ The following table compares the operations supported by external collections an
      <td><p><strong>TTL</strong></p></td>
      <td><p>✅</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p><strong>Nullable/Default Value</strong></p></td>
