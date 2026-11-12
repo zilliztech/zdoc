@@ -34,10 +34,11 @@ function guidesTableOwnership(navigationRecords) {
   }
 }
 
-function addReason(reasonsByToken, token, reason) {
-  if (!token) return
-  if (!reasonsByToken[token]) reasonsByToken[token] = []
-  if (!reasonsByToken[token].includes(reason)) reasonsByToken[token].push(reason)
+function addReason(reasonsByToken, token, reason, fallbackKey = undefined) {
+  const key = token || fallbackKey
+  if (!key) return
+  if (!reasonsByToken[key]) reasonsByToken[key] = []
+  if (!reasonsByToken[key].includes(reason)) reasonsByToken[key].push(reason)
 }
 
 function snapshotRecordsById(snapshot) {
@@ -301,7 +302,9 @@ function planIncrementalFetch({
     const reasons = compareRecord(record, previousById.get(record.record_id), sourceByToken, currentNodeMetadataByToken)
     if (reasons.length > 0) {
       changedRecords.push({ ...record, reasons })
-      reasons.forEach(reason => addReason(reasonsByToken, record.doc_token, reason))
+      // Shared-page records have no doc_token; keep their reasons reportable under
+      // a record-scoped key instead of dropping them.
+      reasons.forEach(reason => addReason(reasonsByToken, record.doc_token, reason, `shared:${record.record_id}`))
     }
   }
 
@@ -309,19 +312,24 @@ function planIncrementalFetch({
     if (!currentRecordIds.has(previous.record_id)) {
       warnings.push(`Record removed since last snapshot: ${previous.title || previous.record_id}`)
       removedRecords.push(previous)
-      if (previous.doc_token) addReason(reasonsByToken, previous.doc_token, 'record removed')
+      addReason(reasonsByToken, previous.doc_token, 'record removed', `shared:${previous.record_id}`)
     }
   }
 
   const minimumFullFetchCount = 10
-  const changedLimit = Math.max(minimumFullFetchCount, Math.ceil(canonicalRecords.length * fullFetchThreshold))
-  if (changedRecords.length > changedLimit) {
+  // The mode must reflect real Feishu-side drift: shared-page records are
+  // re-derived from published state every run, so counting them in the
+  // threshold votes a full fetch regardless of actual document churn.
+  const feishuChangedCount = changedRecords.filter(record => record.source_kind !== 'shared-page').length
+  const feishuRecordCount = canonicalRecords.filter(record => record.source_kind !== 'shared-page').length
+  const changedLimit = Math.max(minimumFullFetchCount, Math.ceil(feishuRecordCount * fullFetchThreshold))
+  if (feishuChangedCount > changedLimit) {
     return fullPlan({
       manualName,
       docSourceDir,
       canonicalRecords,
       buildEnv,
-      warnings: [`Changed record count ${changedRecords.length} exceeds full-fetch threshold ${changedLimit}.`],
+      warnings: [`Changed Feishu record count ${feishuChangedCount} exceeds full-fetch threshold ${changedLimit}.`],
       reasonsByToken,
       affectedTables: currentNavigationTables,
       currentOwnership,
@@ -408,7 +416,7 @@ function renderIncrementalFetchPlanMarkdown(plan) {
     lines.push(`Previous snapshot: ${plan.snapshot_basis.generated_at}`)
   }
   lines.push('', '## Summary', '')
-  lines.push(`- Changed docs: ${plan.changed_tokens.length}`)
+  lines.push(`- Changed docs: ${plan.changed_records.length} (${plan.changed_tokens.length} with Feishu tokens)`)
   lines.push(`- Expanded docs: ${plan.expanded_tokens.length}`)
   lines.push(`- Removed docs: ${(plan.removed_tokens || []).length}`)
   lines.push(`- Warnings: ${plan.warnings.length}`, '')
@@ -418,7 +426,7 @@ function renderIncrementalFetchPlanMarkdown(plan) {
     lines.push('- None')
   } else {
     for (const record of plan.changed_records) {
-      lines.push(`- ${record.title || record.doc_token} (${record.doc_token}): ${record.reasons.join('; ')}`)
+      lines.push(`- ${record.title || record.doc_token || record.record_id} (${record.doc_token || `shared:${record.record_id}`}): ${record.reasons.join('; ')}`)
     }
   }
 
@@ -437,7 +445,7 @@ function renderIncrementalFetchPlanMarkdown(plan) {
     lines.push('- None')
   } else {
     for (const record of plan.removed_records) {
-      lines.push(`- ${record.title || record.doc_token || record.record_id} (${record.doc_token || record.record_id})`)
+      lines.push(`- ${record.title || record.doc_token || record.record_id} (${record.doc_token || `shared:${record.record_id}`})`)
     }
   }
 

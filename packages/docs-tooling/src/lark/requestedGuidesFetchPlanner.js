@@ -827,13 +827,15 @@ function planRequestedGuidesFetch({
     const reasons = compareRecord(record, previousById.get(record.record_id), sourceByToken, currentNodeMetadataByToken)
     if (reasons.length > 0) {
       changedRecords.push({ ...record, reasons })
-      reasons.forEach(reason => addReason(reasonsByToken, record.doc_token, reason))
+      // Shared-page records have no doc_token; keep their reasons reportable under
+      // a record-scoped key instead of dropping them.
+      reasons.forEach(reason => addReason(reasonsByToken, record.doc_token, reason, `shared:${record.record_id}`))
     }
   }
   for (const previous of previousSnapshot.records || []) {
     if (!currentRecordIds.has(previous.record_id)) {
       removedRecords.push(previous)
-      if (previous.doc_token) addReason(reasonsByToken, previous.doc_token, 'record removed')
+      addReason(reasonsByToken, previous.doc_token, 'record removed', `shared:${previous.record_id}`)
     }
   }
 
