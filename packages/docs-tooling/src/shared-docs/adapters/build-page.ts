@@ -8,7 +8,7 @@ import type { AdaptedPage, TabsRules } from '../core/site'
 import { checkProductNames } from '../core/product-names'
 import { scanProductNames } from '../core/product-names/scan'
 import type { ProductNameDetail, ProductNameRules, ProductNameSource } from '../core/product-names'
-import type { Channel, DiagnosticContext, PageConfig, PageConfigContext, SharedDocsError, Variables } from '../core/types'
+import type { Channel, DiagnosticContext, PageConfig, PageConfigContext, PageVariant, SharedDocsError, Variables } from '../core/types'
 import { yamlLine } from '../core/yaml'
 import { originalPageLine } from '../core/blocks'
 import { mergeMarkdown } from '../core/merge'
@@ -26,7 +26,8 @@ import type { ContentFile } from '../core/transforms'
 import type { ImageObservation, ImageOrigin } from '../core/updates/types'
 import { provenanceCarrier, remapError } from '../core/transforms/provenance'
 
-export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; config: PageConfig; contentFiles?: ReadonlyMap<string, ContentFile> }
+export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; config: PageConfig; contentFiles?: ReadonlyMap<string, ContentFile>
+  variants?: Partial<Record<Channel, PageVariant>> }
 export interface SharedDocsInputs {
   sharedDocsPath?: string
   sourceYaml: string
@@ -361,6 +362,7 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
   })
   const inspected = await inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml: page.lockYaml,
     variablesJson: shared.variablesJson, sharedDocsPath: shared.sharedDocsPath, context: { ...shared.context, ...context },
+    ...(page.variants ? { variants: page.variants } : {}),
     ...(config.transforms?.length ? { transformContext: { contentFiles: page.contentFiles ?? new Map(), tabsRules: shared.tabsRules,
       manuals: manualContexts } } : {}) }, reader, input.md2md)
   if ('errors' in inspected) return { errors: [...errors, ...inspected.errors] }
@@ -390,7 +392,7 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
       if ('errors' in adapted) { errors.push(...mappedErrors(adapted.errors)); continue }
       const origins = adapted.provenance.inputLines.map((_, index): MergeOrigin[] => {
         const origin = version.provenance?.[index]?.origin
-        return [{ channel, file: origin?.file ?? source, line: origin?.line ?? originalPageLine(index + 1, version.blocks) }]
+        return [{ channel, file: origin?.file ?? version.variant?.file ?? source, line: origin?.line ?? originalPageLine(index + 1, version.blocks) }]
       })
       if (observations) {
         let observedOrigins = origins
@@ -402,7 +404,7 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
             const raw = sources.find(source => source.kind === 'source')!.text
             const stripped = input.md2md.stripBlockMarkers(raw)
             const mapped = stripped.split('\n').map((text, index) => ({ text,
-              origin: { file: source, line: originalPageLine(index + 1, version.blocks), kind: 'source' as const } }))
+              origin: { file: version.variant?.file ?? source, line: originalPageLine(index + 1, version.blocks), kind: 'source' as const } }))
             if (stripped !== version.content) await reader.withFragments(version.commit, async snapshot => {
               const carrier = provenanceCarrier(mapped, [stripped, JSON.stringify(shared.variables), ...snapshot.files.values()])
               const tagged = input.md2md.preprocess({ content: carrier.content, fragmentRoot: snapshot.root, variables: shared.variables,

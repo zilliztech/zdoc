@@ -15,6 +15,7 @@ export interface SharedReceipt {
     'fetch': {navigation: string | {navigationRecords: Record<string, any>[]; tableDigests: Record<string, string>}; image_base_url: string; render_targets?: {schema_version: 1; targets: {manual: 'guides' | 'guides-byoc'; path: string; extension: '.md' | '.mdx'; navigation: {sidebar_label: string; sidebar_position: number}; channel: 'current' | 'next' | 'retire-in-next'}[]}}
     tools: {zdoc: string; md2md: string}
     images: {source: string; sha256: string; object: string}[]
+    variants?: {channel: 'current' | 'next'; path: string; sha256: string; pull: number; head_sha: string; adopted_at: string; adopted_via?: string}[]
   }
   outputs: {manual: string; path: string; sha256: string}[]
   channel: null | 'next' | 'retire-in-next'; notes: string[]
@@ -124,7 +125,7 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
   keys(value, ['schema_version', 'page', 'token', 'inputs', 'outputs', 'channel', 'notes'], 'Shared receipt')
   const receipt = value as SharedReceipt
   assert(receipt.schema_version === 1 && receipt.page === expected.page && receipt.token === `shared-${expected.page}`, 'Shared receipt identity mismatch')
-  keys(receipt.inputs, ['milvus_docs', 'zdoc', 'dev', 'fetch', 'tools', 'images'], 'Shared receipt inputs')
+  keys(receipt.inputs, ['milvus_docs', 'zdoc', 'dev', 'fetch', 'tools', 'images', ...(Object.hasOwn(receipt.inputs, 'variants') ? ['variants'] : [])], 'Shared receipt inputs')
   const {milvus_docs: upstream, zdoc, dev, 'fetch': fetchInputs, tools, images} = receipt.inputs
   keys(upstream, ['repository', 'current', 'next', 'files'], 'Shared upstream')
   assert(upstream.repository === 'milvus-io/milvus-docs' && matches(upstream.current, COMMIT) && matches(upstream.next, COMMIT), 'Invalid upstream commits/repository')
@@ -183,6 +184,22 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
     text(image.source, 'Image source'); assert(matches(image.sha256, SHA) && !sources.has(image.source), 'Invalid or duplicate image digest/source'); sources.add(image.source)
     assert(typeof image.object === 'string' && (image.object.startsWith(`shared/${image.sha256}.`) && /^shared\/[a-f0-9]{64}\.[a-z0-9]+$/.test(image.object)
       || /^https?:\/\/[^\s]+$/.test(image.object)), 'Invalid shared image object')
+  }
+  if (receipt.inputs.variants !== undefined) {
+    const entries = receipt.inputs.variants
+    assert(Array.isArray(entries) && entries.length > 0, 'Shared variants must be a nonempty array')
+    const channels = new Set()
+    for (const entry of entries) {
+      keys(entry, ['channel', 'path', 'sha256', 'pull', 'head_sha', 'adopted_at', ...(Object.hasOwn(entry, 'adopted_via') ? ['adopted_via'] : [])], 'Shared variant')
+      assert(['current', 'next'].includes(entry.channel) && !channels.has(entry.channel), 'Invalid or duplicate shared variant channel'); channels.add(entry.channel)
+      assert(safeHandoffPath(entry.path) && entry.path.endsWith(`variant-${entry.channel}.md`), 'Invalid shared variant path')
+      assert(matches(entry.sha256, SHA), 'Invalid shared variant digest')
+      assert(Number.isSafeInteger(entry.pull) && entry.pull > 0, 'Invalid shared variant pull request')
+      assert(matches(entry.head_sha, COMMIT), 'Invalid shared variant head commit')
+      text(entry.adopted_at, 'Shared variant adopted_at')
+      if (entry.adopted_via !== undefined) text(entry.adopted_via, 'Shared variant adopted_via')
+    }
+    assert(channels.has('next'), 'Shared variants must include the next channel')
   }
   assert(Array.isArray(receipt.outputs) && receipt.outputs.length > 0, 'Shared outputs must be nonempty')
   const manuals = new Set()

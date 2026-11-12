@@ -2,7 +2,7 @@ import { groupFile } from './group-context'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
 import { parseLock, validateLockHistory } from '../core/lock'
 import { diagnostic, yamlLine } from '../core/yaml'
-import type { Channel, LockHistory, PageConfig, PageConfigContext, PageLock, SharedDocsError, SourceConfig } from '../core/types'
+import type { Channel, LockHistory, PageConfig, PageConfigContext, PageLock, PageVariant, SharedDocsError, SourceConfig } from '../core/types'
 import type { MilvusDocsReader } from './types'
 import { MilvusDocsReaderError } from './reader-errors'
 
@@ -14,9 +14,12 @@ export interface ReadPageInput {
   context: PageConfigContext
   sharedDocsPath?: string
   sourceName?: string
+  /** Adopted variant content per channel; presence replaces the pinned bytes for that channel only. */
+  variants?: Partial<Record<Channel, PageVariant>>
 }
 export type ReadPageResult = {
   config: PageConfig; source: SourceConfig; lock: PageLock; markdown: Record<Channel, string>
+  variants?: Partial<Record<Channel, PageVariant>>
 } | { errors: SharedDocsError[] }
 
 /** Parse every config before reading Git; report page errors together, but propagate infrastructure failures. */
@@ -51,5 +54,10 @@ export async function readPageSources(input: ReadPageInput, reader: MilvusDocsRe
     history.ordered = await reader.isAncestor(lock.lock.current, lock.lock.next)
   }
   errors.push(...validateLockHistory(lock.lock, history, input.lockYaml!, lockContext))
-  return errors.length ? { errors } : { config: config.config, source: source.config, lock: lock.lock, markdown }
+  if (errors.length) return { errors }
+  // Variant adoption never relaxes lock validation above; it only replaces the channel bytes.
+  const adopted = input.variants && Object.keys(input.variants).length
+    ? Object.fromEntries(Object.entries(input.variants).filter(([, variant]) => variant)) : undefined
+  if (adopted) for (const channel of Object.keys(adopted) as Channel[]) markdown[channel] = adopted[channel]!.text
+  return { config: config.config, source: source.config, lock: lock.lock, markdown, ...(adopted ? { variants: adopted } : {}) }
 }
