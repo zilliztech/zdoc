@@ -27,7 +27,7 @@ function zip(files:Map<string,Uint8Array>) {
     central.writeUInt32LE(0x02014b50);central.writeUInt32LE(crc,16);central.writeUInt32LE(bytes.length,20);central.writeUInt32LE(bytes.length,24);central.writeUInt16LE(nameBytes.length,28);central.writeUInt32LE(offset,42);chunks.push(local,nameBytes,bytes);entries.push(central,nameBytes);offset+=30+nameBytes.length+bytes.length}
   const directory=Buffer.concat(entries),end=Buffer.alloc(22);end.writeUInt32LE(0x06054b50);end.writeUInt16LE(files.size,8);end.writeUInt16LE(files.size,10);end.writeUInt32LE(directory.length,12);end.writeUInt32LE(offset,16);return Buffer.concat([...chunks,directory,end])
 }
-async function fixture() {
+async function fixture(omitSealLF = false) {
   const root=await mkdtemp(join(await realpath(tmpdir()),'remote-history-'));roots.push(root);const repository=join(root,'repo.git')
   execFileSync('/usr/bin/git',['init','--bare','--quiet',repository])
   const git=(args:string[],input?:Uint8Array)=>execFileSync('/usr/bin/git',['--no-replace-objects','-C',repository,...args],{input,env:{PATH:'/usr/bin:/bin',GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null',GIT_NO_LAZY_FETCH:'1',GIT_TERMINAL_PROMPT:'0'},maxBuffer:4*1024*1024})
@@ -58,7 +58,8 @@ async function fixture() {
   const patch=git(['diff-tree','--raw','-r','-z','--no-abbrev','--no-color','--no-renames','--no-ext-diff','--no-commit-id',master,k.oid])
   const proof:CandidateSnapshotProof={prepared:{kind:'new',master,base:master,tree:known.get(master)!.tree},candidate:k.oid,candidateTree:known.get(k.oid)!.tree,patch:blob(patch),preservedHumanHeads:[],trustedToolsetSha256:hash,executableClosure:{path:'historical/closure.json',sha256:hash,bytes:23*1024*1024},nextEdits:plan.nextEdits}
   const seal:RemoteSealV1={kind:'shared-update-seal',schemaVersion:1,repositoryId:100,transactionId:hash,unitKey:plan.unitKey,planSha256:digest('plan',plan),proofSha256:rawSha256(canonicalBytes(proof)),master,dev:master,preparedBase:master,candidate:k.oid,candidateTree:known.get(k.oid)!.tree,previousSeal:null,preservedHumanHeads:[],runId:30,runAttempt:1}
-  const s=commit(candidateFiles,[k.oid],encodeSealMessage(seal),true)
+  const message=encodeSealMessage(seal)
+  const s=commit(candidateFiles,[k.oid],omitSealLF ? message.slice(0,-1) : message,true)
   const members=new Map<string,Uint8Array>([['plan.json',canonicalBytes(plan)],['proof.json',canonicalBytes(proof)],['patch.raw',patch],[`reports/${rawSha256(reportBytes)}.json`,reportBytes],[`locks/${afterBlob.sha256}.yaml`,after]])
   const receipt={kind:'shared-update-producer',schemaVersion:1,...Object.fromEntries(Object.entries(seal).filter(([key])=>!['kind','schemaVersion'].includes(key))),seal:s.oid,requestId:'fixture-only-request',tools:master,workflowDefinitionSha256:policy.producer.workflowDefinitionSha256,members:[...members].map(([name,bytes])=>({name,sha256:rawSha256(bytes),bytes:bytes.length}))}
   members.set('provenance.json',canonicalBytes(receipt))
@@ -119,6 +120,12 @@ it('authenticates real temporary Git objects, API server signature, historical p
   if(result.status==='verified'){expect(result.history.candidate).toBe(f.k.oid);expect(isVerifiedRemoteHistory(result.history)).toBe(true);expect(isVerifiedRemoteHistory(JSON.parse(JSON.stringify(result.history)))).toBe(false);expect(Object.isFrozen(result.history.counts)).toBe(true)}
   // Historical closure >22MiB is explicitly attested, never fetched as a tiny bundle member or executed.
   expect(f.proof.executableClosure.bytes).toBeGreaterThan(22*1024*1024);expect(f.transcript.every(line=>line.startsWith('GET ')||line==='POST /graphql')).toBe(true)
+})
+it('authenticates a GitHub seal whose signed payload omits the final LF',async()=>{
+  const f=await fixture(true)
+  expect(await f.inspect()).toMatchObject({status:'verified'})
+  f.signature({isValid:false})
+  expect(await f.inspect()).toMatchObject({status:'hold'})
 })
 it('accepts human YAML/config and ordinary disjoint data merges, preserving donors and all parents',async()=>{
   const f=await fixture(),a=f.editFiles(f.candidateFiles,{'shared-docs/guides/pages/alpha/config.yaml':'human: true\n'}),b=f.editFiles(f.candidateFiles,{'content/en/byoc/human.md':'human\n'})

@@ -19,6 +19,8 @@ import { rawSha256, writeOwnedBlob, createOwnedDirectory, type EvidenceStore } f
 import { prepareTrustedLauncher, retainTrustedAccessEvidence, describeTrustedToolset, type TrustedToolsetCapture, type GuidesWorkerSettlement } from './toolset'
 import { HttpImageFetcher } from '../images'
 import type { UpdateConfiguration } from '../update-inputs'
+import { openWorkerMetadataReader } from './guides-metadata-broker'
+import { publicGuidesReads, stageGuidesArchives } from './guides-lifecycle-transport'
 import { createGuidesReadSession, type GitFile } from './guides-read-session'
 
 const toolingRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
@@ -31,6 +33,12 @@ export const GuidesCollectionRequestSchema = z.strictObject({ kind: z.literal('g
   pages: z.array(pageId).max(10000).refine(values => new Set(values).size === values.length), comparisonConfig: GitShaSchema.nullable(),
   target: GitShaSchema.nullable(), evidenceRun: z.string().regex(/^[1-9][0-9]*$/).refine(value => Number.isSafeInteger(Number(value))).nullable(), evidenceZip: localPath.nullable(),
 }).refine(value => value.evidenceZip === null || value.evidenceRun !== null, 'Retained ZIP requires its run identity')
+const stagedArchive = z.strictObject({id: z.number().int().positive().max(Number.MAX_SAFE_INTEGER), path: localPath})
+// Private parent/worker transport. The operator request never accepts an archive identity or authority assertion.
+export const selectedWorkerInput = z.strictObject({request: GuidesCollectionRequestSchema,
+  archives: z.union([z.strictObject({source: stagedArchive, publication: stagedArchive}),
+    z.strictObject({oversized: z.enum(['source', 'publication'])})]).nullable(),
+}).refine(({request}) => request.pages.length === 1 && request.evidenceRun !== null && request.evidenceZip === null)
 export type GuidesCollectionRequest = z.infer<typeof GuidesCollectionRequestSchema>
 export interface RetainedBytes { blob: BlobRef; base64: string }
 export interface GuidesCollectionResult {
@@ -68,8 +76,24 @@ export interface GuidesCollectionDependencies {
   b1?: UpdateDependencies
   authority?: { observe(input: { subject: Subject; pins: ExecutionPins; members: ContentMember[]; b1Lifecycle: unknown; retain(bytes: Uint8Array): BlobRef }): Promise<AuthorityObservation> }
 }
-export async function collectGuidesWorker(data: unknown): Promise<GuidesCollectionResult> {
-  return collectGuidesWithDependencies(GuidesCollectionRequestSchema.parse(data))
+export async function collectGuidesWorker(data: unknown, privateMetadataPipes = false): Promise<GuidesCollectionResult> {
+  if (privateMetadataPipes) return collectWithMetadataPipes(data)
+  const selected = selectedWorkerInput.safeParse(data)
+  if (selected.success) {
+    const {request, archives} = selected.data
+    return collectGuidesWithDependencies(request, {b1: {github: publicGuidesReads(archives)}})
+  }
+  const request = GuidesCollectionRequestSchema.parse(data)
+  if (request.pages.length === 1 && request.evidenceRun !== null) throw new Error('Missing selected lifecycle archive transport')
+  return collectGuidesWithDependencies(request)
+}
+async function collectWithMetadataPipes(data: unknown): Promise<GuidesCollectionResult> {
+  const {request, archives} = selectedWorkerInput.parse(data)
+  const channel = openWorkerMetadataReader()
+  try {
+    const {zip} = publicGuidesReads(archives)
+    return await collectGuidesWithDependencies(request, {b1: {github: {get: channel.get, zip}}})
+  } finally { channel.close() }
 }
 export async function collectGuidesWithDependencies(data: GuidesCollectionRequest, dependencies: GuidesCollectionDependencies = {}): Promise<GuidesCollectionResult> {
   const request = GuidesCollectionRequestSchema.parse(data)
@@ -89,7 +113,8 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
   const options = { sharedDocs: join(request.repositoryRoot, 'shared-docs/guides'), repo: request.sourceRepository, dev: request.devRepository, out: '',
     masterSha: request.configSnapshot, devSha: request.dev, ...(request.target === null ? {} : { sourceSha: request.target }),
     ...(request.comparisonConfig === null ? {} : { comparisonMasterSha: request.comparisonConfig }),
-    // Common subject selection must not hide B1 adoption observations from configured siblings.
+    // B1 retains the entire configured inventory and renders siblings whenever an adoption edge is possible.
+    ...(request.pages.length === 1 ? {lifecyclePage: request.pages[0], proveIndependentPage: request.evidenceRun !== null} : {}),
     ...(request.evidenceRun === null ? {} : { evidenceRun: request.evidenceRun }),
     ...(request.evidenceZip === null ? {} : { evidenceZip: request.evidenceZip }) }
   const b1 = await reportUpdates(options, request.repositoryRoot, { ...dependencies.b1, fetcher: capturedFetcher })
@@ -237,7 +262,8 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
           history: await reads.history(request.sourceRepository, endpoints.head, [parsed.lock.current]), sourceInventories,
           relevantSource: { current: rawSourceMaterial[0], oldNext: rawSourceMaterial[1], target: rawSourceMaterial[2] },
           reportingChanges: sorted([...configurationChanges.map(change => change.path), ...impact.sourceImpact.changes.filter(change => change.kind === 'image' || change.kind === 'variable').map(change => `${change.kind}:${change.identity}`),
-            ...(equal(sourceMaterial[1], sourceMaterial[2]) ? [] : equal(rawSourceMaterial[1], rawSourceMaterial[2]) ? ['source-discovery'] : [])]), holdReasons: [] })
+            ...(equal(sourceMaterial[1], sourceMaterial[2]) ? [] : equal(rawSourceMaterial[1], rawSourceMaterial[2]) ? ['source-discovery'] : [])]),
+          holdReasons: leaf.unobservedAdoptionPeers?.length ? ['CROSS_UNIT_DEPENDENCY_UNAVAILABLE'] : [] })
         result.pages.push({ report, context })
       } catch (error) { operationHold(subject, String(error)) }
     }
@@ -303,7 +329,11 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
     checkpoint()
     const privateAccess = await retainTrustedAccessEvidence(options.capture, options.evidence)
     checkpoint()
-    const child = await launcher.runGuidesCollector(request, options.secrets, options.signal)
+    const selected = request.pages.length === 1 && request.evidenceRun !== null
+    const input = selected ? {request: {...request, evidenceZip: null}, archives: await stageGuidesArchives(
+      Number(request.evidenceRun), request.evidenceZip, options.evidence, options.secrets?.GH_TOKEN, options.signal)} : request
+    checkpoint()
+    const child = await launcher.runGuidesCollector(input, options.secrets, options.signal)
     // Preserve observed worker facts before cancellation or postprocessing can reject.
     workerSettlement = immutable(structuredClone(child.settlement))
     checkpoint()

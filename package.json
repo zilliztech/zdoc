@@ -21,6 +21,7 @@
     "typecheck": "tsc",
     "check:static-env": "node scripts/check-static-env-placeholder.js",
     "test:frontend": "node scripts/testing/run-vitest-groups.mjs --scope all",
+    "test:shared-guides-update": "node --test scripts/docs-workflow/shared-guides-update/*.test.mjs && python3 -B -m unittest discover -s scripts/docs-workflow/shared-guides-update -p 'test_*.py'",
     "test:shared-docs": "node scripts/testing/run-vitest-groups.mjs --scope shared-docs",
     "test:containers": "node --test deploy/contracts/container.test.mjs",
     "test:cloud-data-nginx": "node --test deploy/contracts/cloud-data-nginx.test.mjs",

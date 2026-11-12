@@ -1,4 +1,4 @@
-import type { AdoptionDependency, PageIdentity, UpdateUnit } from './types'
+import type { AdoptionDependency, FixedPageInput, PageIdentity, PageImpact, UpdateUnit } from './types'
 
 export const pageIdentityKey = (page: PageIdentity): string => JSON.stringify([page.pageId, page.manual, page.path])
 
@@ -13,6 +13,34 @@ export function referencesPage(from: PageIdentity, to: PageIdentity, url: string
   if (!pageId.test(from.pageId) || !pageId.test(to.pageId)) return false
   if (!decoded) return from.pageId === to.pageId
   return decoded === `./${to.pageId}` || decoded === `/${to.pageId}` || decoded === to.pageId
+}
+
+/** Prove absence of both endpoints used by analyzeUpdates. Any fragment link or changed/ambiguous
+ * promotion anchor requires full collection. Track possible peers so a failed sibling observation cannot hide an edge. */
+export function selectedAdoptionScope(page: FixedPageInput, impact: PageImpact, members: readonly PageIdentity[]) {
+  const identities = members.filter(member => member.pageId === page.pageId)
+  if (!identities.length || impact.pageId !== page.pageId || impact.promotion.axis !== 'current-to-candidate-next') return null
+  for (const observation of [page.current, page.oldNext, page.candidateNext]) {
+    if (observation.outputStatus !== 'observed' || observation.imageStatus !== 'observed' || observation.rawErrors.length ||
+      observation.manuals.length !== identities.length || identities.some(member =>
+        !observation.manuals.some(manual => manual.manual === member.manual && manual.path === member.path))) return null
+  }
+  // A full group validates uniqueness across configured page/manual pairs and publication destinations.
+  computeUpdateUnits({pages: members})
+  const unchanged = impact.promotion.anchors.every(relation => relation.status === 'confirmed' && relation.kind === 'unchanged')
+  const hasFragment = page.candidateNext.manuals.some(manual => manual.references.some(ref => ref.url.includes('#')))
+  const peers = new Set<string>()
+  if (unchanged && !hasFragment) return {independent: true, peers}
+  for (const to of members) {
+    if (to.pageId === page.pageId) continue
+    if (impact.promotion.anchors.some(relation => relation.manual === to.manual &&
+      (relation.status !== 'confirmed' || relation.kind !== 'unchanged'))) peers.add(to.pageId)
+    for (const manual of page.candidateNext.manuals) {
+      const from = {pageId: page.pageId, manual: manual.manual, path: manual.path}
+      if (manual.references.some(ref => ref.url.includes('#') && referencesPage(from, to, ref.url))) peers.add(to.pageId)
+    }
+  }
+  return {independent: false, peers}
 }
 
 /** Only adoption evidence couples pages. Shared preprocessing dependencies are not edges. */

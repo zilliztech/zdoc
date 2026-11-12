@@ -637,6 +637,7 @@ function larkDocsPlugin(context, options) {
                         await require('./sharedPageFetch').initializeSharedScraper(scraper, {
                             site: 'en', sourceDir: docSourceDir, repositoryRoot: process.cwd(), baselineRoot: process.env.DOCS_TOOLING_SHARED_BASELINE,
                             masterCommit: process.env.DOCS_TOOLING_SHARED_MASTER_SHA, devCommit: process.env.DOCS_TOOLING_SHARED_DEV_SHA,
+                            requireCompleteScan: !opts.requestedBaselineSha && scraper.use_all_base_tables,
                             output: process.env.DOCS_TOOLING_SHARED_PREPARATION,
                         })
                     }

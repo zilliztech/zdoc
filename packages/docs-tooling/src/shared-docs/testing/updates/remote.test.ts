@@ -1,8 +1,9 @@
 // @vitest-environment node
 import { createHash } from 'node:crypto'
 import { expect, it } from 'vitest'
-import { canonicalBytes } from '../../core/updates/canonical'
-import { acceptExactValidation, classifyRemoteRead, DecisionSchema, ExactValidationReceiptV1Schema,
+import { formalValidation } from '../../adapters/updates/formal-validation'
+import { canonicalBytes, digest as planDigest } from '../../core/updates/canonical'
+import { acceptExactValidation, parseSealMessage, classifyRemoteRead, DecisionSchema, ExactValidationReceiptV1Schema,
   RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, RemoteSealV1Schema, RemotePolicySchema, RemoteFactsSchema, REMOTE_LIMITS } from '../../core/updates/remote'
 
 const oid = (n: number) => n.toString(16).padStart(40, '0')
@@ -201,4 +202,92 @@ it('does not turn journal JSON into authority and rejects staging identity subst
   const journal={kind:'shared-update-remote-journal',schemaVersion:1,intentSha256:digest(1),transactionId:digest(2),sequence:0,phase:'before',action:'cas',observation:null,reasons:[]}
   expect(RemoteTransactionJournalSchema.safeParse(journal).success).toBe(true)
   expect(RemoteTransactionJournalSchema.safeParse({...journal,authorized:true}).success).toBe(false)
+})
+
+function formalFixture() {
+  const { expected, policy, facts, receipt } = fixture()
+  const pins = { master: expected.master, dev: expected.dev, source: oid(37) }
+  const plan = { scope: 'private-single-page-projection', pins }
+  const planBytes = canonicalBytes(plan)
+  const planSha256 = planDigest('plan', plan)
+  expected.planSha256 = receipt.planSha256 = planSha256
+  facts.seal.value.metadata.planSha256 = facts.producerProvenance.value[0].planSha256 = planSha256
+  const output = canonicalBytes({ pins, candidate: expected.candidate })
+  facts.output = blob('validation/output.json', sha256(output), output.length)
+  receipt.outputDigest = facts.output.sha256
+  const receiptBytes = canonicalBytes(receipt)
+  const ref = blob('validation/receipt.json', sha256(receiptBytes), receiptBytes.length)
+  facts.associations.value[0].receipt = facts.members.value[1].member = ref
+  facts.members.value[1].actualDigest = ref.sha256
+  return { expected, policy, facts, receipt, observed: pins, planBase64: Buffer.from(planBytes).toString('base64'),
+    outputBase64: Buffer.from(output).toString('base64'), receiptBase64: Buffer.from(receiptBytes).toString('base64') }
+}
+
+it('separates readiness on an authenticated reserved Check from final acceptance on the completed Check', () => {
+  const f = formalFixture()
+  const check = f.facts.checks.value[0]
+  check.status = 'in_progress'
+  check.conclusion = 'pending'
+  expect(formalValidation({ ...f, op: 'prepublish' }).status).toBe('ready-to-publish')
+  expect(formalValidation({ ...f, op: 'accept' }).status).toBe('hold')
+  check.status = 'completed'
+  check.conclusion = 'success'
+  expect(formalValidation({ ...f, op: 'prepublish' }).status).toBe('hold')
+  expect(formalValidation({ ...f, op: 'accept' }).status).toBe('accepted')
+})
+
+it.each(['master', 'dev', 'source'] as const)('holds before encoding the receipt, publishing, and accepting when %s moves', field => {
+  const f = formalFixture()
+  const observed = { ...f.observed, [field]: oid(999) }
+  const hold = { status: 'hold', reasons: ['STALE_' + field.toUpperCase()], changes: [{ field, expected: f.observed[field], observed: oid(999) }] }
+  expect(formalValidation({ op: 'freshness', expected: f.observed, observed })).toEqual(hold)
+  for (const op of ['receipt', 'prepublish', 'accept']) expect(formalValidation({ ...f, op, observed })).toEqual(hold)
+})
+
+it('binds the source snapshot in validator output to the exact plan digest in the receipt', () => {
+  const f = formalFixture()
+  expect(formalValidation({ ...f, op: 'receipt' })).toEqual({ status: 'encoded', bytesBase64: f.receiptBase64 })
+  const changed = canonicalBytes({ pins: { ...f.observed, source: oid(999) } })
+  expect(() => formalValidation({ ...f, op: 'receipt', outputBase64: Buffer.from(changed).toString('base64') })).toThrow('OUTPUT_DIGEST')
+  const forgedReceipt = { ...f.receipt, outputDigest: sha256(changed) }
+  expect(() => formalValidation({ ...f, op: 'receipt', receipt: forgedReceipt, outputBase64: Buffer.from(changed).toString('base64') })).toThrow('OUTPUT_PINS')
+  const wrongPlan = canonicalBytes({ scope: 'private-single-page-projection', pins: { ...f.observed, source: oid(999) } })
+  expect(() => formalValidation({ ...f, op: 'accept', planBase64: Buffer.from(wrongPlan).toString('base64') })).toThrow('PLAN_DIGEST')
+  expect(() => formalValidation({ ...f, op: 'accept', observed: { ...f.observed, source: null } })).toThrow()
+})
+
+it('requires the signed raw commit to contain the full canonical message and exact K parent and tree', () => {
+  const { facts, policy } = formalFixture()
+  const seal = facts.seal.value.metadata
+  const encoded = formalValidation({ op: 'seal', seal })
+  if (!('message' in encoded)) throw new Error('Expected canonical seal message')
+  const identity = { writerActorId: policy.writerActorId, platformSignerActorId: policy.sealIdentity.platformSignerActorId }
+  function signed(message: string, parent = seal.candidate) {
+    const header = 'tree ' + seal.candidateTree + '\nparent ' + parent + '\nauthor Bot <b@local> 1 +0000\ncommitter Web <g@local> 1 +0000'
+    // Synthetic signature facts stand in for the authenticated GitHub reads.
+    const signature = '-----BEGIN PGP SIGNATURE-----\ntest\n-----END PGP SIGNATURE-----'
+    const raw = Buffer.from(header + '\ngpgsig ' + signature.replaceAll('\n', '\n ') + '\n\n' + message)
+    const commit = createHash('sha1').update('commit ' + raw.length + '\0').update(raw).digest('hex')
+    return { op: 'verify-seal', seal, identity, expectedOid: commit, rawCommitBase64: raw.toString('base64'),
+      signature: { tree: seal.candidateTree, parents: [seal.candidate], oid: commit, signatureValid: true, signatureState: 'VALID',
+        wasSignedByGitHub: true, authorActorId: identity.writerActorId, signerActorId: identity.platformSignerActorId,
+        payload: header + '\n\n' + message, signature } }
+  }
+  const f = signed(encoded.message)
+  expect(formalValidation(f)).toEqual({ status: 'verified', seal, oid: f.expectedOid })
+  const github = encoded.githubMessage.headline + '\n\n' + encoded.githubMessage.body
+  expect(github + '\n').toBe(encoded.message)
+  expect(parseSealMessage(Buffer.from(encoded.message))).toEqual(seal)
+  expect(() => parseSealMessage(Buffer.from(github))).toThrow('SEAL_MESSAGE_INVALID')
+  const physical = signed(github)
+  expect(physical.expectedOid).not.toBe(f.expectedOid)
+  expect(formalValidation(physical)).toEqual({ status: 'verified', seal, oid: physical.expectedOid })
+  expect(() => formalValidation({ ...physical, signature: f.signature })).toThrow('SEAL_SIGNED_PAYLOAD')
+  for (const malformed of [github + '\n\n', github + '\r\n', github + ' ', github + '\0', '\ufeff' + github,
+    github.replace('v1.', 'v1:'), github.replace('\n\n', '\r\n\r\n'), github + '=']) {
+    expect(() => formalValidation(signed(malformed))).toThrow('SEAL_MESSAGE_INVALID')
+  }
+  expect(() => formalValidation(signed(encoded.message, oid(888)))).toThrow('SEAL_OBJECT_MISMATCH')
+  expect(() => formalValidation({ ...f, expectedOid: oid(889) })).toThrow('SEAL_OBJECT_MISMATCH')
+  expect(() => formalValidation({ ...f, seal: { ...seal, planSha256: '8'.repeat(64) } })).toThrow('SEAL_MESSAGE_MISMATCH')
 })
