@@ -15,7 +15,8 @@ import { parseLinkMap } from '../core/links'
 import type { ImageRecord } from '../core/links'
 import { parseProductNames } from '../core/product-names'
 import { parseTabsRules } from '../core/site'
-import type { SharedDocsError } from '../core/types'
+import type { PageVariant, RawVariantFiles, SharedDocsError } from '../core/types'
+import { parseVariants, variantFileName, variantSidecarName } from '../core/variants'
 import { parseVariables } from '../core/variables'
 import { yamlLine } from '../core/yaml'
 import type { ContentFile } from '../core/transforms'
@@ -101,7 +102,25 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
             file: file(`pages/${pageId}/page.yaml`), line: yamlLine(pageYaml, ['transforms', index, 'content', 'file']), page: pageId, channel: transform.channel ?? 'both' })
         }
       }
-      pages.set(pageId, { pageYaml, lockYaml, config: parsed.config, contentFiles })
+      // Adopted variants live flat beside the page config; a sidecar without its content
+      // file is a manual-authoring mistake and fails the build like any other variant error.
+      const rawVariants: Partial<Record<'current' | 'next', RawVariantFiles>> = {}
+      for (const channel of ['current', 'next'] as const) {
+        const text = await read(`pages/${pageId}/${variantFileName(channel)}`, true)
+        const provenanceText = await read(`pages/${pageId}/${variantSidecarName(channel)}`, true)
+        if (text === undefined && provenanceText !== undefined) {
+          errors.push({ code: 'VARIANT_INVALID', message: `${variantSidecarName(channel)} requires ${variantFileName(channel)}`,
+            file: file(`pages/${pageId}/${variantSidecarName(channel)}`), line: 1, page: pageId, channel: 'both' })
+          continue
+        }
+        if (text !== undefined) rawVariants[channel] = { text, provenanceText }
+      }
+      const variants = parseVariants(rawVariants, { file: group.file(`pages/${pageId}/page.yaml`), page: pageId, channel: 'both' })
+      if ('errors' in variants) errors.push(...variants.errors)
+      else {
+        pages.set(pageId, { pageYaml, lockYaml, config: parsed.config, contentFiles,
+          ...(Object.keys(variants.variants).length ? { variants: variants.variants } : {}) })
+      }
     }
   }
   const source = sourceYaml === undefined ? undefined : parseSourceConfig(sourceYaml, { file: group.file('source.yaml'), channel: 'both' })
