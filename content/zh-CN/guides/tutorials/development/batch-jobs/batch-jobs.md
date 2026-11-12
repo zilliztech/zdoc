@@ -1,13 +1,13 @@
 ---
-title: "Spark 批量任务 | Cloud"
-slug: /spark-batch-jobs
-sidebar_label: "Spark 批量任务"
+title: "批量任务 | Cloud"
+slug: /batch-jobs
+sidebar_label: "批量任务"
 beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Spark 批量任务让你可以以分布式、离线的方式处理托管在 Zilliz Cloud 上的大规模数据集。具体来说，您可以创建批量任务，完成去重、聚类等任务，或分析您的向量数据。 | Cloud"
+description: "批量任务让你可以以分布式、离线的方式处理托管在 Zilliz Cloud 上的大规模数据集。具体来说，您可以创建批量任务，完成去重、聚类等任务，或分析您的向量数据。 | Cloud"
 type: origin
 token: KQT0wFr1TiDE72ksEUDcJ1B8nyc
 sidebar_position: 13
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# Spark 批量任务
+# 批量任务
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
@@ -28,9 +28,9 @@ import Procedures from '@site/src/components/Procedures';
 
 </FeatureNote>
 
-Spark 批量任务让你可以以分布式、离线的方式处理托管在 Zilliz Cloud 上的大规模数据集。具体来说，您可以创建批量任务，完成去重、聚类等任务，或分析您的向量数据。
+批量任务让你可以以分布式、离线的方式处理托管在 Zilliz Cloud 上的大规模数据集。具体来说，您可以创建批量任务，完成去重、聚类等任务，或分析您的向量数据。
 
-Spark 批量任务是用来处理长时间运行的数据处理任务，不建议在低时延在线请求或秒级变数据换场景使用。
+批量任务是用来处理长时间运行的数据处理任务，不建议在低时延在线请求或秒级变数据换场景使用。
 
 ## 你可能遇到的问题\{#problems-you-may-encounter}
 
@@ -40,7 +40,7 @@ Spark 批量任务是用来处理长时间运行的数据处理任务，不建�
 
 重试、重复导入、重叠数据源、甚至相同文字或图像的轻微改动都可能会引入重复创建的向量数据。在这些重复数据中，有些可能连主键都保持一致，而有些虽然主键不同，但内容可能完全一致。这些重复的数据会占用更多的存储空间、在索引过程中消耗更多的计算资源、并增加下流数据处理任务的成本。
 
-Spark 批量任务可以识别并移除大规模数据集中的重复数据。您可以使用主键去重任务清理那些主键一致的重复数据，也可以使用向量近似去重任务来识别主键不同但内容一致的重复数据。
+批量任务可以识别并移除大规模数据集中的重复数据。您可以使用主键去重任务清理那些主键一致的重复数据，也可以使用向量近似去重任务来识别主键不同但内容一致的重复数据。
 
 ### 向量分布不明确\{#unclear-embedding-distributions}
 
@@ -56,7 +56,7 @@ Spark 批量任务可以识别并移除大规模数据集中的重复数据。�
 
 ## 选择任务类型\{#choose-a-job-type}
 
-根据您的目标，在下表中选择不同的 Spark 批量任务。
+根据您的目标，在下表中选择不同的批量任务。
 
 | **目标** | **推荐任务** |
 | --- | --- |
@@ -65,13 +65,13 @@ Spark 批量任务可以识别并移除大规模数据集中的重复数据。�
 | 将向量数据分成指定数量的组。 | [K-Means 聚类](./k-means-clustering) |
 | 找出向量数据中与其它记录迥异的记录。 | [异常点检测](./anomaly-detection) |
 
-## Spark 批量任务的工作流程\{#how-spark-batch-jobs-work}
+## 批量任务的工作流程\{#how-batch-jobs-work}
 
-一个 Spark 批量任务是一个长时间运行的分布式、离线任务。在任务创建时会立即返回一个任务 ID，供您监测任务进度并管理任务生命周期。
+一个批量任务是一个长时间运行的分布式、离线任务。在任务创建时会立即返回一个任务 ID，供您监测任务进度并管理任务生命周期。
 
 ### 开始前准备\{#before-you-start}
 
-在创建 Spark 批量任务前，请确保：
+在创建批量任务前，请确保：
 
 - 您有一个拥有相关权限的 Zilliz Cloud API 密钥。
 
@@ -89,7 +89,7 @@ Spark 批量任务可以识别并移除大规模数据集中的重复数据。�
 
 ### 配置 External Volume 权限\{#external-volume}
 
-Spark 批量任务从 External Volume 中读取输入数据，并向目标 External Volume 中写入处理完成的数据。在提交任务前，请确认相关 Volume 绑定的角色拥有相应的权限。
+批量任务从 External Volume 中读取输入数据，并向目标 External Volume 中写入处理完成的数据。在提交任务前，请确认相关 Volume 绑定的角色拥有相应的权限。
 
 存放输入数据和输出数据的 External Volumes 可以使用不同的角色。建议为这些角色仅绑定访问存储桶和相应路径的必要的权限。
 
@@ -134,7 +134,7 @@ Spark 批量任务从 External Volume 中读取输入数据，并向目标 Exter
 
 #### 输出 Volume\{#volume}
 
-输出 Volume 需要拥有读写权限，以便向输出 Volume 中写入任务结果。Spark 也需要拥有删除临时对象或在任务失败或取消前产生的任务对象的权限。
+输出 Volume 需要拥有读写权限，以便向输出 Volume 中写入任务结果。Zilliz Cloud 也需要拥有删除临时对象或在任务失败或取消前产生的任务对象的权限。
 
 对于阿里云 OSS，角色需要的权限包括：
 
@@ -182,31 +182,31 @@ Spark 批量任务从 External Volume 中读取输入数据，并向目标 Exter
 
 </details>
 
-### 提交和运行 Spark 批量任务\{#submit-and-run-a-spark-batch-job}
+### 提交和运行批量任务\{#submit-and-run-a-batch-job}
 
-在您获取 Zilliz Cloud API 密钥并将所需数据文件上传到 Zilliz Cloud Volume 中后，您就可以提交和运行 Spark 批量任务了。
+在您获取 Zilliz Cloud API 密钥并将所需数据文件上传到 Zilliz Cloud Volume 中后，您就可以提交和运行批量任务了。
 
 <Procedures>
 
 1. 生成幂等 Key。
 
-    幂等 Key 用来识别针对同一任务的请求。更多详情，请参考[幂等提交](./spark-batch-jobs#idempotent-submission)。
+    幂等 Key 用来识别针对同一任务的请求。更多详情，请参考[幂等提交](./batch-jobs#idempotent-submission)。
 
 1. 准备请求头。
 
-    在创建 Spark 批量任务时，将上一步生成的幂等 Key 纳入请求头中。
+    在创建批量任务时，将上一步生成的幂等 Key 纳入请求头中。
 
     ```json
     Authorization: Bearer <api-key>
-    Idempotency-Key: spark-job-20260730-001
+    Idempotency-Key: batch-job-20260730-001
     Content-Type: application/json
     ```
 
 1. 准备请求负载。
 
-    所有的 Spark 批量任务的请求负载格式基本相同，每个任务也有一些仅用于各自任务所需的参数。
+    所有的批量任务的请求负载格式基本相同，每个任务也有一些仅用于各自任务所需的参数。
 
-    对于通用负载结构，请参阅[请求负载](./spark-batch-jobs#request-payload)一节。对于各自任务独有的参数，可以参考如下章节：
+    对于通用负载结构，请参阅[请求负载](./batch-jobs#request-payload)一节。对于各自任务独有的参数，可以参考如下章节：
 
     - [主键去重](./primary-key-dedup)
 
@@ -231,11 +231,11 @@ Spark 批量任务从 External Volume 中读取输入数据，并向目标 Exter
 
 #### 请求负载\{#request-payload}
 
-所有的 Spark 批量任务共用如下负载结构。
+所有的批量任务共用如下负载结构。
 
 ```json
 {
-  "jobName": "my-spark-job",
+  "jobName": "my-batch-job",
   "description": "optional description",
   "projectId": "proj-xxx",
   "regionId": "aws-us-west-2",
@@ -255,10 +255,10 @@ Spark 批量任务从 External Volume 中读取输入数据，并向目标 Exter
 | `jobName` | 是 | 待创建任务的名称。 |
 | `description` | 否 | 可选任务描述信息。 |
 | `projectId` | 是 | 待创建任务所属的项目 ID。参数值格式为 `proj-xxxxxxxxxxxxx`。 |
-| `regionId` | 是 | 待创建任务所属的地域 ID。关于支持 Spark 批量任务的地域，请参考 [云服务提供商和地域](./cloud-providers-and-regions)。 |
+| `regionId` | 是 | 待创建任务所属的地域 ID。关于支持批量任务的地域，请参考 [云服务提供商和地域](./cloud-providers-and-regions)。 |
 | `input` | 否 | 待创建任务的输入。内置任务必选。具体任务见下表。 |
 | `output` | 否 | 待创建任务的输出。内置任务必选。具体任务见下表。 |
-| `clusterSize` | 否 | 需要使用的 Spark 集群的大小。可选值包括 `SMALL`、`MEDIUM`、`LARGE`, `XLARGE`、`2XLARGE` 及 `3XLARGE`。 |
+| `clusterSize` | 否 | 需要使用的集群的大小。可选值包括 `SMALL`、`MEDIUM`、`LARGE`, `XLARGE`、`2XLARGE` 及 `3XLARGE`。 |
 | `timeoutSeconds` | 否 | 待创建任务的超时时间，单位为秒。取值范围为 `300` - `86400`. |
 
 上表中，`input` 和 `output` 参数包含的参数大致相同。具体内容见下表：
@@ -298,7 +298,7 @@ Spark 批量任务从 External Volume 中读取输入数据，并向目标 Exter
 
 <Admonition type="info" title="说明">
 
-对于 `input` 参数，`format` 决定使用哪种 Spark 数据源阅读器。如果您未指定该参数，任务默认使用 Parquet 阅读器，并仅处理指定路径下的 Parquet 文件。此时，其它格式的文件，如 JSON 或 CSV，会被忽略。
+对于 `input` 参数，`format` 决定使用哪种数据源阅读器。如果您未指定该参数，任务默认使用 Parquet 阅读器，并仅处理指定路径下的 Parquet 文件。此时，其它格式的文件，如 JSON 或 CSV，会被忽略。
 
 如果您希望处理的文件并非 Parquet 格式，请明确指定 `input.format` 为相应格式。任务不会自动检测文件格式，也不会混合处理不同格式的文件。
 
@@ -331,7 +331,7 @@ Spark 批量任务从 External Volume 中读取输入数据，并向目标 Exter
 }
 ```
 
-响应通常会携带一个任务 ID，用于监控任务执行情况。需要了解任务状态、获取任务详情、取消任务，可以查看[了解任务状态](./manage-spark-batch-jobs#understand-job-states)。
+响应通常会携带一个任务 ID，用于监控任务执行情况。需要了解任务状态、获取任务详情、取消任务，可以查看[了解任务状态](./manage-batch-jobs#understand-job-states)。
 
 当发生错误时，您会看到如下响应：
 
@@ -357,7 +357,7 @@ Spark 批量任务从 External Volume 中读取输入数据，并向目标 Exter
 
 ## 更多内容\{#next-steps}
 
-请使用如下指南，指导您创建符合您业务需求的 Spark 批量任务，并监控任务进度、管理任务生命周期。
+请使用如下指南，指导您创建符合您业务需求的批量任务，并监控任务进度、管理任务生命周期。
 
 
 

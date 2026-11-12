@@ -158,13 +158,31 @@ StructArray Scalar Filtering 由 `element_filter` 和 `MATCH_*` family 等 Struc
 
 - 优先使用 `$[has_code] == true` 等显式布尔比较，而不是裸布尔表达式。
 
+## StructArray 特性矩阵\{#structarray-features-across-cluster-types}
+
+下表详细比较了 External Collection 和 Managed Collection 在 StructArray 字段相关操作上的区别。
+
+| 特性 | Dedicated / Managed Coll. | On-Demand / Managed Coll. | On-Demand / External Coll. |
+| --- | --- | --- | --- |
+| 创建带 StructArray 字段的 Collection | ✅ | ✅ | ❌ |
+| 插入、Upsert 及部分更新 | ✅ | ❌ | ❌ |
+| 在带 StructArray 的 Collection 中执行批量导入 | ✅ | ✅ | ❌ |
+| 元素级搜索，包括 Range、Grouping 及混合搜索 | ✅ | ✅ | ❌ |
+| ELEMENT_FILTER 和 MATCH family | ✅ | ✅ | ❌ |
+| EmbeddingList 搜索 (MAX_SIM) | ✅ | ✅ | ❌ |
+| 添加 StructArray 字段 (须为 Nullable) | ✅ | ✅ | ❌ |
+| 删除 StructArray 字段 | ✅ | ✅ | ❌ |
+| 元素子字段可为空 | ✅ | ❌ | ❌ |
+| 向 StructArray 字段中添加子字段 | ✅ | ❌ | ❌ |
+| 删除子字段 | ✅ | ❌ | ❌ |
+
 ## 相关页面 \{#related-pages}
 
-1. 要创建 StructArray Field，请阅读 [创建 StructArray Field](./create-struct-array)。
+- 要创建 StructArray Field，请阅读 [创建 StructArray Field](./create-struct-array)。
 
-1. 要插入数据，请阅读 [向 StructArray Field 插入数据](./insert-struct-array)。
+- 要插入数据，请阅读 [向 StructArray Field 插入数据](./insert-struct-array)。
 
-1. 要创建 Vector 和 Scalar Index，请阅读 [为 StructArray Field 创建 Index](./index-struct-array)。
+- 要创建 Vector 和 Scalar Index，请阅读 [为 StructArray Field 创建 Index](./index-struct-array)。
 
-1. 要查看 StructArray Filter syntax，请阅读 [StructArray 操作符](./struct-array-filtering)。
+- 要查看 StructArray Filter syntax，请阅读 [StructArray 操作符](./struct-array-filtering)。
 

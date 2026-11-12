@@ -1,7 +1,7 @@
 ---
-title: "管理 Spark 批量任务 | Cloud"
-slug: /manage-spark-batch-jobs
-sidebar_label: "管理 Spark 批量任务"
+title: "管理批量任务 | Cloud"
+slug: /manage-batch-jobs
+sidebar_label: "管理批量任务"
 beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
@@ -18,7 +18,7 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# 管理 Spark 批量任务
+# 管理批量任务
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 

@@ -139,7 +139,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - 如需使用 `keepBy`，请确认输入数据的记录中均包含保留策略中指定的字段。
 
-关于 Spark 批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[Spark 批量任务](./spark-batch-jobs)。
+关于批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[Spark 批量任务](./batch-jobs)。
 
 ## 创建向量近似去重任务\{#create-a-vector-similarity-deduplication-job}
 
@@ -149,7 +149,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 准备一个幂等 Key。
 
-    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./spark-batch-jobs#idempotent-submission)。
+    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./batch-jobs#idempotent-submission)。
 
 1. 准备请求负载。
 
@@ -196,7 +196,7 @@ import Procedures from '@site/src/components/Procedures';
        <tr>
          <td><p><code>vectorField</code></p></td>
          <td><p>是</p></td>
-         <td><p>用于进行向量相似度比较的向量字段。支持的字段值类型为 <code>array&lt;float&gt;</code>、数值数组、Spark 向量以及用逗号分隔的字符串。</p></td>
+         <td><p>用于进行向量相似度比较的向量字段。支持的字段值类型为 <code>array&lt;float&gt;</code>、数值数组、向量以及用逗号分隔的字符串。</p></td>
        </tr>
        <tr>
          <td><p><code>metric</code></p></td>
@@ -231,7 +231,7 @@ import Procedures from '@site/src/components/Procedures';
 
     </Admonition>
 
-    关于 Spark 批量任务通用的其它参数，请参考[请求负载](./spark-batch-jobs#request-payload)。
+    关于批量任务通用的其它参数，请参考[请求负载](./batch-jobs#request-payload)。
 
 1. 提交任务。
 
@@ -241,7 +241,7 @@ import Procedures from '@site/src/components/Procedures';
     curl --request POST \
         --url "https://api.cloud.zilliz.com/v2/jobs/dedup/vector" \
         --header "Authorization: Bearer ${API_KEY}" \
-        --header "Idempotency-Key: spark-job-20260730-001" \
+        --header "Idempotency-Key: batch-job-20260730-001" \
         --header "Content-Type: application/json" \
         --data "${payload}"
     ```
@@ -263,7 +263,7 @@ import Procedures from '@site/src/components/Procedures';
     }
     ```
 
-    关于提交后任务的状态流转及响应各字段的含义，可以参考[返回响应](./spark-batch-jobs#submission-response)。
+    关于提交后任务的状态流转及响应各字段的含义，可以参考[返回响应](./batch-jobs#submission-response)。
 
 </Procedures>
 
@@ -273,7 +273,7 @@ import Procedures from '@site/src/components/Procedures';
 
 当任务成功后，验证请求中指定的输出路径下是否按预期出现了输出文件。
 
-关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理 Spark 批量任务](./manage-spark-batch-jobs)。
+关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理批量任务](./manage-batch-jobs)。
 
 ## 验证输出\{#verify-the-output}
 

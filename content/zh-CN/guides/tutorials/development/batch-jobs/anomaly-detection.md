@@ -68,11 +68,9 @@ import Procedures from '@site/src/components/Procedures';
 
 - 该字段中的向量数据类型和维度相同，且均由相同的嵌入模型和数据预处理方法生成。
 
-关于 Spark 批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[Spark 批量任务](./spark-batch-jobs)。
+关于批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[批量任务](./batch-jobs)。
 
 当 `outputWithFeatures` 设置为 `false`，可以考虑设置 `primaryKeyField` 以便输出文件中的记录仍能溯源到原记录。
-
-关于 Spark 批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[Spark 批量任务](./spark-batch-jobs)。
 
 ## 创建异常点检测任务\{#create-an-anomaly-detection-job}
 
@@ -82,7 +80,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 准备一个幂等 Key。
 
-    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./spark-batch-jobs#idempotent-submission)。
+    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./batch-jobs#idempotent-submission)。
 
 1. 准备请求负载。
 
@@ -122,7 +120,7 @@ import Procedures from '@site/src/components/Procedures';
     | `topK` | 否 | 用于指定需要返回的异常数据记录的数量，按 `outlier_score` 的值从大到小排序。该值应为正整数。如果未指定，任务将返回所有记录。 |
     | `outputWithFeatures` | 否 | 用于指定是否需要在输出数据中包含向量字段。默认值为 `true`。当设置为 `false` 时，输出数据不包含向量字段。 |
 
-    关于 Spark 批量任务通用的其它参数，请参考[请求负载](./spark-batch-jobs#request-payload)。
+    关于 Spark 批量任务通用的其它参数，请参考[请求负载](./batch-jobs#request-payload)。
 
 1. 提交任务。
 
@@ -154,7 +152,7 @@ import Procedures from '@site/src/components/Procedures';
     }
     ```
 
-    关于提交后任务的状态流转及响应各字段的含义，可以参考[返回响应](./spark-batch-jobs#submission-response)。
+    关于提交后任务的状态流转及响应各字段的含义，可以参考[返回响应](./batch-jobs#submission-response)。
 
 </Procedures>
 
@@ -164,7 +162,7 @@ import Procedures from '@site/src/components/Procedures';
 
 当任务成功后，验证请求中指定的输出路径下是否按预期出现了输出文件。
 
-关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理 Spark 批量任务](./manage-spark-batch-jobs)。
+关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理批量任务](./manage-batch-jobs)。
 
 ## 了解并验证输出\{#understand-and-validate-the-output}
 

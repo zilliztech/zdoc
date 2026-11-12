@@ -1184,48 +1184,48 @@ module.exports = [
       },
       {
         "type": "category",
-        "label": "Spark 批量任务",
-        "key": "category:tutorials/development/spark-batch-jobs",
+        "label": "批量任务",
+        "key": "category:tutorials/development/batch-jobs",
         "link": {
           "type": "doc",
-          "id": "tutorials/development/spark-batch-jobs/spark-batch-jobs"
+          "id": "tutorials/development/batch-jobs/batch-jobs"
         },
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/development/spark-batch-jobs/primary-key-dedup",
+            "id": "tutorials/development/batch-jobs/primary-key-dedup",
             "label": "主键去重",
-            "key": "doc:tutorials/development/spark-batch-jobs/primary-key-dedup"
+            "key": "doc:tutorials/development/batch-jobs/primary-key-dedup"
           },
           {
             "type": "doc",
-            "id": "tutorials/development/spark-batch-jobs/vector-similarity-dedup",
+            "id": "tutorials/development/batch-jobs/vector-similarity-dedup",
             "label": "向量近似去重",
-            "key": "doc:tutorials/development/spark-batch-jobs/vector-similarity-dedup"
+            "key": "doc:tutorials/development/batch-jobs/vector-similarity-dedup"
           },
           {
             "type": "doc",
-            "id": "tutorials/development/spark-batch-jobs/k-means-clustering",
+            "id": "tutorials/development/batch-jobs/k-means-clustering",
             "label": "K-Means 聚类",
-            "key": "doc:tutorials/development/spark-batch-jobs/k-means-clustering"
+            "key": "doc:tutorials/development/batch-jobs/k-means-clustering"
           },
           {
             "type": "doc",
-            "id": "tutorials/development/spark-batch-jobs/anomaly-detection",
+            "id": "tutorials/development/batch-jobs/anomaly-detection",
             "label": "异常点检测",
-            "key": "doc:tutorials/development/spark-batch-jobs/anomaly-detection"
+            "key": "doc:tutorials/development/batch-jobs/anomaly-detection"
           },
           {
             "type": "doc",
-            "id": "tutorials/development/spark-batch-jobs/data-backfill",
+            "id": "tutorials/development/batch-jobs/data-backfill",
             "label": "数据回填",
-            "key": "doc:tutorials/development/spark-batch-jobs/data-backfill"
+            "key": "doc:tutorials/development/batch-jobs/data-backfill"
           },
           {
             "type": "doc",
-            "id": "tutorials/development/spark-batch-jobs/manage-spark-batch-jobs",
-            "label": "管理 Spark 批量任务",
-            "key": "doc:tutorials/development/spark-batch-jobs/manage-spark-batch-jobs"
+            "id": "tutorials/development/batch-jobs/manage-batch-jobs",
+            "label": "管理批量任务",
+            "key": "doc:tutorials/development/batch-jobs/manage-batch-jobs"
           }
         ]
       },

@@ -72,7 +72,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - 目标 Collection 所在集群需要和输入数据所在 Volume 处于同一地域的同一项目中。
 
-关于 Spark 批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[Spark 批量任务](./spark-batch-jobs)。
+关于批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[批量任务](./batch-jobs)。
 
 ## 创建带预检查的数据回填任务\{#create-a-data-backfill-job-with-prechecks}
 
@@ -82,7 +82,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 准备一个幂等 Key。
 
-    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./spark-batch-jobs#idempotent-submission)。
+    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./batch-jobs#idempotent-submission)。
 
 1. （可选）执行预检查。
 
@@ -122,7 +122,7 @@ import Procedures from '@site/src/components/Procedures';
     | `dbName` | 否 | 指定集群中的数据库。<br/>参数值为长度不超过 256 个字符的字符串。 |
     | `collectionName` | 是 | 指定集群和数据库中的 Collection。<br/>参数值为长度不超过 256 个字符的字符串。 |
     | `fields` | 是 | 指定需要回填的 Collection 中字段名称。<br/>Zilliz Cloud 使用这些字段名称做为目录字段完成数据回填任务。参数值为字符串列表。 |
-    | `input` | 是 | 回填任务的输入参数。其指向存放在 Zilliz Cloud Volume 中的数据文件。关于输入字段的详细情况，可以参考[请求负载](./spark-batch-jobs#request-payload)。 |
+    | `input` | 是 | 回填任务的输入参数。其指向存放在 Zilliz Cloud Volume 中的数据文件。关于输入字段的详细情况，可以参考[请求负载](./batch-jobs#request-payload)。 |
     | `columnMapping` | 否 | 输入数据文件中的各字段和目标 Collection 中各字段的映射关系。<br/>当数据文件中的字段名称与目标 Collection 各字段名称不同时，可以使用该参数指定字段间的映射关系。一旦指定该参数，您需要将包括主键在内的所有需要回填的字段囊括进来。 |
 
     如果您在请求中省略 `columnMapping` 字段，数据文件中的字段名称需要与目标 Collection 的各字段的名称一一对应。
@@ -227,7 +227,7 @@ import Procedures from '@site/src/components/Procedures';
     curl --request POST \
         --url "https://api.cloud.zilliz.com/v2/projects/{projectId}/jobs/backfill" \
         --header "Authorization: Bearer ${API_KEY}" \
-        --header "Idempotency-Key: spark-job-20260730-006" \
+        --header "Idempotency-Key: batch-job-20260730-006" \
         --header "Content-Type: application/json" \
         --data "${backfill_payload}"
     ```
@@ -270,7 +270,7 @@ import Procedures from '@site/src/components/Procedures';
         "precheckReport": null,
         "failureReason": {
           "code": "SPARK_EXECUTION_FAILED",
-          "message": "The Spark job failed.",
+          "message": "The batch job failed.",
           "retryable": false
         },
         "createdAt": "2026-08-21T02:00:00Z",
@@ -294,7 +294,7 @@ import Procedures from '@site/src/components/Procedures';
 
 当任务成功后，验证请求中指定的输出路径下是否按预期出现了输出文件。
 
-关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理 Spark 批量任务](./manage-spark-batch-jobs)。
+关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理批量任务](./manage-batch-jobs)。
 
 ## 验证结果\{#verify-the-results}
 

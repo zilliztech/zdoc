@@ -281,6 +281,13 @@
     "content/zh-CN/guides/tutorials/development/analyzer/built-in-analyzer/thai-analyzer.md",
     "content/zh-CN/guides/tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case.md",
     "content/zh-CN/guides/tutorials/development/analyzer/multi-language-analyzers.md",
+    "content/zh-CN/guides/tutorials/development/batch-jobs/anomaly-detection.md",
+    "content/zh-CN/guides/tutorials/development/batch-jobs/batch-jobs.md",
+    "content/zh-CN/guides/tutorials/development/batch-jobs/data-backfill.md",
+    "content/zh-CN/guides/tutorials/development/batch-jobs/k-means-clustering.md",
+    "content/zh-CN/guides/tutorials/development/batch-jobs/manage-batch-jobs.md",
+    "content/zh-CN/guides/tutorials/development/batch-jobs/primary-key-dedup.md",
+    "content/zh-CN/guides/tutorials/development/batch-jobs/vector-similarity-dedup.md",
     "content/zh-CN/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md",
     "content/zh-CN/guides/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
     "content/zh-CN/guides/tutorials/development/collection/create-external-collection/create-external-collection.md",
@@ -402,13 +409,6 @@
     "content/zh-CN/guides/tutorials/development/search-and-query/with-iterators.md",
     "content/zh-CN/guides/tutorials/development/snapshots/manage-snapshots.md",
     "content/zh-CN/guides/tutorials/development/snapshots/snapshots.md",
-    "content/zh-CN/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md",
-    "content/zh-CN/guides/tutorials/development/spark-batch-jobs/data-backfill.md",
-    "content/zh-CN/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md",
-    "content/zh-CN/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
-    "content/zh-CN/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md",
-    "content/zh-CN/guides/tutorials/development/spark-batch-jobs/spark-batch-jobs.md",
-    "content/zh-CN/guides/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md",
     "content/zh-CN/guides/tutorials/development/vector-index/autoindex-explained.md",
     "content/zh-CN/guides/tutorials/development/vector-index/minhash-lsh.md",
     "content/zh-CN/guides/tutorials/development/vector-index/tune-index-build-level.md",
@@ -1161,9 +1161,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/struct-array/struct-array-limits.md",
-      "sha256": "baeff207575edd56ee6c72d143c9606b01db5b987fe4c6b8bfe488747ef457ba",
+      "sha256": "2d8e6a9a0840665d8aead544c5dfdff6d53773e673902c9e563979bd20c2df55",
       "docToken": "RANTwGTbUizuOOk4JQYcVZPbn7f",
-      "revisionId": "40"
+      "revisionId": "173"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md",
@@ -1755,7 +1755,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "sha256": "c372894737a919b05221074c14dab0ae054e3984f040124197f8b0781a6746a5",
+      "sha256": "24d7cafc2ceeae2d69695ab502b318d0d9b0756dfec7c9948f40d830b9b20cce",
       "docToken": "M3fWwcqJpimd7YkaoLucY7eBnne",
       "revisionId": "265"
     },
@@ -2276,6 +2276,48 @@
       "revisionId": "364"
     },
     {
+      "path": "content/zh-CN/guides/tutorials/development/batch-jobs/anomaly-detection.md",
+      "sha256": "951c8fb3d2b037a6fdcdbc44a8c6c2dfe71cbca7e30670bdba3bebfeefa59aef",
+      "docToken": "RDfLw6XYHiELxGkr2pucgQ1Snyh",
+      "revisionId": "1117"
+    },
+    {
+      "path": "content/zh-CN/guides/tutorials/development/batch-jobs/batch-jobs.md",
+      "sha256": "189dcc2e53b5957e85811c1550fcbfb1285e1c02bf31211220e5f4ad210b7c78",
+      "docToken": "KQT0wFr1TiDE72ksEUDcJ1B8nyc",
+      "revisionId": "2783"
+    },
+    {
+      "path": "content/zh-CN/guides/tutorials/development/batch-jobs/data-backfill.md",
+      "sha256": "582401b901874a4b07f0dcbdd97c8b0536b9056c75357425993f61335088b1db",
+      "docToken": "KYhxw6kczixgIMkFKOlc1srinPw",
+      "revisionId": "2184"
+    },
+    {
+      "path": "content/zh-CN/guides/tutorials/development/batch-jobs/k-means-clustering.md",
+      "sha256": "d4bb993e933bb42b4042793a3bb77ceb802b4832bc63f71dee2a9e7f14189b8a",
+      "docToken": "VIyWwOfUFiQaNkkdsqVca9Gqnve",
+      "revisionId": "571"
+    },
+    {
+      "path": "content/zh-CN/guides/tutorials/development/batch-jobs/manage-batch-jobs.md",
+      "sha256": "6bac9717603c15b624317b9e0c54e63187f1a00402829136aa2e9d98bc0add70",
+      "docToken": "VOt1wvC7jid1sOkWeFOct55Fn0e",
+      "revisionId": "1417"
+    },
+    {
+      "path": "content/zh-CN/guides/tutorials/development/batch-jobs/primary-key-dedup.md",
+      "sha256": "e0a0740fd483667e9bb9984ebbb1f468d1468470396abf6b52443af003ea0a9d",
+      "docToken": "PLmWwXhMyiUErvkeRtAcL9kJnib",
+      "revisionId": "1469"
+    },
+    {
+      "path": "content/zh-CN/guides/tutorials/development/batch-jobs/vector-similarity-dedup.md",
+      "sha256": "0bff78411d216021e87ebd765a8046a5a6433af694156ccaab8a2c9ce49ab66e",
+      "docToken": "XWOtw0B8zimLDAkc1AQcwIL0n7R",
+      "revisionId": "2027"
+    },
+    {
       "path": "content/zh-CN/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md",
       "sha256": "de9959647e22f56c62b26674af730b808029e3481600b54eb7d7a4f787c4663e",
       "docToken": "Cy4swPPaeiZgbmkN4wUc9wAdnwd",
@@ -2709,9 +2751,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/struct-array/struct-array-limits.md",
-      "sha256": "0d293570de3b4053821a9659cadf5b6df892e16bd0b89999679f6bd3f4b559dc",
+      "sha256": "ffe6f43b2a21a8781ee977402d9806d33de42310d163e198c1f6d89548ff715b",
       "docToken": "RANTwGTbUizuOOk4JQYcVZPbn7f",
-      "revisionId": "40"
+      "revisionId": "173"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/struct-array/use-array-of-structs.md",
@@ -3000,48 +3042,6 @@
       "sha256": "876675f4982e72e7656f39a8e1053b5a6001f8b5bd7a39021bff74c780203dcb",
       "docToken": "Km9nwfLWti2GZNkLtbnc8fcVnId",
       "revisionId": "29"
-    },
-    {
-      "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md",
-      "sha256": "1bb05af3e9fb821c8901dece8923e9286b1354ad1ec1cc2fc5e80b928ab1ec28",
-      "docToken": "RDfLw6XYHiELxGkr2pucgQ1Snyh",
-      "revisionId": "1110"
-    },
-    {
-      "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/data-backfill.md",
-      "sha256": "55cf64c14fd58963079c885f00caf4138a02d460589dfcab0788290837eca300",
-      "docToken": "KYhxw6kczixgIMkFKOlc1srinPw",
-      "revisionId": "2177"
-    },
-    {
-      "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md",
-      "sha256": "42e9a847ce3ec22f0d3f4ca8d3e16f06dc797bae2d71e66b16f00b4d2a69d91d",
-      "docToken": "VIyWwOfUFiQaNkkdsqVca9Gqnve",
-      "revisionId": "567"
-    },
-    {
-      "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
-      "sha256": "cb04493f1828836dd4da8c963e4f3e00f4e33fa84564b3b5f7a4fa9ba98cfe58",
-      "docToken": "VOt1wvC7jid1sOkWeFOct55Fn0e",
-      "revisionId": "1414"
-    },
-    {
-      "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md",
-      "sha256": "3f14eeb1e22d7647ed7af56296380eb25b1bee976806dcb75050bc0d904515a5",
-      "docToken": "PLmWwXhMyiUErvkeRtAcL9kJnib",
-      "revisionId": "1463"
-    },
-    {
-      "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/spark-batch-jobs.md",
-      "sha256": "c0eb526a3888cffcd6e3c6ac4cd8e2902609434dbe7160f362a25f92c876d0e8",
-      "docToken": "KQT0wFr1TiDE72ksEUDcJ1B8nyc",
-      "revisionId": "2757"
-    },
-    {
-      "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md",
-      "sha256": "9ac6777554ed5c071796c8828a447079c0f61b452417951834431a6270327f85",
-      "docToken": "XWOtw0B8zimLDAkc1AQcwIL0n7R",
-      "revisionId": "2021"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/autoindex-explained.md",
@@ -3567,7 +3567,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/monitor-billing-alerts.md",
-      "sha256": "e1d9b888591830b28e8f8cf542368ac3b583b33e2a371cfd1c4d37cf780efb40",
+      "sha256": "1f6b6ca0af7061c1688d9d716e67bd56439e050775242148a4e74db02372d2de",
       "docToken": "VHz6wyqArieXOpkujoRctW0hnng",
       "revisionId": "104"
     },
@@ -3639,7 +3639,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "sha256": "efc7fb657cb2fc0233e3b2a70fd55f0c08ceeff10c9765d640dc953c79c028fb",
+      "sha256": "2cda0f4da3d0babb60fd02338415a1ce159b79f7b9f95d0def9205de342192f1",
       "docToken": "M3fWwcqJpimd7YkaoLucY7eBnne",
       "revisionId": "265"
     },
@@ -4005,7 +4005,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/projects/manage-projects.md",
-      "sha256": "a12516eebc947547f7cde522051ad828ab728994a22cb0114f4f83889030e0de",
+      "sha256": "414bda6e7c4d4fc286945fd8b7a0fccdea9210c74a319ae1c2f11dc966107d0d",
       "docToken": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
       "revisionId": "1073"
     },
@@ -4209,7 +4209,7 @@
     },
     {
       "path": "generated/zh-CN/sidebars/guides.sidebar.js",
-      "sha256": "015c93c3d2166406ca17be6c76d742fa631698e2e269aad4ef1c732106676a7d",
+      "sha256": "a67949ff4fb9568433f0ace397a98da280b3c19d13bd3f1281efea95cd848e04",
       "docToken": null,
       "revisionId": null
     },

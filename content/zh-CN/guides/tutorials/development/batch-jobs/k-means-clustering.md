@@ -71,7 +71,7 @@ K-Means 聚类会将嵌入特征相似的记录归入指定数量的聚类中。
 
 - 该字段中的向量数据类型和维度相同，且均由相同的嵌入模型和数据预处理方法生成。
 
-关于 Spark 批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[Spark 批量任务](./spark-batch-jobs)。
+关于批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[批量任务](./batch-jobs)。
 
 ## 创建 K-Means 聚类任务\{#create-a-k-means-clustering-job}
 
@@ -81,7 +81,7 @@ K-Means 聚类会将嵌入特征相似的记录归入指定数量的聚类中。
 
 1. 准备一个幂等 Key。
 
-    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./spark-batch-jobs#idempotent-submission)。
+    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./batch-jobs#idempotent-submission)。
 
 1. 准备请求负载。
 
@@ -115,11 +115,11 @@ K-Means 聚类会将嵌入特征相似的记录归入指定数量的聚类中。
     | 参数名称 | 是否必选 | 参数描述 |
     | --- | --- | --- |
     | `primaryKeyField` | 否 | 用于在数据完成清理后导入的目标 Collection 中充当主键的标量字段。<br/>Zilliz Cloud Collection  要求主键字段的数据类型为字符串（VarChar）或整数（Int64）。 |
-    | `vectorField` | 是 | 用于进行向量相似度比较的向量字段。支持的字段值类型为 `array<float>`、数值数组、Spark 向量以及用逗号分隔的字符串。 |
+    | `vectorField` | 是 | 用于进行向量相似度比较的向量字段。支持的字段值类型为 `array<float>`、数值数组、向量以及用逗号分隔的字符串。 |
     | `metric` | 是 | 用于向量相似度比较的相似度类型。可能的取值为 `cosine` 和 `l2`。 |
     | `numClusters` | 是 | 期望任务创建的簇的数量。参数值为正整数。 |
 
-    关于 Spark 批量任务通用的其它参数，请参考[请求负载](./spark-batch-jobs#request-payload)。
+    关于 Spark 批量任务通用的其它参数，请参考[请求负载](./batch-jobs#request-payload)。
 
 1. 提交任务。
 
@@ -151,7 +151,7 @@ K-Means 聚类会将嵌入特征相似的记录归入指定数量的聚类中。
     }
     ```
 
-    关于提交后任务的状态流转及响应各字段的含义，可以参考[返回响应](./spark-batch-jobs#submission-response)。
+    关于提交后任务的状态流转及响应各字段的含义，可以参考[返回响应](./batch-jobs#submission-response)。
 
 </Procedures>
 
@@ -161,7 +161,7 @@ K-Means 聚类会将嵌入特征相似的记录归入指定数量的聚类中。
 
 当任务成功后，验证请求中指定的输出路径下是否按预期出现了输出文件。
 
-关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理 Spark 批量任务](./manage-spark-batch-jobs)。
+关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理批量任务](./manage-batch-jobs)。
 
 ## 验证输出\{#verify-the-output}
 

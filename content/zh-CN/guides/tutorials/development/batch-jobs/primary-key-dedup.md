@@ -72,7 +72,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - 如果重复项包含不同的字段值，考虑设置合适的 `keepBy` 字段和策略。
 
-关于 Spark 批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[Spark 批量任务](./spark-batch-jobs)。
+关于批量任务的通用要求，包括鉴权、输入文件和输出行为，查看[批量任务](./batch-jobs)。
 
 ## 创建主键去重任务\{#create-a-primary-key-deduplication-job}
 
@@ -82,7 +82,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 准备一个幂等 Key。
 
-    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./spark-batch-jobs#idempotent-submission)。
+    幂等 Key 是一个用于判断当前请求的资源是否已经在运行的字符串。如果请求的资源已经在运行，则返回该资源。关于幂等 Key 的更多详情，可以参考[幂等提交](./batch-jobs#idempotent-submission)。
 
 1. 准备请求负载。
 
@@ -124,7 +124,7 @@ import Procedures from '@site/src/components/Procedures';
 
     当未设置 `keepBy` 策略时，任务会根据内部机制选择一条记录予以保留。当重复组中的记录在某些字段上的值不一致时，或您需要一个可以预期的保留策略时，可以考虑使用 `keepBy`。
 
-    关于 Spark 批量任务通用的其它参数，请参考[请求负载](./spark-batch-jobs#request-payload)。
+    关于批量任务通用的其它参数，请参考[请求负载](./batch-jobs#request-payload)。
 
 1. 提交任务。
 
@@ -134,7 +134,7 @@ import Procedures from '@site/src/components/Procedures';
     curl --request POST \
         --url "https://api.cloud.zilliz.com/v2/jobs/dedup/pk" \
         --header "Authorization: Bearer ${API_KEY}" \
-        --header "Idempotency-Key: spark-job-20260730-001" \
+        --header "Idempotency-Key: batch-job-20260730-001" \
         --header "Content-Type: application/json" \
         --data "${payload}"
     ```
@@ -156,7 +156,7 @@ import Procedures from '@site/src/components/Procedures';
     }
     ```
 
-    关于提交后任务的状态流转及响应各字段的含义，可以参考[返回响应](./spark-batch-jobs#submission-response)。
+    关于提交后任务的状态流转及响应各字段的含义，可以参考[返回响应](./batch-jobs#submission-response)。
 
 </Procedures>
 
@@ -166,7 +166,7 @@ import Procedures from '@site/src/components/Procedures';
 
 当任务成功后，验证请求中指定的输出路径下是否按预期出现了输出文件。
 
-关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理 Spark 批量任务](./manage-spark-batch-jobs)。
+关于相关监控任务的请求、任务状态及状态流转的详细情况，可以参考[管理批量任务](./manage-batch-jobs)。
 
 ## 验证输出\{#verify-the-output}
 
