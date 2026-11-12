@@ -9,7 +9,7 @@ import { canonicalBytes, digest } from '../../core/updates/canonical'
 import { encodeRevisionMessage } from '../../core/updates/metadata'
 import { guidesUnitKey, type BotRevision, type CandidateSnapshotProof, type UpdateReportEnvelope, type UpdateUnitPlan } from '../../core/updates/envelope'
 import { encodeSealMessage, RemoteTransactionIntentSchema, type RemotePolicy, type RemoteSealV1 } from '../../core/updates/remote'
-import { createRemoteTransaction, createRemoteTransactionFixture } from '../../adapters/updates/remote-transaction'
+import { createRemoteTransaction, createRemoteTransactionFixture, planNewGuidesObjectTransfer } from '../../adapters/updates/remote-transaction'
 import { inspectRemoteHistory } from '../../adapters/updates/remote-metadata'
 import { createRemoteReads, REMOTE_REF_CAS, REMOTE_SEAL_APPEND, type RemoteTransport } from '../../adapters/updates/remote-github'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
@@ -46,7 +46,8 @@ async function fixture() {
   const plan={kind:'shared-update-unit',schemaVersion:1,unitKey:guidesUnitKey([subject]),subjects:[subject],membersSha256:h,reports:[empty],nextEdits:[{subject,before:{path:'shared-docs/guides/pages/alpha/lock.yaml',sha256:beforeRef.sha256,current:source,next:source},target,afterBlob:afterRef}],disposition:'candidate',holdReasons:[],semanticInputSha256:h}
   const revision={kind:'shared-update-revision' as const,schemaVersion:1 as const,unitKey:plan.unitKey,subjects:[subject],parentHead:master,master,dev:master,tools:master,memberSetSha256:plan.membersSha256,planSha256:digest('plan',plan),previousBotCommit:null,lockDeltas:[{path:plan.nextEdits[0].before.path,current:source,oldNext:source,next:target}],preservedHumanHeads:[]}
   const candidate=object('commit',Buffer.from(rawCommit(candidateTree,[master],encodeRevisionMessage(revision).commitMessage).toString().replaceAll(' 1 +0000',' 2 +0000')))
-  const proof={prepared:{kind:'new',master,base:master,tree:masterTree},candidate,candidateTree,patch:empty,preservedHumanHeads:[],trustedToolsetSha256:h,executableClosure:empty,nextEdits:plan.nextEdits}
+  const patch = await evidence.writeBlob(git(['diff-tree','--raw','-r','-z','--no-abbrev','--no-commit-id',master,candidate]))
+  const proof={prepared:{kind:'new',master,base:master,tree:masterTree},candidate,candidateTree,patch,preservedHumanHeads:[],trustedToolsetSha256:h,executableClosure:empty,nextEdits:plan.nextEdits}
   const planRef=await evidence.writeBlob(canonicalBytes(plan)),proofRef=await evidence.writeBlob(canonicalBytes(proof))
   const intent=RemoteTransactionIntentSchema.parse({kind:'shared-update-remote-intent',schemaVersion:1,repositoryId:100,repositoryFullName:'example/zdoc',master,dev:master,transactionId:h,unitKey:plan.unitKey,planSha256:digest('plan',plan),proofSha256:proofRef.sha256,plan:planRef,proof:proofRef,preparedBase:master,candidate,candidateTree,previousSeal:null,preservedHumanHeads:[],targetRef:'shared-update/unit',expectedHead:null,stagingRef:'shared-update-staging/'+h,pulls:[],producerRunId:30,producerRunAttempt:1,producerRequestId:'producer-30',requestId:'validate-30'})
   const pulls:any[]=[],writes:{action:string;body:any}[]=[];let fault:{at:number;mode:string}|undefined,seal:string|undefined,failReads=false,moveBase=false,manualPush=false,installed=false,dispatched=false,validationMode='valid',pullScans=0,appearAt=0
@@ -110,7 +111,7 @@ async function fixture() {
   await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));cleanup.push(()=>new Promise<void>((resolve,reject)=>{server.close(error=>error?reject(error):resolve());server.closeAllConnections()}))
   const address=server.address() as {port:number}
   const transport:RemoteTransport=input=>new Promise((resolve,reject)=>{const req=request({hostname:'127.0.0.1',port:address.port,path:input.path,method:input.method,signal:input.signal,agent:false},res=>{const chunks:Buffer[]=[];res.on('data',chunk=>chunks.push(Buffer.from(chunk)));res.on('end',()=>resolve({status:res.statusCode!,headers:{},body:Buffer.concat(chunks)}));res.on('error',reject)});req.on('error',reject);if(input.body)req.write(input.body);req.end()})
-  const reads=createRemoteReads({policy,transport,evidence,approvedProducers:[{tools:master,...policy.producer,protocol:'shared-update-producer-v1'}]}),scratch={read:async(oid:string,type:'commit'|'tree'|'blob')=>git(['cat-file',type,oid])},remoteObjects={read:readObject}
+  const reads=createRemoteReads({policy,transport,evidence,approvedProducers:[{tools:master,...policy.producer,protocol:'shared-update-producer-v1'}]}),scratch={read:async(oid:string,type:'commit'|'tree'|'blob')=>git(['cat-file',type,oid])},remoteObjects={read:readObject, async verifyConnected(commits:readonly string[]) {remote(['fsck','--connectivity-only','--no-dangling',...commits])}}
   const harness=()=>createRemoteTransactionFixture({reads,evidence,transport,scratch,remoteObjects,authenticate:async()=>{},validatorInstalled:installed?async()=>{}:undefined})
   return {intent,reads,evidence,scratch,remoteObjects,harness,transport,writes,ref,remote,object,rawCommit,masterTree,master,candidate,proof,plan,pulls,installValidator:(mode='valid')=>{installed=true;validationMode=mode},appearAfterScans:(count:number)=>{appearAt=count},getSeal:()=>seal,setFault:(at:number,mode:string)=>{fault={at,mode}},moveBase:()=>{moveBase=true},manualPush:()=>{manualPush=true},failReads:()=>{failReads=true},clearFault:()=>{fault=undefined;failReads=false}}
 }
@@ -122,6 +123,10 @@ it('rejects JSON and fixture writer authority at the production constructor with
 it('uploads actual closed objects, seals exactly K, CASes target and creates one draft; validator stays disabled',async()=>{
   const f=await fixture(),result=await f.harness().apply(f.intent)
   expect(result.reasons).toEqual(['VALIDATOR_NOT_INSTALLED']);expect(result.seal).toBe(f.ref(f.intent.targetRef));expect(f.pulls).toHaveLength(1);expect(f.pulls[0].draft).toBe(true)
+  const githubMessage=f.writes.find(write=>write.action==='seal')!.body.variables.input.message
+  expect(githubMessage.headline).toBe('Seal shared update')
+  expect(githubMessage.body).toMatch(/^Shared-Update-Seal: v1\.[A-Za-z0-9_-]+$/)
+  expect(githubMessage.body.endsWith('\n')).toBe(false)
   expect(f.remote(['merge-base','--is-ancestor',f.candidate,result.seal!]).length).toBe(0)
   expect(f.writes.filter(write=>write.action==='cas').map(write=>write.body.variables.input.refUpdates[0])).toEqual([{name:'refs/heads/'+f.intent.stagingRef,beforeOid:'0'.repeat(40),afterOid:f.candidate,force:false},{name:'refs/heads/'+f.intent.targetRef,beforeOid:'0'.repeat(40),afterOid:result.seal,force:false}])
   expect(f.writes.map(write=>write.action)).not.toContain('dispatches')
@@ -130,6 +135,48 @@ it.each(['before','after','lost','incomplete','read-fails'])('stops every subseq
   const baseline=await fixture();baseline.installValidator();await baseline.harness().apply(baseline.intent);const count=baseline.writes.length;expect(count).toBeGreaterThan(5)
   for(let at=1;at<=count;at++){const f=await fixture();f.installValidator();f.setFault(at,mode);const result=await f.harness().apply(f.intent);expect(result.status).toBe('hold');expect(result.reasons).toEqual(['REMOTE_STATE_UNKNOWN']);expect(f.writes).toHaveLength(at);expect(JSON.stringify(result)).not.toContain('private-token-secret');const before=f.writes.length;await f.harness().reconcile(f.intent);expect(f.writes).toHaveLength(before)}
 },120000)
+it('transfers only the changed lock spine in dependency order and reconstructs the exact commit', async () => {
+  const f = await fixture()
+  const baseline = {verifyConnected:f.remoteObjects.verifyConnected,read: async (oid:string,type:'blob'|'tree'|'commit')=>f.remote(['cat-file',type,oid])}
+  const input = {master:f.master,dev:f.master,proof:f.proof,plan:f.plan,source:f.scratch,baseline}
+  const delta = await planNewGuidesObjectTransfer(input)
+  expect(delta.objects.map(o=>o.type)).toEqual(['blob','tree','tree','tree','tree','tree','commit'])
+  expect(rawSha256(delta.rawDiff)).toBe(f.proof.patch.sha256)
+  for (const object of delta.objects) {
+    expect(f.remote(['hash-object','-t',object.type,'-w','--stdin'],object.bytes).toString().trim()).toBe(object.oid)
+    expect(f.remote(['cat-file',object.type,object.oid])).toEqual(object.bytes)
+  }
+  expect(f.remote(['rev-parse',f.candidate+'^']).toString().trim()).toBe(f.master)
+  expect(f.remote(['diff-tree','--raw','-r','-z','--no-abbrev','--no-commit-id',f.master,f.candidate])).toEqual(delta.rawDiff)
+  expect(f.remote(['fsck','--connectivity-only','--no-dangling',f.candidate])).toHaveLength(0)
+}, integrationTimeout)
+
+it('holds on absent baseline trees, truncated candidate objects and mismatched proof bytes', async () => {
+  const f = await fixture()
+  const baseline = {verifyConnected:f.remoteObjects.verifyConnected,read:async(oid:string,type:'blob'|'tree'|'commit')=>f.remote(['cat-file',type,oid])}
+  const input = {master:f.master,dev:f.master,proof:f.proof,plan:f.plan,source:f.scratch,baseline}
+  await expect(planNewGuidesObjectTransfer({...input,baseline:{...baseline,read(oid,type) {
+    if (oid === f.masterTree) throw Error('missing receiver tree')
+    return baseline.read(oid,type)
+  }}})).rejects.toThrow('missing receiver tree')
+  await expect(planNewGuidesObjectTransfer({...input,source:{async read(oid,type) {
+    const raw = await f.scratch.read(oid,type)
+    return type === 'tree' ? raw.subarray(0,-1) : raw
+  }}})).rejects.toThrow('OBJECT_BYTES_OID')
+  await expect(planNewGuidesObjectTransfer({...input,proof:{...f.proof,patch:f.proof.executableClosure}})).rejects.toThrow()
+  // A present ref's commit and tree can still point to a missing object. Refuse it before issuing a candidate read or upload.
+  const missingOid = 'f'.repeat(40)
+  const incompleteTree = f.object('tree',Buffer.concat([Buffer.from('100644 missing-file\0'),Buffer.from(missingOid,'hex')]),f.remote)
+  const incompleteDev = f.object('commit',f.rawCommit(incompleteTree,[f.master],'incomplete dev\n'),f.remote)
+  f.remote(['update-ref','refs/heads/dev',incompleteDev,f.master])
+  const sourceRead = vi.fn(f.scratch.read)
+  const broken = createRemoteTransactionFixture({reads:f.reads,evidence:f.evidence,transport:f.transport,scratch:{read:sourceRead},
+    remoteObjects:f.remoteObjects,authenticate:async()=>{}})
+  expect((await broken.apply({...f.intent,dev:incompleteDev})).status).toBe('hold')
+  expect(sourceRead).not.toHaveBeenCalled()
+  expect(f.writes).toHaveLength(0)
+}, integrationTimeout)
+
 it('refuses a concurrent human target push without overwriting it or creating a PR',async()=>{const f=await fixture();f.manualPush();const result=await f.harness().apply(f.intent);expect(result.reasons).toEqual(['REMOTE_STATE_UNKNOWN']);expect(f.ref(f.intent.targetRef)).not.toBe(f.getSeal());expect(f.pulls).toHaveLength(0)},integrationTimeout)
 it('holds M/D movement after CAS and preserves written refs without rollback',async()=>{const f=await fixture();f.moveBase();const result=await f.harness().apply(f.intent);expect(result.reasons).toEqual(['REMOTE_STATE_UNKNOWN']);expect(f.ref(f.intent.targetRef)).toBe(f.getSeal());expect(f.pulls).toHaveLength(0)},integrationTimeout)
 it('reconciles response loss read-only and requires a fresh explicit invocation even when old H remains',async()=>{const f=await fixture();f.setFault(1,'before');const transaction=f.harness();expect((await transaction.apply(f.intent)).reasons).toEqual(['REMOTE_STATE_UNKNOWN']);f.clearFault();const before=f.writes.length;expect((await transaction.reconcile(f.intent)).observation?.targetState).toBe('old');expect((await transaction.apply(f.intent)).reasons).toEqual(['FRESH_INVOCATION_REQUIRED']);expect(f.writes).toHaveLength(before)},integrationTimeout)
@@ -293,11 +340,11 @@ it('does not redispatch a lost dispatch response with no visible run in a fresh 
   const f=await fixture();f.installValidator('missing');const baseline=await fixture();await baseline.harness().apply(baseline.intent);f.setFault(baseline.writes.length+1,'lost')
   expect((await f.harness().apply(f.intent)).reasons).toEqual(['REMOTE_STATE_UNKNOWN']);f.clearFault();const count=f.writes.length;expect((await f.harness().apply(f.intent)).reasons).toEqual(['VALIDATION_PENDING']);expect(f.writes).toHaveLength(count)
 },integrationTimeout)
-it('bounds repeated-subtree DAG expansion before uploads',async()=>{
+it('rejects an unrelated repeated-subtree DAG without expanding it or uploading objects',async()=>{
   const f=await fixture();let tree=f.intent.candidateTree
   for(let index=0;index<14;index++)tree=f.object('tree',Buffer.concat([Buffer.from('40000 a\0'),Buffer.from(tree,'hex'),Buffer.from('40000 b\0'),Buffer.from(tree,'hex')]))
   const raw=Buffer.from(await f.scratch.read(f.candidate,'commit')).toString().replace('tree '+f.intent.candidateTree,'tree '+tree),candidate=f.object('commit',Buffer.from(raw)),proof={...f.proof,candidate,candidateTree:tree},proofRef=await f.evidence.writeBlob(canonicalBytes(proof))
-  const result=await f.harness().apply({...f.intent,candidate,candidateTree:tree,proof:proofRef,proofSha256:proofRef.sha256});expect(result.reasons).toEqual(['TRANSACTION_BUDGET']);expect(f.writes).toHaveLength(0)
+  const result=await f.harness().apply({...f.intent,candidate,candidateTree:tree,proof:proofRef,proofSha256:proofRef.sha256});expect(result.reasons).toEqual(['CANDIDATE_NOT_NEXT_ONLY']);expect(f.writes).toHaveLength(0)
 },integrationTimeout)
 
 it('rejects a PR appearing between authenticated discovery and the second snapshot before any upload',async()=>{

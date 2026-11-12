@@ -7,6 +7,7 @@ export interface LifecycleRecord {
 export interface LifecycleEvidence {
   reasons: string[]; generatedAt?: string; records: LifecycleRecord[];
   identity: Record<string, string | number | boolean | null>;
+  observedPage?: string;
 }
 export interface LifecycleResult { state: 'active' | 'retire' | 'unknown'; reasons: string[]; recordId?: string; retainedSource?: 'shared-page' | 'feishu' }
 /** Positive observation only. No record absence can prove deletion or authorize a close. */
@@ -14,6 +15,7 @@ export function classifyLifecycle(evidence: LifecycleEvidence, page: string, tar
   now: number, policy = defaultLifecyclePolicy): LifecycleResult {
   if (![now, policy.maxAgeMs, policy.futureSkewMs].every(Number.isFinite) || policy.maxAgeMs <= 0 || policy.futureSkewMs < 0) throw new Error('Invalid lifecycle policy/clock')
   const reasons = [...evidence.reasons]
+  if (evidence.observedPage !== undefined && evidence.observedPage !== page) reasons.push('RECORD_FRESHNESS_COMPLETENESS_UNPROVEN')
   const time = Date.parse(evidence.generatedAt ?? '')
   if (!Number.isFinite(time)) reasons.push('MISSING_OBSERVATION_TIME')
   else if (time > now + policy.futureSkewMs) reasons.push('FUTURE_OBSERVATION')

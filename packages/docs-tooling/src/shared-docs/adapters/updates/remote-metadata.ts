@@ -6,8 +6,9 @@ import { CandidateSnapshotProofSchema, GitShaSchema, RepoPathSchema, UpdateRepor
   validateBlobBytes, validateUnitReports, type BlobRef, type BotRevision, type CandidateSnapshotProof, type UpdateUnitPlan, type Subject } from '../../core/updates/envelope'
 import { assertRevisionBinding, encodeRevisionMessage, METADATA_LIMITS, parseRevisionMessage } from '../../core/updates/metadata'
 import { ProducerBundleReceiptSchema, RemotePolicySchema, REMOTE_IO_LIMITS, REMOTE_LIMITS,
-  encodeSealMessage, parseSealMessage, type RemoteCommit, type RemotePolicy, type RemoteSealV1, type RemoteReadResult } from '../../core/updates/remote'
+  hasSealTrailer, parseSignedGitHubSealMessage, type RemoteCommit, type RemotePolicy, type RemoteSealV1, type RemoteReadResult } from '../../core/updates/remote'
 import { assertNextOnlyDiff, type NextOnlyDelta } from '../../core/updates/transaction'
+import { verifySealSignature } from './verify-seal-signature.mjs'
 import { protectedToolsetPath } from './toolset'
 import { rawSha256, type EvidenceStore } from './evidence'
 import { remoteReadContext, type RemoteReads } from './remote-github'
@@ -64,21 +65,11 @@ function parseCommit(oid:string,raw:Uint8Array):Commit {
 }
 /** GitHub verifies the signature cryptographically; this independently binds that verification to raw S. */
 export function verifyRemoteSealSignature(commitBytes:Uint8Array,fact:RemoteCommit,identity:{writerActorId:number;platformSignerActorId:number}):void {
-  check(Number.isSafeInteger(identity.writerActorId)&&identity.writerActorId>0&&Number.isSafeInteger(identity.platformSignerActorId)&&identity.platformSignerActorId>0,'SEAL_SIGNATURE_IDENTITY')
-  check(fact.signatureValid&&fact.signatureState==='VALID'&&fact.wasSignedByGitHub&&fact.authorActorId===identity.writerActorId&&fact.signerActorId===identity.platformSignerActorId,'SEAL_SIGNATURE_IDENTITY')
-  check(typeof fact.payload==='string'&&typeof fact.signature==='string','SEAL_SIGNATURE_BYTES')
-  const raw=Buffer.from(commitBytes),split=raw.indexOf('\n\n');check(split>0,'SEAL_SIGNATURE_BYTES')
-  const header=raw.subarray(0,split).toString('utf8').split('\n'),positions=header.flatMap((line,index)=>line.startsWith('gpgsig ')?[index]:[])
-  check(positions.length===1&&!header.some(line=>line.startsWith('gpgsig-')),'SEAL_SIGNATURE_HEADER');const at=positions[0];let end=at+1
-  while(header[end]?.startsWith(' '))end++
-  const signature=[header[at].slice(7),...header.slice(at+1,end).map(line=>line.slice(1))].join('\n')
-  // Git's signature header excludes the final armor LF; payload excludes the entire header block.
-  check(signature+'\n'===fact.signature||signature===fact.signature,'SEAL_SIGNATURE_BYTES')
-  const stripped=Buffer.concat([Buffer.from([...header.slice(0,at),...header.slice(end)].join('\n')+'\n\n'),raw.subarray(split+2)])
-  check(stripped.equals(Buffer.from(fact.payload)),'SEAL_SIGNED_PAYLOAD')
-  const inserted=Buffer.concat([Buffer.from([...header.slice(0,at),...signature.split('\n').map((line,index)=>index?' '+line:'gpgsig '+line),...header.slice(end)].join('\n')+'\n\n'),raw.subarray(split+2)])
-  check(inserted.equals(raw),'SEAL_RECONSTRUCTION')
-  check(createHash('sha1').update(`commit ${raw.length}\0`).update(raw).digest('hex')===fact.oid,'SEAL_OID')
+  try {
+    verifySealSignature(commitBytes, fact, identity)
+  } catch (error) {
+    fail(error instanceof Error ? error.message : 'SEAL_SIGNATURE_BYTES')
+  }
 }
 
 /** No capture, fetch, checkout, candidate process or normalized authentication callback. */
@@ -144,13 +135,14 @@ export async function inspectRemoteHistory(request:{head:string;donorHeads:reado
       check(bytes.equals(Buffer.from(commit.raw)),'DETERMINISTIC_COMMIT')
     }
     const candidateOids=new Set<string>(),sealOids=new Set<string>()
-    for(const oid of relevant){const value=graph.get(oid)!,seal=parseSealMessage(value.message);if(seal)sealOids.add(oid);if(parseRevisionMessage(value.message))candidateOids.add(oid)}
+    for(const oid of relevant){const value=graph.get(oid)!;if(hasSealTrailer(value.message))sealOids.add(oid);if(parseRevisionMessage(value.message))candidateOids.add(oid)}
     check(sealOids.size>0,'REMOTE_ORIGIN_REQUIRED')
-    for(const oid of sealOids){budget();const s=graph.get(oid)!,seal=parseSealMessage(s.message)!
+    for(const oid of sealOids){budget();const s=graph.get(oid)!
+      const fact=found(await bounded(reads.readCommit(oid)));check(fact.oid===oid&&fact.tree===s.tree&&same(fact.parents,s.parents),'SEAL_API_OBJECT');verifyRemoteSealSignature(s.raw,fact,{writerActorId:request.policy.writerActorId,platformSignerActorId:request.policy.sealIdentity.platformSignerActorId});evidence.push(...fact.evidence as BlobRef[])
+      const seal=parseSignedGitHubSealMessage(s.message)!
       check(seal.repositoryId===request.policy.repositoryId&&same(s.parents,[seal.candidate])&&s.tree===seal.candidateTree,'SEAL_BINDING')
       const k=graph.get(seal.candidate),p=graph.get(seal.preparedBase);check(k&&p&&same(k.parents,[p.oid])&&k.tree===s.tree,'CANDIDATE_PARENT')
       const revision=parseRevisionMessage(k.message);check(revision,'REVISION_REQUIRED')
-      const fact=found(await bounded(reads.readCommit(oid)));check(fact.oid===oid&&fact.tree===s.tree&&same(fact.parents,s.parents),'SEAL_API_OBJECT');verifyRemoteSealSignature(s.raw,fact,{writerActorId:request.policy.writerActorId,platformSignerActorId:request.policy.sealIdentity.platformSignerActorId});evidence.push(...fact.evidence as BlobRef[])
       const run=found(await bounded(reads.readRun({id:seal.runId,attempt:seal.runAttempt,role:'producer'})))
       check(run.toolingHead===seal.master,'HISTORICAL_TOOLS');evidence.push(...run.evidence)
       const artifact=found(await bounded(reads.readArtifact({runId:seal.runId,attempt:seal.runAttempt,name:request.policy.producerArtifactName})))

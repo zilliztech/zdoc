@@ -571,11 +571,34 @@ verifies ZIP digest and preflights ZIP/tar members, then uses existing stage
 and raw-snapshot validators. Python 3 standard library is required to preflight
 and extract an optional retained source artifact. No extraction follows links.
 
-Current incremental Fetch artifacts do not prove per-record freshness or an
-exhaustive Base census; the adapter reports
-`RECORD_FRESHNESS_COMPLETENESS_UNPROVEN` and `LATEST_OBSERVATION_UNPROVEN`.
-Even a successfully authenticated archive therefore does not authorize a
-future lifecycle mutation. Missing rows are never deletion evidence. All
+For a single selected Guides page, the reader can verify that a scheduled
+Fetch read the canonical Base record during its source step. It matches the
+record to the generated outputs, the same attempt's English Guides publication
+result, and the receipt and output bytes on the pinned dev commit. It checks
+for a newer Guides observation and a changed dev tip before returning the
+page's lifecycle state. The report records the run, artifact and Git identities
+used for that decision.
+
+The English shared source scan checks distinct IDs, totals and pagination for
+all Base tables and their unfiltered records. The verifier authenticates every
+entry in the Fetch producer's Git tree. A new tree requires review and a new
+fingerprint in `adapters/updates/reviewed-fetch-tree.json`. The fingerprint
+uses `git ls-tree -r -t -z --full-tree <producer>` and
+`producerInventoryDigest`; the verifier checks the policy blob itself against
+its trusted local copy. Commits that share the same tree qualify.
+
+One earlier scan has an independent membership census. For
+`json-field-overview` on scheduled run 42944655729, attempt 1, the authenticated
+Base scan read all nine tables, enumerated 497 distinct record IDs, checked each
+table's revision before and after the scan, and matched the selected record.
+The verifier binds this evidence to the precise producer, source archive,
+page and record. It recomputes the census from the archive by hashing the
+newline-joined sorted IDs of each table, then hashing the JSON array of
+`[table ID, count, hash]` tuples sorted by table ID. The latest-observation,
+maximum age and publication checks also apply to this historical scan.
+
+Other pages require their own observations. Incomplete or conflicting evidence
+keeps the page on hold. A missing record cannot establish deletion. All
 configured pages remain in the inventory, including unselected pages and pages
 without retained/dev mapping. Analysis availability and lifecycle eligibility
 are reported separately. Full 7-9 and all requirement pending IDs remain intact.
@@ -642,6 +665,21 @@ clock, writer or trusted-toolset argument. `existing.localEvidence` names owned
 local outputs whose journals, objects and proofs are independently verified;
 copied evidence never supplies fresh remote identity or access authority.
 
+For a single Guides page with a retained Fetch run, set `GH_TOKEN` on the
+command to give the coordinator Actions read access to `zilliztech/zdoc`.
+The coordinator can download the two archives or use local copies. To supply
+both locally, set `lifecycle.archive` to the source ZIP and put
+`publication-results-fetch-<runId>-<attempt>.zip` beside it. Both archives
+must match their GitHub identities, sizes and SHA-256 digests.
+
+With a token, the coordinator reads the selected run, its jobs and artifacts,
+both Guides workflow histories and the current dev tip. The worker receives
+the response bodies over private pipes and checks them against the archives
+and pinned Git objects. The token stays in the coordinator. Each collection
+reads live metadata, including the checks before candidate creation and
+installation. Without a token, a worker with both local archives can read
+public metadata directly, subject to GitHub's anonymous rate limit.
+
 The implementation root is derived from the executing command module. Canonical
 cwd must match it. Bootstrap reads bounded, no-follow files to resolve HEAD in
 ordinary or linked-worktree SHA-1 files-backend checkouts, including loose and
@@ -700,6 +738,58 @@ journal. `existing.localEvidence` continues to accept only verified owned local
 journals. Human data/configuration changes are preserved, while execution changes
 and `BOTH_SIDES_LOCK_CHANGED` stop preparation. A noop creates neither K nor S nor
 a PR. Draft failures cannot produce ready or donor-close proposals here.
+
+For a new PR that advances one Guides page, the receiver can reuse its verified
+master history. The transfer planner compares the raw Git trees from the root
+down to the lock file. At each level, all bytes outside the selected entry's
+object ID must match. It checks the lock edit against the plan and proof, then
+returns the new blob, its enclosing trees and the candidate commit in dependency
+order. The receiving adapter must establish baseline identity and connectivity
+before relying on inherited objects.
+
+For a Draft PR on an isolated base, the trusted workflow can run
+`adapters/updates/exact-guides-report.mjs` with a JSON document on stdin.
+The workflow authenticates the original producer and retained proof, reads
+the PR and both Git refs, and supplies the pinned target separately from its
+observations. It passes the before and after blobs and the complete, unfiltered
+NUL-delimited raw Git diff as base64. The reader checks the single parent,
+path, modes, blob identities and proof digest and writes a JSON report for the
+observed head. The caller must check the live target again before publishing
+that report. This evidence covers the single lock update. Production
+exact-validation receipts also require a signed seal and a target check.
+
+For the signed Draft qualification, `adapters/updates/sealed-guides-check.mjs`
+links that archived report to a signed, single-parent commit with the same tree
+as the candidate. The trusted caller supplies the expected seal message and
+independently authenticates the producer, report bytes, current refs and
+GitHub API responses. Stage verification checks the private staging ref
+while the PR still points at the candidate. After the PR advances, the reader
+verifies the seal at its head. It then matches the reserved check ID, app,
+suite, target SHA, request identifier and validator run URL. The final
+readback requires that same check to have completed successfully. The reader
+only consumes JSON on stdin and writes verified observations on stdout.
+
+The private formal-contract qualification uses `adapters/updates/formal-validation.ts`
+to encode the existing `Shared-Update-Seal: v1` message, verify its Git
+signature and produce canonical producer and validator receipts. The canonical
+seal message ends with LF. GitHub's `createCommitOnBranch` takes a headline and
+a body and stores the message without that LF. Readers authenticate the exact
+raw commit, OID and signed payload before accepting either spelling. Both
+forms must otherwise match the re-encoded v1 message byte for byte.
+
+The private plan projects one real Guides page onto an isolated master and source snapshot.
+Its domain-separated plan digest enters the seal. The validator compares the
+plan's master, dev and observed source tip with freshly read refs, the receipt
+and the hashed output. The source tip can differ from the lock target.
+A changed input yields a hold carrying the expected and observed SHAs.
+
+Before publishing success, the trusted caller authenticates the completed
+producer and validator artifacts and inspects the reserved Check on the signed
+head. A matching in-progress Check yields `ready-to-publish`. After updating
+it, the caller reads the refs and Check again. Only a completed, successful
+Check can yield `accepted`. Both decisions use the product's exact-validation
+rules. The caller obtains fresh observations before each remote write and owns
+the network credentials. This stdin reader performs no writes to GitHub.
 
 Preparation and inspection use new, disjoint evidence roots. Persistent transaction
 attempt evidence is constructor-bound and separate; selecting a fresh preparation

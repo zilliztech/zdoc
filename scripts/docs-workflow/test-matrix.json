@@ -1482,6 +1482,25 @@
       "reason": "Shared docs types, test helpers, fixtures, adapter contracts and grouped onboarding source/page inputs (including malformed layouts under shared-docs/**) must keep complete requirement coverage and whole-group candidate validation without external test dependencies."
     },
     {
+      "id": "shared-guides-upstream-update",
+      "paths": [
+        ".github/workflows/shared-guides-update.yml",
+        "scripts/docs-workflow/shared-guides-update/**"
+      ],
+      "focusedTests": [
+        "pnpm test:shared-guides-update",
+        "pnpm test:shared-docs"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The scheduled single-page update must verify fresh production inputs, skip existing updates, accept only the prepared lock.next edit, and create at most one Draft PR."
+    },
+    {
       "id": "shared-docs-pr-workflows",
       "paths": [
         "packages/docs-tooling/src/shared-docs/adapters/detect-groups.cjs",

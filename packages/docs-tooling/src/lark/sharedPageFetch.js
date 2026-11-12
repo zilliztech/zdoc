@@ -214,7 +214,9 @@ function restoreRouting(data) {
 }
 async function initializeSharedScraper(scraper, options) {
   if (options.site !== 'en') return null
-  if (!scraper.records) await scraper.__base({progressLabel: '[shared-routes] Base scan'})
+  if (options.requireCompleteScan || !scraper.records) {
+    await scraper.__base({progressLabel: '[shared-routes] Base scan', requireComplete: options.requireCompleteScan === true})
+  }
   const prepared = prepareSharedSources({...options, rootToken: options.rootToken || scraper.root, records: scraper.records})
   if (!prepared) {
     if (options.output && fs.existsSync(options.output)) {

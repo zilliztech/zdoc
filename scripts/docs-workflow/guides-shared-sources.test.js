@@ -439,12 +439,14 @@ test('workflow enables route preparation before bodies and generation before aud
 test('source preparation binds routing before body access, preserving both inspection and active sets', {timeout: 120000}, async t => {
   const options = await fixture(t)
   const calls = []
-  const scraper = {async __base() {calls.push('base'); this.records = options.records}, async bodies() {
+  const scraper = {records: [], async __base({requireComplete}) {
+    assert.equal(requireComplete, true); calls.push('base'); this.records = options.records
+  }, async bodies() {
     calls.push('bodies'); assert.equal(this.routingContext.routesByRecordId.get('rec0').kind, 'shared-page')
     assert.equal(this.routingContext.inspectedDocsByRecordId.get('rec0'), options.records[0].fields.Docs.link)
     assert.equal(this.routingContext.aliasesByToken.get('old'), 'rec0')
   }}
-  await adapter.initializeSharedScraper(scraper, {...options, site: 'en'})
+  await adapter.initializeSharedScraper(scraper, {...options, site: 'en', requireCompleteScan: true})
   await scraper.bodies()
   assert.deepEqual(calls, ['base', 'bodies'])
   const restored = adapter.restoreRouting(options.preparation)
