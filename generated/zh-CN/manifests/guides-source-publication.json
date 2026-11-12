@@ -1755,7 +1755,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "sha256": "24d7cafc2ceeae2d69695ab502b318d0d9b0756dfec7c9948f40d830b9b20cce",
+      "sha256": "c372894737a919b05221074c14dab0ae054e3984f040124197f8b0781a6746a5",
       "docToken": "M3fWwcqJpimd7YkaoLucY7eBnne",
       "revisionId": "265"
     },
@@ -3567,7 +3567,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/monitor-billing-alerts.md",
-      "sha256": "1f6b6ca0af7061c1688d9d716e67bd56439e050775242148a4e74db02372d2de",
+      "sha256": "e1d9b888591830b28e8f8cf542368ac3b583b33e2a371cfd1c4d37cf780efb40",
       "docToken": "VHz6wyqArieXOpkujoRctW0hnng",
       "revisionId": "104"
     },
@@ -3639,7 +3639,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "sha256": "2cda0f4da3d0babb60fd02338415a1ce159b79f7b9f95d0def9205de342192f1",
+      "sha256": "efc7fb657cb2fc0233e3b2a70fd55f0c08ceeff10c9765d640dc953c79c028fb",
       "docToken": "M3fWwcqJpimd7YkaoLucY7eBnne",
       "revisionId": "265"
     },
@@ -4005,7 +4005,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/projects/manage-projects.md",
-      "sha256": "414bda6e7c4d4fc286945fd8b7a0fccdea9210c74a319ae1c2f11dc966107d0d",
+      "sha256": "a12516eebc947547f7cde522051ad828ab728994a22cb0114f4f83889030e0de",
       "docToken": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
       "revisionId": "1073"
     },
