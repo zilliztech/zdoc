@@ -185,7 +185,7 @@ class larkDocWriter {
 
     __has_renderable_page(source) {
         const shared = this.sharedBundle?.bundle.outcomes.find(outcome => outcome.record_id === source?.base_record_id)
-        if (shared) return ['success', 'inherited'].includes(shared.status)
+        if (shared) return ['success', 'reused', 'inherited'].includes(shared.status)
         const page = source?.blocks?.items?.find(block => block.block_type === 1)
         return !!(page?.children && page.children.length > 0)
     }
@@ -1217,7 +1217,7 @@ class larkDocWriter {
                 }
                 const shared = this.sharedBundle?.bundle.outcomes.find(outcome => outcome.record_id === baseSource.base_record_id)
                 if (shared) {
-                    return {publish: ['success', 'inherited'].includes(shared.status) && this.__base_source_is_publishable(baseSource),
+                    return {publish: ['success', 'reused', 'inherited'].includes(shared.status) && this.__base_source_is_publishable(baseSource),
                         title: baseSource.title || title, slug, beta: null, channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title}
                 }

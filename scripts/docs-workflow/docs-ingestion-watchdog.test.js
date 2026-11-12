@@ -11,6 +11,7 @@ const {
   createGitHubAdapter,
   evaluateDocsIngestion,
   parseSharedFallbackLog,
+  parseSharedReuseLog,
   withSharedFallback,
 } = require('./docs-ingestion-watchdog')
 
@@ -187,6 +188,8 @@ test('GitHub outputs encode multiline API failures without injecting output keys
       'fallback_count=0',
       'fallback_pages=',
       'fallback_codes=',
+      'reuse_count=0',
+      'reuse_pages=',
     ])
     assert.equal(lines.filter(line => line.startsWith('ok=')).length, 1)
     assert.equal(lines.filter(line => line.startsWith('final_sha=')).length, 1)
@@ -214,6 +217,39 @@ test('shared fallback log parser bounds message length', () => {
   const entries = parseSharedFallbackLog(`[shared-fallback] {"record_id":"r","page":"p","code":"C","message":"${'x'.repeat(600)}","paths":[]}`)
   assert.equal(entries.length, 1)
   assert.equal(entries[0].message.length, 500)
+})
+
+test('shared reuse log parser extracts and dedupes replayed pages', () => {
+  const line = '2026-11-12T18:49:00.0000000Z [shared-reuse] {"record_id":"rec1","page":"sample","outputs":2}'
+  const ansiDuplicate = '2026-11-12T18:49:01Z \u001B[36m[shared-reuse]\u001B[0m {"record_id":"rec1","page":"sample","outputs":2}'
+  const entries = parseSharedReuseLog([line, ansiDuplicate, '[shared-reuse] not-json-at-all', 'unrelated log noise'].join('\n'))
+  assert.equal(entries.length, 2)
+  assert.deepEqual(entries[0], { record_id: 'rec1', page: 'sample', outputs: 2 })
+  assert.deepEqual(entries[1], { raw: 'not-json-at-all' })
+})
+
+test('GitHub adapter reads reuse lines from the same en guides sources jobs', async () => {
+  const calls = []
+  const logText = [
+    '[shared-reuse] {"record_id":"rec1","page":"sample","outputs":2}',
+    '[shared-reuse] {"record_id":"rec2","page":"use-dense-vector","outputs":2}',
+  ].join('\n')
+  const fetch = async url => {
+    const target = new URL(url).pathname.replace('/repos/acme/docs', '')
+    calls.push(target)
+    if (target === '/actions/jobs/101/logs') return { ok: true, status: 200, text: async () => logText }
+    return { ok: false, status: 404, text: async () => 'gone' }
+  }
+  const adapter = createGitHubAdapter({ repository: 'acme/docs', token: 'secret', fetch })
+  const summary = await adapter.fetchSharedReuse(42, [
+    { id: 101, name: 'produce_guides_sources / fetch' },
+    { id: 103, name: 'produce_zh_guides_sources / fetch' },
+  ])
+  assert.deepEqual(calls, ['/actions/jobs/101/logs'])
+  assert.equal(summary.source, 'produce_guides_sources job logs')
+  assert.equal(summary.count, 2)
+  assert.deepEqual(summary.pages, ['sample', 'use-dense-vector'])
+  assert.equal(summary.detail_hint, 'guides-sources-en-42 artifact bundle.json outcomes[].status')
 })
 
 test('GitHub adapter reads fallback lines only from the en guides sources jobs', async () => {

@@ -15,6 +15,13 @@ const REQUIRED_JOBS = Object.freeze([
 const SHARED_FALLBACK_JOB_PREFIX = 'produce_guides_sources'
 const SHARED_FALLBACK_MARKER = '[shared-fallback]'
 const MAX_SHARED_FALLBACK_ENTRIES = 100
+// `[shared-reuse]` info lines are the zero-drift replay signal: pages whose
+// render identity is unchanged republish pinned baseline bytes without a build.
+// Purely informational for the digest; absence only means the round had drift.
+// The bound is set well above the current onboarding scale so `reuse_count`
+// never silently under-reports a fully replayed round.
+const SHARED_REUSE_MARKER = '[shared-reuse]'
+const MAX_SHARED_REUSE_ENTRIES = 1000
 
 function normalizedJobName(value) {
   return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ')
@@ -133,6 +140,39 @@ function withSharedFallback(result, fallback) {
   return { ...result, shared_fallback: fallback ?? null }
 }
 
+function parseSharedReuseEntry(payload) {
+  let parsed
+  try { parsed = JSON.parse(payload) } catch { parsed = null }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return { raw: payload.slice(0, 500) }
+  return {
+    record_id: typeof parsed.record_id === 'string' ? parsed.record_id : null,
+    page: typeof parsed.page === 'string' ? parsed.page : null,
+    outputs: Number.isSafeInteger(parsed.outputs) ? parsed.outputs : null,
+  }
+}
+
+function parseSharedReuseLog(logText) {
+  const entries = []
+  const seen = new Set()
+  for (const line of stripAnsi(logText).split(/\r?\n/)) {
+    const marker = line.indexOf(SHARED_REUSE_MARKER)
+    if (marker < 0) continue
+    const payload = line.slice(marker + SHARED_REUSE_MARKER.length).trim()
+    if (!payload) continue
+    const entry = parseSharedReuseEntry(payload)
+    const key = entry.raw !== undefined ? `raw|${entries.length}` : `${entry.record_id}|${entry.page}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    entries.push(entry)
+    if (entries.length >= MAX_SHARED_REUSE_ENTRIES) break
+  }
+  return entries
+}
+
+function withSharedReuse(result, reuse) {
+  return { ...result, shared_reuse: reuse ?? null }
+}
+
 function createGitHubAdapter({ repository, token, fetch = globalThis.fetch }) {
   if (!/^[^/\s]+\/[^/\s]+$/.test(repository || '')) throw new Error('--repository must be owner/repo')
   if (!token) throw new Error('GITHUB_TOKEN is required')
@@ -210,7 +250,34 @@ function createGitHubAdapter({ repository, token, fetch = globalThis.fetch }) {
     return { runs, detailsByRunId, jobsByRunId, reportsByRunId }
   }
 
-  return { fetchSharedFallbacks, inspectRecentRuns }
+  async function fetchSharedReuse(runId, jobs) {
+    const detailHint = `guides-sources-en-${runId} artifact bundle.json outcomes[].status`
+    const targets = (Array.isArray(jobs) ? jobs : [])
+      .filter(job => normalizedJobName(job?.name).startsWith(SHARED_FALLBACK_JOB_PREFIX) && Number.isSafeInteger(Number(job?.id)))
+    if (!targets.length) return { source: 'unavailable', reason: `no ${SHARED_FALLBACK_JOB_PREFIX} job found on the selected run`, detail_hint: detailHint }
+    const entries = []
+    const warnings = []
+    for (const job of targets) {
+      try {
+        entries.push(...parseSharedReuseLog(await getLogText(`/actions/jobs/${Number(job.id)}/logs`)))
+      } catch (error) {
+        warnings.push(`${job.name}: ${String(error.message).slice(0, 200)}`)
+      }
+    }
+    if (!entries.length && warnings.length) {
+      return { source: 'unavailable', reason: warnings.join('; ').slice(0, 500), detail_hint: detailHint }
+    }
+    return {
+      source: 'produce_guides_sources job logs',
+      count: entries.length,
+      pages: [...new Set(entries.map(entry => entry.page).filter(Boolean))],
+      entries,
+      detail_hint: detailHint,
+      ...(warnings.length ? { warnings: warnings.map(warning => warning.slice(0, 200)) } : {}),
+    }
+  }
+
+  return { fetchSharedFallbacks, fetchSharedReuse, inspectRecentRuns }
 }
 
 function parseArgs(argv) {
@@ -247,6 +314,9 @@ function appendGitHubOutputs(result, outputFile = process.env.GITHUB_OUTPUT) {
   const entries = fallback && Array.isArray(fallback.entries) ? fallback.entries : []
   const pages = [...new Set(entries.map(entry => entry.page).filter(Boolean))]
   const codes = Object.keys((fallback && fallback.codes) || {}).sort()
+  const reuse = result.shared_reuse || null
+  const reuseEntries = reuse && Array.isArray(reuse.entries) ? reuse.entries : []
+  const reusePages = [...new Set(reuseEntries.map(entry => entry.page).filter(Boolean))]
   const lines = [
     `ok=${encode(result.ok)}`,
     `reason=${encode(result.reason)}`,
@@ -256,6 +326,8 @@ function appendGitHubOutputs(result, outputFile = process.env.GITHUB_OUTPUT) {
     `fallback_count=${encode(fallback ? fallback.count : 0)}`,
     `fallback_pages=${encode(pages.join(','))}`,
     `fallback_codes=${encode(codes.join(','))}`,
+    `reuse_count=${encode(reuse ? reuse.count : 0)}`,
+    `reuse_pages=${encode(reusePages.join(','))}`,
   ]
   fs.appendFileSync(outputFile, `${lines.join('\n')}\n`)
 }
@@ -276,11 +348,19 @@ async function main(argv = process.argv.slice(2)) {
         fallback = { source: 'unavailable', reason: `GitHub API failure: ${String(error.message).slice(0, 480)}` }
       }
       result = withSharedFallback(result, fallback)
+      let reuse
+      try {
+        reuse = await adapter.fetchSharedReuse(result.run_id, observation.jobsByRunId[result.run_id] || [])
+      } catch (error) {
+        reuse = { source: 'unavailable', reason: `GitHub API failure: ${String(error.message).slice(0, 480)}` }
+      }
+      result = withSharedReuse(result, reuse)
     }
   } catch (error) {
     result = failure(`GitHub API failure: ${error.message}`)
   }
   result = withSharedFallback(result, result.shared_fallback ?? null)
+  result = withSharedReuse(result, result.shared_reuse ?? null)
   fs.mkdirSync(path.dirname(output), { recursive: true })
   fs.writeFileSync(output, `${JSON.stringify(result, null, 2)}\n`, { mode: 0o600 })
   appendGitHubOutputs(result)
@@ -296,6 +376,8 @@ module.exports = {
   evaluateDocsIngestion,
   main,
   parseSharedFallbackLog,
+  parseSharedReuseLog,
   safeOutputPath,
   withSharedFallback,
+  withSharedReuse,
 }
