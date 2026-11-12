@@ -1,0 +1,203 @@
+---
+title: "異常検出 | Cloud"
+slug: /anomaly-detection
+sidebar_label: "異常検出"
+beta: ON REQUEST
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "異常検出は、ベクトル埋め込みがデータ全体の分布から大きく異なるレコードを特定します。このジョブを使用して、データ品質の問題、まれなケース、処理エラー、または追加の確認が必要なサンプルに該当する可能性がある通常とは異なるレコードを見つけます。 | Cloud"
+type: origin
+token: IQDjwxyWIi2V3VkuxKCcJV6fndb
+sidebar_position: 4
+displayed_sidebar: default
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+import Procedures from '@site/src/components/Procedures';
+
+# 異常検出
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+この機能は、該当するすべての AWS リージョンでのみ利用できます。Google Cloud と Microsoft Azure では利用できません。有効にするには、[お問い合わせください](https://support.zilliz.com/hc/en-us)。
+
+</FeatureNote>
+
+異常検出は、ベクトル埋め込みがデータ全体の分布から大きく異なるレコードを特定します。このジョブを使用して、データ品質の問題、まれなケース、処理エラー、または追加の確認が必要なサンプルに該当する可能性がある通常とは異なるレコードを見つけます。
+
+## 概要\{#overview}
+
+次の図は、異常検出ジョブが Isolation Forest を使用してベクトルレコードをスコアリングし、最もスコアの高いレコードまたはスコアリング済みデータセット全体のいずれかを返す仕組みを示しています。
+
+![AmEAw0tXEheK1tbrSsIcbTGwndf](https://zdoc-images.s3.us-west-2.amazonaws.com/AmEAw0tXEheK1tbrSsIcbTGwndf.png)
+
+<Admonition type="info" title="Notes">
+
+Isolation Forest では、検査対象データセットに最低 368 件のレコードが必要です。
+
+</Admonition>
+
+### 異常の特定方法\{#how-anomalies-are-identified}
+
+上の図に示すように、ジョブは Isolation Forest を使用して、ベクトル分布全体から外れたレコードを特定します。各分離ツリーを構築するために、ランダムなベクトル次元とランダムな分割値を繰り返し選択し、レコードを徐々に小さなグループに分けていきます。高密度の領域から離れたレコードは、リーフに到達するまでに通常より少ない分割しか必要としません。一方、レコードが密集した領域にあるものは、パスが長くなる傾向があります。この動作により、ジョブは、わずかな分割で分離されるレコードと、ツリーのより深いレベルまで多数の近接レコードとグループ化されたままのレコードを区別できます。
+
+### 異常スコアを理解する\{#understand-the-anomaly-score}
+
+ジョブはレコードごとに、すべての分離ツリーにわたる平均パス長を計算し、それを `outlier_score` に変換します。平均パスが短いほどスコアが高くなり、平均パスが長いほどスコアが低くなります。スコアが高いほど、データセット内の他のレコードと比べてそのレコードがより通常とは異なることを意味します。ただし、そのレコードが誤っている、または削除すべきであることを必ずしも意味するわけではありません。 
+
+最もスコアの高いレコードを確認し、データ品質の問題、まれではあるものの有効なケース、予想される変動のいずれを表しているかを判断してください。
+
+### 返すレコード数を選択する\{#choose-how-many-records-to-return}
+
+`topK` を使用すると、`outlier_score` の値が最も高いレコードのみを返せます。たとえば、`topK` を `100` に設定すると、スコアの高い上位 100 件のレコードが返されます。`topK` を省略した場合、出力にはすべてのレコードとその異常スコアが含まれます。
+
+### ベクトルフィールドを保持するかどうかを選択する\{#choose-whether-to-retain-the-vector-field}
+
+`outputWithFeatures` を使用すると、分析対象のベクトルフィールドを出力に含めるかどうかを制御できます。デフォルト値は `true` です。`false` に設定するとベクトルフィールドは除外されます。各出力レコードを引き続きソースデータまで追跡できるように、`primaryKeyField` を指定することをお勧めします。
+
+## 事前準備\{#before-you-start}
+
+異常検出ジョブを作成する前に、次の点を確認してください。
+
+- すべての入力ファイルが互換性のあるスキーマを使用し、分析対象のベクトルフィールドを含んでいること。
+
+- そのフィールド内のすべてのベクトルが同じ型と次元を使用し、同じ埋め込みモデルと前処理方法を使用して生成されていること。
+
+`outputWithFeatures` を `false` に設定する場合は、各出力レコードをソースデータまで追跡できるように、`primaryKeyField` を指定することを検討してください。
+
+認証、サポート対象のファイル形式、入力ファイル、出力動作など、バッチジョブを実行するための一般的な要件については、[バッチジョブ](./batch-jobs) を参照してください。
+
+## 異常検出ジョブを作成する\{#create-an-anomaly-detection-job}
+
+入力と出力の場所、分析対象のベクトルフィールド、返すレコード数、ベクトルフィールドを出力に保持するかどうかを指定して、異常検出ジョブを作成します。ジョブは非同期で実行され、ステータスの監視に使用できるジョブIDを返します。
+
+<Procedures>
+
+1. 冪等キーを準備します。
+
+    冪等キーは、同じジョブリクエストを再試行するときに変更しない一意の文字列です。詳細は、[冪等な送信](./batch-jobs#idempotent-submission) を参照してください。
+
+1. リクエストペイロードを準備します。
+
+    ```bash
+    export payload='{
+      "description": "inspecting anomalous product",
+      "regionId": "aws-us-west-2",
+      "input": {
+        "type": "volume",
+        "volumeName": "product-data",
+        "path": "input/products.parquet",
+        "format": "parquet"
+      },
+      "output": {
+        "type": "volume",
+        "volumeName": "product-data",
+        "path": "output/product-anomalies.parquet",
+        "format": "parquet"
+      },
+      "primaryKeyField": "id",
+      "vectorField": "embedding",
+      "topK": 100,
+      "outputWithFeatures": true,
+      "resourceSize": "MEDIUM",
+      "timeoutSeconds": 7200
+    }'
+    ```
+
+    次の表に、ジョブ固有のパラメーターを示します。
+
+    | パラメーター | 必須 | 説明 |
+    | --- | --- | --- |
+    | `vectorField` | はい | 異常検出に使用するベクトルフィールドです。サポートされる表現には、`array<float>`、数値配列、ベクトル、カンマ区切りの文字列が含まれます。 |
+    | `primaryKeyField` | いいえ | 出力内のレコードを識別するために使用する入力フィールドです。`outputWithFeatures` を `false` に設定する場合に推奨されます。 |
+    | `topK` | いいえ | `outlier_score` の高い順から低い順に並べた、返すレコードの最大数です。値は正の整数である必要があります。省略した場合、ジョブはスコアリング済みのすべてのレコードを返します。 |
+    | `outputWithFeatures` | いいえ | 出力にベクトルフィールドを保持するかどうかです。デフォルト：`true`。`false` に設定すると、ベクトルフィールドは除外されます。 |
+
+1. ペイロードを送信します。
+
+    ```bash
+    export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    
+    curl --request POST \
+        --url "https://api.cloud.zilliz.com/v2/projects/{projectId}/jobs/anomaly-detection" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --header "Idempotency-Key: batch-job-20260730-004" \
+        --header "Content-Type: application/json" \
+        --data "${payload}"
+    ```
+
+    ジョブが作成されるとリクエストが返されます。応答には、進行状況の監視に使用できるジョブIDが含まれます。次の例は、成功した応答を示しています。
+
+    ```json
+    {
+      "code": 0,
+      "data": {
+        "jobId": "job-xxxxxxxx",
+        "projectId": "proj-xxxxxxxx",
+        "type": "SPARK",
+        "description": "inspecting anomalous product",
+        "status": "PENDING",
+        "regionId": "aws-us-west-2",
+        "clusterId": "in-xxxxxxxx",
+        "createdAt": null,
+        "startedAt": null,
+        "finishedAt": null,
+        "durationSeconds": null
+      }
+    }
+    ```
+
+</Procedures>
+
+## ジョブの監視\{#monitor-the-job}
+
+リクエストを送信したら、返されたジョブIDを使用して、ジョブが終了状態に達するまで監視します。ジョブのステータスと詳細を表示したり、既存のジョブを一覧表示したり、キャンセル可能な状態の間はジョブをキャンセルしたりできます。
+
+ジョブが成功したら、期待される出力がリクエストで指定したパスに存在することを確認します。
+
+手順、ジョブの状態、状態遷移については、[Spark バッチジョブの管理](./manage-batch-jobs) を参照してください。
+
+## 出力を理解して検証する\{#understand-and-validate-the-output}
+
+異常検出ジョブの出力には、`topK` が指定されているかどうかに応じて、最もスコアの高いレコードまたはスコアリング済みのすべてのレコードが含まれます。各出力レコードには `outlier_score` が含まれます。
+
+| **フィールド** | **説明** |
+| --- | --- |
+| `outlier_score` | レコードに割り当てられた異常スコアです。値が高いほど、データセット内の他のレコードと比べてそのレコードがより通常とは異なることを示します。 |
+
+出力は、次の設定によっても異なります。
+
+- `topK` を指定した場合、出力には `outlier_score` の値が最も高い上位 topK 件までのレコードが含まれます。
+
+- `topK` を省略した場合、出力にはスコアリング済みのすべてのレコードが含まれます。
+
+- `outputWithFeatures` が `true` の場合、ベクトルフィールドは保持されます。
+
+- `outputWithFeatures` が `false` の場合、ベクトルフィールドは除外されます。
+
+ジョブが成功したら、次の点を確認してください。
+
+- 出力ファイルが設定済みのボリュームパスに存在することを確認してください。
+
+- 各出力レコードに `outlier_score` が含まれていることを確認してください。
+
+- `topK` を指定した場合、出力に含まれるレコードが要求した件数以下であることを確認してください。
+
+- `topK` を省略した場合、すべての有効な入力レコードが出力に存在することを確認してください。
+
+- ベクトルフィールドの有無が `outputWithFeatures` と一致することを確認してください。
+
+- `primaryKeyField` を指定した場合、各出力レコードを対応する入力レコードまで追跡できることを確認してください。
+
+- 最もスコアの高いレコードのサンプルを確認し、データ品質の問題、まれではあるものの有効なケース、予想される変動のいずれを表しているかを判断してください。
+
+## 次のステップ\{#next-steps}
+
+最もスコアの高いレコードを確認し、データ品質の問題、まれではあるものの有効なケース、追加の処理が必要なレコードのいずれを表しているかを判断してください。結果に基づいて、無効なデータを修正または削除したり、意味のあるエッジケースを保持したり、選択したレコードを手動レビューに回したりできます。
+
+ベクトルデータの全体的な構造を調べるには、[K-Means クラスタリング](./k-means-clustering) を使用します。意味的に重複するレコードを特定するには、[ベクトル類似度による重複排除](./vector-similarity-dedup) を使用します。

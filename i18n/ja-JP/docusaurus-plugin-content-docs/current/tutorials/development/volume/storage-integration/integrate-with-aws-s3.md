@@ -34,6 +34,10 @@ Zilliz Cloud では、Amazon Simple Storage Service（Amazon S3）と連携し�
 
 - AWS マネジメントコンソールへの管理者アクセス権を持っていること。
 
+- AWS 組織の Resource Control Policies（RCP）がクロスアカウントのロール引き受けを許可していること。
+
+    詳細については、以下の [ロール引き受けの失敗](./integrate-with-aws-s3#role-assumption-failures) を参照してください。
+
 ## ステップ 1: Zilliz Cloud コンソールで連携を開始する\{#step-1-start-integration-in-zilliz-cloud-console}
 
 <Supademo id="cmeibltu49co2h3pytvtdthb2" title=""  />
@@ -591,19 +595,61 @@ check bucket failed: get bucket location: operation error S3: GetBucketLocation,
 
 - ポリシーに `s3:GetBucketLocation` 権限が、`s3:GetObject`、`s3:PutObject`、`s3:ListBucket` などの他の必要な権限とともに含まれていることを確認します。
 
-### ロールの引き受けエラー\{#role-assumption-failure}
+### ロール引き受けの失敗\{#role-assumption-failures}
 
-**説明**: このエラーは、ロール ARN、外部 ID、または信頼ポリシーが正しくないために IAM ロールの引き受けに問題がある場合に発生します。
+- **認証情報の誤り**
 
-```sql
-try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss121703] with externalId[zilliz-external-1umVCIK7q96kzDE] failed
-```
+    **説明**: このエラーは、ロール ARN、外部 ID、または信頼ポリシーが正しくないために IAM ロールの引き受けに問題がある場合に発生します。
 
-**解決策**:
+    ```sql
+    try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss121703] with externalId[zilliz-external-1umVCIK7q96kzDE] failed
+    ```
 
-- Zilliz Cloud コンソールのロール ARN と外部 ID が、IAM 信頼ポリシーの対応する値と一致していることを確認します。
+    **解決策**:
 
-- IAM ロールの信頼ポリシーが Zilliz Cloud にそのロールの引き受けを許可していることを確認します。
+    - Zilliz Cloud コンソールのロール ARN と外部 ID が、IAM 信頼ポリシーの対応する値と一致していることを確認します。
+
+    - IAM ロールの信頼ポリシーが Zilliz Cloud にそのロールの引き受けを許可していることを確認します。
+
+- **クロスアカウントのロール引き受けの拒否**
+
+    **説明**: このエラーは、ロール ARN、外部 ID、および信頼ポリシーが正しい場合でも、AWS 組織の RCP がクロスアカウントのロール引き受けを拒否したときに発生します。
+
+    ```bash
+    try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss121703] with externalId[zilliz-external-1umVCIK7q96kzDE] failed
+    ```
+
+    **解決策**:
+
+    AWS 組織の管理者に、AWS 組織の RCP が組織外からのロール引き受けを拒否しているかどうかを確認してください。拒否している場合は、変更を依頼してください。
+
+    以下は、AWS 組織で設定可能な RCP の例です。これは参考用であり、本番環境では使用しないでください。すべての条件が満たされると、ロール引き受けリクエストは拒否されます。
+
+    ```json
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "DenyAssumeRoleFromOutsideMyOrg",
+          "Effect": "Deny",
+          "Principal": "*",
+          "Action": "sts:AssumeRole",
+          "Resource": "*",
+          "Condition": {
+            "StringNotEqualsIfExists": {
+              "aws:PrincipalOrgID": "${aws:ResourceOrgID}"
+            },
+            "Null": {
+              "aws:PrincipalARN": "false"
+            },
+            "BoolIfExists": {
+              "aws:PrincipalIsAWSService": "false"
+            }
+          }
+        }
+      ]
+    }
+    ```
 
 ### 権限の反映の遅延\{#permission-propagation-delay}
 

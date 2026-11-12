@@ -871,9 +871,9 @@
       "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
-      "sourceHash": "fc2422de6000092eb9716ad054fd9341510a0ad9710056583977660613508cb9",
+      "sourceHash": "8c2160beb6b79366f9f793fcba291a64ee43183ad0398e098e59d683e776af2d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-      "translatedAt": "2026-09-19T13:55:44.409Z"
+      "translatedAt": "2026-11-12T09:53:56.760Z"
     },
     "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md": {
       "sourceHash": "e973b39c979477a11f41a83edc6e54b3873e99d417e89d327720c0016615f274",
@@ -1595,6 +1595,41 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/multi-language-analyzers.md",
       "translatedAt": "2026-11-06T12:02:10.961Z"
     },
+    "content/en/guides/tutorials/development/batch-jobs/anomaly-detection.md": {
+      "sourceHash": "6fb79802982892c4451c3a6a89e17c7445c0f11d20c35ab4a9a10cd36a89d318",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/anomaly-detection.md",
+      "translatedAt": "2026-11-12T09:53:56.760Z"
+    },
+    "content/en/guides/tutorials/development/batch-jobs/batch-jobs.md": {
+      "sourceHash": "bd51f622f256ade156607a947f718f5e1c75dbe6d1d5e1b34721fc5195b50046",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/batch-jobs.md",
+      "translatedAt": "2026-11-12T09:53:56.760Z"
+    },
+    "content/en/guides/tutorials/development/batch-jobs/data-backfill.md": {
+      "sourceHash": "2487e57fac382a04efef5502414fbaacda956f8d83a64349dbb6f4a6641985d4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/data-backfill.md",
+      "translatedAt": "2026-11-12T09:53:56.760Z"
+    },
+    "content/en/guides/tutorials/development/batch-jobs/k-means-clustering.md": {
+      "sourceHash": "37397063fc9e3bd6b667cb486c7223d6e311540dfcd74fb032ed49e38a4bc302",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/k-means-clustering.md",
+      "translatedAt": "2026-11-12T09:53:56.760Z"
+    },
+    "content/en/guides/tutorials/development/batch-jobs/manage-batch-jobs.md": {
+      "sourceHash": "08c5d6448e29c154b62352e23aa34ce9ec5858a70ccd38f81ad4822cf20ccdff",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/manage-batch-jobs.md",
+      "translatedAt": "2026-11-12T09:53:56.760Z"
+    },
+    "content/en/guides/tutorials/development/batch-jobs/primary-key-dedup.md": {
+      "sourceHash": "e10b667c97f10f85a8994e55867e747ffedb287dd7f1fded4df8fc8613d2eb9f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/primary-key-dedup.md",
+      "translatedAt": "2026-11-12T09:53:56.760Z"
+    },
+    "content/en/guides/tutorials/development/batch-jobs/vector-similarity-dedup.md": {
+      "sourceHash": "b9a837684c5f81a0c06147954af9a7a56380b9a7dc025df771126e24d87bea0b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/vector-similarity-dedup.md",
+      "translatedAt": "2026-11-12T09:53:56.760Z"
+    },
     "content/en/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md": {
       "sourceHash": "e9b7b84aacec69e7abc32f775e927ec7c6b32c090caa9eb8152d7ee592fa611e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/collection-on-console/manage-collections-console.md",
@@ -2225,41 +2260,6 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/snapshots.md",
       "translatedAt": "2026-11-09T13:53:59.156Z"
     },
-    "content/en/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md": {
-      "sourceHash": "71803ea6d7f5b21979eb6bc65dbd08958117c20b454ef4f8727b689263988680",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/anomaly-detection.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
-    },
-    "content/en/guides/tutorials/development/spark-batch-jobs/data-backfill.md": {
-      "sourceHash": "273f3fd53f35e4e7d84484861566811225062f3632616f631d4395a13d380f90",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/data-backfill.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
-    },
-    "content/en/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md": {
-      "sourceHash": "e3498f27637a4b34c36a380e9c1a9b2efa22ce16c610d998bcc114a768cbf3a5",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/k-means-clustering.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
-    },
-    "content/en/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md": {
-      "sourceHash": "3ef673839c9ba69d8f1b522b4aafee0b141bd30805dad65f0b6a235ef8ce7a9c",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
-    },
-    "content/en/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md": {
-      "sourceHash": "45e47e861bdeeb6445cba03253e9b0c00d7939f470975a8f8b552bfa2d0655b9",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/primary-key-dedup.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
-    },
-    "content/en/guides/tutorials/development/spark-batch-jobs/spark-batch-jobs.md": {
-      "sourceHash": "35d0a587bf665ec490f9d59f4f96add54ace125c3e0580efe08d583b3ca403c7",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/spark-batch-jobs.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
-    },
-    "content/en/guides/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md": {
-      "sourceHash": "5378aad0928e7af6350381e64e66976b527f99e56a02e41671627dfdc1fe707a",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md",
-      "translatedAt": "2026-10-19T15:23:50.045Z"
-    },
     "content/en/guides/tutorials/development/vector-index/autoindex-explained.md": {
       "sourceHash": "5a1d144755d3bbb234b8274cefc257aecb6878d70946498c0f30a7e2985f6a5e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/autoindex-explained.md",
@@ -2286,9 +2286,9 @@
       "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
-      "sourceHash": "942578ae2e62adabae7d9576abea51a369313cd463540e5e1bfe91a37b869273",
+      "sourceHash": "f202783dcfff6e83bb090b5d33271e01d7001db0757589e4de5fd87afd51c4b6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-      "translatedAt": "2026-11-11T12:07:36.534Z"
+      "translatedAt": "2026-11-12T09:53:56.760Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md": {
       "sourceHash": "67f2f49abf37baa1443c7d5f3b6998457f04a1c232d9e67f64f68f70de649aa4",
@@ -11939,26 +11939,6 @@
       "sourceHash": "d5de9e389eac03992aab0ee087e99853f97e4e7a4d7fde0e73f397470322d811",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/snapshots.md",
       "translatedAt": "2026-07-13T17:22:42.888Z"
-    },
-    "docs/tutorials/development/spark-batch-jobs/anomaly-detection.md": {
-      "sourceHash": "f00a827b5606a66783457f3795b67b5ba24c78f9d2cfc9811119d8dc65bb29ff",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/anomaly-detection.md",
-      "translatedAt": "2026-08-31T18:36:06.000Z"
-    },
-    "docs/tutorials/development/spark-batch-jobs/data-backfill.md": {
-      "sourceHash": "003b56f0d591041ad3738e749d8dad9995d0fbb65b4420ce7a0e1d084deabe54",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/data-backfill.md",
-      "translatedAt": "2026-08-31T18:36:06.000Z"
-    },
-    "docs/tutorials/development/spark-batch-jobs/k-means-clustering.md": {
-      "sourceHash": "765a48c415202d1e27c61b50e9ae04f121e68b05f023d317bc840dff05aec2db",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/k-means-clustering.md",
-      "translatedAt": "2026-08-31T18:36:06.000Z"
-    },
-    "docs/tutorials/development/spark-batch-jobs/spark-batch-jobs.md": {
-      "sourceHash": "0786db3522b7007a1bbca0fcbe3df8e07aa5e3ac0761bf8f5d81939dfa428611",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/spark-batch-jobs.md",
-      "translatedAt": "2026-08-31T18:36:06.000Z"
     },
     "docs/tutorials/development/vector-index/autoindex-explained.md": {
       "sourceHash": "2c4c97131c2b29f44ec7d98fad55c749c664b20b5a311015331c98b5f9890f7b",
