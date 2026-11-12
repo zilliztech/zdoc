@@ -1,3 +1,13 @@
 {
-  "registrations": []
+  "registrations": [
+    {
+      "page": "json-field-overview",
+      "runId": 43140162447,
+      "attempt": 1,
+      "producer": "c14671395f97a0f1020f408775a1b831b1a495e7",
+      "policyBlobOid": "3cefb4885fe026f3091d796d85a027cbe23e8853",
+      "policySha256": "98504c14b348f55fb11c30790301ecaf84e3991155aeead2338339a85a8597be",
+      "producerInventorySha256": "cc11b3d2f7a0722cf455468295d4e6d636ade66e83da6fbfe27b60212cca28cd"
+    }
+  ]
 }
