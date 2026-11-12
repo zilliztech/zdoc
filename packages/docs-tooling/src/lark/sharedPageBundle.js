@@ -4,6 +4,7 @@ const path = require('node:path')
 const crypto = require('node:crypto')
 const yaml = require('js-yaml')
 const {safeHandoffPath, validateSharedReceipt, validateActiveState} = require('./sharedPageRouting')
+const renderIdentity = require('./sharedPageRenderIdentity')
 const {loadTypeScript} = require('../../../../scripts/lib/load-typescript')
 const {finalizeFetchFrontMatter} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/site/front-matter.ts'))
 const ROOT = 'tmp/docs-tooling/en/shared-pages/guides'
@@ -94,7 +95,13 @@ function validateBundle(files, expected = {}) {
       const receipt = JSON.parse(read(outcome.receipt)); validateSharedReceipt(receipt, outcome.identity)
       if (receipt.inputs.zdoc.commit !== bundle.master_commit || receipt.inputs.dev.commit !== bundle.dev_commit
         || receipt.inputs.fetch.image_base_url !== outcome.image_base_url || receipt.inputs.fetch.navigation !== digest(JSON.stringify(bundle.navigation))) fail('receipt binding')
-      if (outcome.identity.inputs_sha256 !== digest(JSON.stringify(receipt.inputs))) fail('input digest')
+      // Bundle receipts store the navigation digest as a string, so the render
+      // recipe recomputes receipt-local; pre-renderIdentity receipts keep their
+      // legacy whole-input digest until the transition round rewrites them.
+      const expectedDigest = Object.hasOwn(receipt.inputs.fetch, 'active')
+        ? renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, outcome.page)).inputs_sha256
+        : renderIdentity.legacyReceiptInputsDigest(receipt)
+      if (outcome.identity.inputs_sha256 !== expectedDigest) fail('input digest')
       descriptors = outcome.outputs
       const manuals = selectedFetchManuals(prep.records.find(record => record.record_id === outcome.record_id))
       const hasExactManuals = rows => Array.isArray(rows) && rows.length === manuals.length
