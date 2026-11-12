@@ -78,10 +78,115 @@ with zipfile.ZipFile(sys.argv[1],'w') as z:z.writestr('guides-source.tar',b.getv
   expect(await readFile(join(first, 'guides-source/manifest.json'), 'utf8')).toBe('{}')
   const head = 'a'.repeat(40), artifact = { id: 3, name: 'guides-sources-en-1', expired: false, digest: `sha256:${hash(bytes)}`, size_in_bytes: bytes.length,
     workflow_run: { id: 1, repository_id: 660446555, head_repository_id: 660446555, head_sha: head, head_branch: 'master' } }
-  const api = { zip: async () => bytes, get: async (path: string) => path.endsWith('zdoc') ? { id: 660446555 } : path.includes('/jobs?') ? { jobs: [] } :
-    path.includes('/artifacts?') ? { artifacts: [artifact] } : { id: 1, run_attempt: 1, repository: { id: 660446555 }, head_sha: head, head_branch: 'master' } }
+  const api = { zip: async () => bytes, get: async (path: string) => path.endsWith('zdoc') ? { id: 660446555 } : path.includes('/jobs?') ? { total_count: 0, jobs: [] } :
+    path.includes('/artifacts?') ? { total_count: 1, artifacts: [artifact] } : { id: 1, run_attempt: 1, repository: { id: 660446555 }, head_sha: head, head_branch: 'master' } }
   const second = join(root, 'second'); await mkdir(second)
   await expect(readLifecycle(api, 1, second)).rejects.toThrow(/artifact identity/i)
+  artifact.size_in_bytes = 256 * 1024 * 1024 + 1
+  await expect(readLifecycle({...api, zip: async () => {throw new Error('unexpected download')}}, 1, second)).rejects.toThrow('Source ZIP exceeds 256 MiB')
+  artifact.size_in_bytes = bytes.length
   artifact.digest = `sha256:${'c'.repeat(64)}`
   await expect(readLifecycle(api, 1, second)).rejects.toThrow(/digest/)
+})
+
+it('requires the actual canonical Base row and successful generation for the selected page', async () => {
+  const { observedRecord } = await import('../../adapters/updates/selected-lifecycle')
+  const page = 'sample', link = `https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/${page}`
+  const fixture = () => {
+    const identity = { group: 'guides', page, inputs_sha256: 'a'.repeat(64) }
+    const record = { record_id: 'rec', table_id: 'table', placement_type: 'canonical', slug: page, doc_link: link, source_kind: 'shared-page',
+      shared_page: identity, release_channel: 'current', publish_targets: ['Zilliz.PaaS', 'Zilliz.SaaS'] }
+    const raw = { record_id: 'rec', base_table_id: 'table', fields: { 'Placement Type': 'canonical', Docs: {link}, 'Release Channel': 'CURRENT',
+      Slug: page, Targets: ['Zilliz.SaaS', 'Zilliz.PaaS'] } }
+    const outcome = { record_id: raw.record_id, page, status: 'success', identity: {...identity} }
+    return { bundle: { preparation: { records: [raw] }, outcomes: [outcome] }, snapshot: { records: [record] }, raw, outcome, record }
+  }
+  const positive = fixture()
+  expect(observedRecord(positive.bundle, positive.snapshot, page)?.record).toBe(positive.record)
+  for (const change of [
+    (f: ReturnType<typeof fixture>) => { f.raw.fields['Release Channel'] = '' }, // the producer can default this to CURRENT
+    (f: ReturnType<typeof fixture>) => { f.raw.fields['Release Channel'] = 'RETIRE-IN-NEXT' },
+    (f: ReturnType<typeof fixture>) => { f.raw.fields['Placement Type'] = 'ref' },
+    (f: ReturnType<typeof fixture>) => { f.raw.fields.Docs.link += '-other' },
+    (f: ReturnType<typeof fixture>) => { f.raw.fields.Targets.pop() },
+    (f: ReturnType<typeof fixture>) => { f.raw.base_table_id = 'other' },
+    (f: ReturnType<typeof fixture>) => { f.bundle.preparation.records.push({...f.raw, record_id: 'duplicate'}) },
+    (f: ReturnType<typeof fixture>) => { f.bundle.preparation.records.length = 0 },
+    (f: ReturnType<typeof fixture>) => { f.outcome.status = 'fallback' },
+    (f: ReturnType<typeof fixture>) => { f.outcome.identity.inputs_sha256 = 'b'.repeat(64) },
+  ]) {
+    const f = fixture()
+    change(f)
+    expect(observedRecord(f.bundle, f.snapshot, page)).toBeUndefined()
+  }
+  const scoped = {...evidence(), observedPage: 'another-page'}
+  expect(classifyLifecycle(scoped, 'page', targets, now).state).toBe('unknown')
+})
+it('binds all producer tree entries and authenticates the policy bytes and mode', async () => {
+  const {producerInventoryDigest} = await import('../../adapters/updates/selected-lifecycle')
+  const {createHash} = await import('node:crypto')
+  const bytes = Buffer.from('reviewed\n'), oid = createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')
+  const path = 'packages/docs-tooling/src/shared-docs/adapters/updates/reviewed-fetch-tree.json'
+  const policy = `100644 blob ${oid}\t${path}\0`, dir = `040000 tree ${'a'.repeat(40)}\tpackages\0`
+  const digest = (tree: string) => producerInventoryDigest(tree, bytes)
+  const baseline = digest(dir + policy)
+  expect(digest(dir.replace('a'.repeat(40), 'b'.repeat(40)) + policy)).toBe(baseline)
+  for (const file of ['.env', 'extra.cjs', 'packages/docs-tooling/src/cli-main.ts', 'scripts/testing/test.js']) {
+    expect(digest(dir + policy + `100644 blob ${'a'.repeat(40)}\t${file}\0`)).not.toBe(baseline)
+  }
+  expect(() => digest(dir)).toThrow(/Missing producer review policy/)
+  expect(() => digest(dir + policy.replace(oid, 'b'.repeat(40)))).toThrow(/policy differs/)
+  expect(() => digest(dir + policy.replace('100644', '120000'))).toThrow(/policy differs/)
+})
+
+it('binds complete membership to distinct record IDs in every observed table', async () => {
+  const {recordMembership} = await import('../../adapters/updates/selected-lifecycle')
+  const data = [{base_table_id: 'a', record_id: 'one'}, {base_table_id: 'b', record_id: 'two'}]
+  const complete = recordMembership(data)
+  expect(complete).toMatchObject({tableCount: 2, recordCount: 2})
+  expect(recordMembership([...data].reverse())).toEqual(complete)
+  expect(recordMembership([data[0]])).not.toEqual(complete)
+  expect(recordMembership([data[0], {...data[1], base_table_id: 'a'}])).not.toEqual(complete)
+  expect(recordMembership([data[0], {...data[1], record_id: 'one'}])).toBeUndefined()
+})
+
+it('limits the independently enumerated historical census to its own producer, run, attempt, source ZIP and page', async () => {
+  const {selectedObservation} = await import('../../adapters/updates/selected-lifecycle')
+  const legacy = (await import('../../adapters/updates/reviewed-fetch-tree.json')).default.legacyCensus
+  const api = {get: async () => { throw new Error('Unexpected request') }, zip: async () => new Uint8Array()}
+  const run = {id: legacy.runId, run_attempt: legacy.attempt, head_sha: legacy.producer, head_repository: {id: 660446555}, workflow_id: 83360731}
+  const source = {id: legacy.artifactId, digest: legacy.zipDigest}
+  async function observe(observed = run, artifact = source, page = legacy.page) {
+    return selectedObservation(api, {run: observed, artifact, artifacts: [], jobs: []}, {},
+      {base_app_token: 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh'}, '', {producerRepo: '', devRepo: '', dev: '', page})
+  }
+  // Even the exact reviewed scan still requires successful producer and publication evidence.
+  expect(await observe()).toEqual({reason: 'BASE_SCAN_ATTEMPT_UNPROVEN'})
+  for (const observation of [
+    observe({...run, id: run.id + 1}), observe({...run, run_attempt: 2}),
+    observe(run, {...source, id: source.id + 1}), observe(run, {...source, digest: 'sha256:' + 'f'.repeat(64)}),
+    observe(run, source, 'another-page'),
+  ]) expect(await observation).toEqual({reason: 'BASE_SCAN_CENSUS_UNPROVEN'})
+})
+
+it('checks both workflow histories and holds on newer activity, other attempts and incomplete pagination', async () => {
+  const {latestGuidesRun} = await import('../../adapters/updates/selected-lifecycle')
+  const row = {id: 1, repository: {id: 660446555}, workflow_id: 83360731, updated_at: new Date(now + 60000).toISOString(),
+    status: 'completed', conclusion: 'success', run_attempt: 2, head_sha: 'a'.repeat(40)}
+  const old = {...row, id: 2, updated_at: new Date(now - 60000).toISOString()}
+  const response = (rows: typeof row[], count = rows.length) => ({workflow_runs: rows, total_count: count})
+  const check = (fetchPages: ReturnType<typeof response>[], requested = response([])) =>
+    latestGuidesRun({zip: async () => new Uint8Array(), get: async path => {
+      expect(path).toMatch(/created=%3E%3D\d{4}-\d{2}-\d{2}&per_page=100&page=\d+$/)
+      return path.includes('requested') ? requested : fetchPages[Number(path.split('page=').at(-1)) - 1]
+    }}, row, now)
+  const prior = Array.from({length: 100}, (_, i) => ({...old, id: 10 + i}))
+  expect(await check([response(prior, 101), response([row], 101)])).toBe(true)
+  expect(await check([response([row, {...old, updated_at: row.updated_at}])])).toBe(false)
+  expect(await check([response([row])], response([{...old, workflow_id: 355332213, status: 'in_progress'}]))).toBe(false)
+  expect(await check([response([{...row, run_attempt: 3}])])).toBe(false)
+  expect(await check([response([row], 2)])).toBe(false)
+  expect(await check([response(prior, 101), response([prior[0]], 101)])).toBe(false)
+  expect(await check([response(prior, 101), response([row], 100)])).toBe(false)
+  expect(await check([response([row], 1000)])).toBe(false)
 })

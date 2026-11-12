@@ -4,18 +4,25 @@ import { join } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { createHash } from 'node:crypto'
 import { canonicalBytes, digest, parseStrictJson } from '../../core/updates/canonical'
-import { CandidateSnapshotProofSchema, UpdateUnitPlanSchema, type BlobRef } from '../../core/updates/envelope'
+import { CandidateSnapshotProofSchema, GitShaSchema, NextLockEditSchema, UpdateUnitPlanSchema, validateBlobBytes, type BlobRef, type CandidateSnapshotProof, type NextLockEdit, type UpdateUnitPlan } from '../../core/updates/envelope'
 import { immutable } from '../../core/updates/types'
 import { parseRevisionMessage, assertRevisionBinding, encodeRevisionMessage } from '../../core/updates/metadata'
 import { assertNextOnlyDiff } from '../../core/updates/transaction'
-import { RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, encodeSealMessage, parseSealMessage,
+import { RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, githubSealMessage, parseSignedGitHubSealMessage,
   acceptExactValidation, ExactValidationReceiptV1Schema, ProducerBundleReceiptSchema, REMOTE_IO_LIMITS, type RemoteReadResult, type RemoteTransactionIntent, type RemoteSealV1, type RemotePull } from '../../core/updates/remote'
 import { type EvidenceStore, rawSha256, writeOwnedBlob, readRegularBytes } from './evidence'
 import { createRemoteMutationFixtureClient, remoteReadContext, type RemoteReads, type RemoteTransport } from './remote-github'
 import { verifyRemoteSealSignature, inspectRemoteHistory, type RemoteObjects } from './remote-metadata'
 
 type ObjectType='commit'|'tree'|'blob'
-export interface RemoteTransactionObjectReads { read(oid:string,type:ObjectType):Promise<RemoteReadResult<Uint8Array>> }
+export interface RemoteTransactionObjectReads {
+  read(oid:string,type:ObjectType):Promise<RemoteReadResult<Uint8Array>>
+  verifyConnected?(commits: readonly string[]):Promise<void>
+}
+interface ConnectedGitBaseline extends RemoteObjects {
+  /** Verify the receiver has the complete history, trees and blobs reachable from these commits. */
+  verifyConnected(commits: readonly string[]):Promise<void>
+}
 export interface RemoteTransactionResult {
   status:'report-only'|'hold'|'accepted'; reasons:string[]; evidence:BlobRef[]; seal?:string; prNumber?:number;
   readyProposal?:{prNumber:number;head:string}; donorCloseProposals?:{prNumber:number;head:string;survivor:number;seal:string}[];
@@ -30,7 +37,8 @@ const refOid=(value:RemoteReadResult<{oid:string}>)=>value.kind==='found'?value.
 const zero='0'.repeat(40)
 interface GitObject {oid:string;type:ObjectType;bytes:Buffer;dependencies:{oid:string;type:ObjectType}[];tree?:string;parents?:string[];message?:Uint8Array}
 function parseObject(oid:string,type:ObjectType,input:Uint8Array):GitObject {
-  const bytes=Buffer.from(input);check(bytes.length<=REMOTE_IO_LIMITS.objectBytes&&hashObject(type,bytes)===oid,'OBJECT_BYTES_OID')
+  check(input.byteLength<=REMOTE_IO_LIMITS.objectBytes,'OBJECT_BYTES_OID')
+  const bytes=Buffer.from(input);check(hashObject(type,bytes)===oid,'OBJECT_BYTES_OID')
   const result:GitObject={oid,type,bytes,dependencies:[]}
   if(type==='commit') {
     const split=bytes.indexOf('\n\n');check(split>0&&split<=8192,'COMMIT_HEADER')
@@ -40,11 +48,14 @@ function parseObject(oid:string,type:ObjectType,input:Uint8Array):GitObject {
     while(lines[at]?.startsWith('parent ')){check(/^parent [a-f0-9]{40}$/.test(lines[at]),'COMMIT_PARENT');parents.push(lines[at++].slice(7))}
     check(parents.length<=2&&new Set(parents).size===parents.length,'COMMIT_PARENT')
     check(/^author .+ <[^<>]+> \d+ [+-]\d{4}$/.test(lines[at++])&&/^committer .+ <[^<>]+> \d+ [+-]\d{4}$/.test(lines[at++]),'COMMIT_IDENTITY')
+    // Extended headers may contain multiline signatures but cannot redefine Git's structural fields.
+    for (const line of lines.slice(at)) check(!/^(?:tree|parent|author|committer)(?: |$)/.test(line), 'COMMIT_HEADER')
     result.tree=lines[0].slice(5);result.parents=parents;result.message=bytes.subarray(split+2)
     result.dependencies=[{oid:result.tree,type:'tree'},...parents.map(parent=>({oid:parent,type:'commit' as const}))]
   } else if(type==='tree') {
     let at=0;const names=new Set<string>();let previous:Buffer|undefined
     while(at<bytes.length) {
+      check(result.dependencies.length < 10000, 'TREE_EXPANSION_LIMIT')
       const end=bytes.indexOf(0,at);check(end>at&&end+21<=bytes.length,'TREE_BYTES')
       const header=new TextDecoder('utf8',{fatal:true}).decode(bytes.subarray(at,end)),match=/^(40000|100644|100755|120000) ([^/\0]+)$/.exec(header)
       check(match&&match[2]!=='.'&&match[2]!=='..'&&!names.has(match[2]),'TREE_ENTRY')
@@ -54,11 +65,129 @@ function parseObject(oid:string,type:ObjectType,input:Uint8Array):GitObject {
   }
   return result
 }
-function treeEntries(object:GitObject):{name:string;mode:string;oid:string;type:'tree'|'blob'}[] {
+function treeEntries(object:GitObject):{name:string;mode:string;oid:string;type:'tree'|'blob';offset:number}[] {
   const entries=[];let at=0
-  while(at<object.bytes.length){const end=object.bytes.indexOf(0,at),[mode,name]=object.bytes.subarray(at,end).toString('utf8').split(/ (.*)/s);entries.push({mode,name,oid:object.bytes.subarray(end+1,end+21).toString('hex'),type:mode==='40000'?'tree' as const:'blob' as const});at=end+21}
+  while(at<object.bytes.length){const end=object.bytes.indexOf(0,at),[mode,name]=object.bytes.subarray(at,end).toString('utf8').split(/ (.*)/s);entries.push({mode,name,offset:end+1,oid:object.bytes.subarray(end+1,end+21).toString('hex'),type:mode==='40000'?'tree' as const:'blob' as const});at=end+21}
   return entries
 }
+interface GuidesDeltaInput {
+  base: string
+  candidate: string
+  edit: NextLockEdit
+  source: RemoteObjects
+  baseline: ConnectedGitBaseline
+}
+
+function deltaReader(baseline: ConnectedGitBaseline, commits: string[]) {
+  let bytes = 0
+  const deadline = performance.now() + REMOTE_IO_LIMITS.inspectionMilliseconds
+  async function bounded<T>(operation: () => Promise<T>, maximum: number) {
+    const remaining = deadline - performance.now()
+    check(remaining > 0, 'TRANSACTION_BUDGET')
+    let timer: ReturnType<typeof setTimeout> | undefined
+    try {
+      const value = await Promise.race([operation(), new Promise<never>((_, reject) => {
+        timer = setTimeout(() => reject(new TransactionHold('TRANSACTION_BUDGET')), Math.min(remaining, maximum))
+      })])
+      check(performance.now() < deadline, 'TRANSACTION_BUDGET')
+      return value
+    } finally { clearTimeout(timer) }
+  }
+  return {
+    async verify() {
+      commits.forEach(oid => GitShaSchema.parse(oid))
+      await bounded(() => baseline.verifyConnected([...new Set(commits)]), REMOTE_IO_LIMITS.inspectionMilliseconds)
+    },
+    async read(reader: RemoteObjects, oid: string, type: ObjectType) {
+      GitShaSchema.parse(oid)
+      const raw = await bounded(() => reader.read(oid, type), REMOTE_IO_LIMITS.requestMilliseconds)
+      bytes += raw.byteLength
+      check(bytes <= REMOTE_IO_LIMITS.objectBytes, 'OBJECT_CLOSURE_LIMIT')
+      return parseObject(oid, type, raw)
+    },
+  }
+}
+
+/** The receiver has authenticated its base ref and holds its connected Git history.
+ * Compare complete tree bytes at each changed level. All other links must be byte-identical
+ * references inherited from that base. Only the changed spine and candidate need transmission. */
+async function readGuidesDelta(input: GuidesDeltaInput, read: ReturnType<typeof deltaReader>['read']) {
+  const edit = NextLockEditSchema.parse(input.edit)
+  check(edit.subject.kind === 'guides-page', 'SINGLE_GUIDES_REQUIRED')
+  const base = await read(input.baseline, input.base, 'commit')
+  const candidate = await read(input.source, input.candidate, 'commit')
+  check(same(candidate.parents, [base.oid]), 'CANDIDATE_BINDING')
+  const objects = [candidate]
+  let beforeOid = base.tree!, afterOid = candidate.tree!
+  const parts = edit.before.path.split('/')
+  let mode = ''
+  for (const [i, name] of parts.entries()) {
+    const before = await read(input.baseline, beforeOid, 'tree')
+    const after = await read(input.source, afterOid, 'tree')
+    const prior = treeEntries(before).find(entry => entry.name === name)
+    const next = treeEntries(after).find(entry => entry.name === name)
+    if (!prior || !next || prior.mode !== next.mode || prior.offset !== next.offset ||
+        prior.type !== (i === parts.length - 1 ? 'blob' : 'tree') ||
+        !before.bytes.subarray(0, prior.offset).equals(after.bytes.subarray(0, next.offset)) ||
+        !before.bytes.subarray(prior.offset + 20).equals(after.bytes.subarray(next.offset + 20)))
+      throw new TransactionHold('CANDIDATE_NOT_NEXT_ONLY')
+    objects.push(after)
+    beforeOid = prior.oid
+    afterOid = next.oid
+    mode = prior.mode
+  }
+  const before = await read(input.baseline, beforeOid, 'blob')
+  const after = await read(input.source, afterOid, 'blob')
+  assertNextOnlyDiff([{edit, path:edit.before.path, beforeMode:mode, afterMode:mode, beforeBytes:before.bytes, afterBytes:after.bytes}])
+  objects.push(after)
+  const rawDiff = Buffer.from(`:${mode} ${mode} ${beforeOid} ${afterOid} M\0${edit.before.path}\0`)
+  return {base, candidate, objects:objects.reverse(), rawDiff, baseTree:base.tree!, candidateTree:candidate.tree!}
+}
+
+/** Verifies Git bytes and the single lock edit. This read operation grants no writer authority. */
+export async function collectGuidesLockObjectDelta(input: GuidesDeltaInput) {
+  const reader = deltaReader(input.baseline, [input.base])
+  await reader.verify()
+  return readGuidesDelta(input, reader.read)
+}
+
+function verifyRevision(candidate: GitObject, prepared: GitObject, plan: UpdateUnitPlan, proof: CandidateSnapshotProof,
+  dev: string, previousBotCommit: string | null | undefined) {
+  const revision = parseRevisionMessage(candidate.message!)
+  check(revision, 'CANDIDATE_REVISION_REQUIRED')
+  check(previousBotCommit === revision.previousBotCommit, 'PREVIOUS_SEAL_BINDING')
+  assertRevisionBinding(revision, {parent:proof.prepared.base, master:proof.prepared.master, tools:proof.prepared.master,
+    planSha256:digest('plan',plan), unitKey:plan.unitKey, memberSetSha256:plan.membersSha256})
+  check(revision.dev === dev && same(revision.subjects,plan.subjects) && same(revision.preservedHumanHeads,proof.preservedHumanHeads) &&
+    same(revision.lockDeltas,plan.nextEdits.map(edit=>({path:edit.before.path,current:edit.before.current,oldNext:edit.before.next,next:edit.target}))), 'REVISION_BINDING')
+  const parentTime = /\ncommitter .+ (\d+) [+-]\d{4}\n/.exec(prepared.bytes.toString('utf8'))
+  const time = Number(parentTime?.[1]) + 1, identity = 'Shared update local <shared-update-local@localhost>'
+  check(Number.isSafeInteger(time) && time < 253402300799 && candidate.bytes.equals(Buffer.from(
+    `tree ${proof.candidateTree}\nparent ${proof.prepared.base}\nauthor ${identity} ${time} +0000\ncommitter ${identity} ${time} +0000\n\n${encodeRevisionMessage(revision).commitMessage}`)), 'CANDIDATE_NOT_DETERMINISTIC')
+  check(same(candidate.parents,[proof.prepared.base]) && candidate.tree === proof.candidateTree, 'CANDIDATE_BINDING')
+}
+
+/** Plan the first single-page transfer after the caller verifies receiver repository and M/D refs. */
+export async function planNewGuidesObjectTransfer(input: {
+  master: string; dev: string; plan: unknown; proof: unknown; source: RemoteObjects; baseline: ConnectedGitBaseline
+}) {
+  const plan = UpdateUnitPlanSchema.parse(input.plan), proof = CandidateSnapshotProofSchema.parse(input.proof)
+  check(plan.disposition === 'candidate' && plan.subjects.length === 1 && plan.nextEdits.length === 1 &&
+    same(plan.subjects,[plan.nextEdits[0].subject]) && same(plan.nextEdits,proof.nextEdits), 'PLAN_BINDING')
+  check(proof.prepared.kind === 'new' && proof.prepared.base === input.master && proof.prepared.master === input.master &&
+    proof.preservedHumanHeads.length === 0, 'PREPARED_BASE_BINDING')
+  const reader = deltaReader(input.baseline, [input.master, input.dev])
+  await reader.verify()
+  // D is independently pinned by the ref read and by the candidate revision, even when
+  // it is on a separate branch. Its unchanged history is not part of the new commit.
+  await reader.read(input.baseline, input.dev, 'commit')
+  const delta = await readGuidesDelta({base:input.master,candidate:proof.candidate,edit:plan.nextEdits[0],source:input.source,baseline:input.baseline}, reader.read)
+  check(delta.baseTree === proof.prepared.tree && delta.candidateTree === proof.candidateTree, 'PREPARED_TREE_BINDING')
+  validateBlobBytes(proof.patch, delta.rawDiff)
+  verifyRevision(delta.candidate, delta.base, plan, proof, input.dev, null)
+  return delta
+}
+
 /** Production authority installation is deliberately absent until the trusted capture bridge is qualified.
  * Neither structural objects nor a fixture capability can make this constructor write. */
 export function createRemoteTransaction(input:{reads:RemoteReads;writerCapability?:unknown;evidence:EvidenceStore}) {
@@ -106,9 +235,9 @@ async function preflight(reads:RemoteReads,intent:RemoteTransactionIntent,target
 }
 async function verifiedSeal(reads:RemoteReads,objects:RemoteTransactionObjectReads,intent:RemoteTransactionIntent,oid:string) {
   const raw=found(await objects.read(oid,'commit')),object=parseObject(oid,'commit',raw),fact=found(await reads.readCommit(oid)),policy=remoteReadContext(reads)!.policy
-  check(same(object.parents,[intent.candidate])&&object.tree===intent.candidateTree&&same(parseSealMessage(object.message!),sealMetadata(intent)),'SEAL_INTENT')
   check(fact.oid===oid&&fact.tree===object.tree&&same(fact.parents,object.parents),'SEAL_API_OBJECT')
   verifyRemoteSealSignature(raw,fact,{writerActorId:policy.writerActorId,platformSignerActorId:policy.sealIdentity.platformSignerActorId})
+  check(same(object.parents,[intent.candidate])&&object.tree===intent.candidateTree&&same(parseSignedGitHubSealMessage(object.message!),sealMetadata(intent)),'SEAL_INTENT')
   return {object,fact}
 }
 /** Read-only reconstruction. It never retries a mutation, even when the old head is still visible. */
@@ -182,36 +311,40 @@ export function createRemoteTransactionFixture(input:{reads:RemoteReads;evidence
       const initialPulls=found(await input.reads.scanPulls({state:'all'}));const projection=(pulls:RemotePull[])=>pulls.map(({number,head,headRef,base,draft,actorId,createdAt,state})=>({number,head,headRef,base,draft,actorId,createdAt,state})).sort((a,b)=>a.number-b.number);check(same(projection(discovered),projection(initialPulls)),'PULL_SET_CHANGED')
       const projectOthers=(pulls:RemotePull[])=>pulls.filter(pull=>pull.headRef!==intent!.targetRef&&pull.state==='open').map(({number,head,headRef,base,draft,actorId,createdAt})=>({number,head,headRef,base,draft,actorId,createdAt})).sort((a,b)=>a.number-b.number),otherInventory=projectOthers(initialPulls)
       const flight=async(target:string|null)=>{const observed=await preflight(input.reads,intent!,target);check(same(projectOthers(observed),otherInventory),'PULL_SET_CHANGED');return observed}
-      const graph=new Map<string,GitObject>(),order:GitObject[]=[],active=new Set<string>();let total=0
-      const visit=async(oid:string,type:ObjectType):Promise<void>=>{
-        const previous=graph.get(oid);if(previous){check(previous.type===type,'OBJECT_TYPE_CONFLICT');return}
-        check(!active.has(oid)&&graph.size+active.size<10000,'OBJECT_CLOSURE_LIMIT');active.add(oid)
-        const object=parseObject(oid,type,await bounded(()=>input.scratch.read(oid,type)));total+=object.bytes.length;check(total<=REMOTE_IO_LIMITS.objectBytes,'OBJECT_CLOSURE_LIMIT')
-        for(const dependency of object.dependencies)await visit(dependency.oid,dependency.type)
-        active.delete(oid);graph.set(oid,object);order.push(object)
-      }
-      await visit(intent.candidate,'commit');await visit(intent.master,'commit');await visit(intent.dev,'commit')
-      const candidate=graph.get(intent.candidate)!,prepared=graph.get(intent.preparedBase)!;check(proof.prepared.tree===prepared.tree,'PREPARED_TREE_BINDING')
-      const revision=parseRevisionMessage(candidate.message!);check(revision,'CANDIDATE_REVISION_REQUIRED')
-      check(intent.previousSeal?historyCandidates.get(intent.previousSeal)===revision.previousBotCommit:revision.previousBotCommit===null,'PREVIOUS_SEAL_BINDING')
-      assertRevisionBinding(revision,{parent:intent.preparedBase,master:intent.master,tools:intent.master,planSha256:intent.planSha256,unitKey:intent.unitKey,memberSetSha256:plan.membersSha256})
-      check(revision.dev===intent.dev&&same(revision.subjects,plan.subjects)&&same(revision.preservedHumanHeads,intent.preservedHumanHeads)&&same(revision.lockDeltas,plan.nextEdits.map(edit=>({path:edit.before.path,current:edit.before.current,oldNext:edit.before.next,next:edit.target}))),'REVISION_BINDING')
-      const parentTime=/\ncommitter .+ (\d+) [+-]\d{4}\n/.exec(prepared.bytes.toString('utf8')),time=Number(parentTime?.[1])+1,identity='Shared update local <shared-update-local@localhost>'
-      check(Number.isSafeInteger(time)&&time<253402300799&&candidate.bytes.equals(Buffer.from(`tree ${intent.candidateTree}\nparent ${intent.preparedBase}\nauthor ${identity} ${time} +0000\ncommitter ${identity} ${time} +0000\n\n${encodeRevisionMessage(revision).commitMessage}`)),'CANDIDATE_NOT_DETERMINISTIC')
-      check(same(candidate.parents,[intent.preparedBase])&&candidate.tree===intent.candidateTree,'CANDIDATE_BINDING')
-      const ancestor=(old:string,next:string)=>{const pending=[next],seen=new Set<string>();while(pending.length){const oid=pending.pop()!;if(oid===old)return true;if(seen.has(oid))continue;seen.add(oid);const object=graph.get(oid);if(object?.type==='commit')pending.push(...object.parents!)}return false}
-      check(ancestor(intent.master,intent.preparedBase)&&intent.preservedHumanHeads.every(head=>ancestor(head,intent.preparedBase)),'PRESERVED_ANCESTRY')
-      const flatten=(root:string):Map<string,{mode:string;oid:string}>=>{
-        const result=new Map<string,{mode:string;oid:string}>(),pending=[{oid:root,prefix:'',depth:0}];let expanded=0
-        while(pending.length){budget();const current=pending.pop()!;check(current.depth<=64,'TREE_EXPANSION_LIMIT')
-          for(const entry of treeEntries(graph.get(current.oid)!)){check(++expanded<=10000&&current.prefix.length+entry.name.length<=512,'TREE_EXPANSION_LIMIT');const path=current.prefix+entry.name
-            if(entry.type==='tree')pending.push({oid:entry.oid,prefix:path+'/',depth:current.depth+1});else {check(result.size<10000,'TREE_EXPANSION_LIMIT');result.set(path,{mode:entry.mode,oid:entry.oid})}}
+      let order: GitObject[] = []
+      if (input.remoteObjects.verifyConnected && proof.prepared.kind === 'new' && plan.subjects.length === 1 && plan.subjects[0].kind === 'guides-page') {
+        check(!intent.previousSeal && !intent.pulls.length && intent.expectedHead === null, 'PREPARED_BASE_BINDING')
+        const delta = await planNewGuidesObjectTransfer({master:intent.master, dev:intent.dev, plan, proof,
+          source:{read:(oid,type)=>bounded(()=>input.scratch.read(oid,type))},
+          baseline:{read:async(oid,type)=>found(await remoteObjects.read(oid,type)),
+            verifyConnected:commits=>bounded(()=>input.remoteObjects.verifyConnected!(commits))}})
+        order = delta.objects
+      } else {
+        const graph=new Map<string,GitObject>(),active=new Set<string>();let total=0
+        const visit=async(oid:string,type:ObjectType):Promise<void>=>{
+          const previous=graph.get(oid);if(previous){check(previous.type===type,'OBJECT_TYPE_CONFLICT');return}
+          check(!active.has(oid)&&graph.size+active.size<10000,'OBJECT_CLOSURE_LIMIT');active.add(oid)
+          const object=parseObject(oid,type,await bounded(()=>input.scratch.read(oid,type)));total+=object.bytes.length;check(total<=REMOTE_IO_LIMITS.objectBytes,'OBJECT_CLOSURE_LIMIT')
+          for(const dependency of object.dependencies)await visit(dependency.oid,dependency.type)
+          active.delete(oid);graph.set(oid,object);order.push(object)
         }
-        return result
+        await visit(intent.candidate,'commit');await visit(intent.master,'commit');await visit(intent.dev,'commit')
+        const candidate=graph.get(intent.candidate)!,prepared=graph.get(intent.preparedBase)!;check(proof.prepared.tree===prepared.tree,'PREPARED_TREE_BINDING')
+        verifyRevision(candidate, prepared, plan, proof, intent.dev, intent.previousSeal ? historyCandidates.get(intent.previousSeal) : null)
+        const ancestor=(old:string,next:string)=>{const pending=[next],seen=new Set<string>();while(pending.length){const oid=pending.pop()!;if(oid===old)return true;if(seen.has(oid))continue;seen.add(oid);const object=graph.get(oid);if(object?.type==='commit')pending.push(...object.parents!)}return false}
+        check(ancestor(intent.master,intent.preparedBase)&&intent.preservedHumanHeads.every(head=>ancestor(head,intent.preparedBase)),'PRESERVED_ANCESTRY')
+        const flatten=(root:string):Map<string,{mode:string;oid:string}>=>{
+          const result=new Map<string,{mode:string;oid:string}>(),pending=[{oid:root,prefix:'',depth:0}];let expanded=0
+          while(pending.length){budget();const current=pending.pop()!;check(current.depth<=64,'TREE_EXPANSION_LIMIT')
+            for(const entry of treeEntries(graph.get(current.oid)!)){check(++expanded<=10000&&current.prefix.length+entry.name.length<=512,'TREE_EXPANSION_LIMIT');const path=current.prefix+entry.name
+              if(entry.type==='tree')pending.push({oid:entry.oid,prefix:path+'/',depth:current.depth+1});else {check(result.size<10000,'TREE_EXPANSION_LIMIT');result.set(path,{mode:entry.mode,oid:entry.oid})}}
+          }
+          return result
+        }
+        const before=flatten(graph.get(intent.preparedBase)!.tree!),after=flatten(intent.candidateTree),changed=[...new Set([...before.keys(),...after.keys()])].filter(path=>!same(before.get(path)??null,after.get(path)??null))
+        check(changed.length===plan.nextEdits.length,'CANDIDATE_NOT_NEXT_ONLY')
+        assertNextOnlyDiff(changed.map(path=>{const a=before.get(path),b=after.get(path),edit=plan.nextEdits.find(edit=>edit.before.path===path);check(a&&b&&edit,'CANDIDATE_NOT_NEXT_ONLY');return {path,edit,beforeBytes:graph.get(a.oid)!.bytes,afterBytes:graph.get(b.oid)!.bytes,beforeMode:a.mode,afterMode:b.mode}}))
       }
-      const before=flatten(graph.get(intent.preparedBase)!.tree!),after=flatten(intent.candidateTree),changed=[...new Set([...before.keys(),...after.keys()])].filter(path=>!same(before.get(path)??null,after.get(path)??null))
-      check(changed.length===plan.nextEdits.length,'CANDIDATE_NOT_NEXT_ONLY')
-      assertNextOnlyDiff(changed.map(path=>{const a=before.get(path),b=after.get(path),edit=plan.nextEdits.find(edit=>edit.before.path===path);check(a&&b&&edit,'CANDIDATE_NOT_NEXT_ONLY');return {path,edit,beforeBytes:graph.get(a.oid)!.bytes,afterBytes:graph.get(b.oid)!.bytes,beforeMode:a.mode,afterMode:b.mode}}))
       const mutate=createRemoteMutationFixtureClient({transport:input.transport,repositoryFullName:policy.repositoryFullName,repositoryId:await context.repositoryNodeId(),targetRef:intent.targetRef,stagingRef:intent.stagingRef,workflowId:policy.validator.workflowId,observe:async observation=>{retained.push(await bounded(()=>writeOwnedBlob(input.evidence,canonicalBytes({kind:'remote-mutation-observation',transactionId:intent!.transactionId,...observation}))))}})
       const write=async(action:Parameters<typeof mutate>[0],body:Record<string,any>,readback:(response:any)=>Promise<unknown>)=>{
         budget();check(!poisoned,'MUTATIONS_STOPPED');await bounded(()=>input.authenticate({intentSha256:rawSha256(canonicalBytes(intent!)),intent:intent!}));await journal(intent!,'before',action,{bodySha256:rawSha256(canonicalBytes(body))})
@@ -239,8 +372,8 @@ export function createRemoteTransactionFixture(input:{reads:RemoteReads;evidence
       let staging=refOid(await input.reads.readRef(intent.stagingRef))
       if(staging===null){await write('cas',{name:intent.stagingRef,beforeOid:zero,afterOid:intent.candidate,force:false},async()=>{check(refOid(await input.reads.readRef(intent!.stagingRef))===intent!.candidate,'STAGING_READBACK');return {staging:intent!.candidate}});staging=intent.candidate}
       if(staging===intent.candidate) {
-        const message=encodeSealMessage(sealMetadata(intent)),[headline,...rest]=message.split('\n')
-        await write('seal',{expectedHeadOid:intent.candidate,message:{headline,body:rest.join('\n').replace(/^\n/,'')}},async response=>{
+        const message=githubSealMessage(sealMetadata(intent))
+        await write('seal',{expectedHeadOid:intent.candidate,message},async response=>{
           const oid=response.data?.createCommitOnBranch?.commit?.oid;check(typeof oid==='string','SEAL_RESPONSE_INCOMPLETE')
           check(refOid(await input.reads.readRef(intent!.stagingRef))===oid,'SEAL_READBACK');const verified=await verifiedSeal(input.reads,remoteObjects,intent!,oid);seal=oid;return {seal:oid,evidence:verified.fact.evidence}
         })

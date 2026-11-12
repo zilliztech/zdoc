@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url'
 import { parseSourceConfig } from '../../core/config'
 import { parseLock } from '../../core/lock'
 import { analyzeUpdates, renderImpactMarkdown } from '../../core/updates/impact'
+import { compareUtf8 } from '../../core/updates/canonical'
+import { selectedAdoptionScope } from '../../core/updates/units'
 import { discoverPage } from '../../core/updates/discovery'
 import { classifyLifecycle, defaultLifecyclePolicy, type LifecycleEvidence, type LifecyclePolicy } from '../../core/updates/lifecycle'
 import type { FixedPageInput, FixedVersions } from '../../core/updates/types'
@@ -15,7 +17,7 @@ import { exportTree, resolveCommit, requireOrdered, sourceEndpoints, gitRead } f
 import { hash, readLifecycle } from './lifecycle'
 import { GitHubReads, type ReadonlyGitHub } from './github'
 export interface UpdateOptions { sharedDocs: string; repo: string; dev: string; out: string; mode?: string; masterSha?: string; devSha?: string;
-  sourceSha?: string; comparisonMasterSha?: string; pages?: string; evidenceRun?: string; evidenceZip?: string }
+  sourceSha?: string; comparisonMasterSha?: string; pages?: string; lifecyclePage?: string; proveIndependentPage?: boolean; evidenceRun?: string; evidenceZip?: string }
 export interface UpdateDependencies { fetcher?: ImageFetcher; github?: ReadonlyGitHub;
   clock?: { kind: 'offline-replay'; now: number }; policy?: LifecyclePolicy }
 export class UpdateArgumentError extends Error {}
@@ -66,7 +68,7 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
     pins.source = { repository: source.config.repository, track: source.config.track, head: endpoints.head, target: endpoints.target }
     const toolingRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
     const runtimePaths = new Set((await gitRead(toolingRoot, ['ls-files', '-z', '--', 'packages/docs-tooling/src', 'scripts/docs-tooling.js', 'scripts/lib/load-typescript.js'])).split('\0').filter(p => p && /\.(?:[cm]?[jt]s|json)$/.test(p) && !/\/(testing|fixtures|meta)\//.test(p) && !p.includes('.test.')))
-    for (const path of ['core/updates/discovery.ts', 'core/updates/lifecycle.ts', 'commands/update.ts', ...['git', 'github', 'lifecycle', 'candidate', 'runner'].map(n => `adapters/updates/${n}.ts`)]) runtimePaths.add(`packages/docs-tooling/src/shared-docs/${path}`)
+    for (const path of ['core/updates/discovery.ts', 'core/updates/lifecycle.ts', 'commands/update.ts', ...['git', 'github', 'lifecycle', 'selected-lifecycle', 'candidate', 'runner'].map(n => `adapters/updates/${n}.ts`)]) runtimePaths.add(`packages/docs-tooling/src/shared-docs/${path}`)
     const runtimeDigest = hash(JSON.stringify(await Promise.all([...runtimePaths].sort().map(async path => [path, hash(await readFile(join(toolingRoot, path)))]))))
     pins.tools = { runtimeDigest, pnpm: JSON.parse(await readFile(join(toolingRoot, 'package.json'), 'utf8')).packageManager, zdoc: await resolveCommit(toolingRoot), node: process.version, md2md: '1.3.0',
       lockfileSha256: hash(await readFile(join(toolingRoot, 'pnpm-lock.yaml'))) }
@@ -76,7 +78,9 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
       const directory = join(temporary, 'evidence'); await mkdir(directory)
       try {
         const baseline = JSON.parse(await readFile(join(devRoot, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'), 'utf8'))
-        evidence = await readLifecycle(dependencies.github ?? new GitHubReads(), Number(options.evidenceRun), directory, options.evidenceZip, baseline.base_app_token)
+        const lifecyclePage = options.lifecyclePage ?? (options.pages && !options.pages.includes(',') ? options.pages : undefined)
+        evidence = await readLifecycle(dependencies.github ?? new GitHubReads(), Number(options.evidenceRun), directory, options.evidenceZip, baseline.base_app_token,
+          lifecyclePage ? { page: lifecyclePage, producerRepo: repositoryRoot, devRepo: options.dev, dev } : undefined)
         const { GitMilvusDocsReader } = await import('../git-milvus-docs-reader')
         for (const [repo, ancestor, head] of [[repositoryRoot, evidence.identity.masterSha, master], [options.dev, evidence.identity.devSha, dev]] as const) {
           if (typeof ancestor !== 'string' || !await new GitMilvusDocsReader(repo).isAncestor(ancestor, head)) evidence.reasons.push('PRODUCER_ANCESTRY_UNPROVEN')
@@ -85,7 +89,13 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
       catch (error) { errors.push({ message: `Lifecycle infrastructure: ${String(error)}` }); evidence = { reasons: ['EVIDENCE_INFRASTRUCTURE_FAILURE'], records: [], identity: {} } }
     }
     pins.lifecycle = { ...evidence.identity, reasons: evidence.reasons, generatedAt: evidence.generatedAt }
-    for (const item of inventory) {
+    const first = options.proveIndependentPage && !options.pages ? inventory.find(item => item.pageId === options.lifecyclePage) : undefined
+    const order = first ? [first, ...inventory.filter(item => item !== first)] : inventory
+    const members = first ? [...configuration.sharedDocs.pages].flatMap(([pageId, item]) => item.config.publish.map(target => ({pageId, ...target}))) : []
+    // Until the first page proves isolation, all configured siblings remain possible.
+    let scope = first ? {independent: false, peers: new Set<string>(configuredIds.filter(id => id !== first.pageId))} : undefined
+    for (const item of order) {
+      if (first && item !== first && scope?.independent) item.selected = false
       const page = configuration.sharedDocs.pages.get(item.pageId)
       if (!page) continue
       item.lifecycle = classifyLifecycle(evidence, item.pageId, page.config.publish, dependencies.clock?.now ?? Date.now(), pins.policy)
@@ -113,7 +123,18 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
         if (impact.errors.some(e => ['IMAGE_FETCH_FAILED', 'IMAGE_CHANGED_DURING_READ', 'UPDATE_OBSERVATION_UNAVAILABLE'].includes(e.code))) {
           errors.push({ pageId: item.pageId, message: 'Image acquisition/observation unavailable; see page diagnostics' })
         }
+        if (item === first && !pageErrors.size && !oldLoaded.pageErrors.size) {
+          scope = selectedAdoptionScope(collected.pages[0], impact, members) ?? scope
+        }
       } catch (error) { const message = String(error); item.errors = [message]; errors.push({ pageId: item.pageId, message }) }
+    }
+    if (first && scope && !scope.independent) {
+      // Keep the full-report order on fallback, including the hashed fixed inputs.
+      observations.sort((a, b) => compareUtf8(a.pageId, b.pageId))
+      const complete = new Set(observations.filter(p => [p.current, p.candidateNext].every(o =>
+        o.outputStatus === 'observed' && !o.rawErrors.length)).map(p => p.pageId))
+      const missing = [...scope.peers].filter(id => !complete.has(id)).sort()
+      if (missing.length) first.unobservedAdoptionPeers = missing
     }
   } catch (error) {
     if (error instanceof UpdateArgumentError) throw error

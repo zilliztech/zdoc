@@ -85,6 +85,13 @@ Computed module paths and general package-exports resolution are not inferred.
 
 This is the living development map for Fetch, Translation, publication, recovery, and replay changes. Its machine-readable source is [`scripts/docs-workflow/test-matrix.json`](../../scripts/docs-workflow/test-matrix.json). Keep both representations aligned in the same change.
 
+The `shared-guides-upstream-update` entry covers the scheduled
+`shared-guides-update.yml` workflow and its scripts. It selects
+`pnpm test:shared-guides-update` and `pnpm test:shared-docs`, plus typecheck,
+workflow policy and the matrix. The first command exercises the single-page
+discovery, candidate and writer boundaries, including the stop for an open PR.
+The workflow's pull-request job runs these activation-specific tests offline.
+
 ## How an Agent uses the matrix
 
 Pass every changed repository-relative path to the selector before editing tests:

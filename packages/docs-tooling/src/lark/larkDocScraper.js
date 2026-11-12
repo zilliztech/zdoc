@@ -18,6 +18,31 @@ const FEISHU_MAX_CONCURRENT = parseInt(process.env.FEISHU_MAX_CONCURRENT || '1',
 const FEISHU_MIN_TIME_MS = parseInt(process.env.FEISHU_MIN_TIME_MS || '500', 10)
 const FEISHU_WIKI_NODE_MIN_TIME_MS = parseInt(process.env.FEISHU_WIKI_NODE_MIN_TIME_MS || '1000', 10)
 
+// English shared source acquisition uses this inventory to authorize selected-page updates.
+function completeBasePage(label, itemId) {
+    const ids = new Set(), tokens = new Set()
+    let total
+    return data => {
+        if (!Number.isSafeInteger(data?.total) || data.total < 0 || typeof data.has_more !== 'boolean' ||
+            (total !== undefined && total !== data.total)) throw new Error(`[base] Invalid or changing pagination metadata for ${label}`)
+        total = data.total
+        const items = data.items ?? (total === 0 ? [] : undefined)
+        if (!Array.isArray(items)) throw new Error(`[base] Missing items for ${label}`)
+        for (const item of items) {
+            const id = item && itemId(item)
+            if (typeof id !== 'string' || !id.trim() || ids.has(id)) throw new Error(`[base] Missing or duplicate identity for ${label}`)
+            ids.add(id)
+        }
+        if (data.has_more) {
+            if (!items.length || ids.size >= total || typeof data.page_token !== 'string' ||
+                !data.page_token.trim() || tokens.has(data.page_token)) throw new Error(`[base] Invalid pagination continuation for ${label}`)
+            tokens.add(data.page_token)
+        } else if (ids.size !== total) {
+            throw new Error(`[base] Incomplete result for ${label}`)
+        }
+    }
+}
+
 class larkDocScraper {
     constructor(root_node, base_app_id, target_type, doc_source_dir) {
         this.docs = undefined
@@ -486,25 +511,27 @@ class larkDocScraper {
         return values.map(value => value.trim().toLowerCase()).filter(Boolean)
     }
 
-    async __base_tables(token, tableFilter=null, progressLabel=null) {
+    async __base_tables(token, tableFilter=null, progressLabel=null, requireComplete=false) {
         const filterValues = this.__table_filter_values(tableFilter)
-        if (this.base_tables && !filterValues) return this.base_tables
+        if (this.base_tables && !filterValues && !requireComplete) return this.base_tables
 
         if (this.base_table_id && !this.use_all_base_tables) {
             this.base_tables = [{ table_id: this.base_table_id, name: this.base_table_id, index: 0 }]
             return this.base_tables
         }
 
+        const validate = requireComplete ? completeBasePage('tables', table => table.table_id || table.id) : null
         const tables = []
         let pageToken = null
         do {
-            const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
+            const pageTokenExpr = pageToken ? `&page_token=${encodeURIComponent(pageToken)}` : ''
             const url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables?page_size=100${pageTokenExpr}`
             this.token = token
             const jres = await this.__fetchFeishuJson(url, { method: "get" }, `list bitable tables ${this.base_app_token}`)
             if (jres.code !== 0) {
                 throw new Error(`[base] Failed to list tables for ${this.base_app_token}: ${JSON.stringify(jres)}`)
             }
+            validate?.(jres.data)
             tables.push(...jres.data.items)
             pageToken = jres.data.has_more ? jres.data.page_token : null
         } while (pageToken)
@@ -537,13 +564,14 @@ class larkDocScraper {
         return this.base_tables
     }
 
-    async __base_view_id(token, table) {
+    async __base_view_id(token, table, requireComplete=false) {
         if (table.view_id) return table.view_id
 
+        const validate = requireComplete ? completeBasePage('views', view => view.view_id || view.id) : null
         const views = []
         let pageToken = null
         do {
-            const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
+            const pageTokenExpr = pageToken ? `&page_token=${encodeURIComponent(pageToken)}` : ''
             const url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table.table_id}/views?page_size=100${pageTokenExpr}`
             this.token = token
             const jres = await this.__fetchFeishuJson(url, { method: "get" }, `list bitable views ${table.name || table.table_id}`)
@@ -554,6 +582,13 @@ class larkDocScraper {
             const items = jres.data?.items || []
             if (!Array.isArray(items)) {
                 console.warn(`[base] Unexpected views payload for ${table.name || table.table_id}; falling back to API default record order: ${JSON.stringify(jres)}`)
+                return null
+            }
+            try {
+                validate?.(jres.data)
+            } catch (error) {
+                // Views determine display order. The unfiltered scan still checks the full record set.
+                console.warn(`[base] Using default record order for ${table.table_id}: ${error.message}`)
                 return null
             }
             views.push(...items)
@@ -568,12 +603,13 @@ class larkDocScraper {
         return selectedView?.view_id || selectedView?.id || null
     }
 
-    async __base_record_page(token, table, viewId=null, progressLabel=null) {
+    async __base_record_page(token, table, viewId=null, progressLabel=null, requireComplete=false) {
+        const validate = requireComplete ? completeBasePage(`records of ${table.table_id}`, record => record.record_id) : null
         const records = []
         let pageToken = null
         let pageCount = 0
         do {
-            const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
+            const pageTokenExpr = pageToken ? `&page_token=${encodeURIComponent(pageToken)}` : ''
             const viewExpr = viewId ? `&view_id=${encodeURIComponent(viewId)}` : ''
             const url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table.table_id}/records?page_size=500${viewExpr}${pageTokenExpr}`
             this.token = token
@@ -581,6 +617,7 @@ class larkDocScraper {
             if (jres.code !== 0) {
                 throw new Error(`[base] Failed to list records for ${table.name || table.table_id}: ${JSON.stringify(jres)}`)
             }
+            validate?.(jres.data)
             const items = jres.data?.items || []
             if (!Array.isArray(items)) {
                 throw new Error(`[base] Unexpected records payload for ${table.name || table.table_id}: ${JSON.stringify(jres)}`)
@@ -602,17 +639,18 @@ class larkDocScraper {
         return records
     }
 
-    async __base_records(token, table, progressLabel=null) {
-        const viewId = await this.__base_view_id(token, table)
-        const allRecords = await this.__base_record_page(token, table, null, progressLabel)
+    async __base_records(token, table, progressLabel=null, requireComplete=false) {
+        const viewId = await this.__base_view_id(token, table, requireComplete)
+        const allRecords = await this.__base_record_page(token, table, null, progressLabel, requireComplete)
         if (!viewId) return allRecords
 
-        const viewRecords = await this.__base_record_page(token, table, viewId, progressLabel)
+        const viewRecords = await this.__base_record_page(token, table, viewId, progressLabel, requireComplete)
         const allById = new Map(allRecords.map(record => [record.record_id, record]))
         const orderedRecords = []
         const seen = new Set()
 
         for (const viewRecord of viewRecords) {
+            if (requireComplete && !allById.has(viewRecord.record_id)) throw new Error(`[base] View contains record outside the unfiltered inventory of ${table.table_id}`)
             const fullRecord = allById.get(viewRecord.record_id) || viewRecord
             fullRecord.base_record_index = orderedRecords.length
             orderedRecords.push(fullRecord)
@@ -628,15 +666,16 @@ class larkDocScraper {
         return orderedRecords
     }
 
-    async __base({ tableFilter=null, force=false, progressLabel=null } = {}) {
-        if (this.records && !tableFilter && !force) return
+    async __base({ tableFilter=null, force=false, progressLabel=null, requireComplete=false } = {}) {
+        if (requireComplete && (!this.use_all_base_tables || tableFilter)) throw new Error('[base] A complete scan requires all tables')
+        if (this.records && !tableFilter && !force && !requireComplete) return
         const fetcher = new tokenFetcher()
         await fetcher.fetchToken()
         const token = await fetcher.token()
         if (progressLabel) {
             console.log(`${progressLabel}: scanning Base tables`)
         }
-        const tables = await this.__base_tables(token, tableFilter, progressLabel)
+        const tables = await this.__base_tables(token, tableFilter, progressLabel, requireComplete)
         const recordsByTable = []
 
         for (let i = 0; i < tables.length; i++) {
@@ -644,7 +683,7 @@ class larkDocScraper {
             if (progressLabel) {
                 console.log(`${progressLabel}: scanning table ${i + 1}/${tables.length} (${table.name || table.table_id})`)
             }
-            recordsByTable.push(...await this.__base_records(token, table, progressLabel))
+            recordsByTable.push(...await this.__base_records(token, table, progressLabel, requireComplete))
         }
 
         this.records = recordsByTable
