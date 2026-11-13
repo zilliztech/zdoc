@@ -142,6 +142,156 @@ test('render identity agrees between planning and publication on zero drift', {t
   assert.ok(Object.hasOwn(receipt.inputs.fetch, 'active'))
   assert.ok(/^[a-f0-9]{64}$/.test(receipt.inputs.tools.engine_sha256))
 })
+
+test('zero-drift replay republishes the pinned receipt without building', {timeout: 300000}, async t => {
+  const options = await fixture(t, {ordinaryPages: 1})
+  const publication = require('../../packages/docs-tooling/src/lark/sharedPagePublication')
+  const bundles = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const renderIdentity = require('../../packages/docs-tooling/src/lark/sharedPageRenderIdentity')
+  const fetchOld = async () => ({blocks: {items: [heading]}})
+  const logs = []
+  const published = []
+  const capture = async fn => {
+    const original = console.info
+    console.info = (...args) => logs.push(args.join(' '))
+    try { return await fn() } finally { console.info = original }
+  }
+  const publishRound = async label => {
+    const workspace = path.join(options.root, `publish-${label}`)
+    fs.cpSync(options.baselineRoot, workspace, {recursive: true})
+    const handoff = bundles.loadBundle(options.out)
+    for (const outcome of handoff.bundle.outcomes) for (const output of outcome.outputs) {
+      await write(workspace, output.path, handoff.files.get(output.file))
+    }
+    const {snapshot, publication: authority} = publication.finalizePublication({workspace, handoff, candidate: options.candidate})
+    await write(workspace, adapter.snapshotPath, JSON.stringify(snapshot))
+    // The finalize report carries a fresh run timestamp and is not checkpoint-managed;
+    // drop it so the dirty check mirrors the checkpoint composition scope.
+    fs.rmSync(path.join(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-shared-publication.json'), {force: true})
+    // Production semantics: a byte-identical composition publishes no commit.
+    const status = (await git(workspace, 'status', '--porcelain')).trim()
+    const dirty = Boolean(status)
+    let devCommit = published.at(-1)?.devCommit || options.devCommit
+    if (dirty) {
+      await git(workspace, 'add', '.'); await git(workspace, 'commit', '--quiet', '-m', `publish ${label}`)
+      devCommit = await git(workspace, 'rev-parse', 'HEAD')
+    }
+    published.push({workspace, snapshot, authority, dirty, status, devCommit})
+    options.baselineRoot = workspace
+    return published[published.length - 1]
+  }
+  const round = async label => {
+    const prepared = adapter.prepareSharedSources({records: options.records, repositoryRoot: options.repositoryRoot,
+      baselineRoot: options.baselineRoot, masterCommit: options.masterCommit, devCommit: published.at(-1)?.devCommit || options.devCommit,
+      sourceDir: options.sourceDir})
+    options.preparation = prepared.data
+    const scraper = new Scraper(rootToken, 'base:*', 'wiki', options.sourceDir)
+    scraper.records = options.records; scraper.base_tables = [{table_id: 'table', name: 'Manage Data'}]
+    scraper.routingContext = prepared.context
+    await scraper.__apply_base_navigation()
+    options.candidate = createSourceSnapshot({manualName: 'guides', buildEnv: 'uat', docSourceDir: options.sourceDir, baseAppToken: 'base',
+      records: options.records.filter(row => !prepared.context.errors.some(error => error.record_id === row.record_id)), routingContext: prepared.context})
+    options.plan = {mode: 'incremental', affected_tables: [], changed_records: structuredClone(options.candidate.records)}
+    options.out = path.join(options.root, `bundle-${label}`)
+    options.scratch = path.join(options.root, `scratch-${label}`)
+    logs.length = 0
+    const bundle = await capture(() => generateSharedSources(options, {fetchOld}))
+    return {bundle, lines: logs}
+  }
+  // Round 1: first activation builds and publishes through the real finalize.
+  const first = await round(1)
+  assert.equal(first.bundle.outcomes[0].status, 'success', JSON.stringify(first.bundle.outcomes))
+  assert.ok(first.lines.some(line => line.includes('[shared-regen] page=sample')), first.lines.join('\n'))
+  const activationEntry = structuredClone(first.bundle.effective_active.pages[0])
+  await publishRound('r1')
+  // Round 2: the receipt carries the activation entry for the first time, so the
+  // identity flips exactly once more (the disclosed PR3 transition) and rebuilds.
+  const second = await round(2)
+  assert.equal(second.bundle.outcomes[0].status, 'success', JSON.stringify(second.bundle.outcomes))
+  assert.ok(second.lines.some(line => line.includes('[shared-regen] page=sample')), second.lines.join('\n'))
+  const proof2 = second.bundle.outcomes[0].regeneration
+  await publishRound('r2')
+  const receipt2Bytes = fs.readFileSync(path.join(published[1].workspace, 'generated/en/manifests/shared-pages/guides/sample.json'))
+  const receipt2 = JSON.parse(receipt2Bytes)
+  // Round 3: zero drift replays the pinned receipt; no build or activation runs.
+  const third = await round(3)
+  const outcome3 = third.bundle.outcomes[0]
+  assert.equal(outcome3.status, 'reused', JSON.stringify(third.bundle.outcomes))
+  assert.ok(third.lines.some(line => line.includes('[shared-reuse]')), third.lines.join('\n'))
+  assert.ok(third.lines.every(line => !line.includes('[shared-regen]')), third.lines.join('\n'))
+  assert.equal(outcome3.identity.inputs_sha256,
+    renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt2.inputs, 'sample')).inputs_sha256)
+  assert.deepEqual(outcome3.regeneration, proof2)
+  assert.deepEqual(third.bundle.effective_active.pages, [activationEntry])
+  assert.equal(fs.readFileSync(path.join(options.out, outcome3.receipt.file)).equals(receipt2Bytes), true)
+  assert.deepEqual(outcome3.outputs.map(output => output.path).sort(), receipt2.outputs.map(output => output.path).sort())
+  assert.deepEqual(outcome3.targets, receipt2.inputs.fetch.render_targets.targets)
+  const round3 = await publishRound('r3')
+  assert.equal(round3.authority.cache_eligible, true)
+  // Finalize refreshes navigation, which is unchanged here, so the receipt bytes
+  // survive the round exactly; the reuse bytes channel is the pinned baseline.
+  assert.equal(fs.readFileSync(path.join(round3.workspace, 'generated/en/manifests/shared-pages/guides/sample.json')).equals(receipt2Bytes), true)
+  // A reused outcome without its inherited regeneration proof cannot authenticate.
+  {
+    const files = new Map()
+    const visit = (directory, relative = '') => {
+      for (const entry of fs.readdirSync(directory, {withFileTypes: true}).sort((a, b) => a.name.localeCompare(b.name))) {
+        const child = path.join(directory, entry.name), childRelative = relative ? `${relative}/${entry.name}` : entry.name
+        if (entry.isDirectory()) visit(child, childRelative)
+        else files.set(childRelative, fs.readFileSync(child))
+      }
+    }
+    visit(options.out)
+    const tampered = JSON.parse(files.get('bundle.json'))
+    delete tampered.outcomes.find(outcome => outcome.status === 'reused').regeneration
+    files.set('bundle.json', Buffer.from(JSON.stringify(tampered)))
+    assert.throws(() => bundles.validateBundle(files), /missing reused regeneration evidence: rec0/)
+  }
+  // Round 4: steady state reproduces every managed published byte exactly, so
+  // the publication composes no commit at all (the remaining volatile report
+  // timestamps are the follow-up excluded from this pin).
+  const fourth = await round(4)
+  assert.equal(fourth.bundle.outcomes[0].status, 'reused', JSON.stringify(fourth.bundle.outcomes))
+  const round4 = await publishRound('r4')
+  if (round4.dirty) {
+    const before = JSON.parse(fs.readFileSync(path.join(round3.workspace, 'generated/en/manifests/shared-pages/guides/_publication.json'), 'utf8'))
+    const after = JSON.parse(fs.readFileSync(path.join(round4.workspace, 'generated/en/manifests/shared-pages/guides/_publication.json'), 'utf8'))
+    for (const key of new Set([...Object.keys(before), ...Object.keys(after)])) {
+      if (JSON.stringify(before[key]) !== JSON.stringify(after[key])) console.error(`PUB-DIFF ${key}: ${JSON.stringify(before[key])?.slice(0, 160)} -> ${JSON.stringify(after[key])?.slice(0, 160)}`)
+    }
+  }
+  assert.equal(round4.dirty, false, `steady-state reuse must not change any managed byte: ${round4.status}`)
+  for (const file of ['generated/en/manifests/shared-pages/guides/sample.json', 'generated/en/manifests/shared-pages/guides/active.json',
+    'generated/en/manifests/shared-pages/guides/_publication.json']) {
+    assert.equal(fs.readFileSync(path.join(round4.workspace, file)).equals(fs.readFileSync(path.join(round3.workspace, file))), true, file)
+  }
+  // Round 5: an overlay change flips the identity and forces exactly one rebuild.
+  await write(options.repositoryRoot, 'shared-docs/guides/Variables.json', JSON.stringify({example_endpoint: 'https://changed.example.test', example_token: 'CHANGED'}))
+  await git(options.repositoryRoot, 'add', '.'); await git(options.repositoryRoot, 'commit', '--quiet', '-m', 'Variables change')
+  options.masterCommit = await git(options.repositoryRoot, 'rev-parse', 'HEAD')
+  const fifth = await round(5)
+  assert.equal(fifth.bundle.outcomes[0].status, 'success', JSON.stringify(fifth.bundle.outcomes))
+  assert.ok(fifth.lines.some(line => line.includes('[shared-regen] page=sample')), fifth.lines.join('\n'))
+  await publishRound('r5')
+  // Round 6: a canonical row change outside the identity (Base display name)
+  // blocks reuse, because the published receipt navigation could not authenticate.
+  options.records[0].fields.Docs = {text: 'Renamed display', link: options.records[0].fields.Docs.link}
+  const sixth = await round(6)
+  assert.equal(sixth.bundle.outcomes[0].status, 'success', JSON.stringify(sixth.bundle.outcomes))
+  assert.ok(sixth.lines.some(line => line.includes('[shared-regen] page=sample')), sixth.lines.join('\n'))
+  assert.ok(sixth.lines.every(line => !line.includes('[shared-reuse]')), sixth.lines.join('\n'))
+  await publishRound('r6')
+  // Round 7: unrelated (non-shared) navigation drift must not detach the
+  // inherited proof — the shared page still replays its pinned receipt with the
+  // pinned navigation kept verbatim, and the real drift publishes a commit.
+  options.records.find(row => row.record_id === 'rec1').fields.Labels = 'Drifted ordinary label'
+  const seventh = await round(7)
+  assert.equal(seventh.bundle.outcomes[0].status, 'reused', JSON.stringify(seventh.bundle.outcomes))
+  assert.ok(seventh.lines.some(line => line.includes('[shared-reuse]')), seventh.lines.join('\n'))
+  const round7 = await publishRound('r7')
+  assert.equal(round7.dirty, true, 'unrelated navigation drift is a real change and must publish')
+  assert.equal(round7.authority.cache_eligible, true)
+})
 for (const manual of ['guides', 'guides-byoc']) {
   test(`single-target Fetch builds and authenticates exactly ${manual}`, {timeout: 120000}, async t => {
     const options = await fixture(t, {manuals: [manual]})

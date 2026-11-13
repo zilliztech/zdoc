@@ -71,6 +71,8 @@ function validateBundle(files, expected = {}) {
   const routing = require('./sharedPageFetch').restoreRouting(prep)
   const expectedRecords = new Set([...Object.keys(prep.inputs), ...prep.errors.map(error => error.record_id)])
   const seen = new Set(), outputs = new Set(), activations = structuredClone(bundle.baseline_active)
+  const hasExactManuals = (rows, manuals) => Array.isArray(rows) && rows.length === manuals.length
+    && equal(rows.map(row => row.manual).sort(), manuals)
   if (!Array.isArray(bundle.outcomes) || bundle.outcomes.length > 2048) fail('outcomes')
   for (const outcome of bundle.outcomes) {
     if (!expectedRecords.has(outcome.record_id) || seen.has(outcome.record_id)) fail('duplicate or unselected outcome')
@@ -104,9 +106,7 @@ function validateBundle(files, expected = {}) {
       if (outcome.identity.inputs_sha256 !== expectedDigest) fail('input digest')
       descriptors = outcome.outputs
       const manuals = selectedFetchManuals(prep.records.find(record => record.record_id === outcome.record_id))
-      const hasExactManuals = rows => Array.isArray(rows) && rows.length === manuals.length
-        && equal(rows.map(row => row.manual).sort(), manuals)
-      if (!hasExactManuals(descriptors) || !hasExactManuals(outcome.targets) || !hasExactManuals(receipt.outputs)) fail('incomplete selected output')
+      if (!hasExactManuals(descriptors, manuals) || !hasExactManuals(outcome.targets, manuals) || !hasExactManuals(receipt.outputs, manuals)) fail('incomplete selected output')
       for (const output of descriptors) {
         if (!safeHandoffPath(output.file)) fail('unsafe output file')
         const target = outcome.targets.find(target => target.manual === output.manual)
@@ -127,6 +127,35 @@ function validateBundle(files, expected = {}) {
         if (entry.feishu_token !== (previous?.doc_token || previous?.node_token || null)
           || !equal(entry.feishu_aliases, recovered.aliases[outcome.record_id] || [])) fail('activation aliases')
         activations.pages.push(entry)
+      }
+    } else if (outcome.status === 'reused') {
+      const input = prep.inputs[outcome.record_id]
+      if (!input || !equal(input.identity, outcome.identity) || outcome.page !== input.identity.page || routing.routesByRecordId.get(outcome.record_id)?.page !== outcome.page) fail('route identity')
+      if (!outcome.input_context || typeof outcome.input_context.upstream !== 'object' || outcome.input_context.upstream === null) fail('input context')
+      if (!equal(outcome.input_context, {upstream: outcome.input_context.upstream})) fail('input context')
+      const active = bundle.baseline_active.pages.find(entry => entry.record === outcome.record_id) || null
+      if (!active || active.page !== outcome.page) fail('reused activation')
+      // Receipt and content bytes come from the pinned baseline inventory, the
+      // same channel fallback uses; the receipt authenticates by its own recipe
+      // digest, never by this run's commits or navigation (identity excludes both).
+      if (!outcome.receipt || outcome.receipt.file !== `reused/${outcome.record_id}/receipt.json`
+        || outcome.receipt.path !== `generated/en/manifests/shared-pages/guides/${active.page}.json`) fail('reused receipt path')
+      const receipt = JSON.parse(baseline(outcome.receipt.file, outcome.receipt.path, outcome.receipt.sha256))
+      validateSharedReceipt(receipt, outcome.identity)
+      const expectedDigest = Object.hasOwn(receipt.inputs.fetch, 'active')
+        ? renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, outcome.page)).inputs_sha256
+        : renderIdentity.legacyReceiptInputsDigest(receipt)
+      if (outcome.identity.inputs_sha256 !== expectedDigest) fail('reused input digest')
+      descriptors = outcome.outputs
+      const manuals = selectedFetchManuals(prep.records.find(record => record.record_id === outcome.record_id))
+      if (!hasExactManuals(descriptors, manuals) || !hasExactManuals(outcome.targets, manuals) || !hasExactManuals(receipt.outputs, manuals)) fail('incomplete reused output')
+      if ((receipt.inputs.fetch.render_targets || outcome.regeneration) && !outcome.regeneration) fail(`missing reused regeneration evidence: ${outcome.record_id}`)
+      for (const output of descriptors) {
+        if (!safeHandoffPath(output.file) || output.file !== `reused/${outcome.record_id}/${output.path}`) fail('reused file path')
+        const target = outcome.targets.find(target => target.manual === output.manual)
+        const root = `content/en/${output.manual === 'guides' ? 'guides' : 'byoc'}`
+        if (!target || output.path !== `${root}/${target.path}${target.extension}` || !['.md', '.mdx'].includes(target.extension)
+          || !receipt.outputs.some(row => row.manual === output.manual && row.path === output.path && row.sha256 === output.sha256)) fail('reused publish path')
       }
     } else if (outcome.status === 'fallback') {
       const prior = prep.previous_snapshot?.records?.find(row => row.record_id === outcome.record_id)
@@ -150,10 +179,11 @@ function validateBundle(files, expected = {}) {
         if (output.file !== `fallback/${outcome.record_id}/${output.path}`) fail('fallback file path')
         baseline(output.file, output.path, output.sha256)
       }
+      else if (outcome.status === 'reused') baseline(output.file, output.path, output.sha256)
       else read(output.file, output.sha256)
     }
-    if (outcome.status === 'success') {
-      const receipt = JSON.parse(files.get(outcome.receipt))
+    if (outcome.status === 'success' || outcome.status === 'reused') {
+      const receipt = JSON.parse(files.get(outcome.status === 'success' ? outcome.receipt : outcome.receipt.file))
       if (receipt.inputs.fetch.render_targets || outcome.regeneration) {
         if (!equal(receipt.inputs.fetch.render_targets?.targets, outcome.targets)) fail('frozen render targets mismatch')
         require('../../../../scripts/docs-workflow/guides-shared-regeneration').validateRegenerationEvidence(outcome.regeneration, receipt, descriptors.map(output => ({...output, bytes: files.get(output.file)})))
