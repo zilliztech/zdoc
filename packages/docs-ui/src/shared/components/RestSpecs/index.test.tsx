@@ -206,3 +206,104 @@ describe('RestSpecs after-endpoint description split', () => {
     expect((container.querySelector('.introBlock') as HTMLElement).innerHTML).toContain('Creates a custom Cloud ACL role.');
   });
 });
+
+describe('RestSpecs parameter availability badges', () => {
+  const AVAILABILITY_KEY = 'x-zilliz-availability';
+
+  it('renders the Public Preview chip for PUBLIC_PREVIEW properties', () => {
+    const html = renderRequestBody({
+      type: 'object',
+      properties: {
+        fieldName: {type: 'string', description: 'The field to drop.', [AVAILABILITY_KEY]: 'PUBLIC_PREVIEW'},
+        collectionName: {type: 'string', description: 'The target collection.'},
+      },
+    });
+
+    expect(html).toContain('class="availabilityBadge"');
+    expect(html).toContain('>Public Preview</span>');
+    // The unmarked sibling stays chip-free.
+    const badges = html.match(/class="availabilityBadge"/g) ?? [];
+    expect(badges.length).toBe(1);
+  });
+
+  it('renders nothing for GA, unknown tiers, or missing marks', () => {
+    const html = renderRequestBody({
+      type: 'object',
+      properties: {
+        gaField: {type: 'string', [AVAILABILITY_KEY]: 'GA'},
+        unknownField: {type: 'string', [AVAILABILITY_KEY]: 'SOON'},
+        plainField: {type: 'string'},
+      },
+    });
+
+    expect(html).not.toContain('availabilityBadge');
+    expect(html).not.toContain('Public Preview');
+  });
+
+  it('localizes the chip caption for zh-CN', () => {
+    const specs = {
+      summary: 'Validate Storage Integration',
+      description: 'Validates a storage integration.',
+      parameters: [],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                fieldName: {type: 'string', [AVAILABILITY_KEY]: 'PUBLIC_PREVIEW'},
+              },
+            },
+            example: {},
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'OK',
+          content: {
+            'application/json': {
+              schema: {type: 'object', properties: {code: {type: 'integer'}}},
+              example: {code: 0},
+            },
+          },
+        },
+      },
+    };
+
+    const html = render(<RestSpecs specs={specs} endpoint="/v2/storageIntegrations/validate" method="post" target="zilliz" lang="zh-CN" />).container.innerHTML;
+    expect(html).toContain('class="availabilityBadge"');
+    expect(html).toContain('公测版');
+  });
+
+  it('renders the chip on header/query parameters', () => {
+    const specs = {
+      summary: 'List Clusters',
+      description: 'Lists clusters.',
+      parameters: [
+        {name: 'Authorization', in: 'header', required: true, schema: {type: 'string'}},
+        {name: 'PreviewOnly', in: 'query', schema: {type: 'string', [AVAILABILITY_KEY]: 'PUBLIC_PREVIEW'}},
+      ],
+      requestBody: {
+        content: {
+          'application/json': {schema: {type: 'object', properties: {}}, example: {}},
+        },
+      },
+      responses: {
+        '200': {
+          description: 'OK',
+          content: {
+            'application/json': {
+              schema: {type: 'object', properties: {code: {type: 'integer'}}},
+              example: {code: 0},
+            },
+          },
+        },
+      },
+    };
+
+    const html = render(<RestSpecs specs={specs} endpoint="/v2/clusters" method="get" target="zilliz" lang="en-US" />).container.innerHTML;
+    expect(html).toContain('class="availabilityBadge"');
+    expect(html).toContain('>Public Preview</span>');
+  });
+});

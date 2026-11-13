@@ -4,6 +4,7 @@ const path = require('node:path')
 const { resolveRefs } = require('./specLoader')
 const { resolveIncludeSpans } = require('./includeSpans')
 const { resolveBetaForTarget } = require('./betaTier')
+const { compareReleaseTracks } = require('./releaseTrack')
 
 const META_DIR = path.join(__dirname, 'meta')
 const TEMPLATES_DIR = path.join(__dirname, 'templates')
@@ -28,6 +29,34 @@ const I18N_FIELDS = new Set([
 // two copies must stay identical; refGen.route-scope.test.js pins both.
 const AFTER_ENDPOINT_MARKER = '<!-- zdoc:after-endpoint -->'
 
+// Zilliz availability tier for one parameter/schema node (CUSTOM_ATTRIBUTES.md
+// §1.14). The vocabulary mirrors availability/zillizPriors.js; absence means
+// GA — fail-open like x-zilliz-cluster-types. refGen materializes the
+// effective tier onto every parameter/schema-property node of zilliz v2
+// pages so the RestSpecs runtime renders parameter badges without knowing
+// about lifecycle evidence.
+const AVAILABILITY_KEY = 'x-zilliz-availability'
+// Authoring vocabulary accepted today. GA suppresses the derived badge and
+// PUBLIC_PREVIEW renders the chip; the remaining release-notes tiers
+// (PRIVATE_PREVIEW, ON_REQUEST, NOT_AVAILABLE) are reserved until their chip
+// captions ship — RestSpecs renders unknown tiers as nothing, which would
+// silently present a marked parameter as plain GA. §1.14 documents the full
+// taxonomy; widen this set in the same change that adds the captions.
+const AVAILABILITY_TIERS = new Set(['GA', 'PUBLIC_PREVIEW'])
+// The track separating GA cluster behavior from the Milvus 3.0 public preview
+// on Zilliz Cloud: nodes introduced at or after it badge as PUBLIC_PREVIEW
+// unless an explicit mark overrides the derivation. Verified live by the
+// availability suites (3.0.x surface absent from 2.6 GA clusters, present on
+// 3.0 preview clusters — conformance/reports cross-track evidence).
+const AVAILABILITY_DERIVATION_FLOOR = '3.0.x'
+
+// Internal lifecycle evidence keys. They drive track projection and the
+// availability derivation, but must not reach the public page payload: the
+// integrated-spec lane strips every x-* key (integratedSpecBuilder
+// stripInternalExtensions), and the MDX lane — which keeps the
+// runtime-consumed extensions — drops exactly these three here.
+const LIFECYCLE_KEYS = ['x-added-at', 'x-last-modified', 'x-deprecated-since']
+
 const HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch']
 
 const planeConfig = JSON.parse(fs.readFileSync(path.join(META_DIR, 'plane-config.json'), 'utf-8'))
@@ -47,6 +76,69 @@ function resolveNextChannel(value) {
   if (value === 'include') return 'next'
   if (value === 'exclude') return 'retire-in-next'
   return null
+}
+
+/** Effective availability tier for one node: an explicit x-zilliz-availability
+ * mark wins, then the lifecycle track derives PUBLIC_PREVIEW at/after the
+ * derivation floor, else the node stays unmarked (GA by absence). A malformed
+ * track value skips the derivation rather than throwing mid-write (after
+ * earlier pages are already on disk) — the lifecycle evidence gate
+ * (verify-rest-lifecycle-evidence.mjs) is the real format guard. */
+function resolveAvailabilityTier(node) {
+  const explicit = node?.[AVAILABILITY_KEY]
+  if (typeof explicit === 'string') return explicit
+  const addedAt = node?.['x-added-at']
+  if (typeof addedAt !== 'string') return undefined
+  try {
+    if (compareReleaseTracks(addedAt, AVAILABILITY_DERIVATION_FLOOR) >= 0) {
+      return 'PUBLIC_PREVIEW'
+    }
+  } catch {
+    // REST_RELEASE_TRACK_INVALID — leave the node unmarked; the evidence
+    // gate rejects malformed tracks before fragments can land.
+  }
+  return undefined
+}
+
+/** Transform one page-private operation tree into its public page payload.
+ * Internal lifecycle evidence and raw availability input marks are removed
+ * everywhere — they are authoring input, never payload. On qualifying pages
+ * (zilliz v2, no page-level preview badge) the effective tier is
+ * materialized onto the annotated surface: parameters[], requestBody, and
+ * responses['200'] — the same surface the admonition overlay walks. */
+function materializePageSpec(specification, applyTier) {
+  const walk = (value, annotateSurface) => {
+    if (Array.isArray(value)) return value.map((child) => walk(child, annotateSurface))
+    if (!value || typeof value !== 'object') return value
+    // Read the raw marks before they are stripped from the result.
+    const tier = applyTier && annotateSurface ? resolveAvailabilityTier(value) : undefined
+    const result = {}
+    for (const [key, child] of Object.entries(value)) {
+      if (LIFECYCLE_KEYS.includes(key) || key === AVAILABILITY_KEY) continue
+      result[key] = walk(child, annotateSurface)
+    }
+    if (tier) result[AVAILABILITY_KEY] = tier
+    return result
+  }
+  const result = {}
+  for (const [key, child] of Object.entries(specification)) {
+    if (LIFECYCLE_KEYS.includes(key) || key === AVAILABILITY_KEY) continue
+    if (key === 'parameters') {
+      result[key] = (child || []).map((param) => walk(param, true))
+    } else if (key === 'requestBody') {
+      result[key] = walk(child, true)
+    } else if (key === 'responses' && child && typeof child === 'object' && !Array.isArray(child)) {
+      // Only the documented success schema joins the annotated surface; other
+      // statuses keep their content but carry neither tiers nor evidence.
+      result[key] = {}
+      for (const [code, response] of Object.entries(child)) {
+        result[key][code] = walk(response, code === '200')
+      }
+    } else {
+      result[key] = walk(child, false)
+    }
+  }
+  return result
 }
 
 /** Fail-closed validation for the after-endpoint description marker. The
@@ -133,7 +225,7 @@ class refGen {
   }
 
   validateSpec(spec) {
-    const validateI18n = (value, jsonPath) => {
+    const validateExtensionFields = (value, jsonPath) => {
       if (!value || typeof value !== 'object') {
         return
       }
@@ -157,16 +249,22 @@ class refGen {
           }
         }
       }
+      if (Object.hasOwn(value, AVAILABILITY_KEY)) {
+        const tier = value[AVAILABILITY_KEY]
+        if (typeof tier !== 'string' || !AVAILABILITY_TIERS.has(tier)) {
+          throw new Error(`Invalid ${AVAILABILITY_KEY} at ${jsonPath}["${AVAILABILITY_KEY}"]: expected one of ${[...AVAILABILITY_TIERS].join(', ')}`)
+        }
+      }
       if (Array.isArray(value)) {
-        value.forEach((child, index) => validateI18n(child, `${jsonPath}[${index}]`))
+        value.forEach((child, index) => validateExtensionFields(child, `${jsonPath}[${index}]`))
         return
       }
       for (const [key, child] of Object.entries(value)) {
-        if (key !== 'x-i18n') validateI18n(child, `${jsonPath}[${JSON.stringify(key)}]`)
+        if (key !== 'x-i18n') validateExtensionFields(child, `${jsonPath}[${JSON.stringify(key)}]`)
       }
     }
 
-    validateI18n(spec, '$')
+    validateExtensionFields(spec, '$')
     if (!spec.tags || !Array.isArray(spec.tags) || spec.tags.length === 0) {
       throw new Error('OpenAPI spec must have a non-empty "tags" array')
     }
@@ -257,7 +355,12 @@ class refGen {
     const autoPositions = {}
     for (const page_url of Object.keys(specifications.paths)) {
       for (const method of Object.keys(specifications.paths[page_url])) {
-        const specification = resolveRefs(specifications.paths[page_url][method], specifications)
+        // resolveRefs returns shared component objects (its visited-set hands
+        // back the same references for repeated nodes), so every per-page
+        // mutation below — v1 deprecation, the admonition overlay, the
+        // availability materialization — must run on a page-private clone or
+        // it leaks into sibling pages sharing the same component schema.
+        const specification = JSON.parse(JSON.stringify(resolveRefs(specifications.paths[page_url][method], specifications)))
 
         if (specification?.["x-include-target"] && !specification["x-include-target"].includes(target)) {
           continue
@@ -417,7 +520,15 @@ class refGen {
           }
         }
 
-        const specs = JSON.stringify(specification)
+        // Materialize parameter-level availability tiers onto zilliz v2 pages
+        // whose page-level beta badge does not already express preview
+        // maturity (FALSE/DEPRECATED) — the page badge covers the whole
+        // operation, so per-parameter chips would only repeat it. Every page
+        // loses the internal lifecycle evidence and the raw availability
+        // input marks; the milvus target additionally receives no tier keys.
+        const pageBadgeIsPreview = beta_tag !== 'FALSE' && beta_tag !== 'DEPRECATED'
+        const applyTier = target === 'zilliz' && version === 'v2' && !pageBadgeIsPreview
+        const specs = JSON.stringify(materializePageSpec(specification, applyTier))
 
         const t = template.render({
           page_title: page_title + (version === 'v2' ? ' (V2)' : ' (V1)'),
