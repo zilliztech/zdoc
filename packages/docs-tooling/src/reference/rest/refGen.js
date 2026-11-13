@@ -21,6 +21,15 @@ const I18N_FIELDS = new Set([
   'url',
 ])
 
+// Runtime twin lives in packages/docs-ui/src/shared/components/RestSpecs/utils.js
+// (AFTER_ENDPOINT_MARKER): RestSpecs splits an operation description here and
+// renders the tail below the endpoint information block. The tooling/runtime
+// boundary forbids importing that ESM module from this CommonJS file, so the
+// two copies must stay identical; refGen.route-scope.test.js pins both.
+const AFTER_ENDPOINT_MARKER = '<!-- zdoc:after-endpoint -->'
+
+const HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch']
+
 const planeConfig = JSON.parse(fs.readFileSync(path.join(META_DIR, 'plane-config.json'), 'utf-8'))
 
 const CONFIG = {
@@ -38,6 +47,60 @@ function resolveNextChannel(value) {
   if (value === 'include') return 'next'
   if (value === 'exclude') return 'retire-in-next'
   return null
+}
+
+/** Fail-closed validation for the after-endpoint description marker. The
+ * runtime only honors it on operation descriptions (including each operation
+ * x-i18n description), so anywhere else it would ride along as invisible
+ * markup. Each allowed site may carry the marker once and must have content
+ * after it, otherwise the page silently loses its tail block. */
+function validateAfterEndpointMarkerUsage(spec) {
+  const checkAllowedSite = (text, jsonPath) => {
+    const occurrences = text.split(AFTER_ENDPOINT_MARKER).length - 1
+    if (occurrences > 1) {
+      throw new Error(`Invalid after-endpoint marker at ${jsonPath}: expected at most one marker, found ${occurrences}`)
+    }
+    if (occurrences === 1 && !text.slice(text.indexOf(AFTER_ENDPOINT_MARKER) + AFTER_ENDPOINT_MARKER.length).trim()) {
+      throw new Error(`Invalid after-endpoint marker at ${jsonPath}: no content after the marker`)
+    }
+  }
+  const forbid = (value, jsonPath) => {
+    if (typeof value === 'string') {
+      if (value.includes(AFTER_ENDPOINT_MARKER)) {
+        throw new Error(`Invalid after-endpoint marker at ${jsonPath}: only operation descriptions (and their x-i18n description fields) may carry the marker`)
+      }
+    } else if (Array.isArray(value)) {
+      value.forEach((child, index) => forbid(child, `${jsonPath}[${index}]`))
+    } else if (value && typeof value === 'object') {
+      for (const [key, child] of Object.entries(value)) forbid(child, `${jsonPath}.${key}`)
+    }
+  }
+  for (const [pathKey, methods] of Object.entries(spec.paths)) {
+    for (const [method, operation] of Object.entries(methods)) {
+      if (!HTTP_METHODS.includes(method) || !operation || typeof operation !== 'object') continue
+      const operationPath = `$.paths["${pathKey}"].${method}`
+      if (typeof operation.description === 'string') {
+        checkAllowedSite(operation.description, `${operationPath}.description`)
+      }
+      const i18n = operation['x-i18n']
+      if (i18n && typeof i18n === 'object' && !Array.isArray(i18n)) {
+        for (const [locale, localized] of Object.entries(i18n)) {
+          if (localized && typeof localized === 'object' && !Array.isArray(localized) && typeof localized.description === 'string') {
+            checkAllowedSite(localized.description, `${operationPath}["x-i18n"].${locale}.description`)
+          }
+        }
+      }
+      const { description, 'x-i18n': operationI18n, ...siblings } = operation
+      forbid(siblings, `${operationPath}`)
+      if (operationI18n && typeof operationI18n === 'object' && !Array.isArray(operationI18n)) {
+        for (const [locale, localized] of Object.entries(operationI18n)) {
+          if (!(localized && typeof localized === 'object' && !Array.isArray(localized))) continue
+          const { description: localizedDescription, ...localizedSiblings } = localized
+          forbid(localizedSiblings, `${operationPath}["x-i18n"].${locale}`)
+        }
+      }
+    }
+  }
 }
 
 class refGen {
@@ -116,7 +179,7 @@ class refGen {
       throw new Error('OpenAPI spec must have a non-empty "paths" object')
     }
     for (const [path, methods] of Object.entries(spec.paths)) {
-      const httpMethods = Object.keys(methods).filter(m => ['get', 'post', 'put', 'delete', 'patch'].includes(m))
+      const httpMethods = Object.keys(methods).filter(m => HTTP_METHODS.includes(m))
       if (httpMethods.length === 0) {
         console.warn(`Warning: Path "${path}" has no HTTP methods`)
       }
@@ -126,6 +189,7 @@ class refGen {
         }
       }
     }
+    validateAfterEndpointMarkerUsage(spec)
   }
 
   getPlane(slug, target) {
@@ -214,7 +278,10 @@ class refGen {
         const localized = lang === "zh-CN" || lang === "ja-JP"
         const page_title = localized ? (i18n?.summary || specification.summary) : specification.summary
         const rawDescription = localized ? (i18n?.description || specification.description) : specification.description
-        const page_excerpt = this.__filter_content(rawDescription ?? '', target).split('<')[0]
+        // split('<') also cuts at the after-endpoint marker, so descriptions
+        // that park their reference table behind it excerpt cleanly instead
+        // of dragging the table into the frontmatter description.
+        const page_excerpt = this.__filter_content(rawDescription ?? '', target).split('<')[0].trim()
         var page_parent = parents.filter(x => x === specification.tags[0])[0]
         if (!page_parent) {
           console.warn(`Warning: No matching parent tag for "${specification.tags?.[0]}" in ${method.toUpperCase()} ${page_url}, skipping`)
