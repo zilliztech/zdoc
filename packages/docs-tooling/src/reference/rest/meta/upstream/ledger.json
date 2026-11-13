@@ -197,6 +197,26 @@
       "decidedAt": "2026-10-28"
     },
     {
+      "opKey": "post /v2/vectordb/requests/running/cancel",
+      "source": "milvus-data-plane",
+      "firstSeenPin": "22341c46c91a3a573b794dd853c5739c62ba71cc",
+      "firstSeenAt": "2026-11-13",
+      "classification": "deferred",
+      "reason": "New upstream operation post /v2/vectordb/requests/running/cancel is absent from fragments; needs content placement decision.",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-13"
+    },
+    {
+      "opKey": "post /v2/vectordb/requests/running/list",
+      "source": "milvus-data-plane",
+      "firstSeenPin": "22341c46c91a3a573b794dd853c5739c62ba71cc",
+      "firstSeenAt": "2026-11-13",
+      "classification": "deferred",
+      "reason": "New upstream operation post /v2/vectordb/requests/running/list is absent from fragments; needs content placement decision.",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-13"
+    },
+    {
       "opKey": "post /v2/vectordb/segments/describe",
       "source": "milvus-data-plane",
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
