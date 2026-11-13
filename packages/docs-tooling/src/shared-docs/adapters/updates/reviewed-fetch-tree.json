@@ -1,0 +1,16 @@
+{
+  "strictProducerSha256": "1dbfc50604991c15e97b88ec603f58d1f2f904a9317c8531fd5ffb14c97abf58",
+  "legacyCensus": {
+    "producer": "d7ef94d3958ea4cd003e605adf466982fc66c0c6",
+    "runId": 42944655729,
+    "attempt": 1,
+    "artifactId": 13825637331,
+    "zipDigest": "sha256:a3918bf1f190f801b7951a873bbd6f3a30fb770f12149ebf7bd82e5e02e08601",
+    "page": "json-field-overview",
+    "recordId": "recvlPtdaxUufo",
+    "verifiedAt": "2026-11-11T03:47:23.698497+00:00",
+    "tableCount": 9,
+    "recordCount": 497,
+    "membershipSha256": "4cb803c54f31eaaed67ff3cc055a0862a2e8a644dcf254c0adc68ce3f5c3edb8"
+  }
+}

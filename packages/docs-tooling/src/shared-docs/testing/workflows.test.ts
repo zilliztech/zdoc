@@ -395,3 +395,129 @@ describe('grouped workflow test selection', () => {
     expect(selection.commands).toContain('pnpm test:shared-docs')
   })
 })
+
+describe('adoption workflow contracts', () => {
+  const adopt = load(readFileSync('.github/workflows/shared-docs-adopt-variant.yml', 'utf8')) as Workflow
+  const adoptJob = adopt.jobs.adopt
+  const deliverName = 'Deliver the adoption PR through the provisioned PAT'
+  const gateName = 'Stop when an adoption PR is already open'
+
+  it('stays repository read-only, dispatch-pinned and PAT-delivered with the gate before any checkout', () => {
+    expect(adopt.concurrency.group).toBe('shared-docs-adopt-variant-${{ inputs.page }}')
+    expect(adoptJob.steps.findIndex(step => step.name === gateName))
+      .toBeLessThan(adoptJob.steps.findIndex(step => step.name === 'Check out pinned master'))
+    expect(adoptJob.steps.find(step => step.name === gateName)?.env?.GH_TOKEN).toBe('${{ github.token }}')
+    expect(adoptJob.steps.find(step => step.name === 'Check out pinned master')?.with)
+      .toMatchObject({ ref: '${{ github.sha }}', 'persist-credentials': false, 'fetch-depth': 1 })
+    const deliver = adoptJob.steps.find(step => step.name === deliverName)
+    expect(deliver?.env?.GH_TOKEN).toBe('${{ secrets.SHARED_DOCS_ADOPT_PAT }}')
+    expect(deliver?.run).toContain('git push "https://x-access-token:${SHARED_DOCS_ADOPT_PAT}@github.com/${GITHUB_REPOSITORY}.git"')
+    expect(deliver?.run).toContain('the verified adoption is committed on this run but was not delivered')
+    expect(adoptJob.steps.find(step => step.name === 'Guard staged adoption files')?.run).toContain('variant-next.md')
+    for (const step of adoptJob.steps) if (step.run) expect(step.run).not.toMatch(/git push(?!.*x-access-token:\$\{SHARED_DOCS_ADOPT_PAT\})/)
+  })
+
+  it('rejects malformed dispatch inputs before any other step', () => {
+    expect(execute(adopt, 'adopt', 'Validate dispatch inputs', fixture(), { PAGE: 'sample', PULL: '42', DRY_RUN: 'true', SHARED_DOCS_ADOPT_PAT: 'test-pat' }).status).toBe(0)
+    expect(execute(adopt, 'adopt', 'Validate dispatch inputs', fixture(), { PAGE: 'Bad_Slug', PULL: '42' }).status).toBe(1)
+    expect(execute(adopt, 'adopt', 'Validate dispatch inputs', fixture(), { PAGE: 'sample', PULL: '0' }).status).toBe(1)
+  })
+
+  it('short-circuits on an open adoption PR and proceeds otherwise', () => {
+    const open = fixture()
+    stub(open, 'gh', '#!/usr/bin/env node\nconst args = process.argv.slice(2);\nif (args.includes(\'list\')) { console.log(process.env.GH_STUB_BRANCH || \'onboarding\'); process.exit(0); }\nprocess.exit(91);\n')
+    const blocked = execute(adopt, 'adopt', gateName, open, { PAGE: 'sample', PULL: '42', GH_STUB_BRANCH: 'shared-docs-adopt/sample-p42' })
+    expect(blocked.status).toBe(0); expect(blocked.outputs.proceed).toBe('false')
+    expect(blocked.summary).toContain('Adoption PR already open; nothing was dispatched.')
+    const free = execute(adopt, 'adopt', gateName, fixture(), { PAGE: 'sample', PULL: '42' })
+    expect(free.status).toBe(0); expect(free.outputs.proceed).toBe('true')
+  })
+
+  it('stops without delivery on a dry run or an unchanged adoption and lets delivery continue otherwise', () => {
+    const setup = fixture()
+    expect(execute(adopt, 'adopt', 'Stop on dry run or unchanged adoption', setup, { DRY_RUN: 'true' }).status).toBe(0)
+    const dryRun = execute(adopt, 'adopt', 'Stop on dry run or unchanged adoption', fixture(), { DRY_RUN: 'true', PAGE: 'example', PULL: '42' })
+    expect(dryRun.status).toBe(0)
+    expect(dryRun.outputs.deliver).toBe('false')
+    expect(dryRun.summary).toContain('nothing was committed or pushed')
+    const unchanged = execute(adopt, 'adopt', 'Stop on dry run or unchanged adoption', fixture(), { DRY_RUN: 'false', PAGE: 'example', PULL: '42' })
+    expect(unchanged.status).toBe(0)
+    expect(unchanged.outputs.deliver).toBe('false')
+    expect(unchanged.summary).toContain('nothing was committed or pushed')
+    const dirty = fixture()
+    put(dirty.repo, 'shared-docs/guides/pages/example/variant-next.md', 'adopted\n')
+    const delivering = execute(adopt, 'adopt', 'Stop on dry run or unchanged adoption', dirty, { DRY_RUN: 'false', PAGE: 'example', PULL: '42' })
+    expect(delivering.status).toBe(0)
+    expect(delivering.outputs.deliver).toBe('true')
+  })
+
+  it('gates every delivery step on the stop flag', () => {
+    for (const name of ['Guard staged adoption files', 'Commit the adoption', 'Deliver the adoption PR through the provisioned PAT']) {
+      expect(adoptJob.steps.find(step => step.name === name)?.if)
+        .toBe("steps.gate.outputs.proceed == 'true' && steps.stop.outputs.deliver != 'false'")
+    }
+    expect(adoptJob.steps.find(step => step.name === 'Validate dispatch inputs')?.env?.SHARED_DOCS_ADOPT_PAT).toBe('${{ secrets.SHARED_DOCS_ADOPT_PAT }}')
+  })
+
+  it('guards only variant files and records the committed adoption SHA', () => {
+    const clean = fixture()
+    put(clean.repo, 'shared-docs/guides/pages/example/variant-next.md', 'adopted\n')
+    put(clean.repo, 'shared-docs/guides/pages/example/variant-next.provenance.json', '{"pull":42}')
+    const guarded = execute(adopt, 'adopt', 'Guard staged adoption files', clean, { PAGE: 'example' })
+    expect(guarded.status).toBe(0)
+    expect(guarded.stdout).toContain('variant-next.md')
+    const forbidden = fixture()
+    put(forbidden.repo, 'shared-docs/guides/pages/example/page.yaml', 'tampered\n')
+    expect(execute(adopt, 'adopt', 'Guard staged adoption files', forbidden, { PAGE: 'example' }).status).toBe(1)
+    const withChanges = fixture()
+    put(withChanges.repo, 'shared-docs/guides/pages/example/variant-next.md', 'adopted\n')
+    put(withChanges.repo, 'shared-docs/guides/pages/example/variant-next.provenance.json', '{"pull":42}')
+    const committed = execute(adopt, 'adopt', 'Commit the adoption', withChanges, { PAGE: 'example', PULL: '42' })
+    expect(committed.status).toBe(0)
+    expect(committed.outputs.committed_sha).toMatch(/^[0-9a-f]{40}$/)
+  })
+
+  it('fails closed on a missing PAT before any upstream write', () => {
+    const setup = fixture()
+    const result = execute(adopt, 'adopt', deliverName, setup, { SHARED_DOCS_ADOPT_PAT: '', PAGE: 'sample', PULL: '42', PROMOTE: 'false', BRANCH: 'shared-docs-adopt/sample-p42' })
+    expect(result.status).toBe(1)
+    expect(result.stderr).toContain('Provision the PAT and re-dispatch')
+  })
+
+
+describe('pin drift watchdog contracts', () => {
+  const watchdogWorkflow = load(readFileSync('.github/workflows/shared-docs-pin-drift-watchdog.yml', 'utf8')) as Workflow
+  const watchdogJob = watchdogWorkflow.jobs.watchdog
+
+  it('stays scheduled, read-only and blobless with card status driven by the audit', () => {
+    expect(watchdogWorkflow.concurrency).toEqual({ group: 'shared-docs-pin-drift-watchdog', 'cancel-in-progress': false })
+    expect(readFileSync('.github/workflows/shared-docs-pin-drift-watchdog.yml', 'utf8')).toMatch(/cron: '47 4 \* \* \*'/)
+    expect(readFileSync('.github/workflows/shared-docs-pin-drift-watchdog.yml', 'utf8')).toMatch(/  contents: read\n/)
+    const clone = watchdogJob.steps.find(step => step.name === 'Clone blobless tracking history')
+    expect(clone?.run).toContain('--filter=blob:none --no-checkout --single-branch')
+    const scan = watchdogJob.steps.find(step => step.name === 'Scan pin drift and variant health')
+    expect(scan?.run).toContain('shared-docs-pin-drift.js')
+    expect(scan?.run).toContain('--shared-docs shared-docs/guides --upstream "$UPSTREAM_REPO" --head "$head"')
+    expect(scan?.env?.GITHUB_TOKEN).toBe('${{ github.token }}')
+    const upload = watchdogJob.steps.find(step => step.name === 'Upload the audit report')
+    expect(upload?.with).toMatchObject({ name: 'shared-docs-pin-drift-${{ github.run_id }}', 'retention-days': 14, 'if-no-files-found': 'error' })
+    expect(upload?.if).toBe('${{ always() && steps.scan.conclusion == \'success\' }}')
+    const finish = watchdogJob.steps.find(step => step.name === 'Finish the report card')
+    expect(finish?.env?.CARD_STATUS).toBe('${{ steps.scan.outputs.card_status }}')
+    expect((watchdogJob as unknown as { env?: Record<string, string> }).env?.FEISHU_NOTIFICATIONS_DISABLED)
+      .toBe("${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}")
+    for (const step of watchdogJob.steps) {
+      const source = step.run ?? ''
+      expect(source).not.toMatch(/git push/)
+      expect(source).not.toMatch(/secrets\.(?!APP_ID|APP_SECRET)/)
+    }
+  })
+
+  it('derives the card status strictly from unhealthy and error counts', () => {
+    const scanStep = watchdogJob.steps.find(step => step.name === 'Scan pin drift and variant health')
+    expect(scanStep?.run).toContain("summary.unhealthyCount === 0 && summary.errorCount === 0 ? 'success' : 'fail'")
+    expect(scanStep?.run).toContain('for (const field of')
+    expect(scanStep?.run).toContain('throw new Error(`Watchdog report is missing summary.${field}`)')
+  })
+})
+})

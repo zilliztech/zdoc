@@ -350,7 +350,21 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
         imageTimeout: options.imageTimeout === undefined ? undefined : Number(requiredOption(options, 'imageTimeout'))}, text => process.stdout.write(text), {repositoryRoot});
       return true;
     }
-    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build, lock or update');
+    if (argv[1] === 'adopt-variant') {
+      const options = parseOptions(argv.slice(2));
+      for (const key of Object.keys(options)) {
+        if (!['sharedDocs', 'page', 'pull', 'ref', 'promote', 'dryRun'].includes(key)) throw new Error(`Unknown adopt-variant option: --${key}`);
+      }
+      if (options.promote !== undefined && options.promote !== true) throw new Error('--promote must be a flag');
+      if (options.dryRun !== undefined && options.dryRun !== true) throw new Error('--dry-run must be a flag');
+      if (options.pull !== undefined && typeof options.pull !== 'string') throw new Error('--pull requires a value');
+      const {runAdoptVariant} = await import('./shared-docs/commands/adopt-variant.ts');
+      process.exitCode = await runAdoptVariant({sharedDocs: requiredOption(options, 'sharedDocs'), page: requiredOption(options, 'page'),
+        pull: Number(requiredOption(options, 'pull')), ref: options.ref === undefined ? undefined : requiredOption(options, 'ref'),
+        promote: options.promote === true, dryRun: options.dryRun === true}, text => process.stdout.write(text), repositoryRoot);
+      return true;
+    }
+    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build, lock, adopt-variant or update');
     const options = parseOptions(argv.slice(2));
     for (const key of Object.keys(options)) {
       if (!['sharedDocs', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);

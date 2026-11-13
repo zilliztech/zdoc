@@ -15,6 +15,40 @@ const REQUIRED_JOBS = Object.freeze([
 const SHARED_FALLBACK_JOB_PREFIX = 'produce_guides_sources'
 const SHARED_FALLBACK_MARKER = '[shared-fallback]'
 const MAX_SHARED_FALLBACK_ENTRIES = 100
+// The sweep issues many sequential GitHub API calls, so a single transient 5xx
+// must not fail the whole watchdog (2026-11-09..12 false alarms). Retry only
+// genuinely transient statuses and network-level errors, with bounded backoff.
+const TRANSIENT_HTTP_STATUSES = Object.freeze(new Set([500, 502, 503, 504]))
+const GITHUB_RETRY_ATTEMPTS = 3
+const GITHUB_RETRY_BASE_DELAY_MS = 1000
+
+function defaultSleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+async function fetchWithRetries(fetchImpl, url, init, options = {}) {
+  const attempts = Math.max(1, options.attempts ?? GITHUB_RETRY_ATTEMPTS)
+  const baseDelayMs = Math.max(0, options.baseDelayMs ?? GITHUB_RETRY_BASE_DELAY_MS)
+  const sleep = options.sleep ?? defaultSleep
+  const errorBodyLimit = options.errorBodyLimit ?? Number.POSITIVE_INFINITY
+  let lastFailure = null
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    if (attempt > 1) await sleep(baseDelayMs * 2 ** (attempt - 2))
+    let response
+    try {
+      response = await fetchImpl(url, init)
+    } catch (error) {
+      lastFailure = new Error(`GitHub API request failed (network): ${String(error?.message || error).slice(0, 200)}`)
+      continue
+    }
+    if (response.ok) return response
+    const rawBody = typeof response.text === 'function' ? await response.text().catch(() => '') : ''
+    const body = errorBodyLimit === 0 ? '' : rawBody.slice(0, errorBodyLimit)
+    lastFailure = new Error(`GitHub API request failed (${response.status})${body ? `: ${body}` : ''}`)
+    if (!TRANSIENT_HTTP_STATUSES.has(response.status)) break
+  }
+  throw lastFailure || new Error('GitHub API request failed')
+}
 
 function normalizedJobName(value) {
   return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ')
@@ -32,6 +66,14 @@ function isProductionRun(run, detail) {
   if (run.event !== 'workflow_dispatch') return false
   const inputs = detail?.inputs
   return inputs?.group === 'all' && (inputs.publish === true || inputs.publish === 'true')
+}
+
+// Shared candidate selection for the evaluator and the adapter's jobs prefetch;
+// keeping both on this function prevents the two from drifting apart.
+function selectProductionCandidate(runs, detailsByRunId = {}) {
+  return [...(runs || [])]
+    .filter(run => run.status === 'completed' && run.conclusion === 'success' && isProductionRun(run, detailsByRunId[run.id]))
+    .sort((left, right) => (completionTime(right) || 0) - (completionTime(left) || 0))[0] || null
 }
 
 function finalShaFromReport(report) {
@@ -54,9 +96,7 @@ function failure(reason, run = null) {
 function evaluateDocsIngestion(runs, options = {}) {
   const now = options.now instanceof Date ? options.now.getTime() : new Date(options.now || Date.now()).getTime()
   const details = options.detailsByRunId || {}
-  const candidate = [...(runs || [])]
-    .filter(run => run.status === 'completed' && run.conclusion === 'success' && isProductionRun(run, details[run.id]))
-    .sort((left, right) => (completionTime(right) || 0) - (completionTime(left) || 0))[0]
+  const candidate = selectProductionCandidate(runs, details)
 
   if (!candidate) return failure('no qualifying completed successful production run found')
   const completed = completionTime(candidate)
@@ -133,39 +173,33 @@ function withSharedFallback(result, fallback) {
   return { ...result, shared_fallback: fallback ?? null }
 }
 
-function createGitHubAdapter({ repository, token, fetch = globalThis.fetch }) {
+function createGitHubAdapter({ repository, token, fetch = globalThis.fetch, retryAttempts, retryBaseDelayMs, sleep }) {
   if (!/^[^/\s]+\/[^/\s]+$/.test(repository || '')) throw new Error('--repository must be owner/repo')
   if (!token) throw new Error('GITHUB_TOKEN is required')
   if (typeof fetch !== 'function') throw new Error('fetch implementation is required')
   const base = `https://api.github.com/repos/${repository}`
+  const retryOptions = {
+    ...(retryAttempts === undefined ? {} : { attempts: retryAttempts }),
+    ...(retryBaseDelayMs === undefined ? {} : { baseDelayMs: retryBaseDelayMs }),
+    ...(sleep === undefined ? {} : { sleep }),
+  }
+  const requestInit = {
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${token}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  }
 
   async function get(endpoint) {
-    const response = await fetch(`${base}${endpoint}`, {
-      headers: {
-        Accept: 'application/vnd.github+json',
-        Authorization: `Bearer ${token}`,
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-    })
-    if (!response.ok) {
-      const body = typeof response.text === 'function' ? await response.text() : ''
-      throw new Error(`GitHub API request failed (${response.status}): ${body}`)
-    }
+    const response = await fetchWithRetries(fetch, `${base}${endpoint}`, requestInit, retryOptions)
     return response.json()
   }
 
   // Job logs redirect to a download URL and stream plain text; the body must
   // never be inlined into an error message.
   async function getLogText(endpoint) {
-    const response = await fetch(`${base}${endpoint}`, {
-      headers: {
-        Accept: 'application/vnd.github+json',
-        Authorization: `Bearer ${token}`,
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-      redirect: 'follow',
-    })
-    if (!response.ok) throw new Error(`GitHub API request failed (${response.status})`)
+    const response = await fetchWithRetries(fetch, `${base}${endpoint}`, { ...requestInit, redirect: 'follow' }, { ...retryOptions, errorBodyLimit: 0 })
     return response.text()
   }
 
@@ -201,13 +235,21 @@ function createGitHubAdapter({ repository, token, fetch = globalThis.fetch }) {
     const listing = await get('/actions/workflows/fetch-docs.yml/runs?status=completed&per_page=20')
     const runs = Array.isArray(listing.workflow_runs) ? listing.workflow_runs : []
     const detailsByRunId = {}
-    const jobsByRunId = {}
-    const reportsByRunId = {}
+    // Schedule runs are production by definition; only dispatch runs need the
+    // detail call to resolve their inputs.
     for (const run of runs) {
-      detailsByRunId[run.id] = await get(`/actions/runs/${run.id}`)
-      jobsByRunId[run.id] = (await get(`/actions/runs/${run.id}/jobs?per_page=100`)).jobs || []
+      if (run.event === 'workflow_dispatch') {
+        detailsByRunId[run.id] = await get(`/actions/runs/${run.id}`)
+      }
     }
-    return { runs, detailsByRunId, jobsByRunId, reportsByRunId }
+    // Required-job checks and shared-fallback attribution only ever read the
+    // selected candidate's jobs, so skip the per-run jobs sweep.
+    const jobsByRunId = {}
+    const candidate = selectProductionCandidate(runs, detailsByRunId)
+    if (candidate) {
+      jobsByRunId[candidate.id] = (await get(`/actions/runs/${candidate.id}/jobs?per_page=100`)).jobs || []
+    }
+    return { runs, detailsByRunId, jobsByRunId, reportsByRunId: {} }
   }
 
   return { fetchSharedFallbacks, inspectRecentRuns }
@@ -294,8 +336,10 @@ module.exports = {
   appendGitHubOutputs,
   createGitHubAdapter,
   evaluateDocsIngestion,
+  fetchWithRetries,
   main,
   parseSharedFallbackLog,
   safeOutputPath,
+  selectProductionCandidate,
   withSharedFallback,
 }

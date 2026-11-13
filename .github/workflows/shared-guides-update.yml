@@ -1,0 +1,215 @@
+name: Shared Guides upstream update
+run-name: json-field-overview upstream update
+
+on:
+  schedule:
+    - cron: '37 6 * * *'
+  workflow_dispatch:
+    inputs:
+      create_draft:
+        description: Create a draft when a new lock update is verified
+        type: boolean
+        default: false
+  pull_request:
+    branches: [master]
+    paths:
+      - .github/workflows/shared-guides-update.yml
+      - scripts/docs-workflow/shared-guides-update/**
+      - packages/docs-tooling/src/shared-docs/**
+
+permissions:
+  contents: read
+
+# Scheduled and manual writers share a lane. Pull requests only run offline tests.
+concurrency:
+  group: shared-guides-update-${{ github.event.pull_request.number || 'json-field-overview' }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '22.23.4'
+          package-manager-cache: false
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm test:shared-guides-update
+
+  discover:
+    if: >-
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') &&
+      github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' &&
+      github.ref == 'refs/heads/master' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions:
+      contents: read
+      pull-requests: read
+      actions: read
+    outputs:
+      status: ${{ steps.discover.outputs.status }}
+      observation: ${{ steps.discover.outputs.observation }}
+      history_verified: ${{ steps.discover.outputs.history_verified }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - id: discover
+        name: Check upstream pins and open updates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/shared-guides-update/discover.mjs > "$RUNNER_TEMP/discovery.json"
+          jq -ec --arg sha "$GITHUB_SHA" '.master == $sha and (.status == "candidate" or .status == "held" or .status == "unchanged")' "$RUNNER_TEMP/discovery.json"
+          jq -cr '"observation=" + tojson, "status=" + .status, "history_verified=" + (.historyVerified | tostring)' \
+            "$RUNNER_TEMP/discovery.json" >> "$GITHUB_OUTPUT"
+          jq -r '"Discovery: " + .status + " " + (.reasons | join(", "))' "$RUNNER_TEMP/discovery.json" >> "$GITHUB_STEP_SUMMARY"
+
+  history_checkpoint:
+    needs: discover
+    if: needs.discover.outputs.history_verified == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions: {}
+    steps:
+      - name: Record verified writer history
+        run: echo 'All earlier writer attempts were accounted for.' >> "$GITHUB_STEP_SUMMARY"
+
+  prepare:
+    needs: discover
+    if: needs.discover.outputs.status == 'candidate'
+    runs-on: macos-15
+    timeout-minutes: 75
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      status: ${{ steps.prepare.outputs.status }}
+      report_artifact_id: ${{ steps.report.outputs.artifact-id }}
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
+      artifact_digest: ${{ steps.upload.outputs.artifact-digest }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - id: profile
+        name: Authenticate the hosted macOS Search configuration
+        env:
+          HOSTED_RUNNER_ENVIRONMENT: ${{ runner.environment }}
+        run: /bin/sh scripts/docs-workflow/shared-guides-update/provision-search.sh
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '22.23.4'
+          architecture: arm64
+          package-manager-cache: false
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
+      - run: pnpm install --frozen-lockfile
+      - id: prepare
+        name: Verify published evidence and prepare the single-page candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DISCOVERY_JSON: ${{ needs.discover.outputs.observation }}
+          PROFILE_RECEIPT: ${{ steps.profile.outputs.evidence }}
+          PROFILE_SHA256: ${{ steps.profile.outputs.sha256 }}
+        run: python3 -B scripts/docs-workflow/shared-guides-update/prepare.py
+      - name: Retain the runner profile receipt
+        if: always() && steps.profile.outputs.evidence != ''
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-decision-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.profile.outputs.evidence }}
+          if-no-files-found: error
+          retention-days: 30
+      - name: Retain the reason preparation stopped
+        if: always() && steps.prepare.outputs.evidence != '' && steps.prepare.outputs.status != 'prepared'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-preparation-result-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.prepare.outputs.evidence }}/preparation.json
+          if-no-files-found: error
+          retention-days: 30
+      - id: report
+        name: Retain the page impact report and lifecycle evidence
+        if: success() && steps.prepare.outputs.status == 'prepared'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.prepare.outputs.report_evidence }}
+          if-no-files-found: error
+          retention-days: 30
+      - id: upload
+        if: success() && steps.prepare.outputs.status == 'prepared'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.prepare.outputs.evidence }}
+          if-no-files-found: error
+          retention-days: 30
+
+  write:
+    needs: prepare
+    if: >-
+      needs.prepare.outputs.status == 'prepared' &&
+      (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.create_draft)) &&
+      github.repository_id == '660446555' && github.ref == 'refs/heads/master' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '22.23.4'
+          package-manager-cache: false
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Build the writer's verification contract from master
+        run: |
+          node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild/bin/esbuild \
+            scripts/docs-workflow/shared-guides-update/writer-contract.ts --bundle --platform=node \
+            --format=esm --target=node22 --outfile="$RUNNER_TEMP/writer-contract.mjs"
+      - id: writer
+        name: Recheck inputs and create the draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT_ARTIFACT_ID: ${{ needs.prepare.outputs.report_artifact_id }}
+          PREPARE_ARTIFACT_ID: ${{ needs.prepare.outputs.artifact_id }}
+          PREPARE_ARTIFACT_DIGEST: ${{ needs.prepare.outputs.artifact_digest }}
+          WRITER_OUTPUT: ${{ runner.temp }}/shared-guides-writer
+        run: node scripts/docs-workflow/shared-guides-update/write.mjs
+      - name: Retain the signed producer receipt
+        if: success() && steps.writer.outputs.status == 'created'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-update-producer
+          path: ${{ runner.temp }}/shared-guides-producer/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Retain the writer's journal
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-writer-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/shared-guides-writer/
+          if-no-files-found: warn
+          retention-days: 30

@@ -12,9 +12,10 @@ export interface SharedReceipt {
     milvus_docs: {repository: string; current: string; next: string; files: {path: string; current: string | null; next: string | null}[]}
     zdoc: {repository: string; commit: string; files: {path: string; sha256: string}[]}
     dev: {commit: string; files: {path: string; sha256: string}[]}
-    'fetch': {navigation: string | {navigationRecords: Record<string, any>[]; tableDigests: Record<string, string>}; image_base_url: string; render_targets?: {schema_version: 1; targets: {manual: 'guides' | 'guides-byoc'; path: string; extension: '.md' | '.mdx'; navigation: {sidebar_label: string; sidebar_position: number}; channel: 'current' | 'next' | 'retire-in-next'}[]}}
-    tools: {zdoc: string; md2md: string}
+    'fetch': {navigation: string | {navigationRecords: Record<string, any>[]; tableDigests: Record<string, string>}; image_base_url: string; render_targets?: {schema_version: 1; targets: {manual: 'guides' | 'guides-byoc'; path: string; extension: '.md' | '.mdx'; navigation: {sidebar_label: string; sidebar_position: number}; channel: 'current' | 'next' | 'retire-in-next'}[]}; active?: ActivePage | null}
+    tools: {zdoc: string; md2md: string; engine_sha256?: string}
     images: {source: string; sha256: string; object: string}[]
+    variants?: {channel: 'current' | 'next'; path: string; sha256: string; pull: number; head_sha: string; adopted_at: string; adopted_via?: string}[]
   }
   outputs: {manual: string; path: string; sha256: string}[]
   channel: null | 'next' | 'retire-in-next'; notes: string[]
@@ -64,26 +65,32 @@ export function classifySourceRoute(value: unknown, context: {availablePages?: r
   } catch { /* Invalid routes are page-local configuration failures. */ }
   return invalid
 }
+export function validateActivePageEntry(value: unknown): ActivePage {
+  const entry = value as ActivePage
+  keys(entry, ['page', 'record', 'feishu_token', 'anchors', 'activated_in', ...(Object.hasOwn(entry, 'feishu_aliases') ? ['feishu_aliases'] : [])], 'Shared active page')
+  assert(matches(entry.page, SLUG), 'Invalid active page')
+  text(entry.record, 'Active record'); text(entry.activated_in, 'Active run')
+  assert(/^\d+$/.test(entry.activated_in), 'Active run must be a run ID')
+  assert(entry.feishu_token === null || (typeof entry.feishu_token === 'string' && matches(entry.feishu_token, TOKEN)), 'Invalid active Feishu token')
+  const tokens = Object.hasOwn(entry, 'feishu_aliases') ? entry.feishu_aliases : (entry.feishu_token ? [entry.feishu_token] : [])
+  assert(Array.isArray(tokens) && tokens.every(token => matches(token, TOKEN) && !/^(?:base_|shared-)/.test(token)) && new Set(tokens).size === tokens.length, 'Invalid active Feishu aliases')
+  assert(entry.feishu_token === null ? tokens.length === 0 : tokens.includes(entry.feishu_token), 'Active aliases must include primary token')
+  object(entry.anchors, 'Active anchors')
+  for (const [block, anchor] of Object.entries(entry.anchors)) {
+    assert(matches(block, TOKEN) && typeof anchor === 'string' && !!anchor && !/[\s/#?\\\0]/.test(anchor) && anchor !== '.' && anchor !== '..', 'Invalid active anchor')
+  }
+  return entry
+}
 export function validateActiveState(value: unknown): ActiveState {
   keys(value, ['schema_version', 'pages'], 'Shared active state')
   const state = value as ActiveState
   assert(state.schema_version === 1 && Array.isArray(state.pages), 'Invalid shared active schema')
   const pages = new Set(), records = new Set(), aliases = new Set()
-  for (const entry of state.pages) {
-    keys(entry, ['page', 'record', 'feishu_token', 'anchors', 'activated_in', ...(Object.hasOwn(entry, 'feishu_aliases') ? ['feishu_aliases'] : [])], 'Shared active page')
-    assert(matches(entry.page, SLUG), 'Invalid active page')
-    text(entry.record, 'Active record'); text(entry.activated_in, 'Active run')
-    assert(/^\d+$/.test(entry.activated_in), 'Active run must be a run ID')
-    assert(entry.feishu_token === null || (typeof entry.feishu_token === 'string' && matches(entry.feishu_token, TOKEN)), 'Invalid active Feishu token')
+  for (const raw of state.pages) {
+    const entry = validateActivePageEntry(raw)
     const tokens = Object.hasOwn(entry, 'feishu_aliases') ? entry.feishu_aliases : (entry.feishu_token ? [entry.feishu_token] : [])
-    assert(Array.isArray(tokens) && tokens.every(token => matches(token, TOKEN) && !/^(?:base_|shared-)/.test(token)) && new Set(tokens).size === tokens.length, 'Invalid active Feishu aliases')
-    assert(entry.feishu_token === null ? tokens.length === 0 : tokens.includes(entry.feishu_token), 'Active aliases must include primary token')
     assert(!pages.has(entry.page) && !records.has(entry.record) && tokens.every(token => !aliases.has(token)), 'Duplicate active authority')
     pages.add(entry.page); records.add(entry.record); tokens.forEach(token => aliases.add(token))
-    object(entry.anchors, 'Active anchors')
-    for (const [block, anchor] of Object.entries(entry.anchors)) {
-      assert(matches(block, TOKEN) && typeof anchor === 'string' && !!anchor && !/[\s/#?\\\0]/.test(anchor) && anchor !== '.' && anchor !== '..', 'Invalid active anchor')
-    }
   }
   return state
 }
@@ -124,7 +131,7 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
   keys(value, ['schema_version', 'page', 'token', 'inputs', 'outputs', 'channel', 'notes'], 'Shared receipt')
   const receipt = value as SharedReceipt
   assert(receipt.schema_version === 1 && receipt.page === expected.page && receipt.token === `shared-${expected.page}`, 'Shared receipt identity mismatch')
-  keys(receipt.inputs, ['milvus_docs', 'zdoc', 'dev', 'fetch', 'tools', 'images'], 'Shared receipt inputs')
+  keys(receipt.inputs, ['milvus_docs', 'zdoc', 'dev', 'fetch', 'tools', 'images', ...(Object.hasOwn(receipt.inputs, 'variants') ? ['variants'] : [])], 'Shared receipt inputs')
   const {milvus_docs: upstream, zdoc, dev, 'fetch': fetchInputs, tools, images} = receipt.inputs
   keys(upstream, ['repository', 'current', 'next', 'files'], 'Shared upstream')
   assert(upstream.repository === 'milvus-io/milvus-docs' && matches(upstream.current, COMMIT) && matches(upstream.next, COMMIT), 'Invalid upstream commits/repository')
@@ -144,7 +151,7 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
   assert(zdoc.repository === 'zilliztech/zdoc' && matches(zdoc.commit, COMMIT), 'Invalid zdoc commit/repository')
   files(zdoc.files, ['sha256'], 'Shared zdoc files')
   keys(dev, ['commit', 'files'], 'Shared dev input'); assert(matches(dev.commit, COMMIT), 'Invalid dev commit'); files(dev.files, ['sha256'], 'Shared dev files')
-  keys(fetchInputs, ['navigation', 'image_base_url', ...(Object.hasOwn(fetchInputs, 'render_targets') ? ['render_targets'] : [])], 'Shared Fetch inputs')
+  keys(fetchInputs, ['navigation', 'image_base_url', ...(Object.hasOwn(fetchInputs, 'render_targets') ? ['render_targets'] : []), ...(Object.hasOwn(fetchInputs, 'active') ? ['active'] : [])], 'Shared Fetch inputs')
   if (fetchInputs.render_targets !== undefined) {
     const projection = fetchInputs.render_targets
     keys(projection, ['schema_version', 'targets'], 'Shared render targets')
@@ -175,7 +182,11 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
     }
   }
   assert(matches(fetchInputs.image_base_url, /^https?:\/\/[^\s]+$/), 'Invalid image base URL')
-  keys(tools, ['zdoc', 'md2md'], 'Shared tools'); assert(matches(tools.zdoc, COMMIT), 'Invalid tooling commit'); text(tools.md2md, 'md2md version')
+  // Receipts carry the baseline active entry their build consumed (null until
+  // first activation) so the render identity recomputes receipt-local.
+  if (fetchInputs.active !== undefined && fetchInputs.active !== null) validateActivePageEntry(fetchInputs.active)
+  keys(tools, ['zdoc', 'md2md', ...(Object.hasOwn(tools, 'engine_sha256') ? ['engine_sha256'] : [])], 'Shared tools'); assert(matches(tools.zdoc, COMMIT), 'Invalid tooling commit'); text(tools.md2md, 'md2md version')
+  if (tools.engine_sha256 !== undefined) assert(matches(tools.engine_sha256, SHA), 'Invalid engine inventory digest')
   assert(Array.isArray(images), 'Shared images must be an array')
   const sources = new Set()
   for (const image of images) {
@@ -183,6 +194,22 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
     text(image.source, 'Image source'); assert(matches(image.sha256, SHA) && !sources.has(image.source), 'Invalid or duplicate image digest/source'); sources.add(image.source)
     assert(typeof image.object === 'string' && (image.object.startsWith(`shared/${image.sha256}.`) && /^shared\/[a-f0-9]{64}\.[a-z0-9]+$/.test(image.object)
       || /^https?:\/\/[^\s]+$/.test(image.object)), 'Invalid shared image object')
+  }
+  if (receipt.inputs.variants !== undefined) {
+    const entries = receipt.inputs.variants
+    assert(Array.isArray(entries) && entries.length > 0, 'Shared variants must be a nonempty array')
+    const channels = new Set()
+    for (const entry of entries) {
+      keys(entry, ['channel', 'path', 'sha256', 'pull', 'head_sha', 'adopted_at', ...(Object.hasOwn(entry, 'adopted_via') ? ['adopted_via'] : [])], 'Shared variant')
+      assert(['current', 'next'].includes(entry.channel) && !channels.has(entry.channel), 'Invalid or duplicate shared variant channel'); channels.add(entry.channel)
+      assert(safeHandoffPath(entry.path) && entry.path.endsWith(`variant-${entry.channel}.md`), 'Invalid shared variant path')
+      assert(matches(entry.sha256, SHA), 'Invalid shared variant digest')
+      assert(Number.isSafeInteger(entry.pull) && entry.pull > 0, 'Invalid shared variant pull request')
+      assert(matches(entry.head_sha, COMMIT), 'Invalid shared variant head commit')
+      text(entry.adopted_at, 'Shared variant adopted_at')
+      if (entry.adopted_via !== undefined) text(entry.adopted_via, 'Shared variant adopted_via')
+    }
+    assert(channels.has('next'), 'Shared variants must include the next channel')
   }
   assert(Array.isArray(receipt.outputs) && receipt.outputs.length > 0, 'Shared outputs must be nonempty')
   const manuals = new Set()

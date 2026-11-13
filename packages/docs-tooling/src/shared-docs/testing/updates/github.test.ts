@@ -10,16 +10,35 @@ it('provides only reads and rejects off-service or traversal paths before invoki
   await expect(api.get('repos/zilliztech/zdoc/actions/../hooks')).rejects.toThrow(/endpoint/)
   await expect(api.zip(-1)).rejects.toThrow(/ID/)
 })
-it('paginates actual rows, detects duplicate identities and terminates at the bound', async () => {
-  const get = vi.fn(async (path: string) => ({ jobs: path.endsWith('page=1') ? Array.from({ length: 100 }, (_, i) => ({ id: i + 1 })) : [{ id: 101 }] }))
-  const api = { get, zip: vi.fn() }
-  expect(await pages(api, 'repos/zilliztech/zdoc/actions/runs/1/jobs', 'jobs')).toHaveLength(101)
+it.each(['jobs', 'artifacts'] as const)('requires every advertised %s row exactly once within the pagination bound', async key => {
+  const rows = Array.from({length: 100}, (_, i) => ({id: i + 1}))
+  const response = (total: number, values: unknown) => ({total_count: total, [key]: values})
+  const get = vi.fn<(path: string) => Promise<unknown>>()
+  const read = () => pages({get, zip: vi.fn()}, 'repos/zilliztech/zdoc/actions/runs/1/' + key, key)
+  get.mockResolvedValueOnce(response(101, rows)).mockResolvedValueOnce(response(101, [{id: 101}]))
+  expect(await read()).toHaveLength(101)
   expect(get).toHaveBeenCalledTimes(2)
-  get.mockImplementation(async () => ({ jobs: Array.from({ length: 100 }, (_, i) => ({ id: i + 1 })) }))
-  await expect(pages(api, 'x', 'jobs')).rejects.toThrow(/Ambiguous/)
-  get.mockImplementation(async (path: string) => ({ jobs: Array.from({ length: 100 }, (_, i) => ({ id: Number(path.split('page=').at(-1)) * 100 + i + 1 })) }))
-  await expect(pages(api, 'x', 'jobs')).rejects.toThrow(/limit/)
-  await expect(pages({ ...api, get: async () => ({ jobs: null }) }, 'x', 'jobs')).rejects.toThrow(/Malformed/)
+  get.mockResolvedValueOnce(response(100, rows))
+  expect(await read()).toHaveLength(100)
+  get.mockResolvedValueOnce(response(0, []))
+  expect(await read()).toEqual([])
+  for (const [second, message] of [
+    [response(101, [rows[0]]), /Ambiguous/],
+    [response(101, []), /advertised total/],
+    [response(101, [{id: 101}, {id: 102}]), /advertised total/],
+    [response(100, []), /total changed/],
+  ] as const) {
+    get.mockResolvedValueOnce(response(101, rows)).mockResolvedValueOnce(second)
+    await expect(read()).rejects.toThrow(message)
+  }
+  get.mockResolvedValueOnce(response(2001, rows))
+  await expect(read()).rejects.toThrow(/limit/)
+  for (const invalid of [response(1, null), {[key]: []}, response(-1, []), response(1.5, [])]) {
+    get.mockResolvedValueOnce(invalid)
+    await expect(read()).rejects.toThrow(/Malformed/)
+  }
+  get.mockResolvedValueOnce(response(2, [{id: 1}]))
+  await expect(read()).rejects.toThrow(/advertised total/)
 })
 it('authenticates repository and exact run before trusting artifact names', async () => {
   await expect(retainedMetadata({ get: async () => ({ id: 2 }), zip: vi.fn() }, 1)).rejects.toThrow(/identity/)
@@ -27,13 +46,13 @@ it('authenticates repository and exact run before trusting artifact names', asyn
 
 it('rejects wrong run attempt and artifact digest/expiry/head bindings, never choosing one ambiguous artifact', async () => {
   const head = 'a'.repeat(40)
-  const artifact = { id: 3, name: 'guides-sources-en-1', expired: false, digest: `sha256:${'b'.repeat(64)}`,
+  const artifact = { id: 3, name: 'guides-sources-en-1', expired: false, size_in_bytes: 12, digest: `sha256:${'b'.repeat(64)}`,
     workflow_run: { id: 1, repository_id: 660446555, head_repository_id: 660446555, head_sha: head, head_branch: 'master' } }
   const run = { id: 1, repository: { id: 660446555 }, run_attempt: 1, head_sha: head, head_branch: 'master' }
   const api = (a: unknown[], r = run) => ({ zip: vi.fn(), get: async (path: string) => path.endsWith('zdoc') ? { id: 660446555 } :
-    path.includes('/jobs?') ? { jobs: [] } : path.includes('/artifacts?') ? { artifacts: a } : r })
+    path.includes('/jobs?') ? { total_count: 0, jobs: [] } : path.includes('/artifacts?') ? { total_count: a.length, artifacts: a } : r })
   expect((await retainedMetadata(api([artifact]), 1)).artifact.id).toBe(3)
-  for (const a of [{ ...artifact, digest: null }, { ...artifact, expired: true },
+  for (const a of [{ ...artifact, size_in_bytes: undefined }, { ...artifact, digest: null }, { ...artifact, expired: true },
     { ...artifact, workflow_run: { ...artifact.workflow_run, head_sha: 'c'.repeat(40) } }]) await expect(retainedMetadata(api([a]), 1)).rejects.toThrow(/mismatch/)
   await expect(retainedMetadata(api([artifact, { ...artifact, id: 4 }]), 1)).rejects.toThrow(/ambiguous/)
   await expect(retainedMetadata(api([artifact], { ...run, run_attempt: 0 }), 1)).rejects.toThrow(/identity/)
@@ -76,4 +95,15 @@ it('preserves successful metadata, archive bytes and fixed read execution bounds
     ['gh', ['api', '--hostname', 'github.com', '--method', 'GET', 'repos/zilliztech/zdoc'], { timeout: 30_000, maxBuffer: 16 * 1024 * 1024 }],
     ['gh', ['api', '--hostname', 'github.com', '--method', 'GET', 'repos/zilliztech/zdoc/actions/artifacts/3/zip'], { encoding: 'buffer', timeout: 120_000, maxBuffer: 256 * 1024 * 1024 }],
   ])
+})
+
+
+it('enforces the caller download bound before invoking gh', async () => {
+  const api = new GitHubReads()
+  runGh.mockClear()
+  await expect(api.zip(3, 0)).rejects.toThrow(/limit/)
+  expect(runGh).not.toHaveBeenCalled()
+  runGh.mockResolvedValueOnce({stdout: Buffer.from([1])})
+  await api.zip(3, 12)
+  expect(runGh.mock.calls[0][2].maxBuffer).toBe(12)
 })

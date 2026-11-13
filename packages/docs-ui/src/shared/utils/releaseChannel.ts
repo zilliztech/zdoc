@@ -70,6 +70,16 @@ export function isRetiredChannelSidebarItem(item: PropSidebarItem): boolean {
  * whole category) or when filtering emptied children that previously existed;
  * pre-existing empty categories keep their current behavior.
  *
+ * A category emptied by filtering — a CURRENT parent whose every child is
+ * NEXT — survives as a landing-only entry instead of being dropped whenever
+ * it carries a landing page: the landing is the only sidebar entry carrying
+ * that page, so dropping the category would hide a live page from navigation.
+ * The writer stamps the landing record's channel onto the whole category, so
+ * a blocked landing never reaches this branch. Categories resolve their
+ * landing before the theme sees it (raw `link: {type: 'doc' | 'generated-index'}`
+ * becomes a plain `href`, and doc leaves become link items with `docId`),
+ * so both shapes count as a landing; only link-less groupings collapse away.
+ *
  * Change tracking, not a child-count comparison: a category whose own child
  * list is untouched can still hold a filtered descendant (the SSO leaf sits
  * three levels down), and the ancestors of that leaf keep the same direct child
@@ -89,6 +99,14 @@ function filterChannelBlockedItems(
     if (item.type === 'category') {
       const children = filterChannelBlockedItems(item.items, isBlocked);
       if (children.items.length === 0 && item.items.length > 0) {
+        // The PropSidebarItem category type declares neither `link` nor
+        // `href`, though every landing-bearing category carries one of them.
+        const landing = (item as {link?: unknown; href?: unknown});
+        if (landing.link == null && typeof landing.href !== 'string') {
+          changed = true;
+          continue;
+        }
+        filtered.push({...item, items: []});
         changed = true;
         continue;
       }

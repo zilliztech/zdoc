@@ -9,6 +9,7 @@ This file is the operator runbook: setup, branch ownership, the publication runb
 - [Translation operations](runbook/translation-operations.md) — quality assets, the scheduled dispatcher, manifest migration, fast-path precheck, reconciliation card
 - [Shared Guides generation](runbook/shared-guides-generation.md) — source generation, publication evidence, requirement accounting
 - [Release Channel gating](runbook/release-channel-gating.md) — CURRENT / NEXT / RETIRE-IN-NEXT and `<NextChannel>`
+- [Shared-docs variants](runbook/shared-docs-variants.md) — adopting unmerged upstream PR content, the adoption workflow, pin drift watchdog and reconciliation
 - [Analytics](runbook/analytics.md) — GA4 reports and console reconciliation
 - [Content production recipes](runbook/content-production.md) — adding a new reference manual
 
@@ -410,6 +411,43 @@ pnpm build:zh-CN
 
 Shared Guides final publication evidence and shared Fetch requirement accounting are documented in [runbook/shared-guides-generation.md](runbook/shared-guides-generation.md#shared-guides-final-publication-evidence). The REST upstream and availability operations cadence (watchdog, refresh, availability matrices, zilliz probes) lives in [runbook/rest-reference-pipeline.md](runbook/rest-reference-pipeline.md#rest-upstream-and-availability-operations).
 
+### Scheduled updates for json-field-overview
+
+[Shared Guides upstream update](.github/workflows/shared-guides-update.yml) checks the
+Milvus `v3.0.x` tracking branch daily at **06:37 UTC**. The pilot plans and prepares
+an update for `json-field-overview` against the current zdoc `master`, published
+`dev` and upstream revision. When the page has a verified change, the writer
+opens a Draft PR against `master` that edits only the page’s `lock.yaml` entry
+for `next`. Review the lock diff and the producing run’s candidate and writer
+artifacts before merging. The existing Fetch schedule picks up a merged change.
+
+To inspect the same inputs on demand, dispatch the workflow on `master` with
+`create_draft=false` (the default). Use `create_draft=true` to exercise the scheduled
+write path. An open update PR or a remaining writer branch stops the run before
+it prepares another candidate. If a write loses its response, inspect the run’s
+journal, matching branches and PRs before taking further action. A moved input,
+unverified Fetch producer, or incomplete publication evidence requires fresh
+evidence. Review a superseded Fetch against the next successful scheduled Fetch from a
+registered producer tree. The producer fingerprint covers the full repository
+tree, so an unrelated change can require a new reviewed fingerprint. From a
+checkout of the proposed merge, run
+`node scripts/docs-workflow/shared-guides-update/producer-fingerprint.cjs --check`
+to compare the registered digest to that tree. Review its changes before updating
+`strictProducerSha256` in `reviewed-fetch-tree.json`. For an already completed Fetch,
+reviewers can register its exact run, attempt, commit and original policy bytes
+for this page. See [reviewing one completed Fetch](packages/docs-tooling/src/shared-docs/README.md#reviewing-one-completed-fetch).
+Inspect
+`shared-guides-report-<run>-1` for page impact and lifecycle evidence and
+`shared-guides-update-producer` for the signed producer receipt. The bot-created
+Draft PR can show **Approve workflows to run** for normal PR checks. Review its
+head and approve those checks before merging. See [GitHub’s workflow token
+reference](https://docs.github.com/en/actions/concepts/security/github_token).
+
+A verified history checkpoint covers earlier attempts. If GitHub cannot account
+for an intervening writer, reconcile its API effects before allowing further
+writes. After an update PR is closed or merged, retained staging or target
+branches also require operator reconciliation before a new draft can open.
+
 ### Inspect shared Guides upstream changes without publishing
 
 The report-only command uses already acquired local Git repositories. Prepare
@@ -443,8 +481,14 @@ run, exact attempt, source job/steps and unique source artifact. It downloads
 the source ZIP, or verifies a supplied `--evidence-zip` against the API digest.
 Archive preflight requires Python 3. It does not start Fetch or query Base.
 Without retained evidence it still analyzes pages and reports lifecycle unknown.
-Current incremental snapshots cannot prove complete fresh lifecycle state;
-archive authentication alone does not change that unknown classification.
+For a single page, pass `--pages <page-id>` and the current dev SHA. The
+reader also verifies that the newest applicable Fetch observed this Base record
+and that the same run published its English Guides outputs. The producer must
+match the reviewed Fetch tree, or the specific historical scan with an
+independent Base census documented in the shared-docs package. Check
+`pages[].lifecycle` and `futureEligible` in the report before using the
+proposed `next`. A newer run in progress or conflicting publication evidence
+keeps the page on hold.
 
 The absent/empty output directory must not overlap input data or Git metadata
 and must have no symlink components. A separate task directory under `.claude/`

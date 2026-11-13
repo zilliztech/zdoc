@@ -100,6 +100,28 @@ for (const baseline of ['legacy', 'new', 'active']) test(`[PUBLISH_REGEN_MISMATC
   assert.deepEqual(result.snapshot.navigation_records.find(row => row.record_id === 'rec0'), before.previous_snapshot.navigation_records.find(row => row.record_id === 'rec0'))
   publication.publishedEvidence(options.baselineRoot, result.snapshot)
 })
+test('adopted variants flow into receipts, replay from the pinned tree and fail closed when dropped', async t => {
+  const options = await fixture(t, {pages: ['sample'], imageSource: true, variants: 'next'})
+  options.imageBaseUrl = 'https://images.example.test'; options.sequence = 0
+  const bundle = await regenerate(options)
+  assert.equal(bundle.outcomes[0].status, 'success', JSON.stringify(bundle.outcomes))
+  const outcome = bundle.outcomes[0]
+  const receipt = JSON.parse(fs.readFileSync(path.join(options.out, outcome.receipt)))
+  assert.deepEqual(receipt.inputs.variants.map(row => ({channel: row.channel, pull: row.pull, adopted_via: row.adopted_via})),
+    [{channel: 'next', pull: 42, adopted_via: 'adopt-variant'}])
+  const output = fs.readFileSync(path.join(options.out, outcome.outputs[0].file), 'utf8')
+  assert.ok(output.includes('Variant body text.'), 'variant content must reach the merged output')
+  const replayWith = () => regeneration.regenerateReceipt({receipt, navigation: bundle.navigation,
+    repositoryRoot: options.repositoryRoot, baselineRoot: options.baselineRoot, repo: options.repo,
+    scratch: options.scratch, outputs: outcome.outputs.map(row => ({...row, bytes: fs.readFileSync(path.join(options.out, row.file))})),
+    readAcceptedImage: async () => image}, {assertToolIdentity: () => {}})
+  await replayWith()
+  const dropped = structuredClone(receipt); delete dropped.inputs.variants
+  await assert.rejects(regeneration.regenerateReceipt({receipt: dropped, navigation: bundle.navigation,
+    repositoryRoot: options.repositoryRoot, baselineRoot: options.baselineRoot, repo: options.repo,
+    scratch: options.scratch, outputs: outcome.outputs.map(row => ({...row, bytes: fs.readFileSync(path.join(options.out, row.file))})),
+    readAcceptedImage: async () => image}, {assertToolIdentity: () => {}}), /Variant identity differs/)
+})
 test('[PUBLISH_REGEN_MISMATCH] checkpoint CLI validates bound proof offline and rejects proof and output tampering', async t => {
   const value = await candidate(t), result = finalize(value.options, value.bundle)
   fs.rmSync(value.options.out, {recursive: true}); fs.rmSync(value.options.scratch, {recursive: true}); fs.rmSync(value.options.repo, {recursive: true})
@@ -124,7 +146,12 @@ test('fresh replay restores Git bytes despite dirty live configuration, upstream
   fs.writeFileSync(path.join(value.options.repo, 'site/en/sample.md'), 'dirty upstream')
   fs.writeFileSync(path.join(value.options.baselineRoot, 'content/en/guides/existing.md'), 'dirty dev')
   const proof = await replay(value)
-  assert.equal(proof.inputs_sha256, value.outcome.identity.inputs_sha256)
+  // The proof binds the whole receipt inputs; the render identity is the separate
+  // page-local recipe, so the two digests are intentionally distinct spaces.
+  const draft = structuredClone(value.receipt.inputs)
+  if (typeof draft.fetch.navigation !== 'string') draft.fetch.navigation = digest(JSON.stringify(draft.fetch.navigation))
+  assert.equal(proof.inputs_sha256, digest(JSON.stringify(draft)))
+  assert.notEqual(proof.inputs_sha256, value.outcome.identity.inputs_sha256)
   assert.ok(fs.readdirSync(value.options.scratch).every(file => !file.startsWith('receipt-replay-')))
 })
 test('new render targets validate exact version, paired manuals, path, position and channel; legacy receipts remain readable', async t => {
@@ -170,6 +197,17 @@ test('executing tool identity rejects drift in its consumed docHeadingTags depen
   const tools = {...value.receipt.inputs.tools, zdoc: commit(root, 'Pinned consumed heading tags')}
   assert.doesNotThrow(() => regeneration.assertToolIdentity(tools, {root}))
   put(root, dependency, 'export const DOC_HEADING_TAGS = ["changed"]\n')
+  assert.throws(() => regeneration.assertToolIdentity(tools, {root}), error => error.message === `Executing tooling drift: ${dependency}`)
+})
+test('executing tool identity rejects drift in its consumed accidental-math-span dependency', async t => {
+  const value = await candidate(t)
+  const root = path.join(value.options.root, 'synthetic-tooling')
+  const dependency = 'packages/docs-tooling/src/markdown/accidentalMathSpans.js'
+  put(root, dependency, 'module.exports = {repairAccidentalMathSpans: async () => ({markdown: "", repaired: [], remaining: []})}\n')
+  git(root, ['init', '--quiet', '--initial-branch=master', '--template='])
+  const tools = {...value.receipt.inputs.tools, zdoc: commit(root, 'Pinned consumed math-span repair')}
+  assert.doesNotThrow(() => regeneration.assertToolIdentity(tools, {root}))
+  put(root, dependency, 'module.exports = {repairAccidentalMathSpans: async () => ({markdown: "drifted", repaired: [], remaining: []})}\n')
   assert.throws(() => regeneration.assertToolIdentity(tools, {root}), error => error.message === `Executing tooling drift: ${dependency}`)
 })
 function hydrateFixture(t) {

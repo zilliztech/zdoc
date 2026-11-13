@@ -14,8 +14,11 @@ allow:
   - "['Milvus', '是', 'LF', 'AI', 'Data', 'Foundation', '下', '的', '一个', '开源', '项目', '以', 'Apache', '2.0', '许可', '发布']"
   # Preserve the sample dense vector description text on the Dense Vector page.
   - 'Milvus is an efficient vector database'
-  # Preserve the explicit engine version in the StructArray availability statement.
-  - On Zilliz Cloud, nullable StructArray fields, nullable vector arrays, and dynamic StructArray field addition are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support these capabilities.
+  # Preserve the explicit engine version in the StructArray availability statements.
+  - Nullable vector arrays, element-level null values, scalar `ARRAY` subfields, and adding or dropping StructArray subfields are supported on Dedicated Clusters compatible with Milvus v3.0.x.
+  - Nullable vector arrays are supported on Dedicated Clusters compatible with Milvus v3.0.x; see the additional capabilities below.
+  - Element-level null values, scalar `ARRAY` subfields, and adding or dropping subfields of an existing StructArray field are supported on Dedicated Clusters compatible with Milvus v3.0.x.
+  - Element-level null values are supported on Dedicated Clusters compatible with Milvus v3.0.x but not yet available on On-Demand Clusters.
   # Preserve the version-scoped Go SDK limitation for StructArray hybrid grouping.
   - The Go client source shipped with Milvus 3.0.2 does not expose final hybrid grouping through `NewHybridSearchOption`.
   # Preserve the engine-version-scoped REST availability note in Linear Decay.

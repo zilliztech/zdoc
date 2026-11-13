@@ -10,6 +10,7 @@ const {validateSharedReceipt} = require('../../packages/docs-tooling/src/lark/sh
 const {validateImageBaseUrl} = require('../../packages/docs-tooling/src/lark/sharedImageUploader')
 const {runBuild} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/commands/build.ts'))
 const {collectReferences} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/core/links/references.ts'))
+const {parseVariants, variantFileName, variantSidecarName, variantReceiptEntries} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/core/variants.ts'))
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 const outputKey = row => `${row.manual}:${row.path}`
 const sorted = rows => [...rows].sort((a, b) => outputKey(a).localeCompare(outputKey(b)))
@@ -43,7 +44,9 @@ function installedMd2md() {
 function assertToolIdentity(tools, {root = path.resolve(__dirname, '../..')} = {}) {
   if (git(root, ['rev-parse', 'HEAD']).toString().trim() !== tools.zdoc || installedMd2md() !== tools.md2md) throw Error('Executing tooling identity does not match receipt')
   // Generated dev state is deliberately excluded; executable source/config may not drift.
-  const roots = ['scripts', 'packages/docs-tooling/src/shared-docs', 'packages/docs-tooling/src/manuals',
+  // src/markdown is pinned because the shared-docs build repair depends on
+  // accidentalMathSpans.js: its bytes are part of the reproduced output identity.
+  const roots = ['scripts', 'packages/docs-tooling/src/shared-docs', 'packages/docs-tooling/src/markdown', 'packages/docs-tooling/src/manuals',
     'packages/docs-ui/src/shared/utils/docHeadingTags.ts', 'packages/docs-tooling/package.json', 'package.json', 'pnpm-lock.yaml']
   const inventory = gitInventory(root, tools.zdoc, roots)
   for (const file of inventory) if (digest(regularBytes(root, file.path)) !== file.sha256) throw Error(`Executing tooling drift: ${file.path}`)
@@ -122,6 +125,23 @@ async function regenerateReceipt(options, dependencies = {}) {
     const config = yaml.load(fs.readFileSync(path.join(master, configFile), 'utf8'))
     const lock = yaml.load(fs.readFileSync(path.join(master, `shared-docs/guides/pages/${receipt.page}/lock.yaml`), 'utf8'))
     for (const version of ['current', 'next']) requireEqual(inputs.milvus_docs[version], lock[version], receipt, configFile, 'Lock identity differs')
+    // Adopted variant claims must match the hydrated pinned tree: same files, same digests,
+    // same provenance. Either side drifting is a receipt integrity failure.
+    const readVariantFile = name => {
+      try { return fs.readFileSync(path.join(master, 'shared-docs/guides/pages', receipt.page, name), 'utf8') }
+      catch (error) { if (error.code === 'ENOENT') return undefined; throw error }
+    }
+    const rawVariants = {}
+    for (const channel of ['current', 'next']) {
+      const text = readVariantFile(variantFileName(channel))
+      const provenanceText = readVariantFile(variantSidecarName(channel))
+      if (text === undefined && provenanceText !== undefined) throw Error(`${variantSidecarName(channel)} requires ${variantFileName(channel)}`)
+      if (text !== undefined) rawVariants[channel] = {text, provenanceText}
+    }
+    const parsedVariants = parseVariants(rawVariants, {})
+    if ('errors' in parsedVariants) throw Error(JSON.stringify(parsedVariants.errors))
+    requireEqual(inputs.variants ?? [], variantReceiptEntries(parsedVariants.variants, receipt.page, value => digest(value)),
+      receipt, configFile, 'Variant identity differs')
     const targets = structuredClone(inputs.fetch.render_targets.targets)
     const row = navigation.navigationRecords.filter(row => row.source_kind === 'shared-page' && row.shared_page?.page === receipt.page)
     if (row.length !== 1) throw Error('Missing unique authenticated render record')

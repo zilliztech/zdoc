@@ -227,6 +227,23 @@ it.runIf(process.env.ZDOC_GUIDES_WORKER_INTEGRATION === '1')('runs the actual co
     authority: report.authority.updateState, disposition: provider.planNext(report).disposition, detailFiles: result.collection.detailFiles, privateAccess: { bytes: result.privateAccess.bytes }, before, after }, null, 2) + '\n')
 }, 600_000)
 
+const missingLifecycle = {async get() {throw new Error('Synthetic lifecycle unavailable')}, async zip() {throw new Error('Unexpected ZIP read')}}
+it('proves an isolated selected page from both rendered manual observations while retaining all configured identities', async () => {
+  const f = await fixture()
+  try {
+    const text = await readFile(join(f.d.repo, 'site/en/source-target.md'), 'utf8')
+    await f.sourceChange('site/en/source-target.md', text + '\nAn isolated source edit.\n')
+    const selected = await collect({...f.request, pages: ['shared-target'], evidenceRun: '1'}, {b1: {...f.dependencies.b1, github: missingLifecycle}})
+    const full = await collect({...f.request, pages: ['shared-target']}, {b1: f.dependencies.b1})
+    const detail = JSON.parse(selected.detail['guides-impact-v1/report.json'])
+    expect(detail.counts).toMatchObject({configured: 2, selected: 1, analyzed: 1})
+    expect(detail.pages.map((p: any) => [p.pageId, p.selected])).toEqual([['build-pipeline', false], ['shared-target', true]])
+    expect(detail.impact.pages).toEqual(JSON.parse(full.detail['guides-impact-v1/report.json']).impact.pages.filter((p: any) => p.pageId === 'shared-target'))
+    expect(selected.grouping).toEqual(full.grouping)
+    expect(selected.pages[0].report.authority.updateState).toBe('unknown')
+  } finally {await f.dispose()}
+}, 120_000)
+
 it('retains actual adoption observations and holds a dependency outside the selected common subjects', async () => {
   const f = await fixture()
   try {
@@ -244,6 +261,13 @@ it('retains actual adoption observations and holds a dependency outside the sele
     expect(JSON.parse(selected.detail['guides-impact-v1/report.json']).impact.input.pages).toHaveLength(2)
     expect(selected.pages).toHaveLength(1)
     expect(planUpdateUnit([selected.pages[0].report], [selected.pages[0].context]).holdReasons).toContain('CROSS_UNIT_DEPENDENCY_UNAVAILABLE')
+    const withRun = {...f.dependencies, b1: {...f.dependencies.b1, github: missingLifecycle}}
+    // Incoming rename and outgoing cross-page fragment are independently sufficient for a full observation.
+    for (const id of ['build-pipeline', 'shared-target']) {
+      const actual = await collect({...f.request, master: p, configSnapshot: p, pages: [id], evidenceRun: '1'}, withRun)
+      expect(JSON.parse(actual.detail['guides-impact-v1/report.json']).counts.analyzed).toBe(2)
+      expect(actual.pages[0].context.holdReasons).toContain('CROSS_UNIT_DEPENDENCY_UNAVAILABLE')
+    }
     const complete = await collect({ ...f.request, master: p, configSnapshot: p, pages: [] }, f.dependencies)
     expect(complete.holds).toEqual([]); expect(complete.pages).toHaveLength(2)
     const contexts = complete.pages.map(page => {
@@ -252,6 +276,13 @@ it('retains actual adoption observations and holds a dependency outside the sele
     })
     const plans = planUpdateBatch(contexts, complete.grouping)
     expect(plans).toHaveLength(1); expect(plans[0].disposition).toBe('candidate'); expect(plans[0].subjects).toHaveLength(2); expect(plans[0].nextEdits).toHaveLength(2)
+    // A candidate reference alone cannot rule out adoption when the referenced sibling's current lock is unavailable.
+    await write(f.d.sharedDocs, 'pages/shared-target/lock.yaml', JSON.stringify({schema_version: 1, current: 'f'.repeat(40), next: baseline}))
+    await git(f.root, 'add', 'shared-docs'); await git(f.root, 'commit', '-qm', 'unreadable historical sibling')
+    const bad = await git(f.root, 'rev-parse', 'HEAD')
+    const missing = await collect({...f.request, master: bad, configSnapshot: bad, evidenceRun: '1'}, withRun)
+    expect(JSON.parse(missing.detail['guides-impact-v1/report.json']).pages.find((p: any) => p.pageId === 'build-pipeline').unobservedAdoptionPeers).toEqual(['shared-target'])
+    expect(missing.pages[0].context.holdReasons).toContain('CROSS_UNIT_DEPENDENCY_UNAVAILABLE')
   } finally { await f.dispose() }
 }, 120_000)
 it('retains complete known material for deterministic source content failure', async () => {
@@ -313,6 +344,8 @@ import { describe, vi, afterEach } from 'vitest'
 import * as toolsetApi from '../../adapters/updates/toolset'
 import * as evidenceApi from '../../adapters/updates/evidence'
 import * as materialApi from '../../core/updates/unit-plan'
+import * as lifecycleTransport from '../../adapters/updates/guides-lifecycle-transport'
+import * as b1Runner from '../../adapters/updates/runner'
 import { fixtureMaterial } from './fixtures/manual-provider'
 /** Controlled adapter awaits only; actual worker ownership is tested in toolset.test. */
 describe.sequential('Guides provider cancellation checkpoints', () => {
@@ -363,6 +396,39 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
     return {options, controller, reason, run, describe, prepare, retain, writes, reads, prepareNext, settlement, collection,
       get completedWrites() {return completedWrites}, dispose: () => rm(root, {recursive: true, force: true})}
   }
+  it('keeps coordinator credentials out of selected worker inputs even when retained evidence is missing', async () => {
+    const f = await controlled('selected')
+    const stage = vi.spyOn(lifecycleTransport, 'stageGuidesArchives').mockResolvedValue(null)
+    try {
+      const provider = await createGuidesProvider({...f.options, secrets: {GH_TOKEN: 'coordinator-only'}, request: {
+        ...f.options.request, pages: ['fixture'], evidenceRun: '123', evidenceZip: '/input.zip',
+      }})
+      await provider.collectAll()
+      expect(stage).toHaveBeenCalledWith(123, '/input.zip', f.options.evidence, 'coordinator-only', f.controller.signal)
+      const [input, secrets] = f.run.mock.calls[0]
+      expect(secrets).toEqual({GH_TOKEN: 'coordinator-only'})
+      expect(input).toMatchObject({request: {evidenceZip: null, pages: ['fixture']}, archives: null})
+      expect(JSON.stringify(input)).not.toContain('coordinator-only')
+      const report = vi.spyOn(b1Runner, 'reportUpdates').mockRejectedValue(new Error('end of traced call'))
+      await expect(collectGuidesWorker(input)).rejects.toThrow('end of traced call')
+      const [options, , dependencies] = report.mock.calls[0]
+      expect(options.lifecyclePage).toBe('fixture')
+      expect(options.pages).toBeUndefined()
+      expect(dependencies?.github).toBeDefined()
+      await expect(dependencies!.github!.zip(1)).rejects.toThrow('unavailable')
+    } finally {await f.dispose()}
+  })
+  it('preserves launcher inputs when a single page has no retained lifecycle run', async () => {
+    const f = await controlled('without-run')
+    try {
+      const secrets = {GH_TOKEN: 'original-input'}
+      const stage = vi.spyOn(lifecycleTransport, 'stageGuidesArchives')
+      const provider = await createGuidesProvider({...f.options, secrets, request: {...f.options.request, pages: ['fixture']}})
+      await provider.collectAll()
+      expect(stage).not.toHaveBeenCalled()
+      expect(f.run).toHaveBeenCalledWith(expect.objectContaining({pages: ['fixture'], evidenceRun: null}), secrets, f.controller.signal)
+    } finally {await f.dispose()}
+  })
   it('stops an already-aborted factory before describing or preparing a launcher', async () => {
     const f = await controlled('before')
     try {f.controller.abort(f.reason); await expect(createGuidesProvider(f.options)).rejects.toBe(f.reason); expect(f.describe).not.toHaveBeenCalled(); expect(f.prepare).not.toHaveBeenCalled()}

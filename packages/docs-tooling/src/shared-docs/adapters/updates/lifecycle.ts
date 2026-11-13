@@ -5,6 +5,7 @@ import { lstat, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { createRequire } from 'node:module'
 import type { LifecycleEvidence } from '../../core/updates/lifecycle'
+import { selectedObservation, type SelectedPage } from './selected-lifecycle'
 import { retainedMetadata, type ReadonlyGitHub } from './github'
 const require = createRequire(import.meta.url)
 const { validateGuidesStageArtifact } = require('../../../../../../scripts/docs-workflow/guides-stage-artifact.js')
@@ -42,13 +43,15 @@ export async function extractSourceZip(bytes: Uint8Array, destination: string) {
   await writeFile(zip, bytes, { flag: 'wx' })
   return Number((await exec('python3', ['-c', extract, zip, destination], { timeout: 60_000, maxBuffer: 1024 * 1024 })).stdout.trim())
 }
-export async function readLifecycle(api: ReadonlyGitHub, runId: number, directory: string, localZip?: string, expectedBase?: string): Promise<LifecycleEvidence> {
-  const { run, jobs, artifact } = await retainedMetadata(api, runId)
+export async function readLifecycle(api: ReadonlyGitHub, runId: number, directory: string, localZip?: string, expectedBase?: string, selected?: SelectedPage): Promise<LifecycleEvidence> {
+  const facts = await retainedMetadata(api, runId)
+  const { run, jobs, artifact } = facts
+  if (artifact.size_in_bytes > 256 * 1024 * 1024) throw new Error('Source ZIP exceeds 256 MiB')
   if (localZip) {
     const stat = await lstat(localZip)
     if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 256 * 1024 * 1024) throw new Error('Evidence ZIP must be a bounded regular file')
   }
-  const bytes = localZip ? await readFile(localZip) : await api.zip(artifact.id)
+  const bytes = localZip ? await readFile(localZip) : await api.zip(artifact.id, artifact.size_in_bytes)
   if (`sha256:${hash(bytes)}` !== artifact.digest || bytes.length !== artifact.size_in_bytes) throw new Error('Source ZIP digest/size mismatch')
   const archiveEntries = await extractSourceZip(bytes, directory)
   const stage = join(directory, 'guides-source')
@@ -56,19 +59,31 @@ export async function readLifecycle(api: ReadonlyGitHub, runId: number, director
   const raw = await readFile(join(stage, 'payload', rawSnapshotPath), 'utf8')
   const snapshot = validateCandidateSnapshot(JSON.parse(raw), { manual: 'guides', buildEnv: 'uat', ...(expectedBase ? { baseAppToken: expectedBase } : {}) })
   const reasons = producerReasons({ run, jobs, artifact }, manifest, snapshot)
-  // Incremental collection carries prior records; the current producer has no exhaustive fresh-record proof.
-  reasons.push('RECORD_FRESHNESS_COMPLETENESS_UNPROVEN', 'LATEST_OBSERVATION_UNPROVEN')
   if (!expectedBase) reasons.push('BASE_IDENTITY_UNPROVEN')
   const navigation = new Map(snapshot.navigation_records.map((r: any) => [r.record_id, r.table_id]))
   if (snapshot.records.some((r: any) => !r.table_id || !Object.hasOwn(snapshot.table_digests, r.table_id) || navigation.get(r.record_id) !== r.table_id)) reasons.push('TABLE_RECORD_BINDING_UNPROVEN')
-  return { reasons, generatedAt: snapshot.generated_at, records: snapshot.records, identity: { runId, attempt: run.run_attempt,
+  const evidence: LifecycleEvidence = { reasons, generatedAt: snapshot.generated_at, records: snapshot.records, identity: { runId, attempt: run.run_attempt,
     artifactId: artifact.id, zipSha256: hash(bytes), payloadSha256: hash(raw), masterSha: manifest.masterSha,
     devSha: manifest.devBaselineSha, archiveEntries, files: manifest.files.length, records: snapshot.records.length,
     sharedRecords: snapshot.records.filter((r: any) => r.source_kind === 'shared-page').length } }
+  if (selected && !reasons.length) {
+    const proof = await selectedObservation(api, facts, manifest, snapshot, join(stage, 'payload'), selected)
+    if ('identity' in proof) {
+      evidence.observedPage = selected.page
+      evidence.generatedAt = proof.observedAt
+      evidence.records = evidence.records.map(row => row.record_id === proof.recordId ? {...row, output_paths: proof.outputPaths} : row)
+      Object.assign(evidence.identity, proof.identity, {snapshotGeneratedAt: snapshot.generated_at})
+      return evidence
+    }
+    reasons.push(proof.reason)
+    return evidence
+  }
+  reasons.push('RECORD_FRESHNESS_COMPLETENESS_UNPROVEN', 'LATEST_OBSERVATION_UNPROVEN')
+  return evidence
 }
 
 /** Facts come from the GET response and validated stage, never a CLI authentication flag. */
-export function producerReasons({ run, jobs, artifact }: Awaited<ReturnType<typeof retainedMetadata>>, manifest: { files: { path: string }[]; createdAt: string }, snapshot: { generated_at: string }) {
+export function producerReasons({ run, jobs, artifact }: Pick<Awaited<ReturnType<typeof retainedMetadata>>, 'run' | 'jobs' | 'artifact'>, manifest: { files: { path: string }[]; createdAt: string }, snapshot: { generated_at: string }) {
   const reasons: string[] = []
   if (run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' || run.status !== 'completed' || run.conclusion !== 'success') reasons.push('PRODUCER_NOT_SUCCESSFUL')
   if (run.event !== 'schedule' || manifest.files.some((f: { path: string }) => /guides-requested-fetch/.test(f.path))) reasons.push('COLLECTION_MODE_UNPROVEN')

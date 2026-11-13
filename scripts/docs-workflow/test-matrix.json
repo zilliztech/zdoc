@@ -1482,10 +1482,32 @@
       "reason": "Shared docs types, test helpers, fixtures, adapter contracts and grouped onboarding source/page inputs (including malformed layouts under shared-docs/**) must keep complete requirement coverage and whole-group candidate validation without external test dependencies."
     },
     {
+      "id": "shared-guides-upstream-update",
+      "paths": [
+        ".github/workflows/shared-guides-update.yml",
+        "scripts/docs-workflow/shared-guides-update/**"
+      ],
+      "focusedTests": [
+        "pnpm test:shared-guides-update",
+        "pnpm test:shared-docs"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The scheduled single-page update must verify fresh production inputs, skip existing updates, accept only the prepared lock.next edit, and create at most one Draft PR."
+    },
+    {
       "id": "shared-docs-pr-workflows",
       "paths": [
         "packages/docs-tooling/src/shared-docs/adapters/detect-groups.cjs",
         ".github/workflows/shared-docs-lock.yml",
+        "packages/docs-tooling/src/shared-docs/testing/adopt-variant.test.ts",
+        "packages/docs-tooling/src/shared-docs/commands/adopt-variant.ts",
+        ".github/workflows/shared-docs-adopt-variant.yml",
         ".github/workflows/shared-docs-validate.yml",
         "packages/docs-tooling/src/shared-docs/testing/workflows.test.ts",
         "scripts/validate-workflow-policy.js",
@@ -1501,7 +1523,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Shared docs PR checks must preserve the read-only whole-group candidate boundary, NUL-safe affected-group detection and unsupported-layout rejection, same-repository grouped lock-only writer, immutable SHA-bound child validation, fork notice and isolated infrastructure reporting. Actual workflow shell blocks run offline against local Git and GitHub stubs; run actionlint on both workflows."
+      "reason": "Shared docs PR checks must preserve the read-only whole-group candidate boundary, NUL-safe affected-group detection and unsupported-layout rejection, same-repository grouped lock-only writer, immutable SHA-bound child validation, fork notice and isolated infrastructure reporting. Actual workflow shell blocks run offline against local Git and GitHub stubs; run actionlint on both workflows. The adoption dispatch workflow stays dispatch-only, read-only on the checkout, PAT-delivered, and single-flight per page and pull request."
     },
     {
       "id": "shared-handoff-routing",
@@ -1534,11 +1556,13 @@
       "id": "shared-fetch-source-generation",
       "paths": [
         "packages/docs-tooling/src/lark/sharedPageFetch*",
+        "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
         "scripts/docs-workflow/guides-shared-sources*",
         "packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts"
       ],
       "focusedTests": [
         "node --test scripts/docs-workflow/guides-shared-sources.test.js",
+        "node --test packages/docs-tooling/src/lark/sharedPageRenderIdentity.test.js",
         "pnpm vitest run packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts"
       ],
       "harnesses": [
@@ -1579,6 +1603,7 @@
       "id": "shared-fetch-publication",
       "paths": [
         "packages/docs-tooling/src/lark/sharedPagePublication*",
+        "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
         "scripts/docs-workflow/guides-shared-publication*",
         "scripts/collect-build-card-notes*",
         "scripts/docs-workflow/guides-shared-regeneration*"
@@ -1681,6 +1706,26 @@
         "git diff --check"
       ],
       "reason": "REST data-plane availability program. The hermetic test pins the runner machinery (verdict taxonomy, effect retry, matrix writer); the data-plane suite itself runs against live endpoints (milvus-cell vCluster per release track, zilliz UAT/prod later) through `rest-availability --base --label --out` and is operator-triggered, never CI. Matrices land in tmp/rest-availability and back the x-added-at release-track attribution and the future x-zilliz-cluster-types marks."
+    },
+    {
+      "id": "shared-docs-pin-drift-watchdog",
+      "paths": [
+        "scripts/docs-workflow/shared-docs-pin-drift.js",
+        "scripts/docs-workflow/shared-docs-pin-drift.test.js",
+        ".github/workflows/shared-docs-pin-drift-watchdog.yml"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/shared-docs-pin-drift.test.js",
+        "pnpm vitest run packages/docs-tooling/src/shared-docs/testing/workflows.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "pnpm typecheck",
+        "git diff --check"
+      ],
+      "reason": "The pin drift watchdog stays read-only: drift is informational while unhealthy pins and unavailable variant state fail the report card, because degraded pins silently become production Fetch per-page fallbacks."
     }
   ]
 }

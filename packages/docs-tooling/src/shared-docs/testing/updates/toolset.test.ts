@@ -497,13 +497,25 @@ describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
     await put(a.root, 'pnpm-lock.yaml', lock.replace('jiti: {specifier: 1.0.0, version: 1.0.0}', `jiti: {specifier: ${version}, version: ${version}}`).replace('snapshots:', `  jiti@${version}:\n    resolution: {integrity: ${integrity}}\nsnapshots:`) + `  jiti@${version}: {}\n`)
     await unlink(join(a.root, 'apps/docs/node_modules/jiti')); await symlink(`../../../node_modules/.pnpm/jiti@${version}/node_modules/jiti`, join(a.root, 'apps/docs/node_modules/jiti'))
     for (const path of ['scripts/lib/load-typescript.js', 'packages/docs-tooling/src/shared-docs/core/updates/canonical.ts']) await put(a.root, path, await readFile(join(process.cwd(), path), 'utf8'))
-    await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `export async function collectGuidesWorker(data: unknown) { console.log('diagnostic chatter'); return {kind:'fixed-guides-fixture',received:data,preload:process.env.NODE_OPTIONS??null,dependency:'fixed-private-dependency'} }`)
+    await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `import { fstatSync } from 'node:fs'
+    export async function collectGuidesWorker(data: unknown, brokered: boolean) {
+      if (brokered) return {token: process.env.GH_TOKEN ?? null, githubToken: process.env.GITHUB_TOKEN ?? null,
+        descriptors: [4, 5].map(fd => fstatSync(fd).isSocket()), wireContainsSecret: JSON.stringify(data).includes('parent-only-marker')}
+      console.log('diagnostic chatter'); return {kind:'fixed-guides-fixture',received:data,preload:process.env.NODE_OPTIONS??null,dependency:'fixed-private-dependency'} }`)
     a.commit = commitAll(a.root)
     const capture = await captureTrustedToolset(a), store = await initializeEvidence({ root: join(a.root, '.claude', 'worker'), repositories: [a.root], owner: 'worker' }), launcher = await prepareTrustedLauncher(capture, store)
     const data = { module: '/untrusted/evil.ts', export: 'evil', dependencies: { injected: true }, environment: { NODE_OPTIONS: '--import=evil' } }
     const result = await launcher.runGuidesCollector(data)
     expect(result.value).toEqual({kind:'fixed-guides-fixture',received:data,preload:null,dependency:'fixed-private-dependency'})
     expect(result.stdout).toContain('diagnostic chatter')
+    const selected = {request: {kind:'guides-collection', schemaVersion:1, repositoryRoot:a.root, sourceRepository:a.root,
+      devRepository:a.root, master:a.commit, configSnapshot:a.commit, dev:a.commit, trustedTools:a.commit, toolsetSha256:capture.toolsetSha256,
+      pages:['fixture'], comparisonConfig:null, target:null, evidenceRun:'123', evidenceZip:null}, archives:null}
+    const child = await launcher.runGuidesCollector(selected, {GH_TOKEN:'parent-only-marker'})
+    expect(child.value).toEqual({token:null, githubToken:null, descriptors:[true, true], wireContainsSecret:false})
+    expect(child.settlement).toMatchObject({born:true, close:{code:0}, group:'absent'})
+    await expect(launcher.runGuidesCollector({...selected, request:{...selected.request, trustedTools:'f'.repeat(40)}},
+      {GH_TOKEN:'parent-only-marker'})).rejects.toThrow('tool identity mismatch')
     await expect(launcher.runGuidesCollector({ text: 'x'.repeat(32 * 1024 * 1024) })).rejects.toThrow(/bound|large/i)
   }, 30000)
   it.skipIf(process.platform !== 'darwin').each([0, 0o1000])('validates complete group policy with sticky bit %i and rejects changed access before reuse', async sticky => {

@@ -1,6 +1,7 @@
 # Milvus page file name -> Cloud page ID, or a full milvus.io URL.
 # Seeded from the WP7 candidates; only entries reviewed for onboarded pages are listed.
 array_data_type.md: use-array-fields
+array-of-structs.md: use-array-of-structs
 array-operators.md: array-filtering-operators
 basic-vector-search-with-structarray.md: search-with-struct-array
 basic-operators.md: basic-filtering-operators

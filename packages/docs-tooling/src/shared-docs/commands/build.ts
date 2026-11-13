@@ -1,4 +1,5 @@
 import { lstat, mkdir, mkdtemp, readFile, readdir, realpath, rename, rmdir, rm, writeFile } from 'node:fs/promises'
+import { createRequire } from 'node:module'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
@@ -15,12 +16,44 @@ import { parseLinkMap } from '../core/links'
 import type { ImageRecord } from '../core/links'
 import { parseProductNames } from '../core/product-names'
 import { parseTabsRules } from '../core/site'
-import type { SharedDocsError } from '../core/types'
+import type { PageVariant, RawVariantFiles, SharedDocsError } from '../core/types'
+import { parseVariants, variantFileName, variantSidecarName } from '../core/variants'
 import { parseVariables } from '../core/variables'
 import { yamlLine } from '../core/yaml'
 import type { ContentFile } from '../core/transforms'
 
 export interface BuildOptions { sharedDocs: string; repo: string; dev: string; out: string; page?: string; imageTimeout?: number }
+
+// Loaded through Node's real CJS loader: the repository's jiti 1 launcher lowers
+// import() to require() (see adapters/mdx.ts), which would break this module's
+// internal dynamic import of the ESM-only MDX toolchain. A native require keeps
+// that dynamic import working under both the jiti launcher and vitest.
+const require = createRequire(import.meta.url)
+const { repairAccidentalMathSpans } = require('../../markdown/accidentalMathSpans.js') as {
+  repairAccidentalMathSpans: (markdown: string, maxRounds?: number) => Promise<{ markdown: string; repaired: readonly { value: string }[]; remaining: readonly { value: string }[] }>
+}
+
+// remark-math pairs `$` delimiters across JSX tags the same way the Lark writer
+// path repairs (larkDocWriter's __repair_accidental_math_spans): two inline-code
+// chips whose text starts with `$` swallow the tags between them into one math
+// node that renders as broken pseudo-math. Translated pages fail closed on
+// exactly this damage at source preflight, so the build applies the same exact,
+// lossless escape before the bytes leave runBuild — writeBuild, onBuilt and the
+// summary all consume the repaired strings. Never fail the build for this: the
+// repair returns either clean bytes or the untouched original, and a surviving
+// span stays attributable downstream.
+async function repairBuiltPages(pages: BuiltPage[], write: (text: string) => void) {
+  for (const page of pages) {
+    const { markdown: repaired, repaired: spans, remaining } = await repairAccidentalMathSpans(page.mdx)
+    const file = `${page.manual}/${page.path}${page.extension ?? '.mdx'}`
+    if (spans.length) {
+      page.mdx = repaired
+      write(`[${file}] repaired ${spans.length} accidental math span(s): ${spans.map(span => JSON.stringify(String(span.value).slice(0, 80))).join('; ')}\n`)
+    }
+    if (remaining.length) write(`[${file}] accidental math span(s) survived the repair: ${remaining.map(span => JSON.stringify(String(span.value).slice(0, 80))).join('; ')}\n`)
+  }
+}
+
 const within = (parent: string, path: string) => {
   const child = relative(parent, path)
   return child === '' || (!child.startsWith(`..${sep}`) && child !== '..' && !isAbsolute(child))
@@ -101,7 +134,25 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
             file: file(`pages/${pageId}/page.yaml`), line: yamlLine(pageYaml, ['transforms', index, 'content', 'file']), page: pageId, channel: transform.channel ?? 'both' })
         }
       }
-      pages.set(pageId, { pageYaml, lockYaml, config: parsed.config, contentFiles })
+      // Adopted variants live flat beside the page config; a sidecar without its content
+      // file is a manual-authoring mistake and fails the build like any other variant error.
+      const rawVariants: Partial<Record<'current' | 'next', RawVariantFiles>> = {}
+      for (const channel of ['current', 'next'] as const) {
+        const text = await read(`pages/${pageId}/${variantFileName(channel)}`, true)
+        const provenanceText = await read(`pages/${pageId}/${variantSidecarName(channel)}`, true)
+        if (text === undefined && provenanceText !== undefined) {
+          errors.push({ code: 'VARIANT_INVALID', message: `${variantSidecarName(channel)} requires ${variantFileName(channel)}`,
+            file: file(`pages/${pageId}/${variantSidecarName(channel)}`), line: 1, page: pageId, channel: 'both' })
+          continue
+        }
+        if (text !== undefined) rawVariants[channel] = { text, provenanceText }
+      }
+      const variants = parseVariants(rawVariants, { file: group.file(`pages/${pageId}/page.yaml`), page: pageId, channel: 'both' })
+      if ('errors' in variants) errors.push(...variants.errors)
+      else {
+        pages.set(pageId, { pageYaml, lockYaml, config: parsed.config, contentFiles,
+          ...(Object.keys(variants.variants).length ? { variants: variants.variants } : {}) })
+      }
     }
   }
   const source = sourceYaml === undefined ? undefined : parseSourceConfig(sourceYaml, { file: group.file('source.yaml'), channel: 'both' })
@@ -200,6 +251,7 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       }
     } finally { await reader.dispose() }
     if (failed) return 1
+    await repairBuiltPages(pages, write)
     const images = buildImageManifest(pages)
     await writeBuild(out, pages, images)
     await dependencies.onBuilt?.(pages)
