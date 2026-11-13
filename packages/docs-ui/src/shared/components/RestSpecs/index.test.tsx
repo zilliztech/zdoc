@@ -184,6 +184,9 @@ describe('RestSpecs after-endpoint description split', () => {
     expect(html).toContain('<summary>Policy reference</summary>');
     expect(html).toContain('<table>');
     expect(html).toContain('class="afterEndpoint"');
+    // The tail's details carries the alert classes so the site-wide .markdown
+    // details system gives it the guides-side banner card chrome.
+    expect(html).toContain('<details class="alert alert--info">');
     expect(html).not.toContain('zdoc:after-endpoint');
 
     // Intro block children: description, method/endpoint header, then the tail panel.

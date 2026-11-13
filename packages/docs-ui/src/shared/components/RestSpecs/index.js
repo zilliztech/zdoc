@@ -803,10 +803,17 @@ export default function RestSpecs(props) {
 
     // The description may carry the after-endpoint marker: the intro stays in
     // the slot above the method/endpoint header, the tail moves into the
-    // collapsible panel directly below it (see .afterEndpoint styles).
+    // collapsible panel directly below it (.afterEndpoint is a slot hook — the
+    // design comes from the site-wide .markdown details system).
     const { intro, afterEndpoint } = splitAfterEndpoint(getLocalizedDescription(props.specs, lang))
     const short = textFilter(intro, target, lang)
-    const afterEndpointHtml = afterEndpoint ? textFilter(afterEndpoint, target, lang) : ''
+    // The tail's <details> gets the same alert classes the guides-side Details
+    // blocks carry, so the global system styles it as the lavender banner card
+    // (box padding + 16px radius live on the Infima alert chrome, not on bare
+    // details).
+    const afterEndpointHtml = afterEndpoint
+        ? textFilter(afterEndpoint, target, lang).replace('<details>', '<details class="alert alert--info">')
+        : ''
     const headerParams = validParams ? validParams.filter(param => param.in === 'header') : []
     const headersExample = headerParams.map(param => `--header "${param.name}: ${param.example}"`).join(' \\\n').replace(/{{/g, '${').replace(/}}/g, '}')
     const pathParams = validParams ? validParams.filter(param => param.in === 'path') : []
