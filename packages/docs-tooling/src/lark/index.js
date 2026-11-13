@@ -659,7 +659,10 @@ function larkDocsPlugin(context, options) {
                         }).routing
                     }
 
-                    const contentLinkReportPath = `./packages/docs-tooling/src/lark/meta/reports/${manualName}-broken-content-links.json`
+                    // The report is per-site: en and zh fetch lanes share the manual name, so an
+                    // unqualified path would let the lanes overwrite each other's evidence.
+                    const contentLinkReportSite = path.basename(docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en'
+                    const contentLinkReportPath = `./packages/docs-tooling/src/lark/meta/reports/${manualName}-${contentLinkReportSite}-broken-content-links.json`
                     const shouldAutoValidateContentLinks = () => sourceType === 'wiki' && base.endsWith(':*')
                     const validateContentLinks = async ({ force=false, fresh=false } = {}) => {
                         if (opts.skipLinkValidation) return null
@@ -746,7 +749,8 @@ function larkDocsPlugin(context, options) {
                             sourceCompleteness,
                         })
                         plan.source_scope = sourceCacheIsFresh || plan.mode === 'full' ? 'full' : 'partial'
-                        const prefix = path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${manualName}-incremental-fetch-plan`)
+                        const planReportSite = path.basename(docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en'
+                        const prefix = path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${manualName}-${planReportSite}-incremental-fetch-plan`)
                         const paths = writeIncrementalFetchPlanReports(plan, prefix)
                         console.log(`[incremental-fetch] Plan written to ${paths.markdownPath}`)
                         return plan
@@ -1040,7 +1044,8 @@ function larkDocsPlugin(context, options) {
                             incrementalRender: opts.incrementalRender,
                             capability: manual.incrementalRenderCapability,
                         })) return null
-                        const reportPath = path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${manualName}-incremental-fetch-plan.json`)
+                        const reportSite = path.basename(docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en'
+                        const reportPath = path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${manualName}-${reportSite}-incremental-fetch-plan.json`)
                         if (!fs.existsSync(reportPath)) return null
                         let plan
                         try {

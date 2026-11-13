@@ -189,9 +189,19 @@ function expandReferences({ changedTokens, outgoing, incoming, maxReferenceDepth
   return [...expanded].sort()
 }
 
-function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings, reasonsByToken = {}, affectedTables = [], currentOwnership = { targets: {}, names: {} }, previousOwnership = { targets: {}, names: {} } }) {
+// The plan report is checkpoint-managed, so its timestamp must derive from the
+// state it describes (the previous snapshot stamp) rather than the wall clock:
+// a zero-drift round would otherwise rewrite the report bytes every run and
+// starve the publication no-op short circuit.
+function planStamp(previousSnapshot) {
+  return typeof previousSnapshot?.generated_at === 'string' && Number.isFinite(Date.parse(previousSnapshot.generated_at))
+    ? previousSnapshot.generated_at
+    : new Date().toISOString()
+}
+
+function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings, reasonsByToken = {}, affectedTables = [], currentOwnership = { targets: {}, names: {} }, previousOwnership = { targets: {}, names: {} }, previousSnapshot = null }) {
   return {
-    generated_at: new Date().toISOString(),
+    generated_at: planStamp(previousSnapshot),
     manual: manualName,
     build_env: buildEnv || null,
     mode: 'full',
@@ -231,10 +241,10 @@ function planIncrementalFetch({
   const previousOwnership = guidesTableOwnership(previousSnapshot?.navigation_records)
   const currentNavigationTables = guidesNavigation ? Object.keys(guidesNavigation.tableDigests) : []
   if (forceFull) {
-    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['Forced full fetch requested.'], affectedTables: currentNavigationTables, currentOwnership, previousOwnership })
+    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['Forced full fetch requested.'], affectedTables: currentNavigationTables, currentOwnership, previousOwnership, previousSnapshot })
   }
   if (!previousSnapshot) {
-    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['No previous snapshot found.'], affectedTables: currentNavigationTables, currentOwnership, previousOwnership })
+    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['No previous snapshot found.'], affectedTables: currentNavigationTables, currentOwnership, previousOwnership, previousSnapshot })
   }
   if (sourceCompleteness && !sourceCompleteness.complete) {
     const nonRenderableCount = sourceCompleteness.nonRenderableCanonicalFiles?.length || 0
@@ -247,6 +257,7 @@ function planIncrementalFetch({
       affectedTables: currentNavigationTables,
       currentOwnership,
       previousOwnership,
+      previousSnapshot,
     })
   }
   if (currentNodeMetadataByToken.size > 0 && Number(previousSnapshot.schema_version || 1) < 2) {
@@ -259,6 +270,7 @@ function planIncrementalFetch({
       affectedTables: currentNavigationTables,
       currentOwnership,
       previousOwnership,
+      previousSnapshot,
     })
   }
   if (manualName === 'guides' && (Number(previousSnapshot.schema_version || 1) < 3 || !previousSnapshot.navigation_records || !previousSnapshot.table_digests)) {
@@ -271,6 +283,7 @@ function planIncrementalFetch({
       affectedTables: currentNavigationTables,
       currentOwnership,
       previousOwnership,
+      previousSnapshot,
     })
   }
 
@@ -289,6 +302,7 @@ function planIncrementalFetch({
       affectedTables: currentNavigationTables,
       currentOwnership,
       previousOwnership,
+      previousSnapshot,
     })
   }
 
@@ -334,6 +348,7 @@ function planIncrementalFetch({
       affectedTables: currentNavigationTables,
       currentOwnership,
       previousOwnership,
+      previousSnapshot,
     })
   }
 
@@ -381,7 +396,7 @@ function planIncrementalFetch({
   }
 
   return {
-    generated_at: new Date().toISOString(),
+    generated_at: planStamp(previousSnapshot),
     manual: manualName,
     build_env: buildEnv || null,
     mode: 'incremental',

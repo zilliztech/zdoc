@@ -1973,7 +1973,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/Media cache unavailable; rebuilding complete canonical media coverage/.test(mediaPrefetchBlock) ||
         !/--snapshot packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json/.test(mediaPrefetchBlock) ||
         !/--report packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-media-prefetch\.json/.test(mediaPrefetchBlock) ||
-        !/if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest "\$media_manifest_path"/.test(mediaPrefetchBlock) ||
+        !/if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-\$\{\{ inputs\.site \}\}-incremental-fetch-plan\.json[\s\S]*--previous-manifest "\$media_manifest_path"/.test(mediaPrefetchBlock) ||
         !/else[\s\S]*--mode recovery[\s\S]*--cache-state "\$cache_state"/.test(mediaPrefetchBlock)) {
       errors.push('_fetch-guides-sources.yml: invalid media cache must trigger full canonical media recovery')
     }
