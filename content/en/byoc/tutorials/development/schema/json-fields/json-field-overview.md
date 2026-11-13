@@ -89,7 +89,7 @@ The table below summarizes the key differences between a JSON field and the dyna
    <tr>
      <td><p>Querying</p></td>
      <td><p>Query using your field name or target key inside the JSON field: <code>metadata["key"]</code>.</p></td>
-     <td><p>Query directly using the dynamic field key: <code>"dynamic_key"</code> or via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>
+     <td><p>Query directly using the dynamic field key: <code>"dynamic_key"</code> or via <code>\$meta</code>: <code>\$meta["dynamic_key"]</code></p></td>
    </tr>
 </table>
 
