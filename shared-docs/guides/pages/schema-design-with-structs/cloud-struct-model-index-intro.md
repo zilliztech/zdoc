@@ -1,0 +1,1 @@
+All vector fields must be indexed. To index the vector fields in an element Struct, you need to use `AUTOINDEX` as the index type and the `MAX_SIM` series metric type to measure the similarities between embedding lists.

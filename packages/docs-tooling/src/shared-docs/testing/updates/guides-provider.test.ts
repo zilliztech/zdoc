@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { mkdtemp, readFile, rm } from 'node:fs/promises'
+import { mkdtemp, readFile, realpath, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { expect, it, onTestFinished } from 'vitest'
@@ -351,7 +351,7 @@ import { fixtureMaterial } from './fixtures/manual-provider'
 describe.sequential('Guides provider cancellation checkpoints', () => {
   afterEach(() => vi.restoreAllMocks())
   async function controlled(stage: string, reason: unknown = new Error(`CANCEL_${stage}`)) {
-    const root = await mkdtemp(join(tmpdir(), 'provider-cancel-')), controller = new AbortController()
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'provider-cancel-'))), controller = new AbortController()
     const store = await initializeEvidence({root: join(root, 'evidence'), repositories: [], owner: 'cancel'})
     const context = fixtureMaterial({subject: {kind: 'guides-page', group: 'guides', pageId: 'fixture'}, members: [{logicalId: 'fixture', manualId: 'guides', token: 'shared-fixture', outputPath: 'content/en/guides/fixture.md', origin: 'upstream', current: true, next: true}]})
     const next = context.lock.preparedNext!

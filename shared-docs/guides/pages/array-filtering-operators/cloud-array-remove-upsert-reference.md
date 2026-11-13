@@ -1,0 +1,1 @@
+Attaching `ARRAY_REMOVE` to a field through `field_ops` enables partial-update semantics for that field. For the full workflow, supported element types, and limits, refer to [Upsert Entities](upsert-entities.md).

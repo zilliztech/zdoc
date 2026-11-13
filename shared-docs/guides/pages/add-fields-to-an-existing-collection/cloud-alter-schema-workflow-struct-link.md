@@ -1,0 +1,1 @@
+- [Add a sub-field to an existing StructArray field](#Add-a-sub-field-to-an-existing-StructArray-field--PUBLIC) when existing Struct elements need a new attribute. Supported on Dedicated Clusters compatible with Milvus v3.0.x; not yet available on On-Demand Clusters.
