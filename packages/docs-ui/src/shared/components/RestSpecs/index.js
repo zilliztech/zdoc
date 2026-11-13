@@ -4,7 +4,7 @@ import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
 import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, splitAfterEndpoint, isControlPlane, getTokenPlaceholder, isRenderableExample, isVisibleInChannel } from './utils.js'
-import { useRuntimeReleaseChannel } from '../../utils/releaseChannel';
+import { useRuntimeReleaseChannel } from '../../utils/releaseChannel.ts';
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
