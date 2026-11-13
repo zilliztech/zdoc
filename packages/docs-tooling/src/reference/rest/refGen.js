@@ -255,6 +255,16 @@ class refGen {
           throw new Error(`Invalid ${AVAILABILITY_KEY} at ${jsonPath}["${AVAILABILITY_KEY}"]: expected one of ${[...AVAILABILITY_TIERS].join(', ')}`)
         }
       }
+      if (Object.hasOwn(value, 'x-next-channel')) {
+        // Same strict two-value domain as resolveNextChannel: any other
+        // spelling would silently degrade to an unmarked (always-visible)
+        // node at runtime, which for staged content means accidentally
+        // publishing it.
+        const staged = value['x-next-channel']
+        if (staged !== 'include' && staged !== 'exclude') {
+          throw new Error(`Invalid x-next-channel at ${jsonPath}["x-next-channel"]: expected "include" or "exclude"`)
+        }
+      }
       if (Array.isArray(value)) {
         value.forEach((child, index) => validateExtensionFields(child, `${jsonPath}[${index}]`))
         return

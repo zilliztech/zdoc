@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import {describe, expect, it, vi} from 'vitest';
+import {afterEach, describe, expect, it, vi} from 'vitest';
 
 // Vitest stubs CSS modules as empty objects, which would erase every class
 // name; map each key to itself so the visibility contract is assertable.
@@ -312,5 +312,84 @@ describe('RestSpecs parameter availability badges', () => {
     const html = render(<RestSpecs specs={specs} endpoint="/v2/clusters" method="get" target="zilliz" lang="en-US" />).container.innerHTML;
     expect(html).toContain('class="availabilityBadge"');
     expect(html).toContain('>Public Preview</span>');
+  });
+});
+
+describe('RestSpecs parameter next/current channel gating', () => {
+  const ENV_KEY = '__ZDOC_ENV__';
+  const setChannel = (channel: string | undefined) => {
+    if (channel === undefined) delete (window as Record<string, unknown>)[ENV_KEY];
+    else (window as Record<string, unknown>)[ENV_KEY] = { RELEASE_CHANNEL: channel };
+  };
+  afterEach(() => setChannel(undefined));
+
+  const renderWithProps = (properties: Record<string, unknown>, parameters: unknown[] = [], channel?: string) => {
+    setChannel(channel);
+    const specs = {
+      summary: 'Validate Storage Integration',
+      description: 'Validates a storage integration.',
+      parameters,
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {type: 'object', properties},
+            example: {},
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'OK',
+          content: {
+            'application/json': {
+              schema: {type: 'object', properties: {code: {type: 'integer'}}},
+              example: {code: 0},
+            },
+          },
+        },
+      },
+    };
+    return render(<RestSpecs specs={specs} endpoint="/v2/storageIntegrations/validate" method="post" target="zilliz" lang="en-US" />).container.innerHTML;
+  };
+
+  it('hides include-staged properties on CURRENT and shows them on NEXT', () => {
+    const properties = {
+      stagedField: {type: 'string', 'x-next-channel': 'include'},
+      plainField: {type: 'string'},
+    };
+
+    // No runtime injection resolves to CURRENT (fail-closed) — same as SSR.
+    expect(renderWithProps(properties)).not.toContain(paramName('stagedField'));
+    expect(renderWithProps(properties)).toContain(paramName('plainField'));
+    // An unknown channel value must behave exactly like CURRENT.
+    expect(renderWithProps(properties, [], 'bogus')).not.toContain(paramName('stagedField'));
+
+    const nextHtml = renderWithProps(properties, [], 'next');
+    expect(nextHtml).toContain(paramName('stagedField'));
+    expect(nextHtml).toContain(paramName('plainField'));
+  });
+
+  it('keeps exclude-staged properties on CURRENT and removes them on NEXT', () => {
+    const properties = {
+      retiringField: {type: 'string', 'x-next-channel': 'exclude'},
+    };
+
+    expect(renderWithProps(properties)).toContain(paramName('retiringField'));
+    expect(renderWithProps(properties, [], 'next')).not.toContain(paramName('retiringField'));
+    expect(renderWithProps(properties, [], 'bogus')).toContain(paramName('retiringField'));
+  });
+
+  it('gates staged request parameters through the same runtime channel', () => {
+    const parameters = [
+      {name: 'PlainQuery', in: 'query', schema: {type: 'string'}},
+      {name: 'StagedQuery', in: 'query', schema: {type: 'string'}, 'x-next-channel': 'include'},
+    ];
+    const properties = {bodyField: {type: 'string'}};
+
+    expect(renderWithProps(properties, parameters)).not.toContain(paramName('StagedQuery'));
+    expect(renderWithProps(properties, parameters)).toContain(paramName('PlainQuery'));
+
+    const nextHtml = renderWithProps(properties, parameters, 'next');
+    expect(nextHtml).toContain(paramName('StagedQuery'));
   });
 });
