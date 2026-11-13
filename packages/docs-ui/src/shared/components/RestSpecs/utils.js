@@ -68,6 +68,29 @@ export const getLocalizedDescription = (value, lang) => {
     return value?.["x-i18n"]?.[lang]?.description ?? value?.description ?? ''
 }
 
+// Fragments may cut an operation description in two with this marker (an HTML
+// comment, so a runtime that predates the convention renders it invisibly).
+// Everything before it stays in the intro slot above the method/endpoint
+// header; everything after it renders below the endpoint information block
+// (base URL + notes) instead of Parameters. Large reference tables use this
+// so they do not push the endpoint details off the first screen — author the
+// tail as a collapsible <details> block. The generator validates marker usage
+// (refGen validateSpec); refGen.js carries its own copy of the constant
+// because the tooling/runtime boundary forbids sharing this module.
+export const AFTER_ENDPOINT_MARKER = '<!-- zdoc:after-endpoint -->'
+
+export const splitAfterEndpoint = (description) => {
+    const text = typeof description === 'string' ? description : ''
+    const index = text.indexOf(AFTER_ENDPOINT_MARKER)
+    if (index === -1) {
+        return { intro: text, afterEndpoint: '' }
+    }
+    return {
+        intro: text.slice(0, index),
+        afterEndpoint: text.slice(index + AFTER_ENDPOINT_MARKER.length),
+    }
+}
+
 export const sanitizeHtmlBlockParagraphs = (html = '') => {
     return String(html)
         .replace(/<p>([^<]*?)(\s*<(?:ul|ol|table|div|pre|blockquote)(?:\s|>))/gi, '<p>$1</p>$2')

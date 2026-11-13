@@ -24,6 +24,7 @@ vi.mock('@docusaurus/useDocusaurusContext', () => ({
 }));
 
 import RestSpecs from './index.js';
+import {AFTER_ENDPOINT_MARKER} from './utils.js';
 
 const paramName = (name: string) => `<span class="paramName">${name}</span>`;
 
@@ -143,5 +144,65 @@ describe('RestSpecs schema combinators', () => {
     expect(html.match(/type="radio"/g)).toHaveLength(2);
     expect(html.match(/<div class="tabPanel">/g)).toHaveLength(2);
     expect(html).not.toContain('singleOptionPanel');
+  });
+});
+
+describe('RestSpecs after-endpoint description split', () => {
+  const baseSpecs = (description: string) => ({
+    summary: 'Create Cloud Role',
+    description,
+    parameters: [
+      {
+        name: 'Authorization',
+        in: 'header',
+        required: true,
+        example: 'Bearer {{TOKEN}}',
+        description: 'The authentication token.',
+        schema: {type: 'string'},
+      },
+    ],
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {type: 'object', properties: {roleName: {type: 'string', description: 'The role name.'}}},
+        },
+      },
+    },
+    responses: {},
+  });
+
+  const markerTail = `<details>\n<summary>Policy reference</summary>\n\n| resourceType | Privileges |\n|---|---|\n| \`project_member\` | view |\n\n</details>`;
+
+  const renderSpecs = (description: string) =>
+    render(<RestSpecs specs={baseSpecs(description)} endpoint="/v2/roles" method="post" target="zilliz" lang="en-US" />).container;
+
+  it('renders the tail below the endpoint information and above Parameters', () => {
+    const container = renderSpecs(`Creates a custom Cloud ACL role.\n\n${AFTER_ENDPOINT_MARKER}\n\n${markerTail}`);
+    const html = container.innerHTML;
+
+    // The collapsed reference renders as authored, and the marker itself never leaks.
+    expect(html).toContain('<summary>Policy reference</summary>');
+    expect(html).toContain('<table>');
+    expect(html).not.toContain('zdoc:after-endpoint');
+
+    // Second specLayout children: endpoint info sections, then the tail, then Parameters.
+    const blocks = Array.from(container.querySelectorAll('.specLayout')[1].children) as HTMLElement[];
+    const tailIndex = blocks.findIndex(block => block.innerHTML.includes('<details>'));
+    const endpointInfoIndex = blocks.findIndex(block => block.innerHTML.includes('language-shell'));
+    const parametersIndex = blocks.findIndex(block => block.innerHTML.includes(paramName('roleName')));
+    expect(tailIndex).toBeGreaterThan(endpointInfoIndex);
+    expect(tailIndex).toBeLessThan(parametersIndex);
+
+    // The intro slot above the method/endpoint header keeps only the intro text.
+    const introBlock = container.querySelector('.introBlock') as HTMLElement;
+    expect(introBlock.innerHTML).toContain('Creates a custom Cloud ACL role.');
+    expect(introBlock.innerHTML).not.toContain('<details>');
+  });
+
+  it('keeps descriptions without the marker rendering exactly as before', () => {
+    const container = renderSpecs('Creates a custom Cloud ACL role.');
+    expect(container.innerHTML).not.toContain('<details>');
+    expect(container.innerHTML).not.toContain('<table>');
+    expect((container.querySelector('.introBlock') as HTMLElement).innerHTML).toContain('Creates a custom Cloud ACL role.');
   });
 });
