@@ -1948,7 +1948,7 @@
     "/v2/vectordb/jobs/import/get_progress": {
       "post": {
         "summary": "Get Import Job Progress Alias",
-        "deprecated": false,
+        "deprecated": true,
         "description": "Alias route of `/v2/vectordb/jobs/import/describe`. Both routes resolve to the same operation.",
         "x-i18n": {
           "zh-CN": {
@@ -2588,7 +2588,7 @@
         "security": [],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
+        "x-deprecated-since": "2.6.x"
       }
     },
     "/v2/vectordb/jobs/import/describe": {
