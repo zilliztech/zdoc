@@ -90,7 +90,7 @@ function prepareSourceWorkspace(root, { report = validMediaPrefetchReport(), med
   json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json', renderableSource())
   json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
   json(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', mediaManifest)
-  write(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', '{}')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-en-incremental-fetch-plan.json', '{}')
   json(workspace, ASSEMBLY_DECISION, validAssemblyDecision())
   if (report !== null) json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json', report)
   return { workspace, baseline, artifact }
@@ -102,7 +102,7 @@ test('creates, validates, and restores a source artifact', async () => {
   fs.mkdirSync(workspace); fs.mkdirSync(baseline); fs.mkdirSync(target)
   json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
   json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json', renderableSource())
-  write(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', '{}')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-en-incremental-fetch-plan.json', '{}')
   await assert.rejects(
     createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
     /snapshot candidate/i,

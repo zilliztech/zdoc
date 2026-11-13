@@ -221,9 +221,15 @@ function canonicalLinkNote({ directory, label, site, artifactUrl } = {}) {
   ].join('\n')
 }
 
-function brokenContentLinksNote() {
-  const jsonFile = 'packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json'
-  const report = freshJsonReport(jsonFile)
+function brokenContentLinksNote({ site } = {}) {
+  // Production writes site-qualified names (the en and zh lanes share the manual
+  // name); fall back to the legacy unqualified file for retained old runs.
+  const jsonFile = site
+    ? `packages/docs-tooling/src/lark/meta/reports/guides-${site}-broken-content-links.json`
+    : 'packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json'
+  const report = freshJsonReport(jsonFile) || (site
+    ? freshJsonReport('packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json')
+    : null)
   if (!report) return null
 
   const summary = report.summary || {}
@@ -233,8 +239,12 @@ function brokenContentLinksNote() {
     const text = link.link_text ? ` "${link.link_text}"` : ''
     return `- ${title}:${text} ${link.url || link.raw_url || link.token || '(unknown target)'}`
   })
-  const canonicalMdFile = 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md'
-  const canonicalCsvFile = 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.csv'
+  const canonicalMdFile = site
+    ? `packages/docs-tooling/src/lark/meta/reports/guides-${site}-canonical-link-audit.md`
+    : 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md'
+  const canonicalCsvFile = site
+    ? `packages/docs-tooling/src/lark/meta/reports/guides-${site}-canonical-link-audit.csv`
+    : 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.csv'
 
   return [
     '# Canonical Content Links Audit',
@@ -264,9 +274,13 @@ function brokenContentLinksNote() {
 }
 
 function incrementalPlanNote({ directory, label, site, artifactUrl } = {}) {
-  const jsonFile = guidesReportFile(directory, 'guides-incremental-fetch-plan.json')
-  const mdFile = guidesReportFile(directory, 'guides-incremental-fetch-plan.md')
-  const plan = freshJsonReport(jsonFile)
+  const planName = site ? `guides-${site}-incremental-fetch-plan.json` : 'guides-incremental-fetch-plan.json'
+  const mdName = site ? `guides-${site}-incremental-fetch-plan.md` : 'guides-incremental-fetch-plan.md'
+  const jsonFile = guidesReportFile(directory, planName)
+  const mdFile = guidesReportFile(directory, mdName)
+  const plan = freshJsonReport(jsonFile) || (site
+    ? freshJsonReport(guidesReportFile(directory, 'guides-incremental-fetch-plan.json'))
+    : null)
   if (!plan) {
     const fallback = reportStartedAt() ? '' : readIfExists(mdFile)
     return fallback ? `${compactMarkdown(fallback, 40)}\n\n${reportFileLine(mdFile)}` : null
@@ -289,18 +303,27 @@ function incrementalPlanNote({ directory, label, site, artifactUrl } = {}) {
     ...warnings.slice(0, 5).map(warning => `- ${warning}`),
     warnings.length > 5 ? `- ...and ${warnings.length - 5} more warnings` : null,
     '',
-    site ? runtimeReportFileLine('guides-incremental-fetch-plan.md', artifactUrl) : reportFileLine(mdFile, artifactUrl),
+    site ? runtimeReportFileLine(mdName, artifactUrl) : reportFileLine(mdFile, artifactUrl),
   ].filter(Boolean).join('\n')
 }
 
 function sharedPublicationNote({directory} = {}) {
   const report = freshJsonReport(guidesReportFile(directory, 'guides-shared-publication.json'))
   if (!report || report.schema_version !== 1 || !Array.isArray(report.failures) || !Array.isArray(report.notices)) return null
+  const lag = Object.entries(report.upstream_lag || {})
+    .map(([recordId, value]) => [recordId, value, (value.current || 0) + (value.next || 0)])
+    .filter(([, , total]) => total > 0)
+    .sort((left, right) => right[2] - left[2])
   return ['# Guides shared pages', '', ...report.failures.map(row => `- ${row.code}: ${row.record_id}: ${row.message}`),
     ...report.notices.map(row => row.code === 'IMAGE_SOURCE_CHANGED'
       ? `- ${row.code}: ${row.source_page || row.page}: ${row.url} → ${row.page}; recorded=${row.recorded}; observed=${row.observed}`
       : `- ${row.code || 'SHARED_ANCHOR_UNKNOWN'}: ${row.source_page || row.source_token}: ${row.url} → ${row.page}`),
-    ...(Array.isArray(report.information) ? report.information.filter(line => typeof line === 'string').map(line => `- Information: ${line}`) : [])].join('\n')
+    ...(Array.isArray(report.information) ? report.information.filter(line => typeof line === 'string').map(line => `- Information: ${line}`) : []),
+    ...(lag.length ? ['', '## Upstream pins lag', '',
+      `- Pages behind upstream: ${lag.length}`,
+      `- Max lag: current=${Math.max(...lag.map(([, value]) => value.current || 0))} next=${Math.max(...lag.map(([, value]) => value.next || 0))}`,
+      ...lag.slice(0, 5).map(([recordId, value]) => `- ${value.page || recordId}: current=${value.current ?? '?'} next=${value.next ?? '?'}`),
+      ...(lag.length > 5 ? [`- ...and ${lag.length - 5} more`] : [])] : [])].join('\n')
 }
 
 const GUIDES_REPORTS = Object.freeze([

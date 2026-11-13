@@ -145,6 +145,11 @@ test('render identity agrees between planning and publication on zero drift', {t
 
 test('zero-drift replay republishes the pinned receipt without building', {timeout: 300000}, async t => {
   const options = await fixture(t, {ordinaryPages: 1})
+  // A second upstream commit ahead of the lock pins gives the lag observability
+  // a real count; the fixture upstream branch itself never moves.
+  await write(options.repo, 'site/en/ahead.md', '---\nid: ahead.md\ntitle: Ahead\n---\n\nAhead of the pin.\n')
+  await git(options.repo, 'add', '.'); await git(options.repo, 'commit', '--quiet', '-m', 'Ahead of pin')
+  await git(options.repo, 'update-ref', 'refs/remotes/origin/release/docs', await git(options.repo, 'rev-parse', 'HEAD'))
   const publication = require('../../packages/docs-tooling/src/lark/sharedPagePublication')
   const bundles = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
   const renderIdentity = require('../../packages/docs-tooling/src/lark/sharedPageRenderIdentity')
@@ -202,6 +207,7 @@ test('zero-drift replay republishes the pinned receipt without building', {timeo
   const first = await round(1)
   assert.equal(first.bundle.outcomes[0].status, 'success', JSON.stringify(first.bundle.outcomes))
   assert.ok(first.lines.some(line => line.includes('[shared-regen] page=sample')), first.lines.join('\n'))
+  assert.deepEqual(first.bundle.outcomes[0].upstream_lag, {current: 1, next: 1})
   const activationEntry = structuredClone(first.bundle.effective_active.pages[0])
   await publishRound('r1')
   // Round 2: the receipt carries the activation entry for the first time, so the
@@ -740,7 +746,7 @@ test('workflow upstream preparation reaches paired fallback for a missing tracki
   await write(options.root, 'preparation.json', JSON.stringify(options.preparation))
   const report = 'packages/docs-tooling/src/lark/meta/reports'
   await write(options.repositoryRoot, `${report}/guides-source-snapshot-candidate.json`, JSON.stringify(options.candidate))
-  await write(options.repositoryRoot, `${report}/guides-incremental-fetch-plan.json`, JSON.stringify(options.plan))
+  await write(options.repositoryRoot, `${report}/guides-en-incremental-fetch-plan.json`, JSON.stringify(options.plan))
   const env = {...process.env, IMAGE_BED_URL: options.imageBaseUrl, GITHUB_WORKSPACE: options.repositoryRoot, RUNNER_TEMP: options.root,
     DOCS_TOOLING_SHARED_PREPARATION: path.join(options.root, 'preparation.json'), SHARED_TRACKING_BRANCH: 'deleted-branch',
     source_dir: options.sourceDir, root_token: rootToken}
@@ -748,6 +754,7 @@ test('workflow upstream preparation reaches paired fallback for a missing tracki
   const command = text => text.replaceAll('node scripts/docs-workflow/guides-shared-sources.js', `${process.execPath} ${path.join(__dirname, 'guides-shared-sources.js')}`)
     .replaceAll('https://github.com/milvus-io/milvus-docs.git', options.repo)
     .replaceAll('${{ github.run_id }}', '123').replaceAll('${{ inputs.shared_image_timeout }}', '120')
+    .replaceAll('${{ inputs.site }}', 'en')
   await promisify(execFile)('bash', ['-euo', 'pipefail', '-c', command(prepare.run)], {cwd: options.repositoryRoot, env, timeout: 120000})
   // A successful setup step allows the ordinary source-fetch boundary to proceed.
   await write(options.root, 'ordinary-source-completed', 'complete')

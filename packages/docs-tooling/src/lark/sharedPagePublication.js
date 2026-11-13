@@ -182,7 +182,10 @@ function finalizePublication({workspace, handoff, candidate}) {
     fs.mkdirSync(path.dirname(destination), {recursive: true}); fs.writeFileSync(destination, replayAuthority)
   } else put(workspace, `${MANIFEST}/_publication.json`, publication)
   put(workspace, EFFECTIVE, snapshot)
-  put(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-shared-publication.json', {schema_version: 1, generated_at: new Date().toISOString(), failures: bundle.outcomes.filter(row => row.status === 'fallback').map(({record_id, code, message, detail}) => ({record_id, code, message, detail})), notices: bundle.notices || [], information: bundle.information || []})
+  put(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-shared-publication.json', {schema_version: 1, generated_at: new Date().toISOString(), failures: bundle.outcomes.filter(row => row.status === 'fallback').map(({record_id, code, message, detail}) => ({record_id, code, message, detail})), notices: bundle.notices || [], information: bundle.information || [],
+    // Observability only: how far each published page's pins trail upstream. No
+    // consumer gates on this and no re-pin is triggered here.
+    upstream_lag: Object.fromEntries(bundle.outcomes.filter(row => row.upstream_lag).map(row => [row.record_id, {page: row.page, ...row.upstream_lag}]))})
   return {snapshot, publication}
 }
 function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = null} = {}) {
