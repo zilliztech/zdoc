@@ -121,6 +121,43 @@ for (const protocolVersion of ['v1', 'v2']) {
   });
 }
 
+// Parameter availability marks (§1.14) and lifecycle evidence are authoring
+// input: the milvus projection must carry neither. The integrated-spec lane
+// strips every x-* key (integratedSpecBuilder stripInternalExtensions), so
+// this gate fires if that stripping is ever relaxed for these keys.
+function collectInternalAvailabilityKeys(node, pointer, out = []) {
+  if (Array.isArray(node)) {
+    node.forEach((child, index) => collectInternalAvailabilityKeys(child, `${pointer}[${index}]`, out));
+    return out;
+  }
+  if (node && typeof node === 'object') {
+    for (const [key, child] of Object.entries(node)) {
+      if (key === 'x-zilliz-availability' || key === 'x-added-at' || key === 'x-last-modified' || key === 'x-deprecated-since') {
+        out.push(`${pointer}.${key}`);
+      }
+      collectInternalAvailabilityKeys(child, /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(key) ? `${pointer}.${key}` : `${pointer}[${JSON.stringify(key)}]`, out);
+    }
+  }
+  return out;
+}
+
+for (const protocolVersion of ['v1', 'v2']) {
+  test(`milvus-target ${protocolVersion} publication carries no availability tiers or lifecycle evidence`, () => {
+    const merged = loadSpecifications(FRAGMENT_DIR);
+    // Anti-vacuous control: the shared fragment source really carries
+    // lifecycle evidence, so the projection assertion below tests a live
+    // stripping mechanism rather than an empty source.
+    assert.ok(
+      collectInternalAvailabilityKeys(merged, '$').some(pointer => pointer.includes('.x-added-at')),
+      'expected lifecycle evidence keys in the fragment source',
+    );
+
+    const spec = projectMilvusLatest(merged, protocolVersion);
+    const offenders = collectInternalAvailabilityKeys(spec, '$');
+    assert.deepEqual(offenders, []);
+  });
+}
+
 test('filterSelection drops zilliz x-beta tiers for milvus and leaves every value for zilliz untouched', () => {
   const operation = {tags: ['Vector Operations (V2)'], summary: 'Ping', 'x-beta': 'PUBLIC'};
 
