@@ -9,14 +9,14 @@
         "path": "vdc/global/cloud-control-api/openapi.yaml"
       },
       "pin": {
-        "commit": "aadaafe0b4e47b52141eea6d34d094e8c4ebcab5",
+        "commit": "300b0fa09ecceb18a905d6fd32d95100961eff7d",
         "contentSha256": "a6e1967105c2424e3b63a1668cf7761baeca75e25982c7a5f732d5546bff4c9c"
       },
       "trackedRef": "master",
       "apiSurface": "control-plane",
       "publicationTarget": "zilliz",
       "upstreamOasVersion": "3.1.0",
-      "lastVerifiedAt": "2026-11-06T05:10:28.819Z"
+      "lastVerifiedAt": "2026-11-13T05:12:22.609Z"
     },
     {
       "id": "milvus-data-plane",
