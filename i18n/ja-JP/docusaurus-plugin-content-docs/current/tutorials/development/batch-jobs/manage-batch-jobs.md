@@ -140,7 +140,7 @@ curl --request GET \
 
 - `nextPageToken`: 次のページを取得するために使用するトークン。これ以上結果がない場合、このフィールドは存在しないか空です。
 
-レスポンス内のパラメーターの詳細については、リファレンスページ [List batch jobs](/reference/restful/list-spark-jobs-v2) を参照してください。
+レスポンス内のパラメーターの詳細については、リファレンスページの [List batch jobs](/reference/restful/list-batch-jobs-v2) を参照してください。
 
 ## プロジェクト内のバッチジョブの詳細を表示する\{#view-a-batch-job-details-in-a-project}
 

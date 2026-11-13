@@ -63,6 +63,14 @@ import io.milvus.v2.service.rbac.request.DescribeRoleReq;
 import io.milvus.v2.service.rbac.response.DescribeRoleResp;
 import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2;
 import io.milvus.v2.service.rbac.request.DropRoleReq;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 CreateRoleReq createRoleReq = CreateRoleReq.builder()
         .roleName("role_a")
@@ -108,6 +116,12 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
 
 client
     .create_role(
@@ -116,6 +130,7 @@ client
             .description("a cluster read only role")
             .build()?,
     )
+
     .await?;
 ```
 
@@ -127,7 +142,13 @@ client
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-auto status = client->CreateRole(milvus::CreateRoleRequest()
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateRole(milvus::CreateRoleRequest()
                                      .WithRoleName("role_a")
                                      .WithDescription("a cluster read only role"));
 if (!status.IsOk()) {
@@ -160,6 +181,15 @@ await client.createRole({
 ```csharp
 using Milvus.Client.V2.Requests.Rbac;
 using Milvus.Client.V2.Responses.Rbac;
+using Milvus.Client.V2;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+
+await client.ConnectAsync();
 
 await client.CreateRoleAsync(new CreateRoleReq
 {

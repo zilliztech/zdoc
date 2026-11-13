@@ -119,6 +119,12 @@ import io.milvus.v2.service.collection.response.GetCollectionStatsResp;
 import io.milvus.v2.service.partition.request.GetPartitionStatsReq;
 import io.milvus.v2.service.partition.response.GetPartitionStatsResp;
 
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
 // Count without the entities in growing segments
 QueryResp count = client.query(QueryReq.builder()
         .collectionName("test_collection")
@@ -164,6 +170,18 @@ import (
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
 
 // Count without the entities in growing segments
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("test_collection").
@@ -341,6 +359,14 @@ using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Partition;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+
+await client.ConnectAsync();
 
 // Count without the entities in growing segments
 var count = await client.QueryAsync(new QueryReq

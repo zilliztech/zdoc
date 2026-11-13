@@ -156,6 +156,14 @@ import io.milvus.v2.service.index.request.CreateIndexReq;
 import io.milvus.v2.service.index.request.ListIndexesReq;
 import java.util.Collections;
 import java.util.List;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 IndexParam indexParam = IndexParam.builder()
         .fieldName("vector")
@@ -182,19 +190,30 @@ List<String> indexNames = client.listIndexes(ListIndexesReq.builder()
 
 ```go
 import (
+    "context"
     "log"
-
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer client.Close(ctx)
 
 idx := index.WithExtraIndexParams(
     index.NewAutoIndex(entity.COSINE),
     map[string]string{"build_level": "1"},
 )
 
-_, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("customized_setup", "vector", idx).WithIndexName("vector_index"))
+_, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("customized_setup", "vector", idx).WithIndexName("vector_index"))
 if err != nil {
     log.Fatal(err)
 }
@@ -216,6 +235,12 @@ use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 const COLLECTION_NAME: &str = "customized_setup";
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
 
 client
     .create_index(
@@ -239,6 +264,7 @@ let res = client
             .collection_name(COLLECTION_NAME)
             .build()?,
     )
+
     .await?;
 println!("{:?}", res.index_names());
 ```
@@ -250,12 +276,19 @@ println!("{:?}", res.index_names());
 ```c++
 #include <iostream>
 #include <string>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
 const std::string collection_name = "customized_setup";
 
 milvus::IndexDesc index_vector("vector", "vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
 index_vector.AddExtraParam("build_level", "1");
-auto status = client->CreateIndex(milvus::CreateIndexRequest()
+status = client->CreateIndex(milvus::CreateIndexRequest()
                                     .WithCollectionName(collection_name)
                                     .AddIndex(std::move(index_vector)));
 if (!status.IsOk()) {
@@ -275,6 +308,11 @@ if (!status.IsOk()) {
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
+});
 
 const collectionName = 'customized_setup';
 

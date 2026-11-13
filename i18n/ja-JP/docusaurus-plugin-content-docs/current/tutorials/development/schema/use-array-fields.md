@@ -390,7 +390,7 @@ export schema="{
 
 インデックスは、検索とクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドのインデックス作成は任意です。
 
-次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` に、いずれも `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Zilliz Cloud がデータ型に基づいて最適なインデックスを自動的に選択します。各フィールドのインデックスタイプとパラメーターをカスタマイズすることもできます。詳細は、[Index Explained](./indexes) を参照してください。
+次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` に、どちらも `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Zilliz Cloud がデータ型に基づいて最適なインデックスを自動的に選択します。各フィールドのインデックスタイプとパラメーターはカスタマイズすることもできます。詳細は、[Index Explained](./indexes) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -957,7 +957,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-配列全体を挿入するだけでなく、`ARRAY` フィールドは `upsert` API の `ARRAY_APPEND` および `ARRAY_REMOVE` 部分更新演算子もサポートしています。これらを使用すると、既存の配列の現在値を先に取得することなく、配列に要素を追加したり、一致する要素を削除したりできます。これにより、クライアント側の読み取り・変更・書き込みのパターンを回避できます。詳細は、[Upsert array fields in merge mode](https://milvus.io/docs/upsert-entities.md) を参照してください。
+配列全体を挿入するだけでなく、`ARRAY` フィールドでは、`upsert` API 上で `ARRAY_APPEND` および `ARRAY_REMOVE` の部分更新演算子もサポートしています。これらの演算子を使用すると、既存の配列の現在値を取得せずに、要素の追加や一致する要素の削除を行えるため、クライアント側の読み取り・変更・書き込みパターンを回避できます。詳細は、[Upsert array fields in merge mode](./upsert-entities) を参照してください。
 
 </Admonition>
 

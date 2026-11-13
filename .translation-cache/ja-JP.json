@@ -1611,24 +1611,24 @@
       "translatedAt": "2026-11-13T11:48:21.672Z"
     },
     "content/en/guides/tutorials/development/batch-jobs/k-means-clustering.md": {
-      "sourceHash": "37397063fc9e3bd6b667cb486c7223d6e311540dfcd74fb032ed49e38a4bc302",
+      "sourceHash": "2b824c27556b67460d13bcb5935ab489587ed194e2ee06d2229b7078074c76d4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/k-means-clustering.md",
-      "translatedAt": "2026-11-12T09:53:56.760Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/batch-jobs/manage-batch-jobs.md": {
-      "sourceHash": "08c5d6448e29c154b62352e23aa34ce9ec5858a70ccd38f81ad4822cf20ccdff",
+      "sourceHash": "550911335647755b07f69289eecf0e35cca4d6a1115d46cfcd358bb26f1b26a7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/manage-batch-jobs.md",
-      "translatedAt": "2026-11-12T09:53:56.760Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/batch-jobs/primary-key-dedup.md": {
-      "sourceHash": "e10b667c97f10f85a8994e55867e747ffedb287dd7f1fded4df8fc8613d2eb9f",
+      "sourceHash": "8e9204d3b4be90ff0e31c85838e5d6a47d7d21e801fea18dc39e279432aa177b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/primary-key-dedup.md",
-      "translatedAt": "2026-11-12T09:53:56.760Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/batch-jobs/vector-similarity-dedup.md": {
-      "sourceHash": "b9a837684c5f81a0c06147954af9a7a56380b9a7dc025df771126e24d87bea0b",
+      "sourceHash": "3b98295b937ffe0e73b5b74de2e5a9ea3b49b9bc7470d33977bc83d42a8ccff3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/batch-jobs/vector-similarity-dedup.md",
-      "translatedAt": "2026-11-12T09:53:56.760Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md": {
       "sourceHash": "e9b7b84aacec69e7abc32f775e927ec7c6b32c090caa9eb8152d7ee592fa611e",
@@ -1681,9 +1681,9 @@
       "translatedAt": "2026-11-06T12:02:10.961Z"
     },
     "content/en/guides/tutorials/development/collection/manage-partitions.md": {
-      "sourceHash": "ab04da2b6f01b0e2ee15e03a1c2460d941e26580165872bad25c41de4d50412f",
+      "sourceHash": "c3e09afb489d518fc1301bda5a4f7fc8e1f9421f37db8e2839e4683a24bdb706",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-partitions.md",
-      "translatedAt": "2026-11-09T13:00:23.467Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/collection/modify-collections.md": {
       "sourceHash": "dab93310c6f20443856e84c26502677651a1542bd09fc90c3e0f848ee97e0e33",
@@ -1886,9 +1886,9 @@
       "translatedAt": "2026-11-09T13:43:52.937Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/count-entities.md": {
-      "sourceHash": "6a60f126df49b713539f4ddfb5ce54623e4cb8b1b1250cbb148a59d2029f59f6",
+      "sourceHash": "012bbeff66e12dc83f47c120628f26d8cf80296aa3ba92ca927354d7159798f6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/count-entities.md",
-      "translatedAt": "2026-11-12T11:45:41.029Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/delete-entities.md": {
       "sourceHash": "33c0303b15c620e76e491a6c18fdd9917ce0034aec1c053676dd4d26ce513e69",
@@ -1896,14 +1896,14 @@
       "translatedAt": "2026-11-09T13:43:52.937Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/insert-entities.md": {
-      "sourceHash": "d026b405b243171d0c34e02d558d3e6a39998ee1307431a05890f1a116c3db48",
+      "sourceHash": "ba2d6b422b65abacc6e48b5b3fd8e8765bfbf921c747a37f0abd43c76a071920",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/insert-entities.md",
-      "translatedAt": "2026-11-09T13:43:52.937Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/insert-and-delete/upsert-entities.md": {
-      "sourceHash": "e2d4d62911d0af567507ee4cbe3052a34528caab2c0006826ce88fb95409125e",
+      "sourceHash": "128b855226620440322bd2cc39a574efd246dce9371cb56ae1200072318a8d6c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/insert-and-delete/upsert-entities.md",
-      "translatedAt": "2026-11-11T11:54:34.015Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/scalar-index/bitmap-index-type.md": {
       "sourceHash": "1c199b74dbd2c2e15d0ae209084f3bba029325706bf22507cbbbe9489ec08afc",
@@ -1931,9 +1931,9 @@
       "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md": {
-      "sourceHash": "0a99b63034f7956dc172a4920d72f20e5689c27a7e04eff8a440d7afaa0277a7",
+      "sourceHash": "2cfe31ae7fd8e85fb6a5dc6d726061394600aa738af436fea3847c71dc4e2b9d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "translatedAt": "2026-11-11T11:54:34.015Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/schema/alter-collection-field.md": {
       "sourceHash": "1a49701d0638efc2f98776dc74011754d0f1ff8428be40f0886c4540a16cbbc5",
@@ -2001,9 +2001,9 @@
       "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/create-struct-array.md": {
-      "sourceHash": "714892a33ed52ae65031511ce23d9409e55d671c77012aae44a10d0f11bed6dc",
+      "sourceHash": "04f248723ea653f733e9dd7231cd968861bc9e5fd53e6f6d603d451ca80a3466",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/create-struct-array.md",
-      "translatedAt": "2026-11-11T16:50:08.974Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/index-struct-array.md": {
       "sourceHash": "a4e7866d27297b221784d260e126148c8234e82dfbc3dea78843a4304bcfd6e8",
@@ -2026,9 +2026,9 @@
       "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/schema/use-array-fields.md": {
-      "sourceHash": "3e668954567c8de48ade2ec547f00d8d1de0b5ee2de5f80dd2df5506334ee9b3",
+      "sourceHash": "776e2c7c4b736084267fe668d3e0d3baba11073b3fb5c35c65551c8292979b9c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-array-fields.md",
-      "translatedAt": "2026-11-11T12:07:36.534Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/schema/use-binary-vector.md": {
       "sourceHash": "e246fd943bc7c1723f65e9336b314a710852d3d05587fb7c78f9586f919a9e93",
@@ -2091,9 +2091,9 @@
       "translatedAt": "2026-11-09T13:47:51.369Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/array-filtering-operators.md": {
-      "sourceHash": "067054dc2017bb09c2f0a98a91e4b866dbcbdf7cd15810f8920ac40a64ea5c70",
+      "sourceHash": "14ee4b69d49cf3e175459a0aad2b0bb9c9bdcca6196cb9da30cbae0e84faaaf7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/array-filtering-operators.md",
-      "translatedAt": "2026-11-09T13:47:51.369Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/basic-filtering-operators.md": {
       "sourceHash": "ba9cbd78eb390cc7ac611532fc6a408a988036512c995abbcfc00ab7d81f0b6d",
@@ -2271,9 +2271,9 @@
       "translatedAt": "2026-11-06T12:08:43.171Z"
     },
     "content/en/guides/tutorials/development/vector-index/tune-index-build-level.md": {
-      "sourceHash": "900a460392e3508b2274720c685d730f61ac463cb5e2280ab3db198d4ac7b103",
+      "sourceHash": "81db7f6af38ba367c42a9190df57faed8510a5b0b9669e5a7b9964ee6868ebfd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/tune-index-build-level.md",
-      "translatedAt": "2026-11-12T11:45:41.029Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/volume/external-volume.md": {
       "sourceHash": "ef6e5a03447cc82bee44eeb6c68153de2dbf1384eeb39e73429bd3113c4303ed",
@@ -2591,9 +2591,9 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md": {
-      "sourceHash": "f86f58f70311efe4af3a6dce6865d4f6728cc54c9b2c9e3fd4c7985abc4d9602",
+      "sourceHash": "ad9a385594f0c128ae91389f6f01d4fa95eb422ce2e75f68f5366fce43528c5a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
-      "translatedAt": "2026-11-12T11:45:41.029Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md": {
       "sourceHash": "2bd93defb58be777c6792e6b9121fa0d0b9579f85c6031cc623f8e5dac2a9dc9",
@@ -2606,9 +2606,9 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-control/privilege-reference/cluster-privileges.md": {
-      "sourceHash": "d54f3d9906ea89f1ad22e16aec4d9788c00ea9bebbb0ccd50f73a9a349172f3f",
+      "sourceHash": "eb5e5e283b2c028e112f3ac429dac7e1c42d958ec1265c16273f43cbeef84fd1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/privilege-reference/cluster-privileges.md",
-      "translatedAt": "2026-11-12T11:45:41.029Z"
+      "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/management/access-control/privilege-reference/platform-privileges.md": {
       "sourceHash": "faf6108a7b7b2743c94bccbe048e589cba498aa21c1e547dd74778b3b7dbb33a",

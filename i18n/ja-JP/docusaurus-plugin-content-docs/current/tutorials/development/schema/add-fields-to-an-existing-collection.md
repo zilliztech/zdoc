@@ -1,17 +1,18 @@
 ---
 title: "コレクションスキーマの変更 | Cloud"
 slug: /add-fields-to-an-existing-collection
-sidebar_label: "スキーマの変更（マネージドコレクション）"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "コレクションが開発段階から本番環境へ移行するにつれて、そのスキーマはしばしば変化します。フィルタリングやアプリケーションロジック用に `sourceuri` や `reviewstatus` などのスカラーフィールドを追加したり、アプリケーションが生成した埋め込み用に新しいベクトルフィールドを追加したり、既存テキストに対する字句検索用に BM25 Function とその生成スパースベクトルフィールドを追加したり、不要になったフィールドや Function を削除したりすることがあります。コレクションスキーマの変更を使用すると、コレクションを再作成せずに、サポートされているフィールドと Function の変更をインプレースで適用できます。 | Cloud"
+description: "既存のコレクションスキーマを変更して、ユーザー定義フィールドや、生成ベクトルフィールドを持つ Function を追加または削除します。 | Cloud"
 type: origin
-token: UR9SwucAIiQ2TYkc9EucsgvSnng
-sidebar_position: 18
 displayed_sidebar: default
+token: shared-add-fields-to-an-existing-collection
+sidebar_label: "スキーマの変更（マネージドコレクション）"
+sidebar_position: 18
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/add-fields-to-an-existing-collection.md"
 
 ---
 
@@ -23,11 +24,9 @@ import TabItem from '@theme/TabItem';
 
 コレクションが開発段階から本番環境へ移行するにつれて、そのスキーマはしばしば変化します。フィルタリングやアプリケーションロジック用に `source_uri` や `review_status` などのスカラーフィールドを追加したり、アプリケーションが生成した埋め込み用に新しいベクトルフィールドを追加したり、既存テキストに対する字句検索用に BM25 Function とその生成スパースベクトルフィールドを追加したり、不要になったフィールドや Function を削除したりすることがあります。コレクションスキーマの変更を使用すると、コレクションを再作成せずに、サポートされているフィールドと Function の変更をインプレースで適用できます。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-- このガイドでは、マネージドコレクション内のユーザー定義フィールド、および生成ベクトルフィールドを持つ Function のスキーマ変更について説明します。`VARCHAR` フィールドの `max_length` や `ARRAY` フィールドの `max_capacity` の変更など、フィールドプロパティの変更については、[Alter コレクション Field](./alter-collection-field) を参照してください。ダイナミックフィールドの動作については、[Dynamic Field](./enable-dynamic-field) と [Modify コレクション](./modify-collections) を参照してください。
-
-- このページでは、マネージドコレクションにフィールドを追加する方法について説明します。外部コレクションにフィールドを追加するには、[Alter External コレクション スキーマ](./alter-external-collection-schema) を参照してください。
+このガイドでは、マネージドコレクションにおけるユーザー定義フィールドと、生成ベクトルフィールドを持つ Function のスキーマ変更について説明します。外部コレクションにフィールドを追加する場合は、[外部コレクションスキーマの変更](./alter-external-collection-schema) を参照してください。`VARCHAR` フィールドの `max_length` や `ARRAY` フィールドの `max_capacity` を変更するなど、フィールドプロパティを変更する場合は、[コレクションフィールドの変更](./alter-collection-field) を参照してください。ダイナミックフィールドの動作については、[ダイナミックフィールド](./enable-dynamic-field) と [コレクションの変更](https://milvus.io/docs/modify-collection.md) を参照してください。
 
 </Admonition>
 
@@ -39,9 +38,9 @@ import TabItem from '@theme/TabItem';
 
 - ユーザー定義スカラーフィールドの追加は、Milvus 2.6.x 以降でサポートされています。ユーザー定義ベクトルフィールドの追加は、Milvus 2.6.18 以降でサポートされています。
 
-- StructArray フィールドの追加はサポートされています。追加する StructArray フィールドは nullable である必要があります。
+- Nullable な StructArray フィールド、および StructArray フィールドの動的追加は、Dedicated クラスターと On-Demand クラスターでサポートされています。動的に追加する StructArray フィールドは nullable である必要があります。
 
-- 既存の StructArray フィールドへのサブフィールドの追加はサポートされています。追加するサブフィールドでは要素レベルの null を許可する必要があり（スカラーまたはベクトルのサブフィールドでは `nullable=True`、配列のサブフィールドでは `element_nullable=True`）、デフォルト値を持たせることはできず、同じリクエストでインデックスにバインドすることもできません。
+- 既存の StructArray フィールドへのサブフィールドの追加は、Milvus v3.0.x と互換性のある Dedicated クラスターでサポートされています。On-Demand クラスターではまだ利用できません。追加するサブフィールドは、要素レベルの null を許可する必要があり（スカラーまたはベクトルのサブフィールドでは `nullable=True`、配列サブフィールドでは `element_nullable=True`）、デフォルト値を持てず、同じリクエスト内でインデックスにバインドすることもできません。
 
 - フィールド名は、コレクション内のフィールド間で一意である必要があります。
 
@@ -55,13 +54,15 @@ import TabItem from '@theme/TabItem';
 
 - 生成されるベクトルフィールドは nullable にできません。
 
-- Function が使用する入力フィールドは、すでにコレクションに存在している必要があります。この既存コレクション向けのワークフローでは、BM25 と MinHash の入力は `VARCHAR` である必要があります。コレクションを作成するときに、`TEXT` を使用する BM25 Function を定義してください。
+- Function が使用する入力フィールドは、あらかじめコレクションに存在している必要があります。
+
+- 既存のコレクションに BM25 または MinHash Function を追加する場合、Function の入力は `VARCHAR` フィールドである必要があります。このワークフローでは `TEXT` 入力はサポートされていません。これは、Zilliz Cloud がその入力型から既存のエンティティ向けの生成出力をバックフィルできないためです。
 
 **ユーザー定義フィールドを削除する**
 
 - コレクション内の主キーフィールド、パーティションキーフィールド、クラスタリングキーフィールド、または最後のベクトルフィールドは削除できません。
 
-- `ARRAY<STRUCT>` フィールド全体を削除できます。また、`chunks[lang]` など、パスを指定して個々のサブフィールドを削除することもできますが、`ARRAY<STRUCT>` フィールドの最後のサブフィールドは削除できません。
+- ARRAY&lt;STRUCT&gt; フィールド全体を削除できます。Milvus v3.0.x と互換性のある Dedicated クラスターでは、ARRAY&lt;STRUCT&gt; フィールドの最後のサブフィールドを除き、`chunks[lang]` などのパスを指定して個々のサブフィールドも削除できます。この機能は On-Demand クラスターではまだ利用できません。
 
 - Function の入力フィールドとして使用されているフィールド、または Function の出力として生成されたフィールドは、直接削除できません。Function の出力フィールドを削除するには、そのフィールドを生成する Function を削除します。
 
@@ -71,25 +72,31 @@ import TabItem from '@theme/TabItem';
 
 - 生成ベクトルフィールドを削除するとコレクションにベクトルフィールドがなくなってしまう場合、その Function の削除は拒否されます。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 サポートされている追加および削除操作以外のスキーマ変更については、コレクションを再作成または移行してください。
 
 </Admonition>
 
+<a id="add-fields-to-an-existing-collection"></a>
+
 ## 既存コレクションにフィールドと Function を追加する\{#add-fields-and-functions-to-an-existing-collection}
 
 ユーザー定義フィールドを追加するか、ベクトルフィールドを生成する Function を追加するかに応じて、ワークフローを選択します：
 
-- フィルタリング、クエリ出力、またはアプリケーションロジック用の新しいメタデータが必要な場合は、[Add user-defined スカラー fields](./add-fields-to-an-existing-collection#add-user-defined-scalar-fields) を使用します。
+- [ユーザー定義スカラーフィールドを追加する](#add-user-defined-scalar-fields) は、フィルタリング、クエリ出力、またはアプリケーションロジック用の新しいメタデータが必要な場合に使用します。
 
-- アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、[Add user-defined ベクトル fields](./add-fields-to-an-existing-collection#add-user-defined-vector-fields) を使用します。
+- [StructArray フィールドを追加する](#add-structarray-fields-or-public) は、要素が同じ Struct スキーマを共有する配列フィールドが必要な場合に使用します。
 
-- 既存のフィールドから Zilliz Cloud がベクトル値を生成する場合（テキストからの BM25 スパースベクトルや MinHash 署名など）は、[Function とその生成ベクトルフィールドを追加する](./add-fields-to-an-existing-collection) を使用します。
+- [ユーザー定義ベクトルフィールドを追加する](#add-user-defined-vector-fields) は、アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合に使用します。
 
-- 既存の Struct 要素に新しい属性が必要な場合は、[既存の StructArray フィールドにサブフィールドを追加する](./add-fields-to-an-existing-collection) を使用します。
+- [Function とその生成ベクトルフィールドを追加する](#add-a-function-and-its-generated-vector-field-or-public) は、Zilliz Cloud が既存のフィールドからベクトル値を生成する場合に使用します。たとえば、テキストから BM25 スパースベクトルや MinHash シグネチャを生成する場合です。
 
-これらの場合、フィールドの総数は Zilliz Cloud のフィールド数上限を超えることはできません。詳細については、[Zilliz Cloud Limits](./limits#fields) を参照してください。
+- [既存の StructArray フィールドにサブフィールドを追加する](#add-a-sub-field-to-an-existing-structarray-field-or-public) は、既存の Struct 要素に新しい属性が必要な場合に使用します。Milvus v3.0.x と互換性のある Dedicated クラスターでサポートされています。On-Demand クラスターではまだ利用できません。
+
+いずれの場合も、新しいフィールド名はコレクション内にまだ存在していてはならず、フィールドの総数は Zilliz Cloud のフィールド数上限を超えることはできません。詳細については、[Zilliz Cloud の制限事項](./limits) を参照してください。
+
+<a id="add-user-defined-scalar-fields--milvus-26x"></a>
 
 ### ユーザー定義スカラーフィールドを追加する\{#add-user-defined-scalar-fields}
 
@@ -115,7 +122,7 @@ import TabItem from '@theme/TabItem';
 ```python
 from pymilvus import DataType, MilvusClient, Function, FunctionType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 # highlight-start
 client.add_collection_field(
@@ -152,6 +159,7 @@ import io.milvus.v2.service.collection.request.DropFunctionFieldReq;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 client.addCollectionField(AddCollectionFieldReq.builder()
@@ -180,6 +188,7 @@ import (
 ctx := context.Background()
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey: "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     log.Fatal("failed to connect to milvus server: ", err.Error())
@@ -203,7 +212,7 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
 client
     .add_collection_field(
@@ -225,12 +234,12 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -252,7 +261,7 @@ if (!status.IsOk()) {
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
-const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
 await client.addCollectionField({
     collection_name: "product_catalog",
@@ -291,13 +300,9 @@ await client.AddCollectionFieldAsync(new AddCollectionFieldReq
 
 ```bash
 curl --request POST \
-
-     --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add \
-
+     --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
      --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-
      --header "Content-Type: application/json" \
-
      -d '{
        "collectionName": "product_catalog",
        "schema": {
@@ -312,13 +317,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 フィールドの追加後、コレクションにすでに存在していたエンティティでは、`source` に対して `NULL` が返されます。新しいエンティティでは、insert または upsert の際に `source` を設定できます。
 
 **例：デフォルト値を持つスカラーフィールドを追加する**
 
-既存のエンティティで `NULL` ではなく具体的な値を返す必要がある場合は、フィールドの追加時に `default_value` を指定します。次の例では、`review_status` フィールドを追加し、デフォルト値として `"unreviewed"` を使用します。
+既存のエンティティで `NULL` の代わりに具体的な値を返す必要がある場合は、スカラーフィールドを追加するときに `default_value` を指定します。次の例では、`review_status` フィールドを追加し、デフォルト値として `"unreviewed"` を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -394,7 +400,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::FieldSchema field = milvus::FieldSchema("review_status", milvus::DataType::VARCHAR)
                                 .WithMaxLength(32)
                                 .WithNullable(true)
@@ -441,13 +447,9 @@ await client.AddCollectionFieldAsync(new AddCollectionFieldReq
 
 ```bash
 curl --request POST \
-
-     --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add \
-
+     --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
      --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-
      --header "Content-Type: application/json" \
-
      -d '{
        "collectionName": "product_catalog",
        "schema": {
@@ -463,23 +465,26 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 フィールドの追加後、コレクションにすでに存在していたエンティティでは、`review_status` に対して `"unreviewed"` が返されます。新しいエンティティでは、別の値を設定するか、値が指定されていない場合にデフォルト値を使用できます。
 
+<a id="add-structarray-fields--milvus-300"></a>
+
 ### StructArray フィールドを追加する | PUBLIC\{#add-structarray-fields-or-public}
 
-`add_collection_struct_field()` を使用して、構造体の配列を受け入れる StructArray フィールドを追加します。StructArray フィールドを追加するには、次の手順に従います：
+`add_collection_struct_field()` を使用して、Struct 要素の配列を受け入れる StructArray フィールドを追加します。StructArray フィールドを追加するには、次の手順を実行します：
 
-1. サポートされているデータ型の必要なサブフィールドを含む StructSchema を作成します。該当するデータ型については、[Data type support](./use-array-of-structs) を参照してください。
+1. サポートされているデータ型の必要なサブフィールドを含む Struct スキーマを作成します。該当するデータ型については、[StructArray の制限事項](./struct-array-limits#supported-subfield-data-types) を参照してください。
 
-1. 上で作成した StructSchema を参照し、`add_collection_struct_field()` でフィールドの最大容量を設定します。
+1. 上で作成した Struct スキーマを参照し、`add_collection_struct_field()` でフィールドの最大容量を設定します。
 
-1. リクエストで `nullable` を `True` に設定します。
+1. リクエストで `nullable=True` を設定します。
 
 **例：nullable な StructArray フィールドを追加する**
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -624,7 +629,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Create a struct schema and add its subfields
 // add a vector subfield with mmap enabled
 milvus::StructFieldSchema struct_schema = milvus::StructFieldSchema("chunks")
@@ -701,20 +706,16 @@ await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The REST API does not expose a StructArray add-field operation as of v3.0.x. Use the gRPC SDKs instead.
-```
-
-</TabItem>
 </Tabs>
 
-StructArray フィールドを追加すると、コレクションにすでに存在するエンティティでは、chunks のすべてのサブフィールドに対して null が返されます。新しいエンティティを挿入するときは、すべてのサブフィールドを null または有効な値に設定してください。一部のサブフィールドを null にし、その他を有効な値に設定したエンティティを挿入すると、エラーになります。要素レベルで nullable なサブフィールドでは、個々の Struct 要素に null を保持できます。詳細については、[StructArray フィールドを作成する](/docs/create-struct-array) を参照してください。
+StructArray フィールドを追加すると、コレクションにすでに存在するエンティティでは、すべてのサブフィールドにわたって `chunks` に対して `NULL` が返されます。新しいエンティティを挿入する場合、各 Struct 要素はすべてのサブフィールドに値を指定する必要があり、Struct 要素自体を `NULL` にすることはできません。Milvus v3.0.x と互換性のある Dedicated クラスターでは、要素レベルの null を許可するサブフィールドに、個々の Struct 要素内で `NULL` を保持できます。詳細については、[StructArray フィールドの作成](./create-struct-array) を参照してください。
 
-### 既存の StructArray フィールドにサブフィールドを追加する\{#add-a-sub-field-to-an-existing-structarray-field}
 
-データがすでに格納されている StructArray フィールドにサブフィールドを追加するには、フィールド名としてサブフィールドのパスを指定して `add_collection_field()` を使用します。サブフィールドを追加するには、次の手順に従います：
+<a id="add-a-sub-field-to-an-existing-structarray-field--milvus-306"></a>
+
+### 既存の StructArray フィールドにサブフィールドを追加する | PUBLIC\{#add-a-sub-field-to-an-existing-structarray-field-or-public}
+
+`add_collection_field()` でフィールド名にサブフィールドパスを指定して、すでにデータを保持している StructArray フィールドにサブフィールドを追加します。このワークフローは、Milvus v3.0.x と互換性のある Dedicated クラスターでサポートされています。On-Demand クラスターではまだ利用できません。サブフィールドを追加するには、次の手順を実行します：
 
 1. フィールド名には、`chunks[lang]` などのパス `structArrayField[subField]` を指定します。
 
@@ -792,7 +793,9 @@ curl --request POST \
     "collectionName": "books",
     "schema": {
       "fieldName": "chunks[lang]",
-      "dataType": "VarChar",
+      "dataType": "Array",
+      "elementDataType": "VarChar",
+      "nullable": true,
       "elementNullable": true,
       "elementTypeParams": {"max_length": "16"}
     }
@@ -800,6 +803,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 サブフィールドを追加すると、既存のエンティティでは、各 Struct 要素の `chunks[lang]` に対して `NULL` が返され、`chunks` フィールドが `NULL` であるエンティティは `NULL` のままになります。新しいエンティティでは、サブフィールドを省略するか、任意の Struct 要素で `NULL` に設定できます。
@@ -808,15 +812,16 @@ curl --request POST \
 
 - 追加するサブフィールドは `nullable=True` を指定して作成する必要があり、配列のサブフィールドを追加する場合は、内部配列内の null 値を許可するために `element_nullable=True` も指定します。デフォルト値は設定できません。
 
-- サブフィールドの追加時にインデックスをバインドすることはできません。別途 `create_index()` を呼び出してインデックスを作成します。追加するベクトルサブフィールドは要素レベルのメトリクスのみをサポートし、`MAX_SIM*` はサポートしません。また、新しいサブフィールドを含めてコレクションをロードする前に、そのサブフィールドにインデックスを作成しておく必要があります。
+- サブフィールドの追加時にインデックスをバインドすることはできません。インデックスは、別途 `create_index()` を呼び出して作成します。追加したベクトルサブフィールドは要素レベルのメトリクスのみをサポートし、`MAX_SIM*` はサポートしません。また、新しいサブフィールドを含めてコレクションをロードする前に、そのサブフィールドにインデックスが存在している必要があります。
 
 - 履歴セグメントは、スキーマバージョンの Compaction を通じて、追加されたサブフィールドとそのインデックスを受け取ります。`dataCoord.compaction.bumpSchemaVersion.enabled` を `true` に設定してください（デフォルトは `false` です）。そうでない場合、追加したサブフィールドのインデックスは履歴セグメントをカバーしません。
 
 - ロード済みのコレクションにサブフィールドを追加しても、コレクションはリリースされません。インデックスが存在する前に、クエリが新しいサブフィールドを返す場合があります。
 
+
 - スキーマのタイムスタンプを固定しているクライアントは、スキーマ不一致エラーを受け取るため、他の追加フィールドの場合と同様に、スキーマを更新する必要があります。
 
-{/* doc:block:start id="alter-schema-vector-heading" */}
+<a id="add-user-defined-vector-fields--milvus-2618"></a>
 
 ### ユーザー定義ベクトルフィールドを追加する\{#add-user-defined-vector-fields}
 
@@ -898,7 +903,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::FieldSchema field = milvus::FieldSchema("embedding_v2", milvus::DataType::FLOAT_VECTOR)
                                 .WithDimension(768)
                                 .WithNullable(true);
@@ -946,13 +951,9 @@ await client.AddCollectionFieldAsync(new AddCollectionFieldReq
 
 ```bash
 curl --request POST \
-
-     --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add \
-
+     --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
      --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-
      --header "Content-Type: application/json" \
-
      -d '{
        "collectionName": "product_catalog",
        "schema": {
@@ -967,6 +968,7 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 フィールドの追加後、新しいベクトルフィールドを検索する前に、そのフィールドにインデックスを作成します：
@@ -1040,7 +1042,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::IndexDesc index_desc("embedding_v2", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
 status = client->CreateIndex(
     milvus::CreateIndexRequest().WithCollectionName("product_catalog").AddIndex(std::move(index_desc)));
@@ -1083,19 +1085,15 @@ await client.CreateIndexAsync(new CreateIndexReq
 
 ```bash
 curl --request POST \
-
-     --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/create \
-
+     --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/create" \
      --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-
      --header "Content-Type: application/json" \
-
      -d '{
        "collectionName": "product_catalog",
        "indexParams": [
          {
            "fieldName": "embedding_v2",
-           "indexType": "AUTOINDEX",
+           "params": {"index_type": "AUTOINDEX"},
            "metricType": "COSINE"
          }
        ]
@@ -1103,38 +1101,45 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
-既存のエンティティは `embedding_v2` に対して `NULL` を持ち、このフィールドで検索するときはスキップされます。既存のエンティティを `embedding_v2` で検索可能にするには、upsert ワークフローを通じて NULL 以外のベクトル値を書き込みます。新しいエンティティは、insert の際に `embedding_v2` を含めることができます。
+既存のエンティティは `embedding_v2` に `NULL` を持ち、このフィールドで検索するとスキップされます。既存のエンティティを `embedding_v2` で検索可能にするには、upsert またはバックフィルワークフローを通じて NULL 以外のベクトル値を書き込みます。新しいエンティティでは、挿入時に `embedding_v2` を含めることができます。
+
+<a id="add-vector-fields-generated-by-functions--milvus-30x"></a>
+
+<a id="add-a-function-and-its-generated-vector-field--milvus-30x"></a>
 
 ### Function とその生成ベクトルフィールドを追加する | PUBLIC\{#add-a-function-and-its-generated-vector-field-or-public}
 
-この Milvus 3.0 のスキーマ変更ワークフローは、現在 Zilliz Cloud のオンデマンドクラスター向けに文書化されています。このページは、Cloud で最初にサポートされるパッチや Serving クラスター の可用性を示すものではありません。
+このワークフローは、Zilliz Cloud が既存のコレクションにすでに保存されているデータから新しいベクトルフィールドを生成する場合に使用します。この操作では、関連する 3 つのスキーマ要素が追加されます：
 
-このワークフローを使用して、既存のコレクションにすでに保存されているデータから新しいベクトルフィールドを生成します。たとえば、BM25 Function は既存の `VARCHAR` フィールドを読み取り、字句検索用の `SPARSE_FLOAT_VECTOR` フィールドを生成します。一方、MinHash Function は近似重複検出用の `BINARY_VECTOR` フィールドを生成します。このワークフローでは、Function の入力フィールドは追加も置換もされません。
+- 既存の 1 つ以上の入力フィールドから読み取る Function 定義。
 
-この操作では、Function 定義、新しいベクトル出力フィールド、およびバインドされたインデックス定義を追加します：
+- Function の出力を格納する新しいベクトルフィールド。
 
-- 既存の入力フィールドから読み取る、`text_bm25` などの Function 定義。
+- 新しいベクトルフィールドにバインドされたインデックス定義。
 
-- Function の出力を保存する、`text_sparse` などの新しいベクトル出力フィールドと、そのフィールドにバインドされたインデックス定義。
+たとえば、BM25 Function は既存の `VARCHAR` フィールドを読み取り、字句検索用の `SPARSE_FLOAT_VECTOR` フィールドを生成します。MinHash Function は、ほぼ重複するデータの検出用に `BINARY_VECTOR` フィールドを生成します。このワークフローでは、Function の入力フィールドを追加または置換しません。
+
+このスキーマ変更ワークフローは、Zilliz Cloud の On-Demand クラスターで利用できます。
 
 サポートされている Function によって、生成されるベクトルフィールドの型が決まります：
 
-| **Function** | **生成されるベクトルフィールドの型** | **一般的な入力フィールド** |
-| --- | --- | --- |
-| `BM25` | `SPARSE_FLOAT_VECTOR` | アナライザーが有効な `VARCHAR` フィールド |
-| `MINHASH` | `BINARY_VECTOR` | `VARCHAR` フィールド |
+| Function | 生成ベクトルフィールドの型 | 一般的な入力フィールド | 一般的なユースケース |
+| --- | --- | --- | --- |
+| `BM25` | `SPARSE_FLOAT_VECTOR` | アナライザーが有効な `VARCHAR` フィールド | 字句検索とキーワードの関連性 |
+| `MINHASH` | `BINARY_VECTOR` | `VARCHAR` フィールド | ほぼ重複するデータの検出 |
 
 各 Function の動作の詳細については、[BM25 Function](./bm25-function) と [MinHash Function](./minhash-function) を参照してください。
 
-生成されるベクトルフィールドはコレクションにまだ存在していてはならず、nullable にできません。Function の入力フィールドはすでに存在している必要があります。この既存コレクション向けのワークフローでは、`VARCHAR` 入力を使用します。`TEXT` 入力を使用する BM25 Function は、コレクションの作成時に定義する必要があります。そうでない場合は、Function をスキーマに含めた状態でコレクションを再作成または移行してください。
+生成されるベクトルフィールドはコレクション内にまだ存在してはならず、nullable にすることもできません。Function の入力フィールドはすでに存在している必要があります。
 
 **例：BM25 Function とその生成スパースベクトルフィールドを追加する**
 
 次の例では、`text_bm25` という名前の BM25 Function と、その生成スパースベクトルフィールドである `text_sparse` を既存のコレクションに追加します。コレクションには、アナライザーが有効な `text` という名前の `VARCHAR` フィールドがすでに存在している必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1256,7 +1261,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Add a BM25 function, its generated sparse vector field, and the bound index
 milvus::FieldSchema sparse_field("text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR);
 milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25", milvus::FunctionType::BM25);
@@ -1323,22 +1328,9 @@ await client.AddFunctionFieldAsync(new AddFunctionFieldReq
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The REST /v2/vectordb/collections/add_function endpoint maps to the
-
-# deprecated AddCollectionFunction RPC, which Milvus 3.0 rejects. Adding a
-
-# Function together with its generated vector field and bound index is not
-
-# exposed via the REST API as of v3.0.x; use the gRPC SDKs instead.
-```
-
-</TabItem>
 </Tabs>
 
-`index_params` オブジェクトには、新しい Function 出力フィールドのインデックス定義を正確に 1 つ含める必要があります。Function、その生成ベクトルフィールド、およびバインドされたインデックス定義は、同じスキーマ変更で送信されます。`add_function_field()` の後に `create_index()` を別途呼び出さないでください。
+`index_params` オブジェクトには、新しい Function 出力フィールドのインデックス定義を 1 つだけ含める必要があります。Zilliz Cloud は、同じスキーマ変更で Function、その生成ベクトルフィールド、およびバインドされたインデックス定義を追加します。`add_function_field()` の後に `create_index()` を別途呼び出さないでください。
 
 概念的には、この操作では次の Function、生成出力フィールド、およびバインドされたインデックス定義を追加します：
 
@@ -1360,17 +1352,21 @@ Bound index:
   metric_type: BM25
 ```
 
-リクエストが成功すると、`describe_collection()` は新しい `text_bm25` Function とその生成済みの `text_sparse` ベクトルフィールドの両方をコレクションスキーマに返します。完全な BM25 検索ワークフローについては、[Full Text Search](./full-text-search) を参照してください。
+リクエストが成功すると、`describe_collection()` はコレクションスキーマ内の新しい `text_bm25` Function と、その生成ベクトルフィールドである `text_sparse` の両方を返します。Zilliz Cloud は、新しいエンティティが書き込まれるときに Function の出力を生成します。既存のエンティティについては、Zilliz Cloud がバックグラウンドの Compaction を通じて生成ベクトルフィールドを非同期で設定します。スキーマの可視性はスキーマ更新が成功したことを確認しますが、すべての既存エンティティでバックフィルが完了したことを示すものではありません。BM25 検索の完全なワークフローについては、[全文検索](./full-text-search) を参照してください。
 
-MinHash Function とその生成バイナリベクトルフィールドは、近似重複検出をサポートします。MinHash Function は `FunctionType.MINHASH` を使用し、新しい `BINARY_VECTOR` 出力フィールドに書き込みます。構成の詳細については、[MinHash Function](./minhash-function) を参照してください。
+Zilliz Cloud は、ほぼ重複するデータの検出用に MinHash Function とその生成バイナリベクトルフィールドもサポートしています。MinHash Function は `FunctionType.MINHASH` を使用し、新しい `BINARY_VECTOR` 出力フィールドに書き込みます。設定の詳細については、[MinHash Function](./minhash-function) を参照してください。
+
+<a id="drop-fields-from-an-existing-collection"></a>
 
 ## 既存コレクションからフィールドと Function を削除する\{#drop-fields-and-functions-from-an-existing-collection}
 
-ユーザー定義フィールドは、コレクションモデルの一部でなくなったときに直接削除できます。Function とその生成ベクトルフィールドを削除するには、その Function を削除します。生成フィールドとそのインデックスは、同じスキーマ変更で削除されます。
+ユーザー定義フィールドがコレクションモデルの一部でなくなった場合は、そのフィールドを直接削除できます。Function とその生成ベクトルフィールドを削除するには、Function を削除します。Zilliz Cloud は、同じスキーマ変更で生成フィールドとそのインデックスを削除します。
+
+<a id="drop-user-defined-fields--milvus-30x"></a>
 
 ### ユーザー定義フィールドを削除する | PUBLIC\{#drop-user-defined-fields-or-public}
 
-コレクションモデルの一部でなくなったユーザー定義スカラーまたはベクトルフィールドを削除するには、`drop_collection_field()` を使用します。
+`drop_collection_field()` を使用して、コレクションモデルの一部でなくなったユーザー定義のスカラー、ベクトル、または StructArray フィールドを削除します。
 
 フィールドを削除すると、まずコレクションスキーマとフィールドの可視性が変更されます：
 
@@ -1378,13 +1374,13 @@ MinHash Function とその生成バイナリベクトルフィールドは、近
 
 - 削除されたフィールドに構築されたインデックスは、スキーマ更新の一部としてクリーンアップされます。
 
-ストレージのクリーンアップは、スキーマのクリーンアップとは別に処理されます。詳細については、[When is storage space reclaimed after dropping a field?](./add-fields-to-an-existing-collection) を参照してください。
+ストレージのクリーンアップは、スキーマのクリーンアップとは別に処理されます。詳細については、[フィールドを削除した後、ストレージ容量はいつ解放されますか？](#when-is-storage-space-reclaimed-after-dropping-a-field) を参照してください。
 
 **例：ユーザー定義スカラーフィールドを削除する**
 
 次の例では、`experiment_tag` が `product_catalog` 内のユーザー定義スカラーフィールドであることを前提とし、これをコレクションから削除します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1437,7 +1433,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
                                          .WithCollectionName("product_catalog")
                                          .WithFieldName("experiment_tag"));
@@ -1471,22 +1467,15 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The REST API does not expose a drop-field operation as of v3.0.x. Use the gRPC SDKs instead.
-```
-
-</TabItem>
 </Tabs>
 
 フィールドを削除した後、`describe_collection()` を呼び出して、そのフィールドがスキーマの一部でなくなったことを確認できます。
 
 **例：StructArray フィールドを削除する**
 
-次の例では、`chunks` フィールドが `my_collection` 内の StructArray フィールドであることを前提とし、これをコレクションから削除します。
+次の例では、`chunks` が `my_collection` 内の StructArray フィールドであることを前提とし、そのフィールドをコレクションから削除します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1539,7 +1528,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
                                          .WithCollectionName("my_collection")
                                          .WithFieldName("chunks"));
@@ -1573,13 +1562,6 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The REST API does not expose a drop-field operation as of v3.0.x. Use the gRPC SDKs instead.
-```
-
-</TabItem>
 </Tabs>
 
 **例：ユーザー定義ベクトルフィールドを削除する**
@@ -1588,7 +1570,7 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 
 次の例では、`image_vector` が `hybrid_catalog` 内のユーザー定義ベクトルフィールドであり、コレクションに `text_vector` などの別のベクトルフィールドがまだ残っていることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1641,7 +1623,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
                                          .WithCollectionName("hybrid_catalog")
                                          .WithFieldName("image_vector"));
@@ -1675,20 +1657,16 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The REST API does not expose a drop-field operation as of v3.0.x. Use the gRPC SDKs instead.
-```
-
-</TabItem>
 </Tabs>
 
 `image_vector` がコレクション内の最後のベクトルフィールドである場合、削除操作は拒否されます。
 
-### StructArray のサブフィールドを削除する\{#drop-a-structarray-sub-field}
 
-サブフィールドのパスを渡して `drop_collection_field()` を使用すると、StructArray フィールドから個々のサブフィールドを削除できます。Milvus はスキーマからサブフィールドをそのインデックスとともに削除します。サブフィールドのデータは、「フィールドを削除した後、ストレージ容量はいつ解放されますか？」で説明されているように解放されます。
+<a id="drop-a-structarray-sub-field--milvus-306"></a>
+
+### StructArray のサブフィールドを削除する | PUBLIC\{#drop-a-structarray-sub-field-or-public}
+
+Milvus v3.0.x と互換性のある Dedicated クラスターでは、サブフィールドパスを渡すことで、`drop_collection_field()` を使用して StructArray フィールドから個々のサブフィールドを削除できます。この機能は On-Demand クラスターではまだ利用できません。Zilliz Cloud は、そのインデックスとともにサブフィールドをスキーマから削除します。データは、[フィールドを削除した後、ストレージ容量はいつ解放されますか？](#when-is-storage-space-reclaimed-after-dropping-a-field) の説明に従って解放されます。
 
 次の例では、`chunks` が `my_collection` 内の `lang` サブフィールドを持つ StructArray フィールドであることを前提とし、そのサブフィールドのみを削除します。
 
@@ -1754,27 +1732,29 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 StructArray フィールドの最後のサブフィールド、コレクションの最後のベクトルフィールド、または Function で使用されているサブフィールドは削除できません。StructArray フィールド全体を削除するには、前の例に示すように、名前で削除します。サブフィールドを削除した後、そのサブフィールドを引き続き含む insert および upsert リクエストは拒否されます。
 
 サブフィールドに対するクエリがまだ実行されている間にそのサブフィールドを削除すると、一時的に失敗する場合があります。古いスキーマに基づいて作成されたクエリプランは短時間実行され続け、内部エラーで失敗します。サブフィールドを削除する前に、そのサブフィールドに対するクエリを完了するか、実行中のクエリが終了した後に削除を再試行してください。
 
+
 <a id="drop-vector-fields-generated-by-functions--milvus-30x"></a>
 
-{/* doc:block:start id="alter-schema-drop-function-heading" */}
+<a id="drop-a-function-and-its-generated-vector-field--milvus-30x"></a>
 
 ### Function とその生成ベクトルフィールドを削除する | PUBLIC\{#drop-a-function-and-its-generated-vector-field-or-public}
 
 Function またはその生成ベクトルフィールド（BM25 Function とその生成スパースベクトルフィールドなど）が不要になった場合は、この操作を使用します。
 
-Function 名を指定して `drop_function_field()` を呼び出します。この操作では、Function の入力フィールドを保持したまま、Function、その生成ベクトルフィールド、および関連するインデックスを削除します。
+Function 名を指定して `drop_function_field()` を呼び出します。Zilliz Cloud は、Function の入力フィールドを保持したまま、Function、その生成ベクトルフィールド、および関連するインデックスを削除します。
 
 **例：BM25 Function とその生成スパースベクトルフィールドを削除する**
 
 次の例では、`text_bm25` が `product_catalog` 内の BM25 Function であり、`text_sparse` という名前のスパースベクトル出力フィールドを生成することを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1827,7 +1807,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 status = client->DropFunctionField(milvus::DropFunctionFieldRequest()
                                        .WithCollectionName("product_catalog")
                                        .WithFunctionName("text_bm25"));
@@ -1861,19 +1841,6 @@ await client.DropFunctionFieldAsync(new DropFunctionFieldReq
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The REST /v2/vectordb/collections/drop_function endpoint maps to the
-
-# deprecated DropCollectionFunction RPC, which Milvus 3.0 rejects. Dropping a
-
-# Function together with its generated vector field is not exposed via the
-
-# REST API as of v3.0.x; use the gRPC SDKs instead.
-```
-
-</TabItem>
 </Tabs>
 
 操作が成功すると、`describe_collection()` は削除された Function またはその生成ベクトルフィールドを返さなくなります。Function の入力フィールドはスキーマに残ります。
@@ -1884,17 +1851,17 @@ Function 出力フィールドを削除するとコレクションにベクト�
 
 ### フィールドまたは Function を追加するにはどの方法を使用すればよいですか？\{#which-method-should-i-use-to-add-a-field-or-function}
 
-アプリケーションがフィルタリング、クエリ出力、またはアプリケーションロジック用のスカラー値を提供する場合は、`add_collection_field()` を使用してユーザー定義スカラーフィールドを追加します。
+ユーザー定義のスカラーまたはベクトルフィールドを追加するには、`add_collection_field()` を使用します。
 
-アプリケーションが埋め込みを生成し、ベクトル値を Zilliz Cloud に書き込む場合は、`add_collection_field()` を使用してユーザー定義ベクトルフィールドを追加します。
+要素が同じ Struct スキーマを共有する配列フィールドが必要な場合は、`add_collection_struct_field()` を使用して StructArray フィールドを追加します。
 
-既存のフィールドからベクトル値を生成する必要がある場合は、`add_function_field()` を使用します。これは、Function、その生成ベクトルフィールド、およびバインドされたインデックス定義を同じスキーマ変更で追加します。このガイドでは字句検索用の BM25 の手順を示します。MinHash Function は近似重複検出用のバイナリベクトルフィールドを生成します。
+同じスキーマ変更で Function、その生成ベクトルフィールド、およびバインドされたインデックス定義を追加するには、`add_function_field()` を使用します。
 
 ### 追加するユーザー定義フィールドはなぜ nullable である必要がありますか？\{#why-must-added-user-defined-fields-be-nullable}
 
 既存のエンティティは新しいフィールドが存在する前に挿入されているため、そのフィールドの値を持っていません。`nullable=True` を設定すると、アプリケーションが値を書き込むまで、またはスカラーフィールドの場合はデフォルト値が適用されるまで、Zilliz Cloud は欠落値を `NULL` として表すことができます。
 
-このルールは、`add_collection_field()` で追加するユーザー定義スカラーフィールドとユーザー定義ベクトルフィールドに適用されます。nullable にできない Function の生成ベクトルフィールドには適用されません。
+このルールは、`add_collection_field()` で追加するユーザー定義のスカラーフィールドとユーザー定義のベクトルフィールド、および `add_collection_struct_field()` で追加する StructArray フィールドに適用されます。nullable にできない Function の生成ベクトルフィールドには適用されません。
 
 ### ユーザー定義フィールドを追加した後、既存のエンティティはどうなりますか？\{#what-happens-to-existing-entities-after-i-add-a-user-defined-field}
 
@@ -1902,25 +1869,29 @@ Function 出力フィールドを削除するとコレクションにベクト�
 
 ユーザー定義ベクトルフィールドの場合、既存のエンティティは新しいベクトルフィールドに `NULL` を持ちます。追加したフィールドでのベクトル検索では、ベクトル値が `NULL` のエンティティはスキップされます。既存のエンティティを新しいベクトルフィールドで検索可能にするには、upsert またはバックフィルワークフローを使用して NULL 以外のベクトル値を書き込みます。新しいエンティティは、insert 時に新しいベクトルフィールドを含めることができます。
 
-### 既存のコレクションに BM25 Function とその生成スパースベクトルフィールドを追加できますか？\{#can-i-add-a-bm25-function-and-its-generated-sparse-vector-field-to-an-existing-collection}
+StructArray フィールドの場合、既存のエンティティは、新しい StructArray フィールドのすべてのサブフィールドに対して `NULL` を返します。新しいエンティティは、フィールド全体に `NULL` を指定するか、すべての Struct 要素内のすべてのサブフィールドに有効な値を指定する必要があります。ただし、Milvus v3.0.x と互換性のある Dedicated クラスターで要素レベルの null を許可するサブフィールド（On-Demand クラスターではまだ利用できません）は除きます。既存の StructArray フィールドに追加されたサブフィールドの場合、既存のエンティティは各 Struct 要素内のそのサブフィールドに対して `NULL` を返します。
 
-はい。コレクションにアナライザーが有効な `VARCHAR` フィールドがすでに存在する場合は、字句検索用の BM25 Function とその生成スパースベクトルフィールドを追加できます。この操作では、Function、新しい `SPARSE_FLOAT_VECTOR` 出力フィールド、およびバインドされたインデックス定義を同じスキーマ変更で追加します。このスキーマ変更ワークフローでは、既存の `TEXT` フィールドを BM25 の入力として使用できません。`TEXT` を使用するには、コレクションの作成時にフィールドと BM25 Function を定義してください。そうでない場合は、Function をスキーマに含めた状態でコレクションを再作成または移行してください。
+### 既存のコレクションに BM25 字句検索を追加できますか？\{#can-i-add-bm25-lexical-search-to-an-existing-collection}
 
-`add_function_field()` を呼び出すときは、新しい出力フィールド用に、`metric_type="BM25"` を指定した 1 つの `SPARSE_INVERTED_INDEX` インデックスを含む `index_params` オブジェクトを指定します。インデックス定義は、同じスキーマ変更の一部として生成フィールドにバインドされます。
+はい。コレクションにアナライザーが有効な `VARCHAR` フィールドがすでに存在する場合は、BM25 Function とその生成スパースベクトルフィールドを字句検索用に追加できます。このワークフローでは、Zilliz Cloud は同じスキーマ変更で Function、新しい `SPARSE_FLOAT_VECTOR` 出力フィールド、およびバインドされたインデックス定義を追加します。このスキーマ変更ワークフローでは、既存の `TEXT` フィールドを BM25 の入力として使用できません。`TEXT` 入力を使用するには、コレクションの作成時にフィールドと BM25 Function を定義します。
+
+`add_function_field()` を呼び出すときは、新しい出力フィールド用に、`metric_type="BM25"` を指定した `SPARSE_INVERTED_INDEX` インデックスを 1 つ含む `index_params` オブジェクトを指定します。Zilliz Cloud は、同じスキーマ変更の一部として、インデックス定義を生成フィールドにバインドします。
 
 ### Function とその生成ベクトルフィールドを削除するにはどうすればよいですか？\{#how-do-i-drop-a-function-and-its-generated-vector-field}
 
-Function 名を指定して `drop_function_field()` を呼び出します。この操作では、Function の入力フィールドを保持したまま、Function、その生成ベクトルフィールド、および関連するインデックスをまとめて削除します。
+Function 名を指定して `drop_function_field()` を呼び出します。このスキーマ変更ワークフローでは、Zilliz Cloud は Function の入力フィールドを保持したまま、Function、その生成ベクトルフィールド、および関連するインデックスをまとめて削除します。
 
 ### コレクションスキーマを変更した後、待機する必要がありますか？\{#do-i-need-to-wait-after-altering-a-collection-schema}
 
 通常、手動で待機する必要はありません。次の操作が更新後のスキーマに依存する場合は、まず `describe_collection()` を呼び出して、Zilliz Cloud が現在返すスキーマを確認できます。
 
+分散デプロイでは、Zilliz Cloud のコンポーネントがコレクションメタデータを更新する間、短い伝播期間が発生することがあります。スキーマ変更直後の操作がスキーマ関連のエラーで失敗した場合は、スキーマを更新して操作を再試行してください。
+
+
 ### 追加したベクトルサブフィールドが FieldNotLoaded エラーで失敗するのはなぜですか？\{#why-does-an-added-vector-sub-field-fail-with-a-fieldnotloaded-error}
 
 ベクトルサブフィールドを追加してそのインデックスを作成した後も、コレクションが準備完了を報告していても、新しいサブフィールドに対するクエリがエラー 2027（`FieldNotLoaded`）で失敗する場合があります。コレクションをリリースしてから再度ロードしてください。クエリはその後、新しいサブフィールドを対象とするようになります。
 
-分散デプロイでは、Zilliz Cloud のコンポーネントがコレクションメタデータを更新する間、短い伝播期間が発生することがあります。スキーマ変更直後の操作がスキーマ関連のエラーで失敗した場合は、スキーマを更新して操作を再試行してください。
 
 ### フィールドを削除した後、ストレージ容量はいつ解放されますか？\{#when-is-storage-space-reclaimed-after-dropping-a-field}
 
@@ -1932,4 +1903,4 @@ Function 名を指定して `drop_function_field()` を呼び出します。こ�
 
 ダイナミックフィールドが有効な場合、既存のダイナミックフィールドキーと同じ名前のスカラーフィールドを追加できます。新しいスカラーフィールドは通常のクエリ出力でダイナミックフィールドキーをマスクしますが、元のダイナミックデータは `$meta` に保持されます。
 
-たとえば、既存のエンティティが `source` という名前のダイナミックキーを保存しており、後で `source` という名前のスカラーフィールドを追加した場合、`source` の通常の出力はスカラーフィールドを参照します。元のダイナミック値にアクセスするには、`$meta["source"]` など、&#36;meta パス構文を使用します。
+たとえば、既存のエンティティが `source` という名前のダイナミックキーを格納しており、その後で `source` という名前のスカラーフィールドを追加すると、`source` の通常の出力はスカラーフィールドを指します。元のダイナミック値を取得するには、`$meta["source"]` などの `$meta` パス構文を使用します。
