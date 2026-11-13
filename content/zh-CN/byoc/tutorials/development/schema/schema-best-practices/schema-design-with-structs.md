@@ -77,7 +77,7 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 
 该数据集的数据结构如下：
 
-```python
+```plaintext
 ├── video_1                                       (VIDEO) # video.mp4
 │   ├── video_id                                  (INT)
 │   ├── video_url                                 (STRING)
@@ -111,9 +111,9 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 │   │   │   │   ├── lead_y                        (FLOAT)
 │   │   │   │   ├── lead_speed_kmh                (FLOAT)
 │   │   │   │   ├── lead_a                        (FLOAT)
-│   │   ├── frame_2                               (STRUCT)
-│   │   ├── ...                                   (STRUCT)
-│   │   ├── frame_n                               (STRUCT)
+│   │   │   ├── frame_2                               (STRUCT)
+│   │   │   ├── ...                                   (STRUCT)
+│   │   │   ├── frame_n                               (STRUCT)
 ├── video_2
 ├── ...
 ├── video_n
@@ -121,7 +121,7 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 
 您会发现 CoVLA 数据集的结构非常复杂，层级较多。收集到的数据分成了多个 `.jsonl` 文件与原始视频片段（`.mp4`）一起存放在数据集中。
 
-在 Zilliz Cloud 中，您可以使用 JSON 字段或者 Struct Array 字段来处理多层嵌套结构。当内层嵌套结构中包含向量字段时，Struct Array 成为了唯一选择。但是，Struct Array 字段内的 Struct 并不支持 JSON 或 Array 字段。为了将 CoVLA 数据集存入 Collection，您需要移除不必要的嵌套层级。
+在 Zilliz Cloud 中，您可以使用 JSON 字段或者 Struct Array 字段来处理多层嵌套结构。当内层嵌套结构中包含向量字段时，Struct Array 成为了唯一选择。但是，Struct Array 字段内的 Struct 不支持再嵌套 JSON 字段或 Struct 字段在兼容 Milvus v3.0.x 的 Dedicated 集群上，支持在 Struct 内包含一层标量 array 子字段；On-Demand 集群暂不支持该能力。为了将 CoVLA 数据集存入 Collection，您需要移除不必要的嵌套层级。
 
 下图展示了最终的建模结果：
 
@@ -155,11 +155,13 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 
 - 初始化 captions Struct Schema
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
     from pymilvus import MilvusClient, DataType
+    import json
+    from openai import OpenAI
     
     client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
     
@@ -305,6 +307,13 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
     import io.milvus.v2.common.DataType;
     import io.milvus.v2.service.collection.request.CreateCollectionReq;
     import java.util.Arrays;
+    import io.milvus.v2.common.IndexParam;
+    import java.util.List;
+    import com.google.gson.Gson;
+    import com.google.gson.JsonArray;
+    import com.google.gson.JsonObject;
+    import io.milvus.v2.service.vector.request.InsertReq;
+    import java.util.Collections;
     
     ConnectConfig connectConfig = ConnectConfig.builder()
             .uri("YOUR_CLUSTER_ENDPOINT")
@@ -370,14 +379,18 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
     import (
         "context"
         "log"
+        "encoding/json"
+        "fmt"
     
         "github.com/milvus-io/milvus/client/v3/entity"
         "github.com/milvus-io/milvus/client/v3/milvusclient"
+        "github.com/milvus-io/milvus/client/v3/index"
+        "github.com/milvus-io/milvus/client/v3/column"
     )
     
     ctx := context.Background()
     
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
         Address: "YOUR_CLUSTER_ENDPOINT",
         APIKey:  "YOUR_CLUSTER_TOKEN",
     })
@@ -427,7 +440,6 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
             WithDescription("probability/confidence of pedestrian presence")).
         WithField(entity.NewField().WithName("has_carrier_car").WithDataType(entity.FieldTypeBool).
             WithDescription("whether there is a carrier car present"))
-    
     ```
 
     </TabItem>
@@ -436,9 +448,8 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 
     ```rust
     use milvus::v2::prelude::*;
+    use serde_json;
     
-    #[tokio::main]
-    async fn main() -> Result<()> {
         let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
         let client = ClientV2::new(&config).await?;
     
@@ -543,17 +554,17 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
     // create the schema for the caption struct
     const captionStructFields = [
         { name: "frame_id", data_type: DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs" },
-        { name: "plain_caption", data_type: DataType.VarChar, type_params: { max_length: 1024 }, description: "plain description of the ego vehicle's behaviors" },
-        { name: "plain_cap_vector", data_type: DataType.FloatVector, type_params: { dim: 768 }, description: "vectors for the plain description of the ego vehicle's behaviors" },
-        { name: "rich_caption", data_type: DataType.VarChar, type_params: { max_length: 1024 }, description: "rich description of the ego vehicle's behaviors" },
-        { name: "rich_cap_vector", data_type: DataType.FloatVector, type_params: { dim: 768 }, description: "vectors for the rich description of the ego vehicle's behaviors" },
-        { name: "risk", data_type: DataType.VarChar, type_params: { max_length: 1024 }, description: "description of the ego vehicle's risks" },
-        { name: "risk_vector", data_type: DataType.FloatVector, type_params: { dim: 768 }, description: "vectors for the description of the ego vehicle's risks" },
+        { name: "plain_caption", data_type: DataType.VarChar, max_length: 1024, description: "plain description of the ego vehicle's behaviors" },
+        { name: "plain_cap_vector", data_type: DataType.FloatVector, dim: 768, description: "vectors for the plain description of the ego vehicle's behaviors" },
+        { name: "rich_caption", data_type: DataType.VarChar, max_length: 1024, description: "rich description of the ego vehicle's behaviors" },
+        { name: "rich_cap_vector", data_type: DataType.FloatVector, dim: 768, description: "vectors for the rich description of the ego vehicle's behaviors" },
+        { name: "risk", data_type: DataType.VarChar, max_length: 1024, description: "description of the ego vehicle's risks" },
+        { name: "risk_vector", data_type: DataType.FloatVector, dim: 768, description: "vectors for the description of the ego vehicle's risks" },
         { name: "risk_correct", data_type: DataType.Bool, description: "whether the risk assessment is correct" },
         { name: "risk_yes_rate", data_type: DataType.Float, description: "probability/confidence of risk being present" },
-        { name: "weather", data_type: DataType.VarChar, type_params: { max_length: 50 }, description: "weather condition" },
+        { name: "weather", data_type: DataType.VarChar, max_length: 50, description: "weather condition" },
         { name: "weather_rate", data_type: DataType.Float, description: "probability/confidence of the weather condition" },
-        { name: "road", data_type: DataType.VarChar, type_params: { max_length: 50 }, description: "road type" },
+        { name: "road", data_type: DataType.VarChar, max_length: 50, description: "road type" },
         { name: "road_rate", data_type: DataType.Float, description: "probability/confidence of the road type" },
         { name: "is_tunnel", data_type: DataType.Bool, description: "whether the road is a tunnel" },
         { name: "is_tunnel_yes_rate", data_type: DataType.Float, description: "probability/confidence of the road being a tunnel" },
@@ -563,6 +574,25 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
         { name: "has_pedestrian_yes_rate", data_type: DataType.Float, description: "probability/confidence of pedestrian presence" },
         { name: "has_carrier_car", data_type: DataType.Bool, description: "whether there is a carrier car present" },
     ];
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    // create the schema for the caption struct
+    var schemaForCaption = new StructFieldSchema("captions", "captions for the current video")
+    {
+        MaxCapacity = 600
+    };
+    schemaForCaption.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("plain_caption", 1024, description: "plain description of the ego vehicle's behavior"));
+    schemaForCaption.Fields.Add(new FieldSchema("plain_cap_vector", DataType.FloatVector) { Dimension = 768 });
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("rich_caption", 2048));
+    schemaForCaption.Fields.Add(new FieldSchema("rich_cap_vector", DataType.FloatVector) { Dimension = 768 });
+    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("risk", 512));
+    schemaForCaption.Fields.Add(new FieldSchema("risk_vector", DataType.FloatVector) { Dimension = 768 });
     ```
 
     </TabItem>
@@ -584,7 +614,7 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 
     </Admonition>
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -683,7 +713,6 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
             WithDescription("speed of the leading vehicle in km/h")).
         WithField(entity.NewField().WithName("lead_a").WithDataType(entity.FieldTypeFloat).
             WithDescription("acceleration of the leading vehicle"))
-    
     ```
 
     </TabItem>
@@ -751,6 +780,22 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 
     </TabItem>
 
+    <TabItem value='csharp'>
+
+    ```csharp
+    // create the schema for the front car struct
+    var schemaForFrontCar = new StructFieldSchema("front_cars", "frame-specific leading cars identified in the current video")
+    {
+        MaxCapacity = 600
+    };
+    schemaForFrontCar.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("has_lead", DataType.Bool, description: "whether there is a leading vehicle"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("lead_prob", DataType.Float, description: "probability/confidence of the leading vehicle's presence"));
+    schemaForFrontCar.Fields.Add(new FieldSchema("distance", DataType.Float, description: "distance to the leading vehicle"));
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -762,7 +807,7 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 
 - 初始化 Collection Schema
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -814,8 +859,6 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
     <TabItem value='java'>
 
     ```java
-    import java.util.Arrays;
-    
     CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
             .fieldSchemaList(Arrays.asList(
                     CreateCollectionReq.FieldSchema.builder().name("video_id").dataType(DataType.VarChar)
@@ -859,15 +902,15 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
     <TabItem value='rust'>
 
     ```rust
-        let schema = CollectionSchema::new()
-            .add_field(FieldSchema::new().name("video_id").data_type(DataType::VarChar).max_length(16)
-                .primary_key(true).auto_id(false).description("primary key"))
-            .add_field(FieldSchema::new().name("video_url").data_type(DataType::VarChar).max_length(512)
-                .description("URL of the video"))
-            .add_struct_field(caption_schema)
-            .add_field(FieldSchema::new().name("traffic_lights").data_type(DataType::Json)
-                .description("frame-specific traffic lights identified in the current video"))
-            .add_struct_field(front_car_schema);
+    let schema = CollectionSchema::new()
+        .add_field(FieldSchema::new().name("video_id").data_type(DataType::VarChar).max_length(16)
+            .primary_key(true).auto_id(false).description("primary key"))
+        .add_field(FieldSchema::new().name("video_url").data_type(DataType::VarChar).max_length(512)
+            .description("URL of the video"))
+        .add_struct_field(caption_schema)
+        .add_field(FieldSchema::new().name("traffic_lights").data_type(DataType::Json)
+            .description("frame-specific traffic lights identified in the current video"))
+        .add_struct_field(front_car_schema);
     ```
 
     </TabItem>
@@ -893,9 +936,9 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
     ```javascript
     const schema = [
         { name: "video_id", data_type: DataType.VarChar, is_primary_key: true, autoID: false,
-          type_params: { max_length: 16 }, description: "primary key" },
+          max_length: 16, description: "primary key" },
         { name: "video_url", data_type: DataType.VarChar,
-          type_params: { max_length: 512 }, description: "URL of the video" },
+          max_length: 512, description: "URL of the video" },
         { name: "captions", data_type: DataType.Array, element_type: DataType.Struct, max_capacity: 600,
           fields: captionStructFields, description: "captions for the current video" },
         { name: "traffic_lights", data_type: DataType.JSON,
@@ -903,6 +946,23 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
         { name: "front_cars", data_type: DataType.Array, element_type: DataType.Struct, max_capacity: 600,
           fields: frontCarStructFields, description: "frame-specific leading cars identified in the current video" },
     ];
+    ```
+
+    </TabItem>
+
+    <TabItem value='csharp'>
+
+    ```csharp
+    var schema = new CollectionSchema
+    {
+        Fields =
+        {
+            FieldSchema.CreateVarchar("video_id", 16, isPrimaryKey: true, description: "primary key"),
+            FieldSchema.CreateVarchar("video_url", 512, description: "URL of the video"),
+            new FieldSchema("traffic_lights", DataType.Json, description: "frame-specific traffic lights identified in the current video")
+        },
+        StructFields = { schemaForCaption, schemaForFrontCar }
+    };
     ```
 
     </TabItem>
@@ -920,7 +980,7 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 
 所有的向量字段都需要索引。为 Struct Array 字段中的向量字段创建索引，需要使用 `AUTOINDEX` 为索引类型，并在 `MAX_SIM` 系列相似度类型中选择合适的类型来度量 EmbeddingList 之间的相似度。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -953,10 +1013,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.IndexParam;
-import java.util.Arrays;
-import java.util.List;
-
 List<IndexParam> indexParams = Arrays.asList(
         IndexParam.builder().fieldName("captions[plain_cap_vector]")
                 .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -980,8 +1036,6 @@ List<IndexParam> indexParams = Arrays.asList(
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/index"
-
 indexes := []milvusclient.CreateIndexOption{
     milvusclient.NewCreateIndexOption("covla_dataset", "captions[plain_cap_vector]", index.NewAutoIndex(entity.MaxSimCosine)).
         WithIndexName("captions_plain_cap_vector_idx"),
@@ -997,20 +1051,20 @@ indexes := []milvusclient.CreateIndexOption{
 <TabItem value='rust'>
 
 ```rust
-    let index_params = vec![
-        IndexParam::new().field_name("captions[plain_cap_vector]")
-            .index_name("captions_plain_cap_vector_idx")
-            .index_type(IndexType::AutoIndex)
-            .metric_type(MetricType::MaxSimCosine),
-        IndexParam::new().field_name("captions[rich_cap_vector]")
-            .index_name("captions_rich_cap_vector_idx")
-            .index_type(IndexType::AutoIndex)
-            .metric_type(MetricType::MaxSimCosine),
-        IndexParam::new().field_name("captions[risk_vector]")
-            .index_name("captions_risk_vector_idx")
-            .index_type(IndexType::AutoIndex)
-            .metric_type(MetricType::MaxSimCosine),
-    ];
+let index_params = vec![
+    IndexParam::new().field_name("captions[plain_cap_vector]")
+        .index_name("captions_plain_cap_vector_idx")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::MaxSimCosine),
+    IndexParam::new().field_name("captions[rich_cap_vector]")
+        .index_name("captions_rich_cap_vector_idx")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::MaxSimCosine),
+    IndexParam::new().field_name("captions[risk_vector]")
+        .index_name("captions_risk_vector_idx")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::MaxSimCosine),
+];
 ```
 
 </TabItem>
@@ -1043,6 +1097,19 @@ const indexParams = [
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+IndexParam[] indexParams =
+[
+    new("captions[plain_cap_vector]", "captions_plain_cap_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine),
+    new("captions[rich_cap_vector]", "captions_rich_cap_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine),
+    new("captions[risk_vector]", "captions_risk_vector_idx", IndexType.AutoIndex, MetricType.MaxSimCosine)
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1058,7 +1125,7 @@ const indexParams = [
 
 当 Schema 和索引参数都准备好之后，就可以使用它们来创建 Collection 了。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1086,7 +1153,7 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-err = cli.CreateCollection(ctx,
+err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("covla_dataset", schema).
         WithIndexOptions(indexes...))
 if err != nil {
@@ -1099,12 +1166,12 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-    let request = CreateCollectionRequest::builder()
-        .collection_name("covla_dataset")
-        .schema(schema)
-        .index_params(index_params)
-        .build()?;
-    client.create_collection(request).await?;
+let request = CreateCollectionRequest::builder()
+    .collection_name("covla_dataset")
+    .schema(schema)
+    .index_params(index_params)
+    .build()?;
+client.create_collection(request).await?;
 ```
 
 </TabItem>
@@ -1137,6 +1204,23 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "covla_dataset",
+    Schema = schema,
+    Indexes = indexParams
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1153,9 +1237,6 @@ Turing Motors 将 CoVLA 数据集分散到多个文件中，包括原始视频�
 您需要从这些数据中将每个视频片段的信息抽取出来按之前创建好的 Schema 的格式重新组合才能将其插入到 Collection 中。下方示例代码演示了合并指定视频片段所有数据的代码。
 
 ```python
-import json
-from openai import OpenAI
-
 openai_client = OpenAI(
     api_key='YOUR_OPENAI_API_KEY',
 )
@@ -1232,7 +1313,7 @@ data = {
 
 在经过上述方式的处理后，您就可以向 Collection 中插入这条视频片段的相关数据了。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1249,14 +1330,6 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import io.milvus.v2.service.vector.request.InsertReq;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 List<Float> vector = Collections.nCopies(768, 0.1f); // placeholder vectors
 
 JsonObject data = new JsonObject();
@@ -1320,12 +1393,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "encoding/json"
-
-    "github.com/milvus-io/milvus/client/v3/column"
-)
-
 trafficLights, err := json.Marshal([]map[string]any{
     {"index": 0, "class": "red", "bbox": []float32{1, 2, 3, 4}},
     {"index": 1, "class": "green", "bbox": []float32{5, 6, 7, 8}},
@@ -1343,7 +1410,7 @@ vector := func() []float32 {
     return v
 }
 
-ins, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("covla_dataset").
+ins, err := client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("covla_dataset").
     WithColumns(
         column.NewColumnVarChar("video_id", []string{"0a0fc7a5db365174"}),
         column.NewColumnVarChar("video_url", []string{"https://your-storage.com/0a0fc7a5db365174"}),
@@ -1395,68 +1462,68 @@ fmt.Println("insert OK, ids:", ins.IDs)
 <TabItem value='rust'>
 
 ```rust
-    let request = InsertRequest::builder()
-        .collection_name("covla_dataset")
-        .columns(vec![
-            FieldData::VarChar {
-                name: "video_id".into(),
-                values: vec!["0a0fc7a5db365174".to_string()],
-            },
-            FieldData::VarChar {
-                name: "video_url".into(),
-                values: vec!["https://your-storage.com/0a0fc7a5db365174".to_string()],
-            },
-            FieldData::Json {
-                name: "traffic_lights".into(),
-                values: vec![serde_json::json!([
-                    {"index": 0, "class": "red", "bbox": [1.0, 2.0, 3.0, 4.0]},
-                    {"index": 1, "class": "green", "bbox": [5.0, 6.0, 7.0, 8.0]}
-                ])],
-            },
-            FieldData::Struct {
-                name: "captions".into(),
-                values: vec![vec![
-                    serde_json::json!({
-                        "frame_id": 0,
-                        "plain_caption": "Merge left while yielding to oncoming traffic",
-                        "plain_cap_vector": vec![0.1f32; 768],
-                        "rich_caption": "Merge left while yielding to oncoming traffic on a sunny highway",
-                        "rich_cap_vector": vec![0.1f32; 768],
-                        "risk": "Potential collision with the leading vehicle",
-                        "risk_vector": vec![0.1f32; 768],
-                        "risk_correct": true,
-                        "risk_yes_rate": 0.8,
-                        "weather": "sunny",
-                        "weather_rate": 0.9,
-                        "road": "highway",
-                        "road_rate": 0.7,
-                        "is_tunnel": false,
-                        "is_tunnel_yes_rate": 0.1,
-                        "is_highway": true,
-                        "is_highway_yes_rate": 0.9,
-                        "has_pedestrian": true,
-                        "has_pedestrian_yes_rate": 0.6,
-                        "has_carrier_car": false,
-                    }).as_object().cloned().expect("caption object"),
-                ]],
-            },
-            FieldData::Struct {
-                name: "front_cars".into(),
-                values: vec![vec![
-                    serde_json::json!({
-                        "frame_id": 0,
-                        "has_lead": true,
-                        "lead_prob": 0.9,
-                        "lead_x": 1.5,
-                        "lead_y": 0.5,
-                        "lead_speed_kmh": 60.0,
-                        "lead_a": 0.2,
-                    }).as_object().cloned().expect("front car object"),
-                ]],
-            },
-        ])
-        .build()?;
-    client.insert(request).await?;
+let request = InsertRequest::builder()
+    .collection_name("covla_dataset")
+    .columns(vec![
+        FieldData::VarChar {
+            name: "video_id".into(),
+            values: vec!["0a0fc7a5db365174".to_string()],
+        },
+        FieldData::VarChar {
+            name: "video_url".into(),
+            values: vec!["https://your-storage.com/0a0fc7a5db365174".to_string()],
+        },
+        FieldData::Json {
+            name: "traffic_lights".into(),
+            values: vec![serde_json::json!([
+                {"index": 0, "class": "red", "bbox": [1.0, 2.0, 3.0, 4.0]},
+                {"index": 1, "class": "green", "bbox": [5.0, 6.0, 7.0, 8.0]}
+            ])],
+        },
+        FieldData::Struct {
+            name: "captions".into(),
+            values: vec![vec![
+                serde_json::json!({
+                    "frame_id": 0,
+                    "plain_caption": "Merge left while yielding to oncoming traffic",
+                    "plain_cap_vector": vec![0.1f32; 768],
+                    "rich_caption": "Merge left while yielding to oncoming traffic on a sunny highway",
+                    "rich_cap_vector": vec![0.1f32; 768],
+                    "risk": "Potential collision with the leading vehicle",
+                    "risk_vector": vec![0.1f32; 768],
+                    "risk_correct": true,
+                    "risk_yes_rate": 0.8,
+                    "weather": "sunny",
+                    "weather_rate": 0.9,
+                    "road": "highway",
+                    "road_rate": 0.7,
+                    "is_tunnel": false,
+                    "is_tunnel_yes_rate": 0.1,
+                    "is_highway": true,
+                    "is_highway_yes_rate": 0.9,
+                    "has_pedestrian": true,
+                    "has_pedestrian_yes_rate": 0.6,
+                    "has_carrier_car": false,
+                }).as_object().cloned().expect("caption object"),
+            ]],
+        },
+        FieldData::Struct {
+            name: "front_cars".into(),
+            values: vec![vec![
+                serde_json::json!({
+                    "frame_id": 0,
+                    "has_lead": true,
+                    "lead_prob": 0.9,
+                    "lead_x": 1.5,
+                    "lead_y": 0.5,
+                    "lead_speed_kmh": 60.0,
+                    "lead_a": 0.2,
+                }).as_object().cloned().expect("front car object"),
+            ]],
+        },
+    ])
+    .build()?;
+client.insert(request).await?;
 ```
 
 </TabItem>
@@ -1468,7 +1535,6 @@ milvus::EntityRows rows = {{
     {"video_id", "0a0fc7a5db365174"},
     {"video_url", "https://your-storage.com/0a0fc7a5db365174"},
     {"captions", nlohmann::json::array({{
-        {{
             {"frame_id", 0},
             {"plain_caption", "Merge left while yielding to oncoming traffic"},
             {"plain_cap_vector", std::vector<float>(768, 0.1f)},
@@ -1489,13 +1555,11 @@ milvus::EntityRows rows = {{
             {"has_pedestrian", true},
             {"has_pedestrian_yes_rate", 0.6},
             {"has_carrier_car", false}
-        }}
     }})},
     {"traffic_lights", nlohmann::json::array({{
-        {{"index", 0}, {"class", "red"}, {"bbox", std::vector<float>{1, 2, 3, 4}}}
+        {"index", 0}, {"class", "red"}, {"bbox", std::vector<float>{1, 2, 3, 4}}
     }})},
     {"front_cars", nlohmann::json::array({{
-        {{
             {"frame_id", 0},
             {"has_lead", true},
             {"lead_prob", 0.9},
@@ -1503,7 +1567,6 @@ milvus::EntityRows rows = {{
             {"lead_y", 0.5},
             {"lead_speed_kmh", 60.0},
             {"lead_a", 0.2}
-        }}
     }})}
 }};
 
@@ -1568,6 +1631,49 @@ const data = {
 };
 
 await client.insert({ collection_name: "covla_dataset", data: [data] });
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var vector768 = Enumerable.Repeat(0.1f, 768).ToArray();
+
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "covla_dataset",
+    RowsData =
+    [
+        new Dictionary<string, object?>
+        {
+            ["video_id"] = "0a0fc7a5db365174",
+            ["video_url"] = "https://your-storage.com/0a0fc7a5db365174",
+            ["traffic_lights"] = new[]
+            {
+                new Dictionary<string, object?> { ["index"] = 0, ["class"] = "red", ["bbox"] = new[] { 1f, 2f, 3f, 4f } },
+                new Dictionary<string, object?> { ["index"] = 1, ["class"] = "green", ["bbox"] = new[] { 5f, 6f, 7f, 8f } }
+            },
+            ["captions"] = new object[]
+            {
+                new Dictionary<string, object?>
+                {
+                    ["frame_id"] = 0L,
+                    ["plain_caption"] = "Merge left while yielding to oncoming traffic",
+                    ["plain_cap_vector"] = vector768,
+                    ["rich_caption"] = "Merge left while yielding to oncoming traffic on a sunny highway",
+                    ["rich_cap_vector"] = vector768,
+                    ["risk"] = "Potential collision with the leading vehicle",
+                    ["risk_vector"] = vector768
+                }
+            },
+            ["front_cars"] = new object[]
+            {
+                new Dictionary<string, object?> { ["frame_id"] = 0L, ["has_lead"] = true, ["lead_prob"] = 0.9f, ["distance"] = 5.5f }
+            }
+        }
+    ]
+});
 ```
 
 </TabItem>

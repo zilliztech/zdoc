@@ -192,6 +192,10 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+
+// Output
+// IDs:  [0, 10, 4]
+// Scores: [1.4093276262283325, 1.4093276262283325, 0.9902134537696838]
 ```
 
 </TabItem>
@@ -223,6 +227,9 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+// EntityRow { id: 0, ... }, EntityRow { id: 10, ... }, EntityRow { id: 4, ... }
 ```
 
 </TabItem>
@@ -230,18 +237,14 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-#include <iostream>
-#include <vector>
+#include 
+#include 
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cerr << "Failed to connect: " << status.Message() << std::endl;
-    return;
-}
-
-std::vector<float> queryVector = {
+    std::cerr  queryVector = {
     0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
 };
 
@@ -255,16 +258,10 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
+    std::cerr
 
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
-    }
-}
+// Output
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
 ```
 
 </TabItem>
@@ -313,7 +310,7 @@ using var client = new MilvusClientV2(new ConnectConfig
 await client.ConnectAsync();
 
 // 4. Single vector search
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -325,11 +322,10 @@ var res = await client.SearchAsync(new SearchReq
 var single = res.SingleResults?.FirstOrDefault();
 if (single is not null)
 {
-    for (int i = 0; i < single.Scores.Count; i++)
-    {
-        Console.WriteLine($"id={single.Ids.LongIds?[i]}, score={single.Scores[i]}");
-    }
-}
+    for (int i = 0; i
+
+// Output
+// {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
 ```
 
 </TabItem>
@@ -538,6 +534,12 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+
+// Output
+// IDs:  [0, 10, 4]
+// Scores: [1.4093276262283325, 1.4093276262283325, 0.9902134537696838]
+// IDs:  [1, 11, 7]
+// Scores: [1.3017789125442505, 1.3017789125442505, 1.2419954538345337]
 ```
 
 </TabItem>
@@ -570,6 +572,10 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+// EntityRow { id: 0, ... }, EntityRow { id: 10, ... }, EntityRow { id: 4, ... }
+// EntityRow { id: 1, ... }, EntityRow { id: 11, ... }, EntityRow { id: 7, ... }
 ```
 
 </TabItem>
@@ -577,7 +583,7 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-std::vector<std::vector<float>> queryVectors = {
+std::vector> queryVectors = {
     {0.041732933F, 0.013779674F, -0.027564144F, -0.013061441F, 0.009748648F},
     {0.0039737443F, 0.003020432F, -0.0006188639F, 0.03913546F, -0.00089768134F},
 };
@@ -591,17 +597,11 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
+    std::cerr
 
-for (const auto& result : searchResponse.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    const auto ids = result.Ids().IntIDArray();
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
-    }
-}
+// Output
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
+// TopK: (id=1, distance=1.3017789125442505), (id=11, distance=1.3017789125442505), (id=7, distance=1.2419954538345337)
 ```
 
 </TabItem>
@@ -648,8 +648,8 @@ console.log(res.results)
 // 7.1. Prepare query vectors
 var queryVectors = new[]
 {
-    new ReadOnlyMemory<float>(new[] { 0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f }),
-    new ReadOnlyMemory<float>(new[] { 0.0039737443f, 0.003020432f, -0.0006188639f, 0.03913546f, -0.00089768134f })
+    new ReadOnlyMemory(new[] { 0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f }),
+    new ReadOnlyMemory(new[] { 0.0039737443f, 0.003020432f, -0.0006188639f, 0.03913546f, -0.00089768134f })
 };
 
 // 7.2. Start search
@@ -660,6 +660,10 @@ var res = await client.SearchAsync(new SearchReq
     Vectors = queryVectors,
     Limit = 3
 });
+
+// Output
+// {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
+// {Id=1, Distance=1.3017789125442505}, {Id=11, Distance=1.3017789125442505}, {Id=7, Distance=1.2419954538345337}
 ```
 
 </TabItem>
@@ -774,6 +778,62 @@ res = client.search(
 for hits in res:
     for hit in hits:
         print(hit)
+
+# Output
+#
+# [
+#     [
+#         {
+#             "id": 7,
+#             "distance": 0.8298614621162415,
+#             "entity": {}
+#         },
+#         {
+#             "id": 17,
+#             "distance": 0.8298614621162415,
+#             "entity": {}
+#         },
+#         {
+#             "id": 1,
+#             "distance": 0.7651865482330322,
+#             "entity": {}
+#         }
+#     ]
+#     [
+#         {
+#             "id": 7,
+#             "distance": 0.7964162826538086,
+#             "entity": {}
+#         },
+#         {
+#             "id": 17,
+#             "distance": 0.7964162826538086,
+#             "entity": {}
+#         },
+#         {
+#             "id": 1,
+#             "distance": 0.7850733995437622,
+#             "entity": {}
+#         }
+#     ]
+#     [
+#         {
+#             "id": 1,
+#             "distance": 0.8049601912498474,
+#             "entity": {}
+#         },
+#         {
+#             "id": 11,
+#             "distance": 0.8049601912498474,
+#             "entity": {}
+#         },
+#         {
+#             "id": 7,
+#             "distance": 0.7629711627960205,
+#             "entity": {}
+#         }
+#     ]
+# ]
 ```
 
 </TabItem>
@@ -785,7 +845,7 @@ SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
         .annsField("vector")
         // highlight-start
-        .ids(Arrays.<Object>asList(551L, 296L, 43L))
+        .ids(Arrays.asList(551L, 296L, 43L))
         // highlight-end
         .limit(3)
         .metricType(IndexParam.MetricType.IP)
@@ -793,6 +853,20 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 System.out.println(searchResp.getSearchResults());
+
+// Output
+// TopK results:
+// SearchResp.SearchResult(entity={}, score=0.8298614621162415, id=7)
+// SearchResp.SearchResult(entity={}, score=0.8298614621162415, id=17)
+// SearchResp.SearchResult(entity={}, score=0.7651865482330322, id=1)
+// TopK results:
+// SearchResp.SearchResult(entity={}, score=0.7964162826538086, id=7)
+// SearchResp.SearchResult(entity={}, score=0.7964162826538086, id=17)
+// SearchResp.SearchResult(entity={}, score=0.7850733995437622, id=1)
+// TopK results:
+// SearchResp.SearchResult(entity={}, score=0.8049601912498474, id=1)
+// SearchResp.SearchResult(entity={}, score=0.8049601912498474, id=11)
+// SearchResp.SearchResult(entity={}, score=0.7629711627960205, id=7)
 ```
 
 </TabItem>
@@ -816,6 +890,14 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+
+// Output
+// IDs:  [7, 17, 1]
+// Scores: [0.8298614621162415, 0.8298614621162415, 0.7651865482330322]
+// IDs:  [7, 17, 1]
+// Scores: [0.7964162826538086, 0.7964162826538086, 0.7850733995437622]
+// IDs:  [1, 11, 7]
+// Scores: [0.8049601912498474, 0.8049601912498474, 0.7629711627960205]
 ```
 
 </TabItem>
@@ -839,6 +921,11 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+// EntityRow { id: 7, ... }, EntityRow { id: 17, ... }, EntityRow { id: 1, ... }
+// EntityRow { id: 7, ... }, EntityRow { id: 17, ... }, EntityRow { id: 1, ... }
+// EntityRow { id: 1, ... }, EntityRow { id: 11, ... }, EntityRow { id: 7, ... }
 ```
 
 </TabItem>
@@ -858,16 +945,12 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
+    std::cerr
 
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
-    }
-}
+// Output
+// TopK: (id=7, distance=0.8298614621162415), (id=17, distance=0.8298614621162415), (id=1, distance=0.7651865482330322)
+// TopK: (id=7, distance=0.7964162826538086), (id=17, distance=0.7964162826538086), (id=1, distance=0.7850733995437622)
+// TopK: (id=1, distance=0.8049601912498474), (id=11, distance=0.8049601912498474), (id=7, distance=0.7629711627960205)
 ```
 
 </TabItem>
@@ -886,6 +969,25 @@ res = await client.search({
 })
 
 console.log(res.results)
+
+// Output
+// [
+//   [
+//     { score: 0.8298614621162415, id: '7' },
+//     { score: 0.8298614621162415, id: '17' },
+//     { score: 0.7651865482330322, id: '1' }
+//   ],
+//   [
+//     { score: 0.7964162826538086, id: '7' },
+//     { score: 0.7964162826538086, id: '17' },
+//     { score: 0.7850733995437622, id: '1' }
+//   ],
+//   [
+//     { score: 0.8049601912498474, id: '1' },
+//     { score: 0.8049601912498474, id: '11' },
+//     { score: 0.7629711627960205, id: '7' }
+//   ]
+// ]
 ```
 
 </TabItem>
@@ -901,6 +1003,11 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     MetricType = MetricType.Ip
 });
+
+// Output
+// {Id=7, Distance=0.8298614621162415}, {Id=17, Distance=0.8298614621162415}, {Id=1, Distance=0.7651865482330322}
+// {Id=7, Distance=0.7964162826538086}, {Id=17, Distance=0.7964162826538086}, {Id=1, Distance=0.7850733995437622}
+// {Id=1, Distance=0.8049601912498474}, {Id=11, Distance=0.8049601912498474}, {Id=7, Distance=0.7629711627960205}
 ```
 
 </TabItem>
@@ -919,6 +1026,55 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
     "ids": [551, 296, 43],
     "limit": 3
   }'
+
+# {
+#     "code": 0,
+#     "data": [
+#         [
+#           {
+#               "distance": 0.8298614621162415,
+#               "id": 7
+#           },
+#           {
+#               "distance": 0.8298614621162415,
+#               "id": 17
+#           },
+#           {
+#               "distance": 0.7651865482330322,
+#               "id": 1
+#           }
+#         ],
+#         [
+#           {
+#               "distance": 0.7964162826538086,
+#               "id": 7
+#           },
+#           {
+#               "distance": 0.7964162826538086,
+#               "id": 17
+#           },
+#           {
+#               "distance": 0.7850733995437622,
+#               "id": 1
+#           }
+#         ],
+#         [
+#           {
+#               "distance": 0.8049601912498474,
+#               "id": 1
+#           },
+#           {
+#               "distance": 0.8049601912498474,
+#               "id": 11
+#           },
+#           {
+#               "distance": 0.7629711627960205,
+#               "id": 7
+#           }
+#         ]
+#     ],
+#     "topks":[3]
+# }
 ```
 
 </TabItem>
@@ -1043,6 +1199,10 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+
+// Output
+// IDs:  [10, 14, 11]
+// Scores: [1.4093276262283325, 0.9902134537696838, 0.8519943356513977]
 ```
 
 </TabItem>
@@ -1070,6 +1230,9 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+// EntityRow { id: 10, ... }, EntityRow { id: 14, ... }, EntityRow { id: 11, ... }
 ```
 
 </TabItem>
@@ -1088,16 +1251,10 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
+    std::cerr
 
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
-    }
-}
+// Output
+// TopK: (id=10, distance=1.4093276262283325), (id=14, distance=0.9902134537696838), (id=11, distance=0.8519943356513977)
 ```
 
 </TabItem>
@@ -1130,7 +1287,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -1139,6 +1296,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { PartitionNames = { "partitionA" } }
 });
+
+// Output
+// {Id=10, Distance=1.4093276262283325}, {Id=14, Distance=0.9902134537696838}, {Id=11, Distance=0.8519943356513977}
 ```
 
 </TabItem>
@@ -1233,6 +1393,28 @@ res = client.search(
         "offset": 10 # The records to skip
     }
 )
+
+# [
+#     [
+#         {
+#             "id": 3,
+#             "distance": 0.4527677893638611,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 13,
+#             "distance": 0.4527677893638611,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 7,
+#             "distance": 0.4388217329978943,
+#             "entity": {}
+#         }
+#     ]
+# ]
 ```
 
 </TabItem>
@@ -1289,6 +1471,11 @@ for _, resultSet := range resultSets {
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 }
+
+// Output
+// IDs:  [0, 10, 4]
+// Scores: [1.4093276262283325, 1.4093276262283325, 0.9902134537696838]
+// color: ["pink_8682", "pink_8682", "red_4794"]
 ```
 
 </TabItem>
@@ -1315,6 +1502,9 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+// EntityRow { id: 0, color: "pink_8682", ... }, EntityRow { id: 10, color: "pink_8682", ... }, EntityRow { id: 4, color: "red_4794", ... }
 ```
 
 </TabItem>
@@ -1334,18 +1524,11 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
+    std::cerr ("color");
+    for (size_t i = 0; i Data()[i]
 
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    const auto colors = result.OutputField<milvus::VarCharFieldData>("color");
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i]
-                  << ", color=" << colors->Data()[i] << std::endl;
-    }
-}
+// Output
+// TopK: (id=0, distance=1.4093276262283325, color=pink_8682), (id=10, distance=1.4093276262283325, color=pink_8682), (id=4, distance=0.9902134537696838, color=red_4794)
 ```
 
 </TabItem>
@@ -1378,7 +1561,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -1387,6 +1570,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { OutputFields = { "color" } }
 });
+
+// Output
+// {Id=0, Distance=1.4093276262283325, Color=pink_8682}, {Id=10, Distance=1.4093276262283325, Color=pink_8682}, {Id=4, Distance=0.9902134537696838, Color=red_4794}
 ```
 
 </TabItem>
@@ -1488,6 +1674,131 @@ res = client.search(
     ],
     # highlight-end
 )
+
+# Output
+#
+# [
+#     {
+#         "id": 1,
+#         "price": 11.0,
+#         "rating": 4.1,
+#         "category": "cate1"
+#     },
+#     {
+#         "id": 2,
+#         "price": 12.0,
+#         "rating": 4.2,
+#         "category": "cate2"
+#     },
+#     {
+#         "id": 3,
+#         "price": 13.0,
+#         "rating": 4.3,
+#         "category": "cate3"
+#     },
+#     {
+#         "id": 4,
+#         "price": 14.0,
+#         "rating": 4.4,
+#         "category": "cate4"
+#     },
+#     {
+#         "id": 5,
+#         "price": 15.0,
+#         "rating": 4.5,
+#         "category": "cate0"
+#     },
+#     {
+#         "id": 6,
+#         "price": 16.0,
+#         "rating": 4.6,
+#         "category": "cate1"
+#     },
+#     {
+#         "id": 7,
+#         "price": 17.0,
+#         "rating": 4.7,
+#         "category": "cate2"
+#     },
+#     {
+#         "id": 8,
+#         "price": 18.0,
+#         "rating": 4.8,
+#         "category": "cate3"
+#     },
+#     {
+#         "id": 9,
+#         "price": 19.0,
+#         "rating": 4.9,
+#         "category": "cate4"
+#     },
+#     {
+#         "id": 10,
+#         "price": 20.0,
+#         "rating": 4.0,
+#         "category": "cate0"
+#     },
+#     {
+#         "id": 11,
+#         "price": 21.0,
+#         "rating": 4.1,
+#         "category": "cate1"
+#     },
+#     {
+#         "id": 12,
+#         "price": 22.0,
+#         "rating": 4.2,
+#         "category": "cate2"
+#     },
+#     {
+#         "id": 13,
+#         "price": 23.0,
+#         "rating": 4.3,
+#         "category": "cate3"
+#     },
+#     {
+#         "id": 14,
+#         "price": 24.0,
+#         "rating": 4.4,
+#         "category": "cate4"
+#     },
+#     {
+#         "id": 15,
+#         "price": 25.0,
+#         "rating": 4.5,
+#         "category": "cate0"
+#     },
+#     {
+#         "id": 16,
+#         "price": 26.0,
+#         "rating": 4.6,
+#         "category": "cate1"
+#     },
+#     {
+#         "id": 17,
+#         "price": 27.0,
+#         "rating": 4.7,
+#         "category": "cate2"
+#     },
+#     {
+#         "id": 18,
+#         "price": 28.0,
+#         "rating": 4.8,
+#         "category": "cate3"
+#     },
+#     {
+#         "id": 19,
+#         "price": 29.0,
+#         "rating": 4.9,
+#         "category": "cate4"
+#     },
+#     {
+#         "id": 20,
+#         "price": 30.0,
+#         "rating": 4.0,
+#         "category": "cate0"
+#     }
+# ]
 ```
 
 </TabItem>
@@ -1514,6 +1825,28 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 System.out.println(searchResp.getSearchResults());
+
+// Output
+// SearchResp.SearchResult(entity={id=1, price=11.0, rating=4.1, category=cate1}, ...)
+// SearchResp.SearchResult(entity={id=2, price=12.0, rating=4.2, category=cate2}, ...)
+// SearchResp.SearchResult(entity={id=3, price=13.0, rating=4.3, category=cate3}, ...)
+// SearchResp.SearchResult(entity={id=4, price=14.0, rating=4.4, category=cate4}, ...)
+// SearchResp.SearchResult(entity={id=5, price=15.0, rating=4.5, category=cate0}, ...)
+// SearchResp.SearchResult(entity={id=6, price=16.0, rating=4.6, category=cate1}, ...)
+// SearchResp.SearchResult(entity={id=7, price=17.0, rating=4.7, category=cate2}, ...)
+// SearchResp.SearchResult(entity={id=8, price=18.0, rating=4.8, category=cate3}, ...)
+// SearchResp.SearchResult(entity={id=9, price=19.0, rating=4.9, category=cate4}, ...)
+// SearchResp.SearchResult(entity={id=10, price=20.0, rating=4.0, category=cate0}, ...)
+// SearchResp.SearchResult(entity={id=11, price=21.0, rating=4.1, category=cate1}, ...)
+// SearchResp.SearchResult(entity={id=12, price=22.0, rating=4.2, category=cate2}, ...)
+// SearchResp.SearchResult(entity={id=13, price=23.0, rating=4.3, category=cate3}, ...)
+// SearchResp.SearchResult(entity={id=14, price=24.0, rating=4.4, category=cate4}, ...)
+// SearchResp.SearchResult(entity={id=15, price=25.0, rating=4.5, category=cate0}, ...)
+// SearchResp.SearchResult(entity={id=16, price=26.0, rating=4.6, category=cate1}, ...)
+// SearchResp.SearchResult(entity={id=17, price=27.0, rating=4.7, category=cate2}, ...)
+// SearchResp.SearchResult(entity={id=18, price=28.0, rating=4.8, category=cate3}, ...)
+// SearchResp.SearchResult(entity={id=19, price=29.0, rating=4.9, category=cate4}, ...)
+// SearchResp.SearchResult(entity={id=20, price=30.0, rating=4.0, category=cate0}, ...)
 ```
 
 </TabItem>
@@ -1538,6 +1871,11 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Prices: ", resultSet.GetColumn("price").FieldData().GetScalars())
 }
+
+// Output
+// IDs:  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+// Prices: [11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0]
+// Ratings: [4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 4.0]
 ```
 
 </TabItem>
@@ -1564,6 +1902,131 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+//
+// [
+//     {
+//         "id": 1,
+//         "price": 11.0,
+//         "rating": 4.1,
+//         "category": "cate1"
+//     },
+//     {
+//         "id": 2,
+//         "price": 12.0,
+//         "rating": 4.2,
+//         "category": "cate2"
+//     },
+//     {
+//         "id": 3,
+//         "price": 13.0,
+//         "rating": 4.3,
+//         "category": "cate3"
+//     },
+//     {
+//         "id": 4,
+//         "price": 14.0,
+//         "rating": 4.4,
+//         "category": "cate4"
+//     },
+//     {
+//         "id": 5,
+//         "price": 15.0,
+//         "rating": 4.5,
+//         "category": "cate0"
+//     },
+//     {
+//         "id": 6,
+//         "price": 16.0,
+//         "rating": 4.6,
+//         "category": "cate1"
+//     },
+//     {
+//         "id": 7,
+//         "price": 17.0,
+//         "rating": 4.7,
+//         "category": "cate2"
+//     },
+//     {
+//         "id": 8,
+//         "price": 18.0,
+//         "rating": 4.8,
+//         "category": "cate3"
+//     },
+//     {
+//         "id": 9,
+//         "price": 19.0,
+//         "rating": 4.9,
+//         "category": "cate4"
+//     },
+//     {
+//         "id": 10,
+//         "price": 20.0,
+//         "rating": 4.0,
+//         "category": "cate0"
+//     },
+//     {
+//         "id": 11,
+//         "price": 21.0,
+//         "rating": 4.1,
+//         "category": "cate1"
+//     },
+//     {
+//         "id": 12,
+//         "price": 22.0,
+//         "rating": 4.2,
+//         "category": "cate2"
+//     },
+//     {
+//         "id": 13,
+//         "price": 23.0,
+//         "rating": 4.3,
+//         "category": "cate3"
+//     },
+//     {
+//         "id": 14,
+//         "price": 24.0,
+//         "rating": 4.4,
+//         "category": "cate4"
+//     },
+//     {
+//         "id": 15,
+//         "price": 25.0,
+//         "rating": 4.5,
+//         "category": "cate0"
+//     },
+//     {
+//         "id": 16,
+//         "price": 26.0,
+//         "rating": 4.6,
+//         "category": "cate1"
+//     },
+//     {
+//         "id": 17,
+//         "price": 27.0,
+//         "rating": 4.7,
+//         "category": "cate2"
+//     },
+//     {
+//         "id": 18,
+//         "price": 28.0,
+//         "rating": 4.8,
+//         "category": "cate3"
+//     },
+//     {
+//         "id": 19,
+//         "price": 29.0,
+//         "rating": 4.9,
+//         "category": "cate4"
+//     },
+//     {
+//         "id": 20,
+//         "price": 30.0,
+//         "rating": 4.0,
+//         "category": "cate0"
+//     }
+// ]
 ```
 
 </TabItem>
@@ -1585,17 +2048,11 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
+    std::cerr ("price");
+    for (size_t i = 0; i Data()[i]
 
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    const auto prices = result.OutputField<milvus::Int64FieldData>("price");
-    for (size_t i = 0; i < result.GetRowCount(); ++i) {
-        std::cout << "id=" << ids[i] << ", price=" << prices->Data()[i] << std::endl;
-    }
-}
+// Output
+// TopK: (id=1, price=11.0), (id=2, price=12.0), (id=3, price=13.0), (id=4, price=14.0), (id=5, price=15.0), (id=6, price=16.0), (id=7, price=17.0), (id=8, price=18.0), (id=9, price=19.0), (id=10, price=20.0), (id=11, price=21.0), (id=12, price=22.0), (id=13, price=23.0), (id=14, price=24.0), (id=15, price=25.0), (id=16, price=26.0), (id=17, price=27.0), (id=18, price=28.0), (id=19, price=29.0), (id=20, price=30.0)
 ```
 
 </TabItem>
@@ -1617,6 +2074,30 @@ res = await client.search({
 })
 
 console.log(res.results)
+
+// Output
+// [
+//   { id: 1, price: 11.0, rating: 4.1, category: "cate1" },
+//   { id: 2, price: 12.0, rating: 4.2, category: "cate2" },
+//   { id: 3, price: 13.0, rating: 4.3, category: "cate3" },
+//   { id: 4, price: 14.0, rating: 4.4, category: "cate4" },
+//   { id: 5, price: 15.0, rating: 4.5, category: "cate0" },
+//   { id: 6, price: 16.0, rating: 4.6, category: "cate1" },
+//   { id: 7, price: 17.0, rating: 4.7, category: "cate2" },
+//   { id: 8, price: 18.0, rating: 4.8, category: "cate3" },
+//   { id: 9, price: 19.0, rating: 4.9, category: "cate4" },
+//   { id: 10, price: 20.0, rating: 4.0, category: "cate0" },
+//   { id: 11, price: 21.0, rating: 4.1, category: "cate1" },
+//   { id: 12, price: 22.0, rating: 4.2, category: "cate2" },
+//   { id: 13, price: 23.0, rating: 4.3, category: "cate3" },
+//   { id: 14, price: 24.0, rating: 4.4, category: "cate4" },
+//   { id: 15, price: 25.0, rating: 4.5, category: "cate0" },
+//   { id: 16, price: 26.0, rating: 4.6, category: "cate1" },
+//   { id: 17, price: 27.0, rating: 4.7, category: "cate2" },
+//   { id: 18, price: 28.0, rating: 4.8, category: "cate3" },
+//   { id: 19, price: 29.0, rating: 4.9, category: "cate4" },
+//   { id: 20, price: 30.0, rating: 4.0, category: "cate0" }
+// ]
 ```
 
 </TabItem>
@@ -1624,7 +2105,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
+var queryVector = new[] { new ReadOnlyMemory(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "product_catalog",
@@ -1637,6 +2118,9 @@ var res = await client.SearchAsync(new SearchReq
         ExtraParameters = { ["order_by_fields"] = "price:asc" }
     }
 });
+
+// Output
+// {Id=1, Price=11.0}, {Id=2, Price=12.0}, {Id=3, Price=13.0}, {Id=4, Price=14.0}, {Id=5, Price=15.0}, {Id=6, Price=16.0}, {Id=7, Price=17.0}, {Id=8, Price=18.0}, {Id=9, Price=19.0}, {Id=10, Price=20.0}, {Id=11, Price=21.0}, {Id=12, Price=22.0}, {Id=13, Price=23.0}, {Id=14, Price=24.0}, {Id=15, Price=25.0}, {Id=16, Price=26.0}, {Id=17, Price=27.0}, {Id=18, Price=28.0}, {Id=19, Price=29.0}, {Id=20, Price=30.0}
 ```
 
 </TabItem>
@@ -1660,6 +2144,133 @@ curl --request POST \
     "outputFields": ["id", "price", "rating", "category"],
     "orderByFields": ["price:asc"]
 }'
+
+# {
+#     "code": 0,
+#     "data": [
+#         {
+#             "id": 1,
+#             "price": 11.0,
+#             "rating": 4.1,
+#             "category": "cate1"
+#         },
+#         {
+#             "id": 2,
+#             "price": 12.0,
+#             "rating": 4.2,
+#             "category": "cate2"
+#         },
+#         {
+#             "id": 3,
+#             "price": 13.0,
+#             "rating": 4.3,
+#             "category": "cate3"
+#         },
+#         {
+#             "id": 4,
+#             "price": 14.0,
+#             "rating": 4.4,
+#             "category": "cate4"
+#         },
+#         {
+#             "id": 5,
+#             "price": 15.0,
+#             "rating": 4.5,
+#             "category": "cate0"
+#         },
+#         {
+#             "id": 6,
+#             "price": 16.0,
+#             "rating": 4.6,
+#             "category": "cate1"
+#         },
+#         {
+#             "id": 7,
+#             "price": 17.0,
+#             "rating": 4.7,
+#             "category": "cate2"
+#         },
+#         {
+#             "id": 8,
+#             "price": 18.0,
+#             "rating": 4.8,
+#             "category": "cate3"
+#         },
+#         {
+#             "id": 9,
+#             "price": 19.0,
+#             "rating": 4.9,
+#             "category": "cate4"
+#         },
+#         {
+#             "id": 10,
+#             "price": 20.0,
+#             "rating": 4.0,
+#             "category": "cate0"
+#         },
+#         {
+#             "id": 11,
+#             "price": 21.0,
+#             "rating": 4.1,
+#             "category": "cate1"
+#         },
+#         {
+#             "id": 12,
+#             "price": 22.0,
+#             "rating": 4.2,
+#             "category": "cate2"
+#         },
+#         {
+#             "id": 13,
+#             "price": 23.0,
+#             "rating": 4.3,
+#             "category": "cate3"
+#         },
+#         {
+#             "id": 14,
+#             "price": 24.0,
+#             "rating": 4.4,
+#             "category": "cate4"
+#         },
+#         {
+#             "id": 15,
+#             "price": 25.0,
+#             "rating": 4.5,
+#             "category": "cate0"
+#         },
+#         {
+#             "id": 16,
+#             "price": 26.0,
+#             "rating": 4.6,
+#             "category": "cate1"
+#         },
+#         {
+#             "id": 17,
+#             "price": 27.0,
+#             "rating": 4.7,
+#             "category": "cate2"
+#         },
+#         {
+#             "id": 18,
+#             "price": 28.0,
+#             "rating": 4.8,
+#             "category": "cate3"
+#         },
+#         {
+#             "id": 19,
+#             "price": 29.0,
+#             "rating": 4.9,
+#             "category": "cate4"
+#         },
+#         {
+#             "id": 20,
+#             "price": 30.0,
+#             "rating": 4.0,
+#             "category": "cate0"
+#         }
+#     ],
+#     "topks":[20]
+# }
 ```
 
 </TabItem>
@@ -1716,6 +2327,131 @@ res = client.search(
     ],
     # highlight-end
 )
+
+# Output
+#
+# [
+#     {
+#         "id": 1,
+#         "price": 11.0,
+#         "rating": 4.1,
+#         "category": "cate1"
+#     },
+#     {
+#         "id": 2,
+#         "price": 12.0,
+#         "rating": 4.2,
+#         "category": "cate2"
+#     },
+#     {
+#         "id": 3,
+#         "price": 13.0,
+#         "rating": 4.3,
+#         "category": "cate3"
+#     },
+#     {
+#         "id": 4,
+#         "price": 14.0,
+#         "rating": 4.4,
+#         "category": "cate4"
+#     },
+#     {
+#         "id": 5,
+#         "price": 15.0,
+#         "rating": 4.5,
+#         "category": "cate0"
+#     },
+#     {
+#         "id": 6,
+#         "price": 16.0,
+#         "rating": 4.6,
+#         "category": "cate1"
+#     },
+#     {
+#         "id": 7,
+#         "price": 17.0,
+#         "rating": 4.7,
+#         "category": "cate2"
+#     },
+#     {
+#         "id": 8,
+#         "price": 18.0,
+#         "rating": 4.8,
+#         "category": "cate3"
+#     },
+#     {
+#         "id": 9,
+#         "price": 19.0,
+#         "rating": 4.9,
+#         "category": "cate4"
+#     },
+#     {
+#         "id": 10,
+#         "price": 20.0,
+#         "rating": 4.0,
+#         "category": "cate0"
+#     },
+#     {
+#         "id": 11,
+#         "price": 21.0,
+#         "rating": 4.1,
+#         "category": "cate1"
+#     },
+#     {
+#         "id": 12,
+#         "price": 22.0,
+#         "rating": 4.2,
+#         "category": "cate2"
+#     },
+#     {
+#         "id": 13,
+#         "price": 23.0,
+#         "rating": 4.3,
+#         "category": "cate3"
+#     },
+#     {
+#         "id": 14,
+#         "price": 24.0,
+#         "rating": 4.4,
+#         "category": "cate4"
+#     },
+#     {
+#         "id": 15,
+#         "price": 25.0,
+#         "rating": 4.5,
+#         "category": "cate0"
+#     },
+#     {
+#         "id": 16,
+#         "price": 26.0,
+#         "rating": 4.6,
+#         "category": "cate1"
+#     },
+#     {
+#         "id": 17,
+#         "price": 27.0,
+#         "rating": 4.7,
+#         "category": "cate2"
+#     },
+#     {
+#         "id": 18,
+#         "price": 28.0,
+#         "rating": 4.8,
+#         "category": "cate3"
+#     },
+#     {
+#         "id": 19,
+#         "price": 29.0,
+#         "rating": 4.9,
+#         "category": "cate4"
+#     },
+#     {
+#         "id": 20,
+#         "price": 30.0,
+#         "rating": 4.0,
+#         "category": "cate0"
+#     }
+# ]
 ```
 
 </TabItem>
@@ -1746,6 +2482,28 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 System.out.println(searchResp.getSearchResults());
+
+// Output
+// SearchResp.SearchResult(entity={id=1, price=11.0, rating=4.1, category=cate1}, ...)
+// SearchResp.SearchResult(entity={id=2, price=12.0, rating=4.2, category=cate2}, ...)
+// SearchResp.SearchResult(entity={id=3, price=13.0, rating=4.3, category=cate3}, ...)
+// SearchResp.SearchResult(entity={id=4, price=14.0, rating=4.4, category=cate4}, ...)
+// SearchResp.SearchResult(entity={id=5, price=15.0, rating=4.5, category=cate0}, ...)
+// SearchResp.SearchResult(entity={id=6, price=16.0, rating=4.6, category=cate1}, ...)
+// SearchResp.SearchResult(entity={id=7, price=17.0, rating=4.7, category=cate2}, ...)
+// SearchResp.SearchResult(entity={id=8, price=18.0, rating=4.8, category=cate3}, ...)
+// SearchResp.SearchResult(entity={id=9, price=19.0, rating=4.9, category=cate4}, ...)
+// SearchResp.SearchResult(entity={id=10, price=20.0, rating=4.0, category=cate0}, ...)
+// SearchResp.SearchResult(entity={id=11, price=21.0, rating=4.1, category=cate1}, ...)
+// SearchResp.SearchResult(entity={id=12, price=22.0, rating=4.2, category=cate2}, ...)
+// SearchResp.SearchResult(entity={id=13, price=23.0, rating=4.3, category=cate3}, ...)
+// SearchResp.SearchResult(entity={id=14, price=24.0, rating=4.4, category=cate4}, ...)
+// SearchResp.SearchResult(entity={id=15, price=25.0, rating=4.5, category=cate0}, ...)
+// SearchResp.SearchResult(entity={id=16, price=26.0, rating=4.6, category=cate1}, ...)
+// SearchResp.SearchResult(entity={id=17, price=27.0, rating=4.7, category=cate2}, ...)
+// SearchResp.SearchResult(entity={id=18, price=28.0, rating=4.8, category=cate3}, ...)
+// SearchResp.SearchResult(entity={id=19, price=29.0, rating=4.9, category=cate4}, ...)
+// SearchResp.SearchResult(entity={id=20, price=30.0, rating=4.0, category=cate0}, ...)
 ```
 
 </TabItem>
@@ -1771,6 +2529,11 @@ for _, resultSet := range resultSets {
     fmt.Println("Prices: ", resultSet.GetColumn("price").FieldData().GetScalars())
     fmt.Println("Ratings: ", resultSet.GetColumn("rating").FieldData().GetScalars())
 }
+
+// Output
+// IDs:  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+// Prices: [11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0]
+// Ratings: [4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 4.0]
 ```
 
 </TabItem>
@@ -1800,6 +2563,131 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+//
+// [
+//     {
+//         "id": 1,
+//         "price": 11.0,
+//         "rating": 4.1,
+//         "category": "cate1"
+//     },
+//     {
+//         "id": 2,
+//         "price": 12.0,
+//         "rating": 4.2,
+//         "category": "cate2"
+//     },
+//     {
+//         "id": 3,
+//         "price": 13.0,
+//         "rating": 4.3,
+//         "category": "cate3"
+//     },
+//     {
+//         "id": 4,
+//         "price": 14.0,
+//         "rating": 4.4,
+//         "category": "cate4"
+//     },
+//     {
+//         "id": 5,
+//         "price": 15.0,
+//         "rating": 4.5,
+//         "category": "cate0"
+//     },
+//     {
+//         "id": 6,
+//         "price": 16.0,
+//         "rating": 4.6,
+//         "category": "cate1"
+//     },
+//     {
+//         "id": 7,
+//         "price": 17.0,
+//         "rating": 4.7,
+//         "category": "cate2"
+//     },
+//     {
+//         "id": 8,
+//         "price": 18.0,
+//         "rating": 4.8,
+//         "category": "cate3"
+//     },
+//     {
+//         "id": 9,
+//         "price": 19.0,
+//         "rating": 4.9,
+//         "category": "cate4"
+//     },
+//     {
+//         "id": 10,
+//         "price": 20.0,
+//         "rating": 4.0,
+//         "category": "cate0"
+//     },
+//     {
+//         "id": 11,
+//         "price": 21.0,
+//         "rating": 4.1,
+//         "category": "cate1"
+//     },
+//     {
+//         "id": 12,
+//         "price": 22.0,
+//         "rating": 4.2,
+//         "category": "cate2"
+//     },
+//     {
+//         "id": 13,
+//         "price": 23.0,
+//         "rating": 4.3,
+//         "category": "cate3"
+//     },
+//     {
+//         "id": 14,
+//         "price": 24.0,
+//         "rating": 4.4,
+//         "category": "cate4"
+//     },
+//     {
+//         "id": 15,
+//         "price": 25.0,
+//         "rating": 4.5,
+//         "category": "cate0"
+//     },
+//     {
+//         "id": 16,
+//         "price": 26.0,
+//         "rating": 4.6,
+//         "category": "cate1"
+//     },
+//     {
+//         "id": 17,
+//         "price": 27.0,
+//         "rating": 4.7,
+//         "category": "cate2"
+//     },
+//     {
+//         "id": 18,
+//         "price": 28.0,
+//         "rating": 4.8,
+//         "category": "cate3"
+//     },
+//     {
+//         "id": 19,
+//         "price": 29.0,
+//         "rating": 4.9,
+//         "category": "cate4"
+//     },
+//     {
+//         "id": 20,
+//         "price": 30.0,
+//         "rating": 4.0,
+//         "category": "cate0"
+//     }
+// ]
 ```
 
 </TabItem>
@@ -1823,19 +2711,13 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
+    std::cerr ("price");
+    const auto ratings = result.OutputField("rating");
+    for (size_t i = 0; i Data()[i]
+                  Data()[i]
 
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    const auto prices = result.OutputField<milvus::Int64FieldData>("price");
-    const auto ratings = result.OutputField<milvus::DoubleFieldData>("rating");
-    for (size_t i = 0; i < result.GetRowCount(); ++i) {
-        std::cout << "id=" << ids[i] << ", price=" << prices->Data()[i]
-                  << ", rating=" << ratings->Data()[i] << std::endl;
-    }
-}
+// Output
+// TopK: (id=1, price=11.0), (id=2, price=12.0), (id=3, price=13.0), (id=4, price=14.0), (id=5, price=15.0), (id=6, price=16.0), (id=7, price=17.0), (id=8, price=18.0), (id=9, price=19.0), (id=10, price=20.0), (id=11, price=21.0), (id=12, price=22.0), (id=13, price=23.0), (id=14, price=24.0), (id=15, price=25.0), (id=16, price=26.0), (id=17, price=27.0), (id=18, price=28.0), (id=19, price=29.0), (id=20, price=30.0)
 ```
 
 </TabItem>
@@ -1858,6 +2740,30 @@ res = await client.search({
 })
 
 console.log(res.results)
+
+// Output
+// [
+//   { id: 1, price: 11.0, rating: 4.1, category: "cate1" },
+//   { id: 2, price: 12.0, rating: 4.2, category: "cate2" },
+//   { id: 3, price: 13.0, rating: 4.3, category: "cate3" },
+//   { id: 4, price: 14.0, rating: 4.4, category: "cate4" },
+//   { id: 5, price: 15.0, rating: 4.5, category: "cate0" },
+//   { id: 6, price: 16.0, rating: 4.6, category: "cate1" },
+//   { id: 7, price: 17.0, rating: 4.7, category: "cate2" },
+//   { id: 8, price: 18.0, rating: 4.8, category: "cate3" },
+//   { id: 9, price: 19.0, rating: 4.9, category: "cate4" },
+//   { id: 10, price: 20.0, rating: 4.0, category: "cate0" },
+//   { id: 11, price: 21.0, rating: 4.1, category: "cate1" },
+//   { id: 12, price: 22.0, rating: 4.2, category: "cate2" },
+//   { id: 13, price: 23.0, rating: 4.3, category: "cate3" },
+//   { id: 14, price: 24.0, rating: 4.4, category: "cate4" },
+//   { id: 15, price: 25.0, rating: 4.5, category: "cate0" },
+//   { id: 16, price: 26.0, rating: 4.6, category: "cate1" },
+//   { id: 17, price: 27.0, rating: 4.7, category: "cate2" },
+//   { id: 18, price: 28.0, rating: 4.8, category: "cate3" },
+//   { id: 19, price: 29.0, rating: 4.9, category: "cate4" },
+//   { id: 20, price: 30.0, rating: 4.0, category: "cate0" }
+// ]
 ```
 
 </TabItem>
@@ -1865,7 +2771,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
+var queryVector = new[] { new ReadOnlyMemory(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "product_catalog",
@@ -1878,6 +2784,9 @@ var res = await client.SearchAsync(new SearchReq
         ExtraParameters = { ["order_by_fields"] = "price:asc,rating:desc" }
     }
 });
+
+// Output
+// {Id=1, Price=11.0}, {Id=2, Price=12.0}, {Id=3, Price=13.0}, {Id=4, Price=14.0}, {Id=5, Price=15.0}, {Id=6, Price=16.0}, {Id=7, Price=17.0}, {Id=8, Price=18.0}, {Id=9, Price=19.0}, {Id=10, Price=20.0}, {Id=11, Price=21.0}, {Id=12, Price=22.0}, {Id=13, Price=23.0}, {Id=14, Price=24.0}, {Id=15, Price=25.0}, {Id=16, Price=26.0}, {Id=17, Price=27.0}, {Id=18, Price=28.0}, {Id=19, Price=29.0}, {Id=20, Price=30.0}
 ```
 
 </TabItem>
@@ -1901,6 +2810,133 @@ curl --request POST \
     "outputFields": ["id", "price", "rating", "category"],
     "orderByFields": ["price:asc", "rating:desc"]
 }'
+
+# {
+#     "code": 0,
+#     "data": [
+#         {
+#             "id": 1,
+#             "price": 11.0,
+#             "rating": 4.1,
+#             "category": "cate1"
+#         },
+#         {
+#             "id": 2,
+#             "price": 12.0,
+#             "rating": 4.2,
+#             "category": "cate2"
+#         },
+#         {
+#             "id": 3,
+#             "price": 13.0,
+#             "rating": 4.3,
+#             "category": "cate3"
+#         },
+#         {
+#             "id": 4,
+#             "price": 14.0,
+#             "rating": 4.4,
+#             "category": "cate4"
+#         },
+#         {
+#             "id": 5,
+#             "price": 15.0,
+#             "rating": 4.5,
+#             "category": "cate0"
+#         },
+#         {
+#             "id": 6,
+#             "price": 16.0,
+#             "rating": 4.6,
+#             "category": "cate1"
+#         },
+#         {
+#             "id": 7,
+#             "price": 17.0,
+#             "rating": 4.7,
+#             "category": "cate2"
+#         },
+#         {
+#             "id": 8,
+#             "price": 18.0,
+#             "rating": 4.8,
+#             "category": "cate3"
+#         },
+#         {
+#             "id": 9,
+#             "price": 19.0,
+#             "rating": 4.9,
+#             "category": "cate4"
+#         },
+#         {
+#             "id": 10,
+#             "price": 20.0,
+#             "rating": 4.0,
+#             "category": "cate0"
+#         },
+#         {
+#             "id": 11,
+#             "price": 21.0,
+#             "rating": 4.1,
+#             "category": "cate1"
+#         },
+#         {
+#             "id": 12,
+#             "price": 22.0,
+#             "rating": 4.2,
+#             "category": "cate2"
+#         },
+#         {
+#             "id": 13,
+#             "price": 23.0,
+#             "rating": 4.3,
+#             "category": "cate3"
+#         },
+#         {
+#             "id": 14,
+#             "price": 24.0,
+#             "rating": 4.4,
+#             "category": "cate4"
+#         },
+#         {
+#             "id": 15,
+#             "price": 25.0,
+#             "rating": 4.5,
+#             "category": "cate0"
+#         },
+#         {
+#             "id": 16,
+#             "price": 26.0,
+#             "rating": 4.6,
+#             "category": "cate1"
+#         },
+#         {
+#             "id": 17,
+#             "price": 27.0,
+#             "rating": 4.7,
+#             "category": "cate2"
+#         },
+#         {
+#             "id": 18,
+#             "price": 28.0,
+#             "rating": 4.8,
+#             "category": "cate3"
+#         },
+#         {
+#             "id": 19,
+#             "price": 29.0,
+#             "rating": 4.9,
+#             "category": "cate4"
+#         },
+#         {
+#             "id": 20,
+#             "price": 30.0,
+#             "rating": 4.0,
+#             "category": "cate0"
+#         }
+#     ],
+#     "topks":[20]
+# }
 ```
 
 </TabItem>
@@ -1974,6 +3010,28 @@ res = client.search(
         "offset": 10 # The records to skip
     }
 )
+
+# [
+#     [
+#         {
+#             "id": 3,
+#             "distance": 0.4527677893638611,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 13,
+#             "distance": 0.4527677893638611,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 7,
+#             "distance": 0.4388217329978943,
+#             "entity": {}
+#         }
+#     ]
+# ]
 ```
 
 </TabItem>
@@ -2029,6 +3087,10 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+
+// Output
+// IDs:  [3, 13, 7]
+// Scores: [0.4527677893638611, 0.4527677893638611, 0.4388217329978943]
 ```
 
 </TabItem>
@@ -2055,6 +3117,9 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+// EntityRow { id: 3, ... }, EntityRow { id: 13, ... }, EntityRow { id: 7, ... }
 ```
 
 </TabItem>
@@ -2073,16 +3138,10 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
+    std::cerr
 
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
-    }
-}
+// Output
+// TopK: (id=3, distance=0.4527677893638611), (id=13, distance=0.4527677893638611), (id=7, distance=0.4388217329978943)
 ```
 
 </TabItem>
@@ -2100,6 +3159,12 @@ res = await client.search({
     // highlight-next-line
     offset: 10 // The record to skip.
 })
+
+// [
+//   { score: 0.4527677893638611, id: '3' },
+//   { score: 0.4527677893638611, id: '13' },
+//   { score: 0.4388217329978943, id: '7' }
+// ]
 ```
 
 </TabItem>
@@ -2107,7 +3172,7 @@ res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -2116,6 +3181,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { Offset = 10 }
 });
+
+// Output
+// {Id=3, Distance=0.4527677893638611}, {Id=13, Distance=0.4527677893638611}, {Id=7, Distance=0.4388217329978943}
 ```
 
 </TabItem>
@@ -2140,6 +3208,25 @@ curl --request POST \
     "limit": 3,
     "offset": 10
 }'
+
+# {
+#     "code": 0,
+#     "data": [
+#         {
+#             "distance": 0.4527677893638611,
+#             "id": 3
+#         },
+#         {
+#             "distance": 0.4527677893638611,
+#             "id": 13
+#         },
+#         {
+#             "distance": 0.4388217329978943,
+#             "id": 7
+#         },
+#     ],
+#     "topks":[3]
+# }
 ```
 
 </TabItem>
@@ -2199,6 +3286,28 @@ res = client.search(
         }
     }
 )
+
+# [
+#     [
+#         {
+#             "id": 0,
+#             "distance": 1.4093276262283325,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 10,
+#             "distance": 1.4093276262283325,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 4,
+#             "distance": 0.9902134537696838,
+#             "entity": {}
+#         }
+#     ]
+# ]
 ```
 
 </TabItem>
@@ -2256,6 +3365,10 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+
+// Output
+// IDs:  [0, 10, 4]
+// Scores: [1.4093276262283325, 1.4093276262283325, 0.9902134537696838]
 ```
 
 </TabItem>
@@ -2283,6 +3396,9 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+// EntityRow { id: 0, ... }, EntityRow { id: 10, ... }, EntityRow { id: 4, ... }
 ```
 
 </TabItem>
@@ -2290,7 +3406,7 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("quick_setup")
                    .WithLimit(3)
@@ -2301,17 +3417,10 @@ auto request = milvus::SearchRequest()
 milvus::SearchResponse response;
 auto status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+    std::cout
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
-    }
-}
+// Output
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
 ```
 
 </TabItem>
@@ -2331,6 +3440,12 @@ res = await client.search({
         "level": 10 // The precision control
     }
 })
+
+// [
+//   { score: 1.4093276262283325, id: '0' },
+//   { score: 1.4093276262283325, id: '10' },
+//   { score: 0.9902134537696838, id: '4' }
+// ]
 ```
 
 </TabItem>
@@ -2338,7 +3453,7 @@ res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -2347,6 +3462,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { ExtraParameters = { ["level"] = "10" } }
 });
+
+// Output
+// {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
 ```
 
 </TabItem>
@@ -2438,6 +3556,28 @@ res = client.search(
         }
     }
 )
+
+# [
+#     [
+#         {
+#             "id": 0,
+#             "distance": 1.4093276262283325,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 10,
+#             "distance": 1.4093276262283325,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 4,
+#             "distance": 0.9902134537696838,
+#             "entity": {}
+#         }
+#     ]
+# ]
 ```
 
 </TabItem>
@@ -2496,6 +3636,10 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+
+// Output
+// IDs:  [0, 10, 4]
+// Scores: [1.4093276262283325, 1.4093276262283325, 0.9902134537696838]
 ```
 
 </TabItem>
@@ -2526,6 +3670,9 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+// EntityRow { id: 0, ... }, EntityRow { id: 10, ... }, EntityRow { id: 4, ... }
 ```
 
 </TabItem>
@@ -2533,7 +3680,7 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("quick_setup")
                    .WithLimit(3)
@@ -2545,17 +3692,10 @@ auto request = milvus::SearchRequest()
 milvus::SearchResponse response;
 auto status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+    std::cout
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
-    }
-}
+// Output
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
 ```
 
 </TabItem>
@@ -2576,6 +3716,12 @@ res = await client.search({
         "enable_recall_calculation": true // Ask to return recall rate
     }
 })
+
+// [
+//   { score: 1.4093276262283325, id: '0' },
+//   { score: 1.4093276262283325, id: '10' },
+//   { score: 0.9902134537696838, id: '4' }
+// ]
 ```
 
 </TabItem>
@@ -2583,7 +3729,7 @@ res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -2595,6 +3741,9 @@ var res = await client.SearchAsync(new SearchReq
         ExtraParameters = { ["level"] = "10", ["enable_recall_calculation"] = "true" }
     }
 });
+
+// Output
+// {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
 ```
 
 </TabItem>
@@ -2659,6 +3808,28 @@ res = client.search(
     # highlight-next-line
     timezone="America/Havana",
 )
+
+# [
+#     [
+#         {
+#             "id": 0,
+#             "distance": 1.4093276262283325,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 10,
+#             "distance": 1.4093276262283325,
+#             "entity": {}
+#         },
+#     [
+#         {
+#             "id": 4,
+#             "distance": 0.9902134537696838,
+#             "entity": {}
+#         }
+#     ]
+# ]
 ```
 
 </TabItem>
@@ -2679,6 +3850,12 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 System.out.println(searchResp.getSearchResults());
+
+// Output
+// TopK results:
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=0)
+// SearchResp.SearchResult(entity={}, score=1.4093276262283325, id=10)
+// SearchResp.SearchResult(entity={}, score=0.9902134537696838, id=4)
 ```
 
 </TabItem>
@@ -2704,6 +3881,10 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Event times: ", resultSet.GetColumn("event_time").FieldData().GetScalars())
 }
+
+// Output
+// IDs:  [0, 10, 4]
+// Scores: [1.4093276262283325, 1.4093276262283325, 0.9902134537696838]
 ```
 
 </TabItem>
@@ -2729,6 +3910,9 @@ for result in response.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+
+// Output
+// EntityRow { id: 0, ... }, EntityRow { id: 10, ... }, EntityRow { id: 4, ... }
 ```
 
 </TabItem>
@@ -2749,17 +3933,11 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
+    std::cerr ("event_time");
+    for (size_t i = 0; i Data()[i]
 
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    const auto eventTimes = result.OutputField<milvus::TimestamptzFieldData>("event_time");
-    for (size_t i = 0; i < result.GetRowCount(); ++i) {
-        std::cout << "id=" << ids[i] << ", event_time=" << eventTimes->Data()[i] << std::endl;
-    }
-}
+// Output
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
 ```
 
 </TabItem>
@@ -2778,6 +3956,12 @@ res = await client.search({
 })
 
 console.log(res.results)
+
+// [
+//   { score: 1.4093276262283325, id: '0' },
+//   { score: 1.4093276262283325, id: '10' },
+//   { score: 0.9902134537696838, id: '4' }
+// ]
 ```
 
 </TabItem>
@@ -2785,7 +3969,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -2794,6 +3978,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { Timezone = "America/Havana" }
 });
+
+// Output
+// {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
 ```
 
 </TabItem>
@@ -2803,7 +3990,7 @@ var res = await client.SearchAsync(new SearchReq
 ```bash
 # restful
 export QUERY_VECTOR='[0.1, 0.2, 0.3, 0.4]'                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                          
+
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \                                                                                                                                                                                     
 -H "Content-Type: application/json" \  
 -H "Request-Timeout: 10" \                                                                                                                                                                                                               
@@ -2816,6 +4003,25 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
     "timezone": "America/Havana"                                                                                                                                                                                                                      
   }                                                                                                                                                                                                                                                   
 }'
+
+# {
+#     "code": 0,
+#     "data": [
+#         {
+#             "distance": 1.4093276262283325,
+#             "id": 0
+#         },
+#         {
+#             "distance": 1.4093276262283325,
+#             "id": 10
+#         },
+#         {
+#             "distance": 0.9902134537696838,
+#             "id": 4
+#         },
+#     ],
+#     "topks":[3]
+# }
 ```
 
 </TabItem>

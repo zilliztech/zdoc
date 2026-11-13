@@ -1029,9 +1029,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/upsert-entities.md",
-      "sha256": "0bd3e3b9a6f914a94f3417d4ff5629067e310a1e7e38d71ca56083b4dd8e66cb",
+      "sha256": "864535bd51c17120aa576899a46e4eedcc74d4bc2df38df15bb91ed1547851a0",
       "docToken": "PIvfwBrhRimh41kWjB1cFj21nqf",
-      "revisionId": "1245"
+      "revisionId": "1251"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/scalar-index/bitmap-index-type.md",
@@ -1065,9 +1065,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "sha256": "d939509fb1d28176c9b8a4a9ffd9eb8e6a0a4bd903c3734f588fd96274cc37fa",
+      "sha256": "65a41549b6283186b17ecf19fdb057bff8a850cc099e977dda9a89b0a147bbd4",
       "docToken": "JU6ZwfYLpilJ6vkncdzcLtFLnjf",
-      "revisionId": "1987"
+      "revisionId": "1992"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/alter-collection-field.md",
@@ -1131,9 +1131,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-      "sha256": "8dc8eeb85994ab0b1caf15a8730ad230519ad0214f0bf9cc6f6f35cbce42583d",
+      "sha256": "bcbb879bb237ef61ef0cfce2b6019d2a4d600aee0f5786d4d93d19b201185c43",
       "docToken": "QvlTw4C2xiMaMMkrJeVcAq4hnae",
-      "revisionId": "1358"
+      "revisionId": "1359"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/schema-explained.md",
@@ -1359,7 +1359,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/single-vector-search.md",
-      "sha256": "fea2174455237d42349c1f0202f7bc45ebbd78ee943d8524a20b22a95a1fb89b",
+      "sha256": "e7c0f7b2087f587431bf0c2223a53e6686222521bef792dc4515309f01eedcd0",
       "docToken": "HtzdwrGPZi4bvnksR75ccetInrf",
       "revisionId": "5522"
     },
@@ -2279,7 +2279,7 @@
       "path": "content/zh-CN/guides/tutorials/development/batch-jobs/anomaly-detection.md",
       "sha256": "951c8fb3d2b037a6fdcdbc44a8c6c2dfe71cbca7e30670bdba3bebfeefa59aef",
       "docToken": "RDfLw6XYHiELxGkr2pucgQ1Snyh",
-      "revisionId": "1117"
+      "revisionId": "1118"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/batch-jobs/batch-jobs.md",
@@ -2291,31 +2291,31 @@
       "path": "content/zh-CN/guides/tutorials/development/batch-jobs/data-backfill.md",
       "sha256": "582401b901874a4b07f0dcbdd97c8b0536b9056c75357425993f61335088b1db",
       "docToken": "KYhxw6kczixgIMkFKOlc1srinPw",
-      "revisionId": "2184"
+      "revisionId": "2185"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/batch-jobs/k-means-clustering.md",
       "sha256": "d4bb993e933bb42b4042793a3bb77ceb802b4832bc63f71dee2a9e7f14189b8a",
       "docToken": "VIyWwOfUFiQaNkkdsqVca9Gqnve",
-      "revisionId": "571"
+      "revisionId": "572"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/batch-jobs/manage-batch-jobs.md",
-      "sha256": "6bac9717603c15b624317b9e0c54e63187f1a00402829136aa2e9d98bc0add70",
+      "sha256": "51a2f80cecd8dbb1a9f15d0de0f50c416294246a9d2f50892d4b69a46eb09f0a",
       "docToken": "VOt1wvC7jid1sOkWeFOct55Fn0e",
-      "revisionId": "1417"
+      "revisionId": "1418"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/batch-jobs/primary-key-dedup.md",
       "sha256": "e0a0740fd483667e9bb9984ebbb1f468d1468470396abf6b52443af003ea0a9d",
       "docToken": "PLmWwXhMyiUErvkeRtAcL9kJnib",
-      "revisionId": "1469"
+      "revisionId": "1471"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/batch-jobs/vector-similarity-dedup.md",
       "sha256": "0bff78411d216021e87ebd765a8046a5a6433af694156ccaab8a2c9ce49ab66e",
       "docToken": "XWOtw0B8zimLDAkc1AQcwIL0n7R",
-      "revisionId": "2027"
+      "revisionId": "2028"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md",
@@ -2619,9 +2619,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/upsert-entities.md",
-      "sha256": "4f3eac842218b5b7645283632cfc31b5daf006c26ad815b72a2268481acbf9a8",
+      "sha256": "2898fb49c1f368722d7a948d5f322fb6d4aa2e043c8a43cd0a819475342d407f",
       "docToken": "PIvfwBrhRimh41kWjB1cFj21nqf",
-      "revisionId": "1245"
+      "revisionId": "1251"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/scalar-index/bitmap-index-type.md",
@@ -2655,9 +2655,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "sha256": "1e802943e807c944ad78dd2685089f4ea8dde7c8598d070f0bc6c61baa488e96",
+      "sha256": "a91e9f997bb9f90580c20dd271e41c7b9f210ca2cd0e719ba01771cdbd56ec2d",
       "docToken": "JU6ZwfYLpilJ6vkncdzcLtFLnjf",
-      "revisionId": "1987"
+      "revisionId": "1992"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/alter-collection-field.md",
@@ -2721,9 +2721,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-      "sha256": "695a418b7ba91aaa0f939a6fdc5637f2d02ba6be581b7af370bfd2694a916188",
+      "sha256": "17c821d28c2290d600c3c1b71b31c839ba546168c431f2fd64814e7da44bb1f2",
       "docToken": "QvlTw4C2xiMaMMkrJeVcAq4hnae",
-      "revisionId": "1358"
+      "revisionId": "1359"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/schema-explained.md",
@@ -2955,7 +2955,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/single-vector-search.md",
-      "sha256": "aad27d5c210a58a82f2614cdffbd12af7f8a52ae9e90b8c4e0cced3f4cc652af",
+      "sha256": "133c951e9b7b322896298d292b8047c019a80d999c755396f289b3cd96e28ec9",
       "docToken": "HtzdwrGPZi4bvnksR75ccetInrf",
       "revisionId": "5522"
     },

@@ -39,7 +39,7 @@ import TabItem from '@theme/TabItem';
 
 - Milvus 2.6.x 及更高版本支持添加用户自定义标量字段。Milvus 2.6.18 及更高版本支持添加用户自定义向量字段。
 
-- 支持向现有 StructArray 字段添加子字段。新增子字段必须允许元素级 null（标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`），不能设置默认值，且不能在同一次请求中绑定索引。
+- 支持向现有 StructArray 字段添加子字段。新增子字段必须允许元素级 null（标量或向量子字段设置 `nullable=True`，array 子字段设置 `element_nullable=True`），不能设置默认值，且不能在同一次请求中绑定索引。该能力在兼容 Milvus v3.0.x 的 Dedicated 集群上支持；On-Demand 集群暂不支持。
 
 - 字段名称在 Collection 的所有字段中必须唯一。
 
@@ -59,7 +59,7 @@ import TabItem from '@theme/TabItem';
 
 - 不能删除主键字段、Partition Key 字段、Clustering Key 字段或 Collection 中的最后一个向量字段。
 
-- 可以删除整个 `ARRAY<STRUCT>` 字段。也可以按路径（如 `chunks[lang]`）删除单个子字段，但 StructArray 字段的最后一个子字段除外。
+- 可以删除整个 `ARRAY<STRUCT>` 字段。也可以按路径（如 `chunks[lang]`）删除单个子字段，但 StructArray 字段的最后一个子字段除外。子字段删除在兼容 Milvus v3.0.x 的 Dedicated 集群上支持；On-Demand 集群暂不支持。
 
 - 不能直接删除用作 Function 输入字段或由 Function 生成的输出字段。若要删除 Function 输出字段，请删除生成该字段的 Function。
 
@@ -700,7 +700,24 @@ await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
 <TabItem value='bash'>
 
 ```bash
-# Note: The REST API does not expose a StructArray add-field operation as of v3.0.x. Use the gRPC SDKs instead.
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/struct_fields/add" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "books",
+    "schema": {
+      "fieldName": "chunks",
+      "dataType": "ArrayOfStruct",
+      "nullable": true,
+      "typeParams": {"max_capacity": "1024"},
+      "fields": [
+        {"fieldName": "text", "dataType": "Array", "elementDataType": "VarChar", "elementTypeParams": {"max_length": "65535"}},
+        {"fieldName": "chapter", "dataType": "Array", "elementDataType": "VarChar", "elementTypeParams": {"max_length": "512"}},
+        {"fieldName": "text_vector", "dataType": "ArrayOfVector", "elementDataType": "FloatVector", "elementTypeParams": {"dim": "5", "mmap.enabled": "true"}},
+        {"fieldName": "chapter_vector", "dataType": "ArrayOfVector", "elementDataType": "FloatVector", "elementTypeParams": {"dim": "5", "mmap.enabled": "true"}}
+      ]
+    }
+  }'
 ```
 
 </TabItem>
@@ -710,7 +727,7 @@ await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
 
 ### 为现有 StructArray 字段添加子字段 \{#add-a-sub-field-to-an-existing-structarray-field}
 
-使用 `add_collection_field()` 并以子字段路径作为字段名，即可向已持有数据的 StructArray 字段添加子字段。步骤如下：
+使用 `add_collection_field()` 并以子字段路径作为字段名，即可向已持有数据的 StructArray 字段添加子字段。步骤如下：该工作流在兼容 Milvus v3.0.x 的 Dedicated 集群上支持；On-Demand 集群暂不支持。
 
 1. 使用路径 `structArrayField[subField]` 为字段命名，例如 `chunks[lang]`。
 
@@ -788,7 +805,9 @@ curl --request POST \
     "collectionName": "books",
     "schema": {
       "fieldName": "chunks[lang]",
-      "dataType": "VarChar",
+      "dataType": "Array",
+      "elementDataType": "VarChar",
+      "nullable": true,
       "elementNullable": true,
       "elementTypeParams": {"max_length": "16"}
     }
@@ -1468,7 +1487,13 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 <TabItem value='bash'>
 
 ```bash
-# Note: The REST API does not expose a drop-field operation as of v3.0.x. Use the gRPC SDKs instead.
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/drop" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "product_catalog",
+    "fieldName": "experiment_tag"
+  }'
 ```
 
 </TabItem>
@@ -1570,7 +1595,13 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 <TabItem value='bash'>
 
 ```bash
-# Note: The REST API does not expose a drop-field operation as of v3.0.x. Use the gRPC SDKs instead.
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/drop" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "my_collection",
+    "fieldName": "chunks"
+  }'
 ```
 
 </TabItem>
@@ -1672,7 +1703,13 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 <TabItem value='bash'>
 
 ```bash
-# Note: The REST API does not expose a drop-field operation as of v3.0.x. Use the gRPC SDKs instead.
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/drop" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "collectionName": "hybrid_catalog",
+    "fieldName": "image_vector"
+  }'
 ```
 
 </TabItem>
@@ -1682,7 +1719,7 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 
 ### 删除 StructArray 子字段 \{#drop-a-structarray-subfield}
 
-通过 `drop_collection_field()` 传入子字段路径，即可从 StructArray 字段中删除单个子字段。Milvus 会将该子字段及其索引一并从 Schema 中移除；其数据的回收方式见下文「删除字段后何时回收存储空间？」。
+通过 `drop_collection_field()` 传入子字段路径，即可从 StructArray 字段中删除单个子字段。Milvus 会将该子字段及其索引一并从 Schema 中移除；其数据的回收方式见下文「删除字段后何时回收存储空间？」。该能力在兼容 Milvus v3.0.x 的 Dedicated 集群上支持；On-Demand 集群暂不支持。
 
 以下示例假设 `my_collection` 中存在带有 `lang` 子字段的 StructArray 字段 `chunks`，并仅删除该子字段。
 

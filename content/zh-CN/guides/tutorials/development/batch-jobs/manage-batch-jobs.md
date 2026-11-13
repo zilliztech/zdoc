@@ -140,7 +140,7 @@ curl --request GET \
 
 - `nextPageToken`：用于获取下一页 Spark 批量任务的令牌。当没有更多任务时，响应中将不饮食该属性为空或该属性为空。
 
-关于响应中的更多参数，请查看[参考文档](/reference/restful/list-spark-jobs-v2)。
+关于响应中的更多参数，请查看[参考文档](/reference/restful/list-batch-jobs-v2)。
 
 ## 查看 Spark 批量任务详情\{#view-a-spark-batch-job-details-in-a-project}
 

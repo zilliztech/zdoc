@@ -111,6 +111,8 @@ Zilliz Cloud 会通过强一致性查询获取已有 Entity，将您提供的字
 
     使用任一操作符都会隐式启用部分更新语义；您无需额外将 `partial_update` 设置为 `True`。有关操作符语法、支持的元素类型和其他限制，请参阅[使用部分更新操作符对 ARRAY 字段执行 Upsert](./upsert-entities#upsert-array-fields-with-partial-update-operators)。
 
+- <strong>Upsert StructArray 字段。</strong>对 StructArray 字段执行 upsert 会覆盖该字段的字段值。为此，您需要提供一个字典列表，其中包含 Struct schema 中定义的所有子字段，即使在合并模式下执行 upsert 也是如此。您可以省略 element-nullable 子字段；Zilliz Cloud 会在该 Struct 元素中为其存储 null。包含 StructArray 字段的 Collection 暂不支持在 On-Demand 集群上执行 upsert，bulk import 是唯一的 StructArray 数据写入路径。详情请参阅「在合并模式下 Upsert StructArray 字段」一节。
+
 ### 限制与约束\{#limits-and-restrictions}
 
 根据上述内容，有若干限制和约束需要遵循：
@@ -1729,7 +1731,7 @@ console.log(res.data);
 
 ## 在合并模式下 Upsert StructArray 字段 \{#upsert-structarray-field-in-merge-mode}
 
-对 StructArray 字段执行 upsert 会覆盖该字段的字段值。也就是说，在 upsert StructArray 字段时，请求中必须包含 Struct schema 中定义的所有子字段。Struct 元素中的 element-nullable 子字段可以省略或设置为 `None`，Zilliz Cloud 会为其存储 null。请求中若仍携带已被删除的子字段，将被拒绝。
+对 StructArray 字段执行 upsert 会覆盖该字段的字段值。也就是说，在 upsert StructArray 字段时，请求中必须包含 Struct schema 中定义的所有子字段。Struct 元素中的 element-nullable 子字段可以省略或设置为 `None`，Zilliz Cloud 会为其存储 null。请求中若仍携带已被删除的子字段，将被拒绝。包含 StructArray 字段的 Collection 暂不支持在 On-Demand 集群上执行 upsert，bulk import 是唯一的 StructArray 数据写入路径。
 
 pymilvus 还可以部分替换 StructArray 值。调用 `upsert()` 时通过 `field_ops` 传入 `FieldOp.path_replace()`：形如 `[1][lang]` 的路径会替换某个 Struct 元素中的一个子字段，并保留其余 Struct 元素和子字段；形如 `[1]` 的路径会替换整个 Struct 元素。子路径只携带被选中的子字段，且每个操作数都必须显式包含其键。整元素路径必须携带所有非 element-nullable 的子字段，被省略的 element-nullable 子字段将置为 null。
 
