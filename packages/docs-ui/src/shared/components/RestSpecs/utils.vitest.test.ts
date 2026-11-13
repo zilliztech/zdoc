@@ -116,7 +116,7 @@ describe('splitAfterEndpoint', () => {
     expect(splitAfterEndpoint(undefined)).toEqual({intro: '', afterEndpoint: ''});
   });
 
-  it('splits at the marker so the tail can move below the endpoint information', () => {
+  it('splits at the marker so the tail can move below the endpoint header', () => {
     const description = `Creates a role.\n\n${AFTER_ENDPOINT_MARKER}\n\n<details>\n<summary>Policy reference</summary>\n\n| a | b |\n|---|---|\n\n</details>`;
     expect(splitAfterEndpoint(description)).toEqual({
       intro: 'Creates a role.\n\n',

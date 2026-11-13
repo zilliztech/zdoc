@@ -176,27 +176,34 @@ describe('RestSpecs after-endpoint description split', () => {
   const renderSpecs = (description: string) =>
     render(<RestSpecs specs={baseSpecs(description)} endpoint="/v2/roles" method="post" target="zilliz" lang="en-US" />).container;
 
-  it('renders the tail below the endpoint information and above Parameters', () => {
+  it('renders the tail in a panel directly below the method/endpoint header', () => {
     const container = renderSpecs(`Creates a custom Cloud ACL role.\n\n${AFTER_ENDPOINT_MARKER}\n\n${markerTail}`);
     const html = container.innerHTML;
 
     // The collapsed reference renders as authored, and the marker itself never leaks.
     expect(html).toContain('<summary>Policy reference</summary>');
     expect(html).toContain('<table>');
+    expect(html).toContain('class="afterEndpoint"');
+    // The tail's details carries the alert classes so the site-wide .markdown
+    // details system gives it the guides-side banner card chrome.
+    expect(html).toContain('<details class="alert alert--info">');
     expect(html).not.toContain('zdoc:after-endpoint');
 
-    // Second specLayout children: endpoint info sections, then the tail, then Parameters.
-    const blocks = Array.from(container.querySelectorAll('.specLayout')[1].children) as HTMLElement[];
-    const tailIndex = blocks.findIndex(block => block.innerHTML.includes('<details>'));
-    const endpointInfoIndex = blocks.findIndex(block => block.innerHTML.includes('language-shell'));
-    const parametersIndex = blocks.findIndex(block => block.innerHTML.includes(paramName('roleName')));
-    expect(tailIndex).toBeGreaterThan(endpointInfoIndex);
-    expect(tailIndex).toBeLessThan(parametersIndex);
-
-    // The intro slot above the method/endpoint header keeps only the intro text.
+    // Intro block children: description, method/endpoint header, then the tail panel.
     const introBlock = container.querySelector('.introBlock') as HTMLElement;
+    const blocks = Array.from(introBlock.children) as HTMLElement[];
+    const headerIndex = blocks.findIndex(block => block.className.includes('introEndpoint'));
+    const tailIndex = blocks.findIndex(block => block.className.includes('afterEndpoint'));
+    expect(headerIndex).toBeGreaterThan(-1);
+    expect(tailIndex).toBe(headerIndex + 1);
     expect(introBlock.innerHTML).toContain('Creates a custom Cloud ACL role.');
-    expect(introBlock.innerHTML).not.toContain('<details>');
+
+    // The second specLayout keeps its original grid flow (the tail must NOT
+    // become a grid cell there — that auto-placement pushed Parameters into
+    // the right column in production).
+    const gridBlocks = Array.from(container.querySelectorAll('.specLayout')[1].children) as HTMLElement[];
+    expect(gridBlocks.some(block => block.innerHTML.includes('<details>'))).toBe(false);
+    expect(gridBlocks.findIndex(block => block.innerHTML.includes(paramName('roleName')))).toBe(2);
   });
 
   it('keeps descriptions without the marker rendering exactly as before', () => {
