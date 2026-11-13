@@ -318,8 +318,9 @@ describe('RestSpecs parameter availability badges', () => {
 describe('RestSpecs parameter next/current channel gating', () => {
   const ENV_KEY = '__ZDOC_ENV__';
   const setChannel = (channel: string | undefined) => {
-    if (channel === undefined) delete (window as Record<string, unknown>)[ENV_KEY];
-    else (window as Record<string, unknown>)[ENV_KEY] = { RELEASE_CHANNEL: channel };
+    const envWindow = window as unknown as Record<string, unknown>;
+    if (channel === undefined) delete envWindow[ENV_KEY];
+    else envWindow[ENV_KEY] = { RELEASE_CHANNEL: channel };
   };
   afterEach(() => setChannel(undefined));
 
@@ -391,5 +392,81 @@ describe('RestSpecs parameter next/current channel gating', () => {
 
     const nextHtml = renderWithProps(properties, parameters, 'next');
     expect(nextHtml).toContain(paramName('StagedQuery'));
+  });
+});
+
+describe('RestSpecs staged field flip pairs', () => {
+  const setChannel = (channel: string | undefined) => {
+    const envWindow = window as unknown as Record<string, unknown>;
+    if (channel === undefined) delete envWindow['__ZDOC_ENV__'];
+    else envWindow['__ZDOC_ENV__'] = { RELEASE_CHANNEL: channel };
+  };
+  afterEach(() => setChannel(undefined));
+
+  it('renders exactly one side of an exclude/include flip pair per channel', () => {
+    setChannel('current');
+    const currentHtml = renderRequestBody({
+      type: 'object',
+      properties: {
+        cron: {type: 'string', 'x-next-channel': 'exclude'},
+        daysOfWeek: {type: 'array', 'x-next-channel': 'include', items: {type: 'integer'}},
+      },
+    });
+    expect(currentHtml).toContain(paramName('cron'));
+    expect(currentHtml).not.toContain(paramName('daysOfWeek'));
+
+    setChannel('next');
+    const nextHtml = renderRequestBody({
+      type: 'object',
+      properties: {
+        cron: {type: 'string', 'x-next-channel': 'exclude'},
+        daysOfWeek: {type: 'array', 'x-next-channel': 'include', items: {type: 'integer'}},
+      },
+    });
+    expect(nextHtml).not.toContain(paramName('cron'));
+    expect(nextHtml).toContain(paramName('daysOfWeek'));
+  });
+
+  it('keeps operation-level and parameter-level marks independent', () => {
+    setChannel('next');
+    const specs = {
+      summary: 'Refresh External Collection',
+      description: 'Refreshes an external collection.',
+      parameters: [
+        {name: 'StagedQuery', in: 'query', schema: {type: 'string'}, 'x-next-channel': 'include'},
+        {name: 'RetiredQuery', in: 'query', schema: {type: 'string'}, 'x-next-channel': 'exclude'},
+      ],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                plainField: {type: 'string'},
+              },
+            },
+            example: {},
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'OK',
+          content: {
+            'application/json': {
+              schema: {type: 'object', properties: {code: {type: 'integer'}}},
+              example: {code: 0},
+            },
+          },
+        },
+      },
+    };
+
+    // Operation-level marks ride in the specs JSON untouched — the page-level
+    // frontmatter gate owns them; the per-field gate only evaluates fields.
+    const html = render(<RestSpecs specs={specs} endpoint="/v2/vectordb/jobs/external_collection/refresh" method="post" target="zilliz" lang="en-US" />).container.innerHTML;
+    expect(html).toContain(paramName('StagedQuery'));
+    expect(html).not.toContain(paramName('RetiredQuery'));
+    expect(html).toContain(paramName('plainField'));
   });
 });

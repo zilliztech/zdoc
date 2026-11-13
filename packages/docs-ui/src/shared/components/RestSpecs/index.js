@@ -886,9 +886,9 @@ export default function RestSpecs(props) {
                 </div>
                 <div className={styles.specLayout}>
                     <BaseURL endpoint={props.endpoint} lang={lang} target={target} baseUrls={target === 'zilliz' ? baseUrls : null} onBaseUrlChange={setSelectedBaseUrl} />
-                    { (parameters.length > 0 || requestBody) && <>
+                    { (validParams.length > 0 || requestBody) && <>
                         <section>
-                            { parameters.length > 0 && <section>
+                            { validParams.length > 0 && <section>
                                 <div className={styles.sectionHeader}>
                                     <span>{i18n[lang]['section.parameters']}</span>
                                 </div>

@@ -452,13 +452,20 @@ operation level, evaluated per field through `RestSpecs/utils.js`
 `isVisibleInChannel`. The runtime channel switch is deployment-injected over a
 single build, so the gate must live at runtime, not in the generator.
 Prerendered HTML always reflects CURRENT (hydration-safe), so unreleased
-parameter shapes stay out of production markup. Deployments without the
-injection (e.g. milvus.io) resolve to CURRENT and therefore never show
-`include`-staged fields. Required chips disappear with their parameter; when a
-staged release flips a field's shape, author the old field `exclude` and the
-new field `include` in the same change. Array `items` and `anyOf`/`oneOf`
-branch nodes are not gated individually yet — stage such an element through
-its parent property (or the operation) instead.
+parameter shapes stay out of production markup. On zdoc deployments without
+the injection the runtime resolves to CURRENT and never shows `include`-staged
+fields. The shared-fragment **milvus regeneration lane is a different
+surface**: its pipeline strips internal `x-*` keys, so a staged field that
+reached it would be republished there without the mark — rendered as an
+ordinary field. Parameter-level staging is therefore **zilliz-publication-only
+by construction**: generation rejects a staged parameter/property unless the
+node or its operation carries `x-include-target: ["zilliz"]`, which keeps
+staged fields out of that lane entirely. Required chips disappear with their
+parameter; when a staged release flips a field's shape, author the old field
+`exclude` and the new field `include` in the same change. Array `items` and
+`anyOf`/`oneOf` branch nodes are not gated individually yet — the validator
+rejects marks there, so stage such an element through its parent property (or
+the operation) instead.
 
 Pair a staged parameter with its validation metadata: a hidden parameter stays
 in the embedded specs JSON on CURRENT deployments (hidden is not removed), so

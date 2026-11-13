@@ -195,6 +195,65 @@ function validateAfterEndpointMarkerUsage(spec) {
   }
 }
 
+/** Placement and publication-scope rules for x-next-channel marks. The
+ * runtime gate (RestSpecs isVisibleInChannel) only evaluates operations,
+ * parameter entries, and values of a schema `properties` map — a mark
+ * anywhere else (array items, anyOf/oneOf branches, component roots,
+ * examples) would silently degrade to always-visible, which for staged
+ * content means accidental publishing. Parameter/property-level staging is
+ * additionally zilliz-publication-only: the shared-fragment milvus
+ * regeneration lane strips internal x-* keys, so a staged field that reached
+ * it would be republished there without the mark (fail-open). Requiring the
+ * node or its operation to be zilliz-scoped keeps staged fields out of that
+ * lane entirely. */
+function validateNextChannelUsage(spec) {
+  const isZillizScoped = (node) => {
+    const targets = node?.['x-include-target']
+    return Array.isArray(targets) && targets.includes('zilliz') && !targets.includes('milvus')
+  }
+  const check = (node, jsonPath, kind, operation) => {
+    if (!node || typeof node !== 'object') return
+    if (Array.isArray(node)) {
+      node.forEach((child, index) => check(child, `${jsonPath}[${index}]`, kind, operation))
+      return
+    }
+    if (Object.hasOwn(node, 'x-next-channel')) {
+      if (kind !== 'operation' && kind !== 'parameter' && kind !== 'property') {
+        throw new Error(`Invalid x-next-channel at ${jsonPath}: only operations, parameter entries, and schema properties (values of a "properties" map) may carry the mark`)
+      }
+      if (kind !== 'operation' && !isZillizScoped(node) && !isZillizScoped(operation)) {
+        throw new Error(`Invalid x-next-channel at ${jsonPath}: parameter-level staging is zilliz-publication-only — scope the node or its operation with "x-include-target": ["zilliz"] so the shared milvus regeneration lane never receives it`)
+      }
+    }
+    for (const [key, child] of Object.entries(node)) {
+      if (key === 'properties' && child && typeof child === 'object' && !Array.isArray(child)) {
+        for (const [propName, propNode] of Object.entries(child)) {
+          check(propNode, `${jsonPath}.properties.${JSON.stringify(propName)}`, 'property', operation)
+        }
+      } else if (key === 'parameters' && (kind === 'operation' || kind === 'root')) {
+        check(child, `${jsonPath}.parameters`, kind === 'operation' ? 'parameter' : 'parameter', operation)
+      } else {
+        check(child, `${jsonPath}.${key}`, 'other', operation)
+      }
+    }
+  }
+  for (const [pathKey, methods] of Object.entries(spec.paths || {})) {
+    for (const [method, operation] of Object.entries(methods || {})) {
+      if (!HTTP_METHODS.includes(method) || !operation || typeof operation !== 'object') continue
+      check(operation, `$.paths["${pathKey}"].${method}`, 'operation', operation)
+    }
+  }
+  for (const [tagIndex, tag] of (spec.tags || []).entries()) {
+    check(tag, `$.tags[${tagIndex}]`, 'other', null)
+  }
+  for (const [schemaName, schema] of Object.entries(spec.components?.schemas || {})) {
+    check(schema, `$.components.schemas.${JSON.stringify(schemaName)}`, 'other', null)
+  }
+  for (const [paramName, parameter] of Object.entries(spec.components?.parameters || {})) {
+    check(parameter, `$.components.parameters.${JSON.stringify(paramName)}`, 'parameter', null)
+  }
+}
+
 class refGen {
   constructor(options) {
     this.options = options
@@ -298,6 +357,7 @@ class refGen {
       }
     }
     validateAfterEndpointMarkerUsage(spec)
+    validateNextChannelUsage(spec)
   }
 
   getPlane(slug, target) {
