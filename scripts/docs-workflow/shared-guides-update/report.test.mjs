@@ -51,7 +51,7 @@ function buildFixture(c, mutateReport) {
       { name: 'patch.raw', sha256: sha256(patch), bytes: patch.length }, { name: 'reports/' + reportSha + '.json', sha256: reportSha, bytes: reportBytes.length },
       { name: 'locks/' + sha256(lock) + '.yaml', sha256: sha256(lock), bytes: lock.length }] }
   const files = new Map([['plan.json', planBytes], ['proof.json', proof], ['patch.raw', patch], ['reports/' + reportSha + '.json', reportBytes], ['locks/' + sha256(lock) + '.yaml', lock], ['provenance.json', c.canonicalBytes(provenance)]])
-  return { c, registration: { runId: 43170134677, runAttempt: 1 }, producerDef: { tools: master, workflowDefinitionSha256: digest(12) }, files, provenance, report, master, dev, target }
+  return { c, registration: { runId: 43170134677, runAttempt: 1, repositoryId: 660446555 }, producerDef: { tools: master, workflowDefinitionSha256: digest(12) }, files, provenance, report, master, dev, target }
 }
 
 test('verifyArchive authenticates the bundle, rejects tampering and enforces the source.target invariant', async () => {
@@ -62,7 +62,11 @@ test('verifyArchive authenticates the bundle, rejects tampering and enforces the
     const { provenance, pins } = verifyArchive(c, f.registration, f.producerDef, f.files)
     assert.equal(pins.master, f.master); assert.equal(provenance.runId, 43170134677)
     // forged run/attempt
-    assert.throws(() => verifyArchive(c, { runId: 1, runAttempt: 99 }, f.producerDef, f.files), /RUN_BINDING/)
+    assert.throws(() => verifyArchive(c, { runId: 1, runAttempt: 99, repositoryId: 660446555 }, f.producerDef, f.files), /RUN_BINDING/)
+    // forged producer repository ID
+    const forgedRepo = { ...f.provenance, repositoryId: 1 }
+    const fr = new Map(f.files); fr.set('provenance.json', c.canonicalBytes(forgedRepo))
+    assert.throws(() => verifyArchive(c, f.registration, f.producerDef, fr), /REPOSITORY_BINDING/)
     // forged unit key (rebuilt provenance + plan digests)
     const forgedUnit = { ...f.provenance, unitKey: 'guides:forged' }
     const ff = new Map(f.files); ff.set('provenance.json', c.canonicalBytes(forgedUnit))
@@ -84,4 +88,25 @@ test('readBoundedZip rejects a regular oversize file before hashing', () => {
     const small = join(root, 'small.zip'); writeFileSync(small, Buffer.from('ok'))
     assert.equal(readBoundedZip(small).toString(), 'ok')
   } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('readBoundedZip rejects a no-writer FIFO promptly without blocking', () => {
+  const root = mkdtempSync(join(tmpdir(), 'shared-guides-fifo-'))
+  try {
+    const fifo = join(root, 'fifo')
+    execFileSync('/usr/bin/mkfifo', [fifo])
+    const started = Date.now()
+    assert.throws(() => readBoundedZip(fifo), /NOT_REGULAR_FILE/)
+    assert.ok(Date.now() - started < 5000, 'FIFO read must not block')
+  } finally { rmSync(root, { recursive: true, force: true }) }
+})
+
+test('CLI rejects invalid argument shapes before any setup', () => {
+  const report = resolve('scripts/docs-workflow/shared-guides-update/report.mjs')
+  const run = args => { try { execFileSync(process.execPath, [report, ...args], { env: { ...process.env, PATH: '/opt/homebrew/bin:' + process.env.PATH } }); return 0 } catch (e) { return e.status } }
+  assert.equal(run(['--registration', 'x.json']), 2)          // retired override
+  assert.equal(run(['--replay']), 2)                          // missing zip + refs
+  assert.equal(run(['--replay', 'zip.zip']), 2)               // missing refs
+  assert.equal(run(['--replay', 'zip.zip', 'bad', 'bad', 'bad']), 2) // invalid OIDs
+  assert.equal(run(['extra-arg']), 2)                         // observed takes zero args
 })

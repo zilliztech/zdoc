@@ -1,8 +1,8 @@
 // Manual read-only report entry for the json-field-overview shared update.
 //
 // Two modes:
-//   observed (default) — reads the producer run/attempt, artifact, zdoc master/dev, the Milvus
-//       track head and the target Check from trusted readers (no caller-supplied SHAs).
+//   observed (default, zero args) — reads the producer run/attempt, artifact, zdoc master/dev,
+//       the Milvus track head and the target Check from trusted readers (no caller-supplied SHAs).
 //   replay (`--replay <zip> <master> <dev> <milvus>`) — replays the pinned historical archive
 //       against injected historical observations, labelled replay.
 //
@@ -12,7 +12,7 @@
 //   node report.mjs
 //   node report.mjs --replay <producer-zip> <master-sha> <dev-sha> <milvus-track-head-sha>
 import { createHash } from 'node:crypto'
-import { readFileSync, mkdtempSync, openSync, readSync, closeSync, fstatSync, realpathSync } from 'node:fs'
+import { readFileSync, mkdtempSync, openSync, readSync, closeSync, fstatSync, realpathSync, constants } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { join, resolve, dirname } from 'node:path'
 import { tmpdir } from 'node:os'
@@ -21,20 +21,27 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex')
 const fail = message => { throw new Error(message) }
 const ARCHIVE_LIMIT = 16 * 1024 * 1024 // REMOTE_LIMITS.archiveBytes
+const oidRe = /^[0-9a-f]{40}$/
 
 // Trusted checkout: resolve the reviewed entry and toolchain against this module's own root.
 const moduleRoot = dirname(fileURLToPath(import.meta.url))
 const repoRoot = resolve(moduleRoot, '../../..')
 
 // Read at most ARCHIVE_LIMIT bytes from a regular file descriptor before any hashing/parsing.
+// Open nonblocking so a no-writer FIFO is rejected promptly instead of blocking the reader.
 export function readBoundedZip(zipPath) {
-  const fd = openSync(zipPath, 'r'); let size = 0
+  const fd = openSync(zipPath, constants.O_RDONLY | constants.O_NONBLOCK)
   try {
     if (!fstatSync(fd).isFile()) fail('NOT_REGULAR_FILE')
     const buf = Buffer.alloc(ARCHIVE_LIMIT + 1)
-    size = readSync(fd, buf, 0, ARCHIVE_LIMIT + 1, 0)
-    if (size > ARCHIVE_LIMIT) fail('ZIP_LIMIT')
-    return buf.subarray(0, size)
+    let total = 0
+    while (total < ARCHIVE_LIMIT + 1) {
+      const n = readSync(fd, buf, total, ARCHIVE_LIMIT + 1 - total, total)
+      if (n === 0) break
+      total += n
+    }
+    if (total > ARCHIVE_LIMIT) fail('ZIP_LIMIT')
+    return buf.subarray(0, total)
   } finally { closeSync(fd) }
 }
 
@@ -43,6 +50,7 @@ export function verifyArchive(c, registration, producerDef, members) {
   const provenanceBytes = members.get('provenance.json'); if (!provenanceBytes) fail('PROVENANCE_MISSING')
   const provenance = c.ProducerBundleReceiptSchema.parse(c.parseStrictJson(provenanceBytes))
   if (!Buffer.from(provenanceBytes).equals(c.canonicalBytes(provenance))) fail('PROVENANCE_NONCANONICAL')
+  if (provenance.repositoryId !== registration.repositoryId) fail('REPOSITORY_BINDING')
   if (provenance.runId !== registration.runId || provenance.runAttempt !== registration.runAttempt) fail('RUN_BINDING')
   if (provenance.tools !== producerDef.tools || provenance.workflowDefinitionSha256 !== producerDef.workflowDefinitionSha256) fail('PRODUCER_DEFINITION')
   const names = new Set(['provenance.json'])
@@ -89,9 +97,41 @@ export function freshnessReport(pins, observed, check) {
     summary: stale.length ? `HOLD: ${stale.map(s => s.field).join(', ')} moved` : 'FRESH: all pins match the observed heads' }
 }
 
+// Read a single commit ref from the fixed GitHub host, validating exact ref, object type and OID.
+async function readFixedGitHubRef(repository, track) {
+  const m = /^https:\/\/github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/.exec(repository)
+  if (!m) fail('SOURCE_REPOSITORY')
+  if (!/^[A-Za-z0-9_.-]+$/.test(track)) fail('SOURCE_TRACK')
+  const fullName = m[1] + '/' + m[2]
+  const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN
+  if (!token) fail('CREDENTIAL_UNAVAILABLE')
+  const url = 'https://api.github.com/repos/' + fullName + '/git/ref/heads/' + track
+  const response = await fetch(url, { method: 'GET', redirect: 'error', signal: AbortSignal.timeout(30000),
+    headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: 'Bearer ' + token } })
+  if (response.status !== 200) fail('MILVUS_REF_UNAVAILABLE')
+  const body = await response.json()
+  if (body.ref !== 'refs/heads/' + track) fail('MILVUS_REF_IDENTITY')
+  const object = body.object
+  if (!object || object.type !== 'commit' || typeof object.sha !== 'string' || !oidRe.test(object.sha)) fail('MILVUS_REF_OBJECT')
+  return object.sha
+}
+
+function validateArgs() {
+  const argv = process.argv.slice(2)
+  if (argv.includes('--registration')) { process.stderr.write('USAGE: report.mjs [--replay <zip> <master> <dev> <milvus>]\n'); process.exitCode = 2; process.exit() }
+  if (!argv.includes('--replay')) {
+    if (argv.length !== 0) { process.stderr.write('USAGE: report.mjs (no arguments) or report.mjs --replay <zip> <master> <dev> <milvus>\n'); process.exitCode = 2; process.exit() }
+    return { replay: false, args: [] }
+  }
+  const args = argv.filter(a => a !== '--replay')
+  if (args.length !== 4 || args.some((a, i) => i > 0 && !oidRe.test(a))) {
+    process.stderr.write('USAGE: report.mjs --replay <zip> <master> <dev> <milvus> (three full 40-hex Git OIDs)\n'); process.exitCode = 2; process.exit()
+  }
+  return { replay: true, args }
+}
+
 async function main() {
-  const replay = process.argv.includes('--replay')
-  const args = process.argv.slice(2).filter(a => a !== '--replay')
+  const { replay, args } = validateArgs()
   const bundle = join(mkdtempSync(join(tmpdir(), 'shared-guides-report-')), 'writer-contract.mjs')
   execFileSync(join(repoRoot, 'node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild/bin/esbuild'),
     [join(repoRoot, 'scripts/docs-workflow/shared-guides-update/writer-contract.ts'), '--bundle', '--platform=node', '--format=esm',
@@ -120,10 +160,11 @@ async function main() {
         if (run.kind !== 'found') fail('PRODUCER_RUN_' + run.kind.toUpperCase())
         const artifact = await reads.readArtifact({ runId: registration.runId, attempt: registration.runAttempt, name: policy.producerArtifactName })
         if (artifact.kind !== 'found') fail('ARTIFACT_' + artifact.kind.toUpperCase())
+        if (artifact.value.archive.sha256 !== registration.archiveSha256) fail('ARCHIVE_DIGEST')
         const master = await reads.readRef('master'), dev = await reads.readRef('dev')
         if (master.kind !== 'found' || dev.kind !== 'found') fail('REFS_UNAVAILABLE')
         const { provenance, plan, report, pins } = verifyArchive(c, registration, producerDef, artifact.value.members)
-        const milvus = execFileSync('/usr/bin/git', ['ls-remote', report.pins.source.repository, 'refs/heads/' + report.pins.source.track]).toString().trim().split(/[\t ]/)[0]
+        const milvus = await readFixedGitHubRef(report.pins.source.repository, report.pins.source.track)
         const observed = { master: master.value.oid, dev: dev.value.oid, source: milvus }
         const checks = await reads.readChecks(provenance.seal)
         const target = checks.kind === 'found'
