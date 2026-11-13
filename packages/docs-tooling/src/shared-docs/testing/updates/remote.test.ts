@@ -231,6 +231,9 @@ it('holds a producer run with a mismatched attempt and distinguishes it from amb
   const f=fixture()
   f.facts.producerRuns.value[0].attempt=2
   hold(f,'PRODUCER_ATTEMPT')
+  const g=fixture()
+  g.facts.artifacts.value.push(g.facts.artifacts.value[0])
+  hold(g,'PRODUCER_ARTIFACT_AMBIGUOUS_OR_MISSING')
 })
 
 function formalFixture() {
