@@ -616,9 +616,9 @@
       "translatedAt": "2026-11-11T11:54:34.015Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/struct-array-limits.md": {
-      "sourceHash": "0f1932cfb04958690db751f91e07c6bb05b5106e5d0941a8458e2392c2da786e",
+      "sourceHash": "68ee09d1e731ca7d99d27dd0f9d5c3cb1933bf718e42a938ec32194a6397fcd9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/struct-array/struct-array-limits.md",
-      "translatedAt": "2026-11-12T19:41:39.464Z"
+      "translatedAt": "2026-11-13T19:41:57.626Z"
     },
     "content/en/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md": {
       "sourceHash": "0ed7de1eef0e68c543a4f4c10b70f8b2d2a575be54c45d26432978fe192f0971",
@@ -2016,9 +2016,9 @@
       "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/struct-array-limits.md": {
-      "sourceHash": "868f4c3e52c408a73a82896f4591fe3209352e26a5d248c3735dd2f07fc5e17d",
+      "sourceHash": "bdd2c2fb64d33259df362a413eca0bda6192c5dc38443362f7d7ebcefab58df2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/struct-array/struct-array-limits.md",
-      "translatedAt": "2026-11-12T19:41:39.464Z"
+      "translatedAt": "2026-11-13T19:41:57.626Z"
     },
     "content/en/guides/tutorials/development/schema/struct-array/use-array-of-structs.md": {
       "sourceHash": "331d627cdb22a28720f661133593521fb3af0d264fe2e50d7801febac68d4dd2",

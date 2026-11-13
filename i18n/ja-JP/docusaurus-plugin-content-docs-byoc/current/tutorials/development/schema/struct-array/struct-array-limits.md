@@ -194,19 +194,83 @@ StructArray のスカラーフィルタリングは、`element_filter` や `MATC
 
 次の表では、外部コレクションとマネージドコレクションでサポートされる StructArray フィールド操作を詳しく比較します。
 
-| 機能 | Dedicated クラスター、マネージドコレクション | オンデマンドクラスター、マネージドコレクション | オンデマンドクラスター、外部コレクション |
-| --- | --- | --- | --- |
-| StructArray フィールドを持つコレクションの作成 | ✅ | ✅ | ❌ |
-| 挿入、upsert、または部分更新 | ✅ | ❌ | ❌ |
-| StructArray を使用した一括インポート | ✅ | ✅ | ❌ |
-| 要素レベル検索（範囲、グルーピング、ハイブリッドなど） | ✅ | ✅ | ❌ |
-| `ELEMENT_FILTER` と `MATCH_*` ファミリー | ✅ | ✅ | ❌ |
-| EmbeddingList 検索（`MAX_SIM` メトリクス） | ✅ | ✅ | ❌ |
-| StructArray フィールド全体の追加（nullable である必要があります） | ✅ | ✅ | ❌ |
-| StructArray フィールド全体の削除 | ✅ | ✅ | ❌ |
-| nullable サブフィールド（`element_nullable`、たとえば nullable なベクトル） | ✅ | ❌ | ❌ |
-| 既存の StructArray へのサブフィールドの追加 | ✅ | ❌ | ❌ |
-| サブフィールドの削除 | ✅ | ❌ | ❌ |
+<table>
+   <tr>
+     <th rowspan="2"><p><strong>機能</strong></p></th>
+     <th rowspan="2"><p><strong>Dedicated クラスター</strong></p><p><strong>マネージドコレクション</strong></p></th>
+     <th colspan="2"><p><strong>On-Demand クラスター</strong></p></th>
+   </tr>
+   <tr>
+     <th><p><strong>マネージドコレクション</strong></p></th>
+     <th><p><strong>外部コレクション</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>StructArray フィールドを含むコレクションの作成</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>挿入、upsert、または部分更新</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>StructArray を含む一括インポート</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>要素レベル検索（範囲検索、グループ化検索、ハイブリッド検索など）</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p><code>ELEMENT_FILTER</code> と <code>MATCH_*</code> ファミリー</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>EmbeddingList 検索（<code>MAX_SIM</code> メトリクス）</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>StructArray フィールド全体の追加（nullable が必須）</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>StructArray フィールド全体の削除</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>nullable なサブフィールド（<code>element_nullable</code>、nullable なベクトルなど）</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>既存の StructArray へのサブフィールドの追加</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>サブフィールドの削除</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
 
 
 ## 関連ページ\{#related-pages}
