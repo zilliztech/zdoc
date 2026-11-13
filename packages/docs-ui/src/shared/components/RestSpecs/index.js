@@ -120,7 +120,7 @@ const Admonitions = ({ admonitions, lang }) => {
     )
 }
 
-const Param = ({ name, description, type, format, required, example, inProp, enums, lang, target, x_i18n, admonitions }) => {
+const Param = ({ name, description, type, format, required, example, inProp, enums, lang, target, x_i18n, admonitions, availability }) => {
 
     enums = enums? enums : []
     const translatedDescription = x_i18n?.[lang]?.description ? x_i18n[lang].description : description
@@ -132,6 +132,7 @@ const Param = ({ name, description, type, format, required, example, inProp, enu
                 <span className={styles.label}>{type + (format ? "\<" + format + "\>" : "")}</span>
                 <span className={styles.label}>{inProp}</span>
                 { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
+                { availability === 'PUBLIC_PREVIEW' && <span className={styles.availabilityBadge}>{i18n[lang]['label.public.preview']}</span> }
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
             <div>
@@ -308,6 +309,7 @@ const Primitive = ({ name, obj, required, lang, target }) => {
     const example = obj["x-i18n"]?.[lang]?.example ? obj["x-i18n"][lang].example : obj.example
     const enums = obj.enum ? obj.enum : []
     const admonitions = obj['x-admonition']
+    const availability = obj['x-zilliz-availability']
 
     return (
         <div className={styles.paramContainer}>
@@ -315,6 +317,7 @@ const Primitive = ({ name, obj, required, lang, target }) => {
                 <span className={styles.paramName}>{name}</span>
                 <span className={styles.label}>{type + (format ? "\<" + format + "\>" : "")}</span>
                 { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
+                { availability === 'PUBLIC_PREVIEW' && <span className={styles.availabilityBadge}>{i18n[lang]['label.public.preview']}</span> }
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target, lang) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
             <div>
@@ -889,7 +892,8 @@ export default function RestSpecs(props) {
                                             inProp={param.in}
                                             enums={param.schema.enum}
                                             x_i18n={param["x-i18n"]}
-                                            admonitions={param['x-admonition']} />
+                                            admonitions={param['x-admonition']}
+                                            availability={param['x-zilliz-availability'] ?? param.schema?.['x-zilliz-availability']} />
                                     )
                                 })}
                                 { pathParams.length > 0 && pathParams.map((param, index) => {
@@ -906,7 +910,8 @@ export default function RestSpecs(props) {
                                             example={param.example}
                                             inProp={param.in}
                                             enums={param.schema.enum}
-                                            admonitions={param['x-admonition']} />
+                                            admonitions={param['x-admonition']}
+                                            availability={param['x-zilliz-availability'] ?? param.schema?.['x-zilliz-availability']} />
                                     )
                                 })}
                                 { queryParams.length > 0 && queryParams.map((param, index) => {
@@ -923,7 +928,8 @@ export default function RestSpecs(props) {
                                             example={param.example}
                                             inProp={param.in}
                                             enums={param.schema.enum}
-                                            admonitions={param['x-admonition']} />
+                                            admonitions={param['x-admonition']}
+                                            availability={param['x-zilliz-availability'] ?? param.schema?.['x-zilliz-availability']} />
                                     )
                                 })}
                             </section>}
