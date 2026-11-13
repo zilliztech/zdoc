@@ -217,6 +217,7 @@
         "packages/docs-tooling/src/reference/rest/meta/lifecycle-evidence/**",
         "packages/docs-tooling/src/reference/rest/meta/fragment-migration.json",
         "packages/docs-tooling/src/reference/rest/meta/titles.json",
+        "packages/docs-tooling/src/reference/rest/meta/descriptions.json",
         "packages/docs-tooling/src/reference/rest/specLoader.js",
         "packages/docs-tooling/src/reference/rest/specLoader.test.js",
         "packages/docs-tooling/src/reference/rest/integratedSpecBuilder.js",
