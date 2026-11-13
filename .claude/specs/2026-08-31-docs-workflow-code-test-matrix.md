@@ -1,11 +1,14 @@
 # Docs workflow code-to-test matrix
 
-The `grouped-vitest-harness` entry covers `package.json` and the four exact
-`scripts/testing/{run-vitest-groups.mjs,vitest-stop-reporter.mjs,run-vitest-groups.test.mjs,expected-platform-skips.json}`
-paths. Its focused command is `pnpm test:vitest-groups`; both complete
+The `grouped-vitest-harness` entry covers `package.json` and the whole
+`scripts/testing/**` tree. Its focused command is `pnpm test:vitest-groups`; both complete
 `pnpm test:shared-docs` and `pnpm test:frontend` gates, workflow matrix and diff
 checks are required. Existing package/replay-infrastructure requirements still
-apply, including replay:all and workflow policy.
+apply, including replay:all and workflow policy. The `path-filters-contract`
+entry covers `deploy/contracts/path-filters.json`, the matcher/evaluator pair
+with its tests, and the site-validation workflow contract; a rule, check
+allowlist or output change there must move the matcher, the workflow pins and
+the bidirectional drift guard in the same change.
 
 These gates discover and validate an exhaustive file manifest, run ordinary files
 with normal parallelism. Frontend/all next runs the complete reference
@@ -28,20 +31,30 @@ supervisor fail closed on errors, incomplete/mismatched results or surviving
 children; later groups are not launched and unrun files are not normal skips.
 A failed phase prints its failing case, error and stack to the console before the
 gate decides, and the site-validation workflow publishes the retained evidence
-directory as an artifact for a failed gate.
+directory as an artifact for a failed gate. In CI the shared-docs gate runs only
+when the path filters select `shared-docs:tests` (plus manual `site=all`
+dispatches, the master-tooling sync promotion shape), and it is split into two
+parallel jobs that each invoke the supervisor with a `--phases` subset
+(`light`, and `transactions,local-runner,update-prepare`); a contract test pins
+the two jobs' `--phases` union to the complete supervisor partition; the
+partition and
+discovery evidence stay the complete manifest while expected phases are derived
+as partition ∩ `selectedPhases` in verdict version 3.
 Both entrypoints have one monotonic 15-minute execution ceiling across preflight,
 discovery, transitions, validation and all report writes, with bounded preflight Git
 calls and no post-deadline child start/passing verdict. After freezing that measured
 verdict, one at-most-1000ms terminal-settlement attempt exclusively stages, persists,
 atomically publishes and confirms it. No tests/report copying or retry occur there.
 Provisional reports cannot qualify alone: the actual reader verifies the sole
-version-2 run-bound terminal, scope and original discovery binding, complete
-report/phase bindings, isolated worker configuration and zero-exit settled receipts.
+version-3 run-bound terminal, its `selectedPhases`, scope and original discovery
+binding, complete report/phase bindings, isolated worker configuration and
+zero-exit settled receipts.
 Expected phase names, ordering and full-file membership are derived from trusted
 scope policy and bound discovery, not report-declared phase counts. Historical
-version-1 evidence and version-2 evidence with the earlier three/four-phase
-policy require their matching retained reader (commit `21d6add193` contains the
-prior version-2 policy). They do not qualify the new four/five-phase policy; do
+version-1 evidence, version-2 evidence with the earlier three/four-phase
+policy, and any pre-version-3 terminal without a `selectedPhases` record require
+their matching retained reader (commit `21d6add193` contains the
+prior version-2 policy). They do not qualify the new reader; do
 not rewrite old evidence to add a phase.
 CLI settlement unknown is nonzero; an offline verified committed verdict does not
 prove CLI delivery/exit. No rollback or file-time deadline inference is used.
@@ -52,8 +65,13 @@ and actual Git/common directories, object stores/alternates and aggregate output
 Overlapping paths and symlink/case aliases are rejected before creation. Existing
 parents must already be owned0700 and are not chmodded or cleaned. Ancestor
 identity/cardinality is retained and identities revalidated across phases; no equivalence to historical
-fixture performance is assumed. The CI tooling job remains at its existing 20-minute total limit and
-requires separate Linux/Node22 whole-job timing evidence.
+fixture performance is assumed. In CI the grouped gate no longer shares the
+tooling job's budget: `shared_docs_light` and `shared_docs_isolated` are
+separate jobs with their own 20-minute job limits and their own 15-minute gate
+deadline each, and the remaining tooling job (drift checks, Translation and
+replay tests) runs at a 10-minute limit. The light phase's wall time grows with the suite; watch it against
+its deadline before adding heavy files. Baseline Linux/Node22 whole-job timing
+evidence: run 43461488539 (tooling 2m13s, isolated 6m28s, light 4m20s).
 
 The exact `publication-stage-control` entry covers `stageControl.ts`,
 `stageControl.test.ts` and `stageControl.bootstrap-worker.ts` under
@@ -228,7 +246,7 @@ For a new behavior, put the narrow assertion at level 1, the cross-module scenar
 - **Affected selection is graph-like, not a hand-picked test list.** The selector takes all changed files and returns the union of every matched area, following the same changed-files plus dependency-graph principle documented by [Nx affected](https://nx.dev/docs/features/ci-features/affected). Overlapping shared contracts therefore expand coverage instead of allowing a narrower row to hide downstream impact.
 - **Harnesses are hermetic by default.** Temporary repositories, local artifact roots, pinned tooling, and declared inputs keep results reproducible. This follows Bazel's definition that tests should access only declared resources so failures remain attributable and auditable; see the [Bazel Test Encyclopedia](https://bazel.build/reference/test-encyclopedia) and [Hermeticity](https://bazel.build/basics/hermeticity).
 - **Executable prose is tested.** Package commands, CI routing, required headings, matrix paths, and examples are checked by contract tests. This applies the same principle as Rust documentation tests, where examples compile during normal tests to keep docs and code synchronized; see [Rust documentation testing](https://doc.rust-lang.org/rust-by-example/testing/doc_testing.html).
-- **Keep one stable aggregate PR check.** Fine-grained harnesses may be selected internally, but the required check should remain the stable `Site validation gate`. GitHub documents that a workflow skipped by path filtering can leave an associated required check Pending, so do not make each path-filtered harness an independent required check; see [Triggering a workflow](https://docs.github.com/actions/using-workflows/triggering-a-workflow).
+- **Keep one stable aggregate PR check.** Fine-grained harnesses may be selected internally, but the required check should remain the stable `Site validation gate`. GitHub documents that a workflow skipped by path filtering can leave an associated required check Pending, so do not make each path-filtered harness an independent required check; see [Triggering a workflow](https://docs.github.com/actions/using-workflows/triggering-a-workflow). The path-gated shared-docs jobs follow this: `shared_docs_light` and `shared_docs_isolated` stay inside the `Site validation gate` aggregate, which accepts their skipped results when no changed path selects `shared-docs:tests`.
 - **Protect high-risk ownership files explicitly when maintainers are known.** GitHub recommends CODEOWNERS for workflow files and for CODEOWNERS itself. Add this only with verified repository teams; do not invent an owner identity. See GitHub's [secure use reference](https://docs.github.com/en/actions/reference/security/secure-use) and [About code owners](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
 
 ### Shared Fetch alias recovery

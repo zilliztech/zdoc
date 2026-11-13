@@ -37,6 +37,7 @@ jobs:
       build_zh_cn: ${{ steps.manual.outputs.build_zh_cn || steps.filters.outputs.build_zh_cn }}
       reference_coverage: ${{ steps.manual.outputs.reference_coverage || steps.filters.outputs.reference_coverage }}
       tools_coverage: ${{ steps.manual.outputs.tools_coverage || steps.filters.outputs.tools_coverage }}
+      shared_docs_tests: ${{ steps.manual.outputs.shared_docs_tests || steps.filters.outputs.shared_docs_tests }}
     steps:
       - name: Check out candidate
         uses: actions/checkout@v5
@@ -91,17 +92,20 @@ jobs:
         env: { SITE: '${{ inputs.site }}' }
         run: |
           case "$SITE" in
-            en) printf 'build_en=true\nbuild_zh_cn=false\nreference_coverage=false\ntools_coverage=false\n' ;;
-            zh-CN) printf 'build_en=false\nbuild_zh_cn=true\nreference_coverage=true\ntools_coverage=true\n' ;;
-            all) printf 'build_en=true\nbuild_zh_cn=true\nreference_coverage=true\ntools_coverage=true\n' ;;
+            en) printf 'build_en=true\nbuild_zh_cn=false\nreference_coverage=false\ntools_coverage=false\nshared_docs_tests=false\n' ;;
+            zh-CN) printf 'build_en=false\nbuild_zh_cn=true\nreference_coverage=true\ntools_coverage=true\nshared_docs_tests=false\n' ;;
+            all) printf 'build_en=true\nbuild_zh_cn=true\nreference_coverage=true\ntools_coverage=true\nshared_docs_tests=true\n' ;;
             *) exit 2 ;;
           esac >> "$GITHUB_OUTPUT"
+          # Single-site dispatches validate one site's content and skip the
+          # grouped shared-docs gate (shared_docs_tests=false above); only
+          # site=all, the master-tooling sync promotion shape, runs it.
 
   tooling_checks:
     name: Validate tooling consistency
     needs: classify
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
         with:
@@ -118,20 +122,6 @@ jobs:
       - run: pnpm check:reconciliation-policy
       - run: pnpm test:translation
       - run: pnpm test:replay
-      - name: Test shared docs
-        env:
-          # The gate keeps its evidence under an owned 0700 parent. Point it at the
-          # runner temporary directory so a failed gate can publish that evidence.
-          ZDOC_TEST_TMP_PARENT: ${{ runner.temp }}/zdoc-vitest
-        run: pnpm test:shared-docs
-      - name: Upload shared-docs gate evidence
-        if: failure()
-        uses: actions/upload-artifact@v6
-        with:
-          name: shared-docs-gate-evidence-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/zdoc-vitest/
-          if-no-files-found: ignore
-          retention-days: 7
 
   workflow_lint:
     name: Lint workflows with actionlint
@@ -300,6 +290,72 @@ jobs:
       - name: Require the provenance-enforced Chinese Tools build
         run: test "$ZH_CN_RESULT" = success
 
+  # The grouped shared-docs gate runs only when the path filters select
+  # `shared-docs:tests`, split into two parallel jobs so the isolated real-Git
+  # phases get their own 15-minute grouped-gate deadline instead of sharing one
+  # budget with the light suite.
+  shared_docs_light:
+    name: Shared-docs grouped gate (light)
+    needs: classify
+    if: needs.classify.outputs.shared_docs_tests == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.classify.outputs.source_sha }}
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Run light grouped gate
+        env:
+          # The gate keeps its evidence under an owned 0700 parent. Point it at the
+          # runner temporary directory so a failed gate can publish that evidence.
+          ZDOC_TEST_TMP_PARENT: ${{ runner.temp }}/zdoc-vitest-light
+        run: node scripts/testing/run-vitest-groups.mjs --scope shared-docs --phases light
+      - name: Upload light gate evidence
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: shared-docs-gate-evidence-light-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/zdoc-vitest-light/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  shared_docs_isolated:
+    name: Shared-docs grouped gate (isolated)
+    needs: classify
+    if: needs.classify.outputs.shared_docs_tests == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.classify.outputs.source_sha }}
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Run isolated grouped gate phases
+        env:
+          # The gate keeps its evidence under an owned 0700 parent. Point it at the
+          # runner temporary directory so a failed gate can publish that evidence.
+          ZDOC_TEST_TMP_PARENT: ${{ runner.temp }}/zdoc-vitest-isolated
+        run: node scripts/testing/run-vitest-groups.mjs --scope shared-docs --phases transactions,local-runner,update-prepare
+      - name: Upload isolated gate evidence
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: shared-docs-gate-evidence-isolated-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/zdoc-vitest-isolated/
+          if-no-files-found: ignore
+          retention-days: 7
+
   retirement:
     name: Verify retired layout
     needs: classify
@@ -363,6 +419,8 @@ jobs:
       - build_zh_cn
       - reference_coverage
       - tools_coverage
+      - shared_docs_light
+      - shared_docs_isolated
       - retirement
       - rest_publication_contract
       - cloud_data_nginx
@@ -379,6 +437,8 @@ jobs:
       ZH_CN_RESULT: ${{ needs.build_zh_cn.result }}
       REFERENCE_RESULT: ${{ needs.reference_coverage.result }}
       TOOLS_RESULT: ${{ needs.tools_coverage.result }}
+      SHARED_DOCS_LIGHT_RESULT: ${{ needs.shared_docs_light.result }}
+      SHARED_DOCS_ISOLATED_RESULT: ${{ needs.shared_docs_isolated.result }}
       RETIREMENT_RESULT: ${{ needs.retirement.result }}
       REST_PUBLICATION_RESULT: ${{ needs.rest_publication_contract.result }}
       CLOUD_DATA_NGINX_RESULT: ${{ needs.cloud_data_nginx.result }}
@@ -391,6 +451,6 @@ jobs:
           test "$RETIREMENT_RESULT" = success
           test "$REST_PUBLICATION_RESULT" = success
           test "$CLOUD_DATA_NGINX_RESULT" = success
-          for result in "$OWNERSHIP_RESULT" "$PRESERVED_RESULT" "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$TOOLS_RESULT"; do
+          for result in "$OWNERSHIP_RESULT" "$PRESERVED_RESULT" "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$TOOLS_RESULT" "$SHARED_DOCS_LIGHT_RESULT" "$SHARED_DOCS_ISOLATED_RESULT"; do
             test "$result" = success || test "$result" = skipped
           done
