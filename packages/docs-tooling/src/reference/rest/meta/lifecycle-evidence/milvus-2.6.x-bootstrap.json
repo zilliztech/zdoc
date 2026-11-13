@@ -50907,7 +50907,7 @@
       "lifecycle": {
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
+        "x-deprecated-since": "2.6.x"
       },
       "previousLifecycle": {},
       "source": {
@@ -50922,15 +50922,7 @@
         "symbol": "GetProgressAction"
       },
       "confidence": "high",
-      "rationale": "Milvus constant.go marks get_progress deprecated, retains it for compatibility, and directs users to /v2/vectordb/jobs/import/describe.",
-      "publicationEvidence": {
-        "repository": "zilliztech/zdoc",
-        "pullRequest": 290,
-        "url": "https://github.com/zilliztech/zdoc/pull/290",
-        "commit": "e3ad19ad7864e1866622bc560abaa75670e77940",
-        "observedState": "open",
-        "observedDate": "2026-08-14"
-      }
+      "rationale": "Milvus constant.go marks get_progress deprecated, retains it for compatibility, and directs users to /v2/vectordb/jobs/import/describe."
     },
     {
       "fragment": "11-import-operations-v2.json",
@@ -63386,7 +63378,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "9615bfb0ae4e4ce25e211c144cc11e04658dfcff2dfde4c3b8a9159a996d09f1",
+    "fragmentInventorySha256": "15fed1cc435f72269dc1263072bb05ce7d46b1fd5e6549e6e6c0653114863aad",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",
