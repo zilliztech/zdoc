@@ -601,7 +601,8 @@ test('phase subsets qualify against the partition intersection and reject select
       if(fault==='full phases with subset selection')a.selectedPhases=selectedNames
       if(fault==='duplicate selection')a.selectedPhases=[...selectedNames,...selectedNames]
       if(fault==='empty selection')a.selectedPhases=[]
-      await assert.rejects(withGateDeadline(b=>prepareGateReports(a,g.paths,b),{evidenceRoot:g.root}),undefined,fault)
+      await assert.rejects(withGateDeadline(b=>prepareGateReports(a,g.paths,b),{evidenceRoot:g.root}),
+        /Unknown selected phase|Incomplete successful phase manifest|Invalid phase selection manifest/,fault)
       assert.equal((await readGateReport(g.paths[0])).success,false,fault)
     }
   }

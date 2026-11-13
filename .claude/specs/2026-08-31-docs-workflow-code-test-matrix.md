@@ -32,9 +32,12 @@ children; later groups are not launched and unrun files are not normal skips.
 A failed phase prints its failing case, error and stack to the console before the
 gate decides, and the site-validation workflow publishes the retained evidence
 directory as an artifact for a failed gate. In CI the shared-docs gate runs only
-when the path filters select `shared-docs:tests`, and it is split into two
+when the path filters select `shared-docs:tests` (plus manual `site=all`
+dispatches, the master-tooling sync promotion shape), and it is split into two
 parallel jobs that each invoke the supervisor with a `--phases` subset
-(`light`, and `transactions,local-runner,update-prepare`); the partition and
+(`light`, and `transactions,local-runner,update-prepare`); a contract test pins
+the two jobs' `--phases` union to the complete supervisor partition; the
+partition and
 discovery evidence stay the complete manifest while expected phases are derived
 as partition ∩ `selectedPhases` in verdict version 3.
 Both entrypoints have one monotonic 15-minute execution ceiling across preflight,
@@ -65,8 +68,10 @@ identity/cardinality is retained and identities revalidated across phases; no eq
 fixture performance is assumed. In CI the grouped gate no longer shares the
 tooling job's budget: `shared_docs_light` and `shared_docs_isolated` are
 separate jobs with their own 20-minute job limits and their own 15-minute gate
-deadline each. The light phase's wall time grows with the suite; watch it against
-its deadline before adding heavy files.
+deadline each, and the remaining tooling job (drift checks, Translation and
+replay tests) runs at a 10-minute limit. The light phase's wall time grows with the suite; watch it against
+its deadline before adding heavy files. Baseline Linux/Node22 whole-job timing
+evidence: run 43461488539 (tooling 2m13s, isolated 6m28s, light 4m20s).
 
 The exact `publication-stage-control` entry covers `stageControl.ts`,
 `stageControl.test.ts` and `stageControl.bootstrap-worker.ts` under

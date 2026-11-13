@@ -81,7 +81,11 @@ path filters select `shared-docs:tests` (shared-docs sources and tests, the
 grouped harness itself, and the shared-guides update/Fetch generation surfaces),
 and it is split into two parallel site-validation jobs that pass a `--phases`
 subset to the supervisor — `light` in one, the isolated phases in the other — so
-each gets its own 20-minute job limit and its own 15-minute gate deadline. PRs
+each gets its own 20-minute job limit and its own 15-minute gate deadline, while
+the tooling job that keeps the drift checks, Translation and replay tests runs
+at a 10-minute limit. A contract test pins the two jobs' `--phases` union to the
+complete supervisor partition, so a new isolated phase must update the workflow
+in the same change. PRs
 that touch none of those paths finish the tooling job without the heavy suite;
 `site=all` dispatches (the master-tooling sync promotion shape) always run it.
 The light phase's wall time grows with the suite, so watch it against its

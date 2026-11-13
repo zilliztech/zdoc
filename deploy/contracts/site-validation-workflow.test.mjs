@@ -4,6 +4,8 @@ import path from 'node:path';
 import test from 'node:test';
 import yaml from 'js-yaml';
 
+import {ISOLATED_SHARED_PHASE_NAMES} from '../../scripts/testing/run-vitest-groups.mjs';
+
 const repositoryRoot = path.resolve(import.meta.dirname, '../..');
 
 function jobBlock(workflow, jobName) {
@@ -158,6 +160,22 @@ test('the grouped shared-docs gate is path-gated and split into two parallel job
   // Retirement stays a hard success-only dependency; the new jobs must not
   // appear in the strict success list.
   assert.doesNotMatch(aggregate, /test "\$SHARED_DOCS_LIGHT_RESULT" = success/);
+});
+
+test('the split shared-docs jobs cover the complete supervisor partition', async () => {
+  const workflow = await readFile(path.join(repositoryRoot, '.github/workflows/site-validation.yml'), 'utf8');
+  // The CI coverage surface is the union of the two jobs' hardcoded --phases
+  // lists. When the supervisor gains an isolated phase, that phase silently
+  // leaves the light partition and neither job would run it — both verdicts
+  // stay valid because unaccountedFiles is computed over the selection. This
+  // contract pins the union to the complete shared-docs partition so adding a
+  // phase forces the workflow (or an explicit contract update) in one change.
+  const requested = [...workflow.matchAll(/--phases ([\w,-]+)/g)]
+    .flatMap(match => match[1].split(','))
+    .sort();
+  const complete = ['light', ...ISOLATED_SHARED_PHASE_NAMES].sort();
+  assert.deepEqual(requested, complete,
+    'shared_docs_light + shared_docs_isolated must cover every shared-docs phase');
 });
 
 test('manual site publication selects locale builds and deploys only validated artifacts', async () => {

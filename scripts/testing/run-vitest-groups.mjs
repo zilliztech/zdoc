@@ -16,6 +16,9 @@ const ISOLATED_SHARED_PHASES=[
   {name:'update-prepare',file:'packages/docs-tooling/src/shared-docs/testing/updates/update-prepare.test.ts'},
 ]
 export const HEAVY_FILES=ISOLATED_SHARED_PHASES.map(phase=>phase.file)
+/** Names of the isolated shared-docs phases, for consumers that must cover the
+ * complete partition (e.g. the CI phase-completeness contract). */
+export const ISOLATED_SHARED_PHASE_NAMES=ISOLATED_SHARED_PHASES.map(phase=>phase.name)
 export const REFERENCE_FILE='packages/docs-tooling/src/reference/translationManifest.integration.test.ts'
 const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms))
 const within=(root,path)=>{const r=relative(root,path);return r===''||r!=='..'&&!r.startsWith(`..${sep}`)&&!isAbsolute(r)}
@@ -654,6 +657,9 @@ export async function runGate(options) {
         ?partition.phases.filter(p=>options.phases.includes(p.name))
         :partition.phases
       if(!selectedPhases.length)throw new Error('Phase selection matched no partition phase')
+      // A partially applicable selection must fail loudly: silently running the
+      // applicable subset would pass CI while the request was never honored.
+      if(options.phases&&selectedPhases.length!==options.phases.length)throw new Error('Phase selection includes phases outside the scope partition')
       selectedFiles=selectedPhases.flatMap(p=>p.files)
       selectedPhaseNames=selectedPhases.map(p=>p.name)
       expectedPhaseCount=selectedPhases.length
@@ -703,7 +709,7 @@ export async function runGate(options) {
     return prepareGateReports(aggregate,[join(root,'aggregate.json'),...options.output?[options.output]:[]],budget)
   })
   const result=await settleGateVerdict(prepared),report=result.report
-  if(result.settlementStatus==='acknowledged')console.log(`${result.success?'PASS':'FAIL'} grouped ${options.scope}: ${report.rawCountsComplete?`${report.numPassedTests} passed, ${report.numFailedTests} failed, ${report.numPendingTests} skipped`:`INCOMPLETE raw counts; at least ${report.observedFailures.length} observed failure event(s)`}; ${report.evidenceRoot}`)
+  if(result.settlementStatus==='acknowledged')console.log(`${result.success?'PASS':'FAIL'} grouped ${options.scope}${options.phases?` (${options.phases.join(',')})`:''}: ${report.rawCountsComplete?`${report.numPassedTests} passed, ${report.numFailedTests} failed, ${report.numPendingTests} skipped`:`INCOMPLETE raw counts; at least ${report.observedFailures.length} observed failure event(s)`}; ${report.evidenceRoot}`)
   // The aggregate reason names the failing condition, so it belongs in the log
   // and not only inside the retained report.
   if(!result.success&&report.failure)console.error(`grouped ${options.scope} failure: ${report.failure}`)
