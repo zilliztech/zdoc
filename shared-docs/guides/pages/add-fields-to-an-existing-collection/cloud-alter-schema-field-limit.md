@@ -1,0 +1,1 @@
+In all cases, the new field name must not already exist in the collection, and the total number of fields cannot exceed the Zilliz Cloud field-count limit. For details, refer to [Zilliz Cloud Limits](limitations.md).

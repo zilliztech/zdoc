@@ -1,0 +1,3 @@
+
+In {{var.product_name}}, you can use either a JSON field or an Array-of-Structs field to create nested structures within a collection schema. When vector embeddings are part of the nested format, only an Array-of-Structs field is supported. However, a Struct inside an Array cannot itself contain further nested Structs; on Dedicated Clusters compatible with Milvus v3.0.x, it can contain scalar array subfields with one nesting level (not yet available on On-Demand Clusters). To store the CoVLA dataset while retaining essential relationships, you need to remove unnecessary hierarchy and flatten the data so it fits the {{var.product_name}} collection schema.
+

@@ -1,0 +1,60 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/insert-and-delete/upsert-entities.md
+
+metadata:
+  beta: FALSE
+
+publish:
+  - manual: guides
+    path: tutorials/development/insert-and-delete/upsert-entities
+  - manual: guides-byoc
+    path: tutorials/development/insert-and-delete/upsert-entities
+
+transforms:
+  - operation: replace
+    target:
+      block: upsert-merge-overview-heading
+    content:
+      file: cloud-upsert-merge-overview-heading.md
+  - operation: replace
+    target:
+      block: upsert-merge-heading
+    content:
+      file: cloud-upsert-merge-heading.md
+  - operation: replace
+    target:
+      block: upsert-array-heading
+    content:
+      file: cloud-upsert-array-heading.md
+  - operation: replace
+    target:
+      block: upsert-array-availability
+    content:
+      file: cloud-upsert-array-availability.md
+  - operation: replace
+    target:
+      block: upsert-array-replace-note
+    content:
+      file: cloud-upsert-array-replace-note.md
+  - operation: replace
+    target:
+      block: upsert-array-background
+    content:
+      file: cloud-upsert-array-background.md
+  - operation: replace
+    target:
+      block: upsert-array-types
+    content:
+      file: cloud-upsert-array-types.md
+  - operation: replace
+    target:
+      block: upsert-structarray-note
+    content:
+      file: cloud-upsert-structarray-note.md
+  - operation: replace
+    target:
+      block: upsert-merge-structarray-elementnull
+    content:
+      file: cloud-upsert-merge-structarray-elementnull.md

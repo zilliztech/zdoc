@@ -1,0 +1,1 @@
+- You can drop a whole ARRAY&lt;STRUCT&gt; field. On Dedicated Clusters compatible with Milvus v3.0.x, you can also drop an individual sub-field by its path, such as `chunks[lang]`, except the last sub-field of the ARRAY&lt;STRUCT&gt; field; this capability is not yet available on On-Demand Clusters.
