@@ -160,7 +160,7 @@ After submitting the request, use the returned job ID to monitor the job until i
 
 When the job succeeds, verify that the expected output is available at the path specified in the request.
 
-For instructions, job states, and state transitions, see [Manage Spark Batch Jobs](./manage-batch-jobs).
+For instructions, job states, and state transitions, see [Manage Batch Jobs](./manage-batch-jobs).
 
 ## Understand and validate the output\{#understand-and-validate-the-output}
 

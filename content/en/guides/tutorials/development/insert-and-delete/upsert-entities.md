@@ -1,17 +1,18 @@
 ---
 title: "Upsert Entities | Cloud"
 slug: /upsert-entities
-sidebar_label: "Upsert"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `upsert` operation provides a convenient way to insert or update entities in a collection. | Cloud"
+description: "The upsert operation provides a convenient way to insert or update entities in a collection. | Cloud"
 type: origin
-token: YtJPwEVETiTaPMkWSfAccjXTnge
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-upsert-entities
+sidebar_label: "Upsert"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/insert-and-delete/upsert-entities.md"
 
 ---
 
@@ -21,45 +22,54 @@ import TabItem from '@theme/TabItem';
 
 # Upsert Entities
 
-The `upsert` operation provides a convenient way to insert or update entities in a collection. 
+The `upsert` operation provides a convenient way to insert or update entities in a collection.
 
 ## Overview\{#overview}
 
-You can use `upsert` to either insert a new entity or update an existing one, depending on whether the primary key provided in the upsert request exists in the collection. If the primary key is not found, an insert operation occurs. Otherwise, an update operation will be performed.
+You can use `upsert` to either insert a new entity or update an existing one, depending on whether the primary key provided in the upsert request exists in the collection. If the primary key is not found, an insert operation occurs. Otherwise, an update operation will be performed. Partial updates on `autoID` collections are an exception: they update existing entities only, as described below.
 
-An upsert request  combines an insert and a delete. When an `upsert` request for an existing entity is received, Zilliz Cloud inserts the data carried in the request payload and deletes the existing entity with the original primary key specified in the data at the same time. 
+An upsert in Zilliz Cloud works in either **override** or **merge** mode.
 
-![Q3LawAQIKht1FKbsM3EcoQAHnvc](https://zdoc-images.s3.us-west-2.amazonaws.com/Q3LawAQIKht1FKbsM3EcoQAHnvc.png)
+### Upsert in override mode\{#upsert-in-override-mode}
+
+An upsert request that works in override mode combines an insert and a delete. When an `upsert` request for an existing entity is received, Zilliz Cloud inserts the data carried in the request payload and deletes the existing entity with the original primary key specified in the data at the same time.
+
+![Upsert In Override Mode](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/40c0e8ca69eaf270bd1e6972e688b8f7e7865d0678c2a4170ecef678c0bb05b7.png)
 
 If the target collection has `autoID` enabled on its primary field, the `upsert` request must still include the primary key of the target entity. Zilliz Cloud uses the provided primary key to locate the entity to replace, and generates a new primary key for the data carried in the request payload before inserting it.
 
 For fields with `nullable` enabled, you can omit them in the `upsert` request if they do not require any updates.
 
+<a id="upsert-in-merge-mode--milvus-v262"></a>
+
 ### Upsert in merge mode\{#upsert-in-merge-mode}
 
 Use merge mode to update specific fields of an existing entity while keeping the other fields unchanged.
 
-![NZNKwxm9ahmi87b487TcuCrNn4c](https://zdoc-images.s3.us-west-2.amazonaws.com/NZNKwxm9ahmi87b487TcuCrNn4c.png)
+![Upsert In Merge Mode](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a4dd47f055ed299fb600638f41ef2be283f7984a29236072a76e39eec300588f.png)
 
 Set `partial_update=True` and provide the primary key and the fields you want to update.
 
 Zilliz Cloud retrieves the existing entity with a strong-consistency query, merges your changes with the stored data, inserts the merged entity, and deletes the old entity.
 
-Updating an existing entity in merge mode preserves its primary key, even when `autoID` is enabled. If the primary key does not exist, Zilliz Cloud attempts to insert a new entity. You must provide all fields to insert the new entity; otherwise, the request fails with a missing-field error.
+If the primary key does not exist, the result depends on whether `autoID` is enabled:
+
+- **With `autoID` disabled**, Zilliz Cloud attempts to insert a new entity with the primary key you supplied. The request succeeds if it meets the normal insertion requirements. If a required field is missing, the request fails with a missing-field error. Nullable fields and fields with default values can be omitted, just as in a normal insert.
+- **With `autoID` enabled**, every primary key in the request must already exist. Zilliz Cloud rejects the request if any primary key is missing, even if you provide all fields required for insertion. For existing entities, merge mode keeps the primary key unchanged.
 
 If a partial update fails with a missing-field error, check whether the target entity exists. Without an existing entity, Zilliz Cloud cannot retrieve the values of fields you omitted.
 
 For new entities, use `insert` or an upsert in override mode. Use merge mode for subsequent updates to individual fields.
 
-For `ARRAY` fields, merge mode supports two operators: `ARRAY_APPEND` and `ARRAY_REMOVE`. These operators let you append elements to or remove matching elements from an existing `ARRAY` field, without first querying the entity to retrieve its current value. For details, see [Upsert ARRAY fields with partial-update operators](./upsert-entities#upsert-array-fields-in-merge-mode).
+For `ARRAY` fields, merge mode supports two operators: `ARRAY_APPEND` and `ARRAY_REMOVE`. These operators let you append elements to or remove matching elements from an existing `ARRAY` field, without first querying the entity to retrieve its current value. For details, see [Upsert ARRAY fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode-or-milvus-2617).
 
 ### Update field values\{#update-field-values}
 
-To update the field values of an existing entity, use [upsert in merge mode](./upsert-entities#upsert-entities-in-merge-mode). In this mode, only the fields included in the request are updated — all other fields retain their existing values.
+To update the field values of an existing entity, use [upsert in merge mode](./upsert-entities#upsert-entities-in-merge-mode). In this mode, only the fields included in the request are updated; all other fields retain their existing values.
 
 ### Upsert behaviors: special notes\{#upsert-behaviors-special-notes}
 
-There are several special notes you should consider before using the merge feature. The following cases assume that you have a collection with two scalar fields named `title` and `issue`, along with a primary key `id` and a vector field called `vector`. 
+There are several special notes you should consider before using the merge feature. The following cases assume that you have a collection with two scalar fields named `title` and `issue`, along with a primary key `id` and a vector field called `vector`.
 
 - **Upsert fields with** `nullable` **enabled.**
 
@@ -71,11 +81,11 @@ There are several special notes you should consider before using the merge featu
 
 - **Upsert keys in the dynamic field**.
 
-    Suppose that you have enabled the dynamic key in the example collection, and the key-value pairs in the dynamic field of an entity are similar to `{"author": "John", "year": 2020, "tags": ["fiction"]}`. 
+    Suppose that you have enabled the dynamic key in the example collection, and the key-value pairs in the dynamic field of an entity are similar to `{"author": "John", "year": 2020, "tags": ["fiction"]}`.
 
     When you upsert the entity with keys, such as `author`, `year`, or `tags`, or add other keys, note that:
 
-    - If you upsert with `partial_update` disabled, the default behavior is to **override**. It means that the value of the dynamic field will be overridden by all non-schema-defined fields included in the request and their values. 
+    - If you upsert with `partial_update` disabled, the default behavior is to **override**. It means that the value of the dynamic field will be overridden by all non-schema-defined fields included in the request and their values.
 
         For example, if the data included in the request is `{"author": "Jane", "genre": "fantasy"}`, the key-value pairs in the dynamic field of the target entity will be updated to that.
 
@@ -97,13 +107,15 @@ There are several special notes you should consider before using the merge featu
 
     - `ARRAY_REMOVE` removes every element from the existing array that matches a value in the request payload.
 
-    For operator syntax, supported element types, and other constraints, see [Upsert array fields with partial-update operators](./upsert-entities#upsert-array-fields-in-merge-mode).
+    For operator syntax, supported element types, and other constraints, see [Upsert ARRAY fields in merge mode](./upsert-entities#upsert-array-fields-in-merge-mode-or-milvus-2617).
+
 
 - **Upsert a StructArray field.**
 
-    Upserting a StructArray field in an entity overwrites the field value. To do so, you need to provide a list of dictionaries, each of which contains all subfields defined in the struct schema, even when you perform the upsert in merge mode. You can omit element-nullable subfields; Zilliz Cloud stores null for them in that Struct element.
+    Upserting a StructArray field in an entity overwrites the field value. To do so, you need to provide a list of dictionaries, each of which contains all subfields defined in the struct schema, even when you perform the upsert in merge mode. On Dedicated Clusters compatible with Milvus v3.0.x, you can omit element-nullable subfields; Zilliz Cloud stores null for them in that Struct element. Upsert into collections that contain StructArray fields is not yet available on On-Demand Clusters, where bulk import is the only write path for StructArray data.
 
     For details, refer to [Upsert StructArray field in merge mode](./upsert-entities#upsert-structarray-field-in-merge-mode).
+
 
 ### Limits & Restrictions\{#limits-and-restrictions}
 
@@ -113,7 +125,7 @@ Based on the above content, there are several limits and restrictions to follow:
 
     - In override mode, the primary key identifies the existing entity to replace, and Zilliz Cloud generates a new primary key for the replacement entity.
 
-    - In merge mode, updating an existing entity preserves its primary key. If the primary key does not exist, Zilliz Cloud attempts to insert a new entity. You must provide all fields to insert the new entity; otherwise, the request fails with a missing-field error.
+    - In merge mode, the primary key identifies the existing entity to update and remains unchanged. If the primary key does not exist, the request fails instead of inserting a new entity.
 
 - The target collection must be loaded and available for queries.
 
@@ -142,19 +154,19 @@ client = MilvusClient(
 
 data=[
     {
-        "id": 0, 
+        "id": 0,
         "vector": [-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911],
-        "title": "Artificial Intelligence in Real Life", 
+        "title": "Artificial Intelligence in Real Life",
         "issue": "vol.12"
     }, {
-        "id": 1, 
-        "vector": [0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965], 
-        "title": "Hollow Man", 
+        "id": 1,
+        "vector": [0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965],
+        "title": "Hollow Man",
         "issue": "vol.19"
     }, {
-        "id": 2, 
-        "vector": [-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827], 
-        "title": "Treasure Hunt in Missouri", 
+        "id": 2,
+        "vector": [-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827],
+        "title": "Treasure Hunt in Missouri",
         "issue": "vol.12"
     }
 ]
@@ -238,6 +250,7 @@ milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
+    APIKey: "YOUR_CLUSTER_TOKEN",
 })
 
 if err != nil {
@@ -322,12 +335,13 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+milvus::ConnectParam connect_param("YOUR_CLUSTER_ENDPOINT");
+connect_param.WithToken("YOUR_CLUSTER_TOKEN");
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -372,9 +386,9 @@ const res = await client.upsert({
 console.log(res.upsert_cnt)
 
 // Output
-// 
+//
 // 3
-// 
+//
 ```
 
 </TabItem>
@@ -414,13 +428,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## Upsert entities in a partition\{#upsert-entities-in-a-partition}
 
 You can also upsert entities into a specified partition. The following code snippets assume that you have a partition named **PartitionA** in your collection.
 
-The three entities, if exists in the partition, will be overridden by those included in the request. 
+The three entities, if exists in the partition, will be overridden by those included in the request.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -428,21 +443,21 @@ The three entities, if exists in the partition, will be overridden by those incl
 ```python
 data=[
     {
-        "id": 10, 
-        "vector": [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576], 
-        "title": "Layour Design Reference", 
+        "id": 10,
+        "vector": [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576],
+        "title": "Layour Design Reference",
         "issue": "vol.34"
     },
     {
-        "id": 11, 
-        "vector": [0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531], 
-        "title": "Doraemon and His Friends", 
+        "id": 11,
+        "vector": [0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531],
+        "title": "Doraemon and His Friends",
         "issue": "vol.2"
     },
     {
-        "id": 12, 
-        "vector": [-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011], 
-        "title": "Pikkachu and Pokemon", 
+        "id": 12,
+        "vector": [-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011],
+        "title": "Pikkachu and Pokemon",
         "issue": "vol.12"
     },
 ]
@@ -562,7 +577,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {
     {{"id", 10}, {"vector", std::vector<float>{0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576}}, {"title", "Layour Design Reference"}, {"issue", "vol.34"}},
     {{"id", 11}, {"vector", std::vector<float>{0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531}}, {"title", "Doraemon and His Friends"}, {"issue", "vol.2"}},
@@ -601,9 +616,9 @@ const res = await client.upsert({
 console.log(res.upsert_cnt)
 
 // Output
-// 
+//
 // 3
-// 
+//
 ```
 
 </TabItem>
@@ -644,13 +659,16 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
+<a id="upsert-entities-in-merge-mode--milvus-v262"></a>
 
 ## Upsert entities in merge mode\{#upsert-entities-in-merge-mode}
 
 The following example updates only the `issue` field of the entities with primary keys `1` and `2` in `my_collection`. Before running it, ensure that both entities already exist. Their other fields retain their current values.
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 When performing an upsert in merge mode, ensure that the entities involved in the request have the same set of fields. Suppose there are two or more entities to be upserted, as shown in the following code snippet, it is important that they include identical fields to prevent errors and maintain data integrity.
 
@@ -666,7 +684,7 @@ data=[
         "issue": "vol.14"
     },
     {
-        "id": 2, 
+        "id": 2,
         "issue": "vol.7"
     }
 ]
@@ -762,7 +780,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {{{"id", 1}, {"issue", "vol.14"}},
                            {{"id", 2}, {"issue", "vol.7"}}};
 milvus::UpsertResponse resp_upsert;
@@ -788,7 +806,7 @@ const data=[
         "issue": "vol.14"
     },
     {
-        "id": 2, 
+        "id": 2,
         "issue": "vol.7"
     }
 ];
@@ -801,9 +819,9 @@ const res = await client.upsert({
 console.log(res)
 
 // Output
-// 
+//
 // 2
-// 
+//
 ```
 
 </TabItem>
@@ -841,17 +859,20 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/upsert" \
 #     "data": {
 #         "upsertCount": 2,
 #         "upsertIds": [
-#              3,
-#             12,
+#             1,
+#             2
 #         ]
 #     }
 # }
 ```
 
 </TabItem>
+
 </Tabs>
 
-## Upsert ARRAY fields in merge mode\{#upsert-array-fields-in-merge-mode}
+<a id="upsert-array-fields-in-merge-mode"></a>
+
+## Upsert ARRAY fields in merge mode | Milvus 2.6.17+\{#upsert-array-fields-in-merge-mode-or-milvus-2617}
 
 Before introducing partial-update operators (`ARRAY_APPEND` and `ARRAY_REMOVE`), updating part of an `ARRAY` field required a client-side read-modify-write flow: query the existing array, change it in application code, and upsert the full replacement value. Partial-update operators let you send only the elements to append or remove, which reduces client-side logic and avoids the extra read before the upsert.
 
@@ -938,7 +959,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"new", "trial", "premium"}}}};
 milvus::UpsertResponse resp_upsert;
 status = client->Upsert(milvus::UpsertRequest()
@@ -998,11 +1019,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 With `ARRAY_APPEND`, send only the element to add:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1089,7 +1111,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"premium"}}}};
 milvus::UpsertResponse resp_upsert;
 status = client->Upsert(milvus::UpsertRequest()
@@ -1117,19 +1139,130 @@ await client.upsert({
 
 </TabItem>
 
-<TabItem value='bash'>
+</Tabs>
 
-```bash
-# Note: The REST API does not expose the field_ops parameter as of v3.0.x.
-# Use the gRPC SDKs to apply ARRAY_APPEND / ARRAY_REMOVE operators.
+With `ARRAY_REMOVE`, send only the matching element to remove:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
+```python
+client.upsert(
+    collection_name="users",
+    data=[{"pk": 1, "tags": ["trial"]}],
+    field_ops={"tags": FieldOp.array_remove()},
+)
 ```
 
 </TabItem>
+
+<TabItem value='java'>
+
+```java
+Gson gson = new Gson();
+List<JsonObject> appendData = Collections.singletonList(
+        gson.fromJson("{\"pk\": 1, \"tags\": [\"trial\"]}", JsonObject.class)
+);
+UpsertReq.FieldPartialUpdateOp appendTags = UpsertReq.FieldPartialUpdateOp.builder()
+        .fieldName("tags")
+        .opType(UpsertReq.FieldPartialUpdateOp.OpType.ARRAY_REMOVE)
+        .build();
+client.upsert(UpsertReq.builder()
+        .collectionName("users")
+        // highlight-start
+        .data(appendData)
+        .fieldOps(Collections.singletonList(appendTags))
+        // highlight-end
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+_, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
+    WithInt64Column("pk", []int64{1}).
+    WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"trial"}})).
+    WithArrayRemove("tags"),
+)
+
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .upsert(
+        UpsertRequest::builder()
+            .insert(
+                InsertRequest::builder()
+                    .collection_name("users")
+                    .columns(vec![
+                        FieldData::Int64 {
+                            name: "pk".into(),
+                            values: vec![1i64],
+                        },
+                        FieldData::ArrayVarChar {
+                            name: "tags".into(),
+                            values: vec![vec!["trial".to_string()]],
+                        },
+                    ])
+                    .build()?,
+            )
+            .field_ops(vec![
+                FieldPartialUpdateOp::new()
+                    .field_name("tags")
+                    .op_type(FieldPartialUpdateOpType::ArrayRemove),
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"trial"}}}};
+milvus::UpsertResponse resp_upsert;
+status = client->Upsert(milvus::UpsertRequest()
+                            .WithCollectionName("users")
+                            .WithRowsData(std::move(data))
+                            .AddFieldOp(milvus::FieldPartialUpdateOp("tags", milvus::FieldPartialUpdateOp::OpType::ARRAY_REMOVE)),
+                        resp_upsert);
+
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.upsert({
+    collection_name: "users",
+    data: [{pk: 1, tags: ["trial"]}],
+    field_ops: [{field_name: "tags", op: "ARRAY_REMOVE"}],
+});
+```
+
+</TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-Attaching either operator to a field via `field_ops` implicitly enables partial-update semantics.  Therefore, you do **not** need to pass `partial_update=True` alongside `field_ops`.
+Attaching either operator to a field via `field_ops` implicitly enables partial-update semantics. Therefore, you do **not** need to pass `partial_update=True` alongside `field_ops`.
 
 </Admonition>
 
@@ -1137,7 +1270,7 @@ Attaching either operator to a field via `field_ops` implicitly enables partial-
 
 - The payload values must match the `element_type` of the target `ARRAY` field. For example, if the target field is `ARRAY<VARCHAR>`, the payload must contain string values.
 
-- For this release, `ARRAY_APPEND` and `ARRAY_REMOVE` support `ARRAY` fields whose `element_type` is `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, or `VARCHAR`.
+- `ARRAY_APPEND` and `ARRAY_REMOVE` support `ARRAY` fields whose `element_type` is `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, or `VARCHAR`.
 
 - After an `ARRAY_APPEND` operation, the resulting array length must not exceed the field's `max_capacity`.
 
@@ -1147,7 +1280,7 @@ Attaching either operator to a field via `field_ops` implicitly enables partial-
 
 The following example uses a small `users` collection with a primary key `pk`, a `tags` field of type `ARRAY<VARCHAR>`, and an `embedding` vector field. It first inserts two entities with initial `tags` values, then uses `ARRAY_APPEND` and `ARRAY_REMOVE` to show how each operator changes the stored array.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1576,7 +1709,7 @@ println!("{res:?}");
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // 1. Create a collection with an ARRAY<VARCHAR> field
 
 milvus::CollectionSchema schema;
@@ -1717,19 +1850,12 @@ console.log(res.data);
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The REST API does not expose the field_ops parameter as of v3.0.x.
-# ARRAY_APPEND / ARRAY_REMOVE operators are available via the gRPC SDKs only.
-```
-
-</TabItem>
 </Tabs>
 
 ## Upsert StructArray field in merge mode\{#upsert-structarray-field-in-merge-mode}
 
-Upserting a StructArray field in an entity overwrites the field value. That means you need to include all subfields defined in the struct schema when you upsert a StructArray field. Element-nullable subfields can be omitted or set to `None` in a Struct element, and Zilliz Cloud stores null for them. A request that still carries a dropped subfield is rejected.
+
+Upserting a StructArray field in an entity overwrites the field value. That means you need to include all subfields defined in the struct schema when you upsert a StructArray field. On Dedicated Clusters compatible with Milvus v3.0.x, element-nullable subfields can be omitted or set to `None` in a Struct element, and Zilliz Cloud stores null for them; upsert into collections that contain StructArray fields is not yet available on On-Demand Clusters, where bulk import is the only write path for StructArray data. A request that still carries a dropped subfield is rejected.
 
 pymilvus can also replace part of a StructArray value. Pass `field_ops` to `upsert()` with `FieldOp.path_replace()`: a path such as `[1][lang]` replaces one subfield of one Struct element and preserves the other Struct elements and subfields, and a path such as `[1]` replaces one whole Struct element. A child path carries only the selected subfield, and every operand must explicitly include its keys. A whole-element path requires every subfield that is not element-nullable and sets omitted element-nullable subfields to null.
 
@@ -1747,6 +1873,7 @@ client.upsert(
     field_ops={"chunks": FieldOp.path_replace("[1][lang]")},
 )
 ```
+
 
 The following example demonstrates how to upsert the `chunks` field in merge mode, a StructArray field with 6 subfields. When the operation completes, the `chunks` field of the entity with id 1 is set to the array with the two-element structs provided in the request.
 
@@ -1899,7 +2026,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Build the StructArray value with all subfields
 
 milvus::EntityRows data = {
@@ -1981,5 +2108,5 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
 
+</Tabs>

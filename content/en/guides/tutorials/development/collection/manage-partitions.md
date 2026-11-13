@@ -1100,7 +1100,7 @@ You can perform insert, upsert, and delete operations in specific operations. Fo
 
 - [Insert Entities into Partition](./insert-entities#insert-entities-into-a-partition)
 
-- [Upsert Entities into Partition](https://milvus.io/docs/upsert-entities.md#Upsert-Entities-in-a-Partition)
+- [Upsert Entities into Partition](./upsert-entities#upsert-entities-in-a-partition)
 
 - [Delete Entities from Partition](./delete-entities#delete-entities-from-partitions)
 

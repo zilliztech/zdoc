@@ -1024,6 +1024,30 @@
       ],
       "anchors": {},
       "activated_in": "42599114207"
+    },
+    {
+      "page": "add-fields-to-an-existing-collection",
+      "record": "recvlPtzPnygUH",
+      "feishu_token": "UR9SwucAIiQ2TYkc9EucsgvSnng",
+      "feishu_aliases": [
+        "DGkYdgae0oj89YxVxqnccARYnEf",
+        "UR9SwucAIiQ2TYkc9EucsgvSnng"
+      ],
+      "anchors": {},
+      "activated_in": "43407320090"
+    },
+    {
+      "page": "upsert-entities",
+      "record": "recvlPtRh7nvjU",
+      "feishu_token": "YtJPwEVETiTaPMkWSfAccjXTnge",
+      "feishu_aliases": [
+        "RmCCd1QRBo6nlixUnmMcjr5Xnrg",
+        "YtJPwEVETiTaPMkWSfAccjXTnge"
+      ],
+      "anchors": {
+        "GAfTdnVNcoYmTcxqCmCcVq1ynbd": "upsert-in-merge-mode"
+      },
+      "activated_in": "43407320090"
     }
   ]
 }

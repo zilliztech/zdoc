@@ -140,7 +140,7 @@ The response includes:
 
 - `nextPageToken`: The token used to retrieve the next page. This field is absent or empty when there are no more results.
 
-For details about the parameters in the response, refer to the reference page [List batch jobs](/reference/restful/list-spark-jobs-v2).
+For details about the parameters in the response, refer to the reference page [List batch jobs](/reference/restful/list-batch-jobs-v2).
 
 ## View a batch job details in a project\{#view-a-batch-job-details-in-a-project}
 

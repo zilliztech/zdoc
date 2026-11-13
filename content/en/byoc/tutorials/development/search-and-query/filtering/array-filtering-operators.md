@@ -527,7 +527,7 @@ curl --request POST \
 
 </Tabs>
 
-Attaching `ARRAY_APPEND` to a field through `field_ops` enables partial-update semantics for that field. For the full workflow, supported element types, and limits, refer to [Upsert ARRAY fields in merge mode](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode).
+Attaching `ARRAY_APPEND` to a field through `field_ops` enables partial-update semantics for that field. For the full workflow, supported element types, and limits, refer to [Upsert Entities](./upsert-entities).
 
 ## ARRAY_REMOVE\{#arrayremove}
 
@@ -695,4 +695,4 @@ curl --request POST \
 
 </Tabs>
 
-Attaching `ARRAY_REMOVE` to a field through `field_ops` enables partial-update semantics for that field. For the full workflow, supported element types, and limits, refer to [Upsert ARRAY fields in merge mode](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode).
+Attaching `ARRAY_REMOVE` to a field through `field_ops` enables partial-update semantics for that field. For the full workflow, supported element types, and limits, refer to [Upsert Entities](./upsert-entities).

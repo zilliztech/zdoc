@@ -957,7 +957,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Beyond inserting full arrays, `ARRAY` fields also support the `ARRAY_APPEND` and `ARRAY_REMOVE` partial-update operators on the `upsert` API. These let you append elements to or remove matching elements from an existing array without first retrieving its current value, which avoids the client-side read-modify-write pattern. For details, see [Upsert array fields in merge mode](https://milvus.io/docs/upsert-entities.md).
+Beyond inserting full arrays, `ARRAY` fields also support the `ARRAY_APPEND` and `ARRAY_REMOVE` partial-update operators on the `upsert` API. These let you append elements to or remove matching elements from an existing array without first retrieving its current value, which avoids the client-side read-modify-write pattern. For details, see [Upsert array fields in merge mode](./upsert-entities).
 
 </Admonition>
 
