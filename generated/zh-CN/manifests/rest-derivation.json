@@ -10,7 +10,7 @@
     "08-partition-operations-v2.json": "77c60f81b12acef74f4d66608be12e4d3e7326aebe8c001d1beb29b0f0b8aef0",
     "09-role-operations-v2.json": "7930c706c3383437902b6c5237876a5bef066b5fa28429ee8a517a843c7d2701",
     "10-resource-group-v2.json": "f3d4eac7297051bbef158599a68ab0b1025a53b430e5584238aed9b5bc63a143",
-    "11-import-operations-v2.json": "b475a2086d154adb21a54e236ec6f9374b2f7f7820a44a7072c06174727761a8",
+    "11-import-operations-v2.json": "3519f8c09e086a9a688f2f3c6fbfefe2ba49bc96539c535a361f723dd5f21a42",
     "12-alias-operations-v2.json": "d1bebc1a999ee919d99a2de2b2b1fd9268167a18a2644538061d6f46d8727f5a",
     "13-user-operations-v2.json": "10756aa34d80213352dda4fc6764e93d3970d2dae0ed120a62b898fb5ef26796",
     "14-privilege-group-operations-v2.json": "49dca49765a511ca7bef376e00a552388a20bc7f272181bcb21309c1c83b89a7",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "5b866390ddf0a1d3ecb711017d987aa30aa2cff848b86e5089c30e4e440834a4",
     "38-snapshot-operations-v2.json": "077c94dfdc8d2e4297fa00528dedfa9a772e20f5c3819044554a09a6ad25adf7"
   },
-  "generatedAt": "2026-11-13T05:24:16.047Z",
+  "generatedAt": "2026-11-13T05:56:40.979Z",
   "locale": "zh-CN",
   "schemaVersion": 1,
-  "toolingSha": "22c7b5ba3dc75a6fe3b3e58e0c4e6fa3bd4d3636"
+  "toolingSha": "23daa74be46bc351558a34bd7f3c27711eccd5bc"
 }
