@@ -51,7 +51,9 @@ async function fixture(approvedProducers?: {tools:string;protocol:'shared-update
   const reads=createRemoteReads({policy,transport,evidence,approvedProducers:approvedProducers??[{tools:oid,...policy.producer,protocol:'shared-update-producer-v1'}]})
   return {reads,policy,responses,pr,run,metadata,archive,evidence,transcript,setIntercept:(value:typeof intercept)=>{intercept=value}}
 }
-it('reads actual repository/ref/PR/run/workflow/check/signature/artifact API shapes without conflating signer and writer',async()=>{
+// Eight sequential authenticated reads each retain several evidence blobs through directory-pin
+// verification; on slower macOS volumes the cumulative fs work exceeds the 5s default timeout.
+it('reads actual repository/ref/PR/run/workflow/check/signature/artifact API shapes without conflating signer and writer',{timeout:20000},async()=>{
   const f=await fixture()
   for(const value of [await f.reads.readRepository(),await f.reads.readRef('master'),await f.reads.readPull(20),await f.reads.scanPulls(),await f.reads.readRun({id:30,attempt:1,role:'producer'}),await f.reads.readChecks(oid),await f.reads.readCommit(oid),await f.reads.readArtifact({runId:30,attempt:1,name:'producer'})])expect(value.kind).toBe('found')
   const artifact=await f.reads.readArtifact({runId:30,attempt:1,name:'producer'});if(artifact.kind==='found'){expect(artifact.value).not.toHaveProperty('runAttempt');expect(Buffer.from(artifact.value.members.get('receipt.json')!).toString()).toBe('synthetic bytes')}
@@ -98,9 +100,23 @@ it('requires independent approved producer definition rather than receipt or cur
   expect((await reads.readRun({id:30,attempt:1,role:'producer'})).kind).toBe('unknown')
 })
 
-it('holds a run when two approved producer definitions match the same tools and workflow',async()=>{
-  const f=await fixture([{tools:oid,...policy.producer,protocol:'shared-update-producer-v1'},{tools:oid,...policy.producer,event:'schedule',protocol:'shared-update-producer-v1'}])
+it('holds a run when two approved producer definitions share tools, workflow and event',async()=>{
+  const f=await fixture([{tools:oid,...policy.producer,protocol:'shared-update-producer-v1'},{tools:oid,...policy.producer,actorId:8,protocol:'shared-update-producer-v1'}])
   expect((await f.reads.readRun({id:30,attempt:1,role:'producer'})).kind).toBe('unknown')
+})
+
+it('resolves a schedule and a dispatch registration by the observed event in either order',async()=>{
+  for(const order of [[0,1],[1,0]]){
+    const defs=order.map(i=>i===0?{tools:oid,...policy.producer,event:'schedule' as const,protocol:'shared-update-producer-v1' as const}:{tools:oid,...policy.producer,event:'workflow_dispatch' as const,protocol:'shared-update-producer-v1' as const})
+    const sched=await fixture(defs);sched.run.event='schedule'
+    const schedResult=await sched.reads.readRun({id:30,attempt:1,role:'producer'})
+    expect(schedResult.kind).toBe('found')
+    if(schedResult.kind==='found')expect(schedResult.value.event).toBe('schedule')
+    const dispatch=await fixture(defs)
+    const dispatchResult=await dispatch.reads.readRun({id:30,attempt:1,role:'producer'})
+    expect(dispatchResult.kind).toBe('found')
+    if(dispatchResult.kind==='found')expect(dispatchResult.value.event).toBe('workflow_dispatch')
+  }
 })
 
 it('authenticates a scheduled producer definition with its matching schedule event',async()=>{
