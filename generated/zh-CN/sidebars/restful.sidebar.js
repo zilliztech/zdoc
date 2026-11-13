@@ -541,62 +541,62 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Spark Job (V2)",
-            "key": "category:v2/control-plane-v2/spark-job-v2",
+            "label": "Batch Job (V2)",
+            "key": "category:v2/control-plane-v2/batch-job-v2",
             "items": [
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/list-spark-jobs-v2",
-                "label": "列出 Spark 任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/list-spark-jobs-v2"
+                "id": "api/restful/restful/v2/control-plane/batch-job-v2/list-batch-jobs-v2",
+                "label": "列出批量任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/batch-job-v2/list-batch-jobs-v2"
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2",
-                "label": "查看 Spark 任务详情 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2"
+                "id": "api/restful/restful/v2/control-plane/batch-job-v2/describe-batch-job-v2",
+                "label": "查看批量任务详情 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/batch-job-v2/describe-batch-job-v2"
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2",
-                "label": "取消 Spark 任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2"
+                "id": "api/restful/restful/v2/control-plane/batch-job-v2/cancel-batch-job-v2",
+                "label": "取消批量任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/batch-job-v2/cancel-batch-job-v2"
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2",
-                "label": "创建 Spark 主键去重任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2"
+                "id": "api/restful/restful/v2/control-plane/batch-job-v2/create-pk-deduplication-job-v2",
+                "label": "创建主键去重任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/batch-job-v2/create-pk-deduplication-job-v2"
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-vector-deduplication-job-v2",
-                "label": "创建 Spark 向量去重任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-vector-deduplication-job-v2"
+                "id": "api/restful/restful/v2/control-plane/batch-job-v2/create-vector-deduplication-job-v2",
+                "label": "创建向量去重任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/batch-job-v2/create-vector-deduplication-job-v2"
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-k-means-job-v2",
-                "label": "创建 Spark K-means 任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-k-means-job-v2"
+                "id": "api/restful/restful/v2/control-plane/batch-job-v2/create-k-means-job-v2",
+                "label": "创建 K-means 任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/batch-job-v2/create-k-means-job-v2"
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2",
-                "label": "创建 Spark 异常检测任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2"
+                "id": "api/restful/restful/v2/control-plane/batch-job-v2/create-anomaly-detection-job-v2",
+                "label": "创建异常检测任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/batch-job-v2/create-anomaly-detection-job-v2"
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-job-v2",
-                "label": "创建 Spark 回填任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-job-v2"
+                "id": "api/restful/restful/v2/control-plane/batch-job-v2/create-backfill-job-v2",
+                "label": "创建回填任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/batch-job-v2/create-backfill-job-v2"
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-precheck-job-v2",
-                "label": "创建 Spark 回填预检任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-precheck-job-v2"
+                "id": "api/restful/restful/v2/control-plane/batch-job-v2/create-backfill-precheck-job-v2",
+                "label": "创建回填预检任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/batch-job-v2/create-backfill-precheck-job-v2"
               }
             ]
           },

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "55d22cc36b5f31a2baef1ebe447378d6d8ced55e",
+  "sourceCommit": "52c9de043a387760f4db11e36bc1ebb1fb08847f",
   "records": [
     {
       "manual": "cli",
@@ -6129,6 +6129,56 @@
     },
     {
       "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/batch-job-v2.mdx",
+      "sourceHash": "c692e7bb43b759966c394f4079e73061f7cee0026390521302b2e33fdd0bf715"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/cancel-batch-job-v2.mdx",
+      "sourceHash": "c45b8999a6044a2e216ee1aa2500ffdccb31ced04a0c7aaf6c35613fe2332f7f"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/create-anomaly-detection-job-v2.mdx",
+      "sourceHash": "1479e02f10e1facb7c1aa2fec6734a399872be880c3affb76145c14930b3d4aa"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/create-backfill-job-v2.mdx",
+      "sourceHash": "1c13d3d1150af79a724223a1849d7659e6cf17d9e961aeed2ee36b4de0133e70"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/create-backfill-precheck-job-v2.mdx",
+      "sourceHash": "dc3d0a68cde9a2afe07d924fc8ed520d947c430a050aebe08a7788db2696184c"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/create-k-means-job-v2.mdx",
+      "sourceHash": "de8a8febc10e53c1b567c5246f77025b5f286a5a8bd3b4528f3dfbedee14c3bd"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/create-pk-deduplication-job-v2.mdx",
+      "sourceHash": "3bf6b233722f50a53796df05abb5b9ad25f2c5ce4e1589d965e8cad344e6ee4b"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/create-vector-deduplication-job-v2.mdx",
+      "sourceHash": "a7fd59a73af21d71bddae94a58a28ccaf85392e69b849021a948604fbed5dfb4"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/describe-batch-job-v2.mdx",
+      "sourceHash": "592b27c5a950833cd8913f6e3a4acb99ec2d35b1478c2aca2dea79533d5b3179"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/batch-job-v2/list-batch-jobs-v2.mdx",
+      "sourceHash": "d7ac26ed73003f4dc4d47b520c986dcd38eaf496e5170fd968b55300a42b8dc4"
+    },
+    {
+      "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx",
       "sourceHash": "f5c75a9d0cf873d95a344c7aa2bbe3ec4839a1ba5ecf4f1760c6ebe3ff1a9a17"
     },
@@ -6606,56 +6656,6 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx",
       "sourceHash": "fa1bc51dd1e7eb0fcaef8f13d26959ffad80e7fc55213cde2994fdae53053c99"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2.mdx",
-      "sourceHash": "fdcdb580284a7a09209e93cdc27eeea92e4aa44e5ad2bd1c6f8e9dbde0cd7af0"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2.mdx",
-      "sourceHash": "d498579ff8bdf18284806de6a65b7210653fe4123ad8317deea48513bfcc962f"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-job-v2.mdx",
-      "sourceHash": "e3a595effba266e084e70029fac8cc1e57439863e86e016a5c5d82f3dfeab22b"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-precheck-job-v2.mdx",
-      "sourceHash": "1cb38739113b85a4308832b33ac362ed38f557c8dd603bb796b42d79e00a8e8d"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-k-means-job-v2.mdx",
-      "sourceHash": "50341363bde2fa5bf6dfcbdf69e294179c57e7eb7a748658c15e5ecfdee523e5"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2.mdx",
-      "sourceHash": "1451af5ed0b0bad51ce7353349e3b01c44f8474b197a417cfbed2764d181d9a8"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-vector-deduplication-job-v2.mdx",
-      "sourceHash": "8a3cdcc25992bc8c3c3194e0fe8a03c5f20b683d419235adab077cea0d3e1c2b"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2.mdx",
-      "sourceHash": "5980dcf02f96db0bd09dd3ab22bc7a89878093a4a61f1f22a8dce020ed360555"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/list-spark-jobs-v2.mdx",
-      "sourceHash": "c4b6c68ccfdec90ba71bba9f3eeaf923de17703ff3994e36f660cae4a4f7a713"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/spark-job-v2.mdx",
-      "sourceHash": "8a05cc2945fa7a268dc2fb8b55d790ab7b72f0d0caf8a553edbba97b073ace91"
     },
     {
       "manual": "rest",
