@@ -97,19 +97,17 @@ export function freshnessReport(pins, observed, check) {
     summary: stale.length ? `HOLD: ${stale.map(s => s.field).join(', ')} moved` : 'FRESH: all pins match the observed heads' }
 }
 
-// Read a single commit ref from the fixed GitHub host, validating exact ref, object type and OID.
-async function readFixedGitHubRef(repository, track) {
+// Read a single commit ref through the shared authenticated transport: fixed GitHub origin,
+// explicit TLS roots, proxy independence, redirect rejection, deadline and streaming size cap.
+export async function readFixedGitHubRef(c, repository, track) {
   const m = /^https:\/\/github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/.exec(repository)
   if (!m) fail('SOURCE_REPOSITORY')
   if (!/^[A-Za-z0-9_.-]+$/.test(track)) fail('SOURCE_TRACK')
   const fullName = m[1] + '/' + m[2]
-  const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN
-  if (!token) fail('CREDENTIAL_UNAVAILABLE')
-  const url = 'https://api.github.com/repos/' + fullName + '/git/ref/heads/' + track
-  const response = await fetch(url, { method: 'GET', redirect: 'error', signal: AbortSignal.timeout(30000),
-    headers: { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', Authorization: 'Bearer ' + token } })
+  const transport = c.createRemoteTransport({ repositoryFullName: fullName })
+  const response = await transport({ method: 'GET', path: '/repos/' + fullName + '/git/ref/heads/' + track, maximum: 1024 * 1024, signal: AbortSignal.timeout(30000) })
   if (response.status !== 200) fail('MILVUS_REF_UNAVAILABLE')
-  const body = await response.json()
+  const body = c.parseStrictJson(response.body)
   if (body.ref !== 'refs/heads/' + track) fail('MILVUS_REF_IDENTITY')
   const object = body.object
   if (!object || object.type !== 'commit' || typeof object.sha !== 'string' || !oidRe.test(object.sha)) fail('MILVUS_REF_OBJECT')
@@ -118,16 +116,13 @@ async function readFixedGitHubRef(repository, track) {
 
 function validateArgs() {
   const argv = process.argv.slice(2)
-  if (argv.includes('--registration')) { process.stderr.write('USAGE: report.mjs [--replay <zip> <master> <dev> <milvus>]\n'); process.exitCode = 2; process.exit() }
-  if (!argv.includes('--replay')) {
-    if (argv.length !== 0) { process.stderr.write('USAGE: report.mjs (no arguments) or report.mjs --replay <zip> <master> <dev> <milvus>\n'); process.exitCode = 2; process.exit() }
-    return { replay: false, args: [] }
+  if (argv.length === 0) return { replay: false, args: [] }
+  if (argv.length === 5 && argv[0] === '--replay' && argv.slice(2).every(a => oidRe.test(a))) {
+    return { replay: true, args: argv.slice(1) }
   }
-  const args = argv.filter(a => a !== '--replay')
-  if (args.length !== 4 || args.some((a, i) => i > 0 && !oidRe.test(a))) {
-    process.stderr.write('USAGE: report.mjs --replay <zip> <master> <dev> <milvus> (three full 40-hex Git OIDs)\n'); process.exitCode = 2; process.exit()
-  }
-  return { replay: true, args }
+  process.stderr.write('USAGE: report.mjs (no arguments) or report.mjs --replay <zip> <master> <dev> <milvus>\n')
+  process.exitCode = 2
+  process.exit()
 }
 
 async function main() {
@@ -164,7 +159,7 @@ async function main() {
         const master = await reads.readRef('master'), dev = await reads.readRef('dev')
         if (master.kind !== 'found' || dev.kind !== 'found') fail('REFS_UNAVAILABLE')
         const { provenance, plan, report, pins } = verifyArchive(c, registration, producerDef, artifact.value.members)
-        const milvus = await readFixedGitHubRef(report.pins.source.repository, report.pins.source.track)
+        const milvus = await readFixedGitHubRef(c, report.pins.source.repository, report.pins.source.track)
         const observed = { master: master.value.oid, dev: dev.value.oid, source: milvus }
         const checks = await reads.readChecks(provenance.seal)
         const target = checks.kind === 'found'

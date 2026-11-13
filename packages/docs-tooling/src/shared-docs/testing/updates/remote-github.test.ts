@@ -157,6 +157,14 @@ it('uses the real streaming transport decoder, bounds bodies, rejects writes and
   }finally{await new Promise<void>(resolve=>server.close(()=>resolve()))}
 })
 
+it('allows only the exact reviewed Milvus dotted ref through the transport allowlist', async () => {
+  const socket = (() => { throw Error('NETWORK_REACHED') }) as any
+  const transport = createRemoteTransport({ repositoryFullName: 'milvus-io/milvus-docs', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
+  const request = { method: 'GET' as const, path: '/repos/milvus-io/milvus-docs/git/ref/heads/v3.0.x', maximum: 4096, signal: new AbortController().signal }
+  await expect(transport(request)).rejects.toThrow('NETWORK_REACHED')
+  await expect(transport({ ...request, path: '/repos/milvus-io/milvus-docs/git/ref/heads/v3.1.x' })).rejects.toThrow('ENDPOINT_INVALID')
+})
+
 it('rejects deflate streams with compressed trailing garbage even when central/descriptors agree',()=>{
   const original=zip({'x':Buffer.from('bytes')}),descriptor=original.indexOf(Buffer.from([0x50,0x4b,0x07,0x08])),oldCentral=original.indexOf(Buffer.from([0x50,0x4b,0x01,0x02]))
   const archive=Buffer.concat([original.subarray(0,descriptor),Buffer.from([0]),original.subarray(descriptor)]),central=oldCentral+1,end=archive.length-22

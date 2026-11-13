@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
-import { verifyArchive, freshnessReport, readBoundedZip } from './report.mjs'
+import { verifyArchive, freshnessReport, readBoundedZip, readFixedGitHubRef } from './report.mjs'
 
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex')
 const oid = n => n.toString(16).padStart(40, '0')
@@ -109,4 +109,18 @@ test('CLI rejects invalid argument shapes before any setup', () => {
   assert.equal(run(['--replay', 'zip.zip']), 2)               // missing refs
   assert.equal(run(['--replay', 'zip.zip', 'bad', 'bad', 'bad']), 2) // invalid OIDs
   assert.equal(run(['extra-arg']), 2)                         // observed takes zero args
+  assert.equal(run(['--replay', '--replay', 'zip.zip', oid(1), oid(2), oid(3)]), 2) // repeated flag
+  assert.equal(run(['zip.zip', '--replay', oid(1), oid(2), oid(3)]), 2)               // flag in the middle
+})
+
+test('readFixedGitHubRef uses the shared transport and rejects a forged or malformed ref', async () => {
+  let received = null
+  const fakeTransport = async req => { received = req; return { status: 200, headers: {}, body: Buffer.from(JSON.stringify({ ref: 'refs/heads/v3.0.x', object: { type: 'tag', sha: '1'.repeat(40) } })) } }
+  const fakeC = { createRemoteTransport: () => fakeTransport, parseStrictJson: b => JSON.parse(Buffer.from(b).toString()) }
+  await assert.rejects(() => readFixedGitHubRef(fakeC, 'https://github.com/milvus-io/milvus-docs', 'v3.0.x'), /MILVUS_REF_OBJECT/)
+  assert.equal(received.method, 'GET')
+  assert.equal(received.path, '/repos/milvus-io/milvus-docs/git/ref/heads/v3.0.x')
+  // a non-200 transport status stops as unavailable rather than reporting a moved source
+  const unavailable = async () => ({ status: 401, headers: {}, body: Buffer.from('') })
+  await assert.rejects(() => readFixedGitHubRef({ ...fakeC, createRemoteTransport: () => unavailable }, 'https://github.com/milvus-io/milvus-docs', 'v3.0.x'), /MILVUS_REF_UNAVAILABLE/)
 })
