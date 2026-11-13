@@ -14,6 +14,16 @@ const renderIdentity = require('./sharedPageRenderIdentity')
 const {validateRegenerationEvidence} = require('../../../../scripts/docs-workflow/guides-shared-regeneration')
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 function check(condition, message) { if (!condition) throw new Error(`Shared publication: ${message}`) }
+// Promote recomputes these publication parameters onto the dev snapshot, so
+// they are not part of the composed snapshot state; the run timestamp is the
+// other volatile field, preserved for replayed (unchanged) state below.
+const PUBLICATION_PARAMETERS = ['targets_built', 'source_branch', 'publish_url', 'link_check_remote']
+function stripPublicationVolatile(value) {
+  const copy = structuredClone(value)
+  delete copy.generated_at
+  for (const key of PUBLICATION_PARAMETERS) delete copy[key]
+  return copy
+}
 function json(root, file) { return JSON.parse(regularBytes(root, file)) }
 function put(root, file, value) {
   const destination = path.join(root, file)
@@ -58,7 +68,7 @@ function effectiveSnapshot(candidate, handoff) {
   pendingSourceSnapshot(candidate, handoff.routing)
   const snapshot = structuredClone(candidate), previous = handoff.bundle.preparation.previous_snapshot
   for (const outcome of handoff.bundle.outcomes) {
-    if (outcome.status === 'success') {
+    if (outcome.status === 'success' || outcome.status === 'reused') {
       const record = snapshot.records.find(row => row.record_id === outcome.record_id)
       check(record && equal(record.shared_page, outcome.identity), 'observed successful identity mismatch')
       record.output_paths = outcome.outputs.map(o => o.path).sort()
@@ -78,6 +88,13 @@ function effectiveSnapshot(candidate, handoff) {
   snapshot.navigation_records.sort((a, b) => a.table_id.localeCompare(b.table_id) || a.order - b.order || a.record_id.localeCompare(b.record_id))
   snapshot.table_digests = Object.fromEntries([...new Set(snapshot.navigation_records.map(row => row.table_id))].sort().map(id =>
     [id, digest(JSON.stringify(snapshot.navigation_records.filter(row => row.table_id === id)))]))
+  // The published snapshot stamp advances only when the composition changes
+  // state. A replayed round republishes the previous state, and keeping its
+  // stamp is what lets a zero-drift checkpoint compose byte-identically —
+  // without this, the fresh scan timestamp alone would rewrite the snapshot
+  // (and its hashes) every run and starve the publication no-op short circuit.
+  if (typeof previous?.generated_at === 'string'
+    && equal(stripPublicationVolatile(snapshot), stripPublicationVolatile(previous))) snapshot.generated_at = previous.generated_at
   return snapshot
 }
 function finalizePublication({workspace, handoff, candidate}) {
@@ -92,6 +109,24 @@ function finalizePublication({workspace, handoff, candidate}) {
       const receipt = JSON.parse(files.get(outcome.receipt))
       receipt.inputs.fetch.navigation = structuredClone(bundle.navigation)
       const record = snapshot.records.find(row => row.record_id === outcome.record_id)
+      validatePublishedReceipt(receipt, record, {workspace, snapshot})
+      if (receipt.inputs.fetch.render_targets || outcome.regeneration) {
+        validateRegenerationEvidence(outcome.regeneration, receipt, receipt.outputs.map(output => ({...output, bytes: regularBytes(workspace, output.path)})))
+        regeneration[outcome.record_id] = outcome.regeneration
+      }
+      receipts.push([record.shared_page.record, receipt])
+    } else if (outcome.status === 'reused') {
+      // A reused page republishes the pinned baseline receipt with its pinned
+      // navigation kept verbatim: the inherited regeneration proof binds the
+      // receipt inputs digest of the round that built the page, and that digest
+      // covers fetch.navigation — refreshing the navigation here would detach
+      // the proof whenever any unrelated record drifts the run-global
+      // navigation. Record-scoped validators only need this record's own row,
+      // which the generate-side reuse guard already proved unchanged.
+      const record = snapshot.records.find(row => row.record_id === outcome.record_id)
+      const bytes = files.get(outcome.receipt.file)
+      check(bytes && digest(bytes) === outcome.receipt.sha256, `reused receipt changed: ${outcome.record_id}`)
+      const receipt = JSON.parse(bytes)
       validatePublishedReceipt(receipt, record, {workspace, snapshot})
       if (receipt.inputs.fetch.render_targets || outcome.regeneration) {
         validateRegenerationEvidence(outcome.regeneration, receipt, receipt.outputs.map(output => ({...output, bytes: regularBytes(workspace, output.path)})))
@@ -120,8 +155,18 @@ function finalizePublication({workspace, handoff, candidate}) {
   }
   validateActiveState(bundle.effective_active)
   aliases.authenticate({workspace, devCommit: bundle.dev_commit, evidence: bundle.preparation.alias_evidence, git})
+  // Pure replay round: the composed state equals the published state, so the
+  // pinned authority bytes are republished verbatim. Regenerating them here
+  // would rebind dev_commit/alias evidence to this round's tip — a metadata
+  // churn no future round could ever converge out of.
+  const replayAuthority = bundle.outcomes.length && bundle.outcomes.every(row => row.status === 'reused')
+    && files.has('baseline/publication.json')
+    && typeof bundle.preparation.previous_snapshot?.generated_at === 'string'
+    && equal(stripPublicationVolatile(snapshot), stripPublicationVolatile(bundle.preparation.previous_snapshot))
+    && equal(bundle.effective_active, bundle.baseline_active)
+    ? files.get('baseline/publication.json') : null
   const publication = {schema_version: 1, dev_commit: bundle.dev_commit, observed_sha256: hashSnapshot(candidate),
-    effective_sha256: hashSnapshot(snapshot), active: bundle.effective_active, cache_eligible: bundle.outcomes.every(row => row.status === 'success'),
+    effective_sha256: hashSnapshot(snapshot), active: bundle.effective_active, cache_eligible: bundle.outcomes.every(row => row.status === 'success' || row.status === 'reused'),
     baseline_snapshot: bundle.previous_snapshot_file ? files.get(bundle.previous_snapshot_file).toString('utf8') : null,
     fallbacks, alias_evidence: bundle.preparation.alias_evidence, regeneration}
   // A clean assembly checkout has no dev-owned receipt directory. The bundle
@@ -132,7 +177,10 @@ function finalizePublication({workspace, handoff, candidate}) {
   }
   for (const [file, receipt] of receipts) put(workspace, file, receipt)
   if (bundle.effective_active.pages.length) put(workspace, `${MANIFEST}/active.json`, bundle.effective_active)
-  put(workspace, `${MANIFEST}/_publication.json`, publication)
+  if (replayAuthority) {
+    const destination = path.join(workspace, `${MANIFEST}/_publication.json`)
+    fs.mkdirSync(path.dirname(destination), {recursive: true}); fs.writeFileSync(destination, replayAuthority)
+  } else put(workspace, `${MANIFEST}/_publication.json`, publication)
   put(workspace, EFFECTIVE, snapshot)
   put(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-shared-publication.json', {schema_version: 1, generated_at: new Date().toISOString(), failures: bundle.outcomes.filter(row => row.status === 'fallback').map(({record_id, code, message, detail}) => ({record_id, code, message, detail})), notices: bundle.notices || [], information: bundle.information || []})
   return {snapshot, publication}

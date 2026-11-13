@@ -324,7 +324,7 @@ async function assemble(options, {store = options.store, requested = false} = {}
   options.last = {assembly, artifact, tableArtifacts: artifacts, checkpoint, manifest, command, snapshot, sidebars, notices, result, sourceArtifactSha256}
   return options.last
 }
-async function publish(options) {
+async function publish(options, {expectNoChange = false, phases = null} = {}) {
   const {checkpoint, command} = options.last
   await git(options.baselineRoot, 'fetch', '--quiet', options.repositoryRoot, options.masterCommit)
   const runnerTemp = path.join(options.repositoryRoot, '.claude/worktrees/publication')
@@ -332,7 +332,20 @@ async function publish(options) {
   const result = await publishCheckpointTransaction({repositoryRoot: options.baselineRoot, dependencyRoot: TOOLING, artifactDir: checkpoint,
     remote: 'replay', runnerTemp, unit: {unitKey: 'source/guides-en', group: 'guides', toolingSha: options.masterCommit,
       sourceBaselineSha: options.devCommit, targetBranch: 'dev', commitMessage: 'docs(guides): local shared-page replay',
-      validationCommands: [command], environment: {SITE: 'en'}}})
+      validationCommands: [command], environment: {SITE: 'en'}},
+    ...(phases ? {log: line => phases.push(line)} : {})})
+  if (expectNoChange) {
+    // Zero-drift reuse republishes byte-identical authority, so the transaction
+    // must short-circuit instead of composing a validation commit.
+    if (result.status !== 'no_changes') {
+      console.error(`REUSE-CHANGED: ${(await git(options.baselineRoot, 'diff-tree', '--no-commit-id', '--name-only', '-r', result.resultSha)).split('\n').join(' | ')}`)
+    }
+    assert.equal(result.status, 'no_changes', JSON.stringify(result))
+    assert.deepEqual(result.commitShas, [])
+    assert.equal(result.resultSha, options.devCommit)
+    assert.equal(await git(options.bareRemote, 'rev-parse', 'refs/heads/dev'), options.devCommit)
+    return {...result, changed: []}
+  }
   assert.equal(result.status, 'published', JSON.stringify(result))
   assert.equal(result.commitShas.length, 1)
   assert.equal(await git(options.bareRemote, 'rev-parse', 'refs/heads/dev'), result.resultSha)
@@ -382,6 +395,20 @@ async function runReplay({evidenceRoot, exactBaseline = false, comparisonBaselin
   const card = require('../collect-build-card-notes').sharedPublicationNote({directory: path.join(options.last.assembly, 'packages/docs-tooling/src/lark/meta/reports')})
   assert.match(card, /reader.*old#unknown-block.*sample/)
   report.scenarios.push({name: 'cloud-only', result: second, immutableImages: files(options.store.root)})
+  const replayReceipt = fs.readFileSync(path.join(options.baselineRoot, publication.MANIFEST, 'sample.json'))
+  // Zero drift after the rebuild: every page replays its pinned receipt instead
+  // of building, and the composed checkpoint is byte-identical, so the
+  // publication transaction must short-circuit without a new commit.
+  const reusePhases = []
+  await prepare(options, {unknown: true}); await regenerate(options)
+  assert.ok(options.bundle.outcomes.every(row => row.status === 'reused'),
+    JSON.stringify(options.bundle.outcomes.map(({record_id, status}) => ({record_id, status}))))
+  assert.deepEqual(options.oldReads, [])
+  await assemble(options)
+  const third = await publish(options, {expectNoChange: true, phases: reusePhases})
+  assert.ok(reusePhases.some(line => line.includes('phase=noop_short_circuit')), JSON.stringify(reusePhases))
+  assert.deepEqual(fs.readFileSync(path.join(options.baselineRoot, publication.MANIFEST, 'sample.json')), replayReceipt)
+  report.scenarios.push({name: 'zero-drift-reuse', result: third, phases: reusePhases})
   report.compatibility = await legacyComparison(options, {exactBaseline, baselineSha: comparisonBaselineSha})
   report.assembly = options.last.assembly
   report.bareRemote = options.bareRemote

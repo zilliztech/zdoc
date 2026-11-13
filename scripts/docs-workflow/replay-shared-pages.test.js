@@ -31,7 +31,7 @@ async function seed(t) {
 test('[9-2][9-6][T06] shared source artifact, offline tables, fresh assembly and local checkpoint publish activation and Cloud-only changes atomically', {timeout}, async t => {
   const {options, report} = await replay.runReplay()
   t.after(() => fs.rmSync(options.root, {recursive: true, force: true}))
-  assert.equal(report.scenarios.length, 2)
+  assert.equal(report.scenarios.length, 3)
   const sample = options.last.snapshot.records.find(row => row.record_id === 'rec0')
   assert.deepEqual(sample.output_paths, ['content/en/byoc/tutorials/manage-data/sample.mdx', 'content/en/guides/tutorials/manage-data/sample.md'])
   for (const file of sample.output_paths) {
@@ -58,7 +58,8 @@ test('[9-2][9-6][T06] shared source artifact, offline tables, fresh assembly and
   await commitConfig(options, 'shared-docs/guides/pages/sample/lock.yaml', JSON.stringify({schema_version: 1, current: next, next}))
   await replay.prepare(options); await replay.regenerate(options)
   assert.deepEqual(options.oldReads, [])
-  assert.ok(options.bundle.outcomes.every(row => row.status === 'success'), JSON.stringify(options.bundle.outcomes))
+  // The sample pin flips and rebuilds; the sibling replayed its pinned receipt.
+  assert.ok(options.bundle.outcomes.every(row => row.status !== 'fallback'), JSON.stringify(options.bundle.outcomes))
   const warm = loadBundle(options.out)
   await replay.assemble(options); await replay.publish(options)
   assert.notEqual(options.last.snapshot.records.find(row => row.record_id === 'rec0').shared_page.inputs_sha256, previousIdentity)
@@ -134,6 +135,12 @@ test('[OWNERSHIP_PATH_MISMATCH][OWNERSHIP_CONFIG_MISSING][OWNERSHIP_REVERTED] pe
     ['config-missing', null, 'OWNERSHIP_CONFIG_MISSING'],
   ]) {
     await commitConfig(options, config, bytes)
+    // The sibling must keep building rather than replaying, so the round still
+    // pins a mixed build+fallback publication; rotate its pin per iteration.
+    await write(options.repo, `site/en/iteration-${name}.md`, `---\nid: iteration-${name}.md\ntitle: Iteration ${name}\n---\n\nIteration body.\n`)
+    await git(options.repo, 'add', '.'); await git(options.repo, 'commit', '--quiet', '-m', `Sibling pin ${name}`)
+    const siblingCommit = await git(options.repo, 'rev-parse', 'HEAD')
+    await commitConfig(options, 'shared-docs/guides/pages/sibling/lock.yaml', JSON.stringify({schema_version: 1, current: siblingCommit, next: siblingCommit}))
     await replay.prepare(options); await replay.regenerate(options)
     const failed = options.bundle.outcomes.find(row => row.record_id === 'rec0')
     assert.equal(failed.status, 'fallback', name); assert.equal(failed.code, code, name)

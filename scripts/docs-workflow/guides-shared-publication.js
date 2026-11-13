@@ -25,13 +25,25 @@ function main(argv) {
     publication.finalizePublication({workspace, handoff, candidate})
   } else if (args.operation === 'promote') {
     const effective = JSON.parse(fs.readFileSync(path.join(workspace, publication.EFFECTIVE), 'utf8'))
-    publication.publishedEvidence(workspace, effective)
     const promoted = promoteCandidateSnapshot(effective, {manual: 'guides', buildEnv: 'uat', allowEmptySharedEffective: true, sourceDir: args['source-dir'],
       targetsBuilt: ['zilliz.saas', 'zilliz.paas'], sourceBranch: args['source-branch'], publishUrl: 'https://docs.cloud-uat3.zilliz.com', linkCheckRemote: 'https://docs.zilliz.com'})
+    // A fresh finalize binds the authority to the effective composition; a
+    // replayed round republishes the pinned authority verbatim, which binds the
+    // promoted snapshot it was last persisted with. Validate against that bound
+    // form — row evidence is identical either way, only the hash regime differs.
+    const authorityFile = path.join(workspace, publication.MANIFEST, '_publication.json')
+    const authoritySha = fs.existsSync(authorityFile)
+      ? JSON.parse(fs.readFileSync(authorityFile)).effective_sha256 : hashSnapshot(effective)
+    const bindsPromoted = authoritySha === hashSnapshot(promoted)
+    const bindsEffective = authoritySha === hashSnapshot(effective)
+    if (!bindsPromoted && !bindsEffective) {
+      throw new Error('Shared publication: the replayed authority binds neither this round\'s effective composition nor its promoted snapshot; promote arguments (source branch, publish URL) likely changed since the last published round')
+    }
+    publication.publishedEvidence(workspace, bindsPromoted ? promoted : effective)
     writeSnapshot(path.join(workspace, args.output), promoted)
-    const file = path.join(workspace, publication.MANIFEST, '_publication.json'), authority = JSON.parse(fs.readFileSync(file))
+    const authority = JSON.parse(fs.readFileSync(authorityFile))
     authority.effective_sha256 = hashSnapshot(promoted)
-    fs.writeFileSync(file, JSON.stringify(authority, null, 2) + '\n')
+    fs.writeFileSync(authorityFile, JSON.stringify(authority, null, 2) + '\n')
   } else throw new Error('Unknown shared publication operation')
 }
 if (require.main === module) {try {main(process.argv.slice(2))} catch (error) {console.error(error); process.exitCode = 1}}
