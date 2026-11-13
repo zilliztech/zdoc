@@ -701,6 +701,32 @@ Includes the wrapped text **only if** the current target does **not** match.
 
 Both processors strip the tags and return the inner text if the condition is satisfied, or remove the entire block if it is not.
 
+### 4.3 `<!-- zdoc:after-endpoint -->` (description split marker)
+
+Cuts an **operation** description in two. Everything before the marker stays in the intro slot above the method/endpoint header; everything after it renders **below the endpoint information block** (base URL + notes) and above Parameters, styled like the intro description. Intended for large reference tables that would otherwise push the endpoint details off the first screen — author the tail as a collapsible `<details>` block (blank lines around the markdown table are required so the table still renders inside `<details>`).
+
+```markdown
+Creates a custom organization- or project-scoped Cloud ACL role.
+
+<!-- zdoc:after-endpoint -->
+
+<details>
+<summary>Policy reference — allowed <code>resourceType</code> values and their combinations</summary>
+
+| resourceType | Privileges | Requires resources | Note |
+|---|---|---|---|
+| `project_member` | view, create, modify, delete | No |  |
+
+</details>
+```
+
+Rules and behavior:
+
+- **Operation descriptions only** — including each operation `x-i18n` locale's `description` (localize the whole description per language; every language that should split carries its own marker). Anywhere else (schema/property descriptions, `x-i18n` non-description fields, tags, …) `refGen.js` `validateSpec` rejects generation.
+- At most one marker per description, and content must follow it (same validator).
+- Descriptions without the marker render exactly as before; a runtime that predates the convention renders the marker as an invisible HTML comment (graceful degradation).
+- Runtime: `RestSpecs/utils.js` (`AFTER_ENDPOINT_MARKER`, `splitAfterEndpoint`) — the constant is duplicated in `refGen.js` because the tooling/runtime boundary forbids sharing the module; `refGen.route-scope.test.js` pins both copies.
+
 ---
 
 ## 5. CLI Options

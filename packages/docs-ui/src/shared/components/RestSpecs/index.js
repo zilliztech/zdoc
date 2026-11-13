@@ -3,7 +3,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, isControlPlane, getTokenPlaceholder, isRenderableExample } from './utils.js'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, splitAfterEndpoint, isControlPlane, getTokenPlaceholder, isRenderableExample } from './utils.js'
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
@@ -801,7 +801,12 @@ export default function RestSpecs(props) {
         return true
     }) : []
 
-    const short = textFilter(getLocalizedDescription(props.specs, lang), target, lang)
+    // The description may carry the after-endpoint marker: the intro stays in
+    // the slot above the method/endpoint header, the tail moves below the
+    // endpoint information block (base URL + notes).
+    const { intro, afterEndpoint } = splitAfterEndpoint(getLocalizedDescription(props.specs, lang))
+    const short = textFilter(intro, target, lang)
+    const afterEndpointHtml = afterEndpoint ? textFilter(afterEndpoint, target, lang) : ''
     const headerParams = validParams ? validParams.filter(param => param.in === 'header') : []
     const headersExample = headerParams.map(param => `--header "${param.name}: ${param.example}"`).join(' \\\n').replace(/{{/g, '${').replace(/}}/g, '}')
     const pathParams = validParams ? validParams.filter(param => param.in === 'path') : []
@@ -862,6 +867,7 @@ export default function RestSpecs(props) {
                 </div>
                 <div className={styles.specLayout}>
                     <BaseURL endpoint={props.endpoint} lang={lang} target={target} baseUrls={target === 'zilliz' ? baseUrls : null} onBaseUrlChange={setSelectedBaseUrl} />
+                    { afterEndpointHtml && <div className={styles.description} style={{ marginBottom: '1rem' }} dangerouslySetInnerHTML={{__html: afterEndpointHtml}} /> }
                     { (parameters.length > 0 || requestBody) && <>
                         <section>
                             { parameters.length > 0 && <section>

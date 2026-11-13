@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter, isRenderableExample, mergeAllOf} from './utils.js';
+import {AFTER_ENDPOINT_MARKER, chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter, isRenderableExample, mergeAllOf, splitAfterEndpoint} from './utils.js';
 
 const planeConfig = {
   dataPlaneKeywords: {
@@ -107,6 +107,41 @@ describe('RestSpecs localized operation description', () => {
 
   it('falls back to the source description when the locale is absent', () => {
     expect(getLocalizedDescription(operation, 'en-US')).toBe('Import prepared data files into a collection.');
+  });
+});
+
+describe('splitAfterEndpoint', () => {
+  it('keeps descriptions without the marker whole so legacy pages render unchanged', () => {
+    expect(splitAfterEndpoint('Creates a role.')).toEqual({intro: 'Creates a role.', afterEndpoint: ''});
+    expect(splitAfterEndpoint(undefined)).toEqual({intro: '', afterEndpoint: ''});
+  });
+
+  it('splits at the marker so the tail can move below the endpoint information', () => {
+    const description = `Creates a role.\n\n${AFTER_ENDPOINT_MARKER}\n\n<details>\n<summary>Policy reference</summary>\n\n| a | b |\n|---|---|\n\n</details>`;
+    expect(splitAfterEndpoint(description)).toEqual({
+      intro: 'Creates a role.\n\n',
+      afterEndpoint: '\n\n<details>\n<summary>Policy reference</summary>\n\n| a | b |\n|---|---|\n\n</details>',
+    });
+  });
+
+  it('localizes before splitting: the marker must be present per language', () => {
+    const operation = {
+      description: `Creates a role.\n\n${AFTER_ENDPOINT_MARKER}\n\n<details>`,
+      'x-i18n': {'zh-CN': {description: '创建角色。'}},
+    };
+    expect(splitAfterEndpoint(getLocalizedDescription(operation, 'en-US')).afterEndpoint).toContain('<details>');
+    expect(splitAfterEndpoint(getLocalizedDescription(operation, 'zh-CN'))).toEqual({intro: '创建角色。', afterEndpoint: ''});
+  });
+
+  it('keeps the tail textFilter-renderable, including a markdown table inside details', () => {
+    const tail = `\n\n<details>\n<summary>Policy reference</summary>\n\n| resourceType | Privileges |\n|---|---|\n| \`project_member\` | view |\n\n</details>`;
+    const html = textFilter(tail, 'zilliz', 'en-US');
+    expect(html).toContain('<details>');
+    expect(html).toContain('<summary>Policy reference</summary>');
+    expect(html).toContain('<table>');
+    expect(html).toContain('<code>project_member</code>');
+    expect(html).toContain('</details>');
+    expect(html).not.toContain('|---|');
   });
 });
 
