@@ -512,11 +512,11 @@ whether the element works on GA clusters or only on a preview tier. Where
 
 | Value | Meaning |
 |-------|---------|
-| `GA` | Generally available on production clusters. |
-| `PUBLIC_PREVIEW` | Public preview (Milvus 3.0 clusters); not on GA clusters yet. |
-| `PRIVATE_PREVIEW` | Private preview; allow-listed access only. |
-| `ON_REQUEST` | Enabled per-request by Zilliz Cloud support. |
-| `NOT_AVAILABLE` | Documented for completeness; not enabled on Zilliz Cloud. |
+| `GA` | Generally available on production clusters. Accepted; suppresses a derived badge (explicit override of the derivation below). |
+| `PUBLIC_PREVIEW` | Public preview (Milvus 3.0 clusters); not on GA clusters yet. Accepted; renders the chip. |
+| `PRIVATE_PREVIEW` | Private preview; allow-listed access only. **Reserved — do not author yet**: validation rejects it until its chip caption ships (RestSpecs renders unknown tiers as nothing, which would silently present the parameter as plain GA). |
+| `ON_REQUEST` | Enabled per-request by Zilliz Cloud support. **Reserved — do not author yet**, same reason. |
+| `NOT_AVAILABLE` | Documented for completeness; not enabled on Zilliz Cloud. **Reserved — do not author yet**, same reason. |
 
 Semantics:
 
@@ -549,9 +549,11 @@ Semantics:
 - **Placement scope**: parameters and schema properties — including nested
   properties, array `items`, `allOf`-merged component properties, and
   `anyOf`/`oneOf` branch leaves (branch tabs themselves render no badge).
-  Operation-level maturity stays with `x-beta` (§1.3); use the
-  parameter-level attribute only for elements whose tier differs from their
-  operation's.
+  Response coverage is the documented success schema only (`responses['200']`,
+  the same surface the admonition overlay walks); other statuses keep their
+  content but carry no tier. Operation-level maturity stays with `x-beta`
+  (§1.3); use the parameter-level attribute only for elements whose tier
+  differs from their operation's.
 
 ---
 

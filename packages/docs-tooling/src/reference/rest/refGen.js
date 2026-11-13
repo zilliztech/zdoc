@@ -36,7 +36,13 @@ const AFTER_ENDPOINT_MARKER = '<!-- zdoc:after-endpoint -->'
 // pages so the RestSpecs runtime renders parameter badges without knowing
 // about lifecycle evidence.
 const AVAILABILITY_KEY = 'x-zilliz-availability'
-const AVAILABILITY_TIERS = new Set(['GA', 'PUBLIC_PREVIEW', 'PRIVATE_PREVIEW', 'ON_REQUEST', 'NOT_AVAILABLE'])
+// Authoring vocabulary accepted today. GA suppresses the derived badge and
+// PUBLIC_PREVIEW renders the chip; the remaining release-notes tiers
+// (PRIVATE_PREVIEW, ON_REQUEST, NOT_AVAILABLE) are reserved until their chip
+// captions ship — RestSpecs renders unknown tiers as nothing, which would
+// silently present a marked parameter as plain GA. §1.14 documents the full
+// taxonomy; widen this set in the same change that adds the captions.
+const AVAILABILITY_TIERS = new Set(['GA', 'PUBLIC_PREVIEW'])
 // The track separating GA cluster behavior from the Milvus 3.0 public preview
 // on Zilliz Cloud: nodes introduced at or after it badge as PUBLIC_PREVIEW
 // unless an explicit mark overrides the derivation. Verified live by the
@@ -74,13 +80,22 @@ function resolveNextChannel(value) {
 
 /** Effective availability tier for one node: an explicit x-zilliz-availability
  * mark wins, then the lifecycle track derives PUBLIC_PREVIEW at/after the
- * derivation floor, else the node stays unmarked (GA by absence). */
+ * derivation floor, else the node stays unmarked (GA by absence). A malformed
+ * track value skips the derivation rather than throwing mid-write (after
+ * earlier pages are already on disk) — the lifecycle evidence gate
+ * (verify-rest-lifecycle-evidence.mjs) is the real format guard. */
 function resolveAvailabilityTier(node) {
   const explicit = node?.[AVAILABILITY_KEY]
   if (typeof explicit === 'string') return explicit
   const addedAt = node?.['x-added-at']
-  if (typeof addedAt === 'string' && compareReleaseTracks(addedAt, AVAILABILITY_DERIVATION_FLOOR) >= 0) {
-    return 'PUBLIC_PREVIEW'
+  if (typeof addedAt !== 'string') return undefined
+  try {
+    if (compareReleaseTracks(addedAt, AVAILABILITY_DERIVATION_FLOOR) >= 0) {
+      return 'PUBLIC_PREVIEW'
+    }
+  } catch {
+    // REST_RELEASE_TRACK_INVALID — leave the node unmarked; the evidence
+    // gate rejects malformed tracks before fragments can land.
   }
   return undefined
 }

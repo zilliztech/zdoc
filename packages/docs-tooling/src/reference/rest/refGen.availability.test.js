@@ -335,3 +335,162 @@ test('rejects availability marks outside the tier vocabulary', async () => {
     fs.rmSync(targetPath, {recursive: true, force: true})
   }
 })
+
+test('reserved tiers outside the accepted authoring set are rejected', () => {
+  const specifications = buildSpecifications()
+  specifications.paths['/v2/vectordb/collections/fields/drop'].post
+    .requestBody.content['application/json'].schema.properties.fieldName['x-zilliz-availability'] = 'PRIVATE_PREVIEW'
+
+  const targetPath = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-availability-reserved-'))
+  try {
+    assert.throws(
+      () => new RefGen({
+        lang: 'en-US',
+        target: 'zilliz',
+        target_path: targetPath,
+        specifications,
+      }),
+      /x-zilliz-availability.*expected one of GA, PUBLIC_PREVIEW/s,
+    )
+  } finally {
+    fs.rmSync(targetPath, {recursive: true, force: true})
+  }
+})
+
+test('a malformed track value skips the derivation instead of failing mid-write', async () => {
+  const specifications = buildSpecifications()
+  specifications.paths['/v2/vectordb/collections/fields/drop'].post
+    .requestBody.content['application/json'].schema.properties.fieldName['x-added-at'] = '3.0'
+
+  const targetPath = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-availability-malformed-'))
+  try {
+    const generator = new RefGen({
+      lang: 'en-US',
+      target: 'zilliz',
+      target_path: targetPath,
+      specifications,
+    })
+    generator.make_groups()
+    await generator.write_refs()
+    const pages = {}
+    const walk = (dir) => {
+      for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+        const full = path.join(dir, entry.name)
+        if (entry.isDirectory()) walk(full)
+        else if (entry.name.endsWith('.mdx')) pages[entry.name] = fs.readFileSync(full, 'utf8')
+      }
+    }
+    walk(targetPath)
+    const raw = Object.values(pages).find(body => body.includes('# Drop Collection Field (V2)'))
+    assert.ok(raw, 'generation must complete despite the malformed track')
+    const specs = JSON.parse(raw.match(/^export const specs = (.+)$/m)[1])
+    const props = specs.requestBody.content['application/json'].schema.properties
+    assert.equal(props.fieldName['x-zilliz-availability'], undefined, 'malformed track must not derive a tier')
+  } finally {
+    fs.rmSync(targetPath, {recursive: true, force: true})
+  }
+})
+
+test('per-page mutation on shared `description`-named properties cannot leak through the clone', async () => {
+  const specifications = {
+    tags: [{name: 'Collection Operations (V2)'}],
+    components: {
+      schemas: {
+        SharedPayload: {
+          type: 'object',
+          properties: {
+            // `description` is the only property name resolveRefs hands back
+            // as a shared object across pages (specLoader transparent-ref
+            // path) — the exact shape the deep clone must protect.
+            description: {type: 'string', 'x-added-at': '3.0.x'},
+          },
+        },
+      },
+    },
+    paths: {
+      '/v2/vectordb/collections/shared_a': {
+        post: {
+          summary: 'Shared Payload A',
+          tags: ['Collection Operations (V2)'],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    payload: {$ref: '#/components/schemas/SharedPayload'},
+                  },
+                },
+              },
+            },
+          },
+          responses: {200: {description: 'ok'}},
+        },
+      },
+      '/v2/vectordb/collections/shared_b': {
+        post: {
+          summary: 'Shared Payload B',
+          tags: ['Collection Operations (V2)'],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    payload: {$ref: '#/components/schemas/SharedPayload'},
+                  },
+                },
+              },
+            },
+          },
+          responses: {200: {description: 'ok'}},
+        },
+      },
+    },
+  }
+
+  const targetPath = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-availability-clone-'))
+  try {
+    const generator = new RefGen({
+      lang: 'en-US',
+      target: 'zilliz',
+      target_path: targetPath,
+      specifications,
+    })
+    // The admonition overlay mutates properties per page — with shared
+    // component references this is the leak channel the clone must close.
+    generator.admonitions = {
+      'shared-payload-a-v2': {
+        properties: {
+          requestBody: {
+            'payload.description': [{type: 'info', title: 'Note', content: 'Page A overlay only'}],
+          },
+        },
+      },
+    }
+    generator.make_groups()
+    await generator.write_refs()
+
+    const readSpecs = (summary) => {
+      const file = fs.readdirSync(targetPath, {recursive: true, withFileTypes: true})
+        .filter(e => e.isFile() && e.name.endsWith('.mdx'))
+        .map(e => path.join(e.parentPath ?? e.path, e.name))
+        .map(p => fs.readFileSync(p, 'utf8'))
+        .find(body => body.includes(`# ${summary}`))
+      return JSON.parse(file.match(/^export const specs = (.+)$/m)[1])
+    }
+
+    const pageA = readSpecs('Shared Payload A (V2)')
+    const pageB = readSpecs('Shared Payload B (V2)')
+    const propA = pageA.requestBody.content['application/json'].schema.properties.payload.properties.description
+    const propB = pageB.requestBody.content['application/json'].schema.properties.payload.properties.description
+
+    assert.ok(Array.isArray(propA['x-admonition']) && propA['x-admonition'][0].content === 'Page A overlay only',
+      'page A must carry its own overlay')
+    assert.equal(propB['x-admonition'], undefined, 'page B must not inherit page A overlay through the shared reference')
+    assert.equal(propA['x-zilliz-availability'], 'PUBLIC_PREVIEW')
+    assert.equal(propB['x-zilliz-availability'], 'PUBLIC_PREVIEW')
+  } finally {
+    fs.rmSync(targetPath, {recursive: true, force: true})
+  }
+})
