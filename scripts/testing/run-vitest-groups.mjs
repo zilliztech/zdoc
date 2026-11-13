@@ -71,14 +71,22 @@ export async function withGateDeadline(work,{milliseconds=15*60*1000,evidenceRoo
   } finally {clearTimeout(timer)}
 }
 
+const PHASE_NAMES=['light','reference-integration','transactions','local-runner','update-prepare']
 export function parseOptions(args) {
-  const options={scope:null,output:null,reporters:[]}
+  const options={scope:null,output:null,reporters:[],phases:null}
   for(let i=0;i<args.length;i++) {
     const [key,...rest]=args[i].split('='),value=rest.length?rest.join('='):args[++i]
     if(!value||value.startsWith('--'))throw new Error(`Missing value or unsupported option: ${key}`)
     if(key==='--scope'&&options.scope===null&&['all','shared-docs'].includes(value))options.scope=value
     else if(key==='--outputFile.json'&&options.output===null)options.output=resolve(value)
     else if(key==='--reporter'&&['default','json'].includes(value))options.reporters.push(value)
+    else if(key==='--phases'&&options.phases===null) {
+      const names=value.split(',').map(name=>name.trim())
+      if(names.some(name=>!name)||new Set(names).size!==names.length)throw new Error('Invalid --phases selection: expected distinct comma-separated phase names')
+      const unknown=names.filter(name=>!PHASE_NAMES.includes(name))
+      if(unknown.length)throw new Error(`Unknown grouped-gate phase: ${unknown.join(', ')}`)
+      options.phases=names
+    }
     else throw new Error(`Unsupported grouped-gate option: ${key}; use direct Vitest for narrowed diagnostics`)
   }
   if(!options.scope)throw new Error('Expected --scope all or --scope shared-docs')
@@ -510,7 +518,7 @@ export async function prepareGateReports(aggregate,paths,budget) {
   let discovery=null
   try{discovery=(await budget.step('discovery evidence binding',()=>boundFile(join(aggregate.evidenceRoot,'discovery.json')))).binding}
   catch(error){if(phaseResultsPassed||error.code!=='ENOENT')throw error}
-  const verdict={version:2,runId,terminalPath,reports,phases,scope:aggregate.scope,discovery,
+  const verdict={version:3,runId,terminalPath,reports,phases,scope:aggregate.scope,discovery,selectedPhases:aggregate.selectedPhases,
     execution:{status:phaseResultsPassed?'passed':'failed',elapsedMs:budget.elapsed(),limitMs:budget.limitMs}}
   // Validate the exact artifact relationships before freezing; settlement only
   // persists/confirms these bytes and never runs tests or copies reports.
@@ -520,7 +528,7 @@ export async function prepareGateReports(aggregate,paths,budget) {
 }
 
 async function validateGateVerdict(verdict,reportPath) {
-  if(verdict?.version!==2||!['all','shared-docs'].includes(verdict.scope)||typeof verdict.runId!=='string'||!verdict.runId||
+  if(verdict?.version!==3||!['all','shared-docs'].includes(verdict.scope)||typeof verdict.runId!=='string'||!verdict.runId||
     !Array.isArray(verdict.reports)||!verdict.reports.length||verdict.reports.length>2||
     new Set(verdict.reports.map(r=>r.path)).size!==verdict.reports.length||
     !verdict.reports.some(r=>r.path===reportPath)||!Array.isArray(verdict.phases))throw new Error('Invalid terminal manifest')
@@ -537,13 +545,19 @@ async function validateGateVerdict(verdict,reportPath) {
   }
   let policy
   if(execution.status==='passed') {
+    if(!Array.isArray(verdict.selectedPhases)||!verdict.selectedPhases.length||
+      new Set(verdict.selectedPhases).size!==verdict.selectedPhases.length)throw new Error('Invalid phase selection manifest')
     if(verdict.discovery?.path!==join(report.evidenceRoot,'discovery.json'))throw new Error('Missing bound discovery')
     const discovery=JSON.parse((await boundFile(verdict.discovery.path,verdict.discovery)).bytes)
     policy=partitionFiles(discovery,report.checkout,verdict.scope)
-    if(verdict.phases.length!==policy.phases.length||report.phases.length!==policy.phases.length||
+    // The expected phases are the full partition intersected with the recorded
+    // selection, while discoveredFiles stays pinned to the complete manifest.
+    const expectedPhases=policy.phases.filter(p=>verdict.selectedPhases.includes(p.name))
+    if(expectedPhases.length!==verdict.selectedPhases.length)throw new Error('Unknown selected phase')
+    if(verdict.phases.length!==expectedPhases.length||report.phases.length!==expectedPhases.length||
       report.unrunFiles.length||report.unaccountedFiles.length||!report.rawCountsComplete)throw new Error('Incomplete successful phase manifest')
     equalFiles(policy.files,report.discoveredFiles,report.checkout)
-    for(const [i,expected] of policy.phases.entries()) {
+    for(const [i,expected] of expectedPhases.entries()) {
       if(verdict.phases[i].name!==expected.name||report.phases[i].name!==expected.name)throw new Error('Unexpected phase order or name')
       equalFiles(verdict.phases[i].files,expected.files,report.checkout)
     }
@@ -622,7 +636,7 @@ export async function runGate(options) {
     await step('setup record',()=>jsonWrite(join(root,'setup.json'),{started,deadline,cwd,scope:options.scope,layout,before,
       environment:{node:process.version,platform:process.platform,VITEST_MAX_WORKERS:process.env.VITEST_MAX_WORKERS??null,CI:process.env.CI??null}}))
     console.log(`Grouped Vitest evidence: ${root}`)
-    let manifest=[],expectedPhaseCount=0,result={success:false,completed:[],unrun:[]},failure=null,observedSkips={}
+    let manifest=[],selectedFiles=[],selectedPhaseNames=[],expectedPhaseCount=0,result={success:false,completed:[],unrun:[]},failure=null,observedSkips={}
     try {
       const discovery=join(root,'discovery.json')
       await step('discovery identity',()=>verifyTemporaryRoot(layout))
@@ -632,9 +646,19 @@ export async function runGate(options) {
       await step('discovery result identity',()=>verifyTemporaryRoot(layout))
       const partition=partitionFiles(JSON.parse(await step('discovery manifest',()=>readFile(discovery,'utf8'))),cwd,options.scope)
       manifest=partition.files
-      expectedPhaseCount=partition.phases.length
+      // A --phases subset narrows execution to the selected names while the
+      // partition evidence (manifest.json/discoveredFiles) stays the complete
+      // discovered manifest: validateGateVerdict re-derives the expected phases
+      // as partition ∩ selectedPhases and keeps pinning the full file manifest.
+      const selectedPhases=options.phases
+        ?partition.phases.filter(p=>options.phases.includes(p.name))
+        :partition.phases
+      if(!selectedPhases.length)throw new Error('Phase selection matched no partition phase')
+      selectedFiles=selectedPhases.flatMap(p=>p.files)
+      selectedPhaseNames=selectedPhases.map(p=>p.name)
+      expectedPhaseCount=selectedPhases.length
       await step('partition record',()=>jsonWrite(join(root,'manifest.json'),partition))
-      result=await runPhases(partition.phases,async phase=>{
+      result=await runPhases(selectedPhases,async phase=>{
         const directory=join(root,phase.name),temp=join(root,`${phase.name}-tmp`),runId=randomUUID()
         await step(`${phase.name} identity`,()=>verifyTemporaryRoot(layout))
         await step(`${phase.name} temporary root`,()=>mkdir(temp,{mode:0o700}))
@@ -671,9 +695,9 @@ export async function runGate(options) {
     const reports=summarizeReports(result.completed)
     reports.rawCountsComplete&&=expectedPhaseCount>0&&result.completed.length===expectedPhaseCount&&!result.unrun.length
     const aggregate={success,runId:randomUUID(),checkout:cwd,startTime:started,endTime:Date.now(),evidenceRoot:root,scope:options.scope,before,after,failure,
-      platformSkips:{platform:process.platform,observed:observedSkips},
+      platformSkips:{platform:process.platform,observed:observedSkips},selectedPhases:selectedPhaseNames,
       discoveredFiles:manifest,phases:result.completed.map(p=>({name:p.name,files:p.files,success:p.success,exitCode:p.receipt.exitCode,settled:p.receipt.settled,error:p.error,reason:p.receipt.reason,cleanupStatus:p.receipt.cleanupStatus??'unknown',cleanupErrors:p.receipt.cleanupErrors??[],receiptPersistence:p.receipt.receiptPersistence??'unconfirmed'})),
-      unrunFiles:result.unrun,unaccountedFiles:manifest.filter(file=>!reports.testResults.some(f=>f.name===file)),...reports,
+      unrunFiles:result.unrun,unaccountedFiles:selectedFiles.filter(file=>!reports.testResults.some(f=>f.name===file)),...reports,
       qualification:success?'Complete discovered selection passed and every owned group settled':'Failed/incomplete; raw counts cover only available reports, unrun files and cancelled tests are not ordinary platform skips'}
     await step('final root identity',()=>verifyTemporaryRoot(layout))
     return prepareGateReports(aggregate,[join(root,'aggregate.json'),...options.output?[options.output]:[]],budget)

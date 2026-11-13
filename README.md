@@ -76,8 +76,16 @@ terminated only within that invocation's process group; tests left unrun after
 failure are not ordinary skips. A failed phase prints its failing case, error and
 stack to the console before the gate decides, and the site-validation workflow
 publishes the retained evidence directory as an artifact for a failed gate.
-The CI tooling job's existing 20-minute total
-limit, which also includes installation, Translation and replay tests, is unchanged.
+In CI the grouped shared-docs gate is path-gated: it runs only when the versioned
+path filters select `shared-docs:tests` (shared-docs sources and tests, the
+grouped harness itself, and the shared-guides update/Fetch generation surfaces),
+and it is split into two parallel site-validation jobs that pass a `--phases`
+subset to the supervisor — `light` in one, the isolated phases in the other — so
+each gets its own 20-minute job limit and its own 15-minute gate deadline. PRs
+that touch none of those paths finish the tooling job without the heavy suite;
+`site=all` dispatches (the master-tooling sync promotion shape) always run it.
+The light phase's wall time grows with the suite, so watch it against its
+deadline before adding heavy test files.
 Denied process probes/signals stop that cleanup attempt: receipts retain the first
 failure and structured cleanup errors, with settlement unknown rather than assumed
 complete; a receipt-write failure is explicitly unconfirmed and remains failed.
@@ -104,14 +112,16 @@ separately and are not replaced by a misleading zero-failure total.
 `--reporter=default`, `--reporter=json`, and a fresh
 `--outputFile.json=/absolute/path/result.json` are supported. Aggregate and requested
 JSON files are provisional and have no standalone `success` flag. The sole committed
-version-2 `terminal.json` binds the run, scope, original discovery bytes, measured
+version-3 `terminal.json` binds the run, scope, phase selection (`selectedPhases`),
+original discovery bytes, measured
 execution verdict, all report identities and hashes, and each complete phase's raw
 result and settled process receipt. The reader derives the ordered, exhaustive
-phase selection from the scope policy and bound discovery, including isolated
-worker configuration; reports cannot declare their own required phase count.
-Historical version-2 evidence with the earlier three/four-phase policy must use
-its matching retained reader, available at commit `21d6add193`; it cannot qualify
-the new four/five-phase policy. Preserve the original artifacts unchanged.
+phase selection from the scope policy, the recorded `selectedPhases` and bound
+discovery, including isolated worker configuration; reports cannot declare their
+own required phase count. Historical version-2 evidence with the earlier
+three/four-phase policy must use its matching retained reader, available at
+commit `21d6add193`; it cannot qualify the version-3 reader. Preserve the
+original artifacts unchanged.
 Historical version-1 evidence must be read with its matching retained supervisor,
 not treated as qualification under this new phase policy. Commit
 `7e6e337b50b6aa191d12c8f9661a1d23dda5ba8d` retains the version-1 reader. To inspect

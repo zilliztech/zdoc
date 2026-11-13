@@ -102,7 +102,7 @@ Content validation runs where the content is authoritative — never on `master`
 
 | Tree | Trigger | Validates |
 |---|---|---|
-| `master` push, PR into `master` | `site-validation.yml` | tooling-only: the four `check:*` drift checks + the two gates below |
+| `master` push, PR into `master` | `site-validation.yml` | tooling-only: the four `check:*` drift checks + the two gates below; the grouped shared-docs gate runs in two extra parallel jobs only when the changed paths select `shared-docs:tests` (always for `site=all` dispatches, i.e. sync promotion) |
 | sync candidate (`dev` content + `master` tooling) | sync `workflow_dispatch` | full `validate-reference` + site build |
 | `dev` push (after sync merges) | `site-validation.yml` | full `validate-reference` + site build |
 

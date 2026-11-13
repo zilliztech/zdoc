@@ -577,3 +577,66 @@ test('path-filter precedence routes representative build inputs to exact checks'
   assert.deepEqual(resolvePathChecks('README.md', filters), []);
   assert.deepEqual(matchingPathFilterRules('README.md', filters), []);
 });
+
+test('trailing-* patterns route the shared-docs gate trigger surface with real file names', async () => {
+  const {matchingPathFilterRules, resolvePathChecks} = await loadVerifier();
+  const filters = JSON.parse(await readFile(new URL('./path-filters.json', import.meta.url), 'utf8'));
+  const gate = ['build:en', 'build:zh-CN', 'shared-docs:tests'];
+  // Assertions use real repository files (the lark files are .js, not .ts), never
+  // pattern literals: a pattern that matches no real file would silently disable
+  // the shared-docs gate while every test written against the literal still passed.
+  const cases = [
+    ['packages/docs-tooling/src/lark/sharedPageFetch.js', gate],
+    ['packages/docs-tooling/src/lark/sharedPageRenderIdentity.js', gate],
+    ['packages/docs-tooling/src/lark/sharedPageRenderIdentity.test.js', gate],
+    ['packages/docs-tooling/src/shared-docs/adapters/git.ts', gate],
+    ['shared-docs/guides/example.md', gate],
+    ['scripts/testing/run-vitest-groups.mjs', gate],
+    ['.github/workflows/shared-guides-update.yml', gate],
+    ['scripts/docs-workflow/shared-guides-update/plan.mjs', gate],
+    ['scripts/docs-workflow/guides-shared-sources.js', gate],
+    ['scripts/docs-workflow/guides-shared-sources.test.js', gate],
+    ['scripts/docs-workflow/replay-shared-pages.js', gate],
+    ['scripts/docs-workflow/replay-shared-pages.test.js', gate],
+  ];
+  for (const [file, checks] of cases) {
+    assert.deepEqual(resolvePathChecks(file, filters), checks, file);
+    assert.equal(matchingPathFilterRules(file, filters).length, 1, `${file} must match exactly one rule`);
+  }
+  // Sibling lark files outside the two prefixes keep the shared rule (dual builds,
+  // no gate) — the gate stays scoped to the matrix-declared trigger surface.
+  const siblings = [
+    'packages/docs-tooling/src/lark/sharedPageAliases.js',
+    'packages/docs-tooling/src/lark/sharedPageBundle.js',
+    'packages/docs-tooling/src/lark/sharedPagePublication.js',
+    'packages/docs-tooling/src/lark/sharedPageRouting.js',
+  ];
+  for (const file of siblings) {
+    assert.deepEqual(resolvePathChecks(file, filters), ['build:en', 'build:zh-CN'], file);
+    assert.deepEqual(matchingPathFilterRules(file, filters), ['shared'], file);
+  }
+  // package.json intentionally stays on shared (dual builds, no gate): the drift
+  // guard pins this exception structurally.
+  assert.deepEqual(matchingPathFilterRules('package.json', filters), ['shared']);
+});
+
+test('patternMatches keeps directory-prefix priority over the generic trailing-* branch', async () => {
+  const {resolvePathChecks} = await loadVerifier();
+  // If the trailing-* branch ever ran before the /** branch, `packages/**` would
+  // degrade to startsWith('packages/*') — a literal asterisk — and match nothing.
+  const dirRule = {
+    precedence: ['dir'],
+    rules: {dir: {include: ['packages/**'], checks: ['build:en']}},
+  };
+  assert.deepEqual(resolvePathChecks('packages/docs-ui/src/index.ts', dirRule), ['build:en']);
+  assert.deepEqual(resolvePathChecks('packages', dirRule), ['build:en']);
+  assert.deepEqual(resolvePathChecks('packages-other/file.ts', dirRule), []);
+  // Trailing-* semantics are a plain prefix match, mirroring the selector.
+  const starRule = {
+    precedence: ['star'],
+    rules: {star: {include: ['packages/docs-tooling/src/lark/sharedPageFetch*'], checks: ['build:en']}},
+  };
+  assert.deepEqual(resolvePathChecks('packages/docs-tooling/src/lark/sharedPageFetch.js', starRule), ['build:en']);
+  assert.deepEqual(resolvePathChecks('packages/docs-tooling/src/lark/sharedPageFetchOther.js', starRule), ['build:en']);
+  assert.deepEqual(resolvePathChecks('packages/docs-tooling/src/lark/sharedPageAliases.js', starRule), []);
+});

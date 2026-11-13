@@ -67,6 +67,78 @@ test('grouped Vitest support maps every new path to its contract and both comple
   assert.equal(scripts['test:frontend'], 'node scripts/testing/run-vitest-groups.mjs --scope all')
 })
 
+// Real representative paths for a matrix/path-filter pattern: exact patterns
+// resolve to themselves, dir/** patterns to the first real file under the
+// directory, and trailing-* patterns to every real prefixed sibling. A pattern
+// with no real representative is itself a drift (a dead pattern can never
+// trigger the gate it declares).
+function representativePaths(pattern) {
+  const stripGlob = pattern.replace(/(?:\/\*\*|\*)$/u, '')
+  if (!pattern.endsWith('/**') && !pattern.endsWith('*')) {
+    assert.equal(fs.existsSync(path.join(repositoryRoot, pattern)), true, `pattern must match a real file: ${pattern}`)
+    return [pattern]
+  }
+  if (pattern.endsWith('/**')) {
+    const absolute = path.join(repositoryRoot, stripGlob)
+    assert.equal(fs.existsSync(absolute), true, `pattern directory must exist: ${pattern}`)
+    const found = fs.readdirSync(absolute, {recursive: true})
+      .map(relative => `${stripGlob}/${relative}`.replace(/\/+/ug, '/'))
+      .find(candidate => fs.statSync(path.join(repositoryRoot, candidate)).isFile())
+    assert.ok(found, `pattern directory must contain a real file: ${pattern}`)
+    return [found]
+  }
+  const directory = path.join(repositoryRoot, path.dirname(stripGlob))
+  const basename = path.basename(stripGlob)
+  assert.equal(fs.existsSync(directory), true, `pattern directory must exist: ${pattern}`)
+  const matches = fs.readdirSync(directory, {withFileTypes: true})
+    .filter(entry => entry.isFile() && entry.name.startsWith(basename))
+    .map(entry => `${path.dirname(stripGlob)}/${entry.name}`.replace(/\/+/ug, '/'))
+  assert.ok(matches.length, `trailing-* pattern must match real files: ${pattern}`)
+  return matches
+}
+
+test('sharedDocsGate rules and the test:shared-docs matrix selection stay bidirectionally in sync', async () => {
+  const {matchingPathFilterRules} = await import(
+    require('node:url').pathToFileURL(path.join(repositoryRoot, 'deploy/contracts/verify-image.mjs')).href)
+  const filters = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'deploy/contracts/path-filters.json'), 'utf8'))
+  const matrix = loadMatrix()
+
+  // Forward: every sharedDocsGate include family must reach the selector's
+  // test:shared-docs selection through at least one real file, so the CI gate
+  // cannot silently stop running for a declared trigger surface.
+  const gate = filters.rules.sharedDocsGate
+  assert.ok(gate, 'path-filters must declare the sharedDocsGate rule')
+  for (const pattern of gate.include) {
+    for (const representative of representativePaths(pattern)) {
+      const selected = selectTests([representative])
+      assert.equal(selected.commands.includes('pnpm test:shared-docs'), true,
+        `sharedDocsGate include ${pattern} (via ${representative}) must select test:shared-docs`)
+    }
+  }
+
+  // Reverse: every matrix path pattern that selects test:shared-docs must be
+  // classified as sharedDocsGate so the CI gate cannot silently skip it. The
+  // one structural exception is the root package.json, which intentionally
+  // stays on the shared rule: a workspace manifest can shift every workflow
+  // runtime, and this pin proves it keeps triggering both site builds.
+  const gateAreas = matrix.entries.filter(entry =>
+    [...entry.focusedTests, ...entry.harnesses, ...entry.gates].includes('pnpm test:shared-docs'))
+  assert.ok(gateAreas.length >= 4, 'the shared-docs matrix areas must stay mapped')
+  for (const entry of gateAreas) {
+    for (const pattern of entry.paths) {
+      if (pattern === 'package.json') {
+        assert.deepEqual(matchingPathFilterRules('package.json', filters), ['shared'],
+          `${entry.id}: package.json stays on shared (dual site builds) by design`)
+        continue
+      }
+      for (const representative of representativePaths(pattern)) {
+        assert.deepEqual(matchingPathFilterRules(representative, filters), ['sharedDocsGate'],
+          `${entry.id}: ${pattern} (via ${representative}) must be classified as sharedDocsGate`)
+      }
+    }
+  }
+})
+
 test('publication stage control maps product, contracts and concurrent worker to the complete safety union', () => {
   const paths = ['packages/docs-tooling/src/publication/stageControl.ts', 'packages/docs-tooling/src/publication/stageControl.test.ts', 'packages/docs-tooling/src/publication/stageControl.bootstrap-worker.ts']
   for (const input of paths) {

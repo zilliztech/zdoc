@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 7,
   "precedence": [
     "japaneseLocalization",
     "canonicalEnglishTools",
@@ -9,6 +9,7 @@
     "zhReferenceTranslation",
     "siteOwned.en",
     "siteOwned.zh-CN",
+    "sharedDocsGate",
     "shared"
   ],
   "rules": {
@@ -132,6 +133,24 @@
         "build:zh-CN"
       ]
     },
+    "sharedDocsGate": {
+      "include": [
+        "packages/docs-tooling/src/shared-docs/**",
+        "shared-docs/**",
+        "scripts/testing/**",
+        ".github/workflows/shared-guides-update.yml",
+        "scripts/docs-workflow/shared-guides-update/**",
+        "packages/docs-tooling/src/lark/sharedPageFetch*",
+        "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
+        "scripts/docs-workflow/guides-shared-sources*",
+        "scripts/docs-workflow/replay-shared-pages*"
+      ],
+      "checks": [
+        "build:en",
+        "build:zh-CN",
+        "shared-docs:tests"
+      ]
+    },
     "shared": {
       "include": [
         ".github/actions/**",
@@ -157,6 +176,10 @@
         "packages/docs-tooling/src/reference/**",
         "packages/docs-tooling/src/validation/translation.ts",
         "packages/docs-tooling/src/translation/**",
+        "packages/docs-tooling/src/shared-docs/**",
+        "packages/docs-tooling/src/lark/sharedPageFetch*",
+        "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
+        ".github/workflows/shared-guides-update.yml",
         "scripts/translation/**"
       ],
       "checks": [
