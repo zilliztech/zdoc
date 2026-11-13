@@ -220,8 +220,7 @@ function formalFixture() {
   facts.associations.value[0].receipt = facts.members.value[1].member = ref
   facts.members.value[1].actualDigest = ref.sha256
   return { expected, policy, facts, receipt, observed: pins, planBase64: Buffer.from(planBytes).toString('base64'),
-    outputBase64: Buffer.from(output).toString('base64'), receiptBase64: Buffer.from(receiptBytes).toString('base64'),
-    repository: { id: expected.repositoryId } }
+    outputBase64: Buffer.from(output).toString('base64'), receiptBase64: Buffer.from(receiptBytes).toString('base64') }
 }
 
 it('separates readiness on an authenticated reserved Check from final acceptance on the completed Check', () => {

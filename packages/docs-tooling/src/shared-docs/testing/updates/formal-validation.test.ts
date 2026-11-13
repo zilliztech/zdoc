@@ -17,7 +17,7 @@ const blob = (path: string, sha = digestN(1), bytes = 10) => ({ path, sha256: sh
 const found = <T>(value: T) => ({ kind: 'found' as const, value })
 const b64 = (bytes: Uint8Array) => Buffer.from(bytes).toString('base64')
 
-const repository = { id: 660446555 }
+const prod = { repositoryId: 660446555 }
 const subject = { kind: 'guides-page' as const, group: 'guides' as const, pageId: 'json-field-overview' }
 const members = [{ logicalId: 'json-field-overview', manualId: 'guides', token: 'shared-json-field-overview',
   outputPath: 'content/en/guides/json-field-overview.mdx', origin: 'upstream' as const, current: true, next: true }]
@@ -111,8 +111,11 @@ function productionFormal(mutateReport?: (report: UpdateReportEnvelope) => void,
   const remote = productionRemote()
   const { expected, policy, facts, receipt } = remote
   expected.planSha256 = receipt.planSha256 = built.planSha256
+  expected.unitKey = receipt.unitKey = built.plan.unitKey
   facts.seal.value.metadata.planSha256 = built.planSha256
+  facts.seal.value.metadata.unitKey = built.plan.unitKey
   facts.producerProvenance.value[0].planSha256 = built.planSha256
+  facts.producerProvenance.value[0].unitKey = built.plan.unitKey
   const output = canonicalBytes({ pins: built.pins })
   facts.output = blob('validation/output.json', sha256(output), output.length)
   receipt.outputDigest = facts.output.sha256
@@ -122,24 +125,24 @@ function productionFormal(mutateReport?: (report: UpdateReportEnvelope) => void,
   facts.members.value[1].actualDigest = ref.sha256
   return { ...built, expected, policy, facts, receipt, planBase64: b64(built.planBytes),
     reportsBase64: [{ name: 'reports/' + built.reportRef.sha256 + '.json', bytesBase64: b64(built.reportBytes) }],
-    outputBase64: b64(output), receiptBase64: b64(receiptBytes), observed: built.pins, repository }
+    outputBase64: b64(output), receiptBase64: b64(receiptBytes), observed: built.pins }
 }
 
 describe('production shared-update-unit validation', () => {
   it('accepts the production plan/report and returns an encoded receipt', () => {
     const f = productionFormal()
-    expect(formalValidation({ ...f, op: 'receipt' })).toEqual({ status: 'encoded', bytesBase64: f.receiptBase64 })
+    expect(formalValidation({ ...f, op: 'receipt' }, prod)).toEqual({ status: 'encoded', bytesBase64: f.receiptBase64 })
   })
 
   it('separates reserved Check readiness from completed Check acceptance', () => {
     const f = productionFormal()
     const check = f.facts.checks.value[0]
     check.status = 'in_progress'; check.conclusion = 'pending'
-    expect(formalValidation({ ...f, op: 'prepublish' }).status).toBe('ready-to-publish')
-    expect(formalValidation({ ...f, op: 'accept' }).status).toBe('hold')
+    expect(formalValidation({ ...f, op: 'prepublish' }, prod).status).toBe('ready-to-publish')
+    expect(formalValidation({ ...f, op: 'accept' }, prod).status).toBe('hold')
     check.status = 'completed'; check.conclusion = 'success'
-    expect(formalValidation({ ...f, op: 'prepublish' }).status).toBe('hold')
-    expect(formalValidation({ ...f, op: 'accept' }).status).toBe('accepted')
+    expect(formalValidation({ ...f, op: 'prepublish' }, prod).status).toBe('hold')
+    expect(formalValidation({ ...f, op: 'accept' }, prod).status).toBe('accepted')
   })
 
   it.each(['master', 'dev', 'source'] as const)('holds on %s movement with the stale reason', field => {
@@ -147,37 +150,33 @@ describe('production shared-update-unit validation', () => {
     const observed = { ...f.observed, [field]: oid(999) }
     const hold = { status: 'hold', reasons: ['STALE_' + field.toUpperCase()], changes: [{ field, expected: f.observed[field], observed: oid(999) }] }
     expect(formalValidation({ op: 'freshness', expected: f.observed, observed })).toEqual(hold)
-    for (const op of ['receipt', 'prepublish', 'accept']) expect(formalValidation({ ...f, op, observed })).toEqual(hold)
+    for (const op of ['receipt', 'prepublish', 'accept']) expect(formalValidation({ ...f, op, observed }, prod)).toEqual(hold)
   })
 
   it('rejects a tampered report byte, size, member name and reference path', () => {
     const f = productionFormal()
     const tamper = (bytes: Buffer, mutate: (b: Buffer) => Buffer) => ({ name: f.reportsBase64[0].name, bytesBase64: b64(mutate(bytes)) })
-    // changed byte, same size -> REPORT_DIGEST
     expect(() => formalValidation({ ...f, op: 'receipt',
-      reportsBase64: [tamper(Buffer.from(f.reportBytes), b => { b[0] ^= 0xff; return b })] })).toThrow('REPORT_DIGEST')
-    // appended byte -> REPORT_SIZE (size check precedes digest)
+      reportsBase64: [tamper(Buffer.from(f.reportBytes), b => { b[0] ^= 0xff; return b })] }, prod)).toThrow('REPORT_DIGEST')
     expect(() => formalValidation({ ...f, op: 'receipt',
-      reportsBase64: [tamper(Buffer.from(f.reportBytes), b => Buffer.concat([b, Buffer.from([0])]))] })).toThrow('REPORT_SIZE')
-    // correct bytes, wrong member name -> REPORT_MEMBER_NAME
+      reportsBase64: [tamper(Buffer.from(f.reportBytes), b => Buffer.concat([b, Buffer.from([0])]))] }, prod)).toThrow('REPORT_SIZE')
     expect(() => formalValidation({ ...f, op: 'receipt',
-      reportsBase64: [{ name: 'reports/' + '0'.repeat(64) + '.json', bytesBase64: f.reportsBase64[0].bytesBase64 }] })).toThrow('REPORT_MEMBER_NAME')
+      reportsBase64: [{ name: 'reports/' + '0'.repeat(64) + '.json', bytesBase64: f.reportsBase64[0].bytesBase64 }] }, prod)).toThrow('REPORT_MEMBER_NAME')
   })
 
   it('rejects a misnamed reference path and missing/extra report inputs', () => {
     const f = productionFormal()
-    // reference path wrong but bytes still match the rehashed plan -> REPORT_REF_PATH
     const rp = productionFormal(undefined, plan => { plan.reports[0].path = 'blobs/' + '0'.repeat(64) })
-    expect(() => formalValidation({ ...rp, op: 'receipt' })).toThrow('REPORT_REF_PATH')
-    expect(() => formalValidation({ ...f, op: 'receipt', reportsBase64: [] })).toThrow('REPORT_COUNT')
-    expect(() => formalValidation({ ...f, op: 'receipt', reportsBase64: [...f.reportsBase64, f.reportsBase64[0]] })).toThrow('REPORT_COUNT')
+    expect(() => formalValidation({ ...rp, op: 'receipt' }, prod)).toThrow('REPORT_REF_PATH')
+    expect(() => formalValidation({ ...f, op: 'receipt', reportsBase64: [] }, prod)).toThrow('REPORT_COUNT')
+    expect(() => formalValidation({ ...f, op: 'receipt', reportsBase64: [...f.reportsBase64, f.reportsBase64[0]] }, prod)).toThrow('REPORT_COUNT')
   })
 
   it('rejects a non-candidate unit and a mismatched unit key', () => {
     const nonCandidate = productionFormal(undefined, plan => { plan.disposition = 'report-only'; plan.nextEdits = [] })
-    expect(() => formalValidation({ ...nonCandidate, op: 'receipt' })).toThrow('PLAN_NOT_CANDIDATE')
+    expect(() => formalValidation({ ...nonCandidate, op: 'receipt' }, prod)).toThrow('PLAN_NOT_CANDIDATE')
     const badKey = productionFormal(undefined, plan => { plan.unitKey = 'guides:wrong' })
-    expect(() => formalValidation({ ...badKey, op: 'receipt' })).toThrow()
+    expect(() => formalValidation({ ...badKey, op: 'receipt' }, prod)).toThrow()
   })
 
   it('rejects a report from another source repository/track with matching SHA values', () => {
@@ -185,7 +184,21 @@ describe('production shared-update-unit validation', () => {
       Object.assign(report.pins.source, { repository: 'https://github.com/other/repo', track: 'other' })
       Object.assign(report.semanticProjection!.source, { repository: 'https://github.com/other/repo', track: 'other' })
     })
-    expect(() => formalValidation({ ...f, op: 'receipt' })).toThrow('SOURCE_IDENTITY')
+    expect(() => formalValidation({ ...f, op: 'receipt' }, prod)).toThrow('SOURCE_IDENTITY')
+  })
+
+  it('binds the plan unit key to the receipt and rejects a consistently foreign key in all three operations', () => {
+    // Plan and report remain authentic; only the receipt and remote facts point at another key.
+    const f = productionFormal()
+    const receipt = { ...f.receipt, unitKey: 'guides:other' }
+    const expected = { ...f.expected, unitKey: 'guides:other' }
+    const facts = structuredClone(f.facts)
+    facts.seal.value.metadata.unitKey = 'guides:other'
+    facts.producerProvenance.value[0].unitKey = 'guides:other'
+    const forged = { ...f, receipt, expected, facts, receiptBase64: b64(canonicalBytes(receipt)) }
+    expect(() => formalValidation({ ...forged, op: 'receipt' }, prod)).toThrow('UNIT_KEY_BINDING')
+    expect(() => formalValidation({ ...forged, op: 'prepublish' }, prod)).toThrow('UNIT_KEY_BINDING')
+    expect(() => formalValidation({ ...forged, op: 'accept' }, prod)).toThrow('UNIT_KEY_BINDING')
   })
 
   it('rejects production identity with a private-format plan and vice versa', () => {
@@ -195,16 +208,30 @@ describe('production shared-update-unit validation', () => {
     const privateOutput = canonicalBytes({ pins: f.pins })
     const forged = { ...f, planBase64: b64(privatePlan), outputBase64: b64(privateOutput),
       receipt: { ...f.receipt, planSha256: digest('plan', privatePlanObj), outputDigest: sha256(privateOutput) } }
-    expect(() => formalValidation({ ...forged, op: 'receipt' })).toThrow('PRODUCTION_REQUIRES_UNIT_PLAN')
-    // production unit in a private/test context (receipt and caller agree on a test repository)
-    expect(() => formalValidation({ ...f, op: 'receipt', repository: { id: 100 },
-      receipt: { ...f.receipt, repositoryId: 100 } })).toThrow('PRIVATE_REQUIRES_PROJECTION')
-    // caller context disagrees with the receipt repository -> repository binding
-    expect(() => formalValidation({ ...f, op: 'receipt', repository: { id: 100 } })).toThrow('REPOSITORY_BINDING')
+    expect(() => formalValidation({ ...forged, op: 'receipt' }, prod)).toThrow('PRODUCTION_REQUIRES_UNIT_PLAN')
+    // production unit in a private/test context (trusted entry and receipt agree on a test repository)
+    expect(() => formalValidation({ ...f, op: 'receipt', receipt: { ...f.receipt, repositoryId: 100 } },
+      { repositoryId: 100 })).toThrow('PRIVATE_REQUIRES_PROJECTION')
+    // trusted entry disagrees with the receipt repository -> repository binding
+    expect(() => formalValidation({ ...f, op: 'receipt', receipt: { ...f.receipt, repositoryId: 100 } }, prod)).toThrow('REPOSITORY_BINDING')
+  })
+
+  it('cannot be downgraded by a repository field in the request JSON', () => {
+    const f = productionFormal()
+    // The request JSON claims a test repository, but the trusted entry fixes production.
+    expect(formalValidation({ ...f, op: 'receipt', repository: { id: 100 } }, prod))
+      .toEqual({ status: 'encoded', bytesBase64: f.receiptBase64 })
+    // The request JSON claims production, but the trusted entry is a test repository -> private path.
+    const privatePlanObj = { scope: 'private-single-page-projection', pins: f.pins }
+    const privateOutput = canonicalBytes({ pins: f.pins })
+    const privateReceipt = { ...f.receipt, repositoryId: 100, planSha256: digest('plan', privatePlanObj), outputDigest: sha256(privateOutput) }
+    expect(formalValidation({ ...f, op: 'receipt', repository: { id: 660446555 },
+      planBase64: b64(canonicalBytes(privatePlanObj)), outputBase64: b64(privateOutput), receipt: privateReceipt },
+      { repositoryId: 100 })).toEqual({ status: 'encoded', bytesBase64: b64(canonicalBytes(privateReceipt)) })
   })
 
   it('rejects a forged private receipt presented to a production caller via repository binding', () => {
     const f = productionFormal()
-    expect(() => formalValidation({ ...f, op: 'receipt', receipt: { ...f.receipt, repositoryId: 100 } })).toThrow('REPOSITORY_BINDING')
+    expect(() => formalValidation({ ...f, op: 'receipt', receipt: { ...f.receipt, repositoryId: 100 } }, prod)).toThrow('REPOSITORY_BINDING')
   })
 })

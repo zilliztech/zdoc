@@ -37,7 +37,7 @@ function encoded(value: unknown) {
 // Trusted caller context: the repository this validation runs for. It selects the allowed plan
 // format and can never be downgraded by a caller-supplied scope, receipt repository ID or flag.
 const productionRepositoryId = 660446555
-const repositoryContext = z.strictObject({ id: z.number().int().positive().max(Number.MAX_SAFE_INTEGER) })
+const trustedContext = z.strictObject({ repositoryId: z.number().int().positive().max(Number.MAX_SAFE_INTEGER) })
 const reportMembers = z.array(z.strictObject({ name: z.string().min(1).max(REMOTE_LIMITS.path),
   bytesBase64: z.string().min(1) })).max(REMOTE_LIMITS.members)
 const reportRef = z.strictObject({ path: z.string(), sha256: z.string(), bytes: z.number() })
@@ -47,7 +47,7 @@ const unitSourcePins = z.object({ repository: z.string(), track: z.string(), obs
 // validated canonically and cross-checked with validateUnitReports. master/dev/source anchors come
 // from the report's pins; the validator's own output remains an independent digest/pin comparison.
 function checkUnitInputs(plan: unknown, outputBase64: unknown, reportsBase64: unknown, receipt: {
-  planSha256?: string; outputDigest?: string; master?: string; dev?: string
+  planSha256?: string; outputDigest?: string; master?: string; dev?: string; unitKey?: string
 }, observation: unknown) {
   const members = reportMembers.parse(reportsBase64)
   const refs = z.array(reportRef).parse((plan as { reports: unknown }).reports)
@@ -64,6 +64,7 @@ function checkUnitInputs(plan: unknown, outputBase64: unknown, reportsBase64: un
     return report
   })
   const unit = validateUnitReports(plan, reportValues)
+  if (unit.unitKey !== receipt.unitKey) throw new Error('UNIT_KEY_BINDING')
   if (unit.disposition !== 'candidate') throw new Error('PLAN_NOT_CANDIDATE')
   if (unit.subjects.length !== 1 || unit.subjects[0].kind !== 'guides-page' || unit.subjects[0].pageId !== 'json-field-overview') throw new Error('PILOT_PAGE')
   const source = unitSourcePins.parse((reportValues[0] as { pins: { source: unknown } }).pins.source)
@@ -99,12 +100,11 @@ function checkProjectionInputs(plan: unknown, outputBase64: unknown, receipt: {
 }
 
 function checkInputs(planBase64: unknown, outputBase64: unknown, reportsBase64: unknown, receipt: {
-  planSha256?: string; outputDigest?: string; master?: string; dev?: string
-}, observation: unknown, repository: unknown) {
+  planSha256?: string; outputDigest?: string; master?: string; dev?: string; unitKey?: string
+}, observation: unknown, repositoryId: number | undefined) {
   const planBytes = decode(planBase64, REMOTE_LIMITS.outputBytes)
   const plan = parseStrictJson(planBytes)
   if (!planBytes.equals(canonicalBytes(plan)) || digest('plan', plan) !== receipt.planSha256) throw new Error('PLAN_DIGEST')
-  const repositoryId = repositoryContext.parse(repository).id
   const isUnit = typeof plan === 'object' && plan !== null && (plan as { kind?: unknown }).kind === 'shared-update-unit'
   if (repositoryId === productionRepositoryId) {
     if (!isUnit) throw new Error('PRODUCTION_REQUIRES_UNIT_PLAN')
@@ -114,8 +114,11 @@ function checkInputs(planBase64: unknown, outputBase64: unknown, reportsBase64: 
   return checkProjectionInputs(plan, outputBase64, receipt, observation)
 }
 
-export function formalValidation(input: unknown) {
+export function formalValidation(input: unknown, trusted?: unknown) {
   const v = z.record(z.string(), z.unknown()).parse(input)
+  // The production repository identity is fixed at the trusted call entry, never read from the
+  // request JSON. A request field cannot downgrade a production invocation to private validation.
+  const repositoryId = trusted === undefined ? undefined : trustedContext.parse(trusted).repositoryId
   switch (v.op) {
     case 'freshness':
       return freshness(pins.parse(v.expected), pins.parse(v.observed))
@@ -145,8 +148,8 @@ export function formalValidation(input: unknown) {
       const receipt = ExactValidationReceiptV1Schema.parse(v.receipt)
       if (receipt.conclusion !== 'success' || receipt.tools !== receipt.master ||
           receipt.head !== receipt.seal || receipt.targetCheckHead !== receipt.seal) throw new Error('RECEIPT_BINDING')
-      if (receipt.repositoryId !== repositoryContext.parse(v.repository).id) throw new Error('REPOSITORY_BINDING')
-      const checked = checkInputs(v.planBase64, v.outputBase64, v.reportsBase64, receipt, v.observed, v.repository)
+      if (repositoryId !== undefined && receipt.repositoryId !== repositoryId) throw new Error('REPOSITORY_BINDING')
+      const checked = checkInputs(v.planBase64, v.outputBase64, v.reportsBase64, receipt, v.observed, repositoryId)
       return checked.status === 'hold' ? checked : encoded(receipt)
     }
     case 'prepublish':
@@ -154,12 +157,12 @@ export function formalValidation(input: unknown) {
       const expected = ExactValidationExpectedSchema.parse(v.expected)
       const receiptBytes = decode(v.receiptBase64, REMOTE_LIMITS.payloadBytes)
       const receipt = ExactValidationReceiptV1Schema.parse(parseStrictJson(receiptBytes))
-      const repositoryId = repositoryContext.parse(v.repository).id
       const policy = RemotePolicySchema.parse(v.policy)
-      if (receipt.repositoryId !== repositoryId || expected.repositoryId !== repositoryId || policy.repositoryId !== repositoryId) {
+      if (repositoryId !== undefined &&
+          (receipt.repositoryId !== repositoryId || expected.repositoryId !== repositoryId || policy.repositoryId !== repositoryId)) {
         throw new Error('REPOSITORY_BINDING')
       }
-      const checked = checkInputs(v.planBase64, v.outputBase64, v.reportsBase64, receipt, v.observed, v.repository)
+      const checked = checkInputs(v.planBase64, v.outputBase64, v.reportsBase64, receipt, v.observed, repositoryId)
       if (checked.status === 'hold') return checked
       if (v.op === 'prepublish') return inspectReservedValidation(expected, v.facts, receiptBytes, v.policy)
       return acceptExactValidation(expected, v.facts, receiptBytes, v.policy)
@@ -177,7 +180,8 @@ async function main() {
     if (size > 4 * REMOTE_LIMITS.outputBytes) throw new Error('INPUT_LIMIT')
     chunks.push(chunk)
   }
-  const result = formalValidation(parseStrictJson(Buffer.concat(chunks)))
+  const result = formalValidation(parseStrictJson(Buffer.concat(chunks)),
+    process.env.GITHUB_REPOSITORY_ID === undefined ? undefined : trustedContext.parse({ repositoryId: Number(process.env.GITHUB_REPOSITORY_ID) }))
   process.stdout.write(JSON.stringify(result) + '\n')
 }
 
