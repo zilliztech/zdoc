@@ -194,19 +194,83 @@ At a high level:
 
 The following table compares the StructArray field operations supported by external collections and managed collections in detail.
 
-| Feature | Dedicated Cluster, managed collections | On-Demand Cluster, managed collections | On-Demand Cluster, external collections |
-| --- | --- | --- | --- |
-| Create a collection with StructArray fields | ✅ | ✅ | ❌ |
-| Insert, upsert, or partial update | ✅ | ❌ | ❌ |
-| Bulk import with StructArray | ✅ | ✅ | ❌ |
-| Element-level search (range, grouping, hybrid, and so on) | ✅ | ✅ | ❌ |
-| `ELEMENT_FILTER` and the `MATCH_*` family | ✅ | ✅ | ❌ |
-| EmbeddingList search (`MAX_SIM` metrics) | ✅ | ✅ | ❌ |
-| Add a whole StructArray field (must be nullable) | ✅ | ✅ | ❌ |
-| Drop a whole StructArray field | ✅ | ✅ | ❌ |
-| Nullable subfields (`element_nullable`, such as a nullable vector) | ✅ | ❌ | ❌ |
-| Add a subfield to an existing StructArray | ✅ | ❌ | ❌ |
-| Drop a subfield | ✅ | ❌ | ❌ |
+<table>
+   <tr>
+     <th rowspan="2"><p><strong>Feature</strong></p></th>
+     <th rowspan="2"><p><strong>Dedicated Cluster</strong></p><p><strong>Managed Collection</strong></p></th>
+     <th colspan="2"><p><strong>On-Demand Cluster</strong></p></th>
+   </tr>
+   <tr>
+     <th><p><strong>Managed Collection</strong></p></th>
+     <th><p><strong>External Collection</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Create a collection with StructArray fields</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Insert, upsert, or partial update</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Bulk import with StructArray</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Element-level search (range, grouping, hybrid, and so on)</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p><code>ELEMENT_FILTER</code> and the <code>MATCH_*</code> family</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>EmbeddingList search (<code>MAX_SIM</code> metrics)</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Add a whole StructArray field (must be nullable)</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Drop a whole StructArray field</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Nullable subfields (<code>element_nullable</code>, such as a nullable vector)</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Add a subfield to an existing StructArray</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Drop a subfield</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
 
 
 ## Related pages\{#related-pages}
