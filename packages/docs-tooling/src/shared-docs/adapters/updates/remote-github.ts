@@ -230,7 +230,8 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
   const run=async(request:{id:number;attempt:number;role:'producer'|'validator'})=>{
     integer(request.id);integer(request.attempt);await repository()
     const path=`${root}/actions/runs/${request.id}/attempts/${request.attempt}`,response=await api(path),raw=obj(response.value)
-    const tools=GitShaSchema.parse(raw.head_sha),identity=request.role==='producer'?definitions.find(def=>def.tools===tools&&def.workflowId===raw.workflow_id):policy.validator
+    const tools=GitShaSchema.parse(raw.head_sha)
+    const identity=request.role==='producer'?(()=>{const matches=definitions.filter(def=>def.tools===tools&&def.workflowId===raw.workflow_id);if(matches.length!==1)fail('PRODUCER_AMBIGUOUS');return matches[0]})():policy.validator
     if(!identity||raw.id!==request.id||raw.run_attempt!==request.attempt||obj(raw.repository).id!==policy.repositoryId||obj(raw.head_repository).id!==policy.repositoryId
       ||obj(raw.actor).id!==identity.actorId||raw.event!==identity.event||raw.workflow_id!==identity.workflowId||raw.path!==identity.workflowPath||raw.status!=='completed'||raw.conclusion!=='success')fail('RUN_IDENTITY')
     const workflow=await api(`${root}/actions/workflows/${identity.workflowId}`)
