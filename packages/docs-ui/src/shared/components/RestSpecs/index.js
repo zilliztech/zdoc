@@ -3,7 +3,8 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, splitAfterEndpoint, isControlPlane, getTokenPlaceholder, isRenderableExample } from './utils.js'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, splitAfterEndpoint, isControlPlane, getTokenPlaceholder, isRenderableExample, isVisibleInChannel } from './utils.js'
+import { useRuntimeReleaseChannel } from '../../utils/releaseChannel.ts';
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
@@ -148,6 +149,11 @@ const Param = ({ name, description, type, format, required, example, inProp, enu
 }
 
 const Properties = ({ name, description, properties, requiredFields, required, lang, target }) => {
+    // Parameter-level next/current staging (§1.12): the runtime channel is
+    // hydration-safe and fail-closed — SSR/prerender and any deployment with
+    // an unknown channel resolve to CURRENT, so next-staged properties are
+    // absent from prerendered HTML exactly like NEXT pages are.
+    const runtimeChannel = useRuntimeReleaseChannel()
     return (
         <>
             { (name || description) && <div className={styles.paramContainer}>
@@ -161,10 +167,10 @@ const Properties = ({ name, description, properties, requiredFields, required, l
             <div style={{ margin: name ? '0 0 0 2rem' : '0' }}>
                 { properties && Object.keys(properties).filter(key => {
                     if (Object.keys(properties[key]).includes('x-include-target')) {
-                        return properties[key]['x-include-target'].includes(target)
+                        if (!properties[key]['x-include-target'].includes(target)) return false
                     }
 
-                    return true
+                    return isVisibleInChannel(properties[key], runtimeChannel)
                 }).map((propName, index) => {
                     const prop = mergeAllOf(properties[propName])
                     const desc = prop["x-i18n"]?.[lang]?.description ? prop["x-i18n"][lang].description : prop.description
@@ -795,12 +801,14 @@ export default function RestSpecs(props) {
     )
     const selectedBaseUrlVar = selectedBaseUrl?.shell?.match(/export\s+(\w+)=/)?.[1]
     const exampleBaseUrl = selectedBaseUrlVar ? `\${${selectedBaseUrlVar}}` : selectedBaseUrl?.url
+    const runtimeChannel = useRuntimeReleaseChannel()
     const validParams = parameters ? parameters.filter(param => {
         if (param?.['x-include-target'] && !param['x-include-target'].includes(target)) return false
         if (param?.['x-base-url-target']) {
             const currentKey = selectedBaseUrl?.key
             if (!currentKey || !param['x-base-url-target'].includes(currentKey)) return false
         }
+        if (!isVisibleInChannel(param, runtimeChannel)) return false
         return true
     }) : []
 
@@ -878,9 +886,9 @@ export default function RestSpecs(props) {
                 </div>
                 <div className={styles.specLayout}>
                     <BaseURL endpoint={props.endpoint} lang={lang} target={target} baseUrls={target === 'zilliz' ? baseUrls : null} onBaseUrlChange={setSelectedBaseUrl} />
-                    { (parameters.length > 0 || requestBody) && <>
+                    { (validParams.length > 0 || requestBody) && <>
                         <section>
-                            { parameters.length > 0 && <section>
+                            { validParams.length > 0 && <section>
                                 <div className={styles.sectionHeader}>
                                     <span>{i18n[lang]['section.parameters']}</span>
                                 </div>

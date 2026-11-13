@@ -441,9 +441,36 @@ channel** — the staged-for-next-release registry, behaviorally aligned with th
 | `exclude` | Retires in the NEXT release; CURRENT keeps the final wording | generated page gets `channel: retire-in-next` — stays served on CURRENT, ships its final wording, and is removed wholesale in NEXT |
 
 Placement scope matches `x-include-target`: operations, parameters, and schema
-properties. Operation-level marks drive page rendering today (`refGen.js`
-`resolveNextChannel`); parameter/property-level marks are registry-only for now
-and feed the availability matrices until per-field rendering lands.
+properties. Operation-level marks drive page rendering (`refGen.js`
+`resolveNextChannel` → frontmatter + sidebar channel). Parameter/property-level
+marks drive **per-field rendering** at runtime: `RestSpecs` hides an
+`include`-staged parameter/property wherever the deployment's runtime
+`RELEASE_CHANNEL` (env.js → `window.__ZDOC_ENV__`, via
+`useRuntimeReleaseChannel`) is unknown or `current`, and removes an
+`exclude`-staged one on NEXT deployments — the same fail-closed table as the
+operation level, evaluated per field through `RestSpecs/utils.js`
+`isVisibleInChannel`. The runtime channel switch is deployment-injected over a
+single build, so the gate must live at runtime, not in the generator.
+Prerendered HTML always reflects CURRENT (hydration-safe), so unreleased
+parameter shapes stay out of production markup. On zdoc deployments without
+the injection the runtime resolves to CURRENT and never shows `include`-staged
+fields. The shared-fragment **milvus regeneration lane is a different
+surface**: its pipeline strips internal `x-*` keys, so a staged field that
+reached it would be republished there without the mark — rendered as an
+ordinary field. Parameter-level staging is therefore **zilliz-publication-only
+by construction**: generation rejects a staged parameter/property unless the
+node or its operation carries `x-include-target: ["zilliz"]`, which keeps
+staged fields out of that lane entirely. Required chips disappear with their
+parameter; when a staged release flips a field's shape, author the old field
+`exclude` and the new field `include` in the same change. Array `items` and
+`anyOf`/`oneOf` branch nodes are not gated individually yet — the validator
+rejects marks there, so stage such an element through its parent property (or
+the operation) instead.
+
+Pair a staged parameter with its validation metadata: a hidden parameter stays
+in the embedded specs JSON on CURRENT deployments (hidden is not removed), so
+server-side or payload-size concerns do not apply, but treat the staged shape
+as authoring input, not a published contract.
 
 Relationship to the other attributes:
 
@@ -456,7 +483,11 @@ Relationship to the other attributes:
 - Complements `x-beta`: `x-beta` communicates maturity (GA / preview tiers) of
   **published** content; `x-next-channel` gates **unpublished** content.
 
-Like all internal `x-*` keys, it is stripped from public generated specs.
+Stripping: the integrated-publication lane removes every internal `x-*` key
+from its artifacts (integratedSpecBuilder `stripInternalExtensions`). The REST
+page payload is the exception on purpose — the runtime gate reads the key from
+the embedded specs JSON, so the MDX lane keeps `x-next-channel` while stripping
+the lifecycle evidence and raw availability marks (§1.14).
 
 
 ### 1.13 `x-zilliz-cluster-types`
