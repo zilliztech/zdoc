@@ -766,7 +766,7 @@ Both processors strip the tags and return the inner text if the condition is sat
 
 ### 4.3 `<!-- zdoc:after-endpoint -->` (description split marker)
 
-Cuts an **operation** description in two. Everything before the marker stays in the intro slot above the method/endpoint header; everything after it renders **below the endpoint information block** (base URL + notes) and above Parameters, styled like the intro description. Intended for large reference tables that would otherwise push the endpoint details off the first screen — author the tail as a collapsible `<details>` block (blank lines around the markdown table are required so the table still renders inside `<details>`).
+Cuts an **operation** description in two. Everything before the marker stays in the intro slot above the method/endpoint header; everything after it renders in a **collapsible panel directly below that header** (the `RestSpecs` `.afterEndpoint` block, above the Connection Endpoint section). Author the tail as a collapsible `<details>` block (blank lines around the markdown table are required so the table still renders inside `<details>`): `RestSpecs` adds the `alert alert--info` classes at render time and the site-wide `.markdown details` system (apps/docs `custom.css`) styles it as the same lavender banner card with a chevron summary the guides pages use — no local styling, expanded tables inherit the details ink/border treatment automatically.
 
 ```markdown
 Creates a custom organization- or project-scoped Cloud ACL role.

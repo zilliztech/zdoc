@@ -71,12 +71,12 @@ export const getLocalizedDescription = (value, lang) => {
 // Fragments may cut an operation description in two with this marker (an HTML
 // comment, so a runtime that predates the convention renders it invisibly).
 // Everything before it stays in the intro slot above the method/endpoint
-// header; everything after it renders below the endpoint information block
-// (base URL + notes) instead of Parameters. Large reference tables use this
-// so they do not push the endpoint details off the first screen — author the
-// tail as a collapsible <details> block. The generator validates marker usage
-// (refGen validateSpec); refGen.js carries its own copy of the constant
-// because the tooling/runtime boundary forbids sharing this module.
+// header; everything after it renders in the collapsible panel directly below
+// that header (above the Connection Endpoint section). Large reference tables
+// use this so they do not push the endpoint details off the first screen —
+// author the tail as a collapsible <details> block. The generator validates
+// marker usage (refGen validateSpec); refGen.js carries its own copy of the
+// constant because the tooling/runtime boundary forbids sharing this module.
 export const AFTER_ENDPOINT_MARKER = '<!-- zdoc:after-endpoint -->'
 
 export const splitAfterEndpoint = (description) => {

@@ -407,6 +407,24 @@
     margin-bottom: 0;
 }
 
+/* After-endpoint description tails (the <!-- zdoc:after-endpoint --> marker,
+   CUSTOM_ATTRIBUTES.md §4.3) land here as a bare <details> block. This class
+   is a slot hook — the design is owned by the site-wide .markdown details
+   system in apps/docs custom.css (note-palette card, chevron summary, table
+   ink); RestSpecs adds the alert alert--info classes at render time so the
+   box gets the same Infima chrome (14px/12px padding, 16px radius) the
+   guides-side Details blocks carry. */
+.afterEndpoint {
+    /* spacing comes from the alert's own margin-top */
+}
+
+/* The global chevron draws its mask on a ::before whose `content` comes from
+   Infima's Details-component marker CSS, which only ever upgrades JSX Details
+   — never runtime-injected raw HTML. Supply the content so the mask shows. */
+.afterEndpoint details > summary::before {
+    content: '';
+}
+
 .specLayout {
     display: grid;
     /* row-gap 0 (NOT 2rem): the section divider already carries its own symmetric
