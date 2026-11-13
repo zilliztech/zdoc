@@ -37,7 +37,7 @@ Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサ�
 
 | **Milvus バージョン** | **Python SDK** | **Node.js SDK** | **Java SDK** | **Go SDK** | **C++** | **Rust SDK** |
 | --- | --- | --- | --- | --- | --- | --- |
-| `3.0.x` | `3.0.1` | `3.0.6` | `3.0.10` | `3.0.0` | `3.0.3` | `3.0.2` |
+| `3.0.x` | `3.0.3` | `3.0.6` | `3.0.12` | `3.0.0` | `3.0.4` | `3.0.3` |
 | `2.6.x` | `2.6.17` | `2.6.17` | `2.6.24` | `2.6.5` | `2.6.6` | `2.6.1` |
 | `2.5.x` | `2.5.18` | `2.5.13` | `2.5.15` | `2.5.6` | -- | -- |
 
@@ -53,7 +53,7 @@ PyMilvus は Milvus の Python SDK です。[GitHub のソースコード](https
 
 ```bash
 # Install or update PyMilvus to the latest v3.0.x
-pip install --upgrade pymilvus==v3.0.1
+pip install --upgrade pymilvus==3.0.3
 
 # Install the Model library for embedding operations (optional)
 pip install pymilvus[model]
@@ -68,7 +68,7 @@ Milvus の Node.js SDK では、**npm** または **yarn** を使用します。
 
 <Admonition type="info" title="Notes">
 
-インストールする前に、**Node.js** のバージョンが **14** 以上であることを確認してください。
+インストールする前に、**Node.js** のバージョンが **18** 以上であることを確認してください。
 
 </Admonition>
 
@@ -109,13 +109,13 @@ SDK を取得するには、Apache Maven または Gradle/Grails を使用しま
     <dependency>
         <groupId>io.milvus</groupId>
         <artifactId>milvus-sdk-java</artifactId>
-        <version>3.0.10</version>
+        <version>3.0.12</version>
     </dependency>
     <!-- Optional: to use BulkWriter, also add -->
     <dependency>
         <groupId>io.milvus</groupId>
         <artifactId>milvus-sdk-java-bulkwriter</artifactId>
-        <version>3.0.10</version>
+        <version>3.0.12</version>
     </dependency>
     ```
 
@@ -123,14 +123,14 @@ SDK を取得するには、Apache Maven または Gradle/Grails を使用しま
 
     ```bash
     # Install the Java SDK compatible with Milvus v3.0.x
-    implementation 'io.milvus:milvus-sdk-java:3.0.10'
+    implementation 'io.milvus:milvus-sdk-java:3.0.12'
     # Optional: to use BulkWriter, also add
-    implementation 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10' 
+    implementation 'io.milvus:milvus-sdk-java-bulkwriter:3.0.12' 
     ```
 
 ## Go SDK のインストール\{#install-go-sdk}
 
-Go SDK は `go get` で入手できます。[GitHub のソースコード](https://github.com/milvus-io/milvus-sdk-go) を参照してください。
+Go SDK は `go get` で入手できます。[GitHub のソースコード](https://github.com/milvus-io/milvus) を参照してください。
 
 ```bash
 # Install the Go SDK compatible with Milvus v3.0.x
@@ -142,10 +142,10 @@ go get -u github.com/milvus-io/milvus/client/v3
 C++ SDK は次の方法で入手できます。[GitHub のソースコード](https://github.com/milvus-io/milvus-sdk-cpp) を参照してください。
 
 ```shell
-# Install the C++ SDK (Milvus 3.0.x, release v3.0.3) from source
+# Install the C++ SDK (Milvus 3.0.x, release v3.0.4) from source
 git clone https://github.com/milvus-io/milvus-sdk-cpp.git
 cd milvus-sdk-cpp
-git checkout v3.0.3
+git checkout v3.0.4
 bash scripts/install_deps.sh
 make
 
@@ -153,32 +153,33 @@ make
 make install       # install to /usr/local
 ```
 
+```shell
+# Install the C++ SDK (Milvus 3.0.x, release v3.0.4) with Conan
+conan install . --build=missing -s build_type=Release
+cmake --preset conan-release
+cmake --build build/Release
+```
+
+```shell
+# Alternative: consume the published C++ SDK package via Conan
+# Add the Milvus Conan remote first (one-time)
+conan remote add milvus-artifactor \
+  https://milvus01.jfrog.io/artifactory/api/conan/default-conan-local2 \
+  --force --allowed-packages "milvus-sdk-cpp/*"
+conan install --requires="milvus-sdk-cpp/3.0.4@milvus/dev" --build=never
+```
+
+または、[GitHub のリリースページ](https://github.com/milvus-io/milvus-sdk-cpp/releases/tag/v3.0.4) から、お使いのプラットフォーム向けにビルド済みのバイナリパッケージをダウンロードできます（アセット名は `libmilvus-3.0.4-<arch>-<OS>.deb`、`.rpm`、`.tar.gz`）。
+
 ## Rust SDK のインストール\{#install-rust-sdk}
 
 Milvus の Rust SDK では、[Cargo](https://crates.io/crates/milvus-sdk-rust) を使用します。ソースコードは [GitHub](https://github.com/milvus-io/milvus-sdk-rust) で参照できます。
 
-<Tabs groupId="code" defaultValue='shell' values={[{"label":"Zilliz CLI","value":"shell"},{"label":"Rust","value":"rust"}]}>
-<TabItem value='shell'>
-
 ```shell
 # Add the Rust SDK to your Cargo.toml
 [dependencies]
-milvus-sdk-rust = "3.0.2"
+milvus-sdk-rust = "3.0.3"
 ```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-use milvus::v2::prelude::*;
-
-// Connect to Milvus
-let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
-```
-
-</TabItem>
-</Tabs>
 
 ## C# SDK のインストール\{#install-c-sdk}
 

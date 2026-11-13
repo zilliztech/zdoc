@@ -1100,7 +1100,7 @@ curl --request POST \
 
 - [パーティションへのエンティティの挿入](./insert-entities#insert-entities-into-a-partition)
 
-- [パーティションへのエンティティのアップサート](https://milvus.io/docs/upsert-entities.md#Upsert-Entities-in-a-Partition)
+- [パーティションへのエンティティのアップサート](./upsert-entities#upsert-entities-in-a-partition)
 
 - [パーティションからのエンティティの削除](./delete-entities#delete-entities-from-partitions)
 

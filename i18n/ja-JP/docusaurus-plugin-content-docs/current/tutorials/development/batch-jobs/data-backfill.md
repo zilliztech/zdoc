@@ -295,7 +295,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ジョブが成功したら、リクエストで指定したパスに期待どおりの出力があることを確認します。
 
-手順、ジョブの状態、状態遷移については、[Spark バッチジョブの管理](./manage-batch-jobs) を参照してください。
+手順、ジョブの状態、状態遷移については、[バッチジョブの管理](./manage-batch-jobs) を参照してください。
 
 ## 結果を検証する\{#validate-the-results}
 

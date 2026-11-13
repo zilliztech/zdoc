@@ -527,7 +527,7 @@ curl --request POST \
 
 </Tabs>
 
-`field_ops` を通じてフィールドに `ARRAY_APPEND` を指定すると、そのフィールドで部分更新セマンティクスが有効になります。ワークフロー全体、サポートされる要素型、制限事項については、[マージモードでの ARRAY フィールドのアップサート](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode) を参照してください。
+`field_ops` を通じて `ARRAY_APPEND` をフィールドに適用すると、そのフィールドの部分更新セマンティクスが有効になります。ワークフロー全体、サポートされる要素型、制限事項については、[エンティティの Upsert](./upsert-entities) を参照してください。
 
 ## ARRAY_REMOVE\{#arrayremove}
 
@@ -695,4 +695,4 @@ curl --request POST \
 
 </Tabs>
 
-`field_ops` を通じてフィールドに `ARRAY_REMOVE` を指定すると、そのフィールドで部分更新セマンティクスが有効になります。ワークフロー全体、サポートされる要素型、制限事項については、[マージモードでの ARRAY フィールドのアップサート](https://milvus.io/docs/upsert-entities.md#Upsert-ARRAY-fields-in-merge-mode) を参照してください。
+`field_ops` を通じて `ARRAY_REMOVE` をフィールドに適用すると、そのフィールドの部分更新セマンティクスが有効になります。ワークフロー全体、サポートされる要素型、制限事項については、[エンティティの Upsert](./upsert-entities) を参照してください。

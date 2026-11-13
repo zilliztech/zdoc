@@ -182,6 +182,14 @@ import io.milvus.v2.service.rbac.request.ListPrivilegeGroupsReq;
 import io.milvus.v2.service.rbac.response.ListPrivilegeGroupsResp;
 import java.util.List;
 import io.milvus.v2.service.rbac.request.DropPrivilegeGroupReq;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 client.createPrivilegeGroup(CreatePrivilegeGroupReq.builder()
         .groupName("privilege_group_1")
@@ -194,8 +202,22 @@ client.createPrivilegeGroup(CreatePrivilegeGroupReq.builder()
 
 ```go
 import (
+    "context"
+    "fmt"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
 
 err = client.CreatePrivilegeGroup(ctx, milvusclient.NewCreatePrivilegeGroupOption("privilege_group_1"))
 if err != nil {
@@ -210,6 +232,12 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
 
 client
     .create_privilege_group(
@@ -217,6 +245,7 @@ client
             .group_name("privilege_group_1")
             .build()?,
     )
+
     .await?;
 ```
 
@@ -228,7 +257,13 @@ client
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
-auto status = client->CreatePrivilegeGroup(milvus::CreatePrivilegeGroupRequest().WithGroupName("privilege_group_1"));
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreatePrivilegeGroup(milvus::CreatePrivilegeGroupRequest().WithGroupName("privilege_group_1"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -239,6 +274,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
 await client.createPrivilegeGroup({
   group_name: 'privilege_group_1',
 });
@@ -251,6 +293,15 @@ await client.createPrivilegeGroup({
 ```csharp
 using Milvus.Client.V2.Requests.Rbac;
 using Milvus.Client.V2.Responses.Rbac;
+using Milvus.Client.V2;
+
+var config = new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT"
+};
+using var client = new MilvusClientV2(config);
+
+await client.ConnectAsync();
 
 await client.CreatePrivilegeGroupAsync(new CreatePrivilegeGroupReq
 {

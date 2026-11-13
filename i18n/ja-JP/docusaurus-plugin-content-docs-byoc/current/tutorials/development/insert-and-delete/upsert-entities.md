@@ -1,17 +1,18 @@
 ---
 title: "エンティティの Upsert | BYOC"
 slug: /upsert-entities
-sidebar_label: "Upsert"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`upsert` 操作は、コレクション内のエンティティを挿入または更新する便利な方法を提供します。 | BYOC"
+description: "Upsert 操作は、コレクション内のエンティティを挿入または更新するための便利な方法です。 | BYOC"
 type: origin
-token: YtJPwEVETiTaPMkWSfAccjXTnge
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-upsert-entities
+sidebar_label: "Upsert"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/insert-and-delete/upsert-entities.md"
 
 ---
 
@@ -21,45 +22,54 @@ import TabItem from '@theme/TabItem';
 
 # エンティティの Upsert
 
-`upsert` 操作は、コレクション内のエンティティを挿入または更新する便利な方法を提供します。
+`upsert` 操作は、コレクション内のエンティティを挿入または更新するための便利な方法です。
 
 ## 概要\{#overview}
 
-`upsert` を使用すると、upsert リクエストで指定したプライマリキーがコレクション内に存在するかどうかに応じて、新しいエンティティを挿入するか、既存のエンティティを更新するかを選べます。プライマリキーが見つからない場合は挿入操作が実行されます。それ以外の場合は更新操作が実行されます。
+`upsert` を使用すると、Upsert リクエストで指定したプライマリキーがコレクション内に存在するかどうかに応じて、新しいエンティティを挿入するか、既存のエンティティを更新できます。プライマリキーが見つからない場合は挿入操作が行われ、それ以外の場合は更新操作が行われます。`autoID` コレクションの部分更新は例外であり、以下で説明するように、既存のエンティティのみを更新します。
 
-upsert リクエストは、挿入と削除を組み合わせたものです。既存のエンティティに対する `upsert` リクエストを受信すると、Zilliz Cloud はリクエストペイロードに含まれるデータを挿入すると同時に、データで指定された元のプライマリキーを持つ既存のエンティティを削除します。
+Zilliz Cloud の Upsert は、**上書き**モードまたは**マージ**モードのいずれかで動作します。
 
-![Q3LawAQIKht1FKbsM3EcoQAHnvc](https://zdoc-images.s3.us-west-2.amazonaws.com/Q3LawAQIKht1FKbsM3EcoQAHnvc.png)
+### 上書きモードでの Upsert\{#upsert-in-override-mode}
+
+上書きモードで動作する Upsert リクエストは、挿入と削除を組み合わせます。既存のエンティティに対する `upsert` リクエストを受信すると、Zilliz Cloud はリクエストペイロードに含まれるデータを挿入すると同時に、データで指定された元のプライマリキーを持つ既存のエンティティを削除します。
+
+![上書きモードでの Upsert](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/40c0e8ca69eaf270bd1e6972e688b8f7e7865d0678c2a4170ecef678c0bb05b7.png)
 
 対象のコレクションのプライマリフィールドで `autoID` が有効になっている場合でも、`upsert` リクエストには対象エンティティのプライマリキーを含める必要があります。Zilliz Cloud は指定されたプライマリキーを使用して置き換えるエンティティを特定し、リクエストペイロードに含まれるデータを挿入する前に、そのデータ用の新しいプライマリキーを生成します。
 
 `nullable` が有効なフィールドは、更新が不要であれば `upsert` リクエストで省略できます。
 
+<a id="upsert-in-merge-mode--milvus-v262"></a>
+
 ### マージモードでの Upsert\{#upsert-in-merge-mode}
 
 マージモードを使用すると、既存のエンティティの特定のフィールドのみを更新し、その他のフィールドは変更せずに保持できます。
 
-![NZNKwxm9ahmi87b487TcuCrNn4c](https://zdoc-images.s3.us-west-2.amazonaws.com/NZNKwxm9ahmi87b487TcuCrNn4c.png)
+![マージモードでの Upsert](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a4dd47f055ed299fb600638f41ef2be283f7984a29236072a76e39eec300588f.png)
 
 `partial_update=True` を設定し、プライマリキーと更新するフィールドを指定します。
 
 Zilliz Cloud は、強整合性クエリで既存のエンティティを取得し、変更内容を保存済みのデータとマージして、マージ後のエンティティを挿入し、古いエンティティを削除します。
 
-マージモードで既存のエンティティを更新する場合、`autoID` が有効であってもプライマリキーは保持されます。プライマリキーが存在しない場合、Zilliz Cloud は新しいエンティティの挿入を試みます。新しいエンティティを挿入するにはすべてのフィールドを指定する必要があり、指定しないとリクエストはフィールド欠落エラーで失敗します。
+プライマリキーが存在しない場合、結果は `autoID` が有効かどうかによって異なります：
+
+- **`autoID` が無効な場合**、Zilliz Cloud は指定されたプライマリキーを使用して新しいエンティティの挿入を試みます。通常の挿入要件を満たしている場合、リクエストは成功します。必須フィールドが欠落している場合、リクエストはフィールド欠落エラーで失敗します。NULL 許容フィールドとデフォルト値を持つフィールドは、通常の挿入と同様に省略できます。
+- **`autoID` が有効な場合**、リクエスト内のすべてのプライマリキーがすでに存在している必要があります。挿入に必要なすべてのフィールドを指定した場合でも、いずれかのプライマリキーが存在しないと、Zilliz Cloud はリクエストを拒否します。既存のエンティティの場合、マージモードではプライマリキーが変更されません。
 
 部分更新がフィールド欠落エラーで失敗した場合は、対象のエンティティが存在するかどうかを確認してください。既存のエンティティがない場合、Zilliz Cloud は省略したフィールドの値を取得できません。
 
 新しいエンティティには、`insert` または上書きモードの Upsert を使用します。個々のフィールドのその後の更新には、マージモードを使用します。
 
-`ARRAY` フィールドでは、マージモードは `ARRAY_APPEND` と `ARRAY_REMOVE` の 2 つの演算子をサポートしています。これらの演算子を使用すると、エンティティを照会して現在の値を取得することなく、既存の `ARRAY` フィールドに要素を追加したり、一致する要素を削除したりできます。詳細については、[部分更新演算子を使用した ARRAY フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
+`ARRAY` フィールドの場合、マージモードでは `ARRAY_APPEND` と `ARRAY_REMOVE` の 2 つの演算子をサポートしています。これらの演算子を使用すると、エンティティをクエリして現在の値を取得することなく、既存の `ARRAY` フィールドに要素を追加したり、一致する要素を削除したりできます。詳細については、[マージモードでの ARRAY フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode-or-milvus-2617) を参照してください。
 
 ### フィールド値の更新\{#update-field-values}
 
-既存のエンティティのフィールド値を更新するには、[マージモードでの upsert](./upsert-entities#upsert-entities-in-merge-mode) を使用します。このモードでは、リクエストに含まれるフィールドのみが更新され、その他のフィールドはすべて既存の値を保持します。
+既存のエンティティのフィールド値を更新するには、[マージモードでの Upsert](./upsert-entities#upsert-entities-in-merge-mode) を使用します。このモードでは、リクエストに含まれるフィールドのみが更新され、その他のフィールドは既存の値が保持されます。
 
 ### Upsert の動作: 注意事項\{#upsert-behaviors-special-notes}
 
-マージ機能を使用する前に考慮すべき注意事項がいくつかあります。以下のケースでは、`title` と `issue` という 2 つのスカラーフィールド、プライマリキー `id`、および `vector` というベクトルフィールドを持つコレクションを想定しています。
+マージ機能を使用する前に検討すべき特別な注意事項がいくつかあります。以下では、`title` と `issue` という 2 つのスカラーフィールド、プライマリキー `id`、および `vector` というベクトルフィールドを持つコレクションを想定しています。
 
 - **`nullable` が有効なフィールドの Upsert。**
 
@@ -75,7 +85,7 @@ Zilliz Cloud は、強整合性クエリで既存のエンティティを取得�
 
     `author`、`year`、`tags` などのキーを指定してエンティティを Upsert する場合、または他のキーを追加する場合は、次の点に注意してください。
 
-    - `partial_update` を無効にして Upsert した場合、デフォルトの動作は **上書き** です。つまり、動的フィールドの値は、リクエストに含まれるスキーマ定義外のすべてのフィールドとその値で上書きされます。
+    - `partial_update` を無効にして Upsert した場合、デフォルトの動作は **上書き** です。つまり、動的フィールドの値は、リクエストに含まれるスキーマ定義外のすべてのフィールドとその値によって上書きされます。
 
         たとえば、リクエストに含まれるデータが `{"author": "Jane", "genre": "fantasy"}` の場合、対象エンティティの動的フィールド内のキーと値のペアはその内容に更新されます。
 
@@ -97,13 +107,15 @@ Zilliz Cloud は、強整合性クエリで既存のエンティティを取得�
 
     - `ARRAY_REMOVE` は、リクエストペイロード内の値に一致するすべての要素を既存の配列から削除します。
 
-    演算子の構文、サポートされる要素タイプ、その他の制約については、[部分更新演算子を使用した ARRAY フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
+    演算子の構文、サポートされる要素の型、その他の制約については、[マージモードでの ARRAY フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode-or-milvus-2617) を参照してください。
+
 
 - **StructArray フィールドを Upsert する。**
 
-    エンティティ内の StructArray フィールドを Upsert すると、フィールドの値が上書きされます。そのためには、各ディクショナリーに struct スキーマで定義されたすべてのサブフィールドを含めたリストを指定する必要があります。これは、マージモードで Upsert を実行する場合も同様です。要素が null を許容するサブフィールドは省略できます。その場合、Zilliz Cloud はその Struct 要素に null を保存します。
+    エンティティの StructArray フィールドを Upsert すると、そのフィールド値が上書きされます。そのため、マージモードで Upsert を実行する場合でも、struct スキーマで定義されたすべてのサブフィールドを含む辞書のリストを指定する必要があります。Milvus v3.0.x と互換性のある Dedicated クラスターでは、要素が null を許容するサブフィールドを省略でき、Zilliz Cloud はその Struct 要素に null を保存します。StructArray フィールドを含むコレクションへの Upsert は、On-Demand クラスターではまだ利用できません。On-Demand クラスターでは、StructArray データの書き込みパスは一括インポートのみです。
 
     詳細については、[マージモードでの StructArray フィールドの Upsert](./upsert-entities#upsert-structarray-field-in-merge-mode) を参照してください。
+
 
 ### 制限と制約\{#limits-and-restrictions}
 
@@ -113,7 +125,7 @@ Zilliz Cloud は、強整合性クエリで既存のエンティティを取得�
 
     - 上書きモードでは、プライマリキーによって置き換え対象の既存エンティティが特定され、Zilliz Cloud は置き換え後のエンティティ用に新しいプライマリキーを生成します。
 
-    - マージモードでは、既存のエンティティを更新してもプライマリキーは保持されます。プライマリキーが存在しない場合、Zilliz Cloud は新しいエンティティの挿入を試みます。新しいエンティティを挿入するにはすべてのフィールドを指定する必要があり、指定しないとリクエストはフィールド欠落エラーで失敗します。
+    - マージモードでは、プライマリキーによって更新対象の既存エンティティが特定され、プライマリキーは変更されません。プライマリキーが存在しない場合、リクエストは新しいエンティティを挿入せずに失敗します。
 
 - 対象のコレクションはロード済みで、クエリに使用できる状態である必要があります。
 
@@ -142,19 +154,19 @@ client = MilvusClient(
 
 data=[
     {
-        "id": 0, 
+        "id": 0,
         "vector": [-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911],
-        "title": "Artificial Intelligence in Real Life", 
+        "title": "Artificial Intelligence in Real Life",
         "issue": "vol.12"
     }, {
-        "id": 1, 
-        "vector": [0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965], 
-        "title": "Hollow Man", 
+        "id": 1,
+        "vector": [0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965],
+        "title": "Hollow Man",
         "issue": "vol.19"
     }, {
-        "id": 2, 
-        "vector": [-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827], 
-        "title": "Treasure Hunt in Missouri", 
+        "id": 2,
+        "vector": [-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827],
+        "title": "Treasure Hunt in Missouri",
         "issue": "vol.12"
     }
 ]
@@ -238,6 +250,7 @@ milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
+    APIKey: "YOUR_CLUSTER_TOKEN",
 })
 
 if err != nil {
@@ -322,12 +335,13 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+milvus::ConnectParam connect_param("YOUR_CLUSTER_ENDPOINT");
+connect_param.WithToken("YOUR_CLUSTER_TOKEN");
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -372,9 +386,9 @@ const res = await client.upsert({
 console.log(res.upsert_cnt)
 
 // Output
-// 
+//
 // 3
-// 
+//
 ```
 
 </TabItem>
@@ -414,13 +428,14 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 ## パーティション内のエンティティを Upsert する\{#upsert-entities-in-a-partition}
 
 エンティティを指定したパーティションに Upsert することもできます。以下のコードスニペットは、コレクションに **PartitionA** というパーティションがあることを前提としています。
 
-3 つのエンティティは、パーティションに存在する場合、リクエストに含まれるエンティティによって上書きされます。
+3 つのエンティティは、パーティション内に存在する場合、リクエストに含まれるエンティティによって上書きされます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -428,21 +443,21 @@ curl --request POST \
 ```python
 data=[
     {
-        "id": 10, 
-        "vector": [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576], 
-        "title": "Layour Design Reference", 
+        "id": 10,
+        "vector": [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576],
+        "title": "Layour Design Reference",
         "issue": "vol.34"
     },
     {
-        "id": 11, 
-        "vector": [0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531], 
-        "title": "Doraemon and His Friends", 
+        "id": 11,
+        "vector": [0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531],
+        "title": "Doraemon and His Friends",
         "issue": "vol.2"
     },
     {
-        "id": 12, 
-        "vector": [-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011], 
-        "title": "Pikkachu and Pokemon", 
+        "id": 12,
+        "vector": [-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011],
+        "title": "Pikkachu and Pokemon",
         "issue": "vol.12"
     },
 ]
@@ -562,7 +577,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {
     {{"id", 10}, {"vector", std::vector<float>{0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576}}, {"title", "Layour Design Reference"}, {"issue", "vol.34"}},
     {{"id", 11}, {"vector", std::vector<float>{0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531}}, {"title", "Doraemon and His Friends"}, {"issue", "vol.2"}},
@@ -601,9 +616,9 @@ const res = await client.upsert({
 console.log(res.upsert_cnt)
 
 // Output
-// 
+//
 // 3
-// 
+//
 ```
 
 </TabItem>
@@ -644,13 +659,16 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
+
+<a id="upsert-entities-in-merge-mode--milvus-v262"></a>
 
 ## マージモードでのエンティティの Upsert\{#upsert-entities-in-merge-mode}
 
 以下の例では、`my_collection` 内のプライマリキー `1` と `2` を持つエンティティの `issue` フィールドのみを更新します。実行する前に、両方のエンティティがすでに存在することを確認してください。その他のフィールドは現在の値を保持します。
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 マージモードで Upsert を実行する場合は、リクエストに含まれるエンティティが同じフィールドのセットを持っていることを確認してください。以下のコードスニペットに示すように、Upsert するエンティティが 2 つ以上ある場合、エラーを防ぎデータ整合性を維持するために、それらが同一のフィールドを含むことが重要です。
 
@@ -666,7 +684,7 @@ data=[
         "issue": "vol.14"
     },
     {
-        "id": 2, 
+        "id": 2,
         "issue": "vol.7"
     }
 ]
@@ -762,7 +780,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {{{"id", 1}, {"issue", "vol.14"}},
                            {{"id", 2}, {"issue", "vol.7"}}};
 milvus::UpsertResponse resp_upsert;
@@ -788,7 +806,7 @@ const data=[
         "issue": "vol.14"
     },
     {
-        "id": 2, 
+        "id": 2,
         "issue": "vol.7"
     }
 ];
@@ -801,9 +819,9 @@ const res = await client.upsert({
 console.log(res)
 
 // Output
-// 
+//
 // 2
-// 
+//
 ```
 
 </TabItem>
@@ -841,17 +859,20 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/upsert" \
 #     "data": {
 #         "upsertCount": 2,
 #         "upsertIds": [
-#              3,
-#             12,
+#             1,
+#             2
 #         ]
 #     }
 # }
 ```
 
 </TabItem>
+
 </Tabs>
 
-## マージモードでの ARRAY フィールドの Upsert\{#upsert-array-fields-in-merge-mode}
+<a id="upsert-array-fields-in-merge-mode"></a>
+
+## マージモードでの ARRAY フィールドの Upsert | Milvus 2.6.17+\{#upsert-array-fields-in-merge-mode-or-milvus-2617}
 
 部分更新演算子（`ARRAY_APPEND` と `ARRAY_REMOVE`）が導入される前は、`ARRAY` フィールドの一部を更新するには、クライアント側で読み取り・変更・書き込みのフローを行う必要がありました。つまり、既存の配列をクエリし、アプリケーションコードで変更し、置き換え後の値をすべて Upsert します。部分更新演算子を使用すると、追加または削除する要素のみを送信できるため、クライアント側のロジックを削減でき、Upsert 前の余分な読み取りを回避できます。
 
@@ -938,7 +959,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"new", "trial", "premium"}}}};
 milvus::UpsertResponse resp_upsert;
 status = client->Upsert(milvus::UpsertRequest()
@@ -998,11 +1019,12 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
 
 `ARRAY_APPEND` を使用すると、追加する要素のみを送信します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1089,7 +1111,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"premium"}}}};
 milvus::UpsertResponse resp_upsert;
 status = client->Upsert(milvus::UpsertRequest()
@@ -1117,19 +1139,130 @@ await client.upsert({
 
 </TabItem>
 
-<TabItem value='bash'>
+</Tabs>
 
-```bash
-# Note: The REST API does not expose the field_ops parameter as of v3.0.x.
-# Use the gRPC SDKs to apply ARRAY_APPEND / ARRAY_REMOVE operators.
+`ARRAY_REMOVE` を使用する場合は、削除する一致する要素のみを送信します：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
+```python
+client.upsert(
+    collection_name="users",
+    data=[{"pk": 1, "tags": ["trial"]}],
+    field_ops={"tags": FieldOp.array_remove()},
+)
 ```
 
 </TabItem>
+
+<TabItem value='java'>
+
+```java
+Gson gson = new Gson();
+List<JsonObject> appendData = Collections.singletonList(
+        gson.fromJson("{\"pk\": 1, \"tags\": [\"trial\"]}", JsonObject.class)
+);
+UpsertReq.FieldPartialUpdateOp appendTags = UpsertReq.FieldPartialUpdateOp.builder()
+        .fieldName("tags")
+        .opType(UpsertReq.FieldPartialUpdateOp.OpType.ARRAY_REMOVE)
+        .build();
+client.upsert(UpsertReq.builder()
+        .collectionName("users")
+        // highlight-start
+        .data(appendData)
+        .fieldOps(Collections.singletonList(appendTags))
+        // highlight-end
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+_, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
+    WithInt64Column("pk", []int64{1}).
+    WithColumns(column.NewColumnVarCharArray("tags", [][]string{{"trial"}})).
+    WithArrayRemove("tags"),
+)
+
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .upsert(
+        UpsertRequest::builder()
+            .insert(
+                InsertRequest::builder()
+                    .collection_name("users")
+                    .columns(vec![
+                        FieldData::Int64 {
+                            name: "pk".into(),
+                            values: vec![1i64],
+                        },
+                        FieldData::ArrayVarChar {
+                            name: "tags".into(),
+                            values: vec![vec!["trial".to_string()]],
+                        },
+                    ])
+                    .build()?,
+            )
+            .field_ops(vec![
+                FieldPartialUpdateOp::new()
+                    .field_name("tags")
+                    .op_type(FieldPartialUpdateOpType::ArrayRemove),
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"trial"}}}};
+milvus::UpsertResponse resp_upsert;
+status = client->Upsert(milvus::UpsertRequest()
+                            .WithCollectionName("users")
+                            .WithRowsData(std::move(data))
+                            .AddFieldOp(milvus::FieldPartialUpdateOp("tags", milvus::FieldPartialUpdateOp::OpType::ARRAY_REMOVE)),
+                        resp_upsert);
+
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.upsert({
+    collection_name: "users",
+    data: [{pk: 1, tags: ["trial"]}],
+    field_ops: [{field_name: "tags", op: "ARRAY_REMOVE"}],
+});
+```
+
+</TabItem>
+
 </Tabs>
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
-`field_ops` を介してフィールドにいずれかの演算子を付加すると、部分更新セマンティクスが暗黙的に有効になります。したがって、`field_ops` と一緒に `partial_update=True` を渡す **必要はありません**。
+いずれかの演算子を `field_ops` を介してフィールドに適用すると、部分更新のセマンティクスが暗黙的に有効になります。そのため、`field_ops` と併用して `partial_update=True` を渡す必要は **ありません**。
 
 </Admonition>
 
@@ -1137,7 +1270,7 @@ await client.upsert({
 
 - ペイロードの値は、対象の `ARRAY` フィールドの `element_type` と一致する必要があります。たとえば、対象フィールドが `ARRAY<VARCHAR>` の場合、ペイロードには文字列の値を含める必要があります。
 
-- このリリースでは、`ARRAY_APPEND` と `ARRAY_REMOVE` は、`element_type` が `BOOL`、`INT8`、`INT16`、`INT32`、`INT64`、`FLOAT`、`DOUBLE`、または `VARCHAR` である `ARRAY` フィールドをサポートしています。
+- `ARRAY_APPEND` と `ARRAY_REMOVE` は、`element_type` が `BOOL`、`INT8`、`INT16`、`INT32`、`INT64`、`FLOAT`、`DOUBLE`、または `VARCHAR` の `ARRAY` フィールドをサポートしています。
 
 - `ARRAY_APPEND` 操作後、結果の配列の長さはフィールドの `max_capacity` を超えてはなりません。
 
@@ -1147,7 +1280,7 @@ await client.upsert({
 
 以下の例では、プライマリキー `pk`、型が `ARRAY<VARCHAR>` の `tags` フィールド、および `embedding` ベクトルフィールドを持つ小さな `users` コレクションを使用します。まず初期の `tags` 値を持つ 2 つのエンティティを挿入し、次に `ARRAY_APPEND` と `ARRAY_REMOVE` を使用して、各演算子が保存された配列をどのように変更するかを示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1576,7 +1709,7 @@ println!("{res:?}");
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // 1. Create a collection with an ARRAY<VARCHAR> field
 
 milvus::CollectionSchema schema;
@@ -1717,19 +1850,12 @@ console.log(res.data);
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The REST API does not expose the field_ops parameter as of v3.0.x.
-# ARRAY_APPEND / ARRAY_REMOVE operators are available via the gRPC SDKs only.
-```
-
-</TabItem>
 </Tabs>
 
 ## マージモードでの StructArray フィールドの Upsert\{#upsert-structarray-field-in-merge-mode}
 
-エンティティ内の StructArray フィールドを Upsert すると、フィールドの値が上書きされます。つまり、StructArray フィールドを Upsert する際には、struct スキーマで定義されたすべてのサブフィールドを含める必要があります。要素が null を許容するサブフィールドは、省略するか、Struct 要素内で `None` に設定できます。その場合、Zilliz Cloud はそれらに null を保存します。削除されたサブフィールドを依然として含むリクエストは拒否されます。
+
+エンティティの StructArray フィールドを Upsert すると、そのフィールド値が上書きされます。つまり、StructArray フィールドを Upsert するときは、struct スキーマで定義されたすべてのサブフィールドを含める必要があります。Milvus v3.0.x と互換性のある Dedicated クラスターでは、要素が null を許容するサブフィールドを省略するか、Struct 要素内で `None` に設定でき、Zilliz Cloud はそれらに null を保存します。StructArray フィールドを含むコレクションへの Upsert は、On-Demand クラスターではまだ利用できません。On-Demand クラスターでは、StructArray データの書き込みパスは一括インポートのみです。削除されたサブフィールドを引き続き含むリクエストは拒否されます。
 
 pymilvus では、StructArray 値の一部を置き換えることもできます。`upsert()` に `field_ops` を渡す際に `FieldOp.path_replace()` を指定します。`[1][lang]` のようなパスは、1 つの Struct 要素の 1 つのサブフィールドを置き換え、他の Struct 要素およびサブフィールドを保持します。また、`[1]` のようなパスは、Struct 要素全体を 1 つ置き換えます。子パスには選択したサブフィールドのみが含まれ、各オペランドにはそれぞれのキーを明示的に含める必要があります。要素全体を指定するパスには、要素が null を許容しないすべてのサブフィールドが必要で、省略された要素が null を許容するサブフィールドは null に設定されます。
 
@@ -1747,6 +1873,7 @@ client.upsert(
     field_ops={"chunks": FieldOp.path_replace("[1][lang]")},
 )
 ```
+
 
 以下の例では、6 つのサブフィールドを持つ StructArray フィールドである `chunks` フィールドをマージモードで Upsert する方法を示します。操作が完了すると、ID 1 のエンティティの `chunks` フィールドは、リクエストで指定された 2 つの要素を持つ struct の配列に設定されます。
 
@@ -1899,7 +2026,7 @@ client
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 // Build the StructArray value with all subfields
 
 milvus::EntityRows data = {
@@ -1981,4 +2108,5 @@ curl --request POST \
 ```
 
 </TabItem>
+
 </Tabs>
