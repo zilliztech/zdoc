@@ -469,11 +469,17 @@ async function cliRoots(options, dependencies, requireTrust) {
   };
 }
 
+// The branch order is load-bearing and mirrors the workflow test matrix
+// selector (scripts/docs-workflow/select-tests-for-changes.js matchesPattern):
+// a `dir/**` pattern also ends with `*`, so the directory-prefix branch must
+// run before the generic trailing-`*` prefix branch or every `/**` pattern
+// degrades into a literal `dir/*` prefix that matches nothing.
 function patternMatches(relativePath, pattern) {
   if (pattern.endsWith('/**')) {
     const prefix = pattern.slice(0, -3);
     return relativePath === prefix || relativePath.startsWith(`${prefix}/`);
   }
+  if (pattern.endsWith('*')) return relativePath.startsWith(pattern.slice(0, -1));
   return relativePath === pattern;
 }
 

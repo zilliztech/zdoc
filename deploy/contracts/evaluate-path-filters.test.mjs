@@ -165,9 +165,65 @@ test('GitHub outputs expose stable booleans and audit data', () => {
     'build_zh_cn=true',
     'reference_coverage=true',
     'tools_coverage=false',
+    'shared_docs_tests=false',
     'checks=["build:zh-CN","zh-reference-translation-coverage"]',
     'matched_rules=["zhReferenceTranslation"]',
     'unclassified_paths=[]',
     '',
   ].join('\n'));
+});
+
+test('shared-docs gate trigger surface selects the gate alongside both site builds', () => {
+  // Representative real files for every include family of sharedDocsGate.
+  const gateFiles = [
+    'packages/docs-tooling/src/shared-docs/adapters/git.ts',
+    'shared-docs/guides/example.md',
+    'scripts/testing/run-vitest-groups.mjs',
+    '.github/workflows/shared-guides-update.yml',
+    'scripts/docs-workflow/shared-guides-update/plan.mjs',
+    'packages/docs-tooling/src/lark/sharedPageFetch.js',
+    'packages/docs-tooling/src/lark/sharedPageRenderIdentity.test.js',
+    'scripts/docs-workflow/guides-shared-sources.js',
+    'scripts/docs-workflow/replay-shared-pages.test.js',
+  ];
+  for (const file of gateFiles) {
+    assert.deepEqual(evaluateChangedPaths([file], filters), {
+      checks: ['build:en', 'build:zh-CN', 'shared-docs:tests'],
+      matchedRules: ['sharedDocsGate'],
+      unclassifiedPaths: [],
+    }, file);
+  }
+});
+
+test('sharedDocsGate preserves both site builds for publish-sites auto selection', () => {
+  // Standing equivalence guard: publish-sites.yml (site=auto) consumes the same
+  // build_en/build_zh_cn outputs. Every sharedDocsGate include family must keep
+  // triggering both site builds exactly as the previous shared/unclassified
+  // classification did, or production deployment selection silently changes.
+  const gate = filters.rules.sharedDocsGate;
+  const representatives = {
+    'packages/docs-tooling/src/shared-docs/**': 'packages/docs-tooling/src/shared-docs/testing/updates/local-runner.test.ts',
+    'shared-docs/**': 'shared-docs/guides/example.md',
+    'scripts/testing/**': 'scripts/testing/vitest-stop-reporter.mjs',
+    '.github/workflows/shared-guides-update.yml': '.github/workflows/shared-guides-update.yml',
+    'scripts/docs-workflow/shared-guides-update/**': 'scripts/docs-workflow/shared-guides-update/index.js',
+    'packages/docs-tooling/src/lark/sharedPageFetch*': 'packages/docs-tooling/src/lark/sharedPageFetch.js',
+    'packages/docs-tooling/src/lark/sharedPageRenderIdentity*': 'packages/docs-tooling/src/lark/sharedPageRenderIdentity.js',
+    'scripts/docs-workflow/guides-shared-sources*': 'scripts/docs-workflow/guides-shared-sources.js',
+    'scripts/docs-workflow/replay-shared-pages*': 'scripts/docs-workflow/replay-shared-pages.js',
+  };
+  for (const [pattern, file] of Object.entries(representatives)) {
+    assert.ok(
+      gate.include.includes(pattern),
+      `include family disappeared from sharedDocsGate: ${pattern}`,
+    );
+    assert.deepEqual(evaluateChangedPaths([file], filters), {
+      checks: ['build:en', 'build:zh-CN', 'shared-docs:tests'],
+      matchedRules: ['sharedDocsGate'],
+      unclassifiedPaths: [],
+    }, file);
+  }
+  // The gate is fail-open (absent from FAIL_CLOSED_CHECKS): unclassified paths
+  // keep the dual-build fail-closed behavior but do not trigger the heavy suite.
+  assert.ok(!evaluateChangedPaths(['README.md'], filters).checks.includes('shared-docs:tests'));
 });

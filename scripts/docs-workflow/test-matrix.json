@@ -885,6 +885,29 @@
       "reason": "Workflow changes require policy and structural contract checks; also run actionlint on each changed workflow."
     },
     {
+      "id": "path-filters-contract",
+      "paths": [
+        "deploy/contracts/README.md",
+        "deploy/contracts/evaluate-path-filters.mjs",
+        "deploy/contracts/evaluate-path-filters.test.mjs",
+        "deploy/contracts/path-filters.json",
+        "deploy/contracts/site-validation-workflow.test.mjs",
+        "deploy/contracts/verify-image.mjs",
+        "deploy/contracts/verify-image.test.mjs"
+      ],
+      "focusedTests": [
+        "node --test deploy/contracts/evaluate-path-filters.test.mjs deploy/contracts/verify-image.test.mjs deploy/contracts/site-validation-workflow.test.mjs"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm check:reference-presentation",
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "The versioned path-filter contract is consumed by site-validation classify, publish-sites auto site selection, and check:reference-presentation; its matcher, check allowlist, GitHub output booleans and the workflow structural pins must move together with any rule change."
+    },
+    {
       "id": "master-dev-sync-and-ownership",
       "paths": [
         "deploy/contracts/master-tooling-sync.json",
@@ -1432,10 +1455,7 @@
       "id": "grouped-vitest-harness",
       "paths": [
         "package.json",
-        "scripts/testing/run-vitest-groups.mjs",
-        "scripts/testing/vitest-stop-reporter.mjs",
-        "scripts/testing/run-vitest-groups.test.mjs",
-        "scripts/testing/expected-platform-skips.json"
+        "scripts/testing/**"
       ],
       "focusedTests": [
         "pnpm test:vitest-groups",
@@ -1447,7 +1467,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "The grouped supervisor must retain the full discovered selection, ordinary parallel light coverage and isolated complete real-Git suites; protocol, owned process failure stop and aggregate accounting are part of the gate."
+      "reason": "The grouped supervisor must retain the full discovered selection, ordinary parallel light coverage and isolated complete real-Git suites; protocol, owned process failure stop and aggregate accounting are part of the gate. CI runs this gate as two path-gated parallel site-validation jobs (--phases light and --phases transactions,local-runner,update-prepare), so phase-subset selection and verdict v3 selectedPhases accounting are contract surfaces too."
     },
     {
       "id": "frontend-test-harness",
