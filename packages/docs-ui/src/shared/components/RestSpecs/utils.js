@@ -288,3 +288,16 @@ export const isRenderableExample = (value) => {
     if (typeof value === 'object') return false
     return Boolean(value)
 }
+
+// Parameter-level release-channel staging (CUSTOM_ATTRIBUTES.md §1.12).
+// "include" ships only on NEXT deployments, "exclude" retires in NEXT —
+// the same channel vocabulary and fail-closed posture as the page-level
+// `channel` frontmatter (releaseChannel.ts: a deployment whose runtime
+// channel is unknown resolves to CURRENT, so unreleased parameters stay
+// hidden). Unmarked nodes stay visible everywhere.
+export const isVisibleInChannel = (node, channel) => {
+    const staged = node?.['x-next-channel']
+    if (staged === 'include') return channel === 'next'
+    if (staged === 'exclude') return channel !== 'next'
+    return true
+}
