@@ -4,6 +4,8 @@ import path from 'node:path';
 import test from 'node:test';
 import yaml from 'js-yaml';
 
+import {ISOLATED_SHARED_PHASE_NAMES} from '../../scripts/testing/run-vitest-groups.mjs';
+
 const repositoryRoot = path.resolve(import.meta.dirname, '../..');
 
 function jobBlock(workflow, jobName) {
@@ -57,6 +59,7 @@ test('site validation selects checks from the versioned path-filter contract', a
   assert.match(workflow, /build_zh_cn: \$\{\{ steps\.manual\.outputs\.build_zh_cn \|\| steps\.filters\.outputs\.build_zh_cn \}\}/);
   assert.match(workflow, /reference_coverage: \$\{\{ steps\.manual\.outputs\.reference_coverage \|\| steps\.filters\.outputs\.reference_coverage \}\}/);
   assert.match(workflow, /tools_coverage: \$\{\{ steps\.manual\.outputs\.tools_coverage \|\| steps\.filters\.outputs\.tools_coverage \}\}/);
+  assert.match(workflow, /shared_docs_tests: \$\{\{ steps\.manual\.outputs\.shared_docs_tests \|\| steps\.filters\.outputs\.shared_docs_tests \}\}/);
 });
 
 test('site validation never triggers pull_request runs for dev sync-bot PRs', async () => {
@@ -104,6 +107,9 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   for (const check of ['check:localization-input-inventory', 'check:lark-config', 'check:reference-presentation', 'check:reconciliation-policy']) {
     assert.match(jobBlock(workflow, 'tooling_checks'), new RegExp(`run: pnpm ${check}`));
   }
+  // The grouped shared-docs gate moved to its own path-gated parallel jobs;
+  // the tooling job must not silently re-absorb it.
+  assert.doesNotMatch(jobBlock(workflow, 'tooling_checks'), /test:shared-docs|run-vitest-groups/);
   assert.match(workflow, /^  ownership_gate:$/m);
   assert.match(jobBlock(workflow, 'ownership_gate'), /if: needs\.classify\.outputs\.skip_content == 'true'/);
   assert.match(jobBlock(workflow, 'ownership_gate'), /scripts\/docs-workflow\/ownership-gate\.js/);
@@ -117,6 +123,59 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(jobBlock(workflow, 'site_validation'), /TOOLS_RESULT: \$\{\{ needs\.tools_coverage\.result \}\}/);
   assert.match(workflow, /if: \$\{\{ always\(\) \}\}/);
   assert.doesNotMatch(workflow, /secrets\.|contents: write|git push/);
+});
+
+test('the grouped shared-docs gate is path-gated and split into two parallel jobs', async () => {
+  const workflow = await readFile(path.join(repositoryRoot, '.github/workflows/site-validation.yml'), 'utf8');
+  // Manual dispatch: only site=all (the master-tooling sync promotion shape)
+  // runs the heavy gate; single-site dispatches stay content-scoped.
+  const manual = jobBlock(workflow, 'classify');
+  assert.match(manual, /en\) printf 'build_en=true\\nbuild_zh_cn=false\\nreference_coverage=false\\ntools_coverage=false\\nshared_docs_tests=false\\n'/);
+  assert.match(manual, /zh-CN\) printf 'build_en=false\\nbuild_zh_cn=true\\nreference_coverage=true\\ntools_coverage=true\\nshared_docs_tests=false\\n'/);
+  assert.match(manual, /all\) printf 'build_en=true\\nbuild_zh_cn=true\\nreference_coverage=true\\ntools_coverage=true\\nshared_docs_tests=true\\n'/);
+  for (const [job, phases, evidence] of [
+    ['shared_docs_light', '--phases light', 'light'],
+    ['shared_docs_isolated', '--phases transactions,local-runner,update-prepare', 'isolated'],
+  ]) {
+    const block = jobBlock(workflow, job);
+    assert.match(workflow, new RegExp(`^  ${job}:$`, 'm'));
+    assert.match(block, /if: needs\.classify\.outputs\.shared_docs_tests == 'true'/);
+    assert.match(block, /node scripts\/testing\/run-vitest-groups\.mjs --scope shared-docs --phases .+/);
+    assert.match(block, new RegExp(`--phases ${phases.replace('--phases ', '').replace(/,/g, ',')}`));
+    assert.match(block, /node-version: '22'/);
+    // The policy validator forbids job-level runner.temp env; the evidence parent
+    // must stay a step-level env and the failure artifact name must be per-job.
+    assert.match(block, new RegExp(`ZDOC_TEST_TMP_PARENT: \\$\\{\\{ runner\\.temp \\}\}/zdoc-vitest-${evidence}`));
+    assert.match(block, new RegExp(`name: shared-docs-gate-evidence-${evidence}-`));
+    assert.match(block, /if: failure\(\)/);
+    assert.doesNotMatch(block, /pnpm test:shared-docs/);
+  }
+  // Both jobs feed the aggregate gate, and skipped (path-not-selected) is accepted.
+  const aggregate = jobBlock(workflow, 'site_validation');
+  assert.match(aggregate, /^      - shared_docs_light$/m);
+  assert.match(aggregate, /^      - shared_docs_isolated$/m);
+  assert.match(aggregate, /SHARED_DOCS_LIGHT_RESULT: \$\{\{ needs\.shared_docs_light\.result \}\}/);
+  assert.match(aggregate, /SHARED_DOCS_ISOLATED_RESULT: \$\{\{ needs\.shared_docs_isolated\.result \}\}/);
+  assert.match(aggregate, /for result in "\$OWNERSHIP_RESULT" "\$PRESERVED_RESULT" "\$EN_RESULT" "\$ZH_CN_RESULT" "\$REFERENCE_RESULT" "\$TOOLS_RESULT" "\$SHARED_DOCS_LIGHT_RESULT" "\$SHARED_DOCS_ISOLATED_RESULT"; do/);
+  // Retirement stays a hard success-only dependency; the new jobs must not
+  // appear in the strict success list.
+  assert.doesNotMatch(aggregate, /test "\$SHARED_DOCS_LIGHT_RESULT" = success/);
+});
+
+test('the split shared-docs jobs cover the complete supervisor partition', async () => {
+  const workflow = await readFile(path.join(repositoryRoot, '.github/workflows/site-validation.yml'), 'utf8');
+  // The CI coverage surface is the union of the two jobs' hardcoded --phases
+  // lists. When the supervisor gains an isolated phase, that phase silently
+  // leaves the light partition and neither job would run it — both verdicts
+  // stay valid because unaccountedFiles is computed over the selection. This
+  // contract pins the union to the complete shared-docs partition so adding a
+  // phase forces the workflow (or an explicit contract update) in one change.
+  const requested = [...workflow.matchAll(/--phases ([\w,-]+)/g)]
+    .flatMap(match => match[1].split(','))
+    .sort();
+  const complete = ['light', ...ISOLATED_SHARED_PHASE_NAMES].sort();
+  assert.deepEqual(requested, complete,
+    'shared_docs_light + shared_docs_isolated must cover every shared-docs phase');
 });
 
 test('manual site publication selects locale builds and deploys only validated artifacts', async () => {
@@ -135,7 +194,7 @@ test('manual site publication selects locale builds and deploys only validated a
   assert.match(validation, /source_ref:[\s\S]*default: dev/);
   assert.match(validation, /group: site-validation-\$\{\{ github\.event\.pull_request\.number \|\| format\('\{0\}-\{1\}', github\.ref, inputs\.site \|\| 'auto'\) \}\}/);
   assert.match(validation, /source_sha: \$\{\{ steps\.source\.outputs\.source_sha \}\}/);
-  for (const job of ['build_en', 'build_zh_cn', 'reference_coverage', 'retirement']) {
+  for (const job of ['build_en', 'build_zh_cn', 'reference_coverage', 'retirement', 'shared_docs_light', 'shared_docs_isolated']) {
     assert.match(jobBlock(validation, job), /ref: \$\{\{ needs\.classify\.outputs\.source_sha \}\}/);
   }
   assert.doesNotMatch(jobBlock(validation, 'tools_coverage'), /actions\/checkout|ref: \$\{\{ needs\.classify\.outputs\.source_sha \}\}/);

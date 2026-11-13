@@ -42,6 +42,15 @@ test('gate options preserve report requests and reject every narrowing/unsupport
     assert.throws(()=>parseOptions(['--scope=all',option]))
   assert.throws(()=>parseOptions(['--scope=all','--scope=all']))
 })
+test('phase selection accepts distinct known names and rejects unknown, duplicate or empty entries',()=>{
+  assert.deepEqual(parseOptions(['--scope=shared-docs','--phases','light']).phases,['light'])
+  assert.deepEqual(parseOptions(['--scope=shared-docs','--phases=transactions,local-runner,update-prepare']).phases,
+    ['transactions','local-runner','update-prepare'])
+  assert.deepEqual(parseOptions(['--scope=all','--phases','reference-integration']).phases,['reference-integration'])
+  assert.equal(parseOptions(['--scope=shared-docs']).phases,null)
+  for(const value of ['invented','light,,update-prepare','light,light','light, light ,light']) assert.throws(()=>parseOptions(['--scope=shared-docs','--phases',value]),/phase/)
+  assert.throws(()=>parseOptions(['--scope=shared-docs','--phases','light','--phases','update-prepare']))
+})
 test('temporary parent policy is explicit and rejects aliases/metadata/unsupported platforms',()=>{
   assert.equal(tempParentPath('darwin','/Users/example'),'/Users/example/.cache/zdoc-vitest')
   assert.equal(tempParentPath('linux','/home/example'),'/home/example/.cache/zdoc-vitest')
@@ -523,7 +532,7 @@ async function terminalFixture(scope='shared-docs') {
     await writeFile(join(directory,'raw.json'),JSON.stringify(raw));await writeFile(join(directory,'receipt.json'),JSON.stringify(receipt))
     phases.push({name,files,success:true,exitCode:0,settled:true,error:null,reason:null})
   }
-  const aggregate={success:true,scope,runId:root,checkout,evidenceRoot:root,phases,discoveredFiles:phases.flatMap(p=>p.files),unrunFiles:[],unaccountedFiles:[],rawCountsComplete:true}
+  const aggregate={success:true,scope,runId:root,checkout,evidenceRoot:root,phases,selectedPhases:phases.map(p=>p.name),discoveredFiles:phases.flatMap(p=>p.files),unrunFiles:[],unaccountedFiles:[],rawCountsComplete:true}
   return {root,aggregate,paths:[join(root,'aggregate.json'),join(root,'requested.json')]}
 }
 for(const scope of ['all','shared-docs']) {
@@ -531,8 +540,9 @@ for(const scope of ['all','shared-docs']) {
     const f=await terminalFixture(scope),prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
     assert.equal((await settleGateVerdict(prepared)).success,true)
     const qualified=await readGateReport(f.paths[0])
-    assert.equal(qualified.success,true);assert.equal(qualified.terminal.version,2)
+    assert.equal(qualified.success,true);assert.equal(qualified.terminal.version,3)
     assert.equal(qualified.terminal.scope,scope)
+    assert.deepEqual(qualified.terminal.selectedPhases,scope==='all'?['light','reference-integration','transactions','local-runner','update-prepare']:['light','transactions','local-runner','update-prepare'])
     assert.deepEqual(qualified.terminal.phases.map(p=>p.name),scope==='all'?['light','reference-integration','transactions','local-runner','update-prepare']:['light','transactions','local-runner','update-prepare'])
     await writeFile(join(f.root,'discovery.json'),'[]')
     assert.equal((await readGateReport(f.paths[0])).success,false,'discovery bytes are bound')
@@ -565,6 +575,38 @@ for(const scope of ['all','shared-docs']) {
     }
   })
 }
+test('phase subsets qualify against the partition intersection and reject selection drift',async()=>{
+  for(const scope of ['all','shared-docs']) {
+    const selectedNames=scope==='all'?['light','local-runner']:['light','update-prepare']
+    // A passing subset keeps the complete discovered manifest: unselected files
+    // have no raw reports yet must not count as unaccounted, and discoveredFiles
+    // stays pinned to the full partition while phases cover only the selection.
+    const f=await terminalFixture(scope),checkout=f.aggregate.checkout
+    const partition=partitionFiles(JSON.parse(await readFile(join(f.root,'discovery.json'),'utf8')),checkout,scope)
+    // Select from the fixture's aggregate phases (they carry the success flags),
+    // not from the re-derived partition whose phase records only name/files/heavy.
+    const selected=f.aggregate.phases.filter(p=>selectedNames.includes(p.name))
+    const subset={...f.aggregate,phases:selected.map(p=>({...p})),selectedPhases:selectedNames}
+    const prepared=await withGateDeadline(b=>prepareGateReports(subset,f.paths,b),{evidenceRoot:f.root})
+    assert.equal((await settleGateVerdict(prepared)).success,true)
+    const qualified=await readGateReport(f.paths[0])
+    assert.equal(qualified.success,true)
+    assert.deepEqual(qualified.terminal.selectedPhases,selectedNames)
+    assert.deepEqual(qualified.terminal.phases.map(p=>p.name),selectedNames)
+    assert.deepEqual(qualified.report.discoveredFiles.length,partition.files.length)
+    for(const fault of ['unknown selected phase','selected phases mismatch','full phases with subset selection','duplicate selection','empty selection']) {
+      const g=await terminalFixture(scope),a=g.aggregate
+      if(fault==='unknown selected phase')a.selectedPhases=[...selectedNames,'invented']
+      if(fault==='selected phases mismatch')a.selectedPhases=['light']
+      if(fault==='full phases with subset selection')a.selectedPhases=selectedNames
+      if(fault==='duplicate selection')a.selectedPhases=[...selectedNames,...selectedNames]
+      if(fault==='empty selection')a.selectedPhases=[]
+      await assert.rejects(withGateDeadline(b=>prepareGateReports(a,g.paths,b),{evidenceRoot:g.root}),
+        /Unknown selected phase|Incomplete successful phase manifest|Invalid phase selection manifest/,fault)
+      assert.equal((await readGateReport(g.paths[0])).success,false,fault)
+    }
+  }
+})
 test('actual report reader qualifies only a bound committed terminal; provisional copies never pass',async()=>{
   const f=await terminalFixture()
   const prepared=await withGateDeadline(b=>prepareGateReports(f.aggregate,f.paths,b),{evidenceRoot:f.root})
