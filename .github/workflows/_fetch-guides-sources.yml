@@ -275,7 +275,7 @@ jobs:
             --upstream-status "$RUNNER_TEMP/guides-shared-upstream.json" \
             --source-dir "$source_dir" --root-token "$root_token" \
             --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
-            --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+            --plan packages/docs-tooling/src/lark/meta/reports/guides-${{ inputs.site }}-incremental-fetch-plan.json \
             --out tmp/docs-tooling/en/shared-pages/guides \
             --scratch "$RUNNER_TEMP/guides-shared-images" --run-id "${{ github.run_id }}" \
             --image-timeout "${{ inputs.shared_image_timeout }}"
@@ -325,7 +325,7 @@ jobs:
             args+=(
               --mode incremental
               --cache-state valid
-              --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json
+              --plan packages/docs-tooling/src/lark/meta/reports/guides-${{ inputs.site }}-incremental-fetch-plan.json
               --previous-manifest "$media_manifest_path"
             )
           else
@@ -399,7 +399,7 @@ jobs:
             --repository-root "$GITHUB_WORKSPACE" \
             --baseline-root "$RUNNER_TEMP/baseline" \
             --candidate-snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
-            --incremental-plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+            --incremental-plan packages/docs-tooling/src/lark/meta/reports/guides-${{ inputs.site }}-incremental-fetch-plan.json \
             --baseline-descriptor packages/docs-tooling/src/lark/meta/assembly/guides.json \
             --baseline-saas-sidebar generated/${{ inputs.site }}/sidebars/guides.sidebar.js \
             --baseline-byoc-sidebar generated/${{ inputs.site }}/sidebars/guides-byoc.sidebar.js \
@@ -416,7 +416,7 @@ jobs:
         run: |
           matrix=$(node scripts/docs-workflow/guides-tables.js matrix \
             --site "${{ inputs.site }}" \
-            --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+            --plan packages/docs-tooling/src/lark/meta/reports/guides-${{ inputs.site }}-incremental-fetch-plan.json \
             --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
             --force-full false)
           count=$(node -e 'const value=JSON.parse(process.argv[1]);process.stdout.write(String(value.length))' "$matrix")
@@ -424,7 +424,7 @@ jobs:
             echo '[guides-recovery] Empty cache delta cannot be applied to the exact dev baseline; expanding to full table render'
             matrix=$(node scripts/docs-workflow/guides-tables.js matrix \
               --site "${{ inputs.site }}" \
-              --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+              --plan packages/docs-tooling/src/lark/meta/reports/guides-${{ inputs.site }}-incremental-fetch-plan.json \
               --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
               --force-full "${{ steps.baseline_recovery.outputs.required }}")
             count=$(node -e 'const value=JSON.parse(process.argv[1]);process.stdout.write(String(value.length))' "$matrix")
@@ -441,7 +441,7 @@ jobs:
             --repository-root "$GITHUB_WORKSPACE" \
             --baseline-root "$RUNNER_TEMP/baseline" \
             --candidate-snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
-            --incremental-plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+            --incremental-plan packages/docs-tooling/src/lark/meta/reports/guides-${{ inputs.site }}-incremental-fetch-plan.json \
             --baseline-descriptor packages/docs-tooling/src/lark/meta/assembly/guides.json \
             --baseline-saas-sidebar generated/${{ inputs.site }}/sidebars/guides.sidebar.js \
             --baseline-byoc-sidebar generated/${{ inputs.site }}/sidebars/guides-byoc.sidebar.js \

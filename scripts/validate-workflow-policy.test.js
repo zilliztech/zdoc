@@ -1818,7 +1818,7 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.match(source, /guides-media-prefetch\.js/)
   assert.match(source, /--snapshot packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json/)
   assert.match(source, /--report packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-media-prefetch\.json/)
-  assert.match(source, /if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest "\$media_manifest_path"/)
+  assert.match(source, /if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-\$\{\{ inputs\.site \}\}-incremental-fetch-plan\.json[\s\S]*--previous-manifest "\$media_manifest_path"/)
   assert.match(source, /--previous-manifest "\$media_manifest_path"/)
   assert.match(source, /--bootstrap-docs "content\/\$\{\{ inputs\.site \}\}\/guides,content\/\$\{\{ inputs\.site \}\}\/byoc"/)
   assert.match(source, /media cache unavailable; rebuilding complete canonical media coverage/i)
@@ -1895,7 +1895,7 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.match(sourceDecision, /--repository-root "\$GITHUB_WORKSPACE"/)
   assert.match(sourceDecision, /--baseline-root "\$RUNNER_TEMP\/baseline"/)
   assert.match(sourceDecision, /--candidate-snapshot packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json/)
-  assert.match(sourceDecision, /--incremental-plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-incremental-fetch-plan\.json/)
+  assert.match(sourceDecision, /--incremental-plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-\$\{\{ inputs\.site \}\}-incremental-fetch-plan\.json/)
   assert.match(sourceDecision, /--table-count "\$\{\{ steps\.table_matrix\.outputs\.count \}\}"/)
   assert.match(sourceDecision, /decision-sha[\s\S]*assembly_decision_sha256/)
 

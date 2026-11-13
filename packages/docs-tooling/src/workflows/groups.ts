@@ -78,9 +78,19 @@ const MANUALS = Object.freeze({
 
 const ZH_CN_GUIDES_PUBLICATION_MANIFEST = 'generated/zh-CN/manifests/guides-source-publication.json';
 
+// Site-qualified names are what production writes (the en and zh lanes share the
+// manual name, so unqualified reports overwrote each other). The unqualified
+// paths remain for one transition cycle so the checkpoint deletion semantics
+// retire the stale dev copies; drop them after that cycle lands.
 const GUIDES_CHECKPOINT_PATHS = Object.freeze([
   'generated/en/manifests/shared-pages/guides',
   'packages/docs-tooling/src/lark/meta/assembly/guides.json',
+  'packages/docs-tooling/src/lark/meta/reports/guides-en-canonical-link-audit.json',
+  'packages/docs-tooling/src/lark/meta/reports/guides-en-canonical-link-audit.md',
+  'packages/docs-tooling/src/lark/meta/reports/guides-en-canonical-link-audit.csv',
+  'packages/docs-tooling/src/lark/meta/reports/guides-en-incremental-fetch-plan.json',
+  'packages/docs-tooling/src/lark/meta/reports/guides-en-incremental-fetch-plan.md',
+  'packages/docs-tooling/src/lark/meta/reports/guides-en-broken-content-links.json',
   'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json',
   'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md',
   'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.csv',
