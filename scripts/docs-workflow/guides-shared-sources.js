@@ -182,8 +182,20 @@ async function generateSharedSources(options, dependencies = {}) {
   // never weaken the guarantees the build path authenticates.
   const rowsEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
   let baselinePublication = null
+  const upstreamLagMemo = new Map()
   const stripIdentity = row => {const copy = structuredClone(row); delete copy.shared_page; delete copy.output_paths; return copy}
   const stripNavIdentity = row => {const copy = structuredClone(row); if (copy.shared_page) copy.shared_page = {group: copy.shared_page.group, page: copy.shared_page.page}; return copy}
+  const upstreamLagCounts = (repo, lock, track) => {
+    const count = version => {
+      const key = `${version}:${lock[version]}:${track}`
+      if (!upstreamLagMemo.has(key)) {
+        try { upstreamLagMemo.set(key, Number(fetch.git(repo, ['rev-list', '--count', `${lock[version]}..origin/${track}`]).toString().trim()) || 0) }
+        catch { upstreamLagMemo.set(key, null) }
+      }
+      return upstreamLagMemo.get(key)
+    }
+    return {current: count('current'), next: count('next')}
+  }
   const planReuse = (record, input, page, targets, activeEntry, previousReceipt, previousSnapshot) => {
     if (!activeEntry || !previousReceipt || !previousSnapshot) return null
     const previous = previousSnapshot.records?.find(row => row.record_id === record.record_id)
@@ -239,6 +251,10 @@ async function generateSharedSources(options, dependencies = {}) {
       if ('errors' in parsedLock) throw new Error(JSON.stringify(parsedLock.errors))
       const lock = parsedLock.lock
       const upstream = Object.fromEntries(['current', 'next'].map(version => [version, lockedInventory(repo, lock[version])]))
+      // Observability only: how far each pin trails its upstream tracking branch.
+      // Never gates the lane and never triggers a re-pin (that is the repin bot's
+      // separate change entry).
+      const upstreamLag = upstreamLagCounts(repo, lock, source.config.track)
       const targets = fetch.planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, navigation: data.navigation, previousSnapshot: data.previous_snapshot})
       const active = readActiveState(baselineRoot)?.pages.find(entry => entry.record === record.record_id && entry.page === page)
       let previousReceipt = null
@@ -261,7 +277,7 @@ async function generateSharedSources(options, dependencies = {}) {
         write(out, reuse.receipt.file, reuse.receiptBytes)
         console.info(`[shared-reuse] ${JSON.stringify({record_id: record.record_id, page, outputs: reuse.outputs.length})}`)
         outcomes.push({record_id: record.record_id, page, status: 'reused', identity: input.identity,
-          outputs: reuse.outputs, receipt: reuse.receipt, regeneration: reuse.proof, targets,
+          outputs: reuse.outputs, receipt: reuse.receipt, regeneration: reuse.proof, targets, upstream_lag: upstreamLag,
           input_context: {...input.evidence, upstream}})
         continue
       }
@@ -359,7 +375,7 @@ async function generateSharedSources(options, dependencies = {}) {
         imageNotices.set(JSON.stringify(row), row)
       }
       outcomes.push({record_id: record.record_id, page, status: 'success', identity, outputs: files, images,
-        receipt: `pages/${page}/receipt-draft.json`, regeneration: proof, activation, targets, image_base_url: imageBaseUrl, input_context: {...input.evidence, upstream}})
+        receipt: `pages/${page}/receipt-draft.json`, regeneration: proof, activation, targets, image_base_url: imageBaseUrl, upstream_lag: upstreamLag, input_context: {...input.evidence, upstream}})
     } catch (error) {
       if (error.hardStop) throw error
       const baseline = baselineFallback(data, record.record_id, baselineRoot, out)

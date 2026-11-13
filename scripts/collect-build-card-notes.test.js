@@ -843,3 +843,23 @@ test('shared publication summary retains failures and notices alongside informat
     assert.match(note, /Information: Historical aliases could not be recovered from the shallow Fetch checkout\./);
   });
 });
+
+test('shared publication summary ranks upstream pin lag and hides fully caught-up pages', () => {
+  withTempCwd(() => {
+    const directory = 'tmp/shared-report'; fs.mkdirSync(directory, {recursive: true});
+    fs.writeFileSync(path.join(directory, 'guides-shared-publication.json'), JSON.stringify({schema_version: 1, failures: [], notices: [],
+      upstream_lag: {
+        caught_up: {page: 'caught-up', current: 0, next: 0},
+        ahead_next: {page: 'ahead-next', current: 0, next: 3},
+        stale_both: {page: 'stale-both', current: 5, next: 2},
+      }}));
+
+    const note = require('./collect-build-card-notes').sharedPublicationNote({directory});
+
+    assert.match(note, /Upstream pins lag/);
+    assert.match(note, /Pages behind upstream: 2/);
+    assert.match(note, /Max lag: current=5 next=3/);
+    assert.match(note, /stale-both: current=5 next=2/);
+    assert.doesNotMatch(note, /caught-up/);
+  });
+});
