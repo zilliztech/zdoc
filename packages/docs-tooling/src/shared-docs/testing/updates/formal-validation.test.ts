@@ -234,4 +234,23 @@ describe('production shared-update-unit validation', () => {
     const f = productionFormal()
     expect(() => formalValidation({ ...f, op: 'receipt', receipt: { ...f.receipt, repositoryId: 100 } }, prod)).toThrow('REPOSITORY_BINDING')
   })
+
+  it('rejects a production repository ID declared only in request fields when the trusted context is absent', () => {
+    // A private-format plan whose receipt/expected/policy all declare the production repository ID,
+    // supplied with no trusted context (the CLI case where GITHUB_REPOSITORY_ID is unset). Request
+    // fields cannot grant production identity, so all three operations must reject.
+    const f = productionFormal()
+    const privatePlanObj = { scope: 'private-single-page-projection', pins: f.pins }
+    const privateOutput = canonicalBytes({ pins: f.pins })
+    const receipt = { ...f.receipt, repositoryId: 660446555, planSha256: digest('plan', privatePlanObj), outputDigest: sha256(privateOutput) }
+    const receiptBase64 = b64(canonicalBytes(receipt))
+    const expected = { ...f.expected, repositoryId: 660446555 }
+    const policy = { ...f.policy, repositoryId: 660446555 }
+    expect(() => formalValidation({ op: 'receipt', planBase64: b64(canonicalBytes(privatePlanObj)),
+      outputBase64: b64(privateOutput), receipt, observed: f.observed })).toThrow('REPOSITORY_BINDING')
+    expect(() => formalValidation({ op: 'prepublish', expected, planBase64: b64(canonicalBytes(privatePlanObj)),
+      outputBase64: b64(privateOutput), receiptBase64, observed: f.observed, facts: f.facts, policy })).toThrow('REPOSITORY_BINDING')
+    expect(() => formalValidation({ op: 'accept', expected, planBase64: b64(canonicalBytes(privatePlanObj)),
+      outputBase64: b64(privateOutput), receiptBase64, observed: f.observed, facts: f.facts, policy })).toThrow('REPOSITORY_BINDING')
+  })
 })

@@ -43,6 +43,17 @@ const reportMembers = z.array(z.strictObject({ name: z.string().min(1).max(REMOT
 const reportRef = z.strictObject({ path: z.string(), sha256: z.string(), bytes: z.number() })
 const unitSourcePins = z.object({ repository: z.string(), track: z.string(), observedTrackHead: GitShaSchema, target: GitShaSchema })
 
+// Bind the trusted repository identity against the declared request identities. Request fields can
+// only reject — they can never grant production identity. Without a trusted context, a receipt /
+// expected / policy that declares the production repository ID is rejected rather than downgraded.
+function bindRepository(repositoryId: number | undefined, declared: number[]): void {
+  if (repositoryId === undefined) {
+    if (declared.includes(productionRepositoryId)) throw new Error('REPOSITORY_BINDING')
+    return
+  }
+  if (declared.some(id => id !== repositoryId)) throw new Error('REPOSITORY_BINDING')
+}
+
 // Production path: a shared-update-unit plan whose reports are authenticated by path/size/SHA-256,
 // validated canonically and cross-checked with validateUnitReports. master/dev/source anchors come
 // from the report's pins; the validator's own output remains an independent digest/pin comparison.
@@ -148,7 +159,7 @@ export function formalValidation(input: unknown, trusted?: unknown) {
       const receipt = ExactValidationReceiptV1Schema.parse(v.receipt)
       if (receipt.conclusion !== 'success' || receipt.tools !== receipt.master ||
           receipt.head !== receipt.seal || receipt.targetCheckHead !== receipt.seal) throw new Error('RECEIPT_BINDING')
-      if (repositoryId !== undefined && receipt.repositoryId !== repositoryId) throw new Error('REPOSITORY_BINDING')
+      bindRepository(repositoryId, [receipt.repositoryId])
       const checked = checkInputs(v.planBase64, v.outputBase64, v.reportsBase64, receipt, v.observed, repositoryId)
       return checked.status === 'hold' ? checked : encoded(receipt)
     }
@@ -158,10 +169,7 @@ export function formalValidation(input: unknown, trusted?: unknown) {
       const receiptBytes = decode(v.receiptBase64, REMOTE_LIMITS.payloadBytes)
       const receipt = ExactValidationReceiptV1Schema.parse(parseStrictJson(receiptBytes))
       const policy = RemotePolicySchema.parse(v.policy)
-      if (repositoryId !== undefined &&
-          (receipt.repositoryId !== repositoryId || expected.repositoryId !== repositoryId || policy.repositoryId !== repositoryId)) {
-        throw new Error('REPOSITORY_BINDING')
-      }
+      bindRepository(repositoryId, [receipt.repositoryId, expected.repositoryId, policy.repositoryId])
       const checked = checkInputs(v.planBase64, v.outputBase64, v.reportsBase64, receipt, v.observed, repositoryId)
       if (checked.status === 'hold') return checked
       if (v.op === 'prepublish') return inspectReservedValidation(expected, v.facts, receiptBytes, v.policy)
