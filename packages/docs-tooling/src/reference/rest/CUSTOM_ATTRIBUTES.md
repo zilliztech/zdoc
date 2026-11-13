@@ -27,6 +27,7 @@ These attributes live inside the OpenAPI JSON files (`meta/openapi/*.json`) and 
 | `x-deprecated-since` | Milvus data-plane operations and public contract elements | Yes | — | First managed minor track in which the element is deprecated; `null` means not deprecated. |
 | `x-next-channel` | Operations, parameters, schema properties | Yes | — | Stages the element for the NEXT release channel; mirrors the `<NextChannel>` authoring tag. Values: `include` \| `exclude`. |
 | `x-zilliz-cluster-types` | Operations, parameters, schema properties | Yes | — | Restricts the element to the listed Zilliz cluster types (CU categories). Absent ⇒ all types. Values below. |
+| `x-zilliz-availability` | parameters, schema properties | Yes | Yes | Zilliz release tier of the element (`GA`, `PUBLIC_PREVIEW`, `PRIVATE_PREVIEW`, `ON_REQUEST`, `NOT_AVAILABLE`). Absent ⇒ GA. `refGen.js` materializes the effective tier (explicit mark, or derived from `x-added-at` ≥ 3.0.x) onto zilliz v2 pages; `RestSpecs` renders the parameter badge. |
 
 *Build-time stripping in `s3Uploader.js` preserves `x-i18n` only when generating the `zh-CN` S3 artifact.
 
@@ -99,7 +100,8 @@ one API:
   `describe` versus `get_progress`), and an alias route stays attached to the
   target whose code registers it.
 - Visibility is `x-include-target`'s job; availability on a target is the job
-  of `x-beta` / `x-zilliz-cluster-types`. Never hide
+  of `x-beta` / `x-zilliz-cluster-types` /
+  `x-zilliz-availability`. Never hide
   a field a target's API actually accepts by marking it for the other target.
 - Lifecycle keys (`x-added-at`/`x-last-modified`/`x-deprecated-since`) and
   their evidence rows are Milvus-track attestations: they belong only on
@@ -491,6 +493,65 @@ types — the UAT3 serverless matrix proved `databases/create` is
 platform-denied on serverless (PrivilegeCreateDatabase, even for the cluster
 admin account), while dedicated clusters create databases normally; BYOC
 shares the dedicated data plane.
+
+### 1.14 `x-zilliz-availability`
+
+Records the Zilliz Cloud **release tier** of a parameter or schema property —
+whether the element works on GA clusters or only on a preview tier. Where
+`x-zilliz-cluster-types` answers "which deployments", this attribute answers
+"which release stage".
+
+```json
+{
+  "fieldName": {
+    "type": "string",
+    "x-zilliz-availability": "PUBLIC_PREVIEW"
+  }
+}
+```
+
+| Value | Meaning |
+|-------|---------|
+| `GA` | Generally available on production clusters. |
+| `PUBLIC_PREVIEW` | Public preview (Milvus 3.0 clusters); not on GA clusters yet. |
+| `PRIVATE_PREVIEW` | Private preview; allow-listed access only. |
+| `ON_REQUEST` | Enabled per-request by Zilliz Cloud support. |
+| `NOT_AVAILABLE` | Documented for completeness; not enabled on Zilliz Cloud. |
+
+Semantics:
+
+- **Absent ⇒ GA** (fail-open), mirroring `x-zilliz-cluster-types`. Only
+  exceptions need explicit marks.
+- **Derivation**: `refGen.js` computes the effective tier at build time — the
+  explicit mark wins; otherwise a node whose lifecycle `x-added-at` is at or
+  after `3.0.x` derives `PUBLIC_PREVIEW`. The lifecycle triple stays the
+  Milvus-track record; the derived tier is a Zilliz deployment-stage reading
+  of it, confirmed by live probing (the 3.0.x data-plane surface is absent
+  from 2.6 GA clusters and present on 3.0 preview clusters).
+- **Materialization**: only zilliz v2 pages receive the tier key, and only
+  when the page-level beta badge (`x-beta` → frontmatter `beta:`) does not
+  already express preview maturity — the page badge covers the whole
+  operation, so per-parameter chips would only repeat it. The milvus target
+  gets neither the tier keys nor the lifecycle evidence (same hygiene gate as
+  `x-beta`). The internal lifecycle keys and the raw availability input marks
+  are stripped from every page payload at the same step — the payload only
+  ever carries the materialized effective tier.
+- **Rendering**: `RestSpecs` renders a small inline badge next to the
+  parameter name for `PUBLIC_PREVIEW` (captions via `RestSpecs/i18n.js`:
+  en "Public Preview", zh-CN "公测版"). Unknown tier values render nothing —
+  new tiers need a caption entry first.
+- **Evidence and governance**: marks land only through reviewed PRs backed by
+  live-matrix evidence from the availability suites
+  (`packages/docs-tooling/src/reference/rest/availability/`), never
+  auto-written — same rule as `x-zilliz-cluster-types`. Any page still
+  carrying the internal lifecycle keys in its `specs` JSON is a generation
+  bug.
+- **Placement scope**: parameters and schema properties — including nested
+  properties, array `items`, `allOf`-merged component properties, and
+  `anyOf`/`oneOf` branch leaves (branch tabs themselves render no badge).
+  Operation-level maturity stays with `x-beta` (§1.3); use the
+  parameter-level attribute only for elements whose tier differs from their
+  operation's.
 
 ---
 
