@@ -175,6 +175,43 @@ async function generateSharedSources(options, dependencies = {}) {
     return oldReads.get(token)
   }
   const selected = data.records.filter(record => data.inputs[record.record_id])
+  // Zero-drift replay: a page whose planning identity equals the published
+  // identity and whose canonical records are unchanged republishes the pinned
+  // baseline receipt and bytes verbatim instead of rebuilding. Every doubt
+  // returns null and the page takes the full build path below, so reuse can
+  // never weaken the guarantees the build path authenticates.
+  const rowsEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b)
+  let baselinePublication = null
+  const stripIdentity = row => {const copy = structuredClone(row); delete copy.shared_page; delete copy.output_paths; return copy}
+  const stripNavIdentity = row => {const copy = structuredClone(row); if (copy.shared_page) copy.shared_page = {group: copy.shared_page.group, page: copy.shared_page.page}; return copy}
+  const planReuse = (record, input, page, targets, activeEntry, previousReceipt, previousSnapshot) => {
+    if (!activeEntry || !previousReceipt || !previousSnapshot) return null
+    const previous = previousSnapshot.records?.find(row => row.record_id === record.record_id)
+    const candidateRecord = candidate.records.find(row => row.record_id === record.record_id)
+    const candidateNav = candidate.navigation_records?.find(row => row.record_id === record.record_id)
+    const previousNav = previousSnapshot.navigation_records?.find(row => row.record_id === record.record_id)
+    if (!previous || !candidateRecord || !candidateNav || !previousNav) return null
+    if (!rowsEqual(input.identity, previous.shared_page)) return null
+    if (!rowsEqual(stripIdentity(candidateRecord), stripIdentity(previous))) return null
+    if (!rowsEqual(stripNavIdentity(candidateNav), stripNavIdentity(previousNav))) return null
+    if (!Array.isArray(previousReceipt.inputs.fetch.render_targets?.targets)) return null
+    if (!data.dev_files.some(row => row.path === fetch.publicationPath)) return null
+    // One memoized read of the pinned authority: it embeds the entire previous
+    // snapshot, so per-page re-parses would dominate the replay round.
+    if (!baselinePublication) {
+      baselinePublication = JSON.parse(fetch.regularBytes(baselineRoot, fetch.publicationPath))
+    }
+    const proof = baselinePublication.regeneration?.[record.record_id] || null
+    if (!proof) return null
+    const outputs = []
+    for (const output of previousReceipt.outputs) {
+      const bytes = fetch.regularBytes(baselineRoot, output.path)
+      if (fetch.digest(bytes) !== output.sha256) return null
+      outputs.push({manual: output.manual, path: output.path, file: `reused/${record.record_id}/${output.path}`, sha256: output.sha256})
+    }
+    const receiptBytes = fetch.regularBytes(baselineRoot, previous.shared_page.record)
+    return {outputs, receiptBytes, receipt: {path: previous.shared_page.record, file: `reused/${record.record_id}/receipt.json`, sha256: fetch.digest(receiptBytes)}, proof}
+  }
   const scratchRoot = path.resolve(scratch)
   fs.mkdirSync(scratchRoot, {recursive: true})
   for (const record of selected) {
@@ -205,8 +242,9 @@ async function generateSharedSources(options, dependencies = {}) {
       const targets = fetch.planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, navigation: data.navigation, previousSnapshot: data.previous_snapshot})
       const active = readActiveState(baselineRoot)?.pages.find(entry => entry.record === record.record_id && entry.page === page)
       let previousReceipt = null
+      let previousSnapshot = null
       if (active) {
-        const previousSnapshot = JSON.parse(fetch.regularBytes(baselineRoot, fetch.snapshotPath))
+        previousSnapshot = JSON.parse(fetch.regularBytes(baselineRoot, fetch.snapshotPath))
         const previous = previousSnapshot.records?.find(row => row.record_id === active.record && row.shared_page?.page === page)
         if (!previous) throw new Error('Active shared page has no corresponding baseline snapshot record')
         previousReceipt = readSharedReceipt(baselineRoot, previous.shared_page)
@@ -216,6 +254,16 @@ async function generateSharedSources(options, dependencies = {}) {
         if (JSON.stringify(previousManuals) !== JSON.stringify(targets.map(target => target.manual).sort())) {
           throw Object.assign(new Error('Changing an active shared page target set requires an explicit migration'), {code: 'OWNERSHIP_PATH_MISMATCH'})
         }
+      }
+      const reuse = planReuse(record, input, page, targets, active, previousReceipt, previousSnapshot)
+      if (reuse) {
+        for (const output of reuse.outputs) write(out, output.file, fetch.regularBytes(baselineRoot, output.path))
+        write(out, reuse.receipt.file, reuse.receiptBytes)
+        console.info(`[shared-reuse] ${JSON.stringify({record_id: record.record_id, page, outputs: reuse.outputs.length})}`)
+        outcomes.push({record_id: record.record_id, page, status: 'reused', identity: input.identity,
+          outputs: reuse.outputs, receipt: reuse.receipt, regeneration: reuse.proof, targets,
+          input_context: {...input.evidence, upstream}})
+        continue
       }
       const recordedImages = new Map((previousReceipt?.inputs.images || []).map(image => [image.source, image.sha256]))
       const acceptedFetcher = new HttpImageFetcher(Math.ceil((options.imageTimeout ?? 120) * 1000))
@@ -337,14 +385,18 @@ async function generateSharedSources(options, dependencies = {}) {
   const previousSnapshotFile = data.previous_snapshot ? 'baseline/snapshot.json' : null
   if (previousSnapshotFile) write(out, previousSnapshotFile, fetch.regularBytes(baselineRoot, fetch.snapshotPath))
   // Publication authority is run-global evidence, shared by every fallback page.
-  if (outcomes.some(row => row.status === 'fallback') && data.dev_files.some(row => row.path === fetch.publicationPath)) {
+  // A pure replay round carries it too: republishing the pinned authority bytes
+  // verbatim is what lets the publication converge instead of rebinding the
+  // authority to each tip it just created.
+  if ((outcomes.some(row => row.status === 'fallback') || (outcomes.length && outcomes.every(row => row.status === 'reused')))
+    && data.dev_files.some(row => row.path === fetch.publicationPath)) {
     write(out, 'baseline/publication.json', fetch.regularBytes(baselineRoot, fetch.publicationPath))
   }
   const bundle = {preparation: structuredClone(data), previous_snapshot_file: previousSnapshotFile, baseline_active_file: baselineActiveFile, schema_version: 1, master_commit: data.master_commit, dev_commit: data.dev_commit, navigation: data.navigation,
     baseline_active: data.active, effective_active: effectiveActive, outcomes, referring_tables: [...referringTables].sort()}
   // Refresh the observed source projection before the artifact step freezes it.
   // Effective-success snapshot promotion and cache policy remain the later handoff stage.
-  for (const outcome of outcomes) if (outcome.status === 'success') {
+  for (const outcome of outcomes) if (outcome.status === 'success' || outcome.status === 'reused') {
     context.sharedInputsByRecordId.set(outcome.record_id, outcome.identity)
     bundle.preparation.inputs[outcome.record_id].identity = outcome.identity
     const observed = candidate.records.find(record => record.record_id === outcome.record_id)
