@@ -61,6 +61,61 @@ async function main() {
   zilliz.make_groups()
   await assert.rejects(zilliz.write_refs(), /REST_PAGE_ROUTE_CONFLICT: \/restful\/list/)
 
+  // The after-endpoint description marker is fail-closed: allowed exactly once
+  // per operation description (or one of its x-i18n description twins) with
+  // content after it, and rejected everywhere else — the runtime only honors
+  // it there, and any other use would ride along as invisible HTML. The
+  // constant is duplicated across the tooling/runtime boundary, so both
+  // copies must stay identical too.
+  const marker = '<!-- zdoc:after-endpoint -->'
+  const refGenSource = fs.readFileSync(path.join(__dirname, 'refGen.js'), 'utf8')
+  const utilsSource = fs.readFileSync(path.join(__dirname, '../../../../docs-ui/src/shared/components/RestSpecs/utils.js'), 'utf8')
+  for (const source of [refGenSource, utilsSource]) {
+    assert.ok(source.includes(`const AFTER_ENDPOINT_MARKER = '${marker}'`), 'both marker constant copies must stay identical')
+  }
+
+  const buildSpecWithMarker = (mutate) => {
+    const spec = buildSpecifications()
+    mutate(spec)
+    return new RefGen({ specifications: spec, lang: 'en-US', target: 'zilliz', target_path: zillizTarget })
+  }
+
+  buildSpecWithMarker(spec => {
+    spec.paths['/v1/vector/collections'].get.description = `Lists collections.\n\n${marker}\n\n<details>\n<summary>Reference</summary>\n\n| a | b |\n|---|---|\n\n</details>`
+    spec.paths['/v2/vectordb/collections/list'].post['x-i18n'] = {
+      'zh-CN': { description: `列出 Collection。\n\n${marker}\n\n<details>\n<summary>参考</summary>\n\n| a | b |\n|---|---|\n\n</details>` },
+    }
+  })
+
+  assert.throws(
+    () => buildSpecWithMarker(spec => {
+      spec.paths['/v1/vector/collections'].get.description = `Lists.\n\n${marker}\n\n| a |\n|---|\n\n${marker}\n\n| b |\n|---|`
+    }),
+    /at most one marker/,
+  )
+  assert.throws(
+    () => buildSpecWithMarker(spec => {
+      spec.paths['/v1/vector/collections'].get.description = `Lists.\n\n${marker}\n\n   \n`
+    }),
+    /no content after the marker/,
+  )
+  assert.throws(
+    () => buildSpecWithMarker(spec => {
+      spec.paths['/v2/vectordb/collections/list'].post.requestBody = {
+        content: { 'application/json': { schema: { type: 'object', properties: { name: { type: 'string', description: `The name.\n\n${marker}\n\n| a |\n|---|` } } } } },
+      }
+    }),
+    /only operation descriptions/,
+  )
+  assert.throws(
+    () => buildSpecWithMarker(spec => {
+      spec.paths['/v2/vectordb/collections/list'].post['x-i18n'] = {
+        'zh-CN': { summary: `列出\n\n${marker}\n\n更多` },
+      }
+    }),
+    /only operation descriptions/,
+  )
+
   // The production CLI must fail closed on the same conflict: the rejection
   // has to surface before the derivation manifest is written (and before the
   // S3 upload that follows it), so a failed run leaves no side effects
