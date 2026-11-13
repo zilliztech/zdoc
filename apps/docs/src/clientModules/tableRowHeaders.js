@@ -301,7 +301,27 @@ function tagTableComplexity() {
   });
 }
 
-function estimateReadableTableWidth(table) {
+/**
+ * Longest rendered line inside a cell: stacked <p> blocks and <br> breaks delimit
+ * where a cell actually wraps. Header cells are priced by this instead of the
+ * concatenated textContent, which double-counted every extra line and inflated
+ * the readable min-width past the viewport for tables that fit.
+ */
+export function longestCellLine(cell) {
+  const normalize = (value) => (value || '').replace(/\s+/g, ' ').trim();
+  const full = normalize(cell.textContent);
+  if (!cell.querySelector('br, p')) return full;
+  const probe = cell.cloneNode(true);
+  probe.querySelectorAll('br').forEach((br) => br.replaceWith(' \n'));
+  probe.querySelectorAll('p').forEach((p) => p.append(' \n'));
+  const lines = probe.textContent.split('\n').map(normalize).filter(Boolean);
+  if (!lines.length) return full;
+  // Compare only against the real lines; `full` stays the fallback for cells
+  // whose line containers collapsed to nothing.
+  return lines.reduce((longest, line) => (line.length > longest.length ? line : longest));
+}
+
+export function estimateReadableTableWidth(table) {
   const cols = getLogicalColumnCount(table);
   if (cols < 2) return 0;
 
@@ -318,10 +338,10 @@ function estimateReadableTableWidth(table) {
     let col = 0;
     Array.from(row.cells || []).forEach((cell) => {
       const span = cell.colSpan || 1;
-      const text = (cell.textContent || '').replace(/\s+/g, ' ').trim();
+      const isHeader = rowIndex === 0 || cell.tagName === 'TH';
+      const text = isHeader ? longestCellLine(cell) : (cell.textContent || '').replace(/\s+/g, ' ').trim();
       const words = text.split(/\s+/).filter(Boolean);
       const longestWord = words.reduce((max, word) => Math.max(max, word.length), 0);
-      const isHeader = rowIndex === 0 || cell.tagName === 'TH';
       const hasCode = !!cell.querySelector('code');
       const hasList = !!cell.querySelector('li');
       if (cols === 2 && text.length >= 110) {

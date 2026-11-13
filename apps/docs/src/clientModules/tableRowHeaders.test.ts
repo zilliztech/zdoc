@@ -1,5 +1,5 @@
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
-import {onRouteDidUpdate} from './tableRowHeaders';
+import {estimateReadableTableWidth, onRouteDidUpdate} from './tableRowHeaders';
 
 /**
  * buildFaqAccordions is a post-mount DOM enhancement, so drive it through
@@ -70,5 +70,66 @@ describe('FAQ accordion CJK locale detection', () => {
     buildAccordions();
     expect(document.querySelector('.zd-faq')).toBeNull();
     expect(document.querySelector('[data-zd-faq-src]')).toBeNull();
+  });
+});
+
+describe('estimateReadableTableWidth header line pricing', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  /**
+   * The structarray cluster-types table shape: a two-row header where Feature
+   * and the Dedicated column span both rows while the On-Demand header spans
+   * its Managed/External sub-columns.
+   */
+  function clusterTypesTable(dedicatedHeader: string): HTMLTableElement {
+    const table = document.createElement('table');
+    table.innerHTML =
+      '<tr>' +
+      '<th rowspan="2"><p>Feature</p></th>' +
+      `<th rowspan="2">${dedicatedHeader}</th>` +
+      '<th colspan="2"><p>On-Demand Cluster</p></th>' +
+      '</tr>' +
+      '<tr><th><p>Managed Collection</p></th><th><p>External Collection</p></th></tr>' +
+      '<tr><td><p>Create a collection with StructArray fields</p></td><td><p>Yes</p></td><td><p>Yes</p></td><td><p>No</p></td></tr>';
+    document.body.appendChild(table);
+    return table;
+  }
+
+  it('prices a stacked two-line header by its longest line, not the concatenation', () => {
+    const stacked = clusterTypesTable(
+      '<p><strong>Dedicated Cluster</strong></p><p><strong>Managed Collection</strong></p>'
+    );
+    const singleLine = clusterTypesTable('<p><strong>Managed Collection</strong></p>');
+    const concatenated = clusterTypesTable(
+      '<p><strong>Dedicated Cluster Managed Collection</strong></p>'
+    );
+    expect(estimateReadableTableWidth(stacked)).toBe(estimateReadableTableWidth(singleLine));
+    expect(estimateReadableTableWidth(stacked)).toBeLessThan(estimateReadableTableWidth(concatenated));
+  });
+
+  it('prices a <br>-split header the same way as stacked paragraphs', () => {
+    const brSplit = clusterTypesTable('<p><strong>Dedicated Cluster</strong><br/><strong>Managed Collection</strong></p>');
+    const singleLine = clusterTypesTable('<p><strong>Managed Collection</strong></p>');
+    expect(estimateReadableTableWidth(brSplit)).toBe(estimateReadableTableWidth(singleLine));
+  });
+
+  it('keeps pricing non-header cells on their full text', () => {
+    const stackedData = clusterTypesTable('<p><strong>Managed Collection</strong></p>');
+    const extra = document.createElement('tr');
+    extra.innerHTML =
+      '<td><p>Element-level search (range, grouping, hybrid,</p><p>and other modes)</p></td>' +
+      '<td><p>Yes</p></td><td><p>Yes</p></td><td><p>No</p></td>';
+    stackedData.querySelector('tbody')!.appendChild(extra);
+
+    const mergedData = clusterTypesTable('<p><strong>Managed Collection</strong></p>');
+    const mergedExtra = document.createElement('tr');
+    mergedExtra.innerHTML =
+      '<td><p>Element-level search (range, grouping, hybrid, and other modes)</p></td>' +
+      '<td><p>Yes</p></td><td><p>Yes</p></td><td><p>No</p></td>';
+    mergedData.querySelector('tbody')!.appendChild(mergedExtra);
+
+    expect(estimateReadableTableWidth(stackedData)).toBe(estimateReadableTableWidth(mergedData));
   });
 });
