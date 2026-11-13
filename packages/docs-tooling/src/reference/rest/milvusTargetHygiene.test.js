@@ -121,10 +121,13 @@ for (const protocolVersion of ['v1', 'v2']) {
   });
 }
 
-// Parameter availability marks (§1.14) and lifecycle evidence are authoring
-// input: the milvus projection must carry neither. The integrated-spec lane
-// strips every x-* key (integratedSpecBuilder stripInternalExtensions), so
-// this gate fires if that stripping is ever relaxed for these keys.
+// Parameter availability marks (§1.14), lifecycle evidence, and release-
+// channel staging (§1.12) are authoring input: the milvus projection must
+// carry none of them. The integrated-spec lane strips every x-* key
+// (integratedSpecBuilder stripInternalExtensions), so this gate fires if
+// that stripping is ever relaxed for these keys — for x-next-channel that
+// matters doubly, because a staged field republished without its mark on
+// milvus.io would render as an ordinary GA field (fail-open).
 function collectInternalAvailabilityKeys(node, pointer, out = []) {
   if (Array.isArray(node)) {
     node.forEach((child, index) => collectInternalAvailabilityKeys(child, `${pointer}[${index}]`, out));
@@ -132,7 +135,7 @@ function collectInternalAvailabilityKeys(node, pointer, out = []) {
   }
   if (node && typeof node === 'object') {
     for (const [key, child] of Object.entries(node)) {
-      if (key === 'x-zilliz-availability' || key === 'x-added-at' || key === 'x-last-modified' || key === 'x-deprecated-since') {
+      if (key === 'x-zilliz-availability' || key === 'x-added-at' || key === 'x-last-modified' || key === 'x-deprecated-since' || key === 'x-next-channel') {
         out.push(`${pointer}.${key}`);
       }
       collectInternalAvailabilityKeys(child, /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(key) ? `${pointer}.${key}` : `${pointer}[${JSON.stringify(key)}]`, out);
