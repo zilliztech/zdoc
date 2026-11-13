@@ -23,3 +23,8 @@ transforms:
       block: struct-model-index-intro
     content:
       file: cloud-struct-model-index-intro.md
+  - operation: replace
+    target:
+      block: struct-model-nesting-paragraph
+    content:
+      file: cloud-struct-model-nesting-paragraph.md

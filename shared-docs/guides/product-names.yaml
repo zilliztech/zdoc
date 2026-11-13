@@ -9,6 +9,16 @@ allow:
   - The Milvus vector database is built for scale
   - 'Milvus 2.0 @ Scale! #AI #Vector_Databasé'
   - "['Milvus', '2', '0', 'Scale', 'AI', 'Vector']"
+  - Adding a sub-field to an existing StructArray field is supported on Dedicated Clusters compatible with Milvus v3.0.x; it is not yet available on On-Demand Clusters.
+  - On Dedicated Clusters compatible with Milvus v3.0.x, you can also drop an individual sub-field by its path, such as `chunks[lang]`, except the last sub-field of the ARRAY&lt;STRUCT&gt; field; this capability is not yet available on On-Demand Clusters.
+  - On Dedicated Clusters compatible with Milvus v3.0.x, element-nullable sub-fields may hold `NULL` in individual Struct elements
+  - This workflow is supported on Dedicated Clusters compatible with Milvus v3.0.x; it is not yet available on On-Demand Clusters.
+  - On Dedicated Clusters compatible with Milvus v3.0.x, you can drop an individual sub-field from a StructArray field with `drop_collection_field()` by passing the sub-field path; this capability is not yet available on On-Demand Clusters.
+  - except element-nullable sub-fields on Dedicated Clusters compatible with Milvus v3.0.x (not yet available on On-Demand Clusters)
+  - Supported on Dedicated Clusters compatible with Milvus v3.0.x; not yet available on On-Demand Clusters.
+  - On Dedicated Clusters compatible with Milvus v3.0.x, you can omit element-nullable subfields
+  - On Dedicated Clusters compatible with Milvus v3.0.x, element-nullable subfields can be omitted or set to `None` in a Struct element
+  - on Dedicated Clusters compatible with Milvus v3.0.x, it can contain scalar array subfields with one nesting level (not yet available on On-Demand Clusters)
   # Preserve the analyzer sample text shared by cnalphanumonly and cncharonly.
   - 'Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。'
   - "['Milvus', '是', 'LF', 'AI', 'Data', 'Foundation', '下', '的', '一个', '开源', '项目', '以', 'Apache', '2.0', '许可', '发布']"

@@ -63,3 +63,38 @@ transforms:
       block: alter-schema-workflow-links
     content:
       file: cloud-workflow-links.md
+  - operation: replace
+    target:
+      block: alter-schema-struct-subfield-availability
+    content:
+      file: cloud-alter-schema-struct-subfield-availability.md
+  - operation: replace
+    target:
+      block: alter-schema-drop-subfield-bullet
+    content:
+      file: cloud-alter-schema-drop-subfield-bullet.md
+  - operation: replace
+    target:
+      block: alter-schema-struct-add-note
+    content:
+      file: cloud-alter-schema-struct-add-note.md
+  - operation: replace
+    target:
+      block: alter-schema-add-subfield-section
+    content:
+      file: cloud-alter-schema-add-subfield-section.md
+  - operation: replace
+    target:
+      block: alter-schema-drop-subfield-section
+    content:
+      file: cloud-alter-schema-drop-subfield-section.md
+  - operation: replace
+    target:
+      block: alter-schema-faq-structarray-null-answer
+    content:
+      file: cloud-alter-schema-faq-structarray-null-answer.md
+  - operation: replace
+    target:
+      block: alter-schema-workflow-struct-link
+    content:
+      file: cloud-alter-schema-workflow-struct-link.md

@@ -48,3 +48,13 @@ transforms:
       block: upsert-array-types
     content:
       file: cloud-upsert-array-types.md
+  - operation: replace
+    target:
+      block: upsert-structarray-note
+    content:
+      file: cloud-upsert-structarray-note.md
+  - operation: replace
+    target:
+      block: upsert-merge-structarray-elementnull
+    content:
+      file: cloud-upsert-merge-structarray-elementnull.md
