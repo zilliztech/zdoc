@@ -388,6 +388,78 @@
     margin-bottom: 0;
 }
 
+/* Collapsible reference panel for after-endpoint description tails (the
+   <!-- zdoc:after-endpoint --> marker, CUSTOM_ATTRIBUTES.md §4.3): the tail
+   arrives as a bare <details><summary>…</summary>…</details> block from the
+   markdown pipeline, and this class turns it into page furniture unified with
+   the RestHeader frame (8px radius, subtle border, off-white tint). Colors
+   come from --zd-* tokens, so dark mode flips without local overrides. */
+.afterEndpoint {
+    /* the intro description above carries its own 1rem marginBottom */
+    margin-top: 1rem;
+}
+
+.afterEndpoint details {
+    border: 1px solid var(--zd-surface-border-subtle);
+    border-radius: 8px;
+    background-color: var(--zd-surface-0);
+    /* keep the summary's hover tint inside the rounded corners */
+    overflow: hidden;
+    /* the 16px inset mirrors the RestHeader padding and is shared by the
+       summary row and the expanded table (.markdown table min-width:100%
+       measures against this padded box, so it fills without overflowing) */
+    padding: 0 16px;
+}
+
+.afterEndpoint details[open] {
+    padding-bottom: 12px;
+}
+
+.afterEndpoint summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* bleed over the details padding so the hover tint spans the full panel */
+    margin: 0 -16px;
+    padding: 12px 16px;
+    cursor: pointer;
+    list-style: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--zd-page-ink);
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.afterEndpoint summary::-webkit-details-marker {
+    display: none;
+}
+
+.afterEndpoint summary:hover {
+    background-color: var(--zd-surface-1);
+}
+
+.afterEndpoint details[open] summary {
+    /* separates the expanded body from the toggle row */
+    border-bottom: 1px solid var(--zd-surface-border-subtle);
+}
+
+/* chevron disclosure: points right when closed, down when open */
+.afterEndpoint summary::before {
+    content: '';
+    flex: none;
+    width: 7px;
+    height: 7px;
+    margin-top: -3px; /* optically center on the text line */
+    border-right: 1.5px solid var(--zd-muted-text);
+    border-bottom: 1.5px solid var(--zd-muted-text);
+    transform: rotate(-45deg);
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.afterEndpoint details[open] summary::before {
+    transform: rotate(45deg);
+}
+
 .specLayout {
     display: grid;
     /* row-gap 0 (NOT 2rem): the section divider already carries its own symmetric

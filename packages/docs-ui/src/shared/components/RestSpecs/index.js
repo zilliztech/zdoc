@@ -802,8 +802,8 @@ export default function RestSpecs(props) {
     }) : []
 
     // The description may carry the after-endpoint marker: the intro stays in
-    // the slot above the method/endpoint header, the tail moves below the
-    // endpoint information block (base URL + notes).
+    // the slot above the method/endpoint header, the tail moves into the
+    // collapsible panel directly below it (see .afterEndpoint styles).
     const { intro, afterEndpoint } = splitAfterEndpoint(getLocalizedDescription(props.specs, lang))
     const short = textFilter(intro, target, lang)
     const afterEndpointHtml = afterEndpoint ? textFilter(afterEndpoint, target, lang) : ''
@@ -863,11 +863,11 @@ export default function RestSpecs(props) {
                                 endpoint={props.endpoint}
                             />
                         </div>
+                        { afterEndpointHtml && <div className={styles.afterEndpoint} dangerouslySetInnerHTML={{__html: afterEndpointHtml}} /> }
                     </div>
                 </div>
                 <div className={styles.specLayout}>
                     <BaseURL endpoint={props.endpoint} lang={lang} target={target} baseUrls={target === 'zilliz' ? baseUrls : null} onBaseUrlChange={setSelectedBaseUrl} />
-                    { afterEndpointHtml && <div className={styles.description} style={{ marginBottom: '1rem' }} dangerouslySetInnerHTML={{__html: afterEndpointHtml}} /> }
                     { (parameters.length > 0 || requestBody) && <>
                         <section>
                             { parameters.length > 0 && <section>
