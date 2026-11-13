@@ -556,9 +556,9 @@
       "translatedAt": "2026-11-09T12:47:48.664Z"
     },
     "content/en/byoc/tutorials/development/schema/json-fields/json-field-overview.md": {
-      "sourceHash": "23785adfef5b5416399b715e629db700a4eb23c6faa34839736ca5e990c092d6",
+      "sourceHash": "dd87b454c6f6be4a558f8679ddfbb2f6851e7a6d8d3c91b64d10542d01f37fe9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-fields/json-field-overview.md",
-      "translatedAt": "2026-11-09T12:47:48.664Z"
+      "translatedAt": "2026-11-13T03:44:44.078Z"
     },
     "content/en/byoc/tutorials/development/schema/json-fields/json-indexing.md": {
       "sourceHash": "3f3b7031fc193768d36070f2a90d1e6ceb2cad9806143483c9d9579d049bd727",
@@ -1956,9 +1956,9 @@
       "translatedAt": "2026-11-09T13:46:13.778Z"
     },
     "content/en/guides/tutorials/development/schema/json-fields/json-field-overview.md": {
-      "sourceHash": "549a1b1d82bb7730c5c57c9b89fa23c8193f2e7a0ccd5c31015e6a008aaff0cf",
+      "sourceHash": "20a3c693ea7791b8cb4271b96fa1744d4697ac1d2b4e8960379097b593d27fef",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-fields/json-field-overview.md",
-      "translatedAt": "2026-11-09T13:46:13.778Z"
+      "translatedAt": "2026-11-13T03:44:44.078Z"
     },
     "content/en/guides/tutorials/development/schema/json-fields/json-indexing.md": {
       "sourceHash": "5582da56dbfd6ae8f5c59f59f5e90bb67352e3d32e9029ed76f71da25c429b80",
