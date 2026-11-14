@@ -35,6 +35,20 @@
       "to": "/reference/go/go/v2-Authentication-GrantRole",
       "note": "GA4 window 7d: sdk-double-segment ladder (2 events / 2 users)",
       "decided_at": "2026-11-10T03:23:26.712Z"
+    },
+    {
+      "from": "/reference/go/v2-Authentication-RevokePrivilegeV2",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Authentication-RevokePrivilegeV2",
+      "note": "GA4 window 7d: sdk-double-segment ladder (1 events / 1 users)",
+      "decided_at": "2026-11-14T03:23:31.533Z"
+    },
+    {
+      "from": "/reference/go/v2-Collection-CreateAlias",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Collection-CreateAlias",
+      "note": "GA4 window 7d: sdk-double-segment ladder (1 events / 1 users)",
+      "decided_at": "2026-11-14T03:23:31.533Z"
     }
   ]
 }
