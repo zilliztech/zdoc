@@ -1852,6 +1852,24 @@
                 "description": "クラスターの組織 ID。"
               }
             }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Use `application/json`.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "使用 `application/json`。"
+              },
+              "ja-JP": {
+                "description": "`application/json` を使用してください。"
+              }
+            }
           }
         ],
         "requestBody": {
@@ -1913,6 +1931,101 @@
                       },
                       "ja-JP": {
                         "description": "Query Cluster の新しい CU 数。8 の正の倍数である必要があります。"
+                      }
+                    }
+                  },
+                  "keepWarm": {
+                    "type": "object",
+                    "description": "Optional keep-warm schedule replacement. Omit to leave the schedule unchanged; an empty schedules list removes it.",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "description": "Whether the keep-warm schedule is enabled.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "是否启用 keep-warm 调度。"
+                          },
+                          "ja-JP": {
+                            "description": "keep-warm スケジュールが有効かどうか。"
+                          }
+                        }
+                      },
+                      "schedules": {
+                        "type": "array",
+                        "description": "Complete replacement set of weekly keep-warm windows in the organization System Time Zone, at most 10 entries. An empty list removes the schedule on update.",
+                        "items": {
+                          "type": "object",
+                          "description": "Scheduled autoscaling target.",
+                          "properties": {
+                            "cron": {
+                              "type": "string",
+                              "description": "Cron expression defining when the schedule applies.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "定义定时计划生效时间的 Cron 表达式。"
+                                },
+                                "ja-JP": {
+                                  "description": "スケジュールが適用されるタイミングを定義する Cron 式。"
+                                }
+                              }
+                            },
+                            "target": {
+                              "type": "integer",
+                              "format": "int64",
+                              "description": "Target value applied when the schedule fires.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "定时计划触发时应用的目标值。"
+                                },
+                                "ja-JP": {
+                                  "description": "スケジュールが実行されたときに適用されるターゲット値。"
+                                }
+                              }
+                            },
+                            "timezone": {
+                              "type": "string",
+                              "description": "Timezone of the cron schedule.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "Cron 定时计划使用的时区。"
+                                },
+                                "ja-JP": {
+                                  "description": "Cron スケジュールのタイムゾーン。"
+                                }
+                              }
+                            }
+                          },
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "定时扩缩容规则。"
+                            },
+                            "ja-JP": {
+                              "description": "スケジュールされた自動スケーリングターゲット。"
+                            }
+                          }
+                        },
+                        "maxItems": 10,
+                        "minItems": 0,
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "每周 keep-warm 时间窗口的完整替换集合，使用组织系统时区，最多 10 条；更新时传空列表表示移除调度。"
+                          },
+                          "ja-JP": {
+                            "description": "組織の System Time Zone における週次の keep-warm ウィンドウの完全な置換セット。最大 10 エントリ。更新時に空のリストを指定するとスケジュールが削除されます。"
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "schedules"
+                    ],
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "可选的 keep-warm 调度整体替换配置；不填表示保持不变，空的 schedules 列表表示移除该调度。"
+                      },
+                      "ja-JP": {
+                        "description": "オプションの keep-warm スケジュール置換。省略するとスケジュールは変更されません。空の schedules リストを指定すると削除されます。"
                       }
                     }
                   }

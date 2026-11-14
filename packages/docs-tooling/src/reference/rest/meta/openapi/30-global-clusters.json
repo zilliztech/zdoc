@@ -111,6 +111,56 @@
                               }
                             }
                           }
+                        },
+                        "data": {
+                          "type": "object",
+                          "description": "Response payload; the type varies by endpoint.",
+                          "properties": {
+                            "regionGroups": {
+                              "type": "array",
+                              "description": "Available region groups for a global cluster, where each inner list contains the region IDs of one group.",
+                              "items": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "description": "A region that belongs to this region group and can communicate with the group's other member regions for Global Cluster usage.",
+                                  "x-i18n": {
+                                    "zh-CN": {
+                                      "description": "属于该区域组、并可与该组的其他成员区域相互通信以用于 Global Cluster 的区域。"
+                                    },
+                                    "ja-JP": {
+                                      "description": "このリージョングループに属し、Global Cluster の用途でグループ内の他のメンバーリージョンと通信できるリージョン。"
+                                    }
+                                  }
+                                },
+                                "description": "A group of regions whose member regions can communicate with each other for Global Cluster usage. An empty array means no available region combination is currently exposed for the organization.",
+                                "x-i18n": {
+                                  "zh-CN": {
+                                    "description": "一组区域，其成员区域之间可以相互通信以用于 Global Cluster。空数组表示当前未向该组织开放任何可用的区域组合。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "Global Cluster の用途でメンバーリージョン間が相互に通信できるリージョンのグループ。空の配列は、現在この組織に対して利用可能なリージョンの組み合わせが公開されていないことを意味します。"
+                                  }
+                                }
+                              },
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "全球集群可用的地域分组，每个内层列表包含一个组内的地域 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "グローバルクラスタで利用可能なリージョングループ。各内側リストには1つのグループのリージョンIDが含まれます。"
+                                }
+                              }
+                            }
+                          },
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应负载，类型随端点而变化。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスペイロード。型はエンドポイントによって異なります。"
+                            }
+                          }
                         }
                       },
                       "description": "A successful response payload listing the region groups available for Global Cluster usage.",
@@ -3053,6 +3103,32 @@
                             }
                           },
                           "example": "job-xxxxxxxxxxxxxxx"
+                        },
+                        "data": {
+                          "type": "object",
+                          "description": "Response payload; the type varies by endpoint.",
+                          "properties": {
+                            "jobId": {
+                              "type": "string",
+                              "description": "ID of the asynchronous job.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "异步任务的 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "非同期ジョブの ID。"
+                                }
+                              }
+                            }
+                          },
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应负载，类型随端点而变化。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスのペイロード。種類はエンドポイントによって異なります。"
+                            }
+                          }
                         }
                       },
                       "description": "The outcome of adding one or more secondary clusters to the global cluster.",
@@ -3271,6 +3347,56 @@
                             }
                           },
                           "example": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+                        },
+                        "data": {
+                          "type": "object",
+                          "description": "Response payload; the type varies by endpoint.",
+                          "properties": {
+                            "globalClusterId": {
+                              "type": "string",
+                              "description": "ID of the global cluster.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "全球集群的 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "グローバルクラスタの ID。"
+                                }
+                              }
+                            },
+                            "clusterId": {
+                              "type": "string",
+                              "description": "ID of the deleted secondary cluster.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "被删除的备集群的 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "削除されたセカンダリクラスタの ID。"
+                                }
+                              }
+                            },
+                            "prompt": {
+                              "type": "string",
+                              "description": "Prompt message related to the deletion.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "与删除相关的提示信息。"
+                                },
+                                "ja-JP": {
+                                  "description": "削除に関連するプロンプトメッセージ。"
+                                }
+                              }
+                            }
+                          },
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应负载，类型随端点而变化。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスペイロード。型はエンドポイントによって異なります。"
+                            }
+                          }
                         }
                       },
                       "description": "The outcome of removing the specified cluster from the global cluster.",
@@ -4320,6 +4446,32 @@
                             }
                           },
                           "example": "job-xxxxxxxxxxxxxxx"
+                        },
+                        "data": {
+                          "type": "object",
+                          "description": "Response payload; the type varies by endpoint.",
+                          "properties": {
+                            "jobId": {
+                              "type": "string",
+                              "description": "ID of the asynchronous job.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "异步任务的 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "非同期ジョブの ID。"
+                                }
+                              }
+                            }
+                          },
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应负载，类型随端点而变化。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスのペイロード。種類はエンドポイントによって異なります。"
+                            }
+                          }
                         }
                       },
                       "description": "One possible success response payload for the compute unit modification operation.",
