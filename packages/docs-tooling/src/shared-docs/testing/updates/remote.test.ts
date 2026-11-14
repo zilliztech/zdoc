@@ -4,7 +4,8 @@ import { expect, it } from 'vitest'
 import { formalValidation } from '../../adapters/updates/formal-validation'
 import { canonicalBytes, digest as planDigest } from '../../core/updates/canonical'
 import { acceptExactValidation, parseSealMessage, classifyRemoteRead, DecisionSchema, ExactValidationReceiptV1Schema,
-  RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, RemoteSealV1Schema, RemotePolicySchema, RemoteFactsSchema, REMOTE_LIMITS } from '../../core/updates/remote'
+  RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, RemoteSealV1Schema, RemotePolicySchema, RemoteFactsSchema, REMOTE_LIMITS,
+  ProducerRunFactSchema, ValidatorRunFactSchema, ApprovedProducerDefinitionSchema } from '../../core/updates/remote'
 
 const oid = (n: number) => n.toString(16).padStart(40, '0')
 const digest = (n: number) => n.toString(16).padStart(64, '0')
@@ -12,7 +13,7 @@ const sha256 = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest(
 const blob = (path: string, sha = digest(1), bytes = 10) => ({ path, sha256: sha, bytes })
 const found = <T>(value: T) => ({ kind: 'found' as const, value })
 function fixture() {
-  const identity = { actorId: 7, workflowId: 8, workflowPath: '.github/workflows/producer.yml', workflowDefinitionSha256: digest(2), event: 'workflow_dispatch' as const }
+  const identity = { actorId: 7, workflowId: 8, workflowPath: '.github/workflows/producer.yml', workflowDefinitionSha256: digest(2), event: 'workflow_dispatch' as 'workflow_dispatch' | 'schedule' }
   const policy = { host: 'github.com' as const, repositoryId: 100, repositoryFullName: 'example/zdoc', baseRef: 'master' as const,
     allowedHeadPrefixes: ['shared-update/'], writerActorId: 27, sealIdentity: { scheme: 'github-app-author-v1', platformSignerActorId: 99 }, checkAppId: 9, checkName: 'exact-validation', producerArtifactName: 'producer',
     validatorArtifactName: 'validation', producer: identity,
@@ -202,6 +203,37 @@ it('does not turn journal JSON into authority and rejects staging identity subst
   const journal={kind:'shared-update-remote-journal',schemaVersion:1,intentSha256:digest(1),transactionId:digest(2),sequence:0,phase:'before',action:'cas',observation:null,reasons:[]}
   expect(RemoteTransactionJournalSchema.safeParse(journal).success).toBe(true)
   expect(RemoteTransactionJournalSchema.safeParse({...journal,authorized:true}).success).toBe(false)
+})
+
+it('allows a scheduled producer identity while the validator stays dispatch-only',()=>{
+  const f=fixture()
+  // Producer: schedule accepted; validator: schedule rejected at the schema boundary.
+  expect(RemotePolicySchema.safeParse({...f.policy,producer:{...f.policy.producer,event:'schedule'}}).success).toBe(true)
+  expect(RemotePolicySchema.safeParse({...f.policy,validator:{...f.policy.validator,event:'schedule'}}).success).toBe(false)
+  expect(ProducerRunFactSchema.safeParse({...f.facts.producerRuns.value[0],event:'schedule'}).success).toBe(true)
+  expect(ValidatorRunFactSchema.safeParse({...f.facts.validatorRuns.value[0],event:'schedule'}).success).toBe(false)
+  expect(ApprovedProducerDefinitionSchema.safeParse({tools:f.expected.master,...f.policy.producer,event:'schedule',protocol:'shared-update-producer-v1'}).success).toBe(true)
+  // Full acceptance with a scheduled producer run fact and matching policy.
+  f.policy.producer.event='schedule'
+  f.facts.producerRuns.value[0].event='schedule'
+  expect(decide(f).status).toBe('accepted')
+})
+
+it('rejects a scheduled validator run as malformed rather than accepting it',()=>{
+  const f=fixture()
+  f.facts.validatorRuns.value[0].event='schedule'
+  const d=decide(f)
+  expect(d.status).toBe('hold')
+  if(d.status==='hold')expect(d.reasons).toContain('FACTS_MALFORMED')
+})
+
+it('holds a producer run with a mismatched attempt and distinguishes it from ambiguous artifacts',()=>{
+  const f=fixture()
+  f.facts.producerRuns.value[0].attempt=2
+  hold(f,'PRODUCER_ATTEMPT')
+  const g=fixture()
+  g.facts.artifacts.value.push(g.facts.artifacts.value[0])
+  hold(g,'PRODUCER_ARTIFACT_AMBIGUOUS_OR_MISSING')
 })
 
 function formalFixture() {

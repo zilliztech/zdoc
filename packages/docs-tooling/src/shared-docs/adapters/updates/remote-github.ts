@@ -34,6 +34,8 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
     // Only these historical listing queries need percent-encoded comparison operators.
     const lifecycleList = options.repositoryFullName === 'zilliztech/zdoc' && /^\/repos\/zilliztech\/zdoc\/actions\/workflows\/(?:fetch-docs|fetch-guides-requested)\.yml\/runs\?created=%3E%3D[0-9]{4}-[0-9]{2}-[0-9]{2}&per_page=100&page=(?:[1-9]|10)$/.test(input.path)
     const lifecycleTip = options.repositoryFullName === 'zilliztech/zdoc' && input.path === prefix + '/branches/dev'
+    // The single reviewed Milvus track ref (dotted, so it does not match the generic ref shape).
+    const milvusRef = options.repositoryFullName === 'milvus-io/milvus-docs' && input.path === prefix + '/git/ref/heads/v3.0.x'
     if(input.method==='POST') {
       if(input.path!=='/graphql'||!input.body)fail('ENDPOINT_INVALID')
       const body=obj(parseStrictJson(input.body)),variables=obj(body.variables)
@@ -42,7 +44,7 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
       if(input.method!=='GET')fail('ENDPOINT_INVALID')
       if(input.body||!input.path.startsWith(prefix))fail('ENDPOINT_INVALID')
       const suffix=input.path.slice(prefix.length),parts=suffix.split('?')
-      if (!lifecycleList && !lifecycleTip) {
+      if (!lifecycleList && !lifecycleTip && !milvusRef) {
         if(parts.length>2||parts[0].includes('..')||! /^(?:|\/git\/(?:ref\/heads\/[A-Za-z0-9_/-]+|matching-refs\/heads\/)|\/pulls(?:\/[1-9][0-9]*)?|\/commits\/[a-f0-9]{40}(?:\/check-runs)?|\/actions\/runs\/[1-9][0-9]*(?:\/attempts\/[1-9][0-9]*(?:\/jobs)?|\/artifacts)?|\/actions\/workflows\/[1-9][0-9]*(?:\/runs)?|\/actions\/artifacts\/[1-9][0-9]*(?:\/zip)?|\/contents\/\.github\/workflows\/[A-Za-z0-9_.-]+)$/.test(parts[0]))fail('ENDPOINT_INVALID')
         for(const [key,value] of new URLSearchParams(parts[1]??''))if(!['page','per_page','state','base','filter','ref','event','head_sha'].includes(key)||! /^(?:[1-9][0-9]*|all|open|master|workflow_dispatch|[a-f0-9]{40})$/.test(value))fail('ENDPOINT_INVALID')
       }
@@ -230,7 +232,8 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
   const run=async(request:{id:number;attempt:number;role:'producer'|'validator'})=>{
     integer(request.id);integer(request.attempt);await repository()
     const path=`${root}/actions/runs/${request.id}/attempts/${request.attempt}`,response=await api(path),raw=obj(response.value)
-    const tools=GitShaSchema.parse(raw.head_sha),identity=request.role==='producer'?definitions.find(def=>def.tools===tools&&def.workflowId===raw.workflow_id):policy.validator
+    const tools=GitShaSchema.parse(raw.head_sha)
+    const identity=request.role==='producer'?(()=>{const matches=definitions.filter(def=>def.tools===tools&&def.workflowId===raw.workflow_id&&def.event===raw.event);if(matches.length!==1)fail('PRODUCER_AMBIGUOUS');return matches[0]})():policy.validator
     if(!identity||raw.id!==request.id||raw.run_attempt!==request.attempt||obj(raw.repository).id!==policy.repositoryId||obj(raw.head_repository).id!==policy.repositoryId
       ||obj(raw.actor).id!==identity.actorId||raw.event!==identity.event||raw.workflow_id!==identity.workflowId||raw.path!==identity.workflowPath||raw.status!=='completed'||raw.conclusion!=='success')fail('RUN_IDENTITY')
     const workflow=await api(`${root}/actions/workflows/${identity.workflowId}`)
