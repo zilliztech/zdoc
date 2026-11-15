@@ -4174,7 +4174,7 @@
       ]
     },
     "dev": {
-      "commit": "e3b0e142bc49c74ceffd9c4698438681f1591634",
+      "commit": "17d461f974de1b3e8fe9b579413a3184878b8756",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -7002,7 +7002,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "14ab23c1eb5d82ecbac1478257a9c091268581a4228d152aadde39962a1f0491"
+          "sha256": "4ea88cdba224948bad3173a70755bc11b42fc3b09e6f315ddd33720f64328795"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -7010,7 +7010,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/add-fields-to-an-existing-collection.json",
-          "sha256": "af1ee851d0322a593db18f732c336221d981ac35e499a61ad1ceb759a3fe9bea"
+          "sha256": "1fbbab08259ec70c313faad6f46831a8c8d94d44c1c05dec3b685eadb99532cd"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
@@ -7330,7 +7330,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/upsert-entities.json",
-          "sha256": "d98c2ba21e615657861f99c0100dcc385c851b5292f9322d670765130f3824a0"
+          "sha256": "5b28c547fcff34d5a6ac1a3788dde463f9cb90669335e38bd222dd5fabb45182"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-fields.json",
