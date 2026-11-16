@@ -1,15 +1,30 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, readFileSync, readdirSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, readdirSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { targetFixture } from './fixtures/target-check-fixture.mjs'
+import { loadTargetCheckContract } from './target-check.mjs'
 import {
   readFixtureResult,
   runFixtureChild
 } from './fixtures/child-process.mjs'
 
-test('normal production CLIs hold the unregistered default with no credentials or GitHub operations', async () => {
+test('registered production CLIs hold without trusted runtime before acquisition or writes', async () => {
+  const c = await loadTargetCheckContract()
+  const registration = JSON.parse(
+    readFileSync(new URL('./reviewed-check.json', import.meta.url), 'utf8')
+  )
+  const fakeMaster = 'a'.repeat(40)
+  const loaded = c.loadTargetCheckRegistration(registration, fakeMaster)
+  assert.equal(loaded.status, 'ready')
+  assert.deepEqual(loaded.producers, [
+    {
+      tools: fakeMaster,
+      ...registration.policy.producer,
+      protocol: 'shared-update-producer-v1'
+    }
+  ])
   const root = mkdtempSync(join(tmpdir(), 'target-check-unregistered-'))
   for (const phase of ['reserve', 'validate', 'finalize']) {
     const out = join(root, phase)
@@ -23,6 +38,7 @@ test('normal production CLIs hold the unregistered default with no credentials o
       ],
       {
         GITHUB_JOB: phase,
+        GITHUB_SHA: fakeMaster,
         VALIDATE_OUTPUT: out,
         FINALIZE_OUTPUT: out
       }
@@ -30,10 +46,33 @@ test('normal production CLIs hold the unregistered default with no credentials o
     assert.equal(child.code, 1)
     assert.deepEqual(readFixtureResult(out, child), {
       status: 'held',
-      reasons: ['REGISTRATION_UNREGISTERED'],
+      reasons: ['RUNTIME_PATHS'],
       mutationRequested: false
     })
     assert.deepEqual(readdirSync(out), ['result.json'])
+    assert.equal(existsSync(out + '-evidence'), false)
+  }
+})
+
+test('explicit unregistered fixtures reject every phase without reads, writes or acquisition evidence', async () => {
+  const f = await targetFixture()
+  try {
+    f.registration.status = 'unregistered'
+    for (const phase of ['reserve', 'validate', 'finalize']) {
+      const observed = await f.invoke(phase)
+      assert.equal(observed.code, 1)
+      assert.deepEqual(observed.result, {
+        status: 'held',
+        reasons: ['REGISTRATION_UNREGISTERED'],
+        mutationRequested: false
+      })
+      assert.deepEqual(readdirSync(observed.out), ['result.json'])
+      assert.equal(existsSync(observed.out + '-evidence'), false)
+    }
+    assert.deepEqual(f.state.reads, [])
+    assert.deepEqual(f.state.writes, [])
+  } finally {
+    await f.close()
   }
 })
 
@@ -323,6 +362,10 @@ test('trusted registry and Actions runtime identities cannot be supplied by requ
       assert.equal(f.state.writes.length, 0)
       assert.equal(f.state.reads.length, 0)
     }
+    f.registration.policy.validator.workflowDefinitionSha256 = 'a'.repeat(64)
+    assert.equal((await f.invoke('reserve')).result.status, 'held')
+    assert.equal(f.state.writes.length, 0)
+    assert.equal(f.state.reads.length, 0)
     f.registration.policy.validator.workflowDefinitionSha256 = '0'.repeat(64)
     assert.equal((await f.invoke('reserve')).result.status, 'held')
     assert.equal(f.state.writes.length, 0)

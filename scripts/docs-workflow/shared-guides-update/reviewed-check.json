@@ -1,4 +1,42 @@
 {
-  "status": "unregistered",
-  "reason": "Approved producer, validator and finalizer workflow IDs, raw definition digests and run actors must be installed through a reviewed immutable tooling context before activation."
+  "status": "registered",
+  "policy": {
+    "host": "github.com",
+    "repositoryId": 660446555,
+    "repositoryFullName": "zilliztech/zdoc",
+    "baseRef": "master",
+    "writerActorId": 41898282,
+    "sealIdentity": {
+      "scheme": "github-app-author-v1",
+      "platformSignerActorId": 19864447
+    },
+    "allowedHeadPrefixes": [
+      "shared-update/"
+    ],
+    "checkAppId": 15368,
+    "checkName": "shared-update-exact-validation",
+    "producerArtifactName": "shared-guides-update-producer",
+    "validatorArtifactName": "shared-guides-validation",
+    "producer": {
+      "actorId": 105278390,
+      "workflowId": 414826845,
+      "workflowPath": ".github/workflows/shared-guides-update.yml",
+      "workflowDefinitionSha256": "d3b99cdf624f7dec1a53bcd79d21f9dcc9309ccf6a1ac3111d0d103ac83a83d3",
+      "event": "workflow_dispatch"
+    },
+    "validator": {
+      "actorId": 105278390,
+      "workflowId": 419995175,
+      "workflowPath": ".github/workflows/shared-guides-validate.yml",
+      "workflowDefinitionSha256": "05461876c219ccdbe8a20a5278b76698e0801ec424965e58100453493494e7fc",
+      "event": "workflow_dispatch"
+    }
+  },
+  "finalizer": {
+    "actorId": 105278390,
+    "workflowId": 419995174,
+    "workflowPath": ".github/workflows/shared-guides-finalize.yml",
+    "workflowDefinitionSha256": "f2ffe6c8b22b33c3131c1b588aa10c2609474ceb6dc005e85d26d15e3dfc693d",
+    "event": "workflow_dispatch"
+  }
 }

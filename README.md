@@ -462,7 +462,15 @@ for an intervening writer, reconcile its API effects before allowing further
 writes. After an update PR is closed or merged, retained staging or target
 branches also require operator reconciliation before a new draft can open.
 
-The separate manual [target Check validation and finalization](runbook/shared-guides-generation.md#manual-target-check-validation-and-finalization) path reserves on the signed PR head, retains a formal receipt in a completed validator run, and finalizes in a second run. It ships unregistered and holds before any Check write until approved workflow IDs, definitions and actors are installed.
+The separate manual [target Check validation and finalization](runbook/shared-guides-generation.md#manual-target-check-validation-and-finalization)
+path reserves on the signed PR head, retains a formal receipt in a completed
+validator run, and finalizes in a second run. Registration covers a manually
+dispatched producer and manual validation/finalization by the approved run
+actor. It still requires independently qualified Fetch lifecycle evidence and
+a fresh signed candidate. Positive hosted verification awaits a genuine
+consumed-source change; the reviewed old-next and target inputs are currently
+identical. Scheduled-producer Check authentication and automatic triggering
+remain pending.
 
 ### Inspect shared Guides upstream changes without publishing
 
