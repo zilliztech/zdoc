@@ -103,6 +103,74 @@ test('[9-1] one selected page activates from cold current headings while obsolet
   for (const manual of ['guides', 'guides-byoc']) assert.ok(result.changed.includes(`generated/en/sidebars/${manual}.sidebar.js`))
 })
 
+test('a shared page parented by a canonical Feishu doc builds, assembles and publishes through the real-doc parent chain', {timeout}, async t => {
+  const options = await replay.replayFixture(t, {pages: ['sample'], realDocParent: true, old: false})
+  await replay.regenerate(options)
+  assert.equal(options.bundle.outcomes.length, 1)
+  assert.equal(options.bundle.outcomes[0].status, 'success', JSON.stringify(options.bundle.outcomes))
+  // Position and path come from the canonical parent's Base-stamped children,
+  // not from a table-root sibling list.
+  assert.deepEqual(options.bundle.outcomes[0].targets.map(target => target.path),
+    ['tutorials/manage-data/schema-best-practices/sample', 'tutorials/manage-data/schema-best-practices/sample'])
+  assert.equal(options.bundle.outcomes[0].targets.every(target => target.navigation.sidebar_position === 2), true)
+  await replay.assemble(options)
+  const result = await replay.publish(options)
+  assert.equal(result.commitShas.length, 1)
+  const sample = options.last.snapshot.records.find(row => row.record_id === 'rec0')
+  assert.deepEqual([...sample.output_paths].sort(), [
+    'content/en/byoc/tutorials/manage-data/schema-best-practices/sample.mdx',
+    'content/en/guides/tutorials/manage-data/schema-best-practices/sample.mdx',
+  ])
+})
+
+test('a fallback bundle suppresses the en source-cache save through both workflow cache gates', {timeout}, async t => {
+  const options = await seed(t)
+  await commitConfig(options, 'shared-docs/guides/pages/sample/page.yaml', 'broken: [')
+  await replay.prepare(options); await replay.regenerate(options)
+  assert.ok(options.bundle.outcomes.some(row => row.status === 'fallback'), JSON.stringify(options.bundle.outcomes.map(row => [row.record_id, row.status])))
+  // Both gates read the bundle from the job's relative ROOT, so present the
+  // production fallback bundle under the same shape the workflow uses.
+  const gateDir = path.join(options.root, 'cache-gate')
+  fs.cpSync(options.out, path.join(gateDir, 'tmp/docs-tooling/en/shared-pages/guides'), {recursive: true})
+  const candidate = path.join(gateDir, 'candidate.json')
+  fs.writeFileSync(candidate, JSON.stringify(options.candidate))
+  const baseline = path.join(gateDir, 'baseline.json')
+  fs.writeFileSync(baseline, JSON.stringify(options.preparation.previous_snapshot))
+  // Gate 1: the cache-save decision must force saveRequired=false.
+  const decision = spawnSync(process.execPath, [
+    path.resolve(__dirname, 'guides-cache-save-decision.js'), 'decide',
+    '--cache-version', 'v5', '--prefetch-mode', 'incremental',
+    '--candidate', candidate, '--baseline', baseline,
+  ], {encoding: 'utf8', cwd: gateDir})
+  assert.equal(decision.status, 0, decision.stderr)
+  assert.equal(decision.stdout.trim(), 'false')
+  // Gate 2: the lifecycle records the skipped-shared-failure persistence and
+  // refuses to record cache persistence for a partial shared run.
+  const report = path.join(gateDir, 'guides-cache-generation.json')
+  const lifecycle = spawnSync(process.execPath, [
+    path.resolve(__dirname, 'guides-cache-generation-lifecycle.js'), 'report',
+    '--cache-version', 'v5', '--save-required', 'false',
+    '--selection-outcome', 'skipped', '--manifest-outcome', 'skipped',
+    '--preparation-outcome', 'skipped', '--save-outcome', 'skipped',
+    '--save-key', '', '--output', report,
+  ], {encoding: 'utf8', cwd: gateDir})
+  assert.equal(lifecycle.status, 0, lifecycle.stderr)
+  const persisted = JSON.parse(fs.readFileSync(report, 'utf8'))
+  assert.equal(persisted.persistence, 'skipped-shared-failure')
+  assert.equal(persisted.saveRequired, false)
+  assert.equal(persisted.saveKey, null)
+  assert.equal(persisted.sourceCacheVersion, 'v5')
+  const refusing = spawnSync(process.execPath, [
+    path.resolve(__dirname, 'guides-cache-generation-lifecycle.js'), 'report',
+    '--cache-version', 'v5', '--save-required', 'true',
+    '--selection-outcome', 'success', '--manifest-outcome', 'success',
+    '--preparation-outcome', 'success', '--save-outcome', 'success',
+    '--save-key', 'key', '--output', path.join(gateDir, 'refused.json'),
+  ], {encoding: 'utf8', cwd: gateDir})
+  assert.equal(refusing.status !== 0, true, refusing.stdout)
+  assert.match(refusing.stderr, /Partial shared run attempted cache persistence/)
+})
+
 test('ordinary Feishu and anchored Base refs produce identical blobs with valid and malformed inactive config', {timeout}, async t => {
   const options = await replay.replayFixture(t)
   const result = await replay.legacyComparison(options)

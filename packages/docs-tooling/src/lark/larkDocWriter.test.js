@@ -1260,6 +1260,48 @@ function testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration() {
   ]);
 }
 
+function testDocIdForTokenResolvesCanonicalParentThroughBaseRecordFallback() {
+  const sourceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-writer-doc-id-'));
+  const contentRoot = path.join(sourceDir, 'content', 'en', 'guides');
+  fs.mkdirSync(contentRoot, {recursive: true});
+  fs.writeFileSync(path.join(sourceDir, 'page.json'), JSON.stringify({
+    title: 'Data Model Design with an Array of Structs',
+    slug: 'schema-design-with-structs',
+    node_token: 'base:tbl:rec-page',
+    parent_node_token: 'base:tbl:rec-parent',
+    base_nav_virtual: true,
+  }));
+  // The canonical Feishu-doc parent is keyed by its real wiki token; its Base
+  // composite only exists as the child's parent_node_token above.
+  fs.writeFileSync(path.join(sourceDir, 'parentdoc.json'), JSON.stringify({
+    title: 'Best Practices for Schema Design',
+    slug: 'schema-best-practices',
+    node_token: 'parentdoc',
+    parent_node_token: 'base:tbl',
+    base_record_id: 'rec-parent',
+    base_table_id: 'tbl',
+  }));
+  fs.writeFileSync(path.join(sourceDir, 'base_tbl.json'), JSON.stringify({
+    title: 'Development',
+    slug: 'manage-data',
+    node_token: 'base:tbl',
+    parent_node_token: 'root',
+  }));
+  const sourceIndex = LarkSourceIndex.load(sourceDir);
+  const writer = new LarkDocWriter(
+    'root', 'base:*', 'default', sourceDir, 'static/img',
+    'zilliz.saas', true, false, null, {resolveFeishuImage() {}}, sourceIndex
+  );
+  writer.sidebarOutputDir = path.join(contentRoot, 'tutorials');
+  try {
+    assert.equal(writer.__doc_id_for_token('base:tbl:rec-page', contentRoot),
+      'tutorials/manage-data/schema-best-practices/schema-design-with-structs');
+  } finally {
+    writer.destroy();
+    fs.rmSync(sourceDir, {recursive: true, force: true});
+  }
+}
+
 function testSourceIndexSourcesAreClonedBeforeWriterMutation() {
   const sourceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-clone-index-'));
   fs.writeFileSync(path.join(sourceDir, 'source.json'), JSON.stringify({
@@ -1423,6 +1465,7 @@ async function run() {
   testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration();
   testSourceIndexSourcesAreClonedBeforeWriterMutation();
   testNullAndOmittedSourceIndexKeepLegacyFilesystemLookupSemantics();
+  testDocIdForTokenResolvesCanonicalParentThroughBaseRecordFallback();
   testFallbackWithoutPreviousNavigationRecordNamesBaseRecord();
   await testBaseTablesRetriesPrematureClose();
   await testBaseRecordsRetriesDataNotReadyResponse();
