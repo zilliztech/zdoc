@@ -1,5 +1,6 @@
 import type { BlobRef } from '../../core/updates/envelope'
-import { acceptExactValidation, inspectReservedValidation } from '../../core/updates/remote'
+import { parseStrictJson } from '../../core/updates/canonical'
+import { acceptExactValidation, ExactValidationReceiptV1Schema, inspectReservedValidation } from '../../core/updates/remote'
 import type { CheckRunObservation, RemoteReads, ReservedCheck } from './remote-github'
 
 export interface TargetCheckFinalize {
@@ -13,11 +14,12 @@ export interface CheckCompleteWriter {
   complete(input: { reservation: ReservedCheck; headSha: string }): Promise<CheckRunObservation>
 }
 
-/** Finalizer for the target Check. The reservation is read back independently through readChecks,
- * and the write is authorized only after inspectReservedValidation returns ready-to-publish. A
- * caller-supplied JSON reservation never reaches the writer: only the read-back Check id/suite/App
- * plus a ready prepublish gates completion. After the PATCH the completed Check is re-read and
- * acceptExactValidation runs against the completed phase. */
+/** Finalizer for the target Check. The reserved Check is read back independently through readChecks,
+ * bound to the authenticated receipt's targetCheckId/suite/App/head, and must still be in_progress.
+ * prepublish is run against the same read-back Check, and completion is authorized only after
+ * ready-to-publish. A decoded JSON reservation never reaches the writer: only the read-back Check
+ * id/suite/App/name/head plus a ready prepublish gates the single PATCH. The completed Check is
+ * then re-read and acceptExactValidation runs against the completed phase. */
 export async function finalizeTargetCheck(input: {
   reads: Pick<RemoteReads, 'readChecks'>
   writer: CheckCompleteWriter
@@ -27,12 +29,21 @@ export async function finalizeTargetCheck(input: {
   facts: unknown
 }): Promise<TargetCheckFinalize> {
   const seal = input.expected.seal
+  const receipt = ExactValidationReceiptV1Schema.parse(parseStrictJson(input.receipt))
   const checks = await input.reads.readChecks(seal)
   if (checks.kind !== 'found') return { status: 'hold', reasons: ['CHECK_READ'] }
   const matches = checks.value.filter(ch => ch.appId === input.policy.checkAppId && ch.name === input.policy.checkName && ch.head === seal)
   if (matches.length !== 1) return { status: 'hold', reasons: ['CHECK_AMBIGUOUS_OR_MISSING'] }
   const reserved = matches[0]
-  const prepublish = inspectReservedValidation(input.expected as unknown, input.facts, input.receipt, input.policy as unknown)
+  // Bind the read-back Check to the authenticated receipt before any write.
+  if (reserved.id !== receipt.targetCheckId || reserved.suiteId !== receipt.targetSuiteId ||
+      reserved.appId !== receipt.targetCheckAppId || reserved.head !== receipt.targetCheckHead) {
+    return { status: 'hold', reasons: ['CHECK_RECEIPT_BINDING'] }
+  }
+  if (reserved.status !== 'in_progress') return { status: 'hold', reasons: ['CHECK_NOT_RESERVED'] }
+  // prepublish validates the same read-back Check the writer will complete.
+  const withCheck = { ...(input.facts as Record<string, unknown>), checks: { kind: 'found', value: [reserved] } }
+  const prepublish = inspectReservedValidation(input.expected as unknown, withCheck, input.receipt, input.policy as unknown)
   if (prepublish.status !== 'ready-to-publish') return { status: 'hold', reasons: prepublish.reasons }
   const reservation: ReservedCheck = { id: reserved.id, suiteId: reserved.suiteId, appId: reserved.appId, name: reserved.name, head: reserved.head }
   const completed = await input.writer.complete({ reservation, headSha: seal })

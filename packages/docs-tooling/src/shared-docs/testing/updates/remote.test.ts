@@ -150,6 +150,14 @@ it('finalizes only a read-back reservation after a ready prepublish, with zero w
   const held = fixture(); held.facts.checks.value[0].status = 'in_progress'; held.facts.checks.value[0].conclusion = 'pending'; held.facts.validatorRuns.value[0].status = 'in_progress'
   const heldResult = await finalizeTargetCheck({ reads: makeReads([[held.facts.checks.value[0]]]), writer: makeWriter(held), expected: held.expected, policy: held.policy, receipt: canonicalBytes(held.receipt), facts: held.facts })
   expect(heldResult.status).toBe('hold'); expect(heldResult.reasons).toContain('VALIDATOR_STATUS'); expect(writes).toEqual([])
+  // changed id (same head/App/name/suite) not bound to the receipt -> zero writes
+  writes.length = 0
+  const changedId = await finalizeTargetCheck({ reads: makeReads([[{ ...reserved(), id: 505 }]]), writer: makeWriter(f), expected: f.expected, policy: f.policy, receipt, facts: f.facts })
+  expect(changedId.status).toBe('hold'); expect(changedId.reasons).toContain('CHECK_RECEIPT_BINDING'); expect(writes).toEqual([])
+  // already-completed Check -> zero writes
+  writes.length = 0
+  const alreadyDone = await finalizeTargetCheck({ reads: makeReads([[{ ...reserved(), status: 'completed', conclusion: 'success' }]]), writer: makeWriter(f), expected: f.expected, policy: f.policy, receipt, facts: f.facts })
+  expect(alreadyDone.status).toBe('hold'); expect(alreadyDone.reasons).toContain('CHECK_NOT_RESERVED'); expect(writes).toEqual([])
 })
 it('holds unknown and absent facts rather than manufacturing absence or success', () => {
   for (const value of [{ kind: 'unknown', reasons: ['TIMEOUT'] }, { kind: 'absent', evidence: [blob('absent.json')] }]) {
