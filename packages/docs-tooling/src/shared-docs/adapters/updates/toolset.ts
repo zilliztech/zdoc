@@ -233,7 +233,9 @@ export function parseIdentityPlist(input: string): unknown {
   }
   take('<plist version="1.0">'); const value = parse(0); take('</plist>'); skip(); if (at !== tokens.length) throw new Error('Trailing identity plist data'); return value
 }
-async function acquireLocalIdentity(environment: NodeJS.ProcessEnv): Promise<LocalIdentity> {
+/** Acquires the local identity observations behind validateLocalIdentity. Exported
+ * so the group-policy scenario can probe which local group this host actually trusts. */
+export async function acquireLocalIdentity(environment: NodeJS.ProcessEnv): Promise<LocalIdentity> {
   if (process.platform !== 'darwin' || !process.geteuid || !process.getuid || !process.getgid || !process.getegid || !process.getgroups) throw new Error('Unsupported local identity profile')
   // Bootstrap this resolver using root/current-owned, non-group-writable paths before any exception.
   const native = await captureTrustedNativeFiles([{name:'runtime/identity-resolver',path:'/usr/bin/dscl'}])
