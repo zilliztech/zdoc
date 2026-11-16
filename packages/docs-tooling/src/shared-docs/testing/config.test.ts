@@ -42,7 +42,7 @@ it('reads layout source settings: source_dir and per-manual presentation', () =>
 it('rejects invalid source_dir paths, presentation entries and unknown source fields together', () => {
   const result = parseSourceConfig('schema_version: 1\nrepository: https://github.com/milvus-io/web-content\ntrack: master\n'
     + 'source_dir: /absolute\npresentation:\n  node: {title_suffix: 5}\nsurprise: true\n')
-  expect('config' in result).toBe(false)
+  if ('config' in result) throw new Error('unexpected config')
   const lines = result.errors.map(error => error.line)
   expect(lines).toContain(4)
   expect(lines).toContain(6)
