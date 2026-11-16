@@ -6,7 +6,7 @@ import { canonicalBytes, digest as planDigest } from '../../core/updates/canonic
 import { acceptExactValidation, parseSealMessage, classifyRemoteRead, DecisionSchema, ExactValidationReceiptV1Schema,
   RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, RemoteSealV1Schema, RemotePolicySchema, RemoteFactsSchema, REMOTE_LIMITS,
   ProducerRunFactSchema, ValidatorRunFactSchema, ApprovedProducerDefinitionSchema } from '../../core/updates/remote'
-import { finalizeTargetCheck } from '../../adapters/updates/remote-finalize'
+import { finalizeTargetCheck, loadTargetCheckRegistration, finalizeTargetCheckEntry, validateTargetCheckEntry } from '../../adapters/updates/remote-finalize'
 
 const oid = (n: number) => n.toString(16).padStart(40, '0')
 const digest = (n: number) => n.toString(16).padStart(64, '0')
@@ -163,6 +163,23 @@ it('holds unknown and absent facts rather than manufacturing absence or success'
   for (const value of [{ kind: 'unknown', reasons: ['TIMEOUT'] }, { kind: 'absent', evidence: [blob('absent.json')] }]) {
     const f = fixture(); Object.assign(f.facts, { checks: value }); hold(f, 'CHECK_READ')
   }
+})
+
+it('holds the validate and finalize entries when the registration is missing or incomplete', async () => {
+  const f = fixture()
+  const registration = { policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  expect(loadTargetCheckRegistration(registration).status).toBe('ready')
+  expect(loadTargetCheckRegistration(undefined)).toEqual({ status: 'held', reasons: ['REGISTRATION_MISSING'] })
+  expect(loadTargetCheckRegistration({ policy: f.policy })).toEqual({ status: 'held', reasons: ['REGISTRATION_INCOMPLETE'] })
+  // finalize entry holds on missing registration without any write
+  const writes: unknown[] = []
+  const writer = { complete: async () => { writes.push(1); return {} } } as any
+  const heldFinalize = await finalizeTargetCheckEntry({ registration: undefined, reads: { readChecks: async () => ({ kind: 'found', value: [f.facts.checks.value[0]] }) } as any, writer, expected: f.expected, receipt: canonicalBytes(f.receipt), facts: f.facts })
+  expect(heldFinalize.status).toBe('hold'); expect(heldFinalize.reasons).toContain('REGISTRATION_MISSING'); expect(writes).toEqual([])
+  // validate entry holds on missing registration without any reserve
+  const reserves: unknown[] = []
+  const heldValidate = await validateTargetCheckEntry({ registration: undefined, writer: { reserve: async () => { reserves.push(1); return {} } } as any, headSha: f.expected.seal, encodeReceipt: () => ({ receipt: Buffer.from('r'), output: Buffer.from('o') }), archive: async () => {} })
+  expect(heldValidate.status).toBe('hold'); if (heldValidate.status === 'hold') expect(heldValidate.reasons).toContain('REGISTRATION_MISSING'); expect(reserves).toEqual([])
 })
 it('rejects missing and extra fields at every nested boundary', () => {
   const examples = [fixture().policy, fixture().facts, fixture().facts.validatorRuns.value[0], fixture().facts.associations.value[0],

@@ -1,6 +1,7 @@
 import type { BlobRef } from '../../core/updates/envelope'
 import { parseStrictJson } from '../../core/updates/canonical'
-import { acceptExactValidation, ExactValidationReceiptV1Schema, inspectReservedValidation } from '../../core/updates/remote'
+import { acceptExactValidation, ApprovedProducerDefinitionSchema, ExactValidationReceiptV1Schema, inspectReservedValidation, RemotePolicySchema,
+  type ApprovedProducerDefinition, type RemotePolicy } from '../../core/updates/remote'
 import type { CheckRunObservation, RemoteReads, ReservedCheck } from './remote-github'
 
 export interface TargetCheckFinalize {
@@ -12,6 +13,69 @@ export interface TargetCheckFinalize {
 
 export interface CheckCompleteWriter {
   complete(input: { reservation: ReservedCheck; headSha: string }): Promise<CheckRunObservation>
+}
+
+export interface CheckReserveWriter {
+  reserve(input: { headSha: string }): Promise<ReservedCheck>
+}
+
+export interface TargetCheckRegistration {
+  status: 'ready'
+  policy: RemotePolicy
+  producers: ApprovedProducerDefinition[]
+}
+export type TargetCheckRegistrationResult = TargetCheckRegistration | { status: 'held'; reasons: string[] }
+
+/** Load and validate the reviewed target-Check registration. Missing or incomplete registration
+ * holds before any write; production identity is never inferred from candidate content. */
+export function loadTargetCheckRegistration(registration: unknown): TargetCheckRegistrationResult {
+  if (registration === null || typeof registration !== 'object') return { status: 'held', reasons: ['REGISTRATION_MISSING'] }
+  const reg = registration as Record<string, unknown>
+  try {
+    const policy = RemotePolicySchema.parse(reg.policy)
+    const producers = (reg.producers as unknown[]).map(value => ApprovedProducerDefinitionSchema.parse(value))
+    if (producers.length !== 1) return { status: 'held', reasons: ['REGISTRATION_INCOMPLETE'] }
+    return { status: 'ready', policy, producers }
+  } catch {
+    return { status: 'held', reasons: ['REGISTRATION_INCOMPLETE'] }
+  }
+}
+
+/** Finalizer entry: load the reviewed registration (held when missing), then finalize the target
+ * Check against independently supplied facts. The low-level finalizeTargetCheck enforces the
+ * read-back reservation, receipt binding and ready prepublish before any completion write. */
+export async function finalizeTargetCheckEntry(input: {
+  registration: unknown
+  reads: Pick<RemoteReads, 'readChecks'>
+  writer: CheckCompleteWriter
+  expected: { seal: string }
+  receipt: Uint8Array
+  facts: unknown
+}): Promise<TargetCheckFinalize> {
+  const registration = loadTargetCheckRegistration(input.registration)
+  if (registration.status === 'held') return { status: 'hold', reasons: registration.reasons }
+  return finalizeTargetCheck({
+    reads: input.reads, writer: input.writer, expected: input.expected,
+    policy: { checkAppId: registration.policy.checkAppId, checkName: registration.policy.checkName },
+    receipt: input.receipt, facts: input.facts,
+  })
+}
+
+/** Validator entry: load the reviewed registration (held when missing), reserve the in_progress
+ * Check on the seal, then encode and archive the receipt/output bound to the read-back Check. */
+export async function validateTargetCheckEntry(input: {
+  registration: unknown
+  writer: CheckReserveWriter
+  headSha: string
+  encodeReceipt: (reservation: ReservedCheck) => { receipt: Uint8Array; output: Uint8Array }
+  archive: (members: { name: string; bytes: Uint8Array }[]) => Promise<void>
+}): Promise<{ status: 'prepared'; reservation: ReservedCheck } | { status: 'hold'; reasons: string[] }> {
+  const registration = loadTargetCheckRegistration(input.registration)
+  if (registration.status === 'held') return { status: 'hold', reasons: registration.reasons }
+  const reservation = await input.writer.reserve({ headSha: input.headSha })
+  const { receipt, output } = input.encodeReceipt(reservation)
+  await input.archive([{ name: 'receipt.json', bytes: receipt }, { name: 'output.json', bytes: output }])
+  return { status: 'prepared', reservation }
 }
 
 /** Finalizer for the target Check. The reserved Check is read back independently through readChecks,
