@@ -35,6 +35,137 @@
       "to": "/reference/go/go/v2-Authentication-GrantRole",
       "note": "GA4 window 7d: sdk-double-segment ladder (2 events / 2 users)",
       "decided_at": "2026-11-10T03:23:26.712Z"
+    },
+    {
+      "from": "/reference/go/v2-Authentication-RevokePrivilegeV2",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Authentication-RevokePrivilegeV2",
+      "note": "GA4 window 7d: sdk-double-segment ladder (1 events / 1 users)",
+      "decided_at": "2026-11-14T03:23:31.533Z"
+    },
+    {
+      "from": "/reference/go/v2-Collection-CreateAlias",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Collection-CreateAlias",
+      "note": "GA4 window 7d: sdk-double-segment ladder (1 events / 1 users)",
+      "decided_at": "2026-11-14T03:23:31.533Z"
+    },
+    {
+      "from": "/reference/api/go/Vector/DeleteByPks()",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Vector-Delete",
+      "note": "v1 Go SDK reference retired; conf precedent maps the sibling double-segment form to v2-Vector-Delete",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/docs/byoc/on-zilliz-cloud-console",
+      "status": "fixed",
+      "to": "/docs/byoc/quick-start",
+      "note": "flat twin /docs/on-zilliz-cloud-console already maps to /docs/byoc/quick-start in the conf",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/api/go/Collection/CreateCollection()",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Collection-CreateCollection",
+      "note": "v1 Go SDK reference retired; current v2 page is labeled CreateCollection()",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/api/python/Vector/query()",
+      "status": "fixed",
+      "to": "/reference/python/python/Vector-query",
+      "note": "v1 python API reference retired; MilvusClient query page is the successor",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/insert-3",
+      "status": "fixed",
+      "to": "/docs/insert-entities",
+      "note": "same legacy deduped-slug family as /reference/insert-1, whose target insert-update-delete now redirects to insert-entities",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/docs/free-trial",
+      "status": "fixed",
+      "to": "/docs/register-with-zilliz-cloud",
+      "note": "singular typo; /docs/free-trials itself now redirects to register-with-zilliz-cloud, matching the ledger's free-tier-overview decision",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/api/java/Vector/delete()",
+      "status": "fixed",
+      "to": "/reference/java/java/v2-Vector-delete",
+      "note": "v1 java API reference retired; conf precedent maps sibling insert()/query() to the same v2 Vector family",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/api/python/Vector/insert()",
+      "status": "fixed",
+      "to": "/reference/python/python/Vector-insert",
+      "note": "v1 python API reference retired; MilvusClient insert page is the successor",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/milvusclient-1",
+      "status": "fixed",
+      "to": "/reference/python",
+      "note": "deduped legacy slug; conf precedent maps /reference/milvusclient to /reference/python",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/restful/insert-entities-v2",
+      "status": "fixed",
+      "to": "/reference/restful/insert-v2",
+      "note": "REST insert page renamed to insert-v2 in the current spec generation",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/docs/cluster-privilege",
+      "status": "fixed",
+      "to": "/docs/cluster-privileges",
+      "note": "singular typo; cluster-privileges is the live access-control page",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/docs/performance-benchmarking-with-vectordbbench",
+      "status": "fixed",
+      "to": "/docs/perf-benchmark-vectordb",
+      "note": "VectorDBBench benchmarking page renamed to perf-benchmark-vectordb",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/createcollection-1",
+      "status": "fixed",
+      "to": "/reference/restful/create-collection",
+      "note": "same legacy deduped-slug family as /reference/createcollection-2, which maps to /reference/restful/create-collection",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/java/java/v2-StructFieldSchema-getMaxCapacity",
+      "status": "fixed",
+      "to": "/reference/java/java/v2-Collections-StructFieldSchema",
+      "note": "same family as the ledger's v2-StructFieldSchema-getDataType decision; getMaxCapacity is documented on the Collections-StructFieldSchema page",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/restful/create-cluster-v2",
+      "status": "fixed",
+      "to": "/reference/restful/create-dedicated-cluster-v2",
+      "note": "REST create-cluster operation renamed to create-dedicated-cluster",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/docs/pipelines-overview",
+      "status": "declined",
+      "note": "no pipelines docs section exists in any sidebar; likely a forward-looking external link - revisit if the page ships",
+      "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/docs/$p",
+      "status": "denylist",
+      "note": "template-variable artifact, not a real page; permanent noise that would resurface every window",
+      "decided_at": "2026-11-16T06:16:33.504Z"
     }
   ]
 }
