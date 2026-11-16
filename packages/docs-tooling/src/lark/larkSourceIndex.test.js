@@ -38,6 +38,55 @@ test('tokenless shared records remain individually addressable by stable Base re
   assert.equal(index.find('base_record_id', 'b').base_record_id, 'b')
 })
 
+test('resolves a canonical Feishu-doc parent composite through its stamped Base record identity', t => {
+  const dir = makeSourceDir(t)
+  // A canonical-doc parent is keyed by its real wiki token; the composite
+  // `base:tblA:rec-parent` exists only as the child's parent_node_token.
+  writeJson(dir, 'parent-doc.json', {
+    title: 'Best Practices for Schema Design',
+    slug: 'schema-best-practices',
+    node_token: 'wiki-parent-token',
+    base_record_id: 'rec-parent',
+    base_table_id: 'tblA',
+  })
+  const index = LarkSourceIndex.load(dir)
+
+  assert.equal(index.find('node_token', 'base:tblA:rec-parent').slug, 'schema-best-practices')
+  assert.throws(() => index.find('node_token', 'base:tblA:rec-unknown'), /Cannot find base:tblA:rec-unknown/)
+  // Table roots are two-segment composites and never fall through to record ids.
+  assert.throws(() => index.find('node_token', 'base:tblA'), /Cannot find base:tblA/)
+  // The fallback is narrowed to the composite's own table id.
+  assert.throws(() => index.find('node_token', 'base:tblB:rec-parent'), /Cannot find base:tblB:rec-parent/)
+})
+
+test('a legacy cached parent without base_table_id still resolves by record id', t => {
+  const dir = makeSourceDir(t)
+  writeJson(dir, 'parent-legacy.json', {
+    title: 'Legacy parent',
+    slug: 'legacy-parent',
+    node_token: 'legacy-parent-token',
+    base_record_id: 'rec-parent',
+  })
+  const index = LarkSourceIndex.load(dir)
+
+  assert.equal(index.find('node_token', 'base:tblA:rec-parent').slug, 'legacy-parent')
+})
+
+test('the composite fallback routes and degrades through the same where, slug, and uniqueness gates', t => {
+  const dir = makeSourceDir(t)
+  writeJson(dir, 'legacy.json', {base_record_id: 'rec1', base_table_id: 'tblA', node_token: 'legacy-doc', slug: 'page'})
+  writeJson(dir, 'projection.json', {base_record_id: 'rec1', base_table_id: 'tblA', node_token: 'projection-doc', slug: 'page', source_kind: 'shared-page'})
+  const index = LarkSourceIndex.load(dir)
+
+  // No composite-keyed virtual source exists, so the fallback meets both sides
+  // of the record pair and the ambiguity surfaces loudly.
+  assert.throws(() => index.find('node_token', 'base:tblA:rec1'), /Ambiguous Lark source lookup/)
+  assert.equal(index.find('node_token', 'base:tblA:rec1', {where: source => source.source_kind === 'shared-page'}).node_token, 'projection-doc')
+  assert.equal(index.find('node_token', 'base:tblA:rec1', {where: source => false}), undefined)
+  assert.equal(index.find('node_token', 'base:tblA:rec1', {slug: 'missing'}), undefined)
+  assert.equal(index.find('node_token', 'base:tblA:rec1', {where: source => source.source_kind === 'shared-page', slug: 'page'}).node_token, 'projection-doc')
+})
+
 function writeLookupFixtures(dir) {
   writeJson(dir, '01-node.json', {
     title: 'A',

@@ -24,7 +24,7 @@ function record(id, page) {
       Slug: page, Labels: 'Fresh Base label', Targets: ['Zilliz.SaaS', 'Zilliz.PaaS'], Progress: 'Published',
       'Placement Type': 'Canonical', 'Release Channel': 'NEXT'}}
 }
-async function fixture(t, {pages = ['sample'], old = true, active = false, imageSource = false, singleTarget = false, metadataMarker = false, externalImage = false, ordinaryPages = 0, manuals = ['guides', 'guides-byoc'], baseManuals = manuals} = {}) {
+async function fixture(t, {pages = ['sample'], old = true, active = false, imageSource = false, singleTarget = false, metadataMarker = false, externalImage = false, ordinaryPages = 0, realDocParent = false, manuals = ['guides', 'guides-byoc'], baseManuals = manuals} = {}) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'wp9-source-')))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
   const repositoryRoot = path.join(root, 'master'), baselineRoot = path.join(root, 'dev'), repo = path.join(root, 'upstream'), sourceDir = path.join(root, 'sources')
@@ -43,7 +43,8 @@ async function fixture(t, {pages = ['sample'], old = true, active = false, image
   await write(repositoryRoot, `${config}/product-names.yaml`, 'check: [Milvus, "localhost:19530"]\nallow: []\n')
   await write(repositoryRoot, `${config}/presentation/cloud-sdk-tabs.yaml`, fs.readFileSync(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/fixtures/site/cloud-sdk-tabs.yaml')))
   for (const page of pages) {
-    await write(repositoryRoot, `${config}/pages/${page}/page.yaml`, pageYaml(`site/en/${page}.md`, `tutorials/manage-data/${page}`, manuals))
+    const sitePath = realDocParent ? `tutorials/manage-data/schema-best-practices/${page}` : `tutorials/manage-data/${page}`
+    await write(repositoryRoot, `${config}/pages/${page}/page.yaml`, pageYaml(`site/en/${page}.md`, sitePath, manuals))
     await write(repositoryRoot, `${config}/pages/${page}/lock.yaml`, JSON.stringify({schema_version: 1, current: upstreamCommit, next: upstreamCommit}))
   }
   await write(repositoryRoot, `${config}/pages/inactive/page.yaml`, 'broken: [')
@@ -58,6 +59,31 @@ async function fixture(t, {pages = ['sample'], old = true, active = false, image
     row.fields.Labels = `Ordinary navigation title ${index}: ${'Long section name '.repeat(32)}`
     row.fields.Docs = {text: slug, link: `https://example.feishu.cn/wiki/old${id}`}
     records.push(row)
+  }
+  if (realDocParent) {
+    // A canonical row owning a real Feishu doc parents the shared page; an
+    // ordinary sibling sorts ahead of it so the shared page derives its
+    // sidebar position and output path through the real-doc parent chain.
+    const parentRow = {...record('rec-parent', 'schema-best-practices'), base_record_index: 3}
+    parentRow.fields.Docs = {text: 'Best Practices', link: 'https://example.feishu.cn/wiki/parentdoc'}
+    parentRow.fields.Slug = 'schema-best-practices'
+    const siblingRow = {...record('rec-ordinary', 'ordinary-under-parent'), base_record_index: 4}
+    siblingRow.fields.Docs = {text: 'ordinary-under-parent', link: 'https://example.feishu.cn/wiki/ordinarydoc'}
+    siblingRow.fields.Slug = 'ordinary-under-parent'
+    siblingRow.fields.Parent = 'rec-parent'
+    records.push(parentRow, siblingRow)
+    for (const row of records) {
+      if (row.record_id === 'rec0') {
+        row.base_record_index = 5
+        row.fields.Parent = 'rec-parent'
+      }
+    }
+    await write(sourceDir, 'parentdoc.json', JSON.stringify({title: 'Best Practices for Schema Design', slug: 'schema-best-practices', node_token: 'parentdoc', blocks: {items: [
+      {block_id: 'parent-page', block_type: 1, page: {elements: []}, children: ['parent-body']},
+      {block_id: 'parent-body', block_type: 2, text: {elements: [{text_run: {content: 'Best practices body.', text_element_style: {}}}]}}]}}))
+    await write(sourceDir, 'ordinarydoc.json', JSON.stringify({title: 'ordinary-under-parent', slug: 'ordinary-under-parent', node_token: 'ordinarydoc', blocks: {items: [
+      {block_id: 'ordinary-page', block_type: 1, page: {elements: []}, children: ['ordinary-body']},
+      {block_id: 'ordinary-body', block_type: 2, text: {elements: [{text_run: {content: 'Ordinary body.', text_element_style: {}}}]}}]}}))
   }
   if (metadataMarker) for (const record of records) record.fields.Labels = 'Before --- After'
   const previous = {schema_version: 3, manual: 'guides', build_env: 'uat', records: old ? records.map(row => row.fields.Slug).map((page, index) => ({record_id: `rec${index}`, slug: page,
@@ -141,6 +167,38 @@ test('render identity agrees between planning and publication on zero drift', {t
     renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, 'sample')).inputs_sha256)
   assert.ok(Object.hasOwn(receipt.inputs.fetch, 'active'))
   assert.ok(/^[a-f0-9]{64}$/.test(receipt.inputs.tools.engine_sha256))
+})
+
+test('a shared page under a canonical Feishu-doc parent derives position and path through the real-doc chain', {timeout: 120000}, async t => {
+  const options = await fixture(t, {realDocParent: true, old: false})
+  // Planning runs after __apply_base_navigation rewrote the parent docx with
+  // its Base-stamped children, mirroring the restored source cache layout.
+  const prepared = adapter.prepareSharedSources({...options, devCommit: options.devCommit})
+  options.preparation = prepared.data
+  options.candidate.records.find(row => row.record_id === 'rec0').shared_page = prepared.data.inputs.rec0.identity
+  const bundle = await generateSharedSources(options, {fetchOld: async () => ({blocks: {items: [heading]}})})
+  assert.equal(bundle.outcomes[0].status, 'success', JSON.stringify(bundle.outcomes))
+  // Planning and publication identities agree byte-for-byte for the real-doc
+  // parent shape: any disagreement here would resurrect the perpetual
+  // re-render loop this fix retires.
+  assert.deepEqual(bundle.outcomes[0].identity, prepared.data.inputs.rec0.identity)
+  // The ordinary sibling sorts ahead of the shared page under the parent.
+  assert.deepEqual(bundle.outcomes[0].targets.map(target => target.path),
+    ['tutorials/manage-data/schema-best-practices/sample', 'tutorials/manage-data/schema-best-practices/sample'])
+  assert.equal(bundle.outcomes[0].targets.every(target => target.navigation.sidebar_position === 2), true)
+  for (const manual of ['guides', 'guides-byoc']) {
+    const mdx = output(options, bundle, manual), front = yaml.load(mdx.split('---')[1])
+    assert.equal(front.sidebar_position, 2)
+    assert.equal(front.sidebar_label, 'Fresh Base label')
+    assert.ok(bundle.outcomes[0].outputs.find(output => output.manual === manual).path
+      .endsWith(`tutorials/manage-data/schema-best-practices/sample.mdx`))
+  }
+  const {loadBundle} = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const {finalizePublication} = require('../../packages/docs-tooling/src/lark/sharedPagePublication')
+  const loaded = loadBundle(options.out)
+  for (const output of bundle.outcomes[0].outputs) await write(options.repositoryRoot, output.path, loaded.files.get(output.file))
+  const finalized = finalizePublication({workspace: options.repositoryRoot, handoff: loaded, candidate: options.candidate})
+  assert.equal(finalized.publication.cache_eligible, true)
 })
 
 test('zero-drift replay republishes the pinned receipt without building', {timeout: 300000}, async t => {

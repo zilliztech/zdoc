@@ -158,9 +158,30 @@ class LarkSourceIndex {
 
   find(typeOrTypes, value, options = {}) {
     const types = Array.isArray(typeOrTypes) ? typeOrTypes : [typeOrTypes]
-    const candidates = this.#findCandidates(types, value)
+    let candidates = this.#findCandidates(types, value)
     if (candidates.length === 0) {
-      throw new Error(`Cannot find ${value} in ${this.#sourceDir}`)
+      // Base navigation stamps every child with `parent_node_token =
+      // base:<table_id>:<record_id>` (larkDocScraper `__nav_token`), and the
+      // parents of structural or shared-page records are virtual sources keyed
+      // by that same composite, so the primary lookup above hits. A canonical
+      // Feishu-doc parent is keyed by its real wiki token instead, and the
+      // composite only exists as the child's pointer string. When no source
+      // carries the composite as an indexed token, resolve it through the
+      // parent's stamped `base_record_id`, narrowed by the composite's table id
+      // (sources restored from older caches may predate `base_table_id`).
+      // Wrong-direction candidates (ref/link rows, table roots, other records)
+      // are composite-keyed themselves and can never reach this fallback, and
+      // stale duplicate docx files degrade loudly through #selectUnique instead
+      // of ever resolving silently wrong.
+      const composite = /^base:([^:]+):([^:]+)$/.exec(String(value))
+      if (!composite) {
+        throw new Error(`Cannot find ${value} in ${this.#sourceDir}`)
+      }
+      candidates = this.#findCandidates(['base_record_id'], composite[2])
+        .filter(entry => entry.source.base_table_id === undefined || entry.source.base_table_id === composite[1])
+      if (candidates.length === 0) {
+        throw new Error(`Cannot find ${value} in ${this.#sourceDir}`)
+      }
     }
     // A record-id lookup can meet both the legacy docx source and the shared
     // projection of a just-flipped record while the old Feishu document must
