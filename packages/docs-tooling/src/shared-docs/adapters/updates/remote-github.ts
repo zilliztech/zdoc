@@ -132,16 +132,20 @@ export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Arra
 }
 
 export interface CheckRunObservation { id:number;name:string;head:string;status:string;conclusion:string|null;appId:number;suiteId:number }
+export interface ReservedCheck { id:number;suiteId:number;appId:number;name:string;head:string }
 
 /** Scoped Check writer: reserve (create in_progress) and complete (PATCH success) exactly one Check,
- * never a general mutation client. Reuses the transport mechanics — fixed api.github.com origin,
- * explicit TLS roots, no ambient proxy, redirect rejection, deadline and streaming size cap — while
- * admitting only POST /check-runs and PATCH /check-runs/{id} on the authenticated repository. The
- * token never reaches candidate/archive processes. No automatic retries: an unknown result stops. */
-export function createCheckWriter(options: { repositoryFullName: string; token?: string; socketRequest?: typeof httpsRequest }) {
+ * never a general mutation client. Completion authority is bound to the constructor-checked App
+ * identity and the independently read-back reservation; an out-of-scope target is rejected before
+ * any request. Reuses the transport mechanics — fixed api.github.com origin, explicit TLS roots, no
+ * ambient proxy, redirect rejection, deadline and streaming size cap. The token never reaches
+ * candidate/archive processes. No automatic retries: an unknown result stops. */
+export function createCheckWriter(options: { repositoryFullName: string; checkAppId: number; checkName: string; token?: string; socketRequest?: typeof httpsRequest }) {
   const socket = options.socketRequest ?? httpsRequest
   const token = options.token ?? process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN
   const fullName = options.repositoryFullName
+  const checkAppId = integer(options.checkAppId)
+  const checkName = str(options.checkName)
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(fullName)) fail('ENDPOINT_INVALID')
   const request = (method: 'POST' | 'PATCH', path: string, body: Record<string, unknown>, expected: number): Promise<unknown> => new Promise((resolve, reject) => {
     if (!token) { reject(new Error('CREDENTIAL_UNAVAILABLE')); return }
@@ -164,19 +168,32 @@ export function createCheckWriter(options: { repositoryFullName: string; token?:
     req.write(bytes)
     req.end()
   })
-  const observe = (value: unknown, head: string): CheckRunObservation => {
-    const raw = obj(value), id = integer(raw.id), name = str(raw.name), headSha = str(raw.head_sha)
-    if (name.length === 0 || headSha !== head) fail('CHECK_TARGET')
-    return { id, name, head: headSha, status: str(raw.status), conclusion: raw.conclusion === null ? null : str(raw.conclusion), appId: integer(obj(raw.app).id), suiteId: integer(obj(raw.check_suite).id) }
+  const observe = (value: unknown, id: number | null, head: string, suiteId: number | null): CheckRunObservation => {
+    const raw = obj(value)
+    const oid = integer(raw.id), name = str(raw.name), headSha = str(raw.head_sha)
+    const appId = integer(obj(raw.app).id), suite = integer(obj(raw.check_suite).id)
+    const status = str(raw.status), conclusion = raw.conclusion === null ? null : str(raw.conclusion)
+    if (id !== null && oid !== id) fail('CHECK_ID_MISMATCH')
+    if (headSha !== head) fail('CHECK_TARGET')
+    if (appId !== checkAppId) fail('CHECK_APP')
+    if (name !== checkName) fail('CHECK_NAME')
+    if (suiteId !== null && suite !== suiteId) fail('CHECK_SUITE')
+    return { id: oid, name, head: headSha, status, conclusion, appId, suiteId: suite }
   }
   return {
-    reserve: async (input: { name: string; headSha: string }) => {
-      str(input.name); GitShaSchema.parse(input.headSha)
-      return observe(await request('POST', `/repos/${fullName}/check-runs`, { name: input.name, head_sha: input.headSha, status: 'in_progress' }, 201), input.headSha)
-    },
-    complete: async (input: { id: number; headSha: string }) => {
+    reserve: async (input: { headSha: string }): Promise<ReservedCheck> => {
       GitShaSchema.parse(input.headSha)
-      const value = observe(await request('PATCH', `/repos/${fullName}/check-runs/${integer(input.id)}`, { status: 'completed', conclusion: 'success' }, 200), input.headSha)
+      const value = observe(await request('POST', `/repos/${fullName}/check-runs`, { name: checkName, head_sha: input.headSha, status: 'in_progress' }, 201), null, input.headSha, null)
+      if (value.status !== 'in_progress' || value.conclusion !== null) fail('CHECK_RESULT')
+      return { id: value.id, suiteId: value.suiteId, appId: value.appId, name: value.name, head: value.head }
+    },
+    complete: async (input: { reservation: ReservedCheck; headSha: string }): Promise<CheckRunObservation> => {
+      GitShaSchema.parse(input.headSha)
+      // Bind completion authority to the read-back reservation before any request.
+      if (input.reservation.head !== input.headSha) fail('CHECK_TARGET')
+      if (input.reservation.appId !== checkAppId) fail('CHECK_APP')
+      if (input.reservation.name !== checkName) fail('CHECK_NAME')
+      const value = observe(await request('PATCH', `/repos/${fullName}/check-runs/${integer(input.reservation.id)}`, { status: 'completed', conclusion: 'success' }, 200), input.reservation.id, input.headSha, input.reservation.suiteId)
       if (value.status !== 'completed' || value.conclusion !== 'success') fail('CHECK_RESULT')
       return value
     },

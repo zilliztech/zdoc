@@ -167,31 +167,59 @@ it('allows only the exact reviewed Milvus dotted ref through the transport allow
   await expect(transport({ ...request, path: '/repos/milvus-io/milvus-docs/git/ref/heads/v3.1.x' })).rejects.toThrow('ENDPOINT_INVALID')
 })
 
-it('reserves and completes exactly one Check with the scoped writer, binding head and App', async () => {
-  const received: { method: string; url: string; body: string }[] = []
-  const server = createServer((req, res) => {
+function checkSocket(respond: (method: string, path: string, body: unknown) => { status: number; body: unknown }) {
+  const received: { method: string; path: string; body: unknown }[] = []
+  const socket = ((url: URL, options: any, callback: any) => {
+    const entry: { method: string; path: string; body: unknown } = { method: options.method, path: url.pathname, body: undefined }
+    received.push(entry)
     let body = ''
-    req.on('data', chunk => { body += chunk })
-    req.on('end', () => {
-      received.push({ method: req.method ?? '', url: req.url ?? '', body })
-      const completed = (req.method ?? '') === 'PATCH'
-      res.writeHead(completed ? 200 : 201, { 'content-type': 'application/json' })
-      res.end(JSON.stringify({ id: 41, name: 'exact-validation', head_sha: oid, status: completed ? 'completed' : 'in_progress', conclusion: completed ? 'success' : null, app: { id: 15368 }, check_suite: { id: 51 } }))
+    const response = new (require('node:events') as typeof import('node:events')).EventEmitter() as import('node:events').EventEmitter & { statusCode: number }
+    process.nextTick(() => {
+      entry.body = body ? JSON.parse(body) : undefined
+      const reply = respond(options.method, url.pathname, entry.body)
+      response.statusCode = reply.status
+      callback(response)
+      response.emit('data', Buffer.from(JSON.stringify(reply.body)))
+      response.emit('end')
     })
-  })
-  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
-  const address = server.address() as { port: number }
-  const socket = ((url: URL, options: any, callback: any) => httpRequest({ hostname: '127.0.0.1', port: address.port, path: url.pathname + url.search, method: options.method, headers: options.headers, signal: options.signal, agent: false }, callback)) as unknown as typeof httpsRequest
-  const writer = createCheckWriter({ repositoryFullName: 'example/zdoc', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
-  try {
-    const reserved = await writer.reserve({ name: 'exact-validation', headSha: oid })
-    expect(reserved).toMatchObject({ id: 41, appId: 15368, suiteId: 51, status: 'in_progress', head: oid })
-    const completed = await writer.complete({ id: 41, headSha: oid })
-    expect(completed).toMatchObject({ id: 41, status: 'completed', conclusion: 'success' })
-    expect(received.map(r => `${r.method} ${r.url}`)).toEqual(['POST /repos/example/zdoc/check-runs', 'PATCH /repos/example/zdoc/check-runs/41'])
-    expect(JSON.parse(received[0].body)).toMatchObject({ name: 'exact-validation', head_sha: oid, status: 'in_progress' })
-    expect(JSON.parse(received[1].body)).toMatchObject({ status: 'completed', conclusion: 'success' })
-  } finally { await new Promise<void>(resolve => server.close(() => resolve())) }
+    return { on() {}, write(chunk: Uint8Array) { body += Buffer.from(chunk).toString() }, end() {} }
+  }) as unknown as typeof httpsRequest
+  return { socket, received }
+}
+
+it('reserves and completes exactly one Check with the scoped writer, binding reservation and App', async () => {
+  const { socket, received } = checkSocket((method) => method === 'POST'
+    ? { status: 201, body: { id: 41, name: 'exact-validation', head_sha: oid, status: 'in_progress', conclusion: null, app: { id: 15368 }, check_suite: { id: 51 } } }
+    : { status: 200, body: { id: 41, name: 'exact-validation', head_sha: oid, status: 'completed', conclusion: 'success', app: { id: 15368 }, check_suite: { id: 51 } } })
+  const writer = createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
+  const reserved = await writer.reserve({ headSha: oid })
+  expect(reserved).toMatchObject({ id: 41, appId: 15368, suiteId: 51, name: 'exact-validation', head: oid })
+  const completed = await writer.complete({ reservation: reserved, headSha: oid })
+  expect(completed).toMatchObject({ id: 41, status: 'completed', conclusion: 'success' })
+  expect(received.map(r => `${r.method} ${r.path}`)).toEqual(['POST /repos/example/zdoc/check-runs', 'PATCH /repos/example/zdoc/check-runs/41'])
+  expect(received[0].body).toMatchObject({ name: 'exact-validation', head_sha: oid, status: 'in_progress' })
+  expect(received[1].body).toMatchObject({ status: 'completed', conclusion: 'success' })
+})
+
+it('rejects a foreign name/App/suite in the reserve response and a mismatched completion id', async () => {
+  const reserve = (body: unknown) => checkSocket(() => ({ status: 201, body }))
+  await expect(createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: reserve({ id: 41, name: 'exact-validation', head_sha: oid, status: 'in_progress', conclusion: null, app: { id: 123 }, check_suite: { id: 51 } }).socket }).reserve({ headSha: oid })).rejects.toThrow('CHECK_APP')
+  await expect(createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: reserve({ id: 41, name: 'foreign-check', head_sha: oid, status: 'in_progress', conclusion: null, app: { id: 15368 }, check_suite: { id: 51 } }).socket }).reserve({ headSha: oid })).rejects.toThrow('CHECK_NAME')
+  // completion response id must equal the reserved id
+  const { socket } = checkSocket((method) => method === 'POST'
+    ? { status: 201, body: { id: 41, name: 'exact-validation', head_sha: oid, status: 'in_progress', conclusion: null, app: { id: 15368 }, check_suite: { id: 51 } } }
+    : { status: 200, body: { id: 999, name: 'exact-validation', head_sha: oid, status: 'completed', conclusion: 'success', app: { id: 15368 }, check_suite: { id: 51 } } })
+  const writer = createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
+  const reserved = await writer.reserve({ headSha: oid })
+  await expect(writer.complete({ reservation: reserved, headSha: oid })).rejects.toThrow('CHECK_ID_MISMATCH')
+})
+
+it('rejects an out-of-scope completion before any request (unbound reservation, wrong App/head)', async () => {
+  const { socket, received } = checkSocket(() => ({ status: 200, body: {} }))
+  const writer = createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
+  await expect(writer.complete({ reservation: { id: 505, suiteId: 888, appId: 123, name: 'foreign', head: oid }, headSha: oid })).rejects.toThrow('CHECK_APP')
+  await expect(writer.complete({ reservation: { id: 505, suiteId: 888, appId: 15368, name: 'exact-validation', head: 'f'.repeat(40) }, headSha: oid })).rejects.toThrow('CHECK_TARGET')
+  expect(received).toHaveLength(0)
 })
 
 it('rejects deflate streams with compressed trailing garbage even when central/descriptors agree',()=>{
