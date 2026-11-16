@@ -131,13 +131,82 @@ export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Arra
   return result
 }
 
+export interface CheckRunObservation { id:number;name:string;head:string;status:string;conclusion:string|null;appId:number;suiteId:number }
+export interface ReservedCheck { id:number;suiteId:number;appId:number;name:string;head:string }
+
+/** Scoped Check writer: reserve (create in_progress) and complete (PATCH success) exactly one Check,
+ * never a general mutation client. Completion authority is bound to the constructor-checked App
+ * identity and the independently read-back reservation; an out-of-scope target is rejected before
+ * any request. Reuses the transport mechanics — fixed api.github.com origin, explicit TLS roots, no
+ * ambient proxy, redirect rejection, deadline and streaming size cap. The token never reaches
+ * candidate/archive processes. No automatic retries: an unknown result stops. */
+export function createCheckWriter(options: { repositoryFullName: string; checkAppId: number; checkName: string; token?: string; socketRequest?: typeof httpsRequest }) {
+  const socket = options.socketRequest ?? httpsRequest
+  const token = options.token ?? process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN
+  const fullName = options.repositoryFullName
+  const checkAppId = integer(options.checkAppId)
+  const checkName = str(options.checkName)
+  if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(fullName)) fail('ENDPOINT_INVALID')
+  const request = (method: 'POST' | 'PATCH', path: string, body: Record<string, unknown>, expected: number): Promise<unknown> => new Promise((resolve, reject) => {
+    if (!token) { reject(new Error('CREDENTIAL_UNAVAILABLE')); return }
+    const bytes = canonicalBytes(body)
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), IO.requestMilliseconds)
+    const url = new URL('https://api.github.com' + path)
+    const headers: Record<string, string> = { Accept: 'application/vnd.github+json', 'User-Agent': 'zdoc-check-writer', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+    const req = socket(url, { method, headers, signal: controller.signal, agent: false, ca: [...rootCertificates], rejectUnauthorized: true }, response => {
+      let size = 0; const chunks: Buffer[] = []
+      response.on('data', chunk => { const b = Buffer.from(chunk); size += b.length; if (size > 65536) { response.destroy(); req.destroy(); clearTimeout(timer); reject(new Error('RESPONSE_LIMIT')) } else chunks.push(b) })
+      response.on('error', () => { clearTimeout(timer); reject(new Error('TRANSPORT_FAILED')) })
+      response.on('end', () => {
+        clearTimeout(timer)
+        if (response.statusCode !== expected) { reject(new Error('CHECK_WRITE_FAILED')); return }
+        try { resolve(parseStrictJson(Buffer.concat(chunks))) } catch { reject(new Error('CHECK_RESPONSE_INVALID')) }
+      })
+    })
+    req.on('error', () => { clearTimeout(timer); reject(new Error('TRANSPORT_FAILED')) })
+    req.write(bytes)
+    req.end()
+  })
+  const observe = (value: unknown, id: number | null, head: string, suiteId: number | null): CheckRunObservation => {
+    const raw = obj(value)
+    const oid = integer(raw.id), name = str(raw.name), headSha = str(raw.head_sha)
+    const appId = integer(obj(raw.app).id), suite = integer(obj(raw.check_suite).id)
+    const status = str(raw.status), conclusion = raw.conclusion === null ? null : str(raw.conclusion)
+    if (id !== null && oid !== id) fail('CHECK_ID_MISMATCH')
+    if (headSha !== head) fail('CHECK_TARGET')
+    if (appId !== checkAppId) fail('CHECK_APP')
+    if (name !== checkName) fail('CHECK_NAME')
+    if (suiteId !== null && suite !== suiteId) fail('CHECK_SUITE')
+    return { id: oid, name, head: headSha, status, conclusion, appId, suiteId: suite }
+  }
+  return {
+    reserve: async (input: { headSha: string; externalId?: string }): Promise<ReservedCheck> => {
+      GitShaSchema.parse(input.headSha)
+      const value = observe(await request('POST', `/repos/${fullName}/check-runs`, { name: checkName, head_sha: input.headSha, status: 'in_progress', ...(input.externalId === undefined ? {} : { external_id: str(input.externalId) }) }, 201), null, input.headSha, null)
+      if (value.status !== 'in_progress' || value.conclusion !== null) fail('CHECK_RESULT')
+      return { id: value.id, suiteId: value.suiteId, appId: value.appId, name: value.name, head: value.head }
+    },
+    complete: async (input: { reservation: ReservedCheck; headSha: string }): Promise<CheckRunObservation> => {
+      GitShaSchema.parse(input.headSha)
+      // Bind completion authority to the read-back reservation before any request.
+      if (input.reservation.head !== input.headSha) fail('CHECK_TARGET')
+      if (input.reservation.appId !== checkAppId) fail('CHECK_APP')
+      if (input.reservation.name !== checkName) fail('CHECK_NAME')
+      const value = observe(await request('PATCH', `/repos/${fullName}/check-runs/${integer(input.reservation.id)}`, { status: 'completed', conclusion: 'success' }, 200), input.reservation.id, input.headSha, input.reservation.suiteId)
+      if (value.status !== 'completed' || value.conclusion !== 'success') fail('CHECK_RESULT')
+      return value
+    },
+  }
+}
+
 export interface RemoteRun {
   id:number;attempt:number;repositoryId:number;headRepositoryId:number;actorId:number;workflowId:number;workflowPath:string;
   workflowDefinitionSha256:string;toolingHead:string;event:string;status:string;conclusion:string;
   workflowSuiteId:number;workflowSuiteHead:string;evidence:BlobRef[]
 }
 export interface RemoteArtifact {id:number;name:string;runId:number;toolingHead:string;archive:BlobRef;members:ReadonlyMap<string,Uint8Array>;evidence:BlobRef[]}
-export interface RemoteCheck {id:number;name:string;appId:number;suiteId:number;head:string;status:string;conclusion:string;evidence:BlobRef[]}
+export interface RemoteCheck {externalId?:string;id:number;name:string;appId:number;suiteId:number;head:string;status:string;conclusion:string;evidence:BlobRef[]}
 export interface RemoteReads {
   readRepository():Promise<RemoteReadResult<RemoteRepository>>
   readRef(ref:string):Promise<RemoteReadResult<RemoteRef>>
@@ -146,6 +215,7 @@ export interface RemoteReads {
   readCommit(oid:string):Promise<RemoteReadResult<RemoteCommit>>
   readRun(request:{id:number;attempt:number;role:'producer'|'validator'}):Promise<RemoteReadResult<RemoteRun>>
   findValidationRuns(request:{requestId:string;master:string}):Promise<RemoteReadResult<{id:number;attempt:number}[]>>
+  readOperationRuns(request:{master:string}):Promise<RemoteReadResult<{id:number;attempt:number;status:string;conclusion:string|null;evidence:BlobRef[]}[]>>
   readChecks(oid:string):Promise<RemoteReadResult<RemoteCheck[]>>
   readArtifact(request:{runId:number;attempt:number;name:string}):Promise<RemoteReadResult<RemoteArtifact>>
 }
@@ -297,8 +367,25 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
       for(const raw of selected)if(raw.workflow_id!==policy.validator.workflowId||raw.path!==policy.validator.workflowPath||raw.head_sha!==request.master||raw.event!=='workflow_dispatch'||obj(raw.repository).id!==policy.repositoryId||obj(raw.head_repository).id!==policy.repositoryId||obj(raw.actor).id!==policy.validator.actorId)fail('RUN_DISCOVERY_IDENTITY')
       await repository();return found(selected.map(raw=>({id:integer(raw.id),attempt:integer(raw.run_attempt),evidence:[...first.evidence,...second.evidence]})))
     }),
+    // Complete approved-workflow history, independent of caller-controlled request titles.
+    // Failed/unknown attempts are returned as veto evidence; only readRun may authenticate success.
+    readOperationRuns:request=>guarded(async()=>{
+      GitShaSchema.parse(request.master)
+      await repository()
+      const workflow=await api(`${root}/actions/workflows/${policy.validator.workflowId}`)
+      if(obj(workflow.value).id!==policy.validator.workflowId||obj(workflow.value).path!==policy.validator.workflowPath)fail('WORKFLOW_IDENTITY')
+      const path=`${root}/actions/workflows/${policy.validator.workflowId}/runs?event=workflow_dispatch&head_sha=${request.master}`
+      const first=await collection(path,'workflow_runs'),second=await collection(path,'workflow_runs')
+      if(!same(first.values,second.values))fail('OPERATION_HISTORY_RACE')
+      const values=first.values.map(raw=>{
+        if(raw.workflow_id!==policy.validator.workflowId||raw.path!==policy.validator.workflowPath||raw.head_sha!==request.master||raw.event!=='workflow_dispatch'||obj(raw.repository).id!==policy.repositoryId||obj(raw.head_repository).id!==policy.repositoryId||obj(raw.actor).id!==policy.validator.actorId)fail('OPERATION_HISTORY_IDENTITY')
+        return {id:integer(raw.id),attempt:integer(raw.run_attempt),status:str(raw.status),conclusion:raw.conclusion===null?null:str(raw.conclusion),evidence:[workflow.evidence,...first.evidence,...second.evidence]}
+      })
+      await repository()
+      return found(values)
+    }),
     readChecks:oid=>guarded(async()=>{GitShaSchema.parse(oid);await repository();const list=await collection(`${root}/commits/${oid}/check-runs?filter=all`,'check_runs'),again=await collection(`${root}/commits/${oid}/check-runs?filter=all`,'check_runs');if(!same(list.values,again.values))fail('CHECK_RACE');list.evidence.push(...again.evidence);await repository()
-      const values=list.values.map(raw=>({id:integer(raw.id),name:str(raw.name),appId:integer(obj(raw.app).id),suiteId:integer(obj(raw.check_suite).id),head:GitShaSchema.parse(raw.head_sha),status:str(raw.status),conclusion:raw.conclusion===null?'pending':str(raw.conclusion),evidence:list.evidence}))
+      const values=list.values.map(raw=>({...((raw.external_id===undefined||raw.external_id===null||raw.external_id==='')?{}:{externalId:str(raw.external_id)}),id:integer(raw.id),name:str(raw.name),appId:integer(obj(raw.app).id),suiteId:integer(obj(raw.check_suite).id),head:GitShaSchema.parse(raw.head_sha),status:str(raw.status),conclusion:raw.conclusion===null?'pending':str(raw.conclusion),evidence:list.evidence}))
       if(values.some(value=>value.head!==oid)||values.length>LIMIT.observations)fail('CHECK_SCOPE');return found(values) }),
     readArtifact:request=>guarded(async()=>{
       integer(request.runId);integer(request.attempt);str(request.name);await repository()
@@ -306,10 +393,10 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
       if(attempt.id!==request.runId||attempt.run_attempt!==request.attempt||obj(attempt.repository).id!==policy.repositoryId||obj(attempt.head_repository).id!==policy.repositoryId)fail('ARTIFACT_ATTEMPT')
       const list=await collection(`${root}/actions/runs/${request.runId}/artifacts`,'artifacts'),selected=list.values.filter(raw=>raw.name===request.name)
       if(selected.length!==1)fail('ARTIFACT_AMBIGUOUS');const raw=selected[0],id=integer(raw.id),owner=obj(raw.workflow_run)
-      if(owner.head_sha!==attempt.head_sha||raw.expired!==false||owner.id!==request.runId||owner.repository_id!==policy.repositoryId||owner.head_repository_id!==policy.repositoryId||!/^sha256:[a-f0-9]{64}$/.test(raw.digest)||raw.size_in_bytes>LIMIT.archiveBytes)fail('ARTIFACT_OWNER')
+      if(owner.head_sha!==attempt.head_sha||raw.expired!==false||owner.id!==request.runId||owner.repository_id!==policy.repositoryId||owner.head_repository_id!==policy.repositoryId||!/^sha256:[a-f0-9]{64}$/.test(raw.digest)||!Number.isSafeInteger(raw.size_in_bytes)||raw.size_in_bytes<1||raw.size_in_bytes>LIMIT.archiveBytes)fail('ARTIFACT_OWNER')
       const before=await api(`${root}/actions/artifacts/${id}`);if(!same(raw,before.value))fail('ARTIFACT_RACE')
       const download=await api(`${root}/actions/artifacts/${id}/zip`,undefined,LIMIT.archiveBytes)
-      if(download.status!==200||rawSha256(download.bytes)!==raw.digest.slice(7))fail('ARTIFACT_DIGEST')
+      if(download.status!==200||download.bytes.length!==raw.size_in_bytes||rawSha256(download.bytes)!==raw.digest.slice(7))fail('ARTIFACT_DIGEST')
       const members=parseRemoteZip(download.bytes),after=await api(`${root}/actions/artifacts/${id}`),again=await collection(`${root}/actions/runs/${request.runId}/artifacts`,'artifacts')
       const attemptAfter=await api(attemptPath)
       if(!same(attempt,attemptAfter.value)||!same(raw,after.value)||!same(list.values,again.values))fail('ARTIFACT_RACE');await repository()

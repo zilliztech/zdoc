@@ -1,0 +1,4 @@
+{
+  "status": "unregistered",
+  "reason": "Approved producer, validator and finalizer workflow IDs, raw definition digests and run actors must be installed through a reviewed immutable tooling context before activation."
+}
