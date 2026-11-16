@@ -18,10 +18,11 @@ Never synced (zdoc-internal state the milvus.io publication does not read): `met
 ## Drift detection
 
 ```bash
-node scripts/rest-upstream/webcontent-sync-drift.js
+node scripts/rest-upstream/webcontent-sync-drift.js                     # working tree vs web-content@master
+node scripts/rest-upstream/webcontent-sync-drift.js --at origin/master  # scheduled form: compare the fetched master, not the checkout
 ```
 
-Compares git blob hashes of the sync set against `milvus-io/web-content@master` via `gh api`, and prints the pending file list. Report-only by default; `--gate` exits non-zero on drift. The daily watchdog digest runs the same check.
+Compares git blob hashes of the sync set against `milvus-io/web-content@master` via `gh api`, and prints the pending file list. Report-only by default; `--gate` exits non-zero on drift. The daily watchdog digest runs the `--at origin/master` form (a stale or detached checkout would skew the working-tree variant).
 
 ## Procedure (every sync PR)
 

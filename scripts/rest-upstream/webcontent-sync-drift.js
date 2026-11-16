@@ -8,6 +8,7 @@
 // stale mirror. Procedure: runbook/web-content-restful-mirror.md.
 
 const crypto = require('node:crypto')
+const fs = require('node:fs')
 const {execFileSync} = require('node:child_process')
 const path = require('node:path')
 
@@ -47,14 +48,20 @@ function fetchRemoteMap({fetcher = ghApi, repo, ref, remoteMeta}) {
     return map
 }
 
-function localMap() {
+// Bytes source: the working tree by default; `gitRef` (--at) reads
+// `git show <ref>:<path>` instead, so scheduled callers can compare a
+// fetched origin/master rather than whatever the checkout holds.
+function localMap({metaRoot = ZDOC_META, gitRef = null} = {}) {
+    const bytes = rel => gitRef
+        ? execFileSync('git', ['show', `${gitRef}:packages/docs-tooling/src/reference/rest/meta/${rel}`], {cwd: REPO_ROOT, maxBuffer: 16 * 1024 * 1024})
+        : fs.readFileSync(path.join(metaRoot, rel))
     const map = new Map()
-    const openapiDir = path.join(ZDOC_META, 'openapi')
-    for (const name of require('node:fs').readdirSync(openapiDir).sort()) {
-        map.set(`openapi/${name}`, computeBlobSha(require('node:fs').readFileSync(path.join(openapiDir, name))))
+    const openapiDir = path.join(metaRoot, 'openapi')
+    for (const name of fs.readdirSync(openapiDir).sort()) {
+        map.set(`openapi/${name}`, computeBlobSha(bytes(`openapi/${name}`)))
     }
     for (const name of SYNC_ROOT_FILES) {
-        map.set(name, computeBlobSha(require('node:fs').readFileSync(path.join(ZDOC_META, name))))
+        map.set(name, computeBlobSha(bytes(name)))
     }
     return map
 }
@@ -94,7 +101,9 @@ function main(argv) {
     const repo = repoIndex >= 0 ? argv[repoIndex + 1] : DEFAULT_REMOTE_REPO
     const refIndex = argv.indexOf('--ref')
     const ref = refIndex >= 0 ? argv[refIndex + 1] : DEFAULT_REMOTE_REF
-    const drift = compareTrees(localMap(), fetchRemoteMap({repo, ref, remoteMeta: REMOTE_META}))
+    const atIndex = argv.indexOf('--at')
+    const gitRef = atIndex >= 0 ? argv[atIndex + 1] : null
+    const drift = compareTrees(localMap({gitRef}), fetchRemoteMap({repo, ref, remoteMeta: REMOTE_META}))
     const report = formatReport(drift)
     console.log(report)
     if (gate && drift.changed.length + drift.missingRemote.length + drift.missingLocal.length > 0) {
