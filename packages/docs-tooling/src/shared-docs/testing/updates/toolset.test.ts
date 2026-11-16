@@ -16,7 +16,7 @@ import { EventEmitter } from 'node:events'
 import { PassThrough } from 'node:stream'
 import { toMdx } from '../../adapters/mdx'
 import { canonicalBytes } from '../../core/updates/canonical'
-import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess } from '../../adapters/updates/toolset'
+import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess, acquireLocalIdentity } from '../../adapters/updates/toolset'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 const hostTcb = { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
@@ -33,6 +33,17 @@ async function fixture() {
   return { root, commit, cwd: root, environment: {}, flags: [] }
 }
 const commitAll = (root: string) => { git(root, 'add', '.'); git(root, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'candidate'); return git(root, 'rev-parse', 'HEAD') }
+/** A local group whose complete principal set the identity policy accepts, validated
+ * by the production oracle itself; null when this host has no such group. */
+async function trustedAncestorGroup(): Promise<number | null> {
+  const identity = await acquireLocalIdentity(process.env)
+  const candidates = [...new Set([...(process.getgroups() ?? []), process.getgid(), process.getegid()])]
+  for (const gid of candidates) {
+    if (!Number.isSafeInteger(gid) || gid < 0) continue
+    try { validateLocalIdentity(identity, [gid]); return gid } catch { /* reject this group and keep probing */ }
+  }
+  return null
+}
 async function loaderFixture() {
   const a=await fixture(), installed=await realpath(join(process.cwd(),'apps/docs/node_modules/jiti'))
   const version=JSON.parse(await readFile(join(installed,'package.json'),'utf8')).version
@@ -476,9 +487,17 @@ describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
     const directory = await realpath(await mkdtemp(join(tmpdir(), 'pnpm-guard-'))), root = process.cwd()
     await writeFile(join(directory, 'package.json'), JSON.stringify({ name: 'pnpm-guard-fixture', packageManager: 'pnpm@10.33.0', scripts: { probe: 'node probe.cjs' } }))
     await writeFile(join(directory, 'probe.cjs'), `const source=${JSON.stringify(root)},root=process.cwd(); const api=require(source+'/scripts/lib/load-typescript.js').loadTypeScript(source+'/packages/docs-tooling/src/shared-docs/adapters/updates/toolset.ts'); (async()=>{const env=await api.trustedLauncherEnvironment(root,root);if(Object.keys(env).some(k=>/^(npm_|pnpm_)/i.test(k)))throw Error('metadata leaked');for(const name of ['npm_config_npm_globalconfig','npm_config_globalconfig','npm_config_registry','npm_config__jsr_registry','PNPM_SCRIPT_SRC_DIR','npm_config_dir','npm_config_prefix','npm_config_node_gyp','npm_config_verify_deps_before_run','pnpm_config_verify_deps_before_run']){let rejected=false;try{await api.trustedLauncherEnvironment(root,root,{...process.env,[name]:'injected-override'})}catch{rejected=true}if(!rejected)throw Error('override accepted: '+name)}console.log('PINNED-PNPM-SCRIPT-GUARD-OK')})().catch(e=>{console.error(e);process.exitCode=1});`)
-    // Remove the test runner's inherited manager/loader context. The fresh pnpm *script*
-    // injects its full real defaults again, which the production guard must validate.
-    const launchEnvironment: NodeJS.ProcessEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => !/^(npm_|pnpm_|NODE_PATH$|NODE_OPTIONS$)/i.test(key)))
+    // Remove the test runner's inherited manager/loader context (the same classes
+    // the production guard forbids, from npm_/pnpm_ settings to GIT_/PYTHON_ context).
+    // The fresh pnpm *script* injects its full real defaults again, which the
+    // production guard must validate.
+    const launchEnvironment: NodeJS.ProcessEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) =>
+      !/^(npm_|pnpm_|GIT_|NODE_PATH$|NODE_OPTIONS$|LD_|DYLD_|PYTHON|DEVELOPER_DIR|SDKROOT|JITI_)/i.test(key)))
+    // Mirror the CI package-manager environment: a developer's user-level registry
+    // override (for example a mirror in ~/.npmrc) must not leak into the injected
+    // registry defaults the guard pins to the canonical public registries.
+    launchEnvironment.npm_config_registry = 'https://registry.npmjs.org/'
+    launchEnvironment.npm_config__jsr_registry = 'https://npm.jsr.io/'
     const output = execFileSync('pnpm', ['-C', directory, 'run', 'probe'], { env: launchEnvironment, encoding: 'utf8' })
     expect(output).toContain('PINNED-PNPM-SCRIPT-GUARD-OK')
   })
@@ -518,10 +537,15 @@ describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
       {GH_TOKEN:'parent-only-marker'})).rejects.toThrow('tool identity mismatch')
     await expect(launcher.runGuidesCollector({ text: 'x'.repeat(32 * 1024 * 1024) })).rejects.toThrow(/bound|large/i)
   }, 30000)
-  it.skipIf(process.platform !== 'darwin').each([0, 0o1000])('validates complete group policy with sticky bit %i and rejects changed access before reuse', async sticky => {
+  for (const sticky of [0, 0o1000] as const) it.skipIf(process.platform !== 'darwin')(`validates complete group policy with sticky bit ${sticky} and rejects changed access before reuse`, async context => {
     const a = await fixture(), parent = await realpath(await mkdtemp(join(tmpdir(),'access-ancestor-'))), root = join(parent,'repo')
     await rename(a.root,root); a.root=root; a.cwd=root
-    await chown(parent,process.geteuid!(),80); await chmod(parent,0o775 | sticky)
+    // The hardcoded admin group is only trusted on single-account CI runners; a
+    // shared machine's groups carry additional principals, and no group can be
+    // fabricated without root. Probe for one this host actually accepts.
+    const gid = await trustedAncestorGroup()
+    if (gid === null) { context.skip('No local group has a root-plus-current-only principal set; the group policy runs on CI runners'); return }
+    await chown(parent,process.geteuid!(),gid); await chmod(parent,0o775 | sticky)
     const capture = await captureTrustedToolset(a)
     await chmod(parent,0o777 | sticky)
     await expect(verifyTrustedToolset(capture)).rejects.toThrow(/access identity|Unsafe/)

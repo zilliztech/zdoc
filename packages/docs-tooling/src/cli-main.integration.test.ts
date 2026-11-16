@@ -606,8 +606,11 @@ it('runs shared-docs update through the public CLI on committed isolated inputs 
 
 function runLocalUpdateCli(args: string[], cwd = path.resolve(import.meta.dirname, '../../..'), overrides: NodeJS.ProcessEnv = {}) {
   const tool = path.resolve(import.meta.dirname, '../../../scripts/docs-tooling.js');
-  // Vitest's own module lookup is not a supported production launcher setting.
-  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !['NODE_PATH', 'NODE_OPTIONS'].includes(key)));
+  // Vitest's own module lookup is not a supported production launcher setting, and
+  // neither is the development machine's package-manager, editor, loader or SDK
+  // context that CI runners do not carry.
+  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) =>
+    !/^(NODE_PATH$|NODE_OPTIONS$|npm_|pnpm_|GIT_|LD_|DYLD_|PYTHON|DEVELOPER_DIR|SDKROOT|JITI_)/i.test(key)));
   return spawnSync(process.execPath, [tool, 'shared-docs', ...args], {cwd, encoding: 'utf8', env: {...env,...overrides}, timeout: 10_000});
 }
 
