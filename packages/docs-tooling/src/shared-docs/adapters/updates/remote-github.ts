@@ -385,7 +385,7 @@ export function createRemoteReads(input:{policy:RemotePolicy;transport?:RemoteTr
       return found(values)
     }),
     readChecks:oid=>guarded(async()=>{GitShaSchema.parse(oid);await repository();const list=await collection(`${root}/commits/${oid}/check-runs?filter=all`,'check_runs'),again=await collection(`${root}/commits/${oid}/check-runs?filter=all`,'check_runs');if(!same(list.values,again.values))fail('CHECK_RACE');list.evidence.push(...again.evidence);await repository()
-      const values=list.values.map(raw=>({...((raw.external_id===undefined||raw.external_id===null)?{}:{externalId:str(raw.external_id)}),id:integer(raw.id),name:str(raw.name),appId:integer(obj(raw.app).id),suiteId:integer(obj(raw.check_suite).id),head:GitShaSchema.parse(raw.head_sha),status:str(raw.status),conclusion:raw.conclusion===null?'pending':str(raw.conclusion),evidence:list.evidence}))
+      const values=list.values.map(raw=>({...((raw.external_id===undefined||raw.external_id===null||raw.external_id==='')?{}:{externalId:str(raw.external_id)}),id:integer(raw.id),name:str(raw.name),appId:integer(obj(raw.app).id),suiteId:integer(obj(raw.check_suite).id),head:GitShaSchema.parse(raw.head_sha),status:str(raw.status),conclusion:raw.conclusion===null?'pending':str(raw.conclusion),evidence:list.evidence}))
       if(values.some(value=>value.head!==oid)||values.length>LIMIT.observations)fail('CHECK_SCOPE');return found(values) }),
     readArtifact:request=>guarded(async()=>{
       integer(request.runId);integer(request.attempt);str(request.name);await repository()

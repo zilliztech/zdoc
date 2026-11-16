@@ -339,7 +339,7 @@ async function createSession(options) {
       'PR_CHANGED'
     )
     need(
-      found(await reads.readRef(material.pull.headRef)).oid ===
+      found(await reads.readRef(material.intent.targetRef)).oid ===
         material.provenance.seal,
       'PR_HEAD_CHANGED'
     )
@@ -413,7 +413,11 @@ async function createSession(options) {
       same(c, [...archive.members.keys()].sort(), expectedNames),
       'PRODUCER_INVENTORY'
     )
+    const targetRef =
+      'shared-update/' +
+      hash(c.canonicalBytes({ kind: 'remote-unit', unitKey: plan.unitKey }))
     const pull = found(await reads.readPull(prNumber))
+    need(pull.headRef === targetRef, 'PR_TARGET_REF')
     need(
       pull.base === master &&
         pull.head === p.seal &&
@@ -442,7 +446,7 @@ async function createSession(options) {
       candidateTree: p.candidateTree,
       previousSeal: p.previousSeal,
       preservedHumanHeads: p.preservedHumanHeads,
-      targetRef: pull.headRef,
+      targetRef,
       expectedHead: null,
       stagingRef: 'shared-update-staging/' + p.transactionId,
       pulls: [],
@@ -706,21 +710,35 @@ async function createSession(options) {
         ) && Buffer.from(authenticated.output).equals(Buffer.from(output)),
         'VALIDATOR_ARCHIVE_RACE'
       )
+      // A later successful read cannot erase an earlier unknown or conflicting inventory.
+      const initialChecks = found(authenticated.facts.checks)
+      const initialTargets = initialChecks.filter(
+        (check) =>
+          check.appId === policy.checkAppId &&
+          check.name === policy.checkName &&
+          check.head === material.provenance.seal
+      )
+      need(initialTargets.length === 1, 'CHECK_OBSERVATION_AMBIGUOUS')
       const check = await reserved(material, runId, attempt, requestId)
+      const { externalId: _initialCorrelation, ...checkFact } = check
+      need(
+        same(
+          c,
+          { ...initialTargets[0], evidence: [] },
+          { ...checkFact, evidence: [] }
+        ),
+        'CHECK_OBSERVATION_CONFLICT'
+      )
       need(
         check.id === receipt.targetCheckId &&
           check.suiteId === receipt.targetSuiteId,
         'CHECK_RECEIPT_BINDING'
       )
       const observed = await live(material)
-      const { externalId: _correlation, ...checkFact } = check
       const args = {
         ...formalArgs(material, output, observed),
         expected: authenticated.expected,
-        facts: {
-          ...authenticated.facts,
-          checks: { kind: 'found', value: [checkFact] }
-        },
+        facts: authenticated.facts,
         receiptBase64: b64(receiptBytes),
         policy
       }

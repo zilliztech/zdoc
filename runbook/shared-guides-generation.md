@@ -353,3 +353,12 @@ there is no request or environment bypass. A complete history exceeding the
 bounded inspection budget also holds. Resolve missing or ambiguous evidence
 through reviewed operator reconciliation or a fresh approved tooling context;
 do not retry the writer or manufacture a successful report.
+
+The selected PR must use the producer's exact branch:
+`shared-update/` followed by SHA-256 of canonical
+`{"kind":"remote-unit","unitKey":"<authenticated unitKey>"}`. A same-seal
+alias in the allowed namespace is held. Finalization preserves the first
+constructor-authenticated Check inventory: an unknown, ambiguous, or conflicting
+target observation stops before PATCH and cannot be cleared by a later read.
+An unrelated Check's empty external ID is treated as absent; the target Check
+still requires its exact nonempty run/attempt/request correlation.

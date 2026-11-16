@@ -261,6 +261,9 @@ export async function targetFixture({
       { subject, semanticInputSha256: report.semanticInputSha256 }
     ])
   }
+  const targetRef =
+    'shared-update/' +
+    hash(canonical({ kind: 'remote-unit', unitKey: plan.unitKey }))
   const revision = {
     kind: 'shared-update-revision',
     schemaVersion: 1,
@@ -354,7 +357,7 @@ export async function targetFixture({
         )
     ),
     seal = object('commit', rawSeal)
-  git(['update-ref', 'refs/heads/shared-update/unit', seal])
+  git(['update-ref', 'refs/heads/' + targetRef, seal])
   const producerFiles = new Map([
     ['plan.json', planBytes],
     ['proof.json', proofBytes],
@@ -491,11 +494,12 @@ export async function targetFixture({
         value = check
         status = 201
       } else if (req.method === 'PATCH' && short === '/check-runs/' + checkId) {
-        Object.assign(state.checks[0], {
+        const target = state.checks.find((check) => check.id === checkId)
+        Object.assign(target, {
           status: body.status,
           conclusion: body.conclusion
         })
-        value = state.checks[0]
+        value = target
       } else {
         status = 404
         value = {}
@@ -587,7 +591,7 @@ export async function targetFixture({
           base: { repo: { id: production }, ref: 'master', sha: master },
           head: {
             repo: { id: production },
-            ref: 'shared-update/unit',
+            ref: state.changes.prBranch ?? targetRef,
             sha: state.changes.prHead ?? seal
           },
           user: { id: writer },
@@ -651,7 +655,8 @@ export async function targetFixture({
             }
           }
         }
-      else if (short === '/commits/' + seal + '/check-runs')
+      else if (short === '/commits/' + seal + '/check-runs') {
+        state.checkReadCount = (state.checkReadCount ?? 0) + 1
         value = {
           total_count: (state.changes.hiddenChecks ?? state.checks).length,
           check_runs: (state.changes.hiddenChecks ?? state.checks).map(
@@ -661,7 +666,15 @@ export async function targetFixture({
             })
           )
         }
-      else {
+        const override = state.checkResponse?.(
+          state.checkReadCount,
+          structuredClone(value)
+        )
+        if (override) {
+          status = override.status ?? 200
+          value = override.value
+        }
+      } else {
         status = 404
         value = {}
       }
@@ -818,6 +831,7 @@ export async function targetFixture({
     target,
     seal,
     candidate,
+    targetRef,
     c,
     canonical,
     git,

@@ -314,3 +314,15 @@ it('authenticates complete twice-read operation history without filtering reques
   f.setIntercept(path=>path==='/actions/workflows/18/runs'?{status:200,body:{total_count:++count===1?1:0,workflow_runs:count===1?[value]:[]}}:undefined)
   expect((await f.reads.readOperationRuns({master:oid})).kind).toBe('unknown')
 })
+
+it('normalizes empty external IDs to absence without rejecting unrelated valid Checks',async()=>{
+  const f=await fixture()
+  const collection=f.responses[`/commits/${oid}/check-runs`] as {total_count:number;check_runs:Record<string,unknown>[]}
+  collection.total_count=2
+  collection.check_runs.push({...collection.check_runs[0],id:42,name:'unrelated',external_id:''})
+  const observed=await f.reads.readChecks(oid)
+  expect(observed.kind).toBe('found')
+  if(observed.kind==='found')expect(observed.value.find(check=>check.id===42)).not.toHaveProperty('externalId')
+  collection.check_runs[1].external_id=42
+  expect((await f.reads.readChecks(oid)).kind).toBe('unknown')
+})
