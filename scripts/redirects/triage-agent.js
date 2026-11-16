@@ -119,12 +119,17 @@ function loadReportEntries(reportPath) {
   }
   const entries = Array.isArray(report.triage) ? report.triage : []
   if (entries.length === 0) throw new Error('the report carries no triage entries')
-  for (const entry of entries) {
-    if (!entry || typeof entry.from !== 'string' || entry.from === '') {
-      throw new Error('every triage entry needs a string from')
+  // The producer's report.json names the field `path` (the raw classification
+  // entry); the triage comment block renames it to `from` at render time. A
+  // loader that only knew `from` worked against hand-written fixtures but
+  // failed on every production report, so accept both and normalize.
+  return entries.map((entry, index) => {
+    const from = entry ? (entry.from ?? entry.path) : undefined
+    if (typeof from !== 'string' || from === '') {
+      throw new Error(`triage entry ${index} needs a string from (or path)`)
     }
-  }
-  return entries
+    return {...entry, from}
+  })
 }
 
 // Pull the machine triage block out of PR comment text. The workflow passes
@@ -208,7 +213,9 @@ Triage entries:
 ${entryLines}
 
 Research rules:
+- Precedent first: this site's 404s cluster in families that operators have already mapped. Grep the exact rules in deploy/en/nginx.conf (lines shaped \`location = <path> { return 301 <target>; }\`) and the decided entries in scripts/redirects/ga4-404-remediation-ledger.json for the dead path's family before researching anything else. Known families: retired v1 SDK references (/reference/api/<sdk>/... → the /reference/<sdk>/<sdk>/v2-... pages), deduped legacy slugs (insert-N, search-N, createcollection-N, milvusclient-N), renamed pages (e.g. REST insert-entities-v2 → insert-v2, create-cluster-v2 → create-dedicated-cluster-v2), and singular/plural typo twins. A target already used by a sibling rule or a ledger decision is strong evidence.
 - The authority for "this target exists" is the redirect routes snapshot at ${ROUTES_SNAPSHOT}. Grep it for candidate targets; a target you cannot find there must not be proposed.
+- Prefer the chain endpoint: a candidate that is itself an exact-rule source in the conf would add a redirect hop. It is mechanically accepted, but when the final page is visible in the conf, propose that endpoint instead.
 - content/en holds the English source pages; git log --follow helps detect renames or retirements of a source path.
 - NEVER invent a target path. If you cannot verify a confident target, recommend "declined" (do not fix this window) with a one-line reason. Recommend "denylist" only for structural never-redirect paths (test fixtures, e2e probes, bot noise).
 - Propose a mapping only when the target page clearly serves the intent of the dead path.
@@ -414,6 +421,7 @@ module.exports = {
   buildProposePrompt,
   createCodexTurn,
   extractTriageEntries,
+  loadReportEntries,
   parseArgs,
   runInterpret,
   runPropose,

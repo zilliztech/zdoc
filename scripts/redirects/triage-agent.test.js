@@ -195,6 +195,56 @@ test('runPropose writes an advisory proposal and neutralizes bad JSON fences', a
   assert.ok(!fs.readFileSync(sanitizedPath, 'utf8').includes('ga4-404-reply-data begin'))
 })
 
+test('runPropose accepts the producer report shape (path field) and pins the research recipe', async () => {
+  const triageAgent = require('./triage-agent.js')
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'triage-propose-producer-'))
+  // Mirrors ga4-404-remediation.js report.json: triage entries are the raw
+  // classification entries, whose field is `path`, not `from`. This fixture
+  // exists because the loader used to accept only `from` — green against
+  // hand-written fixtures, fatal on every production report.
+  const reportPath = writeTemp(root, 'report.json', JSON.stringify({
+    schema_version: 1,
+    days: 7,
+    triage: [{
+      path: '/docs/mystery',
+      events: 2,
+      users: 1,
+      countries: {'United States': {events: 2, users: 1}},
+      probe: {status: 404, finalUrl: 'https://docs.zilliz.com/docs/mystery', redirectCount: 0, error: null},
+      attempted: ['exact-served', 'sdk-double-segment', 'restful-v2', 'sdk-overview', 'unique-basename'],
+      candidates: [],
+      reason: 'no ladder resolved',
+    }],
+  }))
+  const outputPath = writeTemp(root, 'proposal.md', '')
+  let seenPrompt = ''
+  const result = await triageAgent.runPropose({
+    reportPath,
+    outputPath,
+    days: 7,
+    agent: async ({prompt}) => {
+      seenPrompt = prompt
+      return `Summary.\n\n\`\`\`json\n${JSON.stringify({schema_version: 1, declined: [{from: '/docs/mystery', note: 'no confident target'}]})}\n\`\`\``
+    },
+  })
+  assert.equal(result.ok, true)
+  assert.ok(fs.readFileSync(outputPath, 'utf8').includes('/docs/mystery'))
+  // The research recipe must name its evidence sources so the agent greps the
+  // same conf/ledger precedents and routes snapshot an operator would.
+  assert.ok(seenPrompt.includes('/docs/mystery'), 'the normalized entry must reach the prompt')
+  assert.ok(seenPrompt.includes('deploy/en/nginx.conf'))
+  assert.ok(seenPrompt.includes('ga4-404-remediation-ledger.json'))
+  assert.ok(seenPrompt.includes('en-redirect-target-routes.json'))
+
+  // An entry carrying neither field still fails loudly instead of proposing
+  // against an undefined path.
+  const brokenPath = writeTemp(root, 'broken.json', JSON.stringify({schema_version: 1, triage: [{events: 1}]}))
+  await assert.rejects(
+    () => triageAgent.runPropose({reportPath: brokenPath, outputPath, days: 7, agent: async () => 'x'}),
+    /string from \(or path\)/,
+  )
+})
+
 test('runInterpret writes the canonical block, scopes decisions and reports no-decisions', async () => {
   const triageAgent = require('./triage-agent.js')
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'triage-interpret-'))
