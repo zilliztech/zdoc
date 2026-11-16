@@ -5,6 +5,7 @@ This repository builds the English/Japanese and Chinese documentation sites from
 This file is the operator runbook: setup, branch ownership, the publication runbook, and verification. Deep-dive reference pages live under [`runbook/`](runbook/):
 
 - [REST reference pipeline](runbook/rest-reference-pipeline.md) — editing fragments, upstream drift watchdog and refresh, availability operations
+- [web-content RESTful mirror](runbook/web-content-restful-mirror.md) — milvus.io RESTful reference sync channel: drift check, regeneration, sanity gates, PR conventions
 - [Replay harnesses](runbook/replay-harnesses.md) — long-form replay evidence modes
 - [Translation operations](runbook/translation-operations.md) — quality assets, the scheduled dispatcher, manifest migration, fast-path precheck, reconciliation card
 - [Shared Guides generation](runbook/shared-guides-generation.md) — source generation, publication evidence, requirement accounting
@@ -203,6 +204,7 @@ Task recipes and deep-dives live under [`runbook/`](runbook/):
 
 - Adding a new reference manual: [runbook/content-production.md](runbook/content-production.md).
 - Editing REST spec fragments, the REST upstream drift watchdog and refresh, and the REST upstream and availability operations cadence: [runbook/rest-reference-pipeline.md](runbook/rest-reference-pipeline.md).
+- Syncing the milvus.io RESTful reference mirror: [runbook/web-content-restful-mirror.md](runbook/web-content-restful-mirror.md).
 
 ## Production publication runbook
 
