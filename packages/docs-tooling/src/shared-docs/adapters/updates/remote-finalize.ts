@@ -1,8 +1,11 @@
+import { createHash } from 'node:crypto'
 import type { BlobRef } from '../../core/updates/envelope'
-import { parseStrictJson } from '../../core/updates/canonical'
+import { canonicalBytes, parseStrictJson } from '../../core/updates/canonical'
 import { acceptExactValidation, ApprovedProducerDefinitionSchema, ExactValidationReceiptV1Schema, inspectReservedValidation, RemotePolicySchema,
   type ApprovedProducerDefinition, type RemotePolicy } from '../../core/updates/remote'
 import type { CheckRunObservation, RemoteReads, ReservedCheck } from './remote-github'
+
+const sha256 = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex')
 
 export interface TargetCheckFinalize {
   status: 'accepted' | 'hold'
@@ -77,6 +80,13 @@ export async function validateTargetCheckEntry(input: {
   if ('reasons' in authenticated) return { status: 'hold', reasons: authenticated.reasons }
   const reservation = await input.writer.reserve({ headSha: authenticated.headSha })
   const { receipt, output } = input.encodeReceipt(reservation)
+  // The archived receipt must be a valid, canonical ExactValidationReceiptV1 bound to the reserved
+  // Check and App, with the output digest matching; arbitrary bytes never reach the archive.
+  const parsed = (() => { try { return ExactValidationReceiptV1Schema.safeParse(parseStrictJson(receipt)) } catch { return { success: false as const } } })()
+  if (!parsed.success || !Buffer.from(receipt).equals(canonicalBytes(parsed.data))) return { status: 'hold', reasons: ['RECEIPT_INVALID'] }
+  if (parsed.data.targetCheckId !== reservation.id || parsed.data.targetCheckAppId !== registration.policy.checkAppId ||
+      parsed.data.targetCheckHead !== authenticated.headSha) return { status: 'hold', reasons: ['RECEIPT_BINDING'] }
+  if (sha256(output) !== parsed.data.outputDigest) return { status: 'hold', reasons: ['RECEIPT_OUTPUT_DIGEST'] }
   await input.archive([{ name: 'receipt.json', bytes: receipt }, { name: 'output.json', bytes: output }])
   return { status: 'prepared', reservation }
 }

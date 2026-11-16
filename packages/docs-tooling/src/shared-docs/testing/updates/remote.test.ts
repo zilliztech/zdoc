@@ -196,6 +196,20 @@ it('runs the normal finalize entry with a full policy to accepted', async () => 
   const result = await finalizeTargetCheckEntry({ registration, reads, writer, expected: f.expected, receipt: canonicalBytes(f.receipt), facts: f.facts })
   expect(result.status).toBe('accepted'); expect(writes).toEqual([{ id: f.facts.checks.value[0].id, head: f.expected.seal }])
 })
+
+it('rejects an invalid receipt in the validate entry without archiving or returning prepared', async () => {
+  const f = fixture()
+  const registration = { policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  const archived: unknown[] = []
+  const result = await validateTargetCheckEntry({
+    registration,
+    authenticate: async () => ({ headSha: f.expected.seal }),
+    writer: { reserve: async () => ({ id: 41, suiteId: 51, appId: 9, name: f.policy.checkName, head: f.expected.seal }) } as any,
+    encodeReceipt: () => ({ receipt: Buffer.from('not-a-receipt'), output: Buffer.from('not-an-output') }),
+    archive: async (members) => { archived.push(members) },
+  })
+  expect(result.status).toBe('hold'); if (result.status === 'hold') expect(result.reasons).toContain('RECEIPT_INVALID'); expect(archived).toEqual([])
+})
 it('rejects missing and extra fields at every nested boundary', () => {
   const examples = [fixture().policy, fixture().facts, fixture().facts.validatorRuns.value[0], fixture().facts.associations.value[0],
     fixture().facts.artifacts.value[0], fixture().facts.members.value[0], fixture().receipt, fixture().facts.seal.value.metadata]
