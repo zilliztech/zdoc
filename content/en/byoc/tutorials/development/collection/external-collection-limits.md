@@ -231,7 +231,7 @@ The following table compares the operations supported by external collections an
      <td><p><strong>DropIndex</strong></p></td>
      <td><p>✅</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p><strong>DescribeIndex</strong></p></td>

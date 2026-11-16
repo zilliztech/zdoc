@@ -2657,7 +2657,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "3389cc4078a6927f31ba782b73a21c257fe6cf8c",
+      "commit": "1ef6768e5cc4b8934c7c68fb519761ef128a10d1",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -4174,7 +4174,7 @@
       ]
     },
     "dev": {
-      "commit": "9e20fbc1e0e7badb564acb5a101101b112f1d1b7",
+      "commit": "53c16013532b03e5fed8758f10e048bf4f401d5f",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -4418,7 +4418,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/create-external-collection/create-external-collection.md",
-          "sha256": "a1c65d5bc3bcaa80cad94b97eb09155a6817ca17d1df7330493eaa09b305976c"
+          "sha256": "b3492ab92e701fdbca7c4a11e720f08e4eac2193c2084e3757c359abf56b6760"
         },
         {
           "path": "content/en/byoc/tutorials/development/collection/drop-collection.md",
@@ -4666,7 +4666,7 @@
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-          "sha256": "49f3d6c6dacd530f281da9111c19fffb930a79a61f9f9ccd97b0861580a394d5"
+          "sha256": "e5d01aed5dc068815790c56ccfb6dd69742f6e2f0dab08ea5d8ad0f285a5ee4e"
         },
         {
           "path": "content/en/byoc/tutorials/development/schema/schema-explained.md",
@@ -5610,7 +5610,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md",
-          "sha256": "0adede437e6aa989e8effd4420c647065b231efc0427f81a3a7f112d2c8d3595"
+          "sha256": "a2ccbedd5434c962d4ef202ac0fb8350ec78c6f6f930108d5880a0b89fc35efe"
         },
         {
           "path": "content/en/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source.md",
@@ -5894,7 +5894,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-          "sha256": "6126a04f6499076ad8050830b8150585d6c0838302fba23a0121eb03849157bf"
+          "sha256": "2925fbc7466783bc30edae4c013ca70e74957fb982751c64cb76241b792621bc"
         },
         {
           "path": "content/en/guides/tutorials/development/schema/schema-explained.md",
@@ -7002,15 +7002,15 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "d0928bde1722e2ab2b2109fbbeaecec94672791b93d675a7189564c65eccaef4"
+          "sha256": "3fbbb9f6d390e1d6bcd3097c29c0767736455dad08e82974b94993aef93e781b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
-          "sha256": "ddbee6acbab54c39c4b5902d674078d2e4f71c5bab6a00a2dc173d9f8561963d"
+          "sha256": "925682fad480d100d46bf8bab1479e19c8d18297d5c0b289b53c83e025511e22"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/add-fields-to-an-existing-collection.json",
-          "sha256": "a5ba145e23995d628d830e080610ede938b028b8de2b8fdb4af152e70aa34eec"
+          "sha256": "0d5f4d5c1855d44564e6b8a83bb4bfb6000f07d22e04913153667f4fe2365abc"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
@@ -7277,6 +7277,10 @@
           "sha256": "090bdd0985f7a4778e58b889de3c6f8c1aa039eee1e779a96ec0ea77936da0a2"
         },
         {
+          "path": "generated/en/manifests/shared-pages/guides/schema-design-with-structs.json",
+          "sha256": "91b256edf876a4def71518e2614211d158b8c5e1623b2e714bc8074f7674827a"
+        },
+        {
           "path": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json",
           "sha256": "5212a9a4f8778de0f10521089e262859cd0ce5fe0766a10247c4809c76c4fba5"
         },
@@ -7330,7 +7334,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/upsert-entities.json",
-          "sha256": "57e3360a8a2a6fe8af37cd24ded7a16033ba17d0bc11891f5156cf902d9e3480"
+          "sha256": "3e0d3414b21d9ba8d447a3231749b76c63626722253a9c09a98a03b365263324"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-fields.json",
@@ -7378,7 +7382,7 @@
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "e32c0dc06a9b857a2769dd26eb07f1b50fdd30570719460b4f8cf0d3bec6046f"
+          "sha256": "ec0220a361fdf1307a0fca356080822de39c78e88eca4baa6e7b173d99abb797"
         }
       ]
     },
@@ -18794,12 +18798,22 @@
           }
         ]
       },
-      "active": null
+      "active": {
+        "page": "schema-design-with-structs",
+        "record": "recvlPtLE9aMJa",
+        "feishu_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
+        "feishu_aliases": [
+          "EmRZdpJ1No87NhxLKT1cDFxqnHR",
+          "VOkIwd5adiziGQkoDO1cRoRFnre"
+        ],
+        "anchors": {},
+        "activated_in": "43847158549"
+      }
     },
     "tools": {
-      "zdoc": "3389cc4078a6927f31ba782b73a21c257fe6cf8c",
+      "zdoc": "1ef6768e5cc4b8934c7c68fb519761ef128a10d1",
       "md2md": "1.3.0",
-      "engine_sha256": "cd898f292b814a2b32d68b11006d1a10cfe5749d0e05dd20225c3cd6943e7443"
+      "engine_sha256": "860e849976fbc4c88891883eaa514de6acbb1dafdd4873e902ac37f6f6ef0d8d"
     },
     "images": [
       {
