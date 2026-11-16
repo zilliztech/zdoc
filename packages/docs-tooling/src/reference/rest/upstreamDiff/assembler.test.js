@@ -471,3 +471,71 @@ test('Step-0 lane: assembled mirrors/additions report their prose-less schema no
     const addition = changeSet.entries.find(entry => entry.diffEntryId.endsWith('result|field-uncovered|'))
     assert.equal(addition.value.result.description, undefined)
 })
+
+// Cross-track retirement scoping (#1258 follow-up): operations the ledger
+// records only under another source are not this refresh's retirement calls.
+function zdocOnlyDeletionDiff(source) {
+    return {
+        source,
+        entries: [
+            {id: 'zdoc-only|post /v2/etl/merge|01-things-v2.json|requestBody|use volume||clusterId|field-absent-upstream|',
+                category: 'zdoc-only', opKey: 'post /v2/etl/merge', fragment: '01-things-v2.json', scope: 'requestBody',
+                branch: 'use volume', responseStatus: '', field: 'clusterId',
+                change: {kind: 'field-absent-upstream', before: null, after: null}, evidence: ''},
+            {id: 'zdoc-only|post /v2/things|01-things-v2.json|requestBody|||legacyFlag|param-absent-upstream|',
+                category: 'zdoc-only', opKey: 'post /v2/things', fragment: '01-things-v2.json', scope: 'requestBody',
+                branch: '', responseStatus: '', field: 'legacyFlag',
+                change: {kind: 'param-absent-upstream', before: null, after: null}, evidence: ''},
+        ],
+    }
+}
+
+function ledgerWith(opKey, source) {
+    return {schemaVersion: '1.0', entries: [
+        {opKey, source, firstSeenPin: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', firstSeenAt: '2026-11-16', classification: 'deferred',
+            reason: 'branch attribution is a human decision', owner: 'rest-upstream-bootstrap', decidedAt: '2026-11-16'},
+    ]}
+}
+
+test('zdoc-only retirement candidates for operations the ledger attributes only to another source become cross-track reports', () => {
+    const diff = zdocOnlyDeletionDiff('milvus-data-plane')
+    const ledger = ledgerWith('post /v2/etl/merge', 'zilliz-cloud-control-plane')
+    const {reports} = assembleChangeSet({diffDocument: diff, decisions: [], fragmentLoader: name => FRAGMENTS.get(name), ledger})
+    // no ledger record for post /v2/things -> stays a same-track confirm candidate
+    assert.deepEqual(reports.deletions.map(entry => entry.opKey), ['post /v2/things'])
+    assert.equal(reports.deletions[0].kind, 'param-absent-upstream')
+    assert.equal(reports.crossTrackDeletions.length, 1)
+    assert.deepEqual(reports.crossTrackDeletions[0],
+        {id: diff.entries[0].id, opKey: 'post /v2/etl/merge', scope: 'requestBody', field: 'clusterId',
+            kind: 'field-absent-upstream', ledgerSource: 'zilliz-cloud-control-plane'})
+})
+
+test('a ledger entry for the current source keeps the retirement question in the confirm list', () => {
+    const diff = zdocOnlyDeletionDiff('milvus-data-plane')
+    const ledger = ledgerWith('post /v2/etl/merge', 'milvus-data-plane')
+    const {reports} = assembleChangeSet({diffDocument: diff, decisions: [], fragmentLoader: name => FRAGMENTS.get(name), ledger})
+    assert.deepEqual(reports.deletions.map(entry => entry.opKey), ['post /v2/etl/merge', 'post /v2/things'])
+    assert.deepEqual(reports.crossTrackDeletions, [])
+})
+
+test('without a ledger every retirement candidate stays a same-track confirm entry (back-compat)', () => {
+    const {reports} = assembleChangeSet({diffDocument: zdocOnlyDeletionDiff('milvus-data-plane'), decisions: [], fragmentLoader: name => FRAGMENTS.get(name)})
+    assert.equal(reports.deletions.length, 2)
+    assert.deepEqual(reports.crossTrackDeletions, [])
+})
+
+test('mirror-retired local fields follow the same cross-track scoping', () => {
+    const diff = diffDocument()
+    diff.source = 'zilliz-cloud-control-plane'
+    const mirror = diff.entries.find(entry => entry.change.kind === 'schema')
+    mirror.droppedLocalFields = ['legacyFlag']
+    const ledger = ledgerWith('post /v2/things', 'milvus-data-plane')
+    const withLedger = assembleChangeSet({diffDocument: structuredClone(diff), decisions: [], fragmentLoader: name => FRAGMENTS.get(name), ledger})
+    assert.deepEqual(withLedger.reports.deletions, [])
+    assert.deepEqual(withLedger.reports.crossTrackDeletions,
+        [{id: mirror.id, opKey: 'post /v2/things', scope: 'requestBody', field: 'legacyFlag', kind: 'mirror-retired-local', ledgerSource: 'milvus-data-plane'}])
+    const withoutLedger = assembleChangeSet({diffDocument: structuredClone(diff), decisions: [], fragmentLoader: name => FRAGMENTS.get(name)})
+    assert.deepEqual(withoutLedger.reports.deletions,
+        [{id: mirror.id, opKey: 'post /v2/things', scope: 'requestBody', field: 'legacyFlag', kind: 'mirror-retired-local'}])
+    assert.deepEqual(withoutLedger.reports.crossTrackDeletions, [])
+})
