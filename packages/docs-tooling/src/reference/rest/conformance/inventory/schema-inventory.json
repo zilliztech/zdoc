@@ -6,36 +6,36 @@
   "02-collection-operations.json": "ae8c57b09ca4",
   "03-vector-operations.json": "27bc31e809dd",
   "04-vector-operations-v2.json": "72961ffb54c9",
-  "05-collection-operations-v2.json": "4f2a415f14c0",
+  "05-collection-operations-v2.json": "c0d081401d8d",
   "06-database-operations-v2.json": "0f026fcf2914",
   "07-index-operations-v2.json": "f12180fd9514",
   "08-partition-operations-v2.json": "77c60f81b12a",
   "09-role-operations-v2.json": "7930c706c338",
   "10-resource-group-v2.json": "f3d4eac72970",
-  "11-import-operations-v2.json": "d16f272e78fe",
+  "11-import-operations-v2.json": "94d884b27c79",
   "12-alias-operations-v2.json": "d1bebc1a999e",
   "13-user-operations-v2.json": "10756aa34d80",
   "14-privilege-group-operations-v2.json": "49dca49765a5",
   "15-cloud-meta.json": "1596c95f7dc7",
   "16-cluster-operations.json": "916016983ec0",
   "17-pipeline-operations.json": "e4786d64b14d",
-  "18-cloud-meta-v2.json": "0fe52cea27b7",
-  "19-extract-load-and-transform-v2.json": "0a71e9134a24",
-  "20-volume-operations-v2.json": "c5889bf89aaf",
-  "21-project-operations-v2.json": "ddde21cce2db",
-  "22-cluster-operations-v2.json": "479b11d743b6",
-  "23-cloud-migration-v2.json": "4b4eb060b28e",
-  "24-backup-and-restore-v2.json": "d4b3581905cd",
-  "25-metrics-and-alerts-v2.json": "24a4d182a131",
-  "26-cloud-job-v2.json": "2d899a439d19",
-  "27-invoices-v2.json": "464fadcfbed1",
-  "28-usage-v2.json": "95d192d4f400",
-  "29-on-demand-compute-v2.json": "55839a0c702e",
-  "30-global-clusters.json": "11f1989613df",
-  "31-storage-integration-v2.json": "c2b6ac27c029",
-  "32-spark-job-v2.json": "3210aec9fc54",
-  "33-on-demand-cluster-operations-v2.json": "02e70b133942",
-  "34-cloud-access-control-operations-v2.json": "9d46b9a7d0e3",
+  "18-cloud-meta-v2.json": "d8020e32b257",
+  "19-extract-load-and-transform-v2.json": "d94b1ce6f5d1",
+  "20-volume-operations-v2.json": "b81e8c51da3b",
+  "21-project-operations-v2.json": "ac3db53599f7",
+  "22-cluster-operations-v2.json": "477938a0aea0",
+  "23-cloud-migration-v2.json": "2acc14b2690f",
+  "24-backup-and-restore-v2.json": "e62cb8aa15df",
+  "25-metrics-and-alerts-v2.json": "89facad89aa3",
+  "26-cloud-job-v2.json": "ced1a80f1f94",
+  "27-invoices-v2.json": "e6d0377f311f",
+  "28-usage-v2.json": "846526bc2445",
+  "29-on-demand-compute-v2.json": "575ed891c53d",
+  "30-global-clusters.json": "f10a69c91fc5",
+  "31-storage-integration-v2.json": "c046a25cf024",
+  "32-spark-job-v2.json": "e02b883ff933",
+  "33-on-demand-cluster-operations-v2.json": "833321cdb214",
+  "34-cloud-access-control-operations-v2.json": "67329dd655c7",
   "35-cloud-api-key-operations-v2.json": "3b79107fdc4e",
   "36-private-endpoint-operations-v2.json": "4397375081f7",
   "37-file-resource-operations-v2.json": "5b866390ddf0",
@@ -4772,8 +4772,109 @@
         {
          "name": "schema",
          "in": "body",
-         "type": "ref",
-         "required": false
+         "type": "object",
+         "required": false,
+         "branches": [
+          {
+           "type": "object",
+           "fields": [
+            {
+             "name": "autoID",
+             "in": "body",
+             "type": "unresolved",
+             "required": false
+            },
+            {
+             "name": "enableDynamicField",
+             "in": "body",
+             "type": "unresolved",
+             "required": false
+            },
+            {
+             "name": "fields",
+             "in": "body",
+             "type": "array",
+             "required": false,
+             "items": {
+              "type": "object",
+              "fields": [
+               {
+                "name": "fieldName",
+                "in": "body",
+                "type": "unresolved",
+                "required": true
+               },
+               {
+                "name": "dataType",
+                "in": "body",
+                "type": "unresolved",
+                "required": true
+               },
+               {
+                "name": "elementDataType",
+                "in": "body",
+                "type": "unresolved",
+                "required": false
+               },
+               {
+                "name": "nullable",
+                "in": "body",
+                "type": "unresolved",
+                "required": false
+               },
+               {
+                "name": "defaultValue",
+                "in": "body",
+                "type": "unresolved",
+                "required": false
+               },
+               {
+                "name": "isPrimary",
+                "in": "body",
+                "type": "unresolved",
+                "required": false
+               },
+               {
+                "name": "isPartitionKey",
+                "in": "body",
+                "type": "unresolved",
+                "required": false
+               },
+               {
+                "name": "isClusteringKey",
+                "in": "body",
+                "type": "unresolved",
+                "required": false
+               },
+               {
+                "name": "elementTypeParams",
+                "in": "body",
+                "type": "unresolved",
+                "required": false
+               }
+              ],
+              "required": [
+               "fieldName",
+               "dataType"
+              ]
+             }
+            },
+            {
+             "name": "functions",
+             "in": "body",
+             "type": "unresolved",
+             "required": false
+            },
+            {
+             "name": "structFields",
+             "in": "body",
+             "type": "unresolved",
+             "required": false
+            }
+           ],
+           "required": []
+          }
+         ]
         },
         {
          "name": "indexParams",
@@ -4957,6 +5058,18 @@
          "type": "object",
          "required": [],
          "fields": []
+        },
+        {
+         "name": "externalSource",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "externalSpec",
+         "in": "body",
+         "type": "string",
+         "required": false
         }
        ],
        "required": [
@@ -4981,8 +5094,322 @@
         {
          "name": "schema",
          "in": "body",
-         "type": "ref",
-         "required": false
+         "type": "object",
+         "required": false,
+         "branches": [
+          {
+           "type": "object",
+           "fields": [
+            {
+             "name": "autoID",
+             "in": "body",
+             "type": "boolean",
+             "required": false
+            },
+            {
+             "name": "enableDynamicField",
+             "in": "body",
+             "type": "boolean",
+             "required": false
+            },
+            {
+             "name": "fields",
+             "in": "body",
+             "type": "array",
+             "required": false,
+             "items": {
+              "type": "object",
+              "fields": [
+               {
+                "name": "fieldName",
+                "in": "body",
+                "type": "string",
+                "required": true
+               },
+               {
+                "name": "dataType",
+                "in": "body",
+                "type": "string",
+                "required": true,
+                "enum": [
+                 "Bool",
+                 "Int8",
+                 "Int16",
+                 "Int32",
+                 "Int64",
+                 "Float",
+                 "Double",
+                 "VarChar",
+                 "Array",
+                 "Json",
+                 "Geometry",
+                 "BinaryVector",
+                 "FloatVector",
+                 "Float16Vector",
+                 "BFloat16Vector",
+                 "SparseFloatVector",
+                 "Int8Vector"
+                ]
+               },
+               {
+                "name": "elementDataType",
+                "in": "body",
+                "type": "string",
+                "required": false,
+                "enum": [
+                 "Bool",
+                 "Int8",
+                 "Int16",
+                 "Int32",
+                 "Int64",
+                 "Float",
+                 "Double",
+                 "VarChar"
+                ]
+               },
+               {
+                "name": "nullable",
+                "in": "body",
+                "type": "boolean",
+                "required": false
+               },
+               {
+                "name": "defaultValue",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "isPrimary",
+                "in": "body",
+                "type": "boolean",
+                "required": false
+               },
+               {
+                "name": "isPartitionKey",
+                "in": "body",
+                "type": "boolean",
+                "required": false
+               },
+               {
+                "name": "isClusteringKey",
+                "in": "body",
+                "type": "boolean",
+                "required": false
+               },
+               {
+                "name": "elementTypeParams",
+                "in": "body",
+                "type": "object",
+                "required": [],
+                "fields": [
+                 {
+                  "name": "max_length",
+                  "in": "body",
+                  "type": "integer",
+                  "required": false
+                 },
+                 {
+                  "name": "dim",
+                  "in": "body",
+                  "type": "integer",
+                  "required": false
+                 },
+                 {
+                  "name": "max_capacity",
+                  "in": "body",
+                  "type": "integer",
+                  "required": false
+                 }
+                ]
+               },
+               {
+                "name": "externalField",
+                "in": "body",
+                "type": "string",
+                "required": false
+               }
+              ],
+              "required": [
+               "fieldName",
+               "dataType"
+              ]
+             }
+            },
+            {
+             "name": "functions",
+             "in": "body",
+             "type": "array",
+             "required": false,
+             "items": {
+              "type": "object",
+              "fields": [
+               {
+                "name": "name",
+                "in": "body",
+                "type": "string",
+                "required": true
+               },
+               {
+                "name": "description",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "type",
+                "in": "body",
+                "type": "string",
+                "required": true,
+                "enum": [
+                 "BM25",
+                 "TEXTEMBEDDING",
+                 "RERANK"
+                ]
+               },
+               {
+                "name": "inputFieldNames",
+                "in": "body",
+                "type": "array",
+                "required": true,
+                "items": {
+                 "type": "string"
+                }
+               },
+               {
+                "name": "outputFieldNames",
+                "in": "body",
+                "type": "array",
+                "required": true,
+                "items": {
+                 "type": "string"
+                }
+               },
+               {
+                "name": "params",
+                "in": "body",
+                "type": "object",
+                "required": [],
+                "fields": []
+               }
+              ],
+              "required": [
+               "name",
+               "type",
+               "inputFieldNames",
+               "outputFieldNames"
+              ]
+             }
+            },
+            {
+             "name": "externalSource",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "externalSpec",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "structFields",
+             "in": "body",
+             "type": "array",
+             "required": false,
+             "items": {
+              "type": "object",
+              "fields": [
+               {
+                "name": "fieldName",
+                "in": "body",
+                "type": "string",
+                "required": true
+               },
+               {
+                "name": "description",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "fields",
+                "in": "body",
+                "type": "array",
+                "required": true,
+                "items": {
+                 "type": "object",
+                 "fields": [
+                  {
+                   "name": "fieldName",
+                   "in": "body",
+                   "type": "string",
+                   "required": true
+                  },
+                  {
+                   "name": "dataType",
+                   "in": "body",
+                   "type": "string",
+                   "required": true,
+                   "enum": [
+                    "Bool",
+                    "Int8",
+                    "Int16",
+                    "Int32",
+                    "Int64",
+                    "Float",
+                    "Double",
+                    "VarChar",
+                    "BinaryVector",
+                    "FloatVector",
+                    "Float16Vector",
+                    "BFloat16Vector",
+                    "Int8Vector"
+                   ]
+                  },
+                  {
+                   "name": "elementTypeParams",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": []
+                  }
+                 ],
+                 "required": [
+                  "fieldName",
+                  "dataType"
+                 ]
+                }
+               },
+               {
+                "name": "typeParams",
+                "in": "body",
+                "type": "object",
+                "required": [
+                 "max_capacity"
+                ],
+                "fields": [
+                 {
+                  "name": "max_capacity",
+                  "in": "body",
+                  "type": "integer",
+                  "required": true
+                 }
+                ]
+               }
+              ],
+              "required": [
+               "fieldName",
+               "fields",
+               "typeParams"
+              ]
+             }
+            }
+           ],
+           "required": []
+          }
+         ]
         },
         {
          "name": "indexParams",
@@ -5166,6 +5593,18 @@
          "type": "object",
          "required": [],
          "fields": []
+        },
+        {
+         "name": "externalSource",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "externalSpec",
+         "in": "body",
+         "type": "string",
+         "required": false
         }
        ],
        "required": [
@@ -5702,7 +6141,7 @@
             "Strong",
             "Bounded",
             "<include target=\"milvus\">Session</include>",
-            "Eventual"
+            "Eventually"
            ]
           },
           {
@@ -6263,6 +6702,45 @@
           ]
          }
         ]
+       }
+      }
+     },
+     {
+      "key": "6",
+      "summary": "External Collection from Another Cluster",
+      "value": {
+       "code": 0,
+       "data": {
+        "aliases": [],
+        "autoId": false,
+        "collectionID": 448707763883002000,
+        "collectionName": "test_collection",
+        "consistencyLevel": "Bounded",
+        "description": "",
+        "enableDynamicField": true,
+        "externalSource": "milvus://in01-xxxxxxxxxxxxxxx/default/orders",
+        "externalSpec": "{\"format\":\"milvus-table\"}",
+        "fields": [
+         {
+          "autoId": false,
+          "description": "",
+          "id": 100,
+          "name": "id",
+          "partitionKey": false,
+          "primaryKey": true,
+          "type": "Int64"
+         }
+        ],
+        "indexes": [
+         {
+          "fieldName": "vector",
+          "indexName": "vector",
+          "metricType": "COSINE"
+         }
+        ],
+        "load": "LoadStateLoaded",
+        "partitionsNum": 1,
+        "properties": []
        }
       }
      }
@@ -14891,14 +15369,8 @@
          "in": "body",
          "type": "object",
          "required": [],
-         "fields": [
-          {
-           "name": "timeout",
-           "in": "body",
-           "type": "string",
-           "required": false
-          }
-         ]
+         "fields": [],
+         "dynamic": true
         },
         {
          "name": "objectUrl",
@@ -14932,6 +15404,12 @@
         },
         {
          "name": "token",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "stageName",
          "in": "body",
          "type": "string",
          "required": false
@@ -14979,14 +15457,8 @@
          "in": "body",
          "type": "object",
          "required": [],
-         "fields": [
-          {
-           "name": "timeout",
-           "in": "body",
-           "type": "string",
-           "required": false
-          }
-         ]
+         "fields": [],
+         "dynamic": true
         },
         {
          "name": "objectUrl",
@@ -15020,6 +15492,12 @@
         },
         {
          "name": "token",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "stageName",
          "in": "body",
          "type": "string",
          "required": false
@@ -15067,14 +15545,8 @@
          "in": "body",
          "type": "object",
          "required": [],
-         "fields": [
-          {
-           "name": "timeout",
-           "in": "body",
-           "type": "string",
-           "required": false
-          }
-         ]
+         "fields": [],
+         "dynamic": true
         }
        ],
        "required": [
@@ -15096,25 +15568,22 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
          "in": "body",
-         "type": "array",
-         "required": false,
-         "items": {
-          "type": "object",
-          "fields": [
-           {
-            "name": "jobId",
-            "in": "body",
-            "type": "string",
-            "required": false
-           }
-          ],
-          "required": []
-         }
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -15222,13 +15691,15 @@
          "name": "pageSize",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "currentPage",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "dbName",
@@ -15273,127 +15744,73 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
          "in": "body",
          "type": "object",
-         "required": false,
-         "branches": [
+         "required": [],
+         "fields": [
           {
-           "type": "object",
-           "fields": [
-            {
-             "name": "count",
-             "in": "body",
-             "type": "integer",
-             "required": false
-            },
-            {
-             "name": "currentPage",
-             "in": "body",
-             "type": "integer",
-             "required": false
-            },
-            {
-             "name": "pageSize",
-             "in": "body",
-             "type": "integer",
-             "required": false
-            },
-            {
-             "name": "records",
-             "in": "body",
-             "type": "array",
-             "required": false,
-             "items": {
-              "type": "object",
-              "fields": [
-               {
-                "name": "collectionName",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "jobId",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "state",
-                "in": "body",
-                "type": "string",
-                "required": false,
-                "enum": [
-                 "Pending",
-                 "InProgress",
-                 "Completed",
-                 "Failed"
-                ]
-               }
-              ],
-              "required": []
+           "name": "records",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "collectionName",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "jobId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "state",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "Pending",
+               "Importing",
+               "Completed",
+               "Failed",
+               "Cancel",
+               "Scheduler"
+              ]
              }
-            }
-           ],
-           "required": []
+            ],
+            "required": []
+           }
           },
           {
-           "type": "object",
-           "fields": [
-            {
-             "name": "records",
-             "in": "body",
-             "type": "array",
-             "required": false,
-             "items": {
-              "type": "object",
-              "fields": [
-               {
-                "name": "collectionName",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "jobId",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "state",
-                "in": "body",
-                "type": "string",
-                "required": false,
-                "enum": [
-                 "Pending",
-                 "InProgress",
-                 "Completed",
-                 "Failed"
-                ]
-               },
-               {
-                "name": "progress",
-                "in": "body",
-                "type": "number",
-                "required": false
-               },
-               {
-                "name": "reason",
-                "in": "body",
-                "type": "string",
-                "required": false
-               }
-              ],
-              "required": []
-             }
-            }
-           ],
-           "required": []
+           "name": "count",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "currentPage",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "pageSize",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
           }
          ]
         }
@@ -15509,8 +15926,9 @@
         {
          "name": "code",
          "in": "body",
-         "type": "string",
-         "required": false
+         "type": "integer",
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -15519,106 +15937,29 @@
          "required": [],
          "fields": [
           {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
            "name": "collectionName",
            "in": "body",
            "type": "string",
            "required": false
           },
           {
-           "name": "completeTime",
+           "name": "fileName",
            "in": "body",
            "type": "string",
            "required": false
-          },
-          {
-           "name": "details",
-           "in": "body",
-           "type": "array",
-           "required": false,
-           "items": {
-            "type": "object",
-            "fields": [
-             {
-              "name": "completeTime",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "fileName",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "fileSize",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "progress",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "state",
-              "in": "body",
-              "type": "string",
-              "required": false,
-              "enum": [
-               "Pending",
-               "Importing",
-               "Completed",
-               "Failed"
-              ]
-             },
-             {
-              "name": "reason",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "importedRows",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "totalRows",
-              "in": "body",
-              "type": "string",
-              "required": false
-             }
-            ],
-            "required": []
-           }
           },
           {
            "name": "fileSize",
            "in": "body",
            "type": "integer",
-           "required": false
-          },
-          {
-           "name": "jobId",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
-           "name": "createTime",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "progress",
-           "in": "body",
-           "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "state",
@@ -15629,8 +15970,23 @@
             "Pending",
             "Importing",
             "Completed",
-            "Failed"
+            "Failed",
+            "Cancel",
+            "Scheduler"
            ]
+          },
+          {
+           "name": "progress",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "completeTime",
+           "in": "body",
+           "type": "string",
+           "required": false
           },
           {
            "name": "reason",
@@ -15639,16 +15995,76 @@
            "required": false
           },
           {
-           "name": "importedRows",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
            "name": "totalRows",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "details",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "fileName",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "fileSize",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "state",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "Pending",
+               "Importing",
+               "Completed",
+               "Failed",
+               "Cancel",
+               "Scheduler"
+              ]
+             },
+             {
+              "name": "progress",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int32"
+             },
+             {
+              "name": "completeTime",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "reason",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "totalRows",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             }
+            ],
+            "required": []
+           }
           }
          ]
         }
@@ -15814,7 +16230,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -15823,106 +16240,29 @@
          "required": [],
          "fields": [
           {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
            "name": "collectionName",
            "in": "body",
            "type": "string",
            "required": false
           },
           {
-           "name": "completeTime",
+           "name": "fileName",
            "in": "body",
            "type": "string",
            "required": false
-          },
-          {
-           "name": "details",
-           "in": "body",
-           "type": "array",
-           "required": false,
-           "items": {
-            "type": "object",
-            "fields": [
-             {
-              "name": "completeTime",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "fileName",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "fileSize",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "progress",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "state",
-              "in": "body",
-              "type": "string",
-              "required": false,
-              "enum": [
-               "Pending",
-               "Importing",
-               "Completed",
-               "Failed"
-              ]
-             },
-             {
-              "name": "reason",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "importedRows",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "totalRows",
-              "in": "body",
-              "type": "string",
-              "required": false
-             }
-            ],
-            "required": []
-           }
           },
           {
            "name": "fileSize",
            "in": "body",
            "type": "integer",
-           "required": false
-          },
-          {
-           "name": "jobId",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
-           "name": "createTime",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "progress",
-           "in": "body",
-           "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "state",
@@ -15933,8 +16273,23 @@
             "Pending",
             "Importing",
             "Completed",
-            "Failed"
+            "Failed",
+            "Cancel",
+            "Scheduler"
            ]
+          },
+          {
+           "name": "progress",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "completeTime",
+           "in": "body",
+           "type": "string",
+           "required": false
           },
           {
            "name": "reason",
@@ -15943,16 +16298,76 @@
            "required": false
           },
           {
-           "name": "importedRows",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
            "name": "totalRows",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "details",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "fileName",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "fileSize",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "state",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "Pending",
+               "Importing",
+               "Completed",
+               "Failed",
+               "Cancel",
+               "Scheduler"
+              ]
+             },
+             {
+              "name": "progress",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int32"
+             },
+             {
+              "name": "completeTime",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "reason",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "totalRows",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             }
+            ],
+            "required": []
+           }
           }
          ]
         }
@@ -25059,7 +25474,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -25187,7 +25603,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -25214,6 +25631,15 @@
             "in": "body",
             "type": "string",
             "required": false
+           },
+           {
+            "name": "supportedClusterTypes",
+            "in": "body",
+            "type": "array",
+            "required": false,
+            "items": {
+             "type": "string"
+            }
            }
           ],
           "required": []
@@ -25350,6 +25776,12 @@
            "required": false
           },
           {
+           "name": "stageName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
            "name": "volumeName",
            "in": "body",
            "type": "string",
@@ -25360,6 +25792,38 @@
            "in": "body",
            "type": "string",
            "required": false
+          },
+          {
+           "name": "region",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "credential",
+           "in": "body",
+           "type": "object",
+           "required": [],
+           "fields": [
+            {
+             "name": "accessKey",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "secretKey",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "sessionToken",
+             "in": "body",
+             "type": "string",
+             "required": false
+            }
+           ]
           }
          ]
         },
@@ -25409,6 +25873,13 @@
               "name": "maxLength",
               "in": "body",
               "type": "integer",
+              "required": false,
+              "format": "int32"
+             },
+             {
+              "name": "elementType",
+              "in": "body",
+              "type": "string",
               "required": false
              }
             ]
@@ -25416,6 +25887,18 @@
           ],
           "required": []
          }
+        },
+        {
+         "name": "onError",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "validationMode",
+         "in": "body",
+         "type": "string",
+         "required": false
         }
        ],
        "required": [
@@ -25472,7 +25955,25 @@
            "required": false
           },
           {
+           "name": "stageName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "volumeName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
            "name": "dataPath",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "region",
            "in": "body",
            "type": "string",
            "required": false
@@ -25491,6 +25992,12 @@
             },
             {
              "name": "secretKey",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "sessionToken",
              "in": "body",
              "type": "string",
              "required": false
@@ -25545,6 +26052,13 @@
               "name": "maxLength",
               "in": "body",
               "type": "integer",
+              "required": false,
+              "format": "int32"
+             },
+             {
+              "name": "elementType",
+              "in": "body",
+              "type": "string",
               "required": false
              }
             ]
@@ -25552,6 +26066,18 @@
           ],
           "required": []
          }
+        },
+        {
+         "name": "onError",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "validationMode",
+         "in": "body",
+         "type": "string",
+         "required": false
         }
        ],
        "required": [
@@ -25576,25 +26102,22 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
          "in": "body",
-         "type": "array",
-         "required": false,
-         "items": {
-          "type": "object",
-          "fields": [
-           {
-            "name": "jobId",
-            "in": "body",
-            "type": "string",
-            "required": false
-           }
-          ],
-          "required": []
-         }
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -25702,7 +26225,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -25710,24 +26234,6 @@
          "type": "object",
          "required": [],
          "fields": [
-          {
-           "name": "count",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
-           "name": "currentPage",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
-           "name": "pageSize",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
           {
            "name": "volumes",
            "in": "body",
@@ -25752,11 +26258,42 @@
               "name": "type",
               "in": "body",
               "type": "string",
+              "required": false,
+              "enum": [
+               "MANAGED",
+               "EXTERNAL"
+              ]
+             },
+             {
+              "name": "regionId",
+              "in": "body",
+              "type": "string",
               "required": false
              }
             ],
             "required": []
            }
+          },
+          {
+           "name": "count",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "currentPage",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "pageSize",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
           }
          ]
         }
@@ -25864,7 +26401,11 @@
        "name": "type",
        "in": "body",
        "type": "string",
-       "required": false
+       "required": false,
+       "enum": [
+        "MANAGED",
+        "EXTERNAL"
+       ]
       },
       {
        "name": "storageIntegrationId",
@@ -25897,7 +26438,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -25993,7 +26535,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -26017,7 +26560,11 @@
            "name": "type",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "enum": [
+            "MANAGED",
+            "EXTERNAL"
+           ]
           },
           {
            "name": "regionId",
@@ -26041,7 +26588,14 @@
            "name": "status",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "enum": [
+            "RUNNING",
+            "DELETING",
+            "DELETED",
+            "FROZEN",
+            "ERROR"
+           ]
           },
           {
            "name": "createTime",
@@ -26185,7 +26739,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -26303,7 +26858,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -26318,10 +26874,20 @@
            "required": false
           },
           {
-           "name": "type",
+           "name": "description",
            "in": "body",
            "type": "string",
            "required": false
+          },
+          {
+           "name": "type",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "MANAGED",
+            "EXTERNAL"
+           ]
           },
           {
            "name": "regionId",
@@ -26345,7 +26911,14 @@
            "name": "status",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "enum": [
+            "RUNNING",
+            "DELETING",
+            "DELETED",
+            "FROZEN",
+            "ERROR"
+           ]
           },
           {
            "name": "createTime",
@@ -26484,8 +27057,9 @@
         {
          "name": "code",
          "in": "body",
-         "type": "number",
-         "required": false
+         "type": "integer",
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -26496,22 +27070,13 @@
           "type": "object",
           "fields": [
            {
-            "name": "projectId",
+            "name": "projectName",
             "in": "body",
             "type": "string",
             "required": false
            },
            {
-            "name": "regionIds",
-            "in": "body",
-            "type": "array",
-            "required": false,
-            "items": {
-             "type": "string"
-            }
-           },
-           {
-            "name": "projectName",
+            "name": "projectId",
             "in": "body",
             "type": "string",
             "required": false
@@ -26523,22 +27088,58 @@
             "required": false
            },
            {
-            "name": "instanceCount",
+            "name": "createdBy",
             "in": "body",
             "type": "string",
             "required": false
+           },
+           {
+            "name": "instanceCount",
+            "in": "body",
+            "type": "integer",
+            "required": false,
+            "format": "int32"
+           },
+           {
+            "name": "servingInstanceCount",
+            "in": "body",
+            "type": "integer",
+            "required": false,
+            "format": "int32"
+           },
+           {
+            "name": "queryClusterCount",
+            "in": "body",
+            "type": "integer",
+            "required": false,
+            "format": "int32"
            },
            {
             "name": "createTime",
             "in": "body",
             "type": "string",
-            "required": false
+            "required": false,
+            "format": "date-time"
            },
            {
             "name": "plan",
             "in": "body",
             "type": "string",
-            "required": false
+            "required": false,
+            "enum": [
+             "Standard",
+             "Enterprise",
+             "BusinessCritical"
+            ]
+           },
+           {
+            "name": "regionIds",
+            "in": "body",
+            "type": "array",
+            "required": false,
+            "items": {
+             "type": "string"
+            }
            },
            {
             "name": "orgType",
@@ -26546,8 +27147,8 @@
             "type": "string",
             "required": false,
             "enum": [
-             "SAAS",
-             "BYOC"
+             "BYOC",
+             "SAAS"
             ]
            }
           ],
@@ -26670,6 +27271,11 @@
        "in": "body",
        "type": "string",
        "required": true,
+       "enum": [
+        "Standard",
+        "Enterprise",
+        "BusinessCritical"
+       ],
        "default": "Standard"
       },
       {
@@ -26699,21 +27305,14 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
          "in": "body",
-         "type": "object",
-         "required": [],
-         "fields": [
-          {
-           "name": "projectId",
-           "in": "body",
-           "type": "string",
-           "required": false
-          }
-         ]
+         "type": "string",
+         "required": false
         }
        ],
        "required": []
@@ -26821,7 +27420,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -26907,7 +27507,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -26916,22 +27517,13 @@
          "required": [],
          "fields": [
           {
-           "name": "projectId",
+           "name": "projectName",
            "in": "body",
            "type": "string",
            "required": false
           },
           {
-           "name": "regionIds",
-           "in": "body",
-           "type": "array",
-           "required": false,
-           "items": {
-            "type": "string"
-           }
-          },
-          {
-           "name": "projectName",
+           "name": "projectId",
            "in": "body",
            "type": "string",
            "required": false
@@ -26943,22 +27535,58 @@
            "required": false
           },
           {
+           "name": "createdBy",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
            "name": "instanceCount",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "servingInstanceCount",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "queryClusterCount",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "createTime",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "format": "date-time"
           },
           {
            "name": "plan",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "enum": [
+            "Standard",
+            "Enterprise",
+            "BusinessCritical"
+           ]
+          },
+          {
+           "name": "regionIds",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "string"
+           }
           },
           {
            "name": "orgType",
@@ -26966,8 +27594,8 @@
            "type": "string",
            "required": false,
            "enum": [
-            "SAAS",
-            "BYOC"
+            "BYOC",
+            "SAAS"
            ]
           }
          ]
@@ -27061,7 +27689,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -27145,6 +27774,11 @@
        "in": "body",
        "type": "string",
        "required": true,
+       "enum": [
+        "Standard",
+        "Enterprise",
+        "BusinessCritical"
+       ],
        "default": "Standard"
       }
      ],
@@ -27164,7 +27798,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -27269,27 +27904,17 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
          "in": "body",
-         "type": "object",
-         "required": [],
-         "fields": [
-          {
-           "name": "projectId",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "regionIds",
-           "in": "body",
-           "type": "array",
-           "required": false
-          }
-         ]
+         "type": "array",
+         "required": false,
+         "items": {
+          "type": "string"
+         }
         }
        ],
        "required": []
@@ -27377,7 +28002,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -27482,6 +28108,18 @@
      "in": "header",
      "required": false,
      "schemaType": "string"
+    },
+    {
+     "name": "projectId",
+     "in": "query",
+     "required": false,
+     "schemaType": "string"
+    },
+    {
+     "name": "regionId",
+     "in": "query",
+     "required": false,
+     "schemaType": "string"
     }
    ],
    "requestBody": null,
@@ -27496,149 +28134,189 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
          "in": "body",
-         "type": "array",
-         "required": false,
-         "items": {
-          "type": "object",
-          "fields": [
-           {
-            "name": "clusterId",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "clusterName",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "description",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "regionId",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "plan",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "cuType",
-            "in": "body",
-            "type": "string",
-            "required": false,
-            "enum": [
-             "Performance-optimized",
-             "Capacity-optimized"
-            ]
-           },
-           {
-            "name": "cuSize",
-            "in": "body",
-            "type": "integer",
-            "required": false
-           },
-           {
-            "name": "status",
-            "in": "body",
-            "type": "string",
-            "required": false,
-            "enum": [
-             "CREATING",
-             "RUNNING",
-             "DELETING",
-             "DELETED",
-             "STOPPING",
-             "RESUMING",
-             "MODIFYING",
-             "ABNORMAL",
-             "FREEZING",
-             "FROZEN",
-             "UNFREEZED",
-             "RESTORE_BACKUP",
-             "MIGRATING",
-             "RESIZING",
-             "UPGRADING",
-             "WRITING_OPERATION",
-             "SET_PRIVATE_LINK"
-            ]
-           },
-           {
-            "name": "connectAddress",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "privateLinkAddress",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "projectId",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "createTime",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "deploymentOption",
-            "in": "body",
-            "type": "string",
-            "required": false,
-            "enum": [
-             "Free",
-             "Serverless",
-             "Dedicated"
-            ]
-           },
-           {
-            "name": "globalClusterMeta",
-            "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "count",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "currentPage",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "pageSize",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "clusters",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
             "type": "object",
-            "required": [],
             "fields": [
              {
-              "name": "globalClusterId",
+              "name": "clusterId",
               "in": "body",
               "type": "string",
               "required": false
              },
              {
-              "name": "role",
+              "name": "clusterName",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "description",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "regionId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "cuType",
               "in": "body",
               "type": "string",
               "required": false,
               "enum": [
-               "PRIMARY",
-               "SECONDARY"
+               "Performance-optimized",
+               "Capacity-optimized"
+              ]
+             },
+             {
+              "name": "plan",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "Free",
+               "Standard",
+               "Enterprise",
+               "Serverless",
+               "BusinessCritical"
+              ]
+             },
+             {
+              "name": "cuSize",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "status",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "CREATING",
+               "RUNNING",
+               "DELETING",
+               "DELETED",
+               "STOPPING",
+               "RESUMING",
+               "MODIFYING",
+               "ABNORMAL",
+               "FREEZING",
+               "FROZEN",
+               "UNFREEZED",
+               "RESTORE_BACKUP",
+               "MIGRATING",
+               "RESIZING",
+               "UPGRADING",
+               "WRITING_OPERATION",
+               "SET_PRIVATE_LINK"
+              ]
+             },
+             {
+              "name": "connectAddress",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "privateLinkAddress",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "createTime",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "format": "date-time"
+             },
+             {
+              "name": "projectId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "deploymentOption",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "Free",
+               "Serverless",
+               "Dedicated"
+              ]
+             },
+             {
+              "name": "globalClusterMeta",
+              "in": "body",
+              "type": "object",
+              "required": [],
+              "fields": [
+               {
+                "name": "globalClusterId",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "role",
+                "in": "body",
+                "type": "string",
+                "required": false,
+                "enum": [
+                 "UNKNOWN",
+                 "PRIMARY",
+                 "SECONDARY"
+                ]
+               }
               ]
              }
-            ]
+            ],
+            "required": []
            }
-          ],
-          "required": []
-         }
+          }
+         ]
         }
        ],
        "required": []
@@ -27849,7 +28527,12 @@
        "name": "plan",
        "in": "body",
        "type": "string",
-       "required": false
+       "required": false,
+       "enum": [
+        "Standard",
+        "Enterprise",
+        "BusinessCritical"
+       ]
       },
       {
        "name": "cuType",
@@ -27901,12 +28584,138 @@
        "in": "body",
        "type": "string",
        "required": false
+      },
+      {
+       "name": "autoscaling",
+       "in": "body",
+       "type": "object",
+       "required": [],
+       "fields": [
+        {
+         "name": "cu",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "min",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "max",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "schedules",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "cron",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "target",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "timezone",
+              "in": "body",
+              "type": "string",
+              "required": false
+             }
+            ],
+            "required": []
+           }
+          }
+         ]
+        },
+        {
+         "name": "replica",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "min",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "max",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "schedules",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "cron",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "target",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "timezone",
+              "in": "body",
+              "type": "string",
+              "required": false
+             }
+            ],
+            "required": []
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "regionId",
+       "in": "body",
+       "type": "string",
+       "required": false
+      },
+      {
+       "name": "replica",
+       "in": "body",
+       "type": "integer",
+       "required": false,
+       "format": "int64"
       }
      ],
      "required": [
       "clusterName",
       "projectId",
-      "regionId",
       "cuSize",
       "cuType"
      ]
@@ -27923,7 +28732,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -28050,6 +28860,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "regionId",
+       "in": "body",
+       "type": "string",
+       "required": true
       }
      ],
      "required": [
@@ -28070,7 +28886,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -28197,6 +29014,12 @@
        "in": "body",
        "type": "string",
        "required": true
+      },
+      {
+       "name": "regionId",
+       "in": "body",
+       "type": "string",
+       "required": true
       }
      ],
      "required": [
@@ -28217,7 +29040,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -28340,7 +29164,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -28392,7 +29217,14 @@
            "name": "plan",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "enum": [
+            "Free",
+            "Standard",
+            "Enterprise",
+            "Serverless",
+            "BusinessCritical"
+           ]
           },
           {
            "name": "status",
@@ -28432,40 +29264,52 @@
            "required": false
           },
           {
-           "name": "replica",
+           "name": "publicAddressEnabled",
            "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "cuSize",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
-           "name": "storageSize",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
-           "name": "snapshotNumber",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
-           "name": "createProgress",
-           "in": "body",
-           "type": "integer",
+           "type": "boolean",
            "required": false
           },
           {
            "name": "createTime",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "format": "date-time"
+          },
+          {
+           "name": "replica",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "cuSize",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "storageSize",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "snapshotNumber",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "createProgress",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "deploymentOption",
@@ -28494,13 +29338,15 @@
                "name": "min",
                "in": "body",
                "type": "integer",
-               "required": false
+               "required": false,
+               "format": "int64"
               },
               {
                "name": "max",
                "in": "body",
                "type": "integer",
-               "required": false
+               "required": false,
+               "format": "int64"
               },
               {
                "name": "schedules",
@@ -28520,6 +29366,13 @@
                   "name": "target",
                   "in": "body",
                   "type": "integer",
+                  "required": false,
+                  "format": "int64"
+                 },
+                 {
+                  "name": "timezone",
+                  "in": "body",
+                  "type": "string",
                   "required": false
                  }
                 ],
@@ -28538,13 +29391,15 @@
                "name": "min",
                "in": "body",
                "type": "integer",
-               "required": false
+               "required": false,
+               "format": "int64"
               },
               {
                "name": "max",
                "in": "body",
                "type": "integer",
-               "required": false
+               "required": false,
+               "format": "int64"
               },
               {
                "name": "schedules",
@@ -28564,6 +29419,13 @@
                   "name": "target",
                   "in": "body",
                   "type": "integer",
+                  "required": false,
+                  "format": "int64"
+                 },
+                 {
+                  "name": "timezone",
+                  "in": "body",
+                  "type": "string",
                   "required": false
                  }
                 ],
@@ -28592,6 +29454,7 @@
              "type": "string",
              "required": false,
              "enum": [
+              "UNKNOWN",
               "PRIMARY",
               "SECONDARY"
              ]
@@ -28892,6 +29755,12 @@
        "in": "body",
        "type": "string",
        "required": false
+      },
+      {
+       "name": "publicAddressEnabled",
+       "in": "body",
+       "type": "boolean",
+       "required": false
       }
      ],
      "required": []
@@ -28908,7 +29777,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -29017,7 +29887,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -29123,13 +29994,15 @@
        "name": "cuSize",
        "in": "body",
        "type": "integer",
-       "required": false
+       "required": false,
+       "format": "int64"
       },
       {
        "name": "replica",
        "in": "body",
        "type": "integer",
-       "required": false
+       "required": false,
+       "format": "int64"
       },
       {
        "name": "autoscaling",
@@ -29147,13 +30020,15 @@
            "name": "min",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "max",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "schedules",
@@ -29173,6 +30048,13 @@
               "name": "target",
               "in": "body",
               "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "timezone",
+              "in": "body",
+              "type": "string",
               "required": false
              }
             ],
@@ -29191,13 +30073,15 @@
            "name": "min",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "max",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "schedules",
@@ -29217,6 +30101,13 @@
               "name": "target",
               "in": "body",
               "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "timezone",
+              "in": "body",
+              "type": "string",
               "required": false
              }
             ],
@@ -29242,7 +30133,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -29348,7 +30240,69 @@
        "name": "replica",
        "in": "body",
        "type": "integer",
-       "required": true
+       "required": true,
+       "format": "int64"
+      },
+      {
+       "name": "autoscaling",
+       "in": "body",
+       "type": "object",
+       "required": [],
+       "fields": [
+        {
+         "name": "replica",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "min",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "max",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "schedules",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "cron",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "target",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "timezone",
+              "in": "body",
+              "type": "string",
+              "required": false
+             }
+            ],
+            "required": []
+           }
+          }
+         ]
+        }
+       ]
       }
      ],
      "required": [
@@ -29367,7 +30321,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -29476,7 +30431,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -29585,7 +30541,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -29778,7 +30735,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -29934,7 +30892,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -30135,7 +31094,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -30291,7 +31251,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -30303,19 +31264,22 @@
            "name": "count",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "currentPage",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "pageSize",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "backups",
@@ -30326,13 +31290,13 @@
             "type": "object",
             "fields": [
              {
-              "name": "projectId",
+              "name": "backupId",
               "in": "body",
               "type": "string",
               "required": false
              },
              {
-              "name": "backupId",
+              "name": "projectId",
               "in": "body",
               "type": "string",
               "required": false
@@ -30364,16 +31328,28 @@
               ]
              },
              {
+              "name": "status",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "AVAILABLE",
+               "CREATING"
+              ]
+             },
+             {
               "name": "size",
               "in": "body",
               "type": "integer",
-              "required": false
+              "required": false,
+              "format": "int64"
              },
              {
               "name": "expireTime",
               "in": "body",
               "type": "string",
-              "required": false
+              "required": false,
+              "format": "date-time"
              },
              {
               "name": "clusterId",
@@ -30391,17 +31367,8 @@
               "name": "createTime",
               "in": "body",
               "type": "string",
-              "required": false
-             },
-             {
-              "name": "status",
-              "in": "body",
-              "type": "string",
               "required": false,
-              "enum": [
-               "AVAILABLE",
-               "CREATING"
-              ]
+              "format": "date-time"
              },
              {
               "name": "restoreNewInstancePolicies",
@@ -30524,7 +31491,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -30540,6 +31508,12 @@
           },
           {
            "name": "clusterName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "regionId",
            "in": "body",
            "type": "string",
            "required": false
@@ -30590,26 +31564,58 @@
            "enum": [
             "CREATING",
             "AVAILABLE",
-            "DELETED"
+            "DELETED",
+            "CANCELING",
+            "CANCELED",
+            "NOT_AVAILABLE",
+            "KEEP_BACKUP",
+            "PENDING_CANCEL",
+            "PENDING_DELETE",
+            "TABLE_DELETE",
+            "PAUSE_AVAILABLE",
+            "PAUSE_FAIL"
            ]
           },
           {
            "name": "size",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
           },
           {
-           "name": "regionId",
+           "name": "collections",
            "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "expireTime",
-           "in": "body",
-           "type": "string",
-           "required": false
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "collectionName",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "description",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "status",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "LOADED",
+               "UNLOADED"
+              ]
+             }
+            ],
+            "required": []
+           }
           },
           {
            "name": "dbCollections",
@@ -30667,7 +31673,15 @@
            "name": "createTime",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "format": "date-time"
+          },
+          {
+           "name": "expireTime",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "format": "date-time"
           },
           {
            "name": "restoreNewInstancePolicies",
@@ -30815,7 +31829,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -30944,7 +31959,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -31083,6 +32099,13 @@
           "in": "body",
           "type": "string",
           "required": false
+         },
+         {
+          "name": "retentionDays",
+          "in": "body",
+          "type": "integer",
+          "required": false,
+          "format": "int32"
          }
         ],
         "required": []
@@ -31105,7 +32128,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -31215,7 +32239,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -31255,10 +32280,11 @@
            "name": "retentionDays",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
-           "name": "crossRegionCopies",
+           "name": "crossRegionPolicies",
            "in": "body",
            "type": "array",
            "required": false,
@@ -31275,7 +32301,8 @@
               "name": "retentionDays",
               "in": "body",
               "type": "integer",
-              "required": false
+              "required": false,
+              "format": "int32"
              },
              {
               "name": "region",
@@ -31410,7 +32437,8 @@
        "name": "retentionDays",
        "in": "body",
        "type": "integer",
-       "required": false
+       "required": false,
+       "format": "int32"
       },
       {
        "name": "enabled",
@@ -31436,7 +32464,8 @@
           "name": "retentionDays",
           "in": "body",
           "type": "integer",
-          "required": false
+          "required": false,
+          "format": "int32"
          }
         ],
         "required": []
@@ -31459,7 +32488,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -31581,7 +32611,8 @@
        "name": "cuSize",
        "in": "body",
        "type": "integer",
-       "required": true
+       "required": true,
+       "format": "int64"
       },
       {
        "name": "collectionStatus",
@@ -31602,6 +32633,12 @@
         "LATEST",
         "ORIGINAL"
        ]
+      },
+      {
+       "name": "description",
+       "in": "body",
+       "type": "string",
+       "required": false
       }
      ],
      "required": [
@@ -31623,7 +32660,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -31820,7 +32858,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -31928,7 +32967,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -31940,19 +32980,22 @@
            "name": "count",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "currentPage",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "pageSize",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "alertRules",
@@ -31969,41 +33012,13 @@
               "required": false
              },
              {
+              "name": "orgId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
               "name": "projectId",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "ruleName",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "level",
-              "in": "body",
-              "type": "string",
-              "required": false,
-              "enum": [
-               "CRITICAL",
-               "WARNING"
-              ]
-             },
-             {
-              "name": "metricName",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "threshold",
-              "in": "body",
-              "type": "string",
-              "required": false
-             },
-             {
-              "name": "windowSize",
               "in": "body",
               "type": "string",
               "required": false
@@ -32021,6 +33036,86 @@
               "required": false
              },
              {
+              "name": "level",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "WARNING",
+               "CRITICAL"
+              ]
+             },
+             {
+              "name": "ruleName",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "metricName",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "metricUnit",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "percent",
+               "millisecond",
+               "second",
+               "qps",
+               "vps",
+               "count",
+               "row",
+               "vcu",
+               "count/s",
+               "count/m",
+               "gb",
+               "dollar",
+               "day",
+               "core",
+               "mb",
+               "mbps"
+              ]
+             },
+             {
+              "name": "windowSize",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "threshold",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "comparisonMethod",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "GREATER_THAN",
+               "LESS_THAN",
+               "GREATER_THAN_OR_EQUAL",
+               "LESS_THAN_OR_EQUAL",
+               "EQUAL"
+              ]
+             },
+             {
+              "name": "targetInstanceIds",
+              "in": "body",
+              "type": "array",
+              "required": false,
+              "items": {
+               "type": "string"
+              }
+             },
+             {
               "name": "actions",
               "in": "body",
               "type": "array",
@@ -32032,16 +33127,18 @@
                  "name": "type",
                  "in": "body",
                  "type": "string",
-                 "required": false,
+                 "required": true,
                  "enum": [
+                  "NOTIFY_ORG",
                   "EMAIL",
                   "SMS",
-                  "WEBHOOK",
-                  "SLACK",
-                  "LARK",
-                  "WECOM",
                   "PAGERDUTY",
-                  "OPSGENIE"
+                  "OPSGENIE",
+                  "SLACK",
+                  "WECOM",
+                  "DINGTALK",
+                  "LARK",
+                  "WEBHOOK"
                  ]
                 },
                 {
@@ -32049,84 +33146,21 @@
                  "in": "body",
                  "type": "object",
                  "required": [],
-                 "fields": [
-                  {
-                   "name": "recipients",
-                   "in": "body",
-                   "type": "object",
-                   "required": [],
-                   "fields": [
-                    {
-                     "name": "members",
-                     "in": "body",
-                     "type": "array",
-                     "required": false
-                    },
-                    {
-                     "name": "orgRoles",
-                     "in": "body",
-                     "type": "array",
-                     "required": false
-                    },
-                    {
-                     "name": "projectRoles",
-                     "in": "body",
-                     "type": "array",
-                     "required": false
-                    }
-                   ]
-                  },
-                  {
-                   "name": "url",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "webhookUrl",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "region",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "apiKey",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  }
-                 ]
+                 "fields": []
                 }
                ],
-               "required": []
+               "required": [
+                "config",
+                "type"
+               ]
               }
              },
              {
-              "name": "comparisonMethod",
+              "name": "repeatIntervalSeconds",
               "in": "body",
-              "type": "string",
+              "type": "integer",
               "required": false,
-              "enum": [
-               "GREATER_THAN",
-               "EQUALS",
-               "LESS_THAN",
-               "GREATER_THAN_OR_EQUALS",
-               "LESS_THAN_OR_EQUALS"
-              ]
-             },
-             {
-              "name": "targetInstanceIds",
-              "in": "body",
-              "type": "array",
-              "required": false,
-              "items": {
-               "type": "string"
-              }
+              "format": "int32"
              }
             ],
             "required": []
@@ -32252,8 +33286,8 @@
        "type": "string",
        "required": true,
        "enum": [
-        "CRITICAL",
-        "WARNING"
+        "WARNING",
+        "CRITICAL"
        ]
       },
       {
@@ -32300,14 +33334,16 @@
           "type": "string",
           "required": true,
           "enum": [
+           "NOTIFY_ORG",
            "EMAIL",
            "SMS",
-           "WEBHOOK",
-           "SLACK",
-           "LARK",
-           "WECOM",
            "PAGERDUTY",
-           "OPSGENIE"
+           "OPSGENIE",
+           "SLACK",
+           "WECOM",
+           "DINGTALK",
+           "LARK",
+           "WEBHOOK"
           ]
          },
          {
@@ -32315,72 +33351,12 @@
           "in": "body",
           "type": "object",
           "required": [],
-          "fields": [
-           {
-            "name": "recipients",
-            "in": "body",
-            "type": "object",
-            "required": [],
-            "fields": [
-             {
-              "name": "members",
-              "in": "body",
-              "type": "array",
-              "required": false,
-              "items": {
-               "type": "string"
-              }
-             },
-             {
-              "name": "orgRoles",
-              "in": "body",
-              "type": "array",
-              "required": false,
-              "items": {
-               "type": "string"
-              }
-             },
-             {
-              "name": "projectRoles",
-              "in": "body",
-              "type": "array",
-              "required": false,
-              "items": {
-               "type": "string"
-              }
-             }
-            ]
-           },
-           {
-            "name": "url",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "webhookUrl",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "region",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "apiKey",
-            "in": "body",
-            "type": "string",
-            "required": false
-           }
-          ]
+          "fields": []
          }
         ],
         "required": [
-         "type",
-         "config"
+         "config",
+         "type"
         ]
        }
       },
@@ -32388,13 +33364,13 @@
        "name": "comparisonMethod",
        "in": "body",
        "type": "string",
-       "required": false,
+       "required": true,
        "enum": [
         "GREATER_THAN",
-        "EQUALS",
         "LESS_THAN",
-        "GREATER_THAN_OR_EQUALS",
-        "LESS_THAN_OR_EQUALS"
+        "GREATER_THAN_OR_EQUAL",
+        "LESS_THAN_OR_EQUAL",
+        "EQUAL"
        ]
       },
       {
@@ -32416,7 +33392,8 @@
        "name": "repeatIntervalSeconds",
        "in": "body",
        "type": "integer",
-       "required": false
+       "required": false,
+       "format": "int32"
       }
      ],
      "required": [
@@ -32426,7 +33403,8 @@
       "metricName",
       "enabled",
       "sendResolved",
-      "actions"
+      "actions",
+      "comparisonMethod"
      ]
     }
    },
@@ -32441,7 +33419,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -32456,41 +33435,13 @@
            "required": false
           },
           {
+           "name": "orgId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
            "name": "projectId",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "ruleName",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "level",
-           "in": "body",
-           "type": "string",
-           "required": false,
-           "enum": [
-            "CRITICAL",
-            "WARNING"
-           ]
-          },
-          {
-           "name": "metricName",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "threshold",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "windowSize",
            "in": "body",
            "type": "string",
            "required": false
@@ -32508,6 +33459,86 @@
            "required": false
           },
           {
+           "name": "level",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "WARNING",
+            "CRITICAL"
+           ]
+          },
+          {
+           "name": "ruleName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "metricName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "metricUnit",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "percent",
+            "millisecond",
+            "second",
+            "qps",
+            "vps",
+            "count",
+            "row",
+            "vcu",
+            "count/s",
+            "count/m",
+            "gb",
+            "dollar",
+            "day",
+            "core",
+            "mb",
+            "mbps"
+           ]
+          },
+          {
+           "name": "windowSize",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "threshold",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "comparisonMethod",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "GREATER_THAN",
+            "LESS_THAN",
+            "GREATER_THAN_OR_EQUAL",
+            "LESS_THAN_OR_EQUAL",
+            "EQUAL"
+           ]
+          },
+          {
+           "name": "targetInstanceIds",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "string"
+           }
+          },
+          {
            "name": "actions",
            "in": "body",
            "type": "array",
@@ -32519,16 +33550,18 @@
               "name": "type",
               "in": "body",
               "type": "string",
-              "required": false,
+              "required": true,
               "enum": [
+               "NOTIFY_ORG",
                "EMAIL",
                "SMS",
-               "WEBHOOK",
-               "SLACK",
-               "LARK",
-               "WECOM",
                "PAGERDUTY",
-               "OPSGENIE"
+               "OPSGENIE",
+               "SLACK",
+               "WECOM",
+               "DINGTALK",
+               "LARK",
+               "WEBHOOK"
               ]
              },
              {
@@ -32536,93 +33569,21 @@
               "in": "body",
               "type": "object",
               "required": [],
-              "fields": [
-               {
-                "name": "recipients",
-                "in": "body",
-                "type": "object",
-                "required": [],
-                "fields": [
-                 {
-                  "name": "members",
-                  "in": "body",
-                  "type": "array",
-                  "required": false,
-                  "items": {
-                   "type": "string"
-                  }
-                 },
-                 {
-                  "name": "orgRoles",
-                  "in": "body",
-                  "type": "array",
-                  "required": false,
-                  "items": {
-                   "type": "string"
-                  }
-                 },
-                 {
-                  "name": "projectRoles",
-                  "in": "body",
-                  "type": "array",
-                  "required": false,
-                  "items": {
-                   "type": "string"
-                  }
-                 }
-                ]
-               },
-               {
-                "name": "url",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "webhookUrl",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "region",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "apiKey",
-                "in": "body",
-                "type": "string",
-                "required": false
-               }
-              ]
+              "fields": []
              }
             ],
-            "required": []
+            "required": [
+             "config",
+             "type"
+            ]
            }
           },
           {
-           "name": "comparisonMethod",
+           "name": "repeatIntervalSeconds",
            "in": "body",
-           "type": "string",
+           "type": "integer",
            "required": false,
-           "enum": [
-            "GREATER_THAN",
-            "EQUALS",
-            "LESS_THAN",
-            "GREATER_THAN_OR_EQUALS",
-            "LESS_THAN_OR_EQUALS"
-           ]
-          },
-          {
-           "name": "targetInstanceIds",
-           "in": "body",
-           "type": "array",
-           "required": false,
-           "items": {
-            "type": "string"
-           }
+           "format": "int32"
           }
          ]
         }
@@ -32739,17 +33700,17 @@
        "name": "level",
        "in": "body",
        "type": "string",
-       "required": false,
+       "required": true,
        "enum": [
-        "CRITICAL",
-        "WARNING"
+        "WARNING",
+        "CRITICAL"
        ]
       },
       {
        "name": "metricName",
        "in": "body",
        "type": "string",
-       "required": false
+       "required": true
       },
       {
        "name": "threshold",
@@ -32767,19 +33728,19 @@
        "name": "enabled",
        "in": "body",
        "type": "boolean",
-       "required": false
+       "required": true
       },
       {
        "name": "sendResolved",
        "in": "body",
        "type": "boolean",
-       "required": false
+       "required": true
       },
       {
        "name": "actions",
        "in": "body",
        "type": "array",
-       "required": false,
+       "required": true,
        "items": {
         "type": "object",
         "fields": [
@@ -32789,14 +33750,16 @@
           "type": "string",
           "required": true,
           "enum": [
+           "NOTIFY_ORG",
            "EMAIL",
            "SMS",
-           "WEBHOOK",
-           "SLACK",
-           "LARK",
-           "WECOM",
            "PAGERDUTY",
-           "OPSGENIE"
+           "OPSGENIE",
+           "SLACK",
+           "WECOM",
+           "DINGTALK",
+           "LARK",
+           "WEBHOOK"
           ]
          },
          {
@@ -32804,72 +33767,12 @@
           "in": "body",
           "type": "object",
           "required": [],
-          "fields": [
-           {
-            "name": "recipients",
-            "in": "body",
-            "type": "object",
-            "required": [],
-            "fields": [
-             {
-              "name": "members",
-              "in": "body",
-              "type": "array",
-              "required": false,
-              "items": {
-               "type": "string"
-              }
-             },
-             {
-              "name": "orgRoles",
-              "in": "body",
-              "type": "array",
-              "required": false,
-              "items": {
-               "type": "string"
-              }
-             },
-             {
-              "name": "projectRoles",
-              "in": "body",
-              "type": "array",
-              "required": false,
-              "items": {
-               "type": "string"
-              }
-             }
-            ]
-           },
-           {
-            "name": "url",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "webhookUrl",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "region",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
-           {
-            "name": "apiKey",
-            "in": "body",
-            "type": "string",
-            "required": false
-           }
-          ]
+          "fields": []
          }
         ],
         "required": [
-         "type",
-         "config"
+         "config",
+         "type"
         ]
        }
       },
@@ -32877,13 +33780,13 @@
        "name": "comparisonMethod",
        "in": "body",
        "type": "string",
-       "required": false,
+       "required": true,
        "enum": [
         "GREATER_THAN",
-        "EQUALS",
         "LESS_THAN",
-        "GREATER_THAN_OR_EQUALS",
-        "LESS_THAN_OR_EQUALS"
+        "GREATER_THAN_OR_EQUAL",
+        "LESS_THAN_OR_EQUAL",
+        "EQUAL"
        ]
       },
       {
@@ -32905,10 +33808,18 @@
        "name": "repeatIntervalSeconds",
        "in": "body",
        "type": "integer",
-       "required": false
+       "required": false,
+       "format": "int32"
       }
      ],
-     "required": []
+     "required": [
+      "actions",
+      "comparisonMethod",
+      "enabled",
+      "level",
+      "metricName",
+      "sendResolved"
+     ]
     }
    },
    "response": {
@@ -32922,7 +33833,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -32937,41 +33849,13 @@
            "required": false
           },
           {
+           "name": "orgId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
            "name": "projectId",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "ruleName",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "level",
-           "in": "body",
-           "type": "string",
-           "required": false,
-           "enum": [
-            "CRITICAL",
-            "WARNING"
-           ]
-          },
-          {
-           "name": "metricName",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "threshold",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "windowSize",
            "in": "body",
            "type": "string",
            "required": false
@@ -32989,6 +33873,86 @@
            "required": false
           },
           {
+           "name": "level",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "WARNING",
+            "CRITICAL"
+           ]
+          },
+          {
+           "name": "ruleName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "metricName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "metricUnit",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "percent",
+            "millisecond",
+            "second",
+            "qps",
+            "vps",
+            "count",
+            "row",
+            "vcu",
+            "count/s",
+            "count/m",
+            "gb",
+            "dollar",
+            "day",
+            "core",
+            "mb",
+            "mbps"
+           ]
+          },
+          {
+           "name": "windowSize",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "threshold",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "comparisonMethod",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "GREATER_THAN",
+            "LESS_THAN",
+            "GREATER_THAN_OR_EQUAL",
+            "LESS_THAN_OR_EQUAL",
+            "EQUAL"
+           ]
+          },
+          {
+           "name": "targetInstanceIds",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "string"
+           }
+          },
+          {
            "name": "actions",
            "in": "body",
            "type": "array",
@@ -33000,16 +33964,18 @@
               "name": "type",
               "in": "body",
               "type": "string",
-              "required": false,
+              "required": true,
               "enum": [
+               "NOTIFY_ORG",
                "EMAIL",
                "SMS",
-               "WEBHOOK",
-               "SLACK",
-               "LARK",
-               "WECOM",
                "PAGERDUTY",
-               "OPSGENIE"
+               "OPSGENIE",
+               "SLACK",
+               "WECOM",
+               "DINGTALK",
+               "LARK",
+               "WEBHOOK"
               ]
              },
              {
@@ -33017,93 +33983,21 @@
               "in": "body",
               "type": "object",
               "required": [],
-              "fields": [
-               {
-                "name": "recipients",
-                "in": "body",
-                "type": "object",
-                "required": [],
-                "fields": [
-                 {
-                  "name": "members",
-                  "in": "body",
-                  "type": "array",
-                  "required": false,
-                  "items": {
-                   "type": "string"
-                  }
-                 },
-                 {
-                  "name": "orgRoles",
-                  "in": "body",
-                  "type": "array",
-                  "required": false,
-                  "items": {
-                   "type": "string"
-                  }
-                 },
-                 {
-                  "name": "projectRoles",
-                  "in": "body",
-                  "type": "array",
-                  "required": false,
-                  "items": {
-                   "type": "string"
-                  }
-                 }
-                ]
-               },
-               {
-                "name": "url",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "webhookUrl",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "region",
-                "in": "body",
-                "type": "string",
-                "required": false
-               },
-               {
-                "name": "apiKey",
-                "in": "body",
-                "type": "string",
-                "required": false
-               }
-              ]
+              "fields": []
              }
             ],
-            "required": []
+            "required": [
+             "config",
+             "type"
+            ]
            }
           },
           {
-           "name": "comparisonMethod",
+           "name": "repeatIntervalSeconds",
            "in": "body",
-           "type": "string",
+           "type": "integer",
            "required": false,
-           "enum": [
-            "GREATER_THAN",
-            "EQUALS",
-            "LESS_THAN",
-            "GREATER_THAN_OR_EQUALS",
-            "LESS_THAN_OR_EQUALS"
-           ]
-          },
-          {
-           "name": "targetInstanceIds",
-           "in": "body",
-           "type": "array",
-           "required": false,
-           "items": {
-            "type": "string"
-           }
+           "format": "int32"
           }
          ]
         }
@@ -33217,7 +34111,15 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": []
         }
        ],
        "required": []
@@ -33381,6 +34283,19 @@
            "UNLOADED_COLLECTIONS_COUNT",
            "FLUSH_COUNT"
           ]
+         },
+         {
+          "name": "stat",
+          "in": "body",
+          "type": "string",
+          "required": false,
+          "enum": [
+           "AVG",
+           "MAX",
+           "MIN",
+           "P90",
+           "P99"
+          ]
          }
         ],
         "required": [
@@ -33406,7 +34321,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -33429,10 +34345,41 @@
               "required": false
              },
              {
+              "name": "stat",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "AVG",
+               "MAX",
+               "MIN",
+               "P90",
+               "P99"
+              ]
+             },
+             {
               "name": "unit",
               "in": "body",
               "type": "string",
-              "required": false
+              "required": false,
+              "enum": [
+               "percent",
+               "millisecond",
+               "second",
+               "qps",
+               "vps",
+               "count",
+               "row",
+               "vcu",
+               "count/s",
+               "count/m",
+               "gb",
+               "dollar",
+               "day",
+               "core",
+               "mb",
+               "mbps"
+              ]
              },
              {
               "name": "values",
@@ -33606,6 +34553,96 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "type",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "IMPORT",
+            "MIGRATION",
+            "BACKUP",
+            "RESTORE",
+            "CLONE_COLLECTION",
+            "CREATE_SAMPLE_COLLECTION",
+            "EXPORT_BACKUP",
+            "UPGRADE",
+            "FREE_TO_DEDICATE",
+            "SERVERLESS_TO_DEDICATE",
+            "DEDICATE_TO_DEDICATE",
+            "CROSS_BACKUP",
+            "CREATE_CLUSTER",
+            "MODIFY_CLUSTER_CU",
+            "MODIFY_CLUSTER_REPLICA",
+            "RESUME_CLUSTER",
+            "SUSPEND_CLUSTER",
+            "ETL",
+            "CREATE_GLOBAL_CLUSTER",
+            "CREATE_SECONDARY_CLUSTER",
+            "CREATE_SPARK_APPLICATION",
+            "DELETE_SPARK_APPLICATION",
+            "RESTART_SPARK_APPLICATION",
+            "SWITCHOVER_GLOBAL_CLUSTER",
+            "MODIFY_GLOBAL_CLUSTER_CU",
+            "FAILOVER_GLOBAL_CLUSTER",
+            "DELETE_SECONDARY_CLUSTER",
+            "CREATE_NEW_SECONDARIES",
+            "CREATE_SPARK_BATCH_JOB"
+           ]
+          },
+          {
+           "name": "status",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "PENDING",
+            "IN_PROGRESS",
+            "SUCCESSFUL",
+            "FAILED",
+            "CANCELING",
+            "CANCELED",
+            "SCHEDULER"
+           ]
+          },
+          {
+           "name": "progress",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "startTime",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "endTime",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "reason",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -33617,7 +34654,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -33699,7 +34737,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -33711,19 +34750,22 @@
            "name": "count",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "currentPage",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "pageSize",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "invoices",
@@ -33734,139 +34776,126 @@
             "type": "object",
             "fields": [
              {
-              "name": "count",
+              "name": "id",
               "in": "body",
-              "type": "integer",
+              "type": "string",
               "required": false
              },
              {
-              "name": "currentPage",
+              "name": "orgId",
               "in": "body",
-              "type": "integer",
+              "type": "string",
               "required": false
              },
              {
-              "name": "pageSize",
+              "name": "periodStart",
               "in": "body",
-              "type": "integer",
-              "required": false
-             },
-             {
-              "name": "invoices",
-              "in": "body",
-              "type": "array",
+              "type": "string",
               "required": false,
-              "items": {
-               "type": "object",
-               "fields": [
-                {
-                 "name": "id",
-                 "in": "body",
-                 "type": "string",
-                 "required": false
-                },
-                {
-                 "name": "orgId",
-                 "in": "body",
-                 "type": "string",
-                 "required": false
-                },
-                {
-                 "name": "periodStart",
-                 "in": "body",
-                 "type": "string",
-                 "required": false
-                },
-                {
-                 "name": "periodEnd",
-                 "in": "body",
-                 "type": "string",
-                 "required": false
-                },
-                {
-                 "name": "invoiceDate",
-                 "in": "body",
-                 "type": "string",
-                 "required": false
-                },
-                {
-                 "name": "dueDate",
-                 "in": "body",
-                 "type": "string",
-                 "required": false
-                },
-                {
-                 "name": "currency",
-                 "in": "body",
-                 "type": "string",
-                 "required": false
-                },
-                {
-                 "name": "status",
-                 "in": "body",
-                 "type": "string",
-                 "required": false,
-                 "enum": [
-                  "unbilled",
-                  "unconfirmed",
-                  "disputed",
-                  "unpaid",
-                  "overdue",
-                  "paid",
-                  "free"
-                 ]
-                },
-                {
-                 "name": "usageAmount",
-                 "in": "body",
-                 "type": "number",
-                 "required": false
-                },
-                {
-                 "name": "creditsApplied",
-                 "in": "body",
-                 "type": "number",
-                 "required": false
-                },
-                {
-                 "name": "alreadyBilledAmount",
-                 "in": "body",
-                 "type": "number",
-                 "required": false
-                },
-                {
-                 "name": "subtotal",
-                 "in": "body",
-                 "type": "number",
-                 "required": false
-                },
-                {
-                 "name": "tax",
-                 "in": "body",
-                 "type": "number",
-                 "required": false
-                },
-                {
-                 "name": "total",
-                 "in": "body",
-                 "type": "number",
-                 "required": false
-                },
-                {
-                 "name": "advancePayAmount",
-                 "in": "body",
-                 "type": "number",
-                 "required": false
-                },
-                {
-                 "name": "amountDue",
-                 "in": "body",
-                 "type": "number",
-                 "required": false
-                }
-               ],
-               "required": []
-              }
+              "format": "date-time"
+             },
+             {
+              "name": "periodEnd",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "format": "date-time"
+             },
+             {
+              "name": "invoiceDate",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "format": "date-time"
+             },
+             {
+              "name": "dueDate",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "format": "date-time"
+             },
+             {
+              "name": "currency",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "USD",
+               "CNY",
+               "EURO"
+              ]
+             },
+             {
+              "name": "status",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "unbilled",
+               "unconfirmed",
+               "disputed",
+               "unpaid",
+               "overdue",
+               "paid",
+               "void"
+              ]
+             },
+             {
+              "name": "usageAmount",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "creditsApplied",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "alreadyBilledAmount",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "subtotal",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "tax",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "total",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "advancePayAmount",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "amountDue",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
              }
             ],
             "required": []
@@ -33976,7 +35005,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -34000,31 +35030,40 @@
            "name": "periodStart",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "format": "date-time"
           },
           {
            "name": "periodEnd",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "format": "date-time"
           },
           {
            "name": "invoiceDate",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "format": "date-time"
           },
           {
            "name": "dueDate",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "format": "date-time"
           },
           {
            "name": "currency",
            "in": "body",
            "type": "string",
-           "required": false
+           "required": false,
+           "enum": [
+            "USD",
+            "CNY",
+            "EURO"
+           ]
           },
           {
            "name": "status",
@@ -34038,56 +35077,64 @@
             "unpaid",
             "overdue",
             "paid",
-            "free"
+            "void"
            ]
           },
           {
            "name": "usageAmount",
            "in": "body",
-           "type": "number",
-           "required": false
+           "type": "integer",
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "creditsApplied",
            "in": "body",
-           "type": "number",
-           "required": false
+           "type": "integer",
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "alreadyBilledAmount",
            "in": "body",
-           "type": "number",
-           "required": false
+           "type": "integer",
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "subtotal",
            "in": "body",
-           "type": "number",
-           "required": false
+           "type": "integer",
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "tax",
            "in": "body",
-           "type": "number",
-           "required": false
+           "type": "integer",
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "total",
            "in": "body",
-           "type": "number",
-           "required": false
+           "type": "integer",
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "advancePayAmount",
            "in": "body",
-           "type": "number",
-           "required": false
+           "type": "integer",
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "amountDue",
            "in": "body",
-           "type": "number",
-           "required": false
+           "type": "integer",
+           "required": false,
+           "format": "int64"
           }
          ]
         }
@@ -34202,7 +35249,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -34242,7 +35290,12 @@
               "name": "currency",
               "in": "body",
               "type": "string",
-              "required": false
+              "required": false,
+              "enum": [
+               "USD",
+               "CNY",
+               "EURO"
+              ]
              },
              {
               "name": "items",
@@ -34267,80 +35320,31 @@
                   "write_vcu",
                   "storage_serverless",
                   "pipeline_tokens",
-                  "stage",
+                  "data_transfer",
+                  "vCPU",
+                  "memory",
+                  "storage_byoc",
+                  "proxy_compute",
+                  "audit_log_cu",
                   "data_transfer_new",
-                  "lakebase_storage",
-                  "lakebase_storage_request",
+                  "cold_data_access",
+                  "stage",
                   "query_cu_ondemand",
                   "indexing_cu",
-                  "cold_data_access",
-                  "audit_log_cu"
-                 ]
-                },
-                {
-                 "name": "properties",
-                 "in": "body",
-                 "type": "object",
-                 "required": [],
-                 "fields": [
-                  {
-                   "name": "projectId",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "regionId",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "cuType",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "plan",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "clusterId",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "resourceType",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "resourceId",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "volumeName",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  },
-                  {
-                   "name": "requestClass",
-                   "in": "body",
-                   "type": "string",
-                   "required": false
-                  }
+                  "lakebase_storage",
+                  "lakebase_storage_request",
+                  "spark_batch_cu",
+                  "overage_vcpu"
                  ]
                 },
                 {
                  "name": "quantity",
+                 "in": "body",
+                 "type": "number",
+                 "required": false
+                },
+                {
+                 "name": "amount",
                  "in": "body",
                  "type": "number",
                  "required": false
@@ -34380,10 +35384,73 @@
                  ]
                 },
                 {
-                 "name": "amount",
+                 "name": "properties",
                  "in": "body",
-                 "type": "number",
-                 "required": false
+                 "type": "object",
+                 "required": [],
+                 "fields": [
+                  {
+                   "name": "projectId",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "regionId",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "cuType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "plan",
+                   "in": "body",
+                   "type": "string",
+                   "required": false,
+                   "enum": [
+                    "Free",
+                    "Standard",
+                    "Enterprise",
+                    "Serverless",
+                    "BusinessCritical"
+                   ]
+                  },
+                  {
+                   "name": "clusterId",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "resourceType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "resourceId",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "volumeName",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "requestClass",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  }
+                 ]
                 }
                ],
                "required": []
@@ -34558,7 +35625,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -34692,7 +35760,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -34832,7 +35901,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -35002,6 +36072,108 @@
           ],
           "required": []
          }
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "count",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "currentPage",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "pageSize",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int32"
+          },
+          {
+           "name": "globalClusters",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "globalClusterId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "globalClusterName",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "projectId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "regionIds",
+              "in": "body",
+              "type": "array",
+              "required": false,
+              "items": {
+               "type": "string"
+              }
+             },
+             {
+              "name": "cuType",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "Performance-optimized",
+               "Capacity-optimized",
+               "Cost-optimized",
+               "Tiered-storage",
+               "Free",
+               "Serverless"
+              ]
+             },
+             {
+              "name": "cuSize",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "connectAddress",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "createTime",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "format": "date-time"
+             }
+            ],
+            "required": []
+           }
+          }
+         ]
         }
        ],
        "required": []
@@ -35013,7 +36185,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -35155,6 +36328,13 @@
          "in": "body",
          "type": "string",
          "required": true
+        },
+        {
+         "name": "replica",
+         "in": "body",
+         "type": "integer",
+         "required": false,
+         "format": "int64"
         }
        ]
       },
@@ -35177,6 +36357,13 @@
           "in": "body",
           "type": "string",
           "required": true
+         },
+         {
+          "name": "replica",
+          "in": "body",
+          "type": "integer",
+          "required": false,
+          "format": "int64"
          }
         ],
         "required": [
@@ -35184,6 +36371,120 @@
          "regionId"
         ]
        }
+      },
+      {
+       "name": "autoscaling",
+       "in": "body",
+       "type": "object",
+       "required": [],
+       "fields": [
+        {
+         "name": "cu",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "min",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "max",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "schedules",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "cron",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "target",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "timezone",
+              "in": "body",
+              "type": "string",
+              "required": false
+             }
+            ],
+            "required": []
+           }
+          }
+         ]
+        },
+        {
+         "name": "replica",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "min",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "max",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "schedules",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "cron",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "target",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "timezone",
+              "in": "body",
+              "type": "string",
+              "required": false
+             }
+            ],
+            "required": []
+           }
+          }
+         ]
+        }
+       ]
       }
      ],
      "required": [
@@ -35226,6 +36527,38 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "globalClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "username",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "password",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -35237,7 +36570,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -35405,6 +36739,243 @@
           ],
           "required": []
          }
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "globalClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "globalClusterName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "projectId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "regionIds",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "string"
+           }
+          },
+          {
+           "name": "cuType",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "Performance-optimized",
+            "Capacity-optimized",
+            "Cost-optimized",
+            "Tiered-storage",
+            "Free",
+            "Serverless"
+           ]
+          },
+          {
+           "name": "cuSize",
+           "in": "body",
+           "type": "integer",
+           "required": false,
+           "format": "int64"
+          },
+          {
+           "name": "autoscaling",
+           "in": "body",
+           "type": "object",
+           "required": [],
+           "fields": [
+            {
+             "name": "cu",
+             "in": "body",
+             "type": "object",
+             "required": [],
+             "fields": [
+              {
+               "name": "min",
+               "in": "body",
+               "type": "integer",
+               "required": false,
+               "format": "int64"
+              },
+              {
+               "name": "max",
+               "in": "body",
+               "type": "integer",
+               "required": false,
+               "format": "int64"
+              },
+              {
+               "name": "schedules",
+               "in": "body",
+               "type": "array",
+               "required": false,
+               "items": {
+                "type": "object",
+                "fields": [
+                 {
+                  "name": "cron",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "target",
+                  "in": "body",
+                  "type": "integer",
+                  "required": false,
+                  "format": "int64"
+                 },
+                 {
+                  "name": "timezone",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 }
+                ],
+                "required": []
+               }
+              }
+             ]
+            },
+            {
+             "name": "replica",
+             "in": "body",
+             "type": "object",
+             "required": [],
+             "fields": [
+              {
+               "name": "min",
+               "in": "body",
+               "type": "integer",
+               "required": false,
+               "format": "int64"
+              },
+              {
+               "name": "max",
+               "in": "body",
+               "type": "integer",
+               "required": false,
+               "format": "int64"
+              },
+              {
+               "name": "schedules",
+               "in": "body",
+               "type": "array",
+               "required": false,
+               "items": {
+                "type": "object",
+                "fields": [
+                 {
+                  "name": "cron",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "target",
+                  "in": "body",
+                  "type": "integer",
+                  "required": false,
+                  "format": "int64"
+                 },
+                 {
+                  "name": "timezone",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 }
+                ],
+                "required": []
+               }
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "connectAddress",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "createTime",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "format": "date-time"
+          },
+          {
+           "name": "clusters",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "clusterId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "clusterName",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "regionId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "role",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "UNKNOWN",
+               "PRIMARY",
+               "SECONDARY"
+              ]
+             },
+             {
+              "name": "status",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "replica",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             }
+            ],
+            "required": []
+           }
+          }
+         ]
         }
        ],
        "required": []
@@ -35416,7 +36987,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -35569,6 +37141,63 @@
           ],
           "required": []
          }
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "globalClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "primaryClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "primaryRegionId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "lags",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "secondaryClusterId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "secondaryRegionId",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "lagMs",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int32"
+             }
+            ],
+            "required": []
+           }
+          }
+         ]
         }
        ],
        "required": []
@@ -35580,7 +37209,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -35705,7 +37335,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -35802,7 +37433,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -35906,6 +37538,38 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "globalClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "oldPrimaryClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "newPrimaryClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -35917,7 +37581,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -36022,6 +37687,38 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "globalClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "oldPrimaryClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "newPrimaryClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -36033,7 +37730,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -36100,7 +37798,8 @@
        "name": "cuSize",
        "in": "body",
        "type": "integer",
-       "required": false
+       "required": false,
+       "format": "int64"
       },
       {
        "name": "autoscaling",
@@ -36118,13 +37817,15 @@
            "name": "min",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "max",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int64"
           },
           {
            "name": "schedules",
@@ -36144,7 +37845,14 @@
               "name": "target",
               "in": "body",
               "type": "integer",
-              "required": true
+              "required": true,
+              "format": "int64"
+             },
+             {
+              "name": "timezone",
+              "in": "body",
+              "type": "string",
+              "required": false
              }
             ],
             "required": [
@@ -36184,7 +37892,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -36252,6 +37961,20 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "oldGlobalClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -36263,7 +37986,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -36382,6 +38106,26 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "globalClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -36393,7 +38137,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "message",
@@ -36473,7 +38218,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -36537,19 +38283,22 @@
            "name": "count",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "currentPage",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           },
           {
            "name": "pageSize",
            "in": "body",
            "type": "integer",
-           "required": false
+           "required": false,
+           "format": "int32"
           }
          ]
         }
@@ -36704,117 +38453,7 @@
            "in": "body",
            "type": "string",
            "required": false
-          }
-         ]
-        }
-       ],
-       "required": [
-        "projectId",
-        "name",
-        "regionId",
-        "bucketName"
-       ]
-      },
-      {
-       "type": "object",
-       "fields": [
-        {
-         "name": "projectId",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "name",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "description",
-         "in": "body",
-         "type": "string",
-         "required": false
-        },
-        {
-         "name": "regionId",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "bucketName",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "externalCred",
-         "in": "body",
-         "type": "object",
-         "required": [],
-         "fields": [
-          {
-           "name": "gcpProjectId",
-           "in": "body",
-           "type": "string",
-           "required": false
           },
-          {
-           "name": "serviceAccountEmail",
-           "in": "body",
-           "type": "string",
-           "required": false
-          }
-         ]
-        }
-       ],
-       "required": [
-        "projectId",
-        "name",
-        "regionId",
-        "bucketName"
-       ]
-      },
-      {
-       "type": "object",
-       "fields": [
-        {
-         "name": "projectId",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "name",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "description",
-         "in": "body",
-         "type": "string",
-         "required": false
-        },
-        {
-         "name": "regionId",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "bucketName",
-         "in": "body",
-         "type": "string",
-         "required": true
-        },
-        {
-         "name": "externalCred",
-         "in": "body",
-         "type": "object",
-         "required": [],
-         "fields": [
           {
            "name": "accountName",
            "in": "body",
@@ -36829,6 +38468,18 @@
           },
           {
            "name": "tenantId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "gcpProjectId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "serviceAccountEmail",
            "in": "body",
            "type": "string",
            "required": false
@@ -36893,6 +38544,218 @@
            "in": "body",
            "type": "string",
            "required": false
+          },
+          {
+           "name": "accountName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "clientId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "tenantId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "gcpProjectId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "serviceAccountEmail",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
+        }
+       ],
+       "required": [
+        "projectId",
+        "name",
+        "regionId",
+        "bucketName"
+       ]
+      },
+      {
+       "type": "object",
+       "fields": [
+        {
+         "name": "projectId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "name",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "description",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "regionId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "bucketName",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "externalCred",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "roleArn",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "externalId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "accountName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "clientId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "tenantId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "gcpProjectId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "serviceAccountEmail",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
+        }
+       ],
+       "required": [
+        "projectId",
+        "name",
+        "regionId",
+        "bucketName"
+       ]
+      },
+      {
+       "type": "object",
+       "fields": [
+        {
+         "name": "projectId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "name",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "description",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "regionId",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "bucketName",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "externalCred",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "roleArn",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "externalId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "accountName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "clientId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "tenantId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "gcpProjectId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "serviceAccountEmail",
+           "in": "body",
+           "type": "string",
+           "required": false
           }
          ]
         }
@@ -36918,7 +38781,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -37032,13 +38896,118 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
          "in": "body",
-         "type": "ref",
-         "required": false
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "integrationId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "name",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "description",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "status",
+           "in": "body",
+           "type": "string",
+           "required": false,
+           "enum": [
+            "ACTIVE",
+            "ERROR"
+           ]
+          },
+          {
+           "name": "message",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "regionId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "bucketName",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "externalCred",
+           "in": "body",
+           "type": "object",
+           "required": [],
+           "fields": [
+            {
+             "name": "roleArn",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "externalId",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "accountName",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "clientId",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "tenantId",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "gcpProjectId",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "serviceAccountEmail",
+             "in": "body",
+             "type": "string",
+             "required": false
+            }
+           ]
+          },
+          {
+           "name": "createTime",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -37152,7 +39121,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -37296,7 +39266,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -37434,7 +39405,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -37461,6 +39433,12 @@
            "required": false
           },
           {
+           "name": "ramPolicy",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
            "name": "trustPolicy",
            "in": "body",
            "type": "string",
@@ -37477,6 +39455,47 @@
            "in": "body",
            "type": "string",
            "required": false
+          },
+          {
+           "name": "permission",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "string"
+           }
+          },
+          {
+           "name": "googleCloudServiceAccount",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "credential",
+           "in": "body",
+           "type": "object",
+           "required": [],
+           "fields": [
+            {
+             "name": "clusterIssuerUrl",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "namespace",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "serviceAccountName",
+             "in": "body",
+             "type": "string",
+             "required": false
+            }
+           ]
           }
          ]
         }
@@ -37714,9 +39733,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/jobs",
    "method": "get",
-   "summary": "List Spark Jobs",
+   "summary": "List Batch Jobs",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -37940,9 +39959,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/projects/{projectId}/jobs/{jobId}",
    "method": "get",
-   "summary": "Describe Spark Job",
+   "summary": "Describe Batch Job",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -38374,9 +40393,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/projects/{projectId}/jobs/{jobId}/cancel",
    "method": "post",
-   "summary": "Cancel Spark Job",
+   "summary": "Cancel Batch Job",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -38406,9 +40425,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/projects/{projectId}/jobs/jar",
    "method": "post",
-   "summary": "Create Spark JAR Job",
+   "summary": "Create JAR Job",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -38636,9 +40655,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/projects/{projectId}/jobs/dedup/pk",
    "method": "post",
-   "summary": "Create Spark PK Deduplication Job",
+   "summary": "Create PK Deduplication Job",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -38823,9 +40842,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/projects/{projectId}/jobs/dedup/vector",
    "method": "post",
-   "summary": "Create Spark Vector Deduplication Job",
+   "summary": "Create Vector Deduplication Job",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -39049,9 +41068,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/projects/{projectId}/jobs/kmeans",
    "method": "post",
-   "summary": "Create Spark K-means Job",
+   "summary": "Create K-means Job",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -39250,9 +41269,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/projects/{projectId}/jobs/anomaly-detection",
    "method": "post",
-   "summary": "Create Spark Anomaly Detection Job",
+   "summary": "Create Anomaly Detection Job",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -39450,9 +41469,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/projects/{projectId}/jobs/backfill",
    "method": "post",
-   "summary": "Create Spark Backfill Job",
+   "summary": "Create Backfill Job",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -39561,9 +41580,9 @@
    "fragment": "32-spark-job-v2.json",
    "path": "/v2/projects/{projectId}/jobs/backfill/precheck",
    "method": "post",
-   "summary": "Create Spark Backfill Precheck Job",
+   "summary": "Create Backfill Precheck Job",
    "tags": [
-    "Spark Job (V2)"
+    "Batch Job (V2)"
    ],
    "parameters": [
     {
@@ -39698,13 +41717,14 @@
        "name": "cuSize",
        "in": "body",
        "type": "integer",
-       "required": true
+       "required": true,
+       "format": "int32"
       },
       {
        "name": "clusterName",
        "in": "body",
        "type": "string",
-       "required": false
+       "required": true
       },
       {
        "name": "description",
@@ -39715,15 +41735,78 @@
       {
        "name": "autoSuspend",
        "in": "body",
+       "type": "string",
+       "required": false,
+       "default": "60s"
+      },
+      {
+       "name": "keepWarm",
+       "in": "body",
+       "type": "object",
+       "required": [
+        "enabled",
+        "schedules"
+       ],
+       "fields": [
+        {
+         "name": "enabled",
+         "in": "body",
+         "type": "boolean",
+         "required": true
+        },
+        {
+         "name": "schedules",
+         "in": "body",
+         "type": "array",
+         "required": true,
+         "items": {
+          "type": "object",
+          "fields": [
+           {
+            "name": "cron",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "target",
+            "in": "body",
+            "type": "integer",
+            "required": false,
+            "format": "int64"
+           },
+           {
+            "name": "timezone",
+            "in": "body",
+            "type": "string",
+            "required": false
+           }
+          ],
+          "required": []
+         }
+        }
+       ]
+      },
+      {
+       "name": "maxQueryNodeCU",
+       "in": "body",
        "type": "integer",
        "required": false,
-       "default": 60
+       "format": "int32"
+      },
+      {
+       "name": "maxQueryNodeReplicas",
+       "in": "body",
+       "type": "integer",
+       "required": false,
+       "format": "int32"
       }
      ],
      "required": [
       "projectId",
       "regionId",
-      "cuSize"
+      "cuSize",
+      "clusterName"
      ]
     }
    },
@@ -39738,7 +41821,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -39861,7 +41945,8 @@
        "name": "code",
        "in": "body",
        "type": "integer",
-       "required": false
+       "required": false,
+       "format": "int32"
       },
       {
        "name": "data",
@@ -39870,12 +41955,6 @@
        "required": [],
        "fields": [
         {
-         "name": "count",
-         "in": "body",
-         "type": "integer",
-         "required": false
-        },
-        {
          "name": "onDemandClusters",
          "in": "body",
          "type": "array",
@@ -39883,12 +41962,6 @@
          "items": {
           "type": "object",
           "fields": [
-           {
-            "name": "projectId",
-            "in": "body",
-            "type": "string",
-            "required": false
-           },
            {
             "name": "clusterId",
             "in": "body",
@@ -39914,10 +41987,17 @@
             "required": false
            },
            {
+            "name": "projectId",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
             "name": "cuSize",
             "in": "body",
             "type": "integer",
-            "required": false
+            "required": false,
+            "format": "int32"
            },
            {
             "name": "status",
@@ -39960,11 +42040,92 @@
             "name": "autoSuspend",
             "in": "body",
             "type": "integer",
+            "required": false,
+            "format": "int32"
+           },
+           {
+            "name": "keepWarmActive",
+            "in": "body",
+            "type": "boolean",
             "required": false
+           },
+           {
+            "name": "keepWarm",
+            "in": "body",
+            "type": "object",
+            "required": [],
+            "fields": [
+             {
+              "name": "enabled",
+              "in": "body",
+              "type": "boolean",
+              "required": false
+             },
+             {
+              "name": "systemTimezone",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "schedules",
+              "in": "body",
+              "type": "array",
+              "required": false,
+              "items": {
+               "type": "object",
+               "fields": [
+                {
+                 "name": "cron",
+                 "in": "body",
+                 "type": "string",
+                 "required": false
+                },
+                {
+                 "name": "target",
+                 "in": "body",
+                 "type": "integer",
+                 "required": false,
+                 "format": "int64"
+                },
+                {
+                 "name": "timezone",
+                 "in": "body",
+                 "type": "string",
+                 "required": false
+                }
+               ],
+               "required": []
+              }
+             },
+             {
+              "name": "nextTransitionAt",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "nextTransitionType",
+              "in": "body",
+              "type": "string",
+              "required": false,
+              "enum": [
+               "START",
+               "END"
+              ]
+             }
+            ]
            }
           ],
           "required": []
          }
+        },
+        {
+         "name": "count",
+         "in": "body",
+         "type": "integer",
+         "required": false,
+         "format": "int32"
         }
        ]
       }
@@ -40076,7 +42237,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",
@@ -40182,7 +42344,8 @@
        "name": "code",
        "in": "body",
        "type": "integer",
-       "required": false
+       "required": false,
+       "format": "int32"
       },
       {
        "name": "data",
@@ -40191,89 +42354,156 @@
        "required": [],
        "fields": [
         {
-         "name": "properties",
+         "name": "clusterId",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "clusterName",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "description",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "regionId",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "projectId",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "cuSize",
+         "in": "body",
+         "type": "integer",
+         "required": false,
+         "format": "int32"
+        },
+        {
+         "name": "status",
+         "in": "body",
+         "type": "string",
+         "required": false,
+         "enum": [
+          "CREATING",
+          "SUSPENDED",
+          "RESUMING",
+          "RUNNING",
+          "SUSPENDING"
+         ]
+        },
+        {
+         "name": "endpoint",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "privateLink",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "createdBy",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "createTime",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "autoSuspend",
+         "in": "body",
+         "type": "integer",
+         "required": false,
+         "format": "int32"
+        },
+        {
+         "name": "keepWarmActive",
+         "in": "body",
+         "type": "boolean",
+         "required": false
+        },
+        {
+         "name": "keepWarm",
          "in": "body",
          "type": "object",
          "required": [],
          "fields": [
           {
-           "name": "projectId",
+           "name": "enabled",
+           "in": "body",
+           "type": "boolean",
+           "required": false
+          },
+          {
+           "name": "systemTimezone",
            "in": "body",
            "type": "string",
            "required": false
           },
           {
-           "name": "clusterId",
+           "name": "schedules",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "object",
+            "fields": [
+             {
+              "name": "cron",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "target",
+              "in": "body",
+              "type": "integer",
+              "required": false,
+              "format": "int64"
+             },
+             {
+              "name": "timezone",
+              "in": "body",
+              "type": "string",
+              "required": false
+             }
+            ],
+            "required": []
+           }
+          },
+          {
+           "name": "nextTransitionAt",
            "in": "body",
            "type": "string",
            "required": false
           },
           {
-           "name": "clusterName",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "description",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "regionId",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "cuSize",
-           "in": "body",
-           "type": "integer",
-           "required": false
-          },
-          {
-           "name": "status",
+           "name": "nextTransitionType",
            "in": "body",
            "type": "string",
            "required": false,
            "enum": [
-            "CREATING",
-            "SUSPENDED",
-            "RESUMING",
-            "RUNNING",
-            "SUSPENDING"
+            "START",
+            "END"
            ]
-          },
-          {
-           "name": "endpoint",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "privateLink",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "createdBy",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "createTime",
-           "in": "body",
-           "type": "string",
-           "required": false
-          },
-          {
-           "name": "autoSuspend",
-           "in": "body",
-           "type": "integer",
-           "required": false
           }
          ]
         }
@@ -40385,6 +42615,13 @@
        "in": "body",
        "type": "string",
        "required": false
+      },
+      {
+       "name": "cuSize",
+       "in": "body",
+       "type": "integer",
+       "required": false,
+       "format": "int32"
       }
      ],
      "required": []
@@ -40401,7 +42638,8 @@
          "name": "code",
          "in": "body",
          "type": "integer",
-         "required": false
+         "required": false,
+         "format": "int32"
         },
         {
          "name": "data",

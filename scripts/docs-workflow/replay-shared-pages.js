@@ -25,7 +25,7 @@ function record(id, page) {
       Slug: page, Labels: 'Fresh Base label', Targets: ['Zilliz.SaaS', 'Zilliz.PaaS'], Progress: 'Published',
       'Placement Type': 'Canonical', 'Release Channel': 'NEXT'}}
 }
-async function fixture(t, {pages = ['sample', 'sibling'], old = true, active = false, imageSource = true, singleTarget = false, metadataMarker = false, pilot = false, variants = false} = {}) {
+async function fixture(t, {pages = ['sample', 'sibling'], old = true, active = false, imageSource = true, singleTarget = false, metadataMarker = false, pilot = false, variants = false, realDocParent = false} = {}) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'wp9-source-')))
   if (t) t.after(() => fs.rmSync(root, {recursive: true, force: true}))
   const repositoryRoot = path.join(root, 'master'), baselineRoot = path.join(root, 'dev'), repo = path.join(root, 'upstream'), sourceDir = path.join(root, 'sources')
@@ -44,7 +44,8 @@ async function fixture(t, {pages = ['sample', 'sibling'], old = true, active = f
   await write(repositoryRoot, `${config}/product-names.yaml`, 'check: [Milvus, "localhost:19530"]\nallow: []\n')
   await write(repositoryRoot, `${config}/presentation/cloud-sdk-tabs.yaml`, fs.readFileSync(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/fixtures/site/cloud-sdk-tabs.yaml')))
   for (const page of pages) {
-    await write(repositoryRoot, `${config}/pages/${page}/page.yaml`, pageYaml(`site/en/${page}.md`, `tutorials/manage-data/${page}`))
+    const sitePath = realDocParent ? `tutorials/manage-data/schema-best-practices/${page}` : `tutorials/manage-data/${page}`
+    await write(repositoryRoot, `${config}/pages/${page}/page.yaml`, pageYaml(`site/en/${page}.md`, sitePath))
     await write(repositoryRoot, `${config}/pages/${page}/lock.yaml`, JSON.stringify({schema_version: 1, current: upstreamCommit, next: upstreamCommit}))
   }
   await write(repositoryRoot, `${config}/pages/inactive/page.yaml`, 'broken: [')
@@ -63,6 +64,31 @@ async function fixture(t, {pages = ['sample', 'sibling'], old = true, active = f
   const records = pages.map((page, index) => ({...record(`rec${index}`, page), base_record_index: index}))
   if (pilot) for (const row of records) row.fields['Release Channel'] = 'CURRENT'
   if (metadataMarker) for (const record of records) record.fields.Labels = 'Before --- After'
+  if (realDocParent) {
+    // A canonical row owning a real Feishu doc parents the shared page: the
+    // real-doc parent chain must resolve during source generation, assembly,
+    // and publish for the full artifact round to stay green.
+    const parentRow = {...record('rec-parent', 'schema-best-practices'), base_record_index: 3}
+    parentRow.fields.Docs = {text: 'Best Practices', link: 'https://example.feishu.cn/wiki/parentdoc'}
+    parentRow.fields.Slug = 'schema-best-practices'
+    const siblingRow = {...record('rec-ordinary', 'ordinary-under-parent'), base_record_index: 4}
+    siblingRow.fields.Docs = {text: 'ordinary-under-parent', link: 'https://example.feishu.cn/wiki/ordinarydoc'}
+    siblingRow.fields.Slug = 'ordinary-under-parent'
+    siblingRow.fields.Parent = 'rec-parent'
+    records.push(parentRow, siblingRow)
+    for (const row of records) {
+      if (row.record_id === 'rec0') {
+        row.base_record_index = 5
+        row.fields.Parent = 'rec-parent'
+      }
+    }
+    await write(sourceDir, 'parentdoc.json', JSON.stringify({title: 'Best Practices for Schema Design', slug: 'schema-best-practices', node_token: 'parentdoc', blocks: {items: [
+      {block_id: 'parent-page', block_type: 1, page: {elements: []}, children: ['parent-body']},
+      {block_id: 'parent-body', block_type: 2, text: {elements: [{text_run: {content: 'Best practices body.', text_element_style: {}}}]}}]}}))
+    await write(sourceDir, 'ordinarydoc.json', JSON.stringify({title: 'ordinary-under-parent', slug: 'ordinary-under-parent', node_token: 'ordinarydoc', blocks: {items: [
+      {block_id: 'ordinary-page', block_type: 1, page: {elements: []}, children: ['ordinary-body']},
+      {block_id: 'ordinary-body', block_type: 2, text: {elements: [{text_run: {content: 'Ordinary body.', text_element_style: {}}}]}}]}}))
+  }
   const previous = {schema_version: 3, manual: 'guides', build_env: 'uat', records: old ? pages.map((page, index) => ({record_id: `rec${index}`, slug: page,
     placement_type: 'canonical', doc_token: index ? `old${index}` : 'old', output_paths: [`content/en/guides/tutorials/manage-data/${page}.md`, ...(singleTarget ? [] : [`content/en/byoc/tutorials/manage-data/${page}.mdx`])]})) : []}
   const oldRecords = records.map((record, index) => ({...record, fields: {...record.fields, Docs: {text: record.fields.Docs.text, link: `https://example.feishu.cn/wiki/${index ? `old${index}` : 'old'}`}}}))
