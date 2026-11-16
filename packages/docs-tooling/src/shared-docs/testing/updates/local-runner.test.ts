@@ -23,8 +23,9 @@ import { captureUnitMaterial } from '../../core/updates/unit-plan'
 import { validateUpdateReportEnvelope } from '../../core/updates/envelope'
 import { parseRevisionMessage } from '../../core/updates/metadata'
 import * as toolset from '../../adapters/updates/toolset'
-import { collectGuidesWithDependencies, GuidesCollectionRequestSchema } from '../../adapters/updates/guides-provider'
+import { collectGuidesWithDependencies, GuidesCollectionRequestSchema, selectedWorkerInput } from '../../adapters/updates/guides-provider'
 import { FakeImageFetcher } from '../../adapters/images'
+import { LifecycleHttpError, publicGuidesReads } from '../../adapters/updates/guides-lifecycle-transport'
 import type { AuthorityObservation } from '../../core/updates/envelope'
 
 /** Actual local Git/material/authority-file observations through the internal seam.
@@ -547,9 +548,11 @@ async function guidesFixture(failure=false,authorityState:AuthorityObservation['
     return {bin:root,cwd:process.cwd(),environment:{},run:async()=>{throw new Error('Unexpected test launcher entry')},
       async runGuidesCollector(data) {
         launches++;await mark(`collector.${launches}.start`)
-        const request=GuidesCollectionRequestSchema.parse(data)
+        const selected=selectedWorkerInput.safeParse(data)
+        const request=selected.success?selected.data.request:GuidesCollectionRequestSchema.parse(data)
         expect(request.trustedTools).toBe(toolsHead);expect(request.sourceRepository).toBe(d.repo)
-        const value=await collectGuidesWithDependencies(request,{b1:{fetcher:new FakeImageFetcher(new Map([[externalImage,imageBytes]]))},
+        const value=await collectGuidesWithDependencies(request,{b1:{fetcher:new FakeImageFetcher(new Map([[externalImage,imageBytes]])),
+          ...(selected.success?{github:publicGuidesReads(selected.data.archives)}:{})},
           authority:{async observe(input) {
             const bytes=await readFile(authorityPath),observed=JSON.parse(bytes.toString());authorityReads++
             expect(observed.kind).toBe('synthetic-guides-authority');expect(observed.subject).toEqual(input.subject)
@@ -629,6 +632,28 @@ it.each(['unknown','changed'] as const)('holds %s authority through the actual G
     expect(await git(join(output,'scratch.git'),'for-each-ref','refs/shared-update/local')).toBe('')
     expect(await f.state()).toEqual(before)
   } finally {vi.restoreAllMocks()}
+},15_000)
+
+it('retains trusted acquisition failure codes in actual local holds without injecting child authority',async()=>{
+  try {
+    const f=await guidesFixture(false,'unknown'),output=join(f.root,'acquisition-held'),before=await f.state()
+    const fetch=vi.fn().mockRejectedValue(new LifecycleHttpError(502))
+    vi.stubGlobal('fetch',fetch)
+    const result=await f.runner.plan({...f.request,lifecycle:{runId:123,archive:null}},output)
+    expect(result).toMatchObject({status:'held',candidate:null,proof:null,operations:[]})
+    expect(result.reasons).toContain('LIFECYCLE_ACQUIRE_METADATA_HTTP_502')
+    expect(result.reasons).toContain('AUTHORITY_UNKNOWN')
+    const snapshot=await readJson(join(output,'snapshot.json'))
+    expect(snapshot.holds).toContain('LIFECYCLE_ACQUIRE_METADATA_HTTP_502')
+    const raw=await readJson(join(f.root,'collection-1.json'))
+    expect(raw).not.toHaveProperty('coordinatorDiagnostics')
+    expect(raw.pages[0].report.authority).toMatchObject({updateState:'unknown',reasons:['SYNTHETIC_AUTHORITY_UNAVAILABLE']})
+    expect(JSON.stringify(raw)).not.toContain('LIFECYCLE_ACQUIRE_METADATA_HTTP_502')
+    expect(fetch).toHaveBeenCalledTimes(2)
+    expect(fetch.mock.calls.every(([url])=>String(url).startsWith('https://api.github.com/repos/zilliztech/zdoc'))).toBe(true)
+    expect(await git(join(output,'scratch.git'),'for-each-ref','refs/shared-update/local')).toBe('')
+    expect(await f.state()).toEqual(before)
+  } finally {vi.restoreAllMocks();vi.unstubAllGlobals()}
 },15_000)
 
 it('keeps production SDK dispatch explicitly uninstalled without launching a collector',async()=>{

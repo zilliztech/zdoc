@@ -404,7 +404,7 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
         ...f.options.request, pages: ['fixture'], evidenceRun: '123', evidenceZip: '/input.zip',
       }})
       await provider.collectAll()
-      expect(stage).toHaveBeenCalledWith(123, '/input.zip', f.options.evidence, 'coordinator-only', f.controller.signal)
+      expect(stage).toHaveBeenCalledWith(123, '/input.zip', f.options.evidence, 'coordinator-only', f.controller.signal, expect.any(Function))
       const [input, secrets] = f.run.mock.calls[0]
       expect(secrets).toEqual({GH_TOKEN: 'coordinator-only'})
       expect(input).toMatchObject({request: {evidenceZip: null, pages: ['fixture']}, archives: null})
@@ -416,6 +416,28 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
       expect(options.pages).toBeUndefined()
       expect(dependencies?.github).toBeDefined()
       await expect(dependencies!.github!.zip(1)).rejects.toThrow('unavailable')
+    } finally {await f.dispose()}
+  })
+  it('returns trusted parent acquisition codes separately from unchanged child bytes and settlement', async () => {
+    const f = await controlled('parent-diagnostics')
+    vi.spyOn(lifecycleTransport, 'stageGuidesArchives').mockImplementation(async (_run, _zip, _evidence, _token, _signal, diagnostic) => {
+      diagnostic?.('LIFECYCLE_ACQUIRE_METADATA_HTTP_502')
+      return null
+    })
+    try {
+      const original = canonicalBytes(f.collection), settlement = structuredClone(f.settlement)
+      const provider = await createGuidesProvider({...f.options, request: {...f.options.request, pages: ['fixture'], evidenceRun: '123'}})
+      const result = await provider.collectAll()
+      expect(result.coordinatorDiagnostics).toEqual(['LIFECYCLE_ACQUIRE_METADATA_HTTP_502'])
+      expect(canonicalBytes(f.collection)).toEqual(original)
+      expect(result.workerSettlement).toEqual(settlement)
+      expect(provider.getWorkerSettlement()).toEqual(settlement)
+      expect(result.collection).not.toHaveProperty('coordinatorDiagnostics')
+      expect(result.collection.pages[0].report).not.toHaveProperty('coordinatorDiagnostics')
+      const [input] = f.run.mock.calls[0]
+      expect(input).not.toHaveProperty('coordinatorDiagnostics')
+      expect(input).toMatchObject({archives: null, request: {evidenceZip: null}})
+      await expect(collectGuidesWorker({...input as object, diagnostic: () => {throw new Error('must not run')}})).rejects.toThrow()
     } finally {await f.dispose()}
   })
   it('preserves launcher inputs when a single page has no retained lifecycle run', async () => {
@@ -547,6 +569,7 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
       const [result, concurrent] = await Promise.all([provider.collectAll(), provider.collectAll()])
       expect(concurrent).toBe(result); expect(f.run).toHaveBeenCalledTimes(1)
       expect(provider.getWorkerSettlement()).toEqual(result.workerSettlement)
+      expect(result.coordinatorDiagnostics).toEqual([])
       expect(result.workerSettlement).toEqual(f.settlement); expect(result.collection.pages).toHaveLength(1)
       expect(result.collection).not.toHaveProperty('workerSettlement')
       expect(result.collection.pages[0].report).not.toHaveProperty('workerSettlement')
