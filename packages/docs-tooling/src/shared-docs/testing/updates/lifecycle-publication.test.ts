@@ -95,12 +95,23 @@ it('authenticates reused bundles and inherited bytes against baseline, publicati
   const require = createRequire(import.meta.url)
   const replay = require('../../../../../../scripts/docs-workflow/replay-shared-pages.js')
   const shared = require('../../../lark/sharedPageBundle.js')
+  // Match the demo fixture's fixed identity/configuration while keeping Git
+  // blob reads as raw Buffers for the byte-authentication assertions below.
+  const gitBytes = (repository: string, ...args: string[]) => {
+    const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')))
+    Object.assign(env, {GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null',
+      GIT_AUTHOR_NAME: 'Build Fixture', GIT_AUTHOR_EMAIL: 'build@example.test',
+      GIT_COMMITTER_NAME: 'Build Fixture', GIT_COMMITTER_EMAIL: 'build@example.test',
+      GIT_AUTHOR_DATE: '2020-01-01T00:00:00Z', GIT_COMMITTER_DATE: '2020-01-01T00:00:00Z'})
+    return execFileSync('git', ['-c', 'commit.gpgsign=false', '-c', 'core.hooksPath=/dev/null', '-c', 'core.autocrlf=false',
+      '-C', repository, ...args], {env, maxBuffer: 4 * 1024 * 1024})
+  }
   const options = await replay.fixture({after: onTestFinished}, {pages: ['sample'], pilot: true, imageSource: false})
-  execFileSync('git', ['-C', options.repo, 'update-ref', 'refs/remotes/origin/release/docs', options.upstreamCommit])
+  gitBytes(options.repo, 'update-ref', 'refs/remotes/origin/release/docs', options.upstreamCommit)
   options.records[0].fields['Placement Type'] = 'canonical'
   options.sequence = 0
   options.imageBaseUrl = 'https://images.example.test'
-  const git = (...args: string[]) => execFileSync('git', ['-C', options.baselineRoot, ...args], {encoding: 'utf8'}).trim()
+  const git = (...args: string[]) => gitBytes(options.baselineRoot, ...args).toString('utf8').trim()
   const publishedSnapshot = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
   const publicationWriter = require('../../../lark/sharedPagePublication.js')
   const publishFixture = async () => {
@@ -123,8 +134,8 @@ it('authenticates reused bundles and inherited bytes against baseline, publicati
   await publishFixture()
   const originalTools = options.masterCommit
   // A subsequent Fetch must preserve the receipt's original tooling and dev pins.
-  execFileSync('git', ['-C', options.repositoryRoot, 'commit', '--quiet', '--allow-empty', '-m', 'Later Fetch tooling'])
-  options.masterCommit = execFileSync('git', ['-C', options.repositoryRoot, 'rev-parse', 'HEAD'], {encoding: 'utf8'}).trim()
+  gitBytes(options.repositoryRoot, 'commit', '--quiet', '--allow-empty', '-m', 'Later Fetch tooling')
+  options.masterCommit = gitBytes(options.repositoryRoot, 'rev-parse', 'HEAD').toString('utf8').trim()
   await replay.prepare(options)
   await replay.regenerate(options)
   expect(options.bundle.outcomes[0].status).toBe('reused')
@@ -293,7 +304,7 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(value)})
   archive = zip(results)
   Object.assign(publication, {size_in_bytes: archive.length, digest: 'sha256:' + hash(archive)})
   for (const path of [receiptPath, ...source.outputs.map((o: any) => o.path)]) {
-    const before = execFileSync('git', ['-C', options.baselineRoot, 'show', `${published}:${path}`])
+    const before = gitBytes(options.baselineRoot, 'show', `${published}:${path}`)
     await writeFile(join(options.baselineRoot, path), Buffer.concat([before, Buffer.from('\n')]))
     git('add', path); git('commit', '--quiet', '-m', 'Changed current bytes')
     dev = tip = git('rev-parse', 'HEAD')
@@ -307,7 +318,7 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(value)})
   // Git blobs. Restore the publication bytes in a descendant so ancestry remains
   // valid and each negative reaches the baseline comparison itself.
   for (const path of [receiptPath, ...source.outputs.map((o: any) => o.path)]) {
-    const before = execFileSync('git', ['-C', options.baselineRoot, 'show', `${published}:${path}`])
+    const before = gitBytes(options.baselineRoot, 'show', `${published}:${path}`)
     await writeFile(join(options.baselineRoot, path), Buffer.concat([before, Buffer.from('\n')]))
     git('add', path); git('commit', '--quiet', '-m', 'Different baseline bytes')
     const badBaseline = git('rev-parse', 'HEAD')
