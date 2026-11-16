@@ -2667,7 +2667,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "a9bb41b912f2863065e9f9dc3b17b2694ba7c4b3",
+      "commit": "bf29522ee9f957d0a46519ca43cabb9ed592453a",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -4184,7 +4184,7 @@
       ]
     },
     "dev": {
-      "commit": "b023ab8180af2b57a351c5a3a6437fb49c2b5ab1",
+      "commit": "7d633a7215fdeee1434d6e7f248402bf66312d32",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -7012,7 +7012,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "e6d92a1d2f1dca4b9bc1a53cf852bd56eaf97d93421a2298acdc5f2243ed046e"
+          "sha256": "7c49b90cf4f60a4907432e108971286d0275213e2a30d005e2da7e89dd0b1736"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -7020,7 +7020,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/add-fields-to-an-existing-collection.json",
-          "sha256": "f8284207fe200f4a5d9311fcfff028b61cb06c85953bf85dac058baf635b959b"
+          "sha256": "bd5554121ea6668761a682c3ed212f86e2dd0bc4ddc59f5619f9bdffc3188ef2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
@@ -7340,7 +7340,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/upsert-entities.json",
-          "sha256": "af505f4cef25dbe6a849db82a8a7c6bf4f2619a62bdfe6cc754e5491a7b28000"
+          "sha256": "5de448dc1614bdb054a050f956b6a41729012e3a61c069b5f126d7f2042e9084"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-fields.json",
@@ -18817,9 +18817,9 @@
       }
     },
     "tools": {
-      "zdoc": "a9bb41b912f2863065e9f9dc3b17b2694ba7c4b3",
+      "zdoc": "bf29522ee9f957d0a46519ca43cabb9ed592453a",
       "md2md": "1.3.0",
-      "engine_sha256": "44961c4d163efd52ae25d338138f4ec0ee5aaa796503390a90abaa62211f4aed"
+      "engine_sha256": "cd898f292b814a2b32d68b11006d1a10cfe5749d0e05dd20225c3cd6943e7443"
     },
     "images": []
   },
