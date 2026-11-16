@@ -6,6 +6,7 @@ import { canonicalBytes, digest as planDigest } from '../../core/updates/canonic
 import { acceptExactValidation, parseSealMessage, classifyRemoteRead, DecisionSchema, ExactValidationReceiptV1Schema,
   RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, RemoteSealV1Schema, RemotePolicySchema, RemoteFactsSchema, REMOTE_LIMITS,
   ProducerRunFactSchema, ValidatorRunFactSchema, ApprovedProducerDefinitionSchema } from '../../core/updates/remote'
+import { finalizeTargetCheck } from '../../adapters/updates/remote-finalize'
 
 const oid = (n: number) => n.toString(16).padStart(40, '0')
 const digest = (n: number) => n.toString(16).padStart(64, '0')
@@ -127,6 +128,28 @@ it('holds a validator run still in progress (job finished, whole run not complet
   // The finalizer must run in a separate workflow run: a validator whose run is still
   // in_progress can never satisfy the completed-run prerequisite for prepublish/accept.
   const f = fixture(); f.facts.validatorRuns.value[0].status = 'in_progress'; hold(f, 'VALIDATOR_STATUS')
+})
+
+it('finalizes only a read-back reservation after a ready prepublish, with zero writes otherwise', async () => {
+  const f = fixture()
+  f.facts.checks.value[0].status = 'in_progress'; f.facts.checks.value[0].conclusion = 'pending'
+  const receipt = canonicalBytes(f.receipt)
+  const writes: { id: number; head: string }[] = []
+  const reserved = () => f.facts.checks.value[0]
+  const makeReads = (checks: unknown[][]) => { let call = 0; return { readChecks: async () => ({ kind: 'found' as const, value: structuredClone(checks[call++ % checks.length]) }) } as any }
+  const makeWriter = (ff: ReturnType<typeof fixture>) => ({ complete: async (input: { reservation: { id: number; head: string }; headSha: string }) => { writes.push({ id: input.reservation.id, head: input.headSha }); return { id: input.reservation.id, name: ff.policy.checkName, head: input.headSha, status: 'completed', conclusion: 'success', appId: ff.policy.checkAppId, suiteId: ff.facts.checks.value[0].suiteId } } }) as any
+  // normal: read-back reservation + ready prepublish -> one completion write -> accepted
+  const ok = await finalizeTargetCheck({ reads: makeReads([[reserved()], [{ ...reserved(), status: 'completed', conclusion: 'success' }]]), writer: makeWriter(f), expected: f.expected, policy: f.policy, receipt, facts: f.facts })
+  expect(ok.status).toBe('accepted'); expect(writes).toEqual([{ id: reserved().id, head: f.expected.seal }])
+  // forged reservation (wrong App/name/head) -> zero writes
+  writes.length = 0
+  const forged = await finalizeTargetCheck({ reads: makeReads([[{ ...reserved(), appId: 999, name: 'foreign' }]]), writer: makeWriter(f), expected: f.expected, policy: f.policy, receipt, facts: f.facts })
+  expect(forged.status).toBe('hold'); expect(forged.reasons).toContain('CHECK_AMBIGUOUS_OR_MISSING'); expect(writes).toEqual([])
+  // held prepublish (validator run not completed) -> zero writes
+  writes.length = 0
+  const held = fixture(); held.facts.checks.value[0].status = 'in_progress'; held.facts.checks.value[0].conclusion = 'pending'; held.facts.validatorRuns.value[0].status = 'in_progress'
+  const heldResult = await finalizeTargetCheck({ reads: makeReads([[held.facts.checks.value[0]]]), writer: makeWriter(held), expected: held.expected, policy: held.policy, receipt: canonicalBytes(held.receipt), facts: held.facts })
+  expect(heldResult.status).toBe('hold'); expect(heldResult.reasons).toContain('VALIDATOR_STATUS'); expect(writes).toEqual([])
 })
 it('holds unknown and absent facts rather than manufacturing absence or success', () => {
   for (const value of [{ kind: 'unknown', reasons: ['TIMEOUT'] }, { kind: 'absent', evidence: [blob('absent.json')] }]) {
