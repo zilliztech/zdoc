@@ -8,7 +8,7 @@ import { deflateRawSync } from 'node:zlib'
 import { afterEach, expect, it } from 'vitest'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { REMOTE_LIMITS, type RemotePolicy } from '../../core/updates/remote'
-import { createRemoteReads, createRemoteTransport, createRemoteMutationFixtureClient, REMOTE_REF_CAS, parseRemoteZip, remoteReadContext, type RemoteTransport } from '../../adapters/updates/remote-github'
+import { createRemoteReads, createRemoteTransport, createRemoteMutationFixtureClient, createCheckWriter, REMOTE_REF_CAS, parseRemoteZip, remoteReadContext, type RemoteTransport } from '../../adapters/updates/remote-github'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 const oid='a'.repeat(40),roots:string[]=[]
 afterEach(async()=>{for(const root of roots.splice(0))await rm(root,{recursive:true,force:true})})
@@ -66,21 +66,25 @@ it('only establishes ref/PR absence after readable repository and complete exact
   f.responses['/git/matching-refs/heads/']=[{ref:'refs/heads/deleted'}];expect((await f.reads.readRef('deleted')).kind).toBe('unknown')
   f.setIntercept(path=>path===''?{status:404,body:null}:undefined);expect((await f.reads.readRef('deleted')).kind).toBe('unknown')
 })
-it.each(['fork','base','writer','run-attempt','workflow','artifact-owner','expired','archive-digest','duplicate-artifact','graphql-errors','oversized'])('holds malformed or unauthenticated %s facts',async kind=>{
+it.each(['fork','base','writer','run-attempt','run-status','run-conclusion','workflow','artifact-owner','expired','archive-digest','archive-size','archive-negative-size','duplicate-artifact','graphql-errors','oversized'])('holds malformed or unauthenticated %s facts',async kind=>{
   const f=await fixture();let result:unknown
   if(kind==='fork')f.pr.head.repo.id=101
   if(kind==='base')f.pr.base.ref='dev'
   if(kind==='writer')f.run.actor.id=27
   if(kind==='run-attempt')f.run.run_attempt=2
+  if(kind==='run-status')f.run.status='in_progress'
+  if(kind==='run-conclusion')f.run.conclusion='failure'
   if(kind==='workflow')f.responses['/contents/.github/workflows/producer.yml']={type:'file',encoding:'base64',path:policy.producer.workflowPath,content:Buffer.from('candidate code').toString('base64')}
   if(kind==='artifact-owner')f.metadata.workflow_run.head_repository_id=101
   if(kind==='expired')f.metadata.expired=true
   if(kind==='archive-digest')f.metadata.digest='sha256:'+'f'.repeat(64)
+  if(kind==='archive-size')f.metadata.size_in_bytes++
+  if(kind==='archive-negative-size')f.metadata.size_in_bytes=-1
   if(kind==='duplicate-artifact')f.responses['/actions/runs/30/artifacts']={total_count:2,artifacts:[f.metadata,{...f.metadata,id:62}]}
   if(kind==='graphql-errors')f.responses['/graphql']={errors:[{message:'Authorization: SECRET'}]}
   if(kind==='oversized')f.setIntercept(path=>path===''?{status:200,body:Buffer.alloc(1048577)}:undefined)
   if(['fork','base'].includes(kind))result=await f.reads.readPull(20)
-  else if(['writer','run-attempt','workflow'].includes(kind))result=await f.reads.readRun({id:30,attempt:1,role:'producer'})
+  else if(['writer','run-attempt','run-status','run-conclusion','workflow'].includes(kind))result=await f.reads.readRun({id:30,attempt:1,role:'producer'})
   else if(kind==='graphql-errors')result=await f.reads.readCommit(oid)
   else result=await f.reads.readArtifact({runId:30,attempt:1,name:'producer'})
   expect(result).toMatchObject({kind:'unknown'});expect(JSON.stringify(result)).not.toContain('SECRET')
@@ -165,6 +169,61 @@ it('allows only the exact reviewed Milvus dotted ref through the transport allow
   await expect(transport({ ...request, path: '/repos/milvus-io/milvus-docs/git/ref/heads/v3.1.x' })).rejects.toThrow('ENDPOINT_INVALID')
 })
 
+function checkSocket(respond: (method: string, path: string, body: unknown) => { status: number; body: unknown }) {
+  const received: { method: string; path: string; body: unknown }[] = []
+  const socket = ((url: URL, options: any, callback: any) => {
+    const entry: { method: string; path: string; body: unknown } = { method: options.method, path: url.pathname, body: undefined }
+    received.push(entry)
+    let body = ''
+    const response = new (require('node:events') as typeof import('node:events')).EventEmitter() as import('node:events').EventEmitter & { statusCode: number }
+    process.nextTick(() => {
+      entry.body = body ? JSON.parse(body) : undefined
+      const reply = respond(options.method, url.pathname, entry.body)
+      response.statusCode = reply.status
+      callback(response)
+      response.emit('data', Buffer.from(JSON.stringify(reply.body)))
+      response.emit('end')
+    })
+    return { on() {}, write(chunk: Uint8Array) { body += Buffer.from(chunk).toString() }, end() {} }
+  }) as unknown as typeof httpsRequest
+  return { socket, received }
+}
+
+it('reserves and completes exactly one Check with the scoped writer, binding reservation and App', async () => {
+  const { socket, received } = checkSocket((method) => method === 'POST'
+    ? { status: 201, body: { id: 41, name: 'exact-validation', head_sha: oid, status: 'in_progress', conclusion: null, app: { id: 15368 }, check_suite: { id: 51 } } }
+    : { status: 200, body: { id: 41, name: 'exact-validation', head_sha: oid, status: 'completed', conclusion: 'success', app: { id: 15368 }, check_suite: { id: 51 } } })
+  const writer = createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
+  const reserved = await writer.reserve({ headSha: oid })
+  expect(reserved).toMatchObject({ id: 41, appId: 15368, suiteId: 51, name: 'exact-validation', head: oid })
+  const completed = await writer.complete({ reservation: reserved, headSha: oid })
+  expect(completed).toMatchObject({ id: 41, status: 'completed', conclusion: 'success' })
+  expect(received.map(r => `${r.method} ${r.path}`)).toEqual(['POST /repos/example/zdoc/check-runs', 'PATCH /repos/example/zdoc/check-runs/41'])
+  expect(received[0].body).toMatchObject({ name: 'exact-validation', head_sha: oid, status: 'in_progress' })
+  expect(received[1].body).toMatchObject({ status: 'completed', conclusion: 'success' })
+})
+
+it('rejects a foreign name/App/suite in the reserve response and a mismatched completion id', async () => {
+  const reserve = (body: unknown) => checkSocket(() => ({ status: 201, body }))
+  await expect(createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: reserve({ id: 41, name: 'exact-validation', head_sha: oid, status: 'in_progress', conclusion: null, app: { id: 123 }, check_suite: { id: 51 } }).socket }).reserve({ headSha: oid })).rejects.toThrow('CHECK_APP')
+  await expect(createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: reserve({ id: 41, name: 'foreign-check', head_sha: oid, status: 'in_progress', conclusion: null, app: { id: 15368 }, check_suite: { id: 51 } }).socket }).reserve({ headSha: oid })).rejects.toThrow('CHECK_NAME')
+  // completion response id must equal the reserved id
+  const { socket } = checkSocket((method) => method === 'POST'
+    ? { status: 201, body: { id: 41, name: 'exact-validation', head_sha: oid, status: 'in_progress', conclusion: null, app: { id: 15368 }, check_suite: { id: 51 } } }
+    : { status: 200, body: { id: 999, name: 'exact-validation', head_sha: oid, status: 'completed', conclusion: 'success', app: { id: 15368 }, check_suite: { id: 51 } } })
+  const writer = createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
+  const reserved = await writer.reserve({ headSha: oid })
+  await expect(writer.complete({ reservation: reserved, headSha: oid })).rejects.toThrow('CHECK_ID_MISMATCH')
+})
+
+it('rejects an out-of-scope completion before any request (unbound reservation, wrong App/head)', async () => {
+  const { socket, received } = checkSocket(() => ({ status: 200, body: {} }))
+  const writer = createCheckWriter({ repositoryFullName: 'example/zdoc', checkAppId: 15368, checkName: 'exact-validation', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
+  await expect(writer.complete({ reservation: { id: 505, suiteId: 888, appId: 123, name: 'foreign', head: oid }, headSha: oid })).rejects.toThrow('CHECK_APP')
+  await expect(writer.complete({ reservation: { id: 505, suiteId: 888, appId: 15368, name: 'exact-validation', head: 'f'.repeat(40) }, headSha: oid })).rejects.toThrow('CHECK_TARGET')
+  expect(received).toHaveLength(0)
+})
+
 it('rejects deflate streams with compressed trailing garbage even when central/descriptors agree',()=>{
   const original=zip({'x':Buffer.from('bytes')}),descriptor=original.indexOf(Buffer.from([0x50,0x4b,0x07,0x08])),oldCentral=original.indexOf(Buffer.from([0x50,0x4b,0x01,0x02]))
   const archive=Buffer.concat([original.subarray(0,descriptor),Buffer.from([0]),original.subarray(descriptor)]),central=oldCentral+1,end=archive.length-22
@@ -240,4 +299,30 @@ it('enforces mutation endpoint/body/ref allowlists and treats null CAS results a
   for(const [action,body]of [['cas',{name:'master',beforeOid:oid,afterOid:oid,force:false}],['cas',{name:options.targetRef,beforeOid:oid,afterOid:oid,force:true}],['cas',{name:options.targetRef,beforeOid:oid,afterOid:'0'.repeat(40),force:false}],['draft',{head:options.targetRef,base:'master',draft:false,title:'x',body:'x'}],['dispatch',{ref:oid,inputs:{requestId:'x',seal:oid,master:oid,dev:oid,extra:'x'}}],['blob',{content:'',encoding:'base64',sha:oid}],['commit',{tree:oid,parents:[],message:'x',signature:'discard'}],['tree',{tree:[{path:'../escape',mode:'100644',type:'blob',sha:oid}]}],['close',{}]] as const)await expect(client(action as any,body)).rejects.toThrow()
   expect(calls).toBe(0)
   await expect(client('cas',{name:options.targetRef,beforeOid:oid,afterOid:oid,force:false})).rejects.toThrow();expect(calls).toBe(1)
+})
+
+it('authenticates complete twice-read operation history without filtering request titles',async()=>{
+  const f=await fixture()
+  const value={...f.run,id:31,...{workflow_id:policy.validator.workflowId,path:policy.validator.workflowPath,actor:{id:policy.validator.actorId}},status:'completed',conclusion:'failure',display_title:'different request'}
+  f.responses['/actions/workflows/18']={id:18,path:policy.validator.workflowPath}
+  f.responses['/actions/workflows/18/runs']={total_count:1,workflow_runs:[value]}
+  expect(await f.reads.readOperationRuns({master:oid})).toMatchObject({kind:'found',value:[{id:31,attempt:1,status:'completed',conclusion:'failure'}]})
+  value.actor.id=999
+  expect((await f.reads.readOperationRuns({master:oid})).kind).toBe('unknown')
+  value.actor.id=policy.validator.actorId
+  let count=0
+  f.setIntercept(path=>path==='/actions/workflows/18/runs'?{status:200,body:{total_count:++count===1?1:0,workflow_runs:count===1?[value]:[]}}:undefined)
+  expect((await f.reads.readOperationRuns({master:oid})).kind).toBe('unknown')
+})
+
+it('normalizes empty external IDs to absence without rejecting unrelated valid Checks',async()=>{
+  const f=await fixture()
+  const collection=f.responses[`/commits/${oid}/check-runs`] as {total_count:number;check_runs:Record<string,unknown>[]}
+  collection.total_count=2
+  collection.check_runs.push({...collection.check_runs[0],id:42,name:'unrelated',external_id:''})
+  const observed=await f.reads.readChecks(oid)
+  expect(observed.kind).toBe('found')
+  if(observed.kind==='found')expect(observed.value.find(check=>check.id===42)).not.toHaveProperty('externalId')
+  collection.check_runs[1].external_id=42
+  expect((await f.reads.readChecks(oid)).kind).toBe('unknown')
 })

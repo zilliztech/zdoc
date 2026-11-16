@@ -139,6 +139,8 @@
         "shared-docs/**",
         "scripts/testing/**",
         ".github/workflows/shared-guides-update.yml",
+        ".github/workflows/shared-guides-validate.yml",
+        ".github/workflows/shared-guides-finalize.yml",
         "scripts/docs-workflow/shared-guides-update/**",
         "packages/docs-tooling/src/lark/sharedPageFetch*",
         "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
@@ -180,6 +182,8 @@
         "packages/docs-tooling/src/lark/sharedPageFetch*",
         "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
         ".github/workflows/shared-guides-update.yml",
+        ".github/workflows/shared-guides-validate.yml",
+        ".github/workflows/shared-guides-finalize.yml",
         "scripts/translation/**"
       ],
       "checks": [

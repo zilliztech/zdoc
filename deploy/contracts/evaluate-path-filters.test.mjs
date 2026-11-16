@@ -180,6 +180,8 @@ test('shared-docs gate trigger surface selects the gate alongside both site buil
     'shared-docs/guides/example.md',
     'scripts/testing/run-vitest-groups.mjs',
     '.github/workflows/shared-guides-update.yml',
+    '.github/workflows/shared-guides-validate.yml',
+    '.github/workflows/shared-guides-finalize.yml',
     'scripts/docs-workflow/shared-guides-update/plan.mjs',
     'packages/docs-tooling/src/lark/sharedPageFetch.js',
     'packages/docs-tooling/src/lark/sharedPageRenderIdentity.test.js',
@@ -206,6 +208,8 @@ test('sharedDocsGate preserves both site builds for publish-sites auto selection
     'shared-docs/**': 'shared-docs/guides/example.md',
     'scripts/testing/**': 'scripts/testing/vitest-stop-reporter.mjs',
     '.github/workflows/shared-guides-update.yml': '.github/workflows/shared-guides-update.yml',
+    '.github/workflows/shared-guides-validate.yml': '.github/workflows/shared-guides-validate.yml',
+    '.github/workflows/shared-guides-finalize.yml': '.github/workflows/shared-guides-finalize.yml',
     'scripts/docs-workflow/shared-guides-update/**': 'scripts/docs-workflow/shared-guides-update/index.js',
     'packages/docs-tooling/src/lark/sharedPageFetch*': 'packages/docs-tooling/src/lark/sharedPageFetch.js',
     'packages/docs-tooling/src/lark/sharedPageRenderIdentity*': 'packages/docs-tooling/src/lark/sharedPageRenderIdentity.js',
@@ -227,3 +231,9 @@ test('sharedDocsGate preserves both site builds for publish-sites auto selection
   // keep the dual-build fail-closed behavior but do not trigger the heavy suite.
   assert.ok(!evaluateChangedPaths(['README.md'], filters).checks.includes('shared-docs:tests'));
 });
+
+test('manual target Check workflows route only through the dedicated shared-docs gate', () => {
+  for (const file of ['.github/workflows/shared-guides-validate.yml', '.github/workflows/shared-guides-finalize.yml']) {
+    assert.deepEqual(evaluateChangedPaths([file], filters), {checks:['build:en','build:zh-CN','shared-docs:tests'],matchedRules:['sharedDocsGate'],unclassifiedPaths:[]})
+  }
+})
