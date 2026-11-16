@@ -89,7 +89,7 @@ with zipfile.ZipFile(sys.argv[1],'w') as z:z.writestr('guides-source.tar',b.getv
   await expect(readLifecycle(api, 1, second)).rejects.toThrow(/digest/)
 })
 
-it('requires the actual canonical Base row and successful generation for the selected page', async () => {
+it('selects a canonical successful or reused Base row for downstream evidence authentication', async () => {
   const { observedRecord } = await import('../../adapters/updates/selected-lifecycle')
   const page = 'sample', link = `https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/${page}`
   const fixture = () => {
@@ -102,6 +102,8 @@ it('requires the actual canonical Base row and successful generation for the sel
     return { bundle: { preparation: { records: [raw] }, outcomes: [outcome] }, snapshot: { records: [record] }, raw, outcome, record }
   }
   const positive = fixture()
+  expect(observedRecord(positive.bundle, positive.snapshot, page)?.record).toBe(positive.record)
+  positive.outcome.status = 'reused'
   expect(observedRecord(positive.bundle, positive.snapshot, page)?.record).toBe(positive.record)
   for (const change of [
     (f: ReturnType<typeof fixture>) => { f.raw.fields['Release Channel'] = '' }, // the producer can default this to CURRENT
