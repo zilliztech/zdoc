@@ -130,7 +130,7 @@ async function scan({sharedDocsRoot, upstreamRepo, headSha, fetchPullState}) {
   if (!/^[a-f0-9]{40}$/.test(head)) fail(`Upstream head is unavailable in the audit clone: ${headSha}`)
   const pages = fs.readdirSync(path.join(sharedDocsRoot, 'pages'), {withFileTypes: true})
     .filter(entry => entry.isDirectory() && !entry.isSymbolicLink()).map(entry => entry.name).sort()
-  const report = {schemaVersion: '1.0', generatedOn: new Date().toISOString(), head, pages: []}
+  const report = {schemaVersion: '1.0', group: path.basename(sharedDocsRoot), generatedOn: new Date().toISOString(), head, pages: []}
   for (const name of pages) report.pages.push(await pageReport({name, repositoryRoot: sharedDocsRoot, upstreamRepo, headSha: head, fetchPullState}))
   const driftPages = report.pages.filter(page => page.drifted?.length)
   const unhealthy = report.pages.filter(page => page.pinIssue || page.variant?.issues.some(issue => issue.severity === 'unhealthy'))
@@ -147,7 +147,7 @@ async function scan({sharedDocsRoot, upstreamRepo, headSha, fetchPullState}) {
 }
 
 function renderMarkdown(report) {
-  const lines = [`## Shared-docs pin drift (${report.summary.scannedPages} pages, head ${report.head.slice(0, 12)})`, '',
+  const lines = [`## Shared-docs pin drift (${report.group}, ${report.summary.scannedPages} pages, head ${report.head.slice(0, 12)})`, '',
     `Drifted: ${report.summary.driftedCount}; unhealthy: ${report.summary.unhealthyCount}; pending reconciliation: ${report.summary.pendingReconciliationCount}; errors: ${report.summary.errorCount}`,
     `diffDigest: \`${report.summary.diffDigest}\``, '']
   for (const page of report.pages) {

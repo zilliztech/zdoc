@@ -5,6 +5,7 @@ import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, w
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { load } from 'js-yaml'
+import { SHARED_DOC_GROUPS } from '../core/groups'
 
 // These tests start Git or CLI subprocesses. A slow shared CI runner can run several
 // times slower than usual, so they get a generous per-file limit instead of vitest's 5 s.
@@ -90,6 +91,14 @@ if (args[1] === 'list') {
 const pushName = 'Push only new regular lock files', dispatchName = 'Dispatch and wait for exact pushed validation'
 
 describe('read-only validation shell contracts', () => {
+  it('keeps every inline group authority identical to core/groups.ts', () => {
+    const sources = [readFileSync(join(root, detectorPath), 'utf8'), readFileSync(join(root, '.github/workflows/shared-docs-lock.yml'), 'utf8')]
+    for (const source of sources) {
+      const inline = /^\s*const SHARED_DOC_GROUPS = \[([^\]]+)\]/m.exec(source)
+      expect(inline).not.toBeNull()
+      expect(inline![1].split(',').map(entry => entry.trim().replace(/^'|'$/g, ''))).toEqual([...SHARED_DOC_GROUPS])
+    }
+  })
   it('shares the dependency-free detector before dependency installation', () => {
     for (const [workflow, job] of [[validate, 'validate'], [lock, 'lock']] as const) {
       const steps = workflow.jobs[job].steps
@@ -136,6 +145,16 @@ describe('read-only validation shell contracts', () => {
     expect(result.status).toBe(0); expect(result.outputs.groups).toBe('["guides"]')
     expect(readFileSync(join(setup.dir, 'shared-docs-groups'), 'utf8')).toBe('guides\n')
   })
+  it('[3-3] detects node pages and sorts mixed affected groups', () => {
+    const setup = fixture()
+    put(setup.repo, 'shared-docs/node/pages/Collections-createCollection/page.yaml')
+    put(setup.repo, 'shared-docs/node/pages/Query-iterateQueryIterator/page.yaml')
+    put(setup.repo, 'shared-docs/guides/pages/other/page.yaml')
+    const head = commit(setup.repo)
+    const result = execute(validate, 'validate', 'Detect shared input changes', setup, { SOURCE_SHA: head })
+    expect(result.status).toBe(0); expect(result.outputs.changed).toBe('true'); expect(result.outputs.groups).toBe('["guides","node"]')
+    expect(readFileSync(join(setup.dir, 'shared-docs-groups'), 'utf8')).toBe('guides\nnode\n')
+  })
   it.each(['shared-docs/source.yaml', 'shared-docs/pages/old/page.yaml', 'shared-docs/rest/pages/new/page.yaml', 'shared-docs/guides'])('rejects unsupported or ungrouped shared input before external reads: %s', file => {
     const setup = fixture()
     if (file === 'shared-docs/guides') rmSync(join(setup.repo, file), { recursive: true })
@@ -143,7 +162,7 @@ describe('read-only validation shell contracts', () => {
     for (const [workflow, job, name] of [[validate, 'validate', 'Detect shared input changes'], [lock, 'lock', 'Detect shared input changes']] as const) {
       const result = execute(workflow, job, name, setup, { SOURCE_SHA: head })
       expect(result.status).toBe(1); expect(result.outputs.failure_class).toBe('content')
-      expect(result.stderr).toContain('Only the guides group is supported')
+      expect(result.stderr).toContain('Supported shared-docs groups: guides, node')
       const names = workflow.jobs[job].steps.map(step => step.name)
       expect(names.indexOf(name)).toBeLessThan(names.indexOf('Clone complete tracking history'))
     }
@@ -217,10 +236,29 @@ describe('source and snapshot setup shell contracts', () => {
   function sourceSetup() {
     const setup = fixture(); symlinkSync(join(root, 'scripts'), join(setup.repo, 'scripts')); symlinkSync(join(root, 'packages/docs-tooling/src/shared-docs/core'), join(setup.repo, 'packages/docs-tooling/src/shared-docs/core')); return setup
   }
-  it.each([lock, validate])('parses source configuration through the existing parser', workflow => {
+  it.each([lock, validate])('parses the affected groups source configuration through the existing parser', workflow => {
     const setup = sourceSetup(), job = workflow === lock ? 'lock' : 'validate'
     const result = execute(workflow, job, 'Read public source configuration', setup)
-    expect(result.status).toBe(0); expect(result.outputs).toEqual({ repository: 'https://github.com/milvus-io/milvus-docs.git', track: 'v3.0.x' })
+    expect(result.status).toBe(0)
+    expect(result.outputs).toEqual({ sources: JSON.stringify({ guides: { repository: 'https://github.com/milvus-io/milvus-docs.git', track: 'v3.0.x' } }) })
+  })
+  it('parses every affected group source configuration into per-group identities', () => {
+    const setup = sourceSetup()
+    put(setup.repo, 'shared-docs/node/source.yaml', 'schema_version: 1\nrepository: https://github.com/milvus-io/web-content.git\ntrack: master\n')
+    writeFileSync(join(setup.dir, 'shared-docs-groups'), 'guides\nnode\n')
+    const result = execute(lock, 'lock', 'Read public source configuration', setup)
+    expect(result.status).toBe(0)
+    expect(result.outputs).toEqual({ sources: JSON.stringify({
+      guides: { repository: 'https://github.com/milvus-io/milvus-docs.git', track: 'v3.0.x' },
+      node: { repository: 'https://github.com/milvus-io/web-content.git', track: 'master' },
+    }) })
+  })
+  it('fails closed when an affected group has no source configuration', () => {
+    const setup = sourceSetup(); put(setup.repo, 'shared-docs/node/pages/Unknown-x/page.yaml'); const head = commit(setup.repo)
+    expect(execute(validate, 'validate', 'Detect shared input changes', setup, { SOURCE_SHA: head }).outputs.groups).toBe('["node"]')
+    const result = execute(lock, 'lock', 'Read public source configuration', setup)
+    expect(result.status).toBe(1); expect(result.outputs.failure_class).toBe('content')
+    expect(result.stderr).toContain('Missing shared-docs/node/source.yaml')
   })
   it.each(['git@github.com:owner/repo', 'https://token@github.com/owner/repo', 'https://github.com.evil.test/owner/repo', 'https://github.com/owner/repo?token=x', '--upload-pack=evil', 'file:///tmp/repo', 'https://github.com/owner/..'])('rejects a non-public or unsafe source URL: %s', url => {
     const setup = sourceSetup(); put(setup.repo, 'shared-docs/guides/source.yaml', `schema_version: 1\nrepository: ${JSON.stringify(url)}\ntrack: v3.0.x\n`)
@@ -232,19 +270,27 @@ describe('source and snapshot setup shell contracts', () => {
     const result = execute(lock, 'lock', 'Read public source configuration', setup)
     expect(result.status).toBe(1); expect(result.outputs.repository).toBeUndefined()
   })
-  it('clones a single local tracking branch with complete history', () => {
-    const setup = fixture(); git(setup.repo, 'branch', 'v3.0.x'); put(setup.repo, 'second'); commit(setup.repo); git(setup.repo, 'branch', 'other')
-    const result = execute(lock, 'lock', 'Clone complete tracking history', setup, { SOURCE_REPOSITORY: setup.repo, TRACK: 'v3.0.x' })
+  function sourcesFor(setup: ReturnType<typeof fixture>, entries: Record<string, { repository: string; track: string }>) {
+    writeFileSync(join(setup.dir, 'shared-docs-sources.json'), JSON.stringify(entries))
+  }
+  it('clones each affected group tracking branch with complete history', () => {
+    const setup = fixture(); git(setup.repo, 'branch', 'v3.0.x'); git(setup.repo, 'branch', 'other'); put(setup.repo, 'second'); commit(setup.repo)
+    sourcesFor(setup, { guides: { repository: setup.repo, track: 'v3.0.x' }, node: { repository: setup.repo, track: 'other' } })
+    const result = execute(lock, 'lock', 'Clone complete tracking history', setup)
     expect(result.status).toBe(0)
-    const clone = join(setup.dir, 'milvus-docs'); expect(git(clone, 'rev-parse', '--is-shallow-repository')).toBe('false')
-    expect(git(clone, 'branch', '--format=%(refname)')).toBe('refs/heads/v3.0.x')
-    expect(git(clone, 'rev-parse', 'HEAD')).toBe(setup.sha)
+    for (const [group, track] of [['guides', 'v3.0.x'], ['node', 'other']] as const) {
+      const clone = join(setup.dir, 'upstream', group)
+      expect(git(clone, 'rev-parse', '--is-shallow-repository')).toBe('false')
+      expect(git(clone, 'branch', '--format=%(refname)')).toBe(`refs/heads/${track}`)
+      expect(git(clone, 'rev-parse', 'HEAD')).toBe(setup.sha)
+    }
     expect(lock.jobs.lock.steps.find(step => step.name === 'Clone complete tracking history')?.run).toBe(validate.jobs.validate.steps.find(step => step.name === 'Clone complete tracking history')?.run)
   })
   it.each(['missing-branch', 'shallow'])('rejects an incomplete tracking checkout: %s', mode => {
     const setup = fixture()
+    sourcesFor(setup, { guides: { repository: setup.repo, track: 'v3.0.x' } })
     stub(setup, 'git', `#!/bin/sh\nif [ "$1" = clone ]; then exit 0; fi\nif [ "$3" = show-ref ]; then ${mode === 'missing-branch' ? 'exit 1' : 'exit 0'}; fi\nif [ "$3" = rev-parse ]; then echo true; fi\n`)
-    expect(execute(lock, 'lock', 'Clone complete tracking history', setup, { SOURCE_REPOSITORY: setup.repo, TRACK: 'v3.0.x' }).status).not.toBe(0)
+    expect(execute(lock, 'lock', 'Clone complete tracking history', setup).status).not.toBe(0)
   })
   it('authenticates exact upstream dev SHA and uses only approved sparse paths', () => {
     const setup = fixture(); stub(setup, 'git', `#!/bin/sh\nprintf '%s\\trefs/heads/dev\\n' '${setup.sha}'\n`)
@@ -253,7 +299,7 @@ describe('source and snapshot setup shell contracts', () => {
     const checkout = validate.jobs.validate.steps.find(step => step.name === 'Check out read-only upstream dev snapshot')!
     expect(checkout.with?.repository).toBe('zilliztech/zdoc'); expect(checkout.with?.ref).toBe('${{ steps.dev.outputs.sha }}')
     expect(checkout.with?.['sparse-checkout-cone-mode']).toBe(false)
-    expect(String(checkout.with?.['sparse-checkout']).trim().split('\n')).toEqual(['/content/en/guides/', '/content/en/byoc/', '/packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'])
+    expect(String(checkout.with?.['sparse-checkout']).trim().split('\n')).toEqual(['/content/en/guides/', '/content/en/byoc/', '/packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', '/content/en/reference/'])
   })
   it.each(['', 'invalid\trefs/heads/dev\n', 'a'.repeat(40) + '\trefs/heads/master\n'])('fails closed on malformed upstream identity %j', text => {
     const setup = fixture(); put(setup.dir, 'ref-response', text); stub(setup, 'git', '#!/bin/sh\ncat "$RUNNER_TEMP/ref-response"\n')
@@ -296,6 +342,12 @@ describe('initial-lock writer shell contracts', () => {
     const setup = fixture(); const result = execute(lock, 'lock', pushName, setup)
     expect(result.status).toBe(0); expect(result.outputs.pushed).toBe('false'); expect(git(setup.repo, 'rev-parse', 'HEAD')).toBe(setup.sha)
     expect(lock.jobs.lock.steps.find(step => step.name === dispatchName)?.if).toBe("steps.push.outputs.pushed == 'true'")
+  })
+  it('pushes node group initial locks with their CamelCase page IDs', () => {
+    const setup = fixture(); put(setup.repo, 'shared-docs/node/pages/Collections-createCollection/lock.yaml', `current: ${setup.sha}\nnext: ${setup.sha}\n`)
+    const pushed = execute(lock, 'lock', pushName, setup)
+    expect(pushed.status).toBe(0); expect(pushed.outputs.pushed).toBe('true')
+    expect(git(setup.repo, 'diff', '--name-status', setup.sha, pushed.outputs.pushed_sha)).toBe('A\tshared-docs/node/pages/Collections-createCollection/lock.yaml')
   })
   it.each(['tracked-modification', 'unrelated-staged', 'unexpected-untracked', 'newline-path', 'symlink', 'executable', 'unsupported-group', 'legacy-layout'])('rejects unsafe staging: %s', kind => {
     const setup = fixture(), lockPath = 'shared-docs/guides/pages/example/lock.yaml'
@@ -388,7 +440,7 @@ describe('validation dispatch and failure reporting shell contracts', () => {
 })
 
 describe('grouped workflow test selection', () => {
-  it.each(['shared-docs/guides/source.yaml', 'shared-docs/guides/pages/example/page.yaml', 'shared-docs/source.yaml', 'shared-docs/rest/pages/example/page.yaml'])('keeps valid and invalid shared layouts mapped to master tooling: %s', file => {
+  it.each(['shared-docs/guides/source.yaml', 'shared-docs/guides/pages/example/page.yaml', 'shared-docs/node/pages/Collections-createCollection/page.yaml', 'shared-docs/source.yaml', 'shared-docs/rest/pages/example/page.yaml'])('keeps valid and invalid shared layouts mapped to master tooling: %s', file => {
     const selection = JSON.parse(execFileSync(process.execPath, ['scripts/docs-workflow/select-tests-for-changes.js', '--json', file], { cwd: root, encoding: 'utf8' }))
     expect(selection.branchPolicies[0]).toMatchObject({ owner: 'master-tooling', targetBranch: 'master' })
     expect(selection.areas.map((area: { id: string }) => area.id)).toContain('shared-docs')
@@ -494,10 +546,13 @@ describe('pin drift watchdog contracts', () => {
     expect(readFileSync('.github/workflows/shared-docs-pin-drift-watchdog.yml', 'utf8')).toMatch(/cron: '47 4 \* \* \*'/)
     expect(readFileSync('.github/workflows/shared-docs-pin-drift-watchdog.yml', 'utf8')).toMatch(/  contents: read\n/)
     const clone = watchdogJob.steps.find(step => step.name === 'Clone blobless tracking history')
-    expect(clone?.run).toContain('--filter=blob:none --no-checkout --single-branch')
+    expect(clone?.run).toContain("'--quiet', '--filter=blob:none', '--no-checkout', '--single-branch'")
+    expect(clone?.run).toContain('upstream-pin-scan/${group}')
     const scan = watchdogJob.steps.find(step => step.name === 'Scan pin drift and variant health')
     expect(scan?.run).toContain('shared-docs-pin-drift.js')
-    expect(scan?.run).toContain('--shared-docs shared-docs/guides --upstream "$UPSTREAM_REPO" --head "$head"')
+    expect(scan?.run).toContain('--shared-docs "shared-docs/$group" --upstream "$RUNNER_TEMP/upstream-pin-scan/$group" --head "$head"')
+    expect(scan?.run).toContain('--out "tmp/shared-docs-pin-drift/$group"')
+    expect(scan?.run).toContain('done < "$RUNNER_TEMP/shared-docs-watchdog-groups"')
     expect(scan?.env?.GITHUB_TOKEN).toBe('${{ github.token }}')
     const upload = watchdogJob.steps.find(step => step.name === 'Upload the audit report')
     expect(upload?.with).toMatchObject({ name: 'shared-docs-pin-drift-${{ github.run_id }}', 'retention-days': 14, 'if-no-files-found': 'error' })
@@ -513,11 +568,87 @@ describe('pin drift watchdog contracts', () => {
     }
   })
 
-  it('derives the card status strictly from unhealthy and error counts', () => {
+  it('derives the card status strictly from aggregated unhealthy and error counts', () => {
     const scanStep = watchdogJob.steps.find(step => step.name === 'Scan pin drift and variant health')
-    expect(scanStep?.run).toContain("summary.unhealthyCount === 0 && summary.errorCount === 0 ? 'success' : 'fail'")
+    expect(scanStep?.run).toContain("totals.unhealthyCount === 0 && totals.errorCount === 0 ? 'success' : 'fail'")
     expect(scanStep?.run).toContain('for (const field of')
     expect(scanStep?.run).toContain('throw new Error(`Watchdog report is missing summary.${field}`)')
+  })
+
+  function watchdogFixture(groups: 'guides' | 'guides+node') {
+    // The watchdog source step resolves the engine authority through the working
+    // tree, so expose the same read-only mirrors the source-setup tests use.
+    const setup = fixture()
+    symlinkSync(join(root, 'scripts'), join(setup.repo, 'scripts'))
+    symlinkSync(join(root, 'packages/docs-tooling/src/shared-docs/core'), join(setup.repo, 'packages/docs-tooling/src/shared-docs/core'))
+    let sha = setup.sha
+    if (groups === 'guides+node') {
+      put(setup.repo, 'shared-docs/node/source.yaml', 'schema_version: 1\nrepository: https://github.com/milvus-io/web-content.git\ntrack: master\n')
+      put(setup.repo, 'shared-docs/node/pages/Collections-createCollection/page.yaml')
+      sha = commit(setup.repo)
+    }
+    // The clone tests point the sources JSON at this working repository, so both
+    // tracking branches must exist locally at the audited head.
+    git(setup.repo, 'branch', 'v3.0.x'); git(setup.repo, 'branch', 'master')
+    return { ...setup, sha }
+  }
+
+  it('enumerates configured groups and clones each upstream bloblessly', () => {
+    const setup = watchdogFixture('guides+node')
+    const source = execute(watchdogWorkflow, 'watchdog', 'Read public source configuration', setup)
+    expect(source.status).toBe(0)
+    expect(source.outputs.sources).toBe(JSON.stringify({
+      guides: { repository: 'https://github.com/milvus-io/milvus-docs.git', track: 'v3.0.x' },
+      node: { repository: 'https://github.com/milvus-io/web-content.git', track: 'master' },
+    }))
+    expect(readFileSync(join(setup.dir, 'shared-docs-watchdog-groups'), 'utf8')).toBe('guides\nnode\n')
+    // git clone does not discover the enclosing repository, so the URL rewrite
+    // used by read-only Git steps cannot apply; point the sources JSON at the
+    // local bare remote directly, exactly like the lock clone tests.
+    writeFileSync(join(setup.dir, 'shared-docs-sources.json'), JSON.stringify({
+      guides: { repository: setup.repo, track: 'v3.0.x' },
+      node: { repository: setup.repo, track: 'master' },
+    }))
+    expect(execute(watchdogWorkflow, 'watchdog', 'Clone blobless tracking history', setup).status).toBe(0)
+    for (const group of ['guides', 'node']) {
+      expect(git(join(setup.dir, 'upstream-pin-scan', group), 'rev-parse', '--is-shallow-repository')).toBe('false')
+      expect(git(join(setup.dir, 'upstream-pin-scan', group), 'rev-parse', 'HEAD')).toBe(setup.sha)
+    }
+  })
+
+  it('scans every group into its own report and aggregates the card status', () => {
+    const setup = watchdogFixture('guides+node')
+    execute(watchdogWorkflow, 'watchdog', 'Read public source configuration', setup)
+    writeFileSync(join(setup.dir, 'shared-docs-sources.json'), JSON.stringify({
+      guides: { repository: setup.repo, track: 'v3.0.x' },
+      node: { repository: setup.repo, track: 'master' },
+    }))
+    execute(watchdogWorkflow, 'watchdog', 'Clone blobless tracking history', setup)
+    const scan = execute(watchdogWorkflow, 'watchdog', 'Scan pin drift and variant health', setup)
+    expect(scan.status).toBe(0)
+    // The fixture pages carry no lock.yaml, so every group reports one page error.
+    expect(scan.outputs.card_status).toBe('fail')
+    expect(scan.outputs.unhealthy_count).toBe('0')
+    expect(scan.outputs.drifted_count).toBe('0')
+    for (const [group, pages] of [['guides', 1], ['node', 1]] as const) {
+      const report = JSON.parse(readFileSync(join(setup.repo, `tmp/shared-docs-pin-drift/${group}/watchdog-report.json`), 'utf8'))
+      expect(report.group).toBe(group)
+      expect(report.summary.scannedPages).toBe(pages)
+      expect(report.summary.errorCount).toBe(pages)
+    }
+    const merged = readFileSync(join(setup.repo, 'tmp/shared-docs-pin-drift/watchdog-report.md'), 'utf8')
+    expect(merged).toContain('## Shared-docs pin drift (guides')
+    expect(merged).toContain('## Shared-docs pin drift (node')
+  })
+
+  it('rejects an unsupported configured group before any upstream access', () => {
+    const setup = watchdogFixture('guides')
+    put(setup.repo, 'shared-docs/python/source.yaml', 'schema_version: 1\nrepository: https://github.com/milvus-io/python-docs.git\ntrack: master\n')
+    commit(setup.repo)
+    const result = execute(watchdogWorkflow, 'watchdog', 'Read public source configuration', setup)
+    expect(result.status).toBe(1)
+    expect(result.stderr).toContain('Unsupported shared-docs group')
+    expect(() => readFileSync(join(setup.dir, 'shared-docs-watchdog-groups'))).toThrow()
   })
 })
 })
