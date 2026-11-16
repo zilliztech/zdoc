@@ -556,11 +556,15 @@ jobs:
             : []
           const report = fs.existsSync(reportPath) ? JSON.parse(fs.readFileSync(reportPath, 'utf8')) : null
           // 2026-10-30 merge-model reports: prose harvest, retirement review,
-          // unplaced additions, pending confirmations, translations.
+          // unplaced additions, pending confirmations, translations. The
+          // 2026-11-16 assembler split retirement review by ledger source
+          // attribution: `crossTrackDeletions` holds fields whose operation
+          // another source owns, so this refresh never asks this PR's
+          // reviewer to confirm (or silently retire) them.
           const reportsPath = path.join(staging, process.env.STAGING, 'assemble-reports.json')
           const assembleReports = fs.existsSync(reportsPath)
             ? JSON.parse(fs.readFileSync(reportsPath, 'utf8'))
-            : {descriptionDrift: [], deletions: [], unplaced: [], pendingConfirmation: [], unresolvableSubtrees: [], placementsApplied: [], rejectedPlacements: [], reorganizations: [], missingDescriptions: []}
+            : {descriptionDrift: [], deletions: [], crossTrackDeletions: [], unplaced: [], pendingConfirmation: [], unresolvableSubtrees: [], placementsApplied: [], rejectedPlacements: [], reorganizations: [], missingDescriptions: []}
           const describePath = path.join(staging, process.env.STAGING, 'describe-report.json')
           const describeReport = fs.existsSync(describePath) ? JSON.parse(fs.readFileSync(describePath, 'utf8')) : null
           const translatePath = path.join(staging, process.env.STAGING, 'translate-report.json')
@@ -602,6 +606,7 @@ jobs:
           const descriptionKeep = 40
           const descriptionShown = head(assembleReports.descriptionDrift, descriptionKeep)
           const deletionsShown = head(assembleReports.deletions, 40)
+          const crossTrackShown = head(assembleReports.crossTrackDeletions ?? [], 40)
           const unplacedShown = head(assembleReports.unplaced, 30)
           const pendingShown = head(assembleReports.pendingConfirmation, 20)
           const proseLine = entry => `- ${entry.templateProse ? '[template copy] ' : ''}\`${entry.opKey}\`${entry.field ? ` \`${entry.field}\`` : ''}${entry.branch ? ` (${entry.branch})` : ''}: ${JSON.stringify(entry.before)} → ${JSON.stringify(entry.after)}`
@@ -632,6 +637,9 @@ jobs:
             '',
             '### Retirements to confirm (fields/params the upstream no longer has)', '',
             deletionsShown.length ? deletionsShown.map(entry => `- \`${entry.opKey}\`${entry.field ? ` \`${entry.field}\`` : ''} (${entry.kind})`).join('\n') : '- none',
+            '',
+            '### Cross-track retirements (ledger attributes the operation to another source — keep the fields, no action here)', '',
+            crossTrackShown.length ? crossTrackShown.map(entry => `- \`${entry.opKey}\`${entry.field ? ` \`${entry.field}\`` : ''} (${entry.kind}) — ledger owner: ${entry.ledgerSource}`).join('\n') : '- none',
             '',
             '### Retired lifecycle-evidence elements (rewritten away by mirrored subtrees)', '',
             retireReport && retireReport.retired.length

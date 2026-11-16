@@ -384,10 +384,12 @@ function registerAssembleCommand(command) {
         .option('--branch-plan <file>', 'Branch-placement plan JSON from the branch-plan stage', null)
         .option('--reports <file>', 'Human-review lists output path (prose drift, retirements, unplaced fields, pending confirmations)', null)
         .option('--fragments <dir>', 'Fragment copies the loci resolve against', DEFAULTS.fragments)
+        .option('--ledger <path>', 'Ledger for cross-track retirement attribution: operations the ledger records only under another source move to the cross-track report list', DEFAULTS.ledger)
         .action(opts => {
             const diff = JSON.parse(fs.readFileSync(opts.diff, 'utf8'))
             const decisions = loadDecisions(opts.decisions)
             const branchPlan = opts.branchPlan ? parseBranchPlanFile(opts.branchPlan) : null
+            const ledger = opts.ledger ? loadRestUpstreamLedger(opts.ledger) : null
             const fragmentsDir = opts.fragments
             const fragmentCache = new Map()
             const fragmentLoader = fileName => {
@@ -398,7 +400,7 @@ function registerAssembleCommand(command) {
                 }
                 return fragmentCache.get(fileName)
             }
-            const {changeSet, reports} = assembleChangeSet({diffDocument: diff, decisions, fragmentLoader, branchPlan})
+            const {changeSet, reports} = assembleChangeSet({diffDocument: diff, decisions, fragmentLoader, branchPlan, ledger})
             fs.mkdirSync(path.dirname(path.resolve(opts.out)), {recursive: true})
             fs.writeFileSync(opts.out, serializeDocument(changeSet))
             if (opts.reports) fs.writeFileSync(opts.reports, serializeDocument(reports))
@@ -406,7 +408,7 @@ function registerAssembleCommand(command) {
             const tally = Object.entries(stances).sort(([left], [right]) => left.localeCompare(right)).map(([action, count]) => `${action}=${count}`).join(', ')
             console.log(`assembled ${changeSet.entries.length} entr(ies) from ${decisions.length} decision(s) (${tally}); `
                 + `auto lanes: ${reports.placementsApplied.length} placed, ${reports.unplaced.length} unplaced, ${reports.pendingConfirmation.length} pending confirmation; `
-                + `reports: ${reports.descriptionDrift.length} prose, ${reports.deletions.length} retirement(s) -> ${opts.out}`)
+                + `reports: ${reports.descriptionDrift.length} prose, ${reports.deletions.length} retirement(s), ${reports.crossTrackDeletions.length} cross-track retirement(s) -> ${opts.out}`)
         })
 }
 
