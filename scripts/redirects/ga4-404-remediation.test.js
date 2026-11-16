@@ -17,6 +17,7 @@ const {
   run,
 } = require('./ga4-404-remediation.js')
 const {mapLimit} = require('./pipeline.js')
+const {loadReportEntries} = require('./triage-agent.js')
 
 const TOKEN_URL = 'https://oauth2.googleapis.com/token'
 const RUN_REPORT_URL = 'https://analyticsdata.googleapis.com/v1beta/properties'
@@ -178,6 +179,12 @@ test('run() direct mode classifies replayed rows and emits the full artifact set
     assert.equal(report.filtered[0].path, '/docs/crawler')
     assert.match(report.filtered[0].reason, /crawler-only traffic/)
     assert.equal(report.triage[0].path, '/docs/mystery')
+
+    // Producer→consumer contract pin: report.json triage entries carry `path`
+    // while the triage comment carries `from`; the propose agent's loader must
+    // keep accepting the producer shape or the scheduled proposal job dies on
+    // every batch (seen live: run 43551367118).
+    assert.deepEqual(loadReportEntries(result.report_path).map(entry => entry.from), ['/docs/mystery'])
 
     const proposal = fs.readFileSync(result.proposal_path, 'utf8')
     assert.match(proposal, /# GA4 404 remediation proposal/)
