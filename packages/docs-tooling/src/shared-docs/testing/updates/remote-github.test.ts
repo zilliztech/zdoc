@@ -8,7 +8,7 @@ import { deflateRawSync } from 'node:zlib'
 import { afterEach, expect, it } from 'vitest'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { REMOTE_LIMITS, type RemotePolicy } from '../../core/updates/remote'
-import { createRemoteReads, createRemoteTransport, createRemoteMutationFixtureClient, REMOTE_REF_CAS, parseRemoteZip, remoteReadContext, type RemoteTransport } from '../../adapters/updates/remote-github'
+import { createRemoteReads, createRemoteTransport, createRemoteMutationFixtureClient, createCheckWriter, REMOTE_REF_CAS, parseRemoteZip, remoteReadContext, type RemoteTransport } from '../../adapters/updates/remote-github'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 const oid='a'.repeat(40),roots:string[]=[]
 afterEach(async()=>{for(const root of roots.splice(0))await rm(root,{recursive:true,force:true})})
@@ -66,12 +66,14 @@ it('only establishes ref/PR absence after readable repository and complete exact
   f.responses['/git/matching-refs/heads/']=[{ref:'refs/heads/deleted'}];expect((await f.reads.readRef('deleted')).kind).toBe('unknown')
   f.setIntercept(path=>path===''?{status:404,body:null}:undefined);expect((await f.reads.readRef('deleted')).kind).toBe('unknown')
 })
-it.each(['fork','base','writer','run-attempt','workflow','artifact-owner','expired','archive-digest','duplicate-artifact','graphql-errors','oversized'])('holds malformed or unauthenticated %s facts',async kind=>{
+it.each(['fork','base','writer','run-attempt','run-status','run-conclusion','workflow','artifact-owner','expired','archive-digest','duplicate-artifact','graphql-errors','oversized'])('holds malformed or unauthenticated %s facts',async kind=>{
   const f=await fixture();let result:unknown
   if(kind==='fork')f.pr.head.repo.id=101
   if(kind==='base')f.pr.base.ref='dev'
   if(kind==='writer')f.run.actor.id=27
   if(kind==='run-attempt')f.run.run_attempt=2
+  if(kind==='run-status')f.run.status='in_progress'
+  if(kind==='run-conclusion')f.run.conclusion='failure'
   if(kind==='workflow')f.responses['/contents/.github/workflows/producer.yml']={type:'file',encoding:'base64',path:policy.producer.workflowPath,content:Buffer.from('candidate code').toString('base64')}
   if(kind==='artifact-owner')f.metadata.workflow_run.head_repository_id=101
   if(kind==='expired')f.metadata.expired=true
@@ -80,7 +82,7 @@ it.each(['fork','base','writer','run-attempt','workflow','artifact-owner','expir
   if(kind==='graphql-errors')f.responses['/graphql']={errors:[{message:'Authorization: SECRET'}]}
   if(kind==='oversized')f.setIntercept(path=>path===''?{status:200,body:Buffer.alloc(1048577)}:undefined)
   if(['fork','base'].includes(kind))result=await f.reads.readPull(20)
-  else if(['writer','run-attempt','workflow'].includes(kind))result=await f.reads.readRun({id:30,attempt:1,role:'producer'})
+  else if(['writer','run-attempt','run-status','run-conclusion','workflow'].includes(kind))result=await f.reads.readRun({id:30,attempt:1,role:'producer'})
   else if(kind==='graphql-errors')result=await f.reads.readCommit(oid)
   else result=await f.reads.readArtifact({runId:30,attempt:1,name:'producer'})
   expect(result).toMatchObject({kind:'unknown'});expect(JSON.stringify(result)).not.toContain('SECRET')
@@ -163,6 +165,33 @@ it('allows only the exact reviewed Milvus dotted ref through the transport allow
   const request = { method: 'GET' as const, path: '/repos/milvus-io/milvus-docs/git/ref/heads/v3.0.x', maximum: 4096, signal: new AbortController().signal }
   await expect(transport(request)).rejects.toThrow('NETWORK_REACHED')
   await expect(transport({ ...request, path: '/repos/milvus-io/milvus-docs/git/ref/heads/v3.1.x' })).rejects.toThrow('ENDPOINT_INVALID')
+})
+
+it('reserves and completes exactly one Check with the scoped writer, binding head and App', async () => {
+  const received: { method: string; url: string; body: string }[] = []
+  const server = createServer((req, res) => {
+    let body = ''
+    req.on('data', chunk => { body += chunk })
+    req.on('end', () => {
+      received.push({ method: req.method ?? '', url: req.url ?? '', body })
+      const completed = (req.method ?? '') === 'PATCH'
+      res.writeHead(completed ? 200 : 201, { 'content-type': 'application/json' })
+      res.end(JSON.stringify({ id: 41, name: 'exact-validation', head_sha: oid, status: completed ? 'completed' : 'in_progress', conclusion: completed ? 'success' : null, app: { id: 15368 }, check_suite: { id: 51 } }))
+    })
+  })
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+  const address = server.address() as { port: number }
+  const socket = ((url: URL, options: any, callback: any) => httpRequest({ hostname: '127.0.0.1', port: address.port, path: url.pathname + url.search, method: options.method, headers: options.headers, signal: options.signal, agent: false }, callback)) as unknown as typeof httpsRequest
+  const writer = createCheckWriter({ repositoryFullName: 'example/zdoc', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
+  try {
+    const reserved = await writer.reserve({ name: 'exact-validation', headSha: oid })
+    expect(reserved).toMatchObject({ id: 41, appId: 15368, suiteId: 51, status: 'in_progress', head: oid })
+    const completed = await writer.complete({ id: 41, headSha: oid })
+    expect(completed).toMatchObject({ id: 41, status: 'completed', conclusion: 'success' })
+    expect(received.map(r => `${r.method} ${r.url}`)).toEqual(['POST /repos/example/zdoc/check-runs', 'PATCH /repos/example/zdoc/check-runs/41'])
+    expect(JSON.parse(received[0].body)).toMatchObject({ name: 'exact-validation', head_sha: oid, status: 'in_progress' })
+    expect(JSON.parse(received[1].body)).toMatchObject({ status: 'completed', conclusion: 'success' })
+  } finally { await new Promise<void>(resolve => server.close(() => resolve())) }
 })
 
 it('rejects deflate streams with compressed trailing garbage even when central/descriptors agree',()=>{

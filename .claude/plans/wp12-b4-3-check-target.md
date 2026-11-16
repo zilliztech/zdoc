@@ -11,24 +11,30 @@
 - **新鲜度**：复用 #1250 的 `freshnessReport`（report.mjs 已导出），独立读 zdoc master/dev + Milvus v3.0.x（`readRef` + `readFixedGitHubRef`）。
 - **#1236 是历史反例**（master/dev/source 均已过期）；正常样例从最新 M 走 discover→prepare→write 生成新 K/S、六成员归档和 producer 登记，使 producer/validator/intent 的 M 一致。
 
-## 2. 先预留、再验收（Check 生命周期）
+## 2. 先预留、再验收（两次独立手动 run）
 
-1. **预留**：完成输入与 seal 检查后，对 S `POST /check-runs`（`status=in_progress`），读回真实 check/suite/App ID（用 Check App 凭据）。
-2. **validator**：用这些 ID 调 `formalValidation` 的 `receipt` op 编码 `output.json` + `receipt.json`，上传归档，成功结束。
-3. **finalizer（独立）**：认证 validator 的 completed run/attempt + 原始归档 + 重读 PR 当前 head 与关键 refs + in_progress Check，调 `prepublish`（`inspectReservedValidation`）→ `ready-to-publish`；`PATCH /check-runs/{id}` 置 success；读回实际完成态后调 `accept`（`acceptExactValidation`）→ `accepted`。
+架构修正（按主审裁决）：
 
-M 上的 workflow suite 与 S 上的目标 suite 分别绑定（`prepublish` 需真实 in_progress Check + 成功 validator；`accept` 需 completed Check）。Check 的 head 必须等于 S。
+1. **finalizer 是另一次 workflow run。** 第一次手动 dispatch（`validate`）预留 Check、validator 编码回执并归档，整次 run 结束（`completed/success`）。第二次手动 dispatch（`finalize`）独立验收。finalizer 若与 validator 同 run，`readRun`/`checkExactValidation` 永远不满足「validator 整次 run 已完成」。
+2. **Check 写入走独立受限 adapter。** 保留现有 `createRemoteTransport`/只读接口及其写拒绝；新增 `createCheckWriter` 仅放行「在已认证仓库/seal 上预留」与「完成读回的那一条 Check ID」两个操作，绑定 App/name/head/suite 与 request/validator attempt，无自动重试，未知结果只读核对。
+3. **优先 job-scoped `GITHUB_TOKEN`。** 登记 App ID `15368` 即 GitHub Actions；预留/finalize 用带 `checks:write` 的 `GITHUB_TOKEN`，validator 只读。核验返回的真实 App 身份；`workflow_dispatch` actor 与 bot writer/signer 身份分开固定。
 
-## 3. 注册与权限
+**流程**
+1. `validate` run：读 M 构建工具 → 认证 producer 归档 → 输入/seal 检查 → `createCheckWriter.reserve(S)` 读回真实 check/suite/App ID → `formalValidation` 的 `receipt` op 用这些 ID 编码 output/receipt → 归档 → 成功结束。
+2. `finalize` run：认证 validator 的 completed run/attempt + 原始归档 + 重读 PR head 与关键 refs + in_progress Check → `prepublish`（`inspectReservedValidation`）→ `ready-to-publish`；`createCheckWriter.complete(id)` 置 success；读回后 `accept`（`acceptExactValidation`）→ `accepted`。
+
+M 的 workflow suite 与 S 的目标 suite 分别绑定；Check head 必须等于 S；validator job 结束但整次 run 仍 in_progress 时 finalizer 必须 hold。
+
+## 3. 注册与权限（身份 bootstrap）
 
 - 真实 workflow ID、定义摘要、actor、Check App ID/name 固定于受信 master 的登记文件；#1265 样本里的 validator 占位 ID/摘要仅用于只读报告，本片替换为真实值。
-- 凭据：读取用 job token（`contents:read` + `actions:read` + `pull-requests:read` + `checks:read`）；仅预留/完成 Check 的受信步骤用 Check App 安装 token（`checks:write`）。
-- 先核对现有凭据与运行方式（App 身份、安装、token 作用域）再实施。
+- **Check App = GitHub Actions（ID `15368`）。** 预留/finalize job 用 job-scoped `GITHUB_TOKEN`（`checks:write`），validator 只读（`contents:read` + `actions:read` + `pull-requests:read` + `checks:read`）。核验 API 返回的真实 App 身份；`workflow_dispatch` actor 与 bot writer（`41898282`）/signer（`19864447`）分开固定。
+- **登记顺序**：新 workflow 首次获得真实 workflow ID 与已审原始定义摘要后，随受信 master 登记；fresh producer run 由受信 adapter 的 `readRun`/`readArtifact` 认证，不接受候选自报 policy 或把提交自身 SHA 烤进登记。历史登记只认证历史 run；登记缺失 → `held`，输出显式 install/register/validate 顺序。生产登记与运行交主会话裁决。
 
 ## 4. 文件、selector 与隔离仓库验证
 
 **拟改文件**
-- `packages/docs-tooling/src/shared-docs/adapters/updates/remote-github.ts` — 新增 Check mutation capability（`POST /check-runs` 预留、`PATCH /check-runs/{id}` 完成），URL allowlist 精确放行该两端点。
+- `packages/docs-tooling/src/shared-docs/adapters/updates/remote-github.ts` — 新增 `createCheckWriter` 受限 adapter（仅 `POST /check-runs` 预留 + `PATCH /check-runs/{id}` 完成，绑定仓库/提交/Check ID/App 身份），复用 transport 的固定 host/TLS/代理独立/重定向拒绝/截止/大小上限；不扩展只读 transport 的写拒绝。
 - `packages/docs-tooling/src/shared-docs/adapters/updates/remote-transaction.ts` — 复用/扩展 `authenticateValidation` 组装 facts 并接 `prepublish`/`accept`。
 - `scripts/docs-workflow/shared-guides-update/` — 新增 `validate.mjs`（validator）与 `finalize.mjs`（finalizer）只读入口，复用 `formalValidation`。
 - `.github/workflows/shared-guides-validate.yml`（新）— 手动 dispatch：预留→validator→finalizer 三 job。

@@ -131,6 +131,58 @@ export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Arra
   return result
 }
 
+export interface CheckRunObservation { id:number;name:string;head:string;status:string;conclusion:string|null;appId:number;suiteId:number }
+
+/** Scoped Check writer: reserve (create in_progress) and complete (PATCH success) exactly one Check,
+ * never a general mutation client. Reuses the transport mechanics — fixed api.github.com origin,
+ * explicit TLS roots, no ambient proxy, redirect rejection, deadline and streaming size cap — while
+ * admitting only POST /check-runs and PATCH /check-runs/{id} on the authenticated repository. The
+ * token never reaches candidate/archive processes. No automatic retries: an unknown result stops. */
+export function createCheckWriter(options: { repositoryFullName: string; token?: string; socketRequest?: typeof httpsRequest }) {
+  const socket = options.socketRequest ?? httpsRequest
+  const token = options.token ?? process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN
+  const fullName = options.repositoryFullName
+  if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(fullName)) fail('ENDPOINT_INVALID')
+  const request = (method: 'POST' | 'PATCH', path: string, body: Record<string, unknown>, expected: number): Promise<unknown> => new Promise((resolve, reject) => {
+    if (!token) { reject(new Error('CREDENTIAL_UNAVAILABLE')); return }
+    const bytes = canonicalBytes(body)
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), IO.requestMilliseconds)
+    const url = new URL('https://api.github.com' + path)
+    const headers: Record<string, string> = { Accept: 'application/vnd.github+json', 'User-Agent': 'zdoc-check-writer', 'X-GitHub-Api-Version': '2022-11-28', Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+    const req = socket(url, { method, headers, signal: controller.signal, agent: false, ca: [...rootCertificates], rejectUnauthorized: true }, response => {
+      let size = 0; const chunks: Buffer[] = []
+      response.on('data', chunk => { const b = Buffer.from(chunk); size += b.length; if (size > 65536) { response.destroy(); req.destroy(); clearTimeout(timer); reject(new Error('RESPONSE_LIMIT')) } else chunks.push(b) })
+      response.on('error', () => { clearTimeout(timer); reject(new Error('TRANSPORT_FAILED')) })
+      response.on('end', () => {
+        clearTimeout(timer)
+        if (response.statusCode !== expected) { reject(new Error('CHECK_WRITE_FAILED')); return }
+        try { resolve(parseStrictJson(Buffer.concat(chunks))) } catch { reject(new Error('CHECK_RESPONSE_INVALID')) }
+      })
+    })
+    req.on('error', () => { clearTimeout(timer); reject(new Error('TRANSPORT_FAILED')) })
+    req.write(bytes)
+    req.end()
+  })
+  const observe = (value: unknown, head: string): CheckRunObservation => {
+    const raw = obj(value), id = integer(raw.id), name = str(raw.name), headSha = str(raw.head_sha)
+    if (name.length === 0 || headSha !== head) fail('CHECK_TARGET')
+    return { id, name, head: headSha, status: str(raw.status), conclusion: raw.conclusion === null ? null : str(raw.conclusion), appId: integer(obj(raw.app).id), suiteId: integer(obj(raw.check_suite).id) }
+  }
+  return {
+    reserve: async (input: { name: string; headSha: string }) => {
+      str(input.name); GitShaSchema.parse(input.headSha)
+      return observe(await request('POST', `/repos/${fullName}/check-runs`, { name: input.name, head_sha: input.headSha, status: 'in_progress' }, 201), input.headSha)
+    },
+    complete: async (input: { id: number; headSha: string }) => {
+      GitShaSchema.parse(input.headSha)
+      const value = observe(await request('PATCH', `/repos/${fullName}/check-runs/${integer(input.id)}`, { status: 'completed', conclusion: 'success' }, 200), input.headSha)
+      if (value.status !== 'completed' || value.conclusion !== 'success') fail('CHECK_RESULT')
+      return value
+    },
+  }
+}
+
 export interface RemoteRun {
   id:number;attempt:number;repositoryId:number;headRepositoryId:number;actorId:number;workflowId:number;workflowPath:string;
   workflowDefinitionSha256:string;toolingHead:string;event:string;status:string;conclusion:string;

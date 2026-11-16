@@ -123,6 +123,11 @@ it.each(mutations)('holds %s with a specific reason', (_name, mutate, reason) =>
 it.each(['pending', 'cancelled', 'skipped', 'failure'])('holds unsuccessful validation %s', status => {
   const f = fixture(); f.facts.validatorRuns.value[0].conclusion = status; hold(f, 'VALIDATOR_CONCLUSION')
 })
+it('holds a validator run still in progress (job finished, whole run not completed)', () => {
+  // The finalizer must run in a separate workflow run: a validator whose run is still
+  // in_progress can never satisfy the completed-run prerequisite for prepublish/accept.
+  const f = fixture(); f.facts.validatorRuns.value[0].status = 'in_progress'; hold(f, 'VALIDATOR_STATUS')
+})
 it('holds unknown and absent facts rather than manufacturing absence or success', () => {
   for (const value of [{ kind: 'unknown', reasons: ['TIMEOUT'] }, { kind: 'absent', evidence: [blob('absent.json')] }]) {
     const f = fixture(); Object.assign(f.facts, { checks: value }); hold(f, 'CHECK_READ')
