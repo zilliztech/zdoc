@@ -6,8 +6,10 @@
 //     when the branch plan places them, else into the unbranched schema.
 //   - STANCE (model): operation deprecation, parameter required booleans,
 //     ledger attribution (upstream-added / fragment-only / unattributed).
-//   - REPORT (human): prose drift, fragment-only fields upstream retired,
-//     unplaced additions, relaxation-flagged mirrors, branch reorganizations.
+//   - REPORT (human): prose drift, fragment-only fields upstream retired
+//     (split by ledger source attribution into same-track and cross-track
+//     lists), unplaced additions, relaxation-flagged mirrors, branch
+//     reorganizations.
 // The model never writes a path or a value: every structural byte derives from
 // the diff entry itself. The applier and its gates stay the final authority;
 // assembler output is a plain v1.0 change set so every existing binding/
@@ -365,6 +367,7 @@ function buildReports() {
     return {
         descriptionDrift: [],
         deletions: [],
+        crossTrackDeletions: [],
         unplaced: [],
         pendingConfirmation: [],
         unresolvableSubtrees: [],
@@ -376,7 +379,31 @@ function buildReports() {
     }
 }
 
-function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan = null}) {
+// Cross-track scoping (2026-11-16, #1258 follow-up): a zdoc-only field the
+// current source's upstream lacks may belong to another source — the Zilliz
+// Cloud import parameters live in control-plane-owned scenario branches, and
+// the milvus-data-plane source has no standing to adjudicate their retirement
+// (27 such entries rode the 2026-11-13 data-plane refresh as retirement
+// candidates). When the ledger records the operation under another source and
+// under no entry for the current source, the question moves out of the
+// confirm list into the cross-track list naming the owning source. The ledger
+// is append-only per (source, opKey); absence keeps the entry in deletions.
+function crossTrackLedgerSource(source, ledger, opKey) {
+    if (!ledger || !source) return null
+    const entries = (ledger.entries ?? []).filter(entry => entry.opKey === opKey)
+    if (entries.some(entry => entry.source === source)) return null
+    const owners = [...new Set(entries.filter(entry => entry.source !== source).map(entry => entry.source))].sort()
+    return owners.length ? owners.join(', ') : null
+}
+
+function reportDeletion(reports, entry, kind, source, ledger, field) {
+    const ledgerSource = crossTrackLedgerSource(source, ledger, entry.opKey)
+    const line = {id: entry.id, opKey: entry.opKey, scope: entry.scope, field, kind}
+    if (ledgerSource) reports.crossTrackDeletions.push({...line, ledgerSource})
+    else reports.deletions.push(line)
+}
+
+function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan = null, ledger = null}) {
     validateDecisions(decisions)
     const byId = new Map(diffDocument.entries.map(entry => [entry.id, entry]))
     // Invented decision ids are the hallucination path: every stance must cite
@@ -413,7 +440,7 @@ function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan 
             continue
         }
         if (entry.category === 'zdoc-only' && DELETION_KINDS.has(change.kind)) {
-            reports.deletions.push({id: entry.id, opKey: entry.opKey, scope: entry.scope, field: entry.field ?? null, kind: change.kind})
+            reportDeletion(reports, entry, change.kind, diffDocument.source, ledger, entry.field ?? null)
             continue
         }
 
@@ -440,7 +467,7 @@ function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan 
             // upstream-absent fields, so a mirror can never drop prose or
             // constraints without a reviewer seeing it.
             for (const retired of entry.droppedLocalFields ?? []) {
-                reports.deletions.push({id: entry.id, opKey: entry.opKey, scope: entry.scope, field: retired, kind: 'mirror-retired-local'})
+                reportDeletion(reports, entry, 'mirror-retired-local', diffDocument.source, ledger, retired)
             }
             entries.push(...mirrorEntry({entry, fragmentDocument: loader(entry.fragment), reports}))
             continue
