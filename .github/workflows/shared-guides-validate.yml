@@ -1,34 +1,36 @@
 name: Shared Guides target Check validate
-run-name: json-field-overview exact validation
+run-name: Shared update exact ${{ inputs.request_id }}
 
-# Manual, read-only-biased validate run. Reserves the target Check on the signed seal S, encodes
-# the formal output/receipt and archives them, then ends the whole run as completed/success. A
-# separate finalize run (shared-guides-finalize.yml) later accepts the archived validation.
 on:
   workflow_dispatch:
     inputs:
       producer_run_id:
-        description: Producer run id whose archive is validated
+        description: Completed producer run id
         required: true
         type: string
       producer_attempt:
         description: Producer run attempt
         required: true
         type: string
+      pr_number:
+        description: Draft PR whose signed head is validated
+        required: true
+        type: string
       request_id:
-        description: Validation request id (binds the two runs)
+        description: Bounded validation request id shared by both runs
         required: true
         type: string
 
 permissions:
   contents: read
 
+# Both manual workflows share a fixed single-page lock. Request input cannot bypass serialization.
 concurrency:
-  group: shared-guides-validate-${{ github.event.inputs.request_id }}
+  group: shared-guides-json-field-overview-target-check
   cancel-in-progress: false
 
 jobs:
-  validate:
+  reserve:
     if: github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' && github.ref == 'refs/heads/master' && github.run_attempt == 1
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -36,7 +38,11 @@ jobs:
       contents: read
       actions: read
       pull-requests: read
-      checks: write   # only this job reserves the Check
+      checks: write
+    outputs:
+      status: ${{ steps.reserve.outputs.status }}
+      check_id: ${{ steps.reserve.outputs.check_id }}
+      suite_id: ${{ steps.reserve.outputs.suite_id }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
@@ -47,19 +53,72 @@ jobs:
         with: { node-version: '22.23.4', package-manager-cache: false }
       - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
       - run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Validate and reserve the target Check
+      - name: Authenticate inputs and reserve on signed seal
+        id: reserve
         env:
           GH_TOKEN: ${{ github.token }}
-          PRODUCER_RUN_ID: ${{ github.event.inputs.producer_run_id }}
-          PRODUCER_ATTEMPT: ${{ github.event.inputs.producer_attempt }}
-          REQUEST_ID: ${{ github.event.inputs.request_id }}
-          VALIDATE_OUTPUT: ${{ runner.temp }}/shared-guides-validate
+          PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+          PRODUCER_ATTEMPT: ${{ inputs.producer_attempt }}
+          PR_NUMBER: ${{ inputs.pr_number }}
+          REQUEST_ID: ${{ inputs.request_id }}
+          VALIDATE_OUTPUT: ${{ runner.temp }}/shared-guides-reserve
         run: node scripts/docs-workflow/shared-guides-update/validate.mjs
-      - name: Retain the validation receipt and output
-        if: success()
+      - name: Retain reservation evidence
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: shared-guides-validation-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/shared-guides-validate/
+          name: shared-guides-reserve-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/shared-guides-reserve/
+            ${{ runner.temp }}/shared-guides-reserve-evidence/
+          if-no-files-found: warn
+          retention-days: 30
+
+  validate:
+    needs: reserve
+    if: needs.reserve.outputs.status == 'reserved' && github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' && github.ref == 'refs/heads/master' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+      checks: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with: { node-version: '22.23.4', package-manager-cache: false }
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Independently validate and encode formal receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+          PRODUCER_ATTEMPT: ${{ inputs.producer_attempt }}
+          PR_NUMBER: ${{ inputs.pr_number }}
+          REQUEST_ID: ${{ inputs.request_id }}
+          RESERVED_CHECK_ID: ${{ needs.reserve.outputs.check_id }}
+          RESERVED_SUITE_ID: ${{ needs.reserve.outputs.suite_id }}
+          VALIDATE_OUTPUT: ${{ runner.temp }}/shared-guides-validate
+        run: node scripts/docs-workflow/shared-guides-update/validate.mjs
+      - name: Retain exact frozen validation archive
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-validation
+          path: ${{ runner.temp }}/shared-guides-validate/archive/*
           if-no-files-found: error
+          retention-days: 30
+      - name: Retain validation observations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-validation-observations-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/shared-guides-validate/result.json
+            ${{ runner.temp }}/shared-guides-validate-evidence/
+          if-no-files-found: warn
           retention-days: 30

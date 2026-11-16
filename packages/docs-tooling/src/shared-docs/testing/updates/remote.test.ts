@@ -167,10 +167,10 @@ it('holds unknown and absent facts rather than manufacturing absence or success'
 
 it('holds the validate and finalize entries when the registration is missing or incomplete', async () => {
   const f = fixture()
-  const registration = { policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  const registration = { status:'registered', finalizer:f.policy.validator, policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
   expect(loadTargetCheckRegistration(registration).status).toBe('ready')
   expect(loadTargetCheckRegistration(undefined)).toEqual({ status: 'held', reasons: ['REGISTRATION_MISSING'] })
-  expect(loadTargetCheckRegistration({ policy: f.policy })).toEqual({ status: 'held', reasons: ['REGISTRATION_INCOMPLETE'] })
+  expect(loadTargetCheckRegistration({ status:'registered', policy: f.policy })).toEqual({ status: 'held', reasons: ['REGISTRATION_INCOMPLETE'] })
   // finalize entry holds on missing registration without any write
   const writes: unknown[] = []
   const writer = { complete: async () => { writes.push(1); return {} } } as any
@@ -188,7 +188,7 @@ it('holds the validate and finalize entries when the registration is missing or 
 it('runs the normal finalize entry with a full policy to accepted', async () => {
   const f = fixture()
   f.facts.checks.value[0].status = 'in_progress'; f.facts.checks.value[0].conclusion = 'pending'
-  const registration = { policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  const registration = { status:'registered', finalizer:f.policy.validator, policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
   const writes: { id: number; head: string }[] = []
   let readCount = 0
   const reads = { readChecks: async () => { readCount++; return { kind: 'found' as const, value: [readCount === 1 ? f.facts.checks.value[0] : { ...f.facts.checks.value[0], status: 'completed', conclusion: 'success' }] } } } as any
@@ -199,7 +199,7 @@ it('runs the normal finalize entry with a full policy to accepted', async () => 
 
 it('rejects an invalid receipt in the validate entry without archiving or returning prepared', async () => {
   const f = fixture()
-  const registration = { policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  const registration = { status:'registered', finalizer:f.policy.validator, policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
   const archived: unknown[] = []
   const result = await validateTargetCheckEntry({
     registration,
@@ -213,7 +213,7 @@ it('rejects an invalid receipt in the validate entry without archiving or return
 
 it('stops archiving when the receipt suite differs from the reserved suite', async () => {
   const f = fixture()
-  const registration = { policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  const registration = { status:'registered', finalizer:f.policy.validator, policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
   const archived: unknown[] = []
   const forgedReceipt = canonicalBytes({ ...f.receipt, targetSuiteId: 999 })
   const result = await validateTargetCheckEntry({

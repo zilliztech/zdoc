@@ -66,7 +66,7 @@ it('only establishes ref/PR absence after readable repository and complete exact
   f.responses['/git/matching-refs/heads/']=[{ref:'refs/heads/deleted'}];expect((await f.reads.readRef('deleted')).kind).toBe('unknown')
   f.setIntercept(path=>path===''?{status:404,body:null}:undefined);expect((await f.reads.readRef('deleted')).kind).toBe('unknown')
 })
-it.each(['fork','base','writer','run-attempt','run-status','run-conclusion','workflow','artifact-owner','expired','archive-digest','duplicate-artifact','graphql-errors','oversized'])('holds malformed or unauthenticated %s facts',async kind=>{
+it.each(['fork','base','writer','run-attempt','run-status','run-conclusion','workflow','artifact-owner','expired','archive-digest','archive-size','archive-negative-size','duplicate-artifact','graphql-errors','oversized'])('holds malformed or unauthenticated %s facts',async kind=>{
   const f=await fixture();let result:unknown
   if(kind==='fork')f.pr.head.repo.id=101
   if(kind==='base')f.pr.base.ref='dev'
@@ -78,6 +78,8 @@ it.each(['fork','base','writer','run-attempt','run-status','run-conclusion','wor
   if(kind==='artifact-owner')f.metadata.workflow_run.head_repository_id=101
   if(kind==='expired')f.metadata.expired=true
   if(kind==='archive-digest')f.metadata.digest='sha256:'+'f'.repeat(64)
+  if(kind==='archive-size')f.metadata.size_in_bytes++
+  if(kind==='archive-negative-size')f.metadata.size_in_bytes=-1
   if(kind==='duplicate-artifact')f.responses['/actions/runs/30/artifacts']={total_count:2,artifacts:[f.metadata,{...f.metadata,id:62}]}
   if(kind==='graphql-errors')f.responses['/graphql']={errors:[{message:'Authorization: SECRET'}]}
   if(kind==='oversized')f.setIntercept(path=>path===''?{status:200,body:Buffer.alloc(1048577)}:undefined)
@@ -297,4 +299,18 @@ it('enforces mutation endpoint/body/ref allowlists and treats null CAS results a
   for(const [action,body]of [['cas',{name:'master',beforeOid:oid,afterOid:oid,force:false}],['cas',{name:options.targetRef,beforeOid:oid,afterOid:oid,force:true}],['cas',{name:options.targetRef,beforeOid:oid,afterOid:'0'.repeat(40),force:false}],['draft',{head:options.targetRef,base:'master',draft:false,title:'x',body:'x'}],['dispatch',{ref:oid,inputs:{requestId:'x',seal:oid,master:oid,dev:oid,extra:'x'}}],['blob',{content:'',encoding:'base64',sha:oid}],['commit',{tree:oid,parents:[],message:'x',signature:'discard'}],['tree',{tree:[{path:'../escape',mode:'100644',type:'blob',sha:oid}]}],['close',{}]] as const)await expect(client(action as any,body)).rejects.toThrow()
   expect(calls).toBe(0)
   await expect(client('cas',{name:options.targetRef,beforeOid:oid,afterOid:oid,force:false})).rejects.toThrow();expect(calls).toBe(1)
+})
+
+it('authenticates complete twice-read operation history without filtering request titles',async()=>{
+  const f=await fixture()
+  const value={...f.run,id:31,...{workflow_id:policy.validator.workflowId,path:policy.validator.workflowPath,actor:{id:policy.validator.actorId}},status:'completed',conclusion:'failure',display_title:'different request'}
+  f.responses['/actions/workflows/18']={id:18,path:policy.validator.workflowPath}
+  f.responses['/actions/workflows/18/runs']={total_count:1,workflow_runs:[value]}
+  expect(await f.reads.readOperationRuns({master:oid})).toMatchObject({kind:'found',value:[{id:31,attempt:1,status:'completed',conclusion:'failure'}]})
+  value.actor.id=999
+  expect((await f.reads.readOperationRuns({master:oid})).kind).toBe('unknown')
+  value.actor.id=policy.validator.actorId
+  let count=0
+  f.setIntercept(path=>path==='/actions/workflows/18/runs'?{status:200,body:{total_count:++count===1?1:0,workflow_runs:count===1?[value]:[]}}:undefined)
+  expect((await f.reads.readOperationRuns({master:oid})).kind).toBe('unknown')
 })

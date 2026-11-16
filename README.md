@@ -462,6 +462,8 @@ for an intervening writer, reconcile its API effects before allowing further
 writes. After an update PR is closed or merged, retained staging or target
 branches also require operator reconciliation before a new draft can open.
 
+The separate manual [target Check validation and finalization](runbook/shared-guides-generation.md#manual-target-check-validation-and-finalization) path reserves on the signed PR head, retains a formal receipt in a completed validator run, and finalizes in a second run. It ships unregistered and holds before any Check write until approved workflow IDs, definitions and actors are installed.
+
 ### Inspect shared Guides upstream changes without publishing
 
 The report-only command uses already acquired local Git repositories. Prepare

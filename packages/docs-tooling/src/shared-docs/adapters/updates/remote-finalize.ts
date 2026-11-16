@@ -26,19 +26,25 @@ export interface TargetCheckRegistration {
   status: 'ready'
   policy: RemotePolicy
   producers: ApprovedProducerDefinition[]
+  finalizer: RemotePolicy['validator']
 }
 export type TargetCheckRegistrationResult = TargetCheckRegistration | { status: 'held'; reasons: string[] }
 
 /** Load and validate the reviewed target-Check registration. Missing or incomplete registration
  * holds before any write; production identity is never inferred from candidate content. */
-export function loadTargetCheckRegistration(registration: unknown): TargetCheckRegistrationResult {
+export function loadTargetCheckRegistration(registration: unknown, toolingHead?: string): TargetCheckRegistrationResult {
   if (registration === null || typeof registration !== 'object') return { status: 'held', reasons: ['REGISTRATION_MISSING'] }
   const reg = registration as Record<string, unknown>
+  if (reg.status !== 'registered') return { status: 'held', reasons: ['REGISTRATION_UNREGISTERED'] }
   try {
     const policy = RemotePolicySchema.parse(reg.policy)
-    const producers = (reg.producers as unknown[]).map(value => ApprovedProducerDefinitionSchema.parse(value))
+    const finalizer = RemotePolicySchema.shape.validator.parse(reg.finalizer)
+    const producers = toolingHead === undefined
+      ? (reg.producers as unknown[]).map(value => ApprovedProducerDefinitionSchema.parse(value))
+      : [ApprovedProducerDefinitionSchema.parse({tools: toolingHead, ...policy.producer, protocol:'shared-update-producer-v1'})]
+    if ([policy.producer,policy.validator,finalizer].some(value => /^0+$/.test(value.workflowDefinitionSha256))) return { status:'held', reasons:['REGISTRATION_INCOMPLETE'] }
     if (producers.length !== 1) return { status: 'held', reasons: ['REGISTRATION_INCOMPLETE'] }
-    return { status: 'ready', policy, producers }
+    return { status: 'ready', policy, producers, finalizer }
   } catch {
     return { status: 'held', reasons: ['REGISTRATION_INCOMPLETE'] }
   }
@@ -122,7 +128,7 @@ export async function finalizeTargetCheck(input: {
   }
   if (reserved.status !== 'in_progress') return { status: 'hold', reasons: ['CHECK_NOT_RESERVED'] }
   // prepublish validates the same read-back Check the writer will complete.
-  const withCheck = { ...(input.facts as Record<string, unknown>), checks: { kind: 'found', value: [reserved] } }
+  const withCheck = { ...(input.facts as Record<string, unknown>), checks: { kind: 'found', value: [frozenCheck(reserved)] } }
   const prepublish = inspectReservedValidation(input.expected as unknown, withCheck, input.receipt, input.policy)
   if (prepublish.status !== 'ready-to-publish') return { status: 'hold', reasons: prepublish.reasons }
   const reservation: ReservedCheck = { id: reserved.id, suiteId: reserved.suiteId, appId: reserved.appId, name: reserved.name, head: reserved.head }
@@ -131,7 +137,12 @@ export async function finalizeTargetCheck(input: {
   if (after.kind !== 'found' || !after.value.some(ch => ch.id === completed.id && ch.status === 'completed' && ch.conclusion === 'success')) {
     return { status: 'hold', reasons: ['CHECK_READBACK'] }
   }
-  const accept = acceptExactValidation(input.expected as unknown, { ...(input.facts as Record<string, unknown>), checks: after }, input.receipt, input.policy)
+  const accept = acceptExactValidation(input.expected as unknown, { ...(input.facts as Record<string, unknown>), checks: {kind:'found',value:after.value.map(frozenCheck)} }, input.receipt, input.policy)
   if (accept.status !== 'accepted') return { status: 'hold', reasons: accept.reasons }
   return { status: 'accepted', evidence: accept.evidence, completed: { id: completed.id, suiteId: completed.suiteId } }
+}
+
+function frozenCheck(check: import('./remote-github').RemoteCheck) {
+  const {externalId: _externalId,...fact}=check
+  return fact
 }

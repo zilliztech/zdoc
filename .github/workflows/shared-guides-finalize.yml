@@ -1,5 +1,5 @@
 name: Shared Guides target Check finalize
-run-name: json-field-overview exact finalize
+run-name: Shared update finalize ${{ inputs.request_id }}
 
 # Manual, separate-run finalizer. Independently authenticates the completed validator run and its
 # archive, re-reads the PR head/refs and the reserved Check, runs prepublish, completes that exact
@@ -24,7 +24,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: shared-guides-finalize-${{ github.event.inputs.request_id }}
+  group: shared-guides-json-field-overview-target-check
   cancel-in-progress: false
 
 jobs:
@@ -55,11 +55,20 @@ jobs:
           REQUEST_ID: ${{ github.event.inputs.request_id }}
           FINALIZE_OUTPUT: ${{ runner.temp }}/shared-guides-finalize
         run: node scripts/docs-workflow/shared-guides-update/finalize.mjs
+      - name: Retain exact finalization association
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-finalization
+          path: ${{ runner.temp }}/shared-guides-finalize/operation.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Retain the finalize report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: shared-guides-finalize-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/shared-guides-finalize/
+          path: |
+            ${{ runner.temp }}/shared-guides-finalize/
+            ${{ runner.temp }}/shared-guides-finalize-evidence/
           if-no-files-found: warn
           retention-days: 30

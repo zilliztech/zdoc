@@ -1507,6 +1507,8 @@
       "id": "shared-guides-upstream-update",
       "paths": [
         ".github/workflows/shared-guides-update.yml",
+        ".github/workflows/shared-guides-validate.yml",
+        ".github/workflows/shared-guides-finalize.yml",
         "scripts/docs-workflow/shared-guides-update/**"
       ],
       "focusedTests": [
