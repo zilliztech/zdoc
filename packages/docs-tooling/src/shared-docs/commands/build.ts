@@ -164,7 +164,7 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
   if (errors.length) return { errors }
   if (!source || 'errors' in source || !variables || 'errors' in variables || !links || 'errors' in links
     || !product || 'errors' in product || !tabs || 'errors' in tabs) throw new Error('Missing shared-docs build input')
-  return { sharedDocsPath: group.path, sourceYaml: sourceYaml!, variablesJson: variablesJson!, variables: variables.variables,
+  return { sharedDocsPath: group.path, sourceYaml: sourceYaml!, sourceConfig: source.config, variablesJson: variablesJson!, variables: variables.variables,
     pages, linkMap: links.map, productNames: product.rules, tabsRules: tabs.rules, context }
 }
 
@@ -237,8 +237,13 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       const publication = manualRegistry.find(entry => entry.id === manual)?.publications.en
       if (publication && !zdoc.has(manual)) zdoc.set(manual, createZdocContentReader({ checkout: dev, manualDirectory: publication.contentRoot }))
     }
-    const reader = createBuildReader(repo)
-    const runtime = createBuildRuntime({ sharedDocs, reader, fetcher: dependencies.fetcher ?? new HttpImageFetcher(imageTimeoutMs), zdoc, guides: dependencies.fetchContext ? { async getRecords() { return structuredClone(dependencies.fetchContext!.records) } } : createGuidesSnapshot(dev), fetchContext: dependencies.fetchContext, readAcceptedImage: dependencies.readAcceptedImage })
+    const reader = createBuildReader(repo, undefined, undefined, sharedDocs.sourceConfig.source_dir ?? 'site/en')
+    const runtime = createBuildRuntime({ sharedDocs, reader, fetcher: dependencies.fetcher ?? new HttpImageFetcher(imageTimeoutMs), zdoc,
+      // The Guides snapshot stays lazy: non-guides groups must not require the guides-uat file.
+      guides: dependencies.fetchContext
+        ? { async getRecords() { return structuredClone(dependencies.fetchContext!.records) } }
+        : { async getRecords() { return createGuidesSnapshot(dev).getRecords() } },
+      fetchContext: dependencies.fetchContext, readAcceptedImage: dependencies.readAcceptedImage })
     const pages: BuiltPage[] = [], plannedLocks: string[] = []
     let failed = false
     try {

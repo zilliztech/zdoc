@@ -27,23 +27,26 @@ export function frontMatter(input: AdaptPageInput, lines: string[]): { lines: So
   const beta = input.metadata?.beta ?? 'FALSE'
   if (beta !== 'FALSE' && (beta === 'BYOC' || !input.betaValues.includes(beta))) errors.push(siteError('CONFIG_BETA_INVALID', `Invalid beta value: ${beta}`, input.context, lines))
   if (errors.length) return { errors }
-  const suffix = input.manual === 'guides-byoc' ? 'BYOC' : 'Cloud'
+  const suffix = input.presentation?.titleSuffix ?? (input.manual === 'guides-byoc' ? 'BYOC' : 'Cloud')
+  const slugPrefix = input.presentation?.slugPrefix ?? ''
+  const addedSince = input.metadata?.added_since ?? 'FALSE'
+  const lastModified = input.metadata?.last_modified ?? 'FALSE'
   const quoted = (value: unknown) => JSON.stringify(String(value).replace(/\r?\n/g, '|'))
   const text = [
     '---',
     `title: ${quoted(`${title} | ${suffix}`)}`,
-    `slug: /${input.pageId}`,
+    `slug: ${slugPrefix}/${input.pageId}`,
     `sidebar_label: ${quoted(input.navigation?.sidebar_label ?? title)}`,
     `beta: ${beta}`,
-    'added_since: FALSE',
-    'last_modified: FALSE',
+    `added_since: ${addedSince}`,
+    `last_modified: ${lastModified}`,
     'deprecate_since: FALSE',
     'notebook: FALSE',
     `description: ${quoted(`${description} | ${suffix}`)}`,
     'type: origin',
     `token: shared-${input.pageId}`,
     ...(input.navigation?.sidebar_position === undefined ? [] : [`sidebar_position: ${input.navigation.sidebar_position}`]),
-    'displayed_sidebar: default', '', '---', '',
+    `displayed_sidebar: ${input.presentation?.displayedSidebar ?? 'default'}`, '', '---', '',
   ]
   const finalized = input.customEditUrl === undefined ? text : finalizeFetchFrontMatter(text.join('\n'), input).split('\n')
   return { lines: finalized.map(text => ({ text, source: null })), bodyStart }

@@ -133,7 +133,7 @@ export class FakeLinkInputReader implements LinkInputReader {
 
 // Matches IGNORE_FILES in milvus-io/milvus.io src/utils/docs.ts at 43e66d8.
 const ignored = new Set(['README.md', 'Variables.json', '.DS_Store', 'fragments', 'menuStructure', '.git', 'home', 'template', '_md2md_demo', 'release_notes', 'Tips.json'])
-export const isMilvusPagePath = (path: string): boolean => path.startsWith('site/en/') && path.endsWith('.md')
+export const isMilvusPagePath = (path: string, sourceRoot = 'site/en'): boolean => path.startsWith(`${sourceRoot}/`) && path.endsWith('.md')
   && !path.split('/').some(part => ignored.has(part))
 
 /** Shared with WP5's target lookup; invalid or deprecated IDs are not public targets. */
@@ -147,24 +147,33 @@ export function milvusPageMetadata(path: string, content: string): { id: string;
   return { id: meta.id, title: typeof meta.title === 'string' ? meta.title : '' }
 }
 
-export async function readMilvusPages(commit: string, reader: GitLinkInputReader): Promise<MilvusSeedPage[]> {
-  const paths = (await reader.listFiles(commit, 'site/en')).filter(isMilvusPagePath)
+/** Layout sources (source_dir) carry no front matter; the globally unique basename is the public ID. */
+export const layoutPageMetadata = (path: string): { id: string; title: string } => ({ id: posix.basename(path), title: '' })
+
+export interface UpstreamLayout { sourceRoot?: string; pathLinks?: boolean }
+
+export async function readMilvusPages(commit: string, reader: GitLinkInputReader,
+  layout?: UpstreamLayout): Promise<MilvusSeedPage[]> {
+  const sourceRoot = layout?.sourceRoot ?? 'site/en'
+  const paths = (await reader.listFiles(commit, sourceRoot)).filter(path => isMilvusPagePath(path, sourceRoot))
   const files = await reader.readFiles(commit, paths)
   return paths.map(path => {
     const markdown = files.get(path)!
     // Still inspect body links in pages without a usable public ID.
-    return { path, markdown, ...(milvusPageMetadata(path, markdown) ?? { id: '', title: '' }) }
+    const meta = layout?.sourceRoot ? layoutPageMetadata(path) : milvusPageMetadata(path, markdown)
+    return { path, markdown, ...(meta ?? { id: '', title: '' }) }
   })
 }
 /** Public IDs, sorted paths, first match wins: schema.md resolves to reference/schema.md. */
-async function readTargetIndex(commit: string, reader: LinkInputReader, wanted: Set<string>) {
+async function readTargetIndex(commit: string, reader: LinkInputReader, wanted: Set<string>, layout?: UpstreamLayout) {
+  const sourceRoot = layout?.sourceRoot ?? 'site/en'
   const targets = new Map<string, string | null>([...wanted].map(id => [id, null]))
   if (!wanted.size) return targets
   // WP8 may batch target reads across pages and channels with git cat-file --batch.
-  for (const path of (await reader.listFiles(commit, 'site/en')).sort()) {
-    if (!isMilvusPagePath(path)) continue
+  for (const path of (await reader.listFiles(commit, sourceRoot)).sort()) {
+    if (!isMilvusPagePath(path, sourceRoot)) continue
     const content = await reader.readFile(commit, path)
-    const meta = milvusPageMetadata(path, content)
+    const meta = layout?.sourceRoot ? layoutPageMetadata(path) : milvusPageMetadata(path, content)
     if (!meta || targets.get(meta.id) !== null) continue
     targets.set(meta.id, content)
   }
@@ -172,11 +181,18 @@ async function readTargetIndex(commit: string, reader: LinkInputReader, wanted: 
 }
 
 export async function prepareLinkInputs(markdown: string, sourceFile: string, commit: string,
-  reader: LinkInputReader, fetcher: ImageFetcher, context: DiagnosticContext = {}): Promise<PreparedLinkInputs> {
+  reader: LinkInputReader, fetcher: ImageFetcher, context: DiagnosticContext = {},
+  layout?: UpstreamLayout): Promise<PreparedLinkInputs> {
   requireCommit(commit)
   requirePath(sourceFile)
   const refs = collectReferences(markdown)
-  const targets = await readTargetIndex(commit, reader, new Set(refs.links.filter(ref => classifyLink(ref.url) === 'page').map(ref => ref.url.split('#')[0])))
+  const pageKey = (url: string) => {
+    const head = url.split('#')[0]
+    return layout?.pathLinks && classifyLink(url) === 'page-path' ? head.slice(head.lastIndexOf('/') + 1) : head
+  }
+  const targets = await readTargetIndex(commit, reader,
+    new Set(refs.links.filter(ref => { const kind = classifyLink(ref.url); return kind === 'page' || (layout?.pathLinks && kind === 'page-path') })
+      .map(ref => pageKey(ref.url))), layout)
   const images = new Map<string, ImageContent>()
   const errors: NonNullable<PreparedLinkInputs['errors']> = []
   const attempts = new Map<string, { content?: ImageContent; code?: string; reason?: string }>()

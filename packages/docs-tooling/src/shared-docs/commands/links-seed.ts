@@ -27,6 +27,20 @@ export async function runLinksSeed(options: { sharedDocs: string; repo: string; 
   if ([repo, dev, join(await realpath(repositoryRoot), 'shared-docs'), sharedRoot].some(inside)) {
     throw new Error('--out must be a candidate file outside the input checkouts and repository-root shared-docs')
   }
+  // Layout sources carry no front-matter IDs; seeding their link maps is not supported yet.
+  const layoutSource = join(group.root, 'source.yaml')
+  const layoutText = await readFile(layoutSource, 'utf8').catch((error: NodeJS.ErrnoException) => {
+    if (error.code === 'ENOENT') return undefined
+    throw error
+  })
+  if (layoutText !== undefined) {
+    const layoutParsed = parseSourceConfig(layoutText, { file: group.file('source.yaml') })
+    if ('errors' in layoutParsed) throw new Error(JSON.stringify(layoutParsed.errors))
+    if (layoutParsed.config.source_dir) {
+      write(`${group.file('source.yaml')}:1 [*/both] LINK_SEED_LAYOUT_UNSUPPORTED: links-seed only supports the milvus-docs site/en layout\n`)
+      return 1
+    }
+  }
   let commit = options.commit
   if (!commit) {
     const sourcePath = join(group.root, 'source.yaml')

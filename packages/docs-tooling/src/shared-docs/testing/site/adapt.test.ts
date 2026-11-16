@@ -197,3 +197,33 @@ it('maps body-only Fetch compiler errors through preserved front matter', async 
   expect(result).toMatchObject({errors: [expect.objectContaining({code: 'ADAPT_MDX_INVALID',
     line: source.split('\n').indexOf('export const broken = ;') + 1, detail: {text: 'export const broken = ;'}})]})
 })
+
+it('renders manual presentation and per-page version metadata into the front matter', () => {
+  const markdown = '# createCollection()\n\nBody.\n'
+  const node = adapted(markdown, { pageId: 'Collections-createCollection', manual: 'node',
+    presentation: { titleSuffix: 'Node.js', slugPrefix: '/node/node', displayedSidebar: 'nodeSidebar' },
+    metadata: { title: 'createCollection()', description: 'Creates a collection', added_since: 'v2.3.x', last_modified: 'v3.0.x' },
+    navigation: { sidebar_label: 'createCollection()' } })
+  expect(node.markdown.split('\n').slice(0, 14)).toEqual([
+    '---',
+    'title: "createCollection() | Node.js"',
+    'slug: /node/node/Collections-createCollection',
+    'sidebar_label: "createCollection()"',
+    'beta: FALSE',
+    'added_since: v2.3.x',
+    'last_modified: v3.0.x',
+    'deprecate_since: FALSE',
+    'notebook: FALSE',
+    'description: "Creates a collection | Node.js"',
+    'type: origin',
+    'token: shared-Collections-createCollection',
+    'displayed_sidebar: nodeSidebar',
+    '',
+  ])
+  // Absent presentation keeps the guides defaults byte-for-byte.
+  const guides = adapted(markdown, { metadata: { title: 'createCollection()', description: 'Creates a collection' } })
+  expect(guides.markdown).toContain('title: "createCollection() | Cloud"')
+  expect(guides.markdown).toContain('slug: /example')
+  expect(guides.markdown).toContain('added_since: FALSE')
+  expect(guides.markdown).toContain('displayed_sidebar: default')
+})

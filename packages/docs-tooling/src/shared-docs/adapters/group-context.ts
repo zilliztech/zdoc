@@ -9,14 +9,17 @@ export function groupFile(groupPath: string | undefined, file: string): string {
   return prefix ? `${prefix}/${file}` : file
 }
 
+/** Group directories the engine currently accepts; each maps to one shared-docs manual. */
+export const SUPPORTED_GROUPS = new Set(['guides', 'node'])
+
 /** Validate the lexical group before any input/output or Git access. */
 export function groupContext(directory: string, repositoryRoot = process.cwd()): GroupContext | { errors: SharedDocsError[] } {
   const root = resolve(repositoryRoot, directory)
   const repositoryPath = relative(repositoryRoot, root)
   const outside = repositoryPath === '..' || repositoryPath.startsWith(`..${sep}`) || isAbsolute(repositoryPath)
   const path = (outside ? root : repositoryPath).split(sep).join('/')
-  if (basename(root) !== 'guides') return { errors: [{ code: 'CONFIG_FIELD_MISSING',
-    message: 'Only the guides group is supported; --shared-docs must select its group directory',
+  if (!SUPPORTED_GROUPS.has(basename(root))) return { errors: [{ code: 'CONFIG_FIELD_MISSING',
+    message: 'Only the guides and node groups are supported; --shared-docs must select its group directory',
     file: path, line: 1, channel: 'both' as const }] }
   return { root, path, file: (file: string) => groupFile(path, file) }
 }
