@@ -48,11 +48,14 @@ export function classifyRemoteRead(input: unknown): RemoteReadResult<unknown> {
     return { kind: 'absent', evidence: value.evidence as BlobRef[] }
   return { kind: 'unknown', reasons: ['READ_NOT_ESTABLISHED'] }
 }
-const IdentitySchema = z.strictObject({ actorId: positive, workflowId: positive, workflowPath: path,
-  workflowDefinitionSha256: DigestSchema, event: z.literal('workflow_dispatch') })
+const identityFields = { actorId: positive, workflowId: positive, workflowPath: path, workflowDefinitionSha256: DigestSchema }
+// The validator is always dispatched; the producer may be a scheduled upstream-update run.
+const producerEvent = z.enum(['workflow_dispatch', 'schedule'])
+const IdentitySchema = z.strictObject({ ...identityFields, event: z.literal('workflow_dispatch') })
+const ProducerIdentitySchema = z.strictObject({ ...identityFields, event: producerEvent })
 export const RemotePolicySchema = z.strictObject({ host: z.literal('github.com'), repositoryId: positive, repositoryFullName: path,
   baseRef: z.literal('master'), writerActorId: positive, sealIdentity: z.strictObject({ scheme: z.literal('github-app-author-v1'), platformSignerActorId: positive }), allowedHeadPrefixes: z.array(text).min(1).max(16), checkAppId: positive,
-  checkName: text, producerArtifactName: text, validatorArtifactName: text, producer: IdentitySchema, validator: IdentitySchema })
+  checkName: text, producerArtifactName: text, validatorArtifactName: text, producer: ProducerIdentitySchema, validator: IdentitySchema })
 export interface RemotePolicy extends Required<z.infer<typeof RemotePolicySchema>> {}
 export const ExactValidationExpectedSchema = z.strictObject({ repositoryId: positive, prNumber: positive, branch: text,
   base: GitShaSchema, seal: GitShaSchema, master: GitShaSchema, dev: GitShaSchema, tools: GitShaSchema,
@@ -77,7 +80,9 @@ export const ExactValidationReceiptV1Schema = z.strictObject({ kind: z.literal('
 export interface ExactValidationReceiptV1 extends Required<z.infer<typeof ExactValidationReceiptV1Schema>> {}
 const runShape = { id: positive, attempt: positive, repositoryId: positive, headRepositoryId: positive,
   ...IdentitySchema.shape, toolingHead: GitShaSchema, status: text, conclusion: text, evidence }
-export const ProducerRunFactSchema = z.strictObject(runShape)
+const producerRunShape = { id: positive, attempt: positive, repositoryId: positive, headRepositoryId: positive,
+  ...ProducerIdentitySchema.shape, toolingHead: GitShaSchema, status: text, conclusion: text, evidence }
+export const ProducerRunFactSchema = z.strictObject(producerRunShape)
 export const ValidatorRunFactSchema = z.strictObject({ ...runShape, workflowSuiteId: positive, workflowSuiteHead: GitShaSchema })
 export const ArtifactFactSchema = z.strictObject({ id: positive, name: text, runId: positive, runAttempt: positive,
   expired: z.boolean(), archiveApiDigest: DigestSchema, archiveActualDigest: DigestSchema,
@@ -231,7 +236,7 @@ export const RemoteCommitSchema = z.strictObject({ oid: GitShaSchema, tree: GitT
   signerActorId: positive.nullable(), signatureValid: z.boolean(), signatureState: text,
   wasSignedByGitHub: z.boolean(), payload: z.string().max(REMOTE_LIMITS.payloadBytes * 2).nullable(),
   signature: z.string().max(16384).nullable(), evidence })
-export const ApprovedProducerDefinitionSchema = z.strictObject({ tools: GitShaSchema, ...IdentitySchema.shape,
+export const ApprovedProducerDefinitionSchema = z.strictObject({ tools: GitShaSchema, ...ProducerIdentitySchema.shape,
   protocol: z.literal('shared-update-producer-v1') })
 export const ProducerBundleReceiptSchema = z.strictObject({ kind: z.literal('shared-update-producer'), schemaVersion: z.literal(1),
   ...sealShape, seal: GitShaSchema, requestId: text, tools: GitShaSchema, workflowDefinitionSha256: DigestSchema,

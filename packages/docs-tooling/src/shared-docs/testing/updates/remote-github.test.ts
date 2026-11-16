@@ -28,7 +28,7 @@ function zip(files:Record<string,Uint8Array>,descriptor=true) {
   const directory=Buffer.concat(central),end=Buffer.alloc(22);end.writeUInt32LE(0x06054b50);end.writeUInt16LE(central.length/2,8);end.writeUInt16LE(central.length/2,10);end.writeUInt32LE(directory.length,12);end.writeUInt32LE(offset,16)
   return Buffer.concat([...chunks,directory,end])
 }
-async function fixture() {
+async function fixture(approvedProducers?: {tools:string;protocol:'shared-update-producer-v1';actorId:number;workflowId:number;workflowPath:string;workflowDefinitionSha256:string;event:'workflow_dispatch'|'schedule'}[]) {
   const root=await mkdtemp(join(await realpath(tmpdir()),'remote-api-'));roots.push(root)
   const evidence=await initializeEvidence({root:join(root,'evidence'),repositories:[],owner:'fixture'})
   const archive=zip({'receipt.json':Buffer.from('synthetic bytes')}),metadata={id:61,name:'producer',expired:false,size_in_bytes:archive.length,digest:'sha256:'+rawSha256(archive),workflow_run:{id:30,repository_id:100,head_repository_id:100,head_sha:oid,head_branch:'master'}}
@@ -48,10 +48,12 @@ async function fixture() {
     transcript.push({method:request.method,path:request.path});const path=request.path==='/graphql'?'/graphql':request.path.replace('/repos/example/zdoc','').split('?')[0],override=intercept?.(path),value=override?override.body:responses[path]
     return {status:override?.status??(value===undefined?404:200),headers:override?.headers??{},body:value instanceof Uint8Array?value:canonicalBytes(value??null)}
   }
-  const reads=createRemoteReads({policy,transport,evidence,approvedProducers:[{tools:oid,...policy.producer,protocol:'shared-update-producer-v1'}]})
+  const reads=createRemoteReads({policy,transport,evidence,approvedProducers:approvedProducers??[{tools:oid,...policy.producer,protocol:'shared-update-producer-v1'}]})
   return {reads,policy,responses,pr,run,metadata,archive,evidence,transcript,setIntercept:(value:typeof intercept)=>{intercept=value}}
 }
-it('reads actual repository/ref/PR/run/workflow/check/signature/artifact API shapes without conflating signer and writer',async()=>{
+// Eight sequential authenticated reads each retain several evidence blobs through directory-pin
+// verification; on slower macOS volumes the cumulative fs work exceeds the 5s default timeout.
+it('reads actual repository/ref/PR/run/workflow/check/signature/artifact API shapes without conflating signer and writer',{timeout:20000},async()=>{
   const f=await fixture()
   for(const value of [await f.reads.readRepository(),await f.reads.readRef('master'),await f.reads.readPull(20),await f.reads.scanPulls(),await f.reads.readRun({id:30,attempt:1,role:'producer'}),await f.reads.readChecks(oid),await f.reads.readCommit(oid),await f.reads.readArtifact({runId:30,attempt:1,name:'producer'})])expect(value.kind).toBe('found')
   const artifact=await f.reads.readArtifact({runId:30,attempt:1,name:'producer'});if(artifact.kind==='found'){expect(artifact.value).not.toHaveProperty('runAttempt');expect(Buffer.from(artifact.value.members.get('receipt.json')!).toString()).toBe('synthetic bytes')}
@@ -97,6 +99,33 @@ it('requires independent approved producer definition rather than receipt or cur
   const f=await fixture(),reads=createRemoteReads({policy,transport:async()=>({status:200,headers:{},body:canonicalBytes({})}),evidence:f.evidence})
   expect((await reads.readRun({id:30,attempt:1,role:'producer'})).kind).toBe('unknown')
 })
+
+it('holds a run when two approved producer definitions share tools, workflow and event',async()=>{
+  const f=await fixture([{tools:oid,...policy.producer,protocol:'shared-update-producer-v1'},{tools:oid,...policy.producer,actorId:8,protocol:'shared-update-producer-v1'}])
+  expect((await f.reads.readRun({id:30,attempt:1,role:'producer'})).kind).toBe('unknown')
+})
+
+it('resolves a schedule and a dispatch registration by the observed event in either order',async()=>{
+  for(const order of [[0,1],[1,0]]){
+    const defs=order.map(i=>i===0?{tools:oid,...policy.producer,event:'schedule' as const,protocol:'shared-update-producer-v1' as const}:{tools:oid,...policy.producer,event:'workflow_dispatch' as const,protocol:'shared-update-producer-v1' as const})
+    const sched=await fixture(defs);sched.run.event='schedule'
+    const schedResult=await sched.reads.readRun({id:30,attempt:1,role:'producer'})
+    expect(schedResult.kind).toBe('found')
+    if(schedResult.kind==='found')expect(schedResult.value.event).toBe('schedule')
+    const dispatch=await fixture(defs)
+    const dispatchResult=await dispatch.reads.readRun({id:30,attempt:1,role:'producer'})
+    expect(dispatchResult.kind).toBe('found')
+    if(dispatchResult.kind==='found')expect(dispatchResult.value.event).toBe('workflow_dispatch')
+  }
+})
+
+it('authenticates a scheduled producer definition with its matching schedule event',async()=>{
+  const f=await fixture([{tools:oid,...policy.producer,event:'schedule',protocol:'shared-update-producer-v1'}])
+  f.run.event='schedule'
+  const result=await f.reads.readRun({id:30,attempt:1,role:'producer'})
+  expect(result.kind).toBe('found')
+  if(result.kind==='found')expect(result.value.event).toBe('schedule')
+})
 it.each([true,false])('parses synthetic deflate ZIP with descriptor=%s using central and actual CRC/size',descriptor=>{const archive=zip({'provenance.json':Buffer.from('{}')},descriptor);expect(Buffer.from(parseRemoteZip(archive).get('provenance.json')!).toString()).toBe('{}')})
 it.each(['crc','descriptor-size','missing-descriptor','truncated','alias','traversal','zip64','encrypted','overlap','bomb'])('rejects ZIP %s before evidence acceptance',kind=>{
   let archive=zip(kind==='alias'?{'A':Buffer.from('a'),'a':Buffer.from('b')}:kind==='traversal'?{'../bad':Buffer.from('a')}:{'x':Buffer.from('bytes')})
@@ -126,6 +155,14 @@ it('uses the real streaming transport decoder, bounds bodies, rejects writes and
     redirect=true;const response=await transport({...request,path:'/repos/example/zdoc/actions/artifacts/1/zip'})
     expect(response.headers).not.toHaveProperty('location');expect(received.at(-1)?.authorization).toBeUndefined();expect(received[0].authorization).toBe('Bearer SYNTHETIC_TOKEN')
   }finally{await new Promise<void>(resolve=>server.close(()=>resolve()))}
+})
+
+it('allows only the exact reviewed Milvus dotted ref through the transport allowlist', async () => {
+  const socket = (() => { throw Error('NETWORK_REACHED') }) as any
+  const transport = createRemoteTransport({ repositoryFullName: 'milvus-io/milvus-docs', token: 'SYNTHETIC_TOKEN', socketRequest: socket })
+  const request = { method: 'GET' as const, path: '/repos/milvus-io/milvus-docs/git/ref/heads/v3.0.x', maximum: 4096, signal: new AbortController().signal }
+  await expect(transport(request)).rejects.toThrow('NETWORK_REACHED')
+  await expect(transport({ ...request, path: '/repos/milvus-io/milvus-docs/git/ref/heads/v3.1.x' })).rejects.toThrow('ENDPOINT_INVALID')
 })
 
 it('rejects deflate streams with compressed trailing garbage even when central/descriptors agree',()=>{

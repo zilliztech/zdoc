@@ -4,3 +4,6 @@ export { planNewGuidesObjectTransfer } from '../../../packages/docs-tooling/src/
 export { formalValidation } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/formal-validation'
 export { createRemoteTransport, parseRemoteZip } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-github'
 export { validateBlobBytes, validateUnitReports } from '../../../packages/docs-tooling/src/shared-docs/core/updates/envelope'
+export { ProducerBundleReceiptSchema, ApprovedProducerDefinitionSchema, RemotePolicySchema } from '../../../packages/docs-tooling/src/shared-docs/core/updates/remote'
+export { createRemoteReads, remoteReadContext } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-github'
+export { initializeEvidence, rawSha256 } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/evidence'
