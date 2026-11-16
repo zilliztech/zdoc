@@ -6808,7 +6808,7 @@
                   "Strong",
                   "Bounded",
                   "<include target=\"milvus\">Session</include>",
-                  "Eventual"
+                  "Eventually"
                 ],
                 "x-added-at": "2.6.x",
                 "x-last-modified": "2.6.x",
