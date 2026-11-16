@@ -5,6 +5,7 @@ This repository builds the English/Japanese and Chinese documentation sites from
 This file is the operator runbook: setup, branch ownership, the publication runbook, and verification. Deep-dive reference pages live under [`runbook/`](runbook/):
 
 - [REST reference pipeline](runbook/rest-reference-pipeline.md) — editing fragments, upstream drift watchdog and refresh, availability operations
+- [web-content RESTful mirror](runbook/web-content-restful-mirror.md) — milvus.io RESTful reference sync channel: drift check, regeneration, sanity gates, PR conventions
 - [Replay harnesses](runbook/replay-harnesses.md) — long-form replay evidence modes
 - [Translation operations](runbook/translation-operations.md) — quality assets, the scheduled dispatcher, manifest migration, fast-path precheck, reconciliation card
 - [Shared Guides generation](runbook/shared-guides-generation.md) — source generation, publication evidence, requirement accounting
@@ -203,6 +204,7 @@ Task recipes and deep-dives live under [`runbook/`](runbook/):
 
 - Adding a new reference manual: [runbook/content-production.md](runbook/content-production.md).
 - Editing REST spec fragments, the REST upstream drift watchdog and refresh, and the REST upstream and availability operations cadence: [runbook/rest-reference-pipeline.md](runbook/rest-reference-pipeline.md).
+- Syncing the milvus.io RESTful reference mirror: [runbook/web-content-restful-mirror.md](runbook/web-content-restful-mirror.md).
 
 ## Production publication runbook
 
@@ -461,6 +463,16 @@ A verified history checkpoint covers earlier attempts. If GitHub cannot account
 for an intervening writer, reconcile its API effects before allowing further
 writes. After an update PR is closed or merged, retained staging or target
 branches also require operator reconciliation before a new draft can open.
+
+The separate manual [target Check validation and finalization](runbook/shared-guides-generation.md#manual-target-check-validation-and-finalization)
+path reserves on the signed PR head, retains a formal receipt in a completed
+validator run, and finalizes in a second run. Registration covers a manually
+dispatched producer and manual validation/finalization by the approved run
+actor. It still requires independently qualified Fetch lifecycle evidence and
+a fresh signed candidate. Positive hosted verification awaits a genuine
+consumed-source change; the reviewed old-next and target inputs are currently
+identical. Scheduled-producer Check authentication and automatic triggering
+remain pending.
 
 ### Inspect shared Guides upstream changes without publishing
 

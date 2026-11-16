@@ -6,6 +6,7 @@ import { canonicalBytes, digest as planDigest } from '../../core/updates/canonic
 import { acceptExactValidation, parseSealMessage, classifyRemoteRead, DecisionSchema, ExactValidationReceiptV1Schema,
   RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, RemoteSealV1Schema, RemotePolicySchema, RemoteFactsSchema, REMOTE_LIMITS,
   ProducerRunFactSchema, ValidatorRunFactSchema, ApprovedProducerDefinitionSchema } from '../../core/updates/remote'
+import { finalizeTargetCheck, loadTargetCheckRegistration, finalizeTargetCheckEntry, validateTargetCheckEntry } from '../../adapters/updates/remote-finalize'
 
 const oid = (n: number) => n.toString(16).padStart(40, '0')
 const digest = (n: number) => n.toString(16).padStart(64, '0')
@@ -123,10 +124,106 @@ it.each(mutations)('holds %s with a specific reason', (_name, mutate, reason) =>
 it.each(['pending', 'cancelled', 'skipped', 'failure'])('holds unsuccessful validation %s', status => {
   const f = fixture(); f.facts.validatorRuns.value[0].conclusion = status; hold(f, 'VALIDATOR_CONCLUSION')
 })
+it('holds a validator run still in progress (job finished, whole run not completed)', () => {
+  // The finalizer must run in a separate workflow run: a validator whose run is still
+  // in_progress can never satisfy the completed-run prerequisite for prepublish/accept.
+  const f = fixture(); f.facts.validatorRuns.value[0].status = 'in_progress'; hold(f, 'VALIDATOR_STATUS')
+})
+
+it('finalizes only a read-back reservation after a ready prepublish, with zero writes otherwise', async () => {
+  const f = fixture()
+  f.facts.checks.value[0].status = 'in_progress'; f.facts.checks.value[0].conclusion = 'pending'
+  const receipt = canonicalBytes(f.receipt)
+  const writes: { id: number; head: string }[] = []
+  const reserved = () => f.facts.checks.value[0]
+  const makeReads = (checks: unknown[][]) => { let call = 0; return { readChecks: async () => ({ kind: 'found' as const, value: structuredClone(checks[call++ % checks.length]) }) } as any }
+  const makeWriter = (ff: ReturnType<typeof fixture>) => ({ complete: async (input: { reservation: { id: number; head: string }; headSha: string }) => { writes.push({ id: input.reservation.id, head: input.headSha }); return { id: input.reservation.id, name: ff.policy.checkName, head: input.headSha, status: 'completed', conclusion: 'success', appId: ff.policy.checkAppId, suiteId: ff.facts.checks.value[0].suiteId } } }) as any
+  // normal: read-back reservation + ready prepublish -> one completion write -> accepted
+  const ok = await finalizeTargetCheck({ reads: makeReads([[reserved()], [{ ...reserved(), status: 'completed', conclusion: 'success' }]]), writer: makeWriter(f), expected: f.expected, policy: f.policy, receipt, facts: f.facts })
+  expect(ok.status).toBe('accepted'); expect(writes).toEqual([{ id: reserved().id, head: f.expected.seal }])
+  // forged reservation (wrong App/name/head) -> zero writes
+  writes.length = 0
+  const forged = await finalizeTargetCheck({ reads: makeReads([[{ ...reserved(), appId: 999, name: 'foreign' }]]), writer: makeWriter(f), expected: f.expected, policy: f.policy, receipt, facts: f.facts })
+  expect(forged.status).toBe('hold'); expect(forged.reasons).toContain('CHECK_AMBIGUOUS_OR_MISSING'); expect(writes).toEqual([])
+  // held prepublish (validator run not completed) -> zero writes
+  writes.length = 0
+  const held = fixture(); held.facts.checks.value[0].status = 'in_progress'; held.facts.checks.value[0].conclusion = 'pending'; held.facts.validatorRuns.value[0].status = 'in_progress'
+  const heldResult = await finalizeTargetCheck({ reads: makeReads([[held.facts.checks.value[0]]]), writer: makeWriter(held), expected: held.expected, policy: held.policy, receipt: canonicalBytes(held.receipt), facts: held.facts })
+  expect(heldResult.status).toBe('hold'); expect(heldResult.reasons).toContain('VALIDATOR_STATUS'); expect(writes).toEqual([])
+  // changed id (same head/App/name/suite) not bound to the receipt -> zero writes
+  writes.length = 0
+  const changedId = await finalizeTargetCheck({ reads: makeReads([[{ ...reserved(), id: 505 }]]), writer: makeWriter(f), expected: f.expected, policy: f.policy, receipt, facts: f.facts })
+  expect(changedId.status).toBe('hold'); expect(changedId.reasons).toContain('CHECK_RECEIPT_BINDING'); expect(writes).toEqual([])
+  // already-completed Check -> zero writes
+  writes.length = 0
+  const alreadyDone = await finalizeTargetCheck({ reads: makeReads([[{ ...reserved(), status: 'completed', conclusion: 'success' }]]), writer: makeWriter(f), expected: f.expected, policy: f.policy, receipt, facts: f.facts })
+  expect(alreadyDone.status).toBe('hold'); expect(alreadyDone.reasons).toContain('CHECK_NOT_RESERVED'); expect(writes).toEqual([])
+})
 it('holds unknown and absent facts rather than manufacturing absence or success', () => {
   for (const value of [{ kind: 'unknown', reasons: ['TIMEOUT'] }, { kind: 'absent', evidence: [blob('absent.json')] }]) {
     const f = fixture(); Object.assign(f.facts, { checks: value }); hold(f, 'CHECK_READ')
   }
+})
+
+it('holds the validate and finalize entries when the registration is missing or incomplete', async () => {
+  const f = fixture()
+  const registration = { status:'registered', finalizer:f.policy.validator, policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  expect(loadTargetCheckRegistration(registration).status).toBe('ready')
+  expect(loadTargetCheckRegistration(undefined)).toEqual({ status: 'held', reasons: ['REGISTRATION_MISSING'] })
+  expect(loadTargetCheckRegistration({ status:'registered', policy: f.policy })).toEqual({ status: 'held', reasons: ['REGISTRATION_INCOMPLETE'] })
+  // finalize entry holds on missing registration without any write
+  const writes: unknown[] = []
+  const writer = { complete: async () => { writes.push(1); return {} } } as any
+  const heldFinalize = await finalizeTargetCheckEntry({ registration: undefined, reads: { readChecks: async () => ({ kind: 'found', value: [f.facts.checks.value[0]] }) } as any, writer, expected: f.expected, receipt: canonicalBytes(f.receipt), facts: f.facts })
+  expect(heldFinalize.status).toBe('hold'); expect(heldFinalize.reasons).toContain('REGISTRATION_MISSING'); expect(writes).toEqual([])
+  // validate entry holds on missing registration without any reserve
+  const reserves: unknown[] = []
+  const heldValidate = await validateTargetCheckEntry({ registration: undefined, authenticate: async () => ({ headSha: f.expected.seal }), writer: { reserve: async () => { reserves.push(1); return {} } } as any, encodeReceipt: () => ({ receipt: Buffer.from('r'), output: Buffer.from('o') }), archive: async () => {} })
+  expect(heldValidate.status).toBe('hold'); if (heldValidate.status === 'hold') expect(heldValidate.reasons).toContain('REGISTRATION_MISSING'); expect(reserves).toEqual([])
+  // validate entry stops before reserve when authentication fails
+  const failedValidate = await validateTargetCheckEntry({ registration, authenticate: async () => ({ status: 'hold', reasons: ['STALE_MASTER'] }), writer: { reserve: async () => { reserves.push(1); return {} } } as any, encodeReceipt: () => ({ receipt: Buffer.from('r'), output: Buffer.from('o') }), archive: async () => {} })
+  expect(failedValidate.status).toBe('hold'); if (failedValidate.status === 'hold') expect(failedValidate.reasons).toContain('STALE_MASTER'); expect(reserves).toEqual([])
+})
+
+it('runs the normal finalize entry with a full policy to accepted', async () => {
+  const f = fixture()
+  f.facts.checks.value[0].status = 'in_progress'; f.facts.checks.value[0].conclusion = 'pending'
+  const registration = { status:'registered', finalizer:f.policy.validator, policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  const writes: { id: number; head: string }[] = []
+  let readCount = 0
+  const reads = { readChecks: async () => { readCount++; return { kind: 'found' as const, value: [readCount === 1 ? f.facts.checks.value[0] : { ...f.facts.checks.value[0], status: 'completed', conclusion: 'success' }] } } } as any
+  const writer = { complete: async (input: { reservation: { id: number; head: string }; headSha: string }) => { writes.push({ id: input.reservation.id, head: input.headSha }); return { id: input.reservation.id, name: f.policy.checkName, head: input.headSha, status: 'completed', conclusion: 'success', appId: f.policy.checkAppId, suiteId: f.facts.checks.value[0].suiteId } } } as any
+  const result = await finalizeTargetCheckEntry({ registration, reads, writer, expected: f.expected, receipt: canonicalBytes(f.receipt), facts: f.facts })
+  expect(result.status).toBe('accepted'); expect(writes).toEqual([{ id: f.facts.checks.value[0].id, head: f.expected.seal }])
+})
+
+it('rejects an invalid receipt in the validate entry without archiving or returning prepared', async () => {
+  const f = fixture()
+  const registration = { status:'registered', finalizer:f.policy.validator, policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  const archived: unknown[] = []
+  const result = await validateTargetCheckEntry({
+    registration,
+    authenticate: async () => ({ headSha: f.expected.seal }),
+    writer: { reserve: async () => ({ id: 41, suiteId: 51, appId: 9, name: f.policy.checkName, head: f.expected.seal }) } as any,
+    encodeReceipt: () => ({ receipt: Buffer.from('not-a-receipt'), output: Buffer.from('not-an-output') }),
+    archive: async (members) => { archived.push(members) },
+  })
+  expect(result.status).toBe('hold'); if (result.status === 'hold') expect(result.reasons).toContain('RECEIPT_INVALID'); expect(archived).toEqual([])
+})
+
+it('stops archiving when the receipt suite differs from the reserved suite', async () => {
+  const f = fixture()
+  const registration = { status:'registered', finalizer:f.policy.validator, policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  const archived: unknown[] = []
+  const forgedReceipt = canonicalBytes({ ...f.receipt, targetSuiteId: 999 })
+  const result = await validateTargetCheckEntry({
+    registration,
+    authenticate: async () => ({ headSha: f.expected.seal }),
+    writer: { reserve: async () => ({ id: f.receipt.targetCheckId, suiteId: f.receipt.targetSuiteId, appId: f.receipt.targetCheckAppId, name: f.policy.checkName, head: f.expected.seal }) } as any,
+    encodeReceipt: () => ({ receipt: forgedReceipt, output: Buffer.from('output') }),
+    archive: async (members) => { archived.push(members) },
+  })
+  expect(result.status).toBe('hold'); if (result.status === 'hold') expect(result.reasons).toContain('RECEIPT_BINDING'); expect(archived).toEqual([])
 })
 it('rejects missing and extra fields at every nested boundary', () => {
   const examples = [fixture().policy, fixture().facts, fixture().facts.validatorRuns.value[0], fixture().facts.associations.value[0],

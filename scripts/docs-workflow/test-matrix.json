@@ -286,7 +286,9 @@
         ".claude/specs/2026-10-29-rest-upstream-milvus-extractor-p2.md",
         "packages/docs-tooling/src/reference/rest/contracts/rest-fragment-migration.schema.json",
         ".claude/specs/2026-10-29-rest-upstream-p3-lifecycle-accounting-migration.md",
-        ".claude/specs/2026-11-01-x-zilliz-cluster-types-proposal.md"
+        ".claude/specs/2026-11-01-x-zilliz-cluster-types-proposal.md",
+        "scripts/rest-upstream/webcontent-sync-drift.js",
+        "scripts/rest-upstream/webcontent-sync-drift.test.js"
       ],
       "focusedTests": [
         "pnpm test:rest-upstream",
@@ -297,7 +299,8 @@
         "node --test scripts/rest-upstream/branch-plan.test.js",
         "node --test scripts/rest-upstream/translate-additions.test.js",
         "node --test scripts/rest-upstream/refresh-lifecycle-inventory.test.js",
-        "node --test scripts/rest-upstream/assert-track-projection.test.js"
+        "node --test scripts/rest-upstream/assert-track-projection.test.js",
+        "node --test scripts/rest-upstream/webcontent-sync-drift.test.js"
       ],
       "harnesses": [
         "pnpm test:rest-publication-contract"
@@ -1508,6 +1511,8 @@
       "id": "shared-guides-upstream-update",
       "paths": [
         ".github/workflows/shared-guides-update.yml",
+        ".github/workflows/shared-guides-validate.yml",
+        ".github/workflows/shared-guides-finalize.yml",
         "scripts/docs-workflow/shared-guides-update/**"
       ],
       "focusedTests": [

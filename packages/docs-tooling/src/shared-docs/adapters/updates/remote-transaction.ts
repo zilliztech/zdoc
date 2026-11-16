@@ -233,7 +233,8 @@ async function preflight(reads:RemoteReads,intent:RemoteTransactionIntent,target
   if(matching.length)check(matching[0].state==='open'&&matching[0].draft&&matching[0].actorId===policy.writerActorId,'PULL_STATE_CHANGED')
   return pulls
 }
-async function verifiedSeal(reads:RemoteReads,objects:RemoteTransactionObjectReads,intent:RemoteTransactionIntent,oid:string) {
+export async function verifiedSeal(reads:RemoteReads,objects:RemoteTransactionObjectReads,intent:RemoteTransactionIntent,oid:string) {
+  check(remoteReadContext(reads),'REMOTE_ADAPTER_REQUIRED')
   const raw=found(await objects.read(oid,'commit')),object=parseObject(oid,'commit',raw),fact=found(await reads.readCommit(oid)),policy=remoteReadContext(reads)!.policy
   check(fact.oid===oid&&fact.tree===object.tree&&same(fact.parents,object.parents),'SEAL_API_OBJECT')
   verifyRemoteSealSignature(raw,fact,{writerActorId:policy.writerActorId,platformSignerActorId:policy.sealIdentity.platformSignerActorId})
@@ -430,7 +431,8 @@ export function createRemoteTransactionFixture(input:{reads:RemoteReads;evidence
 }
 
 /** Assemble exact facts only from constructor-authenticated API reads and independently retained archive bytes. */
-async function authenticateValidation(reads:RemoteReads,evidence:EvidenceStore,intent:RemoteTransactionIntent,seal:string,pull:RemotePull,run:{id:number;attempt:number},objects:RemoteTransactionObjectReads) {
+export async function authenticateValidationMaterial(reads:RemoteReads,evidence:EvidenceStore,intent:RemoteTransactionIntent,seal:string,pull:RemotePull,run:{id:number;attempt:number},objects:RemoteTransactionObjectReads) {
+  check(remoteReadContext(reads),'REMOTE_ADAPTER_REQUIRED')
   const policy=remoteReadContext(reads)!.policy
   const producer=found(await reads.readRun({id:intent.producerRunId,attempt:intent.producerRunAttempt,role:'producer'})),validator=found(await reads.readRun({...run,role:'validator'}))
   const producerArchive=found(await reads.readArtifact({runId:producer.id,attempt:producer.attempt,name:policy.producerArtifactName})),validatorArchive=found(await reads.readArtifact({runId:validator.id,attempt:validator.attempt,name:policy.validatorArtifactName}))
@@ -455,7 +457,42 @@ async function authenticateValidation(reads:RemoteReads,evidence:EvidenceStore,i
     producerRuns:{kind:'found',value:[stripRun(producer)]},validatorRuns:{kind:'found',value:[{...stripRun(validator),workflowSuiteId:validator.workflowSuiteId,workflowSuiteHead:validator.workflowSuiteHead}]},
     producerProvenance:{kind:'found',value:[{...provenanceFact,receipt:producerRef,artifactId:producerArchive.id,memberPath:'provenance.json'}]},
     associations:{kind:'found',value:[{repositoryId:receipt.repositoryId,runId:receipt.runId,runAttempt:receipt.runAttempt,requestId:receipt.requestId,targetCheckId:receipt.targetCheckId,targetSuiteId:receipt.targetSuiteId,targetCheckAppId:receipt.targetCheckAppId,targetCheckHead:receipt.targetCheckHead,receipt:receiptRef,artifactId:validatorArchive.id,memberPath:'receipt.json'}]},
-    checks:await reads.readChecks(seal),artifacts:{kind:'found',value:[artifact(producerArchive,producer.attempt),artifact(validatorArchive,validator.attempt)]},members:{kind:'found',value:[memberFact(producerArchive,'provenance.json',producerRef),memberFact(validatorArchive,'receipt.json',receiptRef)]},
+    checks:await frozenCheckFacts(reads,seal),artifacts:{kind:'found',value:[artifact(producerArchive,producer.attempt),artifact(validatorArchive,validator.attempt)]},members:{kind:'found',value:[memberFact(producerArchive,'provenance.json',producerRef),memberFact(validatorArchive,'receipt.json',receiptRef)]},
     seal:{kind:'found',value:{oid:seal,parents:checked.object.parents,tree:checked.object.tree,signatureValid:fact.signatureValid,signatureState:fact.signatureState,wasSignedByGitHub:fact.wasSignedByGitHub,signerActorId:fact.signerActorId,authorActorId:fact.authorActorId,writerAttribution:{role:'author',actorId:policy.writerActorId},metadata:sealMetadata(intent),evidence:fact.evidence}},output:outputRef}
-  return acceptExactValidation({repositoryId:intent.repositoryId,prNumber:pull.number,branch:intent.targetRef,base:intent.master,seal,master:intent.master,dev:intent.dev,tools:intent.master,unitKey:intent.unitKey,planSha256:intent.planSha256,proofSha256:intent.proofSha256,transactionId:intent.transactionId,preparedBase:intent.preparedBase,candidate:intent.candidate,candidateTree:intent.candidateTree,previousSeal:intent.previousSeal,preservedHumanHeads:intent.preservedHumanHeads,requestId:intent.requestId,validatorRunId:run.id,validatorRunAttempt:run.attempt,producerRequestId:intent.producerRequestId,producerRunId:intent.producerRunId,producerRunAttempt:intent.producerRunAttempt},facts,receiptBytes,policy)
+  const expected = {
+    repositoryId:intent.repositoryId,
+    prNumber:pull.number,
+    branch:intent.targetRef,
+    base:intent.master,
+    seal,
+    master:intent.master,
+    dev:intent.dev,
+    tools:intent.master,
+    unitKey:intent.unitKey,
+    planSha256:intent.planSha256,
+    proofSha256:intent.proofSha256,
+    transactionId:intent.transactionId,
+    preparedBase:intent.preparedBase,
+    candidate:intent.candidate,
+    candidateTree:intent.candidateTree,
+    previousSeal:intent.previousSeal,
+    preservedHumanHeads:intent.preservedHumanHeads,
+    requestId:intent.requestId,
+    validatorRunId:run.id,
+    validatorRunAttempt:run.attempt,
+    producerRequestId:intent.producerRequestId,
+    producerRunId:intent.producerRunId,
+    producerRunAttempt:intent.producerRunAttempt
+  }
+  return {expected,facts,receiptBytes,output,producerArchive,validatorArchive,policy}
+}
+
+async function authenticateValidation(...args: Parameters<typeof authenticateValidationMaterial>) {
+  const {expected,facts,receiptBytes,policy}=await authenticateValidationMaterial(...args)
+  return acceptExactValidation(expected,facts,receiptBytes,policy)
+}
+
+async function frozenCheckFacts(reads:RemoteReads,seal:string) {
+  const checks=await reads.readChecks(seal)
+  return checks.kind==='found'?{kind:'found' as const,value:checks.value.map(({externalId: _externalId,...check})=>check)}:checks
 }

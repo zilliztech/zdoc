@@ -199,3 +199,206 @@ inactive configs and cold/warm caches; ordinary lanes must have identical path
 sets and bytes, zero shared generation/image-store calls and no empty authority
 directory. Separate site/browser and retained-artifact inventory/build gates remain
 required; the default suite and requirement tags cannot replace them.
+
+## Manual target Check validation and finalization
+
+The single-page target Check path uses two independently dispatched runs on
+`master`. The installed
+[`reviewed-check.json`](../scripts/docs-workflow/shared-guides-update/reviewed-check.json)
+is **registered for the manual verification slice**: a `workflow_dispatch`
+producer followed by manually dispatched validation and finalization. The
+approved run actor is `liyun95` (`105278390`) for all three workflows:
+
+| Role | Workflow ID | Event |
+|---|---:|---|
+| Producer | 414826845 | workflow_dispatch |
+| Validate | 419995175 | workflow_dispatch |
+| Finalize | 419995174 | workflow_dispatch |
+
+Registration establishes trusted identities; it does not prove a hosted Check
+was accepted. A CLI invocation without the trusted Actions runtime still
+holds before credentialed acquisition or Check writes. Missing, unregistered
+and incomplete policies also remain held. The existing scheduled producer and
+historical read-only `reviewed-producer.json` policy are unchanged. A scheduled
+producer does not satisfy this dispatch-only Check policy; authenticating
+scheduled producers and automatically triggering the Check path require a
+separate reviewed change.
+
+At the 2026-11-16 activation review, old-next
+`ccc847315b9e0c8f7bfac0c6cb0e7725c2647425` and source target
+`5479f04fcf7c379ede9548be1d917795eb4646b3` consumed identical
+`json-field-overview.md` bytes (blob
+`6162f57c5196b806e487eeaf87269f09a6200f9f`, 51,913 bytes), with no consumed
+fragments or images. The same local variables produced identical preprocessed
+content. A moved tracking commit alone cannot authorize a new `lock.next`.
+After Fetch qualification, the permitted result is a no-op or report-only
+observation without next edits. **Normal positive hosted Check verification
+remains pending a genuine change to consumed upstream source or fragments.**
+Do not invent a lock update, broaden the pilot or relax the source gate to
+produce a candidate.
+
+Fetch qualification is an independent prerequisite. A completed/successful
+Fetch run does not by itself establish this page's lifecycle or publication
+ancestry. The original source outcome and publication receipt input identities
+must satisfy the current verifier. A single-run producer registration alone
+does not authenticate reused page results or stale receipt inputs; keep
+unproven evidence held and review any compatibility change separately.
+
+An enabled registration requires review of `status: registered`,
+`policy` conforming to `RemotePolicySchema`, and a `finalizer` identity with
+`actorId`, `workflowId`, `workflowPath`, `workflowDefinitionSha256`, and
+`event: workflow_dispatch`. The producer/validator identities are nested under
+`policy.producer` and `policy.validator` with the same five fields. Register
+the actual **run actor**, separately from writer actor `41898282` and platform
+signer `19864447`. The fixed production repository is `zilliztech/zdoc`
+(`660446555`), Check App `15368`, and Check name
+`shared-update-exact-validation`. Artifact names are exactly
+`shared-guides-update-producer` and `shared-guides-validation`. The approved
+workflow paths are `.github/workflows/shared-guides-update.yml`,
+`.github/workflows/shared-guides-validate.yml`, and
+`.github/workflows/shared-guides-finalize.yml` respectively. Review the full
+producer definition, event, run actor and workflow ID; historical IDs alone
+do not approve the current producer.
+
+Compute each `workflowDefinitionSha256` over the original workflow bytes,
+for example:
+
+```bash
+shasum -a 256 .github/workflows/shared-guides-update.yml \
+  .github/workflows/shared-guides-validate.yml \
+  .github/workflows/shared-guides-finalize.yml
+```
+
+Workflow IDs and actor IDs must be independently observed and approved before
+registration. Do not install placeholder IDs or zero digests. Registry approval
+pins workflow content, not its containing commit's own SHA, avoiding a
+self-referential commit. At runtime the independently checked Actions context,
+checkout HEAD, `GITHUB_SHA` and `GITHUB_WORKFLOW_SHA` must agree on immutable
+M; the approved producer definition's `tools` is derived from that M. The
+producer, validator, finalizer and signed intent must all bind the same M.
+Changing master, the approved workflow bytes, actor, or definition requires
+fresh evidence and may require renewed registration review. Installing a
+registry does not authorize dispatch by itself.
+
+When a fresh genuine candidate is available, dispatch **Shared Guides target
+Check validate** on `master` with `producer_run_id`, `producer_attempt`, `pr_number`, and a unique
+bounded `request_id` (1–200 characters; letters, digits, `/_.:-`, starting with
+a letter or digit). The producer must already be completed/successful with
+its original unexpired archive. Do not reuse the historical sample as fresh
+production evidence. The producer must be a successful `workflow_dispatch`
+run with `create_draft=true` at the same immutable M; a no-op/read-only
+producer has no signed candidate archive to validate. Run 1 has two jobs:
+
+- `reserve` authenticates the producer run, raw definition and original bounded
+  ZIP; verifies the canonical plan, proof, report, exact lock.next object delta
+  and signed seal; observes PR/head and master/dev/Milvus `v3.0.x` refs; and
+  creates one in-progress Check on **signed seal S**. Only this job has
+  `checks:write`. Its read-back Check ID/suite are outputs, and its external ID
+  binds the actual validator run/attempt/request. Any existing target-name
+  Check, ambiguous read, or partial prior reservation holds before another POST.
+- `validate` has read permissions only, independently repeats authentication,
+  binds the live Check to the reserve outputs and actual run/request, and
+  formally encodes the canonical receipt and output. It runs only after a
+  `reserved` result. Its exact `shared-guides-validation` artifact contains
+  **only `receipt.json` and `output.json`**; separate observation artifacts
+  retain reports and acquisition evidence. The output binds the producer
+  run/attempt and original archive digest. The workflow suite remains on M;
+  the target Check suite is on S.
+
+Wait for the **whole run** to complete successfully, including artifact upload.
+Then dispatch **Shared Guides target Check finalize** with `validator_run_id`,
+`validator_attempt`, and the same `request_id`. Run 2 independently downloads
+and authenticates run 1's original archive and producer material, reads the PR,
+refs and reserved Check, runs formal prepublish against that exact live Check,
+then PATCHes that Check once. It reads the completed Check back and formally
+accepts the result. A repeated finalizer authenticates an already-completed
+success read-only; it cannot create another Check. Still-running, failed,
+cancelled, wrong-attempt, malformed, stale or moved-head evidence holds.
+
+Both manual workflows use the fixed
+`shared-guides-json-field-overview-target-check` concurrency group with
+`cancel-in-progress: false`. Request IDs cannot bypass that serialization.
+This is separate from the production Fetch/Translation queue. Never cancel a
+writer merely to clear uncertainty.
+
+The workflow commands are:
+
+```bash
+# Run 1, separately in the reserve and read-only validate jobs:
+node scripts/docs-workflow/shared-guides-update/validate.mjs
+# Run 2, after the entire validator run succeeds:
+node scripts/docs-workflow/shared-guides-update/finalize.mjs
+```
+
+These entrypoints accept no arguments or registry overrides. They require the
+registered trusted Actions repository/ref/job/event/attempt/actor context and
+job `GITHUB_TOKEN` (the workflows expose it as `GH_TOKEN`). Workflow inputs are
+passed through environment variables: `PRODUCER_RUN_ID`, `PRODUCER_ATTEMPT`,
+`PR_NUMBER`, `REQUEST_ID`, reserve outputs `RESERVED_CHECK_ID` and
+`RESERVED_SUITE_ID`, or finalizer inputs `VALIDATOR_RUN_ID`,
+`VALIDATOR_ATTEMPT`, `REQUEST_ID`. Output paths are `VALIDATE_OUTPUT` or
+`FINALIZE_OUTPUT`, with the acquisition evidence in the sibling `-evidence`
+directory. Existing output/evidence is never overwritten. No candidate/seal
+checkout, hook, import or candidate process is permitted; candidate Git bytes
+are inspected in isolated object storage by trusted M tooling.
+
+Inspect the separate reserve/validation/finalize observation artifacts and
+`result.json` before acting. `held` means no mutation was requested in that
+invocation; `unknown` means a mutation was requested but its final authorization
+or response/read-back could not be established. The journal records `before`
+and acknowledged `after` events without tokens. Preserve both the original
+journal and evidence root. After a lost POST/PATCH response, inspect the live
+run, PR, refs and Check id/suite/App/name/head/external ID read-only; do not
+retry a writer to clear uncertainty. An existing reservation holds a new
+reserve run; a complete formal success may be reauthenticated by the
+finalizer without another PATCH. Partial runs without an authenticated
+receipt require operator reconciliation, not a fabricated receipt or Check.
+
+The hermetic CLI integration gate is included in `pnpm test:shared-guides-update`.
+It runs the actual CLI orchestration in subprocesses using local bare Git,
+original fixture ZIP bytes, fixed synthetic production wire identities and
+loopback-only transports. It uses no real credential or GitHub mutation.
+
+Before either Check write, the driver also authenticates complete, twice-read
+history for the approved operation workflow at exact M, without filtering by
+request title. The current run must be present. Keep rejection tests local or
+hermetic: a deliberately failed hosted validator on the final M becomes a
+prior-run veto and may require a new reviewed M before a later genuine
+positive run. A prior validator run that
+failed, was cancelled, is incomplete, or lacks an authenticated original
+receipt/output archive vetoes a new reservation even while its Check is
+invisible. A successful prior validator archive may be excluded only when
+its authenticated receipt proves a different S. A same-S operation always
+holds a new reserve.
+
+Successful finalizers additionally retain the stable
+`shared-guides-finalization` artifact with exactly `operation.json`. Its
+canonical association binds repository, M, finalizer run/attempt/workflow
+path and raw definition digest, validator run/attempt/request, receipt/output
+digests, and the exact Check ID/suite/App/name/head. The full finalizer
+observations remain in the separately named artifact. Before PATCH, previous
+finalizer runs are authenticated under their separately approved identity;
+missing or failed uploads and unknown/incomplete outcomes hold. Excluding a
+successful different-target finalizer requires its original operation archive
+and independently authenticated validator archive with matching receipt digest
+and exact target tuple. Current apparent `in_progress` state cannot resolve an
+older uncertain PATCH. Independently authenticated completed exact successes
+remain eligible for read-only acceptance without another write.
+
+History veto reasons such as `PRIOR_VALIDATOR_OUTCOME_UNKNOWN`,
+`PRIOR_VALIDATOR_ARCHIVE_UNKNOWN`, `PRIOR_FINALIZER_OUTCOME_UNKNOWN`, and
+`PRIOR_FINALIZER_ARCHIVE_UNKNOWN` identify the missing outcome/evidence for
+operator inspection. Inspect the original run and authenticated artifacts;
+there is no request or environment bypass. A complete history exceeding the
+bounded inspection budget also holds. Resolve missing or ambiguous evidence
+through reviewed operator reconciliation or a fresh approved tooling context;
+do not retry the writer or manufacture a successful report.
+
+The selected PR must use the producer's exact branch:
+`shared-update/` followed by SHA-256 of canonical
+`{"kind":"remote-unit","unitKey":"<authenticated unitKey>"}`. A same-seal
+alias in the allowed namespace is held. Finalization preserves the first
+constructor-authenticated Check inventory: an unknown, ambiguous, or conflicting
+target observation stops before PATCH and cannot be cleared by a later read.
+An unrelated Check's empty external ID is treated as absent; the target Check
+still requires its exact nonempty run/attempt/request correlation.
