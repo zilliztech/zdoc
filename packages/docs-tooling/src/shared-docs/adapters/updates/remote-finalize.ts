@@ -56,23 +56,26 @@ export async function finalizeTargetCheckEntry(input: {
   if (registration.status === 'held') return { status: 'hold', reasons: registration.reasons }
   return finalizeTargetCheck({
     reads: input.reads, writer: input.writer, expected: input.expected,
-    policy: { checkAppId: registration.policy.checkAppId, checkName: registration.policy.checkName },
+    policy: registration.policy,
     receipt: input.receipt, facts: input.facts,
   })
 }
 
-/** Validator entry: load the reviewed registration (held when missing), reserve the in_progress
- * Check on the seal, then encode and archive the receipt/output bound to the read-back Check. */
+/** Validator entry: load the reviewed registration (held when missing), independently authenticate
+ * the producer/seal/freshness before any write, reserve the in_progress Check on the authenticated
+ * seal, then encode and archive the receipt/output bound to the read-back Check. */
 export async function validateTargetCheckEntry(input: {
   registration: unknown
+  authenticate: () => Promise<{ headSha: string } | { status: 'hold'; reasons: string[] }>
   writer: CheckReserveWriter
-  headSha: string
   encodeReceipt: (reservation: ReservedCheck) => { receipt: Uint8Array; output: Uint8Array }
   archive: (members: { name: string; bytes: Uint8Array }[]) => Promise<void>
 }): Promise<{ status: 'prepared'; reservation: ReservedCheck } | { status: 'hold'; reasons: string[] }> {
   const registration = loadTargetCheckRegistration(input.registration)
   if (registration.status === 'held') return { status: 'hold', reasons: registration.reasons }
-  const reservation = await input.writer.reserve({ headSha: input.headSha })
+  const authenticated = await input.authenticate()
+  if ('reasons' in authenticated) return { status: 'hold', reasons: authenticated.reasons }
+  const reservation = await input.writer.reserve({ headSha: authenticated.headSha })
   const { receipt, output } = input.encodeReceipt(reservation)
   await input.archive([{ name: 'receipt.json', bytes: receipt }, { name: 'output.json', bytes: output }])
   return { status: 'prepared', reservation }
@@ -88,15 +91,17 @@ export async function finalizeTargetCheck(input: {
   reads: Pick<RemoteReads, 'readChecks'>
   writer: CheckCompleteWriter
   expected: { seal: string }
-  policy: { checkAppId: number; checkName: string }
+  policy: unknown
   receipt: Uint8Array
   facts: unknown
 }): Promise<TargetCheckFinalize> {
   const seal = input.expected.seal
+  const checkAppId = (input.policy as { checkAppId: number }).checkAppId
+  const checkName = (input.policy as { checkName: string }).checkName
   const receipt = ExactValidationReceiptV1Schema.parse(parseStrictJson(input.receipt))
   const checks = await input.reads.readChecks(seal)
   if (checks.kind !== 'found') return { status: 'hold', reasons: ['CHECK_READ'] }
-  const matches = checks.value.filter(ch => ch.appId === input.policy.checkAppId && ch.name === input.policy.checkName && ch.head === seal)
+  const matches = checks.value.filter(ch => ch.appId === checkAppId && ch.name === checkName && ch.head === seal)
   if (matches.length !== 1) return { status: 'hold', reasons: ['CHECK_AMBIGUOUS_OR_MISSING'] }
   const reserved = matches[0]
   // Bind the read-back Check to the authenticated receipt before any write.
@@ -107,7 +112,7 @@ export async function finalizeTargetCheck(input: {
   if (reserved.status !== 'in_progress') return { status: 'hold', reasons: ['CHECK_NOT_RESERVED'] }
   // prepublish validates the same read-back Check the writer will complete.
   const withCheck = { ...(input.facts as Record<string, unknown>), checks: { kind: 'found', value: [reserved] } }
-  const prepublish = inspectReservedValidation(input.expected as unknown, withCheck, input.receipt, input.policy as unknown)
+  const prepublish = inspectReservedValidation(input.expected as unknown, withCheck, input.receipt, input.policy)
   if (prepublish.status !== 'ready-to-publish') return { status: 'hold', reasons: prepublish.reasons }
   const reservation: ReservedCheck = { id: reserved.id, suiteId: reserved.suiteId, appId: reserved.appId, name: reserved.name, head: reserved.head }
   const completed = await input.writer.complete({ reservation, headSha: seal })
@@ -115,7 +120,7 @@ export async function finalizeTargetCheck(input: {
   if (after.kind !== 'found' || !after.value.some(ch => ch.id === completed.id && ch.status === 'completed' && ch.conclusion === 'success')) {
     return { status: 'hold', reasons: ['CHECK_READBACK'] }
   }
-  const accept = acceptExactValidation(input.expected as unknown, { ...(input.facts as Record<string, unknown>), checks: after }, input.receipt, input.policy as unknown)
+  const accept = acceptExactValidation(input.expected as unknown, { ...(input.facts as Record<string, unknown>), checks: after }, input.receipt, input.policy)
   if (accept.status !== 'accepted') return { status: 'hold', reasons: accept.reasons }
   return { status: 'accepted', evidence: accept.evidence, completed: { id: completed.id, suiteId: completed.suiteId } }
 }
