@@ -2038,60 +2038,6 @@
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
                     "x-deprecated-since": null
-                  },
-                  "clusterId": {
-                    "type": "string",
-                    "description": "ID of the cluster the import job runs on. Specify clusterId or both projectId and regionId.",
-                    "x-i18n": {
-                      "zh-CN": {
-                        "description": "导入任务所在集群的 ID。请指定 clusterId，或同时指定 projectId 和 regionId。"
-                      },
-                      "ja-JP": {
-                        "description": "インポートジョブが実行されるクラスターの ID。clusterId、または projectId と regionId の両方を指定します。"
-                      }
-                    },
-                    "x-added-at": "2.6.x",
-                    "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null,
-                    "x-include-target": [
-                      "zilliz"
-                    ]
-                  },
-                  "projectId": {
-                    "type": "string",
-                    "description": "ID of the project the cluster belongs to.",
-                    "x-i18n": {
-                      "zh-CN": {
-                        "description": "集群所属项目的 ID。"
-                      },
-                      "ja-JP": {
-                        "description": "クラスタが属するプロジェクトの ID。"
-                      }
-                    },
-                    "x-added-at": "2.6.x",
-                    "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null,
-                    "x-include-target": [
-                      "zilliz"
-                    ]
-                  },
-                  "regionId": {
-                    "type": "string",
-                    "description": "ID of the region the cluster is in.",
-                    "x-i18n": {
-                      "zh-CN": {
-                        "description": "集群所在地域的 ID。"
-                      },
-                      "ja-JP": {
-                        "description": "クラスターが存在するリージョンの ID。"
-                      }
-                    },
-                    "x-added-at": "2.6.x",
-                    "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null,
-                    "x-include-target": [
-                      "zilliz"
-                    ]
                   }
                 },
                 "required": [
