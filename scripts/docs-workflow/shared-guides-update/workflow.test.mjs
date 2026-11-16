@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import yaml from 'js-yaml'
@@ -90,11 +91,79 @@ test('target Check uses separate reserve/read-only validation jobs and a separat
   assert.equal(archive.with.path, '${{ runner.temp }}/shared-guides-validate/archive/*')
   assert.equal(archive.with['if-no-files-found'], 'error')
   assert.equal(archive.if, undefined)
-  const defaultRegistry = JSON.parse(readFileSync(new URL('./reviewed-check.json', import.meta.url), 'utf8'))
-  assert.equal(defaultRegistry.status, 'unregistered')
-  assert.equal(defaultRegistry.policy, undefined)
   const finalizationArtifact = finalization.jobs.finalize.steps.find(step => step.with?.name === 'shared-guides-finalization')
   assert.equal(finalizationArtifact.with.path, '${{ runner.temp }}/shared-guides-finalize/operation.json')
   assert.equal(finalizationArtifact.with['if-no-files-found'], 'error')
   assert.equal(finalizationArtifact.if, undefined)
+})
+
+test('manual-only target Check registration pins approved identities and original workflow bytes', () => {
+  const registration = JSON.parse(
+    readFileSync(new URL('./reviewed-check.json', import.meta.url), 'utf8')
+  )
+  assert.equal(registration.status, 'registered')
+  assert.deepEqual(Object.keys(registration).sort(), [
+    'finalizer',
+    'policy',
+    'status'
+  ])
+  const { producer, validator, ...bindings } = registration.policy
+  assert.deepEqual(bindings, {
+    host: 'github.com',
+    repositoryId: 660446555,
+    repositoryFullName: 'zilliztech/zdoc',
+    baseRef: 'master',
+    writerActorId: 41898282,
+    sealIdentity: {
+      scheme: 'github-app-author-v1',
+      platformSignerActorId: 19864447
+    },
+    allowedHeadPrefixes: ['shared-update/'],
+    checkAppId: 15368,
+    checkName: 'shared-update-exact-validation',
+    producerArtifactName: 'shared-guides-update-producer',
+    validatorArtifactName: 'shared-guides-validation'
+  })
+  const approved = [
+    [
+      producer,
+      414826845,
+      '.github/workflows/shared-guides-update.yml',
+      'd3b99cdf624f7dec1a53bcd79d21f9dcc9309ccf6a1ac3111d0d103ac83a83d3'
+    ],
+    [
+      validator,
+      419995175,
+      '.github/workflows/shared-guides-validate.yml',
+      '05461876c219ccdbe8a20a5278b76698e0801ec424965e58100453493494e7fc'
+    ],
+    [
+      registration.finalizer,
+      419995174,
+      '.github/workflows/shared-guides-finalize.yml',
+      'f2ffe6c8b22b33c3131c1b588aa10c2609474ceb6dc005e85d26d15e3dfc693d'
+    ]
+  ]
+  for (const [
+    identity,
+    workflowId,
+    workflowPath,
+    workflowDefinitionSha256
+  ] of approved) {
+    assert.deepEqual(identity, {
+      actorId: 105278390,
+      workflowId,
+      workflowPath,
+      workflowDefinitionSha256,
+      event: 'workflow_dispatch'
+    })
+    const bytes = readFileSync(
+      new URL('../../../' + workflowPath, import.meta.url)
+    )
+    assert.equal(
+      createHash('sha256').update(bytes).digest('hex'),
+      identity.workflowDefinitionSha256
+    )
+    assert.notEqual(identity.actorId, registration.policy.writerActorId)
+  }
 })

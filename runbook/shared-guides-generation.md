@@ -203,13 +203,48 @@ required; the default suite and requirement tags cannot replace them.
 ## Manual target Check validation and finalization
 
 The single-page target Check path uses two independently dispatched runs on
-`master`. It is installed **unregistered** in
-[`reviewed-check.json`](../scripts/docs-workflow/shared-guides-update/reviewed-check.json):
-normal CLI invocations emit `status: held`, `REGISTRATION_UNREGISTERED`, exit 1,
-and perform no credentialed acquisition or Check write. This does not change
-the historical read-only report policy in `reviewed-producer.json`.
+`master`. The installed
+[`reviewed-check.json`](../scripts/docs-workflow/shared-guides-update/reviewed-check.json)
+is **registered for the manual verification slice**: a `workflow_dispatch`
+producer followed by manually dispatched validation and finalization. The
+approved run actor is `liyun95` (`105278390`) for all three workflows:
 
-Before activation, review and install a registry with `status: registered`,
+| Role | Workflow ID | Event |
+|---|---:|---|
+| Producer | 414826845 | workflow_dispatch |
+| Validate | 419995175 | workflow_dispatch |
+| Finalize | 419995174 | workflow_dispatch |
+
+Registration establishes trusted identities; it does not prove a hosted Check
+was accepted. A CLI invocation without the trusted Actions runtime still
+holds before credentialed acquisition or Check writes. Missing, unregistered
+and incomplete policies also remain held. The existing scheduled producer and
+historical read-only `reviewed-producer.json` policy are unchanged. A scheduled
+producer does not satisfy this dispatch-only Check policy; authenticating
+scheduled producers and automatically triggering the Check path require a
+separate reviewed change.
+
+At the 2026-11-16 activation review, old-next
+`ccc847315b9e0c8f7bfac0c6cb0e7725c2647425` and source target
+`5479f04fcf7c379ede9548be1d917795eb4646b3` consumed identical
+`json-field-overview.md` bytes (blob
+`6162f57c5196b806e487eeaf87269f09a6200f9f`, 51,913 bytes), with no consumed
+fragments or images. The same local variables produced identical preprocessed
+content. A moved tracking commit alone cannot authorize a new `lock.next`.
+After Fetch qualification, the permitted result is a no-op or report-only
+observation without next edits. **Normal positive hosted Check verification
+remains pending a genuine change to consumed upstream source or fragments.**
+Do not invent a lock update, broaden the pilot or relax the source gate to
+produce a candidate.
+
+Fetch qualification is an independent prerequisite. A completed/successful
+Fetch run does not by itself establish this page's lifecycle or publication
+ancestry. The original source outcome and publication receipt input identities
+must satisfy the current verifier. A single-run producer registration alone
+does not authenticate reused page results or stale receipt inputs; keep
+unproven evidence held and review any compatibility change separately.
+
+An enabled registration requires review of `status: registered`,
 `policy` conforming to `RemotePolicySchema`, and a `finalizer` identity with
 `actorId`, `workflowId`, `workflowPath`, `workflowDefinitionSha256`, and
 `event: workflow_dispatch`. The producer/validator identities are nested under
@@ -245,12 +280,14 @@ Changing master, the approved workflow bytes, actor, or definition requires
 fresh evidence and may require renewed registration review. Installing a
 registry does not authorize dispatch by itself.
 
-After activation review, dispatch **Shared Guides target Check validate** on
-`master` with `producer_run_id`, `producer_attempt`, `pr_number`, and a unique
+When a fresh genuine candidate is available, dispatch **Shared Guides target
+Check validate** on `master` with `producer_run_id`, `producer_attempt`, `pr_number`, and a unique
 bounded `request_id` (1–200 characters; letters, digits, `/_.:-`, starting with
 a letter or digit). The producer must already be completed/successful with
 its original unexpired archive. Do not reuse the historical sample as fresh
-production evidence. Run 1 has two jobs:
+production evidence. The producer must be a successful `workflow_dispatch`
+run with `create_draft=true` at the same immutable M; a no-op/read-only
+producer has no signed candidate archive to validate. Run 1 has two jobs:
 
 - `reserve` authenticates the producer run, raw definition and original bounded
   ZIP; verifies the canonical plan, proof, report, exact lock.next object delta
@@ -324,7 +361,10 @@ loopback-only transports. It uses no real credential or GitHub mutation.
 
 Before either Check write, the driver also authenticates complete, twice-read
 history for the approved operation workflow at exact M, without filtering by
-request title. The current run must be present. A prior validator run that
+request title. The current run must be present. Keep rejection tests local or
+hermetic: a deliberately failed hosted validator on the final M becomes a
+prior-run veto and may require a new reviewed M before a later genuine
+positive run. A prior validator run that
 failed, was cancelled, is incomplete, or lacks an authenticated original
 receipt/output archive vetoes a new reservation even while its Check is
 invisible. A successful prior validator archive may be excluded only when
