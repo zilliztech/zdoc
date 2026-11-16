@@ -1,17 +1,18 @@
 ---
 title: "Array of Structs を使用したデータモデル設計 | Cloud"
 slug: /schema-design-with-structs
-sidebar_label: "Struct を使用したデータモデル"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "モダンな AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを伴うセンサー読み取り値、エラーコードと音声スニペットを伴う診断ログ、位置・速度・シーンコンテキストを伴う走行区間など、豊富で構造化されたイベントを推論します。このため、データベースにはネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。 | Cloud"
+description: "モダンな AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、タイムスタンプとベクトル埋め込みを伴うセンサー値、エラーコードと音声スニペットを伴う診断ログ、位置、速度、シーンコンテキストを伴う走行区間など、豊かで構造化されたイベントを対象に通常は推論を行います。そのため、データベースにはネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。 | Cloud"
 type: origin
-token: VOkIwd5adiziGQkoDO1cRoRFnre
-sidebar_position: 2
 displayed_sidebar: default
+token: shared-schema-design-with-structs
+sidebar_label: "Struct を使用したデータモデル"
+sidebar_position: 2
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/schema/best-practices-for-array-of-structs.md"
 
 ---
 
@@ -21,7 +22,7 @@ import TabItem from '@theme/TabItem';
 
 # Array of Structs を使用したデータモデル設計
 
-モダンな AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを伴うセンサー読み取り値、エラーコードと音声スニペットを伴う診断ログ、位置・速度・シーンコンテキストを伴う走行区間など、豊富で構造化されたイベントを推論します。このため、データベースにはネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。
+モダンな AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、タイムスタンプとベクトル埋め込みを伴うセンサー値、エラーコードと音声スニペットを伴う診断ログ、位置、速度、シーンコンテキストを伴う走行区間など、豊かで構造化されたイベントを対象に通常は推論を行います。そのため、データベースにはネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。
 
 ユーザーに原子的な構造イベントをフラットなデータモデルへ変換させる代わりに、Zilliz Cloud は Array of Structs を導入します。配列内の各 Struct はスカラーとベクトルを保持でき、意味的な整合性を維持します。
 
@@ -51,7 +52,7 @@ Struct スキーマは、取得や表示に使用するフィールドのみを�
 
 ### 最大容量を慎重に設定する\{#set-the-max-capacity-thoughtfully}
 
-各 Array フィールドには、エンティティごとに Array フィールドが保持できる要素の最大数を指定する属性があります。ユースケースの上限に基づいて設定してください。たとえば、ドキュメントごとに 1,000 個のテキストチャンク、運転シーンごとに 100 個の運転操作がある場合です。
+各 Array フィールドには、エンティティごとにその Array フィールドが保持できる要素の最大数を指定する属性があります。ユースケースの上限に基づいて設定してください。たとえば、1 つのドキュメントに 1,000 個のテキストチャンク、1 つの運転シーンに 100 個の運転操作が含まれる場合です。
 
 値を過度に大きくするとメモリが浪費されるため、Array フィールド内の Struct の最大数を決めるには計算が必要です。
 
@@ -59,7 +60,7 @@ Struct スキーマは、取得や表示に使用するフィールドのみを�
 
 ベクトルフィールドには、コレクション内のベクトルフィールドと Struct 内で定義されたベクトルフィールドの両方を含め、インデックス作成が必須です。Struct 内のベクトルフィールドには、インデックスタイプとして `AUTOINDEX` を、メトリックタイプとして `MAX_SIM` シリーズを使用する必要があります。
 
-適用されるすべての制限の詳細については、[制限](./use-array-of-structs) を参照してください。
+適用されるすべての制限の詳細については、[制限](./struct-array-limits) を参照してください。
 
 ## 実例: 自動運転向け CoVLA データセットのモデリング\{#a-real-world-example-modeling-the-covla-dataset-for-autonomous-driving}
 
@@ -113,9 +114,9 @@ CoVLA データセットは、10,000 個のビデオクリップ、合計 80 時
 │   │   │   │   ├── lead_y                        (FLOAT)
 │   │   │   │   ├── lead_speed_kmh                (FLOAT)
 │   │   │   │   ├── lead_a                        (FLOAT)
-│   │   │   ├── frame_2                               (STRUCT)
-│   │   │   ├── ...                                   (STRUCT)
-│   │   │   ├── frame_n                               (STRUCT)
+│   │   ├── frame_2                               (STRUCT)
+│   │   ├── ...                                   (STRUCT)
+│   │   ├── frame_n                               (STRUCT)
 ├── video_2
 ├── ...
 ├── video_n
@@ -123,15 +124,17 @@ CoVLA データセットは、10,000 個のビデオクリップ、合計 80 時
 
 CoVLA データセットの構造は高度に階層化されており、収集されたデータが複数の `.jsonl` ファイルに分割され、`.mp4` 形式のビデオクリップも含まれていることがわかります。
 
-Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィールドのいずれかを使用して、コレクションスキーマ内にネスト構造を作成できます。ベクトル埋め込みがネスト形式の一部である場合、サポートされるのは Array-of-Structs フィールドのみです。ただし、Array 内の Struct 自体にさらにネストされた構造を含めることはできません。CoVLA データセットを重要な関係を維持したまま保存するには、不要な階層を削除し、Zilliz Cloud のコレクションスキーマに適合するようにデータをフラット化する必要があります。
 
-次の図は、以下に示すスキーマを使用してこのデータセットをどのようにモデル化できるかを示しています。
+Zilliz Cloud では、JSON フィールドまたは Array of Structs フィールドのいずれかを使用して、コレクションスキーマ内にネスト構造を作成できます。ベクトル埋め込みがネスト形式に含まれる場合は、Array of Structs フィールドのみがサポートされます。ただし、Array 内の Struct 自体に、さらにネストされた Struct を含めることはできません。Milvus v3.0.x と互換性のある Dedicated クラスターでは、1 レベルのネストを持つスカラー配列サブフィールドを含めることができます（On-Demand クラスターではまだ利用できません）。CoVLA データセットを重要な関係を維持しながら保存するには、不要な階層を削除し、Zilliz Cloud のコレクションスキーマに適合するようにデータをフラット化する必要があります。
 
-![PATjwyoKzhPELnb14kBcnAEAnGv](https://zdoc-images.s3.us-west-2.amazonaws.com/PATjwyoKzhPELnb14kBcnAEAnGv.png)
+
+次の図は、以下に示すスキーマを使用してこのデータセットをモデル化する方法を示しています。
+
+![データセットモデル](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/735544bc696e6f112e2c1f7832274b8a7fc6019f4055fead5056303442c8cc67.png)
 
 上の図はビデオクリップの構造を示しており、次のフィールドで構成されています。
 
-- `video_id` は主キーとして機能し、INT64 タイプの整数を受け入れます。
+- `video_id` は主キーとして機能し、ビデオ識別子を `VARCHAR` 値として格納します。
 
 - `states` は、現在の動画の各フレームにおける自車両の状態を含む生の JSON ボディです。
 
@@ -155,857 +158,866 @@ Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィー�
 
 まず、caption Struct、front_cars Struct、およびコレクションのスキーマを初期化する必要があります。
 
-- Caption Struct のスキーマを初期化します。
+Caption Struct のスキーマを初期化します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
-    <TabItem value='python'>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
+<TabItem value='python'>
 
-    ```python
-    from pymilvus import MilvusClient, DataType
-    import json
-    from openai import OpenAI
-    
-    client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
-    
-    # create the schema for the caption struct
-    schema_for_caption = client.create_struct_field_schema()
-    
-    schema_for_caption.add_field(
-        field_name="frame_id",
-        datatype=DataType.INT64,
-        description="ID of the frame to which the ego vehicle's behavior belongs"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="plain_caption",
-        datatype=DataType.VARCHAR,
-        max_length=1024,
-        description="plain description of the ego vehicle's behaviors"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="plain_cap_vector",
-        datatype=DataType.FLOAT_VECTOR,
-        dim=768,
-        description="vectors for the plain description of the ego vehicle's behaviors"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="rich_caption",
-        datatype=DataType.VARCHAR,
-        max_length=1024,
-        description="rich description of the ego vehicle's behaviors"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="rich_cap_vector",
-        datatype=DataType.FLOAT_VECTOR,
-        dim=768,
-        description="vectors for the rich description of the ego vehicle's behaviors"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="risk",
-        datatype=DataType.VARCHAR,
-        max_length=1024,
-        description="description of the ego vehicle's risks"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="risk_vector",
-        datatype=DataType.FLOAT_VECTOR,
-        dim=768,
-        description="vectors for the description of the ego vehicle's risks"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="risk_correct",
-        datatype=DataType.BOOL,
-        description="whether the risk assessment is correct"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="risk_yes_rate",
-        datatype=DataType.FLOAT,
-        description="probability/confidence of risk being present"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="weather",
-        datatype=DataType.VARCHAR,
-        max_length=50,
-        description="weather condition"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="weather_rate",
-        datatype=DataType.FLOAT,
-        description="probability/confidence of the weather condition"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="road",
-        datatype=DataType.VARCHAR,
-        max_length=50,
-        description="road type"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="road_rate",
-        datatype=DataType.FLOAT,
-        description="probability/confidence of the road type"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="is_tunnel",
-        datatype=DataType.BOOL,
-        description="whether the road is a tunnel"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="is_tunnel_yes_rate",
-        datatype=DataType.FLOAT,
-        description="probability/confidence of the road being a tunnel"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="is_highway",
-        datatype=DataType.BOOL,
-        description="whether the road is a highway"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="is_highway_yes_rate",
-        datatype=DataType.FLOAT,
-        description="probability/confidence of the road being a highway"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="has_pedestrian",
-        datatype=DataType.BOOL,
-        description="whether there is a pedestrian present"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="has_pedestrian_yes_rate",
-        datatype=DataType.FLOAT,
-        description="probability/confidence of pedestrian presence"
-    )
-    
-    schema_for_caption.add_field(
-        field_name="has_carrier_car",
-        datatype=DataType.BOOL,
-        description="whether there is a carrier car present"
-    )
-    ```
+```python
+from pymilvus import MilvusClient, DataType
+import json
+from openai import OpenAI
 
-    </TabItem>
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
-    <TabItem value='java'>
+# create the schema for the caption struct
+schema_for_caption = client.create_struct_field_schema()
 
-    ```java
-    import io.milvus.v2.client.ConnectConfig;
-    import io.milvus.v2.client.MilvusClientV2;
-    import io.milvus.v2.common.DataType;
-    import io.milvus.v2.service.collection.request.CreateCollectionReq;
-    import java.util.Arrays;
-    import io.milvus.v2.common.IndexParam;
-    import java.util.List;
-    import com.google.gson.Gson;
-    import com.google.gson.JsonArray;
-    import com.google.gson.JsonObject;
-    import io.milvus.v2.service.vector.request.InsertReq;
-    import java.util.Collections;
-    
-    ConnectConfig connectConfig = ConnectConfig.builder()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN")
-            .build();
-    MilvusClientV2 client = new MilvusClientV2(connectConfig);
-    
+schema_for_caption.add_field(
+    field_name="frame_id",
+    datatype=DataType.INT64,
+    description="ID of the frame to which the ego vehicle's behavior belongs"
+)
+
+schema_for_caption.add_field(
+    field_name="plain_caption",
+    datatype=DataType.VARCHAR,
+    max_length=1024,
+    description="plain description of the ego vehicle's behaviors"
+)
+
+schema_for_caption.add_field(
+    field_name="plain_cap_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=768,
+    description="vectors for the plain description of the ego vehicle's behaviors"
+)
+
+schema_for_caption.add_field(
+    field_name="rich_caption",
+    datatype=DataType.VARCHAR,
+    max_length=1024,
+    description="rich description of the ego vehicle's behaviors"
+)
+
+schema_for_caption.add_field(
+    field_name="rich_cap_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=768,
+    description="vectors for the rich description of the ego vehicle's behaviors"
+)
+
+schema_for_caption.add_field(
+    field_name="risk",
+    datatype=DataType.VARCHAR,
+    max_length=1024,
+    description="description of the ego vehicle's risks"
+)
+
+schema_for_caption.add_field(
+    field_name="risk_vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=768,
+    description="vectors for the description of the ego vehicle's risks"
+)
+
+schema_for_caption.add_field(
+    field_name="risk_correct",
+    datatype=DataType.BOOL,
+    description="whether the risk assessment is correct"
+)
+
+schema_for_caption.add_field(
+    field_name="risk_yes_rate",
+    datatype=DataType.FLOAT,
+    description="probability/confidence of risk being present"
+)
+
+schema_for_caption.add_field(
+    field_name="weather",
+    datatype=DataType.VARCHAR,
+    max_length=50,
+    description="weather condition"
+)
+
+schema_for_caption.add_field(
+    field_name="weather_rate",
+    datatype=DataType.FLOAT,
+    description="probability/confidence of the weather condition"
+)
+
+schema_for_caption.add_field(
+    field_name="road",
+    datatype=DataType.VARCHAR,
+    max_length=50,
+    description="road type"
+)
+
+schema_for_caption.add_field(
+    field_name="road_rate",
+    datatype=DataType.FLOAT,
+    description="probability/confidence of the road type"
+)
+
+schema_for_caption.add_field(
+    field_name="is_tunnel",
+    datatype=DataType.BOOL,
+    description="whether the road is a tunnel"
+)
+
+schema_for_caption.add_field(
+    field_name="is_tunnel_yes_rate",
+    datatype=DataType.FLOAT,
+    description="probability/confidence of the road being a tunnel"
+)
+
+schema_for_caption.add_field(
+    field_name="is_highway",
+    datatype=DataType.BOOL,
+    description="whether the road is a highway"
+)
+
+schema_for_caption.add_field(
+    field_name="is_highway_yes_rate",
+    datatype=DataType.FLOAT,
+    description="probability/confidence of the road being a highway"
+)
+
+schema_for_caption.add_field(
+    field_name="has_pedestrian",
+    datatype=DataType.BOOL,
+    description="whether there is a pedestrian present"
+)
+
+schema_for_caption.add_field(
+    field_name="has_pedestrian_yes_rate",
+    datatype=DataType.FLOAT,
+    description="probability/confidence of pedestrian presence"
+)
+
+schema_for_caption.add_field(
+    field_name="has_carrier_car",
+    datatype=DataType.BOOL,
+    description="whether there is a carrier car present"
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.Arrays;
+import io.milvus.v2.common.IndexParam;
+import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Collections;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// create the schema for the caption struct
+CreateCollectionReq.StructFieldSchema schemaForCaption = CreateCollectionReq.StructFieldSchema.builder()
+        .name("captions")
+        .description("captions for the current video")
+        .maxCapacity(600)
+        .fields(Arrays.asList(
+                CreateCollectionReq.FieldSchema.builder().name("frame_id").dataType(DataType.Int64)
+                        .description("ID of the frame to which the ego vehicle's behavior belongs").build(),
+                CreateCollectionReq.FieldSchema.builder().name("plain_caption").dataType(DataType.VarChar).maxLength(1024)
+                        .description("plain description of the ego vehicle's behaviors").build(),
+                CreateCollectionReq.FieldSchema.builder().name("plain_cap_vector").dataType(DataType.FloatVector).dimension(768)
+                        .description("vectors for the plain description of the ego vehicle's behaviors").build(),
+                CreateCollectionReq.FieldSchema.builder().name("rich_caption").dataType(DataType.VarChar).maxLength(1024)
+                        .description("rich description of the ego vehicle's behaviors").build(),
+                CreateCollectionReq.FieldSchema.builder().name("rich_cap_vector").dataType(DataType.FloatVector).dimension(768)
+                        .description("vectors for the rich description of the ego vehicle's behaviors").build(),
+                CreateCollectionReq.FieldSchema.builder().name("risk").dataType(DataType.VarChar).maxLength(1024)
+                        .description("description of the ego vehicle's risks").build(),
+                CreateCollectionReq.FieldSchema.builder().name("risk_vector").dataType(DataType.FloatVector).dimension(768)
+                        .description("vectors for the description of the ego vehicle's risks").build(),
+                CreateCollectionReq.FieldSchema.builder().name("risk_correct").dataType(DataType.Bool)
+                        .description("whether the risk assessment is correct").build(),
+                CreateCollectionReq.FieldSchema.builder().name("risk_yes_rate").dataType(DataType.Float)
+                        .description("probability/confidence of risk being present").build(),
+                CreateCollectionReq.FieldSchema.builder().name("weather").dataType(DataType.VarChar).maxLength(50)
+                        .description("weather condition").build(),
+                CreateCollectionReq.FieldSchema.builder().name("weather_rate").dataType(DataType.Float)
+                        .description("probability/confidence of the weather condition").build(),
+                CreateCollectionReq.FieldSchema.builder().name("road").dataType(DataType.VarChar).maxLength(50)
+                        .description("road type").build(),
+                CreateCollectionReq.FieldSchema.builder().name("road_rate").dataType(DataType.Float)
+                        .description("probability/confidence of the road type").build(),
+                CreateCollectionReq.FieldSchema.builder().name("is_tunnel").dataType(DataType.Bool)
+                        .description("whether the road is a tunnel").build(),
+                CreateCollectionReq.FieldSchema.builder().name("is_tunnel_yes_rate").dataType(DataType.Float)
+                        .description("probability/confidence of the road being a tunnel").build(),
+                CreateCollectionReq.FieldSchema.builder().name("is_highway").dataType(DataType.Bool)
+                        .description("whether the road is a highway").build(),
+                CreateCollectionReq.FieldSchema.builder().name("is_highway_yes_rate").dataType(DataType.Float)
+                        .description("probability/confidence of the road being a highway").build(),
+                CreateCollectionReq.FieldSchema.builder().name("has_pedestrian").dataType(DataType.Bool)
+                        .description("whether there is a pedestrian present").build(),
+                CreateCollectionReq.FieldSchema.builder().name("has_pedestrian_yes_rate").dataType(DataType.Float)
+                        .description("probability/confidence of pedestrian presence").build(),
+                CreateCollectionReq.FieldSchema.builder().name("has_carrier_car").dataType(DataType.Bool)
+                        .description("whether there is a carrier car present").build()
+        ))
+        .build();
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "log"
+    "encoding/json"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/column"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+// create the schema for the caption struct
+captionSchema := entity.NewStructSchema().
+    WithField(entity.NewField().WithName("frame_id").WithDataType(entity.FieldTypeInt64).
+        WithDescription("ID of the frame to which the ego vehicle's behavior belongs")).
+    WithField(entity.NewField().WithName("plain_caption").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1024).
+        WithDescription("plain description of the ego vehicle's behaviors")).
+    WithField(entity.NewField().WithName("plain_cap_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(768).
+        WithDescription("vectors for the plain description of the ego vehicle's behaviors")).
+    WithField(entity.NewField().WithName("rich_caption").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1024).
+        WithDescription("rich description of the ego vehicle's behaviors")).
+    WithField(entity.NewField().WithName("rich_cap_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(768).
+        WithDescription("vectors for the rich description of the ego vehicle's behaviors")).
+    WithField(entity.NewField().WithName("risk").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1024).
+        WithDescription("description of the ego vehicle's risks")).
+    WithField(entity.NewField().WithName("risk_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(768).
+        WithDescription("vectors for the description of the ego vehicle's risks")).
+    WithField(entity.NewField().WithName("risk_correct").WithDataType(entity.FieldTypeBool).
+        WithDescription("whether the risk assessment is correct")).
+    WithField(entity.NewField().WithName("risk_yes_rate").WithDataType(entity.FieldTypeFloat).
+        WithDescription("probability/confidence of risk being present")).
+    WithField(entity.NewField().WithName("weather").WithDataType(entity.FieldTypeVarChar).WithMaxLength(50).
+        WithDescription("weather condition")).
+    WithField(entity.NewField().WithName("weather_rate").WithDataType(entity.FieldTypeFloat).
+        WithDescription("probability/confidence of the weather condition")).
+    WithField(entity.NewField().WithName("road").WithDataType(entity.FieldTypeVarChar).WithMaxLength(50).
+        WithDescription("road type")).
+    WithField(entity.NewField().WithName("road_rate").WithDataType(entity.FieldTypeFloat).
+        WithDescription("probability/confidence of the road type")).
+    WithField(entity.NewField().WithName("is_tunnel").WithDataType(entity.FieldTypeBool).
+        WithDescription("whether the road is a tunnel")).
+    WithField(entity.NewField().WithName("is_tunnel_yes_rate").WithDataType(entity.FieldTypeFloat).
+        WithDescription("probability/confidence of the road being a tunnel")).
+    WithField(entity.NewField().WithName("is_highway").WithDataType(entity.FieldTypeBool).
+        WithDescription("whether the road is a highway")).
+    WithField(entity.NewField().WithName("is_highway_yes_rate").WithDataType(entity.FieldTypeFloat).
+        WithDescription("probability/confidence of the road being a highway")).
+    WithField(entity.NewField().WithName("has_pedestrian").WithDataType(entity.FieldTypeBool).
+        WithDescription("whether there is a pedestrian present")).
+    WithField(entity.NewField().WithName("has_pedestrian_yes_rate").WithDataType(entity.FieldTypeFloat).
+        WithDescription("probability/confidence of pedestrian presence")).
+    WithField(entity.NewField().WithName("has_carrier_car").WithDataType(entity.FieldTypeBool).
+        WithDescription("whether there is a carrier car present"))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json;
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
     // create the schema for the caption struct
-    CreateCollectionReq.StructFieldSchema schemaForCaption = CreateCollectionReq.StructFieldSchema.builder()
-            .name("captions")
-            .description("captions for the current video")
-            .maxCapacity(600)
-            .fields(Arrays.asList(
-                    CreateCollectionReq.FieldSchema.builder().name("frame_id").dataType(DataType.Int64)
-                            .description("ID of the frame to which the ego vehicle's behavior belongs").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("plain_caption").dataType(DataType.VarChar).maxLength(1024)
-                            .description("plain description of the ego vehicle's behaviors").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("plain_cap_vector").dataType(DataType.FloatVector).dimension(768)
-                            .description("vectors for the plain description of the ego vehicle's behaviors").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("rich_caption").dataType(DataType.VarChar).maxLength(1024)
-                            .description("rich description of the ego vehicle's behaviors").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("rich_cap_vector").dataType(DataType.FloatVector).dimension(768)
-                            .description("vectors for the rich description of the ego vehicle's behaviors").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("risk").dataType(DataType.VarChar).maxLength(1024)
-                            .description("description of the ego vehicle's risks").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("risk_vector").dataType(DataType.FloatVector).dimension(768)
-                            .description("vectors for the description of the ego vehicle's risks").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("risk_correct").dataType(DataType.Bool)
-                            .description("whether the risk assessment is correct").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("risk_yes_rate").dataType(DataType.Float)
-                            .description("probability/confidence of risk being present").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("weather").dataType(DataType.VarChar).maxLength(50)
-                            .description("weather condition").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("weather_rate").dataType(DataType.Float)
-                            .description("probability/confidence of the weather condition").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("road").dataType(DataType.VarChar).maxLength(50)
-                            .description("road type").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("road_rate").dataType(DataType.Float)
-                            .description("probability/confidence of the road type").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("is_tunnel").dataType(DataType.Bool)
-                            .description("whether the road is a tunnel").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("is_tunnel_yes_rate").dataType(DataType.Float)
-                            .description("probability/confidence of the road being a tunnel").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("is_highway").dataType(DataType.Bool)
-                            .description("whether the road is a highway").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("is_highway_yes_rate").dataType(DataType.Float)
-                            .description("probability/confidence of the road being a highway").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("has_pedestrian").dataType(DataType.Bool)
-                            .description("whether there is a pedestrian present").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("has_pedestrian_yes_rate").dataType(DataType.Float)
-                            .description("probability/confidence of pedestrian presence").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("has_carrier_car").dataType(DataType.Bool)
-                            .description("whether there is a carrier car present").build()
-            ))
-            .build();
-    ```
+    let caption_schema = StructFieldSchema::new()
+        .name("captions")
+        .description("captions for the current video")
+        .max_capacity(600)
+        .add_field(FieldSchema::new().name("frame_id").data_type(DataType::Int64)
+            .description("ID of the frame to which the ego vehicle's behavior belongs"))
+.add_field(FieldSchema::new().name("plain_caption").data_type(DataType::VarChar).max_length(1024)
+            .description("plain description of the ego vehicle's behaviors"))
+.add_field(FieldSchema::new().name("plain_cap_vector").data_type(DataType::FloatVector).dimension(768)
+            .description("vectors for the plain description of the ego vehicle's behaviors"))
+.add_field(FieldSchema::new().name("rich_caption").data_type(DataType::VarChar).max_length(1024)
+            .description("rich description of the ego vehicle's behaviors"))
+.add_field(FieldSchema::new().name("rich_cap_vector").data_type(DataType::FloatVector).dimension(768)
+            .description("vectors for the rich description of the ego vehicle's behaviors"))
+.add_field(FieldSchema::new().name("risk").data_type(DataType::VarChar).max_length(1024)
+            .description("description of the ego vehicle's risks"))
+.add_field(FieldSchema::new().name("risk_vector").data_type(DataType::FloatVector).dimension(768)
+            .description("vectors for the description of the ego vehicle's risks"))
+.add_field(FieldSchema::new().name("risk_correct").data_type(DataType::Bool)
+            .description("whether the risk assessment is correct"))
+.add_field(FieldSchema::new().name("risk_yes_rate").data_type(DataType::Float)
+            .description("probability/confidence of risk being present"))
+.add_field(FieldSchema::new().name("weather").data_type(DataType::VarChar).max_length(50)
+            .description("weather condition"))
+.add_field(FieldSchema::new().name("weather_rate").data_type(DataType::Float)
+            .description("probability/confidence of the weather condition"))
+.add_field(FieldSchema::new().name("road").data_type(DataType::VarChar).max_length(50)
+            .description("road type"))
+.add_field(FieldSchema::new().name("road_rate").data_type(DataType::Float)
+            .description("probability/confidence of the road type"))
+.add_field(FieldSchema::new().name("is_tunnel").data_type(DataType::Bool)
+            .description("whether the road is a tunnel"))
+.add_field(FieldSchema::new().name("is_tunnel_yes_rate").data_type(DataType::Float)
+            .description("probability/confidence of the road being a tunnel"))
+.add_field(FieldSchema::new().name("is_highway").data_type(DataType::Bool)
+            .description("whether the road is a highway"))
+.add_field(FieldSchema::new().name("is_highway_yes_rate").data_type(DataType::Float)
+            .description("probability/confidence of the road being a highway"))
+.add_field(FieldSchema::new().name("has_pedestrian").data_type(DataType::Bool)
+            .description("whether there is a pedestrian present"))
+.add_field(FieldSchema::new().name("has_pedestrian_yes_rate").data_type(DataType::Float)
+            .description("probability/confidence of pedestrian presence"))
+.add_field(FieldSchema::new().name("has_carrier_car").data_type(DataType::Bool)
+            .description("whether there is a carrier car present"))
+    ;
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='go'>
+<TabItem value='c++'>
 
-    ```go
-    import (
-        "context"
-        "log"
-        "encoding/json"
-        "fmt"
-    
-        "github.com/milvus-io/milvus/client/v3/entity"
-        "github.com/milvus-io/milvus/client/v3/milvusclient"
-        "github.com/milvus-io/milvus/client/v3/index"
-        "github.com/milvus-io/milvus/client/v3/column"
-    )
-    
-    ctx := context.Background()
-    
-    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: "YOUR_CLUSTER_ENDPOINT",
-        APIKey:  "YOUR_CLUSTER_TOKEN",
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-    
-    // create the schema for the caption struct
-    captionSchema := entity.NewStructSchema().
-        WithField(entity.NewField().WithName("frame_id").WithDataType(entity.FieldTypeInt64).
-            WithDescription("ID of the frame to which the ego vehicle's behavior belongs")).
-        WithField(entity.NewField().WithName("plain_caption").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1024).
-            WithDescription("plain description of the ego vehicle's behaviors")).
-        WithField(entity.NewField().WithName("plain_cap_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(768).
-            WithDescription("vectors for the plain description of the ego vehicle's behaviors")).
-        WithField(entity.NewField().WithName("rich_caption").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1024).
-            WithDescription("rich description of the ego vehicle's behaviors")).
-        WithField(entity.NewField().WithName("rich_cap_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(768).
-            WithDescription("vectors for the rich description of the ego vehicle's behaviors")).
-        WithField(entity.NewField().WithName("risk").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1024).
-            WithDescription("description of the ego vehicle's risks")).
-        WithField(entity.NewField().WithName("risk_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(768).
-            WithDescription("vectors for the description of the ego vehicle's risks")).
-        WithField(entity.NewField().WithName("risk_correct").WithDataType(entity.FieldTypeBool).
-            WithDescription("whether the risk assessment is correct")).
-        WithField(entity.NewField().WithName("risk_yes_rate").WithDataType(entity.FieldTypeFloat).
-            WithDescription("probability/confidence of risk being present")).
-        WithField(entity.NewField().WithName("weather").WithDataType(entity.FieldTypeVarChar).WithMaxLength(50).
-            WithDescription("weather condition")).
-        WithField(entity.NewField().WithName("weather_rate").WithDataType(entity.FieldTypeFloat).
-            WithDescription("probability/confidence of the weather condition")).
-        WithField(entity.NewField().WithName("road").WithDataType(entity.FieldTypeVarChar).WithMaxLength(50).
-            WithDescription("road type")).
-        WithField(entity.NewField().WithName("road_rate").WithDataType(entity.FieldTypeFloat).
-            WithDescription("probability/confidence of the road type")).
-        WithField(entity.NewField().WithName("is_tunnel").WithDataType(entity.FieldTypeBool).
-            WithDescription("whether the road is a tunnel")).
-        WithField(entity.NewField().WithName("is_tunnel_yes_rate").WithDataType(entity.FieldTypeFloat).
-            WithDescription("probability/confidence of the road being a tunnel")).
-        WithField(entity.NewField().WithName("is_highway").WithDataType(entity.FieldTypeBool).
-            WithDescription("whether the road is a highway")).
-        WithField(entity.NewField().WithName("is_highway_yes_rate").WithDataType(entity.FieldTypeFloat).
-            WithDescription("probability/confidence of the road being a highway")).
-        WithField(entity.NewField().WithName("has_pedestrian").WithDataType(entity.FieldTypeBool).
-            WithDescription("whether there is a pedestrian present")).
-        WithField(entity.NewField().WithName("has_pedestrian_yes_rate").WithDataType(entity.FieldTypeFloat).
-            WithDescription("probability/confidence of pedestrian presence")).
-        WithField(entity.NewField().WithName("has_carrier_car").WithDataType(entity.FieldTypeBool).
-            WithDescription("whether there is a carrier car present"))
-    ```
+```cpp
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
 
-    </TabItem>
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
-    <TabItem value='rust'>
+// create the schema for the caption struct
+milvus::StructFieldSchema schema_for_caption;
+schema_for_caption.SetName("captions");
+schema_for_caption.SetDescription("captions for the current video");
+schema_for_caption.SetMaxCapacity(600);
+    schema_for_caption.AddField(milvus::FieldSchema("frame_id", milvus::DataType::INT64, "ID of the frame to which the ego vehicle's behavior belongs"));
+    schema_for_caption.AddField(milvus::FieldSchema("plain_caption", milvus::DataType::VARCHAR, "plain description of the ego vehicle's behaviors").WithMaxLength(1024));
+    schema_for_caption.AddField(milvus::FieldSchema("plain_cap_vector", milvus::DataType::FLOAT_VECTOR, "vectors for the plain description of the ego vehicle's behaviors").WithDimension(768));
+    schema_for_caption.AddField(milvus::FieldSchema("rich_caption", milvus::DataType::VARCHAR, "rich description of the ego vehicle's behaviors").WithMaxLength(1024));
+    schema_for_caption.AddField(milvus::FieldSchema("rich_cap_vector", milvus::DataType::FLOAT_VECTOR, "vectors for the rich description of the ego vehicle's behaviors").WithDimension(768));
+    schema_for_caption.AddField(milvus::FieldSchema("risk", milvus::DataType::VARCHAR, "description of the ego vehicle's risks").WithMaxLength(1024));
+    schema_for_caption.AddField(milvus::FieldSchema("risk_vector", milvus::DataType::FLOAT_VECTOR, "vectors for the description of the ego vehicle's risks").WithDimension(768));
+    schema_for_caption.AddField(milvus::FieldSchema("risk_correct", milvus::DataType::BOOL, "whether the risk assessment is correct"));
+    schema_for_caption.AddField(milvus::FieldSchema("risk_yes_rate", milvus::DataType::FLOAT, "probability/confidence of risk being present"));
+    schema_for_caption.AddField(milvus::FieldSchema("weather", milvus::DataType::VARCHAR, "weather condition").WithMaxLength(50));
+    schema_for_caption.AddField(milvus::FieldSchema("weather_rate", milvus::DataType::FLOAT, "probability/confidence of the weather condition"));
+    schema_for_caption.AddField(milvus::FieldSchema("road", milvus::DataType::VARCHAR, "road type").WithMaxLength(50));
+    schema_for_caption.AddField(milvus::FieldSchema("road_rate", milvus::DataType::FLOAT, "probability/confidence of the road type"));
+    schema_for_caption.AddField(milvus::FieldSchema("is_tunnel", milvus::DataType::BOOL, "whether the road is a tunnel"));
+    schema_for_caption.AddField(milvus::FieldSchema("is_tunnel_yes_rate", milvus::DataType::FLOAT, "probability/confidence of the road being a tunnel"));
+    schema_for_caption.AddField(milvus::FieldSchema("is_highway", milvus::DataType::BOOL, "whether the road is a highway"));
+    schema_for_caption.AddField(milvus::FieldSchema("is_highway_yes_rate", milvus::DataType::FLOAT, "probability/confidence of the road being a highway"));
+    schema_for_caption.AddField(milvus::FieldSchema("has_pedestrian", milvus::DataType::BOOL, "whether there is a pedestrian present"));
+    schema_for_caption.AddField(milvus::FieldSchema("has_pedestrian_yes_rate", milvus::DataType::FLOAT, "probability/confidence of pedestrian presence"));
+    schema_for_caption.AddField(milvus::FieldSchema("has_carrier_car", milvus::DataType::BOOL, "whether there is a carrier car present"));
+```
 
-    ```rust
-    use milvus::v2::prelude::*;
-    use serde_json;
-    
-        let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-        let client = ClientV2::new(&config).await?;
-    
-        // create the schema for the caption struct
-        let caption_schema = StructFieldSchema::new()
-            .name("captions")
-            .description("captions for the current video")
-            .max_capacity(600)
-            .add_field(FieldSchema::new().name("frame_id").data_type(DataType::Int64)
-                .description("ID of the frame to which the ego vehicle's behavior belongs"))
-    .add_field(FieldSchema::new().name("plain_caption").data_type(DataType::VarChar).max_length(1024)
-                .description("plain description of the ego vehicle's behaviors"))
-    .add_field(FieldSchema::new().name("plain_cap_vector").data_type(DataType::FloatVector).dimension(768)
-                .description("vectors for the plain description of the ego vehicle's behaviors"))
-    .add_field(FieldSchema::new().name("rich_caption").data_type(DataType::VarChar).max_length(1024)
-                .description("rich description of the ego vehicle's behaviors"))
-    .add_field(FieldSchema::new().name("rich_cap_vector").data_type(DataType::FloatVector).dimension(768)
-                .description("vectors for the rich description of the ego vehicle's behaviors"))
-    .add_field(FieldSchema::new().name("risk").data_type(DataType::VarChar).max_length(1024)
-                .description("description of the ego vehicle's risks"))
-    .add_field(FieldSchema::new().name("risk_vector").data_type(DataType::FloatVector).dimension(768)
-                .description("vectors for the description of the ego vehicle's risks"))
-    .add_field(FieldSchema::new().name("risk_correct").data_type(DataType::Bool)
-                .description("whether the risk assessment is correct"))
-    .add_field(FieldSchema::new().name("risk_yes_rate").data_type(DataType::Float)
-                .description("probability/confidence of risk being present"))
-    .add_field(FieldSchema::new().name("weather").data_type(DataType::VarChar).max_length(50)
-                .description("weather condition"))
-    .add_field(FieldSchema::new().name("weather_rate").data_type(DataType::Float)
-                .description("probability/confidence of the weather condition"))
-    .add_field(FieldSchema::new().name("road").data_type(DataType::VarChar).max_length(50)
-                .description("road type"))
-    .add_field(FieldSchema::new().name("road_rate").data_type(DataType::Float)
-                .description("probability/confidence of the road type"))
-    .add_field(FieldSchema::new().name("is_tunnel").data_type(DataType::Bool)
-                .description("whether the road is a tunnel"))
-    .add_field(FieldSchema::new().name("is_tunnel_yes_rate").data_type(DataType::Float)
-                .description("probability/confidence of the road being a tunnel"))
-    .add_field(FieldSchema::new().name("is_highway").data_type(DataType::Bool)
-                .description("whether the road is a highway"))
-    .add_field(FieldSchema::new().name("is_highway_yes_rate").data_type(DataType::Float)
-                .description("probability/confidence of the road being a highway"))
-    .add_field(FieldSchema::new().name("has_pedestrian").data_type(DataType::Bool)
-                .description("whether there is a pedestrian present"))
-    .add_field(FieldSchema::new().name("has_pedestrian_yes_rate").data_type(DataType::Float)
-                .description("probability/confidence of pedestrian presence"))
-    .add_field(FieldSchema::new().name("has_carrier_car").data_type(DataType::Bool)
-                .description("whether there is a carrier car present"))
-        ;
-    ```
+</TabItem>
 
-    </TabItem>
+<TabItem value='javascript'>
 
-    <TabItem value='c++'>
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-    ```c++
-    #include "milvus/MilvusClientV2.h"
-    #include <iostream>
-    
-    auto client = milvus::MilvusClientV2::Create();
-    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-    }
-    
-    // create the schema for the caption struct
-    milvus::StructFieldSchema schema_for_caption;
-    schema_for_caption.SetName("captions");
-    schema_for_caption.SetDescription("captions for the current video");
-    schema_for_caption.SetMaxCapacity(600);
-        schema_for_caption.AddField(milvus::FieldSchema("frame_id", milvus::DataType::INT64, "ID of the frame to which the ego vehicle's behavior belongs"));
-        schema_for_caption.AddField(milvus::FieldSchema("plain_caption", milvus::DataType::VARCHAR, "plain description of the ego vehicle's behaviors").WithMaxLength(1024));
-        schema_for_caption.AddField(milvus::FieldSchema("plain_cap_vector", milvus::DataType::FLOAT_VECTOR, "vectors for the plain description of the ego vehicle's behaviors").WithDimension(768));
-        schema_for_caption.AddField(milvus::FieldSchema("rich_caption", milvus::DataType::VARCHAR, "rich description of the ego vehicle's behaviors").WithMaxLength(1024));
-        schema_for_caption.AddField(milvus::FieldSchema("rich_cap_vector", milvus::DataType::FLOAT_VECTOR, "vectors for the rich description of the ego vehicle's behaviors").WithDimension(768));
-        schema_for_caption.AddField(milvus::FieldSchema("risk", milvus::DataType::VARCHAR, "description of the ego vehicle's risks").WithMaxLength(1024));
-        schema_for_caption.AddField(milvus::FieldSchema("risk_vector", milvus::DataType::FLOAT_VECTOR, "vectors for the description of the ego vehicle's risks").WithDimension(768));
-        schema_for_caption.AddField(milvus::FieldSchema("risk_correct", milvus::DataType::BOOL, "whether the risk assessment is correct"));
-        schema_for_caption.AddField(milvus::FieldSchema("risk_yes_rate", milvus::DataType::FLOAT, "probability/confidence of risk being present"));
-        schema_for_caption.AddField(milvus::FieldSchema("weather", milvus::DataType::VARCHAR, "weather condition").WithMaxLength(50));
-        schema_for_caption.AddField(milvus::FieldSchema("weather_rate", milvus::DataType::FLOAT, "probability/confidence of the weather condition"));
-        schema_for_caption.AddField(milvus::FieldSchema("road", milvus::DataType::VARCHAR, "road type").WithMaxLength(50));
-        schema_for_caption.AddField(milvus::FieldSchema("road_rate", milvus::DataType::FLOAT, "probability/confidence of the road type"));
-        schema_for_caption.AddField(milvus::FieldSchema("is_tunnel", milvus::DataType::BOOL, "whether the road is a tunnel"));
-        schema_for_caption.AddField(milvus::FieldSchema("is_tunnel_yes_rate", milvus::DataType::FLOAT, "probability/confidence of the road being a tunnel"));
-        schema_for_caption.AddField(milvus::FieldSchema("is_highway", milvus::DataType::BOOL, "whether the road is a highway"));
-        schema_for_caption.AddField(milvus::FieldSchema("is_highway_yes_rate", milvus::DataType::FLOAT, "probability/confidence of the road being a highway"));
-        schema_for_caption.AddField(milvus::FieldSchema("has_pedestrian", milvus::DataType::BOOL, "whether there is a pedestrian present"));
-        schema_for_caption.AddField(milvus::FieldSchema("has_pedestrian_yes_rate", milvus::DataType::FLOAT, "probability/confidence of pedestrian presence"));
-        schema_for_caption.AddField(milvus::FieldSchema("has_carrier_car", milvus::DataType::BOOL, "whether there is a carrier car present"));
-    ```
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
 
-    </TabItem>
+// create the schema for the caption struct
+const captionStructFields = [
+    { name: "frame_id", data_type: DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs" },
+    { name: "plain_caption", data_type: DataType.VarChar, max_length: 1024, description: "plain description of the ego vehicle's behaviors" },
+    { name: "plain_cap_vector", data_type: DataType.FloatVector, dim: 768, description: "vectors for the plain description of the ego vehicle's behaviors" },
+    { name: "rich_caption", data_type: DataType.VarChar, max_length: 1024, description: "rich description of the ego vehicle's behaviors" },
+    { name: "rich_cap_vector", data_type: DataType.FloatVector, dim: 768, description: "vectors for the rich description of the ego vehicle's behaviors" },
+    { name: "risk", data_type: DataType.VarChar, max_length: 1024, description: "description of the ego vehicle's risks" },
+    { name: "risk_vector", data_type: DataType.FloatVector, dim: 768, description: "vectors for the description of the ego vehicle's risks" },
+    { name: "risk_correct", data_type: DataType.Bool, description: "whether the risk assessment is correct" },
+    { name: "risk_yes_rate", data_type: DataType.Float, description: "probability/confidence of risk being present" },
+    { name: "weather", data_type: DataType.VarChar, max_length: 50, description: "weather condition" },
+    { name: "weather_rate", data_type: DataType.Float, description: "probability/confidence of the weather condition" },
+    { name: "road", data_type: DataType.VarChar, max_length: 50, description: "road type" },
+    { name: "road_rate", data_type: DataType.Float, description: "probability/confidence of the road type" },
+    { name: "is_tunnel", data_type: DataType.Bool, description: "whether the road is a tunnel" },
+    { name: "is_tunnel_yes_rate", data_type: DataType.Float, description: "probability/confidence of the road being a tunnel" },
+    { name: "is_highway", data_type: DataType.Bool, description: "whether the road is a highway" },
+    { name: "is_highway_yes_rate", data_type: DataType.Float, description: "probability/confidence of the road being a highway" },
+    { name: "has_pedestrian", data_type: DataType.Bool, description: "whether there is a pedestrian present" },
+    { name: "has_pedestrian_yes_rate", data_type: DataType.Float, description: "probability/confidence of pedestrian presence" },
+    { name: "has_carrier_car", data_type: DataType.Bool, description: "whether there is a carrier car present" },
+];
+```
 
-    <TabItem value='javascript'>
+</TabItem>
 
-    ```javascript
-    import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-    
-    const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
-    
-    // create the schema for the caption struct
-    const captionStructFields = [
-        { name: "frame_id", data_type: DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs" },
-        { name: "plain_caption", data_type: DataType.VarChar, max_length: 1024, description: "plain description of the ego vehicle's behaviors" },
-        { name: "plain_cap_vector", data_type: DataType.FloatVector, dim: 768, description: "vectors for the plain description of the ego vehicle's behaviors" },
-        { name: "rich_caption", data_type: DataType.VarChar, max_length: 1024, description: "rich description of the ego vehicle's behaviors" },
-        { name: "rich_cap_vector", data_type: DataType.FloatVector, dim: 768, description: "vectors for the rich description of the ego vehicle's behaviors" },
-        { name: "risk", data_type: DataType.VarChar, max_length: 1024, description: "description of the ego vehicle's risks" },
-        { name: "risk_vector", data_type: DataType.FloatVector, dim: 768, description: "vectors for the description of the ego vehicle's risks" },
-        { name: "risk_correct", data_type: DataType.Bool, description: "whether the risk assessment is correct" },
-        { name: "risk_yes_rate", data_type: DataType.Float, description: "probability/confidence of risk being present" },
-        { name: "weather", data_type: DataType.VarChar, max_length: 50, description: "weather condition" },
-        { name: "weather_rate", data_type: DataType.Float, description: "probability/confidence of the weather condition" },
-        { name: "road", data_type: DataType.VarChar, max_length: 50, description: "road type" },
-        { name: "road_rate", data_type: DataType.Float, description: "probability/confidence of the road type" },
-        { name: "is_tunnel", data_type: DataType.Bool, description: "whether the road is a tunnel" },
-        { name: "is_tunnel_yes_rate", data_type: DataType.Float, description: "probability/confidence of the road being a tunnel" },
-        { name: "is_highway", data_type: DataType.Bool, description: "whether the road is a highway" },
-        { name: "is_highway_yes_rate", data_type: DataType.Float, description: "probability/confidence of the road being a highway" },
-        { name: "has_pedestrian", data_type: DataType.Bool, description: "whether there is a pedestrian present" },
-        { name: "has_pedestrian_yes_rate", data_type: DataType.Float, description: "probability/confidence of pedestrian presence" },
-        { name: "has_carrier_car", data_type: DataType.Bool, description: "whether there is a carrier car present" },
-    ];
-    ```
+<TabItem value='csharp'>
 
-    </TabItem>
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Milvus.Client.V2;
+using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
 
-    <TabItem value='csharp'>
+using var client = new MilvusClientV2(new ConnectConfig
+{
+    Uri = "YOUR_CLUSTER_ENDPOINT",
+    ApiKey = "YOUR_CLUSTER_TOKEN"
+});
+await client.ConnectAsync();
 
-    ```csharp
-    // create the schema for the caption struct
-    var schemaForCaption = new StructFieldSchema("captions", "captions for the current video")
+var schemaForCaption = new StructFieldSchema("captions", "captions for the current video")
+{
+    MaxCapacity = 600
+};
+schemaForCaption.Fields.Add(new FieldSchema("frame_id", DataType.Int64));
+schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("plain_caption", 1024));
+schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("rich_caption", 1024));
+schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("risk", 1024));
+schemaForCaption.Fields.Add(FieldSchema.CreateFloatVector("plain_cap_vector", dimension: 768));
+schemaForCaption.Fields.Add(FieldSchema.CreateFloatVector("rich_cap_vector", dimension: 768));
+schemaForCaption.Fields.Add(FieldSchema.CreateFloatVector("risk_vector", dimension: 768));
+schemaForCaption.Fields.Add(new FieldSchema("risk_correct", DataType.Bool));
+schemaForCaption.Fields.Add(new FieldSchema("is_tunnel", DataType.Bool));
+schemaForCaption.Fields.Add(new FieldSchema("is_highway", DataType.Bool));
+schemaForCaption.Fields.Add(new FieldSchema("has_pedestrian", DataType.Bool));
+schemaForCaption.Fields.Add(new FieldSchema("has_carrier_car", DataType.Bool));
+schemaForCaption.Fields.Add(new FieldSchema("risk_yes_rate", DataType.Float));
+schemaForCaption.Fields.Add(new FieldSchema("weather_rate", DataType.Float));
+schemaForCaption.Fields.Add(new FieldSchema("road_rate", DataType.Float));
+schemaForCaption.Fields.Add(new FieldSchema("is_tunnel_yes_rate", DataType.Float));
+schemaForCaption.Fields.Add(new FieldSchema("is_highway_yes_rate", DataType.Float));
+schemaForCaption.Fields.Add(new FieldSchema("has_pedestrian_yes_rate", DataType.Float));
+schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("weather", 50));
+schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("road", 50));
+```
+
+</TabItem>
+
+</Tabs>
+
+Front Car Struct のスキーマを初期化します。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+先行車にベクトル埋め込みは含まれませんが、データサイズが JSON フィールドの最大値を超えるため、Struct の配列として含める必要があります。
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
+<TabItem value='python'>
+
+```python
+schema_for_front_car = client.create_struct_field_schema()
+
+schema_for_front_car.add_field(
+    field_name="frame_id",
+    datatype=DataType.INT64,
+    description="ID of the frame to which the ego vehicle's behavior belongs"
+)
+
+schema_for_front_car.add_field(
+    field_name="has_lead",
+    datatype=DataType.BOOL,
+    description="whether there is a leading vehicle"
+)
+
+schema_for_front_car.add_field(
+    field_name="lead_prob",
+    datatype=DataType.FLOAT,
+    description="probability/confidence of the leading vehicle's presence"
+)
+
+schema_for_front_car.add_field(
+    field_name="lead_x",
+    datatype=DataType.FLOAT,
+    description="x position of the leading vehicle relative to the ego vehicle"
+)
+
+schema_for_front_car.add_field(
+    field_name="lead_y",
+    datatype=DataType.FLOAT,
+    description="y position of the leading vehicle relative to the ego vehicle"
+)
+
+schema_for_front_car.add_field(
+    field_name="lead_speed_kmh",
+    datatype=DataType.FLOAT,
+    description="speed of the leading vehicle in km/h"
+)
+
+schema_for_front_car.add_field(
+    field_name="lead_a",
+    datatype=DataType.FLOAT,
+    description="acceleration of the leading vehicle"
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// create the schema for the front car struct
+CreateCollectionReq.StructFieldSchema schemaForFrontCar = CreateCollectionReq.StructFieldSchema.builder()
+        .name("front_cars")
+        .description("frame-specific leading cars identified in the current video")
+        .maxCapacity(600)
+        .fields(Arrays.asList(
+                CreateCollectionReq.FieldSchema.builder().name("frame_id").dataType(DataType.Int64)
+                        .description("ID of the frame to which the ego vehicle's behavior belongs").build(),
+                CreateCollectionReq.FieldSchema.builder().name("has_lead").dataType(DataType.Bool)
+                        .description("whether there is a leading vehicle").build(),
+                CreateCollectionReq.FieldSchema.builder().name("lead_prob").dataType(DataType.Float)
+                        .description("probability/confidence of the leading vehicle's presence").build(),
+                CreateCollectionReq.FieldSchema.builder().name("lead_x").dataType(DataType.Float)
+                        .description("x position of the leading vehicle relative to the ego vehicle").build(),
+                CreateCollectionReq.FieldSchema.builder().name("lead_y").dataType(DataType.Float)
+                        .description("y position of the leading vehicle relative to the ego vehicle").build(),
+                CreateCollectionReq.FieldSchema.builder().name("lead_speed_kmh").dataType(DataType.Float)
+                        .description("speed of the leading vehicle in km/h").build(),
+                CreateCollectionReq.FieldSchema.builder().name("lead_a").dataType(DataType.Float)
+                        .description("acceleration of the leading vehicle").build()
+        ))
+        .build();
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// create the schema for the front car struct
+frontCarSchema := entity.NewStructSchema().
+    WithField(entity.NewField().WithName("frame_id").WithDataType(entity.FieldTypeInt64).
+        WithDescription("ID of the frame to which the ego vehicle's behavior belongs")).
+    WithField(entity.NewField().WithName("has_lead").WithDataType(entity.FieldTypeBool).
+        WithDescription("whether there is a leading vehicle")).
+    WithField(entity.NewField().WithName("lead_prob").WithDataType(entity.FieldTypeFloat).
+        WithDescription("probability/confidence of the leading vehicle's presence")).
+    WithField(entity.NewField().WithName("lead_x").WithDataType(entity.FieldTypeFloat).
+        WithDescription("x position of the leading vehicle relative to the ego vehicle")).
+    WithField(entity.NewField().WithName("lead_y").WithDataType(entity.FieldTypeFloat).
+        WithDescription("y position of the leading vehicle relative to the ego vehicle")).
+    WithField(entity.NewField().WithName("lead_speed_kmh").WithDataType(entity.FieldTypeFloat).
+        WithDescription("speed of the leading vehicle in km/h")).
+    WithField(entity.NewField().WithName("lead_a").WithDataType(entity.FieldTypeFloat).
+        WithDescription("acceleration of the leading vehicle"))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// create the schema for the front car struct
+    let front_car_schema = StructFieldSchema::new()
+        .name("front_cars")
+        .description("frame-specific leading cars identified in the current video")
+        .max_capacity(600)
+        .add_field(FieldSchema::new().name("frame_id").data_type(DataType::Int64)
+            .description("ID of the frame to which the ego vehicle's behavior belongs"))
+.add_field(FieldSchema::new().name("has_lead").data_type(DataType::Bool)
+            .description("whether there is a leading vehicle"))
+.add_field(FieldSchema::new().name("lead_prob").data_type(DataType::Float)
+            .description("probability/confidence of the leading vehicle's presence"))
+.add_field(FieldSchema::new().name("lead_x").data_type(DataType::Float)
+            .description("x position of the leading vehicle relative to the ego vehicle"))
+.add_field(FieldSchema::new().name("lead_y").data_type(DataType::Float)
+            .description("y position of the leading vehicle relative to the ego vehicle"))
+.add_field(FieldSchema::new().name("lead_speed_kmh").data_type(DataType::Float)
+            .description("speed of the leading vehicle in km/h"))
+.add_field(FieldSchema::new().name("lead_a").data_type(DataType::Float)
+            .description("acceleration of the leading vehicle"))
+    ;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+// create the schema for the front car struct
+milvus::StructFieldSchema schema_for_front_car;
+schema_for_front_car.SetName("front_cars");
+schema_for_front_car.SetDescription("frame-specific leading cars identified in the current video");
+schema_for_front_car.SetMaxCapacity(600);
+    schema_for_front_car.AddField(milvus::FieldSchema("frame_id", milvus::DataType::INT64, "ID of the frame to which the ego vehicle's behavior belongs"));
+    schema_for_front_car.AddField(milvus::FieldSchema("has_lead", milvus::DataType::BOOL, "whether there is a leading vehicle"));
+    schema_for_front_car.AddField(milvus::FieldSchema("lead_prob", milvus::DataType::FLOAT, "probability/confidence of the leading vehicle's presence"));
+    schema_for_front_car.AddField(milvus::FieldSchema("lead_x", milvus::DataType::FLOAT, "x position of the leading vehicle relative to the ego vehicle"));
+    schema_for_front_car.AddField(milvus::FieldSchema("lead_y", milvus::DataType::FLOAT, "y position of the leading vehicle relative to the ego vehicle"));
+    schema_for_front_car.AddField(milvus::FieldSchema("lead_speed_kmh", milvus::DataType::FLOAT, "speed of the leading vehicle in km/h"));
+    schema_for_front_car.AddField(milvus::FieldSchema("lead_a", milvus::DataType::FLOAT, "acceleration of the leading vehicle"));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// create the schema for the front car struct
+const frontCarStructFields = [
+    { name: "frame_id", data_type: DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs" },
+    { name: "has_lead", data_type: DataType.Bool, description: "whether there is a leading vehicle" },
+    { name: "lead_prob", data_type: DataType.Float, description: "probability/confidence of the leading vehicle's presence" },
+    { name: "lead_x", data_type: DataType.Float, description: "x position of the leading vehicle relative to the ego vehicle" },
+    { name: "lead_y", data_type: DataType.Float, description: "y position of the leading vehicle relative to the ego vehicle" },
+    { name: "lead_speed_kmh", data_type: DataType.Float, description: "speed of the leading vehicle in km/h" },
+    { name: "lead_a", data_type: DataType.Float, description: "acceleration of the leading vehicle" },
+];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+// create the schema for the front car struct
+var schemaForFrontCar = new StructFieldSchema("front_cars", "frame-specific leading cars identified in the current video")
+{
+    MaxCapacity = 600
+};
+schemaForFrontCar.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
+schemaForFrontCar.Fields.Add(new FieldSchema("has_lead", DataType.Bool, description: "whether there is a leading vehicle"));
+schemaForFrontCar.Fields.Add(new FieldSchema("lead_prob", DataType.Float, description: "probability/confidence of the leading vehicle's presence"));
+schemaForFrontCar.Fields.Add(new FieldSchema("lead_x", DataType.Float));
+schemaForFrontCar.Fields.Add(new FieldSchema("lead_y", DataType.Float));
+schemaForFrontCar.Fields.Add(new FieldSchema("lead_speed_kmh", DataType.Float));
+schemaForFrontCar.Fields.Add(new FieldSchema("lead_a", DataType.Float));
+```
+
+</TabItem>
+
+</Tabs>
+
+コレクションのスキーマを初期化します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
+<TabItem value='python'>
+
+```python
+schema = client.create_schema()
+
+schema.add_field(
+    field_name="video_id",
+    datatype=DataType.VARCHAR,
+    description="primary key",
+    max_length=16,
+    is_primary=True,
+    auto_id=False
+)
+
+schema.add_field(
+    field_name="video_url",
+    datatype=DataType.VARCHAR,
+    max_length=512,
+    description="URL of the video"
+)
+
+schema.add_field(
+    field_name="captions",
+    datatype=DataType.ARRAY,
+    element_type=DataType.STRUCT,
+    struct_schema=schema_for_caption,
+    max_capacity=600,
+    description="captions for the current video"
+)
+
+schema.add_field(
+    field_name="traffic_lights",
+    datatype=DataType.JSON,
+    description="frame-specific traffic lights identified in the current video"
+)
+
+schema.add_field(
+    field_name="front_cars",
+    datatype=DataType.ARRAY,
+    element_type=DataType.STRUCT,
+    struct_schema=schema_for_front_car,
+    max_capacity=600,
+    description="frame-specific leading cars identified in the current video"
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
+        .fieldSchemaList(Arrays.asList(
+                CreateCollectionReq.FieldSchema.builder().name("video_id").dataType(DataType.VarChar)
+                        .description("primary key").maxLength(16).isPrimaryKey(true).autoID(false).build(),
+                CreateCollectionReq.FieldSchema.builder().name("video_url").dataType(DataType.VarChar)
+                        .description("URL of the video").maxLength(512).build(),
+                CreateCollectionReq.FieldSchema.builder().name("traffic_lights").dataType(DataType.JSON)
+                        .description("frame-specific traffic lights identified in the current video").build()))
+        .structFields(Arrays.asList(schemaForCaption, schemaForFrontCar))
+        .build();
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+schema := entity.NewSchema().
+    WithField(entity.NewField().WithName("video_id").WithDataType(entity.FieldTypeVarChar).WithMaxLength(16).
+        WithIsPrimaryKey(true).WithIsAutoID(false).WithDescription("primary key")).
+    WithField(entity.NewField().WithName("video_url").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512).
+        WithDescription("URL of the video")).
+    WithField(entity.NewField().WithName("captions").
+        WithDataType(entity.FieldTypeArray).
+        WithElementType(entity.FieldTypeStruct).
+        WithMaxCapacity(600).
+        WithStructSchema(captionSchema).
+        WithDescription("captions for the current video")).
+    WithField(entity.NewField().WithName("traffic_lights").WithDataType(entity.FieldTypeJSON).
+        WithDescription("frame-specific traffic lights identified in the current video")).
+    WithField(entity.NewField().WithName("front_cars").
+        WithDataType(entity.FieldTypeArray).
+        WithElementType(entity.FieldTypeStruct).
+        WithMaxCapacity(600).
+        WithStructSchema(frontCarSchema).
+        WithDescription("frame-specific leading cars identified in the current video"))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("video_id").data_type(DataType::VarChar).max_length(16)
+        .primary_key(true).auto_id(false).description("primary key"))
+    .add_field(FieldSchema::new().name("video_url").data_type(DataType::VarChar).max_length(512)
+        .description("URL of the video"))
+    .add_struct_field(caption_schema)
+    .add_field(FieldSchema::new().name("traffic_lights").data_type(DataType::Json)
+        .description("frame-specific traffic lights identified in the current video"))
+    .add_struct_field(front_car_schema);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+milvus::CollectionSchema schema;
+schema.AddField(milvus::FieldSchema("video_id", milvus::DataType::VARCHAR,
+    "primary key", true, false).WithMaxLength(16));
+schema.AddField(milvus::FieldSchema("video_url", milvus::DataType::VARCHAR,
+    "URL of the video").WithMaxLength(512));
+schema.AddStructField(schema_for_caption);
+schema.AddField(milvus::FieldSchema("traffic_lights", milvus::DataType::JSON,
+    "frame-specific traffic lights identified in the current video"));
+schema.AddStructField(schema_for_front_car);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const schema = [
+    { name: "video_id", data_type: DataType.VarChar, is_primary_key: true, autoID: false,
+      max_length: 16, description: "primary key" },
+    { name: "video_url", data_type: DataType.VarChar,
+      max_length: 512, description: "URL of the video" },
+    { name: "captions", data_type: DataType.Array, element_type: DataType.Struct, max_capacity: 600,
+      fields: captionStructFields, description: "captions for the current video" },
+    { name: "traffic_lights", data_type: DataType.JSON,
+      description: "frame-specific traffic lights identified in the current video" },
+    { name: "front_cars", data_type: DataType.Array, element_type: DataType.Struct, max_capacity: 600,
+      fields: frontCarStructFields, description: "frame-specific leading cars identified in the current video" },
+];
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+var schema = new CollectionSchema
+{
+    Fields =
     {
-        MaxCapacity = 600
-    };
-    schemaForCaption.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
-    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("plain_caption", 1024, description: "plain description of the ego vehicle's behavior"));
-    schemaForCaption.Fields.Add(new FieldSchema("plain_cap_vector", DataType.FloatVector) { Dimension = 768 });
-    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("rich_caption", 2048));
-    schemaForCaption.Fields.Add(new FieldSchema("rich_cap_vector", DataType.FloatVector) { Dimension = 768 });
-    schemaForCaption.Fields.Add(FieldSchema.CreateVarchar("risk", 512));
-    schemaForCaption.Fields.Add(new FieldSchema("risk_vector", DataType.FloatVector) { Dimension = 768 });
-    ```
+        FieldSchema.CreateVarchar("video_id", 16, isPrimaryKey: true, description: "primary key"),
+        FieldSchema.CreateVarchar("video_url", 512, description: "URL of the video"),
+        new FieldSchema("traffic_lights", DataType.Json, description: "frame-specific traffic lights identified in the current video")
+    },
+    StructFields = { schemaForCaption, schemaForFrontCar }
+};
+```
 
-    </TabItem>
+</TabItem>
 
-    <TabItem value='bash'>
-
-    ```bash
-    # Note: The RESTful API does not support Array-of-Struct fields as of Milvus v3.0.x.
-    ```
-
-    </TabItem>
-    </Tabs>
-
-- Front Car Struct のスキーマを初期化します。
-
-    <Admonition type="info" title="Notes">
-
-    先行車にベクトル埋め込みは含まれませんが、データサイズが JSON フィールドの最大値を超えるため、Struct の配列として含める必要があります。
-
-    </Admonition>
-
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
-    <TabItem value='python'>
-
-    ```python
-    schema_for_front_car = client.create_struct_field_schema()
-    
-    schema_for_front_car.add_field(
-        field_name="frame_id",
-        datatype=DataType.INT64,
-        description="ID of the frame to which the ego vehicle's behavior belongs"
-    )
-    
-    schema_for_front_car.add_field(
-        field_name="has_lead",
-        datatype=DataType.BOOL,
-        description="whether there is a leading vehicle"
-    )
-    
-    schema_for_front_car.add_field(
-        field_name="lead_prob",
-        datatype=DataType.FLOAT,
-        description="probability/confidence of the leading vehicle's presence"
-    )
-    
-    schema_for_front_car.add_field(
-        field_name="lead_x",
-        datatype=DataType.FLOAT,
-        description="x position of the leading vehicle relative to the ego vehicle"
-    )
-    
-    schema_for_front_car.add_field(
-        field_name="lead_y",
-        datatype=DataType.FLOAT,
-        description="y position of the leading vehicle relative to the ego vehicle"
-    )
-    
-    schema_for_front_car.add_field(
-        field_name="lead_speed_kmh",
-        datatype=DataType.FLOAT,
-        description="speed of the leading vehicle in km/h"
-    )
-    
-    schema_for_front_car.add_field(
-        field_name="lead_a",
-        datatype=DataType.FLOAT,
-        description="acceleration of the leading vehicle"
-    )
-    ```
-
-    </TabItem>
-
-    <TabItem value='java'>
-
-    ```java
-    // create the schema for the front car struct
-    CreateCollectionReq.StructFieldSchema schemaForFrontCar = CreateCollectionReq.StructFieldSchema.builder()
-            .name("front_cars")
-            .description("frame-specific leading cars identified in the current video")
-            .maxCapacity(600)
-            .fields(Arrays.asList(
-                    CreateCollectionReq.FieldSchema.builder().name("frame_id").dataType(DataType.Int64)
-                            .description("ID of the frame to which the ego vehicle's behavior belongs").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("has_lead").dataType(DataType.Bool)
-                            .description("whether there is a leading vehicle").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("lead_prob").dataType(DataType.Float)
-                            .description("probability/confidence of the leading vehicle's presence").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("lead_x").dataType(DataType.Float)
-                            .description("x position of the leading vehicle relative to the ego vehicle").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("lead_y").dataType(DataType.Float)
-                            .description("y position of the leading vehicle relative to the ego vehicle").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("lead_speed_kmh").dataType(DataType.Float)
-                            .description("speed of the leading vehicle in km/h").build(),
-                    CreateCollectionReq.FieldSchema.builder().name("lead_a").dataType(DataType.Float)
-                            .description("acceleration of the leading vehicle").build()
-            ))
-            .build();
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    // create the schema for the front car struct
-    frontCarSchema := entity.NewStructSchema().
-        WithField(entity.NewField().WithName("frame_id").WithDataType(entity.FieldTypeInt64).
-            WithDescription("ID of the frame to which the ego vehicle's behavior belongs")).
-        WithField(entity.NewField().WithName("has_lead").WithDataType(entity.FieldTypeBool).
-            WithDescription("whether there is a leading vehicle")).
-        WithField(entity.NewField().WithName("lead_prob").WithDataType(entity.FieldTypeFloat).
-            WithDescription("probability/confidence of the leading vehicle's presence")).
-        WithField(entity.NewField().WithName("lead_x").WithDataType(entity.FieldTypeFloat).
-            WithDescription("x position of the leading vehicle relative to the ego vehicle")).
-        WithField(entity.NewField().WithName("lead_y").WithDataType(entity.FieldTypeFloat).
-            WithDescription("y position of the leading vehicle relative to the ego vehicle")).
-        WithField(entity.NewField().WithName("lead_speed_kmh").WithDataType(entity.FieldTypeFloat).
-            WithDescription("speed of the leading vehicle in km/h")).
-        WithField(entity.NewField().WithName("lead_a").WithDataType(entity.FieldTypeFloat).
-            WithDescription("acceleration of the leading vehicle"))
-    ```
-
-    </TabItem>
-
-    <TabItem value='rust'>
-
-    ```rust
-        // create the schema for the front car struct
-        let front_car_schema = StructFieldSchema::new()
-            .name("front_cars")
-            .description("frame-specific leading cars identified in the current video")
-            .max_capacity(600)
-            .add_field(FieldSchema::new().name("frame_id").data_type(DataType::Int64)
-                .description("ID of the frame to which the ego vehicle's behavior belongs"))
-    .add_field(FieldSchema::new().name("has_lead").data_type(DataType::Bool)
-                .description("whether there is a leading vehicle"))
-    .add_field(FieldSchema::new().name("lead_prob").data_type(DataType::Float)
-                .description("probability/confidence of the leading vehicle's presence"))
-    .add_field(FieldSchema::new().name("lead_x").data_type(DataType::Float)
-                .description("x position of the leading vehicle relative to the ego vehicle"))
-    .add_field(FieldSchema::new().name("lead_y").data_type(DataType::Float)
-                .description("y position of the leading vehicle relative to the ego vehicle"))
-    .add_field(FieldSchema::new().name("lead_speed_kmh").data_type(DataType::Float)
-                .description("speed of the leading vehicle in km/h"))
-    .add_field(FieldSchema::new().name("lead_a").data_type(DataType::Float)
-                .description("acceleration of the leading vehicle"))
-        ;
-    ```
-
-    </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    // create the schema for the front car struct
-    milvus::StructFieldSchema schema_for_front_car;
-    schema_for_front_car.SetName("front_cars");
-    schema_for_front_car.SetDescription("frame-specific leading cars identified in the current video");
-    schema_for_front_car.SetMaxCapacity(600);
-        schema_for_front_car.AddField(milvus::FieldSchema("frame_id", milvus::DataType::INT64, "ID of the frame to which the ego vehicle's behavior belongs"));
-        schema_for_front_car.AddField(milvus::FieldSchema("has_lead", milvus::DataType::BOOL, "whether there is a leading vehicle"));
-        schema_for_front_car.AddField(milvus::FieldSchema("lead_prob", milvus::DataType::FLOAT, "probability/confidence of the leading vehicle's presence"));
-        schema_for_front_car.AddField(milvus::FieldSchema("lead_x", milvus::DataType::FLOAT, "x position of the leading vehicle relative to the ego vehicle"));
-        schema_for_front_car.AddField(milvus::FieldSchema("lead_y", milvus::DataType::FLOAT, "y position of the leading vehicle relative to the ego vehicle"));
-        schema_for_front_car.AddField(milvus::FieldSchema("lead_speed_kmh", milvus::DataType::FLOAT, "speed of the leading vehicle in km/h"));
-        schema_for_front_car.AddField(milvus::FieldSchema("lead_a", milvus::DataType::FLOAT, "acceleration of the leading vehicle"));
-    ```
-
-    </TabItem>
-
-    <TabItem value='javascript'>
-
-    ```javascript
-    // create the schema for the front car struct
-    const frontCarStructFields = [
-        { name: "frame_id", data_type: DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs" },
-        { name: "has_lead", data_type: DataType.Bool, description: "whether there is a leading vehicle" },
-        { name: "lead_prob", data_type: DataType.Float, description: "probability/confidence of the leading vehicle's presence" },
-        { name: "lead_x", data_type: DataType.Float, description: "x position of the leading vehicle relative to the ego vehicle" },
-        { name: "lead_y", data_type: DataType.Float, description: "y position of the leading vehicle relative to the ego vehicle" },
-        { name: "lead_speed_kmh", data_type: DataType.Float, description: "speed of the leading vehicle in km/h" },
-        { name: "lead_a", data_type: DataType.Float, description: "acceleration of the leading vehicle" },
-    ];
-    ```
-
-    </TabItem>
-
-    <TabItem value='csharp'>
-
-    ```csharp
-    // create the schema for the front car struct
-    var schemaForFrontCar = new StructFieldSchema("front_cars", "frame-specific leading cars identified in the current video")
-    {
-        MaxCapacity = 600
-    };
-    schemaForFrontCar.Fields.Add(new FieldSchema("frame_id", DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs"));
-    schemaForFrontCar.Fields.Add(new FieldSchema("has_lead", DataType.Bool, description: "whether there is a leading vehicle"));
-    schemaForFrontCar.Fields.Add(new FieldSchema("lead_prob", DataType.Float, description: "probability/confidence of the leading vehicle's presence"));
-    schemaForFrontCar.Fields.Add(new FieldSchema("distance", DataType.Float, description: "distance to the leading vehicle"));
-    ```
-
-    </TabItem>
-
-    <TabItem value='bash'>
-
-    ```bash
-    # Note: The RESTful API does not support Array-of-Struct fields as of Milvus v3.0.x.
-    ```
-
-    </TabItem>
-    </Tabs>
-
-- コレクションのスキーマを初期化します。
-
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
-    <TabItem value='python'>
-
-    ```python
-    schema = client.create_schema()
-    
-    schema.add_field(
-        field_name="video_id",
-        datatype=DataType.VARCHAR,
-        description="primary key",
-        max_length=16,
-        is_primary=True,
-        auto_id=False
-    )
-    
-    schema.add_field(
-        field_name="video_url",
-        datatype=DataType.VARCHAR,
-        max_length=512,
-        description="URL of the video"
-    )
-    
-    schema.add_field(
-        field_name="captions",
-        datatype=DataType.ARRAY,
-        element_type=DataType.STRUCT,
-        struct_schema=schema_for_caption,
-        max_capacity=600,
-        description="captions for the current video"
-    )
-    
-    schema.add_field(
-        field_name="traffic_lights",
-        datatype=DataType.JSON,
-        description="frame-specific traffic lights identified in the current video"
-    )
-    
-    schema.add_field(
-        field_name="front_cars",
-        datatype=DataType.ARRAY,
-        element_type=DataType.STRUCT,
-        struct_schema=schema_for_front_car,
-        max_capacity=600,
-        description="frame-specific leading cars identified in the current video"
-    )
-    ```
-
-    </TabItem>
-
-    <TabItem value='java'>
-
-    ```java
-    CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
-            .fieldSchemaList(Arrays.asList(
-                    CreateCollectionReq.FieldSchema.builder().name("video_id").dataType(DataType.VarChar)
-                            .description("primary key").maxLength(16).isPrimaryKey(true).autoID(false).build(),
-                    CreateCollectionReq.FieldSchema.builder().name("video_url").dataType(DataType.VarChar)
-                            .description("URL of the video").maxLength(512).build(),
-                    CreateCollectionReq.FieldSchema.builder().name("traffic_lights").dataType(DataType.JSON)
-                            .description("frame-specific traffic lights identified in the current video").build()))
-            .structFields(Arrays.asList(schemaForCaption, schemaForFrontCar))
-            .build();
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    schema := entity.NewSchema().
-        WithField(entity.NewField().WithName("video_id").WithDataType(entity.FieldTypeVarChar).WithMaxLength(16).
-            WithIsPrimaryKey(true).WithIsAutoID(false).WithDescription("primary key")).
-        WithField(entity.NewField().WithName("video_url").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512).
-            WithDescription("URL of the video")).
-        WithField(entity.NewField().WithName("captions").
-            WithDataType(entity.FieldTypeArray).
-            WithElementType(entity.FieldTypeStruct).
-            WithMaxCapacity(600).
-            WithStructSchema(captionSchema).
-            WithDescription("captions for the current video")).
-        WithField(entity.NewField().WithName("traffic_lights").WithDataType(entity.FieldTypeJSON).
-            WithDescription("frame-specific traffic lights identified in the current video")).
-        WithField(entity.NewField().WithName("front_cars").
-            WithDataType(entity.FieldTypeArray).
-            WithElementType(entity.FieldTypeStruct).
-            WithMaxCapacity(600).
-            WithStructSchema(frontCarSchema).
-            WithDescription("frame-specific leading cars identified in the current video"))
-    ```
-
-    </TabItem>
-
-    <TabItem value='rust'>
-
-    ```rust
-    let schema = CollectionSchema::new()
-        .add_field(FieldSchema::new().name("video_id").data_type(DataType::VarChar).max_length(16)
-            .primary_key(true).auto_id(false).description("primary key"))
-        .add_field(FieldSchema::new().name("video_url").data_type(DataType::VarChar).max_length(512)
-            .description("URL of the video"))
-        .add_struct_field(caption_schema)
-        .add_field(FieldSchema::new().name("traffic_lights").data_type(DataType::Json)
-            .description("frame-specific traffic lights identified in the current video"))
-        .add_struct_field(front_car_schema);
-    ```
-
-    </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    milvus::CollectionSchema schema;
-    schema.AddField(milvus::FieldSchema("video_id", milvus::DataType::VARCHAR,
-        "primary key", true, false).WithMaxLength(16));
-    schema.AddField(milvus::FieldSchema("video_url", milvus::DataType::VARCHAR,
-        "URL of the video").WithMaxLength(512));
-    schema.AddStructField(schema_for_caption);
-    schema.AddField(milvus::FieldSchema("traffic_lights", milvus::DataType::JSON,
-        "frame-specific traffic lights identified in the current video"));
-    schema.AddStructField(schema_for_front_car);
-    ```
-
-    </TabItem>
-
-    <TabItem value='javascript'>
-
-    ```javascript
-    const schema = [
-        { name: "video_id", data_type: DataType.VarChar, is_primary_key: true, autoID: false,
-          max_length: 16, description: "primary key" },
-        { name: "video_url", data_type: DataType.VarChar,
-          max_length: 512, description: "URL of the video" },
-        { name: "captions", data_type: DataType.Array, element_type: DataType.Struct, max_capacity: 600,
-          fields: captionStructFields, description: "captions for the current video" },
-        { name: "traffic_lights", data_type: DataType.JSON,
-          description: "frame-specific traffic lights identified in the current video" },
-        { name: "front_cars", data_type: DataType.Array, element_type: DataType.Struct, max_capacity: 600,
-          fields: frontCarStructFields, description: "frame-specific leading cars identified in the current video" },
-    ];
-    ```
-
-    </TabItem>
-
-    <TabItem value='csharp'>
-
-    ```csharp
-    var schema = new CollectionSchema
-    {
-        Fields =
-        {
-            FieldSchema.CreateVarchar("video_id", 16, isPrimaryKey: true, description: "primary key"),
-            FieldSchema.CreateVarchar("video_url", 512, description: "URL of the video"),
-            new FieldSchema("traffic_lights", DataType.Json, description: "frame-specific traffic lights identified in the current video")
-        },
-        StructFields = { schemaForCaption, schemaForFrontCar }
-    };
-    ```
-
-    </TabItem>
-
-    <TabItem value='bash'>
-
-    ```bash
-    # Note: The RESTful API does not support Array-of-Struct fields as of Milvus v3.0.x.
-    ```
-
-    </TabItem>
-    </Tabs>
+</Tabs>
 
 ### ステップ 3: インデックスパラメーターを設定する\{#step-3-set-index-parameters}
 
 すべてのベクトルフィールドにインデックスを作成する必要があります。要素 Struct 内のベクトルフィールドにインデックスを作成するには、インデックスタイプとして `AUTOINDEX` を、埋め込みリスト間の類似度を測定するメトリックタイプとして `MAX_SIM` シリーズを使用する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
 
 index_params.add_index(
-    field_name="captions[plain_cap_vector]", 
-    index_type="AUTOINDEX", 
-    metric_type="MAX_SIM_COSINE", 
+    field_name="captions[plain_cap_vector]",
+    index_type="AUTOINDEX",
+    metric_type="MAX_SIM_COSINE",
     index_name="captions_plain_cap_vector_idx"
 )
 
 index_params.add_index(
-    field_name="captions[rich_cap_vector]", 
-    index_type="AUTOINDEX", 
-    metric_type="MAX_SIM_COSINE", 
+    field_name="captions[rich_cap_vector]",
+    index_type="AUTOINDEX",
+    metric_type="MAX_SIM_COSINE",
     index_name="captions_rich_cap_vector_idx"
 )
 
 index_params.add_index(
-    field_name="captions[risk_vector]", 
-    index_type="AUTOINDEX", 
-    metric_type="MAX_SIM_COSINE", 
+    field_name="captions[risk_vector]",
+    index_type="AUTOINDEX",
+    metric_type="MAX_SIM_COSINE",
     index_name="captions_risk_vector_idx"
 )
 ```
@@ -1073,7 +1085,7 @@ let index_params = vec![
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::IndexDesc captions_plain_cap_vector_idx("captions[plain_cap_vector]",
     "captions_plain_cap_vector_idx", milvus::IndexType::AUTOINDEX, milvus::MetricType::MAX_SIM_COSINE);
 milvus::IndexDesc captions_rich_cap_vector_idx("captions[rich_cap_vector]",
@@ -1112,13 +1124,6 @@ IndexParam[] indexParams =
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The RESTful API does not support Array-of-Struct fields as of Milvus v3.0.x.
-```
-
-</TabItem>
 </Tabs>
 
 これらのフィールド内のフィルタリングを高速化するために、JSON フィールドで JSON シャーディングを有効にすることをお勧めします。
@@ -1127,7 +1132,7 @@ IndexParam[] indexParams =
 
 スキーマとインデックスの準備ができたら、次のようにしてターゲットコレクションを作成できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1180,7 +1185,7 @@ client.create_collection(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::CreateCollectionRequest create_request;
 create_request.WithCollectionName("covla_dataset");
 create_request.WithCollectionSchema(std::make_shared<milvus::CollectionSchema>(schema));
@@ -1223,24 +1228,21 @@ await client.CreateCollectionAsync(new CreateCollectionReq
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The RESTful API does not support Array-of-Struct fields as of Milvus v3.0.x.
-```
-
-</TabItem>
 </Tabs>
 
 ### ステップ 5: データを挿入する\{#step-5-insert-the-data}
 
 Turing Motos は、CoVLA データセットを、生のビデオクリップ（`.mp4`）、状態（`states.jsonl`）、キャプション（`captions.jsonl`）、信号機（`traffic_lights.jsonl`）、先行車（`front_cars.jsonl`）など、複数のファイルに整理しています。
 
-これらのファイルからビデオクリップごとのデータ断片をマージし、データを挿入する必要があります。以下は、特定のビデオクリップのデータ断片をマージするスクリプトです。
+これらのファイルから各ビデオクリップのデータ部分をマージし、データを挿入する必要があります。以下は、特定のビデオクリップのデータ部分をマージするためのスクリプトです。スキーマに一致する OpenAI 互換の埋め込みエンドポイントと、768 次元ベクトルを返すモデルを設定してください。ファイル処理の例では Python を使用しており、以下の挿入例は SDK リクエストの形式を示しています。Python 以外の挿入例の合成ベクトルはペイロード構造を例示するためのものであり、検索用の埋め込みに置き換える必要があります。
 
 ```python
+import json
+from openai import OpenAI
+
 openai_client = OpenAI(
-    api_key='YOUR_OPENAI_API_KEY',
+    base_url='YOUR_EMBEDDING_API_BASE_URL',
+    api_key='YOUR_EMBEDDING_API_KEY',
 )
 
 video_id = "0a0fc7a5db365174" # represent a single video with 600 frames
@@ -1285,9 +1287,12 @@ with open('data/captions/{}.jsonl'.format(video_id), 'r') as f:
     for line in f:
         entries.append(json.loads(line))
 
-def get_embedding(text, model="embeddinggemma:latest"):
+def get_embedding(text, model="YOUR_768_DIMENSION_EMBEDDING_MODEL"):
     response = openai_client.embeddings.create(input=text, model=model)
-    return response.data[0].embedding
+    vector = response.data[0].embedding
+    if len(vector) != 768:
+        raise ValueError("The configured embedding model must return 768 dimensions")
+    return vector
 
 # Add embeddings to each entry
 for entry in entries:
@@ -1315,7 +1320,7 @@ data = {
 
 データを適切に処理したら、次のようにして挿入できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1532,7 +1537,7 @@ client.insert(request).await?;
 
 <TabItem value='c++'>
 
-```c++
+```cpp
 milvus::EntityRows rows = {{
     {"video_id", "0a0fc7a5db365174"},
     {"video_url", "https://your-storage.com/0a0fc7a5db365174"},
@@ -1666,12 +1671,25 @@ await client.InsertAsync(new InsertReq
                     ["rich_caption"] = "Merge left while yielding to oncoming traffic on a sunny highway",
                     ["rich_cap_vector"] = vector768,
                     ["risk"] = "Potential collision with the leading vehicle",
-                    ["risk_vector"] = vector768
+                    ["risk_vector"] = vector768,
+                    ["risk_correct"] = true,
+                    ["risk_yes_rate"] = 0.9f,
+                    ["weather"] = "sunny",
+                    ["weather_rate"] = 0.9f,
+                    ["road"] = "highway",
+                    ["road_rate"] = 0.9f,
+                    ["is_tunnel"] = false,
+                    ["is_tunnel_yes_rate"] = 0.1f,
+                    ["is_highway"] = true,
+                    ["is_highway_yes_rate"] = 0.9f,
+                    ["has_pedestrian"] = false,
+                    ["has_pedestrian_yes_rate"] = 0.1f,
+                    ["has_carrier_car"] = false
                 }
             },
             ["front_cars"] = new object[]
             {
-                new Dictionary<string, object?> { ["frame_id"] = 0L, ["has_lead"] = true, ["lead_prob"] = 0.9f, ["distance"] = 5.5f }
+                new Dictionary<string, object?> { ["frame_id"] = 0L, ["has_lead"] = true, ["lead_prob"] = 0.9f, ["lead_x"] = 5.5f, ["lead_y"] = 0f, ["lead_speed_kmh"] = 40f, ["lead_a"] = 0f }
             }
         }
     ]
@@ -1680,11 +1698,4 @@ await client.InsertAsync(new InsertReq
 
 </TabItem>
 
-<TabItem value='bash'>
-
-```bash
-# Note: The RESTful API does not support Array-of-Struct fields as of Milvus v3.0.x.
-```
-
-</TabItem>
 </Tabs>

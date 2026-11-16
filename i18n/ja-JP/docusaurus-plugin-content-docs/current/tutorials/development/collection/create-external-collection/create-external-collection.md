@@ -503,7 +503,6 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("https://{project-id}.{region}.vectordb.zillizcloud.com", "YOUR_API_KEY"));
 status = client->UseDatabase("my_database");
 status = client->CreateCollection(milvus::CreateCollectionRequest()
-    .WithDatabaseName("my_database")
     .WithCollectionName("test_collection")
     .WithCollectionSchema(std::make_shared<milvus::CollectionSchema>(schema)));
 ```
@@ -918,7 +917,7 @@ curl --request POST \
 
 リフレッシュ操作は非同期であるため、その進捗を監視する反復処理を設定する必要があります。
 
-RESTful API を使用する場合は、[Describe External コレクション Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2) でリフレッシュジョブの進捗を確認するか、[List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2) でリフレッシュジョブを一覧表示してください。
+If you use the RESTful API, check the progress of a refresh job with [Describe External コレクション Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2), or list the refresh jobs with [List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2).
 
 <Admonition type="info" title="Notes">
 

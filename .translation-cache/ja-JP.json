@@ -286,9 +286,9 @@
       "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/collection/create-external-collection/create-external-collection.md": {
-      "sourceHash": "a1c65d5bc3bcaa80cad94b97eb09155a6817ca17d1df7330493eaa09b305976c",
+      "sourceHash": "b3492ab92e701fdbca7c4a11e720f08e4eac2193c2084e3757c359abf56b6760",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "translatedAt": "2026-11-08T07:48:30.349Z"
+      "translatedAt": "2026-11-16T11:45:56.248Z"
     },
     "content/en/byoc/tutorials/development/collection/drop-collection.md": {
       "sourceHash": "499849b8bb848daf1e1faca45e793183e34c71269f5901ff1f56c7610b96e23e",
@@ -591,9 +591,9 @@
       "translatedAt": "2026-11-05T11:10:44.843Z"
     },
     "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md": {
-      "sourceHash": "49f3d6c6dacd530f281da9111c19fffb930a79a61f9f9ccd97b0861580a394d5",
+      "sourceHash": "e5d01aed5dc068815790c56ccfb6dd69742f6e2f0dab08ea5d8ad0f285a5ee4e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-      "translatedAt": "2026-11-05T12:48:14.916Z"
+      "translatedAt": "2026-11-16T11:45:56.248Z"
     },
     "content/en/byoc/tutorials/development/schema/schema-explained.md": {
       "sourceHash": "89c9f727c7fedb75ae07cf4ec9ab27bc556309e52cef35e161b8c232540c96a6",
@@ -1641,9 +1641,9 @@
       "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md": {
-      "sourceHash": "0adede437e6aa989e8effd4420c647065b231efc0427f81a3a7f112d2c8d3595",
+      "sourceHash": "a2ccbedd5434c962d4ef202ac0fb8350ec78c6f6f930108d5880a0b89fc35efe",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "translatedAt": "2026-11-11T16:50:08.974Z"
+      "translatedAt": "2026-11-16T11:45:56.248Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source.md": {
       "sourceHash": "28b610756c881f8a214a4ac0ec5006ce4ca6cbdfcd4a2ef7cb37fb766f8c07f5",
@@ -1991,9 +1991,9 @@
       "translatedAt": "2026-11-05T13:58:33.841Z"
     },
     "content/en/guides/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md": {
-      "sourceHash": "6126a04f6499076ad8050830b8150585d6c0838302fba23a0121eb03849157bf",
+      "sourceHash": "2925fbc7466783bc30edae4c013ca70e74957fb982751c64cb76241b792621bc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
-      "translatedAt": "2026-11-05T13:25:51.545Z"
+      "translatedAt": "2026-11-16T11:45:56.248Z"
     },
     "content/en/guides/tutorials/development/schema/schema-explained.md": {
       "sourceHash": "f8ba4f9d4f2db857ec16bd881f91f9923c5a1d461b6fcc24508302587c404056",
