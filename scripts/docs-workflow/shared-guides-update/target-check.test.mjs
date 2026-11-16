@@ -1,50 +1,38 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { execFile } from 'node:child_process'
 import { mkdtempSync, readFileSync, readdirSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { promisify } from 'node:util'
 import { targetFixture } from './fixtures/target-check-fixture.mjs'
-const exec = promisify(execFile)
+import {
+  readFixtureResult,
+  runFixtureChild
+} from './fixtures/child-process.mjs'
 
 test('normal production CLIs hold the unregistered default with no credentials or GitHub operations', async () => {
   const root = mkdtempSync(join(tmpdir(), 'target-check-unregistered-'))
   for (const phase of ['reserve', 'validate', 'finalize']) {
     const out = join(root, phase)
-    let failed
-    try {
-      await exec(
-        process.execPath,
-        [
-          resolve(
-            'scripts/docs-workflow/shared-guides-update/' +
-              (phase === 'finalize' ? 'finalize' : 'validate') +
-              '.mjs'
-          )
-        ],
-        {
-          env: {
-            PATH: '/opt/homebrew/bin:/usr/bin:/bin',
-            GITHUB_JOB: phase,
-            VALIDATE_OUTPUT: out,
-            FINALIZE_OUTPUT: out
-          },
-          timeout: 30000
-        }
-      )
-    } catch (error) {
-      failed = error
-    }
-    assert.equal(failed?.code, 1)
-    assert.deepEqual(
-      JSON.parse(readFileSync(join(out, 'result.json'), 'utf8')),
+    const child = await runFixtureChild(
+      [
+        resolve(
+          'scripts/docs-workflow/shared-guides-update/' +
+            (phase === 'finalize' ? 'finalize' : 'validate') +
+            '.mjs'
+        )
+      ],
       {
-        status: 'held',
-        reasons: ['REGISTRATION_UNREGISTERED'],
-        mutationRequested: false
+        GITHUB_JOB: phase,
+        VALIDATE_OUTPUT: out,
+        FINALIZE_OUTPUT: out
       }
     )
+    assert.equal(child.code, 1)
+    assert.deepEqual(readFixtureResult(out, child), {
+      status: 'held',
+      reasons: ['REGISTRATION_UNREGISTERED'],
+      mutationRequested: false
+    })
     assert.deepEqual(readdirSync(out), ['result.json'])
   }
 })

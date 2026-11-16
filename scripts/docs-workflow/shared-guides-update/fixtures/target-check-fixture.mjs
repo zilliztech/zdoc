@@ -1,5 +1,5 @@
 // Local Git, archive and HTTP fixture for the actual two-run CLI subprocesses.
-import { execFile, execFileSync } from 'node:child_process'
+import { execFileSync } from 'node:child_process'
 import { createServer } from 'node:http'
 import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
@@ -12,9 +12,8 @@ import {
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { promisify } from 'node:util'
 import { loadTargetCheckContract } from '../target-check.mjs'
-const exec = promisify(execFile)
+import { readFixtureResult, runFixtureChild } from './child-process.mjs'
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const production = 660446555,
   repo = 'zilliztech/zdoc',
@@ -747,35 +746,16 @@ export async function targetFixture({
         }
       })
     )
-    let code = 0,
-      stdout = '',
-      stderr = ''
-    try {
-      ;({ stdout, stderr } = await exec(
-        process.execPath,
-        [
-          resolve(
-            'scripts/docs-workflow/shared-guides-update/fixtures/target-check-driver.mjs'
-          ),
-          manifest,
-          phase,
-          out
-        ],
-        {
-          timeout: 30000,
-          env: {
-            PATH: '/opt/homebrew/bin:/usr/bin:/bin',
-            HOME: process.env.HOME
-          },
-          maxBuffer: 1024 * 1024
-        }
-      ))
-    } catch (error) {
-      code = error.code
-      stdout = error.stdout
-      stderr = error.stderr
-    }
-    const result = JSON.parse(readFileSync(join(out, 'result.json'), 'utf8'))
+    const execution = await runFixtureChild([
+      resolve(
+        'scripts/docs-workflow/shared-guides-update/fixtures/target-check-driver.mjs'
+      ),
+      manifest,
+      phase,
+      out
+    ])
+    const { code, stdout, stderr } = execution
+    const result = readFixtureResult(out, execution)
     if (phase === 'finalize' || ['held', 'unknown'].includes(result.status)) {
       state.runs.set(runtimeRunId, {
         role: phase === 'finalize' ? 'finalizer' : 'validator',
@@ -801,7 +781,7 @@ export async function targetFixture({
       stdout,
       stderr,
       out,
-      result: JSON.parse(readFileSync(join(out, 'result.json'), 'utf8'))
+      result
     }
   }
   const validate = async () => {
