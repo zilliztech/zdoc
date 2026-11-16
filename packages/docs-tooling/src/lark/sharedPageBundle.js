@@ -7,7 +7,9 @@ const {safeHandoffPath, validateSharedReceipt, validateActiveState} = require('.
 const renderIdentity = require('./sharedPageRenderIdentity')
 const {loadTypeScript} = require('../../../../scripts/lib/load-typescript')
 const {finalizeFetchFrontMatter} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/site/front-matter.ts'))
-const ROOT = 'tmp/docs-tooling/en/shared-pages/guides'
+const {sharedGroupConfig, outputPathPattern} = require('./sharedGroups')
+const ROOT = sharedGroupConfig('guides').bundleRoot
+const rootFor = group => sharedGroupConfig(group).bundleRoot
 // Production bundles carry per-page evidence that scales with Base rows; 26 shared
 // pages reached 33.97 MB on 2026-10-30 (about 0.7 MB per page), so keep headroom.
 const LIMIT = 256 * 1024 * 1024, FILE_LIMIT = 64 * 1024 * 1024
@@ -23,6 +25,7 @@ function checkFileLimits(file, size, count, total) {
   if (total > LIMIT) fail(`payload size limit exceeded at ${name}: ${total} bytes; limit ${LIMIT}`)
 }
 function validateBundle(files, expected = {}) {
+  const group = expected.group ?? 'guides', groupConfig = sharedGroupConfig(group)
   if (!files.size) return null
   let count = 0, total = 0
   for (const [file, bytes] of files) checkFileLimits(file, bytes.length, ++count, total += bytes.length)
@@ -42,8 +45,8 @@ function validateBundle(files, expected = {}) {
     || !equal(prep.active, bundle.baseline_active) || !Array.isArray(prep.records) || !Array.isArray(prep.errors) || !Array.isArray(prep.dev_files)) fail('preparation evidence')
   validateActiveState(bundle.baseline_active); validateActiveState(bundle.effective_active)
   const aliases = require('./sharedPageAliases')
-  aliases.authenticate({devCommit: bundle.dev_commit, evidence: prep.alias_evidence})
-  const recovered = aliases.recover({active: bundle.baseline_active, previousSnapshot: prep.previous_snapshot, evidence: prep.alias_evidence, recordIds: Object.keys(prep.inputs)})
+  aliases.authenticate({devCommit: bundle.dev_commit, evidence: prep.alias_evidence, group})
+  const recovered = aliases.recover({active: bundle.baseline_active, previousSnapshot: prep.previous_snapshot, evidence: prep.alias_evidence, recordIds: Object.keys(prep.inputs), group})
   const records = new Set()
   for (const record of prep.records) {if (!record.record_id || records.has(record.record_id)) fail('duplicate Base record'); records.add(record.record_id)}
   const inventory = new Map()
@@ -58,17 +61,17 @@ function validateBundle(files, expected = {}) {
   }
   if (prep.previous_snapshot) {
     if (bundle.previous_snapshot_file !== 'baseline/snapshot.json') fail('snapshot file path')
-    if (!equal(JSON.parse(baseline(bundle.previous_snapshot_file, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json')), prep.previous_snapshot)) fail('prior snapshot')
+    if (!equal(JSON.parse(baseline(bundle.previous_snapshot_file, groupConfig.snapshotPath)), prep.previous_snapshot)) fail('prior snapshot')
   } else if (bundle.previous_snapshot_file) fail('unexpected prior snapshot')
   if (bundle.baseline_active.pages.length) {
     if (bundle.baseline_active_file?.file !== 'baseline/active.json') fail('active file path')
-    if (!equal(JSON.parse(baseline(bundle.baseline_active_file?.file, 'generated/en/manifests/shared-pages/guides/active.json', bundle.baseline_active_file?.sha256)), bundle.baseline_active)) fail('baseline active')
+    if (!equal(JSON.parse(baseline(bundle.baseline_active_file?.file, `${groupConfig.manifestDir}/active.json`, bundle.baseline_active_file?.sha256)), bundle.baseline_active)) fail('baseline active')
   } else if (bundle.baseline_active_file) fail('unexpected active file')
   const {publicationPath, baselineOutputPaths, selectedFetchManuals} = require('./sharedPageFetch')
   const previousPublication = files.has('baseline/publication.json')
-    ? JSON.parse(baseline('baseline/publication.json', publicationPath)) : null
+    ? JSON.parse(baseline('baseline/publication.json', groupConfig.publicationPath)) : null
   // Reconstruct every inspected link and active ID, never alias-only state.
-  const routing = require('./sharedPageFetch').restoreRouting(prep)
+  const routing = require('./sharedPageFetch').restoreRouting(prep, group)
   const expectedRecords = new Set([...Object.keys(prep.inputs), ...prep.errors.map(error => error.record_id)])
   const seen = new Set(), outputs = new Set(), activations = structuredClone(bundle.baseline_active)
   const hasExactManuals = (rows, manuals) => Array.isArray(rows) && rows.length === manuals.length
@@ -94,23 +97,24 @@ function validateBundle(files, expected = {}) {
       if (!equal(outcome.input_context, {...evidence, upstream: outcome.input_context.upstream})
         && !equal(outcome.input_context, {upstream: outcome.input_context.upstream})) fail('input context')
       if (outcome.receipt !== `pages/${outcome.page}/receipt-draft.json`) fail('receipt file path')
-      const receipt = JSON.parse(read(outcome.receipt)); validateSharedReceipt(receipt, outcome.identity)
+      const receipt = JSON.parse(read(outcome.receipt))
+      validateSharedReceipt(receipt, {...outcome.identity, upstreamRepository: groupConfig.upstreamRepository, renderManuals: [...groupConfig.byManual].map(([manual, entry]) => ({manual, contentRoot: entry.contentRoot}))})
       if (receipt.inputs.zdoc.commit !== bundle.master_commit || receipt.inputs.dev.commit !== bundle.dev_commit
         || receipt.inputs.fetch.image_base_url !== outcome.image_base_url || receipt.inputs.fetch.navigation !== digest(JSON.stringify(bundle.navigation))) fail('receipt binding')
       // Bundle receipts store the navigation digest as a string, so the render
       // recipe recomputes receipt-local; pre-renderIdentity receipts keep their
       // legacy whole-input digest until the transition round rewrites them.
       const expectedDigest = Object.hasOwn(receipt.inputs.fetch, 'active')
-        ? renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, outcome.page)).inputs_sha256
+        ? renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, outcome.page, group)).inputs_sha256
         : renderIdentity.legacyReceiptInputsDigest(receipt)
       if (outcome.identity.inputs_sha256 !== expectedDigest) fail('input digest')
       descriptors = outcome.outputs
-      const manuals = selectedFetchManuals(prep.records.find(record => record.record_id === outcome.record_id))
+      const manuals = selectedFetchManuals(prep.records.find(record => record.record_id === outcome.record_id), group)
       if (!hasExactManuals(descriptors, manuals) || !hasExactManuals(outcome.targets, manuals) || !hasExactManuals(receipt.outputs, manuals)) fail('incomplete selected output')
       for (const output of descriptors) {
         if (!safeHandoffPath(output.file)) fail('unsafe output file')
         const target = outcome.targets.find(target => target.manual === output.manual)
-        const root = `content/en/${output.manual === 'guides' ? 'guides' : 'byoc'}`
+        const root = groupConfig.byManual.get(output.manual).treeRoot
         if (!target || output.file !== `pages/${outcome.page}/${output.manual}${target.extension}` || output.path !== `${root}/${target.path}${target.extension}` || !['.md', '.mdx'].includes(target.extension)
           || !receipt.outputs.some(row => row.manual === output.manual && row.path === output.path && row.sha256 === output.sha256)) fail('publish path')
       }
@@ -139,21 +143,21 @@ function validateBundle(files, expected = {}) {
       // same channel fallback uses; the receipt authenticates by its own recipe
       // digest, never by this run's commits or navigation (identity excludes both).
       if (!outcome.receipt || outcome.receipt.file !== `reused/${outcome.record_id}/receipt.json`
-        || outcome.receipt.path !== `generated/en/manifests/shared-pages/guides/${active.page}.json`) fail('reused receipt path')
+        || outcome.receipt.path !== `${groupConfig.manifestDir}/${active.page}.json`) fail('reused receipt path')
       const receipt = JSON.parse(baseline(outcome.receipt.file, outcome.receipt.path, outcome.receipt.sha256))
-      validateSharedReceipt(receipt, outcome.identity)
+      validateSharedReceipt(receipt, {...outcome.identity, upstreamRepository: groupConfig.upstreamRepository, renderManuals: [...groupConfig.byManual].map(([manual, entry]) => ({manual, contentRoot: entry.contentRoot}))})
       const expectedDigest = Object.hasOwn(receipt.inputs.fetch, 'active')
-        ? renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, outcome.page)).inputs_sha256
+        ? renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, outcome.page, group)).inputs_sha256
         : renderIdentity.legacyReceiptInputsDigest(receipt)
       if (outcome.identity.inputs_sha256 !== expectedDigest) fail('reused input digest')
       descriptors = outcome.outputs
-      const manuals = selectedFetchManuals(prep.records.find(record => record.record_id === outcome.record_id))
+      const manuals = selectedFetchManuals(prep.records.find(record => record.record_id === outcome.record_id), group)
       if (!hasExactManuals(descriptors, manuals) || !hasExactManuals(outcome.targets, manuals) || !hasExactManuals(receipt.outputs, manuals)) fail('incomplete reused output')
       if ((receipt.inputs.fetch.render_targets || outcome.regeneration) && !outcome.regeneration) fail(`missing reused regeneration evidence: ${outcome.record_id}`)
       for (const output of descriptors) {
         if (!safeHandoffPath(output.file) || output.file !== `reused/${outcome.record_id}/${output.path}`) fail('reused file path')
         const target = outcome.targets.find(target => target.manual === output.manual)
-        const root = `content/en/${output.manual === 'guides' ? 'guides' : 'byoc'}`
+        const root = groupConfig.byManual.get(output.manual).treeRoot
         if (!target || output.path !== `${root}/${target.path}${target.extension}` || !['.md', '.mdx'].includes(target.extension)
           || !receipt.outputs.some(row => row.manual === output.manual && row.path === output.path && row.sha256 === output.sha256)) fail('reused publish path')
       }
@@ -168,12 +172,12 @@ function validateBundle(files, expected = {}) {
       const receipt = outcome.baseline.receipt
       if (Boolean(receipt) !== Boolean(active)) fail('fallback receipt')
       if (receipt) {
-        if (receipt.file !== `fallback/${outcome.record_id}/receipt.json` || receipt.path !== `generated/en/manifests/shared-pages/guides/${active.page}.json`) fail('baseline receipt path')
-        validateSharedReceipt(JSON.parse(baseline(receipt.file, receipt.path, receipt.sha256)), {group: 'guides', page: active.page})
+        if (receipt.file !== `fallback/${outcome.record_id}/receipt.json` || receipt.path !== `${groupConfig.manifestDir}/${active.page}.json`) fail('baseline receipt path')
+        validateSharedReceipt(JSON.parse(baseline(receipt.file, receipt.path, receipt.sha256)), {group, page: active.page, upstreamRepository: groupConfig.upstreamRepository, renderManuals: [...groupConfig.byManual].map(([manual, entry]) => ({manual, contentRoot: entry.contentRoot}))})
       }
     } else fail('unknown outcome')
     for (const output of descriptors) {
-      if (!safeHandoffPath(output.path) || !/^content\/en\/(guides|byoc)\/tutorials\/[^/]+\/.+\.mdx?$/.test(output.path) || outputs.has(output.path) || !/^[a-f0-9]{64}$/.test(output.sha256)) fail('duplicate or unsafe output')
+      if (!safeHandoffPath(output.path) || !outputPathPattern(group).test(output.path) || outputs.has(output.path) || !/^[a-f0-9]{64}$/.test(output.sha256)) fail('duplicate or unsafe output')
       outputs.add(output.path)
       if (outcome.status === 'fallback') {
         if (output.file !== `fallback/${outcome.record_id}/${output.path}`) fail('fallback file path')
@@ -192,13 +196,14 @@ function validateBundle(files, expected = {}) {
   }
   if (seen.size !== expectedRecords.size || used.size !== files.size || !equal(activations, bundle.effective_active)) fail('incomplete or extra bundle evidence')
   // Validation has no mutation of the authenticated source candidate or identity.
-  return {bundle: freeze(bundle), files, routing: require('./sharedPageFetch').restoreRouting({...prep, active: bundle.effective_active, effective_routing: true})}
+  return {group, bundle: freeze(bundle), files, routing: require('./sharedPageFetch').restoreRouting({...prep, active: bundle.effective_active, effective_routing: true}, group)}
 }
-function fromPayload(payload, expected) {
-  const files = new Map([...payload].filter(([file]) => file.startsWith(`${ROOT}/`)).map(([file, bytes]) => [file.slice(ROOT.length + 1), bytes]))
-  const candidateBytes = payload.get('packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json')
+function fromPayload(payload, expected = {}) {
+  const group = expected.group ?? 'guides', bundleRoot = rootFor(group)
+  const files = new Map([...payload].filter(([file]) => file.startsWith(`${bundleRoot}/`)).map(([file, bytes]) => [file.slice(bundleRoot.length + 1), bytes]))
+  const candidateBytes = payload.get(`packages/docs-tooling/src/lark/meta/reports/${group}-source-snapshot-candidate.json`)
   if (!files.size && candidateBytes && JSON.parse(candidateBytes).records?.some(record => record.source_kind === 'shared-page')) fail('shared snapshot requires bundle')
-  const handoff = validateBundle(files, expected)
+  const handoff = validateBundle(files, {...expected, group})
   if (handoff && candidateBytes) {
     if (handoff.continuation) {if (require('./sourceCompleteness').hashSnapshot(JSON.parse(candidateBytes)) !== handoff.continuation.candidate_sha256) fail('requested continuation candidate mismatch')}
     else require('./sharedPageFetch').pendingSourceSnapshot(JSON.parse(candidateBytes), handoff.routing)
@@ -233,20 +238,21 @@ function loadBundle(root, expected) {
 function emitPrebuilt(writer, request) {
   const handoff = writer.sharedBundle
   if (!handoff) return false
+  const groupConfig = sharedGroupConfig(handoff.group ?? 'guides')
   const source = writer.__fetch_base_source_meta(request.page_title, request.page_slug, request.page_token)
   const outcome = handoff.bundle.outcomes.find(outcome => outcome.record_id === source?.base_record_id)
   if (!outcome) return false
   if (outcome.status === 'inherited') fail('requested render touched an inherited shared owner')
   if (outcome.status === 'fallback') return true // Table completion restores exact prior paths, including moves.
-  const manual = String(writer.targets).includes('zilliz.paas') ? 'guides-byoc' : 'guides'
+  const manual = groupConfig.manuals.find(manual => String(writer.targets).includes(groupConfig.byManual.get(manual).generatorTarget))
   const output = outcome.outputs.find(output => output.manual === manual), target = outcome.targets.find(target => target.manual === manual)
-  const configPath = `shared-docs/guides/pages/${outcome.page}/page.yaml`
+  const configPath = `${groupConfig.overlayRoot}/pages/${outcome.page}/page.yaml`
   const configBytes = require('./sharedPageFetch').regularBytes(writer.sharedWorkspace, configPath)
   const configInput = handoff.bundle.preparation.inputs?.[outcome.record_id]?.evidence.files.find(file => file.path === configPath)
   if (!configInput || configInput.sha256 !== digest(configBytes) || configInput.size !== configBytes.length) fail('pinned publish configuration drift')
   const publish = yaml.load(configBytes.toString('utf8')).publish
   if (!Array.isArray(publish) || publish.filter(entry => entry.manual === manual && entry.path === target.path).length !== 1) fail('configured publish path mismatch')
-  const contentRoot = `content/en/${manual === 'guides' ? 'guides' : 'byoc'}`
+  const contentRoot = groupConfig.byManual.get(manual).contentRoot
   const {resolveManualPublication} = loadTypeScript(path.resolve(__dirname, '../manuals/registry.ts'))
   const calculation = Object.create(writer)
   calculation.sidebarOutputDir = resolveManualPublication(manual, 'en').publication.outputDir
@@ -278,4 +284,4 @@ function restoreTableFallbacks(handoff, workspace, ownedPath) {
   }
   return emitted
 }
-module.exports = {ROOT, LIMIT, FILE_LIMIT, validateBundle, fromPayload, checkBundleLimits, loadBundle, emitPrebuilt, restoreTableFallbacks}
+module.exports = {ROOT, rootFor, LIMIT, FILE_LIMIT, validateBundle, fromPayload, checkBundleLimits, loadBundle, emitPrebuilt, restoreTableFallbacks}

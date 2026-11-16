@@ -1,4 +1,16 @@
 const larkTokenFetcher = require('./larkTokenFetcher.js')
+
+// The writer's targets identify one generator channel; resolve it to the shared
+// manual that publishes it within the shared group. Guides keeps its two-channel
+// mapping; node and future groups resolve from the manuals registry.
+function manualForTargets(targets, group = 'guides') {
+    const {sharedGroupConfig} = require('./sharedGroups')
+    const config = sharedGroupConfig(group)
+    const manual = config.manuals.find(manual => String(targets).includes(config.byManual.get(manual).generatorTarget))
+    if (!manual) throw new Error(`No shared manual in group ${group} publishes targets ${JSON.stringify(targets)}`)
+    return manual
+}
+
 const {
     applyMdxPatches,
     getFencedCodeRanges,
@@ -170,7 +182,7 @@ class larkDocWriter {
         this.sidebarOutputDir = outputDir
         this.sidebarContentRoot = contentRoot
         const items = await this.__sidebar_items(outputDir, contentRoot, this.root_token)
-        return require('./sharedPagePublication').projectFallbackSidebar(items, this.sharedBundle, String(this.targets).includes('zilliz.paas') ? 'guides-byoc' : 'guides', this.sharedWorkspace || null)
+        return require('./sharedPagePublication').projectFallbackSidebar(items, this.sharedBundle, manualForTargets(this.targets, this.sharedBundle?.group), this.sharedWorkspace || null)
     }
 
     __sidebar_key(type, currentPath, contentRoot, slug, fallback='') {
@@ -284,14 +296,14 @@ class larkDocWriter {
                     continue
                 }
                 const fallback = this.sharedBundle?.bundle.outcomes.find(outcome => outcome.status === 'fallback' && outcome.record_id === targetSource.base_record_id)
-                const targetMeta = fallback ? {publish: fallback.baseline.outputs.some(output => output.path.startsWith(`content/en/${this.targets.toLowerCase() === 'zilliz.paas' ? 'byoc' : 'guides'}/`)), channel: require('./sharedPagePublication').fallbackChannel(this.sharedBundle, targetSource.base_record_id)} : await this.__is_to_publish(
+                const targetMeta = fallback ? {publish: fallback.baseline.outputs.some(output => output.path.startsWith(`${require('./sharedGroups').sharedGroupConfig(this.sharedBundle?.group).byManual.get(manualForTargets(this.targets, this.sharedBundle?.group)).contentRoot}/`)), channel: require('./sharedPagePublication').fallbackChannel(this.sharedBundle, targetSource.base_record_id)} : await this.__is_to_publish(
                     targetSource.title || targetSource.name,
                     targetSource.slug,
                     targetSource.node_token || targetSource.origin_node_token || targetSource.token,
                 )
                 if (!targetMeta.publish) continue
                 const baselineHref = fallback && childSource.base_nav_ref_target_anchor
-                    ? require('./sharedPagePublication').baselineRefHref(this.sharedBundle, childSource, targetSource.slug, this.targets.toLowerCase() === 'zilliz.paas' ? 'guides-byoc' : 'guides', this.sharedWorkspace || process.cwd()) : null
+                    ? require('./sharedPagePublication').baselineRefHref(this.sharedBundle, childSource, targetSource.slug, manualForTargets(this.targets, this.sharedBundle?.group), this.sharedWorkspace || process.cwd()) : null
                 const href = baselineHref || await this.__ref_target_href(targetSource, childSource.base_nav_ref_target_anchor, childSource)
                 if (!href) {
                     console.warn(`[sidebar] Cannot resolve ref target for "${child.title}" (${childSource.node_token})`)

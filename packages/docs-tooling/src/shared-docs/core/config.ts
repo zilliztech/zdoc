@@ -37,7 +37,7 @@ export function parseSourceConfig(text: string, context: DiagnosticContext = {})
 export function parsePageConfig(pageId: string, text: string, context: PageConfigContext): ConfigResult<PageConfig> {
   const location = { file: context.file ?? `shared-docs/guides/pages/${pageId}/page.yaml`, page: pageId,
     channel: context.channel ?? 'both' as const }
-  const idErrors = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(pageId) ? []
+  const idErrors = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(pageId) ? []
     : [diagnostic('CONFIG_PAGE_ID_INVALID', 'Page ID must be a lowercase slug', location)]
   const parsed = parseYaml(text, 'CONFIG_SYNTAX_INVALID', location)
   if ('errors' in parsed) return { errors: [...idErrors, ...parsed.errors] }

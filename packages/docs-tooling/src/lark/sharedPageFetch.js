@@ -17,6 +17,7 @@ const {resolveManualPublication} = loadTypeScript(path.resolve(__dirname, '../ma
 const {analysisMarkdown} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/links/anchors.ts'))
 const {parseLock} = loadTypeScript(path.resolve(__dirname, '../shared-docs/core/lock.ts'))
 const renderIdentity = require('./sharedPageRenderIdentity')
+const {sharedGroupConfig} = require('./sharedGroups')
 const publicationPath = 'generated/en/manifests/shared-pages/guides/_publication.json'
 const snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
@@ -152,16 +153,17 @@ function baselineOutputPaths(snapshot, recordId, fileInventory, publication = nu
   }
   return outputs.sort()
 }
-function prepareSharedSources({records, repositoryRoot, baselineRoot, masterCommit, devCommit, sourceDir, rootToken, site = 'en'}) {
+function prepareSharedSources({records, repositoryRoot, baselineRoot, masterCommit, devCommit, sourceDir, rootToken, site = 'en', group = 'guides'}) {
   if (site !== 'en') return null
+  const groupConfig = sharedGroupConfig(group), devTrees = [...groupConfig.byManual.values()].map(entry => entry.treeRoot)
   pinnedCommit(repositoryRoot, masterCommit); pinnedCommit(baselineRoot, devCommit)
-  const active = routing.readActiveState(baselineRoot) || {schema_version: 1, pages: []}
-  const previousSnapshot = fs.existsSync(path.join(baselineRoot, snapshotPath)) ? JSON.parse(regularBytes(baselineRoot, snapshotPath)) : null
+  const active = routing.readActiveState(baselineRoot, group) || {schema_version: 1, pages: []}
+  const previousSnapshot = fs.existsSync(path.join(baselineRoot, groupConfig.snapshotPath)) ? JSON.parse(regularBytes(baselineRoot, groupConfig.snapshotPath)) : null
   const links = records.map(routing.recordLink)
   const availablePages = routing.pinnedSharedPages(repositoryRoot, masterCommit, links)
   const recordIds = records.filter(record => guidesCanonicalIsPublishable(record) && routing.classifySourceRoute(routing.recordLink(record), {availablePages}).kind === 'shared-page').map(record => record.record_id)
-  const aliasEvidence = recordIds.length ? aliases.collect({baselineRoot, devCommit, active, previousSnapshot, sourceDir, repositoryRoot, rootToken, recordIds, git, regularBytes}) : undefined
-  const recovered = recordIds.length ? aliases.recover({active, previousSnapshot, evidence: aliasEvidence, recordIds}) : {active, aliases: {}}
+  const aliasEvidence = recordIds.length ? aliases.collect({baselineRoot, devCommit, active, previousSnapshot, sourceDir, repositoryRoot, rootToken, recordIds, git, regularBytes, group}) : undefined
+  const recovered = recordIds.length ? aliases.recover({active, previousSnapshot, evidence: aliasEvidence, recordIds, group}) : {active, aliases: {}}
   const context = routing.createRoutingContext({records, availablePages, active: recovered.active, previousSnapshot})
   aliases.index(context, recovered.aliases)
   // Removing or demoting an activated row would otherwise drop its output while the
@@ -178,9 +180,10 @@ function prepareSharedSources({records, repositoryRoot, baselineRoot, masterComm
   // No config parser, output file or changed legacy payload for an unselected group.
   if (!selected.length && !context.errors.length) return null
   const navigation = createGuidesNavigationState(records, {routingContext: context})
-  const devFiles = gitInventory(baselineRoot, devCommit, ['content/en/guides', 'content/en/byoc', snapshotPath, 'generated/en/manifests/shared-pages/guides'])
+  const devRoots = [...devTrees, groupConfig.snapshotPath, groupConfig.manifestDir]
+  const devFiles = gitInventory(baselineRoot, devCommit, devRoots)
   assertInventory(baselineRoot, devFiles)
-  if (git(baselineRoot, ['status', '--porcelain=v1', '--untracked-files=all', '--', 'content/en/guides', 'content/en/byoc', snapshotPath, 'generated/en/manifests/shared-pages/guides']).length) throw new Error('Immutable dev inventory is dirty')
+  if (git(baselineRoot, ['status', '--porcelain=v1', '--untracked-files=all', '--', ...devRoots]).length) throw new Error('Immutable dev inventory is dirty')
   const inputs = {}
   // Engine identity derives from the same pinned tree the build executes; the
   // worktree must match the pin exactly like the overlay evidence above.
@@ -190,11 +193,11 @@ function prepareSharedSources({records, repositoryRoot, baselineRoot, masterComm
   const devPagePaths = renderIdentity.devMdPaths(devFiles)
   for (const record of selected) {
     const route = context.routesByRecordId.get(record.record_id)
-    const files = gitInventory(repositoryRoot, masterCommit, ['shared-docs/guides'])
+    const files = gitInventory(repositoryRoot, masterCommit, [groupConfig.overlayRoot])
     assertInventory(repositoryRoot, files)
     const evidence = {master_commit: masterCommit, dev_commit: devCommit, files, dev_files: devFiles, navigation}
     // Lock pins are committed content addresses for the upstream inventories.
-    const lockRelative = `shared-docs/guides/pages/${route.page}/lock.yaml`
+    const lockRelative = `${groupConfig.overlayRoot}/pages/${route.page}/lock.yaml`
     let pins = null
     if (files.some(entry => entry.path === lockRelative)) {
       const parsed = parseLock(gitBlobs(repositoryRoot, masterCommit, [lockRelative])[0].toString(), {page: route.page, channel: 'both'})
@@ -212,7 +215,7 @@ function prepareSharedSources({records, repositoryRoot, baselineRoot, masterComm
       try { images = renderIdentity.receiptImages(JSON.parse(regularBytes(baselineRoot, previousRecord.shared_page.record)).inputs.images) } catch { images = null }
     }
     const identity = renderIdentity.renderIdentity({
-      page: route.page, pins, overlay: renderIdentity.overlayInventory(files, route.page), engine, devPagePaths,
+      group, page: route.page, pins, overlay: renderIdentity.overlayInventory(files, route.page, group), engine, devPagePaths,
       renderTargets, images,
       active: active.pages.find(entry => entry.record === record.record_id && entry.page === route.page) || null,
     })
@@ -235,8 +238,8 @@ function pendingSourceSnapshot(candidate, context) {
   })
   return {...candidate, records}
 }
-function restoreRouting(data) {
-  const recovered = data.effective_routing ? {active: data.active, aliases: {}} : aliases.recover({active: data.active, previousSnapshot: data.previous_snapshot, evidence: data.alias_evidence, recordIds: Object.keys(data.inputs)})
+function restoreRouting(data, group = 'guides') {
+  const recovered = data.effective_routing ? {active: data.active, aliases: {}} : aliases.recover({active: data.active, previousSnapshot: data.previous_snapshot, evidence: data.alias_evidence, recordIds: Object.keys(data.inputs), group})
   const context = routing.createRoutingContext({records: data.records, active: recovered.active, previousSnapshot: data.previous_snapshot,
     availablePages: data.available_pages, sharedInputsByRecordId: new Map(Object.entries(data.inputs).map(([id, input]) => [id, input.identity]))})
   aliases.index(context, recovered.aliases)
@@ -247,7 +250,7 @@ async function initializeSharedScraper(scraper, options) {
   if (options.requireCompleteScan || !scraper.records) {
     await scraper.__base({progressLabel: '[shared-routes] Base scan', requireComplete: options.requireCompleteScan === true})
   }
-  const prepared = prepareSharedSources({...options, rootToken: options.rootToken || scraper.root, records: scraper.records})
+  const prepared = prepareSharedSources({...options, group: options.group ?? 'guides', rootToken: options.rootToken || scraper.root, records: scraper.records})
   if (!prepared) {
     if (options.output && fs.existsSync(options.output)) {
       if (!fs.lstatSync(options.output).isFile() || fs.lstatSync(options.output).isSymbolicLink()) throw new Error('Unsafe stale preparation file')
@@ -270,13 +273,13 @@ function writerAdapter(sourceDir, rootToken, manual) {
     block_types: Writer.prototype.__block_types(), linkReplacementShim: null, page_blocks: [], blocks: []})
   return writer
 }
-function selectedFetchManuals(record) {
+function selectedFetchManuals(record, group = 'guides') {
   const selectedTargets = guidesRecordPublishTargets(record)
-  const manuals = ['guides', 'guides-byoc'].filter(manual => selectedTargets.includes(resolveManualPublication(manual, 'en').publication.generatorTarget))
+  const manuals = sharedGroupConfig(group).manuals.filter(manual => selectedTargets.includes(resolveManualPublication(manual, 'en').publication.generatorTarget))
   if (!manuals.length || manuals.length !== selectedTargets.length) throw new Error('CONFIG_PATH_UNKNOWN: current Base requires a nonempty supported target set')
   return manuals
 }
-function planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, navigation, previousSnapshot}) {
+function planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, navigation, previousSnapshot, group = 'guides'}) {
   const index = SourceIndex.load(sourceDir)
   // During first activation the record's legacy docx source stays cached beside
   // the new shared source while the old Feishu document must remain readable;
@@ -287,11 +290,11 @@ function planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, nav
   const position = (parent.children || []).filter(child => child && child.obj_type !== 'bitable').findIndex(child => child.node_token === source.node_token) + 1
   if (!position) throw new Error('CONFIG_PATH_UNKNOWN: current Base sibling position is absent')
   const nav = navigation.navigationRecords.find(row => row.record_id === record.record_id)
-  return selectedFetchManuals(record).map(manual => {
+  return selectedFetchManuals(record, group).map(manual => {
     const writer = writerAdapter(sourceDir, rootToken, manual)
     const relative = writer.__doc_id_for_token(source.node_token, resolveManualPublication(manual, 'en').publication.contentRoot)
     if (!routing.safeHandoffPath(relative)) throw new Error('CONFIG_PATH_UNKNOWN: unsafe writer output')
-    const root = `content/en/${manual === 'guides' ? 'guides' : 'byoc'}`
+    const root = sharedGroupConfig(group).byManual.get(manual).treeRoot
     const existing = ['.md', '.mdx'].filter(extension => fs.existsSync(path.join(baselineRoot, root, relative + extension)))
     if (existing.length > 1) throw new Error('CONFIG_PATH_UNKNOWN: ambiguous physical extension')
     const retained = (previousSnapshot?.records?.find(entry => entry.record_id === record.record_id)?.output_paths || [])

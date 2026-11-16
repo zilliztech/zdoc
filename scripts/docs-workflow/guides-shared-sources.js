@@ -27,7 +27,9 @@ const {validateImageBaseUrl} = require('../../packages/docs-tooling/src/lark/sha
 const renderIdentity = require('../../packages/docs-tooling/src/lark/sharedPageRenderIdentity')
 const {HttpImageFetcher} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/adapters/images.ts'))
 const regeneration = require('./guides-shared-regeneration')
+const {sharedGroupConfig} = require('../../packages/docs-tooling/src/lark/sharedGroups')
 const sharedRoot = 'shared-docs/guides'
+const groupConfig = group => sharedGroupConfig(group)
 function write(root, relative, bytes) {
   if (!safeHandoffPath(relative)) throw new Error('Unsafe source output path')
   const file = path.join(root, relative)
@@ -67,7 +69,7 @@ function prepareUpstream({repository, track, out, statusFile}) {
   write(path.dirname(statusFile), path.basename(statusFile), JSON.stringify(status, null, 2) + '\n')
   return status
 }
-function lockedInventory(repo, commit) {
+function lockedInventory(repo, commit, upstreamRoot = 'site/en') {
   try {
     try { fs.lstatSync(repo) }
     catch (error) {
@@ -78,7 +80,7 @@ function lockedInventory(repo, commit) {
     const result = fetch.git(repo, ['cat-file', '--batch-check'], {input: `${commit}^{commit}\n`}).toString().trim()
     if (result === `${commit}^{commit} missing`) throw Object.assign(new Error(`Locked upstream commit is unavailable: ${commit}`), {code: 'SHARED_UPSTREAM_LOCK_MISSING'})
     if (!/^[a-f0-9]{40} commit \d+$/.test(result)) throw Object.assign(new Error('Invalid upstream commit probe'), {hardStop: true})
-    return fetch.gitInventory(repo, commit, ['site/en'])
+    return fetch.gitInventory(repo, commit, [upstreamRoot])
   } catch (error) {
     if (error.status !== undefined || ['ENOENT', 'EACCES', 'ETIMEDOUT'].includes(error.code)) error.hardStop = true
     throw error
@@ -87,13 +89,14 @@ function lockedInventory(repo, commit) {
 function readCurrentSources(sourceDir, candidate) {
   return [...new Set(candidate.records.map(record => record.source_file).filter(Boolean))].sort().map(file => JSON.parse(fetch.regularBytes(sourceDir, file)))
 }
-function baselineFallback(data, recordId, baselineRoot, out) {
+function baselineFallback(data, recordId, baselineRoot, out, group = 'guides') {
   const active = data.active.pages.find(entry => entry.record === recordId) || null
   const outputs = []
   const record = data.previous_snapshot?.records?.find(row => row.record_id === recordId)
   let publication = null
-  if (record && record.source_kind !== 'shared-page' && !record.output_paths?.length && data.dev_files.some(row => row.path === fetch.publicationPath)) {
-    const bytes = fetch.regularBytes(baselineRoot, fetch.publicationPath)
+  const groupPaths = groupConfig(group)
+  if (record && record.source_kind !== 'shared-page' && !record.output_paths?.length && data.dev_files.some(row => row.path === groupPaths.publicationPath)) {
+    const bytes = fetch.regularBytes(baselineRoot, groupPaths.publicationPath)
     publication = JSON.parse(bytes)
   }
   const paths = fetch.baselineOutputPaths(data.previous_snapshot, recordId, data.dev_files, publication)
@@ -106,15 +109,15 @@ function baselineFallback(data, recordId, baselineRoot, out) {
   }
   let receipt = null
   if (active) {
-    const file = `generated/en/manifests/shared-pages/guides/${active.page}.json`
+    const file = `${groupPaths.manifestDir}/${active.page}.json`
     const bytes = fetch.regularBytes(baselineRoot, file)
-    validateSharedReceipt(JSON.parse(bytes), {group: 'guides', page: active.page})
+    validateSharedReceipt(JSON.parse(bytes), {group, page: active.page})
     const destination = `fallback/${recordId}/receipt.json`
     write(out, destination, bytes); receipt = {path: file, file: destination, sha256: fetch.digest(bytes)}
   }
   return {outputs, receipt, active}
 }
-function receiptDraft({page, input, upstream, lock, outputs, images, channel, imageBaseUrl, renderTargets, variants, active = null, engineSha256, notes = []}) {
+function receiptDraft({page, input, upstream, lock, outputs, images, channel, imageBaseUrl, renderTargets, variants, active = null, engineSha256, notes = [], repository = 'milvus-io/milvus-docs', overlayRoot = 'shared-docs/guides'}) {
   const byPath = new Map()
   for (const version of ['current', 'next']) for (const file of upstream[version]) {
     if (!byPath.has(file.path)) byPath.set(file.path, {path: file.path, current: null, next: null})
@@ -129,14 +132,14 @@ function receiptDraft({page, input, upstream, lock, outputs, images, channel, im
   const md2mdPackage = JSON.parse(fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'))
   if (md2mdPackage.name !== '@zilliz/mdtomd') throw new Error('Unexpected md2md package identity')
   const inputs = {
-    milvus_docs: {repository: 'milvus-io/milvus-docs', current: lock.current, next: lock.next, files: [...byPath.values()].sort((a, b) => a.path.localeCompare(b.path))},
+    milvus_docs: {repository, current: lock.current, next: lock.next, files: [...byPath.values()].sort((a, b) => a.path.localeCompare(b.path))},
     zdoc: {repository: 'zilliztech/zdoc', commit: input.evidence.master_commit, files: input.evidence.files.map(({path, sha256}) => ({path, sha256}))},
     dev: {commit: input.evidence.dev_commit, files: input.evidence.dev_files.map(({path, sha256}) => ({path, sha256}))},
     fetch: {navigation: fetch.digest(JSON.stringify(input.evidence.navigation)), image_base_url: imageBaseUrl, render_targets: {schema_version: 1, targets: renderTargets}, active: active || null},
     tools: {zdoc: input.evidence.master_commit, md2md: md2mdPackage.version, engine_sha256: engineSha256},
     images: images.map(image => ({source: image.original, sha256: image.sha256, object: image.address})),
   }
-  const adopted = variantReceiptEntries(variants, page, value => fetch.digest(value), sharedRoot)
+  const adopted = variantReceiptEntries(variants, page, value => fetch.digest(value), overlayRoot)
   if (adopted.length) inputs.variants = adopted
   return {schema_version: 1, page, token: `shared-${page}`, inputs, outputs, channel: channel === 'current' ? null : channel, notes}
 }
@@ -153,10 +156,11 @@ function receiptNotes(built) {
 /** One success/fallback transaction per record. Only scratch holds image bodies; this does not upload or publish. */
 async function generateSharedSources(options, dependencies = {}) {
   const {preparation: preparation, repositoryRoot, baselineRoot, repo, sourceDir, candidate, rootToken, out, scratch, runId} = options
+  const group = options.group ?? 'guides', groupPaths = groupConfig(group)
   if (!preparation || (!Object.keys(preparation.inputs).length && !preparation.errors.length)) return null
   const data = {...preparation, alias_evidence: aliases.collect({baselineRoot, devCommit: preparation.dev_commit, active: preparation.active,
-    previousSnapshot: preparation.previous_snapshot, sourceDir, retainedEvidence: preparation.alias_evidence, recordIds: Object.keys(preparation.inputs), git: dependencies.aliasGit || fetch.git, regularBytes: fetch.regularBytes})}
-  const recovered = aliases.recover({active: data.active, previousSnapshot: data.previous_snapshot, evidence: data.alias_evidence, recordIds: Object.keys(data.inputs)})
+    previousSnapshot: preparation.previous_snapshot, sourceDir, retainedEvidence: preparation.alias_evidence, recordIds: Object.keys(preparation.inputs), git: dependencies.aliasGit || fetch.git, regularBytes: fetch.regularBytes, group})}
+  const recovered = aliases.recover({active: data.active, previousSnapshot: data.previous_snapshot, evidence: data.alias_evidence, recordIds: Object.keys(data.inputs), group})
   const imageBaseUrl = validateImageBaseUrl(options.imageBaseUrl)
   if (!/^\d+$/.test(String(runId))) throw new Error('A numeric Fetch run ID is required')
   fetch.pinnedCommit(repositoryRoot, data.master_commit); fetch.pinnedCommit(baselineRoot, data.dev_commit)
@@ -238,10 +242,10 @@ async function generateSharedSources(options, dependencies = {}) {
       }
       fetch.assertInventory(repositoryRoot, input.evidence.files); fetch.assertInventory(baselineRoot, input.evidence.dev_files)
       const expectedPaths = ['source.yaml', 'Variables.json', 'links.yaml', 'product-names.yaml', 'presentation/cloud-sdk-tabs.yaml', `pages/${page}/page.yaml`, `pages/${page}/lock.yaml`]
-      for (const file of expectedPaths) if (!input.evidence.files.some(entry => entry.path === `${sharedRoot}/${file}`)) {
+      for (const file of expectedPaths) if (!input.evidence.files.some(entry => entry.path === `${groupPaths.overlayRoot}/${file}`)) {
         throw Object.assign(new Error(`Missing pinned input: ${file}`), file === `pages/${page}/page.yaml` ? {code: 'OWNERSHIP_CONFIG_MISSING'} : {})
       }
-      const shared = await readSharedDocs(path.join(repositoryRoot, sharedRoot), repositoryRoot, [page])
+      const shared = await readSharedDocs(path.join(repositoryRoot, groupPaths.overlayRoot), repositoryRoot, [page])
       if ('errors' in shared) throw Object.assign(new Error('Shared config validation failed'), {detail: shared.errors})
       const source = parseSourceConfig(shared.sourceYaml, {page, channel: 'both'})
       if ('errors' in source) throw new Error(JSON.stringify(source.errors))
@@ -250,13 +254,17 @@ async function generateSharedSources(options, dependencies = {}) {
       const parsedLock = parseLock(lockText, {page, channel: 'both'})
       if ('errors' in parsedLock) throw new Error(JSON.stringify(parsedLock.errors))
       const lock = parsedLock.lock
-      const upstream = Object.fromEntries(['current', 'next'].map(version => [version, lockedInventory(repo, lock[version])]))
+      // source.yaml stores the clone URL; receipts pin the owner/repo identity.
+      const upstreamRepository = String(source.config.repository ?? '').replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '')
+      if (upstreamRepository !== groupPaths.upstreamRepository) throw Object.assign(new Error(`Overlay upstream ${source.config.repository} does not match the ${group} lane`), {code: 'SHARED_UPSTREAM_MISMATCH'})
+      const upstreamLayout = source.config.source_dir ?? 'site/en'
+      const upstream = Object.fromEntries(['current', 'next'].map(version => [version, lockedInventory(repo, lock[version], upstreamLayout)]))
       // Observability only: how far each pin trails its upstream tracking branch.
       // Never gates the lane and never triggers a re-pin (that is the repin bot's
       // separate change entry).
       const upstreamLag = upstreamLagCounts(repo, lock, source.config.track)
-      const targets = fetch.planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, navigation: data.navigation, previousSnapshot: data.previous_snapshot})
-      const active = readActiveState(baselineRoot)?.pages.find(entry => entry.record === record.record_id && entry.page === page)
+      const targets = fetch.planFetchTargets({record, sourceDir, baselineRoot, rootToken, page, navigation: data.navigation, previousSnapshot: data.previous_snapshot, group})
+      const active = readActiveState(baselineRoot, group)?.pages.find(entry => entry.record === record.record_id && entry.page === page)
       let previousReceipt = null
       let previousSnapshot = null
       if (active) {
@@ -296,7 +304,7 @@ async function generateSharedSources(options, dependencies = {}) {
       const buildErrors = []
       stage = 'build'
       const buildStart = performance.now()
-      const code = await runBuild({sharedDocs: path.join(repositoryRoot, sharedRoot), repo, dev: baselineRoot, out: buildOut, page,
+      const code = await runBuild({sharedDocs: path.join(repositoryRoot, groupPaths.overlayRoot), repo, dev: baselineRoot, out: buildOut, page,
         imageTimeout: options.imageTimeout ?? 120}, text => { log += text }, {repositoryRoot, fetchContext, fetcher: dependencies.fetcher, readAcceptedImage, onErrors: errors => buildErrors.push(...errors), onBuilt: pages => { built = pages }})
       if (code || !built || built.length !== targets.length
         || new Set(built.map(output => output.manual)).size !== targets.length
@@ -337,12 +345,13 @@ async function generateSharedSources(options, dependencies = {}) {
       const receipt = receiptDraft({page, input, upstream, lock, outputs, images, channel: targets[0].channel,
         imageBaseUrl, renderTargets, variants: adoptedVariants,
         active: data.active.pages.find(entry => entry.record === record.record_id && entry.page === page) || null,
-        engineSha256, notes: receiptNotes(built)})
-      validateSharedReceipt(receipt, input.identity)
+        engineSha256, notes: receiptNotes(built), repository: upstreamRepository, overlayRoot: groupPaths.overlayRoot})
+      validateSharedReceipt(receipt, {...input.identity, upstreamRepository: groupPaths.upstreamRepository,
+        renderManuals: [...groupPaths.byManual].map(([manual, entry]) => ({manual, contentRoot: entry.contentRoot}))})
       for (const [sha, bytes] of imageBytes) if (!fs.existsSync(path.join(scratchRoot, 'images', sha))) write(scratchRoot, `images/${sha}`, bytes)
       stage = 'regeneration'
       const regenStart = performance.now()
-      const proof = await regeneration.regenerateReceipt({receipt, navigation: data.navigation, repositoryRoot, baselineRoot, repo, scratch: scratchRoot,
+      const proof = await regeneration.regenerateReceipt({receipt, navigation: data.navigation, repositoryRoot, baselineRoot, repo, scratch: scratchRoot, group,
         outputs: built.map((output, index) => ({...outputs[index], bytes: Buffer.from(output.mdx)})),
         readAcceptedImage: async (source, sha) => {
           if (!receipt.inputs.images.some(image => image.source === source && image.sha256 === sha)) throw new Error(`Missing accepted scratch image: ${source}`)
@@ -352,7 +361,7 @@ async function generateSharedSources(options, dependencies = {}) {
       // Publication identity recomputes the same recipe as planning over the receipt
       // projection; equality with the planning identity is what retires the
       // perpetual re-render loop on zero-drift rounds.
-      const identity = renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, page))
+      const identity = renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, page, group))
       const files = []
       for (const [index, output] of built.entries()) {
         const file = `pages/${page}/${output.manual}${output.extension}`
@@ -399,14 +408,14 @@ async function generateSharedSources(options, dependencies = {}) {
     baselineActiveFile = {file: 'baseline/active.json', sha256: fetch.digest(bytes)}
   }
   const previousSnapshotFile = data.previous_snapshot ? 'baseline/snapshot.json' : null
-  if (previousSnapshotFile) write(out, previousSnapshotFile, fetch.regularBytes(baselineRoot, fetch.snapshotPath))
+  if (previousSnapshotFile) write(out, previousSnapshotFile, fetch.regularBytes(baselineRoot, groupPaths.snapshotPath))
   // Publication authority is run-global evidence, shared by every fallback page.
   // A pure replay round carries it too: republishing the pinned authority bytes
   // verbatim is what lets the publication converge instead of rebinding the
   // authority to each tip it just created.
   if ((outcomes.some(row => row.status === 'fallback') || (outcomes.length && outcomes.every(row => row.status === 'reused')))
-    && data.dev_files.some(row => row.path === fetch.publicationPath)) {
-    write(out, 'baseline/publication.json', fetch.regularBytes(baselineRoot, fetch.publicationPath))
+    && data.dev_files.some(row => row.path === groupPaths.publicationPath)) {
+    write(out, 'baseline/publication.json', fetch.regularBytes(baselineRoot, groupPaths.publicationPath))
   }
   const bundle = {preparation: structuredClone(data), previous_snapshot_file: previousSnapshotFile, baseline_active_file: baselineActiveFile, schema_version: 1, master_commit: data.master_commit, dev_commit: data.dev_commit, navigation: data.navigation,
     baseline_active: data.active, effective_active: effectiveActive, outcomes, referring_tables: [...referringTables].sort()}
@@ -466,7 +475,7 @@ async function main(argv, dependencies = {}) {
   if (options.operation === 'tracking') {
     if (!Object.keys(preparation.inputs).length) return
     const {parseSourceConfig} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/core/config.ts'))
-    const source = parseSourceConfig(fetch.regularBytes(options.workspace, `${sharedRoot}/source.yaml`).toString(), {channel: 'both'})
+    const source = parseSourceConfig(fetch.regularBytes(options.workspace, `${groupConfig(options.group ?? 'guides').overlayRoot}/source.yaml`).toString(), {channel: 'both'})
     if ('errors' in source) return
     process.stdout.write(source.config.track); return
   }
@@ -477,7 +486,7 @@ async function main(argv, dependencies = {}) {
   const upstreamStatus = options['upstream-status'] && fs.existsSync(options['upstream-status']) ? JSON.parse(fs.readFileSync(options['upstream-status'], 'utf8')) : null
   const bundle = await generateSharedSources({preparation, upstreamStatus, repositoryRoot: options.workspace, baselineRoot: options.baseline,
     repo: options.repo, sourceDir: options['source-dir'], candidate, plan, rootToken: options['root-token'],
-    out: options.out, scratch: options.scratch, runId: options['run-id'], imageTimeout: Number(options['image-timeout'] || 120), imageBaseUrl: imageBaseUrlFromEnv},
+    out: options.out, scratch: options.scratch, runId: options['run-id'], imageTimeout: Number(options['image-timeout'] || 120), imageBaseUrl: imageBaseUrlFromEnv, group: options.group ?? 'guides'},
   {fetchOld: token => fetch.fetchActivationHeadings(scraper, token, preparation.previous_snapshot?.records?.find(record => record.doc_token === token)?.doc_link), ...dependencies})
   if (bundle) {
     fs.writeFileSync(options.snapshot, JSON.stringify(candidate, null, 2) + '\n')
