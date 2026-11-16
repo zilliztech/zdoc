@@ -2052,7 +2052,10 @@
                     },
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
+                    "x-deprecated-since": null,
+                    "x-include-target": [
+                      "zilliz"
+                    ]
                   },
                   "projectId": {
                     "type": "string",
@@ -2067,7 +2070,10 @@
                     },
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
+                    "x-deprecated-since": null,
+                    "x-include-target": [
+                      "zilliz"
+                    ]
                   },
                   "regionId": {
                     "type": "string",
@@ -2082,7 +2088,10 @@
                     },
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
+                    "x-deprecated-since": null,
+                    "x-include-target": [
+                      "zilliz"
+                    ]
                   }
                 },
                 "required": [
