@@ -145,6 +145,22 @@ describe('production shared-update-unit validation', () => {
     expect(formalValidation({ ...f, op: 'accept' }, prod).status).toBe('accepted')
   })
 
+  it('drives the two-run Check lifecycle across separate workflow runs', () => {
+    // Run 1 (validate): the validator's whole run is completed/success; the receipt is encoded.
+    const f = productionFormal()
+    expect(formalValidation({ ...f, op: 'receipt' }, prod)).toEqual({ status: 'encoded', bytesBase64: f.receiptBase64 })
+    // A finalizer cannot accept before the validator run has completed (job-finished-but-run-in-progress).
+    const pending = productionFormal()
+    pending.facts.validatorRuns.value[0].status = 'in_progress'
+    expect(formalValidation({ ...pending, op: 'accept' }, prod)).toEqual({ status: 'hold', reasons: ['VALIDATOR_STATUS'] })
+    // Run 2 (finalize): reserved in_progress Check -> prepublish ready; complete; then accept.
+    const check = f.facts.checks.value[0]
+    check.status = 'in_progress'; check.conclusion = 'pending'
+    expect(formalValidation({ ...f, op: 'prepublish' }, prod).status).toBe('ready-to-publish')
+    check.status = 'completed'; check.conclusion = 'success'
+    expect(formalValidation({ ...f, op: 'accept' }, prod).status).toBe('accepted')
+  })
+
   it.each(['master', 'dev', 'source'] as const)('holds on %s movement with the stale reason', field => {
     const f = productionFormal()
     const observed = { ...f.observed, [field]: oid(999) }
