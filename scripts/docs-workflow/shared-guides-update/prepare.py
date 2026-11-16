@@ -315,9 +315,6 @@ CONFIGURATION_ONLY NO_FORWARD_RELEVANT_DELTA LIFECYCLE_UNKNOWN LIFECYCLE_RETIRE 
 STAGED_ARCHIVE_UNAVAILABLE METADATA_BROKER_FAILED SOURCE_ARCHIVE_EXTRACT_FAILED SOURCE_BUNDLE_INVALID
 LIFECYCLE_INFRA_DIAGNOSTIC_UNAVAILABLE
 """.split())
-ACQUISITION_REASON = re.compile(
-    r"LIFECYCLE_ACQUIRE_(?:METADATA|SOURCE_ZIP|PUBLICATION_ZIP|BINDING)_"
-    r"(?:HTTP_[1-5][0-9]{2}|TRANSPORT_FAILED|RESPONSE_LIMIT|ENDPOINT_INVALID|REDIRECT_REJECTED|CREDENTIAL_UNAVAILABLE|UNAVAILABLE)")
 
 
 def reason_codes(values, closed=True):
@@ -326,10 +323,14 @@ def reason_codes(values, closed=True):
     secrets = [os.environ.get(key) for key in ("GH_TOKEN", "GITHUB_TOKEN") if os.environ.get(key)]
     codes = [code for code in values if isinstance(code, str) and len(code) <= 100
              and (not closed and re.fullmatch(r"[A-Z0-9_]{1,100}", code)
-                  or code in DIAGNOSTIC_REASONS or ACQUISITION_REASON.fullmatch(code)
+                  or code in DIAGNOSTIC_REASONS
                   or re.fullmatch(r"LIFECYCLE_METADATA_HTTP_[1-5][0-9]{2}", code))
              and not any(secret in code for secret in secrets)]
     return list(dict.fromkeys(codes))
+
+
+def child_reason_codes(values):
+    return [code for code in reason_codes(values, closed=False) if not code.startswith("LIFECYCLE_ACQUIRE_")]
 
 
 BROKER_ERRORS = frozenset({
@@ -391,15 +392,17 @@ def held_diagnostic_codes(directory):
         unit = json.loads(raw)
         canonical = lambda value: json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
         key = "guides:" + sha256(canonical([SUBJECT]))
-        require(unit["kind"] == "shared-update-unit" and unit["schemaVersion"] == 1
+        require(unit["kind"] == "shared-update-unit" and type(unit["schemaVersion"]) is int and unit["schemaVersion"] == 1
                 and unit["subjects"] == [SUBJECT] and unit["unitKey"] == key
                 and paths[0].name == sha256(canonical(key)) + ".json", "B2_DIAGNOSTICS_UNAVAILABLE")
         report_raw, impact_raw, pins_raw = report_material(directory, unit)
         report, impact, pins = (json.loads(raw) for raw in (report_raw, impact_raw, pins_raw))
-        require(re.fullmatch(r"launcher-[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}/guides-impact-v1/report\.json",
+        require(type(report["detail"]["file"]["bytes"]) is int and report["detail"]["file"]["bytes"] >= 0
+                and re.fullmatch(r"launcher-[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}/guides-impact-v1/report\.json",
                              report["detail"]["file"]["path"]), "B2_DIAGNOSTICS_UNAVAILABLE")
         pilots = [row for row in impact["pages"] if row["pageId"] == PAGE]
         require(len(pilots) == 1 and pilots[0]["selected"] is True and pins["offlineReplay"] is False
+                and oid(pins["master"]) and oid(pins["dev"])
                 and pins["master"] == report["pins"]["configSnapshot"] and pins["dev"] == report["pins"]["dev"]
                 and pins["lifecycle"].get("observedPage", PAGE) == PAGE, "B2_DIAGNOSTICS_UNAVAILABLE")
         groups = [unit["holdReasons"], report["authority"]["reasons"], pins["lifecycle"]["reasons"],
@@ -409,7 +412,7 @@ def held_diagnostic_codes(directory):
         return sorted(set(code for values in groups for code in reason_codes(values)))[:128]
     except Exception:
         # Never retain file names, response bodies, exception text or credentials here.
-        return ["B2_DIAGNOSTICS_UNAVAILABLE"]
+        return reason_codes(["B2_DIAGNOSTICS_UNAVAILABLE"], closed=False)
 
 
 def authority(root, unit, pins, run):
@@ -509,10 +512,10 @@ def prepare(root, tool, record):
     require(len(units) == 1, "SINGLE_UNIT_UNAVAILABLE")
     unit = read(units[0])
     # Persist actionable product reasons even if the unit cannot be prepared.
-    record["reasons"] = reason_codes(unit["holdReasons"], closed=False)
+    record["reasons"] = child_reason_codes(unit["holdReasons"])
     for path in (root / "plan").glob("launcher-*/guides-impact-v1/pins.json"):
         reasons = read(path).get("lifecycle", {}).get("reasons", [])
-        record["reasons"].extend(reason_codes(reasons, closed=False))
+        record["reasons"].extend(child_reason_codes(reasons))
     if unit_status(unit) == "unchanged":
         record["status"] = "unchanged"
         return

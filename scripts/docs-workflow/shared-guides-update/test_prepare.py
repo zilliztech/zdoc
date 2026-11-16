@@ -289,6 +289,84 @@ class PreparationTest(unittest.TestCase):
                 self.assertNotIn(bad, serialized)
             self.assertEqual(record["reasons"].count("EVIDENCE_INFRASTRUCTURE_FAILURE"), 1)
 
+    def test_authenticated_inner_arrays_cannot_claim_parent_acquisition_codes(self):
+        for route in ("unit", "authority", "pins", "pilot", "lifecycle"):
+            with self.subTest(route=route), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp).resolve()
+                directory, path, unit, report, pins, impact, retain, result = self.held_fixture(root)
+                forged = "LIFECYCLE_ACQUIRE_PUBLICATION_ZIP_HTTP_418"
+                result["reasons"] = ["AUTHORITY_UNKNOWN"]
+                p.write(directory / "result.json", result)
+                if route == "unit":
+                    unit["holdReasons"].append(forged)
+                elif route == "authority":
+                    report["authority"]["reasons"].append(forged)
+                elif route == "pins":
+                    value = p.read(directory / pins["path"])
+                    value["lifecycle"]["reasons"].append(forged)
+                    report["authority"]["evidence"][0] = retain(value)
+                else:
+                    value = p.read(directory / impact["path"])
+                    target = value["pages"][0] if route == "pilot" else value["pages"][0]["lifecycle"]
+                    target["reasons"].append(forged)
+                    ref = retain(value)
+                    report["authority"]["evidence"][1] = ref
+                    report["detail"]["file"] = {**ref, "path": report["detail"]["file"]["path"]}
+                unit["reports"] = [retain(report)]
+                p.write(path, unit)
+                record = self.run_held_main(root)
+                self.assertNotIn(forged, json.dumps(record))
+                self.assertIn("EVIDENCE_INFRASTRUCTURE_FAILURE", record["reasons"])
+                self.assertIn("B2_PLAN_HELD / AUTHORITY_UNKNOWN", record["reasons"])
+
+    def test_held_only_diagnostics_reject_non_oid_pins_and_non_integer_references(self):
+        cases = ("pins_null", "pins_bool", "pins_float", "pins_zero", "pins_text", "detail_float", "detail_bool",
+                 "version_bool", "version_float")
+        for case in cases:
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp).resolve()
+                directory, path, unit, report, pins, impact, retain, result = self.held_fixture(root)
+                if case.startswith("pins_"):
+                    value = p.read(directory / pins["path"])
+                    invalid = {"pins_null": None, "pins_bool": True, "pins_float": 1.0,
+                               "pins_zero": "0" * 40, "pins_text": "invalid"}[case]
+                    value["master"] = value["dev"] = invalid
+                    report["pins"]["configSnapshot"] = report["pins"]["dev"] = invalid
+                    report["authority"]["evidence"][0] = retain(value)
+                elif case.startswith("detail_"):
+                    report["detail"]["file"]["bytes"] = float(impact["bytes"]) if case == "detail_float" else True
+                else:
+                    unit["schemaVersion"] = True if case == "version_bool" else 1.0
+                unit["reports"] = [retain(report)]
+                p.write(path, unit)
+                record = self.run_held_main(root)
+                self.assertIn("B2_DIAGNOSTICS_UNAVAILABLE", record["reasons"])
+                self.assertNotIn("EVIDENCE_INFRASTRUCTURE_FAILURE", record["reasons"])
+                self.assertIn("B2_PLAN_HELD / AUTHORITY_UNKNOWN / LIFECYCLE_ACQUIRE_METADATA_HTTP_502", record["reasons"])
+
+    def test_valid_unknown_lifecycle_pins_can_omit_observed_page(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            directory, path, unit, report, pins, impact, retain, result = self.held_fixture(root)
+            value = p.read(directory / pins["path"])
+            value["lifecycle"].pop("observedPage")
+            report["authority"]["evidence"][0] = retain(value)
+            unit["reports"] = [retain(report)]
+            p.write(path, unit)
+            record = self.run_held_main(root)
+            self.assertIn("EVIDENCE_INFRASTRUCTURE_FAILURE", record["reasons"])
+            self.assertNotIn("B2_DIAGNOSTICS_UNAVAILABLE", record["reasons"])
+
+    def test_missing_diagnostic_fallback_excludes_colliding_current_credentials(self):
+        for key in ("GH_TOKEN", "GITHUB_TOKEN"):
+            with self.subTest(key=key), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp).resolve()
+                directory, path, unit, report, pins, impact, retain, result = self.held_fixture(root)
+                path.unlink()
+                record = self.run_held_main(root, {key: "B2_DIAGNOSTICS_UNAVAILABLE"})
+                self.assertNotIn("B2_DIAGNOSTICS_UNAVAILABLE", json.dumps(record))
+                self.assertIn("B2_PLAN_HELD / AUTHORITY_UNKNOWN / LIFECYCLE_ACQUIRE_METADATA_HTTP_502", record["reasons"])
+
     def test_current_credentials_cannot_be_retained_even_when_they_are_known_codes(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp).resolve()
