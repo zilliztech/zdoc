@@ -1,0 +1,44 @@
+{
+  "policy": {
+    "host": "github.com",
+    "repositoryId": 660446555,
+    "repositoryFullName": "zilliztech/zdoc",
+    "baseRef": "master",
+    "writerActorId": 41898282,
+    "sealIdentity": { "scheme": "github-app-author-v1", "platformSignerActorId": 19864447 },
+    "allowedHeadPrefixes": ["shared-update/"],
+    "checkAppId": 15368,
+    "checkName": "shared-update-exact-validation",
+    "producerArtifactName": "shared-guides-update-producer",
+    "validatorArtifactName": "shared-guides-validation",
+    "producer": {
+      "actorId": 105278390,
+      "workflowId": 414826845,
+      "workflowPath": ".github/workflows/shared-guides-update.yml",
+      "workflowDefinitionSha256": "d3b99cdf624f7dec1a53bcd79d21f9dcc9309ccf6a1ac3111d0d103ac83a83d3",
+      "event": "schedule"
+    },
+    "validator": {
+      "actorId": 41898282,
+      "workflowId": 1,
+      "workflowPath": ".github/workflows/shared-guides-validate.yml",
+      "workflowDefinitionSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event": "workflow_dispatch"
+    }
+  },
+  "producers": [
+    {
+      "tools": "64ca5bae05dbd2f7f56d221c23eeb5b7d9b41419",
+      "workflowId": 414826845,
+      "workflowPath": ".github/workflows/shared-guides-update.yml",
+      "workflowDefinitionSha256": "d3b99cdf624f7dec1a53bcd79d21f9dcc9309ccf6a1ac3111d0d103ac83a83d3",
+      "actorId": 105278390,
+      "event": "schedule",
+      "protocol": "shared-update-producer-v1"
+    }
+  ],
+  "runId": 43170134677,
+  "runAttempt": 1,
+  "repositoryId": 660446555,
+  "archiveSha256": "b0dbe10600152602cb6104f448bd095f1250c4eea528f489402ea90afb2ea1c9"
+}
