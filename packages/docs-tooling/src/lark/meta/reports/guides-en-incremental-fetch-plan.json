@@ -531,6 +531,20 @@
       ]
     },
     {
+      "record_id": "recvlPs65wqwyk",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Create an External Collection",
+      "labels": "External Collection",
+      "slug": "create-external-collection",
+      "release_channel": "current",
+      "doc_token": "RsGAwmgAYiE6fgkOiokcijsBnEg",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/RsGAwmgAYiE6fgkOiokcijsBnEg",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
       "record_id": "recvlPs8qTFnJf",
       "table_id": "tblWv7PjNDsexddH",
       "table_name": "Development",
@@ -1133,7 +1147,7 @@
       "shared_page": {
         "group": "guides",
         "page": "schema-design-with-structs",
-        "inputs_sha256": "31727e58eea801783c781218787e2b7d96406d6db81e962ff03e90c68102a84d",
+        "inputs_sha256": "20203df5caed03967df8efda882f40bd72ad5c562559cef4fb830fefde414b6e",
         "record": "generated/en/manifests/shared-pages/guides/schema-design-with-structs.json"
       },
       "reasons": [
@@ -2155,6 +2169,7 @@
     "P5q7wCCk5i3rlEkceyjcQMi0nSc",
     "PBZwwNqWjiikeYkXgHPcGhLznTh",
     "QTdywCXmKi0q10kWnencBLQinuc",
+    "RsGAwmgAYiE6fgkOiokcijsBnEg",
     "SpMPwIX9diuiqfkHEAZcBSmnnOc",
     "WQvUw9c9lifskGkgz0fcmUWvnFb",
     "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
@@ -2163,12 +2178,15 @@
     "A4jhweVMMigHOpkwDlLcKo0SnFe",
     "AAqUwQW3qia3akkjfDNc0kwanlh",
     "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
+    "AzxFwQpn4iRElfkDrbVcorGqnYd",
     "B7SFwbn76iUM06kkYzBcffE8nYf",
     "BClgwKlHaiushBkPPssclTkYnef",
     "BJCjwpj8JizP0nkI11uci1pPndh",
+    "BRsZwqOUTiBbrPk9b5WcvFgTnze",
     "BTrNwoEfYii1e9kf0BScWDpcnA2",
     "BYtDwHuOXiG7imkyIjHcWa6fnlb",
     "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
+    "BcjLwmXTni1fiMkkyx9ct5iWngc",
     "BnYLwepruiGNpwkJfBHcdrrOnOh",
     "CK0ewQWC2iz6lakP0kscqogbnGh",
     "CUuywySLVil4MKkmYZecUl9snLg",
@@ -2188,16 +2206,19 @@
     "H2GHwE8umiuP6WkwjxPcQOfGn0e",
     "H8MVwnjdgihp0hkRHHKcjBe9n5e",
     "HHXewT7wTiM1zqkySjHcMNX5n9b",
+    "INoRwFTjfiindPkaNlwc9XAgnkh",
     "IO4fwm5fJiroaoktKeIcbdkDnRb",
     "IQDjwxyWIi2V3VkuxKCcJV6fndb",
     "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
     "IxO5wZ1meiYrTckUPkQca9JOnbS",
+    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
     "J274wT61xiEM4fkYeL8cMb4Pnbd",
     "JPNiwF6rPiNe0pkx460cr321nTc",
     "JaLdw76LPiX003kLpKHcA0n8n2d",
     "JaTxw9EtHivMv9kMSAnckG0vn1b",
     "K4F3wDpFciHWwJkZd5qc302OnWg",
     "KTWtw4V6SiTpDMkeGMQc8lChn8b",
+    "KdwFwQnDNisT4skHH6Hc16uInji",
     "KnnBwce9JifxvXkd070cvgUPnag",
     "KrbjwFhy3iojF3k97XmcvvXMnW7",
     "LRRVwYzxKioMiMk7cf6czQuhn7d",
@@ -2218,6 +2239,7 @@
     "OZtawoDUci0CKokf9RlchvInnMf",
     "OfUIwNWVuimZgFk3gBVc61GnnKW",
     "P5q7wCCk5i3rlEkceyjcQMi0nSc",
+    "PAViwMSb3iVMzuk56z3c1zfRnwh",
     "PBZwwNqWjiikeYkXgHPcGhLznTh",
     "PNj2w5fY9ifr82kbX8ucKgXAn0r",
     "PV2bwNENViEjXWkOgzZcXoKHnce",
@@ -2227,6 +2249,8 @@
     "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
     "QTdywCXmKi0q10kWnencBLQinuc",
     "R33EwQchxiO3HKk4vPnce6vkntc",
+    "RoxawNJhki1vXXkFsEEc7laMnxe",
+    "RsGAwmgAYiE6fgkOiokcijsBnEg",
     "RxUiwJ77WiFKZGkC8rEcLeopnTf",
     "SpMPwIX9diuiqfkHEAZcBSmnnOc",
     "SwgXwdHG6iqpbUknXrHcOPd7nRe",
@@ -2320,6 +2344,9 @@
     ],
     "shared:recvlPs1hp3qSc": [
       "shared inputs changed"
+    ],
+    "RsGAwmgAYiE6fgkOiokcijsBnEg": [
+      "wiki node revision changed"
     ],
     "shared:recvlPs8qTFnJf": [
       "shared inputs changed"
@@ -2612,6 +2639,36 @@
     "JaLdw76LPiX003kLpKHcA0n8n2d": [
       "outgoing reference from QTdywCXmKi0q10kWnencBLQinuc"
     ],
+    "BRsZwqOUTiBbrPk9b5WcvFgTnze": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "PAViwMSb3iVMzuk56z3c1zfRnwh": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "INoRwFTjfiindPkaNlwc9XAgnkh": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "AzxFwQpn4iRElfkDrbVcorGqnYd": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "RoxawNJhki1vXXkFsEEc7laMnxe": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "BcjLwmXTni1fiMkkyx9ct5iWngc": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "KdwFwQnDNisT4skHH6Hc16uInji": [
+      "incoming reference to RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
+      "incoming reference to RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
+      "incoming reference to RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
     "EA2twSf5oiERMDkriKScU9GInc4": [
       "outgoing reference from WQvUw9c9lifskGkgz0fcmUWvnFb"
     ],
@@ -2634,9 +2691,6 @@
       "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
     ],
     "MocQwCCItiHYEbkkJtOcROPTnod": [
-      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
-    ],
-    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
       "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
     ],
     "OFl9wHXpriM8aEkoONScpU1lnIf": [
@@ -2713,9 +2767,6 @@
     ],
     "PNj2w5fY9ifr82kbX8ucKgXAn0r": [
       "incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic"
-    ],
-    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
-      "incoming reference to EmcowmwYpiFbWgkmnqfcMf3knVc"
     ],
     "CK0ewQWC2iz6lakP0kscqogbnGh": [
       "incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg"

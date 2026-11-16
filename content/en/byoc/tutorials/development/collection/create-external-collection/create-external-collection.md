@@ -491,7 +491,6 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("https://{project-id}.{region}.vectordb.zillizcloud.com", "YOUR_API_KEY"));
 status = client->UseDatabase("my_database");
 status = client->CreateCollection(milvus::CreateCollectionRequest()
-    .WithDatabaseName("my_database")
     .WithCollectionName("test_collection")
     .WithCollectionSchema(std::make_shared<milvus::CollectionSchema>(schema)));
 ```

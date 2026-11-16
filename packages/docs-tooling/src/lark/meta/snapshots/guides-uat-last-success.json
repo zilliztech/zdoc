@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-11-16T02:41:32.663Z",
+  "generated_at": "2026-11-16T10:37:57.405Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -2604,7 +2604,7 @@
       "doc_token": "RsGAwmgAYiE6fgkOiokcijsBnEg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/RsGAwmgAYiE6fgkOiokcijsBnEg",
       "source_file": "RsGAwmgAYiE6fgkOiokcijsBnEg.json",
-      "source_hash": "38ed70ab308f7c776498870e0511edf7d0f3b381ba2b0a5ad0d9eb95a6afe998",
+      "source_hash": "d11b7588ad7f4b91ba91dfce4d56cc3466fe79bae091462076273b7656519715",
       "node_metadata": {
         "requested_token": "RsGAwmgAYiE6fgkOiokcijsBnEg",
         "requested_node_token": "RsGAwmgAYiE6fgkOiokcijsBnEg",
@@ -2618,15 +2618,15 @@
         "parent_node_token": "Uowdw7rFKi8bwckJ2vscxbEmnGh",
         "node_create_time": "1776326269",
         "obj_create_time": "1776326269",
-        "obj_edit_time": "1794399317",
-        "revision_id": "6979"
+        "obj_edit_time": "1794801758",
+        "revision_id": "6980"
       },
       "node_token": "RsGAwmgAYiE6fgkOiokcijsBnEg",
       "origin_node_token": "RsGAwmgAYiE6fgkOiokcijsBnEg",
       "obj_token": "Z7JXd1gcWoosPgxs9jxc79denEg",
       "obj_type": "docx",
-      "obj_edit_time": "1794399317",
-      "revision_id": "6979",
+      "obj_edit_time": "1794801758",
+      "revision_id": "6980",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
@@ -3742,44 +3742,35 @@
       "table_name": "Development",
       "placement_type": "canonical",
       "title": "Data Model Design with an Array of Structs",
+      "labels": "Data Model with Structs",
       "slug": "schema-design-with-structs",
-      "doc_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/VOkIwd5adiziGQkoDO1cRoRFnre",
-      "source_file": "VOkIwd5adiziGQkoDO1cRoRFnre.json",
-      "source_hash": "ffd08e0747056432d1e6bcbea8c7d5e5b2c7858efcee29daa1e43d9592ce6f89",
-      "node_metadata": {
-        "requested_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
-        "requested_node_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
-        "node_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
-        "origin_node_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
-        "obj_token": "EmRZdpJ1No87NhxLKT1cDFxqnHR",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Data Model Design with an Array of Structs",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "Gi6KwjOlKiBhdOkxlL3cdobBnLe",
-        "node_create_time": "1758242058",
-        "obj_create_time": "1758242058",
-        "obj_edit_time": "1793870936",
-        "revision_id": "4957"
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/schema-design-with-structs",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "schema-design-with-structs",
+        "inputs_sha256": "20203df5caed03967df8efda882f40bd72ad5c562559cef4fb830fefde414b6e",
+        "record": "generated/en/manifests/shared-pages/guides/schema-design-with-structs.json"
       },
-      "node_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
-      "origin_node_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
-      "obj_token": "EmRZdpJ1No87NhxLKT1cDFxqnHR",
-      "obj_type": "docx",
-      "obj_edit_time": "1793870936",
-      "revision_id": "4957",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "parent_record_ids": [
+        "recvlPtAbhhqgZ"
+      ],
+      "order": 103,
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "PV2bwNENViEjXWkOgzZcXoKHnce",
-        "VlAlwAJvEiVVW6k0RBvcvkpWnhK"
-      ],
-      "output_paths": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/byoc/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md",
+        "content/en/guides/tutorials/development/schema/schema-best-practices/schema-design-with-structs.md"
+      ]
     },
     {
       "record_id": "recvlPtlO4t2zh",
@@ -8990,7 +8981,7 @@
       "doc_token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
       "doc_link": "https://zilliverse.feishu.cn/wiki/BRsZwqOUTiBbrPk9b5WcvFgTnze",
       "source_file": "BRsZwqOUTiBbrPk9b5WcvFgTnze.json",
-      "source_hash": "263405b13b7cb894a1177e8a085d03b93a2b57930a4eee311d31f596d72b4574",
+      "source_hash": "5954d3a84298ce013f7b86b19b771d357f4b2556017280efe5ee2ad04a457478",
       "node_metadata": {
         "requested_token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
         "requested_node_token": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
@@ -23239,11 +23230,18 @@
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/VOkIwd5adiziGQkoDO1cRoRFnre",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/schema-design-with-structs",
       "ref_target": null,
       "ref_target_token": null,
-      "ref_target_anchor": null
+      "ref_target_anchor": null,
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "schema-design-with-structs",
+        "inputs_sha256": "20203df5caed03967df8efda882f40bd72ad5c562559cef4fb830fefde414b6e",
+        "record": "generated/en/manifests/shared-pages/guides/schema-design-with-structs.json"
+      }
     },
     {
       "record_id": "recvlPnCX5Uxxw",
@@ -29409,7 +29407,7 @@
   "table_digests": {
     "tbl9BeCMjBmalJVb": "106786f1889d17b16ebc24188e1f146e55b32b78eb129268cf8a07c1e2f17a7d",
     "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
-    "tblWv7PjNDsexddH": "ca5f1c0db9ff86e2d8bfb26fde5d63420c06d98fbe3fb94bd2fe4e26b11153ec",
+    "tblWv7PjNDsexddH": "3ef27bca47368c04ae8a732260234d96b0939597ff0cb96a8d9b7103b030056f",
     "tblZMzoITXNsyKmQ": "64bc293ca409fb5c0e7b1f7c63a956e23db936365f5b59ac76b7e8e65e4e8810",
     "tblb929onfgAPW90": "fe4ab9929269c9609f1058670285a0a5f485003bae665597ad8d80d9406ec322",
     "tblbIuN0ns3QWcQR": "f2afa8aabef9a603601d353eedfa8eee4f785b1f814087b0314267c46dcc6463",

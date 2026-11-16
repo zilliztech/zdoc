@@ -1048,6 +1048,17 @@
         "GAfTdnVNcoYmTcxqCmCcVq1ynbd": "upsert-in-merge-mode"
       },
       "activated_in": "43407320090"
+    },
+    {
+      "page": "schema-design-with-structs",
+      "record": "recvlPtLE9aMJa",
+      "feishu_token": "VOkIwd5adiziGQkoDO1cRoRFnre",
+      "feishu_aliases": [
+        "EmRZdpJ1No87NhxLKT1cDFxqnHR",
+        "VOkIwd5adiziGQkoDO1cRoRFnre"
+      ],
+      "anchors": {},
+      "activated_in": "43847158549"
     }
   ]
 }
