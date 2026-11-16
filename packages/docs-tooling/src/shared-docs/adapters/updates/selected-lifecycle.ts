@@ -182,6 +182,7 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
     {masterSha: run.head_sha, devBaselineSha: manifest.devBaselineSha}) : null
   const archivedReceipt = handoff?.files.get(outcome.receipt.file)
   if (reused && (!archivedReceipt || outcome.receipt.path !== record.shared_page.record ||
+    outcome.receipt.sha256 !== sha256(archivedReceipt) ||
     !JSON.parse(archivedReceipt).inputs.fetch.render_targets || !outcome.regeneration)) return unknown('BASE_SCAN_RECORD_UNPROVEN')
   const publication = boundArtifact(facts.artifacts, run, `publication-results-fetch-${run.id}-${run.run_attempt}`)
   const publisher = successfulJob(jobs, 'publish_ready', run)
@@ -216,7 +217,7 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
   validatePublishedReceipt(receipt, published, {snapshot: effective})
   const outputs = outcome.outputs.map(({manual, path, sha256}: Row) => ({ manual, path, sha256 }))
   if (reused) {
-    if (!Buffer.from(receiptBytes).equals(archivedReceipt) ||
+    if ((receipt.channel ?? 'current') !== record.release_channel || !Buffer.from(receiptBytes).equals(archivedReceipt) ||
       !Buffer.from(await reader.readBytes(manifest.devBaselineSha, receiptPath)).equals(archivedReceipt)) return unknown('PUBLICATION_RECEIPT_IDENTITY_MISMATCH')
   } else if (receipt.inputs.zdoc.commit !== run.head_sha || receipt.inputs.tools.zdoc !== run.head_sha ||
     receipt.inputs.dev.commit !== manifest.devBaselineSha) return unknown('PUBLICATION_RECEIPT_IDENTITY_MISMATCH')

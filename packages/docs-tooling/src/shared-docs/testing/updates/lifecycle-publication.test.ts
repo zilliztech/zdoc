@@ -239,6 +239,44 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(value)})
   expect(await observe(originalManifest, legacySnapshot)).toEqual({reason: 'BASE_SCAN_RECORD_UNPROVEN'})
   await mutateBundle(() => {}, {[shared.ROOT + '/' + source.receipt.file]: archivedReceipt})
 
+  // A complete baseline inventory authenticates the bytes independently, but
+  // selected qualification also requires the receipt descriptor's own digest.
+  for (const digest of [undefined, null, '']) {
+    await mutateBundle(b => {
+      if (digest === undefined) delete b.outcomes[0].receipt.sha256
+      else b.outcomes[0].receipt.sha256 = digest
+    })
+    validateSource()
+    expect.soft(await observe()).toEqual({reason: 'BASE_SCAN_RECORD_UNPROVEN'})
+  }
+  await mutateBundle(() => {})
+  expect(await observe()).toHaveProperty('identity')
+
+  // Change the raw row, candidate and actual published/current-dev Git snapshot
+  // together. The inherited receipt and genuine frozen proof remain current.
+  expect(receipt.channel).toBeNull()
+  for (const channel of ['next', 'retire-in-next']) {
+    const changedSnapshot = structuredClone(snapshot), changedEffective = structuredClone(effective)
+    changedSnapshot.records.find((r: any) => r.record_id === 'rec0').release_channel = channel
+    changedEffective.records.find((r: any) => r.record_id === 'rec0').release_channel = channel
+    await mutateBundle(b => { b.preparation.records[0].fields['Release Channel'] = channel.toUpperCase() })
+    validateSource()
+    await writeFile(join(options.baselineRoot, publishedSnapshot), JSON.stringify(changedEffective))
+    git('add', publishedSnapshot); git('commit', '--quiet', '-m', 'Publish changed observed channel')
+    dev = tip = git('rev-parse', 'HEAD')
+    archive = zip({...results, finalTargetSha: dev,
+      units: [{...results.units[0], resultSha: dev, commitShas: [dev]}]})
+    Object.assign(publication, {size_in_bytes: archive.length, digest: 'sha256:' + hash(archive)})
+    expect.soft(await observe(originalManifest, changedSnapshot)).toEqual({reason: 'PUBLICATION_RECEIPT_IDENTITY_MISMATCH'})
+  }
+  await writeFile(join(options.baselineRoot, publishedSnapshot), JSON.stringify(effective))
+  git('add', publishedSnapshot); git('commit', '--quiet', '-m', 'Restore current observation')
+  dev = tip = git('rev-parse', 'HEAD')
+  archive = zip(results)
+  Object.assign(publication, {size_in_bytes: archive.length, digest: 'sha256:' + hash(archive)})
+  await mutateBundle(() => {})
+  expect(await observe()).toHaveProperty('identity')
+
   jobs[0].run_attempt = 2
   expect(await observe()).toEqual({reason: 'BASE_SCAN_ATTEMPT_UNPROVEN'})
   jobs[0].run_attempt = 1
