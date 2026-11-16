@@ -1,0 +1,65 @@
+name: Shared Guides target Check finalize
+run-name: json-field-overview exact finalize
+
+# Manual, separate-run finalizer. Independently authenticates the completed validator run and its
+# archive, re-reads the PR head/refs and the reserved Check, runs prepublish, completes that exact
+# Check, re-reads and accepts.
+on:
+  workflow_dispatch:
+    inputs:
+      validator_run_id:
+        description: Validator run id whose receipt is accepted
+        required: true
+        type: string
+      validator_attempt:
+        description: Validator run attempt
+        required: true
+        type: string
+      request_id:
+        description: Validation request id (binds the two runs)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shared-guides-finalize-${{ github.event.inputs.request_id }}
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    if: github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' && github.ref == 'refs/heads/master' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+      checks: write   # only this job completes the Check
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with: { node-version: '22.23.4', package-manager-cache: false }
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Finalize the target Check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VALIDATOR_RUN_ID: ${{ github.event.inputs.validator_run_id }}
+          VALIDATOR_ATTEMPT: ${{ github.event.inputs.validator_attempt }}
+          REQUEST_ID: ${{ github.event.inputs.request_id }}
+          FINALIZE_OUTPUT: ${{ runner.temp }}/shared-guides-finalize
+        run: node scripts/docs-workflow/shared-guides-update/finalize.mjs
+      - name: Retain the finalize report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-finalize-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/shared-guides-finalize/
+          if-no-files-found: warn
+          retention-days: 30

@@ -5,5 +5,6 @@ export { formalValidation } from '../../../packages/docs-tooling/src/shared-docs
 export { createRemoteTransport, parseRemoteZip } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-github'
 export { validateBlobBytes, validateUnitReports } from '../../../packages/docs-tooling/src/shared-docs/core/updates/envelope'
 export { ProducerBundleReceiptSchema, ApprovedProducerDefinitionSchema, RemotePolicySchema } from '../../../packages/docs-tooling/src/shared-docs/core/updates/remote'
-export { createRemoteReads, remoteReadContext } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-github'
+export { createRemoteReads, remoteReadContext, createCheckWriter } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-github'
 export { initializeEvidence, rawSha256 } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/evidence'
+export { finalizeTargetCheck, finalizeTargetCheckEntry, validateTargetCheckEntry, loadTargetCheckRegistration } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-finalize'

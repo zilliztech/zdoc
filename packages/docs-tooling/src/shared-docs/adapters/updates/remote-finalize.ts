@@ -84,7 +84,8 @@ export async function validateTargetCheckEntry(input: {
   // Check and App, with the output digest matching; arbitrary bytes never reach the archive.
   const parsed = (() => { try { return ExactValidationReceiptV1Schema.safeParse(parseStrictJson(receipt)) } catch { return { success: false as const } } })()
   if (!parsed.success || !Buffer.from(receipt).equals(canonicalBytes(parsed.data))) return { status: 'hold', reasons: ['RECEIPT_INVALID'] }
-  if (parsed.data.targetCheckId !== reservation.id || parsed.data.targetCheckAppId !== registration.policy.checkAppId ||
+  if (parsed.data.targetCheckId !== reservation.id || parsed.data.targetSuiteId !== reservation.suiteId ||
+      parsed.data.targetCheckAppId !== registration.policy.checkAppId ||
       parsed.data.targetCheckHead !== authenticated.headSha) return { status: 'hold', reasons: ['RECEIPT_BINDING'] }
   if (sha256(output) !== parsed.data.outputDigest) return { status: 'hold', reasons: ['RECEIPT_OUTPUT_DIGEST'] }
   await input.archive([{ name: 'receipt.json', bytes: receipt }, { name: 'output.json', bytes: output }])

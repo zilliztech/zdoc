@@ -210,6 +210,21 @@ it('rejects an invalid receipt in the validate entry without archiving or return
   })
   expect(result.status).toBe('hold'); if (result.status === 'hold') expect(result.reasons).toContain('RECEIPT_INVALID'); expect(archived).toEqual([])
 })
+
+it('stops archiving when the receipt suite differs from the reserved suite', async () => {
+  const f = fixture()
+  const registration = { policy: f.policy, producers: [{ tools: f.expected.master, ...f.policy.producer, protocol: 'shared-update-producer-v1' }] }
+  const archived: unknown[] = []
+  const forgedReceipt = canonicalBytes({ ...f.receipt, targetSuiteId: 999 })
+  const result = await validateTargetCheckEntry({
+    registration,
+    authenticate: async () => ({ headSha: f.expected.seal }),
+    writer: { reserve: async () => ({ id: f.receipt.targetCheckId, suiteId: f.receipt.targetSuiteId, appId: f.receipt.targetCheckAppId, name: f.policy.checkName, head: f.expected.seal }) } as any,
+    encodeReceipt: () => ({ receipt: forgedReceipt, output: Buffer.from('output') }),
+    archive: async (members) => { archived.push(members) },
+  })
+  expect(result.status).toBe('hold'); if (result.status === 'hold') expect(result.reasons).toContain('RECEIPT_BINDING'); expect(archived).toEqual([])
+})
 it('rejects missing and extra fields at every nested boundary', () => {
   const examples = [fixture().policy, fixture().facts, fixture().facts.validatorRuns.value[0], fixture().facts.associations.value[0],
     fixture().facts.artifacts.value[0], fixture().facts.members.value[0], fixture().receipt, fixture().facts.seal.value.metadata]
