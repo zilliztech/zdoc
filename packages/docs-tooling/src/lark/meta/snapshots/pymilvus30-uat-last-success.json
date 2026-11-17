@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-11-17T12:34:56.785Z",
+  "generated_at": "2026-11-17T18:34:43.382Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
