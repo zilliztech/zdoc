@@ -3,7 +3,7 @@ import { createRequire } from 'node:module'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
-import { groupContext } from '../adapters/group-context'
+import { groupContext, groupManuals } from '../adapters/group-context'
 import { buildPage, createBuildReader, createBuildRuntime } from '../adapters/build-page'
 import type { BuiltPage, SharedDocsInputs, FetchBuildContext } from '../adapters/build-page'
 import { createGuidesSnapshot } from '../adapters/guides-snapshot'
@@ -102,7 +102,7 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
       return undefined
     }
   }
-  const context = { manuals: manualRegistry.map(manual => manual.id), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
+  const context = { manuals: groupManuals(group.path), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
   const sourceYaml = await read('source.yaml')
   const variablesJson = await read('Variables.json')
   const linksYaml = await read('links.yaml')

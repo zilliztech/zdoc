@@ -182,7 +182,11 @@ class larkDocWriter {
         this.sidebarOutputDir = outputDir
         this.sidebarContentRoot = contentRoot
         const items = await this.__sidebar_items(outputDir, contentRoot, this.root_token)
-        return require('./sharedPagePublication').projectFallbackSidebar(items, this.sharedBundle, manualForTargets(this.targets, this.sharedBundle?.group), this.sharedWorkspace || null)
+        // Resolve the shared manual only on real shared lanes; plain writers keep the
+        // historical no-op pass-through (a null handoff returns the items unchanged),
+        // because their targets ('zilliz') name no shared generator channel.
+        const manual = this.sharedBundle ? manualForTargets(this.targets, this.sharedBundle.group) : null
+        return require('./sharedPagePublication').projectFallbackSidebar(items, this.sharedBundle, manual, this.sharedWorkspace || null)
     }
 
     __sidebar_key(type, currentPath, contentRoot, slug, fallback='') {

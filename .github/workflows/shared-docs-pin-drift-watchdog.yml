@@ -55,12 +55,20 @@ jobs:
           const { SHARED_DOC_GROUPS } = loadTypeScript(path.resolve('packages/docs-tooling/src/shared-docs/core/groups.ts'));
           const supported = new Set(SHARED_DOC_GROUPS);
           const entries = fs.readdirSync('shared-docs', { withFileTypes: true })
-            .filter(entry => entry.isDirectory() && !entry.isSymbolicLink()).map(entry => entry.name).sort();
+            .filter(entry => entry.isDirectory() || entry.isSymbolicLink()).map(entry => entry.name).sort();
           const groups = [];
           const sources = {};
           for (const group of entries) {
-            if (!fs.existsSync(`shared-docs/${group}/source.yaml`)) continue;
-            if (!supported.has(group)) throw new Error(`Unsupported shared-docs group ${JSON.stringify(group)}. Supported groups: ${SHARED_DOC_GROUPS.join(', ')}.`);
+            // Every supported group must stay audited: a symlinked group directory or a
+            // deleted source.yaml silently narrows the audit, so both fail the run.
+            if (supported.has(group)) {
+              if (fs.lstatSync(`shared-docs/${group}`).isSymbolicLink()) throw new Error(`Supported shared-docs group ${group} must be a real directory, not a symbolic link`);
+              if (!fs.existsSync(`shared-docs/${group}/source.yaml`)) throw new Error(`Supported shared-docs group ${group} is missing its source.yaml`);
+            } else if (!fs.existsSync(`shared-docs/${group}/source.yaml`)) {
+              continue;
+            } else {
+              throw new Error(`Unsupported shared-docs group ${JSON.stringify(group)}. Supported groups: ${SHARED_DOC_GROUPS.join(', ')}.`);
+            }
             const result = parseSourceConfig(fs.readFileSync(`shared-docs/${group}/source.yaml`, 'utf8'));
             if ('errors' in result) throw new Error(JSON.stringify(result.errors));
             const { repository, track } = result.config;

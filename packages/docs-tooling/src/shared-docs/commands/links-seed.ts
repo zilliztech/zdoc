@@ -1,7 +1,6 @@
 import { readFile, realpath, writeFile } from 'node:fs/promises'
 import { basename, dirname, join, relative, resolve, sep } from 'node:path'
 import { groupContext } from '../adapters/group-context'
-import { readGroupLayout } from '../adapters/group-layout'
 import { GitMilvusDocsReader } from '../adapters/git-milvus-docs-reader'
 import { GitLinkInputReader, readMilvusPages } from '../adapters/links-input'
 import { createZdocContentReader } from '../adapters/zdoc-content'
@@ -15,13 +14,10 @@ export async function runLinksSeed(options: { sharedDocs: string; repo: string; 
     for (const error of group.errors) write(`${error.file}:${error.line} ${error.code}: ${error.message}\n`)
     return 1
   }
-  const layout = await readGroupLayout(group.root, group.path)
-  if ('errors' in layout) {
-    for (const error of layout.errors) write(`${error.file}:${error.line} ${error.code}: ${error.message}\n`)
-    return 1
-  }
-  if (layout.kind === 'manual') {
-    write(`${group.file('manual.yaml')}:1 CONFIG_FIELD_MISSING: links-seed supports per-page groups; manual groups derive their link set at build time\n`)
+  // Only the guides group consumes links.yaml; other groups resolve links from their own
+  // page sets, and seeding one would emit an empty candidate that reports success.
+  if (basename(group.root) !== 'guides') {
+    write(`${group.file('source.yaml')}:1 [*/both] CONFIG_FIELD_MISSING: links-seed seeds the guides link map only; other groups do not consume links.yaml\n`)
     return 1
   }
   // The initial link map is seeded before the first page creates the group directory;

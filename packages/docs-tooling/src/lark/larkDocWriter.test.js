@@ -1416,7 +1416,22 @@ function testFallbackWithoutPreviousNavigationRecordNamesBaseRecord() {
   }
 }
 
+
+async function testPlainWriterSidebarSkipsSharedManualResolution() {
+  // A plain SDK writer carries targets 'zilliz', which names no shared generator
+  // channel; with no shared bundle the sidebar projection must keep the historical
+  // no-op pass-through instead of throwing during production sidebar generation.
+  const writer = createWriter([]);
+  try {
+    const items = await writer.generate_sidebar(path.join(os.tmpdir(), 'unused-sidebar'), 'content/en/guides');
+    assert.deepEqual(items, []);
+  } finally {
+    writer.destroy();
+  }
+}
+
 async function run() {
+  await testPlainWriterSidebarSkipsSharedManualResolution();
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
   testExampleHttpUrlsSkipsFencedCodeBlocks();

@@ -650,5 +650,25 @@ describe('pin drift watchdog contracts', () => {
     expect(result.stderr).toContain('Unsupported shared-docs group')
     expect(() => readFileSync(join(setup.dir, 'shared-docs-watchdog-groups'))).toThrow()
   })
+
+  it('fails closed when a supported group loses its source.yaml', () => {
+    const setup = watchdogFixture('guides')
+    rmSync(join(setup.repo, 'shared-docs/guides/source.yaml'))
+    commit(setup.repo)
+    const result = execute(watchdogWorkflow, 'watchdog', 'Read public source configuration', setup)
+    expect(result.status).toBe(1)
+    expect(result.stderr).toContain('is missing its source.yaml')
+    expect(() => readFileSync(join(setup.dir, 'shared-docs-watchdog-groups'))).toThrow()
+  })
+
+  it('fails closed when a supported group directory is a symbolic link', () => {
+    const setup = watchdogFixture('guides')
+    symlinkSync(join(setup.repo, 'shared-docs/guides'), join(setup.repo, 'shared-docs/node'))
+    commit(setup.repo)
+    const result = execute(watchdogWorkflow, 'watchdog', 'Read public source configuration', setup)
+    expect(result.status).toBe(1)
+    expect(result.stderr).toContain('must be a real directory, not a symbolic link')
+    expect(() => readFileSync(join(setup.dir, 'shared-docs-watchdog-groups'))).toThrow()
+  })
 })
 })
