@@ -1139,7 +1139,7 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
   async function runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal) {
     const launch = consumeBatchVerifierLaunch(ticket, value, evidence)
     await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
-    const input = launch.finalize ? Buffer.concat([canonicalBytes({control: launch.control, rootName: launch.rootName, remainingMs: Math.min(600_000, currentBatchLifetime()?.check() ?? 600_000)}), Buffer.from('\n')]) : canonicalBytes(launch.control)
+    const input = launch.finalize ? Buffer.concat([canonicalBytes({control: launch.control, rootName: launch.rootName, clockSample: launch.clockSample, remainingMs: Math.min(600_000, currentBatchLifetime()?.check() ?? 600_000)}), Buffer.from('\n')]) : canonicalBytes(launch.control)
     if (input.length > 65536 || launch.control.base.pins.trustedTools !== state.options.commit || !targets.has('runtime/python3') || state.closure.entries.find(e => e.path === 'repo/scripts/docs-workflow/shared-guides-update/prepare.py')?.state !== 'file') throw Error('BATCH_LAUNCH_BINDING_INVALID')
     return invokeGuidesWorker(join(owned.root, 'python3'), [join(state.options.root, 'scripts/docs-workflow/shared-guides-update/prepare.py'), launch.finalize ? 'verify-and-publish-batch-collection' : 'verify-batch-collection'],
       state.options.root, environment, input, signal, undefined, launch.control, undefined, {root: launch.rootFd, blobs: launch.blobsFd, parent: launch.parentFd, finalize: launch.finalize})

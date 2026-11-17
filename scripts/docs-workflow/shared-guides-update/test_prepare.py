@@ -199,6 +199,49 @@ class PreparationTest(unittest.TestCase):
                 for fd in (blobs_fd, root_fd, parent_fd):
                     os.close(fd)
 
+    def test_batch_lifecycle_guard_counts_transport_and_replay_elapsed_time(self):
+        wall, monotonic = [1800000000.0], [100.0]
+        sample = {'wallMs': int(wall[0] * 1000) - 10, 'decisionMs': 1000000000}
+        with patch.object(p.time, 'time', side_effect=lambda: wall[0]), patch.object(p.time, 'monotonic', side_effect=lambda: monotonic[0]):
+            # Replay uses its private virtual epoch, with actual transport time.
+            check = p.batch_lifecycle_guard(sample, sample['decisionMs'] - 36 * 3600000 + 20)
+            check()
+            wall[0] -= 1  # A wall rollback must not extend validity.
+            monotonic[0] += .021
+            with self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                check()
+            with self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_CLOCK_INVALID'):
+                p.batch_lifecycle_guard(sample, sample['decisionMs'])
+
+    def test_batch_lifecycle_expiry_during_pointer_settlement_retracts_owned_link(self):
+        with tempfile.TemporaryDirectory() as parent:
+            root = Path(parent) / 'operation'
+            root.mkdir()
+            (root / 'blobs').mkdir()
+            fds = [os.open(path, os.O_RDONLY | os.O_DIRECTORY) for path in (parent, root, root / 'blobs')]
+            wall, monotonic = [1800000000.0], [100.0]
+            try:
+                parent_fd, root_fd, blobs_fd = fds
+                control = {'rootIdentity': p._BatchReader.identity(root_fd), 'blobsIdentity': p._BatchReader.identity(blobs_fd)}
+                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control)}
+                sample = {'wallMs': int(wall[0] * 1000), 'decisionMs': int(wall[0] * 1000)}
+                scan = sample['decisionMs'] - 36 * 3600000 + 1
+                real_sync = p.os.fsync
+                def delayed_directory(fd):
+                    real_sync(fd)
+                    if fd == root_fd:
+                        wall[0] += .010
+                        monotonic[0] += .010
+                with patch.object(p.time, 'time', side_effect=lambda: wall[0]), patch.object(p.time, 'monotonic', side_effect=lambda: monotonic[0]):
+                    check = p.batch_lifecycle_guard(sample, scan)
+                    check()  # The coordinator decision is still inside 36h.
+                    with patch.object(p.os, 'fsync', side_effect=delayed_directory), self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                        p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, b'{}', ack, check)
+                self.assertFalse((root / 'index.json').exists())
+            finally:
+                for fd in fds:
+                    os.close(fd)
+
     def test_batch_failed_directory_settlement_retracts_only_its_own_pointer(self):
         with tempfile.TemporaryDirectory() as parent:
             root = Path(parent) / 'operation'

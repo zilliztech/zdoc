@@ -324,7 +324,7 @@ export class BatchGitStore {
 import {mkdir, writeFile, statfs} from 'node:fs/promises'
 import {dirname} from 'node:path'
 import {promisify} from 'node:util'
-import {batchAllocatedTree, checkBatchAllocation} from './evidence'
+import {batchAllocatedTree, checkBatchAllocation, reserveBatchAllocation, type EvidenceStore} from './evidence'
 const batchExec = promisify(execFile)
 async function exportRead(repository: string, args: string[], maximum = 32 * 1024 * 1024) {
   const lifetime = currentBatchLifetime()
@@ -347,6 +347,38 @@ export async function measureBatchExport(repository: string, commit: string, roo
   const directories = new Set(['.'])
   for (const entry of entries) for (let p = dirname(entry.path); p !== '.'; p = dirname(p)) directories.add(p)
   return {entries, bytes: entries.reduce((sum, entry) => sum + entry.bytes, 0), count: entries.length + directories.size}
+}
+/** The renderer retains one fragment snapshot per distinct source commit. Read
+ * hash-checked raw objects and measure the unchanged reader's UTF-8 writes,
+ * including replacement-character expansion and every implicit directory. */
+export async function measureBatchFragmentSnapshots(repository: string, commits: readonly string[]) {
+  const store = await BatchGitStore.open(repository, batchBudget())
+  let bytes = 0, count = 0
+  const distinct = [...new Set(commits)]
+  for (const commit of distinct) {
+    GitShaSchema.parse(commit)
+    const entries = (await store.inventory(commit, 'site/en/fragments')).filter(entry => entry.path.endsWith('.md'))
+    const directories = new Set(['.'])
+    for (const entry of entries) {
+      const raw = await store.optionalFile(commit, entry.path)
+      if (!raw || raw.oid !== entry.oid) stop('BATCH_FRAGMENT_BINDING_INVALID')
+      bytes += Buffer.byteLength(raw.bytes.toString('utf8'))
+      for (let path = dirname(entry.path.slice('site/en/'.length)); path !== '.'; path = dirname(path)) directories.add(path)
+    }
+    count += entries.length + directories.size
+  }
+  await store.verify()
+  return {bytes, count, snapshots: distinct.length}
+}
+export async function reserveBatchContentAllocation(store: EvidenceStore, inputs: {
+  masterRepository: string; master: string; devRepository: string; dev: string; sourceRepository: string; commits: readonly string[]
+}) {
+  const master = await measureBatchExport(inputs.masterRepository, inputs.master, ['shared-docs/guides'])
+  const dev = await measureBatchExport(inputs.devRepository, inputs.dev, ['content/en/guides', 'content/en/byoc',
+    'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', 'generated/en/manifests/shared-pages/guides/active.json'])
+  const fragments = await measureBatchFragmentSnapshots(inputs.sourceRepository, inputs.commits)
+  await reserveBatchAllocation(store, master.bytes + dev.bytes + fragments.bytes, master.count + dev.count + fragments.count + 4)
+  return {master, dev, fragments}
 }
 /** Batch-only exporter: bound the complete next representation before creating
  * it, then recheck the filesystem before each exclusive regular-file write. */

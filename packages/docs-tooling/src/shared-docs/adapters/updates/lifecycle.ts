@@ -16,18 +16,22 @@ export const hash = (bytes: string | Uint8Array) => createHash('sha256').update(
 export const rawSnapshotPath = 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'
 /** Inspect every member before extracting; Python stdlib, no archive-controlled program execution. */
 const extract = `import sys,zipfile,tarfile,pathlib,stat,shutil
-zpath,root=sys.argv[1:];root=pathlib.Path(root)
+zpath,root=sys.argv[1:3];root=pathlib.Path(root);batch=sys.argv[3:]==['batch']
 with zipfile.ZipFile(zpath) as z:
  items=z.infolist()
  if len(items)!=1 or items[0].filename!='guides-source.tar' or stat.S_ISLNK(items[0].external_attr>>16) or items[0].file_size>536870912: raise ValueError('Unsafe source ZIP')
  with z.open(items[0]) as a,open(root/'source.tar','xb') as b: shutil.copyfileobj(a,b)
 with tarfile.open(root/'source.tar') as t:
- items=t.getmembers();seen=set();total=0
+ items=t.getmembers();seen=set();total=0;materialized=set()
  if len(items)>20000: raise ValueError('Too many archive entries')
  for i in items:
   n=i.name.rstrip('/');parts=n.split('/')
   if not n or n.startswith('/') or any(p in ('','.','..') for p in parts) or any(c in n for c in ('\\\\','\\r','\\n')) or n in seen or not(i.isfile() or i.isdir()): raise ValueError('Unsafe source tar')
   if parts[0]!='guides-source': raise ValueError('Unexpected source tar root')
+  if batch:
+   for depth in range(1,len(parts)+1):
+    materialized.add('/'.join(parts[:depth]))
+    if len(materialized)>20000: raise ValueError('BATCH_EXTRACT_ENTRY_LIMIT')
   seen.add(n);total+=i.size
   if total>536870912: raise ValueError('Oversized source tar')
  for i in items:
@@ -38,11 +42,11 @@ with tarfile.open(root/'source.tar') as t:
    with t.extractfile(i) as a,open(dest,'xb') as b: shutil.copyfileobj(a,b)
 print(len(items))
 `
-export async function extractSourceZip(bytes: Uint8Array, destination: string) {
+export async function extractSourceZip(bytes: Uint8Array, destination: string, batch = false) {
   if (bytes.length > 256 * 1024 * 1024) throw new Error('Oversized source ZIP')
   const zip = join(destination, 'artifact.zip')
   await writeFile(zip, bytes, { flag: 'wx' })
-  return Number((await exec('python3', ['-c', extract, zip, destination], { timeout: 60_000, maxBuffer: 1024 * 1024 })).stdout.trim())
+  return Number((await exec('python3', ['-c', extract, zip, destination, ...(batch ? ['batch'] : [])], { timeout: 60_000, maxBuffer: 1024 * 1024 })).stdout.trim())
 }
 /** One real stage extraction for a complete measured group; no page verdicts. */
 export async function acquireLifecycleStage(api: ReadonlyGitHub, facts: Awaited<ReturnType<typeof retainedMetadata>>, directory: string, expectedBase: string) {
@@ -50,7 +54,7 @@ export async function acquireLifecycleStage(api: ReadonlyGitHub, facts: Awaited<
   if (artifact.size_in_bytes > 256 * 1024 * 1024) throw Error('SOURCE_ARCHIVE_OVERSIZED')
   const bytes = await api.zip(artifact.id, artifact.size_in_bytes)
   if (bytes.length !== artifact.size_in_bytes || artifact.digest !== 'sha256:' + hash(bytes)) throw Error('SOURCE_ARCHIVE_BINDING_INVALID')
-  const archiveEntries = await extractSourceZip(bytes, directory), stage = join(directory, 'guides-source')
+  const archiveEntries = await extractSourceZip(bytes, directory, true), stage = join(directory, 'guides-source')
   const manifest = await validateGuidesStageArtifact(stage, {site: 'en', stage: 'source', masterSha: run.head_sha})
   const raw = await readFile(join(stage, 'payload', rawSnapshotPath))
   const snapshot = validateCandidateSnapshot(JSON.parse(new TextDecoder('utf8', {fatal: true}).decode(raw)), {manual: 'guides', buildEnv: 'uat', baseAppToken: expectedBase})

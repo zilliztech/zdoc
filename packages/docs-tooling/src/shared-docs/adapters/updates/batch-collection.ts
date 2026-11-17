@@ -466,10 +466,9 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
       if (!operation.active) invalid()
       currentBatchLifetime()?.check()
       if (currentBatchLifetime()) {
-        const masterExport = await measureBatchExport(operation.capture.root, operation.base.pins.master, ['shared-docs/guides'])
-        const devExport = await measureBatchExport(operation.devRepository, operation.base.pins.dev, ['content/en/guides', 'content/en/byoc',
-          'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', 'generated/en/manifests/shared-pages/guides/active.json'])
-        await reserveBatchAllocation(operation.store, masterExport.bytes + devExport.bytes, masterExport.count + devExport.count + 4)
+        await reserveBatchContentAllocation(operation.store, {masterRepository: operation.capture.root, master: operation.base.pins.master,
+          devRepository: operation.devRepository, dev: operation.base.pins.dev, sourceRepository: operation.sourceRepository,
+          commits: [page.current, page.oldNext, operation.base.pins.source]})
       }
       const ticket = issueContent(operation, page.pageId), began = performance.now()
       const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchContent(ticket, currentBatchLifetime()?.signal)
@@ -567,7 +566,7 @@ declare const verifierTicketBrand: unique symbol
 export type BatchVerifierLaunchTicket = {readonly [verifierTicketBrand]: true}
 interface QualificationOperation {active: boolean; sealed: SealedMaterialClosure; scope: BatchScope; request: BatchQualifierRequest; lease: BatchRunLease; verifyOwned: () => Promise<void>}
 const qualifierLaunches = new WeakMap<object, {operation: QualificationOperation; claimed: boolean}>()
-const verifierLaunches = new WeakMap<object, {operation: QualificationOperation; claimed: boolean; control: BatchVerifyControl; rootFd: number; blobsFd: number; parentFd?: number; rootName?: string; finalize?: (signal: AbortSignal) => Promise<void>}>()
+const verifierLaunches = new WeakMap<object, {operation: QualificationOperation; claimed: boolean; control: BatchVerifyControl; rootFd: number; blobsFd: number; parentFd?: number; rootName?: string; clockSample?: {wallMs: number; decisionMs: number}; finalize?: (signal: AbortSignal) => Promise<void>}>()
 export function consumeBatchQualifierLaunch(ticket: BatchQualificationLaunchTicket, capture: TrustedToolsetCapture, store: EvidenceStore, kind: BatchOrigin['kind']) {
   const launch = qualifierLaunches.get(ticket)
   if (!launch || launch.claimed || !launch.operation.active || launch.operation.sealed.capture !== capture || launch.operation.sealed.store !== store || launch.operation.scope.base.origin.kind !== kind) {
@@ -584,7 +583,7 @@ export function consumeBatchVerifierLaunch(ticket: BatchVerifierLaunchTicket, ca
     invalid()
   }
   launch.claimed = true
-  return {control: launch.control, rootFd: launch.rootFd, blobsFd: launch.blobsFd, parentFd: launch.parentFd, rootName: launch.rootName, finalize: launch.finalize}
+  return {control: launch.control, rootFd: launch.rootFd, blobsFd: launch.blobsFd, parentFd: launch.parentFd, rootName: launch.rootName, clockSample: launch.clockSample, finalize: launch.finalize}
 }
 export type BatchQualifiedCollection = {status: 'held'; reasons: readonly string[]} | {status: 'verified'; origin: BatchOrigin;
   indexRef: BatchBlobRef; indexDigest: string; qualifierRef: BatchBlobRef; qualifierDigest: string; controlDigest: string;
@@ -731,7 +730,7 @@ async function executeQualification(operation: QualificationOperation, publish: 
     if (canonicalBytes(control).length > 65536) throw Error('BATCH_CONTROL_LIMIT')
     const verifierTicket = Object.freeze({}) as BatchVerifierLaunchTicket
     verifierLaunches.set(verifierTicket, {operation, claimed: false, control, rootFd: root.fd, blobsFd: blobs.fd,
-      ...(publish ? {parentFd: parent.fd, rootName: basename(store.root), finalize: async (signal: AbortSignal) => {
+      ...(publish ? {parentFd: parent.fd, rootName: basename(store.root), clockSample: publicationClockSample(scope.base.origin), finalize: async (signal: AbortSignal) => {
         check(); await operation.verifyOwned(); check()
         const replay = scope.base.origin.kind === 'replay' ? parseBatchCanonical(sealed.replayFixtureBytes!, BatchReplayFixtureSchema) : undefined
         if (replay && !replay.finalPass) throw Error('BATCH_FINAL_REPLAY_MISSING')
@@ -776,7 +775,7 @@ import {withBatchLifetime, currentBatchLifetime, bindBatchResources, batchCasCat
 import {statfs, realpath} from 'node:fs/promises'
 import {resolve, relative, isAbsolute} from 'node:path'
 import {Worker} from 'node:worker_threads'
-import {measureBatchExport} from './batch-source'
+import {reserveBatchContentAllocation} from './batch-source'
 export type BatchCollectionResult = Readonly<{kind: 'guides-batch-collection-v1'; observation: 'observed' | 'replay';
   status: 'collected' | 'held' | 'no-group'; writeEligible: false; operations: readonly []; reasons: readonly string[]; index: BatchBlobRef | null}>
 /** Samples are explicitly observations, never an OS lifetime maximum. Disk walks
@@ -911,4 +910,9 @@ export function collectReplayGuidesBatch(options: {sourceRepository: string; out
 function collectionClock(origin: BatchOrigin) {
   const lifetime = currentBatchLifetime()
   return origin.kind === 'observed' ? Date.now() : origin.replayClockMs + Math.floor(lifetime ? performance.now() - (lifetime.deadline - 4_500_000) : 0)
+}
+
+function publicationClockSample(origin: BatchOrigin) {
+  const wallMs = Date.now()
+  return {wallMs, decisionMs: origin.kind === 'observed' ? wallMs : collectionClock(origin)}
 }

@@ -1177,17 +1177,39 @@ def _batch_retract_pointer(root_fd, expected):
     os.unlink('index.json', dir_fd=root_fd)
 
 
+def batch_lifecycle_guard(clock_sample, scan_start_ms, received_monotonic=None, received_wall_ms=None):
+    batch_exact(clock_sample, 'wallMs decisionMs')
+    require(all(type(clock_sample[k]) is int and 0 <= clock_sample[k] <= 9007199254740991 for k in clock_sample)
+            and type(scan_start_ms) is int and scan_start_ms >= 0, 'BATCH_FRESHNESS_CLOCK_INVALID')
+    began = time.monotonic() if received_monotonic is None else received_monotonic
+    received = int(time.time() * 1000) if received_wall_ms is None else received_wall_ms
+    require(received >= clock_sample['wallMs'], 'BATCH_FRESHNESS_CLOCK_INVALID')
+    at_receive = clock_sample['decisionMs'] + received - clock_sample['wallMs']
+    def check():
+        # Transport/verification time counts. A backward wall-clock step cannot
+        # extend the monotonic validity window; forward steps are checked too.
+        elapsed_clock = at_receive + (time.monotonic() - began) * 1000
+        wall_clock = clock_sample['decisionMs'] + time.time() * 1000 - clock_sample['wallMs']
+        require(all(scan_start_ms - now <= 5 * 60000 and now - scan_start_ms <= 36 * 3600000
+                    for now in (elapsed_clock, wall_clock)), 'BATCH_FRESHNESS_EXPIRED')
+    return check
+
+
 def _batch_verify_publish():
     # Two bounded newline frames; no EOF is required before independent final
     # freshness. The parent keeps the same descriptors alive until settlement.
     first = sys.stdin.buffer.readline(65537)
     require(first.endswith(b'\n') and len(first) <= 65536, 'BATCH_CONTROL_LIMIT')
-    envelope = batch_exact(batch_parse(first[:-1]), 'control rootName remainingMs')
+    envelope = batch_exact(batch_parse(first[:-1]), 'control rootName clockSample remainingMs')
+    received_monotonic, received_wall_ms = time.monotonic(), int(time.time() * 1000)
     require(type(envelope['remainingMs']) is int and 0 < envelope['remainingMs'] <= 600000, 'BATCH_OPERATION_DEADLINE')
     deadline = time.monotonic() + envelope['remainingMs'] / 1000
     archive_state = None
+    lifecycle_check = None
     def remaining():
         require(time.monotonic() < deadline, 'BATCH_OPERATION_DEADLINE')
+        if lifecycle_check is not None:
+            lifecycle_check()
         if archive_state is not None:
             require(batch_archive_identity(4, archive_state[0]) == archive_state[1], 'BATCH_ARCHIVE_REPLACED')
     control, root_name = envelope['control'], envelope['rootName']
@@ -1195,6 +1217,13 @@ def _batch_verify_publish():
     reader = _BatchReader(4, 5, control)
     verified = verify_batch_collection(4, 5, control, reader)
     index = reader.objects[control['indexRef']['sha256']]
+    origin, clock_sample = control['base']['origin'], envelope['clockSample']
+    batch_exact(clock_sample, 'wallMs decisionMs')
+    require(clock_sample['decisionMs'] == clock_sample['wallMs'] if origin['kind'] == 'observed'
+            else clock_sample['decisionMs'] >= origin['replayClockMs'], 'BATCH_FRESHNESS_CLOCK_INVALID')
+    lifecycle_check = batch_lifecycle_guard(clock_sample, reader.objects[control['qualifierRef']['sha256']]['scanStartMs'],
+                                            received_monotonic, received_wall_ms)
+    remaining()
     refs = [('index.json', control['indexRef']), ('qualification.json', control['qualifierRef'])]
     for page in index['pages']:
         refs += [(f"pages/{page['pageId']}/report.json", page['reportRef']),

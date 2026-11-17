@@ -482,3 +482,19 @@ it.each(['error', 'early-exit'] as const)('settles a failed sampler (%s) and ret
     expect(exited).toBe(true)
   } finally {vi.doUnmock('node:worker_threads'); vi.resetModules()}
 })
+
+it('rejects excessive implicit tar parents before any batch extraction tree write', async () => {
+  const fs = await import('node:fs/promises'), {execFileSync} = await import('node:child_process')
+  const root = await fs.realpath(await mkdtemp(join(tmpdir(), 'batch-implicit-parents-'))), archive = join(root, 'nested.zip'), destination = join(root, 'stage')
+  await fs.mkdir(destination)
+  execFileSync('python3', ['-c', `import tarfile,zipfile,io,sys
+out=io.BytesIO()
+with tarfile.open(fileobj=out,mode='w') as t:
+ for i in range(201):
+  item=tarfile.TarInfo('guides-source/g'+str(i)+'/'+('d/'*100)+'leaf.txt');item.size=1;t.addfile(item,io.BytesIO(b'x'))
+with zipfile.ZipFile(sys.argv[1],'w',compression=zipfile.ZIP_DEFLATED) as z:z.writestr('guides-source.tar',out.getvalue())`, archive])
+  const bytes = await fs.readFile(archive), {acquireLifecycleStage} = await import('../../adapters/updates/lifecycle')
+  const facts = {run: {head_sha: 'a'.repeat(40)}, artifact: {id: 1, size_in_bytes: bytes.length, digest: 'sha256:' + createHash('sha256').update(bytes).digest('hex')}}
+  await expect(acquireLifecycleStage({zip: async () => bytes} as never, facts as never, destination, 'fixture')).rejects.toThrow('BATCH_EXTRACT_ENTRY_LIMIT')
+  expect((await fs.readdir(destination)).sort()).toEqual(['artifact.zip', 'source.tar'])
+})

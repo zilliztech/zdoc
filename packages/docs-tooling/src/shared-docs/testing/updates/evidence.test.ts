@@ -276,3 +276,29 @@ it('reserves the original batch journal temporary allocation before any write', 
     expect(await actual.readdir(out)).toEqual(before)
   } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
 })
+
+it('holds before materialization when simultaneous authenticated fragment snapshots exceed the next allocation', async () => {
+  const {root, repo} = await fixture(), actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+  await mkdir(join(repo, 'shared-docs/guides'), {recursive: true}); await writeFile(join(repo, 'shared-docs/guides/source.yaml'), 'fixture')
+  await mkdir(join(repo, 'content/en/guides'), {recursive: true}); await writeFile(join(repo, 'content/en/guides/page.mdx'), 'fixture')
+  await mkdir(join(repo, 'site/en/fragments/deep'), {recursive: true})
+  // The unchanged reader writes UTF-8 replacement characters: one raw byte can
+  // occupy three disk bytes. Distinct commits retain independent snapshots.
+  await writeFile(join(repo, 'site/en/fragments/deep/leaf.md'), Buffer.alloc(1024 ** 2, 255))
+  git(repo, 'add', '.'); git(repo, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'fragment baseline')
+  const first = git(repo, 'rev-parse', 'HEAD')
+  await writeFile(join(repo, 'input'), 'new'); git(repo, 'add', '.'); git(repo, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'distinct source snapshot')
+  const second = git(repo, 'rev-parse', 'HEAD')
+  vi.resetModules(); vi.doMock('node:fs/promises', () => ({...actual, statfs: async () => ({bavail: 263168n, bsize: 4096n})}))
+  try {
+    const evidence = await import('../../adapters/updates/evidence'), source = await import('../../adapters/updates/batch-source')
+    const out = join(root, 'snapshot-budget'), store = await evidence.initializeEvidence({root: out, repositories: [repo], owner: 'snapshots'})
+    evidence.bindBatchResources(store, 1)
+    const {GitMilvusDocsReader} = await import('../../adapters/git-milvus-docs-reader')
+    const reader = new GitMilvusDocsReader(repo), materialize = vi.spyOn(reader, 'withFragments'), inputs = {masterRepository: repo, master: second, devRepository: repo, dev: second, sourceRepository: repo, commits: [first, second, first]}
+    await expect((async () => {await source.reserveBatchContentAllocation(store, inputs); await reader.withFragments(first, async () => {})})()).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
+    expect(materialize).not.toHaveBeenCalled()
+    expect(await source.measureBatchFragmentSnapshots(repo, inputs.commits)).toMatchObject({bytes: 6 * 1024 ** 2, count: 8, snapshots: 2})
+    expect((await actual.readdir(out)).sort()).toEqual(['.owner.json', 'blobs'])
+  } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
+})
