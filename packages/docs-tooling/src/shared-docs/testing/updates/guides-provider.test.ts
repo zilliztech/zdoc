@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path'
 import { expect, it, onTestFinished } from 'vitest'
 import { createBuildDemo, git, write, externalImage, imageBytes } from '../build/demo'
 import { FakeImageFetcher } from '../../adapters/images'
-import { collectGuidesWithDependencies, collectGuidesWorker } from '../../adapters/updates/guides-provider'
+import { collectGuidesWithDependencies, collectGuidesWorker, type GuidesCollectionResult } from '../../adapters/updates/guides-provider'
 import { digest } from '../../core/updates/canonical'
 it('rejects worker authority overrides before collection', async () => {
   await expect(collectGuidesWorker({ authority: { eligible: true } })).rejects.toThrow()
@@ -357,7 +357,7 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
     const next = context.lock.preparedNext!
     await store.writeBlob(Buffer.from(next.text))
     const detail = Object.fromEntries(['pins.json', 'plan.json', 'report.json', 'report.md'].map(name => [`guides-impact-v1/${name}`, 'synthetic detail\n']))
-    const collection = {kind: 'guides-collected', schemaVersion: 1, inventory: [], holds: [], grouping: {}, detail,
+    const collection = {kind: 'guides-collected', schemaVersion: 1, inventory: [], holds: [] as GuidesCollectionResult['holds'], grouping: {}, detail,
       detailFiles: Object.entries(detail).map(([path, text]) => ({path, blob: fixtureBlob(text)})),
       blobs: ['first blob', 'second blob'].map(text => ({blob: fixtureBlob(text), base64: Buffer.from(text).toString('base64')})),
       pages: [{report: context.collectedReport, context}]}
@@ -404,7 +404,7 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
         ...f.options.request, pages: ['fixture'], evidenceRun: '123', evidenceZip: '/input.zip',
       }})
       await provider.collectAll()
-      expect(stage).toHaveBeenCalledWith(123, '/input.zip', f.options.evidence, 'coordinator-only', f.controller.signal)
+      expect(stage).toHaveBeenCalledWith(123, '/input.zip', f.options.evidence, 'coordinator-only', f.controller.signal, expect.any(Function))
       const [input, secrets] = f.run.mock.calls[0]
       expect(secrets).toEqual({GH_TOKEN: 'coordinator-only'})
       expect(input).toMatchObject({request: {evidenceZip: null, pages: ['fixture']}, archives: null})
@@ -416,6 +416,35 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
       expect(options.pages).toBeUndefined()
       expect(dependencies?.github).toBeDefined()
       await expect(dependencies!.github!.zip(1)).rejects.toThrow('unavailable')
+    } finally {await f.dispose()}
+  })
+  it('returns trusted parent acquisition codes separately from unchanged child bytes and settlement', async () => {
+    const f = await controlled('parent-diagnostics')
+    vi.spyOn(lifecycleTransport, 'stageGuidesArchives').mockImplementation(async (_run, _zip, _evidence, _token, _signal, diagnostic) => {
+      diagnostic?.('LIFECYCLE_ACQUIRE_METADATA_HTTP_502')
+      return null
+    })
+    try {
+      const forged = 'LIFECYCLE_ACQUIRE_PUBLICATION_ZIP_HTTP_418'
+      f.collection.holds.push({subject: f.collection.pages[0].report.subject, disposition: 'hold',
+        diagnostics: [{code: forged, message: 'synthetic child hold', file: null, line: null}]})
+      f.collection.pages[0].context = captureUnitMaterial({...f.collection.pages[0].context, holdReasons: [forged]})
+      const original = canonicalBytes(f.collection), settlement = structuredClone(f.settlement)
+      const provider = await createGuidesProvider({...f.options, request: {...f.options.request, pages: ['fixture'], evidenceRun: '123'}})
+      const result = await provider.collectAll()
+      expect(result.coordinatorDiagnostics).toEqual(['LIFECYCLE_ACQUIRE_METADATA_HTTP_502'])
+      expect(result.collection.holds[0].diagnostics[0].code).toBe('LIFECYCLE_UNAVAILABLE')
+      expect(result.contexts[0].holdReasons).toEqual(['LIFECYCLE_UNAVAILABLE'])
+      expect(provider.planAll()[0]).toMatchObject({disposition: 'hold', holdReasons: ['LIFECYCLE_UNAVAILABLE'], nextEdits: []})
+      expect(canonicalBytes(f.collection)).toEqual(original)
+      expect(result.workerSettlement).toEqual(settlement)
+      expect(provider.getWorkerSettlement()).toEqual(settlement)
+      expect(result.collection).not.toHaveProperty('coordinatorDiagnostics')
+      expect(result.collection.pages[0].report).not.toHaveProperty('coordinatorDiagnostics')
+      const [input] = f.run.mock.calls[0]
+      expect(input).not.toHaveProperty('coordinatorDiagnostics')
+      expect(input).toMatchObject({archives: null, request: {evidenceZip: null}})
+      await expect(collectGuidesWorker({...input as object, diagnostic: () => {throw new Error('must not run')}})).rejects.toThrow()
     } finally {await f.dispose()}
   })
   it('preserves launcher inputs when a single page has no retained lifecycle run', async () => {
@@ -547,6 +576,7 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
       const [result, concurrent] = await Promise.all([provider.collectAll(), provider.collectAll()])
       expect(concurrent).toBe(result); expect(f.run).toHaveBeenCalledTimes(1)
       expect(provider.getWorkerSettlement()).toEqual(result.workerSettlement)
+      expect(result.coordinatorDiagnostics).toEqual([])
       expect(result.workerSettlement).toEqual(f.settlement); expect(result.collection.pages).toHaveLength(1)
       expect(result.collection).not.toHaveProperty('workerSettlement')
       expect(result.collection.pages[0].report).not.toHaveProperty('workerSettlement')
