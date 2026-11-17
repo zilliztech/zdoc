@@ -49,6 +49,17 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       file = file.slice(file.lastIndexOf('/') + 1)
       kind = 'page'
     }
+    // Excluded pages never publish; the link is replaced by its visible text and the
+    // occurrence reported. A basename that a live page still owns resolves normally, and
+    // without a construct span (HTML anchors) resolution fails closed below.
+    if (kind === 'page' && input.excluded?.has(file.toLowerCase()) && !input.sharedPages.has(file)
+      && ref.text !== undefined && ref.full) {
+      notices.push({ ...diagnostic('LINK_TARGET_EXCLUDED', `Link to the excluded page ${file} is replaced with its text.`, context, ref.line),
+        code: 'LINK_TARGET_EXCLUDED', detail: { target: file } })
+      edits.set(ref.full.start, { end: ref.full.end, url: ref.text })
+      if (ref.definition) edits.set(ref.definition.start, { end: ref.definition.end, url: '' })
+      continue
+    }
     const fragment = hash < 0 ? undefined : ref.url.slice(hash + 1)
     const target = kind === 'anchor' ? input.markdown : input.targets.get(file)
     let destination = ''
@@ -61,7 +72,8 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       if (shared !== undefined) {
         destination = `./${shared}`
         projected = shared === input.context.page
-        if (target == null) {
+        // Manual-local pages have no upstream commit; they are present by construction.
+        if (target == null && !input.manualCloudPages?.has(file)) {
           fail(ref, 'LINK_TARGET_ABSENT', `Shared target is absent in this commit: ${file}`, { target: file })
           continue
         }
@@ -84,7 +96,7 @@ export function rewriteLinksAndImages(input: RewriteInput) {
     if (fragment !== undefined) {
       let anchor = fragment
       try { anchor = decodeURIComponent(fragment) } catch { /* Invalid fragments cannot match a heading. */ }
-      const anchorSource = projected ? input.markdown : target
+      const anchorSource = projected ? input.markdown : target ?? input.manualCloudPages?.get(file)
       const heading = anchorSource == null ? undefined : collectHeadings(anchorSource).find(heading => heading.milvus === anchor)
       if (!heading) {
         const upstream = target != null && collectHeadings(target).find(candidate => candidate.milvus === anchor)

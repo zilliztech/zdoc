@@ -27,7 +27,9 @@ import type { ImageObservation, ImageOrigin } from '../core/updates/types'
 import { provenanceCarrier, remapError } from '../core/transforms/provenance'
 
 export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; config: PageConfig; contentFiles?: ReadonlyMap<string, ContentFile>
-  variants?: Partial<Record<Channel, PageVariant>> }
+  variants?: Partial<Record<Channel, PageVariant>>
+  /** Manual-local cloud page: the content/ file this page is built from, under its manual.yaml logical path. */
+  cloud?: ContentFile & { logical: string } }
 export interface SharedDocsInputs {
   sharedDocsPath?: string
   sourceYaml: string
@@ -227,12 +229,16 @@ export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader
     sharedPages(commit) {
       if (!registries.has(commit)) registries.set(commit, (async () => {
         const result = new Map<string, string>()
-        for (const [pageId, { config }] of input.sharedDocs.pages) {
-          let id = basename(config.source.file)
+        for (const [pageId, page] of input.sharedDocs.pages) {
+          // Manual cloud pages project under their manual.yaml logical path, not the
+          // content/ file name links never see; upstream pages keep the basename identity.
+          // Every link lookup reduces to the basename, so cloud pages key the same way.
+          let id = page.cloud ? basename(page.cloud.logical) : basename(page.config.source.file)
           try {
-            const meta = milvusPageMetadata(config.source.file, await input.reader.readFile(commit, config.source.file))
+            const meta = page.cloud ? undefined
+              : milvusPageMetadata(page.config.source.file, await input.reader.readFile(commit, page.config.source.file))
             if (meta) id = meta.id
-            else if (!layout) throw new Error(`Shared page ${pageId} has no usable public front-matter ID at ${commit}:${config.source.file}`)
+            else if (!page.cloud && !layout) throw new Error(`Shared page ${pageId} has no usable public front-matter ID at ${commit}:${page.config.source.file}`)
           }
           catch (error) { if ((error as { code?: string }).code !== 'MISSING_FILE') throw error }
           if (result.has(id)) throw new Error(`Shared pages ${result.get(id)} and ${pageId} project to the same public ID ${id} at ${commit}`)
@@ -556,7 +562,7 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
       continue
     }
     pages.push({ manual: target.manual, path: target.path, mdx: mdx.mdx, notes: merged.notes,
-      images: [...current.images, ...next.images], notices: [...current.notices, ...next.notices],
+      images: [...current.images, ...next.images], notices: [...current.notices, ...next.notices, ...checked.warnings],
       ...(dev.fetch ? { extension: dev.fetch.extension, imageContents: [...current.imageContents!, ...next.imageContents!] } : {}) })
   }
   return errors.length ? { errors } : { pages, planned: inspected.planned }

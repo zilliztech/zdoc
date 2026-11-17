@@ -15,6 +15,23 @@ it('reads the scenario rules as literal, case-sensitive strings', () => {
     .toEqual({ rules: { check: ['root:Milvus'], allow: ['built on Milvus'] } })
 })
 
+it('reads check entries as objects with an error-defaulted severity', () => {
+  expect(parseProductNames('check:\n  - Milvus\n  - text: root:Milvus\n    severity: warning\nallow: []\n', context))
+    .toEqual({ rules: { check: ['Milvus', 'root:Milvus'], allow: [], severity: new Map([['root:Milvus', 'warning']]) } })
+  expect(parseProductNames('check:\n  - text: Milvus\nallow: []\n', context))
+    .toEqual({ rules: { check: ['Milvus'], allow: [] } })
+  const invalidSeverity = parseProductNames('check:\n  - text: Milvus\n    severity: info\nallow: []\n', context)
+  expect(invalidSeverity).toMatchObject({ errors: [{ code: 'PRODUCT_NAMES_INVALID', line: 3 }] })
+  const emptyText = parseProductNames('check:\n  - severity: warning\nallow: []\n', context)
+  expect(emptySeverityErrors(emptyText)[0].line).toBe(2)
+})
+
+/** expect() cannot narrow the union; surface the errors explicitly. */
+function emptySeverityErrors(result: ReturnType<typeof parseProductNames>) {
+  if (!('errors' in result)) throw new Error('expected errors')
+  return result.errors
+}
+
 it.each([
   ['', 1], ['[]', 1], ['false', 1], ['allow: [built on Milvus]', 1],
   ['check: [\n', 2], ['check: []', 1], ['check: null', 1], ['check: Milvus', 1],
