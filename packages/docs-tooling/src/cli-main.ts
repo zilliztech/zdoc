@@ -364,7 +364,18 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
         promote: options.promote === true, dryRun: options.dryRun === true}, text => process.stdout.write(text), repositoryRoot);
       return true;
     }
-    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build, lock, adopt-variant or update');
+    if (argv[1] === 'promote') {
+      const options = parseOptions(argv.slice(2));
+      for (const key of Object.keys(options)) {
+        if (!['sharedDocs', 'repo', 'dev', 'out'].includes(key)) throw new Error(`Unknown promote option: --${key}`);
+      }
+      const {manualPromote} = await import('./shared-docs/commands/promote.ts');
+      process.exitCode = await manualPromote({sharedDocs: requiredOption(options, 'sharedDocs'), repo: requiredOption(options, 'repo'),
+        dev: requiredOption(options, 'dev'), out: requiredOption(options, 'out')},
+        text => process.stdout.write(text), repositoryRoot);
+      return true;
+    }
+    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build, lock, adopt-variant, update or promote');
     const options = parseOptions(argv.slice(2));
     for (const key of Object.keys(options)) {
       if (!['sharedDocs', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);
