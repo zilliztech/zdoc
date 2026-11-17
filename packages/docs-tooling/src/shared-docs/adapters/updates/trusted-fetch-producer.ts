@@ -125,11 +125,11 @@ export class FetchGitReader {
     const layout = guidesRegistryLayout(lists[0], () => this.checkComputationBudget()), configWanted = new Map<string, number>()
     for (const entry of [layout.source, ...layout.pages.map(page => page.config)]) configWanted.set(entry.oid, sizes.get(entry.oid)!)
     const config = await this.readBatchBodies(configWanted), decode = (oid: string) => new TextDecoder('utf8', {fatal: true, ignoreBOM: true}).decode(config.get(oid)!)
-    validateGuidesSource(decode(layout.source.oid))
+    validateGuidesSource(decode(layout.source.oid), () => this.checkComputationBudget())
     const destinations = new Set<string>(), registry: AuthenticatedRegistryPage[] = []
     for (const page of layout.pages) {
       this.checkComputationBudget()
-      registry.push(validateGuidesPage(page.pageId, decode(page.config.oid), destinations))
+      registry.push(validateGuidesPage(page.pageId, decode(page.config.oid), destinations, () => this.checkComputationBudget()))
     }
     const wanted = new Map<string, number>(), byPaths = lists.map(list => new Map(list.map(entry => [entry.path, entry])))
     for (const paths of byPaths) for (const page of registry) {

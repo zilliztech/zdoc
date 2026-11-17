@@ -6,6 +6,7 @@ import { dirname, join } from 'node:path'
 import { expect, it, onTestFinished, vi } from 'vitest'
 import { FetchGitReader, createMeasuredFetchProducerContext, isFetchProducerContext } from '../../adapters/updates/trusted-fetch-producer'
 import * as profile from '../../adapters/updates/fetch-producer-profile'
+import * as configs from '../../core/config'
 import { pilotLockPath } from '../../adapters/updates/fetch-producer-profile'
 const git = (root: string, ...args: string[]) => execFileSync('git', ['--no-replace-objects', '-C', root, '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.com', '-c', 'commit.gpgsign=false', '-c', 'core.hooksPath=/dev/null', '-c', 'init.templateDir=', '-c', 'init.defaultObjectFormat=sha1', ...args], {encoding: 'utf8', env: {...Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_'))), GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null'}}).trim()
 async function fixture() {
@@ -201,13 +202,13 @@ it('authenticates ordered raw batch bodies and rejects corrupt or excess frames 
   await expect(reader.readBatchBodies(new Map([[oid, bytes.length + 1]]))).rejects.toThrow()
 })
 
-it.each(['source', 'page', 'missing-page', 'orphan', 'extra', 'duplicate-target', 'wrong-config-mode', 'wrong-lock-mode', 'missing-lock', 'invalid-lock', 'zero-lock', 'oversize-lock'])('v2 fails closed on %s data authenticated at M', async kind => {
+it.each(['source', 'page', 'missing-page', 'orphan', 'reserved', 'duplicate-target', 'wrong-config-mode', 'wrong-lock-mode', 'missing-lock', 'invalid-lock', 'zero-lock', 'oversize-lock'])('v2 fails closed on %s data authenticated at M', async kind => {
   const f = await batchFixture(2), dir = 'shared-docs/guides/pages/page-0/'
   if (kind === 'source') await f.put('shared-docs/guides/source.yaml', 'schema_version: 1\nrepository: wrong\ntrack: v3.0.x\n')
   if (kind === 'page') await f.put(dir + 'page.yaml', 'schema_version: 1\nunknown: true\n')
   if (kind === 'missing-page') await unlink(join(f.root, dir, 'page.yaml'))
   if (kind === 'orphan') await f.put('shared-docs/guides/pages/orphan', 'surprise')
-  if (kind === 'extra') await f.put(dir + 'unknown.yaml', 'surprise')
+  if (kind === 'reserved') await f.put('shared-docs/guides/pages/active/page.yaml', 'surprise')
   if (kind === 'duplicate-target') await f.put(dir + 'page.yaml', (await readFile(join(f.root, dir, 'page.yaml'), 'utf8')).replace('path: page-0', 'path: page-1'))
   if (kind === 'wrong-config-mode' || kind === 'wrong-lock-mode') {
     git(f.root, 'update-index', '--chmod=+x', dir + (kind === 'wrong-config-mode' ? 'page.yaml' : 'lock.yaml'))
@@ -362,4 +363,41 @@ it('holds added configured pages and binds deleted page configs rather than redu
   const deleted = f.commit(), result = await new FetchGitReader(f.root).profilesV2(deleted, f.producer)
   expect(result.registry).toHaveLength(1)
   expect(result.masterProfile).not.toBe(result.producerProfile)
+})
+
+it('authenticates unchanged referenced page-local transform content and binds changed snippet bytes', async () => {
+  const f = await batchFixture(1), dir = 'shared-docs/guides/pages/page-0/'
+  const config = await readFile(join(f.root, dir, 'page.yaml'), 'utf8')
+  await f.put(dir + 'page.yaml', config + 'transforms:\n  - operation: replace\n    target:\n      block: alter-schema-add-subfield-section\n    content:\n      file: cloud-alter-schema-add-subfield-section.md\n')
+  await f.put(dir + 'cloud-alter-schema-add-subfield-section.md', '### Add a subfield\n\nCloud schema details.\n')
+  await f.put(dir + 'nested/other-content.md', 'Other page-local content\n')
+  const producer = f.commit()
+  await f.put(dir + 'lock.yaml', canonicalLock('c'.repeat(40)))
+  const master = f.commit(), same = await new FetchGitReader(f.root).profilesV2(master, producer)
+  expect(same.masterProfile).toBe(same.producerProfile)
+  await f.put(dir + 'cloud-alter-schema-add-subfield-section.md', '### Add a subfield\n\nChanged Cloud schema details.\n')
+  const changed = f.commit(), different = await new FetchGitReader(f.root).profilesV2(changed, producer)
+  expect(different.masterProfile).not.toBe(different.producerProfile)
+})
+
+it('expires the real reader deadline inside one trusted config parse before the parser returns', async () => {
+  const f = await batchFixture(1)
+  await f.put('shared-docs/guides/source.yaml', 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs\ntrack: v3.0.x\npresentation:\n'
+    + Array.from({length: 200}, (_, i) => `  manual-${i}: {title_suffix: Cloud}\n`).join(''))
+  const master = f.commit(), reader = new FetchGitReader(f.root), read = vi.spyOn(reader, 'read'), parse = configs.parseSourceConfig
+  let checks = 0, returned = false
+  const parser = vi.spyOn(configs, 'parseSourceConfig').mockImplementation((text, context, checkBudget) => {
+    const parsed = parse(text, context, () => {
+      if (++checks === 60) vi.spyOn(performance, 'now').mockReturnValue(performance.now() + 60_001)
+      checkBudget?.()
+    })
+    returned = true
+    return parsed
+  })
+  try {
+    await expect(reader.profilesV2(master, f.producer)).rejects.toThrow(/budget/)
+    expect(parser).toHaveBeenCalledTimes(1)
+    expect(checks).toBe(60); expect(returned).toBe(false)
+    expect(read.mock.calls.filter(([args]) => args[1] === '--batch')).toHaveLength(1)
+  } finally {vi.restoreAllMocks()}
 })

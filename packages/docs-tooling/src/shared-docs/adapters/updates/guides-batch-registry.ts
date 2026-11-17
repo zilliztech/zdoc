@@ -13,15 +13,16 @@ export interface AuthenticatedRegistryPage {
   readonly sourceFile: string
   readonly publish: readonly Readonly<{manual: string; path: string}>[]
 }
-export function validateGuidesSource(text: string) {
-  const source = parseSourceConfig(text)
+export function validateGuidesSource(text: string, checkBudget = () => {}) {
+  const source = parseSourceConfig(text, {}, checkBudget)
   if ('errors' in source || source.config.repository !== 'https://github.com/milvus-io/milvus-docs' || source.config.track !== 'v3.0.x') throw new Error('MASTER_SOURCE_INVALID')
 }
-export function validateGuidesPage(pageId: string, text: string, destinations: Set<string>): AuthenticatedRegistryPage {
-  const page = parsePageConfig(pageId, text, {manuals: ['guides', 'guides-byoc'], betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC')})
+export function validateGuidesPage(pageId: string, text: string, destinations: Set<string>, checkBudget = () => {}): AuthenticatedRegistryPage {
+  const page = parsePageConfig(pageId, text, {manuals: ['guides', 'guides-byoc'], betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC')}, checkBudget)
   if (pageId === 'active' || 'errors' in page || !RepoPathSchema.safeParse(page.config.source.file).success) throw new Error('MASTER_REGISTRY_INVALID')
   const manuals = new Set<string>()
   for (const target of page.config.publish) {
+    checkBudget()
     const key = target.manual + '/' + target.path
     if (!RepoPathSchema.safeParse(target.path).success || manuals.has(target.manual) || destinations.has(key)) throw new Error('MASTER_REGISTRY_INVALID')
     manuals.add(target.manual); destinations.add(key)
@@ -46,7 +47,8 @@ export function guidesRegistryLayout(entries: readonly FetchTreeEntry[], check =
     if (parts.length === 1) {
       if (entry.mode !== '040000' || entry.type !== 'tree' || parts[0] === 'active') throw new Error('MASTER_REGISTRY_INVALID')
       pages.push({pageId: parts[0], config: ordinary(entry.path + '/page.yaml'), lock: ordinary(entry.path + '/lock.yaml')})
-    } else if (parts.length !== 2 || !['page.yaml', 'lock.yaml', ...guidesVariantNames].includes(parts[1]) || entry.type !== 'blob' || entry.mode !== '100644') throw new Error('MASTER_REGISTRY_INVALID')
+    }
+    // Page-local transform snippets and other content remain raw-bound by the profile.
   }
   if (!pages.length) throw new Error('MASTER_REGISTRY_INVALID')
   return {source, pages}
