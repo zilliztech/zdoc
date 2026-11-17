@@ -74,6 +74,8 @@ export interface PageConfig {
 }
 /** Manual-layout metadata; the H1-derived title is never overridable, unlike per-page configs. */
 export type ManualMetadata = Omit<PageMetadata, 'title'>
+/** Cloud-page visibility; `next`/`retire-in-next` activate with the R1c channel package. */
+export type ManualCloudChannel = 'current' | 'next' | 'retire-in-next'
 /** One whole-manual configuration: shared-docs/<group>/manual.yaml for manual-layout groups. */
 export interface ManualConfig {
   schema_version: 1
@@ -81,6 +83,12 @@ export interface ManualConfig {
   publish: { manual: string }
   /** Keys are module paths ending in '/' (beta only) or page paths ending in '.md'; pages win. */
   metadata?: Record<string, ManualMetadata>
+  /** Upstream pages (module `dir/` or page `dir/page.md`, relative to source.dir) left out of the manual. */
+  exclude?: string[]
+  /** Upstream hardcoded values; each key must hold a same-name string value in Variables.json. */
+  milvus_values?: Record<string, string>
+  /** Manual-local pages: logical path (relative to source.dir) → a file in the group's content/ directory. */
+  cloud_pages?: Record<string, { file: string; channel?: ManualCloudChannel }>
 }
 export interface PageConfigContext extends DiagnosticContext {
   manuals: readonly string[]
