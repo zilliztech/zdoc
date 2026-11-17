@@ -14,6 +14,7 @@ import {
   type ManualReferenceNavigation,
 } from '../../../../../shared/navigation/manualReferenceNavigation';
 import {getDocsUiText, useDocsUiText} from '../../../../../shared/i18n/uiText';
+import {cloudConsoleUrl} from '../../../../../shared/utils/cloudConsole';
 
 const useBrowserLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffect : useEffect;
@@ -130,6 +131,7 @@ function MobileActionToolbar() {
 
 function MobileActionLinks() {
   const mobileSidebar = useNavbarMobileSidebar();
+  const {siteConfig} = useDocusaurusContext();
   const uiText = useDocsUiText();
   // Sign Up Free is deliberately NOT repeated here — on mobile it stays in the
   // bar itself, so listing it again would give the same action two places.
@@ -155,7 +157,7 @@ function MobileActionLinks() {
         {uiText.navbar.support}
       </a>
       <a
-        href="https://cloud.zilliz.com/login"
+        href={cloudConsoleUrl(siteConfig.customFields?.site, '/login')}
         className="mobile-action-link"
         target="_blank"
         rel="noopener noreferrer">
