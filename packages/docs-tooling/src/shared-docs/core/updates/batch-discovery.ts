@@ -111,7 +111,8 @@ export function discoverBatches(value: unknown): BatchDiscoveryReport {
     if (seed.pr?.merged && (!seed.pr.mergeCommit || !seed.commits.includes(seed.pr.mergeCommit))) seed.reasons.push('PR_INTRODUCTION_UNVERIFIED')
     seed.reasons = union(seed.reasons); allReasons.push(...seed.reasons)
   }
-  const needed = new Set<string>()
+  // Explicit clue membership is necessary even when lifecycle observations prohibit an edit.
+  const needed = new Set(input.dependencies.flatMap(clue => clue.pageIds))
   for (const page of input.pages) {
     assert(page.target === input.pins.source, 'CONFLICTING_TARGET_PIN')
     page.seedKeys.forEach(key => assert(seeds.has(key), 'UNKNOWN_SEED'))
@@ -126,20 +127,28 @@ export function discoverBatches(value: unknown): BatchDiscoveryReport {
     if (page.published === null) page.reasons.push('PUBLISHED_STATE_UNKNOWN')
     const changed = page.seedKeys.length > 0 || page.intervals.some(range => range.changePaths.length > 0) ||
       input.changes.some(change => change.pageIds.includes(page.pageId))
-    if (changed && !page.intervals.some(range => range.from === page.oldNext)) page.reasons.push('INCOMPLETE_SOURCE_INTERVAL')
-    if (!changed) page.reasons.push('NO_DIRECT_SOURCE_CHANGE')
     if (changed && page.active !== false) needed.add(page.pageId)
+    const covered = page.oldNext === page.target || page.intervals.some(range => range.from === page.oldNext &&
+      range.association === 'complete' && range.evidence.length > 0)
+    if (!covered && (page.active !== false || needed.has(page.pageId))) page.reasons.push('INCOMPLETE_SOURCE_INTERVAL')
+    if (!changed && covered) page.reasons.push('NO_DIRECT_SOURCE_CHANGE')
+    if (needed.has(page.pageId) && page.active === false) page.reasons.push('INACTIVE_NECESSARY_PAGE')
+    if (needed.has(page.pageId) && page.published === false) page.reasons.push('UNPUBLISHED_NECESSARY_PAGE')
     page.reasons = union(page.reasons); allReasons.push(...page.reasons)
   }
   for (const change of input.changes) {
-    change.pageIds.forEach(id => assert(pages.has(id), 'UNKNOWN_CHANGE_PAGE'))
+    change.pageIds.forEach(id => {
+      assert(pages.has(id), 'UNKNOWN_CHANGE_PAGE')
+      if (change.kind === 'source') assert(change.path === pages.get(id)!.sourceFile ||
+        change.status === 'renamed' && change.previousPath === pages.get(id)!.sourceFile, 'CONFLICTING_SOURCE_PATH_MAPPING')
+    })
     assert(change.status !== 'renamed' && change.status !== 'copied' || change.previousPath !== null, 'MISSING_PREVIOUS_PATH')
     if (!change.pageIds.length) allReasons.push(change.kind === 'fragment' ? 'FRAGMENT_REQUIRES_COLLECTOR' : 'UNMAPPED_SOURCE_CHANGE')
     if (!change.evidence.length) allReasons.push('MISSING_CHANGE_EVIDENCE')
   }
   unique(input.dependencies, json, 'DUPLICATE_DEPENDENCY')
   for (const clue of input.dependencies) {
-    clue.pageIds.forEach(id => { assert(pages.has(id), 'UNKNOWN_DEPENDENCY_PAGE'); if (pages.get(id)!.active !== false) needed.add(id) })
+    clue.pageIds.forEach(id => assert(pages.has(id), 'UNKNOWN_DEPENDENCY_PAGE'))
     clue.seedKeys.forEach(key => assert(seeds.has(key), 'UNKNOWN_DEPENDENCY_SEED'))
     if (!clue.evidence.length) clue.reasons.push('MISSING_DEPENDENCY_EVIDENCE')
     clue.reasons = union(clue.reasons); allReasons.push(...clue.reasons)
@@ -150,7 +159,7 @@ export function discoverBatches(value: unknown): BatchDiscoveryReport {
   const touch = (key: string) => { if (!edges.has(key)) edges.set(key, new Set()) }
   const connect = (keys: string[]) => { keys.forEach(touch); keys.slice(1).forEach(key => { edges.get(keys[0])!.add(key); edges.get(key)!.add(keys[0]) }) }
   for (const id of needed) connect([`page:${id}`, ...pages.get(id)!.seedKeys.map(key => `seed:${key}`)])
-  for (const clue of input.dependencies) connect([...clue.pageIds.filter(id => needed.has(id)).map(id => `page:${id}`), ...clue.seedKeys.map(key => `seed:${key}`)])
+  for (const clue of input.dependencies) connect([...clue.pageIds.map(id => `page:${id}`), ...clue.seedKeys.map(key => `seed:${key}`)])
   const groups: BatchDiscoveryGroup[] = [], visited = new Set<string>()
   for (const start of strings([...edges.keys()])) {
     if (visited.has(start)) continue
@@ -174,6 +183,6 @@ export function discoverBatches(value: unknown): BatchDiscoveryReport {
   if (inventory.publishedUnknown) allReasons.push('INVENTORY_PUBLISHED_UNKNOWN')
   const reportReasons = union(allReasons)
   return BatchDiscoveryReportSchema.parse({ ...input, schema: 'guides-batch-discovery-v1', writeEligible: false,
-    status: reportReasons.some(reason => reason !== 'NO_DIRECT_SOURCE_CHANGE') ? 'held' : 'provisional',
+    status: reportReasons.some(reason => reason !== 'NO_DIRECT_SOURCE_CHANGE' && reason !== 'REPLAY_ONLY') ? 'held' : 'provisional',
     inventory, groups: sorted(groups, group => group.pageIds[0]), reasons: reportReasons })
 }

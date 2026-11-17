@@ -52,10 +52,100 @@ it('conservatively joins explicit dependency clues and retains their evidence', 
   expect(result.dependencies).toEqual(input.dependencies)
   expect(result.status).toBe('held')
 })
+
+it('retains an explicitly necessary inactive bridge and both of its seed connections as held', () => {
+  const input = fixture(); input.seeds.push(pr(2)); input.pages[1].active = false; input.pages[1].seedKeys = ['pr:2']
+  input.pages.push(page('page-c', ['pr:2']))
+  input.dependencies.push({ pageIds: ['page-a', 'page-b'], seedKeys: [], paths: ['site/en/fragments/shared.md'], evidence: ['dependency:bridge'], reasons: [] })
+  const result = discoverBatches(input)
+  expect(result.groups.map(group => [group.pageIds, group.seedKeys])).toEqual([
+    [['page-a', 'page-b', 'page-c'], ['pr:1', 'pr:2']],
+  ])
+  expect(result.status).toBe('held')
+  expect(result.pages[1].reasons).toContain('INACTIVE_NECESSARY_PAGE')
+  expect(result.groups[0].reasons).toContain('INACTIVE_NECESSARY_PAGE')
+  expect(result.reasons).toContain('INACTIVE_NECESSARY_PAGE')
+  expect(result.writeEligible).toBe(false)
+  expect(result.groups[0].closure).toBe('pending-collector')
+})
+it('holds a necessary active member whose publication is absent', () => {
+  const input = fixture(); input.pages[1].published = false
+  const result = discoverBatches(input)
+  expect(result.groups[0].pageIds).toEqual(['page-a', 'page-b'])
+  expect(result.status).toBe('held')
+  expect(result.pages[1].reasons).toContain('UNPUBLISHED_NECESSARY_PAGE')
+  expect(result.groups[0].reasons).toContain('UNPUBLISHED_NECESSARY_PAGE')
+})
+it('keeps unrelated configured inactive pages reported without inventing edits or no-change claims', () => {
+  const input = fixture(); input.pages.push({ ...page('page-inactive', []), active: false, published: false, intervals: [] })
+  const result = discoverBatches(input)
+  expect(result.inventory).toMatchObject({ configured: 3, active: 2, published: 2 })
+  expect(result.groups.map(group => group.pageIds)).toEqual([['page-a', 'page-b']])
+  expect(result.pages[2].reasons).not.toContain('NO_DIRECT_SOURCE_CHANGE')
+  expect(result.status).toBe('provisional')
+})
+it('holds missing lock-to-target observations without claiming no direct source change', () => {
+  const input = fixture(); input.pages = [{ ...page('page-a', []), intervals: [] }]; input.seeds = []
+  const result = discoverBatches(input)
+  expect(result.status).toBe('held')
+  expect(result.groups).toEqual([])
+  expect(result.pages[0].reasons).toContain('INCOMPLETE_SOURCE_INTERVAL')
+  expect(result.pages[0].reasons).not.toContain('NO_DIRECT_SOURCE_CHANGE')
+})
+it('accepts an evidenced complete empty source delta without adding a group', () => {
+  const input = fixture(); input.pages = [{ ...page('page-a', []), intervals: [
+    { from: oid('b'), to: oid('c'), commits: [], changePaths: [], association: 'complete', evidence: ['git-range:complete-empty'] },
+  ] }]; input.seeds = []
+  const result = discoverBatches(input)
+  expect(result.status).toBe('provisional')
+  expect(result.groups).toEqual([])
+  expect(result.pages[0].reasons).toEqual(['NO_DIRECT_SOURCE_CHANGE'])
+})
+it.each(['missing-evidence', 'unknown-association'] as const)('holds an empty interval with %s', gap => {
+  const input = fixture(); input.pages = [{ ...page('page-a', []), intervals: [
+    { from: oid('b'), to: oid('c'), commits: [], changePaths: [], association: gap === 'unknown-association' ? 'unknown' : 'complete',
+      evidence: gap === 'missing-evidence' ? [] : ['git-range:unknown'] },
+  ] }]; input.seeds = []
+  const result = discoverBatches(input)
+  expect(result.status).toBe('held')
+  expect(result.pages[0].reasons).toContain('INCOMPLETE_SOURCE_INTERVAL')
+  expect(result.pages[0].reasons).not.toContain('NO_DIRECT_SOURCE_CHANGE')
+})
+it('rejects contradictory direct source mappings without treating them as dependency clues', () => {
+  const input = fixture()
+  input.changes = [{ path: 'site/en/unrelated.md', status: 'modified', previousPath: null, pageIds: ['page-a'], kind: 'source', evidence: ['git-range:conflict'] }]
+  expect(() => discoverBatches(input)).toThrow('CONFLICTING_SOURCE_PATH_MAPPING')
+  input.changes[0].previousPath = input.pages[0].sourceFile
+  expect(() => discoverBatches(input)).toThrow('CONFLICTING_SOURCE_PATH_MAPPING')
+})
+it('accepts direct deletion and either configured side of a genuine rename', () => {
+  const input = fixture()
+  input.changes = [{ path: 'site/en/renamed.md', status: 'renamed', previousPath: 'site/en/page-a.md', pageIds: ['page-a'], kind: 'source', evidence: ['git-range:rename'] },
+    { path: 'site/en/page-b.md', status: 'removed', previousPath: null, pageIds: ['page-b'], kind: 'source', evidence: ['git-range:delete'] }]
+  expect(discoverBatches(input).changes).toHaveLength(2)
+  input.pages[0].sourceFile = 'site/en/renamed.md'
+  expect(discoverBatches(input).changes[1].previousPath).toBe('site/en/page-a.md')
+})
+it('retains a fragment hint with page references separately from direct source identity', () => {
+  const input = fixture()
+  input.changes = [{ path: 'site/en/fragments/shared.md', status: 'modified', previousPath: null, pageIds: ['page-b', 'page-a'], kind: 'fragment', evidence: ['git-range:fragment'] }]
+  expect(discoverBatches(input).changes[0]).toMatchObject({ kind: 'fragment', pageIds: ['page-a', 'page-b'] })
+})
+it('keeps a complete historical replay provisional while retaining informational replay labeling', () => {
+  const input = fixture(); input.observation = 'replay'
+  const result = discoverBatches(input)
+  expect(result.observation).toBe('replay')
+  expect(result.status).toBe('provisional')
+  expect(result.reasons).toEqual(['REPLAY_ONLY'])
+  expect(result.writeEligible).toBe(false)
+  expect(result.groups[0].closure).toBe('pending-collector')
+  expect(result.groups[0].pageIds).toEqual(['page-a', 'page-b'])
+})
+
 it('normalizes every nested collection without mutating the supplied input', () => {
   const input = fixture(); input.seeds.push(pr(2)); input.pages[0].seedKeys.push('pr:2')
   input.pages[0].intervals[0].evidence.push('git-range:second'); input.pages[0].publish.push({ manual: 'guides-byoc', path: 'page-a' })
-  input.changes.push({ path: 'site/en/page-a.md', previousPath: null, status: 'modified', pageIds: ['page-b', 'page-a'], kind: 'source', evidence: ['b:2', 'a:1'] })
+  input.changes.push({ path: 'site/en/fragments/shared.md', previousPath: null, status: 'modified', pageIds: ['page-b', 'page-a'], kind: 'fragment', evidence: ['b:2', 'a:1'] })
   input.dependencies.push({ pageIds: ['page-b', 'page-a'], seedKeys: ['pr:2', 'pr:1'], paths: ['z.md', 'a.md'], evidence: ['z:1', 'a:2'], reasons: ['Z_REASON', 'A_REASON'] })
   input.reasons = ['Z_REASON', 'A_REASON']
   const original = structuredClone(input), reversed = structuredClone(input)
@@ -131,7 +221,7 @@ it('holds missing source evidence and unknown lifecycle while preserving observa
 })
 
 it('reports no direct source change without claiming a qualified noop or adding a group', () => {
-  const input = fixture(); input.pages.push({ ...page('page-c', []), intervals: [] })
+  const input = fixture(); input.pages.push({ ...page('page-c', []), oldNext: oid('c'), intervals: [] })
   const result = discoverBatches(input)
   expect(result.pages[2].reasons).toContain('NO_DIRECT_SOURCE_CHANGE')
   expect(result.groups[0].pageIds).toEqual(['page-a', 'page-b'])
