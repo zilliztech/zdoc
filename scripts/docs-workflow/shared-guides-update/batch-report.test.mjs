@@ -148,6 +148,7 @@ test('output preflight rejects content, files, links and linked ancestors before
 function packagingFixture(source) {
   const p = area(), scriptDirectory = join(p, 'scripts/docs-workflow/shared-guides-update'); mkdirSync(scriptDirectory, { recursive: true })
   copyFileSync(cli, join(scriptDirectory, 'batch-report.mjs'))
+  copyFileSync(join(root, 'scripts/docs-workflow/shared-guides-update/batch-publish.mjs'), join(scriptDirectory, 'batch-publish.mjs'))
   writeFileSync(join(scriptDirectory, 'batch-contract.ts'), source)
   symlinkSync(join(root, 'node_modules'), join(p, 'node_modules'))
   git(p, 'init', '-b', 'fixture'); git(p, 'add', 'scripts')
@@ -202,6 +203,114 @@ test('preflight identity/content recheck rejects an output directory changed dur
     assert.equal(existsSync(join(out, 'batch-report.json')), false)
     assert.equal(readdirSync(f.p).some(name => name.startsWith('.guides-batch-report-')), false)
   }
+})
+
+test('publication syscall cannot follow a parent swapped to a symlink and cleanup stays in the anchored directory', () => {
+  for (const replacement of ['original', 'other']) {
+    const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
+    const parent = join(f.p, 'reports'), moved = join(f.p, 'reports-moved'), other = join(f.p, 'other')
+    mkdirSync(parent); mkdirSync(other)
+    const helper = join(f.p, 'scripts/docs-workflow/shared-guides-update/batch-publish.mjs')
+    // Instrument the copied packaging helper, without introducing any production option/seam.
+    // This interleaves the attack after all checks, immediately before the actual rename syscall.
+    const prelude = `import fixtureFs from 'node:fs'; import { syncBuiltinESMExports as fixtureSync } from 'node:module';
+const fixtureRename = fixtureFs.renameSync;
+fixtureFs.renameSync = (from, to) => {
+  if (from.startsWith('.guides-batch-report-')) {
+    fixtureRename(${JSON.stringify(parent)}, ${JSON.stringify(moved)});
+    fixtureFs.symlinkSync(${JSON.stringify(replacement === 'original' ? moved : other)}, ${JSON.stringify(parent)});
+    fixtureFs.mkdirSync(${JSON.stringify(other)} + '/' + from);
+    fixtureFs.writeFileSync(${JSON.stringify(other)} + '/' + from + '/keep', 'unrelated');
+  }
+  return fixtureRename(from, to);
+}; fixtureSync();
+`
+    writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
+    const result = run(['--source-repo', f.p, '--out', join(parent, 'out')], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } })
+    assertFailure(result, 'OUTPUT_CHANGED')
+    assert.deepEqual(readdirSync(moved), [])
+    assert.equal(existsSync(join(parent, 'out')), false)
+    const preserved = readdirSync(other); assert.equal(preserved.length, 1)
+    assert.equal(readFileSync(join(other, preserved[0], 'keep'), 'utf8'), 'unrelated')
+  }
+})
+
+test('publisher rejects a cwd redirected before spawn before any writes and receives no credentials', () => {
+  const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
+  const parent = join(f.p, 'reports'), moved = join(f.p, 'reports-moved'), other = join(f.p, 'other')
+  mkdirSync(parent); mkdirSync(other)
+  const script = readFileSync(f.cli, 'utf8')
+  const prelude = `import fixtureFs from 'node:fs'; import fixtureChild from 'node:child_process';
+import { syncBuiltinESMExports as fixtureSync } from 'node:module';
+const fixtureExec = fixtureChild.execFileSync;
+fixtureChild.execFileSync = (file, args, options) => {
+  if (args?.[0]?.endsWith('/batch-publish.mjs')) {
+    if (options.env.GH_TOKEN || options.env.GITHUB_TOKEN || options.env.NODE_OPTIONS) throw Error('credential leak');
+    fixtureFs.renameSync(${JSON.stringify(parent)}, ${JSON.stringify(moved)});
+    fixtureFs.symlinkSync(${JSON.stringify(other)}, ${JSON.stringify(parent)});
+  }
+  return fixtureExec(file, args, options);
+}; fixtureSync();
+`
+  writeFileSync(f.cli, prelude + script)
+  assertFailure(run(['--source-repo', f.p, '--out', join(parent, 'out')], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_CHANGED')
+  assert.deepEqual(readdirSync(other), []); assert.deepEqual(readdirSync(moved), [])
+})
+
+test('cleanup refuses a substituted leaf and preserves foreign files rather than recursively traversing it', () => {
+  for (const leaf of ['directory', 'symlink']) {
+    const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
+    const parent = join(f.p, 'reports'), moved = join(f.p, 'reports-moved'), foreign = join(f.p, 'foreign')
+    mkdirSync(parent); mkdirSync(foreign); writeFileSync(join(foreign, 'keep'), 'unrelated')
+    const helper = join(f.p, 'scripts/docs-workflow/shared-guides-update/batch-publish.mjs')
+    const prelude = `import fixtureFs from 'node:fs'; import fixtureChild from 'node:child_process';
+import { syncBuiltinESMExports as fixtureSync } from 'node:module';
+const fixtureRename = fixtureFs.renameSync, fixtureExec = fixtureChild.execFileSync;
+fixtureFs.renameSync = (from, to) => {
+  if (from.startsWith('.guides-batch-report-')) {
+    fixtureRename(${JSON.stringify(parent)}, ${JSON.stringify(moved)});
+    fixtureFs.symlinkSync(${JSON.stringify(moved)}, ${JSON.stringify(parent)});
+  }
+  return fixtureRename(from, to);
+};
+fixtureChild.execFileSync = (file, args, options) => {
+  if (args[0] === '--input-type=module' && args[2].startsWith('// Owned-directory cleanup')) {
+    fixtureRename(options.cwd, 'owned-kept');
+    ${leaf === 'symlink' ? `fixtureFs.symlinkSync(${JSON.stringify(foreign)}, options.cwd);` :
+      "fixtureFs.mkdirSync(options.cwd); fixtureFs.writeFileSync(options.cwd + '/keep', 'unrelated');"}
+  }
+  return fixtureExec(file, args, options);
+}; fixtureSync();
+`
+    writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
+    assertFailure(run(['--source-repo', f.p, '--out', join(parent, 'out')], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_CHANGED')
+    assert.equal(readFileSync(join(moved, 'out/keep'), 'utf8'), 'unrelated')
+    assert.equal(readFileSync(join(foreign, 'keep'), 'utf8'), 'unrelated')
+    assert.deepEqual(outputFiles(join(moved, 'owned-kept')), expectedFiles)
+  }
+})
+
+test('staging writes bind their own cwd identity before opening either output file', () => {
+  const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
+  const parent = join(f.p, 'reports'), foreign = join(f.p, 'foreign')
+  mkdirSync(parent); mkdirSync(foreign); writeFileSync(join(foreign, 'keep'), 'unrelated')
+  const helper = join(f.p, 'scripts/docs-workflow/shared-guides-update/batch-publish.mjs')
+  const prelude = `import fixtureFs from 'node:fs'; import fixtureChild from 'node:child_process';
+import { syncBuiltinESMExports as fixtureSync } from 'node:module';
+const fixtureExec = fixtureChild.execFileSync;
+fixtureChild.execFileSync = (file, args, options) => {
+  if (args[0] === '--input-type=module' && args[2].startsWith('// Owned-directory writes')) {
+    fixtureFs.renameSync(options.cwd, 'owned-kept');
+    fixtureFs.symlinkSync(${JSON.stringify(foreign)}, options.cwd);
+  }
+  return fixtureExec(file, args, options);
+}; fixtureSync();
+`
+  writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
+  assertFailure(run(['--source-repo', f.p, '--out', join(parent, 'out')], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_WRITE_FAILED')
+  assert.deepEqual(readdirSync(foreign), ['keep']); assert.equal(readFileSync(join(foreign, 'keep'), 'utf8'), 'unrelated')
+  assert.deepEqual(readdirSync(join(parent, 'owned-kept')), [])
+  assert.equal(existsSync(join(parent, 'out')), false)
 })
 
 test('credentials smuggled into structurally valid replay evidence cannot enter either artifact', () => {

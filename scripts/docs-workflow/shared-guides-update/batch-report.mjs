@@ -2,8 +2,8 @@
 import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
 import { constants, openSync, closeSync, readSync, fstatSync, lstatSync, realpathSync, readdirSync,
-  mkdtempSync, writeFileSync, renameSync, rmSync } from 'node:fs'
-import { dirname, join, resolve, parse, sep } from 'node:path'
+  mkdtempSync, rmSync } from 'node:fs'
+import { basename, dirname, join, resolve, parse, sep } from 'node:path'
 import { tmpdir } from 'node:os'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
@@ -75,12 +75,6 @@ function preflightOutput(path) {
   })
 }
 
-function verifyOutput(state) {
-  const parent = pathStamp(state.parent), now = pathStamp(state.path, true)
-  if (!same(parent, state.parentInfo) || Boolean(now) !== Boolean(state.info) ||
-      now && (!same(now, state.info) || !now.isDirectory() || readdirSync(state.path).length)) fail('OUTPUT_CHANGED')
-}
-
 // Build without tokens or ambient Git configuration. Tool identity is independent of data M/D/T.
 function toolEnvironment() {
   return { PATH: process.env.PATH, LC_ALL: 'C', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null',
@@ -139,17 +133,20 @@ function markdown(report, fixture) {
 
 function publish(state, json, md) {
   if (json.length > OUTPUT_LIMIT || md.length > OUTPUT_LIMIT) fail('REPORT_OUTPUT_LIMIT')
-  fixed('OUTPUT_WRITE_FAILED', () => {
-    verifyOutput(state)
-    const staging = mkdtempSync(join(state.parent, '.guides-batch-report-'))
-    try {
-      writeFileSync(join(staging, 'batch-report.json'), json, { flag: 'wx', mode: 0o600 })
-      writeFileSync(join(staging, 'batch-report.md'), md, { flag: 'wx', mode: 0o600 })
-      // Only a fully written, bounded pair is published. rename refuses a nonempty destination.
-      verifyOutput(state)
-      renameSync(staging, state.path)
-    } finally { rmSync(staging, { recursive: true, force: true }) }
-  })
+  const identity = info => info ? { dev: info.dev, ino: info.ino } : null
+  const metadata = Buffer.from(JSON.stringify({ parent: state.parent, target: basename(state.path),
+    parentIdentity: identity(state.parentInfo), targetIdentity: identity(state.info), jsonBytes: json.length, markdownBytes: md.length }))
+  const header = Buffer.alloc(4); header.writeUInt32BE(metadata.length)
+  try {
+    // Child cwd is a kernel-held directory reference. The helper binds its identity before
+    // any write and never resolves an absolute pathname for a filesystem mutation.
+    execFileSync(process.execPath, [join(moduleRoot, 'batch-publish.mjs')], { cwd: state.parent,
+      env: toolEnvironment(), input: Buffer.concat([header, metadata, json, md]),
+      timeout: 30_000, maxBuffer: 4096, stdio: ['pipe', 'pipe', 'pipe'] })
+  } catch (error) {
+    const code = error.stderr?.toString()
+    fail(code === 'OUTPUT_CHANGED\n' ? 'OUTPUT_CHANGED' : 'OUTPUT_WRITE_FAILED')
+  }
 }
 
 async function main() {
