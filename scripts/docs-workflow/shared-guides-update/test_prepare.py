@@ -139,6 +139,34 @@ class PreparationTest(unittest.TestCase):
             with self.subTest(count=len(bad)), self.assertRaises(p.Hold):
                 p.batch_archive_admission(bad)
 
+    def test_batch_archive_identity_rejects_content_and_name_replacement(self):
+        with tempfile.TemporaryDirectory() as root:
+            archive = Path(root) / 'collection.zip'
+            archive.write_bytes(b'original')
+            root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
+            archive_fd = os.open(archive, os.O_RDONLY | os.O_NOFOLLOW)
+            try:
+                pin = p.batch_archive_identity(root_fd, archive_fd)
+                self.assertEqual(p.batch_archive_identity(root_fd, archive_fd), pin)
+                archive.write_bytes(b'replaced')
+                self.assertNotEqual(p.batch_archive_identity(root_fd, archive_fd), pin)
+                archive.rename(Path(root) / 'retained-original')
+                archive.write_bytes(b'replaced')
+                with self.assertRaises(p.Hold):
+                    p.batch_archive_identity(root_fd, archive_fd)
+            finally:
+                os.close(archive_fd)
+                os.close(root_fd)
+
+    def test_batch_actual_compressed_zip_overhead_cannot_cross_sixteen_mib(self):
+        members = [(f'pages/page-{i}/report.json', os.urandom(1024**2)) for i in range(16)]
+        self.assertEqual(p.batch_archive_admission(members), 16 * 1024**2)
+        with self.assertRaisesRegex(p.Hold, 'BATCH_ARCHIVE_COMPRESSED_LIMIT'):
+            p.batch_zip_bytes(members)
+        raw = p.batch_zip_bytes([('index.json', b'{}'), ('qualification.json', b'{}')])
+        with p.zipfile.ZipFile(io.BytesIO(raw)) as archive:
+            self.assertEqual(archive.namelist(), ['index.json', 'qualification.json'])
+
     def test_batch_commit_ack_is_exact_and_publication_never_replaces_pointer(self):
         with tempfile.TemporaryDirectory() as parent:
             root = Path(parent) / 'operation'
@@ -159,6 +187,7 @@ class PreparationTest(unittest.TestCase):
                     self.assertFalse((root / 'index.json').exists())
                 p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, good)
                 self.assertEqual((root / 'index.json').read_bytes(), pointer)
+                self.assertEqual((root / 'index.json').stat().st_nlink, 1)
                 with self.assertRaises(FileExistsError):
                     p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, good)
                 root.rename(Path(parent) / 'moved')
@@ -168,6 +197,28 @@ class PreparationTest(unittest.TestCase):
                 self.assertFalse((root / 'index.json').exists())
             finally:
                 for fd in (blobs_fd, root_fd, parent_fd):
+                    os.close(fd)
+
+    def test_batch_failed_directory_settlement_retracts_only_its_own_pointer(self):
+        with tempfile.TemporaryDirectory() as parent:
+            root = Path(parent) / 'operation'
+            root.mkdir()
+            (root / 'blobs').mkdir()
+            fds = [os.open(path, os.O_RDONLY | os.O_DIRECTORY) for path in (parent, root, root / 'blobs')]
+            try:
+                parent_fd, root_fd, blobs_fd = fds
+                control = {'rootIdentity': p._BatchReader.identity(root_fd), 'blobsIdentity': p._BatchReader.identity(blobs_fd)}
+                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control)}
+                real_sync = p.os.fsync
+                def fail_directory(fd):
+                    if fd == root_fd:
+                        raise OSError('controlled directory fsync failure')
+                    return real_sync(fd)
+                with patch.object(p.os, 'fsync', side_effect=fail_directory), self.assertRaises(OSError):
+                    p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, b'{}', ack)
+                self.assertFalse((root / 'index.json').exists())
+            finally:
+                for fd in fds:
                     os.close(fd)
 
     def test_writer_rejects_v2_and_mixed_methods_before_remote_reads(self):

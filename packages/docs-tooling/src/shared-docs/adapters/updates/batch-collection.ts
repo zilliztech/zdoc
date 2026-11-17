@@ -20,6 +20,7 @@ interface Operation {
   replayFixtureBytes?: Uint8Array;
   pages: Map<string, RetainedPage>; issued: Set<string>; outstanding: Set<BatchContentTicket>
 }
+const operationMeasurements = new WeakMap<EvidenceStore, {pages: {pageId: string; elapsedMs: number; responseBytes: number; materialBytes: number}[]}>()
 interface Launch {operation: Operation; request: BatchRenderRequest; state: 'issued' | 'running' | 'settled'}
 const observedLaunches = new WeakMap<object, Launch>(), replayLaunches = new WeakMap<object, Launch>()
 function issueContent(operation: Operation, pageId: string) {
@@ -470,10 +471,11 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
           'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', 'generated/en/manifests/shared-pages/guides/active.json'])
         await reserveBatchAllocation(operation.store, masterExport.bytes + devExport.bytes, masterExport.count + devExport.count + 4)
       }
-      const ticket = issueContent(operation, page.pageId)
+      const ticket = issueContent(operation, page.pageId), began = performance.now()
       const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchContent(ticket, currentBatchLifetime()?.signal)
       if (!operation.active) invalid()
-      await retainPage(operation, ticket, child)
+      const retained = await retainPage(operation, ticket, child)
+      operationMeasurements.get(operation.store)?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - began), responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes})
       if (!operation.active) invalid()
       const request = (operation.base.origin.kind === 'observed' ? observedLaunches : replayLaunches).get(ticket)!.request
       const projected = compactMaterial(child.value, request)
@@ -485,6 +487,15 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     batchCasCategory(operation.store, 'other')
     if (operation.outstanding.size || operation.pages.size !== discovery.report.pages.length) invalid()
     const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages})
+    if (currentBatchLifetime()) {
+      const diagnostics = canonicalBytes({kind: 'guides-batch-groups-v1', base: operation.base, selectedMembers: analysis.groups[0]?.memberIds ?? [],
+        waitingGroups: analysis.groups.slice(1).map(g => ({memberIds: g.memberIds, componentIds: g.componentIds, seedKeys: g.seedKeys})),
+        consideredMembers: sorted(operation.pages.keys()), unmappedChanges: discovery.report.changes.filter(c => !c.pageIds?.length),
+        deletedPaths: sorted(discovery.ledger.filter(e => e.newPath === null).map(e => e.oldPath!)), reasons: analysis.reasons, writeEligible: false, operations: []})
+      if (diagnostics.length > 65536) throw Error('BATCH_SUMMARY_LIMIT')
+      await reserveBatchAllocation(operation.store, diagnostics.length)
+      await operation.store.writeJournal('groups.json', diagnostics)
+    }
     if (analysis.reasons.length) return {status: 'held', reasons: analysis.reasons}
     if (!analysis.groups.length) return {status: 'no-group', reasons: []}
     const group = analysis.groups[0]
@@ -547,8 +558,8 @@ import {acquireBatchRunLease, readBatchAttachmentPins, type BatchRunLease} from 
 import {createOwnedDirectory} from './evidence'
 import {takeMeasuredBatchQualification, type BatchQualifiedChild} from './toolset'
 import {BatchGitStore, batchBudget} from './batch-source'
-import {resolveCommit, sourceEndpoints} from './git'
-import {FetchGitReader} from './trusted-fetch-producer'
+import {resolveCommit} from './git'
+import {recheckBatchSourceHead, recheckBatchStoreHeads} from './batch-source'
 
 declare const qualificationTicketBrand: unique symbol
 export type BatchQualificationLaunchTicket = {readonly [qualificationTicketBrand]: true}
@@ -595,8 +606,8 @@ async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: B
     }
     const lease = await acquireBatchRunLease(store, replay), pins = await readBatchAttachmentPins(replay)
     if (!same(pins, {master: base.pins.master, dev: base.pins.dev, source: base.pins.source}) ||
-      await resolveCommit(capture.root) !== base.pins.master ||
-      (await sourceEndpoints(sealed.sourceRepository, 'https://github.com/milvus-io/milvus-docs', 'v3.0.x', base.pins.source)).head !== base.pins.source) throw Error('BATCH_PIN_CHANGED')
+      await resolveCommit(capture.root) !== base.pins.master) throw Error('BATCH_PIN_CHANGED')
+    await recheckBatchSourceHead(sealed.sourceRepository, base.pins.source)
     if (replay) await verifyBatchReplayHeads(sealed.devRepository, base.pins)
     const scope = immutable(BatchScopeSchema.parse({base, run: lease.run, discoveryRef: sealed.discoveryRef, discoveryDigest: sealed.discoveryDigest,
       materialRoot: sealed.materialRoot, materialDigest: sealed.materialDigest, closureRef: sealed.closureRef, groupSha256: sealed.groupSha256, pages: sealed.pages}))
@@ -726,17 +737,25 @@ async function executeQualification(operation: QualificationOperation, publish: 
         if (replay && !replay.finalPass) throw Error('BATCH_FINAL_REPLAY_MISSING')
         const {verifyBatchFinalFreshness} = await import('./batch-github')
         const now = collectionClock(scope.base.origin)
-        await verifyBatchFinalFreshness({run: scope.run, sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact, pins: scope.base.pins}, now, replay?.finalPass, signal)
+        await verifyBatchFinalFreshness({scanStartMs: q.scanStartMs, sourceJobId: q.rows[0].sourceJobId, run: scope.run, sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact, pins: scope.base.pins}, now, replay?.finalPass, signal)
         check(); await operation.verifyOwned(); check()
-        if (await resolveCommit(capture.root) !== scope.base.pins.master ||
-          (await sourceEndpoints(sealed.sourceRepository, 'https://github.com/milvus-io/milvus-docs', 'v3.0.x', scope.base.pins.source)).head !== scope.base.pins.source) throw Error('BATCH_PIN_CHANGED')
+        if (await resolveCommit(capture.root) !== scope.base.pins.master) throw Error('BATCH_PIN_CHANGED')
+        await recheckBatchSourceHead(sealed.sourceRepository, scope.base.pins.source)
         if (replay) await verifyBatchReplayHeads(sealed.devRepository, scope.base.pins)
         const decisionTime = collectionClock(scope.base.origin)
         if (decisionTime - q.scanStartMs > 36 * 3600_000 || q.scanStartMs - decisionTime > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
         check()
       }} : {})})
     await reserveBatchAllocation(store, 16 * 1024 ** 2 + 65536, 3)
-    const verified = await launcher.runBatchVerifier(verifierTicket, currentBatchLifetime()?.signal); check()
+    let verified
+    try {verified = await launcher.runBatchVerifier(verifierTicket, currentBatchLifetime()?.signal)}
+    catch (error) {
+      // A durable descriptor is never a completed live grant. Unknown terminal
+      // outcomes stop here, retain diagnostics and can never resume this root.
+      if (await lstat(join(store.root, 'index.json')).then(() => true, () => false)) throw Error('PUBLICATION_OUTCOME_UNCONFIRMED', {cause: error})
+      throw error
+    }
+    check()
     await operation.verifyOwned(); check()
     if (!same(identity(await lstat(store.root, {bigint: true})), control.rootIdentity) || !same(identity(await lstat(join(store.root, 'blobs'), {bigint: true})), control.blobsIdentity)) invalid()
     return {status: 'verified', origin: scope.base.origin, indexRef, indexDigest, qualifierRef, qualifierDigest, controlDigest: batchDigest('control', control),
@@ -747,10 +766,7 @@ async function executeQualification(operation: QualificationOperation, publish: 
 /** Separate bounded boundary probes, never a new/reset profile transaction.
  * Only these two fixed local refs are permitted; operator refs are not accepted. */
 export async function verifyBatchReplayHeads(repository: string, pins: {master: string; dev: string}) {
-  const reader = new FetchGitReader(repository)
-  const master = await reader.read(['rev-parse', '--verify', 'refs/heads/master^{commit}'], undefined, false, 41)
-  const dev = await reader.read(['rev-parse', '--verify', 'refs/heads/dev^{commit}'], undefined, false, 41)
-  if (!Buffer.from(master).equals(Buffer.from(pins.master + '\n')) || !Buffer.from(dev).equals(Buffer.from(pins.dev + '\n'))) throw Error('BATCH_PIN_CHANGED')
+  await recheckBatchStoreHeads(repository, pins)
 }
 
 import {withBatchLifetime, currentBatchLifetime, bindBatchResources, batchCasCategory, reserveBatchAllocation,
@@ -813,6 +829,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       const fs = await statfs(parent, {bigint: true})
       checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: 0}, 8192, 4)
       store = await initializeEvidence({root: out, repositories: [repository, source], owner: 'guides-batch-' + observation, maxBytes: 64 * 1024 * 1024})
+      operationMeasurements.set(store, {pages: []})
       stopSampling = sampleBatchOperation(store.root)
       const commit = await resolveCommit(repository), capture = replay?.capture ?? await captureTrustedToolset({root: repository, commit, cwd: repository})
       currentBatchLifetime()!.check()
@@ -848,7 +865,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       return result('held', [/^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_COLLECTION_FAILED'])
     } finally {
       if (stopSampling && store) {
-        const metrics = {kind: 'guides-batch-measurement-v1', observation, ...await stopSampling(), resources: batchResourceMeasurement(store) ?? null,
+        const metrics = {kind: 'guides-batch-measurement-v1', observation, ...await stopSampling(), resources: batchResourceMeasurement(store) ?? null, pages: operationMeasurements.get(store)?.pages ?? [],
           signedProducerCapacity: 'deferred'}
         // Diagnostics cannot confer authority. Retain them separately from I/Q/C.
         try {const bytes = canonicalBytes(metrics); if (bytes.length <= 65536) await store.writeJournal('measurement.json', bytes)} catch { /* leave existing raw evidence intact */ }

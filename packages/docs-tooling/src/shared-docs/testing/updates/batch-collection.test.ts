@@ -420,7 +420,8 @@ it('requires a distinct complete immutable final-pass sequence and rejects late 
   const module = await import('../../adapters/updates/batch-github')
   expect(module.verifyBatchFinalFreshness).toBeTypeOf('function')
   const source = f.fixture.archives.source, publication = f.fixture.archives.publication
-  const expected = {run: {id: 123, attempt: 1 as const, head: f.producer}, sourceArtifact: {id: source.id, bytes: source.bytes, sha256: source.sha256},
+  const jobs = JSON.parse(Buffer.from(f.fixture.qualification[2].base64, 'base64').toString()).jobs
+  const expected = {scanStartMs: Date.parse(jobs[0].steps[0].started_at), sourceJobId: jobs[0].id, run: {id: 123, attempt: 1 as const, head: f.producer}, sourceArtifact: {id: source.id, bytes: source.bytes, sha256: source.sha256},
     publicationArtifact: {id: publication.id, bytes: publication.bytes, sha256: publication.sha256},
     pins: {master: f.master, dev: f.sampledDev, source: f.target}}
   await expect(module.verifyBatchFinalFreshness(expected, f.replayClockMs, f.fixture.finalPass)).resolves.toBeUndefined()
@@ -430,6 +431,12 @@ it('requires a distinct complete immutable final-pass sequence and rejects late 
   await expect(module.verifyBatchFinalFreshness(expected, f.replayClockMs, wrong)).rejects.toThrow('BATCH_PIN_CHANGED')
   await expect(module.verifyBatchFinalFreshness(expected, f.replayClockMs + 37 * 3600_000, f.fixture.finalPass)).rejects.toThrow('BATCH_FRESHNESS_EXPIRED')
   await expect(module.verifyBatchFinalFreshness(expected, f.replayClockMs, [])).rejects.toThrow()
+  const scanDrift = structuredClone(f.fixture.finalPass!), jobRow = scanDrift.find(row => row.path.includes('/attempts/1/jobs'))!
+  const jobBody = JSON.parse(Buffer.from(jobRow.base64, 'base64').toString())
+  jobBody.jobs[0].steps[0].started_at = new Date(expected.scanStartMs + 1).toISOString()
+  const jobBytes = Buffer.from(JSON.stringify(jobBody))
+  Object.assign(jobRow, {base64: jobBytes.toString('base64'), bytes: jobBytes.length, sha256: batchSha256(jobBytes)})
+  await expect(module.verifyBatchFinalFreshness(expected, f.replayClockMs, scanDrift)).rejects.toThrow('BATCH_FINAL_SCAN_CHANGED')
 }, 120000)
 
 it('keeps a merged edit-restore interval complete with mixed targets and every necessary noop', async () => {

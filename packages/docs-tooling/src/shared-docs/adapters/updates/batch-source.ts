@@ -366,3 +366,17 @@ export async function exportBatchTree(repository: string, commit: string, roots:
   }
   return measured.entries.length
 }
+
+/** Fixed boundary rechecks only. No caller-selected ref, child credential or
+ * unbounded read session is needed after discovery has proved the ancestry. */
+export async function recheckBatchStoreHeads(repository: string, pins: {master: string; dev: string}) {
+  for (const [branch, expected] of [['master', pins.master], ['dev', pins.dev]]) {
+    const raw = await exportRead(repository, ['rev-parse', '--verify', `refs/heads/${branch}^{commit}`], 41)
+    if (!raw.equals(Buffer.from(expected + '\n'))) stop('BATCH_PIN_CHANGED')
+  }
+}
+export async function recheckBatchSourceHead(repository: string, expected: string) {
+  if (!GitShaSchema.safeParse(expected).success) stop('BATCH_PIN_CHANGED')
+  const raw = await exportRead(repository, ['rev-parse', '--verify', 'refs/heads/v3.0.x^{commit}'], 41)
+  if (!raw.equals(Buffer.from(expected + '\n'))) stop('BATCH_PIN_CHANGED')
+}

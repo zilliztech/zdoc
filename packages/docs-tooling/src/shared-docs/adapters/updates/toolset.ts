@@ -398,13 +398,17 @@ async function fileBytes(path: string) {
 async function gitBytes(binary: string, root: string, args: string[], env: NodeJS.ProcessEnv, input?: string): Promise<Buffer> {
   if (!['cat-file', 'ls-tree', 'rev-parse', '--version'].includes(args[0])) throw new Error('Unsupported Git read')
   const argv = ['--no-replace-objects', '-c', 'core.fsmonitor=false', '-c', 'core.hooksPath=/dev/null', '-C', root, ...args]
-  if (input === undefined) return (await exec(binary, argv, { env, encoding: 'buffer', maxBuffer: 256 * 1024 * 1024, timeout: 30_000 })).stdout
+  const lifetime = currentBatchLifetime(), maximum = (lifetime ? 32 : 256) * 1024 * 1024
+  if (input !== undefined && Buffer.byteLength(input) > maximum) throw Error('BATCH_GIT_INPUT_LIMIT')
+  if (input === undefined) return (await exec(binary, argv, { env, encoding: 'buffer', maxBuffer: maximum, timeout: 30_000 })).stdout
   return new Promise((yes, no) => {
     const child = spawn(binary, argv, { env, signal: currentBatchLifetime()?.signal, stdio: ['pipe', 'pipe', 'pipe'] }), chunks: Buffer[] = []; let total = 0, errors = ''
-    const timer = setTimeout(() => { child.kill(); no(new Error('Git read timeout')) }, 30_000)
-    child.stdout.on('data', b => { total += b.length; if (total > 256 * 1024 * 1024) { child.kill(); no(new Error('Git read bound exceeded')) } else chunks.push(b) })
+    let failure: Error | undefined
+    const fail = (error: Error) => {failure ??= error; child.kill()}
+    const timer = setTimeout(() => fail(new Error('Git read timeout')), Math.min(30_000, lifetime?.check() ?? 30_000))
+    child.stdout.on('data', b => { total += b.length; if (total > maximum) { fail(new Error('Git read bound exceeded')) } else chunks.push(b) })
     child.stderr.on('data', b => { errors = (errors + b.toString()).slice(0, 4096) })
-    child.on('error', e => { clearTimeout(timer); no(e) }); child.on('close', code => { clearTimeout(timer); code === 0 ? yes(Buffer.concat(chunks)) : no(new Error(`Git read failed: ${errors}`)) }); child.stdin.end(input)
+    child.on('error', e => { failure ??= e }); child.on('close', code => { clearTimeout(timer); failure ? no(failure) : code === 0 ? yes(Buffer.concat(chunks)) : no(new Error(`Git read failed: ${errors}`)) }); child.stdin.on('error', fail); child.stdin.end(input)
   })
 }
 type TreeEntry = { path: string; mode: string; type: string; oid: string }
@@ -1104,9 +1108,10 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     return child as BatchQualifiedChild
   }
   async function runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal) {
-    const launch = consumeBatchVerifierLaunch(ticket, value, evidence), input = launch.finalize ? Buffer.concat([canonicalBytes({control: launch.control, rootName: launch.rootName, remainingMs: Math.min(600_000, currentBatchLifetime()?.check() ?? 600_000)}), Buffer.from('\n')]) : canonicalBytes(launch.control)
-    if (input.length > 65536 || launch.control.base.pins.trustedTools !== state.options.commit || !targets.has('runtime/python3') || state.closure.entries.find(e => e.path === 'repo/scripts/docs-workflow/shared-guides-update/prepare.py')?.state !== 'file') throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    const launch = consumeBatchVerifierLaunch(ticket, value, evidence)
     await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    const input = launch.finalize ? Buffer.concat([canonicalBytes({control: launch.control, rootName: launch.rootName, remainingMs: Math.min(600_000, currentBatchLifetime()?.check() ?? 600_000)}), Buffer.from('\n')]) : canonicalBytes(launch.control)
+    if (input.length > 65536 || launch.control.base.pins.trustedTools !== state.options.commit || !targets.has('runtime/python3') || state.closure.entries.find(e => e.path === 'repo/scripts/docs-workflow/shared-guides-update/prepare.py')?.state !== 'file') throw Error('BATCH_LAUNCH_BINDING_INVALID')
     return invokeGuidesWorker(join(owned.root, 'python3'), [join(state.options.root, 'scripts/docs-workflow/shared-guides-update/prepare.py'), launch.finalize ? 'verify-and-publish-batch-collection' : 'verify-batch-collection'],
       state.options.root, environment, input, signal, undefined, launch.control, undefined, {root: launch.rootFd, blobs: launch.blobsFd, parent: launch.parentFd, finalize: launch.finalize})
   }

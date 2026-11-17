@@ -1100,6 +1100,26 @@ def batch_archive_admission(members):
     return total
 
 
+def batch_zip_bytes(members):
+    batch_archive_admission(members)
+    compressed = io.BytesIO()
+    with zipfile.ZipFile(compressed, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
+        for name, raw in members:
+            archive.writestr(name, raw)
+            require(compressed.tell() <= 16 * 1024**2, 'BATCH_ARCHIVE_COMPRESSED_LIMIT')
+    raw_zip = compressed.getvalue()
+    require(len(raw_zip) <= 16 * 1024**2, 'BATCH_ARCHIVE_COMPRESSED_LIMIT')
+    return raw_zip
+
+
+def batch_archive_identity(root_fd, archive_fd):
+    actual = os.stat('collection.zip', dir_fd=root_fd, follow_symlinks=False)
+    held = os.fstat(archive_fd)
+    signature = lambda info: (info.st_dev, info.st_ino, info.st_mode, info.st_nlink, info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+    require(stat.S_ISREG(actual.st_mode) and actual.st_nlink == 1 and signature(actual) == signature(held), 'BATCH_ARCHIVE_REPLACED')
+    return signature(held)
+
+
 def _batch_root_check(parent_fd, root_fd, blobs_fd, root_name, control):
     require(type(root_name) is str and root_name not in ('', '.', '..') and '/' not in root_name
             and '\\' not in root_name and '\0' not in root_name, 'BATCH_ROOT_IDENTITY_INVALID')
@@ -1116,26 +1136,45 @@ def _batch_reserve_fd(root_fd, extent):
     require(fs.f_bavail * fs.f_frsize - allocation > 1024**3, 'BATCH_FREE_SPACE_FLOOR')
 
 
-def commit_batch_pointer(parent_fd, root_fd, blobs_fd, root_name, control, pointer, acknowledgement):
+def commit_batch_pointer(parent_fd, root_fd, blobs_fd, root_name, control, pointer, acknowledgement, check_deadline=lambda: None):
     batch_exact(acknowledgement, 'kind controlDigest')
     require(acknowledgement == {'kind': 'guides-batch-commit-v1', 'controlDigest': batch_digest('control', control)}, 'BATCH_COMMIT_ACK_INVALID')
     require(len(pointer) <= 65536, 'BATCH_POINTER_LIMIT')
+    check_deadline()
     _batch_root_check(parent_fd, root_fd, blobs_fd, root_name, control)
     # The staged pointer is never a success signal. linkat is exclusive and does
     # not overwrite any existing entry; both names are rooted at the held FD.
     stage = '.index-' + os.urandom(16).hex()
     fd = os.open(stage, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=root_fd)
+    installed = False
     try:
         with os.fdopen(fd, 'wb', closefd=False) as stream:
             stream.write(pointer)
             stream.flush()
             os.fsync(fd)
         _batch_root_check(parent_fd, root_fd, blobs_fd, root_name, control)
+        check_deadline()
         os.link(stage, 'index.json', src_dir_fd=root_fd, dst_dir_fd=root_fd, follow_symlinks=False)
+        installed = True
         os.fsync(root_fd)
         _batch_root_check(parent_fd, root_fd, blobs_fd, root_name, control)
+        os.unlink(stage, dir_fd=root_fd)
+        os.fsync(root_fd)
+        require(os.fstat(fd).st_nlink == 1, 'BATCH_POINTER_REPLACED')
+        check_deadline()
+        return os.fstat(fd).st_dev, os.fstat(fd).st_ino
+    except Exception:
+        if installed:
+            _batch_retract_pointer(root_fd, (os.fstat(fd).st_dev, os.fstat(fd).st_ino))
+        raise
     finally:
         os.close(fd)
+
+
+def _batch_retract_pointer(root_fd, expected):
+    actual = os.stat('index.json', dir_fd=root_fd, follow_symlinks=False)
+    require((actual.st_dev, actual.st_ino) == expected and stat.S_ISREG(actual.st_mode), 'BATCH_POINTER_REPLACED')
+    os.unlink('index.json', dir_fd=root_fd)
 
 
 def _batch_verify_publish():
@@ -1146,8 +1185,11 @@ def _batch_verify_publish():
     envelope = batch_exact(batch_parse(first[:-1]), 'control rootName remainingMs')
     require(type(envelope['remainingMs']) is int and 0 < envelope['remainingMs'] <= 600000, 'BATCH_OPERATION_DEADLINE')
     deadline = time.monotonic() + envelope['remainingMs'] / 1000
+    archive_state = None
     def remaining():
         require(time.monotonic() < deadline, 'BATCH_OPERATION_DEADLINE')
+        if archive_state is not None:
+            require(batch_archive_identity(4, archive_state[0]) == archive_state[1], 'BATCH_ARCHIVE_REPLACED')
     control, root_name = envelope['control'], envelope['rootName']
     _batch_root_check(6, 4, 5, root_name, control)
     reader = _BatchReader(4, 5, control)
@@ -1160,25 +1202,19 @@ def _batch_verify_publish():
     # Already verified canonical objects: no second raw-payload hashing pass.
     members = [(name, batch_canonical(reader.objects[ref['sha256']])) for name, ref in refs]
     expanded = batch_archive_admission(members)
-    compressed = io.BytesIO()
-    with zipfile.ZipFile(compressed, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
-        for name, raw in members:
-            archive.writestr(name, raw)
-            require(compressed.tell() <= 16 * 1024**2, 'BATCH_ARCHIVE_COMPRESSED_LIMIT')
-    raw_zip = compressed.getvalue()
-    require(len(raw_zip) <= 16 * 1024**2, 'BATCH_ARCHIVE_COMPRESSED_LIMIT')
+    raw_zip = batch_zip_bytes(members)
     archive_info = {'path': 'collection.zip', 'sha256': sha256(raw_zip), 'bytes': len(raw_zip),
                     'expandedBytes': expanded, 'members': [name for name, _ in refs]}
     remaining()
     _batch_reserve_fd(4, len(raw_zip))
     fd = os.open('collection.zip', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=4)
-    try:
-        with os.fdopen(fd, 'wb', closefd=False) as stream:
-            stream.write(raw_zip)
-            stream.flush()
-            os.fsync(fd)
-    finally:
-        os.close(fd)
+    with os.fdopen(fd, 'wb', closefd=False) as stream:
+        stream.write(raw_zip)
+        stream.flush()
+        os.fsync(fd)
+    # Retain the archive descriptor through freshness and pointer settlement.
+    archive_state = (fd, batch_archive_identity(4, fd))
+    require(os.fstat(fd).st_size == len(raw_zip), 'BATCH_ARCHIVE_REPLACED')
     reader.finish()
     pointer = batch_canonical({'kind': 'guides-batch-collection-pointer-v1', 'origin': control['base']['origin'],
                                **{k: verified[k] for k in ('controlDigest', 'indexRef', 'indexDigest')},
@@ -1190,10 +1226,15 @@ def _batch_verify_publish():
     require(sys.stdin.buffer.read(1) == b'', 'BATCH_COMMIT_ACK_INVALID')
     remaining()
     _batch_reserve_fd(4, len(pointer))
-    commit_batch_pointer(6, 4, 5, root_name, control, pointer, batch_parse(second[:-1]))
     result = batch_canonical({**verified, 'kind': 'guides-batch-published-v1'})
     require(len(result) + len(batch_canonical(verified)) + 1 <= 65536, 'BATCH_ACK_LIMIT')
-    os.write(3, result)
+    installed = commit_batch_pointer(6, 4, 5, root_name, control, pointer, batch_parse(second[:-1]), remaining)
+    try:
+        remaining()
+        require(os.write(3, result) == len(result), 'BATCH_ACK_LIMIT')
+    except Exception:
+        _batch_retract_pointer(4, installed)
+        raise
 
 
 if __name__ == "__main__":

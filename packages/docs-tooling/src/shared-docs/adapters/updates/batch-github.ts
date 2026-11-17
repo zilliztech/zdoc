@@ -152,7 +152,7 @@ import {coordinatorBodyReader} from './guides-lifecycle-transport'
 import {replayMetadataReader, type ReplayMetadataRow} from './guides-metadata-broker'
 /** A separate fixed GET sequence, after Python has finished reading. No broker
  * channels, archive grant or caller-supplied positive classification is reused. */
-export async function verifyBatchFinalFreshness(expected: {run: {id: number; attempt: 1; head: string};
+export async function verifyBatchFinalFreshness(expected: {scanStartMs: number; sourceJobId: number; run: {id: number; attempt: 1; head: string};
   sourceArtifact: {id: number; bytes: number; sha256: string}; publicationArtifact: {id: number; bytes: number; sha256: string};
   pins: {master: string; dev: string; source: string}}, now: number, replay?: readonly ReplayMetadataRow[], signal?: AbortSignal) {
   const raw = replay === undefined ? undefined : replayMetadataReader(replay)
@@ -184,7 +184,9 @@ export async function verifyBatchFinalFreshness(expected: {run: {id: number; att
     const artifact = boundArtifact(facts.artifacts, run, name)
     if (artifact.id !== expectedArtifact.id || artifact.size_in_bytes !== expectedArtifact.bytes || artifact.digest !== 'sha256:' + expectedArtifact.sha256) throw Error('BATCH_FINAL_ARTIFACT_CHANGED')
   }
-  const scan = stepWindow(successfulJob(facts.jobs, 'produce_guides_sources / fetch', run), 'Fetch shared guides sources')
+  const sourceJob = successfulJob(facts.jobs, 'produce_guides_sources / fetch', run)
+  const scan = stepWindow(sourceJob, 'Fetch shared guides sources')
+  if (!scan || scan.start !== expected.scanStartMs || sourceJob?.id !== expected.sourceJobId) throw Error('BATCH_FINAL_SCAN_CHANGED')
   if (!scan || !Number.isSafeInteger(now) || now - scan.start > 36 * 3600_000 || scan.start - now > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
   if (!await latestGuidesRun(api, run, scan.start)) throw Error('BATCH_FINAL_HISTORY_CHANGED')
   for (const [repo, id] of [['zilliztech/zdoc', 660446555], ['milvus-io/milvus-docs', 267273319]] as const) {
