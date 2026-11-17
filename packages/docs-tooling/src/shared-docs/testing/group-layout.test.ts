@@ -43,7 +43,7 @@ it.each(['build', 'lock', 'inspect', 'links-seed'])('rejects unsupported %s grou
         : await runLinksSeed(options, write)
       expect(code).toBe(1)
       expect(output).toContain('CONFIG_FIELD_MISSING')
-      expect(output).toContain('Only the guides group is supported')
+      expect(output).toContain('Only the guides and node groups are supported')
     }
     for (const spy of [read, stat, real, list, writeFile]) expect(spy).not.toHaveBeenCalled()
   } finally { vi.restoreAllMocks() }
@@ -56,7 +56,7 @@ it.each(['build', 'lock', 'inspect', 'links-seed'])('validates the group through
     const result = cli(action, '--shared-docs', sharedDocs, '--repo', '/missing/repo', ...args, ...extra)
     expect(result.status).toBe(1)
     expect(result.stdout + result.stderr).toContain('CONFIG_FIELD_MISSING')
-    expect(result.stdout + result.stderr).toContain('Only the guides group is supported')
+    expect(result.stdout + result.stderr).toContain('Only the guides and node groups are supported')
     expect(result.stdout + result.stderr).not.toContain('ENOENT')
   }
 })
@@ -151,6 +151,13 @@ it('keeps diagnostic paths repository-relative for a group inside the repository
     const prefix = directory.startsWith('/repository/') ? directory.slice('/repository/'.length) : directory
     expect(group.file('source.yaml')).toBe(`${prefix}/source.yaml`)
   }
+})
+
+it('accepts the node group and still rejects unknown groups', () => {
+  const group = groupContext('shared-docs/node', '/repository')
+  if ('errors' in group) throw new Error('Expected the node group')
+  expect(group.file('pages/example/page.yaml')).toBe('shared-docs/node/pages/example/page.yaml')
+  expect(groupContext('shared-docs/python', '/repository')).toMatchObject({ errors: [{ code: 'CONFIG_FIELD_MISSING' }] })
 })
 
 it('uses absolute diagnostic paths for a group outside the repository', () => {

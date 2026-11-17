@@ -29,6 +29,35 @@ it('reads shared source settings without hardcoding the repository or tracking b
     .toEqual({ config: { schema_version: 1, repository: 'https://github.com/milvus-io/milvus-docs', track: 'v3.0.x' } })
 })
 
+it('reads layout source settings: source_dir and per-manual presentation', () => {
+  const text = 'schema_version: 1\nrepository: https://github.com/milvus-io/web-content\ntrack: master\n'
+    + 'source_dir: API_Reference/milvus-sdk-node/v3.0.x\npresentation:\n  node:\n    title_suffix: Node.js\n    slug_prefix: /node/node\n    displayed_sidebar: nodeSidebar\n'
+  expect(parseSourceConfig(text)).toEqual({ config: {
+    schema_version: 1, repository: 'https://github.com/milvus-io/web-content', track: 'master',
+    source_dir: 'API_Reference/milvus-sdk-node/v3.0.x',
+    presentation: { node: { title_suffix: 'Node.js', slug_prefix: '/node/node', displayed_sidebar: 'nodeSidebar' } },
+  } })
+})
+
+it('rejects invalid source_dir paths, presentation entries and unknown source fields together', () => {
+  const result = parseSourceConfig('schema_version: 1\nrepository: https://github.com/milvus-io/web-content\ntrack: master\n'
+    + 'source_dir: /absolute\npresentation:\n  node: {title_suffix: 5}\nsurprise: true\n')
+  if ('config' in result) throw new Error('unexpected config')
+  const lines = result.errors.map(error => error.line)
+  expect(lines).toContain(4)
+  expect(lines).toContain(6)
+  expect(lines).toContain(7)
+})
+
+it('reads per-page version metadata carried into generated front matter', () => {
+  const text = page + 'metadata: {added_since: v2.3.x, last_modified: v3.0.x}\n'
+  expect(parsePageConfig('delete-entities', text, context)).toEqual({ config: {
+    schema_version: 1, source: { file: 'site/en/delete.md' },
+    publish: [{ manual: 'guides', path: 'tutorials/delete-entities' }],
+    metadata: { added_since: 'v2.3.x', last_modified: 'v3.0.x' },
+  } })
+})
+
 it('reports independent nested errors together with accurate one-based YAML locations', () => {
   const result = parsePageConfig('Bad_ID', `schema_version: 2
 source: {file: ../escape.md, extra: true}

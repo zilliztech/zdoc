@@ -26,7 +26,23 @@ export interface DiagnosticContext {
   page?: PageId
   channel?: Channel | 'both'
 }
-export interface SourceConfig { schema_version: 1; repository: string; track: string }
+export interface SourcePresentation {
+  /** Appended to the generated title and description after a " | " separator. */
+  title_suffix: string
+  /** Joined before the page ID in the generated slug (empty for flat slugs). */
+  slug_prefix?: string
+  /** Value of the generated displayed_sidebar front-matter key. */
+  displayed_sidebar?: string
+}
+export interface SourceConfig {
+  schema_version: 1
+  repository: string
+  track: string
+  /** Repository-relative upstream source root; defaults to milvus-docs' site/en. */
+  source_dir?: string
+  /** Per-manual output presentation; manuals without an entry keep guides defaults. */
+  presentation?: Record<string, SourcePresentation>
+}
 export interface PublishTarget { manual: string; path: string }
 export interface Transform {
   operation: 'add' | 'replace' | 'remove'
@@ -39,7 +55,7 @@ export interface PageConfig {
   schema_version: 1
   source: { file: string }
   publish: PublishTarget[]
-  metadata?: { title?: string; description?: string; beta?: string }
+  metadata?: { title?: string; description?: string; beta?: string; added_since?: string; last_modified?: string }
   transforms?: Transform[]
 }
 export interface PageConfigContext extends DiagnosticContext {

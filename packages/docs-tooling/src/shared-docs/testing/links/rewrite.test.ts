@@ -6,6 +6,7 @@ import { context, input } from './helpers'
 it('[5-1] classifies every link form and rewrites valid references without leaving unresolved links', () => {
   const forms = ['#Heading', 'https://example.test', 'mailto:docs@example.test', 'https://milvus.io/docs/a.md', 'boolean.md#Heading', '/api-reference/x', 'filtering']
   expect(forms.map(classifyLink)).toEqual(['anchor', 'external', 'external', 'milvus-url', 'page', 'root', 'unknown'])
+  expect(['Client/Y.md', '../Collections/X.md', './Z.md'].map(classifyLink)).toEqual(['page-path', 'page-path', 'page-path'])
   const markdown = '# Title\n\n## Heading\n\n' + forms.slice(0, 5).map(url => `[x](${url})`).join(' ')
   const result = rewriteLinksAndImages(input(markdown, { linkMap: new Map([['boolean.md', 'filtering-overview']]), targets: new Map([['boolean.md', '## Heading']]) }))
   expect(result).toHaveProperty('markdown', markdown.replace('(#Heading)', '(#heading)').replace('(boolean.md#Heading)', '(./filtering-overview#heading)'))
@@ -20,6 +21,16 @@ it('[5-2] shares one validated map across pages and rejects duplicate keys', () 
   for (const page of ['first', 'second']) expect(rewriteLinksAndImages(input('[x](boolean.md)', { linkMap: parsed.map, context: { ...context, page } })))
     .toHaveProperty('markdown', '[x](./filtering-overview)')
   expect(parseLinkMap('boolean.md: one\nboolean.md: two\n', context)).toMatchObject({ errors: [{ code: 'LINK_MAP_INVALID', line: 2 }] })
+})
+it('resolves group-relative .md paths by unique basename only in path-link layouts', () => {
+  const markdown = '[a](../Collections/X.md) [b](Client/Y.md#Heading) [c](Z.md)'
+  const overrides = { targets: new Map([['X.md', '## Shared'], ['Y.md', '## Heading'], ['Z.md', '## Zed']]),
+    sharedPages: new Map([['X.md', 'Collections-x'], ['Y.md', 'Client-y'], ['Z.md', 'Zed']]) }
+  expect(rewriteLinksAndImages(input(markdown, { ...overrides, pathLinks: true })))
+    .toHaveProperty('markdown', '[a](./Collections-x) [b](./Client-y#heading) [c](./Zed)')
+  // Without a layout, group-relative paths stay rejected exactly as before.
+  expect(rewriteLinksAndImages(input('[a](../Collections/X.md)', overrides)))
+    .toMatchObject({ errors: [{ code: 'LINK_UNKNOWN_FORM' }] })
 })
 it('validates YAML shape, filename keys and destination values with source lines', () => {
   for (const yaml of ['[bad', '- boolean.md', 'plain', 'foo: page', '../a.md: page', 'a.md: /root', 'a.md: https://milvus.io.evil.test/x', 'a.md: https://example.test', 'a.md: 7']) {

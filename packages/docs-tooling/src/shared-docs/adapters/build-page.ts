@@ -8,7 +8,7 @@ import type { AdaptedPage, TabsRules } from '../core/site'
 import { checkProductNames } from '../core/product-names'
 import { scanProductNames } from '../core/product-names/scan'
 import type { ProductNameDetail, ProductNameRules, ProductNameSource } from '../core/product-names'
-import type { Channel, DiagnosticContext, PageConfig, PageConfigContext, PageVariant, SharedDocsError, Variables } from '../core/types'
+import type { Channel, DiagnosticContext, PageConfig, PageConfigContext, PageVariant, SharedDocsError, SourceConfig, Variables } from '../core/types'
 import { yamlLine } from '../core/yaml'
 import { originalPageLine } from '../core/blocks'
 import { mergeMarkdown } from '../core/merge'
@@ -31,6 +31,7 @@ export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; conf
 export interface SharedDocsInputs {
   sharedDocsPath?: string
   sourceYaml: string
+  sourceConfig: SourceConfig
   variablesJson: string
   variables: Variables
   pages: ReadonlyMap<string, BuildPageInputFiles>
@@ -40,7 +41,7 @@ export interface SharedDocsInputs {
   context: PageConfigContext
 }
 export interface FetchBuildTarget {
-  manual: 'guides' | 'guides-byoc'; path: string; extension: '.md' | '.mdx'
+  manual: string; path: string; extension: '.md' | '.mdx'
   navigation: { sidebar_label?: string; sidebar_position?: number }
   channel: 'current' | 'next' | 'retire-in-next'
 }
@@ -50,9 +51,13 @@ export interface BuiltPage { manual: string; path: string; mdx: string; images: 
 export type BuildPageResult = { pages: BuiltPage[]; planned: boolean } | { errors: SharedDocsError[] }
 export interface BuildReader extends InspectionReader, LinkInputReader { dispose(): Promise<void> }
 
+/** Manuals whose release-channel evidence comes from the Guides Feishu snapshot. */
+const isGuidesManual = (manual: string): boolean => manual === 'guides' || manual === 'guides-byoc'
+
 /** WP3's snapshot lifetime and WP5's bulk reads stay local to this invocation. */
 export function createBuildReader(repository: string, inspection: InspectionReader = new GitMilvusDocsReader(repository),
-  links: LinkInputReader & { readFiles?(commit: string, paths: readonly string[]): Promise<Map<string, string>> } = new GitLinkInputReader(repository)): BuildReader {
+  links: LinkInputReader & { readFiles?(commit: string, paths: readonly string[]): Promise<Map<string, string>> } = new GitLinkInputReader(repository),
+  sourceRoot = 'site/en'): BuildReader {
   const texts = new Map<string, Promise<string>>()
   const bytes = new Map<string, Promise<Uint8Array>>()
   const lists = new Map<string, Promise<string[]>>()
@@ -68,7 +73,7 @@ export function createBuildReader(repository: string, inspection: InspectionRead
   function warm(commit: string) {
     if (!warmed.has(commit)) warmed.set(commit, (async () => {
       if (!links.readFiles) return
-      const paths = (await listFiles(commit, 'site/en')).filter(path => /\.(?:md|json)$/.test(path))
+      const paths = (await listFiles(commit, sourceRoot)).filter(path => /\.(?:md|json)$/.test(path))
       const files = await links.readFiles(commit, paths)
       for (const [path, text] of files) texts.set(key(commit, path), Promise.resolve(text))
     })())
@@ -160,6 +165,9 @@ export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader
   const manuals = new Map<string, Promise<{ reader: ZdocContentReader; pages: readonly ZdocPage[] }>>()
   const accepted = new Map<string, Promise<Uint8Array>>()
   const replay = createPairedImageFetcher(input.fetcher)
+  // Layout sources (source_dir) resolve group-relative links by their globally unique basename.
+  const layout = input.sharedDocs.sourceConfig.source_dir
+    ? { sourceRoot: input.sharedDocs.sourceConfig.source_dir, pathLinks: true } : undefined
   let records: ReturnType<GuidesBase['getRecords']> | undefined
   return {
     fetchContext: input.fetchContext,
@@ -187,7 +195,7 @@ export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader
             return bytes
           },
         }
-        return { prepared: await prepareLinkInputs(content, source, commit, reader, replay()), reads }
+        return { prepared: await prepareLinkInputs(content, source, commit, reader, replay(), {}, layout), reads }
       })())
       const { prepared } = await preparations.get(key)!
       return { targets: prepared.targets, images: prepared.images,
@@ -223,8 +231,8 @@ export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader
           let id = basename(config.source.file)
           try {
             const meta = milvusPageMetadata(config.source.file, await input.reader.readFile(commit, config.source.file))
-            if (!meta) throw new Error(`Shared page ${pageId} has no usable public front-matter ID at ${commit}:${config.source.file}`)
-            id = meta.id
+            if (meta) id = meta.id
+            else if (!layout) throw new Error(`Shared page ${pageId} has no usable public front-matter ID at ${commit}:${config.source.file}`)
           }
           catch (error) { if ((error as { code?: string }).code !== 'MISSING_FILE') throw error }
           if (result.has(id)) throw new Error(`Shared pages ${result.get(id)} and ${pageId} project to the same public ID ${id} at ${commit}`)
@@ -305,10 +313,14 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
   const config = parsed.config
   const errors: SharedDocsError[] = []
   const targets = new Map<number, { navigation: { sidebar_label?: string; sidebar_position?: number }; pages: readonly ZdocPage[]; fetch?: FetchBuildTarget }>()
-  const records = await runtime.records()
+  // Release-channel evidence is a Guides-manual concern: never consult the snapshot for
+  // pages that publish only to other manuals, so a stray snapshot record with the same
+  // slug cannot leak a channel into them and the snapshot file stays optional for them.
+  const needsRecords = runtime.fetchContext !== undefined || config.publish.some(target => isGuidesManual(target.manual))
+  const records = needsRecords ? await runtime.records() : []
   const fetchManuals = runtime.fetchContext?.targets.map(target => target.manual)
   if (runtime.fetchContext && (runtime.fetchContext.page !== pageId || !fetchManuals?.length
-    || fetchManuals.some(manual => manual !== 'guides' && manual !== 'guides-byoc')
+    || fetchManuals.some(manual => !shared.context.manuals.includes(manual))
     || new Set(fetchManuals).size !== fetchManuals.length
     || config.publish.length !== fetchManuals.length
     || new Set(config.publish.map(target => target.manual)).size !== config.publish.length
@@ -316,7 +328,7 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
     return { errors: [{ ...context, code: 'OWNERSHIP_PATH_MISMATCH', message: 'Fetch publish targets must exactly match the selected Base targets' }] }
   }
   for (const [index, target] of config.publish.entries()) {
-    if (target.manual !== 'guides' && target.manual !== 'guides-byoc') {
+    if (!shared.context.manuals.includes(target.manual)) {
       errors.push({ ...context, code: 'CONFIG_MANUAL_UNKNOWN', line: yamlLine(page.pageYaml, ['publish', index, 'manual']),
         message: `Shared page adaptation does not support manual ${target.manual}` })
       continue
@@ -339,7 +351,8 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
       continue
     }
     const existing = pages.find(candidate => candidate.slug === pageId && candidate.path.replace(/\.mdx?$/, '') === target.path)
-    if (!existing || !records.some(record => record.slug === existing.slug)) {
+    // The Guides snapshot is a guides-manual evidence source; other manuals only need the dev page.
+    if (!existing || (isGuidesManual(target.manual) && !records.some(record => record.slug === existing.slug))) {
       errors.push({ ...context, code: 'CONFIG_PATH_UNKNOWN', line: yamlLine(page.pageYaml, ['publish', index, 'path']),
         message: !existing ? `No dev page for ${pageId} at ${target.manual}/${target.path}` : `No Guides snapshot record for ${existing.slug}` })
       continue
@@ -353,10 +366,19 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
   // A paired Fetch decision must reject either invalid target before rendering/downloading.
   if (runtime.fetchContext && errors.length) return { errors }
   const sourceConfig = parseSourceConfig(shared.sourceYaml, context)
-  const customEditUrl = runtime.fetchContext && !('errors' in sourceConfig)
-    ? `https://github.com/milvus-io/milvus-docs/edit/${encodeURIComponent(sourceConfig.config.track)}/${config.source.file.split('/').map(encodeURIComponent).join('/')}` : undefined
+  const editTarget = !('errors' in sourceConfig)
+    ? { repository: /^https:\/\/github\.com\/([^/]+)\/([^/]+?)(?:\.git)?\/?$/.exec(sourceConfig.config.repository), track: sourceConfig.config.track } : undefined
+  const customEditUrl = runtime.fetchContext && editTarget?.repository
+    ? `https://github.com/${editTarget.repository[1]}/${editTarget.repository[2]}/edit/${encodeURIComponent(editTarget.track)}/${config.source.file.split('/').map(encodeURIComponent).join('/')}` : undefined
+  const layout = !('errors' in sourceConfig) && sourceConfig.config.source_dir
+    ? { sourceRoot: sourceConfig.config.source_dir, pathLinks: true as const } : undefined
+  const presentation = (manual: string) => {
+    const entry = !('errors' in sourceConfig) ? sourceConfig.config.presentation?.[manual] : undefined
+    return entry ? { titleSuffix: entry.title_suffix, slugPrefix: entry.slug_prefix, displayedSidebar: entry.displayed_sidebar } : undefined
+  }
   const manualContexts = config.publish.map((target, index) => {
-    const release = targets.get(index)?.fetch?.channel ?? records.find(record => record.slug === pageId)?.release_channel?.toLowerCase()
+    const release = targets.get(index)?.fetch?.channel ?? (isGuidesManual(target.manual)
+      ? records.find(record => record.slug === pageId)?.release_channel?.toLowerCase() : undefined)
     const availableChannels: Channel[] = release === 'next' ? ['next'] : release === 'retire-in-next' ? ['current'] : ['current', 'next']
     return { name: target.manual, availableChannels }
   })
@@ -383,10 +405,11 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
       const sources = await productSources(version, source, shared, reader)
       const mappedErrors = (items: SharedDocsError[]) => items.map(error => version.provenance ? remapError(error, version.provenance, source) : error)
       const rewritten = rewriteLinksAndImages({ ...prepared, markdown: version.content, sourceFile: source, sharedPages,
-        linkMap: shared.linkMap, cloudPages: dev.pages, recorded: runtime.fetchContext?.recordedImages, context: location })
+        linkMap: shared.linkMap, cloudPages: dev.pages, recorded: runtime.fetchContext?.recordedImages, context: location, pathLinks: !!layout })
       if ('errors' in rewritten) { errors.push(...mappedErrors(rewritten.errors)); continue }
       for (const image of rewritten.images) if (!runtime.fetchContext?.recordedImages?.has(image.original)) runtime.fetchContext?.recordedImages?.set(image.original, image.sha256)
-      const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual as 'guides' | 'guides-byoc',
+      const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
+        ...(presentation(target.manual) ? { presentation: presentation(target.manual) } : {}),
         metadata: config.metadata, tabsRules: shared.tabsRules, betaValues: shared.context.betaValues,
         headingAnchor: text => cloudAnchor(headingText(text)), navigation: dev.navigation, customEditUrl, releaseChannel: dev.fetch?.channel, context: location })
       if ('errors' in adapted) { errors.push(...mappedErrors(adapted.errors)); continue }

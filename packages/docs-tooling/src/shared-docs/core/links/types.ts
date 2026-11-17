@@ -22,4 +22,6 @@ export interface RewriteInput extends PreparedLinkInputs {
   cloudPages: readonly CloudPage[]
   recorded?: ReadonlyMap<string, string>
   context: DiagnosticContext
+  /** Layouts with globally unique basenames resolve group-relative .md links by filename. */
+  pathLinks?: boolean
 }

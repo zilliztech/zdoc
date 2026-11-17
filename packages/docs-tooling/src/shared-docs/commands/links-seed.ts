@@ -14,6 +14,12 @@ export async function runLinksSeed(options: { sharedDocs: string; repo: string; 
     for (const error of group.errors) write(`${error.file}:${error.line} ${error.code}: ${error.message}\n`)
     return 1
   }
+  // Only the guides group consumes links.yaml; other groups resolve links from their own
+  // page sets, and seeding one would emit an empty candidate that reports success.
+  if (basename(group.root) !== 'guides') {
+    write(`${group.file('source.yaml')}:1 [*/both] CONFIG_FIELD_MISSING: links-seed seeds the guides link map only; other groups do not consume links.yaml\n`)
+    return 1
+  }
   // The initial link map is seeded before the first page creates the group directory;
   // with --commit the group is only an --out guard, so a missing directory is allowed.
   const sharedRoot = await realpath(group.root).catch((error: NodeJS.ErrnoException) => {
@@ -26,6 +32,20 @@ export async function runLinksSeed(options: { sharedDocs: string; repo: string; 
   const inside = (parent: string) => { const path = relative(parent, output); return !path || (!path.startsWith(`..${sep}`) && path !== '..' && !path.startsWith(sep)) }
   if ([repo, dev, join(await realpath(repositoryRoot), 'shared-docs'), sharedRoot].some(inside)) {
     throw new Error('--out must be a candidate file outside the input checkouts and repository-root shared-docs')
+  }
+  // Layout sources carry no front-matter IDs; seeding their link maps is not supported yet.
+  const layoutSource = join(group.root, 'source.yaml')
+  const layoutText = await readFile(layoutSource, 'utf8').catch((error: NodeJS.ErrnoException) => {
+    if (error.code === 'ENOENT') return undefined
+    throw error
+  })
+  if (layoutText !== undefined) {
+    const layoutParsed = parseSourceConfig(layoutText, { file: group.file('source.yaml') })
+    if ('errors' in layoutParsed) throw new Error(JSON.stringify(layoutParsed.errors))
+    if (layoutParsed.config.source_dir) {
+      write(`${group.file('source.yaml')}:1 [*/both] LINK_SEED_LAYOUT_UNSUPPORTED: links-seed only supports the milvus-docs site/en layout\n`)
+      return 1
+    }
   }
   let commit = options.commit
   if (!commit) {
