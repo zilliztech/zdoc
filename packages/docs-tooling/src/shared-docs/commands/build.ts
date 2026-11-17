@@ -199,22 +199,50 @@ export async function readManualSharedDocs(directory: string, repositoryRoot = p
   const variablesText = await read('Variables.json', true)
   const productYaml = await read('product-names.yaml')
   const source = sourceYaml === undefined ? undefined : parseSourceConfig(sourceYaml, { file: file('source.yaml'), channel: 'both' })
-  const manual = manualYaml === undefined ? undefined : parseManualConfig(manualYaml, { ...context, file: file('manual.yaml') })
-  const lock = lockYaml === undefined ? undefined : parseLock(lockYaml, { file: file('lock.yaml'), channel: 'both' })
+  // Variables parse before manual.yaml: milvus_values entries must resolve against them.
   const variables = parseVariables(variablesText ?? '{}', { file: file('Variables.json') })
+  const manual = manualYaml === undefined ? undefined
+    : parseManualConfig(manualYaml, { ...context, file: file('manual.yaml'), variables: 'variables' in variables ? variables.variables : {} })
+  const lock = lockYaml === undefined ? undefined : parseLock(lockYaml, { file: file('lock.yaml'), channel: 'both' })
   const product = productYaml === undefined ? undefined : parseProductNames(productYaml, { file: file('product-names.yaml'), channel: 'both' })
   for (const parsed of [source, manual, lock, variables, product]) if (parsed && 'errors' in parsed) errors.push(...parsed.errors)
   if (errors.length) return { errors }
   if (!source || 'errors' in source || !manual || 'errors' in manual || !lock || 'errors' in lock
     || !variables || 'errors' in variables || !product || 'errors' in product) throw new Error('Missing manual build input')
+  // cloud_pages read from the group's content/ directory with the same path safety as
+  // transform content: no traversal, no symbolic links, regular files inside content/ only.
+  const cloudFiles = new Map<string, ContentFile>()
+  if (manual.config.cloud_pages) {
+    let contentRoot: string | undefined
+    try { contentRoot = await realpath(join(root, 'content')) }
+    catch {
+      errors.push({ code: 'TRANSFORM_CONTENT_NOT_FOUND', message: 'cloud_pages requires a content directory in the group',
+        file: file('manual.yaml'), line: 1, channel: 'both' })
+    }
+    if (contentRoot) for (const [logical, entry] of Object.entries(manual.config.cloud_pages)) {
+      const name = entry.file
+      try {
+        if (isAbsolute(name) || /[\\/\x00]/.test(name) || name === '.' || name === '..') throw new Error('Expected a file in the content directory')
+        const path = join(contentRoot, name)
+        if ((await lstat(path)).isSymbolicLink()) throw new Error('Content must not be a symbolic link')
+        const resolved = await realpath(path)
+        if (dirname(resolved) !== contentRoot || !(await lstat(resolved)).isFile()) throw new Error('Content must resolve to a regular file in the content directory')
+        cloudFiles.set(logical, { file: file(`content/${name}`), text: await readFile(resolved, 'utf8') })
+      } catch (error) {
+        errors.push({ code: 'TRANSFORM_CONTENT_NOT_FOUND', message: `Cannot read Cloud content ${name}: ${error instanceof Error ? error.message : String(error)}`,
+          file: file('manual.yaml'), line: yamlLine(manualYaml, ['cloud_pages', logical, 'file']), page: logical, channel: 'both' })
+      }
+    }
+  }
   if (source.config.source_dir !== undefined && source.config.source_dir !== manual.config.source.dir) {
     return { errors: [{ code: 'CONFIG_FIELD_UNKNOWN',
       message: `source.yaml source_dir (${source.config.source_dir}) must match manual.yaml source.dir (${manual.config.source.dir}) in manual groups`,
       file: file('source.yaml'), line: 1, channel: 'both' }] }
   }
+  if (errors.length) return { errors }
   return { sharedDocsPath: group.path, sourceYaml: sourceYaml!, sourceConfig: source.config,
     manualYaml: manualYaml!, manualConfig: manual.config, lockYaml: lockYaml!, lock: lock.lock,
-    variablesJson: variablesText ?? '{}', variables: variables.variables, productNames: product.rules, context }
+    variablesJson: variablesText ?? '{}', variables: variables.variables, productNames: product.rules, cloudFiles, context }
 }
 
 export function buildImageManifest(pages: readonly BuiltPage[]): ImageRecord[] {
@@ -284,10 +312,10 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       const pages: BuiltPage[] = []
       try {
         const files = await manualReader.listFiles(shared.lock.current, shared.manualConfig.source.dir)
-        const expanded = expandManualPages(files, shared.manualConfig)
+        const expanded = expandManualPages(files, shared.manualConfig, shared.cloudFiles)
         if (expanded.errors.length) { print(expanded.errors); return 1 }
-        if (!expanded.pages.size) throw new Error(`No upstream pages found under ${shared.manualConfig.source.dir} at ${shared.lock.current}`)
-        const manualInputs = { ...shared, pages: expanded.pages }
+        if (!expanded.pages.size) throw new Error(`No manual pages found under ${shared.manualConfig.source.dir} at ${shared.lock.current}`)
+        const manualInputs = { ...shared, pages: expanded.pages, excluded: expanded.excluded }
         const runtime = createBuildRuntime({
           sharedDocs: { sharedDocsPath: shared.sharedDocsPath, sourceYaml: shared.sourceYaml,
             // The manual layout always resolves group-relative links; source_dir mirrors manual.yaml for the runtime.

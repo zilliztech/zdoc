@@ -1,8 +1,12 @@
 import type { DiagnosticContext } from '../types'
 
+export type ProductNameSeverity = 'error' | 'warning'
+
 export interface ProductNameRules {
   readonly check: readonly string[]
   readonly allow: readonly string[]
+  /** Warnings only (absent entries are errors): reported as notices, never blocking. */
+  readonly severity?: ReadonlyMap<string, ProductNameSeverity>
 }
 
 export interface ProductNameSource {
@@ -30,5 +34,6 @@ export interface ProductNameDetail {
   manual: string
   /** All unallowed MDX occurrences of this spelling, as unique one-based lines. */
   mdxLines: number[]
+  severity: ProductNameSeverity
   key?: string
 }

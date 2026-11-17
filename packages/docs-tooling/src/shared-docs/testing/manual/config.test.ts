@@ -26,11 +26,49 @@ describe('parseManualConfig', () => {
     expect(result).toEqual({ config: { schema_version: 1, source: { dir: 'API_Reference/milvus-sdk-node/v3.0.x' }, publish: { manual: 'node' } } satisfies ManualConfig })
   })
 
-  it('rejects future difference keys until their semantics land', () => {
-    for (const key of ['exclude', 'milvus_values', 'cloud_pages', 'transforms']) {
-      const result = parse(`${base}${key}:\n  anything: 1\n`)
-      expect(errorsOf(result).map(error => error.message).join('\n')).toContain(`Unknown field: ${key}`)
-    }
+  it('rejects transform semantics until the channel package lands', () => {
+    const result = parse(`${base}transforms:\n  anything: 1\n`)
+    expect(errorsOf(result).map(error => error.message).join('\n')).toContain('Unknown field: transforms')
+  })
+
+  it('validates exclude entries as repository-relative paths', () => {
+    const accepted = parse(`${base}exclude:\n  - Collections/DataType.md\n  - Client/\n`)
+    expect('config' in accepted && accepted.config.exclude).toEqual(['Collections/DataType.md', 'Client/'])
+    const traversal = parse(`${base}exclude:\n  - ../outside.md\n`)
+    expect(errorsOf(traversal).map(error => error.message).join('\n')).toContain('exclude entries must be repository-relative paths')
+    const notArray = parse(`${base}exclude:\n  just: a-string\n`)
+    expect(errorsOf(notArray).map(error => error.message).join('\n')).toContain('exclude must be an array')
+  })
+
+  it('resolves milvus_values against Variables.json and rejects overlaps', () => {
+    const withVariables = { ...context, variables: { example_endpoint: 'YOUR_CLUSTER_ENDPOINT', nested: { value: 'x' } } }
+    const parseWith = (text: string) => parseManualConfig(text, { ...withVariables, file: 'shared-docs/node/manual.yaml' })
+    const accepted = parseWith(`${base}milvus_values:\n  example_endpoint: localhost:19530\n`)
+    expect('config' in accepted && accepted.config.milvus_values).toEqual({ example_endpoint: 'localhost:19530' })
+    const missing = parseWith(`${base}milvus_values:\n  example_endpoint: localhost:19530\n  unknown_key: 10.0.0.1\n`)
+    expect(errorsOf(missing).some(error => error.code === 'CONFIG_MILVUS_VALUES_INVALID')).toBe(true)
+    const nonString = parseWith(`${base}milvus_values:\n  nested: localhost\n`)
+    expect(errorsOf(nonString).map(error => error.message).join('\n')).toContain('Variables.json must define a nonempty string value for nested')
+    const overlap = parseWith(`${base}milvus_values:\n  example_endpoint: localhost:19530\n  example_token: localhost\n`)
+    expect(errorsOf(overlap).map(error => error.message).join('\n')).toContain('overlapping source values')
+    // Without variables in the context the connection values cannot resolve; fail closed.
+    const noVariables = parse(`${base}milvus_values:\n  example_endpoint: localhost:19530\n`)
+    expect(errorsOf(noVariables).some(error => error.code === 'CONFIG_MILVUS_VALUES_INVALID')).toBe(true)
+  })
+
+  it('accepts cloud_pages with current visibility and rejects one-sided channels', () => {
+    const accepted = parse(`${base}cloud_pages:\n  Overview.md:\n    file: overview.md\n  MilvusCloud/Backup.md:\n    file: backup.md\n    channel: current\n`)
+    expect('config' in accepted && accepted.config.cloud_pages?.['Overview.md']).toEqual({ file: 'overview.md' })
+    const deferred = parse(`${base}cloud_pages:\n  Overview.md:\n    file: overview.md\n    channel: next\n`)
+    expect(errorsOf(deferred).map(error => error.message).join('\n')).toContain('channel next is not supported yet')
+    const unknownChannel = parse(`${base}cloud_pages:\n  Overview.md:\n    file: overview.md\n    channel: retire\n`)
+    expect(errorsOf(unknownChannel).some(error => error.code === 'CONFIG_CHANNEL_UNSUPPORTED')).toBe(true)
+    const badKey = parse(`${base}cloud_pages:\n  Overview:\n    file: overview.md\n`)
+    expect(errorsOf(badKey).map(error => error.message).join('\n')).toContain('cloud_pages keys must be .md page paths relative to source.dir')
+    const traversal = parse(`${base}cloud_pages:\n  Overview.md:\n    file: ../secret.md\n`)
+    expect(errorsOf(traversal).map(error => error.message).join('\n')).toContain('cloud_pages file must be a repository-relative path')
+    const missingFile = parse(`${base}cloud_pages:\n  Overview.md: {}\n`)
+    expect(errorsOf(missingFile).map(error => error.message).join('\n')).toContain('Missing required field: cloud_pages.Overview.md.file')
   })
 
   it('requires source.dir and a registered publish manual', () => {
