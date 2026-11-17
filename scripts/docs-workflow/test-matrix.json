@@ -1494,7 +1494,12 @@
       "id": "shared-docs",
       "paths": [
         "packages/docs-tooling/src/shared-docs/**",
-        "shared-docs/**"
+        "shared-docs/**",
+        ".github/workflows/shared-docs-lock.yml",
+        ".github/workflows/shared-docs-validate.yml",
+        ".github/workflows/shared-docs-adopt-variant.yml",
+        ".github/workflows/shared-docs-pin-drift-watchdog.yml",
+        "scripts/docs-workflow/shared-docs-pin-drift.js"
       ],
       "focusedTests": [
         "pnpm test:shared-docs"
@@ -1505,7 +1510,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Shared docs types, test helpers, fixtures, adapter contracts and grouped onboarding source/page inputs (including malformed layouts under shared-docs/**) must keep complete requirement coverage and whole-group candidate validation without external test dependencies."
+      "reason": "Shared docs types, test helpers, fixtures, adapter contracts and grouped onboarding source/page inputs (including malformed layouts under shared-docs/**) must keep complete requirement coverage and whole-group candidate validation without external test dependencies. The shared-docs CI workflow shells and the pin-drift watchdog core ride the same gate: their multi-group contract tests are part of the grouped suite and their trigger surfaces stay sharedDocsGate-classified."
     },
     {
       "id": "shared-guides-upstream-update",
