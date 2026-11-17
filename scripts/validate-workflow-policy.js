@@ -334,11 +334,14 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
       !lock && !identity.includes('test "$GITHUB_SHA" = "$SOURCE_SHA"')) fail('must validate PR/SHA identities and bind dispatch to github.sha')
   const clone = run(primary, 'Clone complete tracking history')
   const sourceConfig = run(primary, 'Read public source configuration')
-  if (!clone.includes('git clone --single-branch --branch "$TRACK" --no-tags "$SOURCE_REPOSITORY" "$RUNNER_TEMP/milvus-docs"') ||
-      !clone.includes('show-ref --verify "refs/heads/$TRACK"') || !clone.includes('rev-parse --is-shallow-repository)" = false') ||
+  if (!clone.includes("execFileSync('git', ['clone', '--single-branch', '--branch', track, '--no-tags', repository, target]") ||
+      !clone.includes("'show-ref', '--verify', `refs/heads/${track}`") || !clone.includes("'rev-parse', '--is-shallow-repository'") ||
+      !clone.includes('must have complete history') ||
       /--depth|--filter|blob:none|GH_TOKEN|secrets\./.test(clone) ||
       !sourceConfig.includes('parseSourceConfig') || !sourceConfig.includes('^https:\\/\\/github\\.com\\/') ||
-      !sourceConfig.includes('credential-free GitHub HTTPS repository URL')) fail('must parse a public GitHub source URL and clone complete single-branch tracking history')
+      !sourceConfig.includes('credential-free GitHub HTTPS repository URL') ||
+      !sourceConfig.includes('shared-docs/${group}/source.yaml') ||
+      !sourceConfig.includes('RUNNER_TEMP}/shared-docs-groups')) fail('must parse a public GitHub source URL and clone complete single-branch tracking history per affected group')
   const changesStep = step(primary, 'Detect shared input changes')
   const groupStepIndex = stepsOf(primary).indexOf(changesStep)
   const expectedChangesEnv = lock
@@ -349,7 +352,7 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
       Object.entries(expectedChangesEnv).some(([key, value]) => changesStep.env?.[key] !== value) ||
       groupStepIndex < 0 || ['Install pnpm', 'Set up Node.js', 'Install tooling', 'Read public source configuration', 'Clone complete tracking history'].some(name =>
         groupStepIndex >= stepsOf(primary).findIndex(item => item.name === name))) fail('must invoke the shared group detector with immutable identities before install or source reads')
-  if (!sourceConfig.includes("fs.readFileSync('shared-docs/guides/source.yaml', 'utf8')")) fail('must read the supported grouped source configuration')
+  if (!sourceConfig.includes('fs.readFileSync(`shared-docs/${group}/source.yaml`, \'utf8\')')) fail('must read the supported grouped source configuration')
   if (!lock) {
     if (JSON.stringify(workflow.permissions) !== JSON.stringify({contents: 'read'}) || Object.keys(jobs).join(',') !== 'validate' ||
         jobs.validate?.permissions !== undefined || /secrets\.|GH_TOKEN|git push|report-card/.test(source)) fail('validation must be read-only without secrets or writers')
@@ -365,7 +368,7 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
     const dev = step('validate', 'Check out read-only upstream dev snapshot')
     if (dev?.with?.repository !== 'zilliztech/zdoc' || dev?.with?.ref !== '${{ steps.dev.outputs.sha }}' ||
         dev?.with?.['sparse-checkout-cone-mode'] !== false ||
-        String(dev?.with?.['sparse-checkout'] || '').trim() !== '/content/en/guides/\n/content/en/byoc/\n/packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json' ||
+        String(dev?.with?.['sparse-checkout'] || '').trim() !== '/content/en/guides/\n/content/en/byoc/\n/packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json\n/content/en/reference/' ||
         !run('validate', 'Resolve exact upstream dev snapshot').includes('git ls-remote --exit-code https://github.com/zilliztech/zdoc.git refs/heads/dev')) fail('must sparsely read upstream dev at an exact resolved SHA')
     const generation = run('validate', 'Generate all shared pages')
     if (!generation.includes('while IFS= read -r group; do') || !generation.includes('--shared-docs \"shared-docs/$group\"') ||
@@ -392,7 +395,8 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
     'fs.lstatSync(file).isFile()', "entry.startsWith('100644 ')", 'git ls-remote --exit-code', 'test "$remote_head" = "$SOURCE_SHA"',
     'GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.https://github.com/.extraheader',
     'git push "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$PR_HEAD_BRANCH"', 'pushed_sha=%s']
-  if (pushRequirements.some(text => !push.includes(text)) || !push.includes('^shared-docs\\/guides\\/pages\\/') || !push.includes("'-z', '--', 'shared-docs/'") ||
+  if (pushRequirements.some(text => !push.includes(text)) || !push.includes('SHARED_DOC_GROUPS.join(\'|\')') ||
+      !push.includes('A-Za-z0-9]+(?:-[A-Za-z0-9]+)*') || !push.includes("'-z', '--', 'shared-docs/'") ||
       /git add -A|git add \.|--force|credential.helper|remote set-url|git config.*extraheader/.test(push) ||
       stepsOf('lock').filter(item => /\bgit push\b/.test(item.run || '')).length !== 1) fail('push must allow only new regular locks, recheck the remote head and use ephemeral HTTP authorization without force')
   const dispatchStep = step('lock', 'Dispatch and wait for exact pushed validation')
@@ -410,7 +414,9 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
     fail('must keep cancelled or unconfirmed child runs classified as infrastructure')
   }
   const command = run('lock', 'Create missing initial locks')
-  if (!command.includes('pnpm docs-tooling shared-docs lock --shared-docs shared-docs/guides --repo') || !command.includes('1) echo \'failure_class=content\'') ||
+  if (!command.includes('while IFS= read -r group; do') ||
+      !command.includes('pnpm docs-tooling shared-docs lock --shared-docs "shared-docs/$group" --repo "$RUNNER_TEMP/upstream/$group"') ||
+      !command.includes('done < "$RUNNER_TEMP/shared-docs-groups"') || !command.includes('1) echo \'failure_class=content\'') ||
       !command.includes('*) echo \'failure_class=infrastructure\'') || !command.includes('exit "$status"') ||
       step('lock', 'Classify failure for isolated reporting')?.if !== 'always()' ||
       step('lock', 'Classify failure for isolated reporting')?.env?.GROUP_FAILURE !== '${{ steps.changes.outputs.failure_class }}' ||

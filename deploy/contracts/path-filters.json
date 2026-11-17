@@ -141,7 +141,12 @@
         ".github/workflows/shared-guides-update.yml",
         ".github/workflows/shared-guides-validate.yml",
         ".github/workflows/shared-guides-finalize.yml",
+        ".github/workflows/shared-docs-lock.yml",
+        ".github/workflows/shared-docs-validate.yml",
+        ".github/workflows/shared-docs-adopt-variant.yml",
+        ".github/workflows/shared-docs-pin-drift-watchdog.yml",
         "scripts/docs-workflow/shared-guides-update/**",
+        "scripts/docs-workflow/shared-docs-pin-drift.js",
         "packages/docs-tooling/src/lark/sharedPageFetch*",
         "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
         "packages/docs-tooling/src/lark/sharedGroups*",
@@ -186,6 +191,10 @@
         ".github/workflows/shared-guides-update.yml",
         ".github/workflows/shared-guides-validate.yml",
         ".github/workflows/shared-guides-finalize.yml",
+        ".github/workflows/shared-docs-lock.yml",
+        ".github/workflows/shared-docs-validate.yml",
+        ".github/workflows/shared-docs-adopt-variant.yml",
+        ".github/workflows/shared-docs-pin-drift-watchdog.yml",
         "scripts/translation/**"
       ],
       "checks": [
