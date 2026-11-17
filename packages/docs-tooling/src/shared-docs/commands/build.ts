@@ -102,7 +102,7 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
       return undefined
     }
   }
-  const context = { manuals: groupManuals(group.path), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
+  const context = { manuals: groupManuals(group.name), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
   const sourceYaml = await read('source.yaml')
   const variablesJson = await read('Variables.json')
   const linksYaml = await read('links.yaml')

@@ -46,7 +46,7 @@ export async function runLock(options: LockOptions, write: (text: string) => voi
     await checkTree(root)
     const source = parseSourceConfig(await configFile(join(root, 'source.yaml'), group.file('source.yaml')), { file: group.file('source.yaml') })
     if ('errors' in source) { print(source.errors); return 1 }
-    const context = { manuals: groupManuals(group.path), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
+    const context = { manuals: groupManuals(group.name), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
     const layout = await readGroupLayout(root, group.path)
     if ('errors' in layout) { print(layout.errors); return 1 }
     if (layout.kind === 'manual') {
