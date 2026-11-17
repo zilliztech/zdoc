@@ -211,11 +211,11 @@ async function generateSharedSources(options, dependencies = {}) {
     if (!rowsEqual(stripIdentity(candidateRecord), stripIdentity(previous))) return null
     if (!rowsEqual(stripNavIdentity(candidateNav), stripNavIdentity(previousNav))) return null
     if (!Array.isArray(previousReceipt.inputs.fetch.render_targets?.targets)) return null
-    if (!data.dev_files.some(row => row.path === fetch.publicationPath)) return null
+    if (!data.dev_files.some(row => row.path === groupPaths.publicationPath)) return null
     // One memoized read of the pinned authority: it embeds the entire previous
     // snapshot, so per-page re-parses would dominate the replay round.
     if (!baselinePublication) {
-      baselinePublication = JSON.parse(fetch.regularBytes(baselineRoot, fetch.publicationPath))
+      baselinePublication = JSON.parse(fetch.regularBytes(baselineRoot, groupPaths.publicationPath))
     }
     const proof = baselinePublication.regeneration?.[record.record_id] || null
     if (!proof) return null
@@ -268,7 +268,7 @@ async function generateSharedSources(options, dependencies = {}) {
       let previousReceipt = null
       let previousSnapshot = null
       if (active) {
-        previousSnapshot = JSON.parse(fetch.regularBytes(baselineRoot, fetch.snapshotPath))
+        previousSnapshot = JSON.parse(fetch.regularBytes(baselineRoot, groupPaths.snapshotPath))
         const previous = previousSnapshot.records?.find(row => row.record_id === active.record && row.shared_page?.page === page)
         if (!previous) throw new Error('Active shared page has no corresponding baseline snapshot record')
         previousReceipt = readSharedReceipt(baselineRoot, previous.shared_page)
@@ -387,14 +387,14 @@ async function generateSharedSources(options, dependencies = {}) {
         receipt: `pages/${page}/receipt-draft.json`, regeneration: proof, activation, targets, image_base_url: imageBaseUrl, upstream_lag: upstreamLag, input_context: {...input.evidence, upstream}})
     } catch (error) {
       if (error.hardStop) throw error
-      const baseline = baselineFallback(data, record.record_id, baselineRoot, out)
+      const baseline = baselineFallback(data, record.record_id, baselineRoot, out, group)
       console.info(`[shared-regen] page=${page} status=fallback stage=${stage} elapsed=${((performance.now() - recordStart) / 1000).toFixed(1)}s`)
       outcomes.push({record_id: record.record_id, page, status: 'fallback', code: error.code || 'SHARED_BUILD_FAILED', message: error.message,
         detail: error.detail || null, baseline})
     } finally { fs.rmSync(buildOut, {recursive: true, force: true}) }
   }
   for (const error of data.errors) if (!selected.some(record => record.record_id === error.record_id)) {
-    outcomes.push({...error, status: 'fallback', baseline: baselineFallback(data, error.record_id, baselineRoot, out)})
+    outcomes.push({...error, status: 'fallback', baseline: baselineFallback(data, error.record_id, baselineRoot, out, group)})
   }
   for (const outcome of outcomes) if (outcome.status === 'fallback') {
     console.warn(`[shared-fallback] ${JSON.stringify({record_id: outcome.record_id, page: outcome.page || null,
