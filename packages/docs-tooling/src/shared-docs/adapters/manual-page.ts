@@ -184,8 +184,8 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
   if (!current || !next) throw new Error(`Manual page ${pageId} lost a channel during preparation`)
   const location = { page: pageId, file: page.config.source.file }
   // One origin per adapted input line, exactly like the per-page path; manual sources never expand fragments.
-  // Origins carry the adapted input line inside the channel buffer (post marker-strip,
-  // pre preprocess); the per-page path maps back to upstream lines via originalPageLine,
+  // Origins carry the adapted input line inside the channel buffer (post preprocess and
+  // link rewrite); the per-page path maps back to upstream lines via originalPageLine,
   // which the manual layout does not need while sources carry no markers or variables.
   const lineOrigins = (version: ManualChannelVersion, channel: 'current' | 'next') =>
     version.adapted.provenance.outputLines.map(line => line === null ? [] : [{ channel, file: page.config.source.file, line }])

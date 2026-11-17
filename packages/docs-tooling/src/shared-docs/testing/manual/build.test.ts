@@ -30,6 +30,23 @@ it('expands the upstream tree into virtual pages with merged metadata', () => {
   expect(JSON.parse(client.pageYaml).source.file).toBe(`${sourceDir}/Client/MilvusClientV2.md`)
 })
 
+it('rejects unused metadata keys, basename collisions, and invalid page IDs', () => {
+  const manual: ManualConfig = { schema_version: 1, source: { dir: sourceDir }, publish: { manual: 'node' },
+    metadata: { 'Collections/createCollectionn.md': { added_since: 'v2.3.x' }, 'Collections/DataType.md': { beta: 'ON REQUEST' } } }
+  const { errors } = expandManualPages([`${sourceDir}/Collections/createCollection.md`, `${sourceDir}/Collections/DataType.md`], manual)
+  // The typo key fails; the correctly spelled page key is consumed.
+  expect(errors.some(error => error.code === 'CONFIG_PATH_UNKNOWN' && error.message.includes('createCollectionn.md'))).toBe(true)
+  expect(errors.filter(error => error.code === 'CONFIG_PATH_UNKNOWN')).toHaveLength(1)
+
+  const collision = expandManualPages([`${sourceDir}/A/install.md`, `${sourceDir}/B/install.md`],
+    { schema_version: 1, source: { dir: sourceDir }, publish: { manual: 'node' } })
+  expect(collision.errors.some(error => error.code === 'CONFIG_SLUG_DUPLICATE' && error.message.includes('basename'))).toBe(true)
+
+  const invalid = expandManualPages([`${sourceDir}/Collections/dotted.name.md`],
+    { schema_version: 1, source: { dir: sourceDir }, publish: { manual: 'node' } })
+  expect(invalid.errors.some(error => error.code === 'CONFIG_PAGE_ID_INVALID')).toBe(true)
+})
+
 it('rejects upstream pages that collide case-insensitively', () => {
   const manual: ManualConfig = { schema_version: 1, source: { dir: sourceDir }, publish: { manual: 'node' } }
   const { errors } = expandManualPages([`${sourceDir}/Client/MilvusClientV2.md`, `${sourceDir}/client/milvusclientv2.md`], manual)
