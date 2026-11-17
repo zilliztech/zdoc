@@ -1,5 +1,6 @@
 import { basename } from 'node:path'
 import { groupFile } from './group-context'
+import { aliasChannelHeadings } from './channel-heading-aliases'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
 import { cloudAnchor, collectReferences, headingText, rewriteLinksAndImages, imageDigest } from '../core/links'
 import type { ImageRecord, LinkMap, Notice, PreparedLinkInputs } from '../core/links'
@@ -490,13 +491,19 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
   }
   const pages: BuiltPage[] = []
   for (const [index, target] of config.publish.entries()) {
-    const current = versions.get('current')!.get(index), next = versions.get('next')!.get(index)
+    const current = versions.get('current')!.get(index)
+    let next = versions.get('next')!.get(index)
     if (!current || !next) continue
     const dev = targets.get(index)!
     const location = { page: pageId, file: config.source.file }
     const lineOrigins = (version: PreparedVersion) => version.adapted.provenance.outputLines.map(line => line === null ? [] : version.origins[line - 1])
-    const merged = mergeMarkdown({ current: { ...current.adapted, origins: lineOrigins(current), context: { ...location, channel: 'current' } },
-      next: { ...next.adapted, origins: lineOrigins(next), context: { ...location, channel: 'next' } }, context: location, releaseChannel: dev.fetch?.channel })
+    const mergeVersions = (nextVersion: PreparedVersion) => mergeMarkdown({ current: { ...current.adapted, origins: lineOrigins(current), context: { ...location, channel: 'current' } },
+      next: { ...nextVersion.adapted, origins: lineOrigins(nextVersion), context: { ...location, channel: 'next' } }, context: location, releaseChannel: dev.fetch?.channel })
+    let merged = mergeVersions(next)
+    if ('errors' in merged) {
+      const adapted = aliasChannelHeadings(current.adapted, next.adapted, merged.errors)
+      if (adapted) { next = { ...next, adapted }; merged = mergeVersions(next) }
+    }
     if ('errors' in merged) { errors.push(...merged.errors); continue }
     // Keep the existing adapter's virtual input contract. A shared output line can
     // name both source passes, even though toMdx transports one virtual line index.

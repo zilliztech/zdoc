@@ -1,0 +1,10 @@
+schema_version: 1
+
+source:
+  file: site/en/userGuide/indexes/scalar/trie.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/scalar-index/trie-index-type
+  - manual: guides-byoc
+    path: tutorials/development/scalar-index/trie-index-type

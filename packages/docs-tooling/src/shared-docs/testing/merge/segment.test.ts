@@ -131,3 +131,10 @@ describe('parser source segmentation', () => {
     expect(segmentMarkdown({ markdown: source, context: { file: 'page.md', channel: 'next' } })).toMatchObject({ errors: expect.arrayContaining([expect.objectContaining({ code: 'ADAPT_UNSUPPORTED_MARKUP', file: 'page.md', channel: 'next', line: 1 })]) })
   })
 })
+
+it('keeps inline code in table cells opaque when checking HTML boundaries', () => {
+  const text = '| Target | Filter |\n| --- | --- |\n| `ARRAY<VARCHAR>` | `<field> IS NULL` |\n'
+  expect(segment(text).blocks.map(block => block.text)).toEqual([text])
+  expect(segmentMarkdown({ markdown: text + '\n<details>\nUnclosed', context: { channel: 'next' } }))
+    .toMatchObject({ errors: [expect.objectContaining({ message: 'Unclosed details tag' })] })
+})

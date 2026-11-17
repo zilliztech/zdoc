@@ -1,0 +1,1 @@
+For the options marked *, {{var.product_name}} manages the underlying index configuration. Use explicit `BITMAP` or `STL_SORT` when you require that layout, or request `AUTOINDEX` for service-managed selection. For Cloud's automatic-selection policy, see [AUTOINDEX behavior](scalar_index.md#AUTOINDEX-behavior).

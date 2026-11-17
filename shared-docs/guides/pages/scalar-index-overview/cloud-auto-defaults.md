@@ -1,0 +1,1 @@
+Set `index_type` to `AUTOINDEX` in each selected field's index definition to let {{var.product_name}} choose the index type. See [AUTOINDEX Explained](autoindex-explained.md) for Cloud's default mappings. For JSON path compatibility, see [JSON Indexing](json-indexing.md#Understand-cast-types).

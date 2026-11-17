@@ -68,3 +68,5 @@ allow:
   - "- Adding user-defined scalar fields is supported in Milvus 2.6.x and later. Adding user-defined vector fields is supported in Milvus 2.6.18 and later."
   # The heading converter inserts an explicit anchor; allow only this engine badge.
   - "Milvus 2.6.17+"
+  # Preserve the literal sample string and its grams in the NGRAM explanation.
+  - 'An n-gram is an overlapping sequence of characters. With `n=3`, `"Milvus"` produces `"Mil"`, `"ilv"`, `"lvu"`, and `"vus"`.'

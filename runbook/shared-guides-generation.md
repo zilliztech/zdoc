@@ -50,6 +50,18 @@ access. Record the HTTP result and digest with the pilot evidence. These checks
 gate the first image-bearing activation; a page without images can be activated
 before them.
 
+Shared-page links resolve both Markdown heading anchors and static IDs on authored
+`<a id="...">` and `<details id="...">` elements. Heading fragments use the Cloud
+heading slug; explicit IDs retain their case and are URL-encoded in links. Code,
+comments and component props do not declare anchors. A projected-away anchor or
+an ambiguous emitted ID fails validation rather than falling back to the page top.
+
+When a heading moves or changes depth between CURRENT and NEXT, the adapter can
+give the NEXT heading a unique rendering ID and retain its public ID as a nearby
+HTML anchor. CURRENT headings stay unchanged. This applies only to one heading
+per channel with no existing alias conflict; the merger still rejects duplicate
+IDs within a channel, unsafe markup and other structural errors.
+
 On first activation, the job reads the old document at its current revision only
 when a current body link or Base ref requires a heading anchor. Page-top-only
 references do not require that read. It checks required anchors against every
