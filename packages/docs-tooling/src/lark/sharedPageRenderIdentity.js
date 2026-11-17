@@ -47,10 +47,23 @@ function overlayInventory(files, page) {
 function devMdPaths(files) {
   return [...new Set((files || []).map(file => file.path || file).filter(path => DEV_PAGE_INDEX.test(path)))].sort()
 }
+/** Test-only files inside the engine trees never execute during generation: the
+ *  shared-docs `testing/` tree (suites plus their helpers and fixtures) and
+ *  co-located `*.test.*` suites beside the production sources (adapters/contract,
+ *  manuals, spec, fixtures). Keeping them in the engine digest made every
+ *  test-only shared-docs/manuals PR re-render all shared pages with byte-identical
+ *  outputs, so the digest projects the production inventory only. The pinned
+ *  worktree integrity check still covers the full ENGINE_PATHS tree — only the
+ *  identity ignores test files. */
+const ENGINE_TEST_FILE = /\.(test|spec)\.[cm]?[jt]sx?$/
+const ENGINE_TEST_PATH = /(?:^|\/)testing\//
+function productionEngineFiles(files) {
+  return (files || []).filter(file => !ENGINE_TEST_FILE.test(file.path) && !ENGINE_TEST_PATH.test(file.path))
+}
 /** Canonical engine inventory digest; receipt inputs carry it as tools.engine_sha256
  *  so every validation context can recompute the identity without a master checkout. */
 function engineDigest(files) {
-  return digest(JSON.stringify(filesProjection(files)))
+  return digest(JSON.stringify(filesProjection(productionEngineFiles(files))))
 }
 function receiptImages(images) {
   return (images || []).map(({source, sha256}) => ({source, sha256})).sort((a, b) => a.source.localeCompare(b.source))
@@ -112,4 +125,4 @@ function legacyReceiptInputsDigest(receipt) {
   return digest(JSON.stringify(inputs))
 }
 
-module.exports = {ENGINE_PATHS, renderIdentity, receiptProjection, overlayInventory, devMdPaths, engineDigest, receiptImages, resolveMd2mdVersion, legacyReceiptInputsDigest}
+module.exports = {ENGINE_PATHS, renderIdentity, receiptProjection, overlayInventory, devMdPaths, productionEngineFiles, engineDigest, receiptImages, resolveMd2mdVersion, legacyReceiptInputsDigest}
