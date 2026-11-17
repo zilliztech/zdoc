@@ -2,9 +2,9 @@ import { codeGroupAt, fencesIn, markdownLines } from '../blocks'
 import { alignBlocks, segmentMarkdown } from '../merge'
 import type { MergeBlock } from '../merge'
 import { analyzeAnchorRelations, promotionEligibility } from './anchors'
-import { computeUpdateUnits, referencesPage } from './units'
+import { computeUpdateUnits, confirmedAdoptionDependencies } from './units'
 import { immutable, imageIdentity } from './types'
-import type { AdoptionDependency, BlockContext, ChangedBlock, ChangedInput, ComparisonAxis, ImpactComparison, ImpactReport, PageObservation, UpdateInput } from './types'
+import type { BlockContext, ChangedBlock, ChangedInput, ComparisonAxis, ImpactComparison, ImpactReport, PageObservation, UpdateInput } from './types'
 
 const sha = /^[0-9a-f]{40}$/
 const digest = /^[0-9a-f]{64}$/
@@ -152,18 +152,8 @@ export function analyzeUpdates(input: UpdateInput): ImpactReport {
     errors: [...new Map([page.oldNext, page.current, page.candidateNext].flatMap(observation => observation.errors).map(error => [JSON.stringify(error), error])).values()],
     rawErrors: [...new Map([page.oldNext, page.current, page.candidateNext].flatMap(observation => observation.rawErrors).map(error => [JSON.stringify(error), error])).values()] }))
   const identities = snapshot.pages.flatMap(page => page.candidateNext.targets.map(target => ({ pageId: page.pageId, ...target })))
-  const dependencies: AdoptionDependency[] = []
-  for (const target of pages) for (const relation of target.promotion.anchors) {
-    if (relation.status !== 'confirmed' || relation.kind !== 'renamed' || !relation.after) continue
-    const to = { pageId: target.pageId, manual: relation.manual, path: relation.path }
-    for (const source of snapshot.pages) for (const manual of source.candidateNext.manuals) {
-      if (source.pageId === target.pageId) continue
-      const from = { pageId: source.pageId, manual: manual.manual, path: manual.path }
-      for (const reference of manual.references) if (reference.url.split('#')[1] === relation.after.anchor && referencesPage(from, to, reference.url)) {
-        dependencies.push({ from, to, evidence: { axis: 'current-to-candidate-next', relation, reference } })
-      }
-    }
-  }
+  const dependencies = confirmedAdoptionDependencies(snapshot.pages.map(page => ({pageId: page.pageId,
+    promotionAnchors: pages.find(impact => impact.pageId === page.pageId)!.promotion.anchors, manuals: page.candidateNext.manuals})))
   for (const dependency of snapshot.adoptionDependencies ?? []) {
     const relation = pages.find(page => page.pageId === dependency.to.pageId)?.promotion.anchors.find(relation => JSON.stringify(relation) === JSON.stringify(dependency.evidence.relation))
     const reference = snapshot.pages.find(page => page.pageId === dependency.from.pageId)?.candidateNext.manuals.find(manual => manual.manual === dependency.from.manual && manual.path === dependency.from.path)?.references.find(reference => JSON.stringify(reference) === JSON.stringify(dependency.evidence.reference))

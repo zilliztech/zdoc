@@ -1,0 +1,263 @@
+// @vitest-environment node
+import {expect, it} from 'vitest'
+import {createHash} from 'node:crypto'
+import {canonicalBytes} from '../../core/updates/canonical'
+
+it('uses the exact batch domain preimage and rejects unknown digest tags', async () => {
+  const contract = await import('../../adapters/updates/batch-collection-contract').catch(() => null)
+  expect(contract, 'the versioned batch material contract is installed').not.toBeNull()
+  const value = {text: '\u0000\n😀', '𐀀': 1, '\ue000': 2}
+  expect(contract!.batchDigest('material', value)).toBe(createHash('sha256').update('zdoc/guides-batch/material/v1\n').update(canonicalBytes(value)).digest('hex'))
+  expect(() => contract!.batchDigest('arbitrary' as never, value)).toThrow()
+})
+
+import {mkdtemp, rm} from 'node:fs/promises'
+import {tmpdir} from 'node:os'
+import {join} from 'node:path'
+import {onTestFinished} from 'vitest'
+import {batchQualificationFixture} from './fixtures/batch-qualification'
+import * as provider from '../../adapters/updates/guides-provider'
+import {validateBatchWire, BatchMaterialWireSchema, BatchProjectionSchema, decodeBatchBlob} from '../../adapters/updates/batch-collection-contract'
+
+async function fixture() {
+  const root = await mkdtemp(join(tmpdir(), 'batch-material-'))
+  onTestFinished(() => rm(root, {recursive: true, force: true}))
+  return batchQualificationFixture(root)
+}
+it('collects a real one-page content frame without lifecycle or an eligible envelope', async () => {
+  const f = await fixture(), request = await f.request()
+  expect(provider.collectBatchPageMaterial).toBeTypeOf('function')
+  const wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+  const checked = validateBatchWire(wire, request)
+  expect(checked.header.pageId).toBe('build-pipeline')
+  expect(checked.projection.observations).toHaveLength(3)
+  expect(checked.trees[1].entries.map(e => e.path)).toContain('site/en/fragments/used.md')
+  expect(wire).not.toHaveProperty('pages')
+  expect(wire).not.toHaveProperty('authority')
+  expect(wire).not.toHaveProperty('classification')
+  expect(checked.header.base.origin).toEqual(f.origin)
+  expect(checked.header.renderedManualRefs).toHaveLength(6)
+  expect(checked.namespace.outputs.length).toBeGreaterThan(3)
+  const duplicateProjection = structuredClone(checked.projection)
+  duplicateProjection.observations[0].dependencies.push(duplicateProjection.observations[0].dependencies[0])
+  expect(BatchProjectionSchema.safeParse(duplicateProjection).success).toBe(false)
+  for (const mutate of [
+    (w: typeof wire) => {w.blobs.push(w.blobs[0])},
+    (w: typeof wire) => {w.blobs.reverse()},
+    (w: typeof wire) => {w.blobs[0].base64 += '='},
+    (w: typeof wire) => {w.blobs.shift()},
+    (w: typeof wire) => {w.material.base.session = '0'.repeat(64)},
+    (w: typeof wire) => {(w.material as any).eligible = true},
+  ]) {const changed = structuredClone(wire); mutate(changed); expect(() => validateBatchWire(changed, request)).toThrow()}
+  expect(BatchMaterialWireSchema.safeParse({...wire, paths: []}).success).toBe(false)
+  expect(() => decodeBatchBlob({path: `blobs/${'a'.repeat(64)}`, sha256: 'a'.repeat(64), bytes: 64 * 1024 * 1024 + 1}, '')).toThrow()
+}, 120000)
+
+import * as batch from '../../adapters/updates/batch-collection'
+import {replayBatchDiscovery, readBatchDiscoveryCapture} from '../../adapters/updates/batch-discovery'
+import {write, git} from '../build/demo'
+
+it('closes a fragment-only seed with two real nested consumers absent from the public groups', async () => {
+  const f = await fixture()
+  await write(f.repo, 'site/en/build-pipeline.md', '---\nid: build-pipeline.md\ntitle: Pipeline\nsummary: Pipeline fixture\n---\n<!-- doc:block:start id="connect" -->\n## Connect\nBody.\n<!-- doc:block:end id="connect" -->\n')
+  await write(f.repo, 'site/en/source-target.md', '---\nid: public-target.md\ntitle: Target\nsummary: Target fixture\n---\n{{fragments/outer.md}}\n')
+  await write(f.repo, 'site/en/fragments/outer.md', '{{fragments/nested.md}}\n')
+  await write(f.repo, 'site/en/fragments/nested.md', '## Nested\nBefore.\n')
+  await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '-qm', 'nested consumption baseline')
+  const baseline = await git(f.repo, 'rev-parse', 'HEAD')
+  await write(f.sharedDocs, 'pages/build-pipeline/page.yaml', 'schema_version: 1\nsource: {file: site/en/build-pipeline.md}\npublish:\n  - {manual: guides, path: tutorials/build-pipeline}\n  - {manual: guides-byoc, path: tutorials/build-pipeline}\ntransforms:\n  - operation: replace\n    target: {block: connect}\n    content: {file: replacement.md}\n')
+  await write(f.sharedDocs, 'pages/build-pipeline/replacement.md', '{{fragments/outer.md}}\n')
+  for (const id of f.ids) await write(f.sharedDocs, `pages/${id}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
+  await f.configChange()
+  await f.sourceChange('site/en/fragments/nested.md', '## Nested\nAfter.\n')
+  const capture = await replayBatchDiscovery({zdocRepository: f.root, sourceRepository: f.repo, tools: (await f.request()).pins.trustedTools},
+    {fixtureBytes: Buffer.from('nested-consumption'), replayClockMs: 0}, {transport: f.transport})
+  const discovery = readBatchDiscoveryCapture(capture)
+  expect(discovery.report.groups).toEqual([])
+  expect(batch.projectBatchMaterialFixture).toBeTypeOf('function')
+  const pages = []
+  for (const id of f.ids) {
+    const request = await f.request(id)
+    const wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+    pages.push(batch.projectBatchMaterialFixture(wire, request))
+  }
+  expect(pages.every(p => p.consumedPaths.includes('site/en/fragments/nested.md'))).toBe(true)
+  const result = batch.analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages})
+  expect(result.groups.map(g => g.memberIds)).toEqual([f.ids])
+  expect(result.groups[0].dispositions.map(d => d.disposition)).toEqual(['advance', 'advance'])
+  expect(result.groups[0].adoption).toEqual([])
+  expect(result.reasons).toEqual([])
+  expect(result.obligations.filter(o => o.status === 'consumed').map(o => o.pageId)).toEqual(f.ids)
+  const missing = batch.analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: pages.slice(0, 1)})
+  expect(missing.reasons).toContain('COLLATERAL_OBSERVATION_UNAVAILABLE')
+  const ambiguous = structuredClone(discovery.ledger); ambiguous[0].associationResult = 'unknown'; ambiguous[0].reasons = ['METADATA_TRUNCATED']
+  expect(batch.analyzeBatchClosure({report: discovery.report, ledger: ambiguous, history: discovery.introductionOrder, pages}).reasons).toContain('METADATA_TRUNCATED')
+  for (const failure of ['pagination', 'ambiguous'] as const) {
+    const failed = readBatchDiscoveryCapture(await replayBatchDiscovery({zdocRepository: f.root, sourceRepository: f.repo, tools: (await f.request()).pins.trustedTools},
+      {fixtureBytes: Buffer.from(`nested-${failure}`), replayClockMs: 0}, {transport: async input => {
+        if (!input.path.includes('/commits/')) return f.transport(input)
+        if (failure === 'pagination') return {status: 200, headers: {link: 'invalid pagination'}, body: Buffer.from('[]')}
+        const pins = (await f.request()).pins
+        const rows = [1, 2].map(number => ({id: number, number, state: 'closed', merged_at: '2026-01-01T00:00:00Z',
+          base: {repo: {id: 267273319, full_name: 'milvus-io/milvus-docs'}, ref: 'v3.0.x', sha: baseline}, head: {sha: pins.source}}))
+        return {status: 200, headers: {}, body: Buffer.from(JSON.stringify(rows))}
+      }}))
+    const held = batch.analyzeBatchClosure({report: failed.report, ledger: failed.ledger, history: failed.introductionOrder, pages})
+    expect(held.reasons).toContain(failure === 'pagination' ? 'METADATA_PAGINATION_INVALID' : 'AMBIGUOUS_COMMIT_ASSOCIATION')
+    expect(failed.ledger[0].associationResult).toBe('unknown')
+  }
+
+}, 120000)
+
+async function simpleFixture(source = '## Source\nBody.\n', target = '## Target\nTarget body.\n') {
+  const f = await fixture()
+  await write(f.repo, 'site/en/build-pipeline.md', `---\nid: build-pipeline.md\ntitle: Source\nsummary: Source fixture\n---\n${source}`)
+  await write(f.repo, 'site/en/source-target.md', `---\nid: public-target.md\ntitle: Target\nsummary: Target fixture\n---\n${target}`)
+  await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '-qm', 'simple source baseline')
+  const baseline = await git(f.repo, 'rev-parse', 'HEAD')
+  for (const id of f.ids) await write(f.sharedDocs, `pages/${id}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
+  await f.configChange()
+  return {...f, baseline}
+}
+async function observeClosure(f: Awaited<ReturnType<typeof simpleFixture>>) {
+  const discovery = readBatchDiscoveryCapture(await replayBatchDiscovery({zdocRepository: f.root, sourceRepository: f.repo, tools: (await f.request()).pins.trustedTools},
+    {fixtureBytes: Buffer.from('semantic-closure-real-inputs'), replayClockMs: 0}, {transport: f.transport}))
+  const pages = []
+  for (const id of f.ids) {
+    const request = await f.request(id), wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+    pages.push(batch.projectBatchMaterialFixture(wire, request))
+  }
+  return {discovery, pages, result: batch.analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages})}
+}
+it('retains a nonempty all-noop group after a real edit then restore and observes intervening source', async () => {
+  const f = await simpleFixture(), original = await (await import('node:fs/promises')).readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
+  const edited = await f.sourceChange('site/en/build-pipeline.md', original + 'Temporary edit.\n')
+  await f.sourceChange('site/en/build-pipeline.md', original)
+  const {result, pages} = await observeClosure(f)
+  expect(result.reasons).toEqual([])
+  expect(result.groups.map(g => g.memberIds)).toEqual([['build-pipeline']])
+  expect(result.groups[0].dispositions.map(d => d.disposition)).toEqual(['noop'])
+  expect(pages[0].sourceSnapshots.some(s => s.commit === edited)).toBe(true)
+}, 120000)
+it('finds a fragment consumed only during an intervening source edit', async () => {
+  const f = await simpleFixture(), original = await (await import('node:fs/promises')).readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
+  await f.sourceChange('site/en/fragments/transient.md', 'Temporary dependency.\n')
+  const edited = await f.sourceChange('site/en/build-pipeline.md', original + '\n{{fragments/transient.md}}\n')
+  await f.sourceChange('site/en/fragments/transient.md', 'Changed temporary dependency.\n')
+  await f.sourceChange('site/en/build-pipeline.md', original)
+  const {result, pages} = await observeClosure(f)
+  expect(pages[0].sourceSnapshots.find(s => s.commit === edited)!.consumed.map(e => e.path)).toContain('site/en/fragments/transient.md')
+  expect(result.obligations.some(o => o.pageId === 'build-pipeline' && o.consumedPaths.includes('site/en/fragments/transient.md') && o.status === 'consumed')).toBe(true)
+  expect(result.groups[0].dispositions[0].disposition).toBe('noop')
+}, 120000)
+it.each(['repository-image-only', 'unrelated-tree-only'] as const)('excludes %s from the raw source gate', async scenario => {
+  const f = await simpleFixture(scenario === 'repository-image-only' ? '## Source\n![Diagram](assets/diagram.png)\n' : undefined)
+  if (scenario === 'repository-image-only') {
+    await write(f.repo, 'site/en/assets/diagram.png', new Uint8Array([137, 80, 78, 71, 4, 5, 6])); await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '-qm', 'repository image delta')
+  } else await f.sourceChange('outside/tree.txt', 'Unrelated.\n')
+  const {result, pages} = await observeClosure(f)
+  expect(result.reasons).toEqual([])
+  expect(pages[0].rawTrees[1].entries).toEqual(pages[0].rawTrees[2].entries)
+  expect(result.groups).toEqual([])
+}, 120000)
+it('checks BYOC effective anchors against its actual transformed output', async () => {
+  const f = await simpleFixture('## Source\n[Target](public-target.md#Only-Cloud)\n', '<exclude target="paas">\n\n## Only Cloud\n\nBody.\n\n</exclude>\n')
+  await write(f.sharedDocs, 'pages/shared-target/page.yaml', (await (await import('node:fs/promises')).readFile(join(f.sharedDocs, 'pages/shared-target/page.yaml'), 'utf8')) + 'transforms:\n  - operation: replace\n    target: {block: section}\n    content: {file: replacement.md}\n')
+  await write(f.sharedDocs, 'pages/shared-target/replacement.md', '<exclude target="paas">\n\n## Only Cloud\n\nBody.\n\n</exclude>\n')
+  await f.sourceChange('site/en/source-target.md', '---\nid: public-target.md\ntitle: Target\nsummary: Target fixture\n---\n<!-- doc:block:start id="section" -->\n## Only Cloud\nBody.\n<!-- doc:block:end id="section" -->\n')
+  const baseline = await git(f.repo, 'rev-parse', 'HEAD')
+  for (const id of f.ids) await write(f.sharedDocs, `pages/${id}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
+  await f.configChange()
+  await f.append('site/en/build-pipeline.md', '\nA real source edit.\n')
+  const {result, pages} = await observeClosure(f)
+  const target = pages.find(p => p.header.pageId === 'shared-target')!
+  expect(target.observations[2].manuals.find(m => m.manual === 'guides')!.headings.map(h => h.anchor)).toContain('only-cloud')
+  expect(target.observations[2].manuals.find(m => m.manual === 'guides-byoc')!.headings.map(h => h.anchor)).not.toContain('only-cloud')
+  // Outside the group, D's actual output also has no such anchor. Hypothetical target headings cannot authorize it.
+  expect(result.groups.map(g => g.memberIds)).toEqual([['build-pipeline']])
+  expect(result.reasons).toContain('EFFECTIVE_ANCHOR_UNRESOLVED')
+}, 120000)
+
+import {batchRef, parseBatchCanonical, BatchPageMaterialHeaderSchema} from '../../adapters/updates/batch-collection-contract'
+it('rejects malformed canonical material frames and extra or orphan wire payloads', async () => {
+  const f = await simpleFixture(), request = await f.request(), wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+  for (const raw of ['{"kind":1,"kind":1}', '{"x":-0}', '{"x":1e0}', '{"x":1.0}', '{"x":9007199254740992}', '{"x":"\\ud800"}', ' {"x":1}']) {
+    expect(() => parseBatchCanonical(Buffer.from(raw), BatchPageMaterialHeaderSchema)).toThrow()
+  }
+  const extra = structuredClone(wire), bytes = Buffer.from('orphan delivered bytes'), ref = batchRef(bytes)
+  extra.blobs.push({ref, base64: bytes.toString('base64')}); extra.blobs.sort((a, b) => a.ref.sha256 < b.ref.sha256 ? -1 : 1)
+  expect(() => validateBatchWire(extra, request)).toThrow('BATCH_MATERIAL_ORPHAN_BLOB')
+  const broken = structuredClone(wire); broken.material.inventoryRefs[2].ref = batchRef(Buffer.from('absent payload'))
+  expect(() => validateBatchWire(broken, request)).toThrow('BATCH_MATERIAL_GRAPH_INCOMPLETE')
+  const invalidBase64 = structuredClone(wire), first = invalidBase64.blobs.find(b => b.ref.bytes > 0)!
+  first.base64 = first.base64.slice(0, -1) + '!'
+  expect(() => validateBatchWire(invalidBase64, request)).toThrow('BATCH_BASE64_INVALID')
+}, 120000)
+it('retains an absent fragment inventory and holds missing union/absence evidence', async () => {
+  const f = await simpleFixture('## Source\n{{fragments/transient.md}}\n')
+  await f.sourceChange('site/en/fragments/transient.md', 'Present dependency.\n')
+  const baseline = await git(f.repo, 'rev-parse', 'HEAD')
+  for (const id of f.ids) await write(f.sharedDocs, `pages/${id}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
+  await f.configChange()
+  await write(f.repo, 'site/en/build-pipeline.md', '---\nid: build-pipeline.md\ntitle: Source\nsummary: Source fixture\n---\n## Source\nNo fragment.\n')
+  await git(f.repo, 'rm', 'site/en/fragments/transient.md'); await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '-qm', 'remove consumed fragment')
+  const request = await f.request(), wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+  const checked = validateBatchWire(wire, request)
+  expect(checked.inventories[2].absentPaths).toContain('site/en/fragments/transient.md')
+  const broken = structuredClone(wire), old = broken.material.inventoryRefs[2].ref
+  const inventory = {...checked.inventories[2], absentPaths: []}, bytes = canonicalBytes(inventory), ref = batchRef(bytes)
+  broken.material.inventoryRefs[2].ref = ref
+  broken.blobs = broken.blobs.filter(b => b.ref.sha256 !== old.sha256)
+  broken.blobs.push({ref, base64: Buffer.from(bytes).toString('base64')}); broken.blobs.sort((a, b) => a.ref.sha256 < b.ref.sha256 ? -1 : 1)
+  expect(batch.projectBatchMaterialFixture(broken, request).reasons).toContain('SOURCE_ABSENCE_UNPROVEN')
+}, 120000)
+it('adds a genuine adoption peer with noop disposition and uses its actual oldNext BYOC headings', async () => {
+  const f = await simpleFixture('## Source\n[Target](public-target.md#Old)\n[Cloud](public-target.md#Only-Cloud)\n', '<!-- doc:block:start id="section" -->\n## Old\n\nUnchanged context.\n<!-- doc:block:end id="section" -->\n<!-- doc:block:start id="other" -->\n## Only Cloud\nCloud body.\n<!-- doc:block:end id="other" -->\n')
+  await write(f.sharedDocs, 'pages/shared-target/page.yaml', await (await import('node:fs/promises')).readFile(join(f.sharedDocs, 'pages/shared-target/page.yaml'), 'utf8') +
+    'transforms:\n  - operation: replace\n    target: {block: other}\n    content: {file: replacement.md}\n')
+  await write(f.sharedDocs, 'pages/shared-target/replacement.md', '<exclude target="paas">\n\n## Only Cloud\n\nCloud body.\n\n</exclude>\n')
+  const targetBytes = await (await import('node:fs/promises')).readFile(join(f.repo, 'site/en/source-target.md'), 'utf8')
+  await f.sourceChange('site/en/source-target.md', targetBytes.replace('## Old', '## New'))
+  const sourceBytes = await (await import('node:fs/promises')).readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
+  const target = await f.sourceChange('site/en/build-pipeline.md', sourceBytes.replace('#Old', '#New'))
+  await write(f.sharedDocs, 'pages/shared-target/lock.yaml', JSON.stringify({schema_version: 1, current: f.baseline, next: target})); await f.configChange()
+  const {result} = await observeClosure(f)
+  expect(result.groups.map(g => g.memberIds)).toEqual([f.ids])
+  expect(result.groups[0].adoption).toHaveLength(2)
+  expect(result.groups[0].dispositions.find(d => d.pageId === 'shared-target')!.disposition).toBe('held')
+  expect(result.namespace.find(n => n.pageId === 'shared-target' && n.manual === 'guides-byoc')!.role).toBe('oldNext')
+  expect(result.reasons).toContain('EFFECTIVE_ANCHOR_UNRESOLVED')
+}, 120000)
+
+
+it('retains diagnostics and holds unsupported repository fragment input', async () => {
+  const f = await simpleFixture('## Source\n{{fragments/data.txt}}\n')
+  await f.sourceChange('site/en/fragments/data.txt', 'Before.\n')
+  const baseline = await git(f.repo, 'rev-parse', 'HEAD')
+  for (const id of f.ids) await write(f.sharedDocs, `pages/${id}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
+  await f.configChange(); await f.sourceChange('site/en/fragments/data.txt', 'After.\n')
+  const {result} = await observeClosure(f)
+  expect(result.reasons.length).toBeGreaterThan(0)
+  expect(result.reasons).toContain('MANUAL_RENDER_UNAVAILABLE')
+}, 120000)
+
+it('orders independent complete components by authenticated introduction history', async () => {
+  const f = await simpleFixture()
+  await f.append('site/en/source-target.md', '\nEarlier independent seed.\n')
+  await f.append('site/en/build-pipeline.md', '\nLater independent seed.\n')
+  const {result} = await observeClosure(f)
+  expect(result.reasons).toEqual([])
+  expect(result.groups.map(g => g.memberIds)).toEqual([['shared-target'], ['build-pipeline']])
+}, 120000)
+
+it('does not attach a seed through a fragment consumed only before the oldNext interval', async () => {
+  const f = await simpleFixture('## Source\n{{fragments/used.md}}\n')
+  const original = await (await import('node:fs/promises')).readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
+  const oldNext = await f.sourceChange('site/en/build-pipeline.md', original.replace('{{fragments/used.md}}', 'No fragment.'))
+  await write(f.sharedDocs, 'pages/build-pipeline/lock.yaml', JSON.stringify({schema_version: 1, current: f.baseline, next: oldNext}))
+  await write(f.sharedDocs, 'pages/shared-target/lock.yaml', JSON.stringify({schema_version: 1, current: f.baseline, next: oldNext})); await f.configChange()
+  await f.sourceChange('site/en/fragments/used.md', 'Changed outside this page consumption interval.\n')
+  const {result} = await observeClosure(f)
+  expect(result.reasons).toEqual([])
+  expect(result.groups).toEqual([])
+}, 120000)

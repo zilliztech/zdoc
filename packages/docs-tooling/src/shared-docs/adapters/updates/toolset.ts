@@ -1,3 +1,6 @@
+import {immutable} from '../../core/updates/types'
+import {consumeBatchContentLaunch} from './batch-collection'
+import {BatchRenderRequestSchema, validateBatchWire, type BatchRenderRequest, type BatchMaterialWire} from './batch-collection-contract'
 import { constants } from 'node:fs'
 import { lstat, open, readdir, readlink, realpath, symlink, writeFile } from 'node:fs/promises'
 import { basename, dirname, isAbsolute, join, posix, relative, resolve, sep } from 'node:path'
@@ -724,6 +727,8 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
     if (entries.get(`repo/${target}`)?.state !== 'file') throw new Error('Fixed Guides worker dependency is unavailable')
     resolutions.push({ from: 'runtime/launch/guides-worker.cjs', specifier: target === guidesWorkerModule ? `${target}#collectGuidesWorker` : target, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${target}` })
   }
+  if (all.has(guidesWorkerModule)) resolutions.push({from: 'runtime/launch/guides-worker.cjs',
+    specifier: `${guidesWorkerModule}#collectBatchPageMaterial`, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${guidesWorkerModule}`})
   // Generic fixture collectors may ignore the ordinary capability. A real issuer
   // must still be a captured fixed source/export choice when it is provisioned.
   const issuer = 'packages/docs-tooling/src/shared-docs/adapters/updates/trusted-fetch-producer.ts'
@@ -1066,10 +1071,24 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     await inspectAccess(new Map([[owned.root, 'launcher'], ...expected.map(name => [join(owned.root, name), 'launcher'] as [string, string])]), state.environment)
     await owned.verify()
   }
-  return {
+  async function runBatchContent(ticket: import('./batch-collection').BatchContentTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
+    // Consumption is synchronous before the first await.
+    const request = consumeBatchContentLaunch(ticket, value, evidence, kind)
+    signal?.throwIfAborted()
+    const input = canonicalBytes(request)
+    if (input.length > workerLimit || request.pins.trustedTools !== state.options.commit || request.pins.toolsetSha256 !== state.sha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    const args = [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root, `batch-content-${kind}`]
+    const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request)
+    immutable(child.value)
+    measuredContent.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
+    return child as BatchMeasuredChild
+  }
+  const launcher = {
     bin: owned.root, cwd: state.options.root, environment: { ...environment },
     async runGuidesCollector(data: unknown, secrets: { GH_TOKEN?: string } = {}, signal?: AbortSignal) {
       signal?.throwIfAborted()
+      if (data && typeof data === 'object' && (data as {kind?: unknown}).kind === 'guides-batch-render-v1') throw Error('BATCH_LAUNCH_BINDING_INVALID')
       if (state.closure.entries.find(e => e.path === `repo/${guidesWorkerModule}`)?.state !== 'file') throw new Error('Fixed Guides worker module is missing')
       if (Object.keys(secrets).some(name => name !== 'GH_TOKEN')) throw new Error('Unsupported child credential setting')
       const input = canonicalBytes(data)
@@ -1103,8 +1122,22 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
         env: { ...environment, ...secrets }, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: 120_000 })
     },
   }
+  batchLaunchers.set(launcher, {
+    runObservedBatchContent: (ticket, signal) => runBatchContent(ticket, 'observed', signal),
+    runReplayBatchContent: (ticket, signal) => runBatchContent(ticket, 'replay', signal),
+  })
+  return launcher
 }
-
+interface BatchLauncher {
+  runObservedBatchContent(ticket: import('./batch-collection').BatchContentTicket, signal?: AbortSignal): Promise<BatchMeasuredChild>
+  runReplayBatchContent(ticket: import('./batch-collection').BatchContentTicket, signal?: AbortSignal): Promise<BatchMeasuredChild>
+}
+const batchLaunchers = new WeakMap<object, BatchLauncher>()
+export function batchContentLauncher(launcher: Awaited<ReturnType<typeof prepareTrustedLauncher>>): BatchLauncher {
+  const result = batchLaunchers.get(launcher)
+  if (!result) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  return result
+}
 
 // Fixed child policies: neither module/export choices nor the physical allow-map come from requests.
 const resolutionPolicy=Buffer.from(String.raw`'use strict';
@@ -1186,7 +1219,14 @@ const fs=require('node:fs'),path=require('node:path');
   if(typeof provider.collectGuidesWorker!=='function')throw Error('Fixed Guides worker export is unavailable');
   // This capability is an ordinary call from fixed measured code, never wire data.
   const issuer=()=>load(path.join(root,'packages/docs-tooling/src/shared-docs/adapters/updates/trusted-fetch-producer.ts')).createMeasuredFetchProducerContext(data.request.trustedTools);
-  const result=common.canonicalBytes(await provider.collectGuidesWorker(data,process.argv[3]==='metadata-pipes',issuer));
+  let value;
+  if(process.argv[3]==='batch-content-observed'||process.argv[3]==='batch-content-replay') {
+    const kind=process.argv[3]==='batch-content-observed'?'observed':'replay';
+    if(data.kind!=='guides-batch-render-v1'||data.origin?.kind!==kind||typeof provider.collectBatchPageMaterial!=='function')throw Error('BATCH_LAUNCH_BINDING_INVALID');
+    value=await provider.collectBatchPageMaterial(data);
+    if(value?.kind!=='guides-batch-material-wire-v1')throw Error('BATCH_LAUNCH_BINDING_INVALID');
+  } else value=await provider.collectGuidesWorker(data,process.argv[3]==='metadata-pipes',issuer);
+  const result=common.canonicalBytes(value);
   if(result.length>resultLimit)throw Error('Guides worker result exceeds byte bound');
   fs.writeFileSync(3,result);
 })().catch(error=>{console.error(String(error));process.exitCode=1});
@@ -1199,10 +1239,22 @@ export interface GuidesWorkerSettlement {
   signals: {signal: NodeJS.Signals; at: number}[]
   cleanupErrors: {operation: string; code: string | null; message: string}[]
 }
+interface BatchContentMeasures {requestSha256: string; requestBytes: number; responseSha256: string; responseBytes: number}
+export interface BatchMeasuredChild {value: BatchMaterialWire; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}
+const childContentMeasures = new WeakMap<object, BatchContentMeasures>()
+const measuredContent = new WeakMap<object, {ticket: import('./batch-collection').BatchContentTicket; capture: TrustedToolsetCapture; store: EvidenceStore; request: BatchContentMeasures}>()
+export function takeMeasuredBatchContent(child: BatchMeasuredChild, ticket: import('./batch-collection').BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore) {
+  const receipt = measuredContent.get(child)
+  if (!receipt || receipt.ticket !== ticket || receipt.capture !== capture || receipt.store !== store) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  const bytes = canonicalBytes(child.value)
+  if (bytes.length !== receipt.request.responseBytes || rawSha256(bytes) !== receipt.request.responseSha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  measuredContent.delete(child); childContentMeasures.delete(child)
+  return Object.freeze({...receipt.request})
+}
 /** Own only the group born from this actual handle; a parent cannot clean up after
  * its own fatal death, or certify descendants that deliberately leave the group. */
 async function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv,
-  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
+  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string}, contentRequest?: BatchRenderRequest): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
   signal?.throwIfAborted()
   const child = spawn(binary, args, {cwd, env: environment,
     stdio: ['pipe', 'pipe', 'pipe', 'pipe', broker ? 'pipe' : 'ignore', broker ? 'pipe' : 'ignore'], detached: true})
@@ -1222,6 +1274,8 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
       .then(() => { replies.end() }, closeBroker)
   }
   const receipt: GuidesWorkerSettlement = {pid: child.pid ?? null, born: false, close: null, group: 'unknown', signals: [], cleanupErrors: []}
+  const inputHash = createHash('sha256'), resultHash = createHash('sha256')
+  let inputBytes = 0, inputFinished = false
   const output: Buffer[][] = [[], [], []], sizes = [0, 0, 0]
   let primary: Error | null = null, exitFailure: Error | null = null, terminal = false
   let birthDone!: () => void, closeDone!: () => void, finishRequested!: () => void
@@ -1260,14 +1314,15 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   let timer: ReturnType<typeof setTimeout> | undefined
   let response: {value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement} | undefined
   try {
-    child.on('spawn', guarded(() => { receipt.born = true; birthDone(); if (!primary) child.stdin.end(input) }))
+    child.on('spawn', guarded(() => { receipt.born = true; birthDone(); if (!primary) {inputHash.update(input); inputBytes += input.length; child.stdin.end(input)} }))
     child.on('error', guarded(error => {birthDone(); fail(error)}))
-    child.stdin.on('error', guarded(fail))
+    child.stdin.on('error', guarded(fail)).on('finish', guarded(() => {inputFinished = true}))
     for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('error', guarded(fail)).on('data', guarded((bytes: Buffer) => {
       // exit can precede final stderr data. Retain bounded diagnostics through
       // close even after a failure, but stop accumulating result/stdout bytes.
       if (primary && i !== 1) return
       sizes[i] += bytes.length
+      if (i === 2) resultHash.update(bytes)
       if (sizes[i] > (i === 2 ? workerResultLimit : workerLimit)) fail(new Error('Guides worker output exceeds byte bound'))
       else output[i].push(bytes)
     }))
@@ -1315,8 +1370,16 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     try {
       const stderr = Buffer.concat(output[1]).toString('utf8')
       if (exitFailure && primary === exitFailure) exitFailure.message += ` ${stderr.slice(0, 4096)}`
-      if (!primary) response = {value: parseStrictJson(Uint8Array.from(Buffer.concat(output[2]))),
-        stdout: Buffer.concat(output[0]).toString('utf8'), stderr, settlement: receipt}
+      if (!primary) {
+        const bytes = Buffer.concat(output[2]), value = parseStrictJson(Uint8Array.from(bytes))
+        if (contentRequest) {
+          BatchRenderRequestSchema.parse(contentRequest)
+          if (!inputFinished || inputBytes !== input.length || !receipt.born || receipt.close?.code !== 0 || receipt.close.signal !== null || receipt.signals.length || receipt.cleanupErrors.length || !Buffer.from(canonicalBytes(value)).equals(bytes)) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+          validateBatchWire(value, contentRequest)
+        }
+        response = {value, stdout: Buffer.concat(output[0]).toString('utf8'), stderr, settlement: receipt}
+        if (contentRequest) childContentMeasures.set(response, {requestSha256: inputHash.digest('hex'), requestBytes: inputBytes, responseSha256: resultHash.digest('hex'), responseBytes: sizes[2]})
+      }
     } catch (error) { diagnostic('finalize-output', error); latch(error) }
   } catch (error) { diagnostic('finalize', error); latch(error) }
   finally {
@@ -1327,6 +1390,7 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     for (const timer of timers) cleanup('clear-timer', () => clearTimeout(timer))
     terminal = true
   }
+  if (contentRequest && receipt.cleanupErrors.length) primary ??= new Error('BATCH_LAUNCH_BINDING_INVALID')
   if (primary) throw Object.assign(new Error((primary as Error).message, {cause: primary}), {settlement: receipt})
   return response!
 }

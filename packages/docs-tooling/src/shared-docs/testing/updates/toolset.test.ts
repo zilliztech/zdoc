@@ -16,7 +16,7 @@ import { EventEmitter } from 'node:events'
 import { PassThrough } from 'node:stream'
 import { toMdx } from '../../adapters/mdx'
 import { canonicalBytes } from '../../core/updates/canonical'
-import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess, acquireLocalIdentity } from '../../adapters/updates/toolset'
+import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, batchContentLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess, acquireLocalIdentity } from '../../adapters/updates/toolset'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 const hostTcb = { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
@@ -1105,22 +1105,24 @@ it('passes the measured bootstrap capability on supported hosts and refuses Linu
   const a = await loaderFixture(), installed = loadYaml(await readFile(join(process.cwd(), 'pnpm-lock.yaml'), 'utf8')) as any
   onTestFinished(() => fsPromises.rm(a.root, {recursive: true, force: true}))
   const lock = loadYaml(await readFile(join(a.root, 'pnpm-lock.yaml'), 'utf8')) as any
-  for (const name of ['js-yaml', 'argparse']) {
+  for (const name of ['js-yaml', 'argparse', 'zod']) {
     const resolver = createRequire(join(await realpath(join(process.cwd(), 'node_modules/js-yaml')), 'package.json'))
     const entry = dirname(resolver.resolve(name + '/package.json')), version = JSON.parse(await readFile(join(entry, 'package.json'), 'utf8')).version
     const key = `${name}@${version}`, source = dirname(dirname(entry))
     await cp(source, join(a.root, 'node_modules/.pnpm', key), {recursive: true, verbatimSymlinks: true})
     lock.packages[key] = installed.packages[key]; lock.snapshots[key] = installed.snapshots[key]
-    if (name === 'js-yaml') {
+    if (name === 'js-yaml' || name === 'zod') {
       await symlink(`.pnpm/${key}/node_modules/${name}`, join(a.root, 'node_modules', name))
-      lock.importers['.'] = {dependencies: {'js-yaml': {specifier: version, version}}}
+      lock.importers['.'] ??= {dependencies: {}}
+      lock.importers['.'].dependencies[name] = {specifier: version, version}
     }
   }
   await put(a.root, 'pnpm-lock.yaml', dumpYaml(lock))
-  for (const path of ['adapters/updates/trusted-fetch-producer.ts', 'adapters/updates/fetch-producer-profile.ts', 'core/lock.ts', 'core/yaml.ts']) {
+  for (const path of ['adapters/updates/trusted-fetch-producer.ts', 'adapters/updates/fetch-producer-profile.ts', 'adapters/updates/guides-batch-registry.ts', 'core/config.ts', 'core/transforms/schema.ts', 'core/variants.ts', 'core/lock.ts', 'core/yaml.ts', 'core/updates/envelope.ts', 'core/updates/canonical.ts']) {
     const full = 'packages/docs-tooling/src/shared-docs/' + path
     await put(a.root, full, await readFile(join(process.cwd(), full), 'utf8'))
   }
+  await put(a.root, 'packages/docs-ui/src/shared/utils/docHeadingTags.ts', await readFile(join(process.cwd(), 'packages/docs-ui/src/shared/utils/docHeadingTags.ts'), 'utf8'))
   await put(a.root, 'shared-docs/guides/pages/json-field-overview/lock.yaml', `schema_version: 1\ncurrent: ${'a'.repeat(40)}\nnext: ${'a'.repeat(40)}\n`)
   await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `
 export async function collectGuidesWorker(data, brokered, issue) {
@@ -1139,3 +1141,77 @@ export async function collectGuidesWorker(data, brokered, issue) {
     expect(child.settlement).toMatchObject({born: true, close: {code: 0}, group: 'absent'})
   }
 }, 60000)
+
+it('keeps v2 content behind nominal operation tickets and rejects JSON tickets before launch', async () => {
+  const f = await transportFixture()
+  const content = batchContentLauncher(f.launcher)
+  expect(content.runObservedBatchContent).toBeTypeOf('function')
+  expect(content.runReplayBatchContent).toBeTypeOf('function')
+  await expect(content.runObservedBatchContent({} as never)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+  await expect(content.runReplayBatchContent({} as never)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+  await expect(f.launcher.runGuidesCollector({kind: 'guides-batch-render-v1'})).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+}, 120000)
+
+it('retains real per-child stdin/FD3 measurements and rejects copied, replay-mixed and repeated content tickets', async () => {
+  const {batchQualificationFixture} = await import('./fixtures/batch-qualification')
+  const {collectBatchPageMaterial} = await import('../../adapters/updates/guides-provider')
+  const batch = await import('../../adapters/updates/batch-collection')
+  const contract = await import('../../adapters/updates/batch-collection-contract')
+  const toolset = await import('../../adapters/updates/toolset')
+  const a = await loaderFixture(), dataRoot = await realpath(await mkdtemp(join(tmpdir(), 'batch-measured-data-')))
+  const f = await batchQualificationFixture(dataRoot)
+  for (const [path, id] of [['site/en/build-pipeline.md', 'build-pipeline'], ['site/en/source-target.md', 'public-target']] as const) {
+    await put(f.repo, path, `---\nid: ${id}.md\ntitle: ${id}\nsummary: Test fixture\n---\n\n## Section\n\nContent.\n`)
+  }
+  git(f.repo, 'add', '.'); git(f.repo, 'commit', '-qm', 'measured fixture baseline')
+  const baseline = git(f.repo, 'rev-parse', 'HEAD')
+  for (const id of f.ids) await put(f.sharedDocs, `pages/${id}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
+  await f.configChange(); await f.append('site/en/build-pipeline.md', '\nChanged raw source.\n')
+  const frames: Record<string, Awaited<ReturnType<typeof collectBatchPageMaterial>>> = {}
+  for (const id of f.ids) frames[id] = await collectBatchPageMaterial(await f.request(id), {repositoryRoot: f.root, fetcher: f.fetcher})
+  await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `
+const frames=${JSON.stringify(frames)};
+export function collectGuidesWorker(){throw Error('v1 was not selected')}
+export function collectBatchPageMaterial(data){
+  if(data.kind!=='guides-batch-render-v1'||data.origin.kind!=='replay')throw Error('fixture origin');
+  const wire=frames[data.pageId];wire.material.base={origin:data.origin,session:data.session,pins:data.pins};return wire;
+}
+`)
+  a.commit = commitAll(a.root)
+  const capture = await captureTrustedToolset(a), original = toolset.batchContentLauncher
+  const probes = vi.spyOn(toolset, 'batchContentLauncher').mockImplementation(launcher => {
+    const fixed = original(launcher)
+    return {...fixed, async runReplayBatchContent(ticket, signal) {
+      await expect(fixed.runObservedBatchContent(ticket, signal)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+      await expect(fixed.runReplayBatchContent({...ticket}, signal)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+      const pending = fixed.runReplayBatchContent(ticket, signal)
+      await expect(fixed.runReplayBatchContent(ticket, signal)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+      return pending
+    }}
+  })
+  const out = join(a.root, '.claude', 'measured-batch')
+  const result = await batch.collectReplayBatchMaterial({capture, sourceRepository: f.repo, zdocRepository: f.root, out,
+    fixtureBytes: canonicalBytes({frames, imageManifest: []}), replayClockMs: 0}, {transport: f.transport})
+  probes.mockRestore()
+  expect(result).toMatchObject({status: 'material-complete', memberIds: ['build-pipeline'], origin: {kind: 'replay'}})
+  if (result.status !== 'material-complete') throw Error(JSON.stringify(result))
+  expect(JSON.stringify(result.ticket)).toBe('{}')
+  expect(result.ticket).not.toHaveProperty('qualify')
+  let materials: any
+  for (const sha of await readdir(join(out, 'blobs'))) {
+    const bytes = await readFile(join(out, 'blobs', sha))
+    try {const value = JSON.parse(bytes.toString()); if (contract.BatchMaterialsSchema.safeParse(value).success) materials = value} catch {}
+  }
+  expect(materials.pages).toHaveLength(2)
+  for (const page of materials.pages) {
+    const request = {...await f.request(page.pageId), origin: materials.base.origin, session: materials.base.session, pins: materials.base.pins, devRepository: f.root}
+    expect(page.requestSha256).toBe(rawSha256(canonicalBytes(request)))
+    expect(page.requestBytes).toBe(canonicalBytes(request).length)
+    const frame = structuredClone(frames[page.pageId]); frame.material.base = materials.base
+    expect(page.responseSha256).toBe(rawSha256(canonicalBytes(frame)))
+    expect(page.responseBytes).toBe(canonicalBytes(frame).length)
+    const material = await readFile(join(out, page.materialRef.path))
+    expect(rawSha256(material)).toBe(page.materialRef.sha256)
+    expect(page.materialDigest).toBe(contract.batchDigest('material', JSON.parse(material.toString())))
+  }
+}, 120000)

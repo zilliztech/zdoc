@@ -1,4 +1,4 @@
-import type { AdoptionDependency, FixedPageInput, PageIdentity, PageImpact, UpdateUnit } from './types'
+import type { AdoptionDependency, AnchorRelation, FixedPageInput, PageIdentity, PageImpact, ReferenceObservation, UpdateUnit } from './types'
 
 export const pageIdentityKey = (page: PageIdentity): string => JSON.stringify([page.pageId, page.manual, page.path])
 
@@ -13,6 +13,26 @@ export function referencesPage(from: PageIdentity, to: PageIdentity, url: string
   if (!pageId.test(from.pageId) || !pageId.test(to.pageId)) return false
   if (!decoded) return from.pageId === to.pageId
   return decoded === `./${to.pageId}` || decoded === `/${to.pageId}` || decoded === to.pageId
+}
+
+/** The exact confirmed pair matcher used by the full impact oracle and compact batch projections. */
+export function confirmedAdoptionDependencies(pages: readonly {
+  pageId: string; promotionAnchors: readonly AnchorRelation[];
+  manuals: readonly {manual: string; path: string; references: readonly ReferenceObservation[]}[]
+}[]): AdoptionDependency[] {
+  const dependencies: AdoptionDependency[] = []
+  for (const target of pages) for (const relation of target.promotionAnchors) {
+    if (relation.status !== 'confirmed' || relation.kind !== 'renamed' || !relation.after) continue
+    const to = {pageId: target.pageId, manual: relation.manual, path: relation.path}
+    for (const source of pages) for (const manual of source.manuals) {
+      if (source.pageId === target.pageId) continue
+      const from = {pageId: source.pageId, manual: manual.manual, path: manual.path}
+      for (const reference of manual.references) if (reference.url.split('#')[1] === relation.after.anchor && referencesPage(from, to, reference.url)) {
+        dependencies.push({from, to, evidence: {axis: 'current-to-candidate-next', relation, reference}})
+      }
+    }
+  }
+  return dependencies
 }
 
 /** Prove absence of both endpoints used by analyzeUpdates. Any fragment link or changed/ambiguous

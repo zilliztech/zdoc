@@ -45,6 +45,7 @@ export class BatchHistory {
     if (!this.ancestors(to).has(from)) stop('SOURCE_NOT_ANCESTOR')
     return [...this.ancestors(to, this.ancestors(from))]
   }
+  records() {return [...this.commits].map(([oid, value]) => ({oid, parents: [...value.parents]})).sort((a, b) => a.oid < b.oid ? -1 : a.oid > b.oid ? 1 : 0)}
   /** Additional merge edges needed to connect the lock to the target along an authenticated path.
    * Prefer first parents. The caller separately inspects every range member's first-parent delta. */
   lockSideParents(from: string, to: string, members: Set<string>) {
@@ -103,6 +104,7 @@ export class BatchGitStore {
   private trees = new Map<string, Map<string, TreeEntry>>()
   private blobs = new Map<string, Buffer>()
   private regularObjects = new Set<string>()
+  private proofObjects = new Map<string, {kind: 'commit' | 'tree' | 'blob'; bytes: Buffer}>()
   private constructor(private readonly root: string, private readonly spelling: string, private readonly budget: BatchBudget) {}
   static async open(root: string, budget: BatchBudget) {
     const store = new BatchGitStore(await realpath(root), root, budget)
@@ -166,12 +168,15 @@ export class BatchGitStore {
       const data = bytes.subarray(at, at + Number(size)); at += data.length
       if (data.length !== Number(size) || bytes[at++] !== 10 ||
           createHash('sha1').update(kind + ' ' + size + '\0').update(data).digest('hex') !== id) stop('GIT_OBJECT_INVALID')
+      this.proofObjects.set(id, {kind, bytes: Buffer.from(data)})
       return data
     })
     if (at !== bytes.length) stop('GIT_OBJECT_INVALID')
     this.budget.remaining()
     return values
   }
+  /** Hash-checked raw objects observed by this store; never reconstructed from a public report. */
+  evidenceObjects() {return [...this.proofObjects].map(([oid, value]) => ({oid, kind: value.kind, bytes: Buffer.from(value.bytes)}))}
   private async loadCommits(ids: string[]) {
     const missing = ids.filter(id => !this.commits.has(id))
     if (!missing.length) return
@@ -245,6 +250,26 @@ export class BatchGitStore {
     const entry = await this.entry(commit, path)
     if (!entry || entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
     return this.tree(entry.oid)
+  }
+  /** Complete inventory from hash-checked trees. Absence is meaningful only after this walk succeeds. */
+  async inventory(commit: string, root: string): Promise<{path: string; oid: string; mode: '100644' | '100755'}[]> {
+    const entry = await this.entry(commit, root)
+    if (!entry) return []
+    if (entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+    const entries: {path: string; oid: string; mode: '100644' | '100755'}[] = []
+    let visits = 0
+    const walk = async (path: string, oid: string) => {
+      for (const [name, value] of await this.tree(oid)) {
+        this.budget.remaining()
+        if (++visits > traversalLimit) stop('SOURCE_TREE_LIMIT')
+        const child = path + '/' + name
+        if (value.mode === '40000') await walk(child, value.oid)
+        else if (value.mode === '100644' || value.mode === '100755') entries.push({path: child, oid: value.oid, mode: value.mode})
+        else stop('GIT_PATH_TYPE_INVALID')
+      }
+    }
+    await walk(root, entry.oid)
+    return entries.sort((a, b) => Buffer.compare(Buffer.from(a.path), Buffer.from(b.path)))
   }
   private async blob(entry: TreeEntry) {
     if (!['100644', '100755'].includes(entry.mode)) stop('GIT_PATH_TYPE_INVALID')

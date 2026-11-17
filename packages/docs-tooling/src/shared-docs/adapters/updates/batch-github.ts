@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { z } from 'zod'
+import * as z from 'zod'
 import type { BatchPullIdentity, BatchPathChange } from '../../core/updates/batch-discovery'
 import { parseStrictJson } from '../../core/updates/canonical'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'

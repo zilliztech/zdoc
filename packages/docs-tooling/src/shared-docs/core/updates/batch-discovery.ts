@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { z } from 'zod'
+import * as z from 'zod'
 import { canonicalBytes, compareUtf8, isValidUnicode } from './canonical'
 import { DigestSchema, GitShaSchema, RepoPathSchema } from './envelope'
 

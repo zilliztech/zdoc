@@ -15,7 +15,7 @@ import { parseLock } from '../../core/lock'
 import { finalizeFetchFrontMatter } from '../../core/site/front-matter'
 import { isFetchProducerContext, type FetchProducerContext } from './trusted-fetch-producer'
 import type { UpdateDependencies } from './runner'
-import { exportTree, gitRead, resolveCommit, sourceEndpoints } from './git'
+import { exportTree, gitRead, resolveCommit, sourceEndpoints, requireOrdered } from './git'
 import { rawSha256, writeOwnedBlob, createOwnedDirectory, type EvidenceStore } from './evidence'
 import { prepareTrustedLauncher, retainTrustedAccessEvidence, describeTrustedToolset, type TrustedToolsetCapture, type GuidesWorkerSettlement } from './toolset'
 import { HttpImageFetcher } from '../images'
@@ -436,4 +436,220 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
 export class GuidesCollectionHold extends Error {
   readonly disposition = 'hold'
   constructor(readonly subject: Subject, readonly diagnostics: GuidesCollectionResult['holds']) { super('GUIDES_ENVELOPE_UNAVAILABLE: see complete retained inventory and diagnostics') }
+}
+
+/** A fixed, separately selected content entry. It neither calls reportUpdates nor qualifies a lifecycle. */
+export async function collectBatchPageMaterial(data: unknown, replay?: {repositoryRoot: string; fetcher?: import('../images').ImageFetcher}) {
+  const contract = await import('./batch-collection-contract')
+  const request = contract.BatchRenderRequestSchema.parse(data)
+  if (replay && request.origin.kind !== 'replay') throw Error('BATCH_REPLAY_ORIGIN_REQUIRED')
+  const repositoryRoot = replay?.repositoryRoot ?? (request.origin.kind === 'replay' ? request.devRepository : toolingRoot)
+  const {readReportConfiguration} = await import('./candidate')
+  const {observeGuidesPage} = await import('./runner')
+  const {analyzeUpdates} = await import('../../core/updates/impact')
+  const payloads = new Map<string, {ref: BlobRef; base64: string}>()
+  let retainedEncodedBytes = 0
+  const retain = (bytes: Uint8Array) => {
+    if (bytes.length > contract.BATCH_BLOB_LIMIT) throw Error('BATCH_CAS_BLOB_LIMIT')
+    const ref = contract.batchRef(bytes)
+    if (!payloads.has(ref.sha256)) {retainedEncodedBytes += 4 * Math.ceil(bytes.length / 3) + 1024; if (retainedEncodedBytes > contract.BATCH_WIRE_LIMIT) throw Error('BATCH_WIRE_BYTE_LIMIT')}
+    payloads.set(ref.sha256, {ref, base64: Buffer.from(bytes).toString('base64')}); return ref
+  }
+  const object = (value: unknown) => retain(canonicalBytes(value))
+  const reads = createGuidesReadSession(retain)
+  const {BatchGitStore, batchBudget} = await import('./batch-source')
+  const rawBudget = batchBudget()
+  const sourceProof = await BatchGitStore.open(request.sourceRepository, rawBudget)
+  const configProof = await BatchGitStore.open(repositoryRoot, rawBudget)
+  const devProof = repositoryRoot === request.devRepository ? configProof : await BatchGitStore.open(request.devRepository, rawBudget)
+  const temporary = await mkdtemp(join(tmpdir(), 'batch-content-'))
+  const imageBytes = new Map<string, Uint8Array>()
+  const originalFetcher = replay?.fetcher ?? new HttpImageFetcher(120_000)
+  const fetcher = {async fetch(url: string) {
+    const bytes = Uint8Array.from(await originalFetcher.fetch(url)); imageBytes.set(rawSha256(bytes), bytes); return bytes
+  }}
+  try {
+    await resolveCommit(repositoryRoot, request.pins.master)
+    await resolveCommit(request.devRepository, request.pins.dev)
+    if (!replay && await resolveCommit(toolingRoot) !== request.pins.trustedTools) throw Error('BATCH_TOOLS_PIN_INVALID')
+    const configRoot = join(temporary, 'master'), devRoot = join(temporary, 'dev')
+    await exportTree(repositoryRoot, request.pins.master, ['shared-docs/guides'], configRoot)
+    const configFiles = await reads.inventory(repositoryRoot, request.pins.master, ['shared-docs/guides'])
+    if (!equal(configFiles, await configProof.inventory(request.pins.master, 'shared-docs/guides'))) throw Error('BATCH_CONFIG_INVENTORY_INVALID')
+    const ids = sorted(configFiles.map(f => /^shared-docs\/guides\/pages\/([^/]+)\/page.yaml$/.exec(f.path)?.[1]).filter((id): id is string => !!id))
+    const loaded = await readReportConfiguration(join(configRoot, 'shared-docs/guides'), configRoot, ids)
+    if ('errors' in loaded || loaded.pageErrors.size || !ids.includes(request.pageId)) throw Error('MASTER_REGISTRY_INVALID')
+    const source = parseSourceConfig(loaded.configuration.sharedDocs.sourceYaml)
+    if ('errors' in source || source.config.repository !== 'https://github.com/milvus-io/milvus-docs' || source.config.track !== 'v3.0.x') throw Error('MASTER_SOURCE_INVALID')
+    const endpoints = await sourceEndpoints(request.sourceRepository, source.config.repository, source.config.track, request.pins.source)
+    if (endpoints.target !== request.pins.source || endpoints.head !== request.pins.source) throw Error('BATCH_SOURCE_HEAD_INVALID')
+    const registry = ids.map(pageId => {
+      const page = loaded.configuration.sharedDocs.pages.get(pageId)!, lock = parseLock(page.lockYaml)
+      if ('errors' in lock) throw Error('MASTER_REGISTRY_INVALID')
+      return {pageId, sourceFile: page.config.source.file, targets: contract.batchSorted(page.config.publish, t => t.manual), current: lock.lock.current, oldNext: lock.lock.next}
+    })
+    const configured = registry.find(p => p.pageId === request.pageId)!
+    await requireOrdered(endpoints.reader, configured.current, configured.oldNext, request.pins.source)
+    const snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
+    const activePath = 'generated/en/manifests/shared-pages/guides/active.json'
+    await exportTree(request.devRepository, request.pins.dev, ['content/en/guides', 'content/en/byoc', snapshotPath, activePath], devRoot)
+    const collected = await observeGuidesPage({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
+      current: configured.current, oldNext: configured.oldNext, target: request.pins.source,
+      configuration: loaded.configuration, previousConfiguration: loaded.configuration,
+      versions: {master: request.pins.master, dev: request.pins.dev, tools: {zdoc: request.pins.trustedTools}}, fetcher})
+    if (collected.pages.length !== 1 || collected.pages[0].pageId !== request.pageId) throw Error('BATCH_SELECTED_PAGE_INVALID')
+    const fixed = collected.pages[0], impact = analyzeUpdates(collected).pages[0]
+    const observations = [fixed.current, fixed.oldNext, fixed.candidateNext]
+    const paths = sorted(observations.flatMap(o => [o.sourceFile, ...o.files.map(f => f.file)]).filter(p => p.startsWith('site/en/')))
+    type Role = (typeof contract.batchRoles)[number]
+    const rawMaterialRefs: {role: Role; commit: string; ref: BlobRef}[] = [], inventoryRefs: {role: Role; commit: string; ref: BlobRef}[] = []
+    const renderedManualRefs: {role: Role; manual: string; path: string; ref: BlobRef}[] = []
+    const projected: {role: Role; commit: string; sourceFile: string; consumed: {path: string; oid: string; ref: BlobRef}[]; manuals: {manual: string; path: string; ref: BlobRef}[];
+      dependencies: PageObservation['dependencies']; outputStatus: PageObservation['outputStatus']; imageStatus: PageObservation['imageStatus']; hasChannelRules: boolean}[] = []
+    const images: {role: Role; images: (PageObservation['images'][number] & {ref: BlobRef | null})[]}[] = []
+    for (const [i, observation] of observations.entries()) {
+      const role = contract.batchRoles[i]
+      if (observation.commit !== [configured.current, configured.oldNext, request.pins.source][i] || observation.sourceFile !== configured.sourceFile ||
+          !equal(contract.batchSorted(observation.targets, t => t.manual), configured.targets)) throw Error('BATCH_OBSERVATION_BINDING_INVALID')
+      const snapshot = await reads.sourceSnapshot(request.sourceRepository, observation.commit)
+      if (!equal(snapshot.entries, await sourceProof.inventory(observation.commit, 'site/en'))) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      const consumed: {path: string; oid: string; ref: BlobRef}[] = []
+      for (const path of paths) {
+        const declared = observation.files.find(f => f.file === path), isRoot = path === observation.sourceFile
+        const bytes = await reads.readCommitted(request.sourceRepository, snapshot.entries, path)
+        const authenticated = await sourceProof.optionalFile(observation.commit, path)
+        if (authenticated && (!bytes || !authenticated.bytes.equals(bytes)) || !authenticated && bytes) throw Error('BATCH_SOURCE_BYTES_INVALID')
+        if (declared && (!bytes || rawSha256(bytes) !== declared.sha256 || new TextDecoder('utf8', {fatal: true}).decode(bytes) !== declared.text)) throw Error('BATCH_SOURCE_BYTES_INVALID')
+        if (bytes && (declared || isRoot && observation.source !== null)) consumed.push({path, oid: snapshot.entries.find(e => e.path === path)!.oid, ref: retain(bytes)})
+        if (!bytes && (declared || isRoot && observation.source !== null)) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      }
+      rawMaterialRefs.push({role, commit: observation.commit, ref: object({commit: observation.commit, entries: consumed})})
+      inventoryRefs.push({role, commit: observation.commit, ref: object({commit: observation.commit, treeOid: snapshot.treeOid, entries: snapshot.entries,
+        absentPaths: paths.filter(path => !snapshot.entries.some(e => e.path === path)), discoveryRef: snapshot.discovery})})
+      const manuals = contract.batchSorted(configured.targets, m => `${m.manual}:${m.path}`).map(target => {
+        const manual = observation.manuals.find(m => m.manual === target.manual && m.path === target.path) ?? {...target, markdown: '', output: undefined, headings: [], references: []}
+        const ref = object({...manual, output: manual.output ?? null})
+        renderedManualRefs.push({role, manual: manual.manual, path: manual.path, ref}); return {manual: manual.manual, path: manual.path, ref}
+      })
+      projected.push({role, commit: observation.commit, sourceFile: observation.sourceFile, consumed, manuals,
+        dependencies: contract.batchSorted(observation.dependencies, d => `${d.kind}:${d.identity}`), outputStatus: observation.outputStatus, imageStatus: observation.imageStatus, hasChannelRules: observation.hasChannelRules})
+      const captured = []
+      for (const image of observation.images) {
+        let bytes = image.observed ? imageBytes.get(image.observed.sha256) : undefined
+        if (image.origin.kind === 'repository' && image.observed) {
+          const entries = await reads.inventory(request.sourceRepository, observation.commit, [image.origin.path])
+          bytes = await reads.readCommitted(request.sourceRepository, entries, image.origin.path) ?? undefined
+        }
+        const ref = bytes && image.observed && rawSha256(bytes) === image.observed.sha256 && bytes.length === image.observed.bytes ? retain(bytes) : null
+        captured.push({...image, ref})
+      }
+      images.push({role, images: contract.batchSorted(captured, contract.batchImageKey)})
+    }
+    const devFiles = await reads.inventory(request.devRepository, request.pins.dev, ['content/en/guides', 'content/en/byoc', snapshotPath, activePath])
+    const proofDev = [...await devProof.inventory(request.pins.dev, 'content/en/guides'), ...await devProof.inventory(request.pins.dev, 'content/en/byoc')]
+    if (!equal(devFiles.filter(f => f.path.startsWith('content/en/')), contract.batchSorted(proofDev, f => f.path))) throw Error('BATCH_DEV_INVENTORY_INVALID')
+    const retainedDev = async (path: string) => {
+      const bytes = await reads.readCommitted(request.devRepository, devFiles, path)
+      if (!bytes || !(await devProof.file(request.pins.dev, path)).bytes.equals(bytes)) throw Error('BATCH_DEV_MATERIAL_UNAVAILABLE')
+      return retain(bytes)
+    }
+    const namespaceOutputs = []
+    for (const file of devFiles.filter(f => /^(content\/en\/(guides|byoc))\/.+\.mdx?$/.test(f.path))) {
+      namespaceOutputs.push({manual: file.path.startsWith('content/en/guides/') ? 'guides' : 'guides-byoc', path: file.path, oid: file.oid, ref: await retainedDev(file.path)})
+    }
+    const namespaceRef = object({commit: request.pins.dev, activeRef: await retainedDev(activePath), snapshotRef: await retainedDev(snapshotPath),
+      outputs: contract.batchSorted(namespaceOutputs, o => `${o.manual}:${o.path}`)})
+    const configRefs = []
+    for (const file of configFiles) {
+      const raw = (await reads.readCommitted(repositoryRoot, configFiles, file.path))!
+      if (!(await configProof.file(request.pins.master, file.path)).bytes.equals(raw)) throw Error('BATCH_CONFIG_BYTES_INVALID')
+      configRefs.push({path: file.path, oid: file.oid, ref: retain(raw)})
+    }
+    const configRef = object({pageId: request.pageId, sourceFile: configured.sourceFile, repository: source.config.repository, track: source.config.track, registry, files: configRefs, namespaceRef})
+    const lockPath = `shared-docs/guides/pages/${request.pageId}/lock.yaml`
+    const lockRef = configRefs.find(f => f.path === lockPath)!.ref
+    const normalizeDiagnostic = (error: import('../../core/types').SharedDocsError) => {
+      const {detail, ...rest} = error
+      return detail === undefined ? rest : {...rest, detail: new TextDecoder().decode(canonicalBytes(detail))}
+    }
+    const commitHistory = await reads.history(request.sourceRepository, request.pins.source, [configured.current])
+    const graph = new Map(commitHistory.map(c => [c.oid, c.parents]))
+    const reachable = (tip: string) => {
+      const pending = [tip], found = new Set<string>()
+      while (pending.length) {const oid = pending.pop()!; if (found.has(oid)) continue; found.add(oid); if (oid !== configured.current) pending.push(...graph.get(oid) ?? [])}
+      return found
+    }
+    const excluded = reachable(configured.oldNext), interval = [...reachable(request.pins.source)].filter(oid => !excluded.has(oid))
+    const requiredCommits = sorted(interval.flatMap(oid => [oid, ...graph.get(oid) ?? []]))
+    const intervalObservations = []
+    for (const commit of requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))) {
+      // One launch still renders only this page. Intervening roots/fragments cannot hide behind restored endpoint bytes.
+      const observed = await observeGuidesPage({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
+        current: commit, oldNext: commit, target: commit, configuration: loaded.configuration, previousConfiguration: loaded.configuration,
+        versions: {master: request.pins.master, dev: request.pins.dev, tools: {zdoc: request.pins.trustedTools}}, fetcher})
+      const o = observed.pages[0].candidateNext, snapshot = await reads.sourceSnapshot(request.sourceRepository, commit)
+      if (!equal(snapshot.entries, await sourceProof.inventory(commit, 'site/en'))) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      const entries = []
+      for (const path of sorted([o.sourceFile, ...o.files.map(f => f.file)].filter(path => path.startsWith('site/en/')))) {
+        const raw = await reads.readCommitted(request.sourceRepository, snapshot.entries, path), declared = o.files.find(f => f.file === path)
+        const authenticated = await sourceProof.optionalFile(commit, path)
+        if (authenticated && (!raw || !authenticated.bytes.equals(raw)) || !authenticated && raw) throw Error('BATCH_SOURCE_BYTES_INVALID')
+        if (declared && (!raw || rawSha256(raw) !== declared.sha256 || new TextDecoder('utf8', {fatal: true}).decode(raw) !== declared.text)) throw Error('BATCH_SOURCE_BYTES_INVALID')
+        if (raw && (declared || path === o.sourceFile && o.source !== null)) entries.push({path, oid: snapshot.entries.find(e => e.path === path)!.oid, ref: retain(raw)})
+      }
+      const manuals = contract.batchSorted(configured.targets, m => `${m.manual}:${m.path}`).map(target => {
+        const m = o.manuals.find(m => m.manual === target.manual && m.path === target.path) ?? {...target, markdown: '', output: undefined, headings: [], references: []}
+        return {manual: m.manual, path: m.path, ref: object({...m, output: m.output ?? null})}
+      })
+      const images = []
+      for (const image of o.images) {
+        let raw = image.observed ? imageBytes.get(image.observed.sha256) : undefined
+        if (image.origin.kind === 'repository' && image.observed) {
+          const files = await reads.inventory(request.sourceRepository, commit, [image.origin.path]); raw = await reads.readCommitted(request.sourceRepository, files, image.origin.path) ?? undefined
+        }
+        const ref = raw && image.observed && rawSha256(raw) === image.observed.sha256 && raw.length === image.observed.bytes ? retain(raw) : null
+        images.push({...image, ref})
+      }
+      intervalObservations.push({commit, sourceFile: o.sourceFile, rawRef: object({commit, entries}),
+        inventoryRef: object({commit, treeOid: snapshot.treeOid, entries: snapshot.entries, absentPaths: paths.filter(path => !snapshot.entries.some(e => e.path === path)), discoveryRef: snapshot.discovery}),
+        manuals, imagesRef: object(contract.batchRoles.map(role => ({role, images: contract.batchSorted(images, contract.batchImageKey)}))),
+        diagnosticsRef: object({errors: o.errors.map(normalizeDiagnostic), rawErrors: o.rawErrors.map(normalizeDiagnostic), reasons: []}),
+        dependencies: contract.batchSorted(o.dependencies, d => `${d.kind}:${d.identity}`), outputStatus: o.outputStatus, imageStatus: o.imageStatus})
+    }
+    const allConsumed = sorted([...paths, ...intervalObservations.flatMap(o => {
+      const raw = JSON.parse(Buffer.from(payloads.get(o.rawRef.sha256)!.base64, 'base64').toString('utf8'))
+      return raw.entries.map((e: {path: string}) => e.path) as string[]
+    })])
+    const completeAbsence = (ref: BlobRef) => {
+      const inventory = JSON.parse(Buffer.from(payloads.get(ref.sha256)!.base64, 'base64').toString('utf8'))
+      return object({...inventory, absentPaths: allConsumed.filter(path => !inventory.entries.some((e: {path: string}) => e.path === path))})
+    }
+    for (const inventory of inventoryRefs) inventory.ref = completeAbsence(inventory.ref)
+    for (const observation of intervalObservations) observation.inventoryRef = completeAbsence(observation.inventoryRef)
+    const material = contract.BatchPageMaterialHeaderSchema.parse({kind: 'guides-batch-material-v1', base: {origin: request.origin, session: request.session, pins: request.pins}, pageId: request.pageId,
+      configRef, lockRef, targets: configured.targets, current: configured.current, oldNext: configured.oldNext, rawMaterialRefs, inventoryRefs,
+      historyRef: object({commits: commitHistory, interval: intervalObservations}), renderedManualRefs,
+      imagesRef: object(images), projectionRef: object({pageId: request.pageId, observations: projected, promotionAnchors: impact.promotion.anchors, sourceAnchors: impact.sourceImpact.anchors}),
+      diagnosticsRef: object({errors: impact.errors.map(normalizeDiagnostic), rawErrors: impact.rawErrors.map(normalizeDiagnostic), reasons: []})})
+    // sourceSnapshot intentionally retains discovery inputs too; deliver only the exact material graph.
+    const reached = new Set<string>()
+    const visit = (value: unknown): void => {
+      if (!value || typeof value !== 'object') return
+      if (!Array.isArray(value) && Object.keys(value).sort().join(',') === 'bytes,path,sha256') {
+        const ref = value as BlobRef
+        if (reached.has(ref.sha256)) return
+        const blob = payloads.get(ref.sha256)
+        if (!blob) throw Error('BATCH_MATERIAL_GRAPH_INCOMPLETE')
+        reached.add(ref.sha256)
+        try {visit(JSON.parse(Buffer.from(blob.base64, 'base64').toString('utf8')))} catch { /* raw leaf */ }
+      } else for (const child of Object.values(value)) visit(child)
+    }
+    visit(material)
+    const wire = {kind: 'guides-batch-material-wire-v1' as const, material,
+      blobs: [...payloads.values()].filter(p => reached.has(p.ref.sha256)).sort((a, b) => compareUtf8(a.ref.sha256, b.ref.sha256))}
+    contract.validateBatchWire(wire, request)
+    await sourceProof.verify(); await configProof.verify(); if (devProof !== configProof) await devProof.verify()
+    if ((await sourceEndpoints(request.sourceRepository, source.config.repository, source.config.track, request.pins.source)).head !== request.pins.source) throw Error('BATCH_SOURCE_HEAD_INVALID')
+    return immutable(wire)
+  } finally {reads.dispose(); payloads.clear(); imageBytes.clear(); await rm(temporary, {recursive: true, force: true})}
 }
