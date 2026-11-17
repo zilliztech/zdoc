@@ -302,6 +302,7 @@ ANALYSIS_INFRASTRUCTURE_FAILURE PAGE_CONFIGURATION_INVALID GROUP_CONFIGURATION_I
 PRODUCER_ANCESTRY_UNPROVEN BASE_IDENTITY_UNPROVEN COLLECTION_MODE_UNPROVEN LATEST_OBSERVATION_UNPROVEN
 PRODUCER_NOT_SUCCESSFUL RECORD_FRESHNESS_COMPLETENESS_UNPROVEN SOURCE_STAGE_UNPROVEN
 SOURCE_TIME_BINDING_UNPROVEN SOURCE_WORKFLOW_UNPROVEN TABLE_RECORD_BINDING_UNPROVEN
+FETCH_PROFILE_CONTEXT_UNAVAILABLE FETCH_PROFILE_MISMATCH FETCH_PROFILE_ANCESTRY_UNPROVEN
 BASE_SCAN_ATTEMPT_UNPROVEN BASE_SCAN_CENSUS_UNPROVEN BASE_SCAN_PRODUCER_UNPROVEN BASE_SCAN_RECORD_UNPROVEN
 DEV_TIP_CHANGED GUIDES_PUBLICATION_UNPROVEN PUBLICATION_ANCESTRY_UNPROVEN PUBLICATION_ARCHIVE_OVERSIZED
 PUBLICATION_ATTEMPT_UNPROVEN PUBLICATION_RECEIPT_IDENTITY_MISMATCH PUBLISHED_OUTPUT_MISMATCH PUBLISHED_RECORD_MISMATCH
@@ -433,12 +434,26 @@ def authority(root, unit, pins, run):
     row = observed["lifecycle"]
     require(row["runId"] == row["latestRunId"] == run["id"] and row["attempt"] == run["run_attempt"]
             and row["masterSha"] == run["head_sha"] and row["sampledDev"] == pins["dev"]
-            and row["observedPage"] == PAGE and row["reasons"] == []
-            and DIGEST.fullmatch(row.get("producerInventorySha256", "")), "REVIEWED_FETCH_EVIDENCE_MISSING")
+            and row["observedPage"] == PAGE and row["reasons"] == [], "REVIEWED_FETCH_EVIDENCE_MISSING")
+    if "producerAuthentication" in row:
+        method = row["producerAuthentication"]
+        require(isinstance(method, dict) and set(method) == {"kind", "trustedTools", "producer", "profileSha256"}
+                and method["kind"] == "fetch-producer-profile-v1" and "producerInventorySha256" not in row
+                and oid(method["trustedTools"]) and oid(method["producer"])
+                and isinstance(observed.get("tools"), dict)
+                and method["trustedTools"] == pins["master"] == observed["tools"].get("zdoc") == report["pins"].get("trustedTools")
+                and method["producer"] == run["head_sha"]
+                and isinstance(method["profileSha256"], str) and DIGEST.fullmatch(method["profileSha256"]),
+                "REVIEWED_FETCH_EVIDENCE_MISSING")
+        producer_evidence = {"producerAuthentication": method}
+    else:
+        inventory = row.get("producerInventorySha256")
+        require(isinstance(inventory, str) and DIGEST.fullmatch(inventory), "REVIEWED_FETCH_EVIDENCE_MISSING")
+        producer_evidence = {"producerInventorySha256": inventory}
     run_id, attempt = run["id"], run["run_attempt"]
     return {"fetchRun": run_id, "fetchAttempt": attempt, "fetchProducer": run["head_sha"],
             "sourceJob": row["sourceJobId"], "scanStart": row["generatedAt"],
-            "producerInventorySha256": row["producerInventorySha256"],
+            **producer_evidence,
             "sourceZip": artifact(metadata, run, row["artifactId"], f"guides-sources-en-{run_id}", row["zipSha256"], 256 * 1024**2),
             "publicationZip": artifact(metadata, run, row["publicationArtifactId"], f"publication-results-fetch-{run_id}-{attempt}",
                                        row["publicationZipSha256"], 1024**2)}

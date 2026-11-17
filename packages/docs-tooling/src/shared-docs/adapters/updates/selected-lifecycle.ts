@@ -6,6 +6,7 @@ import { isDeepStrictEqual as equal } from 'node:util'
 import * as z from 'zod'
 import { DigestSchema, GitShaSchema } from '../../core/updates/envelope'
 import { GitLinkInputReader } from '../links-input'
+import { isFetchProducerContext, type FetchProducerContext, type ProducerAuthentication } from './trusted-fetch-producer'
 import { gitRead, sha } from './git'
 import { exactlyOne, latestGuidesRun, stepWindow, successfulJob } from './guides-run-metadata'
 export { latestGuidesRun } from './guides-run-metadata'
@@ -128,29 +129,41 @@ export function observedRecord(bundle: Row, snapshot: Row, page: string) {
   return { record, outcome }
 }
 
-export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage) {
+export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage, fetchProducerContext?: FetchProducerContext) {
   const { run } = facts
   if (!sha(run.head_sha) || run.head_repository?.id !== 660446555 || run.workflow_id !== 83360731 ||
     snapshot.base_app_token !== 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh') return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
   const legacy = reviewed.legacyCensus
   const legacyProducer = run.head_sha === legacy.producer
   let producerInventorySha256: string | undefined
+  let producerAuthentication: ProducerAuthentication | undefined
   if (legacyProducer) {
     if (run.id !== legacy.runId || run.run_attempt !== legacy.attempt || facts.artifact.id !== legacy.artifactId ||
       facts.artifact.digest !== legacy.zipDigest || selected.page !== legacy.page) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
   } else {
-    const tree = await gitRead(selected.producerRepo, ['ls-tree', '-r', '-t', '-z', '--full-tree', run.head_sha])
+    let tree: string | undefined
+    try { tree = await gitRead(selected.producerRepo, ['ls-tree', '-r', '-t', '-z', '--full-tree', run.head_sha]) } catch { /* New path reads only the fixed Git store. */ }
     const bytes = await readFile(new URL('./reviewed-fetch-tree.json', import.meta.url))
-    producerInventorySha256 = await reviewedProducerInventory(tree, bytes, run, selected.page,
+    producerInventorySha256 = tree === undefined ? undefined : await reviewedProducerInventory(tree, bytes, run, selected.page,
       () => new GitLinkInputReader(selected.producerRepo).readBytes(run.head_sha, policyPath))
-    if (!producerInventorySha256) return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
+    if (!producerInventorySha256) {
+      if (selected.page !== 'json-field-overview' || run.repository?.id !== 660446555 || run.head_repository?.id !== 660446555 ||
+        run.workflow_id !== 83360731 || run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' ||
+        run.event !== 'schedule' || run.run_attempt !== 1 || run.status !== 'completed' || run.conclusion !== 'success') return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
+      if (!isFetchProducerContext(fetchProducerContext)) return unknown('FETCH_PROFILE_CONTEXT_UNAVAILABLE')
+      const proof = await fetchProducerContext.authenticate(run.head_sha)
+      if ('reason' in proof) return unknown(proof.reason)
+      if (proof.kind !== 'fetch-producer-profile-v1' || proof.producer !== run.head_sha || !sha(proof.trustedTools) ||
+        !/^[0-9a-f]{64}$/.test(proof.profileSha256)) return unknown('FETCH_PROFILE_CONTEXT_UNAVAILABLE')
+      producerAuthentication = proof
+    }
   }
   const result = await readReviewedObservation(api, facts, manifest, snapshot, payload, selected)
   if (!('identity' in result)) return result
   if (legacyProducer && (result.recordId !== legacy.recordId || result.identity.membershipSha256 !== legacy.membershipSha256 ||
     result.identity.recordCount !== legacy.recordCount || result.identity.tableCount !== legacy.tableCount)) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
   Object.assign(result.identity, legacyProducer ? {censusVerifiedAt: legacy.verifiedAt} :
-    {producerInventorySha256})
+    producerAuthentication ? {producerAuthentication} : {producerInventorySha256})
   return result
 }
 
