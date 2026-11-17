@@ -14,12 +14,13 @@ import type { SharedDocsError } from '../../core/types'
 import type { ImageFetcher } from '../images'
 import { collectCandidate, readReportConfiguration } from './candidate'
 import { exportTree, resolveCommit, requireOrdered, sourceEndpoints, gitRead } from './git'
+import type { FetchProducerContext } from './trusted-fetch-producer'
 import { hash, readLifecycle } from './lifecycle'
 import { GitHubReads, type ReadonlyGitHub } from './github'
 export interface UpdateOptions { sharedDocs: string; repo: string; dev: string; out: string; mode?: string; masterSha?: string; devSha?: string;
   sourceSha?: string; comparisonMasterSha?: string; pages?: string; lifecyclePage?: string; proveIndependentPage?: boolean; evidenceRun?: string; evidenceZip?: string }
 export interface UpdateDependencies { fetcher?: ImageFetcher; github?: ReadonlyGitHub;
-  clock?: { kind: 'offline-replay'; now: number }; policy?: LifecyclePolicy }
+  fetchProducerContext?: FetchProducerContext; clock?: { kind: 'offline-replay'; now: number }; policy?: LifecyclePolicy }
 export class UpdateArgumentError extends Error {}
 class ConfigurationContentError extends Error {
   constructor(readonly diagnostics: SharedDocsError[]) { super('Invalid group configuration') }
@@ -80,7 +81,7 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
         const baseline = JSON.parse(await readFile(join(devRoot, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'), 'utf8'))
         const lifecyclePage = options.lifecyclePage ?? (options.pages && !options.pages.includes(',') ? options.pages : undefined)
         evidence = await readLifecycle(dependencies.github ?? new GitHubReads(), Number(options.evidenceRun), directory, options.evidenceZip, baseline.base_app_token,
-          lifecyclePage ? { page: lifecyclePage, producerRepo: repositoryRoot, devRepo: options.dev, dev } : undefined)
+          lifecyclePage ? { page: lifecyclePage, producerRepo: repositoryRoot, devRepo: options.dev, dev } : undefined, dependencies.fetchProducerContext)
         const { GitMilvusDocsReader } = await import('../git-milvus-docs-reader')
         for (const [repo, ancestor, head] of [[repositoryRoot, evidence.identity.masterSha, master], [options.dev, evidence.identity.devSha, dev]] as const) {
           if (typeof ancestor !== 'string' || !await new GitMilvusDocsReader(repo).isAncestor(ancestor, head)) evidence.reasons.push('PRODUCER_ANCESTRY_UNPROVEN')
@@ -88,6 +89,7 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
       }
       catch (error) { errors.push({ message: `Lifecycle infrastructure: ${String(error)}` }); evidence = { reasons: ['EVIDENCE_INFRASTRUCTURE_FAILURE'], records: [], identity: {} } }
     }
+    if (evidence.reasons.length) delete evidence.identity.producerAuthentication
     pins.lifecycle = { ...evidence.identity, reasons: evidence.reasons, generatedAt: evidence.generatedAt }
     const first = options.proveIndependentPage && !options.pages ? inventory.find(item => item.pageId === options.lifecyclePage) : undefined
     const order = first ? [first, ...inventory.filter(item => item !== first)] : inventory

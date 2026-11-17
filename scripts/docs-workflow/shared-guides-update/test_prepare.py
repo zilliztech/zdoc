@@ -440,3 +440,91 @@ class PreparationTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AuthorityMethodTest(unittest.TestCase):
+    """Real content-addressed B1/B2 references; GitHub metadata is a local fixture."""
+    def fixture(self, root, method=True):
+        fetch = Fetch()
+        directory = root / "plan"
+        (directory / "blobs").mkdir(parents=True)
+        def retain(value):
+            raw = json.dumps(value).encode()
+            ref = {"path": "blobs/" + p.sha256(raw), "bytes": len(raw), "sha256": p.sha256(raw)}
+            (directory / ref["path"]).write_bytes(raw)
+            return ref
+        row = {"runId": UID, "latestRunId": UID, "attempt": 2, "masterSha": MASTER, "sampledDev": DEV,
+               "observedPage": p.PAGE, "reasons": [], "sourceJobId": 200, "generatedAt": START.isoformat(),
+               "artifactId": 201, "publicationArtifactId": 202,
+               "zipSha256": fetch.record["sourceZip"]["sha256"], "publicationZipSha256": fetch.record["publicationZip"]["sha256"]}
+        if method:
+            row["producerAuthentication"] = {"kind": "fetch-producer-profile-v1", "trustedTools": MASTER,
+                                             "producer": MASTER, "profileSha256": "e" * 64}
+        else:
+            row["producerInventorySha256"] = "f" * 64
+        observed = {"offlineReplay": False, "master": MASTER, "dev": DEV, "tools": {"zdoc": MASTER}, "lifecycle": row}
+        impact = retain({"offlineReplay": False, "pages": [{"pageId": p.PAGE, "selected": True}]})
+        pins = {"master": MASTER, "dev": DEV, "source": SOURCE, "current": CURRENT, "next": CURRENT}
+        report = {"subject": p.SUBJECT, "pins": {"trustedTools": MASTER, "source": {"track": p.TRACK,
+                  "target": SOURCE, "observedTrackHead": SOURCE, "current": CURRENT, "oldNext": CURRENT}},
+                  "authority": {"subject": p.SUBJECT, "provider": "guides-retained-source", "updateState": "eligible-to-propose",
+                  "reasons": [], "evidence": []}, "axes": [{"axis": "old-next-to-target", "sourceChanged": True}],
+                  "detail": {"kind": "guides-impact-v1", "file": {**impact, "path": "launcher-local/guides-impact-v1/report.json"}}}
+        def consume():
+            # Rehash every reference after semantic mutation; negatives reach authority validation.
+            report["authority"]["evidence"] = [retain(observed), impact]
+            unit = {"reports": [retain(report)]}
+            with patch.object(p, "metadata", fetch.get):
+                return p.authority(root, unit, pins, fetch.run)
+        return row, observed, report, pins, consume
+
+    def test_tagged_method_and_legacy_are_retained_by_real_authority(self):
+        for method in (True, False):
+            with tempfile.TemporaryDirectory() as tmp:
+                row, _, _, _, consume = self.fixture(Path(tmp), method)
+                result = consume()
+                key = "producerAuthentication" if method else "producerInventorySha256"
+                self.assertEqual(result[key], row[key])
+                self.assertNotIn("producerInventorySha256" if method else "producerAuthentication", result)
+
+    def test_untagged_census_without_inventory_cannot_become_a_candidate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            row, _, _, _, consume = self.fixture(Path(tmp), False)
+            del row["producerInventorySha256"]
+            with self.assertRaisesRegex(p.Hold, "REVIEWED_FETCH_EVIDENCE_MISSING"):
+                consume()
+
+    def test_present_invalid_tag_never_falls_back_to_valid_inventory(self):
+        for bad in (None, {}, {"kind": "unknown"}, {"kind": "fetch-producer-profile-v1"},
+                    {"kind": "fetch-producer-profile-v1", "trustedTools": MASTER, "producer": MASTER,
+                     "profileSha256": "e" * 64, "extra": True}):
+            with self.subTest(bad=bad), tempfile.TemporaryDirectory() as tmp:
+                row, _, _, _, consume = self.fixture(Path(tmp), False)
+                row["producerAuthentication"] = bad
+                with self.assertRaisesRegex(p.Hold, "REVIEWED_FETCH_EVIDENCE_MISSING"):
+                    consume()
+
+    def test_tag_binds_both_tool_pins_producer_digest_and_excludes_mixed_method(self):
+        for case in ("trustedTools", "producer", "profileSha256", "tools", "envelope", "setup", "mixed", "null-digest"):
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as tmp:
+                row, observed, report, pins, consume = self.fixture(Path(tmp))
+                if case in ("trustedTools", "producer"):
+                    row["producerAuthentication"][case] = "1" * 40
+                elif case == "profileSha256":
+                    row["producerAuthentication"][case] = "E" * 64
+                elif case == "null-digest":
+                    row["producerAuthentication"]["profileSha256"] = None
+                elif case == "tools":
+                    observed["tools"]["zdoc"] = DEV
+                elif case == "envelope":
+                    report["pins"]["trustedTools"] = DEV
+                elif case == "setup":
+                    pins["master"] = DEV
+                else:
+                    row["producerInventorySha256"] = "f" * 64
+                with self.assertRaises(p.Hold):
+                    consume()
+
+    def test_new_profile_reason_codes_are_closed_safe_diagnostics(self):
+        codes = ["FETCH_PROFILE_CONTEXT_UNAVAILABLE", "FETCH_PROFILE_MISMATCH", "FETCH_PROFILE_ANCESTRY_UNPROVEN"]
+        self.assertEqual(p.reason_codes(codes + ["FETCH_PROFILE_UNTRUSTED_PATH"]), codes)

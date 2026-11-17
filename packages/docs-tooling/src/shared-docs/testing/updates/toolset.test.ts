@@ -1,9 +1,9 @@
 // @vitest-environment node
 import * as fsPromises from 'node:fs/promises'
 import * as childProcess from 'node:child_process'
-import { describe, expect, it, vi, afterEach } from 'vitest'
+import { describe, expect, it, vi, afterEach, onTestFinished } from 'vitest'
 import { mkdtemp, mkdir, writeFile, readFile, symlink, chmod, realpath, unlink, cp, rename, chown, readdir, lstat } from 'node:fs/promises'
-import { load as loadYaml } from 'js-yaml'
+import { load as loadYaml, dump as dumpYaml } from 'js-yaml'
 import { tmpdir, release } from 'node:os'
 import { dirname, join } from 'node:path'
 import { deflateSync } from 'node:zlib'
@@ -514,8 +514,8 @@ describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
     const child = await launcher.runGuidesCollector(selected, {GH_TOKEN:'parent-only-marker'})
     expect(child.value).toEqual({token:null, githubToken:null, descriptors:[true, true], wireContainsSecret:false})
     expect(child.settlement).toMatchObject({born:true, close:{code:0}, group:'absent'})
-    await expect(launcher.runGuidesCollector({...selected, request:{...selected.request, trustedTools:'f'.repeat(40)}},
-      {GH_TOKEN:'parent-only-marker'})).rejects.toThrow('tool identity mismatch')
+    for (const secrets of [{}, {GH_TOKEN:'parent-only-marker'}]) for (const changed of [{trustedTools:'f'.repeat(40)}, {toolsetSha256:'f'.repeat(64)}])
+      await expect(launcher.runGuidesCollector({...selected, request:{...selected.request, ...changed}}, secrets)).rejects.toThrow('tool identity mismatch')
     await expect(launcher.runGuidesCollector({ text: 'x'.repeat(32 * 1024 * 1024) })).rejects.toThrow(/bound|large/i)
   }, 30000)
   it.skipIf(process.platform !== 'darwin').each([0, 0o1000])('validates complete group policy with sticky bit %i and rejects changed access before reuse', async sticky => {
@@ -1069,3 +1069,42 @@ describe.skipIf(process.platform !== 'darwin')('fixed developer tool capture pro
     await expect(captureTrustedToolset(a)).rejects.toThrow('Unknown system Git provisioning')
   })
 })
+
+it('passes the actual fixed bootstrap ordinary capability to a source-bound real factory with committed local Git', async () => {
+  const a = await loaderFixture(), installed = loadYaml(await readFile(join(process.cwd(), 'pnpm-lock.yaml'), 'utf8')) as any
+  onTestFinished(() => fsPromises.rm(a.root, {recursive: true, force: true}))
+  const lock = loadYaml(await readFile(join(a.root, 'pnpm-lock.yaml'), 'utf8')) as any
+  for (const name of ['js-yaml', 'argparse']) {
+    const resolver = createRequire(join(await realpath(join(process.cwd(), 'node_modules/js-yaml')), 'package.json'))
+    const entry = dirname(resolver.resolve(name + '/package.json')), version = JSON.parse(await readFile(join(entry, 'package.json'), 'utf8')).version
+    const key = `${name}@${version}`, source = dirname(dirname(entry))
+    await cp(source, join(a.root, 'node_modules/.pnpm', key), {recursive: true, verbatimSymlinks: true})
+    lock.packages[key] = installed.packages[key]; lock.snapshots[key] = installed.snapshots[key]
+    if (name === 'js-yaml') {
+      await symlink(`.pnpm/${key}/node_modules/${name}`, join(a.root, 'node_modules', name))
+      lock.importers['.'] = {dependencies: {'js-yaml': {specifier: version, version}}}
+    }
+  }
+  await put(a.root, 'pnpm-lock.yaml', dumpYaml(lock))
+  for (const path of ['adapters/updates/trusted-fetch-producer.ts', 'adapters/updates/fetch-producer-profile.ts', 'core/lock.ts', 'core/yaml.ts']) {
+    const full = 'packages/docs-tooling/src/shared-docs/' + path
+    await put(a.root, full, await readFile(join(process.cwd(), full), 'utf8'))
+  }
+  await put(a.root, 'shared-docs/guides/pages/json-field-overview/lock.yaml', `schema_version: 1\ncurrent: ${'a'.repeat(40)}\nnext: ${'a'.repeat(40)}\n`)
+  await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `
+export async function collectGuidesWorker(data, brokered, issue) {
+  if (typeof issue !== 'function') throw Error('Missing measured ordinary capability');
+  const context = await issue(); return context.authenticate(data.request.trustedTools)
+}`)
+  a.commit = commitAll(a.root)
+  const capture = await captureTrustedToolset(a), store = await initializeEvidence({root: join(a.root, '.claude', 'fetch-capability'), repositories: [a.root], owner: 'fetch-capability'})
+  const launcher = await prepareTrustedLauncher(capture, store)
+  const data = {request: {kind: 'guides-collection', schemaVersion: 1, repositoryRoot: a.root, sourceRepository: a.root, devRepository: a.root,
+    master: a.commit, configSnapshot: a.commit, dev: a.commit, trustedTools: a.commit, toolsetSha256: capture.toolsetSha256, pages: ['json-field-overview'], comparisonConfig: null,
+    target: null, evidenceRun: '1', evidenceZip: null}, archives: null}
+  for (const credentials of [{}, {GH_TOKEN: 'local-untransmitted-fixture'}]) {
+    const child = await launcher.runGuidesCollector(data, credentials)
+    expect(child.value).toMatchObject({kind: 'fetch-producer-profile-v1', trustedTools: a.commit, producer: a.commit, profileSha256: expect.stringMatching(/^[0-9a-f]{64}$/)})
+    expect(child.settlement).toMatchObject({born: true, close: {code: 0}, group: 'absent'})
+  }
+}, 60000)

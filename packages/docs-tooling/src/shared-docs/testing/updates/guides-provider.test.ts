@@ -587,3 +587,222 @@ describe.sequential('Guides provider cancellation checkpoints', () => {
     } finally {await f.dispose()}
   })
 })
+
+it('checks measured pilot pins before B1 and never initializes the issuer for ordinary collection', async () => {
+  const f = await fixture()
+  try {
+    let issued = 0
+    const issuer = async () => { issued++; throw new Error('No fixture grant') }
+    await collect(f.request, f.dependencies, issuer)
+    expect(issued).toBe(0)
+    await collect({...f.request, pages: ['json-field-overview']}, f.dependencies, issuer)
+    expect(issued).toBe(0)
+    await expect(collect({...f.request, pages: ['json-field-overview'], evidenceRun: '1', trustedTools: 'f'.repeat(40)}, f.dependencies, issuer)).rejects.toThrow('FETCH_PROFILE_CONTEXT_UNAVAILABLE')
+    expect(issued).toBe(0)
+  } finally {await f.dispose()}
+}, 120_000)
+
+it('integrates the actual source-bound factory, full B1 lifecycle and B2 authority using local source/publication fixtures', async () => {
+  const {createRequire} = await import('node:module')
+  const {cp, symlink} = await import('node:fs/promises')
+  const {execFileSync} = await import('node:child_process')
+  const require = createRequire(import.meta.url), replay = require('../../../../../../scripts/docs-workflow/replay-shared-pages.js')
+  const shared = require('../../../lark/sharedPageBundle.js'), publicationWriter = require('../../../lark/sharedPagePublication.js')
+  const {createSourceSnapshot} = require('../../../lark/sourceSnapshot.js')
+  const {createGuidesStageArtifact} = require('../../../../../../scripts/docs-workflow/guides-stage-artifact.js')
+  const load = require('../../../../../../scripts/lib/load-typescript.js').loadTypeScript
+  const page = 'json-field-overview', baseToken = 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh'
+  const f = await replay.fixture({after: onTestFinished}, {pages: [page], pilot: true, imageSource: false})
+  const previousProducer = f.masterCommit
+  // This is a full-history committed fixture executing the production modules from
+  // their own source-bound root. Installed dependencies are reused for this ordinary
+  // in-process test; the independently measured bootstrap is covered in toolset.test.
+  for (const path of ['packages', 'scripts', 'config', 'sidebar-overrides']) await cp(join(process.cwd(), path), join(f.repositoryRoot, path), {recursive: true, filter: path => !path.includes('/node_modules') && !path.includes('/__pycache__')})
+  for (const path of ['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml']) await cp(join(process.cwd(), path), join(f.repositoryRoot, path))
+  await mkdir(join(f.repositoryRoot, 'apps/docs'), {recursive: true})
+  await cp(join(process.cwd(), 'apps/docs/package.json'), join(f.repositoryRoot, 'apps/docs/package.json'))
+  await symlink(join(process.cwd(), 'node_modules'), join(f.repositoryRoot, 'node_modules'))
+  for (const path of ['apps/docs/node_modules', 'packages/docs-tooling/node_modules']) await symlink(join(process.cwd(), path), join(f.repositoryRoot, path))
+  await writeFile(join(f.repositoryRoot, '.gitignore'), 'node_modules\n__pycache__\n')
+  const sourceConfig = join(f.repositoryRoot, 'shared-docs/guides/source.yaml')
+  await writeFile(sourceConfig, (await readFile(sourceConfig, 'utf8')).replace('release/docs', 'v3.0.x'))
+  await git(f.repo, 'branch', '-m', 'v3.0.x')
+  await rm(join(f.repositoryRoot, 'shared-docs/guides/pages/inactive'), {recursive: true})
+  await git(f.repositoryRoot, 'add', '.'); await git(f.repositoryRoot, 'commit', '-qm', 'Commit actual tools with fixture configuration')
+  f.masterCommit = await git(f.repositoryRoot, 'rev-parse', 'HEAD')
+  await git(f.repo, 'remote', 'add', 'origin', 'https://github.com/milvus-io/milvus-docs')
+  await git(f.repo, 'update-ref', 'refs/remotes/origin/v3.0.x', f.upstreamCommit)
+  f.records[0].fields['Placement Type'] = 'canonical'
+  f.sequence = 0; f.imageBaseUrl = 'https://images.example.test'
+  await replay.prepare(f)
+  f.candidate = createSourceSnapshot({manualName: 'guides', buildEnv: 'uat', docSourceDir: f.sourceDir, baseAppToken: baseToken,
+    records: f.records, routingContext: f.prepared.context})
+  await replay.regenerate(f)
+  expect(f.bundle.outcomes[0].status).toBe('success')
+  const sourceRoot = join(f.root, 'source-workspace'), reports = 'packages/docs-tooling/src/lark/meta/reports/'
+  const put = async (path: string, bytes: Uint8Array | string) => {await mkdir(dirname(join(sourceRoot, path)), {recursive: true}); await writeFile(join(sourceRoot, path), bytes)}
+  await mkdir(dirname(join(sourceRoot, shared.ROOT)), {recursive: true}); await cp(f.out, join(sourceRoot, shared.ROOT), {recursive: true})
+  await mkdir(join(sourceRoot, 'packages/docs-tooling/src/lark/meta/sources'), {recursive: true})
+  await cp(f.sourceDir, join(sourceRoot, 'packages/docs-tooling/src/lark/meta/sources/guides'), {recursive: true})
+  await put(reports + 'guides-source-snapshot-candidate.json', JSON.stringify(f.candidate))
+  await put('packages/docs-tooling/src/lark/meta/media-cache/guides.json', JSON.stringify({schemaVersion: 1, entries: []}))
+  await put(reports + 'guides-media-prefetch.json', JSON.stringify({schemaVersion: 1, generated_at: f.candidate.generated_at, mode: 'recovery', cacheState: 'missing', metrics: {
+    canonicalReferencesRequired: 0, selectedReferences: 0, validatedManifestReuse: 0, committedDocsReconstruction: 0, resolvedByNetwork: 0, staleEntriesDropped: 0, finalManifestEntries: 0}}))
+  const decision = require('../../../../../../scripts/docs-workflow/guides-assembly-identity.js').decideAssembly({candidateSnapshot: publicationWriter.effectiveSnapshot(f.candidate, shared.loadBundle(f.out)),
+    incrementalPlan: f.plan, tableCount: 4, repositoryRoot: f.repositoryRoot, baselineRoot: f.baselineRoot,
+    baselineDescriptorPath: 'packages/docs-tooling/src/lark/meta/assembly/guides.json', baselineSaasSidebarPath: 'generated/en/sidebars/guides.sidebar.js', baselineByocSidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js',
+    masterSha: f.masterCommit, devBaselineSha: f.devCommit, baselineSourceSha: f.devCommit, generatedAt: f.candidate.generated_at})
+  await put(reports + 'guides-assembly-decision.json', JSON.stringify(decision))
+  const artifactRoot = join(f.root, 'guides-source'), manifest = await createGuidesStageArtifact({stage: 'source', workspace: sourceRoot, baselineDir: f.baselineRoot,
+    output: artifactRoot, masterSha: f.masterCommit, devBaselineSha: f.devCommit, rootToken: f.rootToken})
+  const sourceZip = execFileSync('python3', ['-c', `import io,sys,tarfile,zipfile
+b=io.BytesIO()
+with tarfile.open(fileobj=b,mode='w') as t:t.add(sys.argv[1],arcname='guides-source')
+with zipfile.ZipFile(sys.stdout.buffer,'w') as z:z.writestr('guides-source.tar',b.getvalue())`, artifactRoot])
+  const handoff = shared.loadBundle(f.out)
+  for (const outcome of handoff.bundle.outcomes) for (const output of outcome.outputs) {
+    const dest = join(f.baselineRoot, output.path); await mkdir(dirname(dest), {recursive: true}); await writeFile(dest, handoff.files.get(output.file))
+  }
+  const effective = publicationWriter.finalizePublication({workspace: f.baselineRoot, handoff, candidate: f.candidate})
+  await writeFile(join(f.baselineRoot, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'), JSON.stringify(effective.snapshot))
+  await git(f.baselineRoot, 'add', '.'); await git(f.baselineRoot, 'commit', '-qm', 'Publish local fixture')
+  let published = await git(f.baselineRoot, 'rev-parse', 'HEAD')
+  const at = f.candidate.generated_at, uploaded = manifest.createdAt
+  const after = new Date(Date.parse(uploaded) + 1000).toISOString()
+  let runId = 71, latest: any, run: any, jobs: any[], artifacts: any[], publicationZip: Buffer
+  let changeToolsOnPublication = false
+  const selectedApi = {zip: async id => {
+    if (id === 9 && changeToolsOnPublication) await git(f.repositoryRoot, 'commit', '--allow-empty', '-qm', 'Drift after profile authentication')
+    return id === 8 ? sourceZip : publicationZip
+  }, get: async path => {
+    if (path === 'repos/zilliztech/zdoc') return {id: 660446555}
+    if (path.endsWith('/branches/dev')) return {name: 'dev', commit: {sha: published}}
+    if (path.includes('/jobs?')) return {total_count: jobs.length, jobs}
+    if (path.includes('/artifacts?')) return {total_count: artifacts.length, artifacts}
+    if (path.includes('fetch-guides-requested.yml')) return {total_count: 0, workflow_runs: []}
+    if (path.includes('fetch-docs.yml')) return {total_count: 1, workflow_runs: [latest]}
+    if (path.endsWith('/' + runId)) return run
+    throw new Error('Unexpected local metadata read')
+  }}
+  const configureRun = () => {
+    run = {id: runId, run_attempt: 1, repository: {id: 660446555}, head_repository: {id: 660446555}, workflow_id: 83360731,
+      path: '.github/workflows/fetch-docs.yml', event: 'schedule', updated_at: after, head_sha: f.masterCommit, head_branch: 'master', status: 'completed', conclusion: 'success',
+      referenced_workflows: [{path: `zilliztech/zdoc/.github/workflows/_fetch-guides-sources.yml@${f.masterCommit}`, sha: f.masterCommit}]}
+    latest = run
+    const job = (id, name, steps) => ({id, name, run_id: runId, run_attempt: 1, head_sha: f.masterCommit, status: 'completed', conclusion: 'success', started_at: at, completed_at: after,
+      steps: steps.map(name => ({name, started_at: at, completed_at: after, conclusion: 'success'}))})
+    jobs = [job(2, 'produce_guides_sources / fetch', ['Fetch shared guides sources', 'Create shared source artifact', 'Generate selected shared Guides sources', 'Run actions/upload-artifact@v6']),
+      job(3, 'produce_guides / assemble', []), job(4, 'publish_ready', ['Publish ready Fetch units in producer completion FIFO order'])]
+    const results = {schemaVersion: 1, document: 'publication-results', workflow: 'fetch', repository: 'zilliztech/zdoc', runId, runAttempt: 1, selectionSha256: rawSha256(Buffer.from('selection')),
+      mode: 'publish', targetBranch: 'dev', initialTargetSha: f.devCommit, finalTargetSha: published, startedAt: at, completedAt: uploaded, overallStatus: 'success', orchestratorFailure: null,
+      units: [{unitKey: 'source/guides-en', attempts: 1, baseSha: f.devCommit, commitShas: [published], failure: null, producerCompletedAt: at, producerJobId: 3,
+        publishCompletedAt: uploaded, publishStartedAt: at, readyAt: at, reconciled: null, resultSha: published, sequence: 1, status: 'published'}]}
+    publicationZip = execFileSync('python3', ['-c', `import sys,zipfile,io
+b=io.BytesIO()
+with zipfile.ZipFile(b,'w') as z:z.writestr('publication-results.json',sys.stdin.buffer.read())
+sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(results)})
+    artifacts = [[8, `guides-sources-en-${runId}`, sourceZip], [9, `publication-results-fetch-${runId}-1`, publicationZip]].map(([id, name, bytes]: any) => ({id, name, created_at: uploaded,
+      expired: false, size_in_bytes: bytes.length, digest: 'sha256:' + rawSha256(bytes), workflow_run: {id: runId, repository_id: 660446555, head_repository_id: 660446555, head_sha: f.masterCommit, head_branch: 'master'}}))
+  }
+  const provider = load(join(f.repositoryRoot, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts'))
+  const trusted = load(join(f.repositoryRoot, 'packages/docs-tooling/src/shared-docs/adapters/updates/trusted-fetch-producer.ts'))
+  const request = {kind: 'guides-collection', schemaVersion: 1, repositoryRoot: f.repositoryRoot, sourceRepository: f.repo, devRepository: f.baselineRoot,
+    master: f.masterCommit, configSnapshot: f.masterCommit, dev: published, trustedTools: f.masterCommit, toolsetSha256: 'b'.repeat(64), pages: [page], comparisonConfig: null,
+    target: null, evidenceRun: String(runId), evidenceZip: null}
+  const collectLocal = (issuer = true) => provider.collectGuidesWithDependencies({...request, evidenceRun: String(runId)}, {b1: {github: selectedApi}},
+    issuer ? () => trusted.createMeasuredFetchProducerContext(f.masterCommit) : undefined)
+  for (const id of [71, 72]) {
+    runId = id; configureRun()
+    const result = await collectLocal(), pins = JSON.parse(result.detail['guides-impact-v1/pins.json'])
+    expect(pins.lifecycle.reasons).toEqual([])
+    expect(pins.lifecycle.producerAuthentication).toMatchObject({kind: 'fetch-producer-profile-v1', trustedTools: f.masterCommit, producer: f.masterCommit})
+    expect(pins.lifecycle).not.toHaveProperty('producerInventorySha256')
+    expect(result.pages[0].report.authority.updateState).toBe('eligible-to-propose')
+    expect(result.pages[0].report.authority.evidence).toHaveLength(2)
+    // No forward source delta: full authority cannot create a writer operation.
+    expect(planUpdateUnit([result.pages[0].report], [result.pages[0].context])).toMatchObject({disposition: 'noop', nextEdits: []})
+  }
+  const standalone = await collectLocal(false)
+  expect(JSON.parse(standalone.detail['guides-impact-v1/pins.json']).lifecycle.reasons).toContain('FETCH_PROFILE_CONTEXT_UNAVAILABLE')
+  expect(standalone.pages[0].report.authority.updateState).toBe('unknown')
+  // A later upstream delta reaches the real Python authority using these exact
+  // production B1/B2 bytes, with only remote metadata substituted by this fixture.
+  const sourcePath = join(f.repo, 'site/en/' + page + '.md')
+  await writeFile(sourcePath, (await readFile(sourcePath, 'utf8')).replace('Body text.', 'A new forward source body.'))
+  await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '-qm', 'Forward source delta')
+  const sourceTarget = await git(f.repo, 'rev-parse', 'HEAD')
+  const forward = await collectLocal(), forwardReport = forward.pages[0].report
+  expect(forwardReport.authority.updateState).toBe('eligible-to-propose')
+  expect(forwardReport.axes[0].sourceChanged).toBe(true)
+  const bridge = join(f.root, 'python-authority'), planRoot = join(bridge, 'plan')
+  await mkdir(join(planRoot, 'blobs'), {recursive: true})
+  for (const retained of forward.blobs) await writeFile(join(planRoot, retained.blob.path), Buffer.from(retained.base64, 'base64'))
+  const reportBytes = canonicalBytes(forwardReport), reportDigest = rawSha256(reportBytes)
+  await writeFile(join(planRoot, 'blobs/' + reportDigest), reportBytes)
+  const proof = execFileSync('python3', ['-B', '-c', `import json,sys,pathlib
+sys.path.insert(0,sys.argv[1]);import prepare as p
+v=json.load(sys.stdin)
+p.metadata=lambda endpoint: next(a for a in v['artifacts'] if endpoint.endswith('/'+str(a['id'])))
+print(json.dumps(p.authority(pathlib.Path(sys.argv[2]),v['unit'],v['pins'],v['run'])))`,
+    join(process.cwd(), 'scripts/docs-workflow/shared-guides-update'), bridge], {input: JSON.stringify({
+      unit: {reports: [{path: 'blobs/' + reportDigest, sha256: reportDigest, bytes: reportBytes.length}]},
+      pins: {master: f.masterCommit, dev: published, source: sourceTarget, current: f.upstreamCommit, next: f.upstreamCommit}, run, artifacts})})
+  expect(JSON.parse(proof.toString())).toMatchObject({fetchRun: runId, fetchProducer: f.masterCommit,
+    producerAuthentication: JSON.parse(forward.detail['guides-impact-v1/pins.json']).lifecycle.producerAuthentication})
+  expect(JSON.parse(proof.toString())).not.toHaveProperty('producerInventorySha256')
+  for (const change of [{repository: {id: 1}}, {head_repository: {id: 1}}, {workflow_id: 1}, {path: '.github/workflows/other.yml'},
+    {head_branch: 'dev'}, {event: 'workflow_dispatch'}, {status: 'in_progress'}, {conclusion: 'failure'}, {run_attempt: 2}]) {
+    const saved = {...run}; Object.assign(run, change)
+    const refused = await collectLocal(), held = JSON.parse(refused.detail['guides-impact-v1/pins.json'])
+    expect(held.lifecycle.reasons.length).toBeGreaterThan(0)
+    expect(held.lifecycle).not.toHaveProperty('producerAuthentication')
+    expect(refused.pages[0].report.authority.updateState).toBe('unknown')
+    Object.assign(run, saved)
+  }
+  latest = {...run, run_attempt: 2}
+  const superseded = await collectLocal()
+  expect(JSON.parse(superseded.detail['guides-impact-v1/pins.json']).lifecycle.reasons).toContain('LATEST_OBSERVATION_UNPROVEN')
+  latest = run
+  const originalDigest = artifacts[0].digest; artifacts[0].digest = 'sha256:' + 'e'.repeat(64)
+  const replaced = await collectLocal()
+  expect(JSON.parse(replaced.detail['guides-impact-v1/pins.json']).lifecycle.reasons).toContain('EVIDENCE_INFRASTRUCTURE_FAILURE')
+  artifacts[0].digest = originalDigest
+
+  expect(await (await trusted.createMeasuredFetchProducerContext(f.masterCommit)).authenticate(previousProducer)).toEqual({reason: 'FETCH_PROFILE_MISMATCH'})
+  const treeOid = await git(f.repositoryRoot, 'rev-parse', f.masterCommit + '^{tree}')
+  for (const parents of [[], ['-p', f.masterCommit]]) {
+    const foreign = await git(f.repositoryRoot, 'commit-tree', treeOid, ...parents, '-m', 'Same profile outside measured history')
+    expect(await (await trusted.createMeasuredFetchProducerContext(f.masterCommit)).authenticate(foreign)).toEqual({reason: 'FETCH_PROFILE_ANCESTRY_UNPROVEN'})
+  }
+  const receiptPath = join(f.baselineRoot, f.candidate.records[0].shared_page.record), originalReceipt = await readFile(receiptPath)
+  const sameTreeTools = await git(f.repositoryRoot, 'commit-tree', treeOid, '-p', f.masterCommit, '-m', 'Different tooling H with same profile')
+  const equivalent = await new trusted.FetchGitReader(f.repositoryRoot).profiles(f.masterCommit, sameTreeTools)
+  expect(equivalent.measured).toBe(equivalent.producer)
+  const wrongToolReceipt = JSON.parse(originalReceipt.toString()); wrongToolReceipt.inputs.tools.zdoc = sameTreeTools
+  await writeFile(receiptPath, JSON.stringify(wrongToolReceipt)); await git(f.baselineRoot, 'add', '.'); await git(f.baselineRoot, 'commit', '-qm', 'Receipt uses different source tooling')
+  const originalPublished = published
+  published = await git(f.baselineRoot, 'rev-parse', 'HEAD'); request.dev = published; configureRun()
+  const wrongTools = await collectLocal(), wrongToolsPins = JSON.parse(wrongTools.detail['guides-impact-v1/pins.json'])
+  expect(wrongToolsPins.lifecycle.reasons).toContain('PUBLICATION_RECEIPT_IDENTITY_MISMATCH')
+  expect(wrongToolsPins.lifecycle).not.toHaveProperty('producerAuthentication')
+  expect(wrongTools.pages[0].report.authority.updateState).toBe('unknown')
+  published = originalPublished; request.dev = published; configureRun()
+  await git(f.baselineRoot, 'update-ref', 'refs/heads/dev', published); await writeFile(receiptPath, originalReceipt)
+  for (const when of ['before-authentication', 'after-authentication']) {
+    let issued = 0
+    changeToolsOnPublication = when === 'after-authentication'
+    try {
+      await expect(provider.collectGuidesWithDependencies({...request, evidenceRun: String(runId)}, {b1: {github: selectedApi}}, async () => {
+        issued++
+        const context = await trusted.createMeasuredFetchProducerContext(f.masterCommit)
+        if (when === 'before-authentication') await git(f.repositoryRoot, 'commit', '--allow-empty', '-qm', 'Drift before profile authentication')
+        return context
+      })).rejects.toThrow(/^FETCH_PROFILE_CONTEXT_UNAVAILABLE$/)
+      expect(issued).toBe(1)
+    } finally {
+      changeToolsOnPublication = false
+      await git(f.repositoryRoot, 'update-ref', 'refs/heads/master', f.masterCommit)
+    }
+  }
+
+}, 120_000)
