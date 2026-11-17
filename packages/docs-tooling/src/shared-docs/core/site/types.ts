@@ -6,7 +6,9 @@ export type Component = 'Admonition' | 'Tabs' | 'TabItem' | 'Supademo' | 'Proced
 export interface AdaptPageInput {
   markdown: string
   pageId: string
-  manual: 'guides' | 'guides-byoc'
+  manual: string
+  /** Manual-specific output shape; absent fields keep the guides defaults. */
+  presentation?: { titleSuffix?: string; slugPrefix?: string; displayedSidebar?: string }
   customEditUrl?: string
   releaseChannel?: 'current' | 'next' | 'retire-in-next'
   metadata?: PageConfig['metadata']
