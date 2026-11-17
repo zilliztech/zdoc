@@ -32,21 +32,26 @@ export function frontMatter(input: AdaptPageInput, lines: string[]): { lines: So
   const addedSince = input.metadata?.added_since ?? 'FALSE'
   const lastModified = input.metadata?.last_modified ?? 'FALSE'
   const quoted = (value: unknown) => JSON.stringify(String(value).replace(/\r?\n/g, '|'))
+  // Author-supplied scalars are emitted plain when unambiguous and quoted when a plain
+  // scalar could change meaning (leading indicator, comment or mapping colon). Defaults
+  // and seeded values all match the plain form, so existing output stays byte-identical.
+  const scalar = (value: string) => /^[-?:,[\]{}#&*!|>'"%@`]/.test(value) || /(:\s)|(\s#)|#$/.test(value)
+    ? quoted(value) : value
   const text = [
     '---',
     `title: ${quoted(`${title} | ${suffix}`)}`,
-    `slug: ${slugPrefix}/${input.pageId}`,
+    `slug: ${scalar(`${slugPrefix}/${input.pageId}`)}`,
     `sidebar_label: ${quoted(input.navigation?.sidebar_label ?? title)}`,
     `beta: ${beta}`,
-    `added_since: ${addedSince}`,
-    `last_modified: ${lastModified}`,
+    `added_since: ${scalar(addedSince)}`,
+    `last_modified: ${scalar(lastModified)}`,
     'deprecate_since: FALSE',
     'notebook: FALSE',
     `description: ${quoted(`${description} | ${suffix}`)}`,
     'type: origin',
     `token: shared-${input.pageId}`,
     ...(input.navigation?.sidebar_position === undefined ? [] : [`sidebar_position: ${input.navigation.sidebar_position}`]),
-    `displayed_sidebar: ${input.presentation?.displayedSidebar ?? 'default'}`, '', '---', '',
+    `displayed_sidebar: ${scalar(input.presentation?.displayedSidebar ?? 'default')}`, '', '---', '',
   ]
   const finalized = input.customEditUrl === undefined ? text : finalizeFetchFrontMatter(text.join('\n'), input).split('\n')
   return { lines: finalized.map(text => ({ text, source: null })), bodyStart }

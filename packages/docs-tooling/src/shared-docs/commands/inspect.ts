@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
-import { groupContext } from '../adapters/group-context'
+import { groupContext, groupManuals } from '../adapters/group-context'
 import { GitMilvusDocsReader } from '../adapters/git-milvus-docs-reader'
 import { inspectPage } from '../adapters/inspect-page'
 import type { InspectionResult } from '../adapters/inspect-page'
@@ -60,7 +60,7 @@ export async function runInspect(options: { sharedDocs: string; page: string; re
     read(join(root, 'Variables.json'), group.file('Variables.json')),
   ])
   const result = errors.length ? { errors } : await inspectPage({ pageId: options.page, sourceYaml: sourceYaml!,
-    pageYaml: pageYaml!, lockYaml, sharedDocsPath: group.path, variablesJson: variablesJson!, context: { ...inspectionContext, file: pageFile } },
+    pageYaml: pageYaml!, lockYaml, sharedDocsPath: group.path, variablesJson: variablesJson!, context: { ...inspectionContext, manuals: groupManuals(group.path), file: pageFile } },
   new GitMilvusDocsReader(resolve(options.repo)), new RealMd2md())
   write(formatInspection(options.page, result))
   return 'errors' in result ? 1 : 0

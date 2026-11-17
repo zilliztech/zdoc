@@ -16,7 +16,9 @@ const outputKey = row => `${row.manual}:${row.path}`
 const sorted = rows => [...rows].sort((a, b) => outputKey(a).localeCompare(outputKey(b)))
 const projected = rows => sorted(rows).map(({manual, path, sha256}) => ({manual, path, sha256}))
 const {sharedGroupConfig} = require('../../packages/docs-tooling/src/lark/sharedGroups')
-const devRoots = ['content/en/guides', 'content/en/byoc', snapshotPath, 'generated/en/manifests/shared-pages/guides']
+// Dev verification roots per group: the group's manual trees plus the group-owned
+// snapshot and receipt roots. For guides this reproduces the historical literal list.
+const devRootsFor = group => [...groupDevRoots(group), snapshotPath, `generated/en/manifests/shared-pages/${group}`]
 const groupDevRoots = group => [...new Set([...sharedGroupConfig(group).byManual.values()].map(entry => entry.treeRoot))].sort()
 function mismatch(page, file, expected, actual, manual = null, message = 'Receipt regeneration differs') {
   const detail = [{page, manual, file, expected, actual, configuration: `shared-docs/pages/${page}/page.yaml`}]
@@ -112,7 +114,7 @@ async function regenerateReceipt(options, dependencies = {}) {
     requireEqual(draftInputs(receipt).fetch.navigation, digest(JSON.stringify(navigation)), receipt, 'navigation', 'Navigation digest mismatch')
     await (dependencies.assertToolIdentity || assertToolIdentity)(inputs.tools)
     verifyInventory(repositoryRoot, inputs.zdoc.commit, [`shared-docs/${receipt.shared_page?.group ?? 'guides'}`], inputs.zdoc.files, receipt)
-    verifyInventory(baselineRoot, inputs.dev.commit, devRoots, inputs.dev.files, receipt)
+    verifyInventory(baselineRoot, inputs.dev.commit, devRootsFor(receipt.shared_page?.group ?? 'guides'), inputs.dev.files, receipt)
     for (const version of ['current', 'next']) verifyInventory(repo, inputs.milvus_docs[version], ['site/en'],
       inputs.milvus_docs.files.filter(file => file[version]).map(file => ({path: file.path, sha256: file[version]})), receipt)
     fs.mkdirSync(scratch, {recursive: true}); fresh = fs.mkdtempSync(path.join(scratch, 'receipt-replay-'))
