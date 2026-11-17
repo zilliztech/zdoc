@@ -139,8 +139,9 @@ A group whose root contains `manual.yaml` instead of `pages/` uses the manual
 layout: one `manual.yaml` (`source.dir`, `publish.manual`, per-module and
 per-page `metadata`), one group-level `lock.yaml`, optional `Variables.json`,
 and the required `product-names.yaml`. A group cannot combine both layouts.
-`difference keys` such as `exclude`, `milvus_values`, `cloud_pages`, and
-`transforms` are rejected until their semantics land in follow-up packages.
+The difference keys are `exclude`, `milvus_values`, and `cloud_pages`;
+`transforms` is still rejected until its semantics land in a follow-up
+package.
 
 ```sh
 pnpm docs-tooling shared-docs lock --shared-docs shared-docs/node --repo /path/to/web-content
@@ -149,19 +150,30 @@ pnpm docs-tooling shared-docs build --shared-docs shared-docs/node --repo /path/
 
 `lock` creates the single group lock at both channels from the tracking head
 (`--page` is rejected); `build` enumerates every `.md` page under `source.dir`
-at the locked `current` commit, expands each into an in-memory page config
+at both locked commits, expands their union into in-memory page configs
 (`<Module>/<file>.md` publishes as `<Module>-<file>` under the module
 directory, case-insensitive collisions fail with `CONFIG_SLUG_DUPLICATE`), and
-generates `.md` pages with registry presentation from `source.yaml`. Titles
-and descriptions come from the H1 heading and the first paragraph after it;
-`metadata` backfills lifecycle display (`beta`, `added_since`,
+generates `.md` pages with registry presentation from `source.yaml`. Pages
+that exist at one commit only publish as whole-page channels — `channel: next`
+when upstream added the page after `current`, `channel: retire-in-next` when
+upstream removed it — while two-sided pages merge both versions through
+generated `NextChannel` regions. `cloud_pages` accept the same channel field;
+a one-sided cloud page is absent from the other channel, and links to it (or
+to a one-sided upstream page) lose the link there and keep the text.
+Titles and descriptions come from the H1 heading and the first paragraph after
+it; `metadata` backfills lifecycle display (`beta`, `added_since`,
 `deprecate_since`, `last_modified`, `notebook`, `keywords`) and migrated
 identity (`type`, `token`, `sidebar_position`) — absent fields keep the
 per-page defaults byte-for-byte. Links resolve within the manual page set by
 globally unique basename (`./<page-id>`, matching the published SDK reference
-convention); unresolved `.md` targets fail the build. Manual builds do not
-read a dev checkout; the `--dev` option is accepted but unused.
-`inspect` and `links-seed` are per-page commands and reject manual groups.
+convention); unresolved `.md` targets fail the build. Every build stages the
+manual record at `manifests/shared-manuals/<manual>.json` in the output
+directory (production maps it to
+`generated/en/manifests/shared-manuals/<manual>.json`), attesting the inputs,
+the page set with channels, and every output digest; the build fails if the
+record fails pure validation. Manual builds do not read a dev checkout; the
+`--dev` option is accepted but unused. `inspect` and `links-seed` are
+per-page commands and reject manual groups.
 
 ## Initial locks and PR validation (WP8b)
 

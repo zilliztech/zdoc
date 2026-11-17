@@ -59,11 +59,9 @@ describe('parseManualConfig', () => {
     expect(errorsOf(noVariables).some(error => error.code === 'CONFIG_MILVUS_VALUES_INVALID')).toBe(true)
   })
 
-  it('accepts cloud_pages with current visibility and rejects one-sided channels', () => {
-    const accepted = parse(`${base}cloud_pages:\n  Overview.md:\n    file: overview.md\n  MilvusCloud/Backup.md:\n    file: backup.md\n    channel: current\n`)
-    expect('config' in accepted && accepted.config.cloud_pages?.['Overview.md']).toEqual({ file: 'overview.md' })
-    const deferred = parse(`${base}cloud_pages:\n  Overview.md:\n    file: overview.md\n    channel: next\n`)
-    expect(errorsOf(deferred).map(error => error.message).join('\n')).toContain('channel next is not supported yet')
+  it('accepts cloud_pages channel visibility and rejects unknown channels', () => {
+    const accepted = parse(`${base}cloud_pages:\n  Overview.md:\n    file: overview.md\n  MilvusCloud/Backup.md:\n    file: backup.md\n    channel: current\n  MilvusCloud/Preview.md:\n    file: preview.md\n    channel: next\n  MilvusCloud/Legacy.md:\n    file: legacy.md\n    channel: retire-in-next\n`)
+    expect('config' in accepted && accepted.config.cloud_pages?.['MilvusCloud/Preview.md']).toEqual({ file: 'preview.md', channel: 'next' })
     const unknownChannel = parse(`${base}cloud_pages:\n  Overview.md:\n    file: overview.md\n    channel: retire\n`)
     expect(errorsOf(unknownChannel).some(error => error.code === 'CONFIG_CHANNEL_UNSUPPORTED')).toBe(true)
     const badKey = parse(`${base}cloud_pages:\n  Overview:\n    file: overview.md\n`)

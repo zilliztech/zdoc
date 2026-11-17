@@ -86,11 +86,6 @@ export function parseManualConfig(text: string, context: DiagnosticContext & {
         if ('channel' in record) {
           if (!CLOUD_CHANNEL_VALUES.includes(record.channel as ManualCloudChannel)) {
             check.error(['cloud_pages', logical, 'channel'], `channel must be one of ${CLOUD_CHANNEL_VALUES.join(', ')}`, 'CONFIG_CHANNEL_UNSUPPORTED')
-          } else if (record.channel !== 'current') {
-            // Whole-page channel visibility arrives with the R1c package; until then every
-            // cloud page publishes to both channels and one-sided visibility fails closed.
-            check.error(['cloud_pages', logical, 'channel'],
-              `channel ${record.channel} is not supported yet; manual pages publish to both channels`, 'CONFIG_CHANNEL_UNSUPPORTED')
           }
         }
       }
