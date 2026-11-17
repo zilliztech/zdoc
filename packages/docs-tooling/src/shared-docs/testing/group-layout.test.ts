@@ -9,7 +9,7 @@ import { runInspect } from '../commands/inspect'
 import { runLinksSeed } from '../commands/links-seed'
 import { runLock } from '../commands/lock'
 import { createBuildDemo } from './build/demo'
-import { groupContext } from '../adapters/group-context'
+import { groupContext, groupManuals } from '../adapters/group-context'
 import { readPageSources } from '../adapters/read-page'
 import { inspectPage } from '../adapters/inspect-page'
 import { GitMilvusDocsReader } from '../adapters/git-milvus-docs-reader'
@@ -172,6 +172,10 @@ it('keeps paths relative when the repository root itself is the selected guides 
   const group = groupContext('/repository/guides', '/repository/guides')
   if ('errors' in group) throw new Error('Expected the guides group')
   expect(group.file('source.yaml')).toBe('source.yaml')
+  // The group name comes from the root's basename, never re-derived from the
+  // (empty) relative path, so per-page manual scoping keeps working here.
+  expect(group.name).toBe('guides')
+  expect(groupManuals(group.name)).toEqual(['guides', 'guides-byoc'])
 })
 
 
