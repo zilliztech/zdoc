@@ -1070,7 +1070,14 @@ describe.skipIf(process.platform !== 'darwin')('fixed developer tool capture pro
   })
 })
 
-it('passes the actual fixed bootstrap ordinary capability to a source-bound real factory with committed local Git', async () => {
+it('passes the measured bootstrap capability on supported hosts and refuses Linux before issuance', async () => {
+  if (process.platform === 'linux') {
+    // The production guard must reject before inspecting this nonexistent root,
+    // materializing a launcher or issuing any producer-authentication capability.
+    await expect(captureTrustedToolset({root: join(tmpdir(), 'unsupported-fetch-capture-must-not-be-read'),
+      commit: 'a'.repeat(40), environment: {}, flags: []})).rejects.toThrow('Trusted toolset capture is not yet supported on Linux')
+    return
+  }
   const a = await loaderFixture(), installed = loadYaml(await readFile(join(process.cwd(), 'pnpm-lock.yaml'), 'utf8')) as any
   onTestFinished(() => fsPromises.rm(a.root, {recursive: true, force: true}))
   const lock = loadYaml(await readFile(join(a.root, 'pnpm-lock.yaml'), 'utf8')) as any
