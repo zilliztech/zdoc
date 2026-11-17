@@ -369,7 +369,7 @@ it.each(['rename', 'delete', 'byoc-remove', 'unchanged'] as const)('checks pinne
 
 
 it('projects original published snapshot fractional metadata without canonicalizing its bytes', async () => {
-  const f = await fixture(), snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
+  const f = await simpleFixture(), snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
   const fs = await import('node:fs/promises'), snapshot = JSON.parse(await fs.readFile(join(f.dev, snapshotPath), 'utf8'))
   snapshot.records[0].order = 1.5
   const original = JSON.stringify(snapshot, null, 2) + '\n'
