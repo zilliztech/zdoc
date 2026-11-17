@@ -34,6 +34,9 @@ export interface RewriteInput extends PreparedLinkInputs {
   /** Lowercase basenames of upstream pages left out of the manual; links to them lose the
    * link and keep the text (LINK_TARGET_EXCLUDED) instead of failing as unresolved. */
   excluded?: ReadonlySet<string>
+  /** Lowercase basenames absent from this channel's upstream tree (one-sided pages of the
+   * other channel): links lose the link and keep the text, and resolve in the visible channel. */
+  channelAbsent?: ReadonlySet<string>
   /** Manual-local pages by basename (with extension) → content: targets upstream
    * preparation cannot see; they always exist and anchor-check against this text. */
   manualCloudPages?: ReadonlyMap<string, string>

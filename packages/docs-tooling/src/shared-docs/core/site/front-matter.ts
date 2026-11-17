@@ -58,6 +58,11 @@ export function frontMatter(input: AdaptPageInput, lines: string[]): { lines: So
     `token: ${scalar(input.metadata?.token ?? `shared-${input.pageId}`)}`,
     ...(position === undefined ? [] : [`sidebar_position: ${position}`]),
     ...(input.metadata?.keywords?.length ? ['keywords:', ...input.metadata.keywords.map(keyword => `  - ${scalar(keyword)}`)] : []),
+    // Whole-page release channels carry the site's channel gate with them; the Fetch
+    // finalizer owns these keys too and re-emits identical values, so Fetch bytes
+    // stay unchanged whether or not this branch fired.
+    ...(input.releaseChannel === undefined || input.releaseChannel === 'current' ? [] :
+      [`channel: ${input.releaseChannel}`, 'sidebar_custom_props:', `  channel: ${input.releaseChannel}`]),
     `displayed_sidebar: ${scalar(input.presentation?.displayedSidebar ?? 'default')}`, '', '---', '',
   ]
   const finalized = input.customEditUrl === undefined ? text : finalizeFetchFrontMatter(text.join('\n'), input).split('\n')
