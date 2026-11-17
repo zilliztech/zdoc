@@ -92,6 +92,21 @@ it('holds missing lock-to-target observations without claiming no direct source 
   expect(result.pages[0].reasons).toContain('INCOMPLETE_SOURCE_INTERVAL')
   expect(result.pages[0].reasons).not.toContain('NO_DIRECT_SOURCE_CHANGE')
 })
+it('holds a complete-labeled changed interval with no commit even when the page has a seed elsewhere', () => {
+  for (const seedKeys of [[], ['pr:1']]) {
+    const input = fixture()
+    input.pages = [page('page-a', seedKeys)]
+    input.pages[0].intervals[0].commits = []
+    const report = discoverBatches(input)
+    expect(report.status).toBe('held')
+    input.changes = [{ path: input.pages[0].sourceFile, status: 'modified', pageIds: ['page-a'], previousPath: null,
+      kind: 'source', evidence: ['fixture:changed-root'] }]
+    input.pages[0].intervals[0].changePaths = []
+    expect(discoverBatches(input).status).toBe('held')
+    expect(report.groups.map(g => g.pageIds)).toEqual([['page-a']])
+    expect(report.groups[0].reasons).toContain('UNKNOWN_COMMIT_ASSOCIATION')
+  }
+})
 it('accepts an evidenced complete empty source delta without adding a group', () => {
   const input = fixture(); input.pages = [{ ...page('page-a', []), intervals: [
     { from: oid('b'), to: oid('c'), commits: [], changePaths: [], association: 'complete', evidence: ['git-range:complete-empty'] },

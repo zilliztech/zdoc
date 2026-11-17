@@ -99,9 +99,36 @@ it('shares Git byte and wall-time allowances across stores and object reads', as
 async function inventoryFixture(scenario: string) {
   const source = await repository(), zdoc = await repository()
   const fragment = 'site/en/fragments/shared.md'
-  const old = await source.change('site/en/a.md', scenario === 'fragment' ? '{{fragments/shared.md}}' : 'hello\n')
+  // #3707's topic merge 37f5505d imported primary-field.md from v3.0.x. Its PR files
+  // include prepare-source-data.md, while primary-field.md has identical lock/target bytes.
+  const sync = scenario.startsWith('3707-'), secondParent = scenario === 'second-parent-lock'
+  const sourcePath = sync ? 'site/en/userGuide/schema/primary-field.md' : 'site/en/a.md'
+  const prPath = sync ? 'site/en/userGuide/data-import/prepare-source-data.md' : sourcePath
+  async function stageSecondRoot(bytes: string) {
+    await mkdir(join(source.root, 'site/en'), { recursive: true })
+    await writeFile(join(source.root, 'site/en/b.md'), bytes)
+    source.git('add', 'site/en/b.md')
+  }
+  if (scenario === 'api-failed') await stageSecondRoot('old b')
+  let old = await source.change(sourcePath, scenario === 'fragment' ? '{{fragments/shared.md}}' : 'hello\n')
   const unrelated = await source.change('unmapped', 'unrelated')
-  const t = await source.change(scenario === 'fragment' ? fragment : 'site/en/a.md', 'updated\n')
+  let t: string, topic = '', syncCommit = ''
+  if (sync) {
+    source.git('checkout', '-b', 'topic'); await source.change(prPath, 'topic edit')
+    source.git('checkout', 'main'); old = await source.change(sourcePath, 'base version')
+    source.git('checkout', 'topic'); source.git('merge', '--no-ff', 'main', '-m', 'import base')
+    syncCommit = source.git('rev-parse', 'HEAD')
+    topic = scenario === '3707-later-edit' ? await source.change(sourcePath, 'later topic edit') : syncCommit
+    source.git('checkout', 'main'); source.git('merge', '--no-ff', 'topic', '-m', 'merge topic')
+    t = source.git('rev-parse', 'HEAD')
+  } else if (secondParent) {
+    source.git('checkout', '-b', 'side'); old = await source.change(sourcePath, 'lock version')
+    source.git('checkout', 'main'); source.git('merge', '--no-ff', '-s', 'ours', 'side', '-m', 'resolve to first parent')
+    t = source.git('rev-parse', 'HEAD')
+  } else {
+    if (scenario === 'api-failed') await stageSecondRoot('new b')
+    t = await source.change(scenario === 'fragment' ? fragment : sourcePath, 'updated\n')
+  }
   async function put(path: string, value: unknown) {
     const name = join(zdoc.root, path)
     await mkdir(join(name, '..'), { recursive: true })
@@ -111,9 +138,9 @@ async function inventoryFixture(scenario: string) {
   await put(grouped + 'source.yaml', { schema_version: 1, repository: 'https://github.com/milvus-io/milvus-docs', track: 'v3.0.x' })
   for (const id of ids) {
     const prefix = grouped + 'pages/' + id + '/'
-    await put(prefix + 'page.yaml', { schema_version: 1, source: { file: 'site/en/a.md' }, publish: [{ manual: 'guides', path: 'tutorials/' + id }] })
+    await put(prefix + 'page.yaml', { schema_version: 1, source: { file: scenario === 'api-failed' && id === 'b' ? 'site/en/b.md' : sourcePath }, publish: [{ manual: 'guides', path: 'tutorials/' + id }] })
     if (id === 'a' && scenario.startsWith('variant-')) await put(prefix + scenario, 'unsupported')
-    if (id !== 'b' || scenario !== 'bad-registry') await put(prefix + 'lock.yaml', { schema_version: 1, current: old, next: id === 'b' && scenario !== 'inactive-member' ? t : scenario === 'clean' ? unrelated : old })
+    if (id !== 'b' || scenario !== 'bad-registry') await put(prefix + 'lock.yaml', { schema_version: 1, current: old, next: id === 'b' && !['inactive-member', 'api-failed', '3707-base-import'].includes(scenario) ? t : scenario === 'clean' ? unrelated : old })
   }
   zdoc.git('add', '.'); zdoc.git('commit', '-m', 'registry'); const m = zdoc.git('rev-parse', 'HEAD')
   const active = ids.map(page => ({ page, record: 'rec-' + page, feishu_token: null, anchors: {}, activated_in: '123' }))
@@ -132,7 +159,10 @@ async function inventoryFixture(scenario: string) {
   if (scenario === 'output-mismatch') records[0].output_paths.push('content/en/byoc/tutorials/a.md')
   if (scenario === 'channel-mismatch') records[0].release_channel = 'next'
   if (scenario === 'invalid-snapshot') records[0].shared_page.inputs_sha256 = 'bad'
-  await put(guidesSnapshotPath, { manual: 'guides', schema_version: 3, build_env: 'uat', source_branch: 'dev', targets_built: ['zilliz.saas'], records })
+  const ordinary = scenario.endsWith('-claim') ? [{ record_id: 'ordinary', slug: 'ordinary', placement_type: 'canonical',
+    release_channel: scenario === 'ordinary-current-claim' ? 'current' : 'next', doc_token: 'ordinary-token',
+    output_paths: [...records[0].output_paths] }] : []
+  await put(guidesSnapshotPath, { manual: 'guides', schema_version: 3, build_env: 'uat', source_branch: 'dev', targets_built: ['zilliz.saas'], records: [...records, ...ordinary] })
   for (const id of ids) if (scenario !== 'missing-output' || id !== 'a') await put('content/en/guides/tutorials/' + id + '.md', 'published')
   zdoc.git('add', '.'); zdoc.git('commit', '-m', 'snapshot'); const d = zdoc.git('rev-parse', 'HEAD')
   await put(grouped + 'pages/a/page.yaml', 'invalid uncommitted config')
@@ -142,23 +172,70 @@ async function inventoryFixture(scenario: string) {
     expect(method).toBe('GET')
     if (path === '/repos/zilliztech/zdoc') rounds++
     const branch = path.split('/heads/')[1]
-    const pr = { number: 5, id: 55, state: 'closed', merged_at: '2026-01-01T00:00:00Z', merged: true,
-      base: { repo, ref: 'v3.0.x', sha: old }, head: { repo: null, sha: 'f'.repeat(40) }, merge_commit_sha: t, commits: 1, changed_files: 1 }
+    const pr = { number: sync ? 3707 : 5, id: 55, state: 'closed', merged_at: '2026-01-01T00:00:00Z', merged: true,
+      base: { repo, ref: 'v3.0.x', sha: old }, head: { repo: null, sha: topic || 'f'.repeat(40) }, merge_commit_sha: t, commits: 1, changed_files: scenario === '3707-later-edit' ? 2 : 1 }
     let data: unknown
     if (branch) data = { ref: 'refs/heads/' + branch, object: { type: 'commit', sha: branch === 'master' ? m : branch === 'dev'
       ? scenario === 'missing-dev' ? 'd'.repeat(40) : d : scenario === 'ref-moved' && rounds > 1 ? unrelated : t } }
     else if (path.includes('/commits/')) {
       if (scenario === 'api-failed' && path.includes(t)) return { status: 500, headers: {}, body: Buffer.from('private-token') }
-      data = scenario === 'merged' && path.includes(t) ? [pr] : []
-    } else if (path.endsWith('/pulls/5')) data = pr
-    else if (path.includes('/files?')) data = [{ filename: 'site/en/a.md', sha: source.git('rev-parse', t + ':site/en/a.md'), status: 'modified' }]
+      data = scenario === 'merged' && path.includes(t) || sync && (path.includes(syncCommit) || path.includes(topic) || path.includes(t)) ? [pr] : []
+    } else if (path.endsWith('/pulls/' + pr.number)) data = pr
+    else if (path.includes('/files?')) {
+      const filenames = scenario === '3707-later-edit' ? [prPath, sourcePath] : [prPath]
+      data = filenames.map(filename => ({ filename, sha: source.git('rev-parse', t + ':' + filename), status: 'modified' }))
+    }
     else data = path.endsWith('zdoc') ? { id: 660446555, full_name: 'zilliztech/zdoc' } : repo
     return { status: 200, body: Buffer.from(JSON.stringify(data)), headers: {} }
   }
   const run = () => collectBatchDiscovery({ zdocRepository: zdoc.root, sourceRepository: scenario === 'missing-source' ? join(source.root, 'absent') : source.root,
     tools: old }, { transport })
-  return { run, t, old, m, d, unrelated, records, rounds: () => rounds }
+  return { run, t, old, m, d, unrelated, records, source, sourcePath, syncCommit, rounds: () => rounds }
 }
+
+it('retains the raw lock-side edge of an ours merge even when its first parent has the target bytes', async () => {
+  const f = await inventoryFixture('second-parent-lock'), report = await f.run()
+  const before = f.source.git('rev-parse', f.old + ':' + f.sourcePath), after = f.source.git('rev-parse', f.t + ':' + f.sourcePath)
+  expect(before).not.toBe(after)
+  expect(report.changes.find(c => c.path === f.sourcePath)?.evidence).toContain(`edge:${f.old}:${f.t}:100644:${before}:100644:${after}`)
+  expect(report.pages[0].intervals[0]).toMatchObject({ commits: [f.t], changePaths: [f.sourcePath], association: 'unknown' })
+  expect(report.pages[0].reasons).not.toContain('NO_DIRECT_SOURCE_CHANGE')
+  expect(report.groups.map(g => g.pageIds)).toEqual([['a']])
+  expect(report.status).toBe('held')
+})
+
+it('keeps a #3707-style imported base path as a held clue without assigning the PR as a page seed', async () => {
+  const f = await inventoryFixture('3707-base-import'), report = await f.run()
+  const blob = (rev: string) => f.source.git('rev-parse', rev + ':' + f.sourcePath)
+  expect(blob(f.syncCommit)).toBe(blob(f.syncCommit + '^2')); expect(blob(f.old)).toBe(blob(f.t))
+  expect(blob(f.syncCommit)).not.toBe(blob(f.syncCommit + '^1'))
+  expect(report.seeds.map(s => s.key)).toContain('pr:3707')
+  for (const page of report.pages) {
+    expect(page.seedKeys).toEqual([])
+    expect(page.intervals[0]).toMatchObject({ commits: [f.syncCommit], changePaths: [f.sourcePath], association: 'unknown' })
+    expect(report.dependencies).toContainEqual({ pageIds: [page.pageId], seedKeys: ['pr:3707'], paths: [f.sourcePath],
+      evidence: ['git:' + f.syncCommit], reasons: ['PR_CHANGED_PATH_UNVERIFIED'] })
+  }
+  expect(report.groups.map(g => g.pageIds)).toEqual([['a', 'b']])
+  expect(report.status).toBe('held')
+})
+
+it('keeps the imported transition uncertain when a later real PR edit also touches the same path', async () => {
+  const f = await inventoryFixture('3707-later-edit'), report = await f.run()
+  expect(report.pages[0].seedKeys).toEqual(['pr:3707'])
+  expect(report.dependencies).toContainEqual({ pageIds: ['a'], seedKeys: ['pr:3707'], paths: [f.sourcePath],
+    evidence: ['git:' + f.syncCommit], reasons: ['PR_CHANGED_PATH_UNVERIFIED'] })
+  expect(report.pages[0].intervals[0].association).toBe('unknown')
+})
+
+it.each(['ordinary-current-claim', 'ordinary-next-claim'])('checks current shared output ownership across record types: %s', async scenario => {
+  const f = await inventoryFixture(scenario), report = await f.run()
+  expect(report.pages[1].published).toBe(true)
+  if (scenario === 'ordinary-current-claim') {
+    expect(report.pages[0].published).toBeNull()
+    expect(report.reasons).toContain('PUBLISHED_OUTPUT_OWNERSHIP_AMBIGUOUS')
+  } else expect(report.pages[0].published).toBe(true)
+})
 
 it('holds Guides publication inventory when a valid node record shares the Guides page and targets', async () => {
   const fixture = await inventoryFixture('node-record')
@@ -185,6 +262,11 @@ it.each(['direct', 'merged', 'ref-moved', 'api-failed', 'missing-source', 'missi
   if (scenario === 'ref-moved') expect(report.reasons).toContain('OBSERVED_REF_MOVED')
   if (scenario === 'api-failed') {
     expect(a.seedKeys).toEqual([]); expect(a.intervals[0].association).toBe('unknown')
+    expect(b.intervals[0].commits).toContain(f.t); expect(b.seedKeys).toEqual([])
+    expect(report.seeds).toEqual([])
+    expect(report.groups.map(g => [g.pageIds, g.seedKeys])).toEqual([[['a', 'b'], []]])
+    expect(report.dependencies).toContainEqual({ pageIds: ['a', 'b'], seedKeys: [], paths: [f.sourcePath, 'site/en/b.md'],
+      evidence: ['git:' + f.t], reasons: ['METADATA_READ_FAILED'] })
     expect(report.reasons).toContain('METADATA_READ_FAILED'); expect(JSON.stringify(report)).not.toContain('private-token')
   }
   if (scenario === 'missing-source') { expect(a.intervals).toEqual([]); expect(a.reasons).not.toContain('NO_DIRECT_SOURCE_CHANGE'); return }

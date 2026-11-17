@@ -145,6 +145,11 @@ test('output preflight rejects content, files, links and linked ancestors before
 
 // Synthetic tool checkouts exercise the real executable's build/publication failure paths.
 // These are packaging fixtures, not observed upstream or lifecycle evidence, and add no CLI override.
+function commitFixture(f) {
+  git(f.p, 'add', 'scripts')
+  git(f.p, '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-m', 'fixture inputs')
+  f.tools = git(f.p, 'rev-parse', 'HEAD')
+}
 function packagingFixture(source) {
   const p = area(), scriptDirectory = join(p, 'scripts/docs-workflow/shared-guides-update'); mkdirSync(scriptDirectory, { recursive: true })
   copyFileSync(cli, join(scriptDirectory, 'batch-report.mjs'))
@@ -167,10 +172,23 @@ test('observed executable wiring uses one options argument and the module checko
   const f = packagingFixture(stub("throw Error('uninitialized packaging fixture')"))
   const contract = join(f.p, 'scripts/docs-workflow/shared-guides-update/batch-contract.ts')
   writeFileSync(contract, stub(`if (arguments.length !== 1 || Object.keys(options).sort().join(',') !== 'sourceRepository,tools,zdocRepository' || options.zdocRepository !== ${JSON.stringify(f.p)}) throw Error('private-secret'); return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
+  commitFixture(f)
   const out = join(f.p, 'out'), result = run(['--source-repo', f.p, '--out', out], { cli: f.cli, cwd: scratch, env: { GH_TOKEN: 'private-secret' } })
   assert.equal(result.status, 0); assert.equal(result.stderr, '')
   const report = JSON.parse(readFileSync(join(out, 'batch-report.json')))
   assert.equal(report.observation, 'observed'); assert.equal(report.tools, f.tools); assert.equal(report.writeEligible, false)
+})
+
+test('dirty CLI, publisher, contract and transitive first-party inputs reject the claimed tool identity', () => {
+  for (const name of ['batch-report.mjs', 'batch-publish.mjs', 'batch-contract.ts', 'fixture-helper.ts']) {
+    const f = packagingFixture("export { collectBatchDiscovery } from './fixture-helper'")
+    const dir = dirname(f.cli), helper = join(dir, 'fixture-helper.ts')
+    writeFileSync(helper, stub("throw Error('original committed fixture')")); commitFixture(f)
+    const file = join(dir, name); writeFileSync(file, readFileSync(file, 'utf8') + '\n// uncommitted source')
+    const out = join(f.p, 'out')
+    assertFailure(run(['--source-repo', f.p, '--out', out], { cli: f.cli, cwd: scratch, env: { GH_TOKEN: 'private-secret' } }), 'TOOLS_IDENTITY_UNAVAILABLE')
+    assert.equal(existsSync(out), false)
+  }
 })
 
 test('oversized output and builder/reader failures leave no partial pair and emit only fixed diagnostics', () => {
@@ -196,6 +214,7 @@ test('preflight identity/content recheck rejects an output directory changed dur
     writeFileSync(join(f.p, 'scripts/docs-workflow/shared-guides-update/batch-contract.ts'),
       `import { writeFileSync, rmdirSync, symlinkSync } from 'node:fs';\n` +
       stub(`${action}; return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
+    commitFixture(f)
     const result = run(['--source-repo', f.p, '--out', out], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } })
     assert.equal(result.status, 1); assert.match(result.stderr, /^(OUTPUT_CHANGED|UNSAFE_PATH)\n$/)
     if (mutation === 'content') assert.equal(readFileSync(join(out, 'keep'), 'utf8'), 'unchanged')
@@ -205,7 +224,7 @@ test('preflight identity/content recheck rejects an output directory changed dur
   }
 })
 
-test('output file syscalls cannot follow a replaced parent and cleanup stays in the anchored directory', () => {
+test('output file syscalls stay anchored after parent replacement and leave the private output in place', () => {
   for (const replacement of ['original', 'other']) {
     const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
     const parent = join(f.p, 'reports'), moved = join(f.p, 'reports-moved'), other = join(f.p, 'other')
@@ -232,10 +251,11 @@ fixtureChild.execFileSync = (file, args, options) => {
 }; fixtureSync();
 `
     writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
+    commitFixture(f)
     const result = run(['--source-repo', f.p, '--out', join(parent, 'out')], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } })
     assertFailure(result, 'OUTPUT_CHANGED')
-    assert.deepEqual(readdirSync(moved), [])
-    assert.equal(existsSync(join(parent, 'out')), false)
+    assert.deepEqual(outputFiles(join(moved, 'out')), expectedFiles)
+    assert.equal(existsSync(join(parent, 'out')), replacement === 'original')
     assert.deepEqual(readdirSync(other), ['keep'])
     assert.equal(readFileSync(join(other, 'keep'), 'utf8'), 'unrelated')
   }
@@ -250,7 +270,7 @@ test('publisher rejects a cwd redirected before spawn before any writes and rece
 import { syncBuiltinESMExports as fixtureSync } from 'node:module';
 const fixtureExec = fixtureChild.execFileSync;
 fixtureChild.execFileSync = (file, args, options) => {
-  if (args?.[0]?.endsWith('/batch-publish.mjs')) {
+  if (args?.[0] === '--input-type=module' && args[1] === '-e') {
     if (options.env.GH_TOKEN || options.env.GITHUB_TOKEN || options.env.NODE_OPTIONS) throw Error('credential leak');
     fixtureFs.renameSync(${JSON.stringify(parent)}, ${JSON.stringify(moved)});
     fixtureFs.symlinkSync(${JSON.stringify(other)}, ${JSON.stringify(parent)});
@@ -259,38 +279,35 @@ fixtureChild.execFileSync = (file, args, options) => {
 }; fixtureSync();
 `
   writeFileSync(f.cli, prelude + script)
+  commitFixture(f)
   assertFailure(run(['--source-repo', f.p, '--out', join(parent, 'out')], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_CHANGED')
   assert.deepEqual(readdirSync(other), []); assert.deepEqual(readdirSync(moved), [])
 })
 
-test('cleanup refuses a substituted leaf and preserves foreign files rather than recursively traversing it', () => {
-  for (const leaf of ['directory', 'symlink']) {
+test('failed publication preserves both replacement files and replacement empty directories', () => {
+  for (const replacement of ['file', 'directory']) {
     const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
-    const parent = join(f.p, 'reports'), moved = join(f.p, 'reports-moved'), foreign = join(f.p, 'foreign')
-    mkdirSync(parent); mkdirSync(foreign); writeFileSync(join(foreign, 'keep'), 'unrelated')
     const helper = join(f.p, 'scripts/docs-workflow/shared-guides-update/batch-publish.mjs')
+    // Force the second writer to fail, and interleave a replacement before control returns to the publisher.
     const prelude = `import fixtureFs from 'node:fs'; import fixtureChild from 'node:child_process';
-import { syncBuiltinESMExports as fixtureSync } from 'node:module';
-const fixtureRename = fixtureFs.renameSync, fixtureExec = fixtureChild.execFileSync;
+import { syncBuiltinESMExports as sync } from 'node:module';
+const original = fixtureChild.execFileSync;
 fixtureChild.execFileSync = (file, args, options) => {
-  if (args[0] === '--input-type=module' && args[2].startsWith('// Owned-directory cleanup')) {
-    fixtureRename(options.cwd, 'owned-kept');
-    ${leaf === 'symlink' ? `fixtureFs.symlinkSync(${JSON.stringify(foreign)}, options.cwd);` :
-      "fixtureFs.mkdirSync(options.cwd); fixtureFs.writeFileSync(options.cwd + '/keep', 'unrelated');"}
-  }
-  const result = fixtureExec(file, args, options);
-  if (args[2]?.startsWith('// Owned-directory writes')) {
-    fixtureRename(${JSON.stringify(parent)}, ${JSON.stringify(moved)});
-    fixtureFs.symlinkSync(${JSON.stringify(moved)}, ${JSON.stringify(parent)});
-  }
+  if (!args[2]?.startsWith('// Owned-directory writes')) return original(file, args, options);
+  args[2] = args[2].replace("const bytes = read(length), fd", "if (name === 'batch-report.md') throw Error(); const bytes = read(length), fd");
+  const result = original(file, args, options);
+  ${replacement === 'file' ?
+    "fixtureFs.renameSync('out/batch-report.json', 'owned-json'); fixtureFs.writeFileSync('out/batch-report.json', 'foreign');" :
+    "fixtureFs.renameSync('out', 'owned-out'); fixtureFs.mkdirSync('out');"}
   return result;
-}; fixtureSync();
+}; sync();
 `
     writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
-    assertFailure(run(['--source-repo', f.p, '--out', join(parent, 'out')], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_CHANGED')
-    assert.equal(readFileSync(join(moved, 'out/keep'), 'utf8'), 'unrelated')
-    assert.equal(readFileSync(join(foreign, 'keep'), 'utf8'), 'unrelated')
-    assert.deepEqual(outputFiles(join(moved, 'owned-kept')), expectedFiles)
+    commitFixture(f)
+    const out = join(f.p, 'out')
+    assertFailure(run(['--source-repo', f.p, '--out', out], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_WRITE_FAILED')
+    if (replacement === 'file') assert.equal(readFileSync(join(out, 'batch-report.json'), 'utf8'), 'foreign')
+    else { assert.deepEqual(readdirSync(out), []); assert.deepEqual(readdirSync(join(f.p, 'owned-out')), ['batch-report.json']) }
   }
 })
 
@@ -311,6 +328,7 @@ fixtureChild.execFileSync = (file, args, options) => {
 }; fixtureSync();
 `
   writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
+  commitFixture(f)
   assertFailure(run(['--source-repo', f.p, '--out', join(parent, 'out')], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_WRITE_FAILED')
   assert.deepEqual(readdirSync(foreign), ['keep']); assert.equal(readFileSync(join(foreign, 'keep'), 'utf8'), 'unrelated')
   assert.deepEqual(readdirSync(join(parent, 'owned-kept')), [])
@@ -327,6 +345,7 @@ fixtureFs.mkdtempSync = () => ${JSON.stringify(foreign)};
 fixtureFs.renameSync = () => { throw Error('directory adoption forbidden'); }; fixtureSync();
 `
   writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
+  commitFixture(f)
   const out = join(parent, 'out'), result = run(['--source-repo', f.p, '--out', out], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } })
   assert.equal(result.status, 0); assert.equal(result.stderr, '')
   assert.deepEqual(outputFiles(out), expectedFiles); assert.deepEqual(readdirSync(foreign), ['keep'])
@@ -356,11 +375,17 @@ fixtureChild.execFileSync = (file, args, options) => {
 }; fixtureSync();
 `
     writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
+    commitFixture(f)
     const out = join(f.p, 'out')
     assertFailure(run(['--source-repo', f.p, '--out', out], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_WRITE_FAILED')
     if (failure === 'conflict') {
-      assert.deepEqual(readdirSync(out), ['batch-report.md']); assert.equal(readFileSync(join(out, 'batch-report.md'), 'utf8'), 'foreign-keep')
-    } else assert.equal(existsSync(out), false)
+      assert.deepEqual(outputFiles(out), expectedFiles); assert.equal(readFileSync(join(out, 'batch-report.md'), 'utf8'), 'foreign-keep')
+    } else if (failure === 'second-write') {
+      assert.deepEqual(outputFiles(out), expectedFiles); assert.equal(readFileSync(join(out, 'batch-report.md')).length, 0)
+    } else {
+      assert.deepEqual(readdirSync(out), ['batch-report.json'])
+      assert.throws(() => JSON.parse(readFileSync(join(out, 'batch-report.json'))))
+    }
   }
 })
 

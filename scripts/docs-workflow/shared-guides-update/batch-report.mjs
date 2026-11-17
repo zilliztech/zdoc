@@ -2,8 +2,8 @@
 import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
 import { constants, openSync, closeSync, readSync, fstatSync, lstatSync, realpathSync, readdirSync,
-  mkdtempSync, rmSync } from 'node:fs'
-import { basename, dirname, join, resolve, parse, sep } from 'node:path'
+  mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { basename, dirname, join, resolve, parse, relative, sep } from 'node:path'
 import { tmpdir } from 'node:os'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
@@ -88,15 +88,54 @@ function toolCommit() {
     return value
   })
 }
-async function contract() {
+// This function also runs in the isolated builder. Give esbuild the exact bytes checked against Git.
+function verifiedBytes(root, tools, path, env) {
+  const name = relative(root, path)
+  if (!name || name.startsWith('..') || realpathSync(path) !== path) throw Error()
+  const bytes = readFileSync(path)
+  const committed = execFileSync('git', ['--no-replace-objects', '-C', root, 'cat-file', 'blob', tools + ':' + name],
+    { env, timeout: 5000, maxBuffer: 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })
+  if (!bytes.equals(committed)) throw Error()
+  return bytes
+}
+
+// Isolate esbuild and its service from observation credentials. Third-party dependencies
+// resolve from the existing installation; every first-party module goes through verifiedBytes.
+async function buildContract() {
+  const { build } = require('./node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild')
+  const { extname, sep } = require('node:path')
+  const [tools, entry, outfile] = process.argv.slice(1), root = process.cwd()
+  const deps = realpathSync('node_modules') + sep
+  let identityFailed = false
+  try {
+    await build({ entryPoints: [entry], bundle: true, platform: 'node', format: 'esm', target: 'node22',
+      logLevel: 'silent', outfile, tsconfigRaw: {}, preserveSymlinks: true, plugins: [{ name: 'committed-inputs', setup(build) {
+        build.onLoad({ filter: /.*/ }, ({ path }) => {
+          if (path.split(sep).includes('node_modules') && realpathSync(path).startsWith(deps)) return
+          try {
+            const contents = verifiedBytes(root, tools, path, process.env)
+            return { contents, loader: extname(path).slice(1) }
+          } catch { identityFailed = true; throw Error() }
+        })
+      } }] })
+  } catch { process.exitCode = identityFailed ? 2 : 1 }
+}
+async function contract(tools) {
+  const checked = path => fixed('TOOLS_IDENTITY_UNAVAILABLE', () => verifiedBytes(repoRoot, tools, path, toolEnvironment()))
+  checked(fileURLToPath(import.meta.url))
+  const publisher = checked(join(moduleRoot, 'batch-publish.mjs')).toString('utf8')
   const directory = fixed('TOOL_BUILD_FAILED', () => mkdtempSync(join(realpathSync(tmpdir()), 'guides-batch-tool-')))
   try {
     const bundle = join(directory, 'batch-contract.mjs')
-    fixed('TOOL_BUILD_FAILED', () => execFileSync(
-      join(repoRoot, 'node_modules/.pnpm/esbuild@0.25.12/node_modules/esbuild/bin/esbuild'),
-      [join(moduleRoot, 'batch-contract.ts'), '--bundle', '--platform=node', '--format=esm', '--target=node22', '--log-level=silent', '--outfile=' + bundle],
-      { env: toolEnvironment(), timeout: 30_000, maxBuffer: 4096, stdio: ['ignore', 'pipe', 'pipe'] }))
-    try { return await import(pathToFileURL(bundle).href) } catch { fail('TOOL_BUILD_FAILED') }
+    const program = `const { readFileSync, realpathSync } = require('node:fs');
+      const { relative } = require('node:path'); const { execFileSync } = require('node:child_process');
+      ${verifiedBytes.toString()}
+(${buildContract.toString()})().catch(() => { process.exitCode = 1 });`
+    try {
+      execFileSync(process.execPath, ['--input-type=commonjs', '-e', program, tools, join(moduleRoot, 'batch-contract.ts'), bundle],
+        { cwd: repoRoot, env: toolEnvironment(), timeout: 30_000, maxBuffer: 4096, stdio: ['ignore', 'pipe', 'pipe'] })
+    } catch (error) { fail(error.status === 2 ? 'TOOLS_IDENTITY_UNAVAILABLE' : 'TOOL_BUILD_FAILED') }
+    try { return { c: await import(pathToFileURL(bundle).href), publisher } } catch { fail('TOOL_BUILD_FAILED') }
   } finally { rmSync(directory, { recursive: true, force: true }) }
 }
 
@@ -131,7 +170,7 @@ function markdown(report, fixture) {
   return Buffer.from(lines.join('\n') + '\n')
 }
 
-function publish(state, json, md) {
+function publish(state, json, md, publisher) {
   if (json.length > OUTPUT_LIMIT || md.length > OUTPUT_LIMIT) fail('REPORT_OUTPUT_LIMIT')
   const identity = info => info ? { dev: info.dev, ino: info.ino } : null
   const metadata = Buffer.from(JSON.stringify({ parent: state.parent, target: basename(state.path),
@@ -140,7 +179,7 @@ function publish(state, json, md) {
   try {
     // Child cwd is a kernel-held directory reference. The helper binds its identity before
     // any write and never resolves an absolute pathname for a filesystem mutation.
-    execFileSync(process.execPath, [join(moduleRoot, 'batch-publish.mjs')], { cwd: state.parent,
+    execFileSync(process.execPath, ['--input-type=module', '-e', publisher], { cwd: state.parent,
       env: toolEnvironment(), input: Buffer.concat([header, metadata, json, md]),
       timeout: 30_000, maxBuffer: 4096, stdio: ['pipe', 'pipe', 'pipe'] })
   } catch (error) {
@@ -155,7 +194,7 @@ async function main() {
   const output = preflightOutput(options.output)
   const bytes = options.replay ? readFixture(options.input) : null
   if (!options.replay && !process.env.GH_TOKEN && !process.env.GITHUB_TOKEN) fail('GITHUB_CREDENTIAL_REQUIRED')
-  const tools = toolCommit(), c = await contract()
+  const tools = toolCommit(), { c, publisher } = await contract(tools)
   let result
   if (options.replay) result = replayReport(c, bytes, tools)
   else {
@@ -181,7 +220,7 @@ async function main() {
   for (const token of tokens) {
     if (Buffer.from(json).includes(Buffer.from(token)) || md.includes(Buffer.from(token))) fail('REPORT_CREDENTIAL_REJECTED')
   }
-  publish(output, json, md)
+  publish(output, json, md, publisher)
   process.exitCode = report.status === 'held' ? 1 : 0
 }
 

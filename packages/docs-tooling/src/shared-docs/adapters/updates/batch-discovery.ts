@@ -81,9 +81,16 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
     for (const p of input.pages) p.evidence.push('snapshot:' + blob.oid)
     const snapshot = snapshotShape.parse(parseStrictJson(blob.bytes))
     const rows = new Map<string, z.infer<typeof publishedRecord>>(), ids = new Set<string>()
+    const currentOwners = new Map<string, Set<string>>()
     for (const record of snapshot.records) {
       if (ids.has(record.record_id)) stop('DUPLICATE_SNAPSHOT_RECORD')
       ids.add(record.record_id)
+      if (record.release_channel === 'current') {
+        for (const path of z.array(RepoPathSchema).parse(record.output_paths ?? [])) {
+          const owners = currentOwners.get(path) ?? new Set<string>()
+          owners.add(record.record_id); currentOwners.set(path, owners)
+        }
+      }
       if (record.source_kind === undefined) {
         if (record.shared_page !== undefined || typeof record.doc_token !== 'string' || !record.doc_token ||
             typeof record.doc_link === 'string' && record.doc_link.startsWith('https://github.com/zilliztech/zdoc/tree/master/shared-docs/')) stop('SNAPSHOT_IDENTITY_INVALID')
@@ -110,6 +117,9 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
             row.output_paths.filter(path => path === publication.contentRoot + '/' + target.path + '.md' ||
               path === publication.contentRoot + '/' + target.path + '.mdx').length !== 1) || new Set(targetSet).size !== expected.length) {
         p.published = false; add(p.reasons, 'PUBLISHED_RECORD_MISMATCH'); continue
+      }
+      if (row.output_paths.some(path => currentOwners.get(path)?.size !== 1)) {
+        p.published = null; add(p.reasons, 'PUBLISHED_OUTPUT_OWNERSHIP_AMBIGUOUS'); continue
       }
       try {
         for (const { target, publication } of expected) {
@@ -179,9 +189,27 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     if (item.pageIds.length && item.kind !== 'fragment') item.kind = 'source'
   }
 
-  for (const oid of activeCommits) {
+  const extraByLock = new Map<string, Map<string, string>>()
+  const edges = [...activeCommits].map(oid => ({
+    oid, parent: history.parents(oid)[0] ?? null, relevant: ranges.filter(r => r.members.has(oid)), lockSide: false,
+  }))
+  const extraEdges = new Map<string, typeof edges[number]>()
+  for (const r of ranges) {
+    let extra = extraByLock.get(r.page.oldNext)
+    if (!extra) {
+      extra = history.lockSideParents(r.page.oldNext, target, r.members)
+      extraByLock.set(r.page.oldNext, extra)
+    }
+    for (const [oid, parent] of extra) {
+      if (!activeCommits.has(oid)) continue
+      const key = parent + ':' + oid
+      let edge = extraEdges.get(key)
+      if (!edge) { edge = { oid, parent, relevant: [], lockSide: true }; extraEdges.set(key, edge) }
+      edge.relevant.push(r)
+    }
+  }
+  for (const { oid, parent, relevant, lockSide } of [...edges, ...extraEdges.values()]) {
     budget.remaining()
-    const relevant = ranges.filter(r => r.members.has(oid)), parent = history.parents(oid)[0] ?? null
     let raw
     try { raw = await store.delta(parent, oid) }
     catch (error) {
@@ -191,7 +219,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       continue
     }
     const touched = new Set<PageRange>(), fragmentHits = new Map<string, PageRange[]>()
-    const unresolvedHits = new Set<BatchPageObservation>()
+    const unresolvedHits = new Set<BatchPageObservation>(), hitPaths = new Set<string>()
     const removed = new Map<string, string[]>(), added = new Map<string, number>()
     for (const delta of raw) {
       if (delta.before && !delta.after) removed.set(delta.before, [...removed.get(delta.before) ?? [], delta.path])
@@ -207,13 +235,20 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       change(delta.path, previous ? 'renamed' : !delta.before ? 'added' : !delta.after ? 'removed' : 'modified', previous, edge, direct.map(r => r.page.pageId))
       if (previous) clue([], [], [previous, delta.path], [edge], [])
       for (const r of [...direct, ...consumers]) {
-        add(r.interval.commits, oid); add(r.interval.changePaths, delta.path); touched.add(r)
+        add(r.interval.commits, oid); add(r.interval.changePaths, delta.path); touched.add(r); hitPaths.add(delta.path)
       }
       if (delta.path.startsWith('site/en/fragments/')) fragmentHits.set(delta.path, consumers)
     }
     // Unrelated edits still have complete raw path/edge evidence. Only candidate source or
     // fragment commits need PR metadata; otherwise incidental upstream traffic consumes the inspection budget.
     if (!touched.size && !fragmentHits.size && !unresolvedHits.size) continue
+    const touchedIds = [...touched].map(r => r.page.pageId)
+    if (lockSide) {
+      // This edge proves a transition on the lock's lineage. First-parent/PR evidence is assessed separately.
+      for (const r of touched) { r.interval.association = 'unknown'; add(r.page.reasons, 'LOCK_SIDE_MERGE_REQUIRES_COLLECTOR') }
+      if (touched.size) clue(touchedIds, [], [...hitPaths], [gitRef(oid), 'parent:' + parent], ['LOCK_SIDE_MERGE_REQUIRES_COLLECTOR'])
+      continue
+    }
     let key: string | undefined
     try {
       const { pull, evidence } = await api.association(oid)
@@ -224,12 +259,6 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       if (!seed) {
         seed = { key, kind: pull ? 'pr' : 'commit', pr: pull?.identity ?? null, commits: [], reasons: [], evidence: [] }
         seeds.set(key, seed); input.seeds.push(seed)
-      }
-      if (pull) {
-        const paths = new Set(pull.files.flatMap(file => file.previousPath ? [file.previousPath, file.path] : [file.path]))
-        for (const r of touched) if (raw.some(delta => (delta.path === r.page.sourceFile || r.fragments.has(delta.path)) && !paths.has(delta.path))) {
-          r.interval.association = 'unknown'; add(r.page.reasons, 'PR_CHANGED_PATH_UNVERIFIED'); add(seed.reasons, 'PR_CHANGED_PATH_UNVERIFIED')
-        }
       }
       for (const e of [...evidence, ...(pull?.evidence ?? [])]) add(seed.evidence, e)
       if (intro) add(seed.commits, intro)
@@ -251,10 +280,30 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
         const pending = ids.filter(r => !sameEdge.includes(r))
         if (pending.length) clue(pending.map(r => r.page.pageId), [key], [file.path], [ref], ['PR_PATH_REQUIRES_COLLECTOR'])
       }
-      for (const r of touched) add(r.page.seedKeys, key)
+      const prPaths = pull && new Set(pull.files.flatMap(f => f.previousPath ? [f.previousPath, f.path] : [f.path]))
+      const importedParents = pull ? history.importedBaseParents(oid, intro!, pull.identity.base) : []
+      const unverified = new Set<string>()
+      for (const delta of raw.filter(d => hitPaths.has(d.path))) {
+        if (prPaths && !prPaths.has(delta.path)) { unverified.add(delta.path); continue }
+        for (const baseParent of importedParents) {
+          if (((await store.optionalFile(baseParent, delta.path))?.oid ?? null) === delta.after) {
+            unverified.add(delta.path); break
+          }
+        }
+      }
+      for (const r of touched) {
+        const uncertain = [...unverified].filter(path => r.page.sourceFile === path || r.fragments.has(path))
+        if (uncertain.length) {
+          r.interval.association = 'unknown'; add(r.page.reasons, 'PR_CHANGED_PATH_UNVERIFIED')
+          clue([r.page.pageId], [key], uncertain, [gitRef(oid)], ['PR_CHANGED_PATH_UNVERIFIED'])
+        }
+        // Fragments use dependency clues. Direct membership requires the configured root's own transition.
+        if (hitPaths.has(r.page.sourceFile) && !unverified.has(r.page.sourceFile)) add(r.page.seedKeys, key)
+      }
     } catch (error) {
       const reason = safeReason(error, 'METADATA_READ_FAILED')
       add(input.reasons, reason)
+      if (touched.size) clue(touchedIds, [], [...hitPaths], [gitRef(oid)], [reason])
       for (const r of touched) { r.interval.association = 'unknown'; add(r.page.reasons, reason) }
     }
     if (unresolvedHits.size) {

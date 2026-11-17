@@ -45,6 +45,35 @@ export class BatchHistory {
     if (!this.ancestors(to).has(from)) stop('SOURCE_NOT_ANCESTOR')
     return [...this.ancestors(to, this.ancestors(from))]
   }
+  /** Additional merge edges needed to connect the lock to the target along an authenticated path.
+   * Prefer first parents. The caller separately inspects every range member's first-parent delta. */
+  lockSideParents(from: string, to: string, members: Set<string>) {
+    const next = new Map<string, string>(), pending = [{ parent: to, child: to }]
+    while (pending.length) {
+      this.budget.remaining()
+      const { parent, child } = pending.pop()!
+      if (next.has(parent)) continue
+      next.set(parent, child)
+      if (parent === from) break
+      for (const predecessor of [...this.parents(parent)].reverse()) {
+        if (predecessor === from || members.has(predecessor)) pending.push({ parent: predecessor, child: parent })
+      }
+    }
+    const extra = new Map<string, string>()
+    for (let parent = from; parent !== to;) {
+      const child = next.get(parent) ?? stop('SOURCE_NOT_ANCESTOR')
+      if (this.parents(child)[0] !== parent) extra.set(child, parent)
+      parent = child
+    }
+    return extra
+  }
+  importedBaseParents(oid: string, introduction: string, base: string) {
+    const side = this.parents(oid).slice(1)
+    if (oid === introduction || !side.length) return []
+    const parents = this.parents(introduction)
+    const baseHistory = this.ancestors(parents.length > 1 ? parents[0] : base)
+    return side.filter(parent => baseHistory.has(parent))
+  }
   /** merge_commit_sha is the merge, squash or last rebased commit on the base branch. */
   introduces(oid: string, merge: string, base: string, head: string, count: number) {
     if (!this.commits.has(merge)) return false

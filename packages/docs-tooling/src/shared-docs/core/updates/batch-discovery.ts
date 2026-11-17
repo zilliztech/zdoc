@@ -120,13 +120,18 @@ export function discoverBatches(value: unknown): BatchDiscoveryReport {
     unique(page.intervals, json, 'DUPLICATE_INTERVAL')
     page.intervals.forEach(range => assert(range.to === page.target, 'CONFLICTING_INTERVAL_PIN'))
     const associated = new Set(page.seedKeys.flatMap(key => seeds.get(key)!.commits))
-    if (page.intervals.some(range => range.association === 'unknown' || range.commits.some(commit => !associated.has(commit)))) page.reasons.push('UNKNOWN_COMMIT_ASSOCIATION')
+    const mapped = input.changes.filter(change => change.pageIds.includes(page.pageId))
+    const unsupported = mapped.some(change => !page.intervals.some(range => range.commits.length &&
+      (range.changePaths.includes(change.path) || change.previousPath !== null && range.changePaths.includes(change.previousPath))))
+    if (unsupported || page.intervals.some(range => range.association === 'unknown' ||
+        range.changePaths.length > 0 && !range.commits.length || range.commits.some(commit => !associated.has(commit)))) {
+      page.reasons.push('UNKNOWN_COMMIT_ASSOCIATION')
+    }
     if (!page.evidence.length) page.reasons.push('MISSING_PAGE_EVIDENCE')
     if (page.intervals.some(range => !range.evidence.length)) page.reasons.push('MISSING_INTERVAL_EVIDENCE')
     if (page.active === null) page.reasons.push('ACTIVE_STATE_UNKNOWN')
     if (page.published === null) page.reasons.push('PUBLISHED_STATE_UNKNOWN')
-    const changed = page.seedKeys.length > 0 || page.intervals.some(range => range.changePaths.length > 0) ||
-      input.changes.some(change => change.pageIds.includes(page.pageId))
+    const changed = page.seedKeys.length > 0 || page.intervals.some(range => range.changePaths.length > 0) || mapped.length > 0
     if (changed && page.active !== false) needed.add(page.pageId)
     const covered = page.oldNext === page.target || page.intervals.some(range => range.from === page.oldNext &&
       range.association === 'complete' && range.evidence.length > 0)
