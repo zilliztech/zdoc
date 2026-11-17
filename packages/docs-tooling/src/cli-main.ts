@@ -368,11 +368,11 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       const options = parseOptions(argv.slice(2));
       for (const key of Object.keys(options)) {
         if (!['sharedDocs', 'repo', 'dev', 'out'].includes(key)) throw new Error(`Unknown promote option: --${key}`);
-        requiredOption(options, key);
       }
       const {manualPromote} = await import('./shared-docs/commands/promote.ts');
-      process.exitCode = await manualPromote({sharedDocs: options.sharedDocs as string, repo: options.repo as string,
-        dev: options.dev as string, out: options.out as string}, text => process.stdout.write(text), repositoryRoot);
+      process.exitCode = await manualPromote({sharedDocs: requiredOption(options, 'sharedDocs'), repo: requiredOption(options, 'repo'),
+        dev: requiredOption(options, 'dev'), out: requiredOption(options, 'out')},
+        text => process.stdout.write(text), repositoryRoot);
       return true;
     }
     if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build, lock, adopt-variant, update or promote');

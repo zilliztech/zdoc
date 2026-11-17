@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { gitMetadataDirectories } from '../adapters/updates/git'
+import { MilvusDocsReaderError } from '../adapters/reader-errors'
 import { createBuildReader } from '../adapters/build-page'
 import { checkOutput } from './update'
 import { readManualSharedDocs } from './build'
@@ -51,19 +52,26 @@ export async function manualUpdate(options: ManualUpdateOptions, write: (text: s
     const report: ManualUpdateReport = { schema_version: 1, kind: 'shared-manual-update', group,
       manual: shared.manualConfig.publish.manual, tracking: shared.sourceConfig.track, from: shared.lock.next, to: head,
       added: [], removed: [], changed: [], upToDate: false, counts: { added: 0, removed: 0, changed: 0 } }
+    // Fail closed on a rewritten or diverged upstream history before anything else:
+    // adopting a next that is not a descendant of the locked one would silently abandon
+    // the pinned lineage, and an up-to-date report must not bless a broken lock.
+    for (const [channel, commit] of [['current', shared.lock.current], ['next', shared.lock.next]] as const) {
+      let onBranch: boolean
+      try { onBranch = await reader.isOnBranch(commit, shared.sourceConfig.track) }
+      catch (error) {
+        if (!(error instanceof MilvusDocsReaderError) || error.code !== 'MISSING_COMMIT') throw error
+        onBranch = false
+      }
+      if (!onBranch) fail(`Locked ${channel} ${commit} is missing from or off the tracking branch ${shared.sourceConfig.track}`)
+    }
+    if (!await reader.isAncestor(shared.lock.next, head)) {
+      fail(`Tracking head ${head} is not a descendant of the locked next ${shared.lock.next}; refusing to adopt`)
+    }
     if (head === shared.lock.next) {
       report.upToDate = true
       await writeReport(out, report, undefined)
       write(JSON.stringify({ exitCode: 0, out, ...report.counts, upToDate: true }) + '\n')
       return 0
-    }
-    // Fail closed on a rewritten or diverged upstream history: adopting a next that is
-    // not a descendant of the locked one would silently abandon the pinned lineage.
-    if (!await reader.isOnBranch(shared.lock.current, shared.sourceConfig.track)) {
-      fail(`Locked current ${shared.lock.current} is not on the tracking branch ${shared.sourceConfig.track}`)
-    }
-    if (!await reader.isAncestor(shared.lock.next, head)) {
-      fail(`Tracking head ${head} is not a descendant of the locked next ${shared.lock.next}; refusing to adopt`)
     }
     const prefix = `${shared.manualConfig.source.dir}/`
     const logicals = async (commit: string) => {
@@ -95,6 +103,11 @@ async function writeReport(out: string, report: ManualUpdateReport, candidate: s
 function updateMarkdown(report: ManualUpdateReport): string {
   const short = report.to.slice(0, 12)
   const list = (names: readonly string[]) => names.length ? names.map(name => `\`${name}\``).join(', ') : 'none'
+  if (report.upToDate) {
+    return [`# Manual update: ${report.manual}`, '',
+      `The tracking head equals the locked next (${short} on \`${report.tracking}\`); there is nothing to adopt.`,
+      'No lock candidate was staged, so the caller should not open an update PR.'].join('\n') + '\n'
+  }
   return [`# Manual update: ${report.manual} to ${short}`, '',
     `Suggested PR title: \`shared-docs: update ${report.manual} to ${report.tracking} ${short}\``, '',
     `Range: ${report.from.slice(0, 12)}…${short} on \`${report.tracking}\`.`, '',

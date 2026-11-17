@@ -36,9 +36,17 @@ export async function runUpdate(options: UpdateOptions, write: (text: string) =>
     // Manual-layout groups run the whole-manual update (design 10 WP12): one rolling
     // candidate next plus the impact report; --dev stays accepted but unused, like build.
     const group = groupContext(options.sharedDocs, repositoryRoot)
-    if (!('errors' in group)) {
+    if ('errors' in group) {
+      for (const error of group.errors) write(`${error.file ?? '<input>'}:${error.line ?? 1} ${error.code}: ${error.message}\n`)
+      return 2
+    }
+    {
       const layout = await readGroupLayout(group.root, group.path)
-      if (!('errors' in layout) && layout.kind === 'manual') {
+      if ('errors' in layout) {
+        for (const error of layout.errors) write(`${error.file ?? '<input>'}:${error.line ?? 1} ${error.code}: ${error.message}\n`)
+        return 2
+      }
+      if (layout.kind === 'manual') {
         const { manualUpdate, ManualUpdateArgumentError } = await import('./update-manual')
         try { return await manualUpdate(options as unknown as import('./update-manual').ManualUpdateOptions, write, repositoryRoot) }
         catch (error) {

@@ -84,7 +84,9 @@ it('refuses to adopt a next that is not a descendant of the locked next', async 
   const code = await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
     text => { output += text })
   expect(code).toBe(2)
-  expect(output).toContain('is not a descendant of the locked next')
+  // The side branch head is off the tracking branch, which the history check rejects
+  // before the ancestor comparison runs; both guards fail closed with exit 2.
+  expect(output).toContain('is missing from or off the tracking branch')
 })
 
 const PROMOTE_MANUAL = (overviewChannel = 'next') => `schema_version: 1
@@ -151,7 +153,7 @@ it('promotes the whole manual and carries the one-sided configuration across', a
   const out = join(demo.root, 'promotion')
   let output = ''
   const code = await manualPromote({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
-    text => { output += text })
+    text => { output += text }, demo.root)
   expect(code).toBe(0)
   const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
   expect(report).toMatchObject({ kind: 'shared-manual-promotion', manual: 'node',
@@ -195,7 +197,7 @@ it('blocks promotion while a live page still links a vanishing page', async () =
   const out = join(demo.root, 'promotion')
   let output = ''
   const code = await manualPromote({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
-    text => { output += text })
+    text => { output += text }, demo.root)
   expect(code).toBe(1)
   expect(output).toContain('"blocked":1')
   const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
@@ -203,6 +205,7 @@ it('blocks promotion while a live page still links a vanishing page', async () =
     { kind: 'upstream', file: 'Collections/createCollection.md', line: 5, target: 'datatype.md' }])
   // No lock or configuration is staged for a blocked promotion.
   await expect(readFile(join(out, 'lock.yaml'), 'utf8')).rejects.toThrow()
+  await expect(readFile(join(out, 'manual.yaml'), 'utf8')).rejects.toThrow()
   const markdown = await readFile(join(out, 'report.md'), 'utf8')
   expect(markdown).toContain('## Blocked references')
   expect(markdown).toContain('the post-promotion build would fail')
@@ -215,7 +218,7 @@ it('lists handwritten channel markers for the author without removing them', asy
   const out = join(demo.root, 'promotion')
   let output = ''
   expect(await manualPromote({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
-    text => { output += text })).toBe(0)
+    text => { output += text }, demo.root)).toBe(0)
   expect(output).toContain('"exitCode":0')
   const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
   expect(report.handwrittenGates).toEqual([{ file: 'Overview.md', line: 3 }, { file: 'Overview.md', line: 7 }])
@@ -236,10 +239,55 @@ it('promotes a manual whose commits are already equal (local-only changes)', asy
   await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${demo.commit}\n`)
   const out = join(demo.root, 'promotion')
   const code = await manualPromote({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
-    () => {})
+    () => {}, demo.root)
   expect(code).toBe(0)
   const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
   expect(report.lock.to).toEqual({ current: demo.commit, next: demo.commit })
   expect(report.cloudPagesPromoted).toEqual(['Overview.md'])
   expect(report.upstreamPagesRetired).toEqual([])
+})
+
+it('blocks promotion while a remaining cloud page links a vanishing page', async () => {
+  const demo = await createPromotionDemo('manual-promote-cloud-block-')
+  // The surviving cloud page links the retiring cloud page by basename.
+  await write(demo.sharedDocs, 'content/overview.md', '# Overview\n\nSee [the legacy page](MilvusCloud/Legacy.md).\n')
+  const out = join(demo.root, 'promotion')
+  const code = await manualPromote({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
+    () => {}, demo.root)
+  expect(code).toBe(1)
+  const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
+  expect(report.blockedReferences).toEqual([
+    { kind: 'cloud', file: 'shared-docs/node/content/overview.md', line: 3, target: 'legacy.md' }])
+})
+
+it('blocks promotion on configuration paths that name nothing', async () => {
+  const demo = await createPromotionDemo('manual-promote-typo-')
+  await write(demo.sharedDocs, 'manual.yaml', PROMOTE_MANUAL().replace(
+    '  Collections/DataType.md:\n    added_since: v2.3.x\n',
+    '  Collections/DataType.md:\n    added_since: v2.3.x\n  Collections/DataTypo.md:\n    added_since: v2.3.x\n'))
+  const out = join(demo.root, 'promotion')
+  let output = ''
+  const code = await manualPromote({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
+    text => { output += text }, demo.root)
+  expect(code).toBe(2)
+  expect(output).toContain('Metadata key names no surviving or vanishing page: Collections/DataTypo.md')
+  await expect(readFile(join(out, 'lock.yaml'), 'utf8')).rejects.toThrow()
+})
+
+it('refuses an up-to-date report when the locked current left the tracking branch', async () => {
+  const demo = await createManualDemo(await temp('manual-upd-rewritten-'))
+  const good = demo.commit
+  // Rebuild master so the locked current is no longer on the tracking branch.
+  await git(demo.repo, 'checkout', '-q', '--orphan', 'rewritten')
+  await git(demo.repo, 'add', '-A')
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Rewritten history')
+  const rewritten = await git(demo.repo, 'rev-parse', 'HEAD')
+  await git(demo.repo, 'update-ref', 'refs/heads/master', rewritten)
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${good}\nnext: ${rewritten}\n`)
+  const out = join(demo.root, 'report')
+  let output = ''
+  const code = await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
+    text => { output += text })
+  expect(code).toBe(2)
+  expect(output).toContain('is missing from or off the tracking branch')
 })

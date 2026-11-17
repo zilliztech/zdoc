@@ -2,6 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { dump } from 'js-yaml'
 import { join, resolve } from 'node:path'
 import { gitMetadataDirectories } from '../adapters/updates/git'
+import { MilvusDocsReaderError } from '../adapters/reader-errors'
 import { createBuildReader } from '../adapters/build-page'
 import { UpdateArgumentError } from '../adapters/updates/runner'
 import { checkOutput } from './update'
@@ -70,11 +71,16 @@ async function promote(options: ManualPromoteOptions, write: (text: string) => v
   const reader = createBuildReader(repo, undefined, undefined, shared.manualConfig.source.dir)
   try {
     // The promoted state reads only the next tree, so both lock commits must be sane
-    // before any configuration is rewritten.
+    // before any configuration is rewritten. History validation runs even when the
+    // commits are equal: a rewritten lock must fail closed, not bless itself.
     for (const channel of ['current', 'next'] as const) {
-      if (!await reader.isOnBranch(shared.lock[channel], shared.sourceConfig.track)) {
-        fail(`Locked ${channel} ${shared.lock[channel]} is not on the tracking branch ${shared.sourceConfig.track}`)
+      let onBranch: boolean
+      try { onBranch = await reader.isOnBranch(shared.lock[channel], shared.sourceConfig.track) }
+      catch (error) {
+        if (!(error instanceof MilvusDocsReaderError) || error.code !== 'MISSING_COMMIT') throw error
+        onBranch = false
       }
+      if (!onBranch) fail(`Locked ${channel} ${shared.lock[channel]} is missing from or off the tracking branch ${shared.sourceConfig.track}`)
     }
     if (shared.lock.current !== shared.lock.next && !await reader.isAncestor(shared.lock.current, shared.lock.next)) {
       fail('current must be an ancestor of or equal to next')
@@ -134,24 +140,40 @@ async function promote(options: ManualPromoteOptions, write: (text: string) => v
       write(JSON.stringify({ exitCode: 1, out, blocked: report.blockedReferences.length }) + '\n')
       return 1
     }
-    // Approved-intent cleanup: configuration that names pages vanishing with this
-    // promotion is removed and reported, never silently kept (it would fail the next
-    // expansion with CONFIG_PATH_UNKNOWN) and physical content files are never deleted.
+    // Approved-intent cleanup: configuration naming pages that vanish with this
+    // promotion is removed and reported (their retirement is the approved intent), and
+    // physical content files are never deleted. A key that names no surviving and no
+    // vanishing page is a stale mistake, not an intent: it blocks the promotion instead
+    // of being silently healed (design 10: residual invalid paths block promotion).
+    const vanishingLogicals = new Set([...report.upstreamPagesRetired, ...report.cloudPagesRetired])
     const nextConfig: ManualConfig = JSON.parse(JSON.stringify(shared.manualConfig))
     if (nextConfig.metadata) {
       for (const key of Object.keys(nextConfig.metadata)) {
         const alive = key.endsWith('/')
           ? [...nextLogicals].some(file => file.startsWith(key)) || Object.keys(remainingCloudPages).some(file => file.startsWith(key))
           : nextLogicals.has(key) || remainingCloudPages[key] !== undefined
+        // A module key retires when its whole subtree is vanishing; a page key retires
+        // only on its own retirement. Anything else that is not alive names nothing.
+        const retiring = key.endsWith('/')
+          ? !alive && [...vanishingLogicals].some(file => file.startsWith(key))
+          : vanishingLogicals.has(key)
+        if (!alive && !retiring) fail(`Metadata key names no surviving or vanishing page: ${key}; fix it before promoting`)
         if (!alive) { delete nextConfig.metadata[key]; report.metadataRemoved.push(key) }
       }
       if (!Object.keys(nextConfig.metadata).length) delete nextConfig.metadata
     }
     if (nextConfig.exclude) {
-      const alive = nextConfig.exclude.filter(entry => entry.endsWith('/')
-        ? [...nextLogicals].some(file => file.startsWith(entry)) : nextLogicals.has(entry))
-      for (const entry of nextConfig.exclude) if (!alive.includes(entry)) report.excludeRemoved.push(entry)
-      if (alive.length) nextConfig.exclude = alive
+      const kept = nextConfig.exclude.filter(entry => {
+        const alive = entry.endsWith('/')
+          ? [...nextLogicals].some(file => file.startsWith(entry)) : nextLogicals.has(entry)
+        const retiring = entry.endsWith('/')
+          ? !alive && [...vanishingLogicals].some(file => file.startsWith(entry))
+          : vanishingLogicals.has(entry)
+        if (!alive && !retiring) fail(`Exclude entry names no surviving or vanishing page: ${entry}; fix it before promoting`)
+        return alive
+      })
+      for (const entry of nextConfig.exclude) if (!kept.includes(entry)) report.excludeRemoved.push(entry)
+      if (kept.length) nextConfig.exclude = kept
       else delete nextConfig.exclude
     }
     if (Object.keys(remainingCloudPages).length) nextConfig.cloud_pages = remainingCloudPages
@@ -166,6 +188,7 @@ async function promote(options: ManualPromoteOptions, write: (text: string) => v
     const expanded = expandManualPages(nextFiles, parsed.config,
       new Map([...remainingCloudFiles].map(([logical, content]) => [logical, { file: content.file, text: content.text }])))
     if (expanded.errors.length) throw new ManualPromoteArgumentError(`Rewritten manual.yaml fails expansion: ${expanded.errors.map(error => error.message).join('; ')}`)
+    if (!expanded.pages.size) throw new ManualPromoteArgumentError(`No manual pages found under ${shared.manualConfig.source.dir} at the promoted next ${shared.lock.next}`)
     const lockText = `schema_version: 1\ncurrent: ${shared.lock.next}\nnext: ${shared.lock.next}\n`
     await writeReport(out, report, lockText, manualText)
     write(JSON.stringify({ exitCode: 0, out, promoted: report.cloudPagesPromoted.length, retired: report.cloudPagesRetired.length + report.upstreamPagesRetired.length }) + '\n')
