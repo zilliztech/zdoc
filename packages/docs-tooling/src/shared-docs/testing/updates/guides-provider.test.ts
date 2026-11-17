@@ -709,7 +709,8 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(results)})
   const request = {kind: 'guides-collection', schemaVersion: 1, repositoryRoot: f.repositoryRoot, sourceRepository: f.repo, devRepository: f.baselineRoot,
     master: f.masterCommit, configSnapshot: f.masterCommit, dev: published, trustedTools: f.masterCommit, toolsetSha256: 'b'.repeat(64), pages: [page], comparisonConfig: null,
     target: null, evidenceRun: String(runId), evidenceZip: null}
-  const collectLocal = (issuer = true) => provider.collectGuidesWithDependencies({...request, evidenceRun: String(runId)}, {b1: {github: selectedApi}},
+  const collectLocal = (issuer = true, now?: number) => provider.collectGuidesWithDependencies({...request, evidenceRun: String(runId)},
+    {b1: {github: selectedApi, ...(now === undefined ? {} : {clock: {kind: 'offline-replay', now}})}},
     issuer ? () => trusted.createMeasuredFetchProducerContext(f.masterCommit) : undefined)
   for (const id of [71, 72]) {
     runId = id; configureRun()
@@ -722,6 +723,14 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(results)})
     // No forward source delta: full authority cannot create a writer operation.
     expect(planUpdateUnit([result.pages[0].report], [result.pages[0].context])).toMatchObject({disposition: 'noop', nextEdits: []})
   }
+  const stale = await collectLocal(true, Date.parse(at) + 36 * 60 * 60 * 1000 + 1)
+  const stalePage = stale.pages[0]
+  expect(stalePage.report.authority.updateState).toBe('unknown')
+  expect(stalePage.report.authority.reasons).toContain('STALE_OBSERVATION')
+  expect(planUpdateUnit([stalePage.report], [stalePage.context])).toMatchObject({disposition: 'hold', nextEdits: []})
+  const staleDetail = JSON.parse(stale.detail['guides-impact-v1/report.json'])
+  expect(staleDetail.pages.find(item => item.pageId === page).lifecycle).toMatchObject({state: 'unknown', reasons: ['STALE_OBSERVATION']})
+  expect(JSON.parse(stale.detail['guides-impact-v1/pins.json']).lifecycle).not.toHaveProperty('producerAuthentication')
   const standalone = await collectLocal(false)
   expect(JSON.parse(standalone.detail['guides-impact-v1/pins.json']).lifecycle.reasons).toContain('FETCH_PROFILE_CONTEXT_UNAVAILABLE')
   expect(standalone.pages[0].report.authority.updateState).toBe('unknown')

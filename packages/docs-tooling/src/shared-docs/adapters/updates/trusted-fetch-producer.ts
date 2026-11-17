@@ -35,6 +35,9 @@ export class FetchGitReader {
     if (this.output > 64 * 1024 * 1024 || performance.now() >= this.deadline) { this.failed = true; throw new Error('Fetch Git budget exhausted') }
     return bytes
   }
+  private checkComputationBudget() {
+    if (this.failed || performance.now() >= this.deadline) { this.failed = true; throw new Error('Fetch Git budget exhausted') }
+  }
   async head() { const head = ascii(await this.read(['rev-parse', '--verify', 'HEAD'], undefined, false, 41)); if (!/^[0-9a-f]{40}\n$/.test(head) || !validFetchOid(head.slice(0, -1))) throw new Error('Invalid fixed head'); return head.slice(0, -1) }
   async historyGuards() {
     const raw = new TextDecoder('utf8', {fatal: true, ignoreBOM: true}).decode(await this.read(['rev-parse', '--path-format=absolute', '--git-dir', '--git-common-dir']))
@@ -53,7 +56,11 @@ export class FetchGitReader {
     const history = ascii(await this.read(['rev-list', '--parents', measured, producer]))
     if (!history.endsWith('\n') || history.split('\n').slice(0, -1).some(line => !/^[0-9a-f]{40}(?: [0-9a-f]{40})*$/.test(line))) throw new Error('Invalid Fetch history')
     const lists: (readonly FetchTreeEntry[])[] = []
-    for (const commit of [measured, producer]) lists.push(parseFetchTree(await this.read(['ls-tree', '-r', '-t', '-z', '--full-tree', commit])))
+    for (const commit of [measured, producer]) {
+      const parsed = parseFetchTree(await this.read(['ls-tree', '-r', '-t', '-z', '--full-tree', commit]))
+      this.checkComputationBudget()
+      lists.push(parsed)
+    }
     const expected = new Map<string, 'commit' | 'tree' | 'blob'>()
     for (const oid of history.slice(0, -1).split(/[ \n]/)) {
       if (!validFetchOid(oid)) throw new Error('Invalid Fetch history object')
@@ -74,7 +81,11 @@ export class FetchGitReader {
       if (sizes.get(oid)! > 64 * 1024) throw new Error('Oversized pilot lock')
       if (!locks.has(oid)) { const bytes = await this.read(['cat-file', 'blob', oid], undefined, false, Math.max(1, sizes.get(oid)!)); if (bytes.length !== sizes.get(oid)) throw new Error('Pilot lock size mismatch'); locks.set(oid, bytes) }
     }
-    const profiles = lists.map(list => fetchProducerProfile(list, locks.get(list.find(entry => entry.path === pilotLockPath)!.oid)!))
+    const profiles = lists.map(list => {
+      const profile = fetchProducerProfile(list, locks.get(list.find(entry => entry.path === pilotLockPath)!.oid)!)
+      this.checkComputationBudget()
+      return profile
+    })
     // merge-base output is independently parsed; disconnected and reverse histories fail closed.
     const bases = ascii(await this.read(['merge-base', '--all', measured, producer], undefined, true))
     return {measured: profiles[0], producer: profiles[1], ancestor: bases === producer + '\n'}

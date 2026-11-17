@@ -42,3 +42,20 @@ it('rejects the exact tree-byte and entry-count boundaries without omitting memb
   expect(() => parseFetchTree(Buffer.alloc(32 * 1024 * 1024 + 1))).toThrow()
   expect(() => parseFetchTree(listing(lock(), Array.from({length: 20_000}, (_, i) => `100644 blob ${'a'.repeat(40)}\tfile${i}\0`).join('')))).toThrow(/entry limit/)
 })
+
+it('validates deep shared prefixes within the existing tree bounds without rebuilding every ancestor', () => {
+  const depth = 1800, leaves = 7800, blob = oid(Buffer.alloc(0)), directory = 'c'.repeat(40)
+  const prefixes = Array.from({length: depth}, (_, i) => 'd/'.repeat(i + 1).slice(0, -1))
+  const nested = prefixes.at(-1)!
+  const extra = prefixes.map(path => `040000 tree ${directory}\t${path}\0`).join('') +
+    Array.from({length: leaves}, (_, i) => `100644 blob ${blob}\t${nested}/f${i}\0`).join('')
+  const raw = listing(lock(), extra)
+  expect(raw.length).toBeLessThan(32 * 1024 * 1024)
+  const parsed = parseFetchTree(raw)
+  expect(parsed).toHaveLength(depth + leaves + 5)
+  expect(fetchProducerProfile(parsed, lock())).toMatch(/^[0-9a-f]{64}$/)
+  expect(() => parseFetchTree(listing(lock(), `100644 blob ${blob}\tdir\0` +
+    `100644 blob ${blob}\tdir/file\0`))).toThrow(/parent/)
+  expect(() => parseFetchTree(listing(lock(), `040000 tree ${directory}\tmissing/dir\0` +
+    `100644 blob ${blob}\tmissing/dir/file\0`))).toThrow(/parent/)
+})

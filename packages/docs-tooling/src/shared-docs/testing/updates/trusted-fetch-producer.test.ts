@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { expect, it, onTestFinished, vi } from 'vitest'
 import { FetchGitReader, createMeasuredFetchProducerContext, isFetchProducerContext } from '../../adapters/updates/trusted-fetch-producer'
+import * as profile from '../../adapters/updates/fetch-producer-profile'
 import { pilotLockPath } from '../../adapters/updates/fetch-producer-profile'
 const git = (root: string, ...args: string[]) => execFileSync('git', ['--no-replace-objects', '-C', root, '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.com', '-c', 'commit.gpgsign=false', '-c', 'core.hooksPath=/dev/null', '-c', 'init.templateDir=', '-c', 'init.defaultObjectFormat=sha1', ...args], {encoding: 'utf8', env: {...Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_'))), GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null'}}).trim()
 async function fixture() {
@@ -132,4 +133,19 @@ it('makes failed authentication terminal and redacts final pin read errors', asy
   expect(await context.authenticate(measured)).toEqual({reason: 'FETCH_PROFILE_CONTEXT_UNAVAILABLE'})
   const head = vi.spyOn(FetchGitReader.prototype, 'head').mockRejectedValue(new Error('private path / token / raw Git stderr'))
   try {await expect(context.verify()).rejects.toThrow(/^FETCH_PROFILE_CONTEXT_UNAVAILABLE$/)} finally {head.mockRestore()}
+})
+
+it('refuses a deadline expiring during tree parsing before attempting another Git read', async () => {
+  const f = await fixture(), reader = new FetchGitReader(f.root), read = vi.spyOn(reader, 'read')
+  const parse = profile.parseFetchTree
+  const parser = vi.spyOn(profile, 'parseFetchTree').mockImplementation(bytes => {
+    const result = parse(bytes)
+    vi.spyOn(performance, 'now').mockReturnValue(performance.now() + 60_001)
+    return result
+  })
+  try {
+    await expect(reader.profiles(f.measured, f.producer)).rejects.toThrow(/budget/)
+    expect(parser).toHaveBeenCalledTimes(1)
+    expect(read.mock.calls.filter(([args]) => args[0] === 'ls-tree')).toHaveLength(1)
+  } finally {vi.restoreAllMocks()}
 })

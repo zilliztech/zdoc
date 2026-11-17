@@ -34,6 +34,7 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
   const inventory: Record<string, any>[] = [], observations: FixedPageInput[] = []
   let evidence: LifecycleEvidence = { reasons: ['NO_RETAINED_EVIDENCE'], records: [], identity: {} }
   let versions: FixedVersions | undefined
+  let producerAuthentication: unknown
   try {
     const master = await resolveCommit(repositoryRoot, options.masterSha)
     pins.master = master
@@ -89,7 +90,10 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
       }
       catch (error) { errors.push({ message: `Lifecycle infrastructure: ${String(error)}` }); evidence = { reasons: ['EVIDENCE_INFRASTRUCTURE_FAILURE'], records: [], identity: {} } }
     }
-    if (evidence.reasons.length) delete evidence.identity.producerAuthentication
+    // The method is success-only evidence; final requested-page classification
+    // still has to verify freshness and the configured output targets.
+    producerAuthentication = evidence.identity.producerAuthentication
+    delete evidence.identity.producerAuthentication
     pins.lifecycle = { ...evidence.identity, reasons: evidence.reasons, generatedAt: evidence.generatedAt }
     const first = options.proveIndependentPage && !options.pages ? inventory.find(item => item.pageId === options.lifecyclePage) : undefined
     const order = first ? [first, ...inventory.filter(item => item !== first)] : inventory
@@ -150,6 +154,12 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
     } else errors.push({ message: String(error) })
   } finally { await rm(temporary, { recursive: true, force: true }) }
   for (const item of inventory) item.lifecycle ??= { state: 'unknown', reasons: ['ANALYSIS_INFRASTRUCTURE_FAILURE'] }
+  const requestedPage = options.lifecyclePage ?? (options.pages && !options.pages.includes(',') ? options.pages : undefined)
+  const classifiedPilot = inventory.find(item => item.selected && item.pageId === requestedPage && item.pageId === 'json-field-overview')
+  if (producerAuthentication && !evidence.reasons.length && classifiedPilot &&
+    ['active', 'retire'].includes(classifiedPilot.lifecycle.state) && !classifiedPilot.lifecycle.reasons.length) {
+    pins.lifecycle.producerAuthentication = producerAuthentication
+  }
   const impact = versions && observations.length ? analyzeUpdates({ schema_version: 1, versions, pages: observations }) : null
   // Hash observed bytes/semantics, not execution timestamps or ephemeral producer IDs.
   const inputSha256 = hash(JSON.stringify({ master: pins.master, dev: pins.dev, source: pins.source, config: pins.configurationSha256,

@@ -23,8 +23,10 @@ export function parseFetchTree(bytes: Uint8Array): readonly FetchTreeEntry[] {
     entries.set(path, Object.freeze({mode, type, oid: match[2], path}))
   }
   for (const entry of entries.values()) {
-    const parts = entry.path.split('/')
-    for (let i = 1; i < parts.length; i++) if (entries.get(parts.slice(0, i).join('/'))?.type !== 'tree') throw new Error('Missing Fetch parent directory')
+    // Each directory validates its own parent, establishing the full chain
+    // transitively without rebuilding every ancestor for every shared prefix.
+    const slash = entry.path.lastIndexOf('/')
+    if (slash !== -1 && entries.get(entry.path.slice(0, slash))?.type !== 'tree') throw new Error('Missing Fetch parent directory')
     if (entry.mode === '120000' && entries.get('AGENTS.md')?.mode !== '100644') throw new Error('Missing Fetch alias target')
   }
   const lock = entries.get(pilotLockPath)

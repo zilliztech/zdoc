@@ -438,9 +438,6 @@ class PreparationTest(unittest.TestCase):
         subprocess.run([sys.executable, "-B", str(HERE / "profile-tests" / "profile.py")], check=True)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
 
 class AuthorityMethodTest(unittest.TestCase):
     """Real content-addressed B1/B2 references; GitHub metadata is a local fixture."""
@@ -528,3 +525,7 @@ class AuthorityMethodTest(unittest.TestCase):
     def test_new_profile_reason_codes_are_closed_safe_diagnostics(self):
         codes = ["FETCH_PROFILE_CONTEXT_UNAVAILABLE", "FETCH_PROFILE_MISMATCH", "FETCH_PROFILE_ANCESTRY_UNPROVEN"]
         self.assertEqual(p.reason_codes(codes + ["FETCH_PROFILE_UNTRUSTED_PATH"]), codes)
+
+
+if __name__ == "__main__":
+    unittest.main()
