@@ -9,6 +9,15 @@ const {validateSharedReceipt, validateSharedSnapshotRecord, validateActiveState}
 const hashSnapshot = snapshot => require('./sourceCompleteness').hashSnapshot(snapshot)
 const MANIFEST = 'generated/en/manifests/shared-pages/guides'
 const EFFECTIVE = 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-effective.json'
+const {sharedGroupConfig, outputPathPattern} = require('./sharedGroups')
+const {loadTypeScript} = require('../../../../scripts/lib/load-typescript')
+const {resolveManualPublication} = loadTypeScript(path.resolve(__dirname, '../manuals/registry.ts'))
+const sidebarPathFor = manual => resolveManualPublication(manual, 'en').publication.sidebarPath
+const manifestFor = group => sharedGroupConfig(group).manifestDir
+const effectiveFor = group => `packages/docs-tooling/src/lark/meta/reports/${group}-source-snapshot-effective.json`
+// Shared records carry their own group; snapshots handled by these lanes always
+// belong to exactly one group.
+const groupOf = snapshot => snapshot?.records?.find(row => row.source_kind === 'shared-page')?.shared_page?.group ?? 'guides'
 const aliases = require('./sharedPageAliases')
 const renderIdentity = require('./sharedPageRenderIdentity')
 const {validateRegenerationEvidence} = require('../../../../scripts/docs-workflow/guides-shared-regeneration')
@@ -30,22 +39,25 @@ function put(root, file, value) {
   fs.mkdirSync(path.dirname(destination), {recursive: true})
   fs.writeFileSync(destination, JSON.stringify(value, null, 2) + '\n')
 }
-function verifyOutput(root, output, token, read = regularBytes) {
-  check(/^content\/en\/(guides|byoc)\/tutorials\/.+\.mdx?$/.test(output.path), 'invalid output path')
+function verifyOutput(root, output, token, read = regularBytes, group = 'guides') {
+  check(outputPathPattern(group).test(output.path), 'invalid output path')
   const bytes = read(root, output.path)
   check(digest(bytes) === output.sha256, `output digest mismatch: ${output.path}`)
   const front = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(bytes.toString())
   check(front && String(yaml.load(front[1])?.token) === token, `output token mismatch: ${output.path}`)
 }
 function validatePublishedReceipt(receipt, record, {workspace, snapshot, read = regularBytes} = {}) {
-  validateSharedSnapshotRecord(record); validateSharedReceipt(receipt, record.shared_page)
+  validateSharedSnapshotRecord(record)
+  const group = record.shared_page.group, groupConfig = sharedGroupConfig(group)
+  validateSharedReceipt(receipt, {...record.shared_page, upstreamRepository: groupConfig.upstreamRepository,
+    renderManuals: [...groupConfig.byManual].map(([manual, entry]) => ({manual, contentRoot: entry.contentRoot}))})
   const navigation = receipt.inputs.fetch.navigation
   check(navigation && typeof navigation === 'object' && Array.isArray(navigation.navigationRecords), 'draft navigation is not publication authority')
   // Identity recomputes the shared render recipe over the receipt projection.
   // Pre-renderIdentity receipts (no fetch.active) authenticate through their
   // legacy whole-input digest until the transition round rewrites them.
   if (Object.hasOwn(receipt.inputs.fetch, 'active')) {
-    const recomputed = renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, record.shared_page.page))
+    const recomputed = renderIdentity.renderIdentity(renderIdentity.receiptProjection(receipt.inputs, record.shared_page.page, group))
     check(recomputed.inputs_sha256 === record.shared_page.inputs_sha256, 'receipt input identity mismatch')
   } else {
     check(renderIdentity.legacyReceiptInputsDigest(receipt) === record.shared_page.inputs_sha256, 'receipt input identity mismatch')
@@ -60,7 +72,7 @@ function validatePublishedReceipt(receipt, record, {workspace, snapshot, read = 
     const withoutIdentity = row => {const result = structuredClone(row); if (result.shared_page) result.shared_page = {group: result.shared_page.group, page: result.shared_page.page}; return result}
     check(current && equal(withoutIdentity(current), withoutIdentity(nav[0])), 'receipt navigation differs from effective snapshot')
   }
-  if (workspace) for (const output of receipt.outputs) verifyOutput(workspace, output, receipt.token, read)
+  if (workspace) for (const output of receipt.outputs) verifyOutput(workspace, output, receipt.token, read, group)
   return receipt
 }
 function effectiveSnapshot(candidate, handoff) {
@@ -100,6 +112,7 @@ function effectiveSnapshot(candidate, handoff) {
 function finalizePublication({workspace, handoff, candidate}) {
   if (!handoff) return null
   if (handoff.continuation) return finalizeContinuation({workspace, handoff, candidate})
+  const groupConfig = sharedGroupConfig(handoff.group ?? 'guides'), manifestDir = groupConfig.manifestDir
   const {bundle, files} = handoff, snapshot = effectiveSnapshot(candidate, handoff)
   const fallbacks = []
   // Read and verify every byte before writing any new authority.
@@ -144,7 +157,7 @@ function finalizePublication({workspace, handoff, candidate}) {
         baselineReceipts.push([receipt.path, bytes])
         const retainedReceipt = JSON.parse(bytes)
         if (retainedReceipt.inputs.fetch.render_targets) {
-          const authority = JSON.parse(git(workspace, ['show', `${bundle.dev_commit}:${MANIFEST}/_publication.json`]))
+          const authority = JSON.parse(git(workspace, ['show', `${bundle.dev_commit}:${manifestDir}/_publication.json`]))
           const proof = authority.regeneration?.[outcome.record_id]
           validateRegenerationEvidence(proof, retainedReceipt, retainedReceipt.outputs.map(output => ({...output, bytes: regularBytes(workspace, output.path)})))
           regeneration[outcome.record_id] = proof
@@ -176,19 +189,20 @@ function finalizePublication({workspace, handoff, candidate}) {
     fs.mkdirSync(path.dirname(destination), {recursive: true}); fs.writeFileSync(destination, bytes)
   }
   for (const [file, receipt] of receipts) put(workspace, file, receipt)
-  if (bundle.effective_active.pages.length) put(workspace, `${MANIFEST}/active.json`, bundle.effective_active)
+  if (bundle.effective_active.pages.length) put(workspace, `${manifestDir}/active.json`, bundle.effective_active)
   if (replayAuthority) {
-    const destination = path.join(workspace, `${MANIFEST}/_publication.json`)
+    const destination = path.join(workspace, `${manifestDir}/_publication.json`)
     fs.mkdirSync(path.dirname(destination), {recursive: true}); fs.writeFileSync(destination, replayAuthority)
-  } else put(workspace, `${MANIFEST}/_publication.json`, publication)
-  put(workspace, EFFECTIVE, snapshot)
-  put(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-shared-publication.json', {schema_version: 1, generated_at: new Date().toISOString(), failures: bundle.outcomes.filter(row => row.status === 'fallback').map(({record_id, code, message, detail}) => ({record_id, code, message, detail})), notices: bundle.notices || [], information: bundle.information || [],
+  } else put(workspace, `${manifestDir}/_publication.json`, publication)
+  put(workspace, effectiveFor(groupConfig.group), snapshot)
+  put(workspace, `packages/docs-tooling/src/lark/meta/reports/${groupConfig.group}-shared-publication.json`, {schema_version: 1, generated_at: new Date().toISOString(), failures: bundle.outcomes.filter(row => row.status === 'fallback').map(({record_id, code, message, detail}) => ({record_id, code, message, detail})), notices: bundle.notices || [], information: bundle.information || [],
     // Observability only: how far each published page's pins trail upstream. No
     // consumer gates on this and no re-pin is triggered here.
     upstream_lag: Object.fromEntries(bundle.outcomes.filter(row => row.upstream_lag).map(row => [row.record_id, {page: row.page, ...row.upstream_lag}]))})
   return {snapshot, publication}
 }
-function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = null} = {}) {
+function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = null, group = null} = {}) {
+  const groupConfig = sharedGroupConfig(group ?? groupOf(snapshot)), manifestDir = groupConfig.manifestDir
   const read = (root, file) => files ? (check(files.has(file), `missing retained file: ${file}`), files.get(file)) : regularBytes(root, file)
   const readJson = (root, file) => JSON.parse(read(root, file))
   const existsFile = file => files ? files.has(file) : fs.existsSync(path.join(workspace, file))
@@ -197,8 +211,8 @@ function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = nul
   for (const record of snapshot.records || []) if (record.source_kind === 'shared-page') {
     receipts.set(record.record_id, validatePublishedReceipt(readJson(workspace, record.shared_page.record), record, {workspace: verifyFiles ? workspace : undefined, snapshot, read}))
   }
-  const file = `${MANIFEST}/_publication.json`
-  if (receipts.size || existsFile(`${MANIFEST}/active.json`)) check(existsFile(file), 'missing final publication authority')
+  const file = `${manifestDir}/_publication.json`
+  if (receipts.size || existsFile(`${manifestDir}/active.json`)) check(existsFile(file), 'missing final publication authority')
   if (existsFile(file)) {
     const authority = readJson(workspace, file)
     check(authority.schema_version === 1 && authority.effective_sha256 === hashSnapshot(snapshot), 'effective snapshot binding mismatch')
@@ -211,15 +225,15 @@ function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = nul
     }
     check(Object.keys(proofs).every(id => receipts.has(id)), 'extra regeneration evidence')
     active = validateActiveState(authority.active)
-    if (authority.active.pages.length) check(equal(readJson(workspace, `${MANIFEST}/active.json`), authority.active), 'active state mismatch')
+    if (authority.active.pages.length) check(equal(readJson(workspace, `${manifestDir}/active.json`), authority.active), 'active state mismatch')
     const oldSnapshot = authority.baseline_snapshot ? JSON.parse(authority.baseline_snapshot) : null
-    if (authority.baseline_snapshot) check(git(workspace, ['show', `${authority.dev_commit}:${snapshotPath}`]).toString('utf8') === authority.baseline_snapshot, 'activation baseline snapshot mismatch')
+    if (authority.baseline_snapshot) check(git(workspace, ['show', `${authority.dev_commit}:${groupConfig.snapshotPath}`]).toString('utf8') === authority.baseline_snapshot, 'activation baseline snapshot mismatch')
     let oldActive = {schema_version: 1, pages: []}
-    const oldActivePath = `${MANIFEST}/active.json`
+    const oldActivePath = `${manifestDir}/active.json`
     const exists = git(workspace, ['ls-tree', authority.dev_commit, '--', oldActivePath]).length
     if (exists) oldActive = validateActiveState(JSON.parse(git(workspace, ['show', `${authority.dev_commit}:${oldActivePath}`])))
-    aliases.authenticate({workspace, devCommit: authority.dev_commit, evidence: authority.alias_evidence, git})
-    const recovered = aliases.recover({active: oldActive, previousSnapshot: oldSnapshot, evidence: authority.alias_evidence, recordIds: authority.active.pages.map(entry => entry.record)})
+    aliases.authenticate({workspace, devCommit: authority.dev_commit, evidence: authority.alias_evidence, git, group: groupConfig.group})
+    const recovered = aliases.recover({active: oldActive, previousSnapshot: oldSnapshot, evidence: authority.alias_evidence, recordIds: authority.active.pages.map(entry => entry.record), group: groupConfig.group})
     for (const old of oldActive.pages) aliases.verifyEnrichment(old, authority.active.pages.find(entry => entry.record === old.record), recovered.aliases[old.record] || [])
     for (const entry of authority.active.pages) if (!oldActive.pages.some(old => old.record === entry.record)) {
       const record = snapshot.records.find(row => row.record_id === entry.record)
@@ -229,12 +243,12 @@ function publishedEvidence(workspace, snapshot, {verifyFiles = true, files = nul
     }
     if (authority.fallbacks.length) {
       check(/^[a-f0-9]{40}$/.test(authority.dev_commit), 'invalid fallback baseline')
-      const pinned = git(workspace, ['show', `${authority.dev_commit}:${snapshotPath}`]).toString('utf8')
+      const pinned = git(workspace, ['show', `${authority.dev_commit}:${groupConfig.snapshotPath}`]).toString('utf8')
       check(pinned === authority.baseline_snapshot, 'fallback snapshot is not pinned baseline')
       const previous = JSON.parse(pinned)
-      const baselineFiles = gitInventory(workspace, authority.dev_commit, ['content/en/guides', 'content/en/byoc'])
-      const previousPublication = git(workspace, ['ls-tree', authority.dev_commit, '--', publicationPath]).length
-        ? JSON.parse(git(workspace, ['show', `${authority.dev_commit}:${publicationPath}`])) : null
+      const baselineFiles = gitInventory(workspace, authority.dev_commit, [...new Set([...groupConfig.byManual.values()].map(entry => entry.treeRoot))])
+      const previousPublication = git(workspace, ['ls-tree', authority.dev_commit, '--', groupConfig.publicationPath]).length
+        ? JSON.parse(git(workspace, ['show', `${authority.dev_commit}:${groupConfig.publicationPath}`])) : null
       for (const fallback of authority.fallbacks) {
         const old = previous.records.find(row => row.record_id === fallback.record.record_id)
         check(old && equal(old, fallback.record) && equal(old, snapshot.records.find(row => row.record_id === old.record_id)), 'fallback canonical record mismatch')
@@ -262,7 +276,7 @@ function baselineRefHref(handoff, ref, canonicalSlug, manual, workspace) {
     parts.unshift(current.slug || require('slugify')(current.title, {lower: true, strict: true}))
   }
   const key = `ref:tutorials/${[require('./guidesTableSlugs').guidesTableSlug('en', old.table_name || old.table_id), ...parts, old.slug || canonicalSlug].join('/')}`
-  const sidebarPath = `generated/en/sidebars/${manual === 'guides' ? 'guides' : 'guides-byoc'}.sidebar.js`
+  const sidebarPath = sidebarPathFor(manual)
   const bytes = git(workspace, ['show', `${handoff.bundle.dev_commit}:${sidebarPath}`])
   const sandbox = {module: {exports: {}}}
   require('node:vm').runInNewContext(bytes.toString('utf8'), sandbox, {timeout: 1000})
@@ -285,7 +299,7 @@ function projectFallbackSidebar(items, handoff, manual, workspace = null) {
   // retained baselines without a sidebar are reconstructed from authenticated navigation.
   let historical = null
   if (workspace) {
-    const file = `generated/en/sidebars/${manual}.sidebar.js`
+    const file = sidebarPathFor(manual)
     if (git(workspace, ['ls-tree', handoff.bundle.dev_commit, '--', file]).length) {
       const sandbox = {module: {exports: {}}}
       require('node:vm').runInNewContext(git(workspace, ['show', `${handoff.bundle.dev_commit}:${file}`]).toString(), sandbox, {timeout: 1000})
@@ -347,7 +361,7 @@ function projectFallbackSidebar(items, handoff, manual, workspace = null) {
   for (const outcome of handoff.bundle.outcomes) if (outcome.status === 'fallback') {
     const nav = byId.get(outcome.record_id)
     for (const output of outcome.baseline.outputs) {
-      const prefix = `content/en/${manual === 'guides' ? 'guides' : 'byoc'}/`
+      const prefix = `${resolveManualPublication(manual, 'en').publication.contentRoot}/`
       if (!output.path.startsWith(prefix)) continue
       check(nav, 'missing fallback sidebar navigation')
       const id = output.path.slice(prefix.length).replace(/\.mdx?$/, '')
@@ -376,17 +390,18 @@ function projectFallbackSidebar(items, handoff, manual, workspace = null) {
 // The source artifact carries those exact bytes so fresh workers need no source generation.
 function requestedBaseline(workspace, devCommit, snapshot) {
   if (!snapshot?.records?.some(row => row.source_kind === 'shared-page')) return null
+  const group = groupOf(snapshot), groupConfig = sharedGroupConfig(group)
   check(/^[a-f0-9]{40}$/.test(devCommit), 'requested inheritance requires pinned baseline')
-  const baselineBytes = git(workspace, ['show', `${devCommit}:${snapshotPath}`])
+  const baselineBytes = git(workspace, ['show', `${devCommit}:${groupConfig.snapshotPath}`])
   check(hashSnapshot(JSON.parse(baselineBytes)) === hashSnapshot(snapshot), 'requested baseline snapshot differs from pinned dev')
-  const paths = new Set([snapshotPath, `${MANIFEST}/_publication.json`, `${MANIFEST}/active.json`])
+  const paths = new Set([groupConfig.snapshotPath, `${groupConfig.manifestDir}/_publication.json`, `${groupConfig.manifestDir}/active.json`])
   for (const record of snapshot.records) if (record.source_kind === 'shared-page') {
     paths.add(record.shared_page.record); record.output_paths.forEach(file => paths.add(file))
   }
-  const authority = JSON.parse(git(workspace, ['show', `${devCommit}:${MANIFEST}/_publication.json`]))
+  const authority = JSON.parse(git(workspace, ['show', `${devCommit}:${groupConfig.manifestDir}/_publication.json`]))
   for (const fallback of authority.fallbacks || []) fallback.outputs.forEach(output => paths.add(output.path))
   const files = new Map([...paths].sort().map(file => [file, git(workspace, ['show', `${devCommit}:${file}`])]))
-  return {files, snapshot, evidence: publishedEvidence(workspace, snapshot, {files}), devCommit}
+  return {files, snapshot, evidence: publishedEvidence(workspace, snapshot, {files}), devCommit, group}
 }
 function continuationRouting(records, previous, active) {
   const shared = previous.records.filter(row => row.source_kind === 'shared-page')
@@ -395,6 +410,7 @@ function continuationRouting(records, previous, active) {
     sharedInputsByRecordId: new Map(shared.map(row => [row.record_id, row.shared_page]))})
 }
 function validateContinuation(files, expected = {}) {
+  const group = expected.group ?? 'guides', groupConfig = sharedGroupConfig(group)
   const descriptor = JSON.parse(files.get('continuation.json'))
   check(descriptor.schema_version === 1 && /^[a-f0-9]{40}$/.test(descriptor.master_commit)
     && /^[a-f0-9]{40}$/.test(descriptor.dev_commit) && /^[a-f0-9]{64}$/.test(descriptor.candidate_sha256), 'invalid requested continuation identity')
@@ -409,8 +425,8 @@ function validateContinuation(files, expected = {}) {
     retained.set(entry.path, bytes)
   }
   check(files.size === retained.size + 1, 'extra requested continuation files')
-  const previous = JSON.parse(retained.get(snapshotPath)), authority = JSON.parse(retained.get(`${MANIFEST}/_publication.json`))
-  const allowed = new Set([snapshotPath, `${MANIFEST}/_publication.json`, `${MANIFEST}/active.json`])
+  const previous = JSON.parse(retained.get(groupConfig.snapshotPath)), authority = JSON.parse(retained.get(`${groupConfig.manifestDir}/_publication.json`))
+  const allowed = new Set([groupConfig.snapshotPath, `${groupConfig.manifestDir}/_publication.json`, `${groupConfig.manifestDir}/active.json`])
   const receipts = new Map()
   for (const record of previous.records) if (record.source_kind === 'shared-page') {
     allowed.add(record.shared_page.record); record.output_paths.forEach(file => allowed.add(file))
@@ -421,8 +437,8 @@ function validateContinuation(files, expected = {}) {
   check(receipts.size && allowed.size === retained.size && [...allowed].every(file => retained.has(file)), 'requested continuation output set mismatch')
   check(authority.effective_sha256 === hashSnapshot(previous), 'requested continuation authority mismatch')
   validateActiveState(authority.active)
-  check(equal(JSON.parse(retained.get(`${MANIFEST}/active.json`)), authority.active), 'requested continuation active mismatch')
-  return {continuation: descriptor, retained, receipts, files,
+  check(equal(JSON.parse(retained.get(`${groupConfig.manifestDir}/active.json`)), authority.active), 'requested continuation active mismatch')
+  return {group, continuation: descriptor, retained, receipts, files,
     bundle: {master_commit: descriptor.master_commit, dev_commit: descriptor.dev_commit, effective_active: authority.active,
       navigation: {navigationRecords: previous.navigation_records, tableDigests: previous.table_digests},
       preparation: {records: descriptor.records, previous_snapshot: previous},
@@ -447,13 +463,14 @@ function authenticateContinuation(workspace, handoff, candidate) {
 }
 function writeContinuation({workspace, baseline, records, candidate, masterCommit}) {
   if (!baseline) return null
-  const root = path.join(workspace, require('./sharedPageBundle').ROOT)
+  const group = baseline.group ?? groupOf(baseline.snapshot)
+  const root = path.join(workspace, sharedGroupConfig(group).bundleRoot)
   check(!fs.existsSync(root), 'requested continuation destination already exists')
   const descriptor = {schema_version: 1, master_commit: masterCommit, dev_commit: baseline.devCommit,
     candidate_sha256: hashSnapshot(candidate), records,
     inventory: [...baseline.files].map(([path, bytes]) => ({path, sha256: digest(bytes)}))}
   const files = new Map([['continuation.json', Buffer.from(JSON.stringify(descriptor))], ...[...baseline.files].map(([file, bytes]) => [`retained/${file}`, bytes])])
-  const handoff = validateContinuation(files)
+  const handoff = validateContinuation(files, {group})
   authenticateContinuation(workspace, handoff, candidate)
   for (const [file, bytes] of files) {const target = path.join(root, file); fs.mkdirSync(path.dirname(target), {recursive: true}); fs.writeFileSync(target, bytes)}
   return handoff
@@ -464,12 +481,13 @@ function finalizeContinuation({workspace, handoff, candidate}) {
   for (const record of candidate.records) if (record.source_kind === 'shared-page') for (const file of record.output_paths) {
     check(regularBytes(workspace, file).equals(handoff.retained.get(file)), 'requested shared output changed')
   }
-  for (const [file, bytes] of handoff.retained) if (file.startsWith(`${MANIFEST}/`)) {
+  const manifestDir = sharedGroupConfig(handoff.group ?? 'guides').manifestDir
+  for (const [file, bytes] of handoff.retained) if (file.startsWith(`${manifestDir}/`)) {
     const target = path.join(workspace, file); fs.mkdirSync(path.dirname(target), {recursive: true}); fs.writeFileSync(target, bytes)
   }
-  const authority = JSON.parse(handoff.retained.get(`${MANIFEST}/_publication.json`))
+  const authority = JSON.parse(handoff.retained.get(`${manifestDir}/_publication.json`))
   authority.effective_sha256 = hashSnapshot(candidate); authority.observed_sha256 = hashSnapshot(candidate)
-  put(workspace, `${MANIFEST}/_publication.json`, authority); put(workspace, EFFECTIVE, candidate)
+  put(workspace, `${manifestDir}/_publication.json`, authority); put(workspace, effectiveFor(handoff.group ?? 'guides'), candidate)
   publishedEvidence(workspace, candidate)
   return {snapshot: candidate, publication: authority}
 }

@@ -1,4 +1,5 @@
 /** Pure handoff validation. Filesystem, Git and Feishu access belong to adapters. */
+import { isSharedDocGroup } from '../groups'
 export type SourceRoute =
   | {kind: 'feishu'; token: string; url: string}
   | {kind: 'shared-page'; group: string; page: string; directory: string; url: string}
@@ -6,13 +7,14 @@ export type SourceRoute =
 export interface SharedPageIdentity {group: string; page: string; inputs_sha256: string; record: string}
 export interface ActivePage {page: string; record: string; feishu_token: string | null; feishu_aliases?: string[]; anchors: Record<string, string>; activated_in: string}
 export interface ActiveState {schema_version: 1; pages: ActivePage[]}
+export interface SharedRenderTarget {manual: string; path: string; extension: '.md' | '.mdx'; navigation: {sidebar_label: string; sidebar_position: number}; channel: 'current' | 'next' | 'retire-in-next'}
 export interface SharedReceipt {
   schema_version: 1; page: string; token: string
   inputs: {
     milvus_docs: {repository: string; current: string; next: string; files: {path: string; current: string | null; next: string | null}[]}
     zdoc: {repository: string; commit: string; files: {path: string; sha256: string}[]}
     dev: {commit: string; files: {path: string; sha256: string}[]}
-    'fetch': {navigation: string | {navigationRecords: Record<string, any>[]; tableDigests: Record<string, string>}; image_base_url: string; render_targets?: {schema_version: 1; targets: {manual: 'guides' | 'guides-byoc'; path: string; extension: '.md' | '.mdx'; navigation: {sidebar_label: string; sidebar_position: number}; channel: 'current' | 'next' | 'retire-in-next'}[]}; active?: ActivePage | null}
+    'fetch': {navigation: string | {navigationRecords: Record<string, any>[]; tableDigests: Record<string, string>}; image_base_url: string; render_targets?: {schema_version: 1; targets: SharedRenderTarget[]}; active?: ActivePage | null}
     tools: {zdoc: string; md2md: string; engine_sha256?: string}
     images: {source: string; sha256: string; object: string}[]
     variants?: {channel: 'current' | 'next'; path: string; sha256: string; pull: number; head_sha: string; adopted_at: string; adopted_via?: string}[]
@@ -20,7 +22,15 @@ export interface SharedReceipt {
   outputs: {manual: string; path: string; sha256: string}[]
   channel: null | 'next' | 'retire-in-next'; notes: string[]
 }
-const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+/** Publication facts a validator must know to authenticate one group's receipts.
+ *  Callers derive them from the pinned overlay `source.yaml` and the manuals
+ *  registry; omitting them selects the historical Guides layout byte-for-byte. */
+export interface SharedReceiptExpectation {group: string; page: string;
+  upstreamRepository?: string;
+  renderManuals?: readonly {manual: string; contentRoot: string}[]}
+const GUIDES_RENDER_MANUALS: readonly {manual: string; contentRoot: string}[] = [
+  {manual: 'guides', contentRoot: 'content/en/guides'}, {manual: 'guides-byoc', contentRoot: 'content/en/byoc'}]
+const SLUG = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/
 const TOKEN = /^[A-Za-z0-9_-]+$/
 const SHA = /^[a-f0-9]{64}$/
 const COMMIT = /^[a-f0-9]{40}$/
@@ -44,14 +54,14 @@ export function sharedReceiptPath(group: string, page: string) {
   return `generated/en/manifests/shared-pages/${group}/${page}.json`
 }
 export function classifySourceRoute(value: unknown, context: {availablePages?: readonly string[]} = {}): SourceRoute {
-  const invalid: SourceRoute = {kind: 'invalid', code: 'OWNERSHIP_CONFIG_MISSING', message: 'Canonical Docs must select a valid Feishu document or an existing shared Guides page at pinned master'}
+  const invalid: SourceRoute = {kind: 'invalid', code: 'OWNERSHIP_CONFIG_MISSING', message: 'Canonical Docs must select a valid Feishu document or an existing shared page at pinned master'}
   if (typeof value !== 'string') return invalid
   // Match the original bytes: URL parsing would normalize traversal and encoded paths.
-  const shared = /^https:\/\/github\.com\/zilliztech\/zdoc\/tree\/master\/shared-docs\/([a-z0-9]+(?:-[a-z0-9]+)*)\/pages\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/.exec(value)
+  const shared = /^https:\/\/github\.com\/zilliztech\/zdoc\/tree\/master\/shared-docs\/([a-z0-9]+(?:-[a-z0-9]+)*)\/pages\/([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\/?$/.exec(value)
   if (shared) {
     const [, group, page] = shared
     if (page === 'active') return {kind: 'invalid', code: 'OWNERSHIP_PATH_MISMATCH', message: 'Shared page name active is reserved for activation metadata'}
-    return group === 'guides' && context.availablePages?.includes(`${group}/${page}`)
+    return isSharedDocGroup(group) && context.availablePages?.includes(`${group}/${page}`)
       ? {kind: 'shared-page', group, page, directory: `shared-docs/${group}/pages/${page}`, url: value} : invalid
   }
   try {
@@ -97,7 +107,7 @@ export function validateActiveState(value: unknown): ActiveState {
 export function validateSharedPageIdentity(value: unknown): SharedPageIdentity {
   keys(value, ['group', 'page', 'inputs_sha256', 'record'], 'Shared page identity')
   const identity = value as SharedPageIdentity
-  assert(identity.group === 'guides' && matches(identity.page, SLUG), 'Invalid shared page group/page')
+  assert(isSharedDocGroup(identity.group) && matches(identity.page, SLUG), 'Invalid shared page group/page')
   assert(matches(identity.inputs_sha256, SHA), 'Invalid shared input digest')
   assert(identity.record === sharedReceiptPath(identity.group, identity.page), 'Invalid shared receipt path')
   return identity
@@ -126,7 +136,7 @@ export function sharedSourceProjection(record: Record<string, any>) {
   validateSharedSnapshotRecord(record)
   return {source_kind: 'shared-page', shared_page: {...record.shared_page}}
 }
-export function validateSharedReceipt(value: unknown, expected: {group: string; page: string}): SharedReceipt {
+export function validateSharedReceipt(value: unknown, expected: SharedReceiptExpectation): SharedReceipt {
   sharedReceiptPath(expected.group, expected.page)
   keys(value, ['schema_version', 'page', 'token', 'inputs', 'outputs', 'channel', 'notes'], 'Shared receipt')
   const receipt = value as SharedReceipt
@@ -134,7 +144,7 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
   keys(receipt.inputs, ['milvus_docs', 'zdoc', 'dev', 'fetch', 'tools', 'images', ...(Object.hasOwn(receipt.inputs, 'variants') ? ['variants'] : [])], 'Shared receipt inputs')
   const {milvus_docs: upstream, zdoc, dev, 'fetch': fetchInputs, tools, images} = receipt.inputs
   keys(upstream, ['repository', 'current', 'next', 'files'], 'Shared upstream')
-  assert(upstream.repository === 'milvus-io/milvus-docs' && matches(upstream.current, COMMIT) && matches(upstream.next, COMMIT), 'Invalid upstream commits/repository')
+  assert(upstream.repository === (expected.upstreamRepository ?? 'milvus-io/milvus-docs') && matches(upstream.current, COMMIT) && matches(upstream.next, COMMIT), 'Invalid upstream commits/repository')
   const files = (entries: unknown, fields: string[], label: string) => {
     assert(Array.isArray(entries), `${label} must be an array`)
     const paths = new Set()
@@ -157,17 +167,19 @@ export function validateSharedReceipt(value: unknown, expected: {group: string; 
     keys(projection, ['schema_version', 'targets'], 'Shared render targets')
     assert(projection.schema_version === 1 && Array.isArray(projection.targets) && projection.targets.length > 0 && projection.targets.length <= 2
       && Array.isArray(receipt.outputs) && receipt.outputs.length === projection.targets.length, 'Invalid render target version or output set')
+    const renderManuals = expected.renderManuals ?? GUIDES_RENDER_MANUALS
     const manuals = new Set<string>()
     for (const target of projection.targets) {
       keys(target, ['manual', 'path', 'extension', 'navigation', 'channel'], 'Shared render target')
-      assert(['guides', 'guides-byoc'].includes(target.manual) && !manuals.has(target.manual), 'Invalid render target manual'); manuals.add(target.manual)
+      const root = renderManuals.find(entry => entry.manual === target.manual)?.contentRoot
+      assert(root !== undefined && !manuals.has(target.manual), 'Invalid render target manual'); manuals.add(target.manual)
       assert(safeHandoffPath(target.path) && ['.md', '.mdx'].includes(target.extension), 'Invalid render target path/extension')
       keys(target.navigation, ['sidebar_label', 'sidebar_position'], 'Shared render navigation')
       text(target.navigation.sidebar_label, 'Render label')
       assert(Number.isSafeInteger(target.navigation.sidebar_position) && target.navigation.sidebar_position > 0, 'Invalid render position')
       assert(target.channel === (receipt.channel || 'current'), 'Render channel mismatch')
       const output = receipt.outputs?.find(output => output.manual === target.manual)
-      assert(output?.path === `content/en/${target.manual === 'guides' ? 'guides' : 'byoc'}/${target.path}${target.extension}`, 'Render output path mismatch')
+      assert(output?.path === `${root}/${target.path}${target.extension}`, 'Render output path mismatch')
     }
   }
   if (typeof fetchInputs.navigation === 'string') assert(matches(fetchInputs.navigation, SHA), 'Invalid Fetch navigation digest')

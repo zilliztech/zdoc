@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
 const {loadTypeScript} = require('../lib/load-typescript')
-const {digest, git, gitBlobs, gitInventory, regularBytes, snapshotPath} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
+const {digest, git, gitBlobs, gitInventory, regularBytes} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
 const {validateSharedReceipt} = require('../../packages/docs-tooling/src/lark/sharedPageRouting')
 const {validateImageBaseUrl} = require('../../packages/docs-tooling/src/lark/sharedImageUploader')
 const {runBuild} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/commands/build.ts'))
@@ -15,9 +15,13 @@ const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 const outputKey = row => `${row.manual}:${row.path}`
 const sorted = rows => [...rows].sort((a, b) => outputKey(a).localeCompare(outputKey(b)))
 const projected = rows => sorted(rows).map(({manual, path, sha256}) => ({manual, path, sha256}))
-const devRoots = ['content/en/guides', 'content/en/byoc', snapshotPath, 'generated/en/manifests/shared-pages/guides']
+const {sharedGroupConfig} = require('../../packages/docs-tooling/src/lark/sharedGroups')
+// Dev verification roots per group: the group's manual trees plus the group-owned
+// snapshot and receipt roots. For guides this reproduces the historical literal list.
+const devRootsFor = group => [...groupDevRoots(group), sharedGroupConfig(group).snapshotPath, `generated/en/manifests/shared-pages/${group}`]
+const groupDevRoots = group => [...new Set([...sharedGroupConfig(group).byManual.values()].map(entry => entry.treeRoot))].sort()
 function mismatch(page, file, expected, actual, manual = null, message = 'Receipt regeneration differs') {
-  const detail = [{page, manual, file, expected, actual, configuration: `shared-docs/guides/pages/${page}/page.yaml`}]
+  const detail = [{page, manual, file, expected, actual, configuration: `shared-docs/pages/${page}/page.yaml`}]
   return Object.assign(new Error(`[PUBLISH_REGEN_MISMATCH] ${page}: ${message}: ${file}; expected ${expected}; actual ${actual}`), {code: 'PUBLISH_REGEN_MISMATCH', detail})
 }
 function requireEqual(a, b, receipt, file, message) { if (!equal(a, b)) throw mismatch(receipt.page, file, digest(JSON.stringify(a)), digest(JSON.stringify(b)), null, message) }
@@ -101,34 +105,36 @@ function validateRegenerationEvidence(proof, receipt, outputs) {
 }
 async function regenerateReceipt(options, dependencies = {}) {
   const {receipt, navigation, repositoryRoot, baselineRoot, repo, scratch, outputs, readAcceptedImage} = options
+  const overlayRoot = `shared-docs/${receipt.shared_page?.group ?? 'guides'}`
   let fresh
   try {
-    validateSharedReceipt(receipt, {group: 'guides', page: receipt.page})
+    validateSharedReceipt(receipt, {group: receipt.shared_page?.group ?? 'guides', page: receipt.page})
     if (!receipt.inputs.fetch.render_targets) throw Error('Legacy receipt is upgrade-comparison-only; no live replay proof')
     const inputs = receipt.inputs, base = validateImageBaseUrl(inputs.fetch.image_base_url)
     requireEqual(draftInputs(receipt).fetch.navigation, digest(JSON.stringify(navigation)), receipt, 'navigation', 'Navigation digest mismatch')
     await (dependencies.assertToolIdentity || assertToolIdentity)(inputs.tools)
-    verifyInventory(repositoryRoot, inputs.zdoc.commit, ['shared-docs/guides'], inputs.zdoc.files, receipt)
-    verifyInventory(baselineRoot, inputs.dev.commit, devRoots, inputs.dev.files, receipt)
+    verifyInventory(repositoryRoot, inputs.zdoc.commit, [`shared-docs/${receipt.shared_page?.group ?? 'guides'}`], inputs.zdoc.files, receipt)
+    verifyInventory(baselineRoot, inputs.dev.commit, devRootsFor(receipt.shared_page?.group ?? 'guides'), inputs.dev.files, receipt)
     for (const version of ['current', 'next']) verifyInventory(repo, inputs.milvus_docs[version], ['site/en'],
       inputs.milvus_docs.files.filter(file => file[version]).map(file => ({path: file.path, sha256: file[version]})), receipt)
     fs.mkdirSync(scratch, {recursive: true}); fresh = fs.mkdtempSync(path.join(scratch, 'receipt-replay-'))
     const master = path.join(fresh, 'master'), dev = path.join(fresh, 'dev'), upstream = path.join(fresh, 'upstream')
     hydrate(repositoryRoot, inputs.zdoc.commit, inputs.zdoc.files, master, receipt)
     hydrate(baselineRoot, inputs.dev.commit, inputs.dev.files, dev, receipt)
-    for (const manual of ['guides', 'byoc']) fs.mkdirSync(path.join(dev, 'content/en', manual), {recursive: true})
+    for (const root of groupDevRoots(receipt.shared_page?.group ?? 'guides')) fs.mkdirSync(path.join(dev, root), {recursive: true})
     // A local object-only clone supplies ancestry without reading a mutable checkout or branch head.
     git(fresh, ['clone', '--quiet', '--shared', '--no-checkout', '--', path.resolve(repo), upstream])
-    const source = yaml.load(fs.readFileSync(path.join(master, 'shared-docs/guides/source.yaml'), 'utf8'))
+    const overlayRoot = `shared-docs/${receipt.shared_page?.group ?? 'guides'}`
+    const source = yaml.load(fs.readFileSync(path.join(master, `${overlayRoot}/source.yaml`), 'utf8'))
     git(upstream, ['update-ref', `refs/heads/${source.track}`, inputs.milvus_docs.next])
-    const configFile = `shared-docs/guides/pages/${receipt.page}/page.yaml`
+    const configFile = `${overlayRoot}/pages/${receipt.page}/page.yaml`
     const config = yaml.load(fs.readFileSync(path.join(master, configFile), 'utf8'))
-    const lock = yaml.load(fs.readFileSync(path.join(master, `shared-docs/guides/pages/${receipt.page}/lock.yaml`), 'utf8'))
+    const lock = yaml.load(fs.readFileSync(path.join(master, `${overlayRoot}/pages/${receipt.page}/lock.yaml`), 'utf8'))
     for (const version of ['current', 'next']) requireEqual(inputs.milvus_docs[version], lock[version], receipt, configFile, 'Lock identity differs')
     // Adopted variant claims must match the hydrated pinned tree: same files, same digests,
     // same provenance. Either side drifting is a receipt integrity failure.
     const readVariantFile = name => {
-      try { return fs.readFileSync(path.join(master, 'shared-docs/guides/pages', receipt.page, name), 'utf8') }
+      try { return fs.readFileSync(path.join(master, overlayRoot, 'pages', receipt.page, name), 'utf8') }
       catch (error) { if (error.code === 'ENOENT') return undefined; throw error }
     }
     const rawVariants = {}
@@ -145,10 +151,11 @@ async function regenerateReceipt(options, dependencies = {}) {
     const targets = structuredClone(inputs.fetch.render_targets.targets)
     const row = navigation.navigationRecords.filter(row => row.source_kind === 'shared-page' && row.shared_page?.page === receipt.page)
     if (row.length !== 1) throw Error('Missing unique authenticated render record')
-    const previous = inputs.dev.files.some(file => file.path === snapshotPath) ? JSON.parse(fs.readFileSync(path.join(dev, snapshotPath))).records.find(record => record.record_id === row[0].record_id) : null
+    const groupSnapshot = sharedGroupConfig(receipt.shared_page?.group ?? 'guides').snapshotPath
+    const previous = inputs.dev.files.some(file => file.path === groupSnapshot) ? JSON.parse(fs.readFileSync(path.join(dev, groupSnapshot))).records.find(record => record.record_id === row[0].record_id) : null
     for (const target of targets) {
       if (!config.publish.some(item => item.manual === target.manual && item.path === target.path)) throw mismatch(receipt.page, configFile, 'configured target', JSON.stringify(target), target.manual)
-      const root = `content/en/${target.manual === 'guides' ? 'guides' : 'byoc'}`
+      const root = sharedGroupConfig(receipt.shared_page?.group ?? 'guides').byManual.get(target.manual).contentRoot
       const old = (previous?.output_paths || []).filter(file => file.startsWith(`${root}/`) && /\.mdx?$/.test(file))
       const existing = ['.md', '.mdx'].filter(ext => fs.existsSync(path.join(dev, root, target.path + ext)))
       const extension = old.length ? path.extname(old[0]) : existing[0] || '.mdx'
@@ -164,21 +171,21 @@ async function regenerateReceipt(options, dependencies = {}) {
     const fetchContext = {page: receipt.page, targets, recordedImages: new Map(inputs.images.map(image => [image.source, image.sha256])),
       records: navigation.navigationRecords.map(row => ({record_id: row.record_id, slug: row.slug, placement_type: row.placement_type, publish_targets: row.targets, output_paths: {}}))}
     let built, log = ''
-    const code = await runBuild({sharedDocs: path.join(master, 'shared-docs/guides'), repo: upstream, dev, out: path.join(fresh, 'built'), page: receipt.page},
+    const code = await runBuild({sharedDocs: path.join(master, overlayRoot), repo: upstream, dev, out: path.join(fresh, 'built'), page: receipt.page},
       text => {log += text}, {repositoryRoot: master, fetchContext, fetcher: {async fetch(source) {if (!accepted.has(source)) throw Error(`Unrecorded image: ${source}`); return Uint8Array.from(accepted.get(source))}},
         readAcceptedImage: async source => {if (!accepted.has(source)) throw Error(`Missing accepted image: ${source}`); return Uint8Array.from(accepted.get(source))}, onBuilt: pages => {built = pages}})
     if (code || !built) throw Error(`Independent build failed: ${log}`)
     const replayImages = new Map()
     for (const output of built) for (const image of output.images) replayImages.set(image.original, {source: image.original, sha256: image.sha256, object: image.address})
     requireEqual([...replayImages.values()].sort((a, b) => a.source.localeCompare(b.source)), [...inputs.images].sort((a, b) => a.source.localeCompare(b.source)), receipt, 'images', 'Image manifest differs')
-    const rebuilt = built.map(output => ({manual: output.manual, path: `content/en/${output.manual === 'guides' ? 'guides' : 'byoc'}/${output.path}${output.extension}`,
+    const rebuilt = built.map(output => ({manual: output.manual, path: `${sharedGroupConfig(receipt.shared_page?.group ?? 'guides').byManual.get(output.manual).contentRoot}/${output.path}${output.extension}`,
       bytes: Buffer.from(rewriteImageDestinations(output.mdx, inputs.images, base))}))
     compareOutputs(receipt, outputs, rebuilt)
     return validateRegenerationEvidence({schema_version: 1, page: receipt.page, inputs_sha256: digest(JSON.stringify(draftInputs(receipt))),
       channel: receipt.channel, tools: structuredClone(inputs.tools), outputs: projected(receipt.outputs)}, receipt, rebuilt)
   } catch (error) {
     if (error.code === 'PUBLISH_REGEN_MISMATCH') throw error
-    throw mismatch(receipt.page, `shared-docs/guides/pages/${receipt.page}/page.yaml`, 'verified receipt replay', error.message)
+    throw mismatch(receipt.page, `${overlayRoot}/pages/${receipt.page}/page.yaml`, 'verified receipt replay', error.message)
   } finally { if (fresh) fs.rmSync(fresh, {recursive: true, force: true}) }
 }
 module.exports = {regenerateReceipt, validateRegenerationEvidence, rewriteImageDestinations, assertToolIdentity, hydrate}
