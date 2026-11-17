@@ -262,3 +262,17 @@ it('admits only a bounded next allocation above the strict filesystem floor', as
     {available: 8 * GiB, blockSize: 0, existing: 0},
   ]) expect(() => module.checkBatchAllocation(input, GiB, 1)).toThrow()
 })
+
+it('reserves the original batch journal temporary allocation before any write', async () => {
+  const {root, repo} = await fixture(), actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+  vi.resetModules()
+  vi.doMock('node:fs/promises', () => ({...actual, statfs: async () => ({bavail: 262144n, bsize: 4096n})}))
+  try {
+    const api = await import('../../adapters/updates/evidence')
+    const out = join(root, 'journal-floor'), store = await api.initializeEvidence({root: out, repositories: [repo], owner: 'floor'})
+    api.bindBatchResources(store, 3)
+    const before = await actual.readdir(out)
+    await expect(store.writeJournal('measurement.json', Buffer.from('{}'))).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
+    expect(await actual.readdir(out)).toEqual(before)
+  } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
+})

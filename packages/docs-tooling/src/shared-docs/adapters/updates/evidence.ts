@@ -223,6 +223,7 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
       return readBlob(ref)
     },
     async writeJournal(path, bytes) {
+      await reserveBatchAllocation(store, bytes.length, 2)
       RepoPathSchema.parse(path)
       if (path.includes('/') || path === '.owner.json' || path === 'blobs') throw new Error('Invalid journal path')
       await verify()

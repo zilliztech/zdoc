@@ -805,11 +805,25 @@ function sampleBatchOperation(root: string) {
     const timer=setInterval(tick,100);tick();
     parentPort.once('message',async()=>{stopped=true;clearInterval(timer);await Promise.all([rssWork,diskWork]);const end=performance.now();parentPort.postMessage({elapsedMs:Math.ceil(end-start),intervalMs:100,peakSampledRssBytes:rssPeak,sampledAllocatedDiskHighWaterBytes:diskPeak,rssSamples:rssCount,diskSamples:diskCount,maximumRssGapMs:Math.max(rssGap,Math.ceil(end-lastRss)),maximumDiskGapMs:Math.max(diskGap,Math.ceil(end-lastDisk)),sampleErrors:errors,exactOsLifetimePeak:false});parentPort.close();});
   `, {eval: true, workerData: {root, pid: process.pid}, env: {PATH: '/usr/bin:/bin', LC_ALL: 'C'}})
-  const metrics = new Promise<Record<string, number | boolean>>((resolve, reject) => {worker.once('message', resolve); worker.once('error', reject)})
+  let received = false
+  const metrics = new Promise<Record<string, number | boolean>>((resolve, reject) => {
+    worker.once('message', value => {received = true; resolve(value)})
+    worker.once('error', reject)
+    worker.once('exit', () => {if (!received) reject(Error('BATCH_SAMPLER_FAILED'))})
+  })
   const settled = new Promise<void>((resolve, reject) => worker.once('exit', code => code === 0 ? resolve() : reject(Error('BATCH_SAMPLER_FAILED'))))
-  // Attach rejection observers immediately, including while the operation runs.
+  const signal = currentBatchLifetime()?.signal, abort = () => {void worker.terminate().catch(() => {})}
+  signal?.addEventListener('abort', abort, {once: true})
+  worker.once('exit', () => signal?.removeEventListener('abort', abort))
+  if (signal?.aborted) abort()
+  // Observe rejection immediately, and always settle the owned thread before
+  // a diagnostic failure can change the final live result.
   void metrics.catch(() => {}); void settled.catch(() => {})
-  return async () => {worker.postMessage('stop'); const result = await metrics; await settled; return result}
+  return async () => {
+    try {worker.postMessage('stop'); const result = await metrics; await settled; return result}
+    catch (error) {await worker.terminate(); await settled.catch(() => {}); throw error}
+  }
+
 }
 async function collectCompleteBatch(options: Readonly<{sourceRepository: string; out: string}>, replay?: {
   zdocRepository: string; capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number
@@ -818,7 +832,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
   const result = (status: BatchCollectionResult['status'], reasons: readonly string[], index: BatchBlobRef | null = null): BatchCollectionResult =>
     immutable({kind: 'guides-batch-collection-v1', observation, status, writeEligible: false, operations: [], reasons, index})
   return withBatchLifetime(async () => {
-    let store: EvidenceStore | undefined, stopSampling: ReturnType<typeof sampleBatchOperation> | undefined
+    let store: EvidenceStore | undefined, stopSampling: ReturnType<typeof sampleBatchOperation> | undefined, publicationConfirmed = false
     try {
       if (Object.keys(options).sort().join(',') !== 'out,sourceRepository' || typeof options.sourceRepository !== 'string' || typeof options.out !== 'string') invalid()
       const repository = replay?.zdocRepository ?? toolingRoot, source = await realpath(options.sourceRepository), out = resolve(options.out)
@@ -861,16 +875,26 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       const qualified = await qualifyMaterialTicket(material.ticket, observation, true)
       try {currentBatchLifetime()!.check()} catch {return result('held', ['PUBLICATION_OUTCOME_UNCONFIRMED'])}
       if (qualified.status === 'held') return result('held', qualified.reasons)
+      publicationConfirmed = true
       return result('collected', [], qualified.indexRef)
     } catch (error) {
       const message = error instanceof Error ? error.message : ''
       return result('held', [/^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_COLLECTION_FAILED'])
     } finally {
       if (stopSampling && store) {
-        const metrics = {kind: 'guides-batch-measurement-v1', observation, ...await stopSampling(), resources: batchResourceMeasurement(store) ?? null, pages: operationMeasurements.get(store)?.pages ?? [],
-          signedProducerCapacity: 'deferred'}
-        // Diagnostics cannot confer authority. Retain them separately from I/Q/C.
-        try {const bytes = canonicalBytes(metrics); if (bytes.length <= 65536) await store.writeJournal('measurement.json', bytes)} catch { /* leave existing raw evidence intact */ }
+        let failure = 'BATCH_SAMPLER_FAILED'
+        try {
+          const metrics = {kind: 'guides-batch-measurement-v1', observation, ...await stopSampling(), resources: batchResourceMeasurement(store) ?? null, pages: operationMeasurements.get(store)?.pages ?? [],
+            signedProducerCapacity: 'deferred'}
+          failure = 'BATCH_MEASUREMENT_FAILED'
+          const bytes = canonicalBytes(metrics)
+          if (bytes.length > 65536) throw Error('BATCH_MEASUREMENT_LIMIT')
+          // The original store reserves temporary allocation before writing.
+          await store.writeJournal('measurement.json', bytes)
+        } catch {
+          const descriptor = publicationConfirmed || await lstat(join(store.root, 'index.json')).then(() => true, () => false)
+          return result('held', [descriptor ? 'PUBLICATION_OUTCOME_UNCONFIRMED' : failure])
+        }
       }
     }
   })

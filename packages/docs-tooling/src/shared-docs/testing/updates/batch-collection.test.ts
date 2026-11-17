@@ -463,3 +463,22 @@ it('keeps a merged edit-restore interval complete with mixed targets and every n
   expect(closure.groups.map(g => g.memberIds)).toEqual([f.pages])
   expect(closure.groups[0].dispositions.map(d => d.disposition)).toEqual(['noop', 'noop', 'noop'])
 }, 120000)
+
+it.each(['error', 'early-exit'] as const)('settles a failed sampler (%s) and returns a classified hold from the real entry', async mode => {
+  const {EventEmitter} = await import('node:events'), {realpath} = await import('node:fs/promises'), f = await fixture(), out = await realpath(await mkdtemp(join(tmpdir(), 'batch-sampler-')))
+  let exited = false
+  vi.resetModules()
+  vi.doMock('node:worker_threads', () => ({Worker: class extends EventEmitter {
+    constructor() {super(); queueMicrotask(() => {if (mode === 'error') this.emit('error', Error('controlled sampler failure')); exited = true; this.emit('exit', mode === 'error' ? 1 : 0)})}
+    postMessage() {}
+    terminate() {return Promise.resolve(1)}
+  }}))
+  try {
+    const batch = await import('../../adapters/updates/batch-collection')
+    // A fabricated capture can never pass this entry. The independent sampler
+    // failure must still settle and produce a closed read-only result.
+    await expect(batch.collectReplayGuidesBatch({sourceRepository: f.repo, zdocRepository: f.root, out,
+      capture: {} as never, fixtureBytes: Buffer.from('{}'), replayClockMs: 0})).resolves.toMatchObject({status: 'held', reasons: ['BATCH_SAMPLER_FAILED'], index: null, writeEligible: false, operations: []})
+    expect(exited).toBe(true)
+  } finally {vi.doUnmock('node:worker_threads'); vi.resetModules()}
+})
