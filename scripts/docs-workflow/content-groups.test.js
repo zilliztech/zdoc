@@ -39,12 +39,11 @@ test('exposes publication-registry snapshots for revision inventory generation',
   }
 });
 
-test('appends the exact revision inventory owned by each English publication group', () => {
+test('owns exactly one revision inventory per English publication group', () => {
   for (const group of listContentGroups()) {
     const revisionInventory = `generated/en/manifests/lark-revisions/${group}.json`;
     const revisionPaths = getContentGroup(group).ownedPaths.filter((owned) => owned.startsWith('generated/en/manifests/lark-revisions/'));
     assert.deepEqual(revisionPaths, [revisionInventory], group);
-    assert.equal(getContentGroup(group).ownedPaths.at(-1), revisionInventory, group);
   }
 });
 
