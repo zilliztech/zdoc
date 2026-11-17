@@ -197,8 +197,12 @@ export function validateManualRecord(value: unknown, expected: ManualRecordExpec
         }
       }
       for (const field of ['current', 'next'] as const) {
-        const commit = commitOr(upstream[field], `Record.inputs.upstream.${field}`, errors)
-        if (commit !== null && commit !== expected.upstream[field]) {
+        // Unlike a page's source.commit, the attested lock commits are never null.
+        if (typeof upstream[field] !== 'string' || !COMMIT.test(upstream[field])) {
+          errors.push(error(`Record inputs.upstream.${field} must be a complete lowercase commit SHA`))
+          continue
+        }
+        if (upstream[field] !== expected.upstream[field]) {
           errors.push(error(`Record inputs.upstream.${field} ${JSON.stringify(upstream[field])} does not match ${expected.upstream[field]}`))
         }
       }

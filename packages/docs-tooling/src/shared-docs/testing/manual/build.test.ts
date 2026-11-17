@@ -539,17 +539,21 @@ cloud_pages:
   expect(outputs.has('images.json')).toBe(true)
   expect(outputs.size).toBe(record.pages.length + 1)
 
-  // Independent expectation: digests recomputed from the staged bytes must validate.
+  // Independent expectation: digests recomputed from the staged bytes must validate,
+  // and the upstream identity comes from the demo, not from the record under test.
   const digestOf = async (path: string) => sha256(await readFile(join(demo.out, path), 'utf8'))
   const configOf = async (name: string) => ({ path: name, sha256: sha256(await readFile(join(demo.sharedDocs, name), 'utf8')) })
   const expectedPages = await Promise.all(record.pages.map(async (page: typeof record.pages[number]) => ({
     logical: page.logical, ...(page.token !== undefined ? { token: page.token } : {}), source: page.source, channel: page.channel,
     output: { path: page.output.path, sha256: await digestOf(page.output.path) } })))
+  const stagedImages = (JSON.parse(await readFile(join(demo.out, 'images.json'), 'utf8')) as { original: string; sha256: string; address: string }[])
+    .map(image => ({ source: image.original, sha256: image.sha256, address: image.address }))
   const expectation = {
-    group: 'node', manual: 'node', upstream: record.inputs.upstream,
+    group: 'node', manual: 'node',
+    upstream: { repository: 'https://github.com/milvus-io/web-content', dir: sourceDir, current: demo.commit, next: demo.nextCommit },
     config: { files: [...await Promise.all(['manual.yaml', 'source.yaml', 'product-names.yaml'].map(configOf)),
       { path: 'Variables.json', sha256: sha256('{}') }, { path: 'content/overview.md', sha256: sha256('# Overview\n\nManual-local page.\n') }] },
-    images: record.inputs.images, pages: expectedPages,
+    images: stagedImages, pages: expectedPages,
     outputs: [...expectedPages.map(page => page.output), { path: 'images.json', sha256: await digestOf('images.json') }],
   }
   expect(validateManualRecord(record, expectation)).toEqual([])
@@ -560,6 +564,8 @@ cloud_pages:
   }
   reject(copy => { copy.kind = 'shared-page' }, 'Unknown record kind')
   reject(copy => { copy.schema_version = 2 }, 'Unsupported record schema_version')
+  reject(copy => { copy.inputs.upstream.current = null }, 'Record inputs.upstream.current must be a complete lowercase commit SHA')
+  reject(copy => { copy.inputs.upstream.next = demo.commit }, 'Record inputs.upstream.next')
   reject(copy => { copy.pages[0].output.sha256 = '0'.repeat(64) }, 'Record output mismatch')
   const pointer = copy => { for (const page of copy.pages) if (page.channel === 'next') return page; throw new Error('no next-only page') }
   reject(copy => { pointer(copy).source.commit = demo.commit }, 'a next-only page must pin the next commit')
@@ -567,4 +573,16 @@ cloud_pages:
   reject(copy => { copy.outputs.pop() }, 'Record.outputs is missing')
   reject(copy => { copy.outputs[0].path = 'elsewhere.md' }, 'Record.outputs has an unexpected entry')
   reject(copy => { copy.inputs.tools.zdoc = 'short' }, 'Record inputs.tools.zdoc must be a complete lowercase commit SHA')
+})
+
+it('rejects authored block-level gates on whole-page channel pages', async () => {
+  const demo = await createManualDemo(await temp('manual-gate-'), {
+    later: { 'Extras/gated.md': '# gated\n\n<NextChannel action="include">\n\nPreview-only content.\n\n</NextChannel>\n' } })
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${demo.nextCommit}\n`)
+  let output = ''
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text }, { toolingCommit: TOOLING })
+  expect(code).toBe(1)
+  expect(output).toContain('MERGE_NESTED_CHANNEL')
+  expect(output).toContain('whole-page next page must not contain block-level NextChannel')
 })

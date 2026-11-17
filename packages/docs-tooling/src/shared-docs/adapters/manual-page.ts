@@ -9,6 +9,7 @@ import { diagnostic } from '../core/yaml'
 import type { ProductNameRules } from '../core/product-names'
 import type { TabsRules } from '../core/site'
 import { inspectPage } from './inspect-page'
+import { MilvusDocsReaderError } from './reader-errors'
 import type { Md2md } from './types'
 import { toMdx } from './mdx'
 import { adaptPage } from '../core/site'
@@ -50,6 +51,7 @@ export interface ManualSharedDocsInputs extends ManualGroupInputs {
 export const MANUAL_TABS_RULES: TabsRules = { schema_version: 1, group_id: 'shared-docs-manual', default: 'none', languages: [{ value: 'none', label: 'None' }] }
 
 const EMPTY_LINK_MAP = new Map<string, string>()
+const milvusParser = new MarkdownIt({ html: false })
 
 /** First level-1 heading and the first paragraph after it; manual pages have no front matter. */
 export function deriveHeadingMetadata(markdown: string): { title?: string; description?: string } {
@@ -119,8 +121,9 @@ export function applyMilvusValues(markdown: string, replacements: ReadonlyMap<st
     return line
   }
   // Block tokens are flat: nested container fences keep absolute line maps at the top level.
+  // The parser is stateless per parse() call, so one module-level instance serves every page.
   const ranges: { start: number; end: number }[] = []
-  for (const token of new MarkdownIt({ html: false }).parse(markdown, {})) {
+  for (const token of milvusParser.parse(markdown, {})) {
     if (token.type !== 'fence' || !token.map) continue
     const body = token.content.split('\n')
     if (body.at(-1) === '') body.pop()
@@ -318,8 +321,12 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
     const lockFile = groupFile(shared.sharedDocsPath, 'lock.yaml')
     const history: LockHistory = { current: 'missing', next: 'missing' }
     for (const channel of ['current', 'next'] as const) {
+      // Infrastructure failures propagate; only a genuinely absent commit reads as missing.
       try { history[channel] = await reader.isOnBranch(shared.lock[channel], shared.sourceConfig.track) ? 'on-branch' : 'off-branch' }
-      catch { history[channel] = 'missing' }
+      catch (error) {
+        if (!(error instanceof MilvusDocsReaderError) || error.code !== 'MISSING_COMMIT') throw error
+        history[channel] = 'missing'
+      }
     }
     if (history.current === 'on-branch' && history.next === 'on-branch') {
       history.ordered = await reader.isAncestor(shared.lock.current, shared.lock.next)
@@ -348,6 +355,17 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
     let commit: string
     let targets: Map<string, string | null> = new Map()
     let images: ReadonlyMap<string, ImageContent> = new Map()
+    // Whole-page channels gate the entire page through the front matter; an authored
+    // block-level gate would double-gate (and the Fetch lint rejects its literal text).
+    if (page.channel) {
+      if (page.cloud) content = page.cloud.text
+      else content = applyMilvusValues(inspected!.channels[channel].content, replacements)
+      if (/<\/?NextChannel\b/.test(content)) {
+        errors.push({ ...location, code: 'MERGE_NESTED_CHANNEL',
+          message: `A whole-page ${page.channel} page must not contain block-level NextChannel markers; the front matter already gates the page.` })
+        continue
+      }
+    }
     if (page.cloud) {
       // Cloud content lives in this repository: no upstream commit, no upstream preparation,
       // and milvus_values never re-maps Cloud-authored text. Link targets answer from this
