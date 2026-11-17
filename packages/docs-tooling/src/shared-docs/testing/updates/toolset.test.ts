@@ -17,7 +17,7 @@ import { PassThrough } from 'node:stream'
 import { toMdx } from '../../adapters/mdx'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, batchContentLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess, acquireLocalIdentity } from '../../adapters/updates/toolset'
-import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
+import { initializeEvidence, rawSha256, withBatchLifetime } from '../../adapters/updates/evidence'
 const hostTcb = { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
 async function put(root: string, path: string, text: string) { await mkdir(dirname(join(root, path)), { recursive: true }); await writeFile(join(root, path), text) }
@@ -413,6 +413,24 @@ describe.skipIf(process.platform === 'linux')('fix1 executable discovery regress
 })
 
 describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
+  it('accepts exactly 32 MiB raw Git object output and rejects one additional byte', async () => {
+    const a = await fixture()
+    await put(a.root, 'packages/compiler/large.txt', 'a'.repeat(32 * 1024 * 1024))
+    a.commit = commitAll(a.root)
+    await expect(withBatchLifetime(() => captureTrustedToolset(a))).resolves.toMatchObject({root: a.root})
+    await put(a.root, 'packages/compiler/large.txt', 'a'.repeat(32 * 1024 * 1024 + 1))
+    a.commit = commitAll(a.root)
+    await expect(withBatchLifetime(() => captureTrustedToolset(a))).rejects.toThrow('BATCH_GIT_OBJECT_LIMIT')
+  })
+  it('reverifies a closure larger than one batch Git output ceiling', async () => {
+    const a = await fixture()
+    await put(a.root, 'packages/compiler/large-a.txt', 'a'.repeat(17 * 1024 * 1024))
+    await put(a.root, 'packages/compiler/large-b.txt', 'b'.repeat(17 * 1024 * 1024))
+    a.commit = commitAll(a.root)
+    const capture = await captureTrustedToolset(a)
+    await expect(withBatchLifetime(() => verifyTrustedToolset(capture))).resolves.toBeUndefined()
+  })
+
   it('captures actual committed bytes, app-local pnpm files and runtime; survives relocation; detects dependency tamper', async () => {
     const a = await fixture(), b = await fixture()
     const first = await captureTrustedToolset(a), second = await captureTrustedToolset(b)

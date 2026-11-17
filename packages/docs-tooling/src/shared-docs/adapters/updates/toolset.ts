@@ -402,12 +402,12 @@ async function gitBytes(binary: string, root: string, args: string[], env: NodeJ
   if (input !== undefined && Buffer.byteLength(input) > maximum) throw Error('BATCH_GIT_INPUT_LIMIT')
   if (input === undefined) return (await exec(binary, argv, { env, encoding: 'buffer', maxBuffer: maximum, timeout: 30_000 })).stdout
   return new Promise((yes, no) => {
-    const child = spawn(binary, argv, { env, signal: currentBatchLifetime()?.signal, stdio: ['pipe', 'pipe', 'pipe'] }), chunks: Buffer[] = []; let total = 0, errors = ''
+    const child = spawn(binary, argv, { env, signal: currentBatchLifetime()?.signal, stdio: ['pipe', 'pipe', 'pipe'] }), chunks: Buffer[] = []; let total = 0, stderrBytes = 0, errors = ''
     let failure: Error | undefined
     const fail = (error: Error) => {failure ??= error; child.kill()}
     const timer = setTimeout(() => fail(new Error('Git read timeout')), Math.min(30_000, lifetime?.check() ?? 30_000))
     child.stdout.on('data', b => { total += b.length; if (total > maximum) { fail(new Error('Git read bound exceeded')) } else chunks.push(b) })
-    child.stderr.on('data', b => { errors = (errors + b.toString()).slice(0, 4096) })
+    child.stderr.on('data', b => { stderrBytes += b.length; if (lifetime && stderrBytes > maximum) fail(new Error('Git stderr bound exceeded')); errors = (errors + b.toString()).slice(0, 4096) })
     child.on('error', e => { failure ??= e }); child.on('close', code => { clearTimeout(timer); failure ? no(failure) : code === 0 ? yes(Buffer.concat(chunks)) : no(new Error(`Git read failed: ${errors}`)) }); child.stdin.on('error', fail); child.stdin.end(input)
   })
 }
@@ -443,16 +443,45 @@ export function protectedToolsetPath(path: string) {
 }
 async function blobObjects(binary: string, root: string, entries: TreeEntry[], env: NodeJS.ProcessEnv) {
   const values = new Map<string, Uint8Array>(); if (!entries.length) return values
-  const oids = [...new Set(entries.map(e => e.oid))], bytes = await gitBytes(binary, root, ['cat-file', '--batch'], env, oids.join('\n') + '\n'); let offset = 0
-  for (const oid of oids) {
-    const end = bytes.indexOf(10, offset), line = bytes.subarray(offset, end).toString(), match = /^([a-f0-9]{40}) (blob|tree) (\d+)$/.exec(line)
-    if (!match || match[1] !== oid || match[2] !== entries.find(e => e.oid === oid)!.type || Number(match[3]) > limit) throw new Error('Invalid bounded Git blob')
-    const length = Number(match[3]); offset = end + 1
-    if (offset + length >= bytes.length || bytes[offset + length] !== 10) throw new Error('Truncated Git batch')
-    requireObjectHash(oid, match[2], bytes.subarray(offset, offset + length)); values.set(oid, Uint8Array.from(bytes.subarray(offset, offset + length))); offset += length + 1
+  const objects = new Map(entries.map(entry => [entry.oid, entry])), oids = [...objects.keys()]
+  const readBatch = async (batch: string[]) => {
+    const bytes = await gitBytes(binary, root, ['cat-file', '--batch'], env, batch.join('\n') + '\n'); let offset = 0
+    for (const oid of batch) {
+      const end = bytes.indexOf(10, offset), line = bytes.subarray(offset, end).toString(), match = /^([a-f0-9]{40}) (blob|tree) (\d+)$/.exec(line)
+      if (end < offset || !match || match[1] !== oid || match[2] !== objects.get(oid)!.type || Number(match[3]) > limit) throw new Error('Invalid bounded Git blob')
+      const length = Number(match[3]); offset = end + 1
+      if (offset + length >= bytes.length || bytes[offset + length] !== 10) throw new Error('Truncated Git batch')
+      requireObjectHash(oid, match[2], bytes.subarray(offset, offset + length)); values.set(oid, Uint8Array.from(bytes.subarray(offset, offset + length))); offset += length + 1
+    }
+    if (offset !== bytes.length) throw new Error('Extra Git batch bytes')
   }
-  if (offset !== bytes.length) throw new Error('Extra Git batch bytes'); return values
+  if (!currentBatchLifetime()) { await readBatch(oids); return values }
+  // Measure immutable objects before partitioning: every child output, including
+  // Git's framing, stays within the batch operation's fixed 32 MiB ceiling.
+  const maximum = 32 * 1024 * 1024
+  for (let start = 0; start < oids.length; start += 4096) {
+    const group = oids.slice(start, start + 4096)
+    const metadata = await gitBytes(binary, root, ['cat-file', '--batch-check'], env, group.join('\n') + '\n')
+    const lines = metadata.toString('ascii').split('\n')
+    if (lines.pop() !== '' || lines.length !== group.length) throw Error('Invalid Git object measurements')
+    let pending: string[] = [], pendingBytes = 0
+    for (let index = 0; index < group.length; index++) {
+      const oid = group[index], line = lines[index], match = /^([a-f0-9]{40}) (blob|tree) (\d+)$/.exec(line)
+      if (!match || match[1] !== oid || match[2] !== objects.get(oid)!.type) throw Error('Invalid Git object measurement')
+      const length = Number(match[3]), extent = length + Buffer.byteLength(line) + 2
+      if (!Number.isSafeInteger(length) || length > maximum) throw Error('BATCH_GIT_OBJECT_LIMIT')
+      if (pendingBytes + extent > maximum && pending.length) { await readBatch(pending); pending = []; pendingBytes = 0 }
+      if (extent > maximum) {
+        const bytes = await gitBytes(binary, root, ['cat-file', match[2], oid], env)
+        if (bytes.length !== length) throw Error('Git object extent changed')
+        requireObjectHash(oid, match[2], bytes); values.set(oid, Uint8Array.from(bytes))
+      } else { pending.push(oid); pendingBytes += extent }
+    }
+    if (pending.length) await readBatch(pending)
+  }
+  return values
 }
+
 async function walk(root: string, visit: (path: string, stat: Awaited<ReturnType<typeof lstat>>) => Promise<boolean | void>, suffix = '') {
   const names = (await readdir(join(root, suffix))).sort(compareUtf8), folded = new Set<string>()
   for (const name of names) {

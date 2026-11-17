@@ -748,16 +748,18 @@ async function executeQualification(operation: QualificationOperation, publish: 
       }} : {})})
     await reserveBatchAllocation(store, 16 * 1024 ** 2 + 65536, 3)
     let verified
-    try {verified = await launcher.runBatchVerifier(verifierTicket, currentBatchLifetime()?.signal)}
+    try {
+      verified = await launcher.runBatchVerifier(verifierTicket, currentBatchLifetime()?.signal)
+      check()
+      await operation.verifyOwned(); check()
+      if (!same(identity(await lstat(store.root, {bigint: true})), control.rootIdentity) || !same(identity(await lstat(join(store.root, 'blobs'), {bigint: true})), control.blobsIdentity)) invalid()
+    }
     catch (error) {
       // A durable descriptor is never a completed live grant. Unknown terminal
       // outcomes stop here, retain diagnostics and can never resume this root.
       if (await lstat(join(store.root, 'index.json')).then(() => true, () => false)) throw Error('PUBLICATION_OUTCOME_UNCONFIRMED', {cause: error})
       throw error
     }
-    check()
-    await operation.verifyOwned(); check()
-    if (!same(identity(await lstat(store.root, {bigint: true})), control.rootIdentity) || !same(identity(await lstat(join(store.root, 'blobs'), {bigint: true})), control.blobsIdentity)) invalid()
     return {status: 'verified', origin: scope.base.origin, indexRef, indexDigest, qualifierRef, qualifierDigest, controlDigest: batchDigest('control', control),
       measurement: {qualifier: measured, settlement: child.settlement, verifierSettlement: verified.settlement}}
   } finally {await parent.close(); await blobs.close(); await root.close()}
@@ -857,7 +859,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       currentBatchLifetime()!.check()
       if (material.status !== 'material-complete') return result(material.status, material.reasons)
       const qualified = await qualifyMaterialTicket(material.ticket, observation, true)
-      currentBatchLifetime()!.check()
+      try {currentBatchLifetime()!.check()} catch {return result('held', ['PUBLICATION_OUTCOME_UNCONFIRMED'])}
       if (qualified.status === 'held') return result('held', qualified.reasons)
       return result('collected', [], qualified.indexRef)
     } catch (error) {
