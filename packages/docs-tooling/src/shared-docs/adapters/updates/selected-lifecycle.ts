@@ -6,6 +6,7 @@ import { isDeepStrictEqual as equal } from 'node:util'
 import * as z from 'zod'
 import { DigestSchema, GitShaSchema } from '../../core/updates/envelope'
 import { GitLinkInputReader } from '../links-input'
+import { isFetchProducerContext, type FetchProducerContext, type ProducerAuthentication } from './trusted-fetch-producer'
 import { gitRead, sha } from './git'
 import { exactlyOne, latestGuidesRun, stepWindow, successfulJob } from './guides-run-metadata'
 export { latestGuidesRun } from './guides-run-metadata'
@@ -15,6 +16,7 @@ import { parseStrictJson } from '../../core/updates/canonical'
 
 const require = createRequire(import.meta.url)
 const { validatePublicationResults } = require('../../../../../../scripts/docs-workflow/publication-contracts.js')
+const sharedBundle = require('../../../lark/sharedPageBundle.js')
 const { validatePublishedReceipt } = require('../../../lark/sharedPagePublication.js')
 const { validateCandidateSnapshot } = require('../../../lark/sourceSnapshot.js')
 const apiRoot = 'repos/zilliztech/zdoc'
@@ -122,39 +124,51 @@ export function observedRecord(bundle: Row, snapshot: Row, page: string) {
     raw.record_id !== record.record_id || raw.base_table_id !== record.table_id ||
     record.source_kind !== 'shared-page' || record.placement_type !== 'canonical' || record.shared_page?.page !== page) return undefined
   const outcome = exactlyOne(bundle.outcomes, row => row.record_id === raw.record_id || row.page === page)
-  if (!outcome || outcome.record_id !== raw.record_id || outcome.page !== page || outcome.status !== 'success' ||
+  if (!outcome || outcome.record_id !== raw.record_id || outcome.page !== page || !['success', 'reused'].includes(outcome.status) ||
     !equal(outcome.identity, record.shared_page)) return undefined
   return { record, outcome }
 }
 
-export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage) {
+export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage, fetchProducerContext?: FetchProducerContext) {
   const { run } = facts
   if (!sha(run.head_sha) || run.head_repository?.id !== 660446555 || run.workflow_id !== 83360731 ||
     snapshot.base_app_token !== 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh') return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
   const legacy = reviewed.legacyCensus
   const legacyProducer = run.head_sha === legacy.producer
   let producerInventorySha256: string | undefined
+  let producerAuthentication: ProducerAuthentication | undefined
   if (legacyProducer) {
     if (run.id !== legacy.runId || run.run_attempt !== legacy.attempt || facts.artifact.id !== legacy.artifactId ||
       facts.artifact.digest !== legacy.zipDigest || selected.page !== legacy.page) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
   } else {
-    const tree = await gitRead(selected.producerRepo, ['ls-tree', '-r', '-t', '-z', '--full-tree', run.head_sha])
+    let tree: string | undefined
+    try { tree = await gitRead(selected.producerRepo, ['ls-tree', '-r', '-t', '-z', '--full-tree', run.head_sha]) } catch { /* New path reads only the fixed Git store. */ }
     const bytes = await readFile(new URL('./reviewed-fetch-tree.json', import.meta.url))
-    producerInventorySha256 = await reviewedProducerInventory(tree, bytes, run, selected.page,
+    producerInventorySha256 = tree === undefined ? undefined : await reviewedProducerInventory(tree, bytes, run, selected.page,
       () => new GitLinkInputReader(selected.producerRepo).readBytes(run.head_sha, policyPath))
-    if (!producerInventorySha256) return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
+    if (!producerInventorySha256) {
+      if (selected.page !== 'json-field-overview' || run.repository?.id !== 660446555 || run.head_repository?.id !== 660446555 ||
+        run.workflow_id !== 83360731 || run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' ||
+        run.event !== 'schedule' || run.run_attempt !== 1 || run.status !== 'completed' || run.conclusion !== 'success') return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
+      if (!isFetchProducerContext(fetchProducerContext)) return unknown('FETCH_PROFILE_CONTEXT_UNAVAILABLE')
+      const proof = await fetchProducerContext.authenticate(run.head_sha)
+      if ('reason' in proof) return unknown(proof.reason)
+      if (proof.kind !== 'fetch-producer-profile-v1' || proof.producer !== run.head_sha || !sha(proof.trustedTools) ||
+        !/^[0-9a-f]{64}$/.test(proof.profileSha256)) return unknown('FETCH_PROFILE_CONTEXT_UNAVAILABLE')
+      producerAuthentication = proof
+    }
   }
   const result = await readReviewedObservation(api, facts, manifest, snapshot, payload, selected)
   if (!('identity' in result)) return result
   if (legacyProducer && (result.recordId !== legacy.recordId || result.identity.membershipSha256 !== legacy.membershipSha256 ||
     result.identity.recordCount !== legacy.recordCount || result.identity.tableCount !== legacy.tableCount)) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
   Object.assign(result.identity, legacyProducer ? {censusVerifiedAt: legacy.verifiedAt} :
-    {producerInventorySha256})
+    producerAuthentication ? {producerAuthentication} : {producerInventorySha256})
   return result
 }
 
-// Called only after the authenticated producer revision matches the reviewed
-// acquisition code. Tests exercise the retained artifacts and real Git blobs here.
+// Called after stage validation and reviewed producer authentication. Reused
+// evidence is also fully revalidated here before its archived bytes enter Git checks.
 export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage) {
   const { run, jobs, artifact } = facts
   const job = successfulJob(jobs, 'produce_guides_sources / fetch', run)
@@ -163,7 +177,7 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
     !during(artifact.created_at, stepWindow(job, 'Run actions/upload-artifact@v6'))) return unknown('BASE_SCAN_ATTEMPT_UNPROVEN')
 
   // validateGuidesStageArtifact has authenticated the bundle, its contents,
-  // the successful/fallback outcomes, and their bindings to this candidate.
+  // the outcomes and their bindings to this candidate.
   const bundlePath = 'tmp/docs-tooling/en/shared-pages/guides/bundle.json'
   if (!manifest.files.some((f: Row) => f.path === bundlePath)) return unknown('BASE_SCAN_RECORD_UNPROVEN')
   const bundleBytes = await readFile(join(payload, bundlePath))
@@ -173,6 +187,16 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
   const observation = observedRecord(bundle, snapshot, selected.page)
   if (!observation) return unknown('BASE_SCAN_RECORD_UNPROVEN')
   const { record, outcome } = observation
+  // Reuse the complete bundle validator: descriptors, baseline inventory, receipt
+  // recipe, selected manuals/targets and regeneration must agree before reading
+  // any archive-controlled paths. This boundary also protects direct callers.
+  const reused = outcome.status === 'reused'
+  const handoff = reused ? sharedBundle.loadBundle(join(payload, sharedBundle.ROOT),
+    {masterSha: run.head_sha, devBaselineSha: manifest.devBaselineSha}) : null
+  const archivedReceipt = handoff?.files.get(outcome.receipt.file)
+  if (reused && (!archivedReceipt || outcome.receipt.path !== record.shared_page.record ||
+    outcome.receipt.sha256 !== sha256(archivedReceipt) ||
+    !JSON.parse(archivedReceipt).inputs.fetch.render_targets || !outcome.regeneration)) return unknown('BASE_SCAN_RECORD_UNPROVEN')
   const publication = boundArtifact(facts.artifacts, run, `publication-results-fetch-${run.id}-${run.run_attempt}`)
   const publisher = successfulJob(jobs, 'publish_ready', run)
   const publishWindow = stepWindow(publisher, 'Publish ready Fetch units in producer completion FIFO order')
@@ -205,12 +229,17 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
   const receipt = JSON.parse(new TextDecoder('utf-8', {fatal: true}).decode(receiptBytes))
   validatePublishedReceipt(receipt, published, {snapshot: effective})
   const outputs = outcome.outputs.map(({manual, path, sha256}: Row) => ({ manual, path, sha256 }))
-  if (receipt.inputs.zdoc.commit !== run.head_sha || receipt.inputs.tools.zdoc !== run.head_sha ||
+  if (reused) {
+    if ((receipt.channel ?? 'current') !== record.release_channel || !Buffer.from(receiptBytes).equals(archivedReceipt) ||
+      !Buffer.from(await reader.readBytes(manifest.devBaselineSha, receiptPath)).equals(archivedReceipt)) return unknown('PUBLICATION_RECEIPT_IDENTITY_MISMATCH')
+  } else if (receipt.inputs.zdoc.commit !== run.head_sha || receipt.inputs.tools.zdoc !== run.head_sha ||
     receipt.inputs.dev.commit !== manifest.devBaselineSha) return unknown('PUBLICATION_RECEIPT_IDENTITY_MISMATCH')
   if (!equal(receipt.outputs, outputs) || !equal(receiptBytes, await reader.readBytes(selected.dev, receiptPath))) return unknown('PUBLISHED_OUTPUT_MISMATCH')
   for (const output of outputs) {
-    for (const commit of new Set([unit.resultSha, selected.dev])) {
-      if (sha256(await reader.readBytes(commit, output.path)) !== output.sha256) return unknown('PUBLISHED_OUTPUT_MISMATCH')
+    const archived = reused ? handoff.files.get(outcome.outputs.find((row: Row) => row.path === output.path).file) : null
+    for (const commit of new Set([...(reused ? [manifest.devBaselineSha] : []), unit.resultSha, selected.dev])) {
+      const bytes = await reader.readBytes(commit, output.path)
+      if (sha256(bytes) !== output.sha256 || (reused && !Buffer.from(bytes).equals(archived))) return unknown('PUBLISHED_OUTPUT_MISMATCH')
     }
   }
   if (!await latestGuidesRun(api, run, scan.start)) return unknown('LATEST_OBSERVATION_UNPROVEN')
