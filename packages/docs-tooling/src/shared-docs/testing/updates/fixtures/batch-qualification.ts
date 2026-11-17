@@ -61,7 +61,7 @@ const fixtureCodeRoot = new URL('../../../../../../../', import.meta.url)
 /** Generates raw producer inputs and immutable histories. Passing an executable
  * checkout inside root yields HEAD=M=tools for the later actual captured replay.
  * The default miniature repo tests raw validators only, never measured authority. */
-export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot?: string, scenario: {wrongCurrent?: boolean} = {}) {
+export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot?: string, scenario: {wrongCurrent?: boolean; mixedTargets?: boolean; allNoop?: boolean; mergedPull?: boolean} = {}) {
   await mkdir(inputRoot, {recursive: true, mode: 0o700})
   const root = await realpath(inputRoot), tools = executableRoot ?? join(root, 'tools')
   const rel = relative(root, tools)
@@ -97,6 +97,13 @@ export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot
   await write(upstream, 'site/en/member-c.md', markdown(pages[2], '## Member C\n\n[Overview](json-field-overview.md#New)'))
   await write(upstream, 'site/en/fragments/shared.md', 'Shared fragment after.\n')
   await git(upstream, 'add', '.'); await git(upstream, 'commit', '-qm', 'One seed with a real adoption noop peer')
+  const changed = await git(upstream, 'rev-parse', 'HEAD')
+  if (scenario.allNoop) {
+    await write(upstream, 'site/en/json-field-overview.md', markdown(pages[0], oldBody))
+    await write(upstream, 'site/en/member-c.md', markdown(pages[2], '## Member C\n\n[Overview](json-field-overview.md#Old)'))
+    await write(upstream, 'site/en/fragments/shared.md', 'Shared fragment before.\n')
+    await git(upstream, 'add', '.'); await git(upstream, 'commit', '-qm', 'Restore exact consumed source bytes')
+  }
   const target = await git(upstream, 'rev-parse', 'HEAD')
   await git(upstream, 'update-ref', 'refs/remotes/origin/v3.0.x', target)
   const overlay = 'shared-docs/guides'
@@ -107,8 +114,8 @@ export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot
   await write(tools, `${overlay}/product-names.yaml`, 'check: [Milvus]\nallow: []\n')
   await write(tools, `${overlay}/presentation/cloud-sdk-tabs.yaml`, await readFile(new URL('../../../fixtures/site/cloud-sdk-tabs.yaml', import.meta.url)))
   for (const page of pages) {
-    await write(tools, `${overlay}/pages/${page}/page.yaml`, pageYaml(`site/en/${page}.md`, `tutorials/manage-data/${page}`))
-    await write(tools, `${overlay}/pages/${page}/lock.yaml`, `schema_version: 1\ncurrent: ${current}\nnext: ${page === 'member-c' ? target : current}\n`)
+    await write(tools, `${overlay}/pages/${page}/page.yaml`, pageYaml(`site/en/${page}.md`, `tutorials/manage-data/${page}`, scenario.mixedTargets && page === 'member-b' ? ['guides'] : ['guides', 'guides-byoc']))
+    await write(tools, `${overlay}/pages/${page}/lock.yaml`, `schema_version: 1\ncurrent: ${current}\nnext: ${page === 'member-c' && !scenario.allNoop ? target : current}\n`)
   }
   if (!executableRoot) await git(tools, 'init', '-q', '-b', 'master', '--object-format=sha1', '--template=')
   await git(tools, 'add', 'shared-docs'); await git(tools, 'commit', '-qm', 'Three configured current Guides pages')
@@ -122,7 +129,7 @@ export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot
   await git(dev, 'add', '.'); await git(dev, 'commit', '-qm', 'Before activation')
   const records = pages.map((page, index) => ({record_id: `rec${index}`, base_table_id: 'table', base_table_name: 'Manage Data', base_record_index: index,
     fields: {Docs: {text: page, link: `https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/${page}`}, Slug: page,
-      Labels: page, Targets: ['Zilliz.SaaS', 'Zilliz.PaaS'], Progress: 'Published', 'Sidebar Order': index + 1.5, 'Placement Type': 'canonical', 'Release Channel': 'CURRENT'}}))
+      Labels: page, Targets: scenario.mixedTargets && page === 'member-b' ? ['Zilliz.SaaS'] : ['Zilliz.SaaS', 'Zilliz.PaaS'], Progress: 'Published', 'Sidebar Order': index + 1.5, 'Placement Type': 'canonical', 'Release Channel': 'CURRENT'}}))
   let sequence = 0
   const produce = async () => {
     const baseline = await git(dev, 'rev-parse', 'HEAD')
@@ -222,7 +229,15 @@ with zipfile.ZipFile(sys.argv[3],'w',compression=zipfile.ZIP_DEFLATED) as z:z.wr
     raw(rootApi + `/actions/workflows/fetch-guides-requested.yml/runs?created=%3E%3D${earliest}&per_page=100&page=1`, {total_count: 0, workflow_runs: []}), raw(rootApi + '/branches/dev', {name: 'dev', commit: {sha: sampledDev}})]
   const pins = [raw(rootApi, {id: 660446555, full_name: 'zilliztech/zdoc'}), raw('repos/milvus-io/milvus-docs', {id: 267273319, full_name: 'milvus-io/milvus-docs'}),
     ...[['zilliztech/zdoc', 'master', measuredMaster], ['zilliztech/zdoc', 'dev', sampledDev], ['milvus-io/milvus-docs', 'v3.0.x', target]].map(([repo, branch, sha]) => raw(`repos/${repo}/git/ref/heads/${branch}`, {ref: 'refs/heads/' + branch, object: {type: 'commit', sha}}))]
-  const fixture: BatchReplayFixture = BatchReplayFixtureSchema.parse({kind: 'guides-batch-replay-fixture-v1', root, pins, qualification,
+  const merged = {id: 999, number: 999, state: 'closed', merged_at: publishAt,
+    base: {ref: 'v3.0.x', sha: current, repo: {id: 267273319, full_name: 'milvus-io/milvus-docs'}}, head: {sha: target}}
+  const changedPaths = scenario.allNoop ? [] : ['site/en/fragments/shared.md', 'site/en/json-field-overview.md', 'site/en/member-c.md']
+  const files = await Promise.all(changedPaths.map(async filename => ({filename, status: 'modified', sha: await git(upstream, 'rev-parse', `${target}:${filename}`)})))
+  const discovery = [...pins, ...[...new Set([changed, target])].map(oid => raw(`repos/milvus-io/milvus-docs/commits/${oid}/pulls?per_page=100&page=1`, scenario.mergedPull ? [merged] : [])),
+    ...(scenario.mergedPull ? [raw('repos/milvus-io/milvus-docs/pulls/999', {...merged, merged: true, merge_commit_sha: target, commits: scenario.allNoop ? 2 : 1, changed_files: files.length}),
+      raw('repos/milvus-io/milvus-docs/pulls/999/files?per_page=100&page=1', files)] : [])]
+  const fixture: BatchReplayFixture = BatchReplayFixtureSchema.parse({kind: 'guides-batch-replay-fixture-v1', root, pins, qualification, discovery,
+    finalPass: [raw(rootApi + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1', {workflow_runs: [run]}), ...qualification.slice(0, -1), ...pins],
     acquisition: [raw(rootApi + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1', {workflow_runs: [run]}), ...metadata],
     archives: {source: {id: 31, path: 'transport/source.zip', bytes: sourceBytes.length, sha256: batchSha256(sourceBytes)}, publication: {id: 32, path: 'transport/publication.zip', bytes: publicationBytes.length, sha256: batchSha256(publicationBytes)}}, images: []})
   const fixtureBytes = canonicalBytes(fixture), replayClockMs = Date.parse(publishAt) + 2000
@@ -230,7 +245,7 @@ with zipfile.ZipFile(sys.argv[3],'w',compression=zipfile.ZIP_DEFLATED) as z:z.wr
   await writeFile(join(root, 'fixture-summary.json'), JSON.stringify({master: measuredMaster, producer: master, current, configuredCurrent, target, baseline, resultSha, sampledDev, replayClockMs, pages, rawOnly: !executableRoot,
     source: batchRef(sourceBytes), publication: batchRef(publicationBytes), outcomes: round.bundle.outcomes.map((o: {page: string; status: string}) => ({page: o.page, status: o.status}))}, null, 2))
   const discoveryTransport: RemoteTransport = async ({path}) => {
-    const found = pins.find(p => p.path === path.slice(1))
+    const found = discovery.find(p => p.path === path.slice(1))
     if (found) return {status: 200, headers: {}, body: Buffer.from(found.base64, 'base64')}
     if (/^\/repos\/milvus-io\/milvus-docs\/commits\/[a-f0-9]{40}\/pulls\?per_page=100&page=1$/.test(path)) return {status: 200, headers: {}, body: Buffer.from('[]')}
     throw Error('Unexpected raw fixture discovery GET ' + path)

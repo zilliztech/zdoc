@@ -128,6 +128,48 @@ class PreparationTest(unittest.TestCase):
                 os.close(blobs_fd)
                 os.close(root_fd)
 
+    def test_batch_archive_admits_exact_complete_members_without_truncation(self):
+        members = [('index.json', b'{}'), ('qualification.json', b'{}')]
+        for i in range(31):
+            members += [(f'pages/page-{i}/report.json', b'{}'), (f'pages/page-{i}/pins.json', b'{}')]
+        self.assertEqual(p.batch_archive_admission(members), 128)
+        for bad in (members + [('extra.json', b'{}')], members + [members[0]],
+                    [('index.json', b'x' * (1024**2 + 1))],
+                    [(str(i), b'x' * 1024**2) for i in range(17)]):
+            with self.subTest(count=len(bad)), self.assertRaises(p.Hold):
+                p.batch_archive_admission(bad)
+
+    def test_batch_commit_ack_is_exact_and_publication_never_replaces_pointer(self):
+        with tempfile.TemporaryDirectory() as parent:
+            root = Path(parent) / 'operation'
+            root.mkdir()
+            (root / 'blobs').mkdir()
+            parent_fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY)
+            root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
+            blobs_fd = os.open(root / 'blobs', os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                control = {'rootIdentity': p._BatchReader.identity(root_fd),
+                           'blobsIdentity': p._BatchReader.identity(blobs_fd)}
+                pointer = b'{"indexDigest":"verified"}'
+                digest = p.batch_digest('control', control)
+                good = {'kind': 'guides-batch-commit-v1', 'controlDigest': digest}
+                for bad in ({**good, 'controlDigest': '0' * 64}, {**good, 'pointer': {}}, {}):
+                    with self.assertRaises(p.Hold):
+                        p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, bad)
+                    self.assertFalse((root / 'index.json').exists())
+                p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, good)
+                self.assertEqual((root / 'index.json').read_bytes(), pointer)
+                with self.assertRaises(FileExistsError):
+                    p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, good)
+                root.rename(Path(parent) / 'moved')
+                root.mkdir()
+                with self.assertRaises(p.Hold):
+                    p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, good)
+                self.assertFalse((root / 'index.json').exists())
+            finally:
+                for fd in (blobs_fd, root_fd, parent_fd):
+                    os.close(fd)
+
     def test_writer_rejects_v2_and_mixed_methods_before_remote_reads(self):
         for method in ({"kind": "fetch-producer-profile-v2"},
                        {"kind": "fetch-producer-profile-v2", "trustedTools": MASTER,

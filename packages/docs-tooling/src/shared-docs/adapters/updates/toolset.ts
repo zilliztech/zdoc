@@ -15,7 +15,7 @@ import * as z from 'zod'
 import { load as loadYaml } from 'js-yaml'
 import { canonicalBytes, compareUtf8, digest, parseStrictJson } from '../../core/updates/canonical'
 import { BlobRef, DigestSchema, GitShaSchema, RepoPathSchema, ToolsetMaterial, ToolsetMaterialSchema, validateBlobBytes } from '../../core/updates/envelope'
-import { createOwnedDirectory, writeOwnedBlob, rawSha256, type EvidenceStore } from './evidence'
+import { createOwnedDirectory, writeOwnedBlob, rawSha256, currentBatchLifetime, reserveBatchAllocation, type EvidenceStore } from './evidence'
 
 export type ClosureEntry =
   | { path: string; state: 'absent' }
@@ -115,7 +115,11 @@ export async function trustedLauncherEnvironment(root: string, cwd: string, envi
   // Deliberately neither read .env nor inherit HOME/PATH/package-manager settings.
   return { LANG: 'C', LC_ALL: 'C', TZ: 'UTC', JITI_CACHE: 'false', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0' }
 }
-const exec = promisify(execFile)
+const execFilePromise = promisify(execFile)
+const exec: typeof execFilePromise = ((binary: string, argv: string[], options: any = {}) => {
+  const lifetime = currentBatchLifetime()
+  return execFilePromise(binary, argv, {...options, ...(lifetime ? {signal: lifetime.signal, timeout: Math.min(options.timeout ?? 600_000, lifetime.check())} : {})})
+}) as typeof execFilePromise
 const limit = 512 * 1024 * 1024
 const contains = (root: string, path: string) => { const r = relative(root, path); return r === '' || !isAbsolute(r) && r !== '..' && !r.startsWith(`..${sep}`) }
 const absent = (e: unknown) => (e as NodeJS.ErrnoException).code === 'ENOENT'
@@ -396,7 +400,7 @@ async function gitBytes(binary: string, root: string, args: string[], env: NodeJ
   const argv = ['--no-replace-objects', '-c', 'core.fsmonitor=false', '-c', 'core.hooksPath=/dev/null', '-C', root, ...args]
   if (input === undefined) return (await exec(binary, argv, { env, encoding: 'buffer', maxBuffer: 256 * 1024 * 1024, timeout: 30_000 })).stdout
   return new Promise((yes, no) => {
-    const child = spawn(binary, argv, { env, stdio: ['pipe', 'pipe', 'pipe'] }), chunks: Buffer[] = []; let total = 0, errors = ''
+    const child = spawn(binary, argv, { env, signal: currentBatchLifetime()?.signal, stdio: ['pipe', 'pipe', 'pipe'] }), chunks: Buffer[] = []; let total = 0, errors = ''
     const timer = setTimeout(() => { child.kill(); no(new Error('Git read timeout')) }, 30_000)
     child.stdout.on('data', b => { total += b.length; if (total > 256 * 1024 * 1024) { child.kill(); no(new Error('Git read bound exceeded')) } else chunks.push(b) })
     child.stderr.on('data', b => { errors = (errors + b.toString()).slice(0, 4096) })
@@ -1049,17 +1053,17 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     const target = targets.get(logical); if (!target) continue
     await owned.verify(); await symlink(target, join(owned.root, name)); links.set(name, target); await owned.verify()
   }
-  if (targets.has('runtime/python3')) { await owned.verify(); await writeFile(join(owned.root, 'python3'), pythonWrapper, { flag: 'wx', mode: 0o700 }); await owned.verify() }
-  await owned.verify(); await writeFile(join(owned.root, 'guides-worker.cjs'), guidesWorker, { flag: 'wx', mode: 0o600 }); await owned.verify()
+  if (targets.has('runtime/python3')) { await reserveBatchAllocation(evidence, pythonWrapper.length); await owned.verify(); await writeFile(join(owned.root, 'python3'), pythonWrapper, { flag: 'wx', mode: 0o700 }); await owned.verify() }
+  await reserveBatchAllocation(evidence, guidesWorker.length); await owned.verify(); await writeFile(join(owned.root, 'guides-worker.cjs'), guidesWorker, { flag: 'wx', mode: 0o600 }); await owned.verify()
   const files: Record<string,{sha256:string;bytes:number;mode:string}>=Object.create(null)
   const byLogical=new Map(state.closure.entries.map(entry=>[entry.path,entry]))
   for(const [path,logical] of state.physical) {const entry=byLogical.get(logical);if(entry?.state==='file')files[path]={sha256:entry.sha256,bytes:entry.bytes,mode:entry.mode}}
   for(const [name,bytes] of [...guardFiles,['guides-worker.cjs',guidesWorker] as [string,Buffer]]) {
     const path=join(owned.root,name);files[path]={sha256:rawSha256(bytes),bytes:bytes.length,mode:'100644'}
-    if(name!=='guides-worker.cjs') {await owned.verify();await writeFile(path,bytes,{flag:'wx',mode:0o600})}
+    if(name!=='guides-worker.cjs') {await reserveBatchAllocation(evidence,bytes.length);await owned.verify();await writeFile(path,bytes,{flag:'wx',mode:0o600})}
   }
   const mapBytes=canonicalBytes({root:state.options.root,files,scopes:Object.fromEntries([...state.lookup.scopes].map(([path,scope])=>[path,Object.fromEntries(scope)])),packages:state.lookup.packages.map(pkg=>({root:pkg.physical,name:pkg.name})).sort((a,b)=>b.root.length-a.root.length)})
-  await owned.verify();await writeFile(join(owned.root,'resolution-map.json'),mapBytes,{flag:'wx',mode:0o600})
+  await reserveBatchAllocation(evidence,mapBytes.length);await owned.verify();await writeFile(join(owned.root,'resolution-map.json'),mapBytes,{flag:'wx',mode:0o600})
   const environment: NodeJS.ProcessEnv = { ...state.environment, PATH: owned.root, TMPDIR: temporary.root, TMP: temporary.root, TEMP: temporary.root }
   const guardedFlags=[...state.flags,'--require',join(owned.root,'resolution-bootstrap.cjs')]
   async function verifyLauncher() {
@@ -1100,11 +1104,11 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     return child as BatchQualifiedChild
   }
   async function runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal) {
-    const launch = consumeBatchVerifierLaunch(ticket, value, evidence), input = canonicalBytes(launch.control)
+    const launch = consumeBatchVerifierLaunch(ticket, value, evidence), input = launch.finalize ? Buffer.concat([canonicalBytes({control: launch.control, rootName: launch.rootName, remainingMs: Math.min(600_000, currentBatchLifetime()?.check() ?? 600_000)}), Buffer.from('\n')]) : canonicalBytes(launch.control)
     if (input.length > 65536 || launch.control.base.pins.trustedTools !== state.options.commit || !targets.has('runtime/python3') || state.closure.entries.find(e => e.path === 'repo/scripts/docs-workflow/shared-guides-update/prepare.py')?.state !== 'file') throw Error('BATCH_LAUNCH_BINDING_INVALID')
     await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
-    return invokeGuidesWorker(join(owned.root, 'python3'), [join(state.options.root, 'scripts/docs-workflow/shared-guides-update/prepare.py'), 'verify-batch-collection'],
-      state.options.root, environment, input, signal, undefined, launch.control, undefined, {root: launch.rootFd, blobs: launch.blobsFd})
+    return invokeGuidesWorker(join(owned.root, 'python3'), [join(state.options.root, 'scripts/docs-workflow/shared-guides-update/prepare.py'), launch.finalize ? 'verify-and-publish-batch-collection' : 'verify-batch-collection'],
+      state.options.root, environment, input, signal, undefined, launch.control, undefined, {root: launch.rootFd, blobs: launch.blobsFd, parent: launch.parentFd, finalize: launch.finalize})
   }
   const launcher = {
     bin: owned.root, cwd: state.options.root, environment: { ...environment },
@@ -1297,11 +1301,11 @@ export function takeMeasuredBatchQualification(child: BatchQualifiedChild, ticke
 /** Own only the group born from this actual handle; a parent cannot clean up after
  * its own fatal death, or certify descendants that deliberately leave the group. */
 async function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv,
-  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
+  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number; parent?: number; finalize?: (signal: AbortSignal) => Promise<void>}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
   signal?.throwIfAborted()
   const child = spawn(binary, args, {cwd, env: environment,
-    stdio: ['pipe', 'pipe', 'pipe', 'pipe', descriptors ? descriptors.root : broker ? 'pipe' : 'ignore', descriptors ? descriptors.blobs : broker ? 'pipe' : 'ignore', replayInput !== undefined ? 'pipe' : 'ignore'], detached: true})
-  const readerLifetime = new AbortController()
+    stdio: ['pipe', 'pipe', 'pipe', 'pipe', descriptors ? descriptors.root : broker ? 'pipe' : 'ignore', descriptors ? descriptors.blobs : broker ? 'pipe' : 'ignore', descriptors?.parent ?? (replayInput !== undefined ? 'pipe' : 'ignore')], detached: true})
+  const readerLifetime = new AbortController(), publicationLifetime = new AbortController()
   let closeBroker: (() => void) | undefined
   let serving: Promise<void> | undefined
   let brokerFailed = false
@@ -1319,7 +1323,8 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   }
   const receipt: GuidesWorkerSettlement = {pid: child.pid ?? null, born: false, close: null, group: 'unknown', signals: [], cleanupErrors: []}
   const inputHash = createHash('sha256'), resultHash = createHash('sha256')
-  let inputBytes = 0, inputFinished = false
+  let inputBytes = 0, inputFinished = false, verificationAcknowledged = false
+  let handshake: Promise<void> | undefined
   const output: Buffer[][] = [[], [], []], sizes = [0, 0, 0]
   let primary: Error | null = null, exitFailure: Error | null = null, terminal = false
   let birthDone!: () => void, closeDone!: () => void, finishRequested!: () => void
@@ -1360,7 +1365,7 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   try {
     child.on('spawn', guarded(() => {
       if (replayInput !== undefined) {const pipes: readonly (Readable | Writable | null)[] = child.stdio; const replayPipe = pipes[6] as Writable; replayPipe.on('error', guarded(fail)); replayPipe.end(replayInput)}
-      receipt.born = true; birthDone(); if (!primary) {inputHash.update(input); inputBytes += input.length; child.stdin.end(input)} }))
+      receipt.born = true; birthDone(); if (!primary) {inputHash.update(input); inputBytes += input.length; descriptors?.finalize ? child.stdin.write(input) : child.stdin.end(input)} }))
     child.on('error', guarded(error => {birthDone(); fail(error)}))
     child.stdin.on('error', guarded(fail)).on('finish', guarded(() => {inputFinished = true}))
     for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('error', guarded(fail)).on('data', guarded((bytes: Buffer) => {
@@ -1370,7 +1375,26 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
       sizes[i] += bytes.length
       if (i === 2) resultHash.update(bytes)
       if (sizes[i] > (contentRequest?.kind === 'guides-batch-verify-control-v1' ? 65536 : i === 2 ? workerResultLimit : workerLimit)) fail(new Error('Guides worker output exceeds byte bound'))
-      else output[i].push(bytes)
+      else {
+        output[i].push(bytes)
+        if (i === 2 && descriptors?.finalize && !verificationAcknowledged) {
+          const received = Buffer.concat(output[2]), newline = received.indexOf(10)
+          if (newline < 0) return
+          if (newline !== received.length - 1 || contentRequest?.kind !== 'guides-batch-verify-control-v1') throw Error('BATCH_VERIFY_ACK_INVALID')
+          const ack = parseStrictJson(received.subarray(0, newline)), control = contentRequest
+          const expected = {kind: 'guides-batch-verified-v1', controlDigest: batchDigest('control', control), indexRef: control.indexRef, indexDigest: control.indexDigest}
+          if (!Buffer.from(canonicalBytes(expected)).equals(received.subarray(0, newline)) || !Buffer.from(canonicalBytes(ack)).equals(received.subarray(0, newline))) throw Error('BATCH_VERIFY_ACK_INVALID')
+          verificationAcknowledged = true; output[2] = []
+          handshake = (async () => {
+            await descriptors.finalize!(signal ? AbortSignal.any([signal, publicationLifetime.signal]) : publicationLifetime.signal)
+            signal?.throwIfAborted()
+            if (primary || terminal || receipt.close) throw Error('BATCH_COMMIT_SETTLEMENT_INVALID')
+            const commit = Buffer.concat([canonicalBytes({kind: 'guides-batch-commit-v1', controlDigest: expected.controlDigest}), Buffer.from('\n')])
+            if (input.length + commit.length > 65536) throw Error('BATCH_CONTROL_LIMIT')
+            child.stdin.end(commit)
+          })().catch(fail)
+        }
+      }
     }))
     child.on('exit', guarded((code: number | null) => {
       if (code !== 0 && !primary) {exitFailure = new Error('Guides worker failed:'); latch(exitFailure)}
@@ -1388,6 +1412,8 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   } catch (error) { latch(error) }
   closeBroker?.()
   await serving
+  if (primary) publicationLifetime.abort(primary)
+  if (handshake) await handshake
   // The last reply may already be delivered when closed-manifest completion
   // fails. Pipe closure cannot revoke those bytes; the parent must reject before
   // creating any measured qualifier receipt. Legacy held reports stay unchanged.
@@ -1430,7 +1456,7 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
             if (q.scopeDigest !== batchDigest('scope', request.scope) || !Buffer.from(canonicalBytes(q.base)).equals(Buffer.from(canonicalBytes(request.scope.base))) || !Buffer.from(canonicalBytes(q.run)).equals(Buffer.from(canonicalBytes(request.scope.run))) || q.rows.length !== request.scope.pages.length || q.rows.some((row, i) => row.pageId !== request.scope.pages[i].pageId || row.materialDigest !== request.scope.pages[i].materialSha256 || !Buffer.from(canonicalBytes(row.method)).equals(Buffer.from(canonicalBytes(q.method))))) throw Error('BATCH_LAUNCH_BINDING_INVALID')
           } else {
             const control = BatchVerifyControlSchema.parse(contentRequest), ack = value as {kind?: string; controlDigest?: string; indexRef?: unknown; indexDigest?: string}
-            if (bytes.length > 65536 || Object.keys(ack).sort().join(',') !== 'controlDigest,indexDigest,indexRef,kind' || ack.kind !== 'guides-batch-verified-v1' || ack.controlDigest !== batchDigest('control', control) || ack.indexDigest !== control.indexDigest || !Buffer.from(canonicalBytes(ack.indexRef)).equals(Buffer.from(canonicalBytes(control.indexRef)))) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+            if (bytes.length > 65536 || Object.keys(ack).sort().join(',') !== 'controlDigest,indexDigest,indexRef,kind' || ack.kind !== (descriptors?.finalize ? 'guides-batch-published-v1' : 'guides-batch-verified-v1') || descriptors?.finalize && !verificationAcknowledged || ack.controlDigest !== batchDigest('control', control) || ack.indexDigest !== control.indexDigest || !Buffer.from(canonicalBytes(ack.indexRef)).equals(Buffer.from(canonicalBytes(control.indexRef)))) throw Error('BATCH_LAUNCH_BINDING_INVALID')
           }
         }
         response = {value, stdout: Buffer.concat(output[0]).toString('utf8'), stderr, settlement: receipt}

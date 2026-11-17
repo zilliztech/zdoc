@@ -124,7 +124,7 @@ export type BatchQualifierRequest = z.infer<typeof BatchQualifierRequestSchema>
 const replayBody = z.strictObject({path: text.min(1), bytes: BatchCountSchema.positive().max(16 * 1024 * 1024), sha256: DigestSchema, base64: text})
 const replayFile = z.strictObject({path: RepoPathSchema, bytes: BatchCountSchema.positive().max(256 * 1024 * 1024), sha256: DigestSchema})
 export const BatchReplayFixtureSchema = z.strictObject({kind: z.literal('guides-batch-replay-fixture-v1'), root: localPath,
-  acquisition: z.array(replayBody).max(63), qualification: z.array(replayBody).max(63), pins: z.array(replayBody).max(5),
+  discovery: z.array(replayBody).max(63).optional(), finalPass: z.array(replayBody).max(63).optional(), acquisition: z.array(replayBody).max(63), qualification: z.array(replayBody).max(63), pins: z.array(replayBody).max(5),
   archives: z.strictObject({source: replayFile.extend({id: BatchCountSchema.positive()}), publication: replayFile.extend({id: BatchCountSchema.positive()})}),
   images: z.array(replayFile.extend({url: text.min(1)})).refine(v => ordered(v, i => i.url))})
 export type BatchReplayFixture = z.infer<typeof BatchReplayFixtureSchema>

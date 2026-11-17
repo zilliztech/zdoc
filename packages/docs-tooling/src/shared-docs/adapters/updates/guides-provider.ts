@@ -457,7 +457,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   }
   const object = (value: unknown) => retain(canonicalBytes(value))
   const reads = createGuidesReadSession(retain)
-  const {BatchGitStore, batchBudget} = await import('./batch-source')
+  const {BatchGitStore, batchBudget, exportBatchTree} = await import('./batch-source')
   const rawBudget = batchBudget()
   const sourceProof = await BatchGitStore.open(request.sourceRepository, rawBudget)
   const configProof = await BatchGitStore.open(repositoryRoot, rawBudget)
@@ -473,7 +473,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     await resolveCommit(request.devRepository, request.pins.dev)
     if (!replay && await resolveCommit(toolingRoot) !== request.pins.trustedTools) throw Error('BATCH_TOOLS_PIN_INVALID')
     const configRoot = join(temporary, 'master'), devRoot = join(temporary, 'dev')
-    await exportTree(repositoryRoot, request.pins.master, ['shared-docs/guides'], configRoot)
+    await exportBatchTree(repositoryRoot, request.pins.master, ['shared-docs/guides'], configRoot, temporary)
     const configFiles = await reads.inventory(repositoryRoot, request.pins.master, ['shared-docs/guides'])
     if (!equal(configFiles, await configProof.inventory(request.pins.master, 'shared-docs/guides'))) throw Error('BATCH_CONFIG_INVENTORY_INVALID')
     const ids = sorted(configFiles.map(f => /^shared-docs\/guides\/pages\/([^/]+)\/page.yaml$/.exec(f.path)?.[1]).filter((id): id is string => !!id))
@@ -492,7 +492,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     await requireOrdered(endpoints.reader, configured.current, configured.oldNext, request.pins.source)
     const snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
     const activePath = 'generated/en/manifests/shared-pages/guides/active.json'
-    await exportTree(request.devRepository, request.pins.dev, ['content/en/guides', 'content/en/byoc', snapshotPath, activePath], devRoot)
+    await exportBatchTree(request.devRepository, request.pins.dev, ['content/en/guides', 'content/en/byoc', snapshotPath, activePath], devRoot, temporary)
     const collected = await observeGuidesPage({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
       current: configured.current, oldNext: configured.oldNext, target: request.pins.source,
       configuration: loaded.configuration, previousConfiguration: loaded.configuration,

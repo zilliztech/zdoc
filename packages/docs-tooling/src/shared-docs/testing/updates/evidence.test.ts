@@ -249,3 +249,16 @@ describe('concurrent content-addressed evidence writes', () => {
     }
   }, 30000)
 })
+
+it('admits only a bounded next allocation above the strict filesystem floor', async () => {
+  const module = await import('../../adapters/updates/evidence')
+  expect(module.checkBatchAllocation).toBeTypeOf('function')
+  const GiB = 1024 ** 3
+  expect(module.checkBatchAllocation({available: 5 * GiB, blockSize: 4096, existing: 0}, 2 * GiB, 1)).toBeGreaterThan(2 * GiB)
+  for (const input of [
+    {available: GiB, blockSize: 4096, existing: 0},
+    {available: 2 * GiB, blockSize: 4096, existing: 0},
+    {available: 8 * GiB, blockSize: 4096, existing: 3 * GiB},
+    {available: 8 * GiB, blockSize: 0, existing: 0},
+  ]) expect(() => module.checkBatchAllocation(input, GiB, 1)).toThrow()
+})

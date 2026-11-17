@@ -168,6 +168,7 @@ export async function stageGuidesArchives(runId: number, sourceZip: string | nul
 }
 
 import {object} from './github'
+import {currentBatchLifetime, reserveBatchAllocation} from './evidence'
 import {replayMetadataReader} from './guides-metadata-broker'
 import {BatchReplayFixtureSchema, type BatchReplayFixture, type BatchScope} from './batch-collection-contract'
 const prospectiveRunPath = `${repository}/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1`
@@ -186,6 +187,7 @@ export interface BatchRunLease {run: BatchScope['run']; archives: StagedArchives
 /** Fixed coordinator acquisition. A prospective run is selected here, never supplied
  * by an operator, material header, index or child response. */
 export async function acquireBatchRunLease(evidence: EvidenceStore, replay?: BatchReplayFixture): Promise<BatchRunLease> {
+  const lifetime = currentBatchLifetime(); lifetime?.check()
   const fixture = replay && BatchReplayFixtureSchema.parse(replay)
   const raw = fixture && replayMetadataReader(fixture.acquisition)
   const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN ?? ''
@@ -198,7 +200,7 @@ export async function acquireBatchRunLease(evidence: EvidenceStore, replay?: Bat
       if (bytes.length !== item.bytes || rawSha256(bytes) !== item.sha256) throw Error('BATCH_REPLAY_ARCHIVE_INVALID')
       return bytes
     },
-  } : coordinatorReads(token)
+  } : coordinatorReads(token, lifetime?.signal)
   const selected = scheduledRun(await api.get(prospectiveRunPath))
   const facts = await retainedMetadata(api, selected.id)
   if (facts.run.id !== selected.id || facts.run.run_attempt !== 1 || facts.run.head_sha !== selected.head_sha) throw Error('BATCH_RUN_BINDING_INVALID')
@@ -207,6 +209,8 @@ export async function acquireBatchRunLease(evidence: EvidenceStore, replay?: Bat
   const publication = boundArtifact(facts.artifacts, facts.run, `publication-results-fetch-${selected.id}-1`)
   const source = facts.artifact
   if (source.id === publication.id || source.size_in_bytes > sourceLimit || publication.size_in_bytes > publicationLimit) throw Error('BATCH_ARCHIVE_LIMIT')
+  lifetime?.check()
+  await reserveBatchAllocation(evidence, source.size_in_bytes + publication.size_in_bytes, 3)
   const sourceBytes = await api.zip(source.id, source.size_in_bytes), publicationBytes = await api.zip(publication.id, publication.size_in_bytes)
   for (const [item, bytes] of [[source, sourceBytes], [publication, publicationBytes]] as const) {
     if (item.size_in_bytes !== bytes.length || item.digest !== 'sha256:' + rawSha256(bytes)) throw Error('BATCH_ARTIFACT_BINDING_INVALID')
@@ -214,7 +218,7 @@ export async function acquireBatchRunLease(evidence: EvidenceStore, replay?: Bat
   raw?.finish()
   const owned = await createOwnedDirectory(evidence)
   const stage = async (name: string, id: number, bytes: Uint8Array) => {
-    await owned.verify(); const path = join(owned.root, name); await writeFile(path, bytes, {flag: 'wx', mode: 0o600}); await owned.verify(); return {id, path}
+    lifetime?.check(); await reserveBatchAllocation(evidence, bytes.length); await owned.verify(); const path = join(owned.root, name); await writeFile(path, bytes, {flag: 'wx', mode: 0o600}); lifetime?.check(); await owned.verify(); return {id, path}
   }
   return {run: {id: selected.id, attempt: 1, head: selected.head_sha},
     archives: {source: await stage('source.zip', source.id, sourceBytes), publication: await stage('publication.zip', publication.id, publicationBytes)},

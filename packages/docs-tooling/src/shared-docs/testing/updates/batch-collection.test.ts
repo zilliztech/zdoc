@@ -410,3 +410,49 @@ it('closes the complete real three-page raw material group with fractional origi
   expect(result.groups.map(g => g.memberIds)).toEqual([f.pages])
   expect(result.groups[0].dispositions.map(d => d.disposition)).toEqual(['advance', 'advance', 'noop'])
 }, 120000)
+
+it('requires a distinct complete immutable final-pass sequence and rejects late dev drift', async () => {
+  const {rawBatchLifecycleFixture} = await import('./fixtures/batch-qualification')
+  const fs = await import('node:fs/promises')
+  const parent = join(process.cwd(), '.claude/wp12-guides-batch-qualification/task4-evidence')
+  await fs.mkdir(parent, {recursive: true})
+  const f = await rawBatchLifecycleFixture(await fs.mkdtemp(join(parent, 'final-pass-')))
+  const module = await import('../../adapters/updates/batch-github')
+  expect(module.verifyBatchFinalFreshness).toBeTypeOf('function')
+  const source = f.fixture.archives.source, publication = f.fixture.archives.publication
+  const expected = {run: {id: 123, attempt: 1 as const, head: f.producer}, sourceArtifact: {id: source.id, bytes: source.bytes, sha256: source.sha256},
+    publicationArtifact: {id: publication.id, bytes: publication.bytes, sha256: publication.sha256},
+    pins: {master: f.master, dev: f.sampledDev, source: f.target}}
+  await expect(module.verifyBatchFinalFreshness(expected, f.replayClockMs, f.fixture.finalPass)).resolves.toBeUndefined()
+  const wrong = structuredClone(f.fixture.finalPass!)
+  const row = wrong.find(r => r.path.endsWith('/git/ref/heads/dev'))!, bytes = Buffer.from(JSON.stringify({ref: 'refs/heads/dev', object: {type: 'commit', sha: f.master}}))
+  Object.assign(row, {base64: bytes.toString('base64'), bytes: bytes.length, sha256: batchSha256(bytes)})
+  await expect(module.verifyBatchFinalFreshness(expected, f.replayClockMs, wrong)).rejects.toThrow('BATCH_PIN_CHANGED')
+  await expect(module.verifyBatchFinalFreshness(expected, f.replayClockMs + 37 * 3600_000, f.fixture.finalPass)).rejects.toThrow('BATCH_FRESHNESS_EXPIRED')
+  await expect(module.verifyBatchFinalFreshness(expected, f.replayClockMs, [])).rejects.toThrow()
+}, 120000)
+
+it('keeps a merged edit-restore interval complete with mixed targets and every necessary noop', async () => {
+  const {rawBatchLifecycleFixture} = await import('./fixtures/batch-qualification')
+  const fs = await import('node:fs/promises'), parent = join(process.cwd(), '.claude/wp12-guides-batch-qualification/task4-evidence')
+  await fs.mkdir(parent, {recursive: true})
+  const f = await rawBatchLifecycleFixture(await fs.mkdtemp(join(parent, 'restore-material-')), undefined, {mixedTargets: true, allNoop: true, mergedPull: true})
+  const origin = {kind: 'replay' as const, fixtureSha256: batchSha256(f.fixtureBytes), replayClockMs: f.replayClockMs}
+  const discovery = readBatchDiscoveryCapture(await replayBatchDiscovery({zdocRepository: f.tools, sourceRepository: f.upstream, tools: f.master},
+    {fixtureBytes: f.fixtureBytes, replayClockMs: f.replayClockMs}, {transport: f.discoveryTransport}))
+  expect(discovery.report.seeds).toHaveLength(1)
+  expect(discovery.report.seeds[0].pr?.merged).toBe(true)
+  expect(discovery.ledger.length).toBeGreaterThan(0)
+  const pages = []
+  for (const pageId of f.pages) {
+    const request = {kind: 'guides-batch-render-v1' as const, origin, session: 'f'.repeat(64), pageId,
+      pins: {master: f.master, dev: f.sampledDev, source: f.target, trustedTools: f.master, toolsetSha256: 'e'.repeat(64)}, sourceRepository: f.upstream, devRepository: f.tools}
+    const wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.tools})
+    pages.push(batch.projectBatchMaterialFixture(wire, request))
+  }
+  expect(pages.map(p => p.header.targets.length)).toEqual([2, 1, 2])
+  const closure = batch.analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages})
+  expect(closure.reasons).toEqual([])
+  expect(closure.groups.map(g => g.memberIds)).toEqual([f.pages])
+  expect(closure.groups[0].dispositions.map(d => d.disposition)).toEqual(['noop', 'noop', 'noop'])
+}, 120000)

@@ -12,6 +12,9 @@ import subprocess
 import sys
 import tempfile
 import urllib.request
+import zipfile
+import io
+import time
 
 PAGE = "json-field-overview"
 SUBJECT = {"kind": "guides-page", "group": "guides", "pageId": PAGE}
@@ -936,7 +939,7 @@ def _batch_material(reader, retained, base):
     return header, [p['pageId'] for p in config['registry']]
 
 
-def verify_batch_collection(root_fd, blobs_fd, control):
+def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     batch_exact(control, 'kind base run discoveryRef discoveryDigest closureRef groupSha256 materialRoot materialDigest scopeRef scopeDigest qualifierRequestSha256 qualifierRequestBytes qualifierRef qualifierDigest profileDigest receiptsRoot indexRef indexDigest rootIdentity blobsIdentity')
     require(control['kind'] == 'guides-batch-verify-control-v1', 'BATCH_CONTROL_INVALID')
     pins = _batch_base(control['base'])
@@ -944,7 +947,7 @@ def verify_batch_collection(root_fd, blobs_fd, control):
     require(type(run['id']) is int and run['id'] > 0 and run['attempt'] == 1 and type(run['attempt']) is int and oid(run['head']), 'BATCH_RUN_INVALID')
     require(type(control['qualifierRequestBytes']) is int and 0 < control['qualifierRequestBytes'] <= 32 * 1024**2
             and DIGEST.fullmatch(control['qualifierRequestSha256']), 'BATCH_CONTROL_INVALID')
-    reader = _BatchReader(root_fd, blobs_fd, control)
+    reader = retained_reader or _BatchReader(root_fd, blobs_fd, control)
     base = control['base']
     scope = reader.object(control['scopeRef'], 'base run discoveryRef discoveryDigest materialRoot materialDigest closureRef groupSha256 pages')
     for key in ('base', 'run', 'discoveryRef', 'discoveryDigest', 'materialRoot', 'materialDigest', 'closureRef', 'groupSha256'):
@@ -1086,8 +1089,121 @@ def verify_batch_collection(root_fd, blobs_fd, control):
             'indexRef': control['indexRef'], 'indexDigest': control['indexDigest']}
 
 
+def batch_archive_admission(members):
+    require(len(members) <= 64 and len({name for name, _ in members}) == len(members), 'BATCH_ARCHIVE_MEMBER_LIMIT')
+    total = 0
+    for name, raw in members:
+        batch_path(name)
+        require(len(raw) <= 1024**2, 'BATCH_ARCHIVE_ENTRY_LIMIT')
+        total += len(raw)
+        require(total <= 16 * 1024**2, 'BATCH_ARCHIVE_EXPANDED_LIMIT')
+    return total
+
+
+def _batch_root_check(parent_fd, root_fd, blobs_fd, root_name, control):
+    require(type(root_name) is str and root_name not in ('', '.', '..') and '/' not in root_name
+            and '\\' not in root_name and '\0' not in root_name, 'BATCH_ROOT_IDENTITY_INVALID')
+    root_stat = os.stat(root_name, dir_fd=parent_fd, follow_symlinks=False)
+    require(stat.S_ISDIR(root_stat.st_mode) and {'dev': str(root_stat.st_dev), 'ino': str(root_stat.st_ino)} == control['rootIdentity'],
+            'BATCH_ROOT_IDENTITY_INVALID')
+    _BatchReader(root_fd, blobs_fd, control).finish()
+
+
+def _batch_reserve_fd(root_fd, extent):
+    fs = os.fstatvfs(root_fd)
+    require(fs.f_frsize >= 512 and fs.f_bavail >= 0, 'BATCH_FILESYSTEM_UNSUPPORTED')
+    allocation = ((extent + fs.f_frsize - 1) // fs.f_frsize + 2) * fs.f_frsize
+    require(fs.f_bavail * fs.f_frsize - allocation > 1024**3, 'BATCH_FREE_SPACE_FLOOR')
+
+
+def commit_batch_pointer(parent_fd, root_fd, blobs_fd, root_name, control, pointer, acknowledgement):
+    batch_exact(acknowledgement, 'kind controlDigest')
+    require(acknowledgement == {'kind': 'guides-batch-commit-v1', 'controlDigest': batch_digest('control', control)}, 'BATCH_COMMIT_ACK_INVALID')
+    require(len(pointer) <= 65536, 'BATCH_POINTER_LIMIT')
+    _batch_root_check(parent_fd, root_fd, blobs_fd, root_name, control)
+    # The staged pointer is never a success signal. linkat is exclusive and does
+    # not overwrite any existing entry; both names are rooted at the held FD.
+    stage = '.index-' + os.urandom(16).hex()
+    fd = os.open(stage, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=root_fd)
+    try:
+        with os.fdopen(fd, 'wb', closefd=False) as stream:
+            stream.write(pointer)
+            stream.flush()
+            os.fsync(fd)
+        _batch_root_check(parent_fd, root_fd, blobs_fd, root_name, control)
+        os.link(stage, 'index.json', src_dir_fd=root_fd, dst_dir_fd=root_fd, follow_symlinks=False)
+        os.fsync(root_fd)
+        _batch_root_check(parent_fd, root_fd, blobs_fd, root_name, control)
+    finally:
+        os.close(fd)
+
+
+def _batch_verify_publish():
+    # Two bounded newline frames; no EOF is required before independent final
+    # freshness. The parent keeps the same descriptors alive until settlement.
+    first = sys.stdin.buffer.readline(65537)
+    require(first.endswith(b'\n') and len(first) <= 65536, 'BATCH_CONTROL_LIMIT')
+    envelope = batch_exact(batch_parse(first[:-1]), 'control rootName remainingMs')
+    require(type(envelope['remainingMs']) is int and 0 < envelope['remainingMs'] <= 600000, 'BATCH_OPERATION_DEADLINE')
+    deadline = time.monotonic() + envelope['remainingMs'] / 1000
+    def remaining():
+        require(time.monotonic() < deadline, 'BATCH_OPERATION_DEADLINE')
+    control, root_name = envelope['control'], envelope['rootName']
+    _batch_root_check(6, 4, 5, root_name, control)
+    reader = _BatchReader(4, 5, control)
+    verified = verify_batch_collection(4, 5, control, reader)
+    index = reader.objects[control['indexRef']['sha256']]
+    refs = [('index.json', control['indexRef']), ('qualification.json', control['qualifierRef'])]
+    for page in index['pages']:
+        refs += [(f"pages/{page['pageId']}/report.json", page['reportRef']),
+                 (f"pages/{page['pageId']}/pins.json", page['pinsRef'])]
+    # Already verified canonical objects: no second raw-payload hashing pass.
+    members = [(name, batch_canonical(reader.objects[ref['sha256']])) for name, ref in refs]
+    expanded = batch_archive_admission(members)
+    compressed = io.BytesIO()
+    with zipfile.ZipFile(compressed, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
+        for name, raw in members:
+            archive.writestr(name, raw)
+            require(compressed.tell() <= 16 * 1024**2, 'BATCH_ARCHIVE_COMPRESSED_LIMIT')
+    raw_zip = compressed.getvalue()
+    require(len(raw_zip) <= 16 * 1024**2, 'BATCH_ARCHIVE_COMPRESSED_LIMIT')
+    archive_info = {'path': 'collection.zip', 'sha256': sha256(raw_zip), 'bytes': len(raw_zip),
+                    'expandedBytes': expanded, 'members': [name for name, _ in refs]}
+    remaining()
+    _batch_reserve_fd(4, len(raw_zip))
+    fd = os.open('collection.zip', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=4)
+    try:
+        with os.fdopen(fd, 'wb', closefd=False) as stream:
+            stream.write(raw_zip)
+            stream.flush()
+            os.fsync(fd)
+    finally:
+        os.close(fd)
+    reader.finish()
+    pointer = batch_canonical({'kind': 'guides-batch-collection-pointer-v1', 'origin': control['base']['origin'],
+                               **{k: verified[k] for k in ('controlDigest', 'indexRef', 'indexDigest')},
+                               'archive': archive_info, 'writeEligible': False, 'operations': []})
+    require(len(pointer) <= 65536, 'BATCH_POINTER_LIMIT')
+    os.write(3, batch_canonical(verified) + b'\n')
+    second = sys.stdin.buffer.readline(65537 - len(first))
+    require(second.endswith(b'\n') and len(first) + len(second) <= 65536, 'BATCH_COMMIT_ACK_INVALID')
+    require(sys.stdin.buffer.read(1) == b'', 'BATCH_COMMIT_ACK_INVALID')
+    remaining()
+    _batch_reserve_fd(4, len(pointer))
+    commit_batch_pointer(6, 4, 5, root_name, control, pointer, batch_parse(second[:-1]))
+    result = batch_canonical({**verified, 'kind': 'guides-batch-published-v1'})
+    require(len(result) + len(batch_canonical(verified)) + 1 <= 65536, 'BATCH_ACK_LIMIT')
+    os.write(3, result)
+
+
 if __name__ == "__main__":
-    if sys.argv[1:] == ["verify-batch-collection"]:
+    if sys.argv[1:] == ["verify-and-publish-batch-collection"]:
+        try:
+            _batch_verify_publish()
+        except Exception as exc:
+            print(str(exc) if isinstance(exc, Hold) else type(exc).__name__, file=sys.stderr)
+            sys.exit(1)
+    elif sys.argv[1:] == ["verify-batch-collection"]:
         try:
             raw = sys.stdin.buffer.read(65537)
             require(len(raw) <= 65536, "BATCH_CONTROL_LIMIT")

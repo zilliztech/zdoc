@@ -3,6 +3,7 @@ import { promisify } from 'node:util'
 import { lstat, mkdir, realpath, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { GitMilvusDocsReader } from '../git-milvus-docs-reader'
+import {currentBatchLifetime} from './evidence'
 const exec = promisify(execFile)
 export const sha = (value: string) => /^[a-f0-9]{40}$/.test(value)
 /** The inherited environment without ambient Git variables, built once per process.
@@ -25,6 +26,8 @@ export function gitEnvironment(variant: 'read' | 'blob'): NodeJS.ProcessEnv {
     if (variant === 'read') environment.GIT_OPTIONAL_LOCKS = '0'
     childEnvironments.set(variant, environment)
   }
+  if (currentBatchLifetime()) return {...Object.fromEntries(Object.entries(environment).filter(([name]) =>
+    !/(?:TOKEN|SECRET|PASSWORD|CREDENTIAL|AUTHORIZATION|API_KEY)/i.test(name))), GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_ALLOW_PROTOCOL: ''}
   return environment
 }
 /** Rebuild the cached child environments after the caller mutates process.env. */
@@ -33,7 +36,7 @@ export function resetGitEnvironment() {inheritedEnvironment = null;childEnvironm
 export async function gitRead(repository: string, args: string[]): Promise<string> {
   if (!['rev-parse', 'ls-tree', 'cat-file', 'ls-files'].includes(args[0]) && !(args.length === 3 && args.join(' ') === 'remote get-url origin')) throw new Error('Only Git reads are supported')
   return (await exec('git', ['--no-replace-objects', '-C', repository, ...args], { env: gitEnvironment('read'),
-    timeout: 30_000, maxBuffer: 32 * 1024 * 1024 })).stdout.trim()
+    timeout: Math.min(30_000, currentBatchLifetime()?.check() ?? 30_000), signal: currentBatchLifetime()?.signal, maxBuffer: 32 * 1024 * 1024 })).stdout.trim()
 }
 /** Protect real metadata locations, including bare, separate and linked worktree layouts. */
 export async function gitMetadataDirectories(repository: string): Promise<string[]> {
@@ -70,7 +73,7 @@ export async function exportTree(repository: string, commit: string, roots: stri
     const [metadata, path] = entry.split('\t')
     const object = metadata.split(' ')[2]
     const bytes = (await exec('git', ['--no-replace-objects', '-C', repository, 'cat-file', 'blob', object], { env: gitEnvironment('blob'),
-      encoding: 'buffer', timeout: 30_000, maxBuffer: 32 * 1024 * 1024 })).stdout
+      encoding: 'buffer', timeout: Math.min(30_000, currentBatchLifetime()?.check() ?? 30_000), signal: currentBatchLifetime()?.signal, maxBuffer: 32 * 1024 * 1024 })).stdout
     await mkdir(join(destination, path, '..'), { recursive: true })
     await writeFile(join(destination, path), bytes, { flag: 'wx' })
   }

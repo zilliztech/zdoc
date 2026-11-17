@@ -47,6 +47,7 @@ export function replayBatchContentData(ticket: BatchContentTicket, capture: Trus
 async function retainPage(operation: Operation, ticket: BatchContentTicket, child: BatchMeasuredChild) {
   const launch = (operation.base.origin.kind === 'observed' ? observedLaunches : replayLaunches).get(ticket)
   if (!launch || launch.operation !== operation || launch.state !== 'running' || !operation.active) invalid()
+  batchCasCategory(operation.store, 'page')
   const receipt = takeMeasuredBatchContent(child, ticket, operation.capture, operation.store)
   const requestBytes = canonicalBytes(launch.request)
   if (requestBytes.length !== receipt.requestBytes || batchSha256(requestBytes) !== receipt.requestSha256) invalid()
@@ -462,8 +463,15 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     // Until a checked dependency index exists, every M registry page is a potentially joining probe.
     for (const page of batchSorted(discovery.report.pages, p => p.pageId)) {
       if (!operation.active) invalid()
+      currentBatchLifetime()?.check()
+      if (currentBatchLifetime()) {
+        const masterExport = await measureBatchExport(operation.capture.root, operation.base.pins.master, ['shared-docs/guides'])
+        const devExport = await measureBatchExport(operation.devRepository, operation.base.pins.dev, ['content/en/guides', 'content/en/byoc',
+          'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', 'generated/en/manifests/shared-pages/guides/active.json'])
+        await reserveBatchAllocation(operation.store, masterExport.bytes + devExport.bytes, masterExport.count + devExport.count + 4)
+      }
       const ticket = issueContent(operation, page.pageId)
-      const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket) : await launcher.runReplayBatchContent(ticket)
+      const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchContent(ticket, currentBatchLifetime()?.signal)
       if (!operation.active) invalid()
       await retainPage(operation, ticket, child)
       if (!operation.active) invalid()
@@ -474,6 +482,7 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
       // No completed promise/response/large raw text table is cached across pages.
       // The frozen wire leaves scope here; neither the operation nor a completed promise retains it.
     }
+    batchCasCategory(operation.store, 'other')
     if (operation.outstanding.size || operation.pages.size !== discovery.report.pages.length) invalid()
     const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages})
     if (analysis.reasons.length) return {status: 'held', reasons: analysis.reasons}
@@ -530,7 +539,7 @@ export async function collectReplayBatchMaterial(options: {sourceRepository: str
 
 import {constants as fsConstants} from 'node:fs'
 import {open, lstat} from 'node:fs/promises'
-import {join} from 'node:path'
+import {join, dirname, basename} from 'node:path'
 import {BatchScopeSchema, BatchQualifierRequestSchema, BatchQualificationSchema, BatchReceiptsRootSchema, BatchQualifiedPinsSchema,
   BatchQualifiedReportSchema, BatchCollectionIndexSchema, BatchVerifyControlSchema, BatchReplayFixtureSchema,
   type BatchScope, type BatchQualifierRequest, type BatchVerifyControl, type BatchReplayFixture, type BatchQualification} from './batch-collection-contract'
@@ -547,7 +556,7 @@ declare const verifierTicketBrand: unique symbol
 export type BatchVerifierLaunchTicket = {readonly [verifierTicketBrand]: true}
 interface QualificationOperation {active: boolean; sealed: SealedMaterialClosure; scope: BatchScope; request: BatchQualifierRequest; lease: BatchRunLease; verifyOwned: () => Promise<void>}
 const qualifierLaunches = new WeakMap<object, {operation: QualificationOperation; claimed: boolean}>()
-const verifierLaunches = new WeakMap<object, {operation: QualificationOperation; claimed: boolean; control: BatchVerifyControl; rootFd: number; blobsFd: number}>()
+const verifierLaunches = new WeakMap<object, {operation: QualificationOperation; claimed: boolean; control: BatchVerifyControl; rootFd: number; blobsFd: number; parentFd?: number; rootName?: string; finalize?: (signal: AbortSignal) => Promise<void>}>()
 export function consumeBatchQualifierLaunch(ticket: BatchQualificationLaunchTicket, capture: TrustedToolsetCapture, store: EvidenceStore, kind: BatchOrigin['kind']) {
   const launch = qualifierLaunches.get(ticket)
   if (!launch || launch.claimed || !launch.operation.active || launch.operation.sealed.capture !== capture || launch.operation.sealed.store !== store || launch.operation.scope.base.origin.kind !== kind) {
@@ -564,13 +573,13 @@ export function consumeBatchVerifierLaunch(ticket: BatchVerifierLaunchTicket, ca
     invalid()
   }
   launch.claimed = true
-  return {control: launch.control, rootFd: launch.rootFd, blobsFd: launch.blobsFd}
+  return {control: launch.control, rootFd: launch.rootFd, blobsFd: launch.blobsFd, parentFd: launch.parentFd, rootName: launch.rootName, finalize: launch.finalize}
 }
 export type BatchQualifiedCollection = {status: 'held'; reasons: readonly string[]} | {status: 'verified'; origin: BatchOrigin;
   indexRef: BatchBlobRef; indexDigest: string; qualifierRef: BatchBlobRef; qualifierDigest: string; controlDigest: string;
   measurement: {qualifier: Omit<RetainedPage, 'pageId' | 'materialRef' | 'materialDigest'>; settlement: BatchQualifiedChild['settlement']; verifierSettlement: BatchQualifiedChild['settlement']}}
 
-async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: BatchOrigin['kind']): Promise<BatchQualifiedCollection> {
+async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: BatchOrigin['kind'], publish = false): Promise<BatchQualifiedCollection> {
   const map = kind === 'observed' ? observedMaterialClosures : replayMaterialClosures, sealed = map.get(ticket)
   // Retire synchronously before lease reads/capture/launch. Failure never permits retry.
   if (!sealed) return {status: 'held', reasons: ['BATCH_LAUNCH_BINDING_INVALID']}
@@ -601,7 +610,7 @@ async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: B
     const qualifier = Object.freeze({async qualify() {
       if (started || !operation!.active) invalid()
       started = true
-      return executeQualification(operation!)
+      return executeQualification(operation!, publish)
     }})
     return await qualifier.qualify()
   } catch (error) {
@@ -613,9 +622,9 @@ async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: B
 export const qualifyObservedBatchMaterial = (ticket: BatchMaterialClosureTicket) => qualifyMaterialTicket(ticket, 'observed')
 export const qualifyReplayBatchMaterial = (ticket: BatchMaterialClosureTicket) => qualifyMaterialTicket(ticket, 'replay')
 
-async function executeQualification(operation: QualificationOperation): Promise<BatchQualifiedCollection> {
+async function executeQualification(operation: QualificationOperation, publish: boolean): Promise<BatchQualifiedCollection> {
   const {sealed, scope, request, lease} = operation, {store, capture} = sealed
-  const check = () => {if (!operation.active) invalid()}
+  const check = () => {currentBatchLifetime()?.check(); if (!operation.active) invalid()}
   const retain = async (bytes: Uint8Array) => {
     check(); if (bytes.length > 64 * 1024 * 1024) throw Error('BATCH_CAS_BLOB_LIMIT')
     const ref = await writeOwnedBlob(store, bytes); check()
@@ -628,7 +637,10 @@ async function executeQualification(operation: QualificationOperation): Promise<
   const launcher = batchContentLauncher(await prepareTrustedLauncher(capture, store)); check()
   const ticket = Object.freeze({}) as BatchQualificationLaunchTicket
   qualifierLaunches.set(ticket, {operation, claimed: false})
-  const child = scope.base.origin.kind === 'observed' ? await launcher.runObservedBatchQualification(ticket) : await launcher.runReplayBatchQualification(ticket)
+  // ZIP copy + tar + extraction can coexist. Keep authenticated stricter
+  // component limits; reserve metadata for every possible tar entry too.
+  await reserveBatchAllocation(store, 256 * 1024 ** 2 + 512 * 1024 ** 2 + 512 * 1024 ** 2 + 1024 ** 2, 20_010)
+  const child = scope.base.origin.kind === 'observed' ? await launcher.runObservedBatchQualification(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchQualification(ticket, currentBatchLifetime()?.signal)
   check()
   const measured = takeMeasuredBatchQualification(child, ticket, capture, store), requestBytes = canonicalBytes(request)
   if (measured.requestSha256 !== batchSha256(requestBytes) || measured.requestBytes !== requestBytes.length) invalid()
@@ -637,6 +649,7 @@ async function executeQualification(operation: QualificationOperation): Promise<
     !same(q.base, scope.base) || !same(q.run, scope.run) || !same(q.sourceArtifact, lease.source) || !same(q.publicationArtifact, lease.publication) ||
     q.method.trustedTools !== scope.base.pins.master || q.method.producer !== scope.run.head || q.rows.length !== scope.pages.length) invalid()
   // Settle the independent stream/profile roots before constructing or reading I.
+  batchCasCategory(store, 'qualifier')
   const qualifierRef = await retain(raw), qualifierDigest = batchDigest('qualifier', q), profileDigest = q.method.profileSha256
   const dev = await BatchGitStore.open(sealed.devRepository, batchBudget()); check()
   const receipts = []
@@ -674,6 +687,7 @@ async function executeQualification(operation: QualificationOperation): Promise<
   const closure = parseBatchCanonical(await store.readBlob(scope.closureRef), BatchClosureSchema); check()
   if (batchDigest('closure', closure) !== scope.groupSha256 || !same(closure.memberIds, scope.pages.map(p => p.pageId))) invalid()
   const dispositions = parseBatchCanonical(await store.readBlob(closure.dispositionsRef), BatchDispositionsSchema); check()
+  batchCasCategory(store, 'other')
   const pages = []
   for (const row of q.rows) {
     const disposition = dispositions.pages.find(p => p.pageId === row.pageId)
@@ -693,6 +707,7 @@ async function executeQualification(operation: QualificationOperation): Promise<
   await operation.verifyOwned(); check()
   const root = await open(store.root, fsConstants.O_RDONLY | fsConstants.O_DIRECTORY | fsConstants.O_NOFOLLOW)
   const blobs = await open(join(store.root, 'blobs'), fsConstants.O_RDONLY | fsConstants.O_DIRECTORY | fsConstants.O_NOFOLLOW)
+  const parent = await open(dirname(store.root), fsConstants.O_RDONLY | fsConstants.O_DIRECTORY | fsConstants.O_NOFOLLOW)
   try {
     const rootStat = await root.stat({bigint: true}), blobsStat = await blobs.stat({bigint: true}); check()
     const identity = (stat: {dev: bigint; ino: bigint}) => ({dev: String(stat.dev), ino: String(stat.ino)})
@@ -704,13 +719,29 @@ async function executeQualification(operation: QualificationOperation): Promise<
       receiptsRoot, indexRef, indexDigest, rootIdentity: identity(rootStat), blobsIdentity: identity(blobsStat)}))
     if (canonicalBytes(control).length > 65536) throw Error('BATCH_CONTROL_LIMIT')
     const verifierTicket = Object.freeze({}) as BatchVerifierLaunchTicket
-    verifierLaunches.set(verifierTicket, {operation, claimed: false, control, rootFd: root.fd, blobsFd: blobs.fd})
-    const verified = await launcher.runBatchVerifier(verifierTicket); check()
+    verifierLaunches.set(verifierTicket, {operation, claimed: false, control, rootFd: root.fd, blobsFd: blobs.fd,
+      ...(publish ? {parentFd: parent.fd, rootName: basename(store.root), finalize: async (signal: AbortSignal) => {
+        check(); await operation.verifyOwned(); check()
+        const replay = scope.base.origin.kind === 'replay' ? parseBatchCanonical(sealed.replayFixtureBytes!, BatchReplayFixtureSchema) : undefined
+        if (replay && !replay.finalPass) throw Error('BATCH_FINAL_REPLAY_MISSING')
+        const {verifyBatchFinalFreshness} = await import('./batch-github')
+        const now = collectionClock(scope.base.origin)
+        await verifyBatchFinalFreshness({run: scope.run, sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact, pins: scope.base.pins}, now, replay?.finalPass, signal)
+        check(); await operation.verifyOwned(); check()
+        if (await resolveCommit(capture.root) !== scope.base.pins.master ||
+          (await sourceEndpoints(sealed.sourceRepository, 'https://github.com/milvus-io/milvus-docs', 'v3.0.x', scope.base.pins.source)).head !== scope.base.pins.source) throw Error('BATCH_PIN_CHANGED')
+        if (replay) await verifyBatchReplayHeads(sealed.devRepository, scope.base.pins)
+        const decisionTime = collectionClock(scope.base.origin)
+        if (decisionTime - q.scanStartMs > 36 * 3600_000 || q.scanStartMs - decisionTime > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
+        check()
+      }} : {})})
+    await reserveBatchAllocation(store, 16 * 1024 ** 2 + 65536, 3)
+    const verified = await launcher.runBatchVerifier(verifierTicket, currentBatchLifetime()?.signal); check()
     await operation.verifyOwned(); check()
     if (!same(identity(await lstat(store.root, {bigint: true})), control.rootIdentity) || !same(identity(await lstat(join(store.root, 'blobs'), {bigint: true})), control.blobsIdentity)) invalid()
     return {status: 'verified', origin: scope.base.origin, indexRef, indexDigest, qualifierRef, qualifierDigest, controlDigest: batchDigest('control', control),
       measurement: {qualifier: measured, settlement: child.settlement, verifierSettlement: verified.settlement}}
-  } finally {await blobs.close(); await root.close()}
+  } finally {await parent.close(); await blobs.close(); await root.close()}
 }
 
 /** Separate bounded boundary probes, never a new/reset profile transaction.
@@ -720,4 +751,121 @@ export async function verifyBatchReplayHeads(repository: string, pins: {master: 
   const master = await reader.read(['rev-parse', '--verify', 'refs/heads/master^{commit}'], undefined, false, 41)
   const dev = await reader.read(['rev-parse', '--verify', 'refs/heads/dev^{commit}'], undefined, false, 41)
   if (!Buffer.from(master).equals(Buffer.from(pins.master + '\n')) || !Buffer.from(dev).equals(Buffer.from(pins.dev + '\n'))) throw Error('BATCH_PIN_CHANGED')
+}
+
+import {withBatchLifetime, currentBatchLifetime, bindBatchResources, batchCasCategory, reserveBatchAllocation,
+  batchResourceMeasurement, batchAllocatedTree, checkBatchAllocation} from './evidence'
+import {statfs, realpath} from 'node:fs/promises'
+import {resolve, relative, isAbsolute} from 'node:path'
+import {Worker} from 'node:worker_threads'
+import {measureBatchExport} from './batch-source'
+export type BatchCollectionResult = Readonly<{kind: 'guides-batch-collection-v1'; observation: 'observed' | 'replay';
+  status: 'collected' | 'held' | 'no-group'; writeEligible: false; operations: readonly []; reasons: readonly string[]; index: BatchBlobRef | null}>
+/** Samples are explicitly observations, never an OS lifetime maximum. Disk walks
+ * do not serialize RSS ticks; each channel records its own gaps and failures. */
+function sampleBatchOperation(root: string) {
+  // A dedicated thread keeps the sampling clock independent of synchronous
+  // canonicalization/hash work in the coordinator. Its only child is fixed ps,
+  // with a credential-free environment and a bounded response.
+  const worker = new Worker(`
+    const {parentPort,workerData}=require('node:worker_threads');
+    const {execFile}=require('node:child_process'),{promisify}=require('node:util');
+    const {lstat,readdir}=require('node:fs/promises'),{join}=require('node:path');
+    const exec=promisify(execFile),start=performance.now(),groups=new Set();
+    let stopped=false,rssWork,diskWork,lastRss=start,lastDisk=start,rssCount=0,diskCount=0,rssPeak=0,diskPeak=0,rssGap=0,diskGap=0,errors=0;
+    async function disk(){let size=0,count=0;async function visit(path){if(++count>100000)throw Error('entries');const st=await lstat(path);size+=st.blocks*512+4096;if(st.isDirectory())for(const name of await readdir(path))await visit(join(path,name));}await visit(workerData.root);return size;}
+    function tick(){if(stopped)return;
+      if(!rssWork)rssWork=(async()=>{const {stdout}=await exec('/bin/ps',['-axo','pid=,ppid=,pgid=,rss='],{env:{PATH:'/usr/bin:/bin',LC_ALL:'C'},timeout:1000,maxBuffer:4*1024*1024});
+        const now=performance.now();rssGap=Math.max(rssGap,Math.ceil(now-lastRss));lastRss=now;rssCount++;
+        const rows=stdout.trim().split('\\n').map(line=>line.trim().split(/\\s+/).map(Number)),included=new Set([workerData.pid]);let added=true;
+        while(added){added=false;for(const [pid,parent,group] of rows)if(!included.has(pid)&&(included.has(parent)||groups.has(group))){included.add(pid);added=true;}}
+        for(const [pid,,group]of rows)if(included.has(pid)&&pid!==workerData.pid&&pid===group)groups.add(group);
+        rssPeak=Math.max(rssPeak,rows.reduce((sum,[pid,,,rss])=>sum+(included.has(pid)?rss*1024:0),0));
+      })().catch(()=>errors++).finally(()=>rssWork=undefined);
+      if(!diskWork)diskWork=(async()=>{const size=await disk(),now=performance.now();diskGap=Math.max(diskGap,Math.ceil(now-lastDisk));lastDisk=now;diskCount++;diskPeak=Math.max(diskPeak,size);})().catch(()=>errors++).finally(()=>diskWork=undefined);
+    }
+    const timer=setInterval(tick,100);tick();
+    parentPort.once('message',async()=>{stopped=true;clearInterval(timer);await Promise.all([rssWork,diskWork]);const end=performance.now();parentPort.postMessage({elapsedMs:Math.ceil(end-start),intervalMs:100,peakSampledRssBytes:rssPeak,sampledAllocatedDiskHighWaterBytes:diskPeak,rssSamples:rssCount,diskSamples:diskCount,maximumRssGapMs:Math.max(rssGap,Math.ceil(end-lastRss)),maximumDiskGapMs:Math.max(diskGap,Math.ceil(end-lastDisk)),sampleErrors:errors,exactOsLifetimePeak:false});parentPort.close();});
+  `, {eval: true, workerData: {root, pid: process.pid}, env: {PATH: '/usr/bin:/bin', LC_ALL: 'C'}})
+  const metrics = new Promise<Record<string, number | boolean>>((resolve, reject) => {worker.once('message', resolve); worker.once('error', reject)})
+  const settled = new Promise<void>((resolve, reject) => worker.once('exit', code => code === 0 ? resolve() : reject(Error('BATCH_SAMPLER_FAILED'))))
+  // Attach rejection observers immediately, including while the operation runs.
+  void metrics.catch(() => {}); void settled.catch(() => {})
+  return async () => {worker.postMessage('stop'); const result = await metrics; await settled; return result}
+}
+async function collectCompleteBatch(options: Readonly<{sourceRepository: string; out: string}>, replay?: {
+  zdocRepository: string; capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number
+}): Promise<BatchCollectionResult> {
+  const observation = replay ? 'replay' : 'observed'
+  const result = (status: BatchCollectionResult['status'], reasons: readonly string[], index: BatchBlobRef | null = null): BatchCollectionResult =>
+    immutable({kind: 'guides-batch-collection-v1', observation, status, writeEligible: false, operations: [], reasons, index})
+  return withBatchLifetime(async () => {
+    let store: EvidenceStore | undefined, stopSampling: ReturnType<typeof sampleBatchOperation> | undefined
+    try {
+      if (Object.keys(options).sort().join(',') !== 'out,sourceRepository' || typeof options.sourceRepository !== 'string' || typeof options.out !== 'string') invalid()
+      const repository = replay?.zdocRepository ?? toolingRoot, source = await realpath(options.sourceRepository), out = resolve(options.out)
+      for (const root of [repository, source]) {
+        const rel = relative(await realpath(root), out), inverse = relative(out, await realpath(root))
+        if ((!rel.startsWith('..') && !isAbsolute(rel)) || (!inverse.startsWith('..') && !isAbsolute(inverse))) throw Error('BATCH_OUTPUT_OVERLAP')
+      }
+      let parent = dirname(out)
+      for (;;) {try {await lstat(parent); break} catch (e) {if ((e as NodeJS.ErrnoException).code !== 'ENOENT') throw e; parent = dirname(parent)}}
+      const fs = await statfs(parent, {bigint: true})
+      checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: 0}, 8192, 4)
+      store = await initializeEvidence({root: out, repositories: [repository, source], owner: 'guides-batch-' + observation, maxBytes: 64 * 1024 * 1024})
+      stopSampling = sampleBatchOperation(store.root)
+      const commit = await resolveCommit(repository), capture = replay?.capture ?? await captureTrustedToolset({root: repository, commit, cwd: repository})
+      currentBatchLifetime()!.check()
+      const input = {zdocRepository: repository, sourceRepository: source, tools: describeTrustedToolset(capture).commit}
+      let immutableTransport: import('./batch-github').BatchGitHubTestSeam | undefined
+      if (replay) {
+        const fixture = parseBatchCanonical(replay.fixtureBytes, BatchReplayFixtureSchema)
+        if (!fixture.discovery || !fixture.finalPass) throw Error('BATCH_REPLAY_METADATA_INVALID')
+        const rows = new Map(fixture.discovery.map(row => [row.path, row]))
+        if (rows.size !== fixture.discovery.length) throw Error('BATCH_REPLAY_METADATA_INVALID')
+        immutableTransport = {transport: async ({path}) => {
+          const row = rows.get(path.slice(1)); if (!row) throw Error('BATCH_REPLAY_METADATA_INVALID')
+          const bytes = Buffer.from(row.base64, 'base64')
+          if (bytes.length !== row.bytes || bytes.toString('base64') !== row.base64 || batchSha256(bytes) !== row.sha256) throw Error('BATCH_REPLAY_METADATA_INVALID')
+          return {status: 200, headers: {}, body: bytes}
+        }}
+      }
+      const discovery = replay ? await replayBatchDiscovery(input, {fixtureBytes: replay.fixtureBytes, replayClockMs: replay.replayClockMs}, immutableTransport!) : await observeBatchDiscovery(input)
+      currentBatchLifetime()!.check()
+      const pages = readBatchDiscoveryCapture(discovery).report.pages.length
+      bindBatchResources(store, Math.max(1, pages)); await reserveBatchAllocation(store, 0)
+      const opInput = {capture, store, discovery, sourceRepository: source, devRepository: repository,
+        ...(replay ? {replayFixtureBytes: Uint8Array.from(replay.fixtureBytes)} : {})}
+      const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput))
+      currentBatchLifetime()!.check()
+      if (material.status !== 'material-complete') return result(material.status, material.reasons)
+      const qualified = await qualifyMaterialTicket(material.ticket, observation, true)
+      currentBatchLifetime()!.check()
+      if (qualified.status === 'held') return result('held', qualified.reasons)
+      return result('collected', [], qualified.indexRef)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : ''
+      return result('held', [/^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_COLLECTION_FAILED'])
+    } finally {
+      if (stopSampling && store) {
+        const metrics = {kind: 'guides-batch-measurement-v1', observation, ...await stopSampling(), resources: batchResourceMeasurement(store) ?? null,
+          signedProducerCapacity: 'deferred'}
+        // Diagnostics cannot confer authority. Retain them separately from I/Q/C.
+        try {const bytes = canonicalBytes(metrics); if (bytes.length <= 65536) await store.writeJournal('measurement.json', bytes)} catch { /* leave existing raw evidence intact */ }
+      }
+    }
+  })
+}
+export function collectObservedGuidesBatch(options: Readonly<{sourceRepository: string; out: string}>): Promise<BatchCollectionResult> {
+  return collectCompleteBatch(options)
+}
+/** Test-only raw immutable replay. There is no mode/ref/run option on the observed entry. */
+export function collectReplayGuidesBatch(options: {sourceRepository: string; out: string; zdocRepository: string;
+  capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number}): Promise<BatchCollectionResult> {
+  return collectCompleteBatch({sourceRepository: options.sourceRepository, out: options.out}, {...options, fixtureBytes: Uint8Array.from(options.fixtureBytes)})
+}
+
+function collectionClock(origin: BatchOrigin) {
+  const lifetime = currentBatchLifetime()
+  return origin.kind === 'observed' ? Date.now() : origin.replayClockMs + Math.floor(lifetime ? performance.now() - (lifetime.deadline - 4_500_000) : 0)
 }

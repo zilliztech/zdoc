@@ -2,6 +2,7 @@ import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { lstat, realpath } from 'node:fs/promises'
 import { join } from 'node:path'
+import {currentBatchLifetime} from './evidence'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { REMOTE_IO_LIMITS as IO } from '../../core/updates/remote'
 
@@ -16,7 +17,7 @@ export function batchBudget() {
     remaining() {
       const ms = Math.floor(deadline - performance.now())
       if (ms < 1) stop('OBSERVATION_DEADLINE')
-      return Math.min(ms, IO.requestMilliseconds)
+      return Math.min(ms, IO.requestMilliseconds, currentBatchLifetime()?.check() ?? Infinity)
     } }
 }
 export type BatchBudget = ReturnType<typeof batchBudget>
@@ -119,7 +120,7 @@ export class BatchGitStore {
       const child = execFile('git', ['--no-replace-objects', '-c', 'core.commitGraph=false', '-C', this.root, ...args], {
         env: { PATH: process.env.PATH, LC_ALL: 'C', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null',
           GIT_ALLOW_PROTOCOL: '', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0', GIT_TERMINAL_PROMPT: '0' },
-        encoding: 'buffer', timeout, maxBuffer: maximum,
+        encoding: 'buffer', timeout, maxBuffer: maximum, signal: currentBatchLifetime()?.signal,
       }, (error, stdout) => {
         this.budget.gitBytes += stdout.length
         if (error || this.budget.gitBytes > IO.objectBytes) {
@@ -318,4 +319,50 @@ export class BatchGitStore {
     await walk('', from ? this.commits.get(from)!.tree : undefined, this.commits.get(to)!.tree)
     return changes
   }
+}
+
+import {mkdir, writeFile, statfs} from 'node:fs/promises'
+import {dirname} from 'node:path'
+import {promisify} from 'node:util'
+import {batchAllocatedTree, checkBatchAllocation} from './evidence'
+const batchExec = promisify(execFile)
+async function exportRead(repository: string, args: string[], maximum = 32 * 1024 * 1024) {
+  const lifetime = currentBatchLifetime()
+  const result = await batchExec('git', ['--no-replace-objects', '-C', repository, ...args], {
+    env: {PATH: process.env.PATH, LC_ALL: 'C', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_ALLOW_PROTOCOL: '', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0', GIT_TERMINAL_PROMPT: '0'},
+    timeout: Math.min(30_000, lifetime?.check() ?? 30_000), signal: lifetime?.signal, encoding: 'buffer', maxBuffer: maximum})
+  return result.stdout
+}
+export async function measureBatchExport(repository: string, commit: string, roots: string[]) {
+  if (!GitShaSchema.safeParse(commit).success) stop('BATCH_EXPORT_INVALID')
+  const listing = await exportRead(repository, ['ls-tree', '-r', '-l', '-z', commit, '--', ...roots])
+  const entries = utf8.decode(listing).split('\0').filter(Boolean).map(line => {
+    const match = /^(100644|100755) blob ([a-f0-9]{40}) +([0-9]+)\t([^\0]+)$/.exec(line)
+    if (!match || !RepoPathSchema.safeParse(match[4]).success) stop('BATCH_EXPORT_INVALID')
+    const bytes = Number(match[3])
+    if (!Number.isSafeInteger(bytes) || bytes > 32 * 1024 * 1024) stop('BATCH_EXPORT_BLOB_LIMIT')
+    return {oid: match[2], bytes, path: match[4]}
+  })
+  if (!entries.length || entries.length > 20_000) stop('BATCH_EXPORT_ENTRY_LIMIT')
+  const directories = new Set(['.'])
+  for (const entry of entries) for (let p = dirname(entry.path); p !== '.'; p = dirname(p)) directories.add(p)
+  return {entries, bytes: entries.reduce((sum, entry) => sum + entry.bytes, 0), count: entries.length + directories.size}
+}
+/** Batch-only exporter: bound the complete next representation before creating
+ * it, then recheck the filesystem before each exclusive regular-file write. */
+export async function exportBatchTree(repository: string, commit: string, roots: string[], destination: string, ownedRoot: string) {
+  const measured = await measureBatchExport(repository, commit, roots)
+  const reserve = async (bytes: number, entries: number) => {
+    const fs = await statfs(ownedRoot, {bigint: true})
+    checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: await batchAllocatedTree(ownedRoot)}, bytes, entries)
+  }
+  await reserve(measured.bytes, measured.count)
+  for (const entry of measured.entries) {
+    const raw = await exportRead(repository, ['cat-file', 'blob', entry.oid])
+    if (raw.length !== entry.bytes || createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex') !== entry.oid) stop('BATCH_EXPORT_BINDING_INVALID')
+    await reserve(raw.length, entry.path.split('/').length)
+    await mkdir(dirname(join(destination, entry.path)), {recursive: true, mode: 0o700})
+    await writeFile(join(destination, entry.path), raw, {flag: 'wx', mode: 0o600})
+  }
+  return measured.entries.length
 }

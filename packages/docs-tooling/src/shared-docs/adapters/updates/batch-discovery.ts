@@ -295,10 +295,15 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
         if (pending.length) clue(pending.map(r => r.page.pageId), [key], [file.path], [ref], ['PR_PATH_REQUIRES_COLLECTOR'])
       }
       const prPaths = pull && new Set(pull.files.flatMap(f => f.previousPath ? [f.previousPath, f.path] : [f.path]))
+      // A real edit-then-restore range can have no net PR file entry. Only
+      // authenticated equal endpoint trees excuse that omission; its nonempty
+      // raw interval remains in the ledger and still creates required members.
+      const restoredRange = pull && pull.identity.head === intro && history.range(pull.identity.base, pull.identity.head).includes(oid)
+      const netPaths = restoredRange ? new Set((await store.delta(pull!.identity.base, pull!.identity.head)).map(d => d.path)) : undefined
       const importedParents = pull ? history.importedBaseParents(oid, intro!, pull.identity.base) : []
       const unverified = new Set<string>()
       for (const delta of raw.filter(d => ledger || hitPaths.has(d.path))) {
-        if (prPaths && !prPaths.has(delta.path)) { unverified.add(delta.path); continue }
+        if (prPaths && !prPaths.has(delta.path) && (!netPaths || netPaths.has(delta.path))) { unverified.add(delta.path); continue }
         for (const baseParent of importedParents) {
           if (((await store.optionalFile(baseParent, delta.path))?.oid ?? null) === delta.after) {
             unverified.add(delta.path); break
