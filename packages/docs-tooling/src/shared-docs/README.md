@@ -133,6 +133,36 @@ candidate output must be outside both input checkouts, the selected group,
 and the repository-root `shared-docs/` tree. Build output remains an empty or
 absent directory outside all inputs.
 
+## Manual layout (whole-manual groups)
+
+A group whose root contains `manual.yaml` instead of `pages/` uses the manual
+layout: one `manual.yaml` (`source.dir`, `publish.manual`, per-module and
+per-page `metadata`), one group-level `lock.yaml`, optional `Variables.json`,
+and the required `product-names.yaml`. A group cannot combine both layouts.
+`difference keys` such as `exclude`, `milvus_values`, `cloud_pages`, and
+`transforms` are rejected until their semantics land in follow-up packages.
+
+```sh
+pnpm docs-tooling shared-docs lock --shared-docs shared-docs/node --repo /path/to/web-content
+pnpm docs-tooling shared-docs build --shared-docs shared-docs/node --repo /path/to/web-content --dev unused --out /tmp/manual-build
+```
+
+`lock` creates the single group lock at both channels from the tracking head
+(`--page` is rejected); `build` enumerates every `.md` page under `source.dir`
+at the locked `current` commit, expands each into an in-memory page config
+(`<Module>/<file>.md` publishes as `<Module>-<file>` under the module
+directory, case-insensitive collisions fail with `CONFIG_SLUG_DUPLICATE`), and
+generates `.md` pages with registry presentation from `source.yaml`. Titles
+and descriptions come from the H1 heading and the first paragraph after it;
+`metadata` backfills lifecycle display (`beta`, `added_since`,
+`deprecate_since`, `last_modified`, `notebook`, `keywords`) and migrated
+identity (`type`, `token`, `sidebar_position`) — absent fields keep the
+per-page defaults byte-for-byte. Links resolve within the manual page set by
+globally unique basename (`./<page-id>`, matching the published SDK reference
+convention); unresolved `.md` targets fail the build. Manual builds do not
+read a dev checkout; the `--dev` option is accepted but unused.
+`inspect` and `links-seed` are per-page commands and reject manual groups.
+
 ## Initial locks and PR validation (WP8b)
 
 Create missing initial source locks with a complete local Milvus checkout:

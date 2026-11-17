@@ -64,9 +64,23 @@ export function parsePageConfig(pageId: string, text: string, context: PageConfi
         }
       })
     }
-    if ('metadata' in value && check.object(value.metadata, ['metadata'], ['title', 'description', 'beta', 'added_since', 'last_modified'])) {
-      for (const key of ['title', 'description', 'added_since', 'last_modified']) {
+    if ('metadata' in value && check.object(value.metadata, ['metadata'], ['title', 'description', 'beta', 'added_since', 'last_modified',
+      'deprecate_since', 'notebook', 'type', 'token', 'sidebar_position', 'keywords'])) {
+      for (const key of ['title', 'description', 'added_since', 'last_modified', 'type', 'token'] as const) {
         if (key in value.metadata) check.string(value.metadata[key], ['metadata', key])
+      }
+      if ('deprecate_since' in value.metadata && value.metadata.deprecate_since !== false) {
+        check.string(value.metadata.deprecate_since, ['metadata', 'deprecate_since'])
+      }
+      if ('notebook' in value.metadata && typeof value.metadata.notebook !== 'boolean') {
+        check.error(['metadata', 'notebook'], 'notebook must be a boolean')
+      }
+      if ('sidebar_position' in value.metadata && (typeof value.metadata.sidebar_position !== 'number' || !Number.isInteger(value.metadata.sidebar_position))) {
+        check.error(['metadata', 'sidebar_position'], 'sidebar_position must be an integer')
+      }
+      if ('keywords' in value.metadata && (!Array.isArray(value.metadata.keywords) || !value.metadata.keywords.length
+        || value.metadata.keywords.some((item: unknown) => typeof item !== 'string' || !item.trim()))) {
+        check.error(['metadata', 'keywords'], 'keywords must be a nonempty list of nonempty strings')
       }
       if ('beta' in value.metadata) {
         // YAML's FALSE scalar is boolean false; both spellings denote the no-tag value.

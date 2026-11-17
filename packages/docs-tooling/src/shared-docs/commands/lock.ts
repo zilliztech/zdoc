@@ -5,7 +5,9 @@ import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadin
 import { groupContext } from '../adapters/group-context'
 import { GitMilvusDocsReader } from '../adapters/git-milvus-docs-reader'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
+import { parseManualConfig } from '../core/manual-config'
 import { planLock } from '../core/lock'
+import { readGroupLayout } from '../adapters/group-layout'
 import type { SharedDocsError } from '../core/types'
 
 export type LockOptions =
@@ -45,13 +47,42 @@ export async function runLock(options: LockOptions, write: (text: string) => voi
     await checkTree(root)
     const source = parseSourceConfig(await configFile(join(root, 'source.yaml'), group.file('source.yaml')), { file: group.file('source.yaml') })
     if ('errors' in source) { print(source.errors); return 1 }
+    const context = { manuals: manualRegistry.map(manual => manual.id), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
+    const layout = await readGroupLayout(root, group.path)
+    if ('errors' in layout) { print(layout.errors); return 1 }
+    if (layout.kind === 'manual') {
+      if (options.page !== undefined) throw new InputError('--page is not supported for manual groups')
+      const manual = parseManualConfig(await configFile(join(root, 'manual.yaml'), group.file('manual.yaml')), { ...context, file: group.file('manual.yaml') })
+      if ('errors' in manual) { print(manual.errors); return 1 }
+      const lockPath = join(root, 'lock.yaml')
+      let exists = false
+      try {
+        const stat = await lstat(lockPath)
+        if (!stat.isFile()) throw new InputError(`Lock must be a regular file: ${lockPath}`)
+        exists = true
+      } catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error }
+      if (exists) { write(`Skipped ${group.file('lock.yaml')}\n`); return 0 }
+      const reader = new GitMilvusDocsReader(resolve(options.repo))
+      const head = await reader.trackedHead(source.config.track)
+      await reader.requireNonShallowHistory()
+      const planned = planLock({ trackedHead: head, fromFork: false })
+      if ('errors' in planned) { print(planned.errors); return 1 }
+      // Exclusive creation preserves even an invalid lock created after preflight.
+      try {
+        await writeFile(lockPath, `schema_version: 1\ncurrent: ${planned.lock.current}\nnext: ${planned.lock.next}\n`, { flag: 'wx' })
+        write(`Created ${group.file('lock.yaml')}\n`)
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error
+        write(`Skipped ${group.file('lock.yaml')}\n`)
+      }
+      return 0
+    }
     let entries
     try { entries = await readdir(join(root, 'pages'), { withFileTypes: true }) }
     catch (error) {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') throw new InputError(`Required pages directory not found: ${group.file('pages')}`)
       throw error
     }
-    const context = { manuals: manualRegistry.map(manual => manual.id), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
     const pages: { id: string; path: string; exists: boolean }[] = []
     const errors: SharedDocsError[] = []
     for (const entry of entries.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)) {

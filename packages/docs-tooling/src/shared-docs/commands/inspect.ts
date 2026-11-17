@@ -3,6 +3,7 @@ import { join, resolve } from 'node:path'
 import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
 import { groupContext } from '../adapters/group-context'
+import { readGroupLayout } from '../adapters/group-layout'
 import { GitMilvusDocsReader } from '../adapters/git-milvus-docs-reader'
 import { inspectPage } from '../adapters/inspect-page'
 import type { InspectionResult } from '../adapters/inspect-page'
@@ -34,6 +35,13 @@ export function formatInspection(page: string, result: InspectionResult): string
 export async function runInspect(options: { sharedDocs: string; page: string; repo: string }, write: (text: string) => void, repositoryRoot = process.cwd()): Promise<number> {
   const group = groupContext(options.sharedDocs, repositoryRoot)
   if ('errors' in group) { write(formatInspection(options.page, group)); return 1 }
+  const layout = await readGroupLayout(group.root, group.path)
+  if ('errors' in layout) { write(formatInspection(options.page, layout)); return 1 }
+  if (layout.kind === 'manual') {
+    write(formatInspection(options.page, { errors: [{ code: 'CONFIG_FIELD_MISSING', message: 'inspect supports per-page groups; manual groups have no pages/ directory',
+      page: options.page, file: group.file('manual.yaml'), line: 1 }] }))
+    return 1
+  }
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(options.page)) {
     write(formatInspection(options.page, { errors: [{ code: 'CONFIG_PAGE_ID_INVALID',
       message: 'Page ID must contain lowercase letters, numbers, and hyphens', page: options.page,
