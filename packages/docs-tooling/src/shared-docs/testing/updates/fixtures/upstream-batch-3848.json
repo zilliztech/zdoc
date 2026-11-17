@@ -1,0 +1,3254 @@
+{
+  "provenance": {
+    "url": "https://github.com/milvus-io/milvus-docs/pull/3848",
+    "compareUrl": "https://api.github.com/repos/milvus-io/milvus-docs/compare/5479f04fcf7c379ede9548be1d917795eb4646b3...0115d5854c81f35e43d869955a00371501aa8e19",
+    "productMaster": "4492793f78d6761d042dbef8099007e27c08ddd7",
+    "source": {
+      "schema_version": 1,
+      "repository": "https://github.com/milvus-io/milvus-docs",
+      "track": "v3.0.x"
+    },
+    "base": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+    "head": "0115d5854c81f35e43d869955a00371501aa8e19",
+    "state": "open",
+    "merged": false,
+    "label": "upstream-unmerged",
+    "scope": "All committed configurations; lifecycle is unverified, intervals replay only the fixed PR delta, not complete lock-to-target history.",
+    "mappingEvidence": [
+      {
+        "pageId": "basic-filtering-operators",
+        "path": "shared-docs/guides/pages/basic-filtering-operators/page.yaml",
+        "blob": "f222bdcbf4d5f9644dfaaa572a6bbd43aac52249",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/search-query-get/boolean/basic-operators.md\n\nmetadata:\n  description: \"Zilliz Cloud provides comparison, range, arithmetic, logical, and NULL operators for filtering entities. Each operator supports specific field types.\"\n\npublish:\n  - manual: guides\n    path: tutorials/development/search-and-query/filtering/basic-filtering-operators\n  - manual: guides-byoc\n    path: tutorials/development/search-and-query/filtering/basic-filtering-operators\n\ntransforms:\n  - operation: replace\n    target:\n      block: basic-bitwise-heading\n    content:\n      file: cloud-bitwise-heading.md\n"
+      },
+      {
+        "pageId": "bitmap-index-type",
+        "path": "shared-docs/guides/pages/bitmap-index-type/page.yaml",
+        "blob": "88682cf7905dd7cf8a8988d48a24b644a78e5b57",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/bitmap.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/bitmap-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/bitmap-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: bitmap-drop-note\n    content:\n      file: cloud-drop-note.md\n"
+      },
+      {
+        "pageId": "index-struct-array",
+        "path": "shared-docs/guides/pages/index-struct-array/page.yaml",
+        "blob": "b6de301ccb8cc7a49e299985f18a41dc028e6668",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/schema/index-structarray-fields.md\n\nmetadata:\n  beta: PUBLIC\n\npublish:\n  - manual: guides\n    path: tutorials/development/schema/struct-array/index-struct-array\n  - manual: guides-byoc\n    path: tutorials/development/schema/struct-array/index-struct-array\n\ntransforms:\n  - operation: replace\n    target:\n      block: structarray-vector-indexes\n    content:\n      file: cloud-vector-indexes.md\n  - operation: replace\n    target:\n      block: structarray-scalar-indexes\n    content:\n      file: cloud-scalar-indexes.md\n  - operation: replace\n    target:\n      block: structarray-emblist-matrix\n    content:\n      file: cloud-emblist-matrix.md\n  - operation: replace\n    target:\n      block: structarray-element-matrix\n    content:\n      file: cloud-element-matrix.md\n  # Cloud wording for the element-null block; no specific Milvus version numbers.\n  - operation: replace\n    target:\n      block: structarray-index-element-null-limits\n    content:\n      file: cloud-structarray-index-element-null-limits.md\n  # Cloud wording for the element-null block; no specific Milvus version numbers.\n  - operation: replace\n    target:\n      block: structarray-index-element-null-intro\n    content:\n      file: cloud-structarray-index-element-null-intro.md\n  # Cloud wording for the element-null block; no specific Milvus version numbers.\n  - operation: replace\n    target:\n      block: structarray-index-element-null-rules\n    content:\n      file: cloud-structarray-index-element-null-rules.md\n"
+      },
+      {
+        "pageId": "inverted-index-type",
+        "path": "shared-docs/guides/pages/inverted-index-type/page.yaml",
+        "blob": "be3d0070889b83998c777b441490bef326e91792",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/inverted.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/inverted-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/inverted-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: inverted-json-heading\n    content:\n      file: cloud-json-heading.md\n  - operation: replace\n    target:\n      block: inverted-drop-note\n    content:\n      file: cloud-drop-note.md\n  - operation: replace\n    target:\n      block: inverted-next-steps\n    content:\n      file: cloud-next-steps.md\n"
+      },
+      {
+        "pageId": "json-field-overview",
+        "path": "shared-docs/guides/pages/json-field-overview/page.yaml",
+        "blob": "4c14f3020e0bf94414e26e4790b8746d1f40f23b",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/schema/json-field-overview.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/schema/json-fields/json-field-overview\n  - manual: guides-byoc\n    path: tutorials/development/schema/json-fields/json-field-overview\n"
+      },
+      {
+        "pageId": "json-indexing",
+        "path": "shared-docs/guides/pages/json-indexing/page.yaml",
+        "blob": "c84a79e5f6127b6a0d39924dba71f5f494dddeab",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/schema/json-indexing.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/schema/json-fields/json-indexing\n  - manual: guides-byoc\n    path: tutorials/development/schema/json-fields/json-indexing\n"
+      },
+      {
+        "pageId": "manage-collections-sdks",
+        "path": "shared-docs/guides/pages/manage-collections-sdks/page.yaml",
+        "blob": "922f1157d80ab710a857a5d6e47f4d96aa71716a",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/collections/create-collection.md\n\nmetadata:\n  description: \"You can create a collection by defining its schema, index parameters, metric type, and whether to load it upon creation. This page introduces how to create a collection from scratch.\"\n\npublish:\n  - manual: guides\n    path: tutorials/development/collection/manage-collections-sdks\n  - manual: guides-byoc\n    path: tutorials/development/collection/manage-collections-sdks\n\ntransforms:\n  # Cloud-only multi-tenancy guidance and the collection-count limit.\n  - operation: add\n    target:\n      block: page-intro\n    position: after\n    content:\n      file: cloud-multi-tenancy-note.md\n  # Cloud data-plane RESTful API authentication note.\n  - operation: add\n    target:\n      block: create-schema-examples\n    position: after\n    content:\n      file: cloud-rest-auth-note.md\n  # Cloud reference for indexing an existing collection.\n  - operation: add\n    target:\n      block: create-without-index-note\n    position: after\n    content:\n      file: cloud-autoindex-link.md\n"
+      },
+      {
+        "pageId": "ngram-index-type",
+        "path": "shared-docs/guides/pages/ngram-index-type/page.yaml",
+        "blob": "899a9e3f53ad6576a35fb966d945a98a44f0ac7f",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/ngram.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/ngram-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/ngram-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: ngram-drop-note\n    content:\n      file: cloud-drop-note.md\n"
+      },
+      {
+        "pageId": "pattern-match",
+        "path": "shared-docs/guides/pages/pattern-match/page.yaml",
+        "blob": "2ea8c7e862df82482d9526ca8b0ce04b2df676c4",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/search-query-get/boolean/pattern-matching.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/search-and-query/filtering/pattern-match\n  - manual: guides-byoc\n    path: tutorials/development/search-and-query/filtering/pattern-match\n\ntransforms:\n  - operation: replace\n    target:\n      block: use-regex-heading\n    content:\n      file: cloud-regex-heading.md\n  - operation: add\n    target:\n      block: pattern-match-query\n      language: shell\n    content:\n      file: cloud-cli-query.md\n  - operation: add\n    target:\n      block: pattern-raw-string\n      language: shell\n    content:\n      file: cloud-cli-raw-string.md\n  - operation: add\n    target:\n      block: pattern-alternation\n      language: shell\n    content:\n      file: cloud-cli-alternation.md\n  - operation: add\n    target:\n      block: pattern-escape\n      language: shell\n    content:\n      file: cloud-cli-escape.md\n  - operation: add\n    target:\n      block: pattern-substring\n      language: shell\n    content:\n      file: cloud-cli-substring.md\n  - operation: add\n    target:\n      block: pattern-anchors\n      language: shell\n    content:\n      file: cloud-cli-anchors.md\n  - operation: add\n    target:\n      block: pattern-null\n      language: shell\n    content:\n      file: cloud-cli-null.md\n"
+      },
+      {
+        "pageId": "rtree-index-type",
+        "path": "shared-docs/guides/pages/rtree-index-type/page.yaml",
+        "blob": "cf0c4b1778a69e5935dcd0d264b0e1ff020b7c02",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/rtree.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/rtree-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/rtree-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: rtree-drop-note\n    content:\n      file: cloud-drop-note.md\n"
+      },
+      {
+        "pageId": "slt-sort-index-type",
+        "path": "shared-docs/guides/pages/slt-sort-index-type/page.yaml",
+        "blob": "c88dde188ea34a25c75b33c38528cb053c146f7c",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/stl-sort.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/slt-sort-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/slt-sort-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: stl-sort-drop-note\n    content:\n      file: cloud-drop-note.md\n"
+      },
+      {
+        "pageId": "use-array-fields",
+        "path": "shared-docs/guides/pages/use-array-fields/page.yaml",
+        "blob": "e62a634ece8720dc37c6a1432bb83148036c9402",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/schema/array_data_type.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/schema/use-array-fields\n  - manual: guides-byoc\n    path: tutorials/development/schema/use-array-fields\n\ntransforms:\n  - operation: replace\n    target:\n      block: array-partial-update-note\n    content:\n      file: cloud-array-partial-update-note.md\n  # Cloud wording for the element-null block; no specific Milvus version numbers.\n  - operation: replace\n    target:\n      block: structarray-array-subfield-scope\n    content:\n      file: cloud-structarray-array-subfield-scope.md\n"
+      }
+    ]
+  },
+  "input": {
+    "observation": "replay",
+    "tools": "4492793f78d6761d042dbef8099007e27c08ddd7",
+    "pins": {
+      "master": "4492793f78d6761d042dbef8099007e27c08ddd7",
+      "dev": "4492793f78d6761d042dbef8099007e27c08ddd7",
+      "source": "0115d5854c81f35e43d869955a00371501aa8e19"
+    },
+    "pages": [
+      {
+        "pageId": "add-fields-to-an-existing-collection",
+        "sourceFile": "site/en/userGuide/schema/add-fields-to-an-existing-collection.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/add-fields-to-an-existing-collection"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/add-fields-to-an-existing-collection"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "2b0a5d015ca0c939e3df088406af7c9c72c2fde0",
+        "oldNext": "2b0a5d015ca0c939e3df088406af7c9c72c2fde0",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:afd34efa5d47e6eccb4375d0a37a842d17dc3046",
+          "git-blob:eab4f1de982e8afa32d1f13aa46de296caa6ec7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "alphanumonly-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/alphanumonly-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/alphanumonly-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/alphanumonly-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "oldNext": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:961c9b15acc175fe961b8b4f52446095789b36f9",
+          "git-blob:20033616969e980b233aa4ccafc8b9d3cc727ea3"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "alter-collection-field",
+        "sourceFile": "site/en/userGuide/schema/alter-collection-field.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/alter-collection-field"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/alter-collection-field"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "oldNext": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:9cd443eb5a20f92e3b324222b767d3bd4a9ba881",
+          "git-blob:f9452a42d6bbb8c18a015f0c865a1fd3a2dce3d9"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "alter-external-collection-schema",
+        "sourceFile": "site/en/userGuide/schema/alter-external-collection-schema.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/alter-external-collection-schema"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/alter-external-collection-schema"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "bc585bebeeffad16dca9e5b7a9e5aad36e84855a",
+        "oldNext": "bc585bebeeffad16dca9e5b7a9e5aad36e84855a",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:4eedc1ebbba2a5dbdc02c1b5e9ed8e3fe5ab17ec",
+          "git-blob:5365eec4600b544cfdca088b40a3f78ba6284a82"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "array-filtering-operators",
+        "sourceFile": "site/en/userGuide/search-query-get/boolean/array-operators.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/filtering/array-filtering-operators"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/filtering/array-filtering-operators"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "oldNext": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:022f2fec860e8ad283e753cfe6e872dc6efe583a",
+          "git-blob:a9c3a1d7ca84101b086f47fa50835be59ebc776c"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "ascii-folding-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/ascii-folding-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/ascii-folding-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/ascii-folding-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "oldNext": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:d8b011a106071945e13a17313d358194cb9dcbff",
+          "git-blob:20033616969e980b233aa4ccafc8b9d3cc727ea3"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "basic-filtering-operators",
+        "sourceFile": "site/en/userGuide/search-query-get/boolean/basic-operators.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/filtering/basic-filtering-operators"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/filtering/basic-filtering-operators"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/search-query-get/boolean/basic-operators.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:f222bdcbf4d5f9644dfaaa572a6bbd43aac52249",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "bitmap-index-type",
+        "sourceFile": "site/en/userGuide/indexes/scalar/bitmap.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/scalar-index/bitmap-index-type"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/scalar-index/bitmap-index-type"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/indexes/scalar/bitmap.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:88682cf7905dd7cf8a8988d48a24b644a78e5b57",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "bm25-function",
+        "sourceFile": "site/en/userGuide/embeddings-reranking/embedding-function/bm25-function.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/function/bm25-function"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/function/bm25-function"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "fbb43fec85fd4f5052dbc0b307cab93de826e6c3",
+        "oldNext": "fbb43fec85fd4f5052dbc0b307cab93de826e6c3",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:99c08a895233ad5a75cd37c1ba8bd3eafacbe6da",
+          "git-blob:7f850fd65ce8b79988852f26f35fb6953678410c"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "boost-ranker",
+        "sourceFile": "site/en/userGuide/embeddings-reranking/reranking/boost-ranker.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:3de0e8d98141ff6dff9ee7e73ad265a09fcbcc31",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "chinese-analyzer",
+        "sourceFile": "site/en/userGuide/schema/analyzer/analyzer/chinese-analyzer.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/built-in-analyzer/chinese-analyzer"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/built-in-analyzer/chinese-analyzer"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:e821d53e6bb668067f9840837d305bda31609937",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "cnalphanumonly-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/cnalphanumonly-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "52e7a67057058521d99bd5690321a6436b6be309",
+        "oldNext": "52e7a67057058521d99bd5690321a6436b6be309",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:0f0089125d0118cec41fbdaaa575f4e0709da1b0",
+          "git-blob:848da246b849ef95b27cea49722bdf22f7c8c92f"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "cncharonly-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/cncharonly-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/cncharonly-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/cncharonly-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "52e7a67057058521d99bd5690321a6436b6be309",
+        "oldNext": "52e7a67057058521d99bd5690321a6436b6be309",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:c96435c583ddaffb99ba1b87fe167eb0fe8adaca",
+          "git-blob:848da246b849ef95b27cea49722bdf22f7c8c92f"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "create-struct-array",
+        "sourceFile": "site/en/userGuide/schema/create-structarray-field.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/struct-array/create-struct-array"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/struct-array/create-struct-array"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "2b0a5d015ca0c939e3df088406af7c9c72c2fde0",
+        "oldNext": "2b0a5d015ca0c939e3df088406af7c9c72c2fde0",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:f5d91a8b807afd01c24e9ba676ed6021c9787298",
+          "git-blob:eab4f1de982e8afa32d1f13aa46de296caa6ec7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "database",
+        "sourceFile": "site/en/userGuide/manage_databases.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/database/database"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/database/database"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:c0d2dcea8a22724e55c49a80f4debd7b5e9d7938",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "decay-ranker-oveview",
+        "sourceFile": "site/en/userGuide/embeddings-reranking/reranking/decay-ranker-overview.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "oldNext": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:d19ace258c669da233c6c47b7a98cc3d0e455c34",
+          "git-blob:67c7d1ae173b0b9fd658a9add4d81978589fdc69"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "decompounder-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/decompounder-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/decompounder-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/decompounder-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "c57ca852d73015743db78748695351fcb5423639",
+        "oldNext": "c57ca852d73015743db78748695351fcb5423639",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:187e7160dcbfc4fff7ca8a16cea818d4cdd9af41",
+          "git-blob:8c02f52df9ab1f5c5823cc33c42f4380d3824783"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "default-fields",
+        "sourceFile": "site/en/userGuide/schema/default-values.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/default-fields"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/default-fields"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:9a37508c5e9031eae947a33e3a07b54d765b8315",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "delete-entities",
+        "sourceFile": "site/en/userGuide/insert-and-delete/delete-entities.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/insert-and-delete/delete-entities"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/insert-and-delete/delete-entities"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3e6b7499cbfcb6b5a365fb1f084a74836f625fc2",
+        "oldNext": "3e6b7499cbfcb6b5a365fb1f084a74836f625fc2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:ca80cf3c674895d21b9f45999bd1199464b465be",
+          "git-blob:6fd99d90ee692e7355a78d28fedd67d9071bc438"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "drop-collection",
+        "sourceFile": "site/en/userGuide/collections/drop-collection.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/collection/drop-collection"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/collection/drop-collection"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "oldNext": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:7642177e73dbeb6a6764f38350a5f4dac6424714",
+          "git-blob:67c7d1ae173b0b9fd658a9add4d81978589fdc69"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "enable-dynamic-field",
+        "sourceFile": "site/en/userGuide/schema/enable-dynamic-field.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/enable-dynamic-field"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/enable-dynamic-field"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:681bec5838398562fba3258e8c5acf3309f4f859",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "english-analyzer",
+        "sourceFile": "site/en/userGuide/schema/analyzer/analyzer/english-analyzer.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/built-in-analyzer/english-analyzer"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/built-in-analyzer/english-analyzer"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:a83e8bc9e2991bb1956529322a273265dc6b3d89",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "exponential-decay",
+        "sourceFile": "site/en/userGuide/embeddings-reranking/reranking/exponential-decay.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:c1afd9bb7e8aae52d16986a34a0b772268536ac3",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "filtered-search-with-struct-arrays",
+        "sourceFile": "site/en/userGuide/search-query-get/filtered-search-with-structarray.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "oldNext": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:97164482bb3afda150ffa94bab994806c5120348",
+          "git-blob:f9452a42d6bbb8c18a015f0c865a1fd3a2dce3d9"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "filtered-search",
+        "sourceFile": "site/en/userGuide/search-query-get/filtered-search.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/filtered-search"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/filtered-search"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "e0860ddc77b924037d05f388ea78a28ad65cdb83",
+        "oldNext": "e0860ddc77b924037d05f388ea78a28ad65cdb83",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:a6142fadb47a2bca74d92ff153bd971f8862f8a8",
+          "git-blob:fa0067b846643c7193de79331ae77487a0985530"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "filtering-templating",
+        "sourceFile": "site/en/userGuide/search-query-get/boolean/filtering-templating.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/filtering/filtering-templating"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/filtering/filtering-templating"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:effa159f9201561da1549a202bc1508da0b818cd",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "full-text-search",
+        "sourceFile": "site/en/userGuide/search-query-get/full-text-search.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/full-text-search"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/full-text-search"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "oldNext": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:7cd800c65ac3598237426f88283ada5b9e9b4bfb",
+          "git-blob:20033616969e980b233aa4ccafc8b9d3cc727ea3"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "gaussian-decay",
+        "sourceFile": "site/en/userGuide/embeddings-reranking/reranking/gaussian-decay.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:178492a8542ade9d591de4046a45fadbea16ef06",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "get-and-scalar-query",
+        "sourceFile": "site/en/userGuide/search-query-get/get-and-scalar-query.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/get-and-scalar-query"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/get-and-scalar-query"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:ab6b5f138acdd0e949444c72a3b8bd5421028816",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "grouping-search-with-struct-array",
+        "sourceFile": "site/en/userGuide/search-query-get/grouping-search-with-structarray.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "cc24894fd98e0af01b738be60640104a0b539f3c",
+        "oldNext": "cc24894fd98e0af01b738be60640104a0b539f3c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:f9ca387444777a240ead2696ae19182c5d6c3c03",
+          "git-blob:44cfb19fe2763c957272da1bfc5efd9550978963"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "grouping-search",
+        "sourceFile": "site/en/userGuide/search-query-get/grouping-search.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/grouping-search"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/grouping-search"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:c145043e11811ac3478b61aa31588a7b0584ada2",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "hybrid-search-with-struct-array",
+        "sourceFile": "site/en/userGuide/search-query-get/hybrid-search-with-structarray.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "cc24894fd98e0af01b738be60640104a0b539f3c",
+        "oldNext": "cc24894fd98e0af01b738be60640104a0b539f3c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:ed643281c0ecdac067b2ac454e0ef76fd8a4a2b0",
+          "git-blob:44cfb19fe2763c957272da1bfc5efd9550978963"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "icu-tokenizer",
+        "sourceFile": "site/en/userGuide/schema/analyzer/tokenizer/icu-tokenizer.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "oldNext": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:0c7381c2e9cdec1b5b1db796c8a321cc0ca444c5",
+          "git-blob:67c7d1ae173b0b9fd658a9add4d81978589fdc69"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "index-struct-array",
+        "sourceFile": "site/en/userGuide/schema/index-structarray-fields.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/struct-array/index-struct-array"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/struct-array/index-struct-array"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "oldNext": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/schema/index-structarray-fields.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:b6de301ccb8cc7a49e299985f18a41dc028e6668",
+          "git-blob:f9452a42d6bbb8c18a015f0c865a1fd3a2dce3d9"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "insert-entities",
+        "sourceFile": "site/en/userGuide/insert-and-delete/insert-update-delete.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/insert-and-delete/insert-entities"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/insert-and-delete/insert-entities"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "oldNext": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:8e98979bbe6f8c742fc0e0cf6320b933df31bc97",
+          "git-blob:67c7d1ae173b0b9fd658a9add4d81978589fdc69"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "insert-struct-array",
+        "sourceFile": "site/en/userGuide/schema/insert-data-into-structarray-fields.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/struct-array/insert-struct-array"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/struct-array/insert-struct-array"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "oldNext": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:6df7a5e6f1378e3618f9fb105b74f9f605fc6df9",
+          "git-blob:f9452a42d6bbb8c18a015f0c865a1fd3a2dce3d9"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "inverted-index-type",
+        "sourceFile": "site/en/userGuide/indexes/scalar/inverted.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/scalar-index/inverted-index-type"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/scalar-index/inverted-index-type"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/indexes/scalar/inverted.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:be3d0070889b83998c777b441490bef326e91792",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "jieba-tokenizer",
+        "sourceFile": "site/en/userGuide/schema/analyzer/tokenizer/jieba-tokenizer.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "8b483d237bed01ea839f5f6ad18a48f674232044",
+        "oldNext": "8b483d237bed01ea839f5f6ad18a48f674232044",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:7f3a6e5adc8301b30b865368c3a0581ba9a61f97",
+          "git-blob:242c502ae2759521879f23daff869f6713750f95"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "json-field-overview",
+        "sourceFile": "site/en/userGuide/schema/json-field-overview.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/json-fields/json-field-overview"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/json-fields/json-field-overview"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/schema/json-field-overview.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:4c14f3020e0bf94414e26e4790b8746d1f40f23b",
+          "git-blob:0309f2b9209e1c5b07c4785390f2b6729766c123"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "json-filtering-operators",
+        "sourceFile": "site/en/userGuide/search-query-get/boolean/json-operators.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/filtering/json-filtering-operators"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/filtering/json-filtering-operators"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:bc1b7c7143a63df954ec5324cd4a77de58214d05",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "json-indexing",
+        "sourceFile": "site/en/userGuide/schema/json-indexing.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/json-fields/json-indexing"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/json-fields/json-indexing"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/schema/json-indexing.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:c84a79e5f6127b6a0d39924dba71f5f494dddeab",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "json-shredding",
+        "sourceFile": "site/en/userGuide/schema/json-shredding.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/json-fields/json-shredding"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/json-fields/json-shredding"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:68f7c93a5cc1bfba3e590e8fc3c82f7a781b1f14",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "language-identifier-tokenizer",
+        "sourceFile": "site/en/userGuide/schema/analyzer/tokenizer/language-identifier.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:bc4a3bd4a706b28cfad9d526bbbd2b6d72a25219",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "length-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/length-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/length-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/length-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "52e7a67057058521d99bd5690321a6436b6be309",
+        "oldNext": "52e7a67057058521d99bd5690321a6436b6be309",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:a275c6e395ff625ccc0bab9104ba80812e0c9c94",
+          "git-blob:848da246b849ef95b27cea49722bdf22f7c8c92f"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "lindera-tokenizer",
+        "sourceFile": "site/en/userGuide/schema/analyzer/tokenizer/lindera-tokenizer.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "c57ca852d73015743db78748695351fcb5423639",
+        "oldNext": "c57ca852d73015743db78748695351fcb5423639",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:eeed6a12794b38c19a54cd88b03dc0004a4584b2",
+          "git-blob:8c02f52df9ab1f5c5823cc33c42f4380d3824783"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "linear-decay",
+        "sourceFile": "site/en/userGuide/embeddings-reranking/reranking/linear-decay.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:ccba37986dde107fcd3c0919e85bfb1a3f74df91",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "load-release-collections",
+        "sourceFile": "site/en/userGuide/collections/load-and-release.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/collection/load-release-collections"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/collection/load-release-collections"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:6336e248937cb085de9099cb0432c63382a129c5",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "lowercase-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/lowercase-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/lowercase-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/lowercase-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "oldNext": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:1e73f7800d5dcf2141affba36e42471d8e618e42",
+          "git-blob:20033616969e980b233aa4ccafc8b9d3cc727ea3"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "manage-aliases",
+        "sourceFile": "site/en/userGuide/collections/manage-aliases.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/collection/manage-aliases"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/collection/manage-aliases"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:2aa074c89533cd0bc441dabec7b74d1953511fa3",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "manage-collections-sdks",
+        "sourceFile": "site/en/userGuide/collections/create-collection.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/collection/manage-collections-sdks"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/collection/manage-collections-sdks"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/collections/create-collection.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:922f1157d80ab710a857a5d6e47f4d96aa71716a",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "manage-collections",
+        "sourceFile": "site/en/userGuide/collections/manage-collections.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/collection/manage-collections"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/collection/manage-collections"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:dbac4f8aada97c767b25f3b430ee2b312af739f2",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "manage-partitions",
+        "sourceFile": "site/en/userGuide/collections/manage-partitions.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/collection/manage-partitions"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/collection/manage-partitions"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "oldNext": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:155c5811c0e1f25a273eb959a1dfd85935dfa2a9",
+          "git-blob:a9c3a1d7ca84101b086f47fa50835be59ebc776c"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "modify-collections",
+        "sourceFile": "site/en/userGuide/collections/modify-collection.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/collection/modify-collections"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/collection/modify-collections"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:dad15bfd89de2ccf8041e58b97c2b57712f7847c",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "multi-tenancy",
+        "sourceFile": "site/en/reference/multi_tenancy.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/architecture/best-practices/multi-tenancy"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/architecture/best-practices/multi-tenancy"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:d1268f2366340f06649e7289043f5b61c3416fa7",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "ngram-index-type",
+        "sourceFile": "site/en/userGuide/indexes/scalar/ngram.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/scalar-index/ngram-index-type"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/scalar-index/ngram-index-type"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/indexes/scalar/ngram.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:899a9e3f53ad6576a35fb966d945a98a44f0ac7f",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "nullable-fields",
+        "sourceFile": "site/en/userGuide/schema/nullable-and-default.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/nullable-fields"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/nullable-fields"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "oldNext": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:5ebe9114c04ac3124b4f5629a9e903189c285725",
+          "git-blob:f9452a42d6bbb8c18a015f0c865a1fd3a2dce3d9"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "pattern-match",
+        "sourceFile": "site/en/userGuide/search-query-get/boolean/pattern-matching.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/filtering/pattern-match"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/filtering/pattern-match"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/search-query-get/boolean/pattern-matching.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:2ea8c7e862df82482d9526ca8b0ce04b2df676c4",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "pinyin-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/pinyin-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/pinyin-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/pinyin-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "52e7a67057058521d99bd5690321a6436b6be309",
+        "oldNext": "52e7a67057058521d99bd5690321a6436b6be309",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:a7f21b7bc824cd10d022423ec6e1234b626f29c5",
+          "git-blob:848da246b849ef95b27cea49722bdf22f7c8c92f"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "primary-field-auto-id",
+        "sourceFile": "site/en/userGuide/schema/primary-field.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/primary-field-auto-id"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/primary-field-auto-id"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "df73cf22bc44ff7493d0d4fa9e790c808899c2e5",
+        "oldNext": "df73cf22bc44ff7493d0d4fa9e790c808899c2e5",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:2b46e6ba7d5563ab83dec43f295636d066871c2f",
+          "git-blob:73116aa7b5cfbeff8d1a75ad1c24b42442e20c55"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "ramdom-sampling",
+        "sourceFile": "site/en/userGuide/search-query-get/boolean/random-sampling.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/filtering/ramdom-sampling"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/filtering/ramdom-sampling"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:1eb698650f17d699ca84d999a5392cb5ec4a3044",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "range-search-with-struct-arrays",
+        "sourceFile": "site/en/userGuide/search-query-get/range-search-with-structarray.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "cc24894fd98e0af01b738be60640104a0b539f3c",
+        "oldNext": "cc24894fd98e0af01b738be60640104a0b539f3c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:04fd2a6f69ebf67647f1f91b9cf7fb8c8ea977fd",
+          "git-blob:44cfb19fe2763c957272da1bfc5efd9550978963"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "range-search",
+        "sourceFile": "site/en/userGuide/search-query-get/range-search.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/range-search"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/range-search"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:49475333e01385fcedae8fd38851af077a63457b",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "regex-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/regex-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/regex-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/regex-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "oldNext": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:cc984f8ecae21a41830cb695ac241c98d5c12f3c",
+          "git-blob:67c7d1ae173b0b9fd658a9add4d81978589fdc69"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "remove-punct-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/removepunct-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/remove-punct-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/remove-punct-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "oldNext": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:efe1c37fbdb8ad96ee587c8a987c443007503d9e",
+          "git-blob:67c7d1ae173b0b9fd658a9add4d81978589fdc69"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "reranking-rrf",
+        "sourceFile": "site/en/userGuide/embeddings-reranking/reranking/rrf-ranker.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d1d6e28f0b555a80cf534e7319cd2b8a6af5de9e",
+        "oldNext": "d1d6e28f0b555a80cf534e7319cd2b8a6af5de9e",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:065d81570003b9eb93eab52f791d6db10c806796",
+          "git-blob:952d6d67e4a62e8a40c48bc89dd64afd43754df2"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "reranking-weighted-reranker",
+        "sourceFile": "site/en/userGuide/embeddings-reranking/reranking/weighted-ranker.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "oldNext": "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:b0978ed35f2855027dc868cda061fa331224e228",
+          "git-blob:9182899bfce5d4403c1320c259b75c96ff45b695"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "rtree-index-type",
+        "sourceFile": "site/en/userGuide/indexes/scalar/rtree.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/scalar-index/rtree-index-type"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/scalar-index/rtree-index-type"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/indexes/scalar/rtree.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:cf0c4b1778a69e5935dcd0d264b0e1ff020b7c02",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "schema-design-with-structs",
+        "sourceFile": "site/en/userGuide/schema/best-practices-for-array-of-structs.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/schema-best-practices/schema-design-with-structs"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/schema-best-practices/schema-design-with-structs"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "oldNext": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:5913219f7d56fd968f80c5a3bc7ac22bfa3abf90",
+          "git-blob:a9c3a1d7ca84101b086f47fa50835be59ebc776c"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "search-with-struct-array",
+        "sourceFile": "site/en/userGuide/search-query-get/basic-vector-search-with-structarray.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/struct-array-search/search-with-struct-array"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/struct-array-search/search-with-struct-array"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "503f47f84563dfa5d82117602a6be2de7310e725",
+        "oldNext": "503f47f84563dfa5d82117602a6be2de7310e725",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:7cfd0ed893e76ab39d2c04e92a7aa7d3f59c97b1",
+          "git-blob:97565f170f44a6315d514a52ebf78b1bf39af49a"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "set-collection-ttl",
+        "sourceFile": "site/en/userGuide/collections/set-collection-ttl.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/collection/set-collection-ttl"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/collection/set-collection-ttl"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "877809ac11cfa2b2f5e2ee8933477830dd1b76dd",
+        "oldNext": "877809ac11cfa2b2f5e2ee8933477830dd1b76dd",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:ecf2e2b23936a0e3055a555c23970f085968898d",
+          "git-blob:ef4d1886b312d58a7a78f01c1ebb852aa8d50726"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "single-vector-search",
+        "sourceFile": "site/en/userGuide/search-query-get/single-vector-search.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/single-vector-search"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/single-vector-search"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:2cd2c0ded6b04db03f5cbecdb1d51ffaea7ee8e4",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "slt-sort-index-type",
+        "sourceFile": "site/en/userGuide/indexes/scalar/stl-sort.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/scalar-index/slt-sort-index-type"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/scalar-index/slt-sort-index-type"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/indexes/scalar/stl-sort.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:c88dde188ea34a25c75b33c38528cb053c146f7c",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "snapshots",
+        "sourceFile": "site/en/userGuide/search-query-get/snapshots.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/snapshots/snapshots"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "be5597cd025829dc85b5f13d1a97f4a6214fd87a",
+        "oldNext": "be5597cd025829dc85b5f13d1a97f4a6214fd87a",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:9385e1d31003df2798d6b67b47d3b65fc792aa3e",
+          "git-blob:e3e1e57e65fa63cca9b9c45012c5ae442fa1c951"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "standard-analyzer",
+        "sourceFile": "site/en/userGuide/schema/analyzer/analyzer/standard-analyzer.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/built-in-analyzer/standard-analyzer"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/built-in-analyzer/standard-analyzer"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:333eaa3a8dfe0978973c70764a10ba22a8543fd0",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "standard-tokenizer",
+        "sourceFile": "site/en/userGuide/schema/analyzer/tokenizer/standard-tokenizer.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "oldNext": "32f3fc864d5ebf3b4407d924b6cd0ec16dfc274e",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:82a2bd318df301c400140baf34f62b637c261fff",
+          "git-blob:67c7d1ae173b0b9fd658a9add4d81978589fdc69"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "stemmer-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/stemmer-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/stemmer-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/stemmer-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "52e7a67057058521d99bd5690321a6436b6be309",
+        "oldNext": "52e7a67057058521d99bd5690321a6436b6be309",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:6de6d77f1b8e1d68398cb4be1e1afb902e4e9478",
+          "git-blob:848da246b849ef95b27cea49722bdf22f7c8c92f"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "stop-filter",
+        "sourceFile": "site/en/userGuide/schema/analyzer/filter/stop-filter.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-filters/stop-filter"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-filters/stop-filter"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "c57ca852d73015743db78748695351fcb5423639",
+        "oldNext": "c57ca852d73015743db78748695351fcb5423639",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:173f60870c7a3a0ea75da4782bc7fbc30b442fc2",
+          "git-blob:8c02f52df9ab1f5c5823cc33c42f4380d3824783"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "struct-array-filtering",
+        "sourceFile": "site/en/userGuide/search-query-get/boolean/struct-array-operators.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/filtering/struct-array-filtering"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/filtering/struct-array-filtering"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "oldNext": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:5dbae9c0781c3e629b8812ac6f220b6bbdc98efc",
+          "git-blob:f9452a42d6bbb8c18a015f0c865a1fd3a2dce3d9"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "struct-array-limits",
+        "sourceFile": "site/en/userGuide/schema/structarray-limits.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/struct-array/struct-array-limits"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/struct-array/struct-array-limits"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "oldNext": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:c83a1152d3eca7c3246b4469ff16ca7a695b6260",
+          "git-blob:a9c3a1d7ca84101b086f47fa50835be59ebc776c"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "text-match",
+        "sourceFile": "site/en/userGuide/search-query-get/keyword-match.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/text-match"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/text-match"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "oldNext": "0fa1045cbd6c15057d11b7e8d18279f30cfaf6af",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:427e4e73e0fcdb4b8a68feb10f57e6191c2ded29",
+          "git-blob:20033616969e980b233aa4ccafc8b9d3cc727ea3"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "tutorial-colbert-colpali",
+        "sourceFile": "site/en/userGuide/search-query-get/search-with-embedding-lists.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "e0860ddc77b924037d05f388ea78a28ad65cdb83",
+        "oldNext": "e0860ddc77b924037d05f388ea78a28ad65cdb83",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:73aa0191221d15a5b07691ee2e85dd8fab028461",
+          "git-blob:fa0067b846643c7193de79331ae77487a0985530"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "upsert-entities",
+        "sourceFile": "site/en/userGuide/insert-and-delete/upsert-entities.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/insert-and-delete/upsert-entities"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/insert-and-delete/upsert-entities"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "oldNext": "ccc847315b9e0c8f7bfac0c6cb0e7725c2647425",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:cc37c69186840398ea9d851e0b2ad5ec5c683fcb",
+          "git-blob:a9c3a1d7ca84101b086f47fa50835be59ebc776c"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "use-array-fields",
+        "sourceFile": "site/en/userGuide/schema/array_data_type.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/use-array-fields"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/use-array-fields"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "oldNext": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [
+          {
+            "from": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+            "to": "0115d5854c81f35e43d869955a00371501aa8e19",
+            "commits": [
+              "0115d5854c81f35e43d869955a00371501aa8e19"
+            ],
+            "changePaths": [
+              "site/en/userGuide/schema/array_data_type.md"
+            ],
+            "association": "complete",
+            "evidence": [
+              "github-compare:5479f04fcf7c379ede9548be1d917795eb4646b3:0115d5854c81f35e43d869955a00371501aa8e19"
+            ]
+          }
+        ],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "evidence": [
+          "git-blob:e62a634ece8720dc37c6a1432bb83148036c9402",
+          "git-blob:f9452a42d6bbb8c18a015f0c865a1fd3a2dce3d9"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED",
+          "REPLAY_PARTIAL_SOURCE_INTERVAL"
+        ]
+      },
+      {
+        "pageId": "use-array-of-structs",
+        "sourceFile": "site/en/userGuide/schema/array-of-structs.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/struct-array/use-array-of-structs"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/struct-array/use-array-of-structs"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "oldNext": "a4cb292107ce0cab8b2a02e7b9ceda4d7f11da6c",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:5ba3a9df49cdb6a92d2ec4ea5515c109b1d90e87",
+          "git-blob:f9452a42d6bbb8c18a015f0c865a1fd3a2dce3d9"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "use-binary-vector",
+        "sourceFile": "site/en/userGuide/schema/binary-vector.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/use-binary-vector"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/use-binary-vector"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "dd52c1134c705d6ea9af1592ce04bef1e001405f",
+        "oldNext": "dd52c1134c705d6ea9af1592ce04bef1e001405f",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:871e76b61391142525a7e9467167d31cb48bf8d8",
+          "git-blob:860a6c6781ca84f2919002a2ab19bb56009c003e"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "use-dense-vector",
+        "sourceFile": "site/en/userGuide/schema/dense-vector.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/use-dense-vector"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/use-dense-vector"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "dd52c1134c705d6ea9af1592ce04bef1e001405f",
+        "oldNext": "dd52c1134c705d6ea9af1592ce04bef1e001405f",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:e4d6b89581acd5e3a82143a1618f9cc01fa39bd1",
+          "git-blob:860a6c6781ca84f2919002a2ab19bb56009c003e"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "use-number-field",
+        "sourceFile": "site/en/userGuide/schema/number.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/use-number-field"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/use-number-field"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "dd52c1134c705d6ea9af1592ce04bef1e001405f",
+        "oldNext": "dd52c1134c705d6ea9af1592ce04bef1e001405f",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:018ed17815db21707da551923e4b1d9fda6f2126",
+          "git-blob:860a6c6781ca84f2919002a2ab19bb56009c003e"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "use-partition-key",
+        "sourceFile": "site/en/userGuide/search-query-get/use-partition-key.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/use-partition-key"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/use-partition-key"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "oldNext": "4b52f6f027c88a66f98755eb2859e30f31b5efa2",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:199a0386b2e6649456982ac29cae5c59907d8c19",
+          "git-blob:c89cabb32a016cd368bcd9e7af4177069ad98a2b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "use-sparse-vector",
+        "sourceFile": "site/en/userGuide/schema/sparse_vector.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/use-sparse-vector"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/use-sparse-vector"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "dd52c1134c705d6ea9af1592ce04bef1e001405f",
+        "oldNext": "dd52c1134c705d6ea9af1592ce04bef1e001405f",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:2036d9f0c0696d73162054443c94cf99500c6579",
+          "git-blob:860a6c6781ca84f2919002a2ab19bb56009c003e"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "use-string-field",
+        "sourceFile": "site/en/userGuide/schema/string.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/schema/use-string-field"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/schema/use-string-field"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "e510bc82f633015f48145a8335cd8eba9fe47821",
+        "oldNext": "e510bc82f633015f48145a8335cd8eba9fe47821",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:b43c8aedd67e7c46fefc7f0cd30d90abee20cd1b",
+          "git-blob:92a8d05db486522b1d81a20924956d3c55b24f05"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "view-collections",
+        "sourceFile": "site/en/userGuide/collections/view-collections.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/collection/view-collections"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/collection/view-collections"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "e510bc82f633015f48145a8335cd8eba9fe47821",
+        "oldNext": "e510bc82f633015f48145a8335cd8eba9fe47821",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:f20f14d23882510bdaa2ac5af86985c71a3c8bb3",
+          "git-blob:92a8d05db486522b1d81a20924956d3c55b24f05"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "whitespace-tokenizer",
+        "sourceFile": "site/en/userGuide/schema/analyzer/tokenizer/whitespace-tokenizer.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "d1233dd56c13e40dc68da5339819d34f73ec66d9",
+        "oldNext": "d1233dd56c13e40dc68da5339819d34f73ec66d9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:2814c3af4d3f5c5f003625f91f90b59d3e7644c8",
+          "git-blob:a9e92849f25ba2a5c6ddd54b3a9f6869c32c22ff"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      },
+      {
+        "pageId": "with-iterators",
+        "sourceFile": "site/en/userGuide/search-query-get/with-iterators.md",
+        "publish": [
+          {
+            "manual": "guides",
+            "path": "tutorials/development/search-and-query/with-iterators"
+          },
+          {
+            "manual": "guides-byoc",
+            "path": "tutorials/development/search-and-query/with-iterators"
+          }
+        ],
+        "active": null,
+        "published": null,
+        "current": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "oldNext": "3a9694ac8acbbc0faa308d08064729f0e1cd6bd9",
+        "target": "0115d5854c81f35e43d869955a00371501aa8e19",
+        "intervals": [],
+        "seedKeys": [],
+        "evidence": [
+          "git-blob:24ad590df3b64f8673da6b196ef41d0e34fac2de",
+          "git-blob:d21b021e7f5941ec8303cac75b9aa4e97d3bda7b"
+        ],
+        "reasons": [
+          "LIFECYCLE_UNVERIFIED"
+        ]
+      }
+    ],
+    "seeds": [
+      {
+        "key": "pr:3848",
+        "kind": "pr",
+        "commits": [
+          "0115d5854c81f35e43d869955a00371501aa8e19"
+        ],
+        "pr": {
+          "number": 3848,
+          "repository": "milvus-io/milvus-docs",
+          "baseBranch": "v3.0.x",
+          "base": "5479f04fcf7c379ede9548be1d917795eb4646b3",
+          "head": "0115d5854c81f35e43d869955a00371501aa8e19",
+          "mergeCommit": null,
+          "merged": false
+        },
+        "evidence": [
+          "github-pr:3848:0115d5854c81f35e43d869955a00371501aa8e19"
+        ],
+        "reasons": [
+          "UPSTREAM_UNMERGED"
+        ]
+      }
+    ],
+    "changes": [
+      {
+        "path": "site/en/fragments/scalar-array-index-requirements.md",
+        "status": "added",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "fragment",
+        "evidence": [
+          "github-blob:4de90dbaf04844805f03a4c26b03fb3394a8ccb0"
+        ]
+      },
+      {
+        "path": "site/en/fragments/scalar-index-drop-compatibility.md",
+        "status": "added",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "fragment",
+        "evidence": [
+          "github-blob:67f59a76cff997341fea15e667dc73b662f58bca"
+        ]
+      },
+      {
+        "path": "site/en/fragments/scalar-index-filter-execution.md",
+        "status": "added",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "fragment",
+        "evidence": [
+          "github-blob:5fc2e66f31eae0872cf1fbf8b8be3cee8a367a28"
+        ]
+      },
+      {
+        "path": "site/en/fragments/scalar-index-memory-estimates.md",
+        "status": "added",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "fragment",
+        "evidence": [
+          "github-blob:c5258f0005afe9d0c12f2286dbbf1b61c3e08998"
+        ]
+      },
+      {
+        "path": "site/en/menuStructure/en.json",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "other",
+        "evidence": [
+          "github-blob:dac6cb0776e67385a685d8abf5b02d392c875719"
+        ]
+      },
+      {
+        "path": "site/en/reference/scalar_index.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "other",
+        "evidence": [
+          "github-blob:3b0f529418254884bce94e9bc15cdc5ef79166d1"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/collections/create-collection.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "manage-collections-sdks"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:4a88a41b0873d435f0b3c11051e13b05b44f9081"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/indexes/scalar/bitmap.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "bitmap-index-type"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:aef3f8e6bca7ff1471429dc64f278ca8176df7f6"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/indexes/scalar/fmindex.md",
+        "status": "removed",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "other",
+        "evidence": [
+          "github-blob:114bf1c5585e1b4572c7901488448601e70f558f"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/indexes/scalar/inverted.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "inverted-index-type"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:80b893b036eaac38738d23b7e89414a95a2bad43"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/indexes/scalar/ngram.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "ngram-index-type"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:c3c0d01466c2dfc9e935b3cad70342f68f73c77a"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/indexes/scalar/rtree.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "rtree-index-type"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:f3ff029b49f4c7d973e2192ef5ec8bbc6a418710"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/indexes/scalar/stl-sort.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "slt-sort-index-type"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:e0e09119e669fbbc6202e2400f8f75fbc39a8403"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/indexes/scalar/trie.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "other",
+        "evidence": [
+          "github-blob:e1b63cd604ba44b1f49938aae01ecd608aab0997"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/load_balance.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "other",
+        "evidence": [
+          "github-blob:234253bbc5f091d6b06e8885a4e3fcb3382fbc81"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/manage-indexes/index-scalar-fields.md",
+        "status": "removed",
+        "previousPath": null,
+        "pageIds": [],
+        "kind": "other",
+        "evidence": [
+          "github-blob:827cb7312b5e2eeb0e1291e78103195b9b68ecc6"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/schema/array_data_type.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "use-array-fields"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:6b04ca9e2d4c9070ae925d7403461dd783b908ea"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/schema/index-structarray-fields.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "index-struct-array"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:77db4e8fade29bcd38b57e5daeb82801d7a67403"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/schema/json-field-overview.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "json-field-overview"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:d6246153ece601d687813d05b918e2cbddfbc81f"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/schema/json-indexing.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "json-indexing"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:c522af615cc1b1bcab3195b34d72be3479a71673"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/search-query-get/boolean/basic-operators.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "basic-filtering-operators"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:b6231eb3065d3e4a707743ca4c61265e8a8bcb6a"
+        ]
+      },
+      {
+        "path": "site/en/userGuide/search-query-get/boolean/pattern-matching.md",
+        "status": "modified",
+        "previousPath": null,
+        "pageIds": [
+          "pattern-match"
+        ],
+        "kind": "source",
+        "evidence": [
+          "github-blob:82bec15dc7ce9a24ad4e620366403b2d2bb85668"
+        ]
+      }
+    ],
+    "dependencies": [
+      {
+        "pageIds": [],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "paths": [
+          "site/en/fragments/scalar-array-index-requirements.md"
+        ],
+        "evidence": [
+          "github-blob:4de90dbaf04844805f03a4c26b03fb3394a8ccb0"
+        ],
+        "reasons": [
+          "DEPENDENCY_REQUIRES_COLLECTOR"
+        ]
+      },
+      {
+        "pageIds": [],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "paths": [
+          "site/en/fragments/scalar-index-drop-compatibility.md"
+        ],
+        "evidence": [
+          "github-blob:67f59a76cff997341fea15e667dc73b662f58bca"
+        ],
+        "reasons": [
+          "DEPENDENCY_REQUIRES_COLLECTOR"
+        ]
+      },
+      {
+        "pageIds": [],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "paths": [
+          "site/en/fragments/scalar-index-filter-execution.md"
+        ],
+        "evidence": [
+          "github-blob:5fc2e66f31eae0872cf1fbf8b8be3cee8a367a28"
+        ],
+        "reasons": [
+          "DEPENDENCY_REQUIRES_COLLECTOR"
+        ]
+      },
+      {
+        "pageIds": [],
+        "seedKeys": [
+          "pr:3848"
+        ],
+        "paths": [
+          "site/en/fragments/scalar-index-memory-estimates.md"
+        ],
+        "evidence": [
+          "github-blob:c5258f0005afe9d0c12f2286dbbf1b61c3e08998"
+        ],
+        "reasons": [
+          "DEPENDENCY_REQUIRES_COLLECTOR"
+        ]
+      }
+    ],
+    "reasons": [
+      "UPSTREAM_UNMERGED"
+    ]
+  }
+}
