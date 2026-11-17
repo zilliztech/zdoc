@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
 const {loadTypeScript} = require('../lib/load-typescript')
-const {digest, git, gitBlobs, gitInventory, regularBytes, snapshotPath} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
+const {digest, git, gitBlobs, gitInventory, regularBytes} = require('../../packages/docs-tooling/src/lark/sharedPageFetch')
 const {validateSharedReceipt} = require('../../packages/docs-tooling/src/lark/sharedPageRouting')
 const {validateImageBaseUrl} = require('../../packages/docs-tooling/src/lark/sharedImageUploader')
 const {runBuild} = loadTypeScript(path.resolve(__dirname, '../../packages/docs-tooling/src/shared-docs/commands/build.ts'))
@@ -18,7 +18,7 @@ const projected = rows => sorted(rows).map(({manual, path, sha256}) => ({manual,
 const {sharedGroupConfig} = require('../../packages/docs-tooling/src/lark/sharedGroups')
 // Dev verification roots per group: the group's manual trees plus the group-owned
 // snapshot and receipt roots. For guides this reproduces the historical literal list.
-const devRootsFor = group => [...groupDevRoots(group), snapshotPath, `generated/en/manifests/shared-pages/${group}`]
+const devRootsFor = group => [...groupDevRoots(group), sharedGroupConfig(group).snapshotPath, `generated/en/manifests/shared-pages/${group}`]
 const groupDevRoots = group => [...new Set([...sharedGroupConfig(group).byManual.values()].map(entry => entry.treeRoot))].sort()
 function mismatch(page, file, expected, actual, manual = null, message = 'Receipt regeneration differs') {
   const detail = [{page, manual, file, expected, actual, configuration: `shared-docs/pages/${page}/page.yaml`}]
@@ -151,7 +151,8 @@ async function regenerateReceipt(options, dependencies = {}) {
     const targets = structuredClone(inputs.fetch.render_targets.targets)
     const row = navigation.navigationRecords.filter(row => row.source_kind === 'shared-page' && row.shared_page?.page === receipt.page)
     if (row.length !== 1) throw Error('Missing unique authenticated render record')
-    const previous = inputs.dev.files.some(file => file.path === snapshotPath) ? JSON.parse(fs.readFileSync(path.join(dev, snapshotPath))).records.find(record => record.record_id === row[0].record_id) : null
+    const groupSnapshot = sharedGroupConfig(receipt.shared_page?.group ?? 'guides').snapshotPath
+    const previous = inputs.dev.files.some(file => file.path === groupSnapshot) ? JSON.parse(fs.readFileSync(path.join(dev, groupSnapshot))).records.find(record => record.record_id === row[0].record_id) : null
     for (const target of targets) {
       if (!config.publish.some(item => item.manual === target.manual && item.path === target.path)) throw mismatch(receipt.page, configFile, 'configured target', JSON.stringify(target), target.manual)
       const root = sharedGroupConfig(receipt.shared_page?.group ?? 'guides').byManual.get(target.manual).contentRoot
