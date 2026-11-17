@@ -313,7 +313,11 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
   const config = parsed.config
   const errors: SharedDocsError[] = []
   const targets = new Map<number, { navigation: { sidebar_label?: string; sidebar_position?: number }; pages: readonly ZdocPage[]; fetch?: FetchBuildTarget }>()
-  const records = await runtime.records()
+  // Release-channel evidence is a Guides-manual concern: never consult the snapshot for
+  // pages that publish only to other manuals, so a stray snapshot record with the same
+  // slug cannot leak a channel into them and the snapshot file stays optional for them.
+  const needsRecords = runtime.fetchContext !== undefined || config.publish.some(target => isGuidesManual(target.manual))
+  const records = needsRecords ? await runtime.records() : []
   const fetchManuals = runtime.fetchContext?.targets.map(target => target.manual)
   if (runtime.fetchContext && (runtime.fetchContext.page !== pageId || !fetchManuals?.length
     || fetchManuals.some(manual => !shared.context.manuals.includes(manual))
@@ -373,7 +377,8 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
     return entry ? { titleSuffix: entry.title_suffix, slugPrefix: entry.slug_prefix, displayedSidebar: entry.displayed_sidebar } : undefined
   }
   const manualContexts = config.publish.map((target, index) => {
-    const release = targets.get(index)?.fetch?.channel ?? records.find(record => record.slug === pageId)?.release_channel?.toLowerCase()
+    const release = targets.get(index)?.fetch?.channel ?? (isGuidesManual(target.manual)
+      ? records.find(record => record.slug === pageId)?.release_channel?.toLowerCase() : undefined)
     const availableChannels: Channel[] = release === 'next' ? ['next'] : release === 'retire-in-next' ? ['current'] : ['current', 'next']
     return { name: target.manual, availableChannels }
   })

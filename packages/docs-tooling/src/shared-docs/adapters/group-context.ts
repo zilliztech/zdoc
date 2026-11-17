@@ -13,6 +13,14 @@ export function groupFile(groupPath: string | undefined, file: string): string {
 /** Group directories the engine currently accepts; each maps to one shared-docs manual. */
 export const SUPPORTED_GROUPS = new Set(SHARED_DOC_GROUPS)
 
+/** The manuals a per-page group may publish into. The guides group keeps both site
+ * manuals; every other group publishes into the same-named manual only. Manual-layout
+ * groups instead declare their manual in manual.yaml and validate against the registry. */
+export function groupManuals(groupPath: string): string[] {
+  const name = basename(groupPath)
+  return name === 'guides' ? ['guides', 'guides-byoc'] : [name]
+}
+
 /** Validate the lexical group before any input/output or Git access. */
 export function groupContext(directory: string, repositoryRoot = process.cwd()): GroupContext | { errors: SharedDocsError[] } {
   const root = resolve(repositoryRoot, directory)
