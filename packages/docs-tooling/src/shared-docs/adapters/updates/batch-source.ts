@@ -348,27 +348,73 @@ export async function measureBatchExport(repository: string, commit: string, roo
   for (const entry of entries) for (let p = dirname(entry.path); p !== '.'; p = dirname(p)) directories.add(p)
   return {entries, bytes: entries.reduce((sum, entry) => sum + entry.bytes, 0), count: entries.length + directories.size}
 }
-/** The renderer retains one fragment snapshot per distinct source commit. Read
- * hash-checked raw objects and measure the unchanged reader's UTF-8 writes,
- * including replacement-character expansion and every implicit directory. */
+/** Both the worker and parent use this exact stopped-history walk. The parent
+ * supplies hash-checked history; no caller-provided commit list grants a budget. */
+export function batchRenderCommitSet(history: readonly {oid: string; parents: readonly string[]}[], current: string, oldNext: string, target: string) {
+  const graph = new Map(history.map(commit => [commit.oid, commit.parents]))
+  const reachable = (tip: string) => {
+    const pending = [tip], found = new Set<string>()
+    while (pending.length) {
+      const oid = pending.pop()!
+      if (found.has(oid)) continue
+      found.add(oid)
+      const parents = graph.get(oid) ?? stop('SOURCE_HISTORY_INCOMPLETE')
+      if (oid !== current) pending.push(...parents)
+    }
+    return found
+  }
+  const excluded = reachable(oldNext)
+  const interval = [...reachable(target)].filter(oid => !excluded.has(oid))
+  return [...new Set(interval.flatMap(oid => [oid, ...graph.get(oid)!]))].sort()
+}
+
+async function measureFragmentSnapshot(store: BatchGitStore, commit: string) {
+  GitShaSchema.parse(commit)
+  const entries = (await store.inventory(commit, 'site/en/fragments')).filter(entry => entry.path.endsWith('.md'))
+  const directories = new Set(['.'])
+  let bytes = 0
+  for (const entry of entries) {
+    const raw = await store.optionalFile(commit, entry.path)
+    if (!raw || raw.oid !== entry.oid) stop('BATCH_FRAGMENT_BINDING_INVALID')
+    // Match the unchanged reader's UTF-8 replacement-character expansion.
+    bytes += Buffer.byteLength(raw.bytes.toString('utf8'))
+    for (let path = dirname(entry.path.slice('site/en/'.length)); path !== '.'; path = dirname(path)) directories.add(path)
+  }
+  return {commit, bytes, count: entries.length + directories.size}
+}
+/** Endpoint observations retain one snapshot per distinct commit concurrently. */
 export async function measureBatchFragmentSnapshots(repository: string, commits: readonly string[]) {
   const store = await BatchGitStore.open(repository, batchBudget())
   let bytes = 0, count = 0
   const distinct = [...new Set(commits)]
   for (const commit of distinct) {
-    GitShaSchema.parse(commit)
-    const entries = (await store.inventory(commit, 'site/en/fragments')).filter(entry => entry.path.endsWith('.md'))
-    const directories = new Set(['.'])
-    for (const entry of entries) {
-      const raw = await store.optionalFile(commit, entry.path)
-      if (!raw || raw.oid !== entry.oid) stop('BATCH_FRAGMENT_BINDING_INVALID')
-      bytes += Buffer.byteLength(raw.bytes.toString('utf8'))
-      for (let path = dirname(entry.path.slice('site/en/'.length)); path !== '.'; path = dirname(path)) directories.add(path)
-    }
-    count += entries.length + directories.size
+    const measured = await measureFragmentSnapshot(store, commit)
+    bytes += measured.bytes; count += measured.count
   }
   await store.verify()
   return {bytes, count, snapshots: distinct.length}
+}
+/** All endpoint and intermediate snapshots share ONE authenticated read budget.
+ * The endpoint reader disposes before sequential intermediate observations, each
+ * of which also disposes its reader. M/D exports remain live throughout. */
+export async function measureBatchRenderFragments(repository: string, commits: readonly string[]) {
+  if (commits.length !== 3) stop('BATCH_FRAGMENT_BINDING_INVALID')
+  const [current, oldNext, target] = commits
+  const store = await BatchGitStore.open(repository, batchBudget())
+  const history = await store.history(target)
+  const required = batchRenderCommitSet(history.records(), current, oldNext, target)
+  const endpoints = [...new Set(commits)], intermediate = required.filter(commit => !endpoints.includes(commit))
+  let endpointBytes = 0, endpointCount = 0
+  for (const commit of endpoints) {
+    const measured = await measureFragmentSnapshot(store, commit)
+    endpointBytes += measured.bytes; endpointCount += measured.count
+  }
+  const sequential = []
+  for (const commit of intermediate) sequential.push(await measureFragmentSnapshot(store, commit))
+  await store.verify()
+  return {bytes: Math.max(endpointBytes, ...sequential.map(snapshot => snapshot.bytes)),
+    count: Math.max(endpointCount, ...sequential.map(snapshot => snapshot.count)),
+    snapshots: endpoints.length + sequential.length, endpoints: {bytes: endpointBytes, count: endpointCount}, sequential}
 }
 export async function reserveBatchContentAllocation(store: EvidenceStore, inputs: {
   masterRepository: string; master: string; devRepository: string; dev: string; sourceRepository: string; commits: readonly string[]
@@ -376,7 +422,7 @@ export async function reserveBatchContentAllocation(store: EvidenceStore, inputs
   const master = await measureBatchExport(inputs.masterRepository, inputs.master, ['shared-docs/guides'])
   const dev = await measureBatchExport(inputs.devRepository, inputs.dev, ['content/en/guides', 'content/en/byoc',
     'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', 'generated/en/manifests/shared-pages/guides/active.json'])
-  const fragments = await measureBatchFragmentSnapshots(inputs.sourceRepository, inputs.commits)
+  const fragments = await measureBatchRenderFragments(inputs.sourceRepository, inputs.commits)
   await reserveBatchAllocation(store, master.bytes + dev.bytes + fragments.bytes, master.count + dev.count + fragments.count + 4)
   return {master, dev, fragments}
 }

@@ -457,7 +457,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   }
   const object = (value: unknown) => retain(canonicalBytes(value))
   const reads = createGuidesReadSession(retain)
-  const {BatchGitStore, batchBudget, exportBatchTree} = await import('./batch-source')
+  const {BatchGitStore, batchBudget, exportBatchTree, batchRenderCommitSet} = await import('./batch-source')
   const rawBudget = batchBudget()
   const sourceProof = await BatchGitStore.open(request.sourceRepository, rawBudget)
   const configProof = await BatchGitStore.open(repositoryRoot, rawBudget)
@@ -573,14 +573,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       return detail === undefined ? rest : {...rest, detail: new TextDecoder().decode(canonicalBytes(detail))}
     }
     const commitHistory = await reads.history(request.sourceRepository, request.pins.source, [configured.current])
-    const graph = new Map(commitHistory.map(c => [c.oid, c.parents]))
-    const reachable = (tip: string) => {
-      const pending = [tip], found = new Set<string>()
-      while (pending.length) {const oid = pending.pop()!; if (found.has(oid)) continue; found.add(oid); if (oid !== configured.current) pending.push(...graph.get(oid) ?? [])}
-      return found
-    }
-    const excluded = reachable(configured.oldNext), interval = [...reachable(request.pins.source)].filter(oid => !excluded.has(oid))
-    const requiredCommits = sorted(interval.flatMap(oid => [oid, ...graph.get(oid) ?? []]))
+    const requiredCommits = batchRenderCommitSet(commitHistory, configured.current, configured.oldNext, request.pins.source)
     const intervalObservations = []
     for (const commit of requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))) {
       // One launch still renders only this page. Intervening roots/fragments cannot hide behind restored endpoint bytes.

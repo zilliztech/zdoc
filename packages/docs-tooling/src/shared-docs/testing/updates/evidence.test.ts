@@ -295,10 +295,37 @@ it('holds before materialization when simultaneous authenticated fragment snapsh
     const out = join(root, 'snapshot-budget'), store = await evidence.initializeEvidence({root: out, repositories: [repo], owner: 'snapshots'})
     evidence.bindBatchResources(store, 1)
     const {GitMilvusDocsReader} = await import('../../adapters/git-milvus-docs-reader')
-    const reader = new GitMilvusDocsReader(repo), materialize = vi.spyOn(reader, 'withFragments'), inputs = {masterRepository: repo, master: second, devRepository: repo, dev: second, sourceRepository: repo, commits: [first, second, first]}
+    const reader = new GitMilvusDocsReader(repo), materialize = vi.spyOn(reader, 'withFragments'), inputs = {masterRepository: repo, master: second, devRepository: repo, dev: second, sourceRepository: repo, commits: [first, first, second]}
     await expect((async () => {await source.reserveBatchContentAllocation(store, inputs); await reader.withFragments(first, async () => {})})()).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
     expect(materialize).not.toHaveBeenCalled()
     expect(await source.measureBatchFragmentSnapshots(repo, inputs.commits)).toMatchObject({bytes: 6 * 1024 ** 2, count: 8, snapshots: 2})
     expect((await actual.readdir(out)).sort()).toEqual(['.owner.json', 'blobs'])
+  } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
+})
+
+it('refuses an edit-restore intermediate fragment peak before its actual materialization', async () => {
+  const {root, repo} = await fixture(), actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+  for (const [path, body] of [['shared-docs/guides/source.yaml', 'fixture'], ['content/en/guides/page.mdx', 'fixture'], ['site/en/fragments/small.md', 'small']]) {
+    await mkdir(dirname(join(repo, path)), {recursive: true}); await writeFile(join(repo, path), body)
+  }
+  const commit = () => {git(repo, 'add', '.'); git(repo, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'snapshot'); return git(repo, 'rev-parse', 'HEAD')}
+  const first = commit(), fragment = 'site/en/fragments/deep/one/two/large.md'
+  await mkdir(dirname(join(repo, fragment)), {recursive: true}); await writeFile(join(repo, fragment), 'x'.repeat(3 * 1024 ** 2))
+  const middle = commit()
+  await unlink(join(repo, fragment)); const target = commit(), before = git(repo, 'show-ref') + git(repo, 'count-objects', '-v')
+  vi.resetModules(); vi.doMock('node:fs/promises', () => ({...actual, statfs: async () => ({bavail: 262656n, bsize: 4096n})}))
+  try {
+    const evidence = await import('../../adapters/updates/evidence'), source = await import('../../adapters/updates/batch-source')
+    const out = join(root, 'intermediate-budget'), store = await evidence.initializeEvidence({root: out, repositories: [repo], owner: 'intermediate'})
+    evidence.bindBatchResources(store, 1)
+    const {GitMilvusDocsReader} = await import('../../adapters/git-milvus-docs-reader'), reader = new GitMilvusDocsReader(repo)
+    const materialize = vi.spyOn(reader, 'withFragments'), inputs = {masterRepository: repo, master: target, devRepository: repo, dev: target, sourceRepository: repo, commits: [first, first, target]}
+    expect(await source.measureBatchFragmentSnapshots(repo, inputs.commits)).toMatchObject({bytes: 10, count: 6, snapshots: 2})
+    expect(await source.measureBatchRenderFragments(repo, inputs.commits)).toEqual({bytes: 3 * 1024 ** 2 + 5, count: 7, snapshots: 3,
+      endpoints: {bytes: 10, count: 6}, sequential: [{commit: middle, bytes: 3 * 1024 ** 2 + 5, count: 7}]})
+    await expect((async () => {await source.reserveBatchContentAllocation(store, inputs); await reader.withFragments(middle, async () => {})})()).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
+    expect(materialize).not.toHaveBeenCalled()
+    expect((await actual.readdir(out)).sort()).toEqual(['.owner.json', 'blobs'])
+    expect(git(repo, 'show-ref') + git(repo, 'count-objects', '-v')).toBe(before)
   } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
 })
