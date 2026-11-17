@@ -106,6 +106,12 @@ Zilliz Cloud は以下のデータソースをサポートしています。選�
 
 クロスクラスターソースの場合は、代わりに `external_source` を `milvus://` URI に設定します。このようなソースでは、`external_spec` パラメーターは省略可能です。省略した場合、またはその `format` フィールドを省略した場合、形式は `milvus-table` にデフォルト設定されます。`snapshot_id` および `extfs` の設定は、`milvus://` ソースには適用されません。
 
+<NextChannel action="include">
+
+ソースコレクションに StructArray フィールドがある場合、ターゲットの外部コレクションでは、ソースの Struct サブフィールドのサブセットを射影できます。これには、ソース行内の NULL の StructArray 値、空のサブフィールド配列、個々の Struct 要素内の null 値（要素単位で null を許容するサブフィールド）、および Struct 内のネストされた Array サブフィールドが含まれます。
+
+</NextChannel>
+
 <Admonition type="info" title="Notes">
 
 外部ソースは、フォルダーであることを示すために、フォワードスラッシュ (/) で終わる必要があります。
@@ -917,7 +923,7 @@ curl --request POST \
 
 リフレッシュ操作は非同期であるため、その進捗を監視する反復処理を設定する必要があります。
 
-If you use the RESTful API, check the progress of a refresh job with [Describe External コレクション Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2), or list the refresh jobs with [List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2).
+RESTful API を使用する場合は、[Describe External コレクション Refresh Job](/reference/restful/describe-external-collection-refresh-job-v2) でリフレッシュジョブの進捗状況を確認するか、[List External Collection Refresh Jobs](/reference/restful/list-external-collection-refresh-jobs-v2) でリフレッシュジョブを一覧表示します。
 
 <Admonition type="info" title="Notes">
 

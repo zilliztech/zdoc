@@ -146,6 +146,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+<NextChannel action="include">
+
+ソースコレクションに StructArray フィールドがある場合、ターゲットの外部コレクションは、ソースの Struct サブフィールドのサブセットを射影できます。これには、ソース行の NULL の StructArray 値、空のサブフィールド配列、個々の Struct 要素内の null 値（要素単位で null を許容するサブフィールド）、および Struct 内のネストされた Array サブフィールドが含まれます。
+
+</NextChannel>
+
 ## describe で確認する\{#verify-with-describe}
 
 コレクションを作成したら、describe を実行して、ソースコレクションにバインドされていることを確認します。

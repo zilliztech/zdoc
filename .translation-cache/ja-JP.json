@@ -661,9 +661,9 @@
       "translatedAt": "2026-11-09T12:49:41.519Z"
     },
     "content/en/byoc/tutorials/development/schema/use-text-field.md": {
-      "sourceHash": "5763d6a925f1a3563d94977cc7d71619b59876c0855dd410c7cbadd5b46bdcb7",
+      "sourceHash": "8b72fbc279945b417a8db405c50eddaa7e056a040ab84c5df8160e40f549b440",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-text-field.md",
-      "translatedAt": "2026-11-06T11:52:57.225Z"
+      "translatedAt": "2026-11-17T13:45:09.949Z"
     },
     "content/en/byoc/tutorials/development/schema/use-timestamptz-field.md": {
       "sourceHash": "fb7ef974caadcc707901aaa8d0a2a20afc630f5a8594c126742b9b7ef70a88a2",
@@ -871,9 +871,9 @@
       "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
-      "sourceHash": "8c2160beb6b79366f9f793fcba291a64ee43183ad0398e098e59d683e776af2d",
+      "sourceHash": "043e2b43a429bc7f43e9ae13efb9c464d7700094e80e88b7f2321da6cdfd702e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-      "translatedAt": "2026-11-12T09:53:56.760Z"
+      "translatedAt": "2026-11-17T13:45:09.949Z"
     },
     "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md": {
       "sourceHash": "e973b39c979477a11f41a83edc6e54b3873e99d417e89d327720c0016615f274",
@@ -1641,14 +1641,14 @@
       "translatedAt": "2026-11-11T04:48:46.318Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/create-external-collection.md": {
-      "sourceHash": "a2ccbedd5434c962d4ef202ac0fb8350ec78c6f6f930108d5880a0b89fc35efe",
+      "sourceHash": "363d4a2146dd3e586cac1083ad1c74742a9c060ccf06a76bd0dc8edb7d1d41b5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "translatedAt": "2026-11-16T11:45:56.248Z"
+      "translatedAt": "2026-11-17T13:45:09.949Z"
     },
     "content/en/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source.md": {
-      "sourceHash": "28b610756c881f8a214a4ac0ec5006ce4ca6cbdfcd4a2ef7cb37fb766f8c07f5",
+      "sourceHash": "2b2a19b3772545a1633b5ab98df8197691932448ba11f52c19bc2d5e2837b4ec",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source.md",
-      "translatedAt": "2026-11-11T16:50:08.974Z"
+      "translatedAt": "2026-11-17T13:45:09.949Z"
     },
     "content/en/guides/tutorials/development/collection/drop-collection.md": {
       "sourceHash": "a1566e7f780bbc31f400aa60ba90aceefed109887d405ad1477f526e5f1a0a77",
@@ -1656,9 +1656,9 @@
       "translatedAt": "2026-11-09T13:00:23.467Z"
     },
     "content/en/guides/tutorials/development/collection/external-collection-limits.md": {
-      "sourceHash": "ea107c7ceae307432c09d567144443d6e8c162492bc1c1bbf584dc3606391dd9",
+      "sourceHash": "0991ad35aabd9a2df57250f5b796a853d4065b2f35e49526bd42c96842cc4ba7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/external-collection-limits.md",
-      "translatedAt": "2026-11-17T03:44:30.798Z"
+      "translatedAt": "2026-11-17T13:45:09.949Z"
     },
     "content/en/guides/tutorials/development/collection/load-release-collections.md": {
       "sourceHash": "21e06c2d477bb27c6792758d7b2e4cc56aa7cef49b4559501c7615150f05c97d",
@@ -2061,9 +2061,9 @@
       "translatedAt": "2026-11-09T13:47:51.369Z"
     },
     "content/en/guides/tutorials/development/schema/use-text-field.md": {
-      "sourceHash": "49574dd6ee04a68341d009ed052f81acb1f7641aed5e094b6a881b760975b721",
+      "sourceHash": "14c770d70bd05270b9a8d89832c0e4192dba915ee8e6a6afea8c4bc30ea094d5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-text-field.md",
-      "translatedAt": "2026-11-06T12:02:10.961Z"
+      "translatedAt": "2026-11-17T13:45:09.949Z"
     },
     "content/en/guides/tutorials/development/schema/use-timestamptz-field.md": {
       "sourceHash": "a3aef1f7ae73e7916213786b29bd687f52f04d535ecb860d3bde8e51f0fc7b45",

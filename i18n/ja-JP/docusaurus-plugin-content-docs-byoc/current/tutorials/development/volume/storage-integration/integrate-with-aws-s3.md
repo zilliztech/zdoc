@@ -50,7 +50,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - AWS 組織のリソースコントロールポリシー（RCP）が、クロスアカウントのロール引き受けを許可していること。
 
-    詳細は、[ロールの引き受けの失敗](./integrate-with-aws-s3#role-assumption-failures) を参照してください。
+    詳細については、後述の[ロールの引き受けの失敗](./integrate-with-aws-s3#troubleshooting)を参照してください。
 
 <Admonition type="info" title="Notes">
 
