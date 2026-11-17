@@ -119,3 +119,31 @@ test('engine digest canonicalizes inventory order', () => {
   const b = renderIdentity.engineDigest([...engineFiles].reverse())
   assert.equal(a, b)
 })
+
+test('engine digest ignores test-only engine files; production engine files still flip it', () => {
+  // Test suites live both under shared-docs/testing/ and scattered beside the
+  // production sources (adapters/contract, manuals/derive, spec, fixtures), so the
+  // filter drops the whole testing/ tree plus any *.test.* file name elsewhere.
+  const withTests = [...engineFiles,
+    {path: 'packages/docs-tooling/src/shared-docs/testing/updates/remote.test.ts', sha256: sha('remote-test')},
+    {path: 'packages/docs-tooling/src/shared-docs/testing/merge/render.test.tsx', sha256: sha('render-test')},
+    {path: 'packages/docs-tooling/src/shared-docs/testing/golden.ts', sha256: sha('golden')},
+    {path: 'packages/docs-tooling/src/shared-docs/adapters/contract/md2md.test.ts', sha256: sha('md2md-test')},
+    {path: 'packages/docs-tooling/src/shared-docs/spec/coverage.test.ts', sha256: sha('coverage-test')},
+    {path: 'packages/docs-tooling/src/manuals/derive/larkConfig.test.ts', sha256: sha('larkconfig-test')}]
+  assert.deepEqual(renderIdentity.productionEngineFiles(withTests), engineFiles)
+  assert.equal(renderIdentity.engineDigest(withTests), renderIdentity.engineDigest(engineFiles))
+  const flippedTests = withTests.map(file => file.path.endsWith('remote.test.ts') ? {...file, sha256: sha('remote-test-2')}
+    : file.path.endsWith('golden.ts') ? {...file, sha256: sha('golden-2')} : file)
+  assert.equal(renderIdentity.engineDigest(flippedTests), renderIdentity.engineDigest(engineFiles))
+  const productionChange = engineFiles.map(file => file.path === 'packages/docs-tooling/src/shared-docs/commands/build.ts' ? {...file, sha256: sha('build2')} : file)
+  assert.notEqual(renderIdentity.engineDigest(productionChange), renderIdentity.engineDigest(engineFiles))
+})
+
+test('test-only engine edits do not flip the render identity', () => {
+  const withTests = [...engineFiles, {path: 'packages/docs-tooling/src/shared-docs/testing/updates/remote.test.ts', sha256: sha('remote-test')}]
+  const base = renderIdentity.renderIdentity({...planningProjection(), engine: {inventory_sha256: renderIdentity.engineDigest(withTests), md2md: '9.9.9'}}).inputs_sha256
+  const editedTests = withTests.map(file => file.path.endsWith('remote.test.ts') ? {...file, sha256: sha('remote-test-2')} : file)
+  const still = renderIdentity.renderIdentity({...planningProjection(), engine: {inventory_sha256: renderIdentity.engineDigest(editedTests), md2md: '9.9.9'}})
+  assert.equal(still.inputs_sha256, base)
+})
