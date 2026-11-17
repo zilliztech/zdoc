@@ -15,11 +15,11 @@ function sharedRecords(snapshot) {
   return (snapshot?.records || []).filter(record => record.source_kind === 'shared-page')
 }
 
-function receiptsFromSourceCacheManifest(workspace, sourceDirName, snapshot) {
+function receiptsFromSourceCacheManifest(workspace, sourceDirName, snapshot, expectedManual = 'guides') {
   const manifestPath = path.join(workspace, SOURCE_CACHE_DIR, `${sourceDirName}-manifest.json`)
   if (!fs.lstatSync(manifestPath).isFile()) throw new Error('source cache manifest must be a regular file')
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
-  if (manifest.manual !== 'guides' || manifest.snapshotHash !== hashSnapshot(snapshot)) {
+  if (manifest.manual !== expectedManual || manifest.snapshotHash !== hashSnapshot(snapshot)) {
     throw new Error('source cache manifest does not describe this snapshot')
   }
   if (!manifest.sharedReceipts || typeof manifest.sharedReceipts !== 'object' || Array.isArray(manifest.sharedReceipts)) {
@@ -28,22 +28,22 @@ function receiptsFromSourceCacheManifest(workspace, sourceDirName, snapshot) {
   return new Map(Object.entries(manifest.sharedReceipts))
 }
 
-function receiptsFromPublishedAuthority(workspace, snapshot) {
-  return require('./sharedPagePublication').publishedEvidence(workspace, snapshot, {verifyFiles: false}).receipts
+function receiptsFromPublishedAuthority(workspace, snapshot, group = 'guides') {
+  return require('./sharedPagePublication').publishedEvidence(workspace, snapshot, {verifyFiles: false, group}).receipts
 }
 
 // Receipts are only located here; validateSourceCompleteness still authenticates
 // every receipt against the snapshot record, so a stale or foreign receipt set
 // degrades to the existing full-fetch decision instead of being trusted.
 // `diagnostics` collects why each source was skipped for the caller's log.
-function sharedReceiptsForPlanning({ workspace = process.cwd(), sourceDirName, snapshot, diagnostics = [] } = {}) {
+function sharedReceiptsForPlanning({ workspace = process.cwd(), sourceDirName, snapshot, diagnostics = [], group = 'guides' } = {}) {
   if (typeof sourceDirName !== 'string' || !sourceDirName || sourceDirName.includes('/') || sourceDirName.includes('\\')) {
     throw new Error('sourceDirName must be a bare source directory name')
   }
   if (sharedRecords(snapshot).length === 0) return new Map()
   const sources = [
-    ['source cache manifest', () => receiptsFromSourceCacheManifest(workspace, sourceDirName, snapshot)],
-    ['published shared authority', () => receiptsFromPublishedAuthority(workspace, snapshot)],
+    ['source cache manifest', () => receiptsFromSourceCacheManifest(workspace, sourceDirName, snapshot, group)],
+    ['published shared authority', () => receiptsFromPublishedAuthority(workspace, snapshot, group)],
   ]
   for (const [label, source] of sources) {
     try {

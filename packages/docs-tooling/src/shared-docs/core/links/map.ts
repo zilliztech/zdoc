@@ -20,7 +20,7 @@ export function parseLinkMap(yamlText: string, context: DiagnosticContext):
   const errors: ReturnType<typeof diagnostic>[] = []
   for (const [key, destination] of Object.entries(value)) {
     if (!isMilvusFilename(key)) errors.push(diagnostic('LINK_MAP_INVALID', 'A link-map key must be a bare .md filename.', context, document.line([key, '$key'])))
-    if (typeof destination !== 'string' || !(/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(destination) || isMilvusUrl(destination))) {
+    if (typeof destination !== 'string' || !(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(destination) || isMilvusUrl(destination))) {
       errors.push(diagnostic('LINK_MAP_INVALID', 'A destination must be a Cloud slug or an https://milvus.io/ URL.', context, document.line([key])))
     } else map.set(key, destination)
   }

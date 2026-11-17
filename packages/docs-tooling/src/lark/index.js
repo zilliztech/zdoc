@@ -612,8 +612,13 @@ function larkDocsPlugin(context, options) {
 
                     // Intialize scraper and writer
                     const scraper = new docScraper(root, base, sourceType, docSourceDir)
+                    // One shared lane per shared-docs group. Guides keeps its English-source
+                    // predicate; other shared groups (today: node) have no Chinese Lark lane.
+                    const sharedLaneGroup = manualName === 'guides'
+                        ? (path.basename(docSourceDir) === 'guides' ? 'guides' : null)
+                        : (require('./sharedGroups').isSharedDocGroup(manualName) ? manualName : null)
                     let requestedSharedBaseline = null
-                    if (manualName === 'guides' && path.basename(docSourceDir) === 'guides' && opts.requestedBaselineSha) {
+                    if (sharedLaneGroup && opts.requestedBaselineSha) {
                         const publication = require('./sharedPagePublication')
                         const baseline = readSnapshot(opts.snapshotPath || require('./sharedPageFetch').snapshotPath)
                         requestedSharedBaseline = publication.requestedBaseline(process.cwd(), opts.requestedBaselineSha, baseline)
@@ -624,18 +629,18 @@ function larkDocsPlugin(context, options) {
                     }
                     let sharedHandoff = null
                     if (opts.sharedBundle) {
-                        if (!opts.offline || !opts.skipSourceDown || manualName !== 'guides' || path.basename(docSourceDir) !== 'guides') throw new Error('Shared bundle requires English offline Guides')
-                        sharedHandoff = require('./sharedPageBundle').loadBundle(opts.sharedBundle, {masterSha: process.env.DOCS_TOOLING_SHARED_MASTER_SHA, devBaselineSha: process.env.DOCS_TOOLING_SHARED_DEV_SHA})
+                        if (!opts.offline || !opts.skipSourceDown || !sharedLaneGroup) throw new Error('Shared bundle requires English offline shared sources')
+                        sharedHandoff = require('./sharedPageBundle').loadBundle(opts.sharedBundle, {masterSha: process.env.DOCS_TOOLING_SHARED_MASTER_SHA, devBaselineSha: process.env.DOCS_TOOLING_SHARED_DEV_SHA, group: sharedLaneGroup})
                         if (sharedHandoff.continuation) require('./sharedPagePublication').authenticateContinuation(process.cwd(), sharedHandoff,
-                            readSnapshot(opts.snapshotCandidatePath || 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'))
+                            readSnapshot(opts.snapshotCandidatePath || `packages/docs-tooling/src/lark/meta/reports/${sharedLaneGroup}-source-snapshot-candidate.json`))
                         scraper.routingContext = sharedHandoff.routing
                         scraper.records = structuredClone(sharedHandoff.bundle.preparation.records)
                     }
                     // Source-job ownership is bound before metadata/body fetch or cache planning.
-                    if (!sharedHandoff && manualName === 'guides' && path.basename(docSourceDir) === 'guides'
+                    if (!sharedHandoff && sharedLaneGroup
                         && process.env.DOCS_TOOLING_SHARED_BASELINE && process.env.DOCS_TOOLING_SHARED_MASTER_SHA) {
                         await require('./sharedPageFetch').initializeSharedScraper(scraper, {
-                            site: 'en', sourceDir: docSourceDir, repositoryRoot: process.cwd(), baselineRoot: process.env.DOCS_TOOLING_SHARED_BASELINE,
+                            site: 'en', group: sharedLaneGroup, sourceDir: docSourceDir, repositoryRoot: process.cwd(), baselineRoot: process.env.DOCS_TOOLING_SHARED_BASELINE,
                             masterCommit: process.env.DOCS_TOOLING_SHARED_MASTER_SHA, devCommit: process.env.DOCS_TOOLING_SHARED_DEV_SHA,
                             requireCompleteScan: !opts.requestedBaselineSha && scraper.use_all_base_tables,
                             output: process.env.DOCS_TOOLING_SHARED_PREPARATION,
@@ -649,13 +654,14 @@ function larkDocsPlugin(context, options) {
 
                     // The separate post-generation audit must use the authenticated run outcomes,
                     // including aliases recovered after source-cache restoration.
-                    const generatedSharedRoot = 'tmp/docs-tooling/en/shared-pages/guides'
-                    if (!sharedHandoff && opts.auditCanonicalLinks && manualName === 'guides'
+                    const generatedSharedRoot = require('./sharedPageBundle').rootFor(sharedLaneGroup ?? 'guides')
+                    if (!sharedHandoff && opts.auditCanonicalLinks && sharedLaneGroup
                         && process.env.DOCS_TOOLING_SHARED_MASTER_SHA && process.env.DOCS_TOOLING_SHARED_DEV_SHA
                         && fs.existsSync(`${generatedSharedRoot}/bundle.json`)) {
                         scraper.routingContext = require('./sharedPageBundle').loadBundle(generatedSharedRoot, {
                             masterSha: process.env.DOCS_TOOLING_SHARED_MASTER_SHA,
                             devBaselineSha: process.env.DOCS_TOOLING_SHARED_DEV_SHA,
+                            group: sharedLaneGroup,
                         }).routing
                     }
 
@@ -721,7 +727,7 @@ function larkDocsPlugin(context, options) {
                             : new Map()
                         const previousSnapshot = readSnapshot(snapshotPath)
                         const receiptDiagnostics = []
-                        const sharedReceiptsByRecordId = sharedReceiptsForPlanning({ sourceDirName: path.basename(docSourceDir), snapshot: previousSnapshot, diagnostics: receiptDiagnostics })
+                        const sharedReceiptsByRecordId = sharedReceiptsForPlanning({ sourceDirName: path.basename(docSourceDir), snapshot: previousSnapshot, diagnostics: receiptDiagnostics, group: sharedLaneGroup ?? undefined })
                         if (sharedReceiptsByRecordId.size === 0 && (previousSnapshot?.records || []).some(record => record.source_kind === 'shared-page')) {
                             console.warn(`[incremental-fetch] Shared publication receipts are unavailable in this workspace; shared records will count as missing sources (${receiptDiagnostics.join('; ')}).`)
                         }
@@ -1300,11 +1306,11 @@ function larkDocsPlugin(context, options) {
                             throw new Error(`Please provide a valid target... \n\nAvailable targets: \n- ${utils.list_valid_targets(targets).join('\n- ')}\n`)
                         }
 
-                        if (manualName === 'guides' && opts.skipSourceDown && !opts.postProcess) {
-                            const candidatePath = opts.snapshotCandidatePath || path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', 'guides-source-snapshot-candidate.json')
-                            if (!fs.existsSync(candidatePath)) throw new Error(`Complete guides source candidate is required before rendering: ${candidatePath}`)
+                        if (sharedLaneGroup && opts.skipSourceDown && !opts.postProcess) {
+                            const candidatePath = opts.snapshotCandidatePath || path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${sharedLaneGroup}-source-snapshot-candidate.json`)
+                            if (!fs.existsSync(candidatePath)) throw new Error(`Complete ${sharedLaneGroup} source candidate is required before rendering: ${candidatePath}`)
                             assertSourceCompleteness({
-                                manual: 'guides',
+                                manual: manualName,
                                 buildEnv: opts.buildEnv || 'uat',
                                 rootToken: root,
                                 sourceDir: docSourceDir,

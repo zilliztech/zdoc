@@ -65,7 +65,9 @@ function validateCandidateSnapshot(candidate, expected = {}) {
     if (record.source_kind === undefined && record.shared_page !== undefined) throw new Error('Shared identity requires its snapshot discriminant')
     if (record.source_kind !== undefined && record.source_kind !== 'shared-page') throw new Error('Unknown snapshot source kind')
     if (record.source_kind === 'shared-page') {
-      if (candidate.manual !== 'guides' || candidate.schema_version !== 3) throw new Error('Shared records require the Guides schema-3 snapshot')
+      const sharedCapable = candidate.manual === 'guides' ? candidate.schema_version === 3
+        : require('./sharedGroups').sharedGroupConfig(candidate.manual).group === candidate.manual && candidate.schema_version === 2
+      if (!sharedCapable) throw new Error(`Shared records require a shared-docs snapshot for ${candidate.manual} (Guides schema 3, others schema 2)`)
       validateSharedSnapshotRecord(record)
     }
     if (record.source_kind !== 'shared-page' && (typeof record.doc_token !== 'string' || !record.doc_token)) throw new Error('Candidate snapshot document token is required')

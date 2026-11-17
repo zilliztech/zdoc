@@ -1586,10 +1586,12 @@
         "packages/docs-tooling/src/lark/sharedPageFetch*",
         "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
         "scripts/docs-workflow/guides-shared-sources*",
-        "packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts"
+        "packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts",
+        "packages/docs-tooling/src/lark/sharedGroups*"
       ],
       "focusedTests": [
         "node --test scripts/docs-workflow/guides-shared-sources.test.js",
+        "node --test packages/docs-tooling/src/lark/sharedGroups.test.js",
         "node --test packages/docs-tooling/src/lark/sharedPageRenderIdentity.test.js",
         "pnpm vitest run packages/docs-tooling/src/shared-docs/testing/build/fetch-build.test.ts"
       ],
@@ -1611,7 +1613,8 @@
         "packages/docs-tooling/src/lark/sharedImageUploader*",
         "packages/docs-tooling/src/lark/sharedPageBundle*",
         "packages/docs-tooling/src/shared-docs/adapters/image-store.ts",
-        "scripts/docs-workflow/guides-shared-images*"
+        "scripts/docs-workflow/guides-shared-images*",
+        "packages/docs-tooling/src/lark/sharedGroups*"
       ],
       "focusedTests": [
         "node --test packages/docs-tooling/src/lark/sharedImageUploader.test.js scripts/docs-workflow/guides-shared-sources.test.js scripts/docs-workflow/guides-stage-artifact.test.js scripts/docs-workflow/render-guides-table.test.js scripts/docs-workflow/guides-table-artifact.test.js"
@@ -1634,7 +1637,8 @@
         "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
         "scripts/docs-workflow/guides-shared-publication*",
         "scripts/collect-build-card-notes*",
-        "scripts/docs-workflow/guides-shared-regeneration*"
+        "scripts/docs-workflow/guides-shared-regeneration*",
+        "packages/docs-tooling/src/lark/sharedGroups*"
       ],
       "focusedTests": [
         "node --test scripts/docs-workflow/guides-shared-sources.test.js scripts/collect-build-card-notes.test.js",
