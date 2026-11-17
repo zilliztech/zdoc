@@ -48,7 +48,7 @@ describe('parseManualConfig', () => {
     const shape = parse(`${base}metadata:\n  Collections: {}\n`)
     expect(errorsOf(shape).map(error => error.message).join('\n')).toContain('Metadata keys must name a module (trailing /) or a page (.md)')
     const moduleField = parse(`${base}metadata:\n  Collections/:\n    added_since: v2.3.x\n`)
-    expect(errorsOf(moduleField).map(error => error.message).join('\n')).toContain('Module metadata only supports beta')
+    expect(errorsOf(moduleField).map(error => error.message).join('\n')).toContain('Unknown field: metadata.Collections/.added_since')
     const beta = parse(`${base}metadata:\n  Collections/:\n    beta: BYOC\n`)
     expect(errorsOf(beta).some(error => error.code === 'CONFIG_BETA_INVALID')).toBe(true)
   })

@@ -58,9 +58,14 @@ export function deriveHeadingMetadata(markdown: string): { title?: string; descr
   return { title, description: paragraph.length ? paragraph.join(' ') : undefined }
 }
 
-function mergedMetadata(manual: ManualConfig, logical: string): ManualMetadata | undefined {
+function mergedMetadata(manual: ManualConfig, logical: string, consumed: Set<string>): ManualMetadata | undefined {
   const segments = logical.split('/')
-  const entries = [segments.length > 1 ? manual.metadata?.[`${segments[0]}/`] : undefined, manual.metadata?.[logical]]
+  const moduleKey = `${segments[0]}/`
+  // A key present in manual.yaml is consumed even when its entry is empty, so
+  // unconsumed leftovers can be reported as typos instead of failing open.
+  if (manual.metadata && moduleKey in manual.metadata) consumed.add(moduleKey)
+  if (manual.metadata && logical in manual.metadata) consumed.add(logical)
+  const entries = [segments.length > 1 ? manual.metadata?.[moduleKey] : undefined, manual.metadata?.[logical]]
   const merged: ManualMetadata = {}
   for (const entry of entries) if (entry) Object.assign(merged, entry)
   return Object.keys(merged).length ? merged : undefined
@@ -74,6 +79,9 @@ export function expandManualPages(files: readonly string[], manual: ManualConfig
   const errors: SharedDocsError[] = []
   const byId = new Map<string, string>()
   const byPublishPath = new Map<string, string>()
+  // Link rewrite resolves manual-internal targets by globally unique basename.
+  const byBasename = new Map<string, string>()
+  const consumedMetadata = new Set<string>()
   const prefix = `${manual.source.dir}/`
   for (const file of [...files].sort()) {
     if (!file.startsWith(prefix) || !file.endsWith('.md')) continue
@@ -96,13 +104,25 @@ export function expandManualPages(files: readonly string[], manual: ManualConfig
       errors.push({ ...location, code: 'CONFIG_SLUG_DUPLICATE', message: `Upstream pages ${byPublishPath.get(publishPath.toLowerCase())} and ${logical} publish to the same path ${publishPath}` })
       continue
     }
+    const basenameKey = logical.slice(logical.lastIndexOf('/') + 1).toLowerCase()
+    if (byBasename.has(basenameKey)) {
+      errors.push({ ...location, code: 'CONFIG_SLUG_DUPLICATE', message: `Upstream pages ${byBasename.get(basenameKey)} and ${logical} share the basename ${basenameKey}; manual links resolve by basename` })
+      continue
+    }
     byId.set(pageId.toLowerCase(), logical)
     byPublishPath.set(publishPath.toLowerCase(), logical)
-    const metadata = mergedMetadata(manual, logical)
+    byBasename.set(basenameKey, logical)
+    const metadata = mergedMetadata(manual, logical, consumedMetadata)
     const config = { schema_version: 1 as const, source: { file }, publish: [{ manual: manual.publish.manual, path: publishPath }],
       ...(metadata ? { metadata } : {}) }
     // JSON is a YAML subset; the synthetic config keeps one serializer and one parser.
     pages.set(pageId, { pageYaml: JSON.stringify(config), config, lockYaml: undefined })
+  }
+  // A metadata key that matched no upstream page is a typo or a stale rename; it would
+  // silently drop the intended backfill, so it fails the expansion.
+  for (const key of Object.keys(manual.metadata ?? {}).sort()) if (!consumedMetadata.has(key)) {
+    errors.push({ file: 'manual.yaml', page: key, channel: 'both' as const, code: 'CONFIG_PATH_UNKNOWN',
+      message: `Metadata key does not match any upstream page: ${key}` })
   }
   return { pages, errors }
 }
@@ -164,6 +184,9 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
   if (!current || !next) throw new Error(`Manual page ${pageId} lost a channel during preparation`)
   const location = { page: pageId, file: page.config.source.file }
   // One origin per adapted input line, exactly like the per-page path; manual sources never expand fragments.
+  // Origins carry the adapted input line inside the channel buffer (post marker-strip,
+  // pre preprocess); the per-page path maps back to upstream lines via originalPageLine,
+  // which the manual layout does not need while sources carry no markers or variables.
   const lineOrigins = (version: ManualChannelVersion, channel: 'current' | 'next') =>
     version.adapted.provenance.outputLines.map(line => line === null ? [] : [{ channel, file: page.config.source.file, line }])
   const merged = mergeMarkdown({ current: { ...current.adapted, origins: lineOrigins(current, 'current'), context: { ...location, channel: 'current' as const } },

@@ -48,12 +48,8 @@ export function parseManualConfig(text: string, context: DiagnosticContext & { m
           check.error(['metadata', key, '$key'], `Metadata key must be relative to source.dir without traversal: ${key}`)
           continue
         }
+        // check.object already reports module keys outside beta as unknown fields.
         if (check.object(entry, ['metadata', key], isModule ? MODULE_METADATA_FIELDS : PAGE_METADATA_FIELDS, [])) {
-          if (isModule) {
-            for (const field of Object.keys(entry as Record<string, unknown>)) {
-              if (field !== 'beta') check.error(['metadata', key, field, '$key'], `Module metadata only supports beta: ${key}${field}`)
-            }
-          }
           if ('beta' in (entry as Record<string, unknown>)) checkBeta(check, entry as Record<string, unknown>, ['metadata', key, 'beta'], context.betaValues)
           const record = entry as Record<string, unknown>
           for (const field of ['added_since', 'description', 'last_modified', 'type', 'token'] as const) {

@@ -190,7 +190,9 @@ export async function readManualSharedDocs(directory: string, repositoryRoot = p
       return undefined
     }
   }
-  const context = { manuals: manualRegistry.map(manual => manual.id), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
+  // Manual-layout groups declare their manual explicitly; validate against the same
+  // per-group scope the lock command uses, not the whole registry.
+  const context = { manuals: groupManuals(group.name), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
   const sourceYaml = await read('source.yaml')
   const manualYaml = await read('manual.yaml')
   const lockYaml = await read('lock.yaml')
