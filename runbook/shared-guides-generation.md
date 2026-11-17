@@ -62,6 +62,14 @@ HTML anchor. CURRENT headings stay unchanged. This applies only to one heading
 per channel with no existing alias conflict; the merger still rejects duplicate
 IDs within a channel, unsafe markup and other structural errors.
 
+PR validation can also check a newly added Guides page before it has dev output.
+The validation workflow makes a separate, explicitly labeled fixture for page
+configs added by that PR whose targets and snapshot identity are all absent.
+It requires equal initial source pins and adds temporary NEXT metadata, then
+runs the same whole-group generator. Existing or partially present pages cannot
+use this fixture. The real dev checkout stays read-only; these results do not
+establish Base registration, navigation or activation.
+
 On first activation, the job reads the old document at its current revision only
 when a current body link or Base ref requires a heading anchor. Page-top-only
 references do not require that read. It checks required anchors against every

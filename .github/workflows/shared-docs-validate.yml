@@ -141,15 +141,28 @@ jobs:
             /content/en/byoc/
             /packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
 
+      - name: Prepare validation metadata for initial pages
+        id: initial
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          BASE_SHA: ${{ steps.identity.outputs.base_sha }}
+          SOURCE_SHA: ${{ steps.identity.outputs.source_sha }}
+          DEV_SHA: ${{ steps.dev.outputs.sha }}
+          DEV_SNAPSHOT: .shared-docs-dev
+          VALIDATION_FIXTURE: ${{ runner.temp }}/shared-docs-initial-validation
+        run: node packages/docs-tooling/src/shared-docs/adapters/initial-validation.cjs
+
       - name: Generate all shared pages
         if: steps.changes.outputs.changed == 'true'
+        env:
+          VALIDATION_DEV: ${{ steps.initial.outputs.dev }}
         run: |
           set -euo pipefail
           status=0
           : > "$RUNNER_TEMP/shared-docs-validation.log"
           while IFS= read -r group; do
             pnpm docs-tooling shared-docs build --shared-docs "shared-docs/$group" --repo "$RUNNER_TEMP/milvus-docs" \
-              --dev .shared-docs-dev --out "$RUNNER_TEMP/shared-docs-output/$group" >> "$RUNNER_TEMP/shared-docs-validation.log" 2>&1 || status=$?
+              --dev "$VALIDATION_DEV" --out "$RUNNER_TEMP/shared-docs-output/$group" >> "$RUNNER_TEMP/shared-docs-validation.log" 2>&1 || status=$?
           done < "$RUNNER_TEMP/shared-docs-groups"
           cat "$RUNNER_TEMP/shared-docs-validation.log"
           node <<'NODE'
