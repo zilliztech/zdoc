@@ -13,6 +13,7 @@ import { immutable, type PageObservation } from '../../core/updates/types'
 import { parseSourceConfig } from '../../core/config'
 import { parseLock } from '../../core/lock'
 import { finalizeFetchFrontMatter } from '../../core/site/front-matter'
+import { isFetchProducerContext, type FetchProducerContext } from './trusted-fetch-producer'
 import type { UpdateDependencies } from './runner'
 import { exportTree, gitRead, resolveCommit, sourceEndpoints } from './git'
 import { rawSha256, writeOwnedBlob, createOwnedDirectory, type EvidenceStore } from './evidence'
@@ -78,26 +79,26 @@ export interface GuidesCollectionDependencies {
   b1?: UpdateDependencies
   authority?: { observe(input: { subject: Subject; pins: ExecutionPins; members: ContentMember[]; b1Lifecycle: unknown; retain(bytes: Uint8Array): BlobRef }): Promise<AuthorityObservation> }
 }
-export async function collectGuidesWorker(data: unknown, privateMetadataPipes = false): Promise<GuidesCollectionResult> {
-  if (privateMetadataPipes) return collectWithMetadataPipes(data)
+export async function collectGuidesWorker(data: unknown, privateMetadataPipes = false, issueFetchContext?: () => Promise<FetchProducerContext>): Promise<GuidesCollectionResult> {
+  if (privateMetadataPipes) return collectWithMetadataPipes(data, issueFetchContext)
   const selected = selectedWorkerInput.safeParse(data)
   if (selected.success) {
     const {request, archives} = selected.data
-    return collectGuidesWithDependencies(request, {b1: {github: publicGuidesReads(archives)}})
+    return collectGuidesWithDependencies(request, {b1: {github: publicGuidesReads(archives)}}, issueFetchContext)
   }
   const request = GuidesCollectionRequestSchema.parse(data)
   if (request.pages.length === 1 && request.evidenceRun !== null) throw new Error('Missing selected lifecycle archive transport')
   return collectGuidesWithDependencies(request)
 }
-async function collectWithMetadataPipes(data: unknown): Promise<GuidesCollectionResult> {
+async function collectWithMetadataPipes(data: unknown, issueFetchContext?: () => Promise<FetchProducerContext>): Promise<GuidesCollectionResult> {
   const {request, archives} = selectedWorkerInput.parse(data)
   const channel = openWorkerMetadataReader()
   try {
     const {zip} = publicGuidesReads(archives)
-    return await collectGuidesWithDependencies(request, {b1: {github: {get: channel.get, zip}}})
+    return await collectGuidesWithDependencies(request, {b1: {github: {get: channel.get, zip}}}, issueFetchContext)
   } finally { channel.close() }
 }
-export async function collectGuidesWithDependencies(data: GuidesCollectionRequest, dependencies: GuidesCollectionDependencies = {}): Promise<GuidesCollectionResult> {
+export async function collectGuidesWithDependencies(data: GuidesCollectionRequest, dependencies: GuidesCollectionDependencies = {}, issueFetchContext?: () => Promise<FetchProducerContext>): Promise<GuidesCollectionResult> {
   const request = GuidesCollectionRequestSchema.parse(data)
   // These import compiler/build modules. Only collection (the fixed child in production) loads them.
   const { reportUpdates } = await import('./runner')
@@ -119,7 +120,20 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
     ...(request.pages.length === 1 ? {lifecyclePage: request.pages[0], proveIndependentPage: request.evidenceRun !== null} : {}),
     ...(request.evidenceRun === null ? {} : { evidenceRun: request.evidenceRun }),
     ...(request.evidenceZip === null ? {} : { evidenceZip: request.evidenceZip }) }
-  const b1 = await reportUpdates(options, request.repositoryRoot, { ...dependencies.b1, fetcher: capturedFetcher })
+  // Bind executing fixed tools before any B1 work, and never reissue after capture.
+  const measuredPilot = !!issueFetchContext && request.pages.length === 1 && request.pages[0] === 'json-field-overview' && request.evidenceRun !== null
+  const verifyMeasuredPin = async () => {
+    try { if (await resolveCommit(toolingRoot) !== request.trustedTools) throw new Error() }
+    catch { throw new Error('FETCH_PROFILE_CONTEXT_UNAVAILABLE') }
+  }
+  if (measuredPilot) await verifyMeasuredPin()
+  let fetchProducerContext: FetchProducerContext | undefined
+  if (measuredPilot) {
+    try { const issued = await issueFetchContext!(); if (isFetchProducerContext(issued)) fetchProducerContext = issued } catch { /* B1 reports unavailable context after legacy misses. */ }
+  }
+  const b1 = await reportUpdates(options, request.repositoryRoot, { ...dependencies.b1, fetchProducerContext, fetcher: capturedFetcher })
+  await fetchProducerContext?.verify()
+  if (measuredPilot) await verifyMeasuredPin()
   const detail = { 'guides-impact-v1/pins.json': json(b1.pins), 'guides-impact-v1/plan.json': json(b1.plan),
     'guides-impact-v1/report.json': json(b1.report), 'guides-impact-v1/report.md': b1.markdown }
   const detailFiles = Object.entries(detail).map(([path, text]) => ({ path, blob: retain(Buffer.from(text)) }))
@@ -131,7 +145,8 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
   try {
     await resolveCommit(request.repositoryRoot, request.master); await resolveCommit(request.repositoryRoot, request.configSnapshot)
     await resolveCommit(request.devRepository, request.dev)
-    if (await resolveCommit(toolingRoot) !== request.trustedTools) throw new Error('Trusted tools pin differs from executing committed checkout')
+    if (measuredPilot) await verifyMeasuredPin()
+    else if (await resolveCommit(toolingRoot) !== request.trustedTools) throw new Error('Trusted tools pin differs from executing committed checkout')
     if (b1.pins.master !== request.configSnapshot || b1.pins.dev !== request.dev) throw new Error('B1 execution pins unavailable or mismatched')
     await exportTree(request.repositoryRoot, request.configSnapshot, ['shared-docs/guides'], temporary)
     const configFiles = await reads.inventory(request.repositoryRoot, request.configSnapshot, ['shared-docs/guides'])
@@ -293,6 +308,8 @@ export async function collectGuidesWithDependencies(data: GuidesCollectionReques
   finally { reads.dispose(); await rm(temporary, { recursive: true, force: true }) }
   result.pages.sort((a, b) => compareSubjects(a.report.subject, b.report.subject))
   result.blobs = [...blobs.values()].sort((a, b) => compareUtf8(a.blob.path, b.blob.path))
+  await fetchProducerContext?.verify()
+  if (measuredPilot) await verifyMeasuredPin()
   return immutable(clean(result))
 }
 
