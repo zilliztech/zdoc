@@ -222,7 +222,7 @@ it('checks BYOC effective anchors against its actual transformed output', async 
   expect(result.reasons).toContain('EFFECTIVE_ANCHOR_UNRESOLVED')
 }, 120000)
 
-import {batchRef, parseBatchCanonical, BatchPageMaterialHeaderSchema} from '../../adapters/updates/batch-collection-contract'
+import {batchRef, batchSha256, parseBatchCanonical, BatchPageMaterialHeaderSchema} from '../../adapters/updates/batch-collection-contract'
 it('rejects malformed canonical material frames and extra or orphan wire payloads', async () => {
   const f = await simpleFixture(), request = await f.request(), wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
   for (const raw of ['{"kind":1,"kind":1}', '{"x":-0}', '{"x":1e0}', '{"x":1.0}', '{"x":9007199254740992}', '{"x":"\\ud800"}', ' {"x":1}']) {
@@ -382,4 +382,31 @@ it('projects original published snapshot fractional metadata without canonicaliz
   const checked = validateBatchWire(wire, request)
   const payload = wire.blobs.find(blob => blob.ref.sha256 === checked.namespace.snapshotRef.sha256)!
   expect(Buffer.from(payload.base64, 'base64').toString()).toBe(original)
+  const discovery = readBatchDiscoveryCapture(await replayBatchDiscovery({zdocRepository: f.root, sourceRepository: f.repo, tools: request.pins.trustedTools},
+    {fixtureBytes: Buffer.from('fractional-original-snapshot'), replayClockMs: 0}, {transport: async input => input.path === '/repos/zilliztech/zdoc/git/ref/heads/dev'
+      ? {status: 200, headers: {}, body: Buffer.from(JSON.stringify({ref: 'refs/heads/dev', object: {type: 'commit', sha: dev}}))} : f.transport(input)}))
+  expect(discovery.report.inventory).toMatchObject({published: 2, publishedUnknown: 0})
 })
+
+
+it('closes the complete real three-page raw material group with fractional original snapshots', async () => {
+  const {rawBatchLifecycleFixture} = await import('./fixtures/batch-qualification')
+  const {mkdtemp, mkdir} = await import('node:fs/promises')
+  const parent = join(process.cwd(), '.claude/wp12-guides-batch-qualification/task3-evidence'); await mkdir(parent, {recursive: true})
+  const f = await rawBatchLifecycleFixture(await mkdtemp(join(parent, 'fractional-material-')))
+  const origin = {kind: 'replay' as const, fixtureSha256: batchSha256(f.fixtureBytes), replayClockMs: f.replayClockMs}
+  const discovery = readBatchDiscoveryCapture(await replayBatchDiscovery({zdocRepository: f.tools, sourceRepository: f.upstream, tools: f.master},
+    {fixtureBytes: f.fixtureBytes, replayClockMs: f.replayClockMs}, {transport: f.discoveryTransport}))
+  expect(discovery.report.inventory).toMatchObject({published: 3, publishedUnknown: 0})
+  const pages = []
+  for (const pageId of f.pages) {
+    const request = {kind: 'guides-batch-render-v1' as const, origin, session: 'f'.repeat(64), pageId,
+      pins: {master: f.master, dev: f.sampledDev, source: f.target, trustedTools: f.master, toolsetSha256: 'e'.repeat(64)}, sourceRepository: f.upstream, devRepository: f.tools}
+    const wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.tools, fetcher: {fetch: async () => {throw Error('NO_LIVE_IMAGE_FALLBACK')}}})
+    pages.push(batch.projectBatchMaterialFixture(wire, request))
+  }
+  const result = batch.analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages})
+  expect(result.reasons).toEqual([])
+  expect(result.groups.map(g => g.memberIds)).toEqual([f.pages])
+  expect(result.groups[0].dispositions.map(d => d.disposition)).toEqual(['advance', 'advance', 'noop'])
+}, 120000)

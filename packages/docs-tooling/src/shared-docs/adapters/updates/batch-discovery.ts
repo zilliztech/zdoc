@@ -73,7 +73,12 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
   try {
     const blob = await store.file(dev, guidesSnapshotPath)
     for (const p of input.pages) p.evidence.push('snapshot:' + blob.oid)
-    const snapshot = snapshotShape.parse(parseStrictJson(blob.bytes))
+    // This is original producer JSON; batch canonical number rules apply only
+    // to new records. Retain ordinary finite snapshot numbers and raw Git bytes.
+    const snapshot = snapshotShape.parse(JSON.parse(utf8.decode(blob.bytes), (_key, value) => {
+      if (typeof value === 'number' && !Number.isFinite(value)) stop('PUBLISHED_SNAPSHOT_INVALID')
+      return value
+    }))
     const rows = new Map<string, z.infer<typeof publishedRecord>>(), ids = new Set<string>()
     const currentOwners = new Map<string, Set<string>>()
     for (const record of snapshot.records) {
