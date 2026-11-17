@@ -296,9 +296,9 @@
       "translatedAt": "2026-11-09T12:44:47.358Z"
     },
     "content/en/byoc/tutorials/development/collection/external-collection-limits.md": {
-      "sourceHash": "f869837c21e5013a6e3adb08b2b4ec9949604f05e56d85b0a198f158ffae79b7",
+      "sourceHash": "4509baad4508e6e34b6f7fd95ac993e5073a5dd4d4d49f30b92e897e057eebfc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/external-collection-limits.md",
-      "translatedAt": "2026-11-12T11:45:41.029Z"
+      "translatedAt": "2026-11-17T03:44:30.798Z"
     },
     "content/en/byoc/tutorials/development/collection/load-release-collections.md": {
       "sourceHash": "d370a7469f2268f21e1658db4bf0ee0f456b119180ea761fbb39c846b846edaf",
@@ -1656,9 +1656,9 @@
       "translatedAt": "2026-11-09T13:00:23.467Z"
     },
     "content/en/guides/tutorials/development/collection/external-collection-limits.md": {
-      "sourceHash": "e69c2b13f5e8b79cf1e83c43d553c857e7ceb1213bb1f57c43328f8b825f26f2",
+      "sourceHash": "ea107c7ceae307432c09d567144443d6e8c162492bc1c1bbf584dc3606391dd9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/external-collection-limits.md",
-      "translatedAt": "2026-11-12T11:45:41.029Z"
+      "translatedAt": "2026-11-17T03:44:30.798Z"
     },
     "content/en/guides/tutorials/development/collection/load-release-collections.md": {
       "sourceHash": "21e06c2d477bb27c6792758d7b2e4cc56aa7cef49b4559501c7615150f05c97d",
