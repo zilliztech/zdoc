@@ -94,25 +94,38 @@ jobs:
           const path = require('node:path');
           const { loadTypeScript } = require('./scripts/lib/load-typescript');
           const { parseSourceConfig } = loadTypeScript(path.resolve('packages/docs-tooling/src/shared-docs/core/config.ts'));
-          const result = parseSourceConfig(fs.readFileSync('shared-docs/guides/source.yaml', 'utf8'));
-          if ('errors' in result) throw new Error(JSON.stringify(result.errors));
-          const { repository, track } = result.config;
-          if (!/^https:\/\/github\.com\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+(?:\.git)?$/.test(repository) || /\/(?:\.|\.\.)(?:\.git)?$/.test(repository)) {
-            throw new Error('Source repository must be a credential-free GitHub HTTPS repository URL');
+          const groups = fs.readFileSync(`${process.env.RUNNER_TEMP}/shared-docs-groups`, 'utf8').split('\n').filter(Boolean);
+          const sources = {};
+          for (const group of groups) {
+            const result = parseSourceConfig(fs.readFileSync(`shared-docs/${group}/source.yaml`, 'utf8'));
+            if ('errors' in result) throw new Error(JSON.stringify(result.errors));
+            const { repository, track } = result.config;
+            if (!/^https:\/\/github\.com\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+(?:\.git)?$/.test(repository) || /\/(?:\.|\.\.)(?:\.git)?$/.test(repository)) {
+              throw new Error(`Source repository for ${group} must be a credential-free GitHub HTTPS repository URL`);
+            }
+            sources[group] = { repository, track };
           }
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `repository=${repository}\ntrack=${track}\n`);
+          fs.writeFileSync(`${process.env.RUNNER_TEMP}/shared-docs-sources.json`, JSON.stringify(sources));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `sources=${JSON.stringify(sources)}\n`);
           NODE
 
       - name: Clone complete tracking history
         if: steps.changes.outputs.changed == 'true'
-        env:
-          SOURCE_REPOSITORY: ${{ steps.source.outputs.repository }}
-          TRACK: ${{ steps.source.outputs.track }}
         run: |
           set -euo pipefail
-          git clone --single-branch --branch "$TRACK" --no-tags "$SOURCE_REPOSITORY" "$RUNNER_TEMP/milvus-docs"
-          git -C "$RUNNER_TEMP/milvus-docs" show-ref --verify "refs/heads/$TRACK"
-          test "$(git -C "$RUNNER_TEMP/milvus-docs" rev-parse --is-shallow-repository)" = false
+          node <<'NODE'
+          const fs = require('node:fs');
+          const { execFileSync } = require('node:child_process');
+          const sources = JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/shared-docs-sources.json`, 'utf8'));
+          for (const [group, { repository, track }] of Object.entries(sources)) {
+            const target = `${process.env.RUNNER_TEMP}/upstream/${group}`;
+            execFileSync('git', ['clone', '--single-branch', '--branch', track, '--no-tags', repository, target], { stdio: ['ignore', 'inherit', 'inherit'] });
+            execFileSync('git', ['-C', target, 'show-ref', '--verify', `refs/heads/${track}`], { stdio: ['ignore', 'inherit', 'inherit'] });
+            if (execFileSync('git', ['-C', target, 'rev-parse', '--is-shallow-repository'], { encoding: 'utf8' }).trim() !== 'false') {
+              throw new Error(`Tracking clone for ${group} must have complete history`);
+            }
+          }
+          NODE
 
       - name: Resolve exact upstream dev snapshot
         id: dev
@@ -140,6 +153,7 @@ jobs:
             /content/en/guides/
             /content/en/byoc/
             /packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
+            /content/en/reference/
 
       - name: Prepare validation metadata for initial pages
         id: initial
@@ -161,7 +175,7 @@ jobs:
           status=0
           : > "$RUNNER_TEMP/shared-docs-validation.log"
           while IFS= read -r group; do
-            pnpm docs-tooling shared-docs build --shared-docs "shared-docs/$group" --repo "$RUNNER_TEMP/milvus-docs" \
+            pnpm docs-tooling shared-docs build --shared-docs "shared-docs/$group" --repo "$RUNNER_TEMP/upstream/$group" \
               --dev "$VALIDATION_DEV" --out "$RUNNER_TEMP/shared-docs-output/$group" >> "$RUNNER_TEMP/shared-docs-validation.log" 2>&1 || status=$?
           done < "$RUNNER_TEMP/shared-docs-groups"
           cat "$RUNNER_TEMP/shared-docs-validation.log"

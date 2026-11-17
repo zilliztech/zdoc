@@ -20,6 +20,7 @@ const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
+const {sharedGroupConfig} = require('./sharedGroups')
 
 // Everything the shared build executes or reads from the zdoc tree on the pinned
 // master commit. Shared-docs owns the render pipeline (build command, adapters,
@@ -33,24 +34,46 @@ const ENGINE_PATHS = ['docs-ui/src/shared/utils/docHeadingTags.ts',
 const OVERLAY_ROOT = 'shared-docs/guides'
 const OVERLAY_TOP = ['Variables.json', 'links.yaml', 'presentation/cloud-sdk-tabs.yaml',
   'product-names.yaml', 'source.yaml']
-const DEV_PAGE_INDEX = /^content\/en\/(?:guides|byoc)\/.+\.(?:md|mdx)$/
+const escapeRegExp = value => value.replace(/[.*+?${}()|[\]\\]/g, '\\$&')
+const devPageIndexFor = group => {
+  const treeRoots = sharedGroupConfig(group).byManual
+  const pattern = [...new Set([...treeRoots.values()].map(entry => entry.treeRoot))].sort()
+    .map(root => escapeRegExp(root)).join('|')
+  return new RegExp(`^(?:${pattern})/.+\\.(?:md|mdx)$`)
+}
+const DEV_PAGE_INDEX = devPageIndexFor('guides')
 
 /** Sorted content-addressed projection of an inventory subset. */
 function filesProjection(files) {
   return (files || []).map(({path, sha256}) => ({path, sha256})).sort((a, b) => a.path.localeCompare(b.path))
 }
-function overlayInventory(files, page) {
-  const prefix = `${OVERLAY_ROOT}/pages/${page}/`
+function overlayInventory(files, page, group = 'guides') {
+  const overlayRoot = group === 'guides' ? OVERLAY_ROOT : sharedGroupConfig(group).overlayRoot
+  const prefix = `${overlayRoot}/pages/${page}/`
   return filesProjection((files || []).filter(file => file.path.startsWith(prefix)
-    || OVERLAY_TOP.includes(file.path.slice(OVERLAY_ROOT.length + 1))))
+    || OVERLAY_TOP.includes(file.path.slice(overlayRoot.length + 1))))
 }
-function devMdPaths(files) {
-  return [...new Set((files || []).map(file => file.path || file).filter(path => DEV_PAGE_INDEX.test(path)))].sort()
+function devMdPaths(files, group = 'guides') {
+  const devPageIndex = group === 'guides' ? DEV_PAGE_INDEX : devPageIndexFor(group)
+  return [...new Set((files || []).map(file => file.path || file).filter(path => devPageIndex.test(path)))].sort()
+}
+/** Test-only files inside the engine trees never execute during generation: the
+ *  shared-docs `testing/` tree (suites plus their helpers and fixtures) and
+ *  co-located `*.test.*` suites beside the production sources (adapters/contract,
+ *  manuals, spec, fixtures). Keeping them in the engine digest made every
+ *  test-only shared-docs/manuals PR re-render all shared pages with byte-identical
+ *  outputs, so the digest projects the production inventory only. The pinned
+ *  worktree integrity check still covers the full ENGINE_PATHS tree — only the
+ *  identity ignores test files. */
+const ENGINE_TEST_FILE = /\.(test|spec)\.[cm]?[jt]sx?$/
+const ENGINE_TEST_PATH = /(?:^|\/)testing\//
+function productionEngineFiles(files) {
+  return (files || []).filter(file => !ENGINE_TEST_FILE.test(file.path) && !ENGINE_TEST_PATH.test(file.path))
 }
 /** Canonical engine inventory digest; receipt inputs carry it as tools.engine_sha256
  *  so every validation context can recompute the identity without a master checkout. */
 function engineDigest(files) {
-  return digest(JSON.stringify(filesProjection(files)))
+  return digest(JSON.stringify(filesProjection(productionEngineFiles(files))))
 }
 function receiptImages(images) {
   return (images || []).map(({source, sha256}) => ({source, sha256})).sort((a, b) => a.source.localeCompare(b.source))
@@ -73,30 +96,32 @@ function resolveMd2mdVersion() {
  *  entry at planning, and legacy receipts carry no engine digest or active entry;
  *  both sides must then simply agree the same way from the next round onward. */
 function renderIdentity(projection) {
+  const group = projection.group ?? 'guides'
   const canonical = {
-    group: 'guides',
+    group,
     page: projection.page,
     pins: projection.pins ? {current: projection.pins.current, next: projection.pins.next} : null,
     overlay: filesProjection(projection.overlay),
     engine: {inventory_sha256: projection.engine?.inventory_sha256 || null, md2md: projection.engine?.md2md || null},
-    dev_page_index: projection.devPagePaths ? digest(JSON.stringify(devMdPaths(projection.devPagePaths))) : null,
+    dev_page_index: projection.devPagePaths ? digest(JSON.stringify(devMdPaths(projection.devPagePaths, group))) : null,
     render_targets: projection.renderTargets || null,
     images: receiptImages(projection.images),
     active: projection.active || null,
   }
-  return {group: 'guides', page: projection.page, inputs_sha256: digest(JSON.stringify(canonical)),
-    record: require('./sharedPageRouting').sharedReceiptPath('guides', projection.page)}
+  return {group, page: projection.page, inputs_sha256: digest(JSON.stringify(canonical)),
+    record: require('./sharedPageRouting').sharedReceiptPath(group, projection.page)}
 }
 
 /** Project receipt inputs onto the recipe. `engine` comes from receipt.tools so
  *  validation contexts without a master checkout stay receipt-local. */
-function receiptProjection(inputs, page) {
+function receiptProjection(inputs, page, group = 'guides') {
   return {
+    group,
     page,
     pins: {current: inputs.milvus_docs.current, next: inputs.milvus_docs.next},
-    overlay: overlayInventory(inputs.zdoc.files, page),
+    overlay: overlayInventory(inputs.zdoc.files, page, group),
     engine: {inventory_sha256: inputs.tools.engine_sha256 || null, md2md: inputs.tools.md2md},
-    devPagePaths: devMdPaths(inputs.dev.files),
+    devPagePaths: devMdPaths(inputs.dev.files, group),
     renderTargets: inputs.fetch.render_targets ? inputs.fetch.render_targets.targets : null,
     images: receiptImages(inputs.images),
     active: Object.hasOwn(inputs.fetch, 'active') ? inputs.fetch.active : null,
@@ -112,4 +137,4 @@ function legacyReceiptInputsDigest(receipt) {
   return digest(JSON.stringify(inputs))
 }
 
-module.exports = {ENGINE_PATHS, renderIdentity, receiptProjection, overlayInventory, devMdPaths, engineDigest, receiptImages, resolveMd2mdVersion, legacyReceiptInputsDigest}
+module.exports = {ENGINE_PATHS, renderIdentity, receiptProjection, overlayInventory, devMdPaths, productionEngineFiles, engineDigest, receiptImages, resolveMd2mdVersion, legacyReceiptInputsDigest}

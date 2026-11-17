@@ -17,7 +17,8 @@ function prepareInitialValidation({repository, dev, base, head, devSha, out}) {
   repository = fs.realpathSync(repository); dev = fs.realpathSync(dev); out = path.resolve(out)
   if (git(repository, 'rev-parse', 'HEAD') !== head || git(dev, 'rev-parse', 'HEAD') !== devSha) throw new Error('Checkout identity changed')
   if (inside(dev, out) || inside(out, dev) || fs.existsSync(out)) throw new Error('Fixture output must be absent and separate from dev')
-  const names = execFileSync('git', ['-C', repository, 'diff', '--name-only', '-z', '--diff-filter=A', base, head, '--', 'shared-docs/guides/pages/'], {encoding: 'utf8'}).split('\0').filter(Boolean)
+  const names = execFileSync('git', ['-C', repository, 'diff', '--name-only', '-z', '--diff-filter=A', base, head, '--', 'shared-docs/guides/pages/'], {encoding: 'utf8'}).split('\0').filter(file => /^shared-docs\/guides\/pages\/[a-z0-9]+(?:-[a-z0-9]+)*\/page\.yaml$/.test(file))
+  if (!names.length) return {dev, fixture: false, initialPages: []}
   const snapshot = JSON.parse(fs.readFileSync(path.join(dev, snapshotPath), 'utf8'))
   if (!Array.isArray(snapshot.records)) throw new Error('Invalid dev snapshot')
   const initial = []
@@ -37,7 +38,7 @@ function prepareInitialValidation({repository, dev, base, head, devSha, out}) {
   }
   if (!initial.length) return {dev, fixture: false, initialPages: []}
   fs.mkdirSync(out, {recursive: true})
-  for (const manual of ['guides', 'byoc']) fs.cpSync(path.join(dev, 'content/en', manual), path.join(out, 'content/en', manual), {recursive: true})
+  fs.cpSync(path.join(dev, 'content/en'), path.join(out, 'content/en'), {recursive: true})
   for (const item of initial) {
     for (const target of item.targets) {
       const file = path.join(out, target.root, target.path + '.mdx'); fs.mkdirSync(path.dirname(file), {recursive: true})

@@ -1,7 +1,7 @@
 // @vitest-environment node
 import {createRequire} from 'node:module'
 import {execFileSync} from 'node:child_process'
-import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, realpathSync, rmSync} from 'node:fs'
+import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, realpathSync, rmSync, unlinkSync} from 'node:fs'
 import {tmpdir} from 'node:os'
 import {join, dirname} from 'node:path'
 import {afterEach, expect, it} from 'vitest'
@@ -21,6 +21,7 @@ function fixture() {
   const commit = () => {git(repository, 'add', '.'); git(repository, 'commit', '-qm', 'config'); return git(repository, 'rev-parse', 'HEAD')}
   const head = commit()
   for (const manual of ['guides', 'byoc']) put(dev, `content/en/${manual}/existing.md`, '---\nslug: /existing\n---\nExisting bytes.\n')
+  put(dev, 'content/en/reference/node/Client.mdx', 'Unchanged SDK bytes.');
   put(dev, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', JSON.stringify({records: [{record_id: 'recExisting', slug: 'existing', placement_type: 'canonical'}]}))
   git(dev, 'add', '.'); git(dev, 'commit', '-qm', 'dev'); const devSha = git(dev, 'rev-parse', 'HEAD')
   return {repository, dev, out, base, head, devSha, commit}
@@ -31,6 +32,7 @@ it('validates genuinely new paired pages in an explicitly labeled disposable fix
   expect(git(f.dev, 'status', '--porcelain')).toBe(before)
   expect(existsSync(join(f.dev, 'content/en/guides/tutorials/new-page.mdx'))).toBe(false)
   expect(readFileSync(join(f.out, 'content/en/guides/existing.md'), 'utf8')).toContain('Existing bytes.')
+  expect(readFileSync(join(f.out, 'content/en/reference/node/Client.mdx'), 'utf8')).toBe('Unchanged SDK bytes.')
   const records = normalizeGuidesSnapshot(readFileSync(join(f.out, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'), 'utf8'))
   expect(records.find(r => r.slug === 'new-page')).toMatchObject({release_channel: 'NEXT', output_paths: {guides: 'tutorials/new-page.mdx', 'guides-byoc': 'tutorials/new-page.mdx'}})
   expect(JSON.parse(readFileSync(join(f.out, 'initial-validation.json'), 'utf8'))).toMatchObject({publication: false, head: f.head, devSha: f.devSha})
@@ -45,3 +47,10 @@ it('refuses partial outputs, existing snapshot identities, unequal initial locks
   const unequal = fixture(); put(unequal.repository, 'shared-docs/guides/pages/new-page/lock.yaml', `schema_version: 1\ncurrent: ${'a'.repeat(40)}\nnext: ${'b'.repeat(40)}\n`); unequal.head = unequal.commit(); expect(() => prepareInitialValidation(unequal)).toThrow(/equal bot-pinned/)
   const moved = fixture(); expect(() => prepareInitialValidation({...moved, head: 'f'.repeat(40)})).toThrow(/identity changed/)
 })
+
+it('does not require a Guides snapshot for PRs without newly added Guides configurations', () => {
+  const f = fixture(); unlinkSync(join(f.dev, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'));
+  git(f.dev, 'add', '-u'); git(f.dev, 'commit', '-qm', 'non-guides snapshot');
+  expect(prepareInitialValidation({...f, base: f.head, devSha: git(f.dev, 'rev-parse', 'HEAD')})).toMatchObject({fixture: false});
+  expect(existsSync(f.out)).toBe(false);
+});

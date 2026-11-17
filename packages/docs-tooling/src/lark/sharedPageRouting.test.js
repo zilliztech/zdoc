@@ -106,7 +106,8 @@ test('shared snapshot variant is explicit, tokenless and strictly validated', t 
   assert.equal(snapshot.records[0].source_file, null)
   assert.deepEqual(snapshot.records[0].outgoing_tokens, [])
   assert.doesNotThrow(() => validateCandidateSnapshot(snapshot))
-  assert.throws(() => validateCandidateSnapshot({...snapshot, manual: 'python', schema_version: 2}), /Guides schema.?3|shared.*Guides/i)
+  assert.throws(() => validateCandidateSnapshot({...snapshot, manual: 'python', schema_version: 2}), /Unsupported shared-docs group: python/)
+  assert.throws(() => validateCandidateSnapshot({...snapshot, manual: 'node', schema_version: 3}), /node.*schema 2|schema version must be 2/i)
   for (const patch of [{doc_token: 'fake'}, {source_hash: digest}, {shared_page: {...snapshot.records[0].shared_page, inputs_sha256: 'bad'}},
     {shared_page: {...snapshot.records[0].shared_page, record: '../receipt.json'}}, {outgoing_tokens: ['fake']}, {source_kind: 'unknown'}]) {
     assert.throws(() => validateCandidateSnapshot({...snapshot, records: [{...snapshot.records[0], ...patch}]}))

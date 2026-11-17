@@ -10,6 +10,7 @@ import {hasInkeepCredentials} from '../../../inkeepRuntime';
 import {useDocsUiText} from '../../../../shared/i18n/uiText';
 import {localeSwitchHref} from '../../../../shared/navigation/docsRoute';
 import {trackEvent} from '../../../../shared/utils/analytics';
+import {cloudConsoleUrl} from '../../../../shared/utils/cloudConsole';
 import InkeepSearchEnhancer from './InkeepSearchEnhancer';
 import LazyInkeepModal from './LazyInkeepModal';
 import LocalSearchModal from './LocalSearchModal';
@@ -60,6 +61,7 @@ function BoltIcon({width = 8.5, height = 14.9}: {width?: number; height?: number
 }
 
 function MediumActionsDropdown(): ReactNode {
+  const {siteConfig} = useDocusaurusContext();
   const uiText = useDocsUiText();
   return (
     <div className={`${styles.mediumActions} navbar-medium-actions`}>
@@ -82,7 +84,7 @@ function MediumActionsDropdown(): ReactNode {
         </a>
         <a
           role="menuitem"
-          href="https://cloud.zilliz.com/login"
+          href={cloudConsoleUrl(siteConfig.customFields?.site, '/login')}
           className={styles.mediumActionsItem}
           target="_blank"
           rel="noopener noreferrer">
@@ -351,10 +353,10 @@ export default function NavbarContent(): ReactNode {
           {uiText.navbar.support}
         </a>
         <span className="navbar-action-divider" aria-hidden="true" />
-        <a href="https://cloud.zilliz.com/login" className="navbar-login-link" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('cta_click', {cta_id: 'login', cta_location: 'navbar'})}>
+        <a href={cloudConsoleUrl(siteConfig.customFields?.site, '/login')} className="navbar-login-link" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('cta_click', {cta_id: 'login', cta_location: 'navbar'})}>
           {uiText.navbar.logIn}
         </a>
-        <a href="https://cloud.zilliz.com/signup" className="navbar-signup-btn" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('cta_click', {cta_id: 'signup', cta_location: 'navbar'})}>
+        <a href={cloudConsoleUrl(siteConfig.customFields?.site, '/signup')} className="navbar-signup-btn" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('cta_click', {cta_id: 'signup', cta_location: 'navbar'})}>
           {uiText.navbar.signUpFree}
         </a>
         {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}

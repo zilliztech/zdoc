@@ -26,7 +26,7 @@ Receipts record the adoption (`inputs.variants` with the file digest and PR prov
 
 ## Watchdog
 
-[`shared-docs-pin-drift-watchdog.yml`](../.github/workflows/shared-docs-pin-drift-watchdog.yml) (daily 04:47 UTC, dispatch-only on demand) audits every page: pin drift (`git log next..head -- <file>`), pin health (`PIN_OFF_BRANCH`, `UPSTREAM_FILE_MISSING`), and variant health against the live upstream PR state. Artifact: `shared-docs-pin-drift-<run_id>` (14 days) with `watchdog-report.json`/`.md`; the digest (`summary.diffDigest`) is what the daily ops digest compares day over day.
+[`shared-docs-pin-drift-watchdog.yml`](../.github/workflows/shared-docs-pin-drift-watchdog.yml) (daily 04:47 UTC, dispatch-only on demand) enumerates every `shared-docs/*/source.yaml` group and audits every page: pin drift (`git log next..head -- <file>`), pin health (`PIN_OFF_BRANCH`, `UPSTREAM_FILE_MISSING`), and variant health against the live upstream PR state. Artifact: `shared-docs-pin-drift-<run_id>` (14 days); each audited group writes `<group>/watchdog-report.json` (+ per-group markdown), and the artifact root carries the merged human-readable `watchdog-report.md`. The per-group `summary.diffDigest` fields are what the daily ops digest compares day over day.
 
 Card status: **fail** only when `unhealthyCount > 0` (off-branch pins and unavailable variant state — both mean the next scheduled Fetch silently degrades those pages to baseline fallback) or `errorCount > 0` (configuration parse failures). Plain drift and `RECONCILIATION_PENDING`/`PR_HEAD_MOVED`/`PR_CLOSED` are informational.
 
