@@ -1,8 +1,7 @@
 import { lstat, readFile, readdir, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
-import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
-import { groupContext } from '../adapters/group-context'
+import { groupContext, groupManuals } from '../adapters/group-context'
 import { GitMilvusDocsReader } from '../adapters/git-milvus-docs-reader'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
 import { planLock } from '../core/lock'
@@ -51,7 +50,7 @@ export async function runLock(options: LockOptions, write: (text: string) => voi
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') throw new InputError(`Required pages directory not found: ${group.file('pages')}`)
       throw error
     }
-    const context = { manuals: manualRegistry.map(manual => manual.id), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
+    const context = { manuals: groupManuals(group.path), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
     const pages: { id: string; path: string; exists: boolean }[] = []
     const errors: SharedDocsError[] = []
     for (const entry of entries.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)) {

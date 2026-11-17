@@ -14,6 +14,12 @@ export async function runLinksSeed(options: { sharedDocs: string; repo: string; 
     for (const error of group.errors) write(`${error.file}:${error.line} ${error.code}: ${error.message}\n`)
     return 1
   }
+  // Only the guides group consumes links.yaml; other groups resolve links from their own
+  // page sets, and seeding one would emit an empty candidate that reports success.
+  if (basename(group.root) !== 'guides') {
+    write(`${group.file('source.yaml')}:1 [*/both] CONFIG_FIELD_MISSING: links-seed seeds the guides link map only; other groups do not consume links.yaml\n`)
+    return 1
+  }
   // The initial link map is seeded before the first page creates the group directory;
   // with --commit the group is only an --out guard, so a missing directory is allowed.
   const sharedRoot = await realpath(group.root).catch((error: NodeJS.ErrnoException) => {
