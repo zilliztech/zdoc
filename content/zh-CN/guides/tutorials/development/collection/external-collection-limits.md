@@ -46,6 +46,12 @@ import Admonition from '@theme/Admonition';
 
 </NextChannel>
 
+<NextChannel action="include">
+
+如果源 Collection 带有 StructArray 字段，目标 External Collection 可以投影源 Struct 子字段的子集。支持范围包括：源行中整个 StructArray 值为 NULL、空数组、单个 Struct 元素中的子字段 null 值（element-nullable 子字段），以及 Struct 内嵌套的 Array 子字段。
+
+</NextChannel>
+
 下表详细比较了 External Collection 和 Managed Collection 所支持的操作。
 
 <table>

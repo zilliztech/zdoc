@@ -664,7 +664,7 @@ module.exports = [
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/collection/create-external-collection/use-collection-from-a-硼dedicated-cluster-as-data-source",
+                "id": "tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source",
                 "label": "Collection 用作数据源",
                 "key": "doc:tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source",
                 "customProps": {

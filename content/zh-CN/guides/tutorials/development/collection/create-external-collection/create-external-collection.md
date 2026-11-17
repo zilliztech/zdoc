@@ -102,7 +102,7 @@ Zilliz Cloud 支持以下数据源，您需要根据所选格式提供对应的 
 
     在 Zilliz Cloud 上，`external_source` 支持两种格式：`volume://<volume_name>/<path>` 与 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 指向与目标集群同项目、同地域的另一 Serving 集群（兼容 Milvus v3.0.x）上的 Collection。前缀必须小写；三段（实例/数据库/Collection）缺一不可，数据库为 `default` 时也须写明；末尾允许多一个 `/`。
 
-    有关详细信息，请参见[将 Serving 集群的 Collection 用作数据源](./use-collection-from-a-硼dedicated-cluster-as-data-source)。
+    有关详细信息，请参见[将 Serving 集群的 Collection 用作数据源](./use-collection-from-a-dedicated-cluster-as-data-source)。
 
 </NextChannel>
 
@@ -119,6 +119,12 @@ external source 应以斜杠（/）结尾，以表明这是一个文件夹。
 <NextChannel action="include">
 
 使用 `milvus://` 源时，可省略 `external_spec`，格式默认为 `milvus-table`；此类源不使用 `snapshot_id` 与 `extfs`。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+如果源 Collection 带有 StructArray 字段，目标 External Collection 可以投影源 Struct 子字段的子集。支持范围包括：源行中整个 StructArray 值为 NULL、空数组、单个 Struct 元素中的子字段 null 值（element-nullable 子字段），以及 Struct 内嵌套的 Array 子字段。
 
 </NextChannel>
 

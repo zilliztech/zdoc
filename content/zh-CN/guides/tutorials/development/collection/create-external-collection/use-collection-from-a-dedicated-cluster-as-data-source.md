@@ -1,6 +1,6 @@
 ---
 title: "将 Dedicated 集群的 Collection 用作数据源 | Cloud"
-slug: /use-collection-from-a-硼dedicated-cluster-as-data-source
+slug: /use-collection-from-a-dedicated-cluster-as-data-source
 sidebar_label: "Collection 用作数据源"
 beta: PUBLIC
 added_since: FALSE
@@ -136,6 +136,8 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+如果源 Collection 带有 StructArray 字段，目标 External Collection 可以投影源 Struct 子字段的子集。支持范围包括：源行中整个 StructArray 值为 NULL、空数组、单个 Struct 元素中的子字段 null 值（element-nullable 子字段），以及 Struct 内嵌套的 Array 子字段。
 
 ## 使用 describe 验证\{#verify-with-describe}
 

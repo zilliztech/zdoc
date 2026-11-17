@@ -291,7 +291,7 @@
     "content/zh-CN/guides/tutorials/development/collection/collection-on-console/manage-collections-console.md",
     "content/zh-CN/guides/tutorials/development/collection/collection-on-console/manage-external-collections-console.md",
     "content/zh-CN/guides/tutorials/development/collection/create-external-collection/create-external-collection.md",
-    "content/zh-CN/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-硼dedicated-cluster-as-data-source.md",
+    "content/zh-CN/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source.md",
     "content/zh-CN/guides/tutorials/development/collection/drop-collection.md",
     "content/zh-CN/guides/tutorials/development/collection/external-collection-limits.md",
     "content/zh-CN/guides/tutorials/development/collection/load-release-collections.md",
@@ -2331,15 +2331,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/create-external-collection/create-external-collection.md",
-      "sha256": "5829071180c21cffad139c1607635c8f10c4068f311bbce4fa3ef15c7a871db0",
+      "sha256": "dc6ffeb829d2b1365509e9d9f8cac71f3b024f883b99a3f8d5860e030c630d85",
       "docToken": "Ksgpw0XJqibTvnkMlPwcHtKinBc",
-      "revisionId": "548"
+      "revisionId": "549"
     },
     {
-      "path": "content/zh-CN/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-硼dedicated-cluster-as-data-source.md",
-      "sha256": "71d338b75595d06ea2c6dadffaf9632c39de94e848834f153bc4945a72918cd8",
+      "path": "content/zh-CN/guides/tutorials/development/collection/create-external-collection/use-collection-from-a-dedicated-cluster-as-data-source.md",
+      "sha256": "75478259ffdee019cfa0b0eb5b94116de92eb8b3c0e41fd1409597bbe3421207",
       "docToken": "YVhZw2z0AiuNNnkruztcOAfMnmg",
-      "revisionId": "43"
+      "revisionId": "46"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/drop-collection.md",
@@ -2349,9 +2349,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/external-collection-limits.md",
-      "sha256": "9fe2c06fb55002f22b30de77d8116b4258be9062450ad86c34340bb56b1e9a76",
+      "sha256": "4dfe825b4a6a6b97fa99f4cc2b14d1b1e2d97157bc2b70ec8dd784a4ec9acfe8",
       "docToken": "HjpBwVmBiiyz1tkcLxCcyXbvn7g",
-      "revisionId": "156"
+      "revisionId": "159"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/load-release-collections.md",
@@ -3195,7 +3195,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
-      "sha256": "a194bb5fc5ae3194d56d5573eb56d4d7e96ffdde8a0963dd9c1f81d086055035",
+      "sha256": "0c5eb8d114a43ce66e90277569a642fbdc2cc1e41618cfa6147618d8bd25976d",
       "docToken": "XweAwx0lriFJXhkMyb1c40v9nNh",
       "revisionId": "367"
     },
@@ -4209,7 +4209,7 @@
     },
     {
       "path": "generated/zh-CN/sidebars/guides.sidebar.js",
-      "sha256": "a67949ff4fb9568433f0ace397a98da280b3c19d13bd3f1281efea95cd848e04",
+      "sha256": "d76dd0bfd74fcf2494a2ba61bfb1ce41a468409f6d23e7fb67b8b2eec5c4340e",
       "docToken": null,
       "revisionId": null
     },
