@@ -21,6 +21,17 @@ interface Operation {
   pages: Map<string, RetainedPage>; issued: Set<string>; outstanding: Set<BatchContentTicket>
 }
 const operationMeasurements = new WeakMap<EvidenceStore, {pages: {pageId: string; elapsedMs: number; responseBytes: number; materialBytes: number}[]}>()
+// Only the active private finalizer can create this state; public records and
+// retained descriptors never restore it or authorize completion.
+const completionValidity = new WeakMap<EvidenceStore, {deadline: number; scanStartMs: number; origin: BatchOrigin}>()
+function assertCompletionValidity(store: EvidenceStore) {
+  currentBatchLifetime()?.check()
+  const validity = completionValidity.get(store)
+  if (!validity) invalid()
+  const now = collectionClock(validity.origin)
+  if (performance.now() >= validity.deadline || now - validity.scanStartMs > 36 * 3600_000 || validity.scanStartMs - now > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
+}
+
 interface Launch {operation: Operation; request: BatchRenderRequest; state: 'issued' | 'running' | 'settled'}
 const observedLaunches = new WeakMap<object, Launch>(), replayLaunches = new WeakMap<object, Launch>()
 function issueContent(operation: Operation, pageId: string) {
@@ -744,27 +755,41 @@ async function executeQualification(operation: QualificationOperation, publish: 
         const decisionTime = collectionClock(scope.base.origin)
         if (decisionTime - q.scanStartMs > 36 * 3600_000 || q.scanStartMs - decisionTime > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
         check()
+        const sampled = performance.now()
         const remaining = q.scanStartMs + 36 * 3600_000 - collectionClock(scope.base.origin)
         if (!Number.isSafeInteger(remaining) || remaining < 1) throw Error('BATCH_FRESHNESS_EXPIRED')
+        if (completionValidity.has(store)) invalid()
+        completionValidity.set(store, {deadline: sampled + remaining, scanStartMs: q.scanStartMs, origin: scope.base.origin})
         return remaining
       }} : {})})
     await reserveBatchAllocation(store, 16 * 1024 ** 2 + 65536, 3)
     let verified
     try {
       verified = await launcher.runBatchVerifier(verifierTicket, currentBatchLifetime()?.signal)
-      check()
+      check(); if (publish) assertCompletionValidity(store)
       await operation.verifyOwned(); check()
       if (!same(identity(await lstat(store.root, {bigint: true})), control.rootIdentity) || !same(identity(await lstat(join(store.root, 'blobs'), {bigint: true})), control.blobsIdentity)) invalid()
+      if (publish) assertCompletionValidity(store)
     }
     catch (error) {
       // A durable descriptor is never a completed live grant. Unknown terminal
       // outcomes stop here, retain diagnostics and can never resume this root.
-      if (await lstat(join(store.root, 'index.json')).then(() => true, () => false)) throw Error('PUBLICATION_OUTCOME_UNCONFIRMED', {cause: error})
+      if (completionValidity.has(store) || await lstat(join(store.root, 'index.json')).then(() => true, () => false)) throw Error('PUBLICATION_OUTCOME_UNCONFIRMED', {cause: error})
       throw error
     }
     return {status: 'verified', origin: scope.base.origin, indexRef, indexDigest, qualifierRef, qualifierDigest, controlDigest: batchDigest('control', control),
       measurement: {qualifier: measured, settlement: child.settlement, verifierSettlement: verified.settlement}}
-  } finally {await parent.close(); await blobs.close(); await root.close()}
+  } finally {
+    try {
+      const closed = await Promise.allSettled([parent.close(), blobs.close(), root.close()])
+      const failure = closed.find((item): item is PromiseRejectedResult => item.status === 'rejected')
+      if (failure) throw failure.reason
+      if (publish && completionValidity.has(store)) assertCompletionValidity(store)
+    } catch (cause) {
+      if (publish && completionValidity.has(store)) throw Error('PUBLICATION_OUTCOME_UNCONFIRMED', {cause})
+      throw cause
+    }
+  }
 }
 
 /** Separate bounded boundary probes, never a new/reset profile transaction.
@@ -827,6 +852,19 @@ function sampleBatchOperation(root: string) {
   }
 
 }
+/** Internal diagnostic sequencing only: this helper cannot issue a result,
+ * ticket or authority. The entry supplies its original private validity check. */
+export async function settleBatchMeasurement(store: EvidenceStore, stopSampling: () => Promise<Record<string, number | boolean>>,
+  fields: Record<string, unknown>, validate: () => void): Promise<void> {
+  let sampled: Record<string, number | boolean>
+  try {sampled = await stopSampling()} catch (cause) {throw Error('BATCH_SAMPLER_FAILED', {cause})}
+  try {
+    const bytes = canonicalBytes({kind: 'guides-batch-measurement-v1', ...sampled, ...fields})
+    if (bytes.length > 65536) throw Error('BATCH_MEASUREMENT_LIMIT')
+    await store.writeJournal('measurement.json', bytes)
+  } catch (cause) {throw Error('BATCH_MEASUREMENT_FAILED', {cause})}
+  validate()
+}
 async function collectCompleteBatch(options: Readonly<{sourceRepository: string; out: string}>, replay?: {
   zdocRepository: string; capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number
 }): Promise<BatchCollectionResult> {
@@ -875,8 +913,8 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       currentBatchLifetime()!.check()
       if (material.status !== 'material-complete') return result(material.status, material.reasons)
       const qualified = await qualifyMaterialTicket(material.ticket, observation, true)
-      try {currentBatchLifetime()!.check()} catch {return result('held', ['PUBLICATION_OUTCOME_UNCONFIRMED'])}
       if (qualified.status === 'held') return result('held', qualified.reasons)
+      try {assertCompletionValidity(store)} catch {return result('held', ['PUBLICATION_OUTCOME_UNCONFIRMED'])}
       publicationConfirmed = true
       return result('collected', [], qualified.indexRef)
     } catch (error) {
@@ -884,18 +922,23 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       return result('held', [/^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_COLLECTION_FAILED'])
     } finally {
       if (stopSampling && store) {
-        let failure = 'BATCH_SAMPLER_FAILED'
+        const validate = () => {
+          currentBatchLifetime()!.check()
+          if (publicationConfirmed) assertCompletionValidity(store!)
+        }
         try {
-          const metrics = {kind: 'guides-batch-measurement-v1', observation, ...await stopSampling(), resources: batchResourceMeasurement(store) ?? null, pages: operationMeasurements.get(store)?.pages ?? [],
-            signedProducerCapacity: 'deferred'}
-          failure = 'BATCH_MEASUREMENT_FAILED'
-          const bytes = canonicalBytes(metrics)
-          if (bytes.length > 65536) throw Error('BATCH_MEASUREMENT_LIMIT')
-          // The original store reserves temporary allocation before writing.
-          await store.writeJournal('measurement.json', bytes)
-        } catch {
-          const descriptor = publicationConfirmed || await lstat(join(store.root, 'index.json')).then(() => true, () => false)
-          return result('held', [descriptor ? 'PUBLICATION_OUTCOME_UNCONFIRMED' : failure])
+          await settleBatchMeasurement(store, stopSampling, {observation, resources: batchResourceMeasurement(store) ?? null,
+            pages: operationMeasurements.get(store)?.pages ?? [], signedProducerCapacity: 'deferred'}, validate)
+          // Repeat synchronously after the helper's final awaited resolution.
+          // No awaited work remains before the live result is issued.
+          validate()
+        } catch (error) {
+          const mayExist = publicationConfirmed || completionValidity.has(store) || await lstat(join(store.root, 'index.json')).then(() => true, () => false)
+          // Even the error-path descriptor probe precedes the final time check.
+          let failure = error
+          try {validate(); if (completionValidity.has(store)) assertCompletionValidity(store)} catch (late) {failure = late}
+          const message = failure instanceof Error ? failure.message : ''
+          return result('held', [mayExist ? 'PUBLICATION_OUTCOME_UNCONFIRMED' : /^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_MEASUREMENT_FAILED'])
         }
       }
     }

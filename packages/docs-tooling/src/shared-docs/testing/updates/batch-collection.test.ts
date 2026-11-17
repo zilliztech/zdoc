@@ -498,3 +498,31 @@ with zipfile.ZipFile(sys.argv[1],'w',compression=zipfile.ZIP_DEFLATED) as z:z.wr
   await expect(acquireLifecycleStage({zip: async () => bytes} as never, facts as never, destination, 'fixture')).rejects.toThrow('BATCH_EXTRACT_ENTRY_LIMIT')
   expect((await fs.readdir(destination)).sort()).toEqual(['artifact.zip', 'source.tar'])
 })
+
+
+it.each(['lifecycle', 'operation'] as const)('checks %s validity after actual terminal journal persistence', async kind => {
+  const fs = await import('node:fs/promises'), {initializeEvidence, bindBatchResources, withBatchLifetime, currentBatchLifetime} = await import('../../adapters/updates/evidence')
+  const {settleBatchMeasurement} = await import('../../adapters/updates/batch-collection')
+  const root = await fs.realpath(await mkdtemp(join(tmpdir(), 'batch-terminal-')))
+  const store = await initializeEvidence({root, repositories: [], owner: 'terminal'})
+  bindBatchResources(store, 1)
+  const originalWrite = store.writeJournal.bind(store)
+  let advanced: ReturnType<typeof vi.spyOn> | undefined
+  try {
+    await withBatchLifetime(async () => {
+      const started = performance.now(), validityDeadline = started + 1000
+      store.writeJournal = async (...args) => {
+        await originalWrite(...args) // Real owned exclusive write/rename/verification.
+        advanced = vi.spyOn(performance, 'now').mockReturnValue(started + (kind === 'lifecycle' ? 2000 : 4_500_001))
+      }
+      const check = () => {
+        currentBatchLifetime()!.check()
+        if (performance.now() >= validityDeadline) throw Error('BATCH_FRESHNESS_EXPIRED')
+      }
+      await expect(settleBatchMeasurement(store, async () => ({elapsedMs: 1}), {observation: 'replay'}, check))
+        .rejects.toThrow(kind === 'lifecycle' ? 'BATCH_FRESHNESS_EXPIRED' : 'BATCH_OPERATION_DEADLINE')
+      if (kind === 'lifecycle') expect(currentBatchLifetime()!.check()).toBeGreaterThan(4_000_000)
+      expect(JSON.parse(await fs.readFile(join(root, 'measurement.json'), 'utf8'))).toMatchObject({elapsedMs: 1, observation: 'replay'})
+    })
+  } finally {advanced?.mockRestore(); store.writeJournal = originalWrite}
+})
