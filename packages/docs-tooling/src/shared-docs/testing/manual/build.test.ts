@@ -7,6 +7,7 @@ import { runBuild } from '../../commands/build'
 import { runLock } from '../../commands/lock'
 import { expandManualPages, deriveHeadingMetadata } from '../../adapters/manual-page'
 import type { ManualConfig } from '../../core/types'
+import { sha256, validateManualRecord } from '../../core/records/manual-record'
 import { createManualDemo, git, write, sourceDir } from './demo'
 
 vi.setConfig({ testTimeout: 120_000, hookTimeout: 120_000 })
@@ -88,6 +89,23 @@ it('derives the title and description from the first heading', () => {
   expect(deriveHeadingMetadata('# createCollection()\n\nCreates a collection.\n\n## Example\n...')).toEqual({
     title: 'createCollection()', description: 'Creates a collection.' })
   expect(deriveHeadingMetadata('No heading here.').title).toBeUndefined()
+})
+
+it('classifies one-sided pages and channel-absent basenames over the union of both trees', () => {
+  const manual: ManualConfig = { schema_version: 1, source: { dir: sourceDir }, publish: { manual: 'node' },
+    cloud_pages: { 'Extras/Cloud.md': { file: 'shared-docs/node/content/cloud.md', channel: 'next' } } }
+  const current = [`${sourceDir}/Collections/createCollection.md`, `${sourceDir}/Collections/DataType.md`]
+  const next = [`${sourceDir}/Collections/createCollection.md`, `${sourceDir}/Extras/pointer.md`]
+  const { pages, channelAbsent, errors } = expandManualPages({ current, next }, manual,
+    new Map([['Extras/Cloud.md', { file: 'shared-docs/node/content/cloud.md', text: '' }]]))
+  expect(errors).toEqual([])
+  expect(pages.get('Collections-createCollection')!.channel).toBeUndefined()
+  expect(pages.get('Collections-DataType')!.channel).toBe('retire-in-next')
+  expect(pages.get('Extras-pointer')!.channel).toBe('next')
+  expect(pages.get('Extras-Cloud')!.channel).toBe('next')
+  // A basename absent from a channel strips links there; visible ones never appear.
+  expect([...channelAbsent.get('current')!].sort()).toEqual(['cloud.md', 'pointer.md'])
+  expect([...channelAbsent.get('next')!].sort()).toEqual(['datatype.md'])
 })
 
 it('creates one group-level lock and skips it on the second run', async () => {
@@ -339,4 +357,232 @@ publish:
   expect(await runBuild({ sharedDocs: failing.sharedDocs, repo: failing.repo, dev: join(failing.root, 'dev'), out: failing.out },
     text => { output += text })).toBe(1)
   expect(output).toContain('PRODUCT_NAME_FOUND')
+})
+
+const TOOLING = 'a1b2c3d4'.repeat(5)
+
+it('merges dual-channel upstream edits into generated NextChannel regions', async () => {
+  const demo = await createManualDemo(await temp('manual-dual-'), {
+    later: { 'Client/MilvusClientV2.md': `# MilvusClientV2
+
+The client for a Milvus instance, updated upstream between the pins.
+
+See [createCollection](../Collections/createCollection.md).
+` } })
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${demo.nextCommit}\n`)
+  let output = ''
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text }, { toolingCommit: TOOLING })
+  expect(code).toBe(0)
+  const client = await readFile(join(demo.out, 'node/Client/Client-MilvusClientV2.md'), 'utf8')
+  // Same-commit pages stay wrapper-free; differing paragraphs become one exclude/include pair.
+  expect(client).toContain('<NextChannel action="exclude">')
+  expect(client).toContain('<NextChannel action="include">')
+  expect(client).toContain('](./Collections-createCollection)')
+  const created = await readFile(join(demo.out, 'node/Collections/Collections-createCollection.md'), 'utf8')
+  expect(created).not.toContain('NextChannel')
+})
+
+it('publishes next-only upstream pages as whole-page next channels', async () => {
+  const demo = await createManualDemo(await temp('manual-next-only-'), {
+    upstream: { 'Client/MilvusClientV2.md': `# MilvusClientV2
+
+The client for a Milvus instance.
+
+See [pointer](../Extras/pointer.md).
+` },
+    later: { 'Extras/pointer.md': '# pointer\n\nA brand new upstream page.\n' } })
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${demo.nextCommit}\n`)
+  let output = ''
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text }, { toolingCommit: TOOLING })
+  expect(code).toBe(0)
+  // The current channel cannot resolve the target: it loses the link, keeps the text.
+  expect(output).toContain('only visible in the next channel')
+  const client = await readFile(join(demo.out, 'node/Client/Client-MilvusClientV2.md'), 'utf8')
+  expect(client).toContain('See pointer.')
+  expect(client).toContain('](./Extras-pointer)')
+  const pointer = await readFile(join(demo.out, 'node/Extras/Extras-pointer.md'), 'utf8')
+  expect(pointer).toContain('title: "pointer | Node.js"')
+  expect(pointer).toContain('channel: next')
+  expect(pointer).toContain('sidebar_custom_props:')
+  expect(pointer).toContain('  channel: next')
+})
+
+it('publishes upstream-deleted pages as retire-in-next channels', async () => {
+  const demo = await createManualDemo(await temp('manual-retire-'))
+  await git(demo.repo, 'rm', '-q', `${sourceDir}/Collections/DataType.md`)
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Remove DataType upstream')
+  const nextCommit = await git(demo.repo, 'rev-parse', 'HEAD')
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${nextCommit}\n`)
+  let output = ''
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text }, { toolingCommit: TOOLING })
+  expect(code).toBe(0)
+  const dataType = await readFile(join(demo.out, 'node/Collections/Collections-DataType.md'), 'utf8')
+  expect(dataType).toContain('channel: retire-in-next')
+  const created = await readFile(join(demo.out, 'node/Collections/Collections-createCollection.md'), 'utf8')
+  // The current channel keeps the working link; the next channel keeps only the text.
+  expect(created).toContain('](./Collections-DataType)')
+  expect(created).toContain('See DataType,')
+})
+
+it('activates cloud_pages one-sided channels with per-channel link targets', async () => {
+  const manual = `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+cloud_pages:
+  Overview.md:
+    file: overview.md
+    channel: next
+  MilvusCloud/Legacy.md:
+    file: legacy.md
+    channel: retire-in-next
+`
+  const demo = await createManualDemo(await temp('manual-cloud-channel-'), {
+    manual,
+    upstream: { 'Client/MilvusClientV2.md': `# MilvusClientV2
+
+The client for a Milvus instance.
+
+See [the overview](../Overview.md).
+` },
+    later: { 'Extras/pointer.md': '# pointer\n\nUnreleased upstream page.\n\n## anchor\n\nAnchor body.\n' },
+    cloud: { 'overview.md': '# Overview\n\nManual-local page linking [pointer](Extras/pointer.md#anchor) and [createCollection](Collections/createCollection.md).\n',
+      'legacy.md': '# Legacy\n\nLegacy cloud page.\n' } })
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${demo.nextCommit}\n`)
+  let output = ''
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text }, { toolingCommit: TOOLING })
+  expect(code).toBe(0)
+  // The next-only cloud page answers anchors from the next tree, where the next-only
+  // upstream target exists; pinning it to current would fail the anchor check.
+  const overview = await readFile(join(demo.out, 'node/Overview.md'), 'utf8')
+  expect(overview).toContain('channel: next')
+  expect(overview).toContain('](./Extras-pointer#anchor)')
+  expect(overview).toContain('](./Collections-createCollection)')
+  const legacy = await readFile(join(demo.out, 'node/MilvusCloud/MilvusCloud-Legacy.md'), 'utf8')
+  expect(legacy).toContain('channel: retire-in-next')
+  // The two-sided client page sees the next-only cloud page in next and only its text in current.
+  const client = await readFile(join(demo.out, 'node/Client/Client-MilvusClientV2.md'), 'utf8')
+  expect(client).toContain('](./Overview)')
+  expect(client).toContain('See the overview.')
+})
+
+it('replaces milvus_values inside list-indented code fences', async () => {
+  const manual = `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+milvus_values:
+  example_endpoint: localhost:19530
+`
+  const demo = await createManualDemo(await temp('manual-milvus-indent-'), {
+    manual,
+    variables: JSON.stringify({ example_endpoint: 'YOUR_CLUSTER_ENDPOINT' }),
+    upstream: { 'Client/indented.md': '# indented\n\nSteps:\n\n1. First:\n\n    ```javascript\n    const client = new MilvusClient({ address: \'localhost:19530\' });\n    ```\n\n2. The body stays verbatim: localhost:19530.\n' } })
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  let output = ''
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out }, text => { output += text })
+  expect(code).toBe(0)
+  const indented = await readFile(join(demo.out, 'node/Client/Client-indented.md'), 'utf8')
+  expect(indented).toContain(`address: 'YOUR_CLUSTER_ENDPOINT'`)
+  expect(indented).toContain('The body stays verbatim: localhost:19530.')
+  expect(indented).not.toContain(`address: 'localhost:19530'`)
+})
+
+it('stages a validated manual record with channels, digests, and the tooling identity', async () => {
+  const manual = `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+metadata:
+  Collections/createCollection.md:
+    token: KPZZd2TiAodSeWxUdlJciHGcnbg
+    type: docx
+cloud_pages:
+  Overview.md:
+    file: overview.md
+`
+  const demo = await createManualDemo(await temp('manual-record-'), {
+    manual,
+    later: { 'Extras/pointer.md': '# pointer\n\nA brand new upstream page.\n' },
+    cloud: { 'overview.md': '# Overview\n\nManual-local page.\n' } })
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${demo.nextCommit}\n`)
+  let output = ''
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text }, { toolingCommit: TOOLING })
+  expect(code).toBe(0)
+  expect(output).toContain('"record"')
+  const recordText = await readFile(join(demo.out, 'manifests/shared-manuals/node.json'), 'utf8')
+  const record = JSON.parse(recordText)
+  expect(record.kind).toBe('shared-manual')
+  expect(record.schema_version).toBe(1)
+  expect(record.group).toBe('node')
+  expect(record.manual).toBe('node')
+  expect(record.site).toBe('en')
+  expect(record.inputs.upstream).toEqual({ repository: 'https://github.com/milvus-io/web-content', dir: sourceDir, current: demo.commit, next: demo.nextCommit })
+  expect(record.inputs.tools).toEqual({ zdoc: TOOLING })
+  const recordPages = new Map<string, typeof record.pages[number]>(record.pages.map((page: typeof record.pages[number]) => [page.logical, page]))
+  // One-sided pages record the commit they exist at; two-sided pages leave it null.
+  expect(recordPages.get('Extras/pointer.md').channel).toBe('next')
+  expect(recordPages.get('Extras/pointer.md').source.commit).toBe(demo.nextCommit)
+  expect(recordPages.get('Collections/createCollection.md').channel).toBe('current')
+  expect(recordPages.get('Collections/createCollection.md').source.commit).toBeNull()
+  expect(recordPages.get('Collections/createCollection.md').token).toBe('KPZZd2TiAodSeWxUdlJciHGcnbg')
+  expect(recordPages.get('Overview.md').source).toEqual({ kind: 'cloud', file: 'content/overview.md' })
+  const outputs = new Map<string, string>(record.outputs.map((output: { path: string; sha256: string }) => [output.path, output.sha256]))
+  expect(outputs.has('images.json')).toBe(true)
+  expect(outputs.size).toBe(record.pages.length + 1)
+
+  // Independent expectation: digests recomputed from the staged bytes must validate,
+  // and the upstream identity comes from the demo, not from the record under test.
+  const digestOf = async (path: string) => sha256(await readFile(join(demo.out, path), 'utf8'))
+  const configOf = async (name: string) => ({ path: name, sha256: sha256(await readFile(join(demo.sharedDocs, name), 'utf8')) })
+  const expectedPages = await Promise.all(record.pages.map(async (page: typeof record.pages[number]) => ({
+    logical: page.logical, ...(page.token !== undefined ? { token: page.token } : {}), source: page.source, channel: page.channel,
+    output: { path: page.output.path, sha256: await digestOf(page.output.path) } })))
+  const stagedImages = (JSON.parse(await readFile(join(demo.out, 'images.json'), 'utf8')) as { original: string; sha256: string; address: string }[])
+    .map(image => ({ source: image.original, sha256: image.sha256, address: image.address }))
+  const expectation = {
+    group: 'node', manual: 'node',
+    upstream: { repository: 'https://github.com/milvus-io/web-content', dir: sourceDir, current: demo.commit, next: demo.nextCommit },
+    config: { files: [...await Promise.all(['manual.yaml', 'source.yaml', 'product-names.yaml'].map(configOf)),
+      { path: 'Variables.json', sha256: sha256('{}') }, { path: 'content/overview.md', sha256: sha256('# Overview\n\nManual-local page.\n') }] },
+    images: stagedImages, pages: expectedPages,
+    outputs: [...expectedPages.map(page => page.output), { path: 'images.json', sha256: await digestOf('images.json') }],
+  }
+  expect(validateManualRecord(record, expectation)).toEqual([])
+  const reject = (mutate: (copy: typeof record) => void, message: string) => {
+    const copy = structuredClone(record)
+    mutate(copy)
+    expect(validateManualRecord(copy, expectation).map(error => error.message).join('\n')).toContain(message)
+  }
+  reject(copy => { copy.kind = 'shared-page' }, 'Unknown record kind')
+  reject(copy => { copy.schema_version = 2 }, 'Unsupported record schema_version')
+  reject(copy => { copy.inputs.upstream.current = null }, 'Record inputs.upstream.current must be a complete lowercase commit SHA')
+  reject(copy => { copy.inputs.upstream.next = demo.commit }, 'Record inputs.upstream.next')
+  reject(copy => { copy.pages[0].output.sha256 = '0'.repeat(64) }, 'Record output mismatch')
+  const pointer = copy => { for (const page of copy.pages) if (page.channel === 'next') return page; throw new Error('no next-only page') }
+  reject(copy => { pointer(copy).source.commit = demo.commit }, 'a next-only page must pin the next commit')
+  reject(copy => { copy.pages[0].token = copy.pages[1].token = 'DUP' }, 'claimed by more than one page')
+  reject(copy => { copy.outputs.pop() }, 'Record.outputs is missing')
+  reject(copy => { copy.outputs[0].path = 'elsewhere.md' }, 'Record.outputs has an unexpected entry')
+  reject(copy => { copy.inputs.tools.zdoc = 'short' }, 'Record inputs.tools.zdoc must be a complete lowercase commit SHA')
+})
+
+it('rejects authored block-level gates on whole-page channel pages', async () => {
+  const demo = await createManualDemo(await temp('manual-gate-'), {
+    later: { 'Extras/gated.md': '# gated\n\n<NextChannel action="include">\n\nPreview-only content.\n\n</NextChannel>\n' } })
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${demo.nextCommit}\n`)
+  let output = ''
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text }, { toolingCommit: TOOLING })
+  expect(code).toBe(1)
+  expect(output).toContain('MERGE_NESTED_CHANNEL')
+  expect(output).toContain('whole-page next page must not contain block-level NextChannel')
 })

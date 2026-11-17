@@ -29,7 +29,11 @@ import { provenanceCarrier, remapError } from '../core/transforms/provenance'
 export interface BuildPageInputFiles { pageYaml: string; lockYaml?: string; config: PageConfig; contentFiles?: ReadonlyMap<string, ContentFile>
   variants?: Partial<Record<Channel, PageVariant>>
   /** Manual-local cloud page: the content/ file this page is built from, under its manual.yaml logical path. */
-  cloud?: ContentFile & { logical: string } }
+  cloud?: ContentFile & { logical: string }
+  /** Manual whole-page release channel for one-sided pages: the source exists in one
+   * locked tree only (upstream added/removed between the commits, or a one-sided
+   * cloud_pages entry). Absent pages publish to both channels via the two-version merge. */
+  channel?: 'next' | 'retire-in-next' }
 export interface SharedDocsInputs {
   sharedDocsPath?: string
   sourceYaml: string
