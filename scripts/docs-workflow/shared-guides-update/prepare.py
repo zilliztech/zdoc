@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -179,6 +180,11 @@ def check_histories(get, run, start):
 
 
 def verify_fetch(record, get, now):
+    method = record.get("producerAuthentication")
+    require(not (isinstance(method, dict) and method.get("kind") == "fetch-producer-profile-v2")
+            and not ("producerAuthentication" in record and "producerInventorySha256" in record)
+            and record.get("kind") not in ("guides-batch-collection-index-v1", "guides-batch-qualification-v1"),
+            "BATCH_WRITER_INPUT_REJECTED")
     run = select_fetch(get)
     run_id, attempt = run["id"], run["run_attempt"]
     require(record["page"] == PAGE and record["status"] == "prepared"
@@ -578,8 +584,507 @@ def main():
     return code
 
 
+_BATCH_MAX = 64 * 1024**2
+_BATCH_TAGS = {"discovery", "material", "materials", "closure", "scope", "qualifier", "index", "control"}
+
+
+def batch_exact(value, fields):
+    require(type(value) is dict and set(value) == set(fields.split()), "BATCH_SCHEMA_INVALID")
+    return value
+
+
+def batch_canonical(value):
+    def quote(text):
+        require(type(text) is str and not any(0xd800 <= ord(c) <= 0xdfff for c in text), "BATCH_UNICODE_INVALID")
+        return '"' + ''.join('\\"' if c == '"' else '\\\\' if c == '\\' else f'\\u{ord(c):04x}' if ord(c) < 32 else c for c in text) + '"'
+
+    def encode(item):
+        if item is None:
+            return "null"
+        if type(item) is bool:
+            return "true" if item else "false"
+        if type(item) is int:
+            require(abs(item) <= 9007199254740991, "BATCH_NUMBER_INVALID")
+            return str(item)
+        if type(item) is str:
+            return quote(item)
+        if type(item) is list:
+            return '[' + ','.join(encode(v) for v in item) + ']'
+        require(type(item) is dict and all(type(k) is str for k in item), "BATCH_SCHEMA_INVALID")
+        for key in item:
+            quote(key)
+        return '{' + ','.join(quote(k) + ':' + encode(item[k]) for k in sorted(item, key=lambda k: k.encode('utf-8'))) + '}'
+    try:
+        return encode(value).encode('utf-8')
+    except (UnicodeError, RecursionError):
+        raise Hold("BATCH_CANONICAL_INVALID")
+
+
+def batch_parse(raw, canonical=True):
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            require(key not in result, "BATCH_DUPLICATE_KEY")
+            result[key] = value
+        return result
+
+    def integer(text):
+        require(text != "-0" and abs(int(text)) <= 9007199254740991, "BATCH_NUMBER_INVALID")
+        return int(text)
+
+    def forbidden(_text):
+        raise Hold("BATCH_NUMBER_INVALID")
+
+    def original_float(text):
+        value = float(text)
+        require(math.isfinite(value), "BATCH_NUMBER_INVALID")
+        return value
+
+    def original_unicode(value):
+        if type(value) is str:
+            require(not any(0xd800 <= ord(c) <= 0xdfff for c in value), "BATCH_UNICODE_INVALID")
+        elif type(value) is dict:
+            for key, child in value.items():
+                original_unicode(key)
+                original_unicode(child)
+        elif type(value) is list:
+            for child in value:
+                original_unicode(child)
+    try:
+        require(not raw.startswith(b'\xef\xbb\xbf'), "BATCH_CANONICAL_INVALID")
+        value = json.loads(raw.decode('utf-8'), object_pairs_hook=pairs, parse_int=integer if canonical else int,
+                           parse_float=forbidden if canonical else original_float, parse_constant=forbidden)
+        if not canonical:
+            original_unicode(value)
+            return value
+        encoded = batch_canonical(value)
+        require(not canonical or encoded == raw, "BATCH_CANONICAL_INVALID")
+        return value
+    except (ValueError, UnicodeError, RecursionError):
+        raise Hold("BATCH_CANONICAL_INVALID")
+
+
+def batch_digest(tag, value):
+    require(tag in _BATCH_TAGS, "BATCH_DIGEST_TAG_INVALID")
+    return sha256(f"zdoc/guides-batch/{tag}/v1\n".encode() + batch_canonical(value))
+
+
+def validate_profile_method(row, *, expected_kind, master, producer, observed_tool, expected_digest):
+    batch_exact(row, "kind trustedTools producer profileSha256")
+    require(expected_kind in ("fetch-producer-profile-v1", "fetch-producer-profile-v2")
+            and row["kind"] == expected_kind and oid(master) and oid(producer)
+            and row["trustedTools"] == master == observed_tool and row["producer"] == producer
+            and type(expected_digest) is str and DIGEST.fullmatch(expected_digest)
+            and row["profileSha256"] == expected_digest, "BATCH_PROFILE_METHOD_INVALID")
+    return row
+
+
+def batch_sorted(values, key=lambda value: value):
+    require(type(values) is list, "BATCH_SCHEMA_INVALID")
+    keys = [key(v).encode('utf-8') for v in values]
+    require(all(a < b for a, b in zip(keys, keys[1:])), "BATCH_MEMBER_SET_INVALID")
+    return values
+
+
+def batch_path(path):
+    require(type(path) is str and path and not path.startswith('/') and '\\' not in path
+            and not any(c in path for c in '\0\r\n') and all(p not in ('', '.', '..') for p in path.split('/')),
+            "BATCH_PATH_INVALID")
+    return path
+
+
+def batch_ref(ref):
+    batch_exact(ref, "path sha256 bytes")
+    require(type(ref["sha256"]) is str and DIGEST.fullmatch(ref["sha256"])
+            and ref["path"] == 'blobs/' + ref["sha256"] and type(ref["bytes"]) is int
+            and 0 <= ref["bytes"] <= _BATCH_MAX, "BATCH_REF_INVALID")
+    return ref
+
+
+class _BatchReader:
+    """Held directory descriptors only; hash each distinct raw blob once.
+
+    Cache small typed projections, never the full raw/source/output byte set.
+    """
+    def __init__(self, root_fd, blobs_fd, control):
+        self.root_fd, self.blobs_fd = root_fd, blobs_fd
+        self.seen, self.objects, self.total = {}, {}, 0
+        self.root_identity = self.identity(root_fd)
+        self.blobs_identity = self.identity(blobs_fd)
+        require(self.root_identity == control["rootIdentity"] and self.blobs_identity == control["blobsIdentity"],
+                "BATCH_ROOT_IDENTITY_INVALID")
+        check = os.open('blobs', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=root_fd)
+        try:
+            require(self.identity(check) == self.blobs_identity, "BATCH_ROOT_IDENTITY_INVALID")
+        finally:
+            os.close(check)
+
+    @staticmethod
+    def identity(fd):
+        info = os.fstat(fd)
+        require(stat.S_ISDIR(info.st_mode), "BATCH_ROOT_IDENTITY_INVALID")
+        return {"dev": str(info.st_dev), "ino": str(info.st_ino)}
+
+    def blob(self, ref, parse=False, original=False):
+        batch_ref(ref)
+        digest = ref["sha256"]
+        if digest in self.seen:
+            require(self.seen[digest][0] == ref["bytes"], "BATCH_BLOB_BINDING_INVALID")
+            if parse:
+                require(digest in self.objects, "BATCH_TYPED_ALIAS_INVALID")
+                return self.objects[digest]
+            return self.seen[digest]
+        fd = os.open(digest, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=self.blobs_fd)
+        chunks = [] if parse else None
+        try:
+            before = os.fstat(fd)
+            require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size == ref["bytes"], "BATCH_BLOB_TYPE_INVALID")
+            sha, git_sha = hashlib.sha256(), hashlib.sha1(f'blob {before.st_size}\0'.encode())
+            size = 0
+            while True:
+                chunk = os.read(fd, min(65536, ref["bytes"] + 1 - size))
+                if not chunk:
+                    break
+                size += len(chunk)
+                require(size <= ref["bytes"], "BATCH_BLOB_EXTENT_INVALID")
+                sha.update(chunk)
+                git_sha.update(chunk)
+                if chunks is not None:
+                    chunks.append(chunk)
+            after = os.fstat(fd)
+            signature = lambda st: (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns, st.st_nlink, st.st_mode)
+            require(signature(before) == signature(after) and size == ref["bytes"] and sha.hexdigest() == digest,
+                    "BATCH_BLOB_BINDING_INVALID")
+            self.total += size
+            require(self.total <= 12 * 1024**3 + 192 * 1024**2, "BATCH_CAS_INPUT_LIMIT")
+            self.seen[digest] = (size, git_sha.hexdigest())
+            if parse:
+                result = batch_parse(b''.join(chunks), canonical=not original)
+                self.objects[digest] = result
+                return result
+            return self.seen[digest]
+        finally:
+            os.close(fd)
+
+    def object(self, ref, fields):
+        return batch_exact(self.blob(ref, parse=True), fields)
+
+    def finish(self):
+        require(self.identity(self.root_fd) == self.root_identity and self.identity(self.blobs_fd) == self.blobs_identity,
+                "BATCH_ROOT_IDENTITY_INVALID")
+
+
+def _batch_base(base):
+    batch_exact(base, 'origin session pins')
+    require(type(base['session']) is str and DIGEST.fullmatch(base['session']), 'BATCH_BASE_INVALID')
+    pins = batch_exact(base['pins'], 'master dev source trustedTools toolsetSha256')
+    require(all(oid(pins[k]) for k in ('master', 'dev', 'source', 'trustedTools'))
+            and pins['master'] == pins['trustedTools'] and DIGEST.fullmatch(pins['toolsetSha256']), 'BATCH_BASE_INVALID')
+    origin = base['origin']
+    if origin.get('kind') == 'observed':
+        batch_exact(origin, 'kind')
+    else:
+        batch_exact(origin, 'kind fixtureSha256 replayClockMs')
+        require(origin['kind'] == 'replay' and DIGEST.fullmatch(origin['fixtureSha256'])
+                and type(origin['replayClockMs']) is int and origin['replayClockMs'] >= 0, 'BATCH_BASE_INVALID')
+    return pins
+
+
+def _batch_targets(targets):
+    batch_sorted(targets, lambda t: t['manual'])
+    require(targets, 'BATCH_TARGETS_INVALID')
+    for target in targets:
+        batch_exact(target, 'manual path')
+        require(target['manual'] in ('guides', 'guides-byoc'), 'BATCH_TARGETS_INVALID')
+        batch_path(target['path'])
+    return targets
+
+
+def _batch_material(reader, retained, base):
+    batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
+    header = reader.object(retained['materialRef'], 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef')
+    require(header['kind'] == 'guides-batch-material-v1' and header['base'] == base
+            and header['pageId'] == retained['pageId'] and batch_digest('material', header) == retained['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')
+    for key, maximum in (('requestBytes', 32 * 1024**2), ('responseBytes', 128 * 1024**2)):
+        require(type(retained[key]) is int and 0 < retained[key] <= maximum, 'BATCH_LAUNCH_BINDING_INVALID')
+    require(all(DIGEST.fullmatch(retained[k]) for k in ('requestSha256', 'responseSha256')), 'BATCH_LAUNCH_BINDING_INVALID')
+    _batch_targets(header['targets'])
+    config = reader.object(header['configRef'], 'pageId sourceFile repository track registry files namespaceRef')
+    require(config['pageId'] == header['pageId'] and config['repository'] == 'https://github.com/milvus-io/milvus-docs'
+            and config['track'] == 'v3.0.x', 'BATCH_CONFIG_INVALID')
+    batch_sorted(config['registry'], lambda p: p['pageId'])
+    for page in config['registry']:
+        batch_exact(page, 'pageId sourceFile targets current oldNext')
+        _batch_targets(page['targets'])
+        require(oid(page['current']) and oid(page['oldNext']), 'BATCH_CONFIG_INVALID')
+    configured = [p for p in config['registry'] if p['pageId'] == header['pageId']]
+    require(len(configured) == 1 and configured[0]['current'] == header['current'] and configured[0]['oldNext'] == header['oldNext']
+            and configured[0]['targets'] == header['targets'] and configured[0]['sourceFile'] == config['sourceFile'], 'BATCH_CONFIG_INVALID')
+    batch_sorted(config['files'], lambda f: f['path'])
+    for file in config['files']:
+        batch_exact(file, 'path oid ref')
+        batch_path(file['path'])
+        require(reader.blob(file['ref'])[1] == file['oid'], 'BATCH_CONFIG_INVALID')
+    lock = next((f for f in config['files'] if f['path'] == f"shared-docs/guides/pages/{header['pageId']}/lock.yaml"), None)
+    require(lock and lock['ref'] == header['lockRef'], 'BATCH_CONFIG_INVALID')
+    reader.blob(header['lockRef'])
+    namespace = reader.object(config['namespaceRef'], 'commit activeRef snapshotRef outputs')
+    require(namespace['commit'] == base['pins']['dev'], 'BATCH_NAMESPACE_INVALID')
+    reader.blob(namespace['activeRef'])
+    reader.blob(namespace['snapshotRef'])
+    batch_sorted(namespace['outputs'], lambda o: o['manual'] + ':' + o['path'])
+    for output in namespace['outputs']:
+        batch_exact(output, 'manual path oid ref')
+        require(reader.blob(output['ref'])[1] == output['oid'], 'BATCH_NAMESPACE_INVALID')
+
+    def raw_tree(ref, commit):
+        tree = reader.object(ref, 'commit entries')
+        require(tree['commit'] == commit, 'BATCH_SOURCE_INVALID')
+        batch_sorted(tree['entries'], lambda e: e['path'])
+        for entry in tree['entries']:
+            batch_exact(entry, 'path oid ref')
+            batch_path(entry['path'])
+            require(reader.blob(entry['ref'])[1] == entry['oid'], 'BATCH_SOURCE_INVALID')
+        return tree
+
+    def inventory(ref, commit):
+        value = reader.object(ref, 'commit treeOid entries absentPaths discoveryRef')
+        require(value['commit'] == commit and oid(value['treeOid']), 'BATCH_SOURCE_INVALID')
+        batch_sorted(value['entries'], lambda e: e['path'])
+        for entry in value['entries']:
+            batch_exact(entry, 'path oid mode')
+            require(oid(entry['oid']) and entry['mode'] in ('100644', '100755'), 'BATCH_SOURCE_INVALID')
+        batch_sorted(value['absentPaths'])
+        require(not set(value['absentPaths']) & {e['path'] for e in value['entries']}, 'BATCH_SOURCE_INVALID')
+        reader.blob(value['discoveryRef'])
+        return value
+
+    def manual(ref, expected):
+        value = reader.object(ref, 'manual path markdown output headings references')
+        require(value['manual'] == expected['manual'] and value['path'] == expected['path'] and type(value['output']) is str
+                and type(value['markdown']) is str and type(value['headings']) is list and type(value['references']) is list, 'BATCH_MANUAL_INVALID')
+        # Only identity/extent is reused after this validation. Drop large text.
+        value['markdown'], value['output'] = '', ''
+
+    def images(ref):
+        value = reader.blob(ref, parse=True)
+        require(type(value) is list and len(value) == 3, 'BATCH_IMAGE_INVALID')
+        for index, group in enumerate(value):
+            batch_exact(group, 'role images')
+            require(group['role'] == ('current', 'oldNext', 'target')[index], 'BATCH_IMAGE_INVALID')
+            seen_images = set()
+            for image in group['images']:
+                batch_exact(image, 'original origin observed emitted uses ref')
+                key = batch_canonical([image['original'], image['origin']])
+                require(key not in seen_images and image['ref'] and image['observed'], 'BATCH_IMAGE_INVALID')
+                seen_images.add(key)
+                require(image['ref']['sha256'] == image['observed']['sha256'] == image['emitted']['sha256']
+                        and image['ref']['bytes'] == image['observed']['bytes'], 'BATCH_IMAGE_INVALID')
+                reader.blob(image['ref'])
+
+    commits = [header['current'], header['oldNext'], base['pins']['source']]
+    trees = []
+    for index, role in enumerate(('current', 'oldNext', 'target')):
+        edge, inv = header['rawMaterialRefs'][index], header['inventoryRefs'][index]
+        batch_exact(edge, 'role commit ref')
+        batch_exact(inv, 'role commit ref')
+        require(edge['role'] == inv['role'] == role and edge['commit'] == inv['commit'] == commits[index], 'BATCH_SOURCE_INVALID')
+        tree, listing = raw_tree(edge['ref'], commits[index]), inventory(inv['ref'], commits[index])
+        require(all(any(e['path'] == f['path'] and e['oid'] == f['oid'] for e in listing['entries']) for f in tree['entries']), 'BATCH_SOURCE_INVALID')
+        trees.append(tree)
+    history = reader.object(header['historyRef'], 'commits interval')
+    batch_sorted(history['commits'], lambda c: c['oid'])
+    for commit in history['commits']:
+        batch_exact(commit, 'oid parents')
+        require(oid(commit['oid']) and len(set(commit['parents'])) == len(commit['parents']) and all(oid(v) for v in commit['parents']), 'BATCH_HISTORY_INVALID')
+    batch_sorted(history['interval'], lambda o: o['commit'])
+    for observation in history['interval']:
+        batch_exact(observation, 'commit sourceFile rawRef inventoryRef manuals imagesRef diagnosticsRef dependencies outputStatus imageStatus')
+        raw_tree(observation['rawRef'], observation['commit'])
+        inventory(observation['inventoryRef'], observation['commit'])
+        for output in observation['manuals']:
+            batch_exact(output, 'manual path ref')
+            manual(output['ref'], output)
+        images(observation['imagesRef'])
+        reader.object(observation['diagnosticsRef'], 'errors rawErrors reasons')
+    for output in header['renderedManualRefs']:
+        batch_exact(output, 'role manual path ref')
+        manual(output['ref'], output)
+    images(header['imagesRef'])
+    projection = reader.object(header['projectionRef'], 'pageId observations promotionAnchors sourceAnchors')
+    require(projection['pageId'] == header['pageId'] and len(projection['observations']) == 3, 'BATCH_PROJECTION_INVALID')
+    for index, observation in enumerate(projection['observations']):
+        batch_exact(observation, 'role commit sourceFile consumed manuals dependencies outputStatus imageStatus hasChannelRules')
+        require(observation['role'] == ('current', 'oldNext', 'target')[index] and observation['commit'] == commits[index]
+                and observation['consumed'] == trees[index]['entries'] and observation['outputStatus'] == observation['imageStatus'] == 'observed', 'BATCH_PROJECTION_INVALID')
+        for output in observation['manuals']:
+            require(any(r['role'] == observation['role'] and all(r[k] == output[k] for k in ('manual', 'path', 'ref')) for r in header['renderedManualRefs']), 'BATCH_PROJECTION_INVALID')
+    diagnostics = reader.object(header['diagnosticsRef'], 'errors rawErrors reasons')
+    require(diagnostics == {'errors': [], 'rawErrors': [], 'reasons': []}, 'BATCH_MATERIAL_DIAGNOSTICS')
+    return header, [p['pageId'] for p in config['registry']]
+
+
+def verify_batch_collection(root_fd, blobs_fd, control):
+    batch_exact(control, 'kind base run discoveryRef discoveryDigest closureRef groupSha256 materialRoot materialDigest scopeRef scopeDigest qualifierRequestSha256 qualifierRequestBytes qualifierRef qualifierDigest profileDigest receiptsRoot indexRef indexDigest rootIdentity blobsIdentity')
+    require(control['kind'] == 'guides-batch-verify-control-v1', 'BATCH_CONTROL_INVALID')
+    pins = _batch_base(control['base'])
+    run = batch_exact(control['run'], 'id attempt head')
+    require(type(run['id']) is int and run['id'] > 0 and run['attempt'] == 1 and type(run['attempt']) is int and oid(run['head']), 'BATCH_RUN_INVALID')
+    require(type(control['qualifierRequestBytes']) is int and 0 < control['qualifierRequestBytes'] <= 32 * 1024**2
+            and DIGEST.fullmatch(control['qualifierRequestSha256']), 'BATCH_CONTROL_INVALID')
+    reader = _BatchReader(root_fd, blobs_fd, control)
+    base = control['base']
+    scope = reader.object(control['scopeRef'], 'base run discoveryRef discoveryDigest materialRoot materialDigest closureRef groupSha256 pages')
+    for key in ('base', 'run', 'discoveryRef', 'discoveryDigest', 'materialRoot', 'materialDigest', 'closureRef', 'groupSha256'):
+        require(scope[key] == control[key], 'BATCH_SCOPE_BINDING_INVALID')
+    require(batch_digest('scope', scope) == control['scopeDigest'], 'BATCH_SCOPE_BINDING_INVALID')
+    batch_sorted(scope['pages'], lambda p: p['pageId'])
+    members = [batch_exact(p, 'pageId materialSha256')['pageId'] for p in scope['pages']]
+    require(members and all(re.fullmatch('[a-z0-9]+(?:-[a-z0-9]+)*', p) for p in members), 'BATCH_MEMBER_SET_INVALID')
+    discovery = reader.object(control['discoveryRef'], 'base reportRef edgeLedgerRef introductionOrderRef')
+    require(discovery['base'] == base and batch_digest('discovery', discovery) == control['discoveryDigest'], 'BATCH_DISCOVERY_INVALID')
+    report = reader.object(discovery['reportRef'], 'schema observation tools pins pages seeds changes dependencies reasons status writeEligible inventory groups')
+    require(report['schema'] == 'guides-batch-discovery-v1' and report['tools'] == pins['trustedTools']
+            and report['pins'] == {k: pins[k] for k in ('master', 'dev', 'source')} and report['observation'] == base['origin']['kind']
+            and report['writeEligible'] is False, 'BATCH_DISCOVERY_INVALID')
+    ledger = reader.blob(discovery['edgeLedgerRef'], parse=True)
+    for edge in ledger:
+        batch_exact(edge, 'commit parent oldPath newPath oldOid newOid oldMode newMode rangeIds associationResult introductionOid seedKey evidenceRefs evidence reasons')
+        for ref in edge['evidenceRefs']:
+            reader.blob(ref)
+    reader.blob(discovery['introductionOrderRef'], parse=True)
+    materials = reader.object(control['materialRoot'], 'base pages')
+    require(materials['base'] == base and batch_digest('materials', materials) == control['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')
+    batch_sorted(materials['pages'], lambda p: p['pageId'])
+    all_ids = [p['pageId'] for p in materials['pages']]
+    require(all_ids == sorted([p['pageId'] for p in report['pages']], key=lambda s: s.encode()), 'BATCH_REGISTRY_INVALID')
+    headers = {}
+    for retained in materials['pages']:
+        header, registry = _batch_material(reader, retained, base)
+        require(registry == all_ids, 'BATCH_REGISTRY_INVALID')
+        headers[retained['pageId']] = header
+    closure = reader.object(control['closureRef'], 'base discoveryDigest allMaterialDigest memberIds consideredPageIds componentIds seedKeys intervalRefs obligationRefs adoptionRef namespaceRef dispositionsRef')
+    require(closure['base'] == base and closure['discoveryDigest'] == control['discoveryDigest'] and closure['allMaterialDigest'] == control['materialDigest']
+            and closure['memberIds'] == members and closure['consideredPageIds'] == all_ids and batch_digest('closure', closure) == control['groupSha256'], 'BATCH_CLOSURE_INVALID')
+    for ref in closure['intervalRefs']:
+        interval = reader.object(ref, 'base pageId intervals historyRef')
+        require(interval['base'] == base and interval['pageId'] in members, 'BATCH_CLOSURE_INVALID')
+        require(interval['historyRef'] == headers[interval['pageId']]['historyRef'], 'BATCH_CLOSURE_INVALID')
+    for ref in closure['obligationRefs']:
+        obligation = reader.object(ref, 'base pageId range edge seedKey status consumedPaths supportRefs reason')
+        require(obligation['base'] == base and obligation['pageId'] in all_ids and obligation['status'] in ('consumed', 'irrelevant'), 'BATCH_CLOSURE_INVALID')
+        for support in obligation['supportRefs']:
+            reader.blob(support)
+    adoption = reader.object(closure['adoptionRef'], 'base dependencies')
+    namespace = reader.object(closure['namespaceRef'], 'base destinations')
+    require(adoption['base'] == namespace['base'] == base, 'BATCH_CLOSURE_INVALID')
+    for destination in namespace['destinations']:
+        batch_exact(destination, 'pageId manual path role ref')
+        reader.blob(destination['ref'])
+    dispositions = reader.object(closure['dispositionsRef'], 'base pages')
+    require(dispositions['base'] == base and [p['pageId'] for p in dispositions['pages']] == members, 'BATCH_CLOSURE_INVALID')
+    for page in dispositions['pages']:
+        batch_exact(page, 'pageId disposition beforeSha256 targetSha256 reasons')
+        require(page['disposition'] in ('advance', 'noop') and page['reasons'] == [], 'BATCH_CLOSURE_INVALID')
+    q = reader.object(control['qualifierRef'], 'kind base run scopeDigest method sourceArtifact publicationArtifact scanStartMs rows')
+    require(q['kind'] == 'guides-batch-qualification-v1' and q['base'] == base and q['run'] == run and q['scopeDigest'] == control['scopeDigest']
+            and batch_digest('qualifier', q) == control['qualifierDigest'], 'BATCH_QUALIFIER_BINDING_INVALID')
+    method = validate_profile_method(q['method'], expected_kind='fetch-producer-profile-v2', master=pins['master'], producer=run['head'],
+                                     observed_tool=pins['trustedTools'], expected_digest=control['profileDigest'])
+    for key, limit in (('sourceArtifact', 256 * 1024**2), ('publicationArtifact', 1024**2)):
+        artifact_row = batch_exact(q[key], 'id bytes sha256')
+        require(type(artifact_row['id']) is int and artifact_row['id'] > 0 and type(artifact_row['bytes']) is int
+                and 0 < artifact_row['bytes'] <= limit and DIGEST.fullmatch(artifact_row['sha256']), 'BATCH_ARTIFACT_INVALID')
+    require(q['sourceArtifact']['id'] != q['publicationArtifact']['id'] and type(q['scanStartMs']) is int and q['scanStartMs'] >= 0,
+            'BATCH_ARTIFACT_INVALID')
+    require([r['pageId'] for r in q['rows']] == members, 'BATCH_MEMBER_SET_INVALID')
+    receipts = batch_exact(control['receiptsRoot'], 'base scopeDigest qualifierRawSha256 pages')
+    require(receipts['base'] == base and receipts['scopeDigest'] == control['scopeDigest'] and receipts['qualifierRawSha256'] == control['qualifierRef']['sha256']
+            and [p['pageId'] for p in receipts['pages']] == members, 'BATCH_RECEIPTS_BINDING_INVALID')
+    index = reader.object(control['indexRef'], 'kind base run discoveryRef discoveryDigest scopeDigest closureRef groupSha256 materialRoot materialDigest qualifierRef qualifierDigest method receiptsRoot pages obligationsRef writeEligible operations')
+    require(index['kind'] == 'guides-batch-collection-index-v1' and index['writeEligible'] is False and index['operations'] == []
+            and batch_digest('index', index) == control['indexDigest'], 'BATCH_INDEX_BINDING_INVALID')
+    for key in ('base', 'run', 'discoveryRef', 'discoveryDigest', 'scopeDigest', 'closureRef', 'groupSha256', 'materialRoot', 'materialDigest', 'qualifierRef', 'qualifierDigest', 'receiptsRoot'):
+        require(index[key] == control[key], 'BATCH_INDEX_BINDING_INVALID')
+    require(index['method'] == method and index['obligationsRef'] == closure['obligationRefs'] and [p['pageId'] for p in index['pages']] == members, 'BATCH_INDEX_BINDING_INVALID')
+    paths = set()
+    for number, row in enumerate(q['rows']):
+        batch_exact(row, 'pageId materialDigest configuredTargets current oldNext target observedTrackHead runId attempt method recordId tableId sourceJobId baseline resultSha sampledDev outcomeKind receiptPath receiptOid receiptBytes receiptSha256 outputTuples bundleSha256 publicationSnapshotSha256 publishedOutputsSha256 classification')
+        header = headers[row['pageId']]
+        require(row['materialDigest'] == scope['pages'][number]['materialSha256'] == batch_digest('material', header)
+                and row['current'] == header['current'] and row['oldNext'] == header['oldNext'] and row['configuredTargets'] == header['targets']
+                and row['target'] == row['observedTrackHead'] == pins['source'] and row['sampledDev'] == pins['dev']
+                and row['runId'] == run['id'] and row['attempt'] == 1 and row['method'] == method
+                and row['classification'] == {'state': 'active', 'channel': 'current', 'reasons': []}
+                and row['outcomeKind'] in ('success', 'reused'), 'BATCH_ROW_BINDING_INVALID')
+        require(oid(row['baseline']) and oid(row['resultSha']) and type(row['sourceJobId']) is int and row['sourceJobId'] > 0
+                and all(type(row[k]) is str and DIGEST.fullmatch(row[k]) for k in ('bundleSha256', 'publicationSnapshotSha256', 'publishedOutputsSha256')),
+                'BATCH_ROW_BINDING_INVALID')
+        retained = batch_exact(receipts['pages'][number], 'pageId recordId receiptPath receiptRef outputs')
+        require(all(retained[k] == row[k] for k in ('pageId', 'recordId', 'receiptPath')) and row['receiptPath'] == f"generated/en/manifests/shared-pages/guides/{row['pageId']}.json"
+                and retained['receiptRef']['sha256'] == row['receiptSha256'] and retained['receiptRef']['bytes'] == row['receiptBytes'], 'BATCH_RECEIPT_INVALID')
+        receipt = reader.blob(retained['receiptRef'], parse=True, original=True)
+        require(reader.seen[retained['receiptRef']['sha256']][1] == row['receiptOid'], 'BATCH_RECEIPT_INVALID')
+        require(receipt.get('schema_version') == 1 and receipt.get('page') == row['pageId'] and receipt.get('token') == 'shared-' + row['pageId']
+                and receipt.get('channel') is None and receipt['inputs']['milvus_docs']['repository'] == 'milvus-io/milvus-docs'
+                and receipt['inputs']['milvus_docs']['current'] == row['current'] and oid(receipt['inputs']['milvus_docs']['next']), 'BATCH_CURRENT_OWNER_INVALID')
+        if row['outcomeKind'] == 'success':
+            require(receipt['inputs']['tools']['zdoc'] == receipt['inputs']['zdoc']['commit'] == run['head']
+                    and receipt['inputs']['dev']['commit'] == row['baseline'], 'BATCH_RECEIPT_INVALID')
+        nav = receipt['inputs']['fetch']['navigation']['navigationRecords']
+        owners = [n for n in nav if n.get('record_id') == row['recordId']]
+        require(len(owners) == 1 and owners[0]['table_id'] == row['tableId'] and owners[0]['slug'] == row['pageId']
+                and owners[0]['shared_page'] == {'group': 'guides', 'page': row['pageId']}, 'BATCH_RECEIPT_INVALID')
+        batch_sorted(row['outputTuples'], lambda o: o['manual'] + ':' + o['path'])
+        require(len(row['outputTuples']) == len(row['configuredTargets']) == len(retained['outputs']), 'BATCH_OUTPUT_INVALID')
+        render_targets = receipt['inputs']['fetch']['render_targets']['targets']
+        expected_outputs = []
+        for output, actual, target in zip(row['outputTuples'], retained['outputs'], row['configuredTargets']):
+            batch_exact(output, 'manual path oid bytes sha256')
+            batch_exact(actual, 'manual path ref')
+            require(output['manual'] == actual['manual'] == target['manual'] and output['path'] == actual['path']
+                    and actual['ref']['bytes'] == output['bytes'] and actual['ref']['sha256'] == output['sha256'] and output['path'] not in paths, 'BATCH_OUTPUT_INVALID')
+            paths.add(output['path'])
+            root = 'content/en/guides/' if output['manual'] == 'guides' else 'content/en/byoc/'
+            require(output['path'] in (root + target['path'] + '.md', root + target['path'] + '.mdx'), 'BATCH_OUTPUT_INVALID')
+            matching = [t for t in render_targets if t['manual'] == target['manual'] and t['path'] == target['path'] and t['channel'] == 'current']
+            require(len(matching) == 1 and root + matching[0]['path'] + matching[0]['extension'] == output['path'], 'BATCH_OUTPUT_INVALID')
+            require(reader.blob(actual['ref'])[1] == output['oid'], 'BATCH_OUTPUT_INVALID')
+            expected_outputs.append({k: output[k] for k in ('manual', 'path', 'sha256')})
+        # Original receipts retain producer order and pretty JSON bytes. Compare
+        # tuples semantically; never canonicalize/rewrite their raw payload.
+        require(sorted(receipt['outputs'], key=lambda o: (o['manual'], o['path'])) == expected_outputs, 'BATCH_OUTPUT_INVALID')
+        producer_order = [{k: o[k] for k in ('manual', 'path', 'sha256')} for o in receipt['outputs']]
+        require(sha256(json.dumps(producer_order, ensure_ascii=False, separators=(',', ':')).encode('utf-8')) == row['publishedOutputsSha256'], 'BATCH_OUTPUT_INVALID')
+        index_page = batch_exact(index['pages'][number], 'pageId materialDigest disposition reportRef pinsRef')
+        require(index_page['pageId'] == row['pageId'] and index_page['materialDigest'] == row['materialDigest']
+                and index_page['disposition'] == dispositions['pages'][number]['disposition'], 'BATCH_INDEX_BINDING_INVALID')
+        report_page = reader.object(index_page['reportRef'], 'kind base pageId materialDigest groupSha256 targets pins disposition supportRefs')
+        pins_page = reader.object(index_page['pinsRef'], 'kind base pageId materialDigest groupSha256 row receiptRef outputRefs')
+        require(report_page['kind'] == 'guides-batch-qualified-report-v1' and pins_page['kind'] == 'guides-batch-qualified-pins-v1'
+                and report_page['base'] == pins_page['base'] == base and report_page['pageId'] == pins_page['pageId'] == row['pageId']
+                and report_page['materialDigest'] == pins_page['materialDigest'] == row['materialDigest']
+                and report_page['groupSha256'] == pins_page['groupSha256'] == control['groupSha256'] and report_page['targets'] == row['configuredTargets']
+                and report_page['pins'] == pins and report_page['disposition'] == index_page['disposition'] and pins_page['row'] == row
+                and pins_page['receiptRef'] == retained['receiptRef'] and pins_page['outputRefs'] == retained['outputs'], 'BATCH_PAGE_BINDING_INVALID')
+        require(report_page['supportRefs'] == [materials['pages'][all_ids.index(row['pageId'])]['materialRef']], 'BATCH_PAGE_BINDING_INVALID')
+    reader.finish()
+    return {'kind': 'guides-batch-verified-v1', 'controlDigest': batch_digest('control', control),
+            'indexRef': control['indexRef'], 'indexDigest': control['indexDigest']}
+
+
 if __name__ == "__main__":
-    if sys.argv[1:] == ["verify-fetch"]:
+    if sys.argv[1:] == ["verify-batch-collection"]:
+        try:
+            raw = sys.stdin.buffer.read(65537)
+            require(len(raw) <= 65536, "BATCH_CONTROL_LIMIT")
+            result = batch_canonical(verify_batch_collection(4, 5, batch_parse(raw)))
+            require(len(result) <= 65536, "BATCH_ACK_LIMIT")
+            os.write(3, result)
+        except Exception as exc:
+            print(str(exc) if isinstance(exc, Hold) else type(exc).__name__, file=sys.stderr)
+            sys.exit(1)
+    elif sys.argv[1:] == ["verify-fetch"]:
         try:
             verify_fetch(json.loads(sys.stdin.buffer.read(65537)), metadata, datetime.now(timezone.utc))
         except Exception as exc:

@@ -60,6 +60,71 @@ class Fetch:
 
 
 class PreparationTest(unittest.TestCase):
+    def test_batch_canonical_matches_utf8_and_control_vectors(self):
+        value = {"\ue000": 2, "\U00010000": 1, "text": "\0\n\t\r\b\f\x1f\\\"😀"}
+        expected = '{"text":"\\u0000\\u000a\\u0009\\u000d\\u0008\\u000c\\u001f\\\\\\"😀","\ue000":2,"\U00010000":1}'.encode()
+        self.assertEqual(p.batch_canonical(value), expected)
+        self.assertEqual(p.batch_parse(expected), value)
+        self.assertEqual(p.batch_parse(b'{"order":1.5}\n', canonical=False), {"order": 1.5})
+        for raw in (b'{"x":1,"x":2}', b'{"x":-0}', b'{"x":1.0}', b'{"x":1e0}', b'{"x":9007199254740992}',
+                    b'{"x":"\\ud800"}', b'{"x":"\\n"}', b' {"x":1}', b'{"x":NaN}'):
+            with self.subTest(raw=raw), self.assertRaises(p.Hold):
+                p.batch_parse(raw)
+
+    def test_batch_profile_method_has_no_legacy_or_v1_fallback(self):
+        method = {"kind": "fetch-producer-profile-v2", "trustedTools": MASTER,
+                  "producer": SOURCE, "profileSha256": "3" * 64}
+        args = dict(expected_kind="fetch-producer-profile-v2", master=MASTER, producer=SOURCE,
+                    observed_tool=MASTER, expected_digest="3" * 64)
+        self.assertEqual(p.validate_profile_method(method, **args), method)
+        for changed in ({**method, "kind": "fetch-producer-profile-v1"}, {**method, "extra": True},
+                        {**method, "trustedTools": DEV}, {**method, "producer": DEV},
+                        {**method, "profileSha256": "4" * 64}, {}):
+            with self.subTest(changed=changed), self.assertRaises(p.Hold):
+                p.validate_profile_method(changed, **args)
+
+    def test_batch_reader_holds_parent_descriptors_and_rejects_aliases_and_extent(self):
+        with tempfile.TemporaryDirectory() as root:
+            blobs = Path(root) / 'blobs'
+            blobs.mkdir()
+            raw = b'original pretty raw receipt\n'
+            digest = p.sha256(raw)
+            ref = dict(path='blobs/' + digest, sha256=digest, bytes=len(raw))
+            (blobs / digest).write_bytes(raw)
+            root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
+            blobs_fd = os.open(blobs, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                control = dict(rootIdentity=p._BatchReader.identity(root_fd), blobsIdentity=p._BatchReader.identity(blobs_fd))
+                reader = p._BatchReader(root_fd, blobs_fd, control)
+                expected = (len(raw), p.hashlib.sha1(f'blob {len(raw)}\0'.encode() + raw).hexdigest())
+                self.assertEqual(reader.blob(ref), expected)
+                self.assertEqual(reader.blob(ref), expected)
+                self.assertEqual(reader.total, len(raw))
+                with self.assertRaises(p.Hold):
+                    reader.blob({**ref, 'bytes': len(raw) + 1})
+                with self.assertRaises(p.Hold):
+                    reader.blob({**ref, 'path': '../' + digest})
+                (blobs / ('f' * 64)).symlink_to(blobs / digest)
+                with self.assertRaises((OSError, p.Hold)):
+                    reader.blob(dict(path='blobs/' + 'f' * 64, sha256='f' * 64, bytes=len(raw)))
+                reader.finish()
+            finally:
+                os.close(blobs_fd)
+                os.close(root_fd)
+
+    def test_writer_rejects_v2_and_mixed_methods_before_remote_reads(self):
+        for method in ({"kind": "fetch-producer-profile-v2"},
+                       {"kind": "fetch-producer-profile-v2", "trustedTools": MASTER,
+                        "producer": MASTER, "profileSha256": "1" * 64}):
+            f = Fetch()
+            f.record["producerAuthentication"] = method
+            with self.assertRaisesRegex(p.Hold, "BATCH_WRITER_INPUT_REJECTED"):
+                p.verify_fetch(f.record, lambda path: self.fail("v2 must fail before GET"), NOW)
+        f = Fetch()
+        f.record.update(producerAuthentication={"kind": "fetch-producer-profile-v1"}, producerInventorySha256="2" * 64)
+        with self.assertRaisesRegex(p.Hold, "BATCH_WRITER_INPUT_REJECTED"):
+            p.verify_fetch(f.record, lambda path: self.fail("mixed method must fail before GET"), NOW)
+
     def test_fetch_binds_successful_attempt_job_and_both_retained_digests(self):
         Fetch().verify()
         for field in ("expired", "head_sha", "sourceZip", "publicationZip", "conclusion", "started_at", "run_attempt"):

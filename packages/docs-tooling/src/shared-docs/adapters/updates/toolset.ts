@@ -1,11 +1,11 @@
 import {immutable} from '../../core/updates/types'
-import {consumeBatchContentLaunch} from './batch-collection'
-import {BatchRenderRequestSchema, validateBatchWire, type BatchRenderRequest, type BatchMaterialWire} from './batch-collection-contract'
+import {consumeBatchContentLaunch, replayBatchContentData, consumeBatchQualifierLaunch, consumeBatchVerifierLaunch} from './batch-collection'
+import {BatchRenderRequestSchema, BatchQualifierRequestSchema, BatchQualificationSchema, BatchVerifyControlSchema, batchDigest, validateBatchWire, type BatchQualifierRequest, type BatchQualification, type BatchVerifyControl, type BatchRenderRequest, type BatchMaterialWire} from './batch-collection-contract'
 import { constants } from 'node:fs'
 import { lstat, open, readdir, readlink, realpath, symlink, writeFile } from 'node:fs/promises'
 import { basename, dirname, isAbsolute, join, posix, relative, resolve, sep } from 'node:path'
 import type { Readable, Writable } from 'node:stream'
-import { serveGuidesMetadata } from './guides-metadata-broker'
+import { serveGuidesMetadata, serveReplayGuidesMetadata, type ReplayMetadataRow } from './guides-metadata-broker'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
 import { release, userInfo } from 'node:os'
@@ -736,6 +736,8 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
     if (entries.get(`repo/${issuer}`)?.state !== 'file') throw new Error('Fixed Fetch issuer dependency is unavailable')
     resolutions.push({from: 'runtime/launch/guides-worker.cjs', specifier: `${issuer}#createMeasuredFetchProducerContext`, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${issuer}`})
   }
+  if (all.has(issuer)) resolutions.push({from: 'runtime/launch/guides-worker.cjs', specifier: `${issuer}#createMeasuredBatchContext`, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${issuer}`})
+  if (all.has(guidesWorkerModule)) for (const name of ['qualifyBatchLifecycle', 'collectReplayBatchPageMaterial']) resolutions.push({from: 'runtime/launch/guides-worker.cjs', specifier: `${guidesWorkerModule}#${name}`, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${guidesWorkerModule}`})
   const mergedResolutions = new Map<string, ExecutableClosure['resolutions'][number]>()
   for (const edge of resolutions) { const key = Buffer.from(canonicalBytes(resolutionKey(edge))).toString('utf8'); const prior = mergedResolutions.get(key); if (prior && prior.target !== edge.target) throw new Error('Conflicting executable resolution'); mergedResolutions.set(key, edge) }
   const closure: ExecutableClosure = { kind: 'shared-update-executable-closure', schemaVersion: 1, hostTcb: { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }, entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), packageLocators: locators.sort((a, b) => compareUtf8(a.root, b.root)), resolutions: [...mergedResolutions.values()].sort((a, b) => tupleCompare(resolutionKey(a), resolutionKey(b))) }
@@ -1079,16 +1081,36 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     if (input.length > workerLimit || request.pins.trustedTools !== state.options.commit || request.pins.toolsetSha256 !== state.sha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
     await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
     const args = [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root, `batch-content-${kind}`]
-    const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request)
+    const replayData = kind === 'replay' ? replayBatchContentData(ticket, value, evidence) ?? new Uint8Array() : undefined
+    if (replayData && replayData.length > workerLimit) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request, replayData)
     immutable(child.value)
     measuredContent.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
     return child as BatchMeasuredChild
+  }
+  async function runBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
+    const launch = consumeBatchQualifierLaunch(ticket, value, evidence, kind), request = launch.request
+    const input = canonicalBytes(request)
+    if (input.length > workerLimit || request.scope.base.pins.master !== state.options.commit || request.scope.base.pins.trustedTools !== state.options.commit || request.scope.base.pins.toolsetSha256 !== state.sha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    const child = await invokeGuidesWorker(targets.get('runtime/node')!, [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root, `batch-qualify-${kind}`],
+      state.options.root, environment, input, signal, launch.broker, request)
+    immutable(child.value)
+    measuredQualification.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
+    return child as BatchQualifiedChild
+  }
+  async function runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal) {
+    const launch = consumeBatchVerifierLaunch(ticket, value, evidence), input = canonicalBytes(launch.control)
+    if (input.length > 65536 || launch.control.base.pins.trustedTools !== state.options.commit || !targets.has('runtime/python3') || state.closure.entries.find(e => e.path === 'repo/scripts/docs-workflow/shared-guides-update/prepare.py')?.state !== 'file') throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    return invokeGuidesWorker(join(owned.root, 'python3'), [join(state.options.root, 'scripts/docs-workflow/shared-guides-update/prepare.py'), 'verify-batch-collection'],
+      state.options.root, environment, input, signal, undefined, launch.control, undefined, {root: launch.rootFd, blobs: launch.blobsFd})
   }
   const launcher = {
     bin: owned.root, cwd: state.options.root, environment: { ...environment },
     async runGuidesCollector(data: unknown, secrets: { GH_TOKEN?: string } = {}, signal?: AbortSignal) {
       signal?.throwIfAborted()
-      if (data && typeof data === 'object' && (data as {kind?: unknown}).kind === 'guides-batch-render-v1') throw Error('BATCH_LAUNCH_BINDING_INVALID')
+      if (data && typeof data === 'object' && ['guides-batch-render-v1', 'guides-batch-qualify-v1', 'guides-batch-verify-control-v1'].includes(String((data as {kind?: unknown}).kind))) throw Error('BATCH_LAUNCH_BINDING_INVALID')
       if (state.closure.entries.find(e => e.path === `repo/${guidesWorkerModule}`)?.state !== 'file') throw new Error('Fixed Guides worker module is missing')
       if (Object.keys(secrets).some(name => name !== 'GH_TOKEN')) throw new Error('Unsupported child credential setting')
       const input = canonicalBytes(data)
@@ -1125,10 +1147,16 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
   batchLaunchers.set(launcher, {
     runObservedBatchContent: (ticket, signal) => runBatchContent(ticket, 'observed', signal),
     runReplayBatchContent: (ticket, signal) => runBatchContent(ticket, 'replay', signal),
+    runObservedBatchQualification: (ticket, signal) => runBatchQualification(ticket, 'observed', signal),
+    runReplayBatchQualification: (ticket, signal) => runBatchQualification(ticket, 'replay', signal),
+    runBatchVerifier,
   })
   return launcher
 }
 interface BatchLauncher {
+  runObservedBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, signal?: AbortSignal): Promise<BatchQualifiedChild>
+  runReplayBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, signal?: AbortSignal): Promise<BatchQualifiedChild>
+  runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}>
   runObservedBatchContent(ticket: import('./batch-collection').BatchContentTicket, signal?: AbortSignal): Promise<BatchMeasuredChild>
   runReplayBatchContent(ticket: import('./batch-collection').BatchContentTicket, signal?: AbortSignal): Promise<BatchMeasuredChild>
 }
@@ -1223,8 +1251,16 @@ const fs=require('node:fs'),path=require('node:path');
   if(process.argv[3]==='batch-content-observed'||process.argv[3]==='batch-content-replay') {
     const kind=process.argv[3]==='batch-content-observed'?'observed':'replay';
     if(data.kind!=='guides-batch-render-v1'||data.origin?.kind!==kind||typeof provider.collectBatchPageMaterial!=='function')throw Error('BATCH_LAUNCH_BINDING_INVALID');
-    value=await provider.collectBatchPageMaterial(data);
+    const replayBytes=kind==='replay'?fs.readFileSync(6):null;
+    if(replayBytes&&replayBytes.length>33554432)throw Error('BATCH_LAUNCH_BINDING_INVALID');
+    value=kind==='replay'&&typeof provider.collectReplayBatchPageMaterial==='function'?await provider.collectReplayBatchPageMaterial(data,replayBytes):await provider.collectBatchPageMaterial(data);
     if(value?.kind!=='guides-batch-material-wire-v1')throw Error('BATCH_LAUNCH_BINDING_INVALID');
+  } else if(process.argv[3]==='batch-qualify-observed'||process.argv[3]==='batch-qualify-replay') {
+    const kind=process.argv[3]==='batch-qualify-observed'?'observed':'replay';
+    if(data.kind!=='guides-batch-qualify-v1'||data.scope?.base?.origin?.kind!==kind)throw Error('BATCH_LAUNCH_BINDING_INVALID');
+    let issued=false;
+    const issue=()=>{if(issued)throw Error('BATCH_LAUNCH_BINDING_INVALID');issued=true;return load(path.join(root,'packages/docs-tooling/src/shared-docs/adapters/updates/trusted-fetch-producer.ts')).createMeasuredBatchContext(data.scope)};
+    value=await provider.qualifyBatchLifecycle(data,issue);
   } else value=await provider.collectGuidesWorker(data,process.argv[3]==='metadata-pipes',issuer);
   const result=common.canonicalBytes(value);
   if(result.length>resultLimit)throw Error('Guides worker result exceeds byte bound');
@@ -1251,13 +1287,20 @@ export function takeMeasuredBatchContent(child: BatchMeasuredChild, ticket: impo
   measuredContent.delete(child); childContentMeasures.delete(child)
   return Object.freeze({...receipt.request})
 }
+export interface BatchQualifiedChild {value: BatchQualification; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}
+const measuredQualification = new WeakMap<object, {ticket: import('./batch-collection').BatchQualificationLaunchTicket; capture: TrustedToolsetCapture; store: EvidenceStore; request: BatchContentMeasures}>()
+export function takeMeasuredBatchQualification(child: BatchQualifiedChild, ticket: import('./batch-collection').BatchQualificationLaunchTicket, capture: TrustedToolsetCapture, store: EvidenceStore) {
+  const receipt = measuredQualification.get(child), bytes = canonicalBytes(child.value)
+  if (!receipt || receipt.ticket !== ticket || receipt.capture !== capture || receipt.store !== store || bytes.length !== receipt.request.responseBytes || rawSha256(bytes) !== receipt.request.responseSha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  measuredQualification.delete(child); childContentMeasures.delete(child); return Object.freeze({...receipt.request})
+}
 /** Own only the group born from this actual handle; a parent cannot clean up after
  * its own fatal death, or certify descendants that deliberately leave the group. */
 async function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv,
-  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string}, contentRequest?: BatchRenderRequest): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
+  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
   signal?.throwIfAborted()
   const child = spawn(binary, args, {cwd, env: environment,
-    stdio: ['pipe', 'pipe', 'pipe', 'pipe', broker ? 'pipe' : 'ignore', broker ? 'pipe' : 'ignore'], detached: true})
+    stdio: ['pipe', 'pipe', 'pipe', 'pipe', descriptors ? descriptors.root : broker ? 'pipe' : 'ignore', descriptors ? descriptors.blobs : broker ? 'pipe' : 'ignore', replayInput !== undefined ? 'pipe' : 'ignore'], detached: true})
   const readerLifetime = new AbortController()
   let closeBroker: (() => void) | undefined
   let serving: Promise<void> | undefined
@@ -1270,7 +1313,7 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     replies.on('error', closeBroker)
     // A failed GET/invalid frame closes the private reader. The worker retains
     // its normal unknown-authority outcome. No error body or credential crosses.
-    serving = serveGuidesMetadata(requests, replies, broker.runId, broker.token, readerLifetime.signal)
+    serving = ('replay' in broker ? serveReplayGuidesMetadata(requests, replies, broker.runId, broker.replay, readerLifetime.signal) : serveGuidesMetadata(requests, replies, broker.runId, broker.token, readerLifetime.signal))
       .then(() => { replies.end() }, closeBroker)
   }
   const receipt: GuidesWorkerSettlement = {pid: child.pid ?? null, born: false, close: null, group: 'unknown', signals: [], cleanupErrors: []}
@@ -1314,7 +1357,9 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   let timer: ReturnType<typeof setTimeout> | undefined
   let response: {value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement} | undefined
   try {
-    child.on('spawn', guarded(() => { receipt.born = true; birthDone(); if (!primary) {inputHash.update(input); inputBytes += input.length; child.stdin.end(input)} }))
+    child.on('spawn', guarded(() => {
+      if (replayInput !== undefined) {const pipes: readonly (Readable | Writable | null)[] = child.stdio; const replayPipe = pipes[6] as Writable; replayPipe.on('error', guarded(fail)); replayPipe.end(replayInput)}
+      receipt.born = true; birthDone(); if (!primary) {inputHash.update(input); inputBytes += input.length; child.stdin.end(input)} }))
     child.on('error', guarded(error => {birthDone(); fail(error)}))
     child.stdin.on('error', guarded(fail)).on('finish', guarded(() => {inputFinished = true}))
     for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('error', guarded(fail)).on('data', guarded((bytes: Buffer) => {
@@ -1323,7 +1368,7 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
       if (primary && i !== 1) return
       sizes[i] += bytes.length
       if (i === 2) resultHash.update(bytes)
-      if (sizes[i] > (i === 2 ? workerResultLimit : workerLimit)) fail(new Error('Guides worker output exceeds byte bound'))
+      if (sizes[i] > (contentRequest?.kind === 'guides-batch-verify-control-v1' ? 65536 : i === 2 ? workerResultLimit : workerLimit)) fail(new Error('Guides worker output exceeds byte bound'))
       else output[i].push(bytes)
     }))
     child.on('exit', guarded((code: number | null) => {
@@ -1373,9 +1418,15 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
       if (!primary) {
         const bytes = Buffer.concat(output[2]), value = parseStrictJson(Uint8Array.from(bytes))
         if (contentRequest) {
-          BatchRenderRequestSchema.parse(contentRequest)
           if (!inputFinished || inputBytes !== input.length || !receipt.born || receipt.close?.code !== 0 || receipt.close.signal !== null || receipt.signals.length || receipt.cleanupErrors.length || !Buffer.from(canonicalBytes(value)).equals(bytes)) throw Error('BATCH_LAUNCH_BINDING_INVALID')
-          validateBatchWire(value, contentRequest)
+          if (contentRequest.kind === 'guides-batch-render-v1') {BatchRenderRequestSchema.parse(contentRequest); validateBatchWire(value, contentRequest)}
+          else if (contentRequest.kind === 'guides-batch-qualify-v1') {
+            const request = BatchQualifierRequestSchema.parse(contentRequest), q = BatchQualificationSchema.parse(value)
+            if (q.scopeDigest !== batchDigest('scope', request.scope) || !Buffer.from(canonicalBytes(q.base)).equals(Buffer.from(canonicalBytes(request.scope.base))) || !Buffer.from(canonicalBytes(q.run)).equals(Buffer.from(canonicalBytes(request.scope.run))) || q.rows.length !== request.scope.pages.length || q.rows.some((row, i) => row.pageId !== request.scope.pages[i].pageId || row.materialDigest !== request.scope.pages[i].materialSha256 || !Buffer.from(canonicalBytes(row.method)).equals(Buffer.from(canonicalBytes(q.method))))) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+          } else {
+            const control = BatchVerifyControlSchema.parse(contentRequest), ack = value as {kind?: string; controlDigest?: string; indexRef?: unknown; indexDigest?: string}
+            if (bytes.length > 65536 || Object.keys(ack).sort().join(',') !== 'controlDigest,indexDigest,indexRef,kind' || ack.kind !== 'guides-batch-verified-v1' || ack.controlDigest !== batchDigest('control', control) || ack.indexDigest !== control.indexDigest || !Buffer.from(canonicalBytes(ack.indexRef)).equals(Buffer.from(canonicalBytes(control.indexRef)))) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+          }
         }
         response = {value, stdout: Buffer.concat(output[0]).toString('utf8'), stderr, settlement: receipt}
         if (contentRequest) childContentMeasures.set(response, {requestSha256: inputHash.digest('hex'), requestBytes: inputBytes, responseSha256: resultHash.digest('hex'), responseBytes: sizes[2]})

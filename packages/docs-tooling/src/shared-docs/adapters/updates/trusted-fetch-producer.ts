@@ -3,12 +3,14 @@ import { lstat } from 'node:fs/promises'
 import { join, isAbsolute } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { performance } from 'node:perf_hooks'
+import {parseLock} from '../../core/lock'
 import { fetchProducerProfile, fetchProducerProfileV2, fetchTreeLimit, gitBlobOid, parseFetchTree, parseFetchTreeV2, pilotLockPath, validFetchOid, type FetchTreeEntry } from './fetch-producer-profile'
 
 import { guidesRegistryLayout, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
 export type { AuthenticatedRegistryPage } from './guides-batch-registry'
 export type BatchProducerMethod = Readonly<{kind: 'fetch-producer-profile-v2'; trustedTools: string; producer: string; profileSha256: string}>
-type BatchProfiles = {masterProfile: string; producerProfile: string; ancestor: boolean; registry: readonly AuthenticatedRegistryPage[]}
+type BatchProfiles = {masterProfile: string; producerProfile: string; ancestor: boolean; registry: readonly AuthenticatedRegistryPage[];
+  masterLocks: readonly Readonly<{pageId: string; current: string; oldNext: string}>[]}
 
 export type ProducerAuthentication = Readonly<{kind: 'fetch-producer-profile-v1'; trustedTools: string; producer: string; profileSha256: string}>
 export type FetchProfileReason = 'FETCH_PROFILE_CONTEXT_UNAVAILABLE' | 'FETCH_PROFILE_MISMATCH' | 'FETCH_PROFILE_ANCESTRY_UNPROVEN'
@@ -142,10 +144,19 @@ export class FetchGitReader {
     const locks = await this.readBatchBodies(wanted)
     const profiles = lists.map((list, i) => fetchProducerProfileV2(list,
       new Map(registry.map(page => [page.lockPath, locks.get(byPaths[i].get(page.lockPath)!.oid)!])), () => this.checkComputationBudget()))
+    // These bodies already passed the raw object's size/hash/frame checks. Expose
+    // M ownership from this same transaction, never from caller material or F.
+    const masterLocks = registry.map(page => {
+      this.checkComputationBudget()
+      const parsed = parseLock(new TextDecoder('utf8', {fatal: true}).decode(locks.get(byPaths[0].get(page.lockPath)!.oid)!))
+      this.checkComputationBudget()
+      if ('errors' in parsed) throw Error('Invalid master lock')
+      return Object.freeze({pageId: page.pageId, current: parsed.lock.current, oldNext: parsed.lock.next})
+    })
     const bases = ascii(await this.read(['merge-base', '--all', master, producer], undefined, true))
     if (await this.head() !== master) throw new Error('Fetch batch pin mismatch')
     this.checkComputationBudget()
-    return Object.freeze({masterProfile: profiles[0], producerProfile: profiles[1], ancestor: bases === producer + '\n', registry: Object.freeze(registry)})
+    return Object.freeze({masterProfile: profiles[0], producerProfile: profiles[1], ancestor: bases === producer + '\n', registry: Object.freeze(registry), masterLocks: Object.freeze(masterLocks)})
   }
   /** Exact ordered Git batch frames, sized from the checked object transaction. */
   async readBatchBodies(wanted: ReadonlyMap<string, number>): Promise<ReadonlyMap<string, Buffer>> {
@@ -225,4 +236,73 @@ export async function createMeasuredFetchProducerContext(trustedTools: string): 
   })
   contexts.add(context)
   return context
+}
+
+import {BatchScopeSchema, type BatchScope} from './batch-collection-contract'
+import {canonicalBytes} from '../../core/updates/canonical'
+export type PageGrant = Readonly<{authenticate(pageId: string, run: BatchScope['run']): Promise<BatchProducerMethod>}>
+export type MeasuredBatchContext = Readonly<{
+  forPage(pageId: string, materialSha256: string): PageGrant
+  facts(): Promise<BatchProfiles>
+  classified(pageId: string): void
+  finish(): Promise<void>
+  close(): void
+}>
+const batchContexts = new WeakSet<object>()
+const batchGrants = new WeakMap<object, {pageId: string; context: MeasuredBatchContext}>()
+export const isMeasuredBatchContext = (value: unknown): value is MeasuredBatchContext => typeof value === 'object' && value !== null && batchContexts.has(value)
+export function isMeasuredPageGrant(grant: unknown, context: MeasuredBatchContext, pageId: string): grant is PageGrant {
+  const bound = typeof grant === 'object' && grant !== null ? batchGrants.get(grant) : undefined
+  return bound?.context === context && bound.pageId === pageId && batchContexts.has(context)
+}
+/** Fixed measured bootstrap only. Scope is already frozen by the parent launch,
+ * never selected by the public operator request or a lifecycle row. */
+export async function createMeasuredBatchContext(input: BatchScope): Promise<MeasuredBatchContext> {
+  const scope = BatchScopeSchema.parse(input), master = scope.base.pins.master
+  let active = true
+  const invalid = (): never => {active = false; throw Error('BATCH_LAUNCH_BINDING_INVALID')}
+  if (!scope.pages.length || master !== scope.base.pins.trustedTools || await new FetchGitReader(fixedRoot).head() !== master) invalid()
+  let transaction: Promise<BatchProfiles> | undefined
+  const claims = new Map<string, 'issued' | 'consumed' | 'authenticated' | 'classified'>()
+  const check = () => {if (!active) invalid()}
+  // Preserve the single promise, including terminal failure; never reset its budget.
+  const facts = () => {
+    check()
+    return transaction ??= new FetchGitReader(fixedRoot).profilesV2(master, scope.run.head).then(result => {
+      check()
+      if (!result.ancestor) throw Error('FETCH_PROFILE_ANCESTRY_UNPROVEN')
+      if (result.masterProfile !== result.producerProfile) throw Error('FETCH_PROFILE_MISMATCH')
+      if (scope.pages.some(page => !result.registry.some(p => p.pageId === page.pageId))) invalid()
+      return result
+    }).catch(error => {active = false; throw error})
+  }
+  const context: MeasuredBatchContext = Object.freeze({
+    facts,
+    forPage(pageId, materialSha256) {
+      check()
+      if (claims.has(pageId) || !scope.pages.some(page => page.pageId === pageId && page.materialSha256 === materialSha256)) invalid()
+      claims.set(pageId, 'issued')
+      const grant: PageGrant = Object.freeze({async authenticate(selected, run) {
+        check()
+        if (claims.get(pageId) !== 'issued') invalid()
+        claims.set(pageId, 'consumed')
+        if (selected !== pageId || !Buffer.from(canonicalBytes(run)).equals(Buffer.from(canonicalBytes(scope.run)))) {active = false; invalid()}
+        try {
+          const result = await facts(); check()
+          claims.set(pageId, 'authenticated')
+          return Object.freeze({kind: 'fetch-producer-profile-v2', trustedTools: master, producer: scope.run.head, profileSha256: result.masterProfile})
+        } catch (error) {active = false; throw error}
+      }})
+      batchGrants.set(grant, {context, pageId}); return grant
+    },
+    classified(pageId) {check(); if (claims.get(pageId) !== 'authenticated') invalid(); claims.set(pageId, 'classified')},
+    async finish() {
+      check()
+      if (claims.size !== scope.pages.length || [...claims.values()].some(state => state !== 'classified')) {active = false; invalid()}
+      try {if (await new FetchGitReader(fixedRoot).head() !== master) invalid(); check()}
+      finally {active = false}
+    },
+    close() {active = false},
+  })
+  batchContexts.add(context); return context
 }

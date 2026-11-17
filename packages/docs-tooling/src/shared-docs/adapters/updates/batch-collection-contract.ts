@@ -63,11 +63,71 @@ export const BatchClosureSchema = z.strictObject({base: BatchBaseSchema, discove
   intervalRefs: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)), obligationRefs: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)),
   adoptionRef: BatchBlobRefSchema, namespaceRef: BatchBlobRefSchema, dispositionsRef: BatchBlobRefSchema})
 export type BatchClosure = z.infer<typeof BatchClosureSchema>
-export const BatchRunSchema = z.strictObject({id: BatchCountSchema.positive(), attempt: BatchCountSchema.positive(), head: GitShaSchema})
+export const BatchRunSchema = z.strictObject({id: BatchCountSchema.positive(), attempt: z.literal(1), head: GitShaSchema})
 export const BatchScopeSchema = z.strictObject({base: BatchBaseSchema, run: BatchRunSchema, discoveryRef: BatchBlobRefSchema,
   discoveryDigest: DigestSchema, materialRoot: BatchBlobRefSchema, materialDigest: DigestSchema, closureRef: BatchBlobRefSchema,
   groupSha256: DigestSchema, pages: z.array(z.strictObject({pageId: BatchPageIdSchema, materialSha256: DigestSchema})).refine(v => ordered(v, p => p.pageId))})
 export type BatchScope = z.infer<typeof BatchScopeSchema>
+
+export const BatchMethodSchema = z.strictObject({kind: z.literal('fetch-producer-profile-v2'), trustedTools: GitShaSchema,
+  producer: GitShaSchema, profileSha256: DigestSchema})
+export const BatchArtifactSchema = z.strictObject({id: BatchCountSchema.positive(), bytes: BatchCountSchema.positive().max(256 * 1024 * 1024), sha256: DigestSchema})
+export const BatchOutputTupleSchema = z.strictObject({manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema,
+  oid: GitShaSchema, bytes: BatchCountSchema.max(BATCH_BLOB_LIMIT), sha256: DigestSchema})
+export const BatchQualificationRowSchema = z.strictObject({pageId: BatchPageIdSchema, materialDigest: DigestSchema,
+  configuredTargets: BatchTargetsSchema, current: GitShaSchema, oldNext: GitShaSchema, target: GitShaSchema, observedTrackHead: GitShaSchema,
+  runId: BatchCountSchema.positive(), attempt: z.literal(1), method: BatchMethodSchema, recordId: text.min(1), tableId: text.min(1),
+  sourceJobId: BatchCountSchema.positive(), baseline: GitShaSchema, resultSha: GitShaSchema, sampledDev: GitShaSchema,
+  outcomeKind: z.enum(['success', 'reused']), receiptPath: RepoPathSchema, receiptOid: GitShaSchema,
+  receiptBytes: BatchCountSchema.max(BATCH_BLOB_LIMIT), receiptSha256: DigestSchema,
+  outputTuples: z.array(BatchOutputTupleSchema).min(1).refine(v => ordered(v, t => `${t.manual}:${t.path}`)),
+  bundleSha256: DigestSchema, publicationSnapshotSha256: DigestSchema, publishedOutputsSha256: DigestSchema,
+  classification: z.strictObject({state: z.literal('active'), channel: z.literal('current'), reasons: z.tuple([])})})
+export type BatchQualificationRow = z.infer<typeof BatchQualificationRowSchema>
+export const BatchQualificationSchema = z.strictObject({kind: z.literal('guides-batch-qualification-v1'), base: BatchBaseSchema,
+  run: BatchRunSchema, scopeDigest: DigestSchema, method: BatchMethodSchema, sourceArtifact: BatchArtifactSchema,
+  publicationArtifact: BatchArtifactSchema.refine(a => a.bytes <= 1024 * 1024), scanStartMs: BatchCountSchema,
+  rows: z.array(BatchQualificationRowSchema).min(1).refine(v => ordered(v, r => r.pageId))})
+export type BatchQualification = z.infer<typeof BatchQualificationSchema>
+export const BatchReceiptsRootSchema = z.strictObject({base: BatchBaseSchema, scopeDigest: DigestSchema, qualifierRawSha256: DigestSchema,
+  pages: z.array(z.strictObject({pageId: BatchPageIdSchema, recordId: text.min(1), receiptPath: RepoPathSchema, receiptRef: BatchBlobRefSchema,
+    outputs: z.array(z.strictObject({manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema, ref: BatchBlobRefSchema})).min(1)
+      .refine(v => ordered(v, o => `${o.manual}:${o.path}`))})).min(1).refine(v => ordered(v, p => p.pageId))})
+export type BatchReceiptsRoot = z.infer<typeof BatchReceiptsRootSchema>
+export const BatchQualifiedPinsSchema = z.strictObject({kind: z.literal('guides-batch-qualified-pins-v1'), base: BatchBaseSchema,
+  pageId: BatchPageIdSchema, materialDigest: DigestSchema, groupSha256: DigestSchema, row: BatchQualificationRowSchema,
+  receiptRef: BatchBlobRefSchema, outputRefs: z.array(z.strictObject({manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema, ref: BatchBlobRefSchema}))})
+export const BatchQualifiedReportSchema = z.strictObject({kind: z.literal('guides-batch-qualified-report-v1'), base: BatchBaseSchema,
+  pageId: BatchPageIdSchema, materialDigest: DigestSchema, groupSha256: DigestSchema, targets: BatchTargetsSchema, pins: BatchPinsSchema,
+  disposition: z.enum(['advance', 'noop']), supportRefs: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256))})
+export const BatchCollectionIndexSchema = z.strictObject({kind: z.literal('guides-batch-collection-index-v1'), base: BatchBaseSchema,
+  run: BatchRunSchema, discoveryRef: BatchBlobRefSchema, discoveryDigest: DigestSchema, scopeDigest: DigestSchema,
+  closureRef: BatchBlobRefSchema, groupSha256: DigestSchema, materialRoot: BatchBlobRefSchema, materialDigest: DigestSchema,
+  qualifierRef: BatchBlobRefSchema, qualifierDigest: DigestSchema, method: BatchMethodSchema, receiptsRoot: BatchReceiptsRootSchema,
+  pages: z.array(z.strictObject({pageId: BatchPageIdSchema, materialDigest: DigestSchema, disposition: z.enum(['advance', 'noop']),
+    reportRef: BatchBlobRefSchema, pinsRef: BatchBlobRefSchema})).min(1).refine(v => ordered(v, p => p.pageId)),
+  obligationsRef: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)), writeEligible: z.literal(false), operations: z.tuple([])})
+export type BatchCollectionIndex = z.infer<typeof BatchCollectionIndexSchema>
+const directoryIdentity = z.strictObject({dev: text.regex(/^(0|[1-9][0-9]*)$/), ino: text.regex(/^(0|[1-9][0-9]*)$/)})
+export const BatchVerifyControlSchema = z.strictObject({kind: z.literal('guides-batch-verify-control-v1'), base: BatchBaseSchema,
+  run: BatchRunSchema, discoveryRef: BatchBlobRefSchema, discoveryDigest: DigestSchema, closureRef: BatchBlobRefSchema,
+  groupSha256: DigestSchema, materialRoot: BatchBlobRefSchema, materialDigest: DigestSchema, scopeRef: BatchBlobRefSchema,
+  scopeDigest: DigestSchema, qualifierRequestSha256: DigestSchema, qualifierRequestBytes: BatchCountSchema.max(32 * 1024 * 1024),
+  qualifierRef: BatchBlobRefSchema, qualifierDigest: DigestSchema, profileDigest: DigestSchema, receiptsRoot: BatchReceiptsRootSchema,
+  indexRef: BatchBlobRefSchema, indexDigest: DigestSchema, rootIdentity: directoryIdentity, blobsIdentity: directoryIdentity})
+export type BatchVerifyControl = z.infer<typeof BatchVerifyControlSchema>
+export const BatchQualifierRequestSchema = z.strictObject({kind: z.literal('guides-batch-qualify-v1'), scope: BatchScopeSchema,
+  sourceRepository: localPath, devRepository: localPath, temporaryRoot: localPath,
+  archives: z.strictObject({source: z.strictObject({id: BatchCountSchema.positive(), path: localPath}),
+    publication: z.strictObject({id: BatchCountSchema.positive(), path: localPath})})})
+export type BatchQualifierRequest = z.infer<typeof BatchQualifierRequestSchema>
+const replayBody = z.strictObject({path: text.min(1), bytes: BatchCountSchema.positive().max(16 * 1024 * 1024), sha256: DigestSchema, base64: text})
+const replayFile = z.strictObject({path: RepoPathSchema, bytes: BatchCountSchema.positive().max(256 * 1024 * 1024), sha256: DigestSchema})
+export const BatchReplayFixtureSchema = z.strictObject({kind: z.literal('guides-batch-replay-fixture-v1'), root: localPath,
+  acquisition: z.array(replayBody).max(63), qualification: z.array(replayBody).max(63), pins: z.array(replayBody).max(5),
+  archives: z.strictObject({source: replayFile.extend({id: BatchCountSchema.positive()}), publication: replayFile.extend({id: BatchCountSchema.positive()})}),
+  images: z.array(replayFile.extend({url: text.min(1)})).refine(v => ordered(v, i => i.url))})
+export type BatchReplayFixture = z.infer<typeof BatchReplayFixtureSchema>
 
 const span = z.strictObject({file: RepoPathSchema, start: BatchCountSchema, end: BatchCountSchema, line: BatchCountSchema, endLine: BatchCountSchema})
 export const BatchHeadingSchema = z.strictObject({anchor: text, text, line: BatchCountSchema, source: span.optional(), stableId: text.optional(), context: text.optional()})

@@ -6,7 +6,26 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { expect, it, onTestFinished } from 'vitest'
 import { hash } from '../../adapters/updates/lifecycle'
-import { readReviewedObservation } from '../../adapters/updates/selected-lifecycle'
+import { readReviewedObservation, acquireReviewedCommon } from '../../adapters/updates/selected-lifecycle'
+import {rawBatchLifecycleFixture} from './fixtures/batch-qualification'
+
+it('builds a complete raw three-page stage with genuinely generated success and reused outcomes', async () => {
+  const parent = join(process.cwd(), '.claude/wp12-guides-batch-qualification/task3-evidence')
+  await mkdir(parent, {recursive: true})
+  const root = await mkdtemp(join(parent, 'raw-stage-'))
+  expect(rawBatchLifecycleFixture, 'raw stage fixture constructor').toBeTypeOf('function')
+  const f = await rawBatchLifecycleFixture(root)
+  expect(f.outcomes.map(o => o.status).sort()).toEqual(['reused', 'reused', 'success'])
+  expect(f.pages).toEqual(['json-field-overview', 'member-b', 'member-c'])
+  const shared = createRequire(import.meta.url)('../../../../../../scripts/docs-workflow/guides-stage-artifact.js')
+  await expect(shared.validateGuidesStageArtifact(f.stage, {site: 'en', stage: 'source', masterSha: f.master, devBaselineSha: f.baseline})).resolves.toMatchObject({masterSha: f.master})
+  const {extractSourceZip} = await import('../../adapters/updates/lifecycle')
+  const extracted = join(root, 'verified-extraction'); await mkdir(extracted)
+  await extractSourceZip(await readFile(f.sourceZip), extracted)
+  await expect(shared.validateGuidesStageArtifact(join(extracted, 'guides-source'))).resolves.toMatchObject({masterSha: f.master})
+  await writeFile(join(extracted, 'guides-source/payload/tmp/docs-tooling/en/shared-pages/guides/bundle.json'), '{}')
+  await expect(shared.validateGuidesStageArtifact(join(extracted, 'guides-source'))).rejects.toThrow(/size|checksum/)
+}, 120000)
 
 // This fresh-success fixture exercises the publication boundary after the caller's
 // stage-validation precondition; the reused fixture below validates its full bundle.
@@ -70,7 +89,9 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(results)})
   const facts = {run, jobs: [job(2, 'produce_guides_sources / fetch', ['Fetch shared guides sources', 'Generate selected shared Guides sources', 'Run actions/upload-artifact@v6']),
     job(3, 'produce_guides / assemble', []), job(4, 'publish_ready', ['Publish ready Fetch units in producer completion FIFO order'])], artifacts: [publication], artifact: {created_at: at}}
   let dev = published
+  const metadataPaths: string[] = []
   const api = {zip: async (id: number) => { expect(id).toBe(5); return archive }, get: async (path: string) => {
+    metadataPaths.push(path)
     if (path.endsWith('/branches/dev')) return {name: 'dev', commit: {sha: dev}}
     if (path.includes('fetch-guides-requested.yml')) return {total_count: 0, workflow_runs: []}
     if (path.includes('fetch-docs.yml')) return {total_count: 1, workflow_runs: [run]}
@@ -80,6 +101,14 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(results)})
     snapshot, root, {page, producerRepo: root, devRepo: root, dev})
   expect(await observe()).toMatchObject({outputPaths: [outputPath], identity: {observedPage: page, observedRecordId: recordId,
     observedTableId: table, publicationResultSha: published, sampledDev: dev}})
+  metadataPaths.length = 0
+  const common = await acquireReviewedCommon(api, facts, dev)
+  for (let i = 0; i < 3; i++) expect(await readReviewedObservation(api, facts,
+    {devBaselineSha: baseline, files: [{path: bundlePath}]}, snapshot, root,
+    {page, producerRepo: root, devRepo: root, dev}, common)).toMatchObject({recordId})
+  expect(metadataPaths).toHaveLength(3)
+  await expect(readReviewedObservation(api, {...facts}, {devBaselineSha: baseline, files: [{path: bundlePath}]}, snapshot,
+    root, {page, producerRepo: root, devRepo: root, dev}, common)).rejects.toThrow('BATCH_COMMON_BINDING_INVALID')
   publication.size_in_bytes = 1024 * 1024 + 1
   expect(await observe()).toEqual({reason: 'PUBLICATION_ARCHIVE_OVERSIZED'})
   publication.size_in_bytes = archive.length

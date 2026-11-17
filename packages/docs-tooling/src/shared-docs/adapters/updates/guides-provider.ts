@@ -464,7 +464,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   const devProof = repositoryRoot === request.devRepository ? configProof : await BatchGitStore.open(request.devRepository, rawBudget)
   const temporary = await mkdtemp(join(tmpdir(), 'batch-content-'))
   const imageBytes = new Map<string, Uint8Array>()
-  const originalFetcher = replay?.fetcher ?? new HttpImageFetcher(120_000)
+  const originalFetcher = replay?.fetcher ?? (request.origin.kind === 'replay' ? {async fetch(_url: string): Promise<Uint8Array> {throw Error('BATCH_REPLAY_IMAGE_UNAVAILABLE')}} : new HttpImageFetcher(120_000))
   const fetcher = {async fetch(url: string) {
     const bytes = Uint8Array.from(await originalFetcher.fetch(url)); imageBytes.set(rawSha256(bytes), bytes); return bytes
   }}
@@ -652,4 +652,119 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     if ((await sourceEndpoints(request.sourceRepository, source.config.repository, source.config.track, request.pins.source)).head !== request.pins.source) throw Error('BATCH_SOURCE_HEAD_INVALID')
     return immutable(wire)
   } finally {reads.dispose(); payloads.clear(); imageBytes.clear(); await rm(temporary, {recursive: true, force: true})}
+}
+
+import {BatchQualifierRequestSchema, BatchQualificationSchema, BatchMethodSchema, batchDigest, batchSorted, type BatchQualifierRequest,
+  type BatchQualification, type BatchQualificationRow} from './batch-collection-contract'
+import {isMeasuredBatchContext, type MeasuredBatchContext} from './trusted-fetch-producer'
+import {retainedMetadata} from './github'
+import {classifyLifecycle} from '../../core/updates/lifecycle'
+import {BatchGitStore, batchBudget} from './batch-source'
+import {successfulJob, stepWindow} from './guides-run-metadata'
+
+/** Fixed group worker. Input contains identity and material digests only. The
+ * issuer is an ordinary bootstrap call, never a request property or ready fact. */
+export async function qualifyBatchLifecycle(data: BatchQualifierRequest, issue: () => Promise<MeasuredBatchContext>): Promise<BatchQualification> {
+  const {acquireLifecycleStage} = await import('./lifecycle')
+  const {acquireReviewedCommon, selectedObservation, observedRecord} = await import('./selected-lifecycle')
+  const {validateActiveState} = await import('../../core/handoff/source-state')
+  const request = BatchQualifierRequestSchema.parse(data), {scope} = request, {pins} = scope.base
+  if (pins.master !== pins.trustedTools || await resolveCommit(toolingRoot) !== pins.master) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  const source = await sourceEndpoints(request.sourceRepository, 'https://github.com/milvus-io/milvus-docs', 'v3.0.x', pins.source)
+  if (source.head !== pins.source || source.target !== pins.source) throw Error('BATCH_SOURCE_HEAD_CHANGED')
+  const context = await issue()
+  if (!isMeasuredBatchContext(context)) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  const channel = openWorkerMetadataReader(), api = {get: channel.get, zip: publicGuidesReads(request.archives).zip}
+  const directory = await mkdtemp(join(request.temporaryRoot, 'qualifier-stage-'))
+  try {
+    const facts = await retainedMetadata(api, scope.run.id), {run} = facts
+    if (run.id !== scope.run.id || run.run_attempt !== 1 || run.head_sha !== scope.run.head) throw Error('BATCH_RUN_BINDING_INVALID')
+    const stage = immutable(await acquireLifecycleStage(api, facts, directory, 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh'))
+    const common = await acquireReviewedCommon(api, facts, pins.dev, stage), trusted = await context.facts()
+    const scan = stepWindow(successfulJob(facts.jobs, 'produce_guides_sources / fetch', run), 'Fetch shared guides sources')
+    if (!scan) throw Error('BASE_SCAN_ATTEMPT_UNPROVEN')
+    const devStore = await BatchGitStore.open(request.devRepository, batchBudget())
+    const active = validateActiveState(JSON.parse(new TextDecoder('utf8', {fatal: true}).decode((await devStore.file(pins.dev, 'generated/en/manifests/shared-pages/guides/active.json')).bytes)))
+    const served = JSON.parse(new TextDecoder('utf8', {fatal: true}).decode((await devStore.file(pins.dev, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json')).bytes))
+    const bundle = JSON.parse(await (await import('node:fs/promises')).readFile(join(stage.payload, 'tmp/docs-tooling/en/shared-pages/guides/bundle.json'), 'utf8'))
+    const rows: BatchQualificationRow[] = []
+    for (const page of scope.pages) {
+      const config = trusted.registry.find(p => p.pageId === page.pageId), lock = trusted.masterLocks.find(p => p.pageId === page.pageId)
+      if (!config || !lock) throw Error('MASTER_REGISTRY_INVALID')
+      const grant = context.forPage(page.pageId, page.materialSha256)
+      const observed = await selectedObservation(api, facts, stage.manifest, stage.snapshot, stage.payload,
+        {page: page.pageId, producerRepo: toolingRoot, devRepo: request.devRepository, dev: pins.dev}, undefined, {context, grant, common})
+      if (!('identity' in observed)) throw Error(observed.reason)
+      const record = observedRecord(bundle, stage.snapshot, page.pageId)
+      if (!record || record.record.release_channel !== 'current' || !Array.isArray(active.pages) ||
+        active.pages.filter((p: {page: string; record: string}) => p.page === page.pageId || p.record === observed.recordId).length !== 1 ||
+        !active.pages.some((p: {page: string; record: string}) => p.page === page.pageId && p.record === observed.recordId)) throw Error('PUBLISHED_CURRENT_OWNER_MISMATCH')
+      const classified = classifyLifecycle({reasons: [], records: [{record_id: record.record.record_id, table_id: record.record.table_id, slug: record.record.slug, placement_type: record.record.placement_type, release_channel: record.record.release_channel, source_kind: record.record.source_kind, shared_page: record.record.shared_page, output_paths: observed.outputPaths}],
+        generatedAt: observed.observedAt, observedPage: page.pageId, identity: {}}, page.pageId, config.publish,
+        scope.base.origin.kind === 'replay' ? scope.base.origin.replayClockMs : Date.now())
+      if (classified.state !== 'active' || classified.reasons.length) throw Error(classified.reasons[0] ?? 'BATCH_CLASSIFICATION_INVALID')
+      const receiptPath = record.record.shared_page.record, receiptBlob = await devStore.file(pins.dev, receiptPath)
+      const receipt = JSON.parse(new TextDecoder('utf8', {fatal: true}).decode(receiptBlob.bytes))
+      // v2-specific current ownership: M lock facts come from the one profiled raw
+      // transaction, not the caller's material.current or F's normalized lock.
+      if (receipt.inputs.milvus_docs.current !== lock.current || receipt.page !== page.pageId || (receipt.channel ?? 'current') !== 'current') throw Error('PUBLISHED_CURRENT_OWNER_MISMATCH')
+      const outputTuples = []
+      for (const output of batchSorted(record.outcome.outputs as {manual: 'guides' | 'guides-byoc'; path: string; sha256: string}[], o => `${o.manual}:${o.path}`)) {
+        const owners = served.records.filter((r: {record_id: string; release_channel: string; output_paths: string[]}) => r.release_channel === 'current' && r.output_paths?.includes(output.path))
+        if (owners.length !== 1 || owners[0].record_id !== observed.recordId) throw Error('PUBLISHED_CURRENT_OWNER_MISMATCH')
+        const blob = await devStore.file(pins.dev, output.path)
+        if (rawSha256(blob.bytes) !== output.sha256) throw Error('PUBLISHED_OUTPUT_MISMATCH')
+        outputTuples.push({manual: output.manual, path: output.path, oid: blob.oid, bytes: blob.bytes.length, sha256: output.sha256})
+      }
+      const identity = observed.identity
+      rows.push({pageId: page.pageId, materialDigest: page.materialSha256, configuredTargets: batchSorted(config.publish, t => t.manual) as BatchQualificationRow['configuredTargets'],
+        current: lock.current, oldNext: lock.oldNext, target: pins.source, observedTrackHead: source.head, runId: scope.run.id, attempt: 1,
+        method: BatchMethodSchema.parse((identity as Record<string, unknown>).producerAuthentication), recordId: observed.recordId, tableId: identity.observedTableId, sourceJobId: identity.sourceJobId,
+        baseline: stage.manifest.devBaselineSha, resultSha: identity.publicationResultSha, sampledDev: pins.dev, outcomeKind: record.outcome.status,
+        receiptPath, receiptOid: receiptBlob.oid, receiptBytes: receiptBlob.bytes.length, receiptSha256: rawSha256(receiptBlob.bytes), outputTuples,
+        bundleSha256: identity.bundleSha256, publicationSnapshotSha256: identity.publicationSnapshotSha256,
+        publishedOutputsSha256: identity.publishedOutputsSha256, classification: {state: 'active', channel: 'current', reasons: []}})
+      context.classified(page.pageId)
+    }
+    await devStore.verify()
+    if (await resolveCommit(toolingRoot) !== pins.master || (await sourceEndpoints(request.sourceRepository, 'https://github.com/milvus-io/milvus-docs', 'v3.0.x', pins.source)).head !== pins.source) throw Error('BATCH_PIN_CHANGED')
+    await context.finish()
+    const artifact = (a: Record<string, any>) => ({id: a.id, bytes: a.size_in_bytes, sha256: a.digest.slice(7)})
+    const publication = facts.artifacts.find(a => a.id === request.archives.publication.id)
+    if (!publication || facts.artifact.id !== request.archives.source.id) throw Error('BATCH_ARTIFACT_BINDING_INVALID')
+    return BatchQualificationSchema.parse({kind: 'guides-batch-qualification-v1', base: scope.base, run: scope.run,
+      scopeDigest: batchDigest('scope', scope), method: rows[0]?.method, sourceArtifact: artifact(facts.artifact), publicationArtifact: artifact(publication), scanStartMs: scan.start, rows})
+  } finally {context.close(); channel.close()}
+}
+
+/** Fixed replay-only image policy. No missing URL can fall back to live HTTP. */
+export async function createReplayImageFetcher(raw: Uint8Array, fixtureSha256: string) {
+  const {BatchReplayFixtureSchema, parseBatchCanonical} = await import('./batch-collection-contract')
+  if (rawSha256(raw) !== fixtureSha256) throw Error('BATCH_REPLAY_IMAGE_INVALID')
+  const fixture = parseBatchCanonical(raw, BatchReplayFixtureSchema)
+  const {readRegularBytes, checkedAncestors} = await import('./evidence')
+  await checkedAncestors(fixture.root)
+  for (const image of fixture.images) if (new URL(image.url).href !== image.url || !['http:', 'https:'].includes(new URL(image.url).protocol)) throw Error('BATCH_REPLAY_IMAGE_INVALID')
+  return {async fetch(url: string) {
+    const normalized = new URL(url).href, image = fixture.images.find(i => i.url === normalized)
+    if (!image) throw Error('BATCH_REPLAY_IMAGE_UNAVAILABLE')
+    const bytes = await readRegularBytes(join(fixture.root, image.path), image.bytes)
+    if (bytes.length !== image.bytes || rawSha256(bytes) !== image.sha256) throw Error('BATCH_REPLAY_IMAGE_INVALID')
+    return bytes
+  }}
+}
+export async function collectReplayBatchPageMaterial(data: unknown, fixtureBytes?: Uint8Array) {
+  const {BatchRenderRequestSchema, BatchReplayFixtureSchema} = await import('./batch-collection-contract')
+  const request = BatchRenderRequestSchema.parse(data)
+  if (request.origin.kind !== 'replay') throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  // Earlier material-only fixture manifests had no image map. They may read Git
+  // images but every external request is denied; never silently use live HTTP.
+  let fetcher: import('../images').ImageFetcher | undefined
+  if (fixtureBytes && BatchReplayFixtureSchema.safeParse(parseStrictJsonForReplay(fixtureBytes)).success) {
+    fetcher = await createReplayImageFetcher(fixtureBytes, request.origin.fixtureSha256)
+  }
+  return collectBatchPageMaterial(request, {repositoryRoot: request.devRepository, fetcher})
+}
+function parseStrictJsonForReplay(bytes: Uint8Array) {
+  try {return JSON.parse(new TextDecoder('utf8', {fatal: true}).decode(bytes))} catch {return null}
 }

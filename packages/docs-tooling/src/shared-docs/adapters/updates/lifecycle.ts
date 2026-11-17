@@ -44,6 +44,22 @@ export async function extractSourceZip(bytes: Uint8Array, destination: string) {
   await writeFile(zip, bytes, { flag: 'wx' })
   return Number((await exec('python3', ['-c', extract, zip, destination], { timeout: 60_000, maxBuffer: 1024 * 1024 })).stdout.trim())
 }
+/** One real stage extraction for a complete measured group; no page verdicts. */
+export async function acquireLifecycleStage(api: ReadonlyGitHub, facts: Awaited<ReturnType<typeof retainedMetadata>>, directory: string, expectedBase: string) {
+  const {run, artifact} = facts
+  if (artifact.size_in_bytes > 256 * 1024 * 1024) throw Error('SOURCE_ARCHIVE_OVERSIZED')
+  const bytes = await api.zip(artifact.id, artifact.size_in_bytes)
+  if (bytes.length !== artifact.size_in_bytes || artifact.digest !== 'sha256:' + hash(bytes)) throw Error('SOURCE_ARCHIVE_BINDING_INVALID')
+  const archiveEntries = await extractSourceZip(bytes, directory), stage = join(directory, 'guides-source')
+  const manifest = await validateGuidesStageArtifact(stage, {site: 'en', stage: 'source', masterSha: run.head_sha})
+  const raw = await readFile(join(stage, 'payload', rawSnapshotPath))
+  const snapshot = validateCandidateSnapshot(JSON.parse(new TextDecoder('utf8', {fatal: true}).decode(raw)), {manual: 'guides', buildEnv: 'uat', baseAppToken: expectedBase})
+  const reasons = producerReasons(facts, manifest, snapshot)
+  const navigation = new Map(snapshot.navigation_records.map((r: any) => [r.record_id, r.table_id]))
+  if (snapshot.records.some((r: any) => !r.table_id || !Object.hasOwn(snapshot.table_digests, r.table_id) || navigation.get(r.record_id) !== r.table_id)) reasons.push('TABLE_RECORD_BINDING_UNPROVEN')
+  if (reasons.length) throw Error(reasons[0])
+  return {manifest, snapshot, payload: join(stage, 'payload'), archiveEntries}
+}
 export async function readLifecycle(api: ReadonlyGitHub, runId: number, directory: string, localZip?: string, expectedBase?: string, selected?: SelectedPage, fetchProducerContext?: FetchProducerContext): Promise<LifecycleEvidence> {
   const facts = await retainedMetadata(api, runId)
   const { run, jobs, artifact } = facts

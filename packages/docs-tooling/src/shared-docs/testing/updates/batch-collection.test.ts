@@ -1,5 +1,5 @@
 // @vitest-environment node
-import {expect, it} from 'vitest'
+import {expect, it, vi} from 'vitest'
 import {createHash} from 'node:crypto'
 import {canonicalBytes} from '../../core/updates/canonical'
 
@@ -9,6 +9,40 @@ it('uses the exact batch domain preimage and rejects unknown digest tags', async
   const value = {text: '\u0000\n😀', '𐀀': 1, '\ue000': 2}
   expect(contract!.batchDigest('material', value)).toBe(createHash('sha256').update('zdoc/guides-batch/material/v1\n').update(canonicalBytes(value)).digest('hex'))
   expect(() => contract!.batchDigest('arbitrary' as never, value)).toThrow()
+})
+
+it('closes the qualification and read-only index schemas and fixes attempt one', async () => {
+  const c = await import('../../adapters/updates/batch-collection-contract')
+  expect(c.BatchQualificationSchema, 'strict qualification result contract').toBeDefined()
+  expect(c.BatchRunSchema.safeParse({id: 1, attempt: 2, head: 'a'.repeat(40)}).success).toBe(false)
+  expect(c.BatchQualificationSchema.safeParse({kind: 'guides-batch-qualification-v1', rows: []}).success).toBe(false)
+  expect(c.BatchCollectionIndexSchema.safeParse({kind: 'guides-batch-collection-index-v1', operations: [{write: true}]}).success).toBe(false)
+})
+
+it('denies fabricated material tickets without reading a selected run or constructing a qualifier', async () => {
+  const batch = await import('../../adapters/updates/batch-collection')
+  expect(await batch.qualifyReplayBatchMaterial({} as never)).toEqual({status: 'held', reasons: ['BATCH_LAUNCH_BINDING_INVALID']})
+  expect(await batch.qualifyObservedBatchMaterial(JSON.parse('{}'))).toEqual({status: 'held', reasons: ['BATCH_LAUNCH_BINDING_INVALID']})
+})
+
+it('binds replay images to exact normalized URLs and immutable bytes with no live fallback', async () => {
+  const {writeFile, mkdir, realpath} = await import('node:fs/promises')
+  const parent = join(process.cwd(), '.claude/wp12-guides-batch-qualification/task3-evidence')
+  await mkdir(parent, {recursive: true})
+  const root = await realpath(await mkdtemp(join(parent, 'replay-image-'))), bytes = Buffer.from('immutable fixture image')
+  await writeFile(join(root, 'image.png'), bytes)
+  const sha256 = createHash('sha256').update(bytes).digest('hex'), file = {path: 'image.png', bytes: bytes.length, sha256}
+  const raw = canonicalBytes({kind: 'guides-batch-replay-fixture-v1', root, acquisition: [], qualification: [], pins: [],
+    archives: {source: {...file, id: 1}, publication: {...file, id: 2}}, images: [{...file, url: 'https://images.example.test/image.png'}]})
+  const fetch = vi.spyOn(globalThis, 'fetch')
+  try {
+    const reader = await provider.createReplayImageFetcher(raw, createHash('sha256').update(raw).digest('hex'))
+    expect(Buffer.from(await reader.fetch('https://images.example.test/image.png'))).toEqual(bytes)
+    await expect(reader.fetch('https://images.example.test/other.png')).rejects.toThrow('BATCH_REPLAY_IMAGE_UNAVAILABLE')
+    await writeFile(join(root, 'image.png'), Buffer.from('changed fixture bytes'))
+    await expect(reader.fetch('https://images.example.test/image.png')).rejects.toThrow()
+    expect(fetch).not.toHaveBeenCalled()
+  } finally {fetch.mockRestore()}
 })
 
 import {mkdtemp, rm} from 'node:fs/promises'

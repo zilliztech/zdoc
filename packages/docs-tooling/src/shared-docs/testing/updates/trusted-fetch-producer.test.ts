@@ -8,6 +8,8 @@ import { FetchGitReader, createMeasuredFetchProducerContext, isFetchProducerCont
 import * as profile from '../../adapters/updates/fetch-producer-profile'
 import * as configs from '../../core/config'
 import { pilotLockPath } from '../../adapters/updates/fetch-producer-profile'
+import {BatchScopeSchema, batchRef} from '../../adapters/updates/batch-collection-contract'
+import * as producer from '../../adapters/updates/trusted-fetch-producer'
 const git = (root: string, ...args: string[]) => execFileSync('git', ['--no-replace-objects', '-C', root, '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.com', '-c', 'commit.gpgsign=false', '-c', 'core.hooksPath=/dev/null', '-c', 'init.templateDir=', '-c', 'init.defaultObjectFormat=sha1', ...args], {encoding: 'utf8', env: {...Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_'))), GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null'}}).trim()
 async function fixture() {
   const root = await mkdtemp(join(tmpdir(), 'fetch-profile-'))
@@ -152,6 +154,32 @@ it('refuses a deadline expiring during tree parsing before attempting another Gi
 })
 
 const canonicalLock = (pin = 'a'.repeat(40)) => `schema_version: 1\ncurrent: ${pin}\nnext: ${pin}\n`
+it('refuses unmeasured batch contexts and a scope whose M differs from executing tools', async () => {
+  expect(producer.createMeasuredBatchContext, 'fixed batch issuer').toBeTypeOf('function')
+  expect(producer.isMeasuredBatchContext({})).toBe(false)
+  const ref = batchRef(Buffer.from('{}')), master = 'e'.repeat(40)
+  const scope = BatchScopeSchema.parse({base: {origin: {kind: 'observed'}, session: 'f'.repeat(64),
+    pins: {master, dev: master, source: master, trustedTools: master, toolsetSha256: 'a'.repeat(64)}},
+    run: {id: 1, attempt: 1, head: master}, discoveryRef: ref, discoveryDigest: ref.sha256, closureRef: ref,
+    groupSha256: ref.sha256, materialRoot: ref, materialDigest: ref.sha256, pages: [{pageId: 'example', materialSha256: ref.sha256}]})
+  await expect(producer.createMeasuredBatchContext(scope)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+})
+it('poisons every grant after a duplicate claim, wrong run or incomplete finish', async () => {
+  const master = git(process.cwd(), 'rev-parse', 'HEAD'), ref = batchRef(Buffer.from('{}'))
+  const scope = BatchScopeSchema.parse({base: {origin: {kind: 'replay', fixtureSha256: ref.sha256, replayClockMs: 0}, session: 'a'.repeat(64),
+    pins: {master, dev: master, source: master, trustedTools: master, toolsetSha256: ref.sha256}}, run: {id: 1, attempt: 1, head: master},
+    discoveryRef: ref, discoveryDigest: ref.sha256, materialRoot: ref, materialDigest: ref.sha256, closureRef: ref, groupSha256: ref.sha256,
+    pages: [{pageId: 'json-field-overview', materialSha256: ref.sha256}]})
+  for (const failure of ['duplicate', 'wrong-run', 'incomplete'] as const) {
+    const context = await producer.createMeasuredBatchContext(scope), grant = context.forPage('json-field-overview', ref.sha256)
+    if (failure === 'duplicate') expect(() => context.forPage('json-field-overview', ref.sha256)).toThrow('BATCH_LAUNCH_BINDING_INVALID')
+    if (failure === 'wrong-run') await expect(grant.authenticate('json-field-overview', {...scope.run, id: 2})).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+    if (failure === 'incomplete') await expect(context.finish()).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+    await expect(grant.authenticate('json-field-overview', scope.run)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+    await expect(context.finish()).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+    expect(() => context.classified('json-field-overview')).toThrow('BATCH_LAUNCH_BINDING_INVALID')
+  }
+})
 async function batchFixture(count = 93) {
   const f = await fixture()
   await unlink(join(f.root, pilotLockPath))
@@ -172,6 +200,7 @@ it('authenticates all 93 M-configured locks in exactly 12 bounded Git calls incl
   const result = await reader.profilesV2(f.master, f.producer)
   expect(result.masterProfile).toBe(result.producerProfile); expect(result.ancestor).toBe(true)
   expect(result.registry).toHaveLength(93)
+  expect(result.masterLocks).toEqual(result.registry.map(page => ({pageId: page.pageId, current: 'b'.repeat(40), oldNext: 'b'.repeat(40)})))
   expect(calls).toHaveBeenCalledTimes(12)
   expect(calls.mock.calls.filter(([args]) => args.join(' ') === 'rev-parse --verify HEAD')).toHaveLength(2)
   expect(calls.mock.calls.filter(([args]) => args[1] === '--batch')).toHaveLength(2)

@@ -6,13 +6,14 @@ import { isDeepStrictEqual as equal } from 'node:util'
 import * as z from 'zod'
 import { DigestSchema, GitShaSchema } from '../../core/updates/envelope'
 import { GitLinkInputReader } from '../links-input'
-import { isFetchProducerContext, type FetchProducerContext, type ProducerAuthentication } from './trusted-fetch-producer'
+import { isFetchProducerContext, isMeasuredBatchContext, isMeasuredPageGrant, type MeasuredBatchContext, type PageGrant, type FetchProducerContext, type ProducerAuthentication } from './trusted-fetch-producer'
 import { gitRead, sha } from './git'
 import { exactlyOne, latestGuidesRun, stepWindow, successfulJob } from './guides-run-metadata'
 export { latestGuidesRun } from './guides-run-metadata'
 import { boundArtifact, object, type ReadonlyGitHub, type retainedMetadata } from './github'
 import { parseRemoteZip } from './remote-github'
-import { parseStrictJson } from '../../core/updates/canonical'
+import { parseStrictJson, canonicalBytes } from '../../core/updates/canonical'
+import {immutable} from '../../core/updates/types'
 
 const require = createRequire(import.meta.url)
 const { validatePublicationResults } = require('../../../../../../scripts/docs-workflow/publication-contracts.js')
@@ -129,10 +130,22 @@ export function observedRecord(bundle: Row, snapshot: Row, page: string) {
   return { record, outcome }
 }
 
-export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage, fetchProducerContext?: FetchProducerContext) {
+export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage, fetchProducerContext?: FetchProducerContext,
+  batch?: {context: MeasuredBatchContext; grant: PageGrant; common: ReviewedCommon}) {
   const { run } = facts
   if (!sha(run.head_sha) || run.head_repository?.id !== 660446555 || run.workflow_id !== 83360731 ||
     snapshot.base_app_token !== 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh') return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
+  // Explicit measured v2 branch precedes every historical/pilot lookup. Neither
+  // a method JSON object nor a replayed lifecycle identity is a grant.
+  if (batch) {
+    if (!isMeasuredBatchContext(batch.context) || !isMeasuredPageGrant(batch.grant, batch.context, selected.page) ||
+      run.repository?.id !== 660446555 || run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' ||
+      run.event !== 'schedule' || run.run_attempt !== 1 || run.status !== 'completed' || run.conclusion !== 'success') return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
+    const method = await batch.grant.authenticate(selected.page, {id: run.id, attempt: 1, head: run.head_sha})
+    const result = await readReviewedObservation(api, facts, manifest, snapshot, payload, selected, batch.common)
+    if ('identity' in result) Object.assign(result.identity, {producerAuthentication: method})
+    return result
+  }
   const legacy = reviewed.legacyCensus
   const legacyProducer = run.head_sha === legacy.producer
   let producerInventorySha256: string | undefined
@@ -169,7 +182,10 @@ export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, 
 
 // Called after stage validation and reviewed producer authentication. Reused
 // evidence is also fully revalidated here before its archived bytes enter Git checks.
-export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage) {
+export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage, common?: ReviewedCommon) {
+  const cached = common && reviewedCommons.get(common)
+  if (common && (!cached || cached.api !== api || cached.facts !== facts || cached.dev !== selected.dev || !Buffer.from(canonicalBytes(cached.snapshot)).equals(Buffer.from(canonicalBytes(facts))))) throw Error('BATCH_COMMON_BINDING_INVALID')
+  if (cached) facts = cached.snapshot
   const { run, jobs, artifact } = facts
   const job = successfulJob(jobs, 'produce_guides_sources / fetch', run)
   const scan = stepWindow(job, 'Fetch shared guides sources')
@@ -180,8 +196,9 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
   // the outcomes and their bindings to this candidate.
   const bundlePath = 'tmp/docs-tooling/en/shared-pages/guides/bundle.json'
   if (!manifest.files.some((f: Row) => f.path === bundlePath)) return unknown('BASE_SCAN_RECORD_UNPROVEN')
-  const bundleBytes = await readFile(join(payload, bundlePath))
-  const bundle = JSON.parse(bundleBytes.toString())
+  if (cached?.source && (cached.source.payload !== payload || cached.source.manifest !== sha256(canonicalBytes(manifest)) || cached.source.snapshot !== sha256(canonicalBytes(snapshot)))) throw Error('BATCH_COMMON_BINDING_INVALID')
+  const bundleBytes = cached?.source?.bundleBytes ?? await readFile(join(payload, bundlePath))
+  const bundle = cached?.source?.bundle ?? JSON.parse(bundleBytes.toString())
   const membership = recordMembership(bundle.preparation.records)
   if (!membership) return unknown('BASE_SCAN_CENSUS_UNPROVEN')
   const observation = observedRecord(bundle, snapshot, selected.page)
@@ -191,22 +208,15 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
   // recipe, selected manuals/targets and regeneration must agree before reading
   // any archive-controlled paths. This boundary also protects direct callers.
   const reused = outcome.status === 'reused'
-  const handoff = reused ? sharedBundle.loadBundle(join(payload, sharedBundle.ROOT),
+  const handoff = reused ? cached?.source?.handoff ?? sharedBundle.loadBundle(join(payload, sharedBundle.ROOT),
     {masterSha: run.head_sha, devBaselineSha: manifest.devBaselineSha}) : null
   const archivedReceipt = handoff?.files.get(outcome.receipt.file)
   if (reused && (!archivedReceipt || outcome.receipt.path !== record.shared_page.record ||
     outcome.receipt.sha256 !== sha256(archivedReceipt) ||
     !JSON.parse(archivedReceipt).inputs.fetch.render_targets || !outcome.regeneration)) return unknown('BASE_SCAN_RECORD_UNPROVEN')
-  const publication = boundArtifact(facts.artifacts, run, `publication-results-fetch-${run.id}-${run.run_attempt}`)
-  const publisher = successfulJob(jobs, 'publish_ready', run)
-  const publishWindow = stepWindow(publisher, 'Publish ready Fetch units in producer completion FIFO order')
-  if (publication.size_in_bytes > 1024 * 1024) return unknown('PUBLICATION_ARCHIVE_OVERSIZED')
-  if (!during(publication.created_at, publishWindow)) return unknown('PUBLICATION_ATTEMPT_UNPROVEN')
-  const archive = await api.zip(publication.id, publication.size_in_bytes)
-  if (archive.length !== publication.size_in_bytes || `sha256:${sha256(archive)}` !== publication.digest) throw new Error('Publication ZIP digest/size mismatch')
-  const files = parseRemoteZip(archive), member = files.get('publication-results.json')
-  if (files.size !== 1 || !member) throw new Error('Unexpected publication ZIP members')
-  const result = validatePublicationResults(parseStrictJson(member))
+  const acquired = cached?.publication ?? await acquirePublication(api, facts)
+  if ('reason' in acquired) return acquired
+  const {publication, publishWindow, archive, result} = acquired
   const unit = exactlyOne(result.units, u => u.unitKey === 'source/guides-en')
   const assemble = successfulJob(jobs, 'produce_guides / assemble', run)
   if (result.runId !== run.id || result.runAttempt !== run.run_attempt || result.workflow !== 'fetch' ||
@@ -242,13 +252,54 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
       if (sha256(bytes) !== output.sha256 || (reused && !Buffer.from(bytes).equals(archived))) return unknown('PUBLISHED_OUTPUT_MISMATCH')
     }
   }
-  if (!await latestGuidesRun(api, run, scan.start)) return unknown('LATEST_OBSERVATION_UNPROVEN')
-  const tip = object(await api.get(`${apiRoot}/branches/dev`))
-  if (tip.name !== 'dev' || tip.commit?.sha !== selected.dev) return unknown('DEV_TIP_CHANGED')
+  if (!cached) {
+    if (!await latestGuidesRun(api, run, scan.start)) return unknown('LATEST_OBSERVATION_UNPROVEN')
+    const tip = object(await api.get(`${apiRoot}/branches/dev`))
+    if (tip.name !== 'dev' || tip.commit?.sha !== selected.dev) return unknown('DEV_TIP_CHANGED')
+  }
   return { outputPaths, recordId: record.record_id, observedAt: new Date(scan.start).toISOString(), identity: {
     observedPage: selected.page, observedRecordId: record.record_id, observedTableId: record.table_id, sourceJobId: job!.id, ...membership,
     bundleSha256: sha256(bundleBytes), publicationArtifactId: publication.id, publicationZipSha256: sha256(archive),
     publicationResultSha: unit.resultSha, publicationSnapshotSha256: sha256(effectiveBytes), publicationReceiptSha256: sha256(receiptBytes),
     latestRunId: run.id, sampledDev: selected.dev, publishedOutputsSha256: sha256(JSON.stringify(outputs)),
   } }
+}
+
+async function acquirePublication(api: ReadonlyGitHub, facts: Metadata) {
+  const {run, jobs} = facts
+  const publication = boundArtifact(facts.artifacts, run, `publication-results-fetch-${run.id}-${run.run_attempt}`)
+  const publisher = successfulJob(jobs, 'publish_ready', run)
+  const publishWindow = stepWindow(publisher, 'Publish ready Fetch units in producer completion FIFO order')
+  if (publication.size_in_bytes > 1024 * 1024) return unknown('PUBLICATION_ARCHIVE_OVERSIZED')
+  if (!during(publication.created_at, publishWindow)) return unknown('PUBLICATION_ATTEMPT_UNPROVEN')
+  const archive = Uint8Array.from(await api.zip(publication.id, publication.size_in_bytes))
+  if (archive.length !== publication.size_in_bytes || `sha256:${sha256(archive)}` !== publication.digest) throw new Error('Publication ZIP digest/size mismatch')
+  const files = parseRemoteZip(archive), member = files.get('publication-results.json')
+  if (files.size !== 1 || !member) throw new Error('Unexpected publication ZIP members')
+  const result = validatePublicationResults(parseStrictJson(member))
+  return {publication, publishWindow, archive, result}
+}
+
+declare const reviewedCommonBrand: unique symbol
+export type ReviewedCommon = {readonly [reviewedCommonBrand]: true}
+type Publication = Exclude<Awaited<ReturnType<typeof acquirePublication>>, {reason: string}>
+const reviewedCommons = new WeakMap<object, {api: ReadonlyGitHub; facts: Metadata; snapshot: Metadata; dev: string; publication: Publication; source?: {payload: string; manifest: string; snapshot: string; bundleBytes: Buffer; bundle: Row; handoff: any}}>()
+/** Immutable run-level acquisition only. Per-page observations/receipts are never cached. */
+export async function acquireReviewedCommon(api: ReadonlyGitHub, facts: Metadata, dev: string, source?: {payload: string; manifest: Row; snapshot: Row}): Promise<ReviewedCommon> {
+  const snapshot = immutable(structuredClone(facts))
+  const publication = await acquirePublication(api, snapshot)
+  if ('reason' in publication) throw Error(publication.reason)
+  const scan = stepWindow(successfulJob(snapshot.jobs, 'produce_guides_sources / fetch', snapshot.run), 'Fetch shared guides sources')
+  if (!scan || !await latestGuidesRun(api, snapshot.run, scan.start)) throw Error('LATEST_OBSERVATION_UNPROVEN')
+  const tip = object(await api.get(`${apiRoot}/branches/dev`))
+  if (tip.name !== 'dev' || tip.commit?.sha !== dev) throw Error('DEV_TIP_CHANGED')
+  let sourceFacts
+  if (source) {
+    const bundleBytes = await readFile(join(source.payload, sharedBundle.ROOT, 'bundle.json'))
+    sourceFacts = {payload: source.payload, manifest: sha256(canonicalBytes(source.manifest)), snapshot: sha256(canonicalBytes(source.snapshot)), bundleBytes,
+      bundle: immutable(JSON.parse(bundleBytes.toString())), handoff: sharedBundle.loadBundle(join(source.payload, sharedBundle.ROOT), {masterSha: snapshot.run.head_sha, devBaselineSha: source.manifest.devBaselineSha})}
+  }
+  const common = Object.freeze({}) as ReviewedCommon
+  reviewedCommons.set(common, {api, facts, snapshot, dev, source: sourceFacts, publication: {...publication, result: immutable(structuredClone(publication.result)), publication: immutable(structuredClone(publication.publication))}})
+  return common
 }
