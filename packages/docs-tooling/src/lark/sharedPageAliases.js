@@ -3,8 +3,8 @@
 // Bounded local evidence only: never fetch Git history or call Feishu here.
 const fs = require('node:fs')
 const crypto = require('node:crypto')
+const {sharedGroupConfig} = require('./sharedGroups')
 const SNAPSHOT = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
-const MANIFEST = 'generated/en/manifests/shared-pages/guides'
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex')
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 const valid = token => typeof token === 'string' && /^[A-Za-z0-9_-]+$/.test(token) && !/^(?:base_|shared-)/.test(token)
@@ -28,7 +28,7 @@ function treeEntry(bytes, name) {
   }
   throw new Error('Shared aliases: snapshot path absent from Git proof')
 }
-function gitProof(root, devCommit, commit, git) {
+function gitProof(root, devCommit, commit, git, snapshotPath = SNAPSHOT) {
   const parents = new Map()
   if (devCommit !== commit) {
     const lines = git(root, ['rev-list', '--ancestry-path', '--parents', '--topo-order', '--max-count=2048', `${commit}..${devCommit}`], {stdio: ['ignore', 'pipe', 'pipe']}).toString().trim().split('\n')
@@ -48,16 +48,16 @@ function gitProof(root, devCommit, commit, git) {
   let tree = /^tree ([a-f0-9]{40})$/m.exec(commits.at(-1).content)?.[1]
   check(tree, 'missing snapshot commit tree')
   const trees = []
-  for (const part of SNAPSHOT.split('/')) {
+  for (const part of snapshotPath.split('/')) {
     const bytes = git(root, ['cat-file', 'tree', tree])
     trees.push({oid: tree, content: bytes.toString('base64')})
     tree = treeEntry(bytes, part).oid
   }
   return {commits, trees}
 }
-function verifyProof(item, devCommit) {
+function verifyProof(item, devCommit, snapshotPath = SNAPSHOT) {
   check(item.proof && Array.isArray(item.proof.commits) && item.proof.commits.length > 0 && item.proof.commits.length <= 2049
-    && Array.isArray(item.proof.trees) && item.proof.trees.length === SNAPSHOT.split('/').length, 'invalid Git proof')
+    && Array.isArray(item.proof.trees) && item.proof.trees.length === snapshotPath.split('/').length, 'invalid Git proof')
   let expected = devCommit
   for (const [index, commit] of item.proof.commits.entries()) {
     check(commit.oid === expected && typeof commit.content === 'string' && objectHash('commit', Buffer.from(commit.content)) === commit.oid, 'unbound snapshot commit proof')
@@ -70,7 +70,7 @@ function verifyProof(item, devCommit) {
   const commit = item.proof.commits.at(-1)
   check(commit.oid === item.commit, 'snapshot commit proof mismatch')
   let tree = /^tree ([a-f0-9]{40})$/m.exec(commit.content)?.[1]
-  for (const [index, part] of SNAPSHOT.split('/').entries()) {
+  for (const [index, part] of snapshotPath.split('/').entries()) {
     const proof = item.proof.trees[index], bytes = Buffer.from(proof.content, 'base64')
     check(proof.oid === tree && objectHash('tree', bytes) === tree, 'unbound snapshot tree proof')
     const entry = treeEntry(bytes, part)
@@ -87,14 +87,15 @@ function recordAt(snapshot, id) {
 }
 const EVIDENCE_LIMIT = 16 * 1024 * 1024
 const snapshotSize = item => Buffer.byteLength(JSON.stringify(item))
-function collect({baselineRoot, devCommit, active, previousSnapshot, sourceDir, retainedEvidence, recordIds, git, regularBytes}) {
+function collect({baselineRoot, devCommit, active, previousSnapshot, sourceDir, retainedEvidence, recordIds, git, regularBytes, group = 'guides'}) {
+  const groupConfig = sharedGroupConfig(group), snapshotPath = groupConfig.snapshotPath, manifestDir = groupConfig.manifestDir
   const evidence = {dev_commit: devCommit, snapshots: [], caches: [], gaps: []}, snapshots = new Map()
   let total = 0
   const gap = (ids, message) => {for (const record_id of ids) evidence.gaps.push({record_id, message})}
   // Retained roots already prove the pinned dev ancestry and exact source hash.
   // Admit them first, so later recovery never evicts previously known evidence.
   if (retainedEvidence) try {
-    validateEvidence(retainedEvidence, devCommit)
+    validateEvidence(retainedEvidence, devCommit, snapshotPath)
     evidence.snapshots = [...retainedEvidence.snapshots]
     evidence.caches = [...retainedEvidence.caches]
     for (const item of evidence.snapshots) snapshots.set(item.commit, JSON.parse(item.content))
@@ -106,10 +107,10 @@ function collect({baselineRoot, devCommit, active, previousSnapshot, sourceDir, 
   function addSnapshot(commit) {
     if (snapshots.has(commit)) return snapshots.get(commit)
     check(evidence.snapshots.length < 257, 'snapshot evidence count limit')
-    const content = git(baselineRoot, ['show', `${commit}:${SNAPSHOT}`], {stdio: ['ignore', 'pipe', 'pipe']}).toString('utf8')
+    const content = git(baselineRoot, ['show', `${commit}:${snapshotPath}`], {stdio: ['ignore', 'pipe', 'pipe']}).toString('utf8')
     check(Buffer.byteLength(content) <= EVIDENCE_LIMIT, 'snapshot evidence item size limit')
     const snapshot = JSON.parse(content)
-    const item = {commit, path: SNAPSHOT, sha256: hash(content), content, proof: gitProof(baselineRoot, devCommit, commit, git)}
+    const item = {commit, path: snapshotPath, sha256: hash(content), content, proof: gitProof(baselineRoot, devCommit, commit, git, snapshotPath)}
     const size = snapshotSize(item)
     check(size <= EVIDENCE_LIMIT && total + size <= EVIDENCE_LIMIT, 'snapshot evidence combined size limit')
     total += size; snapshots.set(commit, snapshot); evidence.snapshots.push(item)
@@ -122,14 +123,14 @@ function collect({baselineRoot, devCommit, active, previousSnapshot, sourceDir, 
     const entry = active.pages.find(row => row.record === id)
     if (!entry || recordAt(previousSnapshot || {}, id)) continue
     try {
-      const receipt = JSON.parse(git(baselineRoot, ['show', `${devCommit}:${MANIFEST}/${entry.page}.json`], {stdio: ['ignore', 'pipe', 'pipe']}))
+      const receipt = JSON.parse(git(baselineRoot, ['show', `${devCommit}:${manifestDir}/${entry.page}.json`], {stdio: ['ignore', 'pipe', 'pipe']}))
       const pinned = receipt.inputs.dev.commit
       check(/^[a-f0-9]{40}$/.test(pinned), 'invalid receipt dev commit')
       git(baselineRoot, ['merge-base', '--is-ancestor', pinned, devCommit], {stdio: ['ignore', 'pipe', 'pipe']})
-      const commits = [pinned, ...git(baselineRoot, ['log', '--format=%H', '--max-count=256', pinned, '--', SNAPSHOT], {stdio: ['ignore', 'pipe', 'pipe']}).toString().trim().split('\n').filter(Boolean)]
+      const commits = [pinned, ...git(baselineRoot, ['log', '--format=%H', '--max-count=256', pinned, '--', snapshotPath], {stdio: ['ignore', 'pipe', 'pipe']}).toString().trim().split('\n').filter(Boolean)]
       let found = false
       for (const commit of new Set(commits)) {
-        const candidate = snapshots.get(commit) || JSON.parse(git(baselineRoot, ['show', `${commit}:${SNAPSHOT}`], {stdio: ['ignore', 'pipe', 'pipe']}))
+        const candidate = snapshots.get(commit) || JSON.parse(git(baselineRoot, ['show', `${commit}:${snapshotPath}`], {stdio: ['ignore', 'pipe', 'pipe']}))
         if (recordAt(candidate, id)) {addSnapshot(commit); found = true; break}
       }
       if (!found) gap([id], 'Historical Feishu snapshot is unavailable in the bounded pinned dev history')
@@ -167,7 +168,7 @@ function collect({baselineRoot, devCommit, active, previousSnapshot, sourceDir, 
   evidence.gaps = [...new Map(evidence.gaps.map(item => [JSON.stringify(item), item])).values()]
   return evidence
 }
-function validateEvidence(evidence, devCommit = evidence?.dev_commit) {
+function validateEvidence(evidence, devCommit = evidence?.dev_commit, snapshotPath = SNAPSHOT) {
   if (evidence === undefined) return
   check(evidence && /^[a-f0-9]{40}$/.test(devCommit) && evidence.dev_commit === devCommit, 'invalid evidence dev binding')
   check(Array.isArray(evidence.snapshots) && Array.isArray(evidence.caches) && Array.isArray(evidence.gaps)
@@ -176,9 +177,9 @@ function validateEvidence(evidence, devCommit = evidence?.dev_commit) {
   let bytes = 0
   const snapshots = new Map(), seenCaches = new Set()
   for (const item of evidence.snapshots) {
-    check(/^[a-f0-9]{40}$/.test(item.commit) && item.path === SNAPSHOT && typeof item.content === 'string'
+    check(/^[a-f0-9]{40}$/.test(item.commit) && item.path === snapshotPath && typeof item.content === 'string'
       && item.sha256 === hash(item.content) && !snapshots.has(item.commit), 'invalid snapshot evidence')
-    verifyProof(item, devCommit)
+    verifyProof(item, devCommit, snapshotPath)
     snapshots.set(item.commit, JSON.parse(item.content)); bytes += snapshotSize(item)
     check(bytes <= EVIDENCE_LIMIT, 'evidence exceeds size limit')
   }
@@ -192,8 +193,8 @@ function validateEvidence(evidence, devCommit = evidence?.dev_commit) {
   }
   return evidence
 }
-function recover({active, previousSnapshot, evidence, recordIds}) {
-  validateEvidence(evidence)
+function recover({active, previousSnapshot, evidence, recordIds, group = 'guides'}) {
+  validateEvidence(evidence, undefined, sharedGroupConfig(group).snapshotPath)
   const owners = new Map(), byRecord = new Map()
   function add(id, values) {
     for (const token of values) {
@@ -226,6 +227,6 @@ function index(context, byRecord) {
     context.aliasesByToken.set(token, id)
   }
 }
-function authenticate({devCommit, evidence}) {validateEvidence(evidence, devCommit)}
+function authenticate({devCommit, evidence, group = 'guides'}) {validateEvidence(evidence, devCommit, sharedGroupConfig(group).snapshotPath)}
 
 module.exports = {tokens, activeTokens, matches, collect, validateEvidence, recover, verifyEnrichment, authenticate, index}

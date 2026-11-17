@@ -3,7 +3,7 @@ import { createRequire } from 'node:module'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
-import { groupContext } from '../adapters/group-context'
+import { groupContext, groupManuals } from '../adapters/group-context'
 import { buildPage, createBuildReader, createBuildRuntime } from '../adapters/build-page'
 import type { BuiltPage, SharedDocsInputs, FetchBuildContext } from '../adapters/build-page'
 import { createGuidesSnapshot } from '../adapters/guides-snapshot'
@@ -12,6 +12,12 @@ import type { ImageFetcher } from '../adapters/images'
 import { RealMd2md } from '../adapters/md2md'
 import { createZdocContentReader } from '../adapters/zdoc-content'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
+import { parseManualConfig } from '../core/manual-config'
+import { parseLock } from '../core/lock'
+import type { Variables } from '../core/types'
+import { readGroupLayout } from '../adapters/group-layout'
+import { buildManualPage, expandManualPages, MANUAL_TABS_RULES } from '../adapters/manual-page'
+import type { ManualGroupInputs } from '../adapters/manual-page'
 import { parseLinkMap } from '../core/links'
 import type { ImageRecord } from '../core/links'
 import { parseProductNames } from '../core/product-names'
@@ -96,7 +102,7 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
       return undefined
     }
   }
-  const context = { manuals: manualRegistry.map(manual => manual.id), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
+  const context = { manuals: groupManuals(group.name), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
   const sourceYaml = await read('source.yaml')
   const variablesJson = await read('Variables.json')
   const linksYaml = await read('links.yaml')
@@ -164,8 +170,51 @@ export async function readSharedDocs(directory: string, repositoryRoot = process
   if (errors.length) return { errors }
   if (!source || 'errors' in source || !variables || 'errors' in variables || !links || 'errors' in links
     || !product || 'errors' in product || !tabs || 'errors' in tabs) throw new Error('Missing shared-docs build input')
-  return { sharedDocsPath: group.path, sourceYaml: sourceYaml!, variablesJson: variablesJson!, variables: variables.variables,
+  return { sharedDocsPath: group.path, sourceYaml: sourceYaml!, sourceConfig: source.config, variablesJson: variablesJson!, variables: variables.variables,
     pages, linkMap: links.map, productNames: product.rules, tabsRules: tabs.rules, context }
+}
+
+/** Manual-layout inputs: whole-manual configuration, one group lock, and optional variables/product rules. */
+export async function readManualSharedDocs(directory: string, repositoryRoot = process.cwd()): Promise<ManualGroupInputs | { errors: SharedDocsError[] }> {
+  const group = groupContext(directory, repositoryRoot)
+  if ('errors' in group) return group
+  const { root, file } = group
+  const errors: SharedDocsError[] = []
+  async function read(path: string, optional = false) {
+    try { return await readFile(join(root, path), 'utf8') }
+    catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+      if (!optional) errors.push({ code: 'CONFIG_FIELD_MISSING', message: `Required file not found: ${file(path)}`,
+        file: file(path), line: 1, channel: 'both',
+        ...(path === 'lock.yaml' ? { fix: 'Run `pnpm docs-tooling shared-docs lock` to create the manual lock' } : {}) })
+      return undefined
+    }
+  }
+  // Manual-layout groups declare their manual explicitly; validate against the same
+  // per-group scope the lock command uses, not the whole registry.
+  const context = { manuals: groupManuals(group.name), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
+  const sourceYaml = await read('source.yaml')
+  const manualYaml = await read('manual.yaml')
+  const lockYaml = await read('lock.yaml')
+  const variablesText = await read('Variables.json', true)
+  const productYaml = await read('product-names.yaml')
+  const source = sourceYaml === undefined ? undefined : parseSourceConfig(sourceYaml, { file: file('source.yaml'), channel: 'both' })
+  const manual = manualYaml === undefined ? undefined : parseManualConfig(manualYaml, { ...context, file: file('manual.yaml') })
+  const lock = lockYaml === undefined ? undefined : parseLock(lockYaml, { file: file('lock.yaml'), channel: 'both' })
+  const variables = parseVariables(variablesText ?? '{}', { file: file('Variables.json') })
+  const product = productYaml === undefined ? undefined : parseProductNames(productYaml, { file: file('product-names.yaml'), channel: 'both' })
+  for (const parsed of [source, manual, lock, variables, product]) if (parsed && 'errors' in parsed) errors.push(...parsed.errors)
+  if (errors.length) return { errors }
+  if (!source || 'errors' in source || !manual || 'errors' in manual || !lock || 'errors' in lock
+    || !variables || 'errors' in variables || !product || 'errors' in product) throw new Error('Missing manual build input')
+  if (source.config.source_dir !== undefined && source.config.source_dir !== manual.config.source.dir) {
+    return { errors: [{ code: 'CONFIG_FIELD_UNKNOWN',
+      message: `source.yaml source_dir (${source.config.source_dir}) must match manual.yaml source.dir (${manual.config.source.dir}) in manual groups`,
+      file: file('source.yaml'), line: 1, channel: 'both' }] }
+  }
+  return { sharedDocsPath: group.path, sourceYaml: sourceYaml!, sourceConfig: source.config,
+    manualYaml: manualYaml!, manualConfig: manual.config, lockYaml: lockYaml!, lock: lock.lock,
+    variablesJson: variablesText ?? '{}', variables: variables.variables, productNames: product.rules, context }
 }
 
 export function buildImageManifest(pages: readonly BuiltPage[]): ImageRecord[] {
@@ -215,11 +264,61 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
     if (!Number.isFinite(imageTimeoutMs) || imageTimeoutMs <= 0 || imageTimeoutMs > 2_147_483_647) {
       throw new Error('--image-timeout must be a positive number of seconds no greater than 2147483.647')
     }
-    if (options.page !== undefined && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(options.page)) throw new Error('--page must be a lowercase page ID')
-    const sharedRoot = await realpath(group.root), repo = await realpath(resolve(options.repo)), dev = await realpath(resolve(options.dev))
+    const layout = await readGroupLayout(group.root, group.path)
+    if ('errors' in layout) { print(layout.errors); return 1 }
+    if (layout.kind === 'manual') {
+      if (options.page !== undefined) throw new Error('--page is not supported for manual groups')
+    } else if (options.page !== undefined && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(options.page)) {
+      throw new Error('--page must be a lowercase page ID')
+    }
+    // Manual groups generate from the pinned upstream tree alone; the dev checkout is a per-page input.
+    const sharedRoot = await realpath(group.root), repo = await realpath(resolve(options.repo))
+    const dev = layout.kind === 'pages' ? await realpath(resolve(options.dev)) : undefined
     const out = resolve(options.out)
     await outputState(out)
-    for (const input of [sharedRoot, repo, dev]) if (overlap(out, input)) throw new Error(`Output overlaps an input directory: ${input}`)
+    for (const input of [sharedRoot, repo, ...(dev ? [dev] : [])]) if (overlap(out, input)) throw new Error(`Output overlaps an input directory: ${input}`)
+    if (layout.kind === 'manual') {
+      const shared = await readManualSharedDocs(group.root, dependencies.repositoryRoot)
+      if ('errors' in shared) { print(shared.errors); return 1 }
+      const manualReader = createBuildReader(repo, undefined, undefined, shared.manualConfig.source.dir)
+      const pages: BuiltPage[] = []
+      try {
+        const files = await manualReader.listFiles(shared.lock.current, shared.manualConfig.source.dir)
+        const expanded = expandManualPages(files, shared.manualConfig)
+        if (expanded.errors.length) { print(expanded.errors); return 1 }
+        if (!expanded.pages.size) throw new Error(`No upstream pages found under ${shared.manualConfig.source.dir} at ${shared.lock.current}`)
+        const manualInputs = { ...shared, pages: expanded.pages }
+        const runtime = createBuildRuntime({
+          sharedDocs: { sharedDocsPath: shared.sharedDocsPath, sourceYaml: shared.sourceYaml,
+            // The manual layout always resolves group-relative links; source_dir mirrors manual.yaml for the runtime.
+            sourceConfig: { ...shared.sourceConfig, source_dir: shared.manualConfig.source.dir },
+            variablesJson: shared.variablesJson, variables: shared.variables, pages: expanded.pages,
+            linkMap: new Map(), productNames: shared.productNames, tabsRules: MANUAL_TABS_RULES, context: shared.context },
+          reader: manualReader, fetcher: dependencies.fetcher ?? new HttpImageFetcher(imageTimeoutMs), zdoc: new Map(),
+          guides: { async getRecords() { return [] } }, readAcceptedImage: dependencies.readAcceptedImage })
+        const presentation = shared.sourceConfig.presentation?.[shared.manualConfig.publish.manual]
+        const md2md = new RealMd2md()
+        let failed = false
+        for (const [pageId] of expanded.pages) {
+          try {
+            const result = await buildManualPage({ pageId, sharedDocs: manualInputs, reader: manualReader, md2md, runtime,
+              ...(presentation ? { presentation: { titleSuffix: presentation.title_suffix,
+                ...(presentation.slug_prefix !== undefined ? { slugPrefix: presentation.slug_prefix } : {}),
+                ...(presentation.displayed_sidebar !== undefined ? { displayedSidebar: presentation.displayed_sidebar } : {}) } } : {}) })
+            if ('errors' in result) { failed = true; print(result.errors) }
+            else pages.push(...result.pages)
+          } catch (error) { failed = true; write(`Build failed for ${pageId}: ${error instanceof Error ? error.message : String(error)}\n`) }
+        }
+        if (failed) return 1
+        await repairBuiltPages(pages, write)
+        const images = buildImageManifest(pages)
+        await writeBuild(out, pages, images)
+        await dependencies.onBuilt?.(pages)
+        for (const page of pages) print(page.notices)
+        write(JSON.stringify({ pages: pages.map(page => ({ manual: page.manual, path: `${page.path}${page.extension ?? '.mdx'}`, notes: page.notes })), images: images.length, plannedLocks: [] }, null, 2) + '\n')
+        return 0
+      } finally { await manualReader.dispose() }
+    }
     const sharedDocs = await readSharedDocs(group.root, dependencies.repositoryRoot, dependencies.fetchContext ? [dependencies.fetchContext.page] : undefined)
     if ('errors' in sharedDocs) { print(sharedDocs.errors); return 1 }
     const selected = [...sharedDocs.pages].filter(([page]) => options.page === undefined || page === options.page)
@@ -237,8 +336,13 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       const publication = manualRegistry.find(entry => entry.id === manual)?.publications.en
       if (publication && !zdoc.has(manual)) zdoc.set(manual, createZdocContentReader({ checkout: dev, manualDirectory: publication.contentRoot }))
     }
-    const reader = createBuildReader(repo)
-    const runtime = createBuildRuntime({ sharedDocs, reader, fetcher: dependencies.fetcher ?? new HttpImageFetcher(imageTimeoutMs), zdoc, guides: dependencies.fetchContext ? { async getRecords() { return structuredClone(dependencies.fetchContext!.records) } } : createGuidesSnapshot(dev), fetchContext: dependencies.fetchContext, readAcceptedImage: dependencies.readAcceptedImage })
+    const reader = createBuildReader(repo, undefined, undefined, sharedDocs.sourceConfig.source_dir ?? 'site/en')
+    const runtime = createBuildRuntime({ sharedDocs, reader, fetcher: dependencies.fetcher ?? new HttpImageFetcher(imageTimeoutMs), zdoc,
+      // The Guides snapshot stays lazy: non-guides groups must not require the guides-uat file.
+      guides: dependencies.fetchContext
+        ? { async getRecords() { return structuredClone(dependencies.fetchContext!.records) } }
+        : { async getRecords() { return createGuidesSnapshot(dev).getRecords() } },
+      fetchContext: dependencies.fetchContext, readAcceptedImage: dependencies.readAcceptedImage })
     const pages: BuiltPage[] = [], plannedLocks: string[] = []
     let failed = false
     try {

@@ -41,6 +41,34 @@ it('validates receipt provenance, safe output paths, identities and digest inven
     (r: any) => {r.inputs.tools.extra = 'bad'}, (r: any) => {r.inputs.milvus_docs.current = 'main'},
   ]) { const r = receipt(); mutate(r); expect(() => validateSharedReceipt(r, {group: 'guides', page: 'example'})).toThrow() }
 })
+it('routes and validates the node group with its own upstream and render manuals', () => {
+  const nodeUrl = 'https://github.com/zilliztech/zdoc/tree/master/shared-docs/node/pages/Collections-createCollection'
+  expect(classifySourceRoute(nodeUrl, {availablePages: ['node/Collections-createCollection']}))
+    .toMatchObject({kind: 'shared-page', group: 'node', page: 'Collections-createCollection', directory: 'shared-docs/node/pages/Collections-createCollection'})
+  // Non-shared groups stay invalid even with fabricated availability evidence.
+  expect(classifySourceRoute(nodeUrl.replace('node/pages', 'java/pages'), {availablePages: ['java/Collections-createCollection']}))
+    .toMatchObject({kind: 'invalid', code: 'OWNERSHIP_CONFIG_MISSING'})
+  const identity = {group: 'node', page: 'Collections-createCollection', inputs_sha256: sha, record: sharedReceiptPath('node', 'Collections-createCollection')}
+  expect(validateSharedPageIdentity(identity)).toBe(identity)
+  const nodeReceipt = {schema_version: 1, page: 'Collections-createCollection', token: 'shared-Collections-createCollection', inputs: {
+      milvus_docs: {repository: 'milvus-io/web-content', current: commit, next: commit,
+        files: [{path: 'API_Reference/milvus-sdk-node/v3.0.x/Collections/createCollection.md', current: sha, next: sha}]},
+      zdoc: {repository: 'zilliztech/zdoc', commit, files: [{path: 'shared-docs/node/pages/Collections-createCollection/page.yaml', sha256: sha}]},
+      dev: {commit, files: []}, fetch: {navigation: sha, image_base_url: 'https://images.example.com',
+        render_targets: {schema_version: 1, targets: [{manual: 'node', path: 'api/nodejs/nodejs/Collections-createCollection', extension: '.md' as const,
+          navigation: {sidebar_label: 'createCollection()', sidebar_position: 3}, channel: 'current' as const}]}},
+      tools: {zdoc: commit, md2md: '1.3.0'}, images: []},
+    outputs: [{manual: 'node', path: 'content/en/reference/api/nodejs/nodejs/Collections-createCollection.md', sha256: sha}],
+    channel: null, notes: []}
+  const expectation = {group: 'node', page: 'Collections-createCollection', upstreamRepository: 'milvus-io/web-content',
+    renderManuals: [{manual: 'node', contentRoot: 'content/en/reference'}]}
+  expect(validateSharedReceipt(nodeReceipt, expectation)).toMatchObject({token: 'shared-Collections-createCollection'})
+  // A guides receipt (docs upstream) is invalid for the node lane, and vice versa.
+  expect(() => validateSharedReceipt(receipt(), expectation)).toThrow()
+  expect(() => validateSharedReceipt(nodeReceipt, {group: 'node', page: 'Collections-createCollection'})).toThrow()
+  // Without explicit render manuals the historical Guides contract applies byte-for-byte.
+  expect(() => validateSharedReceipt(nodeReceipt, {group: 'guides', page: 'example'})).toThrow()
+})
 it('requires a shared snapshot to carry input identity and no Feishu source evidence', () => {
   const record = {record_id: 'rec', placement_type: 'canonical', doc_link: url, doc_token: null, source_kind: 'shared-page',
     shared_page: {group: 'guides', page: 'example', inputs_sha256: sha, record: 'generated/en/manifests/shared-pages/guides/example.json'},

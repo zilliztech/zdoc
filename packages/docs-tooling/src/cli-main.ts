@@ -184,7 +184,7 @@ async function executeRevisionInventoryBuild(argv: string[], repositoryRoot: str
   const sharedSources = snapshots.flatMap(snapshot => snapshot.records).filter(record => record.source_kind === 'shared-page').map(record => {
     const receipt = sharedReceiptsByRecordId.get(record.record_id!)!;
     const outputPaths = receipt.outputs.map(output => {
-      const publication = manualRegistry.find(manual => manual.id === output.manual && manual.kind === 'guides')?.publications.en;
+      const publication = manualRegistry.find(manual => manual.id === output.manual)?.publications.en;
       if (!publication) throw new Error(`Unknown shared receipt manual: ${output.manual}`);
       return output.path.startsWith(`${publication.contentRoot}/`) ? output.path : `${publication.contentRoot}/${output.path}`;
     }).sort();

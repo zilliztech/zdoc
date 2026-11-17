@@ -9,7 +9,7 @@ import { runInspect } from '../commands/inspect'
 import { runLinksSeed } from '../commands/links-seed'
 import { runLock } from '../commands/lock'
 import { createBuildDemo } from './build/demo'
-import { groupContext } from '../adapters/group-context'
+import { groupContext, groupManuals } from '../adapters/group-context'
 import { readPageSources } from '../adapters/read-page'
 import { inspectPage } from '../adapters/inspect-page'
 import { GitMilvusDocsReader } from '../adapters/git-milvus-docs-reader'
@@ -43,7 +43,7 @@ it.each(['build', 'lock', 'inspect', 'links-seed'])('rejects unsupported %s grou
         : await runLinksSeed(options, write)
       expect(code).toBe(1)
       expect(output).toContain('CONFIG_FIELD_MISSING')
-      expect(output).toContain('Only the guides group is supported')
+      expect(output).toContain('Only the guides and node groups are supported')
     }
     for (const spy of [read, stat, real, list, writeFile]) expect(spy).not.toHaveBeenCalled()
   } finally { vi.restoreAllMocks() }
@@ -56,7 +56,7 @@ it.each(['build', 'lock', 'inspect', 'links-seed'])('validates the group through
     const result = cli(action, '--shared-docs', sharedDocs, '--repo', '/missing/repo', ...args, ...extra)
     expect(result.status).toBe(1)
     expect(result.stdout + result.stderr).toContain('CONFIG_FIELD_MISSING')
-    expect(result.stdout + result.stderr).toContain('Only the guides group is supported')
+    expect(result.stdout + result.stderr).toContain('Only the guides and node groups are supported')
     expect(result.stdout + result.stderr).not.toContain('ENOENT')
   }
 })
@@ -153,6 +153,13 @@ it('keeps diagnostic paths repository-relative for a group inside the repository
   }
 })
 
+it('accepts the node group and still rejects unknown groups', () => {
+  const group = groupContext('shared-docs/node', '/repository')
+  if ('errors' in group) throw new Error('Expected the node group')
+  expect(group.file('pages/example/page.yaml')).toBe('shared-docs/node/pages/example/page.yaml')
+  expect(groupContext('shared-docs/python', '/repository')).toMatchObject({ errors: [{ code: 'CONFIG_FIELD_MISSING' }] })
+})
+
 it('uses absolute diagnostic paths for a group outside the repository', () => {
   for (const directory of ['../guides', '../repository-copy/guides', '/temporary/shared-docs/guides']) {
     const group = groupContext(directory, '/repository')
@@ -165,6 +172,10 @@ it('keeps paths relative when the repository root itself is the selected guides 
   const group = groupContext('/repository/guides', '/repository/guides')
   if ('errors' in group) throw new Error('Expected the guides group')
   expect(group.file('source.yaml')).toBe('source.yaml')
+  // The group name comes from the root's basename, never re-derived from the
+  // (empty) relative path, so per-page manual scoping keeps working here.
+  expect(group.name).toBe('guides')
+  expect(groupManuals(group.name)).toEqual(['guides', 'guides-byoc'])
 })
 
 

@@ -20,13 +20,13 @@ export function parseLinkMap(yamlText: string, context: DiagnosticContext):
   const errors: ReturnType<typeof diagnostic>[] = []
   for (const [key, destination] of Object.entries(value)) {
     if (!isMilvusFilename(key)) errors.push(diagnostic('LINK_MAP_INVALID', 'A link-map key must be a bare .md filename.', context, document.line([key, '$key'])))
-    if (typeof destination !== 'string' || !(/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(destination) || isMilvusUrl(destination))) {
+    if (typeof destination !== 'string' || !(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(destination) || isMilvusUrl(destination))) {
       errors.push(diagnostic('LINK_MAP_INVALID', 'A destination must be a Cloud slug or an https://milvus.io/ URL.', context, document.line([key])))
     } else map.set(key, destination)
   }
   return errors.length ? { errors } : { map }
 }
-export type LinkKind = 'anchor' | 'external' | 'milvus-url' | 'page' | 'root' | 'unknown'
+export type LinkKind = 'anchor' | 'external' | 'milvus-url' | 'page' | 'page-path' | 'root' | 'unknown'
 export function classifyLink(url: string): LinkKind {
   if (url.startsWith('#')) return 'anchor'
   if (url.startsWith('/')) return 'root'
@@ -34,6 +34,10 @@ export function classifyLink(url: string): LinkKind {
   if (/^(?:https?:\/\/|mailto:)/i.test(url)) {
     try { new URL(url); return 'external' } catch { return 'unknown' }
   }
-  if (isMilvusFilename(url.split('#')[0])) return 'page'
+  const head = url.split('#')[0]
+  if (isMilvusFilename(head)) return 'page'
+  // Group-relative page links (Client/MilvusClient.md, ../Collections/X.md, ./X.md)
+  // resolve to their bare filename in layouts whose basenames are globally unique.
+  if (head.endsWith('.md') && head.includes('/') && !head.startsWith('/')) return 'page-path'
   return 'unknown'
 }

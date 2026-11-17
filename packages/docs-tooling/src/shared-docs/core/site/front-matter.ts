@@ -27,23 +27,38 @@ export function frontMatter(input: AdaptPageInput, lines: string[]): { lines: So
   const beta = input.metadata?.beta ?? 'FALSE'
   if (beta !== 'FALSE' && (beta === 'BYOC' || !input.betaValues.includes(beta))) errors.push(siteError('CONFIG_BETA_INVALID', `Invalid beta value: ${beta}`, input.context, lines))
   if (errors.length) return { errors }
-  const suffix = input.manual === 'guides-byoc' ? 'BYOC' : 'Cloud'
+  const suffix = input.presentation?.titleSuffix ?? (input.manual === 'guides-byoc' ? 'BYOC' : 'Cloud')
+  const slugPrefix = input.presentation?.slugPrefix ?? ''
+  const addedSince = input.metadata?.added_since ?? 'FALSE'
+  const lastModified = input.metadata?.last_modified ?? 'FALSE'
+  // Absent metadata keeps the guides spellings byte-for-byte; explicit values use the
+  // migrated boolean spellings the SDK reference pages already publish.
+  const deprecate = input.metadata?.deprecate_since
+  const deprecateSince = deprecate === undefined ? 'FALSE' : deprecate === false ? 'false' : deprecate
+  const notebook = input.metadata?.notebook === undefined ? 'FALSE' : String(input.metadata.notebook)
+  const position = input.navigation?.sidebar_position ?? input.metadata?.sidebar_position
   const quoted = (value: unknown) => JSON.stringify(String(value).replace(/\r?\n/g, '|'))
+  // Author-supplied scalars are emitted plain when unambiguous and quoted when a plain
+  // scalar could change meaning (leading indicator, comment or mapping colon). Defaults
+  // and seeded values all match the plain form, so existing output stays byte-identical.
+  const scalar = (value: string) => /^[-?:,[\]{}#&*!|>'"%@`]/.test(value) || /(:\s)|(\s#)|#$/.test(value)
+    ? quoted(value) : value
   const text = [
     '---',
     `title: ${quoted(`${title} | ${suffix}`)}`,
-    `slug: /${input.pageId}`,
+    `slug: ${scalar(`${slugPrefix}/${input.pageId}`)}`,
     `sidebar_label: ${quoted(input.navigation?.sidebar_label ?? title)}`,
     `beta: ${beta}`,
-    'added_since: FALSE',
-    'last_modified: FALSE',
-    'deprecate_since: FALSE',
-    'notebook: FALSE',
+    `added_since: ${scalar(addedSince)}`,
+    `last_modified: ${scalar(lastModified)}`,
+    `deprecate_since: ${scalar(deprecateSince)}`,
+    `notebook: ${notebook}`,
     `description: ${quoted(`${description} | ${suffix}`)}`,
-    'type: origin',
-    `token: shared-${input.pageId}`,
-    ...(input.navigation?.sidebar_position === undefined ? [] : [`sidebar_position: ${input.navigation.sidebar_position}`]),
-    'displayed_sidebar: default', '', '---', '',
+    `type: ${scalar(input.metadata?.type ?? 'origin')}`,
+    `token: ${scalar(input.metadata?.token ?? `shared-${input.pageId}`)}`,
+    ...(position === undefined ? [] : [`sidebar_position: ${position}`]),
+    ...(input.metadata?.keywords?.length ? ['keywords:', ...input.metadata.keywords.map(keyword => `  - ${scalar(keyword)}`)] : []),
+    `displayed_sidebar: ${scalar(input.presentation?.displayedSidebar ?? 'default')}`, '', '---', '',
   ]
   const finalized = input.customEditUrl === undefined ? text : finalizeFetchFrontMatter(text.join('\n'), input).split('\n')
   return { lines: finalized.map(text => ({ text, source: null })), bodyStart }

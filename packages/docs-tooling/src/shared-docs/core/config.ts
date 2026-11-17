@@ -8,11 +8,27 @@ export function parseSourceConfig(text: string, context: DiagnosticContext = {})
   if ('errors' in parsed) return parsed
   const check = new ConfigValidation(parsed.document, location)
   const value = parsed.document.value
-  if (check.object(value, [], ['schema_version', 'repository', 'track'], ['schema_version', 'repository', 'track'])) {
+  if (check.object(value, [], ['schema_version', 'repository', 'track', 'source_dir', 'presentation'], ['schema_version', 'repository', 'track'])) {
     if ('schema_version' in value && value.schema_version !== 1) check.error(['schema_version'], 'Unsupported schema_version; expected 1')
     if ('repository' in value) check.string(value.repository, ['repository'])
     if ('track' in value && check.string(value.track, ['track']) && !isBranchName(value.track)) {
       check.error(['track'], 'track must name a Git branch')
+    }
+    if ('source_dir' in value && check.string(value.source_dir, ['source_dir']) && !isRepositoryPath(value.source_dir)) {
+      check.error(['source_dir'], 'source_dir must be a repository-relative path without traversal')
+    }
+    if ('presentation' in value) {
+      const presentation = value.presentation
+      const entries = presentation && typeof presentation === 'object' && !Array.isArray(presentation) ? Object.keys(presentation) : []
+      if (check.object(presentation, ['presentation'], entries, [])) {
+        for (const [manual, entry] of Object.entries(presentation as Record<string, unknown>)) {
+          if (!check.object(entry, ['presentation', manual], ['title_suffix', 'slug_prefix', 'displayed_sidebar'], ['title_suffix'])) continue
+          if ('title_suffix' in entry) check.string(entry.title_suffix, ['presentation', manual, 'title_suffix'])
+          for (const key of ['slug_prefix', 'displayed_sidebar'] as const) {
+            if (key in entry) check.string(entry[key], ['presentation', manual, key])
+          }
+        }
+      }
     }
   }
   return check.errors.length ? { errors: check.errors } : { config: value as SourceConfig }
@@ -21,8 +37,8 @@ export function parseSourceConfig(text: string, context: DiagnosticContext = {})
 export function parsePageConfig(pageId: string, text: string, context: PageConfigContext): ConfigResult<PageConfig> {
   const location = { file: context.file ?? `shared-docs/guides/pages/${pageId}/page.yaml`, page: pageId,
     channel: context.channel ?? 'both' as const }
-  const idErrors = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(pageId) ? []
-    : [diagnostic('CONFIG_PAGE_ID_INVALID', 'Page ID must be a lowercase slug', location)]
+  const idErrors = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(pageId) ? []
+    : [diagnostic('CONFIG_PAGE_ID_INVALID', 'Page ID must contain letters, numbers, and hyphens', location)]
   const parsed = parseYaml(text, 'CONFIG_SYNTAX_INVALID', location)
   if ('errors' in parsed) return { errors: [...idErrors, ...parsed.errors] }
   const check = new ConfigValidation(parsed.document, location)
@@ -48,9 +64,23 @@ export function parsePageConfig(pageId: string, text: string, context: PageConfi
         }
       })
     }
-    if ('metadata' in value && check.object(value.metadata, ['metadata'], ['title', 'description', 'beta'])) {
-      for (const key of ['title', 'description']) {
+    if ('metadata' in value && check.object(value.metadata, ['metadata'], ['title', 'description', 'beta', 'added_since', 'last_modified',
+      'deprecate_since', 'notebook', 'type', 'token', 'sidebar_position', 'keywords'])) {
+      for (const key of ['title', 'description', 'added_since', 'last_modified', 'type', 'token'] as const) {
         if (key in value.metadata) check.string(value.metadata[key], ['metadata', key])
+      }
+      if ('deprecate_since' in value.metadata && value.metadata.deprecate_since !== false) {
+        check.string(value.metadata.deprecate_since, ['metadata', 'deprecate_since'])
+      }
+      if ('notebook' in value.metadata && typeof value.metadata.notebook !== 'boolean') {
+        check.error(['metadata', 'notebook'], 'notebook must be a boolean')
+      }
+      if ('sidebar_position' in value.metadata && (typeof value.metadata.sidebar_position !== 'number' || !Number.isInteger(value.metadata.sidebar_position))) {
+        check.error(['metadata', 'sidebar_position'], 'sidebar_position must be an integer')
+      }
+      if ('keywords' in value.metadata && (!Array.isArray(value.metadata.keywords) || !value.metadata.keywords.length
+        || value.metadata.keywords.some((item: unknown) => typeof item !== 'string' || !item.trim()))) {
+        check.error(['metadata', 'keywords'], 'keywords must be a nonempty list of nonempty strings')
       }
       if ('beta' in value.metadata) {
         // YAML's FALSE scalar is boolean false; both spellings denote the no-tag value.

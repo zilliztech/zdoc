@@ -5,6 +5,12 @@ const fs = require('node:fs')
 const path = require('node:path')
 const {execFileSync} = require('node:child_process')
 
+// Dependency-free copy of packages/docs-tooling/src/shared-docs/core/groups.ts
+// (SHARED_DOC_GROUPS): the detector executes before pnpm install, so it cannot
+// load the TypeScript authority. testing/workflows.test.ts asserts both lists
+// stay identical.
+const SHARED_DOC_GROUPS = ['guides', 'node']
+
 function detectGroups() {
   const {SOURCE_SHA, BASE_SHA, RUNNER_TEMP, GITHUB_OUTPUT} = process.env
   if (![SOURCE_SHA, BASE_SHA].every(value => /^[0-9a-f]{40}$/.test(value || ''))) {
@@ -23,9 +29,9 @@ function detectGroups() {
   const groups = new Set()
   for (const file of paths) {
     const match = /^shared-docs\/([^/]+)\/([\s\S]+)$/.exec(file)
-    if (!match || match[1] !== 'guides') {
+    if (!match || !SHARED_DOC_GROUPS.includes(match[1])) {
       fs.appendFileSync(GITHUB_OUTPUT, 'failure_class=content\n')
-      throw new Error(`Unsupported shared input ${JSON.stringify(file)}. Only the guides group is supported; use shared-docs/guides/.`)
+      throw new Error(`Unsupported shared input ${JSON.stringify(file)}. Supported shared-docs groups: ${SHARED_DOC_GROUPS.join(', ')}.`)
     }
     groups.add(match[1])
   }

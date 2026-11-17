@@ -36,14 +36,19 @@ export function rewriteLinksAndImages(input: RewriteInput) {
   }
   const edit = (ref: LinkRef, url: string) => edits.set(ref.start, { end: ref.end, url })
   for (const ref of refs.links) {
-    const kind = classifyLink(ref.url)
+    let kind = classifyLink(ref.url)
     if (kind === 'external' || kind === 'milvus-url') continue
-    if (kind === 'root' || kind === 'unknown') {
+    if (kind === 'root' || kind === 'unknown' || (kind === 'page-path' && !input.pathLinks)) {
       fail(ref, kind === 'root' ? 'LINK_ROOT_PATH' : 'LINK_UNKNOWN_FORM', `Unsupported link: ${ref.url}`)
       continue
     }
     const hash = ref.url.indexOf('#')
-    const file = hash < 0 ? ref.url : ref.url.slice(0, hash)
+    let file = hash < 0 ? ref.url : ref.url.slice(0, hash)
+    if (kind === 'page-path') {
+      // Basenames are globally unique in this layout; resolve group-relative paths by filename.
+      file = file.slice(file.lastIndexOf('/') + 1)
+      kind = 'page'
+    }
     const fragment = hash < 0 ? undefined : ref.url.slice(hash + 1)
     const target = kind === 'anchor' ? input.markdown : input.targets.get(file)
     let destination = ''
