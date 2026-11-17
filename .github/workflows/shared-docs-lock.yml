@@ -88,39 +88,57 @@ jobs:
             console.error(message);
             process.exit(1);
           };
-          let text;
-          try { text = fs.readFileSync('shared-docs/guides/source.yaml', 'utf8'); }
-          catch (error) { if (error.code === 'ENOENT') failInput('Missing shared-docs/guides/source.yaml'); throw error; }
-          const result = parseSourceConfig(text);
-          if ('errors' in result) failInput(JSON.stringify(result.errors));
-          const { repository, track } = result.config;
-          if (!/^https:\/\/github\.com\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+(?:\.git)?$/.test(repository) || /\/(?:\.|\.\.)(?:\.git)?$/.test(repository)) {
-            failInput('Source repository must be a credential-free GitHub HTTPS repository URL');
+          const groups = fs.readFileSync(`${process.env.RUNNER_TEMP}/shared-docs-groups`, 'utf8').split('\n').filter(Boolean);
+          const sources = {};
+          for (const group of groups) {
+            let text;
+            try { text = fs.readFileSync(`shared-docs/${group}/source.yaml`, 'utf8'); }
+            catch (error) { if (error.code === 'ENOENT') failInput(`Missing shared-docs/${group}/source.yaml`); throw error; }
+            const result = parseSourceConfig(text);
+            if ('errors' in result) failInput(JSON.stringify(result.errors));
+            const { repository, track } = result.config;
+            if (!/^https:\/\/github\.com\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+(?:\.git)?$/.test(repository) || /\/(?:\.|\.\.)(?:\.git)?$/.test(repository)) {
+              failInput(`Source repository for ${group} must be a credential-free GitHub HTTPS repository URL`);
+            }
+            sources[group] = { repository, track };
           }
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `repository=${repository}\ntrack=${track}\n`);
+          fs.writeFileSync(`${process.env.RUNNER_TEMP}/shared-docs-sources.json`, JSON.stringify(sources));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `sources=${JSON.stringify(sources)}\n`);
           NODE
 
       - name: Clone complete tracking history
-        env:
-          SOURCE_REPOSITORY: ${{ steps.source.outputs.repository }}
-          TRACK: ${{ steps.source.outputs.track }}
         run: |
           set -euo pipefail
-          git clone --single-branch --branch "$TRACK" --no-tags "$SOURCE_REPOSITORY" "$RUNNER_TEMP/milvus-docs"
-          git -C "$RUNNER_TEMP/milvus-docs" show-ref --verify "refs/heads/$TRACK"
-          test "$(git -C "$RUNNER_TEMP/milvus-docs" rev-parse --is-shallow-repository)" = false
+          node <<'NODE'
+          const fs = require('node:fs');
+          const { execFileSync } = require('node:child_process');
+          const sources = JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/shared-docs-sources.json`, 'utf8'));
+          for (const [group, { repository, track }] of Object.entries(sources)) {
+            const target = `${process.env.RUNNER_TEMP}/upstream/${group}`;
+            execFileSync('git', ['clone', '--single-branch', '--branch', track, '--no-tags', repository, target], { stdio: ['ignore', 'inherit', 'inherit'] });
+            execFileSync('git', ['-C', target, 'show-ref', '--verify', `refs/heads/${track}`], { stdio: ['ignore', 'inherit', 'inherit'] });
+            if (execFileSync('git', ['-C', target, 'rev-parse', '--is-shallow-repository'], { encoding: 'utf8' }).trim() !== 'false') {
+              throw new Error(`Tracking clone for ${group} must have complete history`);
+            }
+          }
+          NODE
 
       - name: Create missing initial locks
         id: command
         run: |
           set -euo pipefail
           status=0
-          pnpm docs-tooling shared-docs lock --shared-docs shared-docs/guides --repo "$RUNNER_TEMP/milvus-docs" || status=$?
-          case "$status" in
-            0) ;;
-            1) echo 'failure_class=content' >> "$GITHUB_OUTPUT" ;;
-            *) echo 'failure_class=infrastructure' >> "$GITHUB_OUTPUT" ;;
-          esac
+          while IFS= read -r group; do
+            [ -n "$group" ] || continue
+            pnpm docs-tooling shared-docs lock --shared-docs "shared-docs/$group" --repo "$RUNNER_TEMP/upstream/$group" || status=$?
+            if [ "$status" != 0 ]; then
+              case "$status" in
+                1) echo 'failure_class=content' >> "$GITHUB_OUTPUT" ;;
+                *) echo 'failure_class=infrastructure' >> "$GITHUB_OUTPUT" ;;
+              esac
+              break
+            fi
+          done < "$RUNNER_TEMP/shared-docs-groups"
           exit "$status"
 
       - name: Push only new regular lock files
@@ -137,10 +155,14 @@ jobs:
           node <<'NODE'
           const fs = require('node:fs');
           const { execFileSync } = require('node:child_process');
+          // Dependency-free copy of packages/docs-tooling/src/shared-docs/core/groups.ts
+          // (SHARED_DOC_GROUPS); testing/workflows.test.ts asserts the lists stay identical.
+          const SHARED_DOC_GROUPS = ['guides', 'node'];
           const git = args => execFileSync('git', args, { encoding: 'utf8' });
           const paths = git(['ls-files', '--others', '--exclude-standard', '-z', '--', 'shared-docs/']).split('\0').filter(Boolean);
+          const lockPath = new RegExp(`^shared-docs\\/(?:${SHARED_DOC_GROUPS.join('|')})\\/pages\\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*\\/lock\\.yaml$`);
           for (const file of paths) {
-            if (!/^shared-docs\/guides\/pages\/[a-z0-9]+(?:-[a-z0-9]+)*\/lock\.yaml$/.test(file) || !fs.lstatSync(file).isFile() || fs.lstatSync(file).isSymbolicLink()) {
+            if (!lockPath.test(file) || !fs.lstatSync(file).isFile() || fs.lstatSync(file).isSymbolicLink()) {
               throw new Error(`Refusing non-lock or non-regular path: ${JSON.stringify(file)}`);
             }
           }
