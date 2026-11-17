@@ -74,7 +74,8 @@ export interface PageConfig {
 }
 /** Manual-layout metadata; the H1-derived title is never overridable, unlike per-page configs. */
 export type ManualMetadata = Omit<PageMetadata, 'title'>
-/** Cloud-page visibility; `next`/`retire-in-next` activate with the R1c channel package. */
+/** Cloud-page visibility: `current` (the default) publishes to both channels, `next` only
+ * to UAT, and `retire-in-next` only to Prod — the whole-page release channels. */
 export type ManualCloudChannel = 'current' | 'next' | 'retire-in-next'
 /** One whole-manual configuration: shared-docs/<group>/manual.yaml for manual-layout groups. */
 export interface ManualConfig {

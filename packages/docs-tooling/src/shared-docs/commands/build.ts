@@ -1,6 +1,8 @@
+import { execFile as execFileCallback } from 'node:child_process'
 import { lstat, mkdir, mkdtemp, readFile, readdir, realpath, rename, rmdir, rm, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
+import { promisify } from 'node:util'
 import { manualRegistry } from '../../manuals/registry'
 import { DOC_HEADING_TAGS } from '../../../../docs-ui/src/shared/utils/docHeadingTags'
 import { groupContext, groupManuals } from '../adapters/group-context'
@@ -27,8 +29,21 @@ import { parseVariants, variantFileName, variantSidecarName } from '../core/vari
 import { parseVariables } from '../core/variables'
 import { yamlLine } from '../core/yaml'
 import type { ContentFile } from '../core/transforms'
+import { buildManualRecord, manualRecordPath, sha256, validateManualRecord } from '../core/records/manual-record'
 
 export interface BuildOptions { sharedDocs: string; repo: string; dev: string; out: string; page?: string; imageTimeout?: number }
+
+const execFile = promisify(execFileCallback)
+/** The record's fixed tooling identity: the commit of the checkout running the build.
+ * Production Fetch passes its resolved tooling SHA through dependencies.toolingCommit. */
+async function resolveToolingCommit(root?: string): Promise<string> {
+  try {
+    const { stdout } = await execFile('git', ['rev-parse', 'HEAD'], { cwd: root ?? process.cwd() })
+    return stdout.trim()
+  } catch (error) {
+    throw new Error(`Cannot resolve the tooling commit for the manual record: ${error instanceof Error ? error.message : String(error)}`)
+  }
+}
 
 // Loaded through Node's real CJS loader: the repository's jiti 1 launcher lowers
 // import() to require() (see adapters/mdx.ts), which would break this module's
@@ -205,6 +220,7 @@ export async function readManualSharedDocs(directory: string, repositoryRoot = p
     : parseManualConfig(manualYaml, { ...context, file: file('manual.yaml'), variables: 'variables' in variables ? variables.variables : {} })
   const lock = lockYaml === undefined ? undefined : parseLock(lockYaml, { file: file('lock.yaml'), channel: 'both' })
   const product = productYaml === undefined ? undefined : parseProductNames(productYaml, { file: file('product-names.yaml'), channel: 'both' })
+  const productNamesYaml = productYaml ?? ''
   for (const parsed of [source, manual, lock, variables, product]) if (parsed && 'errors' in parsed) errors.push(...parsed.errors)
   if (errors.length) return { errors }
   if (!source || 'errors' in source || !manual || 'errors' in manual || !lock || 'errors' in lock
@@ -242,7 +258,7 @@ export async function readManualSharedDocs(directory: string, repositoryRoot = p
   if (errors.length) return { errors }
   return { sharedDocsPath: group.path, sourceYaml: sourceYaml!, sourceConfig: source.config,
     manualYaml: manualYaml!, manualConfig: manual.config, lockYaml: lockYaml!, lock: lock.lock,
-    variablesJson: variablesText ?? '{}', variables: variables.variables, productNames: product.rules, cloudFiles, context }
+    variablesJson: variablesText ?? '{}', variables: variables.variables, productNames: product.rules, productNamesYaml, cloudFiles, context }
 }
 
 export function buildImageManifest(pages: readonly BuiltPage[]): ImageRecord[] {
@@ -256,7 +272,8 @@ export function buildImageManifest(pages: readonly BuiltPage[]): ImageRecord[] {
   })
 }
 
-async function writeBuild(out: string, pages: readonly BuiltPage[], images: readonly ImageRecord[]) {
+async function writeBuild(out: string, pages: readonly BuiltPage[], images: readonly ImageRecord[],
+  extra: readonly { path: string; text: string }[] = []) {
   await mkdir(dirname(out), { recursive: true })
   await outputState(out)
   const stage = await mkdtemp(join(dirname(out), '.shared-docs-build-'))
@@ -268,13 +285,19 @@ async function writeBuild(out: string, pages: readonly BuiltPage[], images: read
       await writeFile(file, page.mdx, { flag: 'wx' })
     }
     await writeFile(join(stage, 'images.json'), JSON.stringify(images, null, 2) + '\n', { flag: 'wx' })
+    for (const file of extra) {
+      const target = join(stage, file.path)
+      if (!within(stage, target)) throw new Error(`Output escapes staging directory: ${target}`)
+      await mkdir(dirname(target), { recursive: true })
+      await writeFile(target, file.text, { flag: 'wx' })
+    }
     if (await outputState(out) === 'empty') await rmdir(out)
     await rename(stage, out)
   } finally { await rm(stage, { recursive: true, force: true }) }
 }
 
 export async function runBuild(options: BuildOptions, write: (text: string) => void = text => process.stdout.write(text),
-  dependencies: { readAcceptedImage?: (source: string, sha256: string) => Promise<Uint8Array>; fetcher?: ImageFetcher; repositoryRoot?: string; fetchContext?: FetchBuildContext; onErrors?: (errors: readonly SharedDocsError[]) => void; onBuilt?: (pages: readonly BuiltPage[]) => void | Promise<void> } = {}): Promise<number> {
+  dependencies: { readAcceptedImage?: (source: string, sha256: string) => Promise<Uint8Array>; fetcher?: ImageFetcher; repositoryRoot?: string; fetchContext?: FetchBuildContext; onErrors?: (errors: readonly SharedDocsError[]) => void; onBuilt?: (pages: readonly BuiltPage[]) => void | Promise<void>; toolingCommit?: string } = {}): Promise<number> {
   const print = (errors: readonly SharedDocsError[]) => {
     dependencies.onErrors?.(errors)
     for (const error of errors) {
@@ -310,14 +333,18 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       if ('errors' in shared) { print(shared.errors); return 1 }
       const manualReader = createBuildReader(repo, undefined, undefined, shared.manualConfig.source.dir)
       const pages: BuiltPage[] = []
+      const builtByPage = new Map<BuiltPage, string>()
       try {
-        // Identity and collision checks see the current tree; the union with next arrives
-        // with the R1c channel package (design-10 wants both locked versions' union).
-        const files = await manualReader.listFiles(shared.lock.current, shared.manualConfig.source.dir)
-        const expanded = expandManualPages(files, shared.manualConfig, shared.cloudFiles)
+        // Design 10: list both locked trees; expansion covers their union, so one-sided
+        // upstream pages (added or removed between the commits) become whole-page channels.
+        const [currentFiles, nextFiles] = await Promise.all([
+          manualReader.listFiles(shared.lock.current, shared.manualConfig.source.dir),
+          manualReader.listFiles(shared.lock.next, shared.manualConfig.source.dir),
+        ])
+        const expanded = expandManualPages({ current: currentFiles, next: nextFiles }, shared.manualConfig, shared.cloudFiles)
         if (expanded.errors.length) { print(expanded.errors); return 1 }
-        if (!expanded.pages.size) throw new Error(`No manual pages found under ${shared.manualConfig.source.dir} at ${shared.lock.current}`)
-        const manualInputs = { ...shared, pages: expanded.pages, excluded: expanded.excluded }
+        if (!expanded.pages.size) throw new Error(`No manual pages found under ${shared.manualConfig.source.dir} between ${shared.lock.current} and ${shared.lock.next}`)
+        const manualInputs = { ...shared, pages: expanded.pages, excluded: expanded.excluded, channelAbsent: expanded.channelAbsent }
         const runtime = createBuildRuntime({
           sharedDocs: { sharedDocsPath: shared.sharedDocsPath, sourceYaml: shared.sourceYaml,
             // The manual layout always resolves group-relative links; source_dir mirrors manual.yaml for the runtime.
@@ -336,16 +363,56 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
                 ...(presentation.slug_prefix !== undefined ? { slugPrefix: presentation.slug_prefix } : {}),
                 ...(presentation.displayed_sidebar !== undefined ? { displayedSidebar: presentation.displayed_sidebar } : {}) } } : {}) })
             if ('errors' in result) { failed = true; print(result.errors) }
-            else pages.push(...result.pages)
+            else for (const page of result.pages) { pages.push(page); builtByPage.set(page, pageId) }
           } catch (error) { failed = true; write(`Build failed for ${pageId}: ${error instanceof Error ? error.message : String(error)}\n`) }
         }
         if (failed) return 1
         await repairBuiltPages(pages, write)
         const images = buildImageManifest(pages)
-        await writeBuild(out, pages, images)
+        // The manual record attests the final (repaired) bytes with the full input identity,
+        // then a pure validation self-check fails the build before anything is staged.
+        const tooling = dependencies.toolingCommit ?? await resolveToolingCommit(dependencies.repositoryRoot)
+        const imagesJson = `${JSON.stringify(images, null, 2)}\n`
+        const upstream = { repository: shared.sourceConfig.repository, dir: shared.manualConfig.source.dir,
+          current: shared.lock.current, next: shared.lock.next }
+        // Record identities stay group-relative so equal builds in different checkouts
+        // (sandbox vs production) produce byte-identical records; record.group carries
+        // the group directory itself.
+        const configFiles = new Map<string, string>([
+          ['manual.yaml', shared.manualYaml], ['source.yaml', shared.sourceYaml],
+          ['Variables.json', shared.variablesJson], ['product-names.yaml', shared.productNamesYaml],
+        ])
+        for (const [logical, entry] of Object.entries(shared.manualConfig.cloud_pages ?? {})) {
+          configFiles.set(`content/${entry.file}`, shared.cloudFiles.get(logical)?.text ?? '')
+        }
+        const cloudRecordFiles = new Map([...Object.entries(shared.manualConfig.cloud_pages ?? {})]
+          .map(([logical, entry]) => [logical, `content/${entry.file}`]))
+        const recordPages = [...builtByPage].map(([page, pageId]) => {
+          const entry = expanded.pages.get(pageId)!
+          return {
+            logical: entry.cloud ? entry.cloud.logical : entry.config.source.file.slice(shared.manualConfig.source.dir.length + 1),
+            ...(entry.config.metadata?.token !== undefined ? { token: entry.config.metadata.token } : {}),
+            source: entry.cloud ? { kind: 'cloud' as const, file: cloudRecordFiles.get(entry.cloud.logical) ?? entry.config.source.file }
+              : { kind: 'upstream' as const, file: entry.config.source.file,
+                commit: entry.channel === 'next' ? shared.lock.next : entry.channel === 'retire-in-next' ? shared.lock.current : null },
+            channel: entry.channel ?? ('current' as const),
+            output: { path: `${page.manual}/${page.path}${page.extension ?? '.mdx'}`, mdx: page.mdx },
+          }
+        })
+        const record = buildManualRecord({ group: group.name, manual: shared.manualConfig.publish.manual, upstream,
+          tools: { zdoc: tooling }, config: { files: [...configFiles].map(([path, text]) => ({ path, text })) },
+          images, pages: recordPages, artifacts: [{ path: 'images.json', text: imagesJson }] })
+        const problems = validateManualRecord(record, { group: group.name, manual: shared.manualConfig.publish.manual, upstream,
+          config: { files: [...configFiles].map(([path, text]) => ({ path, sha256: sha256(text) })) },
+          images: images.map(image => ({ source: image.original, sha256: image.sha256, address: image.address })),
+          pages: recordPages.map(({ output: { path, mdx }, ...rest }) => ({ ...rest, output: { path, sha256: sha256(mdx) } })),
+          outputs: [...recordPages.map(({ output: { path, mdx } }) => ({ path, sha256: sha256(mdx) })), { path: 'images.json', sha256: sha256(imagesJson) }] })
+        if (problems.length) { print(problems); return 1 }
+        await writeBuild(out, pages, images, [{ path: manualRecordPath(shared.manualConfig.publish.manual), text: `${JSON.stringify(record, null, 2)}\n` }])
         await dependencies.onBuilt?.(pages)
         for (const page of pages) print(page.notices)
-        write(JSON.stringify({ pages: pages.map(page => ({ manual: page.manual, path: `${page.path}${page.extension ?? '.mdx'}`, notes: page.notes })), images: images.length, plannedLocks: [] }, null, 2) + '\n')
+        write(JSON.stringify({ pages: pages.map(page => ({ manual: page.manual, path: `${page.path}${page.extension ?? '.mdx'}`, notes: page.notes })), images: images.length,
+          record: manualRecordPath(shared.manualConfig.publish.manual), plannedLocks: [] }, null, 2) + '\n')
         return 0
       } finally { await manualReader.dispose() }
     }

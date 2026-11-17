@@ -1,8 +1,11 @@
 import { basename } from 'node:path'
+import MarkdownIt from 'markdown-it'
 import type { BuildPageInputFiles, BuildPageResult, BuildReader, BuildRuntime, BuiltPage } from './build-page'
 import type { ContentFile } from '../core/transforms'
 import type { ImageContent } from '../core/links'
-import type { ManualConfig, ManualMetadata, PageConfigContext, PageLock, SharedDocsError, SourceConfig, Variables } from '../core/types'
+import type { Channel, LockHistory, ManualConfig, ManualMetadata, PageConfigContext, PageLock, SharedDocsError, SourceConfig, Variables } from '../core/types'
+import { validateLockHistory } from '../core/lock'
+import { diagnostic } from '../core/yaml'
 import type { ProductNameRules } from '../core/product-names'
 import type { TabsRules } from '../core/site'
 import { inspectPage } from './inspect-page'
@@ -26,16 +29,20 @@ export interface ManualGroupInputs {
   variablesJson: string
   variables: Variables
   productNames: ProductNameRules
+  productNamesYaml: string
   /** cloud_pages logical path → the group content/ file backing it. */
   cloudFiles: ReadonlyMap<string, ContentFile>
   context: PageConfigContext
 }
 
-/** Group inputs plus the virtual pages expanded from the upstream tree at the locked commit. */
+/** Group inputs plus the virtual pages expanded from the union of both locked upstream trees. */
 export interface ManualSharedDocsInputs extends ManualGroupInputs {
   pages: ReadonlyMap<string, BuildPageInputFiles>
   /** Lowercase basenames of excluded upstream pages; links to them lose the link, keep the text. */
   excluded: ReadonlySet<string>
+  /** Lowercase basenames absent from the channel's upstream tree (one-sided pages of the
+   * other channel); links to them lose the link there and resolve in the visible channel. */
+  channelAbsent: ReadonlyMap<Channel, ReadonlySet<string>>
 }
 
 /** Code-group tabs are not part of the manual layout in this phase; upstream SDK pages
@@ -90,54 +97,68 @@ function milvusReplacements(shared: ManualGroupInputs): Map<string, string> {
 }
 
 /** Replace upstream hardcoded values inside fenced code blocks with their Cloud values.
- * One exact-match pass per line, resuming after each replacement; the configuration
- * rejects overlapping values, so the result never depends on the iteration order. */
+ * Fence ranges come from the real CommonMark parser, so fences nested in lists (indented
+ * past three spaces) are covered too, while indented code blocks stay untouched. One
+ * exact-match pass per line, resuming after each replacement; the configuration rejects
+ * overlapping values, so the result never depends on the iteration order. */
 export function applyMilvusValues(markdown: string, replacements: ReadonlyMap<string, string>): string {
   if (!replacements.size) return markdown
   const entries = [...replacements.entries()]
-  const fence = /^ {0,3}(`{3,}|~{3,})/
-  const lines = markdown.split('\n')
-  let open: { marker: string; length: number } | undefined
-  for (let index = 0; index < lines.length; index++) {
-    const fenceLine = fence.exec(lines[index])
-    if (open) {
-      if (fenceLine && fenceLine[1][0] === open.marker && fenceLine[1].length >= open.length
-        && !lines[index].slice(fenceLine[1].length).trim()) open = undefined
-      else {
-        let line = lines[index], from = 0
-        for (;;) {
-          let best: { replacement: string; start: number; end: number } | undefined
-          for (const [upstream, cloud] of entries) {
-            const start = line.indexOf(upstream, from)
-            if (start >= 0 && (best === undefined || start < best.start)) best = { replacement: cloud, start, end: start + upstream.length }
-          }
-          if (best === undefined) break
-          line = line.slice(0, best.start) + best.replacement + line.slice(best.end)
-          from = best.start + best.replacement.length
-        }
-        lines[index] = line
+  const replaceLine = (line: string) => {
+    let from = 0
+    for (;;) {
+      let best: { replacement: string; start: number; end: number } | undefined
+      for (const [upstream, cloud] of entries) {
+        const start = line.indexOf(upstream, from)
+        if (start >= 0 && (best === undefined || start < best.start)) best = { replacement: cloud, start, end: start + upstream.length }
       }
-      continue
+      if (best === undefined) break
+      line = line.slice(0, best.start) + best.replacement + line.slice(best.end)
+      from = best.start + best.replacement.length
     }
-    if (fenceLine) open = { marker: fenceLine[1][0], length: fenceLine[1].length }
+    return line
+  }
+  // Block tokens are flat: nested container fences keep absolute line maps at the top level.
+  const ranges: { start: number; end: number }[] = []
+  for (const token of new MarkdownIt({ html: false }).parse(markdown, {})) {
+    if (token.type !== 'fence' || !token.map) continue
+    const body = token.content.split('\n')
+    if (body.at(-1) === '') body.pop()
+    ranges.push({ start: token.map[0] + 1, end: token.map[0] + 1 + body.length })
+  }
+  const lines = markdown.split('\n')
+  for (const { start, end } of ranges) {
+    for (let index = start; index < end && index < lines.length; index++) lines[index] = replaceLine(lines[index])
   }
   return lines.join('\n')
 }
 
-/** Expand one upstream tree listing into virtual page configs: <module>/<file>.md pages
- * publish as <Module>-<file> under the module directory, root-level files publish flat.
- * cloud_pages join the same identity space from the group content/ directory. */
-export function expandManualPages(files: readonly string[], manual: ManualConfig, cloud?: ReadonlyMap<string, ContentFile>):
-  { pages: Map<string, BuildPageInputFiles>; excluded: ReadonlySet<string>; errors: SharedDocsError[] } {
+/** The channels a page publishes to; one-sided pages name their only channel. */
+export function visibleChannels(page: Pick<BuildPageInputFiles, 'channel'>): ('current' | 'next')[] {
+  return page.channel === 'next' ? ['next'] : page.channel === 'retire-in-next' ? ['current'] : ['current', 'next']
+}
+
+/** Expand the union of both locked upstream tree listings into virtual page configs:
+ * <module>/<file>.md pages publish as <Module>-<file> under the module directory,
+ * root-level files publish flat. A page present in one tree only is a whole-page channel
+ * (next-only when upstream added it after current, retire-in-next when upstream removed
+ * it). cloud_pages join the same identity space from the group content/ directory with
+ * their configured channel. Identity and collisions are checked over the whole union. */
+export function expandManualPages(files: readonly string[] | { current: readonly string[]; next: readonly string[] },
+  manual: ManualConfig, cloud?: ReadonlyMap<string, ContentFile>):
+  { pages: Map<string, BuildPageInputFiles>; excluded: ReadonlySet<string>;
+    channelAbsent: ReadonlyMap<'current' | 'next', ReadonlySet<string>>; errors: SharedDocsError[] } {
   const pages = new Map<string, BuildPageInputFiles>()
   const errors: SharedDocsError[] = []
+  const listing = 'current' in files ? files : { current: files, next: files }
+  const currentSet = new Set(listing.current), nextSet = new Set(listing.next)
+  const upstreamFiles = [...new Set([...listing.current, ...listing.next])].sort()
   const byId = new Map<string, string>()
   const byPublishPath = new Map<string, string>()
   // Link rewrite resolves manual-internal targets by globally unique basename.
   const byBasename = new Map<string, string>()
   const consumedMetadata = new Set<string>()
   const prefix = `${manual.source.dir}/`
-  const upstreamFiles = [...files].sort()
   const identity = (logical: string) => {
     const segments = logical.split('/')
     const stem = segments[segments.length - 1].slice(0, -3)
@@ -206,10 +227,11 @@ export function expandManualPages(files: readonly string[], manual: ManualConfig
     }
     if (!claim(logical, derived)) continue
     const metadata = mergedMetadata(manual, logical, consumedMetadata)
+    const channel = currentSet.has(file) ? nextSet.has(file) ? undefined : 'retire-in-next' as const : 'next' as const
     const config = { schema_version: 1 as const, source: { file }, publish: [{ manual: manual.publish.manual, path: derived.publishPath }],
       ...(metadata ? { metadata } : {}) }
     // JSON is a YAML subset; the synthetic config keeps one serializer and one parser.
-    pages.set(derived.pageId, { pageYaml: JSON.stringify(config), config, lockYaml: undefined })
+    pages.set(derived.pageId, { pageYaml: JSON.stringify(config), config, lockYaml: undefined, ...(channel ? { channel } : {}) })
   }
   for (const [logical, content] of (cloud ?? new Map<string, ContentFile>()).entries()) {
     const derived = identity(logical)
@@ -222,7 +244,9 @@ export function expandManualPages(files: readonly string[], manual: ManualConfig
     // The source file names the group content/ input; it is never an upstream path.
     const config = { schema_version: 1 as const, source: { file: content.file }, publish: [{ manual: manual.publish.manual, path: derived.publishPath }],
       ...(metadata ? { metadata } : {}) }
-    pages.set(derived.pageId, { pageYaml: JSON.stringify(config), config, lockYaml: undefined, cloud: { ...content, logical } })
+    const channel = manual.cloud_pages?.[logical]?.channel
+    pages.set(derived.pageId, { pageYaml: JSON.stringify(config), config, lockYaml: undefined, cloud: { ...content, logical },
+      ...(channel === 'next' || channel === 'retire-in-next' ? { channel } : {}) })
   }
   // A metadata key that matched no upstream page is a typo or a stale rename; it would
   // silently drop the intended backfill, so it fails the expansion.
@@ -230,7 +254,20 @@ export function expandManualPages(files: readonly string[], manual: ManualConfig
     errors.push({ file: 'manual.yaml', page: key, channel: 'both' as const, code: 'CONFIG_PATH_UNKNOWN',
       message: `Metadata key does not match any upstream page: ${key}` })
   }
-  return { pages, excluded: excludedBasenames, errors }
+  // Links to a page absent from this channel's tree lose the link there; config-excluded
+  // pages keep their own unconditional strip set, so they never double up here.
+  const channelAbsent = new Map<'current' | 'next', ReadonlySet<string>>()
+  for (const channel of ['current', 'next'] as const) {
+    const absent = new Set<string>()
+    for (const page of pages.values()) {
+      if (visibleChannels(page).includes(channel)) continue
+      const file = page.cloud ? page.cloud.logical : page.config.source.file
+      const name = file.slice(file.lastIndexOf('/') + 1).toLowerCase()
+      if (!excludedBasenames.has(name)) absent.add(name)
+    }
+    channelAbsent.set(channel, absent)
+  }
+  return { pages, excluded: excludedBasenames, channelAbsent, errors }
 }
 
 /** Title and description come from the H1 heading unless metadata overrides the description. */
@@ -256,7 +293,9 @@ interface ManualChannelVersion {
 }
 
 /** Generate one manual page: pinned group lock, upstream source, registry presentation, manual link set.
- * Cloud pages substitute the group content/ file for the upstream source. */
+ * Cloud pages substitute the group content/ file for the upstream source. One-sided pages
+ * (whole-page `next`/`retire-in-next`) build their only visible channel; the two-version
+ * merge covers the rest, wrapping channel differences in generated NextChannel regions. */
 export async function buildManualPage(input: ManualPageInput): Promise<BuildPageResult> {
   const { pageId, sharedDocs: shared, reader, runtime, md2md } = input
   const page = shared.pages.get(pageId)
@@ -266,10 +305,34 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
   const target = page.config.publish[0]
   const sourceFile = page.config.source.file
   const replacements = milvusReplacements(shared)
+  const channels = visibleChannels(page)
+  const errors: SharedDocsError[] = []
+  // Cloud content is channel-invariant; its shape checks run once, not per channel.
+  if (page.cloud && deriveHeadingMetadata(page.cloud.text).title === undefined) {
+    return { errors: [{ ...context, code: 'CONFIG_CONTENT_INVALID', message: `Cloud page ${sourceFile} must contain a level-1 heading` }] }
+  }
+  // One-sided pages exist in one locked tree only. The group lock's history stays the
+  // manual's contract, so it is validated explicitly before inspection runs through a
+  // same-commit channel pair that reuses the whole inspection pipeline unchanged.
+  if (page.channel) {
+    const lockFile = groupFile(shared.sharedDocsPath, 'lock.yaml')
+    const history: LockHistory = { current: 'missing', next: 'missing' }
+    for (const channel of ['current', 'next'] as const) {
+      try { history[channel] = await reader.isOnBranch(shared.lock[channel], shared.sourceConfig.track) ? 'on-branch' : 'off-branch' }
+      catch { history[channel] = 'missing' }
+    }
+    if (history.current === 'on-branch' && history.next === 'on-branch') {
+      history.ordered = await reader.isAncestor(shared.lock.current, shared.lock.next)
+    }
+    const lockErrors = validateLockHistory(shared.lock, history, shared.lockYaml, { file: lockFile, page: pageId })
+    if (lockErrors.length) return { errors: lockErrors }
+  }
   // Cloud pages skip upstream inspection; upstream pages inspect once and carry both channels.
   let inspected: Extract<Awaited<ReturnType<typeof inspectPage>>, { channels: unknown }> | undefined
   if (!page.cloud) {
-    const read = await inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml: shared.lockYaml,
+    const commit = shared.lock[channels[0]]
+    const lockYaml = page.channel ? `schema_version: 1\ncurrent: ${commit}\nnext: ${commit}\n` : shared.lockYaml
+    const read = await inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml,
       context: { ...shared.context, ...context }, sharedDocsPath: shared.sharedDocsPath, variablesJson: shared.variablesJson }, reader, md2md)
     if ('errors' in read) return read
     inspected = read
@@ -278,13 +341,8 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
   // answer the rest from the pinned upstream tree, since their content has no commit.
   const manualCloudPages = new Map<string, string>()
   for (const [logical, content] of shared.cloudFiles) manualCloudPages.set(logical.slice(logical.lastIndexOf('/') + 1), content.text)
-  const errors: SharedDocsError[] = []
-  // Cloud content is channel-invariant; its shape checks run once, not per channel.
-  if (page.cloud && deriveHeadingMetadata(page.cloud.text).title === undefined) {
-    return { errors: [{ ...context, code: 'CONFIG_CONTENT_INVALID', message: `Cloud page ${sourceFile} must contain a level-1 heading` }] }
-  }
   const versions = new Map<'current' | 'next', ManualChannelVersion>()
-  for (const channel of ['current', 'next'] as const) {
+  for (const channel of channels) {
     const location = { page: pageId, channel, file: sourceFile }
     let content: string
     let commit: string
@@ -292,13 +350,13 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
     let images: ReadonlyMap<string, ImageContent> = new Map()
     if (page.cloud) {
       // Cloud content lives in this repository: no upstream commit, no upstream preparation,
-      // and milvus_values never re-maps Cloud-authored text. Link targets answer from the
-      // pinned tree; every upstream page is present there by construction.
+      // and milvus_values never re-maps Cloud-authored text. Link targets answer from this
+      // channel's pinned tree; every upstream page of the channel is present there by construction.
       content = page.cloud.text
-      commit = shared.lock.current
+      commit = shared.lock[channel]
       targets = new Map<string, string | null>()
-      for (const [id, entry] of shared.pages) {
-        if (entry.cloud) continue
+      for (const entry of shared.pages.values()) {
+        if (entry.cloud || !visibleChannels(entry).includes(channel)) continue
         targets.set(basename(entry.config.source.file), await reader.readFile(commit, entry.config.source.file))
       }
     } else {
@@ -312,20 +370,39 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
     }
     const sharedPages = await runtime.sharedPages(commit)
     const rewritten = rewriteLinksAndImages({ targets, images, markdown: content, sourceFile, sharedPages,
-      linkMap: EMPTY_LINK_MAP, cloudPages: [], excluded: shared.excluded, manualCloudPages, context: location, pathLinks: true })
+      linkMap: EMPTY_LINK_MAP, cloudPages: [], excluded: shared.excluded, channelAbsent: shared.channelAbsent.get(channel),
+      manualCloudPages, context: location, pathLinks: true })
     if ('errors' in rewritten) { errors.push(...rewritten.errors); continue }
     const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
       ...(input.presentation ? { presentation: input.presentation } : {}),
       metadata: adaptationMetadata(page.config, content), tabsRules: MANUAL_TABS_RULES, betaValues: shared.context.betaValues,
       headingAnchor: text => cloudAnchor(headingText(text)), navigation: page.config.metadata?.sidebar_position === undefined ? {} : { sidebar_position: page.config.metadata.sidebar_position },
-      context: location })
+      ...(page.channel ? { releaseChannel: page.channel } : {}), context: location })
     if ('errors' in adapted) { errors.push(...adapted.errors); continue }
     versions.set(channel, { adapted, images: rewritten.images, notices: rewritten.notices })
   }
   if (errors.length) return { errors }
+  const location = { page: pageId, file: sourceFile }
+  // One-sided pages emit their adapted channel directly: the whole-page channel marker in
+  // the front matter gates visibility, so no merge and no generated channel regions exist.
+  if (page.channel) {
+    const visible = channels[0]
+    const version = versions.get(visible)!
+    const mdx = await toMdx({ markdown: version.adapted.markdown, components: version.adapted.components,
+      provenance: { inputLines: [...version.adapted.provenance.inputLines], outputLines: [...version.adapted.provenance.outputLines] } }, location, {})
+    if ('errors' in mdx) return { errors: mdx.errors }
+    // Product provenance keeps the original upstream bytes; cloud pages attest their own content file.
+    const sources = page.cloud
+      ? [{ kind: 'content-file' as const, file: sourceFile, text: page.cloud.text }]
+      : [{ kind: 'source' as const, file: sourceFile, text: await reader.readFile(shared.lock[visible], sourceFile) }]
+    const checked = checkProductNames({ mdx: mdx.mdx, rules: shared.productNames, manual: target.manual, sources,
+      rulesFile: groupFile(shared.sharedDocsPath, 'product-names.yaml'), context: location })
+    if (checked.errors.length) return { errors: checked.errors }
+    return { pages: [{ manual: target.manual, path: target.path, mdx: mdx.mdx, notes: [], extension: '.md',
+      images: version.images, notices: [...version.notices, ...checked.warnings] }], planned: false }
+  }
   const current = versions.get('current'), next = versions.get('next')
   if (!current || !next) throw new Error(`Manual page ${pageId} lost a channel during preparation`)
-  const location = { page: pageId, file: sourceFile }
   // One origin per adapted input line, exactly like the per-page path; manual sources never expand fragments.
   // Origins carry the adapted input line inside the channel buffer (post preprocess and
   // link rewrite); the per-page path maps back to upstream lines via originalPageLine,
