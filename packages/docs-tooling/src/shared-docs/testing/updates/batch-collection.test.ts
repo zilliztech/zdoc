@@ -261,3 +261,64 @@ it('does not attach a seed through a fragment consumed only before the oldNext i
   expect(result.reasons).toEqual([])
   expect(result.groups).toEqual([])
 }, 120000)
+
+it.each(['rename', 'delete', 'byoc-remove', 'unchanged'] as const)('checks pinned outside incoming references for member anchor %s', async change => {
+  const f = await simpleFixture('<!-- doc:block:start id="section" -->\n## Old\n\nStable section body.\n<!-- doc:block:end id="section" -->\n',
+    '## Referrer\n\n[Member](mapped.md#Old)\n')
+  // The unchanged peer consumes a different raw page mapped to the member's route.
+  // Its actual current/oldNext/target renders keep #old, so no confirmed #new adoption exists.
+  await write(f.repo, 'site/en/mapped.md', '---\nid: mapped.md\ntitle: Mapped source\nsummary: Mapping fixture\n---\n\n## Old\n\nUnchanged mapped heading.\n')
+  if (change === 'byoc-remove') {
+    await write(f.repo, 'site/en/fragments/member-heading.md', '## Old\n\nStable section body.\n')
+    await write(f.sharedDocs, 'pages/build-pipeline/page.yaml', await (await import('node:fs/promises')).readFile(join(f.sharedDocs, 'pages/build-pipeline/page.yaml'), 'utf8') +
+      'transforms:\n  - operation: replace\n    target: {block: section}\n    content: {file: replacement.md}\n')
+    await write(f.sharedDocs, 'pages/build-pipeline/replacement.md', '{{fragments/member-heading.md}}\n')
+  }
+  await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '-qm', 'incoming reference baseline')
+  const baseline = await git(f.repo, 'rev-parse', 'HEAD')
+  await write(f.sharedDocs, 'links.yaml', 'mapped.md: build-pipeline\n')
+  for (const id of f.ids) await write(f.sharedDocs, `pages/${id}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
+  await f.configChange()
+  for (const [manual, extension] of [['guides', 'mdx'], ['byoc', 'md']] as const) {
+    await write(f.dev, `content/en/${manual}/tutorials/build-pipeline.${extension}`, '---\nslug: /build-pipeline\ntitle: Member\nsidebar_label: Member\nsidebar_position: 4\n---\n\n## Old\n\nPublished section.\n')
+    const route = change === 'delete' ? '/build-pipeline#old' : change === 'byoc-remove' ? 'build-pipeline#old' : './build-pipeline#old'
+    await write(f.dev, `content/en/${manual}/tutorials/shared-target.${extension}`, `---\nslug: /shared-target\ntitle: Referrer\nsidebar_label: Referrer\nsidebar_position: 8\n---\n\n[Member](${route})\n[Unrelated preexisting broken link](./unrelated-missing#missing)\n`)
+    // This ordinary published page also has an incoming link. Resolve from its
+    // canonical route, rather than from its nested physical output directory.
+    await write(f.dev, `content/en/${manual}/tutorials/cloud-page.${extension}`, '---\nslug: /cloud-page\ntitle: Ordinary referrer\n---\n\n[Member](../build-pipeline#old)\n[Unrelated malformed link](./unrelated%ZZ#missing)\n')
+  }
+  await git(f.dev, 'add', '.'); await git(f.dev, 'commit', '-qm', 'pinned published incoming links')
+  const dev = await git(f.dev, 'rev-parse', 'HEAD')
+  await git(f.root, 'fetch', '--no-write-fetch-head', '--no-tags', f.dev, dev)
+  const originalRequest = f.request, originalTransport = f.transport
+  const pinned = {...f, baseline, devCommit: dev,
+    request: async (id = f.ids[0]) => {const request = await originalRequest(id); return {...request, pins: {...request.pins, dev}}},
+    transport: async (input: Parameters<typeof originalTransport>[0]) => input.path === '/repos/zilliztech/zdoc/git/ref/heads/dev'
+      ? {status: 200, headers: {}, body: Buffer.from(JSON.stringify({ref: 'refs/heads/dev', object: {type: 'commit', sha: dev}}))} : originalTransport(input)}
+  if (change === 'byoc-remove') await f.sourceChange('site/en/fragments/member-heading.md', '<exclude target="paas">\n\n## Old\n\nStable section body.\n\n</exclude>\n')
+  else {
+    const source = await (await import('node:fs/promises')).readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
+    await f.sourceChange('site/en/build-pipeline.md', change === 'rename' ? source.replace('## Old', '## New')
+      : change === 'delete' ? source.replace('## Old\n\nStable section body.', 'Remaining content without the old heading.') : source + '\nA real source edit retaining the anchor.\n')
+  }
+  const {result, pages} = await observeClosure(pinned)
+  expect(pages.every(page => page.reasons.length === 0 && page.ownershipReasons.length === 0)).toBe(true)
+  expect(result.groups.map(group => group.memberIds)).toEqual([['build-pipeline']])
+  expect(result.groups[0].adoption).toEqual([])
+  const peer = pages.find(page => page.header.pageId === 'shared-target')!
+  expect(peer.observations[2].manuals.every(manual => manual.references.some(ref => ref.url === './build-pipeline#old'))).toBe(true)
+  if (change === 'byoc-remove') {
+    const member = pages.find(page => page.header.pageId === 'build-pipeline')!
+    expect(member.observations[2].manuals.find(m => m.manual === 'guides')!.headings.some(h => h.anchor === 'old')).toBe(true)
+    expect(member.observations[2].manuals.find(m => m.manual === 'guides-byoc')!.headings.some(h => h.anchor === 'old')).toBe(false)
+  }
+  expect(result.namespace.some(destination => destination.role === 'existing' && destination.path.includes('/shared-target.'))).toBe(true)
+  expect(result.namespace.some(destination => destination.role === 'existing' && destination.path.includes('/cloud-page.'))).toBe(true)
+  if (change === 'unchanged') {
+    expect(result.reasons).toEqual([])
+    expect(result.groups[0].dispositions[0].disposition).toBe('advance')
+  } else {
+    expect(result.reasons).toContain('EFFECTIVE_ANCHOR_UNRESOLVED')
+    expect(result.groups[0].dispositions[0].disposition).toBe('held')
+  }
+}, 120000)

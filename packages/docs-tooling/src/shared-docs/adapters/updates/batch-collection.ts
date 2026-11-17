@@ -365,9 +365,9 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
     }
     // One independently pinned D inventory is shared by all probes. Replacements exclude exact configured outputs, by physical path and manual.
     const existing = pages[0]?.existing ?? [], replaced = new Set(group.memberIds.flatMap(id => byPage.get(id)?.header.targets.map(t => `${t.manual}:${resolveManualPublication(t.manual, 'en').publication.contentRoot}/${t.path}`) ?? []))
-    for (const output of existing) if (!replaced.has(`${output.manual}:${output.path.replace(/\.mdx?$/, '')}`) && output.route) {
-      append(output.route, {...output, pageId: output.route, role: 'existing'})
-    }
+    const outside = existing.filter(output => !replaced.has(`${output.manual}:${output.path.replace(/\.mdx?$/, '')}`) && output.route)
+    for (const output of outside) append(output.route!, {...output, pageId: output.route!, role: 'existing'})
+    const memberRoutes = new Set(group.memberIds.flatMap(id => byPage.get(id)?.header.targets.map(target => `${target.manual}:${id}`) ?? []))
     for (const pageId of group.memberIds) {
       const page = byPage.get(pageId), disposition = group.dispositions.find(d => d.pageId === pageId)!, role: 'target' | 'oldNext' = disposition.disposition === 'advance' ? 'target' : 'oldNext'
       for (const manual of page?.observations.find(o => o.role === role)?.manuals ?? []) for (const reference of manual.references) {
@@ -381,6 +381,30 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         const target = matches[0]
         if (anchor !== undefined && (!anchor || target.headings.filter(h => h === anchor).length !== 1)) namespaceAdd('EFFECTIVE_ANCHOR_UNRESOLVED')
         if (target.role === 'existing') namespace.push({pageId: target.pageId, manual: target.manual, path: target.path, role: 'existing', ref: target.ref})
+      }
+    }
+    // Outside pages remain their actual pinned D output. Check only incoming links
+    // whose route in that manual is replaced by this group; unrelated old links
+    // do not become group failures. This supplies no adoption evidence.
+    const localOrigin = 'https://guides-batch.invalid'
+    for (const output of outside) for (const reference of output.references) {
+      if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(reference.url)) continue
+      let resolved: URL, route: string
+      try {
+        resolved = new URL(reference.url, `${localOrigin}/${output.route}`)
+        if (resolved.origin !== localOrigin) continue
+        route = decodeURIComponent(resolved.pathname).replace(/^\//, '')
+      } catch { continue } // No resolved member route: an unrelated preexisting link.
+      const key = `${output.manual}:${route}`
+      if (!memberRoutes.has(key)) continue
+      namespace.push({pageId: output.route!, manual: output.manual, path: output.path, role: 'existing', ref: output.ref})
+      const matches = destinations.get(key) ?? []
+      if (matches.length !== 1) {namespaceAdd(matches.length ? 'EFFECTIVE_NAMESPACE_AMBIGUOUS' : 'EFFECTIVE_DESTINATION_UNAVAILABLE'); continue}
+      if (reference.url.includes('#')) {
+        let anchor: string
+        try { anchor = decodeURIComponent(resolved.hash.slice(1)) }
+        catch { namespaceAdd('EFFECTIVE_REFERENCE_INVALID'); continue }
+        if (!anchor || matches[0].headings.filter(heading => heading === anchor).length !== 1) namespaceAdd('EFFECTIVE_ANCHOR_UNRESOLVED')
       }
     }
     if (namespaceReasons.size) for (const disposition of group.dispositions) {disposition.disposition = 'held'; disposition.reasons = sorted([...disposition.reasons, ...namespaceReasons])}
