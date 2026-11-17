@@ -23,8 +23,44 @@ it('builds a complete raw three-page stage with genuinely generated success and 
   const extracted = join(root, 'verified-extraction'); await mkdir(extracted)
   await extractSourceZip(await readFile(f.sourceZip), extracted)
   await expect(shared.validateGuidesStageArtifact(join(extracted, 'guides-source'))).resolves.toMatchObject({masterSha: f.master})
+  const {retainedMetadata} = await import('../../adapters/updates/github')
+  const {replayMetadataReader} = await import('../../adapters/updates/guides-metadata-broker')
+  const raw = replayMetadataReader(f.fixture.qualification)
+  const api = {get: async (path: string) => JSON.parse(Buffer.from(await raw.read(path)).toString()), zip: async () => readFile(f.publicationZip)}
+  const facts = await retainedMetadata(api, 123), payload = join(f.stage, 'payload')
+  const manifest = JSON.parse(await readFile(join(f.stage, 'manifest.json'), 'utf8'))
+  const snapshot = JSON.parse(await readFile(join(payload, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'), 'utf8'))
+  expect(snapshot.navigation_records.some((r: {order: number}) => r.order === 1.5)).toBe(true)
+  const originalBytes = await readFile(join(payload, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'))
+  const common = await acquireReviewedCommon(api, facts, f.sampledDev, {payload, manifest, snapshot})
+  for (const page of f.pages) await expect(readReviewedObservation(api, facts, manifest, snapshot, payload,
+    {page, producerRepo: f.tools, devRepo: f.dev, dev: f.sampledDev}, common)).resolves.toMatchObject({recordId: expect.any(String)})
+  expect(await readFile(join(payload, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'))).toEqual(originalBytes)
+  raw.finish()
   await writeFile(join(extracted, 'guides-source/payload/tmp/docs-tooling/en/shared-pages/guides/bundle.json'), '{}')
   await expect(shared.validateGuidesStageArtifact(join(extracted, 'guides-source'))).rejects.toThrow(/size|checksum/)
+}, 120000)
+
+it('retains valid F publication bytes when normalized M locks name a distinct current owner', async () => {
+  const parent = join(process.cwd(), '.claude/wp12-guides-batch-qualification/task3-evidence')
+  await mkdir(parent, {recursive: true})
+  const f = await rawBatchLifecycleFixture(await mkdtemp(join(parent, 'wrong-current-')), undefined, {wrongCurrent: true})
+  const {FetchGitReader} = await import('../../adapters/updates/trusted-fetch-producer')
+  const profiles = await new FetchGitReader(f.tools).profilesV2(f.master, f.producer)
+  expect(profiles.masterProfile).toBe(profiles.producerProfile)
+  expect(profiles.ancestor).toBe(true)
+  expect(profiles.masterLocks.every(p => p.current === f.configuredCurrent)).toBe(true)
+  const gitRaw = (...args: string[]) => execFileSync('git', ['--no-replace-objects', '-C', f.upstream, ...args])
+  expect(gitRaw('rev-parse', f.current + '^{tree}')).toEqual(gitRaw('rev-parse', f.configuredCurrent + '^{tree}'))
+  const manifest = JSON.parse(await readFile(join(f.stage, 'manifest.json'), 'utf8'))
+  expect(manifest.masterSha).toBe(f.producer)
+  for (const page of f.pages) {
+    const bytes = execFileSync('git', ['--no-replace-objects', '-C', f.dev, 'show', `${f.sampledDev}:generated/en/manifests/shared-pages/guides/${page}.json`])
+    const receipt = JSON.parse(bytes.toString())
+    expect(receipt.inputs.milvus_docs.current).toBe(f.current)
+    expect(receipt.inputs.milvus_docs.current).not.toBe(f.configuredCurrent)
+    for (const output of receipt.outputs) expect(hash(execFileSync('git', ['-C', f.dev, 'show', `${f.sampledDev}:${output.path}`]))).toBe(output.sha256)
+  }
 }, 120000)
 
 // This fresh-success fixture exercises the publication boundary after the caller's

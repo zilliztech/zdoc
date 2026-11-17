@@ -25,6 +25,16 @@ it('denies fabricated material tickets without reading a selected run or constru
   expect(await batch.qualifyObservedBatchMaterial(JSON.parse('{}'))).toEqual({status: 'held', reasons: ['BATCH_LAUNCH_BINDING_INVALID']})
 })
 
+it('rechecks fixed local replay master/dev refs without passing refs to the exact-SHA resolver', async () => {
+  const f = await fixture(), batch = await import('../../adapters/updates/batch-collection')
+  await git(f.root, 'update-ref', 'refs/heads/dev', f.devCommit)
+  const master = await git(f.root, 'rev-parse', 'HEAD')
+  expect(batch.verifyBatchReplayHeads).toBeTypeOf('function')
+  await expect(batch.verifyBatchReplayHeads(f.root, {master, dev: f.devCommit})).resolves.toBeUndefined()
+  await git(f.root, 'update-ref', 'refs/heads/dev', master)
+  await expect(batch.verifyBatchReplayHeads(f.root, {master, dev: f.devCommit})).rejects.toThrow('BATCH_PIN_CHANGED')
+})
+
 it('binds replay images to exact normalized URLs and immutable bytes with no live fallback', async () => {
   const {writeFile, mkdir, realpath} = await import('node:fs/promises')
   const parent = join(process.cwd(), '.claude/wp12-guides-batch-qualification/task3-evidence')

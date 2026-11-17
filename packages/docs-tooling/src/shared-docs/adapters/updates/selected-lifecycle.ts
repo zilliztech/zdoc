@@ -12,7 +12,7 @@ import { exactlyOne, latestGuidesRun, stepWindow, successfulJob } from './guides
 export { latestGuidesRun } from './guides-run-metadata'
 import { boundArtifact, object, type ReadonlyGitHub, type retainedMetadata } from './github'
 import { parseRemoteZip } from './remote-github'
-import { parseStrictJson, canonicalBytes } from '../../core/updates/canonical'
+import { parseStrictJson } from '../../core/updates/canonical'
 import {immutable} from '../../core/updates/types'
 
 const require = createRequire(import.meta.url)
@@ -184,7 +184,7 @@ export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, 
 // evidence is also fully revalidated here before its archived bytes enter Git checks.
 export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metadata, manifest: Row, snapshot: Row, payload: string, selected: SelectedPage, common?: ReviewedCommon) {
   const cached = common && reviewedCommons.get(common)
-  if (common && (!cached || cached.api !== api || cached.facts !== facts || cached.dev !== selected.dev || !Buffer.from(canonicalBytes(cached.snapshot)).equals(Buffer.from(canonicalBytes(facts))))) throw Error('BATCH_COMMON_BINDING_INVALID')
+  if (common && (!cached || cached.api !== api || cached.facts !== facts || cached.dev !== selected.dev || !equal(cached.snapshot, facts))) throw Error('BATCH_COMMON_BINDING_INVALID')
   if (cached) facts = cached.snapshot
   const { run, jobs, artifact } = facts
   const job = successfulJob(jobs, 'produce_guides_sources / fetch', run)
@@ -196,7 +196,7 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
   // the outcomes and their bindings to this candidate.
   const bundlePath = 'tmp/docs-tooling/en/shared-pages/guides/bundle.json'
   if (!manifest.files.some((f: Row) => f.path === bundlePath)) return unknown('BASE_SCAN_RECORD_UNPROVEN')
-  if (cached?.source && (cached.source.payload !== payload || cached.source.manifest !== sha256(canonicalBytes(manifest)) || cached.source.snapshot !== sha256(canonicalBytes(snapshot)))) throw Error('BATCH_COMMON_BINDING_INVALID')
+  if (cached?.source && (cached.source.payload !== payload || !equal(cached.source.manifest, manifest) || !equal(cached.source.snapshot, snapshot))) throw Error('BATCH_COMMON_BINDING_INVALID')
   const bundleBytes = cached?.source?.bundleBytes ?? await readFile(join(payload, bundlePath))
   const bundle = cached?.source?.bundle ?? JSON.parse(bundleBytes.toString())
   const membership = recordMembership(bundle.preparation.records)
@@ -283,7 +283,7 @@ async function acquirePublication(api: ReadonlyGitHub, facts: Metadata) {
 declare const reviewedCommonBrand: unique symbol
 export type ReviewedCommon = {readonly [reviewedCommonBrand]: true}
 type Publication = Exclude<Awaited<ReturnType<typeof acquirePublication>>, {reason: string}>
-const reviewedCommons = new WeakMap<object, {api: ReadonlyGitHub; facts: Metadata; snapshot: Metadata; dev: string; publication: Publication; source?: {payload: string; manifest: string; snapshot: string; bundleBytes: Buffer; bundle: Row; handoff: any}}>()
+const reviewedCommons = new WeakMap<object, {api: ReadonlyGitHub; facts: Metadata; snapshot: Metadata; dev: string; publication: Publication; source?: {payload: string; manifest: Row; snapshot: Row; bundleBytes: Buffer; bundle: Row; handoff: any}}>()
 /** Immutable run-level acquisition only. Per-page observations/receipts are never cached. */
 export async function acquireReviewedCommon(api: ReadonlyGitHub, facts: Metadata, dev: string, source?: {payload: string; manifest: Row; snapshot: Row}): Promise<ReviewedCommon> {
   const snapshot = immutable(structuredClone(facts))
@@ -296,7 +296,7 @@ export async function acquireReviewedCommon(api: ReadonlyGitHub, facts: Metadata
   let sourceFacts
   if (source) {
     const bundleBytes = await readFile(join(source.payload, sharedBundle.ROOT, 'bundle.json'))
-    sourceFacts = {payload: source.payload, manifest: sha256(canonicalBytes(source.manifest)), snapshot: sha256(canonicalBytes(source.snapshot)), bundleBytes,
+    sourceFacts = {payload: source.payload, manifest: immutable(structuredClone(source.manifest)), snapshot: immutable(structuredClone(source.snapshot)), bundleBytes,
       bundle: immutable(JSON.parse(bundleBytes.toString())), handoff: sharedBundle.loadBundle(join(source.payload, sharedBundle.ROOT), {masterSha: snapshot.run.head_sha, devBaselineSha: source.manifest.devBaselineSha})}
   }
   const common = Object.freeze({}) as ReviewedCommon

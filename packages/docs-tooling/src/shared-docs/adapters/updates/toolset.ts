@@ -1304,6 +1304,7 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   const readerLifetime = new AbortController()
   let closeBroker: (() => void) | undefined
   let serving: Promise<void> | undefined
+  let brokerFailed = false
   if (broker) {
     // Node typings name only five stdio slots even when spawn opens more.
     const pipes: readonly (Readable | Writable | null)[] = child.stdio
@@ -1314,7 +1315,7 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     // A failed GET/invalid frame closes the private reader. The worker retains
     // its normal unknown-authority outcome. No error body or credential crosses.
     serving = ('replay' in broker ? serveReplayGuidesMetadata(requests, replies, broker.runId, broker.replay, readerLifetime.signal) : serveGuidesMetadata(requests, replies, broker.runId, broker.token, readerLifetime.signal))
-      .then(() => { replies.end() }, closeBroker)
+      .then(() => { replies.end() }, () => {brokerFailed = true; closeBroker!()})
   }
   const receipt: GuidesWorkerSettlement = {pid: child.pid ?? null, born: false, close: null, group: 'unknown', signals: [], cleanupErrors: []}
   const inputHash = createHash('sha256'), resultHash = createHash('sha256')
@@ -1387,6 +1388,10 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   } catch (error) { latch(error) }
   closeBroker?.()
   await serving
+  // The last reply may already be delivered when closed-manifest completion
+  // fails. Pipe closure cannot revoke those bytes; the parent must reject before
+  // creating any measured qualifier receipt. Legacy held reports stay unchanged.
+  if (contentRequest?.kind === 'guides-batch-qualify-v1' && brokerFailed) latch(new Error('BATCH_METADATA_BROKER_FAILED'))
   // One awaited finalizer owns every terminal path. Its errors cannot strand an
   // unobserved promise or bypass listener/timer cleanup.
   try {

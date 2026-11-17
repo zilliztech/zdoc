@@ -1215,3 +1215,86 @@ export function collectBatchPageMaterial(data){
     expect(page.materialDigest).toBe(contract.batchDigest('material', JSON.parse(material.toString())))
   }
 }, 120000)
+
+it('rejects a settled qualifier wire when the complete replay broker sequence has one extra row', async () => {
+  // Hostile wire/settlement regression only. This captured test provider emits
+  // shaped untrusted Q bytes, not a real lifecycle observation or a positive
+  // collector fixture. Real qualification is exercised separately from source.
+  const {batchQualificationFixture} = await import('./fixtures/batch-qualification')
+  const {collectBatchPageMaterial} = await import('../../adapters/updates/guides-provider')
+  const batch = await import('../../adapters/updates/batch-collection'), toolset = await import('../../adapters/updates/toolset')
+  const a = await loaderFixture(), dataRoot = await realpath(await mkdtemp(join(tmpdir(), 'batch-broker-terminal-')))
+  const f = await batchQualificationFixture(dataRoot)
+  for (const [file, id] of [['site/en/build-pipeline.md', 'build-pipeline'], ['site/en/source-target.md', 'public-target']]) {
+    await put(f.repo, file, `---\nid: ${id}.md\ntitle: ${id}\nsummary: Transport fixture\n---\n\n## Section\n\nContent.\n`)
+  }
+  git(f.repo, 'add', '.'); git(f.repo, 'commit', '-qm', 'simple broker fixture baseline')
+  const baseline = git(f.repo, 'rev-parse', 'HEAD')
+  for (const id of f.ids) await put(f.sharedDocs, `pages/${id}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
+  await f.configChange(); await f.append('site/en/build-pipeline.md', '\nChanged raw content.\n')
+  const frames: Record<string, Awaited<ReturnType<typeof collectBatchPageMaterial>>> = {}
+  for (const id of f.ids) frames[id] = await collectBatchPageMaterial(await f.request(id), {repositoryRoot: f.root, fetcher: f.fetcher})
+  await cp(f.sharedDocs, join(a.root, 'shared-docs/guides'), {recursive: true})
+  const sourceBytes = Buffer.from('hostile transport source'), publicationBytes = Buffer.from('hostile transport publication')
+  await writeFile(join(dataRoot, 'source.zip'), sourceBytes); await writeFile(join(dataRoot, 'publication.zip'), publicationBytes)
+  const apiRoot = 'repos/zilliztech/zdoc', started = '2026-11-17T00:00:00Z', earliest = '2026-09-08'
+  const paths = [apiRoot, apiRoot + '/actions/runs/123', apiRoot + '/actions/runs/123/attempts/1/jobs?per_page=100&page=1', apiRoot + '/actions/runs/123/artifacts?per_page=100&page=1',
+    ...['fetch-docs', 'fetch-guides-requested'].map(file => apiRoot + `/actions/workflows/${file}.yml/runs?created=%3E%3D${earliest}&per_page=100&page=1`), apiRoot + '/branches/dev']
+  await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `
+import {createHash} from 'node:crypto'
+import {Socket} from 'node:net'
+import {canonicalBytes} from '../../core/updates/canonical'
+const frames=${JSON.stringify(frames)}, paths=${JSON.stringify(paths)};
+export function collectGuidesWorker(){throw Error('v1 was not selected')}
+export function collectBatchPageMaterial(data){const wire=frames[data.pageId];wire.material.base={origin:data.origin,session:data.session,pins:data.pins};return wire}
+export async function qualifyBatchLifecycle(data){
+ const requests=new Socket({fd:4,readable:false,writable:true}), replies=new Socket({fd:5,readable:true,writable:false}), chunks=replies[Symbol.asyncIterator]();let rest=Buffer.alloc(0);
+ requests.on('error',()=>{});replies.on('error',()=>{});
+ async function read(count){const out=Buffer.alloc(count);let offset=0;while(offset<count){if(!rest.length){const next=await chunks.next();if(next.done)throw Error('closed');rest=next.value}const n=Math.min(count-offset,rest.length);rest.copy(out,offset,0,n);rest=rest.subarray(n);offset+=n}return out}
+ try{for(let i=0;i<paths.length;i++){await new Promise((resolve,reject)=>requests.write(Buffer.concat([Buffer.from([i+1]),createHash('sha256').update(paths[i]).digest()]),e=>e?reject(e):resolve()));const h=await read(5);if(h[0]!==i+1)throw Error('sequence');await read(h.readUInt32BE(1))}}
+ finally{requests.destroy();replies.destroy()}
+ const scope=data.scope, pins=scope.base.pins, method={kind:'fetch-producer-profile-v2',trustedTools:pins.master,producer:scope.run.head,profileSha256:'f'.repeat(64)};
+ const rows=scope.pages.map(p=>({pageId:p.pageId,materialDigest:p.materialSha256,configuredTargets:frames[p.pageId].material.targets,current:frames[p.pageId].material.current,oldNext:frames[p.pageId].material.oldNext,target:pins.source,observedTrackHead:pins.source,runId:123,attempt:1,method,recordId:'untrusted',tableId:'table',sourceJobId:21,baseline:pins.dev,resultSha:pins.dev,sampledDev:pins.dev,outcomeKind:'success',receiptPath:'generated/en/manifests/shared-pages/guides/'+p.pageId+'.json',receiptOid:'a'.repeat(40),receiptBytes:0,receiptSha256:'e'.repeat(64),outputTuples:frames[p.pageId].material.targets.map(t=>({manual:t.manual,path:'content/en/'+(t.manual==='guides'?'guides':'byoc')+'/'+t.path+'.mdx',oid:'a'.repeat(40),bytes:0,sha256:'e'.repeat(64)})).sort((a,b)=>(a.manual+':'+a.path)<(b.manual+':'+b.path)?-1:1),bundleSha256:'e'.repeat(64),publicationSnapshotSha256:'e'.repeat(64),publishedOutputsSha256:'e'.repeat(64),classification:{state:'active',channel:'current',reasons:[]}}));
+ return {kind:'guides-batch-qualification-v1',base:scope.base,run:scope.run,scopeDigest:createHash('sha256').update('zdoc/guides-batch/scope/v1\\n').update(canonicalBytes(scope)).digest('hex'),method,sourceArtifact:{id:31,bytes:${sourceBytes.length},sha256:'${rawSha256(sourceBytes)}'},publicationArtifact:{id:32,bytes:${publicationBytes.length},sha256:'${rawSha256(publicationBytes)}'},scanStartMs:0,rows};
+}
+`)
+  a.commit = commitAll(a.root)
+  git(a.root, 'branch', '-M', 'master')
+  git(a.root, 'fetch', '--no-write-fetch-head', '--no-tags', f.dev, f.devCommit); git(a.root, 'update-ref', 'refs/heads/dev', f.devCommit)
+  const target = (await f.request()).pins.source
+  const run = {id: 123, run_attempt: 1, repository: {id: 660446555}, head_repository: {id: 660446555}, head_sha: a.commit, head_branch: 'master', workflow_id: 83360731,
+    path: '.github/workflows/fetch-docs.yml', event: 'schedule', status: 'completed', conclusion: 'success', updated_at: started}
+  const job = {id: 21, name: 'produce_guides_sources / fetch', run_id: 123, run_attempt: 1, head_sha: a.commit, status: 'completed', conclusion: 'success',
+    steps: [{name: 'Fetch shared guides sources', started_at: started, completed_at: started, conclusion: 'success'}]}
+  const artifact = (id: number, name: string, bytes: Buffer) => ({id, name, size_in_bytes: bytes.length, digest: 'sha256:' + rawSha256(bytes), expired: false,
+    workflow_run: {id: 123, repository_id: 660446555, head_repository_id: 660446555, head_sha: a.commit, head_branch: 'master'}})
+  const metadata = [{id: 660446555}, run, {total_count: 1, jobs: [job]}, {total_count: 2, artifacts: [artifact(31, 'guides-sources-en-123', sourceBytes), artifact(32, 'publication-results-fetch-123-1', publicationBytes)]},
+    {total_count: 1, workflow_runs: [run]}, {total_count: 0, workflow_runs: []}, {name: 'dev', commit: {sha: f.devCommit}}]
+  const raw = (path: string, value: unknown) => {const bytes = Buffer.from(JSON.stringify(value)); return {path, bytes: bytes.length, sha256: rawSha256(bytes), base64: bytes.toString('base64')}}
+  const rows = paths.map((path, i) => raw(path, metadata[i]))
+  const pins = [raw(apiRoot, {id: 660446555, full_name: 'zilliztech/zdoc'}), raw('repos/milvus-io/milvus-docs', {id: 267273319, full_name: 'milvus-io/milvus-docs'}),
+    ...[['zilliztech/zdoc', 'master', a.commit], ['zilliztech/zdoc', 'dev', f.devCommit], ['milvus-io/milvus-docs', 'v3.0.x', target]].map(([repo, branch, sha]) => raw(`repos/${repo}/git/ref/heads/${branch}`, {ref: 'refs/heads/' + branch, object: {type: 'commit', sha}}))]
+  const fixtureBytes = canonicalBytes({kind: 'guides-batch-replay-fixture-v1', root: dataRoot, pins,
+    acquisition: [raw(apiRoot + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1', {workflow_runs: [run]}), ...rows.slice(0, 4)],
+    qualification: [...rows, rows[6]], archives: {source: {id: 31, path: 'source.zip', bytes: sourceBytes.length, sha256: rawSha256(sourceBytes)}, publication: {id: 32, path: 'publication.zip', bytes: publicationBytes.length, sha256: rawSha256(publicationBytes)}}, images: []})
+  const capture = await captureTrustedToolset(a), original = toolset.batchContentLauncher
+  let admitted = 0, launchFailure: {message?: string; settlement?: unknown} | undefined
+  const observed = vi.spyOn(toolset, 'batchContentLauncher').mockImplementation(launcher => {
+    const fixed = original(launcher)
+    return {...fixed, async runReplayBatchQualification(ticket, signal) {
+      try {const child = await fixed.runReplayBatchQualification(ticket, signal); admitted++; return child}
+      catch (error) {launchFailure = error as typeof launchFailure; throw error}
+    }}
+  })
+  try {
+    const result = await batch.collectReplayBatchMaterial({capture, sourceRepository: f.repo, zdocRepository: a.root, out: join(dataRoot, 'owned'), fixtureBytes, replayClockMs: 0},
+      {transport: async input => input.path === '/repos/zilliztech/zdoc/git/ref/heads/master' ? {status: 200, headers: {}, body: Buffer.from(JSON.stringify({ref: 'refs/heads/master', object: {type: 'commit', sha: a.commit}}))} : f.transport(input)})
+    expect(result.status).toBe('material-complete')
+    if (result.status !== 'material-complete') throw Error(JSON.stringify(result))
+    const qualified = await batch.qualifyReplayBatchMaterial(result.ticket)
+    expect(admitted, 'terminal broker failure must prevent a measured Q receipt').toBe(0)
+    expect(launchFailure?.message).toBe('BATCH_METADATA_BROKER_FAILED')
+    expect(qualified).toEqual({status: 'held', reasons: ['BATCH_METADATA_BROKER_FAILED']})
+    expect(launchFailure?.settlement).toMatchObject({born: true, close: {code: 0}, group: 'absent'})
+  } finally {observed.mockRestore()}
+}, 120000)

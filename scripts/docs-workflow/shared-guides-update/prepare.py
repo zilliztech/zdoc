@@ -800,6 +800,18 @@ def _batch_targets(targets):
     return targets
 
 
+def _batch_output_target(output, targets):
+    matches = [target for target in targets if target['manual'] == output['manual']]
+    require(len(matches) == 1, 'BATCH_OUTPUT_INVALID')
+    return matches[0]
+
+
+def _batch_receipt_outputs(outputs):
+    for output in outputs:
+        batch_exact(output, 'manual path sha256')
+    return sorted(outputs, key=lambda output: (output['manual'] + ':' + output['path']).encode('utf-8'))
+
+
 def _batch_material(reader, retained, base):
     batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
     header = reader.object(retained['materialRef'], 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef')
@@ -1039,7 +1051,8 @@ def verify_batch_collection(root_fd, blobs_fd, control):
         require(len(row['outputTuples']) == len(row['configuredTargets']) == len(retained['outputs']), 'BATCH_OUTPUT_INVALID')
         render_targets = receipt['inputs']['fetch']['render_targets']['targets']
         expected_outputs = []
-        for output, actual, target in zip(row['outputTuples'], retained['outputs'], row['configuredTargets']):
+        for output, actual in zip(row['outputTuples'], retained['outputs']):
+            target = _batch_output_target(output, row['configuredTargets'])
             batch_exact(output, 'manual path oid bytes sha256')
             batch_exact(actual, 'manual path ref')
             require(output['manual'] == actual['manual'] == target['manual'] and output['path'] == actual['path']
@@ -1053,7 +1066,7 @@ def verify_batch_collection(root_fd, blobs_fd, control):
             expected_outputs.append({k: output[k] for k in ('manual', 'path', 'sha256')})
         # Original receipts retain producer order and pretty JSON bytes. Compare
         # tuples semantically; never canonicalize/rewrite their raw payload.
-        require(sorted(receipt['outputs'], key=lambda o: (o['manual'], o['path'])) == expected_outputs, 'BATCH_OUTPUT_INVALID')
+        require(_batch_receipt_outputs(receipt['outputs']) == expected_outputs, 'BATCH_OUTPUT_INVALID')
         producer_order = [{k: o[k] for k in ('manual', 'path', 'sha256')} for o in receipt['outputs']]
         require(sha256(json.dumps(producer_order, ensure_ascii=False, separators=(',', ':')).encode('utf-8')) == row['publishedOutputsSha256'], 'BATCH_OUTPUT_INVALID')
         index_page = batch_exact(index['pages'][number], 'pageId materialDigest disposition reportRef pinsRef')

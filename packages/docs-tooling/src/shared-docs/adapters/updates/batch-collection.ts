@@ -534,6 +534,7 @@ import {createOwnedDirectory} from './evidence'
 import {takeMeasuredBatchQualification, type BatchQualifiedChild} from './toolset'
 import {BatchGitStore, batchBudget} from './batch-source'
 import {resolveCommit, sourceEndpoints} from './git'
+import {FetchGitReader} from './trusted-fetch-producer'
 
 declare const qualificationTicketBrand: unique symbol
 export type BatchQualificationLaunchTicket = {readonly [qualificationTicketBrand]: true}
@@ -582,7 +583,7 @@ async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: B
     if (!same(pins, {master: base.pins.master, dev: base.pins.dev, source: base.pins.source}) ||
       await resolveCommit(capture.root) !== base.pins.master ||
       (await sourceEndpoints(sealed.sourceRepository, 'https://github.com/milvus-io/milvus-docs', 'v3.0.x', base.pins.source)).head !== base.pins.source) throw Error('BATCH_PIN_CHANGED')
-    if (replay && (await resolveCommit(sealed.devRepository, 'refs/heads/master') !== base.pins.master || await resolveCommit(sealed.devRepository, 'refs/heads/dev') !== base.pins.dev)) throw Error('BATCH_PIN_CHANGED')
+    if (replay) await verifyBatchReplayHeads(sealed.devRepository, base.pins)
     const scope = immutable(BatchScopeSchema.parse({base, run: lease.run, discoveryRef: sealed.discoveryRef, discoveryDigest: sealed.discoveryDigest,
       materialRoot: sealed.materialRoot, materialDigest: sealed.materialDigest, closureRef: sealed.closureRef, groupSha256: sealed.groupSha256, pages: sealed.pages}))
     const temporary = await createOwnedDirectory(store)
@@ -705,4 +706,13 @@ async function executeQualification(operation: QualificationOperation): Promise<
     return {status: 'verified', origin: scope.base.origin, indexRef, indexDigest, qualifierRef, qualifierDigest, controlDigest: batchDigest('control', control),
       measurement: {qualifier: measured, settlement: child.settlement, verifierSettlement: verified.settlement}}
   } finally {await blobs.close(); await root.close()}
+}
+
+/** Separate bounded boundary probes, never a new/reset profile transaction.
+ * Only these two fixed local refs are permitted; operator refs are not accepted. */
+export async function verifyBatchReplayHeads(repository: string, pins: {master: string; dev: string}) {
+  const reader = new FetchGitReader(repository)
+  const master = await reader.read(['rev-parse', '--verify', 'refs/heads/master^{commit}'], undefined, false, 41)
+  const dev = await reader.read(['rev-parse', '--verify', 'refs/heads/dev^{commit}'], undefined, false, 41)
+  if (!Buffer.from(master).equals(Buffer.from(pins.master + '\n')) || !Buffer.from(dev).equals(Buffer.from(pins.dev + '\n'))) throw Error('BATCH_PIN_CHANGED')
 }

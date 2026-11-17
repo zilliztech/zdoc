@@ -83,6 +83,22 @@ class PreparationTest(unittest.TestCase):
             with self.subTest(changed=changed), self.assertRaises(p.Hold):
                 p.validate_profile_method(changed, **args)
 
+    def test_batch_output_binding_matches_manual_identity_for_dual_and_cloud_only_targets(self):
+        targets = [{"manual": "guides", "path": "tutorials/example"}, {"manual": "guides-byoc", "path": "tutorials/example"}]
+        cloud = {"manual": "guides", "path": "content/en/guides/tutorials/example.mdx", "sha256": "1" * 64}
+        byoc = {"manual": "guides-byoc", "path": "content/en/byoc/tutorials/example.mdx", "sha256": "2" * 64}
+        # Q/receiptsRoot order is manual + ':' + path, while configured targets
+        # use manual alone and original producer outputs have their own order.
+        outputs = [byoc, cloud]
+        self.assertEqual([p._batch_output_target(o, targets) for o in outputs], [targets[1], targets[0]])
+        self.assertEqual(p._batch_receipt_outputs([cloud, byoc]), outputs)
+        self.assertEqual(p._batch_output_target(cloud, targets[:1]), targets[0])
+        self.assertEqual(p._batch_receipt_outputs([cloud]), [cloud])
+        with self.assertRaises(p.Hold):
+            p._batch_output_target(byoc, targets[:1])
+        with self.assertRaises(p.Hold):
+            p._batch_output_target(cloud, targets + targets[:1])
+
     def test_batch_reader_holds_parent_descriptors_and_rejects_aliases_and_extent(self):
         with tempfile.TemporaryDirectory() as root:
             blobs = Path(root) / 'blobs'

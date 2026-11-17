@@ -61,7 +61,7 @@ const fixtureCodeRoot = new URL('../../../../../../../', import.meta.url)
 /** Generates raw producer inputs and immutable histories. Passing an executable
  * checkout inside root yields HEAD=M=tools for the later actual captured replay.
  * The default miniature repo tests raw validators only, never measured authority. */
-export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot?: string) {
+export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot?: string, scenario: {wrongCurrent?: boolean} = {}) {
   await mkdir(inputRoot, {recursive: true, mode: 0o700})
   const root = await realpath(inputRoot), tools = executableRoot ?? join(root, 'tools')
   const rel = relative(root, tools)
@@ -88,6 +88,11 @@ export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot
   await git(upstream, 'remote', 'add', 'origin', 'https://github.com/milvus-io/milvus-docs')
   await git(upstream, 'add', '.'); await git(upstream, 'commit', '-qm', 'Current source')
   const current = await git(upstream, 'rev-parse', 'HEAD')
+  let configuredCurrent = current
+  if (scenario.wrongCurrent) {
+    await git(upstream, 'commit', '--allow-empty', '-qm', 'Different current owner with identical source tree')
+    configuredCurrent = await git(upstream, 'rev-parse', 'HEAD')
+  }
   await write(upstream, 'site/en/json-field-overview.md', markdown(pages[0], oldBody.replace('## Old', '## New')))
   await write(upstream, 'site/en/member-c.md', markdown(pages[2], '## Member C\n\n[Overview](json-field-overview.md#New)'))
   await write(upstream, 'site/en/fragments/shared.md', 'Shared fragment after.\n')
@@ -117,7 +122,7 @@ export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot
   await git(dev, 'add', '.'); await git(dev, 'commit', '-qm', 'Before activation')
   const records = pages.map((page, index) => ({record_id: `rec${index}`, base_table_id: 'table', base_table_name: 'Manage Data', base_record_index: index,
     fields: {Docs: {text: page, link: `https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/${page}`}, Slug: page,
-      Labels: page, Targets: ['Zilliz.SaaS', 'Zilliz.PaaS'], Progress: 'Published', 'Placement Type': 'canonical', 'Release Channel': 'CURRENT'}}))
+      Labels: page, Targets: ['Zilliz.SaaS', 'Zilliz.PaaS'], Progress: 'Published', 'Sidebar Order': index + 1.5, 'Placement Type': 'canonical', 'Release Channel': 'CURRENT'}}))
   let sequence = 0
   const produce = async () => {
     const baseline = await git(dev, 'rev-parse', 'HEAD')
@@ -175,6 +180,12 @@ export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot
   const resultSha = await publish(round), sampledDev = resultSha
   await git(tools, 'fetch', '--no-write-fetch-head', '--no-tags', dev, resultSha)
   await git(tools, 'update-ref', 'refs/heads/dev', sampledDev)
+  let measuredMaster = master
+  if (scenario.wrongCurrent) {
+    for (const page of pages) await write(tools, `${overlay}/pages/${page}/lock.yaml`, `schema_version: 1\ncurrent: ${configuredCurrent}\nnext: ${page === 'member-c' ? target : configuredCurrent}\n`)
+    await git(tools, 'add', 'shared-docs'); await git(tools, 'commit', '-qm', 'M current owner differs while source bytes remain identical')
+    measuredMaster = await git(tools, 'rev-parse', 'HEAD')
+  }
   const sourceAt = new Date(Date.parse(manifest.createdAt) + 1000).toISOString(), publishAt = new Date(Date.parse(sourceAt) + 5000).toISOString(), scanAt = round.options.candidate.generated_at
   const rootApi = 'repos/zilliztech/zdoc', runId = 123, run = {id: runId, run_attempt: 1, repository: {id: 660446555}, head_repository: {id: 660446555}, workflow_id: 83360731,
     path: '.github/workflows/fetch-docs.yml', head_sha: master, head_branch: 'master', event: 'schedule', status: 'completed', conclusion: 'success', updated_at: publishAt,
@@ -210,13 +221,13 @@ with zipfile.ZipFile(sys.argv[3],'w',compression=zipfile.ZIP_DEFLATED) as z:z.wr
   const qualification = [...metadata, raw(rootApi + `/actions/workflows/fetch-docs.yml/runs?created=%3E%3D${earliest}&per_page=100&page=1`, {total_count: 1, workflow_runs: [run]}),
     raw(rootApi + `/actions/workflows/fetch-guides-requested.yml/runs?created=%3E%3D${earliest}&per_page=100&page=1`, {total_count: 0, workflow_runs: []}), raw(rootApi + '/branches/dev', {name: 'dev', commit: {sha: sampledDev}})]
   const pins = [raw(rootApi, {id: 660446555, full_name: 'zilliztech/zdoc'}), raw('repos/milvus-io/milvus-docs', {id: 267273319, full_name: 'milvus-io/milvus-docs'}),
-    ...[['zilliztech/zdoc', 'master', master], ['zilliztech/zdoc', 'dev', sampledDev], ['milvus-io/milvus-docs', 'v3.0.x', target]].map(([repo, branch, sha]) => raw(`repos/${repo}/git/ref/heads/${branch}`, {ref: 'refs/heads/' + branch, object: {type: 'commit', sha}}))]
+    ...[['zilliztech/zdoc', 'master', measuredMaster], ['zilliztech/zdoc', 'dev', sampledDev], ['milvus-io/milvus-docs', 'v3.0.x', target]].map(([repo, branch, sha]) => raw(`repos/${repo}/git/ref/heads/${branch}`, {ref: 'refs/heads/' + branch, object: {type: 'commit', sha}}))]
   const fixture: BatchReplayFixture = BatchReplayFixtureSchema.parse({kind: 'guides-batch-replay-fixture-v1', root, pins, qualification,
     acquisition: [raw(rootApi + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1', {workflow_runs: [run]}), ...metadata],
     archives: {source: {id: 31, path: 'transport/source.zip', bytes: sourceBytes.length, sha256: batchSha256(sourceBytes)}, publication: {id: 32, path: 'transport/publication.zip', bytes: publicationBytes.length, sha256: batchSha256(publicationBytes)}}, images: []})
   const fixtureBytes = canonicalBytes(fixture), replayClockMs = Date.parse(publishAt) + 2000
   await writeFile(join(root, 'replay-fixture.json'), fixtureBytes)
-  await writeFile(join(root, 'fixture-summary.json'), JSON.stringify({master, current, target, baseline, resultSha, sampledDev, replayClockMs, pages, rawOnly: !executableRoot,
+  await writeFile(join(root, 'fixture-summary.json'), JSON.stringify({master: measuredMaster, producer: master, current, configuredCurrent, target, baseline, resultSha, sampledDev, replayClockMs, pages, rawOnly: !executableRoot,
     source: batchRef(sourceBytes), publication: batchRef(publicationBytes), outcomes: round.bundle.outcomes.map((o: {page: string; status: string}) => ({page: o.page, status: o.status}))}, null, 2))
   const discoveryTransport: RemoteTransport = async ({path}) => {
     const found = pins.find(p => p.path === path.slice(1))
@@ -224,6 +235,6 @@ with zipfile.ZipFile(sys.argv[3],'w',compression=zipfile.ZIP_DEFLATED) as z:z.wr
     if (/^\/repos\/milvus-io\/milvus-docs\/commits\/[a-f0-9]{40}\/pulls\?per_page=100&page=1$/.test(path)) return {status: 200, headers: {}, body: Buffer.from('[]')}
     throw Error('Unexpected raw fixture discovery GET ' + path)
   }
-  return {root, tools, upstream, dev, stage, sourceZip, publicationZip, master, current, target, baseline, resultSha, sampledDev, pages,
+  return {root, tools, upstream, dev, stage, sourceZip, publicationZip, master: measuredMaster, producer: master, current, configuredCurrent, target, baseline, resultSha, sampledDev, pages,
     outcomes: round.bundle.outcomes as {page: string; status: string}[], fixtureBytes, fixture, replayClockMs, discoveryTransport}
 }
