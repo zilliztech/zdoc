@@ -1,6 +1,6 @@
 import { basename } from 'node:path'
 import { groupFile } from './group-context'
-import { aliasChannelHeadings } from './channel-heading-aliases'
+import { addLegacyCloudAnchors, aliasChannelHeadings } from './channel-heading-aliases'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
 import { cloudAnchor, collectReferences, headingText, rewriteLinksAndImages, imageDigest } from '../core/links'
 import type { ImageRecord, LinkMap, Notice, PreparedLinkInputs } from '../core/links'
@@ -409,11 +409,12 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
         linkMap: shared.linkMap, cloudPages: dev.pages, recorded: runtime.fetchContext?.recordedImages, context: location, pathLinks: !!layout })
       if ('errors' in rewritten) { errors.push(...mappedErrors(rewritten.errors)); continue }
       for (const image of rewritten.images) if (!runtime.fetchContext?.recordedImages?.has(image.original)) runtime.fetchContext?.recordedImages?.set(image.original, image.sha256)
-      const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
+      const adaptation = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
         ...(presentation(target.manual) ? { presentation: presentation(target.manual) } : {}),
         metadata: config.metadata, tabsRules: shared.tabsRules, betaValues: shared.context.betaValues,
         headingAnchor: text => cloudAnchor(headingText(text)), navigation: dev.navigation, customEditUrl, releaseChannel: dev.fetch?.channel, context: location })
-      if ('errors' in adapted) { errors.push(...mappedErrors(adapted.errors)); continue }
+      if ('errors' in adaptation) { errors.push(...mappedErrors(adaptation.errors)); continue }
+      const adapted = addLegacyCloudAnchors(adaptation)
       const origins = adapted.provenance.inputLines.map((_, index): MergeOrigin[] => {
         const origin = version.provenance?.[index]?.origin
         return [{ channel, file: origin?.file ?? version.variant?.file ?? source, line: origin?.line ?? originalPageLine(index + 1, version.blocks) }]

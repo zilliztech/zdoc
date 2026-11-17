@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import { analysisMarkdown, collectExplicitAnchors } from '../core/links'
+import { analysisMarkdown, cloudAnchor, collectExplicitAnchors } from '../core/links'
 import type { AdaptedPage } from '../core/site'
 import type { SharedDocsError } from '../core/types'
 
@@ -11,6 +11,27 @@ function headings(markdown: string): HeadingRow[] {
     const id = /\{#([A-Za-z0-9_.:-]+)\}\s*$/.exec(tokens[index + 1]?.content ?? '')?.[1]
     return id ? [{ id, line: token.map[0] }] : []
   })
+}
+
+/** Retain Cloud's former heading URL beside a case-preserved source alias. */
+export function addLegacyCloudAnchors(page: AdaptedPage): AdaptedPage {
+  const anchors = collectExplicitAnchors(page.markdown), lines = page.markdown.split('\n')
+  const used = new Set([...headings(page.markdown).map(h => h.id), ...anchors.map(a => a.id)])
+  const insertions = new Map<number, string[]>()
+  for (const anchor of anchors) {
+    const id = cloudAnchor(anchor.id), line = anchor.line - 1
+    // Do not split an inline anchor out of a table, list or quote container.
+    if (!id || used.has(id) || !/^ {0,3}<(?:a|details)\b/.test(lines[line])) continue
+    used.add(id)
+    insertions.set(line, [...insertions.get(line) ?? [], `<a id="${id}"></a>`])
+  }
+  if (!insertions.size) return page
+  const output: string[] = [], origins: (number | null)[] = []
+  lines.forEach((line, index) => {
+    for (const alias of insertions.get(index) ?? []) { output.push(alias); origins.push(null) }
+    output.push(line); origins.push(page.provenance.outputLines[index] ?? null)
+  })
+  return { ...page, markdown: output.join('\n'), provenance: { inputLines: page.provenance.inputLines, outputLines: origins } }
 }
 
 /** Prepare mutually exclusive channel headings for the strict block merger.

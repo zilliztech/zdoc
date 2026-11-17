@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { expect, it } from 'vitest'
-import { aliasChannelHeadings } from '../../adapters/channel-heading-aliases'
+import { addLegacyCloudAnchors, aliasChannelHeadings } from '../../adapters/channel-heading-aliases'
 import { mergeMarkdown } from '../../core/merge'
 import { collectExplicitAnchors } from '../../core/links'
 import type { AdaptedPage } from '../../core/site'
@@ -52,4 +52,20 @@ it('does not repair single-channel duplicates or existing explicit ID conflicts'
 })
 it('never turns unrelated unsafe markup failures into passing output', () => {
   expect(aliasChannelHeadings(adapted('Old'), adapted('New'), [{ code: 'ADAPT_UNSUPPORTED_MARKUP', message: 'Unclosed details tag' }])).toBeUndefined()
+})
+
+it('retains Cloud bookmarks when a heading becomes a case-preserved disclosure or HTML alias', () => {
+  const source = adapted('<a id="How-it-works"></a>\n\n<details id="Supported-filters">\n<summary>Reference</summary>\n\n</details>')
+  const result = addLegacyCloudAnchors(source)
+  expect(collectExplicitAnchors(result.markdown).map(a => a.id)).toEqual(['how-it-works', 'How-it-works', 'supported-filters', 'Supported-filters'])
+  expect(result.provenance.outputLines.slice(0, 3)).toEqual([null, 1, 2])
+  expect(source.markdown).not.toContain('id="how-it-works"')
+})
+
+it('does not collide with real headings, existing aliases, or split inline table anchors', () => {
+  for (const markdown of [
+    '## Reference{#reference}\n\n<a id="Reference"></a>',
+    '<a id="reference"></a>\n\n<a id="Reference"></a>',
+    '| Link |\n| --- |\n| <a id="Reference"></a> |',
+  ]) expect(addLegacyCloudAnchors(adapted(markdown)).markdown).toBe(markdown)
 })

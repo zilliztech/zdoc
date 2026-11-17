@@ -55,6 +55,9 @@ Shared-page links resolve both Markdown heading anchors and static IDs on author
 heading slug; explicit IDs retain their case and are URL-encoded in links. Code,
 comments and component props do not declare anchors. A projected-away anchor or
 an ambiguous emitted ID fails validation rather than falling back to the page top.
+For standalone compatibility anchors/disclosures, adaptation also retains the
+lowercase Cloud heading URL when it is distinct and does not collide with an
+existing heading or explicit ID.
 
 When a heading moves or changes depth between CURRENT and NEXT, the adapter can
 give the NEXT heading a unique rendering ID and retain its public ID as a nearby
