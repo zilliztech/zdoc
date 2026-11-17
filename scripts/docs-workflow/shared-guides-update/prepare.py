@@ -1137,8 +1137,10 @@ def _batch_reserve_fd(root_fd, extent):
 
 
 def commit_batch_pointer(parent_fd, root_fd, blobs_fd, root_name, control, pointer, acknowledgement, check_deadline=lambda: None):
-    batch_exact(acknowledgement, 'kind controlDigest')
-    require(acknowledgement == {'kind': 'guides-batch-commit-v1', 'controlDigest': batch_digest('control', control)}, 'BATCH_COMMIT_ACK_INVALID')
+    batch_exact(acknowledgement, 'kind controlDigest freshnessRemainingMs')
+    require(acknowledgement['kind'] == 'guides-batch-commit-v1' and acknowledgement['controlDigest'] == batch_digest('control', control)
+            and type(acknowledgement['freshnessRemainingMs']) is int
+            and 0 < acknowledgement['freshnessRemainingMs'] <= 36 * 3600000 + 5 * 60000, 'BATCH_COMMIT_ACK_INVALID')
     require(len(pointer) <= 65536, 'BATCH_POINTER_LIMIT')
     check_deadline()
     _batch_root_check(parent_fd, root_fd, blobs_fd, root_name, control)
@@ -1177,21 +1179,19 @@ def _batch_retract_pointer(root_fd, expected):
     os.unlink('index.json', dir_fd=root_fd)
 
 
-def batch_lifecycle_guard(clock_sample, scan_start_ms, received_monotonic=None, received_wall_ms=None):
-    batch_exact(clock_sample, 'wallMs decisionMs')
-    require(all(type(clock_sample[k]) is int and 0 <= clock_sample[k] <= 9007199254740991 for k in clock_sample)
-            and type(scan_start_ms) is int and scan_start_ms >= 0, 'BATCH_FRESHNESS_CLOCK_INVALID')
-    began = time.monotonic() if received_monotonic is None else received_monotonic
-    received = int(time.time() * 1000) if received_wall_ms is None else received_wall_ms
-    require(received >= clock_sample['wallMs'], 'BATCH_FRESHNESS_CLOCK_INVALID')
-    at_receive = clock_sample['decisionMs'] + received - clock_sample['wallMs']
+def batch_commit_lifecycle_guard(acknowledgement, scan_start_ms, origin, verified_monotonic):
+    batch_exact(acknowledgement, 'kind controlDigest freshnessRemainingMs')
+    budget = acknowledgement['freshnessRemainingMs']
+    require(type(budget) is int and 0 < budget <= 36 * 3600000 + 5 * 60000, 'BATCH_COMMIT_ACK_INVALID')
     def check():
-        # Transport/verification time counts. A backward wall-clock step cannot
-        # extend the monotonic validity window; forward steps are checked too.
-        elapsed_clock = at_receive + (time.monotonic() - began) * 1000
-        wall_clock = clock_sample['decisionMs'] + time.time() * 1000 - clock_sample['wallMs']
-        require(all(scan_start_ms - now <= 5 * 60000 and now - scan_start_ms <= 36 * 3600000
-                    for now in (elapsed_clock, wall_clock)), 'BATCH_FRESHNESS_EXPIRED')
+        # The private parent samples this budget AFTER final freshness. Our ACK
+        # instant is earlier, so charging the ENTIRE round trip is conservative
+        # and never reconstructs unseen elapsed time from a wall-clock delta.
+        elapsed = (time.monotonic() - verified_monotonic) * 1000
+        require(0 <= elapsed < budget, 'BATCH_FRESHNESS_EXPIRED')
+        if origin['kind'] == 'observed':
+            now = time.time() * 1000
+            require(scan_start_ms - now <= 5 * 60000 and now - scan_start_ms <= 36 * 3600000, 'BATCH_FRESHNESS_EXPIRED')
     return check
 
 
@@ -1200,8 +1200,7 @@ def _batch_verify_publish():
     # freshness. The parent keeps the same descriptors alive until settlement.
     first = sys.stdin.buffer.readline(65537)
     require(first.endswith(b'\n') and len(first) <= 65536, 'BATCH_CONTROL_LIMIT')
-    envelope = batch_exact(batch_parse(first[:-1]), 'control rootName clockSample remainingMs')
-    received_monotonic, received_wall_ms = time.monotonic(), int(time.time() * 1000)
+    envelope = batch_exact(batch_parse(first[:-1]), 'control rootName remainingMs')
     require(type(envelope['remainingMs']) is int and 0 < envelope['remainingMs'] <= 600000, 'BATCH_OPERATION_DEADLINE')
     deadline = time.monotonic() + envelope['remainingMs'] / 1000
     archive_state = None
@@ -1217,13 +1216,6 @@ def _batch_verify_publish():
     reader = _BatchReader(4, 5, control)
     verified = verify_batch_collection(4, 5, control, reader)
     index = reader.objects[control['indexRef']['sha256']]
-    origin, clock_sample = control['base']['origin'], envelope['clockSample']
-    batch_exact(clock_sample, 'wallMs decisionMs')
-    require(clock_sample['decisionMs'] == clock_sample['wallMs'] if origin['kind'] == 'observed'
-            else clock_sample['decisionMs'] >= origin['replayClockMs'], 'BATCH_FRESHNESS_CLOCK_INVALID')
-    lifecycle_check = batch_lifecycle_guard(clock_sample, reader.objects[control['qualifierRef']['sha256']]['scanStartMs'],
-                                            received_monotonic, received_wall_ms)
-    remaining()
     refs = [('index.json', control['indexRef']), ('qualification.json', control['qualifierRef'])]
     for page in index['pages']:
         refs += [(f"pages/{page['pageId']}/report.json", page['reportRef']),
@@ -1249,15 +1241,19 @@ def _batch_verify_publish():
                                **{k: verified[k] for k in ('controlDigest', 'indexRef', 'indexDigest')},
                                'archive': archive_info, 'writeEligible': False, 'operations': []})
     require(len(pointer) <= 65536, 'BATCH_POINTER_LIMIT')
+    verified_monotonic = time.monotonic()
     os.write(3, batch_canonical(verified) + b'\n')
     second = sys.stdin.buffer.readline(65537 - len(first))
     require(second.endswith(b'\n') and len(first) + len(second) <= 65536, 'BATCH_COMMIT_ACK_INVALID')
     require(sys.stdin.buffer.read(1) == b'', 'BATCH_COMMIT_ACK_INVALID')
+    acknowledgement = batch_parse(second[:-1])
+    lifecycle_check = batch_commit_lifecycle_guard(acknowledgement, reader.objects[control['qualifierRef']['sha256']]['scanStartMs'],
+                                                   control['base']['origin'], verified_monotonic)
     remaining()
     _batch_reserve_fd(4, len(pointer))
     result = batch_canonical({**verified, 'kind': 'guides-batch-published-v1'})
     require(len(result) + len(batch_canonical(verified)) + 1 <= 65536, 'BATCH_ACK_LIMIT')
-    installed = commit_batch_pointer(6, 4, 5, root_name, control, pointer, batch_parse(second[:-1]), remaining)
+    installed = commit_batch_pointer(6, 4, 5, root_name, control, pointer, acknowledgement, remaining)
     try:
         remaining()
         require(os.write(3, result) == len(result), 'BATCH_ACK_LIMIT')

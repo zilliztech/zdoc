@@ -180,8 +180,9 @@ class PreparationTest(unittest.TestCase):
                            'blobsIdentity': p._BatchReader.identity(blobs_fd)}
                 pointer = b'{"indexDigest":"verified"}'
                 digest = p.batch_digest('control', control)
-                good = {'kind': 'guides-batch-commit-v1', 'controlDigest': digest}
-                for bad in ({**good, 'controlDigest': '0' * 64}, {**good, 'pointer': {}}, {}):
+                good = {'kind': 'guides-batch-commit-v1', 'controlDigest': digest, 'freshnessRemainingMs': 1000}
+                for bad in ({**good, 'controlDigest': '0' * 64}, {**good, 'pointer': {}}, {},
+                            *({**good, 'freshnessRemainingMs': budget} for budget in (0, -1, True, 36 * 3600000 + 5 * 60000 + 1))):
                     with self.assertRaises(p.Hold):
                         p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, bad)
                     self.assertFalse((root / 'index.json').exists())
@@ -199,19 +200,56 @@ class PreparationTest(unittest.TestCase):
                 for fd in (blobs_fd, root_fd, parent_fd):
                     os.close(fd)
 
-    def test_batch_lifecycle_guard_counts_transport_and_replay_elapsed_time(self):
+    def test_batch_pre_receive_rollback_cannot_extend_rooted_publication(self):
+        with tempfile.TemporaryDirectory() as parent:
+            root = Path(parent) / 'operation'
+            root.mkdir()
+            (root / 'blobs').mkdir()
+            fds = [os.open(path, os.O_RDONLY | os.O_DIRECTORY) for path in (parent, root, root / 'blobs')]
+            # 60 seconds elapsed since ticket creation; wall moved back 59s.
+            ticket_wall, replay_clock = 1800000000000, 1000000000000
+            wall, monotonic = [(ticket_wall + 1000) / 1000], [160.0]
+            scan = replay_clock + 60001 - 36 * 3600000
+            try:
+                parent_fd, root_fd, blobs_fd = fds
+                control = {'rootIdentity': p._BatchReader.identity(root_fd), 'blobsIdentity': p._BatchReader.identity(blobs_fd)}
+                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control), 'freshnessRemainingMs': 1000}
+                real_sync = p.os.fsync
+                def delayed_directory(fd):
+                    real_sync(fd)
+                    if fd == root_fd:
+                        wall[0] += .010
+                        monotonic[0] += .010
+                with patch.object(p.time, 'time', side_effect=lambda: wall[0]), patch.object(p.time, 'monotonic', side_effect=lambda: monotonic[0]):
+                    ack['freshnessRemainingMs'] = 1  # True final monotonic clock is R+60s.
+                    check = p.batch_commit_lifecycle_guard(ack, scan, {'kind': 'replay'}, 160.0)
+                    check()
+                    with patch.object(p.os, 'fsync', side_effect=delayed_directory), self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                        p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, b'{}', ack, check)
+                self.assertFalse((root / 'index.json').exists())
+            finally:
+                for fd in fds:
+                    os.close(fd)
+
+    def test_batch_commit_lifecycle_charges_entire_roundtrip_and_observed_utc(self):
         wall, monotonic = [1800000000.0], [100.0]
-        sample = {'wallMs': int(wall[0] * 1000) - 10, 'decisionMs': 1000000000}
+        ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': 'a' * 64, 'freshnessRemainingMs': 100}
+        scan = int(wall[0] * 1000) - 36 * 3600000 + 10
         with patch.object(p.time, 'time', side_effect=lambda: wall[0]), patch.object(p.time, 'monotonic', side_effect=lambda: monotonic[0]):
-            # Replay uses its private virtual epoch, with actual transport time.
-            check = p.batch_lifecycle_guard(sample, sample['decisionMs'] - 36 * 3600000 + 20)
-            check()
-            wall[0] -= 1  # A wall rollback must not extend validity.
-            monotonic[0] += .021
+            replay = p.batch_commit_lifecycle_guard(ack, scan, {'kind': 'replay'}, 100.0)
+            observed = p.batch_commit_lifecycle_guard(ack, scan, {'kind': 'observed'}, 100.0)
+            replay(); observed()
+            wall[0] += .020
             with self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
-                check()
-            with self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_CLOCK_INVALID'):
-                p.batch_lifecycle_guard(sample, sample['decisionMs'])
+                observed()
+            replay()  # The replay clock is independent of wall movement.
+            wall[0] -= 59
+            monotonic[0] += .101
+            with self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                replay()
+            future = p.batch_commit_lifecycle_guard({**ack, 'freshnessRemainingMs': 1000}, int(wall[0] * 1000) + 300001, {'kind': 'observed'}, monotonic[0])
+            with self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                future()
 
     def test_batch_lifecycle_expiry_during_pointer_settlement_retracts_owned_link(self):
         with tempfile.TemporaryDirectory() as parent:
@@ -223,7 +261,7 @@ class PreparationTest(unittest.TestCase):
             try:
                 parent_fd, root_fd, blobs_fd = fds
                 control = {'rootIdentity': p._BatchReader.identity(root_fd), 'blobsIdentity': p._BatchReader.identity(blobs_fd)}
-                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control)}
+                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control), 'freshnessRemainingMs': 1000}
                 sample = {'wallMs': int(wall[0] * 1000), 'decisionMs': int(wall[0] * 1000)}
                 scan = sample['decisionMs'] - 36 * 3600000 + 1
                 real_sync = p.os.fsync
@@ -233,7 +271,8 @@ class PreparationTest(unittest.TestCase):
                         wall[0] += .010
                         monotonic[0] += .010
                 with patch.object(p.time, 'time', side_effect=lambda: wall[0]), patch.object(p.time, 'monotonic', side_effect=lambda: monotonic[0]):
-                    check = p.batch_lifecycle_guard(sample, scan)
+                    ack['freshnessRemainingMs'] = 1
+                    check = p.batch_commit_lifecycle_guard(ack, scan, {'kind': 'replay'}, monotonic[0])
                     check()  # The coordinator decision is still inside 36h.
                     with patch.object(p.os, 'fsync', side_effect=delayed_directory), self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
                         p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, b'{}', ack, check)
@@ -251,7 +290,7 @@ class PreparationTest(unittest.TestCase):
             try:
                 parent_fd, root_fd, blobs_fd = fds
                 control = {'rootIdentity': p._BatchReader.identity(root_fd), 'blobsIdentity': p._BatchReader.identity(blobs_fd)}
-                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control)}
+                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control), 'freshnessRemainingMs': 1000}
                 real_sync = p.os.fsync
                 def fail_directory(fd):
                     if fd == root_fd:

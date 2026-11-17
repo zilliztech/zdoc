@@ -1139,7 +1139,7 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
   async function runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal) {
     const launch = consumeBatchVerifierLaunch(ticket, value, evidence)
     await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
-    const input = launch.finalize ? Buffer.concat([canonicalBytes({control: launch.control, rootName: launch.rootName, clockSample: launch.clockSample, remainingMs: Math.min(600_000, currentBatchLifetime()?.check() ?? 600_000)}), Buffer.from('\n')]) : canonicalBytes(launch.control)
+    const input = launch.finalize ? Buffer.concat([canonicalBytes({control: launch.control, rootName: launch.rootName, remainingMs: Math.min(600_000, currentBatchLifetime()?.check() ?? 600_000)}), Buffer.from('\n')]) : canonicalBytes(launch.control)
     if (input.length > 65536 || launch.control.base.pins.trustedTools !== state.options.commit || !targets.has('runtime/python3') || state.closure.entries.find(e => e.path === 'repo/scripts/docs-workflow/shared-guides-update/prepare.py')?.state !== 'file') throw Error('BATCH_LAUNCH_BINDING_INVALID')
     return invokeGuidesWorker(join(owned.root, 'python3'), [join(state.options.root, 'scripts/docs-workflow/shared-guides-update/prepare.py'), launch.finalize ? 'verify-and-publish-batch-collection' : 'verify-batch-collection'],
       state.options.root, environment, input, signal, undefined, launch.control, undefined, {root: launch.rootFd, blobs: launch.blobsFd, parent: launch.parentFd, finalize: launch.finalize})
@@ -1335,7 +1335,7 @@ export function takeMeasuredBatchQualification(child: BatchQualifiedChild, ticke
 /** Own only the group born from this actual handle; a parent cannot clean up after
  * its own fatal death, or certify descendants that deliberately leave the group. */
 async function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv,
-  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number; parent?: number; finalize?: (signal: AbortSignal) => Promise<void>}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
+  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number; parent?: number; finalize?: (signal: AbortSignal) => Promise<number>}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
   signal?.throwIfAborted()
   const child = spawn(binary, args, {cwd, env: environment,
     stdio: ['pipe', 'pipe', 'pipe', 'pipe', descriptors ? descriptors.root : broker ? 'pipe' : 'ignore', descriptors ? descriptors.blobs : broker ? 'pipe' : 'ignore', descriptors?.parent ?? (replayInput !== undefined ? 'pipe' : 'ignore')], detached: true})
@@ -1420,10 +1420,11 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
           if (!Buffer.from(canonicalBytes(expected)).equals(received.subarray(0, newline)) || !Buffer.from(canonicalBytes(ack)).equals(received.subarray(0, newline))) throw Error('BATCH_VERIFY_ACK_INVALID')
           verificationAcknowledged = true; output[2] = []
           handshake = (async () => {
-            await descriptors.finalize!(signal ? AbortSignal.any([signal, publicationLifetime.signal]) : publicationLifetime.signal)
+            const freshnessRemainingMs = await descriptors.finalize!(signal ? AbortSignal.any([signal, publicationLifetime.signal]) : publicationLifetime.signal)
             signal?.throwIfAborted()
             if (primary || terminal || receipt.close) throw Error('BATCH_COMMIT_SETTLEMENT_INVALID')
-            const commit = Buffer.concat([canonicalBytes({kind: 'guides-batch-commit-v1', controlDigest: expected.controlDigest}), Buffer.from('\n')])
+            if (!Number.isSafeInteger(freshnessRemainingMs) || freshnessRemainingMs < 1 || freshnessRemainingMs > 36 * 3600_000 + 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
+            const commit = Buffer.concat([canonicalBytes({kind: 'guides-batch-commit-v1', controlDigest: expected.controlDigest, freshnessRemainingMs}), Buffer.from('\n')])
             if (input.length + commit.length > 65536) throw Error('BATCH_CONTROL_LIMIT')
             child.stdin.end(commit)
           })().catch(fail)

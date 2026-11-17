@@ -566,7 +566,7 @@ declare const verifierTicketBrand: unique symbol
 export type BatchVerifierLaunchTicket = {readonly [verifierTicketBrand]: true}
 interface QualificationOperation {active: boolean; sealed: SealedMaterialClosure; scope: BatchScope; request: BatchQualifierRequest; lease: BatchRunLease; verifyOwned: () => Promise<void>}
 const qualifierLaunches = new WeakMap<object, {operation: QualificationOperation; claimed: boolean}>()
-const verifierLaunches = new WeakMap<object, {operation: QualificationOperation; claimed: boolean; control: BatchVerifyControl; rootFd: number; blobsFd: number; parentFd?: number; rootName?: string; clockSample?: {wallMs: number; decisionMs: number}; finalize?: (signal: AbortSignal) => Promise<void>}>()
+const verifierLaunches = new WeakMap<object, {operation: QualificationOperation; claimed: boolean; control: BatchVerifyControl; rootFd: number; blobsFd: number; parentFd?: number; rootName?: string; finalize?: (signal: AbortSignal) => Promise<number>}>()
 export function consumeBatchQualifierLaunch(ticket: BatchQualificationLaunchTicket, capture: TrustedToolsetCapture, store: EvidenceStore, kind: BatchOrigin['kind']) {
   const launch = qualifierLaunches.get(ticket)
   if (!launch || launch.claimed || !launch.operation.active || launch.operation.sealed.capture !== capture || launch.operation.sealed.store !== store || launch.operation.scope.base.origin.kind !== kind) {
@@ -583,7 +583,7 @@ export function consumeBatchVerifierLaunch(ticket: BatchVerifierLaunchTicket, ca
     invalid()
   }
   launch.claimed = true
-  return {control: launch.control, rootFd: launch.rootFd, blobsFd: launch.blobsFd, parentFd: launch.parentFd, rootName: launch.rootName, clockSample: launch.clockSample, finalize: launch.finalize}
+  return {control: launch.control, rootFd: launch.rootFd, blobsFd: launch.blobsFd, parentFd: launch.parentFd, rootName: launch.rootName, finalize: launch.finalize}
 }
 export type BatchQualifiedCollection = {status: 'held'; reasons: readonly string[]} | {status: 'verified'; origin: BatchOrigin;
   indexRef: BatchBlobRef; indexDigest: string; qualifierRef: BatchBlobRef; qualifierDigest: string; controlDigest: string;
@@ -730,7 +730,7 @@ async function executeQualification(operation: QualificationOperation, publish: 
     if (canonicalBytes(control).length > 65536) throw Error('BATCH_CONTROL_LIMIT')
     const verifierTicket = Object.freeze({}) as BatchVerifierLaunchTicket
     verifierLaunches.set(verifierTicket, {operation, claimed: false, control, rootFd: root.fd, blobsFd: blobs.fd,
-      ...(publish ? {parentFd: parent.fd, rootName: basename(store.root), clockSample: publicationClockSample(scope.base.origin), finalize: async (signal: AbortSignal) => {
+      ...(publish ? {parentFd: parent.fd, rootName: basename(store.root), finalize: async (signal: AbortSignal) => {
         check(); await operation.verifyOwned(); check()
         const replay = scope.base.origin.kind === 'replay' ? parseBatchCanonical(sealed.replayFixtureBytes!, BatchReplayFixtureSchema) : undefined
         if (replay && !replay.finalPass) throw Error('BATCH_FINAL_REPLAY_MISSING')
@@ -744,6 +744,9 @@ async function executeQualification(operation: QualificationOperation, publish: 
         const decisionTime = collectionClock(scope.base.origin)
         if (decisionTime - q.scanStartMs > 36 * 3600_000 || q.scanStartMs - decisionTime > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
         check()
+        const remaining = q.scanStartMs + 36 * 3600_000 - collectionClock(scope.base.origin)
+        if (!Number.isSafeInteger(remaining) || remaining < 1) throw Error('BATCH_FRESHNESS_EXPIRED')
+        return remaining
       }} : {})})
     await reserveBatchAllocation(store, 16 * 1024 ** 2 + 65536, 3)
     let verified
@@ -910,9 +913,4 @@ export function collectReplayGuidesBatch(options: {sourceRepository: string; out
 function collectionClock(origin: BatchOrigin) {
   const lifetime = currentBatchLifetime()
   return origin.kind === 'observed' ? Date.now() : origin.replayClockMs + Math.floor(lifetime ? performance.now() - (lifetime.deadline - 4_500_000) : 0)
-}
-
-function publicationClockSample(origin: BatchOrigin) {
-  const wallMs = Date.now()
-  return {wallMs, decisionMs: origin.kind === 'observed' ? wallMs : collectionClock(origin)}
 }
