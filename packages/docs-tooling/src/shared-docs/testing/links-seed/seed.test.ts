@@ -117,16 +117,16 @@ describe('labeled links preserve WP5 occurrences', () => {
   it('retains references, HTML, nested image labels, escapes, and CRLF spans', () => {
     const markdown = '[**one**](<one.md> "title")\n[two][ref]\n[![alt](img.png)](three.md)\n<a href="four.md"><code>Four</code> &amp; five</a>\n\n[ref]: two.md'
     const links = collectLabeledLinks(markdown)
-    expect(links.map(({ text, ...ref }) => ref)).toEqual(collectReferences(markdown).links)
+    expect(collectReferences(markdown).links).toEqual(links)
     expect(links.map(link => link.text)).toEqual(['one', 'two', 'alt', 'Four & five'])
     const crlf = '[**one**](one.md)\r\n[**two**](two.md)'
-    expect(collectLabeledLinks(crlf).map(({ text, ...ref }) => ref)).toEqual(collectReferences(crlf).links)
+    expect(collectReferences(crlf).links).toEqual(collectLabeledLinks(crlf))
   })
   it('does not count code, metadata, comments, images, or language switches', () => {
     const markdown = ['---', 'title: "[x](meta.md)"', '---', '`[x](inline.md)`', '```', '[x](fenced.md)', '```', '',
       '    [x](indented.md)', '', '<!-- [x](comment.md) -->', '<div class="multipleCode"><a href="tab.md">Tab</a></div>',
       '<code>[x](code.md)</code>', '![image](image.md)', '[yes](yes.md)', '[external](https://example.test)', '[root](/root.md)'].join('\n')
-    expect(collectLabeledLinks(markdown).map(({ text, ...ref }) => ref)).toEqual(collectReferences(markdown).links)
+    expect(collectReferences(markdown).links).toEqual(collectLabeledLinks(markdown))
     expect(seed([page('yes.md')], [], markdown).entries.map(row => row.target)).toEqual(['yes.md'])
   })
 })

@@ -23,7 +23,7 @@ function scanReferences(markdown: string, onLink?: (ref: LinkRef, text: string) 
   blocks.validateLink = () => true
   const env: { references?: Record<string, { href: string; title: string }> } = {}
   const source = analysisMarkdown(markdown)
-  const original = onLink ? markdown.replace(/\r(?!\n)/g, '\n') : ''
+  const original = markdown.replace(/\r(?!\n)/g, '\n')
   const lines = [0, ...[...source.matchAll(/\n/g)].map(match => match.index! + 1)]
   const masks: [number, number][] = []
   const definitions = new Map<string, { start: number; end: number }>()
@@ -67,11 +67,18 @@ function scanReferences(markdown: string, onLink?: (ref: LinkRef, text: string) 
   const images: ImageRef[] = []
   const containers: { name: string; ignored: boolean }[] = []
   const ignored = () => containers.some(item => item.ignored)
-  const add = (image: boolean, url: string, span: { start: number; end: number }, occurrence: number, text = '') => {
+  const add = (image: boolean, url: string, span: { start: number; end: number }, occurrence: number, text = '',
+    extras: Partial<LinkRef> = {}) => {
     const collection = image ? images : links
-    const ref = { url, ...span, line: source.slice(0, occurrence).split('\n').length }
+    const ref = { url, ...span, line: source.slice(0, occurrence).split('\n').length, ...extras }
     collection.push(ref)
     if (!image) onLink?.(ref, text)
+  }
+  /** The whole line holding a reference definition, newline included so removal leaves no blank line. */
+  const definitionLine = (span: { start: number; end: number }): { start: number; end: number } => {
+    const start = source.lastIndexOf('\n', span.start - 1) + 1
+    const newline = source.indexOf('\n', span.end)
+    return { start, end: newline < 0 ? source.length : newline + 1 }
   }
   for (const name of ['link', 'image']) {
     const rule = md.inline.ruler.__rules__.find(rule => rule.name === name)!.fn
@@ -84,23 +91,26 @@ function scanReferences(markdown: string, onLink?: (ref: LinkRef, text: string) 
       const token = state.tokens.slice(first).find(token => token.type === (image ? 'image' : 'link_open'))
       if (!token) return ok
       const url = String(token.attrGet(image ? 'src' : 'href') ?? '')
+      // The rule consumed the whole construct; its span lets a rewrite replace links wholesale.
+      const construct = { start, end: state.pos }
       let text = ''
-      if (onLink && !image) {
+      let labelEnd: number | undefined
+      if (!image) {
         const old = state.pos
-        const end = md.helpers.parseLinkLabel(state, start, true)
+        labelEnd = md.helpers.parseLinkLabel(state, start, true)
         state.pos = old
-        text = headingText(original.slice(start + 1, end))
+        text = headingText(original.slice(start + 1, labelEnd))
       }
       if (token.meta?.label) {
         const span = definitions.get(String(token.meta.label))
-        if (span) add(image, url, span, start, text)
+        if (span) add(image, url, span, start, text, image ? {} : { text, full: construct, definition: definitionLine(span) })
       } else {
         const old = state.pos
         const labelEnd = md.helpers.parseLinkLabel(state, start + (image ? 1 : 0), !image)
         state.pos = old
         const whitespace = /^\(\s*/.exec(masked.slice(labelEnd + 1))
         const span = whitespace && destination(masked, labelEnd + 1 + whitespace[0].length)
-        if (span) add(image, url, span, start, text)
+        if (span) add(image, url, span, start, text, image ? {} : { text, full: construct })
       }
       return ok
     })
@@ -140,9 +150,10 @@ function scanReferences(markdown: string, onLink?: (ref: LinkRef, text: string) 
       const value = attr[2] ?? attr[3] ?? attr[4]
       const prefix = /^[^=]+=\s*["']?/.exec(attr[0])![0].length
       const offset = start + attr.index! + prefix
-      const close = onLink && new RegExp(`</${name}\\s*>`, 'i').exec(masked.slice(state.pos))
+      const close = new RegExp(`</${name}\\s*>`, 'i').exec(masked.slice(state.pos))
       const text = close ? headingText(original.slice(state.pos, state.pos + close.index)) : ''
-      add(key === 'src', md.utils.unescapeAll(value), { start: offset, end: offset + value.length }, start, text)
+      add(key === 'src', md.utils.unescapeAll(value), { start: offset, end: offset + value.length }, start, text,
+        key === 'src' ? {} : { text })
     }
     if (!/\/\s*>$/.test(raw) && !['img', 'br', 'hr', 'input', 'meta', 'link', 'source', 'wbr', 'area', 'base', 'embed', 'param', 'track', 'col'].includes(name)) {
       containers.push({ name, ignored: excluded })

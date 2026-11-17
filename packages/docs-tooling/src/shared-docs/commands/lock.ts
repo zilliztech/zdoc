@@ -8,6 +8,7 @@ import { parseManualConfig } from '../core/manual-config'
 import { planLock } from '../core/lock'
 import { readGroupLayout } from '../adapters/group-layout'
 import type { SharedDocsError } from '../core/types'
+import { parseVariables } from '../core/variables'
 
 export type LockOptions =
   | { fromFork: true; sharedDocs?: string; repo?: string; page?: string }
@@ -51,7 +52,15 @@ export async function runLock(options: LockOptions, write: (text: string) => voi
     if ('errors' in layout) { print(layout.errors); return 1 }
     if (layout.kind === 'manual') {
       if (options.page !== undefined) throw new InputError('--page is not supported for manual groups')
-      const manual = parseManualConfig(await configFile(join(root, 'manual.yaml'), group.file('manual.yaml')), { ...context, file: group.file('manual.yaml') })
+      // milvus_values resolves against Variables.json, so the lock preflight parses it too.
+      const variablesPath = join(root, 'Variables.json')
+      let variablesText = '{}'
+      try { variablesText = await readFile(variablesPath, 'utf8') }
+      catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error }
+      const variables = parseVariables(variablesText, { file: group.file('Variables.json') })
+      if ('errors' in variables) { print(variables.errors); return 1 }
+      const manual = parseManualConfig(await configFile(join(root, 'manual.yaml'), group.file('manual.yaml')),
+        { ...context, file: group.file('manual.yaml'), variables: variables.variables })
       if ('errors' in manual) { print(manual.errors); return 1 }
       const lockPath = join(root, 'lock.yaml')
       let exists = false
