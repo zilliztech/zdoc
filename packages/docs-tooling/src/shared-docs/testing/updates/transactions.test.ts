@@ -53,8 +53,14 @@ describe('isolated ordinary Git preparation',()=>{
     const f=await history(),human=await f.branch('human',f.base,{'content/en/fixture/human.md':'human\n'}),master=await f.branch('reviewed',f.base,{'content/en/fixture/master.md':'master\n'})
     const donor1=await f.branch('donor1',human,{'content/en/fixture/donor1.md':'one\n'}),donor2=await f.branch('donor2',human,{'content/en/fixture/donor2.md':'two\n'})
     const before=await f.state(), request={master,head:human,donorHeads:[donor2,donor1],lockPaths:[lockPath],dataPaths}
-    const a=await f.scratch('first',[master,human,donor1,donor2]),b=await f.scratch('second',[master,human,donor1,donor2])
-    const first=await a.transaction.prepare(request),second=await b.transaction.prepare(request)
+    // Independent object stores can prepare concurrently. Settle both before
+    // reporting a failure so no fixture work leaks into the following test.
+    const attempts=await Promise.allSettled(['first','second'].map(async name=>{
+      const scratch=await f.scratch(name,[master,human,donor1,donor2])
+      return {...scratch,result:await scratch.transaction.prepare(request)}
+    }))
+    const [a,b]=attempts.map(attempt=>{if(attempt.status==='rejected')throw attempt.reason;return attempt.value})
+    const first=a.result,second=b.result
     expect(first.prepared).toEqual(second.prepared)
     expect(first.merges).toHaveLength(3)
     expect(first.merges[0].parents).toEqual([human,master])
