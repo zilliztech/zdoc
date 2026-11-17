@@ -49,12 +49,21 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       file = file.slice(file.lastIndexOf('/') + 1)
       kind = 'page'
     }
-    // Excluded pages never publish; the link is replaced by its visible text and the
-    // occurrence reported. A basename that a live page still owns resolves normally, and
-    // without a construct span (HTML anchors) resolution fails closed below.
-    if (kind === 'page' && input.excluded?.has(file.toLowerCase()) && !input.sharedPages.has(file)
-      && ref.text !== undefined && ref.full) {
-      notices.push({ ...diagnostic('LINK_TARGET_EXCLUDED', `Link to the excluded page ${file} is replaced with its text.`, context, ref.line),
+    // Excluded pages never publish; one-sided pages are absent from this channel's tree.
+    // Either way the link is replaced by its visible text and the occurrence reported.
+    // Exclusion yields to a basename a live page still owns (never the case after the
+    // identity collision checks, but guarded regardless); a channel-absent basename is
+    // by definition a live page's, so it strips unconditionally. Without a construct
+    // span (HTML anchors) resolution fails closed below.
+    const lowercase = file.toLowerCase()
+    const configExcluded = input.excluded?.has(lowercase) && !input.sharedPages.has(file)
+    const channelAbsent = input.channelAbsent?.has(lowercase)
+    if (kind === 'page' && (configExcluded || channelAbsent) && ref.text !== undefined && ref.full) {
+      const other = context.channel === 'next' ? 'current' : 'next'
+      const message = configExcluded
+        ? `Link to the excluded page ${file} is replaced with its text.`
+        : `Link target ${file} is only visible in the ${other} channel; the link is replaced with its text.`
+      notices.push({ ...diagnostic('LINK_TARGET_EXCLUDED', message, context, ref.line),
         code: 'LINK_TARGET_EXCLUDED', detail: { target: file } })
       edits.set(ref.full.start, { end: ref.full.end, url: ref.text })
       if (ref.definition) edits.set(ref.definition.start, { end: ref.definition.end, url: '' })
