@@ -366,3 +366,20 @@ it.each(['rename', 'delete', 'byoc-remove', 'unchanged'] as const)('checks pinne
     expect(result.groups[0].dispositions[0].disposition).toBe('held')
   }
 }, 120000)
+
+
+it('projects original published snapshot fractional metadata without canonicalizing its bytes', async () => {
+  const f = await fixture(), snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
+  const fs = await import('node:fs/promises'), snapshot = JSON.parse(await fs.readFile(join(f.dev, snapshotPath), 'utf8'))
+  snapshot.records[0].order = 1.5
+  const original = JSON.stringify(snapshot, null, 2) + '\n'
+  await write(f.dev, snapshotPath, original); await git(f.dev, 'add', '.'); await git(f.dev, 'commit', '-qm', 'fractional original snapshot')
+  const dev = await git(f.dev, 'rev-parse', 'HEAD'); await git(f.root, 'fetch', '--no-write-fetch-head', '--no-tags', f.dev, dev)
+  const request = {...await f.request(), pins: {...(await f.request()).pins, dev}}
+  const wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+  const page = batch.projectBatchMaterialFixture(wire, request)
+  expect(page.ownershipReasons).toEqual([])
+  const checked = validateBatchWire(wire, request)
+  const payload = wire.blobs.find(blob => blob.ref.sha256 === checked.namespace.snapshotRef.sha256)!
+  expect(Buffer.from(payload.base64, 'base64').toString()).toBe(original)
+})

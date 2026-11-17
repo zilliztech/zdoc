@@ -196,7 +196,12 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
   if (!same(recomputeAnchors(0), projection.promotionAnchors) || !same(recomputeAnchors(1), projection.sourceAnchors)) add('ADOPTION_PROJECTION_INVALID')
   for (const group of checked.images) for (const image of group.images) if (!image.ref || !image.observed || image.ref.sha256 !== image.observed.sha256) add('REQUIRED_IMAGE_UNAVAILABLE')
   const active = validateActiveState(parseStrictJson(read(namespace.activeRef)))
-  const snapshot = parseStrictJson(read(namespace.snapshotRef)) as Record<string, any>
+  // Original producer snapshots retain ordinary JSON numbers and formatting.
+  // Their raw digest/OID is checked separately from new canonical batch records.
+  const snapshot = JSON.parse(utf8(read(namespace.snapshotRef)), (_key, value) => {
+    if (typeof value === 'number' && !Number.isFinite(value)) throw Error('PUBLISHED_SNAPSHOT_INVALID')
+    return value
+  }) as Record<string, any>
   if (snapshot.schema_version !== 3 || snapshot.build_env !== 'uat' || snapshot.manual !== 'guides' || snapshot.source_branch !== 'dev' || !Array.isArray(snapshot.records) || !Array.isArray(snapshot.targets_built)) invalid()
   const ids = new Set<string>(), records: Record<string, any>[] = []
   const outputOwners = new Map<string, Set<string>>()
