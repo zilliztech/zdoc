@@ -13,7 +13,81 @@
     "state": "open",
     "merged": false,
     "label": "upstream-unmerged",
-    "scope": "All committed configurations; lifecycle is unverified, intervals replay only the fixed PR delta, not complete lock-to-target history."
+    "scope": "All committed configurations; lifecycle is unverified, intervals replay only the fixed PR delta, not complete lock-to-target history.",
+    "mappingEvidence": [
+      {
+        "pageId": "basic-filtering-operators",
+        "path": "shared-docs/guides/pages/basic-filtering-operators/page.yaml",
+        "blob": "f222bdcbf4d5f9644dfaaa572a6bbd43aac52249",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/search-query-get/boolean/basic-operators.md\n\nmetadata:\n  description: \"Zilliz Cloud provides comparison, range, arithmetic, logical, and NULL operators for filtering entities. Each operator supports specific field types.\"\n\npublish:\n  - manual: guides\n    path: tutorials/development/search-and-query/filtering/basic-filtering-operators\n  - manual: guides-byoc\n    path: tutorials/development/search-and-query/filtering/basic-filtering-operators\n\ntransforms:\n  - operation: replace\n    target:\n      block: basic-bitwise-heading\n    content:\n      file: cloud-bitwise-heading.md\n"
+      },
+      {
+        "pageId": "bitmap-index-type",
+        "path": "shared-docs/guides/pages/bitmap-index-type/page.yaml",
+        "blob": "88682cf7905dd7cf8a8988d48a24b644a78e5b57",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/bitmap.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/bitmap-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/bitmap-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: bitmap-drop-note\n    content:\n      file: cloud-drop-note.md\n"
+      },
+      {
+        "pageId": "index-struct-array",
+        "path": "shared-docs/guides/pages/index-struct-array/page.yaml",
+        "blob": "b6de301ccb8cc7a49e299985f18a41dc028e6668",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/schema/index-structarray-fields.md\n\nmetadata:\n  beta: PUBLIC\n\npublish:\n  - manual: guides\n    path: tutorials/development/schema/struct-array/index-struct-array\n  - manual: guides-byoc\n    path: tutorials/development/schema/struct-array/index-struct-array\n\ntransforms:\n  - operation: replace\n    target:\n      block: structarray-vector-indexes\n    content:\n      file: cloud-vector-indexes.md\n  - operation: replace\n    target:\n      block: structarray-scalar-indexes\n    content:\n      file: cloud-scalar-indexes.md\n  - operation: replace\n    target:\n      block: structarray-emblist-matrix\n    content:\n      file: cloud-emblist-matrix.md\n  - operation: replace\n    target:\n      block: structarray-element-matrix\n    content:\n      file: cloud-element-matrix.md\n  # Cloud wording for the element-null block; no specific Milvus version numbers.\n  - operation: replace\n    target:\n      block: structarray-index-element-null-limits\n    content:\n      file: cloud-structarray-index-element-null-limits.md\n  # Cloud wording for the element-null block; no specific Milvus version numbers.\n  - operation: replace\n    target:\n      block: structarray-index-element-null-intro\n    content:\n      file: cloud-structarray-index-element-null-intro.md\n  # Cloud wording for the element-null block; no specific Milvus version numbers.\n  - operation: replace\n    target:\n      block: structarray-index-element-null-rules\n    content:\n      file: cloud-structarray-index-element-null-rules.md\n"
+      },
+      {
+        "pageId": "inverted-index-type",
+        "path": "shared-docs/guides/pages/inverted-index-type/page.yaml",
+        "blob": "be3d0070889b83998c777b441490bef326e91792",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/inverted.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/inverted-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/inverted-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: inverted-json-heading\n    content:\n      file: cloud-json-heading.md\n  - operation: replace\n    target:\n      block: inverted-drop-note\n    content:\n      file: cloud-drop-note.md\n  - operation: replace\n    target:\n      block: inverted-next-steps\n    content:\n      file: cloud-next-steps.md\n"
+      },
+      {
+        "pageId": "json-field-overview",
+        "path": "shared-docs/guides/pages/json-field-overview/page.yaml",
+        "blob": "4c14f3020e0bf94414e26e4790b8746d1f40f23b",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/schema/json-field-overview.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/schema/json-fields/json-field-overview\n  - manual: guides-byoc\n    path: tutorials/development/schema/json-fields/json-field-overview\n"
+      },
+      {
+        "pageId": "json-indexing",
+        "path": "shared-docs/guides/pages/json-indexing/page.yaml",
+        "blob": "c84a79e5f6127b6a0d39924dba71f5f494dddeab",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/schema/json-indexing.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/schema/json-fields/json-indexing\n  - manual: guides-byoc\n    path: tutorials/development/schema/json-fields/json-indexing\n"
+      },
+      {
+        "pageId": "manage-collections-sdks",
+        "path": "shared-docs/guides/pages/manage-collections-sdks/page.yaml",
+        "blob": "922f1157d80ab710a857a5d6e47f4d96aa71716a",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/collections/create-collection.md\n\nmetadata:\n  description: \"You can create a collection by defining its schema, index parameters, metric type, and whether to load it upon creation. This page introduces how to create a collection from scratch.\"\n\npublish:\n  - manual: guides\n    path: tutorials/development/collection/manage-collections-sdks\n  - manual: guides-byoc\n    path: tutorials/development/collection/manage-collections-sdks\n\ntransforms:\n  # Cloud-only multi-tenancy guidance and the collection-count limit.\n  - operation: add\n    target:\n      block: page-intro\n    position: after\n    content:\n      file: cloud-multi-tenancy-note.md\n  # Cloud data-plane RESTful API authentication note.\n  - operation: add\n    target:\n      block: create-schema-examples\n    position: after\n    content:\n      file: cloud-rest-auth-note.md\n  # Cloud reference for indexing an existing collection.\n  - operation: add\n    target:\n      block: create-without-index-note\n    position: after\n    content:\n      file: cloud-autoindex-link.md\n"
+      },
+      {
+        "pageId": "ngram-index-type",
+        "path": "shared-docs/guides/pages/ngram-index-type/page.yaml",
+        "blob": "899a9e3f53ad6576a35fb966d945a98a44f0ac7f",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/ngram.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/ngram-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/ngram-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: ngram-drop-note\n    content:\n      file: cloud-drop-note.md\n"
+      },
+      {
+        "pageId": "pattern-match",
+        "path": "shared-docs/guides/pages/pattern-match/page.yaml",
+        "blob": "2ea8c7e862df82482d9526ca8b0ce04b2df676c4",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/search-query-get/boolean/pattern-matching.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/search-and-query/filtering/pattern-match\n  - manual: guides-byoc\n    path: tutorials/development/search-and-query/filtering/pattern-match\n\ntransforms:\n  - operation: replace\n    target:\n      block: use-regex-heading\n    content:\n      file: cloud-regex-heading.md\n  - operation: add\n    target:\n      block: pattern-match-query\n      language: shell\n    content:\n      file: cloud-cli-query.md\n  - operation: add\n    target:\n      block: pattern-raw-string\n      language: shell\n    content:\n      file: cloud-cli-raw-string.md\n  - operation: add\n    target:\n      block: pattern-alternation\n      language: shell\n    content:\n      file: cloud-cli-alternation.md\n  - operation: add\n    target:\n      block: pattern-escape\n      language: shell\n    content:\n      file: cloud-cli-escape.md\n  - operation: add\n    target:\n      block: pattern-substring\n      language: shell\n    content:\n      file: cloud-cli-substring.md\n  - operation: add\n    target:\n      block: pattern-anchors\n      language: shell\n    content:\n      file: cloud-cli-anchors.md\n  - operation: add\n    target:\n      block: pattern-null\n      language: shell\n    content:\n      file: cloud-cli-null.md\n"
+      },
+      {
+        "pageId": "rtree-index-type",
+        "path": "shared-docs/guides/pages/rtree-index-type/page.yaml",
+        "blob": "cf0c4b1778a69e5935dcd0d264b0e1ff020b7c02",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/rtree.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/rtree-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/rtree-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: rtree-drop-note\n    content:\n      file: cloud-drop-note.md\n"
+      },
+      {
+        "pageId": "slt-sort-index-type",
+        "path": "shared-docs/guides/pages/slt-sort-index-type/page.yaml",
+        "blob": "c88dde188ea34a25c75b33c38528cb053c146f7c",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/indexes/scalar/stl-sort.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/scalar-index/slt-sort-index-type\n  - manual: guides-byoc\n    path: tutorials/development/scalar-index/slt-sort-index-type\n\ntransforms:\n  - operation: replace\n    target:\n      block: stl-sort-drop-note\n    content:\n      file: cloud-drop-note.md\n"
+      },
+      {
+        "pageId": "use-array-fields",
+        "path": "shared-docs/guides/pages/use-array-fields/page.yaml",
+        "blob": "e62a634ece8720dc37c6a1432bb83148036c9402",
+        "text": "schema_version: 1\n\nsource:\n  file: site/en/userGuide/schema/array_data_type.md\n\npublish:\n  - manual: guides\n    path: tutorials/development/schema/use-array-fields\n  - manual: guides-byoc\n    path: tutorials/development/schema/use-array-fields\n\ntransforms:\n  - operation: replace\n    target:\n      block: array-partial-update-note\n    content:\n      file: cloud-array-partial-update-note.md\n  # Cloud wording for the element-null block; no specific Milvus version numbers.\n  - operation: replace\n    target:\n      block: structarray-array-subfield-scope\n    content:\n      file: cloud-structarray-array-subfield-scope.md\n"
+      }
+    ]
   },
   "input": {
     "observation": "replay",

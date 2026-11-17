@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { expect, it } from 'vitest'
-import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import sample from './fixtures/upstream-batch-3848.json'
 import { parsePageConfig } from '../../core/config'
 import { canonicalBytes } from '../../core/updates/canonical'
@@ -8,7 +8,7 @@ import { BatchDiscoveryInputSchema, BatchDiscoveryReportSchema, discoverBatches,
 
 const oid = (char: string) => char.repeat(40)
 const pr = (number: number, commit = oid('c')) => ({ key: `pr:${number}`, kind: 'pr' as const, commits: [commit],
-  pr: { number, repository: 'milvus-io/milvus-docs', baseBranch: 'v3.0.x', base: oid('a'), head: commit, mergeCommit: commit, merged: true },
+  pr: { number, repository: 'milvus-io/milvus-docs' as const, baseBranch: 'v3.0.x', base: oid('a'), head: commit, mergeCommit: commit, merged: true },
   evidence: [`github-pr:${number}:${commit}`], reasons: [] })
 const page = (pageId: string, seedKeys = ['pr:1']) => ({ pageId, sourceFile: `site/en/${pageId}.md`,
   publish: [{ manual: 'guides', path: `${pageId}` }], active: true, published: true,
@@ -104,12 +104,38 @@ it('permits an explicitly evidenced commit seed while rejecting contradictory id
   input.seeds[0].key = `commit:${oid('a')}`
   expect(() => discoverBatches(input)).toThrow('CONFLICTING_SEED_IDENTITY')
 })
+
+it('retains a mapped source delta even when its interval and association are missing', () => {
+  const input = fixture(); input.pages = [{ ...page('page-a', []), intervals: [] }]; input.seeds = []
+  input.changes = [{ path: 'site/en/page-a.md', status: 'modified', previousPath: null, pageIds: ['page-a'], kind: 'source', evidence: ['git-range:changed'] }]
+  const result = discoverBatches(input)
+  expect(result.groups.map(group => group.pageIds)).toEqual([['page-a']])
+  expect(result.status).toBe('held')
+  expect(result.pages[0].reasons).toContain('INCOMPLETE_SOURCE_INTERVAL')
+  expect(result.pages[0].reasons).not.toContain('NO_DIRECT_SOURCE_CHANGE')
+})
+it('holds seeded pages without a complete lock-to-target interval', () => {
+  const input = fixture(); input.pages[0].intervals = []
+  expect(discoverBatches(input).pages[0].reasons).toContain('INCOMPLETE_SOURCE_INTERVAL')
+  input.pages[0].intervals = [{ ...page('page-a').intervals[0], from: oid('8') }]
+  expect(discoverBatches(input).pages[0].reasons).toContain('INCOMPLETE_SOURCE_INTERVAL')
+})
+it('holds missing source evidence and unknown lifecycle while preserving observations', () => {
+  const input = fixture(); input.pages[0].active = null; input.pages[0].published = null
+  input.pages[0].evidence = []; input.pages[0].intervals[0].evidence = []
+  const result = discoverBatches(input)
+  expect(result.status).toBe('held')
+  expect(result.inventory).toMatchObject({ active: 1, activeUnknown: 1, published: 1, publishedUnknown: 1 })
+  expect(result.pages[0].reasons).toEqual(expect.arrayContaining(['ACTIVE_STATE_UNKNOWN', 'PUBLISHED_STATE_UNKNOWN', 'MISSING_PAGE_EVIDENCE', 'MISSING_INTERVAL_EVIDENCE']))
+  expect(result.groups[0].pageIds).toEqual(['page-a', 'page-b'])
+})
+
 it('reports no direct source change without claiming a qualified noop or adding a group', () => {
   const input = fixture(); input.pages.push({ ...page('page-c', []), intervals: [] })
   const result = discoverBatches(input)
   expect(result.pages[2].reasons).toContain('NO_DIRECT_SOURCE_CHANGE')
   expect(result.groups[0].pageIds).toEqual(['page-a', 'page-b'])
-  expect(result.inventory).toEqual({ configured: 3, active: 3, published: 3 })
+  expect(result.inventory).toEqual({ configured: 3, active: 3, published: 3, activeUnknown: 0, publishedUnknown: 0 })
 })
 it.each([
   ['DUPLICATE_PAGE', (input: BatchDiscoveryInput) => input.pages.push(structuredClone(input.pages[0]))],
@@ -128,6 +154,8 @@ it('strictly rejects extra fields, unsafe paths, credentials, and arbitrary exce
   expect(() => discoverBatches(input)).toThrow()
   input.pages[0].sourceFile = 'site/en/page-a.md'; input.pages[0].evidence = ['https://secret:password@host/path']
   expect(() => discoverBatches(input)).toThrow()
+  input.pages[0].evidence = ['C:/Users/private/file']
+  expect(() => discoverBatches(input)).toThrow()
   input.pages[0].evidence = []; input.pages[0].reasons = ['Error reading /Users/private/file']
   expect(() => discoverBatches(input)).toThrow()
 })
@@ -145,7 +173,7 @@ it('replays all 22 fixed PR paths and twelve real mappings without merged or lif
   const expectedPages = ['basic-filtering-operators', 'bitmap-index-type', 'index-struct-array', 'inverted-index-type', 'json-field-overview', 'json-indexing',
     'manage-collections-sdks', 'ngram-index-type', 'pattern-match', 'rtree-index-type', 'slt-sort-index-type', 'use-array-fields']
   expect(result.observation).toBe('replay'); expect(result.status).toBe('held'); expect(result.writeEligible).toBe(false)
-  expect(result.inventory).toEqual({ configured: sample.input.pages.length, active: 0, published: 0 })
+  expect(result.inventory).toEqual({ configured: sample.input.pages.length, active: 0, published: 0, activeUnknown: sample.input.pages.length, publishedUnknown: sample.input.pages.length })
   expect(result.groups.map(group => group.pageIds)).toEqual([expectedPages])
   expect(result.groups[0].closure).toBe('pending-collector')
   expect(result.changes).toHaveLength(22)
@@ -159,8 +187,12 @@ it('replays all 22 fixed PR paths and twelve real mappings without merged or lif
   expect(result.dependencies).toHaveLength(4)
   for (const pageId of expectedPages) {
     const configured = sample.input.pages.find(p => p.pageId === pageId)!
-    const text = execFileSync('git', ['show', `${sample.provenance.productMaster}:shared-docs/guides/pages/${pageId}/page.yaml`], { encoding: 'utf8' })
-    const parsed = parsePageConfig(pageId, text, { manuals: ['guides', 'guides-byoc'], betaValues: ['PUBLIC', 'PRIVATE'] })
+    const raw = sample.provenance.mappingEvidence.find(evidence => evidence.pageId === pageId)!
+    expect(raw.path).toBe(`shared-docs/guides/pages/${pageId}/page.yaml`)
+    const bytes = Buffer.from(raw.text, 'utf8')
+    expect(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')).toBe(raw.blob)
+    expect(configured.evidence).toContain(`git-blob:${raw.blob}`)
+    const parsed = parsePageConfig(pageId, raw.text, { manuals: ['guides', 'guides-byoc'], betaValues: ['PUBLIC', 'PRIVATE'] })
     if ('errors' in parsed) throw new Error(JSON.stringify(parsed.errors))
     expect(configured.sourceFile).toBe(parsed.config.source.file)
     expect(configured.publish).toEqual(parsed.config.publish)
