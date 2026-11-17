@@ -61,7 +61,7 @@ const snapshotShape = z.object({ schema_version: z.literal(3), build_env: z.lite
   source_branch: z.literal('dev'), targets_built: z.array(z.string()), records: z.array(z.object({
     record_id: z.string().min(1), slug: z.string().min(1), placement_type: z.string().min(1),
   }).passthrough()).min(1) })
-const publishedRecord = z.object({ shared_page: z.object({ page: z.string() }), record_id: z.string(), slug: z.string(),
+const publishedRecord = z.object({ shared_page: z.object({ group: z.literal('guides'), page: z.string() }), record_id: z.string(), slug: z.string(),
   release_channel: z.string(), output_paths: z.array(RepoPathSchema), publish_targets: z.array(z.string()) })
 async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
   const { dev } = input.pins, byPage = new Map(input.pages.map(p => [p.pageId, p]))

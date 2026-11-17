@@ -8,6 +8,7 @@ import { BatchGitStore, batchBudget } from '../../adapters/updates/batch-source'
 
 import { collectBatchDiscovery } from '../../adapters/updates/batch-discovery'
 import { guidesSnapshotPath } from '../../adapters/guides-snapshot'
+import { validateSharedSnapshotRecord } from '../../core/handoff/source-state'
 import type { RemoteTransport } from '../../adapters/updates/remote-github'
 
 const roots: string[] = []
@@ -122,6 +123,11 @@ async function inventoryFixture(scenario: string) {
     doc_link: 'https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/' + id,
     doc_token: null, source_file: null, source_hash: null, node_metadata: null, outgoing_tokens: [], publish_targets: ['Zilliz.SaaS'],
     output_paths: ['content/en/guides/tutorials/' + id + '.md'] }))
+  if (scenario === 'node-record') {
+    records[0].shared_page.group = 'node'
+    records[0].shared_page.record = 'generated/en/manifests/shared-pages/node/a.json'
+    records[0].doc_link = 'https://github.com/zilliztech/zdoc/tree/master/shared-docs/node/pages/a'
+  }
   if (scenario === 'record-mismatch') records[0].record_id = 'other-record'
   if (scenario === 'output-mismatch') records[0].output_paths.push('content/en/byoc/tutorials/a.md')
   if (scenario === 'channel-mismatch') records[0].release_channel = 'next'
@@ -151,8 +157,18 @@ async function inventoryFixture(scenario: string) {
   }
   const run = () => collectBatchDiscovery({ zdocRepository: zdoc.root, sourceRepository: scenario === 'missing-source' ? join(source.root, 'absent') : source.root,
     tools: old }, { transport })
-  return { run, t, old, m, d, unrelated, rounds: () => rounds }
+  return { run, t, old, m, d, unrelated, records, rounds: () => rounds }
 }
+
+it('holds Guides publication inventory when a valid node record shares the Guides page and targets', async () => {
+  const fixture = await inventoryFixture('node-record')
+  const nodeRecord = fixture.records[0]
+  expect(validateSharedSnapshotRecord(nodeRecord)).toBe(nodeRecord)
+  const report = await fixture.run()
+  expect(report.pages.find(page => page.pageId === 'a')).toMatchObject({ active: true, published: null })
+  expect(report.reasons).toContain('PUBLISHED_INVENTORY_UNAVAILABLE')
+  expect(report.status).toBe('held')
+})
 
 it.each(['direct', 'merged', 'ref-moved', 'api-failed', 'missing-source', 'missing-dev', 'bad-registry', 'record-mismatch',
   'output-mismatch', 'channel-mismatch', 'invalid-snapshot', 'missing-output', 'clean', 'fragment', 'inactive-member', 'variant-current.md', 'variant-next.provenance.json'])('assembles committed independent M/D/T inventory in the %s case', async scenario => {
