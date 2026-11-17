@@ -5,6 +5,7 @@ import { lstat, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { createRequire } from 'node:module'
 import type { LifecycleEvidence } from '../../core/updates/lifecycle'
+import type { FetchProducerContext } from './trusted-fetch-producer'
 import { selectedObservation, type SelectedPage } from './selected-lifecycle'
 import { retainedMetadata, type ReadonlyGitHub } from './github'
 const require = createRequire(import.meta.url)
@@ -43,7 +44,7 @@ export async function extractSourceZip(bytes: Uint8Array, destination: string) {
   await writeFile(zip, bytes, { flag: 'wx' })
   return Number((await exec('python3', ['-c', extract, zip, destination], { timeout: 60_000, maxBuffer: 1024 * 1024 })).stdout.trim())
 }
-export async function readLifecycle(api: ReadonlyGitHub, runId: number, directory: string, localZip?: string, expectedBase?: string, selected?: SelectedPage): Promise<LifecycleEvidence> {
+export async function readLifecycle(api: ReadonlyGitHub, runId: number, directory: string, localZip?: string, expectedBase?: string, selected?: SelectedPage, fetchProducerContext?: FetchProducerContext): Promise<LifecycleEvidence> {
   const facts = await retainedMetadata(api, runId)
   const { run, jobs, artifact } = facts
   if (artifact.size_in_bytes > 256 * 1024 * 1024) throw new Error('Source ZIP exceeds 256 MiB')
@@ -67,7 +68,7 @@ export async function readLifecycle(api: ReadonlyGitHub, runId: number, director
     devSha: manifest.devBaselineSha, archiveEntries, files: manifest.files.length, records: snapshot.records.length,
     sharedRecords: snapshot.records.filter((r: any) => r.source_kind === 'shared-page').length } }
   if (selected && !reasons.length) {
-    const proof = await selectedObservation(api, facts, manifest, snapshot, join(stage, 'payload'), selected)
+    const proof = await selectedObservation(api, facts, manifest, snapshot, join(stage, 'payload'), selected, fetchProducerContext)
     if ('identity' in proof) {
       evidence.observedPage = selected.page
       evidence.generatedAt = proof.observedAt

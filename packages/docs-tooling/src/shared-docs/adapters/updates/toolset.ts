@@ -724,6 +724,13 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
     if (entries.get(`repo/${target}`)?.state !== 'file') throw new Error('Fixed Guides worker dependency is unavailable')
     resolutions.push({ from: 'runtime/launch/guides-worker.cjs', specifier: target === guidesWorkerModule ? `${target}#collectGuidesWorker` : target, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${target}` })
   }
+  // Generic fixture collectors may ignore the ordinary capability. A real issuer
+  // must still be a captured fixed source/export choice when it is provisioned.
+  const issuer = 'packages/docs-tooling/src/shared-docs/adapters/updates/trusted-fetch-producer.ts'
+  if (all.has(guidesWorkerModule) && all.has(issuer)) {
+    if (entries.get(`repo/${issuer}`)?.state !== 'file') throw new Error('Fixed Fetch issuer dependency is unavailable')
+    resolutions.push({from: 'runtime/launch/guides-worker.cjs', specifier: `${issuer}#createMeasuredFetchProducerContext`, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${issuer}`})
+  }
   const mergedResolutions = new Map<string, ExecutableClosure['resolutions'][number]>()
   for (const edge of resolutions) { const key = Buffer.from(canonicalBytes(resolutionKey(edge))).toString('utf8'); const prior = mergedResolutions.get(key); if (prior && prior.target !== edge.target) throw new Error('Conflicting executable resolution'); mergedResolutions.set(key, edge) }
   const closure: ExecutableClosure = { kind: 'shared-update-executable-closure', schemaVersion: 1, hostTcb: { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }, entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), packageLocators: locators.sort((a, b) => compareUtf8(a.root, b.root)), resolutions: [...mergedResolutions.values()].sort((a, b) => tupleCompare(resolutionKey(a), resolutionKey(b))) }
@@ -1073,13 +1080,13 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
       // ordinary worker schema and operator input cannot select a metadata callback.
       const args = [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root]
       let broker: {runId: number; token: string} | undefined
-      if (secrets.GH_TOKEN) {
-        const wire = parseStrictJson(input)
-        if (wire && typeof wire === 'object' && Object.hasOwn(wire, 'request')) {
-          const {selectedWorkerInput} = await import('./guides-provider')
-          const {request} = selectedWorkerInput.parse(wire)
-          if (request.trustedTools !== state.options.commit || request.toolsetSha256 !== state.sha256)
-            throw new Error('Selected Guides worker tool identity mismatch')
+      const wire = parseStrictJson(input)
+      if (wire && typeof wire === 'object' && Object.hasOwn(wire, 'request')) {
+        const {selectedWorkerInput} = await import('./guides-provider')
+        const {request} = selectedWorkerInput.parse(wire)
+        if (request.trustedTools !== state.options.commit || request.toolsetSha256 !== state.sha256)
+          throw new Error('Selected Guides worker tool identity mismatch')
+        if (secrets.GH_TOKEN) {
           broker = {runId: Number(request.evidenceRun), token: secrets.GH_TOKEN}
           args.push('metadata-pipes')
         }
@@ -1177,7 +1184,9 @@ const fs=require('node:fs'),path=require('node:path');
   const data=common.parseStrictJson(Buffer.concat(chunks));
   const provider=load(path.join(root,'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts'));
   if(typeof provider.collectGuidesWorker!=='function')throw Error('Fixed Guides worker export is unavailable');
-  const result=common.canonicalBytes(await provider.collectGuidesWorker(data,process.argv[3]==='metadata-pipes'));
+  // This capability is an ordinary call from fixed measured code, never wire data.
+  const issuer=()=>load(path.join(root,'packages/docs-tooling/src/shared-docs/adapters/updates/trusted-fetch-producer.ts')).createMeasuredFetchProducerContext(data.request.trustedTools);
+  const result=common.canonicalBytes(await provider.collectGuidesWorker(data,process.argv[3]==='metadata-pipes',issuer));
   if(result.length>resultLimit)throw Error('Guides worker result exceeds byte bound');
   fs.writeFileSync(3,result);
 })().catch(error=>{console.error(String(error));process.exitCode=1});
