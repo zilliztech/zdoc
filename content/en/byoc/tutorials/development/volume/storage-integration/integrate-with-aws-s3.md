@@ -50,7 +50,7 @@ Ensure that:
 
 - The Resource Control Policies (RCP) of your AWS Organization allow cross-account role assumption.
 
-    For details, refer to [Role assumption failures](./integrate-with-aws-s3#role-assumption-failures) below.
+    For details, refer to [Role assumption failures](./integrate-with-aws-s3#troubleshooting) below.
 
 <Admonition type="info" title="Notes">
 

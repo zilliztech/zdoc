@@ -42,6 +42,12 @@ Compared with managed collections, external collections have the following limit
 
 - For external collections created from a collection on another dedicated cluster (`milvus://`), a refresh that omits `external_source` reuses the persisted source and still syncs the latest data; a second refresh while one is in progress is rejected.
 
+<NextChannel action="include">
+
+If the source collection has StructArray fields, the target external collection can project a subset of the source Struct subfields. This covers a NULL StructArray value in the source row, empty subfield arrays, null values in individual Struct elements (element-nullable subfields), and nested Array subfields inside the Struct.
+
+</NextChannel>
+
 The following table compares the operations supported by external collections and managed collections in detail.
 
 <table>

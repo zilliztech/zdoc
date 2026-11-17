@@ -106,6 +106,12 @@ Once you have an external volume containing the target data files, create the sc
 
 For a cross-cluster source, set `external_source` to a `milvus://` URI instead. The `external_spec` parameter is optional for such a source; if you omit it or its `format` field, the format defaults to `milvus-table`. The `snapshot_id` and `extfs` settings do not apply to `milvus://` sources.
 
+<NextChannel action="include">
+
+If the source collection has StructArray fields, the target external collection can project a subset of the source Struct subfields. This covers a NULL StructArray value in the source row, empty subfield arrays, null values in individual Struct elements (element-nullable subfields), and nested Array subfields inside the Struct.
+
+</NextChannel>
+
 <Admonition type="info" title="Notes">
 
 The external source should end with a forward slash (/) to indicate this is a folder.

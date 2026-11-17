@@ -146,6 +146,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+<NextChannel action="include">
+
+If the source collection has StructArray fields, the target external collection can project a subset of the source Struct subfields. This covers a NULL StructArray value in the source row, empty subfield arrays, null values in individual Struct elements (element-nullable subfields), and nested Array subfields inside the Struct.
+
+</NextChannel>
+
 ## Verify with describe\{#verify-with-describe}
 
 After the collection is created, describe it to confirm that it is bound to the source collection.
