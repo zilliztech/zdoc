@@ -1,24 +1,21 @@
 import { createHash } from 'node:crypto'
 import { z } from 'zod'
-import { DOC_HEADING_TAGS } from '../../../../../docs-ui/src/shared/utils/docHeadingTags'
 import { resolveManualPublication } from '../../../manuals/registry'
-import { parsePageConfig, parseSourceConfig } from '../../core/config'
 import { validateActiveState, validateSharedSnapshotRecord } from '../../core/handoff/source-state'
 import { parseLock } from '../../core/lock'
 import { canonicalBytes, parseStrictJson } from '../../core/updates/canonical'
 import { discoverBatches, type BatchDiscoveryInput, type BatchPageObservation, type BatchInterval, type BatchPathChange,
   type BatchSeedObservation } from '../../core/updates/batch-discovery'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
-import { variantFileName, variantSidecarName } from '../../core/variants'
 import { guidesSnapshotPath } from '../guides-snapshot'
 import { createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
+import { guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
 import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget } from './batch-source'
 
 type Pins = BatchDiscoveryInput['pins']
 type API = ReturnType<typeof createBatchGitHub>
 const utf8 = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true })
 const group = 'shared-docs/guides', activePath = 'generated/en/manifests/shared-pages/guides/active.json'
-const manuals = ['guides', 'guides-byoc']
 const unique = <T>(rows: T[]) => [...new Set(rows)]
 const add = (values: string[], value: string) => { if (!values.includes(value)) values.push(value) }
 const digest = (value: unknown) => createHash('sha256').update(canonicalBytes(value)).digest('hex')
@@ -27,30 +24,25 @@ export function batchDiscoveryFailureCode(error: unknown) { return safeReason(er
 export interface BatchDiscoveryOptions { zdocRepository: string; sourceRepository: string; tools: string }
 
 async function registry(store: BatchGitStore, pins: Pins, budget: BatchBudget) {
-  const source = await store.file(pins.master, group + '/source.yaml'), parsed = parseSourceConfig(utf8.decode(source.bytes))
-  if ('errors' in parsed || parsed.config.repository !== 'https://github.com/milvus-io/milvus-docs' || parsed.config.track !== 'v3.0.x') stop('MASTER_SOURCE_INVALID')
+  const source = await store.file(pins.master, group + '/source.yaml')
+  try { validateGuidesSource(utf8.decode(source.bytes)) } catch { stop('MASTER_SOURCE_INVALID') }
   const pages: BatchPageObservation[] = [], destinations = new Set<string>()
   for (const [pageId, entry] of await store.directory(pins.master, group + '/pages')) {
     budget.remaining()
     if (entry.mode !== '40000' || pageId === 'active') stop('MASTER_REGISTRY_INVALID')
     const dir = group + '/pages/' + pageId
     const config = await store.file(pins.master, dir + '/page.yaml'), lock = await store.file(pins.master, dir + '/lock.yaml')
-    const page = parsePageConfig(pageId, utf8.decode(config.bytes), { manuals, betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') })
+    let page: AuthenticatedRegistryPage
+    try { page = validateGuidesPage(pageId, utf8.decode(config.bytes), destinations) } catch { stop('MASTER_REGISTRY_INVALID') }
     const state = parseLock(utf8.decode(lock.bytes))
-    if ('errors' in page || 'errors' in state || !RepoPathSchema.safeParse(page.config.source.file).success) stop('MASTER_REGISTRY_INVALID')
-    const seenManuals = new Set<string>()
-    for (const target of page.config.publish) {
-      const key = target.manual + '/' + target.path
-      if (!RepoPathSchema.safeParse(target.path).success || seenManuals.has(target.manual) || destinations.has(key)) stop('MASTER_REGISTRY_INVALID')
-      seenManuals.add(target.manual); destinations.add(key)
-    }
+    if ('errors' in state) stop('MASTER_REGISTRY_INVALID')
     const reasons: string[] = [], evidence = ['source-config:' + source.oid, 'page-config:' + config.oid, 'lock:' + lock.oid]
     const files = await store.directory(pins.master, dir)
-    for (const channel of ['current', 'next'] as const) for (const name of [variantFileName(channel), variantSidecarName(channel)]) {
+    for (const name of guidesVariantNames) {
       const variant = files.get(name)
       if (variant) { add(reasons, 'ADOPTED_VARIANT_UNSUPPORTED'); evidence.push('variant:' + name + ':' + variant.oid) }
     }
-    pages.push({ pageId, sourceFile: page.config.source.file, publish: page.config.publish, current: state.lock.current, oldNext: state.lock.next,
+    pages.push({ pageId, sourceFile: page.sourceFile, publish: page.publish.map(target => ({...target})), current: state.lock.current, oldNext: state.lock.next,
       target: pins.source, active: null, published: null, intervals: [], seedKeys: [], reasons, evidence })
   }
   if (!pages.length) stop('MASTER_REGISTRY_INVALID')
