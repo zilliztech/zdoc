@@ -8,6 +8,7 @@ const tooling = path.resolve(__dirname, '../../../../..')
 const {loadTypeScript} = require(path.join(tooling, 'scripts/lib/load-typescript'))
 const {parsePageConfig} = loadTypeScript(path.join(__dirname, '../core/config'))
 const {parseLock} = loadTypeScript(path.join(__dirname, '../core/lock'))
+const {DOC_HEADING_TAGS} = loadTypeScript(path.join(tooling, 'packages/docs-ui/src/shared/utils/docHeadingTags'))
 const snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
 const git = (root, ...args) => execFileSync('git', ['-C', root, ...args], {encoding: 'utf8'}).trim()
 const inside = (a, b) => { const r = path.relative(a, b); return r === '' || (!r.startsWith('..' + path.sep) && r !== '..' && !path.isAbsolute(r)) }
@@ -24,7 +25,7 @@ function prepareInitialValidation({repository, dev, base, head, devSha, out}) {
     const match = /^shared-docs\/guides\/pages\/([a-z0-9]+(?:-[a-z0-9]+)*)\/page\.yaml$/.exec(file)
     if (!match) continue
     const page = match[1], text = git(repository, 'show', `${head}:${file}`)
-    const parsed = parsePageConfig(page, text, {manuals: ['guides', 'guides-byoc'], betaValues: []})
+    const parsed = parsePageConfig(page, text, {manuals: ['guides', 'guides-byoc'], betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC')})
     if ('errors' in parsed) throw new Error(JSON.stringify(parsed.errors))
     const targets = parsed.config.publish.map(target => ({...target, root: `content/en/${target.manual === 'guides' ? 'guides' : 'byoc'}`}))
     const exists = targets.map(target => ['.md', '.mdx'].some(ext => fs.existsSync(path.join(dev, target.root, target.path + ext))))
