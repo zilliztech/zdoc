@@ -67,6 +67,7 @@ function getContentGroup(name, site = defaultSite()) {
     site,
     manuals: workflow.sourceManuals,
     sourceSnapshots: workflow.sourceSnapshots,
+    hasLarkSources: workflow.hasLarkSources,
     snapshotManual: workflow.snapshotManual,
     translate: workflow.translate,
     durableTranslationBatchSize: workflow.durableTranslationBatchSize,

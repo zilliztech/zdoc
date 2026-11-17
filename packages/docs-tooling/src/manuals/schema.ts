@@ -21,7 +21,7 @@ const RepositoryRelativePathSchema = z.string().min(1).superRefine((value, conte
 });
 
 export const ManualSourceSchema = z.object({
-  sourceType: z.enum(['wiki', 'drive', 'onePager', 'rest', 'local']),
+  sourceType: z.enum(['wiki', 'drive', 'onePager', 'rest', 'local', 'shared']),
   lifecycle: z.enum(['active', 'fallback', 'retired', 'translation']).default('active'),
   root: z.string().min(1).optional(),
   base: z.string().min(1).optional(),
@@ -45,16 +45,28 @@ export const ManualSourceSchema = z.object({
       message: `Active remote source type ${source.sourceType} requires generatorManual and snapshotPath`,
     });
   }
-  if ((isLocal || source.sourceType === 'rest') && (source.root !== undefined || source.base !== undefined)) {
+  if ((isLocal || source.sourceType === 'rest' || source.sourceType === 'shared') && (source.root !== undefined || source.base !== undefined)) {
     context.addIssue({
       code: z.ZodIssueCode.custom,
       message: `${source.sourceType} sources must not declare Lark root or base identifiers`,
     });
   }
-  if ((isLocal || source.sourceType === 'rest') && (source.generatorManual !== undefined || source.snapshotPath !== undefined)) {
+  if ((isLocal || source.sourceType === 'rest' || source.sourceType === 'shared') && (source.generatorManual !== undefined || source.snapshotPath !== undefined)) {
     context.addIssue({
       code: z.ZodIssueCode.custom,
       message: `${source.sourceType} sources must not declare generator or snapshot identities`,
+    });
+  }
+  if (source.sourceType === 'shared' && source.lifecycle !== 'active') {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'A shared source is always the active English producer for its manual',
+    });
+  }
+  if (source.sourceType === 'shared' && !/^shared-docs\/[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(source.sourceDir)) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'A shared source must point at its shared-docs group directory: shared-docs/<group>',
     });
   }
 });

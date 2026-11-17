@@ -1474,6 +1474,11 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
     stageGeneratedRestSidebar(context);
     return;
   }
+  if (source.sourceType === 'shared') {
+    // The whole-manual producer branch lands with the node cutover (R2-b). Fail
+    // closed here rather than silently treating the group as a Lark source.
+    throw new Error(`Manual ${context.request.manual} uses a shared-docs source; its fetch producer is not wired yet`);
+  }
   const exhaustive: never = source.sourceType;
   throw new Error(`Unsupported manual source type: ${String(exhaustive)}`);
 }
