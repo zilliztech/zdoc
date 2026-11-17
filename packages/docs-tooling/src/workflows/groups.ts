@@ -1,4 +1,5 @@
 import {manualRegistry, publicationPreservedPaths, resolveManualPublication} from '../manuals/registry.ts';
+import {SHARED_DOC_GROUPS} from '../shared-docs/core/groups.ts';
 import type {ManualDefinition, SiteId} from '../manuals/schema.ts';
 import {localizedRestTargets} from '../publication/diagnostics.ts';
 
@@ -234,6 +235,12 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
       ...(site === 'en' ? [ENGLISH_REFERENCE_CONTENT_MANIFEST] : []),
       ...(group.publicationManifest ? [group.publicationManifest] : []),
       ...(site === 'en' ? [`generated/en/manifests/lark-revisions/${groupName}.json`] : []),
+      // Shared-page receipts are dev-owned generated state: once a group seeds its
+      // shared-docs overlay, the checkpoint must carry them or incremental fetch
+      // degrades every shared record to a full refetch. Absent directories are
+      // skipped by checkpoint collection, so pre-seed groups are unaffected.
+      ...(site === 'en' && groupName !== 'guides' && SHARED_DOC_GROUPS.includes(groupName)
+        ? [`generated/en/manifests/shared-pages/${groupName}`] : []),
     ]),
     preservedPaths,
     externallyOwnedPaths,

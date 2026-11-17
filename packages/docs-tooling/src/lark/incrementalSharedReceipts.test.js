@@ -90,7 +90,7 @@ test('a manifest for another snapshot, manual, or without receipts falls through
     assert.deepEqual(receipts.get('rec-shared'), receipt)
     assert.equal(observed.ws, root)
     assert.equal(observed.snapshot, sharedSnapshot)
-    assert.deepEqual(observed.options, { verifyFiles: false })
+    assert.deepEqual(observed.options, { verifyFiles: false, group: 'guides' })
     assert.equal(diagnostics.length, 1)
     assert.match(diagnostics[0], /^source cache manifest: /)
     assert.match(diagnostics[0], reason)
