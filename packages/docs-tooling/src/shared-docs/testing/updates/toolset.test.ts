@@ -412,25 +412,33 @@ describe.skipIf(process.platform === 'linux')('fix1 executable discovery regress
   },60000)
 })
 
-describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
-  it('accepts exactly 32 MiB raw Git object output and rejects one additional byte', async () => {
-    const a = await fixture()
-    await put(a.root, 'packages/compiler/large.txt', 'a'.repeat(32 * 1024 * 1024))
-    a.commit = commitAll(a.root)
-    await expect(withBatchLifetime(() => captureTrustedToolset(a))).resolves.toMatchObject({root: a.root})
-    await put(a.root, 'packages/compiler/large.txt', 'a'.repeat(32 * 1024 * 1024 + 1))
-    a.commit = commitAll(a.root)
-    await expect(withBatchLifetime(() => captureTrustedToolset(a))).rejects.toThrow('BATCH_GIT_OBJECT_LIMIT')
-  })
-  it('reverifies a closure larger than one batch Git output ceiling', async () => {
-    const a = await fixture()
-    await put(a.root, 'packages/compiler/large-a.txt', 'a'.repeat(17 * 1024 * 1024))
-    await put(a.root, 'packages/compiler/large-b.txt', 'b'.repeat(17 * 1024 * 1024))
-    a.commit = commitAll(a.root)
-    const capture = await captureTrustedToolset(a)
-    await expect(withBatchLifetime(() => verifyTrustedToolset(capture))).resolves.toBeUndefined()
-  })
+it('accepts exactly 32 MiB raw Git object output and rejects one additional byte on supported hosts and refuses Linux before issuance', async () => {
+  if (process.platform === 'linux') {
+    await expectLinuxCaptureRefusal()
+    return
+  }
+  const a = await fixture()
+  await put(a.root, 'packages/compiler/large.txt', 'a'.repeat(32 * 1024 * 1024))
+  a.commit = commitAll(a.root)
+  await expect(withBatchLifetime(() => captureTrustedToolset(a))).resolves.toMatchObject({root: a.root})
+  await put(a.root, 'packages/compiler/large.txt', 'a'.repeat(32 * 1024 * 1024 + 1))
+  a.commit = commitAll(a.root)
+  await expect(withBatchLifetime(() => captureTrustedToolset(a))).rejects.toThrow('BATCH_GIT_OBJECT_LIMIT')
+})
+it('reverifies a closure larger than one batch Git output ceiling on supported hosts and refuses Linux before issuance', async () => {
+  if (process.platform === 'linux') {
+    await expectLinuxCaptureRefusal()
+    return
+  }
+  const a = await fixture()
+  await put(a.root, 'packages/compiler/large-a.txt', 'a'.repeat(17 * 1024 * 1024))
+  await put(a.root, 'packages/compiler/large-b.txt', 'b'.repeat(17 * 1024 * 1024))
+  a.commit = commitAll(a.root)
+  const capture = await captureTrustedToolset(a)
+  await expect(withBatchLifetime(() => verifyTrustedToolset(capture))).resolves.toBeUndefined()
+})
 
+describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
   it('captures actual committed bytes, app-local pnpm files and runtime; survives relocation; detects dependency tamper', async () => {
     const a = await fixture(), b = await fixture()
     const first = await captureTrustedToolset(a), second = await captureTrustedToolset(b)
@@ -1112,12 +1120,16 @@ describe.skipIf(process.platform !== 'darwin')('fixed developer tool capture pro
   })
 })
 
+async function expectLinuxCaptureRefusal() {
+  // The production guard must reject before inspecting this nonexistent root,
+  // materializing a launcher or issuing any producer-authentication capability.
+  await expect(captureTrustedToolset({root: join(tmpdir(), 'unsupported-fetch-capture-must-not-be-read'),
+    commit: 'a'.repeat(40), environment: {}, flags: []})).rejects.toThrow('Trusted toolset capture is not yet supported on Linux')
+}
+
 it('passes the measured bootstrap capability on supported hosts and refuses Linux before issuance', async () => {
   if (process.platform === 'linux') {
-    // The production guard must reject before inspecting this nonexistent root,
-    // materializing a launcher or issuing any producer-authentication capability.
-    await expect(captureTrustedToolset({root: join(tmpdir(), 'unsupported-fetch-capture-must-not-be-read'),
-      commit: 'a'.repeat(40), environment: {}, flags: []})).rejects.toThrow('Trusted toolset capture is not yet supported on Linux')
+    await expectLinuxCaptureRefusal()
     return
   }
   const a = await loaderFixture(), installed = loadYaml(await readFile(join(process.cwd(), 'pnpm-lock.yaml'), 'utf8')) as any
@@ -1160,7 +1172,22 @@ export async function collectGuidesWorker(data, brokered, issue) {
   }
 }, 60000)
 
-it('keeps v2 content behind nominal operation tickets and rejects JSON tickets before launch', async () => {
+it('rejects JSON content tickets through the production consumption guards on every host', async () => {
+  const {consumeBatchContentLaunch} = await import('../../adapters/updates/batch-collection')
+  // These are denial inputs, never captured tools or issued capabilities.
+  for (const ticket of [{}, JSON.parse('{"kind":"guides-batch-render-v1"}')]) {
+    for (const origin of ['observed', 'replay'] as const) {
+      expect(() => consumeBatchContentLaunch(ticket as never, undefined as never, undefined as never, origin)).toThrow('BATCH_LAUNCH_BINDING_INVALID')
+    }
+  }
+  expect(() => batchContentLauncher({} as never)).toThrow('BATCH_LAUNCH_BINDING_INVALID')
+})
+
+it('keeps v2 content behind nominal operation tickets and rejects JSON tickets before launch on supported hosts and refuses Linux before issuance', async () => {
+  if (process.platform === 'linux') {
+    await expectLinuxCaptureRefusal()
+    return
+  }
   const f = await transportFixture()
   const content = batchContentLauncher(f.launcher)
   expect(content.runObservedBatchContent).toBeTypeOf('function')
@@ -1170,7 +1197,11 @@ it('keeps v2 content behind nominal operation tickets and rejects JSON tickets b
   await expect(f.launcher.runGuidesCollector({kind: 'guides-batch-render-v1'})).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
 }, 120000)
 
-it('retains real per-child stdin/FD3 measurements and rejects copied, replay-mixed and repeated content tickets', async () => {
+it('retains real per-child stdin/FD3 measurements and rejects copied, replay-mixed and repeated content tickets on supported hosts and refuses Linux before issuance', async () => {
+  if (process.platform === 'linux') {
+    await expectLinuxCaptureRefusal()
+    return
+  }
   const {batchQualificationFixture} = await import('./fixtures/batch-qualification')
   const {collectBatchPageMaterial} = await import('../../adapters/updates/guides-provider')
   const batch = await import('../../adapters/updates/batch-collection')
@@ -1234,7 +1265,11 @@ export function collectBatchPageMaterial(data){
   }
 }, 120000)
 
-it('rejects a settled qualifier wire when the complete replay broker sequence has one extra row', async () => {
+it('rejects a settled qualifier wire when the complete replay broker sequence has one extra row on supported hosts and refuses Linux before issuance', async () => {
+  if (process.platform === 'linux') {
+    await expectLinuxCaptureRefusal()
+    return
+  }
   // Hostile wire/settlement regression only. This captured test provider emits
   // shaped untrusted Q bytes, not a real lifecycle observation or a positive
   // collector fixture. Real qualification is exercised separately from source.
