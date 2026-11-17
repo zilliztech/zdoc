@@ -1,15 +1,15 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-16T10:37:57.405Z
+Generated: 2026-11-16T18:31:54.482Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-11-16T10:37:57.405Z
+Previous snapshot: 2026-11-16T18:31:54.482Z
 
 ## Summary
 
-- Changed docs: 94 (1 with Feishu tokens)
-- Expanded docs: 59
+- Changed docs: 93 (0 with Feishu tokens)
+- Expanded docs: 58
 - Removed docs: 0
 - Warnings: 0
 
@@ -47,7 +47,6 @@ Previous snapshot: 2026-11-16T10:37:57.405Z
 - Manage Partitions (shared:recvlPsisxHlZC): shared inputs changed
 - Manage Aliases (shared:recvlPsksPcET1): shared inputs changed
 - Drop Collection (shared:recvlPso50Hw2Q): shared inputs changed
-- External Collection Limits (P9HuwHZyXilwRTkVoDBcjAMlnrb): wiki node revision changed
 - Primary Field & AutoID (shared:recvlPsYLHP3xd): shared inputs changed
 - Dense Vector (shared:recvlPt0fX4m9U): shared inputs changed
 - Binary Vector (shared:recvlPt1KuBotc): shared inputs changed
@@ -153,7 +152,6 @@ Previous snapshot: 2026-11-16T10:37:57.405Z
 - OFl9wHXpriM8aEkoONScpU1lnIf: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - OJVrwOiE4i3fFjk2J3NcneLznfh: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - OZtawoDUci0CKokf9RlchvInnMf: incoming reference to DjROwgK6ziCf7Rkoji6ccyEUnsg
-- P9HuwHZyXilwRTkVoDBcjAMlnrb: wiki node revision changed
 - PNj2w5fY9ifr82kbX8ucKgXAn0r: incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic
 - PV2bwNENViEjXWkOgzZcXoKHnce: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - PlX3wo82Di6oWVkg2ercRWCUnvV: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
