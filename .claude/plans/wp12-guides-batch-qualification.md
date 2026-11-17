@@ -20,6 +20,8 @@ Only a local read-only adapter/entry and evidence root are in scope. Use one mea
 
 ### Task 1: Authenticate the M registry and F profile in one raw Git transaction
 
+**Main scope clarification after Task1 review:** allow `core/config.ts`, `core/yaml.ts` and `testing/config.test.ts` solely to propagate an optional cooperative monotonic budget checker through YAML listener/position traversal and config validation. Preserve default grammar, diagnostics, all limits and existing callers. A long single config must stop at the existing transaction deadline rather than finishing opaque uninterruptible parsing. Do not add a smaller arbitrary config byte whitelist, relax a timeout, or rewrite unrelated YAML behavior. Required registry layout checks do not prohibit legitimate page-local transform Markdown/content or ordinary non-normalized entries; all those bytes/modes/paths/OIDs remain raw-bound. Add faithful referenced-content changes and a within-single-parse expiry regression plus a real checked-out 93-page self-profile probe.
+
 Allowed paths under `packages/docs-tooling/src/shared-docs`: `adapters/updates/{fetch-producer-profile,trusted-fetch-producer,batch-discovery}.ts`, new if needed `adapters/updates/guides-batch-registry.ts`, `testing/updates/{fetch-producer-profile,trusted-fetch-producer,batch-discovery}.test.ts`.
 
 Preserve `FetchGitReader.profiles` and the v1 issuer contract. Add (names/signatures proposed):
