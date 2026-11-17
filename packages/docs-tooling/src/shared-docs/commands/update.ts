@@ -2,9 +2,11 @@ import { lstat, mkdir, readdir, realpath, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { reportUpdates, UpdateArgumentError, type UpdateDependencies, type UpdateOptions } from '../adapters/updates/runner'
 import { gitMetadataDirectories, sha } from '../adapters/updates/git'
+import { groupContext } from '../adapters/group-context'
+import { readGroupLayout } from '../adapters/group-layout'
 export type { UpdateOptions } from '../adapters/updates/runner'
 const within = (root: string, path: string) => { const r = relative(root, path); return r === '' || r !== '..' && !r.startsWith(`..${sep}`) && !isAbsolute(r) }
-async function checkOutput(out: string, inputs: string[]) {
+export async function checkOutput(out: string, inputs: string[]) {
   if (out.split(sep).includes('.git')) throw new UpdateArgumentError('Output cannot be Git metadata')
   let canonicalOut: string | undefined
   for (let current = out; ; current = dirname(current)) {
@@ -31,6 +33,20 @@ export async function runUpdate(options: UpdateOptions, write: (text: string) =>
   try {
     if (options.mode !== undefined && options.mode !== 'report') throw new UpdateArgumentError('Only --mode report is supported')
     if (![options.sharedDocs, options.repo, options.dev, options.out].every(v => typeof v === 'string' && !!v && !/[\0\r\n]/.test(v))) throw new UpdateArgumentError('shared-docs, repo, dev and out are required')
+    // Manual-layout groups run the whole-manual update (design 10 WP12): one rolling
+    // candidate next plus the impact report; --dev stays accepted but unused, like build.
+    const group = groupContext(options.sharedDocs, repositoryRoot)
+    if (!('errors' in group)) {
+      const layout = await readGroupLayout(group.root, group.path)
+      if (!('errors' in layout) && layout.kind === 'manual') {
+        const { manualUpdate, ManualUpdateArgumentError } = await import('./update-manual')
+        try { return await manualUpdate(options as unknown as import('./update-manual').ManualUpdateOptions, write, repositoryRoot) }
+        catch (error) {
+          write(`${error instanceof Error ? error.message : String(error)}\n`)
+          return error instanceof ManualUpdateArgumentError || error instanceof UpdateArgumentError ? 2 : 1
+        }
+      }
+    }
     if (resolve(repositoryRoot, options.sharedDocs) !== join(resolve(repositoryRoot), 'shared-docs/guides')) throw new UpdateArgumentError('Only shared-docs/guides is supported')
     for (const value of [options.masterSha, options.devSha, options.sourceSha, options.comparisonMasterSha]) if (value !== undefined && !sha(value)) throw new UpdateArgumentError('Commit options must be exact lowercase SHAs')
     const pages = options.pages?.split(',')
