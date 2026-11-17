@@ -8,11 +8,27 @@ export function parseSourceConfig(text: string, context: DiagnosticContext = {})
   if ('errors' in parsed) return parsed
   const check = new ConfigValidation(parsed.document, location)
   const value = parsed.document.value
-  if (check.object(value, [], ['schema_version', 'repository', 'track'], ['schema_version', 'repository', 'track'])) {
+  if (check.object(value, [], ['schema_version', 'repository', 'track', 'source_dir', 'presentation'], ['schema_version', 'repository', 'track'])) {
     if ('schema_version' in value && value.schema_version !== 1) check.error(['schema_version'], 'Unsupported schema_version; expected 1')
     if ('repository' in value) check.string(value.repository, ['repository'])
     if ('track' in value && check.string(value.track, ['track']) && !isBranchName(value.track)) {
       check.error(['track'], 'track must name a Git branch')
+    }
+    if ('source_dir' in value && check.string(value.source_dir, ['source_dir']) && !isRepositoryPath(value.source_dir)) {
+      check.error(['source_dir'], 'source_dir must be a repository-relative path without traversal')
+    }
+    if ('presentation' in value) {
+      const presentation = value.presentation
+      const entries = presentation && typeof presentation === 'object' && !Array.isArray(presentation) ? Object.keys(presentation) : []
+      if (check.object(presentation, ['presentation'], entries, [])) {
+        for (const [manual, entry] of Object.entries(presentation as Record<string, unknown>)) {
+          if (!check.object(entry, ['presentation', manual], ['title_suffix', 'slug_prefix', 'displayed_sidebar'], ['title_suffix'])) continue
+          if ('title_suffix' in entry) check.string(entry.title_suffix, ['presentation', manual, 'title_suffix'])
+          for (const key of ['slug_prefix', 'displayed_sidebar'] as const) {
+            if (key in entry) check.string(entry[key], ['presentation', manual, key])
+          }
+        }
+      }
     }
   }
   return check.errors.length ? { errors: check.errors } : { config: value as SourceConfig }
@@ -48,8 +64,8 @@ export function parsePageConfig(pageId: string, text: string, context: PageConfi
         }
       })
     }
-    if ('metadata' in value && check.object(value.metadata, ['metadata'], ['title', 'description', 'beta'])) {
-      for (const key of ['title', 'description']) {
+    if ('metadata' in value && check.object(value.metadata, ['metadata'], ['title', 'description', 'beta', 'added_since', 'last_modified'])) {
+      for (const key of ['title', 'description', 'added_since', 'last_modified']) {
         if (key in value.metadata) check.string(value.metadata[key], ['metadata', key])
       }
       if ('beta' in value.metadata) {

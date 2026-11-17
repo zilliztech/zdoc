@@ -26,7 +26,7 @@ export function parseLinkMap(yamlText: string, context: DiagnosticContext):
   }
   return errors.length ? { errors } : { map }
 }
-export type LinkKind = 'anchor' | 'external' | 'milvus-url' | 'page' | 'root' | 'unknown'
+export type LinkKind = 'anchor' | 'external' | 'milvus-url' | 'page' | 'page-path' | 'root' | 'unknown'
 export function classifyLink(url: string): LinkKind {
   if (url.startsWith('#')) return 'anchor'
   if (url.startsWith('/')) return 'root'
@@ -34,6 +34,10 @@ export function classifyLink(url: string): LinkKind {
   if (/^(?:https?:\/\/|mailto:)/i.test(url)) {
     try { new URL(url); return 'external' } catch { return 'unknown' }
   }
-  if (isMilvusFilename(url.split('#')[0])) return 'page'
+  const head = url.split('#')[0]
+  if (isMilvusFilename(head)) return 'page'
+  // Group-relative page links (Client/MilvusClient.md, ../Collections/X.md, ./X.md)
+  // resolve to their bare filename in layouts whose basenames are globally unique.
+  if (head.endsWith('.md') && head.includes('/') && !head.startsWith('/')) return 'page-path'
   return 'unknown'
 }
