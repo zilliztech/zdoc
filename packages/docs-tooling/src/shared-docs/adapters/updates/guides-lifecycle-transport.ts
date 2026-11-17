@@ -92,28 +92,49 @@ function coordinatorReads(token: string, signal?: AbortSignal): ReadonlyGitHub {
   }
 }
 
+type AcquisitionStage = 'METADATA' | 'SOURCE_ZIP' | 'PUBLICATION_ZIP' | 'BINDING'
+type AcquisitionFailure = `HTTP_${number}` | 'TRANSPORT_FAILED' | 'RESPONSE_LIMIT' | 'ENDPOINT_INVALID' | 'REDIRECT_REJECTED' | 'CREDENTIAL_UNAVAILABLE' | 'UNAVAILABLE'
+export type LifecycleAcquisitionCode = `LIFECYCLE_ACQUIRE_${AcquisitionStage}_${AcquisitionFailure}`
+function acquisitionFailure(error: unknown): AcquisitionFailure {
+  if (error instanceof LifecycleHttpError && Number.isInteger(error.status) && error.status >= 100 && error.status <= 599)
+    return `HTTP_${error.status}`
+  // These literals originate in the fixed coordinator transport. Never retain arbitrary messages.
+  if (error instanceof Error) switch (error.message) {
+    case 'TRANSPORT_FAILED': case 'RESPONSE_LIMIT': case 'ENDPOINT_INVALID': case 'REDIRECT_REJECTED': case 'CREDENTIAL_UNAVAILABLE':
+      return error.message
+  }
+  return 'UNAVAILABLE'
+}
+
 /** Only the coordinator can read credentials. Never serialize its API response as authority. */
 export async function stageGuidesArchives(runId: number, sourceZip: string | null, evidence: EvidenceStore,
-  token?: string, signal?: AbortSignal): Promise<StageResult> {
+  token?: string, signal?: AbortSignal, diagnostic?: (code: LifecycleAcquisitionCode) => void): Promise<StageResult> {
+  // Trusted ordinary-call sink only; it is never part of worker or operator JSON.
+  const observe = (code: LifecycleAcquisitionCode) => { try { diagnostic?.(code) } catch { /* Diagnostics cannot change staging. */ } }
+  let acquisitionStage: AcquisitionStage = 'METADATA'
   const api = token ? coordinatorReads(token, signal) : publicGuidesReads(null, signal)
   async function acquire() {
     const {run, artifacts, artifact: source} = await retainedMetadata(api, runId)
+    acquisitionStage = 'BINDING'
     const publication = boundArtifact(artifacts, run, `publication-results-fetch-${runId}-${run.run_attempt}`)
     if (source.id === publication.id) throw new Error('Ambiguous lifecycle archive identity')
     if (source.size_in_bytes > sourceLimit) return {oversized: 'source'} as const
     if (publication.size_in_bytes > publicationLimit) return {oversized: 'publication'} as const
     signal?.throwIfAborted()
+    acquisitionStage = 'SOURCE_ZIP'
     const sourceBytes = sourceZip ? await readRegularBytes(sourceZip, source.size_in_bytes) : await api.zip(source.id, source.size_in_bytes)
     signal?.throwIfAborted()
     // An explicitly supplied source ZIP may have the matching publication archive
     // beside it. Only a missing sibling falls back to GitHub. Its bytes must pass
     // the same no-follow read, size and digest checks as the source archive.
+    acquisitionStage = 'PUBLICATION_ZIP'
     const localPublication = sourceZip && join(dirname(sourceZip), publication.name + '.zip')
     const supplied = localPublication ? await readRegularBytes(localPublication, publication.size_in_bytes).catch(error => {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') return null
       throw error
     }) : null
     const publicationBytes = supplied ?? await api.zip(publication.id, publication.size_in_bytes)
+    acquisitionStage = 'BINDING'
     for (const [artifact, bytes] of [[source, sourceBytes], [publication, publicationBytes]] as const) {
       if (artifact.size_in_bytes !== bytes.byteLength || artifact.digest !== 'sha256:' + rawSha256(bytes))
         throw new Error('Lifecycle archive digest or size mismatch')
@@ -121,10 +142,16 @@ export async function stageGuidesArchives(runId: number, sourceZip: string | nul
     return {source, sourceBytes, publication, publicationBytes}
   }
   // Missing, expired or unauthenticated input still gets a measured report with unknown authority.
-  const inputs = await acquire().catch(() => null)
+  const inputs = await acquire().catch(error => {
+    observe(`LIFECYCLE_ACQUIRE_${acquisitionStage}_${acquisitionFailure(error)}`)
+    return null
+  })
   signal?.throwIfAborted()
   if (!inputs) return null
-  if (inputs.oversized) return {oversized: inputs.oversized}
+  if (inputs.oversized) {
+    observe(`LIFECYCLE_ACQUIRE_${inputs.oversized === 'source' ? 'SOURCE_ZIP' : 'PUBLICATION_ZIP'}_RESPONSE_LIMIT`)
+    return {oversized: inputs.oversized}
+  }
   // Transport ZIPs have their own authenticated bounds, independent of the evidence blob limit.
   const directory = await createOwnedDirectory(evidence)
   async function stage(name: string, id: number, bytes: Uint8Array) {

@@ -143,7 +143,7 @@ export async function collectFixedGuidesUnits(capture:TrustedToolsetCapture,secr
     inventory:result.collection.inventory,holds:result.collection.holds,detailFiles:result.collection.detailFiles,grouping:result.collection.grouping})),
     ...result.collection.detailFiles.map(file=>file.blob)]
   return {contexts:result.contexts,grouping:result.collection.grouping,collectionEvidence,
-    holds:[...holds,...result.collection.holds.flatMap(hold=>hold.diagnostics.map(diagnostic=>diagnostic.code))]}
+    holds:[...holds,...result.coordinatorDiagnostics,...result.collection.holds.flatMap(hold=>hold.diagnostics.map(diagnostic=>diagnostic.code))]}
 }
 
 async function refForFile(store:EvidenceStore,path:string):Promise<BlobRef> {

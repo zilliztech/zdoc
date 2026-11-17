@@ -23,8 +23,9 @@ import { captureUnitMaterial } from '../../core/updates/unit-plan'
 import { validateUpdateReportEnvelope } from '../../core/updates/envelope'
 import { parseRevisionMessage } from '../../core/updates/metadata'
 import * as toolset from '../../adapters/updates/toolset'
-import { collectGuidesWithDependencies, GuidesCollectionRequestSchema } from '../../adapters/updates/guides-provider'
+import { collectGuidesWithDependencies, GuidesCollectionRequestSchema, selectedWorkerInput } from '../../adapters/updates/guides-provider'
 import { FakeImageFetcher } from '../../adapters/images'
+import { LifecycleHttpError, publicGuidesReads } from '../../adapters/updates/guides-lifecycle-transport'
 import type { AuthorityObservation } from '../../core/updates/envelope'
 
 /** Actual local Git/material/authority-file observations through the internal seam.
@@ -505,7 +506,7 @@ it('holds missing original source observation objects in the historical scratch 
  * collector/build -> planner -> Git transaction (NOT the public factory's full chain).
  * Capability/launcher and authority acquisition are explicitly test-local substitutes.
  * This does NOT qualify the measured worker, real access policy or production authority. */
-async function guidesFixture(failure=false,authorityState:AuthorityObservation['updateState']='eligible-to-propose') {
+async function guidesFixture(failure=false,authorityState:AuthorityObservation['updateState']='eligible-to-propose',spoofRoute?:'collection'|'context') {
   const started=process.hrtime.bigint(),root=await realpath(await mkdtemp(join(tmpdir(),'guides-local-runner-')))
   const mark=async(event:string)=>appendFile(join(root,'phase-timings.jsonl'),JSON.stringify({event,milliseconds:Number(process.hrtime.bigint()-started)/1e6})+'\n')
   await mark('fixture.start')
@@ -547,9 +548,11 @@ async function guidesFixture(failure=false,authorityState:AuthorityObservation['
     return {bin:root,cwd:process.cwd(),environment:{},run:async()=>{throw new Error('Unexpected test launcher entry')},
       async runGuidesCollector(data) {
         launches++;await mark(`collector.${launches}.start`)
-        const request=GuidesCollectionRequestSchema.parse(data)
+        const selected=selectedWorkerInput.safeParse(data)
+        const request=selected.success?selected.data.request:GuidesCollectionRequestSchema.parse(data)
         expect(request.trustedTools).toBe(toolsHead);expect(request.sourceRepository).toBe(d.repo)
-        const value=await collectGuidesWithDependencies(request,{b1:{fetcher:new FakeImageFetcher(new Map([[externalImage,imageBytes]]))},
+        const collectedValue=await collectGuidesWithDependencies(request,{b1:{fetcher:new FakeImageFetcher(new Map([[externalImage,imageBytes]])),
+          ...(selected.success?{github:publicGuidesReads(selected.data.archives)}:{})},
           authority:{async observe(input) {
             const bytes=await readFile(authorityPath),observed=JSON.parse(bytes.toString());authorityReads++
             expect(observed.kind).toBe('synthetic-guides-authority');expect(observed.subject).toEqual(input.subject)
@@ -558,6 +561,10 @@ async function guidesFixture(failure=false,authorityState:AuthorityObservation['
             return {provider:'guides-retained-source',subject:input.subject,evidence:[input.retain(bytes)],updateState:observed.state,
               reasons:observed.state==='eligible-to-propose'?[]:['SYNTHETIC_AUTHORITY_UNAVAILABLE']}
           }}})
+        const value=spoofRoute?structuredClone(collectedValue):collectedValue
+        const forged='LIFECYCLE_ACQUIRE_PUBLICATION_ZIP_HTTP_418'
+        if(spoofRoute==='collection')value.holds.push({subject,disposition:'hold',diagnostics:[{code:forged,message:'synthetic child hold',file:null,line:null}]})
+        if(spoofRoute==='context')value.pages[0].context=captureUnitMaterial({...value.pages[0].context,holdReasons:[forged]})
         await writeFile(join(root,`collection-${launches}.json`),canonicalBytes(value))
         await mark(`collector.${launches}.complete`)
         // Synthetic adapter fixture: no real worker/group settlement is claimed.
@@ -628,6 +635,45 @@ it.each(['unknown','changed'] as const)('holds %s authority through the actual G
     expect(result).toMatchObject({status:'held',candidate:null,proof:null,operations:[]})
     expect(await git(join(output,'scratch.git'),'for-each-ref','refs/shared-update/local')).toBe('')
     expect(await f.state()).toEqual(before)
+  } finally {vi.restoreAllMocks()}
+},15_000)
+
+it('retains trusted acquisition failure codes in actual local holds without injecting child authority',async()=>{
+  try {
+    const f=await guidesFixture(false,'unknown'),output=join(f.root,'acquisition-held'),before=await f.state()
+    const fetch=vi.fn().mockRejectedValue(new LifecycleHttpError(502))
+    vi.stubGlobal('fetch',fetch)
+    const result=await f.runner.plan({...f.request,lifecycle:{runId:123,archive:null}},output)
+    expect(result).toMatchObject({status:'held',candidate:null,proof:null,operations:[]})
+    expect(result.reasons).toContain('LIFECYCLE_ACQUIRE_METADATA_HTTP_502')
+    expect(result.reasons).toContain('AUTHORITY_UNKNOWN')
+    const snapshot=await readJson(join(output,'snapshot.json'))
+    expect(snapshot.holds).toContain('LIFECYCLE_ACQUIRE_METADATA_HTTP_502')
+    const raw=await readJson(join(f.root,'collection-1.json'))
+    expect(raw).not.toHaveProperty('coordinatorDiagnostics')
+    expect(raw.pages[0].report.authority).toMatchObject({updateState:'unknown',reasons:['SYNTHETIC_AUTHORITY_UNAVAILABLE']})
+    expect(JSON.stringify(raw)).not.toContain('LIFECYCLE_ACQUIRE_METADATA_HTTP_502')
+    expect(fetch).toHaveBeenCalledTimes(2)
+    expect(fetch.mock.calls.every(([url])=>String(url).startsWith('https://api.github.com/repos/zilliztech/zdoc'))).toBe(true)
+    expect(await git(join(output,'scratch.git'),'for-each-ref','refs/shared-update/local')).toBe('')
+    expect(await f.state()).toEqual(before)
+  } finally {vi.restoreAllMocks();vi.unstubAllGlobals()}
+},15_000)
+
+it.each(['collection','context'] as const)('preserves the sole %s child hold while reserving coordinator acquisition codes',async route=>{
+  try {
+    const f=await guidesFixture(false,'eligible-to-propose',route),output=join(f.root,'child-code-held')
+    const result=await f.runner.plan(f.request,output)
+    expect(result).toMatchObject({status:'held',candidate:null,proof:null,operations:[]})
+    expect(result.reasons).toEqual(['LIFECYCLE_UNAVAILABLE'])
+    const snapshot=await readJson(join(output,'snapshot.json'))
+    expect(snapshot.plans[0].disposition).toBe(route==='context'?'hold':'candidate')
+    expect(route==='context'?snapshot.plans[0].holdReasons:snapshot.holds).toEqual(['LIFECYCLE_UNAVAILABLE'])
+    const child=await readJson(join(f.root,'collection-1.json'))
+    expect(route==='context'?child.pages[0].context.holdReasons:child.holds[0].diagnostics.map(diagnostic=>diagnostic.code))
+      .toEqual(['LIFECYCLE_ACQUIRE_PUBLICATION_ZIP_HTTP_418'])
+    expect(child.pages[0].report.authority.updateState).toBe('eligible-to-propose')
+    expect(await git(join(output,'scratch.git'),'for-each-ref','refs/shared-update/local')).toBe('')
   } finally {vi.restoreAllMocks()}
 },15_000)
 
