@@ -8,7 +8,7 @@ import { request as httpsRequest } from 'node:https'
 import type { AddressInfo } from 'node:net'
 vi.mock('node:https', async importOriginal => ({...await importOriginal<typeof import('node:https')>(), request: vi.fn()}))
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
-import { publicGuidesReads, stageGuidesArchives } from '../../adapters/updates/guides-lifecycle-transport'
+import { LifecycleHttpError, publicGuidesReads, stageGuidesArchives } from '../../adapters/updates/guides-lifecycle-transport'
 
 afterEach(() => {vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs()})
 const repository = 'repos/zilliztech/zdoc'
@@ -86,7 +86,9 @@ it('stages both credentialed archives without executing ambient gh or sending th
     return httpRequest({...options, hostname: '127.0.0.1', port, path: url.pathname + url.search}, callback)
   }) as typeof httpsRequest
   vi.mocked(httpsRequest).mockImplementation(socket)
-  const result = await stageGuidesArchives(123, null, evidence, token)
+  const diagnostics: string[] = []
+  const result = await stageGuidesArchives(123, null, evidence, token, undefined, code => diagnostics.push(code))
+  expect(diagnostics).toEqual([])
   assert(result && 'source' in result)
   expect(await readFile(result.source.path)).toEqual(bytes[0])
   expect(await readFile(result.publication.path)).toEqual(bytes[1])
@@ -130,4 +132,46 @@ it('verifies both local ZIPs against public metadata with no token and rejects i
   await symlink(other, publication)
   await expect(stageGuidesArchives(123, local, evidence)).resolves.toBeNull()
   expect(get.mock.calls.every(([url]) => !url.includes('/zip'))).toBe(true)
+})
+
+
+it.each(['metadata', 'source', 'publication'] as const)('retains only a fixed coordinator code for a socket HTTP 502 during %s acquisition', async failure => {
+  const {evidence, bytes, metadata} = await stagingFixture()
+  const diagnostics: string[] = [], paths: string[] = []
+  const server = createServer((req, res) => {
+    const path = req.url!
+    paths.push(path)
+    if (failure === 'metadata' && path.includes('/jobs?') || failure === 'source' && path.endsWith('/artifacts/1/zip') ||
+        failure === 'publication' && path.endsWith('/artifacts/2/zip')) {
+      res.writeHead(502); res.end('x')
+    } else if (path.endsWith('/zip')) res.end(bytes[Number(path.split('/').at(-2)) - 1])
+    else res.end(JSON.stringify(metadata(path)))
+  })
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+  onTestFinished(() => new Promise<void>(resolve => server.close(() => resolve())))
+  const port = (server.address() as AddressInfo).port
+  vi.mocked(httpsRequest).mockImplementation(((url: URL, options: import('node:https').RequestOptions, callback: Parameters<typeof httpRequest>[2]) =>
+    httpRequest({...options, hostname: '127.0.0.1', port, path: url.pathname + url.search}, callback)) as typeof httpsRequest)
+  await expect(stageGuidesArchives(123, null, evidence, 'FAKE_CREDENTIAL', undefined, code => diagnostics.push(code))).resolves.toBeNull()
+  expect(diagnostics).toEqual([`LIFECYCLE_ACQUIRE_${failure === 'metadata' ? 'METADATA' : failure === 'source' ? 'SOURCE_ZIP' : 'PUBLICATION_ZIP'}_HTTP_502`])
+  expect(paths).toHaveLength(failure === 'metadata' ? 3 : failure === 'source' ? 5 : 6)
+})
+
+it.each([
+  [new Error('FAKE_CREDENTIAL https://storage.example/?sig=SECRET'), 'UNAVAILABLE'],
+  [new Error('TRANSPORT_FAILED'), 'TRANSPORT_FAILED'],
+  [new Error('RESPONSE_LIMIT'), 'RESPONSE_LIMIT'],
+  [new Error('ENDPOINT_INVALID'), 'ENDPOINT_INVALID'],
+  [new LifecycleHttpError(999), 'UNAVAILABLE'],
+])('retains bounded codes for trusted acquisition errors without copying messages', async (error, suffix) => {
+  const {evidence} = await stagingFixture(), diagnostics: string[] = []
+  vi.stubGlobal('fetch', vi.fn().mockRejectedValue(error))
+  await expect(stageGuidesArchives(123, null, evidence, undefined, undefined, code => diagnostics.push(code))).resolves.toBeNull()
+  expect(diagnostics).toEqual(['LIFECYCLE_ACQUIRE_METADATA_' + suffix])
+})
+
+it('keeps acquisition outcome when its optional diagnostic sink fails', async () => {
+  const {evidence} = await stagingFixture()
+  vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('secret')))
+  await expect(stageGuidesArchives(123, null, evidence, undefined, undefined, () => {throw new Error('sink failed')})).resolves.toBeNull()
 })

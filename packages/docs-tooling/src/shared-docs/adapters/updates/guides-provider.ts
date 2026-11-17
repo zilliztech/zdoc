@@ -20,7 +20,7 @@ import { prepareTrustedLauncher, retainTrustedAccessEvidence, describeTrustedToo
 import { HttpImageFetcher } from '../images'
 import type { UpdateConfiguration } from '../update-inputs'
 import { openWorkerMetadataReader } from './guides-metadata-broker'
-import { publicGuidesReads, stageGuidesArchives } from './guides-lifecycle-transport'
+import { publicGuidesReads, stageGuidesArchives, type LifecycleAcquisitionCode } from './guides-lifecycle-transport'
 import { createGuidesReadSession, type GitFile } from './guides-read-session'
 
 const toolingRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
@@ -67,6 +67,8 @@ function consumedConfigurationPaths(id: string, pageIds: readonly string[], cont
   for (const name of contentNames) paths.add(`shared-docs/guides/pages/${id}/${name}`)
   return paths
 }
+// Child-supplied holds remain holds, but cannot impersonate parent acquisition observations.
+const childDiagnosticCode = (code: string) => code.startsWith('LIFECYCLE_ACQUIRE_') ? 'LIFECYCLE_UNAVAILABLE' : code
 function diagnostics(values: UpdateReportEnvelope['diagnostics']): UpdateReportEnvelope['diagnostics'] {
   const unique = new Map(values.map(value => [JSON.stringify(value), value]))
   return [...unique.values()].sort((a, b) => compareUtf8(a.code, b.code) || compareUtf8(a.file ?? '', b.file ?? '') || (a.line ?? 0) - (b.line ?? 0) || compareUtf8(a.message, b.message))
@@ -307,7 +309,7 @@ export interface GuidesProviderOptions {
 }
 /** Actual collection always crosses Task 2's measured isolated child boundary. */
 export async function createGuidesProvider(options: GuidesProviderOptions): Promise<UpdateProvider & {
-  collectAll(): Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement }>
+  collectAll(): Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement; coordinatorDiagnostics: readonly LifecycleAcquisitionCode[] }>
   getWorkerSettlement(): Readonly<GuidesWorkerSettlement> | null
   planAll(): ReturnType<typeof planUpdateBatch>
 }> {
@@ -317,8 +319,8 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
   const request = GuidesCollectionRequestSchema.parse({ ...options.request, trustedTools: provenance.commit, toolsetSha256: options.capture.toolsetSha256 })
   const launcher = await prepareTrustedLauncher(options.capture, options.evidence)
   checkpoint()
-  let collected: { collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement } | undefined
-  let collecting: Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement }> | undefined
+  let collected: { collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement; coordinatorDiagnostics: readonly LifecycleAcquisitionCode[] } | undefined
+  let collecting: Promise<{ collection: GuidesCollectionResult; contexts: readonly UnitMaterialContext[]; privateAccess: BlobRef; workerSettlement: GuidesWorkerSettlement; coordinatorDiagnostics: readonly LifecycleAcquisitionCode[] }> | undefined
   let workerSettlement: Readonly<GuidesWorkerSettlement> | null = null
   function collectAll() {
     checkpoint()
@@ -329,9 +331,10 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
     checkpoint()
     const privateAccess = await retainTrustedAccessEvidence(options.capture, options.evidence)
     checkpoint()
+    const coordinatorDiagnostics: LifecycleAcquisitionCode[] = []
     const selected = request.pages.length === 1 && request.evidenceRun !== null
     const input = selected ? {request: {...request, evidenceZip: null}, archives: await stageGuidesArchives(
-      Number(request.evidenceRun), request.evidenceZip, options.evidence, options.secrets?.GH_TOKEN, options.signal)} : request
+      Number(request.evidenceRun), request.evidenceZip, options.evidence, options.secrets?.GH_TOKEN, options.signal, code => coordinatorDiagnostics.push(code))} : request
     checkpoint()
     const child = await launcher.runGuidesCollector(input, options.secrets, options.signal)
     // Preserve observed worker facts before cancellation or postprocessing can reject.
@@ -370,7 +373,7 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
       if (!equal(item.context.collectedReport, item.report)) throw new Error('Collector report/context mismatch')
       const report = validateUpdateReportEnvelope({ ...item.report, detail: { ...item.report.detail, file: detailFiles.find(file => file.path === 'guides-impact-v1/report.json')!.blob } })
       const reportBlob = await writeOwnedBlob(options.evidence, canonicalBytes(report)); checkpoint()
-      const context = captureUnitMaterial({ ...item.context, collectedReport: report, reportBlob })
+      const context = captureUnitMaterial({ ...item.context, holdReasons: item.context.holdReasons.map(childDiagnosticCode), collectedReport: report, reportBlob })
       const sourceGate = report.authority.updateState === 'eligible-to-propose' && report.semanticProjection !== null && context.holdReasons.length === 0
         && report.pins.source.target !== report.pins.source.oldNext && context.relevantSource !== null && !equal(context.relevantSource.oldNext, context.relevantSource.target)
       const preparedNext = options.prepareNext && sourceGate ? await options.prepareNext(context) : null
@@ -383,7 +386,9 @@ export async function createGuidesProvider(options: GuidesProviderOptions): Prom
       contexts.push(preparedContext); retainedPages.push({ report, context: preparedContext })
     }
     checkpoint()
-    collected = immutable({ collection: { ...collection, detailFiles, pages: retainedPages }, contexts, privateAccess, workerSettlement: child.settlement }); return collected
+    const holds = collection.holds.map(hold => ({ ...hold,
+      diagnostics: hold.diagnostics.map(value => ({ ...value, code: childDiagnosticCode(value.code) })) }))
+    collected = immutable({ collection: { ...collection, holds, detailFiles, pages: retainedPages }, contexts, privateAccess, workerSettlement: child.settlement, coordinatorDiagnostics }); return collected
   }
   return {
     kind: 'guides-page', collectAll,
