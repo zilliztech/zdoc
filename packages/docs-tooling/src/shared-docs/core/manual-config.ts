@@ -15,12 +15,13 @@ function checkBeta(check: ConfigValidation, record: Record<string, unknown>, pat
 }
 
 /** One upstream hardcoded value may not contain another (or equal it): replacement is a single
- * exact-match pass, and overlapping values would make the output order-dependent. */
+ * exact-match pass, and overlapping values would make the output order-dependent. check.string
+ * already flags non-string entries; the pairwise containment check runs on valid strings only. */
 function checkMilvusValueConflicts(check: ConfigValidation, values: Record<string, unknown>): void {
-  const entries = Object.entries(values)
+  const entries = Object.entries(values).filter(([, value]) => typeof value === 'string') as [string, string][]
   for (let left = 0; left < entries.length; left++) for (let right = left + 1; right < entries.length; right++) {
     const [leftKey, leftValue] = entries[left], [rightKey, rightValue] = entries[right]
-    if ((leftValue as string).includes(rightValue as string) || (rightValue as string).includes(leftValue as string)) {
+    if (leftValue.includes(rightValue) || rightValue.includes(leftValue)) {
       check.error(['milvus_values'], `milvus_values entries ${leftKey} and ${rightKey} have overlapping source values; unify the upstream examples instead`,
         'CONFIG_MILVUS_VALUES_INVALID')
       return

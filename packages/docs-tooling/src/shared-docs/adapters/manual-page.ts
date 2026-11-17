@@ -279,6 +279,10 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
   const manualCloudPages = new Map<string, string>()
   for (const [logical, content] of shared.cloudFiles) manualCloudPages.set(logical.slice(logical.lastIndexOf('/') + 1), content.text)
   const errors: SharedDocsError[] = []
+  // Cloud content is channel-invariant; its shape checks run once, not per channel.
+  if (page.cloud && deriveHeadingMetadata(page.cloud.text).title === undefined) {
+    return { errors: [{ ...context, code: 'CONFIG_CONTENT_INVALID', message: `Cloud page ${sourceFile} must contain a level-1 heading` }] }
+  }
   const versions = new Map<'current' | 'next', ManualChannelVersion>()
   for (const channel of ['current', 'next'] as const) {
     const location = { page: pageId, channel, file: sourceFile }
@@ -292,10 +296,6 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
       // pinned tree; every upstream page is present there by construction.
       content = page.cloud.text
       commit = shared.lock.current
-      if (deriveHeadingMetadata(content).title === undefined) {
-        errors.push({ ...location, code: 'CONFIG_CONTENT_INVALID', message: `Cloud page ${sourceFile} must contain a level-1 heading` })
-        continue
-      }
       targets = new Map<string, string | null>()
       for (const [id, entry] of shared.pages) {
         if (entry.cloud) continue

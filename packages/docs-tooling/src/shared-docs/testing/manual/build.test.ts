@@ -244,11 +244,14 @@ publish:
 cloud_pages:
   Overview.md:
     file: overview.md
+  MilvusCloud/Backup.md:
+    file: backup.md
 `
   const demo = await createManualDemo(await temp('manual-cloud-'), {
     manual,
-    upstream: { 'Extras/pointer.md': '# pointer\n\nSee [the overview](../Overview.md).\n' },
-    cloud: { 'overview.md': '# Overview\n\nManual-local page about [createCollection](Collections/createCollection.md).\n' } })
+    upstream: { 'Extras/pointer.md': '# pointer\n\nSee [the overview](../Overview.md) and [the backup](../MilvusCloud/Backup.md#anchor).\n' },
+    cloud: { 'overview.md': '# Overview\n\nManual-local page about [createCollection](Collections/createCollection.md).\n',
+      'backup.md': '# Backup\n\nBackup details.\n\n## anchor\n\nAnchor target body.\n' } })
   expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
   let output = ''
   const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out }, text => { output += text })
@@ -258,6 +261,10 @@ cloud_pages:
   expect(overview).toContain('](./Collections-createCollection)')
   const pointer = await readFile(join(demo.out, 'node/Extras/Extras-pointer.md'), 'utf8')
   expect(pointer).toContain('](./Overview)')
+  // Module-scoped cloud pages resolve by basename like upstream pages, anchors included.
+  expect(pointer).toContain('](./MilvusCloud-Backup#anchor)')
+  const backup = await readFile(join(demo.out, 'node/MilvusCloud/MilvusCloud-Backup.md'), 'utf8')
+  expect(backup).toContain('title: "Backup | Node.js"')
 })
 
 it('fails closed on cloud content that is missing or empty of headings', async () => {
@@ -283,7 +290,8 @@ cloud_pages:
   output = ''
   expect(await runBuild({ sharedDocs: noHeading.sharedDocs, repo: noHeading.repo, dev: join(noHeading.root, 'dev'), out: noHeading.out },
     text => { output += text })).toBe(1)
-  expect(output).toContain('CONFIG_CONTENT_INVALID')
+  // Cloud shape checks run once, not per channel.
+  expect(output.match(/CONFIG_CONTENT_INVALID/g)).toHaveLength(1)
 })
 
 it('fails the lock preflight on symlinked cloud content', async () => {

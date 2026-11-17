@@ -232,7 +232,8 @@ export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader
         for (const [pageId, page] of input.sharedDocs.pages) {
           // Manual cloud pages project under their manual.yaml logical path, not the
           // content/ file name links never see; upstream pages keep the basename identity.
-          let id = page.cloud?.logical ?? basename(page.config.source.file)
+          // Every link lookup reduces to the basename, so cloud pages key the same way.
+          let id = page.cloud ? basename(page.cloud.logical) : basename(page.config.source.file)
           try {
             const meta = page.cloud ? undefined
               : milvusPageMetadata(page.config.source.file, await input.reader.readFile(commit, page.config.source.file))

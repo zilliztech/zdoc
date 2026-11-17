@@ -311,6 +311,8 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
       const manualReader = createBuildReader(repo, undefined, undefined, shared.manualConfig.source.dir)
       const pages: BuiltPage[] = []
       try {
+        // Identity and collision checks see the current tree; the union with next arrives
+        // with the R1c channel package (design-10 wants both locked versions' union).
         const files = await manualReader.listFiles(shared.lock.current, shared.manualConfig.source.dir)
         const expanded = expandManualPages(files, shared.manualConfig, shared.cloudFiles)
         if (expanded.errors.length) { print(expanded.errors); return 1 }

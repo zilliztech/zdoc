@@ -47,6 +47,9 @@ describe('parseManualConfig', () => {
     expect('config' in accepted && accepted.config.milvus_values).toEqual({ example_endpoint: 'localhost:19530' })
     const missing = parseWith(`${base}milvus_values:\n  example_endpoint: localhost:19530\n  unknown_key: 10.0.0.1\n`)
     expect(errorsOf(missing).some(error => error.code === 'CONFIG_MILVUS_VALUES_INVALID')).toBe(true)
+    // A YAML number (the plausible "hardcoded port" typo) reports diagnostics instead of crashing.
+    const numeric = parseWith(`${base}milvus_values:\n  example_endpoint: 19530\n`)
+    expect(errorsOf(numeric).map(error => error.message).join('\n')).toContain('milvus_values.example_endpoint must be a nonempty string')
     const nonString = parseWith(`${base}milvus_values:\n  nested: localhost\n`)
     expect(errorsOf(nonString).map(error => error.message).join('\n')).toContain('Variables.json must define a nonempty string value for nested')
     const overlap = parseWith(`${base}milvus_values:\n  example_endpoint: localhost:19530\n  example_token: localhost\n`)
