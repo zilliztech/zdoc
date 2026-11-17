@@ -205,24 +205,30 @@ test('preflight identity/content recheck rejects an output directory changed dur
   }
 })
 
-test('publication syscall cannot follow a parent swapped to a symlink and cleanup stays in the anchored directory', () => {
+test('output file syscalls cannot follow a replaced parent and cleanup stays in the anchored directory', () => {
   for (const replacement of ['original', 'other']) {
     const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
     const parent = join(f.p, 'reports'), moved = join(f.p, 'reports-moved'), other = join(f.p, 'other')
     mkdirSync(parent); mkdirSync(other)
     const helper = join(f.p, 'scripts/docs-workflow/shared-guides-update/batch-publish.mjs')
     // Instrument the copied packaging helper, without introducing any production option/seam.
-    // This interleaves the attack after all checks, immediately before the actual rename syscall.
-    const prelude = `import fixtureFs from 'node:fs'; import { syncBuiltinESMExports as fixtureSync } from 'node:module';
-const fixtureRename = fixtureFs.renameSync;
-fixtureFs.renameSync = (from, to) => {
-  if (from.startsWith('.guides-batch-report-')) {
-    fixtureRename(${JSON.stringify(parent)}, ${JSON.stringify(moved)});
+    // Interleave immediately before the first exclusive file-open syscall in the bound writer.
+    const attack = `import fixtureFs from 'node:fs'; import { syncBuiltinESMExports as fixtureSync } from 'node:module';
+const fixtureOpen = fixtureFs.openSync;
+fixtureFs.openSync = (name, ...args) => {
+  if (name === 'batch-report.json') {
+    fixtureFs.renameSync(${JSON.stringify(parent)}, ${JSON.stringify(moved)});
     fixtureFs.symlinkSync(${JSON.stringify(replacement === 'original' ? moved : other)}, ${JSON.stringify(parent)});
-    fixtureFs.mkdirSync(${JSON.stringify(other)} + '/' + from);
-    fixtureFs.writeFileSync(${JSON.stringify(other)} + '/' + from + '/keep', 'unrelated');
+    fixtureFs.writeFileSync(${JSON.stringify(join(other, 'keep'))}, 'unrelated');
   }
-  return fixtureRename(from, to);
+  return fixtureOpen(name, ...args);
+}; fixtureSync();
+`
+    const prelude = `import fixtureChild from 'node:child_process'; import { syncBuiltinESMExports as fixtureSync } from 'node:module';
+const fixtureExec = fixtureChild.execFileSync;
+fixtureChild.execFileSync = (file, args, options) => {
+  if (args[2]?.startsWith('// Owned-directory writes')) args[2] = ${JSON.stringify(attack)} + args[2];
+  return fixtureExec(file, args, options);
 }; fixtureSync();
 `
     writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
@@ -230,8 +236,8 @@ fixtureFs.renameSync = (from, to) => {
     assertFailure(result, 'OUTPUT_CHANGED')
     assert.deepEqual(readdirSync(moved), [])
     assert.equal(existsSync(join(parent, 'out')), false)
-    const preserved = readdirSync(other); assert.equal(preserved.length, 1)
-    assert.equal(readFileSync(join(other, preserved[0], 'keep'), 'utf8'), 'unrelated')
+    assert.deepEqual(readdirSync(other), ['keep'])
+    assert.equal(readFileSync(join(other, 'keep'), 'utf8'), 'unrelated')
   }
 })
 
@@ -266,20 +272,18 @@ test('cleanup refuses a substituted leaf and preserves foreign files rather than
     const prelude = `import fixtureFs from 'node:fs'; import fixtureChild from 'node:child_process';
 import { syncBuiltinESMExports as fixtureSync } from 'node:module';
 const fixtureRename = fixtureFs.renameSync, fixtureExec = fixtureChild.execFileSync;
-fixtureFs.renameSync = (from, to) => {
-  if (from.startsWith('.guides-batch-report-')) {
-    fixtureRename(${JSON.stringify(parent)}, ${JSON.stringify(moved)});
-    fixtureFs.symlinkSync(${JSON.stringify(moved)}, ${JSON.stringify(parent)});
-  }
-  return fixtureRename(from, to);
-};
 fixtureChild.execFileSync = (file, args, options) => {
   if (args[0] === '--input-type=module' && args[2].startsWith('// Owned-directory cleanup')) {
     fixtureRename(options.cwd, 'owned-kept');
     ${leaf === 'symlink' ? `fixtureFs.symlinkSync(${JSON.stringify(foreign)}, options.cwd);` :
       "fixtureFs.mkdirSync(options.cwd); fixtureFs.writeFileSync(options.cwd + '/keep', 'unrelated');"}
   }
-  return fixtureExec(file, args, options);
+  const result = fixtureExec(file, args, options);
+  if (args[2]?.startsWith('// Owned-directory writes')) {
+    fixtureRename(${JSON.stringify(parent)}, ${JSON.stringify(moved)});
+    fixtureFs.symlinkSync(${JSON.stringify(moved)}, ${JSON.stringify(parent)});
+  }
+  return result;
 }; fixtureSync();
 `
     writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
@@ -290,7 +294,7 @@ fixtureChild.execFileSync = (file, args, options) => {
   }
 })
 
-test('staging writes bind their own cwd identity before opening either output file', () => {
+test('final output writes bind their own cwd identity before opening either output file', () => {
   const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
   const parent = join(f.p, 'reports'), foreign = join(f.p, 'foreign')
   mkdirSync(parent); mkdirSync(foreign); writeFileSync(join(foreign, 'keep'), 'unrelated')
@@ -310,7 +314,54 @@ fixtureChild.execFileSync = (file, args, options) => {
   assertFailure(run(['--source-repo', f.p, '--out', join(parent, 'out')], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_WRITE_FAILED')
   assert.deepEqual(readdirSync(foreign), ['keep']); assert.equal(readFileSync(join(foreign, 'keep'), 'utf8'), 'unrelated')
   assert.deepEqual(readdirSync(join(parent, 'owned-kept')), [])
-  assert.equal(existsSync(join(parent, 'out')), false)
+  assert.equal(existsSync(join(parent, 'out/batch-report.json')), false)
+})
+
+test('foreign staging directories are never adopted into the final output', () => {
+  const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
+  const parent = join(f.p, 'reports'), foreign = join(parent, '.guides-batch-report-foreign')
+  mkdirSync(parent); mkdirSync(foreign); writeFileSync(join(foreign, 'keep'), 'unrelated')
+  const helper = join(f.p, 'scripts/docs-workflow/shared-guides-update/batch-publish.mjs')
+  const prelude = `import fixtureFs from 'node:fs'; import { syncBuiltinESMExports as fixtureSync } from 'node:module';
+fixtureFs.mkdtempSync = () => ${JSON.stringify(foreign)};
+fixtureFs.renameSync = () => { throw Error('directory adoption forbidden'); }; fixtureSync();
+`
+  writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
+  const out = join(parent, 'out'), result = run(['--source-repo', f.p, '--out', out], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } })
+  assert.equal(result.status, 0); assert.equal(result.stderr, '')
+  assert.deepEqual(outputFiles(out), expectedFiles); assert.deepEqual(readdirSync(foreign), ['keep'])
+  assert.equal(readFileSync(join(foreign, 'keep'), 'utf8'), 'unrelated')
+})
+
+test('partial and interrupted writes cannot produce successful reports or clobber a conflicting file', () => {
+  for (const failure of ['short-write', 'second-write', 'conflict']) {
+    const f = packagingFixture(stub(`return { ...${JSON.stringify(observed('unused'))}, tools: options.tools };`))
+    const helper = join(f.p, 'scripts/docs-workflow/shared-guides-update/batch-publish.mjs')
+    const attack = `import fixtureFs from 'node:fs'; import { syncBuiltinESMExports as fixtureSync } from 'node:module';
+const fixtureWrite = fixtureFs.writeFileSync; let calls = 0;
+fixtureFs.writeFileSync = (fd, bytes, ...args) => {
+  calls++;
+  ${failure === 'short-write' ? "if (calls === 1) return fixtureWrite(fd, bytes.subarray(0, Math.floor(bytes.length / 2)), ...args);" : ''}
+  ${failure === 'second-write' ? "if (calls === 2) throw Error('interrupted write');" : ''}
+  const result = fixtureWrite(fd, bytes, ...args);
+  ${failure === 'conflict' ? "if (calls === 1) fixtureWrite('batch-report.md', 'foreign-keep');" : ''}
+  return result;
+}; fixtureSync();
+`
+    const prelude = `import fixtureChild from 'node:child_process'; import { syncBuiltinESMExports as fixtureSync } from 'node:module';
+const fixtureExec = fixtureChild.execFileSync;
+fixtureChild.execFileSync = (file, args, options) => {
+  if (args[2]?.startsWith('// Owned-directory writes')) args[2] = ${JSON.stringify(attack)} + args[2];
+  return fixtureExec(file, args, options);
+}; fixtureSync();
+`
+    writeFileSync(helper, prelude + readFileSync(helper, 'utf8'))
+    const out = join(f.p, 'out')
+    assertFailure(run(['--source-repo', f.p, '--out', out], { cli: f.cli, env: { GH_TOKEN: 'private-secret' } }), 'OUTPUT_WRITE_FAILED')
+    if (failure === 'conflict') {
+      assert.deepEqual(readdirSync(out), ['batch-report.md']); assert.equal(readFileSync(join(out, 'batch-report.md'), 'utf8'), 'foreign-keep')
+    } else assert.equal(existsSync(out), false)
+  }
 })
 
 test('credentials smuggled into structurally valid replay evidence cannot enter either artifact', () => {

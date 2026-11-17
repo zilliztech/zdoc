@@ -1,6 +1,6 @@
 // Private filesystem publisher, invoked only by batch-report.mjs with a bounded stdin frame.
 // The kernel cwd anchors every mutation even if the parent namespace is replaced.
-import { lstatSync, readdirSync, readSync, mkdtempSync, renameSync, rmdirSync } from 'node:fs'
+import { lstatSync, readdirSync, readSync, mkdirSync, rmdirSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { basename, isAbsolute, join, parse, sep } from 'node:path'
 
@@ -8,7 +8,7 @@ const LIMIT = 16 * 1024 * 1024, METADATA_LIMIT = 4096
 class Changed extends Error {}
 const changed = () => { throw new Changed() }
 const same = (a, b) => a && b && a.dev === b.dev && a.ino === b.ino
-let staging, stagingIdentity, published, publishedIdentity
+let output, outputIdentity, created = false
 const files = []
 
 // Cleanup binds a second kernel cwd to the owned leaf, since its basename can also be
@@ -21,13 +21,14 @@ try {
   if (!same(lstatSync('.'), value.directory)) throw Error();
   for (const file of value.files) {
     if (!['batch-report.json', 'batch-report.md'].includes(file.name)) throw Error();
-    const now = lstatSync(file.name);
-    if (!now.isFile() || !same(now, file)) throw Error();
+    let now; try { now = lstatSync(file.name); } catch (error) { if (error.code === 'ENOENT') continue; throw error; }
+    if (!now.isFile() || !same(now, file)) continue;
     unlinkSync(file.name);
   }
 } catch { process.exitCode = 1; }`
 const writeProgram = `// Owned-directory writes
-import { lstatSync, readSync, openSync, fstatSync, writeFileSync, closeSync } from 'node:fs';
+import { lstatSync, readdirSync, readSync, openSync, fstatSync, writeFileSync, closeSync } from 'node:fs';
+const records = []; let ok = false;
 try {
   const read = size => {
     const bytes = Buffer.alloc(size); let at = 0;
@@ -36,16 +37,26 @@ try {
   };
   const size = read(4).readUInt32BE(0); if (size > 4096) throw Error();
   const value = JSON.parse(read(size).toString('utf8')), here = lstatSync('.');
-  if (here.dev !== value.directory.dev || here.ino !== value.directory.ino ||
+  if (here.dev !== value.directory.dev || here.ino !== value.directory.ino || readdirSync('.').length ||
       ![value.jsonBytes, value.markdownBytes].every(n => Number.isSafeInteger(n) && n >= 0 && n <= 16 * 1024 * 1024)) throw Error();
-  const records = [];
   for (const [name, length] of [['batch-report.json', value.jsonBytes], ['batch-report.md', value.markdownBytes]]) {
-    const bytes = read(length), fd = openSync(name, 'wx', 0o600);
-    try { const info = fstatSync(fd); records.push({ name, dev: info.dev, ino: info.ino }); writeFileSync(fd, bytes); }
+    const bytes = read(length), fd = openSync(name, 'wx+', 0o600);
+    try {
+      const info = fstatSync(fd); records.push({ name, dev: info.dev, ino: info.ino, bytes: length });
+      writeFileSync(fd, bytes);
+      if (fstatSync(fd).size !== length) throw Error();
+      const verified = Buffer.alloc(length); let at = 0;
+      while (at < length) { const n = readSync(fd, verified, at, length - at, at); if (!n) throw Error(); at += n; }
+      if (!verified.equals(bytes)) throw Error();
+    }
     finally { closeSync(fd); }
   }
-  process.stdout.write(JSON.stringify(records));
-} catch { process.exitCode = 1; }`
+  if (records.length !== 2 || readdirSync('.').length !== 2 || records.some(file => {
+    const now = lstatSync(file.name); return !now.isFile() || now.dev !== file.dev || now.ino !== file.ino || now.size !== file.bytes;
+  })) throw Error();
+  ok = true;
+} catch {}
+process.stdout.write(JSON.stringify({ ok, records }));`
 const childEnvironment = () => ({ PATH: process.env.PATH, LC_ALL: 'C' })
 function cleanup(name, identity) {
   if (!name || !identity) return
@@ -54,17 +65,19 @@ function cleanup(name, identity) {
       env: childEnvironment(), timeout: 5000, maxBuffer: 1024,
       input: JSON.stringify({ directory: { dev: identity.dev, ino: identity.ino }, files }), stdio: ['pipe', 'pipe', 'pipe'] })
     // Nonrecursive rmdir cannot traverse a replacement symlink or remove another directory's files.
-    rmdirSync(name)
+    if (created) rmdirSync(name)
   } catch {} // Fail closed; retain bounded private residue when ownership cannot be rebound.
 }
 function writeOwned(json, markdown) {
-  const metadata = Buffer.from(JSON.stringify({ directory: { dev: stagingIdentity.dev, ino: stagingIdentity.ino },
+  const metadata = Buffer.from(JSON.stringify({ directory: { dev: outputIdentity.dev, ino: outputIdentity.ino },
     jsonBytes: json.length, markdownBytes: markdown.length }))
   const header = Buffer.alloc(4); header.writeUInt32BE(metadata.length)
-  const records = execFileSync(process.execPath, ['--input-type=module', '-e', writeProgram], { cwd: staging,
+  const result = execFileSync(process.execPath, ['--input-type=module', '-e', writeProgram], { cwd: output,
     env: childEnvironment(), timeout: 10_000, maxBuffer: 1024,
     input: Buffer.concat([header, metadata, json, markdown]), stdio: ['pipe', 'pipe', 'pipe'] })
-  files.push(...JSON.parse(records.toString()))
+  const written = JSON.parse(result.toString())
+  files.push(...written.records)
+  if (written.ok !== true) throw new Error()
 }
 
 function namespace(path) {
@@ -116,20 +129,18 @@ try {
   const { metadata, json, markdown } = frame()
   // Spawn's cwd resolution can itself race. Bind '.' before the first filesystem write.
   checkParent(metadata); checkTarget(metadata)
-  staging = mkdtempSync('.guides-batch-report-')
-  stagingIdentity = lstatSync(staging)
+  if (!metadata.targetIdentity) { mkdirSync(metadata.target, { mode: 0o700 }); created = true }
+  output = metadata.target; outputIdentity = metadata.targetIdentity ?? lstatSync(output)
   writeOwned(json, markdown)
-  checkParent(metadata); checkTarget(metadata)
-  // Both names are single-directory relative paths. A replaced ancestor cannot redirect this.
-  renameSync(staging, metadata.target)
-  staging = undefined; published = metadata.target; publishedIdentity = stagingIdentity
   checkParent(metadata)
-  if (!same(targetInfo(published), publishedIdentity)) changed()
+  if (!same(targetInfo(output), outputIdentity)) changed()
+  if (readdirSync(output).length !== 2 || files.some(file => {
+    const now = lstatSync(join(output, file.name))
+    return !now.isFile() || !same(now, file) || now.size !== file.bytes
+  })) changed()
 } catch (error) {
   // Cleanup rebinds the owned directory itself; no absolute or recursive cleanup.
-  cleanup(published, publishedIdentity)
+  cleanup(output, outputIdentity)
   process.stderr.write(error instanceof Changed ? 'OUTPUT_CHANGED\n' : 'OUTPUT_WRITE_FAILED\n')
   process.exitCode = 1
-} finally {
-  cleanup(staging, stagingIdentity)
 }
