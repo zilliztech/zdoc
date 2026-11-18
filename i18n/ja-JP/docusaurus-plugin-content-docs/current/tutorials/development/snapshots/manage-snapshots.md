@@ -1,7 +1,7 @@
 ---
-title: "スナップショットの管理 | Cloud"
+title: "スナップショットの管理（SDK） | Cloud"
 slug: /manage-snapshots
-sidebar_label: "スナップショットの管理"
+sidebar_label: "スナップショットの管理（SDK）"
 beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# スナップショットの管理
+# スナップショットの管理（SDK）
 
 このガイドでは、スナップショットの作成と管理の方法を、以下を含めて説明します。
 
