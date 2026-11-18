@@ -106,9 +106,11 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       let anchor = fragment
       try { anchor = decodeURIComponent(fragment) } catch { /* Invalid fragments cannot match a heading. */ }
       const anchorSource = projected ? input.markdown : target ?? input.manualCloudPages?.get(file)
-      const heading = anchorSource == null ? undefined : collectHeadings(anchorSource).find(heading => heading.milvus === anchor)
+      // Fragments arrive in either anchor scheme (upstream authors write milvus-case or cloud-lowercase);
+      // the projection rewrites the fragment to the heading's cloud id either way.
+      const heading = anchorSource == null ? undefined : collectHeadings(anchorSource).find(heading => heading.milvus === anchor || heading.cloud === anchor)
       if (!heading) {
-        const upstream = target != null && collectHeadings(target).find(candidate => candidate.milvus === anchor)
+        const upstream = target != null && collectHeadings(target).find(candidate => candidate.milvus === anchor || candidate.cloud === anchor)
         fail(ref, 'ANCHOR_NOT_FOUND', upstream ? `No heading matches #${fragment} in the projected ${file || input.sourceFile}; the heading exists upstream and the projection removes it.`
           : `No heading matches #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor: fragment })
         continue

@@ -62,6 +62,9 @@ export function deriveHeadingMetadata(markdown: string): { title?: string; descr
   for (const line of lines) {
     if (/^\s*(```|~~~)/.test(line)) { if (!paragraph.length) fenced = !fenced; continue }
     if (fenced) continue
+    // Standalone markup lines (callout wrappers) are not prose; skipping them keeps the
+    // description on the real paragraph instead of an escaped HTML tag.
+    if (title !== undefined && /^<\/?[a-z][^>]*>\s*$/i.test(line)) continue
     if (title === undefined) {
       const heading = /^#\s+(.+?)\s*$/.exec(line)
       if (heading) title = heading[1]
@@ -210,7 +213,6 @@ export function expandManualPages(files: readonly string[] | { current: readonly
     if (byBasename.has(identity.basename)) return `shares the basename ${identity.basename} with ${byBasename.get(identity.basename)}; manual links resolve by basename`
     if (reserved.id.has(identity.pageId.toLowerCase())) return `derives the page ID ${identity.pageId} of the excluded upstream page ${reserved.id.get(identity.pageId.toLowerCase())}`
     if (reserved.publishPath.has(identity.publishPath.toLowerCase())) return `publishes to ${identity.publishPath}, the address of the excluded upstream page ${reserved.publishPath.get(identity.publishPath.toLowerCase())}`
-    if (reserved.basename.has(identity.basename)) return `shares the basename ${identity.basename} with the excluded upstream page ${reserved.basename.get(identity.basename)}`
     return undefined
   }
   const claim = (logical: string, derived: ReturnType<typeof identity>): boolean => {
@@ -265,6 +267,11 @@ export function expandManualPages(files: readonly string[] | { current: readonly
   }
   // Links to a page absent from this channel's tree lose the link there; config-excluded
   // pages keep their own unconditional strip set, so they never double up here.
+  // A published page wins its basename over an excluded duplicate: manual links resolve
+  // by basename, and a same-basename excluded page (upstream carried such duplicates and
+  // later deleted them) must not strip links or the channel-absent handling of the live
+  // page. Address reservations (id, publishPath) still hold for cloud identity checks.
+  for (const name of [...excludedBasenames]) if (byBasename.has(name)) excludedBasenames.delete(name)
   const channelAbsent = new Map<'current' | 'next', ReadonlySet<string>>()
   for (const channel of ['current', 'next'] as const) {
     const absent = new Set<string>()

@@ -10,9 +10,11 @@ const MODULE_METADATA_FIELDS = ['beta', 'title', 'sidebar_position']
 const CLOUD_CHANNEL_VALUES: readonly ManualCloudChannel[] = ['current', 'next', 'retire-in-next']
 
 function checkBeta(check: ConfigValidation, record: Record<string, unknown>, path: (string | number)[], betaValues: readonly string[]): void {
-  // YAML's FALSE scalar is boolean false; both spellings denote the no-tag value.
-  const beta = record.beta === false ? 'FALSE' : record.beta
-  if (typeof beta !== 'string' || beta === 'BYOC' || (beta !== 'FALSE' && !betaValues.includes(beta))) {
+  // YAML's false scalar is boolean false; both spellings denote the no-tag value and
+  // both stay lowercase/uppercase as configured — the SDK reference pages publish `false`.
+  const beta = record.beta === false ? 'false' : record.beta
+  const untagged = beta === 'FALSE' || beta === 'false'
+  if (typeof beta !== 'string' || beta === 'BYOC' || (!untagged && !betaValues.includes(beta))) {
     check.error(path, 'beta must be FALSE or a supported heading tag other than BYOC', 'CONFIG_BETA_INVALID')
   } else record.beta = beta
 }

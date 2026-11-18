@@ -1,0 +1,8 @@
+schema_version: 1
+repository: https://github.com/milvus-io/web-content
+track: master
+presentation:
+  node:
+    title_suffix: Node.js
+    slug_prefix: /node/node
+    displayed_sidebar: nodeSidebar
