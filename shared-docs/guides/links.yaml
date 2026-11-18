@@ -75,7 +75,7 @@ insert-update-delete.md: insert-entities
 schema.md: schema-explained
 tune_consistency.md: consistency-level
 index-vector-fields.md: https://milvus.io/docs/index-vector-fields.md
-index-scalar-fields.md: https://milvus.io/docs/index-scalar-fields.md
+index-scalar-fields.md: scalar-index-overview
 
 # Schema field pages onboarded with this change. The Milvus source file names
 # differ from the Cloud slugs, so cross-page references between these shared
@@ -94,3 +94,8 @@ schema-hands-on.md: schema-design-hands-on
 # Milvus source-data page; the zdoc StructArray source-file shapes live on the
 # SDK import page (section anchor published via the guides Base).
 prepare-source-data.md: import-data-via-sdks
+
+# Shared scalar-index overview and explicit string index.
+scalar_index.md: scalar-index-overview
+trie.md: trie-index-type
+full-text-search.md: full-text-search

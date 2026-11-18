@@ -50,6 +50,29 @@ access. Record the HTTP result and digest with the pilot evidence. These checks
 gate the first image-bearing activation; a page without images can be activated
 before them.
 
+Shared-page links resolve both Markdown heading anchors and static IDs on authored
+`<a id="...">` and `<details id="...">` elements. Heading fragments use the Cloud
+heading slug; explicit IDs retain their case and are URL-encoded in links. Code,
+comments and component props do not declare anchors. A projected-away anchor or
+an ambiguous emitted ID fails validation rather than falling back to the page top.
+For standalone compatibility anchors/disclosures, adaptation also retains the
+lowercase Cloud heading URL when it is distinct and does not collide with an
+existing heading or explicit ID.
+
+When a heading moves or changes depth between CURRENT and NEXT, the adapter can
+give the NEXT heading a unique rendering ID and retain its public ID as a nearby
+HTML anchor. CURRENT headings stay unchanged. This applies only to one heading
+per channel with no existing alias conflict; the merger still rejects duplicate
+IDs within a channel, unsafe markup and other structural errors.
+
+PR validation can also check a newly added Guides page before it has dev output.
+The validation workflow makes a separate, explicitly labeled fixture for page
+configs added by that PR whose targets and snapshot identity are all absent.
+It requires equal initial source pins and adds temporary NEXT metadata, then
+runs the same whole-group generator. Existing or partially present pages cannot
+use this fixture. The real dev checkout stays read-only; these results do not
+establish Base registration, navigation or activation.
+
 On first activation, the job reads the old document at its current revision only
 when a current body link or Base ref requires a heading anchor. Page-top-only
 references do not require that read. It checks required anchors against every

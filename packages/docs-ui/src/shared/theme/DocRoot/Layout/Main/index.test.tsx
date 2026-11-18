@@ -103,6 +103,33 @@ describe('DocRootLayoutMain hash scrolling', () => {
     expect(scrollIntoViewOf(current)).toHaveBeenCalledTimes(1);
   });
 
+  it('follows a CURRENT heading replaced by a NEXT alias with the same ID', () => {
+    const original = makeHeading('usage-notes');
+    document.body.appendChild(original);
+    navigate('/docs/sample', '#usage-notes', renderMain);
+    expect(scrollIntoViewOf(original)).toHaveBeenCalledTimes(1);
+
+    const replacement = makeHeading('usage-notes');
+    original.replaceWith(replacement);
+    vi.advanceTimersByTime(100);
+    expect(scrollIntoViewOf(replacement)).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(500);
+    expect(scrollIntoViewOf(original)).toHaveBeenCalledTimes(1);
+    expect(scrollIntoViewOf(replacement)).toHaveBeenCalledTimes(1);
+  });
+
+  it('reveals a hash target inside disclosures that mount after navigation', () => {
+    navigate('/docs/sample', '#reference', renderMain);
+    const outer = document.createElement('details');
+    const inner = document.createElement('details');
+    const target = makeHeading('reference');
+    inner.appendChild(target); outer.appendChild(inner); document.body.appendChild(outer);
+    vi.advanceTimersByTime(100);
+    expect(outer.open).toBe(true);
+    expect(inner.open).toBe(true);
+    expect(scrollIntoViewOf(target)).toHaveBeenCalledTimes(1);
+  });
+
   it('cancels a pending retry on unmount', () => {
     const {rerender, unmount} = renderMain();
     navigate('/docs/sample', '#current-heading', rerender);

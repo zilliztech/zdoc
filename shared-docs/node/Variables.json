@@ -1,0 +1,5 @@
+{
+  "endpoint": "'YOUR_CLUSTER_ENDPOINT'",
+  "token": "YOUR_CLUSTER_TOKEN",
+  "example_endpoint": "https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540"
+}

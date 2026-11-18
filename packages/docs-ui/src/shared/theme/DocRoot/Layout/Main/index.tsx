@@ -47,12 +47,21 @@ export default function DocRootLayoutMain({
     const targetId = hashTargetId(hash);
     if (!targetId) return undefined;
     let timer: ReturnType<typeof setTimeout> | undefined;
+    let lastTarget: HTMLElement | undefined;
     const deadline = Date.now() + HASH_TARGET_RETRY_WINDOW_MS;
     const attempt = () => {
       const target = document.getElementById(targetId);
-      if (target) {
+      if (target && target !== lastTarget) {
+        // A hash can first match the CURRENT heading, then a different NEXT
+        // node after hydration. Follow that replacement without repeatedly
+        // overriding scrolling while the same target remains mounted.
+        let disclosure = target.closest('details');
+        while (disclosure) {
+          disclosure.open = true;
+          disclosure = disclosure.parentElement?.closest('details') ?? null;
+        }
         target.scrollIntoView();
-        return;
+        lastTarget = target;
       }
       if (Date.now() >= deadline) return;
       timer = setTimeout(attempt, HASH_TARGET_RETRY_INTERVAL_MS);

@@ -214,6 +214,15 @@ labels and order come from manual `metadata` module entries (`title`,
 `sidebar_position`); those two fields describe the sidebar category and never
 reach page front matter.
 
+Manual-layout byte fidelity against the SDK reference this migration replaces:
+`metadata` entries carry the per-page truth the old pipeline published
+(`description` overrides the derived first paragraph, `beta: false` keeps the
+lowercase spelling those pages already publish, `keywords` renders with the
+writer's trailing space); heading fragments resolve in either anchor scheme
+and are rewritten to the projected heading id; a published page wins its
+basename over an excluded upstream duplicate (upstream carried such
+duplicates and later deleted them; address reservations still hold).
+
 ## Initial locks and PR validation (WP8b)
 
 Create missing initial source locks with a complete local Milvus checkout:

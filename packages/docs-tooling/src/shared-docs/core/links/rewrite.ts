@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { diagnostic, parseYaml } from '../yaml'
-import { collectHeadings } from './anchors'
+import { collectHeadings, resolveAnchor } from './anchors'
 import { linkCandidates } from './candidates'
 import { classifyLink, isMilvusUrl } from './map'
 import { collectReferences } from './references'
@@ -106,14 +106,19 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       let anchor = fragment
       try { anchor = decodeURIComponent(fragment) } catch { /* Invalid fragments cannot match a heading. */ }
       const anchorSource = projected ? input.markdown : target ?? input.manualCloudPages?.get(file)
-      const heading = anchorSource == null ? undefined : collectHeadings(anchorSource).find(heading => heading.milvus === anchor)
-      if (!heading) {
-        const upstream = target != null && collectHeadings(target).find(candidate => candidate.milvus === anchor)
+      const resolved = anchorSource == null ? {} : resolveAnchor(anchorSource, anchor,
+        input.anchorCloudFallback && kind === 'anchor')
+      if (resolved.ambiguous) {
+        fail(ref, 'ANCHOR_AMBIGUOUS', `Multiple emitted elements use #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor })
+        continue
+      }
+      if (!resolved.id) {
+        const upstream = target != null && resolveAnchor(target, anchor, input.anchorCloudFallback && kind === 'anchor').id
         fail(ref, 'ANCHOR_NOT_FOUND', upstream ? `No heading matches #${fragment} in the projected ${file || input.sourceFile}; the heading exists upstream and the projection removes it.`
           : `No heading matches #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor: fragment })
         continue
       }
-      destination += `#${heading.cloud}`
+      destination += `#${encodeURIComponent(resolved.id)}`
     }
     edit(ref, destination)
   }

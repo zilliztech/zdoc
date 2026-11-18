@@ -25,7 +25,7 @@ export function frontMatter(input: AdaptPageInput, lines: string[]): { lines: So
     if (typeof value !== 'string') errors.push(siteError('ADAPT_UNSUPPORTED_MARKUP', `A string ${name} is required`, input.context, lines))
   }
   const beta = input.metadata?.beta ?? 'FALSE'
-  if (beta !== 'FALSE' && (beta === 'BYOC' || !input.betaValues.includes(beta))) errors.push(siteError('CONFIG_BETA_INVALID', `Invalid beta value: ${beta}`, input.context, lines))
+  if (beta !== 'FALSE' && beta !== 'false' && (beta === 'BYOC' || !input.betaValues.includes(beta))) errors.push(siteError('CONFIG_BETA_INVALID', `Invalid beta value: ${beta}`, input.context, lines))
   if (errors.length) return { errors }
   const suffix = input.presentation?.titleSuffix ?? (input.manual === 'guides-byoc' ? 'BYOC' : 'Cloud')
   const slugPrefix = input.presentation?.slugPrefix ?? ''
@@ -57,7 +57,7 @@ export function frontMatter(input: AdaptPageInput, lines: string[]): { lines: So
     `type: ${scalar(input.metadata?.type ?? 'origin')}`,
     `token: ${scalar(input.metadata?.token ?? `shared-${input.pageId}`)}`,
     ...(position === undefined ? [] : [`sidebar_position: ${position}`]),
-    ...(input.metadata?.keywords?.length ? ['keywords:', ...input.metadata.keywords.map(keyword => `  - ${scalar(keyword)}`)] : []),
+    ...(input.metadata?.keywords?.length ? ['keywords: ', ...input.metadata.keywords.map(keyword => `  - ${scalar(keyword)}`)] : []),
     // Whole-page release channels carry the site's channel gate with them; the Fetch
     // finalizer owns these keys too and re-emits identical values, so Fetch bytes
     // stay unchanged whether or not this branch fired.
