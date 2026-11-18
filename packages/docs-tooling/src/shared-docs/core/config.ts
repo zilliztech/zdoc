@@ -87,8 +87,11 @@ export function parsePageConfig(pageId: string, text: string, context: PageConfi
       }
       if ('beta' in value.metadata) {
         // YAML's FALSE scalar is boolean false; both spellings denote the no-tag value.
+        // The pages layout normalizes to the guides spelling; the manual layout feeds the
+        // string `false` it validated itself, and both pass through unchanged.
         const beta = value.metadata.beta === false ? 'FALSE' : value.metadata.beta
-        if (typeof beta !== 'string' || beta === 'BYOC' || (beta !== 'FALSE' && !context.betaValues.includes(beta))) {
+        const untagged = beta === 'FALSE' || beta === 'false'
+        if (typeof beta !== 'string' || beta === 'BYOC' || (!untagged && !context.betaValues.includes(beta))) {
           check.error(['metadata', 'beta'], 'beta must be FALSE or a supported heading tag other than BYOC', 'CONFIG_BETA_INVALID')
         } else value.metadata.beta = beta
       }

@@ -62,6 +62,9 @@ export function deriveHeadingMetadata(markdown: string): { title?: string; descr
   for (const line of lines) {
     if (/^\s*(```|~~~)/.test(line)) { if (!paragraph.length) fenced = !fenced; continue }
     if (fenced) continue
+    // Standalone markup lines (callout wrappers) are not prose; skipping them keeps the
+    // description on the real paragraph instead of an escaped HTML tag.
+    if (title !== undefined && /^<\/?[a-z][^>]*>\s*$/i.test(line)) continue
     if (title === undefined) {
       const heading = /^#\s+(.+?)\s*$/.exec(line)
       if (heading) title = heading[1]
@@ -178,7 +181,7 @@ export function expandManualPages(files: readonly string[] | { current: readonly
   }
   // Excluded pages emit nothing but keep reserving their identity: a cloud page may not
   // take over the address of an upstream page, excluded ones included.
-  const reserved = { id: new Map<string, string>(), publishPath: new Map<string, string>(), basename: new Map<string, string>() }
+  const reserved = { id: new Map<string, string>(), publishPath: new Map<string, string>() }
   const excludedBasenames = new Set<string>()
   const excludedLogicals = new Set<string>()
   for (const entry of manual.exclude ?? []) {
@@ -194,7 +197,6 @@ export function expandManualPages(files: readonly string[] | { current: readonly
       const derived = identity(logical)
       reserved.id.set(derived.pageId.toLowerCase(), logical)
       reserved.publishPath.set(derived.publishPath.toLowerCase(), logical)
-      reserved.basename.set(derived.basename, logical)
       excludedBasenames.add(derived.basename)
       excludedLogicals.add(logical)
       // Metadata for excluded pages is inert rather than a typo; consume it so the
@@ -210,7 +212,6 @@ export function expandManualPages(files: readonly string[] | { current: readonly
     if (byBasename.has(identity.basename)) return `shares the basename ${identity.basename} with ${byBasename.get(identity.basename)}; manual links resolve by basename`
     if (reserved.id.has(identity.pageId.toLowerCase())) return `derives the page ID ${identity.pageId} of the excluded upstream page ${reserved.id.get(identity.pageId.toLowerCase())}`
     if (reserved.publishPath.has(identity.publishPath.toLowerCase())) return `publishes to ${identity.publishPath}, the address of the excluded upstream page ${reserved.publishPath.get(identity.publishPath.toLowerCase())}`
-    if (reserved.basename.has(identity.basename)) return `shares the basename ${identity.basename} with the excluded upstream page ${reserved.basename.get(identity.basename)}`
     return undefined
   }
   const claim = (logical: string, derived: ReturnType<typeof identity>): boolean => {
@@ -265,6 +266,11 @@ export function expandManualPages(files: readonly string[] | { current: readonly
   }
   // Links to a page absent from this channel's tree lose the link there; config-excluded
   // pages keep their own unconditional strip set, so they never double up here.
+  // A published page wins its basename over an excluded duplicate: manual links resolve
+  // by basename, and a same-basename excluded page (upstream carried such duplicates and
+  // later deleted them) must not strip links or the channel-absent handling of the live
+  // page. Address reservations (id, publishPath) still hold for cloud identity checks.
+  for (const name of [...excludedBasenames]) if (byBasename.has(name)) excludedBasenames.delete(name)
   const channelAbsent = new Map<'current' | 'next', ReadonlySet<string>>()
   for (const channel of ['current', 'next'] as const) {
     const absent = new Set<string>()
@@ -413,7 +419,7 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
     const sharedPages = await runtime.sharedPages(commit)
     const rewritten = rewriteLinksAndImages({ targets, images, markdown: content, sourceFile, sharedPages,
       linkMap: EMPTY_LINK_MAP, cloudPages: [], excluded: shared.excluded, channelAbsent: shared.channelAbsent.get(channel),
-      manualCloudPages, context: location, pathLinks: true })
+      anchorCloudFallback: true, manualCloudPages, context: location, pathLinks: true })
     if ('errors' in rewritten) { errors.push(...rewritten.errors); continue }
     const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
       ...(input.presentation ? { presentation: input.presentation } : {}),

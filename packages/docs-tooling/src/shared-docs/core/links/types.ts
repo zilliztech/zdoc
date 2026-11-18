@@ -40,4 +40,7 @@ export interface RewriteInput extends PreparedLinkInputs {
   /** Manual-local pages by basename (with extension) → content: targets upstream
    * preparation cannot see; they always exist and anchor-check against this text. */
   manualCloudPages?: ReadonlyMap<string, string>
+  /** Same-page fragments also match the projected cloud heading id (manual layout: upstream
+   * authors write lowercase cloud anchors and the projection rewrites them to the id). */
+  anchorCloudFallback?: boolean
 }
