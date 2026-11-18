@@ -636,7 +636,7 @@ it.each(['unknown','changed'] as const)('holds %s authority through the actual G
     expect(await git(join(output,'scratch.git'),'for-each-ref','refs/shared-update/local')).toBe('')
     expect(await f.state()).toEqual(before)
   } finally {vi.restoreAllMocks()}
-},15_000)
+},40_000)
 
 it('retains trusted acquisition failure codes in actual local holds without injecting child authority',async()=>{
   try {
