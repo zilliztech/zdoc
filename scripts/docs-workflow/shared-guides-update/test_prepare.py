@@ -60,6 +60,262 @@ class Fetch:
 
 
 class PreparationTest(unittest.TestCase):
+    def test_batch_canonical_matches_utf8_and_control_vectors(self):
+        value = {"\ue000": 2, "\U00010000": 1, "text": "\0\n\t\r\b\f\x1f\\\"😀"}
+        expected = '{"text":"\\u0000\\u000a\\u0009\\u000d\\u0008\\u000c\\u001f\\\\\\"😀","\ue000":2,"\U00010000":1}'.encode()
+        self.assertEqual(p.batch_canonical(value), expected)
+        self.assertEqual(p.batch_parse(expected), value)
+        self.assertEqual(p.batch_parse(b'{"order":1.5}\n', canonical=False), {"order": 1.5})
+        for raw in (b'{"x":1,"x":2}', b'{"x":-0}', b'{"x":1.0}', b'{"x":1e0}', b'{"x":9007199254740992}',
+                    b'{"x":"\\ud800"}', b'{"x":"\\n"}', b' {"x":1}', b'{"x":NaN}'):
+            with self.subTest(raw=raw), self.assertRaises(p.Hold):
+                p.batch_parse(raw)
+
+    def test_batch_profile_method_has_no_legacy_or_v1_fallback(self):
+        method = {"kind": "fetch-producer-profile-v2", "trustedTools": MASTER,
+                  "producer": SOURCE, "profileSha256": "3" * 64}
+        args = dict(expected_kind="fetch-producer-profile-v2", master=MASTER, producer=SOURCE,
+                    observed_tool=MASTER, expected_digest="3" * 64)
+        self.assertEqual(p.validate_profile_method(method, **args), method)
+        for changed in ({**method, "kind": "fetch-producer-profile-v1"}, {**method, "extra": True},
+                        {**method, "trustedTools": DEV}, {**method, "producer": DEV},
+                        {**method, "profileSha256": "4" * 64}, {}):
+            with self.subTest(changed=changed), self.assertRaises(p.Hold):
+                p.validate_profile_method(changed, **args)
+
+    def test_batch_output_binding_matches_manual_identity_for_dual_and_cloud_only_targets(self):
+        targets = [{"manual": "guides", "path": "tutorials/example"}, {"manual": "guides-byoc", "path": "tutorials/example"}]
+        cloud = {"manual": "guides", "path": "content/en/guides/tutorials/example.mdx", "sha256": "1" * 64}
+        byoc = {"manual": "guides-byoc", "path": "content/en/byoc/tutorials/example.mdx", "sha256": "2" * 64}
+        # Q/receiptsRoot order is manual + ':' + path, while configured targets
+        # use manual alone and original producer outputs have their own order.
+        outputs = [byoc, cloud]
+        self.assertEqual([p._batch_output_target(o, targets) for o in outputs], [targets[1], targets[0]])
+        self.assertEqual(p._batch_receipt_outputs([cloud, byoc]), outputs)
+        self.assertEqual(p._batch_output_target(cloud, targets[:1]), targets[0])
+        self.assertEqual(p._batch_receipt_outputs([cloud]), [cloud])
+        with self.assertRaises(p.Hold):
+            p._batch_output_target(byoc, targets[:1])
+        with self.assertRaises(p.Hold):
+            p._batch_output_target(cloud, targets + targets[:1])
+
+    def test_batch_reader_holds_parent_descriptors_and_rejects_aliases_and_extent(self):
+        with tempfile.TemporaryDirectory() as root:
+            blobs = Path(root) / 'blobs'
+            blobs.mkdir()
+            raw = b'original pretty raw receipt\n'
+            digest = p.sha256(raw)
+            ref = dict(path='blobs/' + digest, sha256=digest, bytes=len(raw))
+            (blobs / digest).write_bytes(raw)
+            root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
+            blobs_fd = os.open(blobs, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                control = dict(rootIdentity=p._BatchReader.identity(root_fd), blobsIdentity=p._BatchReader.identity(blobs_fd))
+                reader = p._BatchReader(root_fd, blobs_fd, control)
+                expected = (len(raw), p.hashlib.sha1(f'blob {len(raw)}\0'.encode() + raw).hexdigest())
+                self.assertEqual(reader.blob(ref), expected)
+                self.assertEqual(reader.blob(ref), expected)
+                self.assertEqual(reader.total, len(raw))
+                with self.assertRaises(p.Hold):
+                    reader.blob({**ref, 'bytes': len(raw) + 1})
+                with self.assertRaises(p.Hold):
+                    reader.blob({**ref, 'path': '../' + digest})
+                (blobs / ('f' * 64)).symlink_to(blobs / digest)
+                with self.assertRaises((OSError, p.Hold)):
+                    reader.blob(dict(path='blobs/' + 'f' * 64, sha256='f' * 64, bytes=len(raw)))
+                reader.finish()
+            finally:
+                os.close(blobs_fd)
+                os.close(root_fd)
+
+    def test_batch_archive_admits_exact_complete_members_without_truncation(self):
+        members = [('index.json', b'{}'), ('qualification.json', b'{}')]
+        for i in range(31):
+            members += [(f'pages/page-{i}/report.json', b'{}'), (f'pages/page-{i}/pins.json', b'{}')]
+        self.assertEqual(p.batch_archive_admission(members), 128)
+        for bad in (members + [('extra.json', b'{}')], members + [members[0]],
+                    [('index.json', b'x' * (1024**2 + 1))],
+                    [(str(i), b'x' * 1024**2) for i in range(17)]):
+            with self.subTest(count=len(bad)), self.assertRaises(p.Hold):
+                p.batch_archive_admission(bad)
+
+    def test_batch_archive_identity_rejects_content_and_name_replacement(self):
+        with tempfile.TemporaryDirectory() as root:
+            archive = Path(root) / 'collection.zip'
+            archive.write_bytes(b'original')
+            root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
+            archive_fd = os.open(archive, os.O_RDONLY | os.O_NOFOLLOW)
+            try:
+                pin = p.batch_archive_identity(root_fd, archive_fd)
+                self.assertEqual(p.batch_archive_identity(root_fd, archive_fd), pin)
+                archive.write_bytes(b'replaced')
+                self.assertNotEqual(p.batch_archive_identity(root_fd, archive_fd), pin)
+                archive.rename(Path(root) / 'retained-original')
+                archive.write_bytes(b'replaced')
+                with self.assertRaises(p.Hold):
+                    p.batch_archive_identity(root_fd, archive_fd)
+            finally:
+                os.close(archive_fd)
+                os.close(root_fd)
+
+    def test_batch_actual_compressed_zip_overhead_cannot_cross_sixteen_mib(self):
+        members = [(f'pages/page-{i}/report.json', os.urandom(1024**2)) for i in range(16)]
+        self.assertEqual(p.batch_archive_admission(members), 16 * 1024**2)
+        with self.assertRaisesRegex(p.Hold, 'BATCH_ARCHIVE_COMPRESSED_LIMIT'):
+            p.batch_zip_bytes(members)
+        raw = p.batch_zip_bytes([('index.json', b'{}'), ('qualification.json', b'{}')])
+        with p.zipfile.ZipFile(io.BytesIO(raw)) as archive:
+            self.assertEqual(archive.namelist(), ['index.json', 'qualification.json'])
+
+    def test_batch_commit_ack_is_exact_and_publication_never_replaces_pointer(self):
+        with tempfile.TemporaryDirectory() as parent:
+            root = Path(parent) / 'operation'
+            root.mkdir()
+            (root / 'blobs').mkdir()
+            parent_fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY)
+            root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
+            blobs_fd = os.open(root / 'blobs', os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                control = {'rootIdentity': p._BatchReader.identity(root_fd),
+                           'blobsIdentity': p._BatchReader.identity(blobs_fd)}
+                pointer = b'{"indexDigest":"verified"}'
+                digest = p.batch_digest('control', control)
+                good = {'kind': 'guides-batch-commit-v1', 'controlDigest': digest, 'freshnessRemainingMs': 1000}
+                for bad in ({**good, 'controlDigest': '0' * 64}, {**good, 'pointer': {}}, {},
+                            *({**good, 'freshnessRemainingMs': budget} for budget in (0, -1, True, 36 * 3600000 + 5 * 60000 + 1))):
+                    with self.assertRaises(p.Hold):
+                        p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, bad)
+                    self.assertFalse((root / 'index.json').exists())
+                p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, good)
+                self.assertEqual((root / 'index.json').read_bytes(), pointer)
+                self.assertEqual((root / 'index.json').stat().st_nlink, 1)
+                with self.assertRaises(FileExistsError):
+                    p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, good)
+                root.rename(Path(parent) / 'moved')
+                root.mkdir()
+                with self.assertRaises(p.Hold):
+                    p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, pointer, good)
+                self.assertFalse((root / 'index.json').exists())
+            finally:
+                for fd in (blobs_fd, root_fd, parent_fd):
+                    os.close(fd)
+
+    def test_batch_pre_receive_rollback_cannot_extend_rooted_publication(self):
+        with tempfile.TemporaryDirectory() as parent:
+            root = Path(parent) / 'operation'
+            root.mkdir()
+            (root / 'blobs').mkdir()
+            fds = [os.open(path, os.O_RDONLY | os.O_DIRECTORY) for path in (parent, root, root / 'blobs')]
+            # 60 seconds elapsed since ticket creation; wall moved back 59s.
+            ticket_wall, replay_clock = 1800000000000, 1000000000000
+            wall, monotonic = [(ticket_wall + 1000) / 1000], [160.0]
+            scan = replay_clock + 60001 - 36 * 3600000
+            try:
+                parent_fd, root_fd, blobs_fd = fds
+                control = {'rootIdentity': p._BatchReader.identity(root_fd), 'blobsIdentity': p._BatchReader.identity(blobs_fd)}
+                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control), 'freshnessRemainingMs': 1000}
+                real_sync = p.os.fsync
+                def delayed_directory(fd):
+                    real_sync(fd)
+                    if fd == root_fd:
+                        wall[0] += .010
+                        monotonic[0] += .010
+                with patch.object(p.time, 'time', side_effect=lambda: wall[0]), patch.object(p.time, 'monotonic', side_effect=lambda: monotonic[0]):
+                    ack['freshnessRemainingMs'] = 1  # True final monotonic clock is R+60s.
+                    check = p.batch_commit_lifecycle_guard(ack, scan, {'kind': 'replay'}, 160.0)
+                    check()
+                    with patch.object(p.os, 'fsync', side_effect=delayed_directory), self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                        p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, b'{}', ack, check)
+                self.assertFalse((root / 'index.json').exists())
+            finally:
+                for fd in fds:
+                    os.close(fd)
+
+    def test_batch_commit_lifecycle_charges_entire_roundtrip_and_observed_utc(self):
+        wall, monotonic = [1800000000.0], [100.0]
+        ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': 'a' * 64, 'freshnessRemainingMs': 100}
+        scan = int(wall[0] * 1000) - 36 * 3600000 + 10
+        with patch.object(p.time, 'time', side_effect=lambda: wall[0]), patch.object(p.time, 'monotonic', side_effect=lambda: monotonic[0]):
+            replay = p.batch_commit_lifecycle_guard(ack, scan, {'kind': 'replay'}, 100.0)
+            observed = p.batch_commit_lifecycle_guard(ack, scan, {'kind': 'observed'}, 100.0)
+            replay(); observed()
+            wall[0] += .020
+            with self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                observed()
+            replay()  # The replay clock is independent of wall movement.
+            wall[0] -= 59
+            monotonic[0] += .101
+            with self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                replay()
+            future = p.batch_commit_lifecycle_guard({**ack, 'freshnessRemainingMs': 1000}, int(wall[0] * 1000) + 300001, {'kind': 'observed'}, monotonic[0])
+            with self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                future()
+
+    def test_batch_lifecycle_expiry_during_pointer_settlement_retracts_owned_link(self):
+        with tempfile.TemporaryDirectory() as parent:
+            root = Path(parent) / 'operation'
+            root.mkdir()
+            (root / 'blobs').mkdir()
+            fds = [os.open(path, os.O_RDONLY | os.O_DIRECTORY) for path in (parent, root, root / 'blobs')]
+            wall, monotonic = [1800000000.0], [100.0]
+            try:
+                parent_fd, root_fd, blobs_fd = fds
+                control = {'rootIdentity': p._BatchReader.identity(root_fd), 'blobsIdentity': p._BatchReader.identity(blobs_fd)}
+                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control), 'freshnessRemainingMs': 1000}
+                sample = {'wallMs': int(wall[0] * 1000), 'decisionMs': int(wall[0] * 1000)}
+                scan = sample['decisionMs'] - 36 * 3600000 + 1
+                real_sync = p.os.fsync
+                def delayed_directory(fd):
+                    real_sync(fd)
+                    if fd == root_fd:
+                        wall[0] += .010
+                        monotonic[0] += .010
+                with patch.object(p.time, 'time', side_effect=lambda: wall[0]), patch.object(p.time, 'monotonic', side_effect=lambda: monotonic[0]):
+                    ack['freshnessRemainingMs'] = 1
+                    check = p.batch_commit_lifecycle_guard(ack, scan, {'kind': 'replay'}, monotonic[0])
+                    check()  # The coordinator decision is still inside 36h.
+                    with patch.object(p.os, 'fsync', side_effect=delayed_directory), self.assertRaisesRegex(p.Hold, 'BATCH_FRESHNESS_EXPIRED'):
+                        p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, b'{}', ack, check)
+                self.assertFalse((root / 'index.json').exists())
+            finally:
+                for fd in fds:
+                    os.close(fd)
+
+    def test_batch_failed_directory_settlement_retracts_only_its_own_pointer(self):
+        with tempfile.TemporaryDirectory() as parent:
+            root = Path(parent) / 'operation'
+            root.mkdir()
+            (root / 'blobs').mkdir()
+            fds = [os.open(path, os.O_RDONLY | os.O_DIRECTORY) for path in (parent, root, root / 'blobs')]
+            try:
+                parent_fd, root_fd, blobs_fd = fds
+                control = {'rootIdentity': p._BatchReader.identity(root_fd), 'blobsIdentity': p._BatchReader.identity(blobs_fd)}
+                ack = {'kind': 'guides-batch-commit-v1', 'controlDigest': p.batch_digest('control', control), 'freshnessRemainingMs': 1000}
+                real_sync = p.os.fsync
+                def fail_directory(fd):
+                    if fd == root_fd:
+                        raise OSError('controlled directory fsync failure')
+                    return real_sync(fd)
+                with patch.object(p.os, 'fsync', side_effect=fail_directory), self.assertRaises(OSError):
+                    p.commit_batch_pointer(parent_fd, root_fd, blobs_fd, 'operation', control, b'{}', ack)
+                self.assertFalse((root / 'index.json').exists())
+            finally:
+                for fd in fds:
+                    os.close(fd)
+
+    def test_writer_rejects_v2_and_mixed_methods_before_remote_reads(self):
+        for method in ({"kind": "fetch-producer-profile-v2"},
+                       {"kind": "fetch-producer-profile-v2", "trustedTools": MASTER,
+                        "producer": MASTER, "profileSha256": "1" * 64}):
+            f = Fetch()
+            f.record["producerAuthentication"] = method
+            with self.assertRaisesRegex(p.Hold, "BATCH_WRITER_INPUT_REJECTED"):
+                p.verify_fetch(f.record, lambda path: self.fail("v2 must fail before GET"), NOW)
+        f = Fetch()
+        f.record.update(producerAuthentication={"kind": "fetch-producer-profile-v1"}, producerInventorySha256="2" * 64)
+        with self.assertRaisesRegex(p.Hold, "BATCH_WRITER_INPUT_REJECTED"):
+            p.verify_fetch(f.record, lambda path: self.fail("mixed method must fail before GET"), NOW)
+
     def test_fetch_binds_successful_attempt_job_and_both_retained_digests(self):
         Fetch().verify()
         for field in ("expired", "head_sha", "sourceZip", "publicationZip", "conclusion", "started_at", "run_attempt"):

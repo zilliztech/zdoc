@@ -127,7 +127,7 @@ async function inventoryFixture(scenario: string) {
     t = source.git('rev-parse', 'HEAD')
   } else {
     if (scenario === 'api-failed') await stageSecondRoot('new b')
-    t = await source.change(scenario === 'fragment' ? fragment : sourcePath, 'updated\n')
+    t = await source.change(scenario.endsWith('fragment') ? fragment : sourcePath, 'updated\n')
   }
   async function put(path: string, value: unknown) {
     const name = join(zdoc.root, path)
@@ -190,7 +190,7 @@ async function inventoryFixture(scenario: string) {
   }
   const run = () => collectBatchDiscovery({ zdocRepository: zdoc.root, sourceRepository: scenario === 'missing-source' ? join(source.root, 'absent') : source.root,
     tools: old }, { transport })
-  return { run, t, old, m, d, unrelated, records, source, sourcePath, syncCommit, rounds: () => rounds }
+  return { run, t, old, m, d, unrelated, records, source, zdoc, transport, sourcePath, syncCommit, rounds: () => rounds }
 }
 
 it('retains the raw lock-side edge of an ours merge even when its first parent has the target bytes', async () => {
@@ -304,4 +304,33 @@ it('does not accept a regular tree entry with an unavailable object as a publish
   const store = await BatchGitStore.open(r.root, batchBudget())
   await expect(store.regularOid(tip, 'page.md')).rejects.toThrow('GIT_OBJECT_UNAVAILABLE')
   await expect(store.file(tip, 'page.md')).rejects.toThrow('GIT_OBJECT_UNAVAILABLE')
+})
+
+it('authenticates a private fragment ledger before any public group exists', async () => {
+  const f = await inventoryFixture('orphan-fragment')
+  const discovery = await import('../../adapters/updates/batch-discovery')
+  expect(discovery.replayBatchDiscovery).toBeTypeOf('function')
+  // The public report is intentionally insufficient to manufacture this operation ledger.
+  expect(() => discovery.readBatchDiscoveryCapture(awaitablePlain())).toThrow()
+  function awaitablePlain() {return {} as never}
+  const captured = await discovery.replayBatchDiscovery({zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.old},
+    {fixtureBytes: Buffer.from('private-ledger'), replayClockMs: 0}, {transport: f.transport})
+  const view = discovery.readBatchDiscoveryCapture(captured)
+  expect(view.report.groups).toEqual([])
+  const edge = view.ledger.find(e => e.newPath === 'site/en/fragments/shared.md')!
+  expect(edge).toMatchObject({commit: f.t, associationResult: 'complete', seedKey: `commit:${f.t}`, introductionOid: f.t})
+  expect(edge.rangeIds).toEqual(['a'])
+  expect(edge.evidenceRefs.length).toBeGreaterThan(0)
+  expect(view.origin.kind).toBe('replay')
+  expect(() => discovery.readBatchDiscoveryCapture(view.report as never)).toThrow()
+
+})
+
+it('authenticates the complete per-commit source inventory from raw hashed trees', async () => {
+  const r = await repository(), tip = await r.change('site/en/fragments/nested/item.md', 'raw fragment')
+  const store = await BatchGitStore.open(r.root, batchBudget())
+  expect(store.inventory).toBeTypeOf('function')
+  const entries = await store.inventory(tip, 'site/en')
+  expect(entries).toEqual([{path: 'site/en/fragments/nested/item.md', oid: r.git('rev-parse', tip + ':site/en/fragments/nested/item.md'), mode: '100644'}])
+  await expect(store.inventory(tip, 'site/absent')).resolves.toEqual([])
 })

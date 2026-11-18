@@ -70,8 +70,10 @@ export function openWorkerMetadataReader() {
 /** The parent derives every endpoint from the selected run and fresh responses. The child sends
  * only its sequence and expected path digest. It still authenticates all returned metadata itself. */
 export async function serveGuidesMetadata(requests: Readable, replies: Writable, runId: number, token: string, signal: AbortSignal) {
+  return serveFixedMetadata(requests, replies, runId, coordinatorBodyReader(token, signal), signal)
+}
+async function serveFixedMetadata(requests: Readable, replies: Writable, runId: number, fetchBody: (path: string, maximum: number, milliseconds: number) => Promise<Uint8Array>, signal: AbortSignal) {
   const read = framedReader(requests)
-  const fetchBody = coordinatorBodyReader(token, signal)
   let sequence = 0
   const api: ReadonlyGitHub = {
     async get(path) {
@@ -102,4 +104,30 @@ export async function serveGuidesMetadata(requests: Readable, replies: Writable,
   const {run, jobs} = await retainedMetadata(api, runId)
   const scan = stepWindow(successfulJob(jobs, 'produce_guides_sources / fetch', run), 'Fetch shared guides sources')
   if (scan && await latestGuidesRun(api, run, scan.start)) await api.get('repos/zilliztech/zdoc/branches/dev')
+}
+
+export interface ReplayMetadataRow {path: string; bytes: number; sha256: string; base64: string}
+/** Closed raw replay data, never observations or callbacks. The caller's fixed
+ * algorithm still derives every endpoint and checks the parsed response. */
+export function replayMetadataReader(input: readonly ReplayMetadataRow[]) {
+  const rows = structuredClone(input)
+  if (rows.length > maximumRequests) throw Error('BATCH_REPLAY_METADATA_INVALID')
+  let offset = 0
+  return {
+    async read(path: string, maximum = metadataLimit) {
+      const row = rows[offset++]
+      if (!row || Object.keys(row).sort().join(',') !== 'base64,bytes,path,sha256' || row.path !== path ||
+        !Number.isSafeInteger(row.bytes) || row.bytes < 1 || row.bytes > Math.min(maximum, metadataLimit) ||
+        !/^[a-f0-9]{64}$/.test(row.sha256) || row.base64.length !== 4 * Math.ceil(row.bytes / 3)) throw Error('BATCH_REPLAY_METADATA_INVALID')
+      const bytes = Buffer.from(row.base64, 'base64')
+      if (bytes.length !== row.bytes || bytes.toString('base64') !== row.base64 || createHash('sha256').update(bytes).digest('hex') !== row.sha256) throw Error('BATCH_REPLAY_METADATA_INVALID')
+      return bytes
+    },
+    finish() {if (offset !== rows.length) throw Error('BATCH_REPLAY_METADATA_INVALID')},
+  }
+}
+export async function serveReplayGuidesMetadata(requests: Readable, replies: Writable, runId: number, rows: readonly ReplayMetadataRow[], signal: AbortSignal) {
+  const reader = replayMetadataReader(rows)
+  await serveFixedMetadata(requests, replies, runId, reader.read, signal)
+  reader.finish()
 }
