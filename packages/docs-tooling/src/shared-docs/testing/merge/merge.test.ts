@@ -101,7 +101,7 @@ describe('pure two-version wrapper emitter', () => {
     [`## Shared{#id}\n\n${gate.replace('Authored', '## Nested{#id}')}`, `## Shared{#id}\n\n${gate.replace('Authored', '## Nested{#id}')}\nNew\n`],
   ])('rejects duplicate assembled heading IDs including moves and nested headings', (current, next) => {
     const result = mergeMarkdown({ current: input(current, 'current'), next: input(next, 'next') })
-    expect(result).toMatchObject({ errors: expect.arrayContaining([expect.objectContaining({ code: 'ADAPT_UNSUPPORTED_MARKUP', message: expect.stringContaining('Duplicate heading ID'), detail: { origins: expect.arrayContaining([expect.objectContaining({ file: expect.any(String), line: expect.any(Number) })]) }, fix: expect.stringContaining('channel transform') })]) })
+    expect(result).toMatchObject({ errors: expect.arrayContaining([expect.objectContaining({ code: 'ADAPT_UNSUPPORTED_MARKUP', message: expect.stringContaining('Duplicate heading ID'), detail: expect.objectContaining({ anchor: expect.any(String), origins: expect.arrayContaining([expect.objectContaining({ file: expect.any(String), line: expect.any(Number) })]) }), fix: expect.stringContaining('channel transform') })]) })
     expect(result).not.toHaveProperty('markdown')
   })
 

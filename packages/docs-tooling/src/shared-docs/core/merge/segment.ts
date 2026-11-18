@@ -148,6 +148,12 @@ export function segmentMarkdown(input: SegmentInput): SegmentResult {
       inlineBase = at(token.map[0])
       inline.inline.parse(source.slice(inlineBase, at(token.map[1])), inline, {}, [])
     }
+    // Table-cell inline tokens have no map. Their parent table owns row maps;
+    // parse each row so literal types such as `ARRAY<VARCHAR>` stay code.
+    if (token.type === 'table_open') for (let line = token.map[0]; line < token.map[1]; line++) {
+      inlineBase = at(line)
+      inline.inline.parse(source.slice(inlineBase, at(line + 1)), inline, {}, [])
+    }
   }
   const htmlRule = md.inline.ruler.__rules__.find(rule => rule.name === 'html_inline')!.fn
   const state = new md.inline.State(source, md, {}, [])

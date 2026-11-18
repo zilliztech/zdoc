@@ -8,3 +8,17 @@ publish:
     path: tutorials/development/schema/json-fields/json-indexing
   - manual: guides-byoc
     path: tutorials/development/schema/json-fields/json-indexing
+
+transforms:
+  - operation: replace
+    channel: next
+    target:
+      block: json-index-compatibility-intro
+    content:
+      file: cloud-index-compatibility-intro.md
+  - operation: replace
+    channel: next
+    target:
+      block: json-index-opt-in
+    content:
+      file: cloud-index-requirements.md
