@@ -8,10 +8,53 @@ import { request as httpsRequest } from 'node:https'
 import type { AddressInfo } from 'node:net'
 vi.mock('node:https', async importOriginal => ({...await importOriginal<typeof import('node:https')>(), request: vi.fn()}))
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
-import { LifecycleHttpError, publicGuidesReads, stageGuidesArchives } from '../../adapters/updates/guides-lifecycle-transport'
+import { acquireBatchRunLease, LifecycleHttpError, publicGuidesReads, stageGuidesArchives } from '../../adapters/updates/guides-lifecycle-transport'
+import { createRemoteTransport } from '../../adapters/updates/remote-github'
 
 afterEach(() => {vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs()})
 const repository = 'repos/zilliztech/zdoc'
+
+it('reads only the exact scheduled Fetch selection over the stock transport and holds an unsuccessful run', async () => {
+  const {evidence} = await stagingFixture()
+  const path = '/' + repository + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1'
+  const token = 'synthetic-batch-token'
+  const calls: unknown[] = []
+  const server = createServer((_req, res) => {
+    res.end(JSON.stringify({workflow_runs: [{
+      id: 123, run_attempt: 1, head_sha: '1'.repeat(40), repository: {id: 660446555}, head_repository: {id: 660446555},
+      workflow_id: 83360731, path: '.github/workflows/fetch-docs.yml', head_branch: 'master', event: 'schedule',
+      status: 'completed', conclusion: 'failure',
+    }]}))
+  })
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+  onTestFinished(() => new Promise<void>(resolve => server.close(() => resolve())))
+  const port = (server.address() as AddressInfo).port
+  vi.mocked(httpsRequest).mockImplementation(((url: URL, options: import('node:https').RequestOptions, callback: Parameters<typeof httpRequest>[2]) => {
+    const resource = url.pathname + url.search
+    calls.push({origin: url.origin, method: options.method, resource, auth: (options.headers as Record<string, string>).Authorization})
+    return httpRequest({...options, hostname: '127.0.0.1', port, path: resource}, callback)
+  }) as typeof httpsRequest)
+  vi.stubEnv('GH_TOKEN', token)
+
+  await expect(acquireBatchRunLease(evidence)).rejects.toThrow('SCHEDULED_FETCH_UNAVAILABLE')
+  const request = {method: 'GET', path, maximum: 1024, signal: AbortSignal.timeout(1000)} as const
+  const transport = createRemoteTransport({repositoryFullName: 'zilliztech/zdoc', token})
+  for (const rejected of [
+    {...request, path: path.replace('fetch-docs.yml', 'fetch-guides-requested.yml')},
+    {...request, path: path.replace('fetch-docs.yml', '83360731')},
+    {...request, path: path.replace('branch=master', 'branch=dev')},
+    {...request, path: path.replace('event=schedule', 'event=workflow_dispatch')},
+    {...request, path: path.replace('per_page=1', 'per_page=2')},
+    {...request, path: path.replace('event=schedule&branch=master', 'branch=master&event=schedule')},
+    {...request, path: path + '&page=1'},
+    {...request, path: path.replace('schedule', '%73chedule')},
+    {...request, method: 'POST'} as const,
+    {...request, body: Buffer.from('unexpected')},
+  ]) await expect(transport(rejected)).rejects.toThrow('ENDPOINT_INVALID')
+  const wrongRepository = createRemoteTransport({repositoryFullName: 'example/zdoc', token})
+  await expect(wrongRepository({...request, path: path.replace('zilliztech', 'example')})).rejects.toThrow('ENDPOINT_INVALID')
+  expect(calls).toEqual([{origin: 'https://api.github.com', method: 'GET', resource: path, auth: 'Bearer ' + token}])
+})
 
 it('observes only fixed lifecycle endpoints directly over public TLS without credentials or redirects', async () => {
   const get = vi.fn(async () => Response.json({ok: true}))
