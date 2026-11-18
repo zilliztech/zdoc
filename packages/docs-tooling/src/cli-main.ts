@@ -27,7 +27,7 @@ import {validateTranslationCoverage} from './translation/validate.ts';
 import {TranslationTargetIdSchema} from './translation/schema.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './validation/ownership.ts';
 import {executePublicationGroup, parsePublishGroupArgs} from './workflows/run.ts';
-import {listPublicationGroups} from './workflows/groups.ts';
+import {listPublicationGroups, resolvePublicationGroupWorkflow} from './workflows/groups.ts';
 
 const requireFromDocsTooling = createRequire(import.meta.url);
 
@@ -133,8 +133,14 @@ async function executeRevisionInventoryBuild(argv: string[], repositoryRoot: str
   const options = parseOptions(argv.slice(2));
   const group = revisionGroup(requiredOption(options, 'group'));
   const snapshotOption = options.snapshot;
-  if (group === 'rest' && snapshotOption !== undefined) throw new Error('REST revision inventory does not accept snapshots');
-  if (group !== 'rest' && (typeof snapshotOption !== 'string' || !snapshotOption)) throw new Error('--snapshot is required');
+  // Snapshot availability follows the group's own sources: Lark-fetched groups resolve
+  // source snapshots, while spec-generated (rest) and shared-docs (Git-pinned, design 10)
+  // groups legitimately have none. This mirrors the fetch workflow's hasLarkSources gate.
+  const {hasLarkSources} = resolvePublicationGroupWorkflow('en', group);
+  if (!hasLarkSources && snapshotOption !== undefined) {
+    throw new Error(`Publication group ${group} has no Lark sources; revision inventory does not accept snapshots`);
+  }
+  if (hasLarkSources && (typeof snapshotOption !== 'string' || !snapshotOption)) throw new Error('--snapshot is required');
   const snapshotPaths = typeof snapshotOption === 'string' ? snapshotOption.split(',') : [];
   if (snapshotPaths.some(value => !value)) throw new Error('--snapshot must contain repository-relative paths');
   const baselinePath = requiredOption(options, 'baseline');

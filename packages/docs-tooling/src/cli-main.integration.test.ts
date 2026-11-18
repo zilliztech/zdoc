@@ -742,3 +742,27 @@ describe('shared-docs promotion dispatch', () => {
     }
   });
 });
+
+describe('revision inventory snapshot gating', () => {
+  const repositoryRoot = path.resolve(import.meta.dirname, '../../..');
+
+  it('builds shared-source groups without a snapshot (node is Git-pinned)', () => {
+    // The guard passes for shared-docs groups, so the command fails on the next
+    // missing required option instead of demanding --snapshot.
+    const result = runCli(repositoryRoot, ['revision-inventory', 'build', '--group', 'node']);
+    expect(result.status, result.stderr || result.stdout).not.toBe(0);
+    expect(result.stderr).toMatch(/--baseline is required/);
+  });
+
+  it('rejects snapshots for groups without Lark sources', () => {
+    const result = runCli(repositoryRoot, ['revision-inventory', 'build', '--group', 'node', '--snapshot', 'tmp/snapshot.json']);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/has no Lark sources; revision inventory does not accept snapshots/);
+  });
+
+  it('still requires snapshots for Lark-fetched groups', () => {
+    const result = runCli(repositoryRoot, ['revision-inventory', 'build', '--group', 'python']);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/--snapshot is required/);
+  });
+});
