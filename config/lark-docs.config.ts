@@ -201,77 +201,6 @@ const javaV230: Manual = {
     },
 }
 
-// sdk: node ===============================
-
-const node: Manual = {
-    root: 'Vg1kfluyll0h7MdlUMaciXfEnZd',
-    base: 'DVVobtXQMamuLqsQij5c29nVn3c',
-    sourceType: 'drive',
-    version: 'v2.4.x',
-    displayedSidebar: 'nodeSidebar',
-    docSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.4.x',
-    targets: {
-        zilliz: {
-            outputDir: `content/${site}/reference/api/nodejs/nodejs`,
-            imageDir: 'static/img',
-        },
-    },
-}
-
-const nodejs25: Manual = {
-    root: 'U9fWfMPdelsPMydYnolcr2aEnBf',
-    base: 'JTBebezMDaV8ZhsHF5wc7lJSnuh',
-    sourceType: 'drive',
-    version: 'v2.5.x',
-    displayedSidebar: 'nodeSidebar',
-    docSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.5.x',
-    fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.4.x',
-    targets: {
-        zilliz: {
-            outputDir: `content/${site}/reference/api/nodejs/nodejs`,
-            imageDir: 'static/img',
-        },
-    },
-}
-
-const nodejs26: Manual = {
-    root: 'NFmOfwILlln3JgdePZUclweZnIe',
-    base: 'R9i8bww4faNsR6smwQwcAtHGnkb',
-    sourceType: 'drive',
-    version: 'v2.6.x',
-    displayedSidebar: 'nodeSidebar',
-    docSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.6.x',
-    fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.5.x',
-    sidebarPath: `generated/${site}/sidebars/node.sidebar.js`,
-    overridePath: `sidebar-overrides/${site}/node.json`,
-    contentRoot: `content/${site}/reference`,
-    targets: {
-        zilliz: {
-            outputDir: `content/${site}/reference/api/nodejs/nodejs`,
-            imageDir: 'static/img',
-        },
-    },
-}
-
-const nodejs30: Manual = {
-    root: 'LW67fVlTvlNCZRdxOVYcQZyJnFQ',
-    base: 'LlrPbysPZau2dGsSVuicHmvCn0e',
-    sourceType: 'drive',
-    version: 'v3.0.x',
-    displayedSidebar: 'nodeSidebar',
-    docSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v3.0.x',
-    fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.6.x',
-    sidebarPath: `generated/${site}/sidebars/node.sidebar.js`,
-    overridePath: `sidebar-overrides/${site}/node.json`,
-    contentRoot: `content/${site}/reference`,
-    targets: {
-        zilliz: {
-            outputDir: `content/${site}/reference/api/nodejs/nodejs`,
-            imageDir: 'static/img',
-        },
-    },
-}
-
 // sdk: go =================================
 
 const gov226: Manual = {
@@ -399,10 +328,6 @@ export default {
     javaV225,
     javaV226,
     javaV230,
-    node,
-    nodejs25,
-    nodejs26,
-    nodejs30,
     gov226,
     gov230,
     cliv13,
