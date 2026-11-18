@@ -71,9 +71,12 @@ type StageResult = StagedArchives | { oversized: 'source' | 'publication' } | nu
 export class LifecycleHttpError extends Error {
   constructor(readonly status: number) { super(`GitHub lifecycle read failed (HTTP ${status})`) }
 }
-export function coordinatorBodyReader(token: string, signal?: AbortSignal) {
-  const transport = createRemoteTransport({repositoryFullName: 'zilliztech/zdoc', token})
+export function coordinatorBodyReader(token: string, signal?: AbortSignal, options?: {includeMilvusPins: true}) {
+  const zdoc = createRemoteTransport({repositoryFullName: 'zilliztech/zdoc', token})
+  const milvus = options?.includeMilvusPins ? createRemoteTransport({repositoryFullName: 'milvus-io/milvus-docs', token}) : null
   return async (path: string, maximum: number, milliseconds: number) => {
+    const transport = milvus && (path === 'repos/milvus-io/milvus-docs' || path === 'repos/milvus-io/milvus-docs/git/ref/heads/v3.0.x')
+      ? milvus : zdoc
     const result = await transport({method: 'GET', path: '/' + path, maximum, signal: deadline(milliseconds, signal)})
     if (result.status !== 200) throw new LifecycleHttpError(result.status)
     return result.body

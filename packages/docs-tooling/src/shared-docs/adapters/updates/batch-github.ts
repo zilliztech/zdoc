@@ -156,7 +156,7 @@ export async function verifyBatchFinalFreshness(expected: {scanStartMs: number; 
   sourceArtifact: {id: number; bytes: number; sha256: string}; publicationArtifact: {id: number; bytes: number; sha256: string};
   pins: {master: string; dev: string; source: string}}, now: number, replay?: readonly ReplayMetadataRow[], signal?: AbortSignal) {
   const raw = replay === undefined ? undefined : replayMetadataReader(replay)
-  const read = coordinatorBodyReader(process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN ?? '', signal)
+  const read = coordinatorBodyReader(process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN ?? '', signal, {includeMilvusPins: true})
   let count = 0, total = 0
   const api: ReadonlyGitHub = {async get(path) {
     signal?.throwIfAborted()
