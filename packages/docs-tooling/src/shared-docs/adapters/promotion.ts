@@ -6,6 +6,8 @@ import { dirname, join } from 'node:path'
 import { isDeepStrictEqual, promisify } from 'node:util'
 import { compileFunction, constants } from 'node:vm'
 import { pathToFileURL } from 'node:url'
+import { resolveSiteProfile } from '@zilliz/site-config'
+import { rewriteDocHref } from '../../../../docs-ui/src/shared/links/rewriteDocLinks'
 import { validateReleaseRecord } from '../../../../../deploy/contracts/verify-image.mjs'
 import { readSharedDocs } from '../commands/build'
 import { safeHandoffPath, sharedReceiptPath, validateActiveState, validateSharedReceipt } from '../core/handoff/source-state'
@@ -31,7 +33,7 @@ import { exportTree, gitEnvironment, gitRead, resolveCommit } from './updates/gi
 const exec = promisify(execFile)
 const require = createRequire(import.meta.url)
 const { validatePublishedReceipt } = require('../../lark/sharedPagePublication.js') as {
-  validatePublishedReceipt(receipt: SharedReceipt, record: unknown, options: Record<string, never>): SharedReceipt
+  validatePublishedReceipt(receipt: SharedReceipt, record: unknown, options: { snapshot: GuidesPublicationSnapshot }): SharedReceipt
 }
 const { rewriteImageDestinations } = require('../../../../../scripts/docs-workflow/guides-shared-regeneration.js') as {
   rewriteImageDestinations(markdown: string, images: SharedReceipt['inputs']['images'], base: string): string
@@ -40,8 +42,16 @@ const { repairAccidentalMathSpans } = require('../../markdown/accidentalMathSpan
   repairAccidentalMathSpans(markdown: string): Promise<{ markdown: string }>
 }
 const group = 'shared-docs/guides'
-const manuals = ['guides', 'guides-byoc'].map(manual => ({ manual, root: resolveManualPublication(manual, 'en').publication.contentRoot }))
+const site = resolveSiteProfile('en')
+const manuals = ['guides', 'guides-byoc'].map(manual => {
+  const publication = resolveManualPublication(manual, 'en').publication
+  const source = site.content.find(content => content.sourcePath === publication.contentRoot)
+  if (!source) throw new Error(`Missing English site route for ${manual}`)
+  return { manual, root: publication.contentRoot, target: publication.generatorTarget, route: `/${source.routeBasePath}` }
+})
+const manualRoutes = [...manuals].sort((a, b) => b.route.length - a.route.length)
 const activePath = 'generated/en/manifests/shared-pages/guides/active.json'
+const devRoots = [...manuals.map(manual => manual.root), guidesSnapshotPath, dirname(activePath)]
 const groupInputs = ['source.yaml', 'Variables.json', 'links.yaml', 'product-names.yaml', 'presentation/cloud-sdk-tabs.yaml'].map(file => `${group}/${file}`)
 const sha256 = (bytes: Uint8Array | string) => createHash('sha256').update(bytes).digest('hex')
 const text = (bytes: Uint8Array) => new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes)
@@ -96,19 +106,50 @@ async function readActive(repository: string, commit: string) {
   return validateActiveState(parseStrictJson(await readGitFile(repository, commit, activePath)))
 }
 
-async function readSnapshot(repository: string, commit: string) {
-  const snapshot = parseStrictJson(await readGitFile(repository, commit, guidesSnapshotPath))
-  if (!recordObject(snapshot) || !Array.isArray(snapshot.records)) throw new Error('Missing Guides snapshot records')
-  return snapshot.records as unknown[]
+interface GuidesPublicationSnapshot {
+  records: unknown[]
+  navigation_records: unknown[]
 }
 
-function activeSnapshotRow(records: unknown[], entry: ActivePage) {
-  const matches = records.filter(row => recordObject(row) && row.record_id === entry.record)
-  if (matches.length !== 1 || !recordObject(matches[0]) || !recordObject(matches[0].shared_page)
-    || matches[0].slug !== entry.page || matches[0].shared_page.group !== 'guides' || matches[0].shared_page.page !== entry.page) {
-    throw new Error('Active page and canonical Guides snapshot record disagree')
+async function readSnapshot(repository: string, commit: string) {
+  const bytes = await readGitFile(repository, commit, guidesSnapshotPath)
+  const snapshot = parseStrictJson(bytes)
+  if (!recordObject(snapshot) || !Array.isArray(snapshot.records) || !Array.isArray(snapshot.navigation_records)) {
+    throw new Error('Missing Guides snapshot records or navigation records')
   }
-  return matches[0]
+  return { snapshot: snapshot as unknown as GuidesPublicationSnapshot, sha256: sha256(bytes) }
+}
+
+function activeSnapshotEvidence(snapshot: GuidesPublicationSnapshot, entry: ActivePage) {
+  function record(rows: readonly unknown[], label: string) {
+    const matches = rows.filter(row => recordObject(row) && row.record_id === entry.record)
+    if (matches.length !== 1 || !recordObject(matches[0]) || !recordObject(matches[0].shared_page)
+      || matches[0].slug !== entry.page || matches[0].shared_page.group !== 'guides' || matches[0].shared_page.page !== entry.page) {
+      throw new Error(`Active page and ${label} disagree`)
+    }
+    return matches[0]
+  }
+  return { row: record(snapshot.records, 'canonical Guides snapshot record'),
+    nav: record(snapshot.navigation_records, 'Guides snapshot navigation record') }
+}
+
+function validateSnapshotTargets(receipt: SharedReceipt, evidence: ReturnType<typeof activeSnapshotEvidence>) {
+  const targets = receipt.outputs.map(output => manuals.find(manual => manual.manual === output.manual)?.target).sort()
+  for (const [label, value] of [['publication', evidence.row.publish_targets], ['navigation', evidence.nav.targets]] as const) {
+    if (!Array.isArray(value) || value.some(target => typeof target !== 'string')
+      || !isDeepStrictEqual(value.map(target => target.trim().toLowerCase()).sort(), targets)) {
+      throw new Error(`Guides snapshot ${label} targets do not match receipt renditions`)
+    }
+  }
+}
+
+async function verifyEditableYaml(path: string, decoded: string | undefined) {
+  if (decoded === undefined) return
+  const bytes = await readFile(path)
+  try {
+    if (text(bytes) === decoded && Buffer.from(decoded, 'utf8').equals(bytes)) return
+  } catch { /* Report the editable path without exposing its bytes. */ }
+  throw new Error(`Editable ${path.split('/').at(-1)} must round-trip as UTF-8 at the pinned Git baseline`)
 }
 
 export interface PromotionInputs { master: string; upstream: string; dev: string; record: string }
@@ -156,6 +197,9 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
       const configuration = await readSharedDocs(join(overlay, group), overlay, [page])
       if ('errors' in configuration) throw new Error(configuration.errors.map(error => error.message).join(', '))
       const loadedPage = configuration.pages.get(page)!
+      for (const [file, decoded] of [['page.yaml', loadedPage.pageYaml], ['lock.yaml', loadedPage.lockYaml]] as const) {
+        await verifyEditableYaml(join(overlay, pageInputs(page), file), decoded)
+      }
       const lock = parseLock(loadedPage.lockYaml, { page })
       if ('errors' in lock) throw new Error(lock.errors.map(error => error.message).join(', '))
       state.lock = lock.lock
@@ -168,13 +212,14 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
       state.acceptedNext = receipt.inputs.milvus_docs.next
       state.targets = [...receipt.outputs].sort((a, b) => compareUtf8(a.manual, b.manual))
       if (lock.lock.next !== receipt.inputs.milvus_docs.next) throw new Error('Locked next changed after UAT')
-      const row = activeSnapshotRow(acceptedSnapshot, active)
-      const currentRow = activeSnapshotRow(currentSnapshot, latest)
-      validatePublishedReceipt(receipt, row, {})
-      if (!receiptBytes.equals(latestReceiptBytes) || JSON.stringify(row) !== JSON.stringify(currentRow)) {
+      const accepted = activeSnapshotEvidence(acceptedSnapshot.snapshot, active)
+      const current = activeSnapshotEvidence(currentSnapshot.snapshot, latest)
+      validatePublishedReceipt(receipt, accepted.row, { snapshot: acceptedSnapshot.snapshot })
+      validateSnapshotTargets(receipt, accepted)
+      if (!receiptBytes.equals(latestReceiptBytes) || !isDeepStrictEqual(accepted, current)) {
         throw new Error('Published page evidence changed after UAT')
       }
-      if (receipt.channel !== null || ![undefined, null, 'CURRENT', 'current'].includes(row.release_channel as string | undefined | null)) {
+      if (receipt.channel !== null || ![undefined, null, 'CURRENT', 'current'].includes(accepted.row.release_channel as string | undefined | null)) {
         throw new Error('Whole-page release channel requires coordination')
       }
       const renderTargets = receipt.inputs.fetch.render_targets?.targets
@@ -206,7 +251,7 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
       const relevant = selectedInputs.filter(file => groupInputs.includes(file.path) || file.path.startsWith(`${pageInputs(page)}/`))
       const inventory = await Promise.all(relevant.map(async file => ({ path: file.path, sha256: sha256(await readBlob(input.master, file.oid)) })))
       state.inputs = { active: sha256(JSON.stringify(active)), receipt: sha256(receiptBytes),
-        overlay: sha256(JSON.stringify(inventory)), snapshot: sha256(JSON.stringify(row)) }
+        overlay: sha256(JSON.stringify(inventory)), snapshot: acceptedSnapshot.sha256 }
       const historical = receipt.inputs.zdoc.files.filter(file => groupInputs.includes(file.path) || file.path.startsWith(`${pageInputs(page)}/`))
       // A page already promoted by a prior release can still carry the previously accepted UAT receipt.
       if (lock.lock.current !== lock.lock.next) {
@@ -364,7 +409,9 @@ function requireObserved(output: BuiltPage, channel: Channel, pin: string, build
   return matches[0]
 }
 
-async function checkPage(page: PageReplay, pins: PageLock, options: Parameters<typeof buildReplay>[2]) {
+async function checkPage(page: PageReplay, pins: PageLock, options: Parameters<typeof buildReplay>[2] & {
+  historicalReaders: ReadonlyMap<string, ZdocContentReader>
+}) {
   const { receipt, configuration, loadedPage } = page
   const directory = `${group}/pages/${page.page}`
   const lock = advanceLock(loadedPage.lockYaml!, pins)
@@ -374,7 +421,7 @@ async function checkPage(page: PageReplay, pins: PageLock, options: Parameters<t
   const pages = new Map(configuration.pages)
   pages.set(page.page, { ...loadedPage, lockYaml: lock, pageYaml: rules.yaml, config: rules.config })
 
-  const original = await buildReplay(page, configuration, options)
+  const original = await buildReplay(page, configuration, { reader: options.reader, devReaders: options.historicalReaders })
   const candidate = await buildReplay(page, { ...configuration, pages }, options)
   const imageKeys = (outputs: BuiltPage[]) => [...new Set(outputs.flatMap(output =>
     output.images.map(image => JSON.stringify([image.original, image.sha256, image.address]))))].sort(compareUtf8)
@@ -433,6 +480,25 @@ async function checkPage(page: PageReplay, pins: PageLock, options: Parameters<t
   return { check, edits, links }
 }
 
+function guideDestination(href: string, sourceManual: string, page: string) {
+  const source = manuals.find(manual => manual.manual === sourceManual)!
+  const url = new URL(rewriteDocHref(href, 'en'), `${site.url}${source.route}/${page}`)
+  if (url.origin !== site.url) return undefined
+  const path = decodeURIComponent(url.pathname).replace(/\/$/, '')
+  const target = manualRoutes.find(manual => path === manual.route || path.startsWith(`${manual.route}/`))
+  if (!target) {
+    if (site.localization.locales.some(locale => path.startsWith(`/${locale.id}/docs/`))) {
+      throw new Error(`Unproved localized Guides dependency: ${sourceManual} ${href}`)
+    }
+    return undefined
+  }
+  const slug = path.slice(target.route.length + 1)
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || /%(?:2f|5c)/i.test(url.pathname)) {
+    throw new Error(`Unproved Guides route: ${sourceManual} ${href}`)
+  }
+  return { target, slug, anchor: decodeURIComponent(url.hash.slice(1)) }
+}
+
 async function checkDependencies(
   page: string,
   links: Awaited<ReturnType<typeof checkPage>>['links'],
@@ -441,28 +507,22 @@ async function checkDependencies(
   devRoot: string,
 ) {
   for (const [manual, view] of links) {
-    const reader = devReaders.get(manual)!
     for (const url of new Set(view.urls)) {
-      if (!url.startsWith('./') && !url.startsWith('#')) continue
-      const [destination, fragment] = url.split('#')
-      const target = destination ? destination.slice(2) : page
-      if (target === page) {
-        if (fragment && !view.anchors.has(decodeURIComponent(fragment))) throw new Error(`Unproved same-page anchor: ${manual} ${url}`)
-        continue
-      }
-      const selected = groupChecks.get(target)?.links.get(manual)
+      const dependency = guideDestination(url, manual, page)
+      if (!dependency) continue
+      const { target, slug, anchor } = dependency
+      const selected = groupChecks.get(slug)?.links.get(target.manual)
       if (selected) {
-        if (fragment && !selected.anchors.has(decodeURIComponent(fragment))) throw new Error(`Unproved selected-page dependency: ${manual} ${url}`)
+        if (anchor && !selected.anchors.has(anchor)) throw new Error(`Unproved selected-page anchor: ${manual} ${url}`)
         continue
       }
-      const existing = (await reader.listPages()).find(entry => entry.slug === target)
-      if (!existing || ![undefined, 'current', 'retire-in-next'].includes((await reader.readFrontMatter(existing.path)).channel as string | undefined)) {
+      const reader = devReaders.get(target.manual)!
+      const existing = (await reader.listPages()).find(entry => entry.slug === slug)
+      if (!existing || !['', 'current', 'retire-in-next'].includes(String((await reader.readFrontMatter(existing.path)).channel ?? '').trim().toLowerCase())) {
         throw new Error(`Unproved current page dependency: ${manual} ${url}`)
       }
-      if (fragment) {
-        const root = manuals.find(entry => entry.manual === manual)!.root
-        const targetMdx = text(await readFile(join(devRoot, root, existing.path)))
-        const anchor = decodeURIComponent(fragment)
+      if (anchor) {
+        const targetMdx = text(await readFile(join(devRoot, target.root, existing.path)))
         if (authoredChannel.test(targetMdx) || !explicitAnchors(targetMdx).has(anchor)) {
           throw new Error(`Unproved current anchor dependency: ${manual} ${url}`)
         }
@@ -471,10 +531,12 @@ async function checkDependencies(
   }
 }
 
-async function createPromotionPatch(edits: readonly PromotionEdit[], scratch: string) {
+async function createPromotionPatch(edits: readonly PromotionEdit[], scratch: string, basis: { repository: string; commit: string }) {
   if (new Set(edits.map(edit => edit.path)).size !== edits.length) throw new Error('Duplicate promotion edits')
   for (const edit of edits) {
-    for (const [side, content] of [['before', edit.before], ['after', edit.after]] as const) {
+    const original = await readGitFile(basis.repository, basis.commit, edit.path)
+    if (!original.equals(Buffer.from(edit.before, 'utf8'))) throw new Error(`Patch basis does not match the pinned Git blob: ${edit.path}`)
+    for (const [side, content] of [['before', original], ['after', edit.after]] as const) {
       const file = join(scratch, side, edit.path)
       await mkdir(dirname(file), { recursive: true })
       await writeFile(file, content, { flag: 'wx' })
@@ -503,6 +565,30 @@ async function createPromotionPatch(edits: readonly PromotionEdit[], scratch: st
   return patch
 }
 
+function createDevReaders(root: string) {
+  return new Map(manuals.map(manual => [manual.manual, createZdocContentReader({ checkout: root, manualDirectory: manual.root })]))
+}
+
+async function historicalDev(repository: string, commit: string, scratch: string) {
+  const root = join(scratch, 'historical-dev', commit)
+  const entries = await listTree(repository, commit, devRoots)
+  if (entries.length) await exportTree(repository, commit, devRoots, root)
+  const inventory = new Map<string, string>()
+  for (const { path } of entries) inventory.set(path, sha256(await readFile(join(root, path))))
+  await Promise.all(manuals.map(manual => mkdir(join(root, manual.root), { recursive: true })))
+  return { inventory, readers: createDevReaders(root) }
+}
+
+function verifyHistoricalDev(receipt: SharedReceipt, actual: ReadonlyMap<string, string>) {
+  const expected = new Map(receipt.inputs.dev.files.map(file => [file.path, file.sha256]))
+  for (const [path, digest] of actual) {
+    if (expected.get(path) !== digest) throw new Error(`Historical dev inventory missing or mismatched: ${path}`)
+  }
+  for (const path of expected.keys()) {
+    if (!actual.has(path)) throw new Error(`Historical dev inventory names an unproved file: ${path}`)
+  }
+}
+
 export async function preparePromotion(input: PromotionInputs & { previewPath: string; selection: 'all-eligible' | readonly string[] }, scratch: string) {
   const bytes = await readFile(input.previewPath)
   const prior = parseStrictJson(bytes)
@@ -523,13 +609,19 @@ export async function preparePromotion(input: PromotionInputs & { previewPath: s
 
   const devRoot = join(scratch, 'dev')
   await exportTree(input.dev, devSha, manuals.map(manual => manual.root), devRoot)
-  const devReaders = new Map(manuals.map(({ manual, root }) => [manual, createZdocContentReader({ checkout: devRoot, manualDirectory: root })]))
+  const devReaders = createDevReaders(devRoot)
+  const historical = new Map<string, Promise<Awaited<ReturnType<typeof historicalDev>>>>()
   const reader = createBuildReader(input.upstream)
   const checks = new Map<string, Awaited<ReturnType<typeof checkPage>>>()
   try {
     for (const page of selection.pages) {
       try {
-        const checked = await checkPage(pageReplays.get(page.page)!, page.lock!, { reader, devReaders })
+        const replay = pageReplays.get(page.page)!
+        const baseline = replay.receipt.inputs.dev.commit
+        if (!historical.has(baseline)) historical.set(baseline, historicalDev(input.dev, baseline, scratch))
+        const acceptedDev = await historical.get(baseline)!
+        verifyHistoricalDev(replay.receipt, acceptedDev.inventory)
+        const checked = await checkPage(replay, page.lock!, { reader, devReaders, historicalReaders: acceptedDev.readers })
         checks.set(page.page, checked)
         result.pages.push(checked.check)
       } catch (error) {
@@ -550,7 +642,8 @@ export async function preparePromotion(input: PromotionInputs & { previewPath: s
   }
   result.status = decidePromotion(result.pages, result.reasons)
   if (result.status !== 'prepared') return { result }
-  const patch = await createPromotionPatch([...checks.values()].flatMap(check => check.edits), scratch)
+  const patch = await createPromotionPatch([...checks.values()].flatMap(check => check.edits), scratch,
+    { repository: input.master, commit: preview.baseline!.master })
   const [master, dev, upstream, record, rereadPreview] = await Promise.all([
     resolveCommit(input.master), resolveCommit(input.dev), new GitMilvusDocsReader(input.upstream).trackedHead(track),
     readReplayRecord(input.record), readFile(input.previewPath),

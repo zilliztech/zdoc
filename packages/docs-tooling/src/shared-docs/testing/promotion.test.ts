@@ -14,7 +14,7 @@ import type { SharedReceipt, SharedRenderTarget } from '../core/handoff/source-s
 const toolingRoot = resolve(import.meta.dirname, '../../../../..')
 const launcher = join(toolingRoot, 'scripts/docs-tooling.js')
 const require = createRequire(import.meta.url)
-const { legacyReceiptInputsDigest } = require('../../lark/sharedPageRenderIdentity.js')
+const { receiptProjection, renderIdentity } = require('../../lark/sharedPageRenderIdentity.js')
 const group = 'shared-docs/guides'
 const manifests = 'generated/en/manifests/shared-pages/guides'
 const sha256 = (data: string | Buffer) => createHash('sha256').update(data).digest('hex')
@@ -53,11 +53,11 @@ function lock(a: string, b: string) { return `schema_version: 1\ncurrent: '${a}'
 function pageYaml(id: string) {
   return `schema_version: 1\nsource: {file: site/en/${id}.md}\npublish:\n  - {manual: guides, path: tutorials/${id}}\n  - {manual: guides-byoc, path: tutorials/${id}}\n`
 }
-function md(page: string, version: string) {
+function md(page: string, version: string, href?: string) {
   return [
     '---', `id: ${page}.md`, `title: Replay ${page}`, 'summary: Test page', '---', '',
     '## Setup', '', '<!-- doc:block:start id="sample-prose" -->', `Version ${version}. See [setup](#Setup).`,
-    '<!-- doc:block:end id="sample-prose" -->', '', '![diagram](./diagram.png)', '',
+    '<!-- doc:block:end id="sample-prose" -->', '', ...(href ? [`[Related page](${href})`, ''] : []), '![diagram](./diagram.png)', '',
     '```python', `version = "${version}"`, '```', '',
   ].join('\n')
 }
@@ -81,7 +81,9 @@ async function buildFixture(master: string, upstream: string, dev: string, page:
 }
 
 async function fixture(options: { secondEligible?: boolean; missingTarget?: boolean; badDigest?: boolean; mismatchedOutput?: string;
-  omittedTarget?: boolean; channelRules?: boolean; openUpdatePages?: readonly string[] } = {}) {
+  omittedTarget?: boolean; channelRules?: boolean; openUpdatePages?: readonly string[];
+  devInventory?: 'missing' | 'mismatched'; dependencyHref?: string; snapshotMismatch?: 'targets' | 'navigation';
+  malformedYaml?: 'lock.yaml' | 'page.yaml' } = {}) {
   const root = realpathSync(mkdtempSync(join(tmpdir(), 'wp13-replay-')))
   scratch.push(root)
   const repos = Object.fromEntries(['master', 'dev', 'upstream'].map(name => {
@@ -93,14 +95,25 @@ async function fixture(options: { secondEligible?: boolean; missingTarget?: bool
   const pages = ['first', 'second', 'third']
   put(upstream, 'site/en/diagram.png', imageBytes)
   for (const manual of ['guides', 'byoc']) {
-    put(dev, `content/en/${manual}/tutorials/other.md`, '---\nslug: /other\ntitle: Other\n---\n\nKnown page.\n')
+    put(dev, `content/en/${manual}/tutorials/other.md`, '---\nslug: /other\ntitle: Other\ntoken: feishu-old-other\n---\n\nHistorical page.\n')
   }
+  put(dev, `${manifests}/active.json`, json({ schema_version: 1, pages: [] }))
+  put(dev, guidesSnapshotPath, json({ schema_version: 1, records: [], navigation_records: [], table_digests: {} }))
   const devBaseline = commit(dev, 'Pinned Guides destination context')
-  for (const page of pages) put(upstream, `site/en/${page}.md`, md(page, 'A'))
+  const devFiles = git(dev, 'ls-files', 'content/en/guides', 'content/en/byoc', guidesSnapshotPath, manifests)
+    .trim().split('\n').map(path => ({ path, sha256: sha256(readFileSync(join(dev, path))) }))
+  function writeUpstreamVersion(version: string) {
+    for (const page of pages) {
+      const href = page === 'first' ? options.dependencyHref
+        : page === 'second' && options.dependencyHref ? 'https://external.example/docs/byoc/other' : undefined
+      put(upstream, `site/en/${page}.md`, md(page, version, href))
+    }
+  }
+  writeUpstreamVersion('A')
   const a = commit(upstream, 'Initial upstream pages')
-  for (const page of pages) put(upstream, `site/en/${page}.md`, md(page, 'B'))
+  writeUpstreamVersion('B')
   const b = commit(upstream, 'UAT upstream pages')
-  for (const page of pages) put(upstream, `site/en/${page}.md`, md(page, 'C'))
+  writeUpstreamVersion('C')
   const c = commit(upstream, 'Later upstream pages')
   git(upstream, 'branch', 'v3.0.x')
   for (const file of ['source.yaml', 'Variables.json', 'links.yaml', 'product-names.yaml', 'presentation/cloud-sdk-tabs.yaml']) {
@@ -119,16 +132,27 @@ async function fixture(options: { secondEligible?: boolean; missingTarget?: bool
     put(master, `${group}/pages/first/old.md`, 'Previous Cloud settings.\n')
     put(master, `${group}/pages/first/new.md`, 'Accepted Cloud settings.\n')
   }
+  if (options.malformedYaml) {
+    const file = `${group}/pages/first/${options.malformedYaml}`
+    put(master, file, Buffer.concat([Buffer.from('# invalid Git bytes: '), Buffer.from([0xff]), Buffer.from('\n'), readFileSync(join(master, file))]))
+  }
   const acceptedMaster = commit(master, 'Pinned Guides overlay')
   const overlay = git(master, 'ls-files', group).trim().split('\n').map(path => ({ path, sha256: sha256(readFileSync(join(master, path))) }))
-  const active = [], records = []
+  const historicalBuilds = new Map<string, Awaited<ReturnType<typeof buildFixture>>>()
+  for (const page of pages) historicalBuilds.set(page, await buildFixture(master, upstream, dev, page, join(root, `built-${page}`)))
+  const active = [], records = [], navigationRecords = []
   for (const page of pages) {
     const path = `${manifests}/${page}.json`
     const recordId = `record-${page}`
     const docLink = `https://github.com/zilliztech/zdoc/tree/master/${group}/pages/${page}`
-    const navigation = { record_id: recordId, table_id: 'fixture-table', source_kind: 'shared-page', slug: page, doc_link: docLink, shared_page: { page } }
     const targets = options.omittedTarget && page === 'first' ? targetsFor(page).slice(0, 1) : targetsFor(page)
-    const built = await buildFixture(master, upstream, dev, page, join(root, `built-${page}`))
+    const snapshotTargets = targets.length === 1 || options.snapshotMismatch === 'targets' && page === 'first'
+      ? ['Zilliz.SaaS'] : ['Zilliz.PaaS', 'Zilliz.SaaS']
+    const navigation = { record_id: recordId, table_id: 'fixture-table', table_name: 'Guides replay', placement_type: 'canonical',
+      parent_record_ids: [], order: 1, title: page, labels: null, slug: page, targets: snapshotTargets.map(value => value.toLowerCase()),
+      progress: 'published', doc_token: null, doc_link: docLink, ref_target: null, ref_target_token: null, ref_target_anchor: null,
+      source_kind: 'shared-page', shared_page: { group: 'guides', page } }
+    const built = historicalBuilds.get(page)!
     const outputs = targets.map(target => {
       const file = `content/en/${target.manual === 'guides' ? 'guides' : 'byoc'}/${target.path}.mdx`
       const generated = built.get(target.manual)!
@@ -140,22 +164,32 @@ async function fixture(options: { secondEligible?: boolean; missingTarget?: bool
     const sourcePath = `site/en/${page}.md`
     const upstreamFiles = [{ path: sourcePath,
       current: sha256(git(upstream, 'show', `${current}:${sourcePath}`)), next: sha256(git(upstream, 'show', `${b}:${sourcePath}`)) }]
+    const historicalFiles = page !== 'first' ? devFiles : options.devInventory === 'missing' ? devFiles.slice(1)
+      : options.devInventory === 'mismatched' ? [{ ...devFiles[0], sha256: 'f'.repeat(64) }, ...devFiles.slice(1)] : devFiles
     const receipt: SharedReceipt = { schema_version: 1, page, token: `shared-${page}`, inputs: {
       milvus_docs: { repository: 'milvus-io/milvus-docs', current, next: b, files: upstreamFiles },
       zdoc: { repository: 'zilliztech/zdoc', commit: acceptedMaster, files: overlay },
-      dev: { commit: devBaseline, files: [] },
+      dev: { commit: devBaseline, files: historicalFiles },
       fetch: { navigation: { navigationRecords: [navigation], tableDigests: {} }, image_base_url: imageBase,
-        render_targets: { schema_version: 1, targets: [...targets] } },
+        render_targets: { schema_version: 1, targets: [...targets] }, active: null },
       tools: { zdoc: acceptedMaster, md2md: '1.3.0' }, images,
     }, outputs, channel: null, notes: [] }
-    const identity = { group: 'guides', page, record: path, inputs_sha256: legacyReceiptInputsDigest(receipt) }
-    active.push({ page, record: recordId, feishu_token: null, anchors: {}, activated_in: '1' })
-    records.push({ record_id: recordId, placement_type: 'canonical', slug: page, doc_link: docLink, source_kind: 'shared-page', shared_page: identity,
+    const identity = renderIdentity(receiptProjection(receipt.inputs, page))
+    expect(identity.record).toBe(path)
+    active.push({ page, record: recordId, feishu_token: `wiki-${page}`, feishu_aliases: [`wiki-${page}`], anchors: {}, activated_in: '1' })
+    records.push({ record_id: recordId, table_id: navigation.table_id, table_name: navigation.table_name, placement_type: 'canonical',
+      title: page, labels: null, slug: page, doc_link: docLink, source_kind: 'shared-page', shared_page: identity, parent_record_ids: [],
+      order: 1, publish_status: 'published', publish_targets: snapshotTargets, release_channel: 'current',
       doc_token: null, source_file: null, source_hash: null, node_metadata: null, outgoing_tokens: [], output_paths: outputs.map(output => output.path) })
+    navigationRecords.push({ ...navigation, shared_page: identity,
+      title: options.snapshotMismatch === 'navigation' && page === 'first' ? 'Unapproved navigation title' : navigation.title })
     put(dev, path, json(receipt))
   }
   put(dev, `${manifests}/active.json`, json({ schema_version: 1, pages: active }))
-  put(dev, guidesSnapshotPath, json({ records }))
+  put(dev, guidesSnapshotPath, json({ schema_version: 1, records, navigation_records: navigationRecords,
+    table_digests: { 'fixture-table': sha256(JSON.stringify(navigationRecords)) } }))
+  const byocDependency = options.dependencyHref ? 'channel: next\n' : ''
+  put(dev, 'content/en/byoc/tutorials/other.md', `---\nslug: /other\ntitle: Other\ntoken: feishu-old-other\n${byocDependency}---\n\nPublished page after the historical dev pin.\n`)
   const deployed = commit(dev, 'Committed UAT outputs')
   put(master, `${group}/pages/third/lock.yaml`, lock(a, c))
   const currentMaster = commit(master, 'Advance third after acceptance')
@@ -164,7 +198,7 @@ async function fixture(options: { secondEligible?: boolean; missingTarget?: bool
     site: 'en', environment: 'uat', status: 'succeeded', mode: 'rebuild', sourceRepository: 'zdoc', sourceSha: deployed,
     finalDeployedDigest: `sha256:${'1'.repeat(64)}`, jenkinsBuildIdentity: 'vdc-jenkins/english-uat/1',
   } }))
-  return { root, master, dev, upstream, recordPath, currentMaster, deployed, a, b, c }
+  return { root, master, dev, upstream, recordPath, currentMaster, deployed, devBaseline, a, b, c }
 }
 
 type Fixture = Awaited<ReturnType<typeof fixture>>
@@ -351,4 +385,56 @@ it('edits only the selected lock and channel rule lines, and holds when Cloud co
   expect(cli(f, ['--mode', 'preview', '--out', out]).status).toBe(0)
   const fresh = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
   expect(fresh.pages[0]).toMatchObject({ status: 'blocked', reason: expect.stringMatching(/Cloud content changed after UAT/) })
+})
+
+it('holds an entire release group when an absolute cross-manual link targets a NEXT route', async () => {
+  const url = 'https://docs.zilliz.com/docs/byoc/other?from=guides'
+  const f = await fixture({ secondEligible: true, dependencyHref: url })
+  expect(git(f.dev, 'show', `${f.devBaseline}:content/en/byoc/tutorials/other.md`)).toContain('Historical page.')
+  expect(git(f.dev, 'show', `${f.deployed}:content/en/byoc/tutorials/other.md`)).toContain('channel: next')
+  expect(git(f.dev, 'show', `${f.deployed}:content/en/guides/tutorials/first.mdx`)).toContain(url)
+  preview(f)
+
+  const result = prepare(f, 'all-eligible')
+  expect(result.command.status, result.command.stderr || result.command.stdout).toBe(1)
+  expect(result.report).toMatchObject({ status: 'paused', selected: ['first', 'second'], pages: [
+    { page: 'first', reason: expect.stringContaining(`Unproved current page dependency: guides ${url}`) },
+    { page: 'second', views: expect.any(Array) },
+  ] })
+  expect(existsSync(result.patch)).toBe(false)
+  expect(git(f.master, 'status', '--porcelain')).toBe('')
+  expect(git(f.dev, 'status', '--porcelain')).toBe('')
+  const externalOnly = prepare(f, 'second', 'external-only')
+  expect(externalOnly.command.status, externalOnly.command.stderr || externalOnly.command.stdout).toBe(0)
+  expect(externalOnly.report).toMatchObject({ status: 'prepared', selected: ['second'] })
+})
+
+it.each(['missing', 'mismatched'] as const)('holds a selected page with %s historical dev inventory', async devInventory => {
+  const f = await fixture({ devInventory })
+  expect(preview(f).pages[0].status).toBe('eligible')
+  const result = prepare(f, 'first')
+  expect(result.command.status).toBe(1)
+  expect(result.report).toMatchObject({ status: 'paused', pages: [
+    { page: 'first', reason: expect.stringContaining('Historical dev inventory missing or mismatched: content/en/byoc/tutorials/other.md') },
+  ] })
+  expect(existsSync(result.patch)).toBe(false)
+})
+
+it.each([
+  ['targets', /snapshot publication targets do not match receipt renditions/],
+  ['navigation', /receipt navigation differs from effective snapshot/],
+] as const)('holds a page when committed snapshot %s disagrees with its receipt', async (snapshotMismatch, reason) => {
+  const f = await fixture({ snapshotMismatch })
+  expect(preview(f).pages[0]).toMatchObject({ status: 'blocked', reason: expect.stringMatching(reason) })
+  const result = prepare(f, 'first')
+  expect(result.command.status).toBe(1)
+  expect(existsSync(result.patch)).toBe(false)
+})
+
+it.each(['lock.yaml', 'page.yaml'] as const)('holds the page when committed %s contains invalid UTF-8', async malformedYaml => {
+  const f = await fixture({ malformedYaml })
+  expect(preview(f).pages[0]).toMatchObject({ status: 'blocked', reason: expect.stringContaining(`Editable ${malformedYaml} must round-trip as UTF-8`) })
+  const result = prepare(f, 'first')
+  expect(result.command.status).toBe(1)
+  expect(existsSync(result.patch)).toBe(false)
 })
