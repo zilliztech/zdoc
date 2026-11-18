@@ -5,7 +5,10 @@ on:
     branches: [master]
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
-      - shared-docs/*/pages/**
+      # Any shared input, in either layout: page groups (pages/**) and manual
+      # groups (manual.yaml, the group lock, content/, variables, product rules,
+      # and source.yaml itself).
+      - shared-docs/**
 
 permissions:
   contents: write
@@ -160,7 +163,17 @@ jobs:
           const SHARED_DOC_GROUPS = ['guides', 'node'];
           const git = args => execFileSync('git', args, { encoding: 'utf8' });
           const paths = git(['ls-files', '--others', '--exclude-standard', '-z', '--', 'shared-docs/']).split('\0').filter(Boolean);
-          const lockPath = new RegExp(`^shared-docs\\/(?:${SHARED_DOC_GROUPS.join('|')})\\/pages\\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*\\/lock\\.yaml$`);
+          // Accept exactly what the lock command writes per layout: page groups get
+          // per-page locks, manual groups get one group-root lock. The layout of each
+          // group on this checked-out head decides which shape is legal for it.
+          const lockPatterns = [];
+          for (const group of SHARED_DOC_GROUPS) {
+            if (!fs.existsSync(`shared-docs/${group}`)) continue;
+            if (fs.existsSync(`shared-docs/${group}/manual.yaml`)) lockPatterns.push(`^shared-docs\\/${group}\\/lock\\.yaml$`);
+            if (fs.existsSync(`shared-docs/${group}/pages`)) lockPatterns.push(`^shared-docs\\/${group}\\/pages\\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*\\/lock\\.yaml$`);
+          }
+          if (!lockPatterns.length) throw new Error('No shared-docs group layout found for the lock guard');
+          const lockPath = new RegExp(lockPatterns.join('|'));
           for (const file of paths) {
             if (!lockPath.test(file) || !fs.lstatSync(file).isFile() || fs.lstatSync(file).isSymbolicLink()) {
               throw new Error(`Refusing non-lock or non-regular path: ${JSON.stringify(file)}`);

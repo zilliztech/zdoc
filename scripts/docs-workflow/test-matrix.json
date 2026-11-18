@@ -1518,6 +1518,7 @@
         ".github/workflows/shared-docs-validate.yml",
         ".github/workflows/shared-docs-adopt-variant.yml",
         ".github/workflows/shared-docs-pin-drift-watchdog.yml",
+        ".github/workflows/shared-docs-manual-update.yml",
         "scripts/docs-workflow/shared-docs-pin-drift.js"
       ],
       "focusedTests": [
@@ -1561,6 +1562,7 @@
         "packages/docs-tooling/src/shared-docs/commands/adopt-variant.ts",
         ".github/workflows/shared-docs-adopt-variant.yml",
         ".github/workflows/shared-docs-validate.yml",
+        ".github/workflows/shared-docs-manual-update.yml",
         "packages/docs-tooling/src/shared-docs/testing/workflows.test.ts",
         "scripts/validate-workflow-policy.js",
         "scripts/validate-workflow-policy.test.js",
