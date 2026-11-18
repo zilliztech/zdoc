@@ -81,7 +81,13 @@ function mergedMetadata(manual: ManualConfig, logical: string, consumed: Set<str
   // unconsumed leftovers can be reported as typos instead of failing open.
   if (manual.metadata && moduleKey in manual.metadata) consumed.add(moduleKey)
   if (manual.metadata && logical in manual.metadata) consumed.add(logical)
-  const entries = [segments.length > 1 ? manual.metadata?.[moduleKey] : undefined, manual.metadata?.[logical]]
+  // Module `title` and `sidebar_position` describe the sidebar category, not the page:
+  // merging them would rename every page title to the category label and give positionless
+  // pages the category order as their own. beta keeps flowing to the module's pages.
+  const moduleEntry = segments.length > 1 ? manual.metadata?.[moduleKey] : undefined
+  const modulePageFields = moduleEntry && Object.fromEntries(Object.entries(moduleEntry)
+    .filter(([field]) => field !== 'title' && field !== 'sidebar_position'))
+  const entries = [Object.keys(modulePageFields ?? {}).length ? modulePageFields as ManualMetadata : undefined, manual.metadata?.[logical]]
   const merged: ManualMetadata = {}
   for (const entry of entries) if (entry) Object.assign(merged, entry)
   return Object.keys(merged).length ? merged : undefined
@@ -287,12 +293,30 @@ export interface ManualPageInput {
   md2md: Md2md
   runtime: BuildRuntime
   presentation?: { titleSuffix?: string; slugPrefix?: string; displayedSidebar?: string }
+  /** Fetch mode: every emitted page also carries its accepted image bodies, the
+   * bytes the publication uploads to the image bed. Sandbox builds stay digest-only. */
+  fetchImages?: boolean
 }
 
 interface ManualChannelVersion {
   adapted: import('../core/site').AdaptedPage
   images: import('../core/links').ImageRecord[]
   notices: import('../core/links').Notice[]
+  /** Prepared image bodies backing `images` (empty for cloud pages; their sources
+   * live outside the pinned upstream tree and must not fetch). */
+  prepared: ReadonlyMap<string, import('../core/links').ImageContent>
+}
+
+/** Accepted image bodies for the channels a page merged, paired with their
+ * prepared bytes so an already-fetched body is never re-read. */
+async function acceptedImageContents(runtime: BuildRuntime, fetchImages: boolean,
+  versions: readonly ManualChannelVersion[]): Promise<BuiltPage['imageContents']> {
+  if (!fetchImages) return undefined
+  const contents: NonNullable<BuiltPage['imageContents']> = []
+  for (const version of versions) {
+    for (const image of version.images) contents.push(await runtime.acceptedImage(image, version.prepared.get(image.original)))
+  }
+  return contents
 }
 
 /** Generate one manual page: pinned group lock, upstream source, registry presentation, manual link set.
@@ -397,7 +421,7 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
       headingAnchor: text => cloudAnchor(headingText(text)), navigation: page.config.metadata?.sidebar_position === undefined ? {} : { sidebar_position: page.config.metadata.sidebar_position },
       ...(page.channel ? { releaseChannel: page.channel } : {}), context: location })
     if ('errors' in adapted) { errors.push(...adapted.errors); continue }
-    versions.set(channel, { adapted, images: rewritten.images, notices: rewritten.notices })
+    versions.set(channel, { adapted, images: rewritten.images, notices: rewritten.notices, prepared: images })
   }
   if (errors.length) return { errors }
   const location = { page: pageId, file: sourceFile }
@@ -417,7 +441,8 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
       rulesFile: groupFile(shared.sharedDocsPath, 'product-names.yaml'), context: location })
     if (checked.errors.length) return { errors: checked.errors }
     return { pages: [{ manual: target.manual, path: target.path, mdx: mdx.mdx, notes: [], extension: '.md',
-      images: version.images, notices: [...version.notices, ...checked.warnings] }], planned: false }
+      images: version.images, notices: [...version.notices, ...checked.warnings],
+      imageContents: await acceptedImageContents(runtime, input.fetchImages === true, [version]) }], planned: false }
   }
   const current = versions.get('current'), next = versions.get('next')
   if (!current || !next) throw new Error(`Manual page ${pageId} lost a channel during preparation`)
@@ -462,5 +487,6 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
     rulesFile: groupFile(shared.sharedDocsPath, 'product-names.yaml'), context: location })
   if (checked.errors.length) return { errors: checked.errors }
   return { pages: [{ manual: target.manual, path: target.path, mdx: mdx.mdx, notes: merged.notes, extension: '.md',
-    images: [...current.images, ...next.images], notices: [...current.notices, ...next.notices, ...checked.warnings] }], planned: false }
+    images: [...current.images, ...next.images], notices: [...current.notices, ...next.notices, ...checked.warnings],
+    imageContents: await acceptedImageContents(runtime, input.fetchImages === true, [current, next]) }], planned: false }
 }

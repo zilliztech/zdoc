@@ -1274,7 +1274,9 @@ async function validatePublicationSnapshot(
   selected: SelectedPublicationAdapters,
   snapshot: AtomicValidationSnapshot,
 ): Promise<void> {
-  const expectedOwnedPaths = publicationOwnedTargets(context.request.site, context.publication as ManualPublication);
+  const expectedOwnedPaths = [...publicationOwnedTargets(context.request.site, context.publication as ManualPublication),
+    ...(sharedManualRecordTarget(context) ? [sharedManualRecordTarget(context)!] : [])]
+    .sort((left, right) => left.localeCompare(right, 'en'));
   if (snapshot.ownedPaths.length !== expectedOwnedPaths.length
     || expectedOwnedPaths.some((target, index) => snapshot.ownedPaths[index] !== target)) {
     throw new Error('Atomic publication snapshot owned paths do not match the validated publication contract');
@@ -1474,6 +1476,32 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
     stageGeneratedRestSidebar(context);
     return;
   }
+  if (source.sourceType === 'shared') {
+    // Whole-manual producer (design 10 R2): the fetch workflow prepares the upstream
+    // checkout and the image scratch; both arrive through the environment, so a missing
+    // value fails closed instead of silently treating the group as a Lark source.
+    const upstream = environment.DOCS_TOOLING_SHARED_UPSTREAM;
+    const scratch = environment.DOCS_TOOLING_SHARED_SCRATCH;
+    const imageBaseUrl = environment.IMAGE_BED_URL;
+    const missing = [
+      ...(upstream ? [] : ['DOCS_TOOLING_SHARED_UPSTREAM (the prepared upstream checkout)']),
+      ...(scratch ? [] : ['DOCS_TOOLING_SHARED_SCRATCH (the image byte scratch directory)']),
+      ...(imageBaseUrl ? [] : ['IMAGE_BED_URL (the publication image bed base URL)']),
+    ];
+    if (missing.length) {
+      throw new Error(`Manual ${context.request.manual} fetch requires ${missing.join(', ')}`);
+    }
+    const { runManualFetch } = await import('./shared-docs/commands/fetch-manual');
+    const exit = await runManualFetch({
+      sharedDocs: source.sourceDir,
+      repo: upstream!,
+      out: context.stagePath,
+      scratch: scratch!,
+      imageBaseUrl: imageBaseUrl!,
+    }, text => process.stdout.write(text), { repositoryRoot: context.repositoryRoot });
+    if (exit !== 0) throw new Error(`Manual ${context.request.manual} shared-docs fetch failed; see the producer output above`);
+    return;
+  }
   const exhaustive: never = source.sourceType;
   throw new Error(`Unsupported manual source type: ${String(exhaustive)}`);
 }
@@ -1513,10 +1541,23 @@ async function defaultPublish(
         source: resolveSecureRepositoryPath(context.stagePath, target.manifestPath, 'Staged REST derivation manifest', {finalKind: 'file'}),
         target: target.manifestPath,
       })),
+      ...(sharedManualRecordTarget(context) ? [{
+        source: resolveSecureRepositoryPath(context.stagePath, sharedManualRecordTarget(context)!, 'Staged shared manual record', {finalKind: 'file'}),
+        target: sharedManualRecordTarget(context)!,
+      }] : []),
     ],
     removals: removalTargets,
     validatePublication: snapshot => validatePublicationSnapshot(context, selected, snapshot),
   });
+}
+
+/** The whole-manual record's publication target (design 10 R2): shared-source fetches
+ * produce `generated/en/manifests/shared-manuals/<group>.json` and the atomic publication
+ * must carry it out of the stage like a derivation manifest, or the checkpoint loses the
+ * collection's input identity. Undefined for every other source family. */
+function sharedManualRecordTarget(context: CommandContext): string | undefined {
+  if (context.request.site !== 'en' || (context.source as ManualSource).sourceType !== 'shared') return undefined;
+  return `generated/en/manifests/shared-manuals/${context.request.group}.json`;
 }
 
 async function executeParsedDocsToolingCommand(

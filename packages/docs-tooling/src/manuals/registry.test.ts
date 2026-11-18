@@ -7,6 +7,7 @@ import {
   resolveManualPublication,
   validateManualRegistry,
 } from './registry';
+import {ManualSourceSchema} from './schema';
 import type {ManualDefinition} from './schema';
 
 function manual(overrides: Partial<ManualDefinition> = {}): ManualDefinition {
@@ -444,5 +445,26 @@ describe('manual registry contract', () => {
     const ids = manualRegistry.map(definition => definition.id);
     expect(ids).toEqual([...ids].sort((left, right) => left.localeCompare(right, 'en')));
     expect(new Set(ids).size).toBe(ids.length);
+  });
+});
+
+describe('shared source type (design 10 R2 wiring)', () => {
+  const parse = (source: unknown) => ManualSourceSchema.parse(source);
+
+  it('accepts a shared source pointing at its group directory', () => {
+    expect(parse({sourceType: 'shared', lifecycle: 'active', sourceDir: 'shared-docs/node'}))
+      .toEqual({sourceType: 'shared', lifecycle: 'active', sourceDir: 'shared-docs/node'});
+  });
+
+  it('rejects shared sources that declare Lark or generator identities', () => {
+    for (const extra of [{root: 'x', base: 'y'}, {generatorManual: 'g', snapshotPath: 'p'}]) {
+      expect(() => parse({sourceType: 'shared', lifecycle: 'active', sourceDir: 'shared-docs/node', ...extra}))
+        .toThrow();
+    }
+  });
+
+  it('rejects shared sources outside the shared-docs group namespace or with a non-active lifecycle', () => {
+    expect(() => parse({sourceType: 'shared', lifecycle: 'active', sourceDir: 'content/en/guides'})).toThrow();
+    expect(() => parse({sourceType: 'shared', lifecycle: 'fallback', sourceDir: 'shared-docs/node'})).toThrow();
   });
 });

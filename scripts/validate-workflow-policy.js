@@ -738,12 +738,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: revision inventory baseline must use the exact safe repository-relative path`)
       }
       if (!/getContentGroup\(process\.env\.GROUP, process\.env\.SITE\)/.test(inventoryRun) ||
-        !/group\.sourceSnapshots\.join\(","\)/.test(inventoryRun) ||
-        !/\[\[ "\$GROUP" != rest && -z "\$SNAPSHOTS" \]\]/.test(inventoryRun) ||
+        !/sourceSnapshots: group\.sourceSnapshots, hasLarkSources: group\.hasLarkSources/.test(inventoryRun) ||
+        !/JSON\.parse\(process\.argv\[1\]\)\.sourceSnapshots\.join\(","\)/.test(inventoryRun) ||
+        !/hasLarkSources\)\)' \"\$group_facts\"\)\" == \"true\" && -z \"\$SNAPSHOTS\"/.test(inventoryRun) ||
         !/inventory_args\+\=\(--snapshot "\$SNAPSHOTS"\)/.test(inventoryRun) ||
         /APP_ID|APP_SECRET|fetch-lark|publish-group|update-lark-doc-snapshot|update-sdk-reference-snapshots/.test(inventoryRun) ||
         Object.keys(inventory?.env || {}).some(name => /APP_ID|APP_SECRET|FEISHU/i.test(name))) {
-        errors.push(`${file}: revision inventory step must not receive Feishu credentials or fetch source metadata`)
+        errors.push(`${file}: revision inventory step must derive snapshots from the group contract and must not receive Feishu credentials`)
       }
       if (!report || report.uses !== 'actions/upload-artifact@v6' || report.with?.['if-no-files-found'] !== 'error' ||
         !reportPaths.includes('generated/en/manifests/lark-revisions/${{ inputs.group }}.json') ||
