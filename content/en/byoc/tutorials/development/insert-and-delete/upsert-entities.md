@@ -40,6 +40,7 @@ If the target collection has `autoID` enabled on its primary field, the `upsert`
 
 For fields with `nullable` enabled, you can omit them in the `upsert` request if they do not require any updates.
 
+<a id="upsert-in-merge-mode-milvus-v262"></a>
 <a id="upsert-in-merge-mode--milvus-v262"></a>
 
 ### Upsert in merge mode\{#upsert-in-merge-mode}
@@ -662,6 +663,7 @@ curl --request POST \
 
 </Tabs>
 
+<a id="upsert-entities-in-merge-mode-milvus-v262"></a>
 <a id="upsert-entities-in-merge-mode--milvus-v262"></a>
 
 ## Upsert entities in merge mode\{#upsert-entities-in-merge-mode}

@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-18T02:50:01.340Z",
+  "generated_at": "2026-11-18T10:43:13.625Z",
   "manual": "guides",
   "target": null,
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/guides",
   "summary": {
-    "canonical_records": 410,
-    "scanned_sources": 317,
+    "canonical_records": 413,
+    "scanned_sources": 327,
     "skipped_noncanonical_sources": 89,
-    "internal_references": 1878,
-    "valid_references": 1853,
+    "internal_references": 1916,
+    "valid_references": 1891,
     "broken_references": 25
   },
   "files": [
@@ -434,7 +434,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "json-field-overview",
-                "inputs_sha256": "81e7cf533dac8579a65a3140cac5ab94717f3b259ec74c56c4aa703db49ebf80",
+                "inputs_sha256": "ad81c58d6aa97fad81fae11b467090f31e701c123ca4e74197effc057853aef9",
                 "record": "generated/en/manifests/shared-pages/guides/json-field-overview.json"
               },
               "score": 86,
@@ -457,7 +457,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "json-filtering-operators",
-                "inputs_sha256": "729b2003d3a0d1ae6e3a1353451c91b97a61f434d938835b26f4160da4e0cd9e",
+                "inputs_sha256": "1a70b091b4ec21e08410cf739071247b1a312c1b96810821a6722bea963060a2",
                 "record": "generated/en/manifests/shared-pages/guides/json-filtering-operators.json"
               },
               "score": 86,
@@ -989,8 +989,32 @@
           "anchor": null,
           "source_file": "QTdywCXmKi0q10kWnencBLQinuc.json",
           "target_source": null,
-          "candidates": [],
-          "recommended_action": "Choose a canonical Base-listed replacement, then update the Feishu source manually."
+          "candidates": [
+            {
+              "record_id": "reczz28azxg3CJMK",
+              "table_id": "tblWv7PjNDsexddH",
+              "table_name": "Development",
+              "title": "TRIE",
+              "labels": "TRIE",
+              "slug": "trie-index-type",
+              "release_channel": "next",
+              "doc_token": null,
+              "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/trie-index-type",
+              "source_kind": "shared-page",
+              "shared_page": {
+                "group": "guides",
+                "page": "trie-index-type",
+                "inputs_sha256": "e22f55ee288b63041c61c15f3cda3a5e54266fc047754f46af5ba23943d009d9",
+                "record": "generated/en/manifests/shared-pages/guides/trie-index-type.json"
+              },
+              "score": 86,
+              "priority": 29,
+              "reason": "substring title",
+              "query": "multimodal retrieval runbook",
+              "confidence": "strong"
+            }
+          ],
+          "recommended_action": "Edit the hyperlink URL to https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/trie-index-type."
         }
       ]
     },

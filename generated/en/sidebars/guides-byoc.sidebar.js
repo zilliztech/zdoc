@@ -939,6 +939,15 @@ module.exports = [
         "items": [
           {
             "type": "doc",
+            "id": "tutorials/development/scalar-index/scalar-index-overview",
+            "label": "Overview",
+            "key": "doc:tutorials/development/scalar-index/scalar-index-overview",
+            "customProps": {
+              "channel": "next"
+            }
+          },
+          {
+            "type": "doc",
             "id": "tutorials/development/scalar-index/bitmap-index-type",
             "label": "BITMAP",
             "key": "doc:tutorials/development/scalar-index/bitmap-index-type"
@@ -966,6 +975,15 @@ module.exports = [
             "id": "tutorials/development/scalar-index/slt-sort-index-type",
             "label": "STL_SORT",
             "key": "doc:tutorials/development/scalar-index/slt-sort-index-type"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/scalar-index/trie-index-type",
+            "label": "TRIE",
+            "key": "doc:tutorials/development/scalar-index/trie-index-type",
+            "customProps": {
+              "channel": "next"
+            }
           }
         ]
       },
@@ -1789,6 +1807,12 @@ module.exports = [
                 "id": "tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring",
                 "label": "Prometheus",
                 "key": "doc:tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint",
+                "label": "Integrate with an HTTPS Endpoint",
+                "key": "doc:tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint"
               }
             ]
           }
@@ -2066,7 +2090,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/management/auditing/view-activities",
-            "label": "View Platform Audit Logs",
+            "label": "Platform Audit Logs",
             "key": "doc:tutorials/management/auditing/view-activities"
           }
         ]

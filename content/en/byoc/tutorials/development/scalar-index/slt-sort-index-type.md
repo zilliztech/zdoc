@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-slt-sort-index-type
 sidebar_label: "STL_SORT"
-sidebar_position: 5
+sidebar_position: 6
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/stl-sort.md"
 
 ---
@@ -21,6 +21,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # STL_SORT
+
+<NextChannel action="exclude">
 
 The `STL_SORT` index is an index type specifically designed to enhance query performance on numeric fields (INT8, INT16, etc.), `VARCHAR` fields, or `TIMESTAMPTZ` fields within Zilliz Cloud by organizing the data in a sorted order.
 
@@ -32,11 +34,27 @@ Use the `STL_SORT` index if you frequently run queries with:
 
 ## Supported data types\{#supported-data-types}
 
+</NextChannel>
+
+<NextChannel action="include">
+
+`STL_SORT` stores values in sorted order to accelerate value lookups, range filters, and string prefix matching.
+
+## Overview\{#overview}
+
+<a id="supported-data-types"></a>
+
+### Supported data types\{#supported-data-types-next}
+
+</NextChannel>
+
 - Numeric fields (e.g., `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`). For details, refer to [Boolean & Number](./use-number-field).
 
 - `VARCHAR` fields. For details, refer to [String Field](./use-string-field).
 
 - `TIMESTAMPTZ` fields. For details, refer to [TIMESTAMPTZ Field](./use-timestamptz-field).
+
+<NextChannel action="exclude">
 
 ## How it works\{#how-it-works}
 
@@ -62,11 +80,95 @@ Zilliz Cloud implements `STL_SORT` in two phases:
 
 This reduces query complexity from **O(n)** (full scan) to **O(log n + m)**, where *m* is the number of matches.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+For numeric, VARCHAR, or TIMESTAMPTZ subfields in a StructArray, see [Index StructArray Fields](./index-struct-array#create-scalar-indexes). Ordinary ARRAY fields do not support `STL_SORT`; see [Array index support](./use-array-fields#Array-index-support) for their index choices.
+
+For JSON paths cast to `DOUBLE` or `VARCHAR`, check the [JSON index requirements](./json-indexing#index-requirements) before choosing `STL_SORT`.
+
+<a id="queries-accelerated-by-stlsort"></a>
+<a id="Queries-accelerated-by-STLSORT"></a>
+
+<a id="supported-filters"></a>
+<a id="Supported-filters"></a>
+
+### Filter acceleration\{#filter-acceleration}
+
+An `STL_SORT` index can help evaluate the following conditions, subject to field and cast compatibility:
+
+- Equality (`==`, `!=`) and membership (`in`, `not in`).
+- Ranges: `<`, `<=`, `>`, `>=`, including intervals such as `10 <= price < 50`.
+- VARCHAR prefix matching, such as `name LIKE "abc%"`.
+- Comparisons on eligible JSON scalar paths. See [JSON filters](./json-indexing#Supported-filters).
+
+For suffix, substring, general LIKE, and regex filters, Zilliz Cloud can evaluate the pattern against strings stored in the index. This can require visiting many distinct strings. See [Pattern Matching](./pattern-match) for syntax and planning simplifications.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> These are index capabilities, not limits on valid filter expressions. See [Scalar Index](./scalar-index-overview#Filter-execution) for shared lookup constraints. For `AND`, `OR`, `NOT`, and NULL tests (`IS NULL`, `IS NOT NULL`), see [Basic Operators](./basic-filtering-operators).
+
+</Admonition>
+
+<a id="usage-notes"></a>
+<a id="Usage-notes"></a>
+
+### Memory considerations\{#memory-considerations}
+
+Explicit `STL_SORT` indexes do not support memory-mapped mode.
+
+For numeric and timestamp fields with no NULL values, use these rough estimates in bytes. `N` is the number of entities:
+
+| Field type | Estimate |
+| --- | --- |
+| `INT8`, `INT16`, `INT32`, `FLOAT` | `12 * N` |
+| `INT64`, `DOUBLE`, `TIMESTAMPTZ` | `20 * N` |
+| `VARCHAR` | Measure with representative data; loaded memory depends on string storage, distinct values, and posting-list capacity. |
+
+Divide by `1024 * 1024` to convert bytes to MiB. One million non-NULL INT64 values require roughly 19 MiB for the main index structures. Measure VARCHAR indexes after loading: serialized index size does not include all in-memory string and posting-list allocations.
+
+These rough estimates cover loaded index memory with memory mapping disabled. Calculate them per segment, then sum across loaded segments and replicas.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> Allow extra memory for loaded field data, vector indexes, collection and index overhead, and temporary allocations. Validate with representative data and queries; arrays, JSON, older index formats, and memory mapping require separate measurement.
+
+</Admonition>
+
+<a id="how-it-works"></a>
+<a id="How-it-works"></a>
+
+### How STL_SORT works\{#how-stlsort-works}
+
+<details>
+<summary><strong>View the sorting and lookup process</strong></summary>
+
+During index building, Zilliz Cloud pairs field values with entity IDs, sorts them in ascending order using [std::sort](https://en.cppreference.com/w/cpp/algorithm/sort.html), and persists the sorted array.
+
+For equality and range queries, binary search ([std::lower_bound](https://en.cppreference.com/w/cpp/algorithm/lower_bound.html) and [std::upper_bound](https://en.cppreference.com/w/cpp/algorithm/upper_bound.html)) locates the matching interval. The query executor receives the entity IDs in that interval.
+
+This reduces query complexity from **O(n)** (full scan) to **O(log n + m)**, where *m* is the number of matches.
+
+</details>
+
+</NextChannel>
+
 ## Create an STL_SORT index\{#create-an-stlsort-index}
+
+<NextChannel action="exclude">
 
 You can create an `STL_SORT` index on a numeric, `VARCHAR`, or `TIMESTAMPTZ` field. No extra parameters are required.
 
 The example below shows how to create an `STL_SORT` index on a `TIMESTAMPTZ` field:
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Set `index_type` to `STL_SORT`; no extra index parameters are required. This example indexes a `TIMESTAMPTZ` field:
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -258,11 +360,25 @@ curl --request POST \
 
 Use the `drop_index()` method to remove an existing index from a collection.
 
+<NextChannel action="exclude">
+
 <Admonition type="info" icon="📘" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> For release requirements when dropping a scalar index, see [Scalar Index](./scalar-index-overview#Drop-index-compatibility).
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -411,6 +527,8 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## Usage notes\{#usage-notes}
 
 - **Field types:** Works with numeric, `VARCHAR`, and `TIMESTAMPTZ` fields. For more information on data types, refer to [Boolean & Number](./use-number-field) and [TIMESTAMPTZ Field](./use-timestamptz-field).
@@ -418,3 +536,5 @@ curl --request POST \
 - **Parameters:** No index parameters are needed.
 
 - **Mmap not supported:** Memory-mapped mode is not available for `STL_SORT`.
+
+</NextChannel>

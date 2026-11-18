@@ -96,6 +96,7 @@ Choose the workflow based on whether you are adding a user-defined field or a Fu
 
 In all cases, the new field name must not already exist in the collection, and the total number of fields cannot exceed the Zilliz Cloud field-count limit. For details, refer to [Zilliz Cloud Limits](./limits).
 
+<a id="add-user-defined-scalar-fields-milvus-26x"></a>
 <a id="add-user-defined-scalar-fields--milvus-26x"></a>
 
 ### Add user-defined scalar fields\{#add-user-defined-scalar-fields}
@@ -470,6 +471,7 @@ curl --request POST \
 
 After the field is added, entities that already existed in the collection return `"unreviewed"` for `review_status`. New entities can set a different value or use the default value when no value is provided.
 
+<a id="add-structarray-fields-milvus-300"></a>
 <a id="add-structarray-fields--milvus-300"></a>
 
 ### Add StructArray fields | PUBLIC\{#add-structarray-fields-or-public}
@@ -711,6 +713,7 @@ await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
 After the StructArray field is added, entities that already exist in the collection return `NULL` for `chunks` across all its sub-fields. When you insert a new entity, every Struct element must provide a value for every sub-field, and a Struct element itself cannot be `NULL`. On Dedicated Clusters compatible with Milvus v3.0.x, element-nullable sub-fields may hold `NULL` in individual Struct elements; for details, refer to [Create a StructArray Field](./create-struct-array).
 
 
+<a id="add-a-sub-field-to-an-existing-structarray-field-milvus-306"></a>
 <a id="add-a-sub-field-to-an-existing-structarray-field--milvus-306"></a>
 
 ### Add a sub-field to an existing StructArray field | PUBLIC\{#add-a-sub-field-to-an-existing-structarray-field-or-public}
@@ -821,6 +824,7 @@ The following rules apply:
 
 - Clients that pin a schema timestamp receive a schema-mismatch error and must refresh, as for any added field.
 
+<a id="add-user-defined-vector-fields-milvus-2618"></a>
 <a id="add-user-defined-vector-fields--milvus-2618"></a>
 
 ### Add user-defined vector fields\{#add-user-defined-vector-fields}
@@ -1106,8 +1110,10 @@ curl --request POST \
 
 Existing entities have `NULL` for `embedding_v2` and are skipped when you search on this field. To make existing entities searchable through `embedding_v2`, write non-NULL vector values through upsert or a backfill workflow. New entities can include `embedding_v2` during insert.
 
+<a id="add-vector-fields-generated-by-functions-milvus-30x"></a>
 <a id="add-vector-fields-generated-by-functions--milvus-30x"></a>
 
+<a id="add-a-function-and-its-generated-vector-field-milvus-30x"></a>
 <a id="add-a-function-and-its-generated-vector-field--milvus-30x"></a>
 
 ### Add a Function and its generated vector field | PUBLIC\{#add-a-function-and-its-generated-vector-field-or-public}
@@ -1362,6 +1368,7 @@ Zilliz Cloud also supports MinHash Functions and their generated binary vector f
 
 You can remove user-defined fields directly when they are no longer part of your collection model. To remove a Function and its generated vector field, drop the Function; Zilliz Cloud removes the generated field and its index in the same schema change.
 
+<a id="drop-user-defined-fields-milvus-30x"></a>
 <a id="drop-user-defined-fields--milvus-30x"></a>
 
 ### Drop user-defined fields | PUBLIC\{#drop-user-defined-fields-or-public}
@@ -1662,6 +1669,7 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 If `image_vector` is the last vector field in the collection, the drop operation is rejected.
 
 
+<a id="drop-a-structarray-sub-field-milvus-306"></a>
 <a id="drop-a-structarray-sub-field--milvus-306"></a>
 
 ### Drop a StructArray sub-field | PUBLIC\{#drop-a-structarray-sub-field-or-public}
@@ -1740,8 +1748,10 @@ You cannot drop the last sub-field of a StructArray field, the last vector field
 Dropping a sub-field while queries are still running against it can fail transiently: query plans that were built on the older schema keep executing for a short time and fail with an internal error. Finish queries against a sub-field before dropping it, or retry the drop after the running queries finish.
 
 
+<a id="drop-vector-fields-generated-by-functions-milvus-30x"></a>
 <a id="drop-vector-fields-generated-by-functions--milvus-30x"></a>
 
+<a id="drop-a-function-and-its-generated-vector-field-milvus-30x"></a>
 <a id="drop-a-function-and-its-generated-vector-field--milvus-30x"></a>
 
 ### Drop a Function and its generated vector field | PUBLIC\{#drop-a-function-and-its-generated-vector-field-or-public}

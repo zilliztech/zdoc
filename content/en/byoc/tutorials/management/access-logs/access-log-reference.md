@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Access logs are delivered in JSON Lines format - one JSON object per line. Each line is a self-contained JSON object representing a single operation. The following example shows a log entry of the Search operation | BYOC"
+description: "Use this reference to identify an access-log operation, check its execution time, and inspect its results. It covers JSON, Elastic Common Schema (ECS), and OpenTelemetry (OTel) output. To enable forwarding and select fields, see Configure Access Logs. | BYOC"
 type: origin
-token: TeLbw6guCimFLgkQWdmcZB2unMd
+token: XWjpwaGdTi3PM9kST46cU7mpnLg
 sidebar_position: 3
 displayed_sidebar: default
 
@@ -20,122 +20,244 @@ import Admonition from '@theme/Admonition';
 
 # Access Log Reference
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+Use this reference to identify an access-log operation, check its execution time, and inspect its results. It covers **JSON**, Elastic Common Schema **(ECS)**, and OpenTelemetry **(OTel)** output. To enable forwarding and select fields, see [Configure Access Logs](./configure-access-logs).
 
-This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+## Log formats\{#log-formats}
 
-</FeatureNote>
+For HTTPS forwarding, all three formats use newline-delimited JSON (NDJSON): one log entry per line. Parse each line as a JSON object, then read the record according to the selected format.
 
-Access logs are delivered in [JSON Lines](https://jsonlines.org/) format - one JSON object per line. Each line is a self-contained JSON object representing a single operation. The following example shows a log entry of the Search operation:
+| Format | Where to find the log fields |
+| --- | --- |
+| JSON | Read fields directly from the object, such as `params.execution_time`. |
+| ECS | Read standard fields such as `event.duration`. The full original record is an object at `zilliz.original`. |
+| OTel | Read `timeUnixNano` and `attributes`. Parse `body.stringValue` as JSON to access the original record. |
+
+`cluster_id`, `log_type`, and `user` are always included. Other fields depend on your **Output Fields** selection and the operation. Collection details, execution time, input parameters, and results are nested under `params`.
+
+## Log fields\{#log-fields}
+
+The tables below describe fields in the original JSON record. In ECS output, these fields are nested under `zilliz.original`; for example, `params.execution_time` becomes `zilliz.original.params.execution_time`. In OTel output, parse `body.stringValue` as JSON to read the same fields. Fields depend on the selected Output Fields and the operation; Query, for example, has no similarity scores.
+
+### Common fields\{#common-fields}
+
+| Field | JSON type | Description |
+| --- | --- | --- |
+| `cluster_id` | string | Identifier of the cluster that handled the request. |
+| `log_type` | string | Log category. The value is `ACCESS`. |
+| `user` | string | Identity that issued the request, such as a user name or API key identifier. |
+| `action` | string | Operation name. Access logging supports `Search`, `HybridSearch`, and `Query`; your Operations selection determines which are logged. |
+| `timestamp` | integer | Time of the logged request, as a Unix timestamp in milliseconds. |
+| `params` | object | Operation-specific fields. Use the nested paths listed below when parsing them. |
+
+### Request and execution fields\{#request-and-execution-fields}
+
+| Field | JSON type | Description |
+| --- | --- | --- |
+| `params.collection` | string | Name of the collection accessed by the request. |
+| `params.execution_time` | string | Server-side execution time, including its unit. Values can use different units, such as `23.543546ms` or `973.39µs`. Convert to a common unit before comparing durations. |
+| `params.expr` | string in these examples | Filter expression. The Search example has an empty string because no filter was supplied; the Query example records `primary_key in [1,2,3]`. |
+| `params.nq` | integer | Number of query vectors. The Search example contains one vector. |
+| `params.limit` | integer | Requested maximum number of results. The Query example records `3`. |
+| `params.input_params` | object | Additional request parameters. The Search example includes `anns_field`, `topk`, and `offset`; the Query example includes `limit`. Values inside this object can be strings, including numeric settings. |
+
+### Result fields\{#result-fields}
+
+| Field | JSON type | Description |
+| --- | --- | --- |
+| `params.result_num` | integer | Number of results returned by the operation. |
+| `params.result_pks` | array | Primary keys of the returned entities. The examples use an INT64 primary key and therefore contain numbers. |
+| `params.result_scores` | array of numbers | Scores corresponding to the returned search results. This field appears in the Search example and is absent from the Query example. |
+
+### Query field differences\{#query-field-differences}
+
+This Query filters by three primary keys. Unlike Search, it has no vector count or similarity scores. `params.limit` is a number, while `params.input_params.limit` is a string. This complete JSON record comes from an actual HTTPS delivery; cluster and caller identifiers have been replaced.
 
 ```json
 {
-    "action": "Search",
-    "cluster_id": "inxx-xxxxxxxxxxxxxxx",
-    "database": "default",
-    "date": "2026/04/14 06:31:16.827 +00:00",
-    "interface": "Restful",
-    "log_type": "ACCESS",
-    "params": {
-        "collection": "ccc1",
-        "consistency_level": 2,
-        "execution_time": "15.368706ms",
-        "expr": "",
-        "input_params": {
-            "anns_field": "",
-            "offset": "0",
-            "params": "{}",
-            "round_decimal": "-1",
-            "topk": "10"
-        },
-        "nq": 1,
-        "output_fields": ["*"],
-        "partition": null,
-        "result_num": 10,
-        "result_pks": [55, 19, 18, 10, -26, 115, -14, -96, -50, 9],
-        "result_scores": [0.87269604, 0.8639183, 0.8605273, 0.85245466, 0.8490447, 0.84537137, 0.84066796, 0.8314183, 0.8296911, 0.82586515],
-        "topk": 10
+  "action": "Query",
+  "cluster_id": "in01-example",
+  "log_type": "ACCESS",
+  "params": {
+    "collection": "docs_log_sample_20261110",
+    "execution_time": "2.39537ms",
+    "expr": "primary_key in [1,2,3]",
+    "input_params": {
+      "limit": "3"
     },
-    "result": 0,
-    "status": "Success",
-    "timestamp": 1776148276827,
-    "trace_id": "f89903d701329910380442aa86941be9",
-    "user": "key-ibchakktguxxrvvxseoasz"
+    "limit": 3,
+    "result_num": 3,
+    "result_pks": [
+      1,
+      2,
+      3
+    ]
+  },
+  "timestamp": 1794300445287,
+  "user": "key-example"
 }
 ```
 
-In practice, each entry occupies a single line in the `.log` file. The sections below describe each field in detail.
+## Format mappings\{#format-mappings}
 
-## Log field schema\{#log-field-schema}
+Use these mappings to locate common fields in each format. In the OTel column, all names except `timeUnixNano` are keys in the `attributes` array. String attributes use `value.stringValue`.
 
-| **Field** | **Required** | **Type** | **Description** | **Example** |
-| --- | --- | --- | --- | --- |
-| `action` | Yes | string | The operation name. See [Supported actions](./access-log-reference#supported-actions). | `"Search"` |
-| `cluster_id` | Yes | string | The unique identifier of the cluster. | `"inxx-xxxxxxxxxxxxxxx"` |
-| `database` | No | string | The database where the operation occurred. | `"default"` |
-| `date` | Yes | string | Human-readable timestamp with timezone. | `"2026/04/14 06:31:16.827 +00:00"` |
-| `interface` | Yes | string | The interface type: `Restful` or `Grpc`. | `"Restful"` |
-| `log_type` | Yes | string | Log category: `ACCESS`, `AUDIT`, or `SLOW`. | `"ACCESS"` |
-| `params` | Yes | object | Action-specific parameters. See [below](./access-log-reference#params-fields) for nested fields. | `--` |
-| `result` | Yes | int | The operation result code. `0` indicates success; non-zero values indicate errors. | `0` |
-| `status` | Yes | string | Human-readable status of the operation. | `"Success"` |
-| `timestamp` | Yes | int | Unix timestamp in milliseconds (13 digits) when the proxy received the request. | `1776148276827` |
-| `trace_id` | Yes | string | A unique ID for the operation. Use this to correlate multiple log entries belonging to the same request. | `"f89903d701329910380442aa86941be9"` |
-| `user` | Yes | string | The user or API key that issued the request. | `"key-ibchakktguxxrvvxseoasz"` |
+| Field | JSON | ECS | OTel |
+| --- | --- | --- | --- |
+| Time | `timestamp` — milliseconds | `@timestamp` — UTC date-time | `timeUnixNano` — nanoseconds as a string |
+| Duration | `params.execution_time` — string with a unit | `event.duration` — nanoseconds as a number | `event.duration` — nanoseconds in `value.intValue` (string) |
+| Operation | `action` | `event.action` | `event.action` |
+| Caller | `user` | `user.name` | `user.name` |
+| Cluster | `cluster_id` | `zilliz.original.cluster_id` | `zilliz.cluster.id` |
+| Log type | `log_type` = ACCESS | `event.dataset` = `zilliz.milvus.access` | `zilliz.log.type` = ACCESS |
 
-### params fields\{#params-fields}
+Collection details, request parameters, and results remain in the original record; they are not expanded into individual fields in the mappings above. The Access examples use a selected subset of output fields, so they do not include status or trace information.
 
-| **Field** | **Required** | **Type** | **Description** | **Example** |
-| --- | --- | --- | --- | --- |
-| `params.collection` | No | string | The target collection. Required for Search, HybridSearch, and Query actions. | `"ccc1"` |
-| `params.consistency_level` | No | int | The consistency level used for the operation. | `2` |
-| `params.execution_time` | No | string | Server-side execution time, measured from when the proxy receives the full payload to when it begins sending the response. Does not include network transit time. | `"15.368706ms"` |
-| `params.expr` | No | string or array | The filter expression passed with the request. For HybridSearch, this is an array of expressions (one per sub-request). | `"" or [""]` |
-| `params.input_params` | No | object | Input parameters for the operation (search params, offset, topk, etc.). For HybridSearch, includes `sub_0.*` prefixed sub-request parameters and `strategy`. | `{"topk": "10", "offset": "0"}` |
-| `params.limit` | No | int | The limit on the number of results to return. Appears for Query and HybridSearch actions. | `100` |
-| `params.nq` | No | int | The number of query vectors. Appears for Search actions. | `1` |
-| `params.output_fields` | No | array | The output fields requested in the query. | `["*"]` |
-| `params.partition` | No | string | The target partition, if specified. `null` when no partition is specified. | `null` |
-| `params.result_num` | No | int | The actual number of results returned by the operation. | `10` |
-| `params.result_pks` | No | array | The primary keys in the query result. Appears for Search, HybridSearch, and Query actions when output params are configured to include it. | `[55, 19, 18, 10]` |
-| `params.result_scores` | No | array | The similarity scores corresponding to each entry in `params.result_pks`. Appears for Search and HybridSearch actions. | `[0.87269604, 0.8639183]` |
-| `params.topk` | No | int | The topk parameter for the search request. Appears for Search and HybridSearch actions. | `10` |
+## Examples\{#examples}
 
-## Supported actions\{#supported-actions}
+The following complete records come from actual HTTPS deliveries. Identity values have been replaced; other fields and values are unchanged. Line breaks and indentation are added for readability. The examples use a collection with a 4-dimensional vector field and an INT64 primary key.
 
-This release logs search- or query-class actions only:
+### JSON example\{#json-example}
 
-| Action | Description |
-| --- | --- |
-| Search | Vector similarity search |
-| HybridSearch | Multi-vector search with reranking |
-| Query | Scalar filtering query |
+This request searches with one vector and returns three matches. The requested result count is the string `"3"` in `params.input_params.topk`; `params.result_num` records the actual count as the number `3`.
 
-<Admonition type="info" title="Notes">
-
-Support for additional actions is planned for a future release.
-
-</Admonition>
-
-## File path and naming\{#file-path-and-naming}
-
-Log files are organized in your object storage bucket with the following path structure:
-
-```plaintext
-/<Cluster ID>/<Log type>/<Date>/<File name><File name suffix>
+```json
+{
+  "action": "Search",
+  "cluster_id": "in01-example",
+  "log_type": "ACCESS",
+  "params": {
+    "collection": "docs_log_sample_20261110",
+    "execution_time": "23.543546ms",
+    "expr": "",
+    "input_params": {
+      "anns_field": "vector",
+      "offset": "0",
+      "params": "{}",
+      "round_decimal": "-1",
+      "topk": "3"
+    },
+    "nq": 1,
+    "result_num": 3,
+    "result_pks": [
+      10,
+      11,
+      9
+    ],
+    "result_scores": [
+      1,
+      0.9988664,
+      0.9986361
+    ]
+  },
+  "timestamp": 1794300429632,
+  "user": "key-example"
+}
 ```
 
-| **Component** | **Format** | **Example** |
-| --- | --- | --- |
-| Cluster ID | The cluster's unique identifier | `inxx-xxxxxxxxxxxxxxx` |
-| Log type | access, audit, or slow | `access` |
-| Date | ISO date (YYYY-MM-DD) | `2024-12-20` |
-| File name | HH:MM:SS-&lt;UUID&gt;, where HH:MM:SS is the UTC time and &lt;UUID&gt; is a random string for uniqueness | `09:16:53-jz5l7D8Q` |
-| File name suffix | .log | `.log` |
+### ECS example\{#ecs-example}
 
-Full path example:
+This Search record declares ECS version `8.11.0`. Standard fields appear alongside the full record in `zilliz.original`.
 
-```plaintext
-/inxx-xxxxxxxxxxxxxxx/access/2024-12-20/09:16:53-jz5l7D8Q.log
+```json
+{
+  "@timestamp": "2026-11-10T09:23:25.97Z",
+  "ecs": {
+    "version": "8.11.0"
+  },
+  "event": {
+    "action": "Search",
+    "category": [
+      "database"
+    ],
+    "dataset": "zilliz.milvus.access",
+    "duration": 4868781,
+    "kind": "event",
+    "type": [
+      "access"
+    ]
+  },
+  "user": {
+    "name": "key-example"
+  },
+  "zilliz": {
+    "original": {
+      "action": "Search",
+      "cluster_id": "in01-example",
+      "log_type": "ACCESS",
+      "params": {
+        "collection": "docs_log_sample_20261110",
+        "execution_time": "4.868781ms",
+        "expr": "",
+        "input_params": {
+          "anns_field": "vector",
+          "offset": "0",
+          "params": "{}",
+          "round_decimal": "-1",
+          "topk": "3"
+        },
+        "nq": 1,
+        "result_num": 3,
+        "result_pks": [
+          10,
+          11,
+          9
+        ],
+        "result_scores": [
+          1,
+          0.9988664,
+          0.9986361
+        ]
+      },
+      "timestamp": 1794302605970,
+      "user": "key-example"
+    }
+  }
+}
 ```
 
+### OTel example\{#otel-example}
+
+This Search record contains the original JSON as an escaped string in `body.stringValue`, alongside mapped `attributes`. Each NDJSON line is an individual log record, without a `resourceLogs` envelope.
+
+```json
+{
+  "timeUnixNano": "1794302922141000000",
+  "body": {
+    "stringValue": "{\"action\":\"Search\",\"cluster_id\":\"in01-example\",\"log_type\":\"ACCESS\",\"params\":{\"collection\":\"docs_log_sample_20261110\",\"execution_time\":\"1.579877ms\",\"expr\":\"\",\"input_params\":{\"anns_field\":\"vector\",\"offset\":\"0\",\"params\":\"{}\",\"round_decimal\":\"-1\",\"topk\":\"3\"},\"nq\":1,\"result_num\":3,\"result_pks\":[10,11,9],\"result_scores\":[1,0.9988664,0.9986361]},\"timestamp\":1794302922141,\"user\":\"key-example\"}"
+  },
+  "attributes": [
+    {
+      "key": "zilliz.cluster.id",
+      "value": {
+        "stringValue": "in01-example"
+      }
+    },
+    {
+      "key": "zilliz.log.type",
+      "value": {
+        "stringValue": "ACCESS"
+      }
+    },
+    {
+      "key": "user.name",
+      "value": {
+        "stringValue": "key-example"
+      }
+    },
+    {
+      "key": "event.action",
+      "value": {
+        "stringValue": "Search"
+      }
+    },
+    {
+      "key": "event.duration",
+      "value": {
+        "intValue": "1579877"
+      }
+    }
+  ]
+}
+```
+
+When reading `timeUnixNano` or `value.intValue`, preserve integer precision. For example, use `BigInt` for nanosecond timestamps in JavaScript.

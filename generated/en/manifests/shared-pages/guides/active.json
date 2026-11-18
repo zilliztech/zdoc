@@ -1059,6 +1059,22 @@
       ],
       "anchors": {},
       "activated_in": "43847158549"
+    },
+    {
+      "page": "scalar-index-overview",
+      "record": "reczz28azvR66R4a",
+      "feishu_token": null,
+      "feishu_aliases": [],
+      "anchors": {},
+      "activated_in": "44283079178"
+    },
+    {
+      "page": "trie-index-type",
+      "record": "reczz28azxg3CJMK",
+      "feishu_token": null,
+      "feishu_aliases": [],
+      "anchors": {},
+      "activated_in": "44283079178"
     }
   ]
 }

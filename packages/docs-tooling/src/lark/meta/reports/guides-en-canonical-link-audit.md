@@ -1,16 +1,16 @@
 # guides Canonical Link Audit
 
-Generated: 2026-11-18T02:50:01.340Z
+Generated: 2026-11-18T10:43:13.625Z
 Target: (not specified)
 Source dir: `./packages/docs-tooling/src/lark/meta/sources/guides`
 
 ## Summary
 
-- Canonical records: 410
-- Scanned canonical sources: 317
+- Canonical records: 413
+- Scanned canonical sources: 327
 - Skipped non-canonical sources: 89
-- Internal Feishu references: 1878
-- Valid references: 1853
+- Internal Feishu references: 1916
+- Valid references: 1891
 - Broken references: 25
 
 ## Release Notes (Dec 11, 2023)
@@ -371,9 +371,11 @@ Source dir: `./packages/docs-tooling/src/lark/meta/sources/guides`
 - JSON path: `$.blocks.items[8].text.elements[1].text_run.text_element_style.link`
 - Current token: `P6Dkwhh4SicCPOkhCNZc6xZdnih`
 - Current URL: https://zilliverse.feishu.cn/wiki/P6Dkwhh4SicCPOkhCNZc6xZdnih
-- Recommended action: Choose a canonical Base-listed replacement, then update the Feishu source manually.
+- Recommended action: Edit the hyperlink URL to https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/trie-index-type.
 
-- No candidate above threshold.
+| Rank | Confidence | Score | Candidate | Slug | Record | Doc | Reason |
+| ---: | --- | ---: | --- | --- | --- | --- | --- |
+| 1 | strong | 86 | TRIE | `trie-index-type` | `reczz28azxg3CJMK` | [open](https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/trie-index-type) | substring title; query: multimodal retrieval runbook |
 
 ## Data Security
 - Source file: `SIhBwKFJri4u2CkyD3ucnO7an3g.json`

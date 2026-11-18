@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-inverted-index-type
 sidebar_label: "INVERTED"
-sidebar_position: 2
+sidebar_position: 3
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/inverted.md"
 
 ---
@@ -21,6 +21,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # INVERTED
+
+<NextChannel action="exclude">
 
 When you need to perform frequent filter queries on your data, `INVERTED` indexes can dramatically improve query performance. Instead of scanning through all documents, Zilliz Cloud uses inverted indexes to quickly locate the exact records that match your filter conditions.
 
@@ -53,6 +55,86 @@ For example, the value **"electronics"** maps to IDs **1** and **3**, while **"b
 When you filter for a specific value (e.g., `category == "electronics"`), Zilliz Cloud simply looks up the term in the index and retrieves the matching IDs directly. This avoids scanning the full dataset and enables fast filtering, especially for categorical or repeated values.
 
 INVERTED indexes support all scalar field types, such as **BOOL**, **INT8**, **INT16**, **INT32**, **INT64**, **FLOAT**, **DOUBLE**, **VARCHAR**, **JSON**, and **ARRAY**. However, the index parameters for indexing a JSON field are slightly different from regular scalar fields.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+`INVERTED` maps field values to the entities containing them to accelerate scalar filtering.
+
+## Overview\{#overview}
+
+<a id="when-to-use-inverted-indexes"></a>
+<a id="When-to-use-INVERTED-indexes"></a>
+
+Use `INVERTED` for equality, membership, and range filters on compatible fields or JSON paths, such as `category == "electronics"`.
+
+<a id="supported-data-types"></a>
+<a id="Supported-data-types"></a>
+<a id="queries-accelerated-by-inverted"></a>
+<a id="Queries-accelerated-by-INVERTED"></a>
+<a id="supported-filters"></a>
+<a id="Supported-filters"></a>
+<a id="filter-acceleration"></a>
+<a id="Filter-acceleration"></a>
+
+### Index targets and filters\{#index-targets-and-filters}
+
+The following table pairs supported `INVERTED` index targets with the filters the index can help evaluate:
+
+| Index target | Filters that can use the index |
+| --- | --- |
+| `BOOL` field | Equality (`==`, `!=`) and membership (`in`, `not in`). |
+| Numeric field (`INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`) | Equality, membership, and ranges (`<`, `<=`, `>`, `>=`). |
+| `VARCHAR` field | Equality, membership, ranges, prefix matching such as `name LIKE "abc%"`, and general LIKE such as `name LIKE "a%b_c"`. |
+| Ordinary `ARRAY` field with `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, or `VARCHAR` elements | Element containment and eligible whole-array comparisons. See [Array index support](./use-array-fields#Array-index-support). |
+| Typed JSON path | Filters appropriate to the indexed cast. Specify path and cast parameters; see [JSON Indexing](./json-indexing#understand-cast-types) for cast compatibility and [JSON filter details](./json-indexing#Supported-filters) for query behavior. |
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> Scalar indexes, including `AUTOINDEX`, do not support recursive ARRAY fields or arrays with nullable elements. See [Array index support](./use-array-fields#Array-index-support) for ordinary-array filters and [Index StructArray Fields](./index-struct-array#create-scalar-indexes) for subfield rules.
+
+</Admonition>
+
+Simple suffix (`LIKE "%abc"`) and substring (`LIKE "%abc%"`) filters use a scan path, even though more complex LIKE patterns can use this index. Regex filters do not use direct INVERTED pattern lookup. These rules apply after [query-planning simplifications](./pattern-match#accelerate-pattern-matching-with-indexes).
+
+A scalar `INVERTED` index does not enable token-based `TEXT_MATCH` or `PHRASE_MATCH`; see [Text Match](https://milvus.io/docs/keyword-match.md).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> These are index capabilities, not limits on valid filter expressions. See [Scalar Index](./scalar-index-overview#Filter-execution) for shared lookup constraints. For `AND`, `OR`, `NOT`, and NULL tests (`IS NULL`, `IS NOT NULL`), see [Basic Operators](./basic-filtering-operators).
+
+</Admonition>
+
+### Memory considerations\{#memory-considerations}
+
+For a rough loaded-memory estimate, use `S` bytes, where `S` is the size of the built index before storage compression. Build an index on representative data to obtain `S`; raw field data size is not a substitute.
+
+These rough estimates cover loaded index memory with memory mapping disabled. Calculate them per segment, then sum across loaded segments and replicas.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> Allow extra memory for loaded field data, vector indexes, collection and index overhead, and temporary allocations. Validate with representative data and queries; arrays, JSON, older index formats, and memory mapping require separate measurement.
+
+</Admonition>
+
+<a id="how-inverted-indexes-work"></a>
+<a id="How-INVERTED-indexes-work"></a>
+
+### How INVERTED works\{#how-inverted-works}
+
+<details>
+<summary><strong>View a value lookup example</strong></summary>
+
+An inverted index reverses the mapping from entity IDs to field values. In the diagram, **"electronics"** maps to IDs **1** and **3**, while **"books"** maps to IDs **2** and **5**.
+
+![How Inverted Index Works](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/b051da6520dabc1f7e1295a22f7a971ac076899887c806655dc8a8088b15c291.png)
+
+For `category == "electronics"`, Zilliz Cloud retrieves IDs **1** and **3** from the index rather than checking every entity's category.
+
+</details>
+
+</NextChannel>
 
 ## Create indexes on non-JSON fields\{#create-indexes-on-non-json-fields}
 
@@ -562,11 +644,25 @@ For detailed information about JSON field indexing, including supported paths, d
 
 Use the `drop_index()` method to remove an existing index from a collection.
 
+<NextChannel action="exclude">
+
 <Admonition type="info" icon="📘" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> For release requirements when dropping a scalar index, see [Scalar Index](./scalar-index-overview#Drop-index-compatibility).
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -699,6 +795,8 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## Best practices\{#best-practices}
 
 - **Create indexes after loading data**: Build indexes on collections that already contain data for better performance
@@ -709,8 +807,29 @@ curl --request POST \
 
 - **Consider your query patterns**: Create indexes on fields you frequently filter by
 
+</NextChannel>
+
+<NextChannel action="include">
+
+<a id="best-practices"></a>
+<a id="Best-practices"></a>
+
+</NextChannel>
+
 ## Next steps\{#next-steps}
+
+<NextChannel action="exclude">
 
 - Learn about [AUTOINDEX](./autoindex-explained).
 
 - See [JSON Indexing](./json-indexing) for advanced JSON indexing scenarios
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- Compare scalar indexes and plan resources in [Scalar Index](./scalar-index-overview#whats-next).
+
+- See [JSON Indexing](./json-indexing) for advanced JSON indexing scenarios
+
+</NextChannel>

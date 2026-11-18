@@ -1,15 +1,15 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-17T18:32:51.786Z
+Generated: 2026-11-18T02:37:42.356Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-11-17T18:32:51.786Z
+Previous snapshot: 2026-11-18T02:37:42.356Z
 
 ## Summary
 
-- Changed docs: 94 (1 with Feishu tokens)
-- Expanded docs: 60
+- Changed docs: 106 (11 with Feishu tokens)
+- Expanded docs: 70
 - Removed docs: 0
 - Warnings: 0
 
@@ -62,6 +62,7 @@ Previous snapshot: 2026-11-17T18:32:51.786Z
 - Insert Data into StructArray Fields (shared:recvmiXeibUjFw): shared inputs changed
 - Index StructArray Fields (shared:recvmiXfJKVEi6): shared inputs changed
 - StructArray Limits (shared:recvmiXheOIXXi): shared inputs changed
+- Geometry Field (H2GHwE8umiuP6WkwjxPcQOfGn0e): wiki node revision changed
 - Dynamic Field (shared:recvlPtyb6yLAl): shared inputs changed
 - Nullable Fields (shared:recvlPtyEujTZ1): shared inputs changed
 - Default Values (shared:recvlPtz1y4ReX): shared inputs changed
@@ -69,11 +70,13 @@ Previous snapshot: 2026-11-17T18:32:51.786Z
 - Alter Collection Schema (shared:recvlPtzPnygUH): shared inputs changed
 - Alter External Collection Schema (shared:recvob1UVb2vLT): shared inputs changed
 - Data Model Design with an Array of Structs (shared:recvlPtLE9aMJa): shared inputs changed
+- Scalar Index (shared:reczz28azvR66R4a): new canonical record
 - BITMAP (shared:recvlPuupw8MTT): shared inputs changed
 - INVERTED (shared:recvlPuxIa4nK7): shared inputs changed
 - NGRAM (shared:recvlPuAMvtXHT): shared inputs changed
 - RTREE (shared:recvlPuEqbVGK6): shared inputs changed
 - STL_SORT (shared:recvlPuHlCSNKs): shared inputs changed
+- TRIE (shared:reczz28azxg3CJMK): new canonical record
 - Insert Entities (shared:recvlPtOn6UqbP): shared inputs changed
 - Upsert Entities (shared:recvlPtRh7nvjU): shared inputs changed
 - Delete Entities (shared:recvlPtUuUu4el): shared inputs changed
@@ -107,7 +110,16 @@ Previous snapshot: 2026-11-17T18:32:51.786Z
 - Remove Punct (shared:recvlPvJP0pbh9): shared inputs changed
 - Regex (shared:recvlPvLU6eZIJ): shared inputs changed
 - Snapshots (shared:recvlPnHgnRg7i): shared inputs changed
-- Manage Snapshots (SDK) (J0jDwYQb8il1biknRo4cazHPn5d): title changed; wiki node revision changed
+- Manage Snapshots (Console) (PSK1wxf6Qi2EENkCjc2cyNBSn0g): new canonical record
+- Integrate with an HTTPS Endpoint (OeMhwPg82iCzGskj1sLcQgAZndg): new canonical record
+- VectorDB Audit Logs (FrKYwyBXKiktPzkQcFXco2qUnYd): doc token changed; wiki node revision changed
+- VectorDB Audit Logs Reference (IrxCwX9Hoi2BYckqDdjcSN7ynkh): doc token changed; wiki node revision changed
+- Platform Audit Logs (PynkwpI6Qi7zL9kiTBfchREknOc): doc token changed; title changed; wiki node revision changed
+- Access Logs Overview (KiCTwoFPCiVWCUkJtSecFryfn7g): doc token changed; wiki node revision changed
+- Configure Access Logs (E2X9wUPLpi3pQxkJzBpcpZ4snHg): doc token changed; wiki node revision changed
+- Access Log Reference (XWjpwaGdTi3PM9kST46cU7mpnLg): doc token changed; wiki node revision changed
+- Configure Slow Logs (QoEpwKGbEirQl1kh3W3c0zdinAd): doc token changed; wiki node revision changed
+- Slow Logs Reference (QvqMw06F7iI6oKkXiD4cjV33nCd): doc token changed; wiki node revision changed
 - Implement Multi-tenancy (shared:recvm2lliV1DA6): shared inputs changed
 
 ## Expanded Tokens
@@ -120,49 +132,58 @@ Previous snapshot: 2026-11-17T18:32:51.786Z
 - BYtDwHuOXiG7imkyIjHcWa6fnlb: incoming reference to NTwawtvYdiXTkukbss7ccw2RnXc
 - BcXMwUYQ3iD7mEkWKFhcU5PUnB5: incoming reference to Neq4wR0EdiXokRkhXwbcMPfanCd
 - BnYLwepruiGNpwkJfBHcdrrOnOh: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
-- CK0ewQWC2iz6lakP0kscqogbnGh: incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg
+- CK0ewQWC2iz6lakP0kscqogbnGh: incoming reference to H2GHwE8umiuP6WkwjxPcQOfGn0e
 - CmR5wFcybi3iMokOJBxcXDQcntg: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - Dj2NwrlqTiYlmDkwfAbcJNWSntd: incoming reference to QZYhwcQhWigYTVkLnHeczkwYnZb
-- EA2twSf5oiERMDkriKScU9GInc4: incoming reference to ARalwpaVDiCwDZkoSHtcPNgXnRg
+- E2X9wUPLpi3pQxkJzBpcpZ4snHg: doc token changed; wiki node revision changed
+- EA2twSf5oiERMDkriKScU9GInc4: incoming reference to H2GHwE8umiuP6WkwjxPcQOfGn0e
 - EAwdw2ZbtiBKttk66FTctUebn7f: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - EOxmwUDxMiy2cpkOfIsc1dYzn4c: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - EV41wG08BiOWW8kbo9xcTGoPnKd: incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd
 - Fighwx5zFiwaoIkV4q5cAJ1enDg: incoming reference to JWZGw89MBiUDBNkhtGfcyyUcnsd
+- FrKYwyBXKiktPzkQcFXco2qUnYd: doc token changed; wiki node revision changed
 - GBynwwkyBihIHukvJXfc76dMnth: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - GanXwLnJkiymKVkNPhecdi9MnGf: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
-- Ghq9wEiOOivgeIkmj2HcHC9onXe: incoming reference to J0jDwYQb8il1biknRo4cazHPn5d
-- H2GHwE8umiuP6WkwjxPcQOfGn0e: incoming reference to DjROwgK6ziCf7Rkoji6ccyEUnsg
+- H2GHwE8umiuP6WkwjxPcQOfGn0e: wiki node revision changed
 - H8MVwnjdgihp0hkRHHKcjBe9n5e: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - HHXewT7wTiM1zqkySjHcMNX5n9b: incoming reference to XC1ow3jGBi7hVvkINtBcXhQ6n8g
 - IO4fwm5fJiroaoktKeIcbdkDnRb: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
 - IrQ2wm2oaiAWl4kqQhkc303Rnlg: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
+- IrxCwX9Hoi2BYckqDdjcSN7ynkh: doc token changed; wiki node revision changed
 - IxO5wZ1meiYrTckUPkQca9JOnbS: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
-- J0jDwYQb8il1biknRo4cazHPn5d: title changed; wiki node revision changed
 - JPNiwF6rPiNe0pkx460cr321nTc: incoming reference to MBVVww2Zii8k6Bk77GJcXbZJnpf
 - JaTxw9EtHivMv9kMSAnckG0vn1b: incoming reference to OVxRwZWxNi4pYrkdKxCcOuY2nf1
 - KTWtw4V6SiTpDMkeGMQc8lChn8b: incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic
+- KiCTwoFPCiVWCUkJtSecFryfn7g: doc token changed; wiki node revision changed
 - KnnBwce9JifxvXkd070cvgUPnag: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - LRRVwYzxKioMiMk7cf6czQuhn7d: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - LqMIw1DXyiHUjAk9TEAcqHp6nDd: incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd
 - MTqjwwUKhiyns4kGV7Lc7PRlnwb: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
-- MUL3wkn7Yi3YoFkYk59csf8bnNc: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
+- MUL3wkn7Yi3YoFkYk59csf8bnNc: incoming reference to H2GHwE8umiuP6WkwjxPcQOfGn0e
 - MYHwwhKtri4MMJku6BbcMjF4n1d: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - MocQwCCItiHYEbkkJtOcROPTnod: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - N6fZwCUXqiqoJEkFiVNcvDJEnnc: incoming reference to QVTnwVz2aifvSAkgomAc9KWRnHb
-- NRF1wGr3AiWWC1kVfWucZD6Xneb: incoming reference to J0jDwYQb8il1biknRo4cazHPn5d
+- NRF1wGr3AiWWC1kVfWucZD6Xneb: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - O1qjwpv0Ri9afmkSUwWcU2aTn5f: incoming reference to EmcowmwYpiFbWgkmnqfcMf3knVc
 - O2YiwLai5iSjT1k1WEsc06E8nEe: incoming reference to WMSvwXXz4iR7mZkGmUscF3Y1nxs
 - OFl9wHXpriM8aEkoONScpU1lnIf: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - OJVrwOiE4i3fFjk2J3NcneLznfh: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - OZtawoDUci0CKokf9RlchvInnMf: incoming reference to DjROwgK6ziCf7Rkoji6ccyEUnsg
+- OeMhwPg82iCzGskj1sLcQgAZndg: new canonical record
+- P3wrwSMNNihy8Vkf9p6cTsWYnTb: outgoing reference from H2GHwE8umiuP6WkwjxPcQOfGn0e
 - PNj2w5fY9ifr82kbX8ucKgXAn0r: incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic
+- PSK1wxf6Qi2EENkCjc2cyNBSn0g: new canonical record
 - PV2bwNENViEjXWkOgzZcXoKHnce: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - PlX3wo82Di6oWVkg2ercRWCUnvV: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - PmaowiSUaiTa8ckPMYJcqdRYnQg: incoming reference to ARalwpaVDiCwDZkoSHtcPNgXnRg
 - Pulhw06e5iXJTFkidFXcGbylnod: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - PuxkwMWvbiHxvTkHsVkcMZP9n5f: outgoing reference from UR9SwucAIiQ2TYkc9EucsgvSnng
+- PynkwpI6Qi7zL9kiTBfchREknOc: doc token changed; title changed; wiki node revision changed
+- QoEpwKGbEirQl1kh3W3c0zdinAd: doc token changed; wiki node revision changed
+- QvqMw06F7iI6oKkXiD4cjV33nCd: doc token changed; wiki node revision changed
 - R33EwQchxiO3HKk4vPnce6vkntc: incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd
 - RxUiwJ77WiFKZGkC8rEcLeopnTf: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
+- SOgiwzPxpisy8MkhtuecZqFbnaf: outgoing reference from H2GHwE8umiuP6WkwjxPcQOfGn0e
 - SwgXwdHG6iqpbUknXrHcOPd7nRe: incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd
 - Uk0Nw1ZdbiOEBtkAOKacLTf8nGe: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - V7xfwDariioU5GkcmfXctzSEnyc: incoming reference to Oyy6w5DYJiVCMYkdduEc6eD9nZg
@@ -171,6 +192,7 @@ Previous snapshot: 2026-11-17T18:32:51.786Z
 - WTsmwWdgOiKnwpkdZdScp093njh: incoming reference to CpBbwcJ87irHp0k9oCSc2RNIn3d
 - WZe4w7lNji6RVHkR5alcrTw8nQ2: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - XDoSwZodyigAEVkjkWfc9nsfnCg: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
+- XWjpwaGdTi3PM9kST46cU7mpnLg: doc token changed; wiki node revision changed
 - ZBEiwpvlbijhYDkmnNScc7zyn5d: incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg
 
 ## Removed Docs

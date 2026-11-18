@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "On Zilliz Cloud, audit logs have the following syntax | Cloud"
+description: "Use this reference to identify who performed a database operation, check its recorded outcome, and correlate its audit records. It covers JSON, Elastic Common Schema (ECS), and OpenTelemetry (OTel) output. For setup instructions, see VectorDB Audit Logs. | Cloud"
 type: origin
-token: Nby4wCqNviuLg3kEZpkcdKtnnnb
+token: IrxCwX9Hoi2BYckqDdjcSN7ynkh
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -20,202 +20,226 @@ import Admonition from '@theme/Admonition';
 
 # VectorDB Audit Logs Reference
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+Use this reference to identify who performed a database operation, check its recorded outcome, and correlate its audit records. It covers **JSON**, Elastic Common Schema **(ECS)**, and OpenTelemetry **(OTel)** output. For setup instructions, see [VectorDB Audit Logs](./audit-logs).
 
-This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+## Log formats\{#log-formats}
 
-</FeatureNote>
+For HTTPS forwarding, each request body contains newline-delimited JSON (NDJSON): one audit record per line. Parse each line separately, then read the fields according to the selected format.
 
-On Zilliz Cloud, audit logs have the following syntax:
+| Format | Where to find the audit fields |
+| --- | --- |
+| JSON | Read fields directly from the object, such as `action` and `params.execution_time`. |
+| ECS | Use standard fields such as `event.action` and `event.duration`. The full original record is an object at `zilliz.original`. |
+| OTel | Use `timeUnixNano` and `attributes`. Parse `body.stringValue` as JSON to read the original record. |
+
+## Log fields\{#log-fields}
+
+The field tables use paths in the original JSON record. In ECS, prefix each path with `zilliz.original` and a dot. In OTel, read them after parsing `body.stringValue`. Fields vary by operation, interface, and record stage.
+
+### Common fields\{#common-fields}
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `action` | string | Operation name, such as `ShowCollections` or `Query`. |
+| `user` | string | The database user or API key identifier associated with the operation. |
+| `cluster_id` | string | Identifier of the cluster where the operation occurred. |
+| `database` | string | Database associated with the operation. |
+| `interface` | string | Request interface, such as `Restful` or `Grpc`. |
+| `log_type` | string | `AUDIT` for VectorDB audit records. |
+| `timestamp` | integer | Record timestamp in Unix milliseconds. |
+| `trace_id` | string | Trace identifier used to correlate records for a request. |
+| `params` | object | Operation-specific details. Its contents vary by operation and record stage. |
+
+Within `params`, look for details relevant to the operation, such as `collection`, `expr` (filter expression), or `input_params`. A field present for one operation may be absent for another.
+
+### Result and execution time fields\{#result-and-execution-time-fields}
+
+| Field | How to interpret it |
+| --- | --- |
+| `result` | The operation result code. `0` indicates success; failed responses can contain a nonzero code. This is not the HTTP status code. |
+| `status` | The recorded outcome, such as `Success` or `Failed`. Request records may omit this field. |
+| `params.execution_time` | Execution duration as a string with a unit, such as `3.568487ms` or `384.774µs`. Parse the unit rather than assuming every value is in milliseconds. |
+
+A missing `result` or `status` does not prove success or failure. Find the corresponding response record before interpreting the outcome. These fields describe the outcome recorded by audit logging; also check the API response when investigating an error.
+
+For example, a Query with an incomplete filter expression produced `result: 1100` and `status: Failed`. Its OTel `event.outcome` attribute was `failure`.
+
+### Connection and SDK fields\{#connection-and-sdk-fields}
+
+gRPC records can also include the following connection metadata. These fields are absent from the REST examples below.
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `connection_uid` | integer | Identifier of the client connection. |
+| `params.sdk` | string | SDK language recorded for the connection, such as `Java`. |
+| `params.sdk_version` | string | SDK version recorded for the connection. |
+
+### Request and response records\{#request-and-response-records}
+
+A single operation can produce separate request and response records. This JSON request identifies the operation and actor; it does not yet contain the outcome. Its corresponding response appears in the JSON example below.
 
 ```json
 {
-    "date": "<timestamp>",
-    "action": "<action_type>",
-    "cluster_id": "<unique_cluster_identifier>",
-    "database": "<database_name>",
-    "interface": "<interface_type>",
-    "log_type": "<log_type>",
-    "params": {
-        "<key1>": "<value1>",
-        "<key2>": "<value2>",
-      ...
-    },
-    "result": <result_code>,
-    "status": "<action_status>",
-    "time": <timestamp>,
-    "trace_id": "<unique_trace_identifier>",
-    "user": "<user_identifier>"
+  "action": "ShowCollections",
+  "cluster_id": "<cluster-id>",
+  "database": "default",
+  "interface": "Restful",
+  "log_type": "AUDIT",
+  "timestamp": 1793876926440,
+  "trace_id": "<same-trace-id>",
+  "user": "<database-user>"
 }
 ```
 
-<table>
-   <tr>
-     <th><p>Field</p></th>
-     <th><p>Type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>date</code></p></td>
-     <td><p>String (ISO 8601 format)</p></td>
-     <td><p>The timestamp when the action occurred, in UTC (e.g., <code>&quot;2025-01-21T08:38:39.494527Z&quot;</code>).</p></td>
-   </tr>
-   <tr>
-     <td><p><code>action</code></p></td>
-     <td><p>String</p></td>
-     <td><p>The action performed (e.g., <code>&quot;DescribeCollection&quot;</code>). For a list of actions available, refer to <a href="./audit-logs-ref">List of actions</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>cluster_id</code></p></td>
-     <td><p>String</p></td>
-     <td><p>Unique identifier for the cluster where the action occurred (e.g. <code>&quot;in01-b5a7e190615xxxf&quot;</code>).</p></td>
-   </tr>
-   <tr>
-     <td><p><code>database</code></p></td>
-     <td><p>String</p></td>
-     <td><p>The name of the database involved in the action (e.g., <code>&quot;default&quot;</code>).</p></td>
-   </tr>
-   <tr>
-     <td><p><code>interface</code></p></td>
-     <td><p>string</p></td>
-     <td><p>The interface through which the action is performed (e.g., <code>&quot;Grpc&quot;</code>, <code>&quot;Restful&quot;</code>).</p></td>
-   </tr>
-   <tr>
-     <td><p><code>log_type</code></p></td>
-     <td><p>String</p></td>
-     <td><p>The type of log entry (e.g., <code>&quot;AUDIT&quot;</code>).</p></td>
-   </tr>
-   <tr>
-     <td><p><code>params</code></p></td>
-     <td><p>Object (key-value pairs)</p></td>
-     <td><p>Additional parameters related to the action. This can include things like <code>collection</code>, <code>consistency_level</code>, etc.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>result</code></p></td>
-     <td><p>Integer</p></td>
-     <td><p>Result code or status code (e.g., <code>0</code> for success, other codes may indicate errors). Unavailable when the <code>status</code> is <code>Receive</code>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>status</code></p></td>
-     <td><p>String</p></td>
-     <td><p>The status of the action being logged (e.g., <code>Receive</code>, <code>Success</code>, <code>Failed</code>).</p><ul><li><p><code>Receive</code>: The action has been received by the system but is not completed.</p></li><li><p><code>Success</code>: The action has been successfully completed without any issues.</p></li><li><p><code>Failed</code>: The action failed.</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p><code>time</code></p></td>
-     <td><p>Integer (epoch time, milliseconds)</p></td>
-     <td><p>Timestamp in milliseconds since 1970 (epoch time).</p></td>
-   </tr>
-   <tr>
-     <td><p><code>trace_id</code></p></td>
-     <td><p>String</p></td>
-     <td><p>Unique identifier for tracing the request across systems. This helps link logs together.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>user</code></p></td>
-     <td><p>String</p></td>
-     <td><p>The user who performed the action.</p></td>
-   </tr>
-</table>
+Use `trace_id` to correlate the request with its response, not as a unique record ID. The two records describe different stages of the same request. Deduplicating solely by `trace_id` would discard one of them. In ECS, use `trace.id`; in OTel, use the attribute with key `trace.id`.
 
-## List of actions\{#list-of-actions}
+## Format mappings\{#format-mappings}
 
-The following tables summarize actions on the data plane that can be logged for auditing.
+Use these mappings to locate common audit fields. In the OTel column, all names except `timeUnixNano` are keys in the `attributes` array. String attributes use `value.stringValue`.
 
-### Connection\{#connection}
+| Field | JSON | ECS | OTel |
+| --- | --- | --- | --- |
+| Time | `timestamp` — Unix milliseconds | `@timestamp` — UTC date-time | `timeUnixNano` — nanoseconds as a string |
+| Operation | `action` | `event.action` | `event.action` |
+| Caller | `user` | `user.name` | `user.name` |
+| Cluster | `cluster_id` | `zilliz.original.cluster_id` | `zilliz.cluster.id` |
+| Log type | `log_type` = `AUDIT` | `event.dataset` = `zilliz.milvus.audit` | `zilliz.log.type` = `AUDIT` |
+| Trace | `trace_id` | `trace.id` | `trace.id` |
+| Duration | `params.execution_time` — string with a unit | `event.duration` — nanoseconds as a number | `event.duration` — nanoseconds in `value.intValue` (string) |
+| Outcome | `status` (for example, `Success`) | `event.outcome` (for example, `success`) | `event.outcome` (for example, `success`) |
 
-| `action` | Description |
-| --- | --- |
-| Connect | Establish a connection |
+Request records can omit duration and outcome. Operation parameters and numeric `result` codes remain in the original record. A mapped outcome describes the recorded audit status, not an HTTP status code.
 
-### Database\{#database}
+## Examples\{#examples}
 
-| `action` | Description |
-| --- | --- |
-| ListDatabases | View all databases in the current instance |
-| DescribeDatabase | View the details of a database |
-| CreateDatabase | Create a database |
-| DropDatabase | Drop a database |
-| AlterDatabase | Modify the properties of a database |
+These complete response records come from actual HTTPS deliveries. Each shows a successful `ShowCollections` operation from a separate request. Identity values have been replaced; other fields and values are unchanged. Indentation is added for readability.
 
-### Collection\{#collection}
+### JSON example\{#json-example}
 
-| `action` | Description |
-| --- | --- |
-| GetLoadState | Check the load status of a collection |
-| GetLoadingProgress | Check the loading progress of a collection |
-| DescribeCollection | View the details of a collection |
-| CreateCollection | Create a collection |
-| HasCollection | Check if a collection exists in the database |
-| DropCollection | Drop a collection |
-| LoadCollection | Load a collection |
-| AlterCollection | Alter the schema or configuration of a collection |
-| ShowCollections | View all collections with collection privileges |
-| RenameCollection | Rename a collection |
-| ReleaseCollection | Release a collection |
-| GetCollectionStatistics | Obtain the statistics of a collection (eg. The number of entities in a collection) |
-| Flush | Persist all entities in a collection to a sealed segment. Any entity inserted after the flush operation will be stored in a new segment. |
-| GetFlushState | Check the status of the collection flush operation |
-| CreateAlias | Create an alias for a collection |
-| DescribeAlias | Describe the alias of a collection |
-| AlterAlias | Change the alias associated with a collection |
-| ListAliases | View all aliases of a collection |
-| DropAlias | Drop the alias of a collection |
-| GetReplicas | Get the replicas of a collection |
+This response shares the request’s `trace_id` and adds the recorded outcome and execution time.
 
-### Partition\{#partition}
+```json
+{
+  "action": "ShowCollections",
+  "cluster_id": "<cluster-id>",
+  "database": "default",
+  "interface": "Restful",
+  "log_type": "AUDIT",
+  "timestamp": 1793876926443,
+  "trace_id": "<same-trace-id>",
+  "user": "<database-user>",
+  "params": {
+    "execution_time": "3.568487ms"
+  },
+  "result": 0,
+  "status": "Success"
+}
+```
 
-| `action` | Description |
-| --- | --- |
-| CreatePartition | Create a partition |
-| HasPartition | Check whether a partition exists |
-| LoadPartitions | Load one or more partitions |
-| ShowPartitions | View all partitions in a collection |
-| DropPartition | Drop a partition |
-| ReleasePartitions | Release one or more partitions |
-| GetPartitionStatistics | Obtain the statistics of a partition |
+### ECS example\{#ecs-example}
 
-### Index\{#index}
+This response declares ECS version `8.11.0` and retains the full audit record in `zilliz.original`.
 
-| `action` | Description |
-| --- | --- |
-| CreateIndex | Create an index |
-| DescribeIndex | View the progress of index building for a collection |
-| AlterIndex | Update the configuration or parameters of an existing index |
-| GetIndexState | Update the configuration or parameters of an existing index |
-| GetIndexStatistics | Retrieve the current state of an index (e.g., `building`, `built`, or `failed`) |
-| GetIndexBuildProgress | Obtain detailed statistics about an index, such as memory usage or indexed entity count |
-| DropIndex | Retrieve detailed index data for a specific segment in a collection |
+```json
+{
+  "@timestamp": "2026-11-11T02:09:55.737Z",
+  "ecs": {
+    "version": "8.11.0"
+  },
+  "event": {
+    "action": "ShowCollections",
+    "category": [
+      "database"
+    ],
+    "dataset": "zilliz.milvus.audit",
+    "duration": 7963611,
+    "kind": "event",
+    "outcome": "success",
+    "type": [
+      "access"
+    ]
+  },
+  "trace": {
+    "id": "0000000000000000000000000000000a"
+  },
+  "user": {
+    "name": "key-example"
+  },
+  "zilliz": {
+    "original": {
+      "action": "ShowCollections",
+      "cluster_id": "in01-example",
+      "database": "default",
+      "interface": "Restful",
+      "log_type": "AUDIT",
+      "params": {
+        "execution_time": "7.963611ms"
+      },
+      "result": 0,
+      "status": "Success",
+      "timestamp": 1794362995737,
+      "trace_id": "0000000000000000000000000000000a",
+      "user": "key-example"
+    }
+  }
+}
+```
 
-### Entity\{#entity}
+### OTel example\{#otel-example}
 
-| `action` | Description |
-| --- | --- |
-| Insert | Insert entities |
-| Query | Conduct a query |
-| Search | Conduct a search |
-| HybridSearch | Conduct a hybrid search |
-| Delete | Delete entities |
-| Upsert | Upsert entities |
+The original audit record is an escaped JSON string in `body.stringValue`. Each NDJSON line contains one log record, without a `resourceLogs` envelope.
 
-### RBAC\{#rbac}
+```json
+{
+  "timeUnixNano": "1794363609012000000",
+  "body": {
+    "stringValue": "{\"action\":\"ShowCollections\",\"cluster_id\":\"in01-example\",\"database\":\"default\",\"interface\":\"Restful\",\"log_type\":\"AUDIT\",\"params\":{\"execution_time\":\"3.3319ms\"},\"result\":0,\"status\":\"Success\",\"timestamp\":1794363609012,\"trace_id\":\"00000000000000000000000000000020\",\"user\":\"key-example\"}"
+  },
+  "attributes": [
+    {
+      "key": "zilliz.cluster.id",
+      "value": {
+        "stringValue": "in01-example"
+      }
+    },
+    {
+      "key": "zilliz.log.type",
+      "value": {
+        "stringValue": "AUDIT"
+      }
+    },
+    {
+      "key": "user.name",
+      "value": {
+        "stringValue": "key-example"
+      }
+    },
+    {
+      "key": "event.action",
+      "value": {
+        "stringValue": "ShowCollections"
+      }
+    },
+    {
+      "key": "event.outcome",
+      "value": {
+        "stringValue": "success"
+      }
+    },
+    {
+      "key": "trace.id",
+      "value": {
+        "stringValue": "00000000000000000000000000000020"
+      }
+    },
+    {
+      "key": "event.duration",
+      "value": {
+        "intValue": "3331900"
+      }
+    }
+  ]
+}
+```
 
-| `action` | Description |
-| --- | --- |
-| SelectRole | Retrieve the list of roles available in the current instance |
-| CreateRole | Define a new role for managing user permissions |
-| DropRole | Drop a role |
-| OperateUserRole | Assign a role to a user or remove a role from a user |
-| ListPrivilegeGroups | View all privilege groups in the current instance |
-| OperatePrivilegeV2 | Add or remove specific privileges from a privilege group |
-| SelectGrant | Retrieve a list of all privilege grants assigned to a specific role or user |
-| CreateCredential | Create a new credential (e.g., API key or token) for accessing the system |
-| UpdateCredential | Update the properties or permissions of an existing credential |
-| DeleteCredential | Remove a credential from the system |
-| ListCredUsers | Retrieve a list of all users associated with specific credentials |
-
-### Others\{#others}
-
-| `action` | Description |
-| --- | --- |
-| Authorize | Logged only when authorization fails, with the `status` recorded as `Refused`. |
-
+Preserve integer precision when reading `timeUnixNano` and `value.intValue`. For example, use `BigInt` for nanosecond timestamps in JavaScript.

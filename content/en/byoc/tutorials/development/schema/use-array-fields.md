@@ -46,6 +46,8 @@ Here's an example of how ARRAY fields store data:
 
 ## Add ARRAY field\{#add-array-field}
 
+<NextChannel action="exclude">
+
 To use ARRAY fields in Zilliz Cloud clusters, define the relevant field type when creating the collection schema. This process includes:
 
 1. Setting `datatype` to the supported Array data type, `ARRAY`.
@@ -54,13 +56,41 @@ To use ARRAY fields in Zilliz Cloud clusters, define the relevant field type whe
 
 1. Using the `max_capacity` parameter to define the maximum capacity of the array, i.e., the maximum number of elements it can contain.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+To add an ARRAY field to the collection schema, set the following parameters:
+
+1. Set the field data type to `ARRAY`.
+
+1. Set `element_type` to the shared data type of the elements.
+
+1. Set `max_capacity` to the maximum number of elements.
+
+</NextChannel>
+
 Here’s how to define a collection schema that includes ARRAY fields:
+
+<NextChannel action="exclude">
 
 <Admonition type="info" icon="📘" title="Notes">
 
 If you set `enable_dynamic_field=True` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+To insert fields not defined in the schema, enable the [dynamic field](./enable-dynamic-field).
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -388,9 +418,25 @@ export schema="{
 
 ## Set index params\{#set-index-params}
 
+<NextChannel action="exclude">
+
 Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
 
 The following example creates indexes on the vector field `embedding` and the ARRAY field `tags`, both using the `AUTOINDEX` index type. With this type, Zilliz Cloud automatically selects the most suitable index based on the data type. You can also customize the index type and params for each field. For details, refer to [Index Explained](./indexes).
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Vector fields require indexes; scalar indexes are optional. This example requests `AUTOINDEX` on `embedding` and `tags`. For explicit ARRAY index choices and filter support, see [Array index support](#Array-index-support).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> Scalar indexes, including `AUTOINDEX`, do not support recursive ARRAY fields or arrays with nullable elements. See [Array index support](./use-array-fields#Array-index-support) for ordinary-array filters and [Index StructArray Fields](./index-struct-array#create-scalar-indexes) for subfield rules.
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -541,6 +587,37 @@ export indexParams='[
 </TabItem>
 
 </Tabs>
+
+<NextChannel action="include">
+
+<a id="array-index-support"></a>
+
+<details id="Array-index-support">
+<summary><strong>Array index support: index types and accelerated filters</strong></summary>
+
+Scalar indexes on an ordinary ARRAY field index its elements. Choose from the following explicit index types:
+
+| Element type | Explicit index types |
+| --- | --- |
+| `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `VARCHAR` | `INVERTED`, `BITMAP` |
+| `FLOAT`, `DOUBLE` | `INVERTED` |
+
+You can also request `AUTOINDEX`; see [Scalar Index](./scalar-index-overview#autoindex-behavior) for the default ARRAY selections.
+
+The following filters can use eligible array indexes:
+
+| Filter | Index behavior |
+| --- | --- |
+| `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ANY`, `ARRAY_CONTAINS_ALL` | `INVERTED`, `BITMAP`, or an eligible automatic selection can look up elements regardless of position. |
+| Whole-array `==` or `!=` on Boolean, integer, or VARCHAR arrays | `INVERTED` can find candidates, then check original arrays for order and length. `BITMAP` does not serve this candidate path. |
+| Whole-array comparisons on floating-point arrays | Fall back to scanning. |
+| Element access, such as `tags[0]`, or array length | Element-membership indexing does not provide index lookup for these operations. |
+
+For expression syntax, see [ARRAY Operators](./array-filtering-operators).
+
+</details>
+
+</NextChannel>
 
 ## Create collection\{#create-collection}
 
@@ -1283,7 +1360,17 @@ curl --request POST \
 
 ## Vector search with filter expressions\{#vector-search-with-filter-expressions}
 
+<NextChannel action="exclude">
+
 In addition to basic scalar field filtering, you can combine vector similarity searches with scalar field filters. For example, the following code shows how to add a scalar field filter to a vector search:
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Use ARRAY filters in vector search to restrict the eligible entities:
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1488,4 +1575,14 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 Additionally, Zilliz Cloud supports advanced Array filtering operators like `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ALL`, `ARRAY_CONTAINS_ANY`, and `ARRAY_LENGTH` to further enhance query capabilities. For more details, refer to [ARRAY Operators](./array-filtering-operators).
+
+</NextChannel>
+
+<NextChannel action="include">
+
+For containment and length filters, see [ARRAY Operators](./array-filtering-operators).
+
+</NextChannel>

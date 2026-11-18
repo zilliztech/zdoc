@@ -1,0 +1,159 @@
+---
+title: "Scalar Index | Cloud"
+slug: /scalar-index-overview
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "Compare scalar index types, check field compatibility, and understand automatic index selection. | Cloud"
+type: origin
+displayed_sidebar: default
+token: shared-scalar-index-overview
+sidebar_label: "Overview"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/reference/scalar_index.md"
+channel: next
+sidebar_custom_props:
+  channel: next
+
+---
+
+import Admonition from '@theme/Admonition';
+
+# Scalar Index
+
+Scalar indexes can accelerate [filtering](./filtering-overview) on non-vector fields. Use this overview to choose an index, check field compatibility, and understand automatic selection.
+
+Consider indexing fields used in frequent or slow filters. For each field you include in the index-creation request, choose one of two options:
+
+- **Specify an index type:** Choose one compatible with the field's data type and your filters.
+- **Use `AUTOINDEX`:** Set `index_type` to `AUTOINDEX` to let Zilliz Cloud choose a type. See [AUTOINDEX behavior](#autoindex-behavior).
+
+## Index types\{#index-types}
+
+<a id="supported-predicates"></a>
+<a id="Supported-predicates"></a>
+<a id="comparisons-and-membership"></a>
+<a id="Comparisons-and-membership"></a>
+<a id="string-patterns"></a>
+<a id="String-patterns"></a>
+
+Open an index guide for its supported filters, parameters, and creation steps:
+
+| Index type | Use for |
+| --- | --- |
+| [INVERTED](./inverted-index-type) | Equality, membership, and range filters. |
+| [BITMAP](./bitmap-index-type) | Fields with few distinct values, such as status codes. |
+| [STL_SORT](./slt-sort-index-type) | Value lookups and range filters. |
+| [TRIE](./trie-index-type) | Exact string lookups and prefix matching on `VARCHAR` fields. |
+| [NGRAM](./ngram-index-type) | LIKE and eligible regex filters. |
+| [RTREE](./rtree-index-type) | Spatial filters on `GEOMETRY` fields. |
+
+Check the field compatibility table below and the selected index's filter support before creating an index.
+
+<a id="filter-execution"></a>
+<details id="Filter-execution">
+<summary><strong>How filters use indexes</strong></summary>
+
+An index serves only eligible expressions; other filters can scan the data. Arithmetic and comparisons between fields do not inherit literal-lookup acceleration. For logical combinations and NULL tests, see [Basic Operators](./basic-filtering-operators).
+
+</details>
+
+<a id="choosing-a-scalar-index"></a>
+<a id="Choosing-a-scalar-index"></a>
+
+## Supported field types\{#supported-field-types}
+
+<a id="array-json-and-spatial-predicates"></a>
+<a id="Array-JSON-and-spatial-predicates"></a>
+<a id="json-field-indexing"></a>
+<a id="JSON-field-indexing"></a>
+
+<a id="drop-index-compatibility"></a>
+<a id="Drop-index-compatibility"></a>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> Collections for on-demand compute do not support dropping indexes. Check this restriction before creating an index. On serving clusters, you can drop a scalar index without releasing the collection. See the [drop index reference](https://docs.zilliz.com/reference/python/python/Management-drop_index) for operation requirements.
+
+</Admonition>
+
+Find your field's data type to see its supported explicit indexes. In array rows, `ARRAY<T>` means `ARRAY` with `element_type=T`:
+
+| Field type | Explicit index types | Conditions |
+| --- | --- | --- |
+| `BOOL` | `INVERTED`, `BITMAP` | Scalar Boolean fields do not support `STL_SORT`. |
+| `INT8`, `INT16`, `INT32`, `INT64` | `INVERTED`, `BITMAP`, `STL_SORT` | `BITMAP` is unavailable on primary-key fields. |
+| `FLOAT`, `DOUBLE` | `INVERTED`, `STL_SORT` | Explicit `BITMAP` is unavailable. |
+| `VARCHAR` | `INVERTED`, `BITMAP`, `STL_SORT`, `TRIE`, `NGRAM` | `BITMAP` is unavailable on primary-key fields. See [index selection by filter](#String-pattern-indexes). |
+| `TIMESTAMPTZ` | `STL_SORT` | See [TIMESTAMPTZ Field](./use-timestamptz-field). |
+| `GEOMETRY` | `RTREE` | See [RTREE](./rtree-index-type). |
+| `ARRAY<BOOL>` | `INVERTED`, `BITMAP` | See [Array index support](./use-array-fields#Array-index-support). |
+| `ARRAY<INT8>`, `ARRAY<INT16>`, `ARRAY<INT32>`, `ARRAY<INT64>` | `INVERTED`, `BITMAP` | See [Array index support](./use-array-fields#Array-index-support). |
+| `ARRAY<FLOAT>`, `ARRAY<DOUBLE>` | `INVERTED` | See [Array index support](./use-array-fields#Array-index-support). |
+| `ARRAY<VARCHAR>` | `INVERTED`, `BITMAP` | See [Array index support](./use-array-fields#Array-index-support). |
+| `JSON` | Depends on the indexed path and cast type. | Check [JSON path compatibility and requirements](./json-indexing#understand-cast-types). |
+| StructArray non-vector subfields | Depends on the subfield's data type. | Index subfields separately; `BOOL` subfields cannot use explicit `STL_SORT`. See [subfield rules](./index-struct-array#create-scalar-indexes). |
+| `TEXT` | None | User-created scalar indexes, including `AUTOINDEX`, are unavailable. |
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> Scalar indexes, including `AUTOINDEX`, do not support recursive ARRAY fields or arrays with nullable elements. See [Array index support](./use-array-fields#Array-index-support) for ordinary-array filters and [Index StructArray Fields](./index-struct-array#create-scalar-indexes) for subfield rules.
+
+</Admonition>
+
+
+<a id="string-pattern-indexes"></a>
+<details id="String-pattern-indexes">
+<summary><strong>Choose an index for VARCHAR filters</strong></summary>
+
+For a `VARCHAR` field, compare compatible indexes based on your filters:
+
+| Filtering need | Index guides and conditions |
+| --- | --- |
+| Exact string lookups and prefixes | [TRIE](./trie-index-type#Queries-accelerated-by-TRIE), [STL_SORT](./slt-sort-index-type#Queries-accelerated-by-STLSORT), or [INVERTED](./inverted-index-type#Queries-accelerated-by-INVERTED). |
+| Few distinct string values | [BITMAP](./bitmap-index-type#Queries-accelerated-by-BITMAP); patterns are evaluated against indexed values. |
+| LIKE or regex with suitable fixed literals | [NGRAM](./ngram-index-type#Queries-accelerated-by-NGRAM) on `VARCHAR` fields or JSON string paths, subject to gram-length and recheck conditions. |
+| Regex without usable fixed literals | The query can scan data or evaluate many indexed values; check the selected index's conditions. |
+
+Ranges on `VARCHAR` use string ordering, even when strings contain numbers. Index use depends on query planning, extractable literals, cardinality, and data distribution. See [Pattern Matching](./pattern-match#accelerate-pattern-matching-with-indexes) for planning rules. For JSON string paths, check the path and cast requirements in [JSON Indexing](./json-indexing).
+
+</details>
+
+<a id="how-autoindex-selects"></a>
+<a id="How-AUTOINDEX-selects"></a>
+
+## AUTOINDEX behavior\{#autoindex-behavior}
+
+Set `index_type` to `AUTOINDEX` in each selected field's index definition to let Zilliz Cloud choose the index type. See [AUTOINDEX Explained](./autoindex-explained) for Cloud's default mappings. For JSON path compatibility, see [JSON Indexing](./json-indexing#understand-cast-types).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> For a supported scalar field, an index definition that omits `index_type` also requests automatic selection. Fields not included in the request are not indexed.
+
+</Admonition>
+
+<a id="version-compatibility"></a>
+<a id="Version-compatibility"></a>
+
+<details>
+<summary><strong>Selection details</strong></summary>
+
+- **Internal layouts:** `AUTOINDEX` can select layouts unavailable as explicit choices, such as bitmap indexing for `FLOAT` and `DOUBLE`. The cardinality-based strategy is called `HYBRID` internally; you cannot specify it directly. The selected index determines which filters can use it.
+- **Cardinality threshold:** <a id="Cardinality-threshold"></a>Set `bitmap_cardinality_limit` (range: 1–1000) to override the default threshold. Values below it use bitmap; at or above it, the data type's high-cardinality layout applies. Explicit `INVERTED`, `STL_SORT`, and `BITMAP` builds bypass cardinality-based selection and ignore this threshold.
+
+</details>
+
+## What's next\{#whats-next}
+
+<a id="performance-considerations"></a>
+<a id="Performance-considerations"></a>
+<a id="estimating-memory-requirements"></a>
+<a id="Estimating-memory-requirements"></a>
+
+Choose a guide for your next task:
+
+- **Create an index:** Use the [index guide](#index-types) for parameters and creation examples.
+- **Plan resources:** See memory guidance for [STL_SORT](./slt-sort-index-type#memory-considerations), [BITMAP](./bitmap-index-type#memory-considerations), [INVERTED](./inverted-index-type#memory-considerations), or [NGRAM](./ngram-index-type#memory-considerations). Compare memory use, build time, and query latency with representative data and filters.
+- **Configure text search:** [Text Match](https://milvus.io/docs/keyword-match.md) and [Full Text Search](./full-text-search) cover text analysis, BM25, `TEXT_MATCH`, and `PHRASE_MATCH`. A scalar `INVERTED` index does not enable these mechanisms.

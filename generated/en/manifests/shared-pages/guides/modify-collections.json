@@ -2637,7 +2637,7 @@
     },
     "zdoc": {
       "repository": "zilliztech/zdoc",
-      "commit": "57977f06c7165a4eb0d9e945ce3c72c7fc10fc7e",
+      "commit": "c062875f4d9f606e8f41f92be2bfde4ff5d3370f",
       "files": [
         {
           "path": "shared-docs/guides/Variables.json",
@@ -2645,7 +2645,7 @@
         },
         {
           "path": "shared-docs/guides/links.yaml",
-          "sha256": "e7905324bec4cc19ec384c088a50b347256a6397dbfae4c1341921b0a78015ca"
+          "sha256": "884422f7be940f0db69cb0eb2de133dbf2889510c841d723983218a2d9dc1d7a"
         },
         {
           "path": "shared-docs/guides/pages/add-fields-to-an-existing-collection/cloud-alter-schema-add-subfield-section.md",
@@ -2789,7 +2789,7 @@
         },
         {
           "path": "shared-docs/guides/pages/basic-filtering-operators/lock.yaml",
-          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+          "sha256": "f6f0dd35ec9376d1aee3b39fc364f46fab758010d4f40ac90c50a3b7d92fa7f6"
         },
         {
           "path": "shared-docs/guides/pages/basic-filtering-operators/page.yaml",
@@ -2801,11 +2801,11 @@
         },
         {
           "path": "shared-docs/guides/pages/bitmap-index-type/lock.yaml",
-          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+          "sha256": "4c2a4d9df552f187f1dc56d117974fd225f980cb6ce757d71c957d57636713e4"
         },
         {
           "path": "shared-docs/guides/pages/bitmap-index-type/page.yaml",
-          "sha256": "de509a25199227dcc8d5bc186ec731cc116d62ab9b184ee431528857a0b7d707"
+          "sha256": "16bdeff74d5ad6e8f482464c67a7f6d74a687adb779ba582fe83ab66541e6bd1"
         },
         {
           "path": "shared-docs/guides/pages/bm25-function/cloud-via-sdk-heading.md",
@@ -3213,7 +3213,7 @@
         },
         {
           "path": "shared-docs/guides/pages/index-struct-array/lock.yaml",
-          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
+          "sha256": "f0959e11821d319865f03842e5d33382d167d27831627681eaa94afaa89f1857"
         },
         {
           "path": "shared-docs/guides/pages/index-struct-array/page.yaml",
@@ -3265,11 +3265,11 @@
         },
         {
           "path": "shared-docs/guides/pages/inverted-index-type/lock.yaml",
-          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+          "sha256": "4c2a4d9df552f187f1dc56d117974fd225f980cb6ce757d71c957d57636713e4"
         },
         {
           "path": "shared-docs/guides/pages/inverted-index-type/page.yaml",
-          "sha256": "b7e4d129fab1323a70d421cd82f195819555b8a4478d63aa16cc06654f7e1d09"
+          "sha256": "6117b864811aa0fbbe259fe9ff94524593758cd0547a1a8fa6b5c4b69e9ff09f"
         },
         {
           "path": "shared-docs/guides/pages/jieba-tokenizer/lock.yaml",
@@ -3281,7 +3281,7 @@
         },
         {
           "path": "shared-docs/guides/pages/json-field-overview/lock.yaml",
-          "sha256": "8c98b9b454d5fbf6c6f879b45c2dda1b7f64c934b9d8794f1809ff1b13e01ca0"
+          "sha256": "46a3d2e643092c8a45d026cb24849f336cf88a2922eddcd9c7ec14a6553c6d43"
         },
         {
           "path": "shared-docs/guides/pages/json-field-overview/page.yaml",
@@ -3296,12 +3296,20 @@
           "sha256": "c0b34f20b7e1ee42c6ea13105131f2635cf1a56c42172362828a1217c42c63cb"
         },
         {
+          "path": "shared-docs/guides/pages/json-indexing/cloud-index-compatibility-intro.md",
+          "sha256": "b1a651359bd18b22d5b9c51ca013e51bf2171928afedde060cd8472e06f2c3e6"
+        },
+        {
+          "path": "shared-docs/guides/pages/json-indexing/cloud-index-requirements.md",
+          "sha256": "30fd57f37c5258146822ef9f454efa694aaf31a8b82b25c873d6c3b01fb10185"
+        },
+        {
           "path": "shared-docs/guides/pages/json-indexing/lock.yaml",
-          "sha256": "ba16c938b6f3abe6b74f96ab97db201c7b6f213d769225a957779f458a314ee8"
+          "sha256": "46a3d2e643092c8a45d026cb24849f336cf88a2922eddcd9c7ec14a6553c6d43"
         },
         {
           "path": "shared-docs/guides/pages/json-indexing/page.yaml",
-          "sha256": "fe26ff0c67ade0fa674ac0ebdf0976e6c735ce7929a2769693d9b7e30cbdd1df"
+          "sha256": "d987d936209130f7812e7c73c9adfe56a97e6405aaff2903922c3829c5cc4fd5"
         },
         {
           "path": "shared-docs/guides/pages/json-shredding/lock.yaml",
@@ -3389,7 +3397,7 @@
         },
         {
           "path": "shared-docs/guides/pages/manage-collections-sdks/lock.yaml",
-          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+          "sha256": "4c2a4d9df552f187f1dc56d117974fd225f980cb6ce757d71c957d57636713e4"
         },
         {
           "path": "shared-docs/guides/pages/manage-collections-sdks/page.yaml",
@@ -3469,11 +3477,11 @@
         },
         {
           "path": "shared-docs/guides/pages/ngram-index-type/lock.yaml",
-          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+          "sha256": "4c2a4d9df552f187f1dc56d117974fd225f980cb6ce757d71c957d57636713e4"
         },
         {
           "path": "shared-docs/guides/pages/ngram-index-type/page.yaml",
-          "sha256": "a02fcc4ccee286cc4707b9d97c01ecf785b105abc84ff1994286138b2aa7c312"
+          "sha256": "03324bc58a2acf2de2b15e6f47878695f6163ff28b111b529eecf3e9a1fd8486"
         },
         {
           "path": "shared-docs/guides/pages/nullable-fields/cloud-limits.md",
@@ -3525,7 +3533,7 @@
         },
         {
           "path": "shared-docs/guides/pages/pattern-match/lock.yaml",
-          "sha256": "fca2fa3b857e64852b3a63aeda654bcf4e9bab172f3a698cf87e96c20c732624"
+          "sha256": "f6f0dd35ec9376d1aee3b39fc364f46fab758010d4f40ac90c50a3b7d92fa7f6"
         },
         {
           "path": "shared-docs/guides/pages/pattern-match/page.yaml",
@@ -3613,11 +3621,27 @@
         },
         {
           "path": "shared-docs/guides/pages/rtree-index-type/lock.yaml",
-          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+          "sha256": "4c2a4d9df552f187f1dc56d117974fd225f980cb6ce757d71c957d57636713e4"
         },
         {
           "path": "shared-docs/guides/pages/rtree-index-type/page.yaml",
-          "sha256": "5d1bab494d3bbc8daa47cdb19c60f9bde411b26a70c4c068d0c82fcb912efb21"
+          "sha256": "7557677b666d70688656e60691cf014123b85655d7cdb5d645bc042d27fcbd2b"
+        },
+        {
+          "path": "shared-docs/guides/pages/scalar-index-overview/cloud-auto-defaults.md",
+          "sha256": "d407b9248a3dbb4e6c530b1dee0805e8d92a7cacd79724922461663803fd54b3"
+        },
+        {
+          "path": "shared-docs/guides/pages/scalar-index-overview/cloud-index-lifecycle.md",
+          "sha256": "623bf2eeb26e13f51abf2b2532cca48b5e5fb5476bdcfffd07886adc045ca348"
+        },
+        {
+          "path": "shared-docs/guides/pages/scalar-index-overview/lock.yaml",
+          "sha256": "8eb46cbed17985e857b91b16e7730afbf7cfae0529e1ee3ef7f5e7fe84f46599"
+        },
+        {
+          "path": "shared-docs/guides/pages/scalar-index-overview/page.yaml",
+          "sha256": "8ead0913c3667e73936dea2cb8e5916ba6691c154f576e271276dcdc2aeb6b1e"
         },
         {
           "path": "shared-docs/guides/pages/schema-design-with-structs/cloud-struct-model-index-guidance.md",
@@ -3732,12 +3756,16 @@
           "sha256": "b6ff1de7c399fcc95cfb38d6facef9fc19d3ed0aa6e410f44d83e0fd1d5c6f85"
         },
         {
+          "path": "shared-docs/guides/pages/slt-sort-index-type/cloud-json-index-requirements.md",
+          "sha256": "2e0b262a4e7dfac0292ee626e761026b26aa8f4d7f3aeb2fe1b1884ff5df06bd"
+        },
+        {
           "path": "shared-docs/guides/pages/slt-sort-index-type/lock.yaml",
-          "sha256": "a74c287e0c338bf1e2980a7bb8b39dbe0e5729682736b0221ae8f37fdb81942c"
+          "sha256": "4c2a4d9df552f187f1dc56d117974fd225f980cb6ce757d71c957d57636713e4"
         },
         {
           "path": "shared-docs/guides/pages/slt-sort-index-type/page.yaml",
-          "sha256": "0550d9014e846fb912cbe13972ec6b8aad56b19e400069ebd0be54606d907d1f"
+          "sha256": "2fb7c37b0f80b6a41b3ce73cd7a137eafe1c9fdf3bad44c120aa38faf62ecc8d"
         },
         {
           "path": "shared-docs/guides/pages/snapshots/cloud-backup-link.md",
@@ -3960,6 +3988,14 @@
           "sha256": "566753b3ad585cfa666d671806a3dbb7b409b3375a122d2776b291b3ccd18732"
         },
         {
+          "path": "shared-docs/guides/pages/trie-index-type/lock.yaml",
+          "sha256": "8eb46cbed17985e857b91b16e7730afbf7cfae0529e1ee3ef7f5e7fe84f46599"
+        },
+        {
+          "path": "shared-docs/guides/pages/trie-index-type/page.yaml",
+          "sha256": "ef6c971b12f52a5ae861fbab6767dd3418bb629023606360e201550845d6e814"
+        },
+        {
           "path": "shared-docs/guides/pages/tutorial-colbert-colpali/cloud-colbert-prerequisites.md",
           "sha256": "9512513b4053d1f0046b07607bf6b53177dfc0ded79312bc7e4870df6d7c1d60"
         },
@@ -4033,7 +4069,7 @@
         },
         {
           "path": "shared-docs/guides/pages/use-array-fields/lock.yaml",
-          "sha256": "a47bae3506b9e1f8be18b7e18cc11b9fd5fbc5d1e7d82328daa0f6ce23f7e76b"
+          "sha256": "f0959e11821d319865f03842e5d33382d167d27831627681eaa94afaa89f1857"
         },
         {
           "path": "shared-docs/guides/pages/use-array-fields/page.yaml",
@@ -4145,7 +4181,7 @@
         },
         {
           "path": "shared-docs/guides/product-names.yaml",
-          "sha256": "884646c40af612b36eba822e17e16ccaaf74b7826857f37465eeb8906e958101"
+          "sha256": "2515b136d8351b77867eb1d8e3566276f8baa36ad6831b2aa813c2acd3ed5cdc"
         },
         {
           "path": "shared-docs/guides/source.yaml",
@@ -4154,7 +4190,7 @@
       ]
     },
     "dev": {
-      "commit": "595482eab1524ac8227c0d20cba61b71efa7a7c7",
+      "commit": "c639ef15824a416ee2f4e66bc7638a55e5d65692",
       "files": [
         {
           "path": "content/en/byoc/.gitkeep",
@@ -6082,7 +6118,7 @@
         },
         {
           "path": "content/en/guides/tutorials/development/snapshots/manage-snapshots.md",
-          "sha256": "c1051a638211dc54fbe61f9b093c912a43a26b339940eed6a7395d4b288ced7f"
+          "sha256": "b2c8fafff3b340130ac13d0520ab3b359e19df7fe1495f9cee095cc10728cb84"
         },
         {
           "path": "content/en/guides/tutorials/development/snapshots/snapshots.md",
@@ -6982,7 +7018,7 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/_publication.json",
-          "sha256": "eb798d537d0c054d9e9a960b3049cde730a7a9d4ec441be89920b4e6dfd9d8d6"
+          "sha256": "524a9bde8ab1fe866172efd26fbd678e15aa19a26aa78d1a7f813cb281494f68"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/active.json",
@@ -6990,379 +7026,379 @@
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/add-fields-to-an-existing-collection.json",
-          "sha256": "89c4248227f87e30d476dc69c53d17bc40244381acff6300305246a5312959c2"
+          "sha256": "a45c2a895639ae9281ab7a911288cba6b004fbbd8a5e7c569b72a472f24565c3"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json",
-          "sha256": "1ccee4b37c3218cd56ffec1790e60b1791b6240396a8aaef7d20e8683c29e194"
+          "sha256": "250064a024c64a7eeb92d2cc11992e9a97e8ae3730ac32500cf886b76ebfc549"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-collection-field.json",
-          "sha256": "2c2248097f85ef35c38a0bea408cbced24c14f2c8ed8f229f7bc1da7d03e729c"
+          "sha256": "9f8a551c75cd3d1ef933128bf41858343780286ce3f2748bb9e98b01d9488443"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/alter-external-collection-schema.json",
-          "sha256": "1badd72d7ef5a13dd6ef0247677fb25de9e9a307e9350b3d8cefb02e95a3e163"
+          "sha256": "c067e25c5ed0b90469129496b69610b4d755e21b1223f7dd363cc868c05c332a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/array-filtering-operators.json",
-          "sha256": "bd563c0530dd161a74ff52ebee804eebdad06c565aeaa255e8e0434f1baaf5ac"
+          "sha256": "5fdaeafab60100a7a3840233602b210bafa0693e85430fef623da3cf0fbd9ab8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json",
-          "sha256": "bc9159e2284dadd429c8029c5eea48e812c5f601bbda02662a07b4922c7a2f5d"
+          "sha256": "2e763b8fb9c19fb817be0582d57b579f0d675030176c604064bb6b7b09063f85"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/basic-filtering-operators.json",
-          "sha256": "699c5479149b17fd3159219b7a60c70ae17a82010f3a391d5234f4b1cc7d86ea"
+          "sha256": "c64ca7ed5f1ccea90e45a972caa95addd040fa63a9d5003b5ad34da8af52255c"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/bitmap-index-type.json",
-          "sha256": "9a57df96d0a1ac52ace1721743465105c03050dc031d7b8ddf317d192bcef3b5"
+          "sha256": "768767f06c8c5faf4db6e079c992249e997b7afad8f73df0b73f38216c162f06"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/bm25-function.json",
-          "sha256": "5003bc48877ec358392c7688fd1be576db6f96eb76eadcaed6e046969b59883a"
+          "sha256": "665b13b537f4b3a09b1f9ec4aa820093b975e4d058390af9b9ff232c6ef9e590"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/boost-ranker.json",
-          "sha256": "24585e809c40d721ad301ca4410fa50d276a595705a4c383abd55a6db4ae71e2"
+          "sha256": "7e94ce49c447b33e69852bcd2177c23686f7a3e871d0017df08bbe4fdc61eed1"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/chinese-analyzer.json",
-          "sha256": "04d8aac0153cad586f6defe1eaf15964bdd19fe7cfcb79a158373da317c8bbb9"
+          "sha256": "2c83f89ee34ace56b0068fb17496f3874020c8b273fb27df3bc1c5e05ac844d2"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/cnalphanumonly-filter.json",
-          "sha256": "d628f30d277439c0d8f4e424a35438c92fe12f7f6a434c952ea7b7a2c8b8f06a"
+          "sha256": "17381c5c9451e562264efb9af186a1ca255999492bde752e0da58b277a4a08f1"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/cncharonly-filter.json",
-          "sha256": "c2574363a75cd9dbaadb8b77d690224fab4ece89c4db87ae29b2561c90feefd7"
+          "sha256": "20efca73fd2182442a42beba55fe4de8adcc9a145b155e61e0e1e84299b110de"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/create-struct-array.json",
-          "sha256": "3f151c3c4fffa0e18f9ccaec696fe0e22846a792635141c6d3d0ad3d31300c12"
+          "sha256": "14f4af05c3712a850f02032849e608778863904870ec62846510cf2941be7a71"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/database.json",
-          "sha256": "db1348310b9cb985c878c5c01c7c83e92fe0ba1de9c70edfce8a06e836a2d9e7"
+          "sha256": "b715d10a01e943e156b4e01668bca1efd29ff98553728bc42c14641ec3ae34ab"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json",
-          "sha256": "782d795bdbf8e9e7a4f4ab58f6a863b24edffb4a3f74e9c7a386ca0e82a6c7ff"
+          "sha256": "60485b469ac6974d664125e47eae2f38d2e17a5b4b49fd48e897ab4d0c044b39"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/decompounder-filter.json",
-          "sha256": "fab4249048a7627f76d74fcd9054de561486de9ca93b38905199b308ad0fbd6d"
+          "sha256": "3f9bf5599d2c5c5afd9c3cd29c65a6cb086a8fb7887ba98284c11f1d255a9b1a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/default-fields.json",
-          "sha256": "daa7bbebd3e0073cbe4d6e5b3d41d63bb421cc704e7129c49454ae59a572dfbb"
+          "sha256": "f67396d5ef1698cb228fe78f9cafef320f8b87153c93bffed0d357e4c1016474"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/delete-entities.json",
-          "sha256": "539ca7f2cdceee89355dd54626bead39e8fb84e7b18837fd25f9c78a25d2404e"
+          "sha256": "04989d9478fcb0b5b90ca55e8a40124b853f9bf9a369ff031600ca69a0006e3b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/drop-collection.json",
-          "sha256": "4bd6ff89e8021b3d820b5bcbbd652c9bc03ab3f3a577a66b3d4a39e431a3069f"
+          "sha256": "2cd981a6daeeacc6f0f62faf1d2c99318a02b86eba79ec1fe8017a762e38464d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/enable-dynamic-field.json",
-          "sha256": "ba0a469814b0d5b1bf5f8a684e1ba9f708757fb4529215bd0f77684cc9c64297"
+          "sha256": "24aefc2a812f6407e2a6d21bdc9357c55edb060c7e677ac3aa8a2b124037d899"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/english-analyzer.json",
-          "sha256": "1751a48fcef1151b132c70191a01f518b62eb204ba3df5d5d9b357a275668250"
+          "sha256": "08576536ab056465acabb04c56b681d5f01df74a9e8cf3a53859773fab0bf7ca"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/exponential-decay.json",
-          "sha256": "7f56579c6ae765ddb17c6be5bc2826454802c7368117bdf74886bf78b8391d3e"
+          "sha256": "54856c48b12fbec08cc3c0625ced3215e56a502e92ab5fa0dc926f12f7303d3f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json",
-          "sha256": "2030e3c1a709a1fbcf341c04c302cf70ed2850424c40a4ad4e2a8a9d553be4e8"
+          "sha256": "d77117c23d229aef02d3d8ad30e0058edba72d2851dad8060093a856de986655"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtered-search.json",
-          "sha256": "7824c02a04846ea351266190f47091ce14d7117fc28f5867eb5b09464ded481a"
+          "sha256": "7c689e121463ca3822c5f5fc4577119db7f19c9dfc29df19f0bd713c9757307e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/filtering-templating.json",
-          "sha256": "387a49a6f7183c513f6c83922e881aa32ccc0d70d2bdd48c16190678a427e33c"
+          "sha256": "c311238036b84bd4be94dbf9398d67faec728b7b7744a1cef10cc2925aebf5fc"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/full-text-search.json",
-          "sha256": "04f34fb9f2560fe58d75448447b0a80e7887560011237558fee51065b6b0b690"
+          "sha256": "1a2699bd8aed334c9ec3862778c5745e898b37b387519600af680ec79cba8350"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/gaussian-decay.json",
-          "sha256": "f19093567483c073ec4c2d96a899a28ad2ae4a43d1527e7a4fcf04eacc9943e2"
+          "sha256": "cc5d731f7eb8645915d08be23bcfca710d1a6cd462d6aa879beb2ab8f2cf2763"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/get-and-scalar-query.json",
-          "sha256": "c22f7321dedeea6a255439c0d4c7f63aedfebd4c10ec21aadb9930f130840f00"
+          "sha256": "340d094947f72db22f5379f3d7b6c88a1bc52a0b56e5abd3568b48ff3fdc2369"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json",
-          "sha256": "20bd6cdb4d1888ecdb3423fc7f310d4bd802c446bf71be98ad27f75c54bf76bc"
+          "sha256": "5dd59c2b4fbbde49aecb80cc7fef0677d4be0f931a4be377ff5ead95a69faf69"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/grouping-search.json",
-          "sha256": "608aa77a3f95f2e95848393cd7cb0f6047a2191ff3bf7af3eefd85d35906fab6"
+          "sha256": "7c7a18d70b0d7b9d1c5e6c7c6d651cb1d07a3a45038a433392d2386a0459bacd"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json",
-          "sha256": "3f7d308748e7f02d60db1c8a2a50765553be05328887e71b63299863cda218ac"
+          "sha256": "0963f2101f4c14bad9d066d12a8bccf5aea40333a12110f0a20e4d49bef8aaaa"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json",
-          "sha256": "72aa6076a23ef96557da9e769ddd810640d22599f4e5eb1e4ff13c8df4c4ce23"
+          "sha256": "78566b7d8410834492ab235efe0de4156cf816ea7c32575578867acb32c636aa"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/index-struct-array.json",
-          "sha256": "52e914370194245d1518f14a86a4de9e6b4602d4bcec5236a08792484f0c3313"
+          "sha256": "dd2bba0cd3b87524521fba32a9012e86096e61685e0b30c38798cf98fba6f5d0"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-entities.json",
-          "sha256": "089ffdee3987c8c1586f7dd40d8b0b1e1c7a398bdc6c2f8687722b253a4a0ab6"
+          "sha256": "fccd00b90da2af573e10f8925a46607054edd7762ddf2baed6502ec68df84b6e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/insert-struct-array.json",
-          "sha256": "fd418ea5f2d5f6e650ad6ee3fb3a4b61cc1b53ee90b9dff88850a6a9f8d651d5"
+          "sha256": "c435ba61d3cc12190b7dad3de0dfef4b19c991b76aa27b0cf46348cc59f9dcab"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/inverted-index-type.json",
-          "sha256": "6b09c96efa9770d16f7929c2d994ee24fff588de752537d47198a3ba05b69524"
+          "sha256": "a84786ef62881a646726808c58ae6bd8fcf77668c875109bb864023db36dd18d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/jieba-tokenizer.json",
-          "sha256": "119971dc6223d8c62f89ccb9380d8a5b94e2a4c1897b636fac840846f6b510cf"
+          "sha256": "63f9ce45701e045cc40334ecc603d85da8e21f2377378ad5636a753e1f983439"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-field-overview.json",
-          "sha256": "9b1b619863837edde55626920e6da11dfe236d9ca033ec15f7ead02364b19484"
+          "sha256": "f7c3b5d0ce59430de1361673ece9c0d3d7a262f504dee0fd79a7af3ba8d93447"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-filtering-operators.json",
-          "sha256": "3ed8a177237cc86ee031bf19b97551d61555a52c68a37e084d5da7e1c8b42dcf"
+          "sha256": "52b0cd9d2ae343a3c18fe81d00876390a340b18d80d360f0f3b7076d34cd89e8"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-indexing.json",
-          "sha256": "59398c55e87503ef1ac8593ba26ff4bad399ccfdb4c852859bdb7a18b5ea4b7f"
+          "sha256": "a1cee2272d4337661a9fdee36afbb158454ffad829705c64653aea955848068a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/json-shredding.json",
-          "sha256": "d8fa5fcb655cc79a2a7d2b22e0f638cd5f3d48ada155311ef0d25dd176a941f7"
+          "sha256": "2c7e8e0562894d8882432cbaddfe3bf905bd3053f4a4b142ccd17ebe4f14e0f1"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/language-identifier-tokenizer.json",
-          "sha256": "6abb11e1d0604265f41826c5fd864e877e30da23e280ee9eae97c2cb7c9265fc"
+          "sha256": "6718b264504ae12b68ec1ec18d2bf1b08e142916b6812b3c26aaf38faf9a9238"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/length-filter.json",
-          "sha256": "c45fd351b222397c53d29bb25ccafc72c61e621968fb46f89c561cc884fe1de5"
+          "sha256": "c8cd21b3adf9a40585cb8e5e7ef49f5ffe0a357d18c7dedf76757e512d6c5d5f"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json",
-          "sha256": "e0d40d2b335f0de966720f231494d561f4256bf63f633d26b0ad8cf152247489"
+          "sha256": "a326b87aed4bfda276ee2ad749f5f7558ce17935b76365b54e5306d6b631e859"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/linear-decay.json",
-          "sha256": "20b9f98e390c941eceda1f8c81ce6cff546deb7f91141f685933df5bf604985f"
+          "sha256": "235f81f36b12845df59c8c23e3fa52c9b5a74905cbcdd3c784f93933425ea807"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/load-release-collections.json",
-          "sha256": "7e197b9e1860a9dd9c96f21f56d2a920ae0686ecb2dc0fc161316be9f5eeda7c"
+          "sha256": "58b45f8bf60df44a3743f3f9e11b1ab2e502251aebaf3834f3d19f505a67b824"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/lowercase-filter.json",
-          "sha256": "63263829a15afeb90a7b4bc9ef1140eb7ccd4100fe9c78c090e4e2803007f8e3"
+          "sha256": "0dd09c60eef559cdaaaa849a8c98e9de69836af82aae8fcb1bf6700e7ed9c635"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-aliases.json",
-          "sha256": "306c2acb2121b8f6a98f84647c413799ba05a06c086a1d2d98cf148f5a0d2560"
+          "sha256": "e981e7c4e8b17c8f435f369dbc379b2b143ddfd5f61289ee0cfad00f1e3b7f8e"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-collections-sdks.json",
-          "sha256": "46aba3908d30281c3f56ec885b8834c205314d3179a061c26ea9f3148edd87cd"
+          "sha256": "4f8639e1b7bd0cae9069da30593223005f356e4b1051bb429ac100e7dda1f817"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-collections.json",
-          "sha256": "8fc0c409f36734ab34078ad7ec190947fcaaf4235665aee92013833b6afec64e"
+          "sha256": "33bbf7a1c18b6cd3223831eecb44b54d5a3daf84efe37e5f5992ba288a168ec1"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/manage-partitions.json",
-          "sha256": "9aef15fbcc1504fd9b48c971fb51b9ec88ea06776be6682e2fcedf4e92743e55"
+          "sha256": "2d03d896f06f0fcc34c63c84557b3066d0d2ce855905d34e376ff883c1728f58"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/modify-collections.json",
-          "sha256": "0179f5b499911006cc008b1f6949d5575d22fd75832c3004347277477e2b0519"
+          "sha256": "1ab8d32fc5a8c812a654b8826ddbd46f3d14550602ac684526457d063839ee41"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/multi-tenancy.json",
-          "sha256": "58dee07b406ccbedfcc7db0a01328b2316c60401aee817dd89cebe32650d37c7"
+          "sha256": "d025524803ef78bbe190c78fe3d344c62e090836eed080ef0a3424cd0dc42678"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ngram-index-type.json",
-          "sha256": "58ffb628c0c61e0d0dd03d33e039ecd50c9e4308d37f1d275dbe5dfc4b3849d3"
+          "sha256": "447c255ed1c67f90eff3f0a660f14c0b15db00c22dd0ac4637277eb5dd059207"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/nullable-fields.json",
-          "sha256": "106c0ff9eac6ca801a3a633668a56e1d1f8d22a6981de8fe62dd6524af298cb8"
+          "sha256": "f827aa80c0d6569b6775dd2368509229d2b4c2ddc7348a58ac767dbbd06a614b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/pattern-match.json",
-          "sha256": "42e7cc2b916fe9d2501f107b80854f006bb53129b86391230619c91bf7dbaeba"
+          "sha256": "fd3fae00b0746438a078a098c8b9a58b00389f5e6985a0f1d4d50283eff0f6f9"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/pinyin-filter.json",
-          "sha256": "d8b2124700961459230272bee01eeaadb9ae32403352ca52f3187ce2b087deb6"
+          "sha256": "9488081a9cf24c1643ada14d1046fb224286d6035011a581dee2700e857a3d71"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/primary-field-auto-id.json",
-          "sha256": "a5e9c342a9a39ab8dd1df7f399380516b70921f6e8a4de4b676339666385f395"
+          "sha256": "d176146cd3122242bc7d0bc63b6ed0fe6fdb7a566f964e871ab321136e68fc0d"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/ramdom-sampling.json",
-          "sha256": "4f262bca4d8bee96c2d028ae3063ca4844bb9225bcc99265fddf3894a9fc0634"
+          "sha256": "c3ae9139c30a8fc0697ca12608d05ce8711876fe54bc9452b647b75d6b9ed0a6"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json",
-          "sha256": "e83cf1ad04926e0380d7947cc1eb91f3a5ced283dae5eb7ae09227f6426f88c6"
+          "sha256": "058ff9e2f4763fb820099ef317071b16d494c347623a02806deee3f85a782b10"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/range-search.json",
-          "sha256": "086334f4463c6871381229f2cb24f0a08e0d47eb7a69a612685150f468f3c6ee"
+          "sha256": "5531965ce0ecbc3f8b437774bf64fb57d6dcda4387478f7ece896c86a583d949"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/regex-filter.json",
-          "sha256": "599ead006cd6b99f4b4e61a7755cbb5552c6bab93e6a34435f637917d32aba7a"
+          "sha256": "c6444d835d3d76c948ca1dadad7fd0a6ba2482e8e39bcd7ccf81bcdab57398db"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json",
-          "sha256": "c3a00dd24b243d84f3b8144b23b2ec08b67ce42ac10e2c4029d33577605ba218"
+          "sha256": "1af007372b6ca0a3dcee258447b518bd3c02581c29e78e3d6043f24d362d2f65"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-rrf.json",
-          "sha256": "49ff8ac05b96dd22cfb567ca47e7aad92cf9ce0dfe0ff71d4bacaf3588618ed1"
+          "sha256": "2660c1e6d96db6a9001e5908794a1201bfc4b8aacceef77500b6aa0a1f56069a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/reranking-weighted-reranker.json",
-          "sha256": "fbd8bdc01f83ccde26e76e63d92c5f5f663e0678a2c9f8ecb07688d31e19ab94"
+          "sha256": "66edf719c23e43b715bad0d56067c72e4108d66c97a2f3a77d686b581dfc4aff"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/rtree-index-type.json",
-          "sha256": "8774d47ab522e8248ac805f4fafbdbfacd0378f99ed56bc0661d3271d3e1b896"
+          "sha256": "c7438d60bf502289e831904e7c9ebdacfd47e7d8e879104b424670d24216feee"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/schema-design-with-structs.json",
-          "sha256": "0a3e57abbeaf3e319a09dc97fd50733e056ba14b4c43903e078fccbf2530275e"
+          "sha256": "ea00abf0611fddba60a46d2f90fc19c078e529228227a16239c57d9a80483ade"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json",
-          "sha256": "165208f31f465c9ef3fffde4cb8406f34760f9d329cd166639564841c5f3745a"
+          "sha256": "db9ec4d8f5bfe47771f2ad784069f92fbbe5c5b64f18ea5bb098052ad901321b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/set-collection-ttl.json",
-          "sha256": "d830dd0cddc8d23a58327d04eb13064e10d4dcaa89fcdd31e0bf41633b1b6f02"
+          "sha256": "17948aa35a19f4b32bb05768ee39a1d0746a3272462f0f425da2272b7a8a6edf"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/single-vector-search.json",
-          "sha256": "fff82cd982b38cca21bdb3cdcd51f0c94dad839d62aa404434fdff1cc9a56503"
+          "sha256": "19c97cffa5859927c6b784e6e3e60871550fb3fd08cb5eccfc791008355132a5"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/slt-sort-index-type.json",
-          "sha256": "9194e6a4a139f10acd4f3ccf48a338a58bf965d4be3a6d4a2b33daf0e9443e34"
+          "sha256": "fc0dd1fba4e13d9f0f1b76f61745b8f91a9c438c4f4bf397dd3658700731274b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/snapshots.json",
-          "sha256": "88aeffe9ba6a53cc22644393859e460f79a766ec20ce033e453007161e5a255e"
+          "sha256": "d809a6d15f5193c46a1093fdfc9440401ba81951036b18e4cdf81a9ed75ae54a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-analyzer.json",
-          "sha256": "dbc335559076d927155526592dca225affe31dc3f8314f68a44279ff3bb313a3"
+          "sha256": "c9dd3aa6af5b2bee197b2178904031faeccd5d233493e8cfdbb3b782ef0c58de"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json",
-          "sha256": "75e659b7aebdb5db50f37b718511c87330869b47dfd0ed45c585afd821fa8cc0"
+          "sha256": "b77151cc06b663356d7f4828aa3cec508574f9be32d5266db669ba1cc4634227"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stemmer-filter.json",
-          "sha256": "01b86f9c95704ea47033cffedc3dedc527bfb52eea3bfc119922c5a0880101a2"
+          "sha256": "c86a37eb37dde5ae448540377433f558b12579d15f40d3152980ec90c116b98b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/stop-filter.json",
-          "sha256": "60abb482db309caac7c6092fb4021b1ecc97360536fb304a68799cac75085777"
+          "sha256": "a506d2fd68a33efd8e97611816c73bf3cdb68dc1fac69b59340750c047042310"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json",
-          "sha256": "ad4eb416cb884f99567b412fc066b17b2c3250b7718ee2815ee730e326a3953c"
+          "sha256": "723c9ee103a729a9f182192da581f4006f3ba4969e9371c5e899771d978ae3ba"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/struct-array-limits.json",
-          "sha256": "b3f4ef260fcd12aca698ae393034ea2df494332e33cb80e01441714da77f14eb"
+          "sha256": "551c83681e89edc87da83d0bf09f06986173caceb523652fae69c387a7132e1b"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/text-match.json",
-          "sha256": "223345c9db3e3e5506b57e2d47fd35f53356e14536bc0b6cf385ebacdded736e"
+          "sha256": "c34afd243507bd016c8e918e16f8281027cf08869c63eb1f03fb28643e09ab90"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json",
-          "sha256": "f77da5263e2d60b5a4d56fb047d3e302a33f8b35198d895cb1bfe53b53318174"
+          "sha256": "7f4827843a488ac65adf6e381d41ff5c98b0ac50778312d2b1a9282b5773781a"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/upsert-entities.json",
-          "sha256": "f964a2b6b7e330124062f1a482ac7da957499dd2712461e57f568e9d3b44db8c"
+          "sha256": "fb92523fd0e54687ba9827a3e8898c83a299f72ef55b20e6ecff4efbeb422976"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-fields.json",
-          "sha256": "876475af676a651381192feb10654f8a02e32d1fec12bcd3f2b8f8acabe42412"
+          "sha256": "b372f97e28f2cbf6e9d50887317726a76b0ad39320bf2910412bfc04eba117aa"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json",
-          "sha256": "f4464feae304b1a52df463a1b436778c125a14df391a0ed0ebf8e27b8a34a969"
+          "sha256": "7ca03c0320a84880cdc0822c52459fdc7b57058b6eea979e0b1289a1f4572df4"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-binary-vector.json",
-          "sha256": "fe7cc9fb443880e90e7f3d86a93169c29bd435c03fcfdee21e1d0ab814bde2b3"
+          "sha256": "2e3f531bc7badf88598f9991abc9f72842fe6b0da7e70c61d8b9b3238c56ba19"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-dense-vector.json",
-          "sha256": "0a418f414142880aa64e823c84b805691f7eb9891edddc8d987084422aa23f2f"
+          "sha256": "087a8935895f2d9b370e0bab33e8fa57566198ee2a23c42936a3dbe305449d06"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-number-field.json",
-          "sha256": "9d5574d1b964cce2fbdec3080333f97e6f68b032e010854f58f1900dc46fd98c"
+          "sha256": "a75d57748bf23f33a43d146ce0816318fdc7b39e743b40e9c6693f72f7e91574"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-partition-key.json",
-          "sha256": "dd3afae558f2eaa91807319b4af4dfadbf8525794aa389b2afd18ae412b3f905"
+          "sha256": "c848e4eb69f54e109f94e079807aeb9818155bf8994f785f4bcf5458beb55228"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-sparse-vector.json",
-          "sha256": "543a34c050db1188ad81f0e03f0be55143c3aeac80abc54a361ddf503721908e"
+          "sha256": "7c814fe8700cf8c1a989fea211f55e34fa4bb8a537d3d1dac0a3d55090e5fedb"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/use-string-field.json",
-          "sha256": "0b4e54b874244d796cdcaf13c36b4918e7c0fae9f63143a18fa03659b4c1d2f5"
+          "sha256": "16edf07a5d0f2b691c2892345e00d8c0fee49921e19ddf31cfb6195280dc8831"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/view-collections.json",
-          "sha256": "92eb0492c45b697833ca42c7bc18f5a1f1ddfb89e9cc077ced6b307d65f3d793"
+          "sha256": "6f86eea07f822819310e51b50a201d0fc713c18a8f2f9c66c8d4ebae0bed1893"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json",
-          "sha256": "78458e009495172448af84cd153163f2d6a8472adb9dd2096d8a0af21c4e9507"
+          "sha256": "9b8e897459677f4861975f5ec0f927c8e632011da4536ddc75178cf55422dbbe"
         },
         {
           "path": "generated/en/manifests/shared-pages/guides/with-iterators.json",
-          "sha256": "268ea69adc9cf28d655ddcee4deb773a191f108e2e1809c74491c4bd32ca66d8"
+          "sha256": "60399566f8821e1ad996a56042b648a3be20a8318189e76053aa642cc42966e0"
         },
         {
           "path": "packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json",
-          "sha256": "0c891a4ef85db028c7e6181be23f164d055222e307a645a54319795b3e7d471a"
+          "sha256": "131ff2ad3862c493602d2c68fb3aa11c5f51cd84065185c6704eb936a6a1d797"
         }
       ]
     },
@@ -12761,7 +12797,7 @@
             "ref_target_anchor": null
           },
           {
-            "record_id": "recvlPuupw8MTT",
+            "record_id": "reczz28azvR66R4a",
             "table_id": "tblWv7PjNDsexddH",
             "table_name": "Development",
             "placement_type": "canonical",
@@ -12769,6 +12805,34 @@
               "recvlPnE6a17dr"
             ],
             "order": 109,
+            "title": "Scalar Index",
+            "labels": "Overview",
+            "slug": "scalar-index-overview",
+            "targets": [
+              "zilliz.paas",
+              "zilliz.saas"
+            ],
+            "progress": "Draft",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/scalar-index-overview",
+            "ref_target": null,
+            "ref_target_token": null,
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "scalar-index-overview"
+            }
+          },
+          {
+            "record_id": "recvlPuupw8MTT",
+            "table_id": "tblWv7PjNDsexddH",
+            "table_name": "Development",
+            "placement_type": "canonical",
+            "parent_record_ids": [
+              "recvlPnE6a17dr"
+            ],
+            "order": 110,
             "title": "BITMAP",
             "labels": "BITMAP",
             "slug": "bitmap-index-type",
@@ -12796,7 +12860,7 @@
             "parent_record_ids": [
               "recvlPnE6a17dr"
             ],
-            "order": 110,
+            "order": 111,
             "title": "INVERTED",
             "labels": "INVERTED",
             "slug": "inverted-index-type",
@@ -12824,7 +12888,7 @@
             "parent_record_ids": [
               "recvlPnE6a17dr"
             ],
-            "order": 111,
+            "order": 112,
             "title": "NGRAM",
             "labels": "NGRAM",
             "slug": "ngram-index-type",
@@ -12852,7 +12916,7 @@
             "parent_record_ids": [
               "recvlPnE6a17dr"
             ],
-            "order": 112,
+            "order": 113,
             "title": "RTREE",
             "labels": "RTREE",
             "slug": "rtree-index-type",
@@ -12880,7 +12944,7 @@
             "parent_record_ids": [
               "recvlPnE6a17dr"
             ],
-            "order": 113,
+            "order": 114,
             "title": "STL_SORT",
             "labels": "STL_SORT",
             "slug": "slt-sort-index-type",
@@ -12901,12 +12965,40 @@
             }
           },
           {
+            "record_id": "reczz28azxg3CJMK",
+            "table_id": "tblWv7PjNDsexddH",
+            "table_name": "Development",
+            "placement_type": "canonical",
+            "parent_record_ids": [
+              "recvlPnE6a17dr"
+            ],
+            "order": 115,
+            "title": "TRIE",
+            "labels": "TRIE",
+            "slug": "trie-index-type",
+            "targets": [
+              "zilliz.paas",
+              "zilliz.saas"
+            ],
+            "progress": "Draft",
+            "doc_token": null,
+            "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/trie-index-type",
+            "ref_target": null,
+            "ref_target_token": null,
+            "ref_target_anchor": null,
+            "source_kind": "shared-page",
+            "shared_page": {
+              "group": "guides",
+              "page": "trie-index-type"
+            }
+          },
+          {
             "record_id": "recvlPnzHpvWyr",
             "table_id": "tblWv7PjNDsexddH",
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 114,
+            "order": 116,
             "title": "Insert & Delete",
             "labels": "Insert & Delete",
             "slug": "insert-and-delete",
@@ -12926,7 +13018,7 @@
             "parent_record_ids": [
               "recvlPnzHpvWyr"
             ],
-            "order": 115,
+            "order": 117,
             "title": "Insert Entities",
             "labels": "Insert",
             "slug": "insert-entities",
@@ -12954,7 +13046,7 @@
             "parent_record_ids": [
               "recvlPnzHpvWyr"
             ],
-            "order": 116,
+            "order": 118,
             "title": "Upsert Entities",
             "labels": "Upsert",
             "slug": "upsert-entities",
@@ -12982,7 +13074,7 @@
             "parent_record_ids": [
               "recvlPnzHpvWyr"
             ],
-            "order": 117,
+            "order": 119,
             "title": "Count Entities",
             "labels": "Count",
             "slug": "count-entities",
@@ -13005,7 +13097,7 @@
             "parent_record_ids": [
               "recvlPnzHpvWyr"
             ],
-            "order": 118,
+            "order": 120,
             "title": "Delete Entities",
             "labels": "Delete",
             "slug": "delete-entities",
@@ -13031,7 +13123,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 119,
+            "order": 121,
             "title": "Data Import",
             "labels": "Data Import",
             "slug": "data-import",
@@ -13051,7 +13143,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 120,
+            "order": 122,
             "title": "Storage Options",
             "labels": "Storage Options",
             "slug": "data-import-storage-options",
@@ -13074,7 +13166,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 121,
+            "order": 123,
             "title": "Format Options",
             "labels": "Format Options",
             "slug": "data-import-format-options",
@@ -13097,7 +13189,7 @@
             "parent_record_ids": [
               "recvlPtZzDu4ca"
             ],
-            "order": 122,
+            "order": 124,
             "title": "Import from a Parquet File",
             "labels": "Parquet (Recommended)",
             "slug": "data-import-parquet",
@@ -13120,7 +13212,7 @@
             "parent_record_ids": [
               "recvlPtZzDu4ca"
             ],
-            "order": 123,
+            "order": 125,
             "title": "Import from a JSON/JSON Lines File",
             "labels": "JSON/JSON Line",
             "slug": "data-import-json",
@@ -13143,7 +13235,7 @@
             "parent_record_ids": [
               "recvlPtZzDu4ca"
             ],
-            "order": 124,
+            "order": 126,
             "title": "Import from NumPy Files",
             "labels": "NumPy",
             "slug": "data-import-numpy",
@@ -13166,7 +13258,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 125,
+            "order": 127,
             "title": "Convert Your Data",
             "labels": "Convert Your Data",
             "slug": "prepare-data-import",
@@ -13189,7 +13281,7 @@
             "parent_record_ids": [
               "recvlPu1cVScQt"
             ],
-            "order": 126,
+            "order": 128,
             "title": "Use BulkWriter",
             "labels": "Use BulkWriter",
             "slug": "use-bulkwriter",
@@ -13212,7 +13304,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 127,
+            "order": 129,
             "title": "Import Data",
             "labels": "Import Data",
             "slug": "import-data",
@@ -13235,7 +13327,7 @@
             "parent_record_ids": [
               "recvlPu38A4xlI"
             ],
-            "order": 128,
+            "order": 130,
             "title": "Import Data (Console)",
             "labels": "Console",
             "slug": "import-data-on-web-ui",
@@ -13258,7 +13350,7 @@
             "parent_record_ids": [
               "recvlPu38A4xlI"
             ],
-            "order": 129,
+            "order": 131,
             "title": "Import Data (RESTful API)",
             "labels": "RESTful API",
             "slug": "import-data-via-restful-api",
@@ -13281,7 +13373,7 @@
             "parent_record_ids": [
               "recvlPu38A4xlI"
             ],
-            "order": 130,
+            "order": 132,
             "title": "Import Data (SDK)",
             "labels": "SDKs",
             "slug": "import-data-via-sdks",
@@ -13304,7 +13396,7 @@
             "parent_record_ids": [
               "recvlPnBLDpKsL"
             ],
-            "order": 131,
+            "order": 133,
             "title": "Data Import Hands-On",
             "labels": "Zero to Hero",
             "slug": "data-import-zero-to-hero",
@@ -13325,7 +13417,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 132,
+            "order": 134,
             "title": "Data Export",
             "labels": "Data Export",
             "slug": "data-export",
@@ -13345,7 +13437,7 @@
             "parent_record_ids": [
               "recvlWdyCXBd20"
             ],
-            "order": 133,
+            "order": 135,
             "title": "Export Data Using Iterators",
             "labels": "Using Iterators",
             "slug": "export-data-iterators",
@@ -13366,7 +13458,7 @@
             "table_name": "Development",
             "placement_type": "canonical",
             "parent_record_ids": [],
-            "order": 134,
+            "order": 136,
             "title": "Batch Jobs",
             "labels": "",
             "slug": "batch-jobs",
@@ -13388,7 +13480,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 135,
+            "order": 137,
             "title": "Primary-Key Deduplication",
             "labels": "",
             "slug": "primary-key-dedup",
@@ -13410,7 +13502,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 136,
+            "order": 138,
             "title": "Vector Similarity Deduplication",
             "labels": "",
             "slug": "vector-similarity-dedup",
@@ -13432,7 +13524,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 137,
+            "order": 139,
             "title": "K-Means Clustering",
             "labels": "",
             "slug": "k-means-clustering",
@@ -13454,7 +13546,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 138,
+            "order": 140,
             "title": "Anomaly Detection",
             "labels": "",
             "slug": "anomaly-detection",
@@ -13476,7 +13568,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 139,
+            "order": 141,
             "title": "Data Backfill ",
             "labels": "",
             "slug": "data-backfill",
@@ -13498,7 +13590,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 140,
+            "order": 142,
             "title": "Custom JAR Jobs",
             "labels": "",
             "slug": "custom-jar-jobs",
@@ -13520,7 +13612,7 @@
             "parent_record_ids": [
               "recvspa0Z0wVKh"
             ],
-            "order": 141,
+            "order": 143,
             "title": "Prepare a Compatible JAR",
             "labels": "",
             "slug": "prepare-a-compatible-jar",
@@ -13542,7 +13634,7 @@
             "parent_record_ids": [
               "recvsp9OcjDGNq"
             ],
-            "order": 142,
+            "order": 144,
             "title": "Manage Batch Jobs",
             "labels": "",
             "slug": "manage-batch-jobs",
@@ -13562,7 +13654,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 143,
+            "order": 145,
             "title": "Function",
             "labels": "",
             "slug": "function",
@@ -13582,7 +13674,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 144,
+            "order": 146,
             "title": "Function Overview",
             "labels": "Overview",
             "slug": "function-and-model-inference-overview",
@@ -13605,7 +13697,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 145,
+            "order": 147,
             "title": "BM25 Function",
             "labels": "BM25 Function",
             "slug": "bm25-function",
@@ -13633,7 +13725,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 146,
+            "order": 148,
             "title": "Text Embedding Functions",
             "labels": "",
             "slug": "text-embedding-funcs",
@@ -13653,7 +13745,7 @@
             "parent_record_ids": [
               "recvlUIJBq9oCb"
             ],
-            "order": 147,
+            "order": 149,
             "title": "OpenAI",
             "labels": "OpenAI",
             "slug": "openai",
@@ -13675,7 +13767,7 @@
             "parent_record_ids": [
               "recvlUIJBq9oCb"
             ],
-            "order": 148,
+            "order": 150,
             "title": "Voyage AI",
             "labels": "Voyage AI",
             "slug": "voyage-ai",
@@ -13697,7 +13789,7 @@
             "parent_record_ids": [
               "recvlUIJBq9oCb"
             ],
-            "order": 149,
+            "order": 151,
             "title": "Cohere",
             "labels": "Cohere",
             "slug": "cohere",
@@ -13719,7 +13811,7 @@
             "parent_record_ids": [
               "recvlUIJBq9oCb"
             ],
-            "order": 150,
+            "order": 152,
             "title": "Hugging Face",
             "labels": "Hugging Face",
             "slug": "hugging-face",
@@ -13741,7 +13833,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 151,
+            "order": 153,
             "title": "MinHash Function",
             "labels": "MinHash Function",
             "slug": "minhash-function",
@@ -13764,7 +13856,7 @@
             "parent_record_ids": [
               "recvlPnFfzrDnj"
             ],
-            "order": 152,
+            "order": 154,
             "title": "Reranking Functions",
             "labels": "Reranking Functions",
             "slug": "reranking-functions",
@@ -13784,7 +13876,7 @@
             "parent_record_ids": [
               "recvlUIQUnhIus"
             ],
-            "order": 153,
+            "order": 155,
             "title": "Hybrid Search Rerankers",
             "labels": "Hybrid Search Rerankers",
             "slug": "hybrid-search-rerankers",
@@ -13804,7 +13896,7 @@
             "parent_record_ids": [
               "recvlUVSjFLHeB"
             ],
-            "order": 154,
+            "order": 156,
             "title": "Weighted Ranker",
             "labels": "Weighted Ranker",
             "slug": "reranking-weighted-reranker",
@@ -13832,7 +13924,7 @@
             "parent_record_ids": [
               "recvlUVSjFLHeB"
             ],
-            "order": 155,
+            "order": 157,
             "title": "RRF Ranker",
             "labels": "RRF Ranker",
             "slug": "reranking-rrf",
@@ -13860,7 +13952,7 @@
             "parent_record_ids": [
               "recvlUIQUnhIus"
             ],
-            "order": 156,
+            "order": 158,
             "title": "Rule-based Rerankers",
             "labels": "Rule-based Rerankers",
             "slug": "rule-based-rerankers",
@@ -13880,7 +13972,7 @@
             "parent_record_ids": [
               "recvlUWkShmhNL"
             ],
-            "order": 157,
+            "order": 159,
             "title": "Boost Ranker",
             "labels": "Boost Ranker",
             "slug": "boost-ranker",
@@ -13908,7 +14000,7 @@
             "parent_record_ids": [
               "recvlUWkShmhNL"
             ],
-            "order": 158,
+            "order": 160,
             "title": "Decay Rankers",
             "labels": "Decay Rankers",
             "slug": "decay-rankers",
@@ -13928,7 +14020,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 159,
+            "order": 161,
             "title": "Decay Ranker Overview",
             "labels": "Decay Ranker Overview",
             "slug": "decay-ranker-oveview",
@@ -13956,7 +14048,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 160,
+            "order": 162,
             "title": "Gaussian Decay",
             "labels": "Gaussian Decay",
             "slug": "gaussian-decay",
@@ -13984,7 +14076,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 161,
+            "order": 163,
             "title": "Exponential Decay",
             "labels": "Exponential Decay",
             "slug": "exponential-decay",
@@ -14012,7 +14104,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 162,
+            "order": 164,
             "title": "Linear Decay",
             "labels": "Linear Decay",
             "slug": "linear-decay",
@@ -14040,7 +14132,7 @@
             "parent_record_ids": [
               "recvlUWDF9fLUJ"
             ],
-            "order": 163,
+            "order": 165,
             "title": "Tutorial: Implement Time-based Ranking",
             "labels": "Tutorial: Implement Time-based Ranking",
             "slug": "tutorial-implement-time-based-ranking",
@@ -14063,7 +14155,7 @@
             "parent_record_ids": [
               "recvlUIQUnhIus"
             ],
-            "order": 164,
+            "order": 166,
             "title": "Model-based Rerankers",
             "labels": "Model-based Rerankers",
             "slug": "model-based-rerankers",
@@ -14083,7 +14175,7 @@
             "parent_record_ids": [
               "recvlUWp51iTns"
             ],
-            "order": 165,
+            "order": 167,
             "title": "Cohere Ranker",
             "labels": "Cohere Ranker",
             "slug": "cohere-model-ranker",
@@ -14105,7 +14197,7 @@
             "parent_record_ids": [
               "recvlUWp51iTns"
             ],
-            "order": 166,
+            "order": 168,
             "title": "Voyage AI Ranker",
             "labels": "Voyage AI Ranker",
             "slug": "voyage-ai-model-ranker",
@@ -14127,7 +14219,7 @@
             "parent_record_ids": [
               "recvlUWp51iTns"
             ],
-            "order": 167,
+            "order": 169,
             "title": "Hugging Face Ranker",
             "labels": "",
             "slug": "hugging-face-ranker",
@@ -14147,7 +14239,7 @@
             "table_name": "Development",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 168,
+            "order": 170,
             "title": "Analyzer",
             "labels": "Analyzer",
             "slug": "analyzer",
@@ -14167,7 +14259,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 169,
+            "order": 171,
             "title": "Analyzer Overview",
             "labels": "Overview",
             "slug": "analyzer-overview",
@@ -14190,7 +14282,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 170,
+            "order": 172,
             "title": "Built-in Analyzers",
             "labels": "Built-in Analyzer",
             "slug": "built-in-analyzer",
@@ -14210,7 +14302,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 171,
+            "order": 173,
             "title": "Standard Analyzer",
             "labels": "Standard",
             "slug": "standard-analyzer",
@@ -14238,7 +14330,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 172,
+            "order": 174,
             "title": "English",
             "labels": "English",
             "slug": "english-analyzer",
@@ -14266,7 +14358,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 173,
+            "order": 175,
             "title": "Chinese",
             "labels": "Chinese",
             "slug": "chinese-analyzer",
@@ -14294,7 +14386,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 174,
+            "order": 176,
             "title": "Arabic",
             "labels": "Arabic",
             "slug": "arabic-analyzer",
@@ -14317,7 +14409,7 @@
             "parent_record_ids": [
               "recvlPv0j8Fc2r"
             ],
-            "order": 175,
+            "order": 177,
             "title": "Thai",
             "labels": "Thai",
             "slug": "thai-analyzer",
@@ -14340,7 +14432,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 176,
+            "order": 178,
             "title": "Tokenizers",
             "labels": "Tokenizer",
             "slug": "analyzer-tokenizers",
@@ -14360,7 +14452,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 177,
+            "order": 179,
             "title": "Standard Tokenizer",
             "labels": "Standard",
             "slug": "standard-tokenizer",
@@ -14388,7 +14480,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 178,
+            "order": 180,
             "title": "Whitespace",
             "labels": "Whitespace",
             "slug": "whitespace-tokenizer",
@@ -14416,7 +14508,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 179,
+            "order": 181,
             "title": "Jieba",
             "labels": "Jieba",
             "slug": "jieba-tokenizer",
@@ -14444,7 +14536,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 180,
+            "order": 182,
             "title": "Lindera",
             "labels": "Lindera",
             "slug": "lindera-tokenizer",
@@ -14472,7 +14564,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 181,
+            "order": 183,
             "title": "ICU",
             "labels": "ICU",
             "slug": "icu-tokenizer",
@@ -14500,7 +14592,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 182,
+            "order": 184,
             "title": "Language Identifier",
             "labels": "Language Identifier",
             "slug": "language-identifier-tokenizer",
@@ -14528,7 +14620,7 @@
             "parent_record_ids": [
               "recvlPv2oXHh4w"
             ],
-            "order": 183,
+            "order": 185,
             "title": "Thai",
             "labels": "Thai",
             "slug": "thai-tokenizer",
@@ -14551,7 +14643,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 184,
+            "order": 186,
             "title": "Analyzer Filters",
             "labels": "",
             "slug": "analyzer-filters",
@@ -14571,7 +14663,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 185,
+            "order": 187,
             "title": "Lowercase",
             "labels": "Lowercase",
             "slug": "lowercase-filter",
@@ -14599,7 +14691,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 186,
+            "order": 188,
             "title": "ASCII folding",
             "labels": "ASCII folding",
             "slug": "ascii-folding-filter",
@@ -14627,7 +14719,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 187,
+            "order": 189,
             "title": "Alphanumonly",
             "labels": "Alphanumonly",
             "slug": "alphanumonly-filter",
@@ -14655,7 +14747,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 188,
+            "order": 190,
             "title": "Cnalphanumonly",
             "labels": "Cnalphanumonly",
             "slug": "cnalphanumonly-filter",
@@ -14683,7 +14775,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 189,
+            "order": 191,
             "title": "Cncharonly",
             "labels": "Cncharonly",
             "slug": "cncharonly-filter",
@@ -14711,7 +14803,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 190,
+            "order": 192,
             "title": "Pinyin",
             "labels": "pinyin",
             "slug": "pinyin-filter",
@@ -14739,7 +14831,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 191,
+            "order": 193,
             "title": "Length",
             "labels": "Length",
             "slug": "length-filter",
@@ -14767,7 +14859,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 192,
+            "order": 194,
             "title": "Stop",
             "labels": "Stop",
             "slug": "stop-filter",
@@ -14795,7 +14887,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 193,
+            "order": 195,
             "title": "Decompounder",
             "labels": "Decompounder",
             "slug": "decompounder-filter",
@@ -14823,7 +14915,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 194,
+            "order": 196,
             "title": "Stemmer",
             "labels": "Stemmer",
             "slug": "stemmer-filter",
@@ -14851,7 +14943,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 195,
+            "order": 197,
             "title": "Remove Punct",
             "labels": "Remove Punct",
             "slug": "remove-punct-filter",
@@ -14879,7 +14971,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 196,
+            "order": 198,
             "title": "Regex",
             "labels": "Regex Analyzer Filter",
             "slug": "regex-filter",
@@ -14907,7 +14999,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 197,
+            "order": 199,
             "title": "Synonym",
             "labels": "Synonym",
             "slug": "synonym-filter",
@@ -14930,7 +15022,7 @@
             "parent_record_ids": [
               "recvlPv4fk6kId"
             ],
-            "order": 198,
+            "order": 200,
             "title": "Arabic Normalization",
             "labels": "Arabic Normalization",
             "slug": "arabic-normalization",
@@ -14953,7 +15045,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 199,
+            "order": 201,
             "title": "Multi-language Analyzers",
             "labels": "Multi-language Analyzers",
             "slug": "multi-language-analyzers",
@@ -14976,7 +15068,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 200,
+            "order": 202,
             "title": "Choose the Right Analyzer for Your Use Case",
             "labels": "Best Practice",
             "slug": "choose-the-right-analyzer-for-your-use-case",
@@ -14999,7 +15091,7 @@
             "parent_record_ids": [
               "recvlPnG9F2Psi"
             ],
-            "order": 201,
+            "order": 203,
             "title": "Manage File Resources",
             "labels": "Manage File Resources",
             "slug": "manage-file-resources",
@@ -15020,7 +15112,7 @@
             "table_name": "Development",
             "placement_type": "canonical",
             "parent_record_ids": [],
-            "order": 202,
+            "order": 204,
             "title": "Snapshots",
             "labels": "Snapshots",
             "slug": "snapshots",
@@ -15047,7 +15139,7 @@
             "parent_record_ids": [
               "recvlPnHgnRg7i"
             ],
-            "order": 203,
+            "order": 205,
             "title": "Manage Snapshots (SDK)",
             "labels": "",
             "slug": "manage-snapshots",
@@ -15069,14 +15161,14 @@
             "parent_record_ids": [
               "recvlPnHgnRg7i"
             ],
-            "order": 204,
-            "title": "Manage Snapshot (Console)",
+            "order": 206,
+            "title": "Manage Snapshots (Console)",
             "labels": "",
             "slug": "manage-snapshots-console",
             "targets": [
               "zilliz.saas"
             ],
-            "progress": "WIP",
+            "progress": "Draft",
             "doc_token": "PSK1wxf6Qi2EENkCjc2cyNBSn0g",
             "doc_link": "https://zilliverse.feishu.cn/wiki/PSK1wxf6Qi2EENkCjc2cyNBSn0g",
             "ref_target": null,
@@ -16763,12 +16855,35 @@
             "ref_target_anchor": null
           },
           {
+            "record_id": "reczz28b2hdJVXQJ",
+            "table_id": "tblZMzoITXNsyKmQ",
+            "table_name": "Management",
+            "placement_type": "canonical",
+            "parent_record_ids": [
+              "recvlVXRRX6rrb"
+            ],
+            "order": 77,
+            "title": "Integrate with an HTTPS Endpoint",
+            "labels": "Integrate with an HTTPS Endpoint",
+            "slug": "integrate-with-https-endpoint",
+            "targets": [
+              "zilliz.paas",
+              "zilliz.saas"
+            ],
+            "progress": "Draft",
+            "doc_token": "OeMhwPg82iCzGskj1sLcQgAZndg",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/OeMhwPg82iCzGskj1sLcQgAZndg",
+            "ref_target": null,
+            "ref_target_token": null,
+            "ref_target_anchor": null
+          },
+          {
             "record_id": "recvsCWHfTumxg",
             "table_id": "tblZMzoITXNsyKmQ",
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 77,
+            "order": 78,
             "title": "Identity Management",
             "labels": "",
             "slug": "identity-management",
@@ -16788,7 +16903,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 78,
+            "order": 79,
             "title": "Identity Management Overview",
             "labels": "",
             "slug": "identity-management-overview",
@@ -16811,7 +16926,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 79,
+            "order": 80,
             "title": "Manage Platform Users",
             "labels": "",
             "slug": "manage-platform-users",
@@ -16834,7 +16949,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 80,
+            "order": 81,
             "title": "Manage Cluster Users",
             "labels": "",
             "slug": "manage-cluster-users",
@@ -16854,7 +16969,7 @@
             "parent_record_ids": [
               "recvsCX5x9Vaiw"
             ],
-            "order": 81,
+            "order": 82,
             "title": "Manage Cluster Users (Console)",
             "labels": "Manage Cluster Users (Console)",
             "slug": "cluster-users",
@@ -16877,7 +16992,7 @@
             "parent_record_ids": [
               "recvsCX5x9Vaiw"
             ],
-            "order": 82,
+            "order": 83,
             "title": "Manage Cluster User (SDK)",
             "labels": "Manage Cluster User (SDK)",
             "slug": "cluster-users-sdk",
@@ -16900,7 +17015,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 83,
+            "order": 84,
             "title": "Single Sign-on (SSO)",
             "labels": "Single Sign-on (SSO)",
             "slug": "single-sign-on",
@@ -16923,7 +17038,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 84,
+            "order": 85,
             "title": "Okta (OIDC)",
             "labels": "Okta (OIDC)",
             "slug": "openid-connect",
@@ -16946,7 +17061,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 85,
+            "order": 86,
             "title": "Okta (SAML 2.0)",
             "labels": "Okta (SAML 2.0)",
             "slug": "single-sign-on-with-okta",
@@ -16969,7 +17084,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 86,
+            "order": 87,
             "title": "Google Workspace (SAML 2.0)",
             "labels": "Google Workspace (SAML 2.0)",
             "slug": "single-sign-on-with-google-workspace",
@@ -16992,7 +17107,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 87,
+            "order": 88,
             "title": "Microsoft Entra (SAML 2.0)",
             "labels": "Microsoft Entra (SAML 2.0)",
             "slug": "single-sign-on-with-microsoft-entra",
@@ -17015,7 +17130,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 88,
+            "order": 89,
             "title": "PingOne (SAML 2.0)",
             "labels": "PingOne (SAML 2.0)",
             "slug": "single-sign-on-with-ping-one",
@@ -17038,7 +17153,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 89,
+            "order": 90,
             "title": "Other IdP (SAML 2.0)",
             "labels": "Other IdP (SAML 2.0)",
             "slug": "single-sign-on-with-other-idp",
@@ -17061,7 +17176,7 @@
             "parent_record_ids": [
               "recvlVZy1Zsv8g"
             ],
-            "order": 90,
+            "order": 91,
             "title": "Enforce SSO in Your Organization",
             "labels": "Enforce SSO in Your Organization",
             "slug": "enforce-sso-in-your-organization",
@@ -17084,7 +17199,7 @@
             "parent_record_ids": [
               "recvsCWHfTumxg"
             ],
-            "order": 91,
+            "order": 92,
             "title": "SCIM Provisioning",
             "labels": "SCIM Provisioning",
             "slug": "scim-provisioning",
@@ -17104,7 +17219,7 @@
             "parent_record_ids": [
               "recvlVZPuBlO2B"
             ],
-            "order": 92,
+            "order": 93,
             "title": "SCIM Provisioning Overview",
             "labels": "SCIM Provisioning Overview",
             "slug": "scim-provisioning-overview",
@@ -17127,7 +17242,7 @@
             "parent_record_ids": [
               "recvlVZPuBlO2B"
             ],
-            "order": 93,
+            "order": 94,
             "title": "Configure SCIM Provisioning with Okta",
             "labels": "Configure SCIM Provisioning with Okta",
             "slug": "configure-scim-provisioning-with-okta",
@@ -17150,7 +17265,7 @@
             "parent_record_ids": [
               "recvlVZPuBlO2B"
             ],
-            "order": 94,
+            "order": 95,
             "title": "Configure SCIM Provisioning with Microsoft Entra",
             "labels": "Configure SCIM Provisioning with Microsoft Entra",
             "slug": "configure-scim-provisioning-with-microsoft-entra",
@@ -17173,7 +17288,7 @@
             "parent_record_ids": [
               "recvlVZPuBlO2B"
             ],
-            "order": 95,
+            "order": 96,
             "title": "View SCIM-Synced Groups",
             "labels": "View SCIM-Synced Groups",
             "slug": "view-scim-synced-groups",
@@ -17194,7 +17309,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 96,
+            "order": 97,
             "title": "Access Control",
             "labels": "Access Control",
             "slug": "access-control",
@@ -17214,7 +17329,7 @@
             "parent_record_ids": [
               "recvlVQQwASiae"
             ],
-            "order": 97,
+            "order": 98,
             "title": "Access Control Explained",
             "labels": "Access Control Explained",
             "slug": "access-control-overview",
@@ -17237,7 +17352,7 @@
             "parent_record_ids": [
               "recvlVQQwASiae"
             ],
-            "order": 98,
+            "order": 99,
             "title": "Manage Platform Roles",
             "labels": "",
             "slug": "manage-platform-roles",
@@ -17260,7 +17375,7 @@
             "parent_record_ids": [
               "recvlVQQwASiae"
             ],
-            "order": 99,
+            "order": 100,
             "title": "Manage Cluster Roles",
             "labels": "",
             "slug": "manage-cluster-roles",
@@ -17280,7 +17395,7 @@
             "parent_record_ids": [
               "recvsCXosh00gJ"
             ],
-            "order": 100,
+            "order": 101,
             "title": "Manage Cluster Roles (Console)",
             "labels": "Manage Cluster Roles (Console)",
             "slug": "cluster-roles",
@@ -17303,7 +17418,7 @@
             "parent_record_ids": [
               "recvsCXosh00gJ"
             ],
-            "order": 101,
+            "order": 102,
             "title": "Manage Cluster Roles (SDK)",
             "labels": "Manage Cluster Roles (SDK)",
             "slug": "cluster-roles-sdk",
@@ -17326,7 +17441,7 @@
             "parent_record_ids": [
               "recvlVQQwASiae"
             ],
-            "order": 102,
+            "order": 103,
             "title": "Privilege Reference",
             "labels": "",
             "slug": "privilege-reference",
@@ -17346,7 +17461,7 @@
             "parent_record_ids": [
               "recvsCY8Lgrtef"
             ],
-            "order": 103,
+            "order": 104,
             "title": "Platform Resource Privilege ",
             "labels": "Platform Privileges",
             "slug": "platform-privileges",
@@ -17369,7 +17484,7 @@
             "parent_record_ids": [
               "recvsCY8Lgrtef"
             ],
-            "order": 104,
+            "order": 105,
             "title": "Cluster Resource Privileges & Privilege Groups",
             "labels": "Cluster Privileges & Privilege Groups",
             "slug": "cluster-privileges",
@@ -17390,7 +17505,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 105,
+            "order": 106,
             "title": "Authentication",
             "labels": "Authentication",
             "slug": "authentication",
@@ -17410,7 +17525,7 @@
             "parent_record_ids": [
               "recvlVQX4FDVmn"
             ],
-            "order": 106,
+            "order": 107,
             "title": "Email Accounts",
             "labels": "Email Accounts",
             "slug": "email-accounts",
@@ -17433,7 +17548,7 @@
             "parent_record_ids": [
               "recvlVQX4FDVmn"
             ],
-            "order": 107,
+            "order": 108,
             "title": "API Keys",
             "labels": "API Keys",
             "slug": "manage-api-keys",
@@ -17456,7 +17571,7 @@
             "parent_record_ids": [
               "recvlVQX4FDVmn"
             ],
-            "order": 108,
+            "order": 109,
             "title": "Cluster Credentials",
             "labels": "Cluster Credentials",
             "slug": "cluster-credentials",
@@ -17479,7 +17594,7 @@
             "parent_record_ids": [
               "recvlVQX4FDVmn"
             ],
-            "order": 109,
+            "order": 110,
             "title": "MFA",
             "labels": "MFA",
             "slug": "multi-factor-auth",
@@ -17500,7 +17615,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 110,
+            "order": 111,
             "title": "IP Allowlists",
             "labels": "IP Allowlists",
             "slug": "ip-allowlists",
@@ -17520,7 +17635,7 @@
             "parent_record_ids": [
               "recvlVRabLZ7zu"
             ],
-            "order": 111,
+            "order": 112,
             "title": "Set Up Console IP Allowlist",
             "labels": "Set Up Console IP Allowlist",
             "slug": "setup-console-ip-allowlist",
@@ -17543,7 +17658,7 @@
             "parent_record_ids": [
               "recvlVRabLZ7zu"
             ],
-            "order": 112,
+            "order": 113,
             "title": "Set up Cluster IP Allowlist",
             "labels": "Set up Cluster IP Allowlist",
             "slug": "setup-whitelist",
@@ -17563,7 +17678,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 113,
+            "order": 114,
             "title": "Private Endpoint",
             "labels": "Private Endpoint",
             "slug": "private-endpoint",
@@ -17583,7 +17698,7 @@
             "parent_record_ids": [
               "recvlVRczK2epi"
             ],
-            "order": 114,
+            "order": 115,
             "title": "Set up a PrivateLink (AWS)",
             "labels": "Set up a PrivateLink (AWS)",
             "slug": "setup-a-private-link-aws",
@@ -17605,7 +17720,7 @@
             "parent_record_ids": [
               "recvlVRczK2epi"
             ],
-            "order": 115,
+            "order": 116,
             "title": "Set up a Private Service Connect (GCP)",
             "labels": "Set up a Private Service Connect (GCP)",
             "slug": "setup-a-private-link-gcp",
@@ -17627,7 +17742,7 @@
             "parent_record_ids": [
               "recvlVRczK2epi"
             ],
-            "order": 116,
+            "order": 117,
             "title": "Set up a Private Link (Azure)",
             "labels": "Set up a Private Link (Azure)",
             "slug": "setup-a-private-link-azure",
@@ -17647,7 +17762,7 @@
             "table_name": "Management",
             "placement_type": "canonical",
             "parent_record_ids": [],
-            "order": 117,
+            "order": 118,
             "title": "Customer-Managed Encryption Keys",
             "labels": "CMEK",
             "slug": "cmek",
@@ -17670,7 +17785,7 @@
             "parent_record_ids": [
               "recvlVRhA4KOpE"
             ],
-            "order": 118,
+            "order": 119,
             "title": "AWS KMS",
             "labels": "AWS KMS",
             "slug": "aws-kms",
@@ -17693,7 +17808,7 @@
             "parent_record_ids": [
               "recvlVRhA4KOpE"
             ],
-            "order": 119,
+            "order": 120,
             "title": "Google Cloud KMS",
             "labels": "",
             "slug": "gcp-kms",
@@ -17716,7 +17831,7 @@
             "parent_record_ids": [
               "recvlVRhA4KOpE"
             ],
-            "order": 120,
+            "order": 121,
             "title": "Microsoft Azure KMS",
             "labels": "",
             "slug": "azure-kms",
@@ -17736,7 +17851,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 121,
+            "order": 122,
             "title": "Audit Logs",
             "labels": "Audit Logs",
             "slug": "auditing",
@@ -17756,7 +17871,7 @@
             "parent_record_ids": [
               "recvlVQUsw1Yrs"
             ],
-            "order": 122,
+            "order": 123,
             "title": "VectorDB Audit Logs",
             "labels": "VectorDB Audit Logs",
             "slug": "audit-logs",
@@ -17765,8 +17880,8 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/M5dXwsGOOiPdAjkWLZUc2Pxonuh",
+            "doc_token": "FrKYwyBXKiktPzkQcFXco2qUnYd",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/FrKYwyBXKiktPzkQcFXco2qUnYd",
             "ref_target": null,
             "ref_target_token": null,
             "ref_target_anchor": null
@@ -17779,7 +17894,7 @@
             "parent_record_ids": [
               "recvlVQUsw1Yrs"
             ],
-            "order": 123,
+            "order": 124,
             "title": "VectorDB Audit Logs Reference",
             "labels": "VectorDB Audit Logs Reference",
             "slug": "audit-logs-ref",
@@ -17788,8 +17903,8 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Nby4wCqNviuLg3kEZpkcdKtnnnb",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Nby4wCqNviuLg3kEZpkcdKtnnnb",
+            "doc_token": "IrxCwX9Hoi2BYckqDdjcSN7ynkh",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/IrxCwX9Hoi2BYckqDdjcSN7ynkh",
             "ref_target": null,
             "ref_target_token": null,
             "ref_target_anchor": null
@@ -17802,17 +17917,17 @@
             "parent_record_ids": [
               "recvlVQUsw1Yrs"
             ],
-            "order": 124,
-            "title": "View Platform Audit Logs",
-            "labels": "View Platform Audit Logs",
+            "order": 125,
+            "title": "Platform Audit Logs",
+            "labels": "Platform Audit Logs",
             "slug": "view-activities",
             "targets": [
               "zilliz.paas",
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "NeUWwqRl2iwn4HkZg3ocjLjmnth",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/NeUWwqRl2iwn4HkZg3ocjLjmnth",
+            "doc_token": "PynkwpI6Qi7zL9kiTBfchREknOc",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/PynkwpI6Qi7zL9kiTBfchREknOc",
             "ref_target": null,
             "ref_target_token": null,
             "ref_target_anchor": null
@@ -17823,7 +17938,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 125,
+            "order": 126,
             "title": "Access Logs",
             "labels": "Access Logs",
             "slug": "access-logs",
@@ -17843,7 +17958,7 @@
             "parent_record_ids": [
               "recvlVQVyUgNTD"
             ],
-            "order": 126,
+            "order": 127,
             "title": "Access Logs Overview",
             "labels": "Access Logs Overview",
             "slug": "access-log-overview",
@@ -17852,8 +17967,8 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "PIfLwbrMmiOZKAkqtpScjnhinXf",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/PIfLwbrMmiOZKAkqtpScjnhinXf",
+            "doc_token": "KiCTwoFPCiVWCUkJtSecFryfn7g",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/KiCTwoFPCiVWCUkJtSecFryfn7g",
             "ref_target": null,
             "ref_target_token": null,
             "ref_target_anchor": null
@@ -17866,7 +17981,7 @@
             "parent_record_ids": [
               "recvlVQVyUgNTD"
             ],
-            "order": 127,
+            "order": 128,
             "title": "Configure Access Logs",
             "labels": "Configure Access Logs",
             "slug": "configure-access-logs",
@@ -17875,8 +17990,8 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "QPgEwd4qziOa5RkgJR2c9gpnn3b",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/QPgEwd4qziOa5RkgJR2c9gpnn3b",
+            "doc_token": "E2X9wUPLpi3pQxkJzBpcpZ4snHg",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/E2X9wUPLpi3pQxkJzBpcpZ4snHg",
             "ref_target": null,
             "ref_target_token": null,
             "ref_target_anchor": null
@@ -17889,7 +18004,7 @@
             "parent_record_ids": [
               "recvlVQVyUgNTD"
             ],
-            "order": 128,
+            "order": 129,
             "title": "Access Log Reference",
             "labels": "Access Log Reference",
             "slug": "access-log-reference",
@@ -17898,8 +18013,8 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "TeLbw6guCimFLgkQWdmcZB2unMd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/TeLbw6guCimFLgkQWdmcZB2unMd",
+            "doc_token": "XWjpwaGdTi3PM9kST46cU7mpnLg",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/XWjpwaGdTi3PM9kST46cU7mpnLg",
             "ref_target": null,
             "ref_target_token": null,
             "ref_target_anchor": null
@@ -17910,7 +18025,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 129,
+            "order": 130,
             "title": "Slow Logs",
             "labels": "",
             "slug": "slow-logs",
@@ -17930,7 +18045,7 @@
             "parent_record_ids": [
               "recvobblSggSgz"
             ],
-            "order": 130,
+            "order": 131,
             "title": "Configure Slow Logs",
             "labels": "",
             "slug": "configure-slow-logs",
@@ -17939,8 +18054,8 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "VcI1wZ5mQiGqdPkCzHccj1RLnbd",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/VcI1wZ5mQiGqdPkCzHccj1RLnbd",
+            "doc_token": "QoEpwKGbEirQl1kh3W3c0zdinAd",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/QoEpwKGbEirQl1kh3W3c0zdinAd",
             "ref_target": null,
             "ref_target_token": null,
             "ref_target_anchor": null
@@ -17953,7 +18068,7 @@
             "parent_record_ids": [
               "recvobblSggSgz"
             ],
-            "order": 131,
+            "order": 132,
             "title": "Slow Logs Reference",
             "labels": "",
             "slug": "slow-log-reference",
@@ -17962,8 +18077,8 @@
               "zilliz.saas"
             ],
             "progress": "Draft",
-            "doc_token": "Ke8ownBFFiAmZFkBnWec81qEn70",
-            "doc_link": "https://zilliverse.feishu.cn/wiki/Ke8ownBFFiAmZFkBnWec81qEn70",
+            "doc_token": "QvqMw06F7iI6oKkXiD4cjV33nCd",
+            "doc_link": "https://zilliverse.feishu.cn/wiki/QvqMw06F7iI6oKkXiD4cjV33nCd",
             "ref_target": null,
             "ref_target_token": null,
             "ref_target_anchor": null
@@ -17974,7 +18089,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 132,
+            "order": 133,
             "title": "Billing Management",
             "labels": "Billing Management",
             "slug": "billing-management",
@@ -17994,7 +18109,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 133,
+            "order": 134,
             "title": "Understand BYOC Billing",
             "labels": "",
             "slug": "understand-byoc-billing",
@@ -18016,7 +18131,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 134,
+            "order": 135,
             "title": "Payment and Billing Overview",
             "labels": "Payment and Billing Overview",
             "slug": "payment-billing",
@@ -18039,7 +18154,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 135,
+            "order": 136,
             "title": "Set up Payment Method",
             "labels": "Set Up Payment Method",
             "slug": "set-up-payment-method",
@@ -18062,7 +18177,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 136,
+            "order": 137,
             "title": "Credits",
             "labels": "Credits",
             "slug": "credits",
@@ -18085,7 +18200,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 137,
+            "order": 138,
             "title": "Credit Card",
             "labels": "Credit Card",
             "slug": "subscribe-by-adding-credit-card",
@@ -18108,7 +18223,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 138,
+            "order": 139,
             "title": "Advance Pay",
             "labels": "Advance Pay",
             "slug": "advance-pay",
@@ -18131,7 +18246,7 @@
             "parent_record_ids": [
               "recvlW1zp9XD1h"
             ],
-            "order": 139,
+            "order": 140,
             "title": "Marketplace Subscription",
             "labels": "",
             "slug": "marketplace-subscription",
@@ -18151,7 +18266,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 140,
+            "order": 141,
             "title": "Subscribe to a Free Trial on AWS Marketplace",
             "labels": "AWS Marketplace (Free Trial)",
             "slug": "subscribe-on-aws-marketplace-free-trial",
@@ -18173,7 +18288,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 141,
+            "order": 142,
             "title": "Subscribe to a Public Offer on AWS Marketplace",
             "labels": "AWS Marketplace (Public Offer)",
             "slug": "subscribe-on-aws-marketplace",
@@ -18196,7 +18311,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 142,
+            "order": 143,
             "title": "Subscribe to a Private Offer on AWS Marketplace",
             "labels": "AWS Marketplace (Private Offer)",
             "slug": "subscribe-on-aws-marketplace-private-offer",
@@ -18219,7 +18334,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 143,
+            "order": 144,
             "title": "Subscribe to a Public Offer on Google Cloud Marketplace",
             "labels": "Google Cloud Marketplace (Public Offer)",
             "slug": "subscribe-on-gcp-marketplace",
@@ -18242,7 +18357,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 144,
+            "order": 145,
             "title": "Subscribe to a Private Offer on Google Cloud Marketplace",
             "labels": "Google Cloud Marketplace (Private Offer)",
             "slug": "subscribe-on-gcp-marketplace-private-offer",
@@ -18265,7 +18380,7 @@
             "parent_record_ids": [
               "recvlW22dFcBHg"
             ],
-            "order": 145,
+            "order": 146,
             "title": "Subscribe to a Public Offer on Microsoft Marketplace",
             "labels": "Microsoft Marketplace (Public Offer)",
             "slug": "subscribe-on-azure-marketplace",
@@ -18288,7 +18403,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 146,
+            "order": 147,
             "title": "Update Payment Method",
             "labels": "Update Payment Method",
             "slug": "update-payment-method",
@@ -18311,7 +18426,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 147,
+            "order": 148,
             "title": "Update Billing Profile",
             "labels": "Update Billing Profile",
             "slug": "update-billing-profile",
@@ -18334,7 +18449,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 148,
+            "order": 149,
             "title": "Understand Invoices",
             "labels": "Understand Invoices",
             "slug": "view-invoice",
@@ -18357,7 +18472,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 149,
+            "order": 150,
             "title": "Manage Invoices",
             "labels": "Manage Invoices",
             "slug": "manage-invoice",
@@ -18380,7 +18495,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 150,
+            "order": 151,
             "title": "Failed Payments and Organization Recovery",
             "labels": "Failed Payments and Organization Recovery",
             "slug": "failed-payments-organization-recovery",
@@ -18402,7 +18517,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 151,
+            "order": 152,
             "title": "Separate Billing by Marketplace Account",
             "labels": "",
             "slug": "separate-billing",
@@ -18422,7 +18537,7 @@
             "parent_record_ids": [
               "recvlW1LGxSWiK"
             ],
-            "order": 152,
+            "order": 153,
             "title": "Separate Zilliz Cloud Billing on AWS Marketplace",
             "labels": "AWS Marketplace",
             "slug": "separate-zilliz-cloud-billing-on-aws-marketplace",
@@ -18444,7 +18559,7 @@
             "parent_record_ids": [
               "recvlW1LGxSWiK"
             ],
-            "order": 153,
+            "order": 154,
             "title": "Separate Zilliz Cloud Billing on Microsoft Marketplace",
             "labels": "Microsoft Marketplace",
             "slug": "separate-zilliz-cloud-billing-on-azure-marketplace",
@@ -18466,7 +18581,7 @@
             "parent_record_ids": [
               "recvlW1qfBLXxO"
             ],
-            "order": 154,
+            "order": 155,
             "title": "Monitor Billing Alerts",
             "labels": "Monitor Billing Alerts",
             "slug": "monitor-billing-alerts",
@@ -18486,7 +18601,7 @@
             "table_name": "Management",
             "placement_type": "section",
             "parent_record_ids": [],
-            "order": 155,
+            "order": 156,
             "title": "Cost Management",
             "labels": "Cost Management",
             "slug": "cost-management",
@@ -18506,7 +18621,7 @@
             "parent_record_ids": [
               "recvlW1ufE3Qec"
             ],
-            "order": 156,
+            "order": 157,
             "title": "Understand Cost",
             "labels": "Understand Cost",
             "slug": "understand-cost",
@@ -18526,7 +18641,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 157,
+            "order": 158,
             "title": "On-Demand Compute Cost",
             "labels": "On-Demand Compute",
             "slug": "on-demand-compute-cost",
@@ -18548,7 +18663,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 158,
+            "order": 159,
             "title": "Dedicated Cluster Cost",
             "labels": "Dedicated Cluster",
             "slug": "dedicated-cluster-cost",
@@ -18570,7 +18685,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 159,
+            "order": 160,
             "title": "Serverless Cluster Cost",
             "labels": "Serverless Cluster",
             "slug": "serverless-cluster-cost",
@@ -18592,7 +18707,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 160,
+            "order": 161,
             "title": "Storage Cost",
             "labels": "Storage",
             "slug": "storage-cost",
@@ -18614,7 +18729,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 161,
+            "order": 162,
             "title": "Storage Request Cost",
             "labels": "Storage Request",
             "slug": "storage-request-cost",
@@ -18636,7 +18751,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 162,
+            "order": 163,
             "title": "Data Transfer Cost",
             "labels": "Data Transfer",
             "slug": "data-transfer-cost",
@@ -18658,7 +18773,7 @@
             "parent_record_ids": [
               "recvlW2jZs1VIn"
             ],
-            "order": 163,
+            "order": 164,
             "title": "Audit Logs Cost",
             "labels": "Audit Logs",
             "slug": "audit-log-cost",
@@ -18680,7 +18795,7 @@
             "parent_record_ids": [
               "recvlW1ufE3Qec"
             ],
-            "order": 164,
+            "order": 165,
             "title": "Analyze Cost",
             "labels": "Analyze Cost",
             "slug": "analyze-cost",
@@ -18703,7 +18818,7 @@
             "parent_record_ids": [
               "recvlW1ufE3Qec"
             ],
-            "order": 165,
+            "order": 166,
             "title": "Cost Optimization",
             "labels": "Cost Optimization",
             "slug": "cost-optimization",
@@ -18723,7 +18838,7 @@
             "table_name": "Management",
             "placement_type": "canonical",
             "parent_record_ids": [],
-            "order": 166,
+            "order": 167,
             "title": "Zilliz Cloud Limits",
             "labels": "Zilliz Cloud Limits",
             "slug": "limits",
@@ -18746,7 +18861,7 @@
             "parent_record_ids": [
               "recvlW2LRPor2A"
             ],
-            "order": 167,
+            "order": 168,
             "title": "API Availability",
             "labels": "API Availability",
             "slug": "api-comparison",
@@ -18770,8 +18885,8 @@
           "tblh7utKxg0dgdTo": "6b07e5f75af5c936da0fd7d9dde0a65af5e40cf24e24ab24d900dc79bb603c9b",
           "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
           "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
-          "tblWv7PjNDsexddH": "c5dd1c7d35b0ab58832d11d21905f29936cd75b76fc5d37c06f919c4e104f205",
-          "tblZMzoITXNsyKmQ": "64bc293ca409fb5c0e7b1f7c63a956e23db936365f5b59ac76b7e8e65e4e8810"
+          "tblWv7PjNDsexddH": "818169f7249861eb63aa9d26a0af352a27af7891f0cb3b8e9684143245438b85",
+          "tblZMzoITXNsyKmQ": "ed0439cf16f8fd1e69ad12b7c2d149d17fac86dc495911dbe3ecdf2f4ccd4f7c"
         }
       },
       "image_base_url": "https://zdoc-images.s3.us-west-2.amazonaws.com",
@@ -18817,9 +18932,9 @@
       }
     },
     "tools": {
-      "zdoc": "57977f06c7165a4eb0d9e945ce3c72c7fc10fc7e",
+      "zdoc": "c062875f4d9f606e8f41f92be2bfde4ff5d3370f",
       "md2md": "1.3.0",
-      "engine_sha256": "ffcbd9415ab5c7798fd9f0686cb0702d8306014ce4b10e6119338e2552e647cb"
+      "engine_sha256": "88a9c0900fb6fc1e7d055ce384fe9c0b4d50498549a831ee701504f5baec7d82"
     },
     "images": []
   },

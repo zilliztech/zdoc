@@ -1069,6 +1069,15 @@ module.exports = [
         "items": [
           {
             "type": "doc",
+            "id": "tutorials/development/scalar-index/scalar-index-overview",
+            "label": "Overview",
+            "key": "doc:tutorials/development/scalar-index/scalar-index-overview",
+            "customProps": {
+              "channel": "next"
+            }
+          },
+          {
+            "type": "doc",
             "id": "tutorials/development/scalar-index/bitmap-index-type",
             "label": "BITMAP",
             "key": "doc:tutorials/development/scalar-index/bitmap-index-type"
@@ -1096,6 +1105,15 @@ module.exports = [
             "id": "tutorials/development/scalar-index/slt-sort-index-type",
             "label": "STL_SORT",
             "key": "doc:tutorials/development/scalar-index/slt-sort-index-type"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/scalar-index/trie-index-type",
+            "label": "TRIE",
+            "key": "doc:tutorials/development/scalar-index/trie-index-type",
+            "customProps": {
+              "channel": "next"
+            }
           }
         ]
       },
@@ -1651,6 +1669,15 @@ module.exports = [
             "id": "tutorials/development/snapshots/manage-snapshots",
             "label": "Manage Snapshots (SDK)",
             "key": "doc:tutorials/development/snapshots/manage-snapshots"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/snapshots/manage-snapshots-console",
+            "label": "Manage Snapshots (Console)",
+            "key": "doc:tutorials/development/snapshots/manage-snapshots-console",
+            "customProps": {
+              "channel": "next"
+            }
           }
         ]
       }
@@ -2124,6 +2151,12 @@ module.exports = [
                 "id": "tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog",
                 "label": "Datadog",
                 "key": "doc:tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint",
+                "label": "Integrate with an HTTPS Endpoint",
+                "key": "doc:tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint"
               }
             ]
           }
@@ -2435,7 +2468,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/management/auditing/view-activities",
-            "label": "View Platform Audit Logs",
+            "label": "Platform Audit Logs",
             "key": "doc:tutorials/management/auditing/view-activities"
           }
         ]

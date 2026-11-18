@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-rtree-index-type
 sidebar_label: "RTREE"
-sidebar_position: 4
+sidebar_position: 5
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/rtree.md"
 
 ---
@@ -21,6 +21,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # RTREE
+
+<NextChannel action="exclude">
 
 The `RTREE` index is a tree-based data structure that accelerates queries on `GEOMETRY` fields in Zilliz Cloud. If your collection stores geometric objects such as points, lines, or polygons in [Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) format and you want to accelerate spatial filtering, `RTREE` is an ideal choice.
 
@@ -47,6 +49,75 @@ Zilliz Cloud uses an `RTREE` index to efficiently organize and filter geometry d
 1. **Collect candidates:** Descend into intersecting branches to gather candidate leaf nodes.
 
 1. **Exact match:** For each candidate, perform an exact spatial predicate to determine true matches.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+`RTREE` accelerates spatial filtering on `GEOMETRY` fields containing points, lines, or polygons in [Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) format.
+
+## Overview\{#overview}
+
+### Supported data types\{#supported-data-types}
+
+`GEOMETRY` fields. See [Geometry Field](./use-geometry-field) for field definitions.
+
+<a id="supported-filters"></a>
+<a id="Supported-filters"></a>
+
+### Filter acceleration\{#filter-acceleration}
+
+`RTREE` finds candidates using bounding boxes, then Zilliz Cloud checks the exact spatial relation. It supports the following [geometry operators](./geometry-operators):
+
+- `ST_EQUALS`, `ST_INTERSECTS`, `ST_CONTAINS`, and `ST_WITHIN`.
+- `ST_TOUCHES`, `ST_OVERLAPS`, `ST_CROSSES`, and `ST_DWITHIN`.
+
+`ST_ISVALID` does not use `RTREE`. Without an eligible index, spatial filters scan the field.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> These are index capabilities, not limits on valid filter expressions. See [Scalar Index](./scalar-index-overview#Filter-execution) for shared lookup constraints. For `AND`, `OR`, `NOT`, and NULL tests (`IS NULL`, `IS NOT NULL`), see [Basic Operators](./basic-filtering-operators).
+
+</Admonition>
+
+<a id="how-it-works"></a>
+<a id="How-it-works"></a>
+
+### How RTREE works\{#how-rtree-works}
+
+<a id="phase-1-build-the-index"></a>
+<a id="Phase-1-Build-the-index"></a>
+<a id="phase-2-accelerate-queries"></a>
+<a id="Phase-2-Accelerate-queries"></a>
+
+<details>
+<summary><strong>View the build and query process</strong></summary>
+
+Zilliz Cloud uses an `RTREE` index to efficiently organize and filter geometry data, following a two-phase process:
+
+**Phase 1: Build the index**
+
+1. **Create leaf nodes:** For each geometry object, calculate its [Minimum Bounding Rectangle](https://en.wikipedia.org/wiki/Minimum_bounding_rectangle) (MBR), which is the smallest rectangle that fully contains the object, and store it as a leaf node.
+
+1. **Group into larger boxes:** Cluster nearby leaf nodes together and wrap each group with a new MBR, forming internal nodes. For example, group **B** contains **D** and **E**; group **C** contains **F** and **G**.
+
+1. **Add the root node:** Add a root node whose MBR covers all internal groups, resulting in a height-balanced tree structure.
+
+![How Retree Works](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/3c531355142535757c91cd396b45f80beb23425dd634f801adf07460bf9d3a54.png)
+
+**Phase 2: Accelerate queries**
+
+1. **Form the query MBR:** Calculate the MBR for your query geometry.
+
+1. **Prune branches:** Starting at the root, compare the query MBR to each internal node. Skip any branches whose MBR does not intersect with the query MBR.
+
+1. **Collect candidates:** Descend into intersecting branches to gather candidate leaf nodes.
+
+1. **Exact match:** For each candidate, perform an exact spatial predicate to determine true matches.
+
+</details>
+
+</NextChannel>
 
 ## Create an RTREE index\{#create-an-rtree-index}
 
@@ -273,9 +344,19 @@ curl --request POST \
 
 ## Query with RTREE\{#query-with-rtree}
 
+<NextChannel action="exclude">
+
 You filter with geometry operators in the `filter` expression. When an `RTREE` exists on the target `GEOMETRY` field, Zilliz Cloud uses it to prune candidates automatically. Without the index, the filter falls back to a full scan.
 
 For a full list of available geometry-specific operators, refer to [Geometry Operators](./geometry-operators).
+
+</NextChannel>
+
+<NextChannel action="include">
+
+The following examples use an indexed `GEOMETRY` field named `geo`.
+
+</NextChannel>
 
 ### Example 1: Filter only\{#example-1-filter-only}
 
@@ -643,11 +724,25 @@ For more information on how to use a `GEOMETRY` field, refer to [Geometry Field]
 
 Use the `drop_index()` method to remove an existing index from a collection.
 
+<NextChannel action="exclude">
+
 <Admonition type="info" icon="📘" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> For release requirements when dropping a scalar index, see [Scalar Index](./scalar-index-overview#Drop-index-compatibility).
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

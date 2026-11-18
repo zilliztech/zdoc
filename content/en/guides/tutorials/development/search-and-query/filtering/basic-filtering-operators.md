@@ -24,6 +24,8 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud provides comparison, range, arithmetic, logical, and NULL operators for filtering entities. Each operator supports specific field types.
 
+<NextChannel action="exclude">
+
 <Admonition type="info" icon="📘" title="Notes">
 
 The literal on the left-hand side of a filtering expression can either be a collection field name, such as `status`, `color`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] > 10'`.
@@ -31,6 +33,18 @@ The literal on the left-hand side of a filtering expression can either be a coll
 For details on scalar filtering in a StructArray field, refer to [StructArray Operators](./struct-array-filtering).
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+The left operand can be a collection field, such as `status`, or a StructArray subfield at a specific element index, such as `struct[0][subfield] > 10`. See [StructArray Operators](./struct-array-filtering).
+
+</Admonition>
+
+</NextChannel>
 
 ## Comparison operators\{#comparison-operators}
 
@@ -549,7 +563,11 @@ filter='color in ["red", "green", "blue"]'
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 This is useful when you want to check for membership in a list of values.
+
+</NextChannel>
 
 ## Pattern matching operators\{#pattern-matching-operators}
 
@@ -768,7 +786,17 @@ filter='message !~ "^DEBUG"'
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 For more details about choosing between `LIKE` and regex, supported field types, regex syntax, escaping rules, and performance, refer to [Pattern Matching](./pattern-match). Zilliz Cloud also allows you to build an `NGRAM` index on `VARCHAR` fields or JSON string paths to accelerate eligible pattern matching filters. For details, refer to [NGRAM](./ngram-index-type).
+
+</NextChannel>
+
+<NextChannel action="include">
+
+For syntax, escaping, field support, and acceleration options such as `NGRAM`, see [Pattern Matching](./pattern-match).
+
+</NextChannel>
 
 ## Arithmetic operators\{#arithmetic-operators}
 
@@ -1179,6 +1207,16 @@ Always wrap the bitwise operation in parentheses before comparing the result, su
 ## Logical operators\{#logical-operators}
 
 Logical operators are used to combine multiple conditions into a more complex filter expression. These include `AND`, `OR`, and `NOT`.
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Each condition can use its own eligible index or scan path; one index type need not serve the entire expression. See [Scalar Index](./scalar-index-overview).
+
+</Admonition>
+
+</NextChannel>
 
 ### Supported logical operators\{#supported-logical-operators}
 
@@ -1652,8 +1690,11 @@ Replace the `filter` in the same query to check either field or combine conditio
 | `embedding IS NOT NULL` | `1`, `2` | Find entities with an embedding |
 | `category IS NOT NULL AND embedding IS NOT NULL` | `1` | Find entities with both values |
 
+<a id="regular-scalar-fields-with-null-values"></a>
 <a id="Regular-scalar-fields-with-null-values"></a>
+<a id="json-fields-with-null-values"></a>
 <a id="JSON-fields-with-null-values"></a>
+<a id="array-fields-with-null-values"></a>
 <a id="ARRAY-fields-with-null-values"></a>
 
 ### How field values are treated\{#how-field-values-are-treated}
@@ -1669,6 +1710,16 @@ The operators check the stored field value. For a nullable field without a defau
 
 For a supported field defined with `nullable=False`, `IS NULL` matches no entities and `IS NOT NULL` matches all visible entities. Other conditions in the filter still apply.
 
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Scalar NULL filters use validity information from an eligible index or field data; they do not require a particular scalar index type. A non-nullable field can produce a constant result.
+
+</Admonition>
+
+</NextChannel>
+
 ### Use NULL filters in vector search\{#use-null-filters-in-vector-search}
 
 The same operators can be used in search filters, but an entity also needs a vector in the field being searched to participate in similarity search.
@@ -1681,15 +1732,35 @@ Using the example data above, consider a search with `anns_field="embedding"`:
 | `embedding IS NULL` | None | Entity `3` matches the filter, but has no `embedding` vector to compare with the query vector. |
 | `embedding IS NOT NULL` | `1`, `2` | Both entities have an `embedding` vector. |
 
+<NextChannel action="exclude">
+
 All three filters are valid. A search on `embedding` with `embedding IS NULL` returns no hits because no entity can satisfy both requirements. To retrieve the entities with missing embeddings, use `query()` as shown above.
 
 Vector search already skips entities whose searched vector field is NULL, so `embedding IS NOT NULL` does not further narrow the candidates for a search on `embedding`. Ranking, other filters, and the search limit still determine which candidates are returned.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+To retrieve missing embeddings, use `query()`; a search on `embedding` with `embedding IS NULL` is valid but returns no hits. Vector search already skips NULL embeddings, so `embedding IS NOT NULL` does not further narrow candidates. Ranking, other filters, and the search limit still determine the returned hits.
+
+</NextChannel>
+
 ## Tips on using basic operators with JSON and ARRAY fields\{#tips-on-using-basic-operators-with-json-and-array-fields}
+
+<NextChannel action="exclude">
 
 While the basic operators in Zilliz Cloud are versatile and can be applied to scalar fields, they can also be effectively used with the keys and indexes in the JSON and ARRAY fields.
 
 For example, if you have a `product` field that contains multiple keys like `price`, `model`, and `tags`, always reference the key directly:
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Reference a JSON key or ARRAY element directly in the expression. For example, to filter the `price` key in a JSON field named `product`:
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1827,9 +1898,20 @@ filter='history_temperatures[0] > 30'
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## Conclusion\{#conclusion}
 
 Zilliz Cloud offers a range of basic operators that give you flexibility in filtering and querying your data. By combining comparison, range, arithmetic, and logical operators, you can create powerful filter expressions to narrow down your search results and retrieve the data you need efficiently.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<a id="conclusion"></a>
+<a id="Conclusion"></a>
+
+</NextChannel>
 
 ## FAQ\{#faq}
 

@@ -22,7 +22,6 @@ import TabItem from '@theme/TabItem';
 
 # Create Collection
 
-
 You can create a collection by defining its schema, index parameters, metric type, and whether to load it upon creation. This page introduces how to create a collection from scratch.
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -58,7 +57,6 @@ The following code snippets create a schema with the enabled dynamic field and t
 You can set default values for any scalar field and make it nullable. For details, refer to  [Nullable & Default](./nullable-fields).
 
 </Admonition>
-
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -337,13 +335,25 @@ Use a colon-separated username and password of the target cluster, like `usernam
 
 ## (Optional) Set Index Parameters\{#optional-set-index-parameters}
 
+<NextChannel action="exclude">
+
 Creating an index on a specific field accelerates the search against this field. An index records the order of entities within a collection. As shown in the following code snippets, you can use `metric_type` and `index_type` to select appropriate ways for Zilliz Cloud to index a field and measure similarities between vector embeddings.
 
 On Zilliz Cloud, you can use `AUTOINDEX` as the index type for all vector fields, and one of `COSINE`, `L2`, and `IP` as the metric type based on your needs.
 
 As demonstrated in the above code snippet, you need to set both the index type and metric type for vector fields and only the index type for the scalar fields. Indexes are mandatory for vector fields, and you are advised to create indexes on scalar fields frequently used in filtering conditions.
 
-For details, refer to [Index Vector Fields](https://milvus.io/docs/index-vector-fields.md) and [Index Scalar Fields](https://milvus.io/docs/index-scalar-fields.md).
+For details, refer to [Index Vector Fields](https://milvus.io/docs/index-vector-fields.md) and [Index Scalar Fields](./scalar-index-overview).
+
+</NextChannel>
+
+<NextChannel action="include">
+
+The examples below prepare index definitions for the schema's fields. Choose a vector index and metric compatible with the vector field's data type; see [Index Explained](./indexes) and [Similarity Metrics](./search-metrics-explained).
+
+Vector fields require indexes before loading. Scalar indexes are optional; see [Scalar Index](./scalar-index-overview) for field compatibility and explicit or automatic type selection.
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -725,7 +735,6 @@ curl --request POST \
 
 </Tabs>
 
-
 You can also create a collection without any index parameters and add them afterward. In this case, Zilliz Cloud does not load the collection upon its creation.
 
 For details on how to create indexes for an existing collection, refer to [AUTOINDEX Explained](./autoindex-explained).
@@ -960,6 +969,7 @@ You can set properties for the collection to create to make it fit into your ser
 Shards are horizontal slices of a collection, and each shard corresponds to a data input channel. By default, every collection has one shard. You can specify the number of shards when creating a collection to better suit your data volume and workload.
 
 As a general guideline, consider the following when setting the number of shards:
+
 - **Data size:** A common practice is to have one shard for every 200 million entities. You can also estimate based on the total data size, for example, adding one shard for every 100 GB of data you plan to insert.
 - **Stream node utilization:** If your Zilliz Cloud instance has multiple stream nodes, using multiple shards is recommended. This ensures that the data insertion workload is distributed across all available stream nodes, preventing some from being idle while others are overloaded.
 

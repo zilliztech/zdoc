@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-ngram-index-type
 sidebar_label: "NGRAM"
-sidebar_position: 3
+sidebar_position: 4
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/ngram.md"
 
 ---
@@ -21,6 +21,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # NGRAM
+
+<NextChannel action="exclude">
 
 The `NGRAM` index in Zilliz Cloud accelerates `LIKE` queries and eligible regex filters on `VARCHAR` fields or specific JSON paths within `JSON` fields. Before building the index, Zilliz Cloud splits text into short, overlapping substrings of a fixed length *n*, known as *n-grams*. For example, with *n = 3*, the word *"Milvus"* is split into 3-grams: *"Mil"*, *"ilv"*, *"lvu"*, and *"vus"*. These n-grams are then stored in an inverted index that maps each gram to the document IDs in which it appears. At query time, this index allows Zilliz Cloud to quickly narrow the search to a small set of candidates before verifying the original filter condition.
 
@@ -126,9 +128,135 @@ When a `LIKE` filter or an eligible regex filter is executed, Zilliz Cloud uses 
 
 </details>
 
+</NextChannel>
+
+<NextChannel action="include">
+
+`NGRAM` accelerates LIKE and eligible regex filters on `VARCHAR` fields and JSON string paths. It uses character sequences to narrow matching entities; some patterns require checking the original values.
+
+Use it for prefix, suffix, substring, wildcard, or regex filters with usable literal text, such as `title LIKE "%vector%"` or `message =~ "error.*timeout"`. For syntax, see [Pattern Matching](./pattern-match).
+
+## Overview\{#overview}
+
+### Supported data types\{#supported-data-types}
+
+`VARCHAR` fields and JSON paths cast to `VARCHAR`. JSON paths require `json_path` and `json_cast_type`; see [JSON Indexing](./json-indexing).
+
+<a id="queries-accelerated-by-ngram"></a>
+<a id="Queries-accelerated-by-NGRAM"></a>
+
+<a id="supported-filters"></a>
+<a id="Supported-filters"></a>
+
+<a id="filter-expression-examples"></a>
+<a id="Filter-expression-examples"></a>
+
+### Filter acceleration\{#filter-acceleration}
+
+The query must target the indexed field or JSON path. The examples illustrate each pattern; acceleration depends on the conditions in the last column:
+
+| Pattern | Example expression | Acceleration conditions and behavior |
+| --- | --- | --- |
+| Prefix or suffix literal | `text LIKE "database%"` or `text LIKE "%database"` | Requires at least `min_gram` characters; finds candidates, then checks original values. |
+| Substring literal | `text LIKE "%database%"` | Requires at least `min_gram` characters. Returns exact matches within `[min_gram, max_gram]`; longer literals produce candidates for rechecking. |
+| General LIKE | `text LIKE "%st%um%"` | Finds candidates when each non-empty literal fragment meets `min_gram`, then checks original values. |
+| Regex | `text =~ "error.*timeout"` | Finds candidates when suitable literals can be extracted, then checks the full regex. |
+
+For an indexed JSON string path, use the path in the expression, such as `json_field["body"] LIKE "%database%"`. See [Pattern Matching](./pattern-match#common-like-patterns) for LIKE examples and [regex examples](./pattern-match#common-regex-patterns).
+
+Without suitable literals, Zilliz Cloud scans the data. `NGRAM` provides pattern lookup, not direct equality, membership, or range lookup. These rules apply after [query-planning simplifications](./pattern-match#accelerate-pattern-matching-with-indexes).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> These are index capabilities, not limits on valid filter expressions. See [Scalar Index](./scalar-index-overview#Filter-execution) for shared lookup constraints. For `AND`, `OR`, `NOT`, and NULL tests (`IS NULL`, `IS NOT NULL`), see [Basic Operators](./basic-filtering-operators).
+
+</Admonition>
+
+<a id="usage-notes"></a>
+
+### Usage notes\{#usage-notes-next}
+
+N-gram decomposition is character-based, language-agnostic, and includes whitespace and punctuation. It preserves case. Wider gram ranges produce more grams and larger indexes; consider [mmap](./use-mmap) for large posting lists when memory is tight.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Regex patterns without fixed literals, such as `[a-z]+`, can fall back to scanning. Case-insensitive patterns with `(?i)` may also skip `NGRAM` optimization. Candidate verification uses the full RE2 pattern, preserving the regex's match results.
+
+</Admonition>
+
+### Memory considerations\{#memory-considerations}
+
+For a rough loaded-memory estimate, use `S` bytes, where `S` is the built index size before storage compression. Obtain `S` by building on representative data; raw text size is not a substitute. Gram ranges and data distribution affect the built size.
+
+These rough estimates cover loaded index memory with memory mapping disabled. Calculate them per segment, then sum across loaded segments and replicas.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> Allow extra memory for loaded field data, vector indexes, collection and index overhead, and temporary allocations. Validate with representative data and queries; arrays, JSON, older index formats, and memory mapping require separate measurement.
+
+</Admonition>
+
+<a id="how-it-works"></a>
+<a id="How-it-works"></a>
+
+### How NGRAM works\{#how-ngram-works}
+
+<a id="phase-1-build-the-index"></a>
+<a id="Phase-1-Build-the-index"></a>
+<a id="phase-2-accelerate-queries"></a>
+<a id="Phase-2-Accelerate-queries"></a>
+
+<details>
+<summary><strong>View the build and query process</strong></summary>
+
+An n-gram is an overlapping sequence of characters. With `n=3`, `"Milvus"` produces `"Mil"`, `"ilv"`, `"lvu"`, and `"vus"`.
+
+**Phase 1: Build the index**
+
+For each string, generate grams of every length from `min_gram` through `max_gram`, inclusive. With `min_gram=2` and `max_gram=3`, `"AI database"` produces 2-grams such as `AI`, `I_`, `_d`, and `da`, and 3-grams such as `AI_`, `I_d`, `_da`, and `dat`. Here, `_` represents a space:
+
+![Build Ngram Index](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/1233d6b8942d7f570e157fc900a95d2ef0aa7b0c37297920f13df407919ba546.png)
+
+Map each gram to the entity IDs containing it. For example, if `"AI"` occurs in entities 1, 5, 6, 8, and 9, store `{"AI": [1, 5, 6, 8, 9]}`:
+
+![Build Ngram Index 2](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/7c8832f6f355e47375246d45eed5aeaf57742ee073fd37cf212140d3e3246f99.png)
+
+**Phase 2: Accelerate queries**
+
+Extract literal text from the LIKE or eligible regex pattern. For example, `"%database%"` yields `database`, and `"error.*timeout"` contains `error` and `timeout`. For a literal of length `L`:
+
+- If `L < min_gram`, the literal cannot use the index.
+- If `min_gram ≤ L ≤ max_gram`, look up the literal as one gram.
+- If `L > max_gram`, split it into overlapping `max_gram`-length grams.
+
+Intersect the grams' entity lists to find candidates, then apply the original filter when rechecking is required. A simple substring literal within `[min_gram, max_gram]` returns exact matches without rechecking:
+
+![Accelerate Queries](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a0a7061a61ff0d6d451a94679ce9f75dedb8946288c90f4894fc88ed210a6418.png)
+
+</details>
+
+</NextChannel>
+
 ## Create an NGRAM index\{#create-an-ngram-index}
 
+<NextChannel action="exclude">
+
 You can create an NGRAM index on a `VARCHAR` field or on a specific path inside a `JSON` field.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+You can create an NGRAM index on a `VARCHAR` field or on a specific path inside a `JSON` field. Specify both `min_gram` and `max_gram` as positive integers, with `min_gram <= max_gram`.
+
+The parameters control the indexed character sequences. Rebuild the index to change them:
+
+| Parameter | Meaning |
+| --- | --- |
+| `min_gram` | Minimum sequence length in characters. It also sets the minimum literal length that can use the index. |
+| `max_gram` | Maximum sequence length in characters. Longer query literals are split into overlapping sequences of this length. |
+
+</NextChannel>
 
 ### Example 1: Create on a VARCHAR field\{#example-1-create-on-a-varchar-field}
 
@@ -335,11 +463,21 @@ This configuration generates 2-grams and 3-grams for each string in `text` and s
 
 ### Example 2: Create on a JSON path\{#example-2-create-on-a-json-path}
 
+<NextChannel action="exclude">
+
 For a `JSON` field, in addition to the gram settings, you must also specify:
 
 - `params.json_path` – the JSON path that points to the value you want to index.
 
 - `params.json_cast_type` – must be `"varchar"` (case-insensitive), because NGRAM indexing operates on strings.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+For a JSON path, use a `VARCHAR` cast (case-insensitive) and the gram settings below. See [JSON Indexing](./json-indexing#index-requirements) for path and cast requirements.
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -513,6 +651,8 @@ curl --request POST \
 </TabItem>
 
 </Tabs>
+
+<NextChannel action="exclude">
 
 In this example:
 
@@ -1009,15 +1149,37 @@ Supported query types:
 
 For more information on filter expression syntax, refer to [Pattern Matching](./pattern-match).
 
+</NextChannel>
+
+<NextChannel action="include">
+
+This indexes `json_field["body"]` as a `VARCHAR` value using substrings of length 2 to 4. For other path options, see [JSON Indexing](./json-indexing).
+
+</NextChannel>
+
 ## Drop an index\{#drop-an-index}
 
 Use the `drop_index()` method to remove an existing index from a collection.
+
+<NextChannel action="exclude">
 
 <Admonition type="info" icon="📘" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> For release requirements when dropping a scalar index, see [Scalar Index](./scalar-index-overview#Drop-index-compatibility).
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1113,6 +1275,8 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## Usage notes\{#usage-notes}
 
 - **Field types**: Supported on `VARCHAR` and `JSON` fields. For JSON, provide both `params.json_path` and `params.json_cast_type="varchar"`.
@@ -1128,6 +1292,8 @@ curl --request POST \
 - **Space–time trade-off**: Wider gram ranges `[min_gram, max_gram]` produce more grams and larger indexes. If memory is tight, consider `mmap` mode for large posting lists. For more information, refer to [Use mmap](./use-mmap).
 
 - **Immutability**: `min_gram` and `max_gram` cannot be changed in place—rebuild the index to adjust them.
+
+</NextChannel>
 
 ## Best practices\{#best-practices}
 

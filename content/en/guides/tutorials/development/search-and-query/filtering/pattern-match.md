@@ -22,6 +22,8 @@ import TabItem from '@theme/TabItem';
 
 # Pattern Matching
 
+<NextChannel action="exclude">
+
 In agentic search applications, vector search and grep-style pattern matching often complement each other. Vector search retrieves entities that are semantically relevant, while pattern matching narrows those results by exact string structures, such as error codes, log prefixes, email domains, URL paths, or identifiers.
 
 In Zilliz Cloud, you can express these pattern constraints in scalar filters with `LIKE` for simple wildcard matching, and `=~` or `!~` for [RE2](https://github.com/google/re2/wiki/syntax) regular expressions. You can combine these filters with `query`, `search`, or hybrid search.
@@ -31,6 +33,20 @@ In Zilliz Cloud, you can express these pattern constraints in scalar filters wit
 This page describes pattern matching in scalar filter expressions used by `query`, `search`, and hybrid search. These expressions evaluate field values and do not change the tokens produced by an analyzer. To filter tokens during text analysis, refer to [Regex Analyzer Filter](./regex-filter).
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Use `LIKE` for wildcard matching and `=~` or `!~` for [RE2](https://github.com/google/re2/wiki/syntax) regular expressions. These scalar filters match string structures such as error codes, prefixes, email domains, or URL paths in `query`, `search`, and hybrid search.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+These filters match string values. They do not change analyzer tokens or enable token-based `TEXT_MATCH` and `PHRASE_MATCH`. See [Regex Analyzer Filter](./regex-filter) and [Text Match](https://milvus.io/docs/keyword-match.md) for those mechanisms.
+
+</Admonition>
+
+</NextChannel>
 
 Pattern matching expressions are written in the `filter` parameter. For example, the following query matches log messages that contain an error code such as `E1001`:
 
@@ -241,6 +257,8 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 The examples on this page focus on the expression assigned to `filter`. You can use the same filter expression syntax in Zilliz Cloud operations that accept a scalar filter, such as `query`, `search`, and hybrid search.
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -251,9 +269,25 @@ For details on scalar filtering in a StructArray field, refer to [StructArray Op
 
 </Admonition>
 
+</NextChannel>
+
+<NextChannel action="include">
+
+The remaining examples show the expression assigned to `filter`.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+The left operand can be a collection field, such as `message`, or a StructArray subfield at a specific element index, such as `struct[0][subfield] =~ "E[0-9]{4}"`. See [StructArray Operators](./struct-array-filtering).
+
+</Admonition>
+
+</NextChannel>
+
 ## Supported field types\{#supported-field-types}
 
 Pattern matching is available for string values.
+
+<NextChannel action="exclude">
 
 | Target | `LIKE` | Regex `=~` / `!~` | Notes |
 | --- | --- | --- | --- |
@@ -262,11 +296,34 @@ Pattern matching is available for string values.
 | `ARRAY<VARCHAR>` element | Yes | Yes | Match a specific element by index, such as `tags[0]`. Pattern matching does **not** scan all elements; it only applies to the element at the specified index. |
 | Numeric, Boolean, vector, `TEXT`, or other non-`VARCHAR` targets | No | No | Pattern matching is available only for `VARCHAR` values, JSON paths that resolve to strings, or indexed `ARRAY<VARCHAR>` elements. |
 
+</NextChannel>
+
+<NextChannel action="include">
+
+| Target | `LIKE` | Regex `=~` / `!~` | Notes |
+| --- | --- | --- | --- |
+| `VARCHAR` field | Yes | Yes | Typical target for pattern matching on string fields. |
+| `JSON` path with a string value | Yes | Yes | Positive matches require string values. For index path/cast settings, see [JSON Indexing](./json-indexing#understand-cast-types). |
+| `ARRAY<VARCHAR>` element | Yes | Yes | Match a specific element by index, such as `tags[0]`. Pattern matching does **not** scan all elements; it only applies to the element at the specified index. |
+| Numeric, Boolean, vector, `TEXT`, or other non-string targets | No | No | Patterns require string values. |
+
+</NextChannel>
+
 ## Choose LIKE or regex\{#choose-like-or-regex}
+
+<NextChannel action="exclude">
 
 Choose the simplest operator that expresses the pattern you need.
 
 If you need an exact string match, we recommend you use `==` instead of pattern matching. Use `LIKE` or regex only when the filter needs to match a pattern.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Use `==` for exact string equality; otherwise, choose an operator from the following table:
+
+</NextChannel>
 
 | Requirement | Recommended operator | Example | Description |
 | --- | --- | --- | --- |
@@ -278,7 +335,11 @@ If you need an exact string match, we recommend you use `==` instead of pattern 
 | Case-insensitive pattern matching | `=~` with `(?i)` | `message =~ "(?i)error"` | Matches `error`, `ERROR`, or other case variants. |
 | Exclude values that match a regex pattern | `!~` | `message !~ "^DEBUG"` | Excludes strings that start with `DEBUG`. |
 
+<NextChannel action="exclude">
+
 Use `LIKE` for simple wildcard matching. Use regex when the pattern needs character classes, repetition, alternation such as `error|failed`, anchors, or case-insensitive matching.
+
+</NextChannel>
 
 ## Use LIKE\{#use-like}
 
@@ -304,11 +365,25 @@ Use the position of `%` and `_` to control where the fixed text appears in the m
 
 Use `LIKE` for prefix, suffix, contains, and fixed-position single-character matches. `LIKE` does not support character classes such as `[0-9]`, alternation such as `error|failed`, repeat counts such as `{4}`, anchors such as `^` or `$`, or case-insensitive flags such as `(?i)`. Use regex for those patterns.
 
+<NextChannel action="exclude">
+
 Use `==` for exact full-string equality. Use `LIKE` only when the filter needs wildcard matching.
+
+</NextChannel>
 
 ### Escaping wildcards in a LIKE pattern\{#escaping-wildcards-in-a-like-pattern}
 
+<NextChannel action="exclude">
+
 In `LIKE` patterns, `%` matches zero or more characters and `_` matches exactly one character. To match `%`, `_`, or `\` literally, escape the character with a backslash (`\`):
+
+</NextChannel>
+
+<NextChannel action="include">
+
+To match `%`, `_`, or `\` literally, escape the character with a backslash (`\`):
+
+</NextChannel>
 
 - `name LIKE r"\%"` matches the literal value `%`.
 - `name LIKE r"\_%"` matches values that start with a literal `_`.
@@ -318,9 +393,19 @@ Raw string literals, written as `r"..."` or `r'...'`, keep backslashes verbatim 
 
 ## Use regex | PUBLIC\{#use-regex-or-public}
 
+<NextChannel action="exclude">
+
 Use regex filters when the pattern requires regular expression features such as character classes, repetition, alternation, anchors, or case-insensitive matching. Zilliz Cloud applies an [RE2](https://github.com/google/re2/wiki/syntax) regular expression to a string value.
 
 The right side of `=~` or `!~` must be a string literal.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Regex supports character classes, repetition, alternation, anchors, and case-insensitive matching. The right operand of `=~` or `!~` must be a string literal:
+
+</NextChannel>
 
 | Operator | Meaning | Example |
 | --- | --- | --- |
@@ -329,9 +414,19 @@ The right side of `=~` or `!~` must be a string literal.
 
 ### Using raw string literals\{#using-raw-string-literals}
 
+<NextChannel action="exclude">
+
 Raw string literals are recommended for regex patterns that contain backslashes. In a raw string, written as `r"..."` or `r'...'`, backslashes are passed to the regex engine verbatim. This avoids the extra escaping required by ordinary string literals.
 
 For example:
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Use raw string literals (`r"..."` or `r'...'`) to pass backslashes verbatim to RE2, avoiding the extra escaping in ordinary filter strings:
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -581,7 +676,21 @@ zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 Note: Zilliz Cloud regex filters follow RE2 syntax. If a regex pattern uses syntax that RE2 does not support or is otherwise invalid, Zilliz Cloud rejects the filter expression. For details about regex metacharacters, flags, and matching behavior, refer to the [RE2 syntax](https://github.com/google/re2/wiki/syntax) reference.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Zilliz Cloud rejects invalid regex patterns and syntax that [RE2](https://github.com/google/re2/wiki/syntax) does not support.
+
+</Admonition>
+
+</NextChannel>
 
 ### Matching behavior\{#matching-behavior}
 
@@ -838,6 +947,8 @@ For JSON paths, regex filters behave differently when the path is missing, null,
 
 ## Accelerate pattern matching with indexes\{#accelerate-pattern-matching-with-indexes}
 
+<NextChannel action="exclude">
+
 Zilliz Cloud supports several index types on string fields that can be used together with `LIKE` and regex filters on `VARCHAR` fields or JSON string paths, such as `NGRAM`, `STL_SORT`, `INVERTED`, and `BITMAP`. Pattern matching can work without an index, but an index can improve performance on large datasets.
 
 Index effectiveness depends on the pattern expression, whether Zilliz Cloud can extract fixed literal substrings, and the cardinality and distribution of the target field. Prefix-style patterns such as `name LIKE "Prod%"` may benefit from different index strategies than infix or suffix patterns such as `description LIKE "%vector%"` or `filename LIKE "%.json"`.
@@ -849,3 +960,17 @@ Use the following table as a starting point, then benchmark with your own worklo
 | Contains fixed literal substrings, such as `message =~ "error.*timeout"` or `message LIKE "%database%"` | `NGRAM` | Helps when Zilliz Cloud can extract meaningful literal substrings from the pattern. For details, refer to [NGRAM](./ngram-index-type). |
 | Prefix, exact, or equality-like string filters, especially on fields with low to moderate cardinality | `STL_SORT`, `INVERTED`, or `BITMAP` | May be more effective when the field has repeated values or when the filter is close to exact matching. For details, refer to [STL_SORT](./slt-sort-index-type), [INVERTED](./inverted-index-type), and [BITMAP](./bitmap-index-type). |
 | Regex patterns without fixed literals, or patterns dominated by character classes, short tokens, or wildcards | Benchmark before relying on index acceleration | These patterns may provide limited index selectivity and can fall back to broader scans. |
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Pattern matching works without a scalar index. For acceleration options and their eligibility conditions, see [String-pattern index selection](./scalar-index-overview#String-pattern-indexes). For JSON path indexes, check the [JSON-specific prerequisites](./json-indexing#index-requirements).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Query planning can simplify a LIKE expression without wildcards to equality, or a simple anchored regex to equality, prefix, or suffix matching. For example, `name =~ "^abc$"` becomes an equality test and follows equality lookup support. Check index support for the operation after this simplification, not only for the operator written in the original expression.
+
+</Admonition>
+
+</NextChannel>

@@ -181,6 +181,7 @@ At a high level:
 
 - Prefer explicit boolean comparisons such as `$[has_code] == true` instead of bare boolean expressions.
 
+<a id="import-limits"></a>
 <a id="Import-limits"></a>
 
 ## Import and storage limits\{#import-and-storage-limits}

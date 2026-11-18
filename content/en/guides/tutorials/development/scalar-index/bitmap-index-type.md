@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-bitmap-index-type
 sidebar_label: "BITMAP"
-sidebar_position: 1
+sidebar_position: 2
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/bitmap.md"
 
 ---
@@ -22,11 +22,23 @@ import TabItem from '@theme/TabItem';
 
 # BITMAP
 
+<NextChannel action="exclude">
+
 Bitmap indexing is an efficient indexing technique designed to improve query performance on low-cardinality scalar fields. Cardinality refers to the number of distinct values in a field. Fields with fewer distinct elements are considered low-cardinality.
 
 This index type helps reduce the retrieval time of scalar queries by representing field values in a compact binary format and performing efficient bitwise operations on them. Compared to other types of indexes, bitmap indexes typically have higher space efficiency and faster query speeds when dealing with low-cardinality fields.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+`BITMAP` accelerates scalar filtering on fields with few distinct values, such as status codes and categories. Cardinality is the number of distinct values in a field. This page describes supported filters, field restrictions, and index creation.
+
+</NextChannel>
+
 ## Overview\{#overview}
+
+<NextChannel action="exclude">
 
 The term **Bitmap** combines two words: **Bit** and **Map**. A bit represents the smallest unit of data in a computer, which can only hold a value of either **0** or **1**. A map, in this context, refers to the process of transforming and organizing data according to what value should be assigned to 0 and 1.
 
@@ -47,6 +59,86 @@ To find the documents that match both criteria, we perform a bitwise AND operati
 - **Tech** AND **Public**: [1, 0, 0, 0, 0]
 
 The resulting bitmap [1, 0, 0, 0, 0] indicates that only the first document (**ID** **1**) satisfies both criteria. By using bitmap indexes and efficient bitwise operations, we can quickly narrow down the search scope, eliminating the need to scan the entire dataset.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+{/* Preserve the published #Limits link and the filter link used by related pages. These anchors are not headings. */}
+
+<a id="limits"></a>
+<a id="Limits"></a>
+<a id="queries-accelerated-by-bitmap"></a>
+<a id="Queries-accelerated-by-BITMAP"></a>
+
+### Index targets and filters\{#index-targets-and-filters}
+
+To create a `BITMAP` index explicitly, choose a non-primary-key target from the table below. Each row pairs a supported target with the filters the index can help evaluate:
+
+| Index target | Filters that can use the index |
+| --- | --- |
+| `BOOL` field | Equality (`==`, `!=`) and membership (`in`, `not in`). |
+| Integer field (`INT8`, `INT16`, `INT32`, `INT64`) | Equality, membership, and ranges (`<`, `<=`, `>`, `>=`). |
+| `VARCHAR` field | Equality, membership, ranges, and [LIKE or regex patterns](./pattern-match). Pattern evaluation can visit many distinct indexed strings. |
+| Ordinary `ARRAY` field with `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, or `VARCHAR` elements | `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ANY`, `ARRAY_CONTAINS_ALL`. See [Array index support](./use-array-fields#Array-index-support). |
+| JSON path cast to `BOOL` or `VARCHAR` | Filters for the corresponding Boolean or string values above, subject to the [JSON index requirements](./json-indexing#index-requirements). |
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> Scalar indexes, including `AUTOINDEX`, do not support recursive ARRAY fields or arrays with nullable elements. See [Array index support](./use-array-fields#Array-index-support) for ordinary-array filters and [Index StructArray Fields](./index-struct-array#create-scalar-indexes) for subfield rules.
+
+</Admonition>
+
+For ARRAY targets, `BITMAP` serves element-containment filters, not whole-array equality, element access by position, or array length. See [Array index support](./use-array-fields#Array-index-support).
+
+For automatic selection beyond these explicit targets, see [AUTOINDEX behavior](./scalar-index-overview#autoindex-behavior).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> These are index capabilities, not limits on valid filter expressions. See [Scalar Index](./scalar-index-overview#Filter-execution) for shared lookup constraints. For `AND`, `OR`, `NOT`, and NULL tests (`IS NULL`, `IS NOT NULL`), see [Basic Operators](./basic-filtering-operators).
+
+</Admonition>
+
+### Memory considerations\{#memory-considerations}
+
+Memory and query costs depend on the number of distinct values and their distribution. Compare indexes with representative filters rather than treating a fixed cardinality as a universal performance cutoff.
+
+For dense bitmaps, a rough estimate in bytes is `(D + 1) * N / 8`, where `N` is the number of entities and `D` the number of distinct values. This includes one bitmap per distinct value and one for validity. Value storage and other overhead add to the estimate; an optional offset cache adds approximately `8 * N` bytes on a 64-bit system. Compressed bitmap representations can have substantially different memory use.
+
+These rough estimates cover loaded index memory with memory mapping disabled. Calculate them per segment, then sum across loaded segments and replicas.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> Allow extra memory for loaded field data, vector indexes, collection and index overhead, and temporary allocations. Validate with representative data and queries; arrays, JSON, older index formats, and memory mapping require separate measurement.
+
+</Admonition>
+
+### How BITMAP works\{#how-bitmap-works}
+
+<details>
+<summary><strong>View a bitmap filtering example</strong></summary>
+
+A bitmap index associates each distinct field value with a bitmap. Each bit corresponds to an entity: **1** means the entity has that value, and **0** means it does not.
+
+For example, to find public documents in the **Tech** category, combine the bitmaps for **Category = Tech** and **Public = true**:
+
+![Bitmap](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/cb98c77741e110603c84b20f34c1273ba3b902680d68767bc8990d0fc27d8c3d.png)
+
+As shown in the figure, the bitmap indexes for **Category** and **Public** are:
+
+- **Tech**: [1, 0, 1, 0, 0], which shows that only the 1st and 3rd documents fall into the **Tech** category.
+
+- **Public**: [1, 0, 0, 1, 0], which shows that only the 1st and 4th documents are open to the **Public**.
+
+To find the documents that match both criteria, we perform a bitwise AND operation on these two bitmaps:
+
+- **Tech** AND **Public**: [1, 0, 0, 0, 0]
+
+Only the first document (**ID 1**) satisfies both criteria.
+
+</details>
+
+</NextChannel>
 
 ## Create a bitmap index\{#create-a-bitmap-index}
 
@@ -260,19 +352,43 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 In this example, we create a bitmap index on the `category` field of the `my_collection` collection. The `add_index()` method is used to specify the field name, index type, and index name.
 
 Once the bitmap index is created, you can use the `filter` parameter in query operations to perform scalar filtering based on the indexed field. This allows you to efficiently narrow down the search results using the bitmap index. For more information, refer to [Filtering Explained](./filtering-overview).
 
+</NextChannel>
+
+<NextChannel action="include">
+
+This creates an index on `my_collection.category`. Use the field in a query or search `filter`; see [Filtering Explained](./filtering-overview).
+
+</NextChannel>
+
 ## Drop an index\{#drop-an-index}
 
 Use the `drop_index()` method to remove an existing index from a collection.
+
+<NextChannel action="exclude">
 
 <Admonition type="info" icon="📘" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> For release requirements when dropping a scalar index, see [Scalar Index](./scalar-index-overview#Drop-index-compatibility).
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -435,6 +551,8 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## Limits\{#limits}
 
 - Bitmap indexes are supported only for scalar fields that are not primary keys.
@@ -458,3 +576,5 @@ curl --request POST \
     - When the cardinality increases beyond this threshold, the performance benefits of bitmap indexes diminish, and the storage overhead becomes significant.
 
     - For high-cardinality fields, consider using alternative indexing techniques such as inverted indexes, depending on your specific use case and query requirements.
+
+</NextChannel>

@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Audit logging allows administrators to track and monitor user-driven operations and API calls on Zilliz Cloud clusters. This feature provides a detailed record of vector db activities, including vector searches, query execution, index management, and other data operations. | Cloud"
+description: "Use VectorDB audit logs to investigate operations on your cluster, such as searches, queries, and changes to collections, indexes, and data. Forward these logs to object storage for retention or to an HTTPS endpoint for processing in your logging system. | Cloud"
 type: origin
-token: M5dXwsGOOiPdAjkWLZUc2Pxonuh
+token: FrKYwyBXKiktPzkQcFXco2qUnYd
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -18,196 +18,82 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-import Supademo from '@site/src/components/Supademo';
-
 import Procedures from '@site/src/components/Procedures';
 
 # VectorDB Audit Logs
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+Use VectorDB audit logs to investigate operations on your cluster, such as searches, queries, and changes to collections, indexes, and data. Forward these logs to object storage for retention or to an HTTPS endpoint for processing in your logging system.
 
-This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+For administrative activities such as cluster backups, restores, and migrations, see [Platform Audit Logs](./view-activities).
 
-</FeatureNote>
+## Before you start\{#before-you-start}
 
-Audit logging allows administrators to track and monitor user-driven operations and API calls on Zilliz Cloud clusters. This feature provides a detailed record of vector db activities, including vector searches, query execution, index management, and other data operations.
+- Use a Dedicated cluster on the Enterprise plan or higher.
 
-<Admonition type="info" title="Notes">
+- Sign in as an **Organization Owner** or **Project Admin**, and make sure the cluster is running so that you can manage its audit logging settings.
 
-- Audit logging is supported only for Zilliz Cloud clusters running Milvus 2.5.x or later.
+- Choose between audit logs and access logs: they cannot be enabled at the same time on a cluster. Slow logging is configured separately.
 
-- Audit logging can be forwarded to [AWS S3](./integrate-with-aws-s3), [Azure Blob Storage](./integrate-with-azure-blob-storage), or [Google Cloud Storage](./integrate-with-gcp).
+- Create a destination integration in the **same project as your cluster**. Choose the destination according to where you want to use the logs.
 
-- Enabling audit logging incur charges. For details, see [Audit Logs Cost](./audit-log-cost).
-
-</Admonition>
-
-## Overview\{#overview}
-
-Audit logging tracks a wide range of operations on the data plane, including:
-
-- **Search and Query Operations**: Vector searches, hybrid searches, and query operations.
-
-- **Data Management**: Index creation, collection creation, partition management, and entity operations like insert, delete, and upsert.
-
-- **System Events**: User access attempts, authorization checks, and other predefined actions.
+    | Destination | What to prepare |
+    | --- | --- |
+    | Object storage | A bucket or container for retaining logs, and its project integration. Follow [Amazon S3](./integrate-with-aws-s3), [Google Cloud Storage](./integrate-with-gcp), or [Azure Blob Storage](./integrate-with-azure-blob-storage) setup instructions. |
+    | HTTPS endpoint | A service that accepts logs over HTTPS, and an integration with its URL and authentication settings. Follow [Integrate with an HTTPS Endpoint](./integrate-with-https-endpoint) to prepare the service and test the integration. |
 
 <Admonition type="info" title="Notes">
 
-Cluster-level data jobs such as migration, backup, and restore do not generate audit logs. To view these activity records, refer to [View Activities](./view-activities).
+For the existing BYOC audit logging setup, logs are written to the object storage configured for your data plane. [Contact support](https://support.zilliz.com/hc/en-us) to enable or configure audit logging.
 
 </Admonition>
 
-Audit logs are forwarded directly to a user-designated object storage bucket at regular intervals. Logs are stored in a structured file path and naming format for easy access and management:
+## Enable audit log forwarding\{#enable-audit-log-forwarding}
 
-- **File Path**: `/<Cluster ID>/<Log type>/<Date>`
-
-- **File Naming Convention**: `<File name><File name suffix>` in the format *HH:MM:SS-&#36;UUID*, where *HH:MM:SS* represents the time in UTC and *&#36;UUID* is a unique random string. Example: `09:16:53-jz5l7D8Q`.
-
-Below are examples of audit log entries forwarded to a bucket:
-
-- **Create Collection**
-
-    ```json
-    {
-      "action": "CreateCollection",
-      "cluster_id": "inxx-xxxxxxxxxxxxxxx",
-      "connection_uid": 456912553983082500,
-      "database": "default",
-      "interface": "Grpc",
-      "log_type": "AUDIT",
-      "params": {
-        "collection": "test_audit",
-        "consistency_level": 2
-      },
-      "status": "Receive",
-      "timestamp": 1742983070463,
-      "trace_id": "216a8129c06fd3d93a47bd69fa0a65ad",
-      "user": "key-hwjsxhwppegkatwjaivsgf"
-    }
-    ```
-
-- **Create Index**
-
-    ```json
-    {
-      "action": "CreateIndex",
-      "cluster_id": "inxx-xxxxxxxxxxxxxxx",
-      "connection_uid": 456912553983082500,
-      "database": "default",
-      "interface": "Grpc",
-      "log_type": "AUDIT",
-      "params": {
-        "collection": "test_audit"
-      },
-      "status": "Receive",
-      "timestamp": 1742983070645,
-      "trace_id": "4402e7bfc498dd06be1408c7e6a7954d",
-      "user": "key-hwjsxhwppegkatwjaivsgf"
-    }
-    ```
-
-- **Drop Index**
-
-    ```json
-    {
-      "action": "DropIndex",
-      "cluster_id": "inxx-xxxxxxxxxxxxxxx",
-      "connection_uid": 456912553983082500,
-      "database": "default",
-      "interface": "Grpc",
-      "log_type": "AUDIT",
-      "params": {
-        "collection": "test_audit"
-      },
-      "status": "Receive",
-      "timestamp": 1742983073378,
-      "trace_id": "066ec33c3f55d3edbf7d01c6270024e2",
-      "user": "key-hwjsxhwppegkatwjaivsgf"
-    }
-    ```
-
-Refer to the [Audit Log Reference](./audit-logs-ref) for a detailed list of supported actions and corresponding log fields.
-
-## Enable audit log\{#enable-audit-log}
-
-Audit logging on Zilliz Cloud forwards audit logs directly to your storage bucket.
-
-### Before you start\{#before-you-start}
-
-- Your Zilliz Cloud cluster runs on a **Dedicated-Enterprise** plan tier or higher. [Upgrade your plan](./manage-cluster) if necessary.
-
-- You have integrated your Zilliz Cloud project with object storage, as audit logs will be forwarded to your bucket after configuration. For detailed steps, refer to [Integrate with AWS S3](./integrate-with-aws-s3), [Integrate with Azure Blob Storage](./integrate-with-azure-blob-storage), or [Integrate with Google Cloud Storage](./integrate-with-gcp).
-
-- You have **Organization Owner** or **Project Admin** access to the project. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
-
-### Procedure\{#procedure}
-
-<Supademo id="cmei9fcd99br6h3pydbp52sv8" title=""  />
+**Performance and cost:** Audit logging may affect query and write performance and incurs audit log CU costs. Review [Audit Logs Cost](./audit-log-cost) before enabling it.
 
 <Procedures>
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. In the [Zilliz Cloud console](https://cloud.zilliz.com/login), open your project and select the target cluster.
 
-1. In the left-side navigation pane, choose **Clusters**.
+1. Open the **Logs** tab. In the **Audit Logs** card, click **Configure**.
 
-1. Go to the details page of the target cluster and choose the **Logs** tab. This tab will be unavailable when your cluster is in **CREATING**,  **DELETING** or **DELETED** status.
+1. In **Audit Logs Settings**, select a destination from **Send To** and configure the output.
 
-1. Click **Configure** in the **Audit Logs** card.
+    | Setting | What to choose |
+    | --- | --- |
+    | Send To | Select the integration you prepared in this project. For object storage, this identifies the bucket or container. For HTTPS, it identifies the receiving service. |
+    | Format | Choose a format supported by your downstream parser or logging system from the available options: **JSON**, **ECS**, or **OTel** (OpenTelemetry). |
+    | Forward directory<br/>(object storage only) | Choose where to store logs within the bucket or container. Check the path preview so that you know where to find this cluster's audit logs. HTTPS forwarding does not use a directory. |
 
-1. In the **Audit Logs Settings** dialog box, specify your object storage integration settings.
+1. Review the configuration, then click **Start Forwarding**.
 
-    - **Storage Integration**: Select your bucket to store the audit logs.
-
-        <Admonition type="info" title="Notes">
-
-        Only the buckets in the same region as your cluster will appear in the drop-down list.
-
-        </Admonition>
-
-    - **Forward Directory**: Specify a directory within the bucket to store audit logs.
-
-1. Click **Save**. Once the **Audit Logs** status is **Active**, it has been enabled successfully. If the status is **Abnormal**, go to [FAQ](./audit-logs#faq) for troubleshooting.
+1. Wait for the audit log status to become **Active**, then check that logs reach the destination.
 
 </Procedures>
 
-Once configured, audit logs will be forwarded to your bucket at an interval of about 5 minutes. You can access your bucket to view or manage the logs as needed.
-
-Once your audit logs are forwarded to your S3 bucket, you can integrate your S3 storage to visualization platforms for enhanced monitoring and analysis. For instance, if you want to use Snowflake to gain deeper insights, refer to [Automating Snowpipe for Amazon S3](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-auto-s3).
-
-To understand parameters in log entries, refer to [Audit Logs](./audit-logs-ref).
-
-## Manage audit logs\{#manage-audit-logs}
-
-Once audit log is enabled, you can edit its configuration or disable it as needed.
-
-![WaxlwwFpVhjeVKbfgWScdKQKnqW](https://zdoc-images.s3.us-west-2.amazonaws.com/WaxlwwFpVhjeVKbfgWScdKQKnqW.png)
+## Verify that logs arrive\{#verify-that-logs-arrive}
 
 <Procedures>
 
-1. Navigate to your target cluster.
+1. After audit logging is active, perform a supported operation on the cluster, such as a query against an existing collection. Note the time of the operation.
 
-1. Switch to the **Logs** tab.
+1. Check the configured destination for a new log record from this cluster around that time.
 
-1. Click on the **Edit** button or the arrow next to it.
-
-1. You can edit or delete the log configuration.
+    | Destination | Where to check |
+    | --- | --- |
+    | Object storage | Open the bucket or container and locate the directory shown in the configuration. Inspect a new log object and find the record for your operation. |
+    | HTTPS endpoint | Check the receiving service's ingestion records or stored logs for the operation. A successful integration test does not replace checking delivery of real cluster logs. |
 
 </Procedures>
+
+For supported operations and field definitions, see [VectorDB Audit Logs Reference](./audit-logs-ref).
 
 ## FAQ\{#faq}
 
-This FAQ addresses common issues and questions related to audit logging on Zilliz Cloud. For further assistance, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
+- **Why can't I open the audit log settings?**
 
-- **What should I do if my Audit Log status is Abnormal?**
+    Check that the cluster is running and that you have the required role and plan. A suspended cluster displays **Auditing Unavailable** on its Logs tab.
 
-    An **Abnormal** status means Audit Log is experiencing an issue. Follow these steps to troubleshoot:
+- **What should I check if logs do not arrive?**
 
-    1. **Verify your bucket:** Confirm that the configured storage bucket is set up correctly and that you have the necessary permissions.
-
-    1. **Contact support:** If the issue persists, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us) for further assistance.
-
-- **Will an Abnormal cluster status affect the Audit Log service?**
-
-    An abnormal cluster status indicates that the cluster may be experiencing issues, such as network connectivity problems or disruptions in Zilliz Cloud services. However, these issues do not impact the Audit Log service, which continues to function normally and forward logs as expected. If you encounter persistent problems, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
-
+    Check the audit log status and any error shown in the console. Confirm that a supported operation occurred after logging became active. For object storage, check the configured directory and write permissions. For HTTPS, check the receiver's availability, authentication, and ingestion errors. If the issue persists, contact [support](https://support.zilliz.com/hc/en-us) with the cluster ID, time of the operation, and error message.

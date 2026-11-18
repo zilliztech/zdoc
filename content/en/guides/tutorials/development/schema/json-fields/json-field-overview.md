@@ -726,6 +726,8 @@ Before you can perform filtering operations on JSON fields, make sure:
 
 - The collection is loaded into memory.
 
+<NextChannel action="exclude">
+
 <details>
 
 <summary>Show code</summary>
@@ -949,6 +951,236 @@ curl --request POST \
 </Tabs>
 
 </details>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<details>
+
+<summary><strong>Show code</strong></summary>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+index_params = client.prepare_index_params()
+index_params.add_index(
+    field_name="vector",
+    index_type="AUTOINDEX",
+    index_name="vector_index",
+    metric_type="COSINE"
+)
+
+client.create_index(collection_name="product_catalog", index_params=index_params)
+
+client.load_collection(collection_name="product_catalog")
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Arrays;
+
+// Create an index on the vector field
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("product_catalog")
+        .indexParams(Arrays.asList(IndexParam.builder()
+                .fieldName("vector")
+                .indexName("vector_index")
+                .indexType(IndexParam.IndexType.AUTOINDEX)
+                .metricType(IndexParam.MetricType.COSINE)
+                .build()))
+        .build());
+
+// Load the collection
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("product_catalog")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Create an index on the vector field
+indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
+    "product_catalog", "vector", index.NewAutoIndex(entity.COSINE),
+).WithIndexName("vector_index"))
+if err != nil {
+    log.Fatal(err)
+}
+if err := indexTask.Await(ctx); err != nil {
+    log.Fatal(err)
+}
+
+// Load the collection
+loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("product_catalog"))
+if err != nil {
+    log.Fatal(err)
+}
+if err := loadTask.Await(ctx); err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// Create an index on the vector field
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name("product_catalog")
+            .index_params(vec![
+                IndexParam::new()
+                    .field_name("vector")
+                    .index_name("vector_index")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine),
+            ])
+            .build()?,
+    )
+    .await?;
+
+// Load the collection
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name("product_catalog")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+#include <utility>
+
+// Create an index on the vector field
+milvus::IndexDesc index("vector", "vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+auto status = client->CreateIndex(milvus::CreateIndexRequest()
+    .WithCollectionName("product_catalog")
+    .WithIndexes({std::move(index)})
+    .WithSync(true));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Load the collection
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+    .WithCollectionName("product_catalog")
+    .WithSync(true));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
+
+// Create an index on the vector field
+await client.createIndex({
+  collection_name: "product_catalog",
+  field_name: "vector",
+  index_name: "vector_index",
+  index_type: IndexType.AUTOINDEX,
+  metric_type: MetricType.COSINE,
+});
+
+// Load the collection
+await client.loadCollection({
+  collection_name: "product_catalog",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create an index on the vector field
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "product_catalog",
+    Indexes = [new IndexParam("vector", "vector_index", IndexType.AutoIndex, MetricType.Cosine)]
+});
+
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "product_catalog"
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Create an index on the vector field
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "accept: application/json" \
+  --header "content-type: application/json" \
+  --data '{
+    "collectionName": "product_catalog",
+    "indexParams": [
+      {
+        "fieldName": "vector",
+        "indexName": "vector_index",
+        "indexType": "AUTOINDEX",
+        "metricType": "COSINE"
+      }
+    ]
+  }'
+
+# Load the collection
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "accept: application/json" \
+  --header "content-type: application/json" \
+  --data '{
+    "collectionName": "product_catalog"
+  }'
+```
+
+</TabItem>
+
+</Tabs>
+
+</details>
+
+</NextChannel>
 
 Once these requirements are met, you can use the expressions below to filter on your collection based on the values within the JSON field. These filter expressions leverage specific JSON path syntax and dedicated operators.
 
@@ -1732,27 +1964,15 @@ For more information about JSON-specific operators, refer to [JSON Operators](./
 
 ## Next: Accelerate JSON queries\{#next-accelerate-json-queries}
 
-By default, queries on JSON fields without acceleration will perform a full scan of all rows, which can be slow on large datasets. To speed up JSON queries, Zilliz Cloud provides advanced indexing and storage optimization features.
-
 <NextChannel action="exclude">
+
+By default, queries on JSON fields without acceleration will perform a full scan of all rows, which can be slow on large datasets. To speed up JSON queries, Zilliz Cloud provides advanced indexing and storage optimization features.
 
 <Admonition type="warning" icon="🚧" title="Warning">
 
 Starting in Milvus 3.0.0, whole-object JSON indexing (`json_cast_type="JSON"`), also known as JSON flat indexing, is deprecated. Existing indexes and new index-creation requests remain supported for compatibility, but this mode is no longer recommended for new workloads. Use JSON path indexing for known query paths, or consider [JSON Shredding](./json-shredding) for broad query acceleration across complex or evolving documents.
 
 </Admonition>
-
-</NextChannel>
-
-<NextChannel action="include">
-
-<Admonition type="warning" icon="🚧" title="Warning">
-
-Whole-object JSON indexing (`json_cast_type="JSON"`), also known as JSON flat indexing, is deprecated. Index-creation requests for it succeed for compatibility, but Zilliz Cloud retains only the logical index definition and does not build a physical index. Use JSON path indexing for known query paths, or consider [JSON Shredding](./json-shredding) for broad query acceleration.
-
-</Admonition>
-
-</NextChannel>
 
 The table below summarizes their differences and best-use scenarios:
 
@@ -1792,6 +2012,21 @@ For implementation details, refer to:
 - [JSON Shredding](./json-shredding)
 
 - [NGRAM](./ngram-index-type)
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Without acceleration, JSON filters can require a scan of the data. Choose an approach according to the paths your application queries:
+
+| Query needs | Guide | Array values |
+| --- | --- | --- |
+| A known set of frequently filtered paths | [JSON Indexing](./json-indexing) covers selecting paths and casts, checking compatibility, and creating indexes. | Can accelerate elements at an indexed array path. |
+| Broad acceleration across many or varying paths | [JSON Shredding](./json-shredding) covers the required storage configuration. | Does not accelerate values inside arrays; use path indexes for those keys. |
+
+You can combine shredding with path indexes for frequently queried keys. For string-pattern filters on JSON paths, see the [JSON index combinations](./json-indexing#Compatibility-reference) and the [NGRAM JSON-path example](./ngram-index-type#example-2-create-on-a-json-path).
+
+</NextChannel>
 
 ## FAQ\{#faq}
 
