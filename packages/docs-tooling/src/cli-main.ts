@@ -385,7 +385,12 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
         scratch: requiredOption(options, 'scratch')}, text => process.stdout.write(text));
       return true;
     }
-    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build, lock, adopt-variant, update, promote or upload-images');
+    if (argv[1] === 'promote-guides') {
+      const {runGuidesPromotion} = await import('./shared-docs/commands/promote-guides.ts');
+      process.exitCode = await runGuidesPromotion(argv.slice(2), repositoryRoot);
+      return true;
+    }
+    if (argv[1] !== 'inspect') throw new Error('shared-docs action must be inspect, links-seed, build, lock, adopt-variant, update, promote, upload-images or promote-guides');
     const options = parseOptions(argv.slice(2));
     for (const key of Object.keys(options)) {
       if (!['sharedDocs', 'page', 'repo'].includes(key)) throw new Error(`Unknown inspect option: --${key}`);
