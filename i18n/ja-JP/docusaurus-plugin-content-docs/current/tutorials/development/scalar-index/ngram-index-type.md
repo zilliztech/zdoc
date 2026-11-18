@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-ngram-index-type
 sidebar_label: "NGRAM"
-sidebar_position: 3
+sidebar_position: 4
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/ngram.md"
 
 ---
@@ -21,6 +21,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # NGRAM
+
+<NextChannel action="exclude">
 
 Zilliz Cloud の `NGRAM` インデックスは、`VARCHAR` フィールドまたは `JSON` フィールド内の特定の JSON パスに対する `LIKE` クエリと対象となる正規表現フィルターを高速化します。インデックスを構築する前に、Zilliz Cloud はテキストを固定長 *n* の短い重複部分文字列（*n-gram*）に分割します。たとえば、*n = 3* の場合、単語 *"Milvus"* は 3-gram の *"Mil"*、*"ilv"*、*"lvu"*、*"vus"* に分割されます。これらの n-gram は、各 gram をそれが出現するドキュメント ID にマッピングする転置インデックスに格納されます。クエリ実行時、このインデックスにより、Zilliz Cloud は元のフィルター条件を検証する前に検索対象を少数の候補にすばやく絞り込めます。
 
@@ -126,9 +128,135 @@ Zilliz Cloud は `NGRAM` インデックスを 2 段階のプロセスで実装�
 
 </details>
 
+</NextChannel>
+
+<NextChannel action="include">
+
+`NGRAM` は、`VARCHAR` フィールドおよび JSON 文字列パスに対する LIKE フィルターと対象となる正規表現フィルターを高速化します。文字シーケンスを使用して一致するエンティティを絞り込みますが、一部のパターンでは元の値を確認する必要があります。
+
+使用可能なリテラルテキストを含むプレフィックス、サフィックス、部分文字列、ワイルドカード、または正規表現フィルターに使用します。たとえば、`title LIKE "%vector%"` や `message =~ "error.*timeout"` などです。構文については、[Pattern Matching](./pattern-match) を参照してください。
+
+## 概要\{#overview}
+
+### サポートされるデータ型\{#supported-data-types}
+
+対象となるのは `VARCHAR` フィールドと、`VARCHAR` にキャストされた JSON パスです。JSON パスには `json_path` と `json_cast_type` が必要です。詳細については、[JSON Indexing](./json-indexing) を参照してください。
+
+<a id="queries-accelerated-by-ngram"></a>
+<a id="Queries-accelerated-by-NGRAM"></a>
+
+<a id="supported-filters"></a>
+<a id="Supported-filters"></a>
+
+<a id="filter-expression-examples"></a>
+<a id="Filter-expression-examples"></a>
+
+### フィルターの高速化\{#filter-acceleration}
+
+クエリは、インデックスが作成されたフィールドまたは JSON パスを対象とする必要があります。例では各パターンを示しており、高速化されるかどうかは最後の列に記載された条件によって決まります：
+
+| パターン | 式の例 | 高速化の条件と動作 |
+| --- | --- | --- |
+| プレフィックスまたはサフィックスのリテラル | `text LIKE "database%"` または `text LIKE "%database"` | 少なくとも `min_gram` 文字が必要です。候補を検索した後、元の値を確認します。 |
+| 部分文字列リテラル | `text LIKE "%database%"` | 少なくとも `min_gram` 文字が必要です。`[min_gram, max_gram]` の範囲内では完全一致を返します。より長いリテラルは、再確認用の候補を生成します。 |
+| 一般的な LIKE | `text LIKE "%st%um%"` | 空でない各リテラル断片が `min_gram` 文字以上である場合に候補を検索し、その後で元の値を確認します。 |
+| 正規表現 | `text =~ "error.*timeout"` | 適切なリテラルを抽出できる場合に候補を検索し、その後で正規表現全体を確認します。 |
+
+インデックスが作成された JSON 文字列パスの場合は、式にそのパスを使用します。たとえば、`json_field["body"] LIKE "%database%"` などです。LIKE の例については [Pattern Matching](./pattern-match#common-like-patterns) を、正規表現の例については [regex examples](./pattern-match#common-regex-patterns) を参照してください。
+
+適切なリテラルがない場合、Zilliz Cloud はデータをスキャンします。`NGRAM` が提供するのはパターン検索であり、直接的な等価、メンバーシップ、範囲検索ではありません。これらのルールは、[クエリプランニングの簡略化](./pattern-match#accelerate-pattern-matching-with-indexes) の後に適用されます。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> これらはインデックスの機能であり、有効なフィルター式に対する制限ではありません。共通の検索制約については、[スカラー Index](./scalar-index-overview#Filter-execution) を参照してください。`AND`、`OR`、`NOT`、および NULL テスト（`IS NULL`、`IS NOT NULL`）については、[Basic Operators](./basic-filtering-operators) を参照してください。
+
+</Admonition>
+
+<a id="usage-notes"></a>
+
+### 使用上の注意\{#usage-notes-next}
+
+N-gram の分解は文字ベースで言語に依存せず、空白と句読点も含みます。大文字と小文字はそのまま保持されます。gram の範囲を広げると、生成される gram とインデックスが増えます。メモリが不足している場合は、大きなポスティングリストに対して [mmap](./use-mmap) の使用を検討してください。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+`[a-z]+` など固定リテラルを含まない正規表現パターンは、スキャンにフォールバックする場合があります。`(?i)` を含む大文字と小文字を区別しないパターンも、`NGRAM` の最適化をスキップする場合があります。候補の検証には完全な RE2 パターンが使用されるため、正規表現の一致結果は保持されます。
+
+</Admonition>
+
+### メモリに関する考慮事項\{#memory-considerations}
+
+読み込み後のメモリ量を概算するには、`S` バイトを使用します。ここで、`S` はストレージ圧縮前の構築済みインデックスサイズです。`S` は代表的なデータでインデックスを構築して取得してください。生のテキストサイズで代用することはできません。gram の範囲とデータ分布は、構築後のサイズに影響します。
+
+これらの概算値は、メモリマッピングを無効にした状態で読み込まれたインデックスのメモリ量を対象としています。セグメントごとに計算し、その後、読み込まれたセグメントとレプリカ全体で合計します。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> 読み込まれたフィールドデータ、ベクトルインデックス、コレクションとインデックスのオーバーヘッド、および一時的な割り当てには、追加のメモリを確保してください。代表的なデータとクエリで検証してください。配列、JSON、古いインデックス形式、およびメモリマッピングについては、別途測定が必要です。
+
+</Admonition>
+
+<a id="how-it-works"></a>
+<a id="How-it-works"></a>
+
+### NGRAM の仕組み\{#how-ngram-works}
+
+<a id="phase-1-build-the-index"></a>
+<a id="Phase-1-Build-the-index"></a>
+<a id="phase-2-accelerate-queries"></a>
+<a id="Phase-2-Accelerate-queries"></a>
+
+<details>
+<summary><strong>構築とクエリのプロセスを表示する</strong></summary>
+
+n-gram は重複する文字シーケンスです。`n=3` の場合、`"Milvus"` から `"Mil"`、`"ilv"`、`"lvu"`、`"vus"` が生成されます。
+
+**フェーズ 1: インデックスを構築する**
+
+各文字列について、`min_gram` から `max_gram` までのすべての長さ（両端を含む）の gram を生成します。`min_gram=2` と `max_gram=3` の場合、`"AI database"` からは `AI`、`I_`、`_d`、`da` などの 2-gram と、`AI_`、`I_d`、`_da`、`dat` などの 3-gram が生成されます。ここで、`_` は空白を表します：
+
+![Ngram インデックスの構築](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/1233d6b8942d7f570e157fc900a95d2ef0aa7b0c37297920f13df407919ba546.png)
+
+各 gram を、それを含むエンティティ ID にマッピングします。たとえば、`"AI"` がエンティティ 1、5、6、8、9 に出現する場合は、`{"AI": [1, 5, 6, 8, 9]}` を格納します：
+
+![Ngram インデックスの構築 2](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/7c8832f6f355e47375246d45eed5aeaf57742ee073fd37cf212140d3e3246f99.png)
+
+**フェーズ 2: クエリを高速化する**
+
+LIKE または対象となる正規表現パターンからリテラルテキストを抽出します。たとえば、`"%database%"` からは `database` が得られ、`"error.*timeout"` には `error` と `timeout` が含まれています。長さ `L` のリテラルの場合は次のとおりです：
+
+- `L < min_gram` の場合、そのリテラルはインデックスを使用できません。
+- `min_gram ≤ L ≤ max_gram` の場合、そのリテラルを 1 つの gram として検索します。
+- `L > max_gram` の場合、そのリテラルを `max_gram` の長さを持つ重複する gram に分割します。
+
+gram のエンティティリストを交差させて候補を検索し、再確認が必要な場合は元のフィルターを適用します。`[min_gram, max_gram]` の範囲内の単純な部分文字列リテラルは、再確認なしで完全一致を返します：
+
+![クエリの高速化](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/a0a7061a61ff0d6d451a94679ce9f75dedb8946288c90f4894fc88ed210a6418.png)
+
+</details>
+
+</NextChannel>
+
 ## NGRAM インデックスを作成する\{#create-an-ngram-index}
 
+<NextChannel action="exclude">
+
 `VARCHAR` フィールド、または `JSON` フィールド内の特定のパスに NGRAM インデックスを作成できます。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+NGRAM インデックスは、`VARCHAR` フィールド、または `JSON` フィールド内の特定のパスに作成できます。`min_gram` と `max_gram` はどちらも正の整数として指定し、`min_gram <= max_gram` を満たす必要があります。
+
+これらのパラメーターは、インデックス対象の文字シーケンスを制御します。変更するには、インデックスを再構築してください：
+
+| パラメーター | 意味 |
+| --- | --- |
+| `min_gram` | シーケンスの最小長（文字数）です。インデックスを使用できるリテラルの最小長も設定します。 |
+| `max_gram` | シーケンスの最大長（文字数）です。より長いクエリリテラルは、この長さの重複するシーケンスに分割されます。 |
+
+</NextChannel>
 
 ### 例 1: VARCHAR フィールドに作成する\{#example-1-create-on-a-varchar-field}
 
@@ -335,11 +463,21 @@ curl --request POST \
 
 ### 例 2: JSON パスに作成する\{#example-2-create-on-a-json-path}
 
+<NextChannel action="exclude">
+
 `JSON` フィールドの場合は、gram の設定に加えて、次も指定する必要があります：
 
 - `params.json_path`：インデックスを作成する値を指す JSON パスです。
 
 - `params.json_cast_type`：`"varchar"`（大文字と小文字を区別しない）である必要があります。NGRAM インデックスは文字列を対象に動作するためです。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+JSON パスの場合は、`VARCHAR` へのキャスト（大文字と小文字を区別しない）と、以下の gram 設定を使用します。パスとキャストの要件については、[JSON Indexing](./json-indexing#index-requirements) を参照してください。
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -513,6 +651,8 @@ curl --request POST \
 </TabItem>
 
 </Tabs>
+
+<NextChannel action="exclude">
 
 この例では：
 
@@ -1009,15 +1149,37 @@ NGRAM インデックスが適用されるには：
 
 フィルター式の構文の詳細については、[Pattern Matching](./pattern-match) を参照してください。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+これは、長さ 2 から 4 の部分文字列を使用して、`json_field["body"]` を `VARCHAR` 値としてインデックスします。その他のパスオプションについては、[JSON Indexing](./json-indexing) を参照してください。
+
+</NextChannel>
+
 ## インデックスを削除する\{#drop-an-index}
 
 既存のインデックスをコレクションから削除するには、`drop_index()` メソッドを使用します。
+
+<NextChannel action="exclude">
 
 <Admonition type="info" icon="📘" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。その前にコレクションを解放する必要はありません。
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> スカラーインデックスを削除する際の解放要件については、[スカラー Index](./scalar-index-overview#Drop-index-compatibility) を参照してください。
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1113,6 +1275,8 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## 使用上の注意\{#usage-notes}
 
 - **フィールドタイプ**：`VARCHAR` フィールドと `JSON` フィールドでサポートされます。JSON の場合は、`params.json_path` と `params.json_cast_type="varchar"` の両方を指定します。
@@ -1128,6 +1292,8 @@ curl --request POST \
 - **空間と時間のトレードオフ**：gram 範囲 `[min_gram, max_gram]` を広げると、生成される gram とインデックスが増えます。メモリが不足している場合は、大きなポスティングリストに `mmap` モードの使用を検討してください。詳細については、[Use mmap](./use-mmap) を参照してください。
 
 - **不変性**：`min_gram` と `max_gram` はその場で変更できません。調整するにはインデックスを再構築してください。
+
+</NextChannel>
 
 ## ベストプラクティス\{#best-practices}
 

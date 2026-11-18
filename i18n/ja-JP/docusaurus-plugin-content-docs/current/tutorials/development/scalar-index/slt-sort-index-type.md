@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-slt-sort-index-type
 sidebar_label: "STL_SORT"
-sidebar_position: 5
+sidebar_position: 6
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/stl-sort.md"
 
 ---
@@ -21,6 +21,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # STL_SORT
+
+<NextChannel action="exclude">
 
 `STL_SORT` インデックスは、データをソートされた順序で整理することで、Zilliz Cloud 内の数値フィールド（INT8、INT16 など）、`VARCHAR` フィールド、または `TIMESTAMPTZ` フィールドのクエリパフォーマンスを向上させるために特別に設計されたインデックスタイプです。
 
@@ -32,11 +34,27 @@ import TabItem from '@theme/TabItem';
 
 ## サポートされるデータ型\{#supported-data-types}
 
+</NextChannel>
+
+<NextChannel action="include">
+
+`STL_SORT` は値をソート順で格納し、値の検索、範囲フィルター、文字列のプレフィックス一致を高速化します。
+
+## 概要\{#overview}
+
+<a id="supported-data-types"></a>
+
+### サポートされるデータ型\{#supported-data-types-next}
+
+</NextChannel>
+
 - 数値フィールド（例：`INT8`、`INT16`、`INT32`、`INT64`、`FLOAT`、`DOUBLE`）。詳細については、[Boolean & Number](./use-number-field) を参照してください。
 
 - `VARCHAR` フィールド。詳細については、[String Field](./use-string-field) を参照してください。
 
 - `TIMESTAMPTZ` フィールド。詳細については、[TIMESTAMPTZ Field](./use-timestamptz-field) を参照してください。
+
+<NextChannel action="exclude">
 
 ## 仕組み\{#how-it-works}
 
@@ -62,11 +80,95 @@ Zilliz Cloud は `STL_SORT` を 2つのフェーズで実装しています。
 
 これにより、クエリの計算量が **O(n)**（フルスキャン）から **O(log n + m)** に削減されます。ここで、*m* は一致件数です。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+StructArray 内の数値、VARCHAR、または TIMESTAMPTZ サブフィールドについては、[StructArray フィールドのインデックス](./index-struct-array#create-scalar-indexes) を参照してください。通常の ARRAY フィールドは `STL_SORT` をサポートしていません。インデックスの選択肢については、[ARRAY インデックスのサポート](./use-array-fields#Array-index-support) を参照してください。
+
+JSON パスを `DOUBLE` または `VARCHAR` にキャストする場合は、`STL_SORT` を選択する前に [JSON インデックスの要件](./json-indexing#index-requirements) を確認してください。
+
+<a id="queries-accelerated-by-stlsort"></a>
+<a id="Queries-accelerated-by-STLSORT"></a>
+
+<a id="supported-filters"></a>
+<a id="Supported-filters"></a>
+
+### フィルターの高速化\{#filter-acceleration}
+
+`STL_SORT` インデックスは、フィールドとキャストの互換性が許す範囲で、次の条件の評価に役立ちます：
+
+- 等価（`==`、`!=`）およびメンバーシップ（`in`、`not in`）。
+- 範囲：`<`、`<=`、`>`、`>=`。`10 <= price < 50` などの区間も含まれます。
+- VARCHAR のプレフィックス一致（例：`name LIKE "abc%"`）。
+- 条件を満たす JSON スカラーパスに対する比較。[JSON フィルター](./json-indexing#Supported-filters) を参照してください。
+
+接尾辞、部分文字列、一般的な LIKE、および正規表現のフィルターでは、Zilliz Cloud はインデックスに格納された文字列に対してパターンを評価できます。その際、多数の異なる文字列を走査する必要がある場合があります。構文および計画の簡略化については、[パターンマッチング](./pattern-match) を参照してください。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> これらはインデックスの機能であり、有効なフィルター式に対する制限ではありません。共通の検索制約については、[スカラーインデックス](./scalar-index-overview#Filter-execution) を参照してください。`AND`、`OR`、`NOT`、および NULL テスト（`IS NULL`、`IS NOT NULL`）については、[基本演算子](./basic-filtering-operators) を参照してください。
+
+</Admonition>
+
+<a id="usage-notes"></a>
+<a id="Usage-notes"></a>
+
+### メモリに関する考慮事項\{#memory-considerations}
+
+明示的な `STL_SORT` インデックスは、メモリマップモードをサポートしていません。
+
+NULL 値のない数値フィールドおよびタイムスタンプフィールドでは、次のバイト単位の概算値を使用します。`N` はエンティティ数です：
+
+| フィールド型 | 概算 |
+| --- | --- |
+| `INT8`, `INT16`, `INT32`, `FLOAT` | `12 * N` |
+| `INT64`, `DOUBLE`, `TIMESTAMPTZ` | `20 * N` |
+| `VARCHAR` | 代表的なデータで測定してください。ロードされるメモリは、文字列の保存、異なる値の数、ポスティングリストの容量に依存します。 |
+
+バイトを MiB に変換するには、`1024 * 1024` で割ります。NULL 以外の INT64 値 100 万個では、主要なインデックス構造に約 19 MiB が必要です。VARCHAR インデックスはロード後に測定してください。シリアル化されたインデックスサイズには、メモリ内の文字列およびポスティングリストの割り当てがすべて含まれているわけではありません。
+
+これらの概算値は、メモリマッピングを無効にした状態でロードされるインデックスメモリを対象としています。セグメントごとに計算し、ロードされたセグメントとレプリカ全体で合計してください。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> ロードされたフィールドデータ、ベクトルインデックス、コレクションとインデックスのオーバーヘッド、および一時的な割り当てのために、追加のメモリを見込んでください。代表的なデータとクエリで検証してください。配列、JSON、古いインデックス形式、およびメモリマッピングについては、個別に測定する必要があります。
+
+</Admonition>
+
+<a id="how-it-works"></a>
+<a id="How-it-works"></a>
+
+### STL_SORT の仕組み\{#how-stlsort-works}
+
+<details>
+<summary><strong>ソートとルックアップのプロセスを表示する</strong></summary>
+
+インデックス構築時、Zilliz Cloud はフィールド値をエンティティ ID とペアにし、[std::sort](https://en.cppreference.com/w/cpp/algorithm/sort.html) を使用して昇順にソートし、ソートされた配列を永続化します。
+
+等価検索と範囲検索では、二分探索（[std::lower_bound](https://en.cppreference.com/w/cpp/algorithm/lower_bound.html) と [std::upper_bound](https://en.cppreference.com/w/cpp/algorithm/upper_bound.html)）によって一致する区間を特定します。クエリ実行エンジンは、その区間に含まれるエンティティ ID を受け取ります。
+
+これにより、クエリの計算量が **O(n)**（フルスキャン）から **O(log n + m)** に削減されます。ここで、*m* は一致件数です。
+
+</details>
+
+</NextChannel>
+
 ## STL_SORT インデックスを作成する\{#create-an-stlsort-index}
+
+<NextChannel action="exclude">
 
 数値、`VARCHAR`、または `TIMESTAMPTZ` フィールドに `STL_SORT` インデックスを作成できます。追加のパラメーターは必要ありません。
 
 次の例では、`TIMESTAMPTZ` フィールドに `STL_SORT` インデックスを作成する方法を示します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+`index_type` を `STL_SORT` に設定します。追加のインデックスパラメーターは必要ありません。次の例では、`TIMESTAMPTZ` フィールドにインデックスを作成します。
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -258,11 +360,25 @@ curl --request POST \
 
 コレクションから既存のインデックスを削除するには、`drop_index()` メソッドを使用します。
 
+<NextChannel action="exclude">
+
 <Admonition type="info" icon="📘" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。コレクションを先にリリースする必要はありません。
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> スカラーインデックスを削除する際のリリース要件については、[スカラーインデックス](./scalar-index-overview#Drop-index-compatibility) を参照してください。
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -411,6 +527,8 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## 使用上の注意\{#usage-notes}
 
 - **フィールド型:** 数値、`VARCHAR`、`TIMESTAMPTZ` フィールドで動作します。データ型の詳細については、[Boolean & Number](./use-number-field) と [TIMESTAMPTZ Field](./use-timestamptz-field) を参照してください。
@@ -418,3 +536,5 @@ curl --request POST \
 - **パラメーター:** インデックスパラメーターは必要ありません。
 
 - **Mmap 非対応:** `STL_SORT` ではメモリマップモードを利用できません。
+
+</NextChannel>

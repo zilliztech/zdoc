@@ -726,6 +726,8 @@ JSON フィールドでフィルタリング操作を実行する前に、次の
 
 - コレクションがメモリにロードされていること。
 
+<NextChannel action="exclude">
+
 <details>
 
 <summary>コードを表示</summary>
@@ -949,6 +951,236 @@ curl --request POST \
 </Tabs>
 
 </details>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<details>
+
+<summary><strong>コードを表示</strong></summary>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+index_params = client.prepare_index_params()
+index_params.add_index(
+    field_name="vector",
+    index_type="AUTOINDEX",
+    index_name="vector_index",
+    metric_type="COSINE"
+)
+
+client.create_index(collection_name="product_catalog", index_params=index_params)
+
+client.load_collection(collection_name="product_catalog")
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Arrays;
+
+// Create an index on the vector field
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("product_catalog")
+        .indexParams(Arrays.asList(IndexParam.builder()
+                .fieldName("vector")
+                .indexName("vector_index")
+                .indexType(IndexParam.IndexType.AUTOINDEX)
+                .metricType(IndexParam.MetricType.COSINE)
+                .build()))
+        .build());
+
+// Load the collection
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("product_catalog")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Create an index on the vector field
+indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
+    "product_catalog", "vector", index.NewAutoIndex(entity.COSINE),
+).WithIndexName("vector_index"))
+if err != nil {
+    log.Fatal(err)
+}
+if err := indexTask.Await(ctx); err != nil {
+    log.Fatal(err)
+}
+
+// Load the collection
+loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("product_catalog"))
+if err != nil {
+    log.Fatal(err)
+}
+if err := loadTask.Await(ctx); err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// Create an index on the vector field
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name("product_catalog")
+            .index_params(vec![
+                IndexParam::new()
+                    .field_name("vector")
+                    .index_name("vector_index")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine),
+            ])
+            .build()?,
+    )
+    .await?;
+
+// Load the collection
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name("product_catalog")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+#include <utility>
+
+// Create an index on the vector field
+milvus::IndexDesc index("vector", "vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+auto status = client->CreateIndex(milvus::CreateIndexRequest()
+    .WithCollectionName("product_catalog")
+    .WithIndexes({std::move(index)})
+    .WithSync(true));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Load the collection
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+    .WithCollectionName("product_catalog")
+    .WithSync(true));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
+
+// Create an index on the vector field
+await client.createIndex({
+  collection_name: "product_catalog",
+  field_name: "vector",
+  index_name: "vector_index",
+  index_type: IndexType.AUTOINDEX,
+  metric_type: MetricType.COSINE,
+});
+
+// Load the collection
+await client.loadCollection({
+  collection_name: "product_catalog",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+// Create an index on the vector field
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "product_catalog",
+    Indexes = [new IndexParam("vector", "vector_index", IndexType.AutoIndex, MetricType.Cosine)]
+});
+
+// Load the collection
+await client.LoadCollectionAsync(new LoadCollectionReq
+{
+    CollectionName = "product_catalog"
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Create an index on the vector field
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "accept: application/json" \
+  --header "content-type: application/json" \
+  --data '{
+    "collectionName": "product_catalog",
+    "indexParams": [
+      {
+        "fieldName": "vector",
+        "indexName": "vector_index",
+        "indexType": "AUTOINDEX",
+        "metricType": "COSINE"
+      }
+    ]
+  }'
+
+# Load the collection
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "accept: application/json" \
+  --header "content-type: application/json" \
+  --data '{
+    "collectionName": "product_catalog"
+  }'
+```
+
+</TabItem>
+
+</Tabs>
+
+</details>
+
+</NextChannel>
 
 これらの要件を満たしたら、以下の式を使用して、JSON フィールド内の値に基づいてコレクションをフィルタリングできます。これらのフィルター式は、特定の JSON パス構文と専用の演算子を利用します。
 
@@ -1732,27 +1964,15 @@ JSON 固有の演算子の詳細は、[JSON 演算子](./json-filtering-operator
 
 ## 次に: JSON クエリを高速化する\{#next-accelerate-json-queries}
 
-デフォルトでは、高速化されていない JSON フィールドに対するクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは低速になる可能性があります。JSON クエリを高速化するために、Zilliz Cloud は高度なインデックス作成機能とストレージ最適化機能を提供しています。
-
 <NextChannel action="exclude">
+
+デフォルトでは、高速化されていない JSON フィールドに対するクエリはすべての行のフルスキャンを実行するため、大規模なデータセットでは低速になる可能性があります。JSON クエリを高速化するために、Zilliz Cloud は高度なインデックス作成機能とストレージ最適化機能を提供しています。
 
 <Admonition type="warning" icon="🚧" title="Warning">
 
 Milvus 3.0.0 以降、オブジェクト全体の JSON インデックス作成（`json_cast_type="JSON"`、JSON フラットインデックスとも呼ばれます）は非推奨です。既存のインデックスと新しいインデックス作成リクエストは互換性のために引き続きサポートされますが、このモードは新しいワークロードには推奨されません。既知のクエリパスには JSON パスインデックスを使用するか、複雑または進化するドキュメント全体のクエリ高速化には [JSON Shredding](./json-shredding) を検討してください。
 
 </Admonition>
-
-</NextChannel>
-
-<NextChannel action="include">
-
-<Admonition type="warning" icon="🚧" title="Warning">
-
-オブジェクト全体の JSON インデックス作成（`json_cast_type="JSON"`、JSON フラットインデックスとも呼ばれます）は非推奨です。互換性のために、そのインデックス作成リクエストは成功しますが、Zilliz Cloud は論理インデックス定義のみを保持し、物理インデックスは構築しません。既知のクエリパスには JSON パスインデックスを使用するか、広範なクエリ高速化には [JSON Shredding](./json-shredding) を検討してください。
-
-</Admonition>
-
-</NextChannel>
 
 次の表に、これらの違いと最適な使用シナリオをまとめます:
 
@@ -1792,6 +2012,21 @@ Milvus 3.0.0 以降、オブジェクト全体の JSON インデックス作成�
 - [JSON Shredding](./json-shredding)
 
 - [NGRAM](./ngram-index-type)
+
+</NextChannel>
+
+<NextChannel action="include">
+
+高速化がない場合、JSON フィルターではデータのスキャンが必要になることがあります。アプリケーションがクエリするパスに応じて、適切なアプローチを選択してください:
+
+| クエリのニーズ | ガイド | 配列値 |
+| --- | --- | --- |
+| 頻繁にフィルターされるパスの既知のセット | [JSON インデックス作成](./json-indexing) では、パスとキャストの選択、互換性の確認、インデックスの作成について説明します。 | インデックス付きの配列パスにある要素を高速化できます。 |
+| 多数のパスまたは変化するパスにわたる広範な高速化 | [JSON Shredding](./json-shredding) では、必要なストレージ設定について説明します。 | 配列内の値は高速化されません。これらのキーにはパスインデックスを使用してください。 |
+
+頻繁にクエリされるキーに対して、JSON Shredding とパスインデックスを組み合わせることができます。JSON パスに対する文字列パターンフィルターについては、[JSON インデックスの組み合わせ](./json-indexing#Compatibility-reference) と [NGRAM の JSON パス例](./ngram-index-type#example-2-create-on-a-json-path) を参照してください。
+
+</NextChannel>
 
 ## FAQ\{#faq}
 

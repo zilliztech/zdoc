@@ -240,6 +240,7 @@ if (!status.IsOk()) {
 
 const std::string collection_name = "geo_collection";
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(true);
 schema->AddField({"id", milvus::DataType::INT64, "", true, false});
 schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(8));
 schema->AddField(milvus::FieldSchema("geo", milvus::DataType::GEOMETRY).WithNullable(true));
@@ -274,6 +275,7 @@ await client.createCollection({
   collection_name: 'geo_collection',
   fields: schema,
   consistency_level: 'Strong',
+  enableDynamicField: true,
 });
 ```
 
@@ -546,7 +548,6 @@ for i in 0..6 {
 <TabItem value='c++'>
 
 ```c++
-const std::string collection_name = "geo_collection";
 
 milvus::EntityRows data = {{{"id", 1}, {"name", "Shop A"}, {"embeddings", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}}, {"geo", "POINT(13.399710 52.518010)"}},
                            {{"id", 2}, {"name", "Shop B"}, {"embeddings", std::vector<float>{0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9}}, {"geo", "POINT(13.403934 52.522877)"}},
@@ -600,7 +601,6 @@ console.log(insert_result);
 <TabItem value='csharp'>
 
 ```csharp
-const string COLLECTION_NAME = "geo_collection";
 
 var geoPoints = new[]
 {
@@ -806,7 +806,6 @@ client
 <TabItem value='c++'>
 
 ```c++
-const std::string collection_name = "geo_collection";
 
 milvus::IndexDesc index_vector("embeddings", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::L2);
 
@@ -847,7 +846,6 @@ await client.loadCollection({
 <TabItem value='csharp'>
 
 ```csharp
-const string COLLECTION_NAME = "geo_collection";
 
 await client.CreateIndexAsync(new CreateIndexReq
 {
@@ -1037,7 +1035,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-const std::string collection_name = "geo_collection";
 
 std::string filter = "st_within(geo, 'POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))')";
 auto request = milvus::QueryRequest()
@@ -1086,7 +1083,6 @@ for (const ret of query_results.data) {
 <TabItem value='csharp'>
 
 ```csharp
-const string COLLECTION_NAME = "geo_collection";
 
 float topLeftLon = 13.403683f;
 float topLeftLat = 52.520711f;
@@ -1240,7 +1236,6 @@ for row in response.results().rows()? {
 <TabItem value='c++'>
 
 ```c++
-const std::string collection_name = "geo_collection";
 
 std::string filter = "st_dwithin(geo, 'POINT(13.403683 52.520711)', 1000.0)";
 auto request = milvus::QueryRequest()
@@ -1288,7 +1283,6 @@ for (const ret of query_results_dwithin.data) {
 <TabItem value='csharp'>
 
 ```csharp
-const string COLLECTION_NAME = "geo_collection";
 
 float centerPointLon = 13.403683f;
 float centerPointLat = 52.520711f;
@@ -1447,7 +1441,6 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-const std::string collection_name = "geo_collection";
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
 std::string filter = "st_within(geo, 'POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))')";
@@ -1501,7 +1494,7 @@ for (const hit of search_results.results) {
 <TabItem value='csharp'>
 
 ```csharp
-const string COLLECTION_NAME = "geo_collection";
+
 string boundingBoxWkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
 
 var result = await client.SearchAsync(new SearchReq

@@ -28,7 +28,19 @@ import TabItem from '@theme/TabItem';
 
 ## 事前準備\{#before-you-begin}
 
+<NextChannel action="exclude">
+
 コレクションスキーマに `chunks` StructArray フィールドがすでに含まれていることを確認してください。選択した言語（Go の場合は `cli` と `ctx`、その他の SDK の場合は `client`）に応じて、[StructArray フィールドを作成する](./create-struct-array) で初期化したクライアントを再利用します。データを挿入する前にインデックスを作成できます。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+コレクションスキーマに `chunks` StructArray フィールドがすでに含まれていることを確認してください。選択した言語（Go の場合は `cli` と `ctx`、その他の SDK の場合は `client`）に応じて、[StructArray フィールドを作成する](./create-struct-array) で初期化したクライアントを再利用します。データを挿入する前にインデックスを作成できます。追加する前に、ベクトルフィールドとベクトルサブフィールドの合計制限について [StructArray の制限事項](./struct-array-limits) を確認してください。
+
+`chunks[emb]` などの完全なサブフィールドパスを指定してください。サブフィールド名のみやドット記法は、有効なインデックスの対象ではありません。
+
+</NextChannel>
 
 | サブフィールドパス | 型 | インデックスの目的 |
 | --- | --- | --- |
@@ -44,7 +56,16 @@ import TabItem from '@theme/TabItem';
 
 </Admonition>
 
+<NextChannel action="include">
+
+<a id="index-rules"></a>
+<a id="Index-rules"></a>
+
+</NextChannel>
+
 ## インデックスを選択する\{#choose-indexes}
+
+<NextChannel action="exclude">
 
 検索モードに応じて、ベクトルメトリクスファミリーを選択します。
 
@@ -56,7 +77,22 @@ import TabItem from '@theme/TabItem';
 | 数値範囲によるフィルタリング | `chunks[quality_score]`、`chunks[page]` | 対象でサポートされているスカラーインデックス |
 | ブール値によるフィルタリング | `chunks[has_code]` | 対象でサポートされているスカラーインデックス |
 
+</NextChannel>
+
+<NextChannel action="include">
+
+検索モードに応じて、ベクトルメトリクスファミリーを選択します。
+
+| 検索モード | 対象パス | メトリクスファミリー |
+| --- | --- | --- |
+| EmbeddingList 検索 | `chunks[emb_list_vector]` | `MAX_SIM*` メトリクスファミリー |
+| 要素レベルのベクトル検索 | `chunks[emb]` | `COSINE`、`IP`、`L2` などの通常のベクトルメトリクスファミリー |
+
+</NextChannel>
+
 EmbeddingList 検索では、StructArray のベクトルサブフィールド内のベクトルを埋め込みリストとして扱い、エンティティレベルの結果を返します。要素レベルの検索では、各 Struct 要素を個別に検索し、一致した要素のオフセットを返すことができます。
+
+<NextChannel action="exclude">
 
 ## ベクトルインデックスを作成する\{#create-vector-indexes}
 
@@ -503,13 +539,15 @@ EmbeddingList 検索では、ベクトルごとの比較に対応する `MAX_SIM
 
 要素単位で null を許容するサブフィールドやスカラー `ARRAY` サブフィールドでは、スカラーインデックスはサポートされていません。これらのサブフィールドに対するフィルターは、インデックスなしで実行されます。
 
+</NextChannel>
 
 ## 要素単位で null を許容するベクトルサブフィールドと追加されたベクトルサブフィールドのインデックス\{#index-element-nullable-and-added-vector-subfields}
 
 ベクトルサブフィールドは、要素レベルの null（`nullable=True`）を指定して作成できます。また、既存の StructArray フィールドにベクトルサブフィールドを追加することもできます。どちらの場合も、サブフィールドのインデックスの作成方法が変わります。
 
-
 - 要素単位で null を許容するベクトルサブフィールドは、要素レベルの検索にのみ対応しています。`COSINE`、`IP`、`L2` などの通常のベクトルメトリクスでインデックスを作成します。このサブフィールドでは `MAX_SIM*` メトリクスと EmbeddingList インデックスは拒否され、`AUTOINDEX` は `MAX_SIM*` メトリクスを選択しません。インデックスの構築時と検索時に、null ベクトルはスキップされます。
+
+<NextChannel action="exclude">
 
 ```python
 index_params = client.prepare_index_params()
@@ -532,15 +570,44 @@ client.create_index(
 )
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+<a id="applicable-metric-types"></a>
+<a id="Applicable-metric-types"></a>
+
+</NextChannel>
+
 ## インデックスとメトリクスの互換性\{#index-metric-compatibility}
+
+<NextChannel action="exclude">
 
 次の表を使用して、StructArray のベクトルサブフィールドのインデックスタイプとメトリクスタイプを選択します。対象から始めて、検索モードに応じてメトリクスファミリーを選択します。
 
 次の互換性テーブルから、Zilliz Cloud のインデックスタイプとメトリクスタイプを選択します。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+ベクトルサブフィールドの型と検索モードに互換性のあるインデックスとメトリクスを選択します。
+
+</NextChannel>
+
 ### EmbeddingList 検索\{#embeddinglist-search}
 
+<NextChannel action="exclude">
+
 EmbeddingList 検索では `MAX_SIM*` メトリクスを使用します。StructArray のベクトルサブフィールド内のベクトルを埋め込みリストとして扱い、エンティティレベルの結果を返します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+EmbeddingList 検索では `MAX_SIM*` メトリクスを使用します。`MAX_SIM` は `MAX_SIM_COSINE` のエイリアスです。
+
+</NextChannel>
 
 | ベクトルサブフィールドのデータ型 | インデックスタイプ | メトリクスタイプ |
 | --- | --- | --- |
@@ -549,7 +616,17 @@ EmbeddingList 検索では `MAX_SIM*` メトリクスを使用します。Struct
 
 ### 要素レベルの検索\{#element-level-search}
 
+<NextChannel action="exclude">
+
 要素レベルの検索では、通常のベクトルメトリクスを使用します。各 Struct 要素を個別に検索し、一致した要素のオフセットを返すことができます。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+要素レベルの検索では、通常のベクトルメトリクスを使用します。
+
+</NextChannel>
 
 | ベクトルサブフィールドのデータ型 | インデックスタイプ | メトリクスタイプ |
 | --- | --- | --- |
@@ -557,6 +634,450 @@ EmbeddingList 検索では `MAX_SIM*` メトリクスを使用します。Struct
 | `BINARY_VECTOR` | `AUTOINDEX` | `HAMMING`、`JACCARD` |
 
 バージョン固有のサポート状況とその他の制限については、[StructArray の制限事項](./struct-array-limits) を参照してください。
+
+<NextChannel action="include">
+
+<a id="create-vector-indexes"></a>
+
+## ベクトルインデックスを作成する\{#create-vector-indexes-next}
+
+選択したメトリクスファミリーを使用して、ベクトルサブフィールドごとに 1 つのインデックスを作成します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+index_params = client.prepare_index_params()
+
+# Index for EmbeddingList search.
+index_params.add_index(
+    field_name="chunks[emb_list_vector]",
+    index_name="chunks_emb_list_max_sim",
+    index_type="AUTOINDEX",
+    metric_type="MAX_SIM_COSINE",
+)
+
+# Index for element-level search.
+index_params.add_index(
+    field_name="chunks[emb]",
+    index_name="chunks_emb_cosine",
+    index_type="AUTOINDEX",
+    metric_type="COSINE",
+)
+
+client.create_index(
+    collection_name="tech_articles",
+    index_params=index_params,
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Arrays;
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("tech_articles")
+        .indexParams(Arrays.asList(
+                IndexParam.builder().fieldName("chunks[emb_list_vector]")
+                        .indexType(IndexParam.IndexType.AUTOINDEX)
+                        .metricType(IndexParam.MetricType.MAX_SIM_COSINE)
+                        .indexName("chunks_emb_list_max_sim")
+                        .build(),
+                IndexParam.builder().fieldName("chunks[emb]")
+                        .indexType(IndexParam.IndexType.AUTOINDEX)
+                        .metricType(IndexParam.MetricType.COSINE)
+                        .indexName("chunks_emb_cosine")
+                        .build()))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[emb_list_vector]", index.NewAutoIndex(entity.MaxSimCosine)).WithIndexName("chunks_emb_list_max_sim"))
+if err != nil {
+    fmt.Println(err.Error())
+    return
+}
+
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[emb]", index.NewAutoIndex(entity.COSINE)).WithIndexName("chunks_emb_cosine"))
+if err != nil {
+    fmt.Println(err.Error())
+    return
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let request = CreateIndexRequest::builder()
+        .collection_name("tech_articles")
+        .index_params(vec![
+            IndexParam::new().field_name("chunks[emb_list_vector]")
+                .index_name("chunks_emb_list_max_sim")
+                .index_type(IndexType::AutoIndex)
+                .metric_type(MetricType::MaxSimCosine),
+            IndexParam::new().field_name("chunks[emb]")
+                .index_name("chunks_emb_cosine")
+                .index_type(IndexType::AutoIndex)
+                .metric_type(MetricType::Cosine),
+        ])
+        .build()?;
+client.create_index(request).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+#include <stdexcept>
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+milvus::IndexDesc emb_list_index("chunks[emb_list_vector]", "chunks_emb_list_max_sim",
+    milvus::IndexType::AUTOINDEX, milvus::MetricType::MAX_SIM_COSINE);
+milvus::IndexDesc emb_index("chunks[emb]", "chunks_emb_cosine",
+    milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+
+milvus::CreateIndexRequest vector_request;
+vector_request.WithCollectionName("tech_articles");
+vector_request.WithIndexes({emb_list_index, emb_index});
+
+status = client->CreateIndex(vector_request);
+if (!status.IsOk()) {
+    throw std::runtime_error(status.Message());
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createIndex({
+  collection_name: "tech_articles",
+  field_name: "chunks[emb_list_vector]",
+  index_name: "chunks_emb_list_max_sim",
+  index_type: "AUTOINDEX",
+  metric_type: "MAX_SIM_COSINE",
+});
+
+await client.createIndex({
+  collection_name: "tech_articles",
+  field_name: "chunks[emb]",
+  index_name: "chunks_emb_cosine",
+  index_type: "AUTOINDEX",
+  metric_type: "COSINE",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "tech_articles",
+    Indexes = new[]
+    {
+        new IndexParam("chunks[emb_list_vector]", "chunks_emb_list_max_sim", IndexType.AutoIndex, MetricType.MaxSimCosine),
+        new IndexParam("chunks[emb]", "chunks_emb_cosine", IndexType.AutoIndex, MetricType.Cosine)
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "tech_articles",
+    "indexParams": [
+        {
+            "fieldName": "chunks[emb_list_vector]",
+            "indexName": "chunks_emb_list_max_sim",
+            "metricType": "MAX_SIM_COSINE",
+            "params": { "index_type": "AUTOINDEX" }
+        },
+        {
+            "fieldName": "chunks[emb]",
+            "indexName": "chunks_emb_cosine",
+            "metricType": "COSINE",
+            "params": { "index_type": "AUTOINDEX" }
+        }
+    ]
+}'
+```
+
+</TabItem>
+
+</Tabs>
+
+<a id="create-scalar-indexes"></a>
+
+## スカラーインデックスを作成する\{#create-scalar-indexes-next}
+
+StructArray のスカラーサブフィールドをフィルターで使用する場合は、それらのサブフィールドにスカラーインデックスを作成します。同じ `structArray[subfield]` パス構文を使用します。StructArray フィールド全体ではなく、各サブフィールドに個別にインデックスを作成します。
+
+サブフィールドインデックスは配列表現を使用しますが、その互換性は通常の ARRAY フィールドとは異なる場合があります。特に、Boolean の StructArray サブフィールドは `INVERTED` と `BITMAP` をサポートしますが、明示的な `STL_SORT` はサポートしません。その他の非ベクトルサブフィールドの選択肢については、[スカラーインデックス](./scalar-index-overview#supported-field-types) を参照してください。このページのサブフィールド固有のルールと異なる場合は、このページのルールを使用してください。
+
+要素単位で null を許容するサブフィールドやスカラー `ARRAY` サブフィールドでは、スカラーインデックスはサポートされていません。これらのサブフィールドに対するフィルターは、インデックスなしで実行されます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+index_params = client.prepare_index_params()
+
+index_params.add_index(
+    field_name="chunks[section]",
+    index_name="chunks_section_inverted",
+    index_type="AUTOINDEX",
+)
+
+index_params.add_index(
+    field_name="chunks[has_code]",
+    index_name="chunks_has_code_inverted",
+    index_type="AUTOINDEX",
+)
+
+index_params.add_index(
+    field_name="chunks[quality_score]",
+    index_name="chunks_quality_score_sort",
+    index_type="AUTOINDEX",
+)
+
+index_params.add_index(
+    field_name="chunks[page]",
+    index_name="chunks_page_sort",
+    index_type="AUTOINDEX",
+)
+
+client.create_index(
+    collection_name="tech_articles",
+    index_params=index_params,
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Arrays;
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("tech_articles")
+        .indexParams(Arrays.asList(
+                IndexParam.builder().fieldName("chunks[section]").indexType(IndexParam.IndexType.AUTOINDEX)
+                        .indexName("chunks_section_inverted").build(),
+                IndexParam.builder().fieldName("chunks[has_code]").indexType(IndexParam.IndexType.AUTOINDEX)
+                        .indexName("chunks_has_code_inverted").build(),
+                IndexParam.builder().fieldName("chunks[quality_score]").indexType(IndexParam.IndexType.AUTOINDEX)
+                        .indexName("chunks_quality_score_sort").build(),
+                IndexParam.builder().fieldName("chunks[page]").indexType(IndexParam.IndexType.AUTOINDEX)
+                        .indexName("chunks_page_sort").build()))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[section]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_section_inverted"))
+if err != nil {
+    fmt.Println(err.Error())
+    return
+}
+
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[has_code]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_has_code_inverted"))
+if err != nil {
+    fmt.Println(err.Error())
+    return
+}
+
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[quality_score]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_quality_score_sort"))
+if err != nil {
+    fmt.Println(err.Error())
+    return
+}
+
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[page]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_page_sort"))
+if err != nil {
+    fmt.Println(err.Error())
+    return
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let request = CreateIndexRequest::builder()
+        .collection_name("tech_articles")
+        .index_params(vec![
+            IndexParam::new().field_name("chunks[section]").index_name("chunks_section_inverted").index_type(IndexType::AutoIndex),
+            IndexParam::new().field_name("chunks[has_code]").index_name("chunks_has_code_inverted").index_type(IndexType::AutoIndex),
+            IndexParam::new().field_name("chunks[quality_score]").index_name("chunks_quality_score_sort").index_type(IndexType::AutoIndex),
+            IndexParam::new().field_name("chunks[page]").index_name("chunks_page_sort").index_type(IndexType::AutoIndex),
+        ])
+        .build()?;
+client.create_index(request).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+#include <stdexcept>
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+milvus::IndexDesc section_index("chunks[section]", "chunks_section_inverted",
+    milvus::IndexType::AUTOINDEX);
+milvus::IndexDesc has_code_index("chunks[has_code]", "chunks_has_code_inverted",
+    milvus::IndexType::AUTOINDEX);
+milvus::IndexDesc quality_index("chunks[quality_score]", "chunks_quality_score_sort",
+    milvus::IndexType::AUTOINDEX);
+milvus::IndexDesc page_index("chunks[page]", "chunks_page_sort",
+    milvus::IndexType::AUTOINDEX);
+
+milvus::CreateIndexRequest scalar_request;
+scalar_request.WithCollectionName("tech_articles");
+scalar_request.WithIndexes({section_index, has_code_index, quality_index, page_index});
+
+status = client->CreateIndex(scalar_request);
+if (!status.IsOk()) {
+    throw std::runtime_error(status.Message());
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createIndex({
+  collection_name: "tech_articles",
+  field_name: "chunks[section]",
+  index_name: "chunks_section_inverted",
+  index_type: "AUTOINDEX",
+});
+
+await client.createIndex({
+  collection_name: "tech_articles",
+  field_name: "chunks[has_code]",
+  index_name: "chunks_has_code_inverted",
+  index_type: "AUTOINDEX",
+});
+
+await client.createIndex({
+  collection_name: "tech_articles",
+  field_name: "chunks[quality_score]",
+  index_name: "chunks_quality_score_sort",
+  index_type: "AUTOINDEX",
+});
+
+await client.createIndex({
+  collection_name: "tech_articles",
+  field_name: "chunks[page]",
+  index_name: "chunks_page_sort",
+  index_type: "AUTOINDEX",
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = "tech_articles",
+    Indexes = new[]
+    {
+        new IndexParam("chunks[section]", "chunks_section_inverted", IndexType.AutoIndex),
+        new IndexParam("chunks[has_code]", "chunks_has_code_inverted", IndexType.AutoIndex),
+        new IndexParam("chunks[quality_score]", "chunks_quality_score_sort", IndexType.AutoIndex),
+        new IndexParam("chunks[page]", "chunks_page_sort", IndexType.AutoIndex)
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "tech_articles",
+    "indexParams": [
+        { "fieldName": "chunks[section]", "indexName": "chunks_section_inverted", "params": { "index_type": "AUTOINDEX" } },
+        { "fieldName": "chunks[has_code]", "indexName": "chunks_has_code_inverted", "params": { "index_type": "AUTOINDEX" } },
+        { "fieldName": "chunks[quality_score]", "indexName": "chunks_quality_score_sort", "params": { "index_type": "AUTOINDEX" } },
+        { "fieldName": "chunks[page]", "indexName": "chunks_page_sort", "params": { "index_type": "AUTOINDEX" } }
+    ]
+}'
+```
+
+</TabItem>
+
+</Tabs>
+
+スカラーインデックスは任意です。`section`、`quality_score`、`page`、`has_code` などのサブフィールドに対する頻繁なフィルターに使用します。例には `element_filter(chunks, $[quality_score] > 0.9)` や `MATCH_ANY(chunks, $[section] == "index")` があります。
+
+</NextChannel>
 
 ## インデックスを確認する\{#verify-indexes}
 
@@ -830,6 +1351,8 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 一覧表示のレスポンスにはインデックス名が含まれ、describe のレスポンスでは `chunks[emb]` とインデックス設定が特定されます。使用する前に、レスポンスまたはステータスでエラーを確認してください。
 
 ## インデックスのルール\{#index-rules}
@@ -844,7 +1367,43 @@ curl --request POST \
 | 要素単位で null を許容するベクトルサブフィールドには、要素レベルのメトリクスを使用します。 | 要素単位で null を許容するベクトルサブフィールド（`nullable=True`）は、既存の StructArray フィールドに追加されたベクトルサブフィールドを含め、`MAX_SIM*` メトリクスを拒否します。 |
 | ベクトルフィールドの制限に注意してください。 | ベクトルフィールドとベクトルサブフィールドの合計数には制限があります。多数のベクトルサブフィールドを追加する前に、StructArray の制限事項を参照してください。 |
 
+</NextChannel>
+
+<NextChannel action="include">
+
+describe レスポンスで `chunks[emb]` と想定どおりの設定が特定され、エラーが報告されていないことを確認してください。
+
+<details>
+<summary><strong>例: 追加したベクトルサブフィールドにインデックスを作成する</strong></summary>
+
+```python
+index_params = client.prepare_index_params()
+
+# Element-level index on an added, element-nullable vector subfield.
+index_params.add_index(
+    field_name="chunks[summary_emb]",
+    index_name="chunks_summary_emb_cosine",
+    index_type="HNSW",
+    metric_type="COSINE",
+    params={
+        "M": 16,
+        "efConstruction": 200,
+    },
+)
+
+client.create_index(
+    collection_name="tech_articles",
+    index_params=index_params,
+)
+```
+
+</details>
+
+</NextChannel>
+
 ## よくある間違い\{#common-mistakes}
+
+<NextChannel action="exclude">
 
 - `chunks[emb]` ではなく `chunks.emb` にインデックスを作成しています。
 
@@ -857,6 +1416,14 @@ curl --request POST \
 - 頻繁に使用される StructArray フィルター用のスカラーインデックスを作成し忘れています。
 
 - Struct スキーマに存在しない StructArray サブフィールドにインデックスを作成しています。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+インデックスの作成または検索に失敗した場合は、上記のパス構文とメトリクスのルールを確認し、対象のサブフィールドが Struct スキーマに存在することを確認してください。
+
+</NextChannel>
 
 ## 次のステップ\{#next-steps}
 
