@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {chmod, mkdir, mkdtemp, readFile, realpath, symlink, writeFile} from 'node:fs/promises';
+import {chmod, mkdir, mkdtemp, readFile, realpath, rename, symlink, writeFile} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -93,6 +93,17 @@ function trustedEnv(root, protection = 'kernel-read-only-mount') {
     VDC_JENKINS_EVIDENCE_ROOT: root,
     VDC_JENKINS_EVIDENCE_PROTECTION: protection,
   };
+}
+
+function useTrustedEnvironment(test, root) {
+  for (const [name, value] of Object.entries(trustedEnv(root))) {
+    const previous = process.env[name];
+    process.env[name] = value;
+    test.after(() => {
+      if (previous === undefined) delete process.env[name];
+      else process.env[name] = previous;
+    });
+  }
 }
 
 async function makeCliRoots() {
@@ -398,6 +409,50 @@ test('request-side forged tag resolutions cannot override trusted registry resol
     }),
     /resolved digest.*sourceUatDigest/,
   );
+});
+
+test('opens exact English UAT deployment evidence and pins the trusted file across repeated reads', async t => {
+  const {openEnglishUatEvidence} = await loadVerifier();
+  const {requestRoot, trustRoot} = await makeCliRoots();
+  const selected = uatRecord();
+  await writeTrustedEvidence(trustRoot, {uatRecords: [zhUat(), selected]});
+  useTrustedEnvironment(t, trustRoot);
+  const read = await openEnglishUatEvidence(selected.jenkinsBuildIdentity, [requestRoot]);
+  assert.deepEqual(await read(), selected);
+
+  await unsealTrustedEvidence(trustRoot);
+  const recordsFile = 'evidence/uat-records.json';
+  await writeJson(trustRoot, 'evidence/replacement.json', [selected]);
+  await rename(path.join(trustRoot, 'evidence/replacement.json'), path.join(trustRoot, recordsFile));
+  await sealTrustedEvidence(trustRoot);
+  await assert.rejects(read(), /identity changed/i);
+});
+
+test('refuses deployment lookup from overlapping roots or misleading records', async t => {
+  const {openEnglishUatEvidence} = await loadVerifier();
+  const {base, requestRoot, trustRoot} = await makeCliRoots();
+  const selected = uatRecord();
+  useTrustedEnvironment(t, trustRoot);
+  await writeTrustedEvidence(trustRoot);
+  await assert.rejects(openEnglishUatEvidence(selected.jenkinsBuildIdentity, [requestRoot, base]), /must not overlap/i);
+  await assert.rejects(openEnglishUatEvidence('lastSuccessful', [requestRoot]), /exact.*English UAT/i);
+  await assert.rejects(openEnglishUatEvidence('vdc-jenkins/chinese-uat/1043', [requestRoot]), /exact.*English UAT/i);
+  const missing = await openEnglishUatEvidence('vdc-jenkins/english-uat/9999', [requestRoot]);
+  await assert.rejects(missing(), /successful English UAT record/i);
+
+  for (const [records, reason] of [
+    [[{...selected, status: 'failed'}], /successful English UAT record/i],
+    [[{...selected, status: 'pending'}], /successful English UAT record/i],
+    [[selected, selected], /duplicate jenkinsBuildIdentity/i],
+    [[{...selected, finalDeployedDigest: 'latest'}], /finalDeployedDigest/i],
+  ]) {
+    await unsealTrustedEvidence(trustRoot);
+    await writeTrustedEvidence(trustRoot, {uatRecords: records});
+    const read = await openEnglishUatEvidence(selected.jenkinsBuildIdentity, [requestRoot]);
+    await assert.rejects(read(), reason);
+  }
+  await chmod(path.join(trustRoot, 'evidence/uat-records.json'), 0o644);
+  await assert.rejects(openEnglishUatEvidence(selected.jenkinsBuildIdentity, [requestRoot]), /must be read-only/i);
 });
 
 test('CLI rollback ignores request-side Prod history and uses trusted history only', async () => {

@@ -8,7 +8,7 @@ import { compileFunction, constants } from 'node:vm'
 import { pathToFileURL } from 'node:url'
 import { canonicalRouteKey, resolveSiteProfile } from '@zilliz/site-config'
 import { rewriteDocHref } from '../../../../docs-ui/src/shared/links/rewriteDocLinks'
-import { validateReleaseRecord } from '../../../../../deploy/contracts/verify-image.mjs'
+import { openEnglishUatEvidence, validateReleaseRecord } from '../../../../../deploy/contracts/verify-image.mjs'
 import { readSharedDocs } from '../commands/build'
 import { safeHandoffPath, sharedReceiptPath, validateActiveState, validateSharedReceipt } from '../core/handoff/source-state'
 import type { ActivePage, SharedReceipt } from '../core/handoff/source-state'
@@ -25,8 +25,8 @@ import { RealMd2md } from './md2md'
 import { createZdocContentReader } from './zdoc-content'
 import type { ZdocContentReader } from './zdoc-content'
 import { classifyPromotion, decidePromotion, promotionPageId, selectPromotionPages } from '../core/promotion'
-import type { PromotionEdit, PromotionPage, PromotionPageCheck, PromotionPreview, PromotionResult, PromotionViewCheck, ReplayUatRelease } from '../core/promotion'
-import { compareUtf8, parseStrictJson } from '../core/updates/canonical'
+import type { PromotionEdit, PromotionPage, PromotionPageCheck, PromotionPreview, PromotionResult, PromotionViewCheck, ReplayUatRelease, UatEvidencePreview } from '../core/promotion'
+import { canonicalBytes, compareUtf8, parseStrictJson } from '../core/updates/canonical'
 import { guidesSnapshotPath } from './guides-snapshot'
 import { exportTree, gitEnvironment, gitRead, resolveCommit } from './updates/git'
 
@@ -159,7 +159,8 @@ async function verifyEditableYaml(path: string, decoded: string | undefined) {
   throw new Error(`Editable ${path.split('/').at(-1)} must round-trip as UTF-8 at the pinned Git baseline`)
 }
 
-export interface PromotionInputs { master: string; upstream: string; dev: string; record: string }
+interface PromotionRepositories { master: string; upstream: string; dev: string }
+export interface PromotionInputs extends PromotionRepositories { record: string }
 type LoadedConfiguration = Exclude<Awaited<ReturnType<typeof readSharedDocs>>, { errors: unknown }>
 type LoadedPage = LoadedConfiguration['pages'] extends ReadonlyMap<string, infer P> ? P : never
 
@@ -172,7 +173,19 @@ interface PageReplay {
 }
 
 export async function collectPromotionPreview(input: PromotionInputs, scratch: string) {
-  const [uat, master, dev] = await Promise.all([readReplayRecord(input.record), resolveCommit(input.master), resolveCommit(input.dev)])
+  const uat = await readReplayRecord(input.record)
+  const { baseline, pages, pageReplays, track } = await collectPinnedPromotion(input, uat, scratch)
+  const preview: PromotionPreview = { schema_version: 1, observation: 'replay', status: 'preview', uat, baseline, pages }
+  return { preview, pageReplays, devSha: baseline.dev, track }
+}
+
+async function collectPinnedPromotion(
+  input: PromotionRepositories,
+  uat: { record: ReplayUatRelease; openUpdatePages?: readonly string[] },
+  scratch: string,
+  selectedPage?: string,
+) {
+  const [master, dev] = await Promise.all([resolveCommit(input.master), resolveCommit(input.dev)])
   const deployed = await resolveCommit(input.dev, uat.record.sourceSha)
   if (deployed !== uat.record.sourceSha) throw new Error('UAT sourceSha must name the exact deployed commit')
   const devHistory = new GitMilvusDocsReader(input.dev)
@@ -180,7 +193,7 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
   const [acceptedActive, currentActive, acceptedSnapshot, currentSnapshot] = await Promise.all([
     readActive(input.dev, deployed), readActive(input.dev, dev), readSnapshot(input.dev, deployed), readSnapshot(input.dev, dev),
   ])
-  const ids = [...new Set([...acceptedActive.pages, ...currentActive.pages].map(row => row.page))].sort(compareUtf8)
+  const ids = selectedPage ? [selectedPage] : [...new Set([...acceptedActive.pages, ...currentActive.pages].map(row => row.page))].sort(compareUtf8)
   const pageInputs = (page: string) => `${group}/pages/${page}`
   const idsWithConfig = ids.filter(promotionPageId)
   const overlay = join(scratch, 'master')
@@ -190,7 +203,7 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
   if ('errors' in globals) throw new Error(globals.errors.map(error => error.message).join(', '))
   const upstream = new GitMilvusDocsReader(input.upstream)
   const upstreamHead = await upstream.trackedHead(globals.sourceConfig.track)
-  const preview: PromotionPreview = { schema_version: 1, observation: 'replay', status: 'preview', uat, baseline: { master, dev, upstream: upstreamHead }, pages: [] }
+  const pages: PromotionPage[] = []
   const pageReplays = new Map<string, PageReplay>()
   for (const page of ids) {
     const state: Omit<PromotionPage, 'status'> = { page, targets: [] }
@@ -270,16 +283,16 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
         if (!isDeepStrictEqual(acceptedOverlay, relevant) || !await devHistory.isAncestor(receipt.inputs.dev.commit, deployed)) {
           throw new Error('Receipt history does not match the pinned Guides overlay and dev baseline')
         }
-        if (uat.openUpdatePages.includes(page)) throw new Error('An open upstream update for this page requires coordination')
+        if (uat.openUpdatePages?.includes(page)) throw new Error('An open upstream update for this page requires coordination')
         if (loadedPage.variants || receipt.inputs.variants) throw new Error('Adopted variants require separate promotion handling')
         pageReplays.set(page, { page, receipt, configuration, loadedPage, outputs })
       }
     } catch (error) {
       state.reason = promotionError(error)
     }
-    preview.pages.push(classifyPromotion(state))
+    pages.push(classifyPromotion(state))
   }
-  return { preview, pageReplays, devSha: dev, track: globals.sourceConfig.track }
+  return { baseline: { master, dev, upstream: upstreamHead }, pages, pageReplays, track: globals.sourceConfig.track }
 }
 
 function advanceLock(before: string, pins: PageLock) {
@@ -482,7 +495,7 @@ async function checkPage(page: PageReplay, pins: PageLock, options: Parameters<t
     targetChecks.push({ manual: target.manual, path: output.path, deployedSha256: output.sha256,
       uatViewSha256: originalNext, candidateProdViewSha256: prod })
   }
-  const check: PromotionPageCheck = { page: page.page, lock: { from: pins, to: { ...pins, current: pins.next } },
+  const check = { page: page.page, lock: { from: pins, to: { ...pins, current: pins.next } },
     edits: edits.map(edit => edit.path), views: targetChecks }
   return { check, edits, links }
 }
@@ -616,6 +629,77 @@ function verifyHistoricalDev(receipt: SharedReceipt, actual: ReadonlyMap<string,
   }
   for (const path of expected.keys()) {
     if (!actual.has(path)) throw new Error(`Historical dev inventory names an unproved file: ${path}`)
+  }
+}
+
+export async function previewUatEvidence(
+  input: PromotionRepositories & { build: string; page: string; requestDirectories: string[] },
+  scratch: string,
+): Promise<UatEvidencePreview> {
+  const report: UatEvidencePreview = {
+    schema_version: 1, observation: 'uat-evidence', status: 'paused', build: input.build, page: input.page,
+    deployment: { status: 'unavailable', reason: 'No verified release record' },
+    comparison: { status: 'not-run' }, imageLabels: { status: 'pending' },
+    operatorAcceptance: { status: 'pending' }, openUpdatePrs: { status: 'unobserved' },
+  }
+  let read: Awaited<ReturnType<typeof openEnglishUatEvidence>>
+  try {
+    read = await openEnglishUatEvidence(input.build, input.requestDirectories)
+    const record: ReplayUatRelease = await read()
+    report.deployment = { status: 'record-validated', record, recordSha256: sha256(canonicalBytes(record)) }
+  } catch (error) {
+    report.deployment = { status: 'unavailable', reason: promotionError(error) }
+    return report
+  }
+  const { record, recordSha256 } = report.deployment
+  try {
+    const { baseline, pages: [page], pageReplays, track } = await collectPinnedPromotion(input, { record }, scratch, input.page)
+    report.baseline = baseline
+    if (page.status === 'blocked') throw new Error(page.reason)
+    if (page.targets.length !== manuals.length || manuals.some(manual => !page.targets.some(target => target.manual === manual.manual))) {
+      throw new Error('A UAT evidence preview requires both English Cloud and BYOC targets')
+    }
+    if (page.status === 'unnecessary') {
+      report.comparison = { status: 'unnecessary', lock: page.lock!, deployedNext: page.acceptedNext! }
+    } else {
+      const replay = pageReplays.get(input.page)!
+      const check = await compareUatPage(input, replay, page.lock!, baseline.dev, scratch)
+      report.comparison = { status: 'matched', lock: page.lock!, deployedNext: page.acceptedNext!, views: check.views }
+    }
+    const [master, dev, upstream] = await Promise.all([
+      resolveCommit(input.master), resolveCommit(input.dev), new GitMilvusDocsReader(input.upstream).trackedHead(track),
+    ])
+    if (!isDeepStrictEqual({ master, dev, upstream }, baseline)) throw new Error('Pinned repositories changed during UAT preview')
+  } catch (error) {
+    report.comparison = { status: 'blocked', reason: promotionError(error) }
+  }
+  try {
+    if (sha256(canonicalBytes(await read())) !== recordSha256) throw new Error('Release record changed during UAT preview')
+  } catch (error) {
+    report.deployment = { status: 'changed', reason: promotionError(error) }
+    report.comparison = { status: 'blocked', reason: 'Deployment evidence changed during UAT preview' }
+  }
+  if (report.comparison.status === 'matched' || report.comparison.status === 'unnecessary') report.status = 'preview'
+  return report
+}
+
+async function compareUatPage(
+  input: PromotionRepositories, page: PageReplay, pins: PageLock, devSha: string, scratch: string,
+) {
+  const devRoot = join(scratch, 'dev')
+  await exportTree(input.dev, devSha, site.content.map(source => source.sourcePath), devRoot)
+  await Promise.all(manuals.map(manual => mkdir(join(devRoot, manual.root), { recursive: true })))
+  const devReaders = createDevReaders(devRoot)
+  const acceptedDev = await historicalDev(input.dev, page.receipt.inputs.dev.commit, scratch)
+  verifyHistoricalDev(page.receipt, acceptedDev.inventory)
+  const reader = createBuildReader(input.upstream)
+  try {
+    const groupCheck = await checkPage(page, pins, { reader, devReaders, historicalReaders: acceptedDev.readers })
+    const gatedRoutes = await gatedEnglishGuidesRoutes(devRoot, scratch, devReaders)
+    await checkDependencies(page.page, groupCheck.links, new Map([[page.page, groupCheck]]), devReaders, devRoot, gatedRoutes)
+    return groupCheck.check
+  } finally {
+    await reader.dispose()
   }
 }
 

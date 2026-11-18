@@ -1,7 +1,8 @@
 import { link, mkdir, mkdtemp, rm, unlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
-import { collectPromotionPreview, preparePromotion, promotionError } from '../adapters/promotion'
+import { isEnglishUatBuildIdentity } from '../../../../../deploy/contracts/verify-image.mjs'
+import { collectPromotionPreview, preparePromotion, previewUatEvidence, promotionError } from '../adapters/promotion'
 import { gitMetadataDirectories } from '../adapters/updates/git'
 import { promotionPageId, type PromotionPreview, type PromotionResult } from '../core/promotion'
 import { checkOutput } from './update'
@@ -9,19 +10,22 @@ import { checkOutput } from './update'
 const serialize = (value: unknown) => JSON.stringify(value, null, 2) + '\n'
 
 const usage = [
+  'shared-docs promote-guides --mode preview --uat-build vdc-jenkins/english-uat/BUILD --page ID --repo UPSTREAM --dev ZDOC_DEV --out DIRECTORY',
   'shared-docs promote-guides --mode preview --uat-record FILE --repo UPSTREAM --dev ZDOC_DEV --out DIRECTORY',
   'shared-docs promote-guides --mode prepare --uat-record FILE --repo UPSTREAM --dev ZDOC_DEV --out DIRECTORY --preview FILE --pages ID,ID|all-eligible',
   'Run from the candidate zdoc checkout. Committed HEADs supply the candidate and dev baselines.',
+  'The UAT build preview validates a record from the trusted mount supplied by the release environment and writes only a report.',
   'Pass a version-1 replay envelope with observation "replay", a nested English UAT release record, and openUpdatePages (an explicit list).',
   'Pass a fresh output directory. Replay artifacts describe local evidence only.',
 ].join('\n') + '\n'
 
-type Options = { record: string; upstream: string; dev: string; out: string } & (
-  { mode: 'preview' } | { mode: 'prepare'; preview: string; selection: 'all-eligible' | string[] }
+type Options = { upstream: string; dev: string; out: string } & (
+  { mode: 'preview'; record: string } | { mode: 'preview'; build: string; page: string }
+  | { mode: 'prepare'; record: string; preview: string; selection: 'all-eligible' | string[] }
 )
 
 function argumentsFor(argv: string[], root: string): Options {
-  const flags = new Set(['--mode', '--uat-record', '--repo', '--dev', '--out', '--preview', '--pages'])
+  const flags = new Set(['--mode', '--uat-record', '--uat-build', '--page', '--repo', '--dev', '--out', '--preview', '--pages'])
   const values = new Map<string, string>()
   for (let index = 0; index < argv.length; index += 2) {
     const [flag, value] = argv.slice(index, index + 2)
@@ -37,7 +41,18 @@ function argumentsFor(argv: string[], root: string): Options {
   }
   const mode = required('--mode')
   const path = (flag: string) => resolve(root, required(flag))
-  const common = { record: path('--uat-record'), upstream: path('--repo'), dev: path('--dev'), out: path('--out') }
+  const requestPaths = () => ({ upstream: path('--repo'), dev: path('--dev'), out: path('--out') })
+  if (values.has('--uat-build')) {
+    if (mode !== 'preview' || values.has('--preview') || values.has('--pages')) throw new Error('--uat-build is preview only')
+    if (values.has('--uat-record')) throw new Error('--uat-build and --uat-record are mutually exclusive')
+    const build = required('--uat-build')
+    const page = required('--page')
+    if (!isEnglishUatBuildIdentity(build)) throw new Error('--uat-build requires an exact English UAT build identity')
+    if (!promotionPageId(page)) throw new Error('--page requires one Guides page ID')
+    return { mode, ...requestPaths(), build, page }
+  }
+  if (values.has('--page')) throw new Error('--page requires --uat-build')
+  const common = { record: path('--uat-record'), ...requestPaths() }
   if (mode === 'preview') {
     if (values.has('--preview') || values.has('--pages')) throw new Error('--preview and --pages are prepare options')
     return { mode, ...common }
@@ -54,15 +69,19 @@ function argumentsFor(argv: string[], root: string): Options {
 }
 
 async function reserveOutput(options: Options, master: string) {
-  const { out, upstream, dev, record } = options
+  const { out, upstream, dev } = options
   const repositories = [...new Set([master, upstream, dev])]
   const metadata = (await Promise.all(repositories.map(gitMetadataDirectories))).flat()
-  const inputs = [...repositories, ...metadata, record, ...(options.mode === 'prepare' ? [options.preview] : [])]
+  const requestDirectories = [...repositories, ...metadata]
+  const evidenceRoot = 'build' in options ? process.env.VDC_JENKINS_EVIDENCE_ROOT : undefined
+  const inputs = [...requestDirectories, ...('record' in options ? [options.record] : []),
+    ...(options.mode === 'prepare' ? [options.preview] : []), ...(evidenceRoot ? [evidenceRoot] : [])]
   await checkOutput(out, inputs)
   await mkdir(dirname(out), { recursive: true })
   await checkOutput(out, inputs)
   // No reuse of a prior attempt, including an existing empty directory.
   await mkdir(out, { mode: 0o700 })
+  return [...requestDirectories, out]
 }
 
 /** Publish the verified report last. A patch by itself carries no preparation outcome. */
@@ -96,9 +115,10 @@ export async function runGuidesPromotion(argv: string[], master: string, write =
     return 0
   }
   let options: Options
+  let requestDirectories: string[]
   try {
     options = argumentsFor(argv, master)
-    await reserveOutput(options, master)
+    requestDirectories = await reserveOutput(options, master)
   } catch (error) {
     write(`Guides promotion arguments: ${promotionError(error)}\n`)
     return 2
@@ -106,6 +126,15 @@ export async function runGuidesPromotion(argv: string[], master: string, write =
 
   const scratch = await mkdtemp(join(tmpdir(), 'shared-guides-promotion-'))
   try {
+    if ('build' in options) {
+      const report = await previewUatEvidence({ ...options, master, requestDirectories }, scratch)
+      await writeFile(join(options.out, 'promotion-preview.json'), serialize(report), { flag: 'wx' })
+      const reason = report.deployment.status !== 'record-validated' ? report.deployment.reason
+        : report.comparison.status === 'blocked' ? report.comparison.reason : undefined
+      write(reason ? `Guides UAT preview paused: ${reason}\n`
+        : 'Guides UAT evidence preview written. Image label verification and operator acceptance are pending. Open update PRs were not checked.\n')
+      return report.status === 'paused' ? 1 : 0
+    }
     if (options.mode === 'preview') {
       let report: PromotionPreview
       try {

@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
@@ -20,6 +20,7 @@ const manifests = 'generated/en/manifests/shared-pages/guides'
 const sha256 = (data: string | Buffer) => createHash('sha256').update(data).digest('hex')
 const json = (value: unknown) => JSON.stringify(value, null, 2) + '\n'
 const scratch: string[] = []
+const readOnlyEvidence: string[] = []
 vi.setConfig({ testTimeout: 60_000 })
 const imageBytes = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLttAAAAABJRU5ErkJggg==', 'base64')
 const imageObject = `shared/${sha256(imageBytes)}.png`
@@ -27,6 +28,10 @@ const imageBase = 'https://images.example.invalid'
 const images = [{ source: './diagram.png', sha256: sha256(imageBytes), object: imageObject }]
 
 afterEach(() => {
+  for (const root of readOnlyEvidence.splice(0)) {
+    chmodSync(root, 0o755)
+    chmodSync(join(root, 'evidence'), 0o755)
+  }
   for (const root of scratch.splice(0)) rmSync(root, { recursive: true, force: true })
 })
 
@@ -206,6 +211,27 @@ async function fixture(options: { secondEligible?: boolean; missingTarget?: bool
 
 type Fixture = Awaited<ReturnType<typeof fixture>>
 
+function deploymentFixture(f: Fixture, root = join(f.root, 'trusted')) {
+  const { release } = JSON.parse(readFileSync(f.recordPath, 'utf8'))
+  const uat = 'evidence/uat-records.json'
+  put(root, uat, json([release]))
+  put(root, 'evidence/resolved-images.json', json({}))
+  put(root, 'evidence/prod-records.json', json([]))
+  for (const file of readdirSync(join(root, 'evidence'))) chmodSync(join(root, 'evidence', file), 0o444)
+  chmodSync(join(root, 'evidence'), 0o555)
+  chmodSync(root, 0o555)
+  readOnlyEvidence.push(root)
+  return { release, root, env: { ...process.env, VDC_JENKINS_EVIDENCE_ROOT: root,
+    VDC_JENKINS_EVIDENCE_PROTECTION: 'kernel-read-only-mount' } }
+}
+
+function deploymentPreview(f: Fixture, evidence: ReturnType<typeof deploymentFixture>, out: string, page = 'first') {
+  return spawnSync(process.execPath, [launcher, 'shared-docs', 'promote-guides',
+    '--mode', 'preview', '--repo', f.upstream, '--dev', f.dev,
+    '--uat-build', evidence.release.jenkinsBuildIdentity, '--page', page, '--out', out],
+  { cwd: f.master, encoding: 'utf8', env: evidence.env })
+}
+
 function cli(f: Fixture, args: string[], nodeArgs: string[] = []) {
   return spawnSync(process.execPath, [...nodeArgs, launcher, 'shared-docs', 'promote-guides',
     '--repo', f.upstream, '--dev', f.dev, '--uat-record', f.recordPath, ...args], { cwd: f.master, encoding: 'utf8' })
@@ -249,6 +275,65 @@ function prepare(f: Fixture, selection: string, name = 'prepare', nodeArgs: stri
   const patch = join(out, 'promotion.patch')
   return { out, command, report, patch }
 }
+
+it('compares both target views through the mounted-deployment preview CLI', async () => {
+  const f = await fixture()
+  const evidence = deploymentFixture(f)
+  const out = join(f.root, 'preview')
+  const command = deploymentPreview(f, evidence, out)
+  expect(command.status, command.stderr || command.stdout).toBe(0)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({
+    observation: 'uat-evidence', status: 'preview', page: 'first',
+    deployment: { status: 'record-validated', record: evidence.release, recordSha256: expect.stringMatching(/^[0-9a-f]{64}$/) },
+    comparison: { status: 'matched', deployedNext: f.b, views: [{ manual: 'guides' }, { manual: 'guides-byoc' }] },
+    imageLabels: { status: 'pending' }, operatorAcceptance: { status: 'pending' }, openUpdatePrs: { status: 'unobserved' },
+  })
+  for (const view of report.comparison.views) expect(view.uatViewSha256).toBe(view.candidateProdViewSha256)
+  expect(readdirSync(out)).toEqual(['promotion-preview.json'])
+  const nested = join(evidence.root, '..output')
+  const invalid = deploymentPreview(f, evidence, nested)
+  expect(invalid.status).toBe(2)
+  expect(invalid.stdout).toContain('overlaps input data')
+  expect(existsSync(nested)).toBe(false)
+  expect(git(f.master, 'status', '--porcelain')).toBe('')
+  expect(git(f.dev, 'status', '--porcelain')).toBe('')
+  const replay = prepare(f, 'first')
+  expect(replay.command.status).toBe(1)
+  expect(existsSync(replay.patch)).toBe(false)
+})
+
+it('holds a deployment preview for a page whose next pin advanced after deployment', async () => {
+  const f = await fixture()
+  const out = join(f.root, 'stale')
+  const command = deploymentPreview(f, deploymentFixture(f), out, 'third')
+  expect(command.status, command.stderr || command.stdout).toBe(1)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ observation: 'uat-evidence', status: 'paused', page: 'third',
+    deployment: { status: 'record-validated' }, comparison: { status: 'blocked', reason: expect.stringMatching(/locked next changed/i) } })
+  expect(readdirSync(out)).toEqual(['promotion-preview.json'])
+})
+
+it('holds a deployment preview when BYOC evidence is missing', async () => {
+  const f = await fixture({ omittedTarget: true })
+  const out = join(f.root, 'missing-target')
+  const command = deploymentPreview(f, deploymentFixture(f), out)
+  expect(command.status, command.stderr || command.stdout).toBe(1)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ observation: 'uat-evidence', status: 'paused',
+    deployment: { status: 'record-validated' }, comparison: { status: 'blocked', reason: expect.stringMatching(/cover every configured/i) } })
+  expect(readdirSync(out)).toEqual(['promotion-preview.json'])
+})
+
+it('keeps repositories and output paths separate from the mounted deployment evidence', async () => {
+  const f = await fixture()
+  const evidence = deploymentFixture(f, join(f.master, 'trusted'))
+  const out = join(f.root, 'overlapping-root')
+  expect(deploymentPreview(f, evidence, out).status).toBe(1)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ status: 'paused', deployment: { status: 'unavailable', reason: expect.stringMatching(/must not overlap/i) } })
+  expect(readdirSync(join(evidence.root, 'evidence')).sort()).toEqual(['prod-records.json', 'resolved-images.json', 'uat-records.json'])
+})
 
 it('prepares one selected page and the fixed eligible group as exact patches', async () => {
   const f = await fixture({ secondEligible: true })

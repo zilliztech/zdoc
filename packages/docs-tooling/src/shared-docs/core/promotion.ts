@@ -68,6 +68,26 @@ export interface PromotionViewCheck {
   candidateProdViewSha256: string
 }
 
+export interface UatEvidencePreview {
+  schema_version: 1
+  observation: 'uat-evidence'
+  status: 'preview' | 'paused'
+  page: string
+  build: string
+  baseline?: PromotionPreview['baseline']
+  deployment:
+    | { status: 'record-validated'; record: ReplayUatRelease; recordSha256: string }
+    | { status: 'unavailable' | 'changed'; reason: string }
+  comparison:
+    | { status: 'matched'; lock: PageLock; deployedNext: string; views: PromotionViewCheck[] }
+    | { status: 'unnecessary'; lock: PageLock; deployedNext: string }
+    | { status: 'blocked'; reason: string }
+    | { status: 'not-run' }
+  imageLabels: { status: 'pending' }
+  operatorAcceptance: { status: 'pending' }
+  openUpdatePrs: { status: 'unobserved' }
+}
+
 export interface PromotionPageCheck {
   page: string
   lock?: { from: PageLock; to: PageLock }
