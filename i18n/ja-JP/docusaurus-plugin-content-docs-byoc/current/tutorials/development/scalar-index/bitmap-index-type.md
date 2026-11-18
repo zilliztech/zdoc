@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-bitmap-index-type
 sidebar_label: "BITMAP"
-sidebar_position: 1
+sidebar_position: 2
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/bitmap.md"
 
 ---
@@ -22,11 +22,23 @@ import TabItem from '@theme/TabItem';
 
 # BITMAP
 
+<NextChannel action="exclude">
+
 ビットマップインデックスは、カーディナリティの低いスカラーフィールドに対するクエリパフォーマンスを向上させるために設計された効率的なインデックス手法です。カーディナリティとは、フィールド内の異なる値の数を指します。異なる要素が少ないフィールドは、低カーディナリティと見なされます。
 
 このインデックスタイプは、フィールド値をコンパクトなバイナリ形式で表現し、それらに対して効率的なビット演算を実行することで、スカラークエリの取得時間を短縮するのに役立ちます。他のタイプのインデックスと比較して、ビットマップインデックスは通常、低カーディナリティのフィールドを扱う場合に高い空間効率と高速なクエリ速度を実現します。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+`BITMAP` は、ステータスコードやカテゴリなど、異なる値が少ないフィールドに対するスカラーフィルタリングを高速化します。カーディナリティとは、フィールド内の異なる値の数です。このページでは、サポートされるフィルター、フィールドの制約、およびインデックスの作成方法について説明します。
+
+</NextChannel>
+
 ## 概要\{#overview}
+
+<NextChannel action="exclude">
 
 **ビットマップ** という用語は、**ビット** と **マップ** という 2 つの単語を組み合わせたものです。ビットは、コンピューターにおけるデータの最小単位を表し、**0** または **1** のいずれかの値しか保持できません。ここでのマップとは、0 と 1 にどの値を割り当てるかに従ってデータを変換および整理するプロセスを指します。
 
@@ -47,6 +59,86 @@ import TabItem from '@theme/TabItem';
 - **Tech** AND **Public**: [1, 0, 0, 0, 0]
 
 結果のビットマップ [1, 0, 0, 0, 0] は、最初のドキュメント（**ID** **1**）のみが両方の条件を満たすことを示しています。ビットマップインデックスと効率的なビット演算を使用することで、検索範囲をすばやく絞り込み、データセット全体をスキャンする必要がなくなります。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+{/* Preserve the published #Limits link and the filter link used by related pages. These anchors are not headings. */}
+
+<a id="limits"></a>
+<a id="Limits"></a>
+<a id="queries-accelerated-by-bitmap"></a>
+<a id="Queries-accelerated-by-BITMAP"></a>
+
+### インデックスの対象とフィルター\{#index-targets-and-filters}
+
+`BITMAP` インデックスを明示的に作成するには、次の表から主キー以外の対象を選択します。各行では、サポートされる対象と、インデックスが評価を支援できるフィルターを対応付けています。
+
+| インデックスの対象 | インデックスを使用できるフィルター |
+| --- | --- |
+| `BOOL` フィールド | 等価（`==`、`!=`）およびメンバーシップ（`in`、`not in`）。 |
+| 整数フィールド（`INT8`、`INT16`、`INT32`、`INT64`） | 等価、メンバーシップ、および範囲（`<`、`<=`、`>`、`>=`）。 |
+| `VARCHAR` フィールド | 等価、メンバーシップ、範囲、および [LIKE または正規表現パターン](./pattern-match)。パターンの評価では、インデックス対象の異なる文字列を多数走査する可能性があります。 |
+| `BOOL`、`INT8`、`INT16`、`INT32`、`INT64`、または `VARCHAR` の要素を持つ通常の `ARRAY` フィールド | `ARRAY_CONTAINS`、`ARRAY_CONTAINS_ANY`、`ARRAY_CONTAINS_ALL`。詳細については、[配列インデックスのサポート](./use-array-fields#Array-index-support) を参照してください。 |
+| `BOOL` または `VARCHAR` にキャストされた JSON パス | 上記の対応するブール値または文字列値に対するフィルターです。ただし、[JSON インデックスの要件](./json-indexing#index-requirements) に従う必要があります。 |
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> `AUTOINDEX` を含むスカラーインデックスは、再帰的な ARRAY フィールドや、NULL 許容の要素を持つ配列をサポートしていません。通常の ARRAY フィールドのフィルターについては [配列インデックスのサポート](./use-array-fields#Array-index-support) を、サブフィールドのルールについては [StructArray フィールドのインデックス](./index-struct-array#create-scalar-indexes) を参照してください。
+
+</Admonition>
+
+ARRAY を対象とする場合、`BITMAP` は要素の包含フィルターに対応しますが、配列全体の等価比較、位置指定による要素アクセス、配列の長さには対応しません。詳細については、[配列インデックスのサポート](./use-array-fields#Array-index-support) を参照してください。
+
+これらの明示的な対象以外で自動選択を行う場合は、[AUTOINDEX の動作](./scalar-index-overview#autoindex-behavior) を参照してください。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> これらはインデックスの機能であり、有効なフィルター式に対する制限ではありません。共通のルックアップ制約については、[スカラーインデックス](./scalar-index-overview#Filter-execution) を参照してください。`AND`、`OR`、`NOT`、および NULL テスト（`IS NULL`、`IS NOT NULL`）については、[基本演算子](./basic-filtering-operators) を参照してください。
+
+</Admonition>
+
+### メモリに関する考慮事項\{#memory-considerations}
+
+メモリとクエリのコストは、異なる値の数とその分布に応じて変わります。固定のカーディナリティを普遍的なパフォーマンスのしきい値として扱うのではなく、代表的なフィルターを使用してインデックスを比較してください。
+
+密なビットマップの場合、バイト単位の概算値は `(D + 1) * N / 8` です。ここで、`N` はエンティティ数、`D` は異なる値の数です。これには、異なる値ごとのビットマップと、有効性用のビットマップが 1 つずつ含まれます。値の保存やその他のオーバーヘッドは概算値に加算されます。オプションのオフセットキャッシュを使用すると、64 ビットシステムでは約 `8 * N` バイトが追加されます。圧縮されたビットマップ表現では、メモリ使用量が大幅に異なる場合があります。
+
+これらの概算値は、メモリマッピングを無効にした状態でロードされたインデックスのメモリを対象としています。セグメントごとに計算し、ロード済みのセグメントとレプリカ全体で合計してください。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> ロードされたフィールドデータ、ベクトルインデックス、コレクションとインデックスのオーバーヘッド、および一時的な割り当てには、追加のメモリを見込んでください。代表的なデータとクエリで検証してください。配列、JSON、古いインデックス形式、およびメモリマッピングについては、個別に測定する必要があります。
+
+</Admonition>
+
+### BITMAP の仕組み\{#how-bitmap-works}
+
+<details>
+<summary><strong>ビットマップフィルタリングの例を表示する</strong></summary>
+
+ビットマップインデックスは、フィールドの異なる値ごとにビットマップを関連付けます。各ビットは 1 つのエンティティに対応し、**1** はそのエンティティがその値を持つことを、**0** は持たないことを意味します。
+
+たとえば、**Tech** カテゴリの公開ドキュメントを検索するには、**Category = Tech** と **Public = true** のビットマップを組み合わせます。
+
+![ビットマップ](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/cb98c77741e110603c84b20f34c1273ba3b902680d68767bc8990d0fc27d8c3d.png)
+
+図に示すように、**Category** と **Public** のビットマップインデックスは次のとおりです。
+
+- **Tech**: [1, 0, 1, 0, 0]。これは、1 番目と 3 番目のドキュメントのみが **Tech** カテゴリに属していることを示しています。
+
+- **Public**: [1, 0, 0, 1, 0]。これは、1 番目と 4 番目のドキュメントのみが **Public** に公開されていることを示しています。
+
+両方の条件に一致するドキュメントを見つけるには、これら 2 つのビットマップに対してビット単位の AND 演算を実行します。
+
+- **Tech** AND **Public**: [1, 0, 0, 0, 0]
+
+両方の条件を満たすのは、最初のドキュメント（**ID 1**）のみです。
+
+</details>
+
+</NextChannel>
 
 ## ビットマップインデックスを作成する\{#create-a-bitmap-index}
 
@@ -260,19 +352,43 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 この例では、`my_collection` コレクションの `category` フィールドにビットマップインデックスを作成します。`add_index()` メソッドは、フィールド名、インデックスの種類、およびインデックス名を指定するために使用します。
 
 ビットマップインデックスを作成すると、クエリ操作で `filter` パラメーターを使用して、インデックス対象のフィールドに基づくスカラーフィルタリングを実行できます。これにより、ビットマップインデックスを使用して検索結果を効率的に絞り込むことができます。詳細については、[フィルタリングの解説](./filtering-overview) を参照してください。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+これにより、`my_collection.category` にインデックスが作成されます。クエリまたは検索の `filter` でこのフィールドを使用します。詳細については、[フィルタリングの解説](./filtering-overview) を参照してください。
+
+</NextChannel>
+
 ## インデックスを削除する\{#drop-an-index}
 
 `drop_index()` メソッドを使用して、コレクションから既存のインデックスを削除します。
+
+<NextChannel action="exclude">
 
 <Admonition type="info" icon="📘" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。コレクションを先に解放する必要はありません。
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> スカラーインデックスを削除する際の解放要件については、[スカラーインデックス](./scalar-index-overview#Drop-index-compatibility) を参照してください。
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -435,6 +551,8 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## 制限事項\{#limits}
 
 - ビットマップインデックスは、主キー以外のスカラーフィールドでのみサポートされています。
@@ -458,3 +576,5 @@ curl --request POST \
     - カーディナリティがこのしきい値を超えて増加すると、ビットマップインデックスのパフォーマンス上のメリットは減少し、ストレージのオーバーヘッドが大きくなります。
 
     - カーディナリティの高いフィールドには、具体的なユースケースとクエリ要件に応じて、転置インデックスなどの代替のインデックス手法の使用を検討してください。
+
+</NextChannel>

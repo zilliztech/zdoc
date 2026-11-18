@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-inverted-index-type
 sidebar_label: "INVERTED"
-sidebar_position: 2
+sidebar_position: 3
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/inverted.md"
 
 ---
@@ -21,6 +21,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # INVERTED
+
+<NextChannel action="exclude">
 
 データに対してフィルタークエリを頻繁に実行する必要がある場合、`INVERTED` インデックスはクエリパフォーマンスを大幅に向上させることができます。すべてのドキュメントをスキャンする代わりに、Zilliz Cloud は転置インデックスを使用して、フィルター条件に一致する正確なレコードを迅速に特定します。
 
@@ -53,6 +55,86 @@ Zilliz Cloud の **INVERTED インデックス**は、各一意のフィール�
 特定の値（例: `category == "electronics"`）でフィルターする場合、Zilliz Cloud はインデックス内のタームをルックアップし、一致する ID を直接取得します。これによりデータセット全体のスキャンが回避され、特にカテゴリ型の値や繰り返し出現する値に対して高速なフィルタリングが可能になります。
 
 INVERTED インデックスは、**BOOL**、**INT8**、**INT16**、**INT32**、**INT64**、**FLOAT**、**DOUBLE**、**VARCHAR**、**JSON**、**ARRAY** などのすべてのスカラーフィールド型をサポートします。ただし、JSON フィールドにインデックスを作成する場合のインデックスパラメーターは、通常のスカラーフィールドとは若干異なります。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+`INVERTED` は、フィールド値をその値を含むエンティティにマッピングし、スカラーフィルタリングを高速化します。
+
+## 概要\{#overview}
+
+<a id="when-to-use-inverted-indexes"></a>
+<a id="When-to-use-INVERTED-indexes"></a>
+
+互換性のあるフィールドまたは JSON パスで、等価、メンバーシップ、範囲フィルターに `INVERTED` を使用します（例: `category == "electronics"`）。
+
+<a id="supported-data-types"></a>
+<a id="Supported-data-types"></a>
+<a id="queries-accelerated-by-inverted"></a>
+<a id="Queries-accelerated-by-INVERTED"></a>
+<a id="supported-filters"></a>
+<a id="Supported-filters"></a>
+<a id="filter-acceleration"></a>
+<a id="Filter-acceleration"></a>
+
+### インデックスの対象とフィルター\{#index-targets-and-filters}
+
+次の表では、サポートされる `INVERTED` インデックスの対象と、インデックスが評価を支援できるフィルターを対応付けています。
+
+| インデックスの対象 | インデックスを使用できるフィルター |
+| --- | --- |
+| `BOOL` フィールド | 等価（`==`、`!=`）およびメンバーシップ（`in`、`not in`）。 |
+| 数値フィールド（`INT8`、`INT16`、`INT32`、`INT64`、`FLOAT`、`DOUBLE`） | 等価、メンバーシップ、および範囲（`<`、`<=`、`>`、`>=`）。 |
+| `VARCHAR` フィールド | 等価、メンバーシップ、範囲、`name LIKE "abc%"` などの前方一致、および `name LIKE "a%b_c"` などの一般的な LIKE。 |
+| `BOOL`、`INT8`、`INT16`、`INT32`、`INT64`、`FLOAT`、`DOUBLE`、または `VARCHAR` の要素を持つ通常の `ARRAY` フィールド | 要素の包含、および対象となる配列全体の比較。詳細については、[配列インデックスのサポート](./use-array-fields#Array-index-support) を参照してください。 |
+| 型付き JSON パス | インデックス対象のキャストに適したフィルターです。パスとキャストのパラメーターを指定します。キャストの互換性については [JSON Indexing](./json-indexing#understand-cast-types) を、クエリの動作については [JSON filter details](./json-indexing#Supported-filters) を参照してください。 |
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> `AUTOINDEX` を含むスカラーインデックスは、再帰的な ARRAY フィールドや、NULL 許容の要素を持つ配列をサポートしていません。通常の ARRAY フィールドのフィルターについては [配列インデックスのサポート](./use-array-fields#Array-index-support) を、サブフィールドのルールについては [StructArray フィールドのインデックス](./index-struct-array#create-scalar-indexes) を参照してください。
+
+</Admonition>
+
+単純なサフィックス（`LIKE "%abc"`）および部分文字列（`LIKE "%abc%"`）フィルターは、より複雑な LIKE パターンがこのインデックスを使用できる場合でも、スキャンパスを使用します。正規表現フィルターは、INVERTED インデックスによる直接のパターンルックアップを使用しません。これらのルールは、[クエリプランニングの簡略化](./pattern-match#accelerate-pattern-matching-with-indexes) の後に適用されます。
+
+スカラーの `INVERTED` インデックスでは、トークンベースの `TEXT_MATCH` または `PHRASE_MATCH` は有効になりません。詳細は、[Text Match](https://milvus.io/docs/keyword-match.md) を参照してください。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> これらはインデックスの機能であり、有効なフィルター式に対する制限ではありません。共通のルックアップ制約については、[スカラーインデックス](./scalar-index-overview#Filter-execution) を参照してください。`AND`、`OR`、`NOT`、および NULL テスト（`IS NULL`、`IS NOT NULL`）については、[基本演算子](./basic-filtering-operators) を参照してください。
+
+</Admonition>
+
+### メモリに関する考慮事項\{#memory-considerations}
+
+ロード済みメモリの概算には、`S` バイトを使用します。ここで、`S` はストレージ圧縮前の構築済みインデックスのサイズです。`S` を取得するには、代表的なデータでインデックスを構築します。生のフィールドデータサイズは代用できません。
+
+これらの概算値は、メモリマッピングを無効にした状態でロードされたインデックスのメモリを対象としています。セグメントごとに計算し、ロード済みのセグメントとレプリカ全体で合計してください。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> ロードされたフィールドデータ、ベクトルインデックス、コレクションとインデックスのオーバーヘッド、および一時的な割り当てには、追加のメモリを見込んでください。代表的なデータとクエリで検証してください。配列、JSON、古いインデックス形式、およびメモリマッピングについては、個別に測定する必要があります。
+
+</Admonition>
+
+<a id="how-inverted-indexes-work"></a>
+<a id="How-INVERTED-indexes-work"></a>
+
+### INVERTED の仕組み\{#how-inverted-works}
+
+<details>
+<summary><strong>値のルックアップ例を表示</strong></summary>
+
+転置インデックスは、エンティティ ID からフィールド値へのマッピングを逆にします。図では、**"electronics"** は ID **1** と **3** にマッピングされ、**"books"** は ID **2** と **5** にマッピングされています。
+
+![INVERTED インデックスの仕組み](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/b051da6520dabc1f7e1295a22f7a971ac076899887c806655dc8a8088b15c291.png)
+
+`category == "electronics"` の場合、Zilliz Cloud は各エンティティのカテゴリを確認するのではなく、インデックスから ID **1** と **3** を取得します。
+
+</details>
+
+</NextChannel>
 
 ## JSON 以外のフィールドにインデックスを作成する\{#create-indexes-on-non-json-fields}
 
@@ -562,11 +644,25 @@ curl --request POST \
 
 コレクションから既存のインデックスを削除するには、`drop_index()` メソッドを使用します。
 
+<NextChannel action="exclude">
+
 <Admonition type="info" icon="📘" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、スカラーインデックスが不要になったら、コレクションを先にリリースする必要なく、直接削除できます。
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> スカラーインデックスを削除する際のリリース要件については、[スカラーインデックス](./scalar-index-overview#Drop-index-compatibility) を参照してください。
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -699,6 +795,8 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## ベストプラクティス\{#best-practices}
 
 - **データをロードした後にインデックスを作成する**: パフォーマンスを向上させるため、すでにデータが含まれているコレクションにインデックスを構築します
@@ -709,8 +807,29 @@ curl --request POST \
 
 - **クエリパターンを考慮する**: 頻繁にフィルターするフィールドにインデックスを作成します
 
+</NextChannel>
+
+<NextChannel action="include">
+
+<a id="best-practices"></a>
+<a id="Best-practices"></a>
+
+</NextChannel>
+
 ## 次のステップ\{#next-steps}
+
+<NextChannel action="exclude">
 
 - [AUTOINDEX](./autoindex-explained) について学習します。
 
 - 高度な JSON インデックス作成シナリオについては、[JSON Indexing](./json-indexing) を参照してください。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- スカラーインデックスを比較してリソースを計画するには、[スカラーインデックス](./scalar-index-overview#whats-next) を参照してください。
+
+- 高度な JSON インデックス作成シナリオについては、[JSON Indexing](./json-indexing) を参照してください。
+
+</NextChannel>

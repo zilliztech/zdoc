@@ -96,6 +96,7 @@ import TabItem from '@theme/TabItem';
 
 いずれの場合も、新しいフィールド名はコレクション内にまだ存在していない必要があり、フィールドの総数は Zilliz Cloud のフィールド数上限を超えることはできません。詳細は、[Zilliz Cloud の制限](./limits) を参照してください。
 
+<a id="add-user-defined-scalar-fields-milvus-26x"></a>
 <a id="add-user-defined-scalar-fields--milvus-26x"></a>
 
 ### ユーザー定義スカラーフィールドの追加\{#add-user-defined-scalar-fields}
@@ -470,6 +471,7 @@ curl --request POST \
 
 フィールドが追加されると、コレクションにすでに存在していたエンティティは `review_status` に対して `"unreviewed"` を返します。新しいエンティティは、別の値を設定することも、値を指定しない場合にデフォルト値を使用することもできます。
 
+<a id="add-structarray-fields-milvus-300"></a>
 <a id="add-structarray-fields--milvus-300"></a>
 
 ### StructArray フィールドの追加 | PUBLIC\{#add-structarray-fields-or-public}
@@ -711,6 +713,7 @@ await client.AddCollectionStructFieldAsync(new AddCollectionStructFieldReq
 StructArray フィールドが追加されると、コレクションにすでに存在するエンティティは、`chunks` のすべてのサブフィールドに対して `NULL` を返します。新しいエンティティを挿入する場合、すべての Struct 要素はすべてのサブフィールドに値を指定する必要があり、Struct 要素自体を `NULL` にすることはできません。Milvus v3.0.x と互換性のある Dedicated クラスターでは、要素レベルで Null 許容のサブフィールドは個々の Struct 要素で `NULL` を保持できます。詳細は、[StructArray フィールドの作成](./create-struct-array) を参照してください。
 
 
+<a id="add-a-sub-field-to-an-existing-structarray-field-milvus-306"></a>
 <a id="add-a-sub-field-to-an-existing-structarray-field--milvus-306"></a>
 
 ### 既存の StructArray フィールドへのサブフィールドの追加 | PUBLIC\{#add-a-sub-field-to-an-existing-structarray-field-or-public}
@@ -821,6 +824,7 @@ curl --request POST \
 
 - スキーマのタイムスタンプを固定しているクライアントはスキーマ不一致エラーを受け取るため、他の追加フィールドの場合と同様に、スキーマを更新する必要があります。
 
+<a id="add-user-defined-vector-fields-milvus-2618"></a>
 <a id="add-user-defined-vector-fields--milvus-2618"></a>
 
 ### ユーザー定義ベクトルフィールドの追加\{#add-user-defined-vector-fields}
@@ -1106,8 +1110,10 @@ curl --request POST \
 
 既存のエンティティは `embedding_v2` に対して `NULL` を持ち、このフィールドで検索するとスキップされます。既存のエンティティを `embedding_v2` で検索可能にするには、upsert またはバックフィルワークフローを通じて NULL 以外のベクトル値を書き込みます。新しいエンティティは、挿入時に `embedding_v2` を含めることができます。
 
+<a id="add-vector-fields-generated-by-functions-milvus-30x"></a>
 <a id="add-vector-fields-generated-by-functions--milvus-30x"></a>
 
+<a id="add-a-function-and-its-generated-vector-field-milvus-30x"></a>
 <a id="add-a-function-and-its-generated-vector-field--milvus-30x"></a>
 
 ### Function とその生成ベクトルフィールドの追加 | PUBLIC\{#add-a-function-and-its-generated-vector-field-or-public}
@@ -1362,6 +1368,7 @@ Zilliz Cloud は、近似重複検出用の MinHash Function とその生成バ�
 
 ユーザー定義フィールドは、コレクションモデルの一部でなくなったときに直接削除できます。Function とその生成ベクトルフィールドを削除するには、Function を削除します。Zilliz Cloud は、同じスキーマ変更で生成フィールドとそのインデックスを削除します。
 
+<a id="drop-user-defined-fields-milvus-30x"></a>
 <a id="drop-user-defined-fields--milvus-30x"></a>
 
 ### ユーザー定義フィールドの削除 | PUBLIC\{#drop-user-defined-fields-or-public}
@@ -1662,6 +1669,7 @@ await client.DropCollectionFieldAsync(new DropCollectionFieldReq
 `image_vector` がコレクション内の最後のベクトルフィールドである場合、削除操作は拒否されます。
 
 
+<a id="drop-a-structarray-sub-field-milvus-306"></a>
 <a id="drop-a-structarray-sub-field--milvus-306"></a>
 
 ### StructArray のサブフィールドの削除 | PUBLIC\{#drop-a-structarray-sub-field-or-public}
@@ -1740,8 +1748,10 @@ StructArray フィールドの最後のサブフィールド、コレクショ�
 そのサブフィールドに対してクエリがまだ実行されている間に削除すると、一時的に失敗する場合があります。古いスキーマに基づいて構築されたクエリプランは、短時間引き続き実行され、内部エラーで失敗します。サブフィールドを削除する前に、そのサブフィールドに対するクエリを完了するか、実行中のクエリが終了した後に削除を再試行してください。
 
 
+<a id="drop-vector-fields-generated-by-functions-milvus-30x"></a>
 <a id="drop-vector-fields-generated-by-functions--milvus-30x"></a>
 
+<a id="drop-a-function-and-its-generated-vector-field-milvus-30x"></a>
 <a id="drop-a-function-and-its-generated-vector-field--milvus-30x"></a>
 
 ### Function とその生成ベクトルフィールドの削除 | PUBLIC\{#drop-a-function-and-its-generated-vector-field-or-public}

@@ -22,6 +22,8 @@ import TabItem from '@theme/TabItem';
 
 # JSON インデックス
 
+<NextChannel action="exclude">
+
 JSON フィールドは、Zilliz Cloud で構造化メタデータを柔軟に保存する方法を提供します。インデックスがない場合、JSON フィールドに対するクエリはコレクション全体のスキャンを必要とし、データセットの増加に伴って遅くなります。JSON インデックスは、JSON データ内の特定のパスにインデックスを作成するため、そのパスに対する等価、範囲、その他のフィルタークエリを高速に実行できます。
 
 JSON インデックスは次のような場合に最適です。
@@ -40,7 +42,24 @@ Zilliz Cloud は JSON パス向けに 4 つのインデックスタイプを提�
 
 インデックスタイプを選択する前に、JSON パスの **キャストタイプ** を特定してください。キャストタイプは、Zilliz Cloud がそのパスの値をどのように解釈するか、およびどのインデックスタイプを使用できるかを決定します。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+JSON パスのインデックスは、[JSON フィールド](./json-field-overview) 内の選択したキーに対するフィルターを高速化します。このガイドでは、JSON に固有のパスとキャストの設定、サポートされる組み合わせ、作成手順について説明します。一般的なインデックスの選択と自動選択のルールについては、[スカラーインデックス](./scalar-index-overview) を参照してください。
+
+多様なクエリパスを持つドキュメントでは、[JSON Shredding](./json-shredding) を検討してください。
+
+<a id="index-type-overview"></a>
+<a id="Index-type-overview"></a>
+
+## インデックスを作成する前に\{#before-you-create-an-index}
+
+</NextChannel>
+
 ### キャストタイプを理解する\{#understand-cast-types}
+
+<NextChannel action="exclude">
 
 `json_cast_type` は、`json_path` の値を解釈してインデックスを作成するために使用するデータ型です。フィールドスキーマの型とは異なります。フィールドは引き続き `JSON` フィールドですが、インデックスを作成する各パスは、特定のスカラー、配列、または JSON オブジェクト型として扱われます。
 
@@ -162,9 +181,97 @@ JSON オブジェクト全体に対する既存のインデックス（`json_cas
 
 `No` とマークされたセルでは、Zilliz Cloud はインデックス作成時にリクエストを拒否します。配列キャストタイプでは、`INVERTED` を明示的に使用してください（`AUTOINDEX` は配列をカバーしません）。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+`json_path` でインデックスを作成するキーを指定します（例: `metadata["price"]`）。`json_cast_type` には、そのパスにある値の型を設定します。フィールドスキーマは `JSON` のままです。キャストは明示的なインデックスと `AUTOINDEX` の両方に必要です。`json_path` を省略すると、Zilliz Cloud はリクエストで指定されたフィールド名を使用します。
+
+<a id="choose-an-index-type"></a>
+<a id="Choose-an-index-type"></a>
+<a id="compatibility-reference"></a>
+<a id="Compatibility-reference"></a>
+<a id="how-do-i-choose-between-autoindex-and-an-explicit-index-type"></a>
+<a id="How-do-I-choose-between-AUTOINDEX-and-an-explicit-index-type"></a>
+<a id="inverted"></a>
+<a id="INVERTED"></a>
+<a id="stlsort"></a>
+<a id="STLSORT"></a>
+<a id="bitmap"></a>
+<a id="BITMAP"></a>
+<a id="ngram"></a>
+<a id="NGRAM"></a>
+
+<a id="example-6-index-entire-json-objects"></a>
+
+キャストと、そのキャストでサポートされるインデックスタイプの 1 つを選択します。「*」が付いたオプションについては、[インデックスの要件](#index-requirements) を確認してください。
+
+| キャストタイプ | パスの値 | サポートされるインデックスタイプ |
+| --- | --- | --- |
+| `BOOL` | `true` などのブール値 | `AUTOINDEX`, `INVERTED`, `BITMAP`* |
+| `DOUBLE` | `99.99` などの数値 | `AUTOINDEX`, `INVERTED`, `STL_SORT`* |
+| `VARCHAR` | `"electronics"` などの文字列 | `AUTOINDEX`, `INVERTED`, `STL_SORT`*, `BITMAP`*, `NGRAM` |
+| `ARRAY_BOOL` | `[true, false]` などのブール値配列 | `INVERTED` |
+| `ARRAY_DOUBLE` | `[1.2, 3.14]` などの数値配列 | `INVERTED` |
+| `ARRAY_VARCHAR` | `["tag1", "tag2"]` などの文字列配列 | `INVERTED` |
+
+<a id="what-if-a-json-key-has-inconsistent-data-types-across-different-entities"></a>
+<a id="What-if-a-JSON-key-has-inconsistent-data-types-across-different-entities"></a>
+
+キャストに一致する値だけがインデックス化されます。たとえば、`DOUBLE` キャストでは `99.99` はインデックス化されますが、`"99.99"` はスキップされます。インデックス作成中に数値文字列を変換するには、[例 5](#example-5-convert-data-type-at-index-time) に示すように、`DOUBLE` キャストで `json_cast_function="STRING_TO_DOUBLE"` を使用します。この関数を他のキャストで使用することはできません。変換に失敗した値はスキップされます。
+
+### インデックスの要件\{#index-requirements}
+
+<a id="can-i-create-multiple-indexes-on-the-same-json-key"></a>
+<a id="Can-I-create-multiple-indexes-on-the-same-JSON-key"></a>
+<a id="what-happens-if-a-querys-filter-expression-uses-a-different-type-than-the-indexed-cast-type"></a>
+<a id="What-happens-if-a-querys-filter-expression-uses-a-different-type-than-the-indexed-cast-type"></a>
+
+インデックスを作成する前に、次の条件を確認してください。
+
+- **パスごとに 1 つのインデックス:** 各 `(field, json_path)` のペアでは、すべてのキャストタイプとインデックスタイプにわたって最大 1 つのインデックスのみをサポートします。
+- **クエリ型の一致:** インデックスを使用するには、クエリが互換性のある値型でインデックス対象のパスを指定する必要があります。互換性のないフィルターはスキャンにフォールバックする場合があります。
+- **配列キャスト:** `ARRAY_BOOL`、`ARRAY_DOUBLE`、`ARRAY_VARCHAR` には `INVERTED` を明示的に指定します。デフォルトの自動型マッピングはこれらのキャストを受け入れません。
+- **文字列パターンインデックス:** `NGRAM` インデックスの場合は、`VARCHAR` キャストを使用し、`min_gram` と `max_gram` を指定します。パラメーターと作成例については、[JSON パスの NGRAM](./ngram-index-type#example-2-create-on-a-json-path) を参照してください。
+
+<a id="autoindex"></a>
+<a id="AUTOINDEX"></a>
+
+「*」が付いたオプションの可用性は、クラスターのサービス管理構成によって異なります。サポートされている場合は、そのレイアウトが必要なときに `BITMAP` または `STL_SORT` を指定するか、サービス管理による選択を希望する場合は `AUTOINDEX` を要求します。Cloud の自動選択ポリシーについては、[AUTOINDEX の動作](./scalar-index-overview#autoindex-behavior) を参照してください。
+
+<a id="supported-filters"></a>
+
+<details id="Supported-filters">
+<summary><strong>JSON フィルター実行の詳細</strong></summary>
+
+スカラー比較と文字列パターンでは、選択したインデックスの[フィルター機能](./scalar-index-overview#index-types)に従ってください。文字列フィルターの構文とプランニングのルールについては、[パターンマッチング](./pattern-match) で説明しています。
+
+JSON 固有の操作には、次の追加の動作があります。
+
+| フィルター | JSON パスインデックスの動作 |
+| --- | --- |
+| `JSON_CONTAINS`, `JSON_CONTAINS_ANY`, `JSON_CONTAINS_ALL` | 型付き配列パスに対する `INVERTED` インデックスは、互換性のある要素を検索できます。型が混在したオペランドやネストされた配列のオペランドは、スキャンにフォールバックする場合があります。 |
+| `exists`（例: `exists metadata["price"]`） | インデックス対象のパスを使用して、その存在をテストできます。これは、値を比較する場合や、フィールド全体が NULL かどうかをテストする場合とは異なります。 |
+
+式の構文については、[JSON 演算子](./json-filtering-operators) を参照してください。
+
+</details>
+
+</NextChannel>
+
 ## JSON インデックスを作成する\{#create-a-json-index}
 
+<NextChannel action="exclude">
+
 このセクションでは、さまざまな形状の JSON データにインデックスを作成する方法を説明します。次の例はすべて以下のサンプル構造を使用し、`metadata` という名前の `JSON` フィールドを含むコレクションがすでにあることを前提としています。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+これらの例では、接続済みのクライアントと、以下に示す形のデータを含む `metadata` という名前の `JSON` フィールドを持つコレクションを使用します。
+
+</NextChannel>
 
 ### サンプルの JSON 構造\{#sample-json-structure}
 
@@ -190,6 +297,8 @@ JSON オブジェクト全体に対する既存のインデックス（`json_cas
 ```
 
 ### 基本的なセットアップ\{#basic-setup}
+
+<NextChannel action="exclude">
 
 以下の例では、Zilliz Cloud デプロイに接続された `client` という名前の `MilvusClient` と、`metadata` という名前の `JSON` フィールドをすでに含むコレクションがあることを前提としています。これらをゼロから設定する必要がある場合は、以下のブロックを展開してください。
 
@@ -683,6 +792,504 @@ curl --request POST \
 
 </details>
 
+</NextChannel>
+
+<NextChannel action="include">
+
+接続とコレクションをセットアップするには、次のブロックを展開してください。
+
+<details>
+
+<summary><strong>接続してサンプルコレクションを作成する</strong></summary>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import DataType, MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+
+# Define a schema with a JSON field
+schema = client.create_schema(enable_dynamic_field=False)
+schema.add_field("pk", DataType.INT64, is_primary=True, auto_id=False)
+schema.add_field("vec", DataType.FLOAT_VECTOR, dim=4)
+schema.add_field("metadata", DataType.JSON, nullable=True)
+
+# Minimal vector index so the collection can be loaded
+vec_index = client.prepare_index_params()
+vec_index.add_index(field_name="vec", index_type="AUTOINDEX", metric_type="L2")
+
+client.create_collection(
+    collection_name="your_collection_name",
+    schema=schema,
+    index_params=vec_index,
+)
+
+# Insert one row that matches the sample JSON structure above
+client.insert(
+    collection_name="your_collection_name",
+    data=[{
+        "pk": 1,
+        "vec": [0.1, 0.2, 0.3, 0.4],
+        "metadata": {
+            "category": "electronics",
+            "brand": "BrandA",
+            "in_stock": True,
+            "price": 99.99,
+            "string_price": "99.99",
+            "tags": ["clearance", "summer_sale"],
+            "supplier": {
+                "name": "SupplierX",
+                "country": "USA",
+                "contact": {
+                    "email": "support@supplierx.com",
+                    "phone": "+1-800-555-0199"
+                }
+            }
+        }
+    }],
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import java.util.*;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// Define a schema with a JSON field
+CreateCollectionReq.CollectionSchema schema = client.createSchema();
+schema.setEnableDynamicField(false);
+schema.addField(AddFieldReq.builder().fieldName("pk").dataType(DataType.Int64).isPrimaryKey(true).autoID(false).build());
+schema.addField(AddFieldReq.builder().fieldName("vec").dataType(DataType.FloatVector).dimension(4).build());
+schema.addField(AddFieldReq.builder().fieldName("metadata").dataType(DataType.JSON).isNullable(true).build());
+
+// Minimal vector index so the collection can be loaded
+List<IndexParam> vecIndex = new ArrayList<>();
+vecIndex.add(IndexParam.builder()
+        .fieldName("vec")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.L2)
+        .build());
+
+client.createCollection(CreateCollectionReq.builder()
+        .collectionName("your_collection_name")
+        .collectionSchema(schema)
+        .indexParams(vecIndex)
+        .build());
+
+// Insert one row that matches the sample JSON structure above
+Gson gson = new Gson();
+JsonObject metadata = gson.fromJson("{"
+        + "\"category\": \"electronics\","
+        + "\"brand\": \"BrandA\","
+        + "\"in_stock\": true,"
+        + "\"price\": 99.99,"
+        + "\"string_price\": \"99.99\","
+        + "\"tags\": [\"clearance\", \"summer_sale\"],"
+        + "\"supplier\": {"
+        + "    \"name\": \"SupplierX\","
+        + "    \"country\": \"USA\","
+        + "    \"contact\": {"
+        + "        \"email\": \"support@supplierx.com\","
+        + "        \"phone\": \"+1-800-555-0199\""
+        + "    }"
+        + "}"
+        + "}", JsonObject.class);
+JsonObject row = new JsonObject();
+row.addProperty("pk", 1L);
+row.add("vec", gson.toJsonTree(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f)));
+row.add("metadata", metadata);
+
+client.insert(InsertReq.builder()
+        .collectionName("your_collection_name")
+        .data(Collections.singletonList(row))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close(ctx)
+
+// Define a schema with a JSON field
+schema := entity.NewSchema().WithDynamicFieldEnabled(false).
+    WithField(entity.NewField().WithName("pk").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
+    WithField(entity.NewField().WithName("vec").WithDataType(entity.FieldTypeFloatVector).WithDim(4)).
+    WithField(entity.NewField().WithName("metadata").WithDataType(entity.FieldTypeJSON).WithNullable(true))
+
+// Minimal vector index so the collection can be loaded
+vecIndex := milvusclient.NewCreateIndexOption("your_collection_name", "vec", index.NewAutoIndex(entity.L2))
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("your_collection_name", schema).
+    WithIndexOptions(vecIndex))
+if err != nil {
+    log.Fatal(err)
+}
+
+// Insert one row that matches the sample JSON structure above
+metadata := []byte(`{
+    "category": "electronics",
+    "brand": "BrandA",
+    "in_stock": true,
+    "price": 99.99,
+    "string_price": "99.99",
+    "tags": ["clearance", "summer_sale"],
+    "supplier": {
+        "name": "SupplierX",
+        "country": "USA",
+        "contact": {
+            "email": "support@supplierx.com",
+            "phone": "+1-800-555-0199"
+        }
+    }
+}`)
+result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("your_collection_name").
+    WithInt64Column("pk", []int64{1}).
+    WithFloatVectorColumn("vec", 4, [][]float32{{0.1, 0.2, 0.3, 0.4}}).
+    WithColumns(column.NewColumnJSONBytes("metadata", [][]byte{metadata})))
+if err != nil {
+    log.Fatal(err)
+}
+log.Printf("inserted %d rows", result.InsertCount)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+// Define a schema with a JSON field
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("pk").data_type(DataType::Int64).primary_key(true).auto_id(false))
+    .add_field(FieldSchema::new().name("vec").data_type(DataType::FloatVector).dimension(4))
+    .add_field(FieldSchema::new().name("metadata").data_type(DataType::Json).nullable(true));
+
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("your_collection_name")
+        .schema(schema)
+        .build()?,
+)
+.await?;
+
+// Minimal vector index so the collection can be loaded
+let vec_index = IndexParam::new()
+    .field_name("vec")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::L2);
+
+client.create_index(
+    CreateIndexRequest::builder()
+        .collection_name("your_collection_name")
+        .index_params(vec![vec_index])
+        .build()?,
+)
+.await?;
+
+// Insert one row that matches the sample JSON structure above
+let row = json!({
+    "pk": 1,
+    "vec": [0.1f32, 0.2, 0.3, 0.4],
+    "metadata": {
+        "category": "electronics",
+        "brand": "BrandA",
+        "in_stock": true,
+        "price": 99.99,
+        "string_price": "99.99",
+        "tags": ["clearance", "summer_sale"],
+        "supplier": {
+            "name": "SupplierX",
+            "country": "USA",
+            "contact": {
+                "email": "support@supplierx.com",
+                "phone": "+1-800-555-0199"
+            }
+        }
+    }
+});
+client.insert(
+    InsertRequest::builder()
+        .collection_name("your_collection_name")
+        .rows(vec![row])
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Define a schema with a JSON field
+milvus::CollectionSchema schema("your_collection_name");
+schema.AddField(milvus::FieldSchema("pk", milvus::DataType::INT64, "", true, false));
+schema.AddField(milvus::FieldSchema("vec", milvus::DataType::FLOAT_VECTOR, "").WithDimension(4));
+schema.AddField(milvus::FieldSchema("metadata", milvus::DataType::JSON, "").WithNullable(true));
+
+// Minimal vector index so the collection can be loaded
+milvus::IndexDesc vec_index("vec", "vec_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::L2);
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+    .WithCollectionName("your_collection_name")
+    .WithCollectionSchema(std::make_shared<milvus::CollectionSchema>(schema)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateIndex(milvus::CreateIndexRequest()
+    .WithCollectionName("your_collection_name")
+    .WithIndexes({std::move(vec_index)})
+    .WithSync(true));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Insert one row that matches the sample JSON structure above
+milvus::InsertRequest insert_req;
+insert_req.WithCollectionName("your_collection_name");
+insert_req.AddRowData({{"pk", 1},
+                       {"vec", std::vector<float>{0.1f, 0.2f, 0.3f, 0.4f}},
+                       {"metadata", nlohmann::json::parse(R"({
+                            "category": "electronics",
+                            "brand": "BrandA",
+                            "in_stock": true,
+                            "price": 99.99,
+                            "string_price": "99.99",
+                            "tags": ["clearance", "summer_sale"],
+                            "supplier": {
+                                "name": "SupplierX",
+                                "country": "USA",
+                                "contact": {
+                                    "email": "support@supplierx.com",
+                                    "phone": "+1-800-555-0199"
+                                }
+                            }
+                        })")}});
+milvus::InsertResponse insert_resp;
+status = client->Insert(insert_req, insert_resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+// Define a schema with a JSON field
+const fields = [
+  { name: "pk", data_type: DataType.Int64, is_primary_key: true, autoID: false },
+  { name: "vec", data_type: DataType.FloatVector, type_params: { dim: "4" } },
+  { name: "metadata", data_type: DataType.JSON, nullable: true },
+];
+
+// Minimal vector index so the collection can be loaded
+const indexParams = [
+  { field_name: "vec", index_name: "vec_index", index_type: "AUTOINDEX", metric_type: "L2" },
+];
+
+await client.createCollection({
+  collection_name: "your_collection_name",
+  fields,
+  index_params: indexParams,
+});
+
+// Insert one row that matches the sample JSON structure above
+await client.insert({
+  collection_name: "your_collection_name",
+  data: [
+    {
+      pk: 1,
+      vec: [0.1, 0.2, 0.3, 0.4],
+      metadata: {
+        category: "electronics",
+        brand: "BrandA",
+        in_stock: true,
+        price: 99.99,
+        string_price: "99.99",
+        tags: ["clearance", "summer_sale"],
+        supplier: {
+          name: "SupplierX",
+          country: "USA",
+          contact: {
+            email: "support@supplierx.com",
+            phone: "+1-800-555-0199",
+          },
+        },
+      },
+    },
+  ],
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2;
+using Milvus.Client.V2.Requests.Collection;
+using Milvus.Client.V2.Requests.Dml;
+using Milvus.Client.V2.Requests.Index;
+using Milvus.Client.V2.Types;
+
+using var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT", ApiKey = "YOUR_CLUSTER_TOKEN" });
+await client.ConnectAsync();
+
+// Define a schema with a JSON field
+var schema = new CollectionSchema
+{
+    Fields =
+    {
+        new FieldSchema("pk", DataType.Int64, isPrimaryKey: true, autoId: false),
+        FieldSchema.CreateFloatVector("vec", dimension: 4),
+        new FieldSchema("metadata", DataType.Json) { Nullable = true }
+    }
+};
+
+// Minimal vector index so the collection can be loaded
+await client.CreateCollectionAsync(new CreateCollectionReq
+{
+    CollectionName = "your_collection_name",
+    Schema = schema,
+    Indexes = new[]
+    {
+        new IndexParam("vec", "vec_index", IndexType.AutoIndex, MetricType.L2)
+    }
+});
+
+// Insert one row that matches the sample JSON structure above
+await client.InsertAsync(new InsertReq
+{
+    CollectionName = "your_collection_name",
+    RowsData = new[]
+    {
+        new Dictionary<string, object?>
+        {
+            ["pk"] = 1L,
+            ["vec"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f },
+            ["metadata"] = new Dictionary<string, object?>
+            {
+                ["category"] = "electronics",
+                ["brand"] = "BrandA",
+                ["in_stock"] = true,
+                ["price"] = 99.99,
+                ["string_price"] = "99.99",
+                ["tags"] = new[] { "clearance", "summer_sale" },
+                ["supplier"] = new Dictionary<string, object?>
+                {
+                    ["name"] = "SupplierX",
+                    ["country"] = "USA",
+                    ["contact"] = new Dictionary<string, object?>
+                    {
+                        ["email"] = "support@supplierx.com",
+                        ["phone"] = "+1-800-555-0199"
+                    }
+                }
+            }
+        }
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "your_collection_name",
+    "schema": {
+      "autoID": false,
+      "enableDynamicField": false,
+      "fields": [
+        {"fieldName": "pk", "dataType": "Int64", "isPrimary": true},
+        {"fieldName": "vec", "dataType": "FloatVector", "elementTypeParams": {"dim": 4}},
+        {"fieldName": "metadata", "dataType": "JSON", "nullable": true}
+      ]
+    },
+    "indexParams": [
+      {"fieldName": "vec", "indexName": "vec_index", "indexType": "AUTOINDEX", "metricType": "L2"}
+    ]
+  }'
+```
+
+</TabItem>
+
+</Tabs>
+
+</details>
+
+</NextChannel>
+
 以下の例で追加するインデックス定義を収集するためのインデックスパラメーターオブジェクトを準備します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
@@ -755,11 +1362,31 @@ export indexParams="[]"
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 以降の各例では、1 つの `index_params.add_index(...)` 呼び出しを示します。データに一致するものを選び、同じ `index_params` オブジェクトに対して呼び出してください。その後、最後に 1 回の `client.create_index(...)` 呼び出しですべてを適用します。詳細は [インデックスを適用する](./json-indexing#apply-the-index) を参照してください。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+データに一致する定義を同じインデックスパラメーターオブジェクトに追加し、1 回のリクエストで[インデックスを適用](#apply-the-index)します。
+
+</NextChannel>
 
 ### 例 1: AUTOINDEX を使用してトップレベルのキーにインデックスを作成する\{#example-1-index-a-top-level-key-with-autoindex}
 
+<NextChannel action="exclude">
+
 商品カテゴリで高速にフィルタリングできるように、`category` フィールドにインデックスを作成します。`AUTOINDEX` では、データ内に存在する異なるカテゴリの数に基づいて、Zilliz Cloud が `BITMAP` または `STL_SORT` を選択します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+`metadata["category"]` に `VARCHAR` キャストと `AUTOINDEX` を使用してインデックスを作成します。[インデックスの要件](#index-requirements) では、デプロイで使用される自動選択モードについて説明しています。
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1053,7 +1680,17 @@ export emailIndex='{
 
 ### 例 3: STL_SORT を使用した範囲クエリ\{#example-3-range-queries-with-stlsort}
 
+<NextChannel action="exclude">
+
 パスに対するクエリが範囲比較（`>`、`<`、`>=`、`<=`）によって大部分を占めるとわかっている場合は、`STL_SORT` を直接選択します。これによりカーディナリティの測定を省略し、ソートされたレイアウトをすぐに構築します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+[オプトイン設定](#index-requirements)を完了したら、`metadata["price"]` に `DOUBLE` キャストと [STL_SORT](./slt-sort-index-type) を使用してインデックスを作成します。
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1196,11 +1833,31 @@ export priceIndex='{
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 インデックス作成後、`metadata["price"] > 50 AND metadata["price"] < 100` のような範囲クエリは、フルスキャンの代わりに二分探索を使用します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+これにより、`metadata["price"] > 50 AND metadata["price"] < 100` などの範囲検索が可能になります。
+
+</NextChannel>
 
 ### 例 4: BITMAP を使用した等価クエリ\{#example-4-equality-queries-with-bitmap}
 
+<NextChannel action="exclude">
+
 ステータスコード、ブール値、列挙型のような文字列など、カーディナリティの低いキーには、`BITMAP` を直接選択してください。等価クエリと `IN` クエリはビットマップ操作になります。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+[オプトイン設定](#index-requirements)を完了したら、`metadata["in_stock"]` に `BOOL` キャストと [BITMAP](./bitmap-index-type) を使用してインデックスを作成します。
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1343,11 +2000,25 @@ export inStockIndex='{
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 `BITMAP` は、少数の異なる文字列値を持つ `status` 列のようなフィールドにも適しています。
+
+</NextChannel>
 
 ### 例 5: インデックス作成時にデータ型を変換する\{#example-5-convert-data-type-at-index-time}
 
+<NextChannel action="exclude">
+
 数値データが誤って文字列として保存されている場合は、`STRING_TO_DOUBLE` を使用して、インデックス構築中に値を数値へ変換します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+数値が文字列として保存されている場合は、`STRING_TO_DOUBLE` と `DOUBLE` キャストを使用して、インデックス構築中に数値へ変換します。
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1499,6 +2170,8 @@ export stringToDoubleIndex='{
 </TabItem>
 
 </Tabs>
+
+<NextChannel action="exclude">
 
 行の変換に失敗した場合（たとえば、`"invalid"` のような数値でない文字列）、その行はインデックス作成時にスキップされます。
 
@@ -1806,6 +2479,14 @@ export supplierIndex='{
 
 オブジェクト全体にインデックスを作成すると、インデックスサイズが大きくなります。深くネストされたドキュメントと多様なクエリパターンを持つ新しいワークロードでは、パス固有のインデックスを使用するか、[JSON Shredding](./json-shredding) を検討してください。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+変換とスキップされる値の動作については、[キャストタイプを理解する](#understand-cast-types) を参照してください。
+
+</NextChannel>
+
 ### インデックスを適用する\{#apply-the-index}
 
 すべてのインデックスパラメーターを追加したら、それらをコレクションに適用します。
@@ -1933,7 +2614,17 @@ curl --request POST \
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 インデックスの構築は非同期で実行されます。特定のインデックスの構築状態を確認するには、`client.describe_index(...)` を使用します。構築が完了すると、`state` フィールドは `Finished` を示し、`total_rows`、`indexed_rows`、`pending_index_rows` は処理中の進行状況を示します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+定義を送信したら、各インデックスの構築状態を確認します。構築が完了すると `state` フィールドに `Finished` が示され、`total_rows`、`indexed_rows`、`pending_index_rows` に進行状況が示されます。
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -2070,6 +2761,8 @@ curl --request POST \
   "state": "Finished"
 }
 ```
+
+<NextChannel action="exclude">
 
 `state` が `Finished` を報告すると、インデックスが作成されたパスに対するクエリは新しいインデックスを自動的に使用します。
 
@@ -2256,3 +2949,177 @@ export categoryLimitIndex='{
 </Tabs>
 
 ほとんどのユーザーはこの設定を調整する必要はありません。中程度のカーディナリティを持つフィールドをビットマップ化したい場合は、しきい値を上げてください。`AUTOINDEX` をより早く `STL_SORT` に寄せたい場合は、しきい値を下げてください。`INVERTED`、`STL_SORT`、または `BITMAP` を明示的に指定した場合、この設定は無視されます。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+`state` が `Finished` を報告すると、インデックスは互換性のあるフィルターを使用するクエリで利用可能になります。
+
+`AUTOINDEX` のエントリでは、このレスポンスの `index_type` フィールドは `AUTOINDEX` として報告されます。レスポンスでは、基盤となるインデックスレイアウトは特定されません。選択ルールについては、[AUTOINDEX の動作](./scalar-index-overview#autoindex-behavior) を参照してください。[パスとキャストの要件](#index-requirements) は引き続き適用されます。
+
+<a id="faq"></a>
+<a id="FAQ"></a>
+
+<a id="how-do-i-tune-autoindexs-bitmap-vs-stlsort-threshold"></a>
+
+<details id="How-do-I-tune-AUTOINDEXs-BITMAP-vs-STLSORT-threshold">
+<summary><strong>上級者向け: JSON パスの自動選択を調整する</strong></summary>
+
+この例では、`metadata["category"]` のカーディナリティしきい値を変更します。カーディナリティベースの `AUTOINDEX` が必要です。使用する前に[インデックスの要件](#index-requirements)を確認してください。パラメーターの範囲、レイアウトの選択肢、明示的インデックスの動作については、[カーディナリティしきい値](./scalar-index-overview#Cardinality-threshold) を参照してください。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+index_params.add_index(
+    field_name="metadata",
+    index_type="AUTOINDEX",
+    index_name="category_index",
+    params={
+        "json_path": 'metadata["category"]',
+        "json_cast_type": "VARCHAR",
+        # highlight-next-line
+        "bitmap_cardinality_limit": 200,  # use BITMAP for fewer than 200 distinct values
+    }
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import java.util.Map;
+
+Map<String, Object> extraParams = new HashMap<>();
+extraParams.put("json_path", "metadata[\"category\"]");
+extraParams.put("json_cast_type", "VARCHAR");
+extraParams.put("bitmap_cardinality_limit", 200);
+indexParams.add(IndexParam.builder()
+        .fieldName("metadata")
+        .indexName("category_index")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .extraParams(extraParams)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+jsonIndex8 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `metadata["category"]`).
+    WithIndexName("category_index")
+opt8 := milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex8).
+    WithIndexName("category_index")
+opt8.WithExtraParam("bitmap_cardinality_limit", "200")
+indexOpts = append(indexOpts, opt8)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+index_params.push(
+    IndexParam::new()
+        .field_name("metadata")
+        .index_name("category_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_path".to_string(), "metadata[\"category\"]".to_string()),
+            ("json_cast_type".to_string(), "VARCHAR".to_string()),
+            ("bitmap_cardinality_limit".to_string(), "200".to_string()),
+        ])),
+);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
+milvus::IndexDesc category_limit_index("metadata", "category_index", milvus::IndexType::AUTOINDEX);
+category_limit_index.AddExtraParam("json_path", "metadata[\"category\"]");
+category_limit_index.AddExtraParam("json_cast_type", "VARCHAR");
+category_limit_index.AddExtraParam("bitmap_cardinality_limit", "200");
+index_params.push_back(std::move(category_limit_index));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+indexParams.push({
+  collection_name: "your_collection_name",
+  field_name: "metadata",
+  index_name: "category_index",
+  index_type: "AUTOINDEX",
+  extra_params: {
+    json_path: 'metadata["category"]',
+    json_cast_type: "VARCHAR",
+    bitmap_cardinality_limit: 200,
+  },
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+using Milvus.Client.V2.Types;
+
+indexParams.Add(new IndexParam("metadata", "category_index", IndexType.AutoIndex)
+{
+    ExtraParams =
+    {
+        ["json_path"] = "metadata[\"category\"]",
+        ["json_cast_type"] = "VARCHAR",
+        ["bitmap_cardinality_limit"] = "200" // use BITMAP for fewer than 200 distinct values
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export categoryLimitIndex='{
+  "fieldName": "metadata",
+  "indexName": "category_index",
+  "params": {
+    "index_type": "AUTOINDEX",
+    "json_path": "metadata[\\\"category\\\"]",
+    "json_cast_type": "VARCHAR",
+    "bitmap_cardinality_limit": 200
+  }
+}'
+```
+
+</TabItem>
+
+</Tabs>
+
+この定義を例 1 の代わりに適用し、その後[インデックスを適用](#apply-the-index)します。
+
+</details>
+
+</NextChannel>

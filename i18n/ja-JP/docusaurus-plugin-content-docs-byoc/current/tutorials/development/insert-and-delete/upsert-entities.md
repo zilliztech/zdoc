@@ -40,6 +40,7 @@ Zilliz Cloud の Upsert は、**上書き**モードまたは**マージ**モー
 
 `nullable` が有効なフィールドは、更新が不要であれば `upsert` リクエストで省略できます。
 
+<a id="upsert-in-merge-mode-milvus-v262"></a>
 <a id="upsert-in-merge-mode--milvus-v262"></a>
 
 ### マージモードでの Upsert\{#upsert-in-merge-mode}
@@ -662,6 +663,7 @@ curl --request POST \
 
 </Tabs>
 
+<a id="upsert-entities-in-merge-mode-milvus-v262"></a>
 <a id="upsert-entities-in-merge-mode--milvus-v262"></a>
 
 ## マージモードでのエンティティの Upsert\{#upsert-entities-in-merge-mode}

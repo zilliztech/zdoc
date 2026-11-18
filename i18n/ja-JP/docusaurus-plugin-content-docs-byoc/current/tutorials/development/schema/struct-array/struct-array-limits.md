@@ -181,6 +181,7 @@ StructArray のスカラーフィルタリングは、`element_filter` や `MATC
 
 - 単独の boolean 式ではなく、`$[has_code] == true` のような明示的な boolean 比較を優先してください。
 
+<a id="import-limits"></a>
 <a id="Import-limits"></a>
 
 ## インポートとストレージの制限\{#import-and-storage-limits}

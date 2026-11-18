@@ -1,0 +1,159 @@
+---
+title: "スカラーインデックス | BYOC"
+slug: /scalar-index-overview
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "スカラーインデックスの種類を比較し、フィールドの互換性を確認して、自動インデックスの選択方法を理解します。 | BYOC"
+type: origin
+displayed_sidebar: default
+token: shared-scalar-index-overview
+sidebar_label: "概要"
+sidebar_position: 1
+custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/reference/scalar_index.md"
+channel: next
+sidebar_custom_props:
+  channel: next
+
+---
+
+import Admonition from '@theme/Admonition';
+
+# スカラーインデックス
+
+スカラーインデックスは、ベクトル以外のフィールドに対する [フィルタリング](./filtering-overview) を高速化できます。この概要は、インデックスの選択、フィールドの互換性の確認、自動選択の理解に役立ちます。
+
+頻繁に使用するフィルターまたは低速なフィルターで使用されるフィールドには、インデックスを作成することを検討してください。インデックス作成リクエストに含める各フィールドについて、次の 2 つのオプションのいずれかを選択します。
+
+- **インデックスタイプを指定する：** フィールドのデータ型とフィルターに互換性のあるタイプを選択します。
+- **`AUTOINDEX` を使用する：** `index_type` を `AUTOINDEX` に設定すると、Zilliz Cloud がタイプを選択します。[AUTOINDEX の動作](#autoindex-behavior) を参照してください。
+
+## インデックスタイプ\{#index-types}
+
+<a id="supported-predicates"></a>
+<a id="Supported-predicates"></a>
+<a id="comparisons-and-membership"></a>
+<a id="Comparisons-and-membership"></a>
+<a id="string-patterns"></a>
+<a id="String-patterns"></a>
+
+サポートされているフィルター、パラメーター、作成手順を確認するには、各インデックスタイプのガイドを開いてください。
+
+| インデックスタイプ | 用途 |
+| --- | --- |
+| [INVERTED](./inverted-index-type) | 等価性、メンバーシップ、範囲フィルター |
+| [BITMAP](./bitmap-index-type) | ステータスコードなど、異なる値が少ないフィールド |
+| [STL_SORT](./slt-sort-index-type) | 値のルックアップと範囲フィルター |
+| [TRIE](./trie-index-type) | `VARCHAR` フィールドでの文字列の完全一致ルックアップとプレフィックスマッチ |
+| [NGRAM](./ngram-index-type) | LIKE および条件を満たす正規表現フィルター |
+| [RTREE](./rtree-index-type) | `GEOMETRY` フィールドの空間フィルター |
+
+インデックスを作成する前に、以下のフィールド互換性テーブルと、選択したインデックスでサポートされるフィルターを確認してください。
+
+<a id="filter-execution"></a>
+<details id="Filter-execution">
+<summary><strong>フィルターでインデックスが使用される仕組み</strong></summary>
+
+インデックスは、対象となる式にのみ使用されます。その他のフィルターはデータをスキャンする場合があります。フィールド間の算術演算および比較には、リテラルルックアップの高速化は適用されません。論理的な組み合わせと NULL テストについては、[基本演算子](./basic-filtering-operators) を参照してください。
+
+</details>
+
+<a id="choosing-a-scalar-index"></a>
+<a id="Choosing-a-scalar-index"></a>
+
+## サポートされるフィールドタイプ\{#supported-field-types}
+
+<a id="array-json-and-spatial-predicates"></a>
+<a id="Array-JSON-and-spatial-predicates"></a>
+<a id="json-field-indexing"></a>
+<a id="JSON-field-indexing"></a>
+
+<a id="drop-index-compatibility"></a>
+<a id="Drop-index-compatibility"></a>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> オンデマンドコンピューティング用のコレクションでは、インデックスの削除をサポートしていません。インデックスを作成する前に、この制限を確認してください。サービングクラスターでは、コレクションを解放せずにスカラーインデックスを削除できます。操作要件については、[drop index reference](https://docs.zilliz.com/reference/python/python/Management-drop_index) を参照してください。
+
+</Admonition>
+
+フィールドのデータ型を確認して、サポートされる明示的なインデックスを参照してください。配列の行では、`ARRAY<T>` は `element_type=T` を持つ `ARRAY` を意味します。
+
+| フィールドタイプ | 明示的なインデックスタイプ | 条件 |
+| --- | --- | --- |
+| `BOOL` | `INVERTED`, `BITMAP` | スカラーのブール値フィールドは `STL_SORT` をサポートしていません。 |
+| `INT8`, `INT16`, `INT32`, `INT64` | `INVERTED`, `BITMAP`, `STL_SORT` | `BITMAP` はプライマリキーフィールドでは使用できません。 |
+| `FLOAT`, `DOUBLE` | `INVERTED`, `STL_SORT` | 明示的な `BITMAP` は使用できません。 |
+| `VARCHAR` | `INVERTED`, `BITMAP`, `STL_SORT`, `TRIE`, `NGRAM` | `BITMAP` はプライマリキーフィールドでは使用できません。[フィルター別のインデックス選択](#String-pattern-indexes) を参照してください。 |
+| `TIMESTAMPTZ` | `STL_SORT` | [TIMESTAMPTZ フィールド](./use-timestamptz-field) を参照してください。 |
+| `GEOMETRY` | `RTREE` | [RTREE](./rtree-index-type) を参照してください。 |
+| `ARRAY<BOOL>` | `INVERTED`, `BITMAP` | [配列インデックスのサポート](./use-array-fields#Array-index-support) を参照してください。 |
+| `ARRAY<INT8>`, `ARRAY<INT16>`, `ARRAY<INT32>`, `ARRAY<INT64>` | `INVERTED`, `BITMAP` | [配列インデックスのサポート](./use-array-fields#Array-index-support) を参照してください。 |
+| `ARRAY<FLOAT>`, `ARRAY<DOUBLE>` | `INVERTED` | [配列インデックスのサポート](./use-array-fields#Array-index-support) を参照してください。 |
+| `ARRAY<VARCHAR>` | `INVERTED`, `BITMAP` | [配列インデックスのサポート](./use-array-fields#Array-index-support) を参照してください。 |
+| `JSON` | インデックス対象のパスとキャストタイプによって異なります。 | [JSON パスの互換性と要件](./json-indexing#understand-cast-types) を確認してください。 |
+| StructArray の非ベクトルサブフィールド | サブフィールドのデータ型によって異なります。 | サブフィールドを個別にインデックスします。`BOOL` サブフィールドでは明示的な `STL_SORT` を使用できません。[サブフィールドのルール](./index-struct-array#create-scalar-indexes) を参照してください。 |
+| `TEXT` | なし | ユーザーが作成したスカラーインデックス（`AUTOINDEX` を含む）は使用できません。 |
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> スカラーインデックス（`AUTOINDEX` を含む）は、再帰的な ARRAY フィールドや、NULL 値を許容する要素を持つ配列をサポートしていません。通常の配列に対するフィルターについては [配列インデックスのサポート](./use-array-fields#Array-index-support) を、サブフィールドのルールについては [StructArray フィールドのインデックス](./index-struct-array#create-scalar-indexes) を参照してください。
+
+</Admonition>
+
+
+<a id="string-pattern-indexes"></a>
+<details id="String-pattern-indexes">
+<summary><strong>VARCHAR フィルター用のインデックスを選択する</strong></summary>
+
+`VARCHAR` フィールドでは、フィルターに基づいて互換性のあるインデックスを比較します。
+
+| フィルターのニーズ | インデックスガイドと条件 |
+| --- | --- |
+| 文字列の完全一致ルックアップとプレフィックス | [TRIE](./trie-index-type#Queries-accelerated-by-TRIE)、[STL_SORT](./slt-sort-index-type#Queries-accelerated-by-STLSORT)、または [INVERTED](./inverted-index-type#Queries-accelerated-by-INVERTED) |
+| 異なる文字列値が少ない場合 | [BITMAP](./bitmap-index-type#Queries-accelerated-by-BITMAP) を使用します。パターンはインデックス対象の値に対して評価されます。 |
+| 適切な固定リテラルを含む LIKE または正規表現 | `VARCHAR` フィールドまたは JSON 文字列パスに対する [NGRAM](./ngram-index-type#Queries-accelerated-by-NGRAM) を使用します。ただし、グラム長と再チェックの条件に従います。 |
+| 使用可能な固定リテラルがない正規表現 | クエリはデータをスキャンするか、多数のインデックス値を評価する場合があります。選択したインデックスの条件を確認してください。 |
+
+`VARCHAR` の範囲では、文字列に数値が含まれている場合でも、文字列の順序が使用されます。インデックスの使用可否は、クエリプランニング、抽出可能なリテラル、カーディナリティ、およびデータ分布によって異なります。クエリプランニングのルールについては、[パターンマッチング](./pattern-match#accelerate-pattern-matching-with-indexes) を参照してください。JSON 文字列パスの場合は、[JSON インデックス](./json-indexing) でパスとキャストの要件を確認してください。
+
+</details>
+
+<a id="how-autoindex-selects"></a>
+<a id="How-AUTOINDEX-selects"></a>
+
+## AUTOINDEX の動作\{#autoindex-behavior}
+
+選択した各フィールドのインデックス定義で `index_type` を `AUTOINDEX` に設定すると、Zilliz Cloud がインデックスタイプを選択します。Cloud のデフォルトマッピングについては、[AUTOINDEX の説明](./autoindex-explained) を参照してください。JSON パスの互換性については、[JSON インデックス](./json-indexing#understand-cast-types) を参照してください。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> サポートされているスカラーフィールドでは、`index_type` を省略したインデックス定義も自動選択を要求します。リクエストに含まれていないフィールドにはインデックスが作成されません。
+
+</Admonition>
+
+<a id="version-compatibility"></a>
+<a id="Version-compatibility"></a>
+
+<details>
+<summary><strong>選択の詳細</strong></summary>
+
+- **内部レイアウト：** `AUTOINDEX` は、`FLOAT` および `DOUBLE` に対するビットマップインデックスなど、明示的な選択肢としては使用できないレイアウトを選択できます。カーディナリティベースの戦略は内部で `HYBRID` と呼ばれますが、直接指定することはできません。選択されたインデックスによって、どのフィルターがそれを使用できるかが決まります。
+- **カーディナリティしきい値：** <a id="Cardinality-threshold"></a>`bitmap_cardinality_limit`（範囲：1–1000）を設定して、デフォルトのしきい値を上書きします。これより小さい値はビットマップを使用し、これ以上の値にはデータ型の高カーディナリティレイアウトが適用されます。明示的な `INVERTED`、`STL_SORT`、`BITMAP` の構築は、カーディナリティベースの選択をバイパスし、このしきい値を無視します。
+
+</details>
+
+## 次のステップ\{#whats-next}
+
+<a id="performance-considerations"></a>
+<a id="Performance-considerations"></a>
+<a id="estimating-memory-requirements"></a>
+<a id="Estimating-memory-requirements"></a>
+
+次のタスクに応じたガイドを選択してください。
+
+- **インデックスを作成する：** パラメーターと作成例については、[インデックスガイド](#index-types) を参照してください。
+- **リソースを計画する：** メモリに関するガイダンスについては、[STL_SORT](./slt-sort-index-type#memory-considerations)、[BITMAP](./bitmap-index-type#memory-considerations)、[INVERTED](./inverted-index-type#memory-considerations)、または [NGRAM](./ngram-index-type#memory-considerations) を参照してください。代表的なデータとフィルターを使用して、メモリ使用量、構築時間、クエリレイテンシを比較してください。
+- **テキスト検索を構成する：** [Text Match](https://milvus.io/docs/keyword-match.md) と [全文検索](./full-text-search) では、テキスト分析、BM25、`TEXT_MATCH`、および `PHRASE_MATCH` について説明しています。スカラーの `INVERTED` インデックスでは、これらのメカニズムは有効になりません。

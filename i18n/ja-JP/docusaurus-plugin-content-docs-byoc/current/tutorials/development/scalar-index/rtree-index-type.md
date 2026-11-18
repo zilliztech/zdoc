@@ -11,7 +11,7 @@ type: origin
 displayed_sidebar: default
 token: shared-rtree-index-type
 sidebar_label: "RTREE"
-sidebar_position: 4
+sidebar_position: 5
 custom_edit_url: "https://github.com/milvus-io/milvus-docs/edit/v3.0.x/site/en/userGuide/indexes/scalar/rtree.md"
 
 ---
@@ -21,6 +21,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # RTREE
+
+<NextChannel action="exclude">
 
 `RTREE` インデックスは、Zilliz Cloud の `GEOMETRY` フィールドに対するクエリを高速化するツリーベースのデータ構造です。コレクションに点、線、ポリゴンなどの幾何学オブジェクトが [Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で格納されており、空間フィルタリングを高速化したい場合、`RTREE` は理想的な選択肢です。
 
@@ -47,6 +49,75 @@ Zilliz Cloud は `RTREE` インデックスを使用して、2 段階のプロ�
 1. **候補を収集する:** 交差するブランチに降りて、候補となるリーフノードを収集します。
 
 1. **完全一致:** 各候補について、厳密な空間述語を実行して真の一致を判定します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+`RTREE` は、[Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式の点、線、またはポリゴンを含む `GEOMETRY` フィールドに対する空間フィルタリングを高速化します。
+
+## 概要\{#overview}
+
+### サポートされるデータ型\{#supported-data-types}
+
+`GEOMETRY` フィールドです。フィールド定義については、[ジオメトリフィールド](./use-geometry-field) を参照してください。
+
+<a id="supported-filters"></a>
+<a id="Supported-filters"></a>
+
+### フィルターの高速化\{#filter-acceleration}
+
+`RTREE` はバウンディングボックスを使用して候補を検索し、その後、Zilliz Cloud が正確な空間関係を確認します。次の[ジオメトリ演算子](./geometry-operators)をサポートしています：
+
+- `ST_EQUALS`、`ST_INTERSECTS`、`ST_CONTAINS`、および `ST_WITHIN`。
+- `ST_TOUCHES`、`ST_OVERLAPS`、`ST_CROSSES`、および `ST_DWITHIN`。
+
+`ST_ISVALID` は `RTREE` を使用しません。適切なインデックスがない場合、空間フィルターはフィールドをスキャンします。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> これらはインデックスの機能であり、有効なフィルター式に対する制限ではありません。共通のルックアップ制約については、[スカラーインデックス](./scalar-index-overview#Filter-execution) を参照してください。`AND`、`OR`、`NOT`、および NULL テスト（`IS NULL`、`IS NOT NULL`）については、[基本演算子](./basic-filtering-operators) を参照してください。
+
+</Admonition>
+
+<a id="how-it-works"></a>
+<a id="How-it-works"></a>
+
+### RTREE の仕組み\{#how-rtree-works}
+
+<a id="phase-1-build-the-index"></a>
+<a id="Phase-1-Build-the-index"></a>
+<a id="phase-2-accelerate-queries"></a>
+<a id="Phase-2-Accelerate-queries"></a>
+
+<details>
+<summary><strong>ビルドとクエリのプロセスを表示する</strong></summary>
+
+Zilliz Cloud は `RTREE` インデックスを使用して、2 段階のプロセスでジオメトリデータを効率的に整理およびフィルタリングします。
+
+**フェーズ 1: インデックスを構築する**
+
+1. **リーフノードを作成する:** 各ジオメトリオブジェクトについて、そのオブジェクトを完全に含む最小の矩形である [Minimum Bounding Rectangle](https://en.wikipedia.org/wiki/Minimum_bounding_rectangle)（MBR）を計算し、リーフノードとして格納します。
+
+1. **より大きなボックスにグループ化する:** 近接するリーフノードをまとめてクラスター化し、各グループを新しい MBR で包んで内部ノードを形成します。たとえば、グループ **B** には **D** と **E** が含まれ、グループ **C** には **F** と **G** が含まれます。
+
+1. **ルートノードを追加する:** すべての内部グループを MBR が覆うルートノードを追加し、高さのバランスが取れたツリー構造を形成します。
+
+![RTREE の仕組み](https://zdoc-images.s3.us-west-2.amazonaws.com/shared/3c531355142535757c91cd396b45f80beb23425dd634f801adf07460bf9d3a54.png)
+
+**フェーズ 2: クエリを高速化する**
+
+1. **クエリ MBR を形成する:** クエリ対象のジオメトリの MBR を計算します。
+
+1. **ブランチを枝刈りする:** ルートから開始し、クエリ MBR を各内部ノードと比較します。MBR がクエリ MBR と交差しないブランチはスキップします。
+
+1. **候補を収集する:** 交差するブランチに降りて、候補となるリーフノードを収集します。
+
+1. **完全一致:** 各候補について、厳密な空間述語を実行して真の一致を判定します。
+
+</details>
+
+</NextChannel>
 
 ## RTREE インデックスを作成する\{#create-an-rtree-index}
 
@@ -273,9 +344,19 @@ curl --request POST \
 
 ## RTREE を使用したクエリ\{#query-with-rtree}
 
+<NextChannel action="exclude">
+
 `filter` 式でジオメトリ演算子を使用してフィルタリングします。対象の `GEOMETRY` フィールドに `RTREE` が存在する場合、Zilliz Cloud はそれを使用して候補を自動的に枝刈りします。インデックスがない場合、フィルターはフルスキャンにフォールバックします。
 
 使用可能なジオメトリ固有の演算子の一覧については、[ジオメトリ演算子](./geometry-operators) を参照してください。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+次の例では、`geo` という名前のインデックス付き `GEOMETRY` フィールドを使用します。
+
+</NextChannel>
 
 ### 例 1: フィルターのみ\{#example-1-filter-only}
 
@@ -643,11 +724,25 @@ EOF
 
 `drop_index()` メソッドを使用して、コレクションから既存のインデックスを削除します。
 
+<NextChannel action="exclude">
+
 <Admonition type="info" icon="📘" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。コレクションを先にリリースする必要はありません。
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+> スカラーインデックスを削除する際のリリース要件については、[スカラーインデックス](./scalar-index-overview#Drop-index-compatibility) を参照してください。
+
+</Admonition>
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
