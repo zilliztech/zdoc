@@ -107,7 +107,7 @@ describe('parseManualConfig', () => {
 `)
     expect('config' in result).toBe(true)
     if (!('config' in result)) return
-    expect(result.config.metadata?.['Snapshots/']).toEqual({ beta: 'FALSE' })
+    expect(result.config.metadata?.['Snapshots/']).toEqual({ beta: 'false' })
     expect(result.config.metadata?.['Collections/createCollection.md']).toMatchObject({ added_since: 'v2.3.x', deprecate_since: false, notebook: false, sidebar_position: 5, keywords: ['Vector retrieval'] })
     const badPosition = parse(`${base}metadata:\n  Collections/createCollection.md:\n    sidebar_position: 1.5\n`)
     expect(errorsOf(badPosition).map(error => error.message).join('\n')).toContain('sidebar_position must be an integer')

@@ -86,9 +86,10 @@ export function parsePageConfig(pageId: string, text: string, context: PageConfi
         check.error(['metadata', 'keywords'], 'keywords must be a nonempty list of nonempty strings')
       }
       if ('beta' in value.metadata) {
-        // YAML's false scalar is boolean false; both spellings denote the no-tag value and
-        // stay as configured — the SDK reference pages publish lowercase `false`.
-        const beta = value.metadata.beta === false ? 'false' : value.metadata.beta
+        // YAML's FALSE scalar is boolean false; both spellings denote the no-tag value.
+        // The pages layout normalizes to the guides spelling; the manual layout feeds the
+        // string `false` it validated itself, and both pass through unchanged.
+        const beta = value.metadata.beta === false ? 'FALSE' : value.metadata.beta
         const untagged = beta === 'FALSE' || beta === 'false'
         if (typeof beta !== 'string' || beta === 'BYOC' || (!untagged && !context.betaValues.includes(beta))) {
           check.error(['metadata', 'beta'], 'beta must be FALSE or a supported heading tag other than BYOC', 'CONFIG_BETA_INVALID')
