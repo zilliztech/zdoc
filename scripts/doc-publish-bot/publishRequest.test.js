@@ -57,15 +57,17 @@ test('planDocusaurusCommands plans guide SaaS and PaaS target commands from Base
 })
 
 test('planDocusaurusCommands plans SDK reference commands against zilliz target', () => {
+  // nodejs30 left the current SDK set with the Node shared-docs cutover; the bot
+  // plans commands only for manuals that still exist in the generated config.
   const commands = planDocusaurusCommands({
-    manualName: 'nodejs30',
+    manualName: 'pymilvus30',
     docToken: 'SDK789',
     record: { fields: { 'Placement Type': 'canonical' } },
   })
 
   assert.deepEqual(commands, [
-    ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'nodejs30', '-tar', 'zilliz', '-token', 'SDK789', '-s3'],
-    ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'nodejs30', '-tar', 'zilliz', '-post'],
+    ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'pymilvus30', '-tar', 'zilliz', '-token', 'SDK789', '-s3'],
+    ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'pymilvus30', '-tar', 'zilliz', '-post'],
   ])
   assert.equal(commands.flat().includes('--offline'), false)
 })

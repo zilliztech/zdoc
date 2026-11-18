@@ -143,6 +143,17 @@ jobs:
       - name: Validate content group
         run: node -e 'require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP, process.env.SITE)'
 
+      - name: Compute content group facts
+        run: |
+          set -euo pipefail
+          group_facts="$(node -e 'const group = require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP, process.env.SITE); process.stdout.write(JSON.stringify({sourceSnapshots: group.sourceSnapshots, hasLarkSources: group.hasLarkSources, hasSharedSources: group.hasSharedSources}))')"
+          has_lark_sources="$(node -e 'process.stdout.write(String(JSON.parse(process.argv[1]).hasLarkSources))' "$group_facts")"
+          has_shared_sources="$(node -e 'process.stdout.write(String(JSON.parse(process.argv[1]).hasSharedSources))' "$group_facts")"
+          {
+            echo "GROUP_HAS_LARK_SOURCES=$has_lark_sources"
+            echo "GROUP_HAS_SHARED_SOURCES=$has_shared_sources"
+          } >> "$GITHUB_ENV"
+
       - name: Create immutable dev baseline worktree
         run: |
           set -euo pipefail
@@ -154,6 +165,21 @@ jobs:
 
       - name: Prepare selected content group workspace
         run: node scripts/docs-workflow/prepare-content-group-workspace.js "$SITE" "$GROUP"
+
+      - name: Prepare shared-docs upstream checkout
+        run: |
+          set -euo pipefail
+          if [[ "$GROUP_HAS_SHARED_SOURCES" != true ]]; then
+            echo "Content group $GROUP has no shared-docs sources; no upstream checkout to prepare."
+            exit 0
+          fi
+          # The whole-manual producer reads its upstream through this checkout and hands
+          # image bodies over through the scratch; both live outside the workspace and
+          # the prepared checkout is verified against the group lock before the fetch.
+          node scripts/docs-workflow/prepare-shared-upstream.js --group "$GROUP" --output "$RUNNER_TEMP/shared-upstream/web-content"
+          mkdir -p "$RUNNER_TEMP/shared-image-scratch"
+          echo "DOCS_TOOLING_SHARED_UPSTREAM=$RUNNER_TEMP/shared-upstream/web-content" >> "$GITHUB_ENV"
+          echo "DOCS_TOOLING_SHARED_SCRATCH=$RUNNER_TEMP/shared-image-scratch" >> "$GITHUB_ENV"
 
       - name: Fetch content group
         run: |
@@ -174,6 +200,26 @@ jobs:
           AWS_REGION: ${{ vars.AWS_REGION }}
           IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}
           DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: ${{ inputs.site == 'zh-CN' && 'packages/docs-tooling/providers/aliyun-oss-validator.mjs' || '' }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Upload shared manual images
+        run: |
+          set -euo pipefail
+          if [[ "$GROUP_HAS_SHARED_SOURCES" != true ]]; then
+            echo "Content group $GROUP has no shared-docs sources; no image scratch to upload."
+            exit 0
+          fi
+          # The fetched MDX names image-bed addresses that the producer prefixed before
+          # staging; this step accepts exactly the attested bytes behind them, so a
+          # published page never references an image whose body was never uploaded.
+          pnpm docs-tooling shared-docs upload-images --group "$GROUP" \
+            --record "generated/en/manifests/shared-manuals/$GROUP.json" \
+            --scratch "$RUNNER_TEMP/shared-image-scratch"
+        env:
+          IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}
+          AWS_BUCKET: ${{ vars.AWS_BUCKET }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -205,9 +251,11 @@ jobs:
           set -euo pipefail
           if [[ "$SITE" != en ]]; then
             echo "Snapshot promotion for $SITE/$GROUP is owned by its site publication workflow."
+          elif [[ "$GROUP_HAS_LARK_SOURCES" != true ]]; then
+            echo "Content group $GROUP has no Lark sources (spec-generated rest, shared-docs node); its upstream identity is pinned in the repository, so there is no snapshot to promote."
           elif [[ "$GROUP" == guides ]]; then
             node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch "$TARGET_BRANCH" --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
-          elif [[ "$GROUP" != rest ]]; then
+          else
             DOCS_SOURCE_BRANCH="$TARGET_BRANCH" bash scripts/update-sdk-reference-snapshots.sh "$GROUP"
           fi
         env:

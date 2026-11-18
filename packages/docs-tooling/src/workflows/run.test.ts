@@ -1,4 +1,4 @@
-import {existsSync, linkSync, mkdtempSync, mkdirSync, readFileSync, renameSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
+import {existsSync, linkSync, mkdtempSync, mkdirSync, readFileSync, realpathSync, renameSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
@@ -1023,4 +1023,69 @@ describe('Chinese Guides source publication', () => {
     expect(() => guidesSnapshotEvidence(root, resolvePublicationGroup('zh-CN', 'guides')))
       .toThrow(/duplicate doc token: DOCduplicate/i);
   });
+});
+
+describe('shared manual producer fetch', () => {
+  it('runs the registered whole-manual producer through the real fetch path', async () => {
+    const root = temporaryRoot();
+    const {createManualDemo, git, sourceDir} = await import('../shared-docs/testing/manual/demo');
+    const demo = await createManualDemo(root);
+    const commit = await git(demo.repo, 'rev-parse', 'HEAD');
+    writeFileSync(path.join(demo.sharedDocs, 'lock.yaml'), `schema_version: 1\ncurrent: ${commit}\nnext: ${commit}\n`);
+    write(root, 'content/en/reference/api/nodejs/nodejs/nodejs.md', '---\nsidebar_label: "Overview"\n---\n\n# Node.js SDK\n');
+    write(root, 'config/reference-navigation.json', `${JSON.stringify({targets: [{sidebar: 'node', landingPage: 'api/nodejs/nodejs/nodejs.md'}]})}\n`);
+    // The producer resolves the record's tooling identity from the checkout HEAD,
+    // so the fixture repository must be a real Git repository.
+    await git(root, 'init', '--quiet', '--initial-branch=master');
+    await git(root, 'add', '.');
+    await git(root, 'commit', '--quiet', '-m', 'Fixture workspace');
+    // The producer resets the scratch recursively (so it must live outside every
+    // checkout) and rejects symlinked ancestors (macOS /tmp), so the test realpaths it.
+    const scratch = realpathSync(mkdtempSync(path.join(tmpdir(), 'docs-tooling-shared-scratch-')));
+    try {
+      await executePublicationGroup(
+        {site: 'en', group: 'node', stage: 'fetch'},
+        {repositoryRoot: root, environment: {
+          DOCS_TOOLING_SHARED_UPSTREAM: demo.repo,
+          DOCS_TOOLING_SHARED_SCRATCH: scratch,
+          IMAGE_BED_URL: 'https://images.example.com/bed',
+        }},
+      );
+
+      const stage = path.join(root, 'tmp/docs-tooling/en/node');
+      const outputDir = path.join(stage, 'content/en/reference/api/nodejs/nodejs');
+      expect(existsSync(path.join(outputDir, 'Collections/Collections-createCollection.md'))).toBe(true);
+      expect(existsSync(path.join(outputDir, 'Client/Client-MilvusClientV2.md'))).toBe(true);
+      const stagedPage = readFileSync(path.join(outputDir, 'Collections/Collections-createCollection.md'), 'utf8');
+      expect(stagedPage).toContain('title: "createCollection() | Node.js"');
+      // The imageless demo has no image-bed addresses; the group-relative doc link still
+      // resolves to its projected publication route.
+      expect(stagedPage).toContain('[MilvusClientV2](./Client-MilvusClientV2)');
+      const record = JSON.parse(readFileSync(path.join(stage, 'generated/en/manifests/shared-manuals/node.json'), 'utf8'));
+      expect(record.group).toBe('node');
+      const sidebar = JSON.parse(readFileSync(path.join(stage, 'generated/en/sidebars/node.sidebar.js'), 'utf8').replace(/^module\.exports = /u, ''));
+      expect(sidebar[0]).toEqual({type: 'doc', id: 'api/nodejs/nodejs/nodejs', label: 'Overview'});
+      expect(existsSync(path.join(scratch, 'images'))).toBe(true);
+    } finally {
+      rmSync(scratch, {recursive: true, force: true});
+    }
+  }, 180_000);
+
+  it('fails closed when the shared producer environment is incomplete', async () => {
+    const root = temporaryRoot();
+    const {createManualDemo, git} = await import('../shared-docs/testing/manual/demo');
+    const demo = await createManualDemo(root);
+    const commit = await git(demo.repo, 'rev-parse', 'HEAD');
+    writeFileSync(path.join(demo.sharedDocs, 'lock.yaml'), `schema_version: 1\ncurrent: ${commit}\nnext: ${commit}\n`);
+    write(root, 'content/en/reference/api/nodejs/nodejs/nodejs.md', '---\nsidebar_label: "Overview"\n---\n\n# Node.js SDK\n');
+    const scratch = realpathSync(mkdtempSync(path.join(tmpdir(), 'docs-tooling-shared-scratch-')));
+    try {
+      await expect(executePublicationGroup(
+        {site: 'en', group: 'node', stage: 'fetch'},
+        {repositoryRoot: root, environment: {DOCS_TOOLING_SHARED_SCRATCH: scratch, IMAGE_BED_URL: 'https://images.example.com/bed'}},
+      )).rejects.toThrow(/DOCS_TOOLING_SHARED_UPSTREAM/);
+    } finally {
+      rmSync(scratch, {recursive: true, force: true});
+    }
+  }, 60_000);
 });

@@ -1,9 +1,11 @@
 const DEFAULT_JENKINS_BASE_URL = 'https://jenkins-3.zilliz.cc/job/zilliz-docs'
 
+// The bot republishes Lark-source SDK manuals; nodejs30 left this set with the
+// Node.js shared-docs cutover (its manual no longer exists in the generated
+// config), and Node publish requests must go through the shared-docs pipeline.
 const CURRENT_SDK_MANUALS = new Set([
   'pymilvus30',
   'javaV230',
-  'nodejs30',
   'gov230',
   'cliv14',
 ])

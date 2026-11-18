@@ -207,9 +207,17 @@ The producer reads its environment at the docs-tooling fetch seam:
 (the image bed base); accepted image bodies land in the scratch
 (`images/<sha256>`) for the upload step, and the staged MDX already names each
 image's final bed address because the record must attest exactly the staged
-bytes. The fetch workflow's preparation of those inputs (upstream checkout,
-scratch, upload step, snapshot-update skip) lands with the R2-b registry
-cutover; until then no manual registers a `shared` source. Sidebar category
+bytes. The fetch workflow prepares those inputs for the registered group
+(`scripts/docs-workflow/prepare-shared-upstream.js` clones the group's
+`source.yaml` repository and fails closed unless both lock commits are
+present; the scratch is a runner-temp directory outside every checkout) and
+uploads the attested scratch after publication
+(`docs-tooling shared-docs upload-images --group <group> --record
+generated/en/manifests/shared-manuals/<group>.json --scratch <dir>` reads the
+record's image manifest, requires the scratch to hold exactly those bodies,
+and verifies each digest while uploading to its record address). Groups
+without Lark sources skip snapshot promotion: their upstream identity is
+pinned in the group `lock.yaml`, not a Lark snapshot. Sidebar category
 labels and order come from manual `metadata` module entries (`title`,
 `sidebar_position`); those two fields describe the sidebar category and never
 reach page front matter.

@@ -730,10 +730,12 @@
         "packages/docs-tooling/src/manuals/**",
         "scripts/docs-workflow/content-groups*",
         "scripts/docs-workflow/group-paths*",
-        "scripts/docs-workflow/print-workflow-groups*"
+        "scripts/docs-workflow/print-workflow-groups*",
+        "scripts/docs-workflow/prepare-shared-upstream*"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-tooling/src/manuals"
+        "pnpm vitest run packages/docs-tooling/src/manuals",
+        "node --test scripts/docs-workflow/prepare-shared-upstream.test.js"
       ],
       "harnesses": [
         "pnpm test:replay:all"
@@ -742,7 +744,7 @@
         "pnpm test:workflow-policy",
         "node --test deploy/contracts/fetch-translation-workflow.test.mjs"
       ],
-      "reason": "Manual registry changes alter unit order, matrix jobs, artifact names, sidebars, and replay cardinality."
+      "reason": "Manual registry changes alter unit order, matrix jobs, artifact names, sidebars, and replay cardinality; the shared-docs upstream prep derives from the same group contract."
     },
     {
       "id": "shared-mdx-normalization",
