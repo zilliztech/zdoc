@@ -228,6 +228,13 @@ function rest(sourceDir: string): ManualSource {
   return {sourceType: 'rest', lifecycle: 'active', sourceDir};
 }
 
+/** Shared-docs group source (design 10): the English producer is the whole-manual
+ * generation pipeline; the upstream repository and tracking branch live in the
+ * group's source.yaml, not in the registry. */
+export function shared(sourceDir: string): ManualSource {
+  return {sourceType: 'shared', lifecycle: 'active', sourceDir};
+}
+
 function publication(
   site: SiteId,
   source: string,

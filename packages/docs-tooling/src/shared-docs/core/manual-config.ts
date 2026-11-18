@@ -3,7 +3,10 @@ import { ConfigValidation, isRepositoryPath, parseYaml } from './yaml'
 
 /** Manual-layout page metadata; the title always comes from the H1 heading. */
 const PAGE_METADATA_FIELDS = ['beta', 'deprecate_since', 'added_since', 'description', 'last_modified', 'notebook', 'type', 'token', 'sidebar_position', 'keywords']
-const MODULE_METADATA_FIELDS = ['beta']
+/** Module entries carry only what a whole module can own: its beta gate, the sidebar
+ * category label and the category order. mergedMetadata keeps `title` and the module
+ * `sidebar_position` out of page front matter. */
+const MODULE_METADATA_FIELDS = ['beta', 'title', 'sidebar_position']
 const CLOUD_CHANNEL_VALUES: readonly ManualCloudChannel[] = ['current', 'next', 'retire-in-next']
 
 function checkBeta(check: ConfigValidation, record: Record<string, unknown>, path: (string | number)[], betaValues: readonly string[]): void {
@@ -104,10 +107,13 @@ export function parseManualConfig(text: string, context: DiagnosticContext & {
           check.error(['metadata', key, '$key'], `Metadata key must be relative to source.dir without traversal: ${key}`)
           continue
         }
-        // check.object already reports module keys outside beta as unknown fields.
+        // check.object already reports module keys outside the field lists as unknown fields.
         if (check.object(entry, ['metadata', key], isModule ? MODULE_METADATA_FIELDS : PAGE_METADATA_FIELDS, [])) {
           if ('beta' in (entry as Record<string, unknown>)) checkBeta(check, entry as Record<string, unknown>, ['metadata', key, 'beta'], context.betaValues)
           const record = entry as Record<string, unknown>
+          if (isModule && 'title' in record && (typeof record.title !== 'string' || !record.title.trim())) {
+            check.error(['metadata', key, 'title'], 'A module title must be a nonempty string')
+          }
           for (const field of ['added_since', 'description', 'last_modified', 'type', 'token'] as const) {
             if (field in record) check.string(record[field], ['metadata', key, field])
           }

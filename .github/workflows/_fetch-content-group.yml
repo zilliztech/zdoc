@@ -223,8 +223,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          SNAPSHOTS="$(node -e 'const group = require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP, process.env.SITE); process.stdout.write(group.sourceSnapshots.join(","))')"
-          if [[ "$GROUP" != rest && -z "$SNAPSHOTS" ]]; then
+          group_facts="$(node -e 'const group = require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP, process.env.SITE); process.stdout.write(JSON.stringify({sourceSnapshots: group.sourceSnapshots, hasLarkSources: group.hasLarkSources}))')"
+          SNAPSHOTS="$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).sourceSnapshots.join(","))' "$group_facts")"
+          # Snapshot resolution is a property of the group's own sources: Lark-fetched
+          # groups must resolve at least one snapshot, while spec-generated (rest) and
+          # shared-docs (Git-pinned) groups legitimately have none.
+          if [[ "$(node -e 'process.stdout.write(String(JSON.parse(process.argv[1]).hasLarkSources))' "$group_facts")" == "true" && -z "$SNAPSHOTS" ]]; then
             echo "Publication group $GROUP must resolve at least one source snapshot" >&2
             exit 1
           fi

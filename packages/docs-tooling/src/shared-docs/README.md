@@ -191,6 +191,29 @@ cloud — still links a vanishing page, and handwritten block-level
 removed automatically. Both commands stage their outputs (`lock.yaml`,
 `manual.yaml`, reports) for the caller's PR; neither edits the group.
 
+## Fetch production for shared-source manuals (design 10 R2)
+
+A manual registered with a `shared` source publishes through the same fetch
+pipeline as Lark manuals. The built-in producer (`commands/fetch-manual.ts`)
+runs the whole-manual build in fetch mode and stages the publication layout —
+pages under the publication `outputDir`, the derived sidebar
+(`adapters/manual-sidebar.ts`, item shapes pinned to the Lark writer's
+SDK-reference sidebars) at the publication `sidebarPath`, and the manual
+record at `generated/en/manifests/shared-manuals/<group>.json`; the atomic
+publication carries the record out of the stage like a derivation manifest.
+The producer reads its environment at the docs-tooling fetch seam:
+`DOCS_TOOLING_SHARED_UPSTREAM` (the prepared upstream checkout),
+`DOCS_TOOLING_SHARED_SCRATCH` (the image byte scratch), and `IMAGE_BED_URL`
+(the image bed base); accepted image bodies land in the scratch
+(`images/<sha256>`) for the upload step, and the staged MDX already names each
+image's final bed address because the record must attest exactly the staged
+bytes. The fetch workflow's preparation of those inputs (upstream checkout,
+scratch, upload step, snapshot-update skip) lands with the R2-b registry
+cutover; until then no manual registers a `shared` source. Sidebar category
+labels and order come from manual `metadata` module entries (`title`,
+`sidebar_position`); those two fields describe the sidebar category and never
+reach page front matter.
+
 ## Initial locks and PR validation (WP8b)
 
 Create missing initial source locks with a complete local Milvus checkout:
