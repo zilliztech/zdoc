@@ -44,8 +44,19 @@ function printErrors(write: (text: string) => void, errors: readonly { code: str
   for (const error of errors) write(`${error.file ?? '<input>'}${error.line ? `:${error.line}` : ''} [*/both] ${error.code}: ${error.message}\n`)
 }
 
-async function resetScratch(root: string, write: (text: string) => void): Promise<string> {
+async function resetScratch(root: string, write: (text: string) => void,
+  guarded: readonly { label: string; path: string }[]): Promise<string> {
   const resolved = resolve(root)
+  // The reset recursively deletes the whole directory: a misdirected environment value
+  // must fail closed before any deletion, never take the checkout, the stage or the
+  // upstream checkout with it.
+  if (resolved === resolve('/')) throw new Error('Shared image scratch must not be the filesystem root')
+  for (const { label, path } of guarded) {
+    const absolute = resolve(path)
+    if (resolved === absolute || absolute.startsWith(`${resolved}/`) || resolved.startsWith(`${absolute}/`)) {
+      throw new Error(`Shared image scratch overlaps ${label}: ${absolute}`)
+    }
+  }
   let existing: import('node:fs').Stats | undefined
   try { existing = await lstat(resolved) } catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error }
   if (existing?.isSymbolicLink()) throw new Error(`Shared image scratch must not be a symlink: ${resolved}`)
@@ -81,10 +92,24 @@ export async function runManualFetch(options: ManualFetchOptions, write: (text: 
   if (documentIdPrefix.startsWith('..')) throw new Error(`Publication outputDir must live under contentRoot: ${publication.outputDir}`)
   // The record's checkpoint path names the content group; the group directory and the
   // registered manual must agree on it (registry shared() sources pin this identity).
-  const recordStagePath = `generated/en/manifests/shared-manuals/${basename(group.root)}.json`
+  if (shared.manualConfig.publish.manual !== group.name) {
+    throw new Error(`Manual-layout group ${group.path} publishes manual ${shared.manualConfig.publish.manual}, but the record checkpoint is keyed by the group directory name (${group.name})`)
+  }
+  const recordStagePath = `generated/en/manifests/shared-manuals/${group.name}.json`
 
-  const images = await resetScratch(scratch, write)
-  const buildOut = await mkdtemp(join(scratch, 'build-'))
+  let images: string
+  let buildOut: string
+  try {
+    images = await resetScratch(scratch, write, [
+      { label: 'the repository checkout', path: repositoryRoot },
+      { label: 'the fetch stage', path: stage },
+      { label: 'the upstream checkout', path: options.repo },
+    ])
+    buildOut = await mkdtemp(join(scratch, 'build-'))
+  } catch (error) {
+    write(`[fetch] SHARED_SCRATCH_UNSAFE: ${error instanceof Error ? error.message : String(error)}\n`)
+    return 1
+  }
   try {
     const built: BuiltPage[] = []
     const code = await runBuild({ sharedDocs: group.path, repo: options.repo, dev: '', out: buildOut,

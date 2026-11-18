@@ -5,17 +5,19 @@ import type { ManualConfig } from '../core/types'
  * sidebars from the fetched tree (larkDocWriter.generate_sidebar) and the reconciliation
  * prepends the registered landing entry; this module produces the same item shapes from the
  * built manual pages so a shared-source publication emits an identical sidebar without any
- * Lark writer in the loop. Rules pinned against the live node sidebar (dev tree):
+ * Lark writer in the loop. Item shapes are pinned against the Lark writer (and the live
+ * node sidebar they produce):
  * - doc id `<documentIdPrefix>/<publishPath>` (original case), label `sidebar_label` (the
  *   built front matter's clean H1; the lark precedence sidebar_label > title > slug ends at
  *   the same value because manual front matter always emits sidebar_label),
- * - doc key `doc:<prefix>/<module>/<slugify(pageId)>` — the module directory keeps its
+ * - doc key `doc:<prefix>/<module>/<slugify(stem)>` — the module directory keeps its
  *   original case, only the final segment is slugified,
  * - categories group each top-level module; label from module metadata `title` (R2-d
  *   backfills the Feishu truth) falling back to the directory name; key slugifies the
  *   directory name (`DataImport` -> `dataimport`, never the display label),
  * - ordering is `sidebar_position` (page front matter; module entry orders its category)
- *   then id; absent positions sort last,
+ *   then id; absent positions sort last. Reproducing the Feishu tree order exactly waits
+ *   on the R2-d per-page `sidebar_position` backfill — until then ordering is by id.
  * - whole-page channel pages carry `customProps: {channel}` exactly like the writer's
  *   channel_sidebar_props. */
 export interface ManualSidebarItem {
@@ -48,7 +50,7 @@ function frontMatterOf(mdx: string): { sidebar_label?: string; sidebar_position?
   }
   return {
     ...(fields.sidebar_label !== undefined ? { sidebar_label: fields.sidebar_label } : {}),
-    ...(fields.sidebar_position !== undefined && /^\d+$/u.test(fields.sidebar_position)
+    ...(fields.sidebar_position !== undefined && /^-?\d+$/u.test(fields.sidebar_position)
       ? { sidebar_position: Number(fields.sidebar_position) } : {}),
     ...(fields.channel !== undefined ? { channel: fields.channel } : {}),
   }

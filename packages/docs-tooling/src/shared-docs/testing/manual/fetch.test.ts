@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { createHash } from 'node:crypto'
-import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, readdir, realpath, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { expect, it, onTestFinished, vi } from 'vitest'
@@ -15,6 +15,13 @@ async function temp(prefix = 'manual-fetch-') {
   const root = await mkdtemp(join(tmpdir(), prefix))
   onTestFinished(() => rm(root, { recursive: true, force: true }))
   return root
+}
+
+/** The scratch reset recursively deletes its root, so the producer rejects any scratch
+ * overlapping the checkouts; tests keep it in their own isolated, realpath'd temp directory
+ * (outputState rejects symlinked ancestors like macOS /tmp). */
+async function scratchTemp(label: string) {
+  return realpath(await temp(`manual-fetch-scratch-${label}-`))
 }
 
 /** A tiny deterministic PNG-ish body; the build digests whatever bytes the tree holds.
@@ -75,11 +82,12 @@ metadata:
   })
   const commit = await git(demo.repo, 'rev-parse', 'HEAD')
   await writeFile(join(demo.sharedDocs, 'lock.yaml'), `schema_version: 1\ncurrent: ${commit}\nnext: ${commit}\n`)
-  const stage = join(demo.root, 'stage'), scratch = join(demo.root, 'scratch')
+  const stage = join(demo.root, 'stage'), scratch = await scratchTemp('stage')
   const output: string[] = []
   const code = await runManualFetch({ sharedDocs: demo.sharedDocs, repo: demo.repo, out: stage, scratch,
     imageBaseUrl: 'https://images.example.com/bed' }, text => output.push(text),
     { repositoryRoot: demo.root, toolingCommit: 'a1b2c3d4'.repeat(5) })
+  if (code !== 0) console.error('PRODUCER OUTPUT:\n' + output.join(''))
   expect(code).toBe(0)
   const summary = JSON.parse(output.at(-1)!)
   expect(summary).toMatchObject({ pages: 3, images: 0, record: 'generated/en/manifests/shared-manuals/node.json',
@@ -121,7 +129,7 @@ it('prepends the registered landing entry to the derived sidebar', async () => {
   await mkdir(join(demo.root, 'config'), { recursive: true })
   await writeFile(join(demo.root, 'config/reference-navigation.json'), JSON.stringify({ targets: [
     { sidebar: 'node', landingPage: 'api/nodejs/nodejs/nodejs.md' }] }))
-  const stage = join(demo.root, 'stage'), scratch = join(demo.root, 'scratch')
+  const stage = join(demo.root, 'stage'), scratch = await scratchTemp('landing')
   const landingPath = join(stage, 'content/en/reference/api/nodejs/nodejs/nodejs.md')
   await mkdir(dirname(landingPath), { recursive: true })
   await writeFile(landingPath, '---\nsidebar_label: "Overview"\n---\n\n# Node.js SDK\n')
@@ -138,9 +146,26 @@ it('fails closed when the upstream checkout is missing', async () => {
   await writeFile(join(demo.sharedDocs, 'lock.yaml'), `schema_version: 1\ncurrent: ${commit}\nnext: ${commit}\n`)
   const output: string[] = []
   const code = await runManualFetch({ sharedDocs: demo.sharedDocs, repo: join(demo.root, 'missing'), out: join(demo.root, 'stage'),
-    scratch: join(demo.root, 'scratch'), imageBaseUrl: 'https://images.example.com/bed' }, text => output.push(text), { repositoryRoot: demo.root })
+    scratch: await scratchTemp('guard'), imageBaseUrl: 'https://images.example.com/bed' }, text => output.push(text), { repositoryRoot: demo.root })
   expect(code).toBe(1)
   expect(output.join('')).toContain('SHARED_UPSTREAM_NOT_PREPARED')
+})
+
+it('rejects a scratch that overlaps the checkouts, stage, or filesystem root', async () => {
+  const demo = await createManualDemo(await temp('manual-fetch-scratch-guard-'))
+  const commit = await git(demo.repo, 'rev-parse', 'HEAD')
+  await writeFile(join(demo.sharedDocs, 'lock.yaml'), `schema_version: 1\ncurrent: ${commit}\nnext: ${commit}\n`)
+  const stage = join(demo.root, 'stage')
+  for (const scratch of [demo.root, demo.repo, stage, '/']) {
+    const sentinel = join(demo.root, 'must-survive.txt')
+    await writeFile(sentinel, 'keep me')
+    const output: string[] = []
+    const code = await runManualFetch({ sharedDocs: demo.sharedDocs, repo: demo.repo, out: stage, scratch,
+      imageBaseUrl: 'https://images.example.com/bed' }, text => output.push(text), { repositoryRoot: demo.root })
+    expect(code).toBe(1)
+    expect(output.join('')).toMatch(/SHARED_SCRATCH_UNSAFE: Shared image scratch overlaps (the repository checkout|the fetch stage|the upstream checkout)|SHARED_SCRATCH_UNSAFE: Shared image scratch must not be the filesystem root/)
+    expect(await readFile(sentinel, 'utf8')).toBe('keep me')
+  }
 })
 
 it('derives sidebar items with pinned shapes and validates landing labels', () => {

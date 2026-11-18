@@ -14,6 +14,8 @@ const REFERENCE_LANDING_PATHS = referenceLandingsEn();
 const REFERENCE_LANDINGS_GROUP = Object.freeze({
   site: 'en',
   manuals: Object.freeze([]),
+  sourceSnapshots: Object.freeze([]),
+  hasLarkSources: false,
   snapshotManual: 'reference-landings',
   translate: true,
   durableTranslationBatchSize: 0,
