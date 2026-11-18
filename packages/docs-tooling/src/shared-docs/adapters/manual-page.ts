@@ -420,7 +420,7 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
     const sharedPages = await runtime.sharedPages(commit)
     const rewritten = rewriteLinksAndImages({ targets, images, markdown: content, sourceFile, sharedPages,
       linkMap: EMPTY_LINK_MAP, cloudPages: [], excluded: shared.excluded, channelAbsent: shared.channelAbsent.get(channel),
-      manualCloudPages, context: location, pathLinks: true })
+      anchorCloudFallback: true, manualCloudPages, context: location, pathLinks: true })
     if ('errors' in rewritten) { errors.push(...rewritten.errors); continue }
     const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
       ...(input.presentation ? { presentation: input.presentation } : {}),

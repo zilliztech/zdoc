@@ -106,11 +106,13 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       let anchor = fragment
       try { anchor = decodeURIComponent(fragment) } catch { /* Invalid fragments cannot match a heading. */ }
       const anchorSource = projected ? input.markdown : target ?? input.manualCloudPages?.get(file)
-      // Fragments arrive in either anchor scheme (upstream authors write milvus-case or cloud-lowercase);
-      // the milvus match keeps precedence (deduped cloud ids are positional), the cloud
-      // match is the fallback, and the projection rewrites the fragment to the cloud id either way.
+      // File-targeted fragments keep the exact milvus-anchor contract (they ride URLs to
+      // milvus pages). A same-page fragment is projected against this page's own heading
+      // ids: the milvus match keeps precedence (deduped cloud ids are positional) and the
+      // cloud slug is the fallback, because the emitted id is the cloud slug.
       const headings = anchorSource == null ? [] : collectHeadings(anchorSource)
-      const heading = headings.find(candidate => candidate.milvus === anchor) ?? headings.find(candidate => candidate.cloud === anchor)
+      const heading = headings.find(candidate => candidate.milvus === anchor)
+        ?? (input.anchorCloudFallback && kind === 'anchor' ? headings.find(candidate => candidate.cloud === anchor) : undefined)
       if (!heading) {
         const upstreamTargets = target == null ? [] : collectHeadings(target)
         const upstream = target != null && (upstreamTargets.some(candidate => candidate.milvus === anchor) || upstreamTargets.some(candidate => candidate.cloud === anchor))
