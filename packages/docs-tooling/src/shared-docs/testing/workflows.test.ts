@@ -53,7 +53,7 @@ function execute(workflow: Workflow, job: string, name: string, setup: ReturnTyp
     env: { ...process.env, PATH: `${setup.bin}:${process.env.PATH}`, GIT_CONFIG_GLOBAL: '/dev/null', GIT_CONFIG_SYSTEM: '/dev/null',
       GITHUB_OUTPUT: output, GITHUB_STEP_SUMMARY: summary, RUNNER_TEMP: setup.dir, SOURCE_SHA: setup.sha, BASE_SHA: setup.sha,
       PR_NUMBER: '9', PR_HEAD_BRANCH: 'onboarding', GITHUB_REPOSITORY: 'test-owner/zdoc', GITHUB_SERVER_URL: 'https://github.com',
-      GITHUB_EVENT_NAME: 'pull_request', GITHUB_SHA: setup.sha, GITHUB_RUN_ID: '1234', GITHUB_RUN_ATTEMPT: '2', GH_TOKEN: 'test-token', ...env },
+      VALIDATION_DEV: '.shared-docs-dev', GITHUB_EVENT_NAME: 'pull_request', GITHUB_SHA: setup.sha, GITHUB_RUN_ID: '1234', GITHUB_RUN_ATTEMPT: '2', GH_TOKEN: 'test-token', ...env },
   })
   if (result.error) throw result.error
   return { ...result, outputs: Object.fromEntries(readFileSync(output, 'utf8').trim().split('\n').filter(Boolean).map(line => {

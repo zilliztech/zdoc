@@ -11,6 +11,7 @@ publish:
 
 transforms:
   - operation: replace
+    channel: current
     target:
       block: ngram-drop-note
     content:

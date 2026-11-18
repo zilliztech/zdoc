@@ -1,5 +1,6 @@
 import { basename } from 'node:path'
 import { groupFile } from './group-context'
+import { addLegacyCloudAnchors, aliasChannelHeadings } from './channel-heading-aliases'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
 import { cloudAnchor, collectReferences, headingText, rewriteLinksAndImages, imageDigest } from '../core/links'
 import type { ImageRecord, LinkMap, Notice, PreparedLinkInputs } from '../core/links'
@@ -418,11 +419,12 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
         linkMap: shared.linkMap, cloudPages: dev.pages, recorded: runtime.fetchContext?.recordedImages, context: location, pathLinks: !!layout })
       if ('errors' in rewritten) { errors.push(...mappedErrors(rewritten.errors)); continue }
       for (const image of rewritten.images) if (!runtime.fetchContext?.recordedImages?.has(image.original)) runtime.fetchContext?.recordedImages?.set(image.original, image.sha256)
-      const adapted = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
+      const adaptation = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
         ...(presentation(target.manual) ? { presentation: presentation(target.manual) } : {}),
         metadata: config.metadata, tabsRules: shared.tabsRules, betaValues: shared.context.betaValues,
         headingAnchor: text => cloudAnchor(headingText(text)), navigation: dev.navigation, customEditUrl, releaseChannel: dev.fetch?.channel, context: location })
-      if ('errors' in adapted) { errors.push(...mappedErrors(adapted.errors)); continue }
+      if ('errors' in adaptation) { errors.push(...mappedErrors(adaptation.errors)); continue }
+      const adapted = addLegacyCloudAnchors(adaptation)
       const origins = adapted.provenance.inputLines.map((_, index): MergeOrigin[] => {
         const origin = version.provenance?.[index]?.origin
         return [{ channel, file: origin?.file ?? version.variant?.file ?? source, line: origin?.line ?? originalPageLine(index + 1, version.blocks) }]
@@ -500,13 +502,19 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
   }
   const pages: BuiltPage[] = []
   for (const [index, target] of config.publish.entries()) {
-    const current = versions.get('current')!.get(index), next = versions.get('next')!.get(index)
+    const current = versions.get('current')!.get(index)
+    let next = versions.get('next')!.get(index)
     if (!current || !next) continue
     const dev = targets.get(index)!
     const location = { page: pageId, file: config.source.file }
     const lineOrigins = (version: PreparedVersion) => version.adapted.provenance.outputLines.map(line => line === null ? [] : version.origins[line - 1])
-    const merged = mergeMarkdown({ current: { ...current.adapted, origins: lineOrigins(current), context: { ...location, channel: 'current' } },
-      next: { ...next.adapted, origins: lineOrigins(next), context: { ...location, channel: 'next' } }, context: location, releaseChannel: dev.fetch?.channel })
+    const mergeVersions = (nextVersion: PreparedVersion) => mergeMarkdown({ current: { ...current.adapted, origins: lineOrigins(current), context: { ...location, channel: 'current' } },
+      next: { ...nextVersion.adapted, origins: lineOrigins(nextVersion), context: { ...location, channel: 'next' } }, context: location, releaseChannel: dev.fetch?.channel })
+    let merged = mergeVersions(next)
+    if ('errors' in merged) {
+      const adapted = aliasChannelHeadings(current.adapted, next.adapted, merged.errors)
+      if (adapted) { next = { ...next, adapted }; merged = mergeVersions(next) }
+    }
     if ('errors' in merged) { errors.push(...merged.errors); continue }
     // Keep the existing adapter's virtual input contract. A shared output line can
     // name both source passes, even though toMdx transports one virtual line index.
