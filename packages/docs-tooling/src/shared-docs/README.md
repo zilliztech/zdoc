@@ -192,8 +192,9 @@ removed automatically. Both commands stage their outputs (`lock.yaml`,
 `manual.yaml`, reports) for the caller's PR; neither edits the group.
 
 The scheduled lane that turns those outputs into PRs is
-`shared-docs-manual-update.yml`: it runs `update` daily per manual-layout group
-(`promote` only on dispatch), opens one candidate PR per group and mode through
+`shared-docs-manual-update.yml`: it runs `update` daily for the configured manual-layout group
+(default `node`; further groups need a dispatch or schedule entry, `promote` is
+dispatch-only), opens one candidate PR per group and mode through
 a PAT (single-flight per open candidate branch), and lets the normal
 shared-docs PR workflows validate the candidate. The daily pin-drift watchdog
 (`shared-docs-pin-drift-watchdog.yml` + `scripts/docs-workflow/shared-docs-pin-drift.js`)

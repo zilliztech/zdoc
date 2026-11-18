@@ -484,13 +484,16 @@ function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) 
   }
   const flight = run('gate', 'Gate the single-flight lane per group')
   if (!flight.includes('--state open --limit 500 --json headRefName') ||
-      !flight.includes('grep -E "^shared-docs-${MODE}/${GROUP}-[0-9a-f]{7,40}$"') ||
+      !flight.includes('grep -E "^shared-docs-(update|promote)/${GROUP}-[0-9a-f]{7,40}$"') ||
       !flight.includes("echo 'proceed=false' >> \"$GITHUB_OUTPUT\"")) {
-    fail('the single-flight gate must match open candidate branches only')
+    fail('the single-flight gate must match open candidate branches per group across both modes')
   }
   const checkouts = Object.values(jobs).flatMap(job => job.steps || []).filter(item => String(item.uses || '').startsWith('actions/checkout@'))
   if (checkouts.some(item => item.uses !== 'actions/checkout@v5' || item.with?.['persist-credentials'] !== false)) {
     fail('every checkout must disable credential persistence')
+  }
+  if (step('lane', 'Check out the lane base')?.with?.ref !== baseFallback) {
+    fail('the lane base must come from the validated dispatch input')
   }
   const devCheckout = step('lane', 'Check out read-only upstream dev snapshot')
   if (devCheckout?.with?.repository !== 'zilliztech/zdoc' || devCheckout?.with?.ref !== 'refs/heads/dev' ||

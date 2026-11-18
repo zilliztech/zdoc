@@ -79,18 +79,19 @@ jobs:
           [[ "$BASE_REF" == master ]] || { echo '::error::the candidate PR must target master'; exit 1; }
           test -f "shared-docs/$GROUP/manual.yaml" || { echo "::error::shared-docs/$GROUP must be a manual-layout group with manual.yaml"; exit 1; }
 
-      # Single flight: one open candidate PR per group and mode. The hex tail keeps
-      # per-candidate branches apart; a closed PR leaves its branch to the operator
-      # (the next identical candidate dies as a non-fast-forward instead of
-      # resurrecting a reviewed branch).
+      # Single flight: one open candidate PR per group across both modes (update and
+      # promote rewrite the same group lock, so they must never run concurrently).
+      # The hex tail keeps per-candidate branches apart; a closed PR leaves its
+      # branch to the operator (the next identical candidate dies as a
+      # non-fast-forward instead of resurrecting a reviewed branch).
       - name: Gate the single-flight lane per group
         id: single_flight
         run: |
           set -euo pipefail
           open_prs=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 500 --json headRefName --jq '.[].headRefName')
-          matching=$(printf '%s\n' "$open_prs" | grep -E "^shared-docs-${MODE}/${GROUP}-[0-9a-f]{7,40}$" || true)
+          matching=$(printf '%s\n' "$open_prs" | grep -E "^shared-docs-(update|promote)/${GROUP}-[0-9a-f]{7,40}$" || true)
           if [ -n "$matching" ]; then
-            echo "::notice::An open shared-docs $MODE PR already exists for $GROUP; the next candidate opens after it merges."
+            echo "::notice::An open shared-docs lane PR already exists for $GROUP; the next candidate opens after it merges."
             echo 'proceed=false' >> "$GITHUB_OUTPUT"
           else
             echo 'proceed=true' >> "$GITHUB_OUTPUT"
@@ -202,7 +203,7 @@ jobs:
             fi
           else
             jq -e '.kind == "shared-manual-promotion"' "$out/report.json" > /dev/null
-            test -f "$out/lock.yaml" && test -f "$out/manual.yaml"
+            [[ -f "$out/lock.yaml" && -f "$out/manual.yaml" ]]
             echo 'result=candidate' >> "$GITHUB_OUTPUT"
           fi
         env:

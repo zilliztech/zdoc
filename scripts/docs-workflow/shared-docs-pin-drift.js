@@ -93,11 +93,14 @@ function pageReport({name, repositoryRoot, upstreamRepo, headSha, fetchPullState
   entry.drifted = (log || '').trim().split('\n').filter(Boolean)
   // WP-3b third layer: every transform target declared in page.yaml must still be a
   // named block at the upstream head. Upstream deletions of markers are otherwise
-  // silent for reserved targets that have no content wired yet.
+  // silent for reserved targets that have no content wired yet. An unreadable
+  // source blob (lazy fetch on a blobless clone) never silently passes: it is
+  // reported as informational-unverified so the next run must still see the marker.
   const declaredTargets = [...new Set((config.config.transforms ?? []).map(transform => transform.target?.block).filter(Boolean))]
   if (declaredTargets.length) {
     const upstreamBytes = git(upstreamRepo, 'show', `${headSha}:${sourceFile}`)
-    if (upstreamBytes !== null && declaredTargets.some(block => !upstreamBytes.includes(`doc:block:start id="${block}"`))) {
+    if (upstreamBytes === null) entry.transformIssue = 'TRANSFORM_TARGET_UNVERIFIED'
+    else if (declaredTargets.some(block => !upstreamBytes.includes(`doc:block:start id="${block}"`))) {
       entry.transformIssue = 'TRANSFORM_TARGET_MISSING'
     }
   }
@@ -179,7 +182,7 @@ async function manualScan({sharedDocsRoot, upstreamRepo, headSha}) {
 function summarize(report, driftCount) {
   const unhealthyCount = report.layout === 'manual'
     ? report.issues.filter(issue => issue.severity === 'unhealthy').length
-    : report.pages.filter(page => page.pinIssue || page.transformIssue
+    : report.pages.filter(page => page.pinIssue || page.transformIssue === 'TRANSFORM_TARGET_MISSING'
       || page.variant?.issues.some(issue => issue.severity === 'unhealthy')).length
   const errors = report.layout === 'manual'
     ? (report.errors?.length ?? 0)
@@ -188,7 +191,8 @@ function summarize(report, driftCount) {
     drifted: report.layout === 'manual'
       ? report.drifted
       : report.pages.filter(page => page.drifted?.length).map(page => ({page: page.page, commits: page.drifted})),
-    transformIssues: report.layout === 'manual' ? [] : report.pages.filter(page => page.transformIssue).map(page => page.page),
+    transformIssues: report.layout === 'manual' ? [] : report.pages.filter(page => page.transformIssue)
+      .map(page => ({page: page.page, issue: page.transformIssue})),
     variantIssues: report.layout === 'manual'
       ? report.issues.map(issue => issue.code)
       : report.pages.filter(page => page.variant?.issues.length).map(page => ({page: page.page, issues: page.variant.issues.map(issue => issue.code)})),
