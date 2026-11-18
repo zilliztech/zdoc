@@ -1,8 +1,11 @@
+import {immutable} from '../../core/updates/types'
+import {consumeBatchContentLaunch, replayBatchContentData, consumeBatchQualifierLaunch, consumeBatchVerifierLaunch} from './batch-collection'
+import {BatchRenderRequestSchema, BatchQualifierRequestSchema, BatchQualificationSchema, BatchVerifyControlSchema, batchDigest, validateBatchWire, type BatchQualifierRequest, type BatchQualification, type BatchVerifyControl, type BatchRenderRequest, type BatchMaterialWire} from './batch-collection-contract'
 import { constants } from 'node:fs'
 import { lstat, open, readdir, readlink, realpath, symlink, writeFile } from 'node:fs/promises'
 import { basename, dirname, isAbsolute, join, posix, relative, resolve, sep } from 'node:path'
 import type { Readable, Writable } from 'node:stream'
-import { serveGuidesMetadata } from './guides-metadata-broker'
+import { serveGuidesMetadata, serveReplayGuidesMetadata, type ReplayMetadataRow } from './guides-metadata-broker'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
 import { release, userInfo } from 'node:os'
@@ -12,7 +15,7 @@ import * as z from 'zod'
 import { load as loadYaml } from 'js-yaml'
 import { canonicalBytes, compareUtf8, digest, parseStrictJson } from '../../core/updates/canonical'
 import { BlobRef, DigestSchema, GitShaSchema, RepoPathSchema, ToolsetMaterial, ToolsetMaterialSchema, validateBlobBytes } from '../../core/updates/envelope'
-import { createOwnedDirectory, writeOwnedBlob, rawSha256, type EvidenceStore } from './evidence'
+import { createOwnedDirectory, writeOwnedBlob, rawSha256, currentBatchLifetime, reserveBatchAllocation, type EvidenceStore } from './evidence'
 
 export type ClosureEntry =
   | { path: string; state: 'absent' }
@@ -112,7 +115,11 @@ export async function trustedLauncherEnvironment(root: string, cwd: string, envi
   // Deliberately neither read .env nor inherit HOME/PATH/package-manager settings.
   return { LANG: 'C', LC_ALL: 'C', TZ: 'UTC', JITI_CACHE: 'false', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0' }
 }
-const exec = promisify(execFile)
+const execFilePromise = promisify(execFile)
+const exec: typeof execFilePromise = ((binary: string, argv: string[], options: any = {}) => {
+  const lifetime = currentBatchLifetime()
+  return execFilePromise(binary, argv, {...options, ...(lifetime ? {signal: lifetime.signal, timeout: Math.min(options.timeout ?? 600_000, lifetime.check())} : {})})
+}) as typeof execFilePromise
 const limit = 512 * 1024 * 1024
 const contains = (root: string, path: string) => { const r = relative(root, path); return r === '' || !isAbsolute(r) && r !== '..' && !r.startsWith(`..${sep}`) }
 const absent = (e: unknown) => (e as NodeJS.ErrnoException).code === 'ENOENT'
@@ -391,13 +398,17 @@ async function fileBytes(path: string) {
 async function gitBytes(binary: string, root: string, args: string[], env: NodeJS.ProcessEnv, input?: string): Promise<Buffer> {
   if (!['cat-file', 'ls-tree', 'rev-parse', '--version'].includes(args[0])) throw new Error('Unsupported Git read')
   const argv = ['--no-replace-objects', '-c', 'core.fsmonitor=false', '-c', 'core.hooksPath=/dev/null', '-C', root, ...args]
-  if (input === undefined) return (await exec(binary, argv, { env, encoding: 'buffer', maxBuffer: 256 * 1024 * 1024, timeout: 30_000 })).stdout
+  const lifetime = currentBatchLifetime(), maximum = (lifetime ? 32 : 256) * 1024 * 1024
+  if (input !== undefined && Buffer.byteLength(input) > maximum) throw Error('BATCH_GIT_INPUT_LIMIT')
+  if (input === undefined) return (await exec(binary, argv, { env, encoding: 'buffer', maxBuffer: maximum, timeout: 30_000 })).stdout
   return new Promise((yes, no) => {
-    const child = spawn(binary, argv, { env, stdio: ['pipe', 'pipe', 'pipe'] }), chunks: Buffer[] = []; let total = 0, errors = ''
-    const timer = setTimeout(() => { child.kill(); no(new Error('Git read timeout')) }, 30_000)
-    child.stdout.on('data', b => { total += b.length; if (total > 256 * 1024 * 1024) { child.kill(); no(new Error('Git read bound exceeded')) } else chunks.push(b) })
-    child.stderr.on('data', b => { errors = (errors + b.toString()).slice(0, 4096) })
-    child.on('error', e => { clearTimeout(timer); no(e) }); child.on('close', code => { clearTimeout(timer); code === 0 ? yes(Buffer.concat(chunks)) : no(new Error(`Git read failed: ${errors}`)) }); child.stdin.end(input)
+    const child = spawn(binary, argv, { env, signal: currentBatchLifetime()?.signal, stdio: ['pipe', 'pipe', 'pipe'] }), chunks: Buffer[] = []; let total = 0, stderrBytes = 0, errors = ''
+    let failure: Error | undefined
+    const fail = (error: Error) => {failure ??= error; child.kill()}
+    const timer = setTimeout(() => fail(new Error('Git read timeout')), Math.min(30_000, lifetime?.check() ?? 30_000))
+    child.stdout.on('data', b => { total += b.length; if (total > maximum) { fail(new Error('Git read bound exceeded')) } else chunks.push(b) })
+    child.stderr.on('data', b => { stderrBytes += b.length; if (lifetime && stderrBytes > maximum) fail(new Error('Git stderr bound exceeded')); errors = (errors + b.toString()).slice(0, 4096) })
+    child.on('error', e => { failure ??= e }); child.on('close', code => { clearTimeout(timer); failure ? no(failure) : code === 0 ? yes(Buffer.concat(chunks)) : no(new Error(`Git read failed: ${errors}`)) }); child.stdin.on('error', fail); child.stdin.end(input)
   })
 }
 type TreeEntry = { path: string; mode: string; type: string; oid: string }
@@ -432,16 +443,45 @@ export function protectedToolsetPath(path: string) {
 }
 async function blobObjects(binary: string, root: string, entries: TreeEntry[], env: NodeJS.ProcessEnv) {
   const values = new Map<string, Uint8Array>(); if (!entries.length) return values
-  const oids = [...new Set(entries.map(e => e.oid))], bytes = await gitBytes(binary, root, ['cat-file', '--batch'], env, oids.join('\n') + '\n'); let offset = 0
-  for (const oid of oids) {
-    const end = bytes.indexOf(10, offset), line = bytes.subarray(offset, end).toString(), match = /^([a-f0-9]{40}) (blob|tree) (\d+)$/.exec(line)
-    if (!match || match[1] !== oid || match[2] !== entries.find(e => e.oid === oid)!.type || Number(match[3]) > limit) throw new Error('Invalid bounded Git blob')
-    const length = Number(match[3]); offset = end + 1
-    if (offset + length >= bytes.length || bytes[offset + length] !== 10) throw new Error('Truncated Git batch')
-    requireObjectHash(oid, match[2], bytes.subarray(offset, offset + length)); values.set(oid, Uint8Array.from(bytes.subarray(offset, offset + length))); offset += length + 1
+  const objects = new Map(entries.map(entry => [entry.oid, entry])), oids = [...objects.keys()]
+  const readBatch = async (batch: string[]) => {
+    const bytes = await gitBytes(binary, root, ['cat-file', '--batch'], env, batch.join('\n') + '\n'); let offset = 0
+    for (const oid of batch) {
+      const end = bytes.indexOf(10, offset), line = bytes.subarray(offset, end).toString(), match = /^([a-f0-9]{40}) (blob|tree) (\d+)$/.exec(line)
+      if (end < offset || !match || match[1] !== oid || match[2] !== objects.get(oid)!.type || Number(match[3]) > limit) throw new Error('Invalid bounded Git blob')
+      const length = Number(match[3]); offset = end + 1
+      if (offset + length >= bytes.length || bytes[offset + length] !== 10) throw new Error('Truncated Git batch')
+      requireObjectHash(oid, match[2], bytes.subarray(offset, offset + length)); values.set(oid, Uint8Array.from(bytes.subarray(offset, offset + length))); offset += length + 1
+    }
+    if (offset !== bytes.length) throw new Error('Extra Git batch bytes')
   }
-  if (offset !== bytes.length) throw new Error('Extra Git batch bytes'); return values
+  if (!currentBatchLifetime()) { await readBatch(oids); return values }
+  // Measure immutable objects before partitioning: every child output, including
+  // Git's framing, stays within the batch operation's fixed 32 MiB ceiling.
+  const maximum = 32 * 1024 * 1024
+  for (let start = 0; start < oids.length; start += 4096) {
+    const group = oids.slice(start, start + 4096)
+    const metadata = await gitBytes(binary, root, ['cat-file', '--batch-check'], env, group.join('\n') + '\n')
+    const lines = metadata.toString('ascii').split('\n')
+    if (lines.pop() !== '' || lines.length !== group.length) throw Error('Invalid Git object measurements')
+    let pending: string[] = [], pendingBytes = 0
+    for (let index = 0; index < group.length; index++) {
+      const oid = group[index], line = lines[index], match = /^([a-f0-9]{40}) (blob|tree) (\d+)$/.exec(line)
+      if (!match || match[1] !== oid || match[2] !== objects.get(oid)!.type) throw Error('Invalid Git object measurement')
+      const length = Number(match[3]), extent = length + Buffer.byteLength(line) + 2
+      if (!Number.isSafeInteger(length) || length > maximum) throw Error('BATCH_GIT_OBJECT_LIMIT')
+      if (pendingBytes + extent > maximum && pending.length) { await readBatch(pending); pending = []; pendingBytes = 0 }
+      if (extent > maximum) {
+        const bytes = await gitBytes(binary, root, ['cat-file', match[2], oid], env)
+        if (bytes.length !== length) throw Error('Git object extent changed')
+        requireObjectHash(oid, match[2], bytes); values.set(oid, Uint8Array.from(bytes))
+      } else { pending.push(oid); pendingBytes += extent }
+    }
+    if (pending.length) await readBatch(pending)
+  }
+  return values
 }
+
 async function walk(root: string, visit: (path: string, stat: Awaited<ReturnType<typeof lstat>>) => Promise<boolean | void>, suffix = '') {
   const names = (await readdir(join(root, suffix))).sort(compareUtf8), folded = new Set<string>()
   for (const name of names) {
@@ -724,6 +764,8 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
     if (entries.get(`repo/${target}`)?.state !== 'file') throw new Error('Fixed Guides worker dependency is unavailable')
     resolutions.push({ from: 'runtime/launch/guides-worker.cjs', specifier: target === guidesWorkerModule ? `${target}#collectGuidesWorker` : target, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${target}` })
   }
+  if (all.has(guidesWorkerModule)) resolutions.push({from: 'runtime/launch/guides-worker.cjs',
+    specifier: `${guidesWorkerModule}#collectBatchPageMaterial`, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${guidesWorkerModule}`})
   // Generic fixture collectors may ignore the ordinary capability. A real issuer
   // must still be a captured fixed source/export choice when it is provisioned.
   const issuer = 'packages/docs-tooling/src/shared-docs/adapters/updates/trusted-fetch-producer.ts'
@@ -731,6 +773,8 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
     if (entries.get(`repo/${issuer}`)?.state !== 'file') throw new Error('Fixed Fetch issuer dependency is unavailable')
     resolutions.push({from: 'runtime/launch/guides-worker.cjs', specifier: `${issuer}#createMeasuredFetchProducerContext`, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${issuer}`})
   }
+  if (all.has(issuer)) resolutions.push({from: 'runtime/launch/guides-worker.cjs', specifier: `${issuer}#createMeasuredBatchContext`, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${issuer}`})
+  if (all.has(guidesWorkerModule)) for (const name of ['qualifyBatchLifecycle', 'collectReplayBatchPageMaterial']) resolutions.push({from: 'runtime/launch/guides-worker.cjs', specifier: `${guidesWorkerModule}#${name}`, kind: 'loader', conditions: ['jiti', 'interopDefault'], target: `repo/${guidesWorkerModule}`})
   const mergedResolutions = new Map<string, ExecutableClosure['resolutions'][number]>()
   for (const edge of resolutions) { const key = Buffer.from(canonicalBytes(resolutionKey(edge))).toString('utf8'); const prior = mergedResolutions.get(key); if (prior && prior.target !== edge.target) throw new Error('Conflicting executable resolution'); mergedResolutions.set(key, edge) }
   const closure: ExecutableClosure = { kind: 'shared-update-executable-closure', schemaVersion: 1, hostTcb: { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }, entries: [...entries.values()].sort((a, b) => compareUtf8(a.path, b.path)), packageLocators: locators.sort((a, b) => compareUtf8(a.root, b.root)), resolutions: [...mergedResolutions.values()].sort((a, b) => tupleCompare(resolutionKey(a), resolutionKey(b))) }
@@ -1042,17 +1086,17 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     const target = targets.get(logical); if (!target) continue
     await owned.verify(); await symlink(target, join(owned.root, name)); links.set(name, target); await owned.verify()
   }
-  if (targets.has('runtime/python3')) { await owned.verify(); await writeFile(join(owned.root, 'python3'), pythonWrapper, { flag: 'wx', mode: 0o700 }); await owned.verify() }
-  await owned.verify(); await writeFile(join(owned.root, 'guides-worker.cjs'), guidesWorker, { flag: 'wx', mode: 0o600 }); await owned.verify()
+  if (targets.has('runtime/python3')) { await reserveBatchAllocation(evidence, pythonWrapper.length); await owned.verify(); await writeFile(join(owned.root, 'python3'), pythonWrapper, { flag: 'wx', mode: 0o700 }); await owned.verify() }
+  await reserveBatchAllocation(evidence, guidesWorker.length); await owned.verify(); await writeFile(join(owned.root, 'guides-worker.cjs'), guidesWorker, { flag: 'wx', mode: 0o600 }); await owned.verify()
   const files: Record<string,{sha256:string;bytes:number;mode:string}>=Object.create(null)
   const byLogical=new Map(state.closure.entries.map(entry=>[entry.path,entry]))
   for(const [path,logical] of state.physical) {const entry=byLogical.get(logical);if(entry?.state==='file')files[path]={sha256:entry.sha256,bytes:entry.bytes,mode:entry.mode}}
   for(const [name,bytes] of [...guardFiles,['guides-worker.cjs',guidesWorker] as [string,Buffer]]) {
     const path=join(owned.root,name);files[path]={sha256:rawSha256(bytes),bytes:bytes.length,mode:'100644'}
-    if(name!=='guides-worker.cjs') {await owned.verify();await writeFile(path,bytes,{flag:'wx',mode:0o600})}
+    if(name!=='guides-worker.cjs') {await reserveBatchAllocation(evidence,bytes.length);await owned.verify();await writeFile(path,bytes,{flag:'wx',mode:0o600})}
   }
   const mapBytes=canonicalBytes({root:state.options.root,files,scopes:Object.fromEntries([...state.lookup.scopes].map(([path,scope])=>[path,Object.fromEntries(scope)])),packages:state.lookup.packages.map(pkg=>({root:pkg.physical,name:pkg.name})).sort((a,b)=>b.root.length-a.root.length)})
-  await owned.verify();await writeFile(join(owned.root,'resolution-map.json'),mapBytes,{flag:'wx',mode:0o600})
+  await reserveBatchAllocation(evidence,mapBytes.length);await owned.verify();await writeFile(join(owned.root,'resolution-map.json'),mapBytes,{flag:'wx',mode:0o600})
   const environment: NodeJS.ProcessEnv = { ...state.environment, PATH: owned.root, TMPDIR: temporary.root, TMP: temporary.root, TEMP: temporary.root }
   const guardedFlags=[...state.flags,'--require',join(owned.root,'resolution-bootstrap.cjs')]
   async function verifyLauncher() {
@@ -1066,10 +1110,45 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     await inspectAccess(new Map([[owned.root, 'launcher'], ...expected.map(name => [join(owned.root, name), 'launcher'] as [string, string])]), state.environment)
     await owned.verify()
   }
-  return {
+  async function runBatchContent(ticket: import('./batch-collection').BatchContentTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
+    // Consumption is synchronous before the first await.
+    const request = consumeBatchContentLaunch(ticket, value, evidence, kind)
+    signal?.throwIfAborted()
+    const input = canonicalBytes(request)
+    if (input.length > workerLimit || request.pins.trustedTools !== state.options.commit || request.pins.toolsetSha256 !== state.sha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    const args = [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root, `batch-content-${kind}`]
+    const replayData = kind === 'replay' ? replayBatchContentData(ticket, value, evidence) ?? new Uint8Array() : undefined
+    if (replayData && replayData.length > workerLimit) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request, replayData)
+    immutable(child.value)
+    measuredContent.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
+    return child as BatchMeasuredChild
+  }
+  async function runBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
+    const launch = consumeBatchQualifierLaunch(ticket, value, evidence, kind), request = launch.request
+    const input = canonicalBytes(request)
+    if (input.length > workerLimit || request.scope.base.pins.master !== state.options.commit || request.scope.base.pins.trustedTools !== state.options.commit || request.scope.base.pins.toolsetSha256 !== state.sha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    const child = await invokeGuidesWorker(targets.get('runtime/node')!, [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root, `batch-qualify-${kind}`],
+      state.options.root, environment, input, signal, launch.broker, request)
+    immutable(child.value)
+    measuredQualification.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
+    return child as BatchQualifiedChild
+  }
+  async function runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal) {
+    const launch = consumeBatchVerifierLaunch(ticket, value, evidence)
+    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    const input = launch.finalize ? Buffer.concat([canonicalBytes({control: launch.control, rootName: launch.rootName, remainingMs: Math.min(600_000, currentBatchLifetime()?.check() ?? 600_000)}), Buffer.from('\n')]) : canonicalBytes(launch.control)
+    if (input.length > 65536 || launch.control.base.pins.trustedTools !== state.options.commit || !targets.has('runtime/python3') || state.closure.entries.find(e => e.path === 'repo/scripts/docs-workflow/shared-guides-update/prepare.py')?.state !== 'file') throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    return invokeGuidesWorker(join(owned.root, 'python3'), [join(state.options.root, 'scripts/docs-workflow/shared-guides-update/prepare.py'), launch.finalize ? 'verify-and-publish-batch-collection' : 'verify-batch-collection'],
+      state.options.root, environment, input, signal, undefined, launch.control, undefined, {root: launch.rootFd, blobs: launch.blobsFd, parent: launch.parentFd, finalize: launch.finalize})
+  }
+  const launcher = {
     bin: owned.root, cwd: state.options.root, environment: { ...environment },
     async runGuidesCollector(data: unknown, secrets: { GH_TOKEN?: string } = {}, signal?: AbortSignal) {
       signal?.throwIfAborted()
+      if (data && typeof data === 'object' && ['guides-batch-render-v1', 'guides-batch-qualify-v1', 'guides-batch-verify-control-v1'].includes(String((data as {kind?: unknown}).kind))) throw Error('BATCH_LAUNCH_BINDING_INVALID')
       if (state.closure.entries.find(e => e.path === `repo/${guidesWorkerModule}`)?.state !== 'file') throw new Error('Fixed Guides worker module is missing')
       if (Object.keys(secrets).some(name => name !== 'GH_TOKEN')) throw new Error('Unsupported child credential setting')
       const input = canonicalBytes(data)
@@ -1103,8 +1182,28 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
         env: { ...environment, ...secrets }, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: 120_000 })
     },
   }
+  batchLaunchers.set(launcher, {
+    runObservedBatchContent: (ticket, signal) => runBatchContent(ticket, 'observed', signal),
+    runReplayBatchContent: (ticket, signal) => runBatchContent(ticket, 'replay', signal),
+    runObservedBatchQualification: (ticket, signal) => runBatchQualification(ticket, 'observed', signal),
+    runReplayBatchQualification: (ticket, signal) => runBatchQualification(ticket, 'replay', signal),
+    runBatchVerifier,
+  })
+  return launcher
 }
-
+interface BatchLauncher {
+  runObservedBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, signal?: AbortSignal): Promise<BatchQualifiedChild>
+  runReplayBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, signal?: AbortSignal): Promise<BatchQualifiedChild>
+  runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}>
+  runObservedBatchContent(ticket: import('./batch-collection').BatchContentTicket, signal?: AbortSignal): Promise<BatchMeasuredChild>
+  runReplayBatchContent(ticket: import('./batch-collection').BatchContentTicket, signal?: AbortSignal): Promise<BatchMeasuredChild>
+}
+const batchLaunchers = new WeakMap<object, BatchLauncher>()
+export function batchContentLauncher(launcher: Awaited<ReturnType<typeof prepareTrustedLauncher>>): BatchLauncher {
+  const result = batchLaunchers.get(launcher)
+  if (!result) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  return result
+}
 
 // Fixed child policies: neither module/export choices nor the physical allow-map come from requests.
 const resolutionPolicy=Buffer.from(String.raw`'use strict';
@@ -1186,7 +1285,22 @@ const fs=require('node:fs'),path=require('node:path');
   if(typeof provider.collectGuidesWorker!=='function')throw Error('Fixed Guides worker export is unavailable');
   // This capability is an ordinary call from fixed measured code, never wire data.
   const issuer=()=>load(path.join(root,'packages/docs-tooling/src/shared-docs/adapters/updates/trusted-fetch-producer.ts')).createMeasuredFetchProducerContext(data.request.trustedTools);
-  const result=common.canonicalBytes(await provider.collectGuidesWorker(data,process.argv[3]==='metadata-pipes',issuer));
+  let value;
+  if(process.argv[3]==='batch-content-observed'||process.argv[3]==='batch-content-replay') {
+    const kind=process.argv[3]==='batch-content-observed'?'observed':'replay';
+    if(data.kind!=='guides-batch-render-v1'||data.origin?.kind!==kind||typeof provider.collectBatchPageMaterial!=='function')throw Error('BATCH_LAUNCH_BINDING_INVALID');
+    const replayBytes=kind==='replay'?fs.readFileSync(6):null;
+    if(replayBytes&&replayBytes.length>33554432)throw Error('BATCH_LAUNCH_BINDING_INVALID');
+    value=kind==='replay'&&typeof provider.collectReplayBatchPageMaterial==='function'?await provider.collectReplayBatchPageMaterial(data,replayBytes):await provider.collectBatchPageMaterial(data);
+    if(value?.kind!=='guides-batch-material-wire-v1')throw Error('BATCH_LAUNCH_BINDING_INVALID');
+  } else if(process.argv[3]==='batch-qualify-observed'||process.argv[3]==='batch-qualify-replay') {
+    const kind=process.argv[3]==='batch-qualify-observed'?'observed':'replay';
+    if(data.kind!=='guides-batch-qualify-v1'||data.scope?.base?.origin?.kind!==kind)throw Error('BATCH_LAUNCH_BINDING_INVALID');
+    let issued=false;
+    const issue=()=>{if(issued)throw Error('BATCH_LAUNCH_BINDING_INVALID');issued=true;return load(path.join(root,'packages/docs-tooling/src/shared-docs/adapters/updates/trusted-fetch-producer.ts')).createMeasuredBatchContext(data.scope)};
+    value=await provider.qualifyBatchLifecycle(data,issue);
+  } else value=await provider.collectGuidesWorker(data,process.argv[3]==='metadata-pipes',issuer);
+  const result=common.canonicalBytes(value);
   if(result.length>resultLimit)throw Error('Guides worker result exceeds byte bound');
   fs.writeFileSync(3,result);
 })().catch(error=>{console.error(String(error));process.exitCode=1});
@@ -1199,16 +1313,36 @@ export interface GuidesWorkerSettlement {
   signals: {signal: NodeJS.Signals; at: number}[]
   cleanupErrors: {operation: string; code: string | null; message: string}[]
 }
+interface BatchContentMeasures {requestSha256: string; requestBytes: number; responseSha256: string; responseBytes: number}
+export interface BatchMeasuredChild {value: BatchMaterialWire; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}
+const childContentMeasures = new WeakMap<object, BatchContentMeasures>()
+const measuredContent = new WeakMap<object, {ticket: import('./batch-collection').BatchContentTicket; capture: TrustedToolsetCapture; store: EvidenceStore; request: BatchContentMeasures}>()
+export function takeMeasuredBatchContent(child: BatchMeasuredChild, ticket: import('./batch-collection').BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore) {
+  const receipt = measuredContent.get(child)
+  if (!receipt || receipt.ticket !== ticket || receipt.capture !== capture || receipt.store !== store) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  const bytes = canonicalBytes(child.value)
+  if (bytes.length !== receipt.request.responseBytes || rawSha256(bytes) !== receipt.request.responseSha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  measuredContent.delete(child); childContentMeasures.delete(child)
+  return Object.freeze({...receipt.request})
+}
+export interface BatchQualifiedChild {value: BatchQualification; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}
+const measuredQualification = new WeakMap<object, {ticket: import('./batch-collection').BatchQualificationLaunchTicket; capture: TrustedToolsetCapture; store: EvidenceStore; request: BatchContentMeasures}>()
+export function takeMeasuredBatchQualification(child: BatchQualifiedChild, ticket: import('./batch-collection').BatchQualificationLaunchTicket, capture: TrustedToolsetCapture, store: EvidenceStore) {
+  const receipt = measuredQualification.get(child), bytes = canonicalBytes(child.value)
+  if (!receipt || receipt.ticket !== ticket || receipt.capture !== capture || receipt.store !== store || bytes.length !== receipt.request.responseBytes || rawSha256(bytes) !== receipt.request.responseSha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+  measuredQualification.delete(child); childContentMeasures.delete(child); return Object.freeze({...receipt.request})
+}
 /** Own only the group born from this actual handle; a parent cannot clean up after
  * its own fatal death, or certify descendants that deliberately leave the group. */
 async function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv,
-  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
+  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number; parent?: number; finalize?: (signal: AbortSignal) => Promise<number>}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
   signal?.throwIfAborted()
   const child = spawn(binary, args, {cwd, env: environment,
-    stdio: ['pipe', 'pipe', 'pipe', 'pipe', broker ? 'pipe' : 'ignore', broker ? 'pipe' : 'ignore'], detached: true})
-  const readerLifetime = new AbortController()
+    stdio: ['pipe', 'pipe', 'pipe', 'pipe', descriptors ? descriptors.root : broker ? 'pipe' : 'ignore', descriptors ? descriptors.blobs : broker ? 'pipe' : 'ignore', descriptors?.parent ?? (replayInput !== undefined ? 'pipe' : 'ignore')], detached: true})
+  const readerLifetime = new AbortController(), publicationLifetime = new AbortController()
   let closeBroker: (() => void) | undefined
   let serving: Promise<void> | undefined
+  let brokerFailed = false
   if (broker) {
     // Node typings name only five stdio slots even when spawn opens more.
     const pipes: readonly (Readable | Writable | null)[] = child.stdio
@@ -1218,10 +1352,13 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     replies.on('error', closeBroker)
     // A failed GET/invalid frame closes the private reader. The worker retains
     // its normal unknown-authority outcome. No error body or credential crosses.
-    serving = serveGuidesMetadata(requests, replies, broker.runId, broker.token, readerLifetime.signal)
-      .then(() => { replies.end() }, closeBroker)
+    serving = ('replay' in broker ? serveReplayGuidesMetadata(requests, replies, broker.runId, broker.replay, readerLifetime.signal) : serveGuidesMetadata(requests, replies, broker.runId, broker.token, readerLifetime.signal))
+      .then(() => { replies.end() }, () => {brokerFailed = true; closeBroker!()})
   }
   const receipt: GuidesWorkerSettlement = {pid: child.pid ?? null, born: false, close: null, group: 'unknown', signals: [], cleanupErrors: []}
+  const inputHash = createHash('sha256'), resultHash = createHash('sha256')
+  let inputBytes = 0, inputFinished = false, verificationAcknowledged = false
+  let handshake: Promise<void> | undefined
   const output: Buffer[][] = [[], [], []], sizes = [0, 0, 0]
   let primary: Error | null = null, exitFailure: Error | null = null, terminal = false
   let birthDone!: () => void, closeDone!: () => void, finishRequested!: () => void
@@ -1260,16 +1397,39 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   let timer: ReturnType<typeof setTimeout> | undefined
   let response: {value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement} | undefined
   try {
-    child.on('spawn', guarded(() => { receipt.born = true; birthDone(); if (!primary) child.stdin.end(input) }))
+    child.on('spawn', guarded(() => {
+      if (replayInput !== undefined) {const pipes: readonly (Readable | Writable | null)[] = child.stdio; const replayPipe = pipes[6] as Writable; replayPipe.on('error', guarded(fail)); replayPipe.end(replayInput)}
+      receipt.born = true; birthDone(); if (!primary) {inputHash.update(input); inputBytes += input.length; descriptors?.finalize ? child.stdin.write(input) : child.stdin.end(input)} }))
     child.on('error', guarded(error => {birthDone(); fail(error)}))
-    child.stdin.on('error', guarded(fail))
+    child.stdin.on('error', guarded(fail)).on('finish', guarded(() => {inputFinished = true}))
     for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('error', guarded(fail)).on('data', guarded((bytes: Buffer) => {
       // exit can precede final stderr data. Retain bounded diagnostics through
       // close even after a failure, but stop accumulating result/stdout bytes.
       if (primary && i !== 1) return
       sizes[i] += bytes.length
-      if (sizes[i] > (i === 2 ? workerResultLimit : workerLimit)) fail(new Error('Guides worker output exceeds byte bound'))
-      else output[i].push(bytes)
+      if (i === 2) resultHash.update(bytes)
+      if (sizes[i] > (contentRequest?.kind === 'guides-batch-verify-control-v1' ? 65536 : i === 2 ? workerResultLimit : workerLimit)) fail(new Error('Guides worker output exceeds byte bound'))
+      else {
+        output[i].push(bytes)
+        if (i === 2 && descriptors?.finalize && !verificationAcknowledged) {
+          const received = Buffer.concat(output[2]), newline = received.indexOf(10)
+          if (newline < 0) return
+          if (newline !== received.length - 1 || contentRequest?.kind !== 'guides-batch-verify-control-v1') throw Error('BATCH_VERIFY_ACK_INVALID')
+          const ack = parseStrictJson(received.subarray(0, newline)), control = contentRequest
+          const expected = {kind: 'guides-batch-verified-v1', controlDigest: batchDigest('control', control), indexRef: control.indexRef, indexDigest: control.indexDigest}
+          if (!Buffer.from(canonicalBytes(expected)).equals(received.subarray(0, newline)) || !Buffer.from(canonicalBytes(ack)).equals(received.subarray(0, newline))) throw Error('BATCH_VERIFY_ACK_INVALID')
+          verificationAcknowledged = true; output[2] = []
+          handshake = (async () => {
+            const freshnessRemainingMs = await descriptors.finalize!(signal ? AbortSignal.any([signal, publicationLifetime.signal]) : publicationLifetime.signal)
+            signal?.throwIfAborted()
+            if (primary || terminal || receipt.close) throw Error('BATCH_COMMIT_SETTLEMENT_INVALID')
+            if (!Number.isSafeInteger(freshnessRemainingMs) || freshnessRemainingMs < 1 || freshnessRemainingMs > 36 * 3600_000 + 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
+            const commit = Buffer.concat([canonicalBytes({kind: 'guides-batch-commit-v1', controlDigest: expected.controlDigest, freshnessRemainingMs}), Buffer.from('\n')])
+            if (input.length + commit.length > 65536) throw Error('BATCH_CONTROL_LIMIT')
+            child.stdin.end(commit)
+          })().catch(fail)
+        }
+      }
     }))
     child.on('exit', guarded((code: number | null) => {
       if (code !== 0 && !primary) {exitFailure = new Error('Guides worker failed:'); latch(exitFailure)}
@@ -1287,6 +1447,12 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   } catch (error) { latch(error) }
   closeBroker?.()
   await serving
+  if (primary) publicationLifetime.abort(primary)
+  if (handshake) await handshake
+  // The last reply may already be delivered when closed-manifest completion
+  // fails. Pipe closure cannot revoke those bytes; the parent must reject before
+  // creating any measured qualifier receipt. Legacy held reports stay unchanged.
+  if (contentRequest?.kind === 'guides-batch-qualify-v1' && brokerFailed) latch(new Error('BATCH_METADATA_BROKER_FAILED'))
   // One awaited finalizer owns every terminal path. Its errors cannot strand an
   // unobserved promise or bypass listener/timer cleanup.
   try {
@@ -1315,8 +1481,22 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     try {
       const stderr = Buffer.concat(output[1]).toString('utf8')
       if (exitFailure && primary === exitFailure) exitFailure.message += ` ${stderr.slice(0, 4096)}`
-      if (!primary) response = {value: parseStrictJson(Uint8Array.from(Buffer.concat(output[2]))),
-        stdout: Buffer.concat(output[0]).toString('utf8'), stderr, settlement: receipt}
+      if (!primary) {
+        const bytes = Buffer.concat(output[2]), value = parseStrictJson(Uint8Array.from(bytes))
+        if (contentRequest) {
+          if (!inputFinished || inputBytes !== input.length || !receipt.born || receipt.close?.code !== 0 || receipt.close.signal !== null || receipt.signals.length || receipt.cleanupErrors.length || !Buffer.from(canonicalBytes(value)).equals(bytes)) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+          if (contentRequest.kind === 'guides-batch-render-v1') {BatchRenderRequestSchema.parse(contentRequest); validateBatchWire(value, contentRequest)}
+          else if (contentRequest.kind === 'guides-batch-qualify-v1') {
+            const request = BatchQualifierRequestSchema.parse(contentRequest), q = BatchQualificationSchema.parse(value)
+            if (q.scopeDigest !== batchDigest('scope', request.scope) || !Buffer.from(canonicalBytes(q.base)).equals(Buffer.from(canonicalBytes(request.scope.base))) || !Buffer.from(canonicalBytes(q.run)).equals(Buffer.from(canonicalBytes(request.scope.run))) || q.rows.length !== request.scope.pages.length || q.rows.some((row, i) => row.pageId !== request.scope.pages[i].pageId || row.materialDigest !== request.scope.pages[i].materialSha256 || !Buffer.from(canonicalBytes(row.method)).equals(Buffer.from(canonicalBytes(q.method))))) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+          } else {
+            const control = BatchVerifyControlSchema.parse(contentRequest), ack = value as {kind?: string; controlDigest?: string; indexRef?: unknown; indexDigest?: string}
+            if (bytes.length > 65536 || Object.keys(ack).sort().join(',') !== 'controlDigest,indexDigest,indexRef,kind' || ack.kind !== (descriptors?.finalize ? 'guides-batch-published-v1' : 'guides-batch-verified-v1') || descriptors?.finalize && !verificationAcknowledged || ack.controlDigest !== batchDigest('control', control) || ack.indexDigest !== control.indexDigest || !Buffer.from(canonicalBytes(ack.indexRef)).equals(Buffer.from(canonicalBytes(control.indexRef)))) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+          }
+        }
+        response = {value, stdout: Buffer.concat(output[0]).toString('utf8'), stderr, settlement: receipt}
+        if (contentRequest) childContentMeasures.set(response, {requestSha256: inputHash.digest('hex'), requestBytes: inputBytes, responseSha256: resultHash.digest('hex'), responseBytes: sizes[2]})
+      }
     } catch (error) { diagnostic('finalize-output', error); latch(error) }
   } catch (error) { diagnostic('finalize', error); latch(error) }
   finally {
@@ -1327,6 +1507,7 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     for (const timer of timers) cleanup('clear-timer', () => clearTimeout(timer))
     terminal = true
   }
+  if (contentRequest && receipt.cleanupErrors.length) primary ??= new Error('BATCH_LAUNCH_BINDING_INVALID')
   if (primary) throw Object.assign(new Error((primary as Error).message, {cause: primary}), {settlement: receipt})
   return response!
 }

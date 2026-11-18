@@ -8,13 +8,14 @@ export const validFetchOid = (value: unknown): value is string => typeof value =
 export const gitBlobOid = (bytes: Uint8Array) => createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')
 
 /** Raw Git bytes only. No pathname decoding, trimming or filesystem traversal. */
-export function parseFetchTree(bytes: Uint8Array): readonly FetchTreeEntry[] {
+function parseTree(bytes: Uint8Array, requirePilot: boolean, check = () => {}): readonly FetchTreeEntry[] {
   if (!bytes.length || bytes.length > fetchTreeLimit || bytes[bytes.length - 1] !== 0) throw new Error('Invalid Fetch tree framing')
   const raw = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes)
   const records = raw.slice(0, -1).split('\0')
   if (records.length > 20_000) throw new Error('Fetch tree entry limit')
   const entries = new Map<string, FetchTreeEntry>()
   for (const record of records) {
+    check()
     const match = /^(040000 tree|100644 blob|100755 blob|120000 blob) ([0-9a-f]{40})\t(.+)$/u.exec(record)
     if (!match || !validFetchOid(match[2])) throw new Error('Invalid Fetch tree entry')
     const [mode, type] = match[1].split(' ') as [string, FetchTreeEntry['type']], path = match[3]
@@ -23,6 +24,7 @@ export function parseFetchTree(bytes: Uint8Array): readonly FetchTreeEntry[] {
     entries.set(path, Object.freeze({mode, type, oid: match[2], path}))
   }
   for (const entry of entries.values()) {
+    check()
     // Each directory validates its own parent, establishing the full chain
     // transitively without rebuilding every ancestor for every shared prefix.
     const slash = entry.path.lastIndexOf('/')
@@ -30,7 +32,7 @@ export function parseFetchTree(bytes: Uint8Array): readonly FetchTreeEntry[] {
     if (entry.mode === '120000' && entries.get('AGENTS.md')?.mode !== '100644') throw new Error('Missing Fetch alias target')
   }
   const lock = entries.get(pilotLockPath)
-  if (!lock || lock.mode !== '100644' || lock.type !== 'blob') throw new Error('Missing ordinary pilot lock')
+  if (requirePilot && (!lock || lock.mode !== '100644' || lock.type !== 'blob')) throw new Error('Missing ordinary pilot lock')
   return Object.freeze([...entries.values()].sort((a, b) => Buffer.compare(Buffer.from(a.path), Buffer.from(b.path))))
 }
 
@@ -44,5 +46,27 @@ export function fetchProducerProfile(entries: readonly FetchTreeEntry[], lockByt
   const normalize = canonical.equals(Buffer.from(lockBytes))
   const digest = createHash('sha256').update('zdoc/fetch-producer-profile-v1\0')
   for (const entry of entries) digest.update(`${entry.mode} ${entry.type} ${entry.type === 'tree' ? '<directory>' : entry.path === pilotLockPath && normalize ? '<pilot-lock-data>' : entry.oid}\t${entry.path}\0`)
+  return digest.digest('hex')
+}
+
+export const parseFetchTree = (bytes: Uint8Array) => parseTree(bytes, true)
+export const parseFetchTreeV2 = (bytes: Uint8Array, check = () => {}) => parseTree(bytes, false, check)
+
+/** Only validated M registry paths may receive the v2 lock marker. */
+export function fetchProducerProfileV2(entries: readonly FetchTreeEntry[], locks: ReadonlyMap<string, Buffer>, check = () => {}) {
+  const normalized = new Set<string>(), byPath = new Map(entries.map(entry => [entry.path, entry]))
+  for (const [path, bytes] of locks) {
+    check()
+    const entry = byPath.get(path)
+    if (!entry || entry.mode !== '100644' || entry.type !== 'blob' || entry.oid !== gitBlobOid(bytes) || bytes.length > 65536) throw new Error('Invalid Guides lock blob')
+    const parsed = parseLock(new TextDecoder('utf8', {fatal: true, ignoreBOM: true}).decode(bytes))
+    if ('errors' in parsed || !validFetchOid(parsed.lock.current) || !validFetchOid(parsed.lock.next)) throw new Error('Invalid Guides lock')
+    if (bytes.equals(Buffer.from(`schema_version: 1\ncurrent: ${parsed.lock.current}\nnext: ${parsed.lock.next}\n`))) normalized.add(path)
+  }
+  const digest = createHash('sha256').update('zdoc/fetch-producer-profile-v2\0')
+  for (const entry of entries) {
+    check()
+    digest.update(`${entry.mode} ${entry.type} ${entry.type === 'tree' ? '<directory>' : normalized.has(entry.path) ? '<guides-lock-data>' : entry.oid}\t${entry.path}\0`)
+  }
   return digest.digest('hex')
 }

@@ -6,7 +6,62 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { expect, it, onTestFinished } from 'vitest'
 import { hash } from '../../adapters/updates/lifecycle'
-import { readReviewedObservation } from '../../adapters/updates/selected-lifecycle'
+import { readReviewedObservation, acquireReviewedCommon } from '../../adapters/updates/selected-lifecycle'
+import {rawBatchLifecycleFixture} from './fixtures/batch-qualification'
+
+it('builds a complete raw three-page stage with genuinely generated success and reused outcomes', async () => {
+  const parent = join(process.cwd(), '.claude/wp12-guides-batch-qualification/task3-evidence')
+  await mkdir(parent, {recursive: true})
+  const root = await mkdtemp(join(parent, 'raw-stage-'))
+  expect(rawBatchLifecycleFixture, 'raw stage fixture constructor').toBeTypeOf('function')
+  const f = await rawBatchLifecycleFixture(root)
+  expect(f.outcomes.map(o => o.status).sort()).toEqual(['reused', 'reused', 'success'])
+  expect(f.pages).toEqual(['json-field-overview', 'member-b', 'member-c'])
+  const shared = createRequire(import.meta.url)('../../../../../../scripts/docs-workflow/guides-stage-artifact.js')
+  await expect(shared.validateGuidesStageArtifact(f.stage, {site: 'en', stage: 'source', masterSha: f.master, devBaselineSha: f.baseline})).resolves.toMatchObject({masterSha: f.master})
+  const {extractSourceZip} = await import('../../adapters/updates/lifecycle')
+  const extracted = join(root, 'verified-extraction'); await mkdir(extracted)
+  await extractSourceZip(await readFile(f.sourceZip), extracted)
+  await expect(shared.validateGuidesStageArtifact(join(extracted, 'guides-source'))).resolves.toMatchObject({masterSha: f.master})
+  const {retainedMetadata} = await import('../../adapters/updates/github')
+  const {replayMetadataReader} = await import('../../adapters/updates/guides-metadata-broker')
+  const raw = replayMetadataReader(f.fixture.qualification)
+  const api = {get: async (path: string) => JSON.parse(Buffer.from(await raw.read(path)).toString()), zip: async () => readFile(f.publicationZip)}
+  const facts = await retainedMetadata(api, 123), payload = join(f.stage, 'payload')
+  const manifest = JSON.parse(await readFile(join(f.stage, 'manifest.json'), 'utf8'))
+  const snapshot = JSON.parse(await readFile(join(payload, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'), 'utf8'))
+  expect(snapshot.navigation_records.some((r: {order: number}) => r.order === 1.5)).toBe(true)
+  const originalBytes = await readFile(join(payload, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'))
+  const common = await acquireReviewedCommon(api, facts, f.sampledDev, {payload, manifest, snapshot})
+  for (const page of f.pages) await expect(readReviewedObservation(api, facts, manifest, snapshot, payload,
+    {page, producerRepo: f.tools, devRepo: f.dev, dev: f.sampledDev}, common)).resolves.toMatchObject({recordId: expect.any(String)})
+  expect(await readFile(join(payload, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'))).toEqual(originalBytes)
+  raw.finish()
+  await writeFile(join(extracted, 'guides-source/payload/tmp/docs-tooling/en/shared-pages/guides/bundle.json'), '{}')
+  await expect(shared.validateGuidesStageArtifact(join(extracted, 'guides-source'))).rejects.toThrow(/size|checksum/)
+}, 120000)
+
+it('retains valid F publication bytes when normalized M locks name a distinct current owner', async () => {
+  const parent = join(process.cwd(), '.claude/wp12-guides-batch-qualification/task3-evidence')
+  await mkdir(parent, {recursive: true})
+  const f = await rawBatchLifecycleFixture(await mkdtemp(join(parent, 'wrong-current-')), undefined, {wrongCurrent: true})
+  const {FetchGitReader} = await import('../../adapters/updates/trusted-fetch-producer')
+  const profiles = await new FetchGitReader(f.tools).profilesV2(f.master, f.producer)
+  expect(profiles.masterProfile).toBe(profiles.producerProfile)
+  expect(profiles.ancestor).toBe(true)
+  expect(profiles.masterLocks.every(p => p.current === f.configuredCurrent)).toBe(true)
+  const gitRaw = (...args: string[]) => execFileSync('git', ['--no-replace-objects', '-C', f.upstream, ...args])
+  expect(gitRaw('rev-parse', f.current + '^{tree}')).toEqual(gitRaw('rev-parse', f.configuredCurrent + '^{tree}'))
+  const manifest = JSON.parse(await readFile(join(f.stage, 'manifest.json'), 'utf8'))
+  expect(manifest.masterSha).toBe(f.producer)
+  for (const page of f.pages) {
+    const bytes = execFileSync('git', ['--no-replace-objects', '-C', f.dev, 'show', `${f.sampledDev}:generated/en/manifests/shared-pages/guides/${page}.json`])
+    const receipt = JSON.parse(bytes.toString())
+    expect(receipt.inputs.milvus_docs.current).toBe(f.current)
+    expect(receipt.inputs.milvus_docs.current).not.toBe(f.configuredCurrent)
+    for (const output of receipt.outputs) expect(hash(execFileSync('git', ['-C', f.dev, 'show', `${f.sampledDev}:${output.path}`]))).toBe(output.sha256)
+  }
+}, 120000)
 
 // This fresh-success fixture exercises the publication boundary after the caller's
 // stage-validation precondition; the reused fixture below validates its full bundle.
@@ -70,7 +125,9 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(results)})
   const facts = {run, jobs: [job(2, 'produce_guides_sources / fetch', ['Fetch shared guides sources', 'Generate selected shared Guides sources', 'Run actions/upload-artifact@v6']),
     job(3, 'produce_guides / assemble', []), job(4, 'publish_ready', ['Publish ready Fetch units in producer completion FIFO order'])], artifacts: [publication], artifact: {created_at: at}}
   let dev = published
+  const metadataPaths: string[] = []
   const api = {zip: async (id: number) => { expect(id).toBe(5); return archive }, get: async (path: string) => {
+    metadataPaths.push(path)
     if (path.endsWith('/branches/dev')) return {name: 'dev', commit: {sha: dev}}
     if (path.includes('fetch-guides-requested.yml')) return {total_count: 0, workflow_runs: []}
     if (path.includes('fetch-docs.yml')) return {total_count: 1, workflow_runs: [run]}
@@ -80,6 +137,14 @@ sys.stdout.buffer.write(b.getvalue())`], {input: JSON.stringify(results)})
     snapshot, root, {page, producerRepo: root, devRepo: root, dev})
   expect(await observe()).toMatchObject({outputPaths: [outputPath], identity: {observedPage: page, observedRecordId: recordId,
     observedTableId: table, publicationResultSha: published, sampledDev: dev}})
+  metadataPaths.length = 0
+  const common = await acquireReviewedCommon(api, facts, dev)
+  for (let i = 0; i < 3; i++) expect(await readReviewedObservation(api, facts,
+    {devBaselineSha: baseline, files: [{path: bundlePath}]}, snapshot, root,
+    {page, producerRepo: root, devRepo: root, dev}, common)).toMatchObject({recordId})
+  expect(metadataPaths).toHaveLength(3)
+  await expect(readReviewedObservation(api, {...facts}, {devBaselineSha: baseline, files: [{path: bundlePath}]}, snapshot,
+    root, {page, producerRepo: root, devRepo: root, dev}, common)).rejects.toThrow('BATCH_COMMON_BINDING_INVALID')
   publication.size_in_bytes = 1024 * 1024 + 1
   expect(await observe()).toEqual({reason: 'PUBLICATION_ARCHIVE_OVERSIZED'})
   publication.size_in_bytes = archive.length

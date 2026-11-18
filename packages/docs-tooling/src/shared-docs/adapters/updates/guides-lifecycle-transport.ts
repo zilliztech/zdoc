@@ -166,3 +166,85 @@ export async function stageGuidesArchives(runId: number, sourceZip: string | nul
   const publication = await stage('publication.zip', inputs.publication.id, inputs.publicationBytes)
   return {source, publication}
 }
+
+import {object} from './github'
+import {currentBatchLifetime, reserveBatchAllocation} from './evidence'
+import {replayMetadataReader} from './guides-metadata-broker'
+import {BatchReplayFixtureSchema, type BatchReplayFixture, type BatchScope} from './batch-collection-contract'
+const prospectiveRunPath = `${repository}/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1`
+function scheduledRun(value: unknown) {
+  const data = object(value)
+  if (!Array.isArray(data.workflow_runs) || data.workflow_runs.length !== 1) throw Error('SCHEDULED_FETCH_MISSING')
+  const run = data.workflow_runs[0]
+  if (!Number.isSafeInteger(run.id) || run.id < 1 || run.run_attempt !== 1 || !/^[a-f0-9]{40}$/.test(run.head_sha) ||
+    run.repository?.id !== 660446555 || run.head_repository?.id !== 660446555 || run.workflow_id !== 83360731 ||
+    run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' || run.event !== 'schedule' ||
+    run.status !== 'completed' || run.conclusion !== 'success') throw Error('SCHEDULED_FETCH_UNAVAILABLE')
+  return run
+}
+export interface BatchRunLease {run: BatchScope['run']; archives: StagedArchives; source: {id: number; bytes: number; sha256: string};
+  publication: {id: number; bytes: number; sha256: string}; broker: {runId: number; token: string} | {runId: number; replay: BatchReplayFixture['qualification']}}
+/** Fixed coordinator acquisition. A prospective run is selected here, never supplied
+ * by an operator, material header, index or child response. */
+export async function acquireBatchRunLease(evidence: EvidenceStore, replay?: BatchReplayFixture): Promise<BatchRunLease> {
+  const lifetime = currentBatchLifetime(); lifetime?.check()
+  const fixture = replay && BatchReplayFixtureSchema.parse(replay)
+  const raw = fixture && replayMetadataReader(fixture.acquisition)
+  const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN ?? ''
+  const api: ReadonlyGitHub = fixture ? {
+    get: async path => parseStrictJson(await raw!.read(path)),
+    zip: async id => {
+      const item = [fixture.archives.source, fixture.archives.publication].find(a => a.id === id)
+      if (!item) throw Error('BATCH_REPLAY_ARCHIVE_INVALID')
+      const bytes = await readRegularBytes(join(fixture.root, item.path), item.bytes)
+      if (bytes.length !== item.bytes || rawSha256(bytes) !== item.sha256) throw Error('BATCH_REPLAY_ARCHIVE_INVALID')
+      return bytes
+    },
+  } : coordinatorReads(token, lifetime?.signal)
+  const selected = scheduledRun(await api.get(prospectiveRunPath))
+  const facts = await retainedMetadata(api, selected.id)
+  if (facts.run.id !== selected.id || facts.run.run_attempt !== 1 || facts.run.head_sha !== selected.head_sha) throw Error('BATCH_RUN_BINDING_INVALID')
+  // Validate the selected run again against the independently read run body.
+  scheduledRun({workflow_runs: [facts.run]})
+  const publication = boundArtifact(facts.artifacts, facts.run, `publication-results-fetch-${selected.id}-1`)
+  const source = facts.artifact
+  if (source.id === publication.id || source.size_in_bytes > sourceLimit || publication.size_in_bytes > publicationLimit) throw Error('BATCH_ARCHIVE_LIMIT')
+  lifetime?.check()
+  await reserveBatchAllocation(evidence, source.size_in_bytes + publication.size_in_bytes, 3)
+  const sourceBytes = await api.zip(source.id, source.size_in_bytes), publicationBytes = await api.zip(publication.id, publication.size_in_bytes)
+  for (const [item, bytes] of [[source, sourceBytes], [publication, publicationBytes]] as const) {
+    if (item.size_in_bytes !== bytes.length || item.digest !== 'sha256:' + rawSha256(bytes)) throw Error('BATCH_ARTIFACT_BINDING_INVALID')
+  }
+  raw?.finish()
+  const owned = await createOwnedDirectory(evidence)
+  const stage = async (name: string, id: number, bytes: Uint8Array) => {
+    lifetime?.check(); await reserveBatchAllocation(evidence, bytes.length); await owned.verify(); const path = join(owned.root, name); await writeFile(path, bytes, {flag: 'wx', mode: 0o600}); lifetime?.check(); await owned.verify(); return {id, path}
+  }
+  return {run: {id: selected.id, attempt: 1, head: selected.head_sha},
+    archives: {source: await stage('source.zip', source.id, sourceBytes), publication: await stage('publication.zip', publication.id, publicationBytes)},
+    source: {id: source.id, bytes: sourceBytes.length, sha256: rawSha256(sourceBytes)},
+    publication: {id: publication.id, bytes: publicationBytes.length, sha256: rawSha256(publicationBytes)},
+    broker: fixture ? {runId: selected.id, replay: fixture.qualification} : {runId: selected.id, token}}
+}
+
+/** One independently bounded pin read at run attachment. Final publication uses
+ * another fresh sequence; the qualifier broker is never reused. */
+export async function readBatchAttachmentPins(replay?: BatchReplayFixture) {
+  if (!replay) {
+    const {createBatchGitHub} = await import('./batch-github'), {batchBudget} = await import('./batch-source')
+    return createBatchGitHub(batchBudget()).pins()
+  }
+  const raw = replayMetadataReader(replay.pins)
+  const get = async (path: string) => object(parseStrictJson(await raw.read(path)))
+  for (const [repo, id] of [['zilliztech/zdoc', 660446555], ['milvus-io/milvus-docs', 267273319]] as const) {
+    const value = await get('repos/' + repo)
+    if (value.id !== id || value.full_name !== repo) throw Error('GITHUB_REPOSITORY_MISMATCH')
+  }
+  async function ref(repo: string, branch: string) {
+    const value = await get(`repos/${repo}/git/ref/heads/${branch}`)
+    if (value.ref !== 'refs/heads/' + branch || value.object?.type !== 'commit' || !/^[a-f0-9]{40}$/.test(value.object.sha)) throw Error('GITHUB_REF_MISMATCH')
+    return value.object.sha as string
+  }
+  const result = {master: await ref('zilliztech/zdoc', 'master'), dev: await ref('zilliztech/zdoc', 'dev'), source: await ref('milvus-io/milvus-docs', 'v3.0.x')}
+  raw.finish(); return result
+}

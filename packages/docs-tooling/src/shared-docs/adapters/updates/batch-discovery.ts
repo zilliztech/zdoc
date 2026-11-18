@@ -1,24 +1,23 @@
 import { createHash } from 'node:crypto'
-import { z } from 'zod'
-import { DOC_HEADING_TAGS } from '../../../../../docs-ui/src/shared/utils/docHeadingTags'
+import * as z from 'zod'
 import { resolveManualPublication } from '../../../manuals/registry'
-import { parsePageConfig, parseSourceConfig } from '../../core/config'
 import { validateActiveState, validateSharedSnapshotRecord } from '../../core/handoff/source-state'
 import { parseLock } from '../../core/lock'
-import { canonicalBytes, parseStrictJson } from '../../core/updates/canonical'
+import { canonicalBytes, parseStrictJson, compareUtf8 } from '../../core/updates/canonical'
 import { discoverBatches, type BatchDiscoveryInput, type BatchPageObservation, type BatchInterval, type BatchPathChange,
   type BatchSeedObservation } from '../../core/updates/batch-discovery'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
-import { variantFileName, variantSidecarName } from '../../core/variants'
 import { guidesSnapshotPath } from '../guides-snapshot'
 import { createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
+import { guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
 import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget } from './batch-source'
+import {batchRef, batchSha256, type BatchEdge, type BatchOrigin, type BatchBlobRef} from './batch-collection-contract'
+import {immutable} from '../../core/updates/types'
 
 type Pins = BatchDiscoveryInput['pins']
 type API = ReturnType<typeof createBatchGitHub>
 const utf8 = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true })
 const group = 'shared-docs/guides', activePath = 'generated/en/manifests/shared-pages/guides/active.json'
-const manuals = ['guides', 'guides-byoc']
 const unique = <T>(rows: T[]) => [...new Set(rows)]
 const add = (values: string[], value: string) => { if (!values.includes(value)) values.push(value) }
 const digest = (value: unknown) => createHash('sha256').update(canonicalBytes(value)).digest('hex')
@@ -27,30 +26,25 @@ export function batchDiscoveryFailureCode(error: unknown) { return safeReason(er
 export interface BatchDiscoveryOptions { zdocRepository: string; sourceRepository: string; tools: string }
 
 async function registry(store: BatchGitStore, pins: Pins, budget: BatchBudget) {
-  const source = await store.file(pins.master, group + '/source.yaml'), parsed = parseSourceConfig(utf8.decode(source.bytes))
-  if ('errors' in parsed || parsed.config.repository !== 'https://github.com/milvus-io/milvus-docs' || parsed.config.track !== 'v3.0.x') stop('MASTER_SOURCE_INVALID')
+  const source = await store.file(pins.master, group + '/source.yaml')
+  try { validateGuidesSource(utf8.decode(source.bytes)) } catch { stop('MASTER_SOURCE_INVALID') }
   const pages: BatchPageObservation[] = [], destinations = new Set<string>()
   for (const [pageId, entry] of await store.directory(pins.master, group + '/pages')) {
     budget.remaining()
     if (entry.mode !== '40000' || pageId === 'active') stop('MASTER_REGISTRY_INVALID')
     const dir = group + '/pages/' + pageId
     const config = await store.file(pins.master, dir + '/page.yaml'), lock = await store.file(pins.master, dir + '/lock.yaml')
-    const page = parsePageConfig(pageId, utf8.decode(config.bytes), { manuals, betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') })
+    let page: AuthenticatedRegistryPage
+    try { page = validateGuidesPage(pageId, utf8.decode(config.bytes), destinations) } catch { stop('MASTER_REGISTRY_INVALID') }
     const state = parseLock(utf8.decode(lock.bytes))
-    if ('errors' in page || 'errors' in state || !RepoPathSchema.safeParse(page.config.source.file).success) stop('MASTER_REGISTRY_INVALID')
-    const seenManuals = new Set<string>()
-    for (const target of page.config.publish) {
-      const key = target.manual + '/' + target.path
-      if (!RepoPathSchema.safeParse(target.path).success || seenManuals.has(target.manual) || destinations.has(key)) stop('MASTER_REGISTRY_INVALID')
-      seenManuals.add(target.manual); destinations.add(key)
-    }
+    if ('errors' in state) stop('MASTER_REGISTRY_INVALID')
     const reasons: string[] = [], evidence = ['source-config:' + source.oid, 'page-config:' + config.oid, 'lock:' + lock.oid]
     const files = await store.directory(pins.master, dir)
-    for (const channel of ['current', 'next'] as const) for (const name of [variantFileName(channel), variantSidecarName(channel)]) {
+    for (const name of guidesVariantNames) {
       const variant = files.get(name)
       if (variant) { add(reasons, 'ADOPTED_VARIANT_UNSUPPORTED'); evidence.push('variant:' + name + ':' + variant.oid) }
     }
-    pages.push({ pageId, sourceFile: page.config.source.file, publish: page.config.publish, current: state.lock.current, oldNext: state.lock.next,
+    pages.push({ pageId, sourceFile: page.sourceFile, publish: page.publish.map(target => ({...target})), current: state.lock.current, oldNext: state.lock.next,
       target: pins.source, active: null, published: null, intervals: [], seedKeys: [], reasons, evidence })
   }
   if (!pages.length) stop('MASTER_REGISTRY_INVALID')
@@ -79,7 +73,12 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
   try {
     const blob = await store.file(dev, guidesSnapshotPath)
     for (const p of input.pages) p.evidence.push('snapshot:' + blob.oid)
-    const snapshot = snapshotShape.parse(parseStrictJson(blob.bytes))
+    // This is original producer JSON; batch canonical number rules apply only
+    // to new records. Retain ordinary finite snapshot numbers and raw Git bytes.
+    const snapshot = snapshotShape.parse(JSON.parse(utf8.decode(blob.bytes), (_key, value) => {
+      if (typeof value === 'number' && !Number.isFinite(value)) stop('PUBLISHED_SNAPSHOT_INVALID')
+      return value
+    }))
     const rows = new Map<string, z.infer<typeof publishedRecord>>(), ids = new Set<string>()
     const currentOwners = new Map<string, Set<string>>()
     for (const record of snapshot.records) {
@@ -134,7 +133,7 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
 }
 
 interface PageRange { page: BatchPageObservation; members: Set<string>; fragments: Set<string>; interval: BatchInterval }
-async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, api: API, budget: BatchBudget) {
+async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, api: API, budget: BatchBudget, ledger?: BatchEdge[]) {
   const target = input.pins.source, history = await store.history(target)
   const ranges: PageRange[] = [], activeCommits = new Set<string>(), memberships = new Map<string, Set<string>>()
   const ordered = new Set<string>(), unresolved = new Map<BatchPageObservation, string>()
@@ -144,7 +143,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       if (!members) { members = new Set(history.range(page.oldNext, target)); memberships.set(page.oldNext, members) }
       const lock = page.current + ':' + page.oldNext
       if (!ordered.has(lock)) { history.range(page.current, page.oldNext); ordered.add(lock) }
-      if (page.active !== false) for (const oid of members) activeCommits.add(oid)
+      if (ledger || page.active !== false) for (const oid of members) activeCommits.add(oid)
       const fragments = new Set<string>(), evidence = ['range:' + digest([...members].sort())]
       for (const tip of unique([page.oldNext, target])) {
         const blob = await store.optionalFile(tip, page.sourceFile)
@@ -218,6 +217,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       for (const r of relevant) { r.interval.association = 'unknown'; if (r.page.active !== false) add(r.page.reasons, reason) }
       continue
     }
+    const ledgerRows: BatchEdge[] = []
     const touched = new Set<PageRange>(), fragmentHits = new Map<string, PageRange[]>()
     const unresolvedHits = new Set<BatchPageObservation>(), hitPaths = new Set<string>()
     const removed = new Map<string, string[]>(), added = new Map<string, number>()
@@ -228,6 +228,14 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     for (const delta of raw) {
       const sources = delta.after && !delta.before ? removed.get(delta.after) : undefined
       const previous = sources?.length === 1 && added.get(delta.after!) === 1 ? sources[0] : null
+      if (ledger) {
+        const prior = previous ? raw.find(d => d.path === previous && d.before && !d.after) : undefined
+        const row: BatchEdge = {commit: oid, parent, oldPath: previous ?? (delta.before ? delta.path : null), newPath: delta.after ? delta.path : null,
+          oldOid: prior?.before ?? delta.before, newOid: delta.after, oldMode: (prior?.beforeMode ?? delta.beforeMode) as BatchEdge['oldMode'], newMode: delta.afterMode as BatchEdge['newMode'],
+          rangeIds: relevant.map(r => r.page.pageId).sort(compareUtf8), associationResult: 'irrelevant', introductionOid: null, seedKey: null, evidenceRefs: [],
+          evidence: [], reasons: []}
+        ledger.push(row); ledgerRows.push(row)
+      }
       const direct = relevant.filter(r => r.page.sourceFile === delta.path || r.page.sourceFile === previous)
       for (const page of unresolved.keys()) if (page.sourceFile === delta.path || page.sourceFile === previous) unresolvedHits.add(page)
       const consumers = relevant.filter(r => r.fragments.has(delta.path))
@@ -241,12 +249,14 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     }
     // Unrelated edits still have complete raw path/edge evidence. Only candidate source or
     // fragment commits need PR metadata; otherwise incidental upstream traffic consumes the inspection budget.
-    if (!touched.size && !fragmentHits.size && !unresolvedHits.size) continue
+    if (!touched.size && !fragmentHits.size && !unresolvedHits.size && !(ledger && raw.some(d => d.path.startsWith('site/en/') && /\.mdx?$/.test(d.path)))) continue
+    for (const row of ledgerRows) {row.associationResult = 'unknown'; row.reasons = ['ASSOCIATION_UNVERIFIED']}
     const touchedIds = [...touched].map(r => r.page.pageId)
     if (lockSide) {
       // This edge proves a transition on the lock's lineage. First-parent/PR evidence is assessed separately.
       for (const r of touched) { r.interval.association = 'unknown'; add(r.page.reasons, 'LOCK_SIDE_MERGE_REQUIRES_COLLECTOR') }
       if (touched.size) clue(touchedIds, [], [...hitPaths], [gitRef(oid), 'parent:' + parent], ['LOCK_SIDE_MERGE_REQUIRES_COLLECTOR'])
+      for (const row of ledgerRows) row.reasons = ['LOCK_SIDE_MERGE_REQUIRES_COLLECTOR']
       continue
     }
     let key: string | undefined
@@ -255,6 +265,10 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       const intro = pull?.identity.mergeCommit
       if (pull && (!intro || !history.introduces(oid, intro, pull.identity.base, pull.identity.head, pull.commits))) stop('PR_INTRODUCTION_UNVERIFIED')
       key = pull ? 'pr:' + pull.identity.number : 'commit:' + oid
+      for (const row of ledgerRows) {
+        row.associationResult = 'complete'; row.introductionOid = intro ?? oid; row.seedKey = key
+        row.evidence = [...new Set([...evidence, ...(pull?.evidence ?? [])])].sort(compareUtf8); row.reasons = []
+      }
       let seed = seeds.get(key)
       if (!seed) {
         seed = { key, kind: pull ? 'pr' : 'commit', pr: pull?.identity ?? null, commits: [], reasons: [], evidence: [] }
@@ -281,16 +295,22 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
         if (pending.length) clue(pending.map(r => r.page.pageId), [key], [file.path], [ref], ['PR_PATH_REQUIRES_COLLECTOR'])
       }
       const prPaths = pull && new Set(pull.files.flatMap(f => f.previousPath ? [f.previousPath, f.path] : [f.path]))
+      // A real edit-then-restore range can have no net PR file entry. Only
+      // authenticated equal endpoint trees excuse that omission; its nonempty
+      // raw interval remains in the ledger and still creates required members.
+      const restoredRange = pull && pull.identity.head === intro && history.range(pull.identity.base, pull.identity.head).includes(oid)
+      const netPaths = restoredRange ? new Set((await store.delta(pull!.identity.base, pull!.identity.head)).map(d => d.path)) : undefined
       const importedParents = pull ? history.importedBaseParents(oid, intro!, pull.identity.base) : []
       const unverified = new Set<string>()
-      for (const delta of raw.filter(d => hitPaths.has(d.path))) {
-        if (prPaths && !prPaths.has(delta.path)) { unverified.add(delta.path); continue }
+      for (const delta of raw.filter(d => ledger || hitPaths.has(d.path))) {
+        if (prPaths && !prPaths.has(delta.path) && (!netPaths || netPaths.has(delta.path))) { unverified.add(delta.path); continue }
         for (const baseParent of importedParents) {
           if (((await store.optionalFile(baseParent, delta.path))?.oid ?? null) === delta.after) {
             unverified.add(delta.path); break
           }
         }
       }
+      for (const row of ledgerRows) if (unverified.has(row.newPath ?? row.oldPath!)) {row.associationResult = 'unknown'; row.reasons = ['PR_CHANGED_PATH_UNVERIFIED']}
       for (const r of touched) {
         const uncertain = [...unverified].filter(path => r.page.sourceFile === path || r.fragments.has(path))
         if (uncertain.length) {
@@ -303,6 +323,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     } catch (error) {
       const reason = safeReason(error, 'METADATA_READ_FAILED')
       add(input.reasons, reason)
+      for (const row of ledgerRows) {row.associationResult = 'unknown'; row.reasons = [reason]}
       if (touched.size) clue(touchedIds, [], [...hitPaths], [gitRef(oid)], [reason])
       for (const r of touched) { r.interval.association = 'unknown'; add(r.page.reasons, reason) }
     }
@@ -319,6 +340,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     r.page.intervals.push(r.interval)
     if ([...r.members].some(oid => !activeCommits.has(oid))) r.interval.association = 'unknown'
   }
+  return history.records()
 }
 
 /** Observe three independent fixed refs. No caller pin, network address, repository identity or mode can select an observed result. */
@@ -350,4 +372,51 @@ export async function collectBatchDiscovery(options: BatchDiscoveryOptions, test
     } catch { add(input.reasons, 'FINAL_REFS_UNVERIFIED') }
     return discoverBatches(input)
   } catch (error) { stop(safeReason(error, 'BATCH_INVENTORY_UNAVAILABLE')) }
+}
+
+
+declare const discoveryBrand: unique symbol
+export type BatchDiscoveryCapture = {readonly [discoveryBrand]: true}
+interface CapturedDiscovery {
+  origin: BatchOrigin; report: ReturnType<typeof discoverBatches>; ledger: BatchEdge[];
+  introductionOrder: {oid: string; parents: string[]}[]; evidence: {ref: BatchBlobRef; bytes: Uint8Array}[]
+}
+const observedDiscoveries = new WeakMap<object, CapturedDiscovery>()
+const replayDiscoveries = new WeakMap<object, CapturedDiscovery>()
+export function readBatchDiscoveryCapture(capture: BatchDiscoveryCapture): Readonly<CapturedDiscovery> {
+  const found = observedDiscoveries.get(capture) ?? replayDiscoveries.get(capture)
+  if (!found) stop('BATCH_DISCOVERY_CAPTURE_INVALID')
+  return found
+}
+async function captureDiscovery(options: BatchDiscoveryOptions, origin: BatchOrigin, seam?: BatchGitHubTestSeam): Promise<BatchDiscoveryCapture> {
+  if (Object.keys(options).sort().join(',') !== 'sourceRepository,tools,zdocRepository') stop('BATCH_OPTIONS_INVALID')
+  GitShaSchema.parse(options.tools)
+  const budget = batchBudget(), api = createBatchGitHub(budget, seam), pins = await api.pins()
+  const zdoc = await BatchGitStore.open(options.zdocRepository, budget), pages = await registry(zdoc, pins, budget)
+  const input: BatchDiscoveryInput = {observation: origin.kind, tools: options.tools, pins, pages, seeds: [], changes: [], dependencies: [], reasons: []}
+  const ledger: BatchEdge[] = [], evidence: CapturedDiscovery['evidence'] = []
+  await lifecycle(zdoc, input)
+  const source = await BatchGitStore.open(options.sourceRepository, budget)
+  const introductionOrder = await observeSource(source, input, api, budget, ledger)
+  await source.verify(); await zdoc.verify()
+  const final = await api.pins()
+  if (Object.keys(pins).some(k => pins[k as keyof Pins] !== final[k as keyof Pins])) stop('OBSERVED_REF_MOVED')
+  const objects = [...source.evidenceObjects(), ...zdoc.evidenceObjects()].map(object => {
+    const ref = batchRef(object.bytes); evidence.push({ref, bytes: object.bytes}); return {oid: object.oid, kind: object.kind, ref}
+  }).sort((a, b) => compareUtf8(a.oid, b.oid))
+  const proofBytes = canonicalBytes({objects: [...new Map(objects.map(o => [o.oid, o])).values()]}), proofRef = batchRef(proofBytes)
+  evidence.push({ref: proofRef, bytes: proofBytes})
+  for (const row of ledger) row.evidenceRefs = [proofRef]
+  const capture = Object.freeze({}) as BatchDiscoveryCapture
+  // Do not freeze typed arrays; only private refs/values leave this module.
+  const value = Object.freeze({origin: immutable(structuredClone(origin)), report: immutable(discoverBatches(input)), ledger: immutable(ledger), introductionOrder: immutable(introductionOrder),
+    evidence: Object.freeze(evidence.map(e => Object.freeze({ref: immutable(e.ref), bytes: e.bytes}))) as unknown as CapturedDiscovery['evidence']})
+  ;(origin.kind === 'observed' ? observedDiscoveries : replayDiscoveries).set(capture, value)
+  return capture
+}
+/** Internal observed acquisition, with no caller pins or fixture transport. */
+export function observeBatchDiscovery(options: BatchDiscoveryOptions) {return captureDiscovery(options, {kind: 'observed'})}
+/** Fixture acquisition remains nominally and digest-bound replay evidence. */
+export function replayBatchDiscovery(options: BatchDiscoveryOptions, replay: {fixtureBytes: Uint8Array; replayClockMs: number}, seam: BatchGitHubTestSeam) {
+  return captureDiscovery(options, {kind: 'replay', fixtureSha256: batchSha256(replay.fixtureBytes), replayClockMs: replay.replayClockMs}, seam)
 }
