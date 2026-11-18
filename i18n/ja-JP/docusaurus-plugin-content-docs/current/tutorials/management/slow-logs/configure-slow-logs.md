@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud における Slow logs のライフサイクル全体（有効化、設定の調整、無効化）について説明します。 | Cloud"
+description: "スローログを使用して、想定より時間がかかる Search、HybridSearch、Query リクエストを調査します。実行時間のしきい値を設定し、該当するリクエストをオブジェクトストレージまたは HTTPS サービスに転送して分析できます。 | Cloud"
 type: origin
-token: VcI1wZ5mQiGqdPkCzHccj1RLnbd
+token: QoEpwKGbEirQl1kh3W3c0zdinAd
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -18,82 +18,82 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-import Supademo from '@site/src/components/Supademo';
-
 import Procedures from '@site/src/components/Procedures';
 
 # Slow Logs の設定
 
-このガイドでは、Zilliz Cloud における Slow logs のライフサイクル全体（有効化、設定の調整、無効化）について説明します。
-
-<Admonition type="info" title="Notes">
-
-- このリリースでは、低速な Search、HybridSearch、および Query リクエストが記録されます。
-
-- Slow logs are available only for **Dedicated** クラスター on **Enterprise** projects. If your クラスター is on a different plan or クラスター type, consider upgrading it.
-
-- Slow logs 機能は無料で利用できます。
-
-</Admonition>
+スローログを使用して、想定より時間がかかる Search、HybridSearch、Query リクエストを調査します。実行時間のしきい値を設定し、該当するリクエストをオブジェクトストレージまたは HTTPS サービスに転送して分析できます。
 
 ## 開始する前に\{#before-you-start}
 
-- An object storage integration (AWS S3, Google Cloud Storage, or Azure Blob Storage) configured in the same region as your target クラスター. For setup instructions, refer to [Integrate with AWS S3](./integrate-with-aws-s3), [Integrate with Google Cloud Storage](./integrate-with-gcp), or [Integrate with Azure Blob Storage](./integrate-with-azure-blob-storage).
+- Enterprise プラン以上の稼働中の Dedicated クラスターを使用していること。
 
-- **Organization Owner**, **Project Admin**, or **クラスター Admin** permissions for the project. If you do not have the required permissions, contact your Zilliz Cloud administrator.
+- クラスターへのアクセス権を持つ **Organization Owner**、**Project Admin**、または **クラスター Admin** としてサインインしていること。
 
-## Slow logs を有効にする\{#enable-slow-logs}
+- **クラスターと同じプロジェクト**で、転送先の統合を準備すること：
 
-<Supademo id="cmqhjlq7g139qqmz3vhol6saa" title=""  />
+    - **バケットまたはコンテナーにログを保存する場合：** [Amazon S3](./integrate-with-aws-s3)、[Google Cloud Storage](./integrate-with-gcp)、または [Azure Blob Storage](./integrate-with-azure-blob-storage) の統合を、クラスターのリージョンに設定すること。
 
-<Procedures>
+    - **ログをログ管理システムに送信する場合：** HTTPS 経由でログを受信するサービスを準備し、その URL と認証設定を使用して [HTTPS Endpoint 統合](./integrate-with-https-endpoint) を構成すること。
 
-1. Open the [Zilliz Cloud console](https://cloud.zilliz.com/login) and navigate to your target クラスター.
+スローログは、監査ログおよびアクセスログとは独立して構成します。スローログを構成するために、監査ログまたはアクセスログを無効にする必要はありません。統合を作成すると転送先が準備されます。以下の手順では、クラスターからの転送を有効にします。
 
-1. **Logs** タブをクリックします。
-
-1. **Slow Logs** カードの **Configure** ボタンをクリックします。
-
-1. Slow **Log Settings** ダイアログボックスで、以下の設定を構成します。
-
-    - **Storage Integration**: ログファイルの配信先となる、連携済みのストレージバケットを選択します。
-
-    - **Directory**: access logs を保存するための、バケット内のディレクトリを指定します。
-
-    - **Threshold**: Specify the threshold for slow log コレクション. Operations whose execution time exceeds this value are recorded in slow logs. The default value is 150 ms.
-
-1. **Save** をクリックします。
-
-</Procedures>
-
-## Slow log 設定を編集する\{#edit-slow-log-settings}
-
-![Pj70wvma3hwRdubQdqucq7Zinnc](https://zdoc-images.s3.us-west-2.amazonaws.com/Pj70wvma3hwRdubQdqucq7Zinnc.png)
+## スローログ転送を有効にする\{#enable-slow-log-forwarding}
 
 <Procedures>
 
-1. Open the [Zilliz Cloud console](https://cloud.zilliz.com/login) and navigate to your クラスター.
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) でプロジェクトを開き、対象のクラスターを選択します。
 
-1. **Logs** タブをクリックします。
+1. **Logs** タブを開きます。**Slow Logs** カードで **Configure** をクリックします。
 
-1. **Edit** をクリックします。
+1. **Slow Logs Settings** で、ログの送信先を選択します：
 
-1. 必要に応じて **Storage Integration**、**Directory**、または **Threshold** を調整します。
+    - **Send To:** このプロジェクトで準備した統合を選択します。
 
-1. **Save** をクリックします。更新された設定は、新しいログエントリに対して直ちに有効になります。バケット内の既存のログファイルには影響しません。
+    - **Format:** 受信システムが処理できる形式を選択します：**JSON**、**ECS**、または **OTel**（OpenTelemetry）。
+
+    - **For object storage:** 転送先ディレクトリを指定し、パスのプレビューを確認します。HTTPS の転送先ではディレクトリを使用しません。
+
+1. **Slow Log Threshold (ms)** を、リクエストを調査する実行時間のしきい値に設定します。デフォルトは **150 ms** です。たとえば、しきい値が 150 ms の場合、200 ms かかるリクエストはスローログの対象になります。しきい値を低くするとより多くのリクエストが記録され、高くすると実行時間の長いリクエストに絞り込まれます。
+
+1. 転送先としきい値を確認し、**Start Forwarding** をクリックします。**Slow Logs** カードでステータスを確認し、一致するログが転送先に到達していることを確認します。
 
 </Procedures>
 
-## Slow logs を無効にする\{#disable-slow-logs}
-
-![AfQswQaVYh9qW7ba3sTcBI7qnfg](https://zdoc-images.s3.us-west-2.amazonaws.com/AfQswQaVYh9qW7ba3sTcBI7qnfg.png)
+## ログの到着を確認する\{#verify-that-logs-arrive}
 
 <Procedures>
 
-1. Open the [Zilliz Cloud console](https://cloud.zilliz.com/login) and navigate to your クラスター.
+1. 転送が有効になったら、実行時間が構成したしきい値を超える **Search**、**HybridSearch**、または **Query** リクエストを特定します。操作時刻と対象のコレクションを控えておいてください。しきい値を下回るリクエストでは、スローログは生成されません。
 
-1. **Logs** タブをクリックします。
+1. 転送先で対応するレコードを探します：
 
-1. **Disable** をクリックします。新しいログエントリの記録は直ちに停止します。既存のログファイルはバケット内に保持されます。
+    - **Object storage:** 構成したバケットまたはコンテナーとディレクトリを開き、新しく配信されたログオブジェクトを確認します。
+
+    - **HTTPS endpoint:** 受信サービスの取り込み記録または保存されたログを確認します。
+
+1. 記録された操作と実行時間を、調査しているリクエストと比較します。フィールドの定義については、[Slow Logs Reference](./slow-log-reference) を参照してください。
 
 </Procedures>
+
+統合テストが成功しても、実際のスローログが配信されたことは確認できません。しきい値を超えるリクエストがない場合、スローログが存在しないことだけでは転送の失敗を示すものではありません。
+
+## よくある質問\{#faq}
+
+- **Configure を使用できないのはなぜですか？**
+
+    クラスターが稼働していること、およびロール、プラン、クラスタータイプがスローログをサポートしていることを確認してください。スローログは、監査ログおよびアクセスログとは別に構成します。
+
+- **転送先の統合が見つからないのはなぜですか？**
+
+    統合は、クラスターと同じプロジェクトに属している必要があります。プロジェクトの **Integrations** ページを確認し、必要に応じてそこで統合を作成してください。
+
+- **スローログが到着しないのはなぜですか？**
+
+    コンソールで転送ステータスとエラーを確認してから、リクエストと転送先を確認してください：
+
+    - リクエストが転送の開始後に発生し、サポート対象の操作であり、構成したしきい値を超えていることを確認してください。
+
+    - オブジェクトストレージの場合は、書き込み権限を確認し、構成したディレクトリを調べます。
+
+    - HTTPS の場合は、レシーバーの可用性、認証設定、取り込みエラーを確認してください。

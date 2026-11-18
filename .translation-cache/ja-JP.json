@@ -2161,9 +2161,9 @@
       "translatedAt": "2026-10-26T07:34:58.623Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/pattern-match.md": {
-      "sourceHash": "64d88f214a1afc1301e5bb8121cbc0c74c2a3c63fd54adc08d21b810954f4470",
+      "sourceHash": "b7b0d21aabe18d8d2f4fd815ffcf3ed43ea998d0af0a6a30c3d16daf7fca33cc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/pattern-match.md",
-      "translatedAt": "2026-11-09T13:47:51.369Z"
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/ramdom-sampling.md": {
       "sourceHash": "4c9a87bf472b8202c9b8020ad17d42efd4313cd0f01198f0b1fc2c7fe3eb0354",
@@ -2181,9 +2181,9 @@
       "translatedAt": "2026-11-09T13:47:51.369Z"
     },
     "content/en/guides/tutorials/development/search-and-query/get-and-scalar-query.md": {
-      "sourceHash": "6b88f222ec8e2336ecc2866d1855336dd8b8f62dfe71332900c37b2893895c75",
+      "sourceHash": "9a57de9674ba122688176601f3577a9ba671da7a369abd9637e47fcc53e31f30",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/get-and-scalar-query.md",
-      "translatedAt": "2026-11-09T13:47:51.369Z"
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/development/search-and-query/grouping-search.md": {
       "sourceHash": "fe0d01c8b0ba90f5eb99ba7f9b2273356b2951749fca085e1eadfbbeb17c2071",
@@ -2284,6 +2284,11 @@
       "sourceHash": "6c2af6dac871513f4a3ebc93008143f16e5f64ae10854c89212a675046ab63c3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/with-iterators.md",
       "translatedAt": "2026-11-09T13:49:19.042Z"
+    },
+    "content/en/guides/tutorials/development/snapshots/manage-snapshots-console.md": {
+      "sourceHash": "c26cbbe0f1ebcb6ecfb98a2f1f3e021914eb200c422dc6957458d8c4436716c7",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/manage-snapshots-console.md",
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/development/snapshots/manage-snapshots.md": {
       "sourceHash": "b2c8fafff3b340130ac13d0520ab3b359e19df7fe1495f9cee095cc10728cb84",
@@ -2651,34 +2656,34 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-logs/access-log-overview.md": {
-      "sourceHash": "d6037debe1c62167c781e92b0612c98ac14379e53b94d35c0e19c76d35c8a5d2",
+      "sourceHash": "2a7baea728d63e77fcabd8e568b8e54785c3833a8356ced57086b8c119b128d4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/access-log-overview.md",
-      "translatedAt": "2026-10-10T05:57:57.258Z"
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/management/access-logs/access-log-reference.md": {
-      "sourceHash": "c13fd3d458e343f64f6b3e2720212535f89396f9cd9bf08422f014fd29151cab",
+      "sourceHash": "28834481303bde7d0bf431b6b8fc7182bfd7469b81fd6a22cce8292cf692d0ee",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/access-log-reference.md",
-      "translatedAt": "2026-10-10T05:57:57.258Z"
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/management/access-logs/configure-access-logs.md": {
-      "sourceHash": "e42acbbbdcfd7732080f4a4302098bb731e87841e8484ef9c4f4431d04099194",
+      "sourceHash": "c7bd7229815fe841936b761e170c1cf2225c199d0df716425d05944f9293eae3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/configure-access-logs.md",
-      "translatedAt": "2026-10-10T05:57:57.258Z"
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/management/auditing/audit-logs-ref.md": {
-      "sourceHash": "c16ac69ee9e6b458ed04f2ae76c6892e6d7dd1bc9dd5b8a91b88584b0d3ce3d3",
+      "sourceHash": "96cb429bef49f28198758e1f798b7d75eca0596a15967ac223f8f42a7f91c886",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/audit-logs-ref.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/management/auditing/audit-logs.md": {
-      "sourceHash": "35aa1b1044bd02e9fc7178190600ae98a85ba1c352e551ce3b5a825a987e3851",
+      "sourceHash": "58f7b8dab21e5507d99aab0c2706d41f0a9957f927f682b66274b84be13d90cf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/audit-logs.md",
-      "translatedAt": "2026-11-10T13:30:20.760Z"
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/management/auditing/view-activities.md": {
-      "sourceHash": "2cabf2df21e33bb0dac792fa283063abf0c33500f08645dac99809f93a960c7a",
+      "sourceHash": "c08b67233cafc10a8ecb0f0d9c56665b96065d960b7c1c379dd9a55f53fe97e2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/view-activities.md",
-      "translatedAt": "2026-11-10T13:30:20.760Z"
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/management/authentication/cluster-credentials.md": {
       "sourceHash": "ca28ad2a28e7724cbd3b7636a3f3f8e9024c77273d055943ba05238fb8a3928b",
@@ -3100,6 +3105,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog.md",
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
+    "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint.md": {
+      "sourceHash": "f0a01f13ed32c42ed28f11d2c2134340e663f672d2a4cfb4064356de0ac4f811",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint.md",
+      "translatedAt": "2026-11-18T13:09:46.230Z"
+    },
     "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md": {
       "sourceHash": "1512b0160d8439a77da505fbcbb5a206872b472c0662569c15f3335fac313991",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md",
@@ -3226,9 +3236,14 @@
       "translatedAt": "2026-11-10T13:46:21.178Z"
     },
     "content/en/guides/tutorials/management/slow-logs/configure-slow-logs.md": {
-      "sourceHash": "e8a0defab30a6d6595f279298c374bb82e27956743a9508890f4fb5ec67097f8",
+      "sourceHash": "3aeb204c94b9f3d13bd8c1513bde5326e9ddc061bd065150ae5949095aacb3f0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/slow-logs/configure-slow-logs.md",
-      "translatedAt": "2026-09-19T14:25:42.714Z"
+      "translatedAt": "2026-11-18T13:09:46.230Z"
+    },
+    "content/en/guides/tutorials/management/slow-logs/slow-log-reference.md": {
+      "sourceHash": "9d02e03fa3db9aeecf53cf53634e8db7f739a2c99db40680dd373fad6988c428",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/slow-logs/slow-log-reference.md",
+      "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/solution/schema-evolution/migrate-to-a-new-embedding-model.md": {
       "sourceHash": "77d1b51ee7637e8fefc1dc4fb9964f6ec250a29b6c75e5ea38f9bbd897b4fd80",
