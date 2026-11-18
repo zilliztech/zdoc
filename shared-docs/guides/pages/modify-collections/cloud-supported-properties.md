@@ -31,4 +31,8 @@
      <td><p><code>timezone</code></p></td>
      <td><p>Specifies the default timezone for this collection when handling time-sensitive operations, especially <code>TIMESTAMPTZ</code> fields. Timestamps are stored internally in UTC, and {{var.product_name}} converts values for display and comparison according to this setting. If set, the collection timezone overrides the database’s default timezone; a query’s timezone parameter can temporarily override both. The value must be a valid <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA time zone identifier</a> (for example, <strong>Asia/Shanghai</strong>, <strong>America/Chicago</strong>, or <strong>UTC</strong>). For details on how to use a <code>TIMESTAMPTZ</code> field, refer to <a href="timestamptz-field.md">TIMESTAMPTZ Field</a>.</p></td>
    </tr>
+   <tr>
+     <td><p><code>consistency_level</code></p></td>
+     <td><p>Alters the consistency level of the collection. The new level applies to subsequent searches and queries on this collection that do not specify a consistency level of their own; per-request settings still take precedence. The value must be one of <strong>Strong</strong>, <strong>Session</strong>, <strong>Bounded</strong> (default), or <strong>Eventually</strong>. Changing this property does not require releasing the collection. For details, refer to <a href="tune_consistency.md">Consistency Level</a>.</p></td>
+   </tr>
 </table>
