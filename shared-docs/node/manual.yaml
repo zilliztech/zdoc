@@ -1,0 +1,2875 @@
+schema_version: 1
+source:
+  dir: API_Reference/milvus-sdk-node/v3.0.x
+publish:
+  manual: node
+metadata:
+  Authentication/addUserToRole.md:
+    beta: false
+    description: This operation adds a user to a specific role.
+    sidebar_position: 2
+    type: docx
+    token: Qc72dTKgroNdHjxIG2xcwNdmnHb
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - llm-as-a-judge
+      - hybrid vector search
+      - Video deduplication
+      - Video similarity search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - addUserToRole()
+      - nodejs30
+  Authentication/createRole.md:
+    beta: false
+    description: This operation creates a custom role.
+    sidebar_position: 6
+    type: docx
+    token: SDoYdccLWo1W3PxkNFncibwDnch
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - what is milvus
+      - milvus database
+      - milvus lite
+      - milvus benchmark
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createRole()
+      - nodejs30
+  Authentication/createUser.md:
+    beta: false
+    description: This operation creates a user.
+    sidebar_position: 7
+    type: docx
+    token: JNZxdKEX3ohBl2xud7Wckhq7nVh
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - natural language processing
+      - AI chatbots
+      - cosine distance
+      - what is a vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createUser()
+      - nodejs30
+  Authentication/deleteUser.md:
+    beta: false
+    description: This operation drops a user.
+    sidebar_position: 8
+    type: docx
+    token: Cl5PdhU5jouHnrxyYXLcOQAZneb
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - AI Hallucination
+      - AI Agent
+      - semantic search
+      - Anomaly Detection
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - deleteUser()
+      - nodejs30
+  Authentication/describeRole.md:
+    beta: false
+    description: This operation describes a specific role.
+    sidebar_position: 9
+    type: docx
+    token: ItZPd1o4uoodqtx1sxIcq38hn7e
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - cosine distance
+      - what is a vector database
+      - vectordb
+      - multimodal vector database retrieval
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - describeRole()
+      - nodejs30
+  Authentication/describeUser.md:
+    beta: false
+    description: This is a method template.
+    sidebar_position: 10
+    type: docx
+    token: Da9KdvvWroKX9cxOwsmcLRBxnVb
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Elastic vector database
+      - Pinecone vs Milvus
+      - Chroma vs Milvus
+      - Annoy vector search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - describeUser()
+      - nodejs30
+  Authentication/dropAllRoles.md:
+    beta: false
+    description: This operation drops all roles in Milvus.
+    sidebar_position: 11
+    type: docx
+    token: E5rYdw3EWo2WKZxEyGac049an3e
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Context Window
+      - Natural language search
+      - Similarity Search
+      - multimodal RAG
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropAllRoles()
+      - nodejs30
+  Authentication/dropPrivilegeGroup.md:
+    beta: false
+    description: This operation adds a user to a specific role.
+    sidebar_position: 12
+    type: docx
+    token: I63tdWAY2ok8V1xrK4tcrkwjncd
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Dense vector
+      - Hierarchical Navigable Small Worlds
+      - Dense embedding
+      - Faiss vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropPrivilegeGroup()
+      - nodejs30
+  Authentication/dropRole.md:
+    beta: false
+    description: This operation drops a custom role.
+    sidebar_position: 13
+    type: docx
+    token: AnkUdEHXmob3Vwx9GIWcDOQanng
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Vector store
+      - open source vector database
+      - Vector index
+      - vector database open source
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropRole()
+      - nodejs30
+  Authentication/grantPrivilegeV2.md:
+    beta: false
+    description: This operation assigns a privilege or a privilege group to a role.
+    sidebar_position: 15
+    type: docx
+    token: R618dfeMYo9GdmxMwe9cQLclncs
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - AI Hallucination
+      - AI Agent
+      - semantic search
+      - Anomaly Detection
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - grantPrivilegeV2()
+      - nodejs30
+  Authentication/grantRole.md:
+    beta: false
+    description: This operation grants a role to a user.
+    sidebar_position: 16
+    type: docx
+    token: LPJsdEnvwo6apcxjhZgc3rpDnuc
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Embedding model
+      - image similarity search
+      - Context Window
+      - Natural language search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - grantRole()
+      - nodejs30
+  Authentication/hasRole.md:
+    beta: false
+    description: This operation checks if a role exists in the Milvus cluster.
+    sidebar_position: 29
+    type: docx
+    token: Beq1d1hDUoTzIsxJ6WTcVtlpnah
+    added_since: v2.6.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Agentic RAG
+      - rag llm architecture
+      - private llms
+      - nn search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - hasRole()
+      - nodejs30
+  Authentication/listGrant.md:
+    beta: false
+    description: This operation lists the privileges granted to the specified role.
+    sidebar_position: 17
+    type: docx
+    token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - what are vector databases
+      - vector databases comparison
+      - Faiss
+      - Video search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listGrant()
+      - nodejs30
+  Authentication/listGrants.md:
+    beta: false
+    description: This operation lists the privileges granted to the specified role.
+    sidebar_position: 18
+    type: docx
+    token: CJ9DdmU1ooquOnxcK5AciA3sn3g
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Managed vector database
+      - Pinecone vector database
+      - Audio search
+      - what is semantic search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listGrants()
+      - nodejs30
+  Authentication/listPrivilegeGroups.md:
+    beta: false
+    description: This operation lists all privilege groups.
+    sidebar_position: 19
+    type: docx
+    token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Video deduplication
+      - Video similarity search
+      - Vector retrieval
+      - Audio similarity search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listPrivilegeGroups()
+      - nodejs30
+  Authentication/listRoles.md:
+    beta: false
+    description: This operation lists all custom roles.
+    sidebar_position: 20
+    type: docx
+    token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - IVF
+      - knn
+      - Image Search
+      - LLMs
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listRoles()
+      - nodejs30
+  Authentication/listUsers.md:
+    beta: false
+    description: This operation lists currently available users.
+    sidebar_position: 21
+    type: docx
+    token: Z0EOd1PXooNeowx4SQgcq3synBc
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - llm hallucinations
+      - hybrid search
+      - lexical search
+      - nearest neighbor search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listUsers()
+      - nodejs30
+  Authentication/removePrivilegesFromGroup.md:
+    beta: false
+    description: This operation removes privileges from a specific privilege group in Milvus.
+    sidebar_position: 22
+    type: docx
+    token: EeAfdukBNoIIgCxX248c6VULnOb
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Vectorization
+      - k nearest neighbor algorithm
+      - ANNS
+      - Vector search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - removePrivilegesFromGroup()
+      - nodejs30
+  Authentication/removeUserFromRole.md:
+    beta: false
+    description: This operation removes a user from a specific role.
+    sidebar_position: 23
+    type: docx
+    token: XmyMdqvDLosr6oxzvhWcw8H2ntg
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Video deduplication
+      - Video similarity search
+      - Vector retrieval
+      - Audio similarity search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - removeUserFromRole()
+      - nodejs30
+  Authentication/revokePrivilegeV2.md:
+    beta: false
+    description: This operation revokes a privilege already assigned to a role.
+    sidebar_position: 26
+    type: docx
+    token: UlAUdLNkCo1Mp8xFZYWclSL9n6b
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Deep Learning
+      - Knowledge base
+      - natural language processing
+      - AI chatbots
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - revokePrivilegeV2()
+      - nodejs30
+  Authentication/revokeRole.md:
+    beta: false
+    description: This operation revokes the role assigned to a user.
+    sidebar_position: 27
+    type: docx
+    token: W7XJdZDHnoFECDxCYoMcrZqrnnd
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector database tutorial
+      - how do vector databases work
+      - vector db comparison
+      - openai vector db
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - revokeRole()
+      - nodejs30
+  Authentication/updateUser.md:
+    beta: false
+    description: This operation updates the password of a specific user.
+    sidebar_position: 28
+    type: docx
+    token: BCGKdCttdotF32xUJTec8UFlndg
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - information retrieval
+      - dimension reduction
+      - hnsw algorithm
+      - vector similarity search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - updateUser()
+      - nodejs30
+  Client/MilvusClient.md:
+    beta: false
+    description: A MilvusClient instance represents a Node.js client that connects to a specific Zilliz Cloud cluster.
+    sidebar_position: 5
+    type: docx
+    token: DsyLdmJr0o7FAfxwPcNct1Bqnth
+    added_since: v2.3.x
+    last_modified: v2.6.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - lexical search
+      - nearest neighbor search
+      - Agentic RAG
+      - rag llm architecture
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - MilvusClient
+      - nodejs30
+  Client/checkCompatibility.md:
+    beta: false
+    description: This operation checks the compatibility of the SDK with the Milvus server.
+    sidebar_position: 1
+    type: docx
+    token: Tq1Md4GuIoNbfuxK03ncIa7onMc
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Anomaly Detection
+      - sentence transformers
+      - Recommender systems
+      - information retrieval
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - checkCompatibility()
+      - nodejs30
+  Client/checkHealth.md:
+    beta: false
+    description: This operation checks the health status of the Milvus server.
+    sidebar_position: 2
+    type: docx
+    token: DDvudeY20o6tV5xwwo4cKovjnHf
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Serverless vector database
+      - milvus open source
+      - how does milvus work
+      - Zilliz vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - checkHealth()
+      - nodejs30
+  Client/close.md:
+    beta: false
+    description: This operation closes a `MilvusClientSession` instance and prevents further session requests.
+    sidebar_position: 6
+    type: docx
+    token: Xwg8dMovYoRP94xNDjOc1TSNnsg
+    added_since: v3.0.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Vector Dimension
+      - ANN Search
+      - What are vector embeddings
+      - vector database tutorial
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - close()
+      - nodejs30
+  Client/closeConnection.md:
+    beta: false
+    description: This operation closes the current connection to the Milvus server.
+    sidebar_position: 3
+    type: docx
+    token: HtOGdjTpOoG0RcxpGv1cCBcEnAh
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Neural Network
+      - Deep Learning
+      - Knowledge base
+      - natural language processing
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - closeConnection()
+      - nodejs30
+  Client/connect.md:
+    beta: false
+    description: This method connects to the Zilliz Cloud cluster using the optionally specified SDK version.
+    sidebar_position: 4
+    type: docx
+    token: SkLsdMpB7oiZLMx8T04cCd9Knqf
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Question answering system
+      - llm-as-a-judge
+      - hybrid vector search
+      - Video deduplication
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - connect()
+      - nodejs30
+  Client/getVersion.md:
+    beta: false
+    description: This operation returns version information for the Milvus server.
+    sidebar_position: 8
+    type: docx
+    token: WA81dokeYotwt9xAiKKcaaIpnxc
+    added_since: v2.6.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector database example
+      - rag vector database
+      - what is vector db
+      - what are vector databases
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getVersion()
+      - nodejs30
+  Client/session.md:
+    beta: false
+    description: This operation creates a lightweight DQL session bound to a target cluster ID. The session injects `clusterid` into search/query/get requests.
+    sidebar_position: 7
+    type: docx
+    token: LPfrdnntOogNMRxwqvCccBgnnve
+    added_since: v3.0.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Video similarity search
+      - Vector retrieval
+      - Audio similarity search
+      - Elastic vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - session()
+      - nodejs30
+  Client/use.md:
+    beta: false
+    description: This operation sets the active database for the gRPC client. After calling this method, all subsequent operations will target the specified database.
+    sidebar_position: 9
+    type: docx
+    token: Dc3JdXF5dogLOLxqUPGclM6jn6f
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - milvus benchmark
+      - managed milvus
+      - Serverless vector database
+      - milvus open source
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - use()
+      - nodejs30
+  Collections/DataType.md:
+    beta: false
+    description: This is an enumeration that provides the following constants.
+    sidebar_position: 6
+    type: docx
+    token: AtLEdt0ZWoUbHoxkfvHcq1ZunUg
+    added_since: v2.3.x
+    last_modified: v2.6.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Retrieval Augmented Generation
+      - Large language model
+      - Vectorization
+      - k nearest neighbor algorithm
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - DataType
+      - nodejs30
+  Collections/FunctionType.md:
+    beta: false
+    description: This is an enumeration that provides the following constants.
+    sidebar_position: 17
+    type: docx
+    token: Vq2VdsWJaoufsGx5stJcTuyPnDb
+    added_since: v2.5.x
+    last_modified: v2.6.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - llm eval
+      - Sparse vs Dense
+      - Dense vector
+      - Hierarchical Navigable Small Worlds
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - FunctionType
+      - nodejs30
+  Collections/addCollectionField.md:
+    beta: false
+    description: This operation adds a new scalar field to an existing collection without recreating it. The field becomes available almost immediately with minimal delay due to internal schema synchronization.
+    sidebar_position: 19
+    type: docx
+    token: BKqIdIm0cop2s0xYjtQcSZL5nth
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - AI Agent
+      - semantic search
+      - Anomaly Detection
+      - sentence transformers
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - addCollectionField()
+      - nodejs30
+  Collections/addCollectionFields.md:
+    beta: false
+    description: This operation adds a list of new scalar fields to an existing collection without recreating it. These fields become available almost immediately with minimal delay due to internal schema synchronization.
+    sidebar_position: 20
+    type: docx
+    token: FmG6dw3O1ouzgbxnl4jc5T7cnXf
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Video similarity search
+      - Vector retrieval
+      - Audio similarity search
+      - Elastic vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - addCollectionFields()
+      - nodejs30
+  Collections/addCollectionFunction.md:
+    beta: false
+    description: This operation adds a custom function to an existing collection.
+    sidebar_position: 21
+    type: docx
+    token: SmI4dGF4qoAjbKxamfhcndjxnCc
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Zilliz database
+      - Unstructured Data
+      - vector database
+      - IVF
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - addCollectionFunction()
+      - nodejs30
+  Collections/alterAlias.md:
+    beta: false
+    description: This operation reassigns the alias of one collection to another.
+    sidebar_position: 1
+    type: docx
+    token: DXTLdtFCso7fo6xJHShc7XLpngh
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Knowledge base
+      - natural language processing
+      - AI chatbots
+      - cosine distance
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterAlias()
+      - nodejs30
+  Collections/alterCollectionFieldProperties.md:
+    beta: false
+    description: This operation modifies the properties of a specified collection field.
+    sidebar_position: 2
+    type: docx
+    token: RQH5dhSenoDGjYxyBb2c3n1rnie
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - DiskANN
+      - Sparse vector
+      - Vector Dimension
+      - ANN Search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterCollectionFieldProperties()
+      - nodejs30
+  Collections/alterCollectionFunction.md:
+    beta: false
+    description: This operation modifies a custom function in an existing collection.
+    sidebar_position: 22
+    type: docx
+    token: DBEFdVorMomen0x4xNEcKkM1n8O
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - knn
+      - Image Search
+      - LLMs
+      - Machine Learning
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterCollectionFunction()
+      - nodejs30
+  Collections/alterCollectionProperties.md:
+    beta: false
+    description: This operation modifies the properties of a specified collection.
+    sidebar_position: 3
+    type: docx
+    token: EHPGdbCP5o7UzCxlDnRc6y5Pn1c
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Zilliz Cloud
+      - what is milvus
+      - milvus database
+      - milvus lite
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterCollectionProperties()
+      - nodejs30
+  Collections/batchDescribeCollections.md:
+    beta: false
+    description: This operation retrieves schema and metadata for multiple collections in a single call.
+    sidebar_position: 23
+    type: docx
+    token: ByKKdHVcAojjyZxKK3PciOTVnQg
+    added_since: v2.6.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - AI Agent
+      - semantic search
+      - Anomaly Detection
+      - sentence transformers
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - batchDescribeCollections()
+      - nodejs30
+  Collections/createAlias.md:
+    beta: false
+    description: This operation creates an alias for an existing collection.
+    sidebar_position: 4
+    type: docx
+    token: MPuIdwujBoXM6rx7Okfc3lhZnUd
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Annoy vector search
+      - milvus
+      - Zilliz
+      - milvus vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createAlias()
+      - nodejs30
+  Collections/createCollection.md:
+    beta: false
+    description: This operation creates a collection either with default or customized settings.
+    sidebar_position: 5
+    type: docx
+    token: KPZZd2TiAodSeWxUdlJciHGcnbg
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Video similarity search
+      - Vector retrieval
+      - Audio similarity search
+      - Elastic vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createCollection()
+      - nodejs30
+  Collections/describeAlias.md:
+    beta: false
+    description: This operation describes a specific alias.
+    sidebar_position: 7
+    type: docx
+    token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - k nearest neighbor algorithm
+      - ANNS
+      - Vector search
+      - knn algorithm
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - describeAlias()
+      - nodejs30
+  Collections/describeCollection.md:
+    beta: false
+    description: This operation lists detailed information about a specific collection.
+    sidebar_position: 8
+    type: docx
+    token: IuTYdjSHHoznXNx5f7jcKqvYnhr
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Natural language search
+      - Similarity Search
+      - multimodal RAG
+      - llm hallucinations
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - describeCollection()
+      - nodejs30
+  Collections/dropAlias.md:
+    beta: false
+    description: This operation drops a specified collection alias.
+    sidebar_position: 9
+    type: docx
+    token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - nlp search
+      - hallucinations llm
+      - Multimodal search
+      - vector search algorithms
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropAlias()
+      - nodejs30
+  Collections/dropCollection.md:
+    beta: false
+    description: This operation drops a collection.
+    sidebar_position: 10
+    type: docx
+    token: KLknda2VtocQSBx7PKVc6F9Nnug
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Sparse vs Dense
+      - Dense vector
+      - Hierarchical Navigable Small Worlds
+      - Dense embedding
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropCollection()
+      - nodejs30
+  Collections/dropCollectionFunction.md:
+    beta: false
+    description: This operation removes a custom function from an existing collection.
+    sidebar_position: 24
+    type: docx
+    token: T6xNdPPtsotGiYxL1WActF3qnxb
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Zilliz
+      - milvus vector database
+      - milvus db
+      - milvus vector db
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropCollectionFunction()
+      - nodejs30
+  Collections/dropCollectionProperties.md:
+    beta: false
+    description: This operation resets the properties of a specific collection to their default values.
+    sidebar_position: 11
+    type: docx
+    token: EjFMdRFz0ofehXxxCPqc6raSnAg
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - nlp search
+      - hallucinations llm
+      - Multimodal search
+      - vector search algorithms
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropCollectionProperties()
+      - nodejs30
+  Collections/getCollectionStatistics.md:
+    beta: false
+    description: This operation lists the statistics collected on a specific collection.
+    sidebar_position: 12
+    type: docx
+    token: LQMGdRHjKogdeMxekCtcdBLqnNf
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - nn search
+      - llm eval
+      - Sparse vs Dense
+      - Dense vector
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getCollectionStatistics()
+      - nodejs30
+  Collections/getPkField.md:
+    beta: false
+    description: This operation gets the complete primary field schema of a collection. This is a convenient method that describes the collection and extracts the primary key field.
+    sidebar_position: 25
+    type: docx
+    token: LmnudtyV5owY2zx5D9WcENcsnFg
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector databases comparison
+      - Faiss
+      - Video search
+      - AI Hallucination
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getPkField()
+      - nodejs30
+  Collections/getPkFieldName.md:
+    beta: false
+    description: This operation gets the primary key field name of a collection. This is a convenient method that describes the collection and extracts the primary key field name.
+    sidebar_position: 26
+    type: docx
+    token: WiVnd8VXooFQ9PxVgiyc7FkqnAg
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - how does milvus work
+      - Zilliz vector database
+      - Zilliz database
+      - Unstructured Data
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getPkFieldName()
+      - nodejs30
+  Collections/getPkFieldType.md:
+    beta: false
+    description: This operation returns the primary key field's data type for a collection. This is a convenient method that describes the collection and extracts the primary key field type.
+    sidebar_position: 27
+    type: docx
+    token: AKpldMJPTo6MfuxxrpicBKRInCh
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector similarity search
+      - approximate nearest neighbor search
+      - DiskANN
+      - Sparse vector
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getPkFieldType()
+      - nodejs30
+  Collections/getRefreshExternalCollectionProgress.md:
+    beta: false
+    description: This operation checks the progress of a refresh job for an external collection. Use the jobid returned by refreshExternalCollection().
+    sidebar_position: 29
+    type: docx
+    token: E7pZd2Yfzolgiyxcvz8cSFfKnoc
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Anomaly Detection
+      - sentence transformers
+      - Recommender systems
+      - information retrieval
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getRefreshExternalCollectionProgress()
+      - nodejs30
+  Collections/hasCollection.md:
+    beta: false
+    description: This operation checks whether a specific collection exists.
+    sidebar_position: 13
+    type: docx
+    token: FhbbdNrlNouBXJxHIdKctXVKnmf
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Natural language search
+      - Similarity Search
+      - multimodal RAG
+      - llm hallucinations
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - hasCollection()
+      - nodejs30
+  Collections/listAliases.md:
+    beta: false
+    description: This is a method template.
+    sidebar_position: 14
+    type: docx
+    token: KeoKdlitaog6n1xpX8McIIIrnWb
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - what is semantic search
+      - Embedding model
+      - image similarity search
+      - Context Window
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listAliases()
+      - nodejs30
+  Collections/listCollections.md:
+    beta: false
+    description: This operation lists all existing collections.
+    sidebar_position: 15
+    type: docx
+    token: Djg7dlb5NoINz9xOAs1cyY67nsh
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - how does milvus work
+      - Zilliz vector database
+      - Zilliz database
+      - Unstructured Data
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listCollections()
+      - nodejs30
+  Collections/listRefreshExternalCollectionJobs.md:
+    beta: false
+    description: This operation lists all refresh jobs for external collections. You can filter by collection name and database name.
+    sidebar_position: 30
+    type: docx
+    token: AG5zdQCpXoy11MxWgD0ciYBRnJb
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - AI Agent
+      - semantic search
+      - Anomaly Detection
+      - sentence transformers
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listRefreshExternalCollectionJobs()
+      - nodejs30
+  Collections/refreshExternalCollection.md:
+    beta: false
+    description: This operation triggers a data refresh for an external collection. Use this when the external data source has been updated and you want Milvus to reload the data.
+    sidebar_position: 31
+    type: docx
+    token: JoiWdRIFcojRI4xVXnCclEoVnh2
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Audio similarity search
+      - Elastic vector database
+      - Pinecone vs Milvus
+      - Chroma vs Milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - refreshExternalCollection()
+      - nodejs30
+  Collections/renameCollection.md:
+    beta: false
+    description: This operation renames an existing collection.
+    sidebar_position: 16
+    type: docx
+    token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Zilliz database
+      - Unstructured Data
+      - vector database
+      - IVF
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - renameCollection()
+      - nodejs30
+  Collections/runAnalyzer.md:
+    beta: false
+    description: This operation runs an analyzer on the provided text for test purposes.
+    sidebar_position: 18
+    type: docx
+    token: LsMldPd8GodoVqxCAZUcWYjdnwh
+    added_since: v2.5.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Vector search
+      - knn algorithm
+      - HNSW
+      - What is unstructured data
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - runAnalyzer()
+      - nodejs30
+  Collections/truncateCollection.md:
+    beta: false
+    description: This operation removes all data from a collection but retains the collection schema and structure.
+    sidebar_position: 28
+    type: docx
+    token: J0IBdbw3Voyqw9xnInUcn9EonTe
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - cheap vector database
+      - Managed vector database
+      - Pinecone vector database
+      - Audio search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - truncateCollection()
+      - nodejs30
+  DataImport/BulkWriter.md:
+    beta: false
+    description: This class generates Milvus-compatible JSON or Parquet files for offline bulk import workflows. Use it when a dataset is too large for normal row-by-row insert operations and should be staged as files before calling `bulkInsert()`.
+    sidebar_position: 10
+    type: docx
+    token: RSrRdD4fLoy50Bx5s2xcQ6lMnVd
+    added_since: v2.6.12
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - cosine distance
+      - what is a vector database
+      - vectordb
+      - multimodal vector database retrieval
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - BulkWriter
+      - nodejs30
+  DataImport/BulkWriterOptions.md:
+    beta: false
+    description: This interface configures a `BulkWriter` instance, including schema validation, storage behavior, file format, chunk size, and local output path.
+    sidebar_position: 11
+    type: docx
+    token: Q9UUdw8VWojtDtx2h00chPvRnqh
+    added_since: v2.6.12
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Deep Learning
+      - Knowledge base
+      - natural language processing
+      - AI chatbots
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - BulkWriterOptions
+      - nodejs30
+  DataImport/BulkWriterSchema.md:
+    beta: false
+    description: This interface describes the collection schema used by `BulkWriter` to validate rows and generate JSON or Parquet files that Milvus can import.
+    sidebar_position: 12
+    type: docx
+    token: U7w6d4gUioGzw2xmYqvcFz1Jnub
+    added_since: v2.6.12
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - private llms
+      - nn search
+      - llm eval
+      - Sparse vs Dense
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - BulkWriterSchema
+      - nodejs30
+  DataImport/FlushEvent.md:
+    beta: false
+    description: This interface describes a `BulkWriter` flush event. It reports the files generated for a chunk, the row count in that chunk, and the chunk index.
+    sidebar_position: 13
+    type: docx
+    token: RC5YdaKIhoRU0ZxU48OcJxn7nS2
+    added_since: v2.6.12
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - managed milvus
+      - Serverless vector database
+      - milvus open source
+      - how does milvus work
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - FlushEvent
+      - nodejs30
+  DataImport/Formatter.md:
+    beta: false
+    description: This interface serializes buffered `BulkWriter` columns into one or more files. The SDK provides JSON and Parquet formatter implementations.
+    sidebar_position: 14
+    type: docx
+    token: CkuWdW6EXo8o9nxZsIrcBiSGn4d
+    added_since: v2.6.12
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - lexical search
+      - nearest neighbor search
+      - Agentic RAG
+      - rag llm architecture
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - Formatter
+      - nodejs30
+  DataImport/HttpImportCreateReq.md:
+    beta: false
+    description: This interface defines the request body for `createImportJobs()`.
+    sidebar_position: 3
+    type: docx
+    token: MUzJdvT3LoZz65xpAPMcnvo2nbb
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Video deduplication
+      - Video similarity search
+      - Vector retrieval
+      - Audio similarity search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - HttpImportCreateReq
+      - nodejs30
+  DataImport/HttpImportCreateResponse.md:
+    beta: false
+    description: This interface describes the response returned by `createImportJobs()`.
+    sidebar_position: 4
+    type: docx
+    token: CZ3DduFXkoyoX9xJs9ic2HkRnqc
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Chroma vector database
+      - nlp search
+      - hallucinations llm
+      - Multimodal search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - HttpImportCreateResponse
+      - nodejs30
+  DataImport/HttpImportListResponse.md:
+    beta: false
+    description: This interface describes the response returned by `listImportJobs()`.
+    sidebar_position: 5
+    type: docx
+    token: L709dd1mWo6CFjxi2ygczQmpn9e
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - natural language processing
+      - AI chatbots
+      - cosine distance
+      - what is a vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - HttpImportListResponse
+      - nodejs30
+  DataImport/HttpImportProgressReq.md:
+    beta: false
+    description: This interface defines the request body for `getImportJobProgress()`.
+    sidebar_position: 6
+    type: docx
+    token: Yb27dGNgwoXKmHx0yyZc4n45nr9
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - hallucinations llm
+      - Multimodal search
+      - vector search algorithms
+      - Question answering system
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - HttpImportProgressReq
+      - nodejs30
+  DataImport/HttpImportProgressResponse.md:
+    beta: false
+    description: This interface describes the response returned by `getImportJobProgress()`.
+    sidebar_position: 7
+    type: docx
+    token: WadbddIBYoC4GcxDzORcjMQYnmW
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - sentence transformers
+      - Recommender systems
+      - information retrieval
+      - dimension reduction
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - HttpImportProgressResponse
+      - nodejs30
+  DataImport/Storage.md:
+    beta: false
+    description: This interface stores files produced by `BulkWriter`. Use it to upload generated files to object storage or another remote location before calling `bulkInsert()`.
+    sidebar_position: 16
+    type: docx
+    token: DsLHde5AWomjFhxD3K7c4Yklnlh
+    added_since: v2.6.12
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - milvus lite
+      - milvus benchmark
+      - managed milvus
+      - Serverless vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - Storage
+      - nodejs30
+  DataImport/bulkInsert.md:
+    beta: false
+    description: This operation imports the data from a specified data file into Milvus.
+    sidebar_position: 9
+    type: docx
+    token: V65MdZWnsoMwpfxkt0sc5qQPnbb
+    added_since: inherit
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Natural language search
+      - Similarity Search
+      - multimodal RAG
+      - llm hallucinations
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - bulkInsert()
+      - nodejs30
+  DataImport/createImportJobs.md:
+    beta: false
+    description: This operation creates an HTTP import job from file groups. Use it after preparing files in object storage or another location accessible to the Milvus import service.
+    sidebar_position: 1
+    type: docx
+    token: PGmQdpQ8roiLJVxJSZrcbnAVn1e
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - multimodal RAG
+      - llm hallucinations
+      - hybrid search
+      - lexical search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createImportJobs()
+      - nodejs30
+  DataImport/getImportState.md:
+    beta: false
+    description: This operation retrieves the current state and metadata of a specific import task. Use this to poll for completion after calling `bulkInsert()`.
+    sidebar_position: 17
+    type: docx
+    token: DJ4NdIIQ4oeA7gx4bDQcxT3gn0c
+    added_since: v2.6.12
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector similarity search
+      - approximate nearest neighbor search
+      - DiskANN
+      - Sparse vector
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getImportState()
+      - nodejs30
+  DataImport/listImportJobs.md:
+    beta: false
+    description: This operation lists import jobs submitted through the HTTP import job API. Use it to review job IDs, collection names, progress, and state.
+    sidebar_position: 8
+    type: docx
+    token: CdK7dr8pyo36PZxpGFKcrZsjnEf
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - k nearest neighbor algorithm
+      - ANNS
+      - Vector search
+      - knn algorithm
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listImportJobs()
+      - nodejs30
+  DataImport/listImportTasks.md:
+    beta: false
+    description: List import tasks for a collection, showing the status and details of bulk import operations.
+    sidebar_position: 15
+    type: docx
+    token: KX8pd5PnGoo8UAx8QhhcI5YpnHg
+    added_since: inherit
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - milvus database
+      - milvus lite
+      - milvus benchmark
+      - managed milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listImportTasks()
+      - nodejs30
+  Database/alterDatabase.md:
+    beta: false
+    description: This operation modifies database properties, such as setting or deleting configuration key-value pairs.
+    sidebar_position: 1
+    type: docx
+    token: HTGgd3icQo2ssuxywUocz02Enhe
+    added_since: v2.6.x
+    last_modified: v2.6.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Audio similarity search
+      - Elastic vector database
+      - Pinecone vs Milvus
+      - Chroma vs Milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterDatabase()
+      - nodejs30
+  Database/alterDatabaseProperties.md:
+    beta: false
+    description: This operation modifies the properties of the specified database.
+    sidebar_position: 7
+    type: docx
+    token: NNWed9Vd1o7vDkxY4pncM4wYnaf
+    added_since: v2.5.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - nearest neighbor search
+      - Agentic RAG
+      - rag llm architecture
+      - private llms
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterDatabaseProperties()
+      - nodejs30
+  Database/createDatabase.md:
+    beta: false
+    description: This operation creates a database.
+    sidebar_position: 2
+    type: docx
+    token: UouKd4h01oL9Rqx73jjcHM3enSh
+    added_since: v2.3.x
+    last_modified: v2.6.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - milvus database
+      - milvus lite
+      - milvus benchmark
+      - managed milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createDatabase()
+      - nodejs30
+  Database/describeDatabase.md:
+    beta: false
+    description: This operation describes a database, returning details such as the database name, ID, creation timestamp, and properties.
+    sidebar_position: 8
+    type: docx
+    token: PzXldcfljoU9rOx9TFUcIoNknt6
+    added_since: v2.6.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Zilliz
+      - milvus vector database
+      - milvus db
+      - milvus vector db
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - describeDatabase()
+      - nodejs30
+  Database/dropDatabase.md:
+    beta: false
+    description: This operation drops a database.
+    sidebar_position: 3
+    type: docx
+    token: Ja99dnnaOoncwbx2zIPc4PjunXx
+    added_since: v2.3.x
+    last_modified: v2.5.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector databases comparison
+      - Faiss
+      - Video search
+      - AI Hallucination
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropDatabase()
+      - nodejs30
+  Database/dropDatabaseProperties.md:
+    beta: false
+    description: This operation drops the setting of the specified properties.
+    sidebar_position: 4
+    type: docx
+    token: GulFdOWMboEK9bxnzMSc8Uf8n8b
+    added_since: v2.5.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Anomaly Detection
+      - sentence transformers
+      - Recommender systems
+      - information retrieval
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropDatabaseProperties()
+      - nodejs30
+  Database/listDatabases.md:
+    beta: false
+    description: This operation lists all existing databases.
+    sidebar_position: 5
+    type: docx
+    token: DZMUdKbtfoT1HbxaXEDcgFkJnsh
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Audio similarity search
+      - Elastic vector database
+      - Pinecone vs Milvus
+      - Chroma vs Milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listDatabases()
+      - nodejs30
+  Database/useDatabase.md:
+    beta: false
+    description: This operation sets the active database for the gRPC client.
+    sidebar_position: 6
+    type: docx
+    token: NDcldy9OLo62DLxw1a9cFSLsnYb
+    added_since: v2.3.x
+    last_modified: v2.5.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Knowledge base
+      - natural language processing
+      - AI chatbots
+      - cosine distance
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - useDatabase()
+      - nodejs30
+  Management/IndexType.md:
+    beta: false
+    description: This is an enumeration that provides the following constants.
+    sidebar_position: 15
+    type: docx
+    token: SI3Td00AroRtx8xXQcUce8i2nrb
+    added_since: v2.3.x
+    last_modified: v2.6.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector database tutorial
+      - how do vector databases work
+      - vector db comparison
+      - openai vector db
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - IndexType
+      - nodejs30
+  Management/MetricType.md:
+    beta: false
+    description: This is an enumeration that provides the following constants.
+    sidebar_position: 21
+    type: docx
+    token: KQDEdcccXozuKpxDg78cSmxYnQg
+    added_since: v2.3.x
+    last_modified: v2.6.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Faiss
+      - Video search
+      - AI Hallucination
+      - AI Agent
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - MetricType
+      - nodejs30
+  Management/alterIndexProperties.md:
+    beta: false
+    description: This operation modifies the settings of specific index properties.
+    sidebar_position: 1
+    type: docx
+    token: PcQcdDwthoSEZaxI6GncpUpGnBh
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - AI chatbots
+      - cosine distance
+      - what is a vector database
+      - vectordb
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterIndexProperties()
+      - nodejs30
+  Management/compact.md:
+    beta: false
+    description: This operation compacts and merges small segments into a larger one to save memory usage and improve search performance.
+    sidebar_position: 2
+    type: docx
+    token: DCK5d56UZop0kGxpQu8cLqlvndg
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - hybrid search
+      - lexical search
+      - nearest neighbor search
+      - Agentic RAG
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - compact()
+      - nodejs30
+  Management/createIndex.md:
+    beta: false
+    description: This operation creates an index for a specific collection.
+    sidebar_position: 3
+    type: docx
+    token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
+    added_since: v2.3.x
+    last_modified: v2.5.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - knn
+      - Image Search
+      - LLMs
+      - Machine Learning
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createIndex()
+      - nodejs30
+  Management/describeIndex.md:
+    beta: false
+    description: This operation describes a specific index.
+    sidebar_position: 4
+    type: docx
+    token: PePIdiq9po6cplxAoF6ca5C2ntb
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - knn
+      - Image Search
+      - LLMs
+      - Machine Learning
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - describeIndex()
+      - nodejs30
+  Management/dropIndex.md:
+    beta: false
+    description: This operation drops an index from a specific collection.
+    sidebar_position: 5
+    type: docx
+    token: UBbndftiQo2HdOxUNtocIISnnVh
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - how do vector databases work
+      - vector db comparison
+      - openai vector db
+      - natural language processing database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropIndex()
+      - nodejs30
+  Management/dropIndexProperties.md:
+    beta: false
+    description: This operation resets the index properties to their default values.
+    sidebar_position: 6
+    type: docx
+    token: Acvxd7t9poXj6nxb0vMco0wsngh
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - hybrid vector search
+      - Video deduplication
+      - Video similarity search
+      - Vector retrieval
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropIndexProperties()
+      - nodejs30
+  Management/flush.md:
+    beta: false
+    description: This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection.
+    sidebar_position: 7
+    type: docx
+    token: E2XJd4ZHvoc7QlxyrEJcrOJOn9f
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - HNSW
+      - What is unstructured data
+      - Vector embeddings
+      - Vector store
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - flush()
+      - nodejs30
+  Management/flushAll.md:
+    beta: false
+    description: This operation flushes all collections, sealing all segments and persisting data on disk.
+    sidebar_position: 22
+    type: docx
+    token: Zyi9dGUnQodt7MxIq17cyN54nOd
+    added_since: v2.6.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Pinecone vector database
+      - Audio search
+      - what is semantic search
+      - Embedding model
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - flushAll()
+      - nodejs30
+  Management/flushAllSync.md:
+    beta: false
+    description: This operation flushes all collections and waits until the flush operation is completed. It internally calls flushAll followed by polling getFlushAllState until the flush is complete.
+    sidebar_position: 23
+    type: docx
+    token: HoRIdZtHjosja7xOdNPc8CConrb
+    added_since: v2.6.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - milvus db
+      - milvus vector db
+      - Zilliz Cloud
+      - what is milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - flushAllSync()
+      - nodejs30
+  Management/flushSync.md:
+    beta: false
+    description: This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection. This is the synchronous function that ensures the flush operation is complete before the function returns.
+    sidebar_position: 8
+    type: docx
+    token: QsTwdUbgyoZPV1xzCBxchX8Fnid
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - multimodal vector database retrieval
+      - Retrieval Augmented Generation
+      - Large language model
+      - Vectorization
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - flushSync()
+      - nodejs30
+  Management/getCompactionState.md:
+    beta: false
+    description: This operation lists the statistics collected on a specific collection.
+    sidebar_position: 9
+    type: docx
+    token: CRFLdvgkhoeRikxMcMAcJk3qnIc
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - milvus benchmark
+      - managed milvus
+      - Serverless vector database
+      - milvus open source
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getCompactionState()
+      - nodejs30
+  Management/getFlushAllState.md:
+    beta: false
+    description: This operation checks whether a flush-all operation has completed.
+    sidebar_position: 25
+    type: docx
+    token: WgfTdXbMmoFhO9xBpencxLRRnbb
+    added_since: v2.6.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - image similarity search
+      - Context Window
+      - Natural language search
+      - Similarity Search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getFlushAllState()
+      - nodejs30
+  Management/getFlushState.md:
+    beta: false
+    description: This operation returns the flush status of a specific segment.
+    sidebar_position: 10
+    type: docx
+    token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Neural Network
+      - Deep Learning
+      - Knowledge base
+      - natural language processing
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getFlushState()
+      - nodejs30
+  Management/getIndexBuildProgress.md:
+    beta: false
+    description: This operation gets the build progress of the specified index.
+    sidebar_position: 11
+    type: docx
+    token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Pinecone vector database
+      - Audio search
+      - what is semantic search
+      - Embedding model
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getIndexBuildProgress()
+      - nodejs30
+  Management/getIndexState.md:
+    beta: false
+    description: This operation gets the status of the specified index.
+    sidebar_position: 12
+    type: docx
+    token: HqE5d2jOroEuObxIjkZcHkX4nWX
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - k nearest neighbor algorithm
+      - ANNS
+      - Vector search
+      - knn algorithm
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getIndexState()
+      - nodejs30
+  Management/getLoadState.md:
+    beta: false
+    description: This operation displays whether a specified collection or partition is loaded or not.
+    sidebar_position: 14
+    type: docx
+    token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - what is semantic search
+      - Embedding model
+      - image similarity search
+      - Context Window
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getLoadState()
+      - nodejs30
+  Management/getLoadingProgress.md:
+    beta: false
+    description: This operation gets the loading progress of a specific collection.
+    sidebar_position: 13
+    type: docx
+    token: DkImdRkJwoUmdqxzqn1cpQr9nhy
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Natural language search
+      - Similarity Search
+      - multimodal RAG
+      - llm hallucinations
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getLoadingProgress()
+      - nodejs30
+  Management/getReplicas.md:
+    beta: false
+    description: This operation gets replicas of a collection, returning information about each replica including its ID, node assignments, and shard details.
+    sidebar_position: 28
+    type: docx
+    token: XKRWdKvQVolmduxrtrDc0dhjnzc
+    added_since: v2.6.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - image similarity search
+      - Context Window
+      - Natural language search
+      - Similarity Search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getReplicas()
+      - nodejs30
+  Management/listIndexes.md:
+    beta: false
+    description: This operation lists the indexes of a specific collection
+    sidebar_position: 16
+    type: docx
+    token: N1fldMqhtoWBJPxh8VccivqxnZd
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Neural Network
+      - Deep Learning
+      - Knowledge base
+      - natural language processing
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listIndexes()
+      - nodejs30
+  Management/loadCollection.md:
+    beta: false
+    description: This operation loads the data of a specific collection into memory.
+    sidebar_position: 17
+    type: docx
+    token: LoNvdRK80oWllFxV0H6co0HrnBe
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - nn search
+      - llm eval
+      - Sparse vs Dense
+      - Dense vector
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - loadCollection()
+      - nodejs30
+  Management/loadCollectionAsync.md:
+    beta: false
+    description: This operation loads collection data into query nodes, then you can do vector search on this collection. This is an async function — use `getLoadState()` or `getLoadingProgress()` to check loading status.
+    sidebar_position: 30
+    type: docx
+    token: SqSZdmSoVoBuiSxe1a1cdOuZnDd
+    added_since: v2.6.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Pinecone vs Milvus
+      - Chroma vs Milvus
+      - Annoy vector search
+      - milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - loadCollectionAsync()
+      - nodejs30
+  Management/loadCollectionSync.md:
+    beta: false
+    description: This operation loads the data of a specific collection into memory. This is the synchronous function that helps to ensure that the specified collection has been loaded.
+    sidebar_position: 18
+    type: docx
+    token: XXUAdI8T2oOmw2x7iITc8vJgnjm
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - DiskANN
+      - Sparse vector
+      - Vector Dimension
+      - ANN Search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - loadCollectionSync()
+      - nodejs30
+  Management/refreshLoad.md:
+    beta: false
+    description: This operation refreshes the loading status of a specific collection.
+    sidebar_position: 19
+    type: docx
+    token: Jc43d397doxCRkxal2XcQ1Wyn2g
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Pinecone vs Milvus
+      - Chroma vs Milvus
+      - Annoy vector search
+      - milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - refreshLoad()
+      - nodejs30
+  Management/releaseCollection.md:
+    beta: false
+    description: This operation releases the data of a specific collection from memory.
+    sidebar_position: 20
+    type: docx
+    token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - k nearest neighbor algorithm
+      - ANNS
+      - Vector search
+      - knn algorithm
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - releaseCollection()
+      - nodejs30
+  Partitions/createPartition.md:
+    beta: false
+    description: This operation creates a partition in the target collection.
+    sidebar_position: 1
+    type: docx
+    token: PPLtdSbtfomgF1x5MHncKPgPnSf
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - knn
+      - Image Search
+      - LLMs
+      - Machine Learning
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createPartition()
+      - nodejs30
+  Partitions/dropPartition.md:
+    beta: false
+    description: This operation drops a specified partition from the current collection.
+    sidebar_position: 2
+    type: docx
+    token: BBmsddqZEozxWyxkoADcFfzpncW
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Serverless vector database
+      - milvus open source
+      - how does milvus work
+      - Zilliz vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropPartition()
+      - nodejs30
+  Partitions/getPartitionStatistics.md:
+    beta: false
+    description: This operation displays the statistics collected on a specific partition.
+    sidebar_position: 3
+    type: docx
+    token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - openai vector db
+      - natural language processing database
+      - cheap vector database
+      - Managed vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getPartitionStatistics()
+      - nodejs30
+  Partitions/hasPartition.md:
+    beta: false
+    description: This operation checks whether the specified partition exists in the specified collection.
+    sidebar_position: 4
+    type: docx
+    token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - how does milvus work
+      - Zilliz vector database
+      - Zilliz database
+      - Unstructured Data
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - hasPartition()
+      - nodejs30
+  Partitions/listPartitions.md:
+    beta: false
+    description: This operation lists the partitions in a specified collection.
+    sidebar_position: 5
+    type: docx
+    token: IvnLd6nXooRR6NxM9jdcDxCHnhh
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Serverless vector database
+      - milvus open source
+      - how does milvus work
+      - Zilliz vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listPartitions()
+      - nodejs30
+  Partitions/loadPartitions.md:
+    beta: false
+    description: This operation loads a specific set of partitions in a specified collection into memory.
+    sidebar_position: 6
+    type: docx
+    token: Pyh3dttWKoBqcBx8FGhcArhAnqg
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector database
+      - IVF
+      - knn
+      - Image Search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - loadPartitions()
+      - nodejs30
+  Partitions/loadPartitionsSync.md:
+    beta: false
+    description: This operation loads the data of specific partitions into memory. This is the synchronous function that helps to ensure that the specified partitions have been loaded.
+    sidebar_position: 7
+    type: docx
+    token: VGofdSRi0o6EagxNkokc9Iinndf
+    added_since: v2.4.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Zilliz
+      - milvus vector database
+      - milvus db
+      - milvus vector db
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - loadPartitionsSync()
+      - nodejs30
+  Partitions/releasePartitions.md:
+    beta: false
+    description: This operation releases the partitions in a specified collection from memory.
+    sidebar_position: 8
+    type: docx
+    token: Sqoed1lkwo8umixJJO1cvKIxnZc
+    added_since: v2.3.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - AI Agent
+      - semantic search
+      - Anomaly Detection
+      - sentence transformers
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - releasePartitions()
+      - nodejs30
+  Snapshot/createSnapshot.md:
+    beta: false
+    description: This operation creates a snapshot for a collection. A snapshot captures the current state of a collection and its data.
+    sidebar_position: 1
+    type: docx
+    token: NeUFdr0OXo90RExodnccqc3OnYU
+    added_since: v3.0.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - semantic search
+      - Anomaly Detection
+      - sentence transformers
+      - Recommender systems
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createSnapshot()
+      - nodejs30
+  Snapshot/describeSnapshot.md:
+    beta: false
+    description: This operation retrieves detailed information about a specific snapshot.
+    sidebar_position: 2
+    type: docx
+    token: KNOwdbcYXoVwGEx8ysScLO1CnUd
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector search algorithms
+      - Question answering system
+      - llm-as-a-judge
+      - hybrid vector search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - describeSnapshot()
+      - nodejs30
+  Snapshot/dropSnapshot.md:
+    beta: false
+    description: This operation deletes a snapshot for a collection.
+    sidebar_position: 3
+    type: docx
+    token: DgiOdVOuLoKWFPxzKyucGV8Tnfb
+    added_since: v3.0.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - milvus vector database
+      - milvus db
+      - milvus vector db
+      - Zilliz Cloud
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropSnapshot()
+      - nodejs30
+  Snapshot/getRestoreSnapshotState.md:
+    beta: false
+    description: This operation checks the state of a snapshot restore job. Use the jobid returned by restoreSnapshot().
+    sidebar_position: 4
+    type: docx
+    token: IHY0di5uzooBe8xOCJqci9vinNh
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Context Window
+      - Natural language search
+      - Similarity Search
+      - multimodal RAG
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getRestoreSnapshotState()
+      - nodejs30
+  Snapshot/listRestoreSnapshotJobs.md:
+    beta: false
+    description: This operation lists all snapshot restore jobs. You can filter by target collection name and database name.
+    sidebar_position: 5
+    type: docx
+    token: TIXDdW1BmoPA3FxX0ONczHFqnKf
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Retrieval Augmented Generation
+      - Large language model
+      - Vectorization
+      - k nearest neighbor algorithm
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listRestoreSnapshotJobs()
+      - nodejs30
+  Snapshot/listSnapshots.md:
+    beta: false
+    description: This operation lists all snapshots for a collection.
+    sidebar_position: 6
+    type: docx
+    token: VjhTds7NPoyPjBxk4PNc5pe0nw6
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - AI Hallucination
+      - AI Agent
+      - semantic search
+      - Anomaly Detection
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listSnapshots()
+      - nodejs30
+  Snapshot/pinSnapshotData.md:
+    beta: false
+    description: This operation pins snapshot data to prevent it from being garbage collected. Use this to ensure a snapshot remains available for restoration.
+    sidebar_position: 7
+    type: docx
+    token: Bx6FdwVlUoqZjVxZwSFcnUr2nDe
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Agentic RAG
+      - rag llm architecture
+      - private llms
+      - nn search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - pinSnapshotData()
+      - nodejs30
+  Snapshot/restoreSnapshot.md:
+    beta: false
+    description: This operation restores a collection from a snapshot to a new or existing collection.
+    sidebar_position: 8
+    type: docx
+    token: PpuUdB9bLoL1UUxfIH4cxXkXnSb
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - natural language processing
+      - AI chatbots
+      - cosine distance
+      - what is a vector database
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - restoreSnapshot()
+      - nodejs30
+  Snapshot/unpinSnapshotData.md:
+    beta: false
+    description: This operation unpins snapshot data, allowing it to be garbage collected when no longer needed.
+    sidebar_position: 9
+    type: docx
+    token: IjXedJe6poxhmAx6hFpcpNyJnsb
+    added_since: v3.0.x
+    last_modified: "false"
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vectordb
+      - multimodal vector database retrieval
+      - Retrieval Augmented Generation
+      - Large language model
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - unpinSnapshotData()
+      - nodejs30
+  Vector/count.md:
+    beta: false
+    description: This operation counts the number of entities that match the specified filtering expression.
+    sidebar_position: 1
+    type: docx
+    token: NaOadUNSpo1EsIxPMSfc0R4Hnfb
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Video search
+      - AI Hallucination
+      - AI Agent
+      - semantic search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - count()
+      - nodejs30
+  Vector/delete.md:
+    beta: false
+    description: This operation deletes entities by their IDs or with a boolean expression.
+    sidebar_position: 2
+    type: docx
+    token: KOZHdyeQvo4htOxhO8BcbEudnNd
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - cheap vector database
+      - Managed vector database
+      - Pinecone vector database
+      - Audio search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - delete()
+      - nodejs30
+  Vector/get.md:
+    beta: false
+    description: This operation gets specific entities by their IDs.
+    sidebar_position: 3
+    type: docx
+    token: IbxXdvdZlonJk9xnlk2cZlIinCh
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - vector databases comparison
+      - Faiss
+      - Video search
+      - AI Hallucination
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - get()
+      - nodejs30
+  Vector/hybridSearch.md:
+    beta: false
+    description: This operation conducts a hybrid search across multiple vector fields with an optional scalar filtering expression and returns the merged, reranked results.
+    sidebar_position: 4
+    type: docx
+    token: Ph9ldBswooKwebxKI9EcqSu4nlc
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Audio similarity search
+      - Elastic vector database
+      - Pinecone vs Milvus
+      - Chroma vs Milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - hybridSearch()
+      - nodejs30
+  Vector/insert.md:
+    beta: false
+    description: This operation inserts data into a specific collection.
+    sidebar_position: 5
+    type: docx
+    token: SZNQds74zoKniRxtJwdcfdz1nCh
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Audio similarity search
+      - Elastic vector database
+      - Pinecone vs Milvus
+      - Chroma vs Milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - insert()
+      - nodejs30
+  Vector/query.md:
+    beta: false
+    description: This operation conducts a scalar filtering with a specified boolean expression.
+    sidebar_position: 6
+    type: docx
+    token: Nle5dNFMuoy3MgxGIFGcJDWtnpg
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Question answering system
+      - llm-as-a-judge
+      - hybrid vector search
+      - Video deduplication
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - query()
+      - nodejs30
+  Vector/queryIterator.md:
+    beta: false
+    description: This operation conducts a vector similarity search iteratively and returns results in batches. Use this instead of a single search() call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return.
+    sidebar_position: 11
+    type: docx
+    token: YZ3GdmklAolLnux8LRhcw7hxnvd
+    added_since: v2.4.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - LLMs
+      - Machine Learning
+      - RAG
+      - NLP
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - queryIterator()
+      - nodejs30
+  Vector/search.md:
+    beta: false
+    description: This operation conducts a vector similarity search with an optional scalar filtering expression.
+    sidebar_position: 7
+    type: docx
+    token: HYv3d0NiRoc09Bx4rz0cIhqknb5
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - multimodal RAG
+      - llm hallucinations
+      - hybrid search
+      - lexical search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - search()
+      - nodejs30
+  Vector/searchIterator.md:
+    beta: false
+    description: This operation conducts a scalar filtering query iteratively and returns results in batches. Use this instead of a single query() call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return.
+    sidebar_position: 9
+    type: docx
+    token: K5APdBqphoQG7vxU4P2ccr5Wnig
+    added_since: v2.5.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Audio similarity search
+      - Elastic vector database
+      - Pinecone vs Milvus
+      - Chroma vs Milvus
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - searchIterator()
+      - nodejs30
+  Vector/upsert.md:
+    beta: false
+    description: This operation inserts or updates data in a specific collection.
+    sidebar_position: 8
+    type: docx
+    token: LEptdqqfcoqdtCx0LO1c3yxvnBo
+    added_since: v2.3.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - Vector embeddings
+      - Vector store
+      - open source vector database
+      - Vector index
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - upsert()
+      - nodejs30
+  Authentication/:
+    sidebar_position: 7
+  Client/:
+    sidebar_position: 1
+  Collections/:
+    sidebar_position: 2
+  DataImport/:
+    title: Data Import
+    sidebar_position: 3
+  Database/:
+    sidebar_position: 8
+  Management/:
+    sidebar_position: 4
+  Partitions/:
+    sidebar_position: 9
+  Snapshot/:
+    sidebar_position: 5
+  Vector/:
+    sidebar_position: 6
+exclude:
+  - FileResources/
+  - ResourceGroup/
+  - About.md
+  - Authentication/GrantEntity.md
+  - Authentication/PrivelegeGroup.md
+  - Authentication/PrivilegeEntity.md
+  - Authentication/RBACMeta.md
+  - Authentication/RoleEntity.md
+  - Authentication/User.md
+  - Authentication/addPrivilegesToGroup.md
+  - Authentication/alterRole.md
+  - Authentication/backupRBAC.md
+  - Authentication/createPrivilegeGroup.md
+  - Authentication/grantPrivilege.md
+  - Authentication/restoreRBAC.md
+  - Authentication/revokePrivilege.md
+  - Authentication/selectGrant.md
+  - Client/reconnectToPrimary.md
+  - Collections/ConsistencyLevelEnum.md
+  - Collections/FieldType.md
+  - Collections/FunctionObject.md
+  - Collections/RefreshExternalCollectionJobInfo.md
+  - Collections/addFunctionField.md
+  - Collections/alterCollectionSchema.md
+  - Collections/dropCollectionField.md
+  - Collections/dropFunctionField.md
+  - DataImport/ImportState.md
+  - DataImport/getImportJobProgress.md
+  - Management/CompactionState.md
+  - Management/IndexDescription.md
+  - Management/SegmentLevel.md
+  - Management/SegmentState.md
+  - Management/getCompactionStateWithPlans.md
+  - Management/getIndexStatistics.md
+  - Management/getPersistentSegmentInfo.md
+  - Management/getQuerySegmentInfo.md
+  - Management/loadBalance.md
+  - Snapshot/RestoreSnapshotJobInfo.md
+  - Vector/FunctionScore.md
+  - Vector/NumberArrayId.md
+  - Vector/OrderByFields.md
+  - Vector/OutputTransformers.md
+  - Vector/RerankerObj.md
+  - Vector/RowData.md
+  - Vector/SearchData.md
+  - Vector/StringArrayId.md
+  - Vector/deleteEntities.md
+  - Vector/getMetric.md
+milvus_values:
+  endpoint: "'localhost:19530'"
+  token: root:Milvus
+  example_endpoint: http://localhost:19530
+cloud_pages:
+  DataImport/BulkWriterOptions.md:
+    file: DataImport-BulkWriterOptions.md
+  DataImport/FlushEvent.md:
+    file: DataImport-FlushEvent.md
+  DataImport/Formatter.md:
+    file: DataImport-Formatter.md
+  DataImport/HttpImportCreateReq.md:
+    file: DataImport-HttpImportCreateReq.md
+  DataImport/HttpImportCreateResponse.md:
+    file: DataImport-HttpImportCreateResponse.md
+  DataImport/HttpImportListResponse.md:
+    file: DataImport-HttpImportListResponse.md
+  DataImport/HttpImportProgressReq.md:
+    file: DataImport-HttpImportProgressReq.md
+  DataImport/HttpImportProgressResponse.md:
+    file: DataImport-HttpImportProgressResponse.md

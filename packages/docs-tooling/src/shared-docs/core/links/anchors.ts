@@ -99,12 +99,18 @@ export function collectExplicitAnchors(markdown: string): ExplicitAnchor[] {
   return anchors
 }
 
-export function resolveAnchor(markdown: string, anchor: string): { id?: string; ambiguous?: boolean } {
+export function resolveAnchor(markdown: string, anchor: string,
+  allowCloudFallback = false): { id?: string; ambiguous?: boolean } {
   const headings = collectHeadings(markdown)
   const explicit = collectExplicitAnchors(markdown).filter(item => item.id === anchor)
   if (explicit.length > 1 || (explicit.length && headings.some(heading => heading.cloud === anchor))) return { ambiguous: true }
   if (explicit.length) return { id: anchor }
-  return { id: headings.find(heading => heading.milvus === anchor)?.cloud }
+  const milvus = headings.find(heading => heading.milvus === anchor)
+  if (milvus) return { id: milvus.cloud }
+  // Manual-layout same-page fragments may carry the lowercase cloud slug directly; the
+  // deduped id stays positional (a fragment naming a taken slug still resolves nowhere).
+  if (allowCloudFallback && headings.some(heading => heading.cloud === anchor)) return { id: anchor }
+  return {}
 }
 
 export function collectHeadings(markdown: string): Heading[] {
@@ -116,7 +122,9 @@ export function collectHeadings(markdown: string): Heading[] {
   for (let index = 0; index < tokens.length; index++) {
     const token = tokens[index]
     if (token.type !== 'heading_open') continue
-    const text = visibleText(parser.parseInline(tokens[index + 1].content, env)[0])
+    // Custom heading ids (escaped or bare `{#id}` suffixes) are projection output, not
+    // part of the anchor text: strip them so fragments resolve against the real heading.
+    const text = visibleText(parser.parseInline(tokens[index + 1].content, env)[0]).replace(/\\?\{#[^}]*\}\s*$/u, '')
     const level = Number(token.tag.slice(1))
     const base = cloudAnchor(text)
     let cloud = base
