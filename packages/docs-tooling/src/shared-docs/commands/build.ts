@@ -31,7 +31,7 @@ import { yamlLine } from '../core/yaml'
 import type { ContentFile } from '../core/transforms'
 import { buildManualRecord, manualRecordPath, sha256, validateManualRecord } from '../core/records/manual-record'
 
-export interface BuildOptions { sharedDocs: string; repo: string; dev: string; out: string; page?: string; imageTimeout?: number }
+export interface BuildOptions { sharedDocs: string; repo: string; dev: string; out: string; page?: string; imageTimeout?: number; imageBaseUrl?: string }
 
 const execFile = promisify(execFileCallback)
 /** The record's fixed tooling identity: the commit of the checkout running the build.
@@ -297,7 +297,7 @@ async function writeBuild(out: string, pages: readonly BuiltPage[], images: read
 }
 
 export async function runBuild(options: BuildOptions, write: (text: string) => void = text => process.stdout.write(text),
-  dependencies: { readAcceptedImage?: (source: string, sha256: string) => Promise<Uint8Array>; fetcher?: ImageFetcher; repositoryRoot?: string; fetchContext?: FetchBuildContext; onErrors?: (errors: readonly SharedDocsError[]) => void; onBuilt?: (pages: readonly BuiltPage[]) => void | Promise<void>; toolingCommit?: string } = {}): Promise<number> {
+  dependencies: { readAcceptedImage?: (source: string, sha256: string) => Promise<Uint8Array>; fetcher?: ImageFetcher; repositoryRoot?: string; fetchContext?: FetchBuildContext; onErrors?: (errors: readonly SharedDocsError[]) => void; onBuilt?: (pages: readonly BuiltPage[]) => void | Promise<void>; toolingCommit?: string; fetchImages?: boolean } = {}): Promise<number> {
   const print = (errors: readonly SharedDocsError[]) => {
     dependencies.onErrors?.(errors)
     for (const error of errors) {
@@ -359,6 +359,7 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
         for (const [pageId] of expanded.pages) {
           try {
             const result = await buildManualPage({ pageId, sharedDocs: manualInputs, reader: manualReader, md2md, runtime,
+              ...(dependencies.fetchImages ? { fetchImages: true } : {}),
               ...(presentation ? { presentation: { titleSuffix: presentation.title_suffix,
                 ...(presentation.slug_prefix !== undefined ? { slugPrefix: presentation.slug_prefix } : {}),
                 ...(presentation.displayed_sidebar !== undefined ? { displayedSidebar: presentation.displayed_sidebar } : {}) } } : {}) })
@@ -368,6 +369,18 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
         }
         if (failed) return 1
         await repairBuiltPages(pages, write)
+        // Fetch mode rewrites image links to their published image-bed address before the
+        // record attests the bytes, so the record's output digests cover exactly the bytes
+        // the publication stages. The addresses themselves are deterministic (shared/<sha>),
+        // so the sandbox build — no image bed configured — keeps its unprefixed bytes.
+        // The uploader module loads lazily: its top level requires the AWS S3 client.
+        if (options.imageBaseUrl !== undefined) {
+          const { validateImageBaseUrl } = await import('../../lark/sharedImageUploader.js')
+          const imageBaseUrl = validateImageBaseUrl(options.imageBaseUrl)
+          for (const page of pages) for (const address of new Set(page.images.map(image => image.address))) {
+            page.mdx = page.mdx.split(address).join(`${imageBaseUrl}/${address}`)
+          }
+        }
         const images = buildImageManifest(pages)
         // The manual record attests the final (repaired) bytes with the full input identity,
         // then a pure validation self-check fails the build before anything is staged.

@@ -1475,9 +1475,30 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
     return;
   }
   if (source.sourceType === 'shared') {
-    // The whole-manual producer branch lands with the node cutover (R2-b). Fail
-    // closed here rather than silently treating the group as a Lark source.
-    throw new Error(`Manual ${context.request.manual} uses a shared-docs source; its fetch producer is not wired yet`);
+    // Whole-manual producer (design 10 R2): the fetch workflow prepares the upstream
+    // checkout and the image scratch; both arrive through the environment, so a missing
+    // value fails closed instead of silently treating the group as a Lark source.
+    const upstream = environment.DOCS_TOOLING_SHARED_UPSTREAM;
+    const scratch = environment.DOCS_TOOLING_SHARED_SCRATCH;
+    const imageBaseUrl = environment.IMAGE_BED_URL;
+    const missing = [
+      ...(upstream ? [] : ['DOCS_TOOLING_SHARED_UPSTREAM (the prepared upstream checkout)']),
+      ...(scratch ? [] : ['DOCS_TOOLING_SHARED_SCRATCH (the image byte scratch directory)']),
+      ...(imageBaseUrl ? [] : ['IMAGE_BED_URL (the publication image bed base URL)']),
+    ];
+    if (missing.length) {
+      throw new Error(`Manual ${context.request.manual} fetch requires ${missing.join(', ')}`);
+    }
+    const { runManualFetch } = await import('./shared-docs/commands/fetch-manual');
+    const exit = await runManualFetch({
+      sharedDocs: source.sourceDir,
+      repo: upstream!,
+      out: context.stagePath,
+      scratch: scratch!,
+      imageBaseUrl: imageBaseUrl!,
+    }, text => process.stdout.write(text), { repositoryRoot: context.repositoryRoot });
+    if (exit !== 0) throw new Error(`Manual ${context.request.manual} shared-docs fetch failed; see the producer output above`);
+    return;
   }
   const exhaustive: never = source.sourceType;
   throw new Error(`Unsupported manual source type: ${String(exhaustive)}`);

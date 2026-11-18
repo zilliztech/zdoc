@@ -1492,7 +1492,9 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(inventoryStep, /if: \$\{\{ inputs\.site == 'en' \}\}/)
   assert.match(inventoryStep, /tmp\/docs-tooling\/revision-baseline\/\$GROUP\.json/)
   assert.match(inventoryStep, /getContentGroup\(process\.env\.GROUP, process\.env\.SITE\)/)
-  assert.match(inventoryStep, /group\.sourceSnapshots\.join\(","\)/)
+  assert.match(inventoryStep, /sourceSnapshots: group\.sourceSnapshots, hasLarkSources: group\.hasLarkSources/)
+  assert.match(inventoryStep, /JSON\.parse\(process\.argv\[1\]\)\.sourceSnapshots\.join\(","\)/)
+  assert.match(inventoryStep, /hasLarkSources\)\)' \"\$group_facts\"\)\" == \"true\" && -z \"\$SNAPSHOTS\"/)
   assert.match(inventoryStep, /inventory_args=\([\s\S]*revision-inventory build/)
   assert.match(inventoryStep, /pnpm docs-tooling "\$\{inventory_args\[@\]\}"/)
   assert.match(inventoryStep, /--snapshot "\$SNAPSHOTS"/)
@@ -1620,8 +1622,9 @@ test('workflow policy rejects revision inventory producer mutations', () => {
     { mutate: source => source.replace('name: Update content snapshots', 'name: __TEMP_STEP__').replace('name: Generate revision inventory', 'name: Update content snapshots').replace('name: __TEMP_STEP__', 'name: Generate revision inventory'), expected: '_fetch-content-group.yml: English producer must generate the selected revision inventory' },
     { mutate: source => source.replace("if: ${{ inputs.site == 'en' }}", "if: ${{ inputs.site != 'en' }}"), expected: '_fetch-content-group.yml: revision inventory generation and report upload must be English-only' },
     { mutate: source => source.replace('tmp/docs-tooling/revision-baseline/$GROUP.json', 'generated/en/manifests/lark-revisions/$GROUP.json'), expected: '_fetch-content-group.yml: revision inventory baseline must use the exact safe repository-relative path' },
-    { mutate: source => source.replace('name: Generate revision inventory', 'name: Generate revision inventory\n        env:\n          APP_ID: ${{ secrets.APP_ID }}'), expected: '_fetch-content-group.yml: revision inventory step must not receive Feishu credentials or fetch source metadata' },
-    { mutate: source => source.replace('          pnpm docs-tooling "${inventory_args[@]}"', '          pnpm docs-tooling publish-group --site "$SITE" --group "$GROUP" --stage fetch\n          pnpm docs-tooling "${inventory_args[@]}"'), expected: '_fetch-content-group.yml: revision inventory step must not receive Feishu credentials or fetch source metadata' },
+    { mutate: source => source.replace('name: Generate revision inventory', 'name: Generate revision inventory\n        env:\n          APP_ID: ${{ secrets.APP_ID }}'), expected: '_fetch-content-group.yml: revision inventory step must derive snapshots from the group contract and must not receive Feishu credentials' },
+    { mutate: source => source.replace('          pnpm docs-tooling "${inventory_args[@]}"', '          pnpm docs-tooling publish-group --site "$SITE" --group "$GROUP" --stage fetch\n          pnpm docs-tooling "${inventory_args[@]}"'), expected: '_fetch-content-group.yml: revision inventory step must derive snapshots from the group contract and must not receive Feishu credentials' },
+    { mutate: source => source.replace('== "true" && -z "$SNAPSHOTS"', '!= "true" && -z "$SNAPSHOTS"'), expected: '_fetch-content-group.yml: revision inventory step must derive snapshots from the group contract and must not receive Feishu credentials' },
     { mutate: source => source.replace('name: Upload revision inventory report', 'name: Upload missing revision report'), expected: '_fetch-content-group.yml: English producer must upload revision JSON and Markdown reports' },
   ]
   for (const fixture of fixtures) {
