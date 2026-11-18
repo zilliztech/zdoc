@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、外部コレクションのデータ更新をトリガーします。外部データソースが更新され、Milvus にデータを再読み込みさせたい場合に使用します。 | Node.js"
 type: docx
 token: JoiWdRIFcojRI4xVXnCclEoVnh2
-sidebar_position: 35
+sidebar_position: 31
 keywords: 
   - 音声類似検索
   - Elastic ベクトルデータベース
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # refreshExternalCollection()
 
 この操作は、外部コレクションのデータ更新をトリガーします。外部データソースが更新され、Milvus にデータを再読み込みさせたい場合に使用します。
 
-```typescript
+```javascript
 await milvusClient.refreshExternalCollection(data: RefreshExternalCollectionReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.refreshExternalCollection({
     collection_name: string,
     external_source?: string,
@@ -51,30 +48,32 @@ await milvusClient.refreshExternalCollection({
 
 **パラメーター:**
 
-- **collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  更新する外部コレクションの名前です。
+- **collection_name** (*string*) -
+**[必須]**
+更新する外部コレクションの名前です。
 
-- **external_source** (*string*) -<br/>
-  新しい外部ソースのパスです。省略可能です。指定すると、コレクションはこの新しいソースから更新されます。`external_source` と `external_spec` は一緒に指定するか、両方とも省略してください。両方を省略した場合、更新では永続化されたソースと仕様が再利用されます。Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の2つのスキームを受け入れます。`volume://` URI の場合は、上記のルールが適用されます。`milvus://` ソースの場合も同じルールが適用され、省略すると永続化されたソースが再利用され、更新では引き続き最新データが同期されます。
+- **external_source** (*string*) -
+新しい外部ソースパスを指定するオプションです。指定した場合、コレクションはこの新しいソースからリフレッシュされます。
 
-- **external_spec** (*string*) -<br/>
-  新しい外部仕様設定です。省略可能です。指定すると、コレクションはこの新しい仕様を使用します。`format` に指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームとともに使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
+- **external_spec** (*string*) -
+新しい外部仕様設定を指定するオプションです。指定した場合、コレクションはこの新しい仕様を使用します。
 
-- **db_name** (*string*) -<br/>
-  データベースの名前です。省略可能です。
+- **db_name** (*string*) -
+データベースの名前です。任意です。
 
-- **timeout** (*number*) -<br/>
-  RPC に許可する時間をミリ秒単位で指定する省略可能な値です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。省略可能です。
+- **client_request_id** (*string*) -
+リクエストを追跡するためのトレース ID です。任意です。
 
-**戻り値** *Promise&lt;RefreshExternalCollectionResponse&gt;*
+**戻り値:**
+
+*Promise&lt;RefreshExternalCollectionResponse&gt;*
 
 このメソッドは、**RefreshExternalCollectionResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     job_id: string,
     status:  ResStatus
@@ -83,11 +82,11 @@ await milvusClient.refreshExternalCollection({
 
 **パラメーター:**
 
-- **job_id** (*string*) -<br/>
-  非同期更新ジョブの識別子です。この値を `getRefreshExternalCollectionProgress()` に渡して、完了までポーリングします。
+- **job_id** (*string*) -
+非同期リフレッシュジョブの識別子です。完了をポーリングするには、この値を `getRefreshExternalCollectionProgress()` に渡します。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -100,6 +99,13 @@ await milvusClient.refreshExternalCollection({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す値です。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

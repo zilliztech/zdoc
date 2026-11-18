@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # checkCompatibility()
 
 この操作は、SDK と Milvus サーバーの互換性を確認します。
@@ -55,15 +52,20 @@ await milvusClient.checkCompatibility({
 
     SDK に互換性がない場合にスローするエラーメッセージです。
 
-**戻り値の型:**
-
-*Promise*\<*any*>
-
 **戻り値:**
+
+*Promise&lt;any&gt;*
 
 指定された checker 関数の結果に解決される promise です。
 
-## 例\{#examples}
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
+## 例\{#example}
 
 ```javascript
 await milvusClient.checkCompatibility({

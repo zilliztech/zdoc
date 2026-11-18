@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPkFieldName()
 
 この操作は、コレクションの主キーフィールド名を取得します。これは、コレクションの情報を取得し、主キーフィールド名を抽出する便利なメソッドです。
@@ -41,6 +38,8 @@ await milvusClient.getPkFieldName(data: DescribeCollectionReq)
 ```javascript
 getPkFieldName({
     collection_name: string,
+    db_name?: string,
+    cache?: boolean,
     timeout: number
 })
 ```
@@ -53,15 +52,30 @@ getPkFieldName({
 
     コレクション名。
 
+- **db_name** (*string*) -
+
+    対象コレクションが属するデータベースの名前です。
+
+- **cache** (*boolean*) -
+
+    コレクションのキャッシュされた説明を使用するかどうか。省略可能です。
+
 - **timeout** (*number*) -
 
     ミリ秒単位の RPC タイムアウト。省略可能です。
 
 **戻り値:**
 
-*Promise\<string\>*
+*Promise&lt;string&gt;*
 
 主キーフィールドの名前。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 

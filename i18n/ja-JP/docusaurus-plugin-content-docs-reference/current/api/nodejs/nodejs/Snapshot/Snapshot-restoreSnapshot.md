@@ -2,7 +2,7 @@
 title: "restoreSnapshot() | Node.js"
 slug: /node/node/Snapshot-restoreSnapshot
 sidebar_label: "restoreSnapshot()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # restoreSnapshot()
 
 この操作は、スナップショットからコレクションを新しいコレクションまたは既存のコレクションに復元します。
 
-```typescript
+```javascript
 await milvusClient.restoreSnapshot(data: RestoreSnapshotReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.restoreSnapshot({
     snapshot_name: string,
     source_collection_name: string,
@@ -52,35 +49,37 @@ await milvusClient.restoreSnapshot({
 
 **パラメーター:**
 
-- **snapshot_name** (*string*) -<br/>
-  **[必須]**<br/>
-  復元元のスナップショットの名前です。
+- **snapshot_name** (*string*) -
+**[REQUIRED]**
+復元元のスナップショットの名前です。
 
-- **source_collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  ソースコレクションの名前です。
+- **source_collection_name** (*string*) -
+**[REQUIRED]**
+ソースコレクションの名前です。
 
-- **target_collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  復元先のターゲットコレクションの名前です。
+- **target_collection_name** (*string*) -
+**[REQUIRED]**
+復元先のターゲットコレクションの名前です。
 
-- **source_db_name** (*string*) -<br/>
-  ソースデータベースの名前です。オプションです。
+- **source_db_name** (*string*) -
+ソースデータベースの名前です。任意です。
 
-- **target_db_name** (*string*) -<br/>
-  ターゲットデータベースの名前です。オプションです。
+- **target_db_name** (*string*) -
+ターゲットデータベースの名前です。任意です。
 
-- **timeout** (*number*) -<br/>
-  RPC に許容される時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。オプションです。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。任意です。
 
-**戻り値** *Promise&lt;RestoreSnapshotResponse&gt;*
+**戻り値:**
+
+*Promise&lt;RestoreSnapshotResponse&gt;*
 
 このメソッドは、**RestoreSnapshotResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     job_id: string,
     status:  ResStatus
@@ -89,11 +88,11 @@ await milvusClient.restoreSnapshot({
 
 **パラメーター:**
 
-- **job_id** (*string*) -<br/>
-  非同期復元ジョブの識別子です。完了をポーリングするには、この値を `getRestoreSnapshotState()` に渡します。
+- **job_id** (*string*) -
+非同期復元ジョブの識別子です。完了をポーリングするには、この値を `getRestoreSnapshotState()` に渡します。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -106,6 +105,13 @@ await milvusClient.restoreSnapshot({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合、空の文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

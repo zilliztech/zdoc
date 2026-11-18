@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # useDatabase()
 
 この操作は、gRPC クライアントのアクティブなデータベースを設定します。
@@ -52,23 +49,20 @@ await milvusClient.useDatabase({
 
     指定した名前のデータベースが存在している必要があります。存在しない場合は、例外が発生します。
 
-**RETURNS** *Promise |&lt;ResStatus&gt;*
+**戻り値:**
 
-このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
+*Promise&lt;\{ error_code: string, reason: string }&gt;*
+
+このメソッドは、結果ステータスを格納したオブジェクトに解決される promise を返します。
 
 ```javascript
 {
-    code: number,
     error_code: string | number,
     reason: string
 }
 ```
 
 **PARAMETERS:**
-
-- **code** (*number*) -
-
-    操作結果を示すコードです。この操作が成功した場合、**0** のままになります。
 
 - **error_code** (*string* | *number*) -
 
@@ -77,6 +71,13 @@ await milvusClient.useDatabase({
 - **reason** (*string*) - 
 
     報告されたエラーの理由を示します。この操作が成功した場合、空文字列のままになります。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## Example\{#example}
 

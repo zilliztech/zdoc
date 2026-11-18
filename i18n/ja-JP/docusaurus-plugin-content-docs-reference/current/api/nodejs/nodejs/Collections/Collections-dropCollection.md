@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropCollection()
 
 This operation drops a コレクション.
@@ -64,7 +61,9 @@ await milvusClient.dropCollection({
 
     これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -90,13 +89,19 @@ await milvusClient.dropCollection({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **エラー**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
  const resStatus = await milvusClient.dropCollection({ collection_name: 'my_collection' });
 ```
-

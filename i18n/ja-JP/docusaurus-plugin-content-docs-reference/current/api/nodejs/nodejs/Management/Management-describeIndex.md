@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeIndex()
 
 この操作は特定のインデックスの説明情報を取得します。
@@ -72,11 +69,13 @@ await milvusClient.describeIndex(data)
 
     この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;DescribeIndexResponse&gt;*
+**戻り値:**
+
+*Promise&lt;DescribeIndexResponse&gt;*
 
 このメソッドは、**DescribeIndexResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     index_descriptions: IndexDescription[],
     status:  ResStatus
@@ -85,8 +84,9 @@ await milvusClient.describeIndex(data)
 
 **パラメータ:**
 
-- **index_descriptions** (*IndexDescription[]*) -<br/>
-  要求されたコレクションのインデックス説明情報のリスト。**field_name** または **index_name** が指定された場合、リストには一致するエントリのみが含まれます。
+- **index_descriptions** (*IndexDescription[]*) -
+
+要求されたコレクションのインデックス記述のリストです。**field_name** または **index_name** が指定されている場合、リストには一致するエントリのみが含まれます。
 
     - **index_name** (*string*) -
 
@@ -124,8 +124,8 @@ await milvusClient.describeIndex(data)
 
         まだインデックス化待ちの行数。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -139,9 +139,16 @@ await milvusClient.describeIndex(data)
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const describeIndexReq = {
   collection_name: 'my_collection',
@@ -150,4 +157,3 @@ const describeIndexReq = {
 const res = await milvusClient.describeIndex(describeIndexReq);
 console.log(res);
 ```
-

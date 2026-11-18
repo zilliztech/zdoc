@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadPartitions()
 
 This operation loads a specific set of partitions in a specified コレクション into memory.
@@ -44,7 +41,7 @@ await milvusClient.loadPartitions({
     collection_name: string,
     partition_names: string[],
     replica_number?: number,
-    resource_groups[]?: string[],
+    resource_groups?: string[],
     timeout?: number
  });
 ```
@@ -79,7 +76,9 @@ await milvusClient.loadPartitions({
 
     この操作のタイムアウト時間です。これを **None** に設定すると、応答が到着するか、エラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -105,9 +104,16 @@ await milvusClient.loadPartitions({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -116,4 +122,3 @@ new MilvusClient({
     partition_names: ['my_partition'],
  });
 ```
-

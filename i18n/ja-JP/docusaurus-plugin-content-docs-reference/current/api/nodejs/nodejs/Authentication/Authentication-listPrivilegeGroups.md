@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listPrivilegeGroups()
 
 この操作はすべての privilege group を一覧表示します。
@@ -52,11 +49,13 @@ await milvusClient.listPrivilegeGroups(data?)
 
     **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;ListPrivilegeGroupsResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ListPrivilegeGroupsResponse&gt;*
 
 このメソッドは、**ListPrivilegeGroupsResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     privilege_groups: PrivelegeGroup[],
     status:  ResStatus
@@ -65,27 +64,20 @@ await milvusClient.listPrivilegeGroups(data?)
 
 **パラメーター:**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -<br/>
-  現在の Milvus インスタンスで定義されている privilege group の一覧。
+- **privilege_groups** (*PrivelegeGroup[]*) -
+
+現在の Milvus インスタンスで定義されている privilege group のリストです。
 
     - **group_name** (*string*) -
 
         privilege group の名前。
 
-    - **privileges** (*PrivilegeEntity[]*) -
+    - **privileges** (*[PrivilegeEntity](PrivilegeEntity.md)[]*) -
 
         グループに含まれる権限。
 
-        - **name** (*string*) -
-
-        権限名（例: **Insert**、**Search**、**CreateCollection**）。
-
-        - **name** (*string*) -
-
-            権限名（例: **Insert**、**Search**、**CreateCollection**）。
-
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -99,9 +91,15 @@ await milvusClient.listPrivilegeGroups(data?)
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 await milvusClient.listPrivilegeGroups();
 ```
-

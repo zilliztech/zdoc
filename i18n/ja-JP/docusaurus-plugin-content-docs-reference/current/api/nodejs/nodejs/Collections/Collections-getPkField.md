@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPkField()
 
 この操作は、コレクションの主キー フィールドの完全なスキーマを取得します。これは、コレクションの情報を取得し、主キー フィールドを抽出する便利なメソッドです。
@@ -41,6 +38,8 @@ await milvusClient.getPkField(data: DescribeCollectionReq)
 ```javascript
 getPkField({
     collection_name: string,
+    db_name?: string,
+    cache?: boolean,
     timeout: number
 })
 ```
@@ -53,15 +52,30 @@ getPkField({
 
     コレクションの名前。
 
+- **db_name** (*string*) -
+
+    対象のコレクションを保持するデータベースの名前。
+
+- **cache** (*boolean*) -
+
+    キャッシュされたコレクションの説明を使用するかどうか。オプションです。
+
 - **timeout** (*number*) -
 
     ミリ秒単位の RPC タイムアウト。オプションです。
 
 **戻り値:**
 
-*Promise\<FieldSchema\>*
+*Promise&lt;FieldSchema&gt;*
 
 名前、データ型、フィールド ID、その他のプロパティを含む、主キー フィールドの完全なフィールド スキーマ オブジェクトです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeRole()
 
 この操作は特定のロールを記述します。
@@ -64,11 +61,13 @@ await milvusClient.describeRole({
 
     これを **None** に設定すると、レスポンスが到着するか、エラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;SelectRoleResponse&gt;*
+**戻り値:**
+
+*Promise&lt;SelectRoleResponse&gt;*
 
 このメソッドは、**SelectRoleResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     results: RoleResult[],
     status:  ResStatus
@@ -77,103 +76,23 @@ await milvusClient.describeRole({
 
 **パラメーター:**
 
-- **results** (*RoleResult[]*) -<br/>
-  **RoleResult** オブジェクトのリスト。`describeRole()` では、このリストにはリクエストされたロールを記述する単一のエントリが含まれます。
+- **results** (*RoleResult[]*) -
+**RoleResult** オブジェクトのリスト。`describeRole()` の場合、このリストには、要求されたロールを記述する 1 つのエントリのみが含まれます。
 
     - **role** (*RoleEntity*) -
 
         ロールを記述する **RoleEntity** オブジェクト。
 
-        - **name** (*string*) -
-
-        ロール名。
-
-        - **name** (*string*) -
-
-            ロール名。
-
     - **users** (*User[]*) -
 
         このロールを保持するユーザーのリスト。
-
-        - **name** (*string*) -
-
-        ユーザー名。
-
-        - **name** (*string*) -
-
-            ユーザー名。
 
     - **entities** (*GrantEntity[]*) -
 
         このロールに付与された権限のリスト。各エントリには、付与された権限、対象オブジェクト、およびそれを付与したユーザーが含まれます。
 
-        - **role** (*RoleEntity*) -
-
-        権限が付与されるロール。
-
-        - **object** (*ObjectEntity*) -
-
-        The object type the privilege applies to (for example, **コレクション**, **Global**, **User**).
-
-        - **object_name** (*string*) -
-
-        権限が適用される特定のオブジェクト名。すべてのオブジェクトを対象にするには `*` を使用します。
-
-        - **grantor** (*Grantor*) -
-
-        この権限を付与した主体。
-
-          - **user** (*User*) -
-
-          権限を付与したユーザー。
-
-          - **privilege** (*PrivilegeEntity*) -
-
-          付与された権限。
-
-        - **db_name** (*string*) -
-
-        付与が適用されるデータベース。すべてのデータベースを対象にするには `*` を使用します。
-
-        - **role** (*RoleEntity*) -
-
-            権限が付与されるロール。
-
-        - **object** (*ObjectEntity*) -
-
-            The object type the privilege applies to (for example, **コレクション**, **Global**, **User**).
-
-        - **object_name** (*string*) -
-
-            権限が適用される特定のオブジェクト名。すべてのオブジェクトを対象にするには `*` を使用します。
-
-        - **grantor** (*Grantor*) -
-
-            この権限を付与した主体。
-
-            - **user** (*User*) -
-
-            権限を付与したユーザー。
-
-            - **privilege** (*PrivilegeEntity*) -
-
-            付与された権限。
-
-            - **user** (*User*) -
-
-                権限を付与したユーザー。
-
-            - **privilege** (*PrivilegeEntity*) -
-
-                付与された権限。
-
-        - **db_name** (*string*) -
-
-            付与が適用されるデータベース。すべてのデータベースを対象にするには `*` を使用します。
-
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -187,9 +106,15 @@ await milvusClient.describeRole({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 milvusClient.describeRole({roleName: 'myrole'});
 ```
-

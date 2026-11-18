@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # count()
 
 この操作は、指定されたフィルタリング式に一致するエンティティの数をカウントします。
@@ -43,21 +40,25 @@ await milvusClient.count({
     db_name?: string,
     collection_name: string,
     expr?: string,
-    timeout?: boolean
+    filter?: string,
+    exprValues?: keyValueObj,
+    partition_names?: string[],
+    consistency_level?: ConsistencyLevelEnum,
+    timeout?: number
 })
 ```
 
 **PARAMETERS:**
 
-- **db_name** (*str*) -
+- **db_name** (*string*) -
 
     The name of the データベース that holds the target コレクション.
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of the コレクション to create an alias for.
+    カウント対象のコレクションの名前。
 
 - **expr** (*string*) -
 
@@ -65,15 +66,33 @@ await milvusClient.count({
 
     You can set this parameter to an empty string to skip スカラー filtering. To build a スカラー filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
+- **filter** (*string*) -
+
+    フィルタリング条件の **expr** のエイリアス。
+
+- **exprValues** (*keyValueObj*) -
+
+    `filter` で [Filtering Templating](https://milvus.io/docs/filtering-templating.md) に記載されているとおりにプレースホルダーを使用する場合は、このパラメーターの値として、これらのプレースホルダーの実際の値をキーと値のペアで指定できます。
+
+- **partition_names** (*string[]*) -
+
+    カウント対象のパーティション名のリスト。
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    対象コレクションの整合性レベルです。デフォルト値は **Bounded**（**2**）で、オプションは **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）です。ConsistencyLevelEnum を参照してください。
+
 - **timeout** (*number*)  
 
     この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;CountResult&gt;*
+**戻り値:**
+
+*Promise&lt;CountResult&gt;*
 
 このメソッドは、**CountResult** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     data: number,
     status:  ResStatus
@@ -82,11 +101,11 @@ await milvusClient.count({
 
 **PARAMETERS:**
 
-- **data** (*number*) -<br/>
-  The number of rows in the コレクション that match the supplied filter expression. When no expression is supplied, this is the total row count.
+- **data** (*number*) -
+コレクション内で、指定されたフィルタリング式に一致する行数です。式を指定しない場合は、総行数です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -100,7 +119,14 @@ await milvusClient.count({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## Examples\{#examples}
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
+
+## 例\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient({

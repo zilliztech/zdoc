@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterDatabase()
 
 この操作は、設定のキーと値のペアの設定や削除など、データベースのプロパティを変更します。
@@ -76,11 +73,13 @@ await milvusClient.alterDatabase({
 
 **RETURNS:**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
     この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 

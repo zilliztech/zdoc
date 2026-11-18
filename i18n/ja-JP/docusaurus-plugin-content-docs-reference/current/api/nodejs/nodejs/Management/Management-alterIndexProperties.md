@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterIndexProperties()
 
 この操作は、特定のインデックスプロパティの設定を変更します。
@@ -72,15 +69,17 @@ await milvusClient.alterIndexProperties({
 
     変更するインデックスプロパティとその期待値です。利用可能なプロパティは次のとおりです。
 
-    - **mmap.enabled** (*bool*) -
+    - **mmap.enabled** (*boolean*) -
 
-        指定したインデックスに対して mmap を有効にするかどうか。これを `True` に設定すると、指定したインデックスはディスクにオフロードされます。詳細については、[mmap を使う](/docs/use-mmap) を参照してください。
+        指定したインデックスに対して mmap を有効にするかどうかです。これを `True` に設定すると、指定したインデックスがディスクにオフロードされます。詳細は、[Mmap-enabled Data Storage](https://milvus.io/docs/mmap.md) を参照してください。
 
 - **timeout** (number) -
 
     この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは **ResStatus** オブジェクトに解決される promise を返します。
 
@@ -106,15 +105,22 @@ await milvusClient.alterIndexProperties({
 
     報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const alterIndexReq = {
     collection_name: 'my_collection',
+    index_name: 'my_index',
     params: { nlist: 20 },
 };
-const res = await milvusClient.alterIndex(alterIndexReq);
+const res = await milvusClient.alterIndexProperties(alterIndexReq);
 console.log(res);
 ```
-

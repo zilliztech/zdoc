@@ -2,7 +2,7 @@
 title: "describeSnapshot() | Node.js"
 slug: /node/node/Snapshot-describeSnapshot
 sidebar_label: "describeSnapshot()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeSnapshot()
 
 この操作は、特定のスナップショットに関する詳細情報を取得します。
 
-```typescript
+```javascript
 await milvusClient.describeSnapshot(data: DescribeSnapshotReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.describeSnapshot({
     collection_name: string,
     snapshot_name: string,
@@ -50,28 +47,30 @@ await milvusClient.describeSnapshot({
 
 **パラメーター:**
 
-- **collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  スナップショットが属するコレクションの名前。
+- **collection_name** (*string*) -
+**[必須]**
+スナップショットが属するコレクションの名前です。
 
-- **snapshot_name** (*string*) -<br/>
-  **[必須]**<br/>
-  詳細を取得するスナップショットの名前。
+- **snapshot_name** (*string*) -
+**[必須]**
+詳細を取得するスナップショットの名前です。
 
-- **db_name** (*string*) -<br/>
-  データベースの名前。任意です。
+- **db_name** (*string*) -
+データベースの名前です。省略可能です。
 
-- **timeout** (*number*) -<br/>
-  RPC に許可する時間をミリ秒単位で指定する任意の値です。undefined に設定すると、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC に許容される時間をミリ秒単位で指定します。省略可能です。undefined に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機します。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。任意です。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。省略可能です。
 
-**戻り値** *Promise&lt;DescribeSnapshotResponse&gt;*
+**戻り値:**
+
+*Promise&lt;DescribeSnapshotResponse&gt;*
 
 このメソッドは、**DescribeSnapshotResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     name: string,
     description: string,
@@ -85,26 +84,26 @@ await milvusClient.describeSnapshot({
 
 **パラメーター:**
 
-- **name** (*string*) -<br/>
-  スナップショットの名前。
+- **name** (*string*) -
+スナップショットの名前です。
 
-- **description** (*string*) -<br/>
-  スナップショット作成時に指定された説明。指定されていない場合は空文字列です。
+- **description** (*string*) -
+スナップショット作成時に指定された説明です。指定されなかった場合は空文字列です。
 
-- **collection_name** (*string*) -<br/>
-  スナップショットを所有するコレクション。
+- **collection_name** (*string*) -
+スナップショットを所有するコレクションです。
 
-- **partition_names** (*string[]*) -<br/>
-  スナップショットによって取得されたパーティション名。
+- **partition_names** (*string[]*) -
+スナップショットによって取得されたパーティション名です。
 
-- **create_ts** (*string*) -<br/>
-  スナップショットが作成された時点のハイブリッドタイムスタンプ。
+- **create_ts** (*string*) -
+スナップショットが作成されたハイブリッドタイムスタンプです。
 
-- **s3_location** (*string*) -<br/>
-  スナップショットデータが永続化されるオブジェクトストア URI。
+- **s3_location** (*string*) -
+スナップショットデータが永続化されるオブジェクトストア URI です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -117,6 +116,13 @@ await milvusClient.describeSnapshot({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 

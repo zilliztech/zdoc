@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # HttpImportCreateResponse
 
 このインターフェースは、`createImportJobs()` によって返されるレスポンスを説明します。

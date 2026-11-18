@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropIndexProperties()
 
 This operation resets the インデックス properties to their default values.
@@ -74,13 +71,15 @@ await milvusClient.dropIndexProperties({
 
     - **mmap.enabled** -
 
-        Whether to enable mmap for the specified インデックス. Setting this to `True` offloads the specified インデックス onto the disk. For details, refer to [Use mmap](/docs/use-mmap)
+        指定したインデックスに対して mmap を有効にするかどうかです。これを `True` に設定すると、指定したインデックスがディスクにオフロードされます。詳細は、[Mmap-enabled Data Storage](https://milvus.io/docs/mmap.md) を参照してください。
 
 - **timeout** (number) -
 
     この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -106,9 +105,16 @@ await milvusClient.dropIndexProperties({
 
     報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const dropIndexPropertiesReq = {
     collection_name: 'my_collection',
@@ -118,4 +124,3 @@ const dropIndexPropertiesReq = {
 const res = await milvusClient.dropIndexProperties(dropIndexPropertiesReq);
 console.log(res);
 ```
-

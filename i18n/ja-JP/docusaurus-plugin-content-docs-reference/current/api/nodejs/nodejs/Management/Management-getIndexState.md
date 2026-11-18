@@ -27,8 +27,16 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # getIndexState()
+
+<Admonition type="warning" icon="🚧" title="Warning">
+
+**非推奨。**
+
+このメソッドは将来のリリースで削除される可能性があります。
+
+</Admonition>
+
 
 This operation gets the status of the specified インデックス.
 
@@ -72,11 +80,13 @@ await milvusClient.getIndexState({
 
     この操作のタイムアウト期間。これを **None** に設定すると、レスポンスが到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;GetIndexStateResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetIndexStateResponse&gt;*
 
 このメソッドは、**GetIndexStateResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     state: IndexState,
     status:  ResStatus
@@ -85,11 +95,11 @@ await milvusClient.getIndexState({
 
 **PARAMETERS:**
 
-- **state** (*IndexState*) -<br/>
-  The current build state of the インデックス. Possible values are **IndexStateNone**, **Unissued**, **InProgress**, **Finished**, and **Failed**.
+- **state** (*IndexState*) -
+インデックスの現在の構築状態です。指定可能な値は **IndexStateNone**、**Unissued**、**InProgress**、**Finished**、および **Failed** です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -103,9 +113,16 @@ await milvusClient.getIndexState({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const getIndexStateReq = {
   collection_name: 'my_collection',
@@ -114,4 +131,3 @@ const getIndexStateReq = {
 const res = await milvusClient.getIndexState(getIndexStateReq);
 console.log(res);
 ```
-

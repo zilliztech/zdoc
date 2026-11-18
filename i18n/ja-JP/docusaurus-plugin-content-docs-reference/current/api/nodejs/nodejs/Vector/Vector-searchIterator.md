@@ -25,28 +25,45 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # searchIterator()
 
-This operation conducts a スカラー filtering query iteratively and returns results in batches. Use this instead of a single query() call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return.
+この操作は、ベクトル類似検索を反復的に実行し、結果をバッチで返します。大規模な結果セットを段階的に処理する場合や、結果の合計件数が 1 回の search() 呼び出しで返せる件数を超える場合は、単一の search() 呼び出しではなくこちらを使用してください。
 
 ```javascript
-await milvusClient.queryIterator(data: QueryIteratorReq)
+await milvusClient.searchIterator(data: SearchIteratorReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-await milvusClient.queryIterator({
+await milvusClient.searchIterator({
     collection_name: string,
+    data: SearchData | SearchData[],
+    vector?: SearchData | SearchData[],
     batchSize: number,
-    filter?: string,
     limit?: number,
+    filter?: string,
+    expr?: string,
+    anns_field?: string,
     output_fields?: string[],
     partition_names?: string[],
+    params?: keyValueObj,
+    metric_type?: string,
     consistency_level?: ConsistencyLevelEnum,
+    ignore_growing?: boolean,
+    group_by_field?: string,
+    group_size?: number,
+    strict_group_size?: boolean,
+    order_by_fields?: OrderByFields,
+    hints?: string,
+    round_decimal?: number,
+    exprValues?: keyValueObj,
+    rerank?: RerankerObj | FunctionObject | FunctionScore,
+    transformers?: OutputTransformers,
+    nq?: number,
+    ids?: number[] | string[],
+    highlighter?: Highlighter,
+    external_filter_fn?: (row: SearchResultData) => boolean,
     db_name?: string,
     timeout?: number,
 })
@@ -58,33 +75,113 @@ await milvusClient.queryIterator({
 
     **[REQUIRED]**
 
-    The name of an existing コレクション.
+    検索対象のコレクションの名前です。
+
+- **data** (*SearchData | SearchData[]*) -
+
+    クエリベクトルです。サポートされる型には、FloatVector（number[]）、BFloat16Vector（Uint8Array）、Float16Vector（Uint8Array）、BinaryVector（number[]）、SparseFloatVector があります。**data** または **ベクトル** のいずれかを指定してください。
+
+- **ベクトル** (*SearchData | SearchData[]*) -
+
+    クエリベクトルに対する **data** のエイリアスです。
 
 - **batchSize** (*number*) -
 
     **[REQUIRED]**
 
-    1 回の反復ごとに返される entity の数です。16,384 を超えることはできません。
-
-- **filter** (*string*) -
-
-    A スカラー filtering condition to filter matching entities. Set to an empty string to return all entities. To build a スカラー filtering condition, refer to Boolean Expression Rules.
+    反復ごとに返す結果数です。16,384 を超えることはできません。
 
 - **limit** (*number*) -
 
-    すべての反復を通じて返される entity の合計最大数です。デフォルトは一致する entity の総数です（制限なし）。
+    すべての反復を通じた結果の最大合計数です。デフォルトは、一致するエンティティの合計数です（制限なし）。
+
+- **filter** (*string*) -
+
+    検索前に一致するエンティティを絞り込むためのスカラー条件です。デフォルトは空の文字列です（フィルターなし）。
+
+- **expr** (*string*) -
+
+    **filter** のエイリアスです。**filter** または **expr** のいずれかを指定し、両方は指定しないでください。
+
+- **anns_field** (*string*) -
+
+    対象のベクトルフィールドの名前です。コレクションに複数のベクトルフィールドがある場合に必須です。
 
 - **output_fields** (*string[]*) -
 
-    各返却 entity に含めるフィールド名のリストです。デフォルトではすべてのフィールドが返されます。
+    返される各エンティティに含めるフィールド名のリストです。デフォルトではプライマリフィールドのみが含まれます。
 
 - **partition_names** (*string[]*) -
 
-    クエリ対象の partition の名前です。
+    検索対象のパーティション名のリストです。
+
+- **params** (*keyValueObj*) -
+
+    キーと値のペアで指定する追加の検索パラメーターです。たとえば、範囲検索では `radius` と `range_filter` を指定します。
+
+- **metric_type** (*string*) -
+
+    ベクトル間の類似度を測定するために使用するメトリクスタイプです。デフォルトは、インデックス付きフィールドのメトリクスタイプです。
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level for this operation. Options: Strong (0), Bounded (1), Session (2), Eventually (3). Defaults to the consistency level set when the コレクション was created.
+    この操作の整合性レベルです。オプションは Strong（0）、Session（1）、Bounded（2）、Eventually（3）です。デフォルトは Bounded です。ConsistencyLevelEnum を参照してください。
+
+- **ignore_growing** (*boolean*) -
+
+    検索中に増加中のセグメントをスキップするかどうかを指定します。
+
+- **group_by_field** (*string*) -
+
+    検索結果を指定したフィールドでグループ化し、多様性を確保します。
+
+- **group_size** (*number*) -
+
+    グループ化検索で各グループ内に返すエンティティの目標数です。
+
+- **strict_group_size** (*boolean*) -
+
+    グループ化検索で **group_size** を厳密に適用するかどうかを指定します。
+
+- **order_by_fields** (*OrderByFields*) -
+
+    検索結果を並べ替える基準となるフィールドです。
+
+- **hints** (*string*) -
+
+    検索パフォーマンスを向上させるためのヒント文字列です。
+
+- **round_decimal** (*number*) -
+
+    最終結果に保持する小数点以下の桁数です。
+
+- **exprValues** (*keyValueObj*) -
+
+    テンプレート化されたフィルター式のプレースホルダー値です。
+
+- **nq** (*number*) -
+
+    クエリベクトルの数です。
+
+- **ids** (*number[]* | *string[]*) -
+
+    PK による検索クエリで使用するプライマリキーです。
+
+- **highlighter** (*Highlighter*) -
+
+    検索結果のハイライターです。
+
+- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+
+    再ランキング戦略とそのパラメーターです。サポートされている再ランカー種別の詳細は、`search()` を参照してください。
+
+- **transformers** (*OutputTransformers*) -
+
+    BFloat16Vector や Float16Vector などの特殊なベクトルデータ型用のカスタムトランスフォーマーです。
+
+- **external_filter_fn** (*(row: SearchResultData) => boolean*) -
+
+    各結果バッチに適用されるオプションのクライアント側フィルター関数です。この関数が `false` を返すエンティティは、生成されるバッチから除外されます。
 
 - **db_name** (*string*) -
 
@@ -92,21 +189,17 @@ await milvusClient.queryIterator({
 
 - **timeout** (*number*) -
 
-    この操作のタイムアウト時間（ミリ秒）です。
-
-- **order_by_fields** (*OrderByFields*) -
-
-    検索結果を並べ替えるフィールドです。任意です。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトすることを示します。
 
 **RETURNS:**
 
-*Promise\<AsyncIterable\<object[]\>\>*
+*Promise&lt;AsyncIterable&lt;SearchResultData[]&gt;&gt;*
 
-非同期 iterable を返します。各反復では、そのバッチに対応する entity の配列が返されます。総結果数が `limit` に達するか、一致するすべての entity を使い切ると反復は終了します。
+非同期イテラブルを返します。各反復では、そのバッチの一致するエンティティの配列が生成されます。合計結果件数が `limit` に達するか、一致するすべてのエンティティを使い切ると、反復が終了します。
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
     この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
@@ -120,15 +213,16 @@ const milvusClient = new MilvusClient({
     token: 'YOUR_CLUSTER_TOKEN',
 });
 
-const iterator = await milvusClient.queryIterator({
+const iterator = await milvusClient.searchIterator({
     collection_name: 'my_collection',
-    filter: 'age > 30',
+    data: [0.1, 0.2, 0.3, 0.4, 0.5],
     batchSize: 100,
     limit: 500,
-    output_fields: ['id', 'age', 'text'],
+    output_fields: ['id', 'text'],
+    filter: 'age > 18',
 });
 
 for await (const batch of iterator) {
-    console.log(`Batch of ${batch.length} entities:`, batch);
+    console.log(`Batch of ${batch.length} results:`, batch);
 }
 ```

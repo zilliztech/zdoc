@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # grantPrivilegeV2()
 
 この操作は、権限または権限グループをロールに割り当てます。
@@ -82,7 +79,9 @@ await milvusClient.grantPrivilegeV2(data)
 
     これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -108,9 +107,16 @@ await milvusClient.grantPrivilegeV2(data)
 
     報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 await milvusClient.grantPrivilegeV2({
     role: 'exampleRole',
     privilege: 'CreateCollection',
@@ -118,4 +124,3 @@ await milvusClient.grantPrivilegeV2({
     collection_name: 'exampleCollection',
 });
 ```
-

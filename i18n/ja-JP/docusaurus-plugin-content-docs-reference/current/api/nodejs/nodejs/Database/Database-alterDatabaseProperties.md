@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterDatabaseProperties()
 
 この操作は、指定されたデータベースのプロパティを変更します。
@@ -36,18 +33,13 @@ import Admonition from '@theme/Admonition';
 await milvusClient.alterDatabaseProperties(data)
 ```
 
-<Admonition type="info" title="Notes">
-
-このメソッドは Dedicated クラスターにのみ適用されます。
-
-</Admonition>
-
 ## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.alterDatabaseProperties({
     db_name: string,
-    delete_keys: Object,
+    db_id?: string,
+    delete_keys?: string[],
     properties: Record<string, string | number | boolean>
     timeout?: number
 })
@@ -61,31 +53,35 @@ await milvusClient.alterDatabaseProperties({
 
     指定された名前のデータベースが存在している必要があります。そうでない場合、例外が発生します。
 
-- **delete_properties** (*string[]*) -
+- **db_id** (*string*) -
+
+    プロパティを変更するデータベースの ID です。任意です。
+
+- **delete_keys** (*string[]*) -
 
     削除するプロパティ名を配列で指定します。使用可能なデータベースプロパティは次のとおりです。
 
-    - **データベース.replica.number** (*int*) -
+    - **データベース.replica.number** (*number*) -
 
         データベースのレプリカ数。
 
-    - **データベース.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*string[]*) -
 
         データベース専用のリソースグループ。
 
-    - **データベース.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*number*) -
 
         データベースに割り当てられるディスククォータ（メガバイト（**MB**）単位）。
 
-    - **データベース.max.コレクション** (*int*) -
+    - **データベース.max.コレクション** (*number*) -
 
         データベースで許可されるコレクションの最大数。
 
-    - **データベース.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*boolean*) -
 
         データベース内のすべての書き込み操作を拒否するかどうか。
 
-    - **データベース.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*boolean*) -
 
         データベース内のすべての読み取り操作を拒否するかどうか。
 
@@ -93,27 +89,27 @@ await milvusClient.alterDatabaseProperties({
 
     キーと値のペアで指定するプロパティとその値。
 
-    - **データベース.replica.number** (*int*) -
+    - **データベース.replica.number** (*number*) -
 
         データベースのレプリカ数。
 
-    - **データベース.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*string[]*) -
 
         データベース専用のリソースグループ。
 
-    - **データベース.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*number*) -
 
         データベースに割り当てられるディスククォータ（メガバイト（**MB**）単位）。
 
-    - **データベース.max.コレクション** (*int*) -
+    - **データベース.max.コレクション** (*number*) -
 
         データベースで許可されるコレクションの最大数。
 
-    - **データベース.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*boolean*) -
 
         データベース内のすべての書き込み操作を拒否するかどうか。
 
-    - **データベース.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*boolean*) -
 
         データベース内のすべての読み取り操作を拒否するかどうか。
 
@@ -123,7 +119,9 @@ await milvusClient.alterDatabaseProperties({
 
     これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise |&lt;ResStatus&gt;*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -149,6 +147,13 @@ await milvusClient.alterDatabaseProperties({
 
     報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生した場合、この例外がスローされます。
+
 ## 例\{#example}
 
 ```javascript
@@ -158,7 +163,6 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.alterDatabaseProperties({ 
     db_name: 'new_db',
-    delete_properties: {'database.replica.number': 3} 
+    delete_keys: ['database.replica.number'] 
 });
 ```
-

@@ -25,7 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -49,7 +48,8 @@ await milvusClient.delete({
    collection_name: string,
    partition_name?: string,
    ids: string[] | number[],
-   consistency_level: string,
+   consistency_level: ConsistencyLevelEnum,
+   exprValues?: keyValueObj,
    timeout?: number
  })
 ```
@@ -80,7 +80,11 @@ await milvusClient.delete({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target コレクション. The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+    対象コレクションの整合性レベルです。デフォルト値は **Bounded**（**2**）で、オプションは **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）です。ConsistencyLevelEnum を参照してください。
+
+- **exprValues** (*keyValueObj*) -
+
+    フィルター式でプレースホルダーを使用する場合は、これらのプレースホルダーの実際の値をキーと値のペアとして指定できます。
 
 - **timeout** (*number*) -
 
@@ -88,11 +92,63 @@ await milvusClient.delete({
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;MutationResult&gt;*
+### DeleteByFilterReq を使用\{#with-deletebyfilterreq}
+
+```javascript
+await milvusClient.delete({
+   db_name: string,
+   collection_name: string,
+   partition_name?: string,
+   filter: string,
+   consistency_level: ConsistencyLevelEnum,
+   exprValues?: keyValueObj,
+   timeout?: number
+ })
+```
+
+**パラメータ:**
+
+- **db_name** (*string*) -
+
+    The name of the データベース that holds the target コレクション.
+
+- **collection_name** (*string*) -
+
+    **[必須]**
+
+    The name of an existing コレクション.
+
+- **partition_name** (*string*) -
+
+    The name of an existing partition in the コレクション.
+
+- **filter** (*string*) -
+
+    **[必須]**
+
+    削除するエンティティに一致するスカラーフィルタリング条件です。
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    対象コレクションの整合性レベルです。デフォルト値は **Bounded**（**2**）で、オプションは **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）です。ConsistencyLevelEnum を参照してください。
+
+- **exprValues** (*keyValueObj*) -
+
+    フィルター式でプレースホルダーを使用する場合は、これらのプレースホルダーの実際の値をキーと値のペアとして指定できます。
+
+- **timeout** (*number*) -
+
+    この操作のタイムアウト時間。 
+
+    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+
+**戻り値:**
+
+*Promise&lt;MutationResult&gt;*
 
 このメソッドは、**MutationResult** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     succ_index: number[],
     err_index: number[],
@@ -101,39 +157,40 @@ await milvusClient.delete({
     delete_cnt: string,
     upsert_cnt: string,
     timestamp: string,
-    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] } },
     status:  ResStatus
 }
 ```
 
 **パラメータ:**
 
-- **succ_index** (*number[]*) -<br/>
-  行に一致し、削除済みとしてマークされた入力 ID の 0 ベース位置。
+- **succ_index** (*number[]*) -
+行に一致して削除済みとしてマークされた入力 ID の 0 始まりの位置です。
 
-- **err_index** (*number[]*) -<br/>
-  どの行にも一致しなかった入力 ID の 0 ベース位置。
+- **err_index** (*number[]*) -
+どの行にも一致しなかった入力 ID の 0 始まりの位置です。
 
-- **acknowledged** (*boolean*) -<br/>
-  削除が Milvus によって確認されたかどうか。
+- **acknowledged** (*boolean*) -
+削除が Milvus によって確認されたかどうかです。
 
-- **insert_cnt** (*string*) -<br/>
-  `delete()` では常に **"0"** です。
+- **insert_cnt** (*string*) -
+`delete()` では常に **"0"** です。
 
-- **delete_cnt** (*string*) -<br/>
-  この操作によって論理削除された行数。
+- **delete_cnt** (*string*) -
+この操作によって論理的に削除された行数です。
 
-- **upsert_cnt** (*string*) -<br/>
-  `delete()` では常に **"0"** です。
+- **upsert_cnt** (*string*) -
+`delete()` では常に **"0"** です。
 
-- **timestamp** (*string*) -<br/>
-  削除が可視化されたハイブリッドタイムスタンプ。
+- **timestamp** (*string*) -
+削除が可視になったハイブリッドタイムスタンプです。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  この削除の対象となった主キー。完全なフィールドリファレンスについては、`insert()` のドキュメントを参照してください。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+この削除の対象となったプライマリキーです。フィールドの完全なリファレンスについては、`insert()` のドキュメントを参照してください。
+
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -147,12 +204,19 @@ await milvusClient.delete({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
+
+## 例\{#examples}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
-```python
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -167,7 +231,7 @@ const milvusClient = new MilvusClient({
 
 <TabItem value='java'>
 
-```java
+```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const milvusClient = new MilvusClient({

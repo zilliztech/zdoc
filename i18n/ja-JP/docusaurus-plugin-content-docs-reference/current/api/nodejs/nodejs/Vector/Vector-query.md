@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # query()
 
 この操作は、指定されたブール式を使用してスカラーフィルタリングを実行します。
@@ -46,10 +45,14 @@ await milvusClient.query(data)
     output_fields?: string[];
     ids?: string[] | number[];
     filter?: string;
+    expr?: string;
     offset?: number;
     limit?: number;
     consistency_level?: ConsistencyLevelEnum;
     exprValues?: keyValueObj;
+    group_by_fields?: string[];
+    transformers?: OutputTransformers;
+    params?: keyValueObj;
 })
 ```
 
@@ -85,13 +88,21 @@ await milvusClient.query(data)
 
     スカラーフィルタリングをスキップするには、このパラメータを空文字列に設定できます。スカラーフィルタリング条件を構築するには、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
 
+- **expr** (*string*) -
+
+    **filter** のエイリアスです。**filter** と **expr** のどちらか一方を指定し、両方は指定しないでください。
+
+- **exprValues** (*keyValueObj*) -
+
+    [Filtering Templating](https://milvus.io/docs/filtering-templating.md) の説明に従って `filter` でプレースホルダーを使用する場合は、これらのプレースホルダーの実際の値をキーと値のペアとしてこのパラメータの値に指定できます。
+
 - **offset** (*number*) -
 
     クエリ結果でスキップするレコード数です。 
 
     このパラメータは `limit` と組み合わせて使用することで、ページネーションを有効にできます。
 
-    この値と `limit` の合計は 16,384 未満である必要があります。 
+    この値と `limit` の合計は、16,384 以下である必要があります。 
 
 - **limit** (*number*) -
 
@@ -99,23 +110,21 @@ await milvusClient.query(data)
 
     このパラメータは `offset` と組み合わせて使用することで、ページネーションを有効にできます。
 
-    この値と `offset` の合計は 16,384 未満である必要があります。 
+    この値と `offset` の合計は、16,384 以下である必要があります。 
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象のコレクションの整合性レベルです。
+    対象のコレクションの整合性レベルです。ConsistencyLevelEnum を参照してください。
 
-    デフォルト値は、現在のコレクションを作成したときに指定した値です。指定できる値は **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) です。
+    デフォルト値は、現在のコレクションを作成したときに指定した値です。オプションは、**Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）です。
 
-    <Admonition type="info" title="Note">
-
-    整合性レベルとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        分散データベースにおける整合性とは、特定の時点でデータを書き込んだり読み取ったりする際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
+    分散データベースにおける整合性とは、特定の時点でデータを書き込んだり読み取ったりする際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
     
-        Zilliz Cloud は、**Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** です。
+    Milvus は、**Strong**、**Bounded Staleness**、**Session**、**Eventually** の4つの整合性レベルをサポートしています。Milvus のデフォルトの整合性レベルは **Bounded Staleness** です。
     
-        ベクトル類似検索やクエリを実行する際に整合性レベルを簡単に調整して、アプリケーションに最適な設定にできます。
+    ベクトル類似検索やクエリを実行する際に整合性レベルを簡単に調整して、アプリケーションに最適な設定にできます。
 
     </Admonition>
 
@@ -131,11 +140,25 @@ await milvusClient.query(data)
 
     order_by_fields のエイリアスです。任意です。
 
-**RETURNS** *Promise&lt;QueryResults&gt;*
+- **group_by_fields** (*string[]*) -
+
+    集計結果をグループ化するために使用するスカラーフィールドです。任意です。
+
+- **transformers** (*OutputTransformers*) -
+
+    特定のデータ型のデータを変換するカスタム関数です。任意です。
+
+- **params** (*keyValueObj*) -
+
+    キーと値のペアで指定する追加のクエリパラメータです。任意です。
+
+**戻り値:**
+
+*Promise&lt;QueryResults&gt;*
 
 このメソッドは、**QueryResults** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     data: Record<string, any>[],
     status:  ResStatus
@@ -144,11 +167,11 @@ await milvusClient.query(data)
 
 **PARAMETERS:**
 
-- **data** (*Record&lt;string, any&gt;[]*) -<br/>
-  一致した行です。各エントリはフィールド名をキーとし、要求された **output_fields** の各エントリの値と主キーを保持します。コレクションで **enable_dynamic_field** が **true** の場合、動的フィールドの値は宣言済みのフィールドと並んでインラインで表示されます。
+- **data** (*Record&lt;string, any&gt;[]*) -
+一致した行です。各エントリはフィールド名をキーとし、要求された各 **output_fields** エントリの値とプライマリキーを保持します。コレクションで **enable_dynamic_field** が **true** の場合、動的フィールドの値は宣言済みフィールドと並んでインラインに含まれます。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -162,9 +185,16 @@ await milvusClient.query(data)
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -175,4 +205,3 @@ const milvusClient = new MilvusClient({
    output_fields: ["age"],
  });
 ```
-

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropDatabaseProperties()
 
 この操作は、指定されたプロパティの設定を削除します。
@@ -36,18 +33,12 @@ import Admonition from '@theme/Admonition';
 await milvusClient.dropDatabaseProperties(data)
 ```
 
-<Admonition type="info" title="Notes">
-
-このメソッドは Dedicated クラスターにのみ適用されます。
-
-</Admonition>
-
 ## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.dropDatabaseProperties({
     db_name: string,
-    delete_properties: string[],
+    properties: string[],
     timeout?: number
 })
 ```
@@ -60,31 +51,31 @@ await milvusClient.dropDatabaseProperties({
 
     指定された名前のデータベースが存在している必要があります。存在しない場合、例外が発生します。
 
-- **delete_properties** (*string[]*) -
+- **properties** (*string[]*) -
 
     削除するプロパティの名前を配列で指定します。使用可能なデータベースプロパティは次のとおりです。
 
-    - **データベース.replica.number** (*int*) -
+    - **データベース.replica.number** (*number*) -
 
         データベースのレプリカ数です。
 
-    - **データベース.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*string[]*) -
 
         データベース専用のリソースグループです。
 
-    - **データベース.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*number*) -
 
         データベースに割り当てられたディスククォータです（単位はメガバイト（**MB**））。
 
-    - **データベース.max.コレクション** (*int*) -
+    - **データベース.max.コレクション** (*number*) -
 
         データベースで許可されるコレクションの最大数です。
 
-    - **データベース.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*boolean*) -
 
         データベース内のすべての書き込み操作を拒否するかどうかです。
 
-    - **データベース.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*boolean*) -
 
         データベース内のすべての読み取り操作を拒否するかどうかです。
 
@@ -94,7 +85,9 @@ await milvusClient.dropDatabaseProperties({
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise |&lt;ResStatus&gt;*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -120,6 +113,13 @@ await milvusClient.dropDatabaseProperties({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空の文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
 ```javascript
@@ -129,6 +129,6 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.dropDatabaseProperties({ 
     db_name: 'new_db',
-    delete_properties: ["database.replica.number"] 
+    properties: ["database.replica.number"] 
 });
 ```

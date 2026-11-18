@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listRoles()
 
 この操作はすべてのカスタムロールを一覧表示します。
@@ -57,11 +54,13 @@ await milvusClient.listRoles(
 
     これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;SelectRoleResponse&gt;*
+**戻り値:**
+
+*Promise&lt;SelectRoleResponse&gt;*
 
 このメソッドは、**SelectRoleResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     results: RoleResult[],
     status:  ResStatus
@@ -70,11 +69,11 @@ await milvusClient.listRoles(
 
 **パラメータ:**
 
-- **results** (*RoleResult[]*) -<br/>
-  現在の Milvus インスタンスで定義されている各ロールにつき1つの **RoleResult** オブジェクトのリストです。**RoleResult** の完全なフィールド参照については、`describeRole()` のドキュメントを参照してください。
+- **results** (*RoleResult[]*) -
+現在の Milvus インスタンスで定義されているロールごとに 1 つずつ含まれる、**RoleResult** オブジェクトのリストです。**RoleResult** の完全なフィールドリファレンスについては、`describeRole()` のドキュメントを参照してください。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -88,9 +87,22 @@ await milvusClient.listRoles(
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外が発生します。
+
 ## 例\{#example}
 
-```java
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const res = await milvusClient.listRoles({ includeUserInfo: true });
 ```
-

@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # flushAllSync()
 
 This operation flushes all コレクション and waits until the flush operation is completed. It internally calls flushAll followed by polling getFlushAllState until the flush is complete.
 
-```typescript
+```javascript
 await milvusClient.flushAllSync(data?: FlushAllReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.flushAllSync({
     db_name?: string,
     timeout?: number,
@@ -48,20 +45,22 @@ await milvusClient.flushAllSync({
 
 **パラメーター:**
 
-- **db_name** (*string*) -<br/>
-  データベース名です。省略可能です。
+- **db_name** (*string*) -
+データベースの名前です。任意です。
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+RPC の実行を許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。省略可能です。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。任意です。
 
-**戻り値** *Promise&lt;GetFlushAllStateResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetFlushAllStateResponse&gt;*
 
 このメソッドは、**GetFlushAllStateResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -70,11 +69,11 @@ await milvusClient.flushAllSync({
 
 **パラメーター:**
 
-- **flushed** (*boolean*) -<br/>
-  flush-all 操作が完全に完了したかどうかを示します。`flushAllSync()` は完了までブロックするため、成功時にはこの値は **true** です。
+- **flushed** (*boolean*) -
+flush-all 操作が完全に完了したかどうかを示します。`flushAllSync()` は完了するまでブロックするため、成功した場合、この値は **true** です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -87,6 +86,13 @@ await milvusClient.flushAllSync({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 

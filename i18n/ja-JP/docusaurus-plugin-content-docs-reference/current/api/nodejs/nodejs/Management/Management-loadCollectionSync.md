@@ -25,15 +25,12 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadCollectionSync()
 
 This operation loads the data of a specific コレクション into memory. This is the synchronous function that helps to ensure that the specified コレクション has been loaded.
 
 ```javascript
-loadCollectionSync: ((data) => Promise<ResStatus>) = ...
+await milvusClient.loadCollectionSync(data)
 ```
 
 ## リクエスト構文\{#request-syntax}
@@ -45,6 +42,8 @@ await milvusClient.loadCollectionSync({
     refresh?: boolean,
     replica_number?: number,
     resource_groups?: string[],
+    load_fields?: string[],
+    skip_load_dynamic_field?: boolean,
     timeout?: number
 })
 ```
@@ -71,7 +70,15 @@ await milvusClient.loadCollectionSync({
 
 - **resource_groups** (*string[]*) -
 
-    The number of resource groups in the コレクション to load.
+    ロードされたコレクションを保持するリソースグループの名前。
+
+- **load_fields** (*string[]*) -
+
+    ロードするフィールド名の一覧。指定しない場合は、すべてのフィールドがロードされます。
+
+- **skip_load_dynamic_field** (*boolean*) -
+
+    動的フィールドのロードをスキップするかどうか。
 
 - **timeout** (*number*) -
 
@@ -79,7 +86,9 @@ await milvusClient.loadCollectionSync({
 
     これを **None** に設定すると、何らかのレスポンスが返されるかエラーが発生した時点で、この操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -105,13 +114,19 @@ await milvusClient.loadCollectionSync({
 
     報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
 const resStatus = await milvusClient.loadCollectionSync({ collection_name: 'my_collection' });
 ```
-

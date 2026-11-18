@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listCollections()
 
 This operation lists all existing コレクション.
@@ -40,23 +37,26 @@ milvusClient.listCollections();
 
 ```javascript
 listCollections({
-    collection_name: string
+    collection_names?: string[],
     type: ShowCollectionsType,
+    db_name?: string,
     timeout?: number
 })
 ```
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -
+- **collection_names** (*string[]*) -
 
-    **[REQUIRED]**
-
-    The name of an existing コレクション.
+    フィルタリング対象とするコレクション名のリストです。指定しない場合は、すべてのコレクションが返されます。
 
 - **type** (*ShowCollectionsType*) 
 
     この操作のスコープです。指定可能な値は **All** または **Loaded** です。
+
+- **db_name** (*string*) -
+
+    コレクションを一覧表示する対象のデータベースの名前です。
 
 - **timeout** (*number*) -
 
@@ -64,11 +64,13 @@ listCollections({
 
     これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;ShowCollectionsResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ShowCollectionsResponse&gt;*
 
 このメソッドは、**ShowCollectionsResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     data: CollectionData[],
     created_timestamps: string[],
@@ -79,17 +81,17 @@ listCollections({
 
 **PARAMETERS:**
 
-- **data** (*CollectionData[]*) -<br/>
-  A list of コレクション data objects. Each entry contains the コレクション name, ID, timestamp, and loaded percentage.
+- **data** (*CollectionData[]*) -
+コレクションデータオブジェクトのリストです。各エントリには、コレクション名、ID、タイムスタンプ、読み込み済みの割合が含まれます。
 
-- **created_timestamps** (*string[]*) -<br/>
-  A list of hybrid timestamps indicating when each コレクション was created.
+- **created_timestamps** (*string[]*) -
+各コレクションが作成された時点を示すハイブリッドタイムスタンプのリストです。
 
-- **created_utc_timestamps** (*string[]*) -<br/>
-  A list of UTC timestamps indicating when each コレクション was created.
+- **created_utc_timestamps** (*string[]*) -
+各コレクションが作成された時点を示す UTC タイムスタンプのリストです。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -103,13 +105,19 @@ listCollections({
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
-const res = await milvusClient.listCollections({ collection_name: 'my_collection' });
+const res = await milvusClient.listCollections();
 ```
-

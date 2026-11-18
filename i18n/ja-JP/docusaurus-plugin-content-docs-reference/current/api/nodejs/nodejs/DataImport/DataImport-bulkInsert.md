@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # bulkInsert()
 
 この操作は、指定されたデータファイルから Milvus にデータをインポートします。
@@ -43,6 +40,7 @@ await milvusClient.bulkInsert({
     db_name?: string,
     collection_name: string,
     partition_name?: string,
+    channel_names?: string[],
     files: string[],
     timeout?: number,
     options?: KeyValuePair<string, string | number>[]
@@ -65,6 +63,10 @@ await milvusClient.bulkInsert({
 
     対象 partition の名前。
 
+- **channel_names** (*string[]*) -
+
+    インポートに使用するメッセージチャネルです。任意です。
+
 - **files** (*string[]*) -
 
     インポート元となるデータファイルのパスのリスト。
@@ -79,15 +81,13 @@ await milvusClient.bulkInsert({
 
     現在の操作に対する追加オプション（キーと値のペア）。
 
-**RETURN TYPE:**
+**戻り値:**
 
-*Promise*\<*ImportResponse*>
-
-**RETURNS** *Promise&lt;ImportResponse&gt;*
+*Promise&lt;ImportResponse&gt;*
 
 このメソッドは、**ImportResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     tasks: number[],
     status:  ResStatus
@@ -96,11 +96,11 @@ await milvusClient.bulkInsert({
 
 **PARAMETERS:**
 
-- **tasks** (*number[]*) -<br/>
-  データノードにディスパッチされた非同期インポートタスクの識別子です。完了をポーリングするには、これらの値を `listImportTasks()` に渡します。
+- **tasks** (*number[]*) -
+データノードにディスパッチされた非同期インポートタスクの識別子です。完了をポーリングするには、これらの値を `listImportTasks()` に渡します。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -114,7 +114,14 @@ await milvusClient.bulkInsert({
 
         報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
-## Examples\{#examples}
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
+## 例\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient({

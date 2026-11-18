@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getVersion()
 
 この操作は Milvus server のバージョン情報を返します。
@@ -36,11 +33,13 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getVersion()
 ```
 
-**RETURNS** *Promise&lt;GetVersionResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetVersionResponse&gt;*
 
 このメソッドは、**GetVersionResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     version: string
 }
@@ -51,6 +50,13 @@ await milvusClient.getVersion()
 - **version** (*string*) -
 
     Milvus server のセマンティックバージョン（例: **"v3.0.0"**）。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getIndexBuildProgress()
 
 This operation gets the build progress of the specified インデックス.
@@ -42,8 +39,8 @@ await milvusClient.getIndexBuildProgress(data)
 await milvusClient.getIndexBuildProgress({
       db_name?: string,
       collection_name: string,
-      field_name: string,
-      index_name: string,
+      field_name?: string,
+      index_name?: string,
       timeout?: number
 });
 ```
@@ -62,25 +59,23 @@ await milvusClient.getIndexBuildProgress({
 
 - **index_name** (*string*) -
 
-    **[REQUIRED]**
-
-    The name of the target インデックス. This parameter and `field_name` are mutually exclusive. 
+    対象インデックスの名前です。このパラメーターと `field_name` は同時に指定できません。どちらか一方のみを指定してください。
 
 - **field_name** (*string*) -
 
-    **[REQUIRED]**
-
-    The name of the target field. This parameter and `index_name` are mutually exclusive. When you use this parameter, ensure that an インデックス has been built upon the specified field.
+    対象フィールドの名前です。このパラメーターと `index_name` は同時に指定できません。どちらか一方のみを指定してください。このパラメーターを使用する場合は、指定したフィールドにインデックスが構築済みであることを確認してください。
 
 - **timeout** (number) -
 
     この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが返るか何らかのエラーが発生した時点で、この操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;GetIndexBuildProgressResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetIndexBuildProgressResponse&gt;*
 
 このメソッドは、**GetIndexBuildProgressResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     indexed_rows: number,
     total_rows: number,
@@ -90,14 +85,14 @@ await milvusClient.getIndexBuildProgress({
 
 **PARAMETERS:**
 
-- **indexed_rows** (*number*) -<br/>
-  これまでに インデックス 化された行数。
+- **indexed_rows** (*number*) -
+これまでにインデックス化された行数です。
 
-- **total_rows** (*number*) -<br/>
-  The total number of rows the index covers. The build is complete when **indexed_rows** equals **total_rows**.
+- **total_rows** (*number*) -
+インデックスの対象となる行の総数です。**indexed_rows** が **total_rows** と等しくなると、構築が完了します。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -111,9 +106,16 @@ await milvusClient.getIndexBuildProgress({
 
         報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const getIndexBuildProgressReq = {
   collection_name: 'my_collection',
@@ -122,4 +124,3 @@ const getIndexBuildProgressReq = {
 const res = await milvusClient.getIndexBuildProgress(getIndexBuildProgressReq);
 console.log(res);
 ```
-

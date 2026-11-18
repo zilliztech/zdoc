@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getCompactionState()
 
 This operation lists the statistics collected on a specific コレクション.
@@ -59,11 +56,13 @@ await milvusClient.getCompactionState({
 
     これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点で、この操作はタイムアウトします。
 
-**戻り値** *Promise&lt;GetCompactionStateResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetCompactionStateResponse&gt;*
 
 このメソッドは、**GetCompactionStateResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     state: CompactionState,
     executingPlanNo: string,
@@ -76,23 +75,24 @@ await milvusClient.getCompactionState({
 
 **パラメータ:**
 
-- **state** (*CompactionState*) -<br/>
-  The aggregate state of the Compaction. Possible values are **UndefiedState**, **Executing**, and **Completed**.
+- **state** (*CompactionState*) -
 
-- **executingPlanNo** (*string*) -<br/>
-  まだ実行中のプラン数。
+Compaction の集約状態です。指定できる値は **UndefiedState**、**Executing**、**Completed** です。
 
-- **timeoutPlanNo** (*string*) -<br/>
-  タイムアウトしたプラン数。
+- **executingPlanNo** (*string*) -
+実行が継続しているプランの数。
 
-- **completedPlanNo** (*string*) -<br/>
-  正常に完了したプラン数。
+- **timeoutPlanNo** (*string*) -
+タイムアウトしたプランの数。
 
-- **failedPlanNo** (*string*) -<br/>
-  失敗したプラン数。
+- **completedPlanNo** (*string*) -
+正常に完了したプランの数。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **failedPlanNo** (*string*) -
+失敗したプランの数。
+
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -106,6 +106,13 @@ await milvusClient.getCompactionState({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
+
 ## Example\{#example}
 
 ```javascript
@@ -117,4 +124,3 @@ const resStatus = await milvusClient.getCompactionState({
     compactionID: 'your_compaction_id',
 });
 ```
-

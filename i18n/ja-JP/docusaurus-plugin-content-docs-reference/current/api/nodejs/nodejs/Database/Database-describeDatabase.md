@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeDatabase()
 
 この操作はデータベースの詳細情報を取得し、データベース名、ID、作成タイムスタンプ、プロパティなどを返します。
@@ -57,11 +54,13 @@ await milvusClient.describeDatabase({
 
     ミリ秒単位の RPC タイムアウト。任意。
 
-**戻り値** *Promise&lt;DescribeDatabaseResponse&gt;*
+**戻り値:**
+
+*Promise&lt;DescribeDatabaseResponse&gt;*
 
 このメソッドは、**DescribeDatabaseResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     db_name: string,
     dbID: number,
@@ -73,20 +72,20 @@ await milvusClient.describeDatabase({
 
 **パラメータ:**
 
-- **db_name** (*string*) -<br/>
-  データベース名。
+- **db_name** (*string*) -
+データベース名です。
 
-- **dbID** (*number*) -<br/>
-  内部データベース識別子。
+- **dbID** (*number*) -
+データベースの内部識別子です。
 
-- **created_timestamp** (*number*) -<br/>
-  データベースの作成タイムスタンプ（ミリ秒単位）。
+- **created_timestamp** (*number*) -
+データベースの作成タイムスタンプ（ミリ秒単位）です。
 
-- **properties** (*KeyValuePair[]*) -<br/>
-  データベース-level properties (for example, **データベース.replica.number**, **データベース.resource_groups**) declared at creation or set via `alterDatabaseProperties()`.
+- **properties** (*KeyValuePair[]*) -
+作成時に宣言された、または `alterDatabaseProperties()` で設定されたデータベースレベルのプロパティです（例: **データベース.replica.number**、**データベース.resource_groups**）。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -99,6 +98,13 @@ await milvusClient.describeDatabase({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 

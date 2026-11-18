@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # batchDescribeCollections()
 
 This operation retrieves スキーマ and metadata for multiple コレクション in a single call.
 
-```typescript
+```javascript
 await milvusClient.batchDescribeCollections(data: BatchDescribeCollectionReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.batchDescribeCollections({
     collection_names: string[],
     db_name?: string,
@@ -50,27 +47,29 @@ await milvusClient.batchDescribeCollections({
 
 **パラメータ:**
 
-- **collection_names** (*string[]*) -<br/>
-  **[REQUIRED]**<br/>
-  The names of the コレクション to describe.
+- **collection_names** (*string[]*) -
+**[REQUIRED]**
+情報を取得するコレクションの名前です。
 
-- **db_name** (*string*) -<br/>
-  データベース名です。任意です。
+- **db_name** (*string*) -
+データベースの名前です。省略可能です。
 
-- **collectionIDs** (*number[]*) -<br/>
-  The IDs of the コレクション to describe. Optional.
+- **collectionIDs** (*number[]*) -
+情報を取得するコレクションの ID です。省略可能です。
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+RPC に使用できる時間をミリ秒単位で指定します。この値は省略可能です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。任意です。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。省略可能です。
 
-**戻り値** *Promise&lt;BatchDescribeCollectionResponse&gt;*
+**戻り値:**
+
+*Promise&lt;BatchDescribeCollectionResponse&gt;*
 
 このメソッドは、**BatchDescribeCollectionResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     responses: DescribeCollectionResponse[],
     status:  ResStatus
@@ -79,11 +78,11 @@ await milvusClient.batchDescribeCollections({
 
 **パラメータ:**
 
-- **responses** (*DescribeCollectionResponse[]*) -<br/>
-  An array containing the スキーマ and metadata for every requested コレクション. Entries appear in the same order as the input コレクション names. For the full **DescribeCollectionResponse** field reference, refer to the `describeCollection()` doc.
+- **responses** (*DescribeCollectionResponse[]*) -
+リクエストされたすべてのコレクションのスキーマとメタデータを含む配列です。エントリは、入力されたコレクション名と同じ順序で並びます。**DescribeCollectionResponse** のフィールドの完全なリファレンスについては、`describeCollection()` のドキュメントを参照してください。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -97,6 +96,13 @@ await milvusClient.batchDescribeCollections({
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
 ```javascript
@@ -108,6 +114,6 @@ const client = new MilvusClient({
 });
 
 const res = await client.batchDescribeCollections({
-    collection_names: ['collection1', 'collection2'],
+    collection_names: ['my_collection', 'hello_milvus'],
 });
 ```

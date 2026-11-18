@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # runAnalyzer()
 
 この操作は、テスト目的で指定されたテキストに対して analyzer を実行します。
@@ -39,11 +36,15 @@ await milvusClient.runAnalyzer(data)
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient({
+milvusClient.runAnalyzer({
     analyzer_params: Record<string, any>,
     text: string | string[],
     with_detail: boolean,
-    with_hash: boolean
+    with_hash: boolean,
+    db_name?: string,
+    collection_name?: string,
+    field_name?: string,
+    analyzer_names?: string[],
 })
 ```
 
@@ -65,11 +66,29 @@ milvusClient({
 
     ハッシュベースの処理を含めるかどうかを示すオプションフラグです。
 
-**RETURNS** *Promise&lt;RunAnalyzerResponse&gt;*
+- **db_name** (*string*) -
+
+    analyzer が定義されているデータベースの名前です。
+
+- **collection_name** (*string*) -
+
+    analyzer を使用するコレクションの名前です。
+
+- **field_name** (*string*) -
+
+    analyzer を使用するフィールドの名前です。
+
+- **analyzer_names** (*string[]*) -
+
+    入力テキストに対して実行する analyzer の名前です。
+
+**戻り値:**
+
+*Promise&lt;RunAnalyzerResponse&gt;*
 
 このメソッドは、**RunAnalyzerResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     results: AnalyzerResult[],
     status:  ResStatus
@@ -78,8 +97,8 @@ milvusClient({
 
 **PARAMETERS:**
 
-- **results** (*AnalyzerResult[]*) -<br/>
-  トークン化の出力です。**text** が単一の文字列である場合、このリストには 1 つのエントリが含まれます。**text** が配列である場合、エントリは入力順に対応します。
+- **results** (*AnalyzerResult[]*) -
+トークン化された出力です。**text** が単一の文字列の場合、このリストには 1 つのエントリが含まれます。**text** が配列の場合、エントリは入力順に並びます。
 
     - **tokens** (*AnalyzerToken[]*) -
 
@@ -109,32 +128,8 @@ milvusClient({
 
         トークンのハッシュです。リクエストで **with_hash** を **true** に設定した場合に格納されます。
 
-        - **token** (*string*) -
-
-            トークンテキストです。
-
-        - **start_offset** (*number*) -
-
-            入力内でトークンが始まる位置の 0 始まりの文字オフセットです。
-
-        - **end_offset** (*number*) -
-
-            トークン直後の位置を示す 0 始まりの文字オフセットです。
-
-        - **position** (*number*) -
-
-            フレーズクエリで使用される、ストリーム内のトークン位置です。
-
-        - **position_length** (*number*) -
-
-            トークンがまたぐストリーム位置の数です。
-
-        - **hash** (*number*) -
-
-            トークンのハッシュです。リクエストで **with_hash** を **true** に設定した場合に格納されます。
-
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -147,3 +142,31 @@ milvusClient({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
+
+## 例\{#example}
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const res = await milvusClient.runAnalyzer({
+    analyzer_params: {
+        tokenizer: 'standard',
+        filter: ['lowercase'],
+    },
+    text: 'Hello Milvus',
+    with_detail: true,
+});
+
+console.log(res.results);
+```

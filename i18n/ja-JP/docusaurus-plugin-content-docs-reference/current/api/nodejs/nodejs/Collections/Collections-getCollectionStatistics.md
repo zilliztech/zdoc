@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getCollectionStatistics()
 
 This operation lists the statistics collected on a specific コレクション.
@@ -64,11 +61,13 @@ await milvusClient.getCollectionStatistics({
 
     これを **None** に設定すると、いずれかのレスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;StatisticsResponse&gt;*
+**戻り値:**
+
+*Promise&lt;StatisticsResponse&gt;*
 
 このメソッドは、**StatisticsResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     stats: KeyValuePair[],
     data: { [x: string]: any },
@@ -78,14 +77,14 @@ await milvusClient.getCollectionStatistics({
 
 **PARAMETERS:**
 
-- **stats** (*KeyValuePair[]*) -<br/>
-  Milvus によって返される生の統計情報リスト。各エントリは **key**（たとえば **row_count**）と、文字列としての **value** を持ちます。
+- **stats** (*KeyValuePair[]*) -
+Milvus から返される生の統計リストです。各エントリーには **key**（例：**row_count**）と、文字列の **value** があります。
 
-- **data** (*Record&lt;string, any&gt;*) -<br/>
-  利便性のために **stats** をフラット化し、キーで索引付けしたビューです。たとえば、`data.row_count` は行数を文字列として返します。
+- **data** (*Record&lt;string, any&gt;*) -
+便宜上、**stats** をキーでインデックス付けしたフラットなビューです。例えば、`data.row_count` は行数を文字列として返します。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -99,13 +98,19 @@ await milvusClient.getCollectionStatistics({
 
         報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
  const res = await milvusClient.getCollectionStatistics({ collection_name: 'my_collection' });
 ```
-

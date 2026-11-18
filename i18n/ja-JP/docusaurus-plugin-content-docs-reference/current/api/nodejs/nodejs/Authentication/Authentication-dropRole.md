@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropRole()
 
 この操作はカスタムロールを削除します。
@@ -59,7 +56,9 @@ await milvusClient.dropRole({
 
     これを **None** に設定すると、レスポンスが返されるかエラーが発生した時点で、この操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -85,11 +84,17 @@ await milvusClient.dropRole({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+
 ## 例\{#example}
 
-```java
+```javascript
 await milvusClient.dropRole({
    roleName: 'exampleRole',
  })
 ```
-

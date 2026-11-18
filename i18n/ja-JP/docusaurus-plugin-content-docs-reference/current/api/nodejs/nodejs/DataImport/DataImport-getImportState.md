@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getImportState()
 
 この操作は、特定のインポートタスクの現在の状態とメタデータを取得します。`bulkInsert()` の呼び出し後、完了をポーリングするために使用します。
 
-```typescript
+```javascript
 await milvusClient.getImportState(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getImportState({
     task: number,
     timeout?: number
@@ -55,11 +52,13 @@ await milvusClient.getImportState({
 
     RPC に許可するオプションの時間（ミリ秒）。
 
-**戻り値** *Promise&lt;GetImportStateResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetImportStateResponse&gt;*
 
 このメソッドは、**GetImportStateResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     state: ImportState,
     row_count: number,
@@ -122,6 +121,13 @@ await milvusClient.getImportState({
     - **reason** (*string*) -
 
     報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## Example\{#example}
 

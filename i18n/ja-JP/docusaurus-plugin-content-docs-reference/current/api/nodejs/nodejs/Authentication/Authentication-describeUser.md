@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeUser()
 
-これはメソッドテンプレートです。
+この操作は、ユーザーとそのユーザーに割り当てられているロールを記述します。
 
 ```javascript
 await milvusClient.describeUser(data)
@@ -64,11 +61,13 @@ await milvusClient.describeUser({
 
     これを **None** に設定すると、応答が到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;SelectUserResponse&gt;*
+**戻り値：**
+
+*Promise&lt;SelectUserResponse&gt;*
 
 このメソッドは、**SelectUserResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     results: UserResult[],
     status:  ResStatus
@@ -77,35 +76,23 @@ await milvusClient.describeUser({
 
 **PARAMETERS:**
 
-- **results** (*UserResult[]*) -<br/>
-  **UserResult** オブジェクトのリストです。`describeUser()` の場合、このリストには要求されたユーザーを説明する単一のエントリが含まれます。
+- **results** (*UserResult[]*) -
+**UserResult** オブジェクトのリストです。`describeUser()` の場合、このリストには要求されたユーザーを説明する単一のエントリが含まれます。
 
     - **user** (*User*) -
 
         ユーザーを識別する **User** オブジェクトです。
 
-        - **name** (*string*) -
-
-        ユーザー名です。
-
-        - **name** (*string*) -
-
-            ユーザー名です。
-
     - **roles** (*RoleEntity[]*) -
 
         このユーザーに割り当てられているロールのリストです。
 
-        - **name** (*string*) -
+- **description** (*string*) -
 
-        ロール名です。
+        ユーザーの説明です。
 
-        - **name** (*string*) -
-
-            ロール名です。
-
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -119,9 +106,15 @@ await milvusClient.describeUser({
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外：**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 milvusClient.describeUser({username: 'name'})
 ```
-

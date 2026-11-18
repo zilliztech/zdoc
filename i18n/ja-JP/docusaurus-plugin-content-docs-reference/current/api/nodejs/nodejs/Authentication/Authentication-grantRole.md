@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # grantRole()
 
 この操作はユーザーにロールを付与します。
@@ -48,13 +45,13 @@ await milvusClient.grantRole({
 
 **PARAMETERS:**
 
-- **username** (*str*) -
+- **username** (*string*) -
 
     **[REQUIRED]**
 
     既存のユーザー名。
 
-- **roleName** (*str*) -
+- **roleName** (*string*) -
 
     **[REQUIRED]**
 
@@ -66,7 +63,9 @@ await milvusClient.grantRole({
 
     これを **None** に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -92,12 +91,18 @@ await milvusClient.grantRole({
 
     報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+
 ## Example\{#example}
 
-```java
+```javascript
 await milvusClient.grantRole({
    username: 'my',
    roleName: 'myrole'
  })
 ```
-

@@ -2,7 +2,7 @@
 title: "unpinSnapshotData() | Node.js"
 slug: /node/node/Snapshot-unpinSnapshotData
 sidebar_label: "unpinSnapshotData()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # unpinSnapshotData()
 
 この操作はスナップショットデータのピン留めを解除し、不要になったときにガベージコレクションの対象にできるようにします。
 
-```typescript
+```javascript
 await milvusClient.unpinSnapshotData(data: UnpinSnapshotDataReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.unpinSnapshotData({
     pin_id: number | string,
     timeout?: number,
@@ -48,23 +45,25 @@ await milvusClient.unpinSnapshotData({
 
 **パラメーター:**
 
-- **pin_id** (*number | string*) -<br/>
-  **[必須]**<br/>
-  pinSnapshotData() によって返されるピン ID です。
+- **pin_id** (*number | string*) -
+**[必須]**
+pinSnapshotData() によって返されるピン ID です。
 
-- **timeout** (*number*) -<br/>
-  RPC に許容される時間をミリ秒単位で指定します。省略可能です。undefined に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機します。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC の実行を許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。省略可能です。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。任意です。
 
 **戻り値:**
 
 *Promise&lt;ResStatus&gt;*
 
+このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
+
 **例外:**
 
-- **MilvusError**
+- **エラー**
 
     この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # BulkWriterOptions
 
 このインターフェースは `BulkWriter` インスタンスを設定するためのもので、スキーマ検証、storage の動作、ファイル形式、チャンクサイズ、ローカル出力パスを含みます。

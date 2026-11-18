@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getLoadState()
 
 This operation displays whether a specified コレクション or partition is loaded or not.
@@ -67,11 +64,13 @@ await milvusClient.getLoadState({
 
     この操作のタイムアウト時間。これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点で、この操作はタイムアウトします。
 
-**戻り値** *Promise&lt;GetLoadStateResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetLoadStateResponse&gt;*
 
 このメソッドは、**GetLoadStateResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     state: LoadState,
     status:  ResStatus
@@ -80,11 +79,11 @@ await milvusClient.getLoadState({
 
 **パラメーター:**
 
-- **state** (*LoadState*) -<br/>
-  現在のロード状態。指定可能な値は **LoadStateNotExist**、**LoadStateNotLoad**、**LoadStateLoading**、**LoadStateLoaded** です。
+- **state** (*LoadState*) -
+現在のロード状態。指定可能な値は **LoadStateNotExist**、**LoadStateNotLoad**、**LoadStateLoading**、および **LoadStateLoaded** です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -98,9 +97,16 @@ await milvusClient.getLoadState({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -109,4 +115,3 @@ const milvusClient = new MilvusClient({
    collection_name: 'my_collection',
  });
 ```
-

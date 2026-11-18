@@ -25,28 +25,67 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # FunctionType
 
-以下の定数を提供する列挙型です。
+生データをベクトルに変換するスキーマ関数の型を定義します。
 
-## Constants\{#constants}
+```typescript
+export enum FunctionType {
+  Unknown = 0,
+  BM25 = 1,
+  TEXTEMBEDDING = 2,
+  RERANK = 3,
+  MINHASH = 4,
+  MOLFINGERPRINT = 5,
+}
+```
 
-- **BM25** = 1
+**定数:**
 
-    関数タイプを **BM25** に設定します。
-
-- **TEXTEMBEDDING** = 2
-
-    関数タイプを **TEXTEMBEDDING** に設定します。
-
-- **RERANK** = 3
-
-    関数タイプを **RERANK** に設定します。
-
-- **Unknown** = 0
+- **Unknown** (0)
 
     関数タイプを **Unknown** に設定します。
 
+- **BM25** (1)
+
+    関数タイプを **BM25** に設定します。これは、BM25 アルゴリズムに基づくスパースベクトル関数です。
+
+- **TEXTEMBEDDING** (2)
+
+    関数タイプを **TEXTEMBEDDING** に設定します。これは、密ベクトルを生成するテキスト埋め込み関数です。
+
+- **RERANK** (3)
+
+    関数タイプを **RERANK** に設定します。これは、再ランキング関数です。
+
+- **MINHASH** (4)
+
+    関数タイプを **MINHASH** に設定します。これは、類似性検出用の MinHash 関数です。
+
+- **MOLFINGERPRINT** (5)
+
+    関数タイプを **MOLFINGERPRINT** に設定します。これは、分子フィンガープリント関数です。
+
+## 例\{#example}
+
+```javascript
+import { MilvusClient, FunctionType } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+await milvusClient.createCollection({
+    collection_name: 'my_collection',
+    functions: [
+        {
+            name: 'bm25_fn',
+            type: FunctionType.BM25,
+            input_field_names: ['text'],
+            output_field_names: ['sparse_vector'],
+            params: {},
+        },
+    ],
+});
+```

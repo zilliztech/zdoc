@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropIndex()
 
 This operation drops an インデックス from a specific コレクション.
@@ -39,7 +36,7 @@ await milvusClient.dropIndex(data)
 ## リクエスト構文\{#request-syntax}
 
 ```javascript
-await milvusClient.dropPartition({
+await milvusClient.dropIndex({
     db_name: string,
     collection_name: string,
     field_name?: string,
@@ -72,7 +69,9 @@ await milvusClient.dropPartition({
 
     この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -98,9 +97,16 @@ await milvusClient.dropPartition({
 
     報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const dropIndexReq = {
   collection_name: 'my_collection',
@@ -109,4 +115,3 @@ const dropIndexReq = {
 const res = await milvusClient.dropIndex(dropIndexReq);
 console.log(res);
 ```
-

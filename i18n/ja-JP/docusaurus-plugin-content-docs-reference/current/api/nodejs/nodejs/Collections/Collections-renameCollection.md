@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # renameCollection()
 
 この操作は既存のコレクションの名前を変更します。
@@ -43,6 +40,7 @@ await milvusClient.renameCollection({
    db_name: string,
    collection_name: string,
    new_collection_name: string,
+   new_db_name?: string,
    timeout?: number
  })
 ```
@@ -65,13 +63,19 @@ await milvusClient.renameCollection({
 
     この操作後の対象コレクションの名前です。
 
+- **new_db_name** (*string*) -
+
+    コレクションの移動先となるデータベースの名前です。任意です。
+
 - **timeout** (*number*) -
 
     この操作のタイムアウト時間です。 
 
     これを **None** に設定すると、何らかのレスポンスが到着した場合、または何らかのエラーが発生した場合にこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは **ResStatus** オブジェクトに解決される promise を返します。
 
@@ -97,9 +101,16 @@ await milvusClient.renameCollection({
 
     報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -109,4 +120,3 @@ const milvusClient = new MilvusClient({
    new_collection_name: 'my_new_collection'
  });
 ```
-

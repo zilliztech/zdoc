@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # close()
 
 この操作は `MilvusClientSession` インスタンスを閉じ、それ以降のセッションリクエストを防止します。
 
-```typescript
+```javascript
 session.close(): void
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 session.close()
 ```
 

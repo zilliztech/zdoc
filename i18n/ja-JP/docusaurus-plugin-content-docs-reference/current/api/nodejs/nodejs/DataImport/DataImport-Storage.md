@@ -25,14 +25,11 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # Storage
 
 このインターフェースは `BulkWriter` によって生成されたファイルを保存します。`bulkInsert()` を呼び出す前に、生成されたファイルをオブジェクトストレージまたは別のリモート場所へアップロードするために使用します。
 
-```typescript
+```javascript
 interface Storage
 ```
 

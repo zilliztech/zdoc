@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # revokePrivilegeV2()
 
 この操作は、ロールにすでに割り当てられている権限を取り消します。
@@ -39,7 +36,7 @@ await milvusClient.revokePrivilegeV2(data)
 ## リクエスト構文\{#request-syntax}
 
 ```javascript
-await milvusClient.revokePrivilege({
+await milvusClient.revokePrivilegeV2({
    role: string,
    privilege: string,
    db_name: string,
@@ -82,7 +79,9 @@ await milvusClient.revokePrivilege({
 
     これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -108,9 +107,16 @@ await milvusClient.revokePrivilege({
 
     報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 await milvusClient.revokePrivilegeV2({
     role: 'exampleRole',
     privilege: 'CreateCollection',
@@ -118,4 +124,3 @@ await milvusClient.revokePrivilegeV2({
     collection_name: 'exampleCollection',
 });
 ```
-

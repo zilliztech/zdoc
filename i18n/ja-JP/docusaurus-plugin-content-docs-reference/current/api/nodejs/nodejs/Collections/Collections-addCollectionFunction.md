@@ -4,12 +4,12 @@ slug: /node/node/Collections-addCollectionFunction
 sidebar_label: "addCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作では、既存のコレクションに関数を追加します。 | Node.js"
+description: "この操作は、既存のコレクションにカスタム関数を追加します。 | Node.js"
 type: docx
-token: VyADdglU4ohvGTxHuwTc6yBRnTe
+token: SmI4dGF4qoAjbKxamfhcndjxnCc
 sidebar_position: 21
 keywords: 
   - Zilliz データベース
@@ -27,68 +27,86 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # addCollectionFunction()
 
-この操作では、既存のコレクションに関数を追加します。
+<Admonition type="warning" icon="🚧" title="Warning">
+
+**非推奨です。**
+
+このメソッドは非推奨です。代わりに addFunctionField() を使用してください。
+
+</Admonition>
+
+この操作は、既存のコレクションにカスタム関数を追加します。
+
+```javascript
+await milvusClient.addCollectionFunction(data: AddCollectionFunctionReq)
+```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
-milvusClient.addCollectionFunction({ collection_name, function, db_name?, timeout? })
+```javascript
+await milvusClient.addCollectionFunction({
+    collection_name: string,
+    function: FunctionObject,
+    db_name?: string,
+    timeout?: number,
+})
 ```
 
 **パラメーター：**
 
 - **collection_name** (*string*) -
 
-    既存のコレクションの名前です。
+    **[必須]**
+
+    関数を追加するコレクションの名前です。
 
 - **function** (*FunctionObject*) -
 
-    コレクションに追加する関数オブジェクトです。
+    **[必須]**
+
+    コレクションに追加する関数です。FunctionObject を参照してください。
 
 - **db_name** (*string*) -
 
-    コレクションを格納するデータベースの名前です。
+    コレクションが存在するデータベースの名前です。
 
 - **timeout** (*number*) -
 
-    RPC に許容する時間をミリ秒単位で指定します（省略可能）。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+    この操作のタイムアウト時間（ミリ秒）です。
 
 **戻り値：**
 
-*ResStatus*
+*Promise&lt;ResStatus&gt;*
 
-操作の応答ステータスは、`{error_code, reason}` の形式です。
-
-**パラメーター：**
-
-- **error_code** (*number*) -
-
-    エラーコード番号です。0 は成功を意味します。
-
-- **reason** (*string*) -
-
-    エラーの原因です（存在する場合）。
+このメソッドは、**ResStatus** オブジェクトに解決される Promise を返します。
 
 **例外：**
 
-- **MilvusError**
+- **エラー**
 
-    サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 
 ```javascript
-await milvusClient.addCollectionFunction({
-  collection_name: 'my_collection',
-  function: {
-    name: 'bm25_fn',
-    type: 'BM25',
-    input_field_names: ['text'],
-    output_field_names: ['sparse_vector'],
-    params: {},
-  },
+import { MilvusClient, FunctionType } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const resStatus = await milvusClient.addCollectionFunction({
+    collection_name: 'my_collection',
+    function: {
+        name: 'my_bm25_function',
+        description: 'BM25 sparse embedding function',
+        type: FunctionType.BM25,
+        input_field_names: ['text'],
+        output_field_names: ['sparse_vector'],
+        params: {},
+    },
 });
 ```

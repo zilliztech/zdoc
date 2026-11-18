@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listAliases()
 
 これはメソッドテンプレートです。
@@ -66,11 +63,13 @@ listAliases({
 
     これを **None** に設定すると、レスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;ListAliasesResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ListAliasesResponse&gt;*
 
 このメソッドは、**ListAliasesResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     db_name: string,
     aliases: string[],
@@ -81,17 +80,17 @@ listAliases({
 
 **PARAMETERS:**
 
-- **db_name** (*string*) -<br/>
-  一覧表示された alias を所有するデータベース。
+- **db_name** (*string*) -
+一覧表示されたエイリアスを所有するデータベースです。
 
-- **aliases** (*string[]*) -<br/>
-  A list of all aliases that point to the requested コレクション.
+- **aliases** (*string[]*) -
+リクエストされたコレクションを指すすべてのエイリアスの一覧です。
 
-- **collection_name** (*string*) -<br/>
-  The コレクション name to which the listed aliases point.
+- **collection_name** (*string*) -
+一覧表示されたエイリアスが指すコレクション名です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -105,13 +104,19 @@ listAliases({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
 const res = await milvusClient.listAliases({ collection_name: 'my_collection' });
 ```
-

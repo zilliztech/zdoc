@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # flushSync()
 
 この操作は、セグメントを手動でシールし、データをディスクに永続化します。すべてのデータをコレクションに挿入した後にこの操作を呼び出すことを推奨します。これは、関数が戻る前に flush 操作が完了していることを保証する同期関数です。
@@ -36,7 +35,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.flushSync(data)
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Milvus は一定間隔でデータを永続ストレージに自動的に flush します。この自動データ永続化メカニズムに依存することを推奨します。
 
@@ -70,11 +69,13 @@ await milvusClient.flushSync({
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点で、この操作がタイムアウトすることを示します。
 
-**戻り値** *Promise&lt;GetFlushStateResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetFlushStateResponse&gt;*
 
 このメソッドは、**GetFlushStateResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -83,11 +84,11 @@ await milvusClient.flushSync({
 
 **パラメーター:**
 
-- **flushed** (*boolean*) -<br/>
-  対象のすべてのセグメントが永続ストレージに flush されているかどうかです。`flushSync()` は flush が完了するまでブロックするため、成功時にはこの値は **true** です。
+- **flushed** (*boolean*) -
+対象となるすべてのセグメントが永続ストレージにフラッシュされたかどうか。`flushSync()` はフラッシュが完了するまでブロックするため、成功時にはこの値が **true** になります。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -101,9 +102,16 @@ await milvusClient.flushSync({
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -112,4 +120,3 @@ const flushSyncStatus = await milvusClient.flushSync({
     collection_names: ['my_collection'],
 });
 ```
-

@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # session()
 
 This operation creates a lightweight DQL session bound to a target クラスター ID. The session injects `cluster_id` into search/query/get requests.
 
-```typescript
+```javascript
 const session = milvusClient.session(clusterId: string)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 const session = milvusClient.session('cluster-a')
 ```
 

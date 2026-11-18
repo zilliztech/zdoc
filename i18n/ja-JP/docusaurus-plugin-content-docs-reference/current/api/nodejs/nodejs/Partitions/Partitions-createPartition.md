@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createPartition()
 
 This operation creates a partition in the target コレクション.
@@ -71,7 +68,9 @@ await milvusClient.createPartition({
 
     これを **None** に設定すると、何らかのレスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -97,9 +96,16 @@ await milvusClient.createPartition({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -108,4 +114,3 @@ new MilvusClient({
     partition_name: 'my_partition',
  });
 ```
-

@@ -25,14 +25,11 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # BulkWriterSchema
 
-このインターフェースは、`BulkWriter` が行を検証し、Milvus がインポートできる JSON または Parquet ファイルを生成するために使用するコレクションスキーマを説明します。
+このインターフェースは、[`BulkWriter`](./DataImport-BulkWriter) が行を検証し、Milvus がインポートできる JSON または Parquet ファイルを生成するために使用するコレクションスキーマを説明します。
 
-```typescript
+```javascript
 interface BulkWriterSchema
 ```
 

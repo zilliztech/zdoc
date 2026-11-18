@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getLoadingProgress()
 
 This operation gets the loading progress of a specific コレクション.
@@ -67,11 +64,13 @@ await milvusClient.getLoadingProgress({
 
     この操作のタイムアウト時間。これを **None** に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;GetLoadingProgressResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetLoadingProgressResponse&gt;*
 
 このメソッドは、**GetLoadingProgressResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     progress: string,
     status:  ResStatus
@@ -80,11 +79,11 @@ await milvusClient.getLoadingProgress({
 
 **パラメータ:**
 
-- **progress** (*string*) -<br/>
-  The completion percentage of the load operation as an integer between **"0"** and **"100"**. The コレクション is fully loaded once this value reaches **"100"**.
+- **progress** (*string*) -
+**"0"** から **"100"** までの整数で表される、ロード操作の完了率です。この値が **"100"** に達すると、コレクションは完全にロードされます。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -98,9 +97,16 @@ await milvusClient.getLoadingProgress({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -109,4 +115,3 @@ const resStatus = await milvusClient.getLoadingProgress({
     collection_name: 'my_collection',
 });
 ```
-

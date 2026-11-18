@@ -25,39 +25,34 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # queryIterator()
 
-This operation conducts a ベクトル similarity search iteratively and returns results in batches. Use this instead of a single search() call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return.
+この操作は、スカラーフィルタリングクエリを反復的に実行し、結果をバッチで返します。大規模な結果セットを段階的に処理する場合や、合計結果件数が 1 回の query() 呼び出しで返せる件数を超える場合は、1 回の query() 呼び出しの代わりにこれを使用します。
 
 ```javascript
-await milvusClient.searchIterator(data: SearchIteratorReq)
+await milvusClient.queryIterator(data: QueryIteratorReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
 ```javascript
-await milvusClient.searchIterator({
+await milvusClient.queryIterator({
     collection_name: string,
-    data: SearchData | SearchData[],
     batchSize: number,
-    limit?: number,
     filter?: string,
-    anns_field?: string,
+    expr?: string,
+    exprValues?: keyValueObj,
+    params?: keyValueObj,
+    group_by_fields?: string[],
+    order_by_fields?: OrderByFields,
+    order_by?: OrderByFields,
+    transformers?: OutputTransformers,
+    limit?: number,
     output_fields?: string[],
     partition_names?: string[],
-    params?: keyValueObj,
-    metric_type?: string,
     consistency_level?: ConsistencyLevelEnum,
-    ignore_growing?: boolean,
-    group_by_field?: string,
-    exprValues?: keyValueObj,
-    rerank?: RerankerObj | FunctionObject | FunctionScore,
-    transformers?: OutputTransformers,
-    external_filter_fn?: (row: SearchResultData) => boolean,
     db_name?: string,
+    timeout?: number,
 })
 ```
 
@@ -67,93 +62,79 @@ await milvusClient.searchIterator({
 
     **[必須]**
 
-    The name of the コレクション to search.
-
-- **data** (*SearchData | SearchData[]*) -
-
-    **[必須]**
-
-    The query ベクトル(s). Supported types include FloatVector (number[]), BFloat16Vector (Uint8Array), Float16Vector (Uint8Array), BinaryVector (number[]), and SparseFloatVector.
+    既存のコレクションの名前です。
 
 - **batchSize** (*number*) -
 
     **[必須]**
 
-    反復ごとに返される結果数。16,384 を超えることはできません。
-
-- **limit** (*number*) -
-
-    すべての反復にわたる結果の総最大数。デフォルトは一致する entity の総数です（制限なし）。
+    反復ごとに返すエンティティ数です。16,384 を超えることはできません。
 
 - **filter** (*string*) -
 
-    A スカラー filtering condition to filter matching entities before the search. Defaults to an empty string (no filter).
+    一致するエンティティをフィルタリングするスカラー条件です。すべてのエンティティを返すには、空文字列に設定します。スカラー条件の作成方法については、Boolean Expression Rules を参照してください。
 
-- **anns_field** (*string*) -
+- **expr** (*string*) -
 
-    The name of the target ベクトル field. Required when the コレクション has multiple ベクトル fields.
-
-- **output_fields** (*string[]*) -
-
-    返される各 entity に含めるフィールド名のリスト。デフォルトでは primary フィールドのみが含まれます。
-
-- **partition_names** (*string[]*) -
-
-    検索対象の partition の名前。
-
-- **params** (*keyValueObj*) -
-
-    `radius` や範囲検索用の `range_filter` など、キーと値のペアで指定する追加の検索パラメーター。
-
-- **metric_type** (*string*) -
-
-    The metric type used to measure similarity between ベクトル. Defaults to the metric type of the indexed field.
-
-- **consistency_level** (*ConsistencyLevelEnum*) -
-
-    この操作の整合性レベル。オプション: Strong (0)、Bounded (1)、Session (2)、Eventually (3)。デフォルトは Bounded です。
-
-- **ignore_growing** (*boolean*) -
-
-    検索中に growing segment をスキップするかどうか。
-
-- **group_by_field** (*string*) -
-
-    指定したフィールドで検索結果をグループ化し、多様性を確保します。
+    **filter** のエイリアスです。**filter** または **expr** のいずれかを指定し、両方は指定しないでください。
 
 - **exprValues** (*keyValueObj*) -
 
-    テンプレート化されたフィルタ式のプレースホルダー値。
+    フィルター式でプレースホルダーを使用する場合、これらのプレースホルダーの実際の値をキーと値のペアで指定できます。
 
-- **rerank** (*RerankerObj | FunctionObject | FunctionScore*) -
+- **params** (*keyValueObj*) -
 
-    再ランキング戦略とそのパラメーター。サポートされる reranker タイプの詳細については `search()` を参照してください。
+    キーと値のペアで指定する追加のクエリパラメーターです。
+
+- **group_by_fields** (*string[]*) -
+
+    集計結果をグループ化するために使用するスカラーフィールドです。
+
+- **order_by_fields** (*OrderByFields*) -
+
+    クエリ結果を並べ替える基準となるフィールドです。
+
+- **order_by** (*OrderByFields*) -
+
+    **order_by_fields** のエイリアスです。
 
 - **transformers** (*OutputTransformers*) -
 
-    Custom transformers for special ベクトル data types such as BFloat16Vector and Float16Vector.
+    特定のデータ型のデータを変換するカスタム関数です。
 
-- **external_filter_fn** (*(row: SearchResultData) => boolean*) -
+- **limit** (*number*) -
 
-    各結果バッチに適用される任意のクライアント側フィルター関数。この関数が `false` を返した entity は、yield されるバッチから除外されます。
+    すべての反復を通じて返すエンティティの最大合計数です。デフォルトは、一致するエンティティの合計数です（制限なし）。
+
+- **output_fields** (*string[]*) -
+
+    返される各エンティティに含めるフィールド名のリストです。デフォルトではすべてのフィールドが返されます。
+
+- **partition_names** (*string[]*) -
+
+    クエリ対象のパーティションの名前です。
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    この操作の整合性レベルです。オプション: Strong（0）、Session（1）、Bounded（2）、Eventually（3）。デフォルトは、コレクションの作成時に設定された整合性レベルです。ConsistencyLevelEnum を参照してください。
 
 - **db_name** (*string*) -
 
     The name of the データベース containing the コレクション.
 
-- **element_indices** (*ElementIndices[]*) -
+- **timeout** (*number*) -
 
-    クエリ iterator の element index。任意です。
+    この操作のタイムアウト時間（ミリ秒）です。
 
 **戻り値:**
 
-*Promise\<AsyncIterable\<SearchResultData[]\>\>*
+*Promise&lt;AsyncIterable&lt;object[]&gt;&gt;*
 
-非同期 iterable を返します。各反復では、そのバッチに対応する一致 entity の配列が yield されます。総結果数が `limit` に達した時点、または一致するすべての entity を使い切った時点で反復は終了します。
+非同期イテラブルを返します。各反復では、そのバッチのエンティティ配列が生成されます。合計結果件数が `limit` に達するか、一致するすべてのエンティティを使い切ると、反復が終了します。
 
 **例外:**
 
-- **MilvusError**
+- **Error**
 
     この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
@@ -167,16 +148,15 @@ const milvusClient = new MilvusClient({
     token: 'YOUR_CLUSTER_TOKEN',
 });
 
-const iterator = await milvusClient.searchIterator({
+const iterator = await milvusClient.queryIterator({
     collection_name: 'my_collection',
-    data: [0.1, 0.2, 0.3, 0.4, 0.5],
+    filter: 'age > 30',
     batchSize: 100,
     limit: 500,
-    output_fields: ['id', 'text'],
-    filter: 'age > 18',
+    output_fields: ['id', 'age', 'text'],
 });
 
 for await (const batch of iterator) {
-    console.log(`Batch of ${batch.length} results:`, batch);
+    console.log(`Batch of ${batch.length} entities:`, batch);
 }
 ```

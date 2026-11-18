@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # insert()
 
 This operation inserts data into a specific コレクション.
@@ -41,9 +38,13 @@ await milvusClient.insert(data: InsertReq)
 ```javascript
 await milvusClient.insert({
     collection_name: string,
-    data: RowData | RowData[],
+    data: RowData[],
     partition_name?: string,
     db_name?: string,
+    hash_keys?: number[],
+    transformers?: InsertTransformers,
+    skip_check_schema?: boolean,
+    fields_data?: RowData[],
     timeout?: number,
 })
 ```
@@ -106,6 +107,22 @@ await milvusClient.insert({
     ]
     ```
 
+- **hash_keys** (*number[]*) -
+
+    主キーから計算されたハッシュ値のリストです。各行を受け取るシャードを決定するために使用します。任意です。
+
+- **transformers** (*InsertTransformers*) -
+
+    `BFloat16Vector` および `Float16Vector` データ用のカスタムデータトランスフォーマーです。任意です。
+
+- **skip_check_schema** (*boolean*) -
+
+    挿入前にスキーマチェックをスキップするかどうかです。任意です。
+
+- **fields_data** (*RowData[]*) -
+
+    **data** のエイリアスです。いずれかのキーで行を渡すことができますが、両方を設定しないでください。
+
 - **timeout** (*number*)  
 
     この操作のタイムアウト時間。 
@@ -118,11 +135,13 @@ await milvusClient.insert({
 
     指定した場合、データは指定された partition に挿入されます。
 
-**RETURNS** *Promise&lt;MutationResult&gt;*
+**戻り値:**
+
+*Promise&lt;MutationResult&gt;*
 
 このメソッドは、**MutationResult** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     succ_index: number[],
     err_index: number[],
@@ -131,36 +150,37 @@ await milvusClient.insert({
     delete_cnt: string,
     upsert_cnt: string,
     timestamp: string,
-    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] } },
     status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -<br/>
-  正常に挿入された行の、入力データ内における 0 始まりの位置。
+- **succ_index** (*number[]*) -
+入力データ内で正常に挿入された行の 0 始まりの位置です。
 
-- **err_index** (*number[]*) -<br/>
-  拒否された行の 0 始まりの位置。すべての行が成功した場合、このリストは空です。
+- **err_index** (*number[]*) -
+拒否された行の 0 始まりの位置です。すべての行が成功した場合、このリストは空です。
 
-- **acknowledged** (*boolean*) -<br/>
-  書き込みが Milvus によって確認されたかどうか。
+- **acknowledged** (*boolean*) -
+書き込みが Milvus によって確認されたかどうかを示します。
 
-- **insert_cnt** (*string*) -<br/>
-  挿入された行数。文字列としてフォーマットされます。
+- **insert_cnt** (*string*) -
+挿入された行数です。文字列としてフォーマットされます。
 
-- **delete_cnt** (*string*) -<br/>
-  この操作によって削除された行数。`insert()` では常に **"0"** です。
+- **delete_cnt** (*string*) -
+この操作によって削除された行数です。`insert()` の場合、これは **"0"** のままです。
 
-- **upsert_cnt** (*string*) -<br/>
-  この操作によって upsert された行数。`insert()` では常に **"0"** です。
+- **upsert_cnt** (*string*) -
+この操作によってアップサートされた行数です。`insert()` の場合、これは **"0"** のままです。
 
-- **timestamp** (*string*) -<br/>
-  書き込みが可視になった時点のハイブリッドタイムスタンプ。time-travel クエリにはこの値を使用します。
+- **timestamp** (*string*) -
+書き込みが可視になったハイブリッドタイムスタンプです。タイムトラベルクエリにはこの値を使用します。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  The primary keys assigned to the inserted rows. For autoID コレクション, Milvus generates these values; otherwise, they echo the input keys.
+- **IDs** (*StringArrayId* | *NumberArrayId*) -
+
+挿入された行に割り当てられた主キーです。autoID コレクションの場合、Milvus がこれらの値を生成します。それ以外の場合、入力キーがそのまま返されます。
 
     - **int_id** (*\{ data: number[] }*) -
 
@@ -170,12 +190,8 @@ await milvusClient.insert({
 
         主キーが VARCHAR フィールドの場合に設定されます。
 
-    - **id_field** (*'int_id' | 'str_id'*) -
-
-        2 つの id 配列のうち、どちらが値を保持しているかを示します。
-
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -188,6 +204,13 @@ await milvusClient.insert({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由。この操作が成功した場合、空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## Example\{#example}
 
@@ -209,4 +232,3 @@ const res = await milvusClient.insert({
 
 console.log(res.insert_cnt); // '2'
 ```
-

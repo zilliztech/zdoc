@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、外部コレクションのリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返された jobid を使用します。 | Node.js"
 type: docx
 token: E7pZd2Yfzolgiyxcvz8cSFfKnoc
-sidebar_position: 33
+sidebar_position: 29
 keywords: 
   - 異常検知
   - sentence transformers
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getRefreshExternalCollectionProgress()
 
 この操作は、外部コレクションのリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返された job_id を使用します。
 
-```typescript
+```javascript
 await milvusClient.getRefreshExternalCollectionProgress(data: GetRefreshExternalCollectionProgressReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getRefreshExternalCollectionProgress({
     job_id: number | string,
     timeout?: number,
@@ -48,21 +45,23 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **パラメーター:**
 
-- **job_id** (*number | string*) -<br/>
-  **[必須]**<br/>
-  refreshExternalCollection() によって返されるジョブ ID です。
+- **job_id** (*number | string*) -
+**[REQUIRED]**
+refreshExternalCollection() によって返されたジョブ ID です。
 
-- **timeout** (*number*) -<br/>
-  RPC に許可するミリ秒単位の任意の時間です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエストを追跡するためのトレース ID です。任意です。
+- **client_request_id** (*string*) -
+リクエストを追跡するためのトレース ID です。省略可能です。
 
-**戻り値** *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
 
 このメソッドは、**GetRefreshExternalCollectionProgressResponse** オブジェクトに解決される Promise を返します。
 
-```typescript
+```javascript
 {
     job_info: RefreshExternalCollectionJobInfo,
     status:  ResStatus
@@ -71,8 +70,9 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **パラメーター:**
 
-- **job_info** (*RefreshExternalCollectionJobInfo*) -<br/>
-  リフレッシュジョブの現在の状態です。
+- **job_info** (*RefreshExternalCollectionJobInfo*) -
+
+リフレッシュジョブの現在の状態です。
 
     - **job_id** (*string*) -
 
@@ -84,7 +84,7 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
     - **state** (*RefreshExternalCollectionState*) -
 
-        現在のジョブ状態です。指定できる値は **RefreshPending**、**RefreshInProgress**、**RefreshCompleted**、**RefreshFailed** です。リフレッシュジョブは **RefreshInProgress** から **RefreshCompleted** または **RefreshFailed** に遷移します。
+        現在のジョブ状態です。指定可能な値は **RefreshPending**、**RefreshInProgress**、**RefreshCompleted**、および **RefreshFailed** です。
 
     - **progress** (*string*) -
 
@@ -106,8 +106,8 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
         ジョブが終了した時刻です。ジョブがまだ実行中の場合は空の文字列です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -120,6 +120,13 @@ await milvusClient.getRefreshExternalCollectionProgress({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合は空の文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

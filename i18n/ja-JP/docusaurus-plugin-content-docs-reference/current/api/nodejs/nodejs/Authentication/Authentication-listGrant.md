@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listGrant()
 
 この操作は、指定したロールに付与された権限を一覧表示します。
@@ -39,10 +36,11 @@ await milvusClient.listGrant(data)
 ## リクエスト構文\{#request-syntax}
 
 ```javascript
- milvusClient.listGrants({
+ milvusClient.listGrant({
    roleName: 'roleName',
    object: 'Collection',
-   objectName: '*'
+   objectName: '*',
+   db_name?: string
  });
 ```
 
@@ -60,13 +58,19 @@ await milvusClient.listGrant(data)
 
 - **objectName** (*string*)
 
-    指定したオブジェクトグループ内の特定のオブジェクトの名前です。ワイルドカード (*) を使用すると、指定したグループ内のすべての権限が対象であることを示します。
+    指定したオブジェクトグループ内の特定のオブジェクトの名前です。ワイルドカード（*）を使用すると、指定したグループ内のすべての権限が付与されることを示します。
+
+- **db_name** (*string*)
+
+    対象のオブジェクトが属するデータベースの名前です。
 
 - **timeout** (*number*) 
 
     この操作のタイムアウト時間です。
 
-*Returns Promise\<SelectGrantResponse>*
+**戻り値:**
+
+*Promise&lt;SelectGrantResponse&gt;*
 
 このメソッドは、**SelectGrantResponse** オブジェクトに解決される Promise を返します。
 
@@ -88,51 +92,7 @@ await milvusClient.listGrant(data)
 
 - **entities** (*GrantEntity[]*) -
 
-    付与エンティティのリストです。各エンティティの形式は次のとおりです。
-
-    - **db_name** (*string*) -
-
-        権限が付与されたデータベースの名前です。
-
-    - **grantor** (*Grantor*) -
-
-        **Grantor** オブジェクトです。形式は次のとおりです。
-
-        - **privilege** (*PrivilegeEntity*) -
-
-            **PrivilegeEntity** オブジェクトです。形式は次のとおりです。
-
-            - **name** (*string*) - 
-
-                付与された権限の名前です。
-
-        - **user** (*User*) - 
-
-            **User** オブジェクトです。形式は次のとおりです。
-
-            - **name** (*string*) - 
-
-                上記の権限をロールに付与するユーザーの名前です。 
-
-    - **object** (*ObjectEntity*) -
-
-        **ObjectEntity** オブジェクトです。形式は次のとおりです。
-
-        - **name** (*string*) - 
-
-            オブジェクトエンティティの名前です。
-
-    - **object_name** (*string*) -
-
-        上記のオブジェクトエンティティ内の特定のオブジェクトの名前です。
-
-    - **role** (*RoleEntity*) -   
-
-        **RoleEntity** オブジェクトです。形式は次のとおりです。
-
-        - **name** (*string*) - 
-
-            権限が付与されたロールの名前です。
+    権限付与エンティティのリストです。各エンティティの構造は次のとおりです。
 
 - **status** (*ResStatus*) -
 
@@ -150,6 +110,13 @@ await milvusClient.listGrant(data)
 
         報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
 ## 例\{#example}
 
 ```javascript
@@ -159,4 +126,3 @@ await milvusClient.listGrant(data)
    objectName: '*'
  });
 ```
-

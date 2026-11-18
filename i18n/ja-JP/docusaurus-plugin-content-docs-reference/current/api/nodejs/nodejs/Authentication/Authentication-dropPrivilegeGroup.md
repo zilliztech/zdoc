@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropPrivilegeGroup()
 
-この操作はユーザーを特定のロールに追加します。
+この操作は特権グループを削除します。
 
 ```javascript
 await milvusClient.dropPrivilegeGroup(data)
@@ -40,11 +37,18 @@ await milvusClient.dropPrivilegeGroup(data)
 
 ```javascript
 await milvusClient.dropPrivilegeGroup({
+   group_name: string,
    timeout?: number
 })
 ```
 
 **パラメーター:**
+
+- **group_name** (*string*) -
+
+    **[必須]**
+
+    削除する特権グループの名前です。
 
 - **timeout** (*number*) -  
 
@@ -52,9 +56,11 @@ await milvusClient.dropPrivilegeGroup({
 
     これを **None** に設定すると、レスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
 
-このメソッドは promise のリストを返し、それぞれが **ResStatus** オブジェクトに解決されます。
+*Promise\<ResStatus\>*
+
+このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
 ```javascript
 {
@@ -78,9 +84,17 @@ await milvusClient.dropPrivilegeGroup({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
-milvusClient.dropPrivilegeGroup()
+```javascript
+await milvusClient.dropPrivilegeGroup({
+    group_name: 'my_group',
+});
 ```
-

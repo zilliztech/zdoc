@@ -4,12 +4,12 @@ slug: /node/node/Collections-alterCollectionFunction
 sidebar_label: "alterCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、コレクション内の既存の関数を変更します。 | Node.js"
+description: "この操作は、既存のコレクション内のカスタム関数を変更します。 | Node.js"
 type: docx
-token: McjWdWlspoubE4x3atYc4Fn9n3c
+token: DBEFdVorMomen0x4xNEcKkM1n8O
 sidebar_position: 22
 keywords: 
   - knn
@@ -25,75 +25,86 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterCollectionFunction()
 
-この操作は、コレクション内の既存の関数を変更します。
+この操作は、既存のコレクション内のカスタム関数を変更します。
+
+```javascript
+await milvusClient.alterCollectionFunction(data: AlterCollectionFunctionReq)
+```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
-milvusClient.alterCollectionFunction({ collection_name, function_name, function, db_name?, timeout? })
+```javascript
+await milvusClient.alterCollectionFunction({
+    collection_name: string,
+    function_name: string,
+    function: FunctionObject,
+    db_name?: string,
+    timeout?: number,
+})
 ```
 
 **パラメーター:**
 
 - **collection_name** (*string*) -
 
-    既存のコレクションの名前です。
+    **[必須]**
+
+    変更する関数を含むコレクションの名前です。
 
 - **function_name** (*string*) -
+
+    **[必須]**
 
     変更する関数の名前です。
 
 - **function** (*FunctionObject*) -
 
-    置換後の関数スキーマです。
+    **[必須]**
+
+    更新後の関数スキーマです。FunctionObject を参照してください。
 
 - **db_name** (*string*) -
 
-    コレクションを格納するデータベースの名前です。
+    コレクションが存在するデータベースの名前です。
 
 - **timeout** (*number*) -
 
-    RPC に許可する時間をミリ秒単位で指定します（任意）。undefined に設定すると、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは undefined です。
+    この操作のタイムアウト時間（ミリ秒）です。
 
 **戻り値:**
 
-*ResStatus*
+*Promise&lt;ResStatus&gt;*
 
-操作のレスポンスステータスは、`{error_code, reason}` の形式です。
-
-**パラメーター:**
-
-- **error_code** (*number*) -
-
-    エラーコード番号です。0 は成功を意味します。
-
-- **reason** (*string*) -
-
-    エラーの原因です（存在する場合）。
+このメソッドは、**ResStatus** オブジェクトに解決される Promise を返します。
 
 **例外:**
 
-- **MilvusError**
+- **Error**
 
-    サーバーがリクエストを拒否した場合、または RPC が失敗した場合にスローされます。正確な失敗理由については、サーバーのエラーメッセージを確認してください。
+    この操作中にエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 
 ```javascript
-await milvusClient.alterCollectionFunction({
-  collection_name: 'my_collection',
-  function_name: 'bm25_fn',
-  function: {
-    name: 'bm25_fn',
-    type: 'BM25',
-    input_field_names: ['text'],
-    output_field_names: ['sparse_vector'],
-    params: {},
-  },
+import { MilvusClient, FunctionType } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const resStatus = await milvusClient.alterCollectionFunction({
+    collection_name: 'my_collection',
+    function_name: 'my_bm25_function',
+    function: {
+        name: 'my_bm25_function',
+        description: 'Updated BM25 sparse embedding function',
+        type: FunctionType.BM25,
+        input_field_names: ['text'],
+        output_field_names: ['sparse_vector'],
+        params: {},
+    },
 });
 ```

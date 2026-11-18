@@ -2,7 +2,7 @@
 title: "createSnapshot() | Node.js"
 slug: /node/node/Snapshot-createSnapshot
 sidebar_label: "createSnapshot()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createSnapshot()
 
 この操作は、コレクションのスナップショットを作成します。スナップショットは、コレクションとそのデータの現在の状態をキャプチャします。
 
-```typescript
+```javascript
 await milvusClient.createSnapshot(data: CreateSnapshotReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.createSnapshot({
     collection_name: string,
     snapshot_name: string,
@@ -52,36 +49,38 @@ await milvusClient.createSnapshot({
 
 **パラメーター:**
 
-- **collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  スナップショットを作成するコレクションの名前です。
+- **collection_name** (*string*) -
+**[必須]**
+スナップショットを作成するコレクションの名前です。
 
-- **snapshot_name** (*string*) -<br/>
-  **[必須]**<br/>
-  スナップショットの名前です。
+- **snapshot_name** (*string*) -
+**[必須]**
+スナップショットの名前です。
 
-- **description** (*string*) -<br/>
-  スナップショットの説明です。任意です。
+- **description** (*string*) -
+スナップショットの説明です。任意です。
 
-- **compaction_protection_seconds** (*number | string*) -<br/>
-  参照されるセグメントを Compaction から保護する期間です。任意です。
+- **compaction_protection_seconds** (*number | string*) -
+参照されるセグメントを Compaction から保護する期間です。任意です。
 
-- **db_name** (*string*) -<br/>
-  データベースの名前です。任意です。
+- **db_name** (*string*) -
+データベースの名前です。任意です。
 
-- **timeout** (*number*) -<br/>
-  RPC に許容する時間をミリ秒単位で指定します。任意です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC に割り当てる時間をミリ秒単位で指定します。任意です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエストを追跡するためのトレース ID です。任意です。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。任意です。
 
 **戻り値:**
 
 *Promise&lt;ResStatus&gt;*
 
+このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
+
 **例外:**
 
-- **MilvusError**
+- **Error**
 
     この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 

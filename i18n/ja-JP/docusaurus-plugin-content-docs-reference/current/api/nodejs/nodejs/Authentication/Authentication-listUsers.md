@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listUsers()
 
 この操作は現在利用可能なユーザーを一覧表示します。
@@ -50,11 +47,13 @@ milvusClient.listUsers()
 
     これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;ListCredUsersResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ListCredUsersResponse&gt;*
 
 このメソッドは、**ListCredUsersResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     usernames: string[],
     status:  ResStatus
@@ -63,11 +62,11 @@ milvusClient.listUsers()
 
 **PARAMETERS:**
 
-- **usernames** (*string[]*) -<br/>
-  現在の Milvus インスタンスに存在するユーザー名のリスト。
+- **usernames** (*string[]*) -
+現在の Milvus インスタンスに存在するユーザー名のリストです。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -81,9 +80,15 @@ milvusClient.listUsers()
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外が発生します。
+
 ## 例\{#example}
 
-```java
+```javascript
 milvusClient.listUsers()
 ```
-

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadCollection()
 
 This operation loads the data of a specific コレクション into memory.
@@ -45,6 +42,8 @@ await milvusClient.loadCollection({
     refresh?: boolean,
     replica_number?: number,
     resource_groups?: string[],
+    load_fields?: string[],
+    skip_load_dynamic_field?: boolean,
     timeout?: number
 })
 ```
@@ -71,7 +70,15 @@ await milvusClient.loadCollection({
 
 - **resource_groups** (*string[]*) -
 
-    The number of resource groups in the コレクション to load.
+    ロードされたコレクションを保持するリソースグループの名前。
+
+- **load_fields** (*string[]*) -
+
+    ロードするフィールド名の一覧。指定しない場合は、すべてのフィールドがロードされます。
+
+- **skip_load_dynamic_field** (*boolean*) -
+
+    動的フィールドのロードをスキップするかどうか。
 
 - **timeout** (*number*) -
 
@@ -79,7 +86,9 @@ await milvusClient.loadCollection({
 
     これを **None** に設定すると、いずれかのレスポンスが返るか、エラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -105,13 +114,19 @@ await milvusClient.loadCollection({
 
     報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
  const resStatus = await milvusClient.loadCollection({ collection_name: 'my_collection' });
 ```
-

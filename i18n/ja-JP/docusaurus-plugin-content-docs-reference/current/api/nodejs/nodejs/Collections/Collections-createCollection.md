@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # createCollection()
 
 この操作は、デフォルト設定またはカスタマイズ設定でコレクションを作成します。 
@@ -53,16 +52,13 @@ await milvusClient.createCollection({
     consistency_level?: "Strong" | "Session" | "Bounded" | "Eventually" | "Customized";
     description?: string;
     enable_dynamic_field?: boolean;
+    enableDynamicField?: boolean;
     id_type?: Int64 | VarChar;
     index_params?: CreateIndexParam;
-    metric_type?: string;
+    metric_type?: string | MetricType;
     primary_field_name?: string;
     vector_field_name?: string;
     timeout?: number;
-    external_source?: string;
-    external_spec?: string;
-    do_physical_backfill?: boolean;
-    file_source_ids?: Array<number | string>;
  })
 ```
 
@@ -80,6 +76,8 @@ await milvusClient.createCollection({
 
 - **dimension** (*number*) -
 
+    **[REQUIRED]**
+
     ベクトル埋め込みの次元数です。値は 1 より大きい整数である必要があります。コレクションスキーマをカスタマイズする必要がある場合は、これを省略してください。
 
 - **auto_id** (*boolean*) - 
@@ -90,21 +88,19 @@ await milvusClient.createCollection({
 
     このパラメータはコレクションをすばやくセットアップするためのもので、**スキーマ** が **None** でない場合は無視されます。
 
-- **consistency_level** (*number* | *string*)
+- **consistency_level** (*string*)
 
     対象コレクションの整合性レベルです。
 
     デフォルト値は **Bounded** で、**Strong**、**Bounded**、**Session**、**Eventually**、**Customized** を指定できます。
 
-    <Admonition type="info" title="Note">
-
-    整合性レベルとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
+    分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
     
-        Zilliz Cloud は、**Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** です。
+    Milvus は **Strong**、**Bounded Staleness**、**Session**、**Eventually** の 4つの整合性レベルをサポートしています。Milvus のデフォルトの整合性レベルは **Bounded Staleness** です。
     
-        ベクトル類似検索やクエリの実行時に、アプリケーションに最適となるよう整合性レベルを簡単に調整できます。
+    ベクトル類似検索やクエリの実行時に、アプリケーションに最適となるよう整合性レベルを簡単に調整できます。
 
     </Admonition>
 
@@ -118,15 +114,19 @@ await milvusClient.createCollection({
 
     デフォルト値は **True** で、メタフィールドが使用されることを示します。
 
+- **enableDynamicField** (*boolean)* -
+
+    **enable_dynamic_field** のエイリアスです。
+
 - **id_type** (*Int64* | *VarChar*) -
 
     プライマリフィールドのデータ型です。
 
-- **index_params** (*CreatIndexParam*) -
+- **index_params** (*CreateIndexParam*) -
 
     作成するコレクションのインデックスパラメータです。
 
-- **metric_type** (*string*) -
+- **metric_type** (*string* | *MetricType*) -
 
     メトリクスタイプは、ベクトル埋め込み間の類似性をどのように測定するかを決定します。
 
@@ -142,28 +142,6 @@ await milvusClient.createCollection({
 
     この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
 
-- **external_source** (*string*) -
-
-    外部ソースのパスです。これは外部コレクションの作成に適用されます。
-
-    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。
-
-- **external_spec** (*string*) -
-
-    外部スペックの設定です。これは外部コレクションの作成に適用されます。
-
-    spec は、`format` などの副次的なパラメーターを含む JSON 文字列です。`format` に指定できる値は、`parquet`、`vortex`、`lance-table`、`iceberg-table` です。
-
-    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
-
-- **do_physical_backfill** (*boolean*) -
-
-    外部データを物理的にバックフィルするかどうかです。これは外部コレクションの作成に適用されます。
-
-- **file_resource_ids** (*Array&lt;number | string&gt;*) -
-
-    外部ファイルリソース ID です。これは外部コレクションの作成に適用されます。
-
 ### With CreateCollectionReq\{#with-createcollectionreq}
 
 このリクエストボディを使用すると、コレクションのスキーマ設定をカスタマイズできます。
@@ -172,9 +150,10 @@ await milvusClient.createCollection({
 await milvusClient.createCollection({
    db_name?: string,
    collection_name: string,
-   consistency_level: number | string,
+   consistency_level: string,
    description: string,
    enable_dynamic_field: boolean,
+   fields?: FieldType[],
    schema: [
      {
        name: string,
@@ -184,6 +163,7 @@ await milvusClient.createCollection({
        is_primary_key?: boolean,
        is_partition_key?: boolean,
        is_function_output?: boolean,
+       is_clustering_key?: boolean,
        type_params: {
          dim: number,
          max_length: number,
@@ -196,7 +176,7 @@ await milvusClient.createCollection({
        },
        autoID?: boolean,
        nullable: boolean,
-       default_value: object,
+       default_value: number | string
      }
    ],
    functions: [
@@ -211,13 +191,13 @@ await milvusClient.createCollection({
    ],
    num_partitions?: number,
    partition_key_field?: string,
+   clustering_key_field?: string,
    shards_num?: number,
    properties?: Properties,
    timeout?: number,
    external_source?: string;
    external_spec?: string;
-   do_physical_backfill?: boolean;
-   file_source_ids?: Array<number | string>;
+   file_resource_ids?: Array<number | string>;
 })
 ```
 
@@ -233,21 +213,19 @@ await milvusClient.createCollection({
 
     作成するコレクションの名前です。
 
-- **consistency_level** (*number* | *string*)
+- **consistency_level** (*string*)
 
     対象コレクションの整合性レベルです。
 
     デフォルト値は **Bounded** で、**Strong**、**Bounded**、**Session**、**Eventually**、**Customized** を指定できます。
 
-    <Admonition type="info" title="Note">
-
-    整合性レベルとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
+    分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
     
-        Zilliz Cloud は、**Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** です。
+    Milvus は **Strong**、**Bounded Staleness**、**Session**、**Eventually** の 4つの整合性レベルをサポートしています。Milvus のデフォルトの整合性レベルは **Bounded Staleness** です。
     
-        ベクトル類似検索やクエリの実行時に、アプリケーションに最適となるよう整合性レベルを簡単に調整できます。
+    ベクトル類似検索やクエリの実行時に、アプリケーションに最適となるよう整合性レベルを簡単に調整できます。
 
     </Admonition>
 
@@ -263,141 +241,13 @@ await milvusClient.createCollection({
 
 - **スキーマ** (*FieldType[]*) -
 
-    - **name** (*string)* -
+    コレクションのスキーマをフィールド定義のリストとして表したものです。
 
-        フィールドの名前です。
+- **fields** (*FieldType[]*) -
 
-    - **data_type** (*string)* -
+    **スキーマ** の代替であり、コレクションのフィールドをフィールド定義のリストとして指定します。
 
-        フィールドのデータ型です。使用可能なすべてのデータ型の一覧については、[DataType](./Collections-DataType) を参照してください。
-
-    - **description** (*string)* -
-
-        フィールドの説明です。
-
-    - **is_partition_key** (*boolean)* -
-
-        このフィールドをパーティションキーフィールドとして使用するかどうかを示す真偽値です。
-
-    - **is_primary_key** (*boolean)* -
-
-        このフィールドを主キーとして使用するかどうかです。
-
-        デフォルト値は **False** です。これを **True** に設定すると、このフィールドはコレクション全体で一意のプライマリキーフィールドになります。
-
-    - **is_function_output** (boolean) -
-
-        このフィールドが関数の出力フィールドとして機能するかどうかです。
-
-    - **type_params** (*string* | *number)* -
-
-        フィールドのその他のパラメーターです。
-
-        - **dim** (*string* | *number*) -
-
-            ベクトル埋め込みを保持するコレクションフィールドの次元数です。 
-
-            値は 1 より大きい整数である必要があり、通常はベクトル埋め込みの生成に使用するモデルによって決まります。
-
-        - **element_type** (string) -
-
-            配列内の要素のデータ型です。 
-
-            このパラメーターは、現在のフィールドが配列フィールドの場合に適用されます。
-
-        - **max_capacity** (*string* | *number)* -
-
-            配列内の要素数です。
-
-            このパラメーターは、現在のフィールドが配列フィールドの場合に適用されます。
-
-        - **max_length** (*string*) -
-
-            このフィールド内の文字列の最大長です。
-
-            このフィールドの **data_type** が **VarChar** の場合に必須です。
-
-        - **enable_analyzer** (*boolean*) -
-
-            指定した `VarChar` フィールドに対してテキスト解析を有効にするかどうかです。`true` に設定すると、Milvus はテキストアナライザーを使用して、そのフィールドのテキスト内容をトークン化およびフィルタリングします。
-
-        - **enable_match** (*boolean*)
-
-            指定した `VarChar` フィールドに対してキーワードマッチングを有効にするかどうかです。`true` に設定すると、Milvus はそのフィールドに対して転置インデックスを作成し、高速かつ効率的なキーワード検索を可能にします。`enable_match` は `enable_analyzer` と連携して、構造化された用語ベースのテキスト検索を提供します。`enable_analyzer` がトークン化を処理し、`enable_match` がそれらのトークンに対する検索操作を処理します。
-
-        - **analyzer_params** (*object*)
-
-            テキスト処理用のアナライザーを設定します。特に `VarChar` フィールドに対して使用されます。このパラメーターはトークナイザーとフィルターの設定を構成し、とくに [keyword matching](https://milvus.io/docs/keyword-match.md) や [full text search](https://milvus.io/docs/full-text-search.md) で使用されるテキストフィールドに適用されます。アナライザーの種類に応じて、次のいずれかの方法で設定できます。
-
-            - 組み込みアナライザー
-
-                ```javascript
-                const analyzer_params: { type: 'english' };
-                ```
-
-                - `type` (*string*) -
-
-                    Milvus に組み込まれた事前設定済みのアナライザータイプで、名前を指定するだけですぐに使用できます。指定可能な値: `standard`, `english`, `chinese`。詳細は [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md)、[Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md) を参照してください。
-
-            - カスタムアナライザー
-
-                ```javascript
-                const analyzer_params: {
-                    "tokenizer": "standard",
-                    "filter": ["lowercase"],
-                };
-                ```
-
-                - `tokenizer` (*string*) -
-
-                    トークナイザーのタイプを定義します。指定可能な値: `standard` （デフォルト）、`whitespace`、`jieba`。詳細は [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md)、[Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md) を参照してください。
-
-                - `filter` (*list*) -
-
-                    トークナイザーによって生成されたトークンを絞り込むためのフィルターを一覧表示します。組み込みフィルターとカスタムフィルターを使用できます。詳細は [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) などを参照してください。
-
-        - **multi_analyzer_params** (*object*) -
-
-            テキスト処理用に複数のアナライザーを設定します。このパラメーターの値は単一の JSON オブジェクト で、Milvus が各エンティティに対して適切なアナライザーをどのように選択するかを決定します。
-
-            ```javascript
-            const multi_analyzer_params = {
-              // Define language-specific analyzers
-              // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
-              "analyzers": {
-                "english": {"type": "english"},          // English-optimized analyzer
-                "chinese": {"type": "chinese"},          // Chinese-optimized analyzer
-                "default": {"tokenizer": "icu"}          // Required fallback analyzer
-              },
-              "by_field": "language",                    // Field determining analyzer selection
-              "alias": {
-                "cn": "chinese",                         // Use "cn" as shorthand for Chinese
-                "en": "english"                          // Use "en" as shorthand for English
-              }
-            }
-            ```
-
-    - **autoID** (*boolean)* -
-
-        このコレクションへのデータ挿入時に、プライマリフィールドを自動インクリメントするかどうかです。
-
-        デフォルト値は **False** です。これを **True** に設定すると、プライマリフィールドは自動インクリメントされます。カスタマイズされたスキーマを持つコレクションを設定する必要がある場合は、このパラメーターをスキップしてください。
-
-    - **nullable** (*boolean*) -
-
-        フィールドが null 値を受け入れられるかどうかを指定するブール値のパラメーターです。有効な値は次のとおりです。
-
-        - **true**: フィールドは null 値を含むことができます。これはフィールドがオプションであり、エントリに欠損データが許可されることを示します。
-
-        - **false** （デフォルト）: フィールドは各エンティティに対して有効な値を含む必要があります。欠損データは許可されず、フィールドは必須になります。
-
-        詳細は [Nullable & Default](https://milvus.io/docs/nullable-and-default.md) を参照してください。
-
-    - **default_value** (*object*)
-
-        コレクションスキーマの作成時に、特定のフィールドにデフォルト値を設定します。これは、データ挿入時に明示的に値が指定されない場合でも、特定のフィールドに初期値を持たせたい場合に特に便利です。
-
-- **functions** (*list*)
+- **functions** (*FunctionObject[]*)
 
     データをベクトル埋め込みに変換します。この関数はコレクションのスキーマに追加されます。
 
@@ -427,11 +277,9 @@ await milvusClient.createCollection({
 
     コレクションに作成するパーティションの数です。
 
-    <Admonition type="info" title="Note">
-
-    パーティショニングとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        データパーティショニングは、特定の基準に基づいてデータを整理するための手法です。データパーティショニングを使用すると、パーティションを個別に作成、ロード、解放、削除できるほか、その中で検索やクエリを実行できます。
+    データパーティショニングは、特定の基準に基づいてデータを整理するための手法です。データパーティショニングを使用すると、パーティションを個別に作成、ロード、解放、削除できるほか、その中で検索やクエリを実行できます。
 
     </Admonition>
 
@@ -439,11 +287,19 @@ await milvusClient.createCollection({
 
     パーティションキーとして機能するフィールドの名前です。
 
-    <Admonition type="info" title="Note">
-
-    パーティションキーとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        パーティションキーは、そのキー値に基づいてエンティティを異なるパーティションに格納するために使用されます。つまり、パーティションキーは同じキーを持つエンティティをまとめ、キーフィールドでフィルタリングする際には無関係なパーティションのスキャンを回避できます。パーティションキーは、従来のフィルタリング方法と比較してクエリ性能を大幅に向上させることができます。
+    パーティションキーは、そのキー値に基づいてエンティティを異なるパーティションに格納するために使用されます。つまり、パーティションキーは同じキーを持つエンティティをまとめ、キーフィールドでフィルタリングする際には無関係なパーティションのスキャンを回避できます。パーティションキーは、従来のフィルタリング方法と比較してクエリ性能を大幅に向上させることができます。
+
+    </Admonition>
+
+- **clustering_key_field** (*string*) -
+
+    クラスタリングキーとして機能するフィールドの名前です。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Clustering Compaction は、スカラーフィールドの値に基づいて、コレクション内のセグメント間でエンティティを再配置する Milvus の機能です。この機能を有効にするには、まずスカラーフィールドをクラスタリングキーとして選択する必要があります。これにより、クラスタリングキーの値が特定の範囲に収まる場合に、Milvus がエンティティをセグメントに再配置できるようになります。クラスタリング Compaction をトリガーすると、Milvus は PartitionStats というグローバルインデックスを生成または更新します（generates/updates）。このインデックスには、セグメントとクラスタリングキーの値のマッピング関係が記録されます。
 
     </Admonition>
 
@@ -453,13 +309,11 @@ await milvusClient.createCollection({
 
     デフォルト値は **1** で、このコレクションとともに 1 つのシャードが作成されることを示します。
 
-    <Admonition type="info" title="Note">
-
-    シャーディングとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        シャーディングとは、データ書き込みのために Milvus クラスターの並列計算能力を最大限に活用できるよう、書き込み操作を異なるノードに分散することを指します。
+    シャーディングとは、データ書き込みのために Milvus クラスターの並列計算能力を最大限に活用できるよう、書き込み操作を異なるノードに分散することを指します。
     
-        デフォルトでは、コレクションには 1 つのシャードが含まれます。
+    デフォルトでは、コレクションには 1 つのシャードが含まれます。
 
     </Admonition>
 
@@ -495,25 +349,15 @@ await milvusClient.createCollection({
 
     外部ソースのパスです。これは外部コレクションの作成に適用されます。
 
-    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。
-
 - **external_spec** (*string*) -
 
     外部スペックの設定です。これは外部コレクションの作成に適用されます。
-
-    spec は、`format` などの副次的なパラメーターを含む JSON 文字列です。`format` に指定できる値は、`parquet`、`vortex`、`lance-table`、`iceberg-table` です。
-
-    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
-
-- **do_physical_backfill** (*boolean*) -
-
-    外部データを物理的にバックフィルするかどうかです。これは外部コレクションの作成に適用されます。
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
     外部ファイルリソース ID です。これは外部コレクションの作成に適用されます。
 
-### With CreateCollectionWithSchemaAndIndexParamsReq\{#with-createcollectionwithschemaandindexparamsreq}
+### CreateColWithSchemaAndIndexParamsReq を使用\{#with-createcolwithschemaandindexparamsreq}
 
 このリクエストボディを使用すると、コレクションのスキーマとインデックス設定をカスタマイズできます。作成時に、コレクションは自動的にロードされます。
 
@@ -521,9 +365,10 @@ await milvusClient.createCollection({
 await milvusClient.createCollection({
    db_name?: string,
    collection_name: string,
-   consistency_level: number | string,
+   consistency_level: string,
    description: string,
    enable_dynamic_field: boolean,
+   fields?: FieldType[],
    schema: [
      {
        name: string,
@@ -533,6 +378,7 @@ await milvusClient.createCollection({
        is_primary_key?: boolean,
        is_partition_key?: boolean,
        is_function_output?: boolean,
+       is_clustering_key?: boolean,
        type_params: {
          dim: number,
          max_length: number,
@@ -544,7 +390,7 @@ await milvusClient.createCollection({
          'mmap.enabled': boolean
        },
        nullable: boolean,
-       default_value: object
+       default_value: number | string
      }
    ],
    functions: [
@@ -586,21 +432,19 @@ await milvusClient.createCollection({
 
     作成するコレクションの名前です。
 
-- **consistency_level** (*number* | *string*)
+- **consistency_level** (*string*)
 
     対象コレクションの整合性レベルです。
 
     デフォルト値は **Bounded** で、**Strong**、**Bounded**、**Session**、**Eventually**、**Customized** を指定できます。
 
-    <Admonition type="info" title="Note">
-
-    整合性レベルとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
+    分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
     
-        Zilliz Cloud は、**Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** です。
+    Milvus は **Strong**、**Bounded Staleness**、**Session**、**Eventually** の 4つの整合性レベルをサポートしています。Milvus のデフォルトの整合性レベルは **Bounded Staleness** です。
     
-        ベクトル類似検索やクエリの実行時に、アプリケーションに最適となるよう整合性レベルを簡単に調整できます。
+    ベクトル類似検索やクエリの実行時に、アプリケーションに最適となるよう整合性レベルを簡単に調整できます。
 
     </Admonition>
 
@@ -616,139 +460,13 @@ await milvusClient.createCollection({
 
 - **スキーマ** (*FieldType[]*) -
 
-    - **name** (*string)* -
+    コレクションのスキーマをフィールド定義のリストとして表したものです。
 
-        フィールドの名前です。
+- **fields** (*FieldType[]*) -
 
-    - **data_type** (*string)* -
+    **スキーマ** の代替であり、コレクションのフィールドをフィールド定義のリストとして指定します。
 
-        フィールドのデータ型です。使用可能なすべてのデータ型の一覧については、[DataType](./Collections-DataType) を参照してください。
-
-    - **description** (*string)* -
-
-        フィールドの説明です。
-
-    - **is_partition_key** (*boolean)* -
-
-        このフィールドをパーティションキーフィールドとして使用するかどうかを示す真偽値です。
-
-    - **is_primary_key** (*boolean)* -
-
-        このフィールドを主キーとして使用するかどうかです。
-
-    - **is_function_output** (boolean) -
-
-        このフィールドが関数の出力フィールドとして機能するかどうかです。
-
-    - **type_params** (*string* | *number)* -
-
-        フィールドのその他のパラメーターです。
-
-        - **dim** (*string* | *number*) -
-
-            ベクトル埋め込みを保持するコレクションフィールドの次元数です。 
-
-            値は 1 より大きい整数である必要があり、通常はベクトル埋め込みの生成に使用するモデルによって決まります。
-
-        - **element_type** (string) -
-
-            配列内の要素のデータ型です。 
-
-            このパラメーターは、現在のフィールドが配列フィールドの場合に適用されます。
-
-        - **max_capacity** (*string* | *number)* -
-
-            配列内の要素数です。
-
-            このパラメーターは、現在のフィールドが配列フィールドの場合に適用されます。
-
-        - **max_length** (*string*) -
-
-            このフィールド内の文字列の最大長です。
-
-            このフィールドの **data_type** が **VarChar** の場合に必須です。
-
-        - **enable_analyzer** (*boolean*) -
-
-            指定した `VarChar` フィールドに対してテキスト解析を有効にするかどうかです。`true` に設定すると、Milvus はテキストアナライザーを使用して、そのフィールドのテキスト内容をトークン化およびフィルタリングします。
-
-        - **enable_match** (*boolean*)
-
-            指定した `VarChar` フィールドに対してキーワードマッチングを有効にするかどうかです。`true` に設定すると、Milvus はそのフィールドに対して転置インデックスを作成し、高速かつ効率的なキーワード検索を可能にします。`enable_match` は `enable_analyzer` と連携して、構造化された用語ベースのテキスト検索を提供します。`enable_analyzer` がトークン化を処理し、`enable_match` がそれらのトークンに対する検索操作を処理します。
-
-        - **analyzer_params** (*object*)
-
-            テキスト処理用のアナライザーを設定します。特に `VarChar` フィールドに対して使用されます。このパラメーターはトークナイザーとフィルターの設定を構成し、とくに [keyword matching](https://milvus.io/docs/keyword-match.md) や [full text search](https://milvus.io/docs/full-text-search.md) で使用されるテキストフィールドに適用されます。アナライザーの種類に応じて、次のいずれかの方法で設定できます。
-
-            - 組み込みアナライザー
-
-                ```javascript
-                const analyzer_params: { type: 'english' };
-                ```
-
-                - `type` (*string*) -
-
-                    Milvus に組み込まれた事前設定済みのアナライザータイプで、名前を指定するだけですぐに使用できます。指定可能な値: `standard`, `english`, `chinese`。詳細は [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md)、[Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md) を参照してください。
-
-            - カスタムアナライザー
-
-                ```javascript
-                const analyzer_params: {
-                    "tokenizer": "standard",
-                    "filter": ["lowercase"],
-                };
-                ```
-
-                - `tokenizer` (*string*) -
-
-                    トークナイザーのタイプを定義します。指定可能な値: `standard` （デフォルト）、`whitespace`、`jieba`。詳細は [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md)、[Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md) を参照してください。
-
-                - `filter` (*list*) -
-
-                    トークナイザーによって生成されたトークンを絞り込むためのフィルターを一覧表示します。組み込みフィルターとカスタムフィルターを使用できます。詳細は [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) などを参照してください。
-
-        - **multi_analyzer_params** (*object*) -
-
-            テキスト処理用に複数のアナライザーを設定します。このパラメーターの値は単一の JSON オブジェクト で、Milvus が各エンティティに対して適切なアナライザーをどのように選択するかを決定します。
-
-            ```javascript
-            const multi_analyzer_params = {
-              // Define language-specific analyzers
-              // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
-              "analyzers": {
-                "english": {"type": "english"},          // English-optimized analyzer
-                "chinese": {"type": "chinese"},          // Chinese-optimized analyzer
-                "default": {"tokenizer": "icu"}          // Required fallback analyzer
-              },
-              "by_field": "language",                    // Field determining analyzer selection
-              "alias": {
-                "cn": "chinese",                         // Use "cn" as shorthand for Chinese
-                "en": "english"                          // Use "en" as shorthand for English
-              }
-            }
-            ```
-
-    - **autoID** (*boolean)* -
-
-        このコレクションへのデータ挿入時に、プライマリフィールドを自動インクリメントするかどうかです。
-
-        デフォルト値は **False** です。これを **True** に設定すると、プライマリフィールドは自動インクリメントされます。カスタマイズされたスキーマを持つコレクションを設定する必要がある場合は、このパラメーターをスキップしてください。
-
-    - **nullable** (*boolean*) -
-
-        フィールドが null 値を受け入れられるかどうかを指定するブール値のパラメーターです。有効な値は次のとおりです。
-
-        - **true**: フィールドは null 値を含むことができます。これはフィールドがオプションであり、エントリに欠損データが許可されることを示します。
-
-        - **false** （デフォルト）: フィールドは各エンティティに対して有効な値を含む必要があります。欠損データは許可されず、フィールドは必須になります。
-
-        詳細は [Nullable & Default](https://milvus.io/docs/nullable-and-default.md) を参照してください。
-
-    - **default_value** (*[DataType](./Collections-DataType)*)
-
-        コレクションスキーマの作成時に、特定のフィールドにデフォルト値を設定します。これは、データ挿入時に明示的に値が指定されない場合でも、特定のフィールドに初期値を持たせたい場合に特に便利です。
-
-- **functions** (*list*)
+- **functions** (*FunctionObject[]*)
 
     データをベクトル埋め込みに変換します。この関数はコレクションのスキーマに追加されます。
 
@@ -778,23 +496,29 @@ await milvusClient.createCollection({
 
     コレクションに作成するパーティションの数です。
 
-    <Admonition type="info" title="Note">
-
-    パーティショニングとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        データパーティショニングは、特定の基準に基づいてデータを整理するための手法です。データパーティショニングを使用すると、パーティションを個別に作成、ロード、解放、削除できるほか、その中で検索やクエリを実行できます。
+    データパーティショニングは、特定の基準に基づいてデータを整理するための手法です。データパーティショニングを使用すると、パーティションを個別に作成、ロード、解放、削除できるほか、その中で検索やクエリを実行できます。
 
     </Admonition>
 
-- **partition_key_field** (*boolean)* -
+- **partition_key_field** (*string*) -
 
-    パーティションキーを有効にするかどうかを示す真偽値です。
+    パーティションキーとして機能するフィールドの名前です。
 
-    <Admonition type="info" title="Note">
-
-    パーティションキーとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        パーティションキーは、そのキー値に基づいてエンティティを異なるパーティションに格納するために使用されます。つまり、パーティションキーは同じキーを持つエンティティをまとめ、キーフィールドでフィルタリングする際には無関係なパーティションのスキャンを回避できます。パーティションキーは、従来のフィルタリング方法と比較してクエリ性能を大幅に向上させることができます。
+    パーティションキーは、そのキー値に基づいてエンティティを異なるパーティションに格納するために使用されます。つまり、パーティションキーは同じキーを持つエンティティをまとめ、キーフィールドでフィルタリングする際には無関係なパーティションのスキャンを回避できます。パーティションキーは、従来のフィルタリング方法と比較してクエリ性能を大幅に向上させることができます。
+
+    </Admonition>
+
+- **clustering_key_field** (*string*) -
+
+    クラスタリングキーとして機能するフィールドの名前です。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Clustering Compaction は、スカラーフィールドの値に基づいて、コレクション内のセグメント間でエンティティを再配置する Milvus の機能です。この機能を有効にするには、まずスカラーフィールドをクラスタリングキーとして選択する必要があります。これにより、クラスタリングキーの値が特定の範囲に収まる場合に、Milvus がエンティティをセグメントに再配置できるようになります。クラスタリング Compaction をトリガーすると、Milvus は PartitionStats というグローバルインデックスを生成または更新します（generates/updates）。このインデックスには、セグメントとクラスタリングキーの値のマッピング関係が記録されます。
 
     </Admonition>
 
@@ -804,13 +528,11 @@ await milvusClient.createCollection({
 
     デフォルト値は **1** で、このコレクションとともに 1 つのシャードが作成されることを示します。
 
-    <Admonition type="info" title="Note">
-
-    シャーディングとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        シャーディングとは、データ書き込みのために Milvus クラスターの並列計算能力を最大限に活用できるよう、書き込み操作を異なるノードに分散することを指します。
+    シャーディングとは、データ書き込みのために Milvus クラスターの並列計算能力を最大限に活用できるよう、書き込み操作を異なるノードに分散することを指します。
     
-        デフォルトでは、コレクションには 1 つのシャードが含まれます。
+    デフォルトでは、コレクションには 1 つのシャードが含まれます。
 
     </Admonition>
 
@@ -870,25 +592,17 @@ await milvusClient.createCollection({
 
     外部ソースのパスです。これは外部コレクションの作成に適用されます。
 
-    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。
-
 - **external_spec** (*string*) -
 
     外部スペックの設定です。これは外部コレクションの作成に適用されます。
-
-    spec は、`format` などの副次的なパラメーターを含む JSON 文字列です。`format` に指定できる値は、`parquet`、`vortex`、`lance-table`、`iceberg-table` です。
-
-    Zilliz Cloud では、`milvus-table` ソースは `milvus://` スキームと組み合わせて使用されます。`format` は省略でき、`milvus://` ソースの場合はデフォルトで `milvus-table` になります。
-
-- **do_physical_backfill** (*boolean*) -
-
-    外部データを物理的にバックフィルするかどうかです。これは外部コレクションの作成に適用されます。
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
     外部ファイルリソース ID です。これは外部コレクションの作成に適用されます。
 
-**RETURNS** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは **ResStatus** オブジェクトに解決される promise を返します。
 
@@ -914,9 +628,16 @@ await milvusClient.createCollection({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

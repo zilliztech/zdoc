@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # HttpImportProgressResponse
 
 このインターフェースは、`getImportJobProgress()` によって返されるレスポンスを記述します。

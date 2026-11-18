@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createDatabase()
 
 この操作はデータベースを作成します。
@@ -35,12 +32,6 @@ import Admonition from '@theme/Admonition';
 ```javascript
 await milvusClient.createDatabase(data)
 ```
-
-<Admonition type="info" title="Notes">
-
-このメソッドは Dedicated クラスターにのみ適用されます。
-
-</Admonition>
 
 ## Request Syntax\{#request-syntax}
 
@@ -64,27 +55,27 @@ await milvusClient.createDatabase({
 
     データベースの作成とともに設定するプロパティです。設定可能なデータベースプロパティは次のとおりです。
 
-    - **データベース.replica.number** (*int*) -
+    - **データベース.replica.number** (*number*) -
 
         データベースのレプリカ数です。
 
-    - **データベース.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*string[]*) -
 
         データベース専用のリソースグループです。
 
-    - **データベース.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*number*) -
 
         データベースに割り当てられるディスククォータ（メガバイト（**MB**）単位）です。
 
-    - **データベース.max.コレクション** (*int*) -
+    - **データベース.max.コレクション** (*number*) -
 
         データベースで許可されるコレクションの最大数です。
 
-    - **データベース.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*boolean*) -
 
         データベース内のすべての書き込み操作を拒否するかどうかです。
 
-    - **データベース.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*boolean*) -
 
         データベース内のすべての読み取り操作を拒否するかどうかです。
 
@@ -94,7 +85,9 @@ await milvusClient.createDatabase({
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise |&lt;ResStatus&gt;*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -119,6 +112,13 @@ await milvusClient.createDatabase({
 - **reason** (*string*) - 
 
     報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## Example\{#example}
 

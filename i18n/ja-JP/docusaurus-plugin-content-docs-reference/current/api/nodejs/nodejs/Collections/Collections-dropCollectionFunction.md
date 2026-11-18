@@ -27,8 +27,15 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # dropCollectionFunction()
+
+<Admonition type="warning" icon="🚧" title="Warning">
+
+**非推奨。**
+
+このメソッドは非推奨です。代わりに dropFunctionField() を使用してください。
+
+</Admonition>
 
 This operation removes a custom function from an existing コレクション.
 
@@ -71,11 +78,13 @@ dropCollectionFunction({
 
 **戻り値:**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+このメソッドは、**ResStatus** オブジェクトに解決される Promise を返します。
 
 **例外:**
 
-- **MilvusError**
+- **Error**
 
     この操作中に何らかのエラーが発生した場合、この例外が発生します。
 

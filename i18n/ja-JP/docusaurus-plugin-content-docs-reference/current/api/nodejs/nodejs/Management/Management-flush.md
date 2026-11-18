@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # flush()
 
 この操作は、セグメントを手動でシールし、データをディスクに永続化します。すべてのデータがコレクションに挿入された後にこの操作を呼び出すことを推奨します。
@@ -36,7 +35,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.flush(data)
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Milvus は一定間隔でデータを永続ストレージに自動的に flush します。この自動データ永続化メカニズムに依存することを推奨します。
 
@@ -70,11 +69,13 @@ await milvusClient.flush({
 
     これを **None** に設定すると、何らかの応答が到着するかエラーが発生した時点で、この操作はタイムアウトします。
 
-**戻り値** *Promise&lt;FlushResult&gt;*
+**戻り値:**
+
+*Promise&lt;FlushResult&gt;*
 
 このメソッドは、**FlushResult** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     coll_segIDs: Record<string, { data: number[] }>,
     status:  ResStatus
@@ -83,11 +84,11 @@ await milvusClient.flush({
 
 **パラメータ:**
 
-- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -<br/>
-  コレクション名から、この flush によってシールされたセグメント ID へのマッピングです。永続化を確認するには、返された ID を `getFlushState()` とともに使用します。
+- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
+コレクション名から、この flush によってシールされたセグメント ID へのマッピングです。返された ID を `getFlushState()` とともに使用して、永続化を確認します。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -101,9 +102,16 @@ await milvusClient.flush({
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -112,4 +120,3 @@ const flushStatus = await milvusClient.flush({
     collection_names: ['my_collection'],
 });
 ```
-

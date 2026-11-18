@@ -2,7 +2,7 @@
 title: "getRestoreSnapshotState() | Node.js"
 slug: /node/node/Snapshot-getRestoreSnapshotState
 sidebar_label: "getRestoreSnapshotState()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getRestoreSnapshotState()
 
 この操作は、スナップショット復元ジョブの状態を確認します。restoreSnapshot() によって返される job_id を使用します。
 
-```typescript
+```javascript
 await milvusClient.getRestoreSnapshotState(data: GetRestoreSnapshotStateReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getRestoreSnapshotState({
     job_id: number | string,
     timeout?: number,
@@ -48,21 +45,23 @@ await milvusClient.getRestoreSnapshotState({
 
 **パラメーター:**
 
-- **job_id** (*number | string*) -<br/>
-  **[必須]**<br/>
-  restoreSnapshot() によって返される復元ジョブ ID です。
+- **job_id** (*number | string*) -
+**[必須]**
+restoreSnapshot() によって返される復元ジョブ ID です。
 
-- **timeout** (*number*) -<br/>
-  RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定すると、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。オプションです。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。任意です。
 
-**戻り値** *Promise&lt;GetRestoreSnapshotStateResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetRestoreSnapshotStateResponse&gt;*
 
 このメソッドは、**GetRestoreSnapshotStateResponse** オブジェクトに解決される Promise を返します。
 
-```typescript
+```javascript
 {
     info: RestoreSnapshotJobInfo,
     status:  ResStatus
@@ -71,8 +70,9 @@ await milvusClient.getRestoreSnapshotState({
 
 **パラメーター:**
 
-- **info** (*RestoreSnapshotJobInfo*) -<br/>
-  復元ジョブの現在の状態です。
+- **info** (*RestoreSnapshotJobInfo*) -
+
+復元ジョブの現在の状態です。
 
     - **job_id** (*string*) -
 
@@ -110,8 +110,8 @@ await milvusClient.getRestoreSnapshotState({
 
         ジョブ開始からの総経過時間です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -124,6 +124,13 @@ await milvusClient.getRestoreSnapshotState({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
 
 ## 例\{#example}
 

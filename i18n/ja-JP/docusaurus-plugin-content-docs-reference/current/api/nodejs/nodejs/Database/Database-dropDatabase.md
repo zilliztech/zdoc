@@ -25,22 +25,13 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropDatabase()
 
 この操作はデータベースを削除します。
 
 ```javascript
-await milvusClient.dropDatabase(data?)
+await milvusClient.dropDatabase(data)
 ```
-
-<Admonition type="info" title="Notes">
-
-このメソッドは専用クラスターにのみ適用されます。
-
-</Admonition>
 
 ## リクエスト構文\{#request-syntax}
 
@@ -65,7 +56,9 @@ await milvusClient.dropDatabase({
 
     これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise |&lt;ResStatus&gt;*
+**戻り値：**
+
+*Promise\<ResStatus\>*
 
 このメソッドは **ResStatus** オブジェクトに解決される promise を返します。
 
@@ -91,6 +84,13 @@ await milvusClient.dropDatabase({
 
     報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外：**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
 ## 例\{#example}
 
 ```javascript
@@ -100,4 +100,3 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.dropDatabase({ db_name: 'db_to_drop' });
 ```
-

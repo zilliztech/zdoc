@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getFlushAllState()
 
 この操作は、flush-all 操作が完了したかどうかを確認します。
 
-```typescript
+```javascript
 await milvusClient.getFlushAllState(data: GetFlushAllStateReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getFlushAllState({
     flush_all_ts?: number,
     flush_all_tss?: Record\<string, number\>,
@@ -50,26 +47,28 @@ await milvusClient.getFlushAllState({
 
 **パラメータ:**
 
-- **flush_all_ts** (*number*) -<br/>
-  flush-all タイムスタンプです。任意であり、非推奨です。
+- **flush_all_ts** (*number*) -
+flush-all のタイムスタンプです。省略可能で、非推奨です。
 
-- **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
-  A map of データベース names to flush-all timestamps. Optional.
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -
+データベース名と flush-all のタイムスタンプを対応付けるマップです。任意です。
 
-- **db_name** (*string*) -<br/>
-  The name of the データベース. Optional and deprecated.
+- **db_name** (*string*) -
+データベースの名前です。省略可能で、非推奨です。
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。任意です。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。任意です。
 
-**戻り値** *Promise&lt;GetFlushAllStateResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetFlushAllStateResponse&gt;*
 
 このメソッドは、**GetFlushAllStateResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -78,11 +77,11 @@ await milvusClient.getFlushAllState({
 
 **パラメータ:**
 
-- **flushed** (*boolean*) -<br/>
-  指定されたタイムスタンプで識別される flush-all 操作が完全に完了したかどうかを示します。すべての channel が要求された flush タイムスタンプに到達すると **true**、それ以外は **false** です。
+- **flushed** (*boolean*) -
+指定されたタイムスタンプで識別される flush-all 操作が完全に完了したかどうかを示します。すべてのチャネルが要求された flush タイムスタンプに到達した場合は **true**、それ以外の場合は **false** です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -95,6 +94,13 @@ await milvusClient.getFlushAllState({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 

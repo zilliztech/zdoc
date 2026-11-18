@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # describeAlias()
 
 この操作は特定のエイリアスの情報を取得します。
@@ -42,57 +41,62 @@ await milvusClient.describeAlias(data)
 await milvusClient.describeAlias({
     db_name: string,
     alias: string,
-    collection_name: string
+    collection_name: string,
+    timeout?: number
 })
 ```
 
 **パラメータ:**
 
-- **db_name** (*str*) -
+- **db_name** (*string*) -
 
     対象のコレクションを保持するデータベースの名前。
 
-- **alias** (*str*) -
+- **alias** (*string*) -
 
     **[REQUIRED]**
 
     コレクションのエイリアスです。エイリアスは事前に存在している必要があります。
 
-    <Admonition type="info" title="Note">
-
-    コレクションエイリアスとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        コレクションエイリアスは、コレクションに付ける追加の名前です。コレクションエイリアスは、コードを変更せずにアプリケーションを新しいコレクションに切り替えたい場合に便利です。 
+    コレクションエイリアスは、コレクションに付ける追加の名前です。コレクションエイリアスは、コードを変更せずにアプリケーションを新しいコレクションに切り替えたい場合に便利です。 
     
-        Zilliz Cloud では、コレクションエイリアスはグローバルに一意な識別子です。1 つのエイリアスは、厳密に 1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションは複数のエイリアスを持つことができます。
+    Milvus では、コレクションエイリアスはグローバルに一意の識別子です。1 つのエイリアスは、厳密に 1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションには複数のエイリアスを割り当てることができます。
     
-        以下は、あるコレクションのエイリアスを別のコレクションに再割り当てする例です。
+    以下は、あるコレクションのエイリアスを別のコレクションに再割り当てする例です。
     
-        `collection_1` と `collection_2` の 2 つのコレクションがあるとします。また、`bob` という名前のコレクションエイリアスがあり、もともとは `collection_1` に割り当てられていました。
+    `collection_1` と `collection_2` の 2 つのコレクションがあるとします。また、`bob` という名前のコレクションエイリアスがあり、もともとは `collection_1` に割り当てられていました。
     
-        - `collection_1` のエイリアス = ["bob"]
+    - `collection_1` のエイリアス = ["bob"]
     
-        - `collection_2` のエイリアス = []
+    - `collection_2` のエイリアス = []
     
-        `alter_alias("collection_2", "bob")` を呼び出した後：
+    `alter_alias("collection_2", "bob")` を呼び出した後：
     
-        - `collection_1` のエイリアス = []
+    - `collection_1` のエイリアス = []
     
-        - `collection_2` のエイリアス = ["bob"]
-
+    - `collection_2` のエイリアス = ["bob"]
+    
     </Admonition>
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
     指定されたエイリアスを持つコレクションの名前。
 
-**戻り値** *Promise&lt;DescribeAliasResponse&gt;*
+- **timeout** (*number*) -
+
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+
+**戻り値:**
+
+*Promise&lt;DescribeAliasResponse&gt;*
 
 このメソッドは、**DescribeAliasResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     db_name: string,
     alias: string,
@@ -103,17 +107,17 @@ await milvusClient.describeAlias({
 
 **パラメータ:**
 
-- **db_name** (*string*) -<br/>
-  エイリアスを所有するデータベース。
+- **db_name** (*string*) -
+エイリアスを所有するデータベースです。
 
-- **alias** (*string*) -<br/>
-  エイリアス名。
+- **alias** (*string*) -
+エイリアス名です。
 
-- **コレクション** (*string*) -<br/>
-  The collection name to which the alias currently points.
+- **collection** (*string*) -
+エイリアスが現在参照しているコレクションの名前です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -126,6 +130,13 @@ await milvusClient.describeAlias({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 

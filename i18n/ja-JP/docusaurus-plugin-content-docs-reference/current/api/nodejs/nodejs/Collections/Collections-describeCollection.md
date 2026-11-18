@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeCollection()
 
 この操作は、特定のコレクションの詳細情報を一覧表示します。
@@ -41,7 +38,8 @@ await milvusClient.describeCollection(data)
 ```javascript
 await milvusClient.describeCollection({ 
     db_name: string,
-    collection_name: string 
+    collection_name: string,
+    cache?: boolean
 })
 ```
 
@@ -57,23 +55,32 @@ await milvusClient.describeCollection({
 
     既存のコレクションの名前。
 
+- **cache** (*boolean*) -
+
+    キャッシュされたコレクションスキーマを使用するかどうか。デフォルト値は **false** です。
+
 - **timeout** (*number*)  
 
     この操作のタイムアウト時間。 
 
     これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点で、この操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;DescribeCollectionResponse&gt;*
+**戻り値:**
+
+*Promise&lt;DescribeCollectionResponse&gt;*
 
 このメソッドは、**DescribeCollectionResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     schema: CollectionSchema,
     collectionID: string,
     collection_name: string,
     consistency_level: string,
     aliases: string[],
+    virtual_channel_names: string[],
+    physical_channel_names: string[],
+    start_positions: string[],
     properties: KeyValuePair[],
     created_timestamp: string,
     created_utc_timestamp: string,
@@ -81,10 +88,6 @@ await milvusClient.describeCollection({
     num_partitions: string,
     db_name: string,
     functions: FunctionObject[],
-    external_source?: string,
-    external_spec?: string,
-    do_physical_backfill?: boolean,
-    file_resource_ids?: string[],
     update_timestamp_str: string,
     update_timestamp: number,
     anns_fields: Record<string, FieldSchema>,
@@ -96,8 +99,8 @@ await milvusClient.describeCollection({
 
 **PARAMETERS:**
 
-- **スキーマ** (*CollectionSchema*) -<br/>
-  The スキーマ of the コレクション.
+- **スキーマ** (*CollectionSchema*) -
+コレクションのスキーマ。
 
     - **name** (*string*) -
 
@@ -123,72 +126,82 @@ await milvusClient.describeCollection({
 
         Doc-in / doc-out functions attached to the コレクション (for example, the BM25 sparse-ベクトル function).
 
-- **collectionID** (*string*) -<br/>
-  Milvus によって割り当てられた内部コレクション ID。
+    - **struct_array_fields** (*FieldSchema[]*) -
 
-- **collection_name** (*string*) -<br/>
-  コレクション名。
+        コレクションで宣言されているすべての Struct フィールドと Array フィールド。
 
-- **consistency_level** (*string*) -<br/>
-  このコレクションに対するクエリのデフォルトの整合性レベル。指定可能な値は **Strong**、**Session**、**Bounded**、**Eventually**、**Customized** です。
+    - **external_source** (*string*) -
 
-- **aliases** (*string[]*) -<br/>
-  このコレクションを指すエイリアスの一覧。
+        外部ソースのパス。任意。
 
-- **properties** (*KeyValuePair[]*) -<br/>
-  コレクション-level properties (for example, **mmap.enabled**, **コレクション.ttl.seconds**) declared at creation or set via `alterCollectionProperties()`.
+    - **external_spec** (*string*) -
 
-- **created_timestamp** (*string*) -<br/>
-  コレクションが作成された時点のハイブリッドタイムスタンプ。
+        外部 spec の設定。任意。
 
-- **created_utc_timestamp** (*string*) -<br/>
-  コレクションが作成された時点の UTC タイムスタンプ（ミリ秒）。
+    - **file_resource_ids** (*string[]*) -
 
-- **shards_num** (*number*) -<br/>
-  コレクションに設定されているシャード数。
+        外部ファイルリソース ID。任意。
 
-- **num_partitions** (*string*) -<br/>
-  コレクションに設定されているパーティション数。この値は、パーティションキーフィールドが宣言されている場合にのみ意味を持ちます。
+- **collectionID** (*string*) -
+Milvus によって割り当てられたコレクションの内部 ID。
 
-- **db_name** (*string*) -<br/>
-  このコレクションを所有するデータベース。
+- **collection_name** (*string*) -
+コレクション名。
 
-- **functions** (*FunctionObject[]*) -<br/>
-  コレクションにアタッチされた doc-in / doc-out 関数のフラット化された一覧。
+- **consistency_level** (*string*) -
+このコレクションに対するクエリのデフォルトの整合性レベル。指定可能な値は **Strong**、**Session**、**Bounded**、**Eventually**、**Customized** です。
 
-- **external_source** (*string*) -
+- **aliases** (*string[]*) -
+このコレクションを指すエイリアスのリスト。
 
-    外部ソースのパス。任意。
+- **virtual_channel_names** (*string[]*) -
+コレクションに割り当てられた仮想チャネルの名前。この値は現在のところ有用ではありません。
 
-- **external_spec** (*string*) -
+- **physical_channel_names** (*string[]*) -
+コレクションに割り当てられた物理チャネルの名前。この値は現在のところ有用ではありません。
 
-    外部 spec の設定。任意。
+- **start_positions** (*string[]*) -
+作成時点のコレクションの開始位置。
 
-- **do_physical_backfill** (*boolean*) -
+- **properties** (*KeyValuePair[]*) -
+作成時に宣言された、または `alterCollectionProperties()` を使用して設定されたコレクションレベルのプロパティ（例: **mmap.enabled**、**コレクション.ttl.seconds**）。
 
-    外部データを物理的にバックフィルするかどうか。任意。
+- **created_timestamp** (*string*) -
+コレクションが作成されたハイブリッドタイムスタンプ。
 
-- **file_resource_ids** (*Array&lt;number | string&gt;*) -
+- **created_utc_timestamp** (*string*) -
+コレクションが作成された UTC タイムスタンプ（ミリ秒単位）。
 
-    外部ファイルリソース ID。任意。
+- **shards_num** (*number*) -
+コレクションに設定されているシャード数。
 
-- **update_timestamp_str** (*string*) -<br/>
-  コレクションが最後に更新された時点のハイブリッドタイムスタンプを文字列としてフォーマットしたもの。
+- **num_partitions** (*string*) -
+コレクションに設定されているパーティション数。この値は、パーティションキーフィールドが宣言されている場合にのみ意味を持ちます。
 
-- **update_timestamp** (*number*) -<br/>
-  最終更新タイムスタンプの数値形式。
+- **db_name** (*string*) -
+このコレクションを所有するデータベース。
 
-- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  ベクトルフィールド名からその **FieldSchema** へのマッピングで、コレクション上で宣言されているすべてのベクトルフィールドをカバーします。
+- **functions** (*FunctionObject[]*) -
 
-- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  スカラーフィールド名からその **FieldSchema** へのマッピングで、コレクション上で宣言されているすべてのスカラーフィールドをカバーします。
+コレクションにアタッチされた doc-in / doc-out 関数をフラット化したリスト。
 
-- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  関数出力フィールド名からその **FieldSchema** へのマッピング。
+- **update_timestamp_str** (*string*) -
+コレクションが最後に更新されたハイブリッドタイムスタンプ（文字列形式）。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **update_timestamp** (*number*) -
+最終更新タイムスタンプの数値形式。
+
+- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -
+ベクトルフィールド名から対応する **FieldSchema** へのマッピング。コレクションで宣言されているすべてのベクトルフィールドを対象とします。
+
+- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -
+スカラーフィールド名から対応する **FieldSchema** へのマッピング。コレクションで宣言されているすべてのスカラーフィールドを対象とします。
+
+- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -
+関数出力フィールド名から対応する **FieldSchema** へのマッピング。
+
+- **ResStatus**
+**ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -202,13 +215,19 @@ await milvusClient.describeCollection({
 
         報告されたエラーの理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
  const res = await milvusClient.describeCollection({ collection_name: 'my_collection' });
 ```
-

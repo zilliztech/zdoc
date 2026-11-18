@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropCollectionProperties()
 
 この操作は、特定のコレクションのプロパティをデフォルト値にリセットします。
@@ -79,7 +76,9 @@ await milvusClient.dropCollectionProperties({
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -105,16 +104,22 @@ await milvusClient.dropCollectionProperties({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **エラー**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
 const resStatus = await milvusClient.dropCollectionProperties({
     collection_name: 'my-collection',
-    delete_keys: ["collection.ttl.seconds"]
+    properties: ["collection.ttl.seconds"]
 });
 ```
-

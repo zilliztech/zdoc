@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPkFieldType()
 
 この操作は、コレクションの主キーフィールドのデータ型を返します。これは、コレクションの情報を取得して主キーフィールドの型を抽出するための便利なメソッドです。
@@ -41,6 +38,8 @@ await milvusClient.getPkFieldType(data: DescribeCollectionReq)
 ```javascript
 getPkFieldType({
     collection_name: string,
+    db_name?: string,
+    cache?: boolean,
     timeout: number
 })
 ```
@@ -53,15 +52,30 @@ getPkFieldType({
 
     コレクションの名前。
 
+- **db_name** (*string*) -
+
+    対象のコレクションが格納されているデータベースの名前。
+
+- **cache** (*boolean*) -
+
+    コレクションのキャッシュされた説明を使用するかどうか。省略可能です。
+
 - **timeout** (*number*) -
 
     ミリ秒単位の RPC タイムアウト。省略可能です。
 
 **RETURNS:**
 
-*Promise\<keyof typeof DataType\>*
+*Promise\<keyof typeof DataType\\>*
 
-主キーフィールドのデータ型（例: `"Int64"`、`"VarChar"`）。
+主キーフィールドのデータ型（例：`"Int64"`、`"VarChar"`）。[DataType](./Collections-DataType) を参照してください。
+
+
+**例外:**
+
+- **エラー**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## Example\{#example}
 
@@ -77,4 +91,3 @@ const pkType = await client.getPkFieldType({
 });
 console.log(pkType); // e.g., "Int64"
 ```
-

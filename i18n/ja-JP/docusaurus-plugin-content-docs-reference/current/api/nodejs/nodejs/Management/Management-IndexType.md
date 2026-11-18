@@ -25,88 +25,210 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # IndexType
 
-以下の定数を提供する列挙型です。
+ベクトルフィールドとスカラーフィールドでサポートされるインデックスタイプを定義します。
 
-## Constants\{#constants}
+```typescript
+export enum IndexType {
+  // vector
+  FLAT = 'FLAT',
+  IVF_FLAT = 'IVF_FLAT',
+  IVF_SQ8 = 'IVF_SQ8',
+  IVF_PQ = 'IVF_PQ',
+  HNSW = 'HNSW',
+  BIN_FLAT = 'BIN_FLAT',
+  BIN_IVF_FLAT = 'BIN_IVF_FLAT',
+  DISKANN = 'DISKANN',
+  AUTOINDEX = 'AUTOINDEX',
+  ANNOY = 'ANNOY',
+  SPARSE_INVERTED_INDEX = 'SPARSE_INVERTED_INDEX',
+  SPARSE_WAND = 'SPARSE_WAND',
+  // 2.3
+  GPU_FLAT = 'GPU_FLAT',
+  GPU_IVF_FLAT = 'GPU_IVF_FLAT',
+  GPU_IVF_PQ = 'GPU_IVF_PQ',
+  GPU_IVF_SQ8 = 'GPU_IVF_SQ8',
+  GPU_BRUTE_FORCE = 'GPU_BRUTE_FORCE',
+  GPU_CAGRA = 'GPU_CAGRA',
+  RAFT_IVF_FLAT = 'RAFT_IVF_FLAT',
+  RAFT_IVF_PQ = 'RAFT_IVF_PQ',
+  ScaNN = 'SCANN',
+  // scalar
+  STL_SORT = 'STL_SORT',
+  TRIE = 'Trie',
+  INVERTED = 'INVERTED',
+  // 2.5
+  BITMAP = 'BITMAP',
+  // 2.6
+  IVF_RABITQ = 'IVF_RABITQ',
+  MINHASH_LSH = 'MINHASH_LSH',
+  RTREE = 'RTREE',
+  // quantized HNSW variants
+  HNSW_SQ = 'HNSW_SQ',
+  HNSW_PQ = 'HNSW_PQ',
+  HNSW_PRQ = 'HNSW_PRQ',
+  // DiskANN variant keeping PQ codes inline with the graph
+  AISAQ = 'AISAQ',
+  // scalar: n-gram index for VARCHAR / JSON path, accelerates LIKE
+  NGRAM = 'NGRAM',
+  // scalar: FM-index for VARCHAR, exact anchored LIKE with no recheck
+  FMINDEX = 'FMINDEX',
+}
+```
 
-- **ANNOY** = ANNOY<br/>
-  インデックスタイプを ANNOY に設定します。
+**定数:**
 
-- **AUTOINDEX** = AUTOINDEX<br/>
-  インデックスタイプを AUTOINDEX に設定します。
+- **FLAT** ('FLAT')
 
-- **BIN_FLAT** = BIN_FLAT<br/>
-  インデックスタイプを BIN_FLAT に設定します。
+    インデックスタイプを **FLAT** に設定します。
 
-- **BIN_IVF_FLAT** = BIN_IVF_FLAT<br/>
-  インデックスタイプを BIN_IVF_FLAT に設定します。
+- **IVF_FLAT** ('IVF_FLAT')
 
-- **DISKANN** = DISKANN<br/>
-  インデックスタイプを DISKANN に設定します。
+    インデックスタイプを **IVF_FLAT** に設定します。
 
-- **FLAT** = FLAT<br/>
-  インデックスタイプを FLAT に設定します。
+- **IVF_SQ8** ('IVF_SQ8')
 
-- **GPU_FLAT** = GPU_FLAT<br/>
-  インデックスタイプを GPU_FLAT に設定します。
+    インデックスタイプを **IVF_SQ8** に設定します。
 
-- **GPU_IVF_FLAT** = GPU_IVF_FLAT<br/>
-  インデックスタイプを GPU_IVF_FLAT に設定します。
+- **IVF_PQ** ('IVF_PQ')
 
-- **GPU_IVF_PQ** = GPU_IVF_PQ<br/>
-  インデックスタイプを GPU_IVF_PQ に設定します。
+    インデックスタイプを **IVF_PQ** に設定します。
 
-- **GPU_IVF_SQ8** = GPU_IVF_SQ8<br/>
-  インデックスタイプを GPU_IVF_SQ8 に設定します。
+- **HNSW** ('HNSW')
 
-- **HNSW** = HNSW<br/>
-  インデックスタイプを HNSW に設定します。
+    インデックスタイプを **HNSW** に設定します。
 
-- **IVF_FLAT** = IVF_FLAT<br/>
-  インデックスタイプを IVF_FLAT に設定します。
+- **BIN_FLAT** ('BIN_FLAT')
 
-- **IVF_PQ** = IVF_PQ<br/>
-  インデックスタイプを IVF_PQ に設定します。
+    インデックスタイプを **BIN_FLAT** に設定します。
 
-- **IVF_SQ8** = IVF_SQ8<br/>
-  インデックスタイプを IVF_SQ8 に設定します。
+- **BIN_IVF_FLAT** ('BIN_IVF_FLAT')
 
-- **RAFT_IVF_FLAT** = RAFT_IVF_FLAT<br/>
-  インデックスタイプを RAFT_IVF_FLAT に設定します。
+    インデックスタイプを **BIN_IVF_FLAT** に設定します。
 
-- **RAFT_IVF_PQ** = RAFT_IVF_PQ<br/>
-  インデックスタイプを RAFT_IVF_PQ に設定します。
+- **DISKANN** ('DISKANN')
 
-- **STL_SORT** = STL_SORT<br/>
-  インデックスタイプを STL_SORT に設定します。
+    インデックスタイプを **DISKANN** に設定します。
 
-- **ScaNN** = ScaNN<br/>
-  インデックスタイプを ScaNN に設定します。
+- **AUTOINDEX** ('AUTOINDEX')
 
-- **TRIE** = Trie<br/>
-  インデックスタイプを Trie に設定します。
+    インデックスタイプを **AUTOINDEX** に設定します。
 
-- **INVERTED** = 'INVERTED'
+- **ANNOY** ('ANNOY')
 
-    インデックスタイプを INVERTED に設定します。
+    インデックスタイプを **ANNOY** に設定します。
 
-- **BITMAP** = 'BITMAP'
+- **SPARSE_INVERTED_INDEX** ('SPARSE_INVERTED_INDEX')
 
-    インデックスタイプを BITMAP に設定します。
+    インデックスタイプを **SPARSE_INVERTED_INDEX** に設定します。
 
-- **IVF_RABITQ** = 'IVF_RABITQ',
+- **SPARSE_WAND** ('SPARSE_WAND')
 
-    インデックスタイプを IVF_RABITQ に設定します。
+    インデックスタイプを **SPARSE_WAND** に設定します。
 
-- **MINHASH_LSH** = 'MINHASH_LSH'
+- **GPU_FLAT** ('GPU_FLAT')
 
-    インデックスタイプを MINHASH_LSH に設定します。
+    インデックスタイプを **GPU_FLAT** に設定します。
 
-- **RTREE** = 'RTREE'
+- **GPU_IVF_FLAT** ('GPU_IVF_FLAT')
 
-    インデックスタイプを RTREE に設定します。
+    インデックスタイプを **GPU_IVF_FLAT** に設定します。
+
+- **GPU_IVF_PQ** ('GPU_IVF_PQ')
+
+    インデックスタイプを **GPU_IVF_PQ** に設定します。
+
+- **GPU_IVF_SQ8** ('GPU_IVF_SQ8')
+
+    インデックスタイプを **GPU_IVF_SQ8** に設定します。
+
+- **GPU_BRUTE_FORCE** ('GPU_BRUTE_FORCE')
+
+    インデックスタイプを **GPU_BRUTE_FORCE** に設定します。
+
+- **GPU_CAGRA** ('GPU_CAGRA')
+
+    インデックスタイプを **GPU_CAGRA** に設定します。
+
+- **RAFT_IVF_FLAT** ('RAFT_IVF_FLAT')
+
+    インデックスタイプを **RAFT_IVF_FLAT** に設定します。
+
+- **RAFT_IVF_PQ** ('RAFT_IVF_PQ')
+
+    インデックスタイプを **RAFT_IVF_PQ** に設定します。
+
+- **ScaNN** ('SCANN')
+
+    インデックスタイプを **ScaNN** に設定します。
+
+- **STL_SORT** ('STL_SORT')
+
+    インデックスタイプを **STL_SORT** に設定します。
+
+- **TRIE** ('Trie')
+
+    インデックスタイプを **TRIE** に設定します。
+
+- **INVERTED** ('INVERTED')
+
+    インデックスタイプを **INVERTED** に設定します。
+
+- **BITMAP** ('BITMAP')
+
+    インデックスタイプを **BITMAP** に設定します。
+
+- **IVF_RABITQ** ('IVF_RABITQ')
+
+    インデックスタイプを **IVF_RABITQ** に設定します。
+
+- **MINHASH_LSH** ('MINHASH_LSH')
+
+    インデックスタイプを **MINHASH_LSH** に設定します。
+
+- **RTREE** ('RTREE')
+
+    インデックスタイプを **RTREE** に設定します。
+
+- **HNSW_SQ** ('HNSW_SQ')
+
+    インデックスタイプを **HNSW_SQ** に設定します。これはスカラー量子化を使用する HNSW のバリアントです。
+
+- **HNSW_PQ** ('HNSW_PQ')
+
+    インデックスタイプを **HNSW_PQ** に設定します。これは積量子化を使用する HNSW のバリアントです。
+
+- **HNSW_PRQ** ('HNSW_PRQ')
+
+    インデックスタイプを **HNSW_PRQ** に設定します。これは積残差量子化を使用する HNSW のバリアントです。
+
+- **AISAQ** ('AISAQ')
+
+    インデックスタイプを **AISAQ** に設定します。これは PQ コードをグラフとインラインに保持する DiskANN のバリアントです。
+
+- **NGRAM** ('NGRAM')
+
+    インデックスタイプを **NGRAM** に設定します。これは `VARCHAR` および JSON パス用の n-gram インデックスで、`LIKE` マッチングを高速化します。
+
+- **FMINDEX** ('FMINDEX')
+
+    インデックスタイプを **FMINDEX** に設定します。これは `VARCHAR` 用の FM インデックスで、候補を再チェックせずに、アンカー付き `LIKE` マッチングを正確に実行します。
+
+## 例\{#example}
+
+```javascript
+import { MilvusClient, IndexType, MetricType } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+await milvusClient.createIndex({
+    collection_name: 'my_collection',
+    field_name: 'vector',
+    index_type: IndexType.HNSW,
+    metric_type: MetricType.COSINE,
+});
+```

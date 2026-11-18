@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # getFlushState()
 
 この操作は、特定の segment の flush 状態を返します。
@@ -36,7 +35,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getFlushState(data)
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Milvus は一定間隔でデータを永続ストレージに自動的にフラッシュします。この自動データ永続化メカニズムに依存することを推奨します。
 
@@ -46,18 +45,31 @@ Milvus は一定間隔でデータを永続ストレージに自動的にフラ�
 
 ```javascript
 await milvusClient.getFlushState({
-    segment_ids: number[],
+    segmentIDs?: number[],
+    flush_ts?: number,
+    db_name?: string,
+    collection_name?: string,
     timeout?: number
 })
 ```
 
 **パラメータ:**
 
-- **segment_ids** (*number[]*) -
-
-    **[必須]**
+- **segmentIDs** (*number[]*) -
 
     対象の segment ID のリスト。
+
+- **flush_ts** (*number*) -
+
+    照合する flush タイムスタンプ。
+
+- **db_name** (*string*) -
+
+    対象のコレクションを含むデータベースの名前。
+
+- **collection_name** (*string*) -
+
+    flush 状態を確認するコレクションの名前。**segmentIDs**、**flush_ts**、または **collection_name** のうち少なくとも 1つを指定してください。
 
 - **timeout** (*number*)  
 
@@ -65,11 +77,13 @@ await milvusClient.getFlushState({
 
     これを **None** に設定すると、任意の応答が到着したとき、または任意のエラーが発生したときにこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;GetFlushStateResponse&gt;*
+**戻り値:**
+
+*Promise&lt;GetFlushStateResponse&gt;*
 
 このメソッドは、**GetFlushStateResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -78,11 +92,11 @@ await milvusClient.getFlushState({
 
 **パラメータ:**
 
-- **flushed** (*boolean*) -<br/>
-  対象となるすべての segment が永続ストレージにフラッシュされたかどうか。要求されたすべての segment ID が sealed されて永続化されている場合は **true**、それ以外の場合は **false** です。
+- **flushed** (*boolean*) -
+対象のすべての segment が永続ストレージにフラッシュされたかどうか。要求されたすべての segment ID がシールされて永続化されている場合は **true**、それ以外の場合は **false** です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -96,9 +110,16 @@ await milvusClient.getFlushState({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空の文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -107,4 +128,3 @@ const flushState = await milvusClient.getFlushState({
     segmentIDs: [1,2,3,4],
 });
 ```
-

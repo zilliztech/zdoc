@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadCollectionAsync()
 
 This operation loads コレクション data into query nodes, then you can do ベクトル search on this コレクション. This is an async function — use `getLoadState()` or `getLoadingProgress()` to check loading status.
@@ -89,11 +86,13 @@ await milvusClient.loadCollectionAsync({
 
 **戻り値:**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
 **例外:**
 
-- **MilvusError**
+- **Error**
 
     この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
 

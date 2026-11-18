@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # hasRole()
 
 この操作は、Milvus クラスターにロールが存在するかどうかを確認します。
@@ -57,11 +54,13 @@ await milvusClient.hasRole({
 
     ミリ秒単位の RPC タイムアウトです。省略可能です。
 
-**戻り値** *Promise&lt;HasRoleResponse&gt;*
+**戻り値:**
+
+*Promise&lt;HasRoleResponse&gt;*
 
 このメソッドは、**HasRoleResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     hasRole: boolean,
     status:  ResStatus
@@ -70,11 +69,11 @@ await milvusClient.hasRole({
 
 **パラメータ:**
 
-- **hasRole** (*boolean*) -<br/>
-  要求されたロールが存在するかどうかを示す boolean 値です。ロールが存在する場合は **true**、存在しない場合は **false** です。
+- **hasRole** (*boolean*) -
+要求されたロールが存在するかどうかを示すブール値です。ロールが存在する場合は **true**、存在しない場合は **false** です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -87,6 +86,13 @@ await milvusClient.hasRole({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
 ## 例\{#example}
 

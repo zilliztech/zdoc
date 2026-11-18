@@ -2,7 +2,7 @@
 title: "listSnapshots() | Node.js"
 slug: /node/node/Snapshot-listSnapshots
 sidebar_label: "listSnapshots()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listSnapshots()
 
 この操作は、コレクションのすべてのスナップショットを一覧表示します。
 
-```typescript
+```javascript
 await milvusClient.listSnapshots(data: ListSnapshotsReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.listSnapshots({
     collection_name: string,
     db_name?: string,
@@ -49,24 +46,26 @@ await milvusClient.listSnapshots({
 
 **パラメーター:**
 
-- **collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  コレクションの名前。
+- **collection_name** (*string*) -
+**[必須]**
+コレクションの名前です。
 
-- **db_name** (*string*) -<br/>
-  データベースの名前。任意です。
+- **db_name** (*string*) -
+データベースの名前です。省略可能です。
 
-- **timeout** (*number*) -<br/>
-  RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC に許容される時間をミリ秒単位で指定します。省略可能です。undefined に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機します。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID。任意です。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。省略可能です。
 
-**戻り値** *Promise&lt;ListSnapshotsResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ListSnapshotsResponse&gt;*
 
 このメソッドは、**ListSnapshotsResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     snapshots: string[],
     status:  ResStatus
@@ -75,11 +74,11 @@ await milvusClient.listSnapshots({
 
 **パラメーター:**
 
-- **snapshots** (*string[]*) -<br/>
-  要求されたコレクションに現在存在するスナップショット名の一覧です。
+- **snapshots** (*string[]*) -
+要求されたコレクションに現在存在するスナップショット名のリストです。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -92,6 +91,13 @@ await milvusClient.listSnapshots({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#example}
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listDatabases()
 
 この操作は、既存のすべてのデータベースを一覧表示します。
@@ -52,11 +49,13 @@ await milvusClient.listDatabases({
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;ListDatabasesResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ListDatabasesResponse&gt;*
 
 このメソッドは、**ListDatabasesResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     db_names: string[],
     db_ids: string[],
@@ -67,17 +66,17 @@ await milvusClient.listDatabases({
 
 **PARAMETERS:**
 
-- **db_names** (*string[]*) -<br/>
-  現在の Milvus インスタンスで定義されているデータベース名のリスト。
+- **db_names** (*string[]*) -
+現在の Milvus インスタンスで定義されているデータベース名のリストです。
 
-- **db_ids** (*string[]*) -<br/>
-  **db_names** と同じ順序の、内部データベース識別子。
+- **db_ids** (*string[]*) -
+**db_names** と同じ順序の、データベースの内部識別子です。
 
-- **created_timestamp** (*string[]*) -<br/>
-  **db_names** と同じ順序の、データベースの作成タイムスタンプ。
+- **created_timestamp** (*string[]*) -
+**db_names** と同じ順序の、データベースの作成タイムスタンプです。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -90,6 +89,13 @@ await milvusClient.listDatabases({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## Example\{#example}
 

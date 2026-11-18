@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listGrants()
 
 この操作は、指定されたロールに付与された権限を一覧表示します。
@@ -41,22 +38,34 @@ await milvusClient.listGrants(data)
 ```javascript
  milvusClient.listGrants({
    roleName: 'roleName',
+   db_name?: string,
+   timeout?: number,
  });
 ```
 
 **PARAMETERS:**
 
-- roleName (*string*)  
+- **roleName** (*string*)  
 
     対象のロール名
 
     これを存在しないロール名に設定すると、エラーが発生する場合があります。
 
-**RETURNS** *Promise&lt;SelectGrantResponse&gt;*
+- **db_name** (*string*)  
+
+    対象のロールが属するデータベースの名前です。
+
+- **timeout** (*number*) -
+
+    この操作のタイムアウト時間です。**None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトすることを示します。
+
+**戻り値:**
+
+*Promise&lt;SelectGrantResponse&gt;*
 
 このメソッドは、**SelectGrantResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     entities: GrantEntity[],
     status:  ResStatus
@@ -65,11 +74,12 @@ await milvusClient.listGrants(data)
 
 **PARAMETERS:**
 
-- **entities** (*GrantEntity[]*) -<br/>
-  要求されたロールに関連付けられている grant の一覧。各エントリは、権限と対象オブジェクト、およびそれを付与した principal を対応付けます。**GrantEntity** の完全なフィールドリファレンスについては、`describeRole()` のドキュメントを参照してください。
+- **entities** (*GrantEntity[]*) -
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+要求されたロールに付与された権限のリストです。各エントリは、権限を対象オブジェクトおよびその権限を付与したプリンシパルと対応付けます。**GrantEntity** フィールドの完全なリファレンスについては、`describeRole()` のドキュメントを参照してください。
+
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -82,6 +92,13 @@ await milvusClient.listGrants(data)
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## Example\{#example}
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # closeConnection()
 
 この操作は、Milvus server への現在の接続を閉じます。
@@ -42,13 +39,18 @@ await milvusClient.closeConnection()
 milvusClient.closeConnection()
 ```
 
-**RETURN TYPE:**
-
-*Promise*\<*CONNECT_STATUS*>
-
 **RETURNS:**
 
+*Promise&lt;CONNECT_STATUS&gt;*
+
 Milvus server への現在の接続の最終ステータスに解決される promise を返します。これは `SHUTDOWN` である必要があります。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## Example\{#example}
 

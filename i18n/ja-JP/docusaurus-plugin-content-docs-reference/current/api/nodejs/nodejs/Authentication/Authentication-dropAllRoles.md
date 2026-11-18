@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropAllRoles()
 
 この操作は、Milvus 内のすべてのロールを削除します。
@@ -52,7 +49,9 @@ await milvusClient.dropAllRoles({
 
     これを **None** に設定すると、レスポンスが到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus[]>*
+**戻り値:**
+
+*Promise\<ResStatus[]\>*
 
 このメソッドは Promise のリストを返し、それぞれが **ResStatus** オブジェクトに解決されます。
 
@@ -78,9 +77,15 @@ await milvusClient.dropAllRoles({
 
     報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 milvusClient.dropAllRoles()
 ```
-

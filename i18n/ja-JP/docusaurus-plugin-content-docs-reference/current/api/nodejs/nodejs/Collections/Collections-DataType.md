@@ -25,88 +25,147 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # DataType
 
-これは、以下の定数を提供する列挙型です。
+Milvus のフィールドでサポートされる論理データ型を定義します。
 
-## Constants\{#constants}
+```typescript
+export enum DataType {
+  None = 0,
+  Bool = 1,
+  Int8 = 2,
+  Int16 = 3,
+  Int32 = 4,
+  Int64 = 5,
 
-- NONE = 0
+  Float = 10,
+  Double = 11,
 
-    データ型を **NoneType** に設定します。
+  VarChar = 21, // variable-length strings with a specified maximum length
+  Array = 22,
+  JSON = 23,
+  Geometry = 24,
+  Text = 25, // variable-length strings without a max_length limit; requires StorageV3
+  Timestamptz = 26,
 
-- BOOL = 1
+  BinaryVector = 100,
+  FloatVector = 101,
+  Float16Vector = 102,
+  BFloat16Vector = 103,
+  SparseFloatVector = 104,
+  Int8Vector = 105,
+  ArrayOfVector = 106,
+
+  Struct = 201,
+}
+```
+
+**定数：**
+
+- **None** (0)
+
+    データ型を **None** に設定します。
+
+- **Bool** (1)
 
     データ型を **Boolean** に設定します。
 
-- INT8 = 2
+- **Int8** (2)
 
     データ型を **Int8** に設定します。
 
-- INT16 = 3
+- **Int16** (3)
 
-    データ型を **Int64** に設定します。
+    データ型を **Int16** に設定します。
 
-- INT32 = 4
+- **Int32** (4)
 
     データ型を **Int32** に設定します。
 
-- INT64 = 5
+- **Int64** (5)
 
     データ型を **Int64** に設定します。
 
-- FLOAT = 10
+- **Float** (10)
 
     データ型を **Float** に設定します。
 
-- DOUBLE = 11
+- **Double** (11)
 
     データ型を **Double** に設定します。
 
-- VARCHAR = 21
+- **VarChar** (21)
 
-    データ型を **Varchar** に設定します。
+    データ型を、指定した最大長を持つ可変長文字列である **VarChar** に設定します。
 
-- ARRAY = 22
+- **Array** (22)
 
     データ型を **Array** に設定します。
 
-- JSON = 23
+- **JSON** (23)
 
     データ型を **JSON** に設定します。
 
-- Geometry = 24
+- **Geometry** (24)
 
     データ型を **Geometry** に設定します。
 
-- BinaryVector = 100
+- **Text** (25)
 
-    Sets the data type to **Binary ベクトル**.
+    データ型を、`max_length` の制限がない可変長文字列である **Text** に設定します。このデータ型には **StorageV3** が必要です。
 
-- FloatVector = 101
+- **Timestamptz** (26)
 
-    Sets the data type to **Float ベクトル**.
+    データ型を **Timestamptz** に設定します。
 
-- Float16Vector = 102
+- **BinaryVector** (100)
 
-    Sets the data type to **Float16 ベクトル**.
+    データ型を **BinaryVector** に設定します。
 
-- BFloat16Vector = 103
+- **FloatVector** (101)
 
-    Sets the data type to **BFloat16 ベクトル**.
+    データ型を **FloatVector** に設定します。
 
-- SparseFloatVector = 104
+- **Float16Vector** (102)
 
-    Sets the data type to **Sparse ベクトル**.
+    データ型を **Float16Vector** に設定します。
 
-- Int8Vector = 105
+- **BFloat16Vector** (103)
+
+    データ型を **BFloat16Vector** に設定します。
+
+- **SparseFloatVector** (104)
+
+    データ型を **SparseFloatVector** に設定します。
+
+- **Int8Vector** (105)
 
     データ型を **Int8Vector** に設定します。
 
-- Struct = 201
+- **ArrayOfVector** (106)
+
+    データ型を **ArrayOfVector** に設定します。
+
+- **Struct** (201)
 
     データ型を **Struct** に設定します。これは **Array** フィールド内の要素にのみ適用されることに注意してください。
 
+## 例\{#example}
+
+```javascript
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+await milvusClient.createCollection({
+    collection_name: 'my_collection',
+    fields: [
+        { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: true },
+        { name: 'text', data_type: DataType.VarChar, type_params: { max_length: 512 } },
+        { name: 'vector', data_type: DataType.FloatVector, type_params: { dim: 8 } },
+    ],
+});
+```

@@ -25,26 +25,27 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # upsert()
 
 This operation inserts or updates data in a specific コレクション.
 
-```typescript
+```javascript
 await milvusClient.upsert(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.upsert({
     db_name?: string,
     collection_name: string,
     data: RowData[],
+    fields_data?: RowData[],
     hash_keys?: number[],
+    transformers?: InsertTransformers,
+    skip_check_schema?: boolean,
     partial_update?: boolean,
+    field_ops?: FieldPartialUpdateOp[],
     partition_name?: string,
     timeout?: number,
 })
@@ -60,9 +61,7 @@ await milvusClient.upsert({
 
 - **data** (*RowData[]*) -
 
-    **[REQUIRED]**
-
-    The data to upsert. Each element is a plain JavaScript object whose keys match the field names of the コレクション スキーマ. Entities whose primary key matches an existing record are updated; otherwise a new entity is inserted.
+    アップサートするデータです。各要素は、キーがコレクションのスキーマのフィールド名と一致するプレーンな JavaScript オブジェクトです。プライマリキーが既存のレコードと一致するエンティティは更新され、それ以外の場合は新しいエンティティが挿入されます。**data** または **fields_data** のいずれかを指定してください。
 
 - **db_name** (*string*) -
 
@@ -71,6 +70,18 @@ await milvusClient.upsert({
 - **hash_keys** (*number[]*) -
 
     内部使用のために予約されています。明示的に必要とされない限り、このパラメータを設定しないでください。
+
+- **fields_data** (*RowData[]*) -
+
+    **data** のエイリアスです。いずれかのキーで行を渡すことができますが、両方を設定しないでください。
+
+- **transformers** (*InsertTransformers*) -
+
+    `BFloat16Vector` および `Float16Vector` データ用のカスタムデータトランスフォーマーです。任意です。
+
+- **skip_check_schema** (*boolean*) -
+
+    アップサートする前にスキーマチェックをスキップするかどうかです。任意です。
 
 - **partial_update** (*boolean*) -
 
@@ -88,11 +99,13 @@ await milvusClient.upsert({
 
     配列フィールドに対する部分更新操作です。省略可能です。
 
-**RETURNS** *Promise&lt;MutationResult&gt;*
+**戻り値:**
+
+*Promise&lt;MutationResult&gt;*
 
 このメソッドは、**MutationResult** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     succ_index: number[],
     err_index: number[],
@@ -101,39 +114,40 @@ await milvusClient.upsert({
     delete_cnt: string,
     upsert_cnt: string,
     timestamp: string,
-    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] } },
     status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -<br/>
-  正常に upsert された行の、入力データ内での 0 始まりの位置です。
+- **succ_index** (*number[]*) -
+入力データ内で正常にアップサートされた行の 0 始まりの位置です。
 
-- **err_index** (*number[]*) -<br/>
-  拒否された行の 0 始まりの位置です。すべての行が成功した場合、このリストは空になります。
+- **err_index** (*number[]*) -
+拒否された行の 0 始まりの位置です。すべての行が成功した場合、このリストは空です。
 
-- **acknowledged** (*boolean*) -<br/>
-  書き込みが Milvus によって確認されたかどうかです。
+- **acknowledged** (*boolean*) -
+書き込みが Milvus によって確認されたかどうかを示します。
 
-- **insert_cnt** (*string*) -<br/>
-  この操作によって新しく挿入された行数で、文字列としてフォーマットされます。
+- **insert_cnt** (*string*) -
+この操作によって新たに挿入された行数です。文字列としてフォーマットされます。
 
-- **delete_cnt** (*string*) -<br/>
-  置き換えのための領域を確保するために論理削除された行数です。
+- **delete_cnt** (*string*) -
+置き換えるために論理的に削除された行数です。
 
-- **upsert_cnt** (*string*) -<br/>
-  この操作によって upsert された行の総数です。
+- **upsert_cnt** (*string*) -
+この操作によってアップサートされた行の合計数です。
 
-- **timestamp** (*string*) -<br/>
-  書き込みが可視になったハイブリッドタイムスタンプです。
+- **timestamp** (*string*) -
+書き込みが可視になったハイブリッドタイムスタンプです。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  upsert された行に含まれる主キーです。完全なフィールド参照については、`insert()` ドキュメントを参照してください。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+アップサートされた行に含まれるプライマリキーです。フィールドの完全なリファレンスについては、`insert()` のドキュメントを参照してください。
+
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -146,6 +160,13 @@ await milvusClient.upsert({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合、空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## Example\{#example}
 
@@ -160,11 +181,9 @@ const milvusClient = new MilvusClient({
 // Upsert a single entity
 const result = await milvusClient.upsert({
     collection_name: 'my_collection',
-    data: {
-        id: 0,
-        vector: [0.62, 0.59, 0.85, 0.93, -0.42],
-        color: 'grass-green',
-    },
+    data: [
+        { id: 0, vector: [0.62, 0.59, 0.85, 0.93, -0.42], color: 'grass-green' },
+    ],
 });
 
 // Upsert multiple entities

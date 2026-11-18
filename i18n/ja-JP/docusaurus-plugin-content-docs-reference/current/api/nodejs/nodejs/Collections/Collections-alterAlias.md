@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # alterAlias()
 
 この操作は、あるコレクションのエイリアスを別のコレクションに再割り当てします。
@@ -49,41 +48,39 @@ await milvusClient.alterAlias({
 
 **パラメータ:**
 
-- **alias** (*str*) -
+- **alias** (*string*) -
 
     **[REQUIRED]**
 
     コレクションのエイリアスです。なお、このエイリアスは事前に存在している必要があることに注意してください。
 
-    <Admonition type="info" title="Note">
-
-    コレクションエイリアスとは何ですか？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        コレクションエイリアスは、コレクションに付ける追加の名前です。コレクションエイリアスは、コードに一切変更を加えずにアプリケーションを新しいコレクションに切り替えたい場合に便利です。
+    コレクションエイリアスは、コレクションに付ける追加の名前です。コレクションエイリアスは、コードに一切変更を加えずにアプリケーションを新しいコレクションに切り替えたい場合に便利です。
     
-        Zilliz Cloud では、コレクションエイリアスはグローバルに一意な識別子です。1 つのエイリアスは、厳密に 1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションは複数のエイリアスを持つことができます。
+    Milvus では、コレクションエイリアスはグローバルに一意な識別子です。1 つのエイリアスは、厳密に 1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションは複数のエイリアスを持つことができます。
     
-        以下は、あるコレクションのエイリアスを別のコレクションに再割り当てする例です。
+    以下は、あるコレクションのエイリアスを別のコレクションに再割り当てする例です。
     
-        `collection_1` と `collection_2` の 2 つのコレクションがあるとします。また、`bob` という名前のコレクションエイリアスがあり、これはもともと `collection_1` に割り当てられていました。
+    `collection_1` と `collection_2` の 2 つのコレクションがあるとします。また、`bob` という名前のコレクションエイリアスがあり、これはもともと `collection_1` に割り当てられていました。
     
-        - `collection_1` のエイリアス = ["bob"]
+    - `collection_1` のエイリアス = ["bob"]
     
-        - `collection_2` のエイリアス = []
+    - `collection_2` のエイリアス = []
     
-        `alter_alias("collection_2", "bob")` を呼び出した後:
+    `alter_alias("collection_2", "bob")` を呼び出した後:
     
-        - `collection_1` のエイリアス = []
+    - `collection_1` のエイリアス = []
     
-        - `collection_2` のエイリアス = ["bob"]
-
+    - `collection_2` のエイリアス = ["bob"]
+    
     </Admonition>
 
-- **db_name** (*str*) -
+- **db_name** (*string*) -
 
     対象のコレクションを保持するデータベースの名前です。
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
@@ -95,7 +92,9 @@ await milvusClient.alterAlias({
 
     これを **None** に設定すると、何らかの応答が到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -121,9 +120,16 @@ await milvusClient.alterAlias({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -133,4 +139,3 @@ const resStatus = await milvusClient.alterAlias({
    collection_name: 'my_collection',
 });
 ```
-

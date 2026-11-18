@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # connect()
 
-このメソッドは、必要に応じて指定された SDK バージョンを使用して Zilliz Cloud クラスターに接続します。
+このメソッドは、必要に応じて指定された SDK バージョンを使用して Milvus インスタンスに接続します。
 
 ```javascript
 connect(sdkVersion): void
@@ -39,9 +36,7 @@ connect(sdkVersion): void
 ## リクエスト構文\{#request-syntax}
 
 ```javascript
-connect({
-    sdkVersion: string
-})
+connect(sdkVersion: string)
 ```
 
 **パラメーター:**
@@ -52,13 +47,21 @@ connect({
 
     Node.js SDK のバージョン。
 
-**戻り値** *void*
+**戻り値:**
+
+*void*
 
 このメソッドは何も返しません。
 
+
+**例外:**
+
+- **エラー**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
-connect(2.3.5)
+```javascript
+connect('2.3.5')
 ```
-

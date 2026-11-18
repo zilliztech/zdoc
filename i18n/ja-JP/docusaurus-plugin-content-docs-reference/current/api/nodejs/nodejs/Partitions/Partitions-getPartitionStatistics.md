@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPartitionStatistics()
 
 この操作は、特定の partition で収集された統計情報を表示します。
@@ -71,11 +68,13 @@ await milvusClient.getPartitionStatistics({
 
     これを **None** に設定すると、何らかの応答が到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;StatisticsResponse&gt;*
+**戻り値:**
+
+*Promise&lt;StatisticsResponse&gt;*
 
 このメソッドは、**StatisticsResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     stats: KeyValuePair[],
     data: { [x: string]: any },
@@ -85,14 +84,14 @@ await milvusClient.getPartitionStatistics({
 
 **PARAMETERS:**
 
-- **stats** (*KeyValuePair[]*) -<br/>
-  Milvus によって返される生の統計情報リスト。各エントリには **key**（たとえば **row_count**）と、文字列としての **value** が含まれます。
+- **stats** (*KeyValuePair[]*) -
+Milvus から返される生の統計情報リストです。各エントリには **key**（たとえば **row_count**）と、文字列としての **value** があります。
 
-- **data** (*Record&lt;string, any&gt;*) -<br/>
-  利便性のために **stats** をフラット化し、キーでインデックス化したビューです。たとえば、`data.row_count` は partition の行数を文字列として返します。
+- **data** (*Record&lt;string, any&gt;*) -
+**stats** を利便性のためにフラット化し、キーでインデックス付けしたビューです。たとえば、`data.row_count` は partition の行数を文字列として返します。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -106,9 +105,16 @@ await milvusClient.getPartitionStatistics({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -117,4 +123,3 @@ new MilvusClient({
     partition_name: "_default",
  });
 ```
-

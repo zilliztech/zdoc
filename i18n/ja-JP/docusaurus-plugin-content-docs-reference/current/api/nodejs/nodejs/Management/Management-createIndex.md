@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createIndex()
 
 This operation creates an インデックス for a specific コレクション.
@@ -47,7 +44,7 @@ await milvusClient.createIndex([
        index_name?: string,
        index_type: string,
        metric_type: string,
-       params?: KeyValueObj,
+       params?: keyValueObj,
        timeout?: number
      }
  ] | {
@@ -57,7 +54,8 @@ await milvusClient.createIndex([
        index_name?: string,
        index_type: string,
        metric_type: string,
-       params?: KeyValueObj,
+       params?: keyValueObj,
+       extra_params?: CreateIndexParam,
        timeout?: number    
  });
 ```
@@ -86,23 +84,29 @@ await milvusClient.createIndex([
 
 - **index_type** (*string*) -
 
-    The type of the インデックス to create.
+    作成するインデックスの種類です。[IndexType](./Management-IndexType) を参照してください。
 
 - **metric_type** (*string*) -
 
-    The metric type used to measure ベクトル distance. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
+    ベクトル間の距離を測定するために使用するメトリクスタイプです。指定可能な値は、`IP`、`L2`、`COSINE`、`HAMMING`、`JACCARD`、`BM25`（全文検索でのみ使用）です。[MetricType](./Management-MetricType) を参照してください。
 
     This is available only when the specified field is a ベクトル field.
 
-- **params** (*string*) -
+- **params** (*keyValueObj*) -
 
-    Other インデックス-specific parameters.
+    インデックス固有のその他のパラメータです。
+
+- **extra_params** (*CreateIndexParam*) -
+
+    代替のインデックスパラメータです。`index_type` と `metric_type` を省略するリクエスト形式で使用します。このオブジェクトには、`index_type`、`metric_type`、および `params` が含まれます。[IndexType](./Management-IndexType) および [MetricType](./Management-MetricType) を参照してください。
 
 - **timeout** (number) -
 
     この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -128,13 +132,21 @@ await milvusClient.createIndex([
 
     報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## Example\{#example}
 
-```java
-await milvusClient._createIndex({
+```javascript
+await milvusClient.createIndex({
    collection_name: "my_collection",
    field_name: "vector_field",
-   index_name: "vector_index"
+   index_name: "vector_index",
+   index_type: IndexType.AUTOINDEX,
+   metric_type: MetricType.COSINE,
  });
 ```
-

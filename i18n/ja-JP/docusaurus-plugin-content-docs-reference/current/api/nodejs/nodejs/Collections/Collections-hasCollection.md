@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # hasCollection()
 
 This operation checks whether a specific コレクション exists.
@@ -48,15 +45,15 @@ await milvusClient.hasCollection({
 
 **PARAMETERS:**
 
-- **db_name** (*str*) -
+- **db_name** (*string*) -
 
-    The name of the データベース that holds the target コレクション.
+    対象のコレクションを保持するデータベースの名前。
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of a コレクション.
+    コレクションの名前。
 
 - **timeout** (*number*) -
 
@@ -64,11 +61,13 @@ await milvusClient.hasCollection({
 
     これを **None** に設定すると、何らかのレスポンスが返されるかエラーが発生した時点で、この操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;BoolResponse&gt;*
+**戻り値:**
+
+*Promise&lt;BoolResponse&gt;*
 
 このメソッドは、**BoolResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     value: boolean,
     status:  ResStatus
@@ -77,11 +76,11 @@ await milvusClient.hasCollection({
 
 **PARAMETERS:**
 
-- **value** (*boolean*) -<br/>
-  A boolean that indicates whether the requested コレクション exists. It is **true** when the コレクション exists and **false** when it does not.
+- **value** (*boolean*) -
+要求されたコレクションが存在するかどうかを示すブール値です。コレクションが存在する場合は **true**、存在しない場合は **false** です。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -95,13 +94,19 @@ await milvusClient.hasCollection({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
 const res = await milvusClient.hasCollection({ collection_name: 'my_collection' });
 ```
-

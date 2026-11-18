@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getReplicas()
 
 This operation gets replicas of a コレクション, returning information about each replica including its ID, node assignments, and shard details.
@@ -41,6 +38,8 @@ await milvusClient.getReplicas(data: GetReplicaReq)
 ```javascript
 await milvusClient.getReplicas({
     collectionID: number | string,
+    collection_name?: string,
+    db_name?: string,
     with_shard_nodes?: boolean,
     timeout?: number,
 })
@@ -54,6 +53,14 @@ await milvusClient.getReplicas({
 
     The ID of the コレクション.
 
+- **collection_name** (*string*) -
+
+    コレクションの名前。任意です。
+
+- **db_name** (*string*) -
+
+    対象のコレクションを保持するデータベースの名前。任意です。
+
 - **with_shard_nodes** (*boolean*) -
 
     レスポンスに shard ノード情報を含めるかどうか。任意です。
@@ -62,11 +69,13 @@ await milvusClient.getReplicas({
 
     ミリ秒単位の RPC タイムアウト。任意です。
 
-**RETURNS** *Promise&lt;ReplicasResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ReplicasResponse&gt;*
 
 このメソッドは、**ReplicasResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     replicas: ReplicaInfo[],
     status:  ResStatus
@@ -75,8 +84,8 @@ await milvusClient.getReplicas({
 
 **PARAMETERS:**
 
-- **replicas** (*ReplicaInfo[]*) -<br/>
-  A list of replicas currently serving the requested コレクション.
+- **replicas** (*ReplicaInfo[]*) -
+現在、要求されたコレクションにサービスを提供しているレプリカの一覧。
 
     - **replicaID** (*string*) -
 
@@ -110,22 +119,6 @@ await milvusClient.getReplicas({
 
         この shard のデータを保持する query node の ID。
 
-        - **leaderID** (*string*) -
-
-            shard リーダーとして動作する query node の ID。
-
-        - **leader_addr** (*string*) -
-
-            リーダー query node のアドレス。
-
-        - **dm_channel_name** (*string*) -
-
-            この shard が処理する DML channel。
-
-        - **node_ids** (*string[]*) -
-
-            この shard のデータを保持する query node の ID。
-
     - **node_ids** (*string[]*) -
 
         この replica に参加している query node の ID。
@@ -138,8 +131,8 @@ await milvusClient.getReplicas({
 
         resource group ごとの outbound ノード数で、リバランス時に使用されます。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -152,6 +145,13 @@ await milvusClient.getReplicas({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
 
 ## Example\{#example}
 

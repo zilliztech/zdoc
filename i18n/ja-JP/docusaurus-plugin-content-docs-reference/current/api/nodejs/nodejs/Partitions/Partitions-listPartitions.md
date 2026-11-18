@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listPartitions()
 
 This operation lists the partitions in a specified コレクション.
@@ -75,14 +72,18 @@ await milvusClient.listPartitions({
 
         ロード済みの partition のみを一覧表示することを示します。
 
-**戻り値** *Promise&lt;ShowPartitionsResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ShowPartitionsResponse&gt;*
 
 このメソッドは、**ShowPartitionsResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     partition_names: string[],
     partitionIDs: number[],
+    created_timestamps: string[],
+    created_utc_timestamps: string[],
     data: PartitionData[],
     status:  ResStatus
 }
@@ -90,14 +91,20 @@ await milvusClient.listPartitions({
 
 **パラメーター:**
 
-- **partition_names** (*string[]*) -<br/>
-  A list of partition names defined on the コレクション.
+- **partition_names** (*string[]*) -
+コレクションで定義されているパーティション名のリストです。
 
-- **partitionIDs** (*number[]*) -<br/>
-  **partition_names** と同じ順序の、partition の内部識別子。
+- **partitionIDs** (*number[]*) -
+パーティションの内部識別子です。**partition_names** と同じ順序になります。
 
-- **data** (*PartitionData[]*) -<br/>
-  名前、識別子、作成タイムスタンプ、ロード率をまとめた、partition ごとのフラットなビュー。
+- **created_timestamps** (*string[]*) -
+各パーティションが作成された時点を示すハイブリッドタイムスタンプのリストです。
+
+- **created_utc_timestamps** (*string[]*) -
+各パーティションが作成された時点を示す UTC タイムスタンプのリストです。
+
+- **data** (*PartitionData[]*) -
+フラット化されたパーティションごとのビューで、名前、識別子、作成タイムスタンプ、およびロード済みの割合をまとめています。
 
     - **name** (*string*) -
 
@@ -115,8 +122,8 @@ await milvusClient.listPartitions({
 
         現在メモリにロードされている partition の割合。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -130,9 +137,16 @@ await milvusClient.listPartitions({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -140,4 +154,3 @@ new MilvusClient({
     collection_name: 'my_collection',
  });
 ```
-

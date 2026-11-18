@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadPartitionsSync()
 
 この操作は、特定のパーティションのデータをメモリに読み込みます。これは、指定したパーティションが読み込まれていることを確認するための同期関数です。
@@ -42,7 +39,7 @@ await milvusClient.loadPartitionsSync(data)
 await milvusClient.loadPartitionsSync({ 
     db_name: string,
     collection_name: string,
-    refresh?: boolean,
+    partition_names: string[],
     replica_number?: number,
     resource_groups?: string[],
     timeout?: number
@@ -79,7 +76,9 @@ await milvusClient.loadPartitionsSync({
 
     この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、エラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -105,9 +104,16 @@ await milvusClient.loadPartitionsSync({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生すると、この例外が発生します。
+
 ## 例\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -116,4 +122,3 @@ new MilvusClient({
     partition_names: ['my_partition'],
  });
 ```
-

@@ -2,7 +2,7 @@
 title: "dropSnapshot() | Node.js"
 slug: /node/node/Snapshot-dropSnapshot
 sidebar_label: "dropSnapshot()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropSnapshot()
 
 この操作は、コレクションのスナップショットを削除します。
 
-```typescript
+```javascript
 await milvusClient.dropSnapshot(data: DropSnapshotReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.dropSnapshot({
     collection_name: string,
     snapshot_name: string,
@@ -50,30 +47,32 @@ await milvusClient.dropSnapshot({
 
 **パラメーター:**
 
-- **collection_name** (*string*) -<br/>
-  **[必須]**<br/>
-  スナップショットが属するコレクションの名前。
+- **collection_name** (*string*) -
+**[必須]**
+スナップショットが属するコレクションの名前です。
 
-- **snapshot_name** (*string*) -<br/>
-  **[必須]**<br/>
-  削除するスナップショットの名前。
+- **snapshot_name** (*string*) -
+**[必須]**
+削除するスナップショットの名前です。
 
-- **db_name** (*string*) -<br/>
-  データベースの名前。任意です。
+- **db_name** (*string*) -
+データベースの名前です。オプションです。
 
-- **timeout** (*number*) -<br/>
-  RPC に割り当てる時間をミリ秒単位で指定します。任意です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID。任意です。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。オプションです。
 
 **戻り値:**
 
 *Promise&lt;ResStatus&gt;*
 
+このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
+
 **例外:**
 
-- **MilvusError**
+- **Error**
 
     この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 

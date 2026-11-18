@@ -10,7 +10,7 @@ notebook: false
 description: "この操作では、外部コレクションのすべてのリフレッシュジョブを一覧表示します。コレクション名とデータベース名でフィルターできます。 | Node.js"
 type: docx
 token: AG5zdQCpXoy11MxWgD0ciYBRnJb
-sidebar_position: 34
+sidebar_position: 30
 keywords: 
   - AI エージェント
   - セマンティック検索
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listRefreshExternalCollectionJobs()
 
 この操作では、外部コレクションのすべてのリフレッシュジョブを一覧表示します。コレクション名とデータベース名でフィルターできます。
 
-```typescript
+```javascript
 await milvusClient.listRefreshExternalCollectionJobs(data?: ListRefreshExternalCollectionJobsReq)
 ```
 
 ## リクエスト構文\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.listRefreshExternalCollectionJobs({
     collection_name?: string,
     db_name?: string,
@@ -49,23 +46,25 @@ await milvusClient.listRefreshExternalCollectionJobs({
 
 **パラメーター:**
 
-- **collection_name** (*string*) -<br/>
-  コレクション名で絞り込むためのオプションのフィルターです。
+- **collection_name** (*string*) -
+コレクション名でフィルターするためのオプションです。
 
-- **db_name** (*string*) -<br/>
-  データベース名で絞り込むためのオプションのフィルターです。
+- **db_name** (*string*) -
+データベース名でフィルターするためのオプションです。
 
-- **timeout** (*number*) -<br/>
-  RPC の実行を許可する時間をミリ秒単位で指定する省略可能な期間です。undefined に設定すると、サーバーが応答するかエラーが発生するまで、クライアントは待機を続けます。デフォルトは undefined です。
+- **timeout** (*number*) -
+RPC の実行を許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -<br/>
-  リクエスト追跡用のトレース ID です。省略可能です。
+- **client_request_id** (*string*) -
+リクエスト追跡用のトレース ID です。任意です。
 
-**戻り値** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
 
 このメソッドは、**ListRefreshExternalCollectionJobsResponse** オブジェクトに解決される Promise を返します。
 
-```typescript
+```javascript
 {
     jobs: RefreshExternalCollectionJobInfo[],
     status:  ResStatus
@@ -74,11 +73,12 @@ await milvusClient.listRefreshExternalCollectionJobs({
 
 **パラメーター:**
 
-- **jobs** (*RefreshExternalCollectionJobInfo[]*) -<br/>
-  要求されたデータベースおよびコレクションのフィルターに一致するリフレッシュジョブのリストです。**RefreshExternalCollectionJobInfo** のフィールドの完全なリファレンスについては、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
+- **jobs** (*RefreshExternalCollectionJobInfo[]*) -
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+要求されたデータベースおよびコレクションのフィルターに一致するリフレッシュジョブのリストです。RefreshExternalCollectionJobInfo のフィールドの完全なリファレンスについては、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
+
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -91,6 +91,13 @@ await milvusClient.listRefreshExternalCollectionJobs({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合は空の文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
 ## 例\{#example}
 

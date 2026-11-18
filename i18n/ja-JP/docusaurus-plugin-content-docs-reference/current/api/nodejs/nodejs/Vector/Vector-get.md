@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get()
 
 この操作は、ID によって特定の entity を取得します。
@@ -48,6 +45,8 @@ await milvusClient.get({
    offset?: number,
    output_fields?: string[],
    partition_names?: string[],
+   transformers?: OutputTransformers,
+   exprValues?: keyValueObj,
    timeout?: number
  })
 ```
@@ -70,9 +69,9 @@ await milvusClient.get({
 
     特定の entity ID、または entity ID のリストです。
 
-- **consistency_level** (*string*) -
+- **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target コレクション.
+    対象のコレクションの整合性レベルです。ConsistencyLevelEnum を参照してください。
 
 - **limit** (*number*) -
 
@@ -80,7 +79,7 @@ await milvusClient.get({
 
     ページネーションを有効にするために、このパラメータを **param** 内の **offset** と組み合わせて使用できます。
 
-    この値と **param** 内の **offset** の合計は 16,384 未満である必要があります。 
+    この値と **param** 内の **offset** の合計は、16,384 以下である必要があります。 
 
 - **offset** (*number*) -
 
@@ -88,7 +87,7 @@ await milvusClient.get({
 
     ページネーションを有効にするために、このパラメータを `limit` と組み合わせて使用できます。
 
-    この値と `limit` の合計は 16,384 未満である必要があります。 
+    この値と `limit` の合計は、16,384 以下である必要があります。 
 
 - **partition_names** (*string[]*) -
 
@@ -100,17 +99,27 @@ await milvusClient.get({
 
     デフォルト値は **None** です。指定しない場合、すべての field が出力 field として選択されます。
 
+- **transformers** (*OutputTransformers*) -
+
+    特定のデータ型のデータを変換するカスタム関数です。
+
+- **exprValues** (*keyValueObj*) -
+
+    フィルター式でプレースホルダーを使用する場合は、これらのプレースホルダーの実際の値をキーと値のペアとして指定できます。
+
 - **timeout** (*number*) -
 
     この操作のタイムアウト時間です。 
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;QueryResults&gt;*
+**戻り値:**
+
+*Promise&lt;QueryResults&gt;*
 
 このメソッドは、**QueryResults** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     data: Record<string, any>[],
     status:  ResStatus
@@ -119,11 +128,11 @@ await milvusClient.get({
 
 **PARAMETERS:**
 
-- **data** (*Record&lt;string, any&gt;[]*) -<br/>
-  主キーが指定された **ids** に一致する行です。各エントリは field 名をキーとし、要求された **output_fields** の各項目に対応する値と主キーを保持します。
+- **data** (*Record&lt;string, any&gt;[]*) -
+プライマリキーが指定された **ids** と一致する行です。各エントリはフィールド名をキーとし、要求された各 **output_fields** エントリの値とプライマリキーを保持します。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクトです。
+- **ResStatus**
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -137,9 +146,16 @@ await milvusClient.get({
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生すると、この例外がスローされます。
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -150,4 +166,3 @@ const milvusClient = new MilvusClient({
    output_fields: ["age"],
  });
 ```
-

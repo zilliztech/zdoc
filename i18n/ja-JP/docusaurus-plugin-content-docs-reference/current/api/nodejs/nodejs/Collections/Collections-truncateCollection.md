@@ -27,24 +27,23 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # truncateCollection()
 
 この操作はコレクションからすべてのデータを削除しますが、コレクションのスキーマと構造は保持します。
 
 ```javascript
-await milvusClient.truncateCollection(data: TruncateCollectionRequest)
+await milvusClient.truncateCollection(data: DropCollectionReq)
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 - **元に戻せない操作**
 
-    コレクションを truncate すると、すべてのデータが完全に削除されます。
+コレクションを truncate すると、すべてのデータが完全に削除されます。
 
 - **スキーマは保持されます**
 
-    コレクションの構造、フィールド、インデックス、およびプロパティはそのまま保持されます。
+コレクションの構造、フィールド、インデックス、およびプロパティはそのまま保持されます。
 
 </Admonition>
 
@@ -76,33 +75,42 @@ truncateCollection({
 
 **戻り値:**
 
-*Promise\<ResStatus\>*
+*Promise&lt;\{ status: ResStatus }&gt;*
 
-このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
+このメソッドは、**ResStatus** を含むオブジェクトに解決される Promise を返します。
 
 ```javascript
 {
-    code: number,
-    error_code: string | number,
-    reason: string
+    status: ResStatus
 }
 ```
 
 **パラメーター:**
 
-- **code** (*number*) -
+- **status** (*ResStatus*) -
 
-    操作の結果を示すコードです。この操作が成功した場合は **0** のままです。
+    **ResStatus** オブジェクトです。
 
-- **error_code** (*string* | *number*) -
+    - **code** (*number*) -
 
-    発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。 
+        操作の結果を示すコードです。この操作が成功した場合は **0** のままです。
 
-- **reason** (*string*) - 
+    - **error_code** (*string* | *number*) -
 
-    報告されたエラーの理由を示す理由です。この操作が成功した場合は空の文字列のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。 
 
-## 例\{#example}
+    - **reason** (*string*) - 
+
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空の文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+
+## 例\{#examples}
 
 ### 基本的な使用方法\{#basic-usage}
 
@@ -120,7 +128,7 @@ const res = await milvusClient.truncateCollection({
 });
 
 console.log(res);
-// Output: { error_code: 'Success', reason: '' }
+// Output: { status: { error_code: 'Success', reason: '' } }
 ```
 
 ### データベースを指定する場合\{#with-database-specified}

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # removeUserFromRole()
 
 この操作は、特定のロールからユーザーを削除します。
@@ -41,7 +38,7 @@ await milvusClient.removeUserFromRole(data)
 ```javascript
 await milvusClient.removeUserFromRole({
    username: string,
-   rolename: string,
+   roleName: string,
    timeout?: number
  })
 ```
@@ -54,7 +51,7 @@ await milvusClient.removeUserFromRole({
 
     ユーザー名。
 
-- **rolename** (*string*) -
+- **roleName** (*string*) -
 
     **[必須]**
 
@@ -66,7 +63,9 @@ await milvusClient.removeUserFromRole({
 
     これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
@@ -92,12 +91,18 @@ await milvusClient.removeUserFromRole({
 
     報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+
 ## 例\{#example}
 
-```java
+```javascript
 await milvusClient.removeUserFromRole({
    username: 'my',
    roleName: 'myrole'
  });
 ```
-

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # revokeRole()
 
 この操作は、ユーザーに割り当てられたロールを取り消します。
@@ -48,13 +45,13 @@ await milvusClient.revokeRole({
 
 **パラメータ:**
 
-- **username** (*str*) -
+- **username** (*string*) -
 
     **[必須]**
 
     既存のユーザー名。
 
-- **roleName** (*str*) -
+- **roleName** (*string*) -
 
     **[必須]**
 
@@ -66,7 +63,9 @@ await milvusClient.revokeRole({
 
     これを **None** に設定すると、レスポンスが到着した時点またはエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise\<ResStatus>*
+**戻り値:**
+
+*Promise\<ResStatus\>*
 
 このメソッドは、**ResStatus** オブジェクトに解決される Promise を返します。
 
@@ -92,12 +91,18 @@ await milvusClient.revokeRole({
 
     報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
+
+**例外:**
+
+- **Error**
+
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+
 ## 例\{#example}
 
-```java
-await milvusClient.removeUserFromRole({
+```javascript
+await milvusClient.revokeRole({
    username: 'my',
    roleName: 'myrole'
  });
 ```
-

@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # MilvusClient
 
-**MilvusClient** インスタンスは、特定の Zilliz Cloud クラスターに接続する Node.js クライアントを表します。
+**MilvusClient** インスタンスは、特定の Milvus インスタンスに接続する Node.js クライアントを表します。
 
 ```javascript
 new MilvusClient(options:ClientConfig)
@@ -48,9 +45,9 @@ new MilvusClient(config: ClientConfig)
 
     **[REQUIRED]**
 
-    Zilliz Cloud クラスターのアドレス。例:
+    Milvus インスタンスのアドレス。例:
 
-    ```plaintext
+    ```javascript
     https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
@@ -62,11 +59,11 @@ new MilvusClient(config: ClientConfig)
 
         クラスターエンドポイント。例:
 
-        ```plaintext
+        ```javascript
         https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
         ```
 
-    - **_SKIPCONNECT__** (*boolean*) -
+    - **__SKIP_CONNECT__** (*boolean*) -
 
         接続をスキップするかどうかを示すブール値。 
 
@@ -126,19 +123,13 @@ new MilvusClient(config: ClientConfig)
 
         汎用的な poll オプションで、[this repo](https://github.com/coopernurse/node-pool) で規定されたルールに従います。
 
-    - **protoFilePath** (*protoFilePath*) -
-
-        - **milvus** (*string*) -
-
-        - **スキーマ** (*string*) -
-
     - **retryDelay** (*number*) -
 
         再試行の間隔。
 
     - **ssl** (*boolean*) -
 
-        SSL を使用するかどうかを示すブール値。Zilliz Cloud では常に `true` に設定してください。
+        SSL を使用するかどうかを示すブール値です。Milvus を TLS エンドポイントで動作するように構成している場合は、これを `true` に設定してください。詳細は、[Encryption in Transit](https://milvus.io/docs/tls.md) を参照してください。
 
     - **timeout** (*string* | *number*) -
 
@@ -180,7 +171,7 @@ new MilvusClient(config: ClientConfig)
 
             提供された証明書に対するチェックをスキップするかどうか。`true` に設定するとスキップを示します。
 
-        - **verifyOptions** (*string*) -
+        - **verifyOptions** (*Record&lt;string, any&gt;*) -
 
             検証オプション。
 
@@ -192,23 +183,35 @@ new MilvusClient(config: ClientConfig)
 
         トレーシングを有効にするかどうか。 
 
+    - **telemetry** (*TelemetryConfig*) -
+
+        クライアントのメトリクス、ハートビート、およびサーバーからプッシュされるコマンドの設定です。
+
+    - **isGlobal** (*boolean*) -
+
+        グローバルクラスターモードを有効にするかどうか。**true** の場合、SDK はエンドポイントからクラスタートポロジーを取得し、プライマリクラスターへルーティングします。省略した場合、モードはアドレス URI から自動検出されます。
+
     - **username** (*string*) -
 
         接続に使用されるユーザー名。
 
 - **ssl** (*boolean*) -
 
-    SSL を使用するかどうかを示すブール値。Zilliz Cloud では常に `true` に設定してください。
+    SSL を使用するかどうかを示すブール値です。Milvus を TLS エンドポイントで動作するように構成している場合は、これを `true` に設定してください。詳細は、[Encryption in Transit](https://milvus.io/docs/tls.md) を参照してください。
 
 - **username** (*string*) -
 
-    指定した Zilliz Cloud クラスターへの接続に使用する有効なユーザー名。
+    指定した Milvus インスタンスへの接続に使用する有効なユーザー名。
+
+    対象の Milvus インスタンスで認証が有効になっている場合に使用します。認証を有効にするには、[Authenticate User Access](https://milvus.io/docs/authenticate.md) を参照してください。
 
     これは **password** と一緒に使用する必要があります。
 
 - **password** (*string*) -
 
-    指定した Zilliz Cloud クラスターへの接続に使用する有効なパスワード。
+    指定した Milvus インスタンスへの接続に使用する有効なパスワード。
+
+    対象の Milvus インスタンスで認証が有効になっている場合に使用します。認証を有効にするには、[Authenticate User Access](https://milvus.io/docs/authenticate.md) を参照してください。
 
     これは **username** と一緒に使用する必要があります。
 
@@ -216,19 +219,31 @@ new MilvusClient(config: ClientConfig)
 
     gRPC の追加チャネルオプション。
 
-**RETURNS** *MilvusClient*
+**メソッド:**
 
-このメソッドは、GRPC Client を拡張し、Zilliz Cloud クラスターとの通信を処理する Milvus Client インスタンスを返します。
+- `static get sdkInfo`
+
+    ビルド時に生成された SDK バージョンと推奨される Milvus バージョンを表す `{ version, recommendMilvus }` を返します。
+
+- `session(clusterId: string): MilvusClientSession`
+
+    対象のクラスター ID に固定された軽量な DQL セッションを作成します。このセッションはこのクライアントの接続を再利用し、`search`、`hybridSearch`、`searchIterator`、`query`、`queryIterator`、`get` リクエストに `cluster_id` を注入します。詳細は、[session()](./Client-session) を参照してください。
+
+- `createCollection(data): Promise<ResStatus>`
+
+    `collection_name` と `dimension` からデフォルトのスキーマを構築し、任意でインデックスを作成してコレクションをロードする、高レベルのコレクション作成メソッドです。
+
+- その他すべての操作（`insert`、`search`、`query`、`createIndex`、`loadCollection` など）は、基盤となる GRPC クライアントから継承されます。
+
+**戻り値:**
+
+*MilvusClient*
+
+このメソッドは、GRPC Client を拡張し、Milvus サーバーとの通信を処理する Milvus Client インスタンスを返します。
 
 ## Example\{#example}
 
-```java
+```javascript
 new MilvusClient(config: ClientConfig)
 ```
-
-<Admonition type="info" title="Notes">
-
-- **configOrAddress** をクラスターエンドポイントに設定してください。該当する情報は、Zilliz Cloud コンソールの クラスター details で確認できます。
-
-</Admonition>
 

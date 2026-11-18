@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # FlushEvent
 
 このインターフェースは `BulkWriter` の flush イベントを説明します。chunk に対して生成されたファイル、その chunk の行数、および chunk インデックスを報告します。

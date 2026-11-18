@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listImportTasks()
 
 コレクションのインポートタスクを一覧表示し、一括インポート操作のステータスと詳細を表示します。
@@ -41,6 +38,7 @@ await milvusClient.listImportTasks(data: ListImportTasksReq)
 ```javascript
 await milvusClient.listImportTasks({
     collection_name: string,
+    db_name?: string,
     limit?: number,
     timeout?: number,
 })
@@ -54,6 +52,10 @@ await milvusClient.listImportTasks({
 
     コレクションの名前。
 
+- **db_name** (*string*) -
+
+    対象のコレクションが格納されているデータベースの名前。
+
 - **limit** (*number*) -
 
     返されるタスクの最大数。すべてのタスクを取得するには `0` に設定します。任意です。
@@ -62,11 +64,13 @@ await milvusClient.listImportTasks({
 
     ミリ秒単位の RPC タイムアウト。任意です。
 
-**戻り値** *Promise&lt;ListImportTasksResponse&gt;*
+**戻り値:**
+
+*Promise&lt;ListImportTasksResponse&gt;*
 
 このメソッドは、**ListImportTasksResponse** オブジェクトに解決される promise を返します。
 
-```typescript
+```javascript
 {
     tasks: GetImportStateResponse[],
     status:  ResStatus
@@ -75,8 +79,8 @@ await milvusClient.listImportTasks({
 
 **パラメーター:**
 
-- **tasks** (*GetImportStateResponse[]*) -<br/>
-  インポートタスク記述子の一覧。各エントリには、タスクの状態、行数、segment ID、および作成タイムスタンプが含まれます。
+- **tasks** (*GetImportStateResponse[]*) -
+インポートタスク記述子のリスト。各エントリには、タスクの状態、行数、セグメント ID、作成タイムスタンプが含まれます。
 
     - **state** (*ImportState*) -
 
@@ -110,8 +114,8 @@ await milvusClient.listImportTasks({
 
         タスクの作成タイムスタンプ。
 
-- **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+- **ResStatus**
+**ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -124,6 +128,13 @@ await milvusClient.listImportTasks({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+
+
+**例外:**
+
+- **Error**
+
+    この操作中にエラーが発生した場合に、この例外が発生します。
 
 ## 例\{#example}
 
