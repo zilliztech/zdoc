@@ -83,7 +83,7 @@ async function buildFixture(master: string, upstream: string, dev: string, page:
 async function fixture(options: { secondEligible?: boolean; missingTarget?: boolean; badDigest?: boolean; mismatchedOutput?: string;
   omittedTarget?: boolean; channelRules?: boolean; openUpdatePages?: readonly string[];
   devInventory?: 'missing' | 'mismatched'; dependencyHref?: string; snapshotMismatch?: 'targets' | 'navigation';
-  malformedYaml?: 'lock.yaml' | 'page.yaml' } = {}) {
+  malformedYaml?: 'lock.yaml' | 'page.yaml'; nextAliasForSelected?: boolean } = {}) {
   const root = realpathSync(mkdtempSync(join(tmpdir(), 'wp13-replay-')))
   scratch.push(root)
   const repos = Object.fromEntries(['master', 'dev', 'upstream'].map(name => {
@@ -190,6 +190,9 @@ async function fixture(options: { secondEligible?: boolean; missingTarget?: bool
     table_digests: { 'fixture-table': sha256(JSON.stringify(navigationRecords)) } }))
   const byocDependency = options.dependencyHref ? 'channel: next\n' : ''
   put(dev, 'content/en/byoc/tutorials/other.md', `---\nslug: /other\ntitle: Other\ntoken: feishu-old-other\n${byocDependency}---\n\nPublished page after the historical dev pin.\n`)
+  if (options.nextAliasForSelected) {
+    put(dev, 'content/en/reference/sdk-forward.mdx', '---\nslug: /sdk-forward\ntoken: shared-first\nchannel: next\n---\n\nNEXT Reference copy.\n')
+  }
   const deployed = commit(dev, 'Committed UAT outputs')
   put(master, `${group}/pages/third/lock.yaml`, lock(a, c))
   const currentMaster = commit(master, 'Advance third after acceptance')
@@ -407,6 +410,35 @@ it('holds an entire release group when an absolute cross-manual link targets a N
   const externalOnly = prepare(f, 'second', 'external-only')
   expect(externalOnly.command.status, externalOnly.command.stderr || externalOnly.command.stdout).toBe(0)
   expect(externalOnly.report).toMatchObject({ status: 'prepared', selected: ['second'] })
+})
+
+it('holds a Cloud link to a current page whose BYOC copy shares a NEXT token', async () => {
+  const url = 'https://docs.zilliz.com/docs/other'
+  const f = await fixture({ dependencyHref: url })
+  const cloud = git(f.dev, 'show', `${f.deployed}:content/en/guides/tutorials/other.md`)
+  const byoc = git(f.dev, 'show', `${f.deployed}:content/en/byoc/tutorials/other.md`)
+  expect(cloud).toContain('token: feishu-old-other')
+  expect(cloud).not.toContain('channel: next')
+  expect(byoc).toContain('token: feishu-old-other')
+  expect(byoc).toContain('channel: next')
+  preview(f)
+  const result = prepare(f, 'first')
+  expect(result.command.status, result.command.stderr || result.command.stdout).toBe(1)
+  expect(result.report).toMatchObject({ status: 'paused', pages: [
+    { page: 'first', reason: expect.stringContaining(`Unproved current page dependency: guides ${url} (NEXT route)`) },
+  ] })
+  expect(existsSync(result.patch)).toBe(false)
+})
+
+it('holds selected routes that share their token with a NEXT Reference page', async () => {
+  const f = await fixture({ nextAliasForSelected: true })
+  preview(f)
+  const result = prepare(f, 'first')
+  expect(result.command.status, result.command.stderr || result.command.stdout).toBe(1)
+  expect(result.report).toMatchObject({ status: 'paused', pages: [
+    { page: 'first', reason: expect.stringContaining('Selected route is gated on English Prod: /docs/first') },
+  ] })
+  expect(existsSync(result.patch)).toBe(false)
 })
 
 it.each(['missing', 'mismatched'] as const)('holds a selected page with %s historical dev inventory', async devInventory => {

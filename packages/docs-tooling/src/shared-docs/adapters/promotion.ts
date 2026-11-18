@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path'
 import { isDeepStrictEqual, promisify } from 'node:util'
 import { compileFunction, constants } from 'node:vm'
 import { pathToFileURL } from 'node:url'
-import { resolveSiteProfile } from '@zilliz/site-config'
+import { canonicalRouteKey, resolveSiteProfile } from '@zilliz/site-config'
 import { rewriteDocHref } from '../../../../docs-ui/src/shared/links/rewriteDocLinks'
 import { validateReleaseRecord } from '../../../../../deploy/contracts/verify-image.mjs'
 import { readSharedDocs } from '../commands/build'
@@ -41,13 +41,20 @@ const { rewriteImageDestinations } = require('../../../../../scripts/docs-workfl
 const { repairAccidentalMathSpans } = require('../../markdown/accidentalMathSpans.js') as {
   repairAccidentalMathSpans(markdown: string): Promise<{ markdown: string }>
 }
+const releaseChannelRoutes = require('../../../../../apps/docs/plugins/release-channel-routes/index.js') as (
+  context: object, options: { sources: { id: string; folder: string; route: string }[] },
+) => { postBuild(input: {
+  outDir: string; routesPaths: string[]; baseUrl: string
+  i18n: { currentLocale: string; defaultLocale: string }
+  siteConfig: { i18n: { defaultLocale: string; locales: string[] } }
+}): Promise<void> }
 const group = 'shared-docs/guides'
 const site = resolveSiteProfile('en')
 const manuals = ['guides', 'guides-byoc'].map(manual => {
   const publication = resolveManualPublication(manual, 'en').publication
   const source = site.content.find(content => content.sourcePath === publication.contentRoot)
   if (!source) throw new Error(`Missing English site route for ${manual}`)
-  return { manual, root: publication.contentRoot, target: publication.generatorTarget, route: `/${source.routeBasePath}` }
+  return { manual, root: publication.contentRoot, target: publication.generatorTarget, route: `/${canonicalRouteKey(source.routeBasePath)}` }
 })
 const manualRoutes = [...manuals].sort((a, b) => b.route.length - a.route.length)
 const activePath = 'generated/en/manifests/shared-pages/guides/active.json'
@@ -499,18 +506,41 @@ function guideDestination(href: string, sourceManual: string, page: string) {
   return { target, slug, anchor: decodeURIComponent(url.hash.slice(1)) }
 }
 
+async function gatedEnglishGuidesRoutes(devRoot: string, scratch: string, devReaders: ReadonlyMap<string, ZdocContentReader>) {
+  // The production plugin propagates NEXT across all registered sources, even
+  // when the destination is a Guides page and the matching token is in Reference.
+  const sources = site.content.map(source => ({ id: source.id, folder: join(devRoot, source.sourcePath),
+    route: `/${canonicalRouteKey(source.routeBasePath)}` }))
+  const routesPaths = (await Promise.all(manuals.map(async manual =>
+    (await devReaders.get(manual.manual)!.listPages()).map(page => `${manual.route}/${page.slug}`)))).flat()
+  const defaultLocale = site.localization.defaultLocale
+  const outDir = join(scratch, 'prod-route-gates')
+  // The deploy gate uses exact URL paths. The Japanese build emits localized
+  // paths only, and dependency replay already holds localized Guides links.
+  await releaseChannelRoutes({}, { sources }).postBuild({ outDir, routesPaths, baseUrl: site.baseUrl,
+    i18n: { currentLocale: defaultLocale, defaultLocale },
+    siteConfig: { i18n: { defaultLocale, locales: site.localization.locales.map(locale => locale.id) } } })
+  const routes = await readFile(join(outDir, 'release-channel-routes.txt'), 'utf8')
+  return new Set(routes.split('\n').filter(Boolean))
+}
+
 async function checkDependencies(
   page: string,
   links: Awaited<ReturnType<typeof checkPage>>['links'],
   groupChecks: ReadonlyMap<string, Awaited<ReturnType<typeof checkPage>>>,
   devReaders: ReadonlyMap<string, ZdocContentReader>,
   devRoot: string,
+  gatedRoutes: ReadonlySet<string>,
 ) {
   for (const [manual, view] of links) {
+    const current = manuals.find(target => target.manual === manual)!
+    const currentRoute = `${current.route}/${page}`
+    if (gatedRoutes.has(currentRoute)) throw new Error(`Selected route is gated on English Prod: ${currentRoute}`)
     for (const url of new Set(view.urls)) {
       const dependency = guideDestination(url, manual, page)
       if (!dependency) continue
       const { target, slug, anchor } = dependency
+      if (gatedRoutes.has(`${target.route}/${slug}`)) throw new Error(`Unproved current page dependency: ${manual} ${url} (NEXT route)`)
       const selected = groupChecks.get(slug)?.links.get(target.manual)
       if (selected) {
         if (anchor && !selected.anchors.has(anchor)) throw new Error(`Unproved selected-page anchor: ${manual} ${url}`)
@@ -608,7 +638,8 @@ export async function preparePromotion(input: PromotionInputs & { previewPath: s
   }
 
   const devRoot = join(scratch, 'dev')
-  await exportTree(input.dev, devSha, manuals.map(manual => manual.root), devRoot)
+  await exportTree(input.dev, devSha, site.content.map(source => source.sourcePath), devRoot)
+  await Promise.all(manuals.map(manual => mkdir(join(devRoot, manual.root), { recursive: true })))
   const devReaders = createDevReaders(devRoot)
   const historical = new Map<string, Promise<Awaited<ReturnType<typeof historicalDev>>>>()
   const reader = createBuildReader(input.upstream)
@@ -628,11 +659,14 @@ export async function preparePromotion(input: PromotionInputs & { previewPath: s
         result.pages.push({ page: page.page, reason: promotionError(error) })
       }
     }
+    // The view proof includes front matter, so the candidate keeps the same
+    // route and token as the pinned dev artifact. Evaluate that basis once.
+    const gatedRoutes = checks.size ? await gatedEnglishGuidesRoutes(devRoot, scratch, devReaders) : new Set<string>()
     for (const check of result.pages) {
       const groupCheck = checks.get(check.page)
       if (!groupCheck) continue
       try {
-        await checkDependencies(check.page, groupCheck.links, checks, devReaders, devRoot)
+        await checkDependencies(check.page, groupCheck.links, checks, devReaders, devRoot, gatedRoutes)
       } catch (error) {
         check.reason = promotionError(error)
       }
