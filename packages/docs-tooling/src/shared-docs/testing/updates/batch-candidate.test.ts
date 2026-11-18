@@ -8,7 +8,7 @@ import { initializeEvidence } from '../../adapters/updates/evidence'
 import { inspectNewGuidesBatchCandidate, planNewGuidesObjectTransfer } from '../../adapters/updates/remote-transaction'
 import { createScratchTransaction, type CandidateInput } from '../../adapters/updates/transactions'
 import { canonicalBytes, digest } from '../../core/updates/canonical'
-import { parseRevisionMessage } from '../../core/updates/metadata'
+import { METADATA_LIMITS, parseRevisionMessage } from '../../core/updates/metadata'
 import { planUpdateUnit } from '../../core/updates/unit-plan'
 import { git, write } from '../build/demo'
 import { fixtureBlob, fixtureMaterial } from './fixtures/manual-provider'
@@ -25,18 +25,18 @@ function rawGit(repo: string, args: string[], input?: Uint8Array) {
   })
 }
 
-async function guidesBatch() {
+async function guidesBatch(sharedLeaf = false) {
   const root = await mkdtemp(join(await realpath(tmpdir()), 'local-guides-batch-'))
   roots.push(root)
   const repository = join(root, 'input'), sourceTarget = '4'.repeat(40)
   const contexts = ['alpha', 'alpha-extra', 'stable'].map((pageId, index) => structuredClone(fixtureMaterial({
-    subject: { kind: 'guides-page', group: 'guides', pageId }, current: String(index + 1).repeat(40), target: sourceTarget,
+    subject: { kind: 'guides-page', group: 'guides', pageId }, current: (sharedLeaf && index === 1 ? '1' : String(index + 1)).repeat(40), target: sourceTarget,
     disposition: pageId === 'stable' ? 'noop' : 'candidate',
     members: [{ logicalId: pageId, manualId: 'guides', token: 'shared-' + pageId, outputPath: 'content/en/guides/' + pageId + '.mdx', origin: 'upstream', current: true, next: true }],
   })))
   const foreign = 'shared-docs/guides/pages/alpha/page.yaml'
   for (const context of contexts) await write(repository, context.lock.path, context.lock.before.text)
-  await write(repository, foreign, 'other data inside an edited subtree\n')
+  if (!sharedLeaf) await write(repository, foreign, 'other data inside an edited subtree\n')
   await write(repository, 'README.md', 'repository data outside the edited subtree\n')
   await git(repository, 'init', '-q', '-b', 'master', '--template=')
   await git(repository, 'add', '.')
@@ -67,7 +67,8 @@ async function guidesBatch() {
     async verifyConnected(commits: readonly string[]) { rawGit(repository, ['fsck', '--connectivity-only', '--no-dangling', ...commits]) },
     async read(oid: string, type: 'blob' | 'tree' | 'commit') { return rawGit(repository, ['cat-file', type, oid]) },
   }
-  const input = { master, dev, sourceTarget, executableClosure, contexts, plan, proof, source: transaction, baseline }
+  const trustedToolset = { sha256: value.toolsetSha256, executableClosure }
+  const input = { master, dev, sourceTarget, trustedToolset, contexts, plan, proof, source: transaction, baseline }
   const run = (args: string[], stdin?: Uint8Array) => rawGit(transaction.repository, args, stdin).toString().trim()
   const commitWithTree = async (tree: string, parent = master) => {
     const raw = await transaction.read(proof.candidate, 'commit')
@@ -125,7 +126,7 @@ it('holds substituted or incomplete plans, proofs, pins and required noop materi
     { ...input, plan: { ...input.plan, reports: input.plan.reports.slice().reverse() } },
     { ...input, plan: { ...input.plan, nextEdits: partial }, proof: { ...input.proof, nextEdits: partial } },
     { ...input, proof: { ...input.proof, nextEdits: partial } },
-    { ...input, proof: { ...input.proof, patch: input.executableClosure } },
+    { ...input, proof: { ...input.proof, patch: input.trustedToolset.executableClosure } },
     { ...input, proof: { ...input.proof, executableClosure: input.proof.patch } },
     { ...input, proof: { ...input.proof, candidateTree: input.proof.prepared.tree } },
     { ...input, sourceTarget: '5'.repeat(40) },
@@ -184,6 +185,49 @@ it('refuses an all-noop unit before reading candidate objects', async () => {
   const source = { read: vi.fn(input.source.read) }
   await expect(inspectNewGuidesBatchCandidate({ ...input, contexts, plan, source })).rejects.toThrow('PLAN_BINDING')
   expect(source.read).not.toHaveBeenCalled()
+}, 30_000)
+
+it('requires the captured toolset even when the substituted reports, candidate and proof agree', async () => {
+  const { input, transaction, value } = await guidesBatch()
+  const contexts = structuredClone(input.contexts), toolsetSha256 = 'a'.repeat(64)
+  for (const context of contexts) {
+    const report = context.collectedReport
+    report.pins.toolsetSha256 = toolsetSha256
+    report.semanticProjection!.toolsetSha256 = toolsetSha256
+    report.semanticInputSha256 = digest('semantic', report.semanticProjection)
+    Object.assign(context.reportBlob, fixtureBlob(canonicalBytes(report)))
+  }
+  const plan = planUpdateUnit(contexts.map(context => context.collectedReport), contexts)
+  const proof = await transaction.createCandidate({ ...value, plan, toolsetSha256,
+    revision: { ...value.revision, planSha256: digest('plan', plan) } })
+  const source = { read: vi.fn(input.source.read) }
+  await expect(inspectNewGuidesBatchCandidate({ ...input, contexts, plan, proof, source })).rejects.toThrow('TOOLSET_BINDING')
+  expect(source.read).not.toHaveBeenCalled()
+}, 30_000)
+
+it('rejects oversized material, plan and proof inventories before parsing their members', async () => {
+  const { input } = await guidesBatch()
+  const subjects = Array(METADATA_LIMITS.subjects + 1).fill(null)
+  const edits = Array(METADATA_LIMITS.lockDeltas + 1).fill(null)
+  for (const variant of [
+    { ...input, contexts: Array(METADATA_LIMITS.subjects + 1).fill(input.contexts[0]) },
+    { ...input, plan: { ...input.plan, subjects } },
+    { ...input, plan: { ...input.plan, reports: subjects } },
+    { ...input, plan: { ...input.plan, nextEdits: edits } },
+    { ...input, proof: { ...input.proof, nextEdits: edits } },
+  ]) await expect(inspectNewGuidesBatchCandidate(variant)).rejects.toThrow('BATCH_CANDIDATE_LIMIT')
+}, 30_000)
+
+it('authenticates shared lock blobs and subtrees once while preserving both changed paths', async () => {
+  const { input, transaction } = await guidesBatch(true)
+  const source = { read: vi.fn(input.source.read) }
+  const baseline = { ...input.baseline, read: vi.fn(input.baseline.read) }
+  const delta = await inspectNewGuidesBatchCandidate({ ...input, source, baseline })
+  expect(delta.rawDiff).toEqual(await transaction.rawDiff(input.master, input.proof.candidate))
+  expect(delta.rawDiff.toString().split('\0').filter((_, index) => index % 2 === 1)).toEqual(input.plan.nextEdits.map(edit => edit.before.path))
+  expect(delta.objects.map(object => object.type)).toEqual(['blob', 'tree', 'tree', 'tree', 'tree', 'tree', 'commit'])
+  expect(source.read.mock.calls.map(([oid]) => oid)).toEqual([...new Set(source.read.mock.calls.map(([oid]) => oid))])
+  expect(baseline.read.mock.calls.map(([oid]) => oid)).toEqual([...new Set(baseline.read.mock.calls.map(([oid]) => oid))])
 }, 30_000)
 
 it('rejects noncanonical tree ordering even at a Git-authenticated candidate OID', async () => {

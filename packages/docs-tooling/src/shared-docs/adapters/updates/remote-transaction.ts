@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto'
 import { canonicalBytes, digest, parseStrictJson } from '../../core/updates/canonical'
 import { CandidateSnapshotProofSchema, GitShaSchema, NextLockEditSchema, UpdateUnitPlanSchema, validateBlobBytes, type BlobRef, type CandidateSnapshotProof, type NextLockEdit, type UpdateUnitPlan } from '../../core/updates/envelope'
 import { immutable } from '../../core/updates/types'
-import { parseRevisionMessage, assertRevisionBinding, encodeRevisionMessage } from '../../core/updates/metadata'
+import { METADATA_LIMITS, parseRevisionMessage, assertRevisionBinding, encodeRevisionMessage } from '../../core/updates/metadata'
 import { assertNextOnlyDiff, type NextOnlyDelta } from '../../core/updates/transaction'
 import { planUpdateUnit, type UnitMaterialContext } from '../../core/updates/unit-plan'
 import { RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, githubSealMessage, parseSignedGitHubSealMessage,
@@ -244,21 +244,31 @@ export async function planNewGuidesObjectTransfer(input: NewGuidesCandidateInput
  * membership before this byte check. It grants no authority to write remotely. */
 export async function inspectNewGuidesBatchCandidate(input: NewGuidesCandidateInput & {
   sourceTarget: string
-  executableClosure: BlobRef
+  trustedToolset: { sha256: string; executableClosure: BlobRef }
   contexts: readonly UnitMaterialContext[]
 }) {
   const reader = deltaReader(input.baseline, [input.master, input.dev])
+  // A complete batch must fit the existing revision envelope. Check lengths
+  // before schema parsing and comparing every report and lock.
+  const planClaim = input.plan as Partial<UpdateUnitPlan> | null
+  const proofClaim = input.proof as Partial<CandidateSnapshotProof> | null
+  const within = (value: unknown, limit: number) => !Array.isArray(value) || value.length <= limit
+  check(input.contexts.length <= METADATA_LIMITS.subjects &&
+    [planClaim?.subjects, planClaim?.reports].every(value => within(value, METADATA_LIMITS.subjects)) &&
+    [planClaim?.nextEdits, proofClaim?.nextEdits].every(value => within(value, METADATA_LIMITS.lockDeltas)), 'BATCH_CANDIDATE_LIMIT')
   const plan = UpdateUnitPlanSchema.parse(input.plan), proof = CandidateSnapshotProofSchema.parse(input.proof)
   check(plan.disposition === 'candidate' && plan.subjects.every(subject => subject.kind === 'guides-page') &&
     same(plan.nextEdits, proof.nextEdits), 'PLAN_BINDING')
-  check(same(proof.executableClosure, input.executableClosure), 'CLOSURE_BINDING')
+  check(proof.trustedToolsetSha256 === input.trustedToolset.sha256 &&
+    same(proof.executableClosure, input.trustedToolset.executableClosure), 'TOOLSET_BINDING')
   GitShaSchema.parse(input.sourceTarget)
   const reports = input.contexts.map(context => context.collectedReport)
   check(same(plan, planUpdateUnit(reports, input.contexts)), 'PLAN_BINDING')
+  reader.budget()
   for (const { pins } of reports) {
     check(pins.master === input.master && pins.dev === input.dev && pins.trustedTools === input.master &&
       pins.configSnapshot === input.master && pins.configTreeOid === proof.prepared.tree && pins.comparisonConfig === reports[0].pins.comparisonConfig &&
-      pins.toolsetSha256 === proof.trustedToolsetSha256 && pins.source.target === input.sourceTarget &&
+      pins.toolsetSha256 === input.trustedToolset.sha256 && pins.source.target === input.sourceTarget &&
       pins.source.observedTrackHead === input.sourceTarget, 'COLLECTED_PINS_CHANGED')
   }
   const edits = new Map(plan.nextEdits.map(edit => [edit.before.path, edit]))
