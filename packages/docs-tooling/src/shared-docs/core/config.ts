@@ -2,11 +2,12 @@ import type { ConfigResult, DiagnosticContext, PageConfig, PageConfigContext, So
 import { ConfigValidation, diagnostic, isBranchName, isRepositoryPath, parseYaml } from './yaml'
 import { validateTransforms } from './transforms/schema'
 
-export function parseSourceConfig(text: string, context: DiagnosticContext = {}): ConfigResult<SourceConfig> {
+export function parseSourceConfig(text: string, context: DiagnosticContext = {}, checkBudget = () => {}): ConfigResult<SourceConfig> {
+  checkBudget()
   const location = { file: 'source.yaml', channel: 'both' as const, ...context }
-  const parsed = parseYaml(text, 'CONFIG_SYNTAX_INVALID', location)
+  const parsed = parseYaml(text, 'CONFIG_SYNTAX_INVALID', location, checkBudget)
   if ('errors' in parsed) return parsed
-  const check = new ConfigValidation(parsed.document, location)
+  const check = new ConfigValidation(parsed.document, location, undefined, undefined, checkBudget)
   const value = parsed.document.value
   if (check.object(value, [], ['schema_version', 'repository', 'track', 'source_dir', 'presentation'], ['schema_version', 'repository', 'track'])) {
     if ('schema_version' in value && value.schema_version !== 1) check.error(['schema_version'], 'Unsupported schema_version; expected 1')
@@ -31,17 +32,19 @@ export function parseSourceConfig(text: string, context: DiagnosticContext = {})
       }
     }
   }
+  checkBudget()
   return check.errors.length ? { errors: check.errors } : { config: value as SourceConfig }
 }
 
-export function parsePageConfig(pageId: string, text: string, context: PageConfigContext): ConfigResult<PageConfig> {
+export function parsePageConfig(pageId: string, text: string, context: PageConfigContext, checkBudget = () => {}): ConfigResult<PageConfig> {
+  checkBudget()
   const location = { file: context.file ?? `shared-docs/guides/pages/${pageId}/page.yaml`, page: pageId,
     channel: context.channel ?? 'both' as const }
   const idErrors = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(pageId) ? []
     : [diagnostic('CONFIG_PAGE_ID_INVALID', 'Page ID must contain letters, numbers, and hyphens', location)]
-  const parsed = parseYaml(text, 'CONFIG_SYNTAX_INVALID', location)
+  const parsed = parseYaml(text, 'CONFIG_SYNTAX_INVALID', location, checkBudget)
   if ('errors' in parsed) return { errors: [...idErrors, ...parsed.errors] }
-  const check = new ConfigValidation(parsed.document, location)
+  const check = new ConfigValidation(parsed.document, location, undefined, undefined, checkBudget)
   check.errors.push(...idErrors)
   const value = parsed.document.value
   if (check.object(value, [], ['schema_version', 'source', 'publish', 'metadata', 'transforms'], ['schema_version', 'source', 'publish'])) {
@@ -93,5 +96,6 @@ export function parsePageConfig(pageId: string, text: string, context: PageConfi
     if ('transforms' in value && !Array.isArray(value.transforms)) check.error(['transforms'], 'transforms must be a list')
     else if (Array.isArray(value.transforms)) validateTransforms(value.transforms, check)
   }
+  checkBudget()
   return check.errors.length ? { errors: check.errors } : { config: value as unknown as PageConfig }
 }

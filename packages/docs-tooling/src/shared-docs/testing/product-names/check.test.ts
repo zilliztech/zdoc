@@ -62,8 +62,8 @@ it('keeps only containing longest matches, independent of rule order, in MDX and
     const errors = check('root:Milvus\nMilvus', { rules: { ...rules, check: checkRules } })
     expect(errors).toHaveLength(2)
     expect(errors).toEqual(expect.arrayContaining([
-      expect.objectContaining({ line: 1, detail: { spelling: 'root:Milvus', manual: 'guides', mdxLines: [1] } }),
-      expect.objectContaining({ line: 2, detail: { spelling: 'Milvus', manual: 'guides', mdxLines: [2] } }),
+      expect.objectContaining({ line: 1, detail: { spelling: 'root:Milvus', manual: 'guides', mdxLines: [1], severity: 'error' } }),
+      expect.objectContaining({ line: 2, detail: { spelling: 'Milvus', manual: 'guides', mdxLines: [2], severity: 'error' } }),
     ]))
   }
   // A longer input match must suppress its short spelling even if the longer one is absent in MDX.
@@ -193,4 +193,18 @@ it.each(['\n', '\r\n', '\r'])('preserves one-based source and MDX lines with %j 
     { line: 5, detail: { spelling: 'Milvus', mdxLines: [5] } },
     { line: 6, detail: { spelling: 'root:Milvus', mdxLines: [6] } },
   ])
+})
+
+it('routes warning-severity entries to notices and keeps errors blocking', () => {
+  const warnRules: ProductNameRules = {
+    check: ['Milvus', 'root:Milvus'], allow: [], severity: new Map([['Milvus', 'warning']]) }
+  const checked = checkProductNames({ mdx: 'Milvus\nroot:Milvus', rules: warnRules, manual: 'node',
+    sources: [source('Milvus\nroot:Milvus')], context })
+  expect(checked.errors).toMatchObject([{ detail: { spelling: 'root:Milvus', severity: 'error' } }])
+  expect(checked.warnings).toMatchObject([{ code: 'PRODUCT_NAME_FOUND', detail: { spelling: 'Milvus', severity: 'warning' } }])
+  expect(checked.warnings[0].message).toContain('warning severity')
+  // An MDX-only hit with no source witness still lands in its severity bucket.
+  const unwitnessed = checkProductNames({ mdx: 'Milvus', rules: warnRules, manual: 'node', sources: [source('other text')], context })
+  expect(unwitnessed.errors).toEqual([])
+  expect(unwitnessed.warnings).toHaveLength(1)
 })

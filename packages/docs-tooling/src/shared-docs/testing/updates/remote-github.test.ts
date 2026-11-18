@@ -326,3 +326,19 @@ it('normalizes empty external IDs to absence without rejecting unrelated valid C
   collection.check_runs[1].external_id=42
   expect((await f.reads.readChecks(oid)).kind).toBe('unknown')
 })
+
+it('restricts batch listing GETs to the fixed Milvus repository, page size, page budget and positive identities', async () => {
+  const root = '/repos/milvus-io/milvus-docs', prefix = root + '/commits/' + oid + '/pulls'
+  const socket = (() => { throw new Error('UNEXPECTED_SOCKET') }) as typeof httpsRequest
+  for (const [name, method, path] of [
+    ['example/zdoc', 'GET', '/repos/example/zdoc/commits/' + oid + '/pulls?per_page=100&page=1'],
+    ['milvus-io/milvus-docs', 'GET', prefix + '?per_page=100&page=21'],
+    ['milvus-io/milvus-docs', 'GET', prefix + '?per_page=50&page=1'],
+    ['milvus-io/milvus-docs', 'GET', prefix + '?per_page=100&page=1&extra=open'],
+    ['milvus-io/milvus-docs', 'GET', root + '/pulls/0/files?per_page=100&page=1'],
+    ['milvus-io/milvus-docs', 'POST', prefix + '?per_page=100&page=1'],
+  ] as const) {
+    const transport = createRemoteTransport({ repositoryFullName: name, token: 'local-test', socketRequest: socket })
+    await expect(transport({ method, path, maximum: 1024, signal: AbortSignal.timeout(1000) })).rejects.toThrow('ENDPOINT_INVALID')
+  }
+})

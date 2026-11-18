@@ -249,3 +249,83 @@ describe('concurrent content-addressed evidence writes', () => {
     }
   }, 30000)
 })
+
+it('admits only a bounded next allocation above the strict filesystem floor', async () => {
+  const module = await import('../../adapters/updates/evidence')
+  expect(module.checkBatchAllocation).toBeTypeOf('function')
+  const GiB = 1024 ** 3
+  expect(module.checkBatchAllocation({available: 5 * GiB, blockSize: 4096, existing: 0}, 2 * GiB, 1)).toBeGreaterThan(2 * GiB)
+  for (const input of [
+    {available: GiB, blockSize: 4096, existing: 0},
+    {available: 2 * GiB, blockSize: 4096, existing: 0},
+    {available: 8 * GiB, blockSize: 4096, existing: 3 * GiB},
+    {available: 8 * GiB, blockSize: 0, existing: 0},
+  ]) expect(() => module.checkBatchAllocation(input, GiB, 1)).toThrow()
+})
+
+it('reserves the original batch journal temporary allocation before any write', async () => {
+  const {root, repo} = await fixture(), actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+  vi.resetModules()
+  vi.doMock('node:fs/promises', () => ({...actual, statfs: async () => ({bavail: 262144n, bsize: 4096n})}))
+  try {
+    const api = await import('../../adapters/updates/evidence')
+    const out = join(root, 'journal-floor'), store = await api.initializeEvidence({root: out, repositories: [repo], owner: 'floor'})
+    api.bindBatchResources(store, 3)
+    const before = await actual.readdir(out)
+    await expect(store.writeJournal('measurement.json', Buffer.from('{}'))).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
+    expect(await actual.readdir(out)).toEqual(before)
+  } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
+})
+
+it('holds before materialization when simultaneous authenticated fragment snapshots exceed the next allocation', async () => {
+  const {root, repo} = await fixture(), actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+  await mkdir(join(repo, 'shared-docs/guides'), {recursive: true}); await writeFile(join(repo, 'shared-docs/guides/source.yaml'), 'fixture')
+  await mkdir(join(repo, 'content/en/guides'), {recursive: true}); await writeFile(join(repo, 'content/en/guides/page.mdx'), 'fixture')
+  await mkdir(join(repo, 'site/en/fragments/deep'), {recursive: true})
+  // The unchanged reader writes UTF-8 replacement characters: one raw byte can
+  // occupy three disk bytes. Distinct commits retain independent snapshots.
+  await writeFile(join(repo, 'site/en/fragments/deep/leaf.md'), Buffer.alloc(1024 ** 2, 255))
+  git(repo, 'add', '.'); git(repo, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'fragment baseline')
+  const first = git(repo, 'rev-parse', 'HEAD')
+  await writeFile(join(repo, 'input'), 'new'); git(repo, 'add', '.'); git(repo, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'distinct source snapshot')
+  const second = git(repo, 'rev-parse', 'HEAD')
+  vi.resetModules(); vi.doMock('node:fs/promises', () => ({...actual, statfs: async () => ({bavail: 263168n, bsize: 4096n})}))
+  try {
+    const evidence = await import('../../adapters/updates/evidence'), source = await import('../../adapters/updates/batch-source')
+    const out = join(root, 'snapshot-budget'), store = await evidence.initializeEvidence({root: out, repositories: [repo], owner: 'snapshots'})
+    evidence.bindBatchResources(store, 1)
+    const {GitMilvusDocsReader} = await import('../../adapters/git-milvus-docs-reader')
+    const reader = new GitMilvusDocsReader(repo), materialize = vi.spyOn(reader, 'withFragments'), inputs = {masterRepository: repo, master: second, devRepository: repo, dev: second, sourceRepository: repo, commits: [first, first, second]}
+    await expect((async () => {await source.reserveBatchContentAllocation(store, inputs); await reader.withFragments(first, async () => {})})()).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
+    expect(materialize).not.toHaveBeenCalled()
+    expect(await source.measureBatchFragmentSnapshots(repo, inputs.commits)).toMatchObject({bytes: 6 * 1024 ** 2, count: 8, snapshots: 2})
+    expect((await actual.readdir(out)).sort()).toEqual(['.owner.json', 'blobs'])
+  } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
+})
+
+it('refuses an edit-restore intermediate fragment peak before its actual materialization', async () => {
+  const {root, repo} = await fixture(), actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+  for (const [path, body] of [['shared-docs/guides/source.yaml', 'fixture'], ['content/en/guides/page.mdx', 'fixture'], ['site/en/fragments/small.md', 'small']]) {
+    await mkdir(dirname(join(repo, path)), {recursive: true}); await writeFile(join(repo, path), body)
+  }
+  const commit = () => {git(repo, 'add', '.'); git(repo, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'snapshot'); return git(repo, 'rev-parse', 'HEAD')}
+  const first = commit(), fragment = 'site/en/fragments/deep/one/two/large.md'
+  await mkdir(dirname(join(repo, fragment)), {recursive: true}); await writeFile(join(repo, fragment), 'x'.repeat(3 * 1024 ** 2))
+  const middle = commit()
+  await unlink(join(repo, fragment)); const target = commit(), before = git(repo, 'show-ref') + git(repo, 'count-objects', '-v')
+  vi.resetModules(); vi.doMock('node:fs/promises', () => ({...actual, statfs: async () => ({bavail: 262656n, bsize: 4096n})}))
+  try {
+    const evidence = await import('../../adapters/updates/evidence'), source = await import('../../adapters/updates/batch-source')
+    const out = join(root, 'intermediate-budget'), store = await evidence.initializeEvidence({root: out, repositories: [repo], owner: 'intermediate'})
+    evidence.bindBatchResources(store, 1)
+    const {GitMilvusDocsReader} = await import('../../adapters/git-milvus-docs-reader'), reader = new GitMilvusDocsReader(repo)
+    const materialize = vi.spyOn(reader, 'withFragments'), inputs = {masterRepository: repo, master: target, devRepository: repo, dev: target, sourceRepository: repo, commits: [first, first, target]}
+    expect(await source.measureBatchFragmentSnapshots(repo, inputs.commits)).toMatchObject({bytes: 10, count: 6, snapshots: 2})
+    expect(await source.measureBatchRenderFragments(repo, inputs.commits)).toEqual({bytes: 3 * 1024 ** 2 + 5, count: 7, snapshots: 3,
+      endpoints: {bytes: 10, count: 6}, sequential: [{commit: middle, bytes: 3 * 1024 ** 2 + 5, count: 7}]})
+    await expect((async () => {await source.reserveBatchContentAllocation(store, inputs); await reader.withFragments(middle, async () => {})})()).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
+    expect(materialize).not.toHaveBeenCalled()
+    expect((await actual.readdir(out)).sort()).toEqual(['.owner.json', 'blobs'])
+    expect(git(repo, 'show-ref') + git(repo, 'count-objects', '-v')).toBe(before)
+  } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
+})

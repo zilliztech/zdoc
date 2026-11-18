@@ -72,15 +72,27 @@ export interface PageConfig {
   metadata?: PageMetadata
   transforms?: Transform[]
 }
-/** Manual-layout metadata; the H1-derived title is never overridable, unlike per-page configs. */
-export type ManualMetadata = Omit<PageMetadata, 'title'>
+/** Manual-layout metadata; the H1-derived title is never overridable, unlike per-page configs.
+ * On a module (`dir/`) entry `title` names the sidebar category label and `sidebar_position`
+ * orders the category; mergedMetadata strips both before they can reach page front matter. */
+export type ManualMetadata = Omit<PageMetadata, 'title'> & { title?: string }
+/** Cloud-page visibility: `current` (the default) publishes to both channels, `next` only
+ * to UAT, and `retire-in-next` only to Prod — the whole-page release channels. */
+export type ManualCloudChannel = 'current' | 'next' | 'retire-in-next'
 /** One whole-manual configuration: shared-docs/<group>/manual.yaml for manual-layout groups. */
 export interface ManualConfig {
   schema_version: 1
   source: { dir: string }
   publish: { manual: string }
-  /** Keys are module paths ending in '/' (beta only) or page paths ending in '.md'; pages win. */
+  /** Keys are module paths ending in '/' or page paths ending in '.md'; pages win.
+   * Module entries may additionally name their sidebar category (`title`). */
   metadata?: Record<string, ManualMetadata>
+  /** Upstream pages (module `dir/` or page `dir/page.md`, relative to source.dir) left out of the manual. */
+  exclude?: string[]
+  /** Upstream hardcoded values; each key must hold a same-name string value in Variables.json. */
+  milvus_values?: Record<string, string>
+  /** Manual-local pages: logical path (relative to source.dir) → a file in the group's content/ directory. */
+  cloud_pages?: Record<string, { file: string; channel?: ManualCloudChannel }>
 }
 export interface PageConfigContext extends DiagnosticContext {
   manuals: readonly string[]

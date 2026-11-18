@@ -8,7 +8,7 @@ import { request as httpsRequest } from 'node:https'
 import type { AddressInfo } from 'node:net'
 import { PassThrough, Readable, type Writable } from 'node:stream'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
-import { serveGuidesMetadata } from '../../adapters/updates/guides-metadata-broker'
+import { serveGuidesMetadata, serveReplayGuidesMetadata } from '../../adapters/updates/guides-metadata-broker'
 
 vi.mock('node:https', async original => ({...await original<typeof import('node:https')>(), request: vi.fn()}))
 const repository = 'repos/zilliztech/zdoc'
@@ -93,6 +93,24 @@ it('serves each expected live GET on a private pipe and samples the changed dev 
     expect(result).toEqual({credential:null, values:responses})
   }
   expect(calls).toEqual([...paths, ...paths])
+})
+
+it('replays exact raw bodies through the real worker FD4/5 reader and rejects manifest order and digests', async () => {
+  const rows = paths.map((path, i) => {const raw = Buffer.from(JSON.stringify(responses[i])); return {
+    path, bytes: raw.length, sha256: createHash('sha256').update(raw).digest('hex'), base64: raw.toString('base64')}})
+  const child = launchReader(paths)
+  try {await serveReplayGuidesMetadata(child.requests, child.replies, run.id, rows, AbortSignal.timeout(10_000))}
+  finally {child.requests.destroy(); child.replies.end()}
+  expect((await child.result).values).toEqual(responses)
+  expect(calls).toEqual([])
+  for (const change of ['order', 'digest', 'sequence'] as const) {
+    const manifest = structuredClone(rows)
+    if (change === 'order') manifest.reverse()
+    if (change === 'digest') manifest[0].sha256 = 'f'.repeat(64)
+    const frames = paths.map((path, i) => Buffer.concat([Buffer.from([i + 1 + (change === 'sequence' ? 1 : 0)]), createHash('sha256').update(path).digest()]))
+    const out = new PassThrough(); out.resume()
+    await expect(serveReplayGuidesMetadata(Readable.from(frames), out, run.id, manifest, AbortSignal.timeout(5000))).rejects.toThrow()
+  }
 })
 
 it('keeps B1 and compiler modules out of the real coordinator through an entire metadata observation', async () => {

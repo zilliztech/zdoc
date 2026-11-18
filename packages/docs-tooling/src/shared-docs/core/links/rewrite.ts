@@ -49,6 +49,26 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       file = file.slice(file.lastIndexOf('/') + 1)
       kind = 'page'
     }
+    // Excluded pages never publish; one-sided pages are absent from this channel's tree.
+    // Either way the link is replaced by its visible text and the occurrence reported.
+    // Exclusion yields to a basename a live page still owns (never the case after the
+    // identity collision checks, but guarded regardless); a channel-absent basename is
+    // by definition a live page's, so it strips unconditionally. Without a construct
+    // span (HTML anchors) resolution fails closed below.
+    const lowercase = file.toLowerCase()
+    const configExcluded = input.excluded?.has(lowercase) && !input.sharedPages.has(file)
+    const channelAbsent = input.channelAbsent?.has(lowercase)
+    if (kind === 'page' && (configExcluded || channelAbsent) && ref.text !== undefined && ref.full) {
+      const other = context.channel === 'next' ? 'current' : 'next'
+      const message = configExcluded
+        ? `Link to the excluded page ${file} is replaced with its text.`
+        : `Link target ${file} is only visible in the ${other} channel; the link is replaced with its text.`
+      notices.push({ ...diagnostic('LINK_TARGET_EXCLUDED', message, context, ref.line),
+        code: 'LINK_TARGET_EXCLUDED', detail: { target: file } })
+      edits.set(ref.full.start, { end: ref.full.end, url: ref.text })
+      if (ref.definition) edits.set(ref.definition.start, { end: ref.definition.end, url: '' })
+      continue
+    }
     const fragment = hash < 0 ? undefined : ref.url.slice(hash + 1)
     const target = kind === 'anchor' ? input.markdown : input.targets.get(file)
     let destination = ''
@@ -61,7 +81,8 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       if (shared !== undefined) {
         destination = `./${shared}`
         projected = shared === input.context.page
-        if (target == null) {
+        // Manual-local pages have no upstream commit; they are present by construction.
+        if (target == null && !input.manualCloudPages?.has(file)) {
           fail(ref, 'LINK_TARGET_ABSENT', `Shared target is absent in this commit: ${file}`, { target: file })
           continue
         }
@@ -84,7 +105,7 @@ export function rewriteLinksAndImages(input: RewriteInput) {
     if (fragment !== undefined) {
       let anchor = fragment
       try { anchor = decodeURIComponent(fragment) } catch { /* Invalid fragments cannot match a heading. */ }
-      const anchorSource = projected ? input.markdown : target
+      const anchorSource = projected ? input.markdown : target ?? input.manualCloudPages?.get(file)
       const resolved = anchorSource == null ? {} : resolveAnchor(anchorSource, anchor)
       if (resolved.ambiguous) {
         fail(ref, 'ANCHOR_AMBIGUOUS', `Multiple emitted elements use #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor })

@@ -14,6 +14,8 @@ const REFERENCE_LANDING_PATHS = referenceLandingsEn();
 const REFERENCE_LANDINGS_GROUP = Object.freeze({
   site: 'en',
   manuals: Object.freeze([]),
+  sourceSnapshots: Object.freeze([]),
+  hasLarkSources: false,
   snapshotManual: 'reference-landings',
   translate: true,
   durableTranslationBatchSize: 0,
@@ -67,6 +69,7 @@ function getContentGroup(name, site = defaultSite()) {
     site,
     manuals: workflow.sourceManuals,
     sourceSnapshots: workflow.sourceSnapshots,
+    hasLarkSources: workflow.hasLarkSources,
     snapshotManual: workflow.snapshotManual,
     translate: workflow.translate,
     durableTranslationBatchSize: workflow.durableTranslationBatchSize,

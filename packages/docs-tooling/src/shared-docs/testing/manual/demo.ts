@@ -44,15 +44,28 @@ See [createCollection](../Collections/createCollection.md).
 `,
 }
 
-/** One manual-layout group with an upstream tree, ready for lock and build. */
-export async function createManualDemo(directory: string) {
+/** One manual-layout group with an upstream tree, ready for lock and build.
+ * Options swap configuration files, add upstream pages, drop group content/ pages, or
+ * commit a second upstream tree (`later`); the returned nextCommit pins that tree so a
+ * lock can pin current=commit, next=nextCommit for the dual-channel paths. */
+export async function createManualDemo(directory: string, options: {
+  manual?: string; variables?: string; productNames?: string
+  upstream?: Record<string, string>; cloud?: Record<string, string>; later?: Record<string, string>
+} = {}) {
   const root = await realpath(resolve(directory))
   const sharedDocs = join(root, 'shared-docs/node'), repo = join(root, 'web-content'), out = join(root, 'output')
-  for (const [path, text] of Object.entries(pages)) await write(repo, `${sourceDir}/${path}`, text)
+  for (const [path, text] of Object.entries({ ...pages, ...options.upstream })) await write(repo, `${sourceDir}/${path}`, text)
   await git(repo, 'init', '--quiet', '--initial-branch=master', '--object-format=sha1', '--template=')
   await git(repo, 'add', '.')
   await git(repo, 'commit', '--quiet', '-m', 'Synthetic manual source')
   const commit = await git(repo, 'rev-parse', 'HEAD')
+  let nextCommit = commit
+  if (options.later) {
+    for (const [path, text] of Object.entries(options.later)) await write(repo, `${sourceDir}/${path}`, text)
+    await git(repo, 'add', '.')
+    await git(repo, 'commit', '--quiet', '-m', 'Synthetic manual source update')
+    nextCommit = await git(repo, 'rev-parse', 'HEAD')
+  }
   await write(sharedDocs, 'source.yaml', `schema_version: 1
 repository: https://github.com/milvus-io/web-content
 track: master
@@ -62,7 +75,7 @@ presentation:
     slug_prefix: /node/node
     displayed_sidebar: nodeSidebar
 `)
-  await write(sharedDocs, 'manual.yaml', `schema_version: 1
+  await write(sharedDocs, 'manual.yaml', options.manual ?? `schema_version: 1
 source:
   dir: ${sourceDir}
 publish:
@@ -80,6 +93,8 @@ metadata:
     keywords:
       - Vector retrieval
 `)
-  await write(sharedDocs, 'product-names.yaml', 'check: [root:Milvus]\nallow: []\n')
-  return { sharedDocs, repo, out, root, commit }
+  if (options.variables !== undefined) await write(sharedDocs, 'Variables.json', options.variables)
+  await write(sharedDocs, 'product-names.yaml', options.productNames ?? 'check: [root:Milvus]\nallow: []\n')
+  for (const [path, text] of Object.entries(options.cloud ?? {})) await write(sharedDocs, `content/${path}`, text)
+  return { sharedDocs, repo, out, root, commit, nextCommit }
 }

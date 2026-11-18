@@ -10,13 +10,15 @@ export function diagnostic(code: string, message: string, context: DiagnosticCon
 }
 
 /** The YAML parser's node listener supplies positions, including flow mappings and aliases. */
-export function parseYaml(text: string, syntaxCode: string, context: DiagnosticContext):
+export function parseYaml(text: string, syntaxCode: string, context: DiagnosticContext, checkBudget = () => {}):
   { document: YamlDocument } | { errors: SharedDocsError[] } {
+  checkBudget()
   const stack: Node[] = []
   let root: Node | undefined
   try {
     const value: unknown = load(text, { schema: JSON_SCHEMA,
       listener(event: string, state: { position: number; kind: string | null; result: unknown }) {
+        checkBudget()
         if (event === 'open') {
           const node: Node = { position: state.position, children: [] }
           if (stack.length) stack[stack.length - 1].children.push(node)
@@ -31,12 +33,14 @@ export function parseYaml(text: string, syntaxCode: string, context: DiagnosticC
     })
     const positions = new Map<string, number>()
     function visit(node: Node, path: KeyPath) {
+      checkBudget()
       // Skip trivia before a value; errors point to the actual YAML token.
       const tail = text.slice(node.position)
       const trivia = /^(?:\s|#[^\r\n]*(?:\r?\n|$))*/.exec(tail)![0].length
       positions.set(JSON.stringify(path), text.slice(0, node.position + trivia).split(/\r\n|\r|\n/).length)
       if (node.kind === 'mapping') {
         for (let i = 0; i + 1 < node.children.length; i += 2) {
+          checkBudget()
           const key = node.children[i]
           visit(node.children[i + 1], [...path, String(key.value)])
           positions.set(JSON.stringify([...path, String(key.value), '$key']),
@@ -47,7 +51,9 @@ export function parseYaml(text: string, syntaxCode: string, context: DiagnosticC
       }
     }
     if (root) visit(root, [])
+    checkBudget()
     return { document: { value, line(path) {
+      checkBudget()
       while (!positions.has(JSON.stringify(path)) && path.length) path = path.slice(0, -1)
       return positions.get(JSON.stringify(path)) ?? 1
     } } }
@@ -65,24 +71,30 @@ export function yamlLine(text: string, path: KeyPath): number {
 export class ConfigValidation {
   readonly errors: SharedDocsError[] = []
   constructor(readonly document: YamlDocument, readonly context: DiagnosticContext,
-    private readonly invalidCode = 'CONFIG_FIELD_UNKNOWN', private readonly missingCode = 'CONFIG_FIELD_MISSING') {}
+    private readonly invalidCode = 'CONFIG_FIELD_UNKNOWN', private readonly missingCode = 'CONFIG_FIELD_MISSING',
+    private readonly checkBudget = () => {}) {}
   error(path: KeyPath, message: string, code = this.invalidCode) {
+    this.checkBudget()
     this.errors.push(diagnostic(code, message, this.context, this.document.line(path)))
   }
   object(value: unknown, path: KeyPath, allowed: string[], required: string[] = []): value is Record<string, unknown> {
+    this.checkBudget()
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
       this.error(path, `${path.join('.') || 'Document'} must be a mapping`)
       return false
     }
     for (const key of Object.keys(value)) {
+      this.checkBudget()
       if (!allowed.includes(key)) this.error([...path, key, '$key'], `Unknown field: ${[...path, key].join('.')}`)
     }
     for (const key of required) {
+      this.checkBudget()
       if (!Object.hasOwn(value, key)) this.error(path, `Missing required field: ${[...path, key].join('.')}`, this.missingCode)
     }
     return true
   }
   string(value: unknown, path: KeyPath): value is string {
+    this.checkBudget()
     if (typeof value !== 'string' || !value.trim()) {
       this.error(path, `${path.join('.')} must be a nonempty string`)
       return false

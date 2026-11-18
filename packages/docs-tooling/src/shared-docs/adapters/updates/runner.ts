@@ -25,6 +25,10 @@ export class UpdateArgumentError extends Error {}
 class ConfigurationContentError extends Error {
   constructor(readonly diagnostics: SharedDocsError[]) { super('Invalid group configuration') }
 }
+/** Real page observation shared before any lifecycle classification. The selected page is explicit. */
+export async function observeGuidesPage(input: Parameters<typeof collectCandidate>[0]) {
+  return collectCandidate(input)
+}
 export async function reportUpdates(options: UpdateOptions, repositoryRoot: string, dependencies: UpdateDependencies = {}) {
   const temporary = await mkdtemp(join(tmpdir(), 'shared-update-'))
   const errors: { pageId?: string; message: string }[] = []
@@ -110,7 +114,7 @@ export async function reportUpdates(options: UpdateOptions, repositoryRoot: stri
         const lock = parseLock(page.lockYaml)
         if ('errors' in lock) { item.status = 'content-failure'; item.errors = lock.errors; continue }
         await requireOrdered(endpoints.reader, lock.lock.current, lock.lock.next, endpoints.target)
-        const collected = await collectCandidate({ repo: options.repo, dev: devRoot, pageId: item.pageId, current: lock.lock.current,
+        const collected = await observeGuidesPage({ repo: options.repo, dev: devRoot, pageId: item.pageId, current: lock.lock.current,
           oldNext: lock.lock.next, target: endpoints.target, configuration, previousConfiguration: configuration, versions, fetcher: dependencies.fetcher, invalidPageIds: [...pageErrors.keys()] })
         observations.push(...collected.pages)
         const impact = analyzeUpdates(collected).pages[0]
