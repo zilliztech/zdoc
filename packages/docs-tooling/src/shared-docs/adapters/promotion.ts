@@ -25,9 +25,10 @@ import { RealMd2md } from './md2md'
 import { createZdocContentReader } from './zdoc-content'
 import type { ZdocContentReader } from './zdoc-content'
 import { classifyPromotion, decidePromotion, promotionPageId, selectPromotionPages } from '../core/promotion'
-import type { PromotionEdit, PromotionPage, PromotionPageCheck, PromotionPreview, PromotionResult, PromotionViewCheck, ReplayUatRelease, UatEvidencePreview } from '../core/promotion'
+import type { JenkinsUatPreview, PromotionEdit, PromotionPage, PromotionPageCheck, PromotionPreview, PromotionResult, PromotionViewCheck, ReplayUatRelease, UatEvidencePreview } from '../core/promotion'
 import { canonicalBytes, compareUtf8, parseStrictJson } from '../core/updates/canonical'
 import { guidesSnapshotPath } from './guides-snapshot'
+import type { JenkinsEvidenceReader } from './jenkins-promotion-evidence'
 import { exportTree, gitEnvironment, gitRead, resolveCommit } from './updates/git'
 
 const exec = promisify(execFile)
@@ -181,7 +182,7 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
 
 async function collectPinnedPromotion(
   input: PromotionRepositories,
-  uat: { record: ReplayUatRelease; openUpdatePages?: readonly string[] },
+  uat: { record: Pick<ReplayUatRelease, 'sourceSha'>; openUpdatePages?: readonly string[] },
   scratch: string,
   selectedPage?: string,
 ) {
@@ -665,30 +666,73 @@ export async function readUatGitDirectories(repository: string): Promise<{ metad
   return { metadata, worktree: await realpath(worktree.paths[0]) }
 }
 
+function evidencePreview(input: { build: string; page: string }) {
+  return {
+    schema_version: 1, status: 'paused', build: input.build, page: input.page,
+    comparison: { status: 'not-run' }, imageLabels: { status: 'pending' },
+    operatorAcceptance: { status: 'pending' }, openUpdatePrs: { status: 'unobserved' },
+  } as const
+}
+
 export async function previewUatEvidence(
   input: PromotionRepositories & { build: string; page: string; requestDirectories: string[] },
   scratch: string,
 ): Promise<UatEvidencePreview> {
   const report: UatEvidencePreview = {
-    schema_version: 1, observation: 'uat-evidence', status: 'paused', build: input.build, page: input.page,
+    ...evidencePreview(input), observation: 'uat-evidence',
     deployment: { status: 'unavailable', reason: 'No verified release record' },
-    comparison: { status: 'not-run' }, imageLabels: { status: 'pending' },
-    operatorAcceptance: { status: 'pending' }, openUpdatePrs: { status: 'unobserved' },
   }
-  let read: Awaited<ReturnType<typeof openEnglishUatEvidence>>
   try {
-    read = await openEnglishUatEvidence(input.build, input.requestDirectories)
+    const read = await openEnglishUatEvidence(input.build, input.requestDirectories)
     const record: ReplayUatRelease = await read()
-    report.deployment = { status: 'record-validated', record, recordSha256: sha256(canonicalBytes(record)) }
+    const recordSha256 = sha256(canonicalBytes(record))
+    report.deployment = { status: 'record-validated', record, recordSha256 }
+    await compareEvidencePreview(input, report, record.sourceSha, scratch, async () => {
+      if (sha256(canonicalBytes(await read())) !== recordSha256) throw new Error('Release record changed during UAT preview')
+    })
   } catch (error) {
     report.deployment = { status: 'unavailable', reason: promotionError(error) }
-    return report
   }
-  const { record, recordSha256 } = report.deployment
+  return report
+}
+
+export async function previewJenkinsUatEvidence(
+  input: PromotionRepositories & { build: string; page: string },
+  read: JenkinsEvidenceReader,
+  scratch: string,
+): Promise<JenkinsUatPreview> {
+  const report: JenkinsUatPreview = {
+    ...evidencePreview(input), observation: 'jenkins-direct',
+    deployment: { status: 'unavailable', reason: 'No verified Jenkins build' },
+  }
+  try {
+    const deployment = await read()
+    report.deployment = { status: 'build-validated', ...deployment }
+    await compareEvidencePreview(input, report, deployment.sourceSha, scratch, async () => {
+      const current = await read()
+      if (current.buildMetadataSha256 !== deployment.buildMetadataSha256) throw new Error('Jenkins build metadata changed during UAT preview')
+      if (current.stagesSha256 !== deployment.stagesSha256) throw new Error('Jenkins stage evidence changed during UAT preview')
+      if (current.archiveSha256 !== deployment.archiveSha256) throw new Error('Jenkins output.json changed during UAT preview')
+    })
+  } catch (error) {
+    report.deployment = { status: 'unavailable', reason: promotionError(error) }
+  }
+  return report
+}
+
+async function compareEvidencePreview(
+  input: PromotionRepositories,
+  report: UatEvidencePreview | JenkinsUatPreview,
+  sourceSha: string,
+  scratch: string,
+  reobserve: () => Promise<void>,
+) {
+  let pinnedTrack: string | undefined
   try {
     await requireUatHistory(input)
-    const { baseline, pages: [page], pageReplays, track } = await collectPinnedPromotion(input, { record }, scratch, input.page)
+    const { baseline, pages: [page], pageReplays, track } = await collectPinnedPromotion(input, { record: { sourceSha } }, scratch, report.page)
     report.baseline = baseline
+    pinnedTrack = track
     if (page.status === 'blocked') throw new Error(page.reason)
     if (page.targets.length !== manuals.length || manuals.some(manual => !page.targets.some(target => target.manual === manual.manual))) {
       throw new Error('A UAT evidence preview requires both English Cloud and BYOC targets')
@@ -696,26 +740,32 @@ export async function previewUatEvidence(
     if (page.status === 'unnecessary') {
       report.comparison = { status: 'unnecessary', lock: page.lock!, deployedNext: page.acceptedNext! }
     } else {
-      const replay = pageReplays.get(input.page)!
+      const replay = pageReplays.get(report.page)!
       const check = await compareUatPage(input, replay, page.lock!, baseline.dev, scratch)
       report.comparison = { status: 'matched', lock: page.lock!, deployedNext: page.acceptedNext!, views: check.views }
     }
-    const [master, dev, upstream] = await Promise.all([
-      resolveCommit(input.master), resolveCommit(input.dev), new GitMilvusDocsReader(input.upstream).trackedHead(track),
-    ])
-    await requireUatHistory(input)
-    if (!isDeepStrictEqual({ master, dev, upstream }, baseline)) throw new Error('Pinned repositories changed during UAT preview')
   } catch (error) {
     report.comparison = { status: 'blocked', reason: promotionError(error) }
   }
   try {
-    if (sha256(canonicalBytes(await read())) !== recordSha256) throw new Error('Release record changed during UAT preview')
+    await reobserve()
   } catch (error) {
     report.deployment = { status: 'changed', reason: promotionError(error) }
     report.comparison = { status: 'blocked', reason: 'Deployment evidence changed during UAT preview' }
+    return
+  }
+  if (pinnedTrack) {
+    try {
+      const [master, dev, upstream] = await Promise.all([
+        resolveCommit(input.master), resolveCommit(input.dev), new GitMilvusDocsReader(input.upstream).trackedHead(pinnedTrack),
+      ])
+      await requireUatHistory(input)
+      if (!isDeepStrictEqual({ master, dev, upstream }, report.baseline)) throw new Error('Pinned repositories changed during UAT preview')
+    } catch (error) {
+      report.comparison = { status: 'blocked', reason: promotionError(error) }
+    }
   }
   if (report.comparison.status === 'matched' || report.comparison.status === 'unnecessary') report.status = 'preview'
-  return report
 }
 
 async function requireUatHistory(input: PromotionRepositories) {
@@ -756,6 +806,11 @@ async function compareUatPage(
 export async function preparePromotion(input: PromotionInputs & { previewPath: string; selection: 'all-eligible' | readonly string[] }, scratch: string) {
   const bytes = await readFile(input.previewPath)
   const prior = parseStrictJson(bytes)
+  if (recordObject(prior) && prior.observation === 'jenkins-direct') {
+    const result: PromotionResult = { schema_version: 1, observation: 'replay', status: 'paused', previewSha256: sha256(bytes),
+      selected: [], pages: [], reasons: ['Prepare requires a replay preview. The Jenkins preview is read-only.'] }
+    return { result }
+  }
   const { preview, pageReplays, devSha, track } = await collectPromotionPreview(input, scratch)
   const result: PromotionResult = { schema_version: 1, observation: 'replay', status: 'paused', previewSha256: sha256(bytes),
     uat: preview.uat, baseline: preview.baseline, selected: [], pages: [], reasons: [] }

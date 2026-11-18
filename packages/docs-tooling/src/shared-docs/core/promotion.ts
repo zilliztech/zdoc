@@ -68,16 +68,12 @@ export interface PromotionViewCheck {
   candidateProdViewSha256: string
 }
 
-export interface UatEvidencePreview {
+interface UatGuidesPreview {
   schema_version: 1
-  observation: 'uat-evidence'
   status: 'preview' | 'paused'
   page: string
   build: string
   baseline?: PromotionPreview['baseline']
-  deployment:
-    | { status: 'record-validated'; record: ReplayUatRelease; recordSha256: string }
-    | { status: 'unavailable' | 'changed'; reason: string }
   comparison:
     | { status: 'matched'; lock: PageLock; deployedNext: string; views: PromotionViewCheck[] }
     | { status: 'unnecessary'; lock: PageLock; deployedNext: string }
@@ -86,6 +82,31 @@ export interface UatEvidencePreview {
   imageLabels: { status: 'pending' }
   operatorAcceptance: { status: 'pending' }
   openUpdatePrs: { status: 'unobserved' }
+}
+
+type UatEvidenceFailure = { status: 'unavailable' | 'changed'; reason: string }
+
+export interface UatEvidencePreview extends UatGuidesPreview {
+  observation: 'uat-evidence'
+  deployment: { status: 'record-validated'; record: ReplayUatRelease; recordSha256: string } | UatEvidenceFailure
+}
+
+export interface JenkinsUatDeployment {
+  job: string
+  number: string
+  buildId: string
+  stage: { id: string; name: 'uat-en'; status: 'SUCCESS' }
+  archivePath: 'output.json'
+  archiveSha256: string
+  buildMetadataSha256: string
+  stagesSha256: string
+  sourceSha: string
+  finalDeployedDigest: string
+}
+
+export interface JenkinsUatPreview extends UatGuidesPreview {
+  observation: 'jenkins-direct'
+  deployment: ({ status: 'build-validated' } & JenkinsUatDeployment) | UatEvidenceFailure
 }
 
 export interface PromotionPageCheck {
