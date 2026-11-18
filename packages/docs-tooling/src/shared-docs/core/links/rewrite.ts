@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { diagnostic, parseYaml } from '../yaml'
-import { collectHeadings } from './anchors'
+import { collectHeadings, resolveAnchor } from './anchors'
 import { linkCandidates } from './candidates'
 import { classifyLink, isMilvusUrl } from './map'
 import { collectReferences } from './references'
@@ -106,21 +106,19 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       let anchor = fragment
       try { anchor = decodeURIComponent(fragment) } catch { /* Invalid fragments cannot match a heading. */ }
       const anchorSource = projected ? input.markdown : target ?? input.manualCloudPages?.get(file)
-      // File-targeted fragments keep the exact milvus-anchor contract (they ride URLs to
-      // milvus pages). A same-page fragment is projected against this page's own heading
-      // ids: the milvus match keeps precedence (deduped cloud ids are positional) and the
-      // cloud slug is the fallback, because the emitted id is the cloud slug.
-      const headings = anchorSource == null ? [] : collectHeadings(anchorSource)
-      const heading = headings.find(candidate => candidate.milvus === anchor)
-        ?? (input.anchorCloudFallback && kind === 'anchor' ? headings.find(candidate => candidate.cloud === anchor) : undefined)
-      if (!heading) {
-        const upstreamTargets = target == null ? [] : collectHeadings(target)
-        const upstream = target != null && (upstreamTargets.some(candidate => candidate.milvus === anchor) || upstreamTargets.some(candidate => candidate.cloud === anchor))
+      const resolved = anchorSource == null ? {} : resolveAnchor(anchorSource, anchor,
+        input.anchorCloudFallback && kind === 'anchor')
+      if (resolved.ambiguous) {
+        fail(ref, 'ANCHOR_AMBIGUOUS', `Multiple emitted elements use #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor })
+        continue
+      }
+      if (!resolved.id) {
+        const upstream = target != null && resolveAnchor(target, anchor, input.anchorCloudFallback && kind === 'anchor').id
         fail(ref, 'ANCHOR_NOT_FOUND', upstream ? `No heading matches #${fragment} in the projected ${file || input.sourceFile}; the heading exists upstream and the projection removes it.`
           : `No heading matches #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor: fragment })
         continue
       }
-      destination += `#${heading.cloud}`
+      destination += `#${encodeURIComponent(resolved.id)}`
     }
     edit(ref, destination)
   }

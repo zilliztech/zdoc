@@ -65,6 +65,24 @@ describe('FAQ accordion CJK locale detection', () => {
     expect(document.querySelectorAll('.zd-faq-item')).toHaveLength(1);
   });
 
+  it('preserves mounted SDK selectors and question anchors instead of cloning their FAQ', () => {
+    document.body.innerHTML = faqSection('FAQs', ['How do I configure an index?']);
+    const tabs = document.createElement('div');
+    tabs.className = 'tabs-container';
+    tabs.innerHTML = '<div role="tablist"><button role="tab">Java</button></div>';
+    document.querySelector('.markdown')!.appendChild(tabs);
+    const select = vi.fn();
+    tabs.querySelector('button')!.addEventListener('click', select);
+    buildAccordions();
+    buildAccordions();
+    expect(document.querySelector('.zd-faq')).toBeNull();
+    expect(document.getElementById('q-0')?.tagName).toBe('H3');
+    expect(tabs.hasAttribute('data-zd-faq-src')).toBe(false);
+    expect(document.querySelectorAll('[role="tablist"]')).toHaveLength(1);
+    tabs.querySelector('button')!.click();
+    expect(select).toHaveBeenCalledOnce();
+  });
+
   it('leaves troubleshooting sections authored like FAQs as plain headings', () => {
     document.body.innerHTML = faqSection('问题排查', ['为什么集群创建失败？']);
     buildAccordions();

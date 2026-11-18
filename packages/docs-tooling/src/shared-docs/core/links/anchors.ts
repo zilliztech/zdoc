@@ -72,6 +72,47 @@ export function cloudAnchor(text: string): string {
   return slugify(text, { lower: true, strict: true })
 }
 export interface Heading { text: string; level: number; line: number; milvus: string; cloud: string }
+export interface ExplicitAnchor { id: string; line: number }
+
+/** Static IDs retained by the HTML anchor/disclosure elements in Cloud MDX. */
+export function collectExplicitAnchors(markdown: string): ExplicitAnchor[] {
+  const source = analysisMarkdown(markdown)
+  const md = new MarkdownIt({ html: true })
+  const anchors: ExplicitAnchor[] = []
+  const htmlRule = md.inline.ruler.__rules__.find(rule => rule.name === 'html_inline')!.fn
+  md.inline.ruler.at('html_inline', (state, silent) => {
+    const start = state.pos
+    const ok = htmlRule(state, silent)
+    if (!ok || silent || state.src !== source) return ok
+    const raw = source.slice(start, state.pos)
+    if (!/^<(?:a|details)\s/.test(raw)) return ok
+    // Consume complete quoted values so a title or data-id cannot invent an ID.
+    const attributes = [...raw.matchAll(/([^\s=<>"']+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)]
+    const attribute = attributes.find(match => match[1].toLowerCase() === 'id')
+    if (!attribute) return ok
+    const id = md.utils.unescapeAll(attribute[2] ?? attribute[3] ?? attribute[4] ?? '')
+    if (id && !/[\x00-\x20\x7f{}]/.test(id)) anchors.push({ id, line: source.slice(0, start).split('\n').length })
+    return ok
+  })
+  // Inline parsing recognizes code spans and escaped HTML before HTML tokens.
+  md.inline.parse(source, md, {}, [])
+  return anchors
+}
+
+export function resolveAnchor(markdown: string, anchor: string,
+  allowCloudFallback = false): { id?: string; ambiguous?: boolean } {
+  const headings = collectHeadings(markdown)
+  const explicit = collectExplicitAnchors(markdown).filter(item => item.id === anchor)
+  if (explicit.length > 1 || (explicit.length && headings.some(heading => heading.cloud === anchor))) return { ambiguous: true }
+  if (explicit.length) return { id: anchor }
+  const milvus = headings.find(heading => heading.milvus === anchor)
+  if (milvus) return { id: milvus.cloud }
+  // Manual-layout same-page fragments may carry the lowercase cloud slug directly; the
+  // deduped id stays positional (a fragment naming a taken slug still resolves nowhere).
+  if (allowCloudFallback && headings.some(heading => heading.cloud === anchor)) return { id: anchor }
+  return {}
+}
+
 export function collectHeadings(markdown: string): Heading[] {
   // HTML blocks must not swallow Markdown headings in Milvus wrapper divs.
   const env = {}

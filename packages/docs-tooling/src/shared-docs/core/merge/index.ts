@@ -192,7 +192,7 @@ export function mergeMarkdown(input: MergeInput): MergeResult {
       if (previous) {
         const both = [...previous, ...origins]
         const describe = (origin: MergeOrigin) => `${origin.channel}:${origin.file ?? '<adapted>'}:${origin.line ?? '?'}`
-        errors.push(diagnostic(sources[item.channel], line, 'ADAPT_UNSUPPORTED_MARKUP', `Duplicate heading ID "${id}" from ${both.map(describe).join(' and ')}.`, { origins: both }))
+        errors.push(diagnostic(sources[item.channel], line, 'ADAPT_UNSUPPORTED_MARKUP', `Duplicate heading ID "${id}" from ${both.map(describe).join(' and ')}.`, { anchor: id, origins: both }))
       } else anchors.set(id, origins)
     }
   }
