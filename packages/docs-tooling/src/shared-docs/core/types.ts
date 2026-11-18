@@ -72,8 +72,10 @@ export interface PageConfig {
   metadata?: PageMetadata
   transforms?: Transform[]
 }
-/** Manual-layout metadata; the H1-derived title is never overridable, unlike per-page configs. */
-export type ManualMetadata = Omit<PageMetadata, 'title'>
+/** Manual-layout metadata; the H1-derived title is never overridable, unlike per-page configs.
+ * On a module (`dir/`) entry `title` names the sidebar category label and `sidebar_position`
+ * orders the category; mergedMetadata strips both before they can reach page front matter. */
+export type ManualMetadata = Omit<PageMetadata, 'title'> & { title?: string }
 /** Cloud-page visibility: `current` (the default) publishes to both channels, `next` only
  * to UAT, and `retire-in-next` only to Prod — the whole-page release channels. */
 export type ManualCloudChannel = 'current' | 'next' | 'retire-in-next'
@@ -82,7 +84,8 @@ export interface ManualConfig {
   schema_version: 1
   source: { dir: string }
   publish: { manual: string }
-  /** Keys are module paths ending in '/' (beta only) or page paths ending in '.md'; pages win. */
+  /** Keys are module paths ending in '/' or page paths ending in '.md'; pages win.
+   * Module entries may additionally name their sidebar category (`title`). */
   metadata?: Record<string, ManualMetadata>
   /** Upstream pages (module `dir/` or page `dir/page.md`, relative to source.dir) left out of the manual. */
   exclude?: string[]

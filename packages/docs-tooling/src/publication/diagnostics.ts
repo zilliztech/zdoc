@@ -25,7 +25,7 @@ const NullableString = z.string().nullable();
 
 const SourceIdentityEntrySchema = z.object({
   key: z.string().min(1),
-  sourceType: z.enum(['wiki', 'drive', 'onePager', 'rest', 'local']),
+  sourceType: z.enum(['wiki', 'drive', 'onePager', 'rest', 'local', 'shared']),
   lifecycle: z.enum(['active', 'fallback', 'retired', 'translation']),
   root: NullableString,
   base: NullableString,

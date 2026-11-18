@@ -117,6 +117,19 @@ describe('site-owned publication groups', () => {
     }
   });
 
+  it('derives lane facts from source families and withholds the manual record before cutover', () => {
+    // Lark-fetched groups must resolve snapshots; the spec-generated REST group has none.
+    expect(resolvePublicationGroupWorkflow('en', 'guides').hasLarkSources).toBe(true);
+    expect(resolvePublicationGroupWorkflow('en', 'java').hasLarkSources).toBe(true);
+    expect(resolvePublicationGroupWorkflow('en', 'rest').hasLarkSources).toBe(false);
+    // No manual registers a shared source yet (R2-b cuts Node over): the whole-manual
+    // record checkpoint stays withheld until hasSharedSources turns true.
+    for (const group of listPublicationGroups('en')) {
+      expect(resolvePublicationGroupWorkflow('en', group).checkpointPaths)
+        .not.toContain(`generated/en/manifests/shared-manuals/${group}.json`);
+    }
+  });
+
   it('preserves hand-authored Reference landing pages at their canonical repository paths', () => {
     expect(resolvePublicationGroupWorkflow('en', 'python').preservedPaths).toEqual([
       'content/en/reference/api/python/python/python.md',

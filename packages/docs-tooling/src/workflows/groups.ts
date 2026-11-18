@@ -18,6 +18,9 @@ export type PublicationGroupWorkflow = Readonly<{
   sourceManuals: readonly string[];
   sourceSnapshots: readonly string[];
   snapshotManual: string | null;
+  /** True when any English source of the group is Lark-fetched and therefore must
+   * resolve a source snapshot. Shared-docs groups generate from Git and have none. */
+  hasLarkSources: boolean;
   translate: boolean;
   durableTranslationBatchSize: number;
   checkpointPaths: readonly string[];
@@ -210,6 +213,12 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
   const resolved = group.manuals.map(manual => resolveManualPublication(manual, site));
   const sourceManuals = distinct(resolved.flatMap(entry => entry.sourceChain.map(source => source.source.generatorManual)));
   const sourceSnapshots = distinct(resolved.map(entry => entry.source.snapshotPath));
+  // Shared-docs groups (design 10) generate from Git at the pinned commits; they are
+  // the one English source family with no Lark snapshot and no generator manual.
+  const hasLarkSources = site === 'en' && resolved.some(entry => entry.sourceChain.some(({source}) =>
+    source.sourceType === 'wiki' || source.sourceType === 'drive' || source.sourceType === 'onePager'));
+  const hasSharedSources = site === 'en' && resolved.some(entry =>
+    entry.source.sourceType === 'shared');
   const allPreservedPaths = distinct(resolved.flatMap(entry => publicationPreservedPaths(entry.publication)));
   // externallyOwnedFiles are written by other publication lanes (for example the
   // Chinese Guides home is produced by Translation). Unlike preserved landing
@@ -225,6 +234,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
     sourceManuals,
     sourceSnapshots,
     snapshotManual: sourceManuals.at(-1) ?? null,
+    hasLarkSources,
     translate: site === 'en',
     durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 15 : 0,
     checkpointPaths: distinct([
@@ -241,6 +251,10 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
       // skipped by checkpoint collection, so pre-seed groups are unaffected.
       ...(site === 'en' && groupName !== 'guides' && SHARED_DOC_GROUPS.includes(groupName)
         ? [`generated/en/manifests/shared-pages/${groupName}`] : []),
+      // The manual-level record attests one whole-manual build (design 10 WP-R1);
+      // shared-source groups write it on every fetch and must carry it in the
+      // checkpoint or the publication loses the collection's input identity.
+      ...(hasSharedSources ? [`generated/en/manifests/shared-manuals/${groupName}.json`] : []),
     ]),
     preservedPaths,
     externallyOwnedPaths,
