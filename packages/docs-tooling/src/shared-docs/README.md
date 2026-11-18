@@ -175,6 +175,22 @@ record fails pure validation. Manual builds do not read a dev checkout; the
 `--dev` option is accepted but unused. `inspect` and `links-seed` are
 per-page commands and reject manual groups.
 
+Two whole-manual lifecycle commands complete the manual layout (design 04/06/10):
+`update` dispatches on the group layout, and for manual groups compares the
+tracking head with the locked `next`, writing `next-lock.yaml` plus
+`report.json`/`report.md` (added, removed, and changed pages) into an empty
+output directory. A head that is not a descendant of the locked `next` fails
+closed; an up-to-date manual produces the report without a lock candidate.
+`promote` moves `current` to `next` and carries the one-sided configuration
+across: `cloud_pages` `channel: next` entries become two-sided,
+`retire-in-next` entries leave the manual (their `content/` files stay in
+place), and stale `metadata`/`exclude` entries naming vanishing pages are
+removed and reported. Promotion blocks while any surviving page — upstream or
+cloud — still links a vanishing page, and handwritten block-level
+`NextChannel` markers in cloud content are listed for the author, never
+removed automatically. Both commands stage their outputs (`lock.yaml`,
+`manual.yaml`, reports) for the caller's PR; neither edits the group.
+
 ## Initial locks and PR validation (WP8b)
 
 Create missing initial source locks with a complete local Milvus checkout:

@@ -47,11 +47,18 @@ export async function gitMetadataDirectories(repository: string): Promise<string
     throw error
   }
   const paths = await Promise.all(['--git-dir', '--git-common-dir'].map(async option => {
-    const path = await gitRead(repository, ['rev-parse', '--path-format=absolute', option])
+    let path: string
+    try { path = await gitRead(repository, ['rev-parse', '--path-format=absolute', option]) }
+    catch (error) {
+      // A directory that is not a repository holds no metadata to protect; deeper
+      // nested repositories are enumerated by the caller per repository root.
+      if (error instanceof Error && error.message.includes('not a git repository')) return ''
+      throw error
+    }
     if (!path || /[\0\r\n]/.test(path)) throw new Error('Cannot resolve Git metadata directory')
     return realpath(path)
   }))
-  return [...new Set(paths)]
+  return [...new Set(paths.filter(Boolean))]
 }
 export async function resolveCommit(repository: string, revision = 'HEAD') {
   if (revision !== 'HEAD' && !sha(revision)) throw new Error('Expected an exact commit SHA')
