@@ -1484,6 +1484,39 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/)
   assert.match(workflow, /name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*name: Fetch content group/)
   assert.match(workflow, /prepare-content-group-workspace\.js "\$SITE" "\$GROUP"/)
+  const snapshotStart = workflow.indexOf('name: Update content snapshots')
+  const snapshotEnd = workflow.indexOf('\n      - name:', snapshotStart + 1)
+  const snapshotStep = workflow.slice(snapshotStart, snapshotEnd)
+  assert.match(snapshotStep, /\[\[ "\$GROUP_HAS_LARK_SOURCES" != true \]\]/)
+  assert.doesNotMatch(snapshotStep, /"\$GROUP" != rest/)
+  assert.match(snapshotStep, /update-lark-doc-snapshot\.js --manual guides/)
+  assert.match(snapshotStep, /update-sdk-reference-snapshots\.sh "\$GROUP"/)
+  const factsStart = workflow.indexOf('name: Compute content group facts')
+  const factsEnd = workflow.indexOf('\n      - name:', factsStart + 1)
+  const factsStep = workflow.slice(factsStart, factsEnd)
+  assert.ok(factsStart > workflow.indexOf('name: Validate content group'))
+  assert.ok(factsStart < workflow.indexOf('name: Prepare shared-docs upstream checkout'))
+  assert.match(factsStep, /hasLarkSources: group\.hasLarkSources, hasSharedSources: group\.hasSharedSources/)
+  assert.match(factsStep, /GROUP_HAS_LARK_SOURCES=\$has_lark_sources/)
+  assert.match(factsStep, /GROUP_HAS_SHARED_SOURCES=\$has_shared_sources/)
+  const upstreamStart = workflow.indexOf('name: Prepare shared-docs upstream checkout')
+  const upstreamEnd = workflow.indexOf('\n      - name:', upstreamStart + 1)
+  const upstreamStep = workflow.slice(upstreamStart, upstreamEnd)
+  assert.ok(upstreamStart > workflow.indexOf('name: Prepare selected content group workspace'))
+  assert.ok(upstreamStart < workflow.indexOf('name: Fetch content group'))
+  assert.match(upstreamStep, /\[\[ "\$GROUP_HAS_SHARED_SOURCES" != true \]\]/)
+  assert.match(upstreamStep, /prepare-shared-upstream\.js --group "\$GROUP" --output "\$RUNNER_TEMP\/shared-upstream\/web-content"/)
+  assert.match(upstreamStep, /DOCS_TOOLING_SHARED_UPSTREAM=\$RUNNER_TEMP\/shared-upstream\/web-content/)
+  assert.match(upstreamStep, /DOCS_TOOLING_SHARED_SCRATCH=\$RUNNER_TEMP\/shared-image-scratch/)
+  const imagesStart = workflow.indexOf('name: Upload shared manual images')
+  const imagesEnd = workflow.indexOf('\n      - name:', imagesStart + 1)
+  const imagesStep = workflow.slice(imagesStart, imagesEnd)
+  assert.ok(imagesStart > workflow.indexOf('name: Fetch content group'))
+  assert.match(imagesStep, /\[\[ "\$GROUP_HAS_SHARED_SOURCES" != true \]\]/)
+  assert.match(imagesStep, /upload-images --group "\$GROUP"/)
+  assert.match(imagesStep, /--record "generated\/en\/manifests\/shared-manuals\/\$GROUP\.json"/)
+  assert.match(imagesStep, /--scratch "\$RUNNER_TEMP\/shared-image-scratch"/)
+  assert.match(imagesStep, /IMAGE_BED_URL: \$\{\{ inputs\.site == 'zh-CN' && vars\.ZH_CN_IMAGE_BED_URL \|\| vars\.IMAGE_BED_URL \}\}/)
   const inventoryStart = workflow.indexOf('name: Generate revision inventory')
   assert.ok(inventoryStart > workflow.indexOf('name: Update content snapshots'))
   assert.ok(inventoryStart < workflow.indexOf('name: Create source checkpoint artifact'))
@@ -1611,6 +1644,42 @@ test('workflow policy rejects unbound or writable Fetch publication producers', 
       assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
     } finally {
       fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
+test('workflow policy rejects shared-docs producer wiring mutations', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const fixtures = [
+    { mutate: source => source.replace('name: Compute content group facts', 'name: Compute group hints'),
+      expected: '_fetch-content-group.yml: the producer must derive its lane gates from the content group facts' },
+    { mutate: source => source.replace('hasLarkSources: group.hasLarkSources, hasSharedSources: group.hasSharedSources', 'hasLarkSources: group.hasLarkSources'),
+      expected: '_fetch-content-group.yml: the producer must derive its lane gates from the content group facts' },
+    { mutate: source => source.replace('DOCS_TOOLING_SHARED_UPSTREAM=$RUNNER_TEMP/shared-upstream/web-content', 'DOCS_TOOLING_SHARED_UPSTREAM=unused'),
+      expected: '_fetch-content-group.yml: shared-docs producers must prepare a verified upstream checkout and image scratch' },
+    { mutate: source => source.replace('prepare-shared-upstream.js --group "$GROUP" --output "$RUNNER_TEMP/shared-upstream/web-content"', 'git clone --depth 1 https://github.com/milvus-io/web-content "$RUNNER_TEMP/shared-upstream/web-content"'),
+      expected: '_fetch-content-group.yml: shared-docs producers must prepare a verified upstream checkout and image scratch' },
+    { mutate: source => source.replace('--record "generated/en/manifests/shared-manuals/$GROUP.json"', '--record "$RUNNER_TEMP/record.json"'),
+      expected: '_fetch-content-group.yml: shared-docs producers must upload their attested image scratch before publication' },
+    { mutate: source => source.replace('--scratch "$RUNNER_TEMP/shared-image-scratch"', '--scratch "$RUNNER_TEMP/unrelated-scratch"'),
+      expected: '_fetch-content-group.yml: shared-docs producers must upload their attested image scratch before publication' },
+    { mutate: source => source.replace('elif [[ "$GROUP_HAS_LARK_SOURCES" != true ]]; then', 'elif [[ "$GROUP" != rest ]]; then'),
+      expected: '_fetch-content-group.yml: snapshot promotion must skip spec-generated and shared-docs groups through the group facts' },
+    { mutate: source => source.replace('update-sdk-reference-snapshots.sh "$GROUP"', 'echo skipped'),
+      expected: '_fetch-content-group.yml: snapshot promotion must skip spec-generated and shared-docs groups through the group facts' },
+  ]
+  for (const fixture of fixtures) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'shared-producer-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, '_fetch-content-group.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      const mutated = fixture.mutate(source)
+      assert.notEqual(mutated, source, 'mutation must change workflow source')
+      fs.writeFileSync(file, mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), `${fixture.expected} (mutation: ${fixture.mutate})`)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
     }
   }
 })

@@ -32,10 +32,16 @@ test('defines the Python content group ownership contract', () => {
 });
 
 test('exposes publication-registry snapshots for revision inventory generation', () => {
+  // rest is spec-generated and node generates from the shared-docs Git lock; neither
+  // resolves a Lark source snapshot.
   assert.equal(getContentGroup('rest').sourceSnapshots.length, 0);
-  for (const group of listContentGroups().filter((name) => name !== 'rest')) {
+  assert.equal(getContentGroup('node').sourceSnapshots.length, 0);
+  assert.equal(getContentGroup('node').hasLarkSources, false);
+  assert.equal(getContentGroup('node').hasSharedSources, true);
+  for (const group of listContentGroups().filter((name) => name !== 'rest' && name !== 'node')) {
     assert.ok(getContentGroup(group).sourceSnapshots.length > 0, group);
     assert.equal(Object.isFrozen(getContentGroup(group).sourceSnapshots), true, group);
+    assert.equal(getContentGroup(group).hasSharedSources, false, group);
   }
 });
 

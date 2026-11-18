@@ -9,6 +9,7 @@ import {
 } from './registry';
 import {ManualSourceSchema} from './schema';
 import type {ManualDefinition} from './schema';
+import {sdkSnapshotGroupIds} from './derive/workflowUnits';
 
 function manual(overrides: Partial<ManualDefinition> = {}): ManualDefinition {
   return {
@@ -96,7 +97,6 @@ describe('manual registry contract', () => {
     const expectations = {
       python: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0'],
       java: ['english-v2-2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0'],
-      node: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0'],
       go: ['english-v2.6', 'english-v3.0'],
       cli: ['english-v1.3', 'english-v1.4'],
     } as const;
@@ -108,11 +108,18 @@ describe('manual registry contract', () => {
     }
   });
 
+  it('fetches the Node.js English publication from the shared-docs whole-manual producer', () => {
+    const resolved = resolveManualPublication('node', 'en');
+    expect(resolved.sourceChain.map(entry => entry.key)).toEqual(['node']);
+    expect(resolved.source).toEqual({sourceType: 'shared', lifecycle: 'active', sourceDir: 'shared-docs/node'});
+    expect(resolved.publication.outputDir).toBe('content/en/reference/api/nodejs/nodejs');
+    expect(resolved.publication.preservedFiles).toEqual(['nodejs.md']);
+  });
+
   it('retains legacy generator and snapshot identities for every active SDK and CLI source', () => {
     const expected = {
       python: ['pymilvus30', 'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json'],
       java: ['javaV230', 'packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json'],
-      node: ['nodejs30', 'packages/docs-tooling/src/lark/meta/snapshots/nodejs30-uat-last-success.json'],
       go: ['gov230', 'packages/docs-tooling/src/lark/meta/snapshots/gov230-uat-last-success.json'],
       cli: ['cliv14', 'packages/docs-tooling/src/lark/meta/snapshots/cliv14-uat-last-success.json'],
     } as const;
@@ -122,6 +129,12 @@ describe('manual registry contract', () => {
       expect(source.generatorManual).toBe(generatorManual);
       expect(source.snapshotPath).toBe(snapshotPath);
     }
+    // Node left the Lark snapshot family with its shared-docs cutover: the SDK
+    // snapshot updater derives its groups from this same registry, so Node's
+    // Lark snapshot state stops being refreshed by design.
+    const snapshotManuals = sdkSnapshotGroupIds();
+    expect(snapshotManuals).not.toContain('node');
+    expect(snapshotManuals).toEqual(['python', 'java', 'go', 'cli', 'cpp']);
   });
 
   it('keeps filesystem destinations separate from generator publication targets', () => {
