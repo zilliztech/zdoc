@@ -1,7 +1,7 @@
 ---
-title: "Manage Snapshots | Cloud"
+title: "Manage Snapshots (SDK) | Cloud"
 slug: /manage-snapshots
-sidebar_label: "Manage Snapshots"
+sidebar_label: "Manage Snapshots (SDK)"
 beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Manage Snapshots
+# Manage Snapshots (SDK)
 
 In this guide, you will learn how to create and manage snapshots, including
 

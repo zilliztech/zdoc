@@ -1,12 +1,12 @@
 # guides Canonical Link Audit
 
-Generated: 2026-11-17T18:45:12.550Z
+Generated: 2026-11-18T02:50:01.340Z
 Target: (not specified)
 Source dir: `./packages/docs-tooling/src/lark/meta/sources/guides`
 
 ## Summary
 
-- Canonical records: 409
+- Canonical records: 410
 - Scanned canonical sources: 317
 - Skipped non-canonical sources: 89
 - Internal Feishu references: 1878

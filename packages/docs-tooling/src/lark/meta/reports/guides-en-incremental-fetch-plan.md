@@ -1,15 +1,15 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-17T12:32:56.741Z
+Generated: 2026-11-17T18:32:51.786Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-11-17T12:32:56.741Z
+Previous snapshot: 2026-11-17T18:32:51.786Z
 
 ## Summary
 
-- Changed docs: 93 (0 with Feishu tokens)
-- Expanded docs: 58
+- Changed docs: 94 (1 with Feishu tokens)
+- Expanded docs: 60
 - Removed docs: 0
 - Warnings: 0
 
@@ -107,6 +107,7 @@ Previous snapshot: 2026-11-17T12:32:56.741Z
 - Remove Punct (shared:recvlPvJP0pbh9): shared inputs changed
 - Regex (shared:recvlPvLU6eZIJ): shared inputs changed
 - Snapshots (shared:recvlPnHgnRg7i): shared inputs changed
+- Manage Snapshots (SDK) (J0jDwYQb8il1biknRo4cazHPn5d): title changed; wiki node revision changed
 - Implement Multi-tenancy (shared:recvm2lliV1DA6): shared inputs changed
 
 ## Expanded Tokens
@@ -129,12 +130,14 @@ Previous snapshot: 2026-11-17T12:32:56.741Z
 - Fighwx5zFiwaoIkV4q5cAJ1enDg: incoming reference to JWZGw89MBiUDBNkhtGfcyyUcnsd
 - GBynwwkyBihIHukvJXfc76dMnth: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - GanXwLnJkiymKVkNPhecdi9MnGf: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
+- Ghq9wEiOOivgeIkmj2HcHC9onXe: incoming reference to J0jDwYQb8il1biknRo4cazHPn5d
 - H2GHwE8umiuP6WkwjxPcQOfGn0e: incoming reference to DjROwgK6ziCf7Rkoji6ccyEUnsg
 - H8MVwnjdgihp0hkRHHKcjBe9n5e: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
 - HHXewT7wTiM1zqkySjHcMNX5n9b: incoming reference to XC1ow3jGBi7hVvkINtBcXhQ6n8g
 - IO4fwm5fJiroaoktKeIcbdkDnRb: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
 - IrQ2wm2oaiAWl4kqQhkc303Rnlg: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - IxO5wZ1meiYrTckUPkQca9JOnbS: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
+- J0jDwYQb8il1biknRo4cazHPn5d: title changed; wiki node revision changed
 - JPNiwF6rPiNe0pkx460cr321nTc: incoming reference to MBVVww2Zii8k6Bk77GJcXbZJnpf
 - JaTxw9EtHivMv9kMSAnckG0vn1b: incoming reference to OVxRwZWxNi4pYrkdKxCcOuY2nf1
 - KTWtw4V6SiTpDMkeGMQc8lChn8b: incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic
@@ -146,7 +149,7 @@ Previous snapshot: 2026-11-17T12:32:56.741Z
 - MYHwwhKtri4MMJku6BbcMjF4n1d: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - MocQwCCItiHYEbkkJtOcROPTnod: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - N6fZwCUXqiqoJEkFiVNcvDJEnnc: incoming reference to QVTnwVz2aifvSAkgomAc9KWRnHb
-- NRF1wGr3AiWWC1kVfWucZD6Xneb: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
+- NRF1wGr3AiWWC1kVfWucZD6Xneb: incoming reference to J0jDwYQb8il1biknRo4cazHPn5d
 - O1qjwpv0Ri9afmkSUwWcU2aTn5f: incoming reference to EmcowmwYpiFbWgkmnqfcMf3knVc
 - O2YiwLai5iSjT1k1WEsc06E8nEe: incoming reference to WMSvwXXz4iR7mZkGmUscF3Y1nxs
 - OFl9wHXpriM8aEkoONScpU1lnIf: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd

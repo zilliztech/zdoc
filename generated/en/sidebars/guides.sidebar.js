@@ -1649,7 +1649,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/development/snapshots/manage-snapshots",
-            "label": "Manage Snapshots",
+            "label": "Manage Snapshots (SDK)",
             "key": "doc:tutorials/development/snapshots/manage-snapshots"
           }
         ]

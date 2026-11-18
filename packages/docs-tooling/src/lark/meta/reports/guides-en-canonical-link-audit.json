@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-17T18:45:12.550Z",
+  "generated_at": "2026-11-18T02:50:01.340Z",
   "manual": "guides",
   "target": null,
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/guides",
   "summary": {
-    "canonical_records": 409,
+    "canonical_records": 410,
     "scanned_sources": 317,
     "skipped_noncanonical_sources": 89,
     "internal_references": 1878,
@@ -434,7 +434,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "json-field-overview",
-                "inputs_sha256": "dfb5d0bf363b4b21a25cbfd66a0c3481207844b7e9b70543f978fba4bc7d3211",
+                "inputs_sha256": "81e7cf533dac8579a65a3140cac5ab94717f3b259ec74c56c4aa703db49ebf80",
                 "record": "generated/en/manifests/shared-pages/guides/json-field-overview.json"
               },
               "score": 86,
@@ -457,7 +457,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "json-filtering-operators",
-                "inputs_sha256": "4bd26cf44986c3d00efc1276f42a719ca9021cba3844aaba9cae47d8c2f05cfc",
+                "inputs_sha256": "729b2003d3a0d1ae6e3a1353451c91b97a61f434d938835b26f4160da4e0cd9e",
                 "record": "generated/en/manifests/shared-pages/guides/json-filtering-operators.json"
               },
               "score": 86,
