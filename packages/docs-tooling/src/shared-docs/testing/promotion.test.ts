@@ -311,7 +311,7 @@ function jenkinsResponses(deployed: string) {
 
 type JenkinsResponses = ReturnType<typeof jenkinsResponses>
 type JenkinsReply = {
-  body?: string; status?: number; headers?: Record<string, string>; size?: number; stall?: boolean;
+  body?: string; status?: number; headers?: Record<string, string>; size?: number; stall?: boolean; close?: boolean; upgrade?: boolean;
   moveRef?: { repo: string; commit: string };
 }
 
@@ -365,11 +365,17 @@ https.request = (url, options, respond) => {
       return
     }
     setImmediate(() => {
+      if (reply.close) return request.emit('close')
+      if (reply.upgrade) {
+        const socket = { destroy() { request.emit('close') } }
+        return request.emit('upgrade', { statusCode: 101 }, socket, Buffer.alloc(0))
+      }
       if (reply.moveRef) execFileSync('git', ['-C', reply.moveRef.repo, 'update-ref', 'HEAD', reply.moveRef.commit])
       const response = Readable.from(reply.size ? [Buffer.alloc(reply.size)] : [Buffer.from(reply.body || '')])
       response.statusCode = reply.status ?? 200
       response.headers = reply.headers ?? {}
       response.complete = true
+      response.once('end', () => setImmediate(() => request.emit('close')))
       respond(response)
     })
   }
@@ -536,6 +542,8 @@ it('blocks Jenkins transport errors without retrying or falling through to an ar
     ['declared-oversize', { headers: { 'content-length': '524289' } }, /byte limit/],
     ['stream-oversize', { size: 524_289 }, /byte limit/],
     ['compressed', { headers: { 'content-encoding': 'gzip' } }, /encoding is unsupported/],
+    ['premature-close', { close: true }, /closed before a complete response/],
+    ['unexpected-upgrade', { upgrade: true }, /HTTP upgrade was rejected/],
     ['deadline', { stall: true }, /timed out/],
   ] as const) assertJenkinsPaused(jenkinsCli(f, name, [response, ...replies]), reason, 1)
   const duplicate = { body: replies[2].body!.replace('"status": "SUCCESS"', '"status": "SUCCESS", "status": "SUCCESS"') }

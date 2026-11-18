@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto'
+import type { IncomingMessage } from 'node:http'
 import { request } from 'node:https'
 import type { JenkinsUatDeployment } from '../core/promotion'
 import { parseStrictJson } from '../core/updates/canonical'
@@ -52,17 +53,21 @@ function readBytes(url: URL, label: string, authorization: string): Promise<Buff
   const signal = AbortSignal.timeout(requestTimeoutMs)
   return new Promise((resolve, reject) => {
     const failed = () => reject(new Error(`Jenkins ${label} read ${signal.aborted ? 'timed out' : 'failed'}`))
+    const closed = () => signal.aborted ? failed() : reject(new Error(`Jenkins ${label} read closed before a complete response`))
+    let incoming: IncomingMessage | undefined
     try {
       const req = request(url, {
         method: 'GET', agent: false, rejectUnauthorized: true, signal, maxHeaderSize: 16 * 1024,
         headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       }, response => {
+        incoming = response
         const stop = (reason: string) => {
           reject(new Error(`Jenkins ${label} ${reason}`))
           response.destroy()
           req.destroy()
         }
         response.once('error', failed)
+        response.once('close', closed)
         const status = response.statusCode ?? 0
         if (status >= 300 && status < 400) return stop('redirect was rejected')
         if (status !== 200) return stop(`read failed (HTTP ${status})`)
@@ -85,6 +90,14 @@ function readBytes(url: URL, label: string, authorization: string): Promise<Buff
         })
       })
       req.once('error', failed)
+      req.once('close', () => {
+        // A fully received message can still deliver its buffered body after the socket closes.
+        if (!incoming?.complete) closed()
+      })
+      req.once('upgrade', (_response, socket) => {
+        reject(new Error(`Jenkins ${label} HTTP upgrade was rejected`))
+        socket.destroy()
+      })
       // Node's HTTPS diagnostics can log the request constructor options.
       req.setHeader('Authorization', authorization)
       req.end()
