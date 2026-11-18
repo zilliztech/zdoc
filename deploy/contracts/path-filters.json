@@ -145,6 +145,7 @@
         ".github/workflows/shared-docs-validate.yml",
         ".github/workflows/shared-docs-adopt-variant.yml",
         ".github/workflows/shared-docs-pin-drift-watchdog.yml",
+        ".github/workflows/shared-docs-manual-update.yml",
         "scripts/docs-workflow/shared-guides-update/**",
         "scripts/docs-workflow/shared-docs-pin-drift.js",
         "packages/docs-tooling/src/lark/sharedPageFetch*",
@@ -195,6 +196,7 @@
         ".github/workflows/shared-docs-validate.yml",
         ".github/workflows/shared-docs-adopt-variant.yml",
         ".github/workflows/shared-docs-pin-drift-watchdog.yml",
+        ".github/workflows/shared-docs-manual-update.yml",
         "scripts/translation/**"
       ],
       "checks": [

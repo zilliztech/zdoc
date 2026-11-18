@@ -155,6 +155,16 @@ describe('read-only validation shell contracts', () => {
     expect(result.status).toBe(0); expect(result.outputs.changed).toBe('true'); expect(result.outputs.groups).toBe('["guides","node"]')
     expect(readFileSync(join(setup.dir, 'shared-docs-groups'), 'utf8')).toBe('guides\nnode\n')
   })
+  it('[3-3] detects manual-layout node changes without page directories', () => {
+    const setup = fixture()
+    put(setup.repo, 'shared-docs/node/manual.yaml', 'schema_version: 1\npublish:\n  manual: node\n')
+    put(setup.repo, 'shared-docs/node/lock.yaml', 'schema_version: 1\n')
+    put(setup.repo, 'shared-docs/node/content/Overview.md', '# Overview\n')
+    const head = commit(setup.repo)
+    const result = execute(validate, 'validate', 'Detect shared input changes', setup, { SOURCE_SHA: head })
+    expect(result.status).toBe(0); expect(result.outputs.changed).toBe('true'); expect(result.outputs.groups).toBe('["node"]')
+    expect(readFileSync(join(setup.dir, 'shared-docs-groups'), 'utf8')).toBe('node\n')
+  })
   it.each(['shared-docs/source.yaml', 'shared-docs/pages/old/page.yaml', 'shared-docs/rest/pages/new/page.yaml', 'shared-docs/guides'])('rejects unsupported or ungrouped shared input before external reads: %s', file => {
     const setup = fixture()
     if (file === 'shared-docs/guides') rmSync(join(setup.repo, file), { recursive: true })
@@ -348,6 +358,22 @@ describe('initial-lock writer shell contracts', () => {
     const pushed = execute(lock, 'lock', pushName, setup)
     expect(pushed.status).toBe(0); expect(pushed.outputs.pushed).toBe('true')
     expect(git(setup.repo, 'diff', '--name-status', setup.sha, pushed.outputs.pushed_sha)).toBe('A\tshared-docs/node/pages/Collections-createCollection/lock.yaml')
+  })
+  it('pushes the manual-layout group lock when the group declares manual.yaml', () => {
+    const setup = fixture()
+    // The group files arrive tracked with the PR head; only the missing lock is untracked.
+    put(setup.repo, 'shared-docs/node/manual.yaml', 'schema_version: 1\npublish:\n  manual: node\n')
+    const head = commit(setup.repo)
+    git(setup.repo, 'push', '-q', 'origin', `HEAD:refs/heads/onboarding`)
+    put(setup.repo, 'shared-docs/node/lock.yaml', `current: ${head}\nnext: ${head}\n`)
+    const pushed = execute(lock, 'lock', pushName, setup, { SOURCE_SHA: head, BASE_SHA: head })
+    expect(pushed.status).toBe(0); expect(pushed.outputs.pushed).toBe('true')
+    expect(git(setup.repo, 'diff', '--name-status', head, pushed.outputs.pushed_sha)).toBe('A\tshared-docs/node/lock.yaml')
+  })
+  it('rejects a manual-layout root lock without a manual.yaml on the checked-out head', () => {
+    const setup = fixture(); put(setup.repo, 'shared-docs/guides/lock.yaml', `current: ${setup.sha}\nnext: ${setup.sha}\n`)
+    const result = execute(lock, 'lock', pushName, setup)
+    expect(result.status).not.toBe(0); expect(result.stderr).toContain('Refusing non-lock or non-regular path')
   })
   it.each(['tracked-modification', 'unrelated-staged', 'unexpected-untracked', 'newline-path', 'symlink', 'executable', 'unsupported-group', 'legacy-layout'])('rejects unsafe staging: %s', kind => {
     const setup = fixture(), lockPath = 'shared-docs/guides/pages/example/lock.yaml'
