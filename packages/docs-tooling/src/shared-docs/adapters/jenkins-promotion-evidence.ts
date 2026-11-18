@@ -55,7 +55,7 @@ function readBytes(url: URL, label: string, authorization: string): Promise<Buff
     try {
       const req = request(url, {
         method: 'GET', agent: false, rejectUnauthorized: true, signal, maxHeaderSize: 16 * 1024,
-        headers: { Authorization: authorization, Accept: 'application/json', 'Accept-Encoding': 'identity' },
+        headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       }, response => {
         const stop = (reason: string) => {
           reject(new Error(`Jenkins ${label} ${reason}`))
@@ -85,6 +85,8 @@ function readBytes(url: URL, label: string, authorization: string): Promise<Buff
         })
       })
       req.once('error', failed)
+      // Node's HTTPS diagnostics can log the request constructor options.
+      req.setHeader('Authorization', authorization)
       req.end()
     } catch {
       failed()

@@ -320,13 +320,19 @@ function jenkinsReplies(data: JenkinsResponses): JenkinsReply[] {
 }
 
 function jenkinsCli(f: Fixture, name: string, replies: JenkinsReply[], options: {
-  number?: string; args?: string[]; env?: NodeJS.ProcessEnv; traceGit?: boolean; mode?: 'preview' | 'prepare';
+  number?: string; args?: string[]; env?: NodeJS.ProcessEnv; traceGit?: boolean; mode?: 'preview' | 'prepare'; nodeTlsDebug?: string;
 } = {}) {
-  const preload = join(f.root, 'fake-jenkins-https.cjs')
+  const preload = join(f.root, options.nodeTlsDebug ? 'block-jenkins-tls.cjs' : 'fake-jenkins-https.cjs')
   const out = join(f.root, name)
   const log = join(f.root, `${name}-requests.log`)
   const gitLog = join(f.root, `${name}-git.log`)
-  put(f.root, 'fake-jenkins-https.cjs', `
+  if (options.nodeTlsDebug) writeFileSync(preload, `
+require('node:tls').connect = () => {
+  process.stderr.write('Offline Jenkins TLS connection intercepted\\n')
+  throw new Error('Offline Jenkins TLS connection intercepted')
+}
+`)
+  else writeFileSync(preload, `
 const { EventEmitter } = require('node:events')
 const { Readable } = require('node:stream')
 const { appendFileSync } = require('node:fs')
@@ -343,10 +349,12 @@ https.request = (url, options, respond) => {
   const reply = replies.shift()
   const request = new EventEmitter()
   request.destroy = () => {}
+  const requestHeaders = {}
+  request.setHeader = (name, value) => { requestHeaders[name] = value }
   request.end = (...body) => {
     const { method, headers, agent, rejectUnauthorized, signal, maxHeaderSize } = options
     appendFileSync(process.env.WP13_TEST_REQUEST_LOG, JSON.stringify({ url: url.href, method, headers, agent,
-      rejectUnauthorized, maxHeaderSize, bounded: signal instanceof AbortSignal, deadline: capturedDeadline, body }) + '\\n')
+      rejectUnauthorized, maxHeaderSize, bounded: signal instanceof AbortSignal, deadline: capturedDeadline, body, requestHeaders }) + '\\n')
     if (!reply) return setImmediate(() => request.emit('error', new Error('Unexpected HTTPS request')))
     if (reply.stall) {
       const keepalive = setTimeout(() => request.emit('error', new Error('Missing abort signal')), 2000)
@@ -371,7 +379,8 @@ require('node:module').syncBuiltinESMExports()
 `)
   const env: NodeJS.ProcessEnv = { ...process.env, VDC_JENKINS_PREVIEW_ORIGIN: jenkinsOrigin, VDC_JENKINS_PREVIEW_JOB: jenkinsJob,
     VDC_JENKINS_PREVIEW_USER: jenkinsCredentials.user, VDC_JENKINS_PREVIEW_API_TOKEN: jenkinsCredentials.token,
-    WP13_TEST_REPLIES: JSON.stringify(replies), WP13_TEST_REQUEST_LOG: log, ...options.env }
+    WP13_TEST_REPLIES: JSON.stringify(replies), WP13_TEST_REQUEST_LOG: log, ...options.env,
+    ...(options.nodeTlsDebug ? { NODE_DEBUG: options.nodeTlsDebug } : {}) }
   if (options.traceGit) {
     const gitBin = execFileSync('/bin/sh', ['-c', 'command -v git'], { encoding: 'utf8' }).trim()
     const bin = join(f.root, 'bin')
@@ -427,9 +436,10 @@ it('previews the two Guides views by rereading one numbered Jenkins build with a
   expect(run.requests.map(request => request.url)).toEqual([...urls, ...urls])
   for (const request of run.requests) expect(request).toMatchObject({ method: 'GET', body: [], agent: false,
     rejectUnauthorized: true, bounded: true, deadline: 10_000, maxHeaderSize: 16 * 1024,
-    headers: { Authorization: 'Basic ' + Buffer.from(`${jenkinsCredentials.user}:${jenkinsCredentials.token}`).toString('base64'),
-      Accept: 'application/json', 'Accept-Encoding': 'identity' },
+    headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+    requestHeaders: { Authorization: 'Basic ' + Buffer.from(`${jenkinsCredentials.user}:${jenkinsCredentials.token}`).toString('base64') },
   })
+  for (const request of run.requests) expect(request.headers).not.toHaveProperty('Authorization')
   const out = join(f.root, 'jenkins-prepare')
   // A nonexistent replay record proves prepare rejects the Jenkins report before loading replay evidence.
   rmSync(f.recordPath)
@@ -530,6 +540,18 @@ it('blocks Jenkins transport errors without retrying or falling through to an ar
   ] as const) assertJenkinsPaused(jenkinsCli(f, name, [response, ...replies]), reason, 1)
   const duplicate = { body: replies[2].body!.replace('"status": "SUCCESS"', '"status": "SUCCESS", "status": "SUCCESS"') }
   assertJenkinsPaused(jenkinsCli(f, 'duplicate-json-key', [replies[0], replies[1], duplicate]), /strict JSON/, 3)
+})
+
+it('keeps Jenkins credentials out of native Node HTTPS diagnostics', async () => {
+  const f = await fixture()
+  const encoded = Buffer.from(`${jenkinsCredentials.user}:${jenkinsCredentials.token}`).toString('base64')
+  for (const [name, nodeTlsDebug] of [['names', 'http,https'], ['wildcard', 'htt*']]) {
+    const run = jenkinsCli(f, `node-debug-${name}`, [], { nodeTlsDebug })
+    assertJenkinsPaused(run, /build metadata read failed/, 0)
+    expect(run.command.stderr).toMatch(/HTTPS \d+: createConnection/)
+    expect(run.command.stderr).toContain('Offline Jenkins TLS connection intercepted')
+    expect(run.command.stderr).not.toContain(encoded)
+  }
 })
 
 it('requires runner configuration and rejects caller-controlled Jenkins selectors', async () => {
