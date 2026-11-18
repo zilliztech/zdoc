@@ -439,16 +439,18 @@ const definitions: ManualDefinition[] = [
   {
     id: 'node',
     kind: 'reference',
+    // Design 10 R2-b: the English producer is the whole-manual shared-docs pipeline
+    // (shared-docs/node, Git-pinned through its lock.yaml). The retired Lark drive
+    // chain (english-v2.4 → v2.5 → v2.6 → v3.0) is dropped outright: the dev
+    // publication audit showed the fallbacks never contributed a page, and the
+    // group's upstream identity now lives in the group's source.yaml/lock.yaml.
     sources: {
-      'english-v2.4': remote('drive', 'Vg1kfluyll0h7MdlUMaciXfEnZd', 'DVVobtXQMamuLqsQij5c29nVn3c', 'node/v2.4.x', 'node', 'v2.4.x', 'fallback'),
-      'english-v2.5': remote('drive', 'U9fWfMPdelsPMydYnolcr2aEnBf', 'JTBebezMDaV8ZhsHF5wc7lJSnuh', 'node/v2.5.x', 'nodejs25', 'v2.5.x', 'fallback', 'english-v2.4'),
-      'english-v2.6': remote('drive', 'NFmOfwILlln3JgdePZUclweZnIe', 'R9i8bww4faNsR6smwQwcAtHGnkb', 'node/v2.6.x', 'nodejs26', 'v2.6.x', 'fallback', 'english-v2.5'),
-      'english-v3.0': remote('drive', 'LW67fVlTvlNCZRdxOVYcQZyJnFQ', 'LlrPbysPZau2dGsSVuicHmvCn0e', 'node/v3.0.x', 'nodejs30', 'v3.0.x', 'active', 'english-v2.6'),
+      node: shared('shared-docs/node'),
       chineseTranslation: local('content/zh-CN/reference/api/nodejs/nodejs'),
     },
-    sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
+    sourceOrder: ['node', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/nodejs/nodejs', 'reference', 'node', 'zilliz', undefined, ['nodejs.md']),
+      en: publication('en', 'node', 'reference/api/nodejs/nodejs', 'reference', 'node', 'zilliz', undefined, ['nodejs.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/nodejs/nodejs', 'reference', 'node'),
     },
     presentation: {

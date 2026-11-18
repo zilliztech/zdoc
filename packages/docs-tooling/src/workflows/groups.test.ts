@@ -117,16 +117,25 @@ describe('site-owned publication groups', () => {
     }
   });
 
-  it('derives lane facts from source families and withholds the manual record before cutover', () => {
-    // Lark-fetched groups must resolve snapshots; the spec-generated REST group has none.
+  it('derives lane facts from source families and checkpoints the Node manual record', () => {
+    // Lark-fetched groups must resolve snapshots; the spec-generated REST group and the
+    // Git-pinned shared-docs cutover have none.
     expect(resolvePublicationGroupWorkflow('en', 'guides').hasLarkSources).toBe(true);
     expect(resolvePublicationGroupWorkflow('en', 'java').hasLarkSources).toBe(true);
     expect(resolvePublicationGroupWorkflow('en', 'rest').hasLarkSources).toBe(false);
-    // No manual registers a shared source yet (R2-b cuts Node over): the whole-manual
-    // record checkpoint stays withheld until hasSharedSources turns true.
+    // R2-b cuts Node over to the whole-manual shared-docs producer: it loses the Lark
+    // lane facts and its checkpoint gains the whole-manual record plus the shared-pages
+    // receipts directory named by the seeded overlay.
+    const node = resolvePublicationGroupWorkflow('en', 'node');
+    expect(node.hasLarkSources).toBe(false);
+    expect(node.sourceSnapshots).toEqual([]);
+    expect(node.sourceManuals).toEqual([]);
+    expect(node.checkpointPaths).toContain('generated/en/manifests/shared-manuals/node.json');
+    expect(node.checkpointPaths).toContain('generated/en/manifests/shared-pages/node');
+    // Every other English group stays off the shared-source family.
     for (const group of listPublicationGroups('en')) {
-      expect(resolvePublicationGroupWorkflow('en', group).checkpointPaths)
-        .not.toContain(`generated/en/manifests/shared-manuals/${group}.json`);
+      const workflow = resolvePublicationGroupWorkflow('en', group);
+      expect(workflow.checkpointPaths.includes(`generated/en/manifests/shared-manuals/${group}.json`)).toBe(group === 'node');
     }
   });
 

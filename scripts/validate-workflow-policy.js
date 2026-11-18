@@ -752,6 +752,46 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !reportPaths.includes('tmp/docs-tooling/revision-diff/${{ inputs.group }}.md')) {
         errors.push(`${file}: English producer must upload revision JSON and Markdown reports`)
       }
+      // Shared-docs whole-manual producers (design 10 R2-b): one facts step feeds the
+      // fail-closed lane gates — upstream checkout + scratch preparation, the image
+      // upload, and the Lark snapshot skip. Removing any gate must fail the policy.
+      const validateIndex = steps.findIndex(step => step.name === 'Validate content group')
+      const factsIndex = steps.findIndex(step => step.name === 'Compute content group facts')
+      const factsRun = String(steps[factsIndex]?.run || '')
+      const prepareUpstreamIndex = steps.findIndex(step => step.name === 'Prepare shared-docs upstream checkout')
+      const prepareUpstreamRun = String(steps[prepareUpstreamIndex]?.run || '')
+      const uploadImagesIndex = steps.findIndex(step => step.name === 'Upload shared manual images')
+      const uploadImages = steps[uploadImagesIndex]
+      const uploadImagesRun = String(uploadImages?.run || '')
+      const snapshotRun = String(steps[snapshotIndex]?.run || '')
+      if (!(validateIndex >= 0 && validateIndex < factsIndex && factsIndex < prepareUpstreamIndex && prepareUpstreamIndex < snapshotIndex) ||
+        !/getContentGroup\(process\.env\.GROUP, process\.env\.SITE\)/.test(factsRun) ||
+        !/hasLarkSources: group\.hasLarkSources, hasSharedSources: group\.hasSharedSources/.test(factsRun) ||
+        !/GROUP_HAS_LARK_SOURCES=/.test(factsRun) ||
+        !/GROUP_HAS_SHARED_SOURCES=/.test(factsRun)) {
+        errors.push(`${file}: the producer must derive its lane gates from the content group facts`)
+      }
+      if (prepareUpstreamIndex < 0 ||
+        !/\[\[ "\$GROUP_HAS_SHARED_SOURCES" != true \]\]/.test(prepareUpstreamRun) ||
+        !/prepare-shared-upstream\.js --group "\$GROUP" --output "\$RUNNER_TEMP\/shared-upstream\/web-content"/.test(prepareUpstreamRun) ||
+        !/DOCS_TOOLING_SHARED_UPSTREAM=\$RUNNER_TEMP\/shared-upstream\/web-content/.test(prepareUpstreamRun) ||
+        !/DOCS_TOOLING_SHARED_SCRATCH=\$RUNNER_TEMP\/shared-image-scratch/.test(prepareUpstreamRun)) {
+        errors.push(`${file}: shared-docs producers must prepare a verified upstream checkout and image scratch`)
+      }
+      if (uploadImagesIndex < 0 ||
+        !/\[\[ "\$GROUP_HAS_SHARED_SOURCES" != true \]\]/.test(uploadImagesRun) ||
+        !/upload-images --group "\$GROUP"/.test(uploadImagesRun) ||
+        !/--record "generated\/en\/manifests\/shared-manuals\/\$GROUP\.json"/.test(uploadImagesRun) ||
+        !/--scratch "\$RUNNER_TEMP\/shared-image-scratch"/.test(uploadImagesRun) ||
+        !/IMAGE_BED_URL/.test(Object.keys(uploadImages?.env || {}).join(' '))) {
+        errors.push(`${file}: shared-docs producers must upload their attested image scratch before publication`)
+      }
+      if (!/\[\[ "\$GROUP_HAS_LARK_SOURCES" != true \]\]/.test(snapshotRun) ||
+        /"\$GROUP" != rest/.test(snapshotRun) ||
+        !/update-lark-doc-snapshot\.js --manual guides/.test(snapshotRun) ||
+        !/update-sdk-reference-snapshots\.sh "\$GROUP"/.test(snapshotRun)) {
+        errors.push(`${file}: snapshot promotion must skip spec-generated and shared-docs groups through the group facts`)
+      }
       if (/git-auto-commit|git push(?:\s+--force|[^\n]*\s--force)|git push\b/.test(source)) {
         errors.push(`${file}: producer must not publish or push content`)
       }

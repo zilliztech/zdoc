@@ -21,6 +21,10 @@ export type PublicationGroupWorkflow = Readonly<{
   /** True when any English source of the group is Lark-fetched and therefore must
    * resolve a source snapshot. Shared-docs groups generate from Git and have none. */
   hasLarkSources: boolean;
+  /** True when the group's English publication produces through the whole-manual
+   * shared-docs pipeline; the production fetch prepares an upstream checkout and an
+   * image scratch for it and its checkpoint carries the whole-manual record. */
+  hasSharedSources: boolean;
   translate: boolean;
   durableTranslationBatchSize: number;
   checkpointPaths: readonly string[];
@@ -235,6 +239,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
     sourceSnapshots,
     snapshotManual: sourceManuals.at(-1) ?? null,
     hasLarkSources,
+    hasSharedSources,
     translate: site === 'en',
     durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 15 : 0,
     checkpointPaths: distinct([

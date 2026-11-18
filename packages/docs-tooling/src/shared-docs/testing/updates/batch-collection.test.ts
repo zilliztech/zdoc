@@ -3,6 +3,11 @@ import {expect, it, vi} from 'vitest'
 import {createHash} from 'node:crypto'
 import {canonicalBytes} from '../../core/updates/canonical'
 
+// The fixture tests below spawn real Git subprocesses and whole-collection builds;
+// under grouped-gate parallelism they exceed the 5s default (observed as flaky
+// timeouts), so they carry the sibling files' generous limit.
+vi.setConfig({testTimeout: 120_000, hookTimeout: 120_000})
+
 it('uses the exact batch domain preimage and rejects unknown digest tags', async () => {
   const contract = await import('../../adapters/updates/batch-collection-contract').catch(() => null)
   expect(contract, 'the versioned batch material contract is installed').not.toBeNull()
