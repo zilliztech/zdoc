@@ -323,6 +323,10 @@ curl --request POST \
      <td><p><code>timezone</code></p></td>
      <td><p>このコレクションで時間に依存する操作、特に <code>TIMESTAMPTZ</code> フィールドを処理するときのデフォルトタイムゾーンを指定します。タイムスタンプは内部的に UTC で保存され、Zilliz Cloud はこの設定に従って表示および比較用の値を変換します。設定されている場合、コレクションのタイムゾーンはデータベースのデフォルトタイムゾーンを上書きします。クエリのタイムゾーンパラメーターは、この両方を一時的に上書きできます。値は有効な <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA タイムゾーン識別子</a>（たとえば、<strong>Asia/Shanghai</strong>、<strong>America/Chicago</strong>、<strong>UTC</strong>）である必要があります。<code>TIMESTAMPTZ</code> フィールドの使用方法の詳細は、<a href="./use-timestamptz-field">TIMESTAMPTZ フィールド</a> を参照してください。</p></td>
    </tr>
+   <tr>
+     <td><p><code>consistency_level</code></p></td>
+     <td><p>コレクションの整合性レベルを変更します。新しいレベルは、独自の整合性レベルを指定していないこのコレクションに対する後続の検索およびクエリに適用されます。リクエストごとの設定が引き続き優先されます。値は、<strong>Strong</strong>、<strong>Session</strong>、<strong>Bounded</strong>（デフォルト）、または <strong>Eventually</strong> のいずれかである必要があります。このプロパティの変更にコレクションのリリースは必要ありません。詳細は、<a href="./consistency-level">整合性レベル</a> を参照してください。</p></td>
+   </tr>
 </table>
 
 ### 例 1: コレクションレベルの TTL を設定する\{#example-1-set-collection-level-ttl}
@@ -1246,6 +1250,123 @@ curl --request POST \
     "collectionName": "my_collection",
     "properties": {
         "timezone": "Asia/Shanghai"
+    }
+}'
+```
+
+</TabItem>
+
+</Tabs>
+
+### 例 8: 整合性レベルを変更する\{#example-8-alter-the-consistency-level}
+
+次のコードスニペットは、既存のコレクションの整合性レベルを **Eventually** に変更します。新しいレベルは、整合性レベルを明示的に設定していないこのコレクションに対する後続の検索およびクエリに適用されます。リクエストごとの設定が引き続き優先されます。詳細は、[整合性レベル](./consistency-level) を参照してください。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.alter_collection_properties(
+    collection_name="my_collection",
+    properties={"consistency_level": "Eventually"}
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
+        .collectionName("my_collection")
+        .property("consistency_level", "Eventually")
+        .build();
+
+client.alterCollectionProperties(alterCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("consistency_level", "Eventually"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property("consistency_level", "Eventually")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
+                                                   .WithCollectionName("my_collection")
+                                                   .AddProperty("consistency_level", "Eventually"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "consistency_level": "Eventually"
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["consistency_level"] = "Eventually" }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "properties": {
+        "consistency_level": "Eventually"
     }
 }'
 ```

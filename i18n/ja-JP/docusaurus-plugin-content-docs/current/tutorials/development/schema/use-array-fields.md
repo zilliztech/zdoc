@@ -40,25 +40,13 @@ ARRAY フィールドによるデータの格納例を次に示します。
 - <strong>データ型:</strong> ARRAY フィールド内のすべての要素は同じデータ型である必要があり、そのデータ型は `element_type` パラメーターで定義されます。`element_type` を `VARCHAR` に設定する場合は、各配列要素に許可される最大バイト数を定義する `max_length` も指定する必要があります。`element_type` には、`JSON` を除き、Zilliz Cloud でサポートされている任意のスカラーデータ型を指定できます。`element_type=STRUCT` の場合は、StructArray フィールドを使用し、`struct_schema` を指定してください。詳細は、[StructArray](./create-struct-array) を参照してください。トップレベルの ARRAY フィールドはベクトルやネストされた配列を保持できず、その要素を個別に null にすることもできません。これらの形式は、StructArray フィールド内のサブフィールドでのみ使用できます。
 
 
-- **配列の容量**: ARRAY フィールド内の要素数は、`max_capacity` で指定された、Array の作成時に定義される最大容量以下である必要があります。値は、**1** から **4096** の範囲の整数である必要があります。
+- **配列の容量**: ARRAY フィールド内の要素数は、`max_capacity` で指定された、ARRAY の作成時に定義される最大容量以下である必要があります。値は 0 より大きく、デフォルト値が **4096** の `proxy.maxArrayCapacity` を超えてはなりません。
+
+- **テキストマッチ**: `TEXT_MATCH`、`TEXT_MATCH_FUZZY`、`PHRASE_MATCH` は `VARCHAR` および `TEXT` フィールドのみをサポートしています。これらを ARRAY フィールドに適用すると、エラーが返されます。`enable_analyzer` と `enable_match` は ARRAY フィールドには影響しません。テキストマッチの詳細については、[Text Match](https://milvus.io/docs/keyword-match.md) を参照してください。
 
 - **文字列の処理**: Array フィールド内の文字列値は、意味的なエスケープや変換を行わずに、そのまま格納されます。たとえば、`'a"b'`、`"a'b"`、`'a\'b'`、`"a\"b"` は入力どおりに格納され、`'a'b'` と `"a"b"` は無効な値と見なされます。
 
 ## ARRAY フィールドを追加する\{#add-array-field}
-
-<NextChannel action="exclude">
-
-Zilliz Cloud クラスターで ARRAY フィールドを使用するには、コレクションスキーマの作成時に該当するフィールド型を定義します。このプロセスには、以下の手順が含まれます。
-
-1. `datatype` を、サポートされている Array データ型である `ARRAY` に設定します。
-
-1. `element_type` パラメーターを使用して、配列内の要素のデータ型を指定します。同じ配列内のすべての要素は、同じデータ型である必要があります。
-
-1. `max_capacity` パラメーターを使用して、配列の最大容量、つまり配列に格納できる要素の最大数を定義します。
-
-</NextChannel>
-
-<NextChannel action="include">
 
 コレクションスキーマに ARRAY フィールドを追加するには、次のパラメーターを設定します。
 
@@ -68,29 +56,13 @@ Zilliz Cloud クラスターで ARRAY フィールドを使用するには、コ
 
 1. `max_capacity` を、要素の最大数に設定します。
 
-</NextChannel>
-
 ARRAY フィールドを含むコレクションスキーマを定義する方法は、以下の通りです。
-
-<NextChannel action="exclude">
-
-<Admonition type="info" icon="📘" title="Notes">
-
-スキーマを定義する際に `enable_dynamic_field=True` を設定すると、Zilliz Cloud では、事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
-
-</Admonition>
-
-</NextChannel>
-
-<NextChannel action="include">
 
 <Admonition type="info" icon="📘" title="Notes">
 
 スキーマで定義されていないフィールドを挿入するには、[動的フィールド](./enable-dynamic-field) を有効にします。
 
 </Admonition>
-
-</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -418,25 +390,14 @@ export schema="{
 
 ## インデックスパラメーターを設定する\{#set-index-params}
 
-<NextChannel action="exclude">
-
-インデックスは、検索とクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドのインデックス作成は任意です。
-
-次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` にインデックスを作成し、どちらも `AUTOINDEX` インデックスタイプを使用します。このタイプでは、Zilliz Cloud がデータ型に基づいて最適なインデックスを自動的に選択します。フィールドごとにインデックスタイプとパラメーターをカスタマイズすることもできます。詳細は、[インデックス Explained](./indexes) を参照してください。
-
-</NextChannel>
-
-<NextChannel action="include">
-
-ベクトルフィールドにはインデックスが必須ですが、スカラーインデックスは任意です。この例では、`embedding` と `tags` に対して `AUTOINDEX` をリクエストします。ARRAY インデックスの明示的な選択肢とフィルターのサポートについては、[Array index support](#Array-index-support) を参照してください。
+ベクトルフィールドにはインデックスが必要ですが、スカラーインデックスは任意です。この例では、`embedding` と `tags` に `AUTOINDEX` を指定します。ARRAY インデックスの明示的な選択肢とフィルターのサポートについては、[ARRAY インデックスのサポート](#Array-index-support) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-> `AUTOINDEX` を含むスカラーインデックスは、再帰的な ARRAY フィールドや、要素が null 許容の配列をサポートしていません。通常の配列のフィルターについては [Array index support](./use-array-fields#Array-index-support) を、サブフィールドのルールについては [Index StructArray Fields](./index-struct-array#create-scalar-indexes) を参照してください。
+> `AUTOINDEX` を含むスカラーインデックスは、再帰的な ARRAY フィールドや、NULL 許容の要素を持つ配列をサポートしていません。通常の配列のフィルターについては [ARRAY インデックスのサポート](./use-array-fields#Array-index-support) を、サブフィールドのルールについては [StructArray フィールドのインデックス](./index-struct-array#create-scalar-indexes) を参照してください。
 
 </Admonition>
 
-</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -588,10 +549,7 @@ export indexParams='[
 
 </Tabs>
 
-<NextChannel action="include">
-
 <a id="array-index-support"></a>
-
 <details id="Array-index-support">
 <summary><strong>Array インデックスのサポート：インデックスタイプと高速化されるフィルター</strong></summary>
 
@@ -602,7 +560,7 @@ export indexParams='[
 | `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `VARCHAR` | `INVERTED`, `BITMAP` |
 | `FLOAT`, `DOUBLE` | `INVERTED` |
 
-`AUTOINDEX` をリクエストすることもできます。ARRAY のデフォルトの選択については、[スカラー Index](./scalar-index-overview#autoindex-behavior) を参照してください。
+`AUTOINDEX` を指定することもできます。ARRAY のデフォルトのインデックス選択については、[スカラーインデックス](./scalar-index-overview#autoindex-behavior) を参照してください。
 
 次のフィルターは、対象となる配列インデックスを利用できます。
 
@@ -616,8 +574,6 @@ export indexParams='[
 式の構文については、[ARRAY Operators](./array-filtering-operators) を参照してください。
 
 </details>
-
-</NextChannel>
 
 ## コレクションを作成する\{#create-collection}
 
@@ -1360,17 +1316,7 @@ curl --request POST \
 
 ## フィルター式を使用したベクトル検索\{#vector-search-with-filter-expressions}
 
-<NextChannel action="exclude">
-
-基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似検索とスカラーフィールドのフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索にスカラーフィールドのフィルターを追加する方法を示しています。
-
-</NextChannel>
-
-<NextChannel action="include">
-
 ベクトル検索で ARRAY フィルターを使用して、対象となるエンティティを絞り込みます。
-
-</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1575,14 +1521,4 @@ curl --request POST \
 
 </Tabs>
 
-<NextChannel action="exclude">
-
-さらに、Zilliz Cloud は、クエリ機能をさらに強化するために、`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH` などの高度な Array フィルタリング演算子をサポートしています。詳細は、[ARRAY Operators](./array-filtering-operators) を参照してください。
-
-</NextChannel>
-
-<NextChannel action="include">
-
 包含フィルターと長さフィルターについては、[ARRAY Operators](./array-filtering-operators) を参照してください。
-
-</NextChannel>

@@ -465,8 +465,6 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-collectionName := "geo_collection"
-
 geoPoints := []string{
     "POINT(13.399710 52.518010)",
     "POINT(13.403934 52.522877)",
@@ -504,8 +502,6 @@ log.Println("insert count:", result.InsertCount)
 ```rust
 use milvus::v2::prelude::*;
 use serde_json::json;
-
-let collection_name = "geo_collection";
 
 let geo_points = [
     "POINT(13.399710 52.518010)",
@@ -750,8 +746,6 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-collectionName := "geo_collection"
-
 task, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "embeddings", index.NewAutoIndex(entity.L2)).WithIndexName("embeddings_index"))
 if err != nil {
     log.Fatal(err)
@@ -775,8 +769,6 @@ if err = loadTask.Await(ctx); err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
-
-let collection_name = "geo_collection";
 
 client
     .create_index(
@@ -979,8 +971,6 @@ for (QueryResp.QueryResult result : queryResults) {
 <TabItem value='go'>
 
 ```go
-collectionName := "geo_collection"
-
 boundingBoxWkt := "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))"
 
 filter := "st_within(geo, '" + boundingBoxWkt + "')"
@@ -1008,8 +998,6 @@ for i := 0; i < rs.ResultCount; i++ {
 
 ```rust
 use milvus::v2::prelude::*;
-
-let collection_name = "geo_collection";
 
 let bounding_box_wkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
 
@@ -1180,8 +1168,6 @@ for (QueryResp.QueryResult result : queryResults) {
 <TabItem value='go'>
 
 ```go
-collectionName := "geo_collection"
-
 centralPointWkt := "POINT(13.403683 52.520711)"
 
 filter := "st_dwithin(geo, '" + centralPointWkt + "', 1000.0)"
@@ -1209,8 +1195,6 @@ for i := 0; i < rs.ResultCount; i++ {
 
 ```rust
 use milvus::v2::prelude::*;
-
-let collection_name = "geo_collection";
 
 let central_point_wkt = "POINT(13.403683 52.520711)";
 
@@ -1377,8 +1361,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-collectionName := "geo_collection"
-
 queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}
 boundingBoxWkt := "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))"
 
@@ -1409,8 +1391,6 @@ for _, resultSet := range resultSets {
 
 ```rust
 use milvus::v2::prelude::*;
-
-let collection_name = "geo_collection";
 
 let bounding_box_wkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
 

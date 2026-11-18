@@ -186,9 +186,9 @@
       "translatedAt": "2026-11-09T12:43:22.514Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md": {
-      "sourceHash": "f0c75e133b78134d81d016d1301bdf208fd8475c76a4afa8a65f1f294ec37ef2",
+      "sourceHash": "41af11fb9e69809f4b81e42f457296df016638ae36cd6c9078bc914bd21d3059",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md",
-      "translatedAt": "2026-11-09T12:43:22.514Z"
+      "translatedAt": "2026-11-18T19:44:39.793Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md": {
       "sourceHash": "72accfc7fd867143b88f1f5b65de8f03327dcab4a94656fec72789aa4d96d596",
@@ -326,9 +326,9 @@
       "translatedAt": "2026-11-13T11:48:21.672Z"
     },
     "content/en/byoc/tutorials/development/collection/modify-collections.md": {
-      "sourceHash": "d3c789a7a761cb0f0e80c2df01451aba0f971d066d047b4b5a3962e83584b72f",
+      "sourceHash": "14cf5d5f8e12c186091895f377f29a7eb6033ba12a67a9bd99c13916006b2ca4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/collection/modify-collections.md",
-      "translatedAt": "2026-11-09T12:44:47.358Z"
+      "translatedAt": "2026-11-18T19:44:39.793Z"
     },
     "content/en/byoc/tutorials/development/collection/set-collection-ttl.md": {
       "sourceHash": "dd348ca02304e95cabdb330ae08ff4453e1f575e8f9a9d9e45a2313d174a877d",
@@ -636,9 +636,9 @@
       "translatedAt": "2026-11-11T11:54:34.015Z"
     },
     "content/en/byoc/tutorials/development/schema/use-array-fields.md": {
-      "sourceHash": "2727650c382c1acf99e0fb99ef72b3380378491e80dcf9b6314f77c89a6283e6",
+      "sourceHash": "f061238212308d58d49288fe3543c7a67f82502d4ed202129dd9812bb0d924e6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-array-fields.md",
-      "translatedAt": "2026-11-18T12:05:06.383Z"
+      "translatedAt": "2026-11-18T19:44:39.793Z"
     },
     "content/en/byoc/tutorials/development/schema/use-binary-vector.md": {
       "sourceHash": "797591efe7870262e8d3602c678334e37e94b550e4b978c03c55ed57d67ea80e",
@@ -651,9 +651,9 @@
       "translatedAt": "2026-11-09T12:49:41.519Z"
     },
     "content/en/byoc/tutorials/development/schema/use-geometry-field.md": {
-      "sourceHash": "7310983c76edb8828846946f67d8fc78f3861b471b3cc00b505baaaabcefb1f1",
+      "sourceHash": "86fbc589e8b5b094f142e5f6d26c225a7b0ee2d7fbbae406087fbf07750fdad5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-geometry-field.md",
-      "translatedAt": "2026-11-18T12:31:16.860Z"
+      "translatedAt": "2026-11-18T19:44:39.793Z"
     },
     "content/en/byoc/tutorials/development/schema/use-number-field.md": {
       "sourceHash": "fb7a5e3afff5c05e419f61338f42ee57bc85d8d35f0a278632c0be660e16634c",
@@ -1531,9 +1531,9 @@
       "translatedAt": "2026-11-09T12:58:44.287Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md": {
-      "sourceHash": "b6a3869354b69659c5ed907fbb5e63da6dfe373ae56e9b95c7c8836ce659a416",
+      "sourceHash": "7a5e06478d1f951c95a6030381dc8c99e6c2d8911c766afded92d79b853afb4b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md",
-      "translatedAt": "2026-11-09T12:58:44.287Z"
+      "translatedAt": "2026-11-18T19:44:39.793Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md": {
       "sourceHash": "9921ad086f7fa5cac60293c6124444389a1d964a7ea0cef22a63dee9fbfa237a",
@@ -1711,9 +1711,9 @@
       "translatedAt": "2026-11-13T12:00:34.881Z"
     },
     "content/en/guides/tutorials/development/collection/modify-collections.md": {
-      "sourceHash": "dab93310c6f20443856e84c26502677651a1542bd09fc90c3e0f848ee97e0e33",
+      "sourceHash": "28c91b3e98b0033ad5d93442be0b700e6a374e41b7ba9d3eb8947ca6295596d1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/modify-collections.md",
-      "translatedAt": "2026-11-09T13:00:23.467Z"
+      "translatedAt": "2026-11-18T19:44:39.793Z"
     },
     "content/en/guides/tutorials/development/collection/set-collection-ttl.md": {
       "sourceHash": "14d812f79b1774468caf4a6f25f590518e2f1836922c711ec0799a56a835e09f",
@@ -2061,9 +2061,9 @@
       "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/schema/use-array-fields.md": {
-      "sourceHash": "c7d8190d77535a91d8b58e68b2dca495abb4fb085f11a492cb89ffbba52cc6bd",
+      "sourceHash": "ee8219b9ded6a304852acff4c37630127c6380790a77c6330b2bbf2869cc2510",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-array-fields.md",
-      "translatedAt": "2026-11-18T12:47:53.169Z"
+      "translatedAt": "2026-11-18T19:44:39.793Z"
     },
     "content/en/guides/tutorials/development/schema/use-binary-vector.md": {
       "sourceHash": "e246fd943bc7c1723f65e9336b314a710852d3d05587fb7c78f9586f919a9e93",
@@ -2076,9 +2076,9 @@
       "translatedAt": "2026-11-09T13:47:51.369Z"
     },
     "content/en/guides/tutorials/development/schema/use-geometry-field.md": {
-      "sourceHash": "0912d73536ca274953e9a76a3a25e822bb98dc84927faa6a0203c0f5ccc8ba62",
+      "sourceHash": "cb4ebb6b2fb14872d500737d1b6aef9a42638e457b1a304a88233468a510e2cf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-geometry-field.md",
-      "translatedAt": "2026-11-18T12:47:53.169Z"
+      "translatedAt": "2026-11-18T19:44:39.793Z"
     },
     "content/en/guides/tutorials/development/schema/use-number-field.md": {
       "sourceHash": "b6656c43a0c287d78fcd7cf6e754c153f381e569ecb56975c83a3d6999bf35b5",

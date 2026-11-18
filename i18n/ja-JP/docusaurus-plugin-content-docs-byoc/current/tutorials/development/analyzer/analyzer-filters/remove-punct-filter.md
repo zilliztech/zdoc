@@ -28,6 +28,8 @@ import TabItem from '@theme/TabItem';
 
 このフィルターは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` tokenizer で最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` tokenizer はトークン化時に句読点を破棄します。`whitespace` tokenizer は、トークン内の句読点も含めて句読点を保持します。`whitespace` と組み合わせた場合、`removepunct` はトークンに句読点または空白が含まれていればトークン全体を削除します。トークンから個々の文字を削除するわけではありません。
 
+一部の tokenizer では、句読点を単一のトークン内に保持します。たとえば、`icu` は `don't`、`3.5kg`、`u.s.a` を句読点を含む単一のトークンにトークン化し、`removepunct` はそれらを完全に削除するため、対応する用語は検索できなくなります。このようなトークンを保持したまま、句読点と空白のみで構成されるトークンだけを削除するには、句読点でも空白でもない文字を 1 文字以上含む式を指定して、[regex](./regex-filter) フィルターを使用します。たとえば、`{"type": "regex", "expr": "[^\\s\\p{P}]"}` のような式を指定します。
+
 </Admonition>
 
 ## 設定\{#configuration}
