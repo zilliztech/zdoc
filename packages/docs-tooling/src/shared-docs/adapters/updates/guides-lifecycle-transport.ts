@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path'
 import { parseStrictJson } from '../../core/updates/canonical'
 import { createOwnedDirectory, rawSha256, readRegularBytes, type EvidenceStore } from './evidence'
 import { boundArtifact, retainedMetadata, type ReadonlyGitHub } from './github'
+import { scheduledFetchRunPath } from './guides-run-metadata'
 import { createRemoteTransport } from './remote-github'
 
 const repository = 'repos/zilliztech/zdoc'
@@ -70,9 +71,12 @@ type StageResult = StagedArchives | { oversized: 'source' | 'publication' } | nu
 export class LifecycleHttpError extends Error {
   constructor(readonly status: number) { super(`GitHub lifecycle read failed (HTTP ${status})`) }
 }
-export function coordinatorBodyReader(token: string, signal?: AbortSignal) {
-  const transport = createRemoteTransport({repositoryFullName: 'zilliztech/zdoc', token})
+export function coordinatorBodyReader(token: string, signal?: AbortSignal, options?: {includeMilvusPins: true}) {
+  const zdoc = createRemoteTransport({repositoryFullName: 'zilliztech/zdoc', token})
+  const milvus = options?.includeMilvusPins ? createRemoteTransport({repositoryFullName: 'milvus-io/milvus-docs', token}) : null
   return async (path: string, maximum: number, milliseconds: number) => {
+    const transport = milvus && (path === 'repos/milvus-io/milvus-docs' || path === 'repos/milvus-io/milvus-docs/git/ref/heads/v3.0.x')
+      ? milvus : zdoc
     const result = await transport({method: 'GET', path: '/' + path, maximum, signal: deadline(milliseconds, signal)})
     if (result.status !== 200) throw new LifecycleHttpError(result.status)
     return result.body
@@ -171,7 +175,6 @@ import {object} from './github'
 import {currentBatchLifetime, reserveBatchAllocation} from './evidence'
 import {replayMetadataReader} from './guides-metadata-broker'
 import {BatchReplayFixtureSchema, type BatchReplayFixture, type BatchScope} from './batch-collection-contract'
-const prospectiveRunPath = `${repository}/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1`
 function scheduledRun(value: unknown) {
   const data = object(value)
   if (!Array.isArray(data.workflow_runs) || data.workflow_runs.length !== 1) throw Error('SCHEDULED_FETCH_MISSING')
@@ -201,7 +204,7 @@ export async function acquireBatchRunLease(evidence: EvidenceStore, replay?: Bat
       return bytes
     },
   } : coordinatorReads(token, lifetime?.signal)
-  const selected = scheduledRun(await api.get(prospectiveRunPath))
+  const selected = scheduledRun(await api.get(scheduledFetchRunPath))
   const facts = await retainedMetadata(api, selected.id)
   if (facts.run.id !== selected.id || facts.run.run_attempt !== 1 || facts.run.head_sha !== selected.head_sha) throw Error('BATCH_RUN_BINDING_INVALID')
   // Validate the selected run again against the independently read run body.

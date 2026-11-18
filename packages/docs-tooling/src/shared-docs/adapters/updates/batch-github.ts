@@ -147,7 +147,7 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
 }
 
 import {retainedMetadata, boundArtifact, object, type ReadonlyGitHub} from './github'
-import {latestGuidesRun, stepWindow, successfulJob} from './guides-run-metadata'
+import {latestGuidesRun, scheduledFetchRunPath, stepWindow, successfulJob} from './guides-run-metadata'
 import {coordinatorBodyReader} from './guides-lifecycle-transport'
 import {replayMetadataReader, type ReplayMetadataRow} from './guides-metadata-broker'
 /** A separate fixed GET sequence, after Python has finished reading. No broker
@@ -156,7 +156,7 @@ export async function verifyBatchFinalFreshness(expected: {scanStartMs: number; 
   sourceArtifact: {id: number; bytes: number; sha256: string}; publicationArtifact: {id: number; bytes: number; sha256: string};
   pins: {master: string; dev: string; source: string}}, now: number, replay?: readonly ReplayMetadataRow[], signal?: AbortSignal) {
   const raw = replay === undefined ? undefined : replayMetadataReader(replay)
-  const read = coordinatorBodyReader(process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN ?? '', signal)
+  const read = coordinatorBodyReader(process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN ?? '', signal, {includeMilvusPins: true})
   let count = 0, total = 0
   const api: ReadonlyGitHub = {async get(path) {
     signal?.throwIfAborted()
@@ -166,7 +166,6 @@ export async function verifyBatchFinalFreshness(expected: {scanStartMs: number; 
     if (total > 64 * 1024 * 1024) throw Error('BATCH_FINAL_METADATA_LIMIT')
     signal?.throwIfAborted(); return parseStrictJson(bytes)
   }, async zip() {throw Error('BATCH_FINAL_ARCHIVE_REQUEST_INVALID')}}
-  const root = 'repos/zilliztech/zdoc'
   const select = (value: unknown) => {
     const rows = object(value).workflow_runs
     if (!Array.isArray(rows) || rows.length !== 1) throw Error('SCHEDULED_FETCH_MISSING')
@@ -177,7 +176,7 @@ export async function verifyBatchFinalFreshness(expected: {scanStartMs: number; 
       run.status !== 'completed' || run.conclusion !== 'success') throw Error('BATCH_FINAL_RUN_CHANGED')
     return run
   }
-  select(await api.get(root + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1'))
+  select(await api.get(scheduledFetchRunPath))
   const facts = await retainedMetadata(api, expected.run.id), run = select({workflow_runs: [facts.run]})
   for (const [name, expectedArtifact] of [[`guides-sources-en-${run.id}`, expected.sourceArtifact],
     [`publication-results-fetch-${run.id}-1`, expected.publicationArtifact]] as const) {
