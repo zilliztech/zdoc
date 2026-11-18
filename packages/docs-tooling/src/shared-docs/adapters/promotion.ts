@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { lstat, mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { isDeepStrictEqual, promisify } from 'node:util'
 import { compileFunction, constants } from 'node:vm'
@@ -28,7 +28,7 @@ import { classifyPromotion, decidePromotion, promotionPageId, selectPromotionPag
 import type { PromotionEdit, PromotionPage, PromotionPageCheck, PromotionPreview, PromotionResult, PromotionViewCheck, ReplayUatRelease, UatEvidencePreview } from '../core/promotion'
 import { canonicalBytes, compareUtf8, parseStrictJson } from '../core/updates/canonical'
 import { guidesSnapshotPath } from './guides-snapshot'
-import { exportTree, gitEnvironment, gitRead, resolveCommit } from './updates/git'
+import { exportTree, gitEnvironment, gitMetadataDirectories, gitRead, resolveCommit } from './updates/git'
 
 const exec = promisify(execFile)
 const require = createRequire(import.meta.url)
@@ -653,6 +653,7 @@ export async function previewUatEvidence(
   }
   const { record, recordSha256 } = report.deployment
   try {
+    await requireUatHistory(input)
     const { baseline, pages: [page], pageReplays, track } = await collectPinnedPromotion(input, { record }, scratch, input.page)
     report.baseline = baseline
     if (page.status === 'blocked') throw new Error(page.reason)
@@ -669,6 +670,7 @@ export async function previewUatEvidence(
     const [master, dev, upstream] = await Promise.all([
       resolveCommit(input.master), resolveCommit(input.dev), new GitMilvusDocsReader(input.upstream).trackedHead(track),
     ])
+    await requireUatHistory(input)
     if (!isDeepStrictEqual({ master, dev, upstream }, baseline)) throw new Error('Pinned repositories changed during UAT preview')
   } catch (error) {
     report.comparison = { status: 'blocked', reason: promotionError(error) }
@@ -681,6 +683,20 @@ export async function previewUatEvidence(
   }
   if (report.comparison.status === 'matched' || report.comparison.status === 'unnecessary') report.status = 'preview'
   return report
+}
+
+async function requireUatHistory(input: PromotionRepositories) {
+  const repositories = [...new Set([input.master, input.dev, input.upstream])]
+  const metadata = new Set((await Promise.all(repositories.map(gitMetadataDirectories))).flat())
+  for (const directory of metadata) {
+    try {
+      await lstat(join(directory, 'info', 'grafts'))
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue
+      throw error
+    }
+    throw new Error('Git grafts are unsupported in UAT evidence previews')
+  }
 }
 
 async function compareUatPage(

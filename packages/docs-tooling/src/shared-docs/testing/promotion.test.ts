@@ -335,6 +335,36 @@ it('keeps repositories and output paths separate from the mounted deployment evi
   expect(readdirSync(join(evidence.root, 'evidence')).sort()).toEqual(['prod-records.json', 'resolved-images.json', 'uat-records.json'])
 })
 
+it('protects the whole Git worktree when the request names a subdirectory', async () => {
+  const f = await fixture()
+  const evidence = deploymentFixture(f, join(f.dev, 'trusted'))
+  const devSubdirectory = { ...f, dev: join(f.dev, 'content') }
+
+  const insideWorktree = join(f.dev, 'preview')
+  const outputOverlap = deploymentPreview(devSubdirectory, evidence, insideWorktree)
+  expect(outputOverlap.status).toBe(2)
+  expect(outputOverlap.stdout).toContain('overlaps input data')
+  expect(existsSync(insideWorktree)).toBe(false)
+
+  const outsideWorktree = join(f.root, 'preview')
+  const evidenceOverlap = deploymentPreview(devSubdirectory, evidence, outsideWorktree)
+  expect(evidenceOverlap.status).toBe(1)
+  const report = JSON.parse(readFileSync(join(outsideWorktree, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ status: 'paused', deployment: { status: 'unavailable', reason: expect.stringMatching(/must not overlap/i) } })
+})
+
+it('holds a deployment preview before using a local Git history overlay', async () => {
+  const f = await fixture()
+  put(f.dev, '.git/info/grafts', '')
+  const out = join(f.root, 'grafted')
+  const command = deploymentPreview(f, deploymentFixture(f), out)
+  expect(command.status, command.stderr || command.stdout).toBe(1)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ status: 'paused',
+    deployment: { status: 'record-validated' }, comparison: { status: 'blocked', reason: expect.stringMatching(/Git grafts/i) } })
+  expect(readdirSync(out)).toEqual(['promotion-preview.json'])
+})
+
 it('prepares one selected page and the fixed eligible group as exact patches', async () => {
   const f = await fixture({ secondEligible: true })
   const reviewed = preview(f)
