@@ -1,6 +1,7 @@
 import { object, type ReadonlyGitHub } from './github'
 
 const apiRoot = 'repos/zilliztech/zdoc'
+export const scheduledFetchRunPath = `${apiRoot}/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1`
 type Row = Record<string, any>
 
 export function exactlyOne(rows: Row[], predicate: (row: Row) => boolean) {

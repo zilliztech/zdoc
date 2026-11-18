@@ -8,10 +8,120 @@ import { request as httpsRequest } from 'node:https'
 import type { AddressInfo } from 'node:net'
 vi.mock('node:https', async importOriginal => ({...await importOriginal<typeof import('node:https')>(), request: vi.fn()}))
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
-import { LifecycleHttpError, publicGuidesReads, stageGuidesArchives } from '../../adapters/updates/guides-lifecycle-transport'
+import { verifyBatchFinalFreshness } from '../../adapters/updates/batch-github'
+import { acquireBatchRunLease, coordinatorBodyReader, LifecycleHttpError, publicGuidesReads, stageGuidesArchives } from '../../adapters/updates/guides-lifecycle-transport'
+import { createRemoteTransport } from '../../adapters/updates/remote-github'
 
 afterEach(() => {vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs()})
 const repository = 'repos/zilliztech/zdoc'
+
+it('reads only the exact scheduled Fetch selection over the stock transport and holds an unsuccessful run', async () => {
+  const {evidence} = await stagingFixture()
+  const path = '/' + repository + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1'
+  const token = 'synthetic-batch-token'
+  const calls: unknown[] = []
+  const server = createServer((_req, res) => {
+    res.end(JSON.stringify({workflow_runs: [{
+      id: 123, run_attempt: 1, head_sha: '1'.repeat(40), repository: {id: 660446555}, head_repository: {id: 660446555},
+      workflow_id: 83360731, path: '.github/workflows/fetch-docs.yml', head_branch: 'master', event: 'schedule',
+      status: 'completed', conclusion: 'failure',
+    }]}))
+  })
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+  onTestFinished(() => new Promise<void>(resolve => server.close(() => resolve())))
+  const port = (server.address() as AddressInfo).port
+  vi.mocked(httpsRequest).mockImplementation(((url: URL, options: import('node:https').RequestOptions, callback: Parameters<typeof httpRequest>[2]) => {
+    const resource = url.pathname + url.search
+    calls.push({origin: url.origin, method: options.method, resource, auth: (options.headers as Record<string, string>).Authorization})
+    return httpRequest({...options, hostname: '127.0.0.1', port, path: resource}, callback)
+  }) as typeof httpsRequest)
+  vi.stubEnv('GH_TOKEN', token)
+
+  await expect(acquireBatchRunLease(evidence)).rejects.toThrow('SCHEDULED_FETCH_UNAVAILABLE')
+  const request = {method: 'GET', path, maximum: 1024, signal: AbortSignal.timeout(1000)} as const
+  const transport = createRemoteTransport({repositoryFullName: 'zilliztech/zdoc', token})
+  for (const rejected of [
+    {...request, path: path.replace('fetch-docs.yml', 'fetch-guides-requested.yml')},
+    {...request, path: path.replace('fetch-docs.yml', '83360731')},
+    {...request, path: path.replace('branch=master', 'branch=dev')},
+    {...request, path: path.replace('event=schedule', 'event=workflow_dispatch')},
+    {...request, path: path.replace('per_page=1', 'per_page=2')},
+    {...request, path: path.replace('event=schedule&branch=master', 'branch=master&event=schedule')},
+    {...request, path: path + '&page=1'},
+    {...request, path: path.replace('schedule', '%73chedule')},
+    {...request, method: 'POST'} as const,
+    {...request, body: Buffer.from('unexpected')},
+  ]) await expect(transport(rejected)).rejects.toThrow('ENDPOINT_INVALID')
+  const wrongRepository = createRemoteTransport({repositoryFullName: 'example/zdoc', token})
+  await expect(wrongRepository({...request, path: path.replace('zilliztech', 'example')})).rejects.toThrow('ENDPOINT_INVALID')
+  expect(calls).toEqual([{origin: 'https://api.github.com', method: 'GET', resource: path, auth: 'Bearer ' + token}])
+})
+
+it('rechecks both repositories over the stock transport and holds an unknown or moved Milvus pin', async () => {
+  const zdoc = '/' + repository, source = '/repos/milvus-io/milvus-docs', sourceRef = source + '/git/ref/heads/v3.0.x'
+  const token = 'synthetic-final-freshness-token'
+  const scan = '2026-11-01T12:00:00.000Z', completed = '2026-11-01T12:00:01.000Z', now = Date.parse(completed)
+  const run = {id: 123, run_attempt: 1, head_sha: '1'.repeat(40), repository: {id: 660446555}, head_repository: {id: 660446555},
+    workflow_id: 83360731, path: '.github/workflows/fetch-docs.yml', head_branch: 'master', event: 'schedule',
+    status: 'completed', conclusion: 'success', updated_at: completed}
+  const bindings = [1, 2].map(id => ({id, bytes: 123, sha256: String(id).repeat(64)}))
+  const artifacts = bindings.map(({id, bytes, sha256}, index) => ({id, size_in_bytes: bytes, digest: 'sha256:' + sha256,
+    name: index ? 'publication-results-fetch-123-1' : 'guides-sources-en-123', expired: false,
+    workflow_run: {id: run.id, repository_id: run.repository.id, head_repository_id: run.head_repository.id,
+      head_sha: run.head_sha, head_branch: run.head_branch}}))
+  const pins = {master: '2'.repeat(40), dev: '3'.repeat(40), source: '4'.repeat(40)}
+  const ref = (branch: string, sha: string) => ({ref: 'refs/heads/' + branch, object: {type: 'commit', sha}})
+  const expected = {scanStartMs: Date.parse(scan), sourceJobId: 21, run: {id: 123, attempt: 1 as const, head: run.head_sha},
+    sourceArtifact: bindings[0], publicationArtifact: bindings[1], pins}
+  const history = '?created=%3E%3D2026-08-23&per_page=100&page=1'
+  const responses = new Map<string, unknown>([
+    [zdoc + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1', {workflow_runs: [run]}],
+    [zdoc, {id: 660446555, full_name: 'zilliztech/zdoc'}],
+    [zdoc + '/actions/runs/123', run],
+    [zdoc + '/actions/runs/123/attempts/1/jobs?per_page=100&page=1', {total_count: 1, jobs: [{
+      id: 21, name: 'produce_guides_sources / fetch', run_id: run.id, run_attempt: 1, head_sha: run.head_sha,
+      status: 'completed', conclusion: 'success', steps: [{name: 'Fetch shared guides sources', conclusion: 'success', started_at: scan, completed_at: completed}],
+    }]}],
+    [zdoc + '/actions/runs/123/artifacts?per_page=100&page=1', {total_count: artifacts.length, artifacts}],
+    [zdoc + '/actions/workflows/fetch-docs.yml/runs' + history, {total_count: 1, workflow_runs: [run]}],
+    [zdoc + '/actions/workflows/fetch-guides-requested.yml/runs' + history, {total_count: 0, workflow_runs: []}],
+    [source, {id: 267273319, full_name: 'milvus-io/milvus-docs'}],
+    [zdoc + '/git/ref/heads/master', ref('master', pins.master)],
+    [zdoc + '/git/ref/heads/dev', ref('dev', pins.dev)],
+    [sourceRef, ref('v3.0.x', pins.source)],
+  ])
+  const calls: string[] = []
+  const server = createServer((req, res) => {
+    const path = req.url!
+    calls.push(path)
+    if (!responses.has(path)) res.writeHead(503)
+    res.end(JSON.stringify(responses.get(path)))
+  })
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+  onTestFinished(() => new Promise<void>(resolve => server.close(() => resolve())))
+  const port = (server.address() as AddressInfo).port
+  vi.mocked(httpsRequest).mockImplementation(((url: URL, options: import('node:https').RequestOptions, callback: Parameters<typeof httpRequest>[2]) => {
+    expect(url.origin).toBe('https://api.github.com')
+    expect(options.method).toBe('GET')
+    expect(options.headers).toMatchObject({Authorization: 'Bearer ' + token})
+    return httpRequest({...options, hostname: '127.0.0.1', port, path: url.pathname + url.search}, callback)
+  }) as typeof httpsRequest)
+  vi.stubEnv('GH_TOKEN', token)
+
+  await expect(verifyBatchFinalFreshness(expected, now)).resolves.toBeUndefined()
+  const paths = [...responses.keys()]; paths.splice(paths.indexOf(source), 0, zdoc)
+  expect(calls).toEqual(paths)
+  responses.set(sourceRef, ref('v3.0.x', '5'.repeat(40)))
+  await expect(verifyBatchFinalFreshness(expected, now)).rejects.toThrow('BATCH_PIN_CHANGED')
+  responses.delete(sourceRef)
+  await expect(verifyBatchFinalFreshness(expected, now)).rejects.toMatchObject({status: 503})
+  await expect(coordinatorBodyReader(token)(source.slice(1), 1024, 1000)).rejects.toThrow('ENDPOINT_INVALID')
+  const finalReader = coordinatorBodyReader(token, undefined, {includeMilvusPins: true})
+  for (const path of [sourceRef.replace('v3.0.x', 'master'), sourceRef + '?per_page=1', source + '/pulls/123']) {
+    await expect(finalReader(path.slice(1), 1024, 1000)).rejects.toThrow('ENDPOINT_INVALID')
+  }
+  expect(calls).toEqual([...paths, ...paths, ...paths])
+})
 
 it('observes only fixed lifecycle endpoints directly over public TLS without credentials or redirects', async () => {
   const get = vi.fn(async () => Response.json({ok: true}))

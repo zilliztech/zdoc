@@ -3,8 +3,8 @@ import { execFileSync } from 'node:child_process'
 import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { afterEach, expect, it } from 'vitest'
-import { BatchGitStore, batchBudget } from '../../adapters/updates/batch-source'
+import { afterEach, expect, it, vi } from 'vitest'
+import { BatchGitStore, batchBudget, batchRenderCommitSet, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
 
 import { collectBatchDiscovery } from '../../adapters/updates/batch-discovery'
 import { guidesSnapshotPath } from '../../adapters/guides-snapshot'
@@ -76,6 +76,49 @@ it('excludes shared ancestors reached through a pre-oldNext side branch while in
   expect(history.introduces(side, target, oldNext, side, 1)).toBe(true)
   expect(history.introduces(oldNext, target, oldNext, side, 1)).toBe(false)
   expect(history.introduces(target, target, oldNext, fork, 1)).toBe(false)
+})
+
+it('measures each stopped-history snapshot through shared authenticated fragment trees', async () => {
+  const r = await repository()
+  const absent = await r.change('README.md', 'initial')
+  const fragment = 'site/en/fragments/part.md'
+  const ancestor = await r.change(fragment, 'base')
+  const current = await r.change('site/en/current.md', 'current')
+  const oldNext = await r.change('site/en/current.md', 'next')
+  r.git('checkout', '-b', 'topic', ancestor)
+  const intermediate = 'intermediate fragment edit'
+  const changed = [await r.change(fragment, intermediate)]
+  for (let n = 0; n < 10; n++) changed.push(await r.change('site/en/topic.md', String(n)))
+  const restored = await r.change(fragment, 'base')
+  r.git('checkout', 'main'); r.git('merge', '--no-ff', 'topic', '-m', 'merge')
+  const target = r.git('rev-parse', 'HEAD')
+  const history = await (await BatchGitStore.open(r.root, batchBudget())).history(target)
+  // The side branch bypasses current. Its path through ancestor and absent contributes snapshots.
+  expect(batchRenderCommitSet(history.records(), current, oldNext, target))
+    .toEqual([absent, ancestor, oldNext, ...changed, restored, target].sort())
+  expect(history.range(oldNext, target).sort()).toEqual([...changed, restored, target].sort())
+
+  const log = join(r.root, 'git-calls')
+  const bin = join(r.root, 'bin')
+  const git = execFileSync('which', ['git'], {encoding: 'utf8'}).trim()
+  const quote = (path: string) => "'" + path.replaceAll("'", "'\\''") + "'"
+  await mkdir(bin)
+  await writeFile(join(bin, 'git'), '#!/bin/sh\nprintf "%s\\n" "$*" >> ' + quote(log) + '\nexec ' + quote(git) + ' "$@"\n', {mode: 0o700})
+  vi.stubEnv('PATH', bin + ':' + process.env.PATH)
+  try {
+    expect(await measureBatchRenderFragments(r.root, [current, oldNext, target])).toEqual({
+      bytes: intermediate.length, count: 9, snapshots: 3 + 3 + changed.length,
+      endpoints: {bytes: 12, count: 9},
+      sequential: [
+        {commit: absent, bytes: 0, count: 1},
+        {commit: ancestor, bytes: 4, count: 3},
+        {commit: restored, bytes: 4, count: 3},
+        ...changed.map(commit => ({commit, bytes: intermediate.length, count: 3})),
+      ].sort((a, b) => a.commit.localeCompare(b.commit)),
+    })
+    const calls = (await readFile(log, 'utf8')).split('\n')
+    expect(calls.filter(line => line.includes(' cat-file ')).length).toBeLessThan(12)
+  } finally { vi.unstubAllEnvs() }
 })
 
 it('proves squash and rebased introductions without requiring the original PR head to survive at T', async () => {
