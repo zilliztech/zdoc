@@ -24,6 +24,7 @@ import {
   publicationOwnedTargets,
   restDerivationManifestTargets,
   readAndValidatePublicationDiagnostics,
+  sharedManualRecordTarget,
   writePublicationAnchor,
   writePublicationDiagnostics,
 } from './diagnostics.ts';
@@ -46,6 +47,45 @@ function fixture(root: string, stage = 'tmp/docs-tooling/en/python') {
   const diagnostics = createPublicationDiagnostics(identity, `sha256:${'1'.repeat(64)}`);
   return {diagnostics, identity, stageRoot};
 }
+
+describe('publication diagnostics owned-target set', () => {
+  it('frames the shared manual record so capture and publish hash the same path set', () => {
+    // The publication compare-and-swap hashes the replacement target set, which
+    // includes the whole-manual record for shared sources; the capture baseline must
+    // frame the same path or every shared-source publish fails as a stale baseline.
+    const node = resolveManualPublication('node', 'en');
+    const identity = {
+      site: 'en' as const,
+      manual: 'node',
+      stage: 'tmp/docs-tooling/en/node',
+      publication: node.publication,
+      sourceChain: node.sourceChain,
+    };
+    const expected = 'generated/en/manifests/shared-manuals/node.json';
+    expect(sharedManualRecordTarget(identity.site, identity.manual, identity.sourceChain)).toBe(expected);
+    const baseline = createPublicationDiagnostics(identity, `sha256:${'1'.repeat(64)}`);
+    expect(baseline.ownedTargets).toContain(expected);
+    expect(baseline.ownedTargets.filter(owned => owned === expected)).toHaveLength(1);
+    // The structural targets stay in place next to the record.
+    expect(baseline.ownedTargets).toEqual(expect.arrayContaining([...publicationOwnedTargets(identity.site, identity.publication)]));
+    // Non-shared sources keep the structural set with no record path.
+    const python = resolveManualPublication('python', 'en');
+    const pythonDiagnostics = createPublicationDiagnostics({
+      site: 'en', manual: 'python', stage: 'tmp/docs-tooling/en/python', publication: python.publication, sourceChain: python.sourceChain,
+    }, `sha256:${'1'.repeat(64)}`);
+    expect(pythonDiagnostics.ownedTargets).toEqual(expect.arrayContaining([...publicationOwnedTargets('en', python.publication)]));
+    expect(pythonDiagnostics.ownedTargets).toHaveLength(publicationOwnedTargets('en', python.publication).length);
+    expect(sharedManualRecordTarget('en', 'python', python.sourceChain)).toBeUndefined();
+    expect(sharedManualRecordTarget('zh-CN', 'node', resolveManualPublication('node', 'zh-CN').sourceChain)).toBeUndefined();
+    // Only the ACTIVE source frames the record: a shared source that is merely a
+    // non-active fallback entry must not leak into the owned-target set.
+    const fallbackChain = [
+      {key: 'shared-fallback', source: {sourceType: 'shared', lifecycle: 'fallback', sourceDir: 'shared-docs/node'}},
+      {key: 'english-live', source: {sourceType: 'drive', lifecycle: 'active', sourceDir: 'packages/docs-tooling/src/lark/meta/sources/node/v3.0.x'}},
+    ] as const;
+    expect(sharedManualRecordTarget('en', 'node', fallbackChain)).toBeUndefined();
+  });
+});
 
 function writeTrustBundle(root: string, stageRoot: string, identity: ReturnType<typeof fixture>['identity'], diagnostics: ReturnType<typeof fixture>['diagnostics']): void {
   writePublicationDiagnostics(root, stageRoot, diagnostics);
